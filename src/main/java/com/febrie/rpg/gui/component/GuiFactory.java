@@ -5,6 +5,7 @@ import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -12,8 +13,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Consumer;
 
 /**
- * Factory class for creating common GUI components with internationalization support
- * ItemBuilder automatically handles italic prevention, keeping this class clean and simple
+ * Factory class for creating common GUI components with full internationalization support
+ * All methods require LangManager and Player for proper language support
  *
  * @author Febrie, CoffeeTory
  */
@@ -24,39 +25,26 @@ public final class GuiFactory {
     }
 
     /**
-     * Creates a close button item with localization support
+     * Creates a close button item
      */
     public static GuiItem createCloseButton(@NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.BARRIER)
-                        .displayName(langManager.getComponent(player, "items.close.name"))
-                        .addLore(langManager.getMessage(player, "items.close.lore"), ColorUtil.NEUTRAL)
+                        .displayName(langManager.getComponent(player, "gui.buttons.close.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.close.lore"))
                         .build(),
                 Player::closeInventory
         );
     }
 
     /**
-     * Creates a close button item (legacy support)
-     */
-    public static GuiItem createCloseButton() {
-        return GuiItem.clickable(
-                ItemBuilder.of(Material.BARRIER)
-                        .displayName(Component.text("닫기", ColorUtil.ERROR))
-                        .addLore(Component.text("클릭하여 GUI 닫기", ColorUtil.NEUTRAL))
-                        .build(),
-                Player::closeInventory
-        );
-    }
-
-    /**
-     * Creates a back button item with GuiManager integration and localization
+     * Creates a back button item with GuiManager integration
      */
     public static GuiItem createBackButton(@NotNull GuiManager guiManager, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.ARROW)
-                        .displayName(langManager.getComponent(player, "items.back.name"))
-                        .addLore(langManager.getMessage(player, "items.back.lore"), ColorUtil.NEUTRAL)
+                        .displayName(langManager.getComponent(player, "gui.buttons.back.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.back.lore"))
                         .build(),
                 clickedPlayer -> {
                     if (!guiManager.goBack(clickedPlayer)) {
@@ -67,102 +55,46 @@ public final class GuiFactory {
     }
 
     /**
-     * Creates a back button item with GuiManager integration (legacy support)
-     */
-    public static GuiItem createBackButton(@NotNull GuiManager guiManager) {
-        return GuiItem.clickable(
-                ItemBuilder.of(Material.ARROW)
-                        .displayName(Component.text("뒤로가기", ColorUtil.WARNING))
-                        .addLore(Component.text("클릭하여 이전 메뉴로", ColorUtil.NEUTRAL))
-                        .build(),
-                player -> {
-                    if (!guiManager.goBack(player)) {
-                        player.closeInventory();
-                    }
-                }
-        );
-    }
-
-    /**
-     * Creates a back button item with custom action and localization
+     * Creates a back button item with custom action
      */
     public static GuiItem createBackButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.ARROW)
-                        .displayName(langManager.getComponent(player, "items.back.name"))
-                        .addLore(langManager.getMessage(player, "items.back.lore"), ColorUtil.NEUTRAL)
+                        .displayName(langManager.getComponent(player, "gui.buttons.back.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.back.lore"))
                         .build(),
                 action
         );
     }
 
     /**
-     * Creates a back button item with custom action (legacy support)
-     */
-    public static GuiItem createBackButton(@NotNull Consumer<Player> action) {
-        return GuiItem.clickable(
-                ItemBuilder.of(Material.ARROW)
-                        .displayName(Component.text("뒤로가기", ColorUtil.WARNING))
-                        .addLore(Component.text("클릭하여 이전 메뉴로", ColorUtil.NEUTRAL))
-                        .build(),
-                action
-        );
-    }
-
-    /**
-     * Creates a refresh button item with GuiManager integration and localization
+     * Creates a refresh button item with GuiManager integration
      */
     public static GuiItem createRefreshButton(@NotNull GuiManager guiManager, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.LIME_DYE)
-                        .displayName(langManager.getComponent(player, "items.refresh.name"))
-                        .addLore(langManager.getMessage(player, "items.refresh.lore"), ColorUtil.NEUTRAL)
+                        .displayName(langManager.getComponent(player, "gui.buttons.refresh.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.refresh.lore"))
                         .build(),
                 guiManager::refreshCurrentGui
         );
     }
 
     /**
-     * Creates a refresh button item with GuiManager integration (legacy support)
-     */
-    public static GuiItem createRefreshButton(@NotNull GuiManager guiManager) {
-        return GuiItem.clickable(
-                ItemBuilder.of(Material.LIME_DYE)
-                        .displayName(Component.text("새로고침", ColorUtil.SUCCESS))
-                        .addLore(Component.text("클릭하여 정보 갱신", ColorUtil.NEUTRAL))
-                        .build(),
-                guiManager::refreshCurrentGui
-        );
-    }
-
-    /**
-     * Creates a refresh button item with custom action and localization
+     * Creates a refresh button item with custom action
      */
     public static GuiItem createRefreshButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.LIME_DYE)
-                        .displayName(langManager.getComponent(player, "items.refresh.name"))
-                        .addLore(langManager.getMessage(player, "items.refresh.lore"), ColorUtil.NEUTRAL)
+                        .displayName(langManager.getComponent(player, "gui.buttons.refresh.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.refresh.lore"))
                         .build(),
                 action
         );
     }
 
     /**
-     * Creates a refresh button item with custom action (legacy support)
-     */
-    public static GuiItem createRefreshButton(@NotNull Consumer<Player> action) {
-        return GuiItem.clickable(
-                ItemBuilder.of(Material.LIME_DYE)
-                        .displayName(Component.text("새로고침", ColorUtil.SUCCESS))
-                        .addLore(Component.text("클릭하여 정보 갱신", ColorUtil.NEUTRAL))
-                        .build(),
-                action
-        );
-    }
-
-    /**
-     * Creates a decoration glass pane (no display name, completely invisible)
+     * Creates a decoration glass pane
      */
     public static GuiItem createDecoration() {
         return createDecoration(Material.GRAY_STAINED_GLASS_PANE);
@@ -187,162 +119,199 @@ public final class GuiFactory {
     }
 
     /**
-     * Creates a placeholder item with localization
-     */
-    public static GuiItem createPlaceholder(@NotNull String textKey, @NotNull LangManager langManager, @NotNull Player player) {
-        return GuiItem.display(
-                ItemBuilder.of(Material.PAPER)
-                        .displayName(langManager.getComponent(player, textKey))
-                        .build()
-        );
-    }
-
-    /**
-     * Creates a placeholder item (legacy support)
+     * Creates a placeholder item
      */
     public static GuiItem createPlaceholder(@NotNull String text) {
         return GuiItem.display(
                 ItemBuilder.of(Material.PAPER)
-                        .displayName(Component.text(text, ColorUtil.NEUTRAL))
+                        .displayName(Component.text(text, NamedTextColor.GRAY))
                         .build()
         );
     }
 
     /**
-     * Creates a navigation button with localization
+     * Creates a navigation button
      */
-    public static GuiItem createNavigationButton(@NotNull Material material, @NotNull String nameKey,
-                                                 @NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createNavigationButton(@NotNull Material material, @NotNull Component name,
+                                                 @NotNull Component lore, @NotNull Consumer<Player> action) {
         return GuiItem.clickable(
                 ItemBuilder.of(material)
-                        .displayName(langManager.getComponent(player, nameKey))
-                        .addLore(langManager.getMessage(player, "general.click-to-navigate"), ColorUtil.NEUTRAL)
+                        .displayName(name)
+                        .addLore(lore)
                         .build(),
                 action
         );
     }
 
     /**
-     * Creates a navigation button (legacy support)
-     */
-    public static GuiItem createNavigationButton(@NotNull Material material, @NotNull String name,
-                                                 @NotNull Consumer<Player> action) {
-        return GuiItem.clickable(
-                ItemBuilder.of(material)
-                        .displayName(Component.text(name, ColorUtil.INFO))
-                        .addLore(Component.text("클릭하여 이동", ColorUtil.NEUTRAL))
-                        .build(),
-                action
-        );
-    }
-
-    /**
-     * Creates a previous page button with localization
+     * Creates a previous page button
      */
     public static GuiItem createPreviousPageButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.ARROW)
-                        .displayName(langManager.getComponent(player, "items.previous-page.name"))
-                        .addLore(langManager.getMessage(player, "items.previous-page.lore"), ColorUtil.NEUTRAL)
+                        .displayName(langManager.getComponent(player, "gui.buttons.previous-page.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.previous-page.lore"))
                         .build(),
                 action
         );
     }
 
     /**
-     * Creates a previous page button (legacy support)
-     */
-    public static GuiItem createPreviousPageButton(@NotNull Consumer<Player> action) {
-        return GuiItem.clickable(
-                ItemBuilder.of(Material.ARROW)
-                        .displayName(Component.text("이전 페이지", ColorUtil.WARNING))
-                        .addLore(Component.text("클릭하여 이전 페이지로", ColorUtil.NEUTRAL))
-                        .build(),
-                action
-        );
-    }
-
-    /**
-     * Creates a next page button with localization
+     * Creates a next page button
      */
     public static GuiItem createNextPageButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.ARROW)
-                        .displayName(langManager.getComponent(player, "items.next-page.name"))
-                        .addLore(langManager.getMessage(player, "items.next-page.lore"), ColorUtil.NEUTRAL)
+                        .displayName(langManager.getComponent(player, "gui.buttons.next-page.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.next-page.lore"))
                         .build(),
                 action
         );
     }
 
     /**
-     * Creates a next page button (legacy support)
-     */
-    public static GuiItem createNextPageButton(@NotNull Consumer<Player> action) {
-        return GuiItem.clickable(
-                ItemBuilder.of(Material.ARROW)
-                        .displayName(Component.text("다음 페이지", ColorUtil.WARNING))
-                        .addLore(Component.text("클릭하여 다음 페이지로", ColorUtil.NEUTRAL))
-                        .build(),
-                action
-        );
-    }
-
-    /**
-     * Creates a page info display item with localization
+     * Creates a page info display item
      */
     public static GuiItem createPageInfo(int currentPage, int totalPages, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.display(
                 ItemBuilder.of(Material.PAPER)
-                        .displayName(langManager.getComponent(player, "items.page-info.name"))
-                        .addLore(langManager.getMessage(player, "items.page-info.lore",
+                        .displayName(langManager.getComponent(player, "gui.buttons.page-info.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.page-info.lore",
                                 "current", String.valueOf(currentPage),
-                                "total", String.valueOf(totalPages)), ColorUtil.INFO)
+                                "total", String.valueOf(totalPages)))
                         .build()
         );
     }
 
     /**
-     * Creates a page info display item (legacy support)
+     * Creates a status indicator item
      */
-    public static GuiItem createPageInfo(int currentPage, int totalPages) {
-        return GuiItem.display(
-                ItemBuilder.of(Material.PAPER)
-                        .displayName(Component.text("페이지 정보", ColorUtil.ORANGE))
-                        .addLore(Component.text(String.format("현재: %d / %d", currentPage, totalPages), ColorUtil.INFO))
-                        .build()
-        );
-    }
-
-    /**
-     * Creates a status indicator item with localization
-     */
-    public static GuiItem createStatusIndicator(@NotNull String statusKey, boolean isOnline,
-                                                @NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createStatusIndicator(@NotNull String status, boolean isOnline, @NotNull LangManager langManager, @NotNull Player player) {
         Material material = isOnline ? Material.LIME_DYE : Material.RED_DYE;
-        String statusValue = langManager.getMessage(player, isOnline ? "status.online" : "status.offline");
-
-        return GuiItem.display(
-                ItemBuilder.of(material)
-                        .displayName(langManager.getComponent(player, statusKey))
-                        .addLore(langManager.getMessage(player, "items.status-indicator.lore", "status", statusValue),
-                                isOnline ? ColorUtil.SUCCESS : ColorUtil.ERROR)
-                        .build()
-        );
-    }
-
-    /**
-     * Creates a status indicator item (legacy support)
-     */
-    public static GuiItem createStatusIndicator(@NotNull String status, boolean isOnline) {
-        Material material = isOnline ? Material.LIME_DYE : Material.RED_DYE;
-        String statusText = isOnline ? "온라인" : "오프라인";
+        Component statusComponent = langManager.getComponent(player, isOnline ? "gui.buttons.status.online" : "gui.buttons.status.offline");
 
         return GuiItem.display(
                 ItemBuilder.of(material)
                         .displayName(Component.text(status, isOnline ? ColorUtil.SUCCESS : ColorUtil.ERROR))
-                        .addLore(Component.text("상태: " + statusText, ColorUtil.NEUTRAL))
+                        .addLore(langManager.getComponent(player, "gui.buttons.status.status-text", "status", statusComponent.toString()))
                         .build()
+        );
+    }
+
+    /**
+     * Creates a colored action button
+     */
+    public static GuiItem createActionButton(@NotNull Material material, @NotNull Component name,
+                                             @NotNull Component description, @NotNull Consumer<Player> action,
+                                             @NotNull net.kyori.adventure.text.format.TextColor nameColor) {
+        return GuiItem.clickable(
+                ItemBuilder.of(material)
+                        .displayName(name.color(nameColor))
+                        .addLore(description)
+                        .build(),
+                action
+        );
+    }
+
+    /**
+     * Creates a confirmation button (green)
+     */
+    public static GuiItem createConfirmButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
+        return createActionButton(
+                Material.LIME_DYE,
+                langManager.getComponent(player, "gui.buttons.confirm.name"),
+                langManager.getComponent(player, "gui.buttons.confirm.lore"),
+                action,
+                ColorUtil.SUCCESS
+        );
+    }
+
+    /**
+     * Creates a cancel button (red)
+     */
+    public static GuiItem createCancelButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
+        return createActionButton(
+                Material.RED_DYE,
+                langManager.getComponent(player, "gui.buttons.cancel.name"),
+                langManager.getComponent(player, "gui.buttons.cancel.lore"),
+                action,
+                ColorUtil.ERROR
+        );
+    }
+
+    /**
+     * Creates a warning button (orange)
+     */
+    public static GuiItem createWarningButton(@NotNull Component name, @NotNull Component description,
+                                              @NotNull Consumer<Player> action) {
+        return createActionButton(
+                Material.ORANGE_DYE,
+                name,
+                description,
+                action,
+                ColorUtil.WARNING
+        );
+    }
+
+    /**
+     * Creates an info button (blue)
+     */
+    public static GuiItem createInfoButton(@NotNull Component name, @NotNull Component description,
+                                           @NotNull Consumer<Player> action) {
+        return createActionButton(
+                Material.LIGHT_BLUE_DYE,
+                name,
+                description,
+                action,
+                ColorUtil.INFO
+        );
+    }
+
+    // === 호환성을 위한 레거시 메서드들 (더 이상 권장하지 않음) ===
+
+    /**
+     * @deprecated Use {@link #createCloseButton(LangManager, Player)} instead
+     */
+    @Deprecated
+    public static GuiItem createCloseButton() {
+        return GuiItem.clickable(
+                ItemBuilder.of(Material.BARRIER)
+                        .displayName(Component.text("Close", NamedTextColor.RED))
+                        .addLore("Click to close GUI", NamedTextColor.GRAY)
+                        .build(),
+                Player::closeInventory
+        );
+    }
+
+    /**
+     * @deprecated Use {@link #createBackButton(GuiManager, LangManager, Player)} instead
+     */
+    @Deprecated
+    public static GuiItem createBackButton(@NotNull GuiManager guiManager) {
+        return GuiItem.clickable(
+                ItemBuilder.of(Material.ARROW)
+                        .displayName(Component.text("Back", NamedTextColor.YELLOW))
+                        .addLore("Click to go back", NamedTextColor.GRAY)
+                        .build(),
+                player -> {
+                    if (!guiManager.goBack(player)) {
+                        player.closeInventory();
+                    }
+                }
+        );
+    }
+
+    /**
+     * @deprecated Use {@link #createRefreshButton(GuiManager, LangManager, Player)} instead
+     */
+    @Deprecated
+    public static GuiItem createRefreshButton(@NotNull GuiManager guiManager) {
+        return GuiItem.clickable(
+                ItemBuilder.of(Material.LIME_DYE)
+                        .displayName(Component.text("Refresh", NamedTextColor.GREEN))
+                        .addLore("Click to refresh information", NamedTextColor.GRAY)
+                        .build(),
+                guiManager::refreshCurrentGui
         );
     }
 }

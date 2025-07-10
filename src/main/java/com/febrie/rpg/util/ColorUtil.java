@@ -247,21 +247,31 @@ public final class ColorUtil {
             // Field not found or not accessible, continue to NamedTextColor
         }
 
-        // Try NamedTextColor
-        try {
-            return net.kyori.adventure.text.format.NamedTextColor.NAMES.value(upperName.toLowerCase());
-        } catch (Exception ignored) {
-            // Not found in NamedTextColor either
-        }
-
-        // Handle special cases and aliases
+        // Direct NamedTextColor mapping (더 안전한 방법)
         return switch (upperName) {
-            case "RESET", "WHITE", "DEFAULT" -> net.kyori.adventure.text.format.NamedTextColor.WHITE;
-            case "GREY" -> net.kyori.adventure.text.format.NamedTextColor.GRAY;
-            case "DARK_GREY" -> net.kyori.adventure.text.format.NamedTextColor.DARK_GRAY;
+            // Basic Minecraft colors
+            case "BLACK" -> net.kyori.adventure.text.format.NamedTextColor.BLACK;
+            case "DARK_BLUE" -> net.kyori.adventure.text.format.NamedTextColor.DARK_BLUE;
+            case "DARK_GREEN" -> net.kyori.adventure.text.format.NamedTextColor.DARK_GREEN;
+            case "DARK_AQUA" -> net.kyori.adventure.text.format.NamedTextColor.DARK_AQUA;
+            case "DARK_RED" -> net.kyori.adventure.text.format.NamedTextColor.DARK_RED;
+            case "DARK_PURPLE" -> net.kyori.adventure.text.format.NamedTextColor.DARK_PURPLE;
+            case "GOLD" -> net.kyori.adventure.text.format.NamedTextColor.GOLD;
+            case "GRAY", "GREY" -> net.kyori.adventure.text.format.NamedTextColor.GRAY;
+            case "DARK_GRAY", "DARK_GREY" -> net.kyori.adventure.text.format.NamedTextColor.DARK_GRAY;
+            case "BLUE" -> net.kyori.adventure.text.format.NamedTextColor.BLUE;
+            case "GREEN" -> net.kyori.adventure.text.format.NamedTextColor.GREEN;
+            case "AQUA" -> net.kyori.adventure.text.format.NamedTextColor.AQUA;
+            case "RED" -> net.kyori.adventure.text.format.NamedTextColor.RED;
+            case "LIGHT_PURPLE", "PURPLE" -> net.kyori.adventure.text.format.NamedTextColor.LIGHT_PURPLE;
+            case "YELLOW" -> net.kyori.adventure.text.format.NamedTextColor.YELLOW;
+            case "WHITE", "RESET", "DEFAULT" -> net.kyori.adventure.text.format.NamedTextColor.WHITE;
+
+            // Aliases
             case "LIGHT_BLUE" -> net.kyori.adventure.text.format.NamedTextColor.BLUE;
             case "LIGHT_GREEN" -> net.kyori.adventure.text.format.NamedTextColor.GREEN;
             case "LIGHT_RED" -> net.kyori.adventure.text.format.NamedTextColor.RED;
+
             default -> null;
         };
     }
@@ -284,10 +294,23 @@ public final class ColorUtil {
             }
         }
 
-        // Add NamedTextColor values
-        for (net.kyori.adventure.text.format.NamedTextColor namedColor : net.kyori.adventure.text.format.NamedTextColor.NAMES.values()) {
-            colors.add(namedColor.toString().toUpperCase());
-        }
+        // Add NamedTextColor values manually (더 안전한 방법)
+        colors.add("BLACK");
+        colors.add("DARK_BLUE");
+        colors.add("DARK_GREEN");
+        colors.add("DARK_AQUA");
+        colors.add("DARK_RED");
+        colors.add("DARK_PURPLE");
+        colors.add("GOLD");
+        colors.add("GRAY");
+        colors.add("DARK_GRAY");
+        colors.add("BLUE");
+        colors.add("GREEN");
+        colors.add("AQUA");
+        colors.add("RED");
+        colors.add("LIGHT_PURPLE");
+        colors.add("YELLOW");
+        colors.add("WHITE");
 
         return colors;
     }

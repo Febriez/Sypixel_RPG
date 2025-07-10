@@ -50,32 +50,32 @@ public class GuiManager {
     public void openMainMenuGui(@NotNull Player player) {
         closeCurrentGui(player);
 
-        MainMenuGui gui = new MainMenuGui(plugin, this, langManager, player);
+        MainMenuGui gui = new MainMenuGui(this, langManager, player);
         openGui(player, gui);
     }
 
     /**
      * 플레이어의 프로필 GUI를 엽니다
      *
+     * @param player 플레이어 (자신의 프로필을 보는 경우)
+     */
+    public void openProfileGui(@NotNull Player player) {
+        openProfileGui(player, player);
+    }
+
+    /**
+     * 특정 플레이어의 프로필 GUI를 엽니다
+     *
      * @param viewer 보는 플레이어
-     * @param target 대상 플레이어
+     * @param target 프로필을 볼 대상 플레이어
      */
     public void openProfileGui(@NotNull Player viewer, @NotNull Player target) {
         // 기존 GUI 정리
         closeCurrentGui(viewer);
 
         // 새 GUI 생성 및 열기
-        ProfileGui gui = new ProfileGui(plugin, target, this, langManager);
+        ProfileGui gui = new ProfileGui(target, this, langManager);
         openGui(viewer, gui);
-    }
-
-    /**
-     * 플레이어의 자신의 프로필 GUI를 엽니다
-     *
-     * @param player 플레이어
-     */
-    public void openProfileGui(@NotNull Player player) {
-        openProfileGui(player, player);
     }
 
     /**

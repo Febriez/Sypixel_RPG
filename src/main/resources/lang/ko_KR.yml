@@ -38,9 +38,48 @@ gui:
     title: "%COLOR_LEGENDARY%메인 메뉴"
     subtitle: "%COLOR_WHITE%원하는 기능을 선택하세요"
 
+  # === 공통 GUI 버튼들 ===
+  buttons:
+    close:
+      name: "%COLOR_RED%닫기"
+      lore: "%COLOR_GRAY%클릭하여 GUI 닫기"
+
+    back:
+      name: "%COLOR_YELLOW%뒤로가기"
+      lore: "%COLOR_GRAY%클릭하여 이전 메뉴로"
+
+    refresh:
+      name: "%COLOR_GREEN%새로고침"
+      lore: "%COLOR_GRAY%클릭하여 정보 갱신"
+
+    confirm:
+      name: "%COLOR_SUCCESS%확인"
+      lore: "%COLOR_GRAY%클릭하여 확인"
+
+    cancel:
+      name: "%COLOR_ERROR%취소"
+      lore: "%COLOR_GRAY%클릭하여 취소"
+
+    previous-page:
+      name: "%COLOR_YELLOW%이전 페이지"
+      lore: "%COLOR_GRAY%클릭하여 이전 페이지로"
+
+    next-page:
+      name: "%COLOR_YELLOW%다음 페이지"
+      lore: "%COLOR_GRAY%클릭하여 다음 페이지로"
+
+    page-info:
+      name: "%COLOR_ORANGE%페이지 정보"
+      lore: "%COLOR_WHITE%현재: {current} / {total}"
+
+    status:
+      online: "%COLOR_SUCCESS%온라인"
+      offline: "%COLOR_ERROR%오프라인"
+      status-text: "%COLOR_GRAY%상태: {status}"
+
 # === GUI 아이템들 ===
 items:
-  # 공통 버튼들
+  # 공통 버튼들 (호환성을 위해 유지)
   close:
     name: "%COLOR_RED%닫기"
     lore: "%COLOR_GRAY%클릭하여 GUI 닫기"

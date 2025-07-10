@@ -18,7 +18,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,9 +34,7 @@ public class ProfileGui implements InteractiveGui {
 
     private static final int GUI_SIZE = 54; // 6 rows
 
-    private final Plugin plugin;
     private final Player targetPlayer;
-    private final Player viewer;
     private final Inventory inventory;
     private final Map<Integer, GuiItem> items;
     private final GuiManager guiManager;
@@ -46,23 +43,13 @@ public class ProfileGui implements InteractiveGui {
     /**
      * Creates a new ProfileGui for a specific player with language support
      */
-    public ProfileGui(@NotNull Plugin plugin, @NotNull Player targetPlayer,
+    public ProfileGui(@NotNull Player targetPlayer,
                       @Nullable GuiManager guiManager, @NotNull LangManager langManager) {
-        this(plugin, targetPlayer, targetPlayer, guiManager, langManager);
-    }
-
-    /**
-     * Creates a new ProfileGui with separate viewer and target
-     */
-    public ProfileGui(@NotNull Plugin plugin, @NotNull Player targetPlayer, @NotNull Player viewer,
-                      @Nullable GuiManager guiManager, @NotNull LangManager langManager) {
-        this.plugin = plugin;
         this.targetPlayer = targetPlayer;
-        this.viewer = viewer;
         this.guiManager = guiManager;
         this.langManager = langManager;
         this.inventory = Bukkit.createInventory(this, GUI_SIZE,
-                langManager.getComponent(viewer, "gui.profile.player-title", "player", targetPlayer.getName()));
+                langManager.getComponent(targetPlayer, "gui.profile.player-title", "player", targetPlayer.getName()));
         this.items = new HashMap<>();
 
         setupLayout();
@@ -70,7 +57,7 @@ public class ProfileGui implements InteractiveGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return langManager.getComponent(viewer, "gui.profile.player-title", "player", targetPlayer.getName());
+        return langManager.getComponent(targetPlayer, "gui.profile.player-title", "player", targetPlayer.getName());
     }
 
     @Override
@@ -149,13 +136,13 @@ public class ProfileGui implements InteractiveGui {
             setItem(slot, GuiFactory.createDecoration());
         }
 
-        // Title decoration - ItemBuilder가 자동으로 italic false 처리
+        // Title decoration
         setItem(4, GuiItem.display(
                 ItemBuilder.of(Material.NETHER_STAR)
                         .displayName(Component.text("★ " + targetPlayer.getName() + " ★", ColorUtil.LEGENDARY)
                                 .decoration(TextDecoration.BOLD, true))
-                        .addLore(Component.empty())
-                        .addLore(langManager.getMessage(viewer, "gui.profile.title"), ColorUtil.ORANGE)
+                        .addLore("", NamedTextColor.GRAY)
+                        .addLore(langManager.getMessage(targetPlayer, "gui.profile.title"), NamedTextColor.YELLOW)
                         .build()
         ));
     }
@@ -166,13 +153,12 @@ public class ProfileGui implements InteractiveGui {
     private void setupPlayerInfo() {
         GuiItem playerHead = GuiItem.clickable(
                 ItemBuilder.of(Material.PLAYER_HEAD)
-                        .displayName(langManager.getComponent(viewer, "items.profile.player-head.name",
+                        .displayName(langManager.getComponent(targetPlayer, "items.profile.player-head.name",
                                 "player", targetPlayer.getName()))
-                        .addLore(Component.empty())
-                        .addLore(langManager.getMessage(viewer, "items.profile.player-head.lore",
+                        .lore(langManager.getComponentList(targetPlayer, "items.profile.player-head.lore",
                                 "player", targetPlayer.getName(),
                                 "uuid", targetPlayer.getUniqueId().toString().substring(0, 8) + "...",
-                                "playtime", formatPlayTime()), NamedTextColor.WHITE)
+                                "playtime", formatPlayTime()))
                         .build(),
                 player -> {
                     langManager.sendMessage(player, "general.coming-soon");
@@ -189,11 +175,11 @@ public class ProfileGui implements InteractiveGui {
         // Level info (slot 19)
         GuiItem levelItem = GuiItem.display(
                 ItemBuilder.of(Material.EXPERIENCE_BOTTLE)
-                        .displayName(langManager.getComponent(viewer, "items.profile.level-info.name"))
-                        .addLore(langManager.getMessage(viewer, "items.profile.level-info.lore",
+                        .displayName(langManager.getComponent(targetPlayer, "items.profile.level-info.name"))
+                        .lore(langManager.getComponentList(targetPlayer, "items.profile.level-info.lore",
                                 "level", String.valueOf(targetPlayer.getLevel()),
                                 "exp", String.valueOf(Math.round(targetPlayer.getExp() * 100)),
-                                "total_exp", String.valueOf(targetPlayer.getTotalExperience())), NamedTextColor.WHITE)
+                                "total_exp", String.valueOf(targetPlayer.getTotalExperience())))
                         .build()
         );
         setItem(19, levelItem);
@@ -206,12 +192,12 @@ public class ProfileGui implements InteractiveGui {
 
         GuiItem healthItem = GuiItem.display(
                 ItemBuilder.of(Material.RED_DYE)
-                        .displayName(langManager.getComponent(viewer, "items.profile.health-info.name"))
-                        .addLore(langManager.getMessage(viewer, "items.profile.health-info.lore",
+                        .displayName(langManager.getComponent(targetPlayer, "items.profile.health-info.name"))
+                        .lore(langManager.getComponentList(targetPlayer, "items.profile.health-info.lore",
                                 "current", String.format("%.1f", currentHealth),
                                 "max", String.format("%.1f", maxHealth),
                                 "percentage", String.format("%.1f", healthPercentage),
-                                "health_bar", createHealthBar(healthPercentage)), NamedTextColor.WHITE)
+                                "health_bar", createHealthBar(healthPercentage)))
                         .build()
         );
         setItem(21, healthItem);
@@ -219,40 +205,40 @@ public class ProfileGui implements InteractiveGui {
         // Food info (slot 23)
         GuiItem foodItem = GuiItem.display(
                 ItemBuilder.of(Material.BREAD)
-                        .displayName(langManager.getComponent(viewer, "items.profile.food-info.name"))
-                        .addLore(langManager.getMessage(viewer, "items.profile.food-info.lore",
+                        .displayName(langManager.getComponent(targetPlayer, "items.profile.food-info.name"))
+                        .lore(langManager.getComponentList(targetPlayer, "items.profile.food-info.lore",
                                 "food", String.valueOf(targetPlayer.getFoodLevel()),
                                 "saturation", String.format("%.1f", targetPlayer.getSaturation()),
-                                "hunger_bar", createHungerBar(targetPlayer.getFoodLevel())), NamedTextColor.WHITE)
+                                "hunger_bar", createHungerBar(targetPlayer.getFoodLevel())))
                         .build()
         );
         setItem(23, foodItem);
 
         // Game mode info (slot 25)
-        String gameModeName = langManager.getMessage(viewer, "gamemode." + targetPlayer.getGameMode().name());
-        String canFly = langManager.getMessage(viewer, targetPlayer.getAllowFlight() ? "status.yes" : "status.no");
+        String gameModeName = langManager.getMessage(targetPlayer, "gamemode." + targetPlayer.getGameMode().name());
+        String canFly = langManager.getMessage(targetPlayer, targetPlayer.getAllowFlight() ? "status.yes" : "status.no");
 
         GuiItem gameModeItem = GuiItem.display(
                 ItemBuilder.of(Material.COMPASS)
-                        .displayName(langManager.getComponent(viewer, "items.profile.game-info.name"))
-                        .addLore(langManager.getMessage(viewer, "items.profile.game-info.lore",
+                        .displayName(langManager.getComponent(targetPlayer, "items.profile.game-info.name"))
+                        .lore(langManager.getComponentList(targetPlayer, "items.profile.game-info.lore",
                                 "gamemode", gameModeName,
                                 "can_fly", canFly,
-                                "world", targetPlayer.getWorld().getName()), NamedTextColor.WHITE)
+                                "world", targetPlayer.getWorld().getName()))
                         .build()
         );
         setItem(25, gameModeItem);
     }
 
     /**
-     * Sets up action buttons using improved GuiFactory
+     * Sets up action buttons
      */
     private void setupActionButtons() {
         // Settings button (slot 47)
         GuiItem settingsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.COMPARATOR)
-                        .displayName(langManager.getComponent(viewer, "items.profile.settings-button.name"))
-                        .addLore(langManager.getMessage(viewer, "items.profile.settings-button.lore"), ColorUtil.WARNING)
+                        .displayName(langManager.getComponent(targetPlayer, "items.profile.settings-button.name"))
+                        .lore(langManager.getComponentList(targetPlayer, "items.profile.settings-button.lore"))
                         .build(),
                 player -> {
                     langManager.sendMessage(player, "general.coming-soon");
@@ -263,8 +249,8 @@ public class ProfileGui implements InteractiveGui {
         // Stats button (slot 48)
         GuiItem statsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.BOOK)
-                        .displayName(langManager.getComponent(viewer, "items.profile.stats-button.name"))
-                        .addLore(langManager.getMessage(viewer, "items.profile.stats-button.lore"), ColorUtil.WARNING)
+                        .displayName(langManager.getComponent(targetPlayer, "items.profile.stats-button.name"))
+                        .lore(langManager.getComponentList(targetPlayer, "items.profile.stats-button.lore"))
                         .build(),
                 player -> {
                     langManager.sendMessage(player, "general.coming-soon");
@@ -273,21 +259,21 @@ public class ProfileGui implements InteractiveGui {
         setItem(48, statsButton);
 
         // Close button (slot 49)
-        setItem(49, GuiFactory.createCloseButton(langManager, viewer));
+        setItem(49, GuiFactory.createCloseButton(langManager, targetPlayer));
 
         // Back button (slot 50) - if GuiManager is available
         if (guiManager != null) {
-            setItem(50, GuiFactory.createBackButton(guiManager, langManager, viewer));
+            setItem(50, GuiFactory.createBackButton(guiManager, langManager, targetPlayer));
         }
 
         // Refresh button (slot 51)
         if (guiManager != null) {
-            setItem(51, GuiFactory.createRefreshButton(guiManager, langManager, viewer));
+            setItem(51, GuiFactory.createRefreshButton(guiManager, langManager, targetPlayer));
         } else {
             GuiItem refreshButton = GuiFactory.createRefreshButton(player -> {
                 refresh();
                 langManager.sendMessage(player, "messages.profile-opened");
-            }, langManager, viewer);
+            }, langManager, targetPlayer);
             setItem(51, refreshButton);
         }
     }
@@ -302,7 +288,7 @@ public class ProfileGui implements InteractiveGui {
 
     // Helper methods for display
     private String formatPlayTime() {
-        return langManager.getMessage(viewer, "status.unknown");
+        return langManager.getMessage(targetPlayer, "status.unknown");
     }
 
     private String createHealthBar(double percentage) {

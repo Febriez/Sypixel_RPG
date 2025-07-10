@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Language management utility for multi-language support
- * Handles loading and retrieving localized messages
+ * Handles loading and retrieving localized messages with color placeholder support
  *
  * @author Febrie, CoffeeTory
  */
@@ -164,6 +164,71 @@ public class LangManager {
     }
 
     /**
+     * Gets a list of Component messages for a player in their preferred language
+     * Used for lore and multi-line text
+     */
+    @NotNull
+    public java.util.List<Component> getComponentList(@NotNull Player player, @NotNull String key, @NotNull String... placeholders) {
+        String lang = getPlayerLanguage(player);
+        return getComponentList(lang, key, placeholders);
+    }
+
+    /**
+     * Gets a list of Component messages in the specified language
+     * Used for lore and multi-line text
+     */
+    @NotNull
+    public java.util.List<Component> getComponentList(@NotNull String language, @NotNull String key, @NotNull String... placeholders) {
+        YamlConfiguration config = languageConfigs.get(language);
+
+        // Fallback to default language if specified language not found
+        if (config == null) {
+            config = languageConfigs.get(defaultLanguage);
+        }
+
+        // Fallback to English if default not found
+        if (config == null) {
+            config = languageConfigs.get("en_US");
+        }
+
+        // Last resort: return list with the key itself
+        if (config == null) {
+            plugin.getLogger().warning("No language configuration found for key: " + key);
+            return java.util.List.of(Component.text(key));
+        }
+
+        java.util.List<String> messages = config.getStringList(key);
+        if (messages.isEmpty()) {
+            // Try to get from default language
+            YamlConfiguration defaultConfig = languageConfigs.get(defaultLanguage);
+            if (defaultConfig != null) {
+                messages = defaultConfig.getStringList(key);
+            }
+
+            // Still empty? Return list with key
+            if (messages.isEmpty()) {
+                plugin.getLogger().warning("Missing translation key list: " + key);
+                return java.util.List.of(Component.text(key));
+            }
+        }
+
+        java.util.List<Component> components = new java.util.ArrayList<>();
+        for (String message : messages) {
+            // Replace placeholders
+            for (int i = 0; i < placeholders.length; i += 2) {
+                if (i + 1 < placeholders.length) {
+                    message = message.replace("{" + placeholders[i] + "}", placeholders[i + 1]);
+                }
+            }
+
+            // Parse color placeholders and add to list
+            components.add(parseColorPlaceholders(message));
+        }
+
+        return components;
+    }
+
+    /**
      * Parses color placeholders (%COLOR_NAME%) in text and converts to Component
      *
      * @param text The text containing color placeholders
@@ -199,6 +264,7 @@ public class LangManager {
             // Parse the color
             String colorName = matcher.group(1);
             net.kyori.adventure.text.format.TextColor foundColor = ColorUtil.getColorByName(colorName);
+
             if (foundColor != null) {
                 currentColor = foundColor;
             } else {
