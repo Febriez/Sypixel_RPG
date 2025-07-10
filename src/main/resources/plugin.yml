@@ -1,5 +1,5 @@
 # src/main/resources/plugin.yml
-name: Sypixel RPG
+name: Sypixel_RPG
 version: '1.0-SNAPSHOT'
 main: com.febrie.rpg.RPGMain
 api-version: '1.21'
