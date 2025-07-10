@@ -8,7 +8,6 @@ import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -35,6 +34,7 @@ public class MainMenuGui implements InteractiveGui {
     private final Plugin plugin;
     private final GuiManager guiManager;
     private final LangManager langManager;
+    private final Player player;
     private final Inventory inventory;
     private final Map<Integer, GuiItem> items;
 
@@ -43,17 +43,17 @@ public class MainMenuGui implements InteractiveGui {
         this.plugin = plugin;
         this.guiManager = guiManager;
         this.langManager = langManager;
+        this.player = player;
         this.inventory = Bukkit.createInventory(this, GUI_SIZE,
                 langManager.getComponent(player, "gui.mainmenu.title"));
         this.items = new HashMap<>();
 
-        setupLayout(player);
+        setupLayout();
     }
 
     @Override
     public @NotNull Component getTitle() {
-        // This will be overridden by the inventory title
-        return Component.text("Main Menu");
+        return langManager.getComponent(player, "gui.mainmenu.title");
     }
 
     @Override
@@ -68,7 +68,9 @@ public class MainMenuGui implements InteractiveGui {
 
     @Override
     public void refresh() {
-        // Main menu doesn't need refresh typically, but can be implemented if needed
+        inventory.clear();
+        items.clear();
+        setupLayout();
     }
 
     @Override
@@ -98,16 +100,16 @@ public class MainMenuGui implements InteractiveGui {
     /**
      * Sets up the main menu layout
      */
-    private void setupLayout(@NotNull Player player) {
-        setupDecorations(player);
-        setupMenuButtons(player);
-        setupNavigationButtons(player);
+    private void setupLayout() {
+        setupDecorations();
+        setupMenuButtons();
+        setupNavigationButtons();
     }
 
     /**
      * Sets up decorative elements
      */
-    private void setupDecorations(@NotNull Player player) {
+    private void setupDecorations() {
         // Create border decoration
         for (int i = 0; i < 9; i++) {
             setItem(i, GuiFactory.createDecoration());
@@ -122,13 +124,13 @@ public class MainMenuGui implements InteractiveGui {
         setItem(27, GuiFactory.createDecoration());
         setItem(35, GuiFactory.createDecoration());
 
-        // Title item
+        // Title item - ItemBuilder가 자동으로 italic false 처리
         setItem(4, GuiItem.display(
                 ItemBuilder.of(Material.NETHER_STAR)
                         .displayName(langManager.getComponent(player, "gui.mainmenu.title")
                                 .color(ColorUtil.LEGENDARY)
                                 .decoration(TextDecoration.BOLD, true))
-                        .addLore(langManager.getMessage(player, "gui.mainmenu.subtitle"), NamedTextColor.YELLOW)
+                        .addLore(langManager.getMessage(player, "gui.mainmenu.subtitle"), ColorUtil.ORANGE)
                         .build()
         ));
     }
@@ -136,12 +138,12 @@ public class MainMenuGui implements InteractiveGui {
     /**
      * Sets up main menu buttons
      */
-    private void setupMenuButtons(@NotNull Player player) {
+    private void setupMenuButtons() {
         // Profile button (slot 20)
         GuiItem profileButton = GuiItem.clickable(
                 ItemBuilder.of(Material.PLAYER_HEAD)
                         .displayName(langManager.getComponent(player, "items.mainmenu.profile-button.name"))
-                        .addLore(langManager.getMessage(player, "items.mainmenu.profile-button.lore"), NamedTextColor.GRAY)
+                        .addLore(langManager.getMessage(player, "items.mainmenu.profile-button.lore"), ColorUtil.NEUTRAL)
                         .build(),
                 clickedPlayer -> {
                     guiManager.openProfileGui(clickedPlayer);
@@ -153,7 +155,7 @@ public class MainMenuGui implements InteractiveGui {
         GuiItem shopButton = GuiItem.clickable(
                 ItemBuilder.of(Material.EMERALD)
                         .displayName(langManager.getComponent(player, "items.mainmenu.shop-button.name"))
-                        .addLore(langManager.getMessage(player, "items.mainmenu.shop-button.lore"), NamedTextColor.GRAY)
+                        .addLore(langManager.getMessage(player, "items.mainmenu.shop-button.lore"), ColorUtil.NEUTRAL)
                         .build(),
                 clickedPlayer -> {
                     langManager.sendMessage(clickedPlayer, "general.coming-soon");
@@ -166,7 +168,7 @@ public class MainMenuGui implements InteractiveGui {
         GuiItem dungeonButton = GuiItem.clickable(
                 ItemBuilder.of(Material.IRON_SWORD)
                         .displayName(langManager.getComponent(player, "items.mainmenu.dungeon-button.name"))
-                        .addLore(langManager.getMessage(player, "items.mainmenu.dungeon-button.lore"), NamedTextColor.GRAY)
+                        .addLore(langManager.getMessage(player, "items.mainmenu.dungeon-button.lore"), ColorUtil.NEUTRAL)
                         .build(),
                 clickedPlayer -> {
                     langManager.sendMessage(clickedPlayer, "general.coming-soon");
@@ -179,7 +181,7 @@ public class MainMenuGui implements InteractiveGui {
         GuiItem settingsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.COMPARATOR)
                         .displayName(langManager.getComponent(player, "items.mainmenu.settings-button.name"))
-                        .addLore(langManager.getMessage(player, "items.mainmenu.settings-button.lore"), NamedTextColor.GRAY)
+                        .addLore(langManager.getMessage(player, "items.mainmenu.settings-button.lore"), ColorUtil.NEUTRAL)
                         .build(),
                 clickedPlayer -> {
                     langManager.sendMessage(clickedPlayer, "general.coming-soon");
@@ -190,14 +192,14 @@ public class MainMenuGui implements InteractiveGui {
     }
 
     /**
-     * Sets up navigation buttons
+     * Sets up navigation buttons using improved GuiFactory
      */
-    private void setupNavigationButtons(@NotNull Player player) {
+    private void setupNavigationButtons() {
         // Close button (slot 40)
-        setItem(40, GuiFactory.createCloseButton());
+        setItem(40, GuiFactory.createCloseButton(langManager, player));
 
         // Back button (slot 38) - if there's history
-        setItem(38, GuiFactory.createBackButton(guiManager));
+        setItem(38, GuiFactory.createBackButton(guiManager, langManager, player));
     }
 
     /**

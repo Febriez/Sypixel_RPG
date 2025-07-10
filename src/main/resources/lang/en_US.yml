@@ -3,149 +3,165 @@
 
 # === General Messages ===
 general:
-  prefix: "&d[SypixelRPG]&r "
-  player-only: "&cThis command can only be used by players!"
-  player-not-found: "&cPlayer not found: {player}"
-  no-permission: "&cYou don't have permission to use this command."
-  reload-success: "&aConfiguration reloaded successfully!"
-  coming-soon: "&eThis feature is coming soon!"
+  prefix: "%COLOR_PINK%[SypixelRPG]%COLOR_WHITE% "
+  player-only: "%COLOR_RED%This command can only be used by players!"
+  player-not-found: "%COLOR_RED%Player not found: %COLOR_YELLOW%{player}"
+  no-permission: "%COLOR_RED%You don't have permission to use this command."
+  reload-success: "%COLOR_GREEN%Configuration reloaded successfully!"
+  coming-soon: "%COLOR_YELLOW%This feature is coming soon!"
+  error: "%COLOR_RED%An error occurred. Please contact an administrator."
 
 # === Command Usage ===
 commands:
   profile:
-    usage: "&eUsage: /profile"
+    usage: "%COLOR_YELLOW%Usage: /profile"
     description: "View your profile"
-    success: "&aProfile opened!"
+    success: "%COLOR_GREEN%Profile opened!"
 
   viewprofile:
-    usage: "&eUsage: /viewprofile <player>"
+    usage: "%COLOR_YELLOW%Usage: /viewprofile <player>"
     description: "View another player's profile"
-    success: "&aOpened {player}'s profile!"
+    success: "%COLOR_GREEN%Opened {player}'s profile!"
 
   mainmenu:
-    usage: "&eUsage: /mainmenu"
+    usage: "%COLOR_YELLOW%Usage: /mainmenu"
     description: "Open the main menu"
-    success: "&aMain menu opened!"
+    success: "%COLOR_GREEN%Main menu opened!"
 
 # === GUI Titles ===
 gui:
   profile:
-    title: "Player Profile"
-    player-title: "Player Profile - {player}"
+    title: "%COLOR_ORANGE%Player Profile"
+    player-title: "%COLOR_ORANGE%Player Profile %COLOR_GRAY%- %COLOR_YELLOW%{player}"
 
   mainmenu:
-    title: "Main Menu"
-    subtitle: "Select the feature you want"
+    title: "%COLOR_LEGENDARY%Main Menu"
+    subtitle: "%COLOR_WHITE%Select the feature you want"
 
 # === GUI Items ===
 items:
   # Common buttons
   close:
-    name: "&cClose"
-    lore: "&7Click to close GUI"
+    name: "%COLOR_RED%Close"
+    lore: "%COLOR_GRAY%Click to close GUI"
 
   back:
-    name: "&eBack"
-    lore: "&7Click to go back"
+    name: "%COLOR_YELLOW%Back"
+    lore: "%COLOR_GRAY%Click to go back"
 
   refresh:
-    name: "&aRefresh"
-    lore: "&7Click to refresh information"
+    name: "%COLOR_GREEN%Refresh"
+    lore: "%COLOR_GRAY%Click to refresh information"
 
   # Profile related
   profile:
     player-head:
-      name: "&6{player}"
+      name: "%COLOR_LEGENDARY%{player}"
       lore:
         - ""
-        - "&fPlayer: {player}"
-        - "&7UUID: {uuid}"
-        - "&bOnline time: {playtime}"
+        - "%COLOR_WHITE%Player: %COLOR_YELLOW%{player}"
+        - "%COLOR_GRAY%UUID: %COLOR_WHITE%{uuid}"
+        - "%COLOR_CYAN%Online time: %COLOR_WHITE%{playtime}"
         - ""
-        - "&eClick to view details"
+        - "%COLOR_YELLOW%Click to view details"
 
     level-info:
-      name: "&aLevel Information"
+      name: "%COLOR_SUCCESS%Level Information"
       lore:
-        - "&fCurrent Level: {level}"
-        - "&fExperience: {exp}%"
-        - "&fTotal Experience: {total_exp}"
+        - "%COLOR_WHITE%Current Level: %COLOR_GREEN%{level}"
+        - "%COLOR_WHITE%Experience: %COLOR_EXPERIENCE%{exp}%"
+        - "%COLOR_WHITE%Total Experience: %COLOR_YELLOW%{total_exp}"
 
     health-info:
-      name: "&cHealth"
+      name: "%COLOR_HEALTH%Health"
       lore:
-        - "&fCurrent: {current} / {max}"
-        - "&fPercentage: {percentage}%"
-        - "&f{health_bar}"
+        - "%COLOR_WHITE%Current: %COLOR_RED%{current} %COLOR_GRAY%/ %COLOR_RED%{max}"
+        - "%COLOR_WHITE%Percentage: %COLOR_YELLOW%{percentage}%"
+        - "%COLOR_WHITE%{health_bar}"
 
     food-info:
-      name: "&6Hunger"
+      name: "%COLOR_ORANGE%Hunger"
       lore:
-        - "&fHunger: {food} / 20"
-        - "&fSaturation: {saturation}"
-        - "&f{hunger_bar}"
+        - "%COLOR_WHITE%Hunger: %COLOR_YELLOW%{food} %COLOR_GRAY%/ %COLOR_YELLOW%20"
+        - "%COLOR_WHITE%Saturation: %COLOR_GOLD%{saturation}"
+        - "%COLOR_WHITE%{hunger_bar}"
 
     game-info:
-      name: "&9Game Information"
+      name: "%COLOR_INFO%Game Information"
       lore:
-        - "&fGame Mode: {gamemode}"
-        - "&fCan Fly: {can_fly}"
-        - "&fWorld: {world}"
+        - "%COLOR_WHITE%Game Mode: %COLOR_CYAN%{gamemode}"
+        - "%COLOR_WHITE%Can Fly: %COLOR_GREEN%{can_fly}"
+        - "%COLOR_WHITE%World: %COLOR_LIME%{world}"
 
     settings-button:
-      name: "&7Settings"
-      lore: "&eClick to open settings menu"
+      name: "%COLOR_GRAY%Settings"
+      lore: "%COLOR_YELLOW%Click to open settings menu"
 
     stats-button:
-      name: "&bDetailed Stats"
-      lore: "&eClick to view detailed stats"
+      name: "%COLOR_INFO%Detailed Stats"
+      lore: "%COLOR_YELLOW%Click to view detailed stats"
 
   # Main menu related
   mainmenu:
     profile-button:
-      name: "&6My Profile"
+      name: "%COLOR_LEGENDARY%My Profile"
       lore:
-        - "&7View your player profile"
+        - "%COLOR_GRAY%View your player profile"
         - ""
-        - "&eClick to open"
+        - "%COLOR_YELLOW%Click to open"
 
     shop-button:
-      name: "&aShop"
+      name: "%COLOR_EMERALD%Shop"
       lore:
-        - "&7Buy and sell items"
+        - "%COLOR_GRAY%Buy and sell items"
         - ""
-        - "&eClick to open"
+        - "%COLOR_YELLOW%Click to open"
 
     dungeon-button:
-      name: "&cDungeon"
+      name: "%COLOR_RED%Dungeon"
       lore:
-        - "&7Enter dungeons for adventure"
+        - "%COLOR_GRAY%Enter dungeons for adventure"
         - ""
-        - "&eClick to open"
+        - "%COLOR_YELLOW%Click to open"
 
     settings-button:
-      name: "&7Settings"
+      name: "%COLOR_GRAY%Settings"
       lore:
-        - "&7Change game settings"
+        - "%COLOR_GRAY%Change game settings"
         - ""
-        - "&eClick to open"
+        - "%COLOR_YELLOW%Click to open"
 
 # === Status Messages ===
 status:
-  online: "Online"
-  offline: "Offline"
-  yes: "Yes"
-  no: "No"
-  unknown: "Unknown"
+  online: "%COLOR_GREEN%Online"
+  offline: "%COLOR_RED%Offline"
+  yes: "%COLOR_GREEN%Yes"
+  no: "%COLOR_RED%No"
+  unknown: "%COLOR_GRAY%Unknown"
 
 # === Game Modes ===
 gamemode:
-  SURVIVAL: "Survival"
-  CREATIVE: "Creative"
-  ADVENTURE: "Adventure"
-  SPECTATOR: "Spectator"
+  SURVIVAL: "%COLOR_GREEN%Survival"
+  CREATIVE: "%COLOR_GOLD%Creative"
+  ADVENTURE: "%COLOR_PURPLE%Adventure"
+  SPECTATOR: "%COLOR_GRAY%Spectator"
 
 # === Success/Error Messages ===
 messages:
-  profile-opened: "&aProfile information has been updated!"
-  gui-refreshed: "&aInformation has been refreshed successfully!"
+  profile-opened: "%COLOR_SUCCESS%Profile information has been updated!"
+  gui-refreshed: "%COLOR_SUCCESS%Information has been refreshed successfully!"
+
+# === Item Rarity/Quality Messages ===
+rarity:
+  common: "%COLOR_COMMON%Common"
+  uncommon: "%COLOR_UNCOMMON%Uncommon"
+  rare: "%COLOR_RARE%Rare"
+  epic: "%COLOR_EPIC%Epic"
+  legendary: "%COLOR_LEGENDARY%Legendary"
+
+# === System Messages ===
+system:
+  loading: "%COLOR_YELLOW%Loading..."
+  saving: "%COLOR_YELLOW%Saving..."
+  completed: "%COLOR_SUCCESS%Completed!"
+  failed: "%COLOR_ERROR%Failed!"

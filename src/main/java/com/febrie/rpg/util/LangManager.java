@@ -151,7 +151,7 @@ public class LangManager {
     @NotNull
     public Component getComponent(@NotNull Player player, @NotNull String key, @NotNull String... placeholders) {
         String message = getMessage(player, key, placeholders);
-        return SERIALIZER.deserialize(message);
+        return parseColorPlaceholders(message);
     }
 
     /**
@@ -160,7 +160,65 @@ public class LangManager {
     @NotNull
     public Component getComponent(@NotNull String language, @NotNull String key, @NotNull String... placeholders) {
         String message = getMessage(language, key, placeholders);
-        return SERIALIZER.deserialize(message);
+        return parseColorPlaceholders(message);
+    }
+
+    /**
+     * Parses color placeholders (%COLOR_NAME%) in text and converts to Component
+     *
+     * @param text The text containing color placeholders
+     * @return Component with colors applied
+     */
+    @NotNull
+    private Component parseColorPlaceholders(@NotNull String text) {
+        // Pattern to match %COLOR_XXX%
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("%COLOR_([A-Z_]+)%");
+        java.util.regex.Matcher matcher = pattern.matcher(text);
+
+        if (!matcher.find()) {
+            // No color placeholders found, return as legacy-deserialized component
+            return SERIALIZER.deserialize(text);
+        }
+
+        // Reset matcher for processing
+        matcher.reset();
+
+        Component result = Component.empty();
+        int lastEnd = 0;
+        net.kyori.adventure.text.format.TextColor currentColor = net.kyori.adventure.text.format.NamedTextColor.WHITE;
+
+        while (matcher.find()) {
+            // Add text before the color placeholder
+            if (matcher.start() > lastEnd) {
+                String beforeText = text.substring(lastEnd, matcher.start());
+                if (!beforeText.isEmpty()) {
+                    result = result.append(Component.text(beforeText, currentColor));
+                }
+            }
+
+            // Parse the color
+            String colorName = matcher.group(1);
+            net.kyori.adventure.text.format.TextColor foundColor = ColorUtil.getColorByName(colorName);
+            if (foundColor != null) {
+                currentColor = foundColor;
+            } else {
+                plugin.getLogger().warning("Unknown color in placeholder: " + colorName);
+                // Add the placeholder as-is if color not found
+                result = result.append(Component.text(matcher.group(0), currentColor));
+            }
+
+            lastEnd = matcher.end();
+        }
+
+        // Add remaining text after the last placeholder
+        if (lastEnd < text.length()) {
+            String remainingText = text.substring(lastEnd);
+            if (!remainingText.isEmpty()) {
+                result = result.append(Component.text(remainingText, currentColor));
+            }
+        }
+
+        return result;
     }
 
     /**

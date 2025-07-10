@@ -21,6 +21,7 @@ import java.util.function.Consumer;
 
 /**
  * Fluent interface builder for creating ItemStacks with Adventure API support
+ * Automatically prevents italic decoration for clean GUI appearance
  *
  * @author Febrie, CoffeeTory
  */
@@ -65,7 +66,19 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder displayName(Component displayName) {
-        itemMeta.displayName(displayName);
+        itemMeta.displayName(displayName.decoration(TextDecoration.ITALIC, false));
+        return this;
+    }
+
+    /**
+     * Sets the display name using Adventure Component with italic control
+     *
+     * @param displayName The display name component
+     * @param italic      Whether to apply italic decoration
+     * @return This builder
+     */
+    public ItemBuilder displayName(Component displayName, boolean italic) {
+        itemMeta.displayName(displayName.decoration(TextDecoration.ITALIC, italic));
         return this;
     }
 
@@ -77,7 +90,19 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder displayName(String text, TextColor color) {
-        return displayName(Component.text(text).color(color));
+        return displayName(Component.text(text).color(color), false);
+    }
+
+    /**
+     * Sets the display name with color and italic control
+     *
+     * @param text   The text to display
+     * @param color  The color to apply
+     * @param italic Whether to apply italic decoration
+     * @return This builder
+     */
+    public ItemBuilder displayName(String text, TextColor color, boolean italic) {
+        return displayName(Component.text(text).color(color), italic);
     }
 
     /**
@@ -93,7 +118,24 @@ public class ItemBuilder {
         for (TextDecoration decoration : decorations) {
             component = component.decorate(decoration);
         }
-        return displayName(component);
+        return displayName(component, false);
+    }
+
+    /**
+     * Sets the display name with color, decorations and italic control
+     *
+     * @param text        The text to display
+     * @param color       The color to apply
+     * @param italic      Whether to apply italic decoration
+     * @param decorations The decorations to apply
+     * @return This builder
+     */
+    public ItemBuilder displayName(String text, TextColor color, boolean italic, TextDecoration @NotNull ... decorations) {
+        Component component = Component.text(text).color(color);
+        for (TextDecoration decoration : decorations) {
+            component = component.decorate(decoration);
+        }
+        return displayName(component, italic);
     }
 
     /**
@@ -103,7 +145,19 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder itemName(Component itemName) {
-        itemMeta.itemName(itemName);
+        itemMeta.itemName(itemName.decoration(TextDecoration.ITALIC, false));
+        return this;
+    }
+
+    /**
+     * Sets the item name with italic control
+     *
+     * @param itemName The item name component
+     * @param italic   Whether to apply italic decoration
+     * @return This builder
+     */
+    public ItemBuilder itemName(Component itemName, boolean italic) {
+        itemMeta.itemName(itemName.decoration(TextDecoration.ITALIC, italic));
         return this;
     }
 
@@ -114,7 +168,25 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder lore(List<Component> lore) {
-        itemMeta.lore(lore);
+        List<Component> processedLore = lore.stream()
+                .map(line -> line.decoration(TextDecoration.ITALIC, false))
+                .toList();
+        itemMeta.lore(processedLore);
+        return this;
+    }
+
+    /**
+     * Sets the lore using Adventure Components with italic control
+     *
+     * @param lore   The lore components
+     * @param italic Whether to apply italic decoration
+     * @return This builder
+     */
+    public ItemBuilder lore(List<Component> lore, boolean italic) {
+        List<Component> processedLore = lore.stream()
+                .map(line -> line.decoration(TextDecoration.ITALIC, italic))
+                .toList();
+        itemMeta.lore(processedLore);
         return this;
     }
 
@@ -125,7 +197,18 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder lore(Component... lines) {
-        return lore(Arrays.asList(lines));
+        return lore(Arrays.asList(lines), false);
+    }
+
+    /**
+     * Sets the lore using varargs with italic control
+     *
+     * @param italic Whether to apply italic decoration
+     * @param lines  The lore lines as components
+     * @return This builder
+     */
+    public ItemBuilder lore(boolean italic, Component... lines) {
+        return lore(Arrays.asList(lines), italic);
     }
 
     /**
@@ -135,9 +218,20 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder addLore(Component line) {
+        return addLore(line, false);
+    }
+
+    /**
+     * Adds a single line to existing lore with italic control
+     *
+     * @param line   The line to add
+     * @param italic Whether to apply italic decoration
+     * @return This builder
+     */
+    public ItemBuilder addLore(Component line, boolean italic) {
         List<Component> lore = itemMeta.lore();
         if (lore == null) lore = new ArrayList<>();
-        lore.add(line);
+        lore.add(line.decoration(TextDecoration.ITALIC, italic));
         itemMeta.lore(lore);
         return this;
     }
@@ -150,7 +244,54 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder addLore(String text, TextColor color) {
-        return addLore(Component.text(text).color(color));
+        return addLore(Component.text(text).color(color), false);
+    }
+
+    /**
+     * Adds a simple text line to lore with color and italic control
+     *
+     * @param text   The text to add
+     * @param color  The color to apply
+     * @param italic Whether to apply italic decoration
+     * @return This builder
+     */
+    public ItemBuilder addLore(String text, TextColor color, boolean italic) {
+        return addLore(Component.text(text).color(color), italic);
+    }
+
+    /**
+     * Adds multiple lore lines with the same color
+     *
+     * @param color The color to apply
+     * @param lines The text lines to add
+     * @return This builder
+     */
+    public ItemBuilder addLore(TextColor color, String... lines) {
+        return addLore(color, false, lines);
+    }
+
+    /**
+     * Adds multiple lore lines with the same color and italic control
+     *
+     * @param color  The color to apply
+     * @param italic Whether to apply italic decoration
+     * @param lines  The text lines to add
+     * @return This builder
+     */
+    public ItemBuilder addLore(TextColor color, boolean italic, String... lines) {
+        for (String line : lines) {
+            addLore(Component.text(line).color(color), italic);
+        }
+        return this;
+    }
+
+    /**
+     * Adds an empty line to lore
+     *
+     * @return This builder
+     */
+    public ItemBuilder addLore() {
+        return addLore(Component.empty());
     }
 
     /**
@@ -242,6 +383,7 @@ public class ItemBuilder {
 
     /**
      * Sets custom model data using the new component system
+     *
      * @param data The custom model data value (will be added as a float)
      * @return This builder
      */
@@ -255,6 +397,7 @@ public class ItemBuilder {
 
     /**
      * Sets custom model data string
+     *
      * @param data The custom model data string
      * @return This builder
      */

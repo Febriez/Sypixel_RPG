@@ -210,6 +210,89 @@ public final class ColorUtil {
     }
 
     /**
+     * Gets a rarity color based on rarity level
+     *
+     * @param rarity Rarity level (0 = common, 4 = legendary)
+     * @return Appropriate rarity color
+     */
+    public static @NotNull TextColor rarityColor(int rarity) {
+        return switch (rarity) {
+            case 1 -> UNCOMMON;
+            case 2 -> RARE;
+            case 3 -> EPIC;
+            case 4 -> LEGENDARY;
+            default -> COMMON;
+        };
+    }
+
+    /**
+     * Gets a TextColor by name from ColorUtil or NamedTextColor
+     * Used for color placeholder parsing (%COLOR_NAME%)
+     *
+     * @param colorName The color name (case-insensitive)
+     * @return TextColor if found, null otherwise
+     */
+    @org.jetbrains.annotations.Nullable
+    public static TextColor getColorByName(@NotNull String colorName) {
+        String upperName = colorName.toUpperCase().replace(" ", "_");
+
+        // Try ColorUtil colors first
+        try {
+            java.lang.reflect.Field field = ColorUtil.class.getDeclaredField(upperName);
+            if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) &&
+                    field.getType().equals(TextColor.class)) {
+                return (TextColor) field.get(null);
+            }
+        } catch (Exception ignored) {
+            // Field not found or not accessible, continue to NamedTextColor
+        }
+
+        // Try NamedTextColor
+        try {
+            return net.kyori.adventure.text.format.NamedTextColor.NAMES.value(upperName.toLowerCase());
+        } catch (Exception ignored) {
+            // Not found in NamedTextColor either
+        }
+
+        // Handle special cases and aliases
+        return switch (upperName) {
+            case "RESET", "WHITE", "DEFAULT" -> net.kyori.adventure.text.format.NamedTextColor.WHITE;
+            case "GREY" -> net.kyori.adventure.text.format.NamedTextColor.GRAY;
+            case "DARK_GREY" -> net.kyori.adventure.text.format.NamedTextColor.DARK_GRAY;
+            case "LIGHT_BLUE" -> net.kyori.adventure.text.format.NamedTextColor.BLUE;
+            case "LIGHT_GREEN" -> net.kyori.adventure.text.format.NamedTextColor.GREEN;
+            case "LIGHT_RED" -> net.kyori.adventure.text.format.NamedTextColor.RED;
+            default -> null;
+        };
+    }
+
+    /**
+     * Gets all available color names for debugging/help
+     *
+     * @return Set of available color names
+     */
+    @NotNull
+    public static java.util.Set<String> getAvailableColorNames() {
+        java.util.Set<String> colors = new java.util.HashSet<>();
+
+        // Add ColorUtil colors
+        java.lang.reflect.Field[] fields = ColorUtil.class.getDeclaredFields();
+        for (java.lang.reflect.Field field : fields) {
+            if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) &&
+                    field.getType().equals(TextColor.class)) {
+                colors.add(field.getName());
+            }
+        }
+
+        // Add NamedTextColor values
+        for (net.kyori.adventure.text.format.NamedTextColor namedColor : net.kyori.adventure.text.format.NamedTextColor.NAMES.values()) {
+            colors.add(namedColor.toString().toUpperCase());
+        }
+
+        return colors;
+    }
+
+    /**
      * Gets a health color based on health percentage
      *
      * @param healthPercent Health percentage (0.0 - 1.0)
@@ -228,21 +311,5 @@ public final class ColorUtil {
             // Red to orange transition
             return gradient(TextColor.color(255, 0, 0), TextColor.color(255, 165, 0), healthPercent / 0.3);
         }
-    }
-
-    /**
-     * Gets a rarity color based on rarity level
-     *
-     * @param rarity Rarity level (0 = common, 4 = legendary)
-     * @return Appropriate rarity color
-     */
-    public static @NotNull TextColor rarityColor(int rarity) {
-        return switch (rarity) {
-            case 1 -> UNCOMMON;
-            case 2 -> RARE;
-            case 3 -> EPIC;
-            case 4 -> LEGENDARY;
-            default -> COMMON;
-        };
     }
 }
