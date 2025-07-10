@@ -4,4 +4,4 @@ main: com.febrie.rpg.RPGMain
 api-version: '1.21'
 authors: [Febrie, CoffeeTory]
 description: Sypixel RPG 기능을 위한 통합 플러그인
-website: https://github.com/Febriez/MyPage
+website: https://github.com/Febriez/Sypixel_RPG
