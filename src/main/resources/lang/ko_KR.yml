@@ -1,0 +1,151 @@
+# Korean Language File for Sypixel RPG
+# 작성자: Febrie, CoffeeTory
+
+# === 일반 메시지 ===
+general:
+  prefix: "&d[SypixelRPG]&r "
+  player-only: "&c이 명령어는 플레이어만 사용할 수 있습니다!"
+  player-not-found: "&c플레이어를 찾을 수 없습니다: {player}"
+  no-permission: "&c이 명령어를 사용할 권한이 없습니다."
+  reload-success: "&a설정이 성공적으로 다시 로드되었습니다!"
+  coming-soon: "&e이 기능은 곧 추가됩니다!"
+
+# === 커맨드 사용법 ===
+commands:
+  profile:
+    usage: "&e사용법: /profile 또는 /프로필"
+    description: "자신의 프로필을 봅니다"
+    success: "&a프로필을 열었습니다!"
+
+  viewprofile:
+    usage: "&e사용법: /viewprofile <플레이어명> 또는 /프로필보기 <플레이어명>"
+    description: "다른 플레이어의 프로필을 봅니다"
+    success: "&a{player}의 프로필을 열었습니다!"
+
+  mainmenu:
+    usage: "&e사용법: /mainmenu 또는 /메인메뉴"
+    description: "메인 메뉴를 엽니다"
+    success: "&a메인 메뉴를 열었습니다!"
+
+# === GUI 타이틀 ===
+gui:
+  profile:
+    title: "플레이어 프로필"
+    player-title: "플레이어 프로필 - {player}"
+
+  mainmenu:
+    title: "메인 메뉴"
+    subtitle: "원하는 기능을 선택하세요"
+
+# === GUI 아이템들 ===
+items:
+  # 공통 버튼들
+  close:
+    name: "&c닫기"
+    lore: "&7클릭하여 GUI 닫기"
+
+  back:
+    name: "&e뒤로가기"
+    lore: "&7클릭하여 이전 메뉴로"
+
+  refresh:
+    name: "&a새로고침"
+    lore: "&7클릭하여 정보 갱신"
+
+  # 프로필 관련
+  profile:
+    player-head:
+      name: "&6{player}"
+      lore:
+        - ""
+        - "&f플레이어: {player}"
+        - "&7UUID: {uuid}"
+        - "&b온라인 시간: {playtime}"
+        - ""
+        - "&e클릭하여 상세 정보 보기"
+
+    level-info:
+      name: "&a레벨 정보"
+      lore:
+        - "&f현재 레벨: {level}"
+        - "&f경험치: {exp}%"
+        - "&f총 경험치: {total_exp}"
+
+    health-info:
+      name: "&c체력"
+      lore:
+        - "&f현재: {current} / {max}"
+        - "&f비율: {percentage}%"
+        - "&f{health_bar}"
+
+    food-info:
+      name: "&6배고픔"
+      lore:
+        - "&f배고픔: {food} / 20"
+        - "&f포화도: {saturation}"
+        - "&f{hunger_bar}"
+
+    game-info:
+      name: "&9게임 정보"
+      lore:
+        - "&f게임 모드: {gamemode}"
+        - "&f비행 가능: {can_fly}"
+        - "&f월드: {world}"
+
+    settings-button:
+      name: "&7설정"
+      lore: "&e클릭하여 설정 메뉴 열기"
+
+    stats-button:
+      name: "&b상세 스탯"
+      lore: "&e클릭하여 상세 스탯 보기"
+
+  # 메인메뉴 관련
+  mainmenu:
+    profile-button:
+      name: "&6내 프로필"
+      lore:
+        - "&7자신의 프로필을 확인합니다"
+        - ""
+        - "&e클릭하여 열기"
+
+    shop-button:
+      name: "&a상점"
+      lore:
+        - "&7아이템을 구매하고 판매합니다"
+        - ""
+        - "&e클릭하여 열기"
+
+    dungeon-button:
+      name: "&c던전"
+      lore:
+        - "&7던전에 입장하여 모험을 떠납니다"
+        - ""
+        - "&e클릭하여 열기"
+
+    settings-button:
+      name: "&7설정"
+      lore:
+        - "&7게임 설정을 변경합니다"
+        - ""
+        - "&e클릭하여 열기"
+
+# === 상태 메시지 ===
+status:
+  online: "온라인"
+  offline: "오프라인"
+  yes: "예"
+  no: "아니오"
+  unknown: "정보 없음"
+
+# === 게임 모드 ===
+gamemode:
+  SURVIVAL: "생존"
+  CREATIVE: "크리에이티브"
+  ADVENTURE: "모험"
+  SPECTATOR: "관전자"
+
+# === 성공/에러 메시지 ===
+messages:
+  profile-opened: "&a프로필 정보가 갱신되었습니다!"
+  gui-refreshed: "&a정보가 성공적으로 갱신되었습니다!"
