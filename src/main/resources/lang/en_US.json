@@ -45,46 +45,64 @@
     },
     "job-selection": {
       "title": "%COLOR_LEGENDARY%Job Selection",
-      "category-suffix": " Class"
+      "category-suffix": " Class",
+      "selected": "%COLOR_SUCCESS%▶ Selected",
+      "click-to-select": "%COLOR_GRAY%Click to select",
+      "warning": "%COLOR_ERROR%⚠ Warning: Jobs cannot be changed once selected!",
+      "max-level": "%COLOR_INFO%Max Level: {level}",
+      "click-to-choose": "%COLOR_SUCCESS%▶ Click to choose this job",
+      "job-selected": "%COLOR_SUCCESS%Congratulations! You have chosen the {job} job!",
+      "already-has-job": "%COLOR_ERROR%You already have a job!"
     },
-    "buttons": {
-      "close": {
-        "name": "%COLOR_RED%Close",
-        "lore": "%COLOR_GRAY%Click to close GUI"
-      },
-      "back": {
-        "name": "%COLOR_YELLOW%Back",
-        "lore": "%COLOR_GRAY%Click to go back"
-      },
-      "refresh": {
-        "name": "%COLOR_GREEN%Refresh",
-        "lore": "%COLOR_GRAY%Click to refresh information"
-      },
-      "confirm": {
-        "name": "%COLOR_SUCCESS%Confirm",
-        "lore": "%COLOR_GRAY%Click to confirm"
-      },
-      "cancel": {
-        "name": "%COLOR_ERROR%Cancel",
-        "lore": "%COLOR_GRAY%Click to cancel"
-      },
-      "previous-page": {
-        "name": "%COLOR_YELLOW%Previous Page",
-        "lore": "%COLOR_GRAY%Click to go to previous page"
-      },
-      "next-page": {
-        "name": "%COLOR_YELLOW%Next Page",
-        "lore": "%COLOR_GRAY%Click to go to next page"
-      },
-      "page-info": {
-        "name": "%COLOR_ORANGE%Page Information",
-        "lore": "%COLOR_WHITE%Current: {current} / {total}"
-      },
-      "status": {
-        "online": "%COLOR_SUCCESS%Online",
-        "offline": "%COLOR_ERROR%Offline",
-        "status-text": "%COLOR_GRAY%Status: {status}"
+    "talent": {
+      "title": "%COLOR_EPIC%Talent Management",
+      "title-with-page": "%COLOR_EPIC%Talents - {page}",
+      "level": "%COLOR_SUCCESS%Level {level}",
+      "job": "%COLOR_INFO%Job: {job}",
+      "no-job": "%COLOR_GRAY%Job: None",
+      "talent-level": "%COLOR_INFO%Level: {current} / {max}",
+      "talent-level-max": "%COLOR_LEGENDARY%Level: {current} / {max}",
+      "required-points": "%COLOR_EXPERIENCE%Required Points: {points}",
+      "max-level-reached": "%COLOR_LEGENDARY%✦ Max level reached!",
+      "click-learn": "%COLOR_SUCCESS%▶ Left Click: Learn talent",
+      "insufficient-points": "%COLOR_ERROR%✖ Insufficient talent points",
+      "prerequisite-not-met": "%COLOR_ERROR%✖ Prerequisites not met",
+      "click-subpage": "%COLOR_INFO%▶ Right Click: Open sub-talent page",
+      "points-info": "%COLOR_LEGENDARY%Talent Points",
+      "available-points": "%COLOR_WHITE%Available Points: {points}",
+      "spent-points": "%COLOR_GRAY%Spent Points: {points}",
+      "points-per-level": "%COLOR_GRAY%Gain 1 point every 10 levels",
+      "talent-learned": "%COLOR_SUCCESS%Talent learned: {talent}",
+      "click-stats": "%COLOR_GRAY%Click to go to stats page",
+      "pages": {
+        "main": "Main Talents",
+        "strength_tree": "Strength Tree",
+        "berserker_offense": "Berserker Offense Talents",
+        "tank_defense": "Tank Defense Talents",
+        "priest_healing": "Priest Healing Talents",
+        "dark_curses": "Dark Mage Curse Talents",
+        "archer_offense": "Archer Offense Talents",
+        "sniper_special": "Sniper Special Talents",
+        "default": "Talent Tree"
       }
+    },
+    "stats": {
+      "title": "%COLOR_LEGENDARY%Stats Management",
+      "combat-power": "%COLOR_ORANGE%Combat Power: {power}",
+      "stat-points": "%COLOR_EXPERIENCE%Stat Points",
+      "available-points": "%COLOR_WHITE%Available Points: {points}",
+      "points-per-level": "%COLOR_GRAY%Gain 5 points per level up",
+      "click-to-use": "%COLOR_GRAY%Click stats to use points",
+      "current-stats": "%COLOR_YELLOW%Current Stats",
+      "base-stat": "%COLOR_WHITE%  Base: {value}",
+      "bonus-stat": "%COLOR_SUCCESS%  Bonus: +{value}",
+      "total-stat": "%COLOR_LEGENDARY%  Total: {value}",
+      "click-add-1": "%COLOR_SUCCESS%▶ Left Click: +1 point",
+      "click-add-5": "%COLOR_SUCCESS%▶ Shift+Left Click: +5 points",
+      "click-add-10": "%COLOR_SUCCESS%▶ Right Click: +10 points",
+      "stat-maxed": "%COLOR_ERROR%Maximum reached",
+      "insufficient-points": "%COLOR_ERROR%Insufficient stat points",
+      "click-talents": "%COLOR_GRAY%Click to go to talents page"
     }
   },
   "items": {

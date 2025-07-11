@@ -46,6 +46,7 @@ public abstract class ScrollableGui implements InteractiveGui {
     protected final Player viewer;
     protected int currentScroll = 0;
     protected List<GuiItem> scrollableItems = new ArrayList<>();
+    protected Inventory inventory; // Added for access in subclasses
 
     public ScrollableGui(@NotNull Player viewer) {
         this.viewer = viewer;

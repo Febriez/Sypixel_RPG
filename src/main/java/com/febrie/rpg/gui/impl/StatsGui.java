@@ -11,14 +11,12 @@ import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,7 +36,6 @@ public class StatsGui extends ScrollableGui {
     private final GuiManager guiManager;
     private final LangManager langManager;
     private final RPGPlayer rpgPlayer;
-    private final Inventory inventory;
     private final Map<Integer, GuiItem> items = new HashMap<>();
 
     public StatsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
@@ -48,14 +45,14 @@ public class StatsGui extends ScrollableGui {
         this.langManager = langManager;
         this.rpgPlayer = rpgPlayer;
         this.inventory = Bukkit.createInventory(this, GUI_SIZE,
-                Component.text("스탯 관리", ColorUtil.LEGENDARY));
+                langManager.getComponent(viewer, "gui.stats.title"));
 
         setupLayout();
     }
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("스탯 관리", ColorUtil.LEGENDARY);
+        return langManager.getComponent(viewer, "gui.stats.title");
     }
 
     @Override
@@ -76,18 +73,17 @@ public class StatsGui extends ScrollableGui {
     }
 
     @Override
-    public @NotNull Inventory getInventory() {
+    public @NotNull org.bukkit.inventory.Inventory getInventory() {
         return inventory;
     }
 
     @Override
     protected List<GuiItem> getScrollableItems() {
         List<GuiItem> statItems = new ArrayList<>();
-        boolean isKorean = langManager.getPlayerLanguage(viewer).equals("ko_KR");
 
         // 모든 스탯을 GuiItem으로 변환
         for (Stat stat : Stat.getAllStats().values()) {
-            statItems.add(createStatItem(stat, isKorean));
+            statItems.add(createStatItem(stat));
         }
 
         return statItems;
@@ -158,16 +154,17 @@ public class StatsGui extends ScrollableGui {
             new JobSelectionGui(guiManager, langManager, viewer, rpgPlayer).open(viewer);
             return;
         }
+
         // 플레이어 머리
         GuiItem playerHead = GuiItem.display(
                 ItemBuilder.of(Material.PLAYER_HEAD)
                         .displayName(Component.text(viewer.getName(), ColorUtil.LEGENDARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("레벨 " + rpgPlayer.getLevel(), ColorUtil.SUCCESS))
-                        .addLore(Component.text("직업: " + (rpgPlayer.hasJob() ?
-                                rpgPlayer.getJob().getKoreanName() : "없음"), ColorUtil.INFO))
-                        .addLore(Component.text("전투력: " + rpgPlayer.getCombatPower(), ColorUtil.ORANGE))
+                        .addLore(trans("gui.talent.level", "level", String.valueOf(rpgPlayer.getLevel())))
+                        .addLore(trans("gui.talent.job", "job",
+                                trans("job." + rpgPlayer.getJob().name().toLowerCase() + ".name").toString()))
+                        .addLore(trans("gui.stats.combat-power", "power", String.valueOf(rpgPlayer.getCombatPower())))
                         .build()
         );
         setItem(4, playerHead);
@@ -175,11 +172,12 @@ public class StatsGui extends ScrollableGui {
         // 스탯 포인트 정보
         GuiItem statPointInfo = GuiItem.display(
                 ItemBuilder.of(Material.EXPERIENCE_BOTTLE)
-                        .displayName(Component.text("스탯 포인트", ColorUtil.EXPERIENCE))
-                        .addLore(Component.text("보유 포인트: " + rpgPlayer.getStatPoints(), NamedTextColor.WHITE))
+                        .displayName(trans("gui.stats.stat-points"))
+                        .addLore(trans("gui.stats.available-points",
+                                "points", String.valueOf(rpgPlayer.getStatPoints())))
                         .addLore(Component.empty())
-                        .addLore(Component.text("레벨업 시 5포인트를 획득합니다", NamedTextColor.GRAY))
-                        .addLore(Component.text("스탯을 클릭하여 포인트를 사용하세요", NamedTextColor.GRAY))
+                        .addLore(trans("gui.stats.points-per-level"))
+                        .addLore(trans("gui.stats.click-to-use"))
                         .build()
         );
         setItem(49, statPointInfo);
@@ -188,20 +186,23 @@ public class StatsGui extends ScrollableGui {
     /**
      * 스탯 아이템 생성
      */
-    private GuiItem createStatItem(@NotNull Stat stat, boolean isKorean) {
+    private GuiItem createStatItem(@NotNull Stat stat) {
         Stat.StatHolder stats = rpgPlayer.getStats();
         int baseStat = stats.getBaseStat(stat);
         int bonusStat = stats.getBonusStat(stat);
         int totalStat = stats.getTotalStat(stat);
 
+        // 스탯 이름 - Stat에 언어별 이름이 하드코딩되어 있으므로 그대로 사용
+        boolean isKorean = langManager.getMessage(viewer, "general.language-code").equals("ko_KR");
+
         List<Component> lore = new ArrayList<>();
         lore.add(Component.empty());
-        lore.add(Component.text("현재 능력치", NamedTextColor.YELLOW));
-        lore.add(Component.text("  기본: " + baseStat, NamedTextColor.WHITE));
+        lore.add(trans("gui.stats.current-stats"));
+        lore.add(trans("gui.stats.base-stat", "value", String.valueOf(baseStat)));
 
         if (bonusStat > 0) {
-            lore.add(Component.text("  보너스: +" + bonusStat, ColorUtil.SUCCESS));
-            lore.add(Component.text("  총합: " + totalStat, ColorUtil.LEGENDARY));
+            lore.add(trans("gui.stats.bonus-stat", "value", String.valueOf(bonusStat)));
+            lore.add(trans("gui.stats.total-stat", "value", String.valueOf(totalStat)));
         }
 
         lore.add(Component.empty());
@@ -209,13 +210,13 @@ public class StatsGui extends ScrollableGui {
         lore.add(Component.empty());
 
         if (rpgPlayer.getStatPoints() > 0 && baseStat < stat.getMaxValue()) {
-            lore.add(Component.text("▶ 좌클릭: +1 포인트", ColorUtil.SUCCESS));
-            lore.add(Component.text("▶ Shift+좌클릭: +5 포인트", ColorUtil.SUCCESS));
-            lore.add(Component.text("▶ 우클릭: +10 포인트", ColorUtil.SUCCESS));
+            lore.add(trans("gui.stats.click-add-1"));
+            lore.add(trans("gui.stats.click-add-5"));
+            lore.add(trans("gui.stats.click-add-10"));
         } else if (baseStat >= stat.getMaxValue()) {
-            lore.add(Component.text("최대치에 도달했습니다", ColorUtil.ERROR));
+            lore.add(trans("gui.stats.stat-maxed"));
         } else {
-            lore.add(Component.text("스탯 포인트가 부족합니다", ColorUtil.ERROR));
+            lore.add(trans("gui.stats.insufficient-points"));
         }
 
         return GuiItem.of(
@@ -228,31 +229,25 @@ public class StatsGui extends ScrollableGui {
         ).onClick(ClickType.LEFT, (player, click) -> {
             if (rpgPlayer.useStatPoint(stat, 1)) {
                 refresh();
-                player.playSound(player.getLocation(),
-                        org.bukkit.Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+                playSuccessSound(player);
             } else {
-                player.playSound(player.getLocation(),
-                        org.bukkit.Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+                playErrorSound(player);
             }
         }).onClick(ClickType.SHIFT_LEFT, (player, click) -> {
             int amount = Math.min(5, rpgPlayer.getStatPoints());
             if (amount > 0 && rpgPlayer.useStatPoint(stat, amount)) {
                 refresh();
-                player.playSound(player.getLocation(),
-                        org.bukkit.Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+                playSuccessSound(player);
             } else {
-                player.playSound(player.getLocation(),
-                        org.bukkit.Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+                playErrorSound(player);
             }
         }).onClick(ClickType.RIGHT, (player, click) -> {
             int amount = Math.min(10, rpgPlayer.getStatPoints());
             if (amount > 0 && rpgPlayer.useStatPoint(stat, amount)) {
                 refresh();
-                player.playSound(player.getLocation(),
-                        org.bukkit.Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+                playSuccessSound(player);
             } else {
-                player.playSound(player.getLocation(),
-                        org.bukkit.Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+                playErrorSound(player);
             }
         });
     }
@@ -289,6 +284,7 @@ public class StatsGui extends ScrollableGui {
         if (rpgPlayer == null) {
             throw new IllegalArgumentException("rpgPlayer cannot be null");
         }
+
         // 뒤로가기 버튼
         setItem(45, GuiFactory.createBackButton(guiManager, langManager, viewer));
 
@@ -298,8 +294,8 @@ public class StatsGui extends ScrollableGui {
         // 특성 페이지로 가기 버튼
         GuiItem talentButton = GuiItem.clickable(
                 ItemBuilder.of(Material.ENCHANTED_BOOK)
-                        .displayName(Component.text("특성 관리", ColorUtil.EPIC))
-                        .addLore(Component.text("클릭하여 특성 페이지로 이동", NamedTextColor.GRAY))
+                        .displayName(trans("gui.talent.title"))
+                        .addLore(trans("gui.stats.click-talents"))
                         .build(),
                 player -> new TalentGui(guiManager, langManager, player, rpgPlayer, null, RPGMain.getPlugin()
                         .getTalentManager().getJobMainTalents(rpgPlayer.getJob())).open(player)
@@ -316,5 +312,20 @@ public class StatsGui extends ScrollableGui {
     private void setItem(int slot, @NotNull GuiItem item) {
         items.put(slot, item);
         inventory.setItem(slot, item.getItemStack());
+    }
+
+    /**
+     * Helper methods from ScrollableGui for translations
+     */
+    private Component trans(@NotNull String key, @NotNull String... args) {
+        return langManager.getComponent(viewer, key, args);
+    }
+
+    private void playSuccessSound(@NotNull Player player) {
+        player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+    }
+
+    private void playErrorSound(@NotNull Player player) {
+        player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
     }
 }

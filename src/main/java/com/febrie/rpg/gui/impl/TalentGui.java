@@ -2,7 +2,7 @@ package com.febrie.rpg.gui.impl;
 
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
-import com.febrie.rpg.gui.framework.InteractiveGui;
+import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.talent.Talent;
@@ -11,18 +11,18 @@ import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
 /**
  * 특성 관리 GUI - 세로 중앙 정렬 레이아웃
@@ -30,7 +30,7 @@ import java.util.*;
  *
  * @author Febrie, CoffeeTory
  */
-public class TalentGui implements InteractiveGui {
+public class TalentGui extends BaseGui {
 
     private static final int GUI_SIZE = 54; // 6행
 
@@ -43,11 +43,7 @@ public class TalentGui implements InteractiveGui {
     private static final int SCROLL_UP_SLOT = 17; // 상단 오른쪽 한칸 아래
     private static final int SCROLL_DOWN_SLOT = 44; // 하단 오른쪽 한칸 위
 
-    private final GuiManager guiManager;
-    private final LangManager langManager;
     private final RPGPlayer rpgPlayer;
-    private final Inventory inventory;
-    private final Map<Integer, GuiItem> items = new HashMap<>();
 
     // 현재 페이지 정보
     private final String pageId;
@@ -65,23 +61,22 @@ public class TalentGui implements InteractiveGui {
     public TalentGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                      @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
                      @Nullable String pageId, @NotNull List<Talent> talents) {
-        this.guiManager = guiManager;
-        this.langManager = langManager;
+        super(viewer, guiManager, langManager, GUI_SIZE,
+                pageId != null && !pageId.equals("main") ? "gui.talent.title-with-page" : "gui.talent.title",
+                "page", pageId != null ? langManager.getMessage(viewer, "gui.talent.pages." + pageId,
+                        "gui.talent.pages.default") : "");
         this.rpgPlayer = rpgPlayer;
         this.pageId = pageId != null ? pageId : "main";
         this.pageTalents = talents;
-
-        String title = pageId != null && !pageId.equals("main") ?
-                "특성 - " + getPageTitle() : "특성 관리";
-        this.inventory = Bukkit.createInventory(this, GUI_SIZE,
-                Component.text(title, ColorUtil.EPIC));
-
         setupLayout();
     }
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("특성 관리", ColorUtil.EPIC);
+        if (pageId != null && !pageId.equals("main")) {
+            return trans("gui.talent.title-with-page", "page", getPageTitle());
+        }
+        return trans("gui.talent.title");
     }
 
     @Override
@@ -90,34 +85,7 @@ public class TalentGui implements InteractiveGui {
     }
 
     @Override
-    public void open(@NotNull Player player) {
-        player.openInventory(inventory);
-    }
-
-    @Override
-    public void refresh() {
-        inventory.clear();
-        items.clear();
-        setupLayout();
-    }
-
-    @Override
-    public @NotNull Inventory getInventory() {
-        return inventory;
-    }
-
-    @Override
-    public void onSlotClick(@NotNull InventoryClickEvent event, @NotNull Player player, int slot, @NotNull ClickType click) {
-        GuiItem item = items.get(slot);
-        if (item != null && item.hasActions()) {
-            item.executeAction(player, click);
-        }
-    }
-
-    /**
-     * GUI 레이아웃 설정
-     */
-    private void setupLayout() {
+    protected void setupLayout() {
         setupBackground();
         setupTalentDisplay();
         setupScrollButtons();
@@ -180,10 +148,9 @@ public class TalentGui implements InteractiveGui {
      */
     private List<GuiItem> createTalentItems() {
         List<GuiItem> talentItems = new ArrayList<>();
-        boolean isKorean = langManager.getPlayerLanguage(rpgPlayer.getBukkitPlayer()).equals("ko_KR");
 
         for (Talent talent : pageTalents) {
-            talentItems.add(createTalentItem(talent, isKorean));
+            talentItems.add(createTalentItem(talent));
         }
 
         return talentItems;
@@ -192,32 +159,38 @@ public class TalentGui implements InteractiveGui {
     /**
      * 특성 아이템 생성
      */
-    private GuiItem createTalentItem(@NotNull Talent talent, boolean isKorean) {
+    private GuiItem createTalentItem(@NotNull Talent talent) {
         Talent.TalentHolder talentHolder = rpgPlayer.getTalents();
         int currentLevel = talentHolder.getTalentLevel(talent);
         boolean canActivate = talent.canActivate(talentHolder);
         boolean isMaxLevel = currentLevel >= talent.getMaxLevel();
 
+        // 이름 가져오기 - Talent에 언어별 이름이 하드코딩되어 있으므로 그대로 사용
+        String talentName = talent.getName(transString("general.language-code").equals("ko_KR"));
+
         ItemBuilder builder = ItemBuilder.of(talent.getIcon())
-                .displayName(Component.text(talent.getName(isKorean), talent.getColor())
+                .displayName(Component.text(talentName, talent.getColor())
                         .decoration(TextDecoration.BOLD, true))
                 .addLore(Component.empty());
 
         // 레벨 정보
         if (talent.getMaxLevel() > 1) {
-            builder.addLore(Component.text("레벨: " + currentLevel + " / " + talent.getMaxLevel(),
-                    isMaxLevel ? ColorUtil.LEGENDARY : ColorUtil.INFO));
+            String levelKey = isMaxLevel ? "gui.talent.talent-level-max" : "gui.talent.talent-level";
+            builder.addLore(trans(levelKey,
+                    "current", String.valueOf(currentLevel),
+                    "max", String.valueOf(talent.getMaxLevel())));
         }
 
         // 필요 포인트
         if (!isMaxLevel) {
-            builder.addLore(Component.text("필요 포인트: " + talent.getRequiredPoints(),
-                    ColorUtil.EXPERIENCE));
+            builder.addLore(trans("gui.talent.required-points",
+                    "points", String.valueOf(talent.getRequiredPoints())));
         }
 
         builder.addLore(Component.empty());
 
-        // 설명
+        // 설명 - Talent의 getDescription이 언어 지원하므로 그대로 사용
+        boolean isKorean = transString("general.language-code").equals("ko_KR");
         List<Component> description = talent.getDescription(isKorean, currentLevel);
         for (Component line : description) {
             builder.addLore(line);
@@ -227,19 +200,19 @@ public class TalentGui implements InteractiveGui {
 
         // 상호작용 안내
         if (isMaxLevel) {
-            builder.addLore(Component.text("✦ 최대 레벨 달성!", ColorUtil.LEGENDARY));
+            builder.addLore(trans("gui.talent.max-level-reached"));
         } else if (canActivate) {
-            builder.addLore(Component.text("▶ 좌클릭: 특성 배우기", ColorUtil.SUCCESS));
+            builder.addLore(trans("gui.talent.click-learn"));
         } else {
             if (talentHolder.getAvailablePoints() < talent.getRequiredPoints()) {
-                builder.addLore(Component.text("✖ 특성 포인트가 부족합니다", ColorUtil.ERROR));
+                builder.addLore(trans("gui.talent.insufficient-points"));
             } else {
-                builder.addLore(Component.text("✖ 선행 조건을 만족하지 않습니다", ColorUtil.ERROR));
+                builder.addLore(trans("gui.talent.prerequisite-not-met"));
             }
         }
 
         if (talent.hasSubPage()) {
-            builder.addLore(Component.text("▶ 우클릭: 하위 특성 페이지 열기", ColorUtil.INFO));
+            builder.addLore(trans("gui.talent.click-subpage"));
         }
 
         // 이미 배운 특성은 인챈트 효과
@@ -254,8 +227,7 @@ public class TalentGui implements InteractiveGui {
         // 좌클릭 - 특성 배우기
         item.onClick(ClickType.LEFT, (player, click) -> {
             if (isMaxLevel) {
-                player.playSound(player.getLocation(),
-                        org.bukkit.Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+                playErrorSound(player);
                 return;
             }
 
@@ -263,14 +235,12 @@ public class TalentGui implements InteractiveGui {
                 refresh();
                 player.playSound(player.getLocation(),
                         org.bukkit.Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
-                player.sendMessage(Component.text("특성을 배웠습니다: " + talent.getName(isKorean),
-                        ColorUtil.SUCCESS));
+                sendMessage(player, "gui.talent.talent-learned", "talent", talentName);
 
                 // 스탯 보너스 업데이트
                 updateStatBonuses();
             } else {
-                player.playSound(player.getLocation(),
-                        org.bukkit.Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+                playErrorSound(player);
             }
         });
 
@@ -294,14 +264,13 @@ public class TalentGui implements InteractiveGui {
         if (currentScroll > 0) {
             setItem(SCROLL_UP_SLOT, GuiItem.clickable(
                     ItemBuilder.of(Material.LIME_DYE)
-                            .displayName(Component.text("▲ 위로", ColorUtil.SUCCESS))
-                            .addLore(Component.text("클릭하여 위로 스크롤", ColorUtil.GRAY))
+                            .displayName(trans("gui.buttons.previous-page.name"))
+                            .addLore(trans("gui.buttons.previous-page.lore"))
                             .build(),
                     player -> {
                         currentScroll--;
                         refresh();
-                        player.playSound(player.getLocation(),
-                                org.bukkit.Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
+                        playClickSound(player);
                     }
             ));
         }
@@ -310,14 +279,13 @@ public class TalentGui implements InteractiveGui {
         if (currentScroll < maxScroll) {
             setItem(SCROLL_DOWN_SLOT, GuiItem.clickable(
                     ItemBuilder.of(Material.LIME_DYE)
-                            .displayName(Component.text("▼ 아래로", ColorUtil.SUCCESS))
-                            .addLore(Component.text("클릭하여 아래로 스크롤", ColorUtil.GRAY))
+                            .displayName(trans("gui.buttons.next-page.name"))
+                            .addLore(trans("gui.buttons.next-page.lore"))
                             .build(),
                     player -> {
                         currentScroll++;
                         refresh();
-                        player.playSound(player.getLocation(),
-                                org.bukkit.Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
+                        playClickSound(player);
                     }
             ));
         }
@@ -330,20 +298,20 @@ public class TalentGui implements InteractiveGui {
         // 뒤로가기 버튼 (좌측 하단)
         setItem(45, GuiItem.clickable(
                 ItemBuilder.of(Material.ARROW)
-                        .displayName(Component.text("뒤로가기", ColorUtil.YELLOW))
-                        .addLore(Component.text("이전 페이지로", ColorUtil.GRAY))
+                        .displayName(trans("gui.buttons.back.name"))
+                        .addLore(trans("gui.buttons.back.lore"))
                         .build(),
                 player -> goToPreviousPage()
         ));
 
         // 새로고침 버튼
-        setItem(46, GuiFactory.createRefreshButton(player -> refresh(), langManager, rpgPlayer.getBukkitPlayer()));
+        setItem(46, GuiFactory.createRefreshButton(player -> refresh(), langManager, viewer));
 
         // 스탯 페이지로 가기 버튼
         setItem(52, GuiItem.clickable(
                 ItemBuilder.of(Material.IRON_SWORD)
-                        .displayName(Component.text("스탯 관리", ColorUtil.COPPER))
-                        .addLore(Component.text("클릭하여 스탯 페이지로 이동", ColorUtil.GRAY))
+                        .displayName(trans("gui.stats.title"))
+                        .addLore(trans("gui.talent.click-stats"))
                         .build(),
                 player -> {
                     if (guiManager != null) {
@@ -355,7 +323,7 @@ public class TalentGui implements InteractiveGui {
         ));
 
         // 닫기 버튼 (우측 하단)
-        setItem(53, GuiFactory.createCloseButton(langManager, rpgPlayer.getBukkitPlayer()));
+        setItem(53, GuiFactory.createCloseButton(langManager, viewer));
     }
 
     /**
@@ -368,9 +336,10 @@ public class TalentGui implements InteractiveGui {
                         .displayName(Component.text(getPageTitle(), ColorUtil.EPIC)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("레벨 " + rpgPlayer.getLevel(), ColorUtil.SUCCESS))
-                        .addLore(Component.text("직업: " + (rpgPlayer.hasJob() ?
-                                rpgPlayer.getJob().getKoreanName() : "없음"), ColorUtil.INFO))
+                        .addLore(trans("gui.talent.level", "level", String.valueOf(rpgPlayer.getLevel())))
+                        .addLore(trans(rpgPlayer.hasJob() ? "gui.talent.job" : "gui.talent.no-job",
+                                "job", rpgPlayer.hasJob() ?
+                                        trans("job." + rpgPlayer.getJob().name().toLowerCase() + ".name").toString() : ""))
                         .build()
         );
         setItem(0, pageInfo);
@@ -379,11 +348,13 @@ public class TalentGui implements InteractiveGui {
         Talent.TalentHolder talents = rpgPlayer.getTalents();
         GuiItem talentPointInfo = GuiItem.display(
                 ItemBuilder.of(Material.EXPERIENCE_BOTTLE)
-                        .displayName(Component.text("특성 포인트", ColorUtil.LEGENDARY))
-                        .addLore(Component.text("보유 포인트: " + talents.getAvailablePoints(), ColorUtil.WHITE))
-                        .addLore(Component.text("사용한 포인트: " + talents.getSpentPoints(), ColorUtil.GRAY))
+                        .displayName(trans("gui.talent.points-info"))
+                        .addLore(trans("gui.talent.available-points",
+                                "points", String.valueOf(talents.getAvailablePoints())))
+                        .addLore(trans("gui.talent.spent-points",
+                                "points", String.valueOf(talents.getSpentPoints())))
                         .addLore(Component.empty())
-                        .addLore(Component.text("10레벨마다 1포인트를 획득합니다", ColorUtil.GRAY))
+                        .addLore(trans("gui.talent.points-per-level"))
                         .build()
         );
         setItem(8, talentPointInfo);
@@ -453,25 +424,6 @@ public class TalentGui implements InteractiveGui {
      * 페이지 제목 가져오기
      */
     private String getPageTitle() {
-        // 페이지 ID에 따른 제목
-        return switch (pageId) {
-            case "main" -> "메인 특성";
-            case "strength_tree" -> "근력 트리";
-            case "berserker_offense" -> "버서커 공격 특성";
-            case "tank_defense" -> "탱커 방어 특성";
-            case "priest_healing" -> "사제 치유 특성";
-            case "dark_curses" -> "흑마법사 저주 특성";
-            case "archer_offense" -> "궁수 공격 특성";
-            case "sniper_special" -> "스나이퍼 특수 특성";
-            default -> "특성 트리";
-        };
-    }
-
-    /**
-     * 아이템 설정
-     */
-    private void setItem(int slot, @NotNull GuiItem item) {
-        items.put(slot, item);
-        inventory.setItem(slot, item.getItemStack());
+        return transString("gui.talent.pages." + pageId, transString("gui.talent.pages.default"));
     }
 }
