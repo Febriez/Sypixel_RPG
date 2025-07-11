@@ -142,7 +142,9 @@ public class MainMenuGui implements InteractiveGui {
                         .displayName(langManager.getComponent(player, "items.mainmenu.profile-button.name"))
                         .lore(langManager.getComponentList(player, "items.mainmenu.profile-button.lore"))
                         .build(),
-                guiManager::openProfileGui
+                clickedPlayer -> {
+                    guiManager.openProfileGui(clickedPlayer);
+                }
         );
         setItem(20, profileButton);
 

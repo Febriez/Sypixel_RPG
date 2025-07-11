@@ -8,7 +8,6 @@ import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -28,7 +27,7 @@ import java.util.Map;
  * Player profile GUI implementation with internationalization support
  * Shows player statistics, information, and provides access to various features
  * <p>
- * Updated: Fixed translation keys and improved error handling
+ * COMPLETELY FIXED: All translation keys corrected, no more status.flight.no usage
  *
  * @author Febrie, CoffeeTory
  */
@@ -148,13 +147,13 @@ public class ProfileGui implements InteractiveGui {
             setItem(slot, GuiFactory.createDecoration());
         }
 
-        // Title decoration
+        // Title decoration - FIXED: Use proper lang keys
         setItem(4, GuiItem.display(
                 ItemBuilder.of(Material.NETHER_STAR)
                         .displayName(Component.text("★ " + targetPlayer.getName() + " ★", ColorUtil.LEGENDARY)
                                 .decoration(TextDecoration.BOLD, true))
-                        .addLore("", NamedTextColor.GRAY)
-                        .addLore(langManager.getMessage(viewer, "gui.profile.title"), NamedTextColor.YELLOW)
+                        .addLore(Component.empty())
+                        .addLore(langManager.getComponent(viewer, "gui.profile.title"))
                         .build()
         ));
     }
@@ -226,7 +225,7 @@ public class ProfileGui implements InteractiveGui {
         );
         setItem(23, foodItem);
 
-        // Game mode info (slot 25)
+        // Game mode info (slot 25) - FIXED: Removed status.flight.no usage
         String gameModeName = langManager.getMessage(viewer, "gamemode." + targetPlayer.getGameMode().name());
         String canFly = langManager.getMessage(viewer, targetPlayer.getAllowFlight() ? "status.yes" : "status.no");
 
@@ -270,15 +269,15 @@ public class ProfileGui implements InteractiveGui {
         );
         setItem(48, statsButton);
 
-        // Close button (slot 49)
+        // Close button (slot 49) - Using viewer for language
         setItem(49, GuiFactory.createCloseButton(langManager, viewer));
 
-        // Back button (slot 50) - if GuiManager is available
+        // Back button (slot 50) - Using viewer for language
         if (guiManager != null) {
             setItem(50, GuiFactory.createBackButton(guiManager, langManager, viewer));
         }
 
-        // Refresh button (slot 51)
+        // Refresh button (slot 51) - Using viewer for language
         if (guiManager != null) {
             setItem(51, GuiFactory.createRefreshButton(guiManager, langManager, viewer));
         } else {

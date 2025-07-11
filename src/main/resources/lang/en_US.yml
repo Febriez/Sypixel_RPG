@@ -28,7 +28,7 @@ commands:
     description: "Open the main menu"
     success: "%COLOR_GREEN%Main menu opened!"
 
-# === GUI Titles ===
+# === GUI System ===
 gui:
   profile:
     title: "%COLOR_ORANGE%Player Profile"
@@ -38,7 +38,6 @@ gui:
     title: "%COLOR_LEGENDARY%Main Menu"
     subtitle: "%COLOR_WHITE%Select the feature you want"
 
-  # === Common GUI Buttons ===
   buttons:
     close:
       name: "%COLOR_RED%Close"
@@ -79,7 +78,6 @@ gui:
 
 # === GUI Items ===
 items:
-  # Profile related
   profile:
     player-head:
       name: "%COLOR_LEGENDARY%{player}"
@@ -127,7 +125,6 @@ items:
       name: "%COLOR_INFO%Detailed Stats"
       lore: "%COLOR_YELLOW%Click to view detailed stats"
 
-  # Main menu related
   mainmenu:
     profile-button:
       name: "%COLOR_LEGENDARY%My Profile"

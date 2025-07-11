@@ -86,9 +86,28 @@ public final class RPGMain extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
-        // Detect and set player language
+        // Detect and set player language with debugging
         Player player = event.getPlayer();
-        langManager.getPlayerLanguage(player); // This will auto-detect and cache
+
+        getLogger().info("Player " + player.getName() + " joined with locale: " + player.locale());
+
+        String detectedLanguage = langManager.getPlayerLanguage(player); // This will auto-detect and cache
+        getLogger().info("Detected language for " + player.getName() + ": " + detectedLanguage);
+
+        // Test if GUI buttons can be retrieved for this player
+        String closeButtonName = langManager.getMessage(player, "gui.buttons.close.name");
+        getLogger().info("Close button test for " + player.getName() + ": " + closeButtonName);
+
+        // Test if the keys are available
+        if (langManager.hasKey(detectedLanguage, "gui.buttons.close.name")) {
+            getLogger().info("✓ gui.buttons.close.name exists for " + player.getName());
+        } else {
+            getLogger().warning("✗ gui.buttons.close.name does NOT exist for " + player.getName() + " (lang: " + detectedLanguage + ")");
+
+            // Show available gui.buttons keys
+            var availableKeys = langManager.getKeysStartingWith(detectedLanguage, "gui.buttons");
+            getLogger().warning("Available gui.buttons keys for " + detectedLanguage + ": " + availableKeys);
+        }
     }
 
     @EventHandler
@@ -137,10 +156,36 @@ public final class RPGMain extends JavaPlugin implements Listener {
                 return true;
             }
 
+            if (args.length > 0 && args[0].equalsIgnoreCase("testkeys")) {
+                String playerLang = langManager.getPlayerLanguage(player);
+                player.sendMessage(Component.text("=== Testing Keys for " + playerLang + " ===", NamedTextColor.GOLD));
+
+                // Test problematic keys
+                String[] testKeys = {
+                        "gui.buttons.close.name",
+                        "gui.buttons.close.lore",
+                        "gui.buttons.back.name",
+                        "gui.buttons.back.lore",
+                        "gui.buttons.refresh.name",
+                        "gui.buttons.refresh.lore"
+                };
+
+                for (String key : testKeys) {
+                    boolean exists = langManager.hasKey(playerLang, key);
+                    String value = langManager.getMessage(player, key);
+                    String status = exists ? "✓" : "✗";
+                    player.sendMessage(Component.text(status + " " + key + ": " + value,
+                            exists ? NamedTextColor.GREEN : NamedTextColor.RED));
+                }
+
+                return true;
+            }
+
             // Show usage
             player.sendMessage(Component.text("Usage:", NamedTextColor.YELLOW));
             player.sendMessage(Component.text("  /sypixelrpg stats - Show statistics", NamedTextColor.WHITE));
             player.sendMessage(Component.text("  /sypixelrpg reload - Reload language files", NamedTextColor.WHITE));
+            player.sendMessage(Component.text("  /sypixelrpg testkeys - Test GUI button keys", NamedTextColor.WHITE));
             return true;
         }
 

@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Language management utility for multi-language support
  * Handles loading and retrieving localized messages with color placeholder support
  * <p>
- * Updated for simplified language detection: Korean or English only
+ * Enhanced with detailed debugging and improved error handling
  *
  * @author Febrie, CoffeeTory
  */
@@ -64,12 +64,26 @@ public class LangManager {
                 String langCode = file.getName().replace(".yml", "");
                 YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
                 languageConfigs.put(langCode, config);
-                plugin.getLogger().info("Loaded language: " + langCode);
+                plugin.getLogger().info("Loaded language: " + langCode + " with " + getAllKeys(config).size() + " keys");
+
+                // Debug: Log some key GUI button keys
+                if (config.contains("gui.buttons.close.name")) {
+                    plugin.getLogger().info("  ✓ gui.buttons.close.name found: " + config.getString("gui.buttons.close.name"));
+                } else {
+                    plugin.getLogger().warning("  ✗ gui.buttons.close.name NOT found in " + langCode);
+                }
             }
         }
 
         plugin.getLogger().info("Language system initialized with " +
                 languageConfigs.size() + " languages");
+    }
+
+    /**
+     * Gets all keys from a configuration (for debugging)
+     */
+    private java.util.Set<String> getAllKeys(YamlConfiguration config) {
+        return config.getKeys(true);
     }
 
     /**
@@ -83,6 +97,8 @@ public class LangManager {
                 if (inputStream != null) {
                     Files.copy(inputStream, langFile.toPath());
                     plugin.getLogger().info("Created default language file: " + fileName);
+                } else {
+                    plugin.getLogger().warning("Resource not found: lang/" + fileName);
                 }
             } catch (IOException e) {
                 plugin.getLogger().warning("Failed to copy language file " + fileName + ": " + e.getMessage());
@@ -104,30 +120,49 @@ public class LangManager {
      */
     @NotNull
     public String getMessage(@NotNull String language, @NotNull String key, @NotNull String... placeholders) {
+        // Debug logging for problematic keys
+        if (key.contains("gui.buttons") || key.contains("status.flight")) {
+            plugin.getLogger().info("DEBUG: Requesting key '" + key + "' for language '" + language + "'");
+        }
+
         YamlConfiguration config = languageConfigs.get(language);
 
         // Fallback to default language if specified language not found
         if (config == null) {
+            plugin.getLogger().warning("Language config not found: " + language + ", falling back to " + defaultLanguage);
             config = languageConfigs.get(defaultLanguage);
         }
 
         // Fallback to English if default not found
         if (config == null) {
+            plugin.getLogger().warning("Default language config not found: " + defaultLanguage + ", falling back to en_US");
             config = languageConfigs.get("en_US");
         }
 
         // Last resort: return the key itself
         if (config == null) {
-            plugin.getLogger().warning("No language configuration found for key: " + key);
+            plugin.getLogger().severe("No language configuration found at all! Available languages: " + languageConfigs.keySet());
             return key;
         }
 
         String message = config.getString(key);
         if (message == null) {
+            // Debug: Show what keys are actually available
+            if (key.contains("gui.buttons") || key.contains("status.flight")) {
+                plugin.getLogger().warning("Key '" + key + "' not found in " + language + ". Available gui.buttons keys:");
+                config.getKeys(true).stream()
+                        .filter(k -> k.startsWith("gui.buttons"))
+                        .limit(5)
+                        .forEach(k -> plugin.getLogger().warning("  - " + k));
+            }
+
             // Try to get from default language
             YamlConfiguration defaultConfig = languageConfigs.get(defaultLanguage);
             if (defaultConfig != null && !language.equals(defaultLanguage)) {
                 message = defaultConfig.getString(key);
+                if (message != null) {
+                    plugin.getLogger().info("Found key '" + key + "' in default language " + defaultLanguage);
+                }
             }
 
             // Try English as final fallback
@@ -135,12 +170,15 @@ public class LangManager {
                 YamlConfiguration englishConfig = languageConfigs.get("en_US");
                 if (englishConfig != null) {
                     message = englishConfig.getString(key);
+                    if (message != null) {
+                        plugin.getLogger().info("Found key '" + key + "' in English fallback");
+                    }
                 }
             }
 
-            // Still null? Return key and log warning
+            // Still null? Return key and log detailed warning
             if (message == null) {
-                plugin.getLogger().warning("Missing translation key: " + key + " (language: " + language + ")");
+                plugin.getLogger().warning("Missing translation key: " + key + " (language: " + language + ", available languages: " + languageConfigs.keySet() + ")");
                 return key;
             }
         }
@@ -311,7 +349,11 @@ public class LangManager {
     @NotNull
     public String getPlayerLanguage(@NotNull Player player) {
         return playerLanguages.computeIfAbsent(player.getUniqueId(),
-                uuid -> detectPlayerLanguage(player));
+                uuid -> {
+                    String detected = detectPlayerLanguage(player);
+                    plugin.getLogger().info("Detected language for " + player.getName() + ": " + detected + " (client locale: " + player.locale() + ")");
+                    return detected;
+                });
     }
 
     /**
@@ -320,6 +362,9 @@ public class LangManager {
     public void setPlayerLanguage(@NotNull Player player, @NotNull String language) {
         if (languageConfigs.containsKey(language)) {
             playerLanguages.put(player.getUniqueId(), language);
+            plugin.getLogger().info("Set language for " + player.getName() + " to " + language);
+        } else {
+            plugin.getLogger().warning("Attempted to set unavailable language: " + language + " for " + player.getName());
         }
     }
 
@@ -344,7 +389,9 @@ public class LangManager {
      */
     public void reload() {
         languageConfigs.clear();
+        playerLanguages.clear(); // Clear cached player languages too
         loadLanguages();
+        plugin.getLogger().info("Language system reloaded");
     }
 
     /**
@@ -391,5 +438,29 @@ public class LangManager {
     public void broadcast(@NotNull String key, @NotNull String... placeholders) {
         plugin.getServer().getOnlinePlayers().forEach(player ->
                 sendMessage(player, key, placeholders));
+    }
+
+    /**
+     * Debug method to check if a key exists
+     */
+    public boolean hasKey(@NotNull String language, @NotNull String key) {
+        YamlConfiguration config = languageConfigs.get(language);
+        return config != null && config.contains(key);
+    }
+
+    /**
+     * Debug method to list all keys starting with a prefix
+     */
+    @NotNull
+    public java.util.List<String> getKeysStartingWith(@NotNull String language, @NotNull String prefix) {
+        YamlConfiguration config = languageConfigs.get(language);
+        if (config == null) {
+            return java.util.List.of();
+        }
+
+        return config.getKeys(true).stream()
+                .filter(key -> key.startsWith(prefix))
+                .sorted()
+                .toList();
     }
 }
