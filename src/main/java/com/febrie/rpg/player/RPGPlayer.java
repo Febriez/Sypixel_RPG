@@ -232,13 +232,13 @@ public class RPGPlayer {
 
     public int getLevel() {
         if (job == null) return 1;
-        return cachedLevelInfo != null ? cachedLevelInfo.level :
+        return cachedLevelInfo != null ? cachedLevelInfo.level() :
                 LevelSystem.getLevelFromExp(experience, job);
     }
 
     public double getLevelProgress() {
         if (job == null) return 0.0;
-        return cachedLevelInfo != null ? cachedLevelInfo.progress :
+        return cachedLevelInfo != null ? cachedLevelInfo.progress() :
                 LevelSystem.getLevelProgress(experience, job);
     }
 

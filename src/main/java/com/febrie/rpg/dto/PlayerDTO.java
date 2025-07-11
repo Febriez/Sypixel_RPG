@@ -1,9 +1,6 @@
 package com.febrie.rpg.dto;
 
 import com.febrie.rpg.job.JobType;
-import com.google.cloud.Timestamp;
-import com.google.firebase.firestore.annotation.DocumentId;
-import com.google.firebase.firestore.annotation.ServerTimestamp;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,25 +8,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Firestore players 컬렉션의 문서 DTO
+ * Firestore players 컬렉션의 문서 DTO (순수 POJO)
  * 플레이어의 기본 정보를 저장
  *
  * @author Febrie, CoffeeTory
  */
 public class PlayerDTO {
 
-    @DocumentId
     private String uuid;
-
     private String playerName;
     private String jobType; // JobType enum의 name()
 
-    @ServerTimestamp
-    private Timestamp firstJoinDate;
-
-    @ServerTimestamp
-    private Timestamp lastSeenDate;
-
+    private long firstJoinDate;
+    private long lastSeenDate;
     private long totalPlaytime; // 밀리초 단위
 
     // 버전 관리용
@@ -43,6 +34,13 @@ public class PlayerDTO {
     public PlayerDTO(@NotNull String uuid, @NotNull String playerName) {
         this.uuid = uuid;
         this.playerName = playerName;
+        this.firstJoinDate = System.currentTimeMillis();
+        this.lastSeenDate = System.currentTimeMillis();
+    }
+
+    // 타임스탬프 업데이트 메소드
+    public void updateLastSeen() {
+        this.lastSeenDate = System.currentTimeMillis();
     }
 
     // Getters and Setters
@@ -85,19 +83,19 @@ public class PlayerDTO {
         this.jobType = job != null ? job.name() : null;
     }
 
-    public Timestamp getFirstJoinDate() {
+    public long getFirstJoinDate() {
         return firstJoinDate;
     }
 
-    public void setFirstJoinDate(Timestamp firstJoinDate) {
+    public void setFirstJoinDate(long firstJoinDate) {
         this.firstJoinDate = firstJoinDate;
     }
 
-    public Timestamp getLastSeenDate() {
+    public long getLastSeenDate() {
         return lastSeenDate;
     }
 
-    public void setLastSeenDate(Timestamp lastSeenDate) {
+    public void setLastSeenDate(long lastSeenDate) {
         this.lastSeenDate = lastSeenDate;
     }
 
@@ -125,9 +123,10 @@ public class PlayerDTO {
         map.put("uuid", uuid);
         map.put("playerName", playerName);
         map.put("jobType", jobType);
+        map.put("firstJoinDate", firstJoinDate);
+        map.put("lastSeenDate", lastSeenDate);
         map.put("totalPlaytime", totalPlaytime);
         map.put("dataVersion", dataVersion);
-        // Timestamp 필드는 @ServerTimestamp로 자동 처리
         return map;
     }
 
@@ -136,19 +135,15 @@ public class PlayerDTO {
      */
     public static PlayerDTO fromMap(Map<String, Object> map) {
         PlayerDTO dto = new PlayerDTO();
-        dto.setUuid((String) map.get("uuid"));
-        dto.setPlayerName((String) map.get("playerName"));
-        dto.setJobType((String) map.get("jobType"));
 
-        Object playtime = map.get("totalPlaytime");
-        if (playtime instanceof Long) {
-            dto.setTotalPlaytime((Long) playtime);
-        }
+        dto.setUuid(DTOUtil.toString(map.get("uuid")));
+        dto.setPlayerName(DTOUtil.toString(map.get("playerName")));
+        dto.setJobType(DTOUtil.toString(map.get("jobType")));
 
-        Object version = map.get("dataVersion");
-        if (version instanceof Long) {
-            dto.setDataVersion(((Long) version).intValue());
-        }
+        DTOUtil.setLongFromMap(map, "firstJoinDate", dto::setFirstJoinDate);
+        DTOUtil.setLongFromMap(map, "lastSeenDate", dto::setLastSeenDate);
+        DTOUtil.setLongFromMap(map, "totalPlaytime", dto::setTotalPlaytime);
+        DTOUtil.setIntFromMap(map, "dataVersion", dto::setDataVersion);
 
         return dto;
     }

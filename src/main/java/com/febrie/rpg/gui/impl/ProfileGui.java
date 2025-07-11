@@ -1,5 +1,6 @@
 package com.febrie.rpg.gui.impl;
 
+import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.InteractiveGui;
@@ -22,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Player profile GUI implementation with internationalization support
@@ -263,9 +265,7 @@ public class ProfileGui implements InteractiveGui {
                         .displayName(langManager.getComponent(viewer, "items.profile.stats-button.name"))
                         .lore(langManager.getComponentList(viewer, "items.profile.stats-button.lore"))
                         .build(),
-                player -> {
-                    langManager.sendMessage(player, "general.coming-soon");
-                }
+                player -> new StatsGui(guiManager, langManager, player, Objects.requireNonNull(RPGMain.getPlugin().getRPGPlayerManager().getPlayer(player))).open(player)
         );
         setItem(48, statsButton);
 

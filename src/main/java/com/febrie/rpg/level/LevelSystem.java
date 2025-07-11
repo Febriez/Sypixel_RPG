@@ -152,18 +152,7 @@ public class LevelSystem {
     /**
      * 레벨업에 필요한 경험치 정보
      */
-    public static class LevelInfo {
-        public final int level;
-        public final long expRequired;
-        public final long totalExpRequired;
-        public final double progress;
-
-        public LevelInfo(int level, long expRequired, long totalExpRequired, double progress) {
-            this.level = level;
-            this.expRequired = expRequired;
-            this.totalExpRequired = totalExpRequired;
-            this.progress = progress;
-        }
+    public record LevelInfo(int level, long expRequired, long totalExpRequired, double progress) {
     }
 
     /**

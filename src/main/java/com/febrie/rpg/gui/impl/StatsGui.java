@@ -1,5 +1,6 @@
 package com.febrie.rpg.gui.impl;
 
+import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.ScrollableGui;
@@ -153,6 +154,10 @@ public class StatsGui extends ScrollableGui {
      * 플레이어 정보 표시
      */
     private void setupPlayerInfo() {
+        if (rpgPlayer.getJob() == null) {
+            new JobSelectionGui(guiManager, langManager, viewer, rpgPlayer).open(viewer);
+            return;
+        }
         // 플레이어 머리
         GuiItem playerHead = GuiItem.display(
                 ItemBuilder.of(Material.PLAYER_HEAD)
@@ -277,13 +282,18 @@ public class StatsGui extends ScrollableGui {
      * 네비게이션 버튼 설정
      */
     private void setupNavigationButtons() {
-        // 뒤로가기 버튼
-        if (guiManager != null) {
-            setItem(45, GuiFactory.createBackButton(guiManager, langManager, viewer));
+        if (guiManager == null) {
+            throw new IllegalArgumentException("GuiManager cannot be null");
         }
 
+        if (rpgPlayer == null) {
+            throw new IllegalArgumentException("rpgPlayer cannot be null");
+        }
+        // 뒤로가기 버튼
+        setItem(45, GuiFactory.createBackButton(guiManager, langManager, viewer));
+
         // 새로고침 버튼
-        setItem(46, GuiFactory.createRefreshButton(player -> refresh(), langManager, viewer));
+        setItem(46, GuiFactory.createRefreshButton(_ -> refresh(), langManager, viewer));
 
         // 특성 페이지로 가기 버튼
         GuiItem talentButton = GuiItem.clickable(
@@ -291,10 +301,8 @@ public class StatsGui extends ScrollableGui {
                         .displayName(Component.text("특성 관리", ColorUtil.EPIC))
                         .addLore(Component.text("클릭하여 특성 페이지로 이동", NamedTextColor.GRAY))
                         .build(),
-                player -> {
-                    // TODO: 특성 GUI 열기
-                    langManager.sendMessage(player, "general.coming-soon");
-                }
+                player -> new TalentGui(guiManager, langManager, player, rpgPlayer, null, RPGMain.getPlugin()
+                        .getTalentManager().getJobMainTalents(rpgPlayer.getJob())).open(player)
         );
         setItem(52, talentButton);
 

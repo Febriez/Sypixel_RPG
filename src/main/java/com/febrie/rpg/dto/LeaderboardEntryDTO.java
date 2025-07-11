@@ -1,23 +1,17 @@
 package com.febrie.rpg.dto;
 
-import com.google.cloud.Timestamp;
-import com.google.firebase.firestore.annotation.DocumentId;
-import com.google.firebase.firestore.annotation.ServerTimestamp;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Firestore leaderboards/{type}/{uuid} 문서 DTO
+ * Firestore leaderboards/{type}/{uuid} 문서 DTO (순수 POJO)
  * 순위표 엔트리 정보를 저장
  *
  * @author Febrie, CoffeeTory
  */
 public class LeaderboardEntryDTO {
 
-    @DocumentId
     private String uuid;
-
     private String playerName;
     private String jobType;
     private long score; // 정렬 기준값 (레벨, 전투력, 플레이시간 등)
@@ -26,11 +20,11 @@ public class LeaderboardEntryDTO {
     // 추가 정보 (순위표 타입에 따라 다름)
     private Map<String, Object> additionalData = new HashMap<>();
 
-    @ServerTimestamp
-    private Timestamp lastUpdated;
+    private long lastUpdated;
 
     // 기본 생성자 (Firestore 필수)
     public LeaderboardEntryDTO() {
+        this.lastUpdated = System.currentTimeMillis();
     }
 
     // 생성자
@@ -38,6 +32,14 @@ public class LeaderboardEntryDTO {
         this.uuid = uuid;
         this.playerName = playerName;
         this.score = score;
+        this.lastUpdated = System.currentTimeMillis();
+    }
+
+    /**
+     * 데이터 업데이트 시 타임스탬프도 업데이트
+     */
+    public void markUpdated() {
+        this.lastUpdated = System.currentTimeMillis();
     }
 
     // 순위표 타입별 팩토리 메소드들
@@ -68,6 +70,7 @@ public class LeaderboardEntryDTO {
     // 유틸리티 메소드
     public void addData(String key, Object value) {
         additionalData.put(key, value);
+        markUpdated();
     }
 
     public Object getData(String key) {
@@ -111,6 +114,7 @@ public class LeaderboardEntryDTO {
 
     public void setScore(long score) {
         this.score = score;
+        markUpdated();
     }
 
     public int getRank() {
@@ -127,13 +131,14 @@ public class LeaderboardEntryDTO {
 
     public void setAdditionalData(Map<String, Object> additionalData) {
         this.additionalData = additionalData;
+        markUpdated();
     }
 
-    public Timestamp getLastUpdated() {
+    public long getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(Timestamp lastUpdated) {
+    public void setLastUpdated(long lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
@@ -148,6 +153,7 @@ public class LeaderboardEntryDTO {
         map.put("score", score);
         map.put("rank", rank);
         map.put("additionalData", additionalData);
+        map.put("lastUpdated", lastUpdated);
         return map;
     }
 
@@ -158,19 +164,13 @@ public class LeaderboardEntryDTO {
     public static LeaderboardEntryDTO fromMap(Map<String, Object> map) {
         LeaderboardEntryDTO dto = new LeaderboardEntryDTO();
 
-        dto.setUuid((String) map.get("uuid"));
-        dto.setPlayerName((String) map.get("playerName"));
-        dto.setJobType((String) map.get("jobType"));
+        dto.setUuid(DTOUtil.toString(map.get("uuid")));
+        dto.setPlayerName(DTOUtil.toString(map.get("playerName")));
+        dto.setJobType(DTOUtil.toString(map.get("jobType")));
 
-        Object score = map.get("score");
-        if (score instanceof Long) {
-            dto.setScore((Long) score);
-        }
-
-        Object rank = map.get("rank");
-        if (rank instanceof Long) {
-            dto.setRank(((Long) rank).intValue());
-        }
+        DTOUtil.setLongFromMap(map, "score", dto::setScore);
+        DTOUtil.setIntFromMap(map, "rank", dto::setRank);
+        DTOUtil.setLongFromMap(map, "lastUpdated", dto::setLastUpdated);
 
         Object additionalData = map.get("additionalData");
         if (additionalData instanceof Map) {

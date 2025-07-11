@@ -1,15 +1,13 @@
 package com.febrie.rpg.dto;
 
 import com.febrie.rpg.stat.Stat;
-import com.google.cloud.Timestamp;
-import com.google.firebase.firestore.annotation.ServerTimestamp;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Firestore players/{uuid}/stats 문서 DTO
+ * Firestore players/{uuid}/stats 문서 DTO (순수 POJO)
  * 플레이어의 스탯 정보를 저장
  *
  * @author Febrie, CoffeeTory
@@ -21,12 +19,12 @@ public class StatsDTO {
     private int availableStatPoints = 0;
     private int totalStatPointsUsed = 0;
 
-    @ServerTimestamp
-    private Timestamp lastUpdated;
+    private long lastUpdated;
 
     // 기본 생성자 (Firestore 필수)
     public StatsDTO() {
         initializeDefaultStats();
+        this.lastUpdated = System.currentTimeMillis();
     }
 
     /**
@@ -39,6 +37,13 @@ public class StatsDTO {
         }
     }
 
+    /**
+     * 데이터 업데이트 시 타임스탬프도 업데이트
+     */
+    public void markUpdated() {
+        this.lastUpdated = System.currentTimeMillis();
+    }
+
     // Stat 관련 메소드들
     public int getBaseStat(@NotNull String statId) {
         return baseStats.getOrDefault(statId, 0);
@@ -46,6 +51,7 @@ public class StatsDTO {
 
     public void setBaseStat(@NotNull String statId, int value) {
         baseStats.put(statId, value);
+        markUpdated();
     }
 
     public int getBonusStat(@NotNull String statId) {
@@ -54,6 +60,7 @@ public class StatsDTO {
 
     public void setBonusStat(@NotNull String statId, int value) {
         bonusStats.put(statId, value);
+        markUpdated();
     }
 
     public int getTotalStat(@NotNull String statId) {
@@ -67,6 +74,7 @@ public class StatsDTO {
 
     public void setBaseStats(Map<String, Integer> baseStats) {
         this.baseStats = baseStats;
+        markUpdated();
     }
 
     public Map<String, Integer> getBonusStats() {
@@ -75,6 +83,7 @@ public class StatsDTO {
 
     public void setBonusStats(Map<String, Integer> bonusStats) {
         this.bonusStats = bonusStats;
+        markUpdated();
     }
 
     public int getAvailableStatPoints() {
@@ -83,6 +92,7 @@ public class StatsDTO {
 
     public void setAvailableStatPoints(int availableStatPoints) {
         this.availableStatPoints = availableStatPoints;
+        markUpdated();
     }
 
     public int getTotalStatPointsUsed() {
@@ -91,13 +101,14 @@ public class StatsDTO {
 
     public void setTotalStatPointsUsed(int totalStatPointsUsed) {
         this.totalStatPointsUsed = totalStatPointsUsed;
+        markUpdated();
     }
 
-    public Timestamp getLastUpdated() {
+    public long getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(Timestamp lastUpdated) {
+    public void setLastUpdated(long lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
@@ -110,49 +121,22 @@ public class StatsDTO {
         map.put("bonusStats", bonusStats);
         map.put("availableStatPoints", availableStatPoints);
         map.put("totalStatPointsUsed", totalStatPointsUsed);
+        map.put("lastUpdated", lastUpdated);
         return map;
     }
 
     /**
      * Map에서 생성
      */
-    @SuppressWarnings("unchecked")
     public static StatsDTO fromMap(Map<String, Object> map) {
         StatsDTO dto = new StatsDTO();
 
-        Object baseStatsObj = map.get("baseStats");
-        if (baseStatsObj instanceof Map) {
-            Map<String, Object> baseStatsMap = (Map<String, Object>) baseStatsObj;
-            Map<String, Integer> baseStats = new HashMap<>();
-            baseStatsMap.forEach((k, v) -> {
-                if (v instanceof Long) {
-                    baseStats.put(k, ((Long) v).intValue());
-                }
-            });
-            dto.setBaseStats(baseStats);
-        }
+        dto.setBaseStats(DTOUtil.toIntegerMap(map.get("baseStats")));
+        dto.setBonusStats(DTOUtil.toIntegerMap(map.get("bonusStats")));
 
-        Object bonusStatsObj = map.get("bonusStats");
-        if (bonusStatsObj instanceof Map) {
-            Map<String, Object> bonusStatsMap = (Map<String, Object>) bonusStatsObj;
-            Map<String, Integer> bonusStats = new HashMap<>();
-            bonusStatsMap.forEach((k, v) -> {
-                if (v instanceof Long) {
-                    bonusStats.put(k, ((Long) v).intValue());
-                }
-            });
-            dto.setBonusStats(bonusStats);
-        }
-
-        Object availablePoints = map.get("availableStatPoints");
-        if (availablePoints instanceof Long) {
-            dto.setAvailableStatPoints(((Long) availablePoints).intValue());
-        }
-
-        Object totalUsed = map.get("totalStatPointsUsed");
-        if (totalUsed instanceof Long) {
-            dto.setTotalStatPointsUsed(((Long) totalUsed).intValue());
-        }
+        DTOUtil.setIntFromMap(map, "availableStatPoints", dto::setAvailableStatPoints);
+        DTOUtil.setIntFromMap(map, "totalStatPointsUsed", dto::setTotalStatPointsUsed);
+        DTOUtil.setLongFromMap(map, "lastUpdated", dto::setLastUpdated);
 
         return dto;
     }

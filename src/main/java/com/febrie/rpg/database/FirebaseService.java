@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * Firebase Firestore 데이터베이스 서비스
- * 모든 데이터베이스 작업을 담당
+ * 모든 데이터베이스 작업을 담당 (순수 POJO DTO 지원)
  *
  * @author Febrie, CoffeeTory
  */
@@ -66,8 +66,24 @@ public class FirebaseService {
             plugin.getLogger().info("Firebase 초기화 완료!");
 
         } catch (IOException e) {
-            plugin.getLogger().severe("Firebase 초기화 실패: " + e.getMessage());
-            e.printStackTrace();
+            logError("Firebase 초기화 실패", e);
+        }
+    }
+
+    /**
+     * 에러 로깅 헬퍼 메소드
+     */
+    private void logError(@NotNull String message, @NotNull Throwable throwable) {
+        plugin.getLogger().severe(message + ": " + throwable.getMessage());
+        if (plugin.getLogger().isLoggable(java.util.logging.Level.FINE)) {
+            // 디버그 모드에서만 전체 스택 트레이스 출력
+            for (StackTraceElement element : throwable.getStackTrace()) {
+                plugin.getLogger().fine("  at " + element.toString());
+            }
+        }
+        // 원인이 있는 경우
+        if (throwable.getCause() != null) {
+            plugin.getLogger().severe("원인: " + throwable.getCause().getMessage());
         }
     }
 
@@ -81,23 +97,29 @@ public class FirebaseService {
                                                   @NotNull ProgressDTO progressDTO) {
         return CompletableFuture.runAsync(() -> {
             try {
+                // 타임스탬프 업데이트
+                playerDTO.updateLastSeen();
+                statsDTO.markUpdated();
+                talentDTO.markUpdated();
+                progressDTO.markUpdated();
+
                 WriteBatch batch = firestore.batch();
 
                 // 플레이어 기본 정보
                 DocumentReference playerRef = firestore.collection(PLAYERS_COLLECTION).document(uuid);
-                batch.set(playerRef, playerDTO);
+                batch.set(playerRef, playerDTO.toMap());
 
                 // 스탯 정보
                 DocumentReference statsRef = playerRef.collection(STATS_SUBCOLLECTION).document("current");
-                batch.set(statsRef, statsDTO);
+                batch.set(statsRef, statsDTO.toMap());
 
                 // 특성 정보
                 DocumentReference talentsRef = playerRef.collection(TALENTS_SUBCOLLECTION).document("current");
-                batch.set(talentsRef, talentDTO);
+                batch.set(talentsRef, talentDTO.toMap());
 
                 // 진행도 정보
                 DocumentReference progressRef = playerRef.collection(PROGRESS_SUBCOLLECTION).document("current");
-                batch.set(progressRef, progressDTO);
+                batch.set(progressRef, progressDTO.toMap());
 
                 // 배치 실행
                 batch.commit().get();
@@ -105,8 +127,7 @@ public class FirebaseService {
                 plugin.getLogger().info("플레이어 데이터 저장 완료: " + uuid);
 
             } catch (InterruptedException | ExecutionException e) {
-                plugin.getLogger().severe("플레이어 데이터 저장 실패: " + e.getMessage());
-                e.printStackTrace();
+                logError("플레이어 데이터 저장 실패", e);
             }
         });
     }
@@ -124,12 +145,14 @@ public class FirebaseService {
                         .get();
 
                 if (document.exists()) {
-                    return document.toObject(PlayerDTO.class);
+                    Map<String, Object> data = document.getData();
+                    if (data != null) {
+                        return PlayerDTO.fromMap(data);
+                    }
                 }
 
             } catch (InterruptedException | ExecutionException e) {
-                plugin.getLogger().severe("플레이어 데이터 로드 실패: " + e.getMessage());
-                e.printStackTrace();
+                logError("플레이어 데이터 로드 실패", e);
             }
             return null;
         });
@@ -150,12 +173,14 @@ public class FirebaseService {
                         .get();
 
                 if (document.exists()) {
-                    return document.toObject(StatsDTO.class);
+                    Map<String, Object> data = document.getData();
+                    if (data != null) {
+                        return StatsDTO.fromMap(data);
+                    }
                 }
 
             } catch (InterruptedException | ExecutionException e) {
-                plugin.getLogger().severe("플레이어 스탯 로드 실패: " + e.getMessage());
-                e.printStackTrace();
+                logError("플레이어 스탯 로드 실패", e);
             }
             return null;
         });
@@ -176,12 +201,14 @@ public class FirebaseService {
                         .get();
 
                 if (document.exists()) {
-                    return document.toObject(TalentDTO.class);
+                    Map<String, Object> data = document.getData();
+                    if (data != null) {
+                        return TalentDTO.fromMap(data);
+                    }
                 }
 
             } catch (InterruptedException | ExecutionException e) {
-                plugin.getLogger().severe("플레이어 특성 로드 실패: " + e.getMessage());
-                e.printStackTrace();
+                logError("플레이어 특성 로드 실패", e);
             }
             return null;
         });
@@ -202,12 +229,14 @@ public class FirebaseService {
                         .get();
 
                 if (document.exists()) {
-                    return document.toObject(ProgressDTO.class);
+                    Map<String, Object> data = document.getData();
+                    if (data != null) {
+                        return ProgressDTO.fromMap(data);
+                    }
                 }
 
             } catch (InterruptedException | ExecutionException e) {
-                plugin.getLogger().severe("플레이어 진행도 로드 실패: " + e.getMessage());
-                e.printStackTrace();
+                logError("플레이어 진행도 로드 실패", e);
             }
             return null;
         });
@@ -228,18 +257,18 @@ public class FirebaseService {
                 // 모든 Future 완료 대기
                 CompletableFuture.allOf(playerFuture, statsFuture, talentsFuture, progressFuture).join();
 
-                return new PlayerDataBundle(
-                        playerFuture.get(),
-                        statsFuture.get(),
-                        talentsFuture.get(),
-                        progressFuture.get()
-                );
+                // null 체크와 함께 결과 가져오기
+                PlayerDTO player = playerFuture.join();
+                StatsDTO stats = statsFuture.join();
+                TalentDTO talents = talentsFuture.join();
+                ProgressDTO progress = progressFuture.join();
 
-            } catch (InterruptedException | ExecutionException e) {
-                plugin.getLogger().severe("플레이어 전체 데이터 로드 실패: " + e.getMessage());
-                e.printStackTrace();
+                return new PlayerDataBundle(player, stats, talents, progress);
+
+            } catch (Exception e) {
+                logError("플레이어 전체 데이터 로드 실패", e);
+                return PlayerDataBundle.empty();
             }
-            return null;
         });
     }
 
@@ -251,16 +280,17 @@ public class FirebaseService {
     public CompletableFuture<Void> updateLeaderboard(@NotNull String type, @NotNull LeaderboardEntryDTO entry) {
         return CompletableFuture.runAsync(() -> {
             try {
+                entry.markUpdated();
+
                 firestore.collection(LEADERBOARDS_COLLECTION)
                         .document(type)
                         .collection("entries")
                         .document(entry.getUuid())
-                        .set(entry)
+                        .set(entry.toMap())
                         .get();
 
             } catch (InterruptedException | ExecutionException e) {
-                plugin.getLogger().severe("순위표 업데이트 실패: " + e.getMessage());
-                e.printStackTrace();
+                logError("순위표 업데이트 실패", e);
             }
         });
     }
@@ -283,14 +313,14 @@ public class FirebaseService {
 
                 int rank = 1;
                 for (QueryDocumentSnapshot document : querySnapshot) {
-                    LeaderboardEntryDTO entry = document.toObject(LeaderboardEntryDTO.class);
+                    Map<String, Object> data = document.getData();
+                    LeaderboardEntryDTO entry = LeaderboardEntryDTO.fromMap(data);
                     entry.setRank(rank++);
                     entries.add(entry);
                 }
 
             } catch (InterruptedException | ExecutionException e) {
-                plugin.getLogger().severe("순위표 조회 실패: " + e.getMessage());
-                e.printStackTrace();
+                logError("순위표 조회 실패", e);
             }
 
             return entries;
@@ -305,14 +335,16 @@ public class FirebaseService {
     public CompletableFuture<Void> updateServerStats(@NotNull Map<String, Object> stats) {
         return CompletableFuture.runAsync(() -> {
             try {
+                // 타임스탬프 추가
+                stats.put("lastUpdated", System.currentTimeMillis());
+
                 firestore.collection(SERVER_STATS_COLLECTION)
                         .document("global")
                         .update(stats)
                         .get();
 
             } catch (InterruptedException | ExecutionException e) {
-                plugin.getLogger().severe("서버 통계 업데이트 실패: " + e.getMessage());
-                e.printStackTrace();
+                logError("서버 통계 업데이트 실패", e);
             }
         });
     }
@@ -326,7 +358,7 @@ public class FirebaseService {
                 firestore.close();
                 plugin.getLogger().info("Firebase 연결 종료");
             } catch (Exception e) {
-                plugin.getLogger().severe("Firebase 종료 실패: " + e.getMessage());
+                logError("Firebase 종료 실패", e);
             }
         }
     }
@@ -348,8 +380,38 @@ public class FirebaseService {
             this.progress = progress;
         }
 
+        /**
+         * 빈 번들 생성 (모든 필드가 null)
+         */
+        public static PlayerDataBundle empty() {
+            return new PlayerDataBundle(null, null, null, null);
+        }
+
+        /**
+         * 모든 데이터가 로드되었는지 확인
+         */
         public boolean isComplete() {
             return player != null && stats != null && talents != null && progress != null;
+        }
+
+        /**
+         * 부분적으로라도 데이터가 있는지 확인
+         */
+        public boolean hasAnyData() {
+            return player != null || stats != null || talents != null || progress != null;
+        }
+
+        /**
+         * 누락된 데이터 타입 목록 반환
+         */
+        @NotNull
+        public List<String> getMissingDataTypes() {
+            List<String> missing = new ArrayList<>();
+            if (player == null) missing.add("Player");
+            if (stats == null) missing.add("Stats");
+            if (talents == null) missing.add("Talents");
+            if (progress == null) missing.add("Progress");
+            return missing;
         }
     }
 }

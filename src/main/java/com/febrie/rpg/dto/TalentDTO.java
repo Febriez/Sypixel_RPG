@@ -1,14 +1,12 @@
 package com.febrie.rpg.dto;
 
-import com.google.cloud.Timestamp;
-import com.google.firebase.firestore.annotation.ServerTimestamp;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Firestore players/{uuid}/talents 문서 DTO
+ * Firestore players/{uuid}/talents 문서 DTO (순수 POJO)
  * 플레이어의 특성(탤런트) 정보를 저장
  *
  * @author Febrie, CoffeeTory
@@ -21,11 +19,18 @@ public class TalentDTO {
     private int availableTalentPoints = 0;
     private int totalTalentPointsUsed = 0;
 
-    @ServerTimestamp
-    private Timestamp lastUpdated;
+    private long lastUpdated;
 
     // 기본 생성자 (Firestore 필수)
     public TalentDTO() {
+        this.lastUpdated = System.currentTimeMillis();
+    }
+
+    /**
+     * 데이터 업데이트 시 타임스탬프도 업데이트
+     */
+    public void markUpdated() {
+        this.lastUpdated = System.currentTimeMillis();
     }
 
     // 특성 관련 메소드들
@@ -39,6 +44,7 @@ public class TalentDTO {
         } else {
             talentLevels.remove(talentId);
         }
+        markUpdated();
     }
 
     public boolean hasTalent(@NotNull String talentId) {
@@ -52,6 +58,7 @@ public class TalentDTO {
 
     public void setTalentLevels(Map<String, Integer> talentLevels) {
         this.talentLevels = talentLevels;
+        markUpdated();
     }
 
     public int getAvailableTalentPoints() {
@@ -60,6 +67,7 @@ public class TalentDTO {
 
     public void setAvailableTalentPoints(int availableTalentPoints) {
         this.availableTalentPoints = availableTalentPoints;
+        markUpdated();
     }
 
     public int getTotalTalentPointsUsed() {
@@ -68,13 +76,14 @@ public class TalentDTO {
 
     public void setTotalTalentPointsUsed(int totalTalentPointsUsed) {
         this.totalTalentPointsUsed = totalTalentPointsUsed;
+        markUpdated();
     }
 
-    public Timestamp getLastUpdated() {
+    public long getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(Timestamp lastUpdated) {
+    public void setLastUpdated(long lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
@@ -86,37 +95,21 @@ public class TalentDTO {
         map.put("talentLevels", talentLevels);
         map.put("availableTalentPoints", availableTalentPoints);
         map.put("totalTalentPointsUsed", totalTalentPointsUsed);
+        map.put("lastUpdated", lastUpdated);
         return map;
     }
 
     /**
      * Map에서 생성
      */
-    @SuppressWarnings("unchecked")
     public static TalentDTO fromMap(Map<String, Object> map) {
         TalentDTO dto = new TalentDTO();
 
-        Object talentLevelsObj = map.get("talentLevels");
-        if (talentLevelsObj instanceof Map) {
-            Map<String, Object> talentLevelsMap = (Map<String, Object>) talentLevelsObj;
-            Map<String, Integer> talentLevels = new HashMap<>();
-            talentLevelsMap.forEach((k, v) -> {
-                if (v instanceof Long) {
-                    talentLevels.put(k, ((Long) v).intValue());
-                }
-            });
-            dto.setTalentLevels(talentLevels);
-        }
+        dto.setTalentLevels(DTOUtil.toIntegerMap(map.get("talentLevels")));
 
-        Object availablePoints = map.get("availableTalentPoints");
-        if (availablePoints instanceof Long) {
-            dto.setAvailableTalentPoints(((Long) availablePoints).intValue());
-        }
-
-        Object totalUsed = map.get("totalTalentPointsUsed");
-        if (totalUsed instanceof Long) {
-            dto.setTotalTalentPointsUsed(((Long) totalUsed).intValue());
-        }
+        DTOUtil.setIntFromMap(map, "availableTalentPoints", dto::setAvailableTalentPoints);
+        DTOUtil.setIntFromMap(map, "totalTalentPointsUsed", dto::setTotalTalentPointsUsed);
+        DTOUtil.setLongFromMap(map, "lastUpdated", dto::setLastUpdated);
 
         return dto;
     }

@@ -40,8 +40,8 @@ public class TalentGui implements InteractiveGui {
     private static final int CONTENT_COLUMN = 4; // 중앙 열 (0-8 중 4)
 
     // 스크롤 버튼
-    private static final int SCROLL_UP_SLOT = 4; // 상단 중앙
-    private static final int SCROLL_DOWN_SLOT = 49; // 하단 중앙
+    private static final int SCROLL_UP_SLOT = 17; // 상단 오른쪽 한칸 아래
+    private static final int SCROLL_DOWN_SLOT = 44; // 하단 오른쪽 한칸 위
 
     private final GuiManager guiManager;
     private final LangManager langManager;
@@ -59,14 +59,7 @@ public class TalentGui implements InteractiveGui {
     private static final int VISIBLE_ROWS = 4; // 보이는 행 수
 
     // 페이지 정보를 저장하는 내부 클래스
-    private static class PageInfo {
-        final String pageId;
-        final List<Talent> talents;
-
-        PageInfo(String pageId, List<Talent> talents) {
-            this.pageId = pageId;
-            this.talents = talents;
-        }
+    private record PageInfo(String pageId, List<Talent> talents) {
     }
 
     public TalentGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
