@@ -5,6 +5,7 @@ import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.ScrollableGui;
 import com.febrie.rpg.gui.manager.GuiManager;
+import com.febrie.rpg.gui.util.GuiUtility;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.util.ColorUtil;
@@ -132,7 +133,7 @@ public class StatsGui extends ScrollableGui {
 
         // 하단 테두리
         for (int i = 45; i < 54; i++) {
-            if (i != 49 && i != SCROLL_DOWN_SLOT) {
+            if (i != 49) { // 스탯 포인트 정보 슬롯 제외
                 setItem(i, GuiFactory.createDecoration());
             }
         }
@@ -144,6 +145,9 @@ public class StatsGui extends ScrollableGui {
                 setItem(row * 9 + 8, GuiFactory.createDecoration()); // 우측
             }
         }
+
+        // SCROLL_DOWN_SLOT (44)는 하단 테두리 범위 밖이므로 별도 처리
+        // 44번 슬롯은 스크롤 다운 버튼용으로 비워둠
     }
 
     /**
@@ -307,11 +311,10 @@ public class StatsGui extends ScrollableGui {
     }
 
     /**
-     * 아이템 설정
+     * 아이템 설정 - GuiUtility.setItem 사용
      */
     private void setItem(int slot, @NotNull GuiItem item) {
-        items.put(slot, item);
-        inventory.setItem(slot, item.getItemStack());
+        GuiUtility.setItem(slot, item, items, inventory);
     }
 
     /**

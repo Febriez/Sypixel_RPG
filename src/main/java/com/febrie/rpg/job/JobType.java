@@ -2,6 +2,7 @@ package com.febrie.rpg.job;
 
 import com.febrie.rpg.util.ColorUtil;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -13,19 +14,19 @@ import org.jetbrains.annotations.NotNull;
 public enum JobType {
 
     // 전사 계열 (레벨 200 내외)
-    BERSERKER("버서커", "Berserker", JobCategory.WARRIOR, 195, ColorUtil.ERROR, "⚔"),
-    BRUISER("브루저", "Bruiser", JobCategory.WARRIOR, 200, ColorUtil.ORANGE, "🛡"),
-    TANK("탱커", "Tank", JobCategory.WARRIOR, 205, ColorUtil.NETHERITE, "🏛"),
+    BERSERKER("버서커", "Berserker", JobCategory.WARRIOR, 195, ColorUtil.ERROR, "⚔", Material.DIAMOND_AXE),
+    BRUISER("브루저", "Bruiser", JobCategory.WARRIOR, 200, ColorUtil.ORANGE, "🛡", Material.IRON_SWORD),
+    TANK("탱커", "Tank", JobCategory.WARRIOR, 205, ColorUtil.NETHERITE, "🏛", Material.SHIELD),
 
     // 마법사 계열 (레벨 120 내외)
-    PRIEST("사제", "Priest", JobCategory.MAGE, 115, ColorUtil.LEGENDARY, "✨"),
-    DARK_MAGE("흑마법사", "Dark Mage", JobCategory.MAGE, 120, ColorUtil.EPIC, "🌑"),
-    MERCY("메르시", "Mercy", JobCategory.MAGE, 125, ColorUtil.SUCCESS, "💚"),
+    PRIEST("사제", "Priest", JobCategory.MAGE, 115, ColorUtil.LEGENDARY, "✨", Material.GOLDEN_APPLE),
+    DARK_MAGE("흑마법사", "Dark Mage", JobCategory.MAGE, 120, ColorUtil.EPIC, "🌑", Material.WITHER_SKELETON_SKULL),
+    MERCY("메르시", "Mercy", JobCategory.MAGE, 125, ColorUtil.SUCCESS, "💚", Material.TOTEM_OF_UNDYING),
 
     // 궁수 계열 (레벨 100 내외)
-    ARCHER("아처", "Archer", JobCategory.ARCHER, 95, ColorUtil.EMERALD, "🏹"),
-    SNIPER("스나이퍼", "Sniper", JobCategory.ARCHER, 100, ColorUtil.INFO, "🎯"),
-    SHOTGUNNER("샷건맨", "Shotgunner", JobCategory.ARCHER, 105, ColorUtil.WARNING, "💥");
+    ARCHER("아처", "Archer", JobCategory.ARCHER, 95, ColorUtil.EMERALD, "🏹", Material.BOW),
+    SNIPER("스나이퍼", "Sniper", JobCategory.ARCHER, 100, ColorUtil.INFO, "🎯", Material.CROSSBOW),
+    SHOTGUNNER("샷건맨", "Shotgunner", JobCategory.ARCHER, 105, ColorUtil.WARNING, "💥", Material.FIRE_CHARGE);
 
     private final String koreanName;
     private final String englishName;
@@ -33,16 +34,19 @@ public enum JobType {
     private final int maxLevel;
     private final TextColor color;
     private final String icon;
+    private final Material material;
 
     JobType(@NotNull String koreanName, @NotNull String englishName,
             @NotNull JobCategory category, int maxLevel,
-            @NotNull TextColor color, @NotNull String icon) {
+            @NotNull TextColor color, @NotNull String icon,
+            @NotNull Material material) {
         this.koreanName = koreanName;
         this.englishName = englishName;
         this.category = category;
         this.maxLevel = maxLevel;
         this.color = color;
         this.icon = icon;
+        this.material = material;
     }
 
     /**
@@ -98,6 +102,14 @@ public enum JobType {
     @NotNull
     public String getIcon() {
         return icon;
+    }
+
+    /**
+     * 직업을 나타내는 아이템 재료
+     */
+    @NotNull
+    public Material getMaterial() {
+        return material;
     }
 
     /**

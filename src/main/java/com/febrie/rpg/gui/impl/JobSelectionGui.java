@@ -152,7 +152,7 @@ public class JobSelectionGui extends BaseGui {
     private GuiItem createJobItem(@NotNull JobType job) {
         String jobKey = job.name().toLowerCase();
 
-        ItemBuilder builder = ItemBuilder.of(getJobMaterial(job))
+        ItemBuilder builder = ItemBuilder.of(job.getMaterial())  // JobType.getMaterial() 사용
                 .displayName(Component.text(job.getIcon() + " ")
                         .append(trans("job." + jobKey + ".name"))
                         .color(job.getColor())
@@ -178,25 +178,8 @@ public class JobSelectionGui extends BaseGui {
 
         return GuiItem.clickable(
                 builder.build(),
-                clickPlayer -> openConfirmationGui(job)
+                _ -> openConfirmationGui(job)
         );
-    }
-
-    /**
-     * 직업별 아이템 재료
-     */
-    private Material getJobMaterial(@NotNull JobType job) {
-        return switch (job) {
-            case BERSERKER -> Material.DIAMOND_AXE;
-            case BRUISER -> Material.IRON_SWORD;
-            case TANK -> Material.SHIELD;
-            case PRIEST -> Material.GOLDEN_APPLE;
-            case DARK_MAGE -> Material.WITHER_SKELETON_SKULL;
-            case MERCY -> Material.TOTEM_OF_UNDYING;
-            case ARCHER -> Material.BOW;
-            case SNIPER -> Material.CROSSBOW;
-            case SHOTGUNNER -> Material.FIRE_CHARGE;
-        };
     }
 
     /**

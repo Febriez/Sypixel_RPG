@@ -1,5 +1,6 @@
 package com.febrie.rpg.gui.framework;
 
+import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 /**
  * 스크롤 가능한 GUI 추상 클래스
@@ -23,30 +25,30 @@ import java.util.Map;
  */
 public abstract class ScrollableGui implements InteractiveGui {
 
-    protected static final int ROWS = 6; // GUI 행 수
-    protected static final int COLS = 9; // GUI 열 수
-    protected static final int GUI_SIZE = ROWS * COLS; // 54 슬롯
+    // GUI 크기 상수
+    protected static final int ROWS = 6;
+    protected static final int COLS = 9;
+    protected static final int GUI_SIZE = ROWS * COLS;
 
-    // 스크롤 영역 설정 (1행~4행, 1열~7열)
+    // 스크롤 영역 설정
     protected static final int SCROLL_START_ROW = 1;
     protected static final int SCROLL_END_ROW = 4;
     protected static final int SCROLL_START_COL = 1;
     protected static final int SCROLL_END_COL = 7;
-
-    protected static final int SCROLL_ROWS = SCROLL_END_ROW - SCROLL_START_ROW + 1; // 4행
-    protected static final int SCROLL_COLS = SCROLL_END_COL - SCROLL_START_COL + 1; // 7열
-    protected static final int SCROLL_SIZE = SCROLL_ROWS * SCROLL_COLS; // 28 슬롯
+    protected static final int SCROLL_ROWS = SCROLL_END_ROW - SCROLL_START_ROW + 1;
+    protected static final int SCROLL_COLS = SCROLL_END_COL - SCROLL_START_COL + 1;
+    protected static final int SCROLL_SIZE = SCROLL_ROWS * SCROLL_COLS;
 
     // 스크롤 버튼 위치
-    protected static final int SCROLL_UP_SLOT = 8; // 우측 상단
-    protected static final int SCROLL_DOWN_SLOT = 44; // 우측 하단
-    protected static final int SCROLL_BAR_START = 17; // 우측 스크롤바 시작
-    protected static final int SCROLL_BAR_END = 35; // 우측 스크롤바 끝
+    protected static final int SCROLL_UP_SLOT = 8;
+    protected static final int SCROLL_DOWN_SLOT = 44;
+    protected static final int SCROLL_BAR_START = 17;
+    protected static final int SCROLL_BAR_END = 35;
 
     protected final Player viewer;
+    protected Inventory inventory;
     protected int currentScroll = 0;
     protected List<GuiItem> scrollableItems = new ArrayList<>();
-    protected Inventory inventory; // Added for access in subclasses
 
     public ScrollableGui(@NotNull Player viewer) {
         this.viewer = viewer;
@@ -59,28 +61,28 @@ public abstract class ScrollableGui implements InteractiveGui {
     protected abstract List<GuiItem> getScrollableItems();
 
     /**
+     * 스크롤 영역 외의 클릭 처리
+     * 하위 클래스에서 구현
+     */
+    protected abstract void handleNonScrollClick(@NotNull InventoryClickEvent event,
+                                                 @NotNull Player player, int slot,
+                                                 @NotNull ClickType click);
+
+    /**
      * 스크롤 업데이트
-     * 주의: setupLayout() 내부에서는 직접 scrollableItems를 설정하여 순환 호출 방지
      */
     protected void updateScroll() {
         scrollableItems = getScrollableItems();
-        // refresh() 호출 제거 - 필요시 호출자가 직접 refresh() 호출
     }
 
     /**
      * 현재 스크롤 위치에서 보여질 아이템들 가져오기
      */
     protected List<GuiItem> getVisibleItems() {
-        List<GuiItem> visible = new ArrayList<>();
-
         int startIndex = currentScroll * SCROLL_COLS;
         int endIndex = Math.min(startIndex + SCROLL_SIZE, scrollableItems.size());
 
-        for (int i = startIndex; i < endIndex; i++) {
-            visible.add(scrollableItems.get(i));
-        }
-
-        return visible;
+        return scrollableItems.subList(startIndex, endIndex);
     }
 
     /**
@@ -92,7 +94,7 @@ public abstract class ScrollableGui implements InteractiveGui {
     }
 
     /**
-     * 스크롤 위로
+     * 스크롤 이동
      */
     protected void scrollUp() {
         if (currentScroll > 0) {
@@ -102,9 +104,6 @@ public abstract class ScrollableGui implements InteractiveGui {
         }
     }
 
-    /**
-     * 스크롤 아래로
-     */
     protected void scrollDown() {
         if (currentScroll < getMaxScroll()) {
             currentScroll++;
@@ -117,31 +116,28 @@ public abstract class ScrollableGui implements InteractiveGui {
      * 스크롤 버튼 생성
      */
     protected GuiItem createScrollUpButton() {
-        boolean canScroll = currentScroll > 0;
-        Material material = canScroll ? Material.LIME_DYE : Material.GRAY_DYE;
-
-        return GuiItem.clickable(
-                ItemBuilder.of(material)
-                        .displayName(Component.text("▲ 위로", canScroll ? NamedTextColor.GREEN : NamedTextColor.GRAY))
-                        .addLore(Component.text(canScroll ? "클릭하여 위로 스크롤" : "더 이상 올라갈 수 없습니다",
-                                NamedTextColor.GRAY))
-                        .build(),
-                player -> scrollUp()
-        ).setEnabled(canScroll);
+        return createScrollButton("▲ 위로", "위로 스크롤", currentScroll > 0, this::scrollUp);
     }
 
     protected GuiItem createScrollDownButton() {
-        boolean canScroll = currentScroll < getMaxScroll();
-        Material material = canScroll ? Material.LIME_DYE : Material.GRAY_DYE;
+        return createScrollButton("▼ 아래로", "아래로 스크롤", currentScroll < getMaxScroll(), this::scrollDown);
+    }
+
+    /**
+     * 스크롤 버튼 생성 헬퍼
+     */
+    private GuiItem createScrollButton(@NotNull String name, @NotNull String action,
+                                       boolean enabled, @NotNull Runnable onClick) {
+        Material material = enabled ? Material.LIME_DYE : Material.GRAY_DYE;
+        String lore = enabled ? "클릭하여 " + action : "더 이상 " + action.replace("스크롤", "갈 수") + " 없습니다";
 
         return GuiItem.clickable(
                 ItemBuilder.of(material)
-                        .displayName(Component.text("▼ 아래로", canScroll ? NamedTextColor.GREEN : NamedTextColor.GRAY))
-                        .addLore(Component.text(canScroll ? "클릭하여 아래로 스크롤" : "더 이상 내려갈 수 없습니다",
-                                NamedTextColor.GRAY))
+                        .displayName(Component.text(name, enabled ? NamedTextColor.GREEN : NamedTextColor.GRAY))
+                        .addLore(Component.text(lore, NamedTextColor.GRAY))
                         .build(),
-                player -> scrollDown()
-        ).setEnabled(canScroll);
+                player -> onClick.run()
+        ).setEnabled(enabled);
     }
 
     /**
@@ -151,16 +147,11 @@ public abstract class ScrollableGui implements InteractiveGui {
         int maxScroll = getMaxScroll();
 
         if (maxScroll == 0) {
-            // 스크롤이 필요없는 경우
-            return GuiItem.display(
-                    ItemBuilder.of(Material.WHITE_STAINED_GLASS_PANE)
-                            .displayName(Component.empty())
-                            .build()
-            );
+            return GuiFactory.createDecoration(Material.WHITE_STAINED_GLASS_PANE);
         }
 
-        // 스크롤바 위치 계산 (17, 26, 35 슬롯 중 하나)
-        int barSlots = 3; // 스크롤바 슬롯 개수
+        // 스크롤바 위치 계산
+        int barSlots = 3;
         int activeSlot = (int) Math.round((double) currentScroll / maxScroll * (barSlots - 1));
         int slotIndex = (position - SCROLL_BAR_START) / 9;
 
@@ -212,19 +203,40 @@ public abstract class ScrollableGui implements InteractiveGui {
                     item.executeAction(player, click);
                 }
             }
+        } else {
+            // 기타 슬롯은 하위 클래스에서 처리
+            handleNonScrollClick(event, player, slot, click);
         }
-
-        // 기타 슬롯은 하위 클래스에서 처리
-        handleNonScrollClick(event, player, slot, click);
     }
 
     /**
-     * 스크롤 영역 외의 클릭 처리
-     * 하위 클래스에서 구현
+     * 스크롤 영역 설정
      */
-    protected abstract void handleNonScrollClick(@NotNull InventoryClickEvent event,
-                                                 @NotNull Player player, int slot,
-                                                 @NotNull ClickType click);
+    protected void setupScrollableArea(@NotNull Inventory inventory,
+                                       @NotNull Map<Integer, GuiItem> items,
+                                       @NotNull BiConsumer<Integer, GuiItem> setItemMethod) {
+        // 스크롤 가능한 아이템 설정
+        scrollableItems = getScrollableItems();
+        List<GuiItem> visibleItems = getVisibleItems();
+
+        // 모든 스크롤 영역을 빈 슬롯으로 초기화
+        for (int row = SCROLL_START_ROW; row <= SCROLL_END_ROW; row++) {
+            for (int col = SCROLL_START_COL; col <= SCROLL_END_COL; col++) {
+                int slot = row * COLS + col;
+                setItemMethod.accept(slot, GuiFactory.createFiller());
+            }
+        }
+
+        // 보이는 아이템 배치
+        int index = 0;
+        for (int row = SCROLL_START_ROW; row <= SCROLL_END_ROW && index < visibleItems.size(); row++) {
+            for (int col = SCROLL_START_COL; col <= SCROLL_END_COL && index < visibleItems.size(); col++) {
+                int slot = row * COLS + col;
+                setItemMethod.accept(slot, visibleItems.get(index));
+                index++;
+            }
+        }
+    }
 
     /**
      * 페이지 정보 아이템 생성
@@ -242,36 +254,5 @@ public abstract class ScrollableGui implements InteractiveGui {
                                 NamedTextColor.GRAY))
                         .build()
         );
-    }
-
-    /**
-     * 스크롤 영역 설정 - 중복 코드 제거를 위한 공통 메소드
-     * 하위 클래스의 setupScrollable 메소드에서 사용
-     *
-     * @param inventory     설정할 인벤토리
-     * @param items         아이템 맵
-     * @param setItemMethod 아이템 설정 메소드 (slot, item) -> void
-     */
-    protected void setupScrollableArea(@NotNull Inventory inventory,
-                                       @NotNull Map<Integer, GuiItem> items,
-                                       @NotNull java.util.function.BiConsumer<Integer, GuiItem> setItemMethod) {
-        // 스크롤 가능한 아이템 설정 (updateScroll() 호출하지 않음)
-        scrollableItems = getScrollableItems();
-        List<GuiItem> visibleItems = getVisibleItems();
-
-        int index = 0;
-        for (int row = SCROLL_START_ROW; row <= SCROLL_END_ROW; row++) {
-            for (int col = SCROLL_START_COL; col <= SCROLL_END_COL; col++) {
-                int slot = row * COLS + col;
-
-                if (index < visibleItems.size()) {
-                    setItemMethod.accept(slot, visibleItems.get(index));
-                    index++;
-                } else {
-                    // 빈 슬롯 - GuiFactory 사용
-                    setItemMethod.accept(slot, com.febrie.rpg.gui.component.GuiFactory.createFiller());
-                }
-            }
-        }
     }
 }

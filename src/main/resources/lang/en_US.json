@@ -1,5 +1,6 @@
 {
   "general": {
+    "language-code": "en_US",
     "prefix": "%COLOR_PINK%[SypixelRPG]%COLOR_WHITE% ",
     "player-only": "%COLOR_RED%This command can only be used by players!",
     "player-not-found": "%COLOR_RED%Player not found: %COLOR_YELLOW%{player}",
@@ -103,6 +104,45 @@
       "stat-maxed": "%COLOR_ERROR%Maximum reached",
       "insufficient-points": "%COLOR_ERROR%Insufficient stat points",
       "click-talents": "%COLOR_GRAY%Click to go to talents page"
+    },
+    "buttons": {
+      "close": {
+        "name": "%COLOR_RED%Close",
+        "lore": "%COLOR_GRAY%Click to close GUI"
+      },
+      "back": {
+        "name": "%COLOR_YELLOW%Back",
+        "lore": "%COLOR_GRAY%Click to go back"
+      },
+      "refresh": {
+        "name": "%COLOR_GREEN%Refresh",
+        "lore": "%COLOR_GRAY%Click to refresh info"
+      },
+      "confirm": {
+        "name": "%COLOR_SUCCESS%Confirm",
+        "lore": "%COLOR_GRAY%Click to confirm"
+      },
+      "cancel": {
+        "name": "%COLOR_ERROR%Cancel",
+        "lore": "%COLOR_GRAY%Click to cancel"
+      },
+      "previous-page": {
+        "name": "%COLOR_YELLOW%Previous Page",
+        "lore": "%COLOR_GRAY%Click to go to previous page"
+      },
+      "next-page": {
+        "name": "%COLOR_YELLOW%Next Page",
+        "lore": "%COLOR_GRAY%Click to go to next page"
+      },
+      "page-info": {
+        "name": "%COLOR_ORANGE%Page Info",
+        "lore": "%COLOR_WHITE%Current: {current} / {total}"
+      },
+      "status": {
+        "online": "%COLOR_SUCCESS%Online",
+        "offline": "%COLOR_ERROR%Offline",
+        "status-text": "%COLOR_GRAY%Status: {status}"
+      }
     }
   },
   "items": {
@@ -226,6 +266,16 @@
           "%COLOR_GRAY%Manage talent tree",
           "",
           "%COLOR_YELLOW%▶ Click to open"
+        ]
+      },
+      "job-button": {
+        "name": "%COLOR_LEGENDARY%Job Selection",
+        "lore": [
+          "%COLOR_GRAY%You don't have a job yet",
+          "",
+          "%COLOR_WARNING%⚠ Jobs cannot be changed once selected!",
+          "",
+          "%COLOR_SUCCESS%▶ Click to choose a job"
         ]
       }
     }

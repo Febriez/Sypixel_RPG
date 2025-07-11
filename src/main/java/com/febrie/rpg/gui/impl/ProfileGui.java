@@ -208,10 +208,10 @@ public class ProfileGui extends BaseGui {
             );
             setItem(31, jobButton);
         } else {
-            // Show current job info
+            // Show current job info - JobType.getMaterial() 사용
             String jobKey = rpgPlayer.getJob().name().toLowerCase();
             GuiItem jobInfo = GuiItem.display(
-                    ItemBuilder.of(getJobMaterial(rpgPlayer.getJob()))
+                    ItemBuilder.of(rpgPlayer.getJob().getMaterial())
                             .displayName(Component.text(rpgPlayer.getJob().getIcon() + " ")
                                     .append(trans("job." + jobKey + ".name"))
                                     .color(rpgPlayer.getJob().getColor())
@@ -276,21 +276,6 @@ public class ProfileGui extends BaseGui {
                 sendMessage(player, "messages.profile-opened");
             }, langManager, viewer));
         }
-    }
-
-    // Helper method to get job material
-    private Material getJobMaterial(@NotNull com.febrie.rpg.job.JobType job) {
-        return switch (job) {
-            case BERSERKER -> Material.DIAMOND_AXE;
-            case BRUISER -> Material.IRON_SWORD;
-            case TANK -> Material.SHIELD;
-            case PRIEST -> Material.GOLDEN_APPLE;
-            case DARK_MAGE -> Material.WITHER_SKELETON_SKULL;
-            case MERCY -> Material.TOTEM_OF_UNDYING;
-            case ARCHER -> Material.BOW;
-            case SNIPER -> Material.CROSSBOW;
-            case SHOTGUNNER -> Material.FIRE_CHARGE;
-        };
     }
 
     // Helper methods for display

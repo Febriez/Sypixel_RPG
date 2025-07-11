@@ -3,6 +3,7 @@ package com.febrie.rpg.gui.framework;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.manager.GuiManager;
+import com.febrie.rpg.gui.util.GuiUtility;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -94,8 +95,7 @@ public abstract class BaseGui implements InteractiveGui {
      * @param item The GUI item to set
      */
     protected void setItem(int slot, @NotNull GuiItem item) {
-        items.put(slot, item);
-        inventory.setItem(slot, item.getItemStack());
+        GuiUtility.setItem(slot, item, items, inventory);
     }
 
     /**
