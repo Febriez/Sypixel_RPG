@@ -119,11 +119,13 @@ items:
 
     settings-button:
       name: "%COLOR_GRAY%Settings"
-      lore: "%COLOR_YELLOW%Click to open settings menu"
+      lore:
+        - "%COLOR_YELLOW%Click to open settings menu"
 
     stats-button:
       name: "%COLOR_INFO%Detailed Stats"
-      lore: "%COLOR_YELLOW%Click to view detailed stats"
+      lore:
+        - "%COLOR_YELLOW%Click to view detailed stats"
 
   mainmenu:
     profile-button:
@@ -163,6 +165,13 @@ status:
   unknown: "%COLOR_GRAY%Unknown"
   enabled: "%COLOR_SUCCESS%Enabled"
   disabled: "%COLOR_ERROR%Disabled"
+
+  # Flight related status
+  flight:
+    yes: "%COLOR_GREEN%Allowed"
+    no: "%COLOR_RED%Not Allowed"
+    enabled: "%COLOR_SUCCESS%Flight Enabled"
+    disabled: "%COLOR_ERROR%Flight Disabled"
 
 # === Game Modes ===
 gamemode:

@@ -225,9 +225,9 @@ public class ProfileGui implements InteractiveGui {
         );
         setItem(23, foodItem);
 
-        // Game mode info (slot 25) - FIXED: Removed status.flight.no usage
+        // Game mode info (slot 25) - Using status.flight keys
         String gameModeName = langManager.getMessage(viewer, "gamemode." + targetPlayer.getGameMode().name());
-        String canFly = langManager.getMessage(viewer, targetPlayer.getAllowFlight() ? "status.yes" : "status.no");
+        String canFly = langManager.getMessage(viewer, targetPlayer.getAllowFlight() ? "status.flight.yes" : "status.flight.no");
 
         GuiItem gameModeItem = GuiItem.display(
                 ItemBuilder.of(Material.COMPASS)

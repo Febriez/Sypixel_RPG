@@ -119,11 +119,13 @@ items:
 
     settings-button:
       name: "%COLOR_GRAY%설정"
-      lore: "%COLOR_YELLOW%클릭하여 설정 메뉴 열기"
+      lore:
+        - "%COLOR_YELLOW%클릭하여 설정 메뉴 열기"
 
     stats-button:
       name: "%COLOR_INFO%상세 스탯"
-      lore: "%COLOR_YELLOW%클릭하여 상세 스탯 보기"
+      lore:
+        - "%COLOR_YELLOW%클릭하여 상세 스탯 보기"
 
   mainmenu:
     profile-button:
@@ -163,6 +165,13 @@ status:
   unknown: "%COLOR_GRAY%정보 없음"
   enabled: "%COLOR_SUCCESS%활성화"
   disabled: "%COLOR_ERROR%비활성화"
+
+  # 비행 관련 상태
+  flight:
+    yes: "%COLOR_GREEN%가능"
+    no: "%COLOR_RED%불가능"
+    enabled: "%COLOR_SUCCESS%비행 활성화"
+    disabled: "%COLOR_ERROR%비행 비활성화"
 
 # === 게임 모드 ===
 gamemode:
