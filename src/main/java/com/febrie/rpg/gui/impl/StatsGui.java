@@ -256,23 +256,8 @@ public class StatsGui extends ScrollableGui {
      * 스크롤 가능한 스탯 목록 설정
      */
     private void setupScrollableStats() {
-        updateScroll();
-        List<GuiItem> visibleItems = getVisibleItems();
-
-        int index = 0;
-        for (int row = SCROLL_START_ROW; row <= SCROLL_END_ROW; row++) {
-            for (int col = SCROLL_START_COL; col <= SCROLL_END_COL; col++) {
-                int slot = row * COLS + col;
-
-                if (index < visibleItems.size()) {
-                    setItem(slot, visibleItems.get(index));
-                    index++;
-                } else {
-                    // 빈 슬롯
-                    setItem(slot, GuiFactory.createFiller());
-                }
-            }
-        }
+        // 부모 클래스의 공통 메소드 사용
+        setupScrollableArea(inventory, items, this::setItem);
     }
 
     /**

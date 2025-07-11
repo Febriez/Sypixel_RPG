@@ -2,7 +2,7 @@ package com.febrie.rpg.gui.impl;
 
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
-import com.febrie.rpg.gui.framework.ScrollableGui;
+import com.febrie.rpg.gui.framework.InteractiveGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.talent.Talent;
@@ -25,12 +25,23 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 /**
- * 특성 관리 GUI
+ * 특성 관리 GUI - 세로 중앙 정렬 레이아웃
  * 웹 형태의 특성 트리를 탐색하고 특성을 배울 수 있음
  *
  * @author Febrie, CoffeeTory
  */
-public class TalentGui extends ScrollableGui {
+public class TalentGui implements InteractiveGui {
+
+    private static final int GUI_SIZE = 54; // 6행
+
+    // 스크롤 설정 (중앙 3열 사용)
+    private static final int SCROLL_START_ROW = 1;
+    private static final int SCROLL_END_ROW = 4;
+    private static final int CONTENT_COLUMN = 4; // 중앙 열 (0-8 중 4)
+
+    // 스크롤 버튼
+    private static final int SCROLL_UP_SLOT = 4; // 상단 중앙
+    private static final int SCROLL_DOWN_SLOT = 49; // 하단 중앙
 
     private final GuiManager guiManager;
     private final LangManager langManager;
@@ -41,12 +52,26 @@ public class TalentGui extends ScrollableGui {
     // 현재 페이지 정보
     private final String pageId;
     private final List<Talent> pageTalents;
-    private final Stack<String> pageHistory = new Stack<>();
+    private final Stack<PageInfo> pageHistory = new Stack<>();
+
+    // 스크롤 관련
+    private int currentScroll = 0;
+    private static final int VISIBLE_ROWS = 4; // 보이는 행 수
+
+    // 페이지 정보를 저장하는 내부 클래스
+    private static class PageInfo {
+        final String pageId;
+        final List<Talent> talents;
+
+        PageInfo(String pageId, List<Talent> talents) {
+            this.pageId = pageId;
+            this.talents = talents;
+        }
+    }
 
     public TalentGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                      @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
                      @Nullable String pageId, @NotNull List<Talent> talents) {
-        super(viewer);
         this.guiManager = guiManager;
         this.langManager = langManager;
         this.rpgPlayer = rpgPlayer;
@@ -89,22 +114,7 @@ public class TalentGui extends ScrollableGui {
     }
 
     @Override
-    protected List<GuiItem> getScrollableItems() {
-        List<GuiItem> talentItems = new ArrayList<>();
-        boolean isKorean = langManager.getPlayerLanguage(viewer).equals("ko_KR");
-
-        // 현재 페이지의 특성들을 GuiItem으로 변환
-        for (Talent talent : pageTalents) {
-            talentItems.add(createTalentItem(talent, isKorean));
-        }
-
-        return talentItems;
-    }
-
-    @Override
-    protected void handleNonScrollClick(@NotNull InventoryClickEvent event,
-                                        @NotNull Player player, int slot,
-                                        @NotNull ClickType click) {
+    public void onSlotClick(@NotNull InventoryClickEvent event, @NotNull Player player, int slot, @NotNull ClickType click) {
         GuiItem item = items.get(slot);
         if (item != null && item.hasActions()) {
             item.executeAction(player, click);
@@ -116,69 +126,74 @@ public class TalentGui extends ScrollableGui {
      */
     private void setupLayout() {
         setupBackground();
-        setupPlayerInfo();
-        setupScrollableTalents();
+        setupTalentDisplay();
         setupScrollButtons();
         setupNavigationButtons();
+        setupInfoDisplay();
     }
 
     /**
      * 배경 설정
      */
     private void setupBackground() {
-        // 상단 테두리
-        for (int i = 0; i < 9; i++) {
-            if (i != 4 && i != SCROLL_UP_SLOT) {
-                setItem(i, GuiFactory.createDecoration());
-            }
+        // 전체 배경을 회색 유리판으로
+        for (int i = 0; i < GUI_SIZE; i++) {
+            setItem(i, GuiFactory.createDecoration());
         }
 
-        // 하단 테두리
-        for (int i = 45; i < 54; i++) {
-            if (i != 49 && i != SCROLL_DOWN_SLOT) {
-                setItem(i, GuiFactory.createDecoration());
-            }
-        }
-
-        // 좌우 테두리
-        for (int row = 1; row < 5; row++) {
-            setItem(row * 9, GuiFactory.createDecoration());
-            if (row != 2 && row != 4) {
-                setItem(row * 9 + 8, GuiFactory.createDecoration());
+        // 중앙 열을 특별한 색으로 (특성이 표시될 곳)
+        for (int row = 0; row < 6; row++) {
+            int slot = row * 9 + CONTENT_COLUMN;
+            if (row >= SCROLL_START_ROW && row <= SCROLL_END_ROW) {
+                setItem(slot, GuiFactory.createDecoration(Material.BLACK_STAINED_GLASS_PANE));
             }
         }
     }
 
     /**
-     * 플레이어 정보 표시
+     * 특성 표시 (세로 중앙 정렬)
      */
-    private void setupPlayerInfo() {
-        // 현재 페이지 정보
-        GuiItem pageInfo = GuiItem.display(
-                ItemBuilder.of(Material.KNOWLEDGE_BOOK)
-                        .displayName(Component.text(getPageTitle(), ColorUtil.EPIC)
-                                .decoration(TextDecoration.BOLD, true))
-                        .addLore(Component.empty())
-                        .addLore(Component.text("레벨 " + rpgPlayer.getLevel(), ColorUtil.SUCCESS))
-                        .addLore(Component.text("직업: " + (rpgPlayer.hasJob() ?
-                                rpgPlayer.getJob().getKoreanName() : "없음"), ColorUtil.INFO))
-                        .build()
-        );
-        setItem(4, pageInfo);
+    private void setupTalentDisplay() {
+        List<GuiItem> talentItems = createTalentItems();
+        int totalItems = talentItems.size();
 
-        // 특성 포인트 정보
-        Talent.TalentHolder talents = rpgPlayer.getTalents();
-        GuiItem talentPointInfo = GuiItem.display(
-                ItemBuilder.of(Material.EXPERIENCE_BOTTLE)
-                        .displayName(Component.text("특성 포인트", ColorUtil.LEGENDARY))
-                        .addLore(Component.text("보유 포인트: " + talents.getAvailablePoints(), ColorUtil.WHITE))
-                        .addLore(Component.text("사용한 포인트: " + talents.getSpentPoints(), ColorUtil.GRAY))
-                        .addLore(Component.empty())
-                        .addLore(Component.text("10레벨마다 1포인트를 획득합니다", ColorUtil.GRAY))
-                        .addLore(Component.text("특성을 클릭하여 배우세요", ColorUtil.GRAY))
-                        .build()
-        );
-        setItem(49, talentPointInfo);
+        // 스크롤이 필요한지 확인
+        boolean needsScroll = totalItems > VISIBLE_ROWS;
+
+        if (needsScroll) {
+            // 스크롤 적용
+            int startIndex = currentScroll;
+            int endIndex = Math.min(startIndex + VISIBLE_ROWS, totalItems);
+
+            for (int i = startIndex; i < endIndex; i++) {
+                int row = SCROLL_START_ROW + (i - startIndex);
+                int slot = row * 9 + CONTENT_COLUMN;
+                setItem(slot, talentItems.get(i));
+            }
+        } else {
+            // 스크롤 불필요 - 중앙 정렬
+            int startRow = SCROLL_START_ROW + (VISIBLE_ROWS - totalItems) / 2;
+
+            for (int i = 0; i < totalItems; i++) {
+                int row = startRow + i;
+                int slot = row * 9 + CONTENT_COLUMN;
+                setItem(slot, talentItems.get(i));
+            }
+        }
+    }
+
+    /**
+     * 특성 아이템들 생성
+     */
+    private List<GuiItem> createTalentItems() {
+        List<GuiItem> talentItems = new ArrayList<>();
+        boolean isKorean = langManager.getPlayerLanguage(rpgPlayer.getBukkitPlayer()).equals("ko_KR");
+
+        for (Talent talent : pageTalents) {
+            talentItems.add(createTalentItem(talent, isKorean));
+        }
+
+        return talentItems;
     }
 
     /**
@@ -211,7 +226,9 @@ public class TalentGui extends ScrollableGui {
 
         // 설명
         List<Component> description = talent.getDescription(isKorean, currentLevel);
-        builder.lore(description);
+        for (Component line : description) {
+            builder.addLore(line);
+        }
 
         builder.addLore(Component.empty());
 
@@ -275,20 +292,128 @@ public class TalentGui extends ScrollableGui {
     }
 
     /**
+     * 스크롤 버튼 설정
+     */
+    private void setupScrollButtons() {
+        int maxScroll = Math.max(0, pageTalents.size() - VISIBLE_ROWS);
+
+        // 위로 스크롤
+        if (currentScroll > 0) {
+            setItem(SCROLL_UP_SLOT, GuiItem.clickable(
+                    ItemBuilder.of(Material.LIME_DYE)
+                            .displayName(Component.text("▲ 위로", ColorUtil.SUCCESS))
+                            .addLore(Component.text("클릭하여 위로 스크롤", ColorUtil.GRAY))
+                            .build(),
+                    player -> {
+                        currentScroll--;
+                        refresh();
+                        player.playSound(player.getLocation(),
+                                org.bukkit.Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
+                    }
+            ));
+        }
+
+        // 아래로 스크롤
+        if (currentScroll < maxScroll) {
+            setItem(SCROLL_DOWN_SLOT, GuiItem.clickable(
+                    ItemBuilder.of(Material.LIME_DYE)
+                            .displayName(Component.text("▼ 아래로", ColorUtil.SUCCESS))
+                            .addLore(Component.text("클릭하여 아래로 스크롤", ColorUtil.GRAY))
+                            .build(),
+                    player -> {
+                        currentScroll++;
+                        refresh();
+                        player.playSound(player.getLocation(),
+                                org.bukkit.Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
+                    }
+            ));
+        }
+    }
+
+    /**
+     * 네비게이션 버튼 설정
+     */
+    private void setupNavigationButtons() {
+        // 뒤로가기 버튼 (좌측 하단)
+        setItem(45, GuiItem.clickable(
+                ItemBuilder.of(Material.ARROW)
+                        .displayName(Component.text("뒤로가기", ColorUtil.YELLOW))
+                        .addLore(Component.text("이전 페이지로", ColorUtil.GRAY))
+                        .build(),
+                player -> goToPreviousPage()
+        ));
+
+        // 새로고침 버튼
+        setItem(46, GuiFactory.createRefreshButton(player -> refresh(), langManager, rpgPlayer.getBukkitPlayer()));
+
+        // 스탯 페이지로 가기 버튼
+        setItem(52, GuiItem.clickable(
+                ItemBuilder.of(Material.IRON_SWORD)
+                        .displayName(Component.text("스탯 관리", ColorUtil.COPPER))
+                        .addLore(Component.text("클릭하여 스탯 페이지로 이동", ColorUtil.GRAY))
+                        .build(),
+                player -> {
+                    if (guiManager != null) {
+                        player.closeInventory();
+                        StatsGui statsGui = new StatsGui(guiManager, langManager, player, rpgPlayer);
+                        statsGui.open(player);
+                    }
+                }
+        ));
+
+        // 닫기 버튼 (우측 하단)
+        setItem(53, GuiFactory.createCloseButton(langManager, rpgPlayer.getBukkitPlayer()));
+    }
+
+    /**
+     * 정보 표시 영역
+     */
+    private void setupInfoDisplay() {
+        // 현재 페이지 정보 (좌측 상단)
+        GuiItem pageInfo = GuiItem.display(
+                ItemBuilder.of(Material.KNOWLEDGE_BOOK)
+                        .displayName(Component.text(getPageTitle(), ColorUtil.EPIC)
+                                .decoration(TextDecoration.BOLD, true))
+                        .addLore(Component.empty())
+                        .addLore(Component.text("레벨 " + rpgPlayer.getLevel(), ColorUtil.SUCCESS))
+                        .addLore(Component.text("직업: " + (rpgPlayer.hasJob() ?
+                                rpgPlayer.getJob().getKoreanName() : "없음"), ColorUtil.INFO))
+                        .build()
+        );
+        setItem(0, pageInfo);
+
+        // 특성 포인트 정보 (우측 상단)
+        Talent.TalentHolder talents = rpgPlayer.getTalents();
+        GuiItem talentPointInfo = GuiItem.display(
+                ItemBuilder.of(Material.EXPERIENCE_BOTTLE)
+                        .displayName(Component.text("특성 포인트", ColorUtil.LEGENDARY))
+                        .addLore(Component.text("보유 포인트: " + talents.getAvailablePoints(), ColorUtil.WHITE))
+                        .addLore(Component.text("사용한 포인트: " + talents.getSpentPoints(), ColorUtil.GRAY))
+                        .addLore(Component.empty())
+                        .addLore(Component.text("10레벨마다 1포인트를 획득합니다", ColorUtil.GRAY))
+                        .build()
+        );
+        setItem(8, talentPointInfo);
+    }
+
+    /**
      * 하위 페이지 열기
      */
     private void openSubPage(@NotNull Talent talent) {
-        pageHistory.push(pageId);
+        // 현재 페이지 정보 저장
+        pageHistory.push(new PageInfo(pageId, pageTalents));
 
         // 새 GUI 생성하여 열기
         TalentGui subPageGui = new TalentGui(
-                guiManager, langManager, viewer, rpgPlayer,
+                guiManager, langManager, rpgPlayer.getBukkitPlayer(), rpgPlayer,
                 talent.getPageId(), talent.getChildren()
         );
+
+        // 페이지 히스토리 복사
         subPageGui.pageHistory.addAll(this.pageHistory);
 
-        viewer.closeInventory();
-        subPageGui.open(viewer);
+        rpgPlayer.getBukkitPlayer().closeInventory();
+        subPageGui.open(rpgPlayer.getBukkitPlayer());
     }
 
     /**
@@ -296,25 +421,26 @@ public class TalentGui extends ScrollableGui {
      */
     private void goToPreviousPage() {
         if (pageHistory.isEmpty()) {
-            // 메인 메뉴나 프로필로
+            // 메인 메뉴로
             if (guiManager != null) {
-                guiManager.goBack(viewer);
+                guiManager.openMainMenuGui(rpgPlayer.getBukkitPlayer());
             }
             return;
         }
 
-        String previousPageId = pageHistory.pop();
+        PageInfo previousPage = pageHistory.pop();
 
-        // TODO: 실제 구현 시 TalentManager에서 페이지별 특성 목록 가져오기
-        // 임시로 빈 목록 사용
+        // 이전 페이지 GUI 생성
         TalentGui previousGui = new TalentGui(
-                guiManager, langManager, viewer, rpgPlayer,
-                previousPageId, new ArrayList<>()
+                guiManager, langManager, rpgPlayer.getBukkitPlayer(), rpgPlayer,
+                previousPage.pageId, previousPage.talents
         );
+
+        // 남은 히스토리 복사
         previousGui.pageHistory.addAll(this.pageHistory);
 
-        viewer.closeInventory();
-        previousGui.open(viewer);
+        rpgPlayer.getBukkitPlayer().closeInventory();
+        previousGui.open(rpgPlayer.getBukkitPlayer());
     }
 
     /**
@@ -331,82 +457,21 @@ public class TalentGui extends ScrollableGui {
     }
 
     /**
-     * 스크롤 가능한 특성 목록 설정
-     */
-    private void setupScrollableTalents() {
-        updateScroll();
-        List<GuiItem> visibleItems = getVisibleItems();
-
-        int index = 0;
-        for (int row = SCROLL_START_ROW; row <= SCROLL_END_ROW; row++) {
-            for (int col = SCROLL_START_COL; col <= SCROLL_END_COL; col++) {
-                int slot = row * COLS + col;
-
-                if (index < visibleItems.size()) {
-                    setItem(slot, visibleItems.get(index));
-                    index++;
-                } else {
-                    setItem(slot, GuiFactory.createFiller());
-                }
-            }
-        }
-    }
-
-    /**
-     * 스크롤 버튼 설정
-     */
-    private void setupScrollButtons() {
-        setItem(SCROLL_UP_SLOT, createScrollUpButton());
-        setItem(SCROLL_DOWN_SLOT, createScrollDownButton());
-
-        // 스크롤바
-        setItem(SCROLL_BAR_START, createScrollBarItem(SCROLL_BAR_START));
-        setItem(26, createScrollBarItem(26));
-        setItem(SCROLL_BAR_END, createScrollBarItem(SCROLL_BAR_END));
-    }
-
-    /**
-     * 네비게이션 버튼 설정
-     */
-    private void setupNavigationButtons() {
-        // 뒤로가기 버튼
-        setItem(45, GuiItem.clickable(
-                ItemBuilder.of(Material.ARROW)
-                        .displayName(Component.text("뒤로가기", ColorUtil.YELLOW))
-                        .addLore(Component.text("이전 페이지로", ColorUtil.GRAY))
-                        .build(),
-                player -> goToPreviousPage()
-        ));
-
-        // 새로고침 버튼
-        setItem(46, GuiFactory.createRefreshButton(player -> refresh(), langManager, viewer));
-
-        // 스탯 페이지로 가기 버튼
-        GuiItem statButton = GuiItem.clickable(
-                ItemBuilder.of(Material.IRON_SWORD)
-                        .displayName(Component.text("스탯 관리", ColorUtil.COPPER))
-                        .addLore(Component.text("클릭하여 스탯 페이지로 이동", ColorUtil.GRAY))
-                        .build(),
-                player -> {
-                    if (guiManager != null) {
-                        viewer.closeInventory();
-                        StatsGui statsGui = new StatsGui(guiManager, langManager, viewer, rpgPlayer);
-                        statsGui.open(viewer);
-                    }
-                }
-        );
-        setItem(52, statButton);
-
-        // 닫기 버튼
-        setItem(53, GuiFactory.createCloseButton(langManager, viewer));
-    }
-
-    /**
      * 페이지 제목 가져오기
      */
     private String getPageTitle() {
-        // TODO: 실제 구현 시 페이지 ID에 따른 제목 반환
-        return pageId.equals("main") ? "메인 특성" : "하위 특성";
+        // 페이지 ID에 따른 제목
+        return switch (pageId) {
+            case "main" -> "메인 특성";
+            case "strength_tree" -> "근력 트리";
+            case "berserker_offense" -> "버서커 공격 특성";
+            case "tank_defense" -> "탱커 방어 특성";
+            case "priest_healing" -> "사제 치유 특성";
+            case "dark_curses" -> "흑마법사 저주 특성";
+            case "archer_offense" -> "궁수 공격 특성";
+            case "sniper_special" -> "스나이퍼 특수 특성";
+            default -> "특성 트리";
+        };
     }
 
     /**

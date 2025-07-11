@@ -8,10 +8,12 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 스크롤 가능한 GUI 추상 클래스
@@ -57,10 +59,11 @@ public abstract class ScrollableGui implements InteractiveGui {
 
     /**
      * 스크롤 업데이트
+     * 주의: setupLayout() 내부에서는 직접 scrollableItems를 설정하여 순환 호출 방지
      */
     protected void updateScroll() {
         scrollableItems = getScrollableItems();
-        refresh();
+        // refresh() 호출 제거 - 필요시 호출자가 직접 refresh() 호출
     }
 
     /**
@@ -93,6 +96,7 @@ public abstract class ScrollableGui implements InteractiveGui {
     protected void scrollUp() {
         if (currentScroll > 0) {
             currentScroll--;
+            updateScroll();
             refresh();
         }
     }
@@ -103,6 +107,7 @@ public abstract class ScrollableGui implements InteractiveGui {
     protected void scrollDown() {
         if (currentScroll < getMaxScroll()) {
             currentScroll++;
+            updateScroll();
             refresh();
         }
     }
@@ -236,5 +241,36 @@ public abstract class ScrollableGui implements InteractiveGui {
                                 NamedTextColor.GRAY))
                         .build()
         );
+    }
+
+    /**
+     * 스크롤 영역 설정 - 중복 코드 제거를 위한 공통 메소드
+     * 하위 클래스의 setupScrollable 메소드에서 사용
+     *
+     * @param inventory     설정할 인벤토리
+     * @param items         아이템 맵
+     * @param setItemMethod 아이템 설정 메소드 (slot, item) -> void
+     */
+    protected void setupScrollableArea(@NotNull Inventory inventory,
+                                       @NotNull Map<Integer, GuiItem> items,
+                                       @NotNull java.util.function.BiConsumer<Integer, GuiItem> setItemMethod) {
+        // 스크롤 가능한 아이템 설정 (updateScroll() 호출하지 않음)
+        scrollableItems = getScrollableItems();
+        List<GuiItem> visibleItems = getVisibleItems();
+
+        int index = 0;
+        for (int row = SCROLL_START_ROW; row <= SCROLL_END_ROW; row++) {
+            for (int col = SCROLL_START_COL; col <= SCROLL_END_COL; col++) {
+                int slot = row * COLS + col;
+
+                if (index < visibleItems.size()) {
+                    setItemMethod.accept(slot, visibleItems.get(index));
+                    index++;
+                } else {
+                    // 빈 슬롯 - GuiFactory 사용
+                    setItemMethod.accept(slot, com.febrie.rpg.gui.component.GuiFactory.createFiller());
+                }
+            }
+        }
     }
 }

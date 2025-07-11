@@ -83,6 +83,7 @@ public final class RPGMain extends JavaPlugin {
      */
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new GuiListener(), this);
+        getServer().getPluginManager().registerEvents(rpgPlayerManager, this);
     }
 
     /**

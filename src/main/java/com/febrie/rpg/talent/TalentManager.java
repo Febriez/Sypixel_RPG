@@ -148,6 +148,44 @@ public class TalentManager {
         berserkRage.addChild(bloodThirst);
         registerJobTalent(bloodThirst, JobType.BERSERKER, "berserker_offense");
 
+        // 버서커 추가 특성들 (세로 스크롤 테스트용)
+        Talent rampage = new Talent.Builder("rampage")
+                .name("광란", "Rampage")
+                .icon(Material.TNT)
+                .color(ColorUtil.ERROR)
+                .maxLevel(3)
+                .requiredPoints(2)
+                .category(Talent.TalentCategory.OFFENSE)
+                .addStatBonus(Stat.STRENGTH, 3)
+                .addStatBonus(Stat.DEXTERITY, 2)
+                .addEffect("연속 처치 시 이동속도 +10%")
+                .build();
+        registerJobTalent(rampage, JobType.BERSERKER, "main");
+
+        Talent battleFrenzy = new Talent.Builder("battle_frenzy")
+                .name("전투 광기", "Battle Frenzy")
+                .icon(Material.BLAZE_POWDER)
+                .color(ColorUtil.ORANGE)
+                .maxLevel(5)
+                .requiredPoints(1)
+                .category(Talent.TalentCategory.OFFENSE)
+                .addStatBonus(Stat.STRENGTH, 2)
+                .addEffect("전투 중 공격속도 +5%")
+                .build();
+        registerJobTalent(battleFrenzy, JobType.BERSERKER, "main");
+
+        Talent undyingRage = new Talent.Builder("undying_rage")
+                .name("불사의 분노", "Undying Rage")
+                .icon(Material.TOTEM_OF_UNDYING)
+                .color(ColorUtil.LEGENDARY)
+                .maxLevel(1)
+                .requiredPoints(5)
+                .category(Talent.TalentCategory.SPECIAL)
+                .addEffect("체력 1% 이하에서 3초간 무적")
+                .build();
+        undyingRage.addPrerequisite(berserkRage, 5);
+        registerJobTalent(undyingRage, JobType.BERSERKER, "main");
+
         // 브루저 특성
         Talent balanced = new Talent.Builder("balanced_fighter")
                 .name("균형잡힌 전투", "Balanced Fighting")
@@ -370,26 +408,53 @@ public class TalentManager {
     }
 
     /**
-     * 직업의 메인 특성 목록 가져오기
+     * 직업의 메인 특성 목록 가져오기 - 해당 직업 특성만!
      */
     @NotNull
     public List<Talent> getJobMainTalents(@NotNull JobType job) {
         List<Talent> mainTalents = new ArrayList<>();
 
-        // 공통 특성
-        mainTalents.addAll(getPageTalents("main"));
+        // 공통 특성 (기본 스탯 특성만)
+        Talent basicStr = getTalent("basic_strength");
+        Talent basicInt = getTalent("basic_intelligence");
+        Talent basicVit = getTalent("basic_vitality");
 
-        // 직업별 특성
+        if (basicStr != null) mainTalents.add(basicStr);
+        if (basicInt != null) mainTalents.add(basicInt);
+        if (basicVit != null) mainTalents.add(basicVit);
+
+        // 직업별 특성 - 해당 직업의 것만!
         List<Talent> jobSpecific = jobTalents.get(job);
         if (jobSpecific != null) {
             for (Talent talent : jobSpecific) {
-                if (talent.getParent() == null) { // 최상위 특성만
+                // 최상위 특성만 (parent가 없는 것)
+                // 그리고 "main" 페이지의 특성만
+                if (talent.getParent() == null &&
+                        getPageTalents("main").contains(talent)) {
                     mainTalents.add(talent);
                 }
             }
         }
 
         return mainTalents;
+    }
+
+    /**
+     * 특정 특성의 하위 페이지 특성 목록 가져오기
+     */
+    @NotNull
+    public List<Talent> getSubPageTalents(@NotNull String pageId, @NotNull JobType job) {
+        List<Talent> pageTalents = getPageTalents(pageId);
+
+        // 직업에 맞는 특성만 필터링
+        if (job != null) {
+            pageTalents.removeIf(talent -> {
+                List<Talent> jobTalentList = jobTalents.get(job);
+                return jobTalentList == null || !jobTalentList.contains(talent);
+            });
+        }
+
+        return pageTalents;
     }
 
     /**
