@@ -1,8 +1,11 @@
 package com.febrie.rpg.util;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -10,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,17 +22,16 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Language management utility for multi-language support
+ * Clean and optimized language management utility using JSON and Gson
  * Handles loading and retrieving localized messages with color placeholder support
- * <p>
- * Enhanced with detailed debugging and improved error handling
  *
  * @author Febrie, CoffeeTory
  */
 public class LangManager {
 
     private final Plugin plugin;
-    private final Map<String, YamlConfiguration> languageConfigs;
+    private final Gson gson;
+    private final Map<String, JsonObject> languageConfigs;
     private final Map<UUID, String> playerLanguages;
     private final String defaultLanguage;
 
@@ -36,9 +40,10 @@ public class LangManager {
 
     public LangManager(@NotNull Plugin plugin) {
         this.plugin = plugin;
+        this.gson = new Gson();
         this.languageConfigs = new HashMap<>();
         this.playerLanguages = new ConcurrentHashMap<>();
-        this.defaultLanguage = "ko_KR"; // Default to Korean
+        this.defaultLanguage = "ko_KR";
 
         loadLanguages();
     }
@@ -47,62 +52,52 @@ public class LangManager {
      * Loads all language files from the plugin's lang directory
      */
     private void loadLanguages() {
-        // Create lang directory if it doesn't exist
         File langDir = new File(plugin.getDataFolder(), "lang");
         if (!langDir.exists()) {
             langDir.mkdirs();
         }
 
-        // Copy default language files from resources
-        copyDefaultLanguageFile("ko_KR.yml");
-        copyDefaultLanguageFile("en_US.yml");
+        // Copy and load default language files
+        copyAndLoadLanguageFile("ko_KR.json");
+        copyAndLoadLanguageFile("en_US.json");
 
-        // Load all .yml files in the lang directory
-        File[] files = langDir.listFiles((dir, name) -> name.endsWith(".yml"));
-        if (files != null) {
-            for (File file : files) {
-                String langCode = file.getName().replace(".yml", "");
-                YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-                languageConfigs.put(langCode, config);
-                plugin.getLogger().info("Loaded language: " + langCode + " with " + getAllKeys(config).size() + " keys");
-
-                // Debug: Log some key GUI button keys
-                if (config.contains("gui.buttons.close.name")) {
-                    plugin.getLogger().info("  ✓ gui.buttons.close.name found: " + config.getString("gui.buttons.close.name"));
-                } else {
-                    plugin.getLogger().warning("  ✗ gui.buttons.close.name NOT found in " + langCode);
-                }
-            }
-        }
-
-        plugin.getLogger().info("Language system initialized with " +
-                languageConfigs.size() + " languages");
+        plugin.getLogger().info("Language system initialized with " + languageConfigs.size() + " languages: " + languageConfigs.keySet());
     }
 
     /**
-     * Gets all keys from a configuration (for debugging)
+     * Copies default language file from resources and loads it
      */
-    private java.util.Set<String> getAllKeys(YamlConfiguration config) {
-        return config.getKeys(true);
-    }
-
-    /**
-     * Copies default language files from plugin resources
-     */
-    private void copyDefaultLanguageFile(@NotNull String fileName) {
+    private void copyAndLoadLanguageFile(@NotNull String fileName) {
         File langFile = new File(plugin.getDataFolder(), "lang/" + fileName);
 
+        // Copy file if it doesn't exist
         if (!langFile.exists()) {
             try (InputStream inputStream = plugin.getResource("lang/" + fileName)) {
                 if (inputStream != null) {
                     Files.copy(inputStream, langFile.toPath());
-                    plugin.getLogger().info("Created default language file: " + fileName);
+                    plugin.getLogger().info("Created language file: " + fileName);
                 } else {
                     plugin.getLogger().warning("Resource not found: lang/" + fileName);
+                    return;
                 }
             } catch (IOException e) {
-                plugin.getLogger().warning("Failed to copy language file " + fileName + ": " + e.getMessage());
+                plugin.getLogger().severe("Failed to copy language file " + fileName + ": " + e.getMessage());
+                return;
             }
+        }
+
+        // Load the file
+        try (InputStreamReader reader = new InputStreamReader(
+                Files.newInputStream(langFile.toPath()), StandardCharsets.UTF_8)) {
+
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+            String langCode = fileName.replace(".json", "");
+            languageConfigs.put(langCode, jsonObject);
+
+            plugin.getLogger().info("Loaded language: " + langCode);
+
+        } catch (IOException e) {
+            plugin.getLogger().severe("Failed to load language file " + fileName + ": " + e.getMessage());
         }
     }
 
@@ -120,67 +115,11 @@ public class LangManager {
      */
     @NotNull
     public String getMessage(@NotNull String language, @NotNull String key, @NotNull String... placeholders) {
-        // Debug logging for problematic keys
-        if (key.contains("gui.buttons") || key.contains("status.flight")) {
-            plugin.getLogger().info("DEBUG: Requesting key '" + key + "' for language '" + language + "'");
-        }
+        String message = getValueFromJson(language, key);
 
-        YamlConfiguration config = languageConfigs.get(language);
-
-        // Fallback to default language if specified language not found
-        if (config == null) {
-            plugin.getLogger().warning("Language config not found: " + language + ", falling back to " + defaultLanguage);
-            config = languageConfigs.get(defaultLanguage);
-        }
-
-        // Fallback to English if default not found
-        if (config == null) {
-            plugin.getLogger().warning("Default language config not found: " + defaultLanguage + ", falling back to en_US");
-            config = languageConfigs.get("en_US");
-        }
-
-        // Last resort: return the key itself
-        if (config == null) {
-            plugin.getLogger().severe("No language configuration found at all! Available languages: " + languageConfigs.keySet());
-            return key;
-        }
-
-        String message = config.getString(key);
         if (message == null) {
-            // Debug: Show what keys are actually available
-            if (key.contains("gui.buttons") || key.contains("status.flight")) {
-                plugin.getLogger().warning("Key '" + key + "' not found in " + language + ". Available gui.buttons keys:");
-                config.getKeys(true).stream()
-                        .filter(k -> k.startsWith("gui.buttons"))
-                        .limit(5)
-                        .forEach(k -> plugin.getLogger().warning("  - " + k));
-            }
-
-            // Try to get from default language
-            YamlConfiguration defaultConfig = languageConfigs.get(defaultLanguage);
-            if (defaultConfig != null && !language.equals(defaultLanguage)) {
-                message = defaultConfig.getString(key);
-                if (message != null) {
-                    plugin.getLogger().info("Found key '" + key + "' in default language " + defaultLanguage);
-                }
-            }
-
-            // Try English as final fallback
-            if (message == null && !language.equals("en_US")) {
-                YamlConfiguration englishConfig = languageConfigs.get("en_US");
-                if (englishConfig != null) {
-                    message = englishConfig.getString(key);
-                    if (message != null) {
-                        plugin.getLogger().info("Found key '" + key + "' in English fallback");
-                    }
-                }
-            }
-
-            // Still null? Return key and log detailed warning
-            if (message == null) {
-                plugin.getLogger().warning("Missing translation key: " + key + " (language: " + language + ", available languages: " + languageConfigs.keySet() + ")");
-                return key;
-            }
+            plugin.getLogger().warning("Missing translation key: " + key + " (language: " + language + ")");
+            return key;
         }
 
         // Replace placeholders
@@ -213,7 +152,6 @@ public class LangManager {
 
     /**
      * Gets a list of Component messages for a player in their preferred language
-     * Used for lore and multi-line text
      */
     @NotNull
     public java.util.List<Component> getComponentList(@NotNull Player player, @NotNull String key, @NotNull String... placeholders) {
@@ -223,93 +161,103 @@ public class LangManager {
 
     /**
      * Gets a list of Component messages in the specified language
-     * Used for lore and multi-line text
      */
     @NotNull
     public java.util.List<Component> getComponentList(@NotNull String language, @NotNull String key, @NotNull String... placeholders) {
-        YamlConfiguration config = languageConfigs.get(language);
+        JsonElement element = getElementFromJson(language, key);
 
-        // Fallback to default language if specified language not found
-        if (config == null) {
-            config = languageConfigs.get(defaultLanguage);
-        }
-
-        // Fallback to English if default not found
-        if (config == null) {
-            config = languageConfigs.get("en_US");
-        }
-
-        // Last resort: return list with the key itself
-        if (config == null) {
-            plugin.getLogger().warning("No language configuration found for key: " + key);
+        if (element == null || !element.isJsonArray()) {
+            plugin.getLogger().warning("Missing or invalid translation key list: " + key + " (language: " + language + ")");
             return java.util.List.of(Component.text(key));
         }
 
-        java.util.List<String> messages = config.getStringList(key);
-        if (messages.isEmpty()) {
-            // Try to get from default language
-            YamlConfiguration defaultConfig = languageConfigs.get(defaultLanguage);
-            if (defaultConfig != null && !language.equals(defaultLanguage)) {
-                messages = defaultConfig.getStringList(key);
-            }
-
-            // Try English as final fallback
-            if (messages.isEmpty() && !language.equals("en_US")) {
-                YamlConfiguration englishConfig = languageConfigs.get("en_US");
-                if (englishConfig != null) {
-                    messages = englishConfig.getStringList(key);
-                }
-            }
-
-            // Still empty? Return list with key
-            if (messages.isEmpty()) {
-                plugin.getLogger().warning("Missing translation key list: " + key + " (language: " + language + ")");
-                return java.util.List.of(Component.text(key));
-            }
-        }
-
+        JsonArray jsonArray = element.getAsJsonArray();
         java.util.List<Component> components = new java.util.ArrayList<>();
-        for (String message : messages) {
-            // Replace placeholders
-            for (int i = 0; i < placeholders.length; i += 2) {
-                if (i + 1 < placeholders.length) {
-                    message = message.replace("{" + placeholders[i] + "}", placeholders[i + 1]);
-                }
-            }
 
-            // Parse color placeholders and add to list
-            components.add(parseColorPlaceholders(message));
+        for (JsonElement arrayElement : jsonArray) {
+            if (arrayElement.isJsonPrimitive()) {
+                String message = arrayElement.getAsString();
+
+                // Replace placeholders
+                for (int i = 0; i < placeholders.length; i += 2) {
+                    if (i + 1 < placeholders.length) {
+                        message = message.replace("{" + placeholders[i] + "}", placeholders[i + 1]);
+                    }
+                }
+
+                components.add(parseColorPlaceholders(message));
+            }
         }
 
         return components;
     }
 
     /**
+     * Gets a string value from JSON using dot notation key
+     */
+    private String getValueFromJson(@NotNull String language, @NotNull String key) {
+        JsonElement element = getElementFromJson(language, key);
+        return element != null && element.isJsonPrimitive() ? element.getAsString() : null;
+    }
+
+    /**
+     * Gets a JsonElement from JSON using dot notation key with fallback logic
+     */
+    private JsonElement getElementFromJson(@NotNull String language, @NotNull String key) {
+        JsonElement element = navigateJsonPath(languageConfigs.get(language), key);
+
+        // Try default language if not found
+        if (element == null && !language.equals(defaultLanguage)) {
+            element = navigateJsonPath(languageConfigs.get(defaultLanguage), key);
+        }
+
+        // Try English as final fallback
+        if (element == null && !language.equals("en_US")) {
+            element = navigateJsonPath(languageConfigs.get("en_US"), key);
+        }
+
+        return element;
+    }
+
+    /**
+     * Navigates JSON object using dot notation path
+     */
+    private JsonElement navigateJsonPath(JsonObject jsonObject, @NotNull String path) {
+        if (jsonObject == null) {
+            return null;
+        }
+
+        String[] parts = path.split("\\.");
+        JsonElement current = jsonObject;
+
+        for (String part : parts) {
+            if (current == null || !current.isJsonObject()) {
+                return null;
+            }
+            current = current.getAsJsonObject().get(part);
+        }
+
+        return current;
+    }
+
+    /**
      * Parses color placeholders (%COLOR_NAME%) in text and converts to Component
-     *
-     * @param text The text containing color placeholders
-     * @return Component with colors applied
      */
     @NotNull
     private Component parseColorPlaceholders(@NotNull String text) {
-        // Pattern to match %COLOR_XXX%
         java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("%COLOR_([A-Z_]+)%");
         java.util.regex.Matcher matcher = pattern.matcher(text);
 
         if (!matcher.find()) {
-            // No color placeholders found, return as legacy-deserialized component
             return SERIALIZER.deserialize(text);
         }
 
-        // Reset matcher for processing
         matcher.reset();
-
         Component result = Component.empty();
         int lastEnd = 0;
         net.kyori.adventure.text.format.TextColor currentColor = net.kyori.adventure.text.format.NamedTextColor.WHITE;
 
         while (matcher.find()) {
-            // Add text before the color placeholder
             if (matcher.start() > lastEnd) {
                 String beforeText = text.substring(lastEnd, matcher.start());
                 if (!beforeText.isEmpty()) {
@@ -317,22 +265,18 @@ public class LangManager {
                 }
             }
 
-            // Parse the color
             String colorName = matcher.group(1);
             net.kyori.adventure.text.format.TextColor foundColor = ColorUtil.getColorByName(colorName);
 
             if (foundColor != null) {
                 currentColor = foundColor;
             } else {
-                plugin.getLogger().warning("Unknown color in placeholder: " + colorName);
-                // Add the placeholder as-is if color not found
                 result = result.append(Component.text(matcher.group(0), currentColor));
             }
 
             lastEnd = matcher.end();
         }
 
-        // Add remaining text after the last placeholder
         if (lastEnd < text.length()) {
             String remainingText = text.substring(lastEnd);
             if (!remainingText.isEmpty()) {
@@ -349,11 +293,7 @@ public class LangManager {
     @NotNull
     public String getPlayerLanguage(@NotNull Player player) {
         return playerLanguages.computeIfAbsent(player.getUniqueId(),
-                uuid -> {
-                    String detected = detectPlayerLanguage(player);
-                    plugin.getLogger().info("Detected language for " + player.getName() + ": " + detected + " (client locale: " + player.locale() + ")");
-                    return detected;
-                });
+                uuid -> detectPlayerLanguage(player));
     }
 
     /**
@@ -362,26 +302,16 @@ public class LangManager {
     public void setPlayerLanguage(@NotNull Player player, @NotNull String language) {
         if (languageConfigs.containsKey(language)) {
             playerLanguages.put(player.getUniqueId(), language);
-            plugin.getLogger().info("Set language for " + player.getName() + " to " + language);
-        } else {
-            plugin.getLogger().warning("Attempted to set unavailable language: " + language + " for " + player.getName());
         }
     }
 
     /**
      * Detects player's language based on their client locale
-     * Simplified: Korean if starts with "ko", otherwise English
      */
     @NotNull
     private String detectPlayerLanguage(@NotNull Player player) {
         String clientLocale = player.locale().toString().toLowerCase();
-
-        // Simple logic: Korean if starts with "ko", otherwise English
-        if (clientLocale.startsWith("ko")) {
-            return "ko_KR";
-        } else {
-            return "en_US";
-        }
+        return clientLocale.startsWith("ko") ? "ko_KR" : "en_US";
     }
 
     /**
@@ -389,7 +319,7 @@ public class LangManager {
      */
     public void reload() {
         languageConfigs.clear();
-        playerLanguages.clear(); // Clear cached player languages too
+        playerLanguages.clear();
         loadLanguages();
         plugin.getLogger().info("Language system reloaded");
     }
@@ -438,29 +368,5 @@ public class LangManager {
     public void broadcast(@NotNull String key, @NotNull String... placeholders) {
         plugin.getServer().getOnlinePlayers().forEach(player ->
                 sendMessage(player, key, placeholders));
-    }
-
-    /**
-     * Debug method to check if a key exists
-     */
-    public boolean hasKey(@NotNull String language, @NotNull String key) {
-        YamlConfiguration config = languageConfigs.get(language);
-        return config != null && config.contains(key);
-    }
-
-    /**
-     * Debug method to list all keys starting with a prefix
-     */
-    @NotNull
-    public java.util.List<String> getKeysStartingWith(@NotNull String language, @NotNull String prefix) {
-        YamlConfiguration config = languageConfigs.get(language);
-        if (config == null) {
-            return java.util.List.of();
-        }
-
-        return config.getKeys(true).stream()
-                .filter(key -> key.startsWith(prefix))
-                .sorted()
-                .toList();
     }
 }

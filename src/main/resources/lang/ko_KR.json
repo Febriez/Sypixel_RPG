@@ -1,0 +1,208 @@
+{
+  "general": {
+    "prefix": "%COLOR_PINK%[SypixelRPG]%COLOR_WHITE% ",
+    "player-only": "%COLOR_RED%이 명령어는 플레이어만 사용할 수 있습니다!",
+    "player-not-found": "%COLOR_RED%플레이어를 찾을 수 없습니다: %COLOR_YELLOW%{player}",
+    "no-permission": "%COLOR_RED%이 명령어를 사용할 권한이 없습니다.",
+    "reload-success": "%COLOR_GREEN%설정이 성공적으로 다시 로드되었습니다!",
+    "coming-soon": "%COLOR_YELLOW%이 기능은 곧 추가됩니다!",
+    "error": "%COLOR_RED%오류가 발생했습니다. 관리자에게 문의하세요."
+  },
+  "commands": {
+    "profile": {
+      "usage": "%COLOR_YELLOW%사용법: /profile 또는 /프로필",
+      "description": "자신의 프로필을 봅니다",
+      "success": "%COLOR_GREEN%프로필을 열었습니다!"
+    },
+    "viewprofile": {
+      "usage": "%COLOR_YELLOW%사용법: /viewprofile <플레이어명> 또는 /프로필보기 <플레이어명>",
+      "description": "다른 플레이어의 프로필을 봅니다",
+      "success": "%COLOR_GREEN%{player}의 프로필을 열었습니다!"
+    },
+    "mainmenu": {
+      "usage": "%COLOR_YELLOW%사용법: /mainmenu 또는 /메인메뉴",
+      "description": "메인 메뉴를 엽니다",
+      "success": "%COLOR_GREEN%메인 메뉴를 열었습니다!"
+    }
+  },
+  "gui": {
+    "profile": {
+      "title": "%COLOR_ORANGE%플레이어 프로필",
+      "player-title": "%COLOR_ORANGE%플레이어 프로필 %COLOR_GRAY%- %COLOR_YELLOW%{player}"
+    },
+    "mainmenu": {
+      "title": "%COLOR_LEGENDARY%메인 메뉴",
+      "subtitle": "%COLOR_WHITE%원하는 기능을 선택하세요"
+    },
+    "buttons": {
+      "close": {
+        "name": "%COLOR_RED%닫기",
+        "lore": "%COLOR_GRAY%클릭하여 GUI 닫기"
+      },
+      "back": {
+        "name": "%COLOR_YELLOW%뒤로가기",
+        "lore": "%COLOR_GRAY%클릭하여 이전 메뉴로"
+      },
+      "refresh": {
+        "name": "%COLOR_GREEN%새로고침",
+        "lore": "%COLOR_GRAY%클릭하여 정보 갱신"
+      },
+      "confirm": {
+        "name": "%COLOR_SUCCESS%확인",
+        "lore": "%COLOR_GRAY%클릭하여 확인"
+      },
+      "cancel": {
+        "name": "%COLOR_ERROR%취소",
+        "lore": "%COLOR_GRAY%클릭하여 취소"
+      },
+      "previous-page": {
+        "name": "%COLOR_YELLOW%이전 페이지",
+        "lore": "%COLOR_GRAY%클릭하여 이전 페이지로"
+      },
+      "next-page": {
+        "name": "%COLOR_YELLOW%다음 페이지",
+        "lore": "%COLOR_GRAY%클릭하여 다음 페이지로"
+      },
+      "page-info": {
+        "name": "%COLOR_ORANGE%페이지 정보",
+        "lore": "%COLOR_WHITE%현재: {current} / {total}"
+      },
+      "status": {
+        "online": "%COLOR_SUCCESS%온라인",
+        "offline": "%COLOR_ERROR%오프라인",
+        "status-text": "%COLOR_GRAY%상태: {status}"
+      }
+    }
+  },
+  "items": {
+    "profile": {
+      "player-head": {
+        "name": "%COLOR_LEGENDARY%{player}",
+        "lore": [
+          "",
+          "%COLOR_WHITE%플레이어: %COLOR_YELLOW%{player}",
+          "%COLOR_GRAY%UUID: %COLOR_WHITE%{uuid}",
+          "%COLOR_CYAN%온라인 시간: %COLOR_WHITE%{playtime}",
+          "",
+          "%COLOR_YELLOW%클릭하여 상세 정보 보기"
+        ]
+      },
+      "level-info": {
+        "name": "%COLOR_SUCCESS%레벨 정보",
+        "lore": [
+          "%COLOR_WHITE%현재 레벨: %COLOR_GREEN%{level}",
+          "%COLOR_WHITE%경험치: %COLOR_EXPERIENCE%{exp}%",
+          "%COLOR_WHITE%총 경험치: %COLOR_YELLOW%{total_exp}"
+        ]
+      },
+      "health-info": {
+        "name": "%COLOR_HEALTH%체력",
+        "lore": [
+          "%COLOR_WHITE%현재: %COLOR_RED%{current} %COLOR_GRAY%/ %COLOR_RED%{max}",
+          "%COLOR_WHITE%비율: %COLOR_YELLOW%{percentage}%",
+          "%COLOR_WHITE%{health_bar}"
+        ]
+      },
+      "food-info": {
+        "name": "%COLOR_ORANGE%배고픔",
+        "lore": [
+          "%COLOR_WHITE%배고픔: %COLOR_YELLOW%{food} %COLOR_GRAY%/ %COLOR_YELLOW%20",
+          "%COLOR_WHITE%포화도: %COLOR_GOLD%{saturation}",
+          "%COLOR_WHITE%{hunger_bar}"
+        ]
+      },
+      "game-info": {
+        "name": "%COLOR_INFO%게임 정보",
+        "lore": [
+          "%COLOR_WHITE%게임 모드: %COLOR_CYAN%{gamemode}",
+          "%COLOR_WHITE%비행 가능: %COLOR_GREEN%{can_fly}",
+          "%COLOR_WHITE%월드: %COLOR_LIME%{world}"
+        ]
+      },
+      "settings-button": {
+        "name": "%COLOR_GRAY%설정",
+        "lore": [
+          "%COLOR_YELLOW%클릭하여 설정 메뉴 열기"
+        ]
+      },
+      "stats-button": {
+        "name": "%COLOR_INFO%상세 스탯",
+        "lore": [
+          "%COLOR_YELLOW%클릭하여 상세 스탯 보기"
+        ]
+      }
+    },
+    "mainmenu": {
+      "profile-button": {
+        "name": "%COLOR_LEGENDARY%내 프로필",
+        "lore": [
+          "%COLOR_GRAY%자신의 프로필을 확인합니다",
+          "",
+          "%COLOR_YELLOW%클릭하여 열기"
+        ]
+      },
+      "shop-button": {
+        "name": "%COLOR_EMERALD%상점",
+        "lore": [
+          "%COLOR_GRAY%아이템을 구매하고 판매합니다",
+          "",
+          "%COLOR_YELLOW%클릭하여 열기"
+        ]
+      },
+      "dungeon-button": {
+        "name": "%COLOR_RED%던전",
+        "lore": [
+          "%COLOR_GRAY%던전에 입장하여 모험을 떠납니다",
+          "",
+          "%COLOR_YELLOW%클릭하여 열기"
+        ]
+      },
+      "settings-button": {
+        "name": "%COLOR_GRAY%설정",
+        "lore": [
+          "%COLOR_GRAY%게임 설정을 변경합니다",
+          "",
+          "%COLOR_YELLOW%클릭하여 열기"
+        ]
+      }
+    }
+  },
+  "status": {
+    "online": "%COLOR_GREEN%온라인",
+    "offline": "%COLOR_RED%오프라인",
+    "yes": "%COLOR_GREEN%예",
+    "no": "%COLOR_RED%아니오",
+    "unknown": "%COLOR_GRAY%정보 없음",
+    "enabled": "%COLOR_SUCCESS%활성화",
+    "disabled": "%COLOR_ERROR%비활성화",
+    "flight": {
+      "yes": "%COLOR_GREEN%가능",
+      "no": "%COLOR_RED%불가능",
+      "enabled": "%COLOR_SUCCESS%비행 활성화",
+      "disabled": "%COLOR_ERROR%비행 비활성화"
+    }
+  },
+  "gamemode": {
+    "SURVIVAL": "%COLOR_GREEN%생존",
+    "CREATIVE": "%COLOR_GOLD%크리에이티브",
+    "ADVENTURE": "%COLOR_PURPLE%모험",
+    "SPECTATOR": "%COLOR_GRAY%관전자"
+  },
+  "messages": {
+    "profile-opened": "%COLOR_SUCCESS%프로필 정보가 갱신되었습니다!",
+    "gui-refreshed": "%COLOR_SUCCESS%정보가 성공적으로 갱신되었습니다!"
+  },
+  "rarity": {
+    "common": "%COLOR_COMMON%일반",
+    "uncommon": "%COLOR_UNCOMMON%고급",
+    "rare": "%COLOR_RARE%희귀",
+    "epic": "%COLOR_EPIC%영웅",
+    "legendary": "%COLOR_LEGENDARY%전설"
+  },
+  "system": {
+    "loading": "%COLOR_YELLOW%로딩 중...",
+    "saving": "%COLOR_YELLOW%저장 중...",
+    "completed": "%COLOR_SUCCESS%완료!",
+    "failed": "%COLOR_ERROR%실패!"
+  }
+}

@@ -10,14 +10,16 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public final class RPGMain extends JavaPlugin implements Listener {
+/**
+ * Main plugin class for Sypixel RPG
+ * Handles plugin initialization and core functionality
+ *
+ * @author Febrie, CoffeeTory
+ */
+public final class RPGMain extends JavaPlugin {
 
     private static RPGMain plugin;
     private LangManager langManager;
@@ -27,44 +29,52 @@ public final class RPGMain extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-
         plugin = this;
 
-        // Plugin startup logic
         getLogger().info("Sypixel RPG 플러그인이 활성화되었습니다!");
 
-        // Initialize language system first
-        this.langManager = new LangManager(this);
-        getLogger().info("다국어 시스템이 초기화되었습니다!");
+        // Initialize core systems
+        initializeSystems();
 
-        // Initialize GUI system
-        this.guiManager = new GuiManager(this, langManager);
-
-        // Initialize commands
-        this.profileCommand = new ProfileCommand(this, langManager, guiManager);
-        this.mainMenuCommand = new MainMenuCommand(this, langManager, guiManager);
-
-        // Register event listeners
-        getServer().getPluginManager().registerEvents(new GuiListener(), this);
-        getServer().getPluginManager().registerEvents(this, this);
-
-        // Register commands
+        // Register listeners and commands
+        registerListeners();
         registerCommands();
 
-        getLogger().info("GUI 시스템이 등록되었습니다!");
-        getLogger().info("사용 가능한 명령어:");
-        getLogger().info("  - /profile, /프로필 : 자신의 프로필");
-        getLogger().info("  - /viewprofile, /프로필보기 : 다른 플레이어 프로필");
-        getLogger().info("  - /mainmenu, /메인메뉴 : 메인 메뉴");
+        getLogger().info("모든 시스템이 성공적으로 초기화되었습니다!");
+        getLogger().info("사용 가능한 명령어: /profile, /프로필, /viewprofile, /프로필보기, /mainmenu, /메인메뉴");
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
         if (guiManager != null) {
             guiManager.cleanup();
         }
         getLogger().info("Sypixel RPG 플러그인이 비활성화되었습니다!");
+    }
+
+    /**
+     * Initialize all core systems
+     */
+    private void initializeSystems() {
+        // Initialize language system first
+        this.langManager = new LangManager(this);
+        getLogger().info("언어 시스템 초기화 완료");
+
+        // Initialize GUI system
+        this.guiManager = new GuiManager(this, langManager);
+        getLogger().info("GUI 시스템 초기화 완료");
+
+        // Initialize commands
+        this.profileCommand = new ProfileCommand(this, langManager, guiManager);
+        this.mainMenuCommand = new MainMenuCommand(this, langManager, guiManager);
+        getLogger().info("명령어 시스템 초기화 완료");
+    }
+
+    /**
+     * Register all event listeners
+     */
+    private void registerListeners() {
+        getServer().getPluginManager().registerEvents(new GuiListener(), this);
     }
 
     /**
@@ -84,49 +94,11 @@ public final class RPGMain extends JavaPlugin implements Listener {
         mainMenuCommand.register("메뉴");
     }
 
-    @EventHandler
-    public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
-        // Detect and set player language with debugging
-        Player player = event.getPlayer();
-
-        getLogger().info("Player " + player.getName() + " joined with locale: " + player.locale());
-
-        String detectedLanguage = langManager.getPlayerLanguage(player); // This will auto-detect and cache
-        getLogger().info("Detected language for " + player.getName() + ": " + detectedLanguage);
-
-        // Test if GUI buttons can be retrieved for this player
-        String closeButtonName = langManager.getMessage(player, "gui.buttons.close.name");
-        getLogger().info("Close button test for " + player.getName() + ": " + closeButtonName);
-
-        // Test if the keys are available
-        if (langManager.hasKey(detectedLanguage, "gui.buttons.close.name")) {
-            getLogger().info("✓ gui.buttons.close.name exists for " + player.getName());
-        } else {
-            getLogger().warning("✗ gui.buttons.close.name does NOT exist for " + player.getName() + " (lang: " + detectedLanguage + ")");
-
-            // Show available gui.buttons keys
-            var availableKeys = langManager.getKeysStartingWith(detectedLanguage, "gui.buttons");
-            getLogger().warning("Available gui.buttons keys for " + detectedLanguage + ": " + availableKeys);
-        }
-    }
-
-    @EventHandler
-    public void onPlayerQuit(@NotNull PlayerQuitEvent event) {
-        // Clean up player's data when they logout
-        Player player = event.getPlayer();
-        if (guiManager != null) {
-            guiManager.onPlayerLogout(player);
-        }
-        if (langManager != null) {
-            langManager.onPlayerLogout(player);
-        }
-    }
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
                              @NotNull String label, String @NotNull [] args) {
 
-        // Debug command for GUI and language statistics (OP only)
+        // Admin command for plugin management (OP only)
         if (command.getName().equalsIgnoreCase("sypixelrpg") && sender.isOp()) {
             if (!(sender instanceof Player player)) {
                 sender.sendMessage("This command can only be used by players!");
@@ -134,62 +106,56 @@ public final class RPGMain extends JavaPlugin implements Listener {
             }
 
             if (args.length > 0 && args[0].equalsIgnoreCase("stats")) {
-                var guiStats = guiManager.getStats();
-                var availableLanguages = langManager.getAvailableLanguages();
-
-                player.sendMessage(Component.text("=== Sypixel RPG Stats ===", NamedTextColor.GOLD));
-                player.sendMessage(Component.text("GUI Manager:", NamedTextColor.YELLOW));
-                guiStats.forEach((key, value) -> {
-                    player.sendMessage(Component.text("  " + key + ": " + value, NamedTextColor.WHITE));
-                });
-
-                player.sendMessage(Component.text("Language Manager:", NamedTextColor.YELLOW));
-                player.sendMessage(Component.text("  Available languages: " + availableLanguages, NamedTextColor.WHITE));
-                player.sendMessage(Component.text("  Your language: " + langManager.getPlayerLanguage(player), NamedTextColor.WHITE));
-
+                showStats(player);
                 return true;
             }
 
             if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
-                langManager.reload();
-                player.sendMessage(Component.text("Language files reloaded!", NamedTextColor.GREEN));
-                return true;
-            }
-
-            if (args.length > 0 && args[0].equalsIgnoreCase("testkeys")) {
-                String playerLang = langManager.getPlayerLanguage(player);
-                player.sendMessage(Component.text("=== Testing Keys for " + playerLang + " ===", NamedTextColor.GOLD));
-
-                // Test problematic keys
-                String[] testKeys = {
-                        "gui.buttons.close.name",
-                        "gui.buttons.close.lore",
-                        "gui.buttons.back.name",
-                        "gui.buttons.back.lore",
-                        "gui.buttons.refresh.name",
-                        "gui.buttons.refresh.lore"
-                };
-
-                for (String key : testKeys) {
-                    boolean exists = langManager.hasKey(playerLang, key);
-                    String value = langManager.getMessage(player, key);
-                    String status = exists ? "✓" : "✗";
-                    player.sendMessage(Component.text(status + " " + key + ": " + value,
-                            exists ? NamedTextColor.GREEN : NamedTextColor.RED));
-                }
-
+                reloadPlugin(player);
                 return true;
             }
 
             // Show usage
-            player.sendMessage(Component.text("Usage:", NamedTextColor.YELLOW));
-            player.sendMessage(Component.text("  /sypixelrpg stats - Show statistics", NamedTextColor.WHITE));
-            player.sendMessage(Component.text("  /sypixelrpg reload - Reload language files", NamedTextColor.WHITE));
-            player.sendMessage(Component.text("  /sypixelrpg testkeys - Test GUI button keys", NamedTextColor.WHITE));
+            player.sendMessage(Component.text("=== Sypixel RPG Admin Commands ===", NamedTextColor.GOLD));
+            player.sendMessage(Component.text("/sypixelrpg stats - Show plugin statistics", NamedTextColor.WHITE));
+            player.sendMessage(Component.text("/sypixelrpg reload - Reload language files", NamedTextColor.WHITE));
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Show plugin statistics to admin
+     */
+    private void showStats(@NotNull Player player) {
+        var guiStats = guiManager.getStats();
+        var availableLanguages = langManager.getAvailableLanguages();
+
+        player.sendMessage(Component.text("=== Sypixel RPG Statistics ===", NamedTextColor.GOLD));
+
+        player.sendMessage(Component.text("GUI System:", NamedTextColor.YELLOW));
+        player.sendMessage(Component.text("  Active GUIs: " + guiStats.get("activeGuis"), NamedTextColor.WHITE));
+        player.sendMessage(Component.text("  Cached GUIs: " + guiStats.get("cachedGuis"), NamedTextColor.WHITE));
+
+        player.sendMessage(Component.text("Language System:", NamedTextColor.YELLOW));
+        player.sendMessage(Component.text("  Available: " + availableLanguages, NamedTextColor.WHITE));
+        player.sendMessage(Component.text("  Your language: " + langManager.getPlayerLanguage(player), NamedTextColor.WHITE));
+
+        player.sendMessage(Component.text("Online Players: " + getServer().getOnlinePlayers().size(), NamedTextColor.AQUA));
+    }
+
+    /**
+     * Reload plugin systems
+     */
+    private void reloadPlugin(@NotNull Player player) {
+        try {
+            langManager.reload();
+            player.sendMessage(Component.text("Language files reloaded successfully!", NamedTextColor.GREEN));
+        } catch (Exception e) {
+            player.sendMessage(Component.text("Failed to reload: " + e.getMessage(), NamedTextColor.RED));
+            getLogger().severe("Reload failed: " + e.getMessage());
+        }
     }
 
     /**
@@ -206,6 +172,9 @@ public final class RPGMain extends JavaPlugin implements Listener {
         return guiManager;
     }
 
+    /**
+     * Gets the plugin instance
+     */
     public static RPGMain getPlugin() {
         return plugin;
     }
