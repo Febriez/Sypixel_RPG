@@ -79,19 +79,6 @@ gui:
 
 # === GUI 아이템들 ===
 items:
-  # 공통 버튼들 (호환성을 위해 유지)
-  close:
-    name: "%COLOR_RED%닫기"
-    lore: "%COLOR_GRAY%클릭하여 GUI 닫기"
-
-  back:
-    name: "%COLOR_YELLOW%뒤로가기"
-    lore: "%COLOR_GRAY%클릭하여 이전 메뉴로"
-
-  refresh:
-    name: "%COLOR_GREEN%새로고침"
-    lore: "%COLOR_GRAY%클릭하여 정보 갱신"
-
   # 프로필 관련
   profile:
     player-head:
@@ -177,6 +164,8 @@ status:
   yes: "%COLOR_GREEN%예"
   no: "%COLOR_RED%아니오"
   unknown: "%COLOR_GRAY%정보 없음"
+  enabled: "%COLOR_SUCCESS%활성화"
+  disabled: "%COLOR_ERROR%비활성화"
 
 # === 게임 모드 ===
 gamemode:

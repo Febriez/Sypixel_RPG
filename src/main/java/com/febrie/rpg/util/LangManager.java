@@ -19,6 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Language management utility for multi-language support
  * Handles loading and retrieving localized messages with color placeholder support
+ * <p>
+ * Updated for simplified language detection: Korean or English only
  *
  * @author Febrie, CoffeeTory
  */
@@ -124,13 +126,21 @@ public class LangManager {
         if (message == null) {
             // Try to get from default language
             YamlConfiguration defaultConfig = languageConfigs.get(defaultLanguage);
-            if (defaultConfig != null) {
+            if (defaultConfig != null && !language.equals(defaultLanguage)) {
                 message = defaultConfig.getString(key);
             }
 
-            // Still null? Return key
+            // Try English as final fallback
+            if (message == null && !language.equals("en_US")) {
+                YamlConfiguration englishConfig = languageConfigs.get("en_US");
+                if (englishConfig != null) {
+                    message = englishConfig.getString(key);
+                }
+            }
+
+            // Still null? Return key and log warning
             if (message == null) {
-                plugin.getLogger().warning("Missing translation key: " + key);
+                plugin.getLogger().warning("Missing translation key: " + key + " (language: " + language + ")");
                 return key;
             }
         }
@@ -201,13 +211,21 @@ public class LangManager {
         if (messages.isEmpty()) {
             // Try to get from default language
             YamlConfiguration defaultConfig = languageConfigs.get(defaultLanguage);
-            if (defaultConfig != null) {
+            if (defaultConfig != null && !language.equals(defaultLanguage)) {
                 messages = defaultConfig.getStringList(key);
+            }
+
+            // Try English as final fallback
+            if (messages.isEmpty() && !language.equals("en_US")) {
+                YamlConfiguration englishConfig = languageConfigs.get("en_US");
+                if (englishConfig != null) {
+                    messages = englishConfig.getStringList(key);
+                }
             }
 
             // Still empty? Return list with key
             if (messages.isEmpty()) {
-                plugin.getLogger().warning("Missing translation key list: " + key);
+                plugin.getLogger().warning("Missing translation key list: " + key + " (language: " + language + ")");
                 return java.util.List.of(Component.text(key));
             }
         }
@@ -292,8 +310,8 @@ public class LangManager {
      */
     @NotNull
     public String getPlayerLanguage(@NotNull Player player) {
-        return playerLanguages.getOrDefault(player.getUniqueId(),
-                detectPlayerLanguage(player));
+        return playerLanguages.computeIfAbsent(player.getUniqueId(),
+                uuid -> detectPlayerLanguage(player));
     }
 
     /**
@@ -307,26 +325,17 @@ public class LangManager {
 
     /**
      * Detects player's language based on their client locale
+     * Simplified: Korean if starts with "ko", otherwise English
      */
     @NotNull
     private String detectPlayerLanguage(@NotNull Player player) {
-        String clientLocale = player.locale().toString();
+        String clientLocale = player.locale().toString().toLowerCase();
 
-        // Convert client locale to our format
-        switch (clientLocale) {
-            case "ko_kr", "ko_KR" -> {
-                return "ko_KR";
-            }
-            case "en_us", "en_US", "en_gb", "en_GB" -> {
-                return "en_US";
-            }
-            default -> {
-                // Default to Korean for Korean region, English for others
-                if (clientLocale.startsWith("ko")) {
-                    return "ko_KR";
-                }
-                return "en_US";
-            }
+        // Simple logic: Korean if starts with "ko", otherwise English
+        if (clientLocale.startsWith("ko")) {
+            return "ko_KR";
+        } else {
+            return "en_US";
         }
     }
 

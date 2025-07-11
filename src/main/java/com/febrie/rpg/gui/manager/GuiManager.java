@@ -17,6 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Manages GUI instances for players
  * Handles creation, caching, and cleanup of GUIs
+ * <p>
+ * Updated: Fixed ProfileGui creation to properly handle viewer parameter
  *
  * @author Febrie, CoffeeTory
  */
@@ -73,8 +75,8 @@ public class GuiManager {
         // 기존 GUI 정리
         closeCurrentGui(viewer);
 
-        // 새 GUI 생성 및 열기
-        ProfileGui gui = new ProfileGui(target, this, langManager);
+        // 새 GUI 생성 및 열기 (viewer와 target을 구분해서 전달)
+        ProfileGui gui = new ProfileGui(target, viewer, this, langManager);
         openGui(viewer, gui);
     }
 

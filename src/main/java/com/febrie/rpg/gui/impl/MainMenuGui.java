@@ -22,6 +22,8 @@ import java.util.Map;
 /**
  * Main menu GUI implementation with full color placeholder support
  * Central hub for accessing all RPG features
+ * <p>
+ * Updated: All GuiFactory calls now use LangManager-based methods
  *
  * @author Febrie, CoffeeTory
  */
@@ -31,6 +33,7 @@ public class MainMenuGui implements InteractiveGui {
 
     private final GuiManager guiManager;
     private final LangManager langManager;
+    private final Player player;
     private final Inventory inventory;
     private final Map<Integer, GuiItem> items;
 
@@ -38,17 +41,17 @@ public class MainMenuGui implements InteractiveGui {
                        @NotNull LangManager langManager, @NotNull Player player) {
         this.guiManager = guiManager;
         this.langManager = langManager;
+        this.player = player;
         this.inventory = Bukkit.createInventory(this, GUI_SIZE,
                 langManager.getComponent(player, "gui.mainmenu.title"));
         this.items = new HashMap<>();
 
-        setupLayout(player);
+        setupLayout();
     }
 
     @Override
     public @NotNull Component getTitle() {
-        // This will be overridden by the inventory title
-        return Component.text("Main Menu");
+        return langManager.getComponent(player, "gui.mainmenu.title");
     }
 
     @Override
@@ -63,7 +66,9 @@ public class MainMenuGui implements InteractiveGui {
 
     @Override
     public void refresh() {
-        // Main menu doesn't need refresh typically, but can be implemented if needed
+        inventory.clear();
+        items.clear();
+        setupLayout();
     }
 
     @Override
@@ -93,16 +98,16 @@ public class MainMenuGui implements InteractiveGui {
     /**
      * Sets up the main menu layout
      */
-    private void setupLayout(@NotNull Player player) {
-        setupDecorations(player);
-        setupMenuButtons(player);
-        setupNavigationButtons(player);
+    private void setupLayout() {
+        setupDecorations();
+        setupMenuButtons();
+        setupNavigationButtons();
     }
 
     /**
      * Sets up decorative elements
      */
-    private void setupDecorations(@NotNull Player player) {
+    private void setupDecorations() {
         // Create border decoration
         for (int i = 0; i < 9; i++) {
             setItem(i, GuiFactory.createDecoration());
@@ -130,16 +135,14 @@ public class MainMenuGui implements InteractiveGui {
     /**
      * Sets up main menu buttons
      */
-    private void setupMenuButtons(@NotNull Player player) {
+    private void setupMenuButtons() {
         // Profile button (slot 20)
         GuiItem profileButton = GuiItem.clickable(
                 ItemBuilder.of(Material.PLAYER_HEAD)
                         .displayName(langManager.getComponent(player, "items.mainmenu.profile-button.name"))
                         .lore(langManager.getComponentList(player, "items.mainmenu.profile-button.lore"))
                         .build(),
-                clickedPlayer -> {
-                    guiManager.openProfileGui(clickedPlayer);
-                }
+                guiManager::openProfileGui
         );
         setItem(20, profileButton);
 
@@ -186,7 +189,7 @@ public class MainMenuGui implements InteractiveGui {
     /**
      * Sets up navigation buttons
      */
-    private void setupNavigationButtons(@NotNull Player player) {
+    private void setupNavigationButtons() {
         // Close button (slot 40)
         setItem(40, GuiFactory.createCloseButton(langManager, player));
 

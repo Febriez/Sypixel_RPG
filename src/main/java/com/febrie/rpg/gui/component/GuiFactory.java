@@ -15,6 +15,8 @@ import java.util.function.Consumer;
 /**
  * Factory class for creating common GUI components with full internationalization support
  * All methods require LangManager and Player for proper language support
+ * <p>
+ * Updated: Removed all legacy methods, only LangManager-based methods remain
  *
  * @author Febrie, CoffeeTory
  */
@@ -264,54 +266,6 @@ public final class GuiFactory {
                 description,
                 action,
                 ColorUtil.INFO
-        );
-    }
-
-    // === 호환성을 위한 레거시 메서드들 (더 이상 권장하지 않음) ===
-
-    /**
-     * @deprecated Use {@link #createCloseButton(LangManager, Player)} instead
-     */
-    @Deprecated
-    public static GuiItem createCloseButton() {
-        return GuiItem.clickable(
-                ItemBuilder.of(Material.BARRIER)
-                        .displayName(Component.text("Close", NamedTextColor.RED))
-                        .addLore("Click to close GUI", NamedTextColor.GRAY)
-                        .build(),
-                Player::closeInventory
-        );
-    }
-
-    /**
-     * @deprecated Use {@link #createBackButton(GuiManager, LangManager, Player)} instead
-     */
-    @Deprecated
-    public static GuiItem createBackButton(@NotNull GuiManager guiManager) {
-        return GuiItem.clickable(
-                ItemBuilder.of(Material.ARROW)
-                        .displayName(Component.text("Back", NamedTextColor.YELLOW))
-                        .addLore("Click to go back", NamedTextColor.GRAY)
-                        .build(),
-                player -> {
-                    if (!guiManager.goBack(player)) {
-                        player.closeInventory();
-                    }
-                }
-        );
-    }
-
-    /**
-     * @deprecated Use {@link #createRefreshButton(GuiManager, LangManager, Player)} instead
-     */
-    @Deprecated
-    public static GuiItem createRefreshButton(@NotNull GuiManager guiManager) {
-        return GuiItem.clickable(
-                ItemBuilder.of(Material.LIME_DYE)
-                        .displayName(Component.text("Refresh", NamedTextColor.GREEN))
-                        .addLore("Click to refresh information", NamedTextColor.GRAY)
-                        .build(),
-                guiManager::refreshCurrentGui
         );
     }
 }

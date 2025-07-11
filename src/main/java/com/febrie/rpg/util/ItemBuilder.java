@@ -66,7 +66,7 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder displayName(Component displayName) {
-        itemMeta.displayName(displayName);
+        itemMeta.displayName(displayName.decoration(TextDecoration.ITALIC, false));
         return this;
     }
 
@@ -78,7 +78,7 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder displayName(String text, TextColor color) {
-        return displayName(Component.text(text).color(color));
+        return displayName(Component.text(text).color(color).decoration(TextDecoration.ITALIC, false));
     }
 
     /**
@@ -90,7 +90,7 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder displayName(String text, TextColor color, TextDecoration @NotNull ... decorations) {
-        Component component = Component.text(text).color(color);
+        Component component = Component.text(text).color(color).decoration(TextDecoration.ITALIC, false);
         for (TextDecoration decoration : decorations) {
             component = component.decorate(decoration);
         }
@@ -104,7 +104,7 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder itemName(Component itemName) {
-        itemMeta.itemName(itemName);
+        itemMeta.itemName(itemName.decoration(TextDecoration.ITALIC, false));
         return this;
     }
 
@@ -115,7 +115,10 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder lore(List<Component> lore) {
-        itemMeta.lore(lore);
+        List<Component> nonItalicLore = lore.stream()
+                .map(component -> component.decoration(TextDecoration.ITALIC, false))
+                .toList();
+        itemMeta.lore(nonItalicLore);
         return this;
     }
 
@@ -138,7 +141,7 @@ public class ItemBuilder {
     public ItemBuilder addLore(Component line) {
         List<Component> lore = itemMeta.lore();
         if (lore == null) lore = new ArrayList<>();
-        lore.add(line);
+        lore.add(line.decoration(TextDecoration.ITALIC, false));
         itemMeta.lore(lore);
         return this;
     }
@@ -151,7 +154,7 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder addLore(String text, TextColor color) {
-        return addLore(Component.text(text).color(color));
+        return addLore(Component.text(text).color(color).decoration(TextDecoration.ITALIC, false));
     }
 
     /**

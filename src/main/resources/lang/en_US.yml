@@ -79,19 +79,6 @@ gui:
 
 # === GUI Items ===
 items:
-  # Common buttons (for compatibility)
-  close:
-    name: "%COLOR_RED%Close"
-    lore: "%COLOR_GRAY%Click to close GUI"
-
-  back:
-    name: "%COLOR_YELLOW%Back"
-    lore: "%COLOR_GRAY%Click to go back"
-
-  refresh:
-    name: "%COLOR_GREEN%Refresh"
-    lore: "%COLOR_GRAY%Click to refresh information"
-
   # Profile related
   profile:
     player-head:
@@ -177,6 +164,8 @@ status:
   yes: "%COLOR_GREEN%Yes"
   no: "%COLOR_RED%No"
   unknown: "%COLOR_GRAY%Unknown"
+  enabled: "%COLOR_SUCCESS%Enabled"
+  disabled: "%COLOR_ERROR%Disabled"
 
 # === Game Modes ===
 gamemode:
