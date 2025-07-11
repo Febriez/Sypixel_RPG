@@ -147,6 +147,24 @@ public final class ColorUtil {
      */
     public static final TextColor COPPER = TextColor.color(184, 115, 51);
 
+    // === Minecraft NamedTextColor 재정의 (편의성) ===
+    public static final TextColor BLACK = net.kyori.adventure.text.format.NamedTextColor.BLACK;
+    public static final TextColor DARK_BLUE = net.kyori.adventure.text.format.NamedTextColor.DARK_BLUE;
+    public static final TextColor DARK_GREEN = net.kyori.adventure.text.format.NamedTextColor.DARK_GREEN;
+    public static final TextColor DARK_AQUA = net.kyori.adventure.text.format.NamedTextColor.DARK_AQUA;
+    public static final TextColor DARK_RED = net.kyori.adventure.text.format.NamedTextColor.DARK_RED;
+    public static final TextColor DARK_PURPLE = net.kyori.adventure.text.format.NamedTextColor.DARK_PURPLE;
+    public static final TextColor GOLD = net.kyori.adventure.text.format.NamedTextColor.GOLD;
+    public static final TextColor GRAY = net.kyori.adventure.text.format.NamedTextColor.GRAY;
+    public static final TextColor DARK_GRAY = net.kyori.adventure.text.format.NamedTextColor.DARK_GRAY;
+    public static final TextColor BLUE = net.kyori.adventure.text.format.NamedTextColor.BLUE;
+    public static final TextColor GREEN = net.kyori.adventure.text.format.NamedTextColor.GREEN;
+    public static final TextColor AQUA = net.kyori.adventure.text.format.NamedTextColor.AQUA;
+    public static final TextColor RED = net.kyori.adventure.text.format.NamedTextColor.RED;
+    public static final TextColor LIGHT_PURPLE = net.kyori.adventure.text.format.NamedTextColor.LIGHT_PURPLE;
+    public static final TextColor YELLOW = net.kyori.adventure.text.format.NamedTextColor.YELLOW;
+    public static final TextColor WHITE = net.kyori.adventure.text.format.NamedTextColor.WHITE;
+
     /**
      * Creates a custom color from RGB values
      *
@@ -260,17 +278,15 @@ public final class ColorUtil {
             case "GRAY", "GREY" -> net.kyori.adventure.text.format.NamedTextColor.GRAY;
             case "DARK_GRAY", "DARK_GREY" -> net.kyori.adventure.text.format.NamedTextColor.DARK_GRAY;
             case "BLUE" -> net.kyori.adventure.text.format.NamedTextColor.BLUE;
-            case "GREEN" -> net.kyori.adventure.text.format.NamedTextColor.GREEN;
+            case "GREEN", "LIGHT_GREEN" -> net.kyori.adventure.text.format.NamedTextColor.GREEN;
             case "AQUA" -> net.kyori.adventure.text.format.NamedTextColor.AQUA;
-            case "RED" -> net.kyori.adventure.text.format.NamedTextColor.RED;
+            case "RED", "LIGHT_RED" -> net.kyori.adventure.text.format.NamedTextColor.RED;
             case "LIGHT_PURPLE", "PURPLE" -> net.kyori.adventure.text.format.NamedTextColor.LIGHT_PURPLE;
             case "YELLOW" -> net.kyori.adventure.text.format.NamedTextColor.YELLOW;
             case "WHITE", "RESET", "DEFAULT" -> net.kyori.adventure.text.format.NamedTextColor.WHITE;
 
             // Aliases
             case "LIGHT_BLUE" -> net.kyori.adventure.text.format.NamedTextColor.BLUE;
-            case "LIGHT_GREEN" -> net.kyori.adventure.text.format.NamedTextColor.GREEN;
-            case "LIGHT_RED" -> net.kyori.adventure.text.format.NamedTextColor.RED;
 
             default -> null;
         };

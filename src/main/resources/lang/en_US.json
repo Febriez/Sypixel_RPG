@@ -6,7 +6,16 @@
     "no-permission": "%COLOR_RED%You don't have permission to use this command.",
     "reload-success": "%COLOR_GREEN%Configuration reloaded successfully!",
     "coming-soon": "%COLOR_YELLOW%This feature is coming soon!",
-    "error": "%COLOR_RED%An error occurred. Please contact an administrator."
+    "error": "%COLOR_RED%An error occurred. Please contact an administrator.",
+    "click-to-select": "%COLOR_GRAY%Click to select",
+    "already-selected": "%COLOR_SUCCESS%▶ Selected",
+    "click-to-open": "%COLOR_YELLOW%▶ Click to open",
+    "click-to-choose": "%COLOR_SUCCESS%▶ Click to choose this job",
+    "job-warning": "%COLOR_ERROR%⚠ Warning: Jobs cannot be changed once selected!",
+    "separator": "%COLOR_DARK_GRAY%━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+    "max-level": "%COLOR_INFO%Max Level: {level}",
+    "click-previous-page": "%COLOR_GRAY%Previous page",
+    "unknown": "%COLOR_GRAY%Unknown"
   },
   "commands": {
     "profile": {
@@ -33,6 +42,10 @@
     "mainmenu": {
       "title": "%COLOR_LEGENDARY%Main Menu",
       "subtitle": "%COLOR_WHITE%Select the feature you want"
+    },
+    "job-selection": {
+      "title": "%COLOR_LEGENDARY%Job Selection",
+      "category-suffix": " Class"
     },
     "buttons": {
       "close": {
@@ -128,7 +141,23 @@
       "stats-button": {
         "name": "%COLOR_INFO%Detailed Stats",
         "lore": [
-          "%COLOR_YELLOW%Click to view detailed stats"
+          "%COLOR_YELLOW%Click to manage stats"
+        ]
+      },
+      "talents-button": {
+        "name": "%COLOR_EPIC%Talent Management",
+        "lore": [
+          "%COLOR_YELLOW%Click to view talent tree"
+        ]
+      },
+      "job-selection": {
+        "name": "%COLOR_LEGENDARY%Choose Your Job!",
+        "lore": [
+          "%COLOR_GRAY%You don't have a job yet",
+          "",
+          "%COLOR_WARNING%⚠ Jobs cannot be changed once selected!",
+          "",
+          "%COLOR_SUCCESS%▶ Click to choose a job"
         ]
       }
     },
@@ -164,7 +193,123 @@
           "",
           "%COLOR_YELLOW%Click to open"
         ]
+      },
+      "stats-button": {
+        "name": "%COLOR_COPPER%Stats Management",
+        "lore": [
+          "%COLOR_GRAY%Manage your abilities",
+          "",
+          "%COLOR_YELLOW%▶ Click to open"
+        ]
+      },
+      "talents-button": {
+        "name": "%COLOR_EPIC%Talent Management",
+        "lore": [
+          "%COLOR_GRAY%Manage talent tree",
+          "",
+          "%COLOR_YELLOW%▶ Click to open"
+        ]
       }
+    }
+  },
+  "job": {
+    "categories": {
+      "warrior": {
+        "name": "Warrior",
+        "description": [
+          "%COLOR_GRAY%Specialized in melee combat",
+          "%COLOR_GRAY%High health and defense",
+          "%COLOR_GRAY%Protects the team from the front"
+        ]
+      },
+      "mage": {
+        "name": "Mage",
+        "description": [
+          "%COLOR_GRAY%Specialized in magical attacks",
+          "%COLOR_GRAY%Powerful area skills",
+          "%COLOR_GRAY%Combines support and offense"
+        ]
+      },
+      "archer": {
+        "name": "Archer",
+        "description": [
+          "%COLOR_GRAY%Specialized in ranged attacks",
+          "%COLOR_GRAY%High mobility and dodge rate",
+          "%COLOR_GRAY%Precise hits and critical strikes"
+        ]
+      }
+    },
+    "berserker": {
+      "name": "Berserker",
+      "title": "%COLOR_ERROR%Berserk Warrior",
+      "description": [
+        "%COLOR_GRAY%Becomes stronger at low health",
+        "%COLOR_GRAY%High damage and lifesteal"
+      ]
+    },
+    "bruiser": {
+      "name": "Bruiser",
+      "title": "%COLOR_ORANGE%Balanced Warrior",
+      "description": [
+        "%COLOR_GRAY%Balance of offense and defense",
+        "%COLOR_GRAY%Adaptable to various situations"
+      ]
+    },
+    "tank": {
+      "name": "Tank",
+      "title": "%COLOR_NETHERITE%Iron Wall Guardian",
+      "description": [
+        "%COLOR_GRAY%Highest defense and health",
+        "%COLOR_GRAY%Skills to protect allies"
+      ]
+    },
+    "priest": {
+      "name": "Priest",
+      "title": "%COLOR_LEGENDARY%Holy Priest",
+      "description": [
+        "%COLOR_GRAY%Powerful healing and buffs",
+        "%COLOR_GRAY%Extra damage to undead"
+      ]
+    },
+    "dark_mage": {
+      "name": "Dark Mage",
+      "title": "%COLOR_EPIC%Dark Mage",
+      "description": [
+        "%COLOR_GRAY%Powerful curses and debuffs",
+        "%COLOR_GRAY%Ability to weaken enemies"
+      ]
+    },
+    "mercy": {
+      "name": "Mercy",
+      "title": "%COLOR_SUCCESS%Merciful Healer",
+      "description": [
+        "%COLOR_GRAY%Instant healing and resurrection",
+        "%COLOR_GRAY%Maximizes team survivability"
+      ]
+    },
+    "archer": {
+      "name": "Archer",
+      "title": "%COLOR_EMERALD%Traditional Archer",
+      "description": [
+        "%COLOR_GRAY%Fast attack and movement speed",
+        "%COLOR_GRAY%Long-range precision strikes"
+      ]
+    },
+    "sniper": {
+      "name": "Sniper",
+      "title": "%COLOR_INFO%Precision Sniper",
+      "description": [
+        "%COLOR_GRAY%Maximized critical damage",
+        "%COLOR_GRAY%Stealth and assassination"
+      ]
+    },
+    "shotgunner": {
+      "name": "Shotgunner",
+      "title": "%COLOR_WARNING%Close-range Shooter",
+      "description": [
+        "%COLOR_GRAY%Close-range area damage",
+        "%COLOR_GRAY%Explosive firepower"
+      ]
     }
   },
   "status": {
@@ -180,7 +325,10 @@
       "no": "%COLOR_RED%Not Allowed",
       "enabled": "%COLOR_SUCCESS%Flight Enabled",
       "disabled": "%COLOR_ERROR%Flight Disabled"
-    }
+    },
+    "level": "%COLOR_SUCCESS%Level {level}",
+    "job": "%COLOR_INFO%Job: {job}",
+    "no-job": "%COLOR_GRAY%Job: None"
   },
   "gamemode": {
     "SURVIVAL": "%COLOR_GREEN%Survival",
@@ -190,7 +338,16 @@
   },
   "messages": {
     "profile-opened": "%COLOR_SUCCESS%Profile information has been updated!",
-    "gui-refreshed": "%COLOR_SUCCESS%Information has been refreshed successfully!"
+    "gui-refreshed": "%COLOR_SUCCESS%Information has been refreshed successfully!",
+    "no-job-for-talents": "%COLOR_ERROR%You must choose a job first to learn talents!",
+    "no-job-for-stats": "%COLOR_ERROR%You must choose a job first to manage stats!",
+    "job-selected": "%COLOR_SUCCESS%Congratulations! You have chosen the %COLOR_LEGENDARY%{job}%COLOR_SUCCESS% job!",
+    "already-has-job": "%COLOR_ERROR%You already have a job!",
+    "stat-increased": "%COLOR_SUCCESS%{stat} stat has been increased!",
+    "not-enough-stat-points": "%COLOR_ERROR%Not enough stat points!",
+    "talent-learned": "%COLOR_SUCCESS%Talent learned: %COLOR_LEGENDARY%{talent}",
+    "not-enough-talent-points": "%COLOR_ERROR%Not enough talent points!",
+    "level-up": "%COLOR_LEGENDARY%Level Up! %COLOR_WHITE%{old} → {new}"
   },
   "rarity": {
     "common": "%COLOR_COMMON%Common",

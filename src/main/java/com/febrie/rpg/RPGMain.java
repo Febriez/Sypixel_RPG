@@ -4,6 +4,8 @@ import com.febrie.rpg.command.MainMenuCommand;
 import com.febrie.rpg.command.ProfileCommand;
 import com.febrie.rpg.gui.listener.GuiListener;
 import com.febrie.rpg.gui.manager.GuiManager;
+import com.febrie.rpg.player.RPGPlayerManager;
+import com.febrie.rpg.talent.TalentManager;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -26,6 +28,8 @@ public final class RPGMain extends JavaPlugin {
     private GuiManager guiManager;
     private ProfileCommand profileCommand;
     private MainMenuCommand mainMenuCommand;
+    private RPGPlayerManager rpgPlayerManager;
+    private TalentManager talentManager;
 
     @Override
     public void onEnable() {
@@ -63,6 +67,10 @@ public final class RPGMain extends JavaPlugin {
         // Initialize GUI system
         this.guiManager = new GuiManager(this, langManager);
         getLogger().info("GUI 시스템 초기화 완료");
+
+        //Initialize Manager
+        this.rpgPlayerManager = new RPGPlayerManager(this);
+        this.talentManager = new TalentManager(this);
 
         // Initialize commands
         this.profileCommand = new ProfileCommand(this, langManager, guiManager);
@@ -177,5 +185,13 @@ public final class RPGMain extends JavaPlugin {
      */
     public static RPGMain getPlugin() {
         return plugin;
+    }
+
+    public RPGPlayerManager getRPGPlayerManager() {
+        return rpgPlayerManager;
+    }
+
+    public TalentManager getTalentManager() {
+        return talentManager;
     }
 }

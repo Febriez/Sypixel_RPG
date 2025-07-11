@@ -186,6 +186,61 @@ public class MainMenuGui implements InteractiveGui {
                 }
         );
         setItem(31, settingsButton);
+
+        // Stats Management button (slot 29)
+        GuiItem statsButton = GuiItem.clickable(
+                ItemBuilder.of(Material.IRON_SWORD)
+                        .displayName(langManager.getComponent(player, "items.mainmenu.stats-button.name"))
+                        .lore(langManager.getComponentList(player, "items.mainmenu.stats-button.lore"))
+                        .flags(org.bukkit.inventory.ItemFlag.values())
+                        .build(),
+                clickedPlayer -> {
+                    com.febrie.rpg.player.RPGPlayer rpgPlayer = com.febrie.rpg.RPGMain.getPlugin()
+                            .getRPGPlayerManager().getOrCreatePlayer(clickedPlayer);
+
+                    if (!rpgPlayer.hasJob()) {
+                        langManager.sendMessage(clickedPlayer, "messages.no-job-for-stats");
+                        return;
+                    }
+
+                    clickedPlayer.closeInventory();
+                    com.febrie.rpg.gui.impl.StatsGui statsGui = new com.febrie.rpg.gui.impl.StatsGui(
+                            guiManager, langManager, clickedPlayer, rpgPlayer);
+                    statsGui.open(clickedPlayer);
+                }
+        );
+        setItem(29, statsButton);
+
+        // Talent Management button (slot 33)
+        GuiItem talentsButton = GuiItem.clickable(
+                ItemBuilder.of(Material.ENCHANTED_BOOK)
+                        .displayName(langManager.getComponent(player, "items.mainmenu.talents-button.name"))
+                        .lore(langManager.getComponentList(player, "items.mainmenu.talents-button.lore"))
+                        .build(),
+                clickedPlayer -> {
+                    com.febrie.rpg.player.RPGPlayer rpgPlayer = com.febrie.rpg.RPGMain.getPlugin()
+                            .getRPGPlayerManager().getOrCreatePlayer(clickedPlayer);
+
+                    if (!rpgPlayer.hasJob()) {
+                        langManager.sendMessage(clickedPlayer, "messages.no-job-for-talents");
+
+                        // Ask if they want to choose a job
+                        clickedPlayer.closeInventory();
+                        com.febrie.rpg.gui.impl.JobSelectionGui jobGui = new com.febrie.rpg.gui.impl.JobSelectionGui(
+                                guiManager, langManager, clickedPlayer, rpgPlayer);
+                        jobGui.open(clickedPlayer);
+                        return;
+                    }
+
+                    clickedPlayer.closeInventory();
+                    java.util.List<com.febrie.rpg.talent.Talent> mainTalents = com.febrie.rpg.RPGMain.getPlugin()
+                            .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
+                    com.febrie.rpg.gui.impl.TalentGui talentGui = new com.febrie.rpg.gui.impl.TalentGui(
+                            guiManager, langManager, clickedPlayer, rpgPlayer, "main", mainTalents);
+                    talentGui.open(clickedPlayer);
+                }
+        );
+        setItem(33, talentsButton);
     }
 
     /**
