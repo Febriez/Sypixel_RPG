@@ -112,10 +112,8 @@ public class LangManager {
 
                 JsonObject sectionObject = gson.fromJson(reader, JsonObject.class);
 
-                // 섹션의 모든 항목을 통합 객체에 추가
-                for (Map.Entry<String, JsonElement> entry : sectionObject.entrySet()) {
-                    combinedLang.add(entry.getKey(), entry.getValue());
-                }
+                // 섹션을 최상위 키로 추가 (중첩 구조 유지)
+                combinedLang.add(section, sectionObject);
 
                 LogUtil.info("Loaded language section: " + fileName);
 
