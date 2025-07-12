@@ -2,7 +2,6 @@ package com.febrie.rpg.talent;
 
 import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.util.ColorUtil;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
@@ -57,18 +56,11 @@ public class Talent {
 
     /**
      * 하위 특성 추가
+     * hasSubPage와 pageId는 Builder에서 설정하거나, 별도로 설정해야 함
      */
     public void addChild(@NotNull Talent child) {
         children.add(child);
         child.parent = this;
-
-        // 하위 특성이 있으면 서브 페이지도 있다고 표시
-        if (!children.isEmpty()) {
-            hasSubPage = true;
-            if (pageId == null) {
-                pageId = id + "_page";
-            }
-        }
     }
 
     /**
@@ -161,6 +153,10 @@ public class Talent {
         return pageId;
     }
 
+    /**
+     * 특정 레벨에서의 스탯 보너스 반환
+     * GUI에서 LangManager를 통해 스탯 이름을 표시
+     */
     @NotNull
     public Map<Stat, Integer> getStatBonuses(int level) {
         Map<Stat, Integer> bonuses = new HashMap<>();
@@ -171,56 +167,11 @@ public class Talent {
     }
 
     /**
-     * 특성 설명 가져오기 (스탯 보너스와 효과만 포함)
-     * 특성 이름과 선행 조건의 이름은 LangManager를 통해 처리해야 함
+     * 특수 효과 목록 반환
      */
     @NotNull
-    public List<Component> getEffectsDescription(boolean isKorean, int currentLevel) {
-        List<Component> description = new ArrayList<>();
-
-        // 스탯 보너스
-        if (!statBonuses.isEmpty()) {
-            description.add(Component.text(isKorean ? "스탯 보너스:" : "Stat Bonuses:",
-                    com.febrie.rpg.util.ColorUtil.LEGENDARY));
-
-            for (Map.Entry<Stat, Integer> entry : statBonuses.entrySet()) {
-                description.add(createStatBonusLine(entry.getKey(), entry.getValue(), currentLevel, isKorean));
-            }
-        }
-
-        // 특수 효과
-        if (!effects.isEmpty()) {
-            if (!description.isEmpty()) {
-                description.add(Component.empty());
-            }
-            description.add(Component.text(isKorean ? "특수 효과:" : "Special Effects:",
-                    com.febrie.rpg.util.ColorUtil.EPIC));
-
-            for (String effect : effects) {
-                description.add(Component.text("  • " + effect, ColorUtil.WHITE));
-            }
-        }
-
-        return description;
-    }
-
-    /**
-     * 스탯 보너스 라인 생성
-     */
-    @NotNull
-    private Component createStatBonusLine(@NotNull Stat stat, int bonusPerLevel, int currentLevel, boolean isKorean) {
-        int bonus = bonusPerLevel * currentLevel;
-        int nextBonus = bonusPerLevel * (currentLevel + 1);
-
-        Component statLine = Component.text("  " + stat.getName(isKorean) + ": ", stat.getColor())
-                .append(Component.text("+" + bonus, ColorUtil.SUCCESS));
-
-        if (currentLevel < maxLevel) {
-            statLine = statLine.append(Component.text(" → +" + nextBonus,
-                    ColorUtil.INFO));
-        }
-
-        return statLine;
+    public List<String> getEffects() {
+        return new ArrayList<>(effects);
     }
 
     /**

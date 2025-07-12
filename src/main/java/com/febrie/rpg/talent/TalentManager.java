@@ -136,7 +136,7 @@ public class TalentManager {
                 .build();
         registerTalent(swiftness, "main");
 
-        // 고급 근력만 남기고 나머지는 제거
+        // 고급 근력 - hasSubPage를 Builder에서 설정
         Talent advancedStrength = new Talent.Builder("advanced_strength")
                 .icon(Material.DIAMOND)
                 .color(ColorUtil.DIAMOND)
@@ -145,6 +145,7 @@ public class TalentManager {
                 .category(Talent.TalentCategory.OFFENSE)
                 .addStatBonus(Stat.STRENGTH, 5)
                 .addStatBonus(Stat.VITALITY, 2)
+                .pageId("basic_strength_page") // 이것이 하위 페이지 ID
                 .build();
 
         // 선행 조건 설정
@@ -158,7 +159,7 @@ public class TalentManager {
      */
     private void initializeWarriorTalents() {
         // 버서커 특성
-        Talent berserkRage = new Talent.Builder("berserk_rage")
+        Talent berserkRage = new Talent.Builder("berserker_rage")
                 .icon(Material.REDSTONE)
                 .color(ColorUtil.ERROR)
                 .maxLevel(5)
@@ -166,6 +167,7 @@ public class TalentManager {
                 .category(Talent.TalentCategory.OFFENSE)
                 .addStatBonus(Stat.STRENGTH, 4)
                 .addEffect("체력 50% 이하일 때 공격력 +20%")
+                .pageId("berserker_offense") // 하위 페이지가 있음
                 .build();
         registerJobTalent(berserkRage, JobType.BERSERKER, "main");
 
@@ -193,17 +195,6 @@ public class TalentManager {
                 .addEffect("연속 처치 시 이동속도 +10%")
                 .build();
         registerJobTalent(rampage, JobType.BERSERKER, "main");
-
-        Talent battleFrenzy = new Talent.Builder("battle_frenzy")
-                .icon(Material.BLAZE_POWDER)
-                .color(ColorUtil.ORANGE)
-                .maxLevel(5)
-                .requiredPoints(1)
-                .category(Talent.TalentCategory.OFFENSE)
-                .addStatBonus(Stat.STRENGTH, 2)
-                .addEffect("전투 중 공격속도 +5%")
-                .build();
-        registerJobTalent(battleFrenzy, JobType.BERSERKER, "main");
 
         Talent undyingRage = new Talent.Builder("undying_rage")
                 .icon(Material.TOTEM_OF_UNDYING)
@@ -292,6 +283,7 @@ public class TalentManager {
                 .category(Talent.TalentCategory.DEFENSE)
                 .addStatBonus(Stat.VITALITY, 5)
                 .addEffect("받는 피해 -5%")
+                .pageId("tank_defense") // 하위 페이지
                 .build();
         registerJobTalent(fortitude, JobType.TANK, "main");
 
@@ -344,6 +336,7 @@ public class TalentManager {
                 .addStatBonus(Stat.INTELLIGENCE, 3)
                 .addStatBonus(Stat.WISDOM, 2)
                 .addEffect("언데드에게 추가 피해 +25%")
+                .pageId("priest_healing") // 하위 페이지
                 .build();
         registerJobTalent(holyPower, JobType.PRIEST, "main");
 
@@ -401,6 +394,7 @@ public class TalentManager {
                 .category(Talent.TalentCategory.OFFENSE)
                 .addStatBonus(Stat.INTELLIGENCE, 4)
                 .addEffect("어둠 마법 피해 +20%")
+                .pageId("dark_curses") // 하위 페이지
                 .build();
         registerJobTalent(darkMagic, JobType.DARK_MAGE, "main");
 
@@ -507,6 +501,7 @@ public class TalentManager {
                 .category(Talent.TalentCategory.OFFENSE)
                 .addStatBonus(Stat.DEXTERITY, 3)
                 .addEffect("명중률 +15%")
+                .pageId("archer_offense") // 하위 페이지
                 .build();
         registerJobTalent(eagleEye, JobType.ARCHER, "main");
 
@@ -576,6 +571,7 @@ public class TalentManager {
                 .addStatBonus(Stat.DEXTERITY, 2)
                 .addStatBonus(Stat.LUCK, 3)
                 .addEffect("치명타 확률 +20%")
+                .pageId("sniper_special") // 하위 페이지
                 .build();
         registerJobTalent(precision, JobType.SNIPER, "main");
 
