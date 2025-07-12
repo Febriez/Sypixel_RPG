@@ -54,46 +54,48 @@ public class RPGPlayer {
     /**
      * PDC에서 데이터 불러오기
      */
-    public void loadFromPDC() {
+    private void loadFromPDC() {
         PersistentDataContainer pdc = bukkitPlayer.getPersistentDataContainer();
 
-        // 직업 불러오기
+        // 직업 로드
         String jobName = pdc.get(KEY_JOB, PersistentDataType.STRING);
         if (jobName != null) {
             try {
                 this.job = JobType.valueOf(jobName);
             } catch (IllegalArgumentException e) {
-                // 잘못된 직업명
+                // 잘못된 직업 이름
             }
         }
 
-        // 경험치 불러오기
-        Long exp = pdc.get(KEY_EXPERIENCE, PersistentDataType.LONG);
-        if (exp != null) {
-            this.experience = exp;
-            updateCachedLevelInfo();
+        // 경험치 로드
+        this.experience = pdc.getOrDefault(KEY_EXPERIENCE, PersistentDataType.LONG, 0L);
+
+        // 스탯 포인트 로드
+        this.statPoints = pdc.getOrDefault(KEY_STAT_POINTS, PersistentDataType.INTEGER, 0);
+
+        // 특성 포인트 로드
+        int talentPoints = pdc.getOrDefault(KEY_TALENT_POINTS, PersistentDataType.INTEGER, 0);
+        talents.addPoints(talentPoints);
+
+        // 각 스탯 로드
+        for (Stat stat : Stat.getAllStats().values()) {
+            int value = pdc.getOrDefault(stat.getKey(), PersistentDataType.INTEGER, 0);
+            if (value > 0) {
+                stats.setBaseStat(stat, value);
+            }
         }
 
-        // 스탯 포인트 불러오기
-        Integer sp = pdc.get(KEY_STAT_POINTS, PersistentDataType.INTEGER);
-        if (sp != null) {
-            this.statPoints = sp;
-        }
-
-        // 각 스탯 불러오기
-        stats.loadFromPDC(pdc);
-
-        // 특성 데이터 불러오기
-        talents.loadFromPDC(pdc);
-
-        // 재화 데이터 불러오기
+        // 재화 데이터 로드
         wallet.loadFromPDC(pdc);
+
+        // 캐시 업데이트
+        updateCachedLevelInfo();
     }
 
     /**
      * PDC에 데이터 저장
      */
-    public void saveToPDC() {
+    private void saveToPDC() {
         PersistentDataContainer pdc = bukkitPlayer.getPersistentDataContainer();
 
         // 직업 저장
@@ -250,6 +252,14 @@ public class RPGPlayer {
     public long getExpToNextLevel() {
         if (job == null) return 0;
         return LevelSystem.getExpToNextLevel(experience, job);
+    }
+
+    /**
+     * 다음 레벨까지 필요한 총 경험치 (현재 경험치 + 남은 경험치)
+     */
+    public long getRequiredExperience() {
+        if (job == null) return 0;
+        return getExperience() + getExpToNextLevel();
     }
 
     public int getStatPoints() {

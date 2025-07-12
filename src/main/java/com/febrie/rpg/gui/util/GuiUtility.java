@@ -1,18 +1,22 @@
-package com.febrie.rpg.util;
+package com.febrie.rpg.gui.util;
 
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.impl.JobSelectionGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
-import com.febrie.rpg.player.stat.Stat;
+import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.talent.Talent;
+import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
@@ -57,19 +61,19 @@ public class GuiUtility {
                                          @NotNull LangManager langManager) {
         Player player = rpgPlayer.getPlayer();
         if (player == null) {
-            return GuiItem.empty();
+            return GuiItem.display(new ItemStack(Material.BARRIER));
         }
 
-        int value = rpgPlayer.getStats().getStat(stat);
-        int bonus = rpgPlayer.getStats().getBonus(stat);
+        int value = rpgPlayer.getStats().getBaseStat(stat);
+        int bonus = rpgPlayer.getStats().getBonusStat(stat);
 
         ItemBuilder builder = ItemBuilder.of(stat.getIcon())
-                .displayName(langManager.getComponent(player, "stat." + stat.name().toLowerCase() + ".name"))
-                .hideAllFlags();
+                .displayName(langManager.getComponent(player, "stat." + stat.getId().toLowerCase() + ".name"))
+                .flags(ItemFlag.values());
 
         // 설명 추가
         List<Component> lore = new ArrayList<>();
-        lore.addAll(langManager.getComponentList(player, "stat." + stat.name().toLowerCase() + ".description"));
+        lore.addAll(langManager.getComponentList(player, "stat." + stat.getId().toLowerCase() + ".description"));
 
         lore.add(Component.empty());
         lore.add(Component.text()
@@ -85,7 +89,7 @@ public class GuiUtility {
         }
 
         builder.lore(lore);
-        return GuiItem.empty(builder.build());
+        return GuiItem.display(builder.build());
     }
 
     /**
@@ -96,12 +100,12 @@ public class GuiUtility {
                                            @NotNull LangManager langManager) {
         Player player = rpgPlayer.getPlayer();
         if (player == null) {
-            return GuiItem.empty();
+            return GuiItem.display(new ItemStack(Material.BARRIER));
         }
 
         int currentLevel = rpgPlayer.getTalents().getTalentLevel(talent);
         int maxLevel = talent.getMaxLevel();
-        boolean canLearn = rpgPlayer.getTalents().canLearnTalent(talent);
+        boolean canLearn = talent.canActivate(rpgPlayer.getTalents());
 
         Material material = currentLevel > 0 ? Material.ENCHANTED_BOOK : Material.BOOK;
 
@@ -113,111 +117,88 @@ public class GuiUtility {
                         .append(Component.text("[" + currentLevel + "/" + maxLevel + "]",
                                 currentLevel >= maxLevel ? NamedTextColor.GOLD : NamedTextColor.GRAY))
                         .build())
-                .hideAllFlags();
+                .flags(ItemFlag.values());
 
         List<Component> lore = new ArrayList<>();
         lore.addAll(langManager.getComponentList(player,
                 "talent." + talent.getId() + ".description"));
 
+        lore.add(Component.empty());
+
         // 현재 효과
         if (currentLevel > 0) {
-            lore.add(Component.empty());
             lore.add(Component.text("현재 효과:", NamedTextColor.YELLOW));
-            lore.addAll(talent.getEffectDescription(currentLevel));
-        }
-
-        // 다음 레벨 효과
-        if (currentLevel < maxLevel) {
+            for (String effect : talent.getEffects()) {
+                String effectKey = "talent." + talent.getId() + ".effect." + effect;
+                lore.add(Component.text("  • ", NamedTextColor.GRAY)
+                        .append(langManager.getComponent(player, effectKey,
+                                "level", String.valueOf(currentLevel))));
+            }
             lore.add(Component.empty());
-            lore.add(Component.text("다음 레벨:", NamedTextColor.AQUA));
-            lore.addAll(talent.getEffectDescription(currentLevel + 1));
         }
 
-        // 요구사항
-        lore.add(Component.empty());
-        if (canLearn) {
-            lore.add(Component.text("클릭하여 학습", NamedTextColor.GREEN, TextDecoration.ITALIC));
+        // 필요 포인트
+        if (currentLevel < maxLevel) {
+            lore.add(Component.text("필요 특성 포인트: " + talent.getRequiredPoints(),
+                    canLearn ? NamedTextColor.GREEN : NamedTextColor.RED));
+            lore.add(Component.text("보유 특성 포인트: " + rpgPlayer.getTalents().getAvailablePoints(),
+                    NamedTextColor.GRAY));
         } else {
-            lore.add(Component.text("요구사항 미충족", NamedTextColor.RED, TextDecoration.ITALIC));
+            lore.add(Component.text("최대 레벨!", NamedTextColor.GOLD));
         }
 
         builder.lore(lore);
 
-        return GuiItem.clickable(
-                builder.build(),
-                p -> {
-                    if (canLearn && rpgPlayer.getTalents().learnTalent(talent)) {
-                        SoundUtil.playSound(p, Sound.ENTITY_PLAYER_LEVELUP);
-                        langManager.sendMessage(p, "messages.talent.learned",
-                                "talent", langManager.getMessage(p,
-                                        "talent." + talent.getId() + ".name"));
-                    } else {
-                        SoundUtil.playSound(p, Sound.ENTITY_VILLAGER_NO);
-                    }
-                }
-        );
+        if (currentLevel > 0) {
+            builder.glint(true);
+        }
+
+        return GuiItem.display(builder.build());
     }
 
-    // ========== GuiService에서 이동한 기능들 ==========
-
     /**
-     * 직업 선택 필요 체크
+     * 직업 선택 GUI 열기
      */
-    public static boolean requiresJobSelection(@NotNull Player player,
-                                               @NotNull RPGPlayerManager playerManager,
-                                               @NotNull GuiManager guiManager,
-                                               @NotNull LangManager langManager) {
+    public static void openJobSelectionGui(@NotNull Player player, @NotNull GuiManager guiManager,
+                                           @NotNull LangManager langManager, @NotNull RPGPlayerManager playerManager) {
         RPGPlayer rpgPlayer = playerManager.getPlayer(player);
         if (rpgPlayer == null) {
-            rpgPlayer = playerManager.getOrCreatePlayer(player);
+            player.sendMessage(Component.text("플레이어 데이터를 불러올 수 없습니다!", NamedTextColor.RED));
+            return;
         }
 
-        if (!rpgPlayer.hasJob()) {
-            // 직업 선택 GUI로 이동
-            guiManager.openGui(player, new JobSelectionGui(guiManager, langManager, player, rpgPlayer));
-            SoundUtil.playSound(player, Sound.ENTITY_VILLAGER_NO);
-            langManager.sendMessage(player, "messages.no-job");
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 진행도 바 생성
-     */
-    @NotNull
-    public static Component createProgressBar(double progress, int length,
-                                              @NotNull NamedTextColor filledColor,
-                                              @NotNull NamedTextColor emptyColor) {
-        int filledLength = (int) (progress * length);
-        char filled = '■';
-        char empty = '□';
-
-        StringBuilder filledPart = new StringBuilder();
-        StringBuilder emptyPart = new StringBuilder();
-
-        // 채워진 부분
-        for (int i = 0; i < filledLength; i++) {
-            filledPart.append(filled);
+        if (rpgPlayer.hasJob()) {
+            player.sendMessage(Component.text("이미 직업을 선택했습니다!", NamedTextColor.RED));
+            return;
         }
 
-        // 빈 부분
-        for (int i = filledLength; i < length; i++) {
-            emptyPart.append(empty);
-        }
-
-        return Component.text()
-                .append(Component.text(filledPart.toString(), filledColor))
-                .append(Component.text(emptyPart.toString(), emptyColor))
-                .build();
+        JobSelectionGui gui = new JobSelectionGui(guiManager, langManager, player, rpgPlayer);
+        guiManager.openGui(player, gui);
     }
 
     /**
      * 간단한 진행도 바 생성
      */
     @NotNull
+    public static Component createProgressBar(double progress, int length,
+                                              @NotNull String filledChar, @NotNull String emptyChar,
+                                              @NotNull NamedTextColor filledColor,
+                                              @NotNull NamedTextColor emptyColor) {
+        int filled = (int) (progress * length);
+        int empty = length - filled;
+
+        return Component.text()
+                .append(Component.text(filledChar.repeat(filled), filledColor))
+                .append(Component.text(emptyChar.repeat(empty), emptyColor))
+                .build();
+    }
+
+    /**
+     * 심플한 진행도 바 (기본값 사용)
+     */
+    @NotNull
     public static Component createSimpleProgressBar(double progress, int length) {
-        return createProgressBar(progress, length,
+        return createProgressBar(progress, length, "█", "█",
                 progress >= 1.0 ? NamedTextColor.GREEN : NamedTextColor.YELLOW,
                 NamedTextColor.GRAY
         );
@@ -249,7 +230,7 @@ public class GuiUtility {
         ItemBuilder builder = ItemBuilder.of(material)
                 .displayName(title)
                 .lore(errorMessages)
-                .addLoreLines(Component.empty())
+                .addLore(Component.empty())
                 .addLore(Component.text("클릭하여 닫기", NamedTextColor.RED, TextDecoration.ITALIC));
 
         return GuiItem.clickable(builder.build(), player -> {
