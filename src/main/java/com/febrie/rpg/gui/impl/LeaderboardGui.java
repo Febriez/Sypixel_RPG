@@ -214,7 +214,7 @@ public class LeaderboardGui extends ScrollableGui {
         } else {
             setItem(LOADING_SLOT, GuiItem.display(
                     new ItemBuilder(Material.NETHER_STAR)
-                            .displayName(trans("gui.leaderboard.title"))
+                            .displayName(trans("gui.leaderboard.title", "type", currentType.getDisplayName()))
                             .addLore(trans("gui.leaderboard.current-type", "type", currentType.getDisplayName()))
                             .addLore(trans("gui.leaderboard.total-entries", "count", String.valueOf(currentLeaderboard.size())))
                             .glint(true)
@@ -293,10 +293,14 @@ public class LeaderboardGui extends ScrollableGui {
             return;
         }
 
-        // 새로운 타입으로 GUI 재생성 및 열기
-        LeaderboardGui newGui = new LeaderboardGui(guiManager, langManager, viewer, newType);
-        guiManager.openGui(viewer, newGui);
+        currentType = newType;
         playClickSound(viewer);
+
+        // 탭 업데이트
+        setupTabs();
+
+        // 새 리더보드 로드
+        loadLeaderboard();
     }
 
     /**
