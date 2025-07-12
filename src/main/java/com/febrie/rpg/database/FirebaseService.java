@@ -13,9 +13,7 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -199,6 +197,229 @@ public class FirebaseService {
      */
     public CompletableFuture<WalletDTO> loadWallet(@NotNull String uuid) {
         return loadWalletDTO(firestore.collection(PLAYERS_COLLECTION).document(uuid));
+    }
+
+    // ========== 리더보드 관리 ==========
+
+    /**
+     * 리더보드 엔트리 저장
+     */
+    public CompletableFuture<Boolean> saveLeaderboardEntry(@NotNull LeaderboardEntryDTO entry) {
+        if (!isConnected()) {
+            return CompletableFuture.completedFuture(false);
+        }
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                // 문서 ID: type_playerUuid (예: level_12345-6789-abcd-efgh)
+                String documentId = entry.type() + "_" + entry.playerUuid();
+
+                firestore.collection(LEADERBOARDS_COLLECTION)
+                        .document(documentId)
+                        .set(convertLeaderboardToMap(entry))
+                        .get();
+
+                LogUtil.debug("리더보드 엔트리 저장 완료: " + documentId);
+                return true;
+            } catch (Exception e) {
+                LogUtil.error("리더보드 엔트리 저장 실패: " + entry.playerName(), e);
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 특정 타입의 리더보드 로드 (상위 N명)
+     */
+    public CompletableFuture<List<LeaderboardEntryDTO>> loadLeaderboard(@NotNull String type, int limit) {
+        if (!isConnected()) {
+            return CompletableFuture.completedFuture(new ArrayList<>());
+        }
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                QuerySnapshot querySnapshot = firestore.collection(LEADERBOARDS_COLLECTION)
+                        .whereEqualTo("type", type)
+                        .orderBy("rank", Query.Direction.ASCENDING)
+                        .limit(limit)
+                        .get()
+                        .get();
+
+                List<LeaderboardEntryDTO> leaderboard = new ArrayList<>();
+                for (QueryDocumentSnapshot doc : querySnapshot) {
+                    LeaderboardEntryDTO entry = mapToLeaderboardDTO(doc.getData());
+                    if (entry != null) {
+                        leaderboard.add(entry);
+                    }
+                }
+
+                LogUtil.debug("리더보드 로드 완료: " + type + " (항목 " + leaderboard.size() + "개)");
+                return leaderboard;
+            } catch (Exception e) {
+                LogUtil.error("리더보드 로드 실패: " + type, e);
+                return new ArrayList<>();
+            }
+        });
+    }
+
+    /**
+     * 플레이어의 특정 타입 리더보드 순위 조회
+     */
+    public CompletableFuture<LeaderboardEntryDTO> loadPlayerLeaderboardEntry(@NotNull String playerUuid, @NotNull String type) {
+        if (!isConnected()) {
+            return CompletableFuture.completedFuture(null);
+        }
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                String documentId = type + "_" + playerUuid;
+                DocumentSnapshot doc = firestore.collection(LEADERBOARDS_COLLECTION)
+                        .document(documentId)
+                        .get()
+                        .get();
+
+                if (doc.exists()) {
+                    return mapToLeaderboardDTO(doc.getData());
+                }
+                return null;
+            } catch (Exception e) {
+                LogUtil.error("플레이어 리더보드 엔트리 로드 실패: " + playerUuid + " (" + type + ")", e);
+                return null;
+            }
+        });
+    }
+
+    /**
+     * 리더보드 엔트리 삭제
+     */
+    public CompletableFuture<Boolean> deleteLeaderboardEntry(@NotNull String playerUuid, @NotNull String type) {
+        if (!isConnected()) {
+            return CompletableFuture.completedFuture(false);
+        }
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                String documentId = type + "_" + playerUuid;
+                firestore.collection(LEADERBOARDS_COLLECTION)
+                        .document(documentId)
+                        .delete()
+                        .get();
+
+                LogUtil.debug("리더보드 엔트리 삭제 완료: " + documentId);
+                return true;
+            } catch (Exception e) {
+                LogUtil.error("리더보드 엔트리 삭제 실패: " + playerUuid + " (" + type + ")", e);
+                return false;
+            }
+        });
+    }
+
+    // ========== 서버 통계 관리 ==========
+
+    /**
+     * 서버 통계 저장
+     */
+    public CompletableFuture<Boolean> saveServerStats(@NotNull ServerStatsDTO serverStats) {
+        if (!isConnected()) {
+            return CompletableFuture.completedFuture(false);
+        }
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                // 문서 ID는 현재 날짜 기반 (예: 2025-01-15)
+                String documentId = java.time.LocalDate.now().toString();
+
+                firestore.collection(SERVER_STATS_COLLECTION)
+                        .document(documentId)
+                        .set(convertServerStatsToMap(serverStats))
+                        .get();
+
+                LogUtil.debug("서버 통계 저장 완료: " + documentId);
+                return true;
+            } catch (Exception e) {
+                LogUtil.error("서버 통계 저장 실패", e);
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 최신 서버 통계 로드
+     */
+    public CompletableFuture<ServerStatsDTO> loadLatestServerStats() {
+        if (!isConnected()) {
+            return CompletableFuture.completedFuture(new ServerStatsDTO());
+        }
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                QuerySnapshot querySnapshot = firestore.collection(SERVER_STATS_COLLECTION)
+                        .orderBy("lastUpdated", Query.Direction.DESCENDING)
+                        .limit(1)
+                        .get()
+                        .get();
+
+                if (!querySnapshot.isEmpty()) {
+                    QueryDocumentSnapshot doc = querySnapshot.getDocuments().get(0);
+                    ServerStatsDTO stats = mapToServerStatsDTO(doc.getData());
+                    LogUtil.debug("최신 서버 통계 로드 완료");
+                    return stats;
+                }
+
+                LogUtil.debug("서버 통계가 없어 기본값 반환");
+                return new ServerStatsDTO();
+            } catch (Exception e) {
+                LogUtil.error("서버 통계 로드 실패", e);
+                return new ServerStatsDTO();
+            }
+        });
+    }
+
+    /**
+     * 특정 날짜의 서버 통계 로드
+     */
+    public CompletableFuture<ServerStatsDTO> loadServerStatsByDate(@NotNull String date) {
+        if (!isConnected()) {
+            return CompletableFuture.completedFuture(new ServerStatsDTO());
+        }
+
+        return loadDocument(
+                firestore.collection(SERVER_STATS_COLLECTION).document(date),
+                this::mapToServerStatsDTO,
+                new ServerStatsDTO(),
+                "ServerStatsDTO"
+        );
+    }
+
+    /**
+     * 최근 N일간의 서버 통계 로드
+     */
+    public CompletableFuture<List<ServerStatsDTO>> loadRecentServerStats(int days) {
+        if (!isConnected()) {
+            return CompletableFuture.completedFuture(new ArrayList<>());
+        }
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                QuerySnapshot querySnapshot = firestore.collection(SERVER_STATS_COLLECTION)
+                        .orderBy("lastUpdated", Query.Direction.DESCENDING)
+                        .limit(days)
+                        .get()
+                        .get();
+
+                List<ServerStatsDTO> statsList = new ArrayList<>();
+                for (QueryDocumentSnapshot doc : querySnapshot) {
+                    ServerStatsDTO stats = mapToServerStatsDTO(doc.getData());
+                    statsList.add(stats);
+                }
+
+                LogUtil.debug("최근 " + days + "일 서버 통계 로드 완료 (항목 " + statsList.size() + "개)");
+                return statsList;
+            } catch (Exception e) {
+                LogUtil.error("최근 서버 통계 로드 실패", e);
+                return new ArrayList<>();
+            }
+        });
     }
 
     // ========== 플레이어 데이터 관리 ==========
@@ -447,12 +668,42 @@ public class FirebaseService {
         );
     }
 
+    private LeaderboardEntryDTO mapToLeaderboardDTO(Map<String, Object> data) {
+        if (data == null) return null;
+
+        return new LeaderboardEntryDTO(
+                (String) data.get("playerUuid"),
+                (String) data.get("playerName"),
+                getIntValue(data, "rank", 0),
+                getLongValue(data, "value", 0L),
+                (String) data.get("type"),
+                getLongValue(data, "lastUpdated", System.currentTimeMillis())
+        );
+    }
+
+    private ServerStatsDTO mapToServerStatsDTO(Map<String, Object> data) {
+        if (data == null) return new ServerStatsDTO();
+
+        return new ServerStatsDTO(
+                getIntValue(data, "onlinePlayers", 0),
+                getIntValue(data, "maxPlayers", 0),
+                getIntValue(data, "totalPlayers", 0),
+                getLongValue(data, "uptime", 0L),
+                getDoubleValue(data, "tps"),
+                getLongValue(data, "totalPlaytime", 0L),
+                (String) data.getOrDefault("version", "1.21.7"),
+                getLongValue(data, "lastUpdated", System.currentTimeMillis())
+        );
+    }
+
     // ========== Map 변환 메소드 ==========
 
     private Map<String, Object> convertPlayerToMap(PlayerDTO player) {
         Map<String, Object> map = new HashMap<>();
         map.put("uuid", player.uuid());
         map.put("name", player.name());
+        map.put("lastLogin", player.lastLogin());
+        map.put("totalPlaytime", player.totalPlaytime());
         if (player.job() != null) {
             map.put("job", player.job().name());
         }
@@ -492,12 +743,32 @@ public class FirebaseService {
 
     private Map<String, Object> convertWalletToMap(WalletDTO wallet) {
         Map<String, Object> map = new HashMap<>();
-        Map<String, Long> currencies = wallet.currencies();
-        map.put("gold", currencies.get("gold"));
-        map.put("diamond", currencies.get("diamond"));
-        map.put("emerald", currencies.get("emerald"));
-        map.put("ghast_tear", currencies.get("ghast_tear"));
-        map.put("nether_star", currencies.get("nether_star"));
+        map.put("currencies", wallet.currencies());
+        map.put("lastUpdated", wallet.lastUpdated());
+        return map;
+    }
+
+    private Map<String, Object> convertLeaderboardToMap(LeaderboardEntryDTO entry) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("playerUuid", entry.playerUuid());
+        map.put("playerName", entry.playerName());
+        map.put("rank", entry.rank());
+        map.put("value", entry.value());
+        map.put("type", entry.type());
+        map.put("lastUpdated", FieldValue.serverTimestamp());
+        return map;
+    }
+
+    private Map<String, Object> convertServerStatsToMap(ServerStatsDTO serverStats) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("onlinePlayers", serverStats.onlinePlayers());
+        map.put("maxPlayers", serverStats.maxPlayers());
+        map.put("totalPlayers", serverStats.totalPlayers());
+        map.put("uptime", serverStats.uptime());
+        map.put("tps", serverStats.tps());
+        map.put("totalPlaytime", serverStats.totalPlaytime());
+        map.put("version", serverStats.version());
+        map.put("lastUpdated", FieldValue.serverTimestamp());
         return map;
     }
 

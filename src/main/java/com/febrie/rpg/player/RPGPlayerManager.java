@@ -52,6 +52,15 @@ public class RPGPlayerManager implements Listener {
     }
 
     /**
+     * 플레이어 전체 플레이총합
+     */
+    public long getTotalPlaytime() {
+        return players.values().stream()
+                .mapToLong(RPGPlayer::getTotalPlaytime)
+                .sum();
+    }
+
+    /**
      * 플레이어 접속 시 데이터 로드
      */
     @EventHandler(priority = EventPriority.LOWEST)
