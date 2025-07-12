@@ -126,17 +126,8 @@
     "total-value": "%COLOR_WHITE%총합: %COLOR_YELLOW%{value}",
     "click-talents": "%COLOR_GRAY%특성 관리로 이동"
   },
-  "talents": {
+  "talent": {
     "title": "%COLOR_LEGENDARY%특성 관리",
-    "points-available": "%COLOR_SUCCESS%사용 가능한 포인트: %COLOR_YELLOW%{points}",
-    "no-points": "%COLOR_ERROR%사용 가능한 특성 포인트가 없습니다!",
-    "unlocked": "%COLOR_SUCCESS%▶ 활성화됨",
-    "locked": "%COLOR_ERROR%▶ 잠김",
-    "requirements-not-met": "%COLOR_ERROR%요구 조건을 충족하지 못했습니다!",
-    "click-to-unlock": "%COLOR_YELLOW%▶ 클릭하여 잠금 해제",
-    "level-requirement": "%COLOR_WHITE%필요 레벨: %COLOR_YELLOW%{level}",
-    "talent-requirement": "%COLOR_WHITE%필요 특성: %COLOR_INFO%{talent}",
-    "current-level": "%COLOR_WHITE%현재 레벨: %COLOR_GREEN%{level}/{max}",
     "title-with-page": "%COLOR_LEGENDARY%특성 관리 - {page}",
     "level": "%COLOR_WHITE%레벨: %COLOR_YELLOW%{level}",
     "job": "%COLOR_WHITE%직업: %COLOR_INFO%{job}",

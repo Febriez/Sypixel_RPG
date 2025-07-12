@@ -126,17 +126,8 @@
     "total-value": "%COLOR_WHITE%Total: %COLOR_YELLOW%{value}",
     "click-talents": "%COLOR_GRAY%Go to Talent Management"
   },
-  "talents": {
+  "talent": {
     "title": "%COLOR_LEGENDARY%Talent Management",
-    "points-available": "%COLOR_SUCCESS%Available Points: %COLOR_YELLOW%{points}",
-    "no-points": "%COLOR_ERROR%No talent points available!",
-    "unlocked": "%COLOR_SUCCESS%▶ Unlocked",
-    "locked": "%COLOR_ERROR%▶ Locked",
-    "requirements-not-met": "%COLOR_ERROR%Requirements not met!",
-    "click-to-unlock": "%COLOR_YELLOW%▶ Click to unlock",
-    "level-requirement": "%COLOR_WHITE%Required Level: %COLOR_YELLOW%{level}",
-    "talent-requirement": "%COLOR_WHITE%Required Talent: %COLOR_INFO%{talent}",
-    "current-level": "%COLOR_WHITE%Current Level: %COLOR_GREEN%{level}/{max}",
     "title-with-page": "%COLOR_LEGENDARY%Talent Management - {page}",
     "level": "%COLOR_WHITE%Level: %COLOR_YELLOW%{level}",
     "job": "%COLOR_WHITE%Job: %COLOR_INFO%{job}",
