@@ -172,11 +172,9 @@ public abstract class BaseGui implements InteractiveGui {
 
         // 새로고침 버튼
         if (includeRefresh) {
+            // GuiManager를 통해 새로고침
             setItem(REFRESH_BUTTON_SLOT, GuiFactory.createRefreshButton(
-                    player -> {
-                        // GuiManager를 통해 새로고침
-                        guiManager.refreshCurrentGui(player);
-                    }, langManager, viewer));
+                    guiManager::refreshCurrentGui, langManager, viewer));
         }
 
         // 닫기 버튼
@@ -193,7 +191,7 @@ public abstract class BaseGui implements InteractiveGui {
         // 뒤로가기 버튼 - GuiManager 상태에 따라 표시
         if (guiManager.canGoBack(viewer)) {
             setItem(BACK_BUTTON_SLOT, GuiItem.clickable(
-                    ItemBuilder.of(Material.ARROW)
+                    new ItemBuilder(Material.ARROW)
                             .displayName(langManager.getComponent(viewer, "gui.buttons.back.name"))
                             .addLore(langManager.getComponent(viewer, "gui.buttons.back.lore"))
                             .build(),
@@ -242,7 +240,7 @@ public abstract class BaseGui implements InteractiveGui {
      */
     private Inventory createInventory(@NotNull String titleKey, @NotNull String... titleArgs) {
         Component title = langManager.getComponent(viewer, titleKey, titleArgs);
-        return Bukkit.createInventory(null, size, title);
+        return Bukkit.createInventory(this, size, title); // this를 전달하여 InventoryHolder 설정
     }
 
     /**

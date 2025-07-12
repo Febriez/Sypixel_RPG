@@ -41,16 +41,14 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <outputFile>C:/Users/CoffeeTory/Desktop/Minecraft/1.21.7 Test_Server/plugins/Sypixel_RPG.jar
-                            </outputFile>
+                            <outputFile>C:/Users/CoffeeTory/Desktop/Minecraft/1.21.7 Test_Server/plugins/Sypixel_RPG.jar</outputFile>
                             <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>com.febrie.Main</mainClass>
                                 </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                             </transformers>
                         </configuration>
-
                     </execution>
                 </executions>
             </plugin>

@@ -102,6 +102,34 @@
     }
   },
   "gui": {
+    "leaderboard": {
+      "title": "%COLOR_LEGENDARY%Leaderboard %COLOR_GRAY%- %COLOR_YELLOW%{type}",
+      "loading": "%COLOR_YELLOW%Loading leaderboard...",
+      "loading-description": "%COLOR_GRAY%Please wait a moment",
+      "no-data": "%COLOR_GRAY%No data available yet",
+      "my-rank": "%COLOR_WHITE%My Rank: %COLOR_YELLOW%#{rank}",
+      "my-value": "%COLOR_WHITE%My Score: %COLOR_GREEN%{value}",
+      "no-rank-data": "%COLOR_GRAY%Unranked",
+      "play-more": "%COLOR_GRAY%Play more to compete for rankings!",
+      "last-updated": "%COLOR_GRAY%Last updated: {time}",
+      "current-type": "%COLOR_WHITE%Current Type: %COLOR_YELLOW%{type}",
+      "total-entries": "%COLOR_WHITE%Total Entries: %COLOR_GREEN%{count}",
+      "rank-info": "%COLOR_WHITE%Rank: %COLOR_YELLOW%#{rank}",
+      "value-info": "%COLOR_WHITE%{type}: %COLOR_GREEN%{value}",
+      "this-is-you": "%COLOR_SUCCESS%▶ This is you!",
+      "rank-format": "%COLOR_WHITE%#{rank}",
+      "player-format": "%COLOR_YELLOW%{player}",
+      "value-format": "%COLOR_GREEN%{value}",
+      "level-value": "%COLOR_GREEN%Level {value}",
+      "combat-power-value": "%COLOR_LEGENDARY%Combat Power {value}",
+      "gold-value": "%COLOR_GOLD%{value} Gold",
+      "playtime-value": "%COLOR_AQUA%{value}",
+      "click-to-view-profile": "%COLOR_GRAY%Click to view profile",
+      "tab-selected": "%COLOR_SUCCESS%▶ Selected",
+      "tab-click": "%COLOR_GRAY%Click to switch",
+      "loaded": "%COLOR_SUCCESS%Loaded {count} entries for {type}",
+      "load-failed": "%COLOR_ERROR%Failed to load leaderboard data"
+    },
     "profile": {
       "title": "%COLOR_ORANGE%Player Profile",
       "player-title": "%COLOR_ORANGE%Player Profile %COLOR_GRAY%- %COLOR_YELLOW%{player}",
@@ -299,6 +327,22 @@
       }
     },
     "mainmenu": {
+      "leaderboard-button": {
+        "name": "%COLOR_LEGENDARY%Leaderboard",
+        "lore": [
+          "%COLOR_GRAY%Check server rankings",
+          "",
+          "%COLOR_SUCCESS%▶ Click to view leaderboard"
+        ]
+      },
+      "title": {
+        "name": "%COLOR_LEGENDARY%Sypixel RPG",
+        "lore": [
+          "%COLOR_GRAY%RPG System Main Menu",
+          "",
+          "%COLOR_WHITE%Select your desired feature"
+        ]
+      },
       "profile-button": {
         "name": "%COLOR_YELLOW%My Profile",
         "lore": [

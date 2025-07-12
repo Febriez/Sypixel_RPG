@@ -130,6 +130,7 @@ public class LeaderboardGui extends ScrollableGui {
         return leaderboardItems;
     }
 
+
     @Override
     protected void handleNonScrollClick(@NotNull InventoryClickEvent event, @NotNull Player player,
                                         int slot, @NotNull ClickType click) {
@@ -174,13 +175,13 @@ public class LeaderboardGui extends ScrollableGui {
             boolean isSelected = type == currentType;
 
             GuiItem tabItem = GuiItem.clickable(
-                    ItemBuilder.of(type.getIcon())
+                    new ItemBuilder(type.getIcon())
                             .displayName(Component.text(type.getDisplayName(), type.getColor())
                                     .decoration(TextDecoration.BOLD, true))
                             .addLore(Component.empty())
                             .addLore(isSelected ?
                                     trans("gui.leaderboard.tab-selected") :
-                                    trans("gui.leaderboard.tab-click-to-switch"))
+                                    trans("gui.leaderboard.tab-click"))
                             .glint(isSelected)
                             .flags(ItemFlag.values())
                             .build(),
@@ -191,6 +192,7 @@ public class LeaderboardGui extends ScrollableGui {
         }
     }
 
+
     /**
      * 정보 표시 영역
      */
@@ -198,14 +200,14 @@ public class LeaderboardGui extends ScrollableGui {
         // 로딩 표시
         if (isLoading) {
             setItem(LOADING_SLOT, GuiItem.display(
-                    ItemBuilder.of(Material.CLOCK)
+                    new ItemBuilder(Material.CLOCK)
                             .displayName(trans("gui.leaderboard.loading"))
                             .addLore(trans("gui.leaderboard.loading-description"))
                             .build()
             ));
         } else {
             setItem(LOADING_SLOT, GuiItem.display(
-                    ItemBuilder.of(Material.NETHER_STAR)
+                    new ItemBuilder(Material.NETHER_STAR)
                             .displayName(trans("gui.leaderboard.title"))
                             .addLore(trans("gui.leaderboard.current-type", "type", currentType.getDisplayName()))
                             .addLore(trans("gui.leaderboard.total-entries", "count", String.valueOf(currentLeaderboard.size())))
@@ -257,7 +259,7 @@ public class LeaderboardGui extends ScrollableGui {
         // 뒤로가기 버튼
         if (guiManager.canGoBack(viewer)) {
             setItem(45, GuiItem.clickable(
-                    ItemBuilder.of(Material.ARROW)
+                    new ItemBuilder(Material.ARROW)
                             .displayName(trans("gui.buttons.back.name"))
                             .addLore(trans("gui.buttons.back.lore"))
                             .build(),

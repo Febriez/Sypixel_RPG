@@ -31,7 +31,7 @@ public final class GuiFactory {
      */
     public static GuiItem createCloseButton(@NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.BARRIER)
+                new ItemBuilder(Material.BARRIER)
                         .displayName(langManager.getComponent(player, "gui.buttons.close.name"))
                         .addLore(langManager.getComponent(player, "gui.buttons.close.lore"))
                         .build(),
@@ -44,15 +44,11 @@ public final class GuiFactory {
      */
     public static GuiItem createBackButton(@NotNull GuiManager guiManager, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.ARROW)
+                new ItemBuilder(Material.ARROW)
                         .displayName(langManager.getComponent(player, "gui.buttons.back.name"))
                         .addLore(langManager.getComponent(player, "gui.buttons.back.lore"))
                         .build(),
-                clickedPlayer -> {
-                    if (!guiManager.goBack(clickedPlayer)) {
-                        clickedPlayer.closeInventory();
-                    }
-                }
+                guiManager::goBack
         );
     }
 
@@ -61,7 +57,7 @@ public final class GuiFactory {
      */
     public static GuiItem createBackButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.ARROW)
+                new ItemBuilder(Material.ARROW)
                         .displayName(langManager.getComponent(player, "gui.buttons.back.name"))
                         .addLore(langManager.getComponent(player, "gui.buttons.back.lore"))
                         .build(),
@@ -74,7 +70,7 @@ public final class GuiFactory {
      */
     public static GuiItem createRefreshButton(@NotNull GuiManager guiManager, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.LIME_DYE)
+                new ItemBuilder(Material.LIME_DYE)
                         .displayName(langManager.getComponent(player, "gui.buttons.refresh.name"))
                         .addLore(langManager.getComponent(player, "gui.buttons.refresh.lore"))
                         .build(),
@@ -87,7 +83,7 @@ public final class GuiFactory {
      */
     public static GuiItem createRefreshButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.LIME_DYE)
+                new ItemBuilder(Material.LIME_DYE)
                         .displayName(langManager.getComponent(player, "gui.buttons.refresh.name"))
                         .addLore(langManager.getComponent(player, "gui.buttons.refresh.lore"))
                         .build(),
@@ -107,7 +103,7 @@ public final class GuiFactory {
      */
     public static GuiItem createDecoration(@NotNull Material material) {
         return GuiItem.display(
-                ItemBuilder.of(material)
+                new ItemBuilder(material)
                         .displayName(Component.empty())
                         .build()
         );
@@ -125,7 +121,7 @@ public final class GuiFactory {
      */
     public static GuiItem createPlaceholder(@NotNull String text) {
         return GuiItem.display(
-                ItemBuilder.of(Material.PAPER)
+                new ItemBuilder(Material.PAPER)
                         .displayName(Component.text(text, NamedTextColor.GRAY))
                         .build()
         );
@@ -137,7 +133,7 @@ public final class GuiFactory {
     public static GuiItem createNavigationButton(@NotNull Material material, @NotNull Component name,
                                                  @NotNull Component lore, @NotNull Consumer<Player> action) {
         return GuiItem.clickable(
-                ItemBuilder.of(material)
+                new ItemBuilder(material)
                         .displayName(name)
                         .addLore(lore)
                         .build(),
@@ -150,7 +146,7 @@ public final class GuiFactory {
      */
     public static GuiItem createPreviousPageButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.ARROW)
+                new ItemBuilder(Material.ARROW)
                         .displayName(langManager.getComponent(player, "gui.buttons.previous-page.name"))
                         .addLore(langManager.getComponent(player, "gui.buttons.previous-page.lore"))
                         .build(),
@@ -163,7 +159,7 @@ public final class GuiFactory {
      */
     public static GuiItem createNextPageButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.ARROW)
+                new ItemBuilder(Material.ARROW)
                         .displayName(langManager.getComponent(player, "gui.buttons.next-page.name"))
                         .addLore(langManager.getComponent(player, "gui.buttons.next-page.lore"))
                         .build(),
@@ -176,7 +172,7 @@ public final class GuiFactory {
      */
     public static GuiItem createPageInfo(int currentPage, int totalPages, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.display(
-                ItemBuilder.of(Material.PAPER)
+                new ItemBuilder(Material.PAPER)
                         .displayName(langManager.getComponent(player, "gui.buttons.page-info.name"))
                         .addLore(langManager.getComponent(player, "gui.buttons.page-info.lore",
                                 "current", String.valueOf(currentPage),
@@ -193,7 +189,7 @@ public final class GuiFactory {
         Component statusComponent = langManager.getComponent(player, isOnline ? "gui.buttons.status.online" : "gui.buttons.status.offline");
 
         return GuiItem.display(
-                ItemBuilder.of(material)
+                new ItemBuilder(material)
                         .displayName(Component.text(status, isOnline ? ColorUtil.SUCCESS : ColorUtil.ERROR))
                         .addLore(langManager.getComponent(player, "gui.buttons.status.status-text", "status", statusComponent.toString()))
                         .build()
@@ -201,71 +197,28 @@ public final class GuiFactory {
     }
 
     /**
-     * Creates a colored action button
+     * Creates a confirmation button
      */
-    public static GuiItem createActionButton(@NotNull Material material, @NotNull Component name,
-                                             @NotNull Component description, @NotNull Consumer<Player> action,
-                                             @NotNull net.kyori.adventure.text.format.TextColor nameColor) {
+    public static GuiItem createConfirmButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
-                ItemBuilder.of(material)
-                        .displayName(name.color(nameColor))
-                        .addLore(description)
+                new ItemBuilder(Material.LIME_WOOL)
+                        .displayName(langManager.getComponent(player, "gui.buttons.confirm.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.confirm.lore"))
                         .build(),
                 action
         );
     }
 
     /**
-     * Creates a confirmation button (green)
-     */
-    public static GuiItem createConfirmButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
-        return createActionButton(
-                Material.LIME_DYE,
-                langManager.getComponent(player, "gui.buttons.confirm.name"),
-                langManager.getComponent(player, "gui.buttons.confirm.lore"),
-                action,
-                ColorUtil.SUCCESS
-        );
-    }
-
-    /**
-     * Creates a cancel button (red)
+     * Creates a cancel button
      */
     public static GuiItem createCancelButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
-        return createActionButton(
-                Material.RED_DYE,
-                langManager.getComponent(player, "gui.buttons.cancel.name"),
-                langManager.getComponent(player, "gui.buttons.cancel.lore"),
-                action,
-                ColorUtil.ERROR
-        );
-    }
-
-    /**
-     * Creates a warning button (orange)
-     */
-    public static GuiItem createWarningButton(@NotNull Component name, @NotNull Component description,
-                                              @NotNull Consumer<Player> action) {
-        return createActionButton(
-                Material.ORANGE_DYE,
-                name,
-                description,
-                action,
-                ColorUtil.WARNING
-        );
-    }
-
-    /**
-     * Creates an info button (blue)
-     */
-    public static GuiItem createInfoButton(@NotNull Component name, @NotNull Component description,
-                                           @NotNull Consumer<Player> action) {
-        return createActionButton(
-                Material.LIGHT_BLUE_DYE,
-                name,
-                description,
-                action,
-                ColorUtil.INFO
+        return GuiItem.clickable(
+                new ItemBuilder(Material.RED_WOOL)
+                        .displayName(langManager.getComponent(player, "gui.buttons.cancel.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.cancel.lore"))
+                        .build(),
+                action
         );
     }
 }

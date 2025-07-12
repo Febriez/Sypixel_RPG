@@ -6,7 +6,6 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +32,7 @@ public class MainMenuGui extends BaseGui {
     private static final int STATS_SLOT = 29;
     private static final int SETTINGS_SLOT = 31;
     private static final int TALENTS_SLOT = 33;
+    private static final int LEADERBOARD_SLOT = 40; // 리더보드 버튼 추가
 
     // 타이틀 슬롯
     private static final int TITLE_SLOT = 4;
@@ -53,42 +53,42 @@ public class MainMenuGui extends BaseGui {
         setupDecorations();
         setupMenuButtons();
         // 메인 메뉴에는 새로고침 버튼 없이, 닫기 버튼만 표시
-        setupStandardNavigation(false, true); // 새로고침 버튼 제거, 닫기 버튼만 표시
+        setupStandardNavigation(false, true);
     }
 
     /**
-     * Sets up decorative elements
+     * Decorative elements setup
      */
     private void setupDecorations() {
-        // Create border with default material
         createBorder();
-
-        // Title item in top center
-        setItem(TITLE_SLOT, GuiItem.display(
-                ItemBuilder.of(Material.NETHER_STAR)
-                        .displayName(trans("gui.mainmenu.title")
-                                .decoration(TextDecoration.BOLD, true))
-                        .addLore(trans("gui.mainmenu.subtitle"))
-                        .build()
-        ));
+        setupTitleItem();
+        addMenuDecorations();
     }
 
     /**
-     * Sets up main menu buttons in organized layout
+     * Title item setup
+     */
+    private void setupTitleItem() {
+        GuiItem titleItem = GuiItem.display(
+                new ItemBuilder(Material.NETHER_STAR)
+                        .displayName(trans("items.mainmenu.title.name"))
+                        .lore(langManager.getComponentList(viewer, "items.mainmenu.title.lore"))
+                        .build()
+        );
+        setItem(TITLE_SLOT, titleItem);
+    }
+
+    /**
+     * Menu buttons setup
      */
     private void setupMenuButtons() {
-        // Row 1: Profile, Shop, Dungeon
         setupProfileButton();
         setupShopButton();
         setupDungeonButton();
-
-        // Row 2: Stats, Settings, Talents
         setupStatsButton();
         setupSettingsButton();
         setupTalentsButton();
-
-        // 추가 장식 아이템 (선택적)
-        addMenuDecorations();
+        setupLeaderboardButton(); // 리더보드 버튼 추가
     }
 
     /**
@@ -96,11 +96,14 @@ public class MainMenuGui extends BaseGui {
      */
     private void setupProfileButton() {
         GuiItem profileButton = GuiItem.clickable(
-                ItemBuilder.of(Material.PLAYER_HEAD)
+                new ItemBuilder(viewer)
                         .displayName(trans("items.mainmenu.profile-button.name"))
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.profile-button.lore"))
                         .build(),
-                guiManager::openProfileGui
+                clickedPlayer -> {
+                    guiManager.openProfileGui(clickedPlayer);
+                    playClickSound(clickedPlayer);
+                }
         );
         setItem(PROFILE_SLOT, profileButton);
     }
@@ -110,7 +113,7 @@ public class MainMenuGui extends BaseGui {
      */
     private void setupShopButton() {
         GuiItem shopButton = GuiItem.clickable(
-                ItemBuilder.of(Material.EMERALD)
+                new ItemBuilder(Material.EMERALD)
                         .displayName(trans("items.mainmenu.shop-button.name"))
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.shop-button.lore"))
                         .build(),
@@ -127,7 +130,7 @@ public class MainMenuGui extends BaseGui {
      */
     private void setupDungeonButton() {
         GuiItem dungeonButton = GuiItem.clickable(
-                ItemBuilder.of(Material.IRON_BARS)
+                new ItemBuilder(Material.END_PORTAL_FRAME)
                         .displayName(trans("items.mainmenu.dungeon-button.name"))
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.dungeon-button.lore"))
                         .build(),
@@ -144,7 +147,7 @@ public class MainMenuGui extends BaseGui {
      */
     private void setupStatsButton() {
         GuiItem statsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.DIAMOND_SWORD)
+                new ItemBuilder(Material.DIAMOND_SWORD)
                         .displayName(trans("items.mainmenu.stats-button.name"))
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.stats-button.lore"))
                         .build(),
@@ -161,7 +164,7 @@ public class MainMenuGui extends BaseGui {
      */
     private void setupSettingsButton() {
         GuiItem settingsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.REDSTONE)
+                new ItemBuilder(Material.REDSTONE)
                         .displayName(trans("items.mainmenu.settings-button.name"))
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.settings-button.lore"))
                         .build(),
@@ -178,7 +181,7 @@ public class MainMenuGui extends BaseGui {
      */
     private void setupTalentsButton() {
         GuiItem talentsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.ENCHANTING_TABLE)
+                new ItemBuilder(Material.ENCHANTING_TABLE)
                         .displayName(trans("items.mainmenu.talents-button.name"))
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.talents-button.lore"))
                         .build(),
@@ -188,6 +191,23 @@ public class MainMenuGui extends BaseGui {
                 }
         );
         setItem(TALENTS_SLOT, talentsButton);
+    }
+
+    /**
+     * Leaderboard button setup
+     */
+    private void setupLeaderboardButton() {
+        GuiItem leaderboardButton = GuiItem.clickable(
+                new ItemBuilder(Material.GOLDEN_HELMET)
+                        .displayName(trans("items.mainmenu.leaderboard-button.name"))
+                        .lore(langManager.getComponentList(viewer, "items.mainmenu.leaderboard-button.lore"))
+                        .build(),
+                clickedPlayer -> {
+                    guiManager.openLeaderboardGui(clickedPlayer);
+                    playClickSound(clickedPlayer);
+                }
+        );
+        setItem(LEADERBOARD_SLOT, leaderboardButton);
     }
 
     /**
