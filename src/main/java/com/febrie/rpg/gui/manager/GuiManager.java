@@ -163,6 +163,11 @@ public class GuiManager {
         } else if (guiClass.equals(ProfileGui.class)) {
             return new ProfileGui(player, player, this, langManager);
         } else if (guiClass.equals(LeaderboardGui.class)) {
+            // 현재 GUI가 LeaderboardGui인 경우 타입 유지
+            GuiFramework currentGui = activeGuis.get(player.getUniqueId());
+            if (currentGui instanceof LeaderboardGui leaderboardGui) {
+                return new LeaderboardGui(this, langManager, player, leaderboardGui.getCurrentType());
+            }
             return new LeaderboardGui(this, langManager, player);
         }
         // 필요한 GUI 타입 추가...

@@ -1,5 +1,6 @@
 package com.febrie.rpg.gui.impl;
 
+import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.ScrollableGui;
@@ -61,6 +62,14 @@ public class TalentGui extends ScrollableGui {
     private static String getPageTitleForId(String pageId, LangManager langManager, Player viewer) {
         return langManager.getMessage(viewer, "gui.talent.pages." + pageId,
                 langManager.getMessage(viewer, "gui.talent.pages.default"));
+    }
+
+    /**
+     * 특성 GUI에서는 우클릭도 허용 (하위 페이지 열기 등)
+     */
+    @Override
+    protected boolean isAllowedClickType(@NotNull ClickType click) {
+        return click == ClickType.LEFT || click == ClickType.RIGHT;
     }
 
     @Override
@@ -172,9 +181,15 @@ public class TalentGui extends ScrollableGui {
 
             builder.flags(ItemFlag.values());
 
+            // GuiItem 생성 및 클릭 타입별 액션 설정
             GuiItem talentItem = new GuiItem(builder.build())
-                    .onClick(ClickType.LEFT, (player, click) -> handleTalentClick(player, talent, currentLevel, canLearn, ClickType.LEFT))
-                    .onClick(ClickType.RIGHT, (player, click) -> handleTalentClick(player, talent, currentLevel, canLearn, ClickType.RIGHT));
+                    .onAnyClick((player, clickType) -> {
+                        if (clickType == ClickType.LEFT) {
+                            handleTalentLeftClick(player, talent, currentLevel, canLearn);
+                        } else if (clickType == ClickType.RIGHT && talent.hasSubPage()) {
+                            handleTalentRightClick(player, talent);
+                        }
+                    });
 
             talentItems.add(talentItem);
         }
@@ -279,19 +294,16 @@ public class TalentGui extends ScrollableGui {
     }
 
     /**
-     * 특성 클릭 처리
+     * 특성 좌클릭 처리 (레벨업)
      */
-    private void handleTalentClick(@NotNull Player player, @NotNull Talent talent,
-                                   int currentLevel, boolean canLearn, @NotNull ClickType clickType) {
-        // 하위 페이지가 있고 우클릭인 경우
-        if (talent.hasSubPage() && clickType == ClickType.RIGHT) {
-            openSubPage(talent);
-            playClickSound(player);
+    private void handleTalentLeftClick(@NotNull Player player, @NotNull Talent talent,
+                                       int currentLevel, boolean canLearn) {
+        if (currentLevel >= talent.getMaxLevel()) {
+            playErrorSound(player);
             return;
         }
 
-        // 특성 학습 처리 (좌클릭)
-        if (clickType == ClickType.LEFT && canLearn) {
+        if (canLearn) {
             if (talent.levelUp(rpgPlayer.getTalents())) {
                 String talentName = transString("talent." + talent.getId() + ".name");
                 sendMessage(player, "gui.talent.talent-learned", "talent", talentName);
@@ -307,22 +319,32 @@ public class TalentGui extends ScrollableGui {
                 playErrorSound(player);
             }
         } else {
-            // 학습 불가능한 경우
             playErrorSound(player);
         }
     }
 
     /**
-     * 하위 페이지 열기 - GuiManager 사용
+     * 특성 우클릭 처리 (하위 페이지 열기)
      */
-    private void openSubPage(@NotNull Talent talent) {
-        TalentGui subPageGui = new TalentGui(
-                guiManager, langManager, rpgPlayer.getPlayer(), rpgPlayer,
-                talent.getPageId(), talent.getChildren()
-        );
+    private void handleTalentRightClick(@NotNull Player player, @NotNull Talent talent) {
+        if (!talent.hasSubPage()) {
+            return;
+        }
 
-        // GuiManager가 자동으로 히스토리 관리
-        guiManager.openGui(rpgPlayer.getPlayer(), subPageGui);
+        // TalentManager에서 하위 특성 가져오기
+        List<Talent> subTalents = RPGMain.getPlugin().getTalentManager()
+                .getPageTalents(talent.getPageId());
+
+        if (!subTalents.isEmpty()) {
+            TalentGui subPageGui = new TalentGui(
+                    guiManager, langManager, player, rpgPlayer,
+                    talent.getPageId(), subTalents
+            );
+
+            // GuiManager가 자동으로 히스토리 관리
+            guiManager.openGui(player, subPageGui);
+            playClickSound(player);
+        }
     }
 
     /**
@@ -334,10 +356,6 @@ public class TalentGui extends ScrollableGui {
         for (Map.Entry<Stat, Integer> entry : bonuses.entrySet()) {
             rpgPlayer.getStats().setBonusStat(entry.getKey(), entry.getValue());
         }
-
-        // RPGPlayer의 내부 저장은 자동으로 이루어짐 (private saveToPDC 호출)
-        // 또는 RPGPlayerManager를 통한 저장
-        // savePlayerData는 RPGPlayerManager에서 처리됨
     }
 
     /**

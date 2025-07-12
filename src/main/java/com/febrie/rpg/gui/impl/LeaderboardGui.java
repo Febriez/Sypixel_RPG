@@ -93,7 +93,14 @@ public class LeaderboardGui extends ScrollableGui {
 
     public LeaderboardGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                           @NotNull Player viewer) {
-        super(viewer, guiManager, langManager, GUI_SIZE, "gui.leaderboard.title");
+        this(guiManager, langManager, viewer, LeaderboardType.LEVEL);
+    }
+
+    public LeaderboardGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                          @NotNull Player viewer, @NotNull LeaderboardType type) {
+        super(viewer, guiManager, langManager, GUI_SIZE, "gui.leaderboard.title",
+                "type", type.getDisplayName());
+        this.currentType = type;
         setupLayout();
         loadLeaderboard();
     }
@@ -133,6 +140,7 @@ public class LeaderboardGui extends ScrollableGui {
     @Override
     protected void handleNonScrollClick(@NotNull InventoryClickEvent event, @NotNull Player player,
                                         int slot, @NotNull ClickType click) {
+        // LEFT_CLICK은 ScrollableGui에서 이미 체크하므로 추가 체크 불필요
         GuiItem item = items.get(slot);
         if (item != null && item.hasActions()) {
             item.executeAction(player, click);
@@ -285,11 +293,10 @@ public class LeaderboardGui extends ScrollableGui {
             return;
         }
 
-        currentType = newType;
+        // 새로운 타입으로 GUI 재생성 및 열기
+        LeaderboardGui newGui = new LeaderboardGui(guiManager, langManager, viewer, newType);
+        guiManager.openGui(viewer, newGui);
         playClickSound(viewer);
-
-        // GUI를 재생성하여 타이틀 업데이트
-        guiManager.recreateCurrentGui(viewer);
     }
 
     /**
@@ -347,9 +354,6 @@ public class LeaderboardGui extends ScrollableGui {
                 Bukkit.getScheduler().runTask(RPGMain.getPlugin(), () -> {
                     isLoading = false;
                     refresh();
-                    sendMessage(viewer, "gui.leaderboard.loaded",
-                            "type", currentType.getDisplayName(),
-                            "count", String.valueOf(currentLeaderboard.size()));
                 });
             } catch (Exception e) {
                 Bukkit.getScheduler().runTask(RPGMain.getPlugin(), () -> {
@@ -452,6 +456,13 @@ public class LeaderboardGui extends ScrollableGui {
         } else { // 하루 이상
             return (diff / (24 * 60 * 60 * 1000)) + "일 전";
         }
+    }
+
+    /**
+     * 현재 리더보드 타입 반환
+     */
+    public LeaderboardType getCurrentType() {
+        return currentType;
     }
 
     @Override

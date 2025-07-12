@@ -102,6 +102,25 @@
     }
   },
   "gui": {
+    "scroll": {
+      "up-button": {
+        "name": "▲ Up",
+        "action": "scroll up"
+      },
+      "down-button": {
+        "name": "▼ Down",
+        "action": "scroll down"
+      },
+      "button": {
+        "click-to": "%COLOR_GRAY%Click to {action}",
+        "no-more": "%COLOR_GRAY%Cannot {action} anymore"
+      },
+      "page-info": {
+        "title": "%COLOR_INFO%Page Info",
+        "current": "%COLOR_WHITE%Page {current} / {total}",
+        "items": "%COLOR_GRAY%{count} items"
+      }
+    },
     "leaderboard": {
       "title": "%COLOR_LEGENDARY%Leaderboard %COLOR_GRAY%- %COLOR_YELLOW%{type}",
       "loading": "%COLOR_YELLOW%Loading leaderboard...",

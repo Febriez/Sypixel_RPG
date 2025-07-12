@@ -101,6 +101,11 @@ public abstract class ScrollableGui extends BaseGui {
             return;
         }
 
+        // 기본적으로 LEFT_CLICK만 처리 (더블클릭 방지)
+        if (!isAllowedClickType(click)) {
+            return;
+        }
+
         // 스크롤 버튼 클릭 처리
         if (slot == scrollUpSlot) {
             scrollUp();
@@ -185,26 +190,40 @@ public abstract class ScrollableGui extends BaseGui {
      */
     protected GuiItem createScrollUpButton() {
         boolean canScroll = currentScroll > 0;
-        return createScrollButton("▲ 위로", "위로 스크롤", canScroll, this::scrollUp);
+        String actionKey = "gui.scroll.up-button.action";
+        return createScrollButton(
+                trans("gui.scroll.up-button.name"),
+                transString(actionKey),
+                canScroll,
+                this::scrollUp
+        );
     }
 
     protected GuiItem createScrollDownButton() {
         boolean canScroll = currentScroll < getMaxScroll();
-        return createScrollButton("▼ 아래로", "아래로 스크롤", canScroll, this::scrollDown);
+        String actionKey = "gui.scroll.down-button.action";
+        return createScrollButton(
+                trans("gui.scroll.down-button.name"),
+                transString(actionKey),
+                canScroll,
+                this::scrollDown
+        );
     }
 
     /**
      * 스크롤 버튼 생성 헬퍼
      */
-    private GuiItem createScrollButton(@NotNull String name, @NotNull String action,
+    private GuiItem createScrollButton(@NotNull Component name, @NotNull String action,
                                        boolean enabled, @NotNull Runnable onClick) {
         Material material = enabled ? Material.LIME_DYE : Material.GRAY_DYE;
-        String lore = enabled ? "클릭하여 " + action : "더 이상 " + action.replace("스크롤", "갈 수") + " 없습니다";
+        Component lore = enabled ?
+                trans("gui.scroll.button.click-to", "action", action) :
+                trans("gui.scroll.button.no-more", "action", action);
 
         return GuiItem.clickable(
                 ItemBuilder.of(material)
-                        .displayName(Component.text(name, enabled ? NamedTextColor.GREEN : NamedTextColor.GRAY))
-                        .addLore(Component.text(lore, NamedTextColor.GRAY))
+                        .displayName(name.color(enabled ? NamedTextColor.GREEN : NamedTextColor.GRAY))
+                        .addLore(lore)
                         .build(),
                 player -> {
                     if (enabled) {
@@ -256,11 +275,12 @@ public abstract class ScrollableGui extends BaseGui {
 
         return GuiItem.display(
                 ItemBuilder.of(Material.PAPER)
-                        .displayName(Component.text("페이지 정보", com.febrie.rpg.util.ColorUtil.INFO))
-                        .addLore(Component.text(String.format("페이지 %d / %d", currentPage, totalPages),
-                                NamedTextColor.WHITE))
-                        .addLore(Component.text(String.format("아이템 %d개", scrollableItems.size()),
-                                NamedTextColor.GRAY))
+                        .displayName(trans("gui.scroll.page-info.title"))
+                        .addLore(trans("gui.scroll.page-info.current",
+                                "current", String.valueOf(currentPage),
+                                "total", String.valueOf(totalPages)))
+                        .addLore(trans("gui.scroll.page-info.items",
+                                "count", String.valueOf(scrollableItems.size())))
                         .build()
         );
     }

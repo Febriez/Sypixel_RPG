@@ -102,6 +102,25 @@
     }
   },
   "gui": {
+    "scroll": {
+      "up-button": {
+        "name": "▲ 위로",
+        "action": "위로 스크롤"
+      },
+      "down-button": {
+        "name": "▼ 아래로",
+        "action": "아래로 스크롤"
+      },
+      "button": {
+        "click-to": "%COLOR_GRAY%클릭하여 {action}",
+        "no-more": "%COLOR_GRAY%더 이상 {action}할 수 없습니다"
+      },
+      "page-info": {
+        "title": "%COLOR_INFO%페이지 정보",
+        "current": "%COLOR_WHITE%페이지 {current} / {total}",
+        "items": "%COLOR_GRAY%아이템 {count}개"
+      }
+    },
     "leaderboard": {
       "title": "%COLOR_LEGENDARY%리더보드 %COLOR_GRAY%- %COLOR_YELLOW%{type}",
       "loading": "%COLOR_YELLOW%리더보드 로딩 중...",

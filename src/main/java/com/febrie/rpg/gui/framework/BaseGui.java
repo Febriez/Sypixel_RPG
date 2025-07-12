@@ -147,10 +147,23 @@ public abstract class BaseGui implements InteractiveGui {
             return;
         }
 
+        // 기본적으로 LEFT_CLICK만 처리 (더블클릭 방지)
+        if (!isAllowedClickType(click)) {
+            return;
+        }
+
         GuiItem item = items.get(slot);
         if (item != null && item.hasActions()) {
             item.executeAction(player, click);
         }
+    }
+
+    /**
+     * 허용된 클릭 타입인지 확인
+     * 하위 클래스에서 오버라이드하여 특수한 클릭 처리 가능
+     */
+    protected boolean isAllowedClickType(@NotNull ClickType click) {
+        return click == ClickType.LEFT;
     }
 
     @Override
