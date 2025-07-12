@@ -1,6 +1,7 @@
 package com.febrie.rpg.talent;
 
 import com.febrie.rpg.stat.Stat;
+import com.febrie.rpg.util.ColorUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
@@ -15,14 +16,13 @@ import java.util.Map;
 /**
  * 특성(탤런트) 시스템
  * 웹 형태의 트리 구조로 구성되어 있으며, 각 특성은 하위 특성 페이지를 가질 수 있음
+ * 이름은 LangManager를 통해 관리됨 (talent.{id}.name)
  *
  * @author Febrie, CoffeeTory
  */
 public class Talent {
 
     private final String id;
-    private final String koreanName;
-    private final String englishName;
     private final Material icon;
     private final TextColor color;
     private final int maxLevel;
@@ -44,8 +44,6 @@ public class Talent {
 
     private Talent(Builder builder) {
         this.id = builder.id;
-        this.koreanName = builder.koreanName;
-        this.englishName = builder.englishName;
         this.icon = builder.icon;
         this.color = builder.color;
         this.maxLevel = builder.maxLevel;
@@ -122,11 +120,6 @@ public class Talent {
     }
 
     @NotNull
-    public String getName(boolean isKorean) {
-        return isKorean ? koreanName : englishName;
-    }
-
-    @NotNull
     public Material getIcon() {
         return icon;
     }
@@ -177,8 +170,12 @@ public class Talent {
         return bonuses;
     }
 
+    /**
+     * 특성 설명 가져오기 (스탯 보너스와 효과만 포함)
+     * 특성 이름과 선행 조건의 이름은 LangManager를 통해 처리해야 함
+     */
     @NotNull
-    public List<Component> getDescription(boolean isKorean, int currentLevel) {
+    public List<Component> getEffectsDescription(boolean isKorean, int currentLevel) {
         List<Component> description = new ArrayList<>();
 
         // 스탯 보너스
@@ -187,42 +184,20 @@ public class Talent {
                     com.febrie.rpg.util.ColorUtil.LEGENDARY));
 
             for (Map.Entry<Stat, Integer> entry : statBonuses.entrySet()) {
-                Stat stat = entry.getKey();
-                int bonus = entry.getValue() * currentLevel;
-                int nextBonus = entry.getValue() * (currentLevel + 1);
-
-                Component statLine = Component.text("  " + stat.getName(isKorean) + ": ", stat.getColor())
-                        .append(Component.text("+" + bonus, com.febrie.rpg.util.ColorUtil.SUCCESS));
-
-                if (currentLevel < maxLevel) {
-                    statLine = statLine.append(Component.text(" → +" + nextBonus,
-                            com.febrie.rpg.util.ColorUtil.INFO));
-                }
-
-                description.add(statLine);
+                description.add(createStatBonusLine(entry.getKey(), entry.getValue(), currentLevel, isKorean));
             }
         }
 
         // 특수 효과
         if (!effects.isEmpty()) {
-            description.add(Component.empty());
+            if (!description.isEmpty()) {
+                description.add(Component.empty());
+            }
             description.add(Component.text(isKorean ? "특수 효과:" : "Special Effects:",
                     com.febrie.rpg.util.ColorUtil.EPIC));
 
             for (String effect : effects) {
-                description.add(Component.text("  • " + effect, com.febrie.rpg.util.ColorUtil.WHITE));
-            }
-        }
-
-        // 선행 조건
-        if (!prerequisites.isEmpty()) {
-            description.add(Component.empty());
-            description.add(Component.text(isKorean ? "선행 조건:" : "Prerequisites:",
-                    com.febrie.rpg.util.ColorUtil.WARNING));
-
-            for (Map.Entry<Talent, Integer> entry : prerequisites.entrySet()) {
-                description.add(Component.text("  • " + entry.getKey().getName(isKorean) +
-                        " Lv." + entry.getValue(), com.febrie.rpg.util.ColorUtil.GRAY));
+                description.add(Component.text("  • " + effect, ColorUtil.WHITE));
             }
         }
 
@@ -230,26 +205,46 @@ public class Talent {
     }
 
     /**
-     * 특성 카테고리
+     * 스탯 보너스 라인 생성
      */
-    public enum TalentCategory {
-        OFFENSE("공격", "Offense", com.febrie.rpg.util.ColorUtil.ERROR),
-        DEFENSE("방어", "Defense", com.febrie.rpg.util.ColorUtil.INFO),
-        UTILITY("유틸리티", "Utility", com.febrie.rpg.util.ColorUtil.SUCCESS),
-        SPECIAL("특수", "Special", com.febrie.rpg.util.ColorUtil.LEGENDARY);
+    @NotNull
+    private Component createStatBonusLine(@NotNull Stat stat, int bonusPerLevel, int currentLevel, boolean isKorean) {
+        int bonus = bonusPerLevel * currentLevel;
+        int nextBonus = bonusPerLevel * (currentLevel + 1);
 
-        private final String koreanName;
-        private final String englishName;
-        private final TextColor color;
+        Component statLine = Component.text("  " + stat.getName(isKorean) + ": ", stat.getColor())
+                .append(Component.text("+" + bonus, ColorUtil.SUCCESS));
 
-        TalentCategory(String koreanName, String englishName, TextColor color) {
-            this.koreanName = koreanName;
-            this.englishName = englishName;
-            this.color = color;
+        if (currentLevel < maxLevel) {
+            statLine = statLine.append(Component.text(" → +" + nextBonus,
+                    ColorUtil.INFO));
         }
 
-        public String getName(boolean isKorean) {
-            return isKorean ? koreanName : englishName;
+        return statLine;
+    }
+
+    /**
+     * 선행 조건 목록 가져오기 (GUI에서 LangManager로 이름 번역 필요)
+     */
+    @NotNull
+    public Map<Talent, Integer> getPrerequisites() {
+        return new HashMap<>(prerequisites);
+    }
+
+    /**
+     * 특성 카테고리
+     * 이름은 LangManager에서 talent.category.{name}.name 형식으로 관리
+     */
+    public enum TalentCategory {
+        OFFENSE(ColorUtil.ERROR),
+        DEFENSE(ColorUtil.INFO),
+        UTILITY(ColorUtil.SUCCESS),
+        SPECIAL(ColorUtil.LEGENDARY);
+
+        private final TextColor color;
+
+        TalentCategory(TextColor color) {
+            this.color = color;
         }
 
         public TextColor getColor() {
@@ -262,8 +257,6 @@ public class Talent {
      */
     public static class Builder {
         private final String id;
-        private String koreanName;
-        private String englishName;
         private Material icon = Material.BOOK;
         private TextColor color = com.febrie.rpg.util.ColorUtil.WHITE;
         private int maxLevel = 1;
@@ -276,12 +269,6 @@ public class Talent {
 
         public Builder(@NotNull String id) {
             this.id = id;
-        }
-
-        public Builder name(@NotNull String korean, @NotNull String english) {
-            this.koreanName = korean;
-            this.englishName = english;
-            return this;
         }
 
         public Builder icon(@NotNull Material icon) {

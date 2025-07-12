@@ -15,18 +15,12 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
 
 /**
  * Player profile GUI implementation with internationalization support
  * Shows player statistics, information, and provides access to various features
  * <p>
- * 개선사항:
- * - 동적 슬롯 계산
- * - 상수 사용으로 매직 넘버 제거
- * - 더 체계적인 레이아웃
+ * 개선된 네비게이션 시스템 적용
  *
  * @author Febrie, CoffeeTory
  */
@@ -52,18 +46,11 @@ public class ProfileGui extends BaseGui {
     private static final int TALENTS_SLOT = 50;
 
     /**
-     * Creates a new ProfileGui for a specific player with language support
-     */
-    public ProfileGui(@NotNull Player targetPlayer,
-                      @Nullable GuiManager guiManager, @NotNull LangManager langManager) {
-        this(targetPlayer, targetPlayer, guiManager, langManager);
-    }
-
-    /**
      * Creates a new ProfileGui for viewing another player's profile
+     * 프로젝트의 실제 생성자 시그니처와 일치
      */
     public ProfileGui(@NotNull Player targetPlayer, @NotNull Player viewer,
-                      @Nullable GuiManager guiManager, @NotNull LangManager langManager) {
+                      @NotNull GuiManager guiManager, @NotNull LangManager langManager) {
         super(viewer, guiManager, langManager, GUI_SIZE, "gui.profile.player-title",
                 "player", targetPlayer.getName());
         this.targetPlayer = targetPlayer;
@@ -101,142 +88,99 @@ public class ProfileGui extends BaseGui {
             }
         }
 
-        // 하단 테두리 - 네비게이션 버튼 위치 제외
-        int lastRowStart = getLastRowStart();
-        for (int i = lastRowStart; i < GUI_SIZE; i++) {
-            // 네비게이션 버튼 위치 건너뛰기
-            if (i != lastRowStart && i != lastRowStart + 4 && i != GUI_SIZE - 1) {
-                setItem(i, GuiFactory.createDecoration());
+        // 타이틀 아이템
+        setItem(TITLE_SLOT, GuiItem.display(
+                ItemBuilder.of(Material.NAME_TAG)
+                        .displayName(trans("gui.profile.title")
+                                .decoration(TextDecoration.BOLD, true))
+                        .addLore(trans("gui.profile.viewing", "player", targetPlayer.getName()))
+                        .build()
+        ));
+
+        // 중간 구분선
+        for (int i = 27; i < 36; i++) {
+            if (i != JOB_SLOT) {
+                setItem(i, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
             }
         }
 
         // 좌우 테두리
-        for (int row = 1; row < getRows() - 1; row++) {
+        for (int row = 1; row < 5; row++) {
             setItem(row * 9, GuiFactory.createDecoration());
             setItem(row * 9 + 8, GuiFactory.createDecoration());
         }
 
-        // Title decoration
-        setItem(TITLE_SLOT, GuiItem.display(
-                ItemBuilder.of(Material.NETHER_STAR)
-                        .displayName(Component.text("★ " + targetPlayer.getName() + " ★", ColorUtil.LEGENDARY)
+        // 하단 테두리
+        for (int i = 45; i < 54; i++) {
+            if (i != BACK_BUTTON_SLOT && i != REFRESH_BUTTON_SLOT &&
+                    i != CLOSE_BUTTON_SLOT && i != SETTINGS_SLOT &&
+                    i != STATS_SLOT && i != TALENTS_SLOT) {
+                setItem(i, GuiFactory.createDecoration());
+            }
+        }
+    }
+
+    /**
+     * Sets up player information display
+     */
+    private void setupPlayerInfo() {
+        // Player head with skull
+        setItem(PLAYER_HEAD_SLOT, GuiItem.display(
+                new ItemBuilder(targetPlayer)
+                        .displayName(Component.text(targetPlayer.getName(), ColorUtil.EPIC)
                                 .decoration(TextDecoration.BOLD, true))
-                        .addLore(Component.empty())
-                        .addLore(trans("gui.profile.title"))
+                        .addLore(trans("gui.profile.uuid", "uuid",
+                                formatUUID(targetPlayer.getUniqueId().toString())))
                         .build()
+        ));
+
+        // RPGPlayer 정보
+        com.febrie.rpg.player.RPGPlayer rpgPlayer = RPGMain.getPlugin()
+                .getRPGPlayerManager().getOrCreatePlayer(targetPlayer);
+
+        // Level info
+        setItem(LEVEL_INFO_SLOT, createInfoItem(
+                Material.EXPERIENCE_BOTTLE,
+                "gui.profile.level",
+                String.valueOf(rpgPlayer.getLevel()),
+                String.valueOf(rpgPlayer.getExperience()),
+                String.valueOf(rpgPlayer.getExpToNextLevel())
+        ));
+
+        // Health info
+        AttributeInstance maxHealth = targetPlayer.getAttribute(Attribute.MAX_HEALTH);
+        double health = targetPlayer.getHealth();
+        double maxHealthValue = maxHealth != null ? maxHealth.getValue() : 20.0;
+        setItem(HEALTH_INFO_SLOT, createInfoItem(
+                Material.RED_DYE,
+                "gui.profile.health",
+                String.format("%.1f", health),
+                String.format("%.1f", maxHealthValue)
+        ));
+
+        // Food info
+        setItem(FOOD_INFO_SLOT, createInfoItem(
+                Material.BREAD,
+                "gui.profile.food",
+                String.valueOf(targetPlayer.getFoodLevel()),
+                "20"
+        ));
+
+        // Game info
+        String gameMode = targetPlayer.getGameMode().name();
+        setItem(GAME_INFO_SLOT, createInfoItem(
+                Material.COMPASS,
+                "gui.profile.gameinfo",
+                trans("gamemode." + gameMode.toLowerCase()).toString(),
+                targetPlayer.getWorld().getName()
         ));
     }
 
     /**
-     * Sets up player head and basic info
-     */
-    private void setupPlayerInfo() {
-        GuiItem playerHead = GuiItem.clickable(
-                ItemBuilder.of(Material.PLAYER_HEAD)
-                        .displayName(trans("items.profile.player-head.name",
-                                "player", targetPlayer.getName()))
-                        .lore(langManager.getComponentList(viewer, "items.profile.player-head.lore",
-                                "player", targetPlayer.getName(),
-                                "uuid", formatUUID(targetPlayer.getUniqueId().toString()),
-                                "playtime", formatPlayTime()))
-                        .build(),
-                player -> {
-                    sendMessage(player, "general.coming-soon");
-                    playClickSound(player);
-                }
-        );
-
-        setItem(PLAYER_HEAD_SLOT, playerHead);
-    }
-
-    /**
-     * Sets up the statistics section
+     * Sets up stats section
      */
     private void setupStatsSection() {
-        // Level info
-        setupLevelInfo();
-
-        // Health info
-        setupHealthInfo();
-
-        // Food info
-        setupFoodInfo();
-
-        // Game mode info
-        setupGameModeInfo();
-    }
-
-    /**
-     * Level info item setup
-     */
-    private void setupLevelInfo() {
-        GuiItem levelItem = GuiItem.display(
-                ItemBuilder.of(Material.EXPERIENCE_BOTTLE)
-                        .displayName(trans("items.profile.level-info.name"))
-                        .lore(langManager.getComponentList(viewer, "items.profile.level-info.lore",
-                                "level", String.valueOf(targetPlayer.getLevel()),
-                                "exp", String.valueOf(Math.round(targetPlayer.getExp() * 100)),
-                                "total_exp", String.valueOf(targetPlayer.getTotalExperience())))
-                        .build()
-        );
-        setItem(LEVEL_INFO_SLOT, levelItem);
-    }
-
-    /**
-     * Health info item setup
-     */
-    private void setupHealthInfo() {
-        AttributeInstance maxHealthAttr = targetPlayer.getAttribute(Attribute.MAX_HEALTH);
-        double maxHealth = maxHealthAttr != null ? maxHealthAttr.getValue() : 20.0;
-        double currentHealth = targetPlayer.getHealth();
-        double healthPercentage = (currentHealth / maxHealth) * 100;
-
-        GuiItem healthItem = GuiItem.display(
-                ItemBuilder.of(Material.RED_DYE)
-                        .displayName(trans("items.profile.health-info.name"))
-                        .lore(langManager.getComponentList(viewer, "items.profile.health-info.lore",
-                                "current", String.format("%.1f", currentHealth),
-                                "max", String.format("%.1f", maxHealth),
-                                "percentage", String.format("%.1f", healthPercentage),
-                                "health_bar", createHealthBar(healthPercentage)))
-                        .build()
-        );
-        setItem(HEALTH_INFO_SLOT, healthItem);
-    }
-
-    /**
-     * Food info item setup
-     */
-    private void setupFoodInfo() {
-        GuiItem foodItem = GuiItem.display(
-                ItemBuilder.of(Material.BREAD)
-                        .displayName(trans("items.profile.food-info.name"))
-                        .lore(langManager.getComponentList(viewer, "items.profile.food-info.lore",
-                                "food", String.valueOf(targetPlayer.getFoodLevel()),
-                                "saturation", String.format("%.1f", targetPlayer.getSaturation()),
-                                "hunger_bar", createHungerBar(targetPlayer.getFoodLevel())))
-                        .build()
-        );
-        setItem(FOOD_INFO_SLOT, foodItem);
-    }
-
-    /**
-     * Game mode info item setup
-     */
-    private void setupGameModeInfo() {
-        String gameModeName = transString("gamemode." + targetPlayer.getGameMode().name());
-        String canFly = transString(targetPlayer.getAllowFlight() ? "status.flight.yes" : "status.flight.no");
-
-        GuiItem gameModeItem = GuiItem.display(
-                ItemBuilder.of(Material.COMPASS)
-                        .displayName(trans("items.profile.game-info.name"))
-                        .lore(langManager.getComponentList(viewer, "items.profile.game-info.lore",
-                                "gamemode", gameModeName,
-                                "can_fly", canFly,
-                                "world", targetPlayer.getWorld().getName()))
-                        .build()
-        );
-        setItem(GAME_INFO_SLOT, gameModeItem);
+        // Implement stats display section if needed
     }
 
     /**
@@ -246,11 +190,13 @@ public class ProfileGui extends BaseGui {
         com.febrie.rpg.player.RPGPlayer rpgPlayer = RPGMain.getPlugin()
                 .getRPGPlayerManager().getOrCreatePlayer(targetPlayer);
 
-        // Job selection or display
+        // Job button/display
         setupJobButton(rpgPlayer);
 
-        // Settings button
-        setupSettingsButton();
+        // Settings button (only for own profile)
+        if (viewer.equals(targetPlayer)) {
+            setupSettingsButton();
+        }
 
         // Stats and Talents buttons (only if has job)
         if (rpgPlayer.hasJob()) {
@@ -258,18 +204,8 @@ public class ProfileGui extends BaseGui {
             setupTalentsButton(rpgPlayer);
         }
 
-        // Navigation buttons with dynamic positioning
+        // Navigation buttons
         setupDynamicNavigation();
-
-        // Custom refresh action
-        if (guiManager == null) {
-            int refreshSlot = getLastRowStart() + 4; // 중앙
-            setItem(refreshSlot, GuiFactory.createRefreshButton(player -> {
-                refresh();
-                sendMessage(player, "messages.profile-opened");
-                playSuccessSound(player);
-            }, langManager, viewer));
-        }
     }
 
     /**
@@ -284,7 +220,8 @@ public class ProfileGui extends BaseGui {
                             .build(),
                     player -> {
                         if (player.equals(targetPlayer)) {
-                            new JobSelectionGui(guiManager, langManager, player, rpgPlayer).open(player);
+                            JobSelectionGui jobGui = new JobSelectionGui(guiManager, langManager, player, rpgPlayer);
+                            guiManager.openGui(player, jobGui);
                             playSuccessSound(player);
                         } else {
                             sendMessage(player, "general.coming-soon");
@@ -341,9 +278,8 @@ public class ProfileGui extends BaseGui {
                         .lore(langManager.getComponentList(viewer, "items.profile.stats-button.lore"))
                         .build(),
                 player -> {
-                    new StatsGui(guiManager, langManager, player,
-                            Objects.requireNonNull(RPGMain.getPlugin().getRPGPlayerManager().getPlayer(player)))
-                            .open(player);
+                    StatsGui statsGui = new StatsGui(guiManager, langManager, player, rpgPlayer);
+                    guiManager.openGui(player, statsGui);
                     playSuccessSound(player);
                 }
         );
@@ -362,31 +298,41 @@ public class ProfileGui extends BaseGui {
                 player -> {
                     java.util.List<com.febrie.rpg.talent.Talent> mainTalents = RPGMain.getPlugin()
                             .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
-                    new TalentGui(guiManager, langManager, player, rpgPlayer, "main", mainTalents).open(player);
+                    TalentGui talentGui = new TalentGui(guiManager, langManager, player, rpgPlayer, "main", mainTalents);
+                    guiManager.openGui(player, talentGui);
                     playSuccessSound(player);
                 }
         );
         setItem(TALENTS_SLOT, talentsButton);
     }
 
+    /**
+     * Helper method to create info items
+     */
+    private GuiItem createInfoItem(@NotNull Material material, @NotNull String titleKey,
+                                   @NotNull String... values) {
+        ItemBuilder builder = ItemBuilder.of(material)
+                .displayName(trans(titleKey + ".title"));
+
+        switch (titleKey) {
+            case "gui.profile.level" -> {
+                builder.addLore(trans(titleKey + ".info", "level", values[0]));
+                builder.addLore(trans(titleKey + ".exp", "exp", values[1], "required", values[2]));
+            }
+            case "gui.profile.health" ->
+                    builder.addLore(trans(titleKey + ".info", "health", values[0], "max", values[1]));
+            case "gui.profile.food" -> builder.addLore(trans(titleKey + ".info", "food", values[0], "max", values[1]));
+            case "gui.profile.gameinfo" -> {
+                builder.addLore(trans(titleKey + ".mode", "mode", values[0]));
+                builder.addLore(trans(titleKey + ".world", "world", values[1]));
+            }
+        }
+
+        return GuiItem.display(builder.build());
+    }
+
     // Helper methods for display
     private String formatUUID(String uuid) {
         return uuid.length() > 8 ? uuid.substring(0, 8) + "..." : uuid;
-    }
-
-    private String formatPlayTime() {
-        return transString("status.unknown");
-    }
-
-    private String createHealthBar(double percentage) {
-        int bars = 20;
-        int filled = (int) (percentage / 100.0 * bars);
-        return "█".repeat(Math.max(0, filled)) + "░".repeat(Math.max(0, bars - filled));
-    }
-
-    private String createHungerBar(int foodLevel) {
-        int bars = 20;
-        int filled = foodLevel;
-        return "🍖".repeat(Math.max(0, filled)) + "░".repeat(Math.max(0, bars - filled));
     }
 }

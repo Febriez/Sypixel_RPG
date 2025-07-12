@@ -8,9 +8,11 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,6 +59,13 @@ public class ItemBuilder {
     public ItemBuilder(ItemStack itemStack) {
         this.itemStack = itemStack.clone();
         this.itemMeta = this.itemStack.getItemMeta();
+    }
+
+    public ItemBuilder(Player targetPlayer) {
+        this.itemStack = new ItemStack(Material.PLAYER_HEAD, 1);
+        SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
+        skullMeta.setOwningPlayer(targetPlayer);
+        this.itemMeta = skullMeta;
     }
 
     /**

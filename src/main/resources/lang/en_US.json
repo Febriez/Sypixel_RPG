@@ -56,6 +56,149 @@
       "already-has-job": "%COLOR_ERROR%You already have a job!"
     },
     "talent": {
+      "category": {
+        "offense": {
+          "name": "Offense"
+        },
+        "defense": {
+          "name": "Defense"
+        },
+        "utility": {
+          "name": "Utility"
+        },
+        "special": {
+          "name": "Special"
+        }
+      },
+      "basic_strength": {
+        "name": "Basic Strength"
+      },
+      "basic_intelligence": {
+        "name": "Basic Intelligence"
+      },
+      "basic_vitality": {
+        "name": "Basic Vitality"
+      },
+      "basic_dexterity": {
+        "name": "Basic Dexterity"
+      },
+      "basic_wisdom": {
+        "name": "Basic Wisdom"
+      },
+      "basic_luck": {
+        "name": "Basic Luck"
+      },
+      "exp_boost": {
+        "name": "Blessing of Experience"
+      },
+      "swiftness": {
+        "name": "Swiftness"
+      },
+      "advanced_strength": {
+        "name": "Advanced Strength"
+      },
+      "berserker_rage": {
+        "name": "Berserker Rage"
+      },
+      "blood_thirst": {
+        "name": "Blood Thirst"
+      },
+      "rampage": {
+        "name": "Rampage"
+      },
+      "massacre": {
+        "name": "Massacre"
+      },
+      "blade_master": {
+        "name": "Blade Master"
+      },
+      "counter_attack": {
+        "name": "Counter Attack"
+      },
+      "fortitude": {
+        "name": "Fortitude"
+      },
+      "shield_mastery": {
+        "name": "Shield Mastery"
+      },
+      "guardian": {
+        "name": "Guardian"
+      },
+      "last_stand": {
+        "name": "Last Stand"
+      },
+      "holy_power": {
+        "name": "Holy Power"
+      },
+      "healing_touch": {
+        "name": "Healing Touch"
+      },
+      "divine_shield": {
+        "name": "Divine Shield"
+      },
+      "blessing": {
+        "name": "Blessing"
+      },
+      "dark_power": {
+        "name": "Dark Power"
+      },
+      "shadow_bolt": {
+        "name": "Shadow Bolt"
+      },
+      "curse": {
+        "name": "Curse"
+      },
+      "soul_burn": {
+        "name": "Soul Burn"
+      },
+      "mercy_heal": {
+        "name": "Mercy's Heal"
+      },
+      "purification": {
+        "name": "Purification"
+      },
+      "holy_light": {
+        "name": "Holy Light"
+      },
+      "resurrection": {
+        "name": "Resurrection"
+      },
+      "eagle_eye": {
+        "name": "Eagle Eye"
+      },
+      "critical_shot": {
+        "name": "Critical Shot"
+      },
+      "quick_shot": {
+        "name": "Quick Shot"
+      },
+      "multishot": {
+        "name": "Multi Shot"
+      },
+      "long_range": {
+        "name": "Long Range"
+      },
+      "penetrating_shot": {
+        "name": "Penetrating Shot"
+      },
+      "headshot": {
+        "name": "Headshot"
+      },
+      "camouflage": {
+        "name": "Camouflage"
+      },
+      "point_blank": {
+        "name": "Point Blank"
+      },
+      "explosive_shot": {
+        "name": "Explosive Shot"
+      },
+      "quick_reload": {
+        "name": "Quick Reload"
+      },
+      "double_barrel": {
+        "name": "Double Barrel"
+      },
       "title": "%COLOR_EPIC%Talent Management",
       "title-with-page": "%COLOR_EPIC%Talents - {page}",
       "level": "%COLOR_SUCCESS%Level {level}",

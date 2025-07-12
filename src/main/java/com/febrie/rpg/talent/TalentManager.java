@@ -53,7 +53,6 @@ public class TalentManager {
     private void initializeCommonTalents() {
         // 기본 스탯 특성들
         Talent basicStrength = new Talent.Builder("basic_strength")
-                .name("기초 근력", "Basic Strength")
                 .icon(Material.IRON_INGOT)
                 .color(ColorUtil.COPPER)
                 .maxLevel(10)
@@ -64,7 +63,6 @@ public class TalentManager {
         registerTalent(basicStrength, "main");
 
         Talent basicIntelligence = new Talent.Builder("basic_intelligence")
-                .name("기초 지능", "Basic Intelligence")
                 .icon(Material.BOOK)
                 .color(ColorUtil.INFO)
                 .maxLevel(10)
@@ -75,7 +73,6 @@ public class TalentManager {
         registerTalent(basicIntelligence, "main");
 
         Talent basicVitality = new Talent.Builder("basic_vitality")
-                .name("기초 체력", "Basic Vitality")
                 .icon(Material.APPLE)
                 .color(ColorUtil.HEALTH)
                 .maxLevel(10)
@@ -87,7 +84,6 @@ public class TalentManager {
 
         // 추가 기본 스탯
         Talent basicDexterity = new Talent.Builder("basic_dexterity")
-                .name("기초 민첩", "Basic Dexterity")
                 .icon(Material.FEATHER)
                 .color(ColorUtil.SUCCESS)
                 .maxLevel(10)
@@ -98,7 +94,6 @@ public class TalentManager {
         registerTalent(basicDexterity, "main");
 
         Talent basicWisdom = new Talent.Builder("basic_wisdom")
-                .name("기초 지혜", "Basic Wisdom")
                 .icon(Material.ENCHANTED_BOOK)
                 .color(ColorUtil.MANA)
                 .maxLevel(10)
@@ -109,7 +104,6 @@ public class TalentManager {
         registerTalent(basicWisdom, "main");
 
         Talent basicLuck = new Talent.Builder("basic_luck")
-                .name("기초 행운", "Basic Luck")
                 .icon(Material.RABBIT_FOOT)
                 .color(ColorUtil.LEGENDARY)
                 .maxLevel(5)
@@ -121,7 +115,6 @@ public class TalentManager {
 
         // 경험치 증가 특성
         Talent expBoost = new Talent.Builder("exp_boost")
-                .name("경험의 축복", "Blessing of Experience")
                 .icon(Material.EXPERIENCE_BOTTLE)
                 .color(ColorUtil.EXPERIENCE)
                 .maxLevel(5)
@@ -133,7 +126,6 @@ public class TalentManager {
 
         // 이동속도 증가
         Talent swiftness = new Talent.Builder("swiftness")
-                .name("신속함", "Swiftness")
                 .icon(Material.SUGAR)
                 .color(ColorUtil.WHITE)
                 .maxLevel(3)
@@ -146,7 +138,6 @@ public class TalentManager {
 
         // 고급 근력만 남기고 나머지는 제거
         Talent advancedStrength = new Talent.Builder("advanced_strength")
-                .name("고급 근력", "Advanced Strength")
                 .icon(Material.DIAMOND)
                 .color(ColorUtil.DIAMOND)
                 .maxLevel(5)
@@ -168,7 +159,6 @@ public class TalentManager {
     private void initializeWarriorTalents() {
         // 버서커 특성
         Talent berserkRage = new Talent.Builder("berserk_rage")
-                .name("광폭한 분노", "Berserk Rage")
                 .icon(Material.REDSTONE)
                 .color(ColorUtil.ERROR)
                 .maxLevel(5)
@@ -180,7 +170,6 @@ public class TalentManager {
         registerJobTalent(berserkRage, JobType.BERSERKER, "main");
 
         Talent bloodThirst = new Talent.Builder("blood_thirst")
-                .name("피의 갈증", "Blood Thirst")
                 .icon(Material.REDSTONE_BLOCK)
                 .color(ColorUtil.HEALTH)
                 .maxLevel(3)
@@ -194,7 +183,6 @@ public class TalentManager {
 
         // 버서커 추가 특성들
         Talent rampage = new Talent.Builder("rampage")
-                .name("광란", "Rampage")
                 .icon(Material.TNT)
                 .color(ColorUtil.ERROR)
                 .maxLevel(3)
@@ -207,7 +195,6 @@ public class TalentManager {
         registerJobTalent(rampage, JobType.BERSERKER, "main");
 
         Talent battleFrenzy = new Talent.Builder("battle_frenzy")
-                .name("전투 광기", "Battle Frenzy")
                 .icon(Material.BLAZE_POWDER)
                 .color(ColorUtil.ORANGE)
                 .maxLevel(5)
@@ -219,7 +206,6 @@ public class TalentManager {
         registerJobTalent(battleFrenzy, JobType.BERSERKER, "main");
 
         Talent undyingRage = new Talent.Builder("undying_rage")
-                .name("불사의 분노", "Undying Rage")
                 .icon(Material.TOTEM_OF_UNDYING)
                 .color(ColorUtil.LEGENDARY)
                 .maxLevel(1)
@@ -232,7 +218,6 @@ public class TalentManager {
 
         // 추가 버서커 특성들
         Talent weaponMastery = new Talent.Builder("berserker_weapon_mastery")
-                .name("무기 숙련", "Weapon Mastery")
                 .icon(Material.NETHERITE_AXE)
                 .color(ColorUtil.COPPER)
                 .maxLevel(10)
@@ -244,7 +229,6 @@ public class TalentManager {
         registerJobTalent(weaponMastery, JobType.BERSERKER, "main");
 
         Talent criticalStrike = new Talent.Builder("berserker_critical")
-                .name("치명적인 일격", "Critical Strike")
                 .icon(Material.GOLDEN_SWORD)
                 .color(ColorUtil.GOLD)
                 .maxLevel(5)
@@ -256,7 +240,6 @@ public class TalentManager {
         registerJobTalent(criticalStrike, JobType.BERSERKER, "main");
 
         Talent bloodBath = new Talent.Builder("blood_bath")
-                .name("피의 목욕", "Blood Bath")
                 .icon(Material.RED_DYE)
                 .color(ColorUtil.DARK_RED)
                 .maxLevel(3)
@@ -268,7 +251,6 @@ public class TalentManager {
 
         // 브루저 특성
         Talent balanced = new Talent.Builder("balanced_fighter")
-                .name("균형잡힌 전투", "Balanced Fighting")
                 .icon(Material.IRON_SWORD)
                 .color(ColorUtil.ORANGE)
                 .maxLevel(5)
@@ -281,7 +263,6 @@ public class TalentManager {
         registerJobTalent(balanced, JobType.BRUISER, "main");
 
         Talent adaptability = new Talent.Builder("adaptability")
-                .name("적응력", "Adaptability")
                 .icon(Material.LEATHER_CHESTPLATE)
                 .color(ColorUtil.YELLOW)
                 .maxLevel(5)
@@ -293,7 +274,6 @@ public class TalentManager {
         registerJobTalent(adaptability, JobType.BRUISER, "main");
 
         Talent counterAttack = new Talent.Builder("counter_attack")
-                .name("반격", "Counter Attack")
                 .icon(Material.SHIELD)
                 .color(ColorUtil.INFO)
                 .maxLevel(3)
@@ -305,7 +285,6 @@ public class TalentManager {
 
         // 탱커 특성
         Talent fortitude = new Talent.Builder("fortitude")
-                .name("불굴의 의지", "Fortitude")
                 .icon(Material.SHIELD)
                 .color(ColorUtil.NETHERITE)
                 .maxLevel(10)
@@ -317,7 +296,6 @@ public class TalentManager {
         registerJobTalent(fortitude, JobType.TANK, "main");
 
         Talent shieldMastery = new Talent.Builder("shield_mastery")
-                .name("방패 숙련", "Shield Mastery")
                 .icon(Material.SHIELD)
                 .color(ColorUtil.DIAMOND)
                 .maxLevel(5)
@@ -331,7 +309,6 @@ public class TalentManager {
         registerJobTalent(shieldMastery, JobType.TANK, "tank_defense");
 
         Talent guardian = new Talent.Builder("guardian")
-                .name("수호자", "Guardian")
                 .icon(Material.IRON_CHESTPLATE)
                 .color(ColorUtil.WHITE)
                 .maxLevel(5)
@@ -343,7 +320,6 @@ public class TalentManager {
         registerJobTalent(guardian, JobType.TANK, "main");
 
         Talent lastStand = new Talent.Builder("last_stand")
-                .name("최후의 저항", "Last Stand")
                 .icon(Material.GOLDEN_APPLE)
                 .color(ColorUtil.LEGENDARY)
                 .maxLevel(1)
@@ -360,7 +336,6 @@ public class TalentManager {
     private void initializeMageTalents() {
         // 사제 특성
         Talent holyPower = new Talent.Builder("holy_power")
-                .name("신성한 힘", "Holy Power")
                 .icon(Material.GLOWSTONE_DUST)
                 .color(ColorUtil.LEGENDARY)
                 .maxLevel(5)
@@ -373,7 +348,6 @@ public class TalentManager {
         registerJobTalent(holyPower, JobType.PRIEST, "main");
 
         Talent divineHealing = new Talent.Builder("divine_healing")
-                .name("신성한 치유", "Divine Healing")
                 .icon(Material.GOLDEN_APPLE)
                 .color(ColorUtil.SUCCESS)
                 .maxLevel(3)
@@ -388,7 +362,6 @@ public class TalentManager {
 
         // 사제 추가 특성
         Talent blessing = new Talent.Builder("blessing")
-                .name("축복", "Blessing")
                 .icon(Material.SUNFLOWER)
                 .color(ColorUtil.YELLOW)
                 .maxLevel(5)
@@ -400,7 +373,6 @@ public class TalentManager {
         registerJobTalent(blessing, JobType.PRIEST, "main");
 
         Talent sanctuary = new Talent.Builder("sanctuary")
-                .name("성역", "Sanctuary")
                 .icon(Material.BEACON)
                 .color(ColorUtil.WHITE)
                 .maxLevel(3)
@@ -411,7 +383,6 @@ public class TalentManager {
         registerJobTalent(sanctuary, JobType.PRIEST, "main");
 
         Talent purification = new Talent.Builder("purification")
-                .name("정화", "Purification")
                 .icon(Material.MILK_BUCKET)
                 .color(ColorUtil.AQUA)
                 .maxLevel(3)
@@ -423,7 +394,6 @@ public class TalentManager {
 
         // 흑마법사 특성
         Talent darkMagic = new Talent.Builder("dark_magic")
-                .name("어둠의 마법", "Dark Magic")
                 .icon(Material.COAL)
                 .color(ColorUtil.EPIC)
                 .maxLevel(5)
@@ -435,7 +405,6 @@ public class TalentManager {
         registerJobTalent(darkMagic, JobType.DARK_MAGE, "main");
 
         Talent curse = new Talent.Builder("curse_mastery")
-                .name("저주 숙련", "Curse Mastery")
                 .icon(Material.WITHER_SKELETON_SKULL)
                 .color(ColorUtil.DARK_PURPLE)
                 .maxLevel(3)
@@ -450,7 +419,6 @@ public class TalentManager {
 
         // 흑마법사 추가 특성
         Talent shadowBolt = new Talent.Builder("shadow_bolt")
-                .name("어둠의 화살", "Shadow Bolt")
                 .icon(Material.ARROW)
                 .color(ColorUtil.DARK_PURPLE)
                 .maxLevel(5)
@@ -462,7 +430,6 @@ public class TalentManager {
         registerJobTalent(shadowBolt, JobType.DARK_MAGE, "main");
 
         Talent lifeDrain = new Talent.Builder("life_drain")
-                .name("생명력 흡수", "Life Drain")
                 .icon(Material.SPIDER_EYE)
                 .color(ColorUtil.DARK_RED)
                 .maxLevel(3)
@@ -473,7 +440,6 @@ public class TalentManager {
         registerJobTalent(lifeDrain, JobType.DARK_MAGE, "main");
 
         Talent darkRitual = new Talent.Builder("dark_ritual")
-                .name("어둠의 의식", "Dark Ritual")
                 .icon(Material.ENDER_EYE)
                 .color(ColorUtil.EPIC)
                 .maxLevel(1)
@@ -485,7 +451,6 @@ public class TalentManager {
 
         // 메르시 특성
         Talent angelicBlessing = new Talent.Builder("angelic_blessing")
-                .name("천사의 축복", "Angelic Blessing")
                 .icon(Material.FEATHER)
                 .color(ColorUtil.SUCCESS)
                 .maxLevel(5)
@@ -498,7 +463,6 @@ public class TalentManager {
         registerJobTalent(angelicBlessing, JobType.MERCY, "main");
 
         Talent guardianAngel = new Talent.Builder("guardian_angel")
-                .name("수호천사", "Guardian Angel")
                 .icon(Material.ELYTRA)
                 .color(ColorUtil.WHITE)
                 .maxLevel(3)
@@ -509,7 +473,6 @@ public class TalentManager {
         registerJobTalent(guardianAngel, JobType.MERCY, "main");
 
         Talent healingBoost = new Talent.Builder("healing_boost")
-                .name("치유 증폭", "Healing Boost")
                 .icon(Material.GLISTERING_MELON_SLICE)
                 .color(ColorUtil.LIME)
                 .maxLevel(5)
@@ -521,7 +484,6 @@ public class TalentManager {
         registerJobTalent(healingBoost, JobType.MERCY, "main");
 
         Talent resurrection = new Talent.Builder("resurrection")
-                .name("부활", "Resurrection")
                 .icon(Material.TOTEM_OF_UNDYING)
                 .color(ColorUtil.LEGENDARY)
                 .maxLevel(1)
@@ -538,7 +500,6 @@ public class TalentManager {
     private void initializeArcherTalents() {
         // 아처 특성
         Talent eagleEye = new Talent.Builder("eagle_eye")
-                .name("매의 눈", "Eagle Eye")
                 .icon(Material.ENDER_EYE)
                 .color(ColorUtil.EMERALD)
                 .maxLevel(5)
@@ -550,7 +511,6 @@ public class TalentManager {
         registerJobTalent(eagleEye, JobType.ARCHER, "main");
 
         Talent rapidShot = new Talent.Builder("rapid_shot")
-                .name("속사", "Rapid Shot")
                 .icon(Material.ARROW)
                 .color(ColorUtil.SUCCESS)
                 .maxLevel(3)
@@ -565,7 +525,6 @@ public class TalentManager {
 
         // 아처 추가 특성
         Talent multishot = new Talent.Builder("multishot")
-                .name("멀티샷", "Multishot")
                 .icon(Material.SPECTRAL_ARROW)
                 .color(ColorUtil.GOLD)
                 .maxLevel(3)
@@ -576,7 +535,6 @@ public class TalentManager {
         registerJobTalent(multishot, JobType.ARCHER, "main");
 
         Talent windWalker = new Talent.Builder("wind_walker")
-                .name("바람길", "Wind Walker")
                 .icon(Material.STRING)
                 .color(ColorUtil.WHITE)
                 .maxLevel(5)
@@ -588,7 +546,6 @@ public class TalentManager {
         registerJobTalent(windWalker, JobType.ARCHER, "main");
 
         Talent poisonArrows = new Talent.Builder("poison_arrows")
-                .name("독화살", "Poison Arrows")
                 .icon(Material.POISONOUS_POTATO)
                 .color(ColorUtil.GREEN)
                 .maxLevel(3)
@@ -599,7 +556,6 @@ public class TalentManager {
         registerJobTalent(poisonArrows, JobType.ARCHER, "main");
 
         Talent bowMastery = new Talent.Builder("bow_mastery")
-                .name("활 숙련", "Bow Mastery")
                 .icon(Material.BOW)
                 .color(ColorUtil.BROWN)
                 .maxLevel(10)
@@ -612,7 +568,6 @@ public class TalentManager {
 
         // 스나이퍼 특성
         Talent precision = new Talent.Builder("precision")
-                .name("정밀 조준", "Precision")
                 .icon(Material.SPYGLASS)
                 .color(ColorUtil.INFO)
                 .maxLevel(5)
@@ -625,7 +580,6 @@ public class TalentManager {
         registerJobTalent(precision, JobType.SNIPER, "main");
 
         Talent assassination = new Talent.Builder("assassination")
-                .name("암살", "Assassination")
                 .icon(Material.IRON_SWORD)
                 .color(ColorUtil.ERROR)
                 .maxLevel(1)
@@ -639,7 +593,6 @@ public class TalentManager {
 
         // 스나이퍼 추가 특성
         Talent camouflage = new Talent.Builder("camouflage")
-                .name("위장", "Camouflage")
                 .icon(Material.TALL_GRASS)
                 .color(ColorUtil.DARK_GREEN)
                 .maxLevel(3)
@@ -650,7 +603,6 @@ public class TalentManager {
         registerJobTalent(camouflage, JobType.SNIPER, "main");
 
         Talent longRange = new Talent.Builder("long_range")
-                .name("장거리 사격", "Long Range")
                 .icon(Material.ENDER_PEARL)
                 .color(ColorUtil.CYAN)
                 .maxLevel(5)
@@ -661,7 +613,6 @@ public class TalentManager {
         registerJobTalent(longRange, JobType.SNIPER, "main");
 
         Talent steadyAim = new Talent.Builder("steady_aim")
-                .name("안정된 조준", "Steady Aim")
                 .icon(Material.TRIPWIRE_HOOK)
                 .color(ColorUtil.GRAY)
                 .maxLevel(3)
@@ -674,7 +625,6 @@ public class TalentManager {
 
         // 샷건맨 특성
         Talent scattershot = new Talent.Builder("scattershot")
-                .name("산탄", "Scattershot")
                 .icon(Material.FIRE_CHARGE)
                 .color(ColorUtil.WARNING)
                 .maxLevel(5)
@@ -688,7 +638,6 @@ public class TalentManager {
 
         // 샷건맨 추가 특성
         Talent pointBlank = new Talent.Builder("point_blank")
-                .name("영거리 사격", "Point Blank")
                 .icon(Material.TNT)
                 .color(ColorUtil.ERROR)
                 .maxLevel(3)
@@ -699,7 +648,6 @@ public class TalentManager {
         registerJobTalent(pointBlank, JobType.SHOTGUNNER, "main");
 
         Talent explosiveShot = new Talent.Builder("explosive_shot")
-                .name("폭발탄", "Explosive Shot")
                 .icon(Material.GUNPOWDER)
                 .color(ColorUtil.ORANGE)
                 .maxLevel(3)
@@ -710,7 +658,6 @@ public class TalentManager {
         registerJobTalent(explosiveShot, JobType.SHOTGUNNER, "main");
 
         Talent reload = new Talent.Builder("quick_reload")
-                .name("빠른 재장전", "Quick Reload")
                 .icon(Material.LEVER)
                 .color(ColorUtil.YELLOW)
                 .maxLevel(5)
@@ -722,7 +669,6 @@ public class TalentManager {
         registerJobTalent(reload, JobType.SHOTGUNNER, "main");
 
         Talent doubleBarrel = new Talent.Builder("double_barrel")
-                .name("더블 배럴", "Double Barrel")
                 .icon(Material.CROSSBOW)
                 .color(ColorUtil.NETHERITE)
                 .maxLevel(1)

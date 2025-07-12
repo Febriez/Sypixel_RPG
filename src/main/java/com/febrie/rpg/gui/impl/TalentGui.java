@@ -22,11 +22,14 @@ import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 특성 관리 GUI - 스크롤 가능한 그리드 레이아웃
- * 웹 형태의 특성 트리를 탐색하고 특성을 배울 수 있음
+ * GuiManager 중앙 집중식 네비게이션으로 개선
  *
  * @author Febrie, CoffeeTory
  */
@@ -40,11 +43,6 @@ public class TalentGui extends ScrollableGui {
     // 현재 페이지 정보
     private final String pageId;
     private final List<Talent> pageTalents;
-    private final Stack<PageInfo> pageHistory = new Stack<>();
-
-    // 페이지 정보를 저장하는 내부 클래스
-    private record PageInfo(String pageId, List<Talent> talents) {
-    }
 
     public TalentGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                      @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
@@ -57,25 +55,20 @@ public class TalentGui extends ScrollableGui {
         this.pageTalents = talents;
 
         String titleKey = pageId != null && !pageId.equals("main") ? "gui.talent.title-with-page" : "gui.talent.title";
-        String pageTitle = pageId != null ? getPageTitle() : "";
-
-        this.inventory = Bukkit.createInventory(this, guiSize,
-                langManager.getComponent(viewer, titleKey, "page", pageTitle));
+        String pageTitle = pageId != null ? transString("gui.talent.pages." + pageId, transString("gui.talent.pages.default")) : "";
+        this.inventory = Bukkit.createInventory(this, 54,
+                pageId != null && !pageId.equals("main")
+                        ? langManager.getComponent(viewer, titleKey, "page", pageTitle)
+                        : langManager.getComponent(viewer, titleKey));
 
         setupLayout();
     }
 
     @Override
     public @NotNull Component getTitle() {
-        if (pageId != null && !pageId.equals("main")) {
-            return trans("gui.talent.title-with-page", "page", getPageTitle());
-        }
-        return trans("gui.talent.title");
-    }
-
-    @Override
-    public int getSize() {
-        return guiSize;
+        return pageId != null && !pageId.equals("main")
+                ? trans("gui.talent.title-with-page", "page", getPageTitle())
+                : trans("gui.talent.title");
     }
 
     @Override
@@ -87,7 +80,6 @@ public class TalentGui extends ScrollableGui {
     public void refresh() {
         inventory.clear();
         items.clear();
-        updateScroll();
         setupLayout();
     }
 
@@ -98,13 +90,107 @@ public class TalentGui extends ScrollableGui {
 
     @Override
     protected List<GuiItem> getScrollableItems() {
-        return createTalentItems();
+        List<GuiItem> talentItems = new ArrayList<>();
+        Talent.TalentHolder talents = rpgPlayer.getTalents();
+
+        for (Talent talent : pageTalents) {
+            int currentLevel = talents.getTalentLevel(talent);
+            boolean isMaxLevel = currentLevel >= talent.getMaxLevel();
+            boolean canLearn = talent.canActivate(talents);
+
+            // 특성 아이템 생성
+            ItemBuilder builder = ItemBuilder.of(talent.getIcon())
+                    .displayName(Component.text(talent.getName(),
+                                    isMaxLevel ? ColorUtil.LEGENDARY : ColorUtil.UNCOMMON)
+                            .decoration(TextDecoration.BOLD, true))
+                    .addLore(Component.empty());
+
+            // 레벨 정보
+            if (isMaxLevel) {
+                builder.addLore(trans("gui.talent.talent-level-max",
+                        "current", String.valueOf(currentLevel),
+                        "max", String.valueOf(talent.getMaxLevel())));
+            } else {
+                builder.addLore(trans("gui.talent.talent-level",
+                        "current", String.valueOf(currentLevel),
+                        "max", String.valueOf(talent.getMaxLevel())));
+            }
+
+            // 필요 포인트
+            if (!isMaxLevel) {
+                builder.addLore(trans("gui.talent.required-points",
+                        "points", String.valueOf(talent.getRequiredPoints())));
+            }
+
+            builder.addLore(Component.empty());
+
+            // 특성 설명
+            for (String line : talent.getDescription()) {
+                builder.addLore(Component.text(line, ColorUtil.GRAY));
+            }
+
+            // 현재 효과
+            if (currentLevel > 0) {
+                builder.addLore(Component.empty());
+                builder.addLore(trans("gui.talent.current-effect"));
+                String effect = talent.getEffectDescription(currentLevel);
+                builder.addLore(Component.text("  " + effect, ColorUtil.GREEN));
+            }
+
+            // 다음 레벨 효과
+            if (!isMaxLevel && currentLevel < talent.getMaxLevel()) {
+                builder.addLore(Component.empty());
+                builder.addLore(trans("gui.talent.next-effect"));
+                String nextEffect = talent.getEffectDescription(currentLevel + 1);
+                builder.addLore(Component.text("  " + nextEffect, ColorUtil.YELLOW));
+            }
+
+            // 요구사항
+            if (!talent.getRequirements().isEmpty()) {
+                builder.addLore(Component.empty());
+                builder.addLore(trans("gui.talent.requirements"));
+                for (Talent.Requirement req : talent.getRequirements()) {
+                    boolean met = req.isMet(rpgPlayer);
+                    Component reqText = Component.text("  • " + req.getDescription(),
+                            met ? ColorUtil.GREEN : ColorUtil.RED);
+                    builder.addLore(reqText);
+                }
+            }
+
+            // 상태 표시
+            builder.addLore(Component.empty());
+            if (isMaxLevel) {
+                builder.addLore(trans("gui.talent.max-level-reached"));
+                builder.enchant(Enchantment.BINDING_CURSE, 1);
+            } else if (canLearn) {
+                builder.addLore(trans("gui.talent.click-to-learn"));
+            } else {
+                builder.addLore(trans("gui.talent.cannot-learn"));
+            }
+
+            // 하위 페이지가 있는 경우
+            if (talent.hasSubPage()) {
+                builder.addLore(Component.empty());
+                builder.addLore(trans("gui.talent.has-sub-page"));
+                builder.glint(true);
+            }
+
+            builder.flags(ItemFlag.values());
+
+            GuiItem talentItem = GuiItem.clickable(
+                    builder.build(),
+                    player -> handleTalentClick(player, talent, currentLevel, canLearn)
+            );
+
+            talentItems.add(talentItem);
+        }
+
+        return talentItems;
     }
 
     @Override
-    protected void handleNonScrollClick(@NotNull InventoryClickEvent event,
-                                        @NotNull Player player, int slot,
-                                        @NotNull ClickType click) {
+    protected void handleNonScrollClick(@NotNull InventoryClickEvent event, @NotNull Player player,
+                                        int slot, @NotNull ClickType click) {
         GuiItem item = items.get(slot);
         if (item != null && item.hasActions()) {
             item.executeAction(player, click);
@@ -115,10 +201,16 @@ public class TalentGui extends ScrollableGui {
      * GUI 레이아웃 설정
      */
     private void setupLayout() {
+        // 배경 설정
         setupBackground();
+
+        // 정보 표시
         setupInfoDisplay();
-        setupTalentDisplay();
-        setupScrollButtons();
+
+        // 스크롤 가능한 특성 표시
+        updateScrollableContent();
+
+        // 네비게이션 버튼
         setupNavigationButtons();
     }
 
@@ -126,200 +218,66 @@ public class TalentGui extends ScrollableGui {
      * 배경 설정
      */
     private void setupBackground() {
-        // 상단 테두리
-        for (int i = 0; i < 9; i++) {
-            if (i != 0 && i != 4 && i != 8) { // 정보 표시 슬롯 제외
+        // 상단 테두리 (정보 표시 영역 제외)
+        for (int i = 1; i < 8; i++) {
+            if (i != 4) { // 중앙 정보 슬롯 제외
                 setItem(i, GuiFactory.createDecoration());
             }
         }
 
-        // 하단 테두리 - 네비게이션 버튼 위치 제외
+        // 좌우 테두리
+        for (int row = 1; row < 5; row++) {
+            setItem(row * 9, GuiFactory.createDecoration());
+            setItem(row * 9 + 8, GuiFactory.createDecoration());
+        }
+
+        // 하단 영역 (네비게이션)
         for (int i = 45; i < 54; i++) {
             if (i != 45 && i != 49 && i != 50 && i != 53) {
                 setItem(i, GuiFactory.createDecoration());
             }
         }
 
-        // 좌우 테두리
-        setItem(9, GuiFactory.createDecoration());
-        setItem(18, GuiFactory.createDecoration());
-        setItem(27, GuiFactory.createDecoration());
-        setItem(36, GuiFactory.createDecoration());
-
-        // 스크롤 버튼 위치 제외
-        if (getMaxScroll() == 0) {
-            setItem(17, GuiFactory.createDecoration());
-            setItem(26, GuiFactory.createDecoration());
-            setItem(35, GuiFactory.createDecoration());
-            setItem(44, GuiFactory.createDecoration());
+        // 스크롤바 영역 설정
+        if (getTotalPages() > 1) {
+            int scrollBarStart = 9;
+            int scrollBarEnd = 36;
+            updateScrollBar(scrollBarStart, scrollBarEnd, () -> createScrollBarItem(scrollBarStart),
+                    () -> createScrollBarItem(scrollBarEnd));
         }
     }
 
     /**
-     * 특성 아이템들 생성
-     */
-    private List<GuiItem> createTalentItems() {
-        List<GuiItem> talentItems = new ArrayList<>();
-
-        for (Talent talent : pageTalents) {
-            talentItems.add(createTalentItem(talent));
-        }
-
-        return talentItems;
-    }
-
-    /**
-     * 특성 아이템 생성
-     */
-    private GuiItem createTalentItem(@NotNull Talent talent) {
-        Talent.TalentHolder talentHolder = rpgPlayer.getTalents();
-        int currentLevel = talentHolder.getTalentLevel(talent);
-        boolean canActivate = talent.canActivate(talentHolder);
-        boolean isMaxLevel = currentLevel >= talent.getMaxLevel();
-
-        // 이름 가져오기 - Talent에 언어별 이름이 하드코딩되어 있으므로 그대로 사용
-        boolean isKorean = transString("general.language-code").equals("ko_KR");
-        String talentName = talent.getName(isKorean);
-
-        ItemBuilder builder = ItemBuilder.of(talent.getIcon())
-                .displayName(Component.text(talentName, talent.getColor())
-                        .decoration(TextDecoration.BOLD, true))
-                .addLore(Component.empty());
-
-        // 레벨 정보
-        if (talent.getMaxLevel() > 1) {
-            String levelKey = isMaxLevel ? "gui.talent.talent-level-max" : "gui.talent.talent-level";
-            builder.addLore(trans(levelKey,
-                    "current", String.valueOf(currentLevel),
-                    "max", String.valueOf(talent.getMaxLevel())));
-        }
-
-        // 필요 포인트
-        if (!isMaxLevel) {
-            builder.addLore(trans("gui.talent.required-points",
-                    "points", String.valueOf(talent.getRequiredPoints())));
-        }
-
-        builder.addLore(Component.empty());
-
-        // 설명 - Talent의 getDescription이 언어 지원하므로 그대로 사용
-        List<Component> description = talent.getDescription(isKorean, currentLevel);
-        for (Component line : description) {
-            builder.addLore(line);
-        }
-
-        builder.addLore(Component.empty());
-
-        // 상호작용 안내
-        if (isMaxLevel) {
-            builder.addLore(trans("gui.talent.max-level-reached"));
-        } else if (canActivate) {
-            builder.addLore(trans("gui.talent.click-learn"));
-        } else {
-            if (talentHolder.getAvailablePoints() < talent.getRequiredPoints()) {
-                builder.addLore(trans("gui.talent.insufficient-points"));
-            } else {
-                builder.addLore(trans("gui.talent.prerequisite-not-met"));
-            }
-        }
-
-        if (talent.hasSubPage()) {
-            builder.addLore(trans("gui.talent.click-subpage"));
-        }
-
-        // 이미 배운 특성은 인챈트 효과
-        if (currentLevel > 0) {
-            builder.enchant(Enchantment.UNBREAKING, currentLevel);
-        }
-
-        builder.flags(ItemFlag.values());
-
-        GuiItem item = GuiItem.of(builder.build());
-
-        // 좌클릭 - 특성 배우기
-        item.onClick(ClickType.LEFT, (player, click) -> {
-            if (isMaxLevel) {
-                playErrorSound(player);
-                return;
-            }
-
-            if (talent.levelUp(talentHolder)) {
-                refresh();
-                player.playSound(player.getLocation(),
-                        org.bukkit.Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
-                sendMessage(player, "messages.talent-learned", "talent", talentName);
-
-                // 스탯 보너스 업데이트
-                updateStatBonuses();
-            } else {
-                playErrorSound(player);
-            }
-        });
-
-        // 우클릭 - 하위 페이지 열기
-        if (talent.hasSubPage()) {
-            item.onClick(ClickType.RIGHT, (player, click) -> {
-                openSubPage(talent);
-            });
-        }
-
-        return item;
-    }
-
-    /**
-     * 특성 표시 설정
-     */
-    private void setupTalentDisplay() {
-        setupScrollableArea(inventory, items, this::setItem);
-    }
-
-    /**
-     * 스크롤 버튼 설정
-     */
-    private void setupScrollButtons() {
-        if (getMaxScroll() > 0) {
-            setItem(scrollUpSlot, createScrollUpButton());
-            setItem(scrollDownSlot, createScrollDownButton());
-
-            // 스크롤바
-            setItem(scrollBarStart, createScrollBarItem(scrollBarStart));
-            setItem(26, createScrollBarItem(26));
-            setItem(scrollBarEnd, createScrollBarItem(scrollBarEnd));
-        }
-    }
-
-    /**
-     * 네비게이션 버튼 설정 - 위치 통일
+     * 네비게이션 버튼 설정 - GuiManager 통합
      */
     private void setupNavigationButtons() {
-        // 뒤로가기 버튼 - 45번 슬롯 (좌측 하단)
-        setItem(45, GuiItem.clickable(
-                ItemBuilder.of(Material.ARROW)
-                        .displayName(trans("gui.buttons.back.name"))
-                        .addLore(trans("gui.buttons.back.lore"))
-                        .build(),
-                player -> goToPreviousPage()
-        ));
+        // 뒤로가기 버튼 - GuiManager가 처리
+        if (guiManager.canGoBack(viewer)) {
+            setItem(45, GuiItem.clickable(
+                    ItemBuilder.of(Material.ARROW)
+                            .displayName(trans("gui.buttons.back.name"))
+                            .addLore(trans("gui.buttons.back.lore"))
+                            .build(),
+                    player -> guiManager.goBack(player)
+            ));
+        }
 
-        // 새로고침 버튼 - 49번 슬롯 (중앙 하단)
+        // 새로고침 버튼
         setItem(49, GuiFactory.createRefreshButton(player -> refresh(), langManager, viewer));
 
-        // 스탯 페이지로 가기 버튼 - 50번 슬롯
+        // 스탯 페이지로 가기 버튼
         setItem(50, GuiItem.clickable(
                 ItemBuilder.of(Material.IRON_SWORD)
                         .displayName(trans("gui.stats.title"))
                         .addLore(trans("gui.talent.click-stats"))
                         .build(),
                 player -> {
-                    if (guiManager != null) {
-                        // closeInventory() 제거하여 마우스 위치 유지
-                        StatsGui statsGui = new StatsGui(guiManager, langManager, player, rpgPlayer);
-                        statsGui.open(player);
-                    }
+                    StatsGui statsGui = new StatsGui(guiManager, langManager, player, rpgPlayer);
+                    guiManager.openGui(player, statsGui);
                 }
         ));
 
-        // 닫기 버튼 - 53번 슬롯 (우측 하단)
+        // 닫기 버튼
         setItem(53, GuiFactory.createCloseButton(langManager, viewer));
     }
 
@@ -352,9 +310,9 @@ public class TalentGui extends ScrollableGui {
                         .flags(ItemFlag.values())
                         .build(),
                 player -> {
-                    // closeInventory() 제거
-                    CombatPowerGui combatPowerGui = new CombatPowerGui(guiManager, langManager, player, rpgPlayer);
-                    combatPowerGui.open(player);
+                    // 나중에 CombatPowerGui 구현 시 사용
+                    sendMessage(player, "general.coming-soon");
+                    playClickSound(player);
                 }
         );
         setItem(4, combatPowerInfo);
@@ -376,48 +334,58 @@ public class TalentGui extends ScrollableGui {
     }
 
     /**
-     * 하위 페이지 열기
+     * 특성 클릭 처리
+     */
+    private void handleTalentClick(@NotNull Player player, @NotNull Talent talent,
+                                   int currentLevel, boolean canLearn) {
+        // 하위 페이지가 있는 경우
+        if (talent.hasSubPage()) {
+            openSubPage(talent);
+            playClickSound(player);
+            return;
+        }
+
+        // 최대 레벨인 경우
+        if (currentLevel >= talent.getMaxLevel()) {
+            sendMessage(player, "messages.talent-max-level");
+            playErrorSound(player);
+            return;
+        }
+
+        // 배울 수 없는 경우
+        if (!canLearn) {
+            sendMessage(player, "messages.talent-requirements-not-met");
+            playErrorSound(player);
+            return;
+        }
+
+        // 특성 학습
+        if (talent.levelUp(rpgPlayer.getTalents())) {
+            sendMessage(player, "messages.talent-learned", "talent", talent.getName(langManager.getMessage(viewer, "general.language-code").equals("ko_KR")));
+            playSuccessSound(player);
+
+            // 스탯 보너스 업데이트
+            updateStatBonuses();
+
+            // GUI 새로고침
+            refresh();
+        } else {
+            sendMessage(player, "messages.talent-learn-failed");
+            playErrorSound(player);
+        }
+    }
+
+    /**
+     * 하위 페이지 열기 - GuiManager 사용
      */
     private void openSubPage(@NotNull Talent talent) {
-        // 현재 페이지 정보 저장
-        pageHistory.push(new PageInfo(pageId, pageTalents));
-
-        // 새 GUI 생성하여 열기 - closeInventory() 제거
         TalentGui subPageGui = new TalentGui(
                 guiManager, langManager, rpgPlayer.getBukkitPlayer(), rpgPlayer,
                 talent.getPageId(), talent.getChildren()
         );
 
-        // 페이지 히스토리 복사
-        subPageGui.pageHistory.addAll(this.pageHistory);
-
-        subPageGui.open(rpgPlayer.getBukkitPlayer());
-    }
-
-    /**
-     * 이전 페이지로 돌아가기
-     */
-    private void goToPreviousPage() {
-        if (pageHistory.isEmpty()) {
-            // 메인 메뉴로
-            if (guiManager != null) {
-                guiManager.openMainMenuGui(rpgPlayer.getBukkitPlayer());
-            }
-            return;
-        }
-
-        PageInfo previousPage = pageHistory.pop();
-
-        // 이전 페이지 GUI 생성 - closeInventory() 제거
-        TalentGui previousGui = new TalentGui(
-                guiManager, langManager, rpgPlayer.getBukkitPlayer(), rpgPlayer,
-                previousPage.pageId, previousPage.talents
-        );
-
-        // 남은 히스토리 복사
-        previousGui.pageHistory.addAll(this.pageHistory);
-
-        previousGui.open(rpgPlayer.getBukkitPlayer());
+        // GuiManager가 자동으로 히스토리 관리
+        guiManager.openGui(rpgPlayer.getBukkitPlayer(), subPageGui);
     }
 
     /**
