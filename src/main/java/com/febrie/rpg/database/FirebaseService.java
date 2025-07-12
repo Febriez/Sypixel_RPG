@@ -29,8 +29,6 @@ import java.util.function.Function;
  */
 public class FirebaseService {
 
-    private final String serverName;
-
     private Firestore firestore;
     private boolean connected = false;
 
@@ -52,7 +50,7 @@ public class FirebaseService {
     // Firebase 설정 상수 (Private Key 제외)
     // TODO: 실제 프로젝트 정보로 변경하세요
     private static final String FIREBASE_PROJECT_ID = "sypixel-rpg"; // 예: "my-rpg-project"
-    private static final String FIREBASE_CLIENT_EMAIL = "firebase-adminsdk-xxxxx@sypixel-rpg.iam.gserviceaccount.com"; // 실제 서비스 계정 이메일로 변경
+    private static final String FIREBASE_CLIENT_EMAIL = "firebase-adminsdk-fbsvc@sypixel-rpg.iam.gserviceaccount.com"; // 실제 서비스 계정 이메일로 변경
 
     // 환경변수 이름들 (Private Key만)
     private static final String ENV_PRIVATE_KEY = "FIREBASE_PRIVATE_KEY";
@@ -61,7 +59,6 @@ public class FirebaseService {
     private static final String ENV_CLIENT_ID = "FIREBASE_CLIENT_ID";
 
     public FirebaseService(@NotNull Plugin plugin) {
-        this.serverName = plugin.getConfig().getString("server-name", "default");
         initializeFirebase();
     }
 
@@ -403,8 +400,7 @@ public class FirebaseService {
 
         Map<String, Integer> learnedTalents = new HashMap<>();
         Object talentsObj = data.get("learnedTalents"); // talentLevels가 아닌 learnedTalents
-        if (talentsObj instanceof Map) {
-            Map<?, ?> talents = (Map<?, ?>) talentsObj;
+        if (talentsObj instanceof Map<?, ?> talents) {
             talents.forEach((k, v) -> {
                 if (k != null && v instanceof Number) {
                     learnedTalents.put(k.toString(), ((Number) v).intValue());
@@ -425,7 +421,7 @@ public class FirebaseService {
         return new ProgressDTO(
                 getIntValue(data, "currentLevel", 1),
                 getLongValue(data, "totalExperience", 0L), // currentExp가 아닌 totalExperience
-                getDoubleValue(data, "levelProgress", 0.0),
+                getDoubleValue(data, "levelProgress"),
                 getIntValue(data, "mobsKilled", 0),
                 getIntValue(data, "playersKilled", 0),
                 getIntValue(data, "deaths", 0)
@@ -437,8 +433,7 @@ public class FirebaseService {
 
         Map<String, Long> currencies = new HashMap<>();
         Object currenciesObj = data.get("currencies");
-        if (currenciesObj instanceof Map) {
-            Map<?, ?> currencyMap = (Map<?, ?>) currenciesObj;
+        if (currenciesObj instanceof Map<?, ?> currencyMap) {
             currencyMap.forEach((k, v) -> {
                 if (k != null && v instanceof Number) {
                     currencies.put(k.toString(), ((Number) v).longValue());
@@ -528,9 +523,9 @@ public class FirebaseService {
         return value instanceof Number ? ((Number) value).longValue() : defaultValue;
     }
 
-    private double getDoubleValue(Map<String, Object> map, String key, double defaultValue) {
+    private double getDoubleValue(Map<String, Object> map, String key) {
         Object value = map.get(key);
-        return value instanceof Number ? ((Number) value).doubleValue() : defaultValue;
+        return value instanceof Number ? ((Number) value).doubleValue() : 0.0;
     }
 
     // ========== 범용 데이터 처리 메소드 ==========
@@ -553,6 +548,31 @@ public class FirebaseService {
             } catch (Exception e) {
                 LogUtil.error(errorContext + " 로드 실패", e);
                 return defaultValue;
+            }
+        });
+    }
+
+    /**
+     * Nullable 문서 로드 메서드
+     * 문서가 존재하지 않으면 null을 반환
+     */
+    private <T> CompletableFuture<T> loadDocumentNullable(
+            @NotNull DocumentReference docRef,
+            @NotNull Function<Map<String, Object>, T> mapper,
+            @NotNull String errorContext) {
+
+        if (!isConnected()) return CompletableFuture.completedFuture(null);
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                DocumentSnapshot doc = docRef.get().get();
+                if (doc.exists()) {
+                    return mapper.apply(doc.getData());
+                }
+                return null; // 문서가 존재하지 않으면 null 반환
+            } catch (Exception e) {
+                LogUtil.error(errorContext + " 로드 실패", e);
+                return null;
             }
         });
     }
