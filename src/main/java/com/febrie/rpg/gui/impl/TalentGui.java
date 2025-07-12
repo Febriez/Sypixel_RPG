@@ -2,8 +2,9 @@ package com.febrie.rpg.gui.impl;
 
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
-import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.ScrollableGui;
 import com.febrie.rpg.gui.manager.GuiManager;
+import com.febrie.rpg.gui.util.GuiUtility;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.talent.Talent;
 import com.febrie.rpg.util.ColorUtil;
@@ -11,48 +12,35 @@ import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 /**
- * 특성 관리 GUI - 세로 중앙 정렬 레이아웃
+ * 특성 관리 GUI - 스크롤 가능한 그리드 레이아웃
  * 웹 형태의 특성 트리를 탐색하고 특성을 배울 수 있음
  *
  * @author Febrie, CoffeeTory
  */
-public class TalentGui extends BaseGui {
+public class TalentGui extends ScrollableGui {
 
-    private static final int GUI_SIZE = 54; // 6행
-
-    // 스크롤 설정 (중앙 3열 사용)
-    private static final int SCROLL_START_ROW = 1;
-    private static final int SCROLL_END_ROW = 4;
-    private static final int CONTENT_COLUMN = 4; // 중앙 열 (0-8 중 4)
-
-    // 스크롤 버튼
-    private static final int SCROLL_UP_SLOT = 17; // 상단 오른쪽 한칸 아래
-    private static final int SCROLL_DOWN_SLOT = 44; // 하단 오른쪽 한칸 위
-
+    private final GuiManager guiManager;
+    private final LangManager langManager;
     private final RPGPlayer rpgPlayer;
+    private final Map<Integer, GuiItem> items = new HashMap<>();
 
     // 현재 페이지 정보
     private final String pageId;
     private final List<Talent> pageTalents;
     private final Stack<PageInfo> pageHistory = new Stack<>();
-
-    // 스크롤 관련
-    private int currentScroll = 0;
-    private static final int VISIBLE_ROWS = 4; // 보이는 행 수
 
     // 페이지 정보를 저장하는 내부 클래스
     private record PageInfo(String pageId, List<Talent> talents) {
@@ -61,13 +49,19 @@ public class TalentGui extends BaseGui {
     public TalentGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                      @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
                      @Nullable String pageId, @NotNull List<Talent> talents) {
-        super(viewer, guiManager, langManager, GUI_SIZE,
-                pageId != null && !pageId.equals("main") ? "gui.talent.title-with-page" : "gui.talent.title",
-                "page", pageId != null ? langManager.getMessage(viewer, "gui.talent.pages." + pageId,
-                        "gui.talent.pages.default") : "");
+        super(viewer);
+        this.guiManager = guiManager;
+        this.langManager = langManager;
         this.rpgPlayer = rpgPlayer;
         this.pageId = pageId != null ? pageId : "main";
         this.pageTalents = talents;
+
+        String titleKey = pageId != null && !pageId.equals("main") ? "gui.talent.title-with-page" : "gui.talent.title";
+        String pageTitle = pageId != null ? getPageTitle() : "";
+
+        this.inventory = Bukkit.createInventory(this, GUI_SIZE,
+                langManager.getComponent(viewer, titleKey, "page", pageTitle));
+
         setupLayout();
     }
 
@@ -85,61 +79,79 @@ public class TalentGui extends BaseGui {
     }
 
     @Override
-    protected void setupLayout() {
+    public void open(@NotNull Player player) {
+        player.openInventory(inventory);
+    }
+
+    @Override
+    public void refresh() {
+        inventory.clear();
+        items.clear();
+        updateScroll();
+        setupLayout();
+    }
+
+    @Override
+    public @NotNull org.bukkit.inventory.Inventory getInventory() {
+        return inventory;
+    }
+
+    @Override
+    protected List<GuiItem> getScrollableItems() {
+        return createTalentItems();
+    }
+
+    @Override
+    protected void handleNonScrollClick(@NotNull InventoryClickEvent event,
+                                        @NotNull Player player, int slot,
+                                        @NotNull ClickType click) {
+        GuiItem item = items.get(slot);
+        if (item != null && item.hasActions()) {
+            item.executeAction(player, click);
+        }
+    }
+
+    /**
+     * GUI 레이아웃 설정
+     */
+    private void setupLayout() {
         setupBackground();
+        setupInfoDisplay();
         setupTalentDisplay();
         setupScrollButtons();
         setupNavigationButtons();
-        setupInfoDisplay();
     }
 
     /**
      * 배경 설정
      */
     private void setupBackground() {
-        // 전체 배경을 회색 유리판으로
-        for (int i = 0; i < GUI_SIZE; i++) {
-            setItem(i, GuiFactory.createDecoration());
-        }
-
-        // 중앙 열을 특별한 색으로 (특성이 표시될 곳)
-        for (int row = 0; row < 6; row++) {
-            int slot = row * 9 + CONTENT_COLUMN;
-            if (row >= SCROLL_START_ROW && row <= SCROLL_END_ROW) {
-                setItem(slot, GuiFactory.createDecoration(Material.BLACK_STAINED_GLASS_PANE));
+        // 상단 테두리
+        for (int i = 0; i < 9; i++) {
+            if (i != 0 && i != 4 && i != 8) { // 정보 표시 슬롯 제외
+                setItem(i, GuiFactory.createDecoration());
             }
         }
-    }
 
-    /**
-     * 특성 표시 (세로 중앙 정렬)
-     */
-    private void setupTalentDisplay() {
-        List<GuiItem> talentItems = createTalentItems();
-        int totalItems = talentItems.size();
-
-        // 스크롤이 필요한지 확인
-        boolean needsScroll = totalItems > VISIBLE_ROWS;
-
-        if (needsScroll) {
-            // 스크롤 적용
-            int startIndex = currentScroll;
-            int endIndex = Math.min(startIndex + VISIBLE_ROWS, totalItems);
-
-            for (int i = startIndex; i < endIndex; i++) {
-                int row = SCROLL_START_ROW + (i - startIndex);
-                int slot = row * 9 + CONTENT_COLUMN;
-                setItem(slot, talentItems.get(i));
+        // 하단 테두리
+        for (int i = 45; i < 54; i++) {
+            if (i < 48 || i > 50) { // 네비게이션 버튼 위치 제외
+                setItem(i, GuiFactory.createDecoration());
             }
-        } else {
-            // 스크롤 불필요 - 중앙 정렬
-            int startRow = SCROLL_START_ROW + (VISIBLE_ROWS - totalItems) / 2;
+        }
 
-            for (int i = 0; i < totalItems; i++) {
-                int row = startRow + i;
-                int slot = row * 9 + CONTENT_COLUMN;
-                setItem(slot, talentItems.get(i));
-            }
+        // 좌우 테두리
+        setItem(9, GuiFactory.createDecoration());
+        setItem(18, GuiFactory.createDecoration());
+        setItem(27, GuiFactory.createDecoration());
+        setItem(36, GuiFactory.createDecoration());
+
+        // 스크롤 버튼 위치 제외
+        if (getMaxScroll() == 0) {
+            setItem(17, GuiFactory.createDecoration());
+            setItem(26, GuiFactory.createDecoration());
+            setItem(35, GuiFactory.createDecoration());
+            setItem(44, GuiFactory.createDecoration());
         }
     }
 
@@ -166,7 +178,8 @@ public class TalentGui extends BaseGui {
         boolean isMaxLevel = currentLevel >= talent.getMaxLevel();
 
         // 이름 가져오기 - Talent에 언어별 이름이 하드코딩되어 있으므로 그대로 사용
-        String talentName = talent.getName(transString("general.language-code").equals("ko_KR"));
+        boolean isKorean = transString("general.language-code").equals("ko_KR");
+        String talentName = talent.getName(isKorean);
 
         ItemBuilder builder = ItemBuilder.of(talent.getIcon())
                 .displayName(Component.text(talentName, talent.getColor())
@@ -190,7 +203,6 @@ public class TalentGui extends BaseGui {
         builder.addLore(Component.empty());
 
         // 설명 - Talent의 getDescription이 언어 지원하므로 그대로 사용
-        boolean isKorean = transString("general.language-code").equals("ko_KR");
         List<Component> description = talent.getDescription(isKorean, currentLevel);
         for (Component line : description) {
             builder.addLore(line);
@@ -235,7 +247,7 @@ public class TalentGui extends BaseGui {
                 refresh();
                 player.playSound(player.getLocation(),
                         org.bukkit.Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
-                sendMessage(player, "gui.talent.talent-learned", "talent", talentName);
+                sendMessage(player, "messages.talent-learned", "talent", talentName);
 
                 // 스탯 보너스 업데이트
                 updateStatBonuses();
@@ -255,39 +267,24 @@ public class TalentGui extends BaseGui {
     }
 
     /**
+     * 특성 표시 설정
+     */
+    private void setupTalentDisplay() {
+        setupScrollableArea(inventory, items, this::setItem);
+    }
+
+    /**
      * 스크롤 버튼 설정
      */
     private void setupScrollButtons() {
-        int maxScroll = Math.max(0, pageTalents.size() - VISIBLE_ROWS);
+        if (getMaxScroll() > 0) {
+            setItem(SCROLL_UP_SLOT, createScrollUpButton());
+            setItem(SCROLL_DOWN_SLOT, createScrollDownButton());
 
-        // 위로 스크롤
-        if (currentScroll > 0) {
-            setItem(SCROLL_UP_SLOT, GuiItem.clickable(
-                    ItemBuilder.of(Material.LIME_DYE)
-                            .displayName(trans("gui.buttons.previous-page.name"))
-                            .addLore(trans("gui.buttons.previous-page.lore"))
-                            .build(),
-                    player -> {
-                        currentScroll--;
-                        refresh();
-                        playClickSound(player);
-                    }
-            ));
-        }
-
-        // 아래로 스크롤
-        if (currentScroll < maxScroll) {
-            setItem(SCROLL_DOWN_SLOT, GuiItem.clickable(
-                    ItemBuilder.of(Material.LIME_DYE)
-                            .displayName(trans("gui.buttons.next-page.name"))
-                            .addLore(trans("gui.buttons.next-page.lore"))
-                            .build(),
-                    player -> {
-                        currentScroll++;
-                        refresh();
-                        playClickSound(player);
-                    }
-            ));
+            // 스크롤바
+            setItem(SCROLL_BAR_START, createScrollBarItem(SCROLL_BAR_START));
+            setItem(26, createScrollBarItem(26));
+            setItem(SCROLL_BAR_END, createScrollBarItem(SCROLL_BAR_END));
         }
     }
 
@@ -295,8 +292,8 @@ public class TalentGui extends BaseGui {
      * 네비게이션 버튼 설정
      */
     private void setupNavigationButtons() {
-        // 뒤로가기 버튼 (좌측 하단)
-        setItem(45, GuiItem.clickable(
+        // 뒤로가기 버튼 (48)
+        setItem(48, GuiItem.clickable(
                 ItemBuilder.of(Material.ARROW)
                         .displayName(trans("gui.buttons.back.name"))
                         .addLore(trans("gui.buttons.back.lore"))
@@ -304,11 +301,11 @@ public class TalentGui extends BaseGui {
                 player -> goToPreviousPage()
         ));
 
-        // 새로고침 버튼
-        setItem(46, GuiFactory.createRefreshButton(player -> refresh(), langManager, viewer));
+        // 새로고침 버튼 (49)
+        setItem(49, GuiFactory.createRefreshButton(player -> refresh(), langManager, viewer));
 
-        // 스탯 페이지로 가기 버튼
-        setItem(52, GuiItem.clickable(
+        // 스탯 페이지로 가기 버튼 (50)
+        setItem(50, GuiItem.clickable(
                 ItemBuilder.of(Material.IRON_SWORD)
                         .displayName(trans("gui.stats.title"))
                         .addLore(trans("gui.talent.click-stats"))
@@ -322,7 +319,7 @@ public class TalentGui extends BaseGui {
                 }
         ));
 
-        // 닫기 버튼 (우측 하단)
+        // 닫기 버튼 (53)
         setItem(53, GuiFactory.createCloseButton(langManager, viewer));
     }
 
@@ -331,18 +328,37 @@ public class TalentGui extends BaseGui {
      */
     private void setupInfoDisplay() {
         // 현재 페이지 정보 (좌측 상단)
+        String jobName = rpgPlayer.hasJob() ?
+                langManager.getMessage(viewer, "job." + rpgPlayer.getJob().name().toLowerCase() + ".name") :
+                langManager.getMessage(viewer, "general.unknown");
+
         GuiItem pageInfo = GuiItem.display(
                 ItemBuilder.of(Material.KNOWLEDGE_BOOK)
                         .displayName(Component.text(getPageTitle(), ColorUtil.EPIC)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
                         .addLore(trans("gui.talent.level", "level", String.valueOf(rpgPlayer.getLevel())))
-                        .addLore(trans(rpgPlayer.hasJob() ? "gui.talent.job" : "gui.talent.no-job",
-                                "job", rpgPlayer.hasJob() ?
-                                        trans("job." + rpgPlayer.getJob().name().toLowerCase() + ".name").toString() : ""))
+                        .addLore(rpgPlayer.hasJob() ?
+                                Component.text(transString("gui.talent.job", "job", jobName)) :
+                                trans("gui.talent.no-job"))
                         .build()
         );
         setItem(0, pageInfo);
+
+        // 전투력 정보 (중앙 상단) - 클릭 가능
+        GuiItem combatPowerInfo = GuiItem.clickable(
+                ItemBuilder.of(Material.DIAMOND_SWORD)
+                        .displayName(trans("gui.stats.combat-power", "power", String.valueOf(rpgPlayer.getCombatPower())))
+                        .addLore(trans("gui.stats.click-combat-power"))
+                        .flags(ItemFlag.values())
+                        .build(),
+                player -> {
+                    player.closeInventory();
+                    CombatPowerGui combatPowerGui = new CombatPowerGui(guiManager, langManager, player, rpgPlayer);
+                    combatPowerGui.open(player);
+                }
+        );
+        setItem(4, combatPowerInfo);
 
         // 특성 포인트 정보 (우측 상단)
         Talent.TalentHolder talents = rpgPlayer.getTalents();
@@ -425,5 +441,39 @@ public class TalentGui extends BaseGui {
      */
     private String getPageTitle() {
         return transString("gui.talent.pages." + pageId, transString("gui.talent.pages.default"));
+    }
+
+    /**
+     * 아이템 설정 헬퍼
+     */
+    private void setItem(int slot, @NotNull GuiItem item) {
+        GuiUtility.setItem(slot, item, items, inventory);
+    }
+
+    /**
+     * Helper methods
+     */
+    private Component trans(@NotNull String key, @NotNull String... args) {
+        return langManager.getComponent(viewer, key, args);
+    }
+
+    private String transString(@NotNull String key, @NotNull String... args) {
+        return langManager.getMessage(viewer, key, args);
+    }
+
+    private void sendMessage(@NotNull Player player, @NotNull String key, @NotNull String... args) {
+        langManager.sendMessage(player, key, args);
+    }
+
+    private void playErrorSound(@NotNull Player player) {
+        player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+    }
+
+    private void playSuccessSound(@NotNull Player player) {
+        player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+    }
+
+    private void playClickSound(@NotNull Player player) {
+        player.playSound(player.getLocation(), org.bukkit.Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
     }
 }

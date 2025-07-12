@@ -78,12 +78,15 @@
       "pages": {
         "main": "Main Talents",
         "strength_tree": "Strength Tree",
+        "basic_strength_page": "Basic Strength Enhancement",
+        "fortitude_page": "Fortitude Enhancement",
         "berserker_offense": "Berserker Offense Talents",
         "tank_defense": "Tank Defense Talents",
         "priest_healing": "Priest Healing Talents",
         "dark_curses": "Dark Mage Curse Talents",
         "archer_offense": "Archer Offense Talents",
         "sniper_special": "Sniper Special Talents",
+        "strength_mastery": "Strength Mastery",
         "default": "Talent Tree"
       }
     },

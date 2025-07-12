@@ -78,18 +78,22 @@
       "pages": {
         "main": "메인 특성",
         "strength_tree": "근력 트리",
+        "basic_strength_page": "기초 근력 강화",
+        "fortitude_page": "불굴의 의지 강화",
         "berserker_offense": "버서커 공격 특성",
         "tank_defense": "탱커 방어 특성",
         "priest_healing": "사제 치유 특성",
         "dark_curses": "흑마법사 저주 특성",
         "archer_offense": "궁수 공격 특성",
         "sniper_special": "스나이퍼 특수 특성",
+        "strength_mastery": "근력 마스터리",
         "default": "특성 트리"
       }
     },
     "stats": {
       "title": "%COLOR_LEGENDARY%스탯 관리",
       "combat-power": "%COLOR_ORANGE%전투력: {power}",
+      "click-combat-power": "%COLOR_GRAY%클릭하여 상세 정보 확인",
       "stat-points": "%COLOR_EXPERIENCE%스탯 포인트",
       "available-points": "%COLOR_WHITE%보유 포인트: {points}",
       "points-per-level": "%COLOR_GRAY%레벨업 시 5포인트를 획득합니다",
@@ -104,6 +108,18 @@
       "stat-maxed": "%COLOR_ERROR%최대치에 도달했습니다",
       "insufficient-points": "%COLOR_ERROR%스탯 포인트가 부족합니다",
       "click-talents": "%COLOR_GRAY%클릭하여 특성 페이지로 이동"
+    },
+    "combat-power": {
+      "title": "%COLOR_LEGENDARY%전투력 상세",
+      "total": "%COLOR_ORANGE%총 전투력: {power}",
+      "breakdown": "%COLOR_YELLOW%전투력 계산 내역",
+      "level-contribution": "%COLOR_GREEN%레벨 기여도",
+      "level-detail": "%COLOR_WHITE%  레벨 {level} × 10 = {value}",
+      "stat-contribution": "%COLOR_INFO%스탯 기여도",
+      "stat-detail": "%COLOR_WHITE%  {stat}: {value} × {multiplier} = {total}",
+      "total-stats": "%COLOR_YELLOW%스탯 총합: {value}",
+      "calculation-formula": "%COLOR_GRAY%계산식: (레벨×10) + 스탯 기여도",
+      "stat-multipliers": "%COLOR_DARK_GRAY%근력×5, 지능×5, 민첩×3, 체력×4, 지혜×4, 행운×2"
     },
     "buttons": {
       "close": {
