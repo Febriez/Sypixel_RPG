@@ -59,7 +59,7 @@ public class TalentGui extends ScrollableGui {
         String titleKey = pageId != null && !pageId.equals("main") ? "gui.talent.title-with-page" : "gui.talent.title";
         String pageTitle = pageId != null ? getPageTitle() : "";
 
-        this.inventory = Bukkit.createInventory(this, GUI_SIZE,
+        this.inventory = Bukkit.createInventory(this, guiSize,
                 langManager.getComponent(viewer, titleKey, "page", pageTitle));
 
         setupLayout();
@@ -75,7 +75,7 @@ public class TalentGui extends ScrollableGui {
 
     @Override
     public int getSize() {
-        return GUI_SIZE;
+        return guiSize;
     }
 
     @Override
@@ -278,13 +278,13 @@ public class TalentGui extends ScrollableGui {
      */
     private void setupScrollButtons() {
         if (getMaxScroll() > 0) {
-            setItem(SCROLL_UP_SLOT, createScrollUpButton());
-            setItem(SCROLL_DOWN_SLOT, createScrollDownButton());
+            setItem(scrollUpSlot, createScrollUpButton());
+            setItem(scrollDownSlot, createScrollDownButton());
 
             // 스크롤바
-            setItem(SCROLL_BAR_START, createScrollBarItem(SCROLL_BAR_START));
+            setItem(scrollBarStart, createScrollBarItem(scrollBarStart));
             setItem(26, createScrollBarItem(26));
-            setItem(SCROLL_BAR_END, createScrollBarItem(SCROLL_BAR_END));
+            setItem(scrollBarEnd, createScrollBarItem(scrollBarEnd));
         }
     }
 

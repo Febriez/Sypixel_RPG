@@ -20,7 +20,7 @@ import java.util.function.BiConsumer;
 /**
  * 스크롤 가능한 GUI 추상 클래스
  * 버튼을 통해 위아래로 스크롤할 수 있는 기능 제공
- * <p>
+ *
  * 개선사항:
  * - 동적 크기 지원
  * - 범위 검증 강화
@@ -99,7 +99,11 @@ public abstract class ScrollableGui implements InteractiveGui {
         }
 
         // 최대 크기 제한
-        return Math.min(adjusted, 54);
+        if (adjusted > 54) {
+            return 54;
+        }
+
+        return adjusted;
     }
 
     @Override
