@@ -151,45 +151,6 @@ public abstract class BaseGui implements InteractiveGui {
     }
 
     /**
-     * 레거시 네비게이션 버튼 설정 메서드
-     * 하위 호환성을 위해 유지하되 새로운 방식 사용 권장
-     */
-    @Deprecated
-    protected void setupNavigationButtons(int backSlot, int refreshSlot, int closeSlot) {
-        // 뒤로가기 버튼
-        if (backSlot >= 0 && isValidSlot(backSlot)) {
-            if (guiManager.canGoBack(viewer)) {
-                setItem(backSlot, GuiItem.clickable(
-                        ItemBuilder.of(Material.ARROW)
-                                .displayName(langManager.getComponent(viewer, "gui.buttons.back.name"))
-                                .addLore(langManager.getComponent(viewer, "gui.buttons.back.lore"))
-                                .build(),
-                        player -> guiManager.goBack(player)
-                ));
-            }
-        }
-
-        // 새로고침 버튼
-        if (refreshSlot >= 0 && isValidSlot(refreshSlot)) {
-            setItem(refreshSlot, GuiFactory.createRefreshButton(
-                    player -> refresh(), langManager, viewer));
-        }
-
-        // 닫기 버튼
-        if (closeSlot >= 0 && isValidSlot(closeSlot)) {
-            setItem(closeSlot, GuiFactory.createCloseButton(langManager, viewer));
-        }
-    }
-
-    /**
-     * 동적 네비게이션 설정
-     * 표준 위치에 네비게이션 버튼 배치
-     */
-    protected void setupDynamicNavigation() {
-        setupStandardNavigation(true, true);
-    }
-
-    /**
      * 테두리 생성
      */
     protected void createBorder(Material material) {
@@ -235,8 +196,8 @@ public abstract class BaseGui implements InteractiveGui {
             throw new IllegalArgumentException("GUI size must be between 9 and 54");
         }
 
-        int adjustedSize = Math.min(54, Math.max(ROWS_PER_PAGE,
-                (requestedSize / ROWS_PER_PAGE) * ROWS_PER_PAGE));
+        int adjustedSize = Math.max(ROWS_PER_PAGE,
+                (requestedSize / ROWS_PER_PAGE) * ROWS_PER_PAGE);
 
         if (adjustedSize != requestedSize) {
             Bukkit.getLogger().warning(String.format(

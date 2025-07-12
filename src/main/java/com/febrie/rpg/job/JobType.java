@@ -8,69 +8,46 @@ import org.jetbrains.annotations.NotNull;
 /**
  * RPG 직업 타입 열거형
  * 각 직업의 기본 정보와 레벨 상한선을 정의
+ * <p>
+ * 중요: 새로운 직업을 추가할 때는 반드시 언어 파일(ko_KR.json, en_US.json)에
+ * job.{id}.name과 job.{id}.description을 추가해야 합니다.
+ * 예시:
+ * - job.berserker.name = "버서커" (ko_KR) / "Berserker" (en_US)
+ * - job.berserker.description = [...] (ko_KR) / [...] (en_US)
  *
  * @author Febrie, CoffeeTory
  */
 public enum JobType {
 
     // 전사 계열 (레벨 200 내외)
-    BERSERKER("버서커", "Berserker", JobCategory.WARRIOR, 195, ColorUtil.ERROR, "⚔", Material.DIAMOND_AXE),
-    BRUISER("브루저", "Bruiser", JobCategory.WARRIOR, 200, ColorUtil.ORANGE, "🛡", Material.IRON_SWORD),
-    TANK("탱커", "Tank", JobCategory.WARRIOR, 205, ColorUtil.NETHERITE, "🏛", Material.SHIELD),
+    BERSERKER(JobCategory.WARRIOR, 195, ColorUtil.ERROR, "⚔", Material.DIAMOND_AXE),
+    BRUISER(JobCategory.WARRIOR, 200, ColorUtil.ORANGE, "🛡", Material.IRON_SWORD),
+    TANK(JobCategory.WARRIOR, 205, ColorUtil.NETHERITE, "🏛", Material.SHIELD),
 
     // 마법사 계열 (레벨 120 내외)
-    PRIEST("사제", "Priest", JobCategory.MAGE, 115, ColorUtil.LEGENDARY, "✨", Material.GOLDEN_APPLE),
-    DARK_MAGE("흑마법사", "Dark Mage", JobCategory.MAGE, 120, ColorUtil.EPIC, "🌑", Material.WITHER_SKELETON_SKULL),
-    MERCY("메르시", "Mercy", JobCategory.MAGE, 125, ColorUtil.SUCCESS, "💚", Material.TOTEM_OF_UNDYING),
+    PRIEST(JobCategory.MAGE, 115, ColorUtil.LEGENDARY, "✨", Material.GOLDEN_APPLE),
+    DARK_MAGE(JobCategory.MAGE, 120, ColorUtil.EPIC, "🌑", Material.WITHER_SKELETON_SKULL),
+    MERCY(JobCategory.MAGE, 125, ColorUtil.SUCCESS, "💚", Material.TOTEM_OF_UNDYING),
 
     // 궁수 계열 (레벨 100 내외)
-    ARCHER("아처", "Archer", JobCategory.ARCHER, 95, ColorUtil.EMERALD, "🏹", Material.BOW),
-    SNIPER("스나이퍼", "Sniper", JobCategory.ARCHER, 100, ColorUtil.INFO, "🎯", Material.CROSSBOW),
-    SHOTGUNNER("샷건맨", "Shotgunner", JobCategory.ARCHER, 105, ColorUtil.WARNING, "💥", Material.FIRE_CHARGE);
+    ARCHER(JobCategory.ARCHER, 95, ColorUtil.EMERALD, "🏹", Material.BOW),
+    SNIPER(JobCategory.ARCHER, 100, ColorUtil.INFO, "🎯", Material.CROSSBOW),
+    SHOTGUNNER(JobCategory.ARCHER, 105, ColorUtil.WARNING, "💥", Material.FIRE_CHARGE);
 
-    private final String koreanName;
-    private final String englishName;
     private final JobCategory category;
     private final int maxLevel;
     private final TextColor color;
     private final String icon;
     private final Material material;
 
-    JobType(@NotNull String koreanName, @NotNull String englishName,
-            @NotNull JobCategory category, int maxLevel,
+    JobType(@NotNull JobCategory category, int maxLevel,
             @NotNull TextColor color, @NotNull String icon,
             @NotNull Material material) {
-        this.koreanName = koreanName;
-        this.englishName = englishName;
         this.category = category;
         this.maxLevel = maxLevel;
         this.color = color;
         this.icon = icon;
         this.material = material;
-    }
-
-    /**
-     * 직업의 한국어 이름
-     */
-    @NotNull
-    public String getKoreanName() {
-        return koreanName;
-    }
-
-    /**
-     * 직업의 영어 이름
-     */
-    @NotNull
-    public String getEnglishName() {
-        return englishName;
-    }
-
-    /**
-     * 언어에 따른 직업 이름 반환
-     */
-    @NotNull
-    public String getName(boolean isKorean) {
-        return isKorean ? koreanName : englishName;
     }
 
     /**
@@ -114,38 +91,19 @@ public enum JobType {
 
     /**
      * 직업 카테고리 열거형
+     * 이름은 LangManager에서 job.categories.{name}.name 형식으로 관리
      */
     public enum JobCategory {
-        WARRIOR("전사", "Warrior", ColorUtil.COPPER, org.bukkit.Material.IRON_SWORD),
-        MAGE("마법사", "Mage", ColorUtil.EPIC, org.bukkit.Material.BLAZE_ROD),
-        ARCHER("궁수", "Archer", ColorUtil.EMERALD, org.bukkit.Material.BOW);
+        WARRIOR(ColorUtil.COPPER, Material.IRON_SWORD),
+        MAGE(ColorUtil.EPIC, Material.BLAZE_ROD),
+        ARCHER(ColorUtil.EMERALD, Material.BOW);
 
-        private final String koreanName;
-        private final String englishName;
         private final TextColor color;
-        private final org.bukkit.Material icon;
+        private final Material icon;
 
-        JobCategory(@NotNull String koreanName, @NotNull String englishName,
-                    @NotNull TextColor color, @NotNull org.bukkit.Material icon) {
-            this.koreanName = koreanName;
-            this.englishName = englishName;
+        JobCategory(@NotNull TextColor color, @NotNull Material icon) {
             this.color = color;
             this.icon = icon;
-        }
-
-        @NotNull
-        public String getKoreanName() {
-            return koreanName;
-        }
-
-        @NotNull
-        public String getEnglishName() {
-            return englishName;
-        }
-
-        @NotNull
-        public String getName(boolean isKorean) {
-            return isKorean ? koreanName : englishName;
         }
 
         @NotNull
@@ -154,7 +112,7 @@ public enum JobType {
         }
 
         @NotNull
-        public org.bukkit.Material getIcon() {
+        public Material getIcon() {
             return icon;
         }
     }

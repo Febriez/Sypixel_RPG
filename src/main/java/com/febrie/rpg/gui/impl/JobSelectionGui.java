@@ -190,27 +190,19 @@ public class JobSelectionGui extends BaseGui {
      * 네비게이션 버튼 설정 - 위치 통일
      */
     private void setupNavigationButtons() {
-        // 뒤로가기 (45번), 닫기 (53번)
-        setupNavigationButtons(45, -1, 53);
+        // 표준 네비게이션 설정 사용
+        setupStandardNavigation(false, true); // refresh 버튼 없음, close 버튼 있음
     }
 
     /**
      * 직업 선택 확인 GUI 열기
      */
     private void openConfirmationGui(@NotNull JobType job) {
-        // TODO: 확인 GUI 구현
-        // 임시로 바로 직업 설정
-        if (rpgPlayer.setJob(job)) {
-            String jobName = trans("job." + job.name().toLowerCase() + ".name").toString();
-            sendMessage(viewer, "gui.job-selection.job-selected", "job", jobName);
-            viewer.closeInventory();
-
-            // 프로필 GUI로 돌아가기
-            if (guiManager != null) {
-                guiManager.openProfileGui(viewer);
-            }
-        } else {
-            sendMessage(viewer, "gui.job-selection.already-has-job");
-        }
+        // 확인 GUI 열기
+        JobConfirmationGui confirmationGui = new JobConfirmationGui(
+                guiManager, langManager, viewer, rpgPlayer, job
+        );
+        guiManager.openGui(viewer, confirmationGui);
+        playClickSound(viewer);
     }
 }

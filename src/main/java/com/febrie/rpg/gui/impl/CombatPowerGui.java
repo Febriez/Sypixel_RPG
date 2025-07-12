@@ -121,8 +121,8 @@ public class CombatPowerGui extends BaseGui {
             int contribution = statValue * info.multiplier;
             statContribution += contribution;
 
-            boolean isKorean = transString("general.language-code").equals("ko_KR");
-            String statName = info.stat.getName(isKorean);
+            // LangManager를 통해 스탯 이름 가져오기
+            String statName = transString("stat." + info.stat.getId() + ".name");
 
             GuiItem statItem = GuiItem.display(
                     ItemBuilder.of(info.icon)
@@ -173,8 +173,8 @@ public class CombatPowerGui extends BaseGui {
      * 네비게이션 버튼 설정 - 위치 통일
      */
     private void setupNavigationButtons() {
-        // 뒤로가기 (45번 슬롯), 닫기 (53번 슬롯)
-        setupNavigationButtons(45, -1, 53);
+        // 표준 네비게이션 설정 사용
+        setupStandardNavigation(false, true); // refresh 버튼 없음, close 버튼 있음
     }
 
     /**

@@ -32,7 +32,7 @@ public class LangManager {
     private final Plugin plugin;
     private final Gson gson;
     private final Map<String, JsonObject> languageConfigs;
-    private final Map<UUID, String> playerLanguages;
+    private final Map<UUID, String> playerLanguageOverrides; // 수동으로 설정된 언어만 저장
     private final String defaultLanguage;
 
     private static final LegacyComponentSerializer SERIALIZER =
@@ -42,7 +42,7 @@ public class LangManager {
         this.plugin = plugin;
         this.gson = new Gson();
         this.languageConfigs = new HashMap<>();
-        this.playerLanguages = new ConcurrentHashMap<>();
+        this.playerLanguageOverrides = new ConcurrentHashMap<>();
         this.defaultLanguage = "ko_KR";
 
         loadLanguages();
@@ -289,29 +289,44 @@ public class LangManager {
 
     /**
      * Gets the player's preferred language
+     * 먼저 수동 설정된 언어를 확인하고, 없으면 클라이언트 locale을 확인
      */
     @NotNull
     public String getPlayerLanguage(@NotNull Player player) {
-        return playerLanguages.computeIfAbsent(player.getUniqueId(),
-                uuid -> detectPlayerLanguage(player));
+        // 수동으로 설정된 언어가 있는지 확인
+        String override = playerLanguageOverrides.get(player.getUniqueId());
+        if (override != null) {
+            return override;
+        }
+
+        // 클라이언트 locale에서 실시간으로 언어 감지
+        return detectPlayerLanguage(player);
     }
 
     /**
-     * Sets a player's preferred language
+     * Sets a player's preferred language (수동 설정)
      */
     public void setPlayerLanguage(@NotNull Player player, @NotNull String language) {
         if (languageConfigs.containsKey(language)) {
-            playerLanguages.put(player.getUniqueId(), language);
+            playerLanguageOverrides.put(player.getUniqueId(), language);
         }
     }
 
     /**
      * Detects player's language based on their client locale
+     * 플레이어의 실제 클라이언트 설정을 실시간으로 확인
      */
     @NotNull
     private String detectPlayerLanguage(@NotNull Player player) {
-        String clientLocale = player.locale().toString().toLowerCase();
-        return clientLocale.startsWith("ko") ? "ko_KR" : "en_US";
+        String clientLocale = player.locale().toString();
+
+        // 한국어 체크 (ko, ko_KR 등)
+        if (clientLocale.startsWith("ko")) {
+            return "ko_KR";
+        }
+
+        // 영어 또는 기타 언어는 영어로 표시
+        return "en_US";
     }
 
     /**
@@ -319,7 +334,7 @@ public class LangManager {
      */
     public void reload() {
         languageConfigs.clear();
-        playerLanguages.clear();
+        playerLanguageOverrides.clear();
         loadLanguages();
         plugin.getLogger().info("Language system reloaded");
     }
@@ -336,7 +351,7 @@ public class LangManager {
      * Removes player data when they logout
      */
     public void onPlayerLogout(@NotNull Player player) {
-        playerLanguages.remove(player.getUniqueId());
+        playerLanguageOverrides.remove(player.getUniqueId());
     }
 
     /**

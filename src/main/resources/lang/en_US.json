@@ -35,6 +35,50 @@
       "success": "%COLOR_GREEN%Main menu opened!"
     }
   },
+  "stat": {
+    "strength": {
+      "name": "Strength",
+      "description": [
+        "%COLOR_GRAY%Increases physical attack power",
+        "%COLOR_GRAY%Increases melee weapon damage"
+      ]
+    },
+    "intelligence": {
+      "name": "Intelligence",
+      "description": [
+        "%COLOR_GRAY%Increases magical attack power",
+        "%COLOR_GRAY%Increases maximum mana"
+      ]
+    },
+    "dexterity": {
+      "name": "Dexterity",
+      "description": [
+        "%COLOR_GRAY%Increases attack speed and dodge rate",
+        "%COLOR_GRAY%Increases critical hit chance"
+      ]
+    },
+    "vitality": {
+      "name": "Vitality",
+      "description": [
+        "%COLOR_GRAY%Increases maximum health",
+        "%COLOR_GRAY%Increases defense and regeneration"
+      ]
+    },
+    "wisdom": {
+      "name": "Wisdom",
+      "description": [
+        "%COLOR_GRAY%Increases mana regeneration and skill effects",
+        "%COLOR_GRAY%Increases buff/debuff duration"
+      ]
+    },
+    "luck": {
+      "name": "Luck",
+      "description": [
+        "%COLOR_GRAY%Increases item drop rate",
+        "%COLOR_GRAY%Increases critical damage"
+      ]
+    }
+  },
   "gui": {
     "profile": {
       "title": "%COLOR_ORANGE%Player Profile",
@@ -54,6 +98,29 @@
       "click-to-choose": "%COLOR_SUCCESS%▶ Click to choose this job",
       "job-selected": "%COLOR_SUCCESS%Congratulations! You have chosen the {job} job!",
       "already-has-job": "%COLOR_ERROR%You already have a job!"
+    },
+    "job-confirmation": {
+      "title": "%COLOR_ERROR%⚠ Confirm Job Selection ⚠",
+      "selected-job": "%COLOR_YELLOW%Selected Job:",
+      "max-level": "%COLOR_INFO%Max Level: {level}",
+      "warning": "%COLOR_ERROR%⚠ WARNING: This choice is PERMANENT! ⚠",
+      "warning-title": "%COLOR_ERROR%⚠ WARNING ⚠",
+      "warning-description": "%COLOR_ERROR%Choose carefully!",
+      "cannot-change": "%COLOR_ERROR%Once selected, it can NEVER be changed!",
+      "confirm": "%COLOR_SUCCESS%✔ CONFIRM",
+      "confirm-description": "%COLOR_WHITE%Select {job} as your job",
+      "click-to-confirm": "%COLOR_SUCCESS%▶ Click: Confirm Job",
+      "cancel": "%COLOR_ERROR%✖ CANCEL",
+      "cancel-description": "%COLOR_WHITE%Cancel job selection",
+      "click-to-cancel": "%COLOR_RED%▶ Click: Cancel Selection",
+      "info-title": "%COLOR_INFO%Job Selection Info",
+      "info-line1": "%COLOR_GRAY%• Jobs determine your character's growth path",
+      "info-line2": "%COLOR_GRAY%• Each job has unique talents and skills",
+      "info-line3": "%COLOR_GRAY%• Please choose carefully!",
+      "success": "%COLOR_SUCCESS%Congratulations! You have chosen the {job} job!",
+      "already-has-job": "%COLOR_ERROR%You already have a job!",
+      "title-success": "%COLOR_LEGENDARY%Job Selected!",
+      "subtitle-success": "%COLOR_WHITE%You have chosen %COLOR_YELLOW%{job}"
     },
     "talent": {
       "category": {
