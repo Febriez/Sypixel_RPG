@@ -51,407 +51,295 @@
     },
     "leaderboard": {
       "usage": "%COLOR_YELLOW%Usage: /leaderboard",
-      "description": "View server rankings",
+      "description": "Check server rankings",
       "success": "%COLOR_GREEN%Leaderboard opened!"
-    },
-    "playtime": {
-      "usage": "%COLOR_YELLOW%Usage: /playtime",
-      "description": "Check your playtime",
-      "success": "%COLOR_GREEN%Total playtime: %COLOR_YELLOW%{time}"
     }
   },
-  "currency": {
-    "gold": {
-      "name": "Gold",
-      "description": "Basic currency"
+  "job": {
+    "BERSERKER": {
+      "name": "%COLOR_DARK_RED%Berserker",
+      "description": [
+        "%COLOR_GRAY%A melee dealer with powerful attack power.",
+        "%COLOR_GRAY%Gets stronger the lower their health is.",
+        "",
+        "%COLOR_SUCCESS%▸ Strength-focused stat growth",
+        "%COLOR_SUCCESS%▸ Can use berserk skills",
+        "%COLOR_SUCCESS%▸ Health-based attack power increase"
+      ]
     },
-    "diamond": {
-      "name": "Diamond",
-      "description": "Rare currency"
+    "BRUISER": {
+      "name": "%COLOR_ORANGE%Bruiser",
+      "description": [
+        "%COLOR_GRAY%A warrior balanced between offense and defense.",
+        "%COLOR_GRAY%Can handle various situations.",
+        "",
+        "%COLOR_SUCCESS%▸ Balanced stat growth",
+        "%COLOR_SUCCESS%▸ Attack/Defense mode switching",
+        "%COLOR_SUCCESS%▸ Highly adaptable combat style"
+      ]
     },
-    "emerald": {
-      "name": "Emerald",
-      "description": "Trading currency"
+    "TANK": {
+      "name": "%COLOR_NETHERITE%Tank",
+      "description": [
+        "%COLOR_GRAY%A sturdy shield that protects allies.",
+        "%COLOR_GRAY%Boasts high defense and health.",
+        "",
+        "%COLOR_SUCCESS%▸ Vitality-focused stat growth",
+        "%COLOR_SUCCESS%▸ Taunt and protection skills",
+        "%COLOR_SUCCESS%▸ Damage reduction effects"
+      ]
     },
-    "ghast_tear": {
-      "name": "Stardust",
-      "description": "Mystical currency"
+    "PRIEST": {
+      "name": "%COLOR_LEGENDARY%Priest",
+      "description": [
+        "%COLOR_GRAY%Heals allies with holy power.",
+        "%COLOR_GRAY%Specializes in buffs and debuffs.",
+        "",
+        "%COLOR_SUCCESS%▸ Wisdom-focused stat growth",
+        "%COLOR_SUCCESS%▸ Healing and resurrection skills",
+        "%COLOR_SUCCESS%▸ Ally enhancement effects"
+      ]
     },
-    "nether_star": {
-      "name": "Star",
-      "description": "Premium currency"
+    "WARLOCK": {
+      "name": "%COLOR_DARK_PURPLE%Warlock",
+      "description": [
+        "%COLOR_GRAY%A mage who wields the power of darkness.",
+        "%COLOR_GRAY%Specializes in curses and damage over time.",
+        "",
+        "%COLOR_SUCCESS%▸ Intelligence-focused stat growth",
+        "%COLOR_SUCCESS%▸ DOT and life drain skills",
+        "%COLOR_SUCCESS%▸ Can use summons"
+      ]
+    },
+    "ARCHER": {
+      "name": "%COLOR_GREEN%Archer",
+      "description": [
+        "%COLOR_GRAY%Delivers precise shots from long range.",
+        "%COLOR_GRAY%Boasts high critical hits and evasion.",
+        "",
+        "%COLOR_SUCCESS%▸ Dexterity-focused stat growth",
+        "%COLOR_SUCCESS%▸ Precision shooting skills",
+        "%COLOR_SUCCESS%▸ Can set traps"
+      ]
+    },
+    "SHOTGUNNER": {
+      "name": "%COLOR_COPPER%Shotgunner",
+      "description": [
+        "%COLOR_GRAY%Delivers powerful firepower at close range.",
+        "%COLOR_GRAY%Overwhelms multiple enemies with shotgun attacks.",
+        "",
+        "%COLOR_SUCCESS%▸ Strength/Dexterity balanced growth",
+        "%COLOR_SUCCESS%▸ Shotgun and explosion skills",
+        "%COLOR_SUCCESS%▸ Close-range specialization"
+      ]
     }
   },
   "stat": {
     "strength": {
-      "name": "Strength",
+      "name": "%COLOR_RED%Strength",
       "description": [
-        "%COLOR_GRAY%Increases physical damage",
-        "%COLOR_GRAY%Increases melee weapon damage"
+        "%COLOR_GRAY%Increases physical attack power.",
+        "%COLOR_GRAY%Increases melee weapon damage."
       ]
     },
     "intelligence": {
-      "name": "Intelligence",
+      "name": "%COLOR_BLUE%Intelligence",
       "description": [
-        "%COLOR_GRAY%Increases magical damage",
-        "%COLOR_GRAY%Increases maximum mana"
-      ]
-    },
-    "dexterity": {
-      "name": "Dexterity",
-      "description": [
-        "%COLOR_GRAY%Increases attack speed and evasion",
-        "%COLOR_GRAY%Increases critical strike chance"
+        "%COLOR_GRAY%Increases magic attack power.",
+        "%COLOR_GRAY%Increases maximum mana."
       ]
     },
     "vitality": {
-      "name": "Vitality",
+      "name": "%COLOR_GREEN%Vitality",
       "description": [
-        "%COLOR_GRAY%Increases maximum health",
-        "%COLOR_GRAY%Increases defense and regeneration"
+        "%COLOR_GRAY%Increases maximum health.",
+        "%COLOR_GRAY%Increases health regeneration."
+      ]
+    },
+    "dexterity": {
+      "name": "%COLOR_YELLOW%Dexterity",
+      "description": [
+        "%COLOR_GRAY%Increases attack speed and evasion.",
+        "%COLOR_GRAY%Increases critical chance."
       ]
     },
     "wisdom": {
-      "name": "Wisdom",
+      "name": "%COLOR_PURPLE%Wisdom",
       "description": [
-        "%COLOR_GRAY%Increases mana regeneration and skill effects",
-        "%COLOR_GRAY%Increases buff/debuff duration"
+        "%COLOR_GRAY%Increases mana regeneration.",
+        "%COLOR_GRAY%Reduces skill cooldowns."
       ]
     },
     "luck": {
-      "name": "Luck",
+      "name": "%COLOR_GOLD%Luck",
       "description": [
-        "%COLOR_GRAY%Increases item drop rate",
-        "%COLOR_GRAY%Increases critical damage"
+        "%COLOR_GRAY%Increases item drop rate.",
+        "%COLOR_GRAY%Increases critical damage."
       ]
     }
   },
   "items": {
-    "navigation": {
-      "back": {
-        "name": "%COLOR_SUCCESS%◀ Back",
-        "lore": [
-          "%COLOR_GRAY%Return to previous menu"
-        ]
-      },
-      "forward": {
-        "name": "%COLOR_SUCCESS%Forward ▶",
-        "lore": [
-          "%COLOR_GRAY%Go to next menu"
-        ]
-      },
-      "close": {
-        "name": "%COLOR_ERROR%✖ Close",
-        "lore": [
-          "%COLOR_GRAY%Close the menu"
-        ]
-      },
-      "previous-page": {
-        "name": "%COLOR_YELLOW%◀ Previous Page",
-        "lore": [
-          "%COLOR_GRAY%Go to previous page"
-        ]
-      },
-      "next-page": {
-        "name": "%COLOR_YELLOW%Next Page ▶",
-        "lore": [
-          "%COLOR_GRAY%Go to next page"
-        ]
-      },
-      "refresh": {
-        "name": "%COLOR_AQUA%Refresh",
-        "lore": [
-          "%COLOR_GRAY%Update information"
-        ]
-      },
-      "home": {
-        "name": "%COLOR_LEGENDARY%Main Menu",
-        "lore": [
-          "%COLOR_GRAY%Return to main menu"
-        ]
-      }
-    },
     "mainmenu": {
-      "title": {
-        "name": "%COLOR_LEGENDARY%Main Menu",
-        "lore": [
-          "%COLOR_GRAY%Explore various features"
-        ]
-      },
       "profile-button": {
-        "name": "%COLOR_INFO%My Profile",
+        "name": "%COLOR_EPIC%My Profile",
         "lore": [
-          "%COLOR_GRAY%View your information",
+          "%COLOR_GRAY%View character information.",
           "",
-          "%COLOR_YELLOW%▶ Check level and experience",
-          "%COLOR_YELLOW%▶ View stats and combat power",
-          "%COLOR_YELLOW%▶ Check owned items",
-          "",
-          "%COLOR_SUCCESS%▶ Click to open profile"
-        ]
-      },
-      "job-button": {
-        "name": "%COLOR_LEGENDARY%Job Selection",
-        "lore": [
-          "%COLOR_GRAY%Choose your combat style!",
-          "",
-          "%COLOR_YELLOW%▶ Explore various jobs",
-          "%COLOR_YELLOW%▶ Check unique skills and abilities",
-          "%COLOR_YELLOW%▶ Decide your destiny!",
-          "",
-          "%COLOR_ERROR%⚠ Warning: Cannot be changed once selected!",
-          "",
-          "%COLOR_SUCCESS%▶ Click to choose job"
-        ]
-      },
-      "shop-button": {
-        "name": "%COLOR_GOLD%Shop",
-        "lore": [
-          "%COLOR_GRAY%Purchase various items",
-          "",
-          "%COLOR_YELLOW%▶ Weapons and armor",
-          "%COLOR_YELLOW%▶ Consumable items",
-          "%COLOR_YELLOW%▶ Special items",
-          "",
-          "%COLOR_SUCCESS%▶ Click to open shop"
-        ]
-      },
-      "dungeon-button": {
-        "name": "%COLOR_EPIC%Dungeon",
-        "lore": [
-          "%COLOR_GRAY%Challenge dangerous dungeons",
-          "",
-          "%COLOR_YELLOW%▶ Fight powerful monsters",
-          "%COLOR_YELLOW%▶ Obtain rare rewards",
-          "%COLOR_YELLOW%▶ Challenge with party",
-          "",
-          "%COLOR_SUCCESS%▶ Click to enter dungeon"
+          "%COLOR_YELLOW%▶ Click to open"
         ]
       },
       "stats-button": {
-        "name": "%COLOR_SUCCESS%Stat Management",
+        "name": "%COLOR_INFO%Manage Stats",
         "lore": [
-          "%COLOR_GRAY%Distribute stat points",
+          "%COLOR_GRAY%Distribute stat points.",
           "",
-          "%COLOR_YELLOW%▶ Strength, Intelligence, Dexterity, etc.",
-          "%COLOR_YELLOW%▶ Increase combat power",
-          "%COLOR_YELLOW%▶ Build your own character",
-          "",
-          "%COLOR_SUCCESS%▶ Click to manage stats"
-        ]
-      },
-      "settings-button": {
-        "name": "%COLOR_AQUA%Settings",
-        "lore": [
-          "%COLOR_GRAY%Change game settings",
-          "",
-          "%COLOR_YELLOW%▶ Personal settings",
-          "%COLOR_YELLOW%▶ Notification settings",
-          "%COLOR_YELLOW%▶ Other options",
-          "",
-          "%COLOR_SUCCESS%▶ Click to open settings"
+          "%COLOR_YELLOW%▶ Click to open"
         ]
       },
       "talents-button": {
-        "name": "%COLOR_MANA%Talents",
+        "name": "%COLOR_LEGENDARY%Talent Tree",
         "lore": [
-          "%COLOR_GRAY%Use talent points",
+          "%COLOR_GRAY%Learn and enhance talents.",
           "",
-          "%COLOR_YELLOW%▶ Learn unique abilities",
-          "%COLOR_YELLOW%▶ Enhance skills",
-          "%COLOR_YELLOW%▶ Choose specialization",
-          "",
-          "%COLOR_SUCCESS%▶ Click to open talents"
+          "%COLOR_YELLOW%▶ Click to open"
         ]
       },
       "leaderboard-button": {
-        "name": "%COLOR_ORANGE%Server Rankings",
+        "name": "%COLOR_GOLD%Server Rankings",
         "lore": [
-          "%COLOR_GRAY%Check server rankings",
+          "%COLOR_GRAY%Check rankings in various categories.",
           "",
-          "%COLOR_YELLOW%▶ Level rankings",
-          "%COLOR_YELLOW%▶ Combat power rankings",
-          "%COLOR_YELLOW%▶ Gold holdings rankings",
+          "%COLOR_YELLOW%▶ Click to open"
+        ]
+      },
+      "skills-button": {
+        "name": "%COLOR_AQUA%Skills",
+        "lore": [
+          "%COLOR_GRAY%View and enhance job skills.",
           "",
-          "%COLOR_SUCCESS%▶ Click to view rankings"
+          "%COLOR_YELLOW%▶ Click to open"
         ]
       }
-    },
-    "profile": {
-      "player-head": {
-        "name": "%COLOR_LEGENDARY%{player}",
-        "lore": [
-          "",
-          "%COLOR_WHITE%Player: %COLOR_YELLOW%{player}",
-          "%COLOR_GRAY%UUID: %COLOR_WHITE%{uuid}",
-          "%COLOR_CYAN%Online time: %COLOR_WHITE%{playtime}",
-          "",
-          "%COLOR_YELLOW%Click to view details"
-        ]
-      },
-      "level-info": {
-        "name": "%COLOR_SUCCESS%Level Information",
-        "lore": [
-          "%COLOR_WHITE%Current Level: %COLOR_GREEN%{level}",
-          "%COLOR_WHITE%Experience: %COLOR_EXPERIENCE%{exp}%",
-          "%COLOR_WHITE%Total Experience: %COLOR_YELLOW%{total_exp}"
-        ]
-      },
-      "health-info": {
-        "name": "%COLOR_HEALTH%Health",
-        "lore": [
-          "%COLOR_WHITE%Current: %COLOR_RED%{current} %COLOR_GRAY%/ %COLOR_RED%{max}",
-          "%COLOR_WHITE%Ratio: %COLOR_YELLOW%{percentage}%",
-          "%COLOR_WHITE%{health_bar}"
-        ]
-      },
-      "food-info": {
-        "name": "%COLOR_ORANGE%Hunger",
-        "lore": [
-          "%COLOR_WHITE%Hunger: %COLOR_YELLOW%{food} %COLOR_GRAY%/ %COLOR_YELLOW%20",
-          "%COLOR_WHITE%Saturation: %COLOR_GOLD%{saturation}",
-          "%COLOR_WHITE%{hunger_bar}"
-        ]
-      },
-      "game-info": {
-        "name": "%COLOR_INFO%Game Information",
-        "lore": [
-          "%COLOR_WHITE%Game Mode: %COLOR_CYAN%{gamemode}",
-          "%COLOR_WHITE%Can Fly: %COLOR_GREEN%{can_fly}",
-          "%COLOR_WHITE%World: %COLOR_LIME%{world}"
-        ]
-      },
-      "settings-button": {
-        "name": "%COLOR_GRAY%Settings",
-        "lore": [
-          "%COLOR_YELLOW%Click to open settings menu"
-        ]
-      },
-      "stats-button": {
-        "name": "%COLOR_INFO%Detailed Stats",
-        "lore": [
-          "%COLOR_YELLOW%Click to manage stats"
-        ]
-      },
-      "talents-button": {
-        "name": "%COLOR_EPIC%Talent Management",
-        "lore": [
-          "%COLOR_YELLOW%Click to view talent tree"
-        ]
-      },
-      "job-selection": {
-        "name": "%COLOR_LEGENDARY%Choose a Job!",
-        "lore": [
-          "%COLOR_GRAY%Select your path",
-          "",
-          "%COLOR_ERROR%⚠ Warning: Once chosen, cannot be changed!",
-          "",
-          "%COLOR_SUCCESS%▶ Click to choose job"
-        ]
-      }
-    }
-  },
-  "job": {
-    "categories": {
-      "warrior": {
-        "name": "%COLOR_COPPER%Warrior",
-        "description": [
-          "%COLOR_GRAY%Masters of melee combat",
-          "%COLOR_GRAY%High health and defense",
-          "%COLOR_GRAY%Powerful physical attack skills"
-        ]
-      },
-      "mage": {
-        "name": "%COLOR_MANA%Mage",
-        "description": [
-          "%COLOR_GRAY%Masters of magic",
-          "%COLOR_GRAY%Powerful area attacks",
-          "%COLOR_GRAY%Various elemental magic"
-        ]
-      },
-      "archer": {
-        "name": "%COLOR_EMERALD%Archer",
-        "description": [
-          "%COLOR_GRAY%Ranged combat specialists",
-          "%COLOR_GRAY%High agility and critical hits",
-          "%COLOR_GRAY%Precise single-target attacks"
-        ]
-      }
-    },
-    "berserker": {
-      "name": "Berserker",
-      "title": "%COLOR_ERROR%Berserker",
-      "description": [
-        "%COLOR_GRAY%High damage and explosive attacks",
-        "%COLOR_GRAY%Stronger when health is low"
-      ]
-    },
-    "bruiser": {
-      "name": "Bruiser",
-      "title": "%COLOR_ORANGE%Melee Combat Specialist",
-      "description": [
-        "%COLOR_GRAY%Balanced offense and defense",
-        "%COLOR_GRAY%Adaptable to various situations"
-      ]
-    },
-    "tank": {
-      "name": "Tank",
-      "title": "%COLOR_NETHERITE%Iron Wall Guardian",
-      "description": [
-        "%COLOR_GRAY%Highest defense and health",
-        "%COLOR_GRAY%Skills to protect allies"
-      ]
-    },
-    "priest": {
-      "name": "Priest",
-      "title": "%COLOR_LEGENDARY%Holy Priest",
-      "description": [
-        "%COLOR_GRAY%Powerful healing and buffs",
-        "%COLOR_GRAY%Extra damage to undead"
-      ]
-    },
-    "dark_mage": {
-      "name": "Dark Mage",
-      "title": "%COLOR_EPIC%Dark Mage",
-      "description": [
-        "%COLOR_GRAY%Powerful curses and debuffs",
-        "%COLOR_GRAY%Ability to weaken enemies"
-      ]
-    },
-    "mercy": {
-      "name": "Mercy",
-      "title": "%COLOR_SUCCESS%Merciful Healer",
-      "description": [
-        "%COLOR_GRAY%Instant healing and resurrection",
-        "%COLOR_GRAY%Maximizes team survivability"
-      ]
-    },
-    "archer": {
-      "name": "Archer",
-      "title": "%COLOR_EMERALD%Traditional Archer",
-      "description": [
-        "%COLOR_GRAY%Fast attack and movement speed",
-        "%COLOR_GRAY%Long-range precision strikes"
-      ]
-    },
-    "sniper": {
-      "name": "Sniper",
-      "title": "%COLOR_INFO%Precision Sniper",
-      "description": [
-        "%COLOR_GRAY%Maximized critical damage",
-        "%COLOR_GRAY%Stealth and assassination"
-      ]
-    },
-    "shotgunner": {
-      "name": "Shotgunner",
-      "title": "%COLOR_WARNING%Close-Range Shooter",
-      "description": [
-        "%COLOR_GRAY%Close-range area damage",
-        "%COLOR_GRAY%Explosive firepower"
-      ]
     }
   },
   "gui": {
+    "profile": {
+      "title": "%COLOR_EPIC%{player}'s Profile",
+      "level": "%COLOR_WHITE%Level: %COLOR_YELLOW%{level}",
+      "exp": "%COLOR_WHITE%Experience: %COLOR_GREEN%{current}/{max}",
+      "exp-percent": "%COLOR_GRAY%({percent}%)",
+      "job": "%COLOR_WHITE%Job: %COLOR_INFO%{job}",
+      "no-job": "%COLOR_GRAY%No job",
+      "combat-power": "%COLOR_WHITE%Combat Power: %COLOR_LEGENDARY%{power}",
+      "gold": "%COLOR_WHITE%Gold: %COLOR_GOLD%{amount}",
+      "playtime": "%COLOR_WHITE%Playtime: %COLOR_AQUA%{time}",
+      "join-date": "%COLOR_WHITE%Joined: %COLOR_GRAY%{date}",
+      "last-seen": "%COLOR_WHITE%Last seen: %COLOR_GRAY%{date}",
+      "stats": "%COLOR_YELLOW%▸ Stats Info",
+      "talents": "%COLOR_YELLOW%▸ Talents Info",
+      "online-status": "%COLOR_WHITE%Current status: {status}",
+      "gamemode": "%COLOR_WHITE%Gamemode: %COLOR_GRAY%{mode}",
+      "location": "%COLOR_WHITE%Location: %COLOR_GRAY%{world} ({x}, {y}, {z})",
+      "health": "%COLOR_WHITE%Health: %COLOR_RED%{current}/{max}",
+      "hunger": "%COLOR_WHITE%Hunger: %COLOR_ORANGE%{current}/{max}",
+      "flight": "%COLOR_WHITE%Flight: {status}"
+    },
+    "job-selection": {
+      "title": "%COLOR_LEGENDARY%Job Selection",
+      "choose-wisely": "%COLOR_WARNING%Choose wisely!",
+      "current-job": "%COLOR_WHITE%Current job: %COLOR_INFO%{job}",
+      "no-current-job": "%COLOR_GRAY%You don't have a job yet",
+      "confirm-selection": "%COLOR_SUCCESS%Select this job?",
+      "selected": "%COLOR_SUCCESS%Selected"
+    },
+    "stats": {
+      "title": "%COLOR_INFO%Stat Management",
+      "available-points": "%COLOR_WHITE%Available points: %COLOR_YELLOW%{points}",
+      "total-points": "%COLOR_WHITE%Total invested points: %COLOR_GREEN%{points}",
+      "base-value": "%COLOR_GRAY%Base: {value}",
+      "bonus-value": "%COLOR_GREEN%Bonus: +{value}",
+      "total-value": "%COLOR_LEGENDARY%Total: %COLOR_ORANGE%{value}",
+      "click-to-add": "%COLOR_YELLOW%Click to add points",
+      "click-talents": "%COLOR_YELLOW%▶ Go to talents page"
+    },
+    "talent": {
+      "title": "%COLOR_EPIC%Talents",
+      "title-with-page": "%COLOR_EPIC%Talents - {page}",
+      "level": "%COLOR_WHITE%Level: %COLOR_YELLOW%{level}",
+      "job": "%COLOR_WHITE%Job: %COLOR_INFO%{job}",
+      "no-job": "%COLOR_GRAY%No job",
+      "pages": {
+        "default": "Main",
+        "main": "Main",
+        "tank_defense": "Defense Talents",
+        "berserker_offense": "Offense Talents"
+      },
+      "page-info": "%COLOR_LEGENDARY%Talent Info",
+      "current-page": "%COLOR_WHITE%Current page: %COLOR_YELLOW%{page}",
+      "available-points": "%COLOR_WHITE%Available points: %COLOR_YELLOW%{points}",
+      "talent-level": "%COLOR_WHITE%Level: %COLOR_YELLOW%{current}/{max}",
+      "talent-level-max": "%COLOR_GOLD%Level: {current}/{max} (MAX)",
+      "required-points": "%COLOR_WHITE%Required points: %COLOR_RED%{points}",
+      "insufficient-points": "%COLOR_RED%Insufficient points!",
+      "click-learn": "%COLOR_SUCCESS%▶ Click to learn",
+      "click-subpage": "%COLOR_YELLOW%▶ Right-click to open sub-page",
+      "click-stats": "%COLOR_YELLOW%▶ Go to stats page",
+      "max-level-reached": "%COLOR_GOLD%Max level reached!",
+      "prerequisite-not-met": "%COLOR_RED%Prerequisites not met",
+      "prerequisites": "%COLOR_YELLOW%Prerequisites:",
+      "talent-learned": "%COLOR_SUCCESS%Learned talent: %COLOR_LEGENDARY%{talent}"
+    },
+    "combat-power": {
+      "title": "%COLOR_LEGENDARY%Combat Power Details",
+      "total": "%COLOR_ORANGE%Total Combat Power: {power}",
+      "breakdown": "%COLOR_YELLOW%Combat Power Breakdown",
+      "level-contribution": "%COLOR_GREEN%Level Contribution",
+      "level-detail": "%COLOR_WHITE%  Level {level} × 10 = {value}",
+      "stat-contribution": "%COLOR_INFO%Stat Contribution",
+      "stat-detail": "%COLOR_WHITE%  {stat}: {value} × {multiplier} = {total}",
+      "total-stats": "%COLOR_YELLOW%Stat Total: {value}",
+      "calculation-formula": "%COLOR_GRAY%Formula: (Level×10) + Stat Contribution",
+      "stat-multipliers": "%COLOR_DARK_GRAY%STR×5, INT×5, DEX×3, VIT×4, WIS×4, LUK×2"
+    },
+    "buttons": {
+      "close": {
+        "name": "%COLOR_RED%Close",
+        "lore": "%COLOR_GRAY%Close the GUI"
+      },
+      "back": {
+        "name": "%COLOR_YELLOW%Back",
+        "lore": "%COLOR_GRAY%Return to previous menu"
+      },
+      "refresh": {
+        "name": "%COLOR_AQUA%Refresh",
+        "lore": "%COLOR_GRAY%Update information"
+      },
+      "confirm": {
+        "name": "%COLOR_SUCCESS%Confirm",
+        "lore": "%COLOR_GRAY%Click to confirm"
+      },
+      "cancel": {
+        "name": "%COLOR_ERROR%Cancel",
+        "lore": "%COLOR_GRAY%Click to cancel"
+      },
+      "previous-page": {
+        "name": "%COLOR_YELLOW%Previous Page",
+        "lore": "%COLOR_GRAY%Click for previous page"
+      },
+      "next-page": {
+        "name": "%COLOR_YELLOW%Next Page",
+        "lore": "%COLOR_GRAY%Click for next page"
+      },
+      "page-info": {
+        "name": "%COLOR_ORANGE%Page Info",
+        "lore": "%COLOR_WHITE%Current: {current} / {total}"
+      },
+      "status": {
+        "online": "%COLOR_SUCCESS%Online",
+        "offline": "%COLOR_ERROR%Offline",
+        "status-text": "%COLOR_GRAY%Status: {status}"
+      }
+    },
     "scroll": {
       "up-button": {
         "name": "▲ Up",
@@ -483,172 +371,18 @@
       "refresh-description": "%COLOR_GRAY%Update ranking information",
       "auto-update": "%COLOR_GRAY%Auto-updates every 10 minutes",
       "loading": "%COLOR_YELLOW%Loading leaderboard...",
-      "loading-description": "%COLOR_GRAY%Please wait a moment",
-      "no-data": "%COLOR_GRAY%No data available yet",
-      "my-rank": "%COLOR_WHITE%My Rank: %COLOR_YELLOW%#{rank}",
-      "my-value": "%COLOR_WHITE%My Score: %COLOR_GREEN%{value}",
+      "loading-description": "%COLOR_GRAY%Please wait",
+      "no-data": "%COLOR_GRAY%No data yet",
+      "my-rank": "%COLOR_WHITE%My rank: %COLOR_YELLOW%#{rank}",
+      "my-value": "%COLOR_WHITE%My score: %COLOR_GREEN%{value}",
       "no-rank-data": "%COLOR_GRAY%Unranked",
       "play-more": "%COLOR_GRAY%Play more to compete for rankings!",
       "last-updated": "%COLOR_GRAY%Last updated: {time}",
-      "current-type": "%COLOR_WHITE%Current Type: %COLOR_YELLOW%{type}",
-      "total-entries": "%COLOR_WHITE%Total Entries: %COLOR_GREEN%{count}",
+      "current-type": "%COLOR_WHITE%Current type: %COLOR_YELLOW%{type}",
+      "total-entries": "%COLOR_WHITE%Total entries: %COLOR_GREEN%{count}",
       "rank-info": "%COLOR_WHITE%Rank: %COLOR_YELLOW%#{rank}",
       "value-info": "%COLOR_WHITE%{type}: %COLOR_GREEN%{value}",
-      "this-is-you": "%COLOR_SUCCESS%▶ This is you!",
-      "rank-format": "%COLOR_WHITE%#{rank}",
-      "player-format": "%COLOR_YELLOW%{player}",
-      "value-format": "%COLOR_GREEN%{value}",
-      "level-value": "%COLOR_GREEN%Level {value}",
-      "combat-power-value": "%COLOR_LEGENDARY%Combat Power {value}",
-      "gold-value": "%COLOR_GOLD%{value} Gold",
-      "playtime-value": "%COLOR_AQUA%{value}",
-      "click-to-view-profile": "%COLOR_GRAY%Click to view profile",
-      "tab-selected": "%COLOR_SUCCESS%▶ Selected",
-      "tab-click": "%COLOR_GRAY%Click to switch",
-      "loaded": "%COLOR_SUCCESS%Loaded {count} entries for {type}",
-      "load-failed": "%COLOR_ERROR%Failed to load leaderboard data"
-    },
-    "profile": {
-      "title": "%COLOR_ORANGE%Player Profile",
-      "player-title": "%COLOR_ORANGE%Player Profile %COLOR_GRAY%- %COLOR_YELLOW%{player}",
-      "viewing": "%COLOR_GRAY%Viewing {player}'s profile",
-      "online-status": "%COLOR_GRAY%Status: {status}",
-      "level-info": "%COLOR_SUCCESS%Level Information",
-      "level": "%COLOR_WHITE%Level: %COLOR_GREEN%{level}",
-      "experience": "%COLOR_WHITE%Experience: %COLOR_YELLOW%{exp}",
-      "health-info": "%COLOR_HEALTH%Health Information",
-      "health": "%COLOR_WHITE%Health: %COLOR_RED%{current} %COLOR_GRAY%/ %COLOR_RED%{max}",
-      "food-info": "%COLOR_ORANGE%Hunger Information",
-      "food-level": "%COLOR_WHITE%Hunger: %COLOR_YELLOW%{level} %COLOR_GRAY%/ %COLOR_YELLOW%20",
-      "saturation": "%COLOR_WHITE%Saturation: %COLOR_GOLD%{saturation}",
-      "game-info": "%COLOR_INFO%Game Information",
-      "gamemode": "%COLOR_WHITE%Gamemode: %COLOR_CYAN%{mode}",
-      "world": "%COLOR_WHITE%World: %COLOR_LIME%{world}",
-      "current-job": "%COLOR_WHITE%Current Job",
-      "job-level": "%COLOR_WHITE%Job Level: %COLOR_SUCCESS%{level}"
-    },
-    "mainmenu": {
-      "title": "%COLOR_LEGENDARY%Main Menu",
-      "subtitle": "%COLOR_WHITE%Choose your desired function"
-    },
-    "job-selection": {
-      "title": "%COLOR_LEGENDARY%Job Selection",
-      "category-suffix": " Class",
-      "selected": "%COLOR_SUCCESS%▶ Selected",
-      "click-to-select": "%COLOR_GRAY%Click to select",
-      "warning": "%COLOR_ERROR%⚠ Warning: Jobs cannot be changed once selected!",
-      "max-level": "%COLOR_INFO%Max Level: %COLOR_YELLOW%{level}",
-      "click-to-choose": "%COLOR_SUCCESS%▶ Click to choose this job",
-      "already-has-job": "%COLOR_ERROR%You already have a job!",
-      "job-description": "%COLOR_GRAY%Job Description"
-    },
-    "job-confirmation": {
-      "title": "%COLOR_ERROR%Confirm Job Selection",
-      "description": "%COLOR_YELLOW%Are you sure you want to choose this job?",
-      "warning": "%COLOR_RED%⚠ Warning: This choice is permanent!",
-      "selected-job": "%COLOR_WHITE%Selected job: {job}",
-      "confirm": "%COLOR_SUCCESS%Confirm",
-      "cancel": "%COLOR_ERROR%Cancel",
-      "confirm-description": "%COLOR_GREEN%Choose this job",
-      "cancel-description": "%COLOR_RED%Cancel job selection",
-      "click-to-confirm": "%COLOR_GREEN%▶ Click to confirm",
-      "click-to-cancel": "%COLOR_RED%▶ Click to cancel",
-      "info-title": "%COLOR_INFO%Important Information",
-      "info-line1": "%COLOR_YELLOW%• Jobs cannot be changed once selected",
-      "info-line2": "%COLOR_YELLOW%• Each job has unique skills and talents",
-      "info-line3": "%COLOR_YELLOW%• Choose carefully!",
-      "success": "%COLOR_SUCCESS%Congratulations! You chose the {job} job!",
-      "already-has-job": "%COLOR_ERROR%You already have a job!",
-      "title-success": "%COLOR_LEGENDARY%Congratulations!",
-      "subtitle-success": "%COLOR_YELLOW%You have acquired the {job} %COLOR_YELLOW%job!",
-      "max-level": "%COLOR_INFO%Max Level: %COLOR_YELLOW%{level}",
-      "cannot-change": "%COLOR_ERROR%Cannot be changed once selected",
-      "warning-title": "%COLOR_ERROR%⚠ Warning",
-      "warning-description": "%COLOR_RED%Choose carefully!"
-    },
-    "stats": {
-      "title": "%COLOR_INFO%Stat Management",
-      "points": "%COLOR_YELLOW%Available Stat Points: %COLOR_SUCCESS%{points}",
-      "help": "%COLOR_GRAY%Gain 5 points per level up",
-      "click-to-use": "%COLOR_GRAY%Click stats to use points",
-      "current-stats": "%COLOR_YELLOW%Current Stats",
-      "base-stat": "%COLOR_WHITE%  Base: {value}",
-      "bonus-stat": "%COLOR_SUCCESS%  Bonus: +{value}",
-      "total-stat": "%COLOR_LEGENDARY%  Total: {value}",
-      "click-add-1": "%COLOR_SUCCESS%▶ Left Click: +1 point",
-      "click-add-5": "%COLOR_SUCCESS%▶ Shift+Left Click: +5 points",
-      "click-add-10": "%COLOR_SUCCESS%▶ Right Click: +10 points",
-      "stat-maxed": "%COLOR_ERROR%Maximum reached",
-      "insufficient-points": "%COLOR_ERROR%Insufficient stat points",
-      "click-talents": "%COLOR_GRAY%Click to go to talents page",
-      "combat-power": "%COLOR_LEGENDARY%Combat Power: %COLOR_ORANGE%{power}",
-      "stat-points": "%COLOR_INFO%Stat Points",
-      "available-points": "%COLOR_YELLOW%Available: %COLOR_SUCCESS%{points}",
-      "total-allocated": "%COLOR_GRAY%Total Allocated: %COLOR_WHITE%{points}",
-      "points-per-level": "%COLOR_GRAY%5 points per level",
-      "guide-title": "%COLOR_AQUA%Usage Guide",
-      "guide-click-add": "%COLOR_GRAY%• Left Click: +1 point",
-      "guide-shift-click": "%COLOR_GRAY%• Shift+Click: +10 points",
-      "base-value": "%COLOR_WHITE%Base: %COLOR_GRAY%{value}",
-      "bonus-value": "%COLOR_SUCCESS%Bonus: %COLOR_GREEN%+{value}",
-      "total-value": "%COLOR_LEGENDARY%Total: %COLOR_ORANGE%{value}",
-      "click-to-add": "%COLOR_YELLOW%Click to add points"
-    },
-    "talent": {
-      "title": "%COLOR_EPIC%Talents",
-      "level": "%COLOR_WHITE%Level: %COLOR_YELLOW%{level}",
-      "job": "%COLOR_WHITE%Job: %COLOR_INFO%{job}"
-    },
-    "combat-power": {
-      "title": "%COLOR_LEGENDARY%Combat Power Details",
-      "total": "%COLOR_ORANGE%Total Combat Power: {power}",
-      "breakdown": "%COLOR_YELLOW%Combat Power Breakdown",
-      "level-contribution": "%COLOR_GREEN%Level Contribution",
-      "level-detail": "%COLOR_WHITE%  Level {level} × 10 = {value}",
-      "stat-contribution": "%COLOR_INFO%Stat Contribution",
-      "stat-detail": "%COLOR_WHITE%  {stat}: {value} × {multiplier} = {total}",
-      "total-stats": "%COLOR_YELLOW%Total Stats: {value}",
-      "calculation-formula": "%COLOR_GRAY%Formula: (Level×10) + Stat Contribution",
-      "stat-multipliers": "%COLOR_DARK_GRAY%STR×5, INT×5, DEX×3, VIT×4, WIS×4, LUK×2"
-    },
-    "buttons": {
-      "close": {
-        "name": "%COLOR_RED%Close",
-        "lore": "%COLOR_GRAY%Close the GUI"
-      },
-      "back": {
-        "name": "%COLOR_YELLOW%Back",
-        "lore": "%COLOR_GRAY%Return to previous menu"
-      },
-      "refresh": {
-        "name": "%COLOR_AQUA%Refresh",
-        "lore": "%COLOR_GRAY%Update information"
-      },
-      "confirm": {
-        "name": "%COLOR_SUCCESS%Confirm",
-        "lore": "%COLOR_GRAY%Click to confirm"
-      },
-      "cancel": {
-        "name": "%COLOR_ERROR%Cancel",
-        "lore": "%COLOR_GRAY%Click to cancel"
-      },
-      "previous-page": {
-        "name": "%COLOR_YELLOW%Previous Page",
-        "lore": "%COLOR_GRAY%Click to go to previous page"
-      },
-      "next-page": {
-        "name": "%COLOR_YELLOW%Next Page",
-        "lore": "%COLOR_GRAY%Click to go to next page"
-      },
-      "page-info": {
-        "name": "%COLOR_ORANGE%Page Info",
-        "lore": "%COLOR_WHITE%Current: {current} / {total}"
-      },
-      "status": {
-        "online": "%COLOR_SUCCESS%Online",
-        "offline": "%COLOR_ERROR%Offline",
-        "status-text": "%COLOR_GRAY%Status: {status}"
-      }
+      "this-is-you": "%COLOR_SUCCESS%▶ This is your rank!"
     }
   },
   "status": {
@@ -660,10 +394,10 @@
     "enabled": "%COLOR_SUCCESS%Enabled",
     "disabled": "%COLOR_ERROR%Disabled",
     "flight": {
-      "yes": "%COLOR_GREEN%Available",
-      "no": "%COLOR_RED%Not Available",
-      "enabled": "%COLOR_SUCCESS%Flight Enabled",
-      "disabled": "%COLOR_ERROR%Flight Disabled"
+      "yes": "%COLOR_GREEN%Allowed",
+      "no": "%COLOR_RED%Not allowed",
+      "enabled": "%COLOR_SUCCESS%Flight enabled",
+      "disabled": "%COLOR_ERROR%Flight disabled"
     },
     "level": "%COLOR_SUCCESS%Level {level}",
     "job": "%COLOR_INFO%Job: {job}",
@@ -677,16 +411,328 @@
   },
   "messages": {
     "profile-opened": "%COLOR_SUCCESS%Profile information updated!",
-    "gui-refreshed": "%COLOR_SUCCESS%Information successfully updated!",
-    "no-job-for-talents": "%COLOR_ERROR%You must choose a job before learning talents!",
-    "no-job-for-stats": "%COLOR_ERROR%You must choose a job before managing stats!",
-    "job-selected": "%COLOR_SUCCESS%Congratulations! You chose the %COLOR_LEGENDARY%{job}%COLOR_SUCCESS% job!",
+    "gui-refreshed": "%COLOR_SUCCESS%Information successfully refreshed!",
+    "no-job-for-talents": "%COLOR_ERROR%You need to select a job first to learn talents!",
+    "no-job-for-stats": "%COLOR_ERROR%You need to select a job first to manage stats!",
+    "job-selected": "%COLOR_SUCCESS%Congratulations! You selected the %COLOR_LEGENDARY%{job}%COLOR_SUCCESS% job!",
     "already-has-job": "%COLOR_ERROR%You already have a job!",
     "stat-increased": "%COLOR_SUCCESS%{stat} stat increased!",
-    "not-enough-stat-points": "%COLOR_ERROR%Insufficient stat points!",
+    "not-enough-stat-points": "%COLOR_ERROR%Not enough stat points!",
     "talent-learned": "%COLOR_SUCCESS%Learned talent: %COLOR_LEGENDARY%{talent}",
-    "not-enough-talent-points": "%COLOR_ERROR%Insufficient talent points!",
-    "level-up": "%COLOR_LEGENDARY%Level Up! %COLOR_WHITE%{old} → {new}"
+    "not-enough-talent-points": "%COLOR_ERROR%Not enough talent points!",
+    "level-up": "%COLOR_LEGENDARY%Level up! %COLOR_WHITE%{old} → {new}",
+    "talent-learn-failed": "%COLOR_ERROR%Failed to learn talent!"
+  },
+  "talent": {
+    "angelic_blessing": {
+      "name": "%COLOR_LEGENDARY%Angelic Blessing",
+      "description": [
+        "%COLOR_GRAY%All abilities increase with holy power.",
+        "%COLOR_GREEN%All stats +1"
+      ]
+    },
+    "guardian_angel": {
+      "name": "%COLOR_GOLD%Guardian Angel",
+      "description": [
+        "%COLOR_GRAY%Resurrect once from the brink of death.",
+        "%COLOR_GREEN%50% chance to resurrect on death (5 min cooldown)"
+      ]
+    },
+    "healing_boost": {
+      "name": "%COLOR_EMERALD%Healing Boost",
+      "description": [
+        "%COLOR_GRAY%All healing effects are increased.",
+        "%COLOR_GREEN%Healing +20%"
+      ]
+    },
+    "resurrection": {
+      "name": "%COLOR_LEGENDARY%Resurrection",
+      "description": [
+        "%COLOR_GRAY%Can resurrect allies.",
+        "%COLOR_GREEN%Resurrect dead allies (10 min cooldown)"
+      ]
+    },
+    "basic_strength": {
+      "name": "%COLOR_RED%Basic Strength",
+      "description": [
+        "%COLOR_GRAY%Increases strength.",
+        "%COLOR_GREEN%Strength +2 (per level)"
+      ]
+    },
+    "basic_intelligence": {
+      "name": "%COLOR_BLUE%Basic Intelligence",
+      "description": [
+        "%COLOR_GRAY%Increases intelligence.",
+        "%COLOR_GREEN%Intelligence +2 (per level)"
+      ]
+    },
+    "basic_vitality": {
+      "name": "%COLOR_GREEN%Basic Vitality",
+      "description": [
+        "%COLOR_GRAY%Increases vitality.",
+        "%COLOR_GREEN%Vitality +3 (per level)"
+      ]
+    },
+    "basic_dexterity": {
+      "name": "%COLOR_YELLOW%Basic Dexterity",
+      "description": [
+        "%COLOR_GRAY%Increases dexterity.",
+        "%COLOR_GREEN%Dexterity +2 (per level)"
+      ]
+    },
+    "basic_wisdom": {
+      "name": "%COLOR_PURPLE%Basic Wisdom",
+      "description": [
+        "%COLOR_GRAY%Increases wisdom.",
+        "%COLOR_GREEN%Wisdom +2 (per level)"
+      ]
+    },
+    "basic_luck": {
+      "name": "%COLOR_GOLD%Basic Luck",
+      "description": [
+        "%COLOR_GRAY%Increases luck.",
+        "%COLOR_GREEN%Luck +1 (per level)"
+      ]
+    },
+    "exp_boost": {
+      "name": "%COLOR_AQUA%Experience Boost",
+      "description": [
+        "%COLOR_GRAY%Gained experience increases.",
+        "%COLOR_GREEN%Experience gain +10% (per level)"
+      ]
+    },
+    "swiftness": {
+      "name": "%COLOR_SUCCESS%Swiftness",
+      "description": [
+        "%COLOR_GRAY%Movement speed increases.",
+        "%COLOR_GREEN%Movement speed +5% (per level)"
+      ]
+    },
+    "berserker_rage": {
+      "name": "%COLOR_DARK_RED%Berserker's Rage",
+      "description": [
+        "%COLOR_GRAY%Get stronger the lower your health.",
+        "%COLOR_GREEN%Strength +6, Vitality -2 (per level)",
+        "%COLOR_GREEN%Attack power +50% when health below 30%"
+      ]
+    },
+    "bloodthirst": {
+      "name": "%COLOR_DARK_RED%Bloodthirst",
+      "description": [
+        "%COLOR_GRAY%Recover health on enemy kills.",
+        "%COLOR_GREEN%Recover 5% max health on kill"
+      ]
+    },
+    "blood_bath": {
+      "name": "%COLOR_DARK_RED%Blood Bath",
+      "description": [
+        "%COLOR_GRAY%Absorb health on area attacks.",
+        "%COLOR_GREEN%Absorb 10% of area damage as health"
+      ]
+    },
+    "balanced_fighter": {
+      "name": "%COLOR_ORANGE%Balanced Fighter",
+      "description": [
+        "%COLOR_GRAY%All combat abilities increase evenly.",
+        "%COLOR_GREEN%Strength, Vitality, Dexterity +2 each (per level)"
+      ]
+    },
+    "adaptability": {
+      "name": "%COLOR_YELLOW%Adaptability",
+      "description": [
+        "%COLOR_GRAY%All resistances increase.",
+        "%COLOR_GREEN%Vitality +3 (per level)",
+        "%COLOR_GREEN%All resistances +2%"
+      ]
+    },
+    "counter_attack": {
+      "name": "%COLOR_INFO%Counter Attack",
+      "description": [
+        "%COLOR_GRAY%Counter on successful defense.",
+        "%COLOR_GREEN%30% chance to counter on defense"
+      ]
+    },
+    "fortitude": {
+      "name": "%COLOR_NETHERITE%Fortitude",
+      "description": [
+        "%COLOR_GRAY%Reduce incoming damage.",
+        "%COLOR_GREEN%Vitality +5 (per level)",
+        "%COLOR_GREEN%Damage taken -5%"
+      ]
+    },
+    "taunt": {
+      "name": "%COLOR_WARNING%Taunt",
+      "description": [
+        "%COLOR_GRAY%Focus enemy attacks on yourself.",
+        "%COLOR_GREEN%Gain aggro from nearby enemies"
+      ]
+    },
+    "iron_will": {
+      "name": "%COLOR_GRAY%Iron Will",
+      "description": [
+        "%COLOR_GRAY%Resist debuffs.",
+        "%COLOR_GREEN%Vitality +2, Wisdom +2 (per level)",
+        "%COLOR_GREEN%Debuff resistance +20%"
+      ]
+    },
+    "holy_light": {
+      "name": "%COLOR_LEGENDARY%Holy Light",
+      "description": [
+        "%COLOR_GRAY%Healing abilities are enhanced.",
+        "%COLOR_GREEN%Wisdom +3, Intelligence +2 (per level)",
+        "%COLOR_GREEN%Healing +10%"
+      ]
+    },
+    "blessing": {
+      "name": "%COLOR_GOLD%Blessing",
+      "description": [
+        "%COLOR_GRAY%Bestow blessings upon allies.",
+        "%COLOR_GREEN%Temporarily increase all ally stats"
+      ]
+    },
+    "sanctuary": {
+      "name": "%COLOR_EMERALD%Sanctuary",
+      "description": [
+        "%COLOR_GRAY%Create a holy area.",
+        "%COLOR_GREEN%Continuous healing for allies in range"
+      ]
+    },
+    "purification": {
+      "name": "%COLOR_WHITE%Purification",
+      "description": [
+        "%COLOR_GRAY%Remove debuffs.",
+        "%COLOR_GREEN%Instantly remove all debuffs"
+      ]
+    },
+    "dark_magic": {
+      "name": "%COLOR_DARK_PURPLE%Dark Magic",
+      "description": [
+        "%COLOR_GRAY%Wield the power of darkness.",
+        "%COLOR_GREEN%Intelligence +5 (per level)",
+        "%COLOR_GREEN%Dark damage +10%"
+      ]
+    },
+    "shadow_bolt": {
+      "name": "%COLOR_DARK_PURPLE%Shadow Bolt",
+      "description": [
+        "%COLOR_GRAY%Fire dark energy.",
+        "%COLOR_GREEN%Ranged dark damage"
+      ]
+    },
+    "life_drain": {
+      "name": "%COLOR_DARK_RED%Life Drain",
+      "description": [
+        "%COLOR_GRAY%Absorb enemy life force.",
+        "%COLOR_GREEN%Absorb 30% of damage as health"
+      ]
+    },
+    "dark_ritual": {
+      "name": "%COLOR_DARK_PURPLE%Dark Ritual",
+      "description": [
+        "%COLOR_GRAY%Cast powerful dark magic.",
+        "%COLOR_GREEN%Temporarily greatly increase all abilities"
+      ]
+    },
+    "eagle_eye": {
+      "name": "%COLOR_GREEN%Eagle Eye",
+      "description": [
+        "%COLOR_GRAY%Increase accuracy and range.",
+        "%COLOR_GREEN%Dexterity +3 (per level)",
+        "%COLOR_GREEN%Accuracy +10%, Range +2"
+      ]
+    },
+    "multishot": {
+      "name": "%COLOR_EMERALD%Multishot",
+      "description": [
+        "%COLOR_GRAY%Fire multiple arrows simultaneously.",
+        "%COLOR_GREEN%Fire 3 arrows at once"
+      ]
+    },
+    "wind_walker": {
+      "name": "%COLOR_AQUA%Wind Walker",
+      "description": [
+        "%COLOR_GRAY%Increase movement speed and evasion.",
+        "%COLOR_GREEN%Movement speed +10%, Evasion +5%"
+      ]
+    },
+    "poison_arrows": {
+      "name": "%COLOR_DARK_GREEN%Poison Arrows",
+      "description": [
+        "%COLOR_GRAY%Apply poison to arrows.",
+        "%COLOR_GREEN%Add poison damage on hit"
+      ]
+    },
+    "bow_mastery": {
+      "name": "%COLOR_COPPER%Bow Mastery",
+      "description": [
+        "%COLOR_GRAY%Improve bow usage abilities.",
+        "%COLOR_GREEN%Bow attack power +15%"
+      ]
+    },
+    "precision": {
+      "name": "%COLOR_YELLOW%Precision",
+      "description": [
+        "%COLOR_GRAY%Increase critical chance.",
+        "%COLOR_GREEN%Critical chance +10% (per level)"
+      ]
+    },
+    "camouflage": {
+      "name": "%COLOR_DARK_GREEN%Camouflage",
+      "description": [
+        "%COLOR_GRAY%Become undetectable by enemies.",
+        "%COLOR_GREEN%Stealth for 5 seconds"
+      ]
+    },
+    "headshot": {
+      "name": "%COLOR_RED%Headshot",
+      "description": [
+        "%COLOR_GRAY%Precisely aim for the head.",
+        "%COLOR_GREEN%Headshot damage +100%"
+      ]
+    },
+    "steady_aim": {
+      "name": "%COLOR_INFO%Steady Aim",
+      "description": [
+        "%COLOR_GRAY%Increase accuracy when stationary.",
+        "%COLOR_GREEN%Accuracy +30% when still"
+      ]
+    },
+    "scattershot": {
+      "name": "%COLOR_ORANGE%Scattershot",
+      "description": [
+        "%COLOR_GRAY%Spread arrows over a wide area.",
+        "%COLOR_GREEN%Fan-shaped area attack"
+      ]
+    },
+    "point_blank": {
+      "name": "%COLOR_ERROR%Point Blank",
+      "description": [
+        "%COLOR_GRAY%Deal lethal damage at ultra-close range.",
+        "%COLOR_GREEN%Close-range critical chance +50%"
+      ]
+    },
+    "explosive_shot": {
+      "name": "%COLOR_ORANGE%Explosive Shot",
+      "description": [
+        "%COLOR_GRAY%Explodes on impact.",
+        "%COLOR_GREEN%Area explosion damage"
+      ]
+    },
+    "quick_reload": {
+      "name": "%COLOR_YELLOW%Quick Reload",
+      "description": [
+        "%COLOR_GRAY%Increase reload speed.",
+        "%COLOR_GREEN%Dexterity +2 (per level)",
+        "%COLOR_GREEN%Reload time -20%"
+      ]
+    },
+    "double_barrel": {
+      "name": "%COLOR_NETHERITE%Double Barrel",
+      "description": [
+        "%COLOR_GRAY%Fire two shots simultaneously.",
+        "%COLOR_GREEN%Simultaneous double shot"
+      ]
+    }
   },
   "rarity": {
     "common": "%COLOR_COMMON%Common",
@@ -699,7 +745,7 @@
     "loading": "%COLOR_YELLOW%Loading...",
     "loading-description": "%COLOR_GRAY%Please wait",
     "saving": "%COLOR_YELLOW%Saving...",
-    "completed": "%COLOR_SUCCESS%Completed!",
+    "completed": "%COLOR_SUCCESS%Complete!",
     "failed": "%COLOR_ERROR%Failed!"
   }
 }

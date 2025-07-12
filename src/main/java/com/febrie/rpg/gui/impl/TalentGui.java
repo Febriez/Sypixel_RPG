@@ -217,10 +217,13 @@ public class TalentGui extends ScrollableGui {
             }
         }
 
-        // 좌우 테두리
+        // 좌우 테두리 (스크롤 버튼 위치 제외)
         for (int row = 1; row < 5; row++) {
             setItem(row * 9, GuiFactory.createDecoration());
-            setItem(row * 9 + 8, GuiFactory.createDecoration());
+            // 우측 테두리는 스크롤 버튼 위치를 피해서 설정
+            if (row * 9 + 8 != scrollUpSlot && row * 9 + 8 != scrollDownSlot) {
+                setItem(row * 9 + 8, GuiFactory.createDecoration());
+            }
         }
 
         // 하단 영역 (네비게이션)

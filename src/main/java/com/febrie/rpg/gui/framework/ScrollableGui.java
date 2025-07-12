@@ -29,6 +29,7 @@ import java.util.function.BiConsumer;
  * - 동적 크기 지원
  * - 범위 검증 강화
  * - 상수 사용으로 매직 넘버 제거
+ * - 스크롤 버튼 위치를 GUI 크기에 맞게 자동 조정
  *
  * @author Febrie, CoffeeTory
  */
@@ -71,9 +72,12 @@ public abstract class ScrollableGui extends BaseGui {
         this.scrollCols = SCROLL_END_COL - SCROLL_START_COL + 1;
         this.scrollSize = scrollRows * scrollCols;
 
-        // 스크롤 버튼 위치 계산
-        this.scrollUpSlot = 8; // 상단 우측
-        this.scrollDownSlot = size - 9 + 8; // 하단 우측
+        // 스크롤 버튼 위치 계산 - GUI 크기에서 한 줄씩 간격을 둠
+        // 상단 스크롤 버튼: 두 번째 줄 우측 (1 * 9 + 8 = 17)
+        this.scrollUpSlot = 1 * 9 + 8;
+
+        // 하단 스크롤 버튼: 마지막에서 두 번째 줄 우측
+        this.scrollDownSlot = (totalRows - 2) * 9 + 8;
 
         // 스크롤바 위치 계산 (우측 중간 영역)
         this.scrollBarStart = SCROLL_START_ROW * 9 + 8;
