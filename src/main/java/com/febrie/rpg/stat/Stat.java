@@ -8,7 +8,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -166,6 +165,7 @@ public class Stat {
      * 플레이어 스탯 홀더
      */
     public static class StatHolder {
+
         private final Map<Stat, Integer> baseStats = new HashMap<>();
         private final Map<Stat, Integer> bonusStats = new HashMap<>();
 
@@ -177,37 +177,33 @@ public class Stat {
             }
         }
 
-        // Stat.java의 StatHolder 클래스에 추가할 메서드들
-
         /**
          * DTO로 변환
          */
         @NotNull
         public StatsDTO toDTO() {
-            StatsDTO dto = new StatsDTO();
-
-            // 각 스탯의 기본값을 DTO에 설정
-            dto.setStrength(getBaseStat(Stat.STRENGTH));
-            dto.setIntelligence(getBaseStat(Stat.INTELLIGENCE));
-            dto.setDexterity(getBaseStat(Stat.DEXTERITY));
-            dto.setVitality(getBaseStat(Stat.VITALITY));
-            dto.setWisdom(getBaseStat(Stat.WISDOM));
-            dto.setLuck(getBaseStat(Stat.LUCK));
-
-            return dto;
+            // StatsDTO는 record이므로 생성자로 생성
+            return new StatsDTO(
+                    getBaseStat(Stat.STRENGTH),
+                    getBaseStat(Stat.INTELLIGENCE),
+                    getBaseStat(Stat.DEXTERITY),
+                    getBaseStat(Stat.VITALITY),
+                    getBaseStat(Stat.WISDOM),
+                    getBaseStat(Stat.LUCK)
+            );
         }
 
         /**
          * DTO에서 데이터 적용
          */
         public void applyFromDTO(@NotNull StatsDTO dto) {
-            // 각 스탯 설정
-            setBaseStat(Stat.STRENGTH, dto.getStrength());
-            setBaseStat(Stat.INTELLIGENCE, dto.getIntelligence());
-            setBaseStat(Stat.DEXTERITY, dto.getDexterity());
-            setBaseStat(Stat.VITALITY, dto.getVitality());
-            setBaseStat(Stat.WISDOM, dto.getWisdom());
-            setBaseStat(Stat.LUCK, dto.getLuck());
+            // record의 accessor 메소드 사용
+            setBaseStat(Stat.STRENGTH, dto.strength());
+            setBaseStat(Stat.INTELLIGENCE, dto.intelligence());
+            setBaseStat(Stat.DEXTERITY, dto.dexterity());
+            setBaseStat(Stat.VITALITY, dto.vitality());
+            setBaseStat(Stat.WISDOM, dto.wisdom());
+            setBaseStat(Stat.LUCK, dto.luck());
         }
 
         /**
@@ -221,20 +217,12 @@ public class Stat {
          * PDC에서 스탯 로드
          */
         public void loadFromPDC(@NotNull PersistentDataContainer pdc) {
-            for (Stat stat : Stat.values()) {
+            for (Stat stat : Stat.getAllStats().values()) {
                 Integer value = pdc.get(stat.getKey(), PersistentDataType.INTEGER);
                 if (value != null) {
                     setBaseStat(stat, value);
                 }
             }
-        }
-
-        /**
-         * 모든 스탯 값 가져오기
-         */
-        @NotNull
-        public static Collection<Stat> values() {
-            return REGISTRY.values();
         }
 
         /**

@@ -8,6 +8,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -138,20 +139,22 @@ public class Wallet {
      */
     @NotNull
     public WalletDTO toDTO() {
-        WalletDTO dto = new WalletDTO();
-
+        // 재화 정보를 Map<String, Long>으로 변환
+        Map<String, Long> currencies = new HashMap<>();
         for (Map.Entry<CurrencyType, Long> entry : balances.entrySet()) {
-            dto.setCurrency(entry.getKey().getId(), entry.getValue());
+            currencies.put(entry.getKey().getId(), entry.getValue());
         }
 
-        return dto;
+        // WalletDTO는 record이므로 생성자로 생성
+        return new WalletDTO(currencies, System.currentTimeMillis());
     }
 
     /**
      * DTO에서 데이터 적용
      */
     public void applyFromDTO(@NotNull WalletDTO dto) {
-        Map<String, Long> currencies = dto.getCurrencies();
+        // record의 accessor 메소드 사용
+        Map<String, Long> currencies = dto.currencies();
 
         for (Map.Entry<String, Long> entry : currencies.entrySet()) {
             try {

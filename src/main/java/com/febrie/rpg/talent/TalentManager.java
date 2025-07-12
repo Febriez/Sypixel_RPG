@@ -165,70 +165,21 @@ public class TalentManager {
                 .maxLevel(5)
                 .requiredPoints(2)
                 .category(Talent.TalentCategory.OFFENSE)
-                .addStatBonus(Stat.STRENGTH, 4)
-                .addEffect("체력 50% 이하일 때 공격력 +20%")
-                .pageId("berserker_offense") // 하위 페이지가 있음
+                .addStatBonus(Stat.STRENGTH, 6)
+                .addStatBonus(Stat.VITALITY, -2)
+                .addEffect("체력이 30% 이하일 때 공격력 +50%")
                 .build();
         registerJobTalent(berserkRage, JobType.BERSERKER, "main");
 
-        Talent bloodThirst = new Talent.Builder("blood_thirst")
+        Talent bloodThirst = new Talent.Builder("bloodthirst")
                 .icon(Material.REDSTONE_BLOCK)
-                .color(ColorUtil.HEALTH)
-                .maxLevel(3)
-                .requiredPoints(3)
-                .category(Talent.TalentCategory.OFFENSE)
-                .addEffect("공격 시 피해량의 15% 회복")
-                .build();
-        bloodThirst.addPrerequisite(berserkRage, 3);
-        berserkRage.addChild(bloodThirst);
-        registerJobTalent(bloodThirst, JobType.BERSERKER, "berserker_offense");
-
-        // 버서커 추가 특성들
-        Talent rampage = new Talent.Builder("rampage")
-                .icon(Material.TNT)
-                .color(ColorUtil.ERROR)
-                .maxLevel(3)
-                .requiredPoints(2)
-                .category(Talent.TalentCategory.OFFENSE)
-                .addStatBonus(Stat.STRENGTH, 3)
-                .addStatBonus(Stat.DEXTERITY, 2)
-                .addEffect("연속 처치 시 이동속도 +10%")
-                .build();
-        registerJobTalent(rampage, JobType.BERSERKER, "main");
-
-        Talent undyingRage = new Talent.Builder("undying_rage")
-                .icon(Material.TOTEM_OF_UNDYING)
-                .color(ColorUtil.LEGENDARY)
-                .maxLevel(1)
-                .requiredPoints(5)
-                .category(Talent.TalentCategory.SPECIAL)
-                .addEffect("체력 1% 이하에서 3초간 무적")
-                .build();
-        undyingRage.addPrerequisite(berserkRage, 5);
-        registerJobTalent(undyingRage, JobType.BERSERKER, "main");
-
-        // 추가 버서커 특성들
-        Talent weaponMastery = new Talent.Builder("berserker_weapon_mastery")
-                .icon(Material.NETHERITE_AXE)
-                .color(ColorUtil.COPPER)
-                .maxLevel(10)
+                .color(ColorUtil.DARK_RED)
+                .maxLevel(5)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.OFFENSE)
-                .addStatBonus(Stat.STRENGTH, 1)
-                .addEffect("무기 피해량 +2%")
+                .addEffect("적 처치 시 체력 회복 +5%")
                 .build();
-        registerJobTalent(weaponMastery, JobType.BERSERKER, "main");
-
-        Talent criticalStrike = new Talent.Builder("berserker_critical")
-                .icon(Material.GOLDEN_SWORD)
-                .color(ColorUtil.GOLD)
-                .maxLevel(5)
-                .requiredPoints(2)
-                .category(Talent.TalentCategory.OFFENSE)
-                .addStatBonus(Stat.LUCK, 2)
-                .addEffect("치명타 확률 +4%")
-                .build();
-        registerJobTalent(criticalStrike, JobType.BERSERKER, "main");
+        registerJobTalent(bloodThirst, JobType.BERSERKER, "main");
 
         Talent bloodBath = new Talent.Builder("blood_bath")
                 .icon(Material.RED_DYE)
@@ -296,30 +247,30 @@ public class TalentManager {
                 .addEffect("방패 방어 확률 +10%")
                 .addEffect("방패 방어 시 반격 가능")
                 .build();
-        shieldMastery.addPrerequisite(fortitude, 5);
         fortitude.addChild(shieldMastery);
         registerJobTalent(shieldMastery, JobType.TANK, "tank_defense");
 
-        Talent guardian = new Talent.Builder("guardian")
-                .icon(Material.IRON_CHESTPLATE)
-                .color(ColorUtil.WHITE)
+        Talent taunt = new Talent.Builder("taunt")
+                .icon(Material.BELL)
+                .color(ColorUtil.WARNING)
+                .maxLevel(3)
+                .requiredPoints(2)
+                .category(Talent.TalentCategory.UTILITY)
+                .addEffect("도발로 적 어그로 획득")
+                .build();
+        registerJobTalent(taunt, JobType.TANK, "main");
+
+        Talent ironWill = new Talent.Builder("iron_will")
+                .icon(Material.IRON_INGOT)
+                .color(ColorUtil.GRAY)
                 .maxLevel(5)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.DEFENSE)
-                .addStatBonus(Stat.VITALITY, 3)
-                .addEffect("주변 아군의 방어력 증가")
+                .addStatBonus(Stat.VITALITY, 2)
+                .addStatBonus(Stat.WISDOM, 2)
+                .addEffect("디버프 저항 +20%")
                 .build();
-        registerJobTalent(guardian, JobType.TANK, "main");
-
-        Talent lastStand = new Talent.Builder("last_stand")
-                .icon(Material.GOLDEN_APPLE)
-                .color(ColorUtil.LEGENDARY)
-                .maxLevel(1)
-                .requiredPoints(5)
-                .category(Talent.TalentCategory.SPECIAL)
-                .addEffect("체력 20% 이하에서 방어력 +100%")
-                .build();
-        registerJobTalent(lastStand, JobType.TANK, "main");
+        registerJobTalent(ironWill, JobType.TANK, "main");
     }
 
     /**
@@ -327,41 +278,25 @@ public class TalentManager {
      */
     private void initializeMageTalents() {
         // 사제 특성
-        Talent holyPower = new Talent.Builder("holy_power")
+        Talent holyLight = new Talent.Builder("holy_light")
                 .icon(Material.GLOWSTONE_DUST)
                 .color(ColorUtil.LEGENDARY)
                 .maxLevel(5)
                 .requiredPoints(1)
-                .category(Talent.TalentCategory.OFFENSE)
-                .addStatBonus(Stat.INTELLIGENCE, 3)
-                .addStatBonus(Stat.WISDOM, 2)
-                .addEffect("언데드에게 추가 피해 +25%")
-                .pageId("priest_healing") // 하위 페이지
+                .category(Talent.TalentCategory.UTILITY)
+                .addStatBonus(Stat.WISDOM, 3)
+                .addStatBonus(Stat.INTELLIGENCE, 2)
+                .addEffect("치유량 +10%")
                 .build();
-        registerJobTalent(holyPower, JobType.PRIEST, "main");
+        registerJobTalent(holyLight, JobType.PRIEST, "main");
 
-        Talent divineHealing = new Talent.Builder("divine_healing")
+        Talent blessing = new Talent.Builder("blessing")
                 .icon(Material.GOLDEN_APPLE)
-                .color(ColorUtil.SUCCESS)
+                .color(ColorUtil.GOLD)
                 .maxLevel(3)
                 .requiredPoints(2)
                 .category(Talent.TalentCategory.UTILITY)
-                .addStatBonus(Stat.WISDOM, 5)
-                .addEffect("치유 효과 +30%")
-                .build();
-        divineHealing.addPrerequisite(holyPower, 3);
-        holyPower.addChild(divineHealing);
-        registerJobTalent(divineHealing, JobType.PRIEST, "priest_healing");
-
-        // 사제 추가 특성
-        Talent blessing = new Talent.Builder("blessing")
-                .icon(Material.SUNFLOWER)
-                .color(ColorUtil.YELLOW)
-                .maxLevel(5)
-                .requiredPoints(1)
-                .category(Talent.TalentCategory.UTILITY)
-                .addStatBonus(Stat.WISDOM, 2)
-                .addEffect("버프 지속시간 +10%")
+                .addEffect("축복 효과 지속시간 +30%")
                 .build();
         registerJobTalent(blessing, JobType.PRIEST, "main");
 
@@ -569,53 +504,40 @@ public class TalentManager {
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.OFFENSE)
                 .addStatBonus(Stat.DEXTERITY, 2)
-                .addStatBonus(Stat.LUCK, 3)
-                .addEffect("치명타 확률 +20%")
-                .pageId("sniper_special") // 하위 페이지
+                .addStatBonus(Stat.LUCK, 1)
+                .addEffect("치명타 확률 +10%")
+                .addEffect("치명타 피해 +25%")
                 .build();
         registerJobTalent(precision, JobType.SNIPER, "main");
 
-        Talent assassination = new Talent.Builder("assassination")
-                .icon(Material.IRON_SWORD)
-                .color(ColorUtil.ERROR)
-                .maxLevel(1)
-                .requiredPoints(5)
-                .category(Talent.TalentCategory.SPECIAL)
-                .addEffect("은신 상태에서 첫 공격 시 300% 피해")
-                .build();
-        assassination.addPrerequisite(precision, 5);
-        precision.addChild(assassination);
-        registerJobTalent(assassination, JobType.SNIPER, "sniper_special");
-
-        // 스나이퍼 추가 특성
         Talent camouflage = new Talent.Builder("camouflage")
-                .icon(Material.TALL_GRASS)
-                .color(ColorUtil.DARK_GREEN)
+                .icon(Material.GRAY_DYE)
+                .color(ColorUtil.GRAY)
                 .maxLevel(3)
                 .requiredPoints(2)
-                .category(Talent.TalentCategory.UTILITY)
-                .addEffect("정지 시 투명화")
+                .category(Talent.TalentCategory.DEFENSE)
+                .addEffect("정지 시 은신 효과")
                 .build();
         registerJobTalent(camouflage, JobType.SNIPER, "main");
 
-        Talent longRange = new Talent.Builder("long_range")
-                .icon(Material.ENDER_PEARL)
-                .color(ColorUtil.CYAN)
-                .maxLevel(5)
-                .requiredPoints(1)
+        Talent headshot = new Talent.Builder("headshot")
+                .icon(Material.WITHER_SKELETON_SKULL)
+                .color(ColorUtil.DARK_RED)
+                .maxLevel(3)
+                .requiredPoints(3)
                 .category(Talent.TalentCategory.OFFENSE)
-                .addEffect("거리에 따른 피해 증가")
+                .addEffect("헤드샷 시 즉사 확률 +5%")
                 .build();
-        registerJobTalent(longRange, JobType.SNIPER, "main");
+        registerJobTalent(headshot, JobType.SNIPER, "main");
 
         Talent steadyAim = new Talent.Builder("steady_aim")
-                .icon(Material.TRIPWIRE_HOOK)
-                .color(ColorUtil.GRAY)
-                .maxLevel(3)
+                .icon(Material.IRON_BARS)
+                .color(ColorUtil.IRON)
+                .maxLevel(5)
                 .requiredPoints(1)
-                .category(Talent.TalentCategory.OFFENSE)
+                .category(Talent.TalentCategory.UTILITY)
                 .addStatBonus(Stat.DEXTERITY, 3)
-                .addEffect("조준 시간 감소")
+                .addEffect("조준 중 흔들림 감소")
                 .build();
         registerJobTalent(steadyAim, JobType.SNIPER, "main");
 
@@ -627,8 +549,8 @@ public class TalentManager {
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.OFFENSE)
                 .addStatBonus(Stat.STRENGTH, 2)
-                .addStatBonus(Stat.DEXTERITY, 2)
-                .addEffect("근거리 피해 +30%")
+                .addStatBonus(Stat.DEXTERITY, 1)
+                .addEffect("산탄 범위 +20%")
                 .build();
         registerJobTalent(scattershot, JobType.SHOTGUNNER, "main");
 
@@ -679,6 +601,10 @@ public class TalentManager {
      * 특성 등록
      */
     private void registerTalent(@NotNull Talent talent, @NotNull String pageId) {
+        // Talent 클래스의 REGISTRY에도 등록
+        Talent.register(talent);
+
+        // TalentManager의 맵에도 등록
         allTalents.put(talent.getId(), talent);
         talentPages.computeIfAbsent(pageId, k -> new ArrayList<>()).add(talent);
     }
@@ -712,52 +638,27 @@ public class TalentManager {
      */
     @NotNull
     public List<Talent> getJobMainTalents(@NotNull JobType job) {
-        List<Talent> mainTalents = new ArrayList<>();
+        List<Talent> jobMainTalents = new ArrayList<>();
 
-        // 공통 특성 (기본 스탯 특성만)
-        String[] commonTalentIds = {"basic_strength", "basic_intelligence", "basic_vitality",
-                "basic_dexterity", "basic_wisdom", "basic_luck",
-                "exp_boost", "swiftness"};
-
-        for (String id : commonTalentIds) {
-            Talent talent = getTalent(id);
-            if (talent != null) {
-                mainTalents.add(talent);
+        // 직업별 특성
+        List<Talent> jobSpecificTalents = jobTalents.getOrDefault(job, new ArrayList<>());
+        for (Talent talent : jobSpecificTalents) {
+            // 메인 페이지의 특성만 추가
+            if (talentPages.getOrDefault("main", new ArrayList<>()).contains(talent)) {
+                jobMainTalents.add(talent);
             }
         }
 
-        // 직업별 특성 - 해당 직업의 것만!
-        List<Talent> jobSpecific = jobTalents.get(job);
-        if (jobSpecific != null) {
-            for (Talent talent : jobSpecific) {
-                // 최상위 특성만 (parent가 없는 것)
-                // 그리고 "main" 페이지의 특성만
-                if (talent.getParent() == null &&
-                        getPageTalents("main").contains(talent)) {
-                    mainTalents.add(talent);
-                }
+        // 공통 특성도 추가
+        List<Talent> commonTalents = talentPages.getOrDefault("main", new ArrayList<>());
+        for (Talent talent : commonTalents) {
+            // 직업 제한이 없는 특성만 추가
+            if (!jobMainTalents.contains(talent) && talent.canLearn(job)) {
+                jobMainTalents.add(talent);
             }
         }
 
-        return mainTalents;
-    }
-
-    /**
-     * 특정 특성의 하위 페이지 특성 목록 가져오기
-     */
-    @NotNull
-    public List<Talent> getSubPageTalents(@NotNull String pageId, @NotNull JobType job) {
-        List<Talent> pageTalents = getPageTalents(pageId);
-
-        // 직업에 맞는 특성만 필터링
-        if (job != null) {
-            pageTalents.removeIf(talent -> {
-                List<Talent> jobTalentList = jobTalents.get(job);
-                return jobTalentList == null || !jobTalentList.contains(talent);
-            });
-        }
-
-        return pageTalents;
+        return jobMainTalents;
     }
 
     /**

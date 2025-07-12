@@ -29,6 +29,8 @@ public class Talent {
     private final Material icon;
     private final TextColor color;
     private final int maxLevel;
+    private final int requiredPoints;
+    private final TalentCategory category;
     private final JobType requiredJob;
 
     // 특성 트리 관련
@@ -46,7 +48,9 @@ public class Talent {
 
     private static final Map<String, Talent> REGISTRY = new HashMap<>();
 
-
+    /**
+     * 기본 생성자
+     */
     private Talent(@NotNull String id, @NotNull Material icon,
                    @NotNull TextColor color, int maxLevel,
                    @Nullable JobType requiredJob) {
@@ -54,7 +58,26 @@ public class Talent {
         this.icon = icon;
         this.color = color;
         this.maxLevel = maxLevel;
+        this.requiredPoints = 1; // 기본값
+        this.category = TalentCategory.UTILITY; // 기본값
         this.requiredJob = requiredJob;
+    }
+
+    /**
+     * Builder를 통한 생성자
+     */
+    private Talent(@NotNull Builder builder) {
+        this.id = builder.id;
+        this.icon = builder.icon;
+        this.color = builder.color;
+        this.maxLevel = builder.maxLevel;
+        this.requiredPoints = builder.requiredPoints;
+        this.category = builder.category;
+        this.requiredJob = null; // Builder에서는 직업 제한이 없음
+        this.statBonuses.putAll(builder.statBonuses);
+        this.effects.addAll(builder.effects);
+        this.hasSubPage = builder.hasSubPage;
+        this.pageId = builder.pageId;
     }
 
     /**
@@ -93,7 +116,7 @@ public class Talent {
     /**
      * 특성 등록
      */
-    private static Talent register(@NotNull Talent talent) {
+    public static Talent register(@NotNull Talent talent) {
         REGISTRY.put(talent.id, talent);
         return talent;
     }
@@ -363,7 +386,7 @@ public class Talent {
                 NamespacedKey talentKey = new NamespacedKey("sypixelrpg", "talent_" + talent.getId());
                 Integer level = pdc.get(talentKey, PersistentDataType.INTEGER);
                 if (level != null && level > 0) {
-                    learnedTalents.put(talent, level);
+                    talentLevels.put(talent, level);
                 }
             }
         }
@@ -376,7 +399,7 @@ public class Talent {
             pdc.set(KEY_TALENT_POINTS, PersistentDataType.INTEGER, availablePoints);
 
             // 배운 특성들 저장
-            for (Map.Entry<Talent, Integer> entry : learnedTalents.entrySet()) {
+            for (Map.Entry<Talent, Integer> entry : talentLevels.entrySet()) {
                 NamespacedKey talentKey = new NamespacedKey("sypixelrpg", "talent_" + entry.getKey().getId());
                 pdc.set(talentKey, PersistentDataType.INTEGER, entry.getValue());
             }
@@ -397,19 +420,14 @@ public class Talent {
          */
         @NotNull
         public TalentDTO toDTO() {
-            TalentDTO dto = new TalentDTO();
-
-            // 사용 가능한 포인트
-            dto.setAvailablePoints(availablePoints);
-
-            // 배운 특성들
+            // 배운 특성들을 Map<String, Integer>로 변환
             Map<String, Integer> learnedTalentsMap = new HashMap<>();
-            for (Map.Entry<Talent, Integer> entry : learnedTalents.entrySet()) {
+            for (Map.Entry<Talent, Integer> entry : talentLevels.entrySet()) {
                 learnedTalentsMap.put(entry.getKey().getId(), entry.getValue());
             }
-            dto.setLearnedTalents(learnedTalentsMap);
 
-            return dto;
+            // TalentDTO는 record이므로 생성자로 생성
+            return new TalentDTO(availablePoints, learnedTalentsMap);
         }
 
         /**
@@ -417,17 +435,17 @@ public class Talent {
          */
         public void applyFromDTO(@NotNull TalentDTO dto) {
             // 사용 가능한 포인트 설정
-            this.availablePoints = dto.getAvailablePoints();
+            this.availablePoints = dto.availablePoints();
 
             // 배운 특성들 설정
-            this.learnedTalents.clear();
-            Map<String, Integer> learnedTalentsMap = dto.getLearnedTalents();
+            this.talentLevels.clear();
+            Map<String, Integer> learnedTalentsMap = dto.learnedTalents();
 
             for (Map.Entry<String, Integer> entry : learnedTalentsMap.entrySet()) {
                 try {
                     Talent talent = Talent.getById(entry.getKey());
                     if (talent != null) {
-                        this.learnedTalents.put(talent, entry.getValue());
+                        this.talentLevels.put(talent, entry.getValue());
                     }
                 } catch (Exception e) {
                     // 알 수 없는 특성 ID는 무시

@@ -75,6 +75,8 @@ public final class ColorUtil {
     public static final TextColor NETHERITE = TextColor.color(68, 58, 69); // #443A45
     public static final TextColor COPPER = TextColor.color(184, 115, 51); // #B87333
     public static final TextColor EMERALD = TextColor.color(80, 200, 120); // #50C878
+    public static final TextColor IRON = TextColor.color(176, 176, 176); // #B0B0B0
+
 
     // 색상 캐시 (성능 최적화)
     private static final Map<String, TextColor> COLOR_CACHE = new HashMap<>();

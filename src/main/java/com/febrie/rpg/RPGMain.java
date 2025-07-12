@@ -100,7 +100,7 @@ public final class RPGMain extends JavaPlugin {
         // 명령어 초기화
         this.profileCommand = new ProfileCommand(this, langManager, guiManager);
         this.mainMenuCommand = new MainMenuCommand(this, langManager, guiManager);
-        this.adminCommands = new AdminCommands(this);
+        this.adminCommands = new AdminCommands(this, langManager);
         LogUtil.info("명령어 시스템 초기화 완료");
     }
 
