@@ -96,7 +96,14 @@
     "total-entries": "%COLOR_WHITE%전체 항목: %COLOR_GREEN%{count}",
     "rank-info": "%COLOR_WHITE%순위: %COLOR_YELLOW%#{rank}",
     "value-info": "%COLOR_WHITE%{type}: %COLOR_GREEN%{value}",
-    "this-is-you": "%COLOR_SUCCESS%▶ 나의 순위입니다!"
+    "this-is-you": "%COLOR_SUCCESS%▶ 나의 순위입니다!",
+    "tab-selected": "%COLOR_SUCCESS%▶ 현재 선택됨",
+    "tab-click": "%COLOR_YELLOW%▶ 클릭하여 보기",
+    "no-rank-data": "%COLOR_GRAY%순위 데이터가 없습니다",
+    "play-more": "%COLOR_GRAY%더 플레이하여 순위에 도전하세요!",
+    "loading-description": "%COLOR_GRAY%순위를 불러오는 중입니다...",
+    "my-rank": "%COLOR_WHITE%내 순위: %COLOR_YELLOW%#{rank}",
+    "my-value": "%COLOR_WHITE%내 {type}: %COLOR_GREEN%{value}"
   },
   "stats": {
     "title": "%COLOR_LEGENDARY%스탯 관리",
@@ -105,7 +112,19 @@
     "click-to-add": "%COLOR_YELLOW%▶ 클릭하여 포인트 추가",
     "shift-click-to-add": "%COLOR_INFO%▶ Shift+클릭으로 5포인트 추가",
     "current-value": "%COLOR_WHITE%현재: %COLOR_GREEN%{value}",
-    "cost": "%COLOR_GRAY%비용: {cost} 포인트"
+    "cost": "%COLOR_GRAY%비용: {cost} 포인트",
+    "combat-power": "%COLOR_WHITE%전투력: %COLOR_LEGENDARY%{power}",
+    "stat-points": "%COLOR_YELLOW%스탯 포인트",
+    "available-points": "%COLOR_SUCCESS%사용 가능: %COLOR_YELLOW%{points} 포인트",
+    "total-allocated": "%COLOR_WHITE%총 할당됨: %COLOR_GRAY%{points} 포인트",
+    "points-per-level": "%COLOR_GRAY%레벨당 3 포인트 획득",
+    "guide-title": "%COLOR_INFO%스탯 가이드",
+    "guide-click-add": "%COLOR_YELLOW%▶ 좌클릭: 1포인트 추가",
+    "guide-shift-click": "%COLOR_INFO%▶ Shift+좌클릭: 10포인트 추가",
+    "base-value": "%COLOR_WHITE%기본값: %COLOR_GRAY%{value}",
+    "bonus-value": "%COLOR_WHITE%보너스: %COLOR_GREEN%+{value}",
+    "total-value": "%COLOR_WHITE%총합: %COLOR_YELLOW%{value}",
+    "click-talents": "%COLOR_GRAY%특성 관리로 이동"
   },
   "talents": {
     "title": "%COLOR_LEGENDARY%특성 관리",
@@ -117,7 +136,28 @@
     "click-to-unlock": "%COLOR_YELLOW%▶ 클릭하여 잠금 해제",
     "level-requirement": "%COLOR_WHITE%필요 레벨: %COLOR_YELLOW%{level}",
     "talent-requirement": "%COLOR_WHITE%필요 특성: %COLOR_INFO%{talent}",
-    "current-level": "%COLOR_WHITE%현재 레벨: %COLOR_GREEN%{level}/{max}"
+    "current-level": "%COLOR_WHITE%현재 레벨: %COLOR_GREEN%{level}/{max}",
+    "title-with-page": "%COLOR_LEGENDARY%특성 관리 - {page}",
+    "level": "%COLOR_WHITE%레벨: %COLOR_YELLOW%{level}",
+    "job": "%COLOR_WHITE%직업: %COLOR_INFO%{job}",
+    "no-job": "%COLOR_GRAY%직업 없음",
+    "page-info": "%COLOR_INFO%페이지 정보",
+    "current-page": "%COLOR_WHITE%현재 페이지: %COLOR_YELLOW%{page}",
+    "available-points": "%COLOR_SUCCESS%사용 가능 포인트: %COLOR_YELLOW%{points}",
+    "talent-level": "%COLOR_WHITE%레벨: %COLOR_YELLOW%{current}/{max}",
+    "talent-level-max": "%COLOR_GOLD%레벨: {current}/{max} (최대)",
+    "required-points": "%COLOR_WHITE%필요 포인트: %COLOR_YELLOW%{points}",
+    "prerequisites": "%COLOR_YELLOW%선행 조건:",
+    "max-level-reached": "%COLOR_GOLD%✦ 최대 레벨 도달!",
+    "click-learn": "%COLOR_SUCCESS%▶ 클릭하여 배우기",
+    "insufficient-points": "%COLOR_ERROR%포인트가 부족합니다",
+    "prerequisite-not-met": "%COLOR_ERROR%선행 조건을 만족하지 않습니다",
+    "click-subpage": "%COLOR_INFO%▶ 우클릭으로 하위 페이지 열기",
+    "talent-learned": "%COLOR_SUCCESS%{talent} 특성을 배웠습니다!",
+    "pages": {
+      "main": "메인",
+      "default": "기본"
+    }
   },
   "settings": {
     "title": "%COLOR_LEGENDARY%설정",

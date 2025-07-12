@@ -54,7 +54,14 @@
     "max-level": "%COLOR_INFO%Max Level: %COLOR_YELLOW%{level}",
     "warning": "%COLOR_ERROR%⚠ Warning: Jobs cannot be changed once selected!",
     "click-to-choose": "%COLOR_SUCCESS%▶ Click to choose this job",
-    "selected": "%COLOR_SUCCESS%▶ Selected"
+    "selected": "%COLOR_SUCCESS%▶ Selected",
+    "tab-selected": "%COLOR_SUCCESS%▶ Currently selected",
+    "tab-click": "%COLOR_YELLOW%▶ Click to view",
+    "no-rank-data": "%COLOR_GRAY%No ranking data available",
+    "play-more": "%COLOR_GRAY%Play more to compete for rankings!",
+    "loading-description": "%COLOR_GRAY%Loading rankings...",
+    "my-rank": "%COLOR_WHITE%My Rank: %COLOR_YELLOW%#{rank}",
+    "my-value": "%COLOR_WHITE%My {type}: %COLOR_GREEN%{value}"
   },
   "job-confirmation": {
     "title": "%COLOR_LEGENDARY%Job Selection Confirmation",
@@ -105,7 +112,19 @@
     "click-to-add": "%COLOR_YELLOW%▶ Click to add point",
     "shift-click-to-add": "%COLOR_INFO%▶ Shift+Click to add 5 points",
     "current-value": "%COLOR_WHITE%Current: %COLOR_GREEN%{value}",
-    "cost": "%COLOR_GRAY%Cost: {cost} points"
+    "cost": "%COLOR_GRAY%Cost: {cost} points",
+    "combat-power": "%COLOR_WHITE%Combat Power: %COLOR_LEGENDARY%{power}",
+    "stat-points": "%COLOR_YELLOW%Stat Points",
+    "available-points": "%COLOR_SUCCESS%Available: %COLOR_YELLOW%{points} Points",
+    "total-allocated": "%COLOR_WHITE%Total Allocated: %COLOR_GRAY%{points} Points",
+    "points-per-level": "%COLOR_GRAY%Gain 3 points per level",
+    "guide-title": "%COLOR_INFO%Stat Guide",
+    "guide-click-add": "%COLOR_YELLOW%▶ Left Click: Add 1 point",
+    "guide-shift-click": "%COLOR_INFO%▶ Shift+Left Click: Add 10 points",
+    "base-value": "%COLOR_WHITE%Base: %COLOR_GRAY%{value}",
+    "bonus-value": "%COLOR_WHITE%Bonus: %COLOR_GREEN%+{value}",
+    "total-value": "%COLOR_WHITE%Total: %COLOR_YELLOW%{value}",
+    "click-talents": "%COLOR_GRAY%Go to Talent Management"
   },
   "talents": {
     "title": "%COLOR_LEGENDARY%Talent Management",
@@ -117,7 +136,28 @@
     "click-to-unlock": "%COLOR_YELLOW%▶ Click to unlock",
     "level-requirement": "%COLOR_WHITE%Required Level: %COLOR_YELLOW%{level}",
     "talent-requirement": "%COLOR_WHITE%Required Talent: %COLOR_INFO%{talent}",
-    "current-level": "%COLOR_WHITE%Current Level: %COLOR_GREEN%{level}/{max}"
+    "current-level": "%COLOR_WHITE%Current Level: %COLOR_GREEN%{level}/{max}",
+    "title-with-page": "%COLOR_LEGENDARY%Talent Management - {page}",
+    "level": "%COLOR_WHITE%Level: %COLOR_YELLOW%{level}",
+    "job": "%COLOR_WHITE%Job: %COLOR_INFO%{job}",
+    "no-job": "%COLOR_GRAY%No Job",
+    "page-info": "%COLOR_INFO%Page Info",
+    "current-page": "%COLOR_WHITE%Current Page: %COLOR_YELLOW%{page}",
+    "available-points": "%COLOR_SUCCESS%Available Points: %COLOR_YELLOW%{points}",
+    "talent-level": "%COLOR_WHITE%Level: %COLOR_YELLOW%{current}/{max}",
+    "talent-level-max": "%COLOR_GOLD%Level: {current}/{max} (MAX)",
+    "required-points": "%COLOR_WHITE%Required Points: %COLOR_YELLOW%{points}",
+    "prerequisites": "%COLOR_YELLOW%Prerequisites:",
+    "max-level-reached": "%COLOR_GOLD%✦ Max level reached!",
+    "click-learn": "%COLOR_SUCCESS%▶ Click to learn",
+    "insufficient-points": "%COLOR_ERROR%Insufficient points",
+    "prerequisite-not-met": "%COLOR_ERROR%Prerequisites not met",
+    "click-subpage": "%COLOR_INFO%▶ Right-click to open sub-page",
+    "talent-learned": "%COLOR_SUCCESS%Learned {talent} talent!",
+    "pages": {
+      "main": "Main",
+      "default": "Default"
+    }
   },
   "settings": {
     "title": "%COLOR_LEGENDARY%Settings",
