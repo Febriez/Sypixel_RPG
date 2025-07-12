@@ -1,64 +1,38 @@
 package com.febrie.rpg.dto;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 플레이어 재화 정보 DTO
- * Firebase 저장용
+ * 플레이어 재화 정보 DTO (Record)
+ * Firebase 저장용 불변 데이터 구조
  *
  * @author Febrie, CoffeeTory
  */
-public class WalletDTO {
-
-    private Map<String, Long> currencies = new HashMap<>();
-    private long lastUpdated = System.currentTimeMillis();
-
+public record WalletDTO(
+        Map<String, Long> currencies,
+        long lastUpdated
+) {
+    /**
+     * 기본 생성자 - 신규 플레이어용
+     */
     public WalletDTO() {
-        // 기본 생성자
+        this(new HashMap<>(), System.currentTimeMillis());
     }
 
     /**
-     * 특정 통화 설정
+     * 방어적 복사를 위한 생성자
      */
-    public void setCurrency(@NotNull String currencyId, long amount) {
-        currencies.put(currencyId, amount);
-        lastUpdated = System.currentTimeMillis();
-    }
-
-    /**
-     * 특정 통화 조회
-     */
-    public long getCurrency(@NotNull String currencyId) {
-        return currencies.getOrDefault(currencyId, 0L);
-    }
-
-    /**
-     * 모든 통화 정보 가져오기
-     */
-    @NotNull
-    public Map<String, Long> getCurrencies() {
-        return new HashMap<>(currencies);
-    }
-
-    /**
-     * 모든 통화 정보 설정
-     */
-    public void setCurrencies(@NotNull Map<String, Long> currencies) {
+    public WalletDTO(Map<String, Long> currencies, long lastUpdated) {
         this.currencies = new HashMap<>(currencies);
-        this.lastUpdated = System.currentTimeMillis();
+        this.lastUpdated = lastUpdated;
     }
 
     /**
-     * 마지막 업데이트 시간
+     * 재화 맵의 불변 뷰 반환
      */
-    public long getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(long lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    @Override
+    public Map<String, Long> currencies() {
+        return new HashMap<>(currencies);
     }
 }

@@ -1,58 +1,38 @@
 package com.febrie.rpg.dto;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 플레이어 특성 정보 DTO
- * Firebase 저장용
+ * 플레이어 특성 정보 DTO (Record)
+ * Firebase 저장용 불변 데이터 구조
  *
  * @author Febrie, CoffeeTory
  */
-public class TalentDTO {
-
-    private int availablePoints = 0;
-    private Map<String, Integer> learnedTalents = new HashMap<>();
-
+public record TalentDTO(
+        int availablePoints,
+        Map<String, Integer> learnedTalents
+) {
+    /**
+     * 기본 생성자 - 신규 플레이어용
+     */
     public TalentDTO() {
-        // 기본 생성자
+        this(0, new HashMap<>());
     }
 
-    // Getters and Setters
-    public int getAvailablePoints() {
-        return availablePoints;
-    }
-
-    public void setAvailablePoints(int availablePoints) {
+    /**
+     * 방어적 복사를 위한 생성자
+     */
+    public TalentDTO(int availablePoints, Map<String, Integer> learnedTalents) {
         this.availablePoints = availablePoints;
-    }
-
-    @NotNull
-    public Map<String, Integer> getLearnedTalents() {
-        return new HashMap<>(learnedTalents);
-    }
-
-    public void setLearnedTalents(@NotNull Map<String, Integer> learnedTalents) {
         this.learnedTalents = new HashMap<>(learnedTalents);
     }
 
     /**
-     * 특정 특성 레벨 가져오기
+     * 학습한 특성 맵의 불변 뷰 반환
      */
-    public int getTalentLevel(@NotNull String talentId) {
-        return learnedTalents.getOrDefault(talentId, 0);
-    }
-
-    /**
-     * 특정 특성 레벨 설정
-     */
-    public void setTalentLevel(@NotNull String talentId, int level) {
-        if (level > 0) {
-            learnedTalents.put(talentId, level);
-        } else {
-            learnedTalents.remove(talentId);
-        }
+    @Override
+    public Map<String, Integer> learnedTalents() {
+        return new HashMap<>(learnedTalents);
     }
 }
