@@ -20,38 +20,91 @@ import java.util.function.BiConsumer;
 /**
  * 스크롤 가능한 GUI 추상 클래스
  * 버튼을 통해 위아래로 스크롤할 수 있는 기능 제공
+ * <p>
+ * 개선사항:
+ * - 동적 크기 지원
+ * - 범위 검증 강화
+ * - 상수 사용으로 매직 넘버 제거
  *
  * @author Febrie, CoffeeTory
  */
 public abstract class ScrollableGui implements InteractiveGui {
 
     // GUI 크기 상수
-    protected static final int ROWS = 6;
-    protected static final int COLS = 9;
-    protected static final int GUI_SIZE = ROWS * COLS;
+    protected static final int MIN_GUI_SIZE = 27; // 최소 3줄
+    protected static final int DEFAULT_GUI_SIZE = 54; // 기본 6줄
+    protected static final int ROWS_PER_PAGE = 9;
 
-    // 스크롤 영역 설정
+    // 스크롤 영역 설정 (상대적 위치)
     protected static final int SCROLL_START_ROW = 1;
-    protected static final int SCROLL_END_ROW = 4;
+    protected static final int SCROLL_END_ROW_OFFSET = 2; // 마지막에서 2줄 위
     protected static final int SCROLL_START_COL = 1;
     protected static final int SCROLL_END_COL = 7;
-    protected static final int SCROLL_ROWS = SCROLL_END_ROW - SCROLL_START_ROW + 1;
-    protected static final int SCROLL_COLS = SCROLL_END_COL - SCROLL_START_COL + 1;
-    protected static final int SCROLL_SIZE = SCROLL_ROWS * SCROLL_COLS;
-
-    // 스크롤 버튼 위치
-    protected static final int SCROLL_UP_SLOT = 8;
-    protected static final int SCROLL_DOWN_SLOT = 44;
-    protected static final int SCROLL_BAR_START = 17;
-    protected static final int SCROLL_BAR_END = 35;
 
     protected final Player viewer;
     protected Inventory inventory;
     protected int currentScroll = 0;
     protected List<GuiItem> scrollableItems = new ArrayList<>();
 
+    // 동적 계산 값들
+    protected final int guiSize;
+    protected final int totalRows;
+    protected final int scrollEndRow;
+    protected final int scrollRows;
+    protected final int scrollCols;
+    protected final int scrollSize;
+
+    // 스크롤 버튼 위치 (동적)
+    protected final int scrollUpSlot;
+    protected final int scrollDownSlot;
+    protected final int scrollBarStart;
+    protected final int scrollBarEnd;
+
     public ScrollableGui(@NotNull Player viewer) {
+        this(viewer, DEFAULT_GUI_SIZE);
+    }
+
+    public ScrollableGui(@NotNull Player viewer, int size) {
         this.viewer = viewer;
+
+        // 크기 검증
+        this.guiSize = validateSize(size);
+        this.totalRows = guiSize / ROWS_PER_PAGE;
+
+        // 스크롤 영역 계산
+        this.scrollEndRow = Math.max(SCROLL_START_ROW + 1, totalRows - SCROLL_END_ROW_OFFSET);
+        this.scrollRows = scrollEndRow - SCROLL_START_ROW + 1;
+        this.scrollCols = SCROLL_END_COL - SCROLL_START_COL + 1;
+        this.scrollSize = scrollRows * scrollCols;
+
+        // 스크롤 버튼 위치 계산
+        this.scrollUpSlot = 8; // 상단 우측
+        this.scrollDownSlot = guiSize - 9 + 8; // 하단 우측
+
+        // 스크롤바 위치 계산 (우측 중간 영역)
+        this.scrollBarStart = SCROLL_START_ROW * 9 + 8;
+        this.scrollBarEnd = scrollEndRow * 9 + 8;
+    }
+
+    /**
+     * 크기 검증
+     */
+    private int validateSize(int size) {
+        // 9의 배수로 조정
+        int adjusted = ((size + 8) / 9) * 9;
+
+        // 최소 크기 보장
+        if (adjusted < MIN_GUI_SIZE) {
+            return MIN_GUI_SIZE;
+        }
+
+        // 최대 크기 제한
+        return Math.min(adjusted, 54);
+    }
+
+    @Override
+    public int getSize() {
+        return guiSize;
     }
 
     /**
@@ -79,8 +132,12 @@ public abstract class ScrollableGui implements InteractiveGui {
      * 현재 스크롤 위치에서 보여질 아이템들 가져오기
      */
     protected List<GuiItem> getVisibleItems() {
-        int startIndex = currentScroll * SCROLL_COLS;
-        int endIndex = Math.min(startIndex + SCROLL_SIZE, scrollableItems.size());
+        int startIndex = currentScroll * scrollCols;
+        int endIndex = Math.min(startIndex + scrollSize, scrollableItems.size());
+
+        if (startIndex >= scrollableItems.size()) {
+            return new ArrayList<>();
+        }
 
         return scrollableItems.subList(startIndex, endIndex);
     }
@@ -89,8 +146,12 @@ public abstract class ScrollableGui implements InteractiveGui {
      * 최대 스크롤 값 계산
      */
     protected int getMaxScroll() {
-        int totalRows = (int) Math.ceil((double) scrollableItems.size() / SCROLL_COLS);
-        return Math.max(0, totalRows - SCROLL_ROWS);
+        if (scrollableItems.isEmpty()) {
+            return 0;
+        }
+
+        int totalRows = (int) Math.ceil((double) scrollableItems.size() / scrollCols);
+        return Math.max(0, totalRows - scrollRows);
     }
 
     /**
@@ -116,11 +177,13 @@ public abstract class ScrollableGui implements InteractiveGui {
      * 스크롤 버튼 생성
      */
     protected GuiItem createScrollUpButton() {
-        return createScrollButton("▲ 위로", "위로 스크롤", currentScroll > 0, this::scrollUp);
+        boolean canScroll = currentScroll > 0;
+        return createScrollButton("▲ 위로", "위로 스크롤", canScroll, this::scrollUp);
     }
 
     protected GuiItem createScrollDownButton() {
-        return createScrollButton("▼ 아래로", "아래로 스크롤", currentScroll < getMaxScroll(), this::scrollDown);
+        boolean canScroll = currentScroll < getMaxScroll();
+        return createScrollButton("▼ 아래로", "아래로 스크롤", canScroll, this::scrollDown);
     }
 
     /**
@@ -136,8 +199,17 @@ public abstract class ScrollableGui implements InteractiveGui {
                         .displayName(Component.text(name, enabled ? NamedTextColor.GREEN : NamedTextColor.GRAY))
                         .addLore(Component.text(lore, NamedTextColor.GRAY))
                         .build(),
-                player -> onClick.run()
-        ).setEnabled(enabled);
+                player -> {
+                    if (enabled) {
+                        onClick.run();
+                        // 스크롤 사운드
+                        player.playSound(player.getLocation(), org.bukkit.Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
+                    } else {
+                        // 에러 사운드
+                        player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_VILLAGER_NO, 0.5f, 1.0f);
+                    }
+                }
+        );
     }
 
     /**
@@ -151,9 +223,9 @@ public abstract class ScrollableGui implements InteractiveGui {
         }
 
         // 스크롤바 위치 계산
-        int barSlots = 3;
+        int barSlots = (scrollBarEnd - scrollBarStart) / 9 + 1;
         int activeSlot = (int) Math.round((double) currentScroll / maxScroll * (barSlots - 1));
-        int slotIndex = (position - SCROLL_BAR_START) / 9;
+        int slotIndex = (position - scrollBarStart) / 9;
 
         Material material = (slotIndex == activeSlot) ?
                 Material.LIME_STAINED_GLASS_PANE : Material.GRAY_STAINED_GLASS_PANE;
@@ -171,10 +243,10 @@ public abstract class ScrollableGui implements InteractiveGui {
      * 스크롤 영역 내의 슬롯인지 확인
      */
     protected boolean isScrollSlot(int slot) {
-        int row = slot / COLS;
-        int col = slot % COLS;
+        int row = slot / ROWS_PER_PAGE;
+        int col = slot % ROWS_PER_PAGE;
 
-        return row >= SCROLL_START_ROW && row <= SCROLL_END_ROW &&
+        return row >= SCROLL_START_ROW && row <= scrollEndRow &&
                 col >= SCROLL_START_COL && col <= SCROLL_END_COL;
     }
 
@@ -182,22 +254,27 @@ public abstract class ScrollableGui implements InteractiveGui {
      * 스크롤 영역 슬롯을 실제 아이템 인덱스로 변환
      */
     protected int getScrollItemIndex(int slot) {
-        int row = slot / COLS;
-        int col = slot % COLS;
+        int row = slot / ROWS_PER_PAGE;
+        int col = slot % ROWS_PER_PAGE;
 
         int relativeRow = row - SCROLL_START_ROW;
         int relativeCol = col - SCROLL_START_COL;
 
-        return (currentScroll + relativeRow) * SCROLL_COLS + relativeCol;
+        return (currentScroll + relativeRow) * scrollCols + relativeCol;
     }
 
     @Override
     public void onSlotClick(@NotNull InventoryClickEvent event, @NotNull Player player,
                             int slot, @NotNull ClickType click) {
+        // 범위 검증
+        if (slot < 0 || slot >= guiSize) {
+            return;
+        }
+
         // 스크롤 영역 클릭 처리
         if (isScrollSlot(slot)) {
             int itemIndex = getScrollItemIndex(slot);
-            if (itemIndex < scrollableItems.size()) {
+            if (itemIndex >= 0 && itemIndex < scrollableItems.size()) {
                 GuiItem item = scrollableItems.get(itemIndex);
                 if (item != null && item.hasActions()) {
                     item.executeAction(player, click);
@@ -220,20 +297,24 @@ public abstract class ScrollableGui implements InteractiveGui {
         List<GuiItem> visibleItems = getVisibleItems();
 
         // 모든 스크롤 영역을 빈 슬롯으로 초기화
-        for (int row = SCROLL_START_ROW; row <= SCROLL_END_ROW; row++) {
+        for (int row = SCROLL_START_ROW; row <= scrollEndRow; row++) {
             for (int col = SCROLL_START_COL; col <= SCROLL_END_COL; col++) {
-                int slot = row * COLS + col;
-                setItemMethod.accept(slot, GuiFactory.createFiller());
+                int slot = row * ROWS_PER_PAGE + col;
+                if (slot < guiSize) {
+                    setItemMethod.accept(slot, GuiFactory.createFiller());
+                }
             }
         }
 
         // 보이는 아이템 배치
         int index = 0;
-        for (int row = SCROLL_START_ROW; row <= SCROLL_END_ROW && index < visibleItems.size(); row++) {
+        for (int row = SCROLL_START_ROW; row <= scrollEndRow && index < visibleItems.size(); row++) {
             for (int col = SCROLL_START_COL; col <= SCROLL_END_COL && index < visibleItems.size(); col++) {
-                int slot = row * COLS + col;
-                setItemMethod.accept(slot, visibleItems.get(index));
-                index++;
+                int slot = row * ROWS_PER_PAGE + col;
+                if (slot < guiSize) {
+                    setItemMethod.accept(slot, visibleItems.get(index));
+                    index++;
+                }
             }
         }
     }
@@ -254,5 +335,12 @@ public abstract class ScrollableGui implements InteractiveGui {
                                 NamedTextColor.GRAY))
                         .build()
         );
+    }
+
+    /**
+     * 마지막 줄의 시작 슬롯 번호를 반환
+     */
+    protected int getLastRowStart() {
+        return guiSize - ROWS_PER_PAGE;
     }
 }

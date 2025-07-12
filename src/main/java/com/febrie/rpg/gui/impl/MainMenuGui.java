@@ -14,12 +14,28 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Main menu GUI implementation with full color placeholder support
  * Central hub for accessing all RPG features
+ * <p>
+ * 개선사항:
+ * - 동적 슬롯 계산
+ * - 상수 사용으로 매직 넘버 제거
+ * - 메뉴 버튼 배치 개선
  *
  * @author Febrie, CoffeeTory
  */
 public class MainMenuGui extends BaseGui {
 
-    private static final int GUI_SIZE = 54; // 6 rows (통일성을 위해 변경)
+    private static final int GUI_SIZE = 54; // 6 rows
+
+    // 메뉴 버튼 위치 상수 (3x3 그리드 중앙 배치)
+    private static final int PROFILE_SLOT = 20;
+    private static final int SHOP_SLOT = 22;
+    private static final int DUNGEON_SLOT = 24;
+    private static final int STATS_SLOT = 29;
+    private static final int SETTINGS_SLOT = 31;
+    private static final int TALENTS_SLOT = 33;
+
+    // 타이틀 슬롯
+    private static final int TITLE_SLOT = 4;
 
     public MainMenuGui(@NotNull GuiManager guiManager,
                        @NotNull LangManager langManager, @NotNull Player player) {
@@ -33,15 +49,10 @@ public class MainMenuGui extends BaseGui {
     }
 
     @Override
-    public int getSize() {
-        return GUI_SIZE;
-    }
-
-    @Override
     protected void setupLayout() {
         setupDecorations();
         setupMenuButtons();
-        setupNavigationButtons();
+        setupDynamicNavigation();
     }
 
     /**
@@ -51,8 +62,8 @@ public class MainMenuGui extends BaseGui {
         // Create border with default material
         createBorder();
 
-        // Title item
-        setItem(4, GuiItem.display(
+        // Title item in top center
+        setItem(TITLE_SLOT, GuiItem.display(
                 ItemBuilder.of(Material.NETHER_STAR)
                         .displayName(trans("gui.mainmenu.title")
                                 .decoration(TextDecoration.BOLD, true))
@@ -62,10 +73,27 @@ public class MainMenuGui extends BaseGui {
     }
 
     /**
-     * Sets up main menu buttons
+     * Sets up main menu buttons in organized layout
      */
     private void setupMenuButtons() {
-        // Profile button (slot 20)
+        // Row 1: Profile, Shop, Dungeon
+        setupProfileButton();
+        setupShopButton();
+        setupDungeonButton();
+
+        // Row 2: Stats, Settings, Talents
+        setupStatsButton();
+        setupSettingsButton();
+        setupTalentsButton();
+
+        // 추가 장식 아이템 (선택적)
+        addMenuDecorations();
+    }
+
+    /**
+     * Profile button setup
+     */
+    private void setupProfileButton() {
         GuiItem profileButton = GuiItem.clickable(
                 ItemBuilder.of(Material.PLAYER_HEAD)
                         .displayName(trans("items.mainmenu.profile-button.name"))
@@ -73,9 +101,13 @@ public class MainMenuGui extends BaseGui {
                         .build(),
                 guiManager::openProfileGui
         );
-        setItem(20, profileButton);
+        setItem(PROFILE_SLOT, profileButton);
+    }
 
-        // Shop button (slot 22)
+    /**
+     * Shop button setup
+     */
+    private void setupShopButton() {
         GuiItem shopButton = GuiItem.clickable(
                 ItemBuilder.of(Material.EMERALD)
                         .displayName(trans("items.mainmenu.shop-button.name"))
@@ -83,12 +115,16 @@ public class MainMenuGui extends BaseGui {
                         .build(),
                 clickedPlayer -> {
                     sendMessage(clickedPlayer, "general.coming-soon");
-                    // TODO: guiManager.openShopGui(clickedPlayer);
+                    playClickSound(clickedPlayer);
                 }
         );
-        setItem(22, shopButton);
+        setItem(SHOP_SLOT, shopButton);
+    }
 
-        // Dungeon button (slot 24)
+    /**
+     * Dungeon button setup
+     */
+    private void setupDungeonButton() {
         GuiItem dungeonButton = GuiItem.clickable(
                 ItemBuilder.of(Material.IRON_SWORD)
                         .displayName(trans("items.mainmenu.dungeon-button.name"))
@@ -96,12 +132,31 @@ public class MainMenuGui extends BaseGui {
                         .build(),
                 clickedPlayer -> {
                     sendMessage(clickedPlayer, "general.coming-soon");
-                    // TODO: guiManager.openDungeonGui(clickedPlayer);
+                    playClickSound(clickedPlayer);
                 }
         );
-        setItem(24, dungeonButton);
+        setItem(DUNGEON_SLOT, dungeonButton);
+    }
 
-        // Settings button (slot 31)
+    /**
+     * Stats Management button setup
+     */
+    private void setupStatsButton() {
+        GuiItem statsButton = GuiItem.clickable(
+                ItemBuilder.of(Material.IRON_SWORD)
+                        .displayName(trans("items.mainmenu.stats-button.name"))
+                        .lore(langManager.getComponentList(viewer, "items.mainmenu.stats-button.lore"))
+                        .flags(org.bukkit.inventory.ItemFlag.values())
+                        .build(),
+                this::handleStatsButtonClick
+        );
+        setItem(STATS_SLOT, statsButton);
+    }
+
+    /**
+     * Settings button setup
+     */
+    private void setupSettingsButton() {
         GuiItem settingsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.COMPARATOR)
                         .displayName(trans("items.mainmenu.settings-button.name"))
@@ -109,71 +164,85 @@ public class MainMenuGui extends BaseGui {
                         .build(),
                 clickedPlayer -> {
                     sendMessage(clickedPlayer, "general.coming-soon");
-                    // TODO: guiManager.openSettingsGui(clickedPlayer);
+                    playClickSound(clickedPlayer);
                 }
         );
-        setItem(31, settingsButton);
+        setItem(SETTINGS_SLOT, settingsButton);
+    }
 
-        // Stats Management button (slot 29)
-        GuiItem statsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.IRON_SWORD)
-                        .displayName(trans("items.mainmenu.stats-button.name"))
-                        .lore(langManager.getComponentList(viewer, "items.mainmenu.stats-button.lore"))
-                        .flags(org.bukkit.inventory.ItemFlag.values())
-                        .build(),
-                clickedPlayer -> {
-                    com.febrie.rpg.player.RPGPlayer rpgPlayer = com.febrie.rpg.RPGMain.getPlugin()
-                            .getRPGPlayerManager().getOrCreatePlayer(clickedPlayer);
-
-                    if (!rpgPlayer.hasJob()) {
-                        sendMessage(clickedPlayer, "messages.no-job-for-stats");
-                        return;
-                    }
-
-                    // closeInventory() 제거
-                    com.febrie.rpg.gui.impl.StatsGui statsGui = new com.febrie.rpg.gui.impl.StatsGui(
-                            guiManager, langManager, clickedPlayer, rpgPlayer);
-                    statsGui.open(clickedPlayer);
-                }
-        );
-        setItem(29, statsButton);
-
-        // Talent Management button (slot 33)
+    /**
+     * Talent Management button setup
+     */
+    private void setupTalentsButton() {
         GuiItem talentsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.ENCHANTED_BOOK)
                         .displayName(trans("items.mainmenu.talents-button.name"))
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.talents-button.lore"))
                         .build(),
-                clickedPlayer -> {
-                    com.febrie.rpg.player.RPGPlayer rpgPlayer = com.febrie.rpg.RPGMain.getPlugin()
-                            .getRPGPlayerManager().getOrCreatePlayer(clickedPlayer);
-
-                    if (!rpgPlayer.hasJob()) {
-                        sendMessage(clickedPlayer, "messages.no-job-for-talents");
-
-                        // Ask if they want to choose a job - closeInventory() 제거
-                        com.febrie.rpg.gui.impl.JobSelectionGui jobGui = new com.febrie.rpg.gui.impl.JobSelectionGui(
-                                guiManager, langManager, clickedPlayer, rpgPlayer);
-                        jobGui.open(clickedPlayer);
-                        return;
-                    }
-
-                    // closeInventory() 제거
-                    java.util.List<com.febrie.rpg.talent.Talent> mainTalents = com.febrie.rpg.RPGMain.getPlugin()
-                            .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
-                    com.febrie.rpg.gui.impl.TalentGui talentGui = new com.febrie.rpg.gui.impl.TalentGui(
-                            guiManager, langManager, clickedPlayer, rpgPlayer, "main", mainTalents);
-                    talentGui.open(clickedPlayer);
-                }
+                this::handleTalentsButtonClick
         );
-        setItem(33, talentsButton);
+        setItem(TALENTS_SLOT, talentsButton);
     }
 
     /**
-     * Sets up navigation buttons - 위치 통일
+     * 메뉴 장식 추가
      */
-    private void setupNavigationButtons() {
-        // Back button (45번), Refresh button (-1 없음), Close button (53번)
-        setupNavigationButtons(45, -1, 53);
+    private void addMenuDecorations() {
+        // 메뉴 버튼 사이 구분선 (선택적)
+        Material separatorMaterial = Material.LIGHT_GRAY_STAINED_GLASS_PANE;
+        GuiItem separator = com.febrie.rpg.gui.component.GuiFactory.createDecoration(separatorMaterial);
+
+        // 상단 행 구분선
+        setItem(21, separator);
+        setItem(23, separator);
+
+        // 하단 행 구분선
+        setItem(30, separator);
+        setItem(32, separator);
+    }
+
+    /**
+     * Stats 버튼 클릭 처리
+     */
+    private void handleStatsButtonClick(@NotNull Player clickedPlayer) {
+        com.febrie.rpg.player.RPGPlayer rpgPlayer = com.febrie.rpg.RPGMain.getPlugin()
+                .getRPGPlayerManager().getOrCreatePlayer(clickedPlayer);
+
+        if (!rpgPlayer.hasJob()) {
+            sendMessage(clickedPlayer, "messages.no-job-for-stats");
+            playErrorSound(clickedPlayer);
+            return;
+        }
+
+        com.febrie.rpg.gui.impl.StatsGui statsGui = new com.febrie.rpg.gui.impl.StatsGui(
+                guiManager, langManager, clickedPlayer, rpgPlayer);
+        statsGui.open(clickedPlayer);
+        playSuccessSound(clickedPlayer);
+    }
+
+    /**
+     * Talents 버튼 클릭 처리
+     */
+    private void handleTalentsButtonClick(@NotNull Player clickedPlayer) {
+        com.febrie.rpg.player.RPGPlayer rpgPlayer = com.febrie.rpg.RPGMain.getPlugin()
+                .getRPGPlayerManager().getOrCreatePlayer(clickedPlayer);
+
+        if (!rpgPlayer.hasJob()) {
+            sendMessage(clickedPlayer, "messages.no-job-for-talents");
+            playErrorSound(clickedPlayer);
+
+            // 직업 선택 GUI로 이동 제안
+            com.febrie.rpg.gui.impl.JobSelectionGui jobGui = new com.febrie.rpg.gui.impl.JobSelectionGui(
+                    guiManager, langManager, clickedPlayer, rpgPlayer);
+            jobGui.open(clickedPlayer);
+            return;
+        }
+
+        java.util.List<com.febrie.rpg.talent.Talent> mainTalents = com.febrie.rpg.RPGMain.getPlugin()
+                .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
+        com.febrie.rpg.gui.impl.TalentGui talentGui = new com.febrie.rpg.gui.impl.TalentGui(
+                guiManager, langManager, clickedPlayer, rpgPlayer, "main", mainTalents);
+        talentGui.open(clickedPlayer);
+        playSuccessSound(clickedPlayer);
     }
 }
