@@ -121,7 +121,7 @@ public class StatsGui extends ScrollableGui {
 
         // 하단 테두리
         for (int i = 45; i < 54; i++) {
-            if (i != 48 && i != 50 && i != 53) { // 네비게이션 버튼 위치 제외
+            if (i != 45 && i != 49 && i != 50 && i != 53) { // 네비게이션 버튼 위치 제외
                 setItem(i, GuiFactory.createDecoration());
             }
         }
@@ -280,7 +280,7 @@ public class StatsGui extends ScrollableGui {
     }
 
     /**
-     * 네비게이션 버튼 설정
+     * 네비게이션 버튼 설정 - 위치 통일
      */
     private void setupNavigationButtons() {
         if (guiManager == null) {
@@ -291,17 +291,28 @@ public class StatsGui extends ScrollableGui {
             throw new IllegalArgumentException("rpgPlayer cannot be null");
         }
 
-        // 뒤로가기 버튼
+        // 뒤로가기 버튼 - 45번 슬롯 (좌측 하단)
         setItem(45, GuiFactory.createBackButton(guiManager, langManager, viewer));
 
-        // 새로고침 버튼
-        setItem(48, GuiFactory.createRefreshButton(_ -> refresh(), langManager, viewer));
+        // 새로고침 버튼 - 49번 슬롯 (중앙 하단)
+        setItem(49, GuiFactory.createRefreshButton(_ -> refresh(), langManager, viewer));
 
-        // 특성 페이지로 가기 버튼
-        GuiItem talentButton = GuiItem.clickable(ItemBuilder.of(Material.ENCHANTED_BOOK).displayName(trans("gui.talent.title")).addLore(trans("gui.stats.click-talents")).glint(true).build(), player -> new TalentGui(guiManager, langManager, player, rpgPlayer, null, RPGMain.getPlugin().getTalentManager().getJobMainTalents(rpgPlayer.getJob())).open(player));
+        // 특성 페이지로 가기 버튼 - 50번 슬롯
+        GuiItem talentButton = GuiItem.clickable(
+                ItemBuilder.of(Material.ENCHANTED_BOOK)
+                        .displayName(trans("gui.talent.title"))
+                        .addLore(trans("gui.stats.click-talents"))
+                        .glint(true)
+                        .build(),
+                player -> {
+                    // closeInventory() 제거하여 마우스 위치 유지
+                    new TalentGui(guiManager, langManager, player, rpgPlayer, "main",
+                            RPGMain.getPlugin().getTalentManager().getJobMainTalents(rpgPlayer.getJob())).open(player);
+                }
+        );
         setItem(50, talentButton);
 
-        // 닫기 버튼
+        // 닫기 버튼 - 53번 슬롯 (우측 하단)
         setItem(53, GuiFactory.createCloseButton(langManager, viewer));
     }
 

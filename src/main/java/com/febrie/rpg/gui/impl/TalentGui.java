@@ -133,9 +133,9 @@ public class TalentGui extends ScrollableGui {
             }
         }
 
-        // 하단 테두리
+        // 하단 테두리 - 네비게이션 버튼 위치 제외
         for (int i = 45; i < 54; i++) {
-            if (i < 48 || i > 50) { // 네비게이션 버튼 위치 제외
+            if (i != 45 && i != 49 && i != 50 && i != 53) {
                 setItem(i, GuiFactory.createDecoration());
             }
         }
@@ -289,11 +289,11 @@ public class TalentGui extends ScrollableGui {
     }
 
     /**
-     * 네비게이션 버튼 설정
+     * 네비게이션 버튼 설정 - 위치 통일
      */
     private void setupNavigationButtons() {
-        // 뒤로가기 버튼 (48)
-        setItem(48, GuiItem.clickable(
+        // 뒤로가기 버튼 - 45번 슬롯 (좌측 하단)
+        setItem(45, GuiItem.clickable(
                 ItemBuilder.of(Material.ARROW)
                         .displayName(trans("gui.buttons.back.name"))
                         .addLore(trans("gui.buttons.back.lore"))
@@ -301,10 +301,10 @@ public class TalentGui extends ScrollableGui {
                 player -> goToPreviousPage()
         ));
 
-        // 새로고침 버튼 (49)
+        // 새로고침 버튼 - 49번 슬롯 (중앙 하단)
         setItem(49, GuiFactory.createRefreshButton(player -> refresh(), langManager, viewer));
 
-        // 스탯 페이지로 가기 버튼 (50)
+        // 스탯 페이지로 가기 버튼 - 50번 슬롯
         setItem(50, GuiItem.clickable(
                 ItemBuilder.of(Material.IRON_SWORD)
                         .displayName(trans("gui.stats.title"))
@@ -312,14 +312,14 @@ public class TalentGui extends ScrollableGui {
                         .build(),
                 player -> {
                     if (guiManager != null) {
-                        player.closeInventory();
+                        // closeInventory() 제거하여 마우스 위치 유지
                         StatsGui statsGui = new StatsGui(guiManager, langManager, player, rpgPlayer);
                         statsGui.open(player);
                     }
                 }
         ));
 
-        // 닫기 버튼 (53)
+        // 닫기 버튼 - 53번 슬롯 (우측 하단)
         setItem(53, GuiFactory.createCloseButton(langManager, viewer));
     }
 
@@ -352,7 +352,7 @@ public class TalentGui extends ScrollableGui {
                         .flags(ItemFlag.values())
                         .build(),
                 player -> {
-                    player.closeInventory();
+                    // closeInventory() 제거
                     CombatPowerGui combatPowerGui = new CombatPowerGui(guiManager, langManager, player, rpgPlayer);
                     combatPowerGui.open(player);
                 }
@@ -382,7 +382,7 @@ public class TalentGui extends ScrollableGui {
         // 현재 페이지 정보 저장
         pageHistory.push(new PageInfo(pageId, pageTalents));
 
-        // 새 GUI 생성하여 열기
+        // 새 GUI 생성하여 열기 - closeInventory() 제거
         TalentGui subPageGui = new TalentGui(
                 guiManager, langManager, rpgPlayer.getBukkitPlayer(), rpgPlayer,
                 talent.getPageId(), talent.getChildren()
@@ -391,7 +391,6 @@ public class TalentGui extends ScrollableGui {
         // 페이지 히스토리 복사
         subPageGui.pageHistory.addAll(this.pageHistory);
 
-        rpgPlayer.getBukkitPlayer().closeInventory();
         subPageGui.open(rpgPlayer.getBukkitPlayer());
     }
 
@@ -409,7 +408,7 @@ public class TalentGui extends ScrollableGui {
 
         PageInfo previousPage = pageHistory.pop();
 
-        // 이전 페이지 GUI 생성
+        // 이전 페이지 GUI 생성 - closeInventory() 제거
         TalentGui previousGui = new TalentGui(
                 guiManager, langManager, rpgPlayer.getBukkitPlayer(), rpgPlayer,
                 previousPage.pageId, previousPage.talents
@@ -418,7 +417,6 @@ public class TalentGui extends ScrollableGui {
         // 남은 히스토리 복사
         previousGui.pageHistory.addAll(this.pageHistory);
 
-        rpgPlayer.getBukkitPlayer().closeInventory();
         previousGui.open(rpgPlayer.getBukkitPlayer());
     }
 

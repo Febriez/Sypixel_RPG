@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class MainMenuGui extends BaseGui {
 
-    private static final int GUI_SIZE = 45; // 5 rows
+    private static final int GUI_SIZE = 54; // 6 rows (통일성을 위해 변경)
 
     public MainMenuGui(@NotNull GuiManager guiManager,
                        @NotNull LangManager langManager, @NotNull Player player) {
@@ -130,7 +130,7 @@ public class MainMenuGui extends BaseGui {
                         return;
                     }
 
-                    clickedPlayer.closeInventory();
+                    // closeInventory() 제거
                     com.febrie.rpg.gui.impl.StatsGui statsGui = new com.febrie.rpg.gui.impl.StatsGui(
                             guiManager, langManager, clickedPlayer, rpgPlayer);
                     statsGui.open(clickedPlayer);
@@ -151,15 +151,14 @@ public class MainMenuGui extends BaseGui {
                     if (!rpgPlayer.hasJob()) {
                         sendMessage(clickedPlayer, "messages.no-job-for-talents");
 
-                        // Ask if they want to choose a job
-                        clickedPlayer.closeInventory();
+                        // Ask if they want to choose a job - closeInventory() 제거
                         com.febrie.rpg.gui.impl.JobSelectionGui jobGui = new com.febrie.rpg.gui.impl.JobSelectionGui(
                                 guiManager, langManager, clickedPlayer, rpgPlayer);
                         jobGui.open(clickedPlayer);
                         return;
                     }
 
-                    clickedPlayer.closeInventory();
+                    // closeInventory() 제거
                     java.util.List<com.febrie.rpg.talent.Talent> mainTalents = com.febrie.rpg.RPGMain.getPlugin()
                             .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
                     com.febrie.rpg.gui.impl.TalentGui talentGui = new com.febrie.rpg.gui.impl.TalentGui(
@@ -171,10 +170,10 @@ public class MainMenuGui extends BaseGui {
     }
 
     /**
-     * Sets up navigation buttons
+     * Sets up navigation buttons - 위치 통일
      */
     private void setupNavigationButtons() {
-        // Close button (slot 40), Back button (slot 38)
-        setupNavigationButtons(38, -1, 40);
+        // Back button (45번), Refresh button (-1 없음), Close button (53번)
+        setupNavigationButtons(45, -1, 53);
     }
 }

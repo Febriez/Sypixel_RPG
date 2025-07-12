@@ -1,5 +1,6 @@
 package com.febrie.rpg.gui.impl;
 
+import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.manager.GuiManager;
@@ -27,7 +28,7 @@ import java.util.List;
  */
 public class CombatPowerGui extends BaseGui {
 
-    private static final int GUI_SIZE = 45; // 5줄
+    private static final int GUI_SIZE = 54; // 6줄 (통일성을 위해 변경)
     private final RPGPlayer rpgPlayer;
 
     public CombatPowerGui(@Nullable GuiManager guiManager, @NotNull LangManager langManager,
@@ -68,6 +69,13 @@ public class CombatPowerGui extends BaseGui {
                         .glint(true)
                         .build()
         ));
+
+        // 중간 구분선 (선택적)
+        for (int i = 27; i < 36; i++) {
+            if (i != 31) { // 스탯 표시 위치 제외
+                setItem(i, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
+            }
+        }
     }
 
     /**
@@ -89,7 +97,7 @@ public class CombatPowerGui extends BaseGui {
                                 "value", String.valueOf(levelContribution)))
                         .build()
         );
-        setItem(19, levelItem);
+        setItem(20, levelItem); // 19 -> 20 (한 줄 아래로)
 
         // 스탯 기여도
         Stat.StatHolder stats = rpgPlayer.getStats();
@@ -105,7 +113,7 @@ public class CombatPowerGui extends BaseGui {
                 new StatInfo(Stat.LUCK, 2, Material.RABBIT_FOOT)
         };
 
-        int[] slots = {20, 21, 22, 29, 30, 31};
+        int[] slots = {21, 22, 23, 30, 31, 32}; // 한 줄씩 아래로 이동
 
         for (int i = 0; i < statInfos.length; i++) {
             StatInfo info = statInfos[i];
@@ -142,7 +150,7 @@ public class CombatPowerGui extends BaseGui {
                         .addLore(trans("gui.combat-power.stat-multipliers"))
                         .build()
         );
-        setItem(25, statTotalItem);
+        setItem(24, statTotalItem); // 25 -> 24
 
         // 계산 공식 설명
         GuiItem formulaItem = GuiItem.display(
@@ -162,11 +170,11 @@ public class CombatPowerGui extends BaseGui {
     }
 
     /**
-     * 네비게이션 버튼 설정
+     * 네비게이션 버튼 설정 - 위치 통일
      */
     private void setupNavigationButtons() {
-        // 뒤로가기 (38), 닫기 (42)
-        setupNavigationButtons(38, -1, 42);
+        // 뒤로가기 (45번 슬롯), 닫기 (53번 슬롯)
+        setupNavigationButtons(45, -1, 53);
     }
 
     /**

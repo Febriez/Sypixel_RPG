@@ -72,8 +72,12 @@ public class JobSelectionGui extends BaseGui {
             setItem(i, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
         }
 
-        // 하단 테두리
-        fillSlots(45, 53, GuiFactory.createDecoration());
+        // 하단 테두리 - 네비게이션 버튼 위치 제외
+        for (int i = 45; i < 54; i++) {
+            if (i != 45 && i != 53) {
+                setItem(i, GuiFactory.createDecoration());
+            }
+        }
 
         // 좌우 테두리
         setItem(9, GuiFactory.createDecoration());
@@ -183,11 +187,11 @@ public class JobSelectionGui extends BaseGui {
     }
 
     /**
-     * 네비게이션 버튼 설정
+     * 네비게이션 버튼 설정 - 위치 통일
      */
     private void setupNavigationButtons() {
-        // 뒤로가기 (48), 닫기 (50)
-        setupNavigationButtons(48, -1, 50);
+        // 뒤로가기 (45번), 닫기 (53번)
+        setupNavigationButtons(45, -1, 53);
     }
 
     /**

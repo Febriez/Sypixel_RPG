@@ -82,7 +82,13 @@ public class ProfileGui extends BaseGui {
         for (int i = 0; i < 9; i++) {
             if (i != 4) { // Skip title slot
                 setItem(i, GuiFactory.createDecoration());
-                setItem(45 + i, GuiFactory.createDecoration());
+            }
+        }
+
+        // Bottom border - excluding navigation buttons
+        for (int i = 45; i < 54; i++) {
+            if (i != 45 && i != 49 && i != 53) {
+                setItem(i, GuiFactory.createDecoration());
             }
         }
 
@@ -266,12 +272,12 @@ public class ProfileGui extends BaseGui {
             setItem(50, talentsButton);
         }
 
-        // Navigation buttons: back (52), refresh (53), close (49)
-        setupNavigationButtons(52, 53, 49);
+        // Navigation buttons: back (45번), refresh (49번), close (53번) - 위치 통일
+        setupNavigationButtons(45, 49, 53);
 
         // Additional refresh action
         if (guiManager == null) {
-            setItem(53, GuiFactory.createRefreshButton(player -> {
+            setItem(49, GuiFactory.createRefreshButton(player -> {
                 refresh();
                 sendMessage(player, "messages.profile-opened");
             }, langManager, viewer));
