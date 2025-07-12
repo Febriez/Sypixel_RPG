@@ -7,7 +7,6 @@ import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.talent.Talent;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -187,7 +186,7 @@ public class RPGPlayer {
     }
 
     // Getters
-    @Nullable
+    @NotNull
     public JobType getJob() {
         return job;
     }

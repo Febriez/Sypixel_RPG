@@ -1,5 +1,6 @@
 package com.febrie.rpg.gui.impl;
 
+import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
@@ -48,8 +49,10 @@ public class ProfileGui extends BaseGui {
      * Creates a new ProfileGui for viewing another player's profile
      * 프로젝트의 실제 생성자 시그니처와 일치
      */
-    public ProfileGui(@NotNull Player targetPlayer, @NotNull Player viewer, @NotNull GuiManager guiManager, @NotNull LangManager langManager) {
-        super(viewer, guiManager, langManager, GUI_SIZE, "gui.profile.player-title", "player", targetPlayer.getName());
+    public ProfileGui(@NotNull Player targetPlayer, @NotNull Player viewer,
+                      @NotNull GuiManager guiManager, @NotNull LangManager langManager) {
+        super(viewer, guiManager, langManager, GUI_SIZE, "gui.profile.player-title",
+                "player", targetPlayer.getName());
         this.targetPlayer = targetPlayer;
         setupLayout();
     }
@@ -86,7 +89,13 @@ public class ProfileGui extends BaseGui {
         }
 
         // 타이틀 아이템 - 플레이어 이름 플레이스홀더 추가
-        setItem(TITLE_SLOT, GuiItem.display(ItemBuilder.of(Material.NAME_TAG).displayName(trans("gui.profile.title", "player", targetPlayer.getName()).decoration(TextDecoration.BOLD, true)).addLore(trans("gui.profile.viewing", "player", targetPlayer.getName())).build()));
+        setItem(TITLE_SLOT, GuiItem.display(
+                ItemBuilder.of(Material.NAME_TAG)
+                        .displayName(trans("gui.profile.title", "player", targetPlayer.getName())
+                                .decoration(TextDecoration.BOLD, true))
+                        .addLore(trans("gui.profile.viewing", "player", targetPlayer.getName()))
+                        .build()
+        ));
 
         // 중간 구분선
         for (int i = 27; i < 36; i++) {
@@ -107,54 +116,213 @@ public class ProfileGui extends BaseGui {
      */
     private void setupPlayerInfo() {
         // Player head in center
-        setItem(PLAYER_HEAD_SLOT, GuiItem.display(new ItemBuilder(targetPlayer).displayName(Component.text(targetPlayer.getName()).color(ColorUtil.LEGENDARY).decoration(TextDecoration.BOLD, true)).addLore(Component.empty()).addLore(trans("gui.profile.online-status", "status", targetPlayer.isOnline() ? transString("status.online") : transString("status.offline"))).build()));
+        setItem(PLAYER_HEAD_SLOT, GuiItem.display(
+                new ItemBuilder(targetPlayer)
+                        .displayName(Component.text(targetPlayer.getName())
+                                .color(ColorUtil.LEGENDARY)
+                                .decoration(TextDecoration.BOLD, true))
+                        .addLore(Component.empty())
+                        .addLore(trans("gui.profile.online-status",
+                                "status", targetPlayer.isOnline() ?
+                                        transString("status.online") :
+                                        transString("status.offline")))
+                        .build()
+        ));
 
         // Level/XP info
-        setItem(LEVEL_INFO_SLOT, GuiItem.display(ItemBuilder.of(Material.EXPERIENCE_BOTTLE).displayName(trans("gui.profile.level-info")).addLore(trans("gui.profile.level", "level", "1")).addLore(trans("gui.profile.experience", "exp", "0")).build()));
+        setItem(LEVEL_INFO_SLOT, GuiItem.display(
+                ItemBuilder.of(Material.EXPERIENCE_BOTTLE)
+                        .displayName(trans("gui.profile.level-info"))
+                        .addLore(trans("gui.profile.level", "level", "1"))
+                        .addLore(trans("gui.profile.experience", "exp", "0"))
+                        .build()
+        ));
 
         // Health info
         AttributeInstance healthAttr = targetPlayer.getAttribute(Attribute.MAX_HEALTH);
         double maxHealth = healthAttr != null ? healthAttr.getValue() : 20.0;
 
-        setItem(HEALTH_INFO_SLOT, GuiItem.display(ItemBuilder.of(Material.RED_DYE).displayName(trans("gui.profile.health-info")).addLore(trans("gui.profile.health", "current", String.format("%.1f", targetPlayer.getHealth()), "max", String.format("%.1f", maxHealth))).build()));
+        setItem(HEALTH_INFO_SLOT, GuiItem.display(
+                ItemBuilder.of(Material.RED_DYE)
+                        .displayName(trans("gui.profile.health-info"))
+                        .addLore(trans("gui.profile.health",
+                                "current", String.format("%.1f", targetPlayer.getHealth()),
+                                "max", String.format("%.1f", maxHealth)))
+                        .build()
+        ));
 
         // Food info
-        setItem(FOOD_INFO_SLOT, GuiItem.display(ItemBuilder.of(Material.BREAD).displayName(trans("gui.profile.food-info")).addLore(trans("gui.profile.food-level", "level", String.valueOf(targetPlayer.getFoodLevel()))).addLore(trans("gui.profile.saturation", "saturation", String.format("%.1f", targetPlayer.getSaturation()))).build()));
+        setItem(FOOD_INFO_SLOT, GuiItem.display(
+                ItemBuilder.of(Material.BREAD)
+                        .displayName(trans("gui.profile.food-info"))
+                        .addLore(trans("gui.profile.food-level",
+                                "level", String.valueOf(targetPlayer.getFoodLevel())))
+                        .addLore(trans("gui.profile.saturation",
+                                "saturation", String.format("%.1f", targetPlayer.getSaturation())))
+                        .build()
+        ));
 
         // Game info
-        setItem(GAME_INFO_SLOT, GuiItem.display(ItemBuilder.of(Material.COMPASS).displayName(trans("gui.profile.game-info")).addLore(trans("gui.profile.gamemode", "mode", targetPlayer.getGameMode().toString())).addLore(trans("gui.profile.world", "world", targetPlayer.getWorld().getName())).build()));
+        setItem(GAME_INFO_SLOT, GuiItem.display(
+                ItemBuilder.of(Material.COMPASS)
+                        .displayName(trans("gui.profile.game-info"))
+                        .addLore(trans("gui.profile.gamemode",
+                                "mode", targetPlayer.getGameMode().toString()))
+                        .addLore(trans("gui.profile.world",
+                                "world", targetPlayer.getWorld().getName()))
+                        .build()
+        ));
     }
 
     /**
      * Sets up player statistics section
      */
     private void setupStatsSection() {
-        // Job information
-        setItem(JOB_SLOT, GuiItem.display(ItemBuilder.of(Material.DIAMOND_SWORD).displayName(trans("gui.profile.current-job")).addLore(trans("gui.profile.no-job")).build()));
+        // This section is handled in setupActionButtons with the job button
     }
 
     /**
      * Sets up action buttons
      */
     private void setupActionButtons() {
-        // Settings button
-        setItem(SETTINGS_SLOT, GuiItem.clickable(ItemBuilder.of(Material.COMPARATOR).displayName(trans("gui.buttons.settings.name")).addLore(trans("gui.buttons.settings.lore")).build(), p -> {
-            p.sendMessage(trans("general.coming-soon"));
-            p.playSound(p.getLocation(), org.bukkit.Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
-        }));
+        com.febrie.rpg.player.RPGPlayer rpgPlayer = RPGMain.getPlugin()
+                .getRPGPlayerManager().getOrCreatePlayer(targetPlayer);
 
-        // Stats button
-        setItem(STATS_SLOT, GuiItem.clickable(ItemBuilder.of(Material.IRON_CHESTPLATE).displayName(trans("items.mainmenu.stats-button.name")).addLore(langManager.getComponentList(viewer, "items.mainmenu.stats-button.lore")).flags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES).build(), p -> {
-            p.sendMessage(trans("general.coming-soon"));
-            p.playSound(p.getLocation(), org.bukkit.Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
-        }));
+        // Job button/display
+        setupJobButton(rpgPlayer);
 
-        // Talents button
-        setItem(TALENTS_SLOT, GuiItem.clickable(ItemBuilder.of(Material.BLAZE_POWDER).displayName(trans("items.mainmenu.talents-button.name")).addLore(langManager.getComponentList(viewer, "items.mainmenu.talents-button.lore")).build(), p -> {
-            p.sendMessage(trans("general.coming-soon"));
-            p.playSound(p.getLocation(), org.bukkit.Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
-        }));
+        // Settings button (only for own profile)
+        if (viewer.equals(targetPlayer)) {
+            setupSettingsButton();
+        }
 
+        // Stats and Talents buttons (available for all, but only functional for job holders)
+        setupStatsButton(rpgPlayer);
+        setupTalentsButton(rpgPlayer);
+
+        // Navigation buttons - true, true = include refresh button and close button
         setupStandardNavigation(true, true);
+    }
+
+    /**
+     * Job button setup
+     */
+    private void setupJobButton(com.febrie.rpg.player.@NotNull RPGPlayer rpgPlayer) {
+        if (!rpgPlayer.hasJob()) {
+            // No job - show job selection button
+            GuiItem jobButton = GuiItem.clickable(
+                    ItemBuilder.of(Material.ENCHANTING_TABLE)
+                            .displayName(trans("items.mainmenu.job-button.name"))
+                            .addLore(langManager.getComponentList(viewer, "items.mainmenu.job-button.lore"))
+                            .glint(true)
+                            .build(),
+                    p -> {
+                        if (p.equals(targetPlayer)) {
+                            JobSelectionGui jobGui = new JobSelectionGui(guiManager, langManager, p, rpgPlayer);
+                            guiManager.openGui(p, jobGui);
+                            playSuccessSound(p);
+                        } else {
+                            langManager.sendMessage(p, "general.cannot-select-others-job");
+                            playErrorSound(p);
+                        }
+                    }
+            );
+            setItem(JOB_SLOT, jobButton);
+        } else {
+            // Has job - show current job info
+            String jobKey = rpgPlayer.getJob().name().toLowerCase();
+            GuiItem jobInfo = GuiItem.display(
+                    ItemBuilder.of(rpgPlayer.getJob().getMaterial())
+                            .displayName(Component.text(rpgPlayer.getJob().getIcon() + " ")
+                                    .append(trans("job." + jobKey + ".name"))
+                                    .color(rpgPlayer.getJob().getColor())
+                                    .decoration(TextDecoration.BOLD, true))
+                            .addLore(Component.empty())
+                            .addLore(trans("gui.profile.current-job"))
+                            .addLore(trans("gui.profile.job-level", "level", String.valueOf(rpgPlayer.getLevel())))
+                            .addLore(trans("gui.profile.combat-power", "power", String.valueOf(rpgPlayer.getCombatPower())))
+                            .build()
+            );
+            setItem(JOB_SLOT, jobInfo);
+        }
+    }
+
+    /**
+     * Settings button setup
+     */
+    private void setupSettingsButton() {
+        GuiItem settingsButton = GuiItem.clickable(
+                ItemBuilder.of(Material.COMPARATOR)
+                        .displayName(trans("gui.buttons.settings.name"))
+                        .addLore(trans("gui.buttons.settings.lore"))
+                        .build(),
+                p -> {
+                    langManager.sendMessage(p, "general.coming-soon");
+                    playClickSound(p);
+                }
+        );
+        setItem(SETTINGS_SLOT, settingsButton);
+    }
+
+    /**
+     * Stats button setup
+     */
+    private void setupStatsButton(com.febrie.rpg.player.RPGPlayer rpgPlayer) {
+        GuiItem statsButton = GuiItem.clickable(
+                ItemBuilder.of(Material.IRON_CHESTPLATE)
+                        .displayName(trans("items.mainmenu.stats-button.name"))
+                        .addLore(langManager.getComponentList(viewer, "items.mainmenu.stats-button.lore"))
+                        .flags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES)
+                        .build(),
+                p -> {
+                    if (!rpgPlayer.hasJob()) {
+                        langManager.sendMessage(p, "messages.no-job-for-stats");
+                        playErrorSound(p);
+                        return;
+                    }
+
+                    if (p.equals(targetPlayer)) {
+                        StatsGui statsGui = new StatsGui(guiManager, langManager, p, rpgPlayer);
+                        guiManager.openGui(p, statsGui);
+                        playSuccessSound(p);
+                    } else {
+                        langManager.sendMessage(p, "general.cannot-view-others-stats");
+                        playErrorSound(p);
+                    }
+                }
+        );
+        setItem(STATS_SLOT, statsButton);
+    }
+
+    /**
+     * Talents button setup
+     */
+    private void setupTalentsButton(com.febrie.rpg.player.RPGPlayer rpgPlayer) {
+        GuiItem talentsButton = GuiItem.clickable(
+                ItemBuilder.of(Material.BLAZE_POWDER)
+                        .displayName(trans("items.mainmenu.talents-button.name"))
+                        .addLore(langManager.getComponentList(viewer, "items.mainmenu.talents-button.lore"))
+                        .build(),
+                p -> {
+                    if (!rpgPlayer.hasJob()) {
+                        langManager.sendMessage(p, "messages.no-job-for-talents");
+                        playErrorSound(p);
+                        return;
+                    }
+
+                    if (p.equals(targetPlayer)) {
+                        // TalentGui 열기
+                        java.util.List<com.febrie.rpg.talent.Talent> talents = RPGMain.getPlugin()
+                                .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
+                        TalentGui talentGui = new TalentGui(guiManager, langManager, p, rpgPlayer, "main", talents);
+                        guiManager.openGui(p, talentGui);
+                        playSuccessSound(p);
+                    } else {
+                        langManager.sendMessage(p, "general.cannot-view-others-talents");
+                        playErrorSound(p);
+                    }
+                }
+        );
+        setItem(TALENTS_SLOT, talentsButton);
     }
 }

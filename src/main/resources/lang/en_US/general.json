@@ -17,12 +17,15 @@
   "click-previous-page": "%COLOR_GRAY%Previous page",
   "unknown": "%COLOR_GRAY%Unknown",
   "loading": "%COLOR_YELLOW%Loading...",
-  "loading-description": "%COLOR_GRAY%Please wait",
+  "loading-description": "%COLOR_GRAY%Please wait a moment",
   "saving": "%COLOR_YELLOW%Saving...",
   "completed": "%COLOR_SUCCESS%Completed!",
   "failed": "%COLOR_ERROR%Failed!",
   "yes": "%COLOR_GREEN%Yes",
   "no": "%COLOR_RED%No",
   "enabled": "%COLOR_SUCCESS%Enabled",
-  "disabled": "%COLOR_ERROR%Disabled"
+  "disabled": "%COLOR_ERROR%Disabled",
+  "cannot-select-others-job": "%COLOR_ERROR%You cannot select another player's job!",
+  "cannot-view-others-stats": "%COLOR_ERROR%You cannot view another player's stats!",
+  "cannot-view-others-talents": "%COLOR_ERROR%You cannot view another player's talents!"
 }

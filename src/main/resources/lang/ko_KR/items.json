@@ -19,7 +19,7 @@
     "stats-button": {
       "name": "%COLOR_INFO%스탯 관리",
       "lore": [
-        "%COLOR_GRAY%스탯 포인트를 분배합니다.",
+        "%COLOR_GRAY%스탯 포인트를 할당합니다.",
         "",
         "%COLOR_YELLOW%▶ 클릭하여 열기"
       ]
@@ -35,7 +35,7 @@
     "leaderboard-button": {
       "name": "%COLOR_GOLD%서버 순위",
       "lore": [
-        "%COLOR_GRAY%다양한 분야의 순위를 확인합니다.",
+        "%COLOR_GRAY%다양한 카테고리의 순위를 확인합니다.",
         "",
         "%COLOR_YELLOW%▶ 클릭하여 열기"
       ]
@@ -59,7 +59,7 @@
     "dungeon-button": {
       "name": "%COLOR_DARK_PURPLE%던전",
       "lore": [
-        "%COLOR_GRAY%던전에 도전하여 보상을 획득하세요.",
+        "%COLOR_GRAY%던전에 도전하여 보상을 획득합니다.",
         "",
         "%COLOR_YELLOW%▶ 클릭하여 열기"
       ]
@@ -67,7 +67,7 @@
     "job-button": {
       "name": "%COLOR_LEGENDARY%직업 선택",
       "lore": [
-        "%COLOR_GRAY%직업을 선택하여 모험을 시작하세요.",
+        "%COLOR_GRAY%모험을 시작할 직업을 선택합니다.",
         "",
         "%COLOR_WARNING%⚠ 신중하게 선택하세요!",
         "%COLOR_YELLOW%▶ 클릭하여 열기"
