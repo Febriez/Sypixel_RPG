@@ -23,6 +23,24 @@ public final class ColorUtil {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
 
+    // === 기존 NamedTextColor 색상 ===
+    public static final TextColor AQUA = NamedTextColor.AQUA;
+    public static final TextColor DARK_AQUA = NamedTextColor.DARK_AQUA;
+    public static final TextColor BLACK = NamedTextColor.BLACK;
+    public static final TextColor GOLD = NamedTextColor.GOLD;
+    public static final TextColor BLUE = NamedTextColor.BLUE;
+    public static final TextColor DARK_BLUE = NamedTextColor.DARK_BLUE;
+    public static final TextColor DARK_GRAY = NamedTextColor.DARK_GRAY;
+    public static final TextColor DARK_GREEN = NamedTextColor.DARK_GREEN;
+    public static final TextColor DARK_PURPLE = NamedTextColor.DARK_PURPLE;
+    public static final TextColor DARK_RED = NamedTextColor.DARK_RED;
+    public static final TextColor GRAY = NamedTextColor.GRAY;
+    public static final TextColor GREEN = NamedTextColor.GREEN;
+    public static final TextColor LIGHT_PURPLE = NamedTextColor.LIGHT_PURPLE;
+    public static final TextColor RED = NamedTextColor.RED;
+    public static final TextColor WHITE = NamedTextColor.WHITE;
+    public static final TextColor YELLOW = NamedTextColor.YELLOW;
+
     // === 기본 확장 색상 ===
     public static final TextColor ORANGE = TextColor.color(255, 165, 0);
     public static final TextColor PINK = TextColor.color(255, 192, 203);
@@ -50,15 +68,10 @@ public final class ColorUtil {
     public static final TextColor COINS = TextColor.color(255, 215, 0);
 
     // === 추가 색상 ===
-    public static final TextColor GRAY = TextColor.color(128, 128, 128);
-    public static final TextColor DARK_GRAY = TextColor.color(64, 64, 64);
     public static final TextColor LIGHT_GRAY = TextColor.color(192, 192, 192);
-    public static final TextColor WHITE = TextColor.color(255, 255, 255);
-    public static final TextColor BLACK = TextColor.color(0, 0, 0);
 
     // === 재료 색상 ===
     public static final TextColor DIAMOND = TextColor.color(185, 242, 255); // #B9F2FF
-    public static final TextColor GOLD = TextColor.color(255, 215, 0); // #FFD700
     public static final TextColor NETHERITE = TextColor.color(68, 58, 69); // #443A45
     public static final TextColor COPPER = TextColor.color(184, 115, 51); // #B87333
     public static final TextColor EMERALD = TextColor.color(80, 200, 120); // #50C878
