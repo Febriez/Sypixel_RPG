@@ -145,6 +145,7 @@
     "prerequisite-not-met": "%COLOR_ERROR%선행 조건을 만족하지 않습니다",
     "click-subpage": "%COLOR_INFO%▶ 우클릭으로 하위 페이지 열기",
     "talent-learned": "%COLOR_SUCCESS%{talent} 특성을 배웠습니다!",
+    "click-stats": "%COLOR_GRAY%스탯 관리로 이동",
     "pages": {
       "main": "메인",
       "default": "기본"

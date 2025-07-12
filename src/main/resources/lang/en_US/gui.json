@@ -145,6 +145,7 @@
     "prerequisite-not-met": "%COLOR_ERROR%Prerequisites not met",
     "click-subpage": "%COLOR_INFO%▶ Right-click to open sub-page",
     "talent-learned": "%COLOR_SUCCESS%Learned {talent} talent!",
+    "click-stats": "%COLOR_GRAY%Go to Stat Management",
     "pages": {
       "main": "Main",
       "default": "Default"

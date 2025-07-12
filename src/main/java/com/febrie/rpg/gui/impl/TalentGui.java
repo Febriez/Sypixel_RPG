@@ -104,12 +104,9 @@ public class TalentGui extends ScrollableGui {
             boolean isMaxLevel = currentLevel >= talent.getMaxLevel();
             boolean canLearn = talent.canActivate(talents);
 
-            // 특성 이름 가져오기
-            String talentName = transString("talent." + talent.getId() + ".name");
-
             // 특성 아이템 생성
             ItemBuilder builder = ItemBuilder.of(talent.getIcon())
-                    .displayName(Component.text(talentName,
+                    .displayName(trans("talent." + talent.getId() + ".name").color(
                                     isMaxLevel ? ColorUtil.LEGENDARY : talent.getColor())
                             .decoration(TextDecoration.BOLD, true))
                     .addLore(Component.empty());
