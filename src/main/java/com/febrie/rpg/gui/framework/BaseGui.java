@@ -87,6 +87,59 @@ public abstract class BaseGui implements InteractiveGui {
         return size;
     }
 
+    /**
+     * 외부에서 아이템을 설정할 수 있는 public 메서드
+     * GuiService와 같은 서비스 클래스에서 사용
+     */
+    public void setGuiItem(int slot, @NotNull GuiItem item) {
+        setItem(slot, item);
+    }
+
+    /**
+     * 여러 슬롯에 같은 아이템 설정
+     */
+    public void setGuiItems(@NotNull GuiItem item, int... slots) {
+        for (int slot : slots) {
+            setItem(slot, item);
+        }
+    }
+
+    /**
+     * 특정 행에 아이템 설정
+     */
+    public void setGuiRow(int row, @NotNull GuiItem item) {
+        if (row < 0 || row >= 6) return;
+
+        for (int col = 0; col < 9; col++) {
+            setItem(row * 9 + col, item);
+        }
+    }
+
+    /**
+     * 특정 열에 아이템 설정
+     */
+    public void setGuiColumn(int column, @NotNull GuiItem item) {
+        if (column < 0 || column >= 9) return;
+
+        for (int row = 0; row < 6; row++) {
+            setItem(row * 9 + column, item);
+        }
+    }
+
+    /**
+     * 테두리에 아이템 설정
+     */
+    public void setGuiBorder(@NotNull GuiItem item) {
+        // 상단
+        setGuiRow(0, item);
+        // 하단
+        setGuiRow(5, item);
+        // 좌측
+        setGuiColumn(0, item);
+        // 우측
+        setGuiColumn(8, item);
+    }
+
     @Override
     public void onSlotClick(@NotNull InventoryClickEvent event, @NotNull Player player,
                             int slot, @NotNull ClickType click) {
@@ -141,7 +194,7 @@ public abstract class BaseGui implements InteractiveGui {
                             .displayName(langManager.getComponent(viewer, "gui.buttons.back.name"))
                             .addLore(langManager.getComponent(viewer, "gui.buttons.back.lore"))
                             .build(),
-                    player -> guiManager.goBack(player)
+                    guiManager::goBack
             ));
         } else {
             // 뒤로가기 불가능하면 버튼 제거 또는 비활성화
@@ -207,6 +260,10 @@ public abstract class BaseGui implements InteractiveGui {
         }
 
         return adjustedSize;
+    }
+
+    public Player getViewer() {
+        return viewer;
     }
 
     /**

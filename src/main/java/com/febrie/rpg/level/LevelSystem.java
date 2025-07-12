@@ -74,24 +74,6 @@ public class LevelSystem {
     }
 
     /**
-     * 특정 레벨까지의 누적 경험치 계산
-     *
-     * @param level   목표 레벨
-     * @param jobType 직업 타입
-     * @return 누적 경험치
-     */
-    public static long getTotalExpForLevel(int level, @NotNull JobType jobType) {
-        if (level <= 1) return 0;
-
-        long total = 0;
-        for (int i = 2; i <= level; i++) {
-            total += getExpForLevel(i, jobType);
-        }
-
-        return total;
-    }
-
-    /**
      * 현재 레벨에서의 진행도 계산 (0.0 ~ 1.0)
      *
      * @param totalExp 총 경험치
@@ -109,6 +91,53 @@ public class LevelSystem {
         long requiredExp = nextLevelTotalExp - currentLevelTotalExp;
 
         return (double) currentLevelExp / requiredExp;
+    }
+
+    /**
+     * 특정 레벨까지 필요한 총 경험치 계산
+     *
+     * @param level 목표 레벨
+     * @param job   직업 (보정치 적용)
+     * @return 총 필요 경험치
+     */
+    public static long getTotalExpForLevel(int level, @NotNull JobType job) {
+        if (level <= 1) {
+            return 0;
+        }
+
+        long totalExp = 0;
+        double jobModifier = getJobExpModifier(job);
+
+        // 1레벨부터 (level-1)레벨까지의 경험치 합산
+        for (int i = 1; i < level; i++) {
+            totalExp += calculateExpForLevel(i, jobModifier);
+        }
+
+        return totalExp;
+    }
+
+    /**
+     * 특정 레벨에서 다음 레벨까지 필요한 경험치
+     */
+    private static long calculateExpForLevel(int level, double jobModifier) {
+        // 기본 공식: 100 * 1.15^(레벨-1) * 직업보정치
+        return (long) (100 * Math.pow(1.15, level - 1) * jobModifier);
+    }
+
+    /**
+     * 직업별 경험치 보정치
+     */
+    private static double getJobExpModifier(@NotNull JobType job) {
+        // 높은 최대 레벨을 가진 직업은 더 많은 경험치 필요
+        int maxLevel = job.getMaxLevel();
+
+        if (maxLevel >= 200) {
+            return 1.2; // 20% 더 필요
+        } else if (maxLevel >= 120) {
+            return 1.0; // 기본
+        } else {
+            return 0.9; // 10% 덜 필요
+        }
     }
 
     /**

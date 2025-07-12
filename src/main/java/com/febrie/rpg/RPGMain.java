@@ -46,9 +46,13 @@ public final class RPGMain extends JavaPlugin {
     private ProfileCommand profileCommand;
     private MainMenuCommand mainMenuCommand;
 
+    private long startTime;
+
     @Override
     public void onEnable() {
         plugin = this;
+
+        startTime = System.currentTimeMillis();
 
         // LogUtil 초기화
         LogUtil.initialize(this);
@@ -280,5 +284,9 @@ public final class RPGMain extends JavaPlugin {
 
     public static RPGMain getPlugin() {
         return plugin;
+    }
+
+    public long getStartTime() {
+        return startTime;
     }
 }

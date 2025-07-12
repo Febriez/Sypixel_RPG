@@ -1,16 +1,20 @@
 package com.febrie.rpg.talent;
 
+import com.febrie.rpg.dto.TalentDTO;
+import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.LogUtil;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 특성(탤런트) 시스템
@@ -25,8 +29,7 @@ public class Talent {
     private final Material icon;
     private final TextColor color;
     private final int maxLevel;
-    private final int requiredPoints;
-    private final TalentCategory category;
+    private final JobType requiredJob;
 
     // 특성 트리 관련
     private final List<Talent> children = new ArrayList<>();
@@ -41,17 +44,58 @@ public class Talent {
     private boolean hasSubPage = false;
     private String pageId;
 
-    private Talent(Builder builder) {
-        this.id = builder.id;
-        this.icon = builder.icon;
-        this.color = builder.color;
-        this.maxLevel = builder.maxLevel;
-        this.requiredPoints = builder.requiredPoints;
-        this.category = builder.category;
-        this.statBonuses.putAll(builder.statBonuses);
-        this.effects.addAll(builder.effects);
-        this.hasSubPage = builder.hasSubPage;
-        this.pageId = builder.pageId;
+    private static final Map<String, Talent> REGISTRY = new HashMap<>();
+
+
+    private Talent(@NotNull String id, @NotNull Material icon,
+                   @NotNull TextColor color, int maxLevel,
+                   @Nullable JobType requiredJob) {
+        this.id = id;
+        this.icon = icon;
+        this.color = color;
+        this.maxLevel = maxLevel;
+        this.requiredJob = requiredJob;
+    }
+
+    /**
+     * 특정 직업이 이 특성을 배울 수 있는지 확인
+     */
+    public boolean canLearn(@Nullable JobType job) {
+        return requiredJob == null || requiredJob == job;
+    }
+
+    /**
+     * ID로 특성 찾기
+     */
+    @Nullable
+    public static Talent getById(@NotNull String id) {
+        return REGISTRY.get(id);
+    }
+
+    /**
+     * 모든 등록된 특성 가져오기
+     */
+    @NotNull
+    public static Collection<Talent> getAllTalents() {
+        return Collections.unmodifiableCollection(REGISTRY.values());
+    }
+
+    /**
+     * 특정 직업의 특성 가져오기
+     */
+    @NotNull
+    public static List<Talent> getTalentsForJob(@NotNull JobType job) {
+        return REGISTRY.values().stream()
+                .filter(talent -> talent.requiredJob == null || talent.requiredJob == job)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 특성 등록
+     */
+    private static Talent register(@NotNull Talent talent) {
+        REGISTRY.put(talent.id, talent);
+        return talent;
     }
 
     /**
@@ -277,6 +321,7 @@ public class Talent {
      * 특성 보유자
      */
     public static class TalentHolder {
+        private static final NamespacedKey KEY_TALENT_POINTS = new NamespacedKey("sypixelrpg", "talent_points");
         private final Map<Talent, Integer> talentLevels = new HashMap<>();
         private int availablePoints = 0;
         private int spentPoints = 0;
@@ -302,12 +347,93 @@ public class Talent {
             return availablePoints;
         }
 
+        /**
+         * PDC에서 특성 데이터 로드
+         */
+        public void loadFromPDC(@NotNull PersistentDataContainer pdc) {
+            // 특성 포인트 로드
+            Integer points = pdc.get(KEY_TALENT_POINTS, PersistentDataType.INTEGER);
+            if (points != null) {
+                this.availablePoints = points;
+            }
+
+            // 배운 특성들 로드
+            // PDC에는 "talent_특성ID" 형태로 저장됨
+            for (Talent talent : Talent.getAllTalents()) {
+                NamespacedKey talentKey = new NamespacedKey("sypixelrpg", "talent_" + talent.getId());
+                Integer level = pdc.get(talentKey, PersistentDataType.INTEGER);
+                if (level != null && level > 0) {
+                    learnedTalents.put(talent, level);
+                }
+            }
+        }
+
+        /**
+         * PDC에 특성 데이터 저장
+         */
+        public void saveToPDC(@NotNull PersistentDataContainer pdc) {
+            // 특성 포인트 저장
+            pdc.set(KEY_TALENT_POINTS, PersistentDataType.INTEGER, availablePoints);
+
+            // 배운 특성들 저장
+            for (Map.Entry<Talent, Integer> entry : learnedTalents.entrySet()) {
+                NamespacedKey talentKey = new NamespacedKey("sypixelrpg", "talent_" + entry.getKey().getId());
+                pdc.set(talentKey, PersistentDataType.INTEGER, entry.getValue());
+            }
+        }
+
         public int getSpentPoints() {
             return spentPoints;
         }
 
         public Map<Talent, Integer> getAllTalents() {
             return new HashMap<>(talentLevels);
+        }
+
+        // Talent.java의 TalentHolder 클래스에 추가할 메서드들
+
+        /**
+         * DTO로 변환
+         */
+        @NotNull
+        public TalentDTO toDTO() {
+            TalentDTO dto = new TalentDTO();
+
+            // 사용 가능한 포인트
+            dto.setAvailablePoints(availablePoints);
+
+            // 배운 특성들
+            Map<String, Integer> learnedTalentsMap = new HashMap<>();
+            for (Map.Entry<Talent, Integer> entry : learnedTalents.entrySet()) {
+                learnedTalentsMap.put(entry.getKey().getId(), entry.getValue());
+            }
+            dto.setLearnedTalents(learnedTalentsMap);
+
+            return dto;
+        }
+
+        /**
+         * DTO에서 데이터 적용
+         */
+        public void applyFromDTO(@NotNull TalentDTO dto) {
+            // 사용 가능한 포인트 설정
+            this.availablePoints = dto.getAvailablePoints();
+
+            // 배운 특성들 설정
+            this.learnedTalents.clear();
+            Map<String, Integer> learnedTalentsMap = dto.getLearnedTalents();
+
+            for (Map.Entry<String, Integer> entry : learnedTalentsMap.entrySet()) {
+                try {
+                    Talent talent = Talent.getById(entry.getKey());
+                    if (talent != null) {
+                        this.learnedTalents.put(talent, entry.getValue());
+                    }
+                } catch (Exception e) {
+                    // 알 수 없는 특성 ID는 무시
+                    LogUtil.warning("Unknown talent ID: " + entry.getKey());
+                }
+            }
         }
 
         /**

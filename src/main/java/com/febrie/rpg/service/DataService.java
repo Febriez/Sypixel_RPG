@@ -204,22 +204,19 @@ public class DataService {
                 })
                 .limit(limit)
                 .map(rpgPlayer -> {
-                    String uuid = rpgPlayer.getUuid().toString();
+                    String uuid = rpgPlayer.getPlayerId().toString();
                     String name = rpgPlayer.getName();
                     String job = rpgPlayer.hasJob() ? rpgPlayer.getJob().name() : null;
 
-                    switch (type) {
-                        case "level":
-                            return LeaderboardEntryDTO.createLevelEntry(
-                                    uuid, name, rpgPlayer.getLevel(), rpgPlayer.getExperience(), job
-                            );
-                        case "combat_power":
-                            return LeaderboardEntryDTO.createCombatPowerEntry(
-                                    uuid, name, rpgPlayer.getCombatPower(), rpgPlayer.getLevel(), job
-                            );
-                        default:
-                            return new LeaderboardEntryDTO(uuid, name, 0);
-                    }
+                    return switch (type) {
+                        case "level" -> LeaderboardEntryDTO.createLevelEntry(
+                                uuid, name, rpgPlayer.getLevel(), rpgPlayer.getExperience(), job
+                        );
+                        case "combat_power" -> LeaderboardEntryDTO.createCombatPowerEntry(
+                                uuid, name, rpgPlayer.getCombatPower(), rpgPlayer.getLevel(), job
+                        );
+                        default -> new LeaderboardEntryDTO(uuid, name, 0);
+                    };
                 })
                 .toList();
     }
@@ -229,19 +226,13 @@ public class DataService {
      */
     private void startSyncScheduler() {
         // 5분마다 서버 통계 업데이트
-        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
-            updateServerStats();
-        }, 20L * 300, 20L * 300);
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this::updateServerStats, 20L * 300, 20L * 300);
 
         // 10분마다 캐시 정리
-        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
-            cleanupCaches();
-        }, 20L * 600, 20L * 600);
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this::cleanupCaches, 20L * 600, 20L * 600);
 
         // 30분마다 연결 상태 확인
-        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
-            checkConnectionAndSetMode();
-        }, 20L * 1800, 20L * 1800);
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this::checkConnectionAndSetMode, 20L * 1800, 20L * 1800);
     }
 
     /**

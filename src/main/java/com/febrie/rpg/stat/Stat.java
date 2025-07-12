@@ -1,10 +1,14 @@
 package com.febrie.rpg.stat;
 
+import com.febrie.rpg.dto.StatsDTO;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -173,11 +177,64 @@ public class Stat {
             }
         }
 
+        // Stat.java의 StatHolder 클래스에 추가할 메서드들
+
+        /**
+         * DTO로 변환
+         */
+        @NotNull
+        public StatsDTO toDTO() {
+            StatsDTO dto = new StatsDTO();
+
+            // 각 스탯의 기본값을 DTO에 설정
+            dto.setStrength(getBaseStat(Stat.STRENGTH));
+            dto.setIntelligence(getBaseStat(Stat.INTELLIGENCE));
+            dto.setDexterity(getBaseStat(Stat.DEXTERITY));
+            dto.setVitality(getBaseStat(Stat.VITALITY));
+            dto.setWisdom(getBaseStat(Stat.WISDOM));
+            dto.setLuck(getBaseStat(Stat.LUCK));
+
+            return dto;
+        }
+
+        /**
+         * DTO에서 데이터 적용
+         */
+        public void applyFromDTO(@NotNull StatsDTO dto) {
+            // 각 스탯 설정
+            setBaseStat(Stat.STRENGTH, dto.getStrength());
+            setBaseStat(Stat.INTELLIGENCE, dto.getIntelligence());
+            setBaseStat(Stat.DEXTERITY, dto.getDexterity());
+            setBaseStat(Stat.VITALITY, dto.getVitality());
+            setBaseStat(Stat.WISDOM, dto.getWisdom());
+            setBaseStat(Stat.LUCK, dto.getLuck());
+        }
+
         /**
          * 기본 스탯 설정
          */
         public void setBaseStat(@NotNull Stat stat, int value) {
-            baseStats.put(stat, Math.max(0, Math.min(value, stat.getMaxValue())));
+            baseStats.put(stat, Math.max(stat.getDefaultValue(), Math.min(value, stat.getMaxValue())));
+        }
+
+        /**
+         * PDC에서 스탯 로드
+         */
+        public void loadFromPDC(@NotNull PersistentDataContainer pdc) {
+            for (Stat stat : Stat.values()) {
+                Integer value = pdc.get(stat.getKey(), PersistentDataType.INTEGER);
+                if (value != null) {
+                    setBaseStat(stat, value);
+                }
+            }
+        }
+
+        /**
+         * 모든 스탯 값 가져오기
+         */
+        @NotNull
+        public static Collection<Stat> values() {
+            return REGISTRY.values();
         }
 
         /**

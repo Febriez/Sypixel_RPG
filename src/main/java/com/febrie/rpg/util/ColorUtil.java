@@ -50,10 +50,18 @@ public final class ColorUtil {
     public static final TextColor COINS = TextColor.color(255, 215, 0);
 
     // === 추가 색상 ===
+    public static final TextColor GRAY = TextColor.color(128, 128, 128);
     public static final TextColor DARK_GRAY = TextColor.color(64, 64, 64);
     public static final TextColor LIGHT_GRAY = TextColor.color(192, 192, 192);
     public static final TextColor WHITE = TextColor.color(255, 255, 255);
     public static final TextColor BLACK = TextColor.color(0, 0, 0);
+
+    // === 재료 색상 ===
+    public static final TextColor DIAMOND = TextColor.color(185, 242, 255); // #B9F2FF
+    public static final TextColor GOLD = TextColor.color(255, 215, 0); // #FFD700
+    public static final TextColor NETHERITE = TextColor.color(68, 58, 69); // #443A45
+    public static final TextColor COPPER = TextColor.color(184, 115, 51); // #B87333
+    public static final TextColor EMERALD = TextColor.color(80, 200, 120); // #50C878
 
     // 색상 캐시 (성능 최적화)
     private static final Map<String, TextColor> COLOR_CACHE = new HashMap<>();

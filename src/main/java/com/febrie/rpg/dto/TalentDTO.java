@@ -6,111 +6,53 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Firestore players/{uuid}/talents 문서 DTO (순수 POJO)
- * 플레이어의 특성(탤런트) 정보를 저장
+ * 플레이어 특성 정보 DTO
+ * Firebase 저장용
  *
  * @author Febrie, CoffeeTory
  */
 public class TalentDTO {
 
-    // 특성 ID와 레벨을 저장 (talentId -> level)
-    private Map<String, Integer> talentLevels = new HashMap<>();
+    private int availablePoints = 0;
+    private Map<String, Integer> learnedTalents = new HashMap<>();
 
-    private int availableTalentPoints = 0;
-    private int totalTalentPointsUsed = 0;
-
-    private long lastUpdated;
-
-    // 기본 생성자 (Firestore 필수)
     public TalentDTO() {
-        this.lastUpdated = System.currentTimeMillis();
-    }
-
-    /**
-     * 데이터 업데이트 시 타임스탬프도 업데이트
-     */
-    public void markUpdated() {
-        this.lastUpdated = System.currentTimeMillis();
-    }
-
-    // 특성 관련 메소드들
-    public int getTalentLevel(@NotNull String talentId) {
-        return talentLevels.getOrDefault(talentId, 0);
-    }
-
-    public void setTalentLevel(@NotNull String talentId, int level) {
-        if (level > 0) {
-            talentLevels.put(talentId, level);
-        } else {
-            talentLevels.remove(talentId);
-        }
-        markUpdated();
-    }
-
-    public boolean hasTalent(@NotNull String talentId) {
-        return talentLevels.containsKey(talentId) && talentLevels.get(talentId) > 0;
+        // 기본 생성자
     }
 
     // Getters and Setters
-    public Map<String, Integer> getTalentLevels() {
-        return talentLevels;
+    public int getAvailablePoints() {
+        return availablePoints;
     }
 
-    public void setTalentLevels(Map<String, Integer> talentLevels) {
-        this.talentLevels = talentLevels;
-        markUpdated();
+    public void setAvailablePoints(int availablePoints) {
+        this.availablePoints = availablePoints;
     }
 
-    public int getAvailableTalentPoints() {
-        return availableTalentPoints;
+    @NotNull
+    public Map<String, Integer> getLearnedTalents() {
+        return new HashMap<>(learnedTalents);
     }
 
-    public void setAvailableTalentPoints(int availableTalentPoints) {
-        this.availableTalentPoints = availableTalentPoints;
-        markUpdated();
-    }
-
-    public int getTotalTalentPointsUsed() {
-        return totalTalentPointsUsed;
-    }
-
-    public void setTotalTalentPointsUsed(int totalTalentPointsUsed) {
-        this.totalTalentPointsUsed = totalTalentPointsUsed;
-        markUpdated();
-    }
-
-    public long getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(long lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    public void setLearnedTalents(@NotNull Map<String, Integer> learnedTalents) {
+        this.learnedTalents = new HashMap<>(learnedTalents);
     }
 
     /**
-     * Map으로 변환 (Firestore 저장용)
+     * 특정 특성 레벨 가져오기
      */
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("talentLevels", talentLevels);
-        map.put("availableTalentPoints", availableTalentPoints);
-        map.put("totalTalentPointsUsed", totalTalentPointsUsed);
-        map.put("lastUpdated", lastUpdated);
-        return map;
+    public int getTalentLevel(@NotNull String talentId) {
+        return learnedTalents.getOrDefault(talentId, 0);
     }
 
     /**
-     * Map에서 생성
+     * 특정 특성 레벨 설정
      */
-    public static TalentDTO fromMap(Map<String, Object> map) {
-        TalentDTO dto = new TalentDTO();
-
-        dto.setTalentLevels(DTOUtil.toIntegerMap(map.get("talentLevels")));
-
-        DTOUtil.setIntFromMap(map, "availableTalentPoints", dto::setAvailableTalentPoints);
-        DTOUtil.setIntFromMap(map, "totalTalentPointsUsed", dto::setTotalTalentPointsUsed);
-        DTOUtil.setLongFromMap(map, "lastUpdated", dto::setLastUpdated);
-
-        return dto;
+    public void setTalentLevel(@NotNull String talentId, int level) {
+        if (level > 0) {
+            learnedTalents.put(talentId, level);
+        } else {
+            learnedTalents.remove(talentId);
+        }
     }
 }

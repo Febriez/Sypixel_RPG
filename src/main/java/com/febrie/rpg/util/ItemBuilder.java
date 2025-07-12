@@ -107,6 +107,42 @@ public class ItemBuilder {
     }
 
     /**
+     * Sets the skull owner for player heads
+     *
+     * @param player The player whose head to use
+     * @return This builder
+     */
+    public ItemBuilder skull(@NotNull Player player) {
+        if (itemStack.getType() != Material.PLAYER_HEAD) {
+            throw new IllegalStateException("skull() can only be used with PLAYER_HEAD material");
+        }
+
+        if (itemMeta instanceof SkullMeta skullMeta) {
+            skullMeta.setOwningPlayer(player);
+        }
+        return this;
+    }
+
+    /**
+     * Adds multiple lore lines from a List
+     *
+     * @param lines The lore lines to add as a List
+     * @return This builder
+     */
+    public ItemBuilder addLore(List<Component> lines) {
+        List<Component> lore = itemMeta.lore();
+        if (lore == null) lore = new ArrayList<>();
+
+        // 각 Component에 italic false 적용
+        for (Component line : lines) {
+            lore.add(line.decoration(TextDecoration.ITALIC, false));
+        }
+
+        itemMeta.lore(lore);
+        return this;
+    }
+
+    /**
      * Sets the item name (different from display name, used for data packs)
      *
      * @param itemName The item name component

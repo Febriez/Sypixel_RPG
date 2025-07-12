@@ -1,102 +1,45 @@
 package com.febrie.rpg.dto;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- * Firestore players/{uuid}/progress 문서 DTO (순수 POJO)
- * 플레이어의 진행도 정보를 저장 (경험치, 레벨, 업적 등)
+ * 플레이어 진행도 정보 DTO
+ * Firebase 저장용
  *
  * @author Febrie, CoffeeTory
  */
 public class ProgressDTO {
 
-    private long totalExperience = 0;
     private int currentLevel = 1;
-    private double levelProgress = 0.0; // 0.0 ~ 1.0
+    private long totalExperience = 0;
+    private double levelProgress = 0.0;
 
     // 전투 통계
-    private long totalKills = 0;
-    private long totalDeaths = 0;
-    private long totalDamageDealt = 0;
-    private long totalDamageTaken = 0;
+    private long mobsKilled = 0;
+    private long playersKilled = 0;
+    private long deaths = 0;
 
-    // 경제 통계
-    private long totalCoinsEarned = 0;
-    private long totalCoinsSpent = 0;
-    private long currentCoins = 0;
+    // 퀘스트 진행도 (나중에 추가)
+    private int questsCompleted = 0;
+    private int achievementsUnlocked = 0;
 
-    // 던전 통계
-    private Map<String, Integer> dungeonClears = new HashMap<>(); // dungeonId -> clear count
-    private Map<String, Long> dungeonBestTimes = new HashMap<>(); // dungeonId -> best time (ms)
-
-    private long lastUpdated;
-
-    // 기본 생성자 (Firestore 필수)
     public ProgressDTO() {
-        this.lastUpdated = System.currentTimeMillis();
-    }
-
-    /**
-     * 데이터 업데이트 시 타임스탬프도 업데이트
-     */
-    public void markUpdated() {
-        this.lastUpdated = System.currentTimeMillis();
-    }
-
-    // 경험치 관련 메소드
-    public void addExperience(long exp) {
-        this.totalExperience += exp;
-        markUpdated();
-    }
-
-    // 전투 통계 메소드
-    public void addKill() {
-        this.totalKills++;
-        markUpdated();
-    }
-
-    public void addDeath() {
-        this.totalDeaths++;
-        markUpdated();
-    }
-
-    public double getKDRatio() {
-        if (totalDeaths == 0) return totalKills;
-        return (double) totalKills / totalDeaths;
-    }
-
-    // 던전 통계 메소드
-    public void addDungeonClear(String dungeonId) {
-        dungeonClears.merge(dungeonId, 1, Integer::sum);
-        markUpdated();
-    }
-
-    public void updateDungeonBestTime(String dungeonId, long timeMs) {
-        Long currentBest = dungeonBestTimes.get(dungeonId);
-        if (currentBest == null || timeMs < currentBest) {
-            dungeonBestTimes.put(dungeonId, timeMs);
-            markUpdated();
-        }
+        // 기본 생성자
     }
 
     // Getters and Setters
-    public long getTotalExperience() {
-        return totalExperience;
-    }
-
-    public void setTotalExperience(long totalExperience) {
-        this.totalExperience = totalExperience;
-        markUpdated();
-    }
-
     public int getCurrentLevel() {
         return currentLevel;
     }
 
     public void setCurrentLevel(int currentLevel) {
-        this.currentLevel = currentLevel;
-        markUpdated();
+        this.currentLevel = Math.max(1, currentLevel);
+    }
+
+    public long getTotalExperience() {
+        return totalExperience;
+    }
+
+    public void setTotalExperience(long totalExperience) {
+        this.totalExperience = Math.max(0, totalExperience);
     }
 
     public double getLevelProgress() {
@@ -104,148 +47,61 @@ public class ProgressDTO {
     }
 
     public void setLevelProgress(double levelProgress) {
-        this.levelProgress = levelProgress;
-        markUpdated();
+        this.levelProgress = Math.max(0.0, Math.min(1.0, levelProgress));
     }
 
-    public long getTotalKills() {
-        return totalKills;
+    public long getMobsKilled() {
+        return mobsKilled;
     }
 
-    public void setTotalKills(long totalKills) {
-        this.totalKills = totalKills;
-        markUpdated();
+    public void setMobsKilled(long mobsKilled) {
+        this.mobsKilled = Math.max(0, mobsKilled);
     }
 
-    public long getTotalDeaths() {
-        return totalDeaths;
+    public long getPlayersKilled() {
+        return playersKilled;
     }
 
-    public void setTotalDeaths(long totalDeaths) {
-        this.totalDeaths = totalDeaths;
-        markUpdated();
+    public void setPlayersKilled(long playersKilled) {
+        this.playersKilled = Math.max(0, playersKilled);
     }
 
-    public long getTotalDamageDealt() {
-        return totalDamageDealt;
+    public long getDeaths() {
+        return deaths;
     }
 
-    public void setTotalDamageDealt(long totalDamageDealt) {
-        this.totalDamageDealt = totalDamageDealt;
-        markUpdated();
+    public void setDeaths(long deaths) {
+        this.deaths = Math.max(0, deaths);
     }
 
-    public long getTotalDamageTaken() {
-        return totalDamageTaken;
+    public int getQuestsCompleted() {
+        return questsCompleted;
     }
 
-    public void setTotalDamageTaken(long totalDamageTaken) {
-        this.totalDamageTaken = totalDamageTaken;
-        markUpdated();
+    public void setQuestsCompleted(int questsCompleted) {
+        this.questsCompleted = Math.max(0, questsCompleted);
     }
 
-    public long getTotalCoinsEarned() {
-        return totalCoinsEarned;
+    public int getAchievementsUnlocked() {
+        return achievementsUnlocked;
     }
 
-    public void setTotalCoinsEarned(long totalCoinsEarned) {
-        this.totalCoinsEarned = totalCoinsEarned;
-        markUpdated();
-    }
-
-    public long getTotalCoinsSpent() {
-        return totalCoinsSpent;
-    }
-
-    public void setTotalCoinsSpent(long totalCoinsSpent) {
-        this.totalCoinsSpent = totalCoinsSpent;
-        markUpdated();
-    }
-
-    public long getCurrentCoins() {
-        return currentCoins;
-    }
-
-    public void setCurrentCoins(long currentCoins) {
-        this.currentCoins = currentCoins;
-        markUpdated();
-    }
-
-    public Map<String, Integer> getDungeonClears() {
-        return dungeonClears;
-    }
-
-    public void setDungeonClears(Map<String, Integer> dungeonClears) {
-        this.dungeonClears = dungeonClears;
-        markUpdated();
-    }
-
-    public Map<String, Long> getDungeonBestTimes() {
-        return dungeonBestTimes;
-    }
-
-    public void setDungeonBestTimes(Map<String, Long> dungeonBestTimes) {
-        this.dungeonBestTimes = dungeonBestTimes;
-        markUpdated();
-    }
-
-    public long getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public void setLastUpdated(long lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    public void setAchievementsUnlocked(int achievementsUnlocked) {
+        this.achievementsUnlocked = Math.max(0, achievementsUnlocked);
     }
 
     /**
-     * Map으로 변환 (Firestore 저장용)
+     * 킬 증가
      */
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("totalExperience", totalExperience);
-        map.put("currentLevel", currentLevel);
-        map.put("levelProgress", levelProgress);
-        map.put("totalKills", totalKills);
-        map.put("totalDeaths", totalDeaths);
-        map.put("totalDamageDealt", totalDamageDealt);
-        map.put("totalDamageTaken", totalDamageTaken);
-        map.put("totalCoinsEarned", totalCoinsEarned);
-        map.put("totalCoinsSpent", totalCoinsSpent);
-        map.put("currentCoins", currentCoins);
-        map.put("dungeonClears", dungeonClears);
-        map.put("dungeonBestTimes", dungeonBestTimes);
-        map.put("lastUpdated", lastUpdated);
-        return map;
+    public void incrementMobKills() {
+        this.mobsKilled++;
     }
 
-    /**
-     * Map에서 생성
-     */
-    public static ProgressDTO fromMap(Map<String, Object> map) {
-        ProgressDTO dto = new ProgressDTO();
+    public void incrementPlayerKills() {
+        this.playersKilled++;
+    }
 
-        // Long 타입 필드들
-        DTOUtil.setLongFromMap(map, "totalExperience", dto::setTotalExperience);
-        DTOUtil.setIntFromMap(map, "currentLevel", dto::setCurrentLevel);
-        DTOUtil.setLongFromMap(map, "totalKills", dto::setTotalKills);
-        DTOUtil.setLongFromMap(map, "totalDeaths", dto::setTotalDeaths);
-        DTOUtil.setLongFromMap(map, "totalDamageDealt", dto::setTotalDamageDealt);
-        DTOUtil.setLongFromMap(map, "totalDamageTaken", dto::setTotalDamageTaken);
-        DTOUtil.setLongFromMap(map, "totalCoinsEarned", dto::setTotalCoinsEarned);
-        DTOUtil.setLongFromMap(map, "totalCoinsSpent", dto::setTotalCoinsSpent);
-        DTOUtil.setLongFromMap(map, "currentCoins", dto::setCurrentCoins);
-        DTOUtil.setLongFromMap(map, "lastUpdated", dto::setLastUpdated);
-
-        // Double 타입 필드
-        Double progress = DTOUtil.toDouble(map.get("levelProgress"));
-        if (progress != null) {
-            dto.setLevelProgress(progress);
-        }
-
-        // Map 타입 필드들
-        dto.setDungeonClears(DTOUtil.toIntegerMap(map.get("dungeonClears")));
-        dto.setDungeonBestTimes(DTOUtil.toLongMap(map.get("dungeonBestTimes")));
-
-        return dto;
+    public void incrementDeaths() {
+        this.deaths++;
     }
 }

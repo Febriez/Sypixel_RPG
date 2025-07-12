@@ -30,7 +30,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class GuiService {
 
-    private final RPGMain plugin;
     private final GuiManager guiManager;
     private final LangManager langManager;
     private final RPGPlayerManager playerManager;
@@ -51,7 +50,6 @@ public class GuiService {
     private final ConcurrentHashMap<String, GuiItem> itemCache = new ConcurrentHashMap<>();
 
     public GuiService(@NotNull RPGMain plugin) {
-        this.plugin = plugin;
         this.guiManager = plugin.getGuiManager();
         this.langManager = plugin.getLangManager();
         this.playerManager = plugin.getRPGPlayerManager();
@@ -64,154 +62,449 @@ public class GuiService {
     public RPGPlayer getRPGPlayer(@NotNull Player player) {
         RPGPlayer rpgPlayer = playerManager.getPlayer(player);
         if (rpgPlayer == null) {
-            LogUtil.warning("RPGPlayer를 찾을 수 없습니다: " + player.getName());
+            LogUtil.warning("RPGPlayer not found for " + player.getName());
         }
         return rpgPlayer;
     }
 
     /**
-     * RPGPlayer 가져오기 (없으면 생성)
+     * 직업 선택 필요 체크
+     */
+    public boolean requiresJobSelection(@NotNull Player player) {
+        RPGPlayer rpgPlayer = getRPGPlayer(player);
+        if (rpgPlayer == null) {
+            rpgPlayer = playerManager.getOrCreatePlayer(player);
+        }
+
+        if (!rpgPlayer.hasJob()) {
+            // 직업 선택 GUI로 이동
+            guiManager.openGui(player, new JobSelectionGui(guiManager, langManager, player, rpgPlayer));
+            playErrorSound(player);
+            langManager.sendMessage(player, "messages.no-job-for-" +
+                    (player.hasPermission("rpg.talent") ? "talents" : "stats"));
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 공통 뒤로가기 버튼 생성
      */
     @NotNull
-    public RPGPlayer getOrCreateRPGPlayer(@NotNull Player player) {
-        return playerManager.getOrCreatePlayer(player);
+    public GuiItem createBackButton() {
+        return getCachedItem("back_button", () ->
+                GuiItem.clickable(
+                        new ItemBuilder(Material.ARROW)
+                                .displayName(langManager.getComponent("ko_KR", "gui.buttons.back.name"))
+                                .addLore(langManager.getComponentList("ko_KR", "gui.buttons.back.lore"))
+                                .build(),
+                        player -> {
+                            playClickSound(player);
+                            guiManager.goBack(player);
+                        }
+                )
+        );
     }
 
     /**
-     * 직업 체크 및 직업 선택 GUI로 리다이렉트
-     */
-    public boolean checkAndRedirectJob(@NotNull Player player, @NotNull RPGPlayer rpgPlayer) {
-        if (!rpgPlayer.hasJob()) {
-            JobSelectionGui jobGui = new JobSelectionGui(guiManager, langManager, player, rpgPlayer);
-            guiManager.openGui(player, jobGui);
-
-            langManager.sendMessage(player, "messages.no-job-selected");
-            playSound(player, errorSound);
-            return true; // 리다이렉트됨
-        }
-        return false; // 직업이 있음
-    }
-
-    /**
-     * 표준 네비게이션 버튼 생성
-     */
-    public void setupStandardNavigation(@NotNull BaseGui gui, @NotNull Player viewer, boolean showBack) {
-        // 뒤로가기 버튼
-        if (showBack && guiManager.canGoBack(viewer)) {
-            GuiItem backButton = createBackButton(viewer);
-            gui.setItem(BACK_BUTTON_SLOT, backButton);
-        }
-
-        // 닫기 버튼
-        GuiItem closeButton = createCloseButton(viewer);
-        gui.setItem(CLOSE_BUTTON_SLOT, closeButton);
-    }
-
-    /**
-     * 뒤로가기 버튼 생성 (캐시 활용)
+     * 플레이어별 뒤로가기 버튼 생성
      */
     @NotNull
     public GuiItem createBackButton(@NotNull Player player) {
-        String cacheKey = "back_" + langManager.getPlayerLanguage(player);
-
-        return itemCache.computeIfAbsent(cacheKey, k ->
-                GuiItem.clickable(
-                        ItemBuilder.of(Material.ARROW)
-                                .displayName(langManager.getComponent(player, "gui.buttons.back.name"))
-                                .addLore(langManager.getComponent(player, "gui.buttons.back.lore"))
-                                .build(),
-                        p -> {
-                            playSound(p, clickSound);
-                            guiManager.goBack(p);
-                        }
-                )
-        );
-    }
-
-    /**
-     * 닫기 버튼 생성 (캐시 활용)
-     */
-    @NotNull
-    public GuiItem createCloseButton(@NotNull Player player) {
-        String cacheKey = "close_" + langManager.getPlayerLanguage(player);
-
-        return itemCache.computeIfAbsent(cacheKey, k ->
-                GuiItem.clickable(
-                        ItemBuilder.of(Material.BARRIER)
-                                .displayName(langManager.getComponent(player, "gui.buttons.close.name"))
-                                .addLore(langManager.getComponent(player, "gui.buttons.close.lore"))
-                                .build(),
-                        p -> {
-                            playSound(p, clickSound);
-                            p.closeInventory();
-                        }
-                )
-        );
-    }
-
-    /**
-     * 새로고침 버튼 생성
-     */
-    @NotNull
-    public GuiItem createRefreshButton(@NotNull Player player, @NotNull Runnable refreshAction) {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.COMPASS)
-                        .displayName(langManager.getComponent(player, "gui.buttons.refresh.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.refresh.lore"))
+                new ItemBuilder(Material.ARROW)
+                        .displayName(langManager.getComponent(player, "gui.buttons.back.name"))
+                        .addLore(langManager.getComponentList(player, "gui.buttons.back.lore"))
                         .build(),
                 p -> {
-                    playSound(p, clickSound);
-                    refreshAction.run();
+                    playClickSound(p);
+                    guiManager.goBack(p);
                 }
         );
     }
 
     /**
-     * 페이지 네비게이션 버튼 생성
+     * 공통 닫기 버튼 생성
      */
-    public void setupPageNavigation(@NotNull BaseGui gui, @NotNull Player viewer,
-                                    int currentPage, int totalPages) {
-        // 이전 페이지
-        if (currentPage > 0) {
-            GuiItem prevButton = GuiItem.clickable(
-                    ItemBuilder.of(Material.ARROW)
-                            .displayName(langManager.getComponent(viewer, "gui.buttons.previous-page.name"))
-                            .addLore(langManager.getComponent(viewer, "gui.buttons.previous-page.lore",
-                                    "page", String.valueOf(currentPage)))
-                            .build(),
-                    p -> {
-                        playSound(p, clickSound);
-                        // 페이지 전환 로직은 각 GUI에서 구현
-                    }
-            );
-            gui.setItem(48, prevButton);
-        }
+    @NotNull
+    public GuiItem createCloseButton() {
+        return getCachedItem("close_button", () ->
+                GuiItem.clickable(
+                        new ItemBuilder(Material.BARRIER)
+                                .displayName(langManager.getComponent("ko_KR", "gui.buttons.close.name"))
+                                .addLore(langManager.getComponentList("ko_KR", "gui.buttons.close.lore"))
+                                .build(),
+                        player -> {
+                            playClickSound(player);
+                            player.closeInventory();
+                        }
+                )
+        );
+    }
 
-        // 다음 페이지
-        if (currentPage < totalPages - 1) {
-            GuiItem nextButton = GuiItem.clickable(
-                    ItemBuilder.of(Material.ARROW)
-                            .displayName(langManager.getComponent(viewer, "gui.buttons.next-page.name"))
-                            .addLore(langManager.getComponent(viewer, "gui.buttons.next-page.lore",
-                                    "page", String.valueOf(currentPage + 2)))
-                            .build(),
-                    p -> {
-                        playSound(p, clickSound);
-                        // 페이지 전환 로직은 각 GUI에서 구현
-                    }
-            );
-            gui.setItem(50, nextButton);
-        }
+    /**
+     * 플레이어별 닫기 버튼 생성
+     */
+    @NotNull
+    public GuiItem createCloseButton(@NotNull Player player) {
+        return GuiItem.clickable(
+                new ItemBuilder(Material.BARRIER)
+                        .displayName(langManager.getComponent(player, "gui.buttons.close.name"))
+                        .addLore(langManager.getComponentList(player, "gui.buttons.close.lore"))
+                        .build(),
+                p -> {
+                    playClickSound(p);
+                    p.closeInventory();
+                }
+        );
+    }
 
-        // 페이지 정보
-        GuiItem pageInfo = GuiItem.display(
-                ItemBuilder.of(Material.BOOK)
-                        .displayName(langManager.getComponent(viewer, "gui.page-info",
-                                "current", String.valueOf(currentPage + 1),
+    /**
+     * 공통 새로고침 버튼 생성
+     */
+    @NotNull
+    public GuiItem createRefreshButton(@NotNull Runnable refreshAction) {
+        return GuiItem.clickable(
+                new ItemBuilder(Material.COMPASS)
+                        .displayName(langManager.getComponent("ko_KR", "gui.buttons.refresh.name"))
+                        .addLore(langManager.getComponentList("ko_KR", "gui.buttons.refresh.lore"))
+                        .build(),
+                player -> {
+                    playClickSound(player);
+                    refreshAction.run();
+                    langManager.sendMessage(player, "messages.gui-refreshed");
+                }
+        );
+    }
+
+    /**
+     * 플레이어별 새로고침 버튼 생성
+     */
+    @NotNull
+    public GuiItem createRefreshButton(@NotNull Player player, @NotNull Runnable refreshAction) {
+        return GuiItem.clickable(
+                new ItemBuilder(Material.COMPASS)
+                        .displayName(langManager.getComponent(player, "gui.buttons.refresh.name"))
+                        .addLore(langManager.getComponentList(player, "gui.buttons.refresh.lore"))
+                        .build(),
+                p -> {
+                    playClickSound(p);
+                    refreshAction.run();
+                    langManager.sendMessage(p, "messages.gui-refreshed");
+                }
+        );
+    }
+
+    /**
+     * 페이지 정보 아이템 생성
+     */
+    @NotNull
+    public GuiItem createPageInfo(@NotNull Player player, int currentPage, int totalPages) {
+        return GuiItem.display(
+                new ItemBuilder(Material.BOOK)
+                        .displayName(langManager.getComponent(player, "gui.buttons.page-info.name"))
+                        .addLore(langManager.getComponentList(player, "gui.buttons.page-info.lore",
+                                "current", String.valueOf(currentPage),
                                 "total", String.valueOf(totalPages)))
                         .build()
         );
-        gui.setItem(49, pageInfo);
+    }
+
+    /**
+     * 이전 페이지 버튼 생성
+     */
+    @NotNull
+    public GuiItem createPreviousPageButton(@NotNull Player player, boolean enabled, @NotNull Runnable action) {
+        Material material = enabled ? Material.SPECTRAL_ARROW : Material.GRAY_DYE;
+
+        GuiItem item = new GuiItem(
+                new ItemBuilder(material)
+                        .displayName(langManager.getComponent(player, "gui.buttons.previous-page.name"))
+                        .addLore(langManager.getComponentList(player, "gui.buttons.previous-page.lore"))
+                        .build()
+        );
+
+        if (enabled) {
+            item.onAnyClick(p -> {
+                playClickSound(p);
+                action.run();
+            });
+        } else {
+            item.onAnyClick(this::playErrorSound);
+        }
+
+        return item;
+    }
+
+    /**
+     * 다음 페이지 버튼 생성
+     */
+    @NotNull
+    public GuiItem createNextPageButton(@NotNull Player player, boolean enabled, @NotNull Runnable action) {
+        Material material = enabled ? Material.SPECTRAL_ARROW : Material.GRAY_DYE;
+
+        GuiItem item = new GuiItem(
+                new ItemBuilder(material)
+                        .displayName(langManager.getComponent(player, "gui.buttons.next-page.name"))
+                        .addLore(langManager.getComponentList(player, "gui.buttons.next-page.lore"))
+                        .build()
+        );
+
+        if (enabled) {
+            item.onAnyClick(p -> {
+                playClickSound(p);
+                action.run();
+            });
+        } else {
+            item.onAnyClick(this::playErrorSound);
+        }
+
+        return item;
+    }
+
+    /**
+     * GUI에 기본 버튼들 설정
+     */
+    public void setupCommonButtons(@NotNull BaseGui gui, boolean includeRefresh) {
+        Player viewer = gui.getViewer();
+        if (viewer == null) return;
+
+        // 뒤로가기 버튼
+        setGuiItem(gui, BACK_BUTTON_SLOT, createBackButton(viewer));
+
+        // 닫기 버튼
+        setGuiItem(gui, CLOSE_BUTTON_SLOT, createCloseButton(viewer));
+
+        // 새로고침 버튼 (선택적)
+        if (includeRefresh) {
+            // GUI 새로고침
+            setGuiItem(gui, REFRESH_BUTTON_SLOT, createRefreshButton(viewer, gui::refresh));
+        }
+    }
+
+    /**
+     * GUI 테두리 설정
+     */
+    public void setupBorder(@NotNull BaseGui gui) {
+        GuiItem borderItem = GuiFactory.createDecoration();
+
+        // 상단 테두리
+        for (int i = 0; i < 9; i++) {
+            setGuiItem(gui, i, borderItem);
+        }
+
+        // 하단 테두리
+        for (int i = 45; i < 54; i++) {
+            // 버튼 슬롯은 제외
+            if (i != BACK_BUTTON_SLOT && i != CLOSE_BUTTON_SLOT && i != REFRESH_BUTTON_SLOT) {
+                setGuiItem(gui, i, borderItem);
+            }
+        }
+
+        // 좌우 테두리
+        for (int row = 1; row < 5; row++) {
+            setGuiItem(gui, row * 9, borderItem);
+            setGuiItem(gui, row * 9 + 8, borderItem);
+        }
+    }
+
+    /**
+     * 확인/취소 다이얼로그 생성
+     */
+    public void showConfirmDialog(@NotNull Player player,
+                                  @NotNull Component title,
+                                  @NotNull List<Component> description,
+                                  @NotNull Runnable onConfirm,
+                                  @NotNull Runnable onCancel) {
+        // ConfirmationGui 구현 필요
+        // 임시로 채팅 메시지로 처리
+        player.sendMessage(title);
+        description.forEach(player::sendMessage);
+        player.sendMessage(Component.text("이 작업을 계속하시겠습니까? (Y/N)", ColorUtil.WARNING));
+
+        // 실제 구현시 별도의 ConfirmationGui 클래스 필요
+    }
+
+    /**
+     * 오류 메시지 표시
+     */
+    public void showError(@NotNull Player player, @NotNull String messageKey, @NotNull String... placeholders) {
+        playErrorSound(player);
+        langManager.sendMessage(player, messageKey, placeholders);
+    }
+
+    /**
+     * 성공 메시지 표시
+     */
+    public void showSuccess(@NotNull Player player, @NotNull String messageKey, @NotNull String... placeholders) {
+        playSuccessSound(player);
+        langManager.sendMessage(player, messageKey, placeholders);
+    }
+
+    /**
+     * 클릭 사운드 재생
+     */
+    public void playClickSound(@NotNull Player player) {
+        player.playSound(player.getLocation(), clickSound, soundVolume, soundPitch);
+    }
+
+    /**
+     * 성공 사운드 재생
+     */
+    public void playSuccessSound(@NotNull Player player) {
+        player.playSound(player.getLocation(), successSound, soundVolume, soundPitch);
+    }
+
+    /**
+     * 오류 사운드 재생
+     */
+    public void playErrorSound(@NotNull Player player) {
+        player.playSound(player.getLocation(), errorSound, soundVolume, soundPitch);
+    }
+
+    /**
+     * 캐시된 아이템 가져오기
+     */
+    @NotNull
+    private GuiItem getCachedItem(@NotNull String key, @NotNull java.util.function.Supplier<GuiItem> supplier) {
+        return itemCache.computeIfAbsent(key, k -> supplier.get());
+    }
+
+    /**
+     * 캐시 초기화
+     */
+    public void clearCache() {
+        itemCache.clear();
+    }
+
+    /**
+     * 사운드 설정 변경
+     */
+    public void setSounds(@NotNull Sound click, @NotNull Sound success, @NotNull Sound error) {
+        this.clickSound = click;
+        this.successSound = success;
+        this.errorSound = error;
+    }
+
+    /**
+     * 사운드 볼륨 설정
+     */
+    public void setSoundVolume(float volume) {
+        this.soundVolume = Math.max(0f, Math.min(1f, volume));
+    }
+
+    /**
+     * 사운드 피치 설정
+     */
+    public void setSoundPitch(float pitch) {
+        this.soundPitch = Math.max(0.5f, Math.min(2f, pitch));
+    }
+
+    /**
+     * BaseGui에 아이템 설정
+     */
+    private void setGuiItem(@NotNull BaseGui gui, int slot, @NotNull GuiItem item) {
+        gui.setGuiItem(slot, item);
+    }
+
+    /**
+     * 아이템 설명 포맷팅 유틸리티
+     */
+    @NotNull
+    public List<Component> formatItemDescription(@NotNull Player player, @NotNull String descriptionKey, @NotNull String... placeholders) {
+        List<Component> formatted = langManager.getComponentList(
+                player, descriptionKey, placeholders
+        );
+
+        // 빈 줄 추가
+        formatted.addFirst(Component.empty());
+        formatted.add(Component.empty());
+
+        return formatted;
+    }
+
+    /**
+     * 진행도 바 생성
+     */
+    @NotNull
+    public Component createProgressBar(double progress, int length, char filled, char empty) {
+        int filledLength = (int) (progress * length);
+
+        StringBuilder bar = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            if (i < filledLength) {
+                bar.append(filled);
+            } else {
+                bar.append(empty);
+            }
+        }
+
+        return Component.text(bar.toString())
+                .color(progress >= 1.0 ? ColorUtil.SUCCESS :
+                        progress >= 0.5 ? ColorUtil.WARNING :
+                                ColorUtil.ERROR);
+    }
+
+    /**
+     * 숫자 포맷팅 (천 단위 구분)
+     */
+    @NotNull
+    public String formatNumber(long number) {
+        return String.format("%,d", number);
+    }
+
+    /**
+     * 시간 포맷팅 (밀리초 -> 읽기 쉬운 형식)
+     */
+    @NotNull
+    public String formatTime(long milliseconds) {
+        long seconds = milliseconds / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        long days = hours / 24;
+
+        if (days > 0) {
+            return String.format("%d일 %d시간", days, hours % 24);
+        } else if (hours > 0) {
+            return String.format("%d시간 %d분", hours, minutes % 60);
+        } else if (minutes > 0) {
+            return String.format("%d분 %d초", minutes, seconds % 60);
+        } else {
+            return String.format("%d초", seconds);
+        }
+    }
+
+    /**
+     * 퍼센트 포맷팅
+     */
+    @NotNull
+    public String formatPercent(double value) {
+        return String.format("%.1f%%", value * 100);
+    }
+
+    /**
+     * 체력바 생성
+     */
+    @NotNull
+    public Component createHealthBar(double current, double max) {
+        double ratio = current / max;
+        return createProgressBar(ratio, 20, '█', '░');
+    }
+
+    /**
+     * 경험치바 생성
+     */
+    @NotNull
+    public Component createExpBar(double progress) {
+        return createProgressBar(progress, 30, '■', '□');
+    }
+
+    /**
+     * 공통 GUI 패턴 적용 (테두리 + 기본 버튼)
+     */
+    public void applyCommonPattern(@NotNull BaseGui gui, boolean includeRefresh) {
+        setupBorder(gui);
+        setupCommonButtons(gui, includeRefresh);
     }
 
     /**
@@ -219,157 +512,99 @@ public class GuiService {
      */
     @NotNull
     public GuiItem createPlayerInfoItem(@NotNull Player player, @NotNull RPGPlayer rpgPlayer) {
-        ItemBuilder builder = new ItemBuilder(player)
+        ItemBuilder builder = ItemBuilder.of(Material.PLAYER_HEAD)
+                .skull(player)
                 .displayName(Component.text(player.getName(), ColorUtil.LEGENDARY))
+                .addLore(Component.empty())
+                .addLore(langManager.getComponent(player, "gui.items.profile.level-info.lore",
+                        "level", String.valueOf(rpgPlayer.getLevel()),
+                        "exp", formatPercent(rpgPlayer.getLevelProgress()),
+                        "total_exp", formatNumber(rpgPlayer.getExperience())))
                 .addLore(Component.empty());
 
-        // 레벨 정보
-        builder.addLore(langManager.getComponent(player, "gui.player-info.level",
-                "level", String.valueOf(rpgPlayer.getLevel())));
-
-        // 직업 정보
         if (rpgPlayer.hasJob()) {
-            String jobKey = rpgPlayer.getJob().name().toLowerCase();
-            builder.addLore(langManager.getComponent(player, "gui.player-info.job",
-                    "job", langManager.getMessage(player, "job." + jobKey + ".name")));
+            builder.addLore(langManager.getComponent(player, "status.job", "job",
+                    langManager.getMessage(player, "job." + rpgPlayer.getJob().name().toLowerCase() + ".name")));
+        } else {
+            builder.addLore(langManager.getComponent(player, "status.no-job"));
         }
-
-        // 전투력
-        builder.addLore(langManager.getComponent(player, "gui.player-info.combat-power",
-                "power", String.valueOf(rpgPlayer.getCombatPower())));
 
         return GuiItem.display(builder.build());
     }
 
     /**
-     * 구분선 생성
-     */
-    public void createDivider(@NotNull BaseGui gui, int... slots) {
-        GuiItem divider = GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE);
-        for (int slot : slots) {
-            gui.setItem(slot, divider);
-        }
-    }
-
-    /**
-     * 전체 테두리 생성
-     */
-    public void createBorder(@NotNull BaseGui gui, @NotNull Material material) {
-        GuiItem border = GuiFactory.createDecoration(material);
-        int size = gui.getInventory().getSize();
-        int rows = size / 9;
-
-        // 상단, 하단
-        for (int i = 0; i < 9; i++) {
-            gui.setItem(i, border);
-            gui.setItem(size - 9 + i, border);
-        }
-
-        // 좌측, 우측
-        for (int row = 1; row < rows - 1; row++) {
-            gui.setItem(row * 9, border);
-            gui.setItem(row * 9 + 8, border);
-        }
-    }
-
-    /**
-     * 사운드 재생
-     */
-    public void playSound(@NotNull Player player, @NotNull Sound sound) {
-        player.playSound(player.getLocation(), sound, soundVolume, soundPitch);
-    }
-
-    /**
-     * 클릭 사운드
-     */
-    public void playClickSound(@NotNull Player player) {
-        playSound(player, clickSound);
-    }
-
-    /**
-     * 성공 사운드
-     */
-    public void playSuccessSound(@NotNull Player player) {
-        playSound(player, successSound);
-    }
-
-    /**
-     * 에러 사운드
-     */
-    public void playErrorSound(@NotNull Player player) {
-        playSound(player, errorSound);
-    }
-
-    /**
-     * 사운드 설정 변경
-     */
-    public void setSounds(@Nullable Sound click, @Nullable Sound success, @Nullable Sound error) {
-        if (click != null) this.clickSound = click;
-        if (success != null) this.successSound = success;
-        if (error != null) this.errorSound = error;
-    }
-
-    /**
-     * 사운드 볼륨 설정
-     */
-    public void setSoundVolume(float volume, float pitch) {
-        this.soundVolume = Math.max(0.0f, Math.min(1.0f, volume));
-        this.soundPitch = Math.max(0.5f, Math.min(2.0f, pitch));
-    }
-
-    /**
-     * 캐시 정리
-     */
-    public void clearCache() {
-        itemCache.clear();
-        LogUtil.debug("GUI 서비스 캐시가 정리되었습니다.");
-    }
-
-    /**
-     * GUI 제목 생성 (표준화)
+     * 잠긴 아이템 생성
      */
     @NotNull
-    public Component createGuiTitle(@NotNull Player player, @NotNull String titleKey) {
-        return langManager.getComponent(player, titleKey);
+    public GuiItem createLockedItem(@NotNull Player player, @NotNull Material material, @NotNull String nameKey, @NotNull String reason) {
+        return GuiItem.display(
+                new ItemBuilder(material)
+                        .displayName(langManager.getComponent(player, nameKey))
+                        .addLore(Component.empty())
+                        .addLore(Component.text("🔒 잠김", ColorUtil.ERROR))
+                        .addLore(Component.text(reason, ColorUtil.GRAY))
+                        .build()
+        );
     }
 
     /**
-     * 에러 메시지 표시 및 사운드
+     * 곧 출시 아이템
      */
-    public void showError(@NotNull Player player, @NotNull String messageKey, String... placeholders) {
-        langManager.sendMessage(player, messageKey, placeholders);
-        playErrorSound(player);
+    @NotNull
+    public GuiItem createComingSoonItem(@NotNull Player player, @NotNull Material material, @NotNull String nameKey) {
+        String lang = langManager.getPlayerLanguage(player);
+        return getCachedItem("coming_soon_" + material.name() + "_" + lang, () ->
+                GuiItem.display(
+                        new ItemBuilder(material)
+                                .displayName(langManager.getComponent(player, nameKey))
+                                .addLore(Component.empty())
+                                .addLore(Component.text("🚧 곧 출시 예정!", ColorUtil.WARNING))
+                                .addLore(Component.text("다음 업데이트를 기대해주세요", ColorUtil.GRAY))
+                                .build()
+                )
+        );
     }
 
     /**
-     * 성공 메시지 표시 및 사운드
+     * GUI 타입별 적절한 크기 계산
      */
-    public void showSuccess(@NotNull Player player, @NotNull String messageKey, String... placeholders) {
-        langManager.sendMessage(player, messageKey, placeholders);
-        playSuccessSound(player);
+    public int calculateGuiSize(int itemCount) {
+        // 9개씩 한 줄, 최소 9칸, 최대 54칸
+        int rows = Math.max(1, Math.min(6, (itemCount + 8) / 9));
+        return rows * 9;
     }
 
     /**
-     * Lore 리스트에 조건부 추가
+     * 아이템 배치 위치 계산 (중앙 정렬)
      */
-    public void addConditionalLore(@NotNull List<Component> lore, boolean condition,
-                                   @NotNull Component text) {
-        if (condition) {
-            lore.add(text);
+    public int[] calculateCenteredSlots(int itemCount, int guiSize) {
+        int[] slots = new int[itemCount];
+        int rows = guiSize / 9;
+        int itemsPerRow = Math.min(7, itemCount); // 좌우 1칸 여백
+        int startRow = (rows - ((itemCount + itemsPerRow - 1) / itemsPerRow)) / 2;
+
+        for (int i = 0; i < itemCount; i++) {
+            int row = startRow + (i / itemsPerRow);
+            int col = 1 + ((itemsPerRow - Math.min(itemsPerRow, itemCount - (i / itemsPerRow) * itemsPerRow)) / 2) + (i % itemsPerRow);
+            slots[i] = row * 9 + col;
         }
+
+        return slots;
     }
 
     /**
-     * 빈 슬롯 채우기
+     * 재화 포맷팅
      */
-    public void fillEmptySlots(@NotNull BaseGui gui, @NotNull Material material) {
-        GuiItem filler = GuiFactory.createDecoration(material);
-        int size = gui.getInventory().getSize();
-
-        for (int i = 0; i < size; i++) {
-            if (gui.getInventory().getItem(i) == null) {
-                gui.setItem(i, filler);
-            }
+    @NotNull
+    public String formatCurrency(long amount) {
+        if (amount >= 1_000_000_000) {
+            return String.format("%.1fB", amount / 1_000_000_000.0);
+        } else if (amount >= 1_000_000) {
+            return String.format("%.1fM", amount / 1_000_000.0);
+        } else if (amount >= 1_000) {
+            return String.format("%.1fK", amount / 1_000.0);
+        } else {
+            return String.valueOf(amount);
         }
     }
 }

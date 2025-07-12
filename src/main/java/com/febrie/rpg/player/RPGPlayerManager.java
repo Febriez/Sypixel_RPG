@@ -1,5 +1,6 @@
 package com.febrie.rpg.player;
 
+import com.febrie.rpg.util.LogUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -56,7 +57,7 @@ public class RPGPlayerManager implements Listener {
         RPGPlayer rpgPlayer = new RPGPlayer(player);
         players.put(player.getUniqueId(), rpgPlayer);
 
-        plugin.getLogger().info("Loaded RPG data for player: " + player.getName());
+        LogUtil.info("Loaded RPG data for player: " + player.getName());
     }
 
     /**
@@ -66,7 +67,7 @@ public class RPGPlayerManager implements Listener {
         RPGPlayer rpgPlayer = players.remove(player.getUniqueId());
         if (rpgPlayer != null) {
             rpgPlayer.saveToPDC();
-            plugin.getLogger().info("Unloaded RPG data for player: " + player.getName());
+            LogUtil.info("Unloaded RPG data for player: " + player.getName());
         }
     }
 
@@ -99,61 +100,24 @@ public class RPGPlayerManager implements Listener {
      */
     public void saveAll() {
         players.values().forEach(RPGPlayer::saveToPDC);
-        plugin.getLogger().info("Saved all RPG player data");
+        LogUtil.info("Saved all RPG player data");
     }
 
     /**
      * 모든 플레이어 데이터 다시 로드
      */
     public void reloadAll() {
-        players.clear();
-        for (Player player : plugin.getServer().getOnlinePlayers()) {
-            loadPlayer(player);
-        }
-        plugin.getLogger().info("Reloaded all RPG player data");
+        players.values().forEach(rpgPlayer -> {
+            rpgPlayer.saveToPDC();
+            rpgPlayer.loadFromPDC();
+        });
+        LogUtil.info("Reloaded all RPG player data");
     }
 
     /**
-     * 플레이어 수 가져오기
+     * 접속 중인 플레이어 수
      */
-    public int getPlayerCount() {
+    public int getOnlinePlayerCount() {
         return players.size();
-    }
-
-    /**
-     * 특정 직업의 플레이어 수 가져오기
-     */
-    public int getJobPlayerCount(@NotNull com.febrie.rpg.job.JobType jobType) {
-        return (int) players.values().stream()
-                .filter(rpgPlayer -> rpgPlayer.getJob() == jobType)
-                .count();
-    }
-
-    /**
-     * 레벨 순위 가져오기
-     */
-    public java.util.List<RPGPlayer> getTopLevelPlayers(int limit) {
-        return players.values().stream()
-                .sorted((a, b) -> Integer.compare(b.getLevel(), a.getLevel()))
-                .limit(limit)
-                .collect(java.util.stream.Collectors.toList());
-    }
-
-    /**
-     * 전투력 순위 가져오기
-     */
-    public java.util.List<RPGPlayer> getTopCombatPowerPlayers(int limit) {
-        return players.values().stream()
-                .sorted((a, b) -> Integer.compare(b.getCombatPower(), a.getCombatPower()))
-                .limit(limit)
-                .collect(java.util.stream.Collectors.toList());
-    }
-
-    /**
-     * 정리 작업
-     */
-    public void cleanup() {
-        saveAll();
-        players.clear();
     }
 }

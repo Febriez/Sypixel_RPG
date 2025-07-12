@@ -14,6 +14,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -28,7 +29,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FirebaseService {
 
     private final Plugin plugin;
+    private final String serverName;
+
     private Firestore firestore;
+    private boolean connected = false;
 
     // 캐시 (동시접속 1000명 대응)
     private final Map<String, PlayerDTO> playerCache = new ConcurrentHashMap<>();
@@ -53,6 +57,7 @@ public class FirebaseService {
 
     public FirebaseService(@NotNull Plugin plugin) {
         this.plugin = plugin;
+        this.serverName = plugin.getConfig().getString("server-name", "default");
         initializeFirebase();
     }
 
@@ -116,6 +121,7 @@ public class FirebaseService {
             }
 
             firestore = FirestoreClient.getFirestore();
+            connected = true;
             LogUtil.info("Firebase 초기화 완료! 프로젝트 ID: " + projectId);
 
         } catch (IOException e) {
@@ -389,6 +395,353 @@ public class FirebaseService {
                 return false;
             }
         });
+    }
+
+    /**
+     * 플레이어 재화 정보 로드
+     */
+    public CompletableFuture<WalletDTO> loadWallet(@NotNull String uuid) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (!isConnected()) {
+                return new WalletDTO();
+            }
+
+            try {
+                DocumentReference docRef = getPlayerDocument(uuid);
+                DocumentSnapshot document = docRef.get().get();
+
+                if (document.exists()) {
+                    Map<String, Object> walletData = (Map<String, Object>) document.get("wallet");
+                    if (walletData != null) {
+                        WalletDTO dto = new WalletDTO();
+
+                        Map<String, Object> currencies = (Map<String, Object>) walletData.get("currencies");
+                        if (currencies != null) {
+                            currencies.forEach((key, value) -> {
+                                if (value instanceof Number) {
+                                    dto.setCurrency(key, ((Number) value).longValue());
+                                }
+                            });
+                        }
+
+                        Object lastUpdated = walletData.get("lastUpdated");
+                        if (lastUpdated instanceof Number) {
+                            dto.setLastUpdated(((Number) lastUpdated).longValue());
+                        }
+
+                        return dto;
+                    }
+                }
+
+                return new WalletDTO();
+
+            } catch (Exception e) {
+                LogUtil.error("Failed to load wallet data for " + uuid, e);
+                return new WalletDTO();
+            }
+        });
+    }
+
+    /**
+     * 플레이어 재화 정보 저장
+     */
+    public CompletableFuture<Boolean> saveWallet(@NotNull String uuid, @NotNull WalletDTO wallet) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (!isConnected()) {
+                return false;
+            }
+
+            try {
+                DocumentReference docRef = getPlayerDocument(uuid);
+
+                Map<String, Object> walletData = new HashMap<>();
+                walletData.put("currencies", wallet.getCurrencies());
+                walletData.put("lastUpdated", wallet.getLastUpdated());
+
+                docRef.update("wallet", walletData).get();
+                return true;
+
+            } catch (Exception e) {
+                LogUtil.error("Failed to save wallet data for " + uuid, e);
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 모든 플레이어 데이터 저장 (Wallet 포함)
+     */
+    public CompletableFuture<Boolean> saveAllPlayerDataWithWallet(@NotNull String uuid,
+                                                                  @NotNull PlayerDTO player,
+                                                                  @NotNull StatsDTO stats,
+                                                                  @NotNull TalentDTO talents,
+                                                                  @NotNull ProgressDTO progress,
+                                                                  @NotNull WalletDTO wallet) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (!isConnected()) {
+                return false;
+            }
+
+            try {
+                DocumentReference docRef = getPlayerDocument(uuid);
+
+                Map<String, Object> data = new HashMap<>();
+
+                // 기본 플레이어 정보
+                data.put("name", player.getName());
+                data.put("lastLogin", player.getLastLogin());
+                data.put("totalPlaytime", player.getTotalPlaytime());
+                if (player.getJob() != null) {
+                    data.put("job", player.getJob().name());
+                }
+
+                // 스탯 정보
+                Map<String, Object> statsData = new HashMap<>();
+                statsData.put("strength", stats.getStrength());
+                statsData.put("intelligence", stats.getIntelligence());
+                statsData.put("dexterity", stats.getDexterity());
+                statsData.put("vitality", stats.getVitality());
+                statsData.put("wisdom", stats.getWisdom());
+                statsData.put("luck", stats.getLuck());
+                data.put("stats", statsData);
+
+                // 특성 정보
+                Map<String, Object> talentsData = new HashMap<>();
+                talentsData.put("availablePoints", talents.getAvailablePoints());
+                talentsData.put("learnedTalents", talents.getLearnedTalents());
+                data.put("talents", talentsData);
+
+                // 진행도 정보
+                Map<String, Object> progressData = new HashMap<>();
+                progressData.put("currentLevel", progress.getCurrentLevel());
+                progressData.put("totalExperience", progress.getTotalExperience());
+                progressData.put("levelProgress", progress.getLevelProgress());
+                progressData.put("mobsKilled", progress.getMobsKilled());
+                progressData.put("playersKilled", progress.getPlayersKilled());
+                progressData.put("deaths", progress.getDeaths());
+                data.put("progress", progressData);
+
+                // 재화 정보
+                Map<String, Object> walletData = new HashMap<>();
+                walletData.put("currencies", wallet.getCurrencies());
+                walletData.put("lastUpdated", wallet.getLastUpdated());
+                data.put("wallet", walletData);
+
+                // 업데이트 시간
+                data.put("lastUpdated", FieldValue.serverTimestamp());
+
+                // 저장
+                docRef.set(data, SetOptions.merge()).get();
+                return true;
+
+            } catch (Exception e) {
+                LogUtil.error("Failed to save all player data for " + uuid, e);
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 플레이어 문서 참조 가져오기
+     */
+    @NotNull
+    private DocumentReference getPlayerDocument(@NotNull String uuid) {
+        return firestore
+                .collection("servers")
+                .document(serverName)
+                .collection("players")
+                .document(uuid);
+    }
+
+    /**
+     * 서버 문서 참조 가져오기
+     */
+    @NotNull
+    private DocumentReference getServerDocument() {
+        return firestore
+                .collection("servers")
+                .document(serverName);
+    }
+
+    /**
+     * 총 플레이어 수 가져오기
+     */
+    public CompletableFuture<Integer> getTotalPlayerCount() {
+        return CompletableFuture.supplyAsync(() -> {
+            if (!isConnected()) {
+                return 0;
+            }
+
+            try {
+                CollectionReference playersCollection = firestore
+                        .collection("servers")
+                        .document(serverName)
+                        .collection("players");
+
+                AggregateQuerySnapshot snapshot = playersCollection.count().get().get();
+                return (int) snapshot.getCount();
+
+            } catch (Exception e) {
+                LogUtil.error("Failed to get total player count", e);
+                return 0;
+            }
+        });
+    }
+
+    /**
+     * 순위표 가져오기
+     */
+    public CompletableFuture<List<LeaderboardEntryDTO>> getLeaderboard(@NotNull String type, int limit) {
+        return CompletableFuture.supplyAsync(() -> {
+            if (!isConnected()) {
+                return new ArrayList<>();
+            }
+
+            try {
+                List<LeaderboardEntryDTO> entries = new ArrayList<>();
+                Query query = null;
+
+                CollectionReference playersCollection = firestore
+                        .collection("servers")
+                        .document(serverName)
+                        .collection("players");
+
+                // 타입별 쿼리 생성
+                switch (type.toLowerCase()) {
+                    case "level":
+                        query = playersCollection
+                                .orderBy("progress.currentLevel", Query.Direction.DESCENDING)
+                                .limit(limit);
+                        break;
+
+                    case "wealth":
+                        query = playersCollection
+                                .orderBy("wallet.totalValue", Query.Direction.DESCENDING)
+                                .limit(limit);
+                        break;
+
+                    case "kills":
+                        query = playersCollection
+                                .orderBy("progress.mobsKilled", Query.Direction.DESCENDING)
+                                .limit(limit);
+                        break;
+
+                    case "pvp":
+                        query = playersCollection
+                                .orderBy("progress.playersKilled", Query.Direction.DESCENDING)
+                                .limit(limit);
+                        break;
+
+                    default:
+                        LogUtil.warning("Unknown leaderboard type: " + type);
+                        return entries;
+                }
+
+                QuerySnapshot querySnapshot = query.get().get();
+                int rank = 1;
+
+                for (QueryDocumentSnapshot document : querySnapshot) {
+                    try {
+                        String uuid = document.getId();
+                        String name = document.getString("name");
+                        if (name == null) name = "Unknown";
+
+                        long value = 0;
+
+                        // 타입별 값 추출
+                        switch (type.toLowerCase()) {
+                            case "level":
+                                Map<String, Object> progressData = (Map<String, Object>) document.get("progress");
+                                if (progressData != null) {
+                                    Object levelObj = progressData.get("currentLevel");
+                                    if (levelObj instanceof Number) {
+                                        value = ((Number) levelObj).longValue();
+                                    }
+                                }
+                                break;
+
+                            case "wealth":
+                                Map<String, Object> walletData = (Map<String, Object>) document.get("wallet");
+                                if (walletData != null) {
+                                    // 각 통화의 총 가치 계산
+                                    Map<String, Object> currencies = (Map<String, Object>) walletData.get("currencies");
+                                    if (currencies != null) {
+                                        value = calculateTotalValue(currencies);
+                                    }
+                                }
+                                break;
+
+                            case "kills":
+                                progressData = (Map<String, Object>) document.get("progress");
+                                if (progressData != null) {
+                                    Object killsObj = progressData.get("mobsKilled");
+                                    if (killsObj instanceof Number) {
+                                        value = ((Number) killsObj).longValue();
+                                    }
+                                }
+                                break;
+
+                            case "pvp":
+                                progressData = (Map<String, Object>) document.get("progress");
+                                if (progressData != null) {
+                                    Object pvpObj = progressData.get("playersKilled");
+                                    if (pvpObj instanceof Number) {
+                                        value = ((Number) pvpObj).longValue();
+                                    }
+                                }
+                                break;
+                        }
+
+                        LeaderboardEntryDTO entry = new LeaderboardEntryDTO(uuid, name, rank, value, type);
+                        entries.add(entry);
+                        rank++;
+
+                    } catch (Exception e) {
+                        LogUtil.error("Failed to parse leaderboard entry", e);
+                    }
+                }
+
+                return entries;
+
+            } catch (Exception e) {
+                LogUtil.error("Failed to get leaderboard: " + type, e);
+                return new ArrayList<>();
+            }
+        });
+    }
+
+    /**
+     * 총 재산 가치 계산 (골드 기준)
+     */
+    private long calculateTotalValue(@NotNull Map<String, Object> currencies) {
+        long total = 0;
+
+        // 각 통화별 환율 적용
+        for (Map.Entry<String, Object> entry : currencies.entrySet()) {
+            if (entry.getValue() instanceof Number) {
+                long amount = ((Number) entry.getValue()).longValue();
+
+                switch (entry.getKey()) {
+                    case "gold":
+                        total += amount;
+                        break;
+                    case "diamond":
+                        total += amount * 100;
+                        break;
+                    case "emerald":
+                        total += amount * 50;
+                        break;
+                    case "ghast_tear":
+                        total += amount * 1000;
+                        break;
+                    case "nether_star":
+                        total += amount * 10000;
+                        break;
+                }
+            }
+        }
+
+        return total;
     }
 
     /**

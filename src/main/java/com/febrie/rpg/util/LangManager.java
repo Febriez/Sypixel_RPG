@@ -1,5 +1,6 @@
 package com.febrie.rpg.util;
 
+import com.febrie.rpg.RPGMain;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -8,9 +9,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,44 +25,31 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 최적화된 언어 관리 시스템
- * 동시접속 1000명을 위한 캐싱 및 메모리 최적화 적용
+ * 향상된 언어 관리 시스템
+ * Adventure API와 색상 플레이스홀더 완벽 지원
  *
  * @author Febrie, CoffeeTory
  */
 public class LangManager {
 
-    private final Plugin plugin;
-    private final Gson gson;
-    private final Map<String, JsonObject> languageConfigs;
+    private final RPGMain plugin;
+    private final Gson gson = new Gson();
+    private final Map<String, JsonObject> languageConfigs = new HashMap<>();
+    private String defaultLanguage;
 
-    // 성능 최적화를 위한 캐싱
-    private final Map<String, Map<String, String>> messageCache; // language -> (key -> message)
-    private final Map<String, Map<String, List<String>>> listCache; // language -> (key -> list)
-    private final Map<UUID, String> playerLanguageOverrides;
+    // 캐시 시스템 (성능 최적화)
+    private final Map<String, Map<String, String>> messageCache = new ConcurrentHashMap<>();
+    private final Map<String, Map<String, List<String>>> listCache = new ConcurrentHashMap<>();
 
-    private final String defaultLanguage;
-    private static final Pattern COLOR_PATTERN = Pattern.compile("%COLOR_(\\w+)%");
-    private static final LegacyComponentSerializer SERIALIZER = LegacyComponentSerializer.legacyAmpersand();
+    // 캐시 크기 제한
+    private static final int MAX_CACHE_SIZE = 1000;
 
-    // 캐시 크기 제한 (메모리 관리)
-    private static final int MAX_CACHE_SIZE = 10000;
-    private static final int MAX_PLAYER_OVERRIDES = 1000;
+    // 색상 플레이스홀더 패턴
+    private static final Pattern COLOR_PATTERN = Pattern.compile("%COLOR_([A-Z_]+)%");
 
-    public LangManager(@NotNull Plugin plugin) {
+    public LangManager(@NotNull RPGMain plugin) {
         this.plugin = plugin;
-        this.gson = new Gson();
-        this.languageConfigs = new HashMap<>();
-        this.messageCache = new ConcurrentHashMap<>();
-        this.listCache = new ConcurrentHashMap<>();
-        this.playerLanguageOverrides = Collections.synchronizedMap(new LinkedHashMap<UUID, String>(16, 0.75f, true) {
-            @Override
-            protected boolean removeEldestEntry(Map.Entry<UUID, String> eldest) {
-                return size() > MAX_PLAYER_OVERRIDES;
-            }
-        });
         this.defaultLanguage = "ko_KR";
-
         loadLanguages();
     }
 
@@ -348,42 +334,34 @@ public class LangManager {
     }
 
     /**
-     * 플레이어 언어 가져오기 (최적화됨)
+     * 플레이어 언어 가져오기 (player.locale() 사용)
      */
     @NotNull
     public String getPlayerLanguage(@NotNull Player player) {
-        // 수동 설정 확인
-        String override = playerLanguageOverrides.get(player.getUniqueId());
-        if (override != null) {
-            return override;
-        }
-
         // 클라이언트 locale 실시간 감지
-        return detectPlayerLanguage(player);
-    }
-
-    /**
-     * 플레이어 언어 설정
-     */
-    public void setPlayerLanguage(@NotNull Player player, @NotNull String language) {
-        if (languageConfigs.containsKey(language)) {
-            playerLanguageOverrides.put(player.getUniqueId(), language);
-        }
-    }
-
-    /**
-     * 플레이어 언어 자동 감지
-     */
-    @NotNull
-    private String detectPlayerLanguage(@NotNull Player player) {
         String clientLocale = player.locale().toString();
 
+        // 언어 코드 추출 (예: ko_KR, en_US 등)
+        if (clientLocale.contains("_")) {
+            String langCode = clientLocale.substring(0, 2);
+            String countryCode = clientLocale.substring(3, 5).toUpperCase();
+            String fullCode = langCode + "_" + countryCode;
+
+            // 지원하는 언어인지 확인
+            if (languageConfigs.containsKey(fullCode)) {
+                return fullCode;
+            }
+        }
+
+        // 언어 코드만으로 매칭 시도
+        String langCode = clientLocale.substring(0, 2).toLowerCase();
+
         // 한국어 확인
-        if (clientLocale.startsWith("ko")) {
+        if (langCode.equals("ko")) {
             return "ko_KR";
         }
 
-        // 기타 언어는 영어로
+        // 영어 또는 기타 언어는 영어로
         return "en_US";
     }
 
@@ -394,7 +372,6 @@ public class LangManager {
         languageConfigs.clear();
         messageCache.clear();
         listCache.clear();
-        playerLanguageOverrides.clear();
         loadLanguages();
         LogUtil.info("Language system reloaded");
     }
@@ -405,13 +382,6 @@ public class LangManager {
     @NotNull
     public Set<String> getAvailableLanguages() {
         return Collections.unmodifiableSet(languageConfigs.keySet());
-    }
-
-    /**
-     * 플레이어 로그아웃 시 데이터 정리
-     */
-    public void onPlayerLogout(@NotNull Player player) {
-        playerLanguageOverrides.remove(player.getUniqueId());
     }
 
     /**
@@ -427,6 +397,15 @@ public class LangManager {
     @NotNull
     public String getDefaultLanguage() {
         return defaultLanguage;
+    }
+
+    /**
+     * 기본 언어 설정
+     */
+    public void setDefaultLanguage(@NotNull String language) {
+        if (languageConfigs.containsKey(language)) {
+            this.defaultLanguage = language;
+        }
     }
 
     /**
@@ -454,7 +433,14 @@ public class LangManager {
                 stats.put(lang + "_messages", cache.size()));
         listCache.forEach((lang, cache) ->
                 stats.put(lang + "_lists", cache.size()));
-        stats.put("player_overrides", playerLanguageOverrides.size());
         return stats;
+    }
+
+    /**
+     * 캐시 초기화
+     */
+    public void clearCache() {
+        messageCache.values().forEach(Map::clear);
+        listCache.values().forEach(Map::clear);
     }
 }

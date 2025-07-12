@@ -4,6 +4,7 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.FirebaseService;
 import com.febrie.rpg.dto.*;
 import com.febrie.rpg.job.JobType;
+import com.febrie.rpg.level.LevelSystem;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.util.LogUtil;
@@ -63,10 +64,11 @@ public class PlayerService {
                 StatsDTO statsDTO = firebaseService.loadStats(uuid).get(5, TimeUnit.SECONDS);
                 TalentDTO talentDTO = firebaseService.loadTalents(uuid).get(5, TimeUnit.SECONDS);
                 ProgressDTO progressDTO = firebaseService.loadProgress(uuid).get(5, TimeUnit.SECONDS);
+                WalletDTO walletDTO = firebaseService.loadWallet(uuid).get(5, TimeUnit.SECONDS);
 
                 // RPGPlayer 생성 및 DTO 데이터 적용
                 RPGPlayer rpgPlayer = playerManager.getOrCreatePlayer(player);
-                applyDTOsToPlayer(rpgPlayer, playerDTO, statsDTO, talentDTO, progressDTO);
+                applyDTOsToPlayer(rpgPlayer, playerDTO, statsDTO, talentDTO, progressDTO, walletDTO);
 
                 LogUtil.logPerformance("플레이어 데이터 로드: " + player.getName(), startTime);
                 return rpgPlayer;
@@ -104,10 +106,12 @@ public class PlayerService {
                 StatsDTO statsDTO = convertToStatsDTO(rpgPlayer);
                 TalentDTO talentDTO = convertToTalentDTO(rpgPlayer);
                 ProgressDTO progressDTO = convertToProgressDTO(rpgPlayer);
+                WalletDTO walletDTO = convertToWalletDTO(rpgPlayer);
 
                 // Firebase에 저장
-                boolean success = firebaseService.saveAllPlayerData(
-                        uuid.toString(), playerDTO, statsDTO, talentDTO, progressDTO
+                boolean success = firebaseService.saveAllPlayerDataWithWallet(
+                        uuid.toString(), playerDTO, statsDTO, talentDTO,
+                        progressDTO, walletDTO
                 ).get(10, TimeUnit.SECONDS);
 
                 if (success) {
@@ -134,11 +138,12 @@ public class PlayerService {
         StatsDTO statsDTO = new StatsDTO();
         TalentDTO talentDTO = new TalentDTO();
         ProgressDTO progressDTO = new ProgressDTO();
+        WalletDTO walletDTO = new WalletDTO();
 
         // Firebase에 초기 데이터 저장 (비동기)
-        firebaseService.saveAllPlayerData(
+        firebaseService.saveAllPlayerDataWithWallet(
                 player.getUniqueId().toString(),
-                playerDTO, statsDTO, talentDTO, progressDTO
+                playerDTO, statsDTO, talentDTO, progressDTO, walletDTO
         );
 
         return rpgPlayer;
@@ -151,7 +156,8 @@ public class PlayerService {
                                    @NotNull PlayerDTO playerDTO,
                                    @NotNull StatsDTO statsDTO,
                                    @NotNull TalentDTO talentDTO,
-                                   @NotNull ProgressDTO progressDTO) {
+                                   @NotNull ProgressDTO progressDTO,
+                                   @NotNull WalletDTO walletDTO) {
 
         // 기본 정보
         if (playerDTO.getJob() != null) {
@@ -165,9 +171,16 @@ public class PlayerService {
         rpgPlayer.getTalents().applyFromDTO(talentDTO);
 
         // 진행도 적용
-        rpgPlayer.setLevel(progressDTO.getCurrentLevel());
-        rpgPlayer.setExperience(progressDTO.getTotalExperience());
-        rpgPlayer.setCoins(progressDTO.getCurrentCoins());
+        if (progressDTO.getCurrentLevel() > 1) {
+            // 레벨에 맞는 경험치 설정
+            long totalExp = calculateTotalExpForLevel(progressDTO.getCurrentLevel(), rpgPlayer.getJob());
+            rpgPlayer.addExperience(totalExp - rpgPlayer.getExperience());
+        }
+
+        // 재화 적용
+        if (walletDTO != null) {
+            rpgPlayer.getWallet().applyFromDTO(walletDTO);
+        }
     }
 
     /**
@@ -214,11 +227,17 @@ public class PlayerService {
         dto.setCurrentLevel(rpgPlayer.getLevel());
         dto.setTotalExperience(rpgPlayer.getExperience());
         dto.setLevelProgress(rpgPlayer.getLevelProgress());
-        dto.setCurrentCoins(rpgPlayer.getCoins());
 
         // 전투 통계는 아직 구현되지 않음
 
         return dto;
+    }
+
+    /**
+     * RPGPlayer를 WalletDTO로 변환
+     */
+    private WalletDTO convertToWalletDTO(@NotNull RPGPlayer rpgPlayer) {
+        return rpgPlayer.getWallet().toDTO();
     }
 
     /**
@@ -240,82 +259,48 @@ public class PlayerService {
     }
 
     /**
-     * 자동 저장 스케줄러
-     */
-    private void startAutoSaveScheduler() {
-        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
-            for (Player player : plugin.getServer().getOnlinePlayers()) {
-                RPGPlayer rpgPlayer = playerManager.getPlayer(player);
-                if (rpgPlayer != null) {
-                    savePlayerData(rpgPlayer, false);
-                }
-            }
-        }, 20L * 300, 20L * 300); // 5분마다
-    }
-
-    /**
      * 모든 온라인 플레이어 데이터 저장
      */
     public CompletableFuture<Void> saveAllOnlinePlayers() {
         CompletableFuture<?>[] futures = plugin.getServer().getOnlinePlayers().stream()
-                .map(playerManager::getPlayer)
-                .filter(rpgPlayer -> rpgPlayer != null)
-                .map(rpgPlayer -> savePlayerData(rpgPlayer, true))
+                .map(player -> {
+                    RPGPlayer rpgPlayer = playerManager.getPlayer(player);
+                    if (rpgPlayer != null) {
+                        return savePlayerData(rpgPlayer, true);
+                    }
+                    return CompletableFuture.completedFuture(true);
+                })
                 .toArray(CompletableFuture[]::new);
 
         return CompletableFuture.allOf(futures);
     }
 
     /**
-     * 순위표 업데이트
+     * 자동 저장 스케줄러
      */
-    public void updateLeaderboards(@NotNull RPGPlayer rpgPlayer) {
-        String uuid = rpgPlayer.getUuid().toString();
-        String playerName = rpgPlayer.getName();
-        String jobType = rpgPlayer.hasJob() ? rpgPlayer.getJob().name() : null;
-
-        // 레벨 순위표
-        LeaderboardEntryDTO levelEntry = LeaderboardEntryDTO.createLevelEntry(
-                uuid, playerName, rpgPlayer.getLevel(), rpgPlayer.getExperience(), jobType
-        );
-        firebaseService.updateLeaderboard("level", levelEntry);
-
-        // 전투력 순위표
-        LeaderboardEntryDTO combatEntry = LeaderboardEntryDTO.createCombatPowerEntry(
-                uuid, playerName, rpgPlayer.getCombatPower(), rpgPlayer.getLevel(), jobType
-        );
-        firebaseService.updateLeaderboard("combat_power", combatEntry);
+    private void startAutoSaveScheduler() {
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+            saveAllOnlinePlayers().thenRun(() ->
+                    LogUtil.debug("모든 플레이어 데이터 자동 저장 완료")
+            );
+        }, 12000L, 12000L); // 10분마다
     }
 
     /**
-     * 플레이어가 존재하는지 확인
+     * 레벨에 필요한 총 경험치 계산
      */
-    public CompletableFuture<Boolean> playerExists(@NotNull String playerName) {
-        return CompletableFuture.supplyAsync(() -> {
-            // 온라인 플레이어 확인
-            Player onlinePlayer = plugin.getServer().getPlayer(playerName);
-            if (onlinePlayer != null) {
-                return true;
-            }
+    private long calculateTotalExpForLevel(int level, JobType job) {
+        if (job == null || level <= 1) {
+            return 0;
+        }
 
-            // Firebase에서 확인 (구현 필요)
-            // TODO: Firebase에서 playerName으로 검색하는 기능 추가
-            return false;
-        });
+        return LevelSystem.getTotalExpForLevel(level, job);
     }
 
     /**
-     * PlayerManager 가져오기
+     * 플레이어 정리 (로그아웃 시)
      */
-    @NotNull
-    public RPGPlayerManager getPlayerManager() {
-        return playerManager;
-    }
-
-    /**
-     * 세션 시작 시간 기록
-     */
-    public void recordSessionStart(@NotNull RPGPlayer rpgPlayer) {
-        rpgPlayer.setSessionStartTime(System.currentTimeMillis());
+    public void onPlayerQuit(@NotNull Player player) {
+        pendingSaves.remove(player.getUniqueId());
     }
 }

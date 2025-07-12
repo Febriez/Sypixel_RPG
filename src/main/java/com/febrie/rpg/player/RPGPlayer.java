@@ -1,5 +1,6 @@
 package com.febrie.rpg.player;
 
+import com.febrie.rpg.economy.Wallet;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.level.LevelSystem;
 import com.febrie.rpg.stat.Stat;
@@ -36,9 +37,13 @@ public class RPGPlayer {
     private int statPoints = 0;
     private final Stat.StatHolder stats = new Stat.StatHolder();
     private final Talent.TalentHolder talents = new Talent.TalentHolder();
+    private final Wallet wallet = new Wallet();
 
     // 캐시된 레벨 정보
     private LevelSystem.LevelInfo cachedLevelInfo;
+
+    // 세션 정보
+    private long sessionStartTime = System.currentTimeMillis();
 
     public RPGPlayer(@NotNull Player player) {
         this.playerId = player.getUniqueId();
@@ -49,49 +54,44 @@ public class RPGPlayer {
     /**
      * PDC에서 데이터 불러오기
      */
-    private void loadFromPDC() {
+    public void loadFromPDC() {
         PersistentDataContainer pdc = bukkitPlayer.getPersistentDataContainer();
 
         // 직업 불러오기
-        if (pdc.has(KEY_JOB, PersistentDataType.STRING)) {
-            String jobName = pdc.get(KEY_JOB, PersistentDataType.STRING);
+        String jobName = pdc.get(KEY_JOB, PersistentDataType.STRING);
+        if (jobName != null) {
             try {
                 this.job = JobType.valueOf(jobName);
             } catch (IllegalArgumentException e) {
-                this.job = null;
+                // 잘못된 직업명
             }
         }
 
         // 경험치 불러오기
-        if (pdc.has(KEY_EXPERIENCE, PersistentDataType.LONG)) {
-            this.experience = pdc.get(KEY_EXPERIENCE, PersistentDataType.LONG);
+        Long exp = pdc.get(KEY_EXPERIENCE, PersistentDataType.LONG);
+        if (exp != null) {
+            this.experience = exp;
+            updateCachedLevelInfo();
         }
 
         // 스탯 포인트 불러오기
-        if (pdc.has(KEY_STAT_POINTS, PersistentDataType.INTEGER)) {
-            this.statPoints = pdc.get(KEY_STAT_POINTS, PersistentDataType.INTEGER);
-        }
-
-        // 특성 포인트 불러오기
-        if (pdc.has(KEY_TALENT_POINTS, PersistentDataType.INTEGER)) {
-            int talentPoints = pdc.get(KEY_TALENT_POINTS, PersistentDataType.INTEGER);
-            talents.addPoints(talentPoints);
+        Integer sp = pdc.get(KEY_STAT_POINTS, PersistentDataType.INTEGER);
+        if (sp != null) {
+            this.statPoints = sp;
         }
 
         // 각 스탯 불러오기
-        for (Stat stat : Stat.getAllStats().values()) {
-            if (pdc.has(stat.getKey(), PersistentDataType.INTEGER)) {
-                int value = pdc.get(stat.getKey(), PersistentDataType.INTEGER);
-                stats.setBaseStat(stat, value);
-            }
-        }
+        stats.loadFromPDC(pdc);
 
-        // 캐시 업데이트
-        updateCachedLevelInfo();
+        // 특성 데이터 불러오기
+        talents.loadFromPDC(pdc);
+
+        // 재화 데이터 불러오기
+        wallet.loadFromPDC(pdc);
     }
 
     /**
-     * PDC에 데이터 저장하기
+     * PDC에 데이터 저장
      */
     public void saveToPDC() {
         PersistentDataContainer pdc = bukkitPlayer.getPersistentDataContainer();
@@ -114,6 +114,9 @@ public class RPGPlayer {
         for (Map.Entry<Stat, Integer> entry : stats.getAllBaseStats().entrySet()) {
             pdc.set(entry.getKey().getKey(), PersistentDataType.INTEGER, entry.getValue());
         }
+
+        // 재화 데이터 저장
+        wallet.saveToPDC(pdc);
     }
 
     /**
@@ -218,6 +221,9 @@ public class RPGPlayer {
     // Getters
     @NotNull
     public JobType getJob() {
+        if (job == null) {
+            throw new IllegalStateException("플레이어가 직업을 선택하지 않았습니다. hasJob()으로 먼저 확인하세요.");
+        }
         return job;
     }
 
@@ -261,13 +267,32 @@ public class RPGPlayer {
     }
 
     @NotNull
-    public Player getBukkitPlayer() {
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    @NotNull
+    public Player getPlayer() {
         return bukkitPlayer;
+    }
+
+    @NotNull
+    public String getName() {
+        return bukkitPlayer.getName();
     }
 
     @NotNull
     public UUID getPlayerId() {
         return playerId;
+    }
+
+    @NotNull
+    public UUID getUuid() {
+        return playerId;
+    }
+
+    public long getSessionStartTime() {
+        return sessionStartTime;
     }
 
     /**
