@@ -1,8 +1,10 @@
 package com.febrie.rpg.gui.impl;
 
+import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.manager.GuiManager;
+import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -144,7 +146,7 @@ public class MainMenuGui extends BaseGui {
     }
 
     /**
-     * Stats button setup
+     * Stats button setup - 실제 StatsGui로 연결
      */
     private void setupStatsButton() {
         GuiItem statsButton = GuiItem.clickable(
@@ -153,8 +155,21 @@ public class MainMenuGui extends BaseGui {
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.stats-button.lore"))
                         .build(),
                 clickedPlayer -> {
-                    langManager.sendMessage(clickedPlayer, "general.coming-soon");
-                    playClickSound(clickedPlayer);
+                    // RPGPlayer 가져오기
+                    RPGPlayer rpgPlayer = RPGMain.getPlugin()
+                            .getRPGPlayerManager().getOrCreatePlayer(clickedPlayer);
+
+                    // 직업이 있는지 확인
+                    if (!rpgPlayer.hasJob()) {
+                        langManager.sendMessage(clickedPlayer, "messages.no-job-for-stats");
+                        playErrorSound(clickedPlayer);
+                        return;
+                    }
+
+                    // StatsGui 열기
+                    StatsGui statsGui = new StatsGui(guiManager, langManager, clickedPlayer, rpgPlayer);
+                    guiManager.openGui(clickedPlayer, statsGui);
+                    playSuccessSound(clickedPlayer);
                 }
         );
         setItem(STATS_SLOT, statsButton);
@@ -178,7 +193,7 @@ public class MainMenuGui extends BaseGui {
     }
 
     /**
-     * Talents button setup
+     * Talents button setup - 실제 TalentGui로 연결
      */
     private void setupTalentsButton() {
         GuiItem talentsButton = GuiItem.clickable(
@@ -187,8 +202,28 @@ public class MainMenuGui extends BaseGui {
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.talents-button.lore"))
                         .build(),
                 clickedPlayer -> {
-                    langManager.sendMessage(clickedPlayer, "general.coming-soon");
-                    playClickSound(clickedPlayer);
+                    // RPGPlayer 가져오기
+                    RPGPlayer rpgPlayer = RPGMain.getPlugin()
+                            .getRPGPlayerManager().getOrCreatePlayer(clickedPlayer);
+
+                    // 직업이 있는지 확인
+                    if (!rpgPlayer.hasJob()) {
+                        langManager.sendMessage(clickedPlayer, "messages.no-job-for-talents");
+                        playErrorSound(clickedPlayer);
+                        return;
+                    }
+
+                    // TalentGui 열기 (메인 페이지)
+                    TalentGui talentGui = new TalentGui(
+                            guiManager,
+                            langManager,
+                            clickedPlayer,
+                            rpgPlayer,
+                            "main",
+                            RPGMain.getPlugin().getTalentManager().getJobMainTalents(rpgPlayer.getJob())
+                    );
+                    guiManager.openGui(clickedPlayer, talentGui);
+                    playSuccessSound(clickedPlayer);
                 }
         );
         setItem(TALENTS_SLOT, talentsButton);
