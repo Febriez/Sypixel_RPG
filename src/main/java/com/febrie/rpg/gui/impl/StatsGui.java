@@ -39,14 +39,12 @@ public class StatsGui extends ScrollableGui {
     private final RPGPlayer rpgPlayer;
     private final Map<Integer, GuiItem> items = new HashMap<>();
 
-    public StatsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
-                    @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
+    public StatsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager, @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
         super(viewer);
         this.guiManager = guiManager;
         this.langManager = langManager;
         this.rpgPlayer = rpgPlayer;
-        this.inventory = Bukkit.createInventory(this, GUI_SIZE,
-                langManager.getComponent(viewer, "gui.stats.title"));
+        this.inventory = Bukkit.createInventory(this, GUI_SIZE, langManager.getComponent(viewer, "gui.stats.title"));
 
         setupLayout();
     }
@@ -80,20 +78,12 @@ public class StatsGui extends ScrollableGui {
 
     @Override
     protected List<GuiItem> getScrollableItems() {
-        List<GuiItem> statItems = new ArrayList<>();
-
-        // 모든 스탯을 GuiItem으로 변환
-        for (Stat stat : Stat.getAllStats().values()) {
-            statItems.add(createStatItem(stat));
-        }
-
-        return statItems;
+        // 스탯이 6개뿐이므로 스크롤 없이 고정 배치로 변경
+        return new ArrayList<>();
     }
 
     @Override
-    protected void handleNonScrollClick(@NotNull InventoryClickEvent event,
-                                        @NotNull Player player, int slot,
-                                        @NotNull ClickType click) {
+    protected void handleNonScrollClick(@NotNull InventoryClickEvent event, @NotNull Player player, int slot, @NotNull ClickType click) {
         GuiItem item = items.get(slot);
         if (item != null && item.hasActions()) {
             item.executeAction(player, click);
@@ -110,11 +100,8 @@ public class StatsGui extends ScrollableGui {
         // 플레이어 정보 표시
         setupPlayerInfo();
 
-        // 스크롤 가능한 스탯 목록
-        setupScrollableStats();
-
-        // 스크롤 버튼
-        setupScrollButtons();
+        // 스탯 표시 (고정 위치)
+        setupStatsDisplay();
 
         // 네비게이션 버튼
         setupNavigationButtons();
@@ -124,67 +111,77 @@ public class StatsGui extends ScrollableGui {
      * 배경 설정
      */
     private void setupBackground() {
+        // 테두리 생성 (수동으로)
         // 상단 테두리
         for (int i = 0; i < 9; i++) {
-            if (i != 4 && i != SCROLL_UP_SLOT) {
+            if (i != 4) { // 플레이어 머리 위치 제외
                 setItem(i, GuiFactory.createDecoration());
             }
         }
 
         // 하단 테두리
         for (int i = 45; i < 54; i++) {
-            if (i != 49) { // 스탯 포인트 정보 슬롯 제외
+            if (i != 48 && i != 50 && i != 53) { // 네비게이션 버튼 위치 제외
                 setItem(i, GuiFactory.createDecoration());
             }
         }
 
         // 좌우 테두리
         for (int row = 1; row < 5; row++) {
-            setItem(row * 9, GuiFactory.createDecoration()); // 좌측
-            if (row != 2 && row != 4) { // 스크롤바 위치 제외
-                setItem(row * 9 + 8, GuiFactory.createDecoration()); // 우측
-            }
+            setItem(row * 9, GuiFactory.createDecoration());
+            setItem(row * 9 + 8, GuiFactory.createDecoration());
         }
 
-        // SCROLL_DOWN_SLOT (44)는 하단 테두리 범위 밖이므로 별도 처리
-        // 44번 슬롯은 스크롤 다운 버튼용으로 비워둠
+        // 중앙 장식용 라인
+        for (int i = 18; i < 27; i++) {
+            if (i != 22) { // 스탯 포인트 정보 위치 제외
+                setItem(i, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
+            }
+        }
     }
 
     /**
      * 플레이어 정보 표시
      */
     private void setupPlayerInfo() {
-        if (rpgPlayer.getJob() == null) {
+        if (!rpgPlayer.hasJob()) {
             new JobSelectionGui(guiManager, langManager, viewer, rpgPlayer).open(viewer);
             return;
         }
 
-        // 플레이어 머리
-        GuiItem playerHead = GuiItem.display(
-                ItemBuilder.of(Material.PLAYER_HEAD)
-                        .displayName(Component.text(viewer.getName(), ColorUtil.LEGENDARY)
-                                .decoration(TextDecoration.BOLD, true))
-                        .addLore(Component.empty())
-                        .addLore(trans("gui.talent.level", "level", String.valueOf(rpgPlayer.getLevel())))
-                        .addLore(trans("gui.talent.job", "job",
-                                trans("job." + rpgPlayer.getJob().name().toLowerCase() + ".name").toString()))
-                        .addLore(trans("gui.stats.combat-power", "power", String.valueOf(rpgPlayer.getCombatPower())))
-                        .build()
-        );
+        // 플레이어 머리 (상단 중앙)
+        GuiItem playerHead = GuiItem.display(ItemBuilder.of(Material.PLAYER_HEAD).displayName(Component.text(viewer.getName(), ColorUtil.LEGENDARY).decoration(TextDecoration.BOLD, true)).addLore(Component.empty()).addLore(trans("gui.talent.level", "level", String.valueOf(rpgPlayer.getLevel()))).addLore(trans("gui.talent.job", "job", transString("job." + rpgPlayer.getJob().name().toLowerCase() + ".name"))).addLore(trans("gui.stats.combat-power", "power", String.valueOf(rpgPlayer.getCombatPower()))).build());
         setItem(4, playerHead);
 
-        // 스탯 포인트 정보
-        GuiItem statPointInfo = GuiItem.display(
-                ItemBuilder.of(Material.EXPERIENCE_BOTTLE)
-                        .displayName(trans("gui.stats.stat-points"))
-                        .addLore(trans("gui.stats.available-points",
-                                "points", String.valueOf(rpgPlayer.getStatPoints())))
-                        .addLore(Component.empty())
-                        .addLore(trans("gui.stats.points-per-level"))
-                        .addLore(trans("gui.stats.click-to-use"))
-                        .build()
-        );
-        setItem(49, statPointInfo);
+        // 스탯 포인트 정보 (중앙)
+        GuiItem statPointInfo = GuiItem.display(ItemBuilder.of(Material.EXPERIENCE_BOTTLE).displayName(trans("gui.stats.stat-points")).addLore(trans("gui.stats.available-points", "points", String.valueOf(rpgPlayer.getStatPoints()))).addLore(Component.empty()).addLore(trans("gui.stats.points-per-level")).addLore(trans("gui.stats.click-to-use")).glint(rpgPlayer.getStatPoints() > 0).build());
+        setItem(22, statPointInfo);
+    }
+
+    /**
+     * 스탯 표시 - 더 예쁜 배치
+     */
+    private void setupStatsDisplay() {
+        // 스탯 배치: 2x3 그리드로 변경
+        // 상단: STR INT DEX
+        // 하단: VIT WIS LUK
+
+        Map<Integer, Stat> statPositions = new HashMap<>();
+        statPositions.put(29, Stat.STRENGTH);     // 왼쪽
+        statPositions.put(31, Stat.INTELLIGENCE); // 중앙
+        statPositions.put(33, Stat.DEXTERITY);    // 오른쪽
+        statPositions.put(38, Stat.VITALITY);     // 왼쪽 아래
+        statPositions.put(40, Stat.WISDOM);       // 중앙 아래
+        statPositions.put(42, Stat.LUCK);         // 오른쪽 아래
+
+        for (Map.Entry<Integer, Stat> entry : statPositions.entrySet()) {
+            setItem(entry.getKey(), createStatItem(entry.getValue()));
+        }
+
+        // 장식용 아이템들
+        // 스탯 설명
+        GuiItem statGuide = GuiItem.display(ItemBuilder.of(Material.BOOK).displayName(Component.text("스탯 가이드", ColorUtil.INFO).decoration(TextDecoration.BOLD, true)).addLore(Component.text("각 스탯을 클릭하여 포인트를 사용하세요", ColorUtil.GRAY)).addLore(Component.empty()).addLore(Component.text("조작법:", ColorUtil.YELLOW)).addLore(Component.text("• 좌클릭: +1 포인트", ColorUtil.WHITE)).addLore(Component.text("• Shift+좌클릭: +5 포인트", ColorUtil.WHITE)).addLore(Component.text("• 우클릭: +10 포인트", ColorUtil.WHITE)).build());
+        setItem(13, statGuide);
     }
 
     /**
@@ -213,6 +210,12 @@ public class StatsGui extends ScrollableGui {
         lore.add(stat.getDescription(isKorean));
         lore.add(Component.empty());
 
+        // 진행도 바 추가
+        double percentage = (double) baseStat / stat.getMaxValue() * 100;
+        Component progressBar = createProgressBar(percentage);
+        lore.add(progressBar);
+        lore.add(Component.empty());
+
         if (rpgPlayer.getStatPoints() > 0 && baseStat < stat.getMaxValue()) {
             lore.add(trans("gui.stats.click-add-1"));
             lore.add(trans("gui.stats.click-add-5"));
@@ -223,14 +226,8 @@ public class StatsGui extends ScrollableGui {
             lore.add(trans("gui.stats.insufficient-points"));
         }
 
-        return GuiItem.of(
-                ItemBuilder.of(stat.getIcon())
-                        .displayName(stat.getDisplayName(isKorean)
-                                .decoration(TextDecoration.BOLD, true))
-                        .lore(lore)
-                        .flags(ItemFlag.values())
-                        .build()
-        ).onClick(ClickType.LEFT, (player, click) -> {
+        return GuiItem.of(ItemBuilder.of(stat.getIcon()).displayName(stat.getDisplayName(isKorean).decoration(TextDecoration.BOLD, true)).lore(lore).flags(ItemFlag.values()).glint(bonusStat > 0) // 보너스가 있으면 반짝임
+                .build()).onClick(ClickType.LEFT, (player, click) -> {
             if (rpgPlayer.useStatPoint(stat, 1)) {
                 refresh();
                 playSuccessSound(player);
@@ -257,24 +254,29 @@ public class StatsGui extends ScrollableGui {
     }
 
     /**
-     * 스크롤 가능한 스탯 목록 설정
+     * 진행도 바 생성
      */
-    private void setupScrollableStats() {
-        // 부모 클래스의 공통 메소드 사용
-        setupScrollableArea(inventory, items, this::setItem);
-    }
+    private Component createProgressBar(double percentage) {
+        int barLength = 20;
+        int filled = (int) Math.round(percentage / 100.0 * barLength);
+        String filledBar = "█".repeat(Math.max(0, filled));
+        String emptyBar = "░".repeat(Math.max(0, barLength - filled));
 
-    /**
-     * 스크롤 버튼 설정
-     */
-    private void setupScrollButtons() {
-        setItem(SCROLL_UP_SLOT, createScrollUpButton());
-        setItem(SCROLL_DOWN_SLOT, createScrollDownButton());
+        // 색상 결정
+        Component coloredBar;
+        if (percentage >= 80) {
+            coloredBar = Component.text(filledBar, ColorUtil.LEGENDARY).append(Component.text(emptyBar, ColorUtil.GRAY));
+        } else if (percentage >= 60) {
+            coloredBar = Component.text(filledBar, ColorUtil.EPIC).append(Component.text(emptyBar, ColorUtil.GRAY));
+        } else if (percentage >= 40) {
+            coloredBar = Component.text(filledBar, ColorUtil.RARE).append(Component.text(emptyBar, ColorUtil.GRAY));
+        } else if (percentage >= 20) {
+            coloredBar = Component.text(filledBar, ColorUtil.UNCOMMON).append(Component.text(emptyBar, ColorUtil.GRAY));
+        } else {
+            coloredBar = Component.text(filledBar, ColorUtil.COMMON).append(Component.text(emptyBar, ColorUtil.GRAY));
+        }
 
-        // 스크롤바
-        setItem(SCROLL_BAR_START, createScrollBarItem(SCROLL_BAR_START));
-        setItem(26, createScrollBarItem(26));
-        setItem(SCROLL_BAR_END, createScrollBarItem(SCROLL_BAR_END));
+        return coloredBar;
     }
 
     /**
@@ -293,18 +295,11 @@ public class StatsGui extends ScrollableGui {
         setItem(45, GuiFactory.createBackButton(guiManager, langManager, viewer));
 
         // 새로고침 버튼
-        setItem(46, GuiFactory.createRefreshButton(_ -> refresh(), langManager, viewer));
+        setItem(48, GuiFactory.createRefreshButton(_ -> refresh(), langManager, viewer));
 
         // 특성 페이지로 가기 버튼
-        GuiItem talentButton = GuiItem.clickable(
-                ItemBuilder.of(Material.ENCHANTED_BOOK)
-                        .displayName(trans("gui.talent.title"))
-                        .addLore(trans("gui.stats.click-talents"))
-                        .build(),
-                player -> new TalentGui(guiManager, langManager, player, rpgPlayer, null, RPGMain.getPlugin()
-                        .getTalentManager().getJobMainTalents(rpgPlayer.getJob())).open(player)
-        );
-        setItem(52, talentButton);
+        GuiItem talentButton = GuiItem.clickable(ItemBuilder.of(Material.ENCHANTED_BOOK).displayName(trans("gui.talent.title")).addLore(trans("gui.stats.click-talents")).glint(true).build(), player -> new TalentGui(guiManager, langManager, player, rpgPlayer, null, RPGMain.getPlugin().getTalentManager().getJobMainTalents(rpgPlayer.getJob())).open(player));
+        setItem(50, talentButton);
 
         // 닫기 버튼
         setItem(53, GuiFactory.createCloseButton(langManager, viewer));
@@ -322,6 +317,10 @@ public class StatsGui extends ScrollableGui {
      */
     private Component trans(@NotNull String key, @NotNull String... args) {
         return langManager.getComponent(viewer, key, args);
+    }
+
+    private String transString(@NotNull String key, @NotNull String... args) {
+        return langManager.getMessage(viewer, key, args);
     }
 
     private void playSuccessSound(@NotNull Player player) {

@@ -3,7 +3,6 @@ package com.febrie.rpg.talent;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.util.ColorUtil;
-import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -145,7 +144,7 @@ public class TalentManager {
                 .build();
         registerTalent(swiftness, "main");
 
-        // 고급 스탯 특성 (하위 페이지)
+        // 고급 근력만 남기고 나머지는 제거
         Talent advancedStrength = new Talent.Builder("advanced_strength")
                 .name("고급 근력", "Advanced Strength")
                 .icon(Material.DIAMOND)
@@ -160,127 +159,7 @@ public class TalentManager {
         // 선행 조건 설정
         advancedStrength.addPrerequisite(basicStrength, 5);
         basicStrength.addChild(advancedStrength);
-        registerTalent(advancedStrength, "strength_tree");
-
-        // 근력 특화 특성들
-        Talent powerStrike = new Talent.Builder("power_strike")
-                .name("파워 스트라이크", "Power Strike")
-                .icon(Material.IRON_SWORD)
-                .color(ColorUtil.ERROR)
-                .maxLevel(3)
-                .requiredPoints(3)
-                .category(Talent.TalentCategory.OFFENSE)
-                .addStatBonus(Stat.STRENGTH, 10)
-                .addEffect("물리 공격력 +15%")
-                .build();
-        powerStrike.addPrerequisite(advancedStrength, 3);
-        advancedStrength.addChild(powerStrike);
-        registerTalent(powerStrike, "strength_mastery");
-
-        // 기초 근력에 대량의 하위 특성 추가
-        createMassiveStrengthTalents(basicStrength);
-    }
-
-    /**
-     * 기초 근력 하위 특성 대량 생성 (100개)
-     */
-    private void createMassiveStrengthTalents(@NotNull Talent parent) {
-        // 티어별로 특성 생성
-        String[] tiers = {"초급", "중급", "고급", "희귀", "영웅", "전설"};
-        String[] tierEnglish = {"Basic", "Intermediate", "Advanced", "Rare", "Epic", "Legendary"};
-        TextColor[] tierColors = {ColorUtil.COMMON, ColorUtil.UNCOMMON, ColorUtil.RARE,
-                ColorUtil.EPIC, ColorUtil.LEGENDARY, ColorUtil.LEGENDARY};
-
-        String[] types = {"공격력", "치명타", "방어관통", "공격속도", "흡혈"};
-        String[] typesEnglish = {"Attack", "Critical", "Penetration", "Speed", "Lifesteal"};
-        Material[] typeIcons = {Material.IRON_SWORD, Material.GOLDEN_SWORD, Material.DIAMOND_SWORD,
-                Material.NETHERITE_SWORD, Material.REDSTONE};
-
-        int talentCount = 0;
-
-        // 각 티어별로 특성 생성
-        for (int tier = 0; tier < tiers.length; tier++) {
-            for (int type = 0; type < types.length; type++) {
-                // 각 조합마다 여러 개 생성
-                for (int variant = 1; variant <= 4; variant++) {
-                    String id = String.format("strength_%s_%s_%d",
-                            tierEnglish[tier].toLowerCase(),
-                            typesEnglish[type].toLowerCase(),
-                            variant);
-
-                    String koreanName = String.format("%s %s %d단계", tiers[tier], types[type], variant);
-                    String englishName = String.format("%s %s Stage %d", tierEnglish[tier], typesEnglish[type], variant);
-
-                    // 티어가 높을수록 더 많은 포인트 필요
-                    int requiredPoints = tier + 1;
-                    int maxLevel = 5 - tier; // 높은 티어일수록 최대 레벨 낮음
-                    int statBonus = (tier + 1) * (variant + 1);
-
-                    Talent.Builder builder = new Talent.Builder(id)
-                            .name(koreanName, englishName)
-                            .icon(typeIcons[type])
-                            .color(tierColors[tier])
-                            .maxLevel(maxLevel)
-                            .requiredPoints(requiredPoints)
-                            .category(Talent.TalentCategory.OFFENSE)
-                            .addStatBonus(Stat.STRENGTH, statBonus);
-
-                    // 효과 추가
-                    switch (type) {
-                        case 0 -> builder.addEffect(String.format("물리 공격력 +%d%%", (tier + 1) * variant));
-                        case 1 -> builder.addEffect(String.format("치명타 확률 +%d%%", (tier + 1) * variant * 2));
-                        case 2 -> builder.addEffect(String.format("방어력 무시 +%d%%", (tier + 1) * variant));
-                        case 3 -> builder.addEffect(String.format("공격 속도 +%d%%", (tier + 1) * variant * 3));
-                        case 4 -> builder.addEffect(String.format("흡혈 +%d%%", (tier + 1) * variant * 2));
-                    }
-
-                    Talent talent = builder.build();
-
-                    // 선행 조건 설정 (이전 티어의 특성 필요)
-                    if (tier > 0) {
-                        talent.addPrerequisite(parent, tier * 2);
-                    }
-
-                    parent.addChild(talent);
-                    registerTalent(talent, "basic_strength_page");
-
-                    talentCount++;
-                    if (talentCount >= 100) return;
-                }
-            }
-        }
-
-        // 추가 특수 특성들
-        String[] specialNames = {
-                "근력의 정수", "힘의 폭발", "거인의 힘", "타이탄의 분노", "신들의 축복",
-                "전쟁의 화신", "파괴의 권능", "불멸의 힘", "절대 근력", "초월의 경지"
-        };
-
-        String[] specialNamesEnglish = {
-                "Essence of Strength", "Power Burst", "Giant's Might", "Titan's Wrath", "Blessing of Gods",
-                "Avatar of War", "Power of Destruction", "Immortal Strength", "Absolute Power", "Transcendent State"
-        };
-
-        for (int i = 0; i < specialNames.length && talentCount < 100; i++) {
-            String id = "strength_special_" + (i + 1);
-
-            Talent special = new Talent.Builder(id)
-                    .name(specialNames[i], specialNamesEnglish[i])
-                    .icon(Material.NETHER_STAR)
-                    .color(ColorUtil.LEGENDARY)
-                    .maxLevel(1)
-                    .requiredPoints(5 + i)
-                    .category(Talent.TalentCategory.SPECIAL)
-                    .addStatBonus(Stat.STRENGTH, 20 + i * 5)
-                    .addStatBonus(Stat.VITALITY, 10 + i * 2)
-                    .addEffect(String.format("모든 피해 +%d%%", 10 + i * 5))
-                    .build();
-
-            special.addPrerequisite(parent, 10);
-            parent.addChild(special);
-            registerTalent(special, "basic_strength_page");
-            talentCount++;
-        }
+        registerTalent(advancedStrength, "basic_strength_page");
     }
 
     /**

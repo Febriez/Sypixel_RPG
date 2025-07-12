@@ -108,6 +108,18 @@
       "insufficient-points": "%COLOR_ERROR%Insufficient stat points",
       "click-talents": "%COLOR_GRAY%Click to go to talents page"
     },
+    "combat-power": {
+      "title": "%COLOR_LEGENDARY%Combat Power Details",
+      "total": "%COLOR_ORANGE%Total Combat Power: {power}",
+      "breakdown": "%COLOR_YELLOW%Combat Power Breakdown",
+      "level-contribution": "%COLOR_GREEN%Level Contribution",
+      "level-detail": "%COLOR_WHITE%  Level {level} × 10 = {value}",
+      "stat-contribution": "%COLOR_INFO%Stat Contribution",
+      "stat-detail": "%COLOR_WHITE%  {stat}: {value} × {multiplier} = {total}",
+      "total-stats": "%COLOR_YELLOW%Total Stats: {value}",
+      "calculation-formula": "%COLOR_GRAY%Formula: (Level×10) + Stat Contribution",
+      "stat-multipliers": "%COLOR_DARK_GRAY%STR×5, INT×5, DEX×3, VIT×4, WIS×4, LUK×2"
+    },
     "buttons": {
       "close": {
         "name": "%COLOR_RED%Close",

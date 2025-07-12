@@ -329,8 +329,8 @@ public class TalentGui extends ScrollableGui {
     private void setupInfoDisplay() {
         // 현재 페이지 정보 (좌측 상단)
         String jobName = rpgPlayer.hasJob() ?
-                langManager.getMessage(viewer, "job." + rpgPlayer.getJob().name().toLowerCase() + ".name") :
-                langManager.getMessage(viewer, "general.unknown");
+                transString("job." + rpgPlayer.getJob().name().toLowerCase() + ".name") :
+                transString("general.unknown");
 
         GuiItem pageInfo = GuiItem.display(
                 ItemBuilder.of(Material.KNOWLEDGE_BOOK)
@@ -338,9 +338,8 @@ public class TalentGui extends ScrollableGui {
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
                         .addLore(trans("gui.talent.level", "level", String.valueOf(rpgPlayer.getLevel())))
-                        .addLore(rpgPlayer.hasJob() ?
-                                Component.text(transString("gui.talent.job", "job", jobName)) :
-                                trans("gui.talent.no-job"))
+                        .addLore(trans(rpgPlayer.hasJob() ? "gui.talent.job" : "gui.talent.no-job",
+                                "job", jobName))
                         .build()
         );
         setItem(0, pageInfo);
