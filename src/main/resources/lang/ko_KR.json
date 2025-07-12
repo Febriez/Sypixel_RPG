@@ -33,102 +33,297 @@
       "usage": "%COLOR_YELLOW%사용법: /mainmenu 또는 /메인메뉴",
       "description": "메인 메뉴를 엽니다",
       "success": "%COLOR_GREEN%메인 메뉴를 열었습니다!"
+    },
+    "skills": {
+      "usage": "%COLOR_YELLOW%사용법: /skills 또는 /스킬",
+      "description": "스킬 메뉴를 엽니다",
+      "success": "%COLOR_GREEN%스킬 메뉴를 열었습니다!"
+    },
+    "stats": {
+      "usage": "%COLOR_YELLOW%사용법: /stats 또는 /스탯",
+      "description": "스탯 메뉴를 엽니다",
+      "success": "%COLOR_GREEN%스탯 메뉴를 열었습니다!"
+    },
+    "talents": {
+      "usage": "%COLOR_YELLOW%사용법: /talents 또는 /특성",
+      "description": "특성 메뉴를 엽니다",
+      "success": "%COLOR_GREEN%특성 메뉴를 열었습니다!"
+    },
+    "leaderboard": {
+      "usage": "%COLOR_YELLOW%사용법: /leaderboard 또는 /리더보드 또는 /순위",
+      "description": "서버 순위를 확인합니다",
+      "success": "%COLOR_GREEN%리더보드를 열었습니다!"
+    },
+    "playtime": {
+      "usage": "%COLOR_YELLOW%사용법: /playtime 또는 /플레이타임",
+      "description": "플레이 시간을 확인합니다",
+      "success": "%COLOR_GREEN%총 플레이 시간: %COLOR_YELLOW%{time}"
     }
   },
-  "currency": {
-    "gold": {
-      "name": "골드",
-      "description": "기본 재화입니다"
+  "items": {
+    "navigation": {
+      "back": {
+        "name": "%COLOR_SUCCESS%◀ 뒤로가기",
+        "lore": [
+          "%COLOR_GRAY%이전 메뉴로 돌아갑니다"
+        ]
+      },
+      "forward": {
+        "name": "%COLOR_SUCCESS%앞으로가기 ▶",
+        "lore": [
+          "%COLOR_GRAY%다음 메뉴로 이동합니다"
+        ]
+      },
+      "close": {
+        "name": "%COLOR_ERROR%✖ 닫기",
+        "lore": [
+          "%COLOR_GRAY%메뉴를 닫습니다"
+        ]
+      },
+      "previous-page": {
+        "name": "%COLOR_YELLOW%◀ 이전 페이지",
+        "lore": [
+          "%COLOR_GRAY%이전 페이지로 이동합니다"
+        ]
+      },
+      "next-page": {
+        "name": "%COLOR_YELLOW%다음 페이지 ▶",
+        "lore": [
+          "%COLOR_GRAY%다음 페이지로 이동합니다"
+        ]
+      },
+      "refresh": {
+        "name": "%COLOR_AQUA%새로고침",
+        "lore": [
+          "%COLOR_GRAY%정보를 업데이트합니다"
+        ]
+      },
+      "home": {
+        "name": "%COLOR_LEGENDARY%메인 메뉴",
+        "lore": [
+          "%COLOR_GRAY%메인 메뉴로 돌아갑니다"
+        ]
+      }
     },
-    "diamond": {
-      "name": "다이아몬드",
-      "description": "희귀한 재화입니다"
-    },
-    "emerald": {
-      "name": "에메랄드",
-      "description": "거래용 재화입니다"
-    },
-    "ghast_tear": {
-      "name": "별가루",
-      "description": "신비로운 재화입니다"
-    },
-    "nether_star": {
-      "name": "별",
-      "description": "최고급 재화입니다"
+    "mainmenu": {
+      "title": {
+        "name": "%COLOR_LEGENDARY%메인 메뉴",
+        "lore": [
+          "%COLOR_GRAY%다양한 기능을 이용해보세요"
+        ]
+      },
+      "profile-button": {
+        "name": "%COLOR_INFO%내 프로필",
+        "lore": [
+          "%COLOR_GRAY%나의 정보를 확인합니다",
+          "",
+          "%COLOR_YELLOW%▶ 레벨과 경험치 확인",
+          "%COLOR_YELLOW%▶ 스탯과 전투력 확인",
+          "%COLOR_YELLOW%▶ 보유 아이템 확인",
+          "",
+          "%COLOR_SUCCESS%▶ 클릭하여 프로필 열기"
+        ]
+      },
+      "job-button": {
+        "name": "%COLOR_LEGENDARY%직업 선택",
+        "lore": [
+          "%COLOR_GRAY%나만의 전투 스타일을 선택하세요!",
+          "",
+          "%COLOR_YELLOW%▶ 다양한 직업 탐색",
+          "%COLOR_YELLOW%▶ 고유 스킬과 능력 확인",
+          "%COLOR_YELLOW%▶ 운명을 결정하세요!",
+          "",
+          "%COLOR_ERROR%⚠ 주의: 한 번 선택하면 변경 불가!",
+          "",
+          "%COLOR_SUCCESS%▶ 클릭하여 직업 선택"
+        ]
+      },
+      "shop-button": {
+        "name": "%COLOR_GOLD%상점",
+        "lore": [
+          "%COLOR_GRAY%다양한 아이템을 구매하세요",
+          "",
+          "%COLOR_YELLOW%▶ 무기와 방어구",
+          "%COLOR_YELLOW%▶ 소비 아이템",
+          "%COLOR_YELLOW%▶ 특별한 아이템",
+          "",
+          "%COLOR_SUCCESS%▶ 클릭하여 상점 열기"
+        ]
+      },
+      "dungeon-button": {
+        "name": "%COLOR_EPIC%던전",
+        "lore": [
+          "%COLOR_GRAY%위험한 던전에 도전하세요",
+          "",
+          "%COLOR_YELLOW%▶ 강력한 몬스터와 전투",
+          "%COLOR_YELLOW%▶ 희귀한 보상 획득",
+          "%COLOR_YELLOW%▶ 파티와 함께 도전",
+          "",
+          "%COLOR_SUCCESS%▶ 클릭하여 던전 입장"
+        ]
+      },
+      "stats-button": {
+        "name": "%COLOR_SUCCESS%스탯 관리",
+        "lore": [
+          "%COLOR_GRAY%스탯 포인트를 분배하세요",
+          "",
+          "%COLOR_YELLOW%▶ 근력, 지능, 민첩 등",
+          "%COLOR_YELLOW%▶ 전투력 상승",
+          "%COLOR_YELLOW%▶ 나만의 빌드 구성",
+          "",
+          "%COLOR_SUCCESS%▶ 클릭하여 스탯 관리"
+        ]
+      },
+      "settings-button": {
+        "name": "%COLOR_AQUA%설정",
+        "lore": [
+          "%COLOR_GRAY%게임 설정을 변경합니다",
+          "",
+          "%COLOR_YELLOW%▶ 개인 설정",
+          "%COLOR_YELLOW%▶ 알림 설정",
+          "%COLOR_YELLOW%▶ 기타 옵션",
+          "",
+          "%COLOR_SUCCESS%▶ 클릭하여 설정 열기"
+        ]
+      },
+      "talents-button": {
+        "name": "%COLOR_MANA%특성",
+        "lore": [
+          "%COLOR_GRAY%특성 포인트를 사용하세요",
+          "",
+          "%COLOR_YELLOW%▶ 고유한 능력 습득",
+          "%COLOR_YELLOW%▶ 스킬 강화",
+          "%COLOR_YELLOW%▶ 전문화 선택",
+          "",
+          "%COLOR_SUCCESS%▶ 클릭하여 특성 열기"
+        ]
+      },
+      "leaderboard-button": {
+        "name": "%COLOR_ORANGE%서버 순위",
+        "lore": [
+          "%COLOR_GRAY%서버 순위를 확인하세요",
+          "",
+          "%COLOR_YELLOW%▶ 레벨 순위",
+          "%COLOR_YELLOW%▶ 전투력 순위",
+          "%COLOR_YELLOW%▶ 보유 골드 순위",
+          "",
+          "%COLOR_SUCCESS%▶ 클릭하여 순위 확인"
+        ]
+      }
     }
   },
-  "stat": {
-    "strength": {
-      "name": "근력",
+  "job": {
+    "categories": {
+      "warrior": {
+        "name": "%COLOR_COPPER%전사",
+        "description": [
+          "%COLOR_GRAY%근접 전투의 달인",
+          "%COLOR_GRAY%높은 체력과 방어력",
+          "%COLOR_GRAY%강력한 물리 공격 스킬"
+        ]
+      },
+      "mage": {
+        "name": "%COLOR_MANA%마법사",
+        "description": [
+          "%COLOR_GRAY%마법의 대가",
+          "%COLOR_GRAY%강력한 범위 공격",
+          "%COLOR_GRAY%다양한 원소 마법 사용"
+        ]
+      },
+      "archer": {
+        "name": "%COLOR_EMERALD%궁수",
+        "description": [
+          "%COLOR_GRAY%원거리 전투 전문가",
+          "%COLOR_GRAY%높은 민첩성과 치명타",
+          "%COLOR_GRAY%정확한 단일 대상 공격"
+        ]
+      }
+    },
+    "berserker": {
+      "name": "버서커",
+      "title": "%COLOR_ERROR%광전사",
       "description": [
-        "%COLOR_GRAY%물리 공격력을 증가시킵니다",
-        "%COLOR_GRAY%근접 무기 피해량 증가"
+        "%COLOR_GRAY%높은 공격력과 폭발적인 피해",
+        "%COLOR_GRAY%체력이 낮을수록 강해짐"
       ]
     },
-    "intelligence": {
-      "name": "지능",
+    "bruiser": {
+      "name": "브루저",
+      "title": "%COLOR_ORANGE%근접 전투 전문가",
       "description": [
-        "%COLOR_GRAY%마법 공격력을 증가시킵니다",
-        "%COLOR_GRAY%마나 최대치 증가"
+        "%COLOR_GRAY%균형 잡힌 공격과 방어",
+        "%COLOR_GRAY%다양한 상황에 대처 가능"
       ]
     },
-    "dexterity": {
-      "name": "민첩",
+    "tank": {
+      "name": "탱커",
+      "title": "%COLOR_NETHERITE%철벽 수호자",
       "description": [
-        "%COLOR_GRAY%공격 속도와 회피율을 증가시킵니다",
-        "%COLOR_GRAY%치명타 확률 증가"
+        "%COLOR_GRAY%최고의 방어력과 체력",
+        "%COLOR_GRAY%아군을 보호하는 스킬"
       ]
     },
-    "vitality": {
-      "name": "체력",
+    "priest": {
+      "name": "사제",
+      "title": "%COLOR_LEGENDARY%신성한 사제",
       "description": [
-        "%COLOR_GRAY%최대 체력을 증가시킵니다",
-        "%COLOR_GRAY%방어력과 재생력 증가"
+        "%COLOR_GRAY%강력한 치유와 버프",
+        "%COLOR_GRAY%언데드에게 추가 피해"
       ]
     },
-    "wisdom": {
-      "name": "지혜",
+    "dark_mage": {
+      "name": "흑마법사",
+      "title": "%COLOR_EPIC%어둠의 마법사",
       "description": [
-        "%COLOR_GRAY%마나 재생과 스킬 효과를 증가시킵니다",
-        "%COLOR_GRAY%버프/디버프 지속시간 증가"
+        "%COLOR_GRAY%강력한 저주와 디버프",
+        "%COLOR_GRAY%적을 약화시키는 능력"
       ]
     },
-    "luck": {
-      "name": "행운",
+    "mercy": {
+      "name": "메르시",
+      "title": "%COLOR_SUCCESS%자비로운 치유사",
       "description": [
-        "%COLOR_GRAY%아이템 드롭률을 증가시킵니다",
-        "%COLOR_GRAY%크리티컬 피해량 증가"
+        "%COLOR_GRAY%즉시 치유와 부활",
+        "%COLOR_GRAY%팀의 생존력 극대화"
+      ]
+    },
+    "archer": {
+      "name": "아처",
+      "title": "%COLOR_EMERALD%정통 궁수",
+      "description": [
+        "%COLOR_GRAY%빠른 연사와 이동속도",
+        "%COLOR_GRAY%원거리 정밀 타격"
+      ]
+    },
+    "sniper": {
+      "name": "스나이퍼",
+      "title": "%COLOR_INFO%정밀 저격수",
+      "description": [
+        "%COLOR_GRAY%극대화된 치명타 피해",
+        "%COLOR_GRAY%은신과 암살 능력"
+      ]
+    },
+    "shotgunner": {
+      "name": "샷건맨",
+      "title": "%COLOR_WARNING%근거리 사수",
+      "description": [
+        "%COLOR_GRAY%근거리 광역 피해",
+        "%COLOR_GRAY%폭발적인 화력"
       ]
     }
   },
   "gui": {
-    "scroll": {
-      "up-button": {
-        "name": "▲ 위로",
-        "action": "위로 스크롤"
-      },
-      "down-button": {
-        "name": "▼ 아래로",
-        "action": "아래로 스크롤"
-      },
-      "button": {
-        "click-to": "%COLOR_GRAY%클릭하여 {action}",
-        "no-more": "%COLOR_GRAY%더 이상 {action}할 수 없습니다"
-      },
-      "page-info": {
-        "title": "%COLOR_INFO%페이지 정보",
-        "current": "%COLOR_WHITE%페이지 {current} / {total}",
-        "items": "%COLOR_GRAY%아이템 {count}개"
-      }
-    },
     "leaderboard": {
-      "title": "%COLOR_LEGENDARY%리더보드 %COLOR_GRAY%- %COLOR_YELLOW%{type}",
-      "loading": "%COLOR_YELLOW%리더보드 로딩 중...",
-      "no-data": "%COLOR_GRAY%아직 데이터가 없습니다",
-      "my-rank": "%COLOR_WHITE%내 순위: %COLOR_YELLOW%#{rank}",
-      "my-value": "%COLOR_WHITE%내 점수: %COLOR_GREEN%{value}",
-      "no-rank-data": "%COLOR_GRAY%순위권 밖",
-      "play-more": "%COLOR_GRAY%더 플레이하여 순위에 도전하세요!",
+      "title": "%COLOR_LEGENDARY%서버 순위",
+      "categories": {
+        "level": "%COLOR_SUCCESS%레벨",
+        "combat-power": "%COLOR_LEGENDARY%전투력",
+        "gold": "%COLOR_GOLD%골드",
+        "playtime": "%COLOR_AQUA%플레이타임"
+      },
+      "refresh": "%COLOR_AQUA%새로고침",
+      "refresh-description": "%COLOR_GRAY%순위 정보를 업데이트합니다",
+      "auto-update": "%COLOR_GRAY%10분마다 자동 업데이트",
       "last-updated": "%COLOR_GRAY%마지막 업데이트: {time}",
       "current-type": "%COLOR_WHITE%현재 타입: %COLOR_YELLOW%{type}",
       "total-entries": "%COLOR_WHITE%전체 항목: %COLOR_GREEN%{count}",
@@ -233,270 +428,22 @@
     "buttons": {
       "close": {
         "name": "%COLOR_RED%닫기",
-        "lore": "%COLOR_GRAY%클릭하여 GUI 닫기"
+        "lore": [
+          "%COLOR_GRAY%GUI를 닫습니다"
+        ]
       },
       "back": {
         "name": "%COLOR_YELLOW%뒤로가기",
-        "lore": "%COLOR_GRAY%클릭하여 이전 메뉴로"
+        "lore": [
+          "%COLOR_GRAY%이전 메뉴로 돌아갑니다"
+        ]
       },
       "refresh": {
-        "name": "%COLOR_GREEN%새로고침",
-        "lore": "%COLOR_GRAY%클릭하여 정보 갱신"
-      },
-      "confirm": {
-        "name": "%COLOR_SUCCESS%확인",
-        "lore": "%COLOR_GRAY%클릭하여 확인"
-      },
-      "cancel": {
-        "name": "%COLOR_ERROR%취소",
-        "lore": "%COLOR_GRAY%클릭하여 취소"
-      },
-      "previous-page": {
-        "name": "%COLOR_YELLOW%이전 페이지",
-        "lore": "%COLOR_GRAY%클릭하여 이전 페이지로"
-      },
-      "next-page": {
-        "name": "%COLOR_YELLOW%다음 페이지",
-        "lore": "%COLOR_GRAY%클릭하여 다음 페이지로"
-      },
-      "page-info": {
-        "name": "%COLOR_ORANGE%페이지 정보",
-        "lore": "%COLOR_WHITE%현재: {current} / {total}"
-      },
-      "status": {
-        "online": "%COLOR_SUCCESS%온라인",
-        "offline": "%COLOR_ERROR%오프라인",
-        "status-text": "%COLOR_GRAY%상태: {status}"
-      }
-    }
-  },
-  "items": {
-    "profile": {
-      "player-head": {
-        "name": "%COLOR_LEGENDARY%{player}",
+        "name": "%COLOR_AQUA%새로고침",
         "lore": [
-          "",
-          "%COLOR_WHITE%플레이어: %COLOR_YELLOW%{player}",
-          "%COLOR_GRAY%UUID: %COLOR_WHITE%{uuid}",
-          "%COLOR_CYAN%온라인 시간: %COLOR_WHITE%{playtime}",
-          "",
-          "%COLOR_YELLOW%클릭하여 상세 정보 보기"
-        ]
-      },
-      "level-info": {
-        "name": "%COLOR_SUCCESS%레벨 정보",
-        "lore": [
-          "%COLOR_WHITE%현재 레벨: %COLOR_GREEN%{level}",
-          "%COLOR_WHITE%경험치: %COLOR_EXPERIENCE%{exp}%",
-          "%COLOR_WHITE%총 경험치: %COLOR_YELLOW%{total_exp}"
-        ]
-      },
-      "health-info": {
-        "name": "%COLOR_HEALTH%체력",
-        "lore": [
-          "%COLOR_WHITE%현재: %COLOR_RED%{current} %COLOR_GRAY%/ %COLOR_RED%{max}",
-          "%COLOR_WHITE%비율: %COLOR_YELLOW%{percentage}%",
-          "%COLOR_WHITE%{health_bar}"
-        ]
-      },
-      "food-info": {
-        "name": "%COLOR_ORANGE%배고픔",
-        "lore": [
-          "%COLOR_WHITE%배고픔: %COLOR_YELLOW%{food} %COLOR_GRAY%/ %COLOR_YELLOW%20",
-          "%COLOR_WHITE%포화도: %COLOR_GOLD%{saturation}",
-          "%COLOR_WHITE%{hunger_bar}"
-        ]
-      },
-      "game-info": {
-        "name": "%COLOR_INFO%게임 정보",
-        "lore": [
-          "%COLOR_WHITE%게임 모드: %COLOR_CYAN%{gamemode}",
-          "%COLOR_WHITE%비행 가능: %COLOR_GREEN%{can_fly}",
-          "%COLOR_WHITE%월드: %COLOR_LIME%{world}"
-        ]
-      },
-      "settings-button": {
-        "name": "%COLOR_GRAY%설정",
-        "lore": [
-          "%COLOR_YELLOW%클릭하여 설정 메뉴 열기"
-        ]
-      },
-      "stats-button": {
-        "name": "%COLOR_INFO%상세 스탯",
-        "lore": [
-          "%COLOR_YELLOW%클릭하여 스탯 관리"
-        ]
-      },
-      "talents-button": {
-        "name": "%COLOR_EPIC%특성 관리",
-        "lore": [
-          "%COLOR_YELLOW%클릭하여 특성 트리 보기"
-        ]
-      },
-      "job-selection": {
-        "name": "%COLOR_LEGENDARY%직업 선택하기!",
-        "lore": [
-          "%COLOR_GRAY%아직 직업이 없습니다",
-          "",
-          "%COLOR_WARNING%⚠ 직업은 한 번 선택하면 변경할 수 없습니다!",
-          "",
-          "%COLOR_SUCCESS%▶ 클릭하여 직업 선택"
+          "%COLOR_GRAY%정보를 업데이트합니다"
         ]
       }
-    },
-    "mainmenu": {
-      "leaderboard-button": {
-        "name": "%COLOR_LEGENDARY%리더보드",
-        "lore": [
-          "%COLOR_GRAY%서버 최강자 순위 확인",
-          "",
-          "%COLOR_SUCCESS%▶ 클릭하여 리더보드 보기"
-        ]
-      },
-      "title": {
-        "name": "%COLOR_LEGENDARY%Sypixel RPG",
-        "lore": [
-          "%COLOR_GRAY%RPG 시스템 메인 메뉴",
-          "",
-          "%COLOR_WHITE%원하는 기능을 선택하세요"
-        ]
-      },
-      "profile-button": {
-        "name": "%COLOR_YELLOW%내 프로필",
-        "lore": [
-          "%COLOR_GRAY%통계 및 정보 확인",
-          "",
-          "%COLOR_SUCCESS%▶ 클릭하여 프로필 보기"
-        ]
-      },
-      "shop-button": {
-        "name": "%COLOR_GOLD%상점",
-        "lore": [
-          "%COLOR_GRAY%아이템 구매 및 판매",
-          "",
-          "%COLOR_SUCCESS%▶ 클릭하여 상점 열기"
-        ]
-      },
-      "dungeon-button": {
-        "name": "%COLOR_LEGENDARY%던전",
-        "lore": [
-          "%COLOR_GRAY%도전과 보상을 위한 모험",
-          "",
-          "%COLOR_SUCCESS%▶ 클릭하여 던전 입장"
-        ]
-      },
-      "stats-button": {
-        "name": "%COLOR_INFO%스탯 관리",
-        "lore": [
-          "%COLOR_GRAY%능력치 포인트 분배",
-          "",
-          "%COLOR_SUCCESS%▶ 클릭하여 스탯 관리"
-        ]
-      },
-      "settings-button": {
-        "name": "%COLOR_GRAY%설정",
-        "lore": [
-          "%COLOR_GRAY%게임 설정 변경",
-          "",
-          "%COLOR_SUCCESS%▶ 클릭하여 설정 열기"
-        ]
-      },
-      "talents-button": {
-        "name": "%COLOR_EPIC%특성",
-        "lore": [
-          "%COLOR_GRAY%특성 포인트로 능력 강화",
-          "",
-          "%COLOR_SUCCESS%▶ 클릭하여 특성 관리"
-        ]
-      },
-      "job-button": {
-        "name": "%COLOR_LEGENDARY%직업 선택",
-        "lore": [
-          "%COLOR_GRAY%당신의 운명을 선택하세요",
-          "",
-          "%COLOR_WARNING%⚠ 신중하게 선택하세요!",
-          "%COLOR_SUCCESS%▶ 클릭하여 직업 선택"
-        ]
-      }
-    }
-  },
-  "job": {
-    "categories": {
-      "warrior": "%COLOR_COPPER%전사",
-      "mage": "%COLOR_MANA%마법사",
-      "archer": "%COLOR_EMERALD%궁수"
-    },
-    "berserker": {
-      "name": "버서커",
-      "title": "%COLOR_ERROR%광전사",
-      "description": [
-        "%COLOR_GRAY%높은 공격력과 폭발적인 피해",
-        "%COLOR_GRAY%체력이 낮을수록 강해짐"
-      ]
-    },
-    "bruiser": {
-      "name": "브루저",
-      "title": "%COLOR_ORANGE%근접 전투 전문가",
-      "description": [
-        "%COLOR_GRAY%균형 잡힌 공격과 방어",
-        "%COLOR_GRAY%다양한 상황에 대처 가능"
-      ]
-    },
-    "tank": {
-      "name": "탱커",
-      "title": "%COLOR_NETHERITE%철벽 수호자",
-      "description": [
-        "%COLOR_GRAY%최고의 방어력과 체력",
-        "%COLOR_GRAY%아군을 보호하는 스킬"
-      ]
-    },
-    "priest": {
-      "name": "사제",
-      "title": "%COLOR_LEGENDARY%신성한 사제",
-      "description": [
-        "%COLOR_GRAY%강력한 치유와 버프",
-        "%COLOR_GRAY%언데드에게 추가 피해"
-      ]
-    },
-    "dark_mage": {
-      "name": "흑마법사",
-      "title": "%COLOR_EPIC%어둠의 마법사",
-      "description": [
-        "%COLOR_GRAY%강력한 저주와 디버프",
-        "%COLOR_GRAY%적을 약화시키는 능력"
-      ]
-    },
-    "mercy": {
-      "name": "메르시",
-      "title": "%COLOR_SUCCESS%자비로운 치유사",
-      "description": [
-        "%COLOR_GRAY%즉시 치유와 부활",
-        "%COLOR_GRAY%팀의 생존력 극대화"
-      ]
-    },
-    "archer": {
-      "name": "아처",
-      "title": "%COLOR_EMERALD%정통 궁수",
-      "description": [
-        "%COLOR_GRAY%빠른 연사와 이동속도",
-        "%COLOR_GRAY%원거리 정밀 타격"
-      ]
-    },
-    "sniper": {
-      "name": "스나이퍼",
-      "title": "%COLOR_INFO%정밀 저격수",
-      "description": [
-        "%COLOR_GRAY%극대화된 치명타 피해",
-        "%COLOR_GRAY%은신과 암살 능력"
-      ]
-    },
-    "shotgunner": {
-      "name": "샷건맨",
-      "title": "%COLOR_WARNING%근거리 사수",
-      "description": [
-        "%COLOR_GRAY%근거리 광역 피해",
-        "%COLOR_GRAY%폭발적인 화력"
-      ]
     }
   },
   "status": {
