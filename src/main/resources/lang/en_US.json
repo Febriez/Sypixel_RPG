@@ -60,6 +60,72 @@
       "success": "%COLOR_GREEN%Total playtime: %COLOR_YELLOW%{time}"
     }
   },
+  "currency": {
+    "gold": {
+      "name": "Gold",
+      "description": "Basic currency"
+    },
+    "diamond": {
+      "name": "Diamond",
+      "description": "Rare currency"
+    },
+    "emerald": {
+      "name": "Emerald",
+      "description": "Trading currency"
+    },
+    "ghast_tear": {
+      "name": "Stardust",
+      "description": "Mystical currency"
+    },
+    "nether_star": {
+      "name": "Star",
+      "description": "Premium currency"
+    }
+  },
+  "stat": {
+    "strength": {
+      "name": "Strength",
+      "description": [
+        "%COLOR_GRAY%Increases physical damage",
+        "%COLOR_GRAY%Increases melee weapon damage"
+      ]
+    },
+    "intelligence": {
+      "name": "Intelligence",
+      "description": [
+        "%COLOR_GRAY%Increases magical damage",
+        "%COLOR_GRAY%Increases maximum mana"
+      ]
+    },
+    "dexterity": {
+      "name": "Dexterity",
+      "description": [
+        "%COLOR_GRAY%Increases attack speed and evasion",
+        "%COLOR_GRAY%Increases critical strike chance"
+      ]
+    },
+    "vitality": {
+      "name": "Vitality",
+      "description": [
+        "%COLOR_GRAY%Increases maximum health",
+        "%COLOR_GRAY%Increases defense and regeneration"
+      ]
+    },
+    "wisdom": {
+      "name": "Wisdom",
+      "description": [
+        "%COLOR_GRAY%Increases mana regeneration and skill effects",
+        "%COLOR_GRAY%Increases buff/debuff duration"
+      ]
+    },
+    "luck": {
+      "name": "Luck",
+      "description": [
+        "%COLOR_GRAY%Increases item drop rate",
+        "%COLOR_GRAY%Increases critical damage"
+      ]
+    }
+  },
   "items": {
     "navigation": {
       "back": {
@@ -210,6 +276,79 @@
           "%COLOR_SUCCESS%▶ Click to view rankings"
         ]
       }
+    },
+    "profile": {
+      "player-head": {
+        "name": "%COLOR_LEGENDARY%{player}",
+        "lore": [
+          "",
+          "%COLOR_WHITE%Player: %COLOR_YELLOW%{player}",
+          "%COLOR_GRAY%UUID: %COLOR_WHITE%{uuid}",
+          "%COLOR_CYAN%Online time: %COLOR_WHITE%{playtime}",
+          "",
+          "%COLOR_YELLOW%Click to view details"
+        ]
+      },
+      "level-info": {
+        "name": "%COLOR_SUCCESS%Level Information",
+        "lore": [
+          "%COLOR_WHITE%Current Level: %COLOR_GREEN%{level}",
+          "%COLOR_WHITE%Experience: %COLOR_EXPERIENCE%{exp}%",
+          "%COLOR_WHITE%Total Experience: %COLOR_YELLOW%{total_exp}"
+        ]
+      },
+      "health-info": {
+        "name": "%COLOR_HEALTH%Health",
+        "lore": [
+          "%COLOR_WHITE%Current: %COLOR_RED%{current} %COLOR_GRAY%/ %COLOR_RED%{max}",
+          "%COLOR_WHITE%Ratio: %COLOR_YELLOW%{percentage}%",
+          "%COLOR_WHITE%{health_bar}"
+        ]
+      },
+      "food-info": {
+        "name": "%COLOR_ORANGE%Hunger",
+        "lore": [
+          "%COLOR_WHITE%Hunger: %COLOR_YELLOW%{food} %COLOR_GRAY%/ %COLOR_YELLOW%20",
+          "%COLOR_WHITE%Saturation: %COLOR_GOLD%{saturation}",
+          "%COLOR_WHITE%{hunger_bar}"
+        ]
+      },
+      "game-info": {
+        "name": "%COLOR_INFO%Game Information",
+        "lore": [
+          "%COLOR_WHITE%Game Mode: %COLOR_CYAN%{gamemode}",
+          "%COLOR_WHITE%Can Fly: %COLOR_GREEN%{can_fly}",
+          "%COLOR_WHITE%World: %COLOR_LIME%{world}"
+        ]
+      },
+      "settings-button": {
+        "name": "%COLOR_GRAY%Settings",
+        "lore": [
+          "%COLOR_YELLOW%Click to open settings menu"
+        ]
+      },
+      "stats-button": {
+        "name": "%COLOR_INFO%Detailed Stats",
+        "lore": [
+          "%COLOR_YELLOW%Click to manage stats"
+        ]
+      },
+      "talents-button": {
+        "name": "%COLOR_EPIC%Talent Management",
+        "lore": [
+          "%COLOR_YELLOW%Click to view talent tree"
+        ]
+      },
+      "job-selection": {
+        "name": "%COLOR_LEGENDARY%Choose a Job!",
+        "lore": [
+          "%COLOR_GRAY%Select your path",
+          "",
+          "%COLOR_ERROR%⚠ Warning: Once chosen, cannot be changed!",
+          "",
+          "%COLOR_SUCCESS%▶ Click to choose job"
+        ]
+      }
     }
   },
   "job": {
@@ -313,6 +452,25 @@
     }
   },
   "gui": {
+    "scroll": {
+      "up-button": {
+        "name": "▲ Up",
+        "action": "scroll up"
+      },
+      "down-button": {
+        "name": "▼ Down",
+        "action": "scroll down"
+      },
+      "button": {
+        "click-to": "%COLOR_GRAY%Click to {action}",
+        "no-more": "%COLOR_GRAY%Cannot {action} anymore"
+      },
+      "page-info": {
+        "title": "%COLOR_INFO%Page Info",
+        "current": "%COLOR_WHITE%Page {current} / {total}",
+        "items": "%COLOR_GRAY%{count} items"
+      }
+    },
     "leaderboard": {
       "title": "%COLOR_LEGENDARY%Server Rankings",
       "categories": {
@@ -324,6 +482,13 @@
       "refresh": "%COLOR_AQUA%Refresh",
       "refresh-description": "%COLOR_GRAY%Update ranking information",
       "auto-update": "%COLOR_GRAY%Auto-updates every 10 minutes",
+      "loading": "%COLOR_YELLOW%Loading leaderboard...",
+      "loading-description": "%COLOR_GRAY%Please wait a moment",
+      "no-data": "%COLOR_GRAY%No data available yet",
+      "my-rank": "%COLOR_WHITE%My Rank: %COLOR_YELLOW%#{rank}",
+      "my-value": "%COLOR_WHITE%My Score: %COLOR_GREEN%{value}",
+      "no-rank-data": "%COLOR_GRAY%Unranked",
+      "play-more": "%COLOR_GRAY%Play more to compete for rankings!",
       "last-updated": "%COLOR_GRAY%Last updated: {time}",
       "current-type": "%COLOR_WHITE%Current Type: %COLOR_YELLOW%{type}",
       "total-entries": "%COLOR_WHITE%Total Entries: %COLOR_GREEN%{count}",
@@ -395,7 +560,11 @@
       "success": "%COLOR_SUCCESS%Congratulations! You chose the {job} job!",
       "already-has-job": "%COLOR_ERROR%You already have a job!",
       "title-success": "%COLOR_LEGENDARY%Congratulations!",
-      "subtitle-success": "%COLOR_YELLOW%You have acquired the {job} %COLOR_YELLOW%job!"
+      "subtitle-success": "%COLOR_YELLOW%You have acquired the {job} %COLOR_YELLOW%job!",
+      "max-level": "%COLOR_INFO%Max Level: %COLOR_YELLOW%{level}",
+      "cannot-change": "%COLOR_ERROR%Cannot be changed once selected",
+      "warning-title": "%COLOR_ERROR%⚠ Warning",
+      "warning-description": "%COLOR_RED%Choose carefully!"
     },
     "stats": {
       "title": "%COLOR_INFO%Stat Management",
@@ -411,7 +580,24 @@
       "click-add-10": "%COLOR_SUCCESS%▶ Right Click: +10 points",
       "stat-maxed": "%COLOR_ERROR%Maximum reached",
       "insufficient-points": "%COLOR_ERROR%Insufficient stat points",
-      "click-talents": "%COLOR_GRAY%Click to go to talents page"
+      "click-talents": "%COLOR_GRAY%Click to go to talents page",
+      "combat-power": "%COLOR_LEGENDARY%Combat Power: %COLOR_ORANGE%{power}",
+      "stat-points": "%COLOR_INFO%Stat Points",
+      "available-points": "%COLOR_YELLOW%Available: %COLOR_SUCCESS%{points}",
+      "total-allocated": "%COLOR_GRAY%Total Allocated: %COLOR_WHITE%{points}",
+      "points-per-level": "%COLOR_GRAY%5 points per level",
+      "guide-title": "%COLOR_AQUA%Usage Guide",
+      "guide-click-add": "%COLOR_GRAY%• Left Click: +1 point",
+      "guide-shift-click": "%COLOR_GRAY%• Shift+Click: +10 points",
+      "base-value": "%COLOR_WHITE%Base: %COLOR_GRAY%{value}",
+      "bonus-value": "%COLOR_SUCCESS%Bonus: %COLOR_GREEN%+{value}",
+      "total-value": "%COLOR_LEGENDARY%Total: %COLOR_ORANGE%{value}",
+      "click-to-add": "%COLOR_YELLOW%Click to add points"
+    },
+    "talent": {
+      "title": "%COLOR_EPIC%Talents",
+      "level": "%COLOR_WHITE%Level: %COLOR_YELLOW%{level}",
+      "job": "%COLOR_WHITE%Job: %COLOR_INFO%{job}"
     },
     "combat-power": {
       "title": "%COLOR_LEGENDARY%Combat Power Details",
@@ -428,21 +614,40 @@
     "buttons": {
       "close": {
         "name": "%COLOR_RED%Close",
-        "lore": [
-          "%COLOR_GRAY%Close the GUI"
-        ]
+        "lore": "%COLOR_GRAY%Close the GUI"
       },
       "back": {
         "name": "%COLOR_YELLOW%Back",
-        "lore": [
-          "%COLOR_GRAY%Return to previous menu"
-        ]
+        "lore": "%COLOR_GRAY%Return to previous menu"
       },
       "refresh": {
         "name": "%COLOR_AQUA%Refresh",
-        "lore": [
-          "%COLOR_GRAY%Update information"
-        ]
+        "lore": "%COLOR_GRAY%Update information"
+      },
+      "confirm": {
+        "name": "%COLOR_SUCCESS%Confirm",
+        "lore": "%COLOR_GRAY%Click to confirm"
+      },
+      "cancel": {
+        "name": "%COLOR_ERROR%Cancel",
+        "lore": "%COLOR_GRAY%Click to cancel"
+      },
+      "previous-page": {
+        "name": "%COLOR_YELLOW%Previous Page",
+        "lore": "%COLOR_GRAY%Click to go to previous page"
+      },
+      "next-page": {
+        "name": "%COLOR_YELLOW%Next Page",
+        "lore": "%COLOR_GRAY%Click to go to next page"
+      },
+      "page-info": {
+        "name": "%COLOR_ORANGE%Page Info",
+        "lore": "%COLOR_WHITE%Current: {current} / {total}"
+      },
+      "status": {
+        "online": "%COLOR_SUCCESS%Online",
+        "offline": "%COLOR_ERROR%Offline",
+        "status-text": "%COLOR_GRAY%Status: {status}"
       }
     }
   },

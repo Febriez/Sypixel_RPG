@@ -11,11 +11,13 @@ import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Duration;
 import java.util.List;
 
 /**
@@ -175,13 +177,19 @@ public class JobConfirmationGui extends BaseGui {
             // 성공 메시지
             sendMessage(viewer, "gui.job-confirmation.success", "job", jobName);
 
-            // 축하 효과
+            // 축하 효과 - Component를 직접 사용
             playSuccessSound(viewer);
-            viewer.sendTitle(
-                    trans("gui.job-confirmation.title-success").toString(),
-                    trans("gui.job-confirmation.subtitle-success", "job", jobName).toString(),
-                    10, 60, 20
-            );
+
+            // Paper API의 showTitle 메서드 사용
+            viewer.showTitle(Title.title(
+                    trans("gui.job-confirmation.title-success"),
+                    trans("gui.job-confirmation.subtitle-success", "job", jobName),
+                    Title.Times.times(
+                            Duration.ofMillis(500),   // fadeIn
+                            Duration.ofMillis(3000),  // stay
+                            Duration.ofMillis(1000)   // fadeOut
+                    )
+            ));
 
             // GUI 닫고 프로필로 이동
             viewer.closeInventory();
