@@ -1,8 +1,26 @@
 {
   "categories": {
-    "warrior": "%COLOR_RED%Warrior",
-    "mage": "%COLOR_PURPLE%Mage",
-    "archer": "%COLOR_GREEN%Archer"
+    "warrior": {
+      "name": "%COLOR_RED%Warrior",
+      "description": [
+        "%COLOR_GRAY%A class group with powerful melee combat abilities.",
+        "%COLOR_GRAY%Holds the front line with high health and defense."
+      ]
+    },
+    "mage": {
+      "name": "%COLOR_PURPLE%Mage",
+      "description": [
+        "%COLOR_GRAY%A class group that wields mystical magical powers.",
+        "%COLOR_GRAY%Dominates the battlefield with powerful spells."
+      ]
+    },
+    "archer": {
+      "name": "%COLOR_GREEN%Archer",
+      "description": [
+        "%COLOR_GRAY%A class group that delivers precise attacks from range.",
+        "%COLOR_GRAY%Features fast mobility and high critical rate."
+      ]
+    }
   },
   "berserker": {
     "name": "%COLOR_DARK_RED%Berserker",
