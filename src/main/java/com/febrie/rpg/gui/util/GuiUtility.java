@@ -2,7 +2,6 @@ package com.febrie.rpg.gui.util;
 
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.impl.JobSelectionGui;
-import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.stat.Stat;
@@ -16,6 +15,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * GUI 관련 유틸리티 클래스
@@ -35,6 +36,59 @@ public class GuiUtility {
 
     private GuiUtility() {
         throw new UnsupportedOperationException("유틸리티 클래스는 인스턴스화할 수 없습니다.");
+    }
+
+    /**
+     * GUI 아이템 설정 - 핵심 메소드
+     * Map과 Inventory 동시 업데이트
+     */
+    public static void setItem(int slot, @NotNull GuiItem item,
+                               @NotNull Map<Integer, GuiItem> items,
+                               @NotNull Inventory inventory) {
+        if (slot < 0 || slot >= inventory.getSize()) {
+            return; // 잘못된 슬롯 번호 무시
+        }
+
+        items.put(slot, item);
+        inventory.setItem(slot, item.getItemStack());
+    }
+
+    /**
+     * 여러 슬롯에 같은 아이템 설정
+     */
+    public static void setItems(@NotNull GuiItem item,
+                                @NotNull Map<Integer, GuiItem> items,
+                                @NotNull Inventory inventory,
+                                int... slots) {
+        for (int slot : slots) {
+            setItem(slot, item, items, inventory);
+        }
+    }
+
+    /**
+     * 특정 행에 아이템 설정
+     */
+    public static void setRow(int row, @NotNull GuiItem item,
+                              @NotNull Map<Integer, GuiItem> items,
+                              @NotNull Inventory inventory) {
+        if (row < 0 || row >= 6) return;
+
+        for (int col = 0; col < 9; col++) {
+            setItem(row * 9 + col, item, items, inventory);
+        }
+    }
+
+    /**
+     * 특정 열에 아이템 설정
+     */
+    public static void setColumn(int column, @NotNull GuiItem item,
+                                 @NotNull Map<Integer, GuiItem> items,
+                                 @NotNull Inventory inventory) {
+        if (column < 0 || column >= 9) return;
+
+        for (int row = 0; row < 6; row++) {
+            setItem(row * 9 + column, item, items, inventory);
+        }
     }
 
     /**
@@ -75,28 +129,31 @@ public class GuiUtility {
         List<Component> lore = new ArrayList<>();
         lore.addAll(langManager.getComponentList(player, "stat." + stat.getId().toLowerCase() + ".description"));
 
+        // 현재 값 표시
         lore.add(Component.empty());
-        lore.add(Component.text()
-                .append(Component.text("현재 값: ", NamedTextColor.GRAY))
-                .append(Component.text(value, NamedTextColor.WHITE))
-                .build());
+        lore.add(Component.text("현재 값: ")
+                .color(NamedTextColor.GRAY)
+                .append(Component.text(String.valueOf(value))
+                        .color(NamedTextColor.WHITE)
+                        .decoration(TextDecoration.BOLD, true)));
 
+        // 보너스 표시 (있는 경우)
         if (bonus > 0) {
-            lore.add(Component.text()
-                    .append(Component.text("보너스: ", NamedTextColor.GRAY))
-                    .append(Component.text("+" + bonus, NamedTextColor.GREEN))
-                    .build());
+            lore.add(Component.text("보너스: ")
+                    .color(NamedTextColor.GRAY)
+                    .append(Component.text("+" + bonus)
+                            .color(NamedTextColor.GREEN)
+                            .decoration(TextDecoration.BOLD, true)));
         }
 
-        builder.lore(lore);
-        return GuiItem.display(builder.build());
+        return GuiItem.display(builder.lore(lore).build());
     }
 
     /**
      * 특성 아이템 생성
      */
     @NotNull
-    public static GuiItem createTalentItem(@NotNull RPGPlayer rpgPlayer, @NotNull Talent talent,
+    public static GuiItem createTalentItem(@NotNull Talent talent, @NotNull RPGPlayer rpgPlayer,
                                            @NotNull LangManager langManager) {
         Player player = rpgPlayer.getPlayer();
         if (player == null) {
@@ -104,138 +161,165 @@ public class GuiUtility {
         }
 
         int currentLevel = rpgPlayer.getTalents().getTalentLevel(talent);
-        int maxLevel = talent.getMaxLevel();
+        boolean isLearned = currentLevel > 0;
         boolean canLearn = talent.canActivate(rpgPlayer.getTalents());
 
-        Material material = currentLevel > 0 ? Material.ENCHANTED_BOOK : Material.BOOK;
-
+        Material material = talent.getIcon();
         ItemBuilder builder = ItemBuilder.of(material)
-                .displayName(Component.text()
-                        .append(langManager.getComponent(player,
-                                "talent." + talent.getId() + ".name"))
-                        .append(Component.text(" "))
-                        .append(Component.text("[" + currentLevel + "/" + maxLevel + "]",
-                                currentLevel >= maxLevel ? NamedTextColor.GOLD : NamedTextColor.GRAY))
-                        .build())
+                .displayName(langManager.getComponent(player, "talent." + talent.getId() + ".name"))
+                .flags(ItemFlag.values());
+
+        // 설명 추가
+        List<Component> lore = new ArrayList<>();
+        lore.addAll(langManager.getComponentList(player, "talent." + talent.getId() + ".description"));
+
+        // 현재 레벨 표시
+        lore.add(Component.empty());
+        lore.add(Component.text("레벨: " + currentLevel + "/" + talent.getMaxLevel())
+                .color(NamedTextColor.WHITE));
+
+        // 상태 표시
+        if (currentLevel >= talent.getMaxLevel()) {
+            lore.add(Component.text("✓ 최대 레벨")
+                    .color(NamedTextColor.GREEN)
+                    .decoration(TextDecoration.BOLD, true));
+        } else if (canLearn) {
+            lore.add(Component.text("클릭하여 레벨업")
+                    .color(NamedTextColor.YELLOW)
+                    .decoration(TextDecoration.ITALIC, true));
+        } else {
+            lore.add(Component.text("✗ 레벨업 불가")
+                    .color(NamedTextColor.RED)
+                    .decoration(TextDecoration.BOLD, true));
+        }
+
+        // 필요 조건 표시 (선행 특성)
+        Map<Talent, Integer> prerequisites = talent.getPrerequisites();
+        if (!prerequisites.isEmpty()) {
+            lore.add(Component.empty());
+            lore.add(Component.text("필요 조건:")
+                    .color(NamedTextColor.GRAY));
+
+            for (Map.Entry<Talent, Integer> entry : prerequisites.entrySet()) {
+                Talent prereqTalent = entry.getKey();
+                int requiredLevel = entry.getValue();
+                int playerLevel = rpgPlayer.getTalents().getTalentLevel(prereqTalent);
+                boolean meets = playerLevel >= requiredLevel;
+
+                String prereqName = langManager.getMessage(player, "talent." + prereqTalent.getId() + ".name");
+                lore.add(Component.text("• " + prereqName + " Lv." + requiredLevel)
+                        .color(meets ? NamedTextColor.GREEN : NamedTextColor.RED));
+            }
+        }
+
+        // 특수 효과 표시
+        List<String> effects = talent.getEffects();
+        if (!effects.isEmpty()) {
+            lore.add(Component.empty());
+            lore.add(Component.text("효과:")
+                    .color(NamedTextColor.AQUA));
+
+            for (String effect : effects) {
+                lore.add(Component.text("• " + effect)
+                        .color(NamedTextColor.GRAY));
+            }
+        }
+
+        return GuiItem.display(builder.lore(lore).build());
+    }
+
+    /**
+     * 직업 선택 아이템 생성
+     */
+    @NotNull
+    public static GuiItem createJobItem(@NotNull JobSelectionGui gui, @NotNull String jobKey,
+                                        @NotNull Material material, @NotNull LangManager langManager,
+                                        @NotNull Player player, @NotNull RPGPlayerManager playerManager) {
+        ItemBuilder builder = ItemBuilder.of(material)
+                .displayName(langManager.getComponent(player, "job." + jobKey + ".name"))
                 .flags(ItemFlag.values());
 
         List<Component> lore = new ArrayList<>();
-        lore.addAll(langManager.getComponentList(player,
-                "talent." + talent.getId() + ".description"));
+        lore.addAll(langManager.getComponentList(player, "job." + jobKey + ".description"));
 
-        lore.add(Component.empty());
-
-        // 현재 효과
-        if (currentLevel > 0) {
-            lore.add(Component.text("현재 효과:", NamedTextColor.YELLOW));
-            for (String effect : talent.getEffects()) {
-                String effectKey = "talent." + talent.getId() + ".effect." + effect;
-                lore.add(Component.text("  • ", NamedTextColor.GRAY)
-                        .append(langManager.getComponent(player, effectKey,
-                                "level", String.valueOf(currentLevel))));
-            }
-            lore.add(Component.empty());
-        }
-
-        // 필요 포인트
-        if (currentLevel < maxLevel) {
-            lore.add(Component.text("필요 특성 포인트: " + talent.getRequiredPoints(),
-                    canLearn ? NamedTextColor.GREEN : NamedTextColor.RED));
-            lore.add(Component.text("보유 특성 포인트: " + rpgPlayer.getTalents().getAvailablePoints(),
-                    NamedTextColor.GRAY));
-        } else {
-            lore.add(Component.text("최대 레벨!", NamedTextColor.GOLD));
-        }
-
-        builder.lore(lore);
-
-        if (currentLevel > 0) {
-            builder.glint(true);
-        }
-
-        return GuiItem.display(builder.build());
-    }
-
-    /**
-     * 직업 선택 GUI 열기
-     */
-    public static void openJobSelectionGui(@NotNull Player player, @NotNull GuiManager guiManager,
-                                           @NotNull LangManager langManager, @NotNull RPGPlayerManager playerManager) {
-        RPGPlayer rpgPlayer = playerManager.getPlayer(player);
-        if (rpgPlayer == null) {
-            player.sendMessage(Component.text("플레이어 데이터를 불러올 수 없습니다!", NamedTextColor.RED));
-            return;
-        }
-
-        if (rpgPlayer.hasJob()) {
-            player.sendMessage(Component.text("이미 직업을 선택했습니다!", NamedTextColor.RED));
-            return;
-        }
-
-        JobSelectionGui gui = new JobSelectionGui(guiManager, langManager, player, rpgPlayer);
-        guiManager.openGui(player, gui);
-    }
-
-    /**
-     * 간단한 진행도 바 생성
-     */
-    @NotNull
-    public static Component createProgressBar(double progress, int length,
-                                              @NotNull String filledChar, @NotNull String emptyChar,
-                                              @NotNull NamedTextColor filledColor,
-                                              @NotNull NamedTextColor emptyColor) {
-        int filled = (int) (progress * length);
-        int empty = length - filled;
-
-        return Component.text()
-                .append(Component.text(filledChar.repeat(filled), filledColor))
-                .append(Component.text(emptyChar.repeat(empty), emptyColor))
-                .build();
-    }
-
-    /**
-     * 심플한 진행도 바 (기본값 사용)
-     */
-    @NotNull
-    public static Component createSimpleProgressBar(double progress, int length) {
-        return createProgressBar(progress, length, "█", "█",
-                progress >= 1.0 ? NamedTextColor.GREEN : NamedTextColor.YELLOW,
-                NamedTextColor.GRAY
+        return GuiItem.clickable(
+                builder.lore(lore).build(),
+                clickPlayer -> {
+                    // 직업 선택 로직
+                    SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK);
+                    langManager.sendMessage(clickPlayer, "job.selected", "job",
+                            langManager.getMessage(clickPlayer, "job." + jobKey + ".name"));
+                }
         );
     }
 
     /**
-     * 레벨 진행도 표시 컴포넌트
+     * 네비게이션 버튼 생성
      */
     @NotNull
-    public static Component createLevelProgress(@NotNull RPGPlayer rpgPlayer, @NotNull LangManager langManager) {
-        double progress = rpgPlayer.getLevelProgress();
-        int level = rpgPlayer.getLevel();
-        long currentExp = rpgPlayer.getExperience();
-        long requiredExp = rpgPlayer.getRequiredExperience();
+    public static GuiItem createBackButton(@NotNull LangManager langManager, @NotNull Player player) {
+        return GuiItem.clickable(
+                ItemBuilder.of(Material.ARROW)
+                        .displayName(langManager.getComponent(player, "gui.buttons.back.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.back.lore"))
+                        .build(),
+                clickPlayer -> SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK)
+        );
+    }
 
-        return Component.text()
-                .append(Component.text("Level " + level + " ", NamedTextColor.GOLD))
-                .append(createSimpleProgressBar(progress, 10))
-                .append(Component.text(" " + currentExp + "/" + requiredExp + " EXP", NamedTextColor.GRAY))
-                .build();
+    @NotNull
+    public static GuiItem createRefreshButton(@NotNull LangManager langManager, @NotNull Player player) {
+        return GuiItem.clickable(
+                ItemBuilder.of(Material.EMERALD)
+                        .displayName(langManager.getComponent(player, "gui.buttons.refresh.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.refresh.lore"))
+                        .build(),
+                clickPlayer -> SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK)
+        );
+    }
+
+    @NotNull
+    public static GuiItem createCloseButton(@NotNull LangManager langManager, @NotNull Player player) {
+        return GuiItem.clickable(
+                ItemBuilder.of(Material.BARRIER)
+                        .displayName(langManager.getComponent(player, "gui.buttons.close.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.close.lore"))
+                        .build(),
+                clickPlayer -> {
+                    SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK);
+                    clickPlayer.closeInventory();
+                }
+        );
     }
 
     /**
-     * 에러 메시지와 함께 아이템 생성
+     * 빈 슬롯 아이템 생성
      */
     @NotNull
-    public static GuiItem createErrorItem(@NotNull Material material, @NotNull Component title,
-                                          @NotNull List<Component> errorMessages) {
-        ItemBuilder builder = ItemBuilder.of(material)
-                .displayName(title)
-                .lore(errorMessages)
-                .addLore(Component.empty())
-                .addLore(Component.text("클릭하여 닫기", NamedTextColor.RED, TextDecoration.ITALIC));
+    public static GuiItem createEmptySlot() {
+        return GuiItem.display(
+                ItemBuilder.of(Material.GRAY_STAINED_GLASS_PANE)
+                        .displayName(Component.empty())
+                        .build()
+        );
+    }
 
-        return GuiItem.clickable(builder.build(), player -> {
-            SoundUtil.playSound(player, Sound.UI_BUTTON_CLICK);
-            player.closeInventory();
-        });
+    /**
+     * 장식용 아이템 생성
+     */
+    @NotNull
+    public static GuiItem createDecoration(@NotNull Material material) {
+        return GuiItem.display(
+                ItemBuilder.of(material)
+                        .displayName(Component.empty())
+                        .build()
+        );
+    }
+
+    /**
+     * 슬롯 유효성 검사
+     */
+    public static boolean isValidSlot(int slot, @NotNull Inventory inventory) {
+        return slot >= 0 && slot < inventory.getSize();
     }
 }

@@ -52,7 +52,7 @@ public class MainMenuGui extends BaseGui {
     protected void setupLayout() {
         setupDecorations();
         setupMenuButtons();
-        setupDynamicNavigation();
+        setupStandardNavigation(true, true); // 새로고침, 닫기 버튼 포함
     }
 
     /**
@@ -114,7 +114,7 @@ public class MainMenuGui extends BaseGui {
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.shop-button.lore"))
                         .build(),
                 clickedPlayer -> {
-                    sendMessage(clickedPlayer, "general.coming-soon");
+                    langManager.sendMessage(clickedPlayer, "general.coming-soon");
                     playClickSound(clickedPlayer);
                 }
         );
@@ -131,7 +131,7 @@ public class MainMenuGui extends BaseGui {
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.dungeon-button.lore"))
                         .build(),
                 clickedPlayer -> {
-                    sendMessage(clickedPlayer, "general.coming-soon");
+                    langManager.sendMessage(clickedPlayer, "general.coming-soon");
                     playClickSound(clickedPlayer);
                 }
         );
@@ -139,16 +139,18 @@ public class MainMenuGui extends BaseGui {
     }
 
     /**
-     * Stats Management button setup
+     * Stats button setup
      */
     private void setupStatsButton() {
         GuiItem statsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.IRON_SWORD)
+                ItemBuilder.of(Material.BOOK)
                         .displayName(trans("items.mainmenu.stats-button.name"))
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.stats-button.lore"))
-                        .flags(org.bukkit.inventory.ItemFlag.values())
                         .build(),
-                this::handleStatsButtonClick
+                clickedPlayer -> {
+                    langManager.sendMessage(clickedPlayer, "general.coming-soon");
+                    playClickSound(clickedPlayer);
+                }
         );
         setItem(STATS_SLOT, statsButton);
     }
@@ -158,12 +160,12 @@ public class MainMenuGui extends BaseGui {
      */
     private void setupSettingsButton() {
         GuiItem settingsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.COMPARATOR)
+                ItemBuilder.of(Material.REDSTONE)
                         .displayName(trans("items.mainmenu.settings-button.name"))
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.settings-button.lore"))
                         .build(),
                 clickedPlayer -> {
-                    sendMessage(clickedPlayer, "general.coming-soon");
+                    langManager.sendMessage(clickedPlayer, "general.coming-soon");
                     playClickSound(clickedPlayer);
                 }
         );
@@ -171,78 +173,27 @@ public class MainMenuGui extends BaseGui {
     }
 
     /**
-     * Talent Management button setup
+     * Talents button setup
      */
     private void setupTalentsButton() {
         GuiItem talentsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.ENCHANTED_BOOK)
+                ItemBuilder.of(Material.ENCHANTING_TABLE)
                         .displayName(trans("items.mainmenu.talents-button.name"))
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.talents-button.lore"))
                         .build(),
-                this::handleTalentsButtonClick
+                clickedPlayer -> {
+                    langManager.sendMessage(clickedPlayer, "general.coming-soon");
+                    playClickSound(clickedPlayer);
+                }
         );
         setItem(TALENTS_SLOT, talentsButton);
     }
 
     /**
-     * 메뉴 장식 추가
+     * Additional decorative elements
      */
     private void addMenuDecorations() {
-        // 메뉴 버튼 사이 구분선 (선택적)
-        Material separatorMaterial = Material.LIGHT_GRAY_STAINED_GLASS_PANE;
-        GuiItem separator = com.febrie.rpg.gui.component.GuiFactory.createDecoration(separatorMaterial);
-
-        // 상단 행 구분선
-        setItem(21, separator);
-        setItem(23, separator);
-
-        // 하단 행 구분선
-        setItem(30, separator);
-        setItem(32, separator);
-    }
-
-    /**
-     * Stats 버튼 클릭 처리
-     */
-    private void handleStatsButtonClick(@NotNull Player clickedPlayer) {
-        com.febrie.rpg.player.RPGPlayer rpgPlayer = com.febrie.rpg.RPGMain.getPlugin()
-                .getRPGPlayerManager().getOrCreatePlayer(clickedPlayer);
-
-        if (!rpgPlayer.hasJob()) {
-            sendMessage(clickedPlayer, "messages.no-job-for-stats");
-            playErrorSound(clickedPlayer);
-            return;
-        }
-
-        com.febrie.rpg.gui.impl.StatsGui statsGui = new com.febrie.rpg.gui.impl.StatsGui(
-                guiManager, langManager, clickedPlayer, rpgPlayer);
-        statsGui.open(clickedPlayer);
-        playSuccessSound(clickedPlayer);
-    }
-
-    /**
-     * Talents 버튼 클릭 처리
-     */
-    private void handleTalentsButtonClick(@NotNull Player clickedPlayer) {
-        com.febrie.rpg.player.RPGPlayer rpgPlayer = com.febrie.rpg.RPGMain.getPlugin()
-                .getRPGPlayerManager().getOrCreatePlayer(clickedPlayer);
-
-        if (!rpgPlayer.hasJob()) {
-            sendMessage(clickedPlayer, "messages.no-job-for-talents");
-            playErrorSound(clickedPlayer);
-
-            // 직업 선택 GUI로 이동 제안
-            com.febrie.rpg.gui.impl.JobSelectionGui jobGui = new com.febrie.rpg.gui.impl.JobSelectionGui(
-                    guiManager, langManager, clickedPlayer, rpgPlayer);
-            jobGui.open(clickedPlayer);
-            return;
-        }
-
-        java.util.List<com.febrie.rpg.talent.Talent> mainTalents = com.febrie.rpg.RPGMain.getPlugin()
-                .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
-        com.febrie.rpg.gui.impl.TalentGui talentGui = new com.febrie.rpg.gui.impl.TalentGui(
-                guiManager, langManager, clickedPlayer, rpgPlayer, "main", mainTalents);
-        talentGui.open(clickedPlayer);
-        playSuccessSound(clickedPlayer);
+        // 메뉴 버튼 주변 장식 (선택적)
+        // 필요시 여기에 추가 장식 아이템들을 배치할 수 있음
     }
 }
