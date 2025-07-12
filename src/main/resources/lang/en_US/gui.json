@@ -53,7 +53,8 @@
     "category-suffix": " %COLOR_GRAY%Category",
     "max-level": "%COLOR_INFO%Max Level: %COLOR_YELLOW%{level}",
     "warning": "%COLOR_ERROR%⚠ Warning: Jobs cannot be changed once selected!",
-    "click-to-choose": "%COLOR_SUCCESS%▶ Click to choose this job"
+    "click-to-choose": "%COLOR_SUCCESS%▶ Click to choose this job",
+    "selected": "%COLOR_SUCCESS%▶ Selected"
   },
   "leaderboard": {
     "title": "%COLOR_LEGENDARY%Leaderboard",

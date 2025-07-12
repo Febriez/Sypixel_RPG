@@ -334,6 +334,8 @@ public class LangManager {
             TextColor newColor = ColorUtil.fromName(colorName);
             if (newColor != null) {
                 currentColor = newColor;
+            } else {
+                LogUtil.warning("Unknown color name in placeholder: " + colorName);
             }
 
             lastEnd = matcher.end();

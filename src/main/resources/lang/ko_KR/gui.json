@@ -53,7 +53,8 @@
     "category-suffix": " %COLOR_GRAY%카테고리",
     "max-level": "%COLOR_INFO%최대 레벨: %COLOR_YELLOW%{level}",
     "warning": "%COLOR_ERROR%⚠ 주의: 직업은 한 번 선택하면 변경할 수 없습니다!",
-    "click-to-choose": "%COLOR_SUCCESS%▶ 클릭하여 이 직업 선택"
+    "click-to-choose": "%COLOR_SUCCESS%▶ 클릭하여 이 직업 선택",
+    "selected": "%COLOR_SUCCESS%▶ 선택됨"
   },
   "leaderboard": {
     "title": "%COLOR_LEGENDARY%리더보드",

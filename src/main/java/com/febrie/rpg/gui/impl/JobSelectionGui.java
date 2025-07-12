@@ -98,8 +98,7 @@ public class JobSelectionGui extends BaseGui {
             GuiItem tabItem = GuiItem.clickable(
                     ItemBuilder.of(isSelected ? Material.ENCHANTED_BOOK : Material.BOOK)
                             .displayName(trans("job.categories." + category.name().toLowerCase() + ".name")
-                                    .decoration(TextDecoration.BOLD, true)
-                                    .color(category.getColor()))
+                                    .decoration(TextDecoration.BOLD, true))
                             .addLore(trans(isSelected ? "gui.job-selection.selected" : "gui.job-selection.click-to-select"))
                             .flags(ItemFlag.values())
                             .glint(isSelected)
@@ -125,7 +124,6 @@ public class JobSelectionGui extends BaseGui {
                 ItemBuilder.of(selectedCategory.getIcon())
                         .displayName(trans("job.categories." + selectedCategory.name().toLowerCase() + ".name")
                                 .append(Component.text(categorySuffix))
-                                .color(selectedCategory.getColor())
                                 .decoration(TextDecoration.BOLD, true))
                         .lore(langManager.getComponentList(viewer, "job.categories." +
                                 selectedCategory.name().toLowerCase() + ".description"))
@@ -156,10 +154,9 @@ public class JobSelectionGui extends BaseGui {
     private GuiItem createJobItem(@NotNull JobType job) {
         String jobKey = job.name().toLowerCase();
 
-        ItemBuilder builder = ItemBuilder.of(job.getMaterial())  // JobType.getMaterial() 사용
+        ItemBuilder builder = ItemBuilder.of(job.getMaterial())
                 .displayName(Component.text(job.getIcon() + " ")
                         .append(trans("job." + jobKey + ".name"))
-                        .color(job.getColor())
                         .decoration(TextDecoration.BOLD, true))
                 .addLore(Component.empty())
                 .addLore(trans("gui.job-selection.max-level", "level", String.valueOf(job.getMaxLevel())))
