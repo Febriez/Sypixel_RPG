@@ -173,7 +173,10 @@ public abstract class BaseGui implements InteractiveGui {
         // 새로고침 버튼
         if (includeRefresh) {
             setItem(REFRESH_BUTTON_SLOT, GuiFactory.createRefreshButton(
-                    player -> refresh(), langManager, viewer));
+                    player -> {
+                        // GuiManager를 통해 새로고침
+                        guiManager.refreshCurrentGui(player);
+                    }, langManager, viewer));
         }
 
         // 닫기 버튼
@@ -186,7 +189,7 @@ public abstract class BaseGui implements InteractiveGui {
      * 네비게이션 버튼 업데이트
      * 뒤로가기 가능 여부에 따라 버튼 표시/숨김
      */
-    protected void updateNavigationButtons() {
+    public void updateNavigationButtons() {
         // 뒤로가기 버튼 - GuiManager 상태에 따라 표시
         if (guiManager.canGoBack(viewer)) {
             setItem(BACK_BUTTON_SLOT, GuiItem.clickable(
@@ -197,7 +200,7 @@ public abstract class BaseGui implements InteractiveGui {
                     guiManager::goBack
             ));
         } else {
-            // 뒤로가기 불가능하면 버튼 제거 또는 비활성화
+            // 뒤로가기 불가능하면 버튼 제거
             items.remove(BACK_BUTTON_SLOT);
             inventory.setItem(BACK_BUTTON_SLOT, null);
         }
@@ -235,72 +238,65 @@ public abstract class BaseGui implements InteractiveGui {
     }
 
     /**
+     * 인벤토리 생성
+     */
+    private Inventory createInventory(@NotNull String titleKey, @NotNull String... titleArgs) {
+        Component title = langManager.getComponent(viewer, titleKey, titleArgs);
+        return Bukkit.createInventory(null, size, title);
+    }
+
+    /**
+     * 크기 검증 (9의 배수로 맞춤)
+     */
+    private int validateSize(int requestedSize) {
+        if (requestedSize <= 0) {
+            return 9;
+        }
+        return Math.min(54, ((requestedSize - 1) / 9 + 1) * 9);
+    }
+
+    /**
      * 슬롯 유효성 검사
      */
     protected boolean isValidSlot(int slot) {
         return slot >= 0 && slot < size;
     }
 
-    /**
-     * 인벤토리 크기 검증
-     */
-    private int validateSize(int requestedSize) {
-        if (requestedSize < ROWS_PER_PAGE || requestedSize > 54) {
-            throw new IllegalArgumentException("GUI size must be between 9 and 54");
-        }
-
-        int adjustedSize = Math.max(ROWS_PER_PAGE,
-                (requestedSize / ROWS_PER_PAGE) * ROWS_PER_PAGE);
-
-        if (adjustedSize != requestedSize) {
-            Bukkit.getLogger().warning(String.format(
-                    "GUI size adjusted from %d to %d for %s",
-                    requestedSize, adjustedSize, this.getClass().getSimpleName()
-            ));
-        }
-
-        return adjustedSize;
-    }
-
-    public Player getViewer() {
-        return viewer;
-    }
+    // 유틸리티 메서드들
 
     /**
-     * 인벤토리 생성
-     */
-    private Inventory createInventory(@NotNull String titleKey, @NotNull String... titleArgs) {
-        Component title = langManager.getComponent(viewer, titleKey, titleArgs);
-        return Bukkit.createInventory(this, size, title);
-    }
-
-    /**
-     * 번역 헬퍼 메서드들
+     * 번역된 컴포넌트 가져오기
      */
     protected Component trans(@NotNull String key, @NotNull String... args) {
         return langManager.getComponent(viewer, key, args);
     }
 
+    /**
+     * 번역된 문자열 가져오기
+     */
     protected String transString(@NotNull String key, @NotNull String... args) {
         return langManager.getMessage(viewer, key, args);
     }
 
+    /**
+     * 메시지 전송
+     */
     protected void sendMessage(@NotNull Player player, @NotNull String key, @NotNull String... args) {
         langManager.sendMessage(player, key, args);
     }
 
     /**
-     * 사운드 헬퍼 메서드들
+     * 사운드 재생 유틸리티
      */
-    protected void playSuccessSound(@NotNull Player player) {
-        player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+    protected void playClickSound(@NotNull Player player) {
+        player.playSound(player.getLocation(), org.bukkit.Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
     }
 
     protected void playErrorSound(@NotNull Player player) {
         player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
     }
 
-    protected void playClickSound(@NotNull Player player) {
-        player.playSound(player.getLocation(), org.bukkit.Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
+    protected void playSuccessSound(@NotNull Player player) {
+        player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
     }
 }

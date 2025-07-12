@@ -10,7 +10,10 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -212,11 +215,14 @@ public class GuiManager {
 
     /**
      * 현재 GUI 새로고침
+     * 네비게이션 스택에 영향을 주지 않고 현재 GUI만 새로고침
      */
     public void refreshCurrentGui(@NotNull Player player) {
         GuiFramework gui = activeGuis.get(player.getUniqueId());
         if (gui != null) {
+            // 새로고침은 스택에 영향을 주지 않음
             gui.refresh();
+            // 뒤로가기 버튼 상태만 업데이트
             updateBackButton(player, gui);
         }
     }
@@ -228,9 +234,8 @@ public class GuiManager {
     private void updateBackButton(@NotNull Player player, @NotNull GuiFramework gui) {
         // GUI가 BaseGui나 ScrollableGui를 상속하는 경우
         // 45번 슬롯의 뒤로가기 버튼을 동적으로 표시/숨김
-        if (canGoBack(player)) {
-            // 뒤로가기 버튼 표시 로직
-            // 이 부분은 BaseGui 업데이트에서 처리
+        if (gui instanceof com.febrie.rpg.gui.framework.BaseGui) {
+            ((com.febrie.rpg.gui.framework.BaseGui) gui).updateNavigationButtons();
         }
     }
 
@@ -248,52 +253,20 @@ public class GuiManager {
         Class<? extends GuiFramework> guiClass = lastEntry.guiClass;
 
         // GUI 타입별 재생성 로직
-        if (guiClass == MainMenuGui.class) {
+        if (guiClass.equals(MainMenuGui.class)) {
             return new MainMenuGui(this, langManager, player);
-        } else if (guiClass == ProfileGui.class) {
+        } else if (guiClass.equals(ProfileGui.class)) {
             return new ProfileGui(player, player, this, langManager);
         }
-        // 다른 GUI 타입들도 추가...
+        // 필요한 GUI 타입 추가...
 
         return null;
     }
 
     /**
-     * 특정 GUI 타입으로 직접 열기 (편의 메서드들)
+     * 플레이어 관련 데이터 정리
      */
-    public void openMainMenuGui(@NotNull Player player) {
-        MainMenuGui gui = new MainMenuGui(this, langManager, player);
-        openGui(player, gui);
-    }
-
-    public void openProfileGui(@NotNull Player player) {
-        openProfileGui(player, player);
-    }
-
-    public void openProfileGui(@NotNull Player viewer, @NotNull Player target) {
-        ProfileGui gui = new ProfileGui(target, viewer, this, langManager);
-        openGui(viewer, gui);
-    }
-
-    /**
-     * 현재 열려있는 GUI 닫기
-     */
-    public void closeCurrentGui(@NotNull Player player) {
-        UUID playerId = player.getUniqueId();
-        GuiFramework gui = activeGuis.remove(playerId);
-
-        if (gui != null) {
-            gui.close(player);
-        }
-
-        // 네비게이션 스택도 정리
-        navigationStacks.remove(playerId);
-    }
-
-    /**
-     * 플레이어 로그아웃 시 정리
-     */
-    public void onPlayerLogout(@NotNull Player player) {
+    public void removePlayer(@NotNull Player player) {
         UUID playerId = player.getUniqueId();
         activeGuis.remove(playerId);
         navigationStacks.remove(playerId);
@@ -301,7 +274,7 @@ public class GuiManager {
     }
 
     /**
-     * 플러그인 종료 시 전체 정리
+     * 모든 GUI 정리
      */
     public void cleanup() {
         activeGuis.clear();
@@ -310,44 +283,41 @@ public class GuiManager {
     }
 
     /**
-     * 현재 GUI 가져오기
+     * 현재 열려있는 GUI 가져오기
      */
     @Nullable
-    public GuiFramework getCurrentGui(@NotNull Player player) {
+    public GuiFramework getActiveGui(@NotNull Player player) {
         return activeGuis.get(player.getUniqueId());
     }
 
     /**
-     * 특정 타입의 GUI가 열려있는지 확인
+     * 메인 메뉴 열기
+     * 메인 메뉴는 네비게이션의 시작점이므로 스택을 초기화
      */
-    public boolean hasGuiOpen(@NotNull Player player, @NotNull Class<? extends GuiFramework> guiType) {
-        GuiFramework gui = activeGuis.get(player.getUniqueId());
-        return gui != null && guiType.isInstance(gui);
+    public void openMainMenu(@NotNull Player player) {
+        UUID playerId = player.getUniqueId();
+
+        // 네비게이션 스택 초기화
+        navigationStacks.remove(playerId);
+
+        // 메인 메뉴 열기
+        MainMenuGui mainMenu = new MainMenuGui(this, langManager, player);
+        openGui(player, mainMenu);
     }
 
     /**
-     * 디버깅용 통계 정보
+     * 프로필 GUI 열기
      */
-    public Map<String, Object> getStats() {
-        Map<String, Object> stats = new HashMap<>();
-        stats.put("activeGuis", activeGuis.size());
-        stats.put("navigationStacks", navigationStacks.size());
-        stats.put("transitioning", transitioning.size());
-
-        // 네비게이션 스택 깊이 통계
-        Map<String, Integer> stackDepths = new HashMap<>();
-        navigationStacks.forEach((uuid, stack) -> {
-            Player player = plugin.getServer().getPlayer(uuid);
-            if (player != null) {
-                stackDepths.put(player.getName(), stack.size());
-            }
-        });
-        stats.put("stackDepths", stackDepths);
-
-        return stats;
+    public void openProfileGui(@NotNull Player player) {
+        ProfileGui profileGui = new ProfileGui(player, player, this, langManager);
+        openGui(player, profileGui);
     }
 
-    public LangManager getLangManager() {
-        return langManager;
+    /**
+     * 특정 플레이어 프로필 GUI 열기
+     */
+    public void openProfileGui(@NotNull Player viewer, @NotNull Player target) {
+        ProfileGui profileGui = new ProfileGui(target, viewer, this, langManager);
+        openGui(viewer, profileGui);
     }
 }

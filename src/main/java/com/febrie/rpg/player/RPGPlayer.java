@@ -5,33 +5,24 @@ import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.level.LevelSystem;
 import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.talent.Talent;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
 import java.util.UUID;
 
 /**
  * 플레이어의 RPG 데이터를 관리하는 클래스
- * PDC를 사용하여 데이터를 저장하고 불러옴
+ * 모든 데이터는 메모리에서 관리되며 Firebase를 통해서만 저장됨
  *
  * @author Febrie, CoffeeTory
  */
 public class RPGPlayer {
 
-    // PDC 키들
-    private static final NamespacedKey KEY_JOB = new NamespacedKey("sypixelrpg", "job");
-    private static final NamespacedKey KEY_EXPERIENCE = new NamespacedKey("sypixelrpg", "experience");
-    private static final NamespacedKey KEY_STAT_POINTS = new NamespacedKey("sypixelrpg", "stat_points");
-    private static final NamespacedKey KEY_TALENT_POINTS = new NamespacedKey("sypixelrpg", "talent_points");
-
     private final UUID playerId;
     private final Player bukkitPlayer;
 
-    // RPG 데이터
+    // RPG 데이터 (메모리에서만 관리)
     private JobType job;
     private long experience = 0;
     private int statPoints = 0;
@@ -39,86 +30,23 @@ public class RPGPlayer {
     private final Talent.TalentHolder talents = new Talent.TalentHolder();
     private final Wallet wallet = new Wallet();
 
+    // 추가 데이터
+    private long totalPlaytime = 0;
+    private int mobsKilled = 0;
+    private int playersKilled = 0;
+    private int deaths = 0;
+
     // 캐시된 레벨 정보
     private LevelSystem.LevelInfo cachedLevelInfo;
 
     // 세션 정보
     private long sessionStartTime = System.currentTimeMillis();
+    private boolean dataModified = false;
 
     public RPGPlayer(@NotNull Player player) {
         this.playerId = player.getUniqueId();
         this.bukkitPlayer = player;
-        loadFromPDC();
-    }
-
-    /**
-     * PDC에서 데이터 불러오기
-     */
-    private void loadFromPDC() {
-        PersistentDataContainer pdc = bukkitPlayer.getPersistentDataContainer();
-
-        // 직업 로드
-        String jobName = pdc.get(KEY_JOB, PersistentDataType.STRING);
-        if (jobName != null) {
-            try {
-                this.job = JobType.valueOf(jobName);
-            } catch (IllegalArgumentException e) {
-                // 잘못된 직업 이름
-            }
-        }
-
-        // 경험치 로드
-        this.experience = pdc.getOrDefault(KEY_EXPERIENCE, PersistentDataType.LONG, 0L);
-
-        // 스탯 포인트 로드
-        this.statPoints = pdc.getOrDefault(KEY_STAT_POINTS, PersistentDataType.INTEGER, 0);
-
-        // 특성 포인트 로드
-        int talentPoints = pdc.getOrDefault(KEY_TALENT_POINTS, PersistentDataType.INTEGER, 0);
-        talents.addPoints(talentPoints);
-
-        // 각 스탯 로드
-        for (Stat stat : Stat.getAllStats().values()) {
-            int value = pdc.getOrDefault(stat.getKey(), PersistentDataType.INTEGER, 0);
-            if (value > 0) {
-                stats.setBaseStat(stat, value);
-            }
-        }
-
-        // 재화 데이터 로드
-        wallet.loadFromPDC(pdc);
-
-        // 캐시 업데이트
-        updateCachedLevelInfo();
-    }
-
-    /**
-     * PDC에 데이터 저장
-     */
-    private void saveToPDC() {
-        PersistentDataContainer pdc = bukkitPlayer.getPersistentDataContainer();
-
-        // 직업 저장
-        if (job != null) {
-            pdc.set(KEY_JOB, PersistentDataType.STRING, job.name());
-        }
-
-        // 경험치 저장
-        pdc.set(KEY_EXPERIENCE, PersistentDataType.LONG, experience);
-
-        // 스탯 포인트 저장
-        pdc.set(KEY_STAT_POINTS, PersistentDataType.INTEGER, statPoints);
-
-        // 특성 포인트 저장
-        pdc.set(KEY_TALENT_POINTS, PersistentDataType.INTEGER, talents.getAvailablePoints());
-
-        // 각 스탯 저장
-        for (Map.Entry<Stat, Integer> entry : stats.getAllBaseStats().entrySet()) {
-            pdc.set(entry.getKey().getKey(), PersistentDataType.INTEGER, entry.getValue());
-        }
-
-        // 재화 데이터 저장
-        wallet.saveToPDC(pdc);
+        // PDC 로드 제거 - 데이터는 RPGPlayerManager가 Firebase에서 로드하여 설정
     }
 
     /**
@@ -130,7 +58,7 @@ public class RPGPlayer {
         }
 
         this.job = job;
-        saveToPDC();
+        markModified();
         return true;
     }
 
@@ -157,7 +85,7 @@ public class RPGPlayer {
             onLevelUp(oldLevel, newLevel);
         }
 
-        saveToPDC();
+        markModified();
     }
 
     /**
@@ -176,7 +104,7 @@ public class RPGPlayer {
             talents.addPoints((int) (newTens - oldTens));
         }
 
-        // 레벨업 메시지 (나중에 LangManager로 처리)
+        // 레벨업 메시지
         bukkitPlayer.sendMessage("레벨업! " + oldLevel + " → " + newLevel);
     }
 
@@ -191,7 +119,7 @@ public class RPGPlayer {
         if (stats.increaseStat(stat, amount)) {
             statPoints -= amount;
             updatePlayerAttributes();
-            saveToPDC();
+            markModified();
             return true;
         }
 
@@ -220,12 +148,47 @@ public class RPGPlayer {
         }
     }
 
+    /**
+     * 데이터 수정 표시
+     */
+    private void markModified() {
+        dataModified = true;
+    }
+
+    /**
+     * 데이터 수정 여부 확인 및 리셋
+     */
+    public boolean isDataModified() {
+        boolean modified = dataModified;
+        dataModified = false;
+        return modified;
+    }
+
+    // 킬/데스 통계 메서드
+    public void incrementMobKills() {
+        mobsKilled++;
+        markModified();
+    }
+
+    public void incrementPlayerKills() {
+        playersKilled++;
+        markModified();
+    }
+
+    public void incrementDeaths() {
+        deaths++;
+        markModified();
+    }
+
+    // 플레이타임 업데이트
+    public void updatePlaytime(long additionalTime) {
+        totalPlaytime += additionalTime;
+        markModified();
+    }
+
     // Getters
-    @NotNull
+    @Nullable
     public JobType getJob() {
-        if (job == null) {
-            throw new IllegalStateException("플레이어가 직업을 선택하지 않았습니다. hasJob()으로 먼저 확인하세요.");
-        }
         return job;
     }
 
@@ -235,6 +198,12 @@ public class RPGPlayer {
 
     public long getExperience() {
         return experience;
+    }
+
+    public void setExperience(long experience) {
+        this.experience = experience;
+        updateCachedLevelInfo();
+        markModified();
     }
 
     public int getLevel() {
@@ -254,9 +223,6 @@ public class RPGPlayer {
         return LevelSystem.getExpToNextLevel(experience, job);
     }
 
-    /**
-     * 다음 레벨까지 필요한 총 경험치 (현재 경험치 + 남은 경험치)
-     */
     public long getRequiredExperience() {
         if (job == null) return 0;
         return getExperience() + getExpToNextLevel();
@@ -264,6 +230,11 @@ public class RPGPlayer {
 
     public int getStatPoints() {
         return statPoints;
+    }
+
+    public void setStatPoints(int statPoints) {
+        this.statPoints = statPoints;
+        markModified();
     }
 
     @NotNull
@@ -305,8 +276,44 @@ public class RPGPlayer {
         return sessionStartTime;
     }
 
+    public long getTotalPlaytime() {
+        return totalPlaytime;
+    }
+
+    public void setTotalPlaytime(long totalPlaytime) {
+        this.totalPlaytime = totalPlaytime;
+        markModified();
+    }
+
+    public int getMobsKilled() {
+        return mobsKilled;
+    }
+
+    public void setMobsKilled(int mobsKilled) {
+        this.mobsKilled = mobsKilled;
+        markModified();
+    }
+
+    public int getPlayersKilled() {
+        return playersKilled;
+    }
+
+    public void setPlayersKilled(int playersKilled) {
+        this.playersKilled = playersKilled;
+        markModified();
+    }
+
+    public int getDeaths() {
+        return deaths;
+    }
+
+    public void setDeaths(int deaths) {
+        this.deaths = deaths;
+        markModified();
+    }
+
     /**
-     * 총 전투력 계산 (나중에 구현)
+     * 총 전투력 계산
      */
     public int getCombatPower() {
         int cp = 0;

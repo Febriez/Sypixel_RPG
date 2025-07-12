@@ -2,9 +2,6 @@ package com.febrie.rpg.economy;
 
 import com.febrie.rpg.dto.WalletDTO;
 import com.febrie.rpg.util.LogUtil;
-import org.bukkit.NamespacedKey;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumMap;
@@ -14,25 +11,14 @@ import java.util.Map;
 /**
  * 플레이어의 재화 관리 시스템
  * 다양한 통화를 통합 관리
+ * 모든 데이터는 Firebase를 통해서만 저장됨
  *
  * @author Febrie, CoffeeTory
  */
 public class Wallet {
 
-    private static final String NAMESPACE = "sypixelrpg";
-
     // 각 통화별 잔액
     private final Map<CurrencyType, Long> balances = new EnumMap<>(CurrencyType.class);
-
-    // PDC 키들
-    private static final Map<CurrencyType, NamespacedKey> PDC_KEYS = new EnumMap<>(CurrencyType.class);
-
-    static {
-        // PDC 키 초기화
-        for (CurrencyType type : CurrencyType.values()) {
-            PDC_KEYS.put(type, new NamespacedKey(NAMESPACE, "currency_" + type.getId()));
-        }
-    }
 
     public Wallet() {
         // 모든 통화를 0으로 초기화
@@ -42,25 +28,34 @@ public class Wallet {
     }
 
     /**
-     * PDC에서 재화 정보 로드
+     * DTO로 변환
      */
-    public void loadFromPDC(@NotNull PersistentDataContainer pdc) {
-        for (CurrencyType type : CurrencyType.values()) {
-            NamespacedKey key = PDC_KEYS.get(type);
-            Long amount = pdc.get(key, PersistentDataType.LONG);
-            if (amount != null) {
-                balances.put(type, Math.min(amount, type.getMaxAmount()));
-            }
+    @NotNull
+    public WalletDTO toDTO() {
+        // 재화 정보를 Map<String, Long>으로 변환
+        Map<String, Long> currencies = new HashMap<>();
+        for (Map.Entry<CurrencyType, Long> entry : balances.entrySet()) {
+            currencies.put(entry.getKey().getId(), entry.getValue());
         }
+
+        // WalletDTO는 record이므로 생성자로 생성
+        return new WalletDTO(currencies, System.currentTimeMillis());
     }
 
     /**
-     * PDC에 재화 정보 저장
+     * DTO에서 데이터 적용
      */
-    public void saveToPDC(@NotNull PersistentDataContainer pdc) {
-        for (Map.Entry<CurrencyType, Long> entry : balances.entrySet()) {
-            NamespacedKey key = PDC_KEYS.get(entry.getKey());
-            pdc.set(key, PersistentDataType.LONG, entry.getValue());
+    public void applyFromDTO(@NotNull WalletDTO dto) {
+        // record의 accessor 메소드 사용
+        Map<String, Long> currencies = dto.currencies();
+
+        for (Map.Entry<String, Long> entry : currencies.entrySet()) {
+            try {
+                CurrencyType type = CurrencyType.getById(entry.getKey());
+                setBalance(type, entry.getValue());
+            } catch (IllegalArgumentException e) {
+                LogUtil.warning("알 수 없는 통화 타입: " + entry.getKey());
+            }
         }
     }
 
@@ -132,38 +127,6 @@ public class Wallet {
     @NotNull
     public Map<CurrencyType, Long> getAllBalances() {
         return new EnumMap<>(balances);
-    }
-
-    /**
-     * DTO로 변환
-     */
-    @NotNull
-    public WalletDTO toDTO() {
-        // 재화 정보를 Map<String, Long>으로 변환
-        Map<String, Long> currencies = new HashMap<>();
-        for (Map.Entry<CurrencyType, Long> entry : balances.entrySet()) {
-            currencies.put(entry.getKey().getId(), entry.getValue());
-        }
-
-        // WalletDTO는 record이므로 생성자로 생성
-        return new WalletDTO(currencies, System.currentTimeMillis());
-    }
-
-    /**
-     * DTO에서 데이터 적용
-     */
-    public void applyFromDTO(@NotNull WalletDTO dto) {
-        // record의 accessor 메소드 사용
-        Map<String, Long> currencies = dto.currencies();
-
-        for (Map.Entry<String, Long> entry : currencies.entrySet()) {
-            try {
-                CurrencyType type = CurrencyType.getById(entry.getKey());
-                setBalance(type, entry.getValue());
-            } catch (IllegalArgumentException e) {
-                LogUtil.warning("알 수 없는 통화 타입: " + entry.getKey());
-            }
-        }
     }
 
     /**

@@ -52,7 +52,8 @@ public class MainMenuGui extends BaseGui {
     protected void setupLayout() {
         setupDecorations();
         setupMenuButtons();
-        setupStandardNavigation(true, true); // 새로고침, 닫기 버튼 포함
+        // 메인 메뉴에는 새로고침 버튼 없이, 닫기 버튼만 표시
+        setupStandardNavigation(false, true); // 새로고침 버튼 제거, 닫기 버튼만 표시
     }
 
     /**
@@ -126,7 +127,7 @@ public class MainMenuGui extends BaseGui {
      */
     private void setupDungeonButton() {
         GuiItem dungeonButton = GuiItem.clickable(
-                ItemBuilder.of(Material.IRON_SWORD)
+                ItemBuilder.of(Material.IRON_BARS)
                         .displayName(trans("items.mainmenu.dungeon-button.name"))
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.dungeon-button.lore"))
                         .build(),
@@ -143,7 +144,7 @@ public class MainMenuGui extends BaseGui {
      */
     private void setupStatsButton() {
         GuiItem statsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.BOOK)
+                ItemBuilder.of(Material.DIAMOND_SWORD)
                         .displayName(trans("items.mainmenu.stats-button.name"))
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.stats-button.lore"))
                         .build(),

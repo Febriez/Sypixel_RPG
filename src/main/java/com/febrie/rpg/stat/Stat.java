@@ -161,9 +161,6 @@ public class Stat {
         return id.hashCode();
     }
 
-    /**
-     * 플레이어 스탯 홀더
-     */
     public static class StatHolder {
 
         private final Map<Stat, Integer> baseStats = new HashMap<>();

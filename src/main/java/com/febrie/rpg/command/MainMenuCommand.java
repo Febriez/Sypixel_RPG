@@ -39,7 +39,7 @@ public class MainMenuCommand extends BaseCommand {
         }
 
         // Open main menu
-        guiManager.openMainMenuGui(player);
+        guiManager.openMainMenu(player);
         langManager.sendMessage(player, "commands.mainmenu.success");
 
         return true;

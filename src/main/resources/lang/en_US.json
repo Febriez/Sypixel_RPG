@@ -35,26 +35,48 @@
       "success": "%COLOR_GREEN%Main menu opened!"
     }
   },
+  "currency": {
+    "gold": {
+      "name": "Gold",
+      "description": "Basic currency"
+    },
+    "diamond": {
+      "name": "Diamond",
+      "description": "Rare currency"
+    },
+    "emerald": {
+      "name": "Emerald",
+      "description": "Trading currency"
+    },
+    "ghast_tear": {
+      "name": "Stardust",
+      "description": "Mystical currency"
+    },
+    "nether_star": {
+      "name": "Star",
+      "description": "Premium currency"
+    }
+  },
   "stat": {
     "strength": {
       "name": "Strength",
       "description": [
-        "%COLOR_GRAY%Increases physical attack power",
+        "%COLOR_GRAY%Increases physical damage",
         "%COLOR_GRAY%Increases melee weapon damage"
       ]
     },
     "intelligence": {
       "name": "Intelligence",
       "description": [
-        "%COLOR_GRAY%Increases magical attack power",
+        "%COLOR_GRAY%Increases magical damage",
         "%COLOR_GRAY%Increases maximum mana"
       ]
     },
     "dexterity": {
       "name": "Dexterity",
       "description": [
-        "%COLOR_GRAY%Increases attack speed and dodge rate",
-        "%COLOR_GRAY%Increases critical hit chance"
+        "%COLOR_GRAY%Increases attack speed and evasion",
+        "%COLOR_GRAY%Increases critical strike chance"
       ]
     },
     "vitality": {
@@ -82,11 +104,26 @@
   "gui": {
     "profile": {
       "title": "%COLOR_ORANGE%Player Profile",
-      "player-title": "%COLOR_ORANGE%Player Profile %COLOR_GRAY%- %COLOR_YELLOW%{player}"
+      "player-title": "%COLOR_ORANGE%Player Profile %COLOR_GRAY%- %COLOR_YELLOW%{player}",
+      "viewing": "%COLOR_GRAY%Viewing {player}'s profile",
+      "online-status": "%COLOR_GRAY%Status: {status}",
+      "level-info": "%COLOR_SUCCESS%Level Information",
+      "level": "%COLOR_WHITE%Level: %COLOR_GREEN%{level}",
+      "experience": "%COLOR_WHITE%Experience: %COLOR_YELLOW%{exp}",
+      "health-info": "%COLOR_HEALTH%Health Information",
+      "health": "%COLOR_WHITE%Health: %COLOR_RED%{current} %COLOR_GRAY%/ %COLOR_RED%{max}",
+      "food-info": "%COLOR_ORANGE%Hunger Information",
+      "food-level": "%COLOR_WHITE%Hunger: %COLOR_YELLOW%{level} %COLOR_GRAY%/ %COLOR_YELLOW%20",
+      "saturation": "%COLOR_WHITE%Saturation: %COLOR_GOLD%{saturation}",
+      "game-info": "%COLOR_INFO%Game Information",
+      "gamemode": "%COLOR_WHITE%Gamemode: %COLOR_CYAN%{mode}",
+      "world": "%COLOR_WHITE%World: %COLOR_LIME%{world}",
+      "current-job": "%COLOR_WHITE%Current Job",
+      "job-level": "%COLOR_WHITE%Job Level: %COLOR_SUCCESS%{level}"
     },
     "mainmenu": {
       "title": "%COLOR_LEGENDARY%Main Menu",
-      "subtitle": "%COLOR_WHITE%Select the feature you want"
+      "subtitle": "%COLOR_WHITE%Choose your desired function"
     },
     "job-selection": {
       "title": "%COLOR_LEGENDARY%Job Selection",
@@ -94,218 +131,35 @@
       "selected": "%COLOR_SUCCESS%▶ Selected",
       "click-to-select": "%COLOR_GRAY%Click to select",
       "warning": "%COLOR_ERROR%⚠ Warning: Jobs cannot be changed once selected!",
-      "max-level": "%COLOR_INFO%Max Level: {level}",
+      "max-level": "%COLOR_INFO%Max Level: %COLOR_YELLOW%{level}",
       "click-to-choose": "%COLOR_SUCCESS%▶ Click to choose this job",
-      "job-selected": "%COLOR_SUCCESS%Congratulations! You have chosen the {job} job!",
-      "already-has-job": "%COLOR_ERROR%You already have a job!"
+      "already-has-job": "%COLOR_ERROR%You already have a job!",
+      "job-description": "%COLOR_GRAY%Job Description"
     },
     "job-confirmation": {
-      "title": "%COLOR_ERROR%⚠ Confirm Job Selection ⚠",
-      "selected-job": "%COLOR_YELLOW%Selected Job:",
-      "max-level": "%COLOR_INFO%Max Level: {level}",
-      "warning": "%COLOR_ERROR%⚠ WARNING: This choice is PERMANENT! ⚠",
-      "warning-title": "%COLOR_ERROR%⚠ WARNING ⚠",
-      "warning-description": "%COLOR_ERROR%Choose carefully!",
-      "cannot-change": "%COLOR_ERROR%Once selected, it can NEVER be changed!",
-      "confirm": "%COLOR_SUCCESS%✔ CONFIRM",
-      "confirm-description": "%COLOR_WHITE%Select {job} as your job",
-      "click-to-confirm": "%COLOR_SUCCESS%▶ Click: Confirm Job",
-      "cancel": "%COLOR_ERROR%✖ CANCEL",
-      "cancel-description": "%COLOR_WHITE%Cancel job selection",
-      "click-to-cancel": "%COLOR_RED%▶ Click: Cancel Selection",
-      "info-title": "%COLOR_INFO%Job Selection Info",
-      "info-line1": "%COLOR_GRAY%• Jobs determine your character's growth path",
-      "info-line2": "%COLOR_GRAY%• Each job has unique talents and skills",
-      "info-line3": "%COLOR_GRAY%• Please choose carefully!",
-      "success": "%COLOR_SUCCESS%Congratulations! You have chosen the {job} job!",
+      "title": "%COLOR_ERROR%Confirm Job Selection",
+      "description": "%COLOR_YELLOW%Are you sure you want to choose this job?",
+      "warning": "%COLOR_RED%⚠ Warning: This choice is permanent!",
+      "selected-job": "%COLOR_WHITE%Selected job: {job}",
+      "confirm": "%COLOR_SUCCESS%Confirm",
+      "cancel": "%COLOR_ERROR%Cancel",
+      "confirm-description": "%COLOR_GREEN%Choose this job",
+      "cancel-description": "%COLOR_RED%Cancel job selection",
+      "click-to-confirm": "%COLOR_GREEN%▶ Click to confirm",
+      "click-to-cancel": "%COLOR_RED%▶ Click to cancel",
+      "info-title": "%COLOR_INFO%Important Information",
+      "info-line1": "%COLOR_YELLOW%• Jobs cannot be changed once selected",
+      "info-line2": "%COLOR_YELLOW%• Each job has unique skills and talents",
+      "info-line3": "%COLOR_YELLOW%• Choose carefully!",
+      "success": "%COLOR_SUCCESS%Congratulations! You chose the {job} job!",
       "already-has-job": "%COLOR_ERROR%You already have a job!",
-      "title-success": "%COLOR_LEGENDARY%Job Selected!",
-      "subtitle-success": "%COLOR_WHITE%You have chosen %COLOR_YELLOW%{job}"
-    },
-    "talent": {
-      "category": {
-        "offense": {
-          "name": "Offense"
-        },
-        "defense": {
-          "name": "Defense"
-        },
-        "utility": {
-          "name": "Utility"
-        },
-        "special": {
-          "name": "Special"
-        }
-      },
-      "basic_strength": {
-        "name": "Basic Strength"
-      },
-      "basic_intelligence": {
-        "name": "Basic Intelligence"
-      },
-      "basic_vitality": {
-        "name": "Basic Vitality"
-      },
-      "basic_dexterity": {
-        "name": "Basic Dexterity"
-      },
-      "basic_wisdom": {
-        "name": "Basic Wisdom"
-      },
-      "basic_luck": {
-        "name": "Basic Luck"
-      },
-      "exp_boost": {
-        "name": "Blessing of Experience"
-      },
-      "swiftness": {
-        "name": "Swiftness"
-      },
-      "advanced_strength": {
-        "name": "Advanced Strength"
-      },
-      "berserker_rage": {
-        "name": "Berserker Rage"
-      },
-      "blood_thirst": {
-        "name": "Blood Thirst"
-      },
-      "rampage": {
-        "name": "Rampage"
-      },
-      "massacre": {
-        "name": "Massacre"
-      },
-      "blade_master": {
-        "name": "Blade Master"
-      },
-      "counter_attack": {
-        "name": "Counter Attack"
-      },
-      "fortitude": {
-        "name": "Fortitude"
-      },
-      "shield_mastery": {
-        "name": "Shield Mastery"
-      },
-      "guardian": {
-        "name": "Guardian"
-      },
-      "last_stand": {
-        "name": "Last Stand"
-      },
-      "holy_power": {
-        "name": "Holy Power"
-      },
-      "healing_touch": {
-        "name": "Healing Touch"
-      },
-      "divine_shield": {
-        "name": "Divine Shield"
-      },
-      "blessing": {
-        "name": "Blessing"
-      },
-      "dark_power": {
-        "name": "Dark Power"
-      },
-      "shadow_bolt": {
-        "name": "Shadow Bolt"
-      },
-      "curse": {
-        "name": "Curse"
-      },
-      "soul_burn": {
-        "name": "Soul Burn"
-      },
-      "mercy_heal": {
-        "name": "Mercy's Heal"
-      },
-      "purification": {
-        "name": "Purification"
-      },
-      "holy_light": {
-        "name": "Holy Light"
-      },
-      "resurrection": {
-        "name": "Resurrection"
-      },
-      "eagle_eye": {
-        "name": "Eagle Eye"
-      },
-      "critical_shot": {
-        "name": "Critical Shot"
-      },
-      "quick_shot": {
-        "name": "Quick Shot"
-      },
-      "multishot": {
-        "name": "Multi Shot"
-      },
-      "long_range": {
-        "name": "Long Range"
-      },
-      "penetrating_shot": {
-        "name": "Penetrating Shot"
-      },
-      "headshot": {
-        "name": "Headshot"
-      },
-      "camouflage": {
-        "name": "Camouflage"
-      },
-      "point_blank": {
-        "name": "Point Blank"
-      },
-      "explosive_shot": {
-        "name": "Explosive Shot"
-      },
-      "quick_reload": {
-        "name": "Quick Reload"
-      },
-      "double_barrel": {
-        "name": "Double Barrel"
-      },
-      "title": "%COLOR_EPIC%Talent Management",
-      "title-with-page": "%COLOR_EPIC%Talents - {page}",
-      "level": "%COLOR_SUCCESS%Level {level}",
-      "job": "%COLOR_INFO%Job: {job}",
-      "no-job": "%COLOR_GRAY%Job: None",
-      "talent-level": "%COLOR_INFO%Level: {current} / {max}",
-      "talent-level-max": "%COLOR_LEGENDARY%Level: {current} / {max}",
-      "required-points": "%COLOR_EXPERIENCE%Required Points: {points}",
-      "max-level-reached": "%COLOR_LEGENDARY%✦ Max level reached!",
-      "click-learn": "%COLOR_SUCCESS%▶ Left Click: Learn talent",
-      "insufficient-points": "%COLOR_ERROR%✖ Insufficient talent points",
-      "prerequisite-not-met": "%COLOR_ERROR%✖ Prerequisites not met",
-      "click-subpage": "%COLOR_INFO%▶ Right Click: Open sub-talent page",
-      "points-info": "%COLOR_LEGENDARY%Talent Points",
-      "available-points": "%COLOR_WHITE%Available Points: {points}",
-      "spent-points": "%COLOR_GRAY%Spent Points: {points}",
-      "points-per-level": "%COLOR_GRAY%Gain 1 point every 10 levels",
-      "talent-learned": "%COLOR_SUCCESS%Talent learned: {talent}",
-      "click-stats": "%COLOR_GRAY%Click to go to stats page",
-      "pages": {
-        "main": "Main Talents",
-        "strength_tree": "Strength Tree",
-        "basic_strength_page": "Basic Strength Enhancement",
-        "fortitude_page": "Fortitude Enhancement",
-        "berserker_offense": "Berserker Offense Talents",
-        "tank_defense": "Tank Defense Talents",
-        "priest_healing": "Priest Healing Talents",
-        "dark_curses": "Dark Mage Curse Talents",
-        "archer_offense": "Archer Offense Talents",
-        "sniper_special": "Sniper Special Talents",
-        "strength_mastery": "Strength Mastery",
-        "default": "Talent Tree"
-      }
+      "title-success": "%COLOR_LEGENDARY%Congratulations!",
+      "subtitle-success": "%COLOR_YELLOW%You have acquired the {job} %COLOR_YELLOW%job!"
     },
     "stats": {
-      "title": "%COLOR_LEGENDARY%Stats Management",
-      "combat-power": "%COLOR_ORANGE%Combat Power: {power}",
-      "stat-points": "%COLOR_EXPERIENCE%Stat Points",
-      "available-points": "%COLOR_WHITE%Available Points: {points}",
-      "points-per-level": "%COLOR_GRAY%Gain 5 points per level up",
+      "title": "%COLOR_INFO%Stat Management",
+      "points": "%COLOR_YELLOW%Available Stat Points: %COLOR_SUCCESS%{points}",
+      "help": "%COLOR_GRAY%Gain 5 points per level up",
       "click-to-use": "%COLOR_GRAY%Click stats to use points",
       "current-stats": "%COLOR_YELLOW%Current Stats",
       "base-stat": "%COLOR_WHITE%  Base: {value}",
@@ -434,7 +288,7 @@
         ]
       },
       "job-selection": {
-        "name": "%COLOR_LEGENDARY%Choose Your Job!",
+        "name": "%COLOR_LEGENDARY%Choose a Job!",
         "lore": [
           "%COLOR_GRAY%You don't have a job yet",
           "",
@@ -446,27 +300,35 @@
     },
     "mainmenu": {
       "profile-button": {
-        "name": "%COLOR_LEGENDARY%My Profile",
+        "name": "%COLOR_YELLOW%My Profile",
         "lore": [
-          "%COLOR_GRAY%View your player profile",
+          "%COLOR_GRAY%View statistics and information",
           "",
-          "%COLOR_YELLOW%Click to open"
+          "%COLOR_SUCCESS%▶ Click to view profile"
         ]
       },
       "shop-button": {
-        "name": "%COLOR_EMERALD%Shop",
+        "name": "%COLOR_GOLD%Shop",
         "lore": [
           "%COLOR_GRAY%Buy and sell items",
           "",
-          "%COLOR_YELLOW%Click to open"
+          "%COLOR_SUCCESS%▶ Click to open shop"
         ]
       },
       "dungeon-button": {
-        "name": "%COLOR_RED%Dungeon",
+        "name": "%COLOR_LEGENDARY%Dungeon",
         "lore": [
-          "%COLOR_GRAY%Enter dungeons for adventure",
+          "%COLOR_GRAY%Adventure for challenges and rewards",
           "",
-          "%COLOR_YELLOW%Click to open"
+          "%COLOR_SUCCESS%▶ Click to enter dungeon"
+        ]
+      },
+      "stats-button": {
+        "name": "%COLOR_INFO%Stat Management",
+        "lore": [
+          "%COLOR_GRAY%Distribute ability points",
+          "",
+          "%COLOR_SUCCESS%▶ Click to manage stats"
         ]
       },
       "settings-button": {
@@ -474,77 +336,47 @@
         "lore": [
           "%COLOR_GRAY%Change game settings",
           "",
-          "%COLOR_YELLOW%Click to open"
-        ]
-      },
-      "stats-button": {
-        "name": "%COLOR_COPPER%Stats Management",
-        "lore": [
-          "%COLOR_GRAY%Manage your abilities",
-          "",
-          "%COLOR_YELLOW%▶ Click to open"
+          "%COLOR_SUCCESS%▶ Click to open settings"
         ]
       },
       "talents-button": {
-        "name": "%COLOR_EPIC%Talent Management",
+        "name": "%COLOR_EPIC%Talents",
         "lore": [
-          "%COLOR_GRAY%Manage talent tree",
+          "%COLOR_GRAY%Enhance abilities with talent points",
           "",
-          "%COLOR_YELLOW%▶ Click to open"
+          "%COLOR_SUCCESS%▶ Click to manage talents"
         ]
       },
       "job-button": {
         "name": "%COLOR_LEGENDARY%Job Selection",
         "lore": [
-          "%COLOR_GRAY%You don't have a job yet",
+          "%COLOR_GRAY%Choose your destiny",
           "",
-          "%COLOR_WARNING%⚠ Jobs cannot be changed once selected!",
-          "",
-          "%COLOR_SUCCESS%▶ Click to choose a job"
+          "%COLOR_WARNING%⚠ Choose carefully!",
+          "%COLOR_SUCCESS%▶ Click to choose job"
         ]
       }
     }
   },
   "job": {
     "categories": {
-      "warrior": {
-        "name": "Warrior",
-        "description": [
-          "%COLOR_GRAY%Specialized in melee combat",
-          "%COLOR_GRAY%High health and defense",
-          "%COLOR_GRAY%Protects the team from the front"
-        ]
-      },
-      "mage": {
-        "name": "Mage",
-        "description": [
-          "%COLOR_GRAY%Specialized in magical attacks",
-          "%COLOR_GRAY%Powerful area skills",
-          "%COLOR_GRAY%Combines support and offense"
-        ]
-      },
-      "archer": {
-        "name": "Archer",
-        "description": [
-          "%COLOR_GRAY%Specialized in ranged attacks",
-          "%COLOR_GRAY%High mobility and dodge rate",
-          "%COLOR_GRAY%Precise hits and critical strikes"
-        ]
-      }
+      "warrior": "%COLOR_COPPER%Warrior",
+      "mage": "%COLOR_MANA%Mage",
+      "archer": "%COLOR_EMERALD%Archer"
     },
     "berserker": {
       "name": "Berserker",
-      "title": "%COLOR_ERROR%Berserk Warrior",
+      "title": "%COLOR_ERROR%Berserker",
       "description": [
-        "%COLOR_GRAY%Becomes stronger at low health",
-        "%COLOR_GRAY%High damage and lifesteal"
+        "%COLOR_GRAY%High damage and explosive attacks",
+        "%COLOR_GRAY%Stronger when health is low"
       ]
     },
     "bruiser": {
       "name": "Bruiser",
-      "title": "%COLOR_ORANGE%Balanced Warrior",
+      "title": "%COLOR_ORANGE%Melee Combat Specialist",
       "description": [
-        "%COLOR_GRAY%Balance of offense and defense",
+        "%COLOR_GRAY%Balanced offense and defense",
         "%COLOR_GRAY%Adaptable to various situations"
       ]
     },

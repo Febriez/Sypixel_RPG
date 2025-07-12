@@ -120,13 +120,19 @@ public class RPGPlayerManager implements Listener {
     }
 
     /**
-     * 신규 플레이어 생성 (PlayerService에서 이동)
+     * 신규 플레이어 생성
      */
     private RPGPlayer createNewPlayer(@NotNull Player player) {
         RPGPlayer rpgPlayer = new RPGPlayer(player);
 
         // 기본 데이터로 DTO 생성
-        PlayerDTO playerDTO = new PlayerDTO(player.getUniqueId().toString(), player.getName());
+        PlayerDTO playerDTO = new PlayerDTO(
+                player.getUniqueId().toString(),
+                player.getName(),
+                System.currentTimeMillis(),  // lastLogin
+                0L,                          // totalPlaytime
+                null                         // job
+        );
         StatsDTO statsDTO = new StatsDTO();
         TalentDTO talentDTO = new TalentDTO();
         ProgressDTO progressDTO = new ProgressDTO();
@@ -142,7 +148,7 @@ public class RPGPlayerManager implements Listener {
     }
 
     /**
-     * DTO 데이터를 RPGPlayer에 적용 (PlayerService에서 이동)
+     * DTO 데이터를 RPGPlayer에 적용
      */
     private void applyDTOsToPlayer(@NotNull RPGPlayer rpgPlayer,
                                    @NotNull PlayerDTO playerDTO,
@@ -155,6 +161,7 @@ public class RPGPlayerManager implements Listener {
         if (playerDTO.job() != null) {
             rpgPlayer.setJob(playerDTO.job());
         }
+        rpgPlayer.setTotalPlaytime(playerDTO.totalPlaytime());
 
         // 스탯 적용
         rpgPlayer.getStats().applyFromDTO(statsDTO);
@@ -166,17 +173,18 @@ public class RPGPlayerManager implements Listener {
         if (progressDTO.currentLevel() > 1) {
             // 레벨에 맞는 경험치 설정
             long totalExp = calculateTotalExpForLevel(progressDTO.currentLevel(), rpgPlayer.getJob());
-            rpgPlayer.addExperience(totalExp - rpgPlayer.getExperience());
+            rpgPlayer.setExperience(totalExp);
         }
+        rpgPlayer.setMobsKilled(progressDTO.mobsKilled());
+        rpgPlayer.setPlayersKilled(progressDTO.playersKilled());
+        rpgPlayer.setDeaths(progressDTO.deaths());
 
         // 재화 적용
-        if (walletDTO != null) {
-            rpgPlayer.getWallet().applyFromDTO(walletDTO);
-        }
+        rpgPlayer.getWallet().applyFromDTO(walletDTO);
     }
 
     /**
-     * 플레이어 데이터 저장 (PlayerService에서 이동)
+     * 플레이어 데이터 저장
      */
     public CompletableFuture<Boolean> savePlayerData(@NotNull RPGPlayer rpgPlayer, boolean force) {
         UUID uuid = rpgPlayer.getPlayerId();
@@ -222,37 +230,37 @@ public class RPGPlayerManager implements Listener {
     }
 
     /**
-     * RPGPlayer를 PlayerDTO로 변환 (PlayerService에서 이동)
+     * RPGPlayer를 PlayerDTO로 변환
      */
     private PlayerDTO convertToPlayerDTO(@NotNull RPGPlayer rpgPlayer) {
         Player bukkitPlayer = rpgPlayer.getPlayer();
-        long totalPlaytime = 0L;
+        long totalPlaytime = rpgPlayer.getTotalPlaytime();
 
-        if (bukkitPlayer != null && bukkitPlayer.isOnline()) {
+        if (bukkitPlayer.isOnline()) {
             long sessionTime = System.currentTimeMillis() - rpgPlayer.getSessionStartTime();
-            totalPlaytime = sessionTime; // TODO: 누적 플레이타임 계산
+            totalPlaytime += sessionTime;
         }
 
         return new PlayerDTO(
                 rpgPlayer.getUuid().toString(),
                 rpgPlayer.getName(),
-                System.currentTimeMillis(),
+                System.currentTimeMillis(),  // lastLogin
                 totalPlaytime,
                 rpgPlayer.getJob()
         );
     }
 
     /**
-     * RPGPlayer를 ProgressDTO로 변환 (PlayerService에서 이동)
+     * RPGPlayer를 ProgressDTO로 변환
      */
     private ProgressDTO convertToProgressDTO(@NotNull RPGPlayer rpgPlayer) {
         return new ProgressDTO(
                 rpgPlayer.getLevel(),
                 rpgPlayer.getExperience(),
                 rpgPlayer.getLevelProgress(),
-                0, // TODO: mobsKilled 구현
-                0, // TODO: playersKilled 구현
-                0  // TODO: deaths 구현
+                rpgPlayer.getMobsKilled(),
+                rpgPlayer.getPlayersKilled(),
+                rpgPlayer.getDeaths()
         );
     }
 

@@ -4,6 +4,7 @@ import com.febrie.rpg.dto.*;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.util.LogUtil;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.firestore.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -12,18 +13,17 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Firebase Firestore 데이터베이스 서비스
- * 모든 DTO 데이터의 저장/로드 로직을 중앙화
+ * Cloud Firestore를 사용하여 모든 DTO 데이터의 저장/로드 로직을 중앙화
+ * Private Key만 환경 변수로 관리, 나머지는 하드코딩
  *
  * @author Febrie, CoffeeTory
  */
@@ -49,11 +49,16 @@ public class FirebaseService {
     private static final String TALENTS_SUBCOLLECTION = "Talent";
     private static final String PROGRESS_SUBCOLLECTION = "Progress";
 
-    // 환경변수 이름들
-    private static final String ENV_PROJECT_ID = "FIREBASE_PROJECT_ID";
-    private static final String ENV_DATABASE_URL = "FIREBASE_DATABASE_URL";
-    private static final String ENV_CREDENTIALS_PATH = "FIREBASE_CREDENTIALS_PATH";
-    private static final String ENV_CREDENTIALS_JSON = "FIREBASE_CREDENTIALS_JSON";
+    // Firebase 설정 상수 (Private Key 제외)
+    // TODO: 실제 프로젝트 정보로 변경하세요
+    private static final String FIREBASE_PROJECT_ID = "sypixel-rpg"; // 예: "my-rpg-project"
+    private static final String FIREBASE_CLIENT_EMAIL = "firebase-adminsdk-xxxxx@sypixel-rpg.iam.gserviceaccount.com"; // 실제 서비스 계정 이메일로 변경
+
+    // 환경변수 이름들 (Private Key만)
+    private static final String ENV_PRIVATE_KEY = "FIREBASE_PRIVATE_KEY";
+    // 선택적 환경 변수들
+    private static final String ENV_PRIVATE_KEY_ID = "FIREBASE_PRIVATE_KEY_ID";
+    private static final String ENV_CLIENT_ID = "FIREBASE_CLIENT_ID";
 
     public FirebaseService(@NotNull Plugin plugin) {
         this.serverName = plugin.getConfig().getString("server-name", "default");
@@ -65,17 +70,23 @@ public class FirebaseService {
      */
     private void initializeFirebase() {
         try {
-            Map<String, String> env = getEnvironmentVariables();
-
-            if (env.get("projectId") == null) {
-                LogUtil.error("Firebase 초기화 실패: " + ENV_PROJECT_ID + " 환경변수가 설정되지 않았습니다.");
+            // Private Key 환경 변수 확인
+            String privateKey = System.getenv(ENV_PRIVATE_KEY);
+            if (privateKey == null || privateKey.isEmpty()) {
+                LogUtil.error("Firebase 초기화 실패: " + ENV_PRIVATE_KEY + " 환경변수가 설정되지 않았습니다.");
+                LogUtil.error("환경 변수 설정 예시:");
+                LogUtil.error("  export " + ENV_PRIVATE_KEY + "=\"-----BEGIN PRIVATE KEY-----\\nYOUR_PRIVATE_KEY\\n-----END PRIVATE KEY-----\"");
                 return;
             }
 
-            GoogleCredentials credentials = loadCredentials(env);
+            GoogleCredentials credentials = createCredentials(privateKey);
             if (credentials == null) return;
 
-            FirebaseOptions options = buildFirebaseOptions(credentials, env);
+            FirebaseOptions options = FirebaseOptions.builder()
+                    .setCredentials(credentials)
+                    .setProjectId(FIREBASE_PROJECT_ID)
+                    .build();
+
             FirebaseApp.initializeApp(options);
             firestore = FirestoreClient.getFirestore();
 
@@ -88,51 +99,46 @@ public class FirebaseService {
     }
 
     /**
-     * 환경변수 읽기
+     * Private Key로부터 인증 정보 생성
      */
-    private Map<String, String> getEnvironmentVariables() {
-        Map<String, String> env = new HashMap<>();
-        env.put("projectId", System.getenv(ENV_PROJECT_ID));
-        env.put("databaseUrl", System.getenv(ENV_DATABASE_URL));
-        env.put("credentialsPath", System.getenv(ENV_CREDENTIALS_PATH));
-        env.put("credentialsJson", System.getenv(ENV_CREDENTIALS_JSON));
-        return env;
-    }
+    private GoogleCredentials createCredentials(String privateKey) {
+        try {
+            // Private Key 형식 정리 (환경 변수에서 \\n을 실제 개행으로 변환)
+            privateKey = privateKey.replace("\\n", "\n");
 
-    /**
-     * 인증 정보 로드
-     */
-    private GoogleCredentials loadCredentials(Map<String, String> env) throws IOException {
-        String credentialsJson = env.get("credentialsJson");
-        String credentialsPath = env.get("credentialsPath");
+            // 선택적 환경 변수 읽기
+            String privateKeyId = System.getenv(ENV_PRIVATE_KEY_ID);
+            String clientId = System.getenv(ENV_CLIENT_ID);
 
-        if (credentialsJson != null && !credentialsJson.isEmpty()) {
-            LogUtil.info("Firebase 인증 정보를 환경변수에서 로드했습니다.");
-            return GoogleCredentials.fromStream(new ByteArrayInputStream(credentialsJson.getBytes()));
-        } else if (credentialsPath != null && !credentialsPath.isEmpty()) {
-            LogUtil.info("Firebase 인증 정보를 파일에서 로드했습니다: " + credentialsPath);
-            return GoogleCredentials.fromStream(new FileInputStream(credentialsPath));
-        } else {
-            LogUtil.error("Firebase 초기화 실패: 인증 정보가 없습니다.");
-            LogUtil.error(ENV_CREDENTIALS_JSON + " 또는 " + ENV_CREDENTIALS_PATH + " 환경변수를 설정하세요.");
+            // ServiceAccountCredentials 빌더 사용
+            ServiceAccountCredentials.Builder builder = ServiceAccountCredentials.newBuilder()
+                    .setProjectId(FIREBASE_PROJECT_ID)
+                    .setPrivateKeyString(privateKey)
+                    .setClientEmail(FIREBASE_CLIENT_EMAIL);
+
+            // 선택적 필드 설정
+            if (privateKeyId != null && !privateKeyId.isEmpty()) {
+                builder.setPrivateKeyId(privateKeyId);
+            }
+            if (clientId != null && !clientId.isEmpty()) {
+                builder.setClientId(clientId);
+            }
+
+            // 기본 스코프 설정
+            builder.setScopes(Arrays.asList(
+                    "https://www.googleapis.com/auth/cloud-platform",
+                    "https://www.googleapis.com/auth/datastore"
+            ));
+
+            GoogleCredentials credentials = builder.build();
+            LogUtil.info("Firebase 인증 정보를 성공적으로 생성했습니다.");
+            return credentials;
+
+        } catch (Exception e) {
+            LogUtil.error("Firebase 인증 정보 생성 실패", e);
+            LogUtil.error("Private Key 형식을 확인하세요. \\n을 포함한 전체 키가 필요합니다.");
             return null;
         }
-    }
-
-    /**
-     * Firebase 옵션 빌드
-     */
-    private FirebaseOptions buildFirebaseOptions(GoogleCredentials credentials, Map<String, String> env) {
-        FirebaseOptions.Builder builder = FirebaseOptions.builder()
-                .setCredentials(credentials)
-                .setProjectId(env.get("projectId"));
-
-        String databaseUrl = env.get("databaseUrl");
-        if (databaseUrl != null && !databaseUrl.isEmpty()) {
-            builder.setDatabaseUrl(databaseUrl);
-        }
-
-        return builder.build();
     }
 
     /**
@@ -157,11 +163,378 @@ public class FirebaseService {
         return connected;
     }
 
-    // ========== 범용 데이터 처리 메소드 ==========
+    // ========== 개별 데이터 로드 메서드 ==========
 
     /**
-     * 문서 로드 및 매핑
+     * 플레이어 기본 정보 로드
      */
+    public CompletableFuture<PlayerDTO> loadPlayer(@NotNull String uuid) {
+        return loadDocumentNullable(
+                firestore.collection(PLAYERS_COLLECTION).document(uuid),
+                this::mapToPlayerDTO,
+                "PlayerDTO"
+        );
+    }
+
+    /**
+     * 스탯 정보 로드
+     */
+    public CompletableFuture<StatsDTO> loadStats(@NotNull String uuid) {
+        return loadStatsDTO(firestore.collection(PLAYERS_COLLECTION).document(uuid));
+    }
+
+    /**
+     * 특성 정보 로드
+     */
+    public CompletableFuture<TalentDTO> loadTalents(@NotNull String uuid) {
+        return loadTalentDTO(firestore.collection(PLAYERS_COLLECTION).document(uuid));
+    }
+
+    /**
+     * 진행도 정보 로드
+     */
+    public CompletableFuture<ProgressDTO> loadProgress(@NotNull String uuid) {
+        return loadProgressDTO(firestore.collection(PLAYERS_COLLECTION).document(uuid));
+    }
+
+    /**
+     * 지갑 정보 로드
+     */
+    public CompletableFuture<WalletDTO> loadWallet(@NotNull String uuid) {
+        return loadWalletDTO(firestore.collection(PLAYERS_COLLECTION).document(uuid));
+    }
+
+    // ========== 플레이어 데이터 관리 ==========
+
+    /**
+     * 플레이어 전체 데이터 로드
+     */
+    public CompletableFuture<Map<String, Object>> loadAllPlayerData(@NotNull String uuid) {
+        return loadAllPlayerDataWithWallet(uuid);
+    }
+
+    /**
+     * 플레이어 전체 데이터 로드 (지갑 포함)
+     */
+    public CompletableFuture<Map<String, Object>> loadAllPlayerDataWithWallet(@NotNull String uuid) {
+        if (!isConnected()) {
+            return CompletableFuture.completedFuture(createDefaultPlayerData());
+        }
+
+        // 캐시 확인
+        PlayerDTO cachedPlayer = getFromCache(uuid);
+        if (cachedPlayer != null) {
+            return CompletableFuture.completedFuture(Map.of("player", cachedPlayer));
+        }
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                Map<String, Object> result = new HashMap<>();
+
+                // Player 문서 참조
+                DocumentReference playerRef = firestore
+                        .collection(PLAYERS_COLLECTION)
+                        .document(uuid);
+
+                // 메인 문서와 서브컬렉션 병렬 로드
+                CompletableFuture<PlayerDTO> playerFuture = loadPlayerDTO(playerRef);
+                CompletableFuture<StatsDTO> statsFuture = loadStatsDTO(playerRef);
+                CompletableFuture<TalentDTO> talentFuture = loadTalentDTO(playerRef);
+                CompletableFuture<ProgressDTO> progressFuture = loadProgressDTO(playerRef);
+                CompletableFuture<WalletDTO> walletFuture = loadWalletDTO(playerRef);
+
+                // 모든 Future 완료 대기
+                CompletableFuture.allOf(playerFuture, statsFuture, talentFuture,
+                        progressFuture, walletFuture).join();
+
+                // 결과 수집
+                result.put("player", playerFuture.get());
+                result.put("stats", statsFuture.get());
+                result.put("talents", talentFuture.get());
+                result.put("progress", progressFuture.get());
+                result.put("wallet", walletFuture.get());
+
+                // 캐시 업데이트
+                updateCache(uuid, playerFuture.get());
+
+                return result;
+            } catch (Exception e) {
+                LogUtil.error("플레이어 데이터 로드 실패: " + uuid, e);
+                return createDefaultPlayerData();
+            }
+        });
+    }
+
+    /**
+     * 플레이어 전체 데이터 저장
+     */
+    public CompletableFuture<Boolean> saveAllPlayerData(@NotNull String uuid,
+                                                        @NotNull PlayerDTO player,
+                                                        @NotNull StatsDTO stats,
+                                                        @NotNull TalentDTO talents,
+                                                        @NotNull ProgressDTO progress) {
+        return saveAllPlayerDataWithWallet(uuid, player, stats, talents, progress, new WalletDTO());
+    }
+
+    /**
+     * 플레이어 전체 데이터 저장 (지갑 포함)
+     */
+    public CompletableFuture<Boolean> saveAllPlayerDataWithWallet(@NotNull String uuid,
+                                                                  @NotNull PlayerDTO player,
+                                                                  @NotNull StatsDTO stats,
+                                                                  @NotNull TalentDTO talents,
+                                                                  @NotNull ProgressDTO progress,
+                                                                  @NotNull WalletDTO wallet) {
+        if (!isConnected()) {
+            return CompletableFuture.completedFuture(false);
+        }
+
+        return CompletableFuture.supplyAsync(() -> {
+            WriteBatch batch = firestore.batch();
+
+            try {
+                // Player 문서 참조
+                DocumentReference playerRef = firestore
+                        .collection(PLAYERS_COLLECTION)
+                        .document(uuid);
+
+                // 메인 문서 저장 (wallet 포함)
+                Map<String, Object> playerData = convertPlayerToMap(player);
+                playerData.put("wallet", convertWalletToMap(wallet));
+                batch.set(playerRef, playerData);
+
+                // 서브컬렉션 저장
+                batch.set(playerRef.collection(STATS_SUBCOLLECTION).document("data"),
+                        convertStatsToMap(stats));
+                batch.set(playerRef.collection(TALENTS_SUBCOLLECTION).document("data"),
+                        convertTalentToMap(talents));
+                batch.set(playerRef.collection(PROGRESS_SUBCOLLECTION).document("data"),
+                        convertProgressToMap(progress));
+
+                // 배치 실행
+                batch.commit().get();
+
+                // 캐시 업데이트
+                updateCache(uuid, player);
+
+                LogUtil.debug("플레이어 데이터 저장 완료: " + uuid);
+                return true;
+            } catch (Exception e) {
+                LogUtil.error("플레이어 데이터 저장 실패: " + uuid, e);
+                return false;
+            }
+        });
+    }
+
+    // ========== 개별 DTO 로드 메소드 ==========
+
+    private CompletableFuture<PlayerDTO> loadPlayerDTO(DocumentReference playerRef) {
+        return loadDocument(playerRef, this::mapToPlayerDTO,
+                new PlayerDTO(playerRef.getId(), "Unknown"), "PlayerDTO");
+    }
+
+    private CompletableFuture<StatsDTO> loadStatsDTO(DocumentReference playerRef) {
+        return loadDocument(
+                playerRef.collection(STATS_SUBCOLLECTION).document("data"),
+                this::mapToStatsDTO, new StatsDTO(), "StatsDTO"
+        );
+    }
+
+    private CompletableFuture<TalentDTO> loadTalentDTO(DocumentReference playerRef) {
+        return loadDocument(
+                playerRef.collection(TALENTS_SUBCOLLECTION).document("data"),
+                this::mapToTalentDTO, new TalentDTO(), "TalentDTO"
+        );
+    }
+
+    private CompletableFuture<ProgressDTO> loadProgressDTO(DocumentReference playerRef) {
+        return loadDocument(
+                playerRef.collection(PROGRESS_SUBCOLLECTION).document("data"),
+                this::mapToProgressDTO, new ProgressDTO(), "ProgressDTO"
+        );
+    }
+
+    private CompletableFuture<WalletDTO> loadWalletDTO(DocumentReference playerRef) {
+        return loadDocument(
+                playerRef,
+                data -> {
+                    Object walletObj = data.get("wallet");
+                    if (walletObj instanceof Map) {
+                        return mapToWalletDTO((Map<String, Object>) walletObj);
+                    }
+                    return new WalletDTO();
+                },
+                new WalletDTO(),
+                "WalletDTO"
+        );
+    }
+
+    // ========== 데이터 변환 메소드 ==========
+
+    private PlayerDTO mapToPlayerDTO(Map<String, Object> data) {
+        if (data == null) return null;
+
+        String uuid = (String) data.get("uuid");
+        String name = (String) data.get("name");
+        long lastLogin = getLongValue(data, "lastLogin", System.currentTimeMillis());
+        long totalPlaytime = getLongValue(data, "totalPlaytime", 0L);
+        String jobStr = (String) data.get("job");
+        JobType job = jobStr != null ? JobType.valueOf(jobStr) : null;
+
+        return new PlayerDTO(uuid, name, lastLogin, totalPlaytime, job);
+    }
+
+    private StatsDTO mapToStatsDTO(Map<String, Object> data) {
+        if (data == null) return new StatsDTO();
+
+        // StatsDTO는 statPoints 필드가 없음, 6개의 스탯만 있음
+        return new StatsDTO(
+                getIntValue(data, "strength", 10),
+                getIntValue(data, "intelligence", 10),
+                getIntValue(data, "dexterity", 10),
+                getIntValue(data, "vitality", 10),
+                getIntValue(data, "wisdom", 10),
+                getIntValue(data, "luck", 1)
+        );
+    }
+
+    private TalentDTO mapToTalentDTO(Map<String, Object> data) {
+        if (data == null) return new TalentDTO();
+
+        Map<String, Integer> learnedTalents = new HashMap<>();
+        Object talentsObj = data.get("learnedTalents"); // talentLevels가 아닌 learnedTalents
+        if (talentsObj instanceof Map) {
+            Map<?, ?> talents = (Map<?, ?>) talentsObj;
+            talents.forEach((k, v) -> {
+                if (k != null && v instanceof Number) {
+                    learnedTalents.put(k.toString(), ((Number) v).intValue());
+                }
+            });
+        }
+
+        return new TalentDTO(
+                getIntValue(data, "availablePoints", 0),
+                learnedTalents
+        );
+    }
+
+    private ProgressDTO mapToProgressDTO(Map<String, Object> data) {
+        if (data == null) return new ProgressDTO();
+
+        // ProgressDTO의 실제 필드들: currentLevel, totalExperience, levelProgress, mobsKilled, playersKilled, deaths
+        return new ProgressDTO(
+                getIntValue(data, "currentLevel", 1),
+                getLongValue(data, "totalExperience", 0L), // currentExp가 아닌 totalExperience
+                getDoubleValue(data, "levelProgress", 0.0),
+                getIntValue(data, "mobsKilled", 0),
+                getIntValue(data, "playersKilled", 0),
+                getIntValue(data, "deaths", 0)
+        );
+    }
+
+    private WalletDTO mapToWalletDTO(Map<String, Object> data) {
+        if (data == null) return new WalletDTO();
+
+        Map<String, Long> currencies = new HashMap<>();
+        Object currenciesObj = data.get("currencies");
+        if (currenciesObj instanceof Map) {
+            Map<?, ?> currencyMap = (Map<?, ?>) currenciesObj;
+            currencyMap.forEach((k, v) -> {
+                if (k != null && v instanceof Number) {
+                    currencies.put(k.toString(), ((Number) v).longValue());
+                }
+            });
+        }
+
+        return new WalletDTO(
+                currencies,
+                getLongValue(data, "lastUpdated", System.currentTimeMillis())
+        );
+    }
+
+    // ========== Map 변환 메소드 ==========
+
+    private Map<String, Object> convertPlayerToMap(PlayerDTO player) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("uuid", player.uuid());
+        map.put("name", player.name());
+        if (player.job() != null) {
+            map.put("job", player.job().name());
+        }
+        map.put("lastUpdated", FieldValue.serverTimestamp());
+        return map;
+    }
+
+    private Map<String, Object> convertStatsToMap(StatsDTO stats) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("strength", stats.strength());
+        map.put("intelligence", stats.intelligence());
+        map.put("dexterity", stats.dexterity());
+        map.put("vitality", stats.vitality());
+        map.put("wisdom", stats.wisdom());
+        map.put("luck", stats.luck());
+        // StatsDTO에는 statPoints 필드가 없음
+        return map;
+    }
+
+    private Map<String, Object> convertTalentToMap(TalentDTO talents) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("availablePoints", talents.availablePoints());
+        map.put("learnedTalents", talents.learnedTalents()); // talentLevels가 아닌 learnedTalents
+        return map;
+    }
+
+    private Map<String, Object> convertProgressToMap(ProgressDTO progress) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("currentLevel", progress.currentLevel());
+        map.put("totalExperience", progress.totalExperience()); // totalExp가 아닌 totalExperience
+        map.put("levelProgress", progress.levelProgress());
+        map.put("mobsKilled", progress.mobsKilled());
+        map.put("playersKilled", progress.playersKilled());
+        map.put("deaths", progress.deaths());
+        return map;
+    }
+
+    private Map<String, Object> convertWalletToMap(WalletDTO wallet) {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Long> currencies = wallet.currencies();
+        map.put("gold", currencies.get("gold"));
+        map.put("diamond", currencies.get("diamond"));
+        map.put("emerald", currencies.get("emerald"));
+        map.put("ghast_tear", currencies.get("ghast_tear"));
+        map.put("nether_star", currencies.get("nether_star"));
+        return map;
+    }
+
+    // ========== 유틸리티 메소드 ==========
+
+    private Map<String, Object> createDefaultPlayerData() {
+        Map<String, Object> defaultData = new HashMap<>();
+        defaultData.put("player", new PlayerDTO("", "Unknown"));
+        defaultData.put("stats", new StatsDTO());
+        defaultData.put("talents", new TalentDTO());
+        defaultData.put("progress", new ProgressDTO());
+        defaultData.put("wallet", new WalletDTO());
+        return defaultData;
+    }
+
+    private int getIntValue(Map<String, Object> map, String key, int defaultValue) {
+        Object value = map.get(key);
+        return value instanceof Number ? ((Number) value).intValue() : defaultValue;
+    }
+
+    private long getLongValue(Map<String, Object> map, String key, long defaultValue) {
+        Object value = map.get(key);
+        return value instanceof Number ? ((Number) value).longValue() : defaultValue;
+    }
+
+    private double getDoubleValue(Map<String, Object> map, String key, double defaultValue) {
+        Object value = map.get(key);
+        return value instanceof Number ? ((Number) value).doubleValue() : defaultValue;
+    }
+
+    // ========== 범용 데이터 처리 메소드 ==========
+
     private <T> CompletableFuture<T> loadDocument(
             @NotNull DocumentReference docRef,
             @NotNull Function<Map<String, Object>, T> mapper,
@@ -184,530 +557,8 @@ public class FirebaseService {
         });
     }
 
-    /**
-     * 문서 로드 및 매핑 (Optional 반환)
-     */
-    private <T> CompletableFuture<Optional<T>> loadDocumentOptional(
-            @NotNull DocumentReference docRef,
-            @NotNull Function<Map<String, Object>, T> mapper,
-            @NotNull String errorContext) {
-
-        if (!isConnected()) return CompletableFuture.completedFuture(Optional.empty());
-
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                DocumentSnapshot doc = docRef.get().get();
-                if (doc.exists()) {
-                    return Optional.ofNullable(mapper.apply(doc.getData()));
-                }
-                return Optional.<T>empty();
-            } catch (Exception e) {
-                LogUtil.error(errorContext + " 로드 실패", e);
-                return Optional.<T>empty();
-            }
-        });
-    }
-
-    /**
-     * 문서 저장
-     */
-    private CompletableFuture<Boolean> saveDocument(
-            @NotNull DocumentReference docRef,
-            @NotNull Map<String, Object> data,
-            @NotNull String errorContext) {
-
-        if (!isConnected()) return CompletableFuture.completedFuture(false);
-
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                docRef.set(data, SetOptions.merge()).get();
-                LogUtil.debug(errorContext + " 저장 완료");
-                return true;
-            } catch (Exception e) {
-                LogUtil.error(errorContext + " 저장 실패", e);
-                return false;
-            }
-        });
-    }
-
-    /**
-     * 서브컬렉션 문서 참조 가져오기
-     */
-    private DocumentReference getSubcollectionDocument(String playerUuid, String subcollection) {
-        return firestore.collection(PLAYERS_COLLECTION)
-                .document(playerUuid)
-                .collection(subcollection)
-                .document("current");
-    }
-
-    // ========== PlayerDTO 메소드 ==========
-
-    /**
-     * 플레이어 기본 정보를 Map으로 변환
-     */
-    private Map<String, Object> playerToMap(@NotNull PlayerDTO player) {
-        Map<String, Object> data = new HashMap<>();
-        data.put("name", player.name());
-        data.put("lastLogin", player.lastLogin());
-        data.put("totalPlaytime", player.totalPlaytime());
-        if (player.job() != null) {
-            data.put("job", player.job().name());
-        }
-        return data;
-    }
-
-    /**
-     * 플레이어 기본 정보 저장
-     */
-    public CompletableFuture<Boolean> savePlayer(@NotNull String playerUuid, @NotNull PlayerDTO player) {
-        Map<String, Object> data = playerToMap(player);
-        data.put("lastUpdated", FieldValue.serverTimestamp());
-
-        return saveDocument(
-                firestore.collection(PLAYERS_COLLECTION).document(playerUuid),
-                data,
-                "플레이어 데이터"
-        ).thenApply(success -> {
-            if (success) updateCache(playerUuid, player);
-            return success;
-        });
-    }
-
-    /**
-     * 플레이어 기본 정보 로드
-     */
-    public CompletableFuture<PlayerDTO> loadPlayer(@NotNull String playerUuid) {
-        PlayerDTO cached = getFromCache(playerUuid);
-        if (cached != null) {
-            return CompletableFuture.completedFuture(cached);
-        }
-
-        return loadDocumentOptional(
-                firestore.collection(PLAYERS_COLLECTION).document(playerUuid),
-                data -> mapToPlayerDTO(playerUuid, data),
-                "플레이어 데이터"
-        ).thenApply(optionalPlayer -> {
-            optionalPlayer.ifPresent(player -> updateCache(playerUuid, player));
-            return optionalPlayer.orElse(null);
-        });
-    }
-
-    /**
-     * Map을 PlayerDTO로 변환
-     */
-    private PlayerDTO mapToPlayerDTO(String uuid, Map<String, Object> data) {
-        String name = (String) data.get("name");
-        long lastLogin = getLongValue(data, "lastLogin", System.currentTimeMillis());
-        long totalPlaytime = getLongValue(data, "totalPlaytime", 0L);
-
-        JobType job = Optional.ofNullable((String) data.get("job"))
-                .flatMap(jobStr -> {
-                    try {
-                        return Optional.of(JobType.valueOf(jobStr));
-                    } catch (IllegalArgumentException e) {
-                        LogUtil.warning("알 수 없는 직업 타입: " + jobStr);
-                        return Optional.empty();
-                    }
-                })
-                .orElse(null);
-
-        return new PlayerDTO(uuid, name, lastLogin, totalPlaytime, job);
-    }
-
-    // ========== StatsDTO 메소드 ==========
-
-    /**
-     * 스탯 데이터 저장
-     */
-    public CompletableFuture<Boolean> saveStats(@NotNull String playerUuid, @NotNull StatsDTO stats) {
-        Map<String, Object> data = Map.of(
-                "strength", stats.strength(),
-                "intelligence", stats.intelligence(),
-                "dexterity", stats.dexterity(),
-                "vitality", stats.vitality(),
-                "wisdom", stats.wisdom(),
-                "luck", stats.luck(),
-                "lastUpdated", FieldValue.serverTimestamp()
-        );
-
-        return saveDocument(
-                getSubcollectionDocument(playerUuid, STATS_SUBCOLLECTION),
-                data,
-                "스탯 데이터"
-        );
-    }
-
-    /**
-     * 스탯 데이터 로드
-     */
-    public CompletableFuture<StatsDTO> loadStats(@NotNull String playerUuid) {
-        return loadDocument(
-                getSubcollectionDocument(playerUuid, STATS_SUBCOLLECTION),
-                data -> new StatsDTO(
-                        getIntValue(data, "strength", 10),
-                        getIntValue(data, "intelligence", 10),
-                        getIntValue(data, "dexterity", 10),
-                        getIntValue(data, "vitality", 10),
-                        getIntValue(data, "wisdom", 10),
-                        getIntValue(data, "luck", 1)
-                ),
-                new StatsDTO(),
-                "스탯 데이터"
-        );
-    }
-
-    // ========== TalentDTO 메소드 ==========
-
-    /**
-     * 특성 데이터 저장
-     */
-    public CompletableFuture<Boolean> saveTalents(@NotNull String playerUuid, @NotNull TalentDTO talents) {
-        Map<String, Object> data = Map.of(
-                "availablePoints", talents.availablePoints(),
-                "learnedTalents", talents.learnedTalents(),
-                "lastUpdated", FieldValue.serverTimestamp()
-        );
-
-        return saveDocument(
-                getSubcollectionDocument(playerUuid, TALENTS_SUBCOLLECTION),
-                data,
-                "특성 데이터"
-        );
-    }
-
-    /**
-     * 특성 데이터 로드
-     */
-    public CompletableFuture<TalentDTO> loadTalents(@NotNull String playerUuid) {
-        return loadDocument(
-                getSubcollectionDocument(playerUuid, TALENTS_SUBCOLLECTION),
-                data -> new TalentDTO(
-                        getIntValue(data, "availablePoints", 0),
-                        extractTypedMap(data, "learnedTalents", v -> ((Number) v).intValue())
-                ),
-                new TalentDTO(),
-                "특성 데이터"
-        );
-    }
-
-    // ========== ProgressDTO 메소드 ==========
-
-    /**
-     * 진행도 데이터 저장
-     */
-    public CompletableFuture<Boolean> saveProgress(@NotNull String playerUuid, @NotNull ProgressDTO progress) {
-        Map<String, Object> data = new HashMap<>();
-        data.put("currentLevel", progress.currentLevel());
-        data.put("totalExperience", progress.totalExperience());
-        data.put("levelProgress", progress.levelProgress());
-        data.put("mobsKilled", progress.mobsKilled());
-        data.put("playersKilled", progress.playersKilled());
-        data.put("deaths", progress.deaths());
-        data.put("lastUpdated", FieldValue.serverTimestamp());
-
-        return saveDocument(
-                getSubcollectionDocument(playerUuid, PROGRESS_SUBCOLLECTION),
-                data,
-                "진행도 데이터"
-        );
-    }
-
-    /**
-     * 진행도 데이터 로드
-     */
-    public CompletableFuture<ProgressDTO> loadProgress(@NotNull String playerUuid) {
-        return loadDocument(
-                getSubcollectionDocument(playerUuid, PROGRESS_SUBCOLLECTION),
-                data -> new ProgressDTO(
-                        getIntValue(data, "currentLevel", 1),
-                        getLongValue(data, "totalExperience", 0L),
-                        getDoubleValue(data, "levelProgress", 0.0),
-                        getIntValue(data, "mobsKilled", 0),
-                        getIntValue(data, "playersKilled", 0),
-                        getIntValue(data, "deaths", 0)
-                ),
-                new ProgressDTO(),
-                "진행도 데이터"
-        );
-    }
-
-    // ========== WalletDTO 메소드 ==========
-
-    /**
-     * 플레이어 재화 정보 로드
-     */
-    public CompletableFuture<WalletDTO> loadWallet(@NotNull String uuid) {
-        return loadDocument(
-                firestore.collection(PLAYERS_COLLECTION).document(uuid),
-                data -> {
-                    Map<String, Object> walletData = extractMap(data, "wallet");
-                    if (walletData != null) {
-                        return new WalletDTO(
-                                extractTypedMap(walletData, "currencies", v -> ((Number) v).longValue()),
-                                getLongValue(walletData, "lastUpdated", System.currentTimeMillis())
-                        );
-                    }
-                    return new WalletDTO();
-                },
-                new WalletDTO(),
-                "재화 데이터"
-        );
-    }
-
-    /**
-     * 플레이어 재화 정보 저장
-     */
-    public CompletableFuture<Boolean> saveWallet(@NotNull String uuid, @NotNull WalletDTO wallet) {
-        Map<String, Object> walletData = Map.of(
-                "currencies", wallet.currencies(),
-                "lastUpdated", wallet.lastUpdated()
-        );
-
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                firestore.collection(PLAYERS_COLLECTION)
-                        .document(uuid)
-                        .update("wallet", walletData)
-                        .get();
-                return true;
-            } catch (Exception e) {
-                LogUtil.error("재화 데이터 저장 실패: " + uuid, e);
-                return false;
-            }
-        });
-    }
-
-    // ========== 통합 저장 메소드 ==========
-
-    /**
-     * 모든 플레이어 데이터 저장
-     */
-    public CompletableFuture<Boolean> saveAllPlayerDataWithWallet(
-            @NotNull String uuid,
-            @NotNull PlayerDTO player,
-            @NotNull StatsDTO stats,
-            @NotNull TalentDTO talents,
-            @NotNull ProgressDTO progress,
-            @NotNull WalletDTO wallet) {
-
-        if (!isConnected()) return CompletableFuture.completedFuture(false);
-
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                // 메인 문서 준비
-                Map<String, Object> mainData = playerToMap(player);
-
-                // 재화 정보 추가
-                mainData.put("wallet", Map.of(
-                        "currencies", wallet.currencies(),
-                        "lastUpdated", wallet.lastUpdated()
-                ));
-                mainData.put("lastUpdated", FieldValue.serverTimestamp());
-
-                // 메인 문서 저장
-                firestore.collection(PLAYERS_COLLECTION)
-                        .document(uuid)
-                        .set(mainData, SetOptions.merge())
-                        .get();
-
-                // 서브컬렉션 저장 (병렬)
-                List<CompletableFuture<Boolean>> futures = Arrays.asList(
-                        saveStats(uuid, stats),
-                        saveTalents(uuid, talents),
-                        saveProgress(uuid, progress)
-                );
-
-                // 모든 저장 완료 대기
-                CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).get();
-
-                // 캐시 업데이트
-                updateCache(uuid, player);
-
-                LogUtil.debug("모든 플레이어 데이터 저장 완료: " + player.name());
-                return true;
-
-            } catch (Exception e) {
-                LogUtil.error("플레이어 데이터 통합 저장 실패: " + uuid, e);
-                return false;
-            }
-        });
-    }
-
-    // ========== 순위표 메소드 ==========
-
-    /**
-     * 순위표 업데이트
-     */
-    public CompletableFuture<Boolean> updateLeaderboard(@NotNull String type, @NotNull LeaderboardEntryDTO entry) {
-        Map<String, Object> data = new HashMap<>();
-        data.put("playerUuid", entry.playerUuid());
-        data.put("playerName", entry.playerName());
-        data.put("rank", entry.rank());
-        data.put("value", entry.value());
-        data.put("type", entry.type());
-        data.put("lastUpdated", FieldValue.serverTimestamp());
-
-        return saveDocument(
-                firestore.collection(LEADERBOARDS_COLLECTION)
-                        .document(type)
-                        .collection("Entry")
-                        .document(entry.playerUuid()),
-                data,
-                "순위표"
-        );
-    }
-
-    /**
-     * 순위표 조회
-     */
-    public CompletableFuture<List<LeaderboardEntryDTO>> getLeaderboard(@NotNull String type, int limit) {
-        if (!isConnected()) return CompletableFuture.completedFuture(new ArrayList<>());
-
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                QuerySnapshot querySnapshot = firestore.collection(LEADERBOARDS_COLLECTION)
-                        .document(type)
-                        .collection("Entry")
-                        .orderBy("value", Query.Direction.DESCENDING)
-                        .limit(limit)
-                        .get()
-                        .get();
-
-                return querySnapshot.getDocuments().stream()
-                        .map(doc -> mapToLeaderboardEntry(doc.getData(), type))
-                        .collect(Collectors.toList());
-
-            } catch (Exception e) {
-                LogUtil.error("순위표 조회 실패: " + type, e);
-                return new ArrayList<>();
-            }
-        });
-    }
-
-    /**
-     * Map을 LeaderboardEntryDTO로 변환
-     */
-    private LeaderboardEntryDTO mapToLeaderboardEntry(Map<String, Object> data, String type) {
-        return new LeaderboardEntryDTO(
-                (String) data.get("playerUuid"),
-                (String) data.get("playerName"),
-                getIntValue(data, "rank", 0),
-                getLongValue(data, "value", 0L),
-                type,
-                getLongValue(data, "lastUpdated", System.currentTimeMillis())
-        );
-    }
-
-    // ========== 서버 통계 메소드 ==========
-
-    /**
-     * 서버 통계 저장
-     */
-    public CompletableFuture<Boolean> saveServerStats(@NotNull ServerStatsDTO stats) {
-        Map<String, Object> data = new HashMap<>();
-        data.put("onlinePlayers", stats.onlinePlayers());
-        data.put("maxPlayers", stats.maxPlayers());
-        data.put("totalPlayers", stats.totalPlayers());
-        data.put("uptime", stats.uptime());
-        data.put("tps", stats.tps());
-        data.put("totalPlaytime", stats.totalPlaytime());
-        data.put("version", stats.version());
-        data.put("lastUpdated", FieldValue.serverTimestamp());
-
-        return saveDocument(
-                firestore.collection(SERVER_STATS_COLLECTION).document(serverName),
-                data,
-                "서버 통계"
-        );
-    }
-
-    /**
-     * 서버 통계 로드
-     */
-    public CompletableFuture<ServerStatsDTO> loadServerStats() {
-        return loadDocument(
-                firestore.collection(SERVER_STATS_COLLECTION).document(serverName),
-                data -> new ServerStatsDTO(
-                        getIntValue(data, "onlinePlayers", 0),
-                        getIntValue(data, "maxPlayers", 0),
-                        getIntValue(data, "totalPlayers", 0),
-                        getLongValue(data, "uptime", 0L),
-                        getDoubleValue(data, "tps", 20.0),
-                        getLongValue(data, "totalPlaytime", 0L),
-                        (String) data.getOrDefault("version", "1.21.7"),
-                        getLongValue(data, "lastUpdated", System.currentTimeMillis())
-                ),
-                new ServerStatsDTO(),
-                "서버 통계"
-        );
-    }
-
-    // ========== 유틸리티 메소드 ==========
-
-    /**
-     * 타입별 Map 추출 통합 메소드
-     */
-    @SuppressWarnings("unchecked")
-    private <T> Map<String, T> extractTypedMap(Map<String, Object> map, String key,
-                                               Function<Object, T> converter) {
-        Object value = map.get(key);
-        if (value instanceof Map) {
-            Map<String, Object> innerMap = (Map<String, Object>) value;
-            Map<String, T> result = new HashMap<>();
-
-            innerMap.forEach((k, v) -> {
-                if (v != null) {
-                    try {
-                        T converted = converter.apply(v);
-                        if (converted != null) {
-                            result.put(k, converted);
-                        }
-                    } catch (Exception ex) {
-                        LogUtil.debug("값 변환 실패: " + k + " - " + ex.getMessage());
-                    }
-                }
-            });
-
-            return result;
-        }
-        return new HashMap<>();
-    }
-
-    /**
-     * Map 추출
-     */
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> extractMap(Map<String, Object> map, String key) {
-        Object value = map.get(key);
-        return value instanceof Map ? (Map<String, Object>) value : null;
-    }
-
-    /**
-     * 안전한 값 추출 메소드들
-     */
-    private int getIntValue(Map<String, Object> map, String key, int defaultValue) {
-        return getNumberValue(map, key, Number::intValue, defaultValue);
-    }
-
-    private long getLongValue(Map<String, Object> map, String key, long defaultValue) {
-        return getNumberValue(map, key, Number::longValue, defaultValue);
-    }
-
-    private double getDoubleValue(Map<String, Object> map, String key, double defaultValue) {
-        return getNumberValue(map, key, Number::doubleValue, defaultValue);
-    }
-
-    private <T> T getNumberValue(Map<String, Object> map, String key,
-                                 Function<Number, T> converter, T defaultValue) {
-        Object value = map.get(key);
-        return value instanceof Number ? converter.apply((Number) value) : defaultValue;
-    }
-
     // ========== 캐시 관리 ==========
 
-    /**
-     * 캐시에서 데이터 가져오기
-     */
     @Nullable
     private PlayerDTO getFromCache(@NotNull String uuid) {
         Long timestamp = cacheTimestamps.get(uuid);
@@ -718,34 +569,22 @@ public class FirebaseService {
         return null;
     }
 
-    /**
-     * 캐시 업데이트
-     */
     private void updateCache(@NotNull String uuid, @NotNull PlayerDTO player) {
         playerCache.put(uuid, player);
         cacheTimestamps.put(uuid, System.currentTimeMillis());
     }
 
-    /**
-     * 캐시 무효화
-     */
     private void invalidateCache(@NotNull String uuid) {
         playerCache.remove(uuid);
         cacheTimestamps.remove(uuid);
     }
 
-    /**
-     * 캐시 초기화
-     */
     public void clearCache() {
         playerCache.clear();
         cacheTimestamps.clear();
         LogUtil.info("Firebase 캐시가 초기화되었습니다.");
     }
 
-    /**
-     * 캐시 통계
-     */
     public Map<String, Object> getCacheStats() {
         return Map.of(
                 "playerCacheSize", playerCache.size(),
