@@ -45,6 +45,7 @@ public final class ColorUtil {
     public static final TextColor ORANGE = TextColor.color(255, 165, 0);
     public static final TextColor PINK = TextColor.color(255, 192, 203);
     public static final TextColor BROWN = TextColor.color(139, 69, 19);
+    public static final TextColor PURPLE = TextColor.color(147, 0, 211);
     public static final TextColor LIME = TextColor.color(50, 205, 50);
     public static final TextColor CYAN = TextColor.color(0, 255, 255);
 

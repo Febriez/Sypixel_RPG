@@ -119,11 +119,10 @@ public class JobSelectionGui extends BaseGui {
      */
     private void setupJobDisplay() {
         // 카테고리 정보 표시
-        String categorySuffix = transString("gui.job-selection.category-suffix");
         GuiItem categoryInfo = GuiItem.display(
                 ItemBuilder.of(selectedCategory.getIcon())
                         .displayName(trans("job.categories." + selectedCategory.name().toLowerCase() + ".name")
-                                .append(Component.text(categorySuffix))
+                                .append(trans("gui.job-selection.category-suffix"))
                                 .decoration(TextDecoration.BOLD, true))
                         .lore(langManager.getComponentList(viewer, "job.categories." +
                                 selectedCategory.name().toLowerCase() + ".description"))
