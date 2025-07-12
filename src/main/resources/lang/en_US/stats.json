@@ -1,0 +1,50 @@
+{
+  "strength": {
+    "name": "%COLOR_COPPER%Strength",
+    "abbreviation": "STR",
+    "description": [
+      "%COLOR_GRAY%Increases physical attack power.",
+      "%COLOR_GRAY%Melee weapon damage increases."
+    ]
+  },
+  "intelligence": {
+    "name": "%COLOR_INFO%Intelligence",
+    "abbreviation": "INT",
+    "description": [
+      "%COLOR_GRAY%Increases magical attack power.",
+      "%COLOR_GRAY%Mana pool increases."
+    ]
+  },
+  "dexterity": {
+    "name": "%COLOR_SUCCESS%Dexterity",
+    "abbreviation": "DEX",
+    "description": [
+      "%COLOR_GRAY%Increases attack speed.",
+      "%COLOR_GRAY%Evasion rate increases."
+    ]
+  },
+  "vitality": {
+    "name": "%COLOR_HEALTH%Vitality",
+    "abbreviation": "VIT",
+    "description": [
+      "%COLOR_GRAY%Increases maximum health.",
+      "%COLOR_GRAY%Defense increases."
+    ]
+  },
+  "wisdom": {
+    "name": "%COLOR_PURPLE%Wisdom",
+    "abbreviation": "WIS",
+    "description": [
+      "%COLOR_GRAY%Increases mana regeneration.",
+      "%COLOR_GRAY%Skill cooldowns decrease."
+    ]
+  },
+  "luck": {
+    "name": "%COLOR_GOLD%Luck",
+    "abbreviation": "LUK",
+    "description": [
+      "%COLOR_GRAY%Increases item drop rate.",
+      "%COLOR_GRAY%Critical damage increases."
+    ]
+  }
+}

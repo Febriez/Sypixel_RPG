@@ -1,0 +1,106 @@
+{
+  "categories": {
+    "warrior": "%COLOR_RED%전사",
+    "mage": "%COLOR_PURPLE%마법사",
+    "archer": "%COLOR_GREEN%궁수"
+  },
+  "berserker": {
+    "name": "%COLOR_DARK_RED%광전사",
+    "description": [
+      "%COLOR_GRAY%강력한 공격력을 자랑하는 근접 딜러입니다.",
+      "%COLOR_GRAY%체력이 낮을수록 더 강해집니다.",
+      "",
+      "%COLOR_SUCCESS%▸ 근력 중심 스탯 성장",
+      "%COLOR_SUCCESS%▸ 광폭화 스킬 사용 가능",
+      "%COLOR_SUCCESS%▸ 체력 기반 공격력 증가"
+    ]
+  },
+  "bruiser": {
+    "name": "%COLOR_ORANGE%브루저",
+    "description": [
+      "%COLOR_GRAY%공격과 방어의 균형을 갖춘 전사입니다.",
+      "%COLOR_GRAY%다양한 상황에 대처할 수 있습니다.",
+      "",
+      "%COLOR_SUCCESS%▸ 균형잡힌 스탯 성장",
+      "%COLOR_SUCCESS%▸ 공격/방어 모드 전환",
+      "%COLOR_SUCCESS%▸ 적응력 높은 전투 스타일"
+    ]
+  },
+  "tank": {
+    "name": "%COLOR_NETHERITE%탱커",
+    "description": [
+      "%COLOR_GRAY%아군을 보호하는 든든한 방패입니다.",
+      "%COLOR_GRAY%높은 방어력과 체력을 자랑합니다.",
+      "",
+      "%COLOR_SUCCESS%▸ 체력 중심 스탯 성장",
+      "%COLOR_SUCCESS%▸ 도발 및 보호막 스킬",
+      "%COLOR_SUCCESS%▸ 피해 감소 효과"
+    ]
+  },
+  "priest": {
+    "name": "%COLOR_LEGENDARY%프리스트",
+    "description": [
+      "%COLOR_GRAY%신성한 힘으로 아군을 치유합니다.",
+      "%COLOR_GRAY%강력한 버프와 회복 능력을 보유합니다.",
+      "",
+      "%COLOR_SUCCESS%▸ 지혜 중심 스탯 성장",
+      "%COLOR_SUCCESS%▸ 치유 및 부활 스킬",
+      "%COLOR_SUCCESS%▸ 버프/디버프 특화"
+    ]
+  },
+  "dark_mage": {
+    "name": "%COLOR_EPIC%암흑 마법사",
+    "description": [
+      "%COLOR_GRAY%어둠의 힘을 다루는 마법사입니다.",
+      "%COLOR_GRAY%강력한 광역 피해를 입힙니다.",
+      "",
+      "%COLOR_SUCCESS%▸ 지능 중심 스탯 성장",
+      "%COLOR_SUCCESS%▸ 저주 및 흑마법 스킬",
+      "%COLOR_SUCCESS%▸ 광역 피해 특화"
+    ]
+  },
+  "mercy": {
+    "name": "%COLOR_SUCCESS%머시",
+    "description": [
+      "%COLOR_GRAY%자연의 힘으로 아군을 보호합니다.",
+      "%COLOR_GRAY%치유와 보호에 특화되어 있습니다.",
+      "",
+      "%COLOR_SUCCESS%▸ 지혜/체력 균형 성장",
+      "%COLOR_SUCCESS%▸ 재생 및 정화 스킬",
+      "%COLOR_SUCCESS%▸ 지속 치유 특화"
+    ]
+  },
+  "archer": {
+    "name": "%COLOR_EMERALD%궁수",
+    "description": [
+      "%COLOR_GRAY%원거리에서 정확한 사격을 구사합니다.",
+      "%COLOR_GRAY%높은 기동성과 치명타율을 자랑합니다.",
+      "",
+      "%COLOR_SUCCESS%▸ 민첩 중심 스탯 성장",
+      "%COLOR_SUCCESS%▸ 다양한 화살 스킬",
+      "%COLOR_SUCCESS%▸ 치명타 특화"
+    ]
+  },
+  "sniper": {
+    "name": "%COLOR_INFO%스나이퍼",
+    "description": [
+      "%COLOR_GRAY%극한의 사거리에서 적을 저격합니다.",
+      "%COLOR_GRAY%한 발의 위력이 매우 강력합니다.",
+      "",
+      "%COLOR_SUCCESS%▸ 민첩/행운 균형 성장",
+      "%COLOR_SUCCESS%▸ 저격 및 관통 스킬",
+      "%COLOR_SUCCESS%▸ 단일 대상 극딜"
+    ]
+  },
+  "shotgunner": {
+    "name": "%COLOR_WARNING%샷거너",
+    "description": [
+      "%COLOR_GRAY%근거리에서 산탄을 발사합니다.",
+      "%COLOR_GRAY%광역 피해와 넉백이 특징입니다.",
+      "",
+      "%COLOR_SUCCESS%▸ 민첩/근력 균형 성장",
+      "%COLOR_SUCCESS%▸ 산탄 및 폭발 스킬",
+      "%COLOR_SUCCESS%▸ 근거리 광역 피해"
+    ]
+  }
+}

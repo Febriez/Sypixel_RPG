@@ -1,0 +1,352 @@
+{
+  "angelic_blessing": {
+    "name": "%COLOR_LEGENDARY%Angelic Blessing",
+    "description": [
+      "%COLOR_GRAY%All stats increase with divine power.",
+      "%COLOR_GREEN%All stats +1"
+    ]
+  },
+  "guardian_angel": {
+    "name": "%COLOR_GOLD%Guardian Angel",
+    "description": [
+      "%COLOR_GRAY%Resurrect once from death's brink.",
+      "%COLOR_GREEN%50% chance to resurrect on death (5 min cooldown)"
+    ]
+  },
+  "healing_boost": {
+    "name": "%COLOR_EMERALD%Healing Boost",
+    "description": [
+      "%COLOR_GRAY%All healing effects are increased.",
+      "%COLOR_GREEN%Healing amount +20%"
+    ]
+  },
+  "resurrection": {
+    "name": "%COLOR_LEGENDARY%Resurrection",
+    "description": [
+      "%COLOR_GRAY%Can resurrect allies.",
+      "%COLOR_GREEN%Resurrect dead allies (10 min cooldown)"
+    ]
+  },
+  "basic_strength": {
+    "name": "%COLOR_RED%Basic Strength",
+    "description": [
+      "%COLOR_GRAY%Increases strength.",
+      "%COLOR_GREEN%Strength +2 (per level)"
+    ]
+  },
+  "basic_intelligence": {
+    "name": "%COLOR_BLUE%Basic Intelligence",
+    "description": [
+      "%COLOR_GRAY%Increases intelligence.",
+      "%COLOR_GREEN%Intelligence +2 (per level)"
+    ]
+  },
+  "basic_vitality": {
+    "name": "%COLOR_GREEN%Basic Vitality",
+    "description": [
+      "%COLOR_GRAY%Increases vitality.",
+      "%COLOR_GREEN%Vitality +3 (per level)"
+    ]
+  },
+  "basic_dexterity": {
+    "name": "%COLOR_YELLOW%Basic Dexterity",
+    "description": [
+      "%COLOR_GRAY%Increases dexterity.",
+      "%COLOR_GREEN%Dexterity +2 (per level)"
+    ]
+  },
+  "basic_wisdom": {
+    "name": "%COLOR_PURPLE%Basic Wisdom",
+    "description": [
+      "%COLOR_GRAY%Increases wisdom.",
+      "%COLOR_GREEN%Wisdom +2 (per level)"
+    ]
+  },
+  "basic_luck": {
+    "name": "%COLOR_GOLD%Basic Luck",
+    "description": [
+      "%COLOR_GRAY%Increases luck.",
+      "%COLOR_GREEN%Luck +1 (per level)"
+    ]
+  },
+  "exp_boost": {
+    "name": "%COLOR_AQUA%Experience Boost",
+    "description": [
+      "%COLOR_GRAY%Gained experience increases.",
+      "%COLOR_GREEN%Experience gain +10% (per level)"
+    ]
+  },
+  "swiftness": {
+    "name": "%COLOR_SUCCESS%Swiftness",
+    "description": [
+      "%COLOR_GRAY%Movement speed increases.",
+      "%COLOR_GREEN%Movement speed +5% (per level)"
+    ]
+  },
+  "berserker_rage": {
+    "name": "%COLOR_DARK_RED%Berserker's Rage",
+    "description": [
+      "%COLOR_GRAY%Get stronger the lower your health.",
+      "%COLOR_GREEN%Strength +6, Vitality -2 (per level)",
+      "%COLOR_GREEN%Attack power +50% when below 30% health"
+    ]
+  },
+  "bloodthirst": {
+    "name": "%COLOR_DARK_RED%Bloodthirst",
+    "description": [
+      "%COLOR_GRAY%Recover health when killing enemies.",
+      "%COLOR_GREEN%Recover 5% of max health on kill"
+    ]
+  },
+  "blood_bath": {
+    "name": "%COLOR_DARK_RED%Blood Bath",
+    "description": [
+      "%COLOR_GRAY%Absorb health during area attacks.",
+      "%COLOR_GREEN%Absorb 10% of area damage as health"
+    ]
+  },
+  "balanced_fighter": {
+    "name": "%COLOR_ORANGE%Balanced Fighter",
+    "description": [
+      "%COLOR_GRAY%All combat abilities increase evenly.",
+      "%COLOR_GREEN%Strength, Vitality, Dexterity +2 each (per level)"
+    ]
+  },
+  "adaptability": {
+    "name": "%COLOR_YELLOW%Adaptability",
+    "description": [
+      "%COLOR_GRAY%All resistances increase.",
+      "%COLOR_GREEN%Vitality +3 (per level)",
+      "%COLOR_GREEN%All resistances +2%"
+    ]
+  },
+  "counter_attack": {
+    "name": "%COLOR_INFO%Counter Attack",
+    "description": [
+      "%COLOR_GRAY%Counter when successfully defending.",
+      "%COLOR_GREEN%30% chance to counter on defense"
+    ]
+  },
+  "fortitude": {
+    "name": "%COLOR_NETHERITE%Fortitude",
+    "description": [
+      "%COLOR_GRAY%Reduce damage taken.",
+      "%COLOR_GREEN%Vitality +5, Damage reduction 5% (per level)"
+    ]
+  },
+  "shield_mastery": {
+    "name": "%COLOR_IRON%Shield Mastery",
+    "description": [
+      "%COLOR_GRAY%Improved shield usage.",
+      "%COLOR_GREEN%Shield block chance +10%"
+    ]
+  },
+  "taunt": {
+    "name": "%COLOR_RED%Taunt",
+    "description": [
+      "%COLOR_GRAY%Focus enemy attacks on yourself.",
+      "%COLOR_GREEN%Taunt nearby enemies (5 seconds)"
+    ]
+  },
+  "aegis": {
+    "name": "%COLOR_LEGENDARY%Aegis",
+    "description": [
+      "%COLOR_GRAY%Create an absolute barrier.",
+      "%COLOR_GREEN%Create barrier equal to 30% of max health"
+    ]
+  },
+  "divine_blessing": {
+    "name": "%COLOR_GOLD%Divine Blessing",
+    "description": [
+      "%COLOR_GRAY%God's grace is with you.",
+      "%COLOR_GREEN%Wisdom +4 (per level)",
+      "%COLOR_GREEN%Healing effects +10%"
+    ]
+  },
+  "holy_light": {
+    "name": "%COLOR_YELLOW%Holy Light",
+    "description": [
+      "%COLOR_GRAY%Heal with holy light.",
+      "%COLOR_GREEN%Instantly heal target"
+    ]
+  },
+  "divine_shield": {
+    "name": "%COLOR_AQUA%Divine Shield",
+    "description": [
+      "%COLOR_GRAY%Create a holy shield.",
+      "%COLOR_GREEN%Immune to all damage for 5 seconds"
+    ]
+  },
+  "mass_heal": {
+    "name": "%COLOR_EMERALD%Mass Heal",
+    "description": [
+      "%COLOR_GRAY%Heal all nearby allies.",
+      "%COLOR_GREEN%Heal allies within 10 blocks"
+    ]
+  },
+  "dark_power": {
+    "name": "%COLOR_DARK_PURPLE%Dark Power",
+    "description": [
+      "%COLOR_GRAY%Dark power increases.",
+      "%COLOR_GREEN%Intelligence +5 (per level)",
+      "%COLOR_GREEN%Magic damage +10%"
+    ]
+  },
+  "curse": {
+    "name": "%COLOR_DARK_RED%Curse",
+    "description": [
+      "%COLOR_GRAY%Curse your enemies.",
+      "%COLOR_GREEN%Reduce target's all stats by 20%"
+    ]
+  },
+  "shadow_bolt": {
+    "name": "%COLOR_DARK_GRAY%Shadow Bolt",
+    "description": [
+      "%COLOR_GRAY%Fire a bolt of darkness.",
+      "%COLOR_GREEN%Piercing damage + Blindness effect"
+    ]
+  },
+  "soul_harvest": {
+    "name": "%COLOR_LEGENDARY%Soul Harvest",
+    "description": [
+      "%COLOR_GRAY%Harvest enemy souls.",
+      "%COLOR_GREEN%Recover 20% of max mana on kill"
+    ]
+  },
+  "nature_blessing": {
+    "name": "%COLOR_GREEN%Nature's Blessing",
+    "description": [
+      "%COLOR_GRAY%Receive nature's protection.",
+      "%COLOR_GREEN%Vitality, Wisdom +3 each (per level)"
+    ]
+  },
+  "regeneration": {
+    "name": "%COLOR_LIME%Regeneration",
+    "description": [
+      "%COLOR_GRAY%Continuously recover health.",
+      "%COLOR_GREEN%Regenerate 1% of max health per second"
+    ]
+  },
+  "purify": {
+    "name": "%COLOR_AQUA%Purify",
+    "description": [
+      "%COLOR_GRAY%Remove all debuffs.",
+      "%COLOR_GREEN%Remove all debuffs from target"
+    ]
+  },
+  "tree_of_life": {
+    "name": "%COLOR_LEGENDARY%Tree of Life",
+    "description": [
+      "%COLOR_GRAY%Summon the tree of life.",
+      "%COLOR_GREEN%Sustained healing for nearby allies (30 seconds)"
+    ]
+  },
+  "eagle_eye": {
+    "name": "%COLOR_GREEN%Eagle Eye",
+    "description": [
+      "%COLOR_GRAY%Increased accuracy and range.",
+      "%COLOR_GREEN%Dexterity +3 (per level)",
+      "%COLOR_GREEN%Accuracy +10%, Range +2"
+    ]
+  },
+  "multishot": {
+    "name": "%COLOR_EMERALD%Multishot",
+    "description": [
+      "%COLOR_GRAY%Fire multiple arrows simultaneously.",
+      "%COLOR_GREEN%Fire 3 arrows at once"
+    ]
+  },
+  "wind_walker": {
+    "name": "%COLOR_AQUA%Wind Walker",
+    "description": [
+      "%COLOR_GRAY%Increased movement speed and evasion.",
+      "%COLOR_GREEN%Movement speed +10%, Evasion +5%"
+    ]
+  },
+  "poison_arrows": {
+    "name": "%COLOR_DARK_GREEN%Poison Arrows",
+    "description": [
+      "%COLOR_GRAY%Apply poison to arrows.",
+      "%COLOR_GREEN%Add poison damage on hit"
+    ]
+  },
+  "bow_mastery": {
+    "name": "%COLOR_COPPER%Bow Mastery",
+    "description": [
+      "%COLOR_GRAY%Improved bow usage.",
+      "%COLOR_GREEN%Bow damage +15%"
+    ]
+  },
+  "precision": {
+    "name": "%COLOR_YELLOW%Precision",
+    "description": [
+      "%COLOR_GRAY%Increased critical chance.",
+      "%COLOR_GREEN%Critical chance +10% (per level)"
+    ]
+  },
+  "camouflage": {
+    "name": "%COLOR_DARK_GREEN%Camouflage",
+    "description": [
+      "%COLOR_GRAY%Become undetectable to enemies.",
+      "%COLOR_GREEN%Stealth for 5 seconds"
+    ]
+  },
+  "headshot": {
+    "name": "%COLOR_RED%Headshot",
+    "description": [
+      "%COLOR_GRAY%Aim precisely for the head.",
+      "%COLOR_GREEN%Headshot damage +100%"
+    ]
+  },
+  "steady_aim": {
+    "name": "%COLOR_INFO%Steady Aim",
+    "description": [
+      "%COLOR_GRAY%Increased accuracy when stationary.",
+      "%COLOR_GREEN%Accuracy +30% when not moving"
+    ]
+  },
+  "scattershot": {
+    "name": "%COLOR_ORANGE%Scattershot",
+    "description": [
+      "%COLOR_GRAY%Spread arrows over a wide area.",
+      "%COLOR_GREEN%Fan-shaped area attack"
+    ]
+  },
+  "point_blank": {
+    "name": "%COLOR_ERROR%Point Blank",
+    "description": [
+      "%COLOR_GRAY%Deadly damage at close range.",
+      "%COLOR_GREEN%Close-range critical chance +50%"
+    ]
+  },
+  "explosive_shot": {
+    "name": "%COLOR_ORANGE%Explosive Shot",
+    "description": [
+      "%COLOR_GRAY%Explodes on impact.",
+      "%COLOR_GREEN%Area explosion damage"
+    ]
+  },
+  "quick_reload": {
+    "name": "%COLOR_YELLOW%Quick Reload",
+    "description": [
+      "%COLOR_GRAY%Increased reload speed.",
+      "%COLOR_GREEN%Dexterity +2 (per level)",
+      "%COLOR_GREEN%Reload time -20%"
+    ]
+  },
+  "double_barrel": {
+    "name": "%COLOR_NETHERITE%Double Barrel",
+    "description": [
+      "%COLOR_GRAY%Fire two shots simultaneously.",
+      "%COLOR_GREEN%Double-shot simultaneously"
+    ]
+  },
+  "ascension": {
+    "name": "%COLOR_LEGENDARY%Ascension",
+    "description": [
+      "%COLOR_GRAY%Temporarily gain transcendent power.",
+      "%COLOR_GREEN%Flight enabled for 30 seconds",
+      "%COLOR_GREEN%All stats temporarily greatly increased"
+    ]
+  }
+}

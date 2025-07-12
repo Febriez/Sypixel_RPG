@@ -1,0 +1,22 @@
+{
+  "gold": {
+    "name": "%COLOR_GOLD%Gold",
+    "description": "%COLOR_GRAY%Basic currency."
+  },
+  "diamond": {
+    "name": "%COLOR_DIAMOND%Diamond",
+    "description": "%COLOR_GRAY%Rare gem currency."
+  },
+  "emerald": {
+    "name": "%COLOR_EMERALD%Emerald",
+    "description": "%COLOR_GRAY%Trading gem currency."
+  },
+  "ghast_tear": {
+    "name": "%COLOR_LEGENDARY%Stardust",
+    "description": "%COLOR_GRAY%Mystical magic currency."
+  },
+  "nether_star": {
+    "name": "%COLOR_EPIC%Star",
+    "description": "%COLOR_GRAY%Premium special currency."
+  }
+}

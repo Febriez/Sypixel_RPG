@@ -1,0 +1,92 @@
+{
+  "mainmenu": {
+    "title": {
+      "name": "%COLOR_LEGENDARY%SypixelRPG",
+      "lore": [
+        "%COLOR_GRAY%Start your adventure!",
+        "",
+        "%COLOR_YELLOW%Version: 1.0"
+      ]
+    },
+    "profile-button": {
+      "name": "%COLOR_EPIC%My Profile",
+      "lore": [
+        "%COLOR_GRAY%View your character information.",
+        "",
+        "%COLOR_YELLOW%▶ Click to open"
+      ]
+    },
+    "stats-button": {
+      "name": "%COLOR_INFO%Stats Management",
+      "lore": [
+        "%COLOR_GRAY%Allocate your stat points.",
+        "",
+        "%COLOR_YELLOW%▶ Click to open"
+      ]
+    },
+    "talents-button": {
+      "name": "%COLOR_LEGENDARY%Talent Tree",
+      "lore": [
+        "%COLOR_GRAY%Learn and enhance talents.",
+        "",
+        "%COLOR_YELLOW%▶ Click to open"
+      ]
+    },
+    "leaderboard-button": {
+      "name": "%COLOR_GOLD%Server Rankings",
+      "lore": [
+        "%COLOR_GRAY%Check rankings in various categories.",
+        "",
+        "%COLOR_YELLOW%▶ Click to open"
+      ]
+    },
+    "skills-button": {
+      "name": "%COLOR_AQUA%Skills",
+      "lore": [
+        "%COLOR_GRAY%View and enhance job skills.",
+        "",
+        "%COLOR_YELLOW%▶ Click to open"
+      ]
+    },
+    "shop-button": {
+      "name": "%COLOR_EMERALD%Shop",
+      "lore": [
+        "%COLOR_GRAY%Buy and sell items.",
+        "",
+        "%COLOR_YELLOW%▶ Click to open"
+      ]
+    },
+    "dungeon-button": {
+      "name": "%COLOR_DARK_PURPLE%Dungeon",
+      "lore": [
+        "%COLOR_GRAY%Challenge dungeons for rewards.",
+        "",
+        "%COLOR_YELLOW%▶ Click to open"
+      ]
+    },
+    "job-button": {
+      "name": "%COLOR_LEGENDARY%Job Selection",
+      "lore": [
+        "%COLOR_GRAY%Choose a job to start your adventure.",
+        "",
+        "%COLOR_WARNING%⚠ Choose carefully!",
+        "%COLOR_YELLOW%▶ Click to open"
+      ]
+    },
+    "settings-button": {
+      "name": "%COLOR_GRAY%Settings",
+      "lore": [
+        "%COLOR_GRAY%Change game settings.",
+        "",
+        "%COLOR_YELLOW%▶ Click to open"
+      ]
+    }
+  },
+  "rarity": {
+    "common": "%COLOR_COMMON%Common",
+    "uncommon": "%COLOR_UNCOMMON%Uncommon",
+    "rare": "%COLOR_RARE%Rare",
+    "epic": "%COLOR_EPIC%Epic",
+    "legendary": "%COLOR_LEGENDARY%Legendary"
+  }
+}

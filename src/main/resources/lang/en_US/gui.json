@@ -1,0 +1,169 @@
+{
+  "mainmenu": {
+    "title": "%COLOR_LEGENDARY%Main Menu"
+  },
+  "profile": {
+    "title": "%COLOR_EPIC%{player}'s Profile",
+    "player-title": "%COLOR_EPIC%{player}'s Profile",
+    "viewing": "%COLOR_GRAY%Viewing {player}'s profile",
+    "level": "%COLOR_WHITE%Level: %COLOR_YELLOW%{level}",
+    "level-info": "%COLOR_YELLOW%Level Info",
+    "experience": "%COLOR_WHITE%Experience: %COLOR_GREEN%{exp}",
+    "exp": "%COLOR_WHITE%Experience: %COLOR_GREEN%{current}/{max}",
+    "exp-percent": "%COLOR_GRAY%({percent}%)",
+    "job": "%COLOR_WHITE%Job: %COLOR_INFO%{job}",
+    "no-job": "%COLOR_GRAY%No job",
+    "current-job": "%COLOR_WHITE%Current Job",
+    "job-level": "%COLOR_WHITE%Job Level: %COLOR_YELLOW%{level}",
+    "combat-power": "%COLOR_WHITE%Combat Power: %COLOR_LEGENDARY%{power}",
+    "gold": "%COLOR_WHITE%Gold: %COLOR_GOLD%{amount}",
+    "playtime": "%COLOR_WHITE%Playtime: %COLOR_AQUA%{time}",
+    "join-date": "%COLOR_WHITE%Joined: %COLOR_GRAY%{date}",
+    "last-seen": "%COLOR_WHITE%Last seen: %COLOR_GRAY%{date}",
+    "stats": "%COLOR_YELLOW%▸ Stats Info",
+    "talents": "%COLOR_YELLOW%▸ Talents Info",
+    "online-status": "%COLOR_WHITE%Current status: {status}",
+    "gamemode": "%COLOR_WHITE%Gamemode: %COLOR_GRAY%{mode}",
+    "location": "%COLOR_WHITE%Location: %COLOR_GRAY%{world} ({x}, {y}, {z})",
+    "health": "%COLOR_WHITE%Health: %COLOR_RED%{current}/{max}",
+    "health-info": "%COLOR_RED%Health Info",
+    "food-info": "%COLOR_ORANGE%Hunger Info",
+    "food-level": "%COLOR_WHITE%Hunger: %COLOR_ORANGE%{level}/20",
+    "saturation": "%COLOR_WHITE%Saturation: %COLOR_YELLOW%{saturation}",
+    "game-info": "%COLOR_INFO%Game Info",
+    "world": "%COLOR_WHITE%World: %COLOR_GRAY%{world}",
+    "hunger": "%COLOR_WHITE%Hunger: %COLOR_ORANGE%{current}/{max}",
+    "flight": "%COLOR_WHITE%Flight: {status}",
+    "player-info": {
+      "name": "%COLOR_LEGENDARY%{player}"
+    }
+  },
+  "job-selection": {
+    "title": "%COLOR_LEGENDARY%Job Selection",
+    "choose-wisely": "%COLOR_WARNING%Choose wisely!",
+    "current-job": "%COLOR_WHITE%Current job: %COLOR_INFO%{job}",
+    "no-current-job": "%COLOR_GRAY%You don't have a job yet",
+    "confirm-selection": "%COLOR_SUCCESS%Select this job?",
+    "selected": "%COLOR_SUCCESS%Selected"
+  },
+  "stats": {
+    "title": "%COLOR_INFO%Stats Management",
+    "stat-points": "%COLOR_YELLOW%Stat Points",
+    "available-points": "%COLOR_WHITE%Available points: %COLOR_YELLOW%{points}",
+    "total-allocated": "%COLOR_WHITE%Total allocated points: %COLOR_GREEN%{points}",
+    "points-per-level": "%COLOR_GRAY%Gain 3 points per level",
+    "total-points": "%COLOR_WHITE%Total invested points: %COLOR_GREEN%{points}",
+    "base-value": "%COLOR_GRAY%Base: {value}",
+    "bonus-value": "%COLOR_GREEN%Bonus: +{value}",
+    "total-value": "%COLOR_LEGENDARY%Total: %COLOR_ORANGE%{value}",
+    "click-to-add": "%COLOR_YELLOW%Click to add points",
+    "click-talents": "%COLOR_YELLOW%▶ Go to talents page",
+    "guide-title": "%COLOR_AQUA%Stats Guide",
+    "guide-click-add": "%COLOR_WHITE%▸ Left-click: Add 1 point",
+    "guide-shift-click": "%COLOR_WHITE%▸ Shift+click: Add 10 points",
+    "combat-power": "%COLOR_WHITE%Combat Power: %COLOR_LEGENDARY%{power}"
+  },
+  "talent": {
+    "title": "%COLOR_EPIC%Talents",
+    "title-with-page": "%COLOR_EPIC%Talents - {page}",
+    "level": "%COLOR_WHITE%Level: %COLOR_YELLOW%{level}",
+    "job": "%COLOR_WHITE%Job: %COLOR_INFO%{job}",
+    "no-job": "%COLOR_GRAY%No job",
+    "pages": {
+      "default": "Main",
+      "main": "Main",
+      "tank_defense": "Defense Talents",
+      "berserker_offense": "Offense Talents"
+    },
+    "page-info": "%COLOR_LEGENDARY%Talent Info",
+    "current-page": "%COLOR_WHITE%Current page: %COLOR_YELLOW%{page}",
+    "available-points": "%COLOR_WHITE%Available points: %COLOR_YELLOW%{points}",
+    "talent-level": "%COLOR_WHITE%Level: %COLOR_YELLOW%{current}/{max}",
+    "talent-level-max": "%COLOR_GOLD%Level: {current}/{max} (Max)",
+    "required-points": "%COLOR_WHITE%Required points: %COLOR_RED%{points}",
+    "insufficient-points": "%COLOR_RED%Insufficient points!",
+    "click-learn": "%COLOR_SUCCESS%▶ Click to learn",
+    "click-subpage": "%COLOR_YELLOW%▶ Right-click for sub-page",
+    "click-stats": "%COLOR_YELLOW%▶ Go to stats page",
+    "max-level-reached": "%COLOR_GOLD%Max level reached!",
+    "prerequisite-not-met": "%COLOR_RED%Prerequisites not met",
+    "prerequisites": "%COLOR_YELLOW%Prerequisites:",
+    "talent-learned": "%COLOR_SUCCESS%Talent learned: %COLOR_LEGENDARY%{talent}"
+  },
+  "combat-power": {
+    "title": "%COLOR_LEGENDARY%Combat Power Details",
+    "total": "%COLOR_ORANGE%Total Combat Power: {power}",
+    "breakdown": "%COLOR_YELLOW%Combat Power Breakdown",
+    "level-contribution": "%COLOR_GREEN%Level Contribution",
+    "level-detail": "%COLOR_WHITE%  Level {level} × 10 = {value}",
+    "stat-contribution": "%COLOR_INFO%Stat Contribution",
+    "stat-detail": "%COLOR_WHITE%  {stat}: {value} × {multiplier} = {total}",
+    "total-stats": "%COLOR_YELLOW%Total Stats: {value}",
+    "calculation-formula": "%COLOR_GRAY%Formula: (Level×10) + Stat Contribution",
+    "stat-multipliers": "%COLOR_DARK_GRAY%STR×5, INT×5, DEX×3, VIT×4, WIS×4, LUK×2"
+  },
+  "buttons": {
+    "close": {
+      "name": "%COLOR_RED%Close",
+      "lore": "%COLOR_GRAY%Close the GUI"
+    },
+    "back": {
+      "name": "%COLOR_YELLOW%Back",
+      "lore": "%COLOR_GRAY%Return to previous menu"
+    },
+    "refresh": {
+      "name": "%COLOR_AQUA%Refresh",
+      "lore": "%COLOR_GRAY%Refresh information"
+    },
+    "confirm": {
+      "name": "%COLOR_SUCCESS%Confirm",
+      "lore": "%COLOR_GRAY%Confirm selection"
+    },
+    "cancel": {
+      "name": "%COLOR_ERROR%Cancel",
+      "lore": "%COLOR_GRAY%Cancel action"
+    },
+    "previous-page": {
+      "name": "%COLOR_YELLOW%Previous Page",
+      "lore": "%COLOR_GRAY%Go to previous page"
+    },
+    "next-page": {
+      "name": "%COLOR_YELLOW%Next Page",
+      "lore": "%COLOR_GRAY%Go to next page"
+    },
+    "page-info": {
+      "name": "%COLOR_INFO%Page Info",
+      "lore": "%COLOR_WHITE%Current page: {current}/{total}"
+    },
+    "status": {
+      "online": "%COLOR_GREEN%Online",
+      "offline": "%COLOR_RED%Offline",
+      "status-text": "%COLOR_WHITE%Status: {status}"
+    }
+  },
+  "leaderboard": {
+    "title": "%COLOR_LEGENDARY%Server Rankings",
+    "categories": {
+      "level": "%COLOR_SUCCESS%Level",
+      "combat-power": "%COLOR_LEGENDARY%Combat Power",
+      "gold": "%COLOR_GOLD%Gold",
+      "playtime": "%COLOR_AQUA%Playtime"
+    },
+    "refresh": "%COLOR_AQUA%Refresh",
+    "refresh-description": "%COLOR_GRAY%Update ranking information",
+    "auto-update": "%COLOR_GRAY%Auto-updates every 10 minutes",
+    "loading": "%COLOR_YELLOW%Loading leaderboard...",
+    "loading-description": "%COLOR_GRAY%Please wait",
+    "no-data": "%COLOR_GRAY%No data yet",
+    "my-rank": "%COLOR_WHITE%My rank: %COLOR_YELLOW%#{rank}",
+    "my-value": "%COLOR_WHITE%My score: %COLOR_GREEN%{value}",
+    "no-rank-data": "%COLOR_GRAY%Unranked",
+    "play-more": "%COLOR_GRAY%Play more to compete for rankings!",
+    "last-updated": "%COLOR_GRAY%Last updated: {time}",
+    "current-type": "%COLOR_WHITE%Current type: %COLOR_YELLOW%{type}",
+    "total-entries": "%COLOR_WHITE%Total entries: %COLOR_GREEN%{count}",
+    "rank-info": "%COLOR_WHITE%Rank: %COLOR_YELLOW%#{rank}",
+    "value-info": "%COLOR_WHITE%{type}: %COLOR_GREEN%{value}",
+    "this-is-you": "%COLOR_SUCCESS%▶ This is your rank!"
+  }
+}

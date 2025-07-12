@@ -1,0 +1,24 @@
+{
+  "online": "%COLOR_GREEN%Online",
+  "offline": "%COLOR_RED%Offline",
+  "yes": "%COLOR_GREEN%Yes",
+  "no": "%COLOR_RED%No",
+  "unknown": "%COLOR_GRAY%Unknown",
+  "enabled": "%COLOR_SUCCESS%Enabled",
+  "disabled": "%COLOR_ERROR%Disabled",
+  "flight": {
+    "yes": "%COLOR_GREEN%Allowed",
+    "no": "%COLOR_RED%Not allowed",
+    "enabled": "%COLOR_SUCCESS%Flight enabled",
+    "disabled": "%COLOR_ERROR%Flight disabled"
+  },
+  "level": "%COLOR_SUCCESS%Level {level}",
+  "job": "%COLOR_INFO%Job: {job}",
+  "no-job": "%COLOR_GRAY%Job: None",
+  "gamemode": {
+    "survival": "%COLOR_GREEN%Survival",
+    "creative": "%COLOR_GOLD%Creative",
+    "adventure": "%COLOR_PURPLE%Adventure",
+    "spectator": "%COLOR_GRAY%Spectator"
+  }
+}

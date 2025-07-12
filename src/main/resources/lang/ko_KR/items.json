@@ -1,0 +1,92 @@
+{
+  "mainmenu": {
+    "title": {
+      "name": "%COLOR_LEGENDARY%SypixelRPG",
+      "lore": [
+        "%COLOR_GRAY%모험을 시작하세요!",
+        "",
+        "%COLOR_YELLOW%버전: 1.0"
+      ]
+    },
+    "profile-button": {
+      "name": "%COLOR_EPIC%내 프로필",
+      "lore": [
+        "%COLOR_GRAY%캐릭터 정보를 확인합니다.",
+        "",
+        "%COLOR_YELLOW%▶ 클릭하여 열기"
+      ]
+    },
+    "stats-button": {
+      "name": "%COLOR_INFO%스탯 관리",
+      "lore": [
+        "%COLOR_GRAY%스탯 포인트를 분배합니다.",
+        "",
+        "%COLOR_YELLOW%▶ 클릭하여 열기"
+      ]
+    },
+    "talents-button": {
+      "name": "%COLOR_LEGENDARY%특성 트리",
+      "lore": [
+        "%COLOR_GRAY%특성을 배우고 강화합니다.",
+        "",
+        "%COLOR_YELLOW%▶ 클릭하여 열기"
+      ]
+    },
+    "leaderboard-button": {
+      "name": "%COLOR_GOLD%서버 순위",
+      "lore": [
+        "%COLOR_GRAY%다양한 분야의 순위를 확인합니다.",
+        "",
+        "%COLOR_YELLOW%▶ 클릭하여 열기"
+      ]
+    },
+    "skills-button": {
+      "name": "%COLOR_AQUA%스킬",
+      "lore": [
+        "%COLOR_GRAY%직업 스킬을 확인하고 강화합니다.",
+        "",
+        "%COLOR_YELLOW%▶ 클릭하여 열기"
+      ]
+    },
+    "shop-button": {
+      "name": "%COLOR_EMERALD%상점",
+      "lore": [
+        "%COLOR_GRAY%아이템을 구매하고 판매합니다.",
+        "",
+        "%COLOR_YELLOW%▶ 클릭하여 열기"
+      ]
+    },
+    "dungeon-button": {
+      "name": "%COLOR_DARK_PURPLE%던전",
+      "lore": [
+        "%COLOR_GRAY%던전에 도전하여 보상을 획득하세요.",
+        "",
+        "%COLOR_YELLOW%▶ 클릭하여 열기"
+      ]
+    },
+    "job-button": {
+      "name": "%COLOR_LEGENDARY%직업 선택",
+      "lore": [
+        "%COLOR_GRAY%직업을 선택하여 모험을 시작하세요.",
+        "",
+        "%COLOR_WARNING%⚠ 신중하게 선택하세요!",
+        "%COLOR_YELLOW%▶ 클릭하여 열기"
+      ]
+    },
+    "settings-button": {
+      "name": "%COLOR_GRAY%설정",
+      "lore": [
+        "%COLOR_GRAY%게임 설정을 변경합니다.",
+        "",
+        "%COLOR_YELLOW%▶ 클릭하여 열기"
+      ]
+    }
+  },
+  "rarity": {
+    "common": "%COLOR_COMMON%일반",
+    "uncommon": "%COLOR_UNCOMMON%고급",
+    "rare": "%COLOR_RARE%희귀",
+    "epic": "%COLOR_EPIC%영웅",
+    "legendary": "%COLOR_LEGENDARY%전설"
+  }
+}

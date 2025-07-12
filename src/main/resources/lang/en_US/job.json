@@ -1,0 +1,106 @@
+{
+  "categories": {
+    "warrior": "%COLOR_RED%Warrior",
+    "mage": "%COLOR_PURPLE%Mage",
+    "archer": "%COLOR_GREEN%Archer"
+  },
+  "berserker": {
+    "name": "%COLOR_DARK_RED%Berserker",
+    "description": [
+      "%COLOR_GRAY%A melee dealer with powerful attack power.",
+      "%COLOR_GRAY%Gets stronger the lower their health is.",
+      "",
+      "%COLOR_SUCCESS%▸ Strength-focused stat growth",
+      "%COLOR_SUCCESS%▸ Can use berserk skills",
+      "%COLOR_SUCCESS%▸ Health-based attack power increase"
+    ]
+  },
+  "bruiser": {
+    "name": "%COLOR_ORANGE%Bruiser",
+    "description": [
+      "%COLOR_GRAY%A warrior balanced between offense and defense.",
+      "%COLOR_GRAY%Can handle various situations.",
+      "",
+      "%COLOR_SUCCESS%▸ Balanced stat growth",
+      "%COLOR_SUCCESS%▸ Attack/Defense mode switching",
+      "%COLOR_SUCCESS%▸ Highly adaptable combat style"
+    ]
+  },
+  "tank": {
+    "name": "%COLOR_NETHERITE%Tank",
+    "description": [
+      "%COLOR_GRAY%A sturdy shield that protects allies.",
+      "%COLOR_GRAY%Boasts high defense and health.",
+      "",
+      "%COLOR_SUCCESS%▸ Vitality-focused stat growth",
+      "%COLOR_SUCCESS%▸ Taunt and shield skills",
+      "%COLOR_SUCCESS%▸ Damage reduction effects"
+    ]
+  },
+  "priest": {
+    "name": "%COLOR_LEGENDARY%Priest",
+    "description": [
+      "%COLOR_GRAY%Heals allies with divine power.",
+      "%COLOR_GRAY%Possesses powerful buffs and healing abilities.",
+      "",
+      "%COLOR_SUCCESS%▸ Wisdom-focused stat growth",
+      "%COLOR_SUCCESS%▸ Healing and resurrection skills",
+      "%COLOR_SUCCESS%▸ Buff/Debuff specialization"
+    ]
+  },
+  "dark_mage": {
+    "name": "%COLOR_EPIC%Dark Mage",
+    "description": [
+      "%COLOR_GRAY%A mage who wields the power of darkness.",
+      "%COLOR_GRAY%Deals powerful area damage.",
+      "",
+      "%COLOR_SUCCESS%▸ Intelligence-focused stat growth",
+      "%COLOR_SUCCESS%▸ Curse and dark magic skills",
+      "%COLOR_SUCCESS%▸ Area damage specialization"
+    ]
+  },
+  "mercy": {
+    "name": "%COLOR_SUCCESS%Mercy",
+    "description": [
+      "%COLOR_GRAY%Protects allies with the power of nature.",
+      "%COLOR_GRAY%Specializes in healing and protection.",
+      "",
+      "%COLOR_SUCCESS%▸ Wisdom/Vitality balanced growth",
+      "%COLOR_SUCCESS%▸ Regeneration and purification skills",
+      "%COLOR_SUCCESS%▸ Sustained healing specialization"
+    ]
+  },
+  "archer": {
+    "name": "%COLOR_EMERALD%Archer",
+    "description": [
+      "%COLOR_GRAY%Delivers precise shots from long range.",
+      "%COLOR_GRAY%Boasts high mobility and critical rate.",
+      "",
+      "%COLOR_SUCCESS%▸ Dexterity-focused stat growth",
+      "%COLOR_SUCCESS%▸ Various arrow skills",
+      "%COLOR_SUCCESS%▸ Critical hit specialization"
+    ]
+  },
+  "sniper": {
+    "name": "%COLOR_INFO%Sniper",
+    "description": [
+      "%COLOR_GRAY%Snipes enemies from extreme range.",
+      "%COLOR_GRAY%Each shot is extremely powerful.",
+      "",
+      "%COLOR_SUCCESS%▸ Dexterity/Luck balanced growth",
+      "%COLOR_SUCCESS%▸ Sniping and piercing skills",
+      "%COLOR_SUCCESS%▸ Single target burst damage"
+    ]
+  },
+  "shotgunner": {
+    "name": "%COLOR_WARNING%Shotgunner",
+    "description": [
+      "%COLOR_GRAY%Fires scatter shots at close range.",
+      "%COLOR_GRAY%Features area damage and knockback.",
+      "",
+      "%COLOR_SUCCESS%▸ Dexterity/Strength balanced growth",
+      "%COLOR_SUCCESS%▸ Scatter and explosive skills",
+      "%COLOR_SUCCESS%▸ Close-range area damage"
+    ]
+  }
+}

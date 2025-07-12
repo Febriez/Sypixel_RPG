@@ -1,0 +1,22 @@
+{
+  "gold": {
+    "name": "%COLOR_GOLD%골드",
+    "description": "%COLOR_GRAY%기본 재화입니다."
+  },
+  "diamond": {
+    "name": "%COLOR_DIAMOND%다이아몬드",
+    "description": "%COLOR_GRAY%희귀한 보석 재화입니다."
+  },
+  "emerald": {
+    "name": "%COLOR_EMERALD%에메랄드",
+    "description": "%COLOR_GRAY%거래용 보석 재화입니다."
+  },
+  "ghast_tear": {
+    "name": "%COLOR_LEGENDARY%별가루",
+    "description": "%COLOR_GRAY%신비로운 마법 재화입니다."
+  },
+  "nether_star": {
+    "name": "%COLOR_EPIC%별",
+    "description": "%COLOR_GRAY%최고급 특수 재화입니다."
+  }
+}

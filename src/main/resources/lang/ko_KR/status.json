@@ -1,0 +1,24 @@
+{
+  "online": "%COLOR_GREEN%온라인",
+  "offline": "%COLOR_RED%오프라인",
+  "yes": "%COLOR_GREEN%예",
+  "no": "%COLOR_RED%아니오",
+  "unknown": "%COLOR_GRAY%정보 없음",
+  "enabled": "%COLOR_SUCCESS%활성화",
+  "disabled": "%COLOR_ERROR%비활성화",
+  "flight": {
+    "yes": "%COLOR_GREEN%가능",
+    "no": "%COLOR_RED%불가능",
+    "enabled": "%COLOR_SUCCESS%비행 활성화",
+    "disabled": "%COLOR_ERROR%비행 비활성화"
+  },
+  "level": "%COLOR_SUCCESS%레벨 {level}",
+  "job": "%COLOR_INFO%직업: {job}",
+  "no-job": "%COLOR_GRAY%직업: 없음",
+  "gamemode": {
+    "survival": "%COLOR_GREEN%생존",
+    "creative": "%COLOR_GOLD%크리에이티브",
+    "adventure": "%COLOR_PURPLE%모험",
+    "spectator": "%COLOR_GRAY%관전자"
+  }
+}

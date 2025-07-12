@@ -1,0 +1,169 @@
+{
+  "mainmenu": {
+    "title": "%COLOR_LEGENDARY%메인 메뉴"
+  },
+  "profile": {
+    "title": "%COLOR_EPIC%{player}의 프로필",
+    "player-title": "%COLOR_EPIC%{player}의 프로필",
+    "viewing": "%COLOR_GRAY%{player}님의 프로필을 보는 중",
+    "level": "%COLOR_WHITE%레벨: %COLOR_YELLOW%{level}",
+    "level-info": "%COLOR_YELLOW%레벨 정보",
+    "experience": "%COLOR_WHITE%경험치: %COLOR_GREEN%{exp}",
+    "exp": "%COLOR_WHITE%경험치: %COLOR_GREEN%{current}/{max}",
+    "exp-percent": "%COLOR_GRAY%({percent}%)",
+    "job": "%COLOR_WHITE%직업: %COLOR_INFO%{job}",
+    "no-job": "%COLOR_GRAY%직업 없음",
+    "current-job": "%COLOR_WHITE%현재 직업",
+    "job-level": "%COLOR_WHITE%직업 레벨: %COLOR_YELLOW%{level}",
+    "combat-power": "%COLOR_WHITE%전투력: %COLOR_LEGENDARY%{power}",
+    "gold": "%COLOR_WHITE%골드: %COLOR_GOLD%{amount}",
+    "playtime": "%COLOR_WHITE%플레이 시간: %COLOR_AQUA%{time}",
+    "join-date": "%COLOR_WHITE%가입일: %COLOR_GRAY%{date}",
+    "last-seen": "%COLOR_WHITE%마지막 접속: %COLOR_GRAY%{date}",
+    "stats": "%COLOR_YELLOW%▸ 스탯 정보",
+    "talents": "%COLOR_YELLOW%▸ 특성 정보",
+    "online-status": "%COLOR_WHITE%현재 상태: {status}",
+    "gamemode": "%COLOR_WHITE%게임모드: %COLOR_GRAY%{mode}",
+    "location": "%COLOR_WHITE%위치: %COLOR_GRAY%{world} ({x}, {y}, {z})",
+    "health": "%COLOR_WHITE%체력: %COLOR_RED%{current}/{max}",
+    "health-info": "%COLOR_RED%체력 정보",
+    "food-info": "%COLOR_ORANGE%배고픔 정보",
+    "food-level": "%COLOR_WHITE%배고픔: %COLOR_ORANGE%{level}/20",
+    "saturation": "%COLOR_WHITE%포만감: %COLOR_YELLOW%{saturation}",
+    "game-info": "%COLOR_INFO%게임 정보",
+    "world": "%COLOR_WHITE%월드: %COLOR_GRAY%{world}",
+    "hunger": "%COLOR_WHITE%배고픔: %COLOR_ORANGE%{current}/{max}",
+    "flight": "%COLOR_WHITE%비행: {status}",
+    "player-info": {
+      "name": "%COLOR_LEGENDARY%{player}"
+    }
+  },
+  "job-selection": {
+    "title": "%COLOR_LEGENDARY%직업 선택",
+    "choose-wisely": "%COLOR_WARNING%신중하게 선택하세요!",
+    "current-job": "%COLOR_WHITE%현재 직업: %COLOR_INFO%{job}",
+    "no-current-job": "%COLOR_GRAY%아직 직업이 없습니다",
+    "confirm-selection": "%COLOR_SUCCESS%이 직업을 선택하시겠습니까?",
+    "selected": "%COLOR_SUCCESS%선택됨"
+  },
+  "stats": {
+    "title": "%COLOR_INFO%스탯 관리",
+    "stat-points": "%COLOR_YELLOW%스탯 포인트",
+    "available-points": "%COLOR_WHITE%사용 가능한 포인트: %COLOR_YELLOW%{points}",
+    "total-allocated": "%COLOR_WHITE%총 할당된 포인트: %COLOR_GREEN%{points}",
+    "points-per-level": "%COLOR_GRAY%레벨당 3포인트 획득",
+    "total-points": "%COLOR_WHITE%총 투자 포인트: %COLOR_GREEN%{points}",
+    "base-value": "%COLOR_GRAY%기본: {value}",
+    "bonus-value": "%COLOR_GREEN%보너스: +{value}",
+    "total-value": "%COLOR_LEGENDARY%총합: %COLOR_ORANGE%{value}",
+    "click-to-add": "%COLOR_YELLOW%클릭하여 포인트 추가",
+    "click-talents": "%COLOR_YELLOW%▶ 특성 페이지로 이동",
+    "guide-title": "%COLOR_AQUA%스탯 가이드",
+    "guide-click-add": "%COLOR_WHITE%▸ 좌클릭: 1포인트 추가",
+    "guide-shift-click": "%COLOR_WHITE%▸ Shift+클릭: 10포인트 추가",
+    "combat-power": "%COLOR_WHITE%전투력: %COLOR_LEGENDARY%{power}"
+  },
+  "talent": {
+    "title": "%COLOR_EPIC%특성",
+    "title-with-page": "%COLOR_EPIC%특성 - {page}",
+    "level": "%COLOR_WHITE%레벨: %COLOR_YELLOW%{level}",
+    "job": "%COLOR_WHITE%직업: %COLOR_INFO%{job}",
+    "no-job": "%COLOR_GRAY%직업 없음",
+    "pages": {
+      "default": "메인",
+      "main": "메인",
+      "tank_defense": "방어 특성",
+      "berserker_offense": "공격 특성"
+    },
+    "page-info": "%COLOR_LEGENDARY%특성 정보",
+    "current-page": "%COLOR_WHITE%현재 페이지: %COLOR_YELLOW%{page}",
+    "available-points": "%COLOR_WHITE%사용 가능 포인트: %COLOR_YELLOW%{points}",
+    "talent-level": "%COLOR_WHITE%레벨: %COLOR_YELLOW%{current}/{max}",
+    "talent-level-max": "%COLOR_GOLD%레벨: {current}/{max} (최대)",
+    "required-points": "%COLOR_WHITE%필요 포인트: %COLOR_RED%{points}",
+    "insufficient-points": "%COLOR_RED%포인트가 부족합니다!",
+    "click-learn": "%COLOR_SUCCESS%▶ 클릭하여 배우기",
+    "click-subpage": "%COLOR_YELLOW%▶ 우클릭으로 하위 페이지 열기",
+    "click-stats": "%COLOR_YELLOW%▶ 스탯 페이지로 이동",
+    "max-level-reached": "%COLOR_GOLD%최대 레벨 도달!",
+    "prerequisite-not-met": "%COLOR_RED%선행 조건을 만족하지 않습니다",
+    "prerequisites": "%COLOR_YELLOW%선행 조건:",
+    "talent-learned": "%COLOR_SUCCESS%특성을 배웠습니다: %COLOR_LEGENDARY%{talent}"
+  },
+  "combat-power": {
+    "title": "%COLOR_LEGENDARY%전투력 상세",
+    "total": "%COLOR_ORANGE%총 전투력: {power}",
+    "breakdown": "%COLOR_YELLOW%전투력 계산 내역",
+    "level-contribution": "%COLOR_GREEN%레벨 기여도",
+    "level-detail": "%COLOR_WHITE%  레벨 {level} × 10 = {value}",
+    "stat-contribution": "%COLOR_INFO%스탯 기여도",
+    "stat-detail": "%COLOR_WHITE%  {stat}: {value} × {multiplier} = {total}",
+    "total-stats": "%COLOR_YELLOW%스탯 총합: {value}",
+    "calculation-formula": "%COLOR_GRAY%계산식: (레벨×10) + 스탯 기여도",
+    "stat-multipliers": "%COLOR_DARK_GRAY%근력×5, 지능×5, 민첩×3, 체력×4, 지혜×4, 행운×2"
+  },
+  "buttons": {
+    "close": {
+      "name": "%COLOR_RED%닫기",
+      "lore": "%COLOR_GRAY%GUI를 닫습니다"
+    },
+    "back": {
+      "name": "%COLOR_YELLOW%뒤로가기",
+      "lore": "%COLOR_GRAY%이전 메뉴로 돌아갑니다"
+    },
+    "refresh": {
+      "name": "%COLOR_AQUA%새로고침",
+      "lore": "%COLOR_GRAY%정보를 새로고침합니다"
+    },
+    "confirm": {
+      "name": "%COLOR_SUCCESS%확인",
+      "lore": "%COLOR_GRAY%선택을 확인합니다"
+    },
+    "cancel": {
+      "name": "%COLOR_ERROR%취소",
+      "lore": "%COLOR_GRAY%작업을 취소합니다"
+    },
+    "previous-page": {
+      "name": "%COLOR_YELLOW%이전 페이지",
+      "lore": "%COLOR_GRAY%이전 페이지로 이동"
+    },
+    "next-page": {
+      "name": "%COLOR_YELLOW%다음 페이지",
+      "lore": "%COLOR_GRAY%다음 페이지로 이동"
+    },
+    "page-info": {
+      "name": "%COLOR_INFO%페이지 정보",
+      "lore": "%COLOR_WHITE%현재 페이지: {current}/{total}"
+    },
+    "status": {
+      "online": "%COLOR_GREEN%온라인",
+      "offline": "%COLOR_RED%오프라인",
+      "status-text": "%COLOR_WHITE%상태: {status}"
+    }
+  },
+  "leaderboard": {
+    "title": "%COLOR_LEGENDARY%서버 순위",
+    "categories": {
+      "level": "%COLOR_SUCCESS%레벨",
+      "combat-power": "%COLOR_LEGENDARY%전투력",
+      "gold": "%COLOR_GOLD%골드",
+      "playtime": "%COLOR_AQUA%플레이 시간"
+    },
+    "refresh": "%COLOR_AQUA%새로고침",
+    "refresh-description": "%COLOR_GRAY%순위 정보를 업데이트합니다",
+    "auto-update": "%COLOR_GRAY%10분마다 자동 업데이트",
+    "loading": "%COLOR_YELLOW%리더보드 로딩 중...",
+    "loading-description": "%COLOR_GRAY%잠시만 기다려주세요",
+    "no-data": "%COLOR_GRAY%아직 데이터가 없습니다",
+    "my-rank": "%COLOR_WHITE%내 순위: %COLOR_YELLOW%#{rank}",
+    "my-value": "%COLOR_WHITE%내 점수: %COLOR_GREEN%{value}",
+    "no-rank-data": "%COLOR_GRAY%순위권 밖",
+    "play-more": "%COLOR_GRAY%더 플레이하고 순위에 도전하세요!",
+    "last-updated": "%COLOR_GRAY%마지막 업데이트: {time}",
+    "current-type": "%COLOR_WHITE%현재 타입: %COLOR_YELLOW%{type}",
+    "total-entries": "%COLOR_WHITE%전체 항목: %COLOR_GREEN%{count}",
+    "rank-info": "%COLOR_WHITE%순위: %COLOR_YELLOW%#{rank}",
+    "value-info": "%COLOR_WHITE%{type}: %COLOR_GREEN%{value}",
+    "this-is-you": "%COLOR_SUCCESS%▶ 나의 순위입니다!"
+  }
+}

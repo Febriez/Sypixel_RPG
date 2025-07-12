@@ -1,0 +1,99 @@
+{
+  "profile": {
+    "usage": "%COLOR_YELLOW%사용법: /profile 또는 /프로필",
+    "description": "자신의 프로필을 봅니다",
+    "success": "%COLOR_GREEN%프로필을 열었습니다!"
+  },
+  "viewprofile": {
+    "usage": "%COLOR_YELLOW%사용법: /viewprofile <플레이어명> 또는 /프로필보기 <플레이어명>",
+    "description": "다른 플레이어의 프로필을 봅니다",
+    "success": "%COLOR_GREEN%{player}의 프로필을 열었습니다!"
+  },
+  "mainmenu": {
+    "usage": "%COLOR_YELLOW%사용법: /mainmenu 또는 /메인메뉴",
+    "description": "메인 메뉴를 엽니다",
+    "success": "%COLOR_GREEN%메인 메뉴를 열었습니다!"
+  },
+  "skills": {
+    "usage": "%COLOR_YELLOW%사용법: /skills 또는 /스킬",
+    "description": "스킬 메뉴를 엽니다",
+    "success": "%COLOR_GREEN%스킬 메뉴를 열었습니다!"
+  },
+  "stats": {
+    "usage": "%COLOR_YELLOW%사용법: /stats 또는 /스탯",
+    "description": "스탯 메뉴를 엽니다",
+    "success": "%COLOR_GREEN%스탯 메뉴를 열었습니다!"
+  },
+  "talents": {
+    "usage": "%COLOR_YELLOW%사용법: /talents 또는 /특성",
+    "description": "특성 메뉴를 엽니다",
+    "success": "%COLOR_GREEN%특성 메뉴를 열었습니다!"
+  },
+  "leaderboard": {
+    "usage": "%COLOR_YELLOW%사용법: /leaderboard 또는 /리더보드 또는 /순위",
+    "description": "서버 순위를 확인합니다",
+    "success": "%COLOR_GREEN%리더보드를 열었습니다!"
+  },
+  "party": {
+    "usage": "%COLOR_YELLOW%사용법: /party <create|invite|leave|kick> [플레이어]",
+    "description": "파티 관련 명령어",
+    "create-success": "%COLOR_SUCCESS%파티를 생성했습니다!",
+    "invite-success": "%COLOR_SUCCESS%{player}을(를) 파티에 초대했습니다.",
+    "leave-success": "%COLOR_WARNING%파티에서 나갔습니다.",
+    "kick-success": "%COLOR_WARNING%{player}을(를) 파티에서 추방했습니다.",
+    "not-in-party": "%COLOR_ERROR%파티에 속해있지 않습니다.",
+    "already-in-party": "%COLOR_ERROR%이미 파티에 속해있습니다.",
+    "not-party-leader": "%COLOR_ERROR%파티장만 사용할 수 있는 명령어입니다."
+  },
+  "trade": {
+    "usage": "%COLOR_YELLOW%사용법: /trade <플레이어>",
+    "description": "다른 플레이어와 거래합니다",
+    "request-sent": "%COLOR_INFO%{player}에게 거래 요청을 보냈습니다.",
+    "no-pending-request": "%COLOR_ERROR%대기 중인 거래 요청이 없습니다.",
+    "cannot-trade-self": "%COLOR_ERROR%자기 자신과는 거래할 수 없습니다."
+  },
+  "spawn": {
+    "usage": "%COLOR_YELLOW%사용법: /spawn",
+    "description": "스폰으로 이동합니다",
+    "teleporting": "%COLOR_INFO%스폰으로 이동 중... (5초)",
+    "cancelled": "%COLOR_ERROR%이동이 취소되었습니다.",
+    "success": "%COLOR_SUCCESS%스폰으로 이동했습니다!"
+  },
+  "home": {
+    "usage": "%COLOR_YELLOW%사용법: /home [이름]",
+    "description": "집으로 이동합니다",
+    "not-set": "%COLOR_ERROR%설정된 집이 없습니다.",
+    "teleporting": "%COLOR_INFO%집으로 이동 중...",
+    "set-success": "%COLOR_SUCCESS%집을 설정했습니다!"
+  },
+  "warp": {
+    "usage": "%COLOR_YELLOW%사용법: /warp <장소>",
+    "description": "특정 장소로 이동합니다",
+    "not-found": "%COLOR_ERROR%워프 지점을 찾을 수 없습니다: {warp}",
+    "no-permission": "%COLOR_ERROR%이 워프를 사용할 권한이 없습니다.",
+    "success": "%COLOR_SUCCESS%{warp}(으)로 이동했습니다!"
+  },
+  "admin": {
+    "setlevel": {
+      "usage": "%COLOR_YELLOW%사용법: /setlevel <플레이어> <레벨>",
+      "description": "플레이어의 레벨을 설정합니다",
+      "success": "%COLOR_SUCCESS%{player}의 레벨을 {level}로 설정했습니다."
+    },
+    "givexp": {
+      "usage": "%COLOR_YELLOW%사용법: /givexp <플레이어> <경험치>",
+      "description": "플레이어에게 경험치를 지급합니다",
+      "success": "%COLOR_SUCCESS%{player}에게 {amount} 경험치를 지급했습니다."
+    },
+    "setjob": {
+      "usage": "%COLOR_YELLOW%사용법: /setjob <플레이어> <직업>",
+      "description": "플레이어의 직업을 설정합니다",
+      "success": "%COLOR_SUCCESS%{player}의 직업을 {job}(으)로 설정했습니다.",
+      "invalid-job": "%COLOR_ERROR%올바르지 않은 직업입니다: {job}"
+    },
+    "reload": {
+      "usage": "%COLOR_YELLOW%사용법: /srpg reload",
+      "description": "플러그인 설정을 다시 로드합니다",
+      "success": "%COLOR_SUCCESS%설정을 다시 로드했습니다!"
+    }
+  }
+}
