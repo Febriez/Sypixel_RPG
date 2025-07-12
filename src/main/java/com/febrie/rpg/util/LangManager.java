@@ -315,6 +315,11 @@ public class LangManager {
             return Component.empty();
         }
 
+        // 플레이스홀더가 없으면 빠르게 반환
+        if (!text.contains("%COLOR_")) {
+            return Component.text(text);
+        }
+
         TextComponent.Builder result = Component.text();
         Matcher matcher = COLOR_PATTERN.matcher(text);
         int lastEnd = 0;
