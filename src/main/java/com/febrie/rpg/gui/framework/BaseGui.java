@@ -175,6 +175,9 @@ public abstract class BaseGui implements InteractiveGui {
             // GuiManager를 통해 새로고침
             setItem(REFRESH_BUTTON_SLOT, GuiFactory.createRefreshButton(
                     guiManager::refreshCurrentGui, langManager, viewer));
+        } else {
+            // 새로고침 버튼 위치에 장식 배치
+            setItem(REFRESH_BUTTON_SLOT, GuiFactory.createDecoration());
         }
 
         // 닫기 버튼
@@ -198,14 +201,13 @@ public abstract class BaseGui implements InteractiveGui {
                     guiManager::goBack
             ));
         } else {
-            // 뒤로가기 불가능하면 버튼 제거
-            items.remove(BACK_BUTTON_SLOT);
-            inventory.setItem(BACK_BUTTON_SLOT, null);
+            // 뒤로가기 불가능하면 장식용 유리판 배치
+            setItem(BACK_BUTTON_SLOT, GuiFactory.createDecoration());
         }
     }
 
     /**
-     * 테두리 생성
+     * 테두리 생성 - 모든 모서리를 포함하도록 수정
      */
     protected void createBorder(Material material) {
         GuiItem borderItem = GuiFactory.createDecoration(material);
@@ -217,8 +219,8 @@ public abstract class BaseGui implements InteractiveGui {
             setItem((rows - 1) * ROWS_PER_PAGE + i, borderItem);
         }
 
-        // 좌측과 우측
-        for (int row = 1; row < rows - 1; row++) {
+        // 좌측과 우측 (모든 행 포함)
+        for (int row = 0; row < rows; row++) {
             setItem(row * ROWS_PER_PAGE, borderItem);
             setItem(row * ROWS_PER_PAGE + 8, borderItem);
         }

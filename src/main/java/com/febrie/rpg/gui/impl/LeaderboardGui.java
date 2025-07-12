@@ -86,7 +86,6 @@ public class LeaderboardGui extends ScrollableGui {
     private static final int MY_RANK_SLOT = 8;
     private static final int LOADING_SLOT = 4;
 
-    private final Map<Integer, GuiItem> items = new HashMap<>();
     private LeaderboardType currentType = LeaderboardType.LEVEL;
     private List<LeaderboardEntryDTO> currentLeaderboard = new ArrayList<>();
     private LeaderboardEntryDTO myRankEntry = null;
@@ -101,6 +100,7 @@ public class LeaderboardGui extends ScrollableGui {
 
     @Override
     public @NotNull Component getTitle() {
+        // 동적으로 타이틀 생성
         return trans("gui.leaderboard.title", "type", currentType.getDisplayName());
     }
 
@@ -129,7 +129,6 @@ public class LeaderboardGui extends ScrollableGui {
 
         return leaderboardItems;
     }
-
 
     @Override
     protected void handleNonScrollClick(@NotNull InventoryClickEvent event, @NotNull Player player,
@@ -192,7 +191,6 @@ public class LeaderboardGui extends ScrollableGui {
         }
     }
 
-
     /**
      * 정보 표시 영역
      */
@@ -225,7 +223,8 @@ public class LeaderboardGui extends ScrollableGui {
      */
     private void setupMyRankDisplay() {
         if (myRankEntry != null) {
-            String rankText = myRankEntry.rank() > 0 ? String.valueOf(myRankEntry.rank()) : "순위권 밖";
+            String rankText = myRankEntry.rank() > 0 ?
+                    String.valueOf(myRankEntry.rank()) : "순위권 밖";
 
             setItem(MY_RANK_SLOT, GuiItem.display(
                     new ItemBuilder(viewer)
@@ -289,11 +288,8 @@ public class LeaderboardGui extends ScrollableGui {
         currentType = newType;
         playClickSound(viewer);
 
-        // 탭 업데이트
-        setupTabs();
-
-        // 새 리더보드 로드
-        loadLeaderboard();
+        // GUI를 재생성하여 타이틀 업데이트
+        guiManager.recreateCurrentGui(viewer);
     }
 
     /**

@@ -11,7 +11,9 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Stack;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -28,7 +30,6 @@ public class GuiManager {
 
     // 네비게이션 히스토리 관리
     private final Map<UUID, Stack<NavigationEntry>> navigationStacks = new ConcurrentHashMap<>();
-    private final Set<UUID> transitioning = new HashSet<>();
 
     /**
      * 네비게이션 엔트리
@@ -51,10 +52,7 @@ public class GuiManager {
      * @param gui    GUI 인스턴스
      */
     public void openGui(@NotNull Player player, @NotNull GuiFramework gui) {
-        UUID playerId = player.getUniqueId();
-
-        // 전환 중 플래그 설정
-        transitioning.add(playerId);
+        final UUID playerId = player.getUniqueId();
 
         // 이전 GUI 정리
         GuiFramework previousGui = activeGuis.get(playerId);
@@ -74,7 +72,11 @@ public class GuiManager {
         // 실제 인벤토리 열기는 다음 틱에 실행
         Bukkit.getScheduler().runTask(plugin, () -> {
             gui.open(player);
-            transitioning.remove(playerId);
+
+            // BaseGui의 네비게이션 버튼 업데이트
+            if (gui instanceof com.febrie.rpg.gui.framework.BaseGui baseGui) {
+                baseGui.updateNavigationButtons();
+            }
         });
     }
 
@@ -102,6 +104,8 @@ public class GuiManager {
         GuiFramework previousGui = recreateGui(player, previousEntry);
 
         if (previousGui != null) {
+            // 스택에서 pop을 한 번 더 해서 중복 방지
+            stack.pop();
             openGui(player, previousGui);
         } else {
             openMainMenu(player);
@@ -117,15 +121,42 @@ public class GuiManager {
     }
 
     /**
+     * 현재 GUI 재생성
+     */
+    public void recreateCurrentGui(@NotNull Player player) {
+        GuiFramework currentGui = activeGuis.get(player.getUniqueId());
+        if (currentGui != null) {
+            Class<? extends GuiFramework> guiClass = currentGui.getClass();
+
+            // 현재 GUI 재생성
+            final GuiFramework newGui = createGuiInstance(guiClass, player);
+
+            if (newGui != null) {
+                // 스택 유지하면서 GUI만 교체
+                activeGuis.put(player.getUniqueId(), newGui);
+
+                // 다음 틱에 열기
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    player.closeInventory();
+                    newGui.open(player);
+                });
+            }
+        }
+    }
+
+    /**
      * GUI 재생성
      */
     @Nullable
     private GuiFramework recreateGui(@NotNull Player player, @NotNull NavigationEntry entry) {
-        NavigationEntry lastEntry = navigationStacks.get(player.getUniqueId()).peek();
-        if (lastEntry == null) return null;
+        return createGuiInstance(entry.guiClass, player);
+    }
 
-        Class<? extends GuiFramework> guiClass = lastEntry.guiClass;
-
+    /**
+     * GUI 인스턴스 생성
+     */
+    @Nullable
+    private GuiFramework createGuiInstance(@NotNull Class<? extends GuiFramework> guiClass, @NotNull Player player) {
         // GUI 타입별 재생성 로직
         if (guiClass.equals(MainMenuGui.class)) {
             return new MainMenuGui(this, langManager, player);
@@ -146,7 +177,6 @@ public class GuiManager {
         UUID playerId = player.getUniqueId();
         activeGuis.remove(playerId);
         navigationStacks.remove(playerId);
-        transitioning.remove(playerId);
     }
 
     /**
@@ -155,7 +185,6 @@ public class GuiManager {
     public void cleanup() {
         activeGuis.clear();
         navigationStacks.clear();
-        transitioning.clear();
     }
 
     /**
