@@ -1,6 +1,7 @@
 package com.febrie.rpg.database;
 
 import com.febrie.rpg.dto.*;
+import com.febrie.rpg.util.LogUtil;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
 import com.google.firebase.FirebaseApp;
@@ -8,19 +9,19 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Firebase Firestore 데이터베이스 서비스
- * 모든 데이터베이스 작업을 담당 (순수 POJO DTO 지원)
+ * 환경변수를 통한 설정 관리 및 DTO 기반 데이터 처리
  *
  * @author Febrie, CoffeeTory
  */
@@ -28,6 +29,11 @@ public class FirebaseService {
 
     private final Plugin plugin;
     private Firestore firestore;
+
+    // 캐시 (동시접속 1000명 대응)
+    private final Map<String, PlayerDTO> playerCache = new ConcurrentHashMap<>();
+    private final Map<String, Long> cacheTimestamps = new ConcurrentHashMap<>();
+    private static final long CACHE_DURATION = 5 * 60 * 1000; // 5분
 
     // 컬렉션 이름들
     private static final String PLAYERS_COLLECTION = "players";
@@ -39,258 +45,348 @@ public class FirebaseService {
     private static final String TALENTS_SUBCOLLECTION = "talents";
     private static final String PROGRESS_SUBCOLLECTION = "progress";
 
+    // 환경변수 이름들
+    private static final String ENV_PROJECT_ID = "FIREBASE_PROJECT_ID";
+    private static final String ENV_DATABASE_URL = "FIREBASE_DATABASE_URL";
+    private static final String ENV_CREDENTIALS_PATH = "FIREBASE_CREDENTIALS_PATH";
+    private static final String ENV_CREDENTIALS_JSON = "FIREBASE_CREDENTIALS_JSON";
+
     public FirebaseService(@NotNull Plugin plugin) {
         this.plugin = plugin;
         initializeFirebase();
     }
 
     /**
-     * Firebase 초기화
+     * Firebase 초기화 (환경변수 사용)
      */
     private void initializeFirebase() {
         try {
-            // Firebase 설정 파일 경로
-            FileInputStream serviceAccount = new FileInputStream(
-                    plugin.getDataFolder().getPath() + "/firebase-credentials.json"
-            );
+            // 환경변수 읽기
+            String projectId = System.getenv(ENV_PROJECT_ID);
+            String databaseUrl = System.getenv(ENV_DATABASE_URL);
+            String credentialsPath = System.getenv(ENV_CREDENTIALS_PATH);
+            String credentialsJson = System.getenv(ENV_CREDENTIALS_JSON);
 
-            FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .build();
+            if (projectId == null || projectId.isEmpty()) {
+                LogUtil.error("Firebase 초기화 실패: " + ENV_PROJECT_ID + " 환경변수가 설정되지 않았습니다.");
+                LogUtil.info("필요한 환경변수:");
+                LogUtil.info("  - " + ENV_PROJECT_ID + ": Firebase 프로젝트 ID");
+                LogUtil.info("  - " + ENV_DATABASE_URL + ": Firestore 데이터베이스 URL (선택사항)");
+                LogUtil.info("  - " + ENV_CREDENTIALS_PATH + ": 서비스 계정 JSON 파일 경로");
+                LogUtil.info("  또는");
+                LogUtil.info("  - " + ENV_CREDENTIALS_JSON + ": 서비스 계정 JSON 내용 (Base64 인코딩)");
+                return;
+            }
 
+            // Credentials 설정
+            GoogleCredentials credentials;
+            if (credentialsJson != null && !credentialsJson.isEmpty()) {
+                // JSON 문자열로부터 직접 로드 (Base64 디코딩)
+                byte[] credentialsBytes = java.util.Base64.getDecoder().decode(credentialsJson);
+                ByteArrayInputStream credentialsStream = new ByteArrayInputStream(credentialsBytes);
+                credentials = GoogleCredentials.fromStream(credentialsStream);
+                LogUtil.info("Firebase 인증정보를 환경변수에서 로드했습니다.");
+            } else if (credentialsPath != null && !credentialsPath.isEmpty()) {
+                // 파일 경로로부터 로드
+                FileInputStream serviceAccount = new FileInputStream(credentialsPath);
+                credentials = GoogleCredentials.fromStream(serviceAccount);
+                LogUtil.info("Firebase 인증정보를 파일에서 로드했습니다: " + credentialsPath);
+            } else {
+                // 기본 위치에서 시도
+                String defaultPath = plugin.getDataFolder().getPath() + "/firebase-credentials.json";
+                FileInputStream serviceAccount = new FileInputStream(defaultPath);
+                credentials = GoogleCredentials.fromStream(serviceAccount);
+                LogUtil.warning("Firebase 인증정보를 기본 경로에서 로드했습니다: " + defaultPath);
+            }
+
+            // Firebase 옵션 빌드
+            FirebaseOptions.Builder optionsBuilder = FirebaseOptions.builder()
+                    .setCredentials(credentials)
+                    .setProjectId(projectId);
+
+            if (databaseUrl != null && !databaseUrl.isEmpty()) {
+                optionsBuilder.setDatabaseUrl(databaseUrl);
+            }
+
+            FirebaseOptions options = optionsBuilder.build();
+
+            // Firebase 앱 초기화
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
             }
 
             firestore = FirestoreClient.getFirestore();
-            plugin.getLogger().info("Firebase 초기화 완료!");
+            LogUtil.info("Firebase 초기화 완료! 프로젝트 ID: " + projectId);
 
         } catch (IOException e) {
-            logError("Firebase 초기화 실패", e);
+            LogUtil.error("Firebase 초기화 중 오류 발생", e);
         }
     }
 
     /**
-     * 에러 로깅 헬퍼 메소드
+     * 연결 상태 확인
      */
-    private void logError(@NotNull String message, @NotNull Throwable throwable) {
-        plugin.getLogger().severe(message + ": " + throwable.getMessage());
-        if (plugin.getLogger().isLoggable(java.util.logging.Level.FINE)) {
-            // 디버그 모드에서만 전체 스택 트레이스 출력
-            for (StackTraceElement element : throwable.getStackTrace()) {
-                plugin.getLogger().fine("  at " + element.toString());
-            }
-        }
-        // 원인이 있는 경우
-        if (throwable.getCause() != null) {
-            plugin.getLogger().severe("원인: " + throwable.getCause().getMessage());
-        }
-    }
-
-    // ========== 플레이어 데이터 작업 ==========
-
-    /**
-     * 플레이어 데이터 저장 (전체)
-     */
-    public CompletableFuture<Void> savePlayerData(@NotNull String uuid, @NotNull PlayerDTO playerDTO,
-                                                  @NotNull StatsDTO statsDTO, @NotNull TalentDTO talentDTO,
-                                                  @NotNull ProgressDTO progressDTO) {
-        return CompletableFuture.runAsync(() -> {
-            try {
-                // 타임스탬프 업데이트
-                playerDTO.updateLastSeen();
-                statsDTO.markUpdated();
-                talentDTO.markUpdated();
-                progressDTO.markUpdated();
-
-                WriteBatch batch = firestore.batch();
-
-                // 플레이어 기본 정보
-                DocumentReference playerRef = firestore.collection(PLAYERS_COLLECTION).document(uuid);
-                batch.set(playerRef, playerDTO.toMap());
-
-                // 스탯 정보
-                DocumentReference statsRef = playerRef.collection(STATS_SUBCOLLECTION).document("current");
-                batch.set(statsRef, statsDTO.toMap());
-
-                // 특성 정보
-                DocumentReference talentsRef = playerRef.collection(TALENTS_SUBCOLLECTION).document("current");
-                batch.set(talentsRef, talentDTO.toMap());
-
-                // 진행도 정보
-                DocumentReference progressRef = playerRef.collection(PROGRESS_SUBCOLLECTION).document("current");
-                batch.set(progressRef, progressDTO.toMap());
-
-                // 배치 실행
-                batch.commit().get();
-
-                plugin.getLogger().info("플레이어 데이터 저장 완료: " + uuid);
-
-            } catch (InterruptedException | ExecutionException e) {
-                logError("플레이어 데이터 저장 실패", e);
-            }
-        });
+    public boolean isConnected() {
+        return firestore != null;
     }
 
     /**
-     * 플레이어 기본 정보 로드
+     * 캐시 유효성 확인
      */
-    @Nullable
-    public CompletableFuture<PlayerDTO> loadPlayerData(@NotNull String uuid) {
+    private boolean isCacheValid(@NotNull String key) {
+        Long timestamp = cacheTimestamps.get(key);
+        return timestamp != null && (System.currentTimeMillis() - timestamp) < CACHE_DURATION;
+    }
+
+    /**
+     * 캐시에서 제거
+     */
+    private void invalidateCache(@NotNull String key) {
+        playerCache.remove(key);
+        cacheTimestamps.remove(key);
+    }
+
+    // ========== PlayerDTO 관련 메소드 ==========
+
+    /**
+     * 플레이어 데이터 저장/업데이트
+     */
+    public CompletableFuture<Boolean> savePlayer(@NotNull PlayerDTO player) {
+        if (!isConnected()) return CompletableFuture.completedFuture(false);
+
         return CompletableFuture.supplyAsync(() -> {
             try {
-                DocumentSnapshot document = firestore.collection(PLAYERS_COLLECTION)
-                        .document(uuid)
-                        .get()
-                        .get();
+                DocumentReference docRef = firestore.collection(PLAYERS_COLLECTION)
+                        .document(player.getUuid());
 
-                if (document.exists()) {
-                    Map<String, Object> data = document.getData();
-                    if (data != null) {
-                        return PlayerDTO.fromMap(data);
-                    }
-                }
+                player.updateLastSeen();
+                docRef.set(player.toMap()).get();
 
-            } catch (InterruptedException | ExecutionException e) {
-                logError("플레이어 데이터 로드 실패", e);
-            }
-            return null;
-        });
-    }
+                // 캐시 업데이트
+                playerCache.put(player.getUuid(), player);
+                cacheTimestamps.put(player.getUuid(), System.currentTimeMillis());
 
-    /**
-     * 플레이어 스탯 정보 로드
-     */
-    @Nullable
-    public CompletableFuture<StatsDTO> loadPlayerStats(@NotNull String uuid) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                DocumentSnapshot document = firestore.collection(PLAYERS_COLLECTION)
-                        .document(uuid)
-                        .collection(STATS_SUBCOLLECTION)
-                        .document("current")
-                        .get()
-                        .get();
-
-                if (document.exists()) {
-                    Map<String, Object> data = document.getData();
-                    if (data != null) {
-                        return StatsDTO.fromMap(data);
-                    }
-                }
-
-            } catch (InterruptedException | ExecutionException e) {
-                logError("플레이어 스탯 로드 실패", e);
-            }
-            return null;
-        });
-    }
-
-    /**
-     * 플레이어 특성 정보 로드
-     */
-    @Nullable
-    public CompletableFuture<TalentDTO> loadPlayerTalents(@NotNull String uuid) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                DocumentSnapshot document = firestore.collection(PLAYERS_COLLECTION)
-                        .document(uuid)
-                        .collection(TALENTS_SUBCOLLECTION)
-                        .document("current")
-                        .get()
-                        .get();
-
-                if (document.exists()) {
-                    Map<String, Object> data = document.getData();
-                    if (data != null) {
-                        return TalentDTO.fromMap(data);
-                    }
-                }
-
-            } catch (InterruptedException | ExecutionException e) {
-                logError("플레이어 특성 로드 실패", e);
-            }
-            return null;
-        });
-    }
-
-    /**
-     * 플레이어 진행도 정보 로드
-     */
-    @Nullable
-    public CompletableFuture<ProgressDTO> loadPlayerProgress(@NotNull String uuid) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                DocumentSnapshot document = firestore.collection(PLAYERS_COLLECTION)
-                        .document(uuid)
-                        .collection(PROGRESS_SUBCOLLECTION)
-                        .document("current")
-                        .get()
-                        .get();
-
-                if (document.exists()) {
-                    Map<String, Object> data = document.getData();
-                    if (data != null) {
-                        return ProgressDTO.fromMap(data);
-                    }
-                }
-
-            } catch (InterruptedException | ExecutionException e) {
-                logError("플레이어 진행도 로드 실패", e);
-            }
-            return null;
-        });
-    }
-
-    /**
-     * 플레이어 전체 데이터 로드
-     */
-    public CompletableFuture<PlayerDataBundle> loadAllPlayerData(@NotNull String uuid) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                // 병렬로 모든 데이터 로드
-                CompletableFuture<PlayerDTO> playerFuture = loadPlayerData(uuid);
-                CompletableFuture<StatsDTO> statsFuture = loadPlayerStats(uuid);
-                CompletableFuture<TalentDTO> talentsFuture = loadPlayerTalents(uuid);
-                CompletableFuture<ProgressDTO> progressFuture = loadPlayerProgress(uuid);
-
-                // 모든 Future 완료 대기
-                CompletableFuture.allOf(playerFuture, statsFuture, talentsFuture, progressFuture).join();
-
-                // null 체크와 함께 결과 가져오기
-                PlayerDTO player = playerFuture.join();
-                StatsDTO stats = statsFuture.join();
-                TalentDTO talents = talentsFuture.join();
-                ProgressDTO progress = progressFuture.join();
-
-                return new PlayerDataBundle(player, stats, talents, progress);
-
+                LogUtil.debug("플레이어 데이터 저장 완료: " + player.getPlayerName());
+                return true;
             } catch (Exception e) {
-                logError("플레이어 전체 데이터 로드 실패", e);
-                return PlayerDataBundle.empty();
+                LogUtil.error("플레이어 데이터 저장 실패: " + player.getPlayerName(), e);
+                return false;
             }
         });
     }
 
-    // ========== 순위표 작업 ==========
+    /**
+     * 플레이어 데이터 로드
+     */
+    public CompletableFuture<PlayerDTO> loadPlayer(@NotNull String uuid) {
+        if (!isConnected()) return CompletableFuture.completedFuture(null);
+
+        // 캐시 확인
+        if (isCacheValid(uuid)) {
+            PlayerDTO cached = playerCache.get(uuid);
+            if (cached != null) {
+                return CompletableFuture.completedFuture(cached);
+            }
+        }
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                DocumentSnapshot doc = firestore.collection(PLAYERS_COLLECTION)
+                        .document(uuid).get().get();
+
+                if (doc.exists()) {
+                    PlayerDTO player = PlayerDTO.fromMap(doc.getData());
+
+                    // 캐시에 저장
+                    playerCache.put(uuid, player);
+                    cacheTimestamps.put(uuid, System.currentTimeMillis());
+
+                    return player;
+                }
+                return null;
+            } catch (Exception e) {
+                LogUtil.error("플레이어 데이터 로드 실패: " + uuid, e);
+                return null;
+            }
+        });
+    }
+
+    // ========== StatsDTO 관련 메소드 ==========
+
+    /**
+     * 스탯 데이터 저장
+     */
+    public CompletableFuture<Boolean> saveStats(@NotNull String playerUuid, @NotNull StatsDTO stats) {
+        if (!isConnected()) return CompletableFuture.completedFuture(false);
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                DocumentReference docRef = firestore.collection(PLAYERS_COLLECTION)
+                        .document(playerUuid)
+                        .collection(STATS_SUBCOLLECTION)
+                        .document("current");
+
+                stats.markUpdated();
+                docRef.set(stats.toMap()).get();
+
+                LogUtil.debug("스탯 데이터 저장 완료: " + playerUuid);
+                return true;
+            } catch (Exception e) {
+                LogUtil.error("스탯 데이터 저장 실패: " + playerUuid, e);
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 스탯 데이터 로드
+     */
+    public CompletableFuture<StatsDTO> loadStats(@NotNull String playerUuid) {
+        if (!isConnected()) return CompletableFuture.completedFuture(null);
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                DocumentSnapshot doc = firestore.collection(PLAYERS_COLLECTION)
+                        .document(playerUuid)
+                        .collection(STATS_SUBCOLLECTION)
+                        .document("current").get().get();
+
+                if (doc.exists()) {
+                    return StatsDTO.fromMap(doc.getData());
+                }
+                return new StatsDTO(); // 기본값 반환
+            } catch (Exception e) {
+                LogUtil.error("스탯 데이터 로드 실패: " + playerUuid, e);
+                return new StatsDTO();
+            }
+        });
+    }
+
+    // ========== TalentDTO 관련 메소드 ==========
+
+    /**
+     * 특성 데이터 저장
+     */
+    public CompletableFuture<Boolean> saveTalents(@NotNull String playerUuid, @NotNull TalentDTO talents) {
+        if (!isConnected()) return CompletableFuture.completedFuture(false);
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                DocumentReference docRef = firestore.collection(PLAYERS_COLLECTION)
+                        .document(playerUuid)
+                        .collection(TALENTS_SUBCOLLECTION)
+                        .document("current");
+
+                talents.markUpdated();
+                docRef.set(talents.toMap()).get();
+
+                LogUtil.debug("특성 데이터 저장 완료: " + playerUuid);
+                return true;
+            } catch (Exception e) {
+                LogUtil.error("특성 데이터 저장 실패: " + playerUuid, e);
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 특성 데이터 로드
+     */
+    public CompletableFuture<TalentDTO> loadTalents(@NotNull String playerUuid) {
+        if (!isConnected()) return CompletableFuture.completedFuture(null);
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                DocumentSnapshot doc = firestore.collection(PLAYERS_COLLECTION)
+                        .document(playerUuid)
+                        .collection(TALENTS_SUBCOLLECTION)
+                        .document("current").get().get();
+
+                if (doc.exists()) {
+                    return TalentDTO.fromMap(doc.getData());
+                }
+                return new TalentDTO(); // 기본값 반환
+            } catch (Exception e) {
+                LogUtil.error("특성 데이터 로드 실패: " + playerUuid, e);
+                return new TalentDTO();
+            }
+        });
+    }
+
+    // ========== ProgressDTO 관련 메소드 ==========
+
+    /**
+     * 진행도 데이터 저장
+     */
+    public CompletableFuture<Boolean> saveProgress(@NotNull String playerUuid, @NotNull ProgressDTO progress) {
+        if (!isConnected()) return CompletableFuture.completedFuture(false);
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                DocumentReference docRef = firestore.collection(PLAYERS_COLLECTION)
+                        .document(playerUuid)
+                        .collection(PROGRESS_SUBCOLLECTION)
+                        .document("current");
+
+                progress.markUpdated();
+                docRef.set(progress.toMap()).get();
+
+                LogUtil.debug("진행도 데이터 저장 완료: " + playerUuid);
+                return true;
+            } catch (Exception e) {
+                LogUtil.error("진행도 데이터 저장 실패: " + playerUuid, e);
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 진행도 데이터 로드
+     */
+    public CompletableFuture<ProgressDTO> loadProgress(@NotNull String playerUuid) {
+        if (!isConnected()) return CompletableFuture.completedFuture(null);
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                DocumentSnapshot doc = firestore.collection(PLAYERS_COLLECTION)
+                        .document(playerUuid)
+                        .collection(PROGRESS_SUBCOLLECTION)
+                        .document("current").get().get();
+
+                if (doc.exists()) {
+                    return ProgressDTO.fromMap(doc.getData());
+                }
+                return new ProgressDTO(); // 기본값 반환
+            } catch (Exception e) {
+                LogUtil.error("진행도 데이터 로드 실패: " + playerUuid, e);
+                return new ProgressDTO();
+            }
+        });
+    }
+
+    // ========== LeaderboardEntryDTO 관련 메소드 ==========
 
     /**
      * 순위표 업데이트
      */
-    public CompletableFuture<Void> updateLeaderboard(@NotNull String type, @NotNull LeaderboardEntryDTO entry) {
-        return CompletableFuture.runAsync(() -> {
-            try {
-                entry.markUpdated();
+    public CompletableFuture<Boolean> updateLeaderboard(@NotNull String type, @NotNull LeaderboardEntryDTO entry) {
+        if (!isConnected()) return CompletableFuture.completedFuture(false);
 
-                firestore.collection(LEADERBOARDS_COLLECTION)
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                DocumentReference docRef = firestore.collection(LEADERBOARDS_COLLECTION)
                         .document(type)
                         .collection("entries")
-                        .document(entry.getUuid())
-                        .set(entry.toMap())
-                        .get();
+                        .document(entry.getUuid());
 
-            } catch (InterruptedException | ExecutionException e) {
-                logError("순위표 업데이트 실패", e);
+                entry.markUpdated();
+                docRef.set(entry.toMap()).get();
+
+                LogUtil.debug("순위표 업데이트 완료: " + type + " - " + entry.getPlayerName());
+                return true;
+            } catch (Exception e) {
+                LogUtil.error("순위표 업데이트 실패: " + type, e);
+                return false;
             }
         });
     }
@@ -299,119 +395,72 @@ public class FirebaseService {
      * 순위표 조회 (상위 N명)
      */
     public CompletableFuture<List<LeaderboardEntryDTO>> getTopPlayers(@NotNull String type, int limit) {
-        return CompletableFuture.supplyAsync(() -> {
-            List<LeaderboardEntryDTO> entries = new ArrayList<>();
+        if (!isConnected()) return CompletableFuture.completedFuture(new ArrayList<>());
 
+        return CompletableFuture.supplyAsync(() -> {
             try {
                 QuerySnapshot querySnapshot = firestore.collection(LEADERBOARDS_COLLECTION)
                         .document(type)
                         .collection("entries")
                         .orderBy("score", Query.Direction.DESCENDING)
                         .limit(limit)
-                        .get()
-                        .get();
+                        .get().get();
 
+                List<LeaderboardEntryDTO> entries = new ArrayList<>();
                 int rank = 1;
-                for (QueryDocumentSnapshot document : querySnapshot) {
-                    Map<String, Object> data = document.getData();
-                    LeaderboardEntryDTO entry = LeaderboardEntryDTO.fromMap(data);
+
+                for (QueryDocumentSnapshot doc : querySnapshot) {
+                    LeaderboardEntryDTO entry = LeaderboardEntryDTO.fromMap(doc.getData());
                     entry.setRank(rank++);
                     entries.add(entry);
                 }
 
-            } catch (InterruptedException | ExecutionException e) {
-                logError("순위표 조회 실패", e);
-            }
-
-            return entries;
-        });
-    }
-
-    // ========== 서버 통계 작업 ==========
-
-    /**
-     * 서버 통계 업데이트
-     */
-    public CompletableFuture<Void> updateServerStats(@NotNull Map<String, Object> stats) {
-        return CompletableFuture.runAsync(() -> {
-            try {
-                // 타임스탬프 추가
-                stats.put("lastUpdated", System.currentTimeMillis());
-
-                firestore.collection(SERVER_STATS_COLLECTION)
-                        .document("global")
-                        .update(stats)
-                        .get();
-
-            } catch (InterruptedException | ExecutionException e) {
-                logError("서버 통계 업데이트 실패", e);
-            }
-        });
-    }
-
-    /**
-     * 정리 작업
-     */
-    public void shutdown() {
-        if (firestore != null) {
-            try {
-                firestore.close();
-                plugin.getLogger().info("Firebase 연결 종료");
+                return entries;
             } catch (Exception e) {
-                logError("Firebase 종료 실패", e);
+                LogUtil.error("순위표 조회 실패: " + type, e);
+                return new ArrayList<>();
             }
-        }
+        });
     }
 
     /**
-     * 플레이어 데이터 번들 (한번에 모든 데이터를 담는 클래스)
+     * 전체 플레이어 데이터 저장 (일괄)
      */
-    public static class PlayerDataBundle {
-        public final PlayerDTO player;
-        public final StatsDTO stats;
-        public final TalentDTO talents;
-        public final ProgressDTO progress;
+    public CompletableFuture<Boolean> saveAllPlayerData(@NotNull String playerUuid,
+                                                        @NotNull PlayerDTO player,
+                                                        @NotNull StatsDTO stats,
+                                                        @NotNull TalentDTO talents,
+                                                        @NotNull ProgressDTO progress) {
+        if (!isConnected()) return CompletableFuture.completedFuture(false);
 
-        public PlayerDataBundle(@Nullable PlayerDTO player, @Nullable StatsDTO stats,
-                                @Nullable TalentDTO talents, @Nullable ProgressDTO progress) {
-            this.player = player;
-            this.stats = stats;
-            this.talents = talents;
-            this.progress = progress;
-        }
+        return CompletableFuture.allOf(
+                        savePlayer(player),
+                        saveStats(playerUuid, stats),
+                        saveTalents(playerUuid, talents),
+                        saveProgress(playerUuid, progress)
+                ).thenApply(v -> true)
+                .exceptionally(e -> {
+                    LogUtil.error("전체 플레이어 데이터 저장 실패: " + playerUuid, e);
+                    return false;
+                });
+    }
 
-        /**
-         * 빈 번들 생성 (모든 필드가 null)
-         */
-        public static PlayerDataBundle empty() {
-            return new PlayerDataBundle(null, null, null, null);
-        }
+    /**
+     * 캐시 정리
+     */
+    public void clearCache() {
+        playerCache.clear();
+        cacheTimestamps.clear();
+        LogUtil.info("Firebase 캐시가 정리되었습니다.");
+    }
 
-        /**
-         * 모든 데이터가 로드되었는지 확인
-         */
-        public boolean isComplete() {
-            return player != null && stats != null && talents != null && progress != null;
-        }
-
-        /**
-         * 부분적으로라도 데이터가 있는지 확인
-         */
-        public boolean hasAnyData() {
-            return player != null || stats != null || talents != null || progress != null;
-        }
-
-        /**
-         * 누락된 데이터 타입 목록 반환
-         */
-        @NotNull
-        public List<String> getMissingDataTypes() {
-            List<String> missing = new ArrayList<>();
-            if (player == null) missing.add("Player");
-            if (stats == null) missing.add("Stats");
-            if (talents == null) missing.add("Talents");
-            if (progress == null) missing.add("Progress");
-            return missing;
-        }
+    /**
+     * 캐시 통계
+     */
+    public Map<String, Object> getCacheStats() {
+        Map<String, Object> stats = new ConcurrentHashMap<>();
+        stats.put("playerCacheSize", playerCache.size());
+        stats.put("cacheTimestampsSize", cacheTimestamps.size());
+        return stats;
     }
 }
