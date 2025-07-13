@@ -255,12 +255,11 @@ public abstract class ScrollableGui extends BaseGui {
         }
 
         // 스크롤 버튼 클릭 처리
-        if (slot == scrollUpSlot) {
-            scrollUp();
-            return;
-        }
-        if (slot == scrollDownSlot) {
-            scrollDown();
+        if (slot == scrollUpSlot || slot == scrollDownSlot) {
+            GuiItem item = items.get(slot);
+            if (item != null && item.hasActions()) {
+                item.executeAction(player, click);
+            }
             return;
         }
 
@@ -274,8 +273,14 @@ public abstract class ScrollableGui extends BaseGui {
                 }
             }
         } else {
-            // 기타 슬롯은 하위 클래스에서 처리
-            handleNonScrollClick(event, player, slot, click);
+            // BaseGui의 items Map에서 아이템 찾기
+            GuiItem item = items.get(slot);
+            if (item != null && item.hasActions()) {
+                item.executeAction(player, click);
+            } else {
+                // 그래도 없으면 하위 클래스에서 처리
+                handleNonScrollClick(event, player, slot, click);
+            }
         }
     }
 

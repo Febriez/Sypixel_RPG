@@ -23,7 +23,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +35,6 @@ import java.util.Map;
 public class TalentGui extends ScrollableGui {
 
     private final RPGPlayer rpgPlayer;
-    private final Map<Integer, GuiItem> items = new HashMap<>();
 
     // 현재 페이지 정보
     private final String pageId;
@@ -210,10 +208,6 @@ public class TalentGui extends ScrollableGui {
     @Override
     protected void handleNonScrollClick(@NotNull InventoryClickEvent event, @NotNull Player player,
                                         int slot, @NotNull ClickType click) {
-        GuiItem item = items.get(slot);
-        if (item != null && item.hasActions()) {
-            item.executeAction(player, click);
-        }
     }
 
     /**

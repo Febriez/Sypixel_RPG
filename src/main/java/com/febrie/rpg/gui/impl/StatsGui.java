@@ -61,7 +61,6 @@ public class StatsGui extends ScrollableGui {
     private final GuiManager guiManager;
     private final LangManager langManager;
     private final RPGPlayer rpgPlayer;
-    private final Map<Integer, GuiItem> items = new HashMap<>();
 
     public StatsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager, @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
         super(viewer, guiManager, langManager, DEFAULT_SIZE, "gui.stats.title");
