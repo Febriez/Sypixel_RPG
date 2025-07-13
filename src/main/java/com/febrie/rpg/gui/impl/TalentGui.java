@@ -87,11 +87,24 @@ public class TalentGui extends ScrollableGui {
         // 정보 표시
         setupInfoDisplay();
 
-        // 스크롤 가능한 특성 표시
-        setupScrollableArea(inventory, items, this::setItem);
+        // 스크롤 가능한 특성 아이템들을 준비
+        updateScroll();
+
+        // 스크롤 아이템 업데이트 (ScrollableGui의 메서드 사용)
+        updateScrollItems();
 
         // 네비게이션 버튼
         setupNavigationButtons();
+    }
+
+    @Override
+    protected List<ClickType> getAllowedClickTypes() {
+        return List.of(
+                ClickType.LEFT,
+                ClickType.SHIFT_LEFT,
+                ClickType.RIGHT,
+                ClickType.SHIFT_RIGHT
+        );
     }
 
     @Override

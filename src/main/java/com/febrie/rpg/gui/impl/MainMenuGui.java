@@ -10,7 +10,10 @@ import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * Main menu GUI implementation with full color placeholder support
@@ -252,5 +255,10 @@ public class MainMenuGui extends BaseGui {
     private void addMenuDecorations() {
         // 메뉴 버튼 주변 장식 (선택적)
         // 필요시 여기에 추가 장식 아이템들을 배치할 수 있음
+    }
+
+    @Override
+    protected List<ClickType> getAllowedClickTypes() {
+        return List.of(ClickType.LEFT);
     }
 }

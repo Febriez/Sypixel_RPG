@@ -14,7 +14,10 @@ import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * Player profile GUI implementation with internationalization support
@@ -324,5 +327,10 @@ public class ProfileGui extends BaseGui {
                 }
         );
         setItem(TALENTS_SLOT, talentsButton);
+    }
+
+    @Override
+    protected List<ClickType> getAllowedClickTypes() {
+        return List.of(ClickType.LEFT);
     }
 }

@@ -3,9 +3,9 @@ package com.febrie.rpg.gui.framework;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.manager.GuiManager;
-import com.febrie.rpg.gui.util.GuiUtility;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,6 +16,7 @@ import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,6 +58,11 @@ public abstract class BaseGui implements InteractiveGui {
      * GUI 레이아웃 설정 - 하위 클래스에서 구현
      */
     protected abstract void setupLayout();
+
+    /**
+     * 허용할 클릭 타입 목록 반환 - 하위 클래스에서 구현
+     */
+    protected abstract List<ClickType> getAllowedClickTypes();
 
     @Override
     public void open(@NotNull Player player) {
@@ -147,7 +153,7 @@ public abstract class BaseGui implements InteractiveGui {
             return;
         }
 
-        // 기본적으로 LEFT_CLICK만 처리 (더블클릭 방지)
+        // 허용된 클릭 타입인지 확인
         if (!isAllowedClickType(click)) {
             return;
         }
@@ -160,10 +166,9 @@ public abstract class BaseGui implements InteractiveGui {
 
     /**
      * 허용된 클릭 타입인지 확인
-     * 하위 클래스에서 오버라이드하여 특수한 클릭 처리 가능
      */
     protected boolean isAllowedClickType(@NotNull ClickType click) {
-        return click == ClickType.LEFT;
+        return getAllowedClickTypes().contains(click);
     }
 
     @Override
@@ -244,72 +249,81 @@ public abstract class BaseGui implements InteractiveGui {
     }
 
     /**
-     * 아이템 설정
-     */
-    protected void setItem(int slot, @NotNull GuiItem item) {
-        GuiUtility.setItem(slot, item, items, inventory);
-    }
-
-    /**
      * 인벤토리 생성
      */
     private Inventory createInventory(@NotNull String titleKey, @NotNull String... titleArgs) {
         Component title = langManager.getComponent(viewer, titleKey, titleArgs);
-        return Bukkit.createInventory(this, size, title); // this를 전달하여 InventoryHolder 설정
+        return Bukkit.createInventory(this, size, title);
     }
 
     /**
-     * 크기 검증 (9의 배수로 맞춤)
+     * 아이템 설정
      */
-    private int validateSize(int requestedSize) {
-        if (requestedSize <= 0) {
-            return 9;
+    protected void setItem(int slot, @NotNull GuiItem item) {
+        if (!isValidSlot(slot)) {
+            return;
         }
-        return Math.min(54, ((requestedSize - 1) / 9 + 1) * 9);
+
+        items.put(slot, item);
+        inventory.setItem(slot, item.getItemStack());
     }
 
     /**
-     * 슬롯 유효성 검사
+     * 빈 슬롯을 장식용 아이템으로 채우기
+     */
+    protected void fillEmptySlots(@NotNull GuiItem decoration) {
+        for (int i = 0; i < size; i++) {
+            if (inventory.getItem(i) == null) {
+                setItem(i, decoration);
+            }
+        }
+    }
+
+    /**
+     * 슬롯이 유효한지 확인
      */
     protected boolean isValidSlot(int slot) {
         return slot >= 0 && slot < size;
     }
 
-    // 유틸리티 메서드들
+    /**
+     * 크기 검증
+     */
+    private int validateSize(int requestedSize) {
+        // 9의 배수로 반올림 (최소 9, 최대 54)
+        int validSize = Math.max(9, Math.min(54, requestedSize));
+        return (validSize / 9) * 9;
+    }
 
     /**
-     * 번역된 컴포넌트 가져오기
+     * 마지막 행의 시작 슬롯
      */
+    protected int getLastRowStart() {
+        return size - 9;
+    }
+
+    // Utility methods for subclasses
     protected Component trans(@NotNull String key, @NotNull String... args) {
         return langManager.getComponent(viewer, key, args);
     }
 
-    /**
-     * 번역된 문자열 가져오기
-     */
     protected String transString(@NotNull String key, @NotNull String... args) {
         return langManager.getMessage(viewer, key, args);
     }
 
-    /**
-     * 메시지 전송
-     */
     protected void sendMessage(@NotNull Player player, @NotNull String key, @NotNull String... args) {
         langManager.sendMessage(player, key, args);
     }
 
-    /**
-     * 사운드 재생 유틸리티
-     */
     protected void playClickSound(@NotNull Player player) {
-        player.playSound(player.getLocation(), org.bukkit.Sound.UI_BUTTON_CLICK, 0.5f, 1.0f);
-    }
-
-    protected void playErrorSound(@NotNull Player player) {
-        player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+        SoundUtil.playClickSound(player);
     }
 
     protected void playSuccessSound(@NotNull Player player) {
-        player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+        SoundUtil.playSuccessSound(player);
+    }
+
+    protected void playErrorSound(@NotNull Player player) {
+        SoundUtil.playErrorSound(player);
     }
 }

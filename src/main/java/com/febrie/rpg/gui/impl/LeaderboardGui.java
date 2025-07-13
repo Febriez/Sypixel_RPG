@@ -147,6 +147,11 @@ public class LeaderboardGui extends ScrollableGui {
         }
     }
 
+    @Override
+    protected List<ClickType> getAllowedClickTypes() {
+        return List.of(ClickType.LEFT);
+    }
+
     /**
      * 배경 설정
      */
@@ -477,7 +482,8 @@ public class LeaderboardGui extends ScrollableGui {
 
         // 스크롤 영역 재설정
         if (!isLoading) {
-            setupScrollableArea(inventory, items, this::setItem);
+            updateScroll();
+            updateScrollItems();
         }
     }
 }

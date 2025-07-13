@@ -297,6 +297,16 @@ public class StatsGui extends ScrollableGui {
         }
     }
 
+    @Override
+    protected List<ClickType> getAllowedClickTypes() {
+        return List.of(
+                ClickType.LEFT,
+                ClickType.SHIFT_LEFT,
+                ClickType.RIGHT,
+                ClickType.SHIFT_RIGHT
+        );
+    }
+
     /**
      * 총 할당된 스탯 포인트 계산
      */
