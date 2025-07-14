@@ -63,6 +63,20 @@ public class SoundUtil {
     }
 
     /**
+     * GUI 열기 사운드 재생
+     */
+    public static void playOpenSound(@NotNull Player player) {
+        playSound(player, Sound.BLOCK_CHEST_OPEN);
+    }
+
+    /**
+     * GUI 닫기 사운드 재생
+     */
+    public static void playCloseSound(@NotNull Player player) {
+        playSound(player, Sound.BLOCK_CHEST_CLOSE);
+    }
+
+    /**
      * 커스텀 사운드 재생
      */
     public static void playSound(@NotNull Player player, @NotNull Sound sound) {

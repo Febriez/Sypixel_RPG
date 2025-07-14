@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -22,7 +23,6 @@ import java.util.Map;
 /**
  * 기본 GUI 구현체
  * 개선된 네비게이션 시스템과 통합
- * 새로고침 버튼 제거, 유동적 버튼 위치 계산
  *
  * @author Febrie, CoffeeTory
  */
@@ -36,6 +36,10 @@ public abstract class BaseGui implements InteractiveGui {
     protected final int size;
     protected final Inventory inventory;
     protected final Map<Integer, GuiItem> items = new HashMap<>();
+
+    // 네비게이션 버튼 표준 위치 (수정됨)
+    protected static final int BACK_BUTTON_SLOT = 48;    // 중앙에서 왼쪽 한 칸
+    protected static final int CLOSE_BUTTON_SLOT = 49;   // 중앙
 
     /**
      * 생성자 - GuiManager 필수
@@ -60,39 +64,6 @@ public abstract class BaseGui implements InteractiveGui {
      */
     protected abstract List<ClickType> getAllowedClickTypes();
 
-    /**
-     * 유동적으로 계산된 뒤로가기 버튼 슬롯
-     */
-    protected int getBackButtonSlot() {
-        int lastRow = (size / ROWS_PER_PAGE) - 1;
-        int center = lastRow * ROWS_PER_PAGE + 4; // 가운데
-        return center - 1; // 가운데에서 한 칸 왼쪽
-    }
-
-    /**
-     * 유동적으로 계산된 닫기 버튼 슬롯
-     */
-    protected int getCloseButtonSlot() {
-        int lastRow = (size / ROWS_PER_PAGE) - 1;
-        return lastRow * ROWS_PER_PAGE + 4; // 가운데
-    }
-
-    /**
-     * 유동적으로 계산된 설정 버튼 슬롯 (프로필용)
-     */
-    protected int getSettingsButtonSlot() {
-        int lastRow = (size / ROWS_PER_PAGE) - 1;
-        int center = lastRow * ROWS_PER_PAGE + 4; // 가운데
-        return center + 1; // 가운데에서 한 칸 오른쪽
-    }
-
-    /**
-     * 마지막 행의 시작 슬롯
-     */
-    protected int getLastRowStart() {
-        return ((size / ROWS_PER_PAGE) - 1) * ROWS_PER_PAGE;
-    }
-
     @Override
     public void open(@NotNull Player player) {
         player.openInventory(inventory);
@@ -100,7 +71,7 @@ public abstract class BaseGui implements InteractiveGui {
 
     @Override
     public void close(@NotNull Player player) {
-        // GUI 관련 정리 작업
+        // GuiManager에서 처리
     }
 
     @Override
@@ -108,24 +79,8 @@ public abstract class BaseGui implements InteractiveGui {
         inventory.clear();
         items.clear();
         setupLayout();
-    }
-
-    @Override
-    public void onSlotClick(@NotNull InventoryClickEvent event, @NotNull Player player, int slot, @NotNull ClickType click) {
-        event.setCancelled(true);
-
-        if (!isAllowedClickType(click)) {
-            return;
-        }
-
-        if (!isValidSlot(slot)) {
-            return;
-        }
-
-        GuiItem item = items.get(slot);
-        if (item != null && item.hasActions()) {
-            item.executeAction(player, click);
-        }
+        // 뒤로가기 버튼 상태 업데이트
+        updateNavigationButtons();
     }
 
     @Override
@@ -139,66 +94,103 @@ public abstract class BaseGui implements InteractiveGui {
     }
 
     /**
-     * 뷰어 가져오기 (GuiFramework에는 없지만 내부적으로 필요)
+     * 외부에서 아이템을 설정할 수 있는 public 메서드
+     * GuiService와 같은 서비스 클래스에서 사용
      */
-    public @NotNull Player getViewer() {
-        return viewer;
-    }
-
-    /**
-     * GUI 타이틀 - 구현체에서 정의
-     */
-    public abstract @NotNull Component getTitle();
-
-    /**
-     * 슬롯에 아이템 설정
-     */
-    protected void setItem(int slot, @NotNull GuiItem item) {
-        if (isValidSlot(slot)) {
-            items.put(slot, item);
-            inventory.setItem(slot, item.getItemStack());
-        }
+    public void setGuiItem(int slot, @NotNull GuiItem item) {
+        setItem(slot, item);
     }
 
     /**
      * 여러 슬롯에 같은 아이템 설정
      */
-    protected void setItems(@NotNull GuiItem item, int... slots) {
+    public void setGuiItems(@NotNull GuiItem item, int... slots) {
         for (int slot : slots) {
             setItem(slot, item);
         }
     }
 
     /**
-     * 특정 범위에 아이템 채우기
+     * 특정 행에 아이템 설정
      */
-    protected void fillRange(int start, int end, @NotNull GuiItem item) {
-        for (int i = start; i <= end && i < size; i++) {
-            setItem(i, item);
+    public void setGuiRow(int row, @NotNull GuiItem item) {
+        if (row < 0 || row >= 6) return;
+
+        for (int col = 0; col < 9; col++) {
+            setItem(row * 9 + col, item);
         }
     }
 
     /**
-     * 빈 슬롯을 장식으로 채우기
+     * 특정 열에 아이템 설정
      */
-    protected void fillEmptySlots(@NotNull GuiItem filler) {
-        for (int i = 0; i < size; i++) {
-            if (!items.containsKey(i)) {
-                setItem(i, filler);
-            }
+    public void setGuiColumn(int column, @NotNull GuiItem item) {
+        if (column < 0 || column >= 9) return;
+
+        for (int row = 0; row < 6; row++) {
+            setItem(row * 9 + column, item);
         }
+    }
+
+    /**
+     * 테두리에 아이템 설정
+     */
+    public void setGuiBorder(@NotNull GuiItem item) {
+        // 상단
+        setGuiRow(0, item);
+        // 하단
+        setGuiRow(5, item);
+        // 좌측
+        setGuiColumn(0, item);
+        // 우측
+        setGuiColumn(8, item);
+    }
+
+    @Override
+    public void onSlotClick(@NotNull InventoryClickEvent event, @NotNull Player player,
+                            int slot, @NotNull ClickType click) {
+        if (!isValidSlot(slot)) {
+            return;
+        }
+
+        // 허용된 클릭 타입인지 확인
+        if (!isAllowedClickType(click)) {
+            return;
+        }
+
+        GuiItem item = items.get(slot);
+        if (item != null && item.hasActions()) {
+            item.executeAction(player, click);
+        }
+    }
+
+    /**
+     * 허용된 클릭 타입인지 확인
+     */
+    protected boolean isAllowedClickType(@NotNull ClickType click) {
+        return getAllowedClickTypes().contains(click);
+    }
+
+    @Override
+    public boolean isSlotClickable(int slot, @NotNull Player player) {
+        if (!isValidSlot(slot)) {
+            return false;
+        }
+
+        GuiItem item = items.get(slot);
+        return item != null && item.hasActions() && item.isEnabled();
     }
 
     /**
      * 표준 네비게이션 버튼 설정
-     * 새로고침 버튼 제거됨
+     * 뒤로가기 버튼은 GuiManager의 상태에 따라 동적으로 표시
      */
-    protected void setupStandardNavigation(boolean includeClose) {
+    protected void setupStandardNavigation(boolean includeRefresh, boolean includeClose) {
         updateNavigationButtons();
 
         // 닫기 버튼
         if (includeClose) {
-            setItem(getCloseButtonSlot(), GuiFactory.createCloseButton(langManager, viewer));
+            setItem(CLOSE_BUTTON_SLOT, GuiFactory.createCloseButton(langManager, viewer));
         }
     }
 
@@ -207,11 +199,9 @@ public abstract class BaseGui implements InteractiveGui {
      * 뒤로가기 가능 여부에 따라 버튼 표시/숨김
      */
     public void updateNavigationButtons() {
-        int backSlot = getBackButtonSlot();
-
         // 뒤로가기 버튼 - GuiManager 상태에 따라 표시
         if (guiManager.canGoBack(viewer)) {
-            setItem(backSlot, GuiItem.clickable(
+            setItem(BACK_BUTTON_SLOT, GuiItem.clickable(
                     new ItemBuilder(Material.ARROW)
                             .displayName(langManager.getComponent(viewer, "gui.buttons.back.name"))
                             .addLore(langManager.getComponent(viewer, "gui.buttons.back.lore"))
@@ -220,15 +210,8 @@ public abstract class BaseGui implements InteractiveGui {
             ));
         } else {
             // 뒤로가기 불가능하면 장식용 유리판 배치
-            setItem(backSlot, GuiFactory.createDecoration());
+            setItem(BACK_BUTTON_SLOT, GuiFactory.createDecoration());
         }
-    }
-
-    /**
-     * 테두리 생성 - 모든 모서리를 포함하도록 수정
-     */
-    protected void createBorder() {
-        createBorder(Material.GRAY_STAINED_GLASS_PANE);
     }
 
     /**
@@ -252,38 +235,89 @@ public abstract class BaseGui implements InteractiveGui {
     }
 
     /**
-     * 인벤토리 생성
+     * 기본 테두리 생성
      */
-    private Inventory createInventory(@NotNull String titleKey, @NotNull String... titleArgs) {
-        Component title = langManager.getComponent(viewer, titleKey, titleArgs);
+    protected void createBorder() {
+        createBorder(Material.BLACK_STAINED_GLASS_PANE);
+    }
+
+    /**
+     * Component 타이틀로 인벤토리 생성
+     */
+    @NotNull
+    private Inventory createInventory(@NotNull String titleKey, @NotNull String... args) {
+        Component title = langManager.getComponent(viewer, titleKey, args);
         return Bukkit.createInventory(this, size, title);
     }
 
     /**
-     * 크기 유효성 검증
+     * 크기 검증
      */
     private int validateSize(int requestedSize) {
-        // 9의 배수로 맞추기 (최소 9, 최대 54)
-        int adjusted = Math.max(9, Math.min(54, requestedSize));
-        return (adjusted / 9) * 9;
+        if (requestedSize % ROWS_PER_PAGE != 0 || requestedSize <= 0 || requestedSize > 54) {
+            throw new IllegalArgumentException("Invalid GUI size: " + requestedSize);
+        }
+        return requestedSize;
     }
 
     /**
-     * 슬롯 유효성 검증
+     * 아이템 설정
+     */
+    public void setItem(int slot, @NotNull GuiItem item) {
+        if (isValidSlot(slot)) {
+            items.put(slot, item);
+            inventory.setItem(slot, item.getItemStack());
+        }
+    }
+
+    /**
+     * GuiItem 가져오기
+     */
+    @NotNull
+    public GuiItem getItem(int slot) {
+        GuiItem item = items.get(slot);
+        return item != null ? item : GuiItem.display(new ItemStack(Material.AIR));
+    }
+
+    /**
+     * 슬롯 유효성 검사
      */
     protected boolean isValidSlot(int slot) {
         return slot >= 0 && slot < size;
     }
 
     /**
-     * 클릭 타입 허용 여부
+     * 마지막 줄 시작 슬롯
      */
-    protected boolean isAllowedClickType(@NotNull ClickType click) {
-        return getAllowedClickTypes().contains(click);
+    protected int getLastRowStart() {
+        return size - ROWS_PER_PAGE;
     }
 
     /**
-     * 사운드 재생 헬퍼 메서드들
+     * Component 번역 헬퍼
+     */
+    @NotNull
+    protected Component trans(@NotNull String key, @NotNull String... args) {
+        return langManager.getComponent(viewer, key, args);
+    }
+
+    /**
+     * String 번역 헬퍼
+     */
+    @NotNull
+    protected String transString(@NotNull String key, @NotNull String... args) {
+        return langManager.getMessage(viewer, key, args);
+    }
+
+    /**
+     * 메시지 전송 헬퍼
+     */
+    protected void sendMessage(@NotNull Player player, @NotNull String key, @NotNull String... args) {
+        langManager.sendMessage(player, key, args);
+    }
+
+    /**
+     * 사운드 재생 헬퍼 메소드들
      */
     protected void playClickSound(@NotNull Player player) {
         SoundUtil.playClickSound(player);
@@ -297,30 +331,47 @@ public abstract class BaseGui implements InteractiveGui {
         SoundUtil.playErrorSound(player);
     }
 
-    /**
-     * 언어 번역 헬퍼 메서드들
-     */
-    protected Component trans(@NotNull String key, @NotNull String... args) {
-        return langManager.getComponent(viewer, key, args);
+    protected void playOpenSound(@NotNull Player player) {
+        SoundUtil.playOpenSound(player);
     }
 
-    protected String transString(@NotNull String key, @NotNull String... args) {
-        return langManager.getMessage(viewer, key, args);
-    }
-
-    protected void sendMessage(@NotNull Player player, @NotNull String key, @NotNull String... args) {
-        langManager.sendMessage(player, key, args);
+    protected void playCloseSound(@NotNull Player player) {
+        SoundUtil.playCloseSound(player);
     }
 
     /**
-     * 슬롯이 클릭 가능한지 확인
+     * 아이템 활성화 여부 확인
      */
-    protected boolean isClickable(int slot, @NotNull Player player) {
+    public boolean isItemActive(int slot, @NotNull Player player) {
         if (!isValidSlot(slot)) {
             return false;
         }
 
         GuiItem item = items.get(slot);
         return item != null && item.hasActions() && item.isEnabled();
+    }
+
+    /**
+     * 시청자 가져오기
+     */
+    @NotNull
+    public Player getViewer() {
+        return viewer;
+    }
+
+    /**
+     * LangManager 가져오기
+     */
+    @NotNull
+    public LangManager getLangManager() {
+        return langManager;
+    }
+
+    /**
+     * GuiManager 가져오기
+     */
+    @NotNull
+    public GuiManager getGuiManager() {
+        return guiManager;
     }
 }

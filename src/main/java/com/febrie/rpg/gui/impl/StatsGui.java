@@ -54,13 +54,13 @@ public class StatsGui extends ScrollableGui {
 
     // 네비게이션 버튼 위치
     private static final int NAV_BACK_SLOT = 45;
-    private static final int NAV_REFRESH_SLOT = 49;
     private static final int NAV_TALENTS_SLOT = 50;
     private static final int NAV_CLOSE_SLOT = 53;
 
     private final GuiManager guiManager;
     private final LangManager langManager;
     private final RPGPlayer rpgPlayer;
+    private final Map<Integer, GuiItem> items = new HashMap<>();
 
     public StatsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager, @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
         super(viewer, guiManager, langManager, DEFAULT_SIZE, "gui.stats.title");
@@ -129,7 +129,7 @@ public class StatsGui extends ScrollableGui {
 
         // 하단 테두리 - 네비게이션 버튼 위치 제외
         for (int i = getLastRowStart(); i < size; i++) {
-            if (i != NAV_BACK_SLOT && i != NAV_REFRESH_SLOT && i != NAV_TALENTS_SLOT && i != NAV_CLOSE_SLOT) {
+            if (i != NAV_BACK_SLOT && i != NAV_TALENTS_SLOT && i != NAV_CLOSE_SLOT) {
                 setItem(i, GuiFactory.createDecoration());
             }
         }
@@ -170,43 +170,45 @@ public class StatsGui extends ScrollableGui {
                 .build());
         setItem(PLAYER_HEAD_SLOT, playerHead);
 
-        // 스탯 포인트 정보 (중앙 라인)
-        Stat.StatHolder stats = rpgPlayer.getStats();
-        GuiItem statPointInfo = GuiItem.display(ItemBuilder.of(Material.EXPERIENCE_BOTTLE)
-                .displayName(trans("gui.stats.stat-points"))
-                .addLore(trans("gui.stats.available-points", "points", String.valueOf(rpgPlayer.getStatPoints())))
-                .addLore(trans("gui.stats.total-allocated", "points", String.valueOf(getTotalAllocatedPoints(stats))))
-                .addLore(Component.empty())
-                .addLore(trans("gui.stats.points-per-level"))
-                .build());
+        // 스탯 포인트 정보
+        GuiItem statPointInfo = GuiItem.display(
+                ItemBuilder.of(Material.NETHER_STAR)
+                        .displayName(trans("gui.stats.stat-points"))
+                        .addLore(trans("gui.stats.available-points", "points", String.valueOf(rpgPlayer.getStatPoints())))
+                        .addLore(trans("gui.stats.total-allocated", "points", String.valueOf(getTotalAllocatedPoints(rpgPlayer.getStats()))))
+                        .addLore(Component.empty())
+                        .addLore(trans("gui.stats.points-per-level"))
+                        .glint(rpgPlayer.getStatPoints() > 0)
+                        .build()
+        );
         setItem(STAT_POINT_INFO_SLOT, statPointInfo);
 
         // 스탯 가이드
-        GuiItem statGuide = GuiItem.display(ItemBuilder.of(Material.BOOK)
-                .displayName(trans("gui.stats.guide-title"))
-                .addLore(trans("gui.stats.guide-click-add"))
-                .addLore(trans("gui.stats.guide-shift-click"))
-                .build());
+        GuiItem statGuide = GuiItem.display(
+                ItemBuilder.of(Material.BOOK)
+                        .displayName(trans("gui.stats.guide-title"))
+                        .addLore(trans("gui.stats.guide-click-add"))
+                        .addLore(trans("gui.stats.guide-shift-click"))
+                        .build()
+        );
         setItem(STAT_GUIDE_SLOT, statGuide);
     }
 
     /**
-     * 스탯 표시
+     * 스탯 표시 설정
      */
     private void setupStatsDisplay() {
-        Stat.StatHolder stats = rpgPlayer.getStats();
-
         for (Map.Entry<Integer, Stat> entry : STAT_POSITIONS.entrySet()) {
             int slot = entry.getKey();
             Stat stat = entry.getValue();
 
-            int baseValue = stats.getBaseStat(stat);
-            int bonusValue = stats.getBonusStat(stat);
-            int totalValue = stats.getTotalStat(stat);
+            int baseValue = rpgPlayer.getStats().getBaseStat(stat);
+            int bonusValue = rpgPlayer.getStats().getBonusStat(stat);
+            int totalValue = rpgPlayer.getStats().getTotalStat(stat);
 
             ItemBuilder builder = ItemBuilder.of(stat.getIcon())
                     .displayName(trans("stat." + stat.getId().toLowerCase() + ".name")
-                            .color(ColorUtil.UNCOMMON)
+                            .color(stat.getColor())
                             .decoration(TextDecoration.BOLD, true))
                     .addLore(Component.empty())
                     .addLore(trans("gui.stats.base-value", "value", String.valueOf(baseValue)))
@@ -214,7 +216,7 @@ public class StatsGui extends ScrollableGui {
                     .addLore(trans("gui.stats.total-value", "value", String.valueOf(totalValue)))
                     .addLore(Component.empty());
 
-            // 스탯 설명
+            // 스탯 설명 추가
             List<Component> description = langManager.getComponentList(viewer, "stat." + stat.getId().toLowerCase() + ".description");
             for (Component line : description) {
                 builder.addLore(line);
@@ -246,11 +248,8 @@ public class StatsGui extends ScrollableGui {
                             .displayName(trans("gui.buttons.back.name"))
                             .addLore(trans("gui.buttons.back.lore"))
                             .build(),
-                    guiManager::goBack));
+                    player -> guiManager.goBack(player)));
         }
-
-        // 새로고침 버튼
-        setItem(NAV_REFRESH_SLOT, GuiFactory.createRefreshButton(_ -> refresh(), langManager, viewer));
 
         // 특성 페이지로 가기 버튼
         GuiItem talentButton = GuiItem.clickable(

@@ -17,6 +17,7 @@ import java.util.function.Consumer;
  * All methods require LangManager and Player for proper language support
  * <p>
  * Updated: Removed all legacy methods, only LangManager-based methods remain
+ * Updated: 새로고침 기능 완전 제거
  *
  * @author Febrie, CoffeeTory
  */
@@ -66,40 +67,14 @@ public final class GuiFactory {
     }
 
     /**
-     * Creates a refresh button item with GuiManager integration
-     */
-    public static GuiItem createRefreshButton(@NotNull GuiManager guiManager, @NotNull LangManager langManager, @NotNull Player player) {
-        return GuiItem.clickable(
-                new ItemBuilder(Material.LIME_DYE)
-                        .displayName(langManager.getComponent(player, "gui.buttons.refresh.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.refresh.lore"))
-                        .build(),
-                guiManager::refreshCurrentGui
-        );
-    }
-
-    /**
-     * Creates a refresh button item with custom action
-     */
-    public static GuiItem createRefreshButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
-        return GuiItem.clickable(
-                new ItemBuilder(Material.LIME_DYE)
-                        .displayName(langManager.getComponent(player, "gui.buttons.refresh.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.refresh.lore"))
-                        .build(),
-                action
-        );
-    }
-
-    /**
-     * Creates a decoration glass pane
+     * Creates a decorative item
      */
     public static GuiItem createDecoration() {
-        return createDecoration(Material.GRAY_STAINED_GLASS_PANE);
+        return createDecoration(Material.BLACK_STAINED_GLASS_PANE);
     }
 
     /**
-     * Creates a decoration glass pane with specific material
+     * Creates a decorative item with specific material
      */
     public static GuiItem createDecoration(@NotNull Material material) {
         return GuiItem.display(
@@ -110,32 +85,62 @@ public final class GuiFactory {
     }
 
     /**
-     * Creates a filler item for empty slots
-     */
-    public static GuiItem createFiller() {
-        return createDecoration(Material.BLACK_STAINED_GLASS_PANE);
-    }
-
-    /**
      * Creates a placeholder item
      */
-    public static GuiItem createPlaceholder(@NotNull String text) {
+    public static GuiItem createPlaceholder(@NotNull String text, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.display(
-                new ItemBuilder(Material.PAPER)
-                        .displayName(Component.text(text, NamedTextColor.GRAY))
+                new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)
+                        .displayName(langManager.getComponent(player, text))
                         .build()
         );
     }
 
     /**
-     * Creates a navigation button
+     * Creates an error item
      */
-    public static GuiItem createNavigationButton(@NotNull Material material, @NotNull Component name,
-                                                 @NotNull Component lore, @NotNull Consumer<Player> action) {
+    public static GuiItem createError(@NotNull String errorKey, @NotNull LangManager langManager, @NotNull Player player) {
+        return GuiItem.display(
+                new ItemBuilder(Material.RED_STAINED_GLASS_PANE)
+                        .displayName(langManager.getComponent(player, errorKey).color(NamedTextColor.RED))
+                        .build()
+        );
+    }
+
+    /**
+     * Creates a loading item
+     */
+    public static GuiItem createLoading(@NotNull LangManager langManager, @NotNull Player player) {
+        return GuiItem.display(
+                new ItemBuilder(Material.CLOCK)
+                        .displayName(langManager.getComponent(player, "gui.buttons.loading.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.loading.lore"))
+                        .build()
+        );
+    }
+
+    /**
+     * Creates an info item
+     */
+    public static GuiItem createInfo(@NotNull String titleKey, @NotNull String descKey, @NotNull LangManager langManager, @NotNull Player player) {
+        return GuiItem.display(
+                new ItemBuilder(Material.PAPER)
+                        .displayName(langManager.getComponent(player, titleKey))
+                        .addLore(langManager.getComponent(player, descKey))
+                        .build()
+        );
+    }
+
+    /**
+     * Creates a toggle button
+     */
+    public static GuiItem createToggle(boolean state, @NotNull String nameKey, @NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
+        Material material = state ? Material.LIME_DYE : Material.GRAY_DYE;
+        String statusKey = state ? "gui.buttons.toggle.enabled" : "gui.buttons.toggle.disabled";
+
         return GuiItem.clickable(
                 new ItemBuilder(material)
-                        .displayName(name)
-                        .addLore(lore)
+                        .displayName(langManager.getComponent(player, nameKey))
+                        .addLore(langManager.getComponent(player, statusKey))
                         .build(),
                 action
         );

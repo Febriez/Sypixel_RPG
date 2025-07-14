@@ -14,7 +14,6 @@ import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -23,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +35,7 @@ import java.util.Map;
 public class TalentGui extends ScrollableGui {
 
     private final RPGPlayer rpgPlayer;
+    private final Map<Integer, GuiItem> items = new HashMap<>();
 
     // 현재 페이지 정보
     private final String pageId;
@@ -148,53 +149,51 @@ public class TalentGui extends ScrollableGui {
                 builder.addLore(line);
             }
 
-            // 선행 조건 표시
-            Map<Talent, Integer> prerequisites = talent.getPrerequisites();
-            if (!prerequisites.isEmpty()) {
-                builder.addLore(Component.empty());
-                builder.addLore(trans("gui.talent.prerequisites"));
-
-                for (Map.Entry<Talent, Integer> reqEntry : prerequisites.entrySet()) {
-                    Talent reqTalent = reqEntry.getKey();
-                    int reqLevel = reqEntry.getValue();
-                    int playerLevel = talents.getTalentLevel(reqTalent);
-                    boolean met = playerLevel >= reqLevel;
-
-                    String reqTalentName = transString("talent." + reqTalent.getId() + ".name");
-                    Component reqText = Component.text("  • " + reqTalentName + " Lv." + reqLevel,
-                            met ? ColorUtil.GREEN : ColorUtil.RED);
-                    builder.addLore(reqText);
+            // 선행 조건
+            if (!talent.getPrerequisites().isEmpty()) {
+                builder.addLore(Component.empty())
+                        .addLore(trans("gui.talent.prerequisites"));
+                for (Map.Entry<String, Integer> prereq : talent.getPrerequisites().entrySet()) {
+                    String prereqName = transString("talent." + prereq.getKey() + ".name");
+                    builder.addLore(Component.text("  • " + prereqName + " Lv." + prereq.getValue(),
+                            talents.getTalentLevel(talent.getModule().getTalent(prereq.getKey())) >= prereq.getValue()
+                                    ? ColorUtil.SUCCESS : ColorUtil.ERROR));
                 }
             }
 
-            // 상태 표시
-            builder.addLore(Component.empty());
+            // 클릭 안내
             if (isMaxLevel) {
-                builder.addLore(trans("gui.talent.max-level-reached"));
-                builder.enchant(Enchantment.UNBREAKING, 1);
+                builder.addLore(Component.empty())
+                        .addLore(trans("gui.talent.max-level-reached"));
             } else if (canLearn) {
-                builder.addLore(trans("gui.talent.click-learn"));
+                builder.addLore(Component.empty())
+                        .addLore(trans("gui.talent.click-learn"));
             } else if (talents.getAvailablePoints() < talent.getRequiredPoints()) {
-                builder.addLore(trans("gui.talent.insufficient-points"));
+                builder.addLore(Component.empty())
+                        .addLore(trans("gui.talent.insufficient-points"));
             } else {
-                builder.addLore(trans("gui.talent.prerequisite-not-met"));
+                builder.addLore(Component.empty())
+                        .addLore(trans("gui.talent.prerequisite-not-met"));
             }
 
-            // 하위 페이지가 있는 경우
+            // 하위 페이지가 있으면 안내
             if (talent.hasSubPage()) {
-                builder.addLore(Component.empty());
                 builder.addLore(trans("gui.talent.click-subpage"));
+            }
+
+            // 최대 레벨이면 반짝임 효과
+            if (isMaxLevel) {
                 builder.glint(true);
             }
 
             builder.flags(ItemFlag.values());
 
-            // GuiItem 생성 및 클릭 타입별 액션 설정
-            GuiItem talentItem = new GuiItem(builder.build())
-                    .onAnyClick((player, clickType) -> {
-                        if (clickType == ClickType.LEFT) {
-                            handleTalentLeftClick(player, talent, currentLevel, canLearn);
-                        } else if (clickType == ClickType.RIGHT && talent.hasSubPage()) {
+            // GuiItem 생성
+            GuiItem talentItem = GuiItem.of(builder.build())
+                    .onClick(ClickType.LEFT, (player, click) ->
+                            handleTalentLeftClick(player, talent, currentLevel, canLearn))
+                    .onClick(ClickType.RIGHT, (player, click) -> {
+                        if (talent.hasSubPage()) {
                             handleTalentRightClick(player, talent);
                         }
                     });
@@ -208,6 +207,10 @@ public class TalentGui extends ScrollableGui {
     @Override
     protected void handleNonScrollClick(@NotNull InventoryClickEvent event, @NotNull Player player,
                                         int slot, @NotNull ClickType click) {
+        GuiItem item = items.get(slot);
+        if (item != null && item.hasActions()) {
+            item.executeAction(player, click);
+        }
     }
 
     /**
@@ -232,7 +235,7 @@ public class TalentGui extends ScrollableGui {
 
         // 하단 영역 (네비게이션)
         for (int i = 45; i < 54; i++) {
-            if (i != 45 && i != 49 && i != 50 && i != 53) {
+            if (i != 45 && i != 50 && i != 53) {
                 setItem(i, GuiFactory.createDecoration());
             }
         }
@@ -258,9 +261,6 @@ public class TalentGui extends ScrollableGui {
                     guiManager::goBack
             ));
         }
-
-        // 새로고침 버튼
-        setItem(49, GuiFactory.createRefreshButton(player -> refresh(), langManager, viewer));
 
         // 스탯 페이지로 가기 버튼
         setItem(50, GuiItem.clickable(

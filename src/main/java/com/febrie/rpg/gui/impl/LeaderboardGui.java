@@ -279,12 +279,6 @@ public class LeaderboardGui extends ScrollableGui {
             ));
         }
 
-        // 새로고침 버튼
-        setItem(49, GuiFactory.createRefreshButton(player -> {
-            loadLeaderboard();
-            playClickSound(player);
-        }, langManager, viewer));
-
         // 닫기 버튼
         setItem(53, GuiFactory.createCloseButton(langManager, viewer));
     }

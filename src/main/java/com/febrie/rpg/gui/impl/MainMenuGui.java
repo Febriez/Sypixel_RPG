@@ -59,7 +59,7 @@ public class MainMenuGui extends BaseGui {
         setupMenuButtons();
         // 메인 메뉴에는 새로고침 버튼 없이, 닫기 버튼만 표시
         // BaseGui가 자동으로 빈 위치에 장식을 배치함
-        setupStandardNavigation(true);
+        setupStandardNavigation(false, true);
     }
 
     /**
@@ -179,12 +179,17 @@ public class MainMenuGui extends BaseGui {
     }
 
     /**
-     * Settings button setup
+     * Settings button setup - 전체 설정으로 이름 변경
      */
     private void setupSettingsButton() {
+        // 언어에 따라 "전체 설정" 또는 "All Settings"로 표시
+        Component settingsName = viewer.locale().getLanguage().equals("ko")
+                ? Component.text("전체 설정", com.febrie.rpg.util.ColorUtil.GRAY)
+                : Component.text("All Settings", com.febrie.rpg.util.ColorUtil.GRAY);
+
         GuiItem settingsButton = GuiItem.clickable(
                 new ItemBuilder(Material.REDSTONE)
-                        .displayName(trans("items.mainmenu.settings-button.name"))
+                        .displayName(settingsName)
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.settings-button.lore"))
                         .build(),
                 clickedPlayer -> {
@@ -216,15 +221,10 @@ public class MainMenuGui extends BaseGui {
                         return;
                     }
 
-                    // TalentGui 열기 (메인 페이지)
-                    TalentGui talentGui = new TalentGui(
-                            guiManager,
-                            langManager,
-                            clickedPlayer,
-                            rpgPlayer,
-                            "main",
-                            RPGMain.getPlugin().getTalentManager().getJobMainTalents(rpgPlayer.getJob())
-                    );
+                    // TalentGui 열기
+                    java.util.List<com.febrie.rpg.talent.Talent> talents = RPGMain.getPlugin()
+                            .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
+                    TalentGui talentGui = new TalentGui(guiManager, langManager, clickedPlayer, rpgPlayer, "main", talents);
                     guiManager.openGui(clickedPlayer, talentGui);
                     playSuccessSound(clickedPlayer);
                 }
@@ -237,7 +237,7 @@ public class MainMenuGui extends BaseGui {
      */
     private void setupLeaderboardButton() {
         GuiItem leaderboardButton = GuiItem.clickable(
-                new ItemBuilder(Material.GOLDEN_HELMET)
+                new ItemBuilder(Material.GOLDEN_APPLE)
                         .displayName(trans("items.mainmenu.leaderboard-button.name"))
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.leaderboard-button.lore"))
                         .build(),
@@ -250,11 +250,11 @@ public class MainMenuGui extends BaseGui {
     }
 
     /**
-     * Additional decorative elements
+     * Add menu decorations
      */
     private void addMenuDecorations() {
-        // 메뉴 버튼 주변 장식 (선택적)
-        // 필요시 여기에 추가 장식 아이템들을 배치할 수 있음
+        // Additional decorative elements can be added here
+        // For example, fill empty slots with decorative glass panes
     }
 
     @Override

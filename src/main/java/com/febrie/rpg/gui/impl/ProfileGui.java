@@ -1,12 +1,10 @@
 package com.febrie.rpg.gui.impl;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.economy.Wallet;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.manager.GuiManager;
-import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
@@ -35,8 +33,7 @@ public class ProfileGui extends BaseGui {
     private final Player targetPlayer;
 
     // 레이아웃 상수
-    private static final int PLAYER_HEAD_SLOT = 4;
-    private static final int JOB_INFO_SLOT = 13;
+    private static final int PLAYER_HEAD_SLOT = 4; // 상단 중앙에 플레이어 머리
 
     // 스탯 표시 슬롯
     private static final int LEVEL_INFO_SLOT = 19;
@@ -44,11 +41,14 @@ public class ProfileGui extends BaseGui {
     private static final int FOOD_INFO_SLOT = 23;
     private static final int GAME_INFO_SLOT = 25;
 
-    // 액션 버튼 슬롯
-    private static final int JOB_SLOT = 31;
-    private static final int SETTINGS_SLOT = 47;
-    private static final int STATS_SLOT = 48;
-    private static final int TALENTS_SLOT = 50;
+    // 프로필 메뉴 버튼 슬롯 (중앙 배치)
+    private static final int JOB_INFO_SLOT = 29;
+    private static final int STATS_INFO_SLOT = 31;
+    private static final int COLLECTION_SLOT = 32;
+    private static final int PET_SLOT = 33;
+
+    // 하단 네비게이션 버튼 슬롯
+    private static final int USER_SETTINGS_SLOT = 50;  // 중앙에서 오른쪽 한 칸
 
     /**
      * Creates a new ProfileGui for viewing another player's profile
@@ -86,16 +86,17 @@ public class ProfileGui extends BaseGui {
      * Sets up decorative elements and borders
      */
     private void setupDecorations() {
-        // 상단 테두리 (4번 슬롯 제외 - 플레이어 머리가 들어갈 자리)
+        // 상단 테두리 (플레이어 머리 슬롯 제외)
         for (int i = 0; i < 9; i++) {
-            if (i != TITLE_SLOT) {
+            if (i != PLAYER_HEAD_SLOT) {
                 setItem(i, GuiFactory.createDecoration());
             }
         }
 
         // 중간 구분선
         for (int i = 27; i < 36; i++) {
-            if (i != JOB_INFO_SLOT) {
+            // 버튼이 있는 슬롯은 제외
+            if (i != JOB_INFO_SLOT && i != STATS_INFO_SLOT && i != COLLECTION_SLOT && i != PET_SLOT) {
                 setItem(i, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
             }
         }
@@ -105,86 +106,48 @@ public class ProfileGui extends BaseGui {
             setItem(row * 9, GuiFactory.createDecoration());
             setItem(row * 9 + 8, GuiFactory.createDecoration());
         }
-
-        // 13번 슬롯(원래 플레이어 머리 위치)에 장식 추가
-        setItem(PLAYER_HEAD_SLOT, GuiFactory.createDecoration());
-    }
-
-    /**
-     * 플레이어 재화 정보를 ItemBuilder의 lore에 추가
-     *
-     * @param builder ItemBuilder 인스턴스
-     * @param rpgPlayer 대상 플레이어
-     */
-    private void addWalletInfoToLore(@NotNull ItemBuilder builder, @NotNull com.febrie.rpg.player.RPGPlayer rpgPlayer) {
-        builder.addLore(trans("gui.profile.currency-info"));
-
-        Wallet wallet = rpgPlayer.getWallet();
-
-    }
-
-    /**
-     * 개별 스탯 라인 생성
-     *
-     * @param stat 스탯 타입
-     * @param stats 스탯 홀더
-     * @return 포맷된 스탯 라인 컴포넌트
-     */
-    private Component createStatLine(@NotNull Stat stat, @NotNull Stat.StatHolder stats) {
-        int baseStat = stats.getBaseStat(stat);
-        int bonusStat = stats.getBonusStat(stat);
-        int totalStat = stats.getTotalStat(stat);
-
-        // 스탯 이름과 값 표시
-        Component statLine = trans("stat." + stat.getId().toLowerCase() + ".name")
-                .append(Component.text(": ", ColorUtil.WHITE))
-                .append(Component.text(totalStat, ColorUtil.YELLOW));
-
-        // 보너스가 있으면 표시
-        if (bonusStat > 0) {
-            statLine = statLine
-                    .append(Component.text(" (", ColorUtil.GRAY))
-                    .append(Component.text(baseStat, ColorUtil.WHITE))
-                    .append(Component.text(" +", ColorUtil.SUCCESS))
-                    .append(Component.text(bonusStat, ColorUtil.SUCCESS))
-                    .append(Component.text(")", ColorUtil.GRAY));
-        } else if (bonusStat < 0) {
-            // 음수 보너스 처리
-            statLine = statLine
-                    .append(Component.text(" (", ColorUtil.GRAY))
-                    .append(Component.text(baseStat, ColorUtil.WHITE))
-                    .append(Component.text(" ", ColorUtil.ERROR))
-                    .append(Component.text(bonusStat, ColorUtil.ERROR))
-                    .append(Component.text(")", ColorUtil.GRAY));
-        }
-
-        return statLine;
     }
 
     /**
      * Sets up player information display
      */
     private void setupPlayerInfo() {
-        // Player head in center
-        setItem(PLAYER_HEAD_SLOT, GuiItem.display(
-                new ItemBuilder(targetPlayer)
-                        .displayName(Component.text(targetPlayer.getName())
-                                .color(ColorUtil.LEGENDARY)
-                                .decoration(TextDecoration.BOLD, true))
-                        .addLore(Component.empty())
-                        .addLore(trans("gui.profile.online-status",
-                                "status", targetPlayer.isOnline() ?
-                                        transString("status.online") :
-                                        transString("status.offline")))
-                        .build()
-        ));
+        com.febrie.rpg.player.RPGPlayer rpgPlayer = RPGMain.getPlugin()
+                .getRPGPlayerManager().getOrCreatePlayer(targetPlayer);
+
+        // Player head at top center with wallet info
+        ItemBuilder headBuilder = new ItemBuilder(targetPlayer)
+                .displayName(Component.text(targetPlayer.getName())
+                        .color(ColorUtil.LEGENDARY)
+                        .decoration(TextDecoration.BOLD, true))
+                .addLore(Component.empty())
+                .addLore(trans("gui.profile.online-status",
+                        "status", targetPlayer.isOnline() ?
+                                transString("status.online") :
+                                transString("status.offline")))
+                .addLore(Component.empty());
+
+        // Add wallet information
+        com.febrie.rpg.economy.Wallet wallet = rpgPlayer.getWallet();
+        headBuilder.addLore(trans("gui.profile.gold",
+                "amount", String.format("%,d", wallet.getBalance(com.febrie.rpg.economy.CurrencyType.GOLD))));
+        headBuilder.addLore(trans("currency.diamond.name")
+                .append(Component.text(": "))
+                .append(Component.text(String.format("%,d", wallet.getBalance(com.febrie.rpg.economy.CurrencyType.DIAMOND)))
+                        .color(com.febrie.rpg.economy.CurrencyType.DIAMOND.getColor())));
+        headBuilder.addLore(trans("currency.emerald.name")
+                .append(Component.text(": "))
+                .append(Component.text(String.format("%,d", wallet.getBalance(com.febrie.rpg.economy.CurrencyType.EMERALD)))
+                        .color(com.febrie.rpg.economy.CurrencyType.EMERALD.getColor())));
+
+        setItem(PLAYER_HEAD_SLOT, GuiItem.display(headBuilder.build()));
 
         // Level/XP info
         setItem(LEVEL_INFO_SLOT, GuiItem.display(
                 ItemBuilder.of(Material.EXPERIENCE_BOTTLE)
                         .displayName(trans("gui.profile.level-info"))
-                        .addLore(trans("gui.profile.level", "level", "1"))
-                        .addLore(trans("gui.profile.experience", "exp", "0"))
+                        .addLore(trans("gui.profile.level", "level", String.valueOf(rpgPlayer.getLevel())))
+                        .addLore(trans("gui.profile.experience", "exp", String.valueOf(rpgPlayer.getExperience())))
                         .build()
         ));
 
@@ -228,7 +191,7 @@ public class ProfileGui extends BaseGui {
      * Sets up player statistics section
      */
     private void setupStatsSection() {
-        // This section is handled in setupActionButtons with the job button
+        // This section is handled in setupActionButtons
     }
 
     /**
@@ -238,26 +201,26 @@ public class ProfileGui extends BaseGui {
         com.febrie.rpg.player.RPGPlayer rpgPlayer = RPGMain.getPlugin()
                 .getRPGPlayerManager().getOrCreatePlayer(targetPlayer);
 
-        // Job button/display
-        setupJobButton(rpgPlayer);
+        // Job info button - click to open talents menu
+        setupJobInfoButton(rpgPlayer);
 
-        // Settings button (only for own profile)
-        if (viewer.equals(targetPlayer)) {
-            setupSettingsButton();
-        }
+        // Stats info button
+        setupStatsInfoButton(rpgPlayer);
 
-        // Stats and Talents buttons (available for all, but only functional for job holders)
-        setupStatsButton(rpgPlayer);
-        setupTalentsButton(rpgPlayer);
+        // Collection book button (coming soon)
+        setupCollectionButton();
 
-        // Navigation buttons - true, true = include refresh button and close button
-        setupStandardNavigation(true);
+        // Pet button (coming soon)
+        setupPetButton();
+
+        // Navigation buttons
+        setupNavigationButtons();
     }
 
     /**
-     * Job button setup
+     * Job info button setup - shows job and level, opens talent menu on click
      */
-    private void setupJobButton(com.febrie.rpg.player.@NotNull RPGPlayer rpgPlayer) {
+    private void setupJobInfoButton(com.febrie.rpg.player.RPGPlayer rpgPlayer) {
         if (!rpgPlayer.hasJob()) {
             // No job - show job selection button
             GuiItem jobButton = GuiItem.clickable(
@@ -277,47 +240,49 @@ public class ProfileGui extends BaseGui {
                         }
                     }
             );
-            setItem(JOB_SLOT, jobButton);
+            setItem(JOB_INFO_SLOT, jobButton);
         } else {
-            // Has job - show current job info
+            // Has job - show current job info with level, click to open talents
             String jobKey = rpgPlayer.getJob().name().toLowerCase();
-            GuiItem jobInfo = GuiItem.display(
-                    ItemBuilder.of(rpgPlayer.getJob().getMaterial())
-                            .displayName(Component.text(rpgPlayer.getJob().getIcon() + " ")
-                                    .append(trans("job." + jobKey + ".name"))
-                                    .color(rpgPlayer.getJob().getColor())
-                                    .decoration(TextDecoration.BOLD, true))
-                            .addLore(Component.empty())
-                            .addLore(trans("gui.profile.current-job"))
-                            .addLore(trans("gui.profile.job-level", "level", String.valueOf(rpgPlayer.getLevel())))
-                            .addLore(trans("gui.profile.combat-power", "power", String.valueOf(rpgPlayer.getCombatPower())))
-                            .build()
+            ItemBuilder jobBuilder = ItemBuilder.of(rpgPlayer.getJob().getMaterial())
+                    .displayName(Component.text(rpgPlayer.getJob().getIcon() + " ")
+                            .append(trans("job." + jobKey + ".name"))
+                            .color(rpgPlayer.getJob().getColor())
+                            .decoration(TextDecoration.BOLD, true))
+                    .addLore(Component.empty())
+                    .addLore(trans("gui.profile.job-level", "level", String.valueOf(rpgPlayer.getLevel())))
+                    .addLore(trans("gui.profile.combat-power", "power", String.valueOf(rpgPlayer.getCombatPower())));
+
+            // 특성 메뉴로 이동 설명 추가
+            if (viewer.equals(targetPlayer)) {
+                jobBuilder.addLore(Component.empty())
+                        .addLore(trans("gui.talent.title").color(ColorUtil.YELLOW));
+            }
+
+            GuiItem jobInfo = GuiItem.clickable(
+                    jobBuilder.build(),
+                    p -> {
+                        if (p.equals(targetPlayer)) {
+                            // Open talent GUI
+                            java.util.List<com.febrie.rpg.talent.Talent> talents = RPGMain.getPlugin()
+                                    .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
+                            TalentGui talentGui = new TalentGui(guiManager, langManager, p, rpgPlayer, "main", talents);
+                            guiManager.openGui(p, talentGui);
+                            playSuccessSound(p);
+                        } else {
+                            langManager.sendMessage(p, "general.cannot-view-others-talents");
+                            playErrorSound(p);
+                        }
+                    }
             );
-            setItem(JOB_SLOT, jobInfo);
+            setItem(JOB_INFO_SLOT, jobInfo);
         }
     }
 
     /**
-     * Settings button setup
+     * Stats info button setup
      */
-    private void setupSettingsButton() {
-        GuiItem settingsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.COMPARATOR)
-                        .displayName(trans("gui.buttons.settings.name"))
-                        .addLore(trans("gui.buttons.settings.lore"))
-                        .build(),
-                p -> {
-                    langManager.sendMessage(p, "general.coming-soon");
-                    playClickSound(p);
-                }
-        );
-        setItem(SETTINGS_SLOT, settingsButton);
-    }
-
-    /**
-     * Stats button setup
-     */
-    private void setupStatsButton(com.febrie.rpg.player.RPGPlayer rpgPlayer) {
+    private void setupStatsInfoButton(com.febrie.rpg.player.RPGPlayer rpgPlayer) {
         GuiItem statsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.IRON_CHESTPLATE)
                         .displayName(trans("items.mainmenu.stats-button.name"))
@@ -341,39 +306,72 @@ public class ProfileGui extends BaseGui {
                     }
                 }
         );
-        setItem(STATS_SLOT, statsButton);
+        setItem(STATS_INFO_SLOT, statsButton);
     }
 
     /**
-     * Talents button setup
+     * Collection book button setup (coming soon)
      */
-    private void setupTalentsButton(com.febrie.rpg.player.RPGPlayer rpgPlayer) {
-        GuiItem talentsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.BLAZE_POWDER)
-                        .displayName(trans("items.mainmenu.talents-button.name"))
-                        .addLore(langManager.getComponentList(viewer, "items.mainmenu.talents-button.lore"))
+    private void setupCollectionButton() {
+        GuiItem collectionButton = GuiItem.clickable(
+                ItemBuilder.of(Material.BOOK)
+                        .displayName(Component.text("수집북", ColorUtil.INFO))
+                        .addLore(trans("general.coming-soon"))
                         .build(),
                 p -> {
-                    if (!rpgPlayer.hasJob()) {
-                        langManager.sendMessage(p, "messages.no-job-for-talents");
-                        playErrorSound(p);
-                        return;
-                    }
-
-                    if (p.equals(targetPlayer)) {
-                        // TalentGui 열기
-                        java.util.List<com.febrie.rpg.talent.Talent> talents = RPGMain.getPlugin()
-                                .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
-                        TalentGui talentGui = new TalentGui(guiManager, langManager, p, rpgPlayer, "main", talents);
-                        guiManager.openGui(p, talentGui);
-                        playSuccessSound(p);
-                    } else {
-                        langManager.sendMessage(p, "general.cannot-view-others-talents");
-                        playErrorSound(p);
-                    }
+                    langManager.sendMessage(p, "general.coming-soon");
+                    playClickSound(p);
                 }
         );
-        setItem(TALENTS_SLOT, talentsButton);
+        setItem(COLLECTION_SLOT, collectionButton);
+    }
+
+    /**
+     * Pet button setup (coming soon)
+     */
+    private void setupPetButton() {
+        GuiItem petButton = GuiItem.clickable(
+                ItemBuilder.of(Material.BONE)
+                        .displayName(Component.text("애완동물", ColorUtil.UNCOMMON))
+                        .addLore(trans("general.coming-soon"))
+                        .build(),
+                p -> {
+                    langManager.sendMessage(p, "general.coming-soon");
+                    playClickSound(p);
+                }
+        );
+        setItem(PET_SLOT, petButton);
+    }
+
+    /**
+     * Navigation buttons setup
+     */
+    private void setupNavigationButtons() {
+        // 하단 전체에 장식 배치
+        for (int i = 45; i < 54; i++) {
+            setItem(i, GuiFactory.createDecoration());
+        }
+
+        // Back button - BaseGui 표준 위치 사용
+        updateNavigationButtons();
+
+        // Close button - BaseGui 표준 위치 사용
+        setItem(CLOSE_BUTTON_SLOT, GuiFactory.createCloseButton(langManager, viewer));
+
+        // User settings button (only for own profile)
+        if (viewer.equals(targetPlayer)) {
+            GuiItem userSettingsButton = GuiItem.clickable(
+                    ItemBuilder.of(Material.COMPARATOR)
+                            .displayName(Component.text("사용자 설정", ColorUtil.GRAY))
+                            .addLore(Component.text("개인 설정을 변경합니다", ColorUtil.GRAY))
+                            .build(),
+                    p -> {
+                        langManager.sendMessage(p, "general.coming-soon");
+                        playClickSound(p);
+                    }
+            );
+            setItem(USER_SETTINGS_SLOT, userSettingsButton);
+        }
     }
 
     @Override
