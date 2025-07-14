@@ -2,8 +2,6 @@ package com.febrie.rpg.quest.objective.impl;
 
 import com.febrie.rpg.quest.objective.BaseObjective;
 import com.febrie.rpg.quest.objective.ObjectiveType;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -23,6 +21,7 @@ public class VisitLocationObjective extends BaseObjective {
     private final Location targetLocation;
     private final double radius;
     private final String locationName;
+    private final String npcName;
 
     /**
      * 기본 생성자
@@ -34,25 +33,68 @@ public class VisitLocationObjective extends BaseObjective {
      */
     public VisitLocationObjective(@NotNull String id, @NotNull Location targetLocation,
                                   double radius, @NotNull String locationName) {
-        super(id, 1, createDescription(locationName));
+        this(id, targetLocation, radius, locationName, "모험가 길드");
+    }
+
+    /**
+     * NPC 지정 생성자
+     *
+     * @param id             목표 ID
+     * @param targetLocation 목표 위치
+     * @param radius         도달 판정 반경
+     * @param locationName   위치 이름
+     * @param npcName        퀘스트 제공 NPC
+     */
+    public VisitLocationObjective(@NotNull String id, @NotNull Location targetLocation,
+                                  double radius, @NotNull String locationName, @NotNull String npcName) {
+        super(id, 1, "quest.objective.visit_location",
+                "location", locationName);
         this.targetLocation = Objects.requireNonNull(targetLocation);
         this.radius = radius;
         this.locationName = Objects.requireNonNull(locationName);
+        this.npcName = Objects.requireNonNull(npcName);
 
         if (radius <= 0) {
             throw new IllegalArgumentException("Radius must be positive: " + radius);
         }
     }
 
-    private static Component createDescription(String locationName) {
-        return Component.translatable("quest.objective.visit_location",
-                        Component.text(locationName))
-                .color(NamedTextColor.YELLOW);
-    }
-
     @Override
     public @NotNull ObjectiveType getType() {
         return ObjectiveType.VISIT_LOCATION;
+    }
+
+    @Override
+    public @NotNull String getDescription(boolean isKorean) {
+        return isKorean ?
+                "퀘스트를 준 사람: " + npcName + "\n\n" +
+                        "모험가여, " + locationName + " 지역을 방문해주게. " +
+                        "그곳에서 중요한 단서를 찾을 수 있을 걸세. " +
+                        "지도에 표시해둔 위치로 가서 주변을 잘 살펴보게나." :
+
+                "Quest Giver: " + npcName + "\n\n" +
+                        "Adventurer, please visit the " + locationName + " area. " +
+                        "You'll find important clues there. " +
+                        "Go to the marked location on your map and look around carefully.";
+    }
+
+    @Override
+    public @NotNull String getGiverName(boolean isKorean) {
+        return npcName;
+    }
+
+    @Override
+    public @NotNull String getLocationInfo(boolean isKorean) {
+        if (targetLocation.getWorld() == null) {
+            return isKorean ? "알 수 없는 위치" : "Unknown Location";
+        }
+
+        return String.format("%s (%d, %d, %d)",
+                locationName,
+                targetLocation.getBlockX(),
+                targetLocation.getBlockY(),
+                targetLocation.getBlockZ()
+        );
     }
 
     @Override
@@ -83,24 +125,35 @@ public class VisitLocationObjective extends BaseObjective {
 
     @Override
     protected @NotNull String serializeData() {
-        return String.format("%s:%f:%f:%f:%f:%s",
-                targetLocation.getWorld().getName(),
+        return String.format("%s;%f;%f;%f;%f;%s;%s",
+                targetLocation.getWorld() != null ? targetLocation.getWorld().getName() : "world",
                 targetLocation.getX(),
                 targetLocation.getY(),
                 targetLocation.getZ(),
                 radius,
-                locationName);
+                locationName,
+                npcName
+        );
     }
 
-    public Location getTargetLocation() {
+    /**
+     * 목표 위치 반환
+     */
+    public @NotNull Location getTargetLocation() {
         return targetLocation.clone();
     }
 
+    /**
+     * 도달 반경 반환
+     */
     public double getRadius() {
         return radius;
     }
 
-    public String getLocationName() {
+    /**
+     * 위치 이름 반환
+     */
+    public @NotNull String getLocationName() {
         return locationName;
     }
 }

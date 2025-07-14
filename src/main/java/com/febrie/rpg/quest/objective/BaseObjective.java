@@ -79,6 +79,7 @@ public abstract class BaseObjective implements QuestObjective {
         return getCurrentProgress(progress) >= requiredAmount;
     }
 
+
     /**
      * 직렬화를 위한 기본 형식
      *
@@ -111,5 +112,17 @@ public abstract class BaseObjective implements QuestObjective {
     @Override
     public int hashCode() {
         return Objects.hash(id, requiredAmount);
+    }
+
+    @Override
+    public @NotNull String getDescription(boolean isKorean) {
+        // 기본 구현 - 하위 클래스에서 오버라이드
+        return isKorean ? "퀘스트 목표입니다." : "Quest objective.";
+    }
+
+    @Override
+    public @NotNull String getGiverName(boolean isKorean) {
+        // 기본 구현 - 하위 클래스에서 오버라이드
+        return isKorean ? "알 수 없음" : "Unknown";
     }
 }

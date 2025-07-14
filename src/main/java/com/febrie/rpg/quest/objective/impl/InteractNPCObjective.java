@@ -3,7 +3,6 @@ package com.febrie.rpg.quest.objective.impl;
 import com.febrie.rpg.quest.objective.BaseObjective;
 import com.febrie.rpg.quest.objective.ObjectiveType;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.Event;
@@ -43,27 +42,41 @@ public class InteractNPCObjective extends BaseObjective {
      */
     public InteractNPCObjective(@NotNull String id, @NotNull String npcName,
                                 @Nullable Villager.Profession profession) {
-        super(id, 1, createDescription(npcName, profession));
+        super(id, 1, profession != null ? "quest.objective.interact_npc.profession" : "quest.objective.interact_npc",
+                createPlaceholders(npcName, profession));
         this.npcName = Objects.requireNonNull(npcName);
         this.profession = profession;
     }
 
-    private static Component createDescription(String npcName, @Nullable Villager.Profession profession) {
+    private static String[] createPlaceholders(String npcName, @Nullable Villager.Profession profession) {
         if (profession != null) {
-            return Component.translatable("quest.objective.interact_npc.profession",
-                            Component.translatable("entity.minecraft.villager." + profession.name().toLowerCase()),
-                            Component.text(npcName))
-                    .color(NamedTextColor.YELLOW);
-        } else {
-            return Component.translatable("quest.objective.interact_npc",
-                            Component.text(npcName))
-                    .color(NamedTextColor.YELLOW);
+            return new String[]{"npc", npcName, "profession", profession.name().toLowerCase()};
         }
+        return new String[]{"npc", npcName};
     }
 
     @Override
     public @NotNull ObjectiveType getType() {
         return ObjectiveType.INTERACT_NPC;
+    }
+
+    @Override
+    public @NotNull String getDescription(boolean isKorean) {
+        return isKorean ?
+                "퀘스트를 준 사람: 모험가 길드\n\n" +
+                        npcName + "을(를) 찾아가 이야기를 나누어 보게나. " +
+                        "그는 자네에게 중요한 정보를 제공할 걸세. " +
+                        (profession != null ? "그는 마을의 " + profession.name().toLowerCase() + "(이)라네." : "") :
+
+                "Quest Giver: Adventurer's Guild\n\n" +
+                        "Go find " + npcName + " and talk to them. " +
+                        "They will provide you with important information. " +
+                        (profession != null ? "They are the village " + profession.name().toLowerCase() + "." : "");
+    }
+
+    @Override
+    public @NotNull String getGiverName(boolean isKorean) {
+        return isKorean ? "모험가 길드" : "Adventurer's Guild";
     }
 
     @Override

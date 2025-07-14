@@ -2,6 +2,8 @@ package com.febrie.rpg.database;
 
 import com.febrie.rpg.dto.*;
 import com.febrie.rpg.job.JobType;
+import com.febrie.rpg.quest.progress.ObjectiveProgress;
+import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.util.LogUtil;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
@@ -397,6 +399,304 @@ public class FirebaseService {
                 return new ArrayList<>();
             }
         });
+    }
+
+    // ========== 퀘스트 데이터 관리 ==========
+
+    private static final String QUEST_SUBCOLLECTION = "Quest";
+
+    /**
+     * 플레이어 퀘스트 데이터 로드
+     */
+    public CompletableFuture<PlayerQuestDTO> loadPlayerQuestData(@NotNull String playerId) {
+        if (!isConnected()) {
+            return CompletableFuture.completedFuture(new PlayerQuestDTO(playerId));
+        }
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                DocumentReference questRef = firestore
+                        .collection(PLAYERS_COLLECTION)
+                        .document(playerId)
+                        .collection(QUEST_SUBCOLLECTION)
+                        .document("data");
+
+                DocumentSnapshot snapshot = questRef.get().get();
+
+                if (!snapshot.exists()) {
+                    LogUtil.debug("퀘스트 데이터가 없어 새로 생성: " + playerId);
+                    return new PlayerQuestDTO(playerId);
+                }
+
+                return mapToPlayerQuestDTO(playerId, snapshot.getData());
+            } catch (Exception e) {
+                LogUtil.error("플레이어 퀘스트 데이터 로드 실패: " + playerId, e);
+                return new PlayerQuestDTO(playerId);
+            }
+        });
+    }
+
+    /**
+     * 플레이어 퀘스트 데이터 저장
+     */
+    public CompletableFuture<Boolean> savePlayerQuestData(@NotNull String playerId,
+                                                          @NotNull PlayerQuestDTO questData) {
+        if (!isConnected()) {
+            return CompletableFuture.completedFuture(false);
+        }
+
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                WriteBatch batch = firestore.batch();
+
+                // 메인 퀘스트 데이터 참조
+                DocumentReference questRef = firestore
+                        .collection(PLAYERS_COLLECTION)
+                        .document(playerId)
+                        .collection(QUEST_SUBCOLLECTION)
+                        .document("data");
+
+                // 퀘스트 데이터 변환 및 저장
+                Map<String, Object> questMap = convertPlayerQuestToMap(questData);
+                batch.set(questRef, questMap);
+
+                // 활성 퀘스트 서브컬렉션 저장
+                CollectionReference activeRef = questRef.collection("active");
+
+                // 기존 활성 퀘스트 삭제
+                QuerySnapshot activeSnapshot = activeRef.get().get();
+                for (DocumentSnapshot doc : activeSnapshot) {
+                    batch.delete(doc.getReference());
+                }
+
+                // 새 활성 퀘스트 저장
+                for (Map.Entry<String, QuestProgress> entry : questData.activeQuests().entrySet()) {
+                    DocumentReference activeQuestRef = activeRef.document(entry.getKey());
+                    batch.set(activeQuestRef, convertQuestProgressToMap(entry.getValue()));
+                }
+
+                // 완료된 퀘스트 서브컬렉션 저장
+                CollectionReference completedRef = questRef.collection("completed");
+
+                // 새로 완료된 퀘스트만 저장 (기존 것은 유지)
+                for (Map.Entry<String, CompletedQuestDTO> entry : questData.completedQuests().entrySet()) {
+                    DocumentReference completedQuestRef = completedRef.document(entry.getKey());
+                    if (!completedQuestRef.get().get().exists()) {
+                        batch.set(completedQuestRef, convertCompletedQuestToMap(entry.getValue()));
+                    }
+                }
+
+                // 배치 실행
+                batch.commit().get();
+
+                LogUtil.debug("플레이어 퀘스트 데이터 저장 완료: " + playerId);
+                return true;
+            } catch (Exception e) {
+                LogUtil.error("플레이어 퀘스트 데이터 저장 실패: " + playerId, e);
+                return false;
+            }
+        });
+    }
+
+    /**
+     * PlayerQuestDTO 변환 (Map to DTO)
+     */
+    private PlayerQuestDTO mapToPlayerQuestDTO(@NotNull String playerId, Map<String, Object> data) {
+        if (data == null) return new PlayerQuestDTO(playerId);
+
+        Map<String, QuestProgress> activeQuests = new HashMap<>();
+        Map<String, CompletedQuestDTO> completedQuests = new HashMap<>();
+
+        // 활성 퀘스트 로드
+        try {
+            CollectionReference activeRef = firestore
+                    .collection(PLAYERS_COLLECTION)
+                    .document(playerId)
+                    .collection(QUEST_SUBCOLLECTION)
+                    .document("data")
+                    .collection("active");
+
+            QuerySnapshot activeSnapshot = activeRef.get().get();
+            for (DocumentSnapshot doc : activeSnapshot) {
+                QuestProgress progress = mapToQuestProgress(doc.getData());
+                if (progress != null) {
+                    activeQuests.put(doc.getId(), progress);
+                }
+            }
+        } catch (Exception e) {
+            LogUtil.error("활성 퀘스트 로드 실패: " + playerId, e);
+        }
+
+        // 완료된 퀘스트 로드
+        try {
+            CollectionReference completedRef = firestore
+                    .collection(PLAYERS_COLLECTION)
+                    .document(playerId)
+                    .collection(QUEST_SUBCOLLECTION)
+                    .document("data")
+                    .collection("completed");
+
+            QuerySnapshot completedSnapshot = completedRef.get().get();
+            for (DocumentSnapshot doc : completedSnapshot) {
+                CompletedQuestDTO completed = mapToCompletedQuestDTO(doc.getData());
+                if (completed != null) {
+                    completedQuests.put(doc.getId(), completed);
+                }
+            }
+        } catch (Exception e) {
+            LogUtil.error("완료된 퀘스트 로드 실패: " + playerId, e);
+        }
+
+        long lastUpdated = getLongValue(data, "lastUpdated", System.currentTimeMillis());
+
+        return new PlayerQuestDTO(playerId, activeQuests, completedQuests, lastUpdated);
+    }
+
+    /**
+     * QuestProgress 변환 (Map to Object)
+     */
+    private QuestProgress mapToQuestProgress(Map<String, Object> data) {
+        if (data == null) return null;
+
+        String questId = (String) data.get("questId");
+        String playerId = (String) data.get("playerId");
+        if (questId == null || playerId == null) return null;
+
+        Map<String, ObjectiveProgress> objectives = new HashMap<>();
+
+        // objectives 맵 파싱
+        Object objectivesObj = data.get("objectives");
+        if (objectivesObj instanceof Map<?, ?> objMap) {
+            objMap.forEach((k, v) -> {
+                if (k != null && v instanceof Map<?, ?> progressMap) {
+                    ObjectiveProgress objProgress = mapToObjectiveProgress((Map<String, Object>) progressMap);
+                    if (objProgress != null) {
+                        objectives.put(k.toString(), objProgress);
+                    }
+                }
+            });
+        }
+
+        QuestProgress progress = new QuestProgress(questId, UUID.fromString(playerId), objectives);
+
+        // 상태 설정
+        String stateStr = (String) data.get("state");
+        if (stateStr != null) {
+            try {
+                progress.setState(QuestProgress.QuestState.valueOf(stateStr));
+            } catch (IllegalArgumentException e) {
+                // 기본값 유지
+            }
+        }
+
+        // 현재 목표 인덱스
+        progress.setCurrentObjectiveIndex(getIntValue(data, "currentObjectiveIndex", 0));
+
+        return progress;
+    }
+
+    /**
+     * ObjectiveProgress 변환 (Map to Object)
+     */
+    private ObjectiveProgress mapToObjectiveProgress(Map<String, Object> data) {
+        if (data == null) return null;
+
+        String objectiveId = (String) data.get("objectiveId");
+        String playerId = (String) data.get("playerId");
+        if (objectiveId == null || playerId == null) return null;
+
+        int requiredAmount = getIntValue(data, "requiredAmount", 1);
+        ObjectiveProgress progress = new ObjectiveProgress(objectiveId, UUID.fromString(playerId), requiredAmount);
+
+        // 현재 진행도 설정
+        int currentValue = getIntValue(data, "currentValue", 0);
+        for (int i = 0; i < currentValue; i++) {
+            progress.increment(1);
+        }
+
+        return progress;
+    }
+
+    /**
+     * CompletedQuestDTO 변환 (Map to DTO)
+     */
+    private CompletedQuestDTO mapToCompletedQuestDTO(Map<String, Object> data) {
+        if (data == null) return null;
+
+        return new CompletedQuestDTO(
+                (String) data.get("questId"),
+                getLongValue(data, "startedAt", System.currentTimeMillis()),
+                getLongValue(data, "completedAt", System.currentTimeMillis()),
+                getLongValue(data, "duration", 0L),
+                getIntValue(data, "rewardsClaimed", 1)
+        );
+    }
+
+    /**
+     * PlayerQuestDTO 변환 (DTO to Map)
+     */
+    private Map<String, Object> convertPlayerQuestToMap(PlayerQuestDTO questData) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("playerId", questData.playerId());
+        map.put("lastUpdated", FieldValue.serverTimestamp());
+        // activeQuests와 completedQuests는 서브컬렉션으로 저장
+        return map;
+    }
+
+    /**
+     * QuestProgress 변환 (Object to Map)
+     */
+    private Map<String, Object> convertQuestProgressToMap(QuestProgress progress) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("questId", progress.getQuestId());
+        map.put("playerId", progress.getPlayerId().toString());
+        map.put("state", progress.getState().name());
+        map.put("currentObjectiveIndex", progress.getCurrentObjectiveIndex());
+        map.put("startedAt", progress.getStartedAt().toEpochMilli());
+
+        if (progress.getCompletedAt() != null) {
+            map.put("completedAt", progress.getCompletedAt().toEpochMilli());
+        }
+
+        // objectives 맵 변환
+        Map<String, Map<String, Object>> objectivesMap = new HashMap<>();
+        progress.getObjectives().forEach((id, objProgress) -> {
+            objectivesMap.put(id, convertObjectiveProgressToMap(objProgress));
+        });
+        map.put("objectives", objectivesMap);
+
+        return map;
+    }
+
+    /**
+     * ObjectiveProgress 변환 (Object to Map)
+     */
+    private Map<String, Object> convertObjectiveProgressToMap(ObjectiveProgress progress) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("objectiveId", progress.getObjectiveId());
+        map.put("playerId", progress.getPlayerId().toString());
+        map.put("currentValue", progress.getCurrentValue());
+        map.put("requiredAmount", progress.getRequiredAmount());
+        map.put("startedAt", progress.getStartedAt());
+
+        if (progress.getCompletedAt() > 0) {
+            map.put("completedAt", progress.getCompletedAt());
+        }
+
+        return map;
+    }
+
+    /**
+     * CompletedQuestDTO 변환 (DTO to Map)
+     */
+    private Map<String, Object> convertCompletedQuestToMap(CompletedQuestDTO completed) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("questId", completed.questId());
+        map.put("startedAt", completed.startedAt());
+        map.put("completedAt", completed.completedAt());
+        map.put("duration", completed.duration());
+        map.put("rewardsClaimed", completed.rewardsClaimed());
+        return map;
     }
 
     // ========== 플레이어 데이터 관리 ==========

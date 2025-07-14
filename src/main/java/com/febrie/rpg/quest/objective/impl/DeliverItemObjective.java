@@ -37,7 +37,7 @@ public class DeliverItemObjective extends BaseObjective {
      */
     public DeliverItemObjective(@NotNull String id, @NotNull String npcName,
                                 @NotNull Material itemType, int amount) {
-        super(id, 1, createDescription(npcName, Map.of(itemType, amount)));
+        super(id, 1, "quest.objective.deliver_item", createPlaceholders(npcName, Map.of(itemType, amount)));
         this.npcName = Objects.requireNonNull(npcName);
         this.requiredItems = Map.of(itemType, amount);
     }
@@ -51,27 +51,44 @@ public class DeliverItemObjective extends BaseObjective {
      */
     public DeliverItemObjective(@NotNull String id, @NotNull String npcName,
                                 @NotNull Map<Material, Integer> requiredItems) {
-        super(id, 1, createDescription(npcName, requiredItems));
+        super(id, 1, "quest.objective.deliver_item", createPlaceholders(npcName, requiredItems));
         this.npcName = Objects.requireNonNull(npcName);
         this.requiredItems = new HashMap<>(requiredItems);
     }
 
-    private static Component createDescription(String npcName, Map<Material, Integer> items) {
-        Component itemList = Component.empty();
-        int index = 0;
+    private static String[] createPlaceholders(String npcName, Map<Material, Integer> items) {
+        // 간단한 플레이스홀더 반환
+        return new String[]{"npc", npcName, "items", String.valueOf(items.size())};
+    }
 
-        for (Map.Entry<Material, Integer> entry : items.entrySet()) {
+    @Override
+    public @NotNull String getDescription(boolean isKorean) {
+        StringBuilder itemList = new StringBuilder();
+        int index = 0;
+        for (Map.Entry<Material, Integer> entry : requiredItems.entrySet()) {
             if (index > 0) {
-                itemList = itemList.append(Component.text(", "));
+                itemList.append(", ");
             }
-            itemList = itemList.append(Component.translatable(entry.getKey().translationKey()))
-                    .append(Component.text(" " + entry.getValue()));
+            itemList.append(entry.getValue()).append("개 ")
+                    .append(entry.getKey().name().toLowerCase().replace('_', ' '));
             index++;
         }
 
-        return Component.translatable("quest.objective.deliver_item",
-                        Component.text(npcName), itemList)
-                .color(NamedTextColor.YELLOW);
+        return isKorean ?
+                "퀘스트를 준 사람: " + npcName + "\n\n" +
+                        "자네가 가진 물건이 필요하다네. " + itemList + "을(를) 가져다 주게나. " +
+                        "이 물건들은 정말 중요한 일에 쓰일 예정이라네. " +
+                        "부탁하네, 모험가여." :
+
+                "Quest Giver: " + npcName + "\n\n" +
+                        "I need the items you have. Please bring me " + itemList + ". " +
+                        "These items will be used for something very important. " +
+                        "I'm counting on you, adventurer.";
+    }
+
+    @Override
+    public @NotNull String getGiverName(boolean isKorean) {
+        return npcName;
     }
 
     @Override
