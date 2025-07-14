@@ -1,0 +1,222 @@
+{
+  "objective": {
+    "type": {
+      "kill_mob": "Kill Mobs",
+      "kill_player": "Kill Players",
+      "collect_item": "Collect Items",
+      "craft_item": "Craft Items",
+      "interact_npc": "Visit NPC",
+      "visit_location": "Visit Location",
+      "break_block": "Break Blocks",
+      "place_block": "Place Blocks",
+      "deliver_item": "Deliver Items",
+      "pay_currency": "Pay Currency",
+      "fishing": "Fishing",
+      "harvest": "Harvest Crops",
+      "explore": "Explore",
+      "survive": "Survive",
+      "reach_level": "Reach Level"
+    },
+    "kill_mob": "Kill %amount% %mob%",
+    "kill_mob": {
+      "custom": "Kill %amount% %mob%"
+    },
+    "collect_item": "Collect %amount% %item%",
+    "craft_item": "Craft %amount% %item%",
+    "interact_npc": "Visit %npc%",
+    "interact_npc": {
+      "profession": "Visit %npc% the %profession%"
+    },
+    "visit_location": "Visit %location%",
+    "break_block": "Break %amount% %block%",
+    "place_block": "Place %amount% %block%",
+    "deliver_item": "Deliver %items% to %npc%",
+    "pay_currency": "Use %amount%",
+    "pay_currency": {
+      "to_npc": "Pay %amount% to %npc%"
+    },
+    "kill_player": "Kill %amount% players",
+    "kill_player": {
+      "specific": "Kill %target% %amount% times",
+      "world": "(in %world% world)"
+    },
+    "fishing": {
+      "type": {
+        "any": "Any",
+        "fish": "Fish",
+        "treasure": "Treasure",
+        "junk": "Junk",
+        "specific": "Specific Item"
+      },
+      "any": "Fish %amount% times",
+      "fish": "Catch %amount% fish",
+      "treasure": "Catch %amount% treasures",
+      "junk": "Catch %amount% junk items",
+      "specific": "Catch %amount% %item%"
+    },
+    "harvest": "Harvest %amount% %crop%",
+    "explore": {
+      "single": "Explore %location%",
+      "multiple": "Explore %amount% locations"
+    },
+    "survive": {
+      "type": {
+        "time": "Time Survival",
+        "location": "Location Survival",
+        "wave": "Wave Survival",
+        "no_death": "No Death Survival"
+      },
+      "time": "Survive for %seconds% seconds",
+      "location": "Survive in the area for %seconds% seconds",
+      "wave": "Survive %waves% waves",
+      "no_death": "Survive without dying for %seconds% seconds"
+    },
+    "level": {
+      "type": {
+        "player": "Player Level",
+        "rpg": "RPG Level",
+        "skill": "Skill Level",
+        "job": "Job Level"
+      }
+    },
+    "reach_level": "Reach %level_type% %level%"
+  },
+  "state": {
+    "not_started": "Not Started",
+    "active": "Active",
+    "completed": "Completed",
+    "failed": "Failed",
+    "abandoned": "Abandoned"
+  },
+  "category": {
+    "main": "Main",
+    "side": "Side",
+    "daily": "Daily",
+    "weekly": "Weekly",
+    "event": "Event",
+    "tutorial": "Tutorial",
+    "normal": "Normal"
+  },
+  "reward": {
+    "type": {
+      "item": "Item",
+      "experience": "Experience",
+      "currency": "Currency",
+      "mixed": "Mixed",
+      "special": "Special"
+    },
+    "basic": {
+      "description": "Basic Rewards"
+    },
+    "preview": {
+      "items": "%COLOR_YELLOW%Item Rewards:",
+      "currencies": "%COLOR_GOLD%Currency Rewards:",
+      "experience": "%COLOR_GREEN%Experience: %amount%",
+      "item": "%COLOR_GRAY%• %item% x%amount%",
+      "currency": "%COLOR_GRAY%• %currency% %amount%"
+    }
+  },
+  "prerequisite": {
+    "header": "%COLOR_GOLD%Prerequisite Quests:"
+  },
+  "exclusive": {
+    "warning": "%COLOR_RED%⚠ Warning: Choose one or the other:"
+  },
+  "tutorial": {
+    "first_steps": {
+      "name": "%COLOR_GREEN%First Steps",
+      "description": [
+        "%COLOR_GRAY%Welcome to the server!",
+        "%COLOR_GRAY%Let's learn basic movement and interaction.",
+        "",
+        "%COLOR_YELLOW%Objectives:",
+        "%COLOR_GRAY%• Visit spawn point",
+        "%COLOR_GRAY%• Talk to village merchant"
+      ]
+    },
+    "basic_combat": {
+      "name": "%COLOR_GREEN%Basic Combat",
+      "description": [
+        "%COLOR_GRAY%Learn how to fight monsters.",
+        "%COLOR_GRAY%Be careful, monsters are dangerous!",
+        "",
+        "%COLOR_YELLOW%Objectives:",
+        "%COLOR_GRAY%• Kill 5 zombies",
+        "%COLOR_GRAY%• Kill 3 skeletons"
+      ]
+    }
+  },
+  "main": {
+    "heroes_journey": {
+      "name": "%COLOR_GOLD%Hero's Journey",
+      "description": [
+        "%COLOR_GRAY%The first step to becoming a true hero.",
+        "%COLOR_GRAY%Prove your skills through various challenges!",
+        "",
+        "%COLOR_YELLOW%Various objectives await you."
+      ]
+    },
+    "path_of_light": {
+      "name": "%COLOR_YELLOW%✦ Path of Light",
+      "description": [
+        "%COLOR_GRAY%Walk the path of justice and goodness.",
+        "%COLOR_GRAY%Purify darkness and help people.",
+        "",
+        "%COLOR_RED%⚠ If you choose this quest,",
+        "%COLOR_RED%Path of Darkness cannot be selected!"
+      ],
+      "reward": {
+        "description": [
+          "%COLOR_YELLOW%✦ Blessing of Light Rewards:",
+          "%COLOR_GRAY%• Angel Wings (Elytra)",
+          "%COLOR_GRAY%• Totem of Undying",
+          "%COLOR_GRAY%• Beacon",
+          "%COLOR_GRAY%• 1,000 Gold",
+          "%COLOR_GRAY%• 20 Diamonds"
+        ]
+      }
+    },
+    "path_of_darkness": {
+      "name": "%COLOR_DARK_PURPLE%✦ Path of Darkness",
+      "description": [
+        "%COLOR_GRAY%Walk the path of power and domination.",
+        "%COLOR_GRAY%Destroy and conquer everything.",
+        "",
+        "%COLOR_RED%⚠ If you choose this quest,",
+        "%COLOR_RED%Path of Light cannot be selected!"
+      ],
+      "reward": {
+        "description": [
+          "%COLOR_DARK_PURPLE%✦ Dark Power Rewards:",
+          "%COLOR_GRAY%• Netherite Sword",
+          "%COLOR_GRAY%• 3 Wither Skeleton Skulls",
+          "%COLOR_GRAY%• 5 Enchanted Golden Apples",
+          "%COLOR_GRAY%• 1,500 Gold",
+          "%COLOR_GRAY%• 50 Stardust"
+        ]
+      }
+    }
+  },
+  "side": {
+    "farmers_request": {
+      "name": "%COLOR_YELLOW%Farmer's Request",
+      "description": [
+        "%COLOR_GRAY%The farmer asked for help with the harvest.",
+        "%COLOR_GRAY%Harvest crops and deliver them.",
+        "",
+        "%COLOR_YELLOW%Rich rewards await!"
+      ]
+    }
+  },
+  "daily": {
+    "mining": {
+      "name": "%COLOR_AQUA%[Daily] Miner's Routine",
+      "description": [
+        "%COLOR_GRAY%Achieve today's mining goals!",
+        "%COLOR_GRAY%Resets daily at midnight.",
+        "",
+        "%COLOR_YELLOW%Get rewarded for your hard work."
+      ]
+    }
+  }
+}

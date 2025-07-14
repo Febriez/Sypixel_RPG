@@ -6,9 +6,6 @@ import com.febrie.rpg.util.LogUtil;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.firestore.*;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.cloud.FirestoreClient;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -46,15 +43,11 @@ public class FirebaseService {
     private static final String PROGRESS_SUBCOLLECTION = "Progress";
 
     // Firebase 설정 상수 (Private Key 제외)
-    // TODO: 실제 프로젝트 정보로 변경하세요
-    private static final String FIREBASE_PROJECT_ID = "sypixel-rpg"; // 예: "my-rpg-project"
-    private static final String FIREBASE_CLIENT_EMAIL = "firebase-adminsdk-fbsvc@sypixel-rpg.iam.gserviceaccount.com"; // 실제 서비스 계정 이메일로 변경
+    private static final String FIREBASE_PROJECT_ID = "sypixel-rpg";
+    private static final String FIREBASE_CLIENT_EMAIL = "firebase-adminsdk-fbsvc@sypixel-rpg.iam.gserviceaccount.com";
 
     // 환경변수 이름들 (Private Key만)
     private static final String ENV_PRIVATE_KEY = "FIREBASE_PRIVATE_KEY";
-    // 선택적 환경 변수들
-    private static final String ENV_PRIVATE_KEY_ID = "FIREBASE_PRIVATE_KEY_ID";
-    private static final String ENV_CLIENT_ID = "FIREBASE_CLIENT_ID";
 
     public FirebaseService(@NotNull Plugin plugin) {
         initializeFirebase();
@@ -76,15 +69,11 @@ public class FirebaseService {
 
             GoogleCredentials credentials = createCredentials(privateKey);
             if (credentials == null) return;
-
-            FirebaseOptions options = FirebaseOptions.builder()
+            FirestoreOptions options = FirestoreOptions.newBuilder()
                     .setCredentials(credentials)
                     .setProjectId(FIREBASE_PROJECT_ID)
                     .build();
-
-            FirebaseApp.initializeApp(options);
-            firestore = FirestoreClient.getFirestore();
-
+            firestore = options.getService();
             testConnection();
 
         } catch (Exception e) {
@@ -101,23 +90,11 @@ public class FirebaseService {
             // Private Key 형식 정리 (환경 변수에서 \\n을 실제 개행으로 변환)
             privateKey = privateKey.replace("\\n", "\n");
 
-            // 선택적 환경 변수 읽기
-            String privateKeyId = System.getenv(ENV_PRIVATE_KEY_ID);
-            String clientId = System.getenv(ENV_CLIENT_ID);
-
             // ServiceAccountCredentials 빌더 사용
             ServiceAccountCredentials.Builder builder = ServiceAccountCredentials.newBuilder()
                     .setProjectId(FIREBASE_PROJECT_ID)
                     .setPrivateKeyString(privateKey)
                     .setClientEmail(FIREBASE_CLIENT_EMAIL);
-
-            // 선택적 필드 설정
-            if (privateKeyId != null && !privateKeyId.isEmpty()) {
-                builder.setPrivateKeyId(privateKeyId);
-            }
-            if (clientId != null && !clientId.isEmpty()) {
-                builder.setClientId(clientId);
-            }
 
             // 기본 스코프 설정
             builder.setScopes(Arrays.asList(
