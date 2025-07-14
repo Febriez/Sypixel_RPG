@@ -1,10 +1,12 @@
 package com.febrie.rpg.quest;
 
+import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.reward.QuestReward;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -67,17 +69,29 @@ public abstract class Quest {
     }
 
     /**
-     * 퀘스트 이름 번역 키 반환
+     * 퀘스트 표시 이름 (하드코딩)
+     *
+     * @param isKorean 한국어 여부
+     * @return 퀘스트 이름
      */
-    public @NotNull String getNameKey() {
-        return id.getNameKey();
-    }
+    public abstract @NotNull String getDisplayName(boolean isKorean);
 
     /**
-     * 퀘스트 설명 번역 키 반환
+     * 퀘스트 설명 (하드코딩)
+     *
+     * @param isKorean 한국어 여부
+     * @return 퀘스트 설명 (여러 줄)
      */
-    public @NotNull String getDescriptionKey() {
-        return id.getDescriptionKey();
+    public abstract @NotNull List<String> getDescription(boolean isKorean);
+
+    /**
+     * 퀘스트 대화 (없으면 null)
+     *
+     * @return 퀘스트 대화
+     */
+    @Nullable
+    public QuestDialog getDialog() {
+        return null; // 기본적으로 대화 없음, 필요한 퀘스트만 오버라이드
     }
 
     /**
@@ -283,13 +297,17 @@ public abstract class Quest {
 
         public Builder daily(boolean daily) {
             this.daily = daily;
-            this.repeatable = true; // 일일 퀘스트는 자동으로 반복 가능
+            if (daily) {
+                this.repeatable = true; // 일일 퀘스트는 자동으로 반복 가능
+            }
             return this;
         }
 
         public Builder weekly(boolean weekly) {
             this.weekly = weekly;
-            this.repeatable = true; // 주간 퀘스트는 자동으로 반복 가능
+            if (weekly) {
+                this.repeatable = true; // 주간 퀘스트는 자동으로 반복 가능
+            }
             return this;
         }
 

@@ -3,6 +3,7 @@ package com.febrie.rpg.quest.impl.tutorial;
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 첫 걸음 - 튜토리얼 퀘스트 1
@@ -72,5 +74,60 @@ public class FirstStepsQuest extends Quest {
                 .sequential(true)  // 순차적으로 진행
                 .category(QuestCategory.TUTORIAL)
                 .minLevel(1);
+    }
+
+    @Override
+    public @NotNull String getDisplayName(boolean isKorean) {
+        return isKorean ? "첫 걸음" : "First Steps";
+    }
+
+    @Override
+    public @NotNull List<String> getDescription(boolean isKorean) {
+        if (isKorean) {
+            return Arrays.asList(
+                    "서버에 오신 것을 환영합니다!",
+                    "기본적인 이동과 상호작용을 배워봅시다.",
+                    "",
+                    "목표:",
+                    "• 스폰 지점 방문",
+                    "• 마을 상인과 대화"
+            );
+        } else {
+            return Arrays.asList(
+                    "Welcome to the server!",
+                    "Let's learn basic movement and interaction.",
+                    "",
+                    "Objectives:",
+                    "• Visit spawn point",
+                    "• Talk to village merchant"
+            );
+        }
+    }
+
+    @Override
+    public QuestDialog getDialog() {
+        QuestDialog dialog = new QuestDialog("first_steps_dialog");
+
+        dialog.addLine("마을 상인",
+                "안녕하세요! 처음 오셨군요. 서버에 오신 것을 환영합니다!",
+                "Hello! You're new here. Welcome to the server!");
+
+        dialog.addLine("마을 상인",
+                "제가 기본적인 장비를 드리겠습니다. 이것으로 모험을 시작하세요!",
+                "I'll give you some basic equipment. Start your adventure with these!");
+
+        dialog.addLineWithChoices("마을 상인",
+                "준비가 되셨나요?",
+                "Are you ready?",
+                Arrays.asList(
+                        new QuestDialog.DialogChoice("yes", "네, 준비됐습니다!", "Yes, I'm ready!", -1),
+                        new QuestDialog.DialogChoice("no", "아직 준비가 안됐어요.", "Not yet.", 3)
+                ));
+
+        dialog.addLine("마을 상인",
+                "천천히 준비하세요. 준비가 되면 다시 와주세요!",
+                "Take your time. Come back when you're ready!");
+
+        return dialog;
     }
 }

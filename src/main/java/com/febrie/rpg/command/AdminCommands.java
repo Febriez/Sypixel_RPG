@@ -6,17 +6,16 @@ import com.febrie.rpg.listener.ListenerManager;
 import com.febrie.rpg.npc.NPCType;
 import com.febrie.rpg.npc.manager.NPCManager;
 import com.febrie.rpg.player.RPGPlayer;
-import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.player.manager.RPGPlayerManager;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
+import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.registry.QuestRegistry;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -64,6 +63,11 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
                              @NotNull String label, @NotNull String[] args) {
 
+        if (!sender.hasPermission("rpg.admin")) {
+            sender.sendMessage(Component.text("권한이 없습니다.", ColorUtil.ERROR));
+            return true;
+        }
+
         if (args.length == 0) {
             showUsage(sender);
             return true;
@@ -82,51 +86,82 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             case "npc" -> handleNpcCommand(sender, args);
             case "quest" -> handleQuestCommand(sender, args);
             default -> {
-                sender.sendMessage(Component.text("알 수 없는 명령어: " + subCommand, ColorUtil.ERROR));
-                yield false;
+                showUsage(sender);
+                yield true;
             }
         };
     }
 
     /**
+     * 사용법 표시
+     */
+    private void showUsage(@NotNull CommandSender sender) {
+        sender.sendMessage(Component.text("=== RPG Admin Commands ===", ColorUtil.GOLD));
+        sender.sendMessage(Component.text("/rpgadmin stats - 서버 통계 확인", ColorUtil.YELLOW));
+        sender.sendMessage(Component.text("/rpgadmin reload - 설정 리로드", ColorUtil.YELLOW));
+        sender.sendMessage(Component.text("/rpgadmin debug - 디버그 모드 토글", ColorUtil.YELLOW));
+        sender.sendMessage(Component.text("/rpgadmin viewprofile <플레이어> - 프로필 확인", ColorUtil.YELLOW));
+        sender.sendMessage(Component.text("/rpgadmin exp give <플레이어> <경험치> - 경험치 지급", ColorUtil.YELLOW));
+        sender.sendMessage(Component.text("/rpgadmin level set <플레이어> <레벨> - 레벨 설정", ColorUtil.YELLOW));
+        sender.sendMessage(Component.text("/rpgadmin job set <플레이어> <직업> - 직업 설정", ColorUtil.YELLOW));
+        sender.sendMessage(Component.text("/rpgadmin npc create <타입> - NPC 생성", ColorUtil.YELLOW));
+        sender.sendMessage(Component.text("/rpgadmin quest <give|list|reload> - 퀘스트 관리", ColorUtil.YELLOW));
+    }
+
+    /**
      * 통계 명령어 처리
      */
-    private boolean handleStatsCommand(CommandSender sender, String[] args) {
-        sender.sendMessage(Component.text("=== Sypixel RPG Statistics ===", NamedTextColor.GOLD));
-        sender.sendMessage(Component.text("온라인 플레이어: " + Bukkit.getOnlinePlayers().size(), NamedTextColor.WHITE));
-        sender.sendMessage(Component.text("로드된 RPG 플레이어: " + playerManager.getLoadedPlayerCount(), NamedTextColor.WHITE));
-        sender.sendMessage(Component.text("활성 GUI: " + guiManager.getActiveGuiCount(), NamedTextColor.WHITE));
-        sender.sendMessage(Component.text("등록된 리스너: " + listenerManager.getRegisteredListenerCount(), NamedTextColor.WHITE));
-        sender.sendMessage(Component.text("등록된 퀘스트: " + questManager.getAllQuests().size() + "/" + QuestID.values().length, NamedTextColor.WHITE));
-        sender.sendMessage(Component.text("구현된 퀘스트: " + QuestRegistry.getImplementedCount(), NamedTextColor.WHITE));
-        sender.sendMessage(Component.text("디버그 모드: " + (LogUtil.isDebugEnabled() ? "ON" : "OFF"), NamedTextColor.WHITE));
-        sender.sendMessage(Component.text("메모리 사용량: " + getMemoryUsage(), NamedTextColor.WHITE));
+    private boolean handleStatsCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+        sender.sendMessage(Component.text("=== RPG 서버 통계 ===", ColorUtil.GOLD));
+        sender.sendMessage(Component.text("온라인 플레이어: " + Bukkit.getOnlinePlayers().size(), ColorUtil.WHITE));
+        sender.sendMessage(Component.text("로드된 RPG 플레이어: " + playerManager.getAllPlayers().size(), ColorUtil.WHITE));
+        sender.sendMessage(Component.text("활성 리스너: " + listenerManager.getRegisteredListeners().size(), ColorUtil.WHITE));
+        sender.sendMessage(Component.text("등록된 퀘스트: " + QuestID.values().length, ColorUtil.WHITE));
+        sender.sendMessage(Component.text("구현된 퀘스트: " + QuestRegistry.getImplementedCount(), ColorUtil.WHITE));
+
+        // 메모리 사용량
+        Runtime runtime = Runtime.getRuntime();
+        long usedMemory = (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024;
+        long maxMemory = runtime.maxMemory() / 1024 / 1024;
+        sender.sendMessage(Component.text("메모리 사용량: " + usedMemory + "MB / " + maxMemory + "MB", ColorUtil.GRAY));
+
         return true;
     }
 
     /**
      * 리로드 명령어 처리
      */
-    private boolean handleReloadCommand(CommandSender sender, String[] args) {
+    private boolean handleReloadCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+        sender.sendMessage(Component.text("설정을 리로드하는 중...", ColorUtil.YELLOW));
+
+        // 언어 파일 리로드
         langManager.reload();
-        sender.sendMessage(Component.text("언어 파일이 다시 로드되었습니다.", ColorUtil.SUCCESS));
+
+        // TODO: 다른 설정 파일들도 리로드
+
+        sender.sendMessage(Component.text("설정 리로드 완료!", ColorUtil.SUCCESS));
         return true;
     }
 
     /**
      * 디버그 명령어 처리
      */
-    private boolean handleDebugCommand(CommandSender sender, String[] args) {
-        boolean newState = !LogUtil.isDebugEnabled();
-        LogUtil.setDebugEnabled(newState);
-        sender.sendMessage(Component.text("디버그 모드: " + (newState ? "ON" : "OFF"), ColorUtil.SUCCESS));
+    private boolean handleDebugCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+        boolean debugMode = LogUtil.toggleDebug();
+
+        if (debugMode) {
+            sender.sendMessage(Component.text("디버그 모드가 활성화되었습니다.", ColorUtil.SUCCESS));
+        } else {
+            sender.sendMessage(Component.text("디버그 모드가 비활성화되었습니다.", ColorUtil.WARNING));
+        }
+
         return true;
     }
 
     /**
      * 프로필 보기 명령어 처리
      */
-    private boolean handleViewProfileCommand(CommandSender sender, String[] args) {
+    private boolean handleViewProfileCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length < 2) {
             sender.sendMessage(Component.text("사용법: /rpgadmin viewprofile <플레이어>", ColorUtil.ERROR));
             return true;
@@ -138,16 +173,23 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        if (sender instanceof Player viewer) {
-            guiManager.openProfileViewGui(viewer, target);
-        } else {
-            // 콘솔에서 실행시 텍스트로 출력
-            RPGPlayer rpgPlayer = playerManager.getOrCreatePlayer(target);
-            sender.sendMessage(Component.text("=== " + target.getName() + "님의 프로필 ===", ColorUtil.GOLD));
-            sender.sendMessage(Component.text("레벨: " + rpgPlayer.getLevel(), ColorUtil.WHITE));
-            sender.sendMessage(Component.text("경험치: " + rpgPlayer.getExperience(), ColorUtil.WHITE));
-            // TODO: 추가 정보 출력
+        RPGPlayer rpgPlayer = playerManager.getPlayer(target);
+        if (rpgPlayer == null) {
+            sender.sendMessage(Component.text("RPG 플레이어 데이터를 찾을 수 없습니다.", ColorUtil.ERROR));
+            return true;
         }
+
+        // 프로필 정보 표시
+        sender.sendMessage(Component.text("=== " + target.getName() + "의 프로필 ===", ColorUtil.GOLD));
+        sender.sendMessage(Component.text("레벨: " + rpgPlayer.getLevel(), ColorUtil.WHITE));
+        sender.sendMessage(Component.text("경험치: " + rpgPlayer.getExperience() + "/" + rpgPlayer.getExperienceToNextLevel(), ColorUtil.WHITE));
+        sender.sendMessage(Component.text("직업: " + (rpgPlayer.getJob() != null ? rpgPlayer.getJob().getDisplayName() : "없음"), ColorUtil.WHITE));
+        sender.sendMessage(Component.text("골드: " + rpgPlayer.getWallet().getGold(), ColorUtil.GOLD));
+        sender.sendMessage(Component.text("다이아몬드: " + rpgPlayer.getWallet().getDiamond(), ColorUtil.AQUA));
+
+        // 퀘스트 정보
+        List<QuestProgress> activeQuests = questManager.getActiveQuests(target.getUniqueId());
+        sender.sendMessage(Component.text("진행중인 퀘스트: " + activeQuests.size() + "개", ColorUtil.YELLOW));
 
         return true;
     }
@@ -155,14 +197,9 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     /**
      * 경험치 명령어 처리
      */
-    private boolean handleExpCommand(CommandSender sender, String[] args) {
-        if (args.length < 4) {
-            sender.sendMessage(Component.text("사용법: /rpgadmin exp give <플레이어> <양>", ColorUtil.ERROR));
-            return true;
-        }
-
-        if (!args[1].equalsIgnoreCase("give")) {
-            sender.sendMessage(Component.text("사용법: /rpgadmin exp give <플레이어> <양>", ColorUtil.ERROR));
+    private boolean handleExpCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+        if (args.length < 4 || !args[1].equalsIgnoreCase("give")) {
+            sender.sendMessage(Component.text("사용법: /rpgadmin exp give <플레이어> <경험치>", ColorUtil.ERROR));
             return true;
         }
 
@@ -175,13 +212,18 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         try {
             int amount = Integer.parseInt(args[3]);
             if (amount <= 0) {
-                sender.sendMessage(Component.text("양수를 입력해주세요.", ColorUtil.ERROR));
+                sender.sendMessage(Component.text("경험치는 양수여야 합니다.", ColorUtil.ERROR));
                 return true;
             }
 
-            RPGPlayer rpgPlayer = playerManager.getOrCreatePlayer(target);
+            RPGPlayer rpgPlayer = playerManager.getPlayer(target);
+            if (rpgPlayer == null) {
+                sender.sendMessage(Component.text("RPG 플레이어 데이터를 찾을 수 없습니다.", ColorUtil.ERROR));
+                return true;
+            }
+
             rpgPlayer.addExperience(amount);
-            sender.sendMessage(Component.text(target.getName() + "님에게 " + amount + " 경험치를 지급했습니다.", ColorUtil.SUCCESS));
+            sender.sendMessage(Component.text(target.getName() + "에게 " + amount + " 경험치를 지급했습니다.", ColorUtil.SUCCESS));
             target.sendMessage(Component.text(amount + " 경험치를 받았습니다!", ColorUtil.EMERALD));
 
         } catch (NumberFormatException e) {
@@ -194,16 +236,52 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     /**
      * 레벨 명령어 처리
      */
-    private boolean handleLevelCommand(CommandSender sender, String[] args) {
-        // TODO: 레벨 설정 구현
-        sender.sendMessage(Component.text("레벨 설정 기능은 아직 구현되지 않았습니다.", ColorUtil.WARNING));
+    private boolean handleLevelCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+        if (args.length < 4 || !args[1].equalsIgnoreCase("set")) {
+            sender.sendMessage(Component.text("사용법: /rpgadmin level set <플레이어> <레벨>", ColorUtil.ERROR));
+            return true;
+        }
+
+        Player target = Bukkit.getPlayer(args[2]);
+        if (target == null) {
+            sender.sendMessage(Component.text("플레이어를 찾을 수 없습니다.", ColorUtil.ERROR));
+            return true;
+        }
+
+        try {
+            int level = Integer.parseInt(args[3]);
+            if (level < 1 || level > 100) {
+                sender.sendMessage(Component.text("레벨은 1-100 사이여야 합니다.", ColorUtil.ERROR));
+                return true;
+            }
+
+            RPGPlayer rpgPlayer = playerManager.getPlayer(target);
+            if (rpgPlayer == null) {
+                sender.sendMessage(Component.text("RPG 플레이어 데이터를 찾을 수 없습니다.", ColorUtil.ERROR));
+                return true;
+            }
+
+            // 레벨에 맞는 총 경험치 계산
+            long totalExp = 0;
+            for (int i = 1; i < level; i++) {
+                totalExp += rpgPlayer.getExpForLevel(i);
+            }
+
+            rpgPlayer.setExperience(totalExp);
+            sender.sendMessage(Component.text(target.getName() + "의 레벨을 " + level + "로 설정했습니다.", ColorUtil.SUCCESS));
+            target.sendMessage(Component.text("레벨이 " + level + "로 설정되었습니다!", ColorUtil.GOLD));
+
+        } catch (NumberFormatException e) {
+            sender.sendMessage(Component.text("올바른 숫자를 입력해주세요.", ColorUtil.ERROR));
+        }
+
         return true;
     }
 
     /**
      * 직업 명령어 처리
      */
-    private boolean handleJobCommand(CommandSender sender, String[] args) {
+    private boolean handleJobCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         // TODO: 직업 변경 구현
         sender.sendMessage(Component.text("직업 변경 기능은 아직 구현되지 않았습니다.", ColorUtil.WARNING));
         return true;
@@ -212,7 +290,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     /**
      * NPC 명령어 처리
      */
-    private boolean handleNpcCommand(CommandSender sender, String[] args) {
+    private boolean handleNpcCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(Component.text("플레이어만 사용할 수 있습니다.", ColorUtil.ERROR));
             return true;
@@ -246,9 +324,9 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     /**
      * 퀘스트 명령어 처리
      */
-    private boolean handleQuestCommand(CommandSender sender, String[] args) {
+    private boolean handleQuestCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length < 2) {
-            sender.sendMessage(Component.text("사용법: /rpgadmin quest <give|complete|reset|list|reload> [플레이어] [퀘스트ID]", ColorUtil.ERROR));
+            sender.sendMessage(Component.text("사용법: /rpgadmin quest <give|list|reload> [플레이어] [퀘스트ID]", ColorUtil.ERROR));
             return true;
         }
 
@@ -317,42 +395,17 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             }
 
             default -> {
-                sender.sendMessage(Component.text("알 수 없는 하위 명령어: " + subCommand, ColorUtil.ERROR));
+                sender.sendMessage(Component.text("사용법: /rpgadmin quest <give|list|reload>", ColorUtil.ERROR));
             }
         }
 
         return true;
     }
 
-    /**
-     * 메모리 사용량 조회
-     */
-    private String getMemoryUsage() {
-        Runtime runtime = Runtime.getRuntime();
-        long usedMemory = (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024;
-        long maxMemory = runtime.maxMemory() / 1024 / 1024;
-        return usedMemory + "/" + maxMemory + " MB";
-    }
-
-    /**
-     * 사용법 표시
-     */
-    private void showUsage(CommandSender sender) {
-        sender.sendMessage(Component.text("=== Sypixel RPG Admin Commands ===", NamedTextColor.GOLD));
-        sender.sendMessage(Component.text("/rpgadmin stats - 플러그인 통계 보기", NamedTextColor.WHITE));
-        sender.sendMessage(Component.text("/rpgadmin reload - 언어 파일 다시 로드", NamedTextColor.WHITE));
-        sender.sendMessage(Component.text("/rpgadmin debug - 디버그 모드 토글", NamedTextColor.WHITE));
-        sender.sendMessage(Component.text("/rpgadmin viewprofile <플레이어> - 다른 플레이어 프로필 보기", NamedTextColor.WHITE));
-        sender.sendMessage(Component.text("/rpgadmin exp give <플레이어> <양> - 경험치 지급", NamedTextColor.WHITE));
-        sender.sendMessage(Component.text("/rpgadmin level set <플레이어> <레벨> - 레벨 설정", NamedTextColor.WHITE));
-        sender.sendMessage(Component.text("/rpgadmin job set <플레이어> <직업> - 직업 변경", NamedTextColor.WHITE));
-        sender.sendMessage(Component.text("/rpgadmin npc create <타입> - NPC 생성", NamedTextColor.WHITE));
-        sender.sendMessage(Component.text("/rpgadmin quest <give|list|reload> - 퀘스트 관리", NamedTextColor.WHITE));
-    }
-
     @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
-                                                @NotNull String alias, @NotNull String[] args) {
+    @Nullable
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
+                                      @NotNull String alias, @NotNull String[] args) {
         if (!sender.hasPermission("rpg.admin")) {
             return new ArrayList<>();
         }

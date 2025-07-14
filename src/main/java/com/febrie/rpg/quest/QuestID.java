@@ -11,37 +11,39 @@ import org.jetbrains.annotations.NotNull;
 public enum QuestID {
 
     // ===== 튜토리얼 퀘스트 =====
-    TUTORIAL_FIRST_STEPS("tutorial_first_steps", "첫 걸음"),
-    TUTORIAL_BASIC_COMBAT("tutorial_basic_combat", "기초 전투"),
+    TUTORIAL_FIRST_STEPS("tutorial_first_steps", "첫 걸음", Quest.QuestCategory.TUTORIAL),
+    TUTORIAL_BASIC_COMBAT("tutorial_basic_combat", "기초 전투", Quest.QuestCategory.TUTORIAL),
 
     // ===== 메인 퀘스트 =====
-    MAIN_HEROES_JOURNEY("main_heroes_journey", "영웅의 여정"),
-    MAIN_PATH_OF_LIGHT("main_path_of_light", "빛의 길"),
-    MAIN_PATH_OF_DARKNESS("main_path_of_darkness", "어둠의 길"),
+    MAIN_HEROES_JOURNEY("main_heroes_journey", "영웅의 여정", Quest.QuestCategory.MAIN),
+    MAIN_PATH_OF_LIGHT("main_path_of_light", "빛의 길", Quest.QuestCategory.MAIN),
+    MAIN_PATH_OF_DARKNESS("main_path_of_darkness", "어둠의 길", Quest.QuestCategory.MAIN),
 
     // ===== 사이드 퀘스트 =====
-    SIDE_COLLECT_HERBS("side_collect_herbs", "약초 수집"),
-    SIDE_LOST_TREASURE("side_lost_treasure", "잃어버린 보물"),
+    SIDE_COLLECT_HERBS("side_collect_herbs", "약초 수집", Quest.QuestCategory.SIDE),
+    SIDE_LOST_TREASURE("side_lost_treasure", "잃어버린 보물", Quest.QuestCategory.SIDE),
 
     // ===== 일일 퀘스트 =====
-    DAILY_HUNTING("daily_hunting", "일일 사냥"),
-    DAILY_MINING("daily_mining", "일일 채광"),
-    DAILY_FISHING("daily_fishing", "일일 낚시"),
+    DAILY_HUNTING("daily_hunting", "일일 사냥", Quest.QuestCategory.DAILY),
+    DAILY_MINING("daily_mining", "일일 채광", Quest.QuestCategory.DAILY),
+    DAILY_FISHING("daily_fishing", "일일 낚시", Quest.QuestCategory.DAILY),
 
     // ===== 주간 퀘스트 =====
-    WEEKLY_RAID_BOSS("weekly_raid_boss", "주간 레이드"),
-    WEEKLY_DUNGEON_CLEAR("weekly_dungeon_clear", "던전 클리어"),
+    WEEKLY_RAID_BOSS("weekly_raid_boss", "주간 레이드", Quest.QuestCategory.WEEKLY),
+    WEEKLY_DUNGEON_CLEAR("weekly_dungeon_clear", "던전 클리어", Quest.QuestCategory.WEEKLY),
 
     // ===== 이벤트 퀘스트 =====
-    EVENT_CHRISTMAS_2024("event_christmas_2024", "2024 크리스마스"),
-    EVENT_HALLOWEEN_2024("event_halloween_2024", "2024 할로윈");
+    EVENT_CHRISTMAS_2024("event_christmas_2024", "2024 크리스마스", Quest.QuestCategory.EVENT),
+    EVENT_HALLOWEEN_2024("event_halloween_2024", "2024 할로윈", Quest.QuestCategory.EVENT);
 
     private final String legacyId;
     private final String displayName;
+    private final Quest.QuestCategory category;
 
-    QuestID(@NotNull String legacyId, @NotNull String displayName) {
+    QuestID(@NotNull String legacyId, @NotNull String displayName, @NotNull Quest.QuestCategory category) {
         this.legacyId = legacyId;
         this.displayName = displayName;
+        this.category = category;
     }
 
     /**
@@ -58,6 +60,14 @@ public enum QuestID {
     @NotNull
     public String getDisplayName() {
         return displayName;
+    }
+
+    /**
+     * 카테고리 반환
+     */
+    @NotNull
+    public Quest.QuestCategory getCategory() {
+        return category;
     }
 
     /**
@@ -90,23 +100,12 @@ public enum QuestID {
     }
 
     /**
-     * 카테고리별 필터링
+     * 카테고리별 퀘스트 ID 반환
      */
     @NotNull
     public static QuestID[] getByCategory(@NotNull Quest.QuestCategory category) {
         return java.util.Arrays.stream(values())
-                .filter(id -> {
-                    String prefix = switch (category) {
-                        case TUTORIAL -> "TUTORIAL_";
-                        case MAIN -> "MAIN_";
-                        case SIDE -> "SIDE_";
-                        case DAILY -> "DAILY_";
-                        case WEEKLY -> "WEEKLY_";
-                        case EVENT -> "EVENT_";
-                        default -> "";
-                    };
-                    return id.name().startsWith(prefix);
-                })
+                .filter(id -> id.category == category)
                 .toArray(QuestID[]::new);
     }
 
@@ -114,20 +113,20 @@ public enum QuestID {
      * 퀘스트가 일일 퀘스트인지 확인
      */
     public boolean isDaily() {
-        return name().startsWith("DAILY_");
+        return category == Quest.QuestCategory.DAILY;
     }
 
     /**
      * 퀘스트가 주간 퀘스트인지 확인
      */
     public boolean isWeekly() {
-        return name().startsWith("WEEKLY_");
+        return category == Quest.QuestCategory.WEEKLY;
     }
 
     /**
      * 퀘스트가 이벤트 퀘스트인지 확인
      */
     public boolean isEvent() {
-        return name().startsWith("EVENT_");
+        return category == Quest.QuestCategory.EVENT;
     }
 }
