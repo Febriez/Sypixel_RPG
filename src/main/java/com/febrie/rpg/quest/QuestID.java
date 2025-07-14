@@ -26,15 +26,11 @@ public enum QuestID {
     // ===== 일일 퀘스트 =====
     DAILY_HUNTING("daily_hunting", "일일 사냥", Quest.QuestCategory.DAILY),
     DAILY_MINING("daily_mining", "일일 채광", Quest.QuestCategory.DAILY),
-    DAILY_FISHING("daily_fishing", "일일 낚시", Quest.QuestCategory.DAILY),
+    DAILY_FISHING("daily_fishing", "일일 낚시", Quest.QuestCategory.DAILY);
 
-    // ===== 주간 퀘스트 =====
-    WEEKLY_RAID_BOSS("weekly_raid_boss", "주간 레이드", Quest.QuestCategory.WEEKLY),
-    WEEKLY_DUNGEON_CLEAR("weekly_dungeon_clear", "던전 클리어", Quest.QuestCategory.WEEKLY),
-
-    // ===== 이벤트 퀘스트 =====
-    EVENT_CHRISTMAS_2024("event_christmas_2024", "2024 크리스마스", Quest.QuestCategory.EVENT),
-    EVENT_HALLOWEEN_2024("event_halloween_2024", "2024 할로윈", Quest.QuestCategory.EVENT);
+    // ===== 주간 퀘스트 (구현 예정) =====
+    //WEEKLY_RAID_BOSS("weekly_raid_boss", "주간 레이드", Quest.QuestCategory.WEEKLY),
+    //WEEKLY_DUNGEON_CLEAR("weekly_dungeon_clear", "던전 클리어", Quest.QuestCategory.WEEKLY);
 
     private final String legacyId;
     private final String displayName;
