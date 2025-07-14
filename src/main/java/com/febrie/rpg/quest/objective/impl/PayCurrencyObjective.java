@@ -1,5 +1,6 @@
 package com.febrie.rpg.quest.objective.impl;
 
+import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.event.CurrencyPaymentEvent;
 import com.febrie.rpg.quest.objective.BaseObjective;
 import com.febrie.rpg.quest.objective.ObjectiveType;
@@ -18,28 +19,6 @@ import java.util.Objects;
  * @author Febrie
  */
 public class PayCurrencyObjective extends BaseObjective {
-
-    public enum CurrencyType {
-        GOLD("Gold", "G"),
-        GEM("Gem", "💎"),
-        TOKEN("Token", "T");
-
-        private final String displayName;
-        private final String symbol;
-
-        CurrencyType(String displayName, String symbol) {
-            this.displayName = displayName;
-            this.symbol = symbol;
-        }
-
-        public String getDisplayName() {
-            return displayName;
-        }
-
-        public String getSymbol() {
-            return symbol;
-        }
-    }
 
     private final CurrencyType currencyType;
     private final @Nullable String targetNpc;
@@ -77,7 +56,8 @@ public class PayCurrencyObjective extends BaseObjective {
 
     @Override
     public @NotNull String getStatusInfo(@NotNull ObjectiveProgress progress) {
-        String status = currencyType.getSymbol() + getProgressString(progress);
+        // 통화 아이콘과 진행도 표시
+        String status = currencyType.getIcon() + " " + getProgressString(progress);
         if (targetNpc != null) {
             status += " → " + targetNpc;
         }
@@ -95,17 +75,13 @@ public class PayCurrencyObjective extends BaseObjective {
             return false;
         }
 
-        // 재화 타입 확인
-        if (!paymentEvent.getCurrencyType().equals(currencyType.name())) {
+        // 재화 타입 확인 - ID로 비교
+        if (!paymentEvent.getCurrencyType().equals(currencyType)) {
             return false;
         }
 
         // NPC 확인 (지정된 경우)
-        if (targetNpc != null && !targetNpc.equals(paymentEvent.getTargetNpc())) {
-            return false;
-        }
-
-        return true;
+        return targetNpc == null || targetNpc.equals(paymentEvent.getTargetNpc());
     }
 
     @Override
@@ -118,7 +94,7 @@ public class PayCurrencyObjective extends BaseObjective {
 
     @Override
     protected @NotNull String serializeData() {
-        return currencyType.name() + (targetNpc != null ? ":" + targetNpc : "");
+        return currencyType.getId() + (targetNpc != null ? ":" + targetNpc : "");
     }
 
     public CurrencyType getCurrencyType() {
@@ -127,5 +103,15 @@ public class PayCurrencyObjective extends BaseObjective {
 
     public @Nullable String getTargetNpc() {
         return targetNpc;
+    }
+
+    /**
+     * 직렬화된 데이터에서 목표 생성
+     */
+    public static PayCurrencyObjective deserialize(@NotNull String id, int amount, @NotNull String data) {
+        String[] parts = data.split(":");
+        CurrencyType type = CurrencyType.getById(parts[0]);
+        String npc = parts.length > 1 ? parts[1] : null;
+        return new PayCurrencyObjective(id, type, amount, npc);
     }
 }
