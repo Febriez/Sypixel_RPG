@@ -2,7 +2,7 @@ package com.febrie.rpg;
 
 import com.febrie.rpg.command.AdminCommands;
 import com.febrie.rpg.command.MainMenuCommand;
-import com.febrie.rpg.database.FirebaseService;
+import com.febrie.rpg.database.FirestoreService;
 import com.febrie.rpg.dto.ServerStatsDTO;
 import com.febrie.rpg.gui.listener.GuiListener;
 import com.febrie.rpg.gui.manager.GuiManager;
@@ -33,7 +33,7 @@ public final class RPGMain extends JavaPlugin {
     private GuiManager guiManager;
     private RPGPlayerManager rpgPlayerManager;
     private TalentManager talentManager;
-    private FirebaseService firebaseService;
+    private FirestoreService firestoreService;
 
     // 명령어
     private MainMenuCommand mainMenuCommand;
@@ -91,8 +91,8 @@ public final class RPGMain extends JavaPlugin {
         }
 
         // Firebase 연결 종료
-        if (firebaseService != null) {
-            firebaseService.shutdown();
+        if (firestoreService != null) {
+            firestoreService.shutdown();
         }
 
         LogUtil.info("Sypixel RPG 플러그인이 비활성화되었습니다!");
@@ -111,11 +111,11 @@ public final class RPGMain extends JavaPlugin {
         LogUtil.info("GUI 시스템 초기화 완료");
 
         // Firebase 서비스 초기화
-        this.firebaseService = new FirebaseService(this);
+        this.firestoreService = new FirestoreService(this);
         LogUtil.info("Firebase 서비스 초기화 완료");
 
         // 매니저 초기화
-        this.rpgPlayerManager = new RPGPlayerManager(this, firebaseService);
+        this.rpgPlayerManager = new RPGPlayerManager(this, firestoreService);
         this.talentManager = new TalentManager(this);
         LogUtil.info("매니저 시스템 초기화 완료");
 
@@ -223,7 +223,7 @@ public final class RPGMain extends JavaPlugin {
      * 현재 서버 통계 저장
      */
     private void saveCurrentServerStats() {
-        if (!firebaseService.isConnected()) {
+        if (!firestoreService.isConnected()) {
             LogUtil.warning("Firebase 연결이 없어 서버 통계를 저장할 수 없습니다.");
             return;
         }
@@ -239,7 +239,7 @@ public final class RPGMain extends JavaPlugin {
         try {
             ServerStatsDTO serverStats = collectCurrentServerStats();
 
-            firebaseService.saveServerStats(serverStats).thenAccept(success -> {
+            firestoreService.saveServerStats(serverStats).thenAccept(success -> {
                 if (success) {
                     lastSavedDate = today;
                     LogUtil.info("서버 통계가 성공적으로 저장되었습니다: " + today);
@@ -364,8 +364,8 @@ public final class RPGMain extends JavaPlugin {
         return talentManager;
     }
 
-    public FirebaseService getFirebaseService() {
-        return firebaseService;
+    public FirestoreService getFirebaseService() {
+        return firestoreService;
     }
 
     public static RPGMain getPlugin() {

@@ -1,7 +1,7 @@
 package com.febrie.rpg.player;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.database.FirebaseService;
+import com.febrie.rpg.database.FirestoreService;
 import com.febrie.rpg.dto.*;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.level.LevelSystem;
@@ -31,16 +31,16 @@ import java.util.concurrent.TimeUnit;
 public class RPGPlayerManager implements Listener {
 
     private final RPGMain plugin;
-    private final FirebaseService firebaseService;
+    private final FirestoreService firestoreService;
     private final Map<UUID, RPGPlayer> players = new ConcurrentHashMap<>();
 
     // 저장 쿨다운 관리 (PlayerService에서 이동)
     private final Map<UUID, Long> lastSaveTime = new ConcurrentHashMap<>();
     private static final long SAVE_COOLDOWN = 30000; // 30초
 
-    public RPGPlayerManager(@NotNull RPGMain plugin, @NotNull FirebaseService firebaseService) {
+    public RPGPlayerManager(@NotNull RPGMain plugin, @NotNull FirestoreService firestoreService) {
         this.plugin = plugin;
-        this.firebaseService = firebaseService;
+        this.firestoreService = firestoreService;
 
         // 이미 접속중인 플레이어들 로드
         for (Player player : plugin.getServer().getOnlinePlayers()) {
@@ -96,7 +96,7 @@ public class RPGPlayerManager implements Listener {
 
             try {
                 // Firebase에서 데이터 로드
-                PlayerDTO playerDTO = firebaseService.loadPlayer(uuid).get(5, TimeUnit.SECONDS);
+                PlayerDTO playerDTO = firestoreService.loadPlayer(uuid).get(5, TimeUnit.SECONDS);
 
                 if (playerDTO == null) {
                     // 신규 플레이어
@@ -105,10 +105,10 @@ public class RPGPlayerManager implements Listener {
                 }
 
                 // 기존 플레이어 데이터 로드
-                StatsDTO statsDTO = firebaseService.loadStats(uuid).get(5, TimeUnit.SECONDS);
-                TalentDTO talentDTO = firebaseService.loadTalents(uuid).get(5, TimeUnit.SECONDS);
-                ProgressDTO progressDTO = firebaseService.loadProgress(uuid).get(5, TimeUnit.SECONDS);
-                WalletDTO walletDTO = firebaseService.loadWallet(uuid).get(5, TimeUnit.SECONDS);
+                StatsDTO statsDTO = firestoreService.loadStats(uuid).get(5, TimeUnit.SECONDS);
+                TalentDTO talentDTO = firestoreService.loadTalents(uuid).get(5, TimeUnit.SECONDS);
+                ProgressDTO progressDTO = firestoreService.loadProgress(uuid).get(5, TimeUnit.SECONDS);
+                WalletDTO walletDTO = firestoreService.loadWallet(uuid).get(5, TimeUnit.SECONDS);
 
                 // RPGPlayer 생성 및 DTO 데이터 적용
                 RPGPlayer rpgPlayer = new RPGPlayer(player);
@@ -148,7 +148,7 @@ public class RPGPlayerManager implements Listener {
         WalletDTO walletDTO = new WalletDTO();
 
         // Firebase에 초기 데이터 저장 (비동기)
-        firebaseService.saveAllPlayerDataWithWallet(
+        firestoreService.saveAllPlayerDataWithWallet(
                 player.getUniqueId().toString(),
                 playerDTO, statsDTO, talentDTO, progressDTO, walletDTO
         );
@@ -220,7 +220,7 @@ public class RPGPlayerManager implements Listener {
                 WalletDTO walletDTO = rpgPlayer.getWallet().toDTO();
 
                 // Firebase에 저장
-                boolean success = firebaseService.saveAllPlayerDataWithWallet(
+                boolean success = firestoreService.saveAllPlayerDataWithWallet(
                         uuid.toString(), playerDTO, statsDTO, talentDTO,
                         progressDTO, walletDTO
                 ).get(10, TimeUnit.SECONDS);

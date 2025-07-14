@@ -27,5 +27,7 @@
   "disabled": "%COLOR_ERROR%Disabled",
   "cannot-select-others-job": "%COLOR_ERROR%You cannot select another player's job!",
   "cannot-view-others-stats": "%COLOR_ERROR%You cannot view another player's stats!",
-  "cannot-view-others-talents": "%COLOR_ERROR%You cannot view another player's talents!"
+  "cannot-view-others-talents": "%COLOR_ERROR%You cannot view another player's talents!",
+  "cannot-view-others-quests": "%COLOR_ERROR%ou cannot view another player's quests!",
+  "cannot-view-others-combat-power": "%COLOR_ERROR%You cannot view other players' combat power details!"
 }

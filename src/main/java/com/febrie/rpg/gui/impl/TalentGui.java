@@ -1,12 +1,12 @@
 package com.febrie.rpg.gui.impl;
 
+import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.ScrollableGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.talent.Talent;
-import com.febrie.rpg.talent.TalentRequirement;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
@@ -19,7 +19,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,10 +34,13 @@ public class TalentGui extends ScrollableGui {
     private static final int TALENT_TREE_START = 10;
     private static final int TALENTS_PER_ROW = 7;
 
+    // 네비게이션 버튼 위치
+    private static final int NAV_BACK_SLOT = 45;
+    private static final int NAV_CLOSE_SLOT = 53;
+
     private final RPGPlayer rpgPlayer;
     private final String pageId;
     private final List<Talent> talents;
-    private final Map<Integer, GuiItem> items = new HashMap<>();
 
     public TalentGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                      @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
@@ -64,8 +66,13 @@ public class TalentGui extends ScrollableGui {
 
     @Override
     protected List<GuiItem> getScrollableItems() {
-        // 특성은 고정 위치에 표시
+        // 특성은 고정 위치에 표시되므로 스크롤 아이템 없음
         return new ArrayList<>();
+    }
+
+    @Override
+    protected List<ClickType> getAllowedClickTypes() {
+        return List.of(ClickType.LEFT, ClickType.RIGHT, ClickType.SHIFT_LEFT);
     }
 
     @Override
@@ -95,7 +102,7 @@ public class TalentGui extends ScrollableGui {
         for (int row = 1; row < 4; row++) {
             for (int col = 1; col < 8; col++) {
                 int slot = row * 9 + col;
-                if (items.get(slot) == null) {
+                if (!items.containsKey(slot)) {
                     setItem(slot, GuiFactory.createDecoration(Material.BLACK_STAINED_GLASS_PANE));
                 }
             }
@@ -118,6 +125,7 @@ public class TalentGui extends ScrollableGui {
                         .addLore(Component.empty())
                         .addLore(trans("gui.talent.available-points",
                                 "points", String.valueOf(rpgPlayer.getTalents().getAvailablePoints())))
+                        .glint(true)
                         .build()
         );
         setItem(4, pageInfo);
@@ -144,8 +152,8 @@ public class TalentGui extends ScrollableGui {
      * 특성 아이템 생성
      */
     private GuiItem createTalentItem(@NotNull Talent talent) {
-        int currentLevel = rpgPlayer.getTalents().getTalentLevel(talent.getId());
-        boolean canLearn = rpgPlayer.getTalents().canLearnTalent(talent.getId());
+        int currentLevel = rpgPlayer.getTalents().getTalentLevel(talent);
+        boolean canLearn = talent.canActivate(rpgPlayer.getTalents());
         boolean maxed = currentLevel >= talent.getMaxLevel();
 
         Material material = talent.getIcon();
@@ -157,67 +165,153 @@ public class TalentGui extends ScrollableGui {
                 .displayName(trans("talent." + talent.getId() + ".name"))
                 .amount(Math.max(1, currentLevel));
 
-        // 레벨 정보
-        if (currentLevel > 0) {
-            builder.addLore(trans("gui.talent.level-info",
-                    "current", String.valueOf(currentLevel),
-                    "max", String.valueOf(talent.getMaxLevel())));
-        } else {
-            builder.addLore(trans("gui.talent.not-learned"));
-        }
-
-        builder.addLore(Component.empty());
-
-        // 설명
+        // 설명 추가
         List<Component> description = langManager.getComponentList(viewer,
                 "talent." + talent.getId() + ".description");
         description.forEach(builder::addLore);
 
-        // 효과
-        if (currentLevel > 0 || canLearn) {
-            builder.addLore(Component.empty())
-                    .addLore(trans("gui.talent.effects"));
+        // 레벨 정보
+        builder.addLore(Component.empty());
+        builder.addLore(trans("gui.talent.level-info",
+                "current", String.valueOf(currentLevel),
+                "max", String.valueOf(talent.getMaxLevel())));
 
-            int displayLevel = Math.max(1, currentLevel);
-            List<Component> effects = talent.getEffectDescription(displayLevel, langManager, viewer);
-            effects.forEach(line -> builder.addLore(Component.text("  ", ColorUtil.GRAY).append(line)));
-        }
+        // 상태 표시
+        if (maxed) {
+            builder.addLore(trans("gui.talent.maxed"))
+                    .glint(true);
+        } else if (canLearn) {
+            builder.addLore(trans("gui.talent.can-learn",
+                    "points", String.valueOf(talent.getRequiredPoints())));
+        } else {
+            builder.addLore(trans("gui.talent.cannot-learn"));
 
-        // 요구사항
-        if (!canLearn && currentLevel == 0) {
-            builder.addLore(Component.empty())
-                    .addLore(trans("gui.talent.requirements"));
+            // 선행 조건 표시
+            Map<Talent, Integer> prerequisites = talent.getPrerequisites();
+            if (!prerequisites.isEmpty()) {
+                builder.addLore(Component.empty());
+                builder.addLore(trans("gui.talent.prerequisites"));
 
-            for (TalentRequirement req : talent.getRequirements()) {
-                Component reqText = req.getDisplayText(rpgPlayer, langManager, viewer);
-                builder.addLore(Component.text("  ", ColorUtil.GRAY).append(reqText));
+                for (Map.Entry<Talent, Integer> entry : prerequisites.entrySet()) {
+                    Talent prereq = entry.getKey();
+                    int requiredLevel = entry.getValue();
+                    int playerLevel = rpgPlayer.getTalents().getTalentLevel(prereq);
+                    boolean meets = playerLevel >= requiredLevel;
+
+                    String prereqName = transString("talent." + prereq.getId() + ".name");
+                    builder.addLore(trans(meets ? "gui.talent.prereq-met" : "gui.talent.prereq-not-met",
+                            "talent", prereqName,
+                            "level", String.valueOf(requiredLevel),
+                            "current", String.valueOf(playerLevel)));
+                }
+            }
+
+            // 포인트 부족
+            if (rpgPlayer.getTalents().getAvailablePoints() < talent.getRequiredPoints()) {
+                builder.addLore(trans("gui.talent.not-enough-points"));
             }
         }
 
-        // 클릭 정보
-        builder.addLore(Component.empty());
-        if (maxed) {
-            builder.addLore(trans("gui.talent.maxed"));
-        } else if (canLearn) {
-            builder.addLore(trans("gui.talent.click-to-learn"));
-            builder.addLore(trans("gui.talent.right-click-preview"));
-        } else {
-            builder.addLore(trans("gui.talent.cannot-learn"));
+        // 스탯 보너스 표시
+        Map<com.febrie.rpg.stat.Stat, Integer> statBonuses = talent.getStatBonuses(1);
+        if (!statBonuses.isEmpty()) {
+            builder.addLore(Component.empty());
+            builder.addLore(trans("gui.talent.stat-bonuses"));
+
+            statBonuses.forEach((stat, bonus) -> {
+                String statName = transString("stat." + stat.getId() + ".name");
+                int totalBonus = bonus * Math.max(1, currentLevel);
+                builder.addLore(trans("gui.talent.stat-bonus-line",
+                        "stat", statName,
+                        "bonus", "+" + totalBonus,
+                        "per-level", "+" + bonus));
+            });
+        }
+
+        // 특수 효과 표시
+        List<String> effects = talent.getEffects();
+        if (!effects.isEmpty()) {
+            builder.addLore(Component.empty());
+            builder.addLore(trans("gui.talent.effects"));
+            effects.forEach(effect -> builder.addLore(
+                    Component.text("• " + effect, ColorUtil.GRAY)));
+        }
+
+        // 하위 페이지 표시
+        if (talent.hasSubPage()) {
+            builder.addLore(Component.empty());
+            builder.addLore(trans("gui.talent.has-sub-page"));
         }
 
         builder.flags(ItemFlag.values());
 
-        if (canLearn || currentLevel > 0) {
-            builder.glint(true);
+        // 클릭 액션 설정
+        return GuiItem.of(builder.build())
+                .onClick(ClickType.LEFT, (player, clickType) -> handleTalentClick(player, talent, 1))
+                .onClick(ClickType.SHIFT_LEFT, (player, clickType) -> handleTalentClick(player, talent, 5))
+                .onClick(ClickType.RIGHT, (player, clickType) -> handleTalentSubPage(player, talent));
+    }
+
+    /**
+     * 특성 클릭 처리
+     */
+    private void handleTalentClick(@NotNull Player player, @NotNull Talent talent, int levels) {
+        if (!talent.canActivate(rpgPlayer.getTalents())) {
+            playErrorSound(player);
+            sendMessage(player, "messages.talent-cannot-learn");
+            return;
         }
 
-        GuiItem talentItem = GuiItem.of(builder.build())
-                .onClick(ClickType.LEFT, (player, click) ->
-                        handleTalentLeftClick(player, talent, currentLevel, canLearn))
-                .onClick(ClickType.RIGHT, (player, click) ->
-                        handleTalentRightClick(player, talent, currentLevel));
+        int currentLevel = rpgPlayer.getTalents().getTalentLevel(talent);
+        int maxPossibleLevels = Math.min(levels, talent.getMaxLevel() - currentLevel);
+        int affordableLevels = rpgPlayer.getTalents().getAvailablePoints() / talent.getRequiredPoints();
+        int actualLevels = Math.min(maxPossibleLevels, affordableLevels);
 
-        return talentItem;
+        if (actualLevels <= 0) {
+            playErrorSound(player);
+            sendMessage(player, "messages.not-enough-talent-points");
+            return;
+        }
+
+        // 레벨업 처리
+        for (int i = 0; i < actualLevels; i++) {
+            if (!talent.levelUp(rpgPlayer.getTalents())) {
+                break;
+            }
+        }
+
+        playSuccessSound(player);
+        sendMessage(player, "messages.talent-learned",
+                "talent", transString("talent." + talent.getId() + ".name"),
+                "level", String.valueOf(rpgPlayer.getTalents().getTalentLevel(talent)));
+
+        refresh();
+    }
+
+    /**
+     * 하위 페이지 열기
+     */
+    private void handleTalentSubPage(@NotNull Player player, @NotNull Talent talent) {
+        if (!talent.hasSubPage()) {
+            return;
+        }
+
+        String subPageId = talent.getPageId();
+        if (subPageId == null) {
+            return;
+        }
+
+        List<Talent> subTalents = RPGMain.getPlugin()
+                .getTalentManager().getPageTalents(subPageId);
+
+        if (subTalents.isEmpty()) {
+            return;
+        }
+
+        TalentGui subGui = new TalentGui(guiManager, langManager, player,
+                rpgPlayer, subPageId, subTalents);
+        guiManager.openGui(player, subGui);
+        playClickSound(player);
     }
 
     /**
@@ -226,85 +320,25 @@ public class TalentGui extends ScrollableGui {
     private void setupNavigationButtons() {
         // 뒤로가기 버튼
         if (guiManager.canNavigateBack(viewer)) {
-            setItem(45, GuiItem.clickable(
+            setItem(NAV_BACK_SLOT, GuiItem.clickable(
                     ItemBuilder.of(Material.ARROW)
                             .displayName(trans("gui.buttons.back.name"))
                             .addLore(trans("gui.buttons.back.lore"))
                             .build(),
-                    player -> guiManager.navigateBack(player)
+                    guiManager::navigateBack
             ));
         }
 
-        // 스탯 페이지로 가기 버튼
-        setItem(50, GuiItem.clickable(
-                ItemBuilder.of(Material.IRON_SWORD)
-                        .displayName(trans("gui.stats.title"))
-                        .addLore(trans("gui.talent.click-stats"))
-                        .build(),
-                player -> {
-                    StatsGui statsGui = new StatsGui(guiManager, langManager, player, rpgPlayer);
-                    guiManager.openGui(player, statsGui);
-                }
-        ));
-
         // 닫기 버튼
-        setItem(53, GuiFactory.createCloseButton(langManager, viewer));
+        setItem(NAV_CLOSE_SLOT, GuiFactory.createCloseButton(langManager, viewer));
     }
 
     /**
-     * 특성 좌클릭 처리 (레벨업)
-     */
-    private void handleTalentLeftClick(@NotNull Player player, @NotNull Talent talent,
-                                       int currentLevel, boolean canLearn) {
-        if (currentLevel >= talent.getMaxLevel()) {
-            playErrorSound(player);
-            return;
-        }
-
-        if (canLearn) {
-            if (talent.levelUp(rpgPlayer.getTalents())) {
-                String talentName = transString("talent." + talent.getId() + ".name");
-                sendMessage(player, "messages.talent-learned", "talent", talentName);
-                playSuccessSound(player);
-                refresh();
-            } else {
-                sendMessage(player, "messages.talent-learn-failed");
-                playErrorSound(player);
-            }
-        } else {
-            sendMessage(player, "messages.talent-learn-failed");
-            playErrorSound(player);
-        }
-    }
-
-    /**
-     * 특성 우클릭 처리 (미리보기)
-     */
-    private void handleTalentRightClick(@NotNull Player player, @NotNull Talent talent, int currentLevel) {
-        // 다음 레벨 효과 미리보기
-        if (currentLevel < talent.getMaxLevel()) {
-            player.sendMessage(Component.empty());
-            player.sendMessage(trans("gui.talent.preview-header",
-                    "talent", transString("talent." + talent.getId() + ".name"),
-                    "level", String.valueOf(currentLevel + 1)));
-
-            List<Component> effects = talent.getEffectDescription(currentLevel + 1, langManager, player);
-            effects.forEach(effect -> player.sendMessage(Component.text("  ").append(effect)));
-
-            player.sendMessage(Component.empty());
-        }
-        playClickSound(player);
-    }
-
-    /**
-     * 페이지 제목 가져오기
+     * 페이지 타이틀 가져오기
      */
     private String getPageTitle() {
-        return switch (pageId) {
-            case "main" -> transString("gui.talent.page.main");
-            case "secondary" -> transString("gui.talent.page.secondary");
-            case "ultimate" -> transString("gui.talent.page.ultimate");
-            default -> pageId;
-        };
+        String pageKey = "gui.talent.page." + pageId;
+        String translated = transString(pageKey);
+        return translated.equals(pageKey) ? pageId : translated;
     }
 }

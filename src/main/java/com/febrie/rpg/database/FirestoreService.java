@@ -24,7 +24,7 @@ import java.util.function.Function;
  *
  * @author Febrie, CoffeeTory
  */
-public class FirebaseService {
+public class FirestoreService {
 
     private Firestore firestore;
     private boolean connected = false;
@@ -51,7 +51,7 @@ public class FirebaseService {
     // 환경변수 이름들 (Private Key만)
     private static final String ENV_PRIVATE_KEY = "FIREBASE_PRIVATE_KEY";
 
-    public FirebaseService(@NotNull Plugin plugin) {
+    public FirestoreService(@NotNull Plugin plugin) {
         initializeFirebase();
     }
 

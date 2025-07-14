@@ -67,6 +67,18 @@ public class GuiManager {
     }
 
     /**
+     * 퀘스트 수락 GUI 열기
+     *
+     * @param player 플레이어
+     * @param quest  퀘스트
+     */
+    public void openQuestAcceptGui(@NotNull Player player, @NotNull com.febrie.rpg.quest.Quest quest) {
+        com.febrie.rpg.gui.impl.QuestAcceptGui questAcceptGui =
+                new com.febrie.rpg.gui.impl.QuestAcceptGui(player, this, langManager, quest);
+        openGui(player, questAcceptGui);
+    }
+
+    /**
      * 이전 GUI로 돌아가기
      *
      * @param player 플레이어

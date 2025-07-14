@@ -1,7 +1,7 @@
 package com.febrie.rpg.quest.manager;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.database.FirebaseService;
+import com.febrie.rpg.database.FirestoreService;
 import com.febrie.rpg.dto.CompletedQuestDTO;
 import com.febrie.rpg.dto.PlayerQuestDTO;
 import com.febrie.rpg.quest.Quest;
@@ -32,7 +32,7 @@ public class QuestManager {
     private static QuestManager instance;
 
     private final RPGMain plugin;
-    private final FirebaseService firebaseService;
+    private final FirestoreService firestoreService;
 
     // 등록된 퀘스트 목록
     private final Map<String, Quest> registeredQuests = new ConcurrentHashMap<>();
@@ -46,9 +46,9 @@ public class QuestManager {
     /**
      * 프라이빗 생성자
      */
-    private QuestManager(@NotNull RPGMain plugin, @NotNull FirebaseService firebaseService) {
+    private QuestManager(@NotNull RPGMain plugin, @NotNull FirestoreService firestoreService) {
         this.plugin = plugin;
-        this.firebaseService = firebaseService;
+        this.firestoreService = firestoreService;
 
         // 자동 저장 스케줄러 시작
         startAutoSaveScheduler();
@@ -57,9 +57,9 @@ public class QuestManager {
     /**
      * 싱글톤 인스턴스 초기화
      */
-    public static void initialize(@NotNull RPGMain plugin, @NotNull FirebaseService firebaseService) {
+    public static void initialize(@NotNull RPGMain plugin, @NotNull FirestoreService firestoreService) {
         if (instance == null) {
-            instance = new QuestManager(plugin, firebaseService);
+            instance = new QuestManager(plugin, firestoreService);
             LogUtil.info("QuestManager initialized");
         }
     }
@@ -329,7 +329,7 @@ public class QuestManager {
      * 플레이어 데이터 로드
      */
     public CompletableFuture<Void> loadPlayerData(@NotNull UUID playerId) {
-        return firebaseService.loadPlayerQuestData(playerId.toString())
+        return firestoreService.loadPlayerQuestData(playerId.toString())
                 .thenAccept(data -> {
                     if (data != null) {
                         playerQuestCache.put(playerId, data);
@@ -364,7 +364,7 @@ public class QuestManager {
                 System.currentTimeMillis()
         );
 
-        firebaseService.savePlayerQuestData(playerId.toString(), dataToSave)
+        firestoreService.savePlayerQuestData(playerId.toString(), dataToSave)
                 .thenApply(success -> {
                     if (success) {
                         pendingSaves.remove(playerId);
