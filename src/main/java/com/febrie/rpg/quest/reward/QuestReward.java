@@ -1,5 +1,6 @@
 package com.febrie.rpg.quest.reward;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,6 +41,14 @@ public interface QuestReward {
      * @return 보상 타입
      */
     @NotNull RewardType getType();
+
+    /**
+     * 보상 정보를 Component로 표시
+     *
+     * @param player 플레이어 (언어 설정 확인용)
+     * @return 보상 정보 Component
+     */
+    @NotNull Component getDisplayInfo(@NotNull Player player);
 
     /**
      * 보상 가능 여부 확인

@@ -1,12 +1,10 @@
 package com.febrie.rpg.command;
 
 import com.febrie.rpg.RPGMain;
+import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.gui.manager.GuiManager;
-import com.febrie.rpg.listener.ListenerManager;
-import com.febrie.rpg.npc.NPCType;
-import com.febrie.rpg.npc.manager.NPCManager;
 import com.febrie.rpg.player.RPGPlayer;
-import com.febrie.rpg.player.manager.RPGPlayerManager;
+import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
@@ -15,14 +13,20 @@ import com.febrie.rpg.quest.registry.QuestRegistry;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.trait.trait.Equipment;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,19 +47,14 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     private final RPGPlayerManager playerManager;
     private final GuiManager guiManager;
     private final LangManager langManager;
-    private final NPCManager npcManager;
-    private final ListenerManager listenerManager;
     private final QuestManager questManager;
 
     public AdminCommands(@NotNull RPGMain plugin, @NotNull RPGPlayerManager playerManager,
-                         @NotNull GuiManager guiManager, @NotNull LangManager langManager,
-                         @NotNull NPCManager npcManager, @NotNull ListenerManager listenerManager) {
+                         @NotNull GuiManager guiManager, @NotNull LangManager langManager) {
         this.plugin = plugin;
         this.playerManager = playerManager;
         this.guiManager = guiManager;
         this.langManager = langManager;
-        this.npcManager = npcManager;
-        this.listenerManager = listenerManager;
         this.questManager = QuestManager.getInstance();
     }
 
@@ -104,7 +103,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         sender.sendMessage(Component.text("/rpgadmin exp give <플레이어> <경험치> - 경험치 지급", ColorUtil.YELLOW));
         sender.sendMessage(Component.text("/rpgadmin level set <플레이어> <레벨> - 레벨 설정", ColorUtil.YELLOW));
         sender.sendMessage(Component.text("/rpgadmin job set <플레이어> <직업> - 직업 설정", ColorUtil.YELLOW));
-        sender.sendMessage(Component.text("/rpgadmin npc create <타입> - NPC 생성", ColorUtil.YELLOW));
+        sender.sendMessage(Component.text("/rpgadmin npc create <타입> <이름> - NPC 생성", ColorUtil.YELLOW));
         sender.sendMessage(Component.text("/rpgadmin quest <give|list|reload> - 퀘스트 관리", ColorUtil.YELLOW));
     }
 
@@ -115,7 +114,6 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         sender.sendMessage(Component.text("=== RPG 서버 통계 ===", ColorUtil.GOLD));
         sender.sendMessage(Component.text("온라인 플레이어: " + Bukkit.getOnlinePlayers().size(), ColorUtil.WHITE));
         sender.sendMessage(Component.text("로드된 RPG 플레이어: " + playerManager.getAllPlayers().size(), ColorUtil.WHITE));
-        sender.sendMessage(Component.text("활성 리스너: " + listenerManager.getRegisteredListeners().size(), ColorUtil.WHITE));
         sender.sendMessage(Component.text("등록된 퀘스트: " + QuestID.values().length, ColorUtil.WHITE));
         sender.sendMessage(Component.text("구현된 퀘스트: " + QuestRegistry.getImplementedCount(), ColorUtil.WHITE));
 
@@ -147,12 +145,14 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
      * 디버그 명령어 처리
      */
     private boolean handleDebugCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        boolean debugMode = LogUtil.toggleDebug();
+        boolean debugMode = LogUtil.isDebugMode();
 
         if (debugMode) {
             sender.sendMessage(Component.text("디버그 모드가 활성화되었습니다.", ColorUtil.SUCCESS));
+            LogUtil.setDebugMode(true);
         } else {
             sender.sendMessage(Component.text("디버그 모드가 비활성화되었습니다.", ColorUtil.WARNING));
+            LogUtil.setDebugMode(false);
         }
 
         return true;
@@ -183,9 +183,9 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         sender.sendMessage(Component.text("=== " + target.getName() + "의 프로필 ===", ColorUtil.GOLD));
         sender.sendMessage(Component.text("레벨: " + rpgPlayer.getLevel(), ColorUtil.WHITE));
         sender.sendMessage(Component.text("경험치: " + rpgPlayer.getExperience() + "/" + rpgPlayer.getExperienceToNextLevel(), ColorUtil.WHITE));
-        sender.sendMessage(Component.text("직업: " + (rpgPlayer.getJob() != null ? rpgPlayer.getJob().getDisplayName() : "없음"), ColorUtil.WHITE));
-        sender.sendMessage(Component.text("골드: " + rpgPlayer.getWallet().getGold(), ColorUtil.GOLD));
-        sender.sendMessage(Component.text("다이아몬드: " + rpgPlayer.getWallet().getDiamond(), ColorUtil.AQUA));
+        sender.sendMessage(Component.text("직업: " + (rpgPlayer.getJob() != null ? rpgPlayer.getJob().name() : "없음"), ColorUtil.WHITE));
+        sender.sendMessage(Component.text("골드: " + rpgPlayer.getWallet().getBalance(CurrencyType.GOLD), ColorUtil.GOLD));
+        sender.sendMessage(Component.text("다이아몬드: " + rpgPlayer.getWallet().getBalance(CurrencyType.DIAMOND), ColorUtil.AQUA));
 
         // 퀘스트 정보
         List<QuestProgress> activeQuests = questManager.getActiveQuests(target.getUniqueId());
@@ -288,7 +288,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     }
 
     /**
-     * NPC 명령어 처리
+     * NPC 명령어 처리 (Citizens API 사용)
      */
     private boolean handleNpcCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
@@ -296,27 +296,69 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        if (args.length < 3) {
-            sender.sendMessage(Component.text("사용법: /rpgadmin npc create <타입>", ColorUtil.ERROR));
+        if (!Bukkit.getPluginManager().isPluginEnabled("Citizens")) {
+            sender.sendMessage(Component.text("Citizens 플러그인이 설치되어 있지 않습니다.", ColorUtil.ERROR));
+            return true;
+        }
+
+        if (args.length < 2) {
+            sender.sendMessage(Component.text("사용법: /rpgadmin npc create <타입> [이름]", ColorUtil.ERROR));
             return true;
         }
 
         if (!args[1].equalsIgnoreCase("create")) {
-            sender.sendMessage(Component.text("사용법: /rpgadmin npc create <타입>", ColorUtil.ERROR));
+            sender.sendMessage(Component.text("사용법: /rpgadmin npc create <타입> [이름]", ColorUtil.ERROR));
             return true;
         }
 
-        try {
-            NPCType type = NPCType.valueOf(args[2].toUpperCase());
-            Location loc = player.getLocation();
-
-            npcManager.createNPC(type, loc, null);
-            player.sendMessage(Component.text(type.getDisplayName() + " NPC를 생성했습니다.", ColorUtil.SUCCESS));
-
-        } catch (IllegalArgumentException e) {
-            player.sendMessage(Component.text("올바르지 않은 NPC 타입입니다.", ColorUtil.ERROR));
-            player.sendMessage(Component.text("사용 가능: " + Arrays.toString(NPCType.values()), ColorUtil.GRAY));
+        if (args.length < 3) {
+            sender.sendMessage(Component.text("사용법: /rpgadmin npc create <타입> [이름]", ColorUtil.ERROR));
+            sender.sendMessage(Component.text("타입: QUEST, SHOP, GUIDE", ColorUtil.GRAY));
+            return true;
         }
+
+        String npcType = args[2].toUpperCase();
+        String npcName = args.length > 3 ? String.join(" ", Arrays.copyOfRange(args, 3, args.length)) : npcType + " NPC";
+
+        // NPC 생성
+        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, npcName);
+        Location loc = player.getLocation();
+        npc.spawn(loc);
+
+        // NPC 설정
+        switch (npcType) {
+            case "QUEST" -> {
+                npc.data().set("rpg_npc_type", "QUEST");
+                // 퀘스트 NPC 설정
+                Equipment equipment = npc.getOrAddTrait(Equipment.class);
+                equipment.set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.BOOK));
+                player.sendMessage(Component.text("퀘스트 NPC를 생성했습니다: " + npcName, ColorUtil.SUCCESS));
+            }
+            case "SHOP" -> {
+                npc.data().set("rpg_npc_type", "SHOP");
+                // 상점 NPC 설정
+                Equipment equipment = npc.getOrAddTrait(Equipment.class);
+                equipment.set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.EMERALD));
+                player.sendMessage(Component.text("상점 NPC를 생성했습니다: " + npcName, ColorUtil.SUCCESS));
+            }
+            case "GUIDE" -> {
+                npc.data().set("rpg_npc_type", "GUIDE");
+                // 가이드 NPC 설정
+                Equipment equipment = npc.getOrAddTrait(Equipment.class);
+                equipment.set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.COMPASS));
+                player.sendMessage(Component.text("가이드 NPC를 생성했습니다: " + npcName, ColorUtil.SUCCESS));
+            }
+            default -> {
+                npc.despawn();
+                CitizensAPI.getNPCRegistry().deregister(npc);
+                player.sendMessage(Component.text("올바른 NPC 타입을 입력하세요: QUEST, SHOP, GUIDE", ColorUtil.ERROR));
+                return true;
+            }
+        }
+
+        // 기본 설정
+        npc.setProtected(true);
+        npc.data().setPersistent("rpg_npc", true);
 
         return true;
     }
@@ -455,8 +497,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                 }
                 case "npc" -> {
                     if (args[1].equalsIgnoreCase("create")) {
-                        return Arrays.stream(NPCType.values())
-                                .map(Enum::name)
+                        return Arrays.asList("QUEST", "SHOP", "GUIDE")
+                                .stream()
                                 .filter(name -> name.toLowerCase().startsWith(args[2].toLowerCase()))
                                 .collect(Collectors.toList());
                     }

@@ -4,6 +4,7 @@ import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.dialog.QuestDialog;
+import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -90,7 +91,13 @@ public class FirstStepsQuest extends Quest {
                     "",
                     "목표:",
                     "• 스폰 지점 방문",
-                    "• 마을 상인과 대화"
+                    "• 마을 상인과 대화",
+                    "",
+                    "보상:",
+                    "• 골드 100",
+                    "• 기본 도구 세트",
+                    "• 빵 10개",
+                    "• 경험치 50"
             );
         } else {
             return Arrays.asList(
@@ -99,9 +106,26 @@ public class FirstStepsQuest extends Quest {
                     "",
                     "Objectives:",
                     "• Visit spawn point",
-                    "• Talk to village merchant"
+                    "• Talk to village merchant",
+                    "",
+                    "Rewards:",
+                    "• 100 Gold",
+                    "• Basic tool set",
+                    "• 10 Bread",
+                    "• 50 Experience"
             );
         }
+    }
+
+    @Override
+    protected @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean) {
+        String id = objective.getId();
+
+        return switch (id) {
+            case "visit_spawn" -> isKorean ? "스폰 지점 방문" : "Visit spawn point";
+            case "visit_merchant" -> isKorean ? "마을 상인과 대화" : "Talk to village merchant";
+            default -> objective.getStatusInfo(null);
+        };
     }
 
     @Override
@@ -109,24 +133,16 @@ public class FirstStepsQuest extends Quest {
         QuestDialog dialog = new QuestDialog("first_steps_dialog");
 
         dialog.addLine("마을 상인",
-                "안녕하세요! 처음 오셨군요. 서버에 오신 것을 환영합니다!",
-                "Hello! You're new here. Welcome to the server!");
+                "오, 새로운 모험가시군요! 환영합니다!",
+                "Oh, a new adventurer! Welcome!");
 
         dialog.addLine("마을 상인",
-                "제가 기본적인 장비를 드리겠습니다. 이것으로 모험을 시작하세요!",
-                "I'll give you some basic equipment. Start your adventure with these!");
-
-        dialog.addLineWithChoices("마을 상인",
-                "준비가 되셨나요?",
-                "Are you ready?",
-                Arrays.asList(
-                        new QuestDialog.DialogChoice("yes", "네, 준비됐습니다!", "Yes, I'm ready!", -1),
-                        new QuestDialog.DialogChoice("no", "아직 준비가 안됐어요.", "Not yet.", 3)
-                ));
+                "이곳은 모험을 시작하기에 완벽한 장소입니다.",
+                "This is the perfect place to start your adventure.");
 
         dialog.addLine("마을 상인",
-                "천천히 준비하세요. 준비가 되면 다시 와주세요!",
-                "Take your time. Come back when you're ready!");
+                "제가 기본적인 도구들을 드리겠습니다. 앞으로의 여정에 도움이 될 거예요!",
+                "Let me give you some basic tools. They'll help you on your journey!");
 
         return dialog;
     }

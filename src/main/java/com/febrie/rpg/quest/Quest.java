@@ -5,6 +5,14 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.reward.QuestReward;
+import com.febrie.rpg.util.ColorUtil;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -83,6 +91,108 @@ public abstract class Quest {
      * @return 퀘스트 설명 (여러 줄)
      */
     public abstract @NotNull List<String> getDescription(boolean isKorean);
+
+    /**
+     * 퀘스트 정보를 책으로 표시
+     *
+     * @param player 대상 플레이어
+     */
+    public void displayBook(@NotNull Player player) {
+        ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
+        BookMeta meta = (BookMeta) book.getItemMeta();
+        if (meta == null) return;
+
+        boolean isKorean = player.locale().getLanguage().equals("ko");
+
+        meta.setTitle("§6RPG 퀘스트 안내서");
+        meta.setAuthor("§f시스템");
+
+        List<Component> pages = new ArrayList<>();
+
+        // 첫 페이지 - 퀘스트 기본 정보
+        Component page1 = Component.text("=== ", NamedTextColor.DARK_GRAY)
+                .append(Component.text(getDisplayName(isKorean), ColorUtil.GOLD, TextDecoration.BOLD))
+                .append(Component.text(" ===", NamedTextColor.DARK_GRAY))
+                .append(Component.newline()).append(Component.newline());
+
+        for (String line : getDescription(isKorean)) {
+            page1 = page1.append(Component.text(line, ColorUtil.GRAY))
+                    .append(Component.newline());
+        }
+
+        page1 = page1.append(Component.newline())
+                .append(Component.text("카테고리: ", ColorUtil.YELLOW))
+                .append(Component.text(getCategoryName(isKorean), ColorUtil.WHITE))
+                .append(Component.newline())
+                .append(Component.text("레벨 요구사항: ", ColorUtil.YELLOW))
+                .append(Component.text(minLevel + (maxLevel > 0 ? "-" + maxLevel : "+"), ColorUtil.WHITE));
+
+        pages.add(page1);
+
+        // 두 번째 페이지 - 목표
+        Component page2 = Component.text("=== 퀘스트 목표 ===", ColorUtil.GOLD, TextDecoration.BOLD)
+                .append(Component.newline()).append(Component.newline());
+
+        int index = 1;
+        for (QuestObjective objective : objectives) {
+            String objectiveText = getObjectiveDescription(objective, isKorean);
+            page2 = page2.append(Component.text(index + ". ", ColorUtil.YELLOW))
+                    .append(Component.text(objectiveText, ColorUtil.WHITE))
+                    .append(Component.newline());
+            index++;
+        }
+
+        if (sequential) {
+            page2 = page2.append(Component.newline())
+                    .append(Component.text("※ 순서대로 진행해야 합니다.", ColorUtil.RED));
+        }
+
+        pages.add(page2);
+
+        // 세 번째 페이지 - 보상
+        Component page3 = Component.text("=== 퀘스트 보상 ===", ColorUtil.EMERALD, TextDecoration.BOLD)
+                .append(Component.newline()).append(Component.newline());
+
+        // 보상 정보 표시
+        page3 = page3.append(getRewardDisplayInfo(player, isKorean));
+
+        pages.add(page3);
+
+        // 페이지 설정
+        meta.pages(pages);
+        book.setItemMeta(meta);
+
+        // 책 열기
+        player.openBook(book);
+    }
+
+    /**
+     * 보상 정보를 표시용 Component로 변환
+     */
+    private @NotNull Component getRewardDisplayInfo(@NotNull Player player, boolean isKorean) {
+        // QuestReward의 getDisplayInfo 메소드 사용
+        return reward.getDisplayInfo(player);
+    }
+
+    /**
+     * 목표 설명 가져오기 (하드코딩용)
+     */
+    protected abstract @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean);
+
+    /**
+     * 카테고리 이름 가져오기
+     */
+    private @NotNull String getCategoryName(boolean isKorean) {
+        return switch (category) {
+            case MAIN -> isKorean ? "메인 퀘스트" : "Main Quest";
+            case SIDE -> isKorean ? "사이드 퀘스트" : "Side Quest";
+            case DAILY -> isKorean ? "일일 퀘스트" : "Daily Quest";
+            case WEEKLY -> isKorean ? "주간 퀘스트" : "Weekly Quest";
+            case EVENT -> isKorean ? "이벤트 퀘스트" : "Event Quest";
+            case TUTORIAL -> isKorean ? "튜토리얼" : "Tutorial";
+            case NORMAL -> isKorean ? "일반 퀘스트" : "Normal Quest";
+        };
+    }
 
     /**
      * 퀘스트 대화 (없으면 null)

@@ -15,6 +15,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -321,6 +323,14 @@ public class RPGPlayerManager implements Listener {
             }
             return success;
         });
+    }
+
+    /**
+     * 모든 플레이어 데이터 가져오기
+     */
+    @NotNull
+    public Collection<RPGPlayer> getAllPlayers() {
+        return new ArrayList<>(players.values());
     }
 
     /**

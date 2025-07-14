@@ -39,6 +39,10 @@ public final class LogUtil {
         debugMode = debug;
     }
 
+    public static boolean isDebugMode() {
+        return debugMode;
+    }
+
     /**
      * 정보 로그
      */

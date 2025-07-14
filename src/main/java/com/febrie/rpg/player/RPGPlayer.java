@@ -185,6 +185,27 @@ public class RPGPlayer {
         markModified();
     }
 
+    /**
+     * 다음 레벨까지 필요한 총 경험치
+     */
+    public long getExperienceToNextLevel() {
+        if (job == null) return 0;
+        int currentLevel = getLevel();
+        if (currentLevel >= job.getMaxLevel()) return 0;
+
+        long nextLevelTotal = LevelSystem.getTotalExpForLevel(currentLevel + 1, job);
+        long currentLevelTotal = LevelSystem.getTotalExpForLevel(currentLevel, job);
+        return nextLevelTotal - currentLevelTotal;
+    }
+
+    /**
+     * 특정 레벨에 필요한 경험치 (직업 기반)
+     */
+    public long getExpForLevel(int level) {
+        if (job == null) return 0;
+        return LevelSystem.getExpForLevel(level, job);
+    }
+
     // Getters
     @NotNull
     public JobType getJob() {

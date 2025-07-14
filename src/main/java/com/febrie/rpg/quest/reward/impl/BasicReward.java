@@ -4,11 +4,16 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.quest.reward.QuestReward;
+import com.febrie.rpg.util.ColorUtil;
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 기본 퀘스트 보상 구현체
@@ -69,7 +74,7 @@ public class BasicReward implements QuestReward {
         if (!items.isEmpty()) {
             keys.add("quest.reward.preview.items");
             for (ItemStack item : items) {
-                keys.add("quest.reward.preview.item:" + item.getType().name() + ":" + item.getAmount());
+                keys.add("quest.reward.preview.item");
             }
         }
 
@@ -77,13 +82,13 @@ public class BasicReward implements QuestReward {
         if (!currencies.isEmpty()) {
             keys.add("quest.reward.preview.currencies");
             for (Map.Entry<CurrencyType, Long> entry : currencies.entrySet()) {
-                keys.add("quest.reward.preview.currency:" + entry.getKey().getId() + ":" + entry.getValue());
+                keys.add("quest.reward.preview.currency");
             }
         }
 
         // 경험치 보상
         if (experience > 0) {
-            keys.add("quest.reward.preview.experience:" + experience);
+            keys.add("quest.reward.preview.experience");
         }
 
         return keys.toArray(new String[0]);
@@ -91,23 +96,76 @@ public class BasicReward implements QuestReward {
 
     @Override
     public @NotNull RewardType getType() {
-        if (items.isEmpty() && currencies.isEmpty() && experience > 0) {
-            return RewardType.EXPERIENCE;
-        } else if (items.isEmpty() && !currencies.isEmpty() && experience == 0) {
-            return RewardType.CURRENCY;
-        } else if (!items.isEmpty() && currencies.isEmpty() && experience == 0) {
-            return RewardType.ITEM;
-        } else {
-            return RewardType.MIXED;
-        }
+        int types = 0;
+        if (!items.isEmpty()) types++;
+        if (!currencies.isEmpty()) types++;
+        if (experience > 0) types++;
+
+        return types > 1 ? RewardType.MIXED :
+                !items.isEmpty() ? RewardType.ITEM :
+                        !currencies.isEmpty() ? RewardType.CURRENCY :
+                                experience > 0 ? RewardType.EXPERIENCE :
+                                        RewardType.MIXED;
     }
 
-    public static Builder builder() {
-        return new Builder();
+    @Override
+    public @NotNull Component getDisplayInfo(@NotNull Player player) {
+        boolean isKorean = player.locale().getLanguage().equals("ko");
+        Component result = Component.empty();
+        boolean first = true;
+
+        // 아이템 보상 표시
+        if (!items.isEmpty()) {
+            result = result.append(Component.text(isKorean ? "아이템:" : "Items:", ColorUtil.YELLOW));
+
+            for (ItemStack item : items) {
+                result = result.append(Component.newline())
+                        .append(Component.text("  • ", ColorUtil.GRAY))
+                        .append(Component.translatable(item.getType().translationKey()))
+                        .append(Component.text(" x" + item.getAmount(), ColorUtil.WHITE));
+            }
+            first = false;
+        }
+
+        // 재화 보상 표시
+        if (!currencies.isEmpty()) {
+            if (!first) result = result.append(Component.newline());
+            result = result.append(Component.text(isKorean ? "재화:" : "Currency:", ColorUtil.GOLD));
+
+            for (Map.Entry<CurrencyType, Long> entry : currencies.entrySet()) {
+                String currencyName = getCurrencyName(entry.getKey(), isKorean);
+                result = result.append(Component.newline())
+                        .append(Component.text("  • " + currencyName + " ", ColorUtil.GRAY))
+                        .append(Component.text(entry.getValue().toString(), ColorUtil.WHITE));
+            }
+            first = false;
+        }
+
+        // 경험치 보상 표시
+        if (experience > 0) {
+            if (!first) result = result.append(Component.newline());
+            result = result.append(Component.text(isKorean ? "경험치:" : "Experience:", ColorUtil.EMERALD))
+                    .append(Component.text(" " + experience, ColorUtil.WHITE));
+        }
+
+        return result;
     }
 
     /**
-     * 보상 빌더
+     * 재화 이름 가져오기
+     */
+    private String getCurrencyName(CurrencyType type, boolean isKorean) {
+        return switch (type) {
+            case GOLD -> isKorean ? "골드" : "Gold";
+            case DIAMOND -> isKorean ? "다이아몬드" : "Diamond";
+            case EMERALD -> isKorean ? "에메랄드" : "Emerald";
+            case GHAST_TEAR -> isKorean ? "별가루" : "Stardust";
+            case NETHER_STAR -> isKorean ? "별" : "Star";
+        };
+    }
+
+    /**
+     * 빌더 클래스
      */
     public static class Builder {
         private final List<ItemStack> items = new ArrayList<>();
@@ -116,26 +174,17 @@ public class BasicReward implements QuestReward {
         private String descriptionKey;
 
         public Builder addItem(@NotNull ItemStack item) {
-            this.items.add(item);
-            return this;
-        }
-
-        public Builder addItems(@NotNull ItemStack... items) {
-            this.items.addAll(Arrays.asList(items));
+            this.items.add(item.clone());
             return this;
         }
 
         public Builder addCurrency(@NotNull CurrencyType type, long amount) {
-            if (amount > 0) {
-                this.currencies.merge(type, amount, Long::sum);
-            }
+            this.currencies.merge(type, amount, Long::sum);
             return this;
         }
 
         public Builder addExperience(int amount) {
-            if (amount > 0) {
-                this.experience += amount;
-            }
+            this.experience += amount;
             return this;
         }
 
@@ -147,5 +196,12 @@ public class BasicReward implements QuestReward {
         public BasicReward build() {
             return new BasicReward(this);
         }
+    }
+
+    /**
+     * 빌더 생성
+     */
+    public static Builder builder() {
+        return new Builder();
     }
 }

@@ -4,6 +4,7 @@ import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.dialog.QuestDialog;
+import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.CraftItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
@@ -96,7 +97,23 @@ public class HeroesJourneyQuest extends Quest {
                     "다양한 도전을 통해 실력을 증명하세요!",
                     "",
                     "이 퀘스트는 여러 목표를 동시에 진행할 수 있습니다.",
-                    "각자의 속도로 완성해 나가세요."
+                    "각자의 속도로 완성해 나가세요.",
+                    "",
+                    "목표:",
+                    "• 좀비 10마리 처치",
+                    "• 스켈레톤 10마리 처치",
+                    "• 거미 5마리 처치",
+                    "• 철괴 20개 수집",
+                    "• 금괴 10개 수집",
+                    "• 철 검 1개 제작",
+                    "• 철 흉갑 1개 제작",
+                    "",
+                    "보상:",
+                    "• 골드 500",
+                    "• 다이아몬드 5개",
+                    "• 다이아몬드 1개",
+                    "• 마법부여대",
+                    "• 경험치 500"
             );
         } else {
             return Arrays.asList(
@@ -104,9 +121,41 @@ public class HeroesJourneyQuest extends Quest {
                     "Prove your skills through various challenges!",
                     "",
                     "This quest allows multiple objectives to progress simultaneously.",
-                    "Complete them at your own pace."
+                    "Complete them at your own pace.",
+                    "",
+                    "Objectives:",
+                    "• Kill 10 zombies",
+                    "• Kill 10 skeletons",
+                    "• Kill 5 spiders",
+                    "• Collect 20 iron ingots",
+                    "• Collect 10 gold ingots",
+                    "• Craft 1 iron sword",
+                    "• Craft 1 iron chestplate",
+                    "",
+                    "Rewards:",
+                    "• 500 Gold",
+                    "• 5 Diamonds",
+                    "• 1 Diamond",
+                    "• Enchanting Table",
+                    "• 500 Experience"
             );
         }
+    }
+
+    @Override
+    protected @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean) {
+        String id = objective.getId();
+
+        return switch (id) {
+            case "kill_zombies" -> isKorean ? "좀비 10마리 처치" : "Kill 10 zombies";
+            case "kill_skeletons" -> isKorean ? "스켈레톤 10마리 처치" : "Kill 10 skeletons";
+            case "kill_spiders" -> isKorean ? "거미 5마리 처치" : "Kill 5 spiders";
+            case "collect_iron" -> isKorean ? "철괴 20개 수집" : "Collect 20 iron ingots";
+            case "collect_gold" -> isKorean ? "금괴 10개 수집" : "Collect 10 gold ingots";
+            case "craft_iron_sword" -> isKorean ? "철 검 1개 제작" : "Craft 1 iron sword";
+            case "craft_iron_armor" -> isKorean ? "철 흉갑 1개 제작" : "Craft 1 iron chestplate";
+            default -> objective.getStatusInfo(null);
+        };
     }
 
     @Override
