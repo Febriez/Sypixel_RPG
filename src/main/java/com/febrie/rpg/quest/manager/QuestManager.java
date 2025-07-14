@@ -5,9 +5,11 @@ import com.febrie.rpg.database.FirestoreService;
 import com.febrie.rpg.dto.CompletedQuestDTO;
 import com.febrie.rpg.dto.PlayerQuestDTO;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
+import com.febrie.rpg.quest.registry.QuestRegistry;
 import com.febrie.rpg.util.LogUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -34,14 +36,27 @@ public class QuestManager {
     private final RPGMain plugin;
     private final FirestoreService firestoreService;
 
-    // 등록된 퀘스트 목록
-    private final Map<String, Quest> registeredQuests = new ConcurrentHashMap<>();
+    // 고정 퀘스트 맵 - enum으로 관리
+    private final Map<QuestID, Quest> quests = new EnumMap<>(QuestID.class);
 
-    // 플레이어별 퀘스트 데이터 캐시
-    private final Map<UUID, PlayerQuestDTO> playerQuestCache = new ConcurrentHashMap<>();
+    // 플레이어별 퀘스트 데이터 캐시 (진행도 관리)
+    private final Map<UUID, PlayerQuestData> playerDataCache = new ConcurrentHashMap<>();
 
     // 저장 대기열
     private final Set<UUID> pendingSaves = ConcurrentHashMap.newKeySet();
+
+    /**
+     * 플레이어별 퀘스트 데이터 (진행도 포함)
+     */
+    private static class PlayerQuestData {
+        private final Map<QuestID, QuestProgress> activeQuests = new EnumMap<>(QuestID.class);
+        private final Map<QuestID, CompletedQuestDTO> completedQuests = new EnumMap<>(QuestID.class);
+        private long lastUpdated;
+
+        PlayerQuestData() {
+            this.lastUpdated = System.currentTimeMillis();
+        }
+    }
 
     /**
      * 프라이빗 생성자
@@ -50,9 +65,32 @@ public class QuestManager {
         this.plugin = plugin;
         this.firestoreService = firestoreService;
 
+        // 모든 퀘스트 초기화
+        initializeQuests();
+
         // 자동 저장 스케줄러 시작
         startAutoSaveScheduler();
     }
+
+    /**
+     * 모든 퀘스트 초기화 및 등록
+     */
+    private void initializeQuests() {
+        // QuestRegistry에서 모든 퀘스트 생성 및 등록
+        Map<QuestID, Quest> allQuests = QuestRegistry.createAllQuests();
+        quests.putAll(allQuests);
+
+        LogUtil.info("Initialized " + quests.size() + " quests from " +
+                QuestID.values().length + " defined quest IDs");
+
+        // 구현되지 않은 퀘스트 확인
+        for (QuestID id : QuestID.values()) {
+            if (!QuestRegistry.isImplemented(id)) {
+                LogUtil.warning("Quest not implemented: " + id.name() + " (" + id.getDisplayName() + ")");
+            }
+        }
+    }
+
 
     /**
      * 싱글톤 인스턴스 초기화
@@ -75,27 +113,11 @@ public class QuestManager {
     }
 
     /**
-     * 퀘스트 등록
-     */
-    public void registerQuest(@NotNull Quest quest) {
-        registeredQuests.put(quest.getId(), quest);
-        LogUtil.debug("Quest registered: " + quest.getId());
-    }
-
-    /**
-     * 퀘스트 등록 해제
-     */
-    public void unregisterQuest(@NotNull String questId) {
-        registeredQuests.remove(questId);
-        LogUtil.debug("Quest unregistered: " + questId);
-    }
-
-    /**
      * 등록된 퀘스트 조회
      */
     @Nullable
-    public Quest getQuest(@NotNull String questId) {
-        return registeredQuests.get(questId);
+    public Quest getQuest(@NotNull QuestID questId) {
+        return quests.get(questId);
     }
 
     /**
@@ -103,16 +125,25 @@ public class QuestManager {
      */
     @NotNull
     public Collection<Quest> getAllQuests() {
-        return Collections.unmodifiableCollection(registeredQuests.values());
+        return Collections.unmodifiableCollection(quests.values());
+    }
+
+    /**
+     * 카테고리별 퀘스트 조회
+     */
+    @NotNull
+    public List<Quest> getQuestsByCategory(@NotNull Quest.QuestCategory category) {
+        return quests.values().stream()
+                .filter(quest -> quest.getCategory() == category)
+                .collect(Collectors.toList());
     }
 
     /**
      * 플레이어의 퀘스트 데이터 가져오기
      */
     @NotNull
-    private PlayerQuestDTO getPlayerQuestData(@NotNull UUID playerId) {
-        return playerQuestCache.computeIfAbsent(playerId,
-                id -> new PlayerQuestDTO(id.toString()));
+    private PlayerQuestData getPlayerData(@NotNull UUID playerId) {
+        return playerDataCache.computeIfAbsent(playerId, id -> new PlayerQuestData());
     }
 
     /**
@@ -120,44 +151,53 @@ public class QuestManager {
      */
     @NotNull
     public List<QuestProgress> getActiveQuests(@NotNull UUID playerId) {
-        PlayerQuestDTO data = getPlayerQuestData(playerId);
-        return new ArrayList<>(data.activeQuests().values());
+        PlayerQuestData data = getPlayerData(playerId);
+        return new ArrayList<>(data.activeQuests.values());
     }
 
     /**
-     * 플레이어의 완료된 퀘스트 목록
+     * 플레이어의 완료된 퀘스트 ID 목록
      */
     @NotNull
-    public List<String> getCompletedQuests(@NotNull UUID playerId) {
-        PlayerQuestDTO data = getPlayerQuestData(playerId);
-        return new ArrayList<>(data.completedQuests().keySet());
+    public List<QuestID> getCompletedQuests(@NotNull UUID playerId) {
+        PlayerQuestData data = getPlayerData(playerId);
+        return new ArrayList<>(data.completedQuests.keySet());
+    }
+
+    /**
+     * 플레이어의 특정 퀘스트 진행도 조회
+     */
+    @Nullable
+    public QuestProgress getQuestProgress(@NotNull UUID playerId, @NotNull QuestID questId) {
+        PlayerQuestData data = getPlayerData(playerId);
+        return data.activeQuests.get(questId);
     }
 
     /**
      * 특정 퀘스트 완료 여부
      */
-    public boolean hasCompletedQuest(@NotNull UUID playerId, @NotNull String questId) {
-        PlayerQuestDTO data = getPlayerQuestData(playerId);
-        return data.completedQuests().containsKey(questId);
+    public boolean hasCompletedQuest(@NotNull UUID playerId, @NotNull QuestID questId) {
+        PlayerQuestData data = getPlayerData(playerId);
+        return data.completedQuests.containsKey(questId);
     }
 
     /**
      * 특정 퀘스트 진행 중 여부
      */
-    public boolean hasActiveQuest(@NotNull UUID playerId, @NotNull String questId) {
-        PlayerQuestDTO data = getPlayerQuestData(playerId);
-        return data.activeQuests().containsKey(questId);
+    public boolean hasActiveQuest(@NotNull UUID playerId, @NotNull QuestID questId) {
+        PlayerQuestData data = getPlayerData(playerId);
+        return data.activeQuests.containsKey(questId);
     }
 
     /**
      * 퀘스트 시작
      */
-    public boolean startQuest(@NotNull Player player, @NotNull String questId) {
+    public boolean startQuest(@NotNull Player player, @NotNull QuestID questId) {
         UUID playerId = player.getUniqueId();
-        PlayerQuestDTO currentData = getPlayerQuestData(playerId);
+        PlayerQuestData playerData = getPlayerData(playerId);
 
         // 이미 진행 중인지 확인
-        if (currentData.activeQuests().containsKey(questId)) {
+        if (playerData.activeQuests.containsKey(questId)) {
             return false;
         }
 
@@ -168,7 +208,7 @@ public class QuestManager {
         }
 
         // 이미 완료한 퀘스트인지 확인
-        if (currentData.completedQuests().containsKey(questId) && !quest.isRepeatable()) {
+        if (playerData.completedQuests.containsKey(questId) && !quest.isRepeatable()) {
             return false;
         }
 
@@ -178,37 +218,24 @@ public class QuestManager {
         }
 
         // 선행 퀘스트 확인
-        if (!quest.arePrerequisitesComplete(getCompletedQuests(playerId))) {
+        if (!quest.arePrerequisitesComplete(playerData.completedQuests.keySet())) {
             return false;
         }
 
         // 양자택일 퀘스트 확인
-        if (quest.hasCompletedExclusiveQuests(getCompletedQuests(playerId))) {
+        if (quest.hasCompletedExclusiveQuests(playerData.completedQuests.keySet())) {
             return false;
         }
 
         // 퀘스트 진행도 생성
         QuestProgress progress = quest.createProgress(playerId);
-
-        // 새로운 activeQuests 맵 생성
-        Map<String, QuestProgress> newActiveQuests = new HashMap<>(currentData.activeQuests());
-        newActiveQuests.put(questId, progress);
-
-        // 새로운 PlayerQuestDTO 생성
-        PlayerQuestDTO newData = new PlayerQuestDTO(
-                currentData.playerId(),
-                newActiveQuests,
-                currentData.completedQuests(),
-                System.currentTimeMillis()
-        );
-
-        // 캐시 업데이트
-        playerQuestCache.put(playerId, newData);
+        playerData.activeQuests.put(questId, progress);
+        playerData.lastUpdated = System.currentTimeMillis();
 
         // 저장 예약
         markForSave(playerId);
 
-        LogUtil.info("Player " + player.getName() + " started quest: " + questId);
+        LogUtil.info("Player " + player.getName() + " started quest: " + questId.getDisplayName());
         return true;
     }
 
@@ -217,16 +244,12 @@ public class QuestManager {
      */
     public void progressObjective(@NotNull Player player, @NotNull Event event) {
         UUID playerId = player.getUniqueId();
-        PlayerQuestDTO currentData = getPlayerQuestData(playerId);
+        PlayerQuestData playerData = getPlayerData(playerId);
         boolean dataChanged = false;
 
-        // 수정을 위한 임시 맵 생성
-        Map<String, QuestProgress> updatedActiveQuests = new HashMap<>(currentData.activeQuests());
-        Map<String, CompletedQuestDTO> updatedCompletedQuests = new HashMap<>(currentData.completedQuests());
-
-        for (Map.Entry<String, QuestProgress> entry : updatedActiveQuests.entrySet()) {
+        for (Map.Entry<QuestID, QuestProgress> entry : playerData.activeQuests.entrySet()) {
             QuestProgress questProgress = entry.getValue();
-            Quest quest = getQuest(questProgress.getQuestId());
+            Quest quest = getQuest(entry.getKey());
             if (quest == null) continue;
 
             List<String> objectivesToProgress = new ArrayList<>();
@@ -278,41 +301,13 @@ public class QuestManager {
 
             // 퀘스트 완료 체크
             if (isQuestComplete(quest, questProgress)) {
-                // 완료 처리
-                questProgress.setCompletedAt(Instant.now());
-                questProgress.setState(QuestProgress.QuestState.COMPLETED);
-
-                // 완료 정보 생성
-                CompletedQuestDTO completed = new CompletedQuestDTO(
-                        questProgress.getQuestId(),
-                        questProgress.getStartedAt().toEpochMilli(),
-                        questProgress.getCompletedAt().toEpochMilli(),
-                        questProgress.getCompletedAt().toEpochMilli() - questProgress.getStartedAt().toEpochMilli(),
-                        1 // 보상 획득 횟수
-                );
-
-                // 활성 퀘스트에서 제거하고 완료 목록에 추가
-                updatedActiveQuests.remove(questProgress.getQuestId());
-                updatedCompletedQuests.put(questProgress.getQuestId(), completed);
-
-                // 보상 지급
-                quest.getReward().grant(player);
-
-                LogUtil.info("Player " + player.getName() + " completed quest: " + questProgress.getQuestId());
+                completeQuest(player, entry.getKey(), questProgress);
                 dataChanged = true;
             }
         }
 
-        // 데이터가 변경된 경우에만 새 DTO 생성
         if (dataChanged) {
-            PlayerQuestDTO newData = new PlayerQuestDTO(
-                    currentData.playerId(),
-                    updatedActiveQuests,
-                    updatedCompletedQuests,
-                    System.currentTimeMillis()
-            );
-
-            playerQuestCache.put(playerId, newData);
+            playerData.lastUpdated = System.currentTimeMillis();
             markForSave(playerId);
         }
     }
@@ -321,8 +316,35 @@ public class QuestManager {
      * 퀘스트 완료 여부 확인
      */
     private boolean isQuestComplete(@NotNull Quest quest, @NotNull QuestProgress progress) {
-        return quest.getObjectives().stream()
-                .allMatch(obj -> progress.isObjectiveComplete(obj.getId()));
+        return progress.areAllObjectivesComplete();
+    }
+
+    /**
+     * 퀘스트 완료 처리
+     */
+    private void completeQuest(@NotNull Player player, @NotNull QuestID questId, @NotNull QuestProgress progress) {
+        UUID playerId = player.getUniqueId();
+        PlayerQuestData playerData = getPlayerData(playerId);
+
+        // 진행중 목록에서 제거
+        playerData.activeQuests.remove(questId);
+
+        // 완료 목록에 추가
+        CompletedQuestDTO completed = new CompletedQuestDTO(
+                questId.getLegacyId(),
+                Instant.now().toEpochMilli(),
+                1  // TODO: 완료 횟수 추적
+        );
+        playerData.completedQuests.put(questId, completed);
+
+        // 보상 지급
+        Quest quest = getQuest(questId);
+        if (quest != null) {
+            quest.getReward().grant(player);
+            LogUtil.info("Player " + player.getName() + " completed quest: " + questId.getDisplayName());
+        }
+
+        progress.complete();
     }
 
     /**
@@ -330,18 +352,39 @@ public class QuestManager {
      */
     public CompletableFuture<Void> loadPlayerData(@NotNull UUID playerId) {
         return firestoreService.loadPlayerQuestData(playerId.toString())
-                .thenAccept(data -> {
-                    if (data != null) {
-                        playerQuestCache.put(playerId, data);
+                .thenAccept(dto -> {
+                    if (dto != null) {
+                        PlayerQuestData data = new PlayerQuestData();
+
+                        // 활성 퀘스트 변환
+                        dto.activeQuests().forEach((idStr, progress) -> {
+                            try {
+                                QuestID questId = QuestID.fromLegacyId(idStr);
+                                data.activeQuests.put(questId, progress);
+                            } catch (IllegalArgumentException e) {
+                                LogUtil.warning("Unknown quest ID in player data: " + idStr);
+                            }
+                        });
+
+                        // 완료된 퀘스트 변환
+                        dto.completedQuests().forEach((idStr, completed) -> {
+                            try {
+                                QuestID questId = QuestID.fromLegacyId(idStr);
+                                data.completedQuests.put(questId, completed);
+                            } catch (IllegalArgumentException e) {
+                                LogUtil.warning("Unknown completed quest ID: " + idStr);
+                            }
+                        });
+
+                        data.lastUpdated = dto.lastUpdated();
+                        playerDataCache.put(playerId, data);
+
                         LogUtil.debug("Loaded quest data for player: " + playerId);
-                    } else {
-                        playerQuestCache.put(playerId, new PlayerQuestDTO(playerId.toString()));
-                        LogUtil.debug("Created new quest data for player: " + playerId);
                     }
                 })
                 .exceptionally(ex -> {
                     LogUtil.error("Failed to load quest data for player: " + playerId, ex);
-                    playerQuestCache.put(playerId, new PlayerQuestDTO(playerId.toString()));
+                    playerDataCache.put(playerId, new PlayerQuestData());
                     return null;
                 });
     }
@@ -350,21 +393,28 @@ public class QuestManager {
      * 플레이어 데이터 저장
      */
     public void savePlayerData(@NotNull UUID playerId) {
-        PlayerQuestDTO data = playerQuestCache.get(playerId);
+        PlayerQuestData data = playerDataCache.get(playerId);
         if (data == null) {
-            CompletableFuture.completedFuture(false);
             return;
         }
 
-        // 저장 시 최신 타임스탬프로 새 DTO 생성
-        PlayerQuestDTO dataToSave = new PlayerQuestDTO(
-                data.playerId(),
-                data.activeQuests(),
-                data.completedQuests(),
-                System.currentTimeMillis()
+        // DTO로 변환
+        Map<String, QuestProgress> activeQuestsDto = new HashMap<>();
+        data.activeQuests.forEach((id, progress) ->
+                activeQuestsDto.put(id.getLegacyId(), progress));
+
+        Map<String, CompletedQuestDTO> completedQuestsDto = new HashMap<>();
+        data.completedQuests.forEach((id, completed) ->
+                completedQuestsDto.put(id.getLegacyId(), completed));
+
+        PlayerQuestDTO dto = new PlayerQuestDTO(
+                playerId.toString(),
+                activeQuestsDto,
+                completedQuestsDto,
+                data.lastUpdated
         );
 
-        firestoreService.savePlayerQuestData(playerId.toString(), dataToSave)
+        firestoreService.savePlayerQuestData(playerId.toString(), dto)
                 .thenApply(success -> {
                     if (success) {
                         pendingSaves.remove(playerId);
@@ -410,9 +460,8 @@ public class QuestManager {
         saveAllPendingData();
 
         // 캐시 정리
-        playerQuestCache.clear();
+        playerDataCache.clear();
         pendingSaves.clear();
-        registeredQuests.clear();
 
         LogUtil.info("QuestManager shutdown complete");
     }

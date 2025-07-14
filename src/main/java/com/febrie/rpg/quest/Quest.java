@@ -16,141 +16,128 @@ import java.util.*;
  */
 public abstract class Quest {
 
-    protected final String id;
-    protected final String nameKey;
-    protected final String descriptionKey;
+    protected final QuestID id;
+    protected final List<QuestObjective> objectives;
+    protected final QuestReward reward;
+
+    // 퀘스트 속성
+    protected final boolean sequential;
+    protected final boolean repeatable;
+    protected final boolean daily;
+    protected final boolean weekly;
+    protected final int minLevel;
+    protected final int maxLevel;
+    protected final QuestCategory category;
 
     // 선행 퀘스트 시스템
-    private final List<String> prerequisiteQuests = new ArrayList<>();
+    private final Set<QuestID> prerequisiteQuests = new HashSet<>();
 
     // 양자택일 퀘스트 시스템
-    private final List<String> exclusiveQuests = new ArrayList<>();
+    private final Set<QuestID> exclusiveQuests = new HashSet<>();
 
     /**
-     * 기본 생성자
-     *
-     * @param id             퀘스트 고유 ID
-     * @param nameKey        퀘스트 이름 번역 키
-     * @param descriptionKey 퀘스트 설명 번역 키
+     * 빌더를 통한 생성자
      */
-    protected Quest(@NotNull String id, @NotNull String nameKey, @NotNull String descriptionKey) {
-        this.id = Objects.requireNonNull(id, "Quest ID cannot be null");
-        this.nameKey = Objects.requireNonNull(nameKey, "Name key cannot be null");
-        this.descriptionKey = Objects.requireNonNull(descriptionKey, "Description key cannot be null");
+    protected Quest(@NotNull Builder builder) {
+        this.id = Objects.requireNonNull(builder.id, "Quest ID cannot be null");
+        this.objectives = new ArrayList<>(builder.objectives);
+        this.reward = Objects.requireNonNull(builder.reward, "Quest reward cannot be null");
+
+        this.sequential = builder.sequential;
+        this.repeatable = builder.repeatable;
+        this.daily = builder.daily;
+        this.weekly = builder.weekly;
+        this.minLevel = builder.minLevel;
+        this.maxLevel = builder.maxLevel;
+        this.category = builder.category;
+
+        this.prerequisiteQuests.addAll(builder.prerequisiteQuests);
+        this.exclusiveQuests.addAll(builder.exclusiveQuests);
+
+        if (objectives.isEmpty()) {
+            throw new IllegalArgumentException("Quest must have at least one objective");
+        }
     }
 
     /**
      * 퀘스트 ID 반환
-     *
-     * @return 고유 ID
      */
-    public @NotNull String getId() {
+    public @NotNull QuestID getId() {
         return id;
     }
 
     /**
      * 퀘스트 이름 번역 키 반환
-     *
-     * @return 번역 키
      */
     public @NotNull String getNameKey() {
-        return nameKey;
+        return id.getNameKey();
     }
 
     /**
      * 퀘스트 설명 번역 키 반환
-     *
-     * @return 번역 키
      */
     public @NotNull String getDescriptionKey() {
-        return descriptionKey;
+        return id.getDescriptionKey();
     }
 
     /**
      * 퀘스트 목표 목록 반환
-     *
-     * @return 목표 리스트
      */
-    public abstract @NotNull List<QuestObjective> getObjectives();
-
-
-    /**
-     * 순차적 진행 여부
-     * true면 목표를 순서대로 완료해야 함
-     *
-     * @return 순차 진행 여부
-     */
-    public abstract boolean isSequential();
-
-    /**
-     * 퀘스트 보상
-     *
-     * @return 보상 객체
-     */
-    public abstract @NotNull QuestReward getReward();
-
-    /**
-     * 퀘스트 시작 가능 여부 확인
-     *
-     * @param playerId 플레이어 UUID
-     * @return 시작 가능 여부
-     */
-    public abstract boolean canStart(@NotNull UUID playerId);
-
-    /**
-     * 최소 레벨 요구사항
-     *
-     * @return 최소 레벨 (0이면 제한 없음)
-     */
-    public abstract int getMinLevel();
-
-    /**
-     * 최대 레벨 요구사항
-     *
-     * @return 최대 레벨 (0이면 제한 없음)
-     */
-    public abstract int getMaxLevel();
-
-    /**
-     * 선행 퀘스트 목록
-     *
-     * @return 선행 퀘스트 ID 목록
-     */
-    public @NotNull List<String> getPrerequisiteQuests() {
-        return new ArrayList<>(prerequisiteQuests);
+    public @NotNull List<QuestObjective> getObjectives() {
+        return new ArrayList<>(objectives);
     }
 
     /**
-     * 선행 퀘스트 추가
-     *
-     * @param questId 선행 퀘스트 ID
+     * 순차적 진행 여부
      */
-    protected void addPrerequisiteQuest(@NotNull String questId) {
-        prerequisiteQuests.add(Objects.requireNonNull(questId));
+    public boolean isSequential() {
+        return sequential;
+    }
+
+    /**
+     * 퀘스트 보상
+     */
+    public @NotNull QuestReward getReward() {
+        return reward;
+    }
+
+    /**
+     * 퀘스트 시작 가능 여부 확인 (하위 클래스에서 추가 조건 구현 가능)
+     */
+    public boolean canStart(@NotNull UUID playerId) {
+        return true;
+    }
+
+    /**
+     * 최소 레벨 요구사항
+     */
+    public int getMinLevel() {
+        return minLevel;
+    }
+
+    /**
+     * 최대 레벨 요구사항
+     */
+    public int getMaxLevel() {
+        return maxLevel;
+    }
+
+    /**
+     * 선행 퀘스트 목록
+     */
+    public @NotNull Set<QuestID> getPrerequisiteQuests() {
+        return new HashSet<>(prerequisiteQuests);
     }
 
     /**
      * 양자택일 퀘스트 목록
-     *
-     * @return 양자택일 퀘스트 ID 목록
      */
-    public @NotNull List<String> getExclusiveQuests() {
-        return new ArrayList<>(exclusiveQuests);
-    }
-
-    /**
-     * 양자택일 퀘스트 추가
-     *
-     * @param questId 양자택일 퀘스트 ID
-     */
-    protected void addExclusiveQuest(@NotNull String questId) {
-        exclusiveQuests.add(Objects.requireNonNull(questId));
+    public @NotNull Set<QuestID> getExclusiveQuests() {
+        return new HashSet<>(exclusiveQuests);
     }
 
     /**
      * 선행 퀘스트 확인
-     *
-     * @return 선행 퀘스트가 있는지 여부
      */
     public boolean hasPrerequisiteQuests() {
         return !prerequisiteQuests.isEmpty();
@@ -158,8 +145,6 @@ public abstract class Quest {
 
     /**
      * 양자택일 퀘스트 확인
-     *
-     * @return 양자택일 퀘스트가 있는지 여부
      */
     public boolean hasExclusiveQuests() {
         return !exclusiveQuests.isEmpty();
@@ -167,22 +152,16 @@ public abstract class Quest {
 
     /**
      * 선행 퀘스트 완료 확인
-     *
-     * @param completedQuests 완료된 퀘스트 목록
-     * @return 모든 선행 퀘스트 완료 여부
      */
-    public boolean arePrerequisitesComplete(@NotNull List<String> completedQuests) {
-        return new HashSet<>(completedQuests).containsAll(prerequisiteQuests);
+    public boolean arePrerequisitesComplete(@NotNull Collection<QuestID> completedQuests) {
+        return completedQuests.containsAll(prerequisiteQuests);
     }
 
     /**
      * 양자택일 퀘스트 완료 확인
-     *
-     * @param completedQuests 완료된 퀘스트 목록
-     * @return 양자택일 퀘스트 중 하나라도 완료했는지 여부
      */
-    public boolean hasCompletedExclusiveQuests(@NotNull List<String> completedQuests) {
-        for (String exclusiveQuest : exclusiveQuests) {
+    public boolean hasCompletedExclusiveQuests(@NotNull Collection<QuestID> completedQuests) {
+        for (QuestID exclusiveQuest : exclusiveQuests) {
             if (completedQuests.contains(exclusiveQuest)) {
                 return true;
             }
@@ -192,50 +171,39 @@ public abstract class Quest {
 
     /**
      * 퀘스트 카테고리
-     *
-     * @return 카테고리
      */
     public @NotNull QuestCategory getCategory() {
-        return QuestCategory.NORMAL;
+        return category;
     }
 
     /**
      * 반복 가능 여부
-     *
-     * @return 반복 가능 여부
      */
     public boolean isRepeatable() {
-        return false;
+        return repeatable;
     }
 
     /**
      * 일일 퀘스트 여부
-     *
-     * @return 일일 퀘스트 여부
      */
     public boolean isDaily() {
-        return false;
+        return daily;
     }
 
     /**
      * 주간 퀘스트 여부
-     *
-     * @return 주간 퀘스트 여부
      */
     public boolean isWeekly() {
-        return false;
+        return weekly;
     }
 
     /**
      * 퀘스트 진행도 생성
-     *
-     * @param playerId 플레이어 UUID
-     * @return 새로운 진행도 객체
      */
     public @NotNull QuestProgress createProgress(@NotNull UUID playerId) {
         Map<String, ObjectiveProgress> objectives = new HashMap<>();
 
-        for (QuestObjective objective : getObjectives()) {
+        for (QuestObjective objective : this.objectives) {
             objectives.put(objective.getId(),
                     new ObjectiveProgress(objective.getId(), playerId, objective.getRequiredAmount()));
         }
@@ -264,5 +232,92 @@ public abstract class Quest {
         public String getTranslationKey() {
             return translationKey;
         }
+    }
+
+    /**
+     * 퀘스트 빌더
+     */
+    public static abstract class Builder {
+        protected QuestID id;
+        protected List<QuestObjective> objectives = new ArrayList<>();
+        protected QuestReward reward;
+        protected boolean sequential = false;
+        protected boolean repeatable = false;
+        protected boolean daily = false;
+        protected boolean weekly = false;
+        protected int minLevel = 1;
+        protected int maxLevel = 0;
+        protected QuestCategory category = QuestCategory.NORMAL;
+        protected Set<QuestID> prerequisiteQuests = new HashSet<>();
+        protected Set<QuestID> exclusiveQuests = new HashSet<>();
+
+        public Builder id(@NotNull QuestID id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder objectives(@NotNull List<QuestObjective> objectives) {
+            this.objectives = new ArrayList<>(objectives);
+            return this;
+        }
+
+        public Builder addObjective(@NotNull QuestObjective objective) {
+            this.objectives.add(objective);
+            return this;
+        }
+
+        public Builder reward(@NotNull QuestReward reward) {
+            this.reward = reward;
+            return this;
+        }
+
+        public Builder sequential(boolean sequential) {
+            this.sequential = sequential;
+            return this;
+        }
+
+        public Builder repeatable(boolean repeatable) {
+            this.repeatable = repeatable;
+            return this;
+        }
+
+        public Builder daily(boolean daily) {
+            this.daily = daily;
+            this.repeatable = true; // 일일 퀘스트는 자동으로 반복 가능
+            return this;
+        }
+
+        public Builder weekly(boolean weekly) {
+            this.weekly = weekly;
+            this.repeatable = true; // 주간 퀘스트는 자동으로 반복 가능
+            return this;
+        }
+
+        public Builder minLevel(int minLevel) {
+            this.minLevel = minLevel;
+            return this;
+        }
+
+        public Builder maxLevel(int maxLevel) {
+            this.maxLevel = maxLevel;
+            return this;
+        }
+
+        public Builder category(@NotNull QuestCategory category) {
+            this.category = category;
+            return this;
+        }
+
+        public Builder addPrerequisite(@NotNull QuestID questId) {
+            this.prerequisiteQuests.add(questId);
+            return this;
+        }
+
+        public Builder addExclusive(@NotNull QuestID questId) {
+            this.exclusiveQuests.add(questId);
+            return this;
+        }
+
+        public abstract Quest build();
     }
 }

@@ -2,17 +2,14 @@ package com.febrie.rpg.quest.impl.daily;
 
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
-import com.febrie.rpg.quest.objective.QuestObjective;
+import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.objective.impl.BreakBlockObjective;
-import com.febrie.rpg.quest.reward.QuestReward;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.Arrays;
 
 /**
  * 일일 채광 - 일일 퀘스트
@@ -22,75 +19,50 @@ import java.util.UUID;
  */
 public class DailyMiningQuest extends Quest {
 
-    private static final String QUEST_ID = "daily_mining";
-    private static final String NAME_KEY = "quest.daily.mining.name";
-    private static final String DESC_KEY = "quest.daily.mining.description";
+    /**
+     * 퀘스트 빌더
+     */
+    private static class DailyMiningBuilder extends Quest.Builder {
+        @Override
+        public Quest build() {
+            return new DailyMiningQuest(this);
+        }
+    }
 
-    private final List<QuestObjective> objectives;
-
+    /**
+     * 기본 생성자
+     */
     public DailyMiningQuest() {
-        super(QUEST_ID, NAME_KEY, DESC_KEY);
-        this.objectives = createObjectives();
+        this(createBuilder());
     }
 
-    private List<QuestObjective> createObjectives() {
-        List<QuestObjective> list = new ArrayList<>();
-
-        // 광석 채굴
-        list.add(new BreakBlockObjective("mine_stone", Material.STONE, 50));
-        list.add(new BreakBlockObjective("mine_coal", Material.COAL_ORE, 20));
-        list.add(new BreakBlockObjective("mine_iron", Material.IRON_ORE, 10));
-
-        return list;
+    /**
+     * 빌더 생성자
+     */
+    private DailyMiningQuest(@NotNull Builder builder) {
+        super(builder);
     }
 
-    @Override
-    public @NotNull List<QuestObjective> getObjectives() {
-        return new ArrayList<>(objectives);
-    }
-
-    @Override
-    public boolean isSequential() {
-        return false;
-    }
-
-    @Override
-    public @NotNull QuestReward getReward() {
-        return BasicReward.builder()
-                .addCurrency(CurrencyType.GOLD, 150)
-                .addItem(new ItemStack(Material.IRON_PICKAXE))
-                .addItem(new ItemStack(Material.TORCH, 32))
-                .addExperience(100)
-                .build();
-    }
-
-    @Override
-    public boolean canStart(@NotNull UUID playerId) {
-        return true;
-    }
-
-    @Override
-    public int getMinLevel() {
-        return 1;
-    }
-
-    @Override
-    public int getMaxLevel() {
-        return 0;
-    }
-
-    @Override
-    public @NotNull QuestCategory getCategory() {
-        return QuestCategory.DAILY;
-    }
-
-    @Override
-    public boolean isDaily() {
-        return true;
-    }
-
-    @Override
-    public boolean isRepeatable() {
-        return true;
+    /**
+     * 퀘스트 설정
+     */
+    private static Builder createBuilder() {
+        return new DailyMiningBuilder()
+                .id(QuestID.DAILY_MINING)
+                .objectives(Arrays.asList(
+                        new BreakBlockObjective("mine_stone", Material.STONE, 50),
+                        new BreakBlockObjective("mine_coal", Material.COAL_ORE, 20),
+                        new BreakBlockObjective("mine_iron", Material.IRON_ORE, 10)
+                ))
+                .reward(BasicReward.builder()
+                        .addCurrency(CurrencyType.GOLD, 150)
+                        .addItem(new ItemStack(Material.IRON_PICKAXE))
+                        .addItem(new ItemStack(Material.TORCH, 32))
+                        .addExperience(100)
+                        .build())
+                .sequential(false)
+                .daily(true)  // 일일 퀘스트 설정
+                .category(QuestCategory.DAILY)
+                .minLevel(1);
     }
 }

@@ -3,6 +3,7 @@ package com.febrie.rpg.listener;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.util.LangManager;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
@@ -46,10 +47,24 @@ public class NPCInteractListener implements Listener {
             return;
         }
 
-        // 퀘스트 ID 가져오기
-        String questId = npc.data().get("quest_id", "");
-        if (questId.isEmpty()) {
+        // 퀘스트 ID 가져오기 (enum name으로 저장)
+        String questIdStr = npc.data().get("quest_id", "");
+        if (questIdStr.isEmpty()) {
             return;
+        }
+
+        // QuestID enum으로 변환
+        QuestID questId;
+        try {
+            questId = QuestID.valueOf(questIdStr);
+        } catch (IllegalArgumentException e) {
+            // legacy ID로 시도
+            try {
+                questId = QuestID.fromLegacyId(questIdStr);
+            } catch (IllegalArgumentException ex) {
+                langManager.sendMessage(player, "quest.npc.invalid-quest");
+                return;
+            }
         }
 
         // 퀘스트 가져오기
@@ -60,8 +75,9 @@ public class NPCInteractListener implements Listener {
         }
 
         // 이미 퀘스트를 진행 중인지 확인
+        QuestID finalQuestId = questId;
         boolean hasActiveQuest = questManager.getActiveQuests(player.getUniqueId()).stream()
-                .anyMatch(p -> p.getQuestId().equals(questId));
+                .anyMatch(p -> p.getQuestId().equals(finalQuestId));
 
         if (hasActiveQuest) {
             langManager.sendMessage(player, "quest.npc.already-active");

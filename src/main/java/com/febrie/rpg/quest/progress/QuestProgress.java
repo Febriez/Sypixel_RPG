@@ -1,5 +1,6 @@
 package com.febrie.rpg.quest.progress;
 
+import com.febrie.rpg.quest.QuestID;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,7 +28,7 @@ public class QuestProgress {
         FAILED      // 실패함
     }
 
-    private final String questId;
+    private final QuestID questId;
     private final UUID playerId;
     private final Map<String, ObjectiveProgress> objectives;
     private QuestState state;
@@ -43,7 +44,7 @@ public class QuestProgress {
      * @param playerId   플레이어 UUID
      * @param objectives 목표 진행도 맵
      */
-    public QuestProgress(@NotNull String questId, @NotNull UUID playerId,
+    public QuestProgress(@NotNull QuestID questId, @NotNull UUID playerId,
                          @NotNull Map<String, ObjectiveProgress> objectives) {
         this.questId = Objects.requireNonNull(questId);
         this.playerId = Objects.requireNonNull(playerId);
@@ -57,7 +58,7 @@ public class QuestProgress {
     /**
      * 전체 생성자 (데이터 로드용)
      */
-    public QuestProgress(@NotNull String questId, @NotNull UUID playerId,
+    public QuestProgress(@NotNull QuestID questId, @NotNull UUID playerId,
                          @NotNull Map<String, ObjectiveProgress> objectives,
                          @NotNull QuestState state, int currentObjectiveIndex,
                          @NotNull Instant startedAt, @Nullable Instant completedAt,
@@ -80,6 +81,14 @@ public class QuestProgress {
      */
     @Nullable
     public ObjectiveProgress getObjective(@NotNull String objectiveId) {
+        return objectives.get(objectiveId);
+    }
+
+    /**
+     * 목표 진행도 가져오기 (null-safe)
+     */
+    @Nullable
+    public ObjectiveProgress getObjectiveProgress(@NotNull String objectiveId) {
         return objectives.get(objectiveId);
     }
 
@@ -123,6 +132,13 @@ public class QuestProgress {
     }
 
     /**
+     * 완료 퍼센트 (0-100)
+     */
+    public int getCompletionPercentage() {
+        return (int) (getOverallProgress() * 100);
+    }
+
+    /**
      * 모든 목표 완료 여부 확인
      *
      * @return 모든 목표 완료 여부
@@ -140,7 +156,7 @@ public class QuestProgress {
 
     // Getters
     @NotNull
-    public String getQuestId() {
+    public QuestID getQuestId() {
         return questId;
     }
 
@@ -247,7 +263,7 @@ public class QuestProgress {
     @Override
     public String toString() {
         return "QuestProgress{" +
-                "questId='" + questId + '\'' +
+                "questId=" + questId +
                 ", playerId=" + playerId +
                 ", state=" + state +
                 ", progress=" + String.format("%.1f%%", getOverallProgress() * 100) +

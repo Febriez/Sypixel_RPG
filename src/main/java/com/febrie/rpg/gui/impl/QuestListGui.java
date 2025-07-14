@@ -5,6 +5,7 @@ import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.util.QuestDisplayUtil;
@@ -60,21 +61,17 @@ public class QuestListGui extends BaseGui {
     @Override
     protected void setupLayout() {
         setupDecorations();
-        setupQuestCategories();
+        setupCategoryLabels();
         displayActiveQuests();
         displayCompletedQuests();
-        setupStandardNavigation(true, true);
     }
 
     /**
      * 장식 요소 설정
      */
     private void setupDecorations() {
-        // 상단과 하단 경계선
-        for (int i = 0; i < 9; i++) {
-            setItem(i, GuiFactory.createDecoration());
-            setItem(45 + i, GuiFactory.createDecoration());
-        }
+        // 전체 경계선
+        createBorder();
 
         // 카테고리 구분선
         for (int i = 18; i < 27; i++) {
@@ -83,9 +80,9 @@ public class QuestListGui extends BaseGui {
     }
 
     /**
-     * 퀘스트 카테고리 라벨 설정
+     * 카테고리 라벨 설정
      */
-    private void setupQuestCategories() {
+    private void setupCategoryLabels() {
         // 진행 중인 퀘스트 라벨
         GuiItem activeLabel = GuiItem.display(
                 new ItemBuilder(Material.BOOK)
@@ -134,12 +131,12 @@ public class QuestListGui extends BaseGui {
      * 완료된 퀘스트 표시
      */
     private void displayCompletedQuests() {
-        List<String> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
+        List<QuestID> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
 
         int slot = COMPLETED_QUESTS_START;
         int count = 0;
 
-        for (String questId : completedQuests) {
+        for (QuestID questId : completedQuests) {
             if (count >= QUESTS_PER_ROW * 2) break; // 2줄까지만 표시
 
             Quest quest = questManager.getQuest(questId);
@@ -184,22 +181,22 @@ public class QuestListGui extends BaseGui {
             if (objProgress != null) {
                 Component status = objProgress.isCompleted()
                         ? Component.text(" ✓", ColorUtil.SUCCESS)
-                        : Component.text(" [" + objProgress.getCurrent() + "/" + objProgress.getRequired() + "]", ColorUtil.GRAY);
+                        : Component.text(" " + objective.getProgressString(objProgress), ColorUtil.GRAY);
 
-                lore.add(Component.text("  • ", ColorUtil.GRAY)
-                        .append(Component.text(objective.getStatusInfo(objProgress), ColorUtil.WHITE))
+                lore.add(Component.text("• ", ColorUtil.GRAY)
+                        .append(displayUtil.getObjectiveDescription(viewer, objective, objProgress))
                         .append(status));
             }
         });
 
+        // 클릭 안내
         lore.add(Component.empty());
         lore.add(trans("gui.quest-list.click-details").color(ColorUtil.GRAY));
 
-        builder.lore(lore);
+        builder.addLore(lore);
 
         return GuiItem.clickable(builder.build(), p -> {
             // TODO: 퀘스트 상세 정보 GUI 열기
-            langManager.sendMessage(p, "general.coming-soon");
             playClickSound(p);
         });
     }
@@ -220,26 +217,21 @@ public class QuestListGui extends BaseGui {
         lore.add(Component.empty());
 
         // 완료 표시
-        lore.add(trans("gui.quest-list.completed-status")
-                .color(ColorUtil.SUCCESS));
+        lore.add(trans("gui.quest-list.completed-label")
+                .color(ColorUtil.SUCCESS)
+                .decoration(TextDecoration.BOLD, true));
 
-        // 보상 정보
-        lore.add(Component.empty());
-        lore.add(trans("gui.quest-list.rewards").color(ColorUtil.YELLOW));
-
-        Component rewardInfo = quest.getReward().getDisplayInfo(viewer);
-        lore.add(Component.text("  • ", ColorUtil.GRAY).append(rewardInfo));
-
+        // 반복 가능 여부
         if (quest.isRepeatable()) {
             lore.add(Component.empty());
-            lore.add(trans("gui.quest-list.repeatable").color(ColorUtil.INFO));
+            lore.add(trans("gui.quest-list.repeatable").color(ColorUtil.AQUA));
         }
 
-        builder.lore(lore);
+        builder.addLore(lore);
+        builder.addItemFlags(ItemFlag.values());
 
         return GuiItem.display(builder.build());
     }
-
 
     @Override
     protected List<ClickType> getAllowedClickTypes() {

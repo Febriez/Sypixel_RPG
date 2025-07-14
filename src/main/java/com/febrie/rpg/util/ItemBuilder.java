@@ -250,6 +250,14 @@ public class ItemBuilder {
     }
 
     /**
+     * 아이템 플래그 추가
+     */
+    public ItemBuilder addItemFlags(ItemFlag... flags) {
+        itemMeta.addItemFlags(flags);
+        return this;
+    }
+
+    /**
      * Adds an enchantment
      *
      * @param enchantment The enchantment to add
