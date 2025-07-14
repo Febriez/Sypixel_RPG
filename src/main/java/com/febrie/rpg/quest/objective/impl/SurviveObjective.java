@@ -3,8 +3,6 @@ package com.febrie.rpg.quest.objective.impl;
 import com.febrie.rpg.quest.objective.BaseObjective;
 import com.febrie.rpg.quest.objective.ObjectiveType;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -26,19 +24,19 @@ import java.util.UUID;
 public class SurviveObjective extends BaseObjective {
 
     public enum SurvivalType {
-        TIME("quest.objective.survive.type.time"),
-        LOCATION("quest.objective.survive.type.location"),
-        WAVE("quest.objective.survive.type.wave"),
-        NO_DEATH("quest.objective.survive.type.no_death");
+        TIME("Time"),
+        LOCATION("Location"),
+        WAVE("Wave"),
+        NO_DEATH("No Death");
 
-        private final String translationKey;
+        private final String displayName;
 
-        SurvivalType(String translationKey) {
-            this.translationKey = translationKey;
+        SurvivalType(String displayName) {
+            this.displayName = displayName;
         }
 
-        public String getTranslationKey() {
-            return translationKey;
+        public String getDisplayName() {
+            return displayName;
         }
     }
 
@@ -77,35 +75,17 @@ public class SurviveObjective extends BaseObjective {
      * @param id               목표 ID
      * @param survivalType     생존 타입
      * @param durationSeconds  생존 시간 (초)
-     * @param survivalLocation 생존 지역 (LOCATION 타입일 때만)
-     * @param locationRadius   지역 반경
+     * @param survivalLocation 생존 위치 (LOCATION 타입용)
+     * @param locationRadius   위치 반경 (LOCATION 타입용)
      */
-    public SurviveObjective(@NotNull String id, @NotNull SurvivalType survivalType,
-                            int durationSeconds, @Nullable Location survivalLocation,
-                            double locationRadius) {
-        super(id, durationSeconds, createDescription(survivalType, durationSeconds, survivalLocation));
+    protected SurviveObjective(@NotNull String id, @NotNull SurvivalType survivalType,
+                               int durationSeconds, @Nullable Location survivalLocation,
+                               double locationRadius) {
+        super(id, survivalType == SurvivalType.WAVE ? durationSeconds : 1);
         this.survivalType = survivalType;
         this.durationSeconds = durationSeconds;
         this.survivalLocation = survivalLocation;
         this.locationRadius = locationRadius;
-
-        if (survivalType == SurvivalType.LOCATION && survivalLocation == null) {
-            throw new IllegalArgumentException("Location required for LOCATION survival type");
-        }
-    }
-
-    private static Component createDescription(SurvivalType type, int seconds,
-                                               @Nullable Location location) {
-        Component timeComponent = Component.text(seconds);
-
-        return (switch (type) {
-            case TIME -> Component.translatable("quest.objective.survive.time", timeComponent);
-            case LOCATION -> location != null ?
-                    Component.translatable("quest.objective.survive.location", timeComponent) :
-                    Component.translatable("quest.objective.survive.time", timeComponent);
-            case WAVE -> Component.translatable("quest.objective.survive.wave", timeComponent);
-            case NO_DEATH -> Component.translatable("quest.objective.survive.no_death", timeComponent);
-        }).color(NamedTextColor.GOLD);
     }
 
     @Override
@@ -114,41 +94,70 @@ public class SurviveObjective extends BaseObjective {
     }
 
     @Override
+    public @NotNull String getStatusInfo(@NotNull ObjectiveProgress progress) {
+        return switch (survivalType) {
+            case TIME, NO_DEATH -> survivalType.getDisplayName() + " " + durationSeconds + "s " +
+                    (progress.isCompleted() ? "✓" : "");
+            case LOCATION -> (survivalLocation != null ?
+                    survivalLocation.getWorld().getName() : "Unknown") +
+                    " " + durationSeconds + "s " +
+                    (progress.isCompleted() ? "✓" : "");
+            case WAVE -> survivalType.getDisplayName() + " " + getProgressString(progress);
+        };
+    }
+
+    @Override
     public boolean canProgress(@NotNull Event event, @NotNull Player player) {
-        // 죽음 이벤트 처리
-        if (event instanceof PlayerDeathEvent deathEvent) {
-            if (deathEvent.getEntity().equals(player)) {
-                startTimes.remove(player.getUniqueId()); // 리셋
-                return false;
+        UUID playerId = player.getUniqueId();
+
+        switch (survivalType) {
+            case TIME, NO_DEATH -> {
+                // 시작 시간 기록
+                if (!startTimes.containsKey(playerId)) {
+                    startTimes.put(playerId, System.currentTimeMillis());
+                }
+
+                // 사망 시 리셋 (NO_DEATH 타입)
+                if (survivalType == SurvivalType.NO_DEATH && event instanceof PlayerDeathEvent deathEvent) {
+                    if (deathEvent.getEntity().equals(player)) {
+                        startTimes.remove(playerId);
+                        return false;
+                    }
+                }
+
+                // 시간 체크
+                long elapsed = System.currentTimeMillis() - startTimes.get(playerId);
+                return elapsed >= durationSeconds * 1000L;
             }
-        }
 
-        // 이동 이벤트로 시간 체크
-        if (event instanceof PlayerMoveEvent moveEvent) {
-            if (!moveEvent.getPlayer().equals(player)) {
-                return false;
-            }
+            case LOCATION -> {
+                if (survivalLocation == null) return false;
 
-            UUID playerId = player.getUniqueId();
+                if (event instanceof PlayerMoveEvent moveEvent) {
+                    Location to = moveEvent.getTo();
+                    if (!to.getWorld().equals(survivalLocation.getWorld())) {
+                        startTimes.remove(playerId);
+                        return false;
+                    }
 
-            // 시작 시간 기록
-            if (!startTimes.containsKey(playerId)) {
-                startTimes.put(playerId, System.currentTimeMillis());
-            }
+                    if (to.distance(survivalLocation) > locationRadius) {
+                        startTimes.remove(playerId);
+                        return false;
+                    }
 
-            // 지역 생존인 경우 위치 확인
-            if (survivalType == SurvivalType.LOCATION && survivalLocation != null) {
-                Location playerLoc = moveEvent.getTo();
-                if (!playerLoc.getWorld().equals(survivalLocation.getWorld()) ||
-                        playerLoc.distance(survivalLocation) > locationRadius) {
-                    startTimes.remove(playerId); // 구역 이탈시 리셋
-                    return false;
+                    if (!startTimes.containsKey(playerId)) {
+                        startTimes.put(playerId, System.currentTimeMillis());
+                    }
+
+                    long elapsed = System.currentTimeMillis() - startTimes.get(playerId);
+                    return elapsed >= durationSeconds * 1000L;
                 }
             }
 
-            // 시간 확인
-            long elapsedSeconds = (System.currentTimeMillis() - startTimes.get(playerId)) / 1000;
-            return elapsedSeconds >= durationSeconds;
+            case WAVE -> {
+                // 웨이브 생존은 별도 이벤트 처리 필요
+                return false;
+            }
         }
 
         return false;
@@ -156,37 +165,18 @@ public class SurviveObjective extends BaseObjective {
 
     @Override
     public int calculateIncrement(@NotNull Event event, @NotNull Player player) {
-        if (!canProgress(event, player)) return 0;
-
-        // 목표 달성
-        startTimes.remove(player.getUniqueId());
-        return durationSeconds;
-    }
-
-    @Override
-    public int getCurrentProgress(@NotNull ObjectiveProgress progress) {
-        // 현재 생존 시간 반환
-        Long startTime = startTimes.get(progress.getPlayerId());
-        if (startTime == null) return 0;
-
-        long elapsedSeconds = (System.currentTimeMillis() - startTime) / 1000;
-        return (int) Math.min(elapsedSeconds, durationSeconds);
+        return canProgress(event, player) ? 1 : 0;
     }
 
     @Override
     protected @NotNull String serializeData() {
-        StringBuilder data = new StringBuilder();
-        data.append(survivalType.name()).append(":").append(durationSeconds);
-
-        if (survivalLocation != null) {
-            data.append(":").append(survivalLocation.getWorld().getName())
-                    .append(":").append(survivalLocation.getX())
-                    .append(":").append(survivalLocation.getY())
-                    .append(":").append(survivalLocation.getZ())
-                    .append(":").append(locationRadius);
-        }
-
-        return data.toString();
+        return survivalType.name() + ";" + durationSeconds + ";" +
+                (survivalLocation != null ?
+                        survivalLocation.getWorld().getName() + "," +
+                                survivalLocation.getX() + "," +
+                                survivalLocation.getY() + "," +
+                                survivalLocation.getZ() : "") + ";" +
+                locationRadius;
     }
 
     public SurvivalType getSurvivalType() {

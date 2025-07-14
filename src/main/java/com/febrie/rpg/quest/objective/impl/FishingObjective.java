@@ -2,8 +2,7 @@ package com.febrie.rpg.quest.objective.impl;
 
 import com.febrie.rpg.quest.objective.BaseObjective;
 import com.febrie.rpg.quest.objective.ObjectiveType;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -24,20 +23,20 @@ import java.util.Objects;
 public class FishingObjective extends BaseObjective {
 
     public enum FishType {
-        ANY("quest.objective.fishing.type.any"),
-        FISH("quest.objective.fishing.type.fish"),
-        TREASURE("quest.objective.fishing.type.treasure"),
-        JUNK("quest.objective.fishing.type.junk"),
-        SPECIFIC("quest.objective.fishing.type.specific");
+        ANY("Any"),
+        FISH("Fish"),
+        TREASURE("Treasure"),
+        JUNK("Junk"),
+        SPECIFIC("Specific");
 
-        private final String translationKey;
+        private final String displayName;
 
-        FishType(String translationKey) {
-            this.translationKey = translationKey;
+        FishType(String displayName) {
+            this.displayName = displayName;
         }
 
-        public String getTranslationKey() {
-            return translationKey;
+        public String getDisplayName() {
+            return displayName;
         }
     }
 
@@ -75,29 +74,25 @@ public class FishingObjective extends BaseObjective {
      */
     public FishingObjective(@NotNull String id, @NotNull FishType fishType, int amount,
                             @Nullable Material specificItem) {
-        super(id, amount, createDescription(fishType, amount, specificItem));
+        super(id, amount);
         this.fishType = Objects.requireNonNull(fishType);
         this.specificItem = specificItem;
 
         if (fishType == FishType.SPECIFIC && specificItem == null) {
-            throw new IllegalArgumentException("Specific item required for SPECIFIC fish type");
+            throw new IllegalArgumentException("Specific item required for SPECIFIC type");
         }
-    }
-
-    private static Component createDescription(FishType type, int amount, @Nullable Material item) {
-        return (switch (type) {
-            case ANY -> Component.translatable("quest.objective.fishing.any", Component.text(amount));
-            case FISH -> Component.translatable("quest.objective.fishing.fish", Component.text(amount));
-            case TREASURE -> Component.translatable("quest.objective.fishing.treasure", Component.text(amount));
-            case JUNK -> Component.translatable("quest.objective.fishing.junk", Component.text(amount));
-            case SPECIFIC -> Component.translatable("quest.objective.fishing.specific",
-                    Component.translatable(item.translationKey()), Component.text(amount));
-        }).color(NamedTextColor.AQUA);
     }
 
     @Override
     public @NotNull ObjectiveType getType() {
         return ObjectiveType.FISHING;
+    }
+
+    @Override
+    public @NotNull String getStatusInfo(@NotNull ObjectiveProgress progress) {
+        String typeStr = fishType == FishType.SPECIFIC && specificItem != null ?
+                specificItem.translationKey() : fishType.getDisplayName();
+        return typeStr + " " + getProgressString(progress);
     }
 
     @Override
@@ -111,25 +106,24 @@ public class FishingObjective extends BaseObjective {
             return false;
         }
 
-        // 낚시 성공 확인
+        // 낚시 성공 상태 확인
         if (fishEvent.getState() != PlayerFishEvent.State.CAUGHT_FISH) {
             return false;
         }
 
-        // 잡은 아이템 확인
+        // 낚은 아이템 확인
         if (!(fishEvent.getCaught() instanceof Item item)) {
             return false;
         }
 
         ItemStack caught = item.getItemStack();
-        Material caughtType = caught.getType();
 
         return switch (fishType) {
             case ANY -> true;
-            case FISH -> isFish(caughtType);
-            case TREASURE -> isTreasure(caughtType);
-            case JUNK -> isJunk(caughtType);
-            case SPECIFIC -> caughtType == specificItem;
+            case FISH -> isFish(caught.getType());
+            case TREASURE -> isTreasure(caught.getType());
+            case JUNK -> isJunk(caught.getType());
+            case SPECIFIC -> caught.getType() == specificItem;
         };
     }
 
@@ -140,7 +134,7 @@ public class FishingObjective extends BaseObjective {
 
     @Override
     protected @NotNull String serializeData() {
-        return fishType.name() + (specificItem != null ? ":" + specificItem.name() : "");
+        return fishType.name() + ";" + (specificItem != null ? specificItem.name() : "");
     }
 
     /**
@@ -175,10 +169,10 @@ public class FishingObjective extends BaseObjective {
                 material == Material.ROTTEN_FLESH ||
                 material == Material.STICK ||
                 material == Material.STRING ||
-                material == Material.WATER_BUCKET ||
+                material == Material.POTION ||
                 material == Material.BONE ||
-                material == Material.TRIPWIRE_HOOK ||
-                material == Material.BAMBOO;
+                material == Material.INK_SAC ||
+                material == Material.TRIPWIRE_HOOK;
     }
 
     public FishType getFishType() {

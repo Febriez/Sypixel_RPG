@@ -2,6 +2,9 @@ package com.febrie.rpg.quest.objective.impl;
 
 import com.febrie.rpg.quest.objective.BaseObjective;
 import com.febrie.rpg.quest.objective.ObjectiveType;
+import com.febrie.rpg.quest.progress.ObjectiveProgress;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -20,8 +23,7 @@ import java.util.Objects;
 public class KillMobObjective extends BaseObjective {
 
     private final EntityType targetType;
-    private final @Nullable String customName;
-    private final String questGiver;
+    private final @Nullable Component customName;
 
     /**
      * 기본 생성자
@@ -31,54 +33,22 @@ public class KillMobObjective extends BaseObjective {
      * @param amount     처치 수
      */
     public KillMobObjective(@NotNull String id, @NotNull EntityType targetType, int amount) {
-        this(id, targetType, amount, null, "마을 경비대장");
+        this(id, targetType, amount, null);
     }
 
     /**
-     * 커스텀 이름 포함 생성자
+     * 커스텀 이름 포함 생성자 (Component)
      *
      * @param id         목표 ID
      * @param targetType 대상 엔티티 타입
      * @param amount     처치 수
-     * @param customName 특정 이름을 가진 몹만 대상
+     * @param customName 특정 이름을 가진 몹만 대상 (Component)
      */
     public KillMobObjective(@NotNull String id, @NotNull EntityType targetType, int amount,
-                            @Nullable String customName) {
-        this(id, targetType, amount, customName, "마을 경비대장");
-    }
-
-    /**
-     * 전체 옵션 생성자
-     *
-     * @param id         목표 ID
-     * @param targetType 대상 엔티티 타입
-     * @param amount     처치 수
-     * @param customName 특정 이름을 가진 몹만 대상
-     * @param questGiver 퀘스트 제공자
-     */
-    public KillMobObjective(@NotNull String id, @NotNull EntityType targetType, int amount,
-                            @Nullable String customName, @NotNull String questGiver) {
-        super(id, amount,
-                customName != null ? "quest.objective.kill_mob.custom" : "quest.objective.kill_mob",
-                createPlaceholders(targetType, amount, customName));
+                            @Nullable Component customName) {
+        super(id, amount);
         this.targetType = Objects.requireNonNull(targetType);
         this.customName = customName;
-        this.questGiver = Objects.requireNonNull(questGiver);
-    }
-
-    private static String[] createPlaceholders(EntityType type, int amount, @Nullable String customName) {
-        if (customName != null) {
-            return new String[]{
-                    "mob", customName,
-                    "amount", String.valueOf(amount)
-            };
-        } else {
-            // 엔티티 타입은 마인크래프트 번역 키 사용
-            return new String[]{
-                    "mob_key", type.translationKey(),
-                    "amount", String.valueOf(amount)
-            };
-        }
     }
 
     @Override
@@ -87,38 +57,11 @@ public class KillMobObjective extends BaseObjective {
     }
 
     @Override
-    public @NotNull String getDescription(boolean isKorean) {
-        if (customName != null) {
-            return isKorean ?
-                    "퀘스트를 준 사람: " + questGiver + "\n\n" +
-                            "최근 " + customName + "(이)라는 이름의 몬스터가 마을 주변을 어지럽히고 있다네. " +
-                            "용감한 모험가여, " + customName + " " + requiredAmount + "마리를 처치해 주게나. " +
-                            "마을의 평화를 위해 자네의 도움이 필요하다네." :
-
-                    "Quest Giver: " + questGiver + "\n\n" +
-                            "Recently, monsters named " + customName + " have been disturbing the area around our village. " +
-                            "Brave adventurer, please eliminate " + requiredAmount + " " + customName + ". " +
-                            "We need your help to restore peace to our village.";
-        } else {
-            return isKorean ?
-                    "퀘스트를 준 사람: " + questGiver + "\n\n" +
-                            "요즘 " + targetType.name().toLowerCase().replace('_', ' ') +
-                            "(이)가 마을 주변에서 사람들을 공격하고 있다네. " +
-                            "이대로는 안 되겠어. 자네가 " + targetType.name().toLowerCase().replace('_', ' ') +
-                            " " + requiredAmount + "마리를 처치해 주게나. " +
-                            "마을 사람들이 안심하고 생활할 수 있도록 도와주게." :
-
-                    "Quest Giver: " + questGiver + "\n\n" +
-                            "These days, " + targetType.name().toLowerCase().replace('_', ' ') +
-                            "s have been attacking people around the village. " +
-                            "This cannot continue. Please eliminate " + requiredAmount + " of them. " +
-                            "Help us so the villagers can live in peace.";
-        }
-    }
-
-    @Override
-    public @NotNull String getGiverName(boolean isKorean) {
-        return questGiver;
+    public @NotNull String getStatusInfo(@NotNull ObjectiveProgress progress) {
+        String target = customName != null ?
+                PlainTextComponentSerializer.plainText().serialize(customName) :
+                targetType.translationKey();
+        return target + " " + getProgressString(progress);
     }
 
     @Override
@@ -140,7 +83,7 @@ public class KillMobObjective extends BaseObjective {
 
         // 커스텀 이름 확인
         if (customName != null) {
-            String entityName = deathEvent.getEntity().getCustomName();
+            Component entityName = deathEvent.getEntity().customName();
             return customName.equals(entityName);
         }
 
@@ -155,9 +98,11 @@ public class KillMobObjective extends BaseObjective {
     @Override
     protected @NotNull String serializeData() {
         if (customName != null) {
-            return targetType.name() + ";" + customName + ";" + questGiver;
+            // Component를 문자열로 직렬화
+            String customNameStr = PlainTextComponentSerializer.plainText().serialize(customName);
+            return targetType.name() + ";" + customNameStr;
         }
-        return targetType.name() + ";;" + questGiver;
+        return targetType.name();
     }
 
     /**
@@ -170,7 +115,7 @@ public class KillMobObjective extends BaseObjective {
     /**
      * 커스텀 이름 반환
      */
-    public @Nullable String getCustomName() {
+    public @Nullable Component getCustomName() {
         return customName;
     }
 }

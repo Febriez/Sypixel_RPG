@@ -29,20 +29,6 @@ public interface QuestObjective {
     @NotNull ObjectiveType getType();
 
     /**
-     * 목표 설명 번역 키 반환
-     *
-     * @return 번역 키
-     */
-    @NotNull String getDescriptionKey();
-
-    /**
-     * 목표 설명에 사용할 플레이스홀더
-     *
-     * @return 플레이스홀더 배열 (key, value 순서)
-     */
-    @NotNull String[] getDescriptionPlaceholders();
-
-    /**
      * 목표 완료에 필요한 수량
      *
      * @return 필요 수량
@@ -106,7 +92,13 @@ public interface QuestObjective {
         return Math.min(1.0, (double) getCurrentProgress(progress) / getRequiredAmount());
     }
 
-
+    /**
+     * 목표 상태 정보 반환 (상태 정보만)
+     *
+     * @param progress 진행도 객체
+     * @return 현재 상태 정보
+     */
+    @NotNull String getStatusInfo(@NotNull ObjectiveProgress progress);
 
     /**
      * 목표 데이터 직렬화
@@ -119,74 +111,10 @@ public interface QuestObjective {
      * 목표 데이터 역직렬화
      *
      * @param data 직렬화된 데이터
-     * @return 목표 객체
+     * @return 목표 객체 (실패시 null)
      */
-    static @Nullable QuestObjective deserialize(@NotNull String data) {
-        // 구현체에서 처리
-        return null;
-    }
-
-    /**
-     * 퀘스트 목표에 대한 설명 반환
-     * 퀘스트 스토리나 배경 설명을 포함
-     *
-     * @param isKorean 한국어 여부
-     * @return 퀘스트 설명
-     */
-    @NotNull String getDescription(boolean isKorean);
-
-    /**
-     * 이 목표를 제공한 NPC 또는 제공자 이름
-     *
-     * @param isKorean 한국어 여부
-     * @return 제공자 이름
-     */
-    @NotNull String getGiverName(boolean isKorean);
-
-    /**
-     * 목표 시작 시간 반환
-     *
-     * @param progress 진행도 객체
-     * @return 시작 시간 (밀리초)
-     */
-    default long getStartTime(@NotNull ObjectiveProgress progress) {
-        return progress.getStartedAt();
-    }
-
-    /**
-     * 목표 완료 시간 반환
-     *
-     * @param progress 진행도 객체
-     * @return 완료 시간 (밀리초, 미완료시 0)
-     */
-    default long getCompletionTime(@NotNull ObjectiveProgress progress) {
-        return progress.getCompletedAt();
-    }
-
-    /**
-     * 현재 진행 상태 문자열 반환
-     *
-     * @param progress 진행도 객체
-     * @param isKorean 한국어 여부
-     * @return 상태 문자열 (예: "진행 중", "완료", "시작 전")
-     */
-    default @NotNull String getStatusString(@NotNull ObjectiveProgress progress, boolean isKorean) {
-        if (isComplete(progress)) {
-            return isKorean ? "완료" : "Completed";
-        } else if (getCurrentProgress(progress) > 0) {
-            return isKorean ? "진행 중" : "In Progress";
-        } else {
-            return isKorean ? "시작 전" : "Not Started";
-        }
-    }
-
-    /**
-     * 목표 위치 정보 (있는 경우)
-     *
-     * @param isKorean 한국어 여부
-     * @return 위치 정보 (없으면 빈 문자열)
-     */
-    default @NotNull String getLocationInfo(boolean isKorean) {
-        return "";
+    @Nullable
+    static QuestObjective deserialize(@NotNull String data) {
+        return null; // 구현체에서 처리
     }
 }

@@ -73,6 +73,7 @@ public abstract class Quest {
      */
     public abstract @NotNull List<QuestObjective> getObjectives();
 
+
     /**
      * 순차적 진행 여부
      * true면 목표를 순서대로 완료해야 함
@@ -99,21 +100,21 @@ public abstract class Quest {
     /**
      * 최소 레벨 요구사항
      *
-     * @return 최소 레벨
+     * @return 최소 레벨 (0이면 제한 없음)
      */
     public abstract int getMinLevel();
 
     /**
-     * 최대 레벨 제한
+     * 최대 레벨 요구사항
      *
      * @return 최대 레벨 (0이면 제한 없음)
      */
     public abstract int getMaxLevel();
 
     /**
-     * 선행 퀘스트 ID 목록
+     * 선행 퀘스트 목록
      *
-     * @return 선행 퀘스트 ID 리스트
+     * @return 선행 퀘스트 ID 목록
      */
     public @NotNull List<String> getPrerequisiteQuests() {
         return new ArrayList<>(prerequisiteQuests);
@@ -125,25 +126,13 @@ public abstract class Quest {
      * @param questId 선행 퀘스트 ID
      */
     protected void addPrerequisiteQuest(@NotNull String questId) {
-        if (!prerequisiteQuests.contains(questId)) {
-            prerequisiteQuests.add(questId);
-        }
+        prerequisiteQuests.add(Objects.requireNonNull(questId));
     }
 
     /**
-     * 선행 퀘스트가 있는지 확인
+     * 양자택일 퀘스트 목록
      *
-     * @return 선행 퀘스트 존재 여부
-     */
-    public boolean hasPrerequisiteQuests() {
-        return !prerequisiteQuests.isEmpty();
-    }
-
-    /**
-     * 양자택일 퀘스트 ID 목록
-     * 이 목록의 퀘스트를 완료하면 현재 퀘스트를 시작할 수 없음
-     *
-     * @return 양자택일 퀘스트 ID 리스트
+     * @return 양자택일 퀘스트 ID 목록
      */
     public @NotNull List<String> getExclusiveQuests() {
         return new ArrayList<>(exclusiveQuests);
@@ -155,35 +144,42 @@ public abstract class Quest {
      * @param questId 양자택일 퀘스트 ID
      */
     protected void addExclusiveQuest(@NotNull String questId) {
-        if (!exclusiveQuests.contains(questId)) {
-            exclusiveQuests.add(questId);
-        }
+        exclusiveQuests.add(Objects.requireNonNull(questId));
     }
 
     /**
-     * 양자택일 퀘스트가 있는지 확인
+     * 선행 퀘스트 확인
      *
-     * @return 양자택일 퀘스트 존재 여부
+     * @return 선행 퀘스트가 있는지 여부
+     */
+    public boolean hasPrerequisiteQuests() {
+        return !prerequisiteQuests.isEmpty();
+    }
+
+    /**
+     * 양자택일 퀘스트 확인
+     *
+     * @return 양자택일 퀘스트가 있는지 여부
      */
     public boolean hasExclusiveQuests() {
         return !exclusiveQuests.isEmpty();
     }
 
     /**
-     * 플레이어가 선행 퀘스트를 모두 완료했는지 확인
+     * 선행 퀘스트 완료 확인
      *
-     * @param completedQuests 플레이어가 완료한 퀘스트 ID 목록
+     * @param completedQuests 완료된 퀘스트 목록
      * @return 모든 선행 퀘스트 완료 여부
      */
-    public boolean arePrerequisitesCompleted(@NotNull List<String> completedQuests) {
-        return completedQuests.containsAll(prerequisiteQuests);
+    public boolean arePrerequisitesComplete(@NotNull List<String> completedQuests) {
+        return new HashSet<>(completedQuests).containsAll(prerequisiteQuests);
     }
 
     /**
-     * 플레이어가 양자택일 퀘스트를 완료했는지 확인
+     * 양자택일 퀘스트 완료 확인
      *
-     * @param completedQuests 플레이어가 완료한 퀘스트 ID 목록
-     * @return 양자택일 퀘스트 완료 여부
+     * @param completedQuests 완료된 퀘스트 목록
+     * @return 양자택일 퀘스트 중 하나라도 완료했는지 여부
      */
     public boolean hasCompletedExclusiveQuests(@NotNull List<String> completedQuests) {
         for (String exclusiveQuest : exclusiveQuests) {

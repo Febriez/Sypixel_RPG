@@ -2,7 +2,11 @@ package com.febrie.rpg.quest.objective.impl;
 
 import com.febrie.rpg.quest.objective.BaseObjective;
 import com.febrie.rpg.quest.objective.ObjectiveType;
+import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.Event;
@@ -20,21 +24,21 @@ import java.util.Objects;
  */
 public class InteractNPCObjective extends BaseObjective {
 
-    private final String npcName;
+    private final Component npcName;
     private final @Nullable Villager.Profession profession;
 
     /**
-     * 이름 기반 생성자
+     * 이름 기반 생성자 (문자열)
      *
      * @param id      목표 ID
      * @param npcName NPC 이름
      */
     public InteractNPCObjective(@NotNull String id, @NotNull String npcName) {
-        this(id, npcName, null);
+        this(id, Component.text(npcName), null);
     }
 
     /**
-     * 직업 포함 생성자
+     * 직업 포함 생성자 (문자열)
      *
      * @param id         목표 ID
      * @param npcName    NPC 이름
@@ -42,17 +46,21 @@ public class InteractNPCObjective extends BaseObjective {
      */
     public InteractNPCObjective(@NotNull String id, @NotNull String npcName,
                                 @Nullable Villager.Profession profession) {
-        super(id, 1, profession != null ? "quest.objective.interact_npc.profession" : "quest.objective.interact_npc",
-                createPlaceholders(npcName, profession));
-        this.npcName = Objects.requireNonNull(npcName);
-        this.profession = profession;
+        this(id, Component.text(npcName), profession);
     }
 
-    private static String[] createPlaceholders(String npcName, @Nullable Villager.Profession profession) {
-        if (profession != null) {
-            return new String[]{"npc", npcName, "profession", profession.name().toLowerCase()};
-        }
-        return new String[]{"npc", npcName};
+    /**
+     * Component 기반 생성자
+     *
+     * @param id         목표 ID
+     * @param npcName    NPC 이름 (Component)
+     * @param profession 주민 직업 (선택사항)
+     */
+    public InteractNPCObjective(@NotNull String id, @NotNull Component npcName,
+                                @Nullable Villager.Profession profession) {
+        super(id, 1);
+        this.npcName = Objects.requireNonNull(npcName);
+        this.profession = profession;
     }
 
     @Override
@@ -61,22 +69,15 @@ public class InteractNPCObjective extends BaseObjective {
     }
 
     @Override
-    public @NotNull String getDescription(boolean isKorean) {
-        return isKorean ?
-                "퀘스트를 준 사람: 모험가 길드\n\n" +
-                        npcName + "을(를) 찾아가 이야기를 나누어 보게나. " +
-                        "그는 자네에게 중요한 정보를 제공할 걸세. " +
-                        (profession != null ? "그는 마을의 " + profession.name().toLowerCase() + "(이)라네." : "") :
-
-                "Quest Giver: Adventurer's Guild\n\n" +
-                        "Go find " + npcName + " and talk to them. " +
-                        "They will provide you with important information. " +
-                        (profession != null ? "They are the village " + profession.name().toLowerCase() + "." : "");
-    }
-
-    @Override
-    public @NotNull String getGiverName(boolean isKorean) {
-        return isKorean ? "모험가 길드" : "Adventurer's Guild";
+    public @NotNull String getStatusInfo(@NotNull ObjectiveProgress progress) {
+        String status = PlainTextComponentSerializer.plainText().serialize(npcName);
+        if (profession != null) {
+            status += " (" + profession.translationKey() + ")";
+        }
+        if (progress.isCompleted()) {
+            status += " ✓";
+        }
+        return status;
     }
 
     @Override
@@ -97,10 +98,7 @@ public class InteractNPCObjective extends BaseObjective {
 
         // 이름 확인
         Component customName = villager.customName();
-        if (customName == null) return false;
-
-        String entityName = customName.toString();
-        if (!entityName.contains(npcName)) {
+        if (!npcName.equals(customName)) {
             return false;
         }
 
@@ -119,13 +117,57 @@ public class InteractNPCObjective extends BaseObjective {
 
     @Override
     protected @NotNull String serializeData() {
-        return npcName + (profession != null ? ":" + profession.name() : "");
+        String npcNameStr = PlainTextComponentSerializer.plainText().serialize(npcName);
+        if (profession != null) {
+            // Registry를 사용하여 NamespacedKey 가져오기
+            NamespacedKey key = Registry.VILLAGER_PROFESSION.getKey(profession);
+            return npcNameStr + ":" + (key != null ? key.toString() : "none");
+        }
+        return npcNameStr;
     }
 
-    public String getNpcName() {
+    /**
+     * 직렬화된 데이터에서 객체 생성 (역직렬화)
+     */
+    public static InteractNPCObjective deserialize(@NotNull String id, @NotNull String data) {
+        String[] parts = data.split(":", 2);
+        String npcName = parts[0];
+
+        if (parts.length > 1 && !parts[1].equals("none")) {
+            try {
+                // NamespacedKey로부터 Profession 가져오기
+                NamespacedKey key = NamespacedKey.fromString(parts[1]);
+                if (key != null) {
+                    Villager.Profession profession = Registry.VILLAGER_PROFESSION.get(key);
+                    if (profession != null) {
+                        return new InteractNPCObjective(id, npcName, profession);
+                    }
+                }
+            } catch (Exception e) {
+                // 역직렬화 실패 시 기본값으로
+            }
+        }
+
+        return new InteractNPCObjective(id, npcName);
+    }
+
+    /**
+     * NPC 이름 반환 (Component)
+     */
+    public @NotNull Component getNpcName() {
         return npcName;
     }
 
+    /**
+     * NPC 이름을 문자열로 반환
+     */
+    public @NotNull String getNpcNameAsString() {
+        return PlainTextComponentSerializer.plainText().serialize(npcName);
+    }
+
+    /**
+     * 직업 반환
+     */
     public @Nullable Villager.Profession getProfession() {
         return profession;
     }

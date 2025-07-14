@@ -3,8 +3,7 @@ package com.febrie.rpg.quest.objective.impl;
 import com.febrie.rpg.quest.event.CurrencyPaymentEvent;
 import com.febrie.rpg.quest.objective.BaseObjective;
 import com.febrie.rpg.quest.objective.ObjectiveType;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -21,20 +20,20 @@ import java.util.Objects;
 public class PayCurrencyObjective extends BaseObjective {
 
     public enum CurrencyType {
-        GOLD("currency.gold", "G"),
-        GEM("currency.gem", "💎"),
-        TOKEN("currency.token", "T");
+        GOLD("Gold", "G"),
+        GEM("Gem", "💎"),
+        TOKEN("Token", "T");
 
-        private final String translationKey;
+        private final String displayName;
         private final String symbol;
 
-        CurrencyType(String translationKey, String symbol) {
-            this.translationKey = translationKey;
+        CurrencyType(String displayName, String symbol) {
+            this.displayName = displayName;
             this.symbol = symbol;
         }
 
-        public String getTranslationKey() {
-            return translationKey;
+        public String getDisplayName() {
+            return displayName;
         }
 
         public String getSymbol() {
@@ -66,29 +65,23 @@ public class PayCurrencyObjective extends BaseObjective {
      */
     public PayCurrencyObjective(@NotNull String id, @NotNull CurrencyType currencyType,
                                 int amount, @Nullable String targetNpc) {
-        super(id, amount, createDescription(currencyType, amount, targetNpc));
+        super(id, amount);
         this.currencyType = Objects.requireNonNull(currencyType);
         this.targetNpc = targetNpc;
-    }
-
-    private static Component createDescription(CurrencyType type, int amount, @Nullable String npc) {
-        Component currencyAmount = Component.translatable(type.getTranslationKey())
-                .append(Component.text(" " + amount + type.getSymbol()));
-
-        if (npc != null) {
-            return Component.translatable("quest.objective.pay_currency.to_npc",
-                            currencyAmount, Component.text(npc))
-                    .color(NamedTextColor.YELLOW);
-        } else {
-            return Component.translatable("quest.objective.pay_currency",
-                            currencyAmount)
-                    .color(NamedTextColor.YELLOW);
-        }
     }
 
     @Override
     public @NotNull ObjectiveType getType() {
         return ObjectiveType.PAY_CURRENCY;
+    }
+
+    @Override
+    public @NotNull String getStatusInfo(@NotNull ObjectiveProgress progress) {
+        String status = currencyType.getSymbol() + getProgressString(progress);
+        if (targetNpc != null) {
+            status += " → " + targetNpc;
+        }
+        return status;
     }
 
     @Override

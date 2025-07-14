@@ -3,8 +3,7 @@ package com.febrie.rpg.quest.objective.impl;
 import com.febrie.rpg.quest.event.PlayerLevelUpEvent;
 import com.febrie.rpg.quest.objective.BaseObjective;
 import com.febrie.rpg.quest.objective.ObjectiveType;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -18,19 +17,19 @@ import org.jetbrains.annotations.NotNull;
 public class ReachLevelObjective extends BaseObjective {
 
     public enum LevelType {
-        PLAYER("quest.objective.level.type.player"),
-        RPG("quest.objective.level.type.rpg"),
-        SKILL("quest.objective.level.type.skill"),
-        JOB("quest.objective.level.type.job");
+        PLAYER("Player"),
+        RPG("RPG"),
+        SKILL("Skill"),
+        JOB("Job");
 
-        private final String translationKey;
+        private final String displayName;
 
-        LevelType(String translationKey) {
-            this.translationKey = translationKey;
+        LevelType(String displayName) {
+            this.displayName = displayName;
         }
 
-        public String getTranslationKey() {
-            return translationKey;
+        public String getDisplayName() {
+            return displayName;
         }
     }
 
@@ -55,7 +54,7 @@ public class ReachLevelObjective extends BaseObjective {
      * @param targetLevel 목표 레벨
      */
     public ReachLevelObjective(@NotNull String id, @NotNull LevelType levelType, int targetLevel) {
-        super(id, 1, createDescription(levelType, targetLevel));
+        super(id, 1);
         this.levelType = levelType;
         this.targetLevel = targetLevel;
 
@@ -64,40 +63,38 @@ public class ReachLevelObjective extends BaseObjective {
         }
     }
 
-    private static Component createDescription(LevelType type, int level) {
-        return Component.translatable("quest.objective.reach_level",
-                        Component.translatable(type.getTranslationKey()), Component.text(level))
-                .color(NamedTextColor.DARK_PURPLE);
-    }
-
     @Override
     public @NotNull ObjectiveType getType() {
         return ObjectiveType.REACH_LEVEL;
     }
 
     @Override
+    public @NotNull String getStatusInfo(@NotNull ObjectiveProgress progress) {
+        String status = levelType.getDisplayName() + " Lv." + targetLevel;
+        if (progress.isCompleted()) {
+            return status + " ✓";
+        }
+        return status;
+    }
+
+    @Override
     public boolean canProgress(@NotNull Event event, @NotNull Player player) {
-        // 커스텀 레벨업 이벤트 처리
-        if (event instanceof PlayerLevelUpEvent levelUpEvent) {
-            if (!levelUpEvent.getPlayer().equals(player)) {
-                return false;
-            }
-
-            // 레벨 타입 확인
-            if (!levelUpEvent.getLevelType().equals(levelType.name())) {
-                return false;
-            }
-
-            // 목표 레벨 도달 확인
-            return levelUpEvent.getNewLevel() >= targetLevel;
+        if (!(event instanceof PlayerLevelUpEvent levelUpEvent)) {
+            return false;
         }
 
-        // 바닐라 경험치 레벨
-        if (levelType == LevelType.PLAYER) {
-            return player.getLevel() >= targetLevel;
+        // 플레이어 확인
+        if (!levelUpEvent.getPlayer().equals(player)) {
+            return false;
         }
 
-        return false;
+        // 레벨 타입 확인
+        if (!levelUpEvent.getLevelType().equals(levelType.name())) {
+            return false;
+        }
+
+        // 목표 레벨 도달 확인
+        return levelUpEvent.getNewLevel() >= targetLevel;
     }
 
     @Override
@@ -107,7 +104,7 @@ public class ReachLevelObjective extends BaseObjective {
 
     @Override
     protected @NotNull String serializeData() {
-        return levelType.name() + ":" + targetLevel;
+        return levelType.name() + ";" + targetLevel;
     }
 
     public LevelType getLevelType() {

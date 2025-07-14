@@ -2,8 +2,9 @@ package com.febrie.rpg.quest.objective.impl;
 
 import com.febrie.rpg.quest.objective.BaseObjective;
 import com.febrie.rpg.quest.objective.ObjectiveType;
+import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -24,11 +25,11 @@ import java.util.Objects;
  */
 public class DeliverItemObjective extends BaseObjective {
 
-    private final String npcName;
+    private final Component npcName;
     private final Map<Material, Integer> requiredItems;
 
     /**
-     * 단일 아이템 전달 생성자
+     * 단일 아이템 전달 생성자 (문자열)
      *
      * @param id       목표 ID
      * @param npcName  대상 NPC 이름
@@ -37,13 +38,11 @@ public class DeliverItemObjective extends BaseObjective {
      */
     public DeliverItemObjective(@NotNull String id, @NotNull String npcName,
                                 @NotNull Material itemType, int amount) {
-        super(id, 1, "quest.objective.deliver_item", createPlaceholders(npcName, Map.of(itemType, amount)));
-        this.npcName = Objects.requireNonNull(npcName);
-        this.requiredItems = Map.of(itemType, amount);
+        this(id, Component.text(npcName), Map.of(itemType, amount));
     }
 
     /**
-     * 다중 아이템 전달 생성자
+     * 다중 아이템 전달 생성자 (문자열)
      *
      * @param id            목표 ID
      * @param npcName       대상 NPC 이름
@@ -51,49 +50,43 @@ public class DeliverItemObjective extends BaseObjective {
      */
     public DeliverItemObjective(@NotNull String id, @NotNull String npcName,
                                 @NotNull Map<Material, Integer> requiredItems) {
-        super(id, 1, "quest.objective.deliver_item", createPlaceholders(npcName, requiredItems));
+        this(id, Component.text(npcName), requiredItems);
+    }
+
+    /**
+     * Component 기반 생성자
+     *
+     * @param id            목표 ID
+     * @param npcName       대상 NPC 이름 (Component)
+     * @param requiredItems 전달할 아이템 맵
+     */
+    public DeliverItemObjective(@NotNull String id, @NotNull Component npcName,
+                                @NotNull Map<Material, Integer> requiredItems) {
+        super(id, 1);
         this.npcName = Objects.requireNonNull(npcName);
         this.requiredItems = new HashMap<>(requiredItems);
-    }
-
-    private static String[] createPlaceholders(String npcName, Map<Material, Integer> items) {
-        // 간단한 플레이스홀더 반환
-        return new String[]{"npc", npcName, "items", String.valueOf(items.size())};
-    }
-
-    @Override
-    public @NotNull String getDescription(boolean isKorean) {
-        StringBuilder itemList = new StringBuilder();
-        int index = 0;
-        for (Map.Entry<Material, Integer> entry : requiredItems.entrySet()) {
-            if (index > 0) {
-                itemList.append(", ");
-            }
-            itemList.append(entry.getValue()).append("개 ")
-                    .append(entry.getKey().name().toLowerCase().replace('_', ' '));
-            index++;
-        }
-
-        return isKorean ?
-                "퀘스트를 준 사람: " + npcName + "\n\n" +
-                        "자네가 가진 물건이 필요하다네. " + itemList + "을(를) 가져다 주게나. " +
-                        "이 물건들은 정말 중요한 일에 쓰일 예정이라네. " +
-                        "부탁하네, 모험가여." :
-
-                "Quest Giver: " + npcName + "\n\n" +
-                        "I need the items you have. Please bring me " + itemList + ". " +
-                        "These items will be used for something very important. " +
-                        "I'm counting on you, adventurer.";
-    }
-
-    @Override
-    public @NotNull String getGiverName(boolean isKorean) {
-        return npcName;
     }
 
     @Override
     public @NotNull ObjectiveType getType() {
         return ObjectiveType.DELIVER_ITEM;
+    }
+
+    @Override
+    public @NotNull String getStatusInfo(@NotNull ObjectiveProgress progress) {
+        if (progress.isCompleted()) {
+            return PlainTextComponentSerializer.plainText().serialize(npcName) + " ✓";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(PlainTextComponentSerializer.plainText().serialize(npcName)).append(" - ");
+        boolean first = true;
+        for (Map.Entry<Material, Integer> entry : requiredItems.entrySet()) {
+            if (!first) sb.append(", ");
+            sb.append(entry.getKey().translationKey()).append(" x").append(entry.getValue());
+            first = false;
+        }
+        return sb.toString();
     }
 
     @Override
@@ -107,49 +100,20 @@ public class DeliverItemObjective extends BaseObjective {
             return false;
         }
 
-        // 주민인지 확인
+        // NPC 확인
         if (!(interactEvent.getRightClicked() instanceof Villager villager)) {
             return false;
         }
 
         // NPC 이름 확인
         Component customName = villager.customName();
-        if (customName == null) return false;
-
-        String entityName = customName.toString();
-        if (!entityName.contains(npcName)) {
+        if (!npcName.equals(customName)) {
             return false;
         }
 
-        // 아이템 보유 확인
-        return hasRequiredItems(player);
-    }
-
-    @Override
-    public int calculateIncrement(@NotNull Event event, @NotNull Player player) {
-        if (!canProgress(event, player)) return 0;
-
-        // 아이템 제거
-        removeRequiredItems(player);
-        return 1;
-    }
-
-    /**
-     * 플레이어가 필요한 아이템을 모두 가지고 있는지 확인
-     */
-    private boolean hasRequiredItems(@NotNull Player player) {
-        Map<Material, Integer> inventory = new HashMap<>();
-
-        // 인벤토리 아이템 카운트
-        for (ItemStack item : player.getInventory().getContents()) {
-            if (item != null && item.getType() != Material.AIR) {
-                inventory.merge(item.getType(), item.getAmount(), Integer::sum);
-            }
-        }
-
-        // 필요 아이템 확인
+        // 인벤토리에 필요한 아이템이 있는지 확인
         for (Map.Entry<Material, Integer> entry : requiredItems.entrySet()) {
-            if (inventory.getOrDefault(entry.getKey(), 0) < entry.getValue()) {
+            if (!player.getInventory().contains(entry.getKey(), entry.getValue())) {
                 return false;
             }
         }
@@ -157,38 +121,45 @@ public class DeliverItemObjective extends BaseObjective {
         return true;
     }
 
-    /**
-     * 플레이어로부터 필요한 아이템 제거
-     */
-    private void removeRequiredItems(@NotNull Player player) {
-        Map<Material, Integer> toRemove = new HashMap<>(requiredItems);
+    @Override
+    public int calculateIncrement(@NotNull Event event, @NotNull Player player) {
+        if (!canProgress(event, player)) return 0;
 
-        for (ItemStack item : player.getInventory().getContents()) {
-            if (item == null || item.getType() == Material.AIR) continue;
-
-            Integer needed = toRemove.get(item.getType());
-            if (needed != null && needed > 0) {
-                int remove = Math.min(item.getAmount(), needed);
-                item.setAmount(item.getAmount() - remove);
-                toRemove.put(item.getType(), needed - remove);
-            }
+        // 아이템 제거
+        for (Map.Entry<Material, Integer> entry : requiredItems.entrySet()) {
+            player.getInventory().removeItem(new ItemStack(entry.getKey(), entry.getValue()));
         }
+
+        return 1;
     }
 
     @Override
     protected @NotNull String serializeData() {
-        StringBuilder data = new StringBuilder(npcName);
-        for (Map.Entry<Material, Integer> entry : requiredItems.entrySet()) {
-            data.append(":").append(entry.getKey().name()).append(":").append(entry.getValue());
-        }
-        return data.toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append(PlainTextComponentSerializer.plainText().serialize(npcName)).append(";");
+        requiredItems.forEach((mat, amt) ->
+                sb.append(mat.name()).append(":").append(amt).append(","));
+        return sb.toString();
     }
 
-    public String getNpcName() {
+    /**
+     * NPC 이름 반환 (Component)
+     */
+    public @NotNull Component getNpcName() {
         return npcName;
     }
 
-    public Map<Material, Integer> getRequiredItems() {
+    /**
+     * NPC 이름을 문자열로 반환
+     */
+    public @NotNull String getNpcNameAsString() {
+        return PlainTextComponentSerializer.plainText().serialize(npcName);
+    }
+
+    /**
+     * 필요한 아이템 맵 반환
+     */
+    public @NotNull Map<Material, Integer> getRequiredItems() {
         return new HashMap<>(requiredItems);
     }
 }

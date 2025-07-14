@@ -15,23 +15,16 @@ public abstract class BaseObjective implements QuestObjective {
 
     protected final String id;
     protected final int requiredAmount;
-    protected final String descriptionKey;
-    protected final String[] placeholders;
 
     /**
      * 기본 생성자
      *
      * @param id             목표 ID
      * @param requiredAmount 필요 수량
-     * @param descriptionKey 목표 설명 번역 키
-     * @param placeholders   플레이스홀더 배열
      */
-    protected BaseObjective(@NotNull String id, int requiredAmount,
-                            @NotNull String descriptionKey, @NotNull String... placeholders) {
+    protected BaseObjective(@NotNull String id, int requiredAmount) {
         this.id = Objects.requireNonNull(id, "Objective ID cannot be null");
         this.requiredAmount = requiredAmount;
-        this.descriptionKey = Objects.requireNonNull(descriptionKey, "Description key cannot be null");
-        this.placeholders = placeholders;
 
         if (requiredAmount <= 0) {
             throw new IllegalArgumentException("Required amount must be positive: " + requiredAmount);
@@ -41,16 +34,6 @@ public abstract class BaseObjective implements QuestObjective {
     @Override
     public @NotNull String getId() {
         return id;
-    }
-
-    @Override
-    public @NotNull String getDescriptionKey() {
-        return descriptionKey;
-    }
-
-    @Override
-    public @NotNull String[] getDescriptionPlaceholders() {
-        return placeholders.clone();
     }
 
     @Override
@@ -78,7 +61,6 @@ public abstract class BaseObjective implements QuestObjective {
     public boolean isComplete(@NotNull ObjectiveProgress progress) {
         return getCurrentProgress(progress) >= requiredAmount;
     }
-
 
     /**
      * 직렬화를 위한 기본 형식
@@ -112,17 +94,5 @@ public abstract class BaseObjective implements QuestObjective {
     @Override
     public int hashCode() {
         return Objects.hash(id, requiredAmount);
-    }
-
-    @Override
-    public @NotNull String getDescription(boolean isKorean) {
-        // 기본 구현 - 하위 클래스에서 오버라이드
-        return isKorean ? "퀘스트 목표입니다." : "Quest objective.";
-    }
-
-    @Override
-    public @NotNull String getGiverName(boolean isKorean) {
-        // 기본 구현 - 하위 클래스에서 오버라이드
-        return isKorean ? "알 수 없음" : "Unknown";
     }
 }

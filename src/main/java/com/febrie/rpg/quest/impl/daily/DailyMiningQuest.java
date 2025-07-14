@@ -2,8 +2,8 @@ package com.febrie.rpg.quest.impl.daily;
 
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
-import com.febrie.rpg.quest.objective.impl.BreakBlockObjective;
 import com.febrie.rpg.quest.objective.QuestObjective;
+import com.febrie.rpg.quest.objective.impl.BreakBlockObjective;
 import com.febrie.rpg.quest.reward.QuestReward;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import org.bukkit.Material;

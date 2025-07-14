@@ -2,13 +2,14 @@ package com.febrie.rpg.quest.objective.impl;
 
 import com.febrie.rpg.quest.objective.BaseObjective;
 import com.febrie.rpg.quest.objective.ObjectiveType;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 /**
  * 플레이어 처치 퀘스트 목표
@@ -54,36 +55,28 @@ public class KillPlayerObjective extends BaseObjective {
      */
     public KillPlayerObjective(@NotNull String id, int amount, @Nullable String targetPlayerName,
                                boolean checkWorld, @Nullable String worldName) {
-        super(id, amount, createDescription(amount, targetPlayerName, checkWorld, worldName));
+        super(id, amount);
         this.targetPlayerName = targetPlayerName;
         this.checkWorld = checkWorld;
         this.worldName = worldName;
     }
 
-    private static Component createDescription(int amount, @Nullable String target,
-                                               boolean checkWorld, @Nullable String world) {
-        Component base;
-
-        if (target != null) {
-            base = Component.translatable("quest.objective.kill_player.specific",
-                    Component.text(target), Component.text(amount));
-        } else {
-            base = Component.translatable("quest.objective.kill_player",
-                    Component.text(amount));
-        }
-
-        if (checkWorld && world != null) {
-            base = base.append(Component.text(" "))
-                    .append(Component.translatable("quest.objective.kill_player.world",
-                            Component.text(world)));
-        }
-
-        return base.color(NamedTextColor.RED);
-    }
-
     @Override
     public @NotNull ObjectiveType getType() {
         return ObjectiveType.KILL_PLAYER;
+    }
+
+    @Override
+    public @NotNull String getStatusInfo(@NotNull ObjectiveProgress progress) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(Objects.requireNonNullElse(targetPlayerName, "Players")).append(" ").append(getProgressString(progress));
+
+        if (checkWorld && worldName != null) {
+            sb.append(" (").append(worldName).append(")");
+        }
+
+        return sb.toString();
     }
 
     @Override
@@ -98,21 +91,16 @@ public class KillPlayerObjective extends BaseObjective {
             return false;
         }
 
-        // 자살 방지
-        if (deathEvent.getEntity().equals(killer)) {
-            return false;
-        }
-
-        // 특정 플레이어 확인
-        if (targetPlayerName != null &&
-                !deathEvent.getEntity().getName().equals(targetPlayerName)) {
-            return false;
+        // 특정 플레이어 대상인 경우
+        if (targetPlayerName != null) {
+            if (!deathEvent.getEntity().getName().equals(targetPlayerName)) {
+                return false;
+            }
         }
 
         // 월드 확인
-        if (checkWorld && worldName != null &&
-                !deathEvent.getEntity().getWorld().getName().equals(worldName)) {
-            return false;
+        if (checkWorld && worldName != null) {
+            return deathEvent.getEntity().getWorld().getName().equals(worldName);
         }
 
         return true;
@@ -125,21 +113,28 @@ public class KillPlayerObjective extends BaseObjective {
 
     @Override
     protected @NotNull String serializeData() {
-        StringBuilder data = new StringBuilder();
-        if (targetPlayerName != null) data.append(targetPlayerName);
-        data.append(":").append(checkWorld);
-        if (worldName != null) data.append(":").append(worldName);
-        return data.toString();
+        return (targetPlayerName != null ? targetPlayerName : "") + ";" +
+                checkWorld + ";" +
+                (worldName != null ? worldName : "");
     }
 
+    /**
+     * 대상 플레이어 이름 반환
+     */
     public @Nullable String getTargetPlayerName() {
         return targetPlayerName;
     }
 
+    /**
+     * 월드 체크 여부 반환
+     */
     public boolean isCheckWorld() {
         return checkWorld;
     }
 
+    /**
+     * 대상 월드 이름 반환
+     */
     public @Nullable String getWorldName() {
         return worldName;
     }
