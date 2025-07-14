@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 기본 GUI 구현체
- * 개선된 네비게이션 시스템과 통합
+ * 기본 GUI 프레임워크
+ * 모든 GUI가 상속받는 추상 클래스
  *
  * @author Febrie, CoffeeTory
  */
@@ -37,12 +37,13 @@ public abstract class BaseGui implements InteractiveGui {
     protected final Inventory inventory;
     protected final Map<Integer, GuiItem> items = new HashMap<>();
 
-    // 네비게이션 버튼 표준 위치 (수정됨)
-    protected static final int BACK_BUTTON_SLOT = 48;    // 중앙에서 왼쪽 한 칸
-    protected static final int CLOSE_BUTTON_SLOT = 49;   // 중앙
+    // 네비게이션 버튼 표준 위치
+    protected static final int BACK_BUTTON_SLOT = 48;    // 하단 중앙에서 왼쪽
+    protected static final int CLOSE_BUTTON_SLOT = 49;   // 하단 중앙
+    protected static final int REFRESH_BUTTON_SLOT = 50; // 하단 중앙에서 오른쪽
 
     /**
-     * 생성자 - GuiManager 필수
+     * 생성자
      */
     public BaseGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                    @NotNull LangManager langManager, int requestedSize,
@@ -60,18 +61,36 @@ public abstract class BaseGui implements InteractiveGui {
     protected abstract void setupLayout();
 
     /**
-     * 허용할 클릭 타입 목록 반환 - 하위 클래스에서 구현
+     * 허용된 클릭 타입 목록 - 하위 클래스에서 오버라이드 가능
      */
-    protected abstract List<ClickType> getAllowedClickTypes();
+    protected List<ClickType> getAllowedClickTypes() {
+        return List.of(ClickType.LEFT);
+    }
 
-    @Override
-    public void open(@NotNull Player player) {
-        player.openInventory(inventory);
+    /**
+     * 크기 유효성 검사
+     */
+    private int validateSize(int requestedSize) {
+        if (requestedSize % 9 != 0 || requestedSize < 9 || requestedSize > 54) {
+            throw new IllegalArgumentException("Invalid GUI size: " + requestedSize);
+        }
+        return requestedSize;
+    }
+
+    /**
+     * 인벤토리 생성
+     */
+    private Inventory createInventory(@NotNull String titleKey, @NotNull String... titleArgs) {
+        Component title = langManager.getComponent(viewer, titleKey, titleArgs);
+        return Bukkit.createInventory(null, size, title);
     }
 
     @Override
-    public void close(@NotNull Player player) {
-        // GuiManager에서 처리
+    public void open(@NotNull Player player) {
+        if (player.equals(viewer)) {
+            refresh();
+            viewer.openInventory(inventory);
+        }
     }
 
     @Override
@@ -79,13 +98,54 @@ public abstract class BaseGui implements InteractiveGui {
         inventory.clear();
         items.clear();
         setupLayout();
-        // 뒤로가기 버튼 상태 업데이트
-        updateNavigationButtons();
+        updateInventory();
+    }
+
+    /**
+     * 인벤토리 업데이트
+     */
+    protected void updateInventory() {
+        items.forEach((slot, item) -> {
+            if (isValidSlot(slot)) {
+                inventory.setItem(slot, item.getItemStack());
+            }
+        });
+    }
+
+    /**
+     * 아이템 설정
+     */
+    public void setItem(int slot, @NotNull GuiItem item) {
+        if (isValidSlot(slot)) {
+            items.put(slot, item);
+            inventory.setItem(slot, item.getItemStack());
+        }
+    }
+
+    /**
+     * 아이템 설정 (ItemStack)
+     */
+    public void setItem(int slot, @NotNull ItemStack itemStack) {
+        setItem(slot, GuiItem.display(itemStack));
+    }
+
+    /**
+     * 아이템 가져오기
+     */
+    public GuiItem getItem(int slot) {
+        return items.get(slot);
+    }
+
+    /**
+     * 유효한 슬롯인지 확인
+     */
+    protected boolean isValidSlot(int slot) {
+        return slot >= 0 && slot < size;
     }
 
     @Override
-    public @NotNull Inventory getInventory() {
-        return inventory;
+    public @NotNull Component getTitle() {
+        return inventory.getType().defaultTitle();
     }
 
     @Override
@@ -93,57 +153,9 @@ public abstract class BaseGui implements InteractiveGui {
         return size;
     }
 
-    /**
-     * 외부에서 아이템을 설정할 수 있는 public 메서드
-     * GuiService와 같은 서비스 클래스에서 사용
-     */
-    public void setGuiItem(int slot, @NotNull GuiItem item) {
-        setItem(slot, item);
-    }
-
-    /**
-     * 여러 슬롯에 같은 아이템 설정
-     */
-    public void setGuiItems(@NotNull GuiItem item, int... slots) {
-        for (int slot : slots) {
-            setItem(slot, item);
-        }
-    }
-
-    /**
-     * 특정 행에 아이템 설정
-     */
-    public void setGuiRow(int row, @NotNull GuiItem item) {
-        if (row < 0 || row >= 6) return;
-
-        for (int col = 0; col < 9; col++) {
-            setItem(row * 9 + col, item);
-        }
-    }
-
-    /**
-     * 특정 열에 아이템 설정
-     */
-    public void setGuiColumn(int column, @NotNull GuiItem item) {
-        if (column < 0 || column >= 9) return;
-
-        for (int row = 0; row < 6; row++) {
-            setItem(row * 9 + column, item);
-        }
-    }
-
-    /**
-     * 테두리에 아이템 설정
-     */
-    public void setGuiBorder(@NotNull GuiItem item) {
-        // 상단
-        setGuiRow(0, item);
-        // 하단
-        setGuiRow(5, item);
-        // 좌측
-        setGuiColumn(0, item);
-        // 우측
-        setGuiColumn(8, item);
+    @Override
+    public @NotNull Inventory getInventory() {
+        return inventory;
     }
 
     @Override
@@ -183,10 +195,23 @@ public abstract class BaseGui implements InteractiveGui {
 
     /**
      * 표준 네비게이션 버튼 설정
-     * 뒤로가기 버튼은 GuiManager의 상태에 따라 동적으로 표시
      */
     protected void setupStandardNavigation(boolean includeRefresh, boolean includeClose) {
         updateNavigationButtons();
+
+        // 새로고침 버튼
+        if (includeRefresh) {
+            setItem(REFRESH_BUTTON_SLOT, GuiItem.clickable(
+                    new ItemBuilder(Material.EMERALD)
+                            .displayName(langManager.getComponent(viewer, "gui.buttons.refresh.name"))
+                            .addLore(langManager.getComponent(viewer, "gui.buttons.refresh.lore"))
+                            .build(),
+                    p -> {
+                        refresh();
+                        playClickSound(p);
+                    }
+            ));
+        }
 
         // 닫기 버튼
         if (includeClose) {
@@ -196,129 +221,83 @@ public abstract class BaseGui implements InteractiveGui {
 
     /**
      * 네비게이션 버튼 업데이트
-     * 뒤로가기 가능 여부에 따라 버튼 표시/숨김
+     * GuiManager의 네비게이션 스택 상태에 따라 뒤로가기 버튼 표시
      */
     public void updateNavigationButtons() {
-        // 뒤로가기 버튼 - GuiManager 상태에 따라 표시
-        if (guiManager.canGoBack(viewer)) {
+        // 뒤로가기 버튼 - GuiManager에서 뒤로갈 수 있는지 확인
+        if (guiManager.navigateBack(viewer)) {
             setItem(BACK_BUTTON_SLOT, GuiItem.clickable(
                     new ItemBuilder(Material.ARROW)
                             .displayName(langManager.getComponent(viewer, "gui.buttons.back.name"))
                             .addLore(langManager.getComponent(viewer, "gui.buttons.back.lore"))
                             .build(),
-                    guiManager::goBack
+                    p -> {
+                        if (guiManager.navigateBack(p)) {
+                            playClickSound(p);
+                        }
+                    }
             ));
         } else {
-            // 뒤로가기 불가능하면 장식용 유리판 배치
+            // 뒤로가기 불가능한 경우 빈 슬롯 또는 장식 아이템
             setItem(BACK_BUTTON_SLOT, GuiFactory.createDecoration());
         }
     }
 
     /**
-     * 테두리 생성 - 모든 모서리를 포함하도록 수정
-     */
-    protected void createBorder(Material material) {
-        GuiItem borderItem = GuiFactory.createDecoration(material);
-        int rows = size / ROWS_PER_PAGE;
-
-        // 상단과 하단
-        for (int i = 0; i < ROWS_PER_PAGE; i++) {
-            setItem(i, borderItem);
-            setItem((rows - 1) * ROWS_PER_PAGE + i, borderItem);
-        }
-
-        // 좌측과 우측 (모든 행 포함)
-        for (int row = 0; row < rows; row++) {
-            setItem(row * ROWS_PER_PAGE, borderItem);
-            setItem(row * ROWS_PER_PAGE + 8, borderItem);
-        }
-    }
-
-    /**
-     * 기본 테두리 생성
+     * 경계선 생성
      */
     protected void createBorder() {
-        createBorder(Material.BLACK_STAINED_GLASS_PANE);
+        createBorder(Material.GRAY_STAINED_GLASS_PANE);
     }
 
     /**
-     * Component 타이틀로 인벤토리 생성
+     * 커스텀 재료로 경계선 생성
      */
-    @NotNull
-    private Inventory createInventory(@NotNull String titleKey, @NotNull String... args) {
-        Component title = langManager.getComponent(viewer, titleKey, args);
-        return Bukkit.createInventory(this, size, title);
-    }
+    protected void createBorder(@NotNull Material material) {
+        GuiItem borderItem = GuiFactory.createDecoration(material);
 
-    /**
-     * 크기 검증
-     */
-    private int validateSize(int requestedSize) {
-        if (requestedSize % ROWS_PER_PAGE != 0 || requestedSize <= 0 || requestedSize > 54) {
-            throw new IllegalArgumentException("Invalid GUI size: " + requestedSize);
+        // 상단 행
+        for (int i = 0; i < 9; i++) {
+            setItem(i, borderItem);
         }
-        return requestedSize;
-    }
 
-    /**
-     * 아이템 설정
-     */
-    public void setItem(int slot, @NotNull GuiItem item) {
-        if (isValidSlot(slot)) {
-            items.put(slot, item);
-            inventory.setItem(slot, item.getItemStack());
+        // 하단 행
+        for (int i = size - 9; i < size; i++) {
+            setItem(i, borderItem);
+        }
+
+        // 좌우 열
+        for (int i = 9; i < size - 9; i += 9) {
+            setItem(i, borderItem);
+            setItem(i + 8, borderItem);
         }
     }
 
-    /**
-     * GuiItem 가져오기
-     */
-    @NotNull
-    public GuiItem getItem(int slot) {
-        GuiItem item = items.get(slot);
-        return item != null ? item : GuiItem.display(new ItemStack(Material.AIR));
-    }
+    // 유틸리티 메소드들
 
     /**
-     * 슬롯 유효성 검사
+     * 번역된 컴포넌트 가져오기 (간편 메소드)
      */
-    protected boolean isValidSlot(int slot) {
-        return slot >= 0 && slot < size;
-    }
-
-    /**
-     * 마지막 줄 시작 슬롯
-     */
-    protected int getLastRowStart() {
-        return size - ROWS_PER_PAGE;
-    }
-
-    /**
-     * Component 번역 헬퍼
-     */
-    @NotNull
     protected Component trans(@NotNull String key, @NotNull String... args) {
         return langManager.getComponent(viewer, key, args);
     }
 
     /**
-     * String 번역 헬퍼
+     * 번역된 문자열 가져오기 (간편 메소드)
      */
-    @NotNull
     protected String transString(@NotNull String key, @NotNull String... args) {
         return langManager.getMessage(viewer, key, args);
     }
 
     /**
-     * 메시지 전송 헬퍼
+     * 메시지 전송 (간편 메소드)
      */
     protected void sendMessage(@NotNull Player player, @NotNull String key, @NotNull String... args) {
         langManager.sendMessage(player, key, args);
     }
 
-    /**
-     * 사운드 재생 헬퍼 메소드들
-     */
+    // 사운드 재생 메소드들
+
     protected void playClickSound(@NotNull Player player) {
         SoundUtil.playClickSound(player);
     }
@@ -337,41 +316,5 @@ public abstract class BaseGui implements InteractiveGui {
 
     protected void playCloseSound(@NotNull Player player) {
         SoundUtil.playCloseSound(player);
-    }
-
-    /**
-     * 아이템 활성화 여부 확인
-     */
-    public boolean isItemActive(int slot, @NotNull Player player) {
-        if (!isValidSlot(slot)) {
-            return false;
-        }
-
-        GuiItem item = items.get(slot);
-        return item != null && item.hasActions() && item.isEnabled();
-    }
-
-    /**
-     * 시청자 가져오기
-     */
-    @NotNull
-    public Player getViewer() {
-        return viewer;
-    }
-
-    /**
-     * LangManager 가져오기
-     */
-    @NotNull
-    public LangManager getLangManager() {
-        return langManager;
-    }
-
-    /**
-     * GuiManager 가져오기
-     */
-    @NotNull
-    public GuiManager getGuiManager() {
-        return guiManager;
     }
 }

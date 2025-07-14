@@ -97,6 +97,13 @@
     "tutorial": "Tutorial",
     "normal": "Normal"
   },
+  "difficulty": {
+    "easy": "%COLOR_SUCCESS%Easy",
+    "normal": "%COLOR_YELLOW%Normal",
+    "hard": "%COLOR_ERROR%Hard",
+    "heroic": "%COLOR_EPIC%Heroic",
+    "legendary": "%COLOR_LEGENDARY%Legendary"
+  },
   "reward": {
     "type": {
       "item": "Item",
@@ -187,7 +194,7 @@
       ],
       "reward": {
         "description": [
-          "%COLOR_DARK_PURPLE%✦ Dark Power Rewards:",
+          "%COLOR_DARK_PURPLE%✦ Power of Darkness Rewards:",
           "%COLOR_GRAY%• Netherite Sword",
           "%COLOR_GRAY%• 3 Wither Skeleton Skulls",
           "%COLOR_GRAY%• 5 Enchanted Golden Apples",
@@ -202,20 +209,20 @@
       "name": "%COLOR_YELLOW%Farmer's Request",
       "description": [
         "%COLOR_GRAY%The farmer asked for help with the harvest.",
-        "%COLOR_GRAY%Harvest crops and deliver them.",
+        "%COLOR_GRAY%Harvest and deliver the crops.",
         "",
-        "%COLOR_YELLOW%Rich rewards await!"
+        "%COLOR_YELLOW%Bountiful rewards await!"
       ]
     }
   },
   "daily": {
     "mining": {
-      "name": "%COLOR_AQUA%[Daily] Miner's Routine",
+      "name": "%COLOR_AQUA%[Daily] Miner's Work",
       "description": [
         "%COLOR_GRAY%Achieve today's mining goals!",
         "%COLOR_GRAY%Resets daily at midnight.",
         "",
-        "%COLOR_YELLOW%Get rewarded for your hard work."
+        "%COLOR_YELLOW%Earn rewards for your hard work."
       ]
     }
   }

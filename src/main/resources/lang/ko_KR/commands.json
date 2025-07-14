@@ -7,10 +7,12 @@
   "viewprofile": {
     "usage": "%COLOR_YELLOW%사용법: /viewprofile <플레이어명> 또는 /프로필보기 <플레이어명>",
     "description": "다른 플레이어의 프로필을 봅니다",
-    "success": "%COLOR_GREEN%{player}의 프로필을 열었습니다!"
+    "success": "%COLOR_GREEN%{player}의 프로필을 열었습니다!",
+    "disabled": "%COLOR_WARNING%이 명령어는 더 이상 사용할 수 없습니다.",
+    "use-admin": "%COLOR_INFO%관리자 명령어를 사용하세요: /rpgadmin viewprofile <플레이어>"
   },
   "mainmenu": {
-    "usage": "%COLOR_YELLOW%사용법: /mainmenu 또는 /메인메뉴",
+    "usage": "%COLOR_YELLOW%사용법: /메뉴",
     "description": "메인 메뉴를 엽니다",
     "success": "%COLOR_GREEN%메인 메뉴를 열었습니다!"
   },
@@ -75,23 +77,23 @@
   },
   "admin": {
     "setlevel": {
-      "usage": "%COLOR_YELLOW%사용법: /setlevel <플레이어> <레벨>",
+      "usage": "%COLOR_YELLOW%사용법: /rpgadmin setlevel <플레이어> <레벨>",
       "description": "플레이어의 레벨을 설정합니다",
       "success": "%COLOR_SUCCESS%{player}의 레벨을 {level}로 설정했습니다."
     },
     "givexp": {
-      "usage": "%COLOR_YELLOW%사용법: /givexp <플레이어> <경험치>",
+      "usage": "%COLOR_YELLOW%사용법: /rpgadmin exp give <플레이어> <경험치>",
       "description": "플레이어에게 경험치를 지급합니다",
       "success": "%COLOR_SUCCESS%{player}에게 {amount} 경험치를 지급했습니다."
     },
     "setjob": {
-      "usage": "%COLOR_YELLOW%사용법: /setjob <플레이어> <직업>",
+      "usage": "%COLOR_YELLOW%사용법: /rpgadmin job set <플레이어> <직업>",
       "description": "플레이어의 직업을 설정합니다",
       "success": "%COLOR_SUCCESS%{player}의 직업을 {job}(으)로 설정했습니다.",
       "invalid-job": "%COLOR_ERROR%올바르지 않은 직업입니다: {job}"
     },
     "reload": {
-      "usage": "%COLOR_YELLOW%사용법: /srpg reload",
+      "usage": "%COLOR_YELLOW%사용법: /rpgadmin reload",
       "description": "플러그인 설정을 다시 로드합니다",
       "success": "%COLOR_SUCCESS%설정을 다시 로드했습니다!"
     }

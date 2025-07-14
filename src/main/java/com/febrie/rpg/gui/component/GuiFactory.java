@@ -49,7 +49,7 @@ public final class GuiFactory {
                         .displayName(langManager.getComponent(player, "gui.buttons.back.name"))
                         .addLore(langManager.getComponent(player, "gui.buttons.back.lore"))
                         .build(),
-                guiManager::goBack
+                guiManager::navigateBack
         );
     }
 

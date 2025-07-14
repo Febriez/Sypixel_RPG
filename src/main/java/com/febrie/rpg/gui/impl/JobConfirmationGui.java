@@ -48,11 +48,6 @@ public class JobConfirmationGui extends BaseGui {
     }
 
     @Override
-    public int getSize() {
-        return GUI_SIZE;
-    }
-
-    @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);
     }
@@ -186,7 +181,7 @@ public class JobConfirmationGui extends BaseGui {
             // 축하 효과
             playSuccessSound(viewer);
 
-            // Paper API의 showTitle 메서드 사용
+            // Title 표시
             viewer.showTitle(Title.title(
                     trans("gui.job-confirmation.title-success"),
                     trans("gui.job-confirmation.subtitle-success", "job", jobName),
@@ -199,7 +194,10 @@ public class JobConfirmationGui extends BaseGui {
 
             // GUI 닫고 프로필로 이동
             viewer.closeInventory();
-            guiManager.openProfileGui(viewer);
+
+            // 프로필 GUI 열기
+            ProfileGui profileGui = new ProfileGui(viewer, viewer, guiManager, langManager);
+            guiManager.openGui(viewer, profileGui);
 
         } else {
             // 이미 직업이 있는 경우 (보통 일어나지 않아야 함)
@@ -213,8 +211,12 @@ public class JobConfirmationGui extends BaseGui {
      * 취소 버튼 처리
      */
     private void handleCancel() {
-        // 직업 선택 GUI로 돌아가기
+        // 이전 화면으로 돌아가기
         playClickSound(viewer);
-        guiManager.goBack(viewer);
+        if (!guiManager.navigateBack(viewer)) {
+            // 뒤로갈 수 없으면 직업 선택 GUI로
+            JobSelectionGui jobSelectionGui = new JobSelectionGui(guiManager, langManager, viewer, rpgPlayer);
+            guiManager.openGui(viewer, jobSelectionGui);
+        }
     }
 }

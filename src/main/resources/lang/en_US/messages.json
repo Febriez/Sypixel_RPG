@@ -38,5 +38,28 @@
   "achievement-unlocked": "%COLOR_LEGENDARY%Achievement unlocked: {achievement}",
   "insufficient-level": "%COLOR_ERROR%Insufficient level! (Required: {level})",
   "region-entered": "%COLOR_INFO%Entered region: {region}",
-  "weather-changed": "%COLOR_GRAY%Weather changed to {weather}."
+  "weather-changed": "%COLOR_GRAY%Weather changed to {weather}.",
+  "general": {
+    "cannot-view-others-quests": "%COLOR_ERROR%You cannot view other players' quests!"
+  },
+  "quest": {
+    "started": "%COLOR_SUCCESS%Quest started: %COLOR_LEGENDARY%{quest}",
+    "start-failed": "%COLOR_ERROR%Failed to start quest!",
+    "declined": "%COLOR_GRAY%Quest declined.",
+    "npc": {
+      "invalid-quest": "%COLOR_ERROR%Invalid quest!",
+      "already-active": "%COLOR_WARNING%You are already on this quest!",
+      "already-completed": "%COLOR_WARNING%You have already completed this quest!"
+    }
+  },
+  "gui": {
+    "navigation": {
+      "main-menu": "%COLOR_YELLOW%To Main Menu"
+    }
+  },
+  "commands": {
+    "mainmenu": {
+      "success": "%COLOR_GREEN%Main menu opened!"
+    }
+  }
 }

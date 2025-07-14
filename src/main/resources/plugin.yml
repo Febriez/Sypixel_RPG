@@ -4,7 +4,7 @@ version: '1.0-SNAPSHOT'
 main: com.febrie.rpg.RPGMain
 api-version: '1.21'
 authors: [ Febrie, CoffeeTory ]
-description: Sypixel RPG 기능을 위한 통합 플러그인 / Integrated plugin for Sypixel RPG features
+description: Sypixel RPG 기능을 위한 통합 플러그인
 website: https://github.com/Febriez/Sypixel_RPG
 
 # Soft dependencies (optional integrations)
@@ -16,85 +16,53 @@ load: POSTWORLD
 # Plugin metadata
 prefix: SypixelRPG
 
-# Commands (Korean and English support using aliases)
+# Commands
 commands:
-  # Profile commands
-  profile:
-    description: "View your profile / 자신의 프로필을 봅니다"
-    usage: "/profile or /프로필"
-    permission: sypixelrpg.profile.self
-    permission-message: "You do not have permission to use this command. / 이 명령어를 사용할 권한이 없습니다."
-    aliases: [ 프로필 ]
-
-  viewprofile:
-    description: "View another player's profile / 다른 플레이어의 프로필을 봅니다"
-    usage: "/viewprofile <player> or /프로필보기 <플레이어명>"
-    permission: sypixelrpg.profile.others
-    permission-message: "You do not have permission to use this command. / 이 명령어를 사용할 권한이 없습니다."
-    aliases: [ 프로필보기 ]
-
-  # Main menu commands
-  mainmenu:
-    description: "Open the main menu / 메인 메뉴를 엽니다"
-    usage: "/mainmenu or /메인메뉴 or /menu or /메뉴"
+  # Main menu command - 메인 명령어만 등록
+  메뉴:
+    description: "메인 메뉴를 엽니다 / Open the main menu"
+    usage: "/메뉴"
     permission: sypixelrpg.mainmenu
-    permission-message: "You do not have permission to use this command. / 이 명령어를 사용할 권한이 없습니다."
-    aliases: [ 메인메뉴, menu, 메뉴, mm ]
+    permission-message: "이 명령어를 사용할 권한이 없습니다. / You do not have permission to use this command."
+    aliases: [ menu, 메인메뉴, mainmenu, mm ]
 
-  # Admin/Debug commands
-  sypixelrpg:
-    description: "Sypixel RPG admin commands / Sypixel RPG 관리자 명령어"
-    usage: "/sypixelrpg <stats|reload>"
+  # Admin command
+  rpgadmin:
+    description: "RPG 관리자 명령어 / RPG admin commands"
+    usage: "/rpgadmin <stats|reload|debug|viewprofile|exp|level|job|npc>"
     permission: sypixelrpg.admin
-    permission-message: "You do not have permission to use this command. / 이 명령어를 사용할 권한이 없습니다."
-    aliases: [ srpg, rpg ]
+    permission-message: "관리자 권한이 필요합니다. / Admin permission required."
+    aliases: [ rpga, 알피지관리 ]
 
 # Permissions
 permissions:
   # Root permission
   sypixelrpg.*:
-    description: "All Sypixel RPG permissions / 모든 Sypixel RPG 권한"
+    description: "모든 Sypixel RPG 권한 / All Sypixel RPG permissions"
     default: op
     children:
-      sypixelrpg.profile.*: true
       sypixelrpg.mainmenu: true
       sypixelrpg.admin: true
 
-  # Profile permissions
-  sypixelrpg.profile.*:
-    description: "All profile related permissions / 모든 프로필 관련 권한"
-    default: true
-    children:
-      sypixelrpg.profile.self: true
-      sypixelrpg.profile.others: true
-
-  sypixelrpg.profile.self:
-    description: "Permission to view own profile / 자신의 프로필을 볼 수 있는 권한"
-    default: true
-
-  sypixelrpg.profile.others:
-    description: "Permission to view other players' profiles / 다른 플레이어의 프로필을 볼 수 있는 권한"
-    default: op
-
   # Main menu permission
   sypixelrpg.mainmenu:
-    description: "Permission to use main menu / 메인 메뉴를 사용할 수 있는 권한"
+    description: "메인 메뉴를 사용할 수 있는 권한 / Permission to use main menu"
     default: true
 
   # Admin permissions
   sypixelrpg.admin:
-    description: "Permission to use admin commands / 관리자 명령어를 사용할 수 있는 권한"
+    description: "관리자 명령어를 사용할 수 있는 권한 / Permission to use admin commands"
     default: op
 
-  # Future permissions (for upcoming features) - currently unused
+  # Future permissions (for upcoming features)
   sypixelrpg.shop:
-    description: "Permission to use shop / 상점을 사용할 수 있는 권한"
+    description: "상점을 사용할 수 있는 권한 / Permission to use shop"
     default: true
 
   sypixelrpg.dungeon:
-    description: "Permission to use dungeons / 던전을 사용할 수 있는 권한"
+    description: "던전을 사용할 수 있는 권한 / Permission to use dungeons"
     default: true
 
   sypixelrpg.settings:
-    description: "Permission to use settings / 설정을 사용할 수 있는 권한"
+    description: "설정을 사용할 수 있는 권한 / Permission to use settings"
     default: true

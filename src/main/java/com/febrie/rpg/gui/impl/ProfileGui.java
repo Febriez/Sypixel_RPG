@@ -5,6 +5,7 @@ import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.manager.GuiManager;
+import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
@@ -16,6 +17,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -43,6 +45,7 @@ public class ProfileGui extends BaseGui {
     private static final int GAME_INFO_SLOT = 25;
 
     // 프로필 메뉴 버튼 슬롯 (중앙 배치)
+    private static final int QUEST_INFO_SLOT = 30;
     private static final int JOB_INFO_SLOT = 29;
     private static final int STATS_INFO_SLOT = 31;
     private static final int COLLECTION_SLOT = 32;
@@ -200,15 +203,15 @@ public class ProfileGui extends BaseGui {
         // This section is handled in setupActionButtons
     }
 
-    /**
-     * Sets up action buttons
-     */
     private void setupActionButtons() {
         com.febrie.rpg.player.RPGPlayer rpgPlayer = RPGMain.getPlugin()
                 .getRPGPlayerManager().getOrCreatePlayer(targetPlayer);
 
         // Job info button - click to open talents menu
         setupJobInfoButton(rpgPlayer);
+
+        // Quest info button - 새로 추가
+        setupQuestInfoButton();
 
         // Stats info button
         setupStatsInfoButton(rpgPlayer);
@@ -221,6 +224,57 @@ public class ProfileGui extends BaseGui {
 
         // Navigation buttons
         setupNavigationButtons();
+    }
+
+    /**
+     * Quest info button setup - 퀘스트 목록으로 이동
+     */
+    private void setupQuestInfoButton() {
+        GuiItem questButton = GuiItem.clickable(
+                ItemBuilder.of(Material.WRITTEN_BOOK)
+                        .displayName(trans("gui.profile.quest-info")
+                                .color(ColorUtil.UNCOMMON)
+                                .decoration(TextDecoration.BOLD, true))
+                        .addLore(Component.empty())
+                        .addLore(trans("gui.profile.active-quests",
+                                "count", String.valueOf(getActiveQuestCount())))
+                        .addLore(trans("gui.profile.completed-quests",
+                                "count", String.valueOf(getCompletedQuestCount())))
+                        .addLore(Component.empty())
+                        .addLore(trans("gui.profile.click-for-quests")
+                                .color(ColorUtil.GRAY))
+                        .flags(ItemFlag.values())
+                        .build(),
+                p -> {
+                    if (p.equals(targetPlayer)) {
+                        QuestListGui questListGui = new QuestListGui(p, guiManager, langManager);
+                        guiManager.openGui(p, questListGui);
+                        playSuccessSound(p);
+                    } else {
+                        langManager.sendMessage(p, "general.cannot-view-others-quests");
+                        playErrorSound(p);
+                    }
+                }
+        );
+        setItem(QUEST_INFO_SLOT, questButton);
+    }
+
+    /**
+     * 활성 퀘스트 개수 가져오기
+     */
+    private int getActiveQuestCount() {
+        return QuestManager.getInstance()
+                .getActiveQuests(targetPlayer.getUniqueId())
+                .size();
+    }
+
+    /**
+     * 완료된 퀘스트 개수 가져오기
+     */
+    private int getCompletedQuestCount() {
+        return QuestManager.getInstance()
+                .getCompletedQuests(targetPlayer.getUniqueId())
+                .size();
     }
 
     /**

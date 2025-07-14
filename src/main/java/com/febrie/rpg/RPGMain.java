@@ -2,7 +2,6 @@ package com.febrie.rpg;
 
 import com.febrie.rpg.command.AdminCommands;
 import com.febrie.rpg.command.MainMenuCommand;
-import com.febrie.rpg.command.ProfileCommand;
 import com.febrie.rpg.database.FirebaseService;
 import com.febrie.rpg.dto.ServerStatsDTO;
 import com.febrie.rpg.gui.listener.GuiListener;
@@ -17,7 +16,6 @@ import org.bukkit.scheduler.BukkitTask;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Objects;
 
 /**
  * Sypixel RPG 메인 플러그인 클래스
@@ -38,7 +36,6 @@ public final class RPGMain extends JavaPlugin {
     private FirebaseService firebaseService;
 
     // 명령어
-    private ProfileCommand profileCommand;
     private MainMenuCommand mainMenuCommand;
     private AdminCommands adminCommands;
 
@@ -110,7 +107,7 @@ public final class RPGMain extends JavaPlugin {
         LogUtil.info("언어 시스템 초기화 완료");
 
         // GUI 시스템 초기화
-        this.guiManager = new GuiManager(this, langManager);
+        this.guiManager = new GuiManager(langManager);
         LogUtil.info("GUI 시스템 초기화 완료");
 
         // Firebase 서비스 초기화
@@ -123,7 +120,6 @@ public final class RPGMain extends JavaPlugin {
         LogUtil.info("매니저 시스템 초기화 완료");
 
         // 명령어 초기화
-        this.profileCommand = new ProfileCommand(this, langManager, guiManager);
         this.mainMenuCommand = new MainMenuCommand(this, langManager, guiManager);
         this.adminCommands = new AdminCommands(this, langManager);
         LogUtil.info("명령어 시스템 초기화 완료");
@@ -139,26 +135,23 @@ public final class RPGMain extends JavaPlugin {
     }
 
     /**
-     * 모든 명령어 등록
+     * 명령어 등록 - 간소화된 버전
+     * 메인 명령어만 등록하고 나머지는 plugin.yml에서 aliases로 처리
      */
     private void registerCommands() {
-        // 프로필 명령어 (한국어 및 영어)
-        profileCommand.register("profile");
-        profileCommand.register("프로필");
-        profileCommand.register("viewprofile");
-        profileCommand.register("프로필보기");
-
-        // 메인 메뉴 명령어 (한국어 및 영어)
-        mainMenuCommand.register("mainmenu");
-        mainMenuCommand.register("메인메뉴");
-        mainMenuCommand.register("menu");
-        mainMenuCommand.register("메뉴");
+        // 메인 메뉴 명령어 - 하나만 등록
+        mainMenuCommand = new MainMenuCommand(this, langManager, guiManager);
+        getCommand("메뉴").setExecutor(mainMenuCommand);
+        getCommand("메뉴").setTabCompleter(mainMenuCommand);
 
         // 관리자 명령어
-        Objects.requireNonNull(getCommand("sypixelrpg")).setExecutor(adminCommands);
-        Objects.requireNonNull(getCommand("sypixelrpg")).setTabCompleter(adminCommands);
+        adminCommands = new AdminCommands(this, langManager);
+        getCommand("rpgadmin").setExecutor(adminCommands);
+        getCommand("rpgadmin").setTabCompleter(adminCommands);
 
-        LogUtil.debug("명령어 등록 완료");
+        LogUtil.info("명령어가 등록되었습니다.");
+        LogUtil.info("일반 유저: /메뉴 (별칭: /menu, /메인메뉴, /mainmenu, /mm)");
+        LogUtil.info("관리자: /rpgadmin");
     }
 
     /**

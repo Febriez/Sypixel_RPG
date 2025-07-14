@@ -1,5 +1,6 @@
 package com.febrie.rpg.command;
 
+import com.febrie.rpg.gui.impl.MainMenuGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.LangManager;
 import org.bukkit.command.Command;
@@ -9,8 +10,7 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Handles main menu commands
- * Supports both Korean and English commands
+ * 메인 메뉴 명령어 처리 - 간소화된 버전
  *
  * @author Febrie, CoffeeTory
  */
@@ -38,8 +38,11 @@ public class MainMenuCommand extends BaseCommand {
             return true;
         }
 
-        // Open main menu
-        guiManager.openMainMenu(player);
+        // 네비게이션 스택 초기화하고 메인 메뉴 열기
+        guiManager.clearNavigationStack(player);
+        MainMenuGui mainMenu = new MainMenuGui(guiManager, langManager, player);
+        guiManager.openGui(player, mainMenu);
+
         langManager.sendMessage(player, "commands.mainmenu.success");
 
         return true;

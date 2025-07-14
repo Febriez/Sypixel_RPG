@@ -27,5 +27,6 @@
   "disabled": "%COLOR_ERROR%비활성화",
   "cannot-select-others-job": "%COLOR_ERROR%다른 플레이어의 직업은 선택할 수 없습니다!",
   "cannot-view-others-stats": "%COLOR_ERROR%다른 플레이어의 스탯은 볼 수 없습니다!",
-  "cannot-view-others-talents": "%COLOR_ERROR%다른 플레이어의 특성은 볼 수 없습니다!"
+  "cannot-view-others-talents": "%COLOR_ERROR%다른 플레이어의 특성은 볼 수 없습니다!",
+  "cannot-view-others-quests": "%COLOR_ERROR%다른 플레이어의 퀘스트를 볼 수 없습니다!"
 }

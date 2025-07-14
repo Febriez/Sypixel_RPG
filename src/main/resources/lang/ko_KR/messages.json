@@ -38,5 +38,28 @@
   "achievement-unlocked": "%COLOR_LEGENDARY%업적 달성: {achievement}",
   "insufficient-level": "%COLOR_ERROR%레벨이 부족합니다! (필요 레벨: {level})",
   "region-entered": "%COLOR_INFO%지역 진입: {region}",
-  "weather-changed": "%COLOR_GRAY%날씨가 {weather}(으)로 변경되었습니다."
+  "weather-changed": "%COLOR_GRAY%날씨가 {weather}(으)로 변경되었습니다.",
+  "general": {
+    "cannot-view-others-quests": "%COLOR_ERROR%다른 플레이어의 퀘스트를 볼 수 없습니다!"
+  },
+  "quest": {
+    "started": "%COLOR_SUCCESS%퀘스트를 시작했습니다: %COLOR_LEGENDARY%{quest}",
+    "start-failed": "%COLOR_ERROR%퀘스트 시작에 실패했습니다!",
+    "declined": "%COLOR_GRAY%퀘스트를 거절했습니다.",
+    "npc": {
+      "invalid-quest": "%COLOR_ERROR%잘못된 퀘스트입니다!",
+      "already-active": "%COLOR_WARNING%이미 이 퀘스트를 진행 중입니다!",
+      "already-completed": "%COLOR_WARNING%이미 이 퀘스트를 완료했습니다!"
+    }
+  },
+  "gui": {
+    "navigation": {
+      "main-menu": "%COLOR_YELLOW%메인 메뉴로"
+    }
+  },
+  "commands": {
+    "mainmenu": {
+      "success": "%COLOR_GREEN%메인 메뉴를 열었습니다!"
+    }
+  }
 }
