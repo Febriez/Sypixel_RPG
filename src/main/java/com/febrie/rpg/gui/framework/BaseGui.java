@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -61,6 +60,12 @@ public abstract class BaseGui implements InteractiveGui {
     protected abstract void setupLayout();
 
     /**
+     * GUI 타이틀 - 하위 클래스에서 구현
+     */
+    @Override
+    public abstract @NotNull Component getTitle();
+
+    /**
      * 허용된 클릭 타입 목록 - 하위 클래스에서 오버라이드 가능
      */
     protected List<ClickType> getAllowedClickTypes() {
@@ -71,7 +76,7 @@ public abstract class BaseGui implements InteractiveGui {
      * 크기 유효성 검사
      */
     private int validateSize(int requestedSize) {
-        if (requestedSize % 9 != 0 || requestedSize < 9 || requestedSize > 54) {
+        if (requestedSize < 9 || requestedSize > 54 || requestedSize % 9 != 0) {
             throw new IllegalArgumentException("Invalid GUI size: " + requestedSize);
         }
         return requestedSize;
@@ -85,68 +90,7 @@ public abstract class BaseGui implements InteractiveGui {
         return Bukkit.createInventory(null, size, title);
     }
 
-    @Override
-    public void open(@NotNull Player player) {
-        if (player.equals(viewer)) {
-            refresh();
-            viewer.openInventory(inventory);
-        }
-    }
-
-    @Override
-    public void refresh() {
-        inventory.clear();
-        items.clear();
-        setupLayout();
-        updateInventory();
-    }
-
-    /**
-     * 인벤토리 업데이트
-     */
-    protected void updateInventory() {
-        items.forEach((slot, item) -> {
-            if (isValidSlot(slot)) {
-                inventory.setItem(slot, item.getItemStack());
-            }
-        });
-    }
-
-    /**
-     * 아이템 설정
-     */
-    public void setItem(int slot, @NotNull GuiItem item) {
-        if (isValidSlot(slot)) {
-            items.put(slot, item);
-            inventory.setItem(slot, item.getItemStack());
-        }
-    }
-
-    /**
-     * 아이템 설정 (ItemStack)
-     */
-    public void setItem(int slot, @NotNull ItemStack itemStack) {
-        setItem(slot, GuiItem.display(itemStack));
-    }
-
-    /**
-     * 아이템 가져오기
-     */
-    public GuiItem getItem(int slot) {
-        return items.get(slot);
-    }
-
-    /**
-     * 유효한 슬롯인지 확인
-     */
-    protected boolean isValidSlot(int slot) {
-        return slot >= 0 && slot < size;
-    }
-
-    @Override
-    public @NotNull Component getTitle() {
-        return inventory.getType().defaultTitle();
-    }
+    // InteractiveGui 구현
 
     @Override
     public int getSize() {
@@ -154,8 +98,52 @@ public abstract class BaseGui implements InteractiveGui {
     }
 
     @Override
+    public void open(@NotNull Player player) {
+        if (!player.equals(viewer)) {
+            throw new IllegalStateException("Cannot open GUI for different player");
+        }
+        player.openInventory(inventory);
+        SoundUtil.playOpenSound(player);
+    }
+
+    @Override
+    public void refresh() {
+        inventory.clear();
+        items.clear();
+        setupLayout();
+    }
+
+    /**
+     * 아이템 설정 - GuiFramework에 없는 자체 메소드
+     */
+    public void setItem(int slot, @NotNull GuiItem item) {
+        if (!isValidSlot(slot)) {
+            return;
+        }
+        items.put(slot, item);
+        inventory.setItem(slot, item.getItemStack());
+    }
+
+    /**
+     * 아이템 제거 - GuiFramework에 없는 자체 메소드
+     */
+    public void removeItem(int slot) {
+        if (isValidSlot(slot)) {
+            items.remove(slot);
+            inventory.setItem(slot, null);
+        }
+    }
+
+    @Override
     public @NotNull Inventory getInventory() {
         return inventory;
+    }
+
+    /**
+     * 유효한 슬롯인지 확인 - GuiFramework에 없는 자체 메소드
+     */
+    protected boolean isValidSlot(int slot) {
+        return slot >= 0 && slot < size;
     }
 
     @Override
@@ -225,7 +213,7 @@ public abstract class BaseGui implements InteractiveGui {
      */
     public void updateNavigationButtons() {
         // 뒤로가기 버튼 - GuiManager에서 뒤로갈 수 있는지 확인
-        if (guiManager.navigateBack(viewer)) {
+        if (guiManager.canNavigateBack(viewer)) {
             setItem(BACK_BUTTON_SLOT, GuiItem.clickable(
                     new ItemBuilder(Material.ARROW)
                             .displayName(langManager.getComponent(viewer, "gui.buttons.back.name"))
@@ -238,7 +226,7 @@ public abstract class BaseGui implements InteractiveGui {
                     }
             ));
         } else {
-            // 뒤로가기 불가능한 경우 빈 슬롯 또는 장식 아이템
+            // 뒤로가기 불가능한 경우 장식 아이템
             setItem(BACK_BUTTON_SLOT, GuiFactory.createDecoration());
         }
     }

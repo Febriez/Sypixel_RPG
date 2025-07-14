@@ -55,6 +55,18 @@ public class GuiManager {
     }
 
     /**
+     * 이전 GUI로 돌아갈 수 있는지 확인
+     *
+     * @param player 플레이어
+     * @return 뒤로갈 수 있는지 여부
+     */
+    public boolean canNavigateBack(@NotNull Player player) {
+        UUID playerId = player.getUniqueId();
+        Deque<Class<? extends GuiFramework>> stack = navigationStacks.get(playerId);
+        return stack != null && !stack.isEmpty();
+    }
+
+    /**
      * 이전 GUI로 돌아가기
      *
      * @param player 플레이어
@@ -94,9 +106,9 @@ public class GuiManager {
     private GuiFramework recreateGui(@NotNull Class<? extends GuiFramework> guiClass, @NotNull Player player) {
         try {
             // 리플렉션을 사용하여 GUI 재생성
-            // 기본적으로 (Player, GuiManager, LangManager) 생성자를 찾습니다
-            var constructor = guiClass.getDeclaredConstructor(Player.class, GuiManager.class, LangManager.class);
-            return constructor.newInstance(player, this, langManager);
+            // 기본적으로 (GuiManager, LangManager, Player) 생성자를 찾습니다
+            var constructor = guiClass.getDeclaredConstructor(GuiManager.class, LangManager.class, Player.class);
+            return constructor.newInstance(this, langManager, player);
         } catch (Exception e) {
             // 다른 시그니처의 생성자가 필요한 경우 (예: ProfileGui)
             try {

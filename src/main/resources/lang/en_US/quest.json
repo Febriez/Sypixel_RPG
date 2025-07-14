@@ -17,69 +17,71 @@
       "survive": "Survive",
       "reach_level": "Reach Level"
     },
-    "kill_mob": "Kill %amount% %mob%",
-    "kill_mob": {
-      "custom": "Kill %amount% %mob%"
-    },
-    "collect_item": "Collect %amount% %item%",
-    "craft_item": "Craft %amount% %item%",
-    "interact_npc": "Visit %npc%",
-    "interact_npc": {
-      "profession": "Visit %npc% the %profession%"
-    },
-    "visit_location": "Visit %location%",
-    "break_block": "Break %amount% %block%",
-    "place_block": "Place %amount% %block%",
-    "deliver_item": "Deliver %items% to %npc%",
-    "pay_currency": "Use %amount%",
-    "pay_currency": {
-      "to_npc": "Pay %amount% to %npc%"
-    },
-    "kill_player": "Kill %amount% players",
-    "kill_player": {
-      "specific": "Kill %target% %amount% times",
-      "world": "(in %world% world)"
-    },
-    "fishing": {
-      "type": {
-        "any": "Any",
-        "fish": "Fish",
-        "treasure": "Treasure",
-        "junk": "Junk",
-        "specific": "Specific Item"
+    "descriptions": {
+      "kill_mob": {
+        "default": "Kill %amount% %mob%",
+        "custom": "Kill %amount% %mob%"
       },
-      "any": "Fish %amount% times",
-      "fish": "Catch %amount% fish",
-      "treasure": "Catch %amount% treasures",
-      "junk": "Catch %amount% junk items",
-      "specific": "Catch %amount% %item%"
-    },
-    "harvest": "Harvest %amount% %crop%",
-    "explore": {
-      "single": "Explore %location%",
-      "multiple": "Explore %amount% locations"
-    },
-    "survive": {
-      "type": {
-        "time": "Time Survival",
-        "location": "Location Survival",
-        "wave": "Wave Survival",
-        "no_death": "No Death Survival"
+      "collect_item": "Collect %amount% %item%",
+      "craft_item": "Craft %amount% %item%",
+      "interact_npc": {
+        "default": "Visit %npc%",
+        "profession": "Visit %npc% the %profession%"
       },
-      "time": "Survive for %seconds% seconds",
-      "location": "Survive in the area for %seconds% seconds",
-      "wave": "Survive %waves% waves",
-      "no_death": "Survive without dying for %seconds% seconds"
-    },
-    "level": {
-      "type": {
-        "player": "Player Level",
-        "rpg": "RPG Level",
-        "skill": "Skill Level",
-        "job": "Job Level"
-      }
-    },
-    "reach_level": "Reach %level_type% %level%"
+      "visit_location": "Visit %location%",
+      "break_block": "Break %amount% %block%",
+      "place_block": "Place %amount% %block%",
+      "deliver_item": "Deliver %items% to %npc%",
+      "pay_currency": {
+        "default": "Use %amount%",
+        "to_npc": "Pay %amount% to %npc%"
+      },
+      "kill_player": {
+        "default": "Kill %amount% players",
+        "specific": "Kill %target% %amount% times",
+        "world": "(in %world% world)"
+      },
+      "fishing": {
+        "type": {
+          "any": "Any",
+          "fish": "Fish",
+          "treasure": "Treasure",
+          "junk": "Junk",
+          "specific": "Specific Item"
+        },
+        "any": "Fish %amount% times",
+        "fish": "Catch %amount% fish",
+        "treasure": "Catch %amount% treasures",
+        "junk": "Catch %amount% junk items",
+        "specific": "Catch %amount% %item%"
+      },
+      "harvest": "Harvest %amount% %crop%",
+      "explore": {
+        "single": "Explore %location%",
+        "multiple": "Explore %amount% locations"
+      },
+      "survive": {
+        "type": {
+          "time": "Time Survival",
+          "location": "Location Survival",
+          "wave": "Wave Survival",
+          "no_death": "No Death Survival"
+        },
+        "time": "Survive for %seconds% seconds",
+        "location": "Survive in the area for %seconds% seconds",
+        "wave": "Survive %waves% waves",
+        "no_death": "Survive without dying for %seconds% seconds"
+      },
+      "level": {
+        "type": {
+          "player": "Player Level",
+          "rpg": "RPG Level",
+          "skill": "Skill Level",
+          "job": "Job Level"
+        }
+      },
+      "reach_level": "Reach %level_type% %level%"
+    }
   },
   "state": {
     "not_started": "Not Started",
@@ -171,58 +173,34 @@
         "",
         "%COLOR_RED%⚠ If you choose this quest,",
         "%COLOR_RED%Path of Darkness cannot be selected!"
-      ],
-      "reward": {
-        "description": [
-          "%COLOR_YELLOW%✦ Blessing of Light Rewards:",
-          "%COLOR_GRAY%• Angel Wings (Elytra)",
-          "%COLOR_GRAY%• Totem of Undying",
-          "%COLOR_GRAY%• Beacon",
-          "%COLOR_GRAY%• 1,000 Gold",
-          "%COLOR_GRAY%• 20 Diamonds"
-        ]
-      }
+      ]
     },
     "path_of_darkness": {
       "name": "%COLOR_DARK_PURPLE%✦ Path of Darkness",
       "description": [
         "%COLOR_GRAY%Walk the path of power and domination.",
-        "%COLOR_GRAY%Destroy and conquer everything.",
+        "%COLOR_GRAY%Embrace the power of darkness.",
         "",
         "%COLOR_RED%⚠ If you choose this quest,",
         "%COLOR_RED%Path of Light cannot be selected!"
-      ],
-      "reward": {
-        "description": [
-          "%COLOR_DARK_PURPLE%✦ Power of Darkness Rewards:",
-          "%COLOR_GRAY%• Netherite Sword",
-          "%COLOR_GRAY%• 3 Wither Skeleton Skulls",
-          "%COLOR_GRAY%• 5 Enchanted Golden Apples",
-          "%COLOR_GRAY%• 1,500 Gold",
-          "%COLOR_GRAY%• 50 Stardust"
-        ]
-      }
+      ]
     }
   },
   "side": {
-    "farmers_request": {
-      "name": "%COLOR_YELLOW%Farmer's Request",
+    "collect_herbs": {
+      "name": "%COLOR_GREEN%Herb Collection",
       "description": [
-        "%COLOR_GRAY%The farmer asked for help with the harvest.",
-        "%COLOR_GRAY%Harvest and deliver the crops.",
-        "",
-        "%COLOR_YELLOW%Bountiful rewards await!"
+        "%COLOR_GRAY%The alchemist needs herbs.",
+        "%COLOR_GRAY%Please collect herbs from the forest."
       ]
     }
   },
   "daily": {
-    "mining": {
-      "name": "%COLOR_AQUA%[Daily] Miner's Work",
+    "daily_hunting": {
+      "name": "%COLOR_YELLOW%Daily Hunting",
       "description": [
-        "%COLOR_GRAY%Achieve today's mining goals!",
-        "%COLOR_GRAY%Resets daily at midnight.",
-        "",
-        "%COLOR_YELLOW%Earn rewards for your hard work."
+        "%COLOR_GRAY%Complete today's hunting objectives.",
+        "%COLOR_GRAY%Resets daily at midnight."
       ]
     }
   }

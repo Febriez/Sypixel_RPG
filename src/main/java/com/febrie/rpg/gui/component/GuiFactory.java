@@ -13,22 +13,19 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Consumer;
 
 /**
- * Factory class for creating common GUI components with full internationalization support
- * All methods require LangManager and Player for proper language support
- * <p>
- * Updated: Removed all legacy methods, only LangManager-based methods remain
- * Updated: 새로고침 기능 완전 제거
+ * GUI 컴포넌트 팩토리 - 올바르게 수정된 버전
+ * 자주 사용되는 GUI 아이템 생성을 위한 유틸리티 클래스
  *
  * @author Febrie, CoffeeTory
  */
-public final class GuiFactory {
+public class GuiFactory {
 
     private GuiFactory() {
-        throw new UnsupportedOperationException("Utility class");
+        throw new UnsupportedOperationException("유틸리티 클래스는 인스턴스화할 수 없습니다.");
     }
 
     /**
-     * Creates a close button item
+     * 닫기 버튼 생성
      */
     public static GuiItem createCloseButton(@NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
@@ -41,7 +38,7 @@ public final class GuiFactory {
     }
 
     /**
-     * Creates a back button item with GuiManager integration
+     * 뒤로가기 버튼 생성 (GuiManager 사용)
      */
     public static GuiItem createBackButton(@NotNull GuiManager guiManager, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
@@ -54,7 +51,7 @@ public final class GuiFactory {
     }
 
     /**
-     * Creates a back button item with custom action
+     * 커스텀 액션이 있는 뒤로가기 버튼 생성
      */
     public static GuiItem createBackButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
@@ -67,14 +64,14 @@ public final class GuiFactory {
     }
 
     /**
-     * Creates a decorative item
+     * 장식용 아이템 생성
      */
     public static GuiItem createDecoration() {
         return createDecoration(Material.BLACK_STAINED_GLASS_PANE);
     }
 
     /**
-     * Creates a decorative item with specific material
+     * 특정 재료로 장식용 아이템 생성
      */
     public static GuiItem createDecoration(@NotNull Material material) {
         return GuiItem.display(
@@ -85,7 +82,7 @@ public final class GuiFactory {
     }
 
     /**
-     * Creates a placeholder item
+     * 플레이스홀더 아이템 생성
      */
     public static GuiItem createPlaceholder(@NotNull String text, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.display(
@@ -96,44 +93,60 @@ public final class GuiFactory {
     }
 
     /**
-     * Creates an error item
+     * 에러 아이템 생성
      */
-    public static GuiItem createError(@NotNull String errorKey, @NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createErrorItem(@NotNull String message, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.display(
+                new ItemBuilder(Material.BARRIER)
+                        .displayName(Component.text("오류", NamedTextColor.RED))
+                        .addLore(langManager.getComponent(player, message))
+                        .build()
+        );
+    }
+
+    /**
+     * 정보 아이템 생성
+     */
+    public static GuiItem createInfoItem(@NotNull String title, @NotNull String lore, @NotNull LangManager langManager, @NotNull Player player) {
+        return GuiItem.display(
+                new ItemBuilder(Material.BOOK)
+                        .displayName(langManager.getComponent(player, title))
+                        .addLore(langManager.getComponent(player, lore))
+                        .build()
+        );
+    }
+
+    /**
+     * 확인 버튼 생성
+     */
+    public static GuiItem createConfirmButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
+        return GuiItem.clickable(
+                new ItemBuilder(Material.LIME_STAINED_GLASS_PANE)
+                        .displayName(langManager.getComponent(player, "gui.buttons.confirm.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.confirm.lore"))
+                        .build(),
+                action
+        );
+    }
+
+    /**
+     * 취소 버튼 생성
+     */
+    public static GuiItem createCancelButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
+        return GuiItem.clickable(
                 new ItemBuilder(Material.RED_STAINED_GLASS_PANE)
-                        .displayName(langManager.getComponent(player, errorKey).color(NamedTextColor.RED))
-                        .build()
+                        .displayName(langManager.getComponent(player, "gui.buttons.cancel.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.cancel.lore"))
+                        .build(),
+                action
         );
     }
 
     /**
-     * Creates a loading item
+     * 토글 버튼 생성
      */
-    public static GuiItem createLoading(@NotNull LangManager langManager, @NotNull Player player) {
-        return GuiItem.display(
-                new ItemBuilder(Material.CLOCK)
-                        .displayName(langManager.getComponent(player, "gui.buttons.loading.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.loading.lore"))
-                        .build()
-        );
-    }
-
-    /**
-     * Creates an info item
-     */
-    public static GuiItem createInfo(@NotNull String titleKey, @NotNull String descKey, @NotNull LangManager langManager, @NotNull Player player) {
-        return GuiItem.display(
-                new ItemBuilder(Material.PAPER)
-                        .displayName(langManager.getComponent(player, titleKey))
-                        .addLore(langManager.getComponent(player, descKey))
-                        .build()
-        );
-    }
-
-    /**
-     * Creates a toggle button
-     */
-    public static GuiItem createToggle(boolean state, @NotNull String nameKey, @NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createToggleButton(boolean state, @NotNull String nameKey, @NotNull Consumer<Player> action,
+                                             @NotNull LangManager langManager, @NotNull Player player) {
         Material material = state ? Material.LIME_DYE : Material.GRAY_DYE;
         String statusKey = state ? "gui.buttons.toggle.enabled" : "gui.buttons.toggle.disabled";
 
@@ -147,7 +160,7 @@ public final class GuiFactory {
     }
 
     /**
-     * Creates a previous page button
+     * 이전 페이지 버튼 생성
      */
     public static GuiItem createPreviousPageButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
@@ -160,7 +173,7 @@ public final class GuiFactory {
     }
 
     /**
-     * Creates a next page button
+     * 다음 페이지 버튼 생성
      */
     public static GuiItem createNextPageButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.clickable(
@@ -173,7 +186,7 @@ public final class GuiFactory {
     }
 
     /**
-     * Creates a page info display item
+     * 페이지 정보 표시 아이템 생성
      */
     public static GuiItem createPageInfo(int currentPage, int totalPages, @NotNull LangManager langManager, @NotNull Player player) {
         return GuiItem.display(
@@ -187,7 +200,7 @@ public final class GuiFactory {
     }
 
     /**
-     * Creates a status indicator item
+     * 상태 표시 아이템 생성
      */
     public static GuiItem createStatusIndicator(@NotNull String status, boolean isOnline, @NotNull LangManager langManager, @NotNull Player player) {
         Material material = isOnline ? Material.LIME_DYE : Material.RED_DYE;
@@ -196,34 +209,8 @@ public final class GuiFactory {
         return GuiItem.display(
                 new ItemBuilder(material)
                         .displayName(Component.text(status, isOnline ? ColorUtil.SUCCESS : ColorUtil.ERROR))
-                        .addLore(langManager.getComponent(player, "gui.buttons.status.status-text", "status", statusComponent.toString()))
+                        .addLore(statusComponent)
                         .build()
-        );
-    }
-
-    /**
-     * Creates a confirmation button
-     */
-    public static GuiItem createConfirmButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
-        return GuiItem.clickable(
-                new ItemBuilder(Material.LIME_WOOL)
-                        .displayName(langManager.getComponent(player, "gui.buttons.confirm.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.confirm.lore"))
-                        .build(),
-                action
-        );
-    }
-
-    /**
-     * Creates a cancel button
-     */
-    public static GuiItem createCancelButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
-        return GuiItem.clickable(
-                new ItemBuilder(Material.RED_WOOL)
-                        .displayName(langManager.getComponent(player, "gui.buttons.cancel.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.cancel.lore"))
-                        .build(),
-                action
         );
     }
 }

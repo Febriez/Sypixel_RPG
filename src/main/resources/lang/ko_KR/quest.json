@@ -17,76 +17,78 @@
       "survive": "생존",
       "reach_level": "레벨 달성"
     },
-    "kill_mob": "%mob% %amount%마리 처치",
-    "kill_mob": {
-      "custom": "%mob% %amount%마리 처치"
-    },
-    "collect_item": "%item% %amount%개 수집",
-    "craft_item": "%item% %amount%개 제작",
-    "interact_npc": "%npc% 방문",
-    "interact_npc": {
-      "profession": "%profession% %npc% 방문"
-    },
-    "visit_location": "%location% 방문",
-    "break_block": "%block% %amount%개 파괴",
-    "place_block": "%block% %amount%개 설치",
-    "deliver_item": "%npc%에게 %items% 전달",
-    "pay_currency": "%amount% 사용",
-    "pay_currency": {
-      "to_npc": "%npc%에게 %amount% 지불"
-    },
-    "kill_player": "플레이어 %amount%명 처치",
-    "kill_player": {
-      "specific": "%target% %amount%명 처치",
-      "world": "(%world% 월드)"
-    },
-    "fishing": {
-      "type": {
-        "any": "아무거나",
-        "fish": "물고기",
-        "treasure": "보물",
-        "junk": "쓰레기",
-        "specific": "특정 아이템"
+    "descriptions": {
+      "kill_mob": {
+        "default": "%mob% %amount%마리 처치",
+        "custom": "%mob% %amount%마리 처치"
       },
-      "any": "낚시 %amount%회",
-      "fish": "물고기 %amount%마리 낚기",
-      "treasure": "보물 %amount%개 낚기",
-      "junk": "쓰레기 %amount%개 낚기",
-      "specific": "%item% %amount%개 낚기"
-    },
-    "harvest": "%crop% %amount%개 수확",
-    "explore": {
-      "single": "%location% 탐험",
-      "multiple": "%amount%개 지역 탐험"
-    },
-    "survive": {
-      "type": {
-        "time": "시간 생존",
-        "location": "지역 생존",
-        "wave": "웨이브 생존",
-        "no_death": "무사고 생존"
+      "collect_item": "%item% %amount%개 수집",
+      "craft_item": "%item% %amount%개 제작",
+      "interact_npc": {
+        "default": "%npc% 방문",
+        "profession": "%profession% %npc% 방문"
       },
-      "time": "%seconds%초 동안 생존",
-      "location": "지정 구역에서 %seconds%초 동안 생존",
-      "wave": "%waves% 웨이브 생존",
-      "no_death": "%seconds%초 동안 죽지 않고 생존"
-    },
-    "level": {
-      "type": {
-        "player": "플레이어 레벨",
-        "rpg": "RPG 레벨",
-        "skill": "스킬 레벨",
-        "job": "직업 레벨"
-      }
-    },
-    "reach_level": "%level_type% %level% 달성"
+      "visit_location": "%location% 방문",
+      "break_block": "%block% %amount%개 파괴",
+      "place_block": "%block% %amount%개 설치",
+      "deliver_item": "%npc%에게 %items% 전달",
+      "pay_currency": {
+        "default": "%amount% 사용",
+        "to_npc": "%npc%에게 %amount% 지불"
+      },
+      "kill_player": {
+        "default": "플레이어 %amount%명 처치",
+        "specific": "%target% %amount%명 처치",
+        "world": "(%world% 월드)"
+      },
+      "fishing": {
+        "type": {
+          "any": "아무거나",
+          "fish": "물고기",
+          "treasure": "보물",
+          "junk": "쓰레기",
+          "specific": "특정 아이템"
+        },
+        "any": "낚시 %amount%회",
+        "fish": "물고기 %amount%마리 낚기",
+        "treasure": "보물 %amount%개 낚기",
+        "junk": "쓰레기 %amount%개 낚기",
+        "specific": "%item% %amount%개 낚기"
+      },
+      "harvest": "%crop% %amount%개 수확",
+      "explore": {
+        "single": "%location% 탐험",
+        "multiple": "%amount%개 지역 탐험"
+      },
+      "survive": {
+        "type": {
+          "time": "시간 생존",
+          "location": "지역 생존",
+          "wave": "웨이브 생존",
+          "no_death": "무사고 생존"
+        },
+        "time": "%seconds%초 동안 생존",
+        "location": "지정 구역에서 %seconds%초 동안 생존",
+        "wave": "%waves% 웨이브 생존",
+        "no_death": "%seconds%초 동안 죽지 않고 생존"
+      },
+      "level": {
+        "type": {
+          "player": "플레이어 레벨",
+          "rpg": "RPG 레벨",
+          "skill": "스킬 레벨",
+          "job": "직업 레벨"
+        }
+      },
+      "reach_level": "%level_type% %level%"
+    }
   },
   "state": {
     "not_started": "시작 전",
-    "active": "진행 중",
-    "completed": "완료",
+    "active": "진행중",
+    "completed": "완료됨",
     "failed": "실패",
-    "abandoned": "포기"
+    "abandoned": "포기됨"
   },
   "category": {
     "main": "메인",
@@ -97,12 +99,19 @@
     "tutorial": "튜토리얼",
     "normal": "일반"
   },
+  "difficulty": {
+    "easy": "%COLOR_SUCCESS%쉬움",
+    "normal": "%COLOR_YELLOW%보통",
+    "hard": "%COLOR_ERROR%어려움",
+    "heroic": "%COLOR_EPIC%영웅",
+    "legendary": "%COLOR_LEGENDARY%전설"
+  },
   "reward": {
     "type": {
       "item": "아이템",
       "experience": "경험치",
       "currency": "재화",
-      "mixed": "복합",
+      "mixed": "혼합",
       "special": "특별"
     },
     "basic": {
@@ -120,7 +129,7 @@
     "header": "%COLOR_GOLD%선행 퀘스트:"
   },
   "exclusive": {
-    "warning": "%COLOR_RED%⚠ 경고: 다음 퀘스트와 양자택일입니다:"
+    "warning": "%COLOR_RED%⚠ 주의: 둘 중 하나만 선택 가능:"
   },
   "tutorial": {
     "first_steps": {
@@ -137,7 +146,7 @@
     "basic_combat": {
       "name": "%COLOR_GREEN%기초 전투",
       "description": [
-        "%COLOR_GRAY%몬스터와 싸우는 법을 배워봅시다.",
+        "%COLOR_GRAY%몬스터와 싸우는 방법을 배웁니다.",
         "%COLOR_GRAY%조심하세요, 몬스터는 위험합니다!",
         "",
         "%COLOR_YELLOW%목표:",
@@ -153,69 +162,45 @@
         "%COLOR_GRAY%진정한 영웅이 되기 위한 첫 걸음입니다.",
         "%COLOR_GRAY%다양한 도전을 통해 실력을 증명하세요!",
         "",
-        "%COLOR_YELLOW%다양한 목표가 준비되어 있습니다."
+        "%COLOR_YELLOW%다양한 목표가 당신을 기다립니다."
       ]
     },
     "path_of_light": {
       "name": "%COLOR_YELLOW%✦ 빛의 길",
       "description": [
-        "%COLOR_GRAY%정의와 선의 길을 걷습니다.",
+        "%COLOR_GRAY%정의와 선함의 길을 걷습니다.",
         "%COLOR_GRAY%어둠을 정화하고 사람들을 도우세요.",
         "",
         "%COLOR_RED%⚠ 이 퀘스트를 선택하면",
-        "%COLOR_RED%어둠의 길은 선택할 수 없습니다!"
-      ],
-      "reward": {
-        "description": [
-          "%COLOR_YELLOW%✦ 빛의 축복 보상:",
-          "%COLOR_GRAY%• 천사의 날개 (엘리트라)",
-          "%COLOR_GRAY%• 불사의 토템",
-          "%COLOR_GRAY%• 신호기",
-          "%COLOR_GRAY%• 골드 1,000",
-          "%COLOR_GRAY%• 다이아몬드 20개"
-        ]
-      }
+        "%COLOR_RED%어둠의 길을 선택할 수 없습니다!"
+      ]
     },
     "path_of_darkness": {
       "name": "%COLOR_DARK_PURPLE%✦ 어둠의 길",
       "description": [
         "%COLOR_GRAY%힘과 지배의 길을 걷습니다.",
-        "%COLOR_GRAY%모든 것을 파괴하고 정복하세요.",
+        "%COLOR_GRAY%어둠의 힘을 받아들이세요.",
         "",
         "%COLOR_RED%⚠ 이 퀘스트를 선택하면",
-        "%COLOR_RED%빛의 길은 선택할 수 없습니다!"
-      ],
-      "reward": {
-        "description": [
-          "%COLOR_DARK_PURPLE%✦ 어둠의 권능 보상:",
-          "%COLOR_GRAY%• 네더라이트 검",
-          "%COLOR_GRAY%• 위더 스켈레톤 머리 3개",
-          "%COLOR_GRAY%• 인챈트된 황금사과 5개",
-          "%COLOR_GRAY%• 골드 1,500",
-          "%COLOR_GRAY%• 별가루 50개"
-        ]
-      }
+        "%COLOR_RED%빛의 길을 선택할 수 없습니다!"
+      ]
     }
   },
   "side": {
-    "farmers_request": {
-      "name": "%COLOR_YELLOW%농부의 부탁",
+    "collect_herbs": {
+      "name": "%COLOR_GREEN%약초 수집",
       "description": [
-        "%COLOR_GRAY%농부가 수확을 도와달라고 부탁했습니다.",
-        "%COLOR_GRAY%농작물을 수확하여 전달해주세요.",
-        "",
-        "%COLOR_YELLOW%풍성한 보상이 기다립니다!"
+        "%COLOR_GRAY%연금술사가 약초를 필요로 합니다.",
+        "%COLOR_GRAY%숲에서 약초를 수집해 주세요."
       ]
     }
   },
   "daily": {
-    "mining": {
-      "name": "%COLOR_AQUA%[일일] 광부의 일과",
+    "daily_hunting": {
+      "name": "%COLOR_YELLOW%일일 사냥",
       "description": [
-        "%COLOR_GRAY%오늘의 채광 목표를 달성하세요!",
-        "%COLOR_GRAY%매일 자정에 리셋됩니다.",
-        "",
-        "%COLOR_YELLOW%열심히 일한 만큼 보상을 받으세요."
+        "%COLOR_GRAY%오늘의 사냥 목표를 달성하세요.",
+        "%COLOR_GRAY%매일 자정에 초기화됩니다."
       ]
     }
   }
