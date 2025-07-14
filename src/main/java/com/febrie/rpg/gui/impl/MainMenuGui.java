@@ -59,7 +59,7 @@ public class MainMenuGui extends BaseGui {
         setupMenuButtons();
         // 메인 메뉴에는 새로고침 버튼 없이, 닫기 버튼만 표시
         // BaseGui가 자동으로 빈 위치에 장식을 배치함
-        setupStandardNavigation(false, true);
+        setupStandardNavigation(true);
     }
 
     /**

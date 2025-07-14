@@ -246,7 +246,7 @@ public class StatsGui extends ScrollableGui {
                             .displayName(trans("gui.buttons.back.name"))
                             .addLore(trans("gui.buttons.back.lore"))
                             .build(),
-                    player -> guiManager.goBack(player)));
+                    guiManager::goBack));
         }
 
         // 새로고침 버튼

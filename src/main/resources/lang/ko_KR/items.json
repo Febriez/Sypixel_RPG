@@ -33,9 +33,9 @@
       ]
     },
     "leaderboard-button": {
-      "name": "%COLOR_GOLD%서버 순위",
+      "name": "%COLOR_GOLD%서버 랭킹",
       "lore": [
-        "%COLOR_GRAY%다양한 카테고리의 순위를 확인합니다.",
+        "%COLOR_GRAY%다양한 부문의 순위를 확인합니다.",
         "",
         "%COLOR_YELLOW%▶ 클릭하여 열기"
       ]
@@ -51,7 +51,7 @@
     "shop-button": {
       "name": "%COLOR_EMERALD%상점",
       "lore": [
-        "%COLOR_GRAY%아이템을 구매하고 판매합니다.",
+        "%COLOR_GRAY%아이템을 사고 팝니다.",
         "",
         "%COLOR_YELLOW%▶ 클릭하여 열기"
       ]
@@ -59,7 +59,7 @@
     "dungeon-button": {
       "name": "%COLOR_DARK_PURPLE%던전",
       "lore": [
-        "%COLOR_GRAY%던전에 도전하여 보상을 획득합니다.",
+        "%COLOR_GRAY%던전에 도전하여 보상을 획득하세요.",
         "",
         "%COLOR_YELLOW%▶ 클릭하여 열기"
       ]
@@ -67,16 +67,55 @@
     "job-button": {
       "name": "%COLOR_LEGENDARY%직업 선택",
       "lore": [
-        "%COLOR_GRAY%모험을 시작할 직업을 선택합니다.",
+        "%COLOR_GRAY%모험을 시작할 직업을 선택하세요.",
         "",
         "%COLOR_WARNING%⚠ 신중하게 선택하세요!",
         "%COLOR_YELLOW%▶ 클릭하여 열기"
       ]
     },
     "settings-button": {
-      "name": "%COLOR_GRAY%설정",
+      "name": "%COLOR_GRAY%전체 설정",
       "lore": [
-        "%COLOR_GRAY%게임 설정을 변경합니다.",
+        "%COLOR_GRAY%게임 전체 설정을 변경합니다.",
+        "",
+        "%COLOR_YELLOW%▶ 클릭하여 열기"
+      ]
+    }
+  },
+  "profile": {
+    "job-select": {
+      "name": "%COLOR_LEGENDARY%직업 선택",
+      "lore": [
+        "%COLOR_GRAY%직업을 선택하여 모험을 시작하세요!",
+        "",
+        "%COLOR_WARNING%⚠ 직업은 한 번 선택하면 변경할 수 없습니다!",
+        "%COLOR_YELLOW%▶ 클릭하여 선택"
+      ]
+    },
+    "stats-info": {
+      "name": "%COLOR_INFO%스탯 정보",
+      "lore": [
+        "%COLOR_GRAY%캐릭터의 능력치 정보입니다."
+      ]
+    },
+    "collection": {
+      "name": "%COLOR_GOLD%수집북",
+      "lore": [
+        "%COLOR_GRAY%수집한 아이템들을 확인합니다.",
+        "%COLOR_GRAY%도감을 완성해보세요!"
+      ]
+    },
+    "pet": {
+      "name": "%COLOR_EPIC%애완동물",
+      "lore": [
+        "%COLOR_GRAY%동행할 펫을 관리합니다.",
+        "%COLOR_GRAY%펫과 함께 모험을 떠나세요!"
+      ]
+    },
+    "user-settings": {
+      "name": "%COLOR_GRAY%사용자 설정",
+      "lore": [
+        "%COLOR_GRAY%개인 설정을 변경합니다.",
         "",
         "%COLOR_YELLOW%▶ 클릭하여 열기"
       ]

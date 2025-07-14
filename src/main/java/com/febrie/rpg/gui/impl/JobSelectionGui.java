@@ -193,7 +193,7 @@ public class JobSelectionGui extends BaseGui {
      */
     private void setupNavigationButtons() {
         // 표준 네비게이션 설정 사용
-        setupStandardNavigation(false, true); // refresh 버튼 없음, close 버튼 있음
+        setupStandardNavigation(true); // refresh 버튼 없음, close 버튼 있음
     }
 
     /**

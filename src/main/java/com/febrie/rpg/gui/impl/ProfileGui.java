@@ -1,10 +1,12 @@
 package com.febrie.rpg.gui.impl;
 
 import com.febrie.rpg.RPGMain;
+import com.febrie.rpg.economy.Wallet;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.manager.GuiManager;
+import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
@@ -84,25 +86,16 @@ public class ProfileGui extends BaseGui {
      * Sets up decorative elements and borders
      */
     private void setupDecorations() {
-        // 상단 테두리 (타이틀 슬롯 제외)
+        // 상단 테두리 (4번 슬롯 제외 - 플레이어 머리가 들어갈 자리)
         for (int i = 0; i < 9; i++) {
             if (i != TITLE_SLOT) {
                 setItem(i, GuiFactory.createDecoration());
             }
         }
 
-        // 타이틀 아이템 - 플레이어 이름 플레이스홀더 추가
-        setItem(TITLE_SLOT, GuiItem.display(
-                ItemBuilder.of(Material.NAME_TAG)
-                        .displayName(trans("gui.profile.title", "player", targetPlayer.getName())
-                                .decoration(TextDecoration.BOLD, true))
-                        .addLore(trans("gui.profile.viewing", "player", targetPlayer.getName()))
-                        .build()
-        ));
-
         // 중간 구분선
         for (int i = 27; i < 36; i++) {
-            if (i != JOB_SLOT) {
+            if (i != JOB_INFO_SLOT) {
                 setItem(i, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
             }
         }
@@ -112,6 +105,60 @@ public class ProfileGui extends BaseGui {
             setItem(row * 9, GuiFactory.createDecoration());
             setItem(row * 9 + 8, GuiFactory.createDecoration());
         }
+
+        // 13번 슬롯(원래 플레이어 머리 위치)에 장식 추가
+        setItem(PLAYER_HEAD_SLOT, GuiFactory.createDecoration());
+    }
+
+    /**
+     * 플레이어 재화 정보를 ItemBuilder의 lore에 추가
+     *
+     * @param builder ItemBuilder 인스턴스
+     * @param rpgPlayer 대상 플레이어
+     */
+    private void addWalletInfoToLore(@NotNull ItemBuilder builder, @NotNull com.febrie.rpg.player.RPGPlayer rpgPlayer) {
+        builder.addLore(trans("gui.profile.currency-info"));
+
+        Wallet wallet = rpgPlayer.getWallet();
+
+    }
+
+    /**
+     * 개별 스탯 라인 생성
+     *
+     * @param stat 스탯 타입
+     * @param stats 스탯 홀더
+     * @return 포맷된 스탯 라인 컴포넌트
+     */
+    private Component createStatLine(@NotNull Stat stat, @NotNull Stat.StatHolder stats) {
+        int baseStat = stats.getBaseStat(stat);
+        int bonusStat = stats.getBonusStat(stat);
+        int totalStat = stats.getTotalStat(stat);
+
+        // 스탯 이름과 값 표시
+        Component statLine = trans("stat." + stat.getId().toLowerCase() + ".name")
+                .append(Component.text(": ", ColorUtil.WHITE))
+                .append(Component.text(totalStat, ColorUtil.YELLOW));
+
+        // 보너스가 있으면 표시
+        if (bonusStat > 0) {
+            statLine = statLine
+                    .append(Component.text(" (", ColorUtil.GRAY))
+                    .append(Component.text(baseStat, ColorUtil.WHITE))
+                    .append(Component.text(" +", ColorUtil.SUCCESS))
+                    .append(Component.text(bonusStat, ColorUtil.SUCCESS))
+                    .append(Component.text(")", ColorUtil.GRAY));
+        } else if (bonusStat < 0) {
+            // 음수 보너스 처리
+            statLine = statLine
+                    .append(Component.text(" (", ColorUtil.GRAY))
+                    .append(Component.text(baseStat, ColorUtil.WHITE))
+                    .append(Component.text(" ", ColorUtil.ERROR))
+                    .append(Component.text(bonusStat, ColorUtil.ERROR))
+                    .append(Component.text(")", ColorUtil.GRAY));
+        }
+
+        return statLine;
     }
 
     /**
@@ -204,7 +251,7 @@ public class ProfileGui extends BaseGui {
         setupTalentsButton(rpgPlayer);
 
         // Navigation buttons - true, true = include refresh button and close button
-        setupStandardNavigation(true, true);
+        setupStandardNavigation(true);
     }
 
     /**

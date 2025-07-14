@@ -34,6 +34,9 @@
     "world": "%COLOR_WHITE%월드: %COLOR_GRAY%{world}",
     "hunger": "%COLOR_WHITE%배고픔: %COLOR_ORANGE%{current}/{max}",
     "flight": "%COLOR_WHITE%비행: {status}",
+    "currency-info": "%COLOR_YELLOW%▸ 재화 정보",
+    "click-for-talents": "%COLOR_YELLOW%▶ 클릭하여 특성 관리",
+    "click-for-stats": "%COLOR_YELLOW%▶ 클릭하여 스탯 관리",
     "player-info": {
       "name": "%COLOR_LEGENDARY%{player}"
     }

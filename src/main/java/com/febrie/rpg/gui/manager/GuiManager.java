@@ -11,6 +11,7 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 import java.util.UUID;
@@ -242,5 +243,16 @@ public class GuiManager {
     public void openLeaderboardGui(@NotNull Player player) {
         LeaderboardGui leaderboardGui = new LeaderboardGui(this, langManager, player);
         openGui(player, leaderboardGui);
+    }
+
+    /**
+     * 현재 활성화된 모든 GUI 가져오기
+     * 복사본을 반환하여 외부에서 직접 수정하지 못하도록 함
+     *
+     * @return 활성 GUI 맵의 복사본
+     */
+    @NotNull
+    public Map<UUID, GuiFramework> getActiveGuis() {
+        return new HashMap<>(activeGuis);
     }
 }

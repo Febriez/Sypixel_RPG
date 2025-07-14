@@ -34,6 +34,9 @@
     "world": "%COLOR_WHITE%World: %COLOR_GRAY%{world}",
     "hunger": "%COLOR_WHITE%Hunger: %COLOR_ORANGE%{current}/{max}",
     "flight": "%COLOR_WHITE%Flight: {status}",
+    "currency-info": "%COLOR_YELLOW%▸ Currency Info",
+    "click-for-talents": "%COLOR_YELLOW%▶ Click to manage talents",
+    "click-for-stats": "%COLOR_YELLOW%▶ Click to manage stats",
     "player-info": {
       "name": "%COLOR_LEGENDARY%{player}"
     }

@@ -74,9 +74,48 @@
       ]
     },
     "settings-button": {
-      "name": "%COLOR_GRAY%Settings",
+      "name": "%COLOR_GRAY%Global Settings",
       "lore": [
-        "%COLOR_GRAY%Change game settings.",
+        "%COLOR_GRAY%Change global game settings.",
+        "",
+        "%COLOR_YELLOW%▶ Click to open"
+      ]
+    }
+  },
+  "profile": {
+    "job-select": {
+      "name": "%COLOR_LEGENDARY%Select Job",
+      "lore": [
+        "%COLOR_GRAY%Choose a job to start your adventure!",
+        "",
+        "%COLOR_WARNING%⚠ Jobs cannot be changed once selected!",
+        "%COLOR_YELLOW%▶ Click to select"
+      ]
+    },
+    "stats-info": {
+      "name": "%COLOR_INFO%Stats Information",
+      "lore": [
+        "%COLOR_GRAY%Your character's ability scores."
+      ]
+    },
+    "collection": {
+      "name": "%COLOR_GOLD%Collection Book",
+      "lore": [
+        "%COLOR_GRAY%View your collected items.",
+        "%COLOR_GRAY%Complete your collection!"
+      ]
+    },
+    "pet": {
+      "name": "%COLOR_EPIC%Pets",
+      "lore": [
+        "%COLOR_GRAY%Manage your companion pets.",
+        "%COLOR_GRAY%Adventure with your pets!"
+      ]
+    },
+    "user-settings": {
+      "name": "%COLOR_GRAY%User Settings",
+      "lore": [
+        "%COLOR_GRAY%Change personal settings.",
         "",
         "%COLOR_YELLOW%▶ Click to open"
       ]
