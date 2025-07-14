@@ -6,17 +6,14 @@ import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.stat.Stat;
-import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +29,7 @@ public class CombatPowerGui extends BaseGui {
     private static final int GUI_SIZE = 54; // 6줄 (통일성을 위해 변경)
     private final RPGPlayer rpgPlayer;
 
-    public CombatPowerGui(@Nullable GuiManager guiManager, @NotNull LangManager langManager,
+    public CombatPowerGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                           @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
         super(viewer, guiManager, langManager, GUI_SIZE, "gui.combat-power.title");
         this.rpgPlayer = rpgPlayer;
@@ -54,6 +51,11 @@ public class CombatPowerGui extends BaseGui {
         setupBackground();
         setupCombatPowerDisplay();
         setupNavigationButtons();
+    }
+
+    @Override
+    protected List<ClickType> getAllowedClickTypes() {
+        return List.of(ClickType.LEFT);
     }
 
     /**
@@ -79,11 +81,6 @@ public class CombatPowerGui extends BaseGui {
         }
     }
 
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
-
     /**
      * 전투력 상세 표시
      */
@@ -103,7 +100,7 @@ public class CombatPowerGui extends BaseGui {
                                 "value", String.valueOf(levelContribution)))
                         .build()
         );
-        setItem(20, levelItem); // 19 -> 20 (한 줄 아래로)
+        setItem(20, levelItem);
 
         // 스탯 기여도
         Stat.StatHolder stats = rpgPlayer.getStats();
@@ -119,7 +116,7 @@ public class CombatPowerGui extends BaseGui {
                 new StatInfo(Stat.LUCK, 2, Material.RABBIT_FOOT)
         };
 
-        int[] slots = {21, 22, 23, 30, 31, 32}; // 한 줄씩 아래로 이동
+        int[] slots = {21, 22, 23, 30, 31, 32};
 
         for (int i = 0; i < statInfos.length; i++) {
             StatInfo info = statInfos[i];
@@ -127,19 +124,15 @@ public class CombatPowerGui extends BaseGui {
             int contribution = statValue * info.multiplier;
             statContribution += contribution;
 
-            // LangManager를 통해 스탯 이름 가져오기
             String statName = transString("stat." + info.stat.getId() + ".name");
 
             GuiItem statItem = GuiItem.display(
-                    ItemBuilder.of(info.icon)
-                            .displayName(Component.text(statName, info.stat.getColor())
-                                    .decoration(TextDecoration.BOLD, true))
+                    ItemBuilder.of(info.material)
+                            .displayName(trans("gui.combat-power.stat-contribution", "stat", statName))
                             .addLore(trans("gui.combat-power.stat-detail",
-                                    "stat", statName,
                                     "value", String.valueOf(statValue),
                                     "multiplier", String.valueOf(info.multiplier),
                                     "total", String.valueOf(contribution)))
-                            .flags(ItemFlag.values())
                             .build()
             );
             setItem(slots[i], statItem);
@@ -147,45 +140,39 @@ public class CombatPowerGui extends BaseGui {
 
         totalCombatPower += statContribution;
 
-        // 총 스탯 기여도 표시
-        GuiItem statTotalItem = GuiItem.display(
-                ItemBuilder.of(Material.BOOK)
-                        .displayName(trans("gui.combat-power.stat-contribution"))
-                        .addLore(trans("gui.combat-power.total-stats", "value", String.valueOf(statContribution)))
+        // 총합 표시
+        GuiItem totalItem = GuiItem.display(
+                ItemBuilder.of(Material.NETHER_STAR)
+                        .displayName(trans("gui.combat-power.total", "power", String.valueOf(totalCombatPower)))
                         .addLore(Component.empty())
-                        .addLore(trans("gui.combat-power.stat-multipliers"))
+                        .addLore(trans("gui.combat-power.breakdown"))
+                        .addLore(trans("gui.combat-power.from-level", "value", String.valueOf(levelContribution)))
+                        .addLore(trans("gui.combat-power.from-stats", "value", String.valueOf(statContribution)))
+                        .glint(true)
                         .build()
         );
-        setItem(24, statTotalItem); // 25 -> 24
-
-        // 계산 공식 설명
-        GuiItem formulaItem = GuiItem.display(
-                ItemBuilder.of(Material.PAPER)
-                        .displayName(Component.text("계산 공식", ColorUtil.INFO)
-                                .decoration(TextDecoration.BOLD, true))
-                        .addLore(trans("gui.combat-power.calculation-formula"))
-                        .addLore(Component.empty())
-                        .addLore(Component.text("레벨 기여도: " + levelContribution, ColorUtil.GREEN))
-                        .addLore(Component.text("스탯 기여도: " + statContribution, ColorUtil.INFO))
-                        .addLore(Component.text("────────────", ColorUtil.DARK_GRAY))
-                        .addLore(Component.text("총 전투력: " + totalCombatPower, ColorUtil.LEGENDARY)
-                                .decoration(TextDecoration.BOLD, true))
-                        .build()
-        );
-        setItem(13, formulaItem);
+        setItem(40, totalItem);
     }
 
     /**
-     * 네비게이션 버튼 설정 - 위치 통일
+     * 네비게이션 버튼 설정
      */
     private void setupNavigationButtons() {
-        // 표준 네비게이션 설정 사용
-        setupStandardNavigation(true); // refresh 버튼 없음, close 버튼 있음
+        setupStandardNavigation(false, true);
     }
 
     /**
-     * 스탯 정보 클래스
+     * 스탯 정보 저장용 내부 클래스
      */
-    private record StatInfo(Stat stat, int multiplier, Material icon) {
+    private static class StatInfo {
+        final Stat stat;
+        final int multiplier;
+        final Material material;
+
+        StatInfo(Stat stat, int multiplier, Material material) {
+            this.stat = stat;
+            this.multiplier = multiplier;
+            this.material = material;
+        }
     }
 }

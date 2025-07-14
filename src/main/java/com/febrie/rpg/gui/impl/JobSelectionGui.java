@@ -50,6 +50,11 @@ public class JobSelectionGui extends BaseGui {
     }
 
     @Override
+    protected List<ClickType> getAllowedClickTypes() {
+        return List.of(ClickType.LEFT);
+    }
+
+    @Override
     protected void setupLayout() {
         setupBackground();
         setupCategoryTabs();
@@ -75,7 +80,7 @@ public class JobSelectionGui extends BaseGui {
 
         // 하단 테두리 - 네비게이션 버튼 위치 제외
         for (int i = 45; i < 54; i++) {
-            if (i != 45 && i != 53) {
+            if (i != 48 && i != 49) { // BACK_BUTTON_SLOT과 CLOSE_BUTTON_SLOT
                 setItem(i, GuiFactory.createDecoration());
             }
         }
@@ -98,46 +103,32 @@ public class JobSelectionGui extends BaseGui {
 
             GuiItem tabItem = GuiItem.clickable(
                     ItemBuilder.of(isSelected ? Material.ENCHANTED_BOOK : Material.BOOK)
-                            .displayName(trans("job.categories." + category.name().toLowerCase() + ".name")
-                                    .decoration(TextDecoration.BOLD, true))
-                            .addLore(trans(isSelected ? "gui.job-selection.selected" : "gui.job-selection.click-to-select"))
-                            .flags(ItemFlag.values())
+                            .displayName(trans("job.categories." + category.name().toLowerCase())
+                                    .color(category.getColor())
+                                    .decoration(TextDecoration.BOLD, isSelected))
+                            .addLore(Component.empty())
+                            .addLore(isSelected ?
+                                    trans("gui.job-selection.tab-selected") :
+                                    trans("gui.job-selection.tab-click"))
                             .glint(isSelected)
                             .build(),
-                    clickPlayer -> {
-                        selectedCategory = category;
-                        refresh();
-                        playClickSound(clickPlayer);
+                    player -> {
+                        if (!isSelected) {
+                            selectedCategory = category;
+                            playClickSound(player);
+                            refresh();
+                        }
                     }
             );
-
             setItem(tabSlot++, tabItem);
         }
-    }
-
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
     }
 
     /**
      * 직업 표시
      */
     private void setupJobDisplay() {
-        // 카테고리 정보 표시
-        GuiItem categoryInfo = GuiItem.display(
-                ItemBuilder.of(selectedCategory.getIcon())
-                        .displayName(trans("job.categories." + selectedCategory.name().toLowerCase() + ".name")
-                                .append(trans("gui.job-selection.category-suffix"))
-                                .decoration(TextDecoration.BOLD, true))
-                        .lore(langManager.getComponentList(viewer, "job.categories." +
-                                selectedCategory.name().toLowerCase() + ".description"))
-                        .flags(ItemFlag.values())
-                        .build()
-        );
-        setItem(13, categoryInfo);
-
-        // 해당 카테고리의 직업들 표시
+        // 선택된 카테고리의 직업들만 표시
         List<JobType> categoryJobs = new ArrayList<>();
         for (JobType job : JobType.values()) {
             if (job.getCategory() == selectedCategory) {
@@ -145,11 +136,20 @@ public class JobSelectionGui extends BaseGui {
             }
         }
 
-        // 직업 표시 위치: 29, 31, 33
-        int[] jobSlots = {29, 31, 33};
-        for (int i = 0; i < categoryJobs.size() && i < jobSlots.length; i++) {
+        // 직업들을 그리드로 배치
+        int[] slots = {
+                28, 29, 30, 31, 32, 33, 34,  // 4번째 줄
+                37, 38, 39, 40, 41, 42, 43   // 5번째 줄
+        };
+
+        for (int i = 0; i < categoryJobs.size() && i < slots.length; i++) {
             JobType job = categoryJobs.get(i);
-            setItem(jobSlots[i], createJobItem(job));
+            setItem(slots[i], createJobItem(job));
+        }
+
+        // 빈 슬롯은 장식 아이템으로 채우기
+        for (int i = categoryJobs.size(); i < slots.length; i++) {
+            setItem(slots[i], GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
         }
     }
 
@@ -184,16 +184,16 @@ public class JobSelectionGui extends BaseGui {
 
         return GuiItem.clickable(
                 builder.build(),
-                _ -> openConfirmationGui(job)
+                player -> openConfirmationGui(job)
         );
     }
 
     /**
-     * 네비게이션 버튼 설정 - 위치 통일
+     * 네비게이션 버튼 설정
      */
     private void setupNavigationButtons() {
         // 표준 네비게이션 설정 사용
-        setupStandardNavigation(true); // refresh 버튼 없음, close 버튼 있음
+        setupStandardNavigation(false, true); // refresh 버튼 없음, close 버튼 있음
     }
 
     /**

@@ -13,21 +13,18 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 향상된 언어 관리 시스템
- * Adventure API와 색상 플레이스홀더 완벽 지원
- * 분할된 언어 파일 지원
+ * 향상된 언어 관리 시스템 - 메모리 전용 버전
+ * JAR 내부 리소스에서 직접 읽어 메모리에만 저장
+ * 파일 시스템을 사용하지 않음
  *
  * @author Febrie, CoffeeTory
  */
@@ -53,6 +50,11 @@ public class LangManager {
             "general", "gui", "items", "job", "talent", "stat", "messages", "commands", "status", "currency"
     };
 
+    // 지원하는 언어 목록
+    private static final String[] SUPPORTED_LANGUAGES = {
+            "ko_KR", "en_US"
+    };
+
     public LangManager(@NotNull RPGMain plugin) {
         this.plugin = plugin;
         this.defaultLanguage = "ko_KR";
@@ -60,70 +62,51 @@ public class LangManager {
     }
 
     /**
-     * 언어 파일 로드
+     * 모든 언어 파일을 메모리로 로드
      */
     private void loadLanguages() {
-        File langDir = new File(plugin.getDataFolder(), "lang");
-        if (!langDir.exists()) {
-            langDir.mkdirs();
+        for (String langCode : SUPPORTED_LANGUAGES) {
+            loadLanguageFromResources(langCode);
         }
-
-        // 기본 언어 파일 복사 및 로드
-        loadLanguageFiles("ko_KR");
-        loadLanguageFiles("en_US");
 
         // 캐시 초기화
         initializeCache();
 
-        LogUtil.info("Language system initialized with " + languageConfigs.size() + " languages: " + languageConfigs.keySet());
+        LogUtil.info("Language system initialized with " + languageConfigs.size() + " languages in memory: " + languageConfigs.keySet());
     }
 
     /**
-     * 특정 언어의 모든 섹션 파일 로드
+     * 특정 언어를 리소스에서 메모리로 직접 로드
      */
-    private void loadLanguageFiles(@NotNull String langCode) {
+    private void loadLanguageFromResources(@NotNull String langCode) {
         JsonObject combinedLang = new JsonObject();
 
         for (String section : LANGUAGE_SECTIONS) {
-            String fileName = langCode + "/" + section + ".json";
-            File langFile = new File(plugin.getDataFolder(), "lang/" + fileName);
+            String resourcePath = "lang/" + langCode + "/" + section + ".json";
 
-            // 파일이 없으면 복사
-            if (!langFile.exists()) {
-                langFile.getParentFile().mkdirs(); // 언어 디렉토리 생성
-
-                try (InputStream inputStream = plugin.getResource("lang/" + fileName)) {
-                    if (inputStream != null) {
-                        Files.copy(inputStream, langFile.toPath());
-                        LogUtil.info("Created language file: " + fileName);
-                    } else {
-                        LogUtil.warning("Resource not found: lang/" + fileName);
-                        continue;
-                    }
-                } catch (IOException e) {
-                    LogUtil.error("Failed to copy language file " + fileName, e);
+            try (InputStream inputStream = plugin.getResource(resourcePath)) {
+                if (inputStream == null) {
+                    LogUtil.warning("Language resource not found: " + resourcePath);
                     continue;
                 }
-            }
 
-            // 파일 로드
-            try (InputStreamReader reader = new InputStreamReader(
-                    Files.newInputStream(langFile.toPath()), StandardCharsets.UTF_8)) {
+                try (InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
+                    JsonObject sectionObject = gson.fromJson(reader, JsonObject.class);
 
-                JsonObject sectionObject = gson.fromJson(reader, JsonObject.class);
+                    // 섹션을 최상위 키로 추가 (중첩 구조 유지)
+                    combinedLang.add(section, sectionObject);
 
-                // 섹션을 최상위 키로 추가 (중첩 구조 유지)
-                combinedLang.add(section, sectionObject);
+                    LogUtil.debug("Loaded language section from resources: " + resourcePath);
+                }
 
-                LogUtil.info("Loaded language section: " + fileName);
-
-            } catch (IOException e) {
-                LogUtil.error("Failed to load language file " + fileName, e);
+            } catch (Exception e) {
+                LogUtil.error("Failed to load language resource " + resourcePath, e);
             }
         }
 
-        // 통합된 언어 데이터 저장
+        // 메모리에 언어 데이터 저장
         languageConfigs.put(langCode, combinedLang);
+        LogUtil.info("Loaded language '" + langCode + "' into memory");
     }
 
     /**
@@ -307,26 +290,17 @@ public class LangManager {
     }
 
     /**
-     * 색상 플레이스홀더 파싱 (Adventure API 사용)
+     * 색상 플레이스홀더 파싱
      */
     @NotNull
-    public Component parseColorPlaceholders(@NotNull String text) {
-        if (text.isEmpty()) {
-            return Component.empty();
-        }
-
-        // 플레이스홀더가 없으면 빠르게 반환
-        if (!text.contains("%COLOR_")) {
-            return Component.text(text);
-        }
-
-        TextComponent.Builder result = Component.text();
+    private Component parseColorPlaceholders(@NotNull String text) {
         Matcher matcher = COLOR_PATTERN.matcher(text);
+        TextComponent.Builder result = Component.text();
         int lastEnd = 0;
         TextColor currentColor = NamedTextColor.WHITE;
 
         while (matcher.find()) {
-            // 색상 태그 이전의 텍스트 추가
+            // 매칭 이전 텍스트 추가
             if (matcher.start() > lastEnd) {
                 String beforeText = text.substring(lastEnd, matcher.start());
                 if (!beforeText.isEmpty()) {
@@ -334,19 +308,20 @@ public class LangManager {
                 }
             }
 
-            // 색상 이름 추출 및 적용
+            // 색상 이름 추출
             String colorName = matcher.group(1);
             TextColor newColor = ColorUtil.fromName(colorName);
+
             if (newColor != null) {
                 currentColor = newColor;
             } else {
-                LogUtil.warning("Unknown color name in placeholder: " + colorName);
+                LogUtil.debug("Unknown color placeholder: " + colorName);
             }
 
             lastEnd = matcher.end();
         }
 
-        // 마지막 남은 텍스트 추가
+        // 나머지 텍스트 추가
         if (lastEnd < text.length()) {
             String remainingText = text.substring(lastEnd);
             if (!remainingText.isEmpty()) {
@@ -391,13 +366,14 @@ public class LangManager {
 
     /**
      * 언어 파일 리로드
+     * 메모리 전용 버전이므로 리소스에서 다시 로드
      */
     public void reload() {
         languageConfigs.clear();
         messageCache.clear();
         listCache.clear();
         loadLanguages();
-        LogUtil.info("Language system reloaded");
+        LogUtil.info("Language system reloaded from resources");
     }
 
     /**

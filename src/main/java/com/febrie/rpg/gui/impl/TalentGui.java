@@ -149,54 +149,75 @@ public class TalentGui extends ScrollableGui {
                 builder.addLore(line);
             }
 
-            // 선행 조건
-            if (!talent.getPrerequisites().isEmpty()) {
+            // 스탯 보너스 표시
+            if (!talent.getStatBonuses(1).isEmpty()) {
                 builder.addLore(Component.empty())
-                        .addLore(trans("gui.talent.prerequisites"));
-                for (Map.Entry<String, Integer> prereq : talent.getPrerequisites().entrySet()) {
-                    String prereqName = transString("talent." + prereq.getKey() + ".name");
-                    builder.addLore(Component.text("  • " + prereqName + " Lv." + prereq.getValue(),
-                            talents.getTalentLevel(talent.getModule().getTalent(prereq.getKey())) >= prereq.getValue()
-                                    ? ColorUtil.SUCCESS : ColorUtil.ERROR));
+                        .addLore(trans("gui.talent.stat-bonuses"));
+
+                for (Map.Entry<Stat, Integer> entry : talent.getStatBonuses(currentLevel).entrySet()) {
+                    String statName = transString("stat." + entry.getKey().getId() + ".name");
+                    builder.addLore(trans("gui.talent.stat-bonus-line",
+                            "stat", statName,
+                            "value", entry.getValue() > 0 ? "+" + entry.getValue() : String.valueOf(entry.getValue())));
                 }
             }
 
+            // 특수 효과 표시
+            if (!talent.getEffects().isEmpty()) {
+                builder.addLore(Component.empty())
+                        .addLore(trans("gui.talent.special-effects"));
+
+                for (String effect : talent.getEffects()) {
+                    builder.addLore(Component.text("  • " + effect, ColorUtil.INFO));
+                }
+            }
+
+            // 선행 조건 표시
+            if (!talent.getPrerequisites().isEmpty() && !canLearn) {
+                builder.addLore(Component.empty())
+                        .addLore(trans("gui.talent.prerequisites"));
+
+                for (Map.Entry<Talent, Integer> entry : talent.getPrerequisites().entrySet()) {
+                    Talent reqTalent = entry.getKey();
+                    int reqLevel = entry.getValue();
+                    int currentReqLevel = talents.getTalentLevel(reqTalent);
+
+                    String reqName = transString("talent." + reqTalent.getId() + ".name");
+                    builder.addLore(trans("gui.talent.prerequisite-line",
+                            "talent", reqName,
+                            "current", String.valueOf(currentReqLevel),
+                            "required", String.valueOf(reqLevel))
+                            .color(currentReqLevel >= reqLevel ? ColorUtil.SUCCESS : ColorUtil.ERROR));
+                }
+            }
+
+            // 하위 페이지 있는지 표시
+            if (talent.hasSubPage()) {
+                builder.addLore(Component.empty())
+                        .addLore(trans("gui.talent.has-subpage"));
+            }
+
+            builder.addLore(Component.empty());
+
             // 클릭 안내
             if (isMaxLevel) {
-                builder.addLore(Component.empty())
-                        .addLore(trans("gui.talent.max-level-reached"));
+                builder.addLore(trans("gui.talent.maxed-out"));
             } else if (canLearn) {
-                builder.addLore(Component.empty())
-                        .addLore(trans("gui.talent.click-learn"));
-            } else if (talents.getAvailablePoints() < talent.getRequiredPoints()) {
-                builder.addLore(Component.empty())
-                        .addLore(trans("gui.talent.insufficient-points"));
+                builder.addLore(trans("gui.talent.click-to-learn"));
             } else {
-                builder.addLore(Component.empty())
-                        .addLore(trans("gui.talent.prerequisite-not-met"));
+                builder.addLore(trans("gui.talent.cannot-learn"));
             }
 
-            // 하위 페이지가 있으면 안내
             if (talent.hasSubPage()) {
-                builder.addLore(trans("gui.talent.click-subpage"));
-            }
-
-            // 최대 레벨이면 반짝임 효과
-            if (isMaxLevel) {
-                builder.glint(true);
+                builder.addLore(trans("gui.talent.right-click-subpage"));
             }
 
             builder.flags(ItemFlag.values());
 
             // GuiItem 생성
-            GuiItem talentItem = GuiItem.of(builder.build())
-                    .onClick(ClickType.LEFT, (player, click) ->
-                            handleTalentLeftClick(player, talent, currentLevel, canLearn))
-                    .onClick(ClickType.RIGHT, (player, click) -> {
-                        if (talent.hasSubPage()) {
-                            handleTalentRightClick(player, talent);
-                        }
-                    });
+            GuiItem talentItem = new GuiItem(builder.build())
+                    .onLeftClick(player -> handleTalentLeftClick(player, talent, currentLevel, canLearn))
+                    .onRightClick(player -> handleTalentRightClick(player, talent));
 
             talentItems.add(talentItem);
         }

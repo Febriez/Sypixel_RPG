@@ -8,6 +8,7 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.TimeUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -127,18 +128,22 @@ public class ProfileGui extends BaseGui {
                                 transString("status.offline")))
                 .addLore(Component.empty());
 
-        // Add wallet information
+        // Add wallet information - 모든 통화를 일관된 방식으로 표시
         com.febrie.rpg.economy.Wallet wallet = rpgPlayer.getWallet();
-        headBuilder.addLore(trans("gui.profile.gold",
-                "amount", String.format("%,d", wallet.getBalance(com.febrie.rpg.economy.CurrencyType.GOLD))));
-        headBuilder.addLore(trans("currency.diamond.name")
-                .append(Component.text(": "))
-                .append(Component.text(String.format("%,d", wallet.getBalance(com.febrie.rpg.economy.CurrencyType.DIAMOND)))
-                        .color(com.febrie.rpg.economy.CurrencyType.DIAMOND.getColor())));
-        headBuilder.addLore(trans("currency.emerald.name")
-                .append(Component.text(": "))
-                .append(Component.text(String.format("%,d", wallet.getBalance(com.febrie.rpg.economy.CurrencyType.EMERALD)))
-                        .color(com.febrie.rpg.economy.CurrencyType.EMERALD.getColor())));
+
+        // 모든 통화 타입을 순회하며 표시
+        for (com.febrie.rpg.economy.CurrencyType currency : com.febrie.rpg.economy.CurrencyType.values()) {
+            long balance = wallet.getBalance(currency);
+
+            // 통화 이름과 금액을 포함한 완전한 Component 생성
+            Component currencyLine = trans("currency." + currency.getId() + ".name")
+                    .color(currency.getColor())  // 통화 이름에 색상 적용
+                    .append(Component.text(": ", ColorUtil.WHITE))  // 콜론은 흰색으로
+                    .append(Component.text(String.format("%,d", balance))
+                            .color(currency.getColor()));  // 금액도 통화 색상으로
+
+            headBuilder.addLore(currencyLine);
+        }
 
         setItem(PLAYER_HEAD_SLOT, GuiItem.display(headBuilder.build()));
 
@@ -166,7 +171,7 @@ public class ProfileGui extends BaseGui {
 
         // Food info
         setItem(FOOD_INFO_SLOT, GuiItem.display(
-                ItemBuilder.of(Material.BREAD)
+                ItemBuilder.of(Material.COOKED_BEEF)
                         .displayName(trans("gui.profile.food-info"))
                         .addLore(trans("gui.profile.food-level",
                                 "level", String.valueOf(targetPlayer.getFoodLevel())))
@@ -175,14 +180,15 @@ public class ProfileGui extends BaseGui {
                         .build()
         ));
 
-        // Game info
+        // Game stats info
         setItem(GAME_INFO_SLOT, GuiItem.display(
-                ItemBuilder.of(Material.COMPASS)
-                        .displayName(trans("gui.profile.game-info"))
-                        .addLore(trans("gui.profile.gamemode",
-                                "mode", targetPlayer.getGameMode().toString()))
-                        .addLore(trans("gui.profile.world",
-                                "world", targetPlayer.getWorld().getName()))
+                ItemBuilder.of(Material.GOLDEN_SWORD)
+                        .displayName(trans("gui.profile.game-stats"))
+                        .addLore(trans("gui.profile.playtime",
+                                "time", TimeUtil.formatTime(rpgPlayer.getTotalPlaytime())))
+                        .addLore(trans("gui.profile.mob-kills",
+                                "kills", String.valueOf(rpgPlayer.getMobsKilled())))
+                        .flags(org.bukkit.inventory.ItemFlag.values())
                         .build()
         ));
     }

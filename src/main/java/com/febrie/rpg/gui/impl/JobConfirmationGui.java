@@ -183,7 +183,7 @@ public class JobConfirmationGui extends BaseGui {
             // 성공 메시지
             sendMessage(viewer, "gui.job-confirmation.success", "job", jobName);
 
-            // 축하 효과 - Component를 직접 사용
+            // 축하 효과
             playSuccessSound(viewer);
 
             // Paper API의 showTitle 메서드 사용

@@ -37,6 +37,8 @@
     "currency-info": "%COLOR_YELLOW%▸ Currency Info",
     "click-for-talents": "%COLOR_YELLOW%▶ Click to manage talents",
     "click-for-stats": "%COLOR_YELLOW%▶ Click to manage stats",
+    "game-stats": "%COLOR_LEGENDARY%Game Statistics",
+    "mob-kills": "%COLOR_WHITE%Mob Kills: %COLOR_RED%{kills}",
     "player-info": {
       "name": "%COLOR_LEGENDARY%{player}"
     }

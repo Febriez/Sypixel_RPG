@@ -37,6 +37,8 @@
     "currency-info": "%COLOR_YELLOW%▸ 재화 정보",
     "click-for-talents": "%COLOR_YELLOW%▶ 클릭하여 특성 관리",
     "click-for-stats": "%COLOR_YELLOW%▶ 클릭하여 스탯 관리",
+    "game-stats": "%COLOR_LEGENDARY%게임 통계",
+    "mob-kills": "%COLOR_WHITE%몬스터 처치: %COLOR_RED%{kills}",
     "player-info": {
       "name": "%COLOR_LEGENDARY%{player}"
     }
