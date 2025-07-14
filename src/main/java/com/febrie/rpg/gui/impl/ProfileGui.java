@@ -35,8 +35,8 @@ public class ProfileGui extends BaseGui {
     private final Player targetPlayer;
 
     // 레이아웃 상수
-    private static final int TITLE_SLOT = 4;
-    private static final int PLAYER_HEAD_SLOT = 13;
+    private static final int PLAYER_HEAD_SLOT = 4;
+    private static final int JOB_INFO_SLOT = 13;
 
     // 스탯 표시 슬롯
     private static final int LEVEL_INFO_SLOT = 19;
