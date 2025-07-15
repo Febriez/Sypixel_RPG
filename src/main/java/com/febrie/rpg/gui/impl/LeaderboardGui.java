@@ -165,7 +165,7 @@ public class LeaderboardGui extends ScrollableGui {
 
         // 하단 영역
         for (int i = 45; i < 54; i++) {
-            if (i != 45 && i != 49 && i != 53) {
+            if (i != 49) {
                 setItem(i, GuiFactory.createDecoration());
             }
         }

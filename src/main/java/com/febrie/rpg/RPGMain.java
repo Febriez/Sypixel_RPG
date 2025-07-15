@@ -145,6 +145,14 @@ public final class RPGMain extends JavaPlugin {
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new GuiListener(), this);
         getServer().getPluginManager().registerEvents(rpgPlayerManager, this);
+        
+        // Citizens가 설치되어 있으면 NPC 리스너 등록
+        if (getServer().getPluginManager().getPlugin("Citizens") != null) {
+            getServer().getPluginManager().registerEvents(
+                new com.febrie.rpg.listener.NPCInteractListener(this, guiManager, langManager), this);
+            LogUtil.info("Citizens NPC 리스너 등록 완료");
+        }
+        
         LogUtil.debug("이벤트 리스너 등록 완료");
     }
 
