@@ -409,11 +409,28 @@ public class ProfileGui extends BaseGui {
     private void setupNavigationButtons() {
         // 하단 전체에 장식 배치
         for (int i = 45; i < 54; i++) {
-            setItem(i, GuiFactory.createDecoration());
+            // 뒤로가기와 닫기 버튼 위치는 제외
+            if (i != BACK_BUTTON_SLOT && i != CLOSE_BUTTON_SLOT) {
+                setItem(i, GuiFactory.createDecoration());
+            }
         }
 
-        // Back button - BaseGui 표준 위치 사용
-        updateNavigationButtons();
+        // Back button - 항상 표시 (메인 메뉴로 돌아가기)
+        setItem(BACK_BUTTON_SLOT, GuiItem.clickable(
+                new ItemBuilder(Material.ARROW)
+                        .displayName(trans("gui.buttons.back.name"))
+                        .addLore(trans("gui.buttons.back.lore"))
+                        .build(),
+                p -> {
+                    // 네비게이션 스택이 비어있어도 메인 메뉴로 돌아가기
+                    if (!guiManager.navigateBack(p)) {
+                        // 메인 메뉴 열기
+                        MainMenuGui mainMenu = new MainMenuGui(guiManager, langManager, p);
+                        guiManager.openGui(p, mainMenu);
+                    }
+                    playClickSound(p);
+                }
+        ));
 
         // Close button - BaseGui 표준 위치 사용
         setItem(CLOSE_BUTTON_SLOT, GuiFactory.createCloseButton(langManager, viewer));
