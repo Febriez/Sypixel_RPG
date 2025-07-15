@@ -9,6 +9,7 @@ import com.febrie.rpg.talent.Talent;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -48,6 +49,13 @@ public class MainMenuGui extends BaseGui {
     @Override
     public @NotNull Component getTitle() {
         return trans("gui.mainmenu.title");
+    }
+    
+    @Override
+    public void open(@NotNull Player player) {
+        super.open(player);
+        // 메인 메뉴 열 때만 상자 소리 재생
+        SoundUtil.playOpenSound(player);
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.TimeUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -428,7 +429,7 @@ public class ProfileGui extends BaseGui {
                         MainMenuGui mainMenu = new MainMenuGui(guiManager, langManager, p);
                         guiManager.openGui(p, mainMenu);
                     }
-                    playClickSound(p);
+                    SoundUtil.playPageTurnSound(p);
                 }
         ));
 

@@ -72,7 +72,10 @@ public class QuestListGui extends BaseGui {
         // 전체 경계선
         createBorder();
         
-        // 중간 빈 공간은 투명하게 유지
+        // 진행 중/완료 퀘스트 구분선 (3번째 줄 전체)
+        for (int i = 18; i < 27; i++) {
+            setItem(i, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
+        }
     }
 
     /**

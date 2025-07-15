@@ -21,10 +21,24 @@ public class SoundUtil {
     }
 
     /**
-     * 클릭 사운드 재생
+     * 클릭 사운드 재생 (버튼 클릭)
      */
     public static void playClickSound(@NotNull Player player) {
         playSound(player, Sound.UI_BUTTON_CLICK);
+    }
+    
+    /**
+     * 레버 사운드 재생 (GUI 네비게이션)
+     */
+    public static void playLeverSound(@NotNull Player player) {
+        playSound(player, Sound.BLOCK_LEVER_CLICK, 0.3f, 1.2f);
+    }
+    
+    /**
+     * 책 넘기는 사운드 재생 (뒤로가기)
+     */
+    public static void playPageTurnSound(@NotNull Player player) {
+        playSound(player, Sound.ITEM_BOOK_PAGE_TURN, 0.5f, 1.0f);
     }
 
     /**

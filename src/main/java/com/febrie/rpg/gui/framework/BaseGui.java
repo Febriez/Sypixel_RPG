@@ -103,7 +103,8 @@ public abstract class BaseGui implements InteractiveGui {
             throw new IllegalStateException("Cannot open GUI for different player");
         }
         player.openInventory(inventory);
-        SoundUtil.playOpenSound(player);
+        // 기본적으로는 GUI 열기 소리 재생하지 않음
+        // 필요한 경우 하위 클래스에서 오버라이드
     }
 
     @Override
@@ -221,7 +222,7 @@ public abstract class BaseGui implements InteractiveGui {
                             .build(),
                     p -> {
                         if (guiManager.navigateBack(p)) {
-                            playClickSound(p);
+                            SoundUtil.playPageTurnSound(p);
                         }
                     }
             ));
@@ -287,7 +288,7 @@ public abstract class BaseGui implements InteractiveGui {
     // 사운드 재생 메소드들
 
     protected void playClickSound(@NotNull Player player) {
-        SoundUtil.playClickSound(player);
+        SoundUtil.playLeverSound(player);
     }
 
     protected void playSuccessSound(@NotNull Player player) {
