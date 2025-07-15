@@ -10,7 +10,6 @@ import com.febrie.rpg.talent.Talent;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -60,7 +59,7 @@ public class MainMenuGui extends BaseGui {
         // 메인 메뉴는 닫기 버튼만 표시
         setupStandardNavigation(false, true);
     }
-    
+
     @Override
     public void updateNavigationButtons() {
         // 메인 메뉴는 뒤로가기 버튼 없음 - 항상 데코레이션 표시

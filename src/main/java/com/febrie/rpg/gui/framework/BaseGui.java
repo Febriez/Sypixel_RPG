@@ -249,14 +249,7 @@ public abstract class BaseGui implements InteractiveGui {
      * 경계선 생성
      */
     protected void createBorder() {
-        createBorder(Material.GRAY_STAINED_GLASS_PANE);
-    }
-
-    /**
-     * 커스텀 재료로 경계선 생성
-     */
-    protected void createBorder(@NotNull Material material) {
-        GuiItem borderItem = GuiFactory.createDecoration(material);
+        GuiItem borderItem = GuiFactory.createDecoration();
 
         // 상단 행
         for (int i = 0; i < 9; i++) {
