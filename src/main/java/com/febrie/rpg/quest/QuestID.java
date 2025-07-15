@@ -20,6 +20,7 @@ public enum QuestID {
     MAIN_PATH_OF_DARKNESS("main_path_of_darkness", "어둠의 길", Quest.QuestCategory.MAIN),
 
     // ===== 사이드 퀘스트 =====
+    SIDE_FARMERS_REQUEST("side_farmers_request", "농부의 부탁", Quest.QuestCategory.SIDE),
     SIDE_COLLECT_HERBS("side_collect_herbs", "약초 수집", Quest.QuestCategory.SIDE),
     SIDE_LOST_TREASURE("side_lost_treasure", "잃어버린 보물", Quest.QuestCategory.SIDE),
 

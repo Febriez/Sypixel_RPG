@@ -8,7 +8,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.quest.progress.QuestProgress;
-import com.febrie.rpg.quest.util.QuestDisplayUtil;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
@@ -43,13 +42,11 @@ public class QuestListGui extends BaseGui {
     private static final int COMPLETED_LABEL_SLOT = 27;
 
     private final QuestManager questManager;
-    private final QuestDisplayUtil displayUtil;
 
     public QuestListGui(@NotNull Player player, @NotNull GuiManager guiManager,
                         @NotNull LangManager langManager) {
         super(player, guiManager, langManager, GUI_SIZE, "gui.quest-list.title");
         this.questManager = QuestManager.getInstance();
-        this.displayUtil = new QuestDisplayUtil();
         setupLayout();
     }
 
@@ -158,14 +155,17 @@ public class QuestListGui extends BaseGui {
      */
     private GuiItem createActiveQuestItem(@NotNull Quest quest, @NotNull QuestProgress progress) {
         ItemBuilder builder = new ItemBuilder(Material.PAPER)
-                .displayName(displayUtil.getQuestName(viewer, quest)
+                .displayName(Component.text(quest.getDisplayName(viewer.locale().toString().startsWith("ko")))
                         .color(ColorUtil.UNCOMMON)
                         .decoration(TextDecoration.ITALIC, false));
 
         List<Component> lore = new ArrayList<>();
 
         // 퀘스트 설명
-        lore.add(displayUtil.getQuestDescription(viewer, quest));
+        List<String> descriptions = quest.getDescription(viewer.locale().toString().startsWith("ko"));
+        for (String desc : descriptions) {
+            lore.add(Component.text(desc, ColorUtil.GRAY));
+        }
         lore.add(Component.empty());
 
         // 진행도 표시
@@ -184,7 +184,7 @@ public class QuestListGui extends BaseGui {
                         : Component.text(" " + objective.getProgressString(objProgress), ColorUtil.GRAY);
 
                 lore.add(Component.text("• ", ColorUtil.GRAY)
-                        .append(displayUtil.getObjectiveDescription(viewer, objective, objProgress))
+                        .append(Component.text(quest.getObjectiveDescription(objective, viewer.locale().toString().startsWith("ko"))))
                         .append(status));
             }
         });
@@ -206,14 +206,17 @@ public class QuestListGui extends BaseGui {
      */
     private GuiItem createCompletedQuestItem(@NotNull Quest quest) {
         ItemBuilder builder = new ItemBuilder(Material.MAP)
-                .displayName(displayUtil.getQuestName(viewer, quest)
+                .displayName(Component.text(quest.getDisplayName(viewer.locale().toString().startsWith("ko")))
                         .color(ColorUtil.SUCCESS)
                         .decoration(TextDecoration.ITALIC, false));
 
         List<Component> lore = new ArrayList<>();
 
         // 퀘스트 설명
-        lore.add(displayUtil.getQuestDescription(viewer, quest));
+        List<String> descriptions = quest.getDescription(viewer.locale().toString().startsWith("ko"));
+        for (String desc : descriptions) {
+            lore.add(Component.text(desc, ColorUtil.GRAY));
+        }
         lore.add(Component.empty());
 
         // 완료 표시

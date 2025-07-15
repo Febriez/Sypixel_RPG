@@ -5,9 +5,9 @@ import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.quest.objective.QuestObjective;
-import com.febrie.rpg.quest.util.QuestDisplayUtil;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
@@ -39,14 +39,12 @@ public class QuestAcceptGui extends BaseGui {
 
     private final Quest quest;
     private final QuestManager questManager;
-    private final QuestDisplayUtil displayUtil;
 
     public QuestAcceptGui(@NotNull Player player, @NotNull GuiManager guiManager,
                           @NotNull LangManager langManager, @NotNull Quest quest) {
         super(player, guiManager, langManager, GUI_SIZE, "gui.quest-accept.title");
         this.quest = quest;
         this.questManager = QuestManager.getInstance();
-        this.displayUtil = new QuestDisplayUtil();
         setupLayout();
     }
 
@@ -82,7 +80,7 @@ public class QuestAcceptGui extends BaseGui {
      */
     private void setupQuestInfo() {
         ItemBuilder builder = new ItemBuilder(Material.BOOK)
-                .displayName(displayUtil.getQuestName(viewer, quest)
+                .displayName(Component.text(quest.getDisplayName(viewer.locale().toString().startsWith("ko")))
                         .color(ColorUtil.LEGENDARY)
                         .decoration(TextDecoration.BOLD, true));
 
@@ -90,18 +88,31 @@ public class QuestAcceptGui extends BaseGui {
 
         // 퀘스트 설명
         lore.add(Component.empty());
-        lore.add(displayUtil.getQuestDescription(viewer, quest));
+        List<String> descriptions = quest.getDescription(viewer.locale().toString().startsWith("ko"));
+        for (String desc : descriptions) {
+            lore.add(Component.text(desc, ColorUtil.GRAY));
+        }
         lore.add(Component.empty());
 
         // 카테고리
+        boolean isKorean = viewer.locale().toString().startsWith("ko");
+        String categoryName = switch (quest.getCategory()) {
+            case MAIN -> isKorean ? "메인 퀘스트" : "Main Quest";
+            case SIDE -> isKorean ? "사이드 퀘스트" : "Side Quest";
+            case DAILY -> isKorean ? "일일 퀘스트" : "Daily Quest";
+            case WEEKLY -> isKorean ? "주간 퀘스트" : "Weekly Quest";
+            case EVENT -> isKorean ? "이벤트 퀘스트" : "Event Quest";
+            case TUTORIAL -> isKorean ? "튜토리얼" : "Tutorial";
+            case NORMAL -> isKorean ? "일반 퀘스트" : "Normal Quest";
+        };
         lore.add(trans("gui.quest-accept.category")
                 .append(Component.text(": ", ColorUtil.GRAY))
-                .append(displayUtil.getQuestCategory(viewer, quest)));
+                .append(Component.text(categoryName, ColorUtil.YELLOW)));
 
-        // 난이도
-        lore.add(trans("gui.quest-accept.difficulty")
+        // 레벨 요구사항
+        lore.add(trans("gui.quest-accept.level-requirement")
                 .append(Component.text(": ", ColorUtil.GRAY))
-                .append(displayUtil.getQuestDifficulty(viewer, quest)));
+                .append(Component.text(quest.getMinLevel() + (quest.getMaxLevel() > 0 ? "-" + quest.getMaxLevel() : "+"), ColorUtil.WHITE)));
 
         lore.add(Component.empty());
 
@@ -109,7 +120,7 @@ public class QuestAcceptGui extends BaseGui {
         lore.add(trans("gui.quest-accept.objectives").color(ColorUtil.YELLOW));
         int objIndex = 1;
         for (QuestObjective objective : quest.getObjectives()) {
-            String objDesc = objective.getDescription();
+            String objDesc = quest.getObjectiveDescription(objective, viewer.locale().toString().startsWith("ko"));
             lore.add(Component.text("  " + objIndex + ". ", ColorUtil.GRAY)
                     .append(Component.text(objDesc, ColorUtil.WHITE)));
             objIndex++;
@@ -123,18 +134,30 @@ public class QuestAcceptGui extends BaseGui {
         lore.add(Component.text("  • ", ColorUtil.GRAY).append(rewardInfo));
 
         // 선행 퀘스트 확인
-        List<String> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
-        List<Component> prerequisiteInfo = displayUtil.getPrerequisiteInfo(viewer, quest, completedQuests);
-        if (!prerequisiteInfo.isEmpty()) {
+        List<QuestID> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
+        if (quest.hasPrerequisiteQuests()) {
             lore.add(Component.empty());
-            lore.addAll(prerequisiteInfo);
+            lore.add(Component.text("선행 퀘스트:", ColorUtil.GOLD));
+            
+            for (QuestID prereqId : quest.getPrerequisiteQuests()) {
+                boolean completed = completedQuests.contains(prereqId);
+                Component status = completed
+                        ? Component.text(" ✓", ColorUtil.SUCCESS)
+                        : Component.text(" ✗", ColorUtil.ERROR);
+                
+                lore.add(Component.text("  - " + prereqId.getDisplayName(), ColorUtil.GRAY)
+                        .append(status));
+            }
         }
 
         // 양자택일 퀘스트 경고
-        List<Component> exclusiveWarning = displayUtil.getExclusiveWarning(viewer, quest);
-        if (!exclusiveWarning.isEmpty()) {
+        if (quest.hasExclusiveQuests()) {
             lore.add(Component.empty());
-            lore.addAll(exclusiveWarning);
+            lore.add(Component.text("양자택일 퀘스트:", ColorUtil.RED));
+            
+            for (QuestID exclusiveId : quest.getExclusiveQuests()) {
+                lore.add(Component.text("  - " + exclusiveId.getDisplayName(), ColorUtil.GRAY));
+            }
         }
 
         builder.lore(lore);
@@ -168,7 +191,7 @@ public class QuestAcceptGui extends BaseGui {
                         .color(ColorUtil.GRAY));
             }
 
-            List<String> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
+            List<QuestID> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
             if (!quest.arePrerequisitesComplete(completedQuests)) {
                 acceptBuilder.addLore(trans("gui.quest-accept.prerequisites-not-complete")
                         .color(ColorUtil.GRAY));
@@ -195,7 +218,7 @@ public class QuestAcceptGui extends BaseGui {
             if (canStart) {
                 if (questManager.startQuest(p, quest.getId())) {
                     langManager.sendMessage(p, "quest.started",
-                            "quest", displayUtil.getQuestNameAsString(viewer, quest));
+                            "quest", quest.getDisplayName(viewer.locale().toString().startsWith("ko")));
                     p.closeInventory();
                     playSuccessSound(p);
                 } else {
@@ -231,7 +254,7 @@ public class QuestAcceptGui extends BaseGui {
      * 퀘스트 시작 가능 여부 확인
      */
     private boolean checkQuestRequirements() {
-        List<String> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
+        List<QuestID> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
 
         // 이미 진행 중인지 확인
         if (questManager.getActiveQuests(viewer.getUniqueId()).stream()

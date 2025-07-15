@@ -2,6 +2,7 @@ package com.febrie.rpg.database;
 
 import com.febrie.rpg.dto.*;
 import com.febrie.rpg.job.JobType;
+import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.util.LogUtil;
@@ -577,7 +578,7 @@ public class FirestoreService {
             });
         }
 
-        QuestProgress progress = new QuestProgress(questId, UUID.fromString(playerId), objectives);
+        QuestProgress progress = new QuestProgress(QuestID.fromLegacyId(questId), UUID.fromString(playerId), objectives);
 
         // 상태 설정
         String stateStr = (String) data.get("state");

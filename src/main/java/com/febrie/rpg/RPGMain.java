@@ -69,7 +69,7 @@ public final class RPGMain extends JavaPlugin {
         startServerStatsSystem();
 
         LogUtil.info("모든 시스템이 성공적으로 초기화되었습니다!");
-        LogUtil.info("사용 가능한 명령어: /profile, /프로필, /viewprofile, /프로필보기, /mainmenu, /메인메뉴");
+        LogUtil.info("사용 가능한 명령어: /메뉴, /menu, /mainmenu, /mm (메인 메뉴)");
     }
 
     @Override
@@ -119,9 +119,9 @@ public final class RPGMain extends JavaPlugin {
         this.talentManager = new TalentManager(this);
         LogUtil.info("매니저 시스템 초기화 완료");
 
-        // 명령어 초기화
+        // 명령어 객체 생성 (실제 등록은 registerCommands에서)
         this.mainMenuCommand = new MainMenuCommand(this, langManager, guiManager);
-        this.adminCommands = new AdminCommands(this, langManager);
+        this.adminCommands = new AdminCommands(this, rpgPlayerManager, guiManager, langManager);
         LogUtil.info("명령어 시스템 초기화 완료");
     }
 
@@ -139,13 +139,11 @@ public final class RPGMain extends JavaPlugin {
      * 메인 명령어만 등록하고 나머지는 plugin.yml에서 aliases로 처리
      */
     private void registerCommands() {
-        // 메인 메뉴 명령어 - 하나만 등록
-        mainMenuCommand = new MainMenuCommand(this, langManager, guiManager);
+        // 메인 메뉴 명령어 등록
         getCommand("메뉴").setExecutor(mainMenuCommand);
         getCommand("메뉴").setTabCompleter(mainMenuCommand);
 
-        // 관리자 명령어
-        adminCommands = new AdminCommands(this, langManager);
+        // 관리자 명령어 등록
         getCommand("rpgadmin").setExecutor(adminCommands);
         getCommand("rpgadmin").setTabCompleter(adminCommands);
 

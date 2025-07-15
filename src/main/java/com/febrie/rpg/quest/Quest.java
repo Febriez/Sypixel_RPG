@@ -177,7 +177,7 @@ public abstract class Quest {
     /**
      * 목표 설명 가져오기 (하드코딩용)
      */
-    protected abstract @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean);
+    public abstract @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean);
 
     /**
      * 카테고리 이름 가져오기

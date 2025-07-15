@@ -142,7 +142,7 @@ public class PathOfLightQuest extends Quest {
     }
 
     @Override
-    protected @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean) {
+    public @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean) {
         String id = objective.getId();
 
         return switch (id) {
