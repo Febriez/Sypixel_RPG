@@ -33,14 +33,14 @@ public class QuestListGui extends BaseGui {
     private static final int GUI_SIZE = 54; // 6 rows
 
     // 레이아웃 상수
-    private static final int ACTIVE_QUESTS_START = 10;  // 2번째 줄 1번 슬롯부터
-    private static final int COMPLETED_QUESTS_START = 28; // 4번째 줄 1번 슬롯부터
-    private static final int QUESTS_PER_ROW = 6;  // 한 줄에 6개
-    private static final int MAX_DISPLAY_QUESTS = 12; // 최대 표시 개수 (6개 x 2줄)
+    private static final int ACTIVE_QUESTS_START = 10;      // 2번째 줄 1번 슬롯부터
+    private static final int COMPLETED_QUESTS_START = 28;   // 4번째 줄 1번 슬롯부터
+    private static final int QUESTS_PER_ROW = 6;            // 한 줄에 6개
+    private static final int MAX_DISPLAY_QUESTS = 12;       // 최대 표시 개수 (6개 x 2줄)
 
     // 카테고리 표시 슬롯
-    private static final int ACTIVE_LABEL_SLOT = 2;  // 첫 줄 2번 슬롯
-    private static final int COMPLETED_LABEL_SLOT = 6;  // 첫 줄 6번 슬롯
+    private static final int ACTIVE_LABEL_SLOT = 2;        // 첫 줄 2번 슬롯
+    private static final int COMPLETED_LABEL_SLOT = 6;      // 첫 줄 6번 슬롯
 
     private final QuestManager questManager;
 
@@ -76,6 +76,13 @@ public class QuestListGui extends BaseGui {
         for (int i = 18; i < 27; i++) {
             setItem(i, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
         }
+        
+        // 중앙 세로 구분선 (4번 슬롯)
+        setItem(4, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
+        setItem(13, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
+        setItem(22, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
+        setItem(31, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
+        setItem(40, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
     }
 
     /**
