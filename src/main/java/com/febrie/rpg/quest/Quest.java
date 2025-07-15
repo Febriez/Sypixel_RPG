@@ -371,7 +371,7 @@ public abstract class Quest {
         protected boolean weekly = false;
         protected int minLevel = 1;
         protected int maxLevel = 0;
-        protected QuestCategory category = QuestCategory.NORMAL;
+        protected QuestCategory category = QuestCategory.SIDE;
         protected Set<QuestID> prerequisiteQuests = new HashSet<>();
         protected Set<QuestID> exclusiveQuests = new HashSet<>();
 

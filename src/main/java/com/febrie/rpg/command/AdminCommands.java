@@ -329,6 +329,28 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         switch (npcType) {
             case "QUEST" -> {
                 npc.data().set("rpg_npc_type", "QUEST");
+                
+                // 퀘스트 ID가 제공된 경우
+                if (args.length > 3) {
+                    String questIdStr = args[3];
+                    try {
+                        // enum name으로 시도
+                        QuestID questId = QuestID.valueOf(questIdStr.toUpperCase());
+                        npc.data().set("quest_id", questId.name());
+                    } catch (IllegalArgumentException e) {
+                        // legacy ID로 시도
+                        try {
+                            QuestID questId = QuestID.fromLegacyId(questIdStr);
+                            npc.data().set("quest_id", questId.name());
+                        } catch (IllegalArgumentException ex) {
+                            player.sendMessage(Component.text("잘못된 퀘스트 ID입니다: " + questIdStr, ColorUtil.ERROR));
+                            npc.despawn();
+                            CitizensAPI.getNPCRegistry().deregister(npc);
+                            return true;
+                        }
+                    }
+                }
+                
                 // 퀘스트 NPC 설정
                 Equipment equipment = npc.getOrAddTrait(Equipment.class);
                 equipment.set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.BOOK));
@@ -518,6 +540,11 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             if (args[0].equalsIgnoreCase("quest") && args[1].equalsIgnoreCase("give")) {
                 return getQuestIdSuggestions(args[3]);
             }
+            // NPC create QUEST 뒤에 퀘스트 ID 제안
+            if (args[0].equalsIgnoreCase("npc") && args[1].equalsIgnoreCase("create") 
+                    && args[2].equalsIgnoreCase("QUEST")) {
+                return getQuestIdSuggestions(args[3]);
+            }
         }
 
         return new ArrayList<>();
@@ -530,17 +557,10 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         List<String> suggestions = new ArrayList<>();
         String upperPartial = partial.toUpperCase();
 
-        // enum name으로 검색
+        // enum name으로만 검색 (대문자만 사용)
         for (QuestID id : QuestID.values()) {
             if (id.name().startsWith(upperPartial)) {
                 suggestions.add(id.name());
-            }
-        }
-
-        // legacy ID로도 검색
-        for (QuestID id : QuestID.values()) {
-            if (id.getLegacyId().startsWith(partial.toLowerCase())) {
-                suggestions.add(id.getLegacyId());
             }
         }
 

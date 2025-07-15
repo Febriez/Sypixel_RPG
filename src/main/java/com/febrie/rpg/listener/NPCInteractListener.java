@@ -6,7 +6,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.util.LangManager;
-import net.citizensnpcs.api.event.NPCLeftClickEvent;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.Player;
@@ -110,6 +109,44 @@ public class NPCInteractListener implements Listener {
             langManager.sendMessage(player, "quest.npc.already-completed");
             return;
         }
+        
+        // 퀘스트 요구사항 확인
+        com.febrie.rpg.player.RPGPlayer rpgPlayer = plugin.getRPGPlayerManager().getOrCreatePlayer(player);
+        
+        // 레벨 요구사항 확인
+        if (quest.getMinLevel() > 0 && rpgPlayer.getLevel() < quest.getMinLevel()) {
+            langManager.sendMessage(player, "quest.npc.level-requirement", 
+                "level", String.valueOf(quest.getMinLevel()));
+            return;
+        }
+        
+        // TODO: 직업 요구사항은 Quest에 직접적인 필드가 없음
+        // 필요시 Quest.Builder에 추가 필요
+        
+        // 선행 퀘스트 요구사항 확인
+        if (!quest.getPrerequisiteQuests().isEmpty()) {
+            boolean hasCompletedAllPrereqs = true;
+            for (QuestID prereqId : quest.getPrerequisiteQuests()) {
+                if (!questManager.getCompletedQuests(player.getUniqueId()).contains(prereqId)) {
+                    hasCompletedAllPrereqs = false;
+                    break;
+                }
+            }
+            if (!hasCompletedAllPrereqs) {
+                langManager.sendMessage(player, "quest.npc.prerequisite-requirement");
+                return;
+            }
+        }
+        
+        // 양자택일 퀘스트 확인
+        if (!quest.getExclusiveQuests().isEmpty()) {
+            for (QuestID exclusiveId : quest.getExclusiveQuests()) {
+                if (questManager.getCompletedQuests(player.getUniqueId()).contains(exclusiveId)) {
+                    langManager.sendMessage(player, "quest.npc.mutually-exclusive");
+                    return;
+                }
+            }
+        }
 
         // 퀘스트 수락 GUI 열기
         guiManager.openQuestAcceptGui(player, quest);
@@ -134,26 +171,4 @@ public class NPCInteractListener implements Listener {
         com.febrie.rpg.util.SoundUtil.playOpenSound(player);
     }
     
-    /**
-     * Citizens NPC 왼클릭 이벤트 처리
-     */
-    @EventHandler
-    public void onNPCLeftClick(NPCLeftClickEvent event) {
-        // 우클릭과 동일하게 처리
-        NPC npc = event.getNPC();
-        Player player = event.getClicker();
-
-        // NPC 타입 확인
-        if (!npc.data().has("rpg_npc_type")) {
-            return;
-        }
-
-        String npcType = npc.data().get("rpg_npc_type");
-        
-        switch (npcType) {
-            case "QUEST" -> handleQuestNPC(npc, player);
-            case "SHOP" -> handleShopNPC(npc, player);
-            case "GUIDE" -> handleGuideNPC(npc, player);
-        }
-    }
 }

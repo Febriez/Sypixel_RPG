@@ -1,6 +1,7 @@
 package com.febrie.rpg.gui.impl;
 
 import com.febrie.rpg.RPGMain;
+import com.febrie.rpg.gui.builder.GuiBuilder;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
@@ -91,92 +92,72 @@ public class MainMenuGui extends BaseGui {
      * 메뉴 버튼들 설정
      */
     private void setupMenuButtons() {
-        setupProfileButton();
-        setupShopButton();
-        setupDungeonButton();
-        setupStatsButton();
+        GuiBuilder builder = new GuiBuilder(this, viewer, langManager, guiManager);
+        
+        // 프로필 버튼
+        builder.menuButton(PROFILE_SLOT, 
+            new ItemBuilder(viewer)
+                .displayName(trans("items.mainmenu.profile-button.name"))
+                .lore(langManager.getComponentList(viewer, "items.mainmenu.profile-button.lore"))
+                .build(),
+            player -> {
+                ProfileGui profileGui = new ProfileGui(player, player, guiManager, langManager);
+                guiManager.openGui(player, profileGui);
+            });
+            
+        // 상점 버튼 (준비중)
+        builder.menuButton(SHOP_SLOT, Material.EMERALD,
+            "items.mainmenu.shop-button.name",
+            "items.mainmenu.shop-button.lore",
+            player -> sendMessage(player, "general.coming-soon"));
+            
+        // 던전 버튼 (준비중)
+        builder.menuButton(DUNGEON_SLOT, Material.END_PORTAL_FRAME,
+            "items.mainmenu.dungeon-button.name",
+            "items.mainmenu.dungeon-button.lore",
+            player -> sendMessage(player, "general.coming-soon"));
+            
+        // 스탯 버튼
+        builder.menuButton(STATS_SLOT, Material.DIAMOND_SWORD,
+            "items.mainmenu.stats-button.name",
+            "items.mainmenu.stats-button.lore",
+            this::openStatsGui);
+            
+        // 설정 버튼
         setupSettingsButton();
-        setupTalentsButton();
-        setupLeaderboardButton();
+        
+        // 특성 버튼
+        builder.menuButton(TALENTS_SLOT, Material.ENCHANTING_TABLE,
+            "items.mainmenu.talents-button.name",
+            "items.mainmenu.talents-button.lore",
+            this::openTalentsGui);
+            
+        // 리더보드 버튼
+        builder.menuButton(LEADERBOARD_SLOT, Material.GOLDEN_APPLE,
+            "items.mainmenu.leaderboard-button.name",
+            "items.mainmenu.leaderboard-button.lore",
+            player -> {
+                LeaderboardGui leaderboardGui = new LeaderboardGui(guiManager, langManager, player);
+                guiManager.openGui(player, leaderboardGui);
+            });
     }
 
     /**
-     * 프로필 버튼
+     * 스탯 GUI 열기
      */
-    private void setupProfileButton() {
-        GuiItem profileButton = GuiItem.clickable(
-                new ItemBuilder(viewer)
-                        .displayName(trans("items.mainmenu.profile-button.name"))
-                        .lore(langManager.getComponentList(viewer, "items.mainmenu.profile-button.lore"))
-                        .build(),
-                player -> {
-                    ProfileGui profileGui = new ProfileGui(player, player, guiManager, langManager);
-                    guiManager.openGui(player, profileGui);
-                    playClickSound(player);
-                }
-        );
-        setItem(PROFILE_SLOT, profileButton);
-    }
+    private void openStatsGui(Player player) {
+        RPGPlayer rpgPlayer = RPGMain.getPlugin()
+                .getRPGPlayerManager().getOrCreatePlayer(player);
 
-    /**
-     * 상점 버튼 (준비중)
-     */
-    private void setupShopButton() {
-        GuiItem shopButton = GuiItem.clickable(
-                new ItemBuilder(Material.EMERALD)
-                        .displayName(trans("items.mainmenu.shop-button.name"))
-                        .lore(langManager.getComponentList(viewer, "items.mainmenu.shop-button.lore"))
-                        .build(),
-                player -> {
-                    sendMessage(player, "general.coming-soon");
-                    playClickSound(player);
-                }
-        );
-        setItem(SHOP_SLOT, shopButton);
-    }
+        if (!rpgPlayer.hasJob()) {
+            sendMessage(player, "messages.no-job-for-stats");
+            playErrorSound(player);
+            return;
+        }
 
-    /**
-     * 던전 버튼 (준비중)
-     */
-    private void setupDungeonButton() {
-        GuiItem dungeonButton = GuiItem.clickable(
-                new ItemBuilder(Material.END_PORTAL_FRAME)
-                        .displayName(trans("items.mainmenu.dungeon-button.name"))
-                        .lore(langManager.getComponentList(viewer, "items.mainmenu.dungeon-button.lore"))
-                        .build(),
-                player -> {
-                    sendMessage(player, "general.coming-soon");
-                    playClickSound(player);
-                }
-        );
-        setItem(DUNGEON_SLOT, dungeonButton);
-    }
-
-    /**
-     * 스탯 버튼
-     */
-    private void setupStatsButton() {
-        GuiItem statsButton = GuiItem.clickable(
-                new ItemBuilder(Material.DIAMOND_SWORD)
-                        .displayName(trans("items.mainmenu.stats-button.name"))
-                        .lore(langManager.getComponentList(viewer, "items.mainmenu.stats-button.lore"))
-                        .build(),
-                player -> {
-                    RPGPlayer rpgPlayer = RPGMain.getPlugin()
-                            .getRPGPlayerManager().getOrCreatePlayer(player);
-
-                    if (!rpgPlayer.hasJob()) {
-                        sendMessage(player, "messages.no-job-for-stats");
-                        playErrorSound(player);
-                        return;
-                    }
-
-                    StatsGui statsGui = new StatsGui(guiManager, langManager, player, rpgPlayer);
-                    guiManager.openGui(player, statsGui);
-                    playSuccessSound(player);
-                }
-        );
-        setItem(STATS_SLOT, statsButton);
+        StatsGui statsGui = new StatsGui(guiManager, langManager, player, rpgPlayer);
+        guiManager.openGui(player, statsGui);
+        playSuccessSound(player);
     }
 
     /**
@@ -201,50 +182,23 @@ public class MainMenuGui extends BaseGui {
     }
 
     /**
-     * 특성 버튼
+     * 특성 GUI 열기
      */
-    private void setupTalentsButton() {
-        GuiItem talentsButton = GuiItem.clickable(
-                new ItemBuilder(Material.ENCHANTING_TABLE)
-                        .displayName(trans("items.mainmenu.talents-button.name"))
-                        .lore(langManager.getComponentList(viewer, "items.mainmenu.talents-button.lore"))
-                        .build(),
-                player -> {
-                    RPGPlayer rpgPlayer = RPGMain.getPlugin()
-                            .getRPGPlayerManager().getOrCreatePlayer(player);
+    private void openTalentsGui(Player player) {
+        RPGPlayer rpgPlayer = RPGMain.getPlugin()
+                .getRPGPlayerManager().getOrCreatePlayer(player);
 
-                    if (!rpgPlayer.hasJob()) {
-                        sendMessage(player, "messages.no-job-for-talents");
-                        playErrorSound(player);
-                        return;
-                    }
+        if (!rpgPlayer.hasJob()) {
+            sendMessage(player, "messages.no-job-for-talents");
+            playErrorSound(player);
+            return;
+        }
 
-                    List<Talent> talents = RPGMain.getPlugin()
-                            .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
-                    TalentGui talentGui = new TalentGui(guiManager, langManager, player, rpgPlayer, "main", talents);
-                    guiManager.openGui(player, talentGui);
-                    playSuccessSound(player);
-                }
-        );
-        setItem(TALENTS_SLOT, talentsButton);
-    }
-
-    /**
-     * 리더보드 버튼
-     */
-    private void setupLeaderboardButton() {
-        GuiItem leaderboardButton = GuiItem.clickable(
-                new ItemBuilder(Material.GOLDEN_APPLE)
-                        .displayName(trans("items.mainmenu.leaderboard-button.name"))
-                        .lore(langManager.getComponentList(viewer, "items.mainmenu.leaderboard-button.lore"))
-                        .build(),
-                player -> {
-                    LeaderboardGui leaderboardGui = new LeaderboardGui(guiManager, langManager, player);
-                    guiManager.openGui(player, leaderboardGui);
-                    playClickSound(player);
-                }
-        );
-        setItem(LEADERBOARD_SLOT, leaderboardButton);
+        List<Talent> talents = RPGMain.getPlugin()
+                .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
+        TalentGui talentGui = new TalentGui(guiManager, langManager, player, rpgPlayer, "main", talents);
+        guiManager.openGui(player, talentGui);
+        playSuccessSound(player);
     }
 
     @Override
