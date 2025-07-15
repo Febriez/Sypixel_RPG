@@ -103,7 +103,7 @@ public class TalentGui extends ScrollableGui {
             for (int col = 1; col < 8; col++) {
                 int slot = row * 9 + col;
                 if (!items.containsKey(slot)) {
-                    setItem(slot, GuiFactory.createDecoration(Material.BLACK_STAINED_GLASS_PANE));
+                    setItem(slot, GuiFactory.createDecoration());
                 }
             }
         }

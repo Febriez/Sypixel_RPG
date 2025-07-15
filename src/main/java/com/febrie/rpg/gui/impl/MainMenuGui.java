@@ -1,6 +1,7 @@
 package com.febrie.rpg.gui.impl;
 
 import com.febrie.rpg.RPGMain;
+import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.manager.GuiManager;
@@ -39,19 +40,10 @@ public class MainMenuGui extends BaseGui {
 
     // 타이틀 슬롯
     private static final int TITLE_SLOT = 4;
-    
-    private final boolean fromBackNavigation;
 
     public MainMenuGui(@NotNull GuiManager guiManager,
                        @NotNull LangManager langManager, @NotNull Player player) {
-        this(guiManager, langManager, player, false);
-    }
-    
-    public MainMenuGui(@NotNull GuiManager guiManager,
-                       @NotNull LangManager langManager, @NotNull Player player,
-                       boolean fromBackNavigation) {
         super(player, guiManager, langManager, GUI_SIZE, "gui.mainmenu.title");
-        this.fromBackNavigation = fromBackNavigation;
         setupLayout();
     }
 
@@ -59,22 +51,20 @@ public class MainMenuGui extends BaseGui {
     public @NotNull Component getTitle() {
         return trans("gui.mainmenu.title");
     }
-    
-    @Override
-    public void open(@NotNull Player player) {
-        super.open(player);
-        // 뒤로가기로 열린 경우가 아닐 때만 상자 소리 재생
-        if (!fromBackNavigation) {
-            SoundUtil.playOpenSound(player);
-        }
-    }
+
 
     @Override
     protected void setupLayout() {
         setupDecorations();
         setupMenuButtons();
-        // 메인 메뉴에는 새로고침 버튼 없이, 닫기 버튼만 표시
+        // 메인 메뉴는 닫기 버튼만 표시
         setupStandardNavigation(false, true);
+    }
+    
+    @Override
+    public void updateNavigationButtons() {
+        // 메인 메뉴는 뒤로가기 버튼 없음 - 항상 데코레이션 표시
+        setItem(BACK_BUTTON_SLOT, GuiFactory.createDecoration());
     }
 
     /**

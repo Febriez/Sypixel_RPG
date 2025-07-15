@@ -35,8 +35,8 @@ public class QuestListGui extends BaseGui {
     // 레이아웃 상수
     private static final int ACTIVE_QUESTS_START = 10;      // 2번째 줄 1번 슬롯부터
     private static final int COMPLETED_QUESTS_START = 28;   // 4번째 줄 1번 슬롯부터
-    private static final int QUESTS_PER_ROW = 6;            // 한 줄에 6개
-    private static final int MAX_DISPLAY_QUESTS = 12;       // 최대 표시 개수 (6개 x 2줄)
+    private static final int QUESTS_PER_ROW = 7;            // 한 줄에 7개
+    private static final int MAX_DISPLAY_QUESTS = 14;       // 최대 표시 개수 (7개 x 2줄)
 
     // 카테고리 표시 슬롯
     private static final int ACTIVE_LABEL_SLOT = 2;        // 첫 줄 2번 슬롯
@@ -72,15 +72,14 @@ public class QuestListGui extends BaseGui {
         // 전체 경계선
         createBorder();
         
-        // 진행 중/완료 퀘스트 구분선 (3번째 줄 전체)
-        for (int i = 18; i < 27; i++) {
-            setItem(i, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
-        }
+        // 진행 중/완료 퀘스트 구분선 (3번째 줄에서 퀘스트 표시 영역 제외)
+        setItem(18, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
+        setItem(22, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
+        setItem(26, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
         
         // 중앙 세로 구분선 (4번 슬롯)
         setItem(4, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
         setItem(13, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
-        setItem(22, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
         setItem(31, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
         setItem(40, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
     }
@@ -166,8 +165,8 @@ public class QuestListGui extends BaseGui {
             setItem(slot++, questItem);
             count++;
             
-            // 다음 줄로 이동 (6개마다)
-            if (count == 6) {
+            // 다음 줄로 이동 (7개마다)
+            if (count == 7) {
                 slot = ACTIVE_QUESTS_START + 9; // 세 번째 줄로
             }
         }
@@ -192,8 +191,8 @@ public class QuestListGui extends BaseGui {
             setItem(slot++, questItem);
             count++;
 
-            // 다음 줄로 이동 (6개마다)
-            if (count == 6) {
+            // 다음 줄로 이동 (7개마다)
+            if (count == 7) {
                 slot = COMPLETED_QUESTS_START + 9; // 다섯 번째 줄로
             }
         }

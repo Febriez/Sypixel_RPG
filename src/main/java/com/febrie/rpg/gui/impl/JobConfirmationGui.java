@@ -63,15 +63,9 @@ public class JobConfirmationGui extends BaseGui {
      * 배경 설정
      */
     private void setupBackground() {
-        // 전체 배경을 검은색 유리판으로
+        // 전체 배경을 빨간색 유리판으로 (위험을 강조)
         for (int i = 0; i < GUI_SIZE; i++) {
-            setItem(i, GuiFactory.createDecoration(Material.BLACK_STAINED_GLASS_PANE));
-        }
-
-        // 중요 정보 강조를 위한 빨간색 유리판 테두리
-        int[] redSlots = {0, 1, 2, 6, 7, 8, 9, 17, 18, 19, 20, 24, 25, 26};
-        for (int slot : redSlots) {
-            setItem(slot, GuiFactory.createDecoration(Material.RED_STAINED_GLASS_PANE));
+            setItem(i, GuiFactory.createDecoration(Material.RED_STAINED_GLASS_PANE));
         }
     }
 

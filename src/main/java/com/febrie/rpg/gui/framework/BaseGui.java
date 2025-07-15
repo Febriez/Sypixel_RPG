@@ -215,21 +215,34 @@ public abstract class BaseGui implements InteractiveGui {
     public void updateNavigationButtons() {
         // 뒤로가기 버튼 - GuiManager에서 뒤로갈 수 있는지 확인
         if (guiManager.canNavigateBack(viewer)) {
-            setItem(BACK_BUTTON_SLOT, GuiItem.clickable(
-                    new ItemBuilder(Material.ARROW)
-                            .displayName(langManager.getComponent(viewer, "gui.buttons.back.name"))
-                            .addLore(langManager.getComponent(viewer, "gui.buttons.back.lore"))
-                            .build(),
-                    p -> {
-                        if (guiManager.navigateBack(p)) {
-                            SoundUtil.playPageTurnSound(p);
-                        }
-                    }
-            ));
+            setItem(BACK_BUTTON_SLOT, createBackButton());
         } else {
             // 뒤로가기 불가능한 경우 장식 아이템
             setItem(BACK_BUTTON_SLOT, GuiFactory.createDecoration());
         }
+    }
+    
+    /**
+     * 뒤로가기 버튼 생성 - 오버라이드 가능
+     */
+    protected GuiItem createBackButton() {
+        return GuiItem.clickable(
+                new ItemBuilder(Material.ARROW)
+                        .displayName(langManager.getComponent(viewer, "gui.buttons.back.name"))
+                        .addLore(langManager.getComponent(viewer, "gui.buttons.back.lore"))
+                        .build(),
+                p -> {
+                    guiManager.navigateBack(p);
+                    playBackSound(p);
+                }
+        );
+    }
+    
+    /**
+     * 뒤로가기 소리 재생 - 오버라이드 가능
+     */
+    protected void playBackSound(@NotNull Player player) {
+        SoundUtil.playPageTurnSound(player);
     }
 
     /**

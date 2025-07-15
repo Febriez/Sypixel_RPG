@@ -40,14 +40,12 @@ public class ProfileGui extends BaseGui {
     private static final int PLAYER_HEAD_SLOT = 4; // 상단 중앙에 플레이어 머리
 
     // 스탯 표시 슬롯
-    private static final int LEVEL_INFO_SLOT = 19;
-    private static final int HEALTH_INFO_SLOT = 21;
-    private static final int FOOD_INFO_SLOT = 23;
-    private static final int GAME_INFO_SLOT = 25;
+    private static final int LEVEL_INFO_SLOT = 20;
+    private static final int GAME_INFO_SLOT = 24;
 
     // 프로필 메뉴 버튼 슬롯 (중앙 배치)
-    private static final int QUEST_INFO_SLOT = 30;
     private static final int JOB_INFO_SLOT = 29;
+    private static final int QUEST_INFO_SLOT = 30;
     private static final int STATS_INFO_SLOT = 31;
     private static final int COLLECTION_SLOT = 32;
     private static final int PET_SLOT = 33;
@@ -98,13 +96,7 @@ public class ProfileGui extends BaseGui {
             }
         }
 
-        // 중간 구분선
-        for (int i = 27; i < 36; i++) {
-            // 버튼이 있는 슬롯은 제외
-            if (i != JOB_INFO_SLOT && i != STATS_INFO_SLOT && i != COLLECTION_SLOT && i != PET_SLOT) {
-                setItem(i, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
-            }
-        }
+        // 중간 구분선 제거 - 버튼들만 표시
 
         // 좌우 테두리
         for (int row = 1; row < 5; row++) {
@@ -157,30 +149,6 @@ public class ProfileGui extends BaseGui {
                         .displayName(trans("gui.profile.level-info"))
                         .addLore(trans("gui.profile.level", "level", String.valueOf(rpgPlayer.getLevel())))
                         .addLore(trans("gui.profile.experience", "exp", String.valueOf(rpgPlayer.getExperience())))
-                        .build()
-        ));
-
-        // Health info
-        AttributeInstance healthAttr = targetPlayer.getAttribute(Attribute.MAX_HEALTH);
-        double maxHealth = healthAttr != null ? healthAttr.getValue() : 20.0;
-
-        setItem(HEALTH_INFO_SLOT, GuiItem.display(
-                ItemBuilder.of(Material.RED_DYE)
-                        .displayName(trans("gui.profile.health-info"))
-                        .addLore(trans("gui.profile.health",
-                                "current", String.format("%.1f", targetPlayer.getHealth()),
-                                "max", String.format("%.1f", maxHealth)))
-                        .build()
-        ));
-
-        // Food info
-        setItem(FOOD_INFO_SLOT, GuiItem.display(
-                ItemBuilder.of(Material.COOKED_BEEF)
-                        .displayName(trans("gui.profile.food-info"))
-                        .addLore(trans("gui.profile.food-level",
-                                "level", String.valueOf(targetPlayer.getFoodLevel())))
-                        .addLore(trans("gui.profile.saturation",
-                                "saturation", String.format("%.1f", targetPlayer.getSaturation())))
                         .build()
         ));
 
@@ -425,11 +393,11 @@ public class ProfileGui extends BaseGui {
                 p -> {
                     // 네비게이션 스택이 비어있어도 메인 메뉴로 돌아가기
                     if (!guiManager.navigateBack(p)) {
-                        // 메인 메뉴 열기 (뒤로가기로 열기)
-                        MainMenuGui mainMenu = new MainMenuGui(guiManager, langManager, p, true);
+                        // 메인 메뉴 열기
+                        MainMenuGui mainMenu = new MainMenuGui(guiManager, langManager, p);
                         guiManager.openGui(p, mainMenu);
                     }
-                    SoundUtil.playPageTurnSound(p);
+                    playBackSound(p);
                 }
         ));
 

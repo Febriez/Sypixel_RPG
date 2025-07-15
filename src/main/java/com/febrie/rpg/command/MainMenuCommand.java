@@ -42,6 +42,9 @@ public class MainMenuCommand extends BaseCommand {
         guiManager.clearNavigationStack(player);
         MainMenuGui mainMenu = new MainMenuGui(guiManager, langManager, player);
         guiManager.openGui(player, mainMenu);
+        
+        // 명령어로 열 때만 상자 소리 재생
+        com.febrie.rpg.util.SoundUtil.playOpenSound(player);
 
         langManager.sendMessage(player, "commands.mainmenu.success");
 

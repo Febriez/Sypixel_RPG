@@ -115,9 +115,22 @@
     "click-subpage": "%COLOR_INFO%▶ 우클릭으로 하위 페이지 열기",
     "talent-learned": "%COLOR_SUCCESS%{talent} 특성을 배웠습니다!",
     "click-stats": "%COLOR_GRAY%스탯 관리로 이동",
+    "page-info": "%COLOR_INFO%페이지 정보",
+    "current-page": "%COLOR_WHITE%현재 페이지: %COLOR_YELLOW%{page}",
+    "job": "%COLOR_WHITE%직업: %COLOR_INFO%{job}",
+    "available-points": "%COLOR_WHITE%사용 가능한 포인트: %COLOR_YELLOW%{points}",
+    "level-info": "%COLOR_WHITE%레벨 %COLOR_YELLOW%{current}%COLOR_WHITE%/%COLOR_YELLOW%{max}",
+    "cannot-learn": "%COLOR_ERROR%습득할 수 없습니다",
+    "not-enough-points": "%COLOR_ERROR%포인트가 부족합니다",
+    "stat-bonuses": "%COLOR_GREEN%능력치 보너스:",
+    "stat-bonus-line": "%COLOR_WHITE%• {stat}: %COLOR_YELLOW%+{value}",
+    "effects": "%COLOR_AQUA%효과:",
     "pages": {
       "main": "메인",
       "default": "기본"
+    },
+    "page": {
+      "main": "메인 특성"
     }
   },
   "leaderboard": {

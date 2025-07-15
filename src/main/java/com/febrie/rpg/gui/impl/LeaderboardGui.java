@@ -254,19 +254,8 @@ public class LeaderboardGui extends ScrollableGui {
      * 네비게이션 버튼 설정
      */
     private void setupNavigationButtons() {
-        // 뒤로가기 버튼
-        if (guiManager.canNavigateBack(viewer)) {
-            setItem(45, GuiItem.clickable(
-                    new ItemBuilder(Material.ARROW)
-                            .displayName(trans("gui.buttons.back.name"))
-                            .addLore(trans("gui.buttons.back.lore"))
-                            .build(),
-                    guiManager::navigateBack
-            ));
-        }
-
-        // 닫기 버튼
-        setItem(53, GuiFactory.createCloseButton(langManager, viewer));
+        // BaseGui의 표준 네비게이션 사용
+        setupStandardNavigation(false, true);
     }
 
     /**
