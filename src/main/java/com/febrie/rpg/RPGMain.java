@@ -2,7 +2,7 @@ package com.febrie.rpg;
 
 import com.febrie.rpg.command.AdminCommands;
 import com.febrie.rpg.command.MainMenuCommand;
-import com.febrie.rpg.database.FirestoreService;
+import com.febrie.rpg.database.FirestoreRestService;
 import com.febrie.rpg.dto.ServerStatsDTO;
 import com.febrie.rpg.gui.listener.GuiListener;
 import com.febrie.rpg.gui.manager.GuiManager;
@@ -34,7 +34,7 @@ public final class RPGMain extends JavaPlugin {
     private GuiManager guiManager;
     private RPGPlayerManager rpgPlayerManager;
     private TalentManager talentManager;
-    private FirestoreService firestoreService;
+    private FirestoreRestService firestoreService;
 
     // 명령어
     private MainMenuCommand mainMenuCommand;
@@ -122,7 +122,7 @@ public final class RPGMain extends JavaPlugin {
         LogUtil.info("GUI 시스템 초기화 완료");
 
         // Firebase 서비스 초기화
-        this.firestoreService = new FirestoreService(this);
+        this.firestoreService = new FirestoreRestService(this);
         LogUtil.info("Firebase 서비스 초기화 완료");
 
         // 매니저 초기화
@@ -376,7 +376,7 @@ public final class RPGMain extends JavaPlugin {
         return talentManager;
     }
 
-    public FirestoreService getFirebaseService() {
+    public FirestoreRestService getFirebaseService() {
         return firestoreService;
     }
 

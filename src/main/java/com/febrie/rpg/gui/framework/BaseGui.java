@@ -87,7 +87,7 @@ public abstract class BaseGui implements InteractiveGui {
      */
     private Inventory createInventory(@NotNull String titleKey, @NotNull String... titleArgs) {
         Component title = langManager.getComponent(viewer, titleKey, titleArgs);
-        return Bukkit.createInventory(null, size, title);
+        return Bukkit.createInventory(this, size, title);
     }
 
     // InteractiveGui 구현

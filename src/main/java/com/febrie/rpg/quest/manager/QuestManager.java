@@ -1,7 +1,7 @@
 package com.febrie.rpg.quest.manager;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.database.FirestoreService;
+import com.febrie.rpg.database.FirestoreRestService;
 import com.febrie.rpg.dto.CompletedQuestDTO;
 import com.febrie.rpg.dto.PlayerQuestDTO;
 import com.febrie.rpg.quest.Quest;
@@ -34,7 +34,7 @@ public class QuestManager {
     private static QuestManager instance;
 
     private final RPGMain plugin;
-    private final FirestoreService firestoreService;
+    private final FirestoreRestService firestoreService;
 
     // 고정 퀘스트 맵 - enum으로 관리
     private final Map<QuestID, Quest> quests = new EnumMap<>(QuestID.class);
@@ -61,7 +61,7 @@ public class QuestManager {
     /**
      * 프라이빗 생성자
      */
-    private QuestManager(@NotNull RPGMain plugin, @NotNull FirestoreService firestoreService) {
+    private QuestManager(@NotNull RPGMain plugin, @NotNull FirestoreRestService firestoreService) {
         this.plugin = plugin;
         this.firestoreService = firestoreService;
 
@@ -95,7 +95,7 @@ public class QuestManager {
     /**
      * 싱글톤 인스턴스 초기화
      */
-    public static void initialize(@NotNull RPGMain plugin, @NotNull FirestoreService firestoreService) {
+    public static void initialize(@NotNull RPGMain plugin, @NotNull FirestoreRestService firestoreService) {
         if (instance == null) {
             instance = new QuestManager(plugin, firestoreService);
             LogUtil.info("QuestManager initialized");

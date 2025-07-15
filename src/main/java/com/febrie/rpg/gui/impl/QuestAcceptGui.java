@@ -58,6 +58,7 @@ public class QuestAcceptGui extends BaseGui {
         setupDecorations();
         setupQuestInfo();
         setupActionButtons();
+        setupBackButton();
     }
 
     /**
@@ -283,6 +284,32 @@ public class QuestAcceptGui extends BaseGui {
         }
 
         return true;
+    }
+
+    /**
+     * 뒤로가기 버튼 설정
+     */
+    private void setupBackButton() {
+        // 뒤로가기 버튼은 하단 중앙에 배치
+        int backSlot = 31; // 하단 중앙 슬롯
+        
+        GuiItem backButton = GuiItem.clickable(
+                new ItemBuilder(Material.BARRIER)
+                        .displayName(trans("gui.buttons.back.name"))
+                        .addLore(trans("gui.buttons.back.lore"))
+                        .addItemFlags(ItemFlag.values())
+                        .build(),
+                p -> {
+                    // 이전 화면으로 돌아가기
+                    if (!guiManager.navigateBack(p)) {
+                        // 네비게이션 스택이 비어있으면 GUI 닫기
+                        p.closeInventory();
+                    }
+                    playClickSound(p);
+                }
+        );
+        
+        setItem(backSlot, backButton);
     }
 
     @Override

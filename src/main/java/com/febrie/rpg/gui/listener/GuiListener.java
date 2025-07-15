@@ -38,12 +38,26 @@ public class GuiListener implements Listener {
             return;
         }
 
-        Inventory inventory = event.getClickedInventory();
-        if (inventory == null) {
+        // 상단 인벤토리 확인 (GUI 인벤토리)
+        Inventory topInventory = event.getView().getTopInventory();
+        InventoryHolder holder = topInventory.getHolder();
+
+        // GUI가 아닌 경우 처리하지 않음
+        if (!(holder instanceof GuiFramework)) {
             return;
         }
 
-        InventoryHolder holder = inventory.getHolder(false);
+        // 클릭한 인벤토리 확인
+        Inventory clickedInventory = event.getClickedInventory();
+        if (clickedInventory == null) {
+            return;
+        }
+
+        // 플레이어 인벤토리 클릭 시 아이템 이동 방지
+        if (clickedInventory.equals(event.getView().getBottomInventory())) {
+            event.setCancelled(true);
+            return;
+        }
 
         // Handle InteractiveGui
         if (holder instanceof InteractiveGui interactiveGui) {
@@ -92,7 +106,7 @@ public class GuiListener implements Listener {
         }
 
         Inventory inventory = event.getInventory();
-        InventoryHolder holder = inventory.getHolder(false);
+        InventoryHolder holder = inventory.getHolder();
 
         // Handle DisplayGui
         if (holder instanceof DisplayGui displayGui) {
@@ -118,7 +132,7 @@ public class GuiListener implements Listener {
         lastClickTimes.remove(player.getUniqueId());
 
         Inventory inventory = event.getInventory();
-        InventoryHolder holder = inventory.getHolder(false);
+        InventoryHolder holder = inventory.getHolder();
 
         // Handle InteractiveGui close event
         if (holder instanceof InteractiveGui interactiveGui) {

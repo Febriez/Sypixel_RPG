@@ -4,11 +4,15 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.impl.daily.DailyHuntingQuest;
 import com.febrie.rpg.quest.impl.daily.DailyMiningQuest;
+import com.febrie.rpg.quest.impl.daily.DailyFishingQuest;
 import com.febrie.rpg.quest.impl.main.HeroesJourneyQuest;
 import com.febrie.rpg.quest.impl.main.PathOfDarknessQuest;
 import com.febrie.rpg.quest.impl.main.PathOfLightQuest;
 import com.febrie.rpg.quest.impl.tutorial.BasicCombatQuest;
 import com.febrie.rpg.quest.impl.tutorial.FirstStepsQuest;
+import com.febrie.rpg.quest.impl.side.FarmersRequestQuest;
+import com.febrie.rpg.quest.impl.side.CollectHerbsQuest;
+import com.febrie.rpg.quest.impl.side.LostTreasureQuest;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,13 +41,14 @@ public class QuestRegistry {
         register(QuestID.MAIN_PATH_OF_DARKNESS, PathOfDarknessQuest::new);
 
         // 사이드 퀘스트
-        // register(QuestID.SIDE_COLLECT_HERBS, CollectHerbsQuest::new);
-        // register(QuestID.SIDE_LOST_TREASURE, LostTreasureQuest::new);
+        register(QuestID.SIDE_FARMERS_REQUEST, FarmersRequestQuest::new);
+        register(QuestID.SIDE_COLLECT_HERBS, CollectHerbsQuest::new);
+        register(QuestID.SIDE_LOST_TREASURE, LostTreasureQuest::new);
 
         // 일일 퀘스트
         register(QuestID.DAILY_HUNTING, DailyHuntingQuest::new);
         register(QuestID.DAILY_MINING, DailyMiningQuest::new);
-        // register(QuestID.DAILY_FISHING, DailyFishingQuest::new);
+        register(QuestID.DAILY_FISHING, DailyFishingQuest::new);
 
         // 주간 퀘스트
         // register(QuestID.WEEKLY_RAID_BOSS, WeeklyRaidBossQuest::new);

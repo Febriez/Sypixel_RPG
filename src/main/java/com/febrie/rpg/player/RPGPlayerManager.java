@@ -1,7 +1,7 @@
 package com.febrie.rpg.player;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.database.FirestoreService;
+import com.febrie.rpg.database.FirestoreRestService;
 import com.febrie.rpg.dto.*;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.level.LevelSystem;
@@ -33,14 +33,14 @@ import java.util.concurrent.TimeUnit;
 public class RPGPlayerManager implements Listener {
 
     private final RPGMain plugin;
-    private final FirestoreService firestoreService;
+    private final FirestoreRestService firestoreService;
     private final Map<UUID, RPGPlayer> players = new ConcurrentHashMap<>();
 
     // 저장 쿨다운 관리 (PlayerService에서 이동)
     private final Map<UUID, Long> lastSaveTime = new ConcurrentHashMap<>();
     private static final long SAVE_COOLDOWN = 30000; // 30초
 
-    public RPGPlayerManager(@NotNull RPGMain plugin, @NotNull FirestoreService firestoreService) {
+    public RPGPlayerManager(@NotNull RPGMain plugin, @NotNull FirestoreRestService firestoreService) {
         this.plugin = plugin;
         this.firestoreService = firestoreService;
 
