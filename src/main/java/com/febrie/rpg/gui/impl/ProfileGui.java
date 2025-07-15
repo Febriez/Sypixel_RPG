@@ -425,8 +425,8 @@ public class ProfileGui extends BaseGui {
                 p -> {
                     // 네비게이션 스택이 비어있어도 메인 메뉴로 돌아가기
                     if (!guiManager.navigateBack(p)) {
-                        // 메인 메뉴 열기
-                        MainMenuGui mainMenu = new MainMenuGui(guiManager, langManager, p);
+                        // 메인 메뉴 열기 (뒤로가기로 열기)
+                        MainMenuGui mainMenu = new MainMenuGui(guiManager, langManager, p, true);
                         guiManager.openGui(p, mainMenu);
                     }
                     SoundUtil.playPageTurnSound(p);

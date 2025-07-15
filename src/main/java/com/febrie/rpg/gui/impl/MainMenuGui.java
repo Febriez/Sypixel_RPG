@@ -39,10 +39,19 @@ public class MainMenuGui extends BaseGui {
 
     // 타이틀 슬롯
     private static final int TITLE_SLOT = 4;
+    
+    private final boolean fromBackNavigation;
 
     public MainMenuGui(@NotNull GuiManager guiManager,
                        @NotNull LangManager langManager, @NotNull Player player) {
+        this(guiManager, langManager, player, false);
+    }
+    
+    public MainMenuGui(@NotNull GuiManager guiManager,
+                       @NotNull LangManager langManager, @NotNull Player player,
+                       boolean fromBackNavigation) {
         super(player, guiManager, langManager, GUI_SIZE, "gui.mainmenu.title");
+        this.fromBackNavigation = fromBackNavigation;
         setupLayout();
     }
 
@@ -54,8 +63,10 @@ public class MainMenuGui extends BaseGui {
     @Override
     public void open(@NotNull Player player) {
         super.open(player);
-        // 메인 메뉴 열 때만 상자 소리 재생
-        SoundUtil.playOpenSound(player);
+        // 뒤로가기로 열린 경우가 아닐 때만 상자 소리 재생
+        if (!fromBackNavigation) {
+            SoundUtil.playOpenSound(player);
+        }
     }
 
     @Override
