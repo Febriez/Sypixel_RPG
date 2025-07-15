@@ -7,6 +7,7 @@ import com.febrie.rpg.dto.ServerStatsDTO;
 import com.febrie.rpg.gui.listener.GuiListener;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayerManager;
+import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.talent.TalentManager;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
@@ -84,6 +85,16 @@ public final class RPGMain extends JavaPlugin {
         if (rpgPlayerManager != null) {
             rpgPlayerManager.saveAll();
         }
+        
+        // QuestManager 종료
+        try {
+            QuestManager questManager = QuestManager.getInstance();
+            if (questManager != null) {
+                questManager.shutdown();
+            }
+        } catch (IllegalStateException e) {
+            // QuestManager가 초기화되지 않은 경우 무시
+        }
 
         // GUI 정리
         if (guiManager != null) {
@@ -117,6 +128,9 @@ public final class RPGMain extends JavaPlugin {
         // 매니저 초기화
         this.rpgPlayerManager = new RPGPlayerManager(this, firestoreService);
         this.talentManager = new TalentManager(this);
+        
+        // QuestManager 초기화
+        QuestManager.initialize(this, firestoreService);
         LogUtil.info("매니저 시스템 초기화 완료");
 
         // 명령어 객체 생성 (실제 등록은 registerCommands에서)
