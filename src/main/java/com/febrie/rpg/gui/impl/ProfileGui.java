@@ -399,13 +399,13 @@ public class ProfileGui extends BaseGui {
         // 하단 전체에 장식 배치
         for (int i = 45; i < 54; i++) {
             // 뒤로가기와 닫기 버튼 위치는 제외
-            if (i != BACK_BUTTON_SLOT && i != CLOSE_BUTTON_SLOT) {
+            if (i != getBackButtonSlot() && i != getCloseButtonSlot()) {
                 setItem(i, GuiFactory.createDecoration());
             }
         }
 
         // Back button - 항상 표시 (메인 메뉴로 돌아가기)
-        setItem(BACK_BUTTON_SLOT, GuiItem.clickable(
+        setItem(getBackButtonSlot(), GuiItem.clickable(
                 new ItemBuilder(Material.ARROW)
                         .displayName(trans("gui.buttons.back.name"))
                         .addLore(trans("gui.buttons.back.lore"))
@@ -425,7 +425,7 @@ public class ProfileGui extends BaseGui {
         ));
 
         // Close button - BaseGui 표준 위치 사용
-        setItem(CLOSE_BUTTON_SLOT, GuiFactory.createCloseButton(langManager, viewer));
+        setItem(getCloseButtonSlot(), GuiFactory.createCloseButton(langManager, viewer));
 
         // User settings button (only for own profile)
         if (viewer.equals(targetPlayer)) {

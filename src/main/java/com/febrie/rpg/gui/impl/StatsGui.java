@@ -48,9 +48,7 @@ public class StatsGui extends ScrollableGui {
     private static final int PLAYER_INFO_SLOT = 4;
     private static final int STAT_POINTS_SLOT = 13;
 
-    // 네비게이션 버튼 위치
-    private static final int NAV_BACK_SLOT = 45;
-    private static final int NAV_CLOSE_SLOT = 53;
+    // NAV_BACK_SLOT, NAV_CLOSE_SLOT 제거 - BaseGui의 동적 메소드 사용
 
     private final RPGPlayer rpgPlayer;
     private final Map<Integer, GuiItem> items = new HashMap<>();
@@ -99,7 +97,8 @@ public class StatsGui extends ScrollableGui {
         setupBackground();
         setupPlayerInfo();
         setupStatsDisplay();
-        setupNavigationButtons();
+        // 표준 네비게이션 사용 (새로고침 버튼 없음, 닫기 버튼 있음)
+        setupStandardNavigation(false, true);
     }
 
     /**
@@ -196,29 +195,7 @@ public class StatsGui extends ScrollableGui {
         });
     }
 
-    /**
-     * 네비게이션 버튼 설정
-     */
-    private void setupNavigationButtons() {
-        // 뒤로가기 버튼
-        if (getBackTarget() != null) {
-            setItem(NAV_BACK_SLOT, GuiItem.clickable(
-                    ItemBuilder.of(Material.ARROW)
-                            .displayName(trans("gui.buttons.back.name"))
-                            .addLore(trans("gui.buttons.back.lore"))
-                            .build(),
-                    player -> {
-                        GuiFramework backTarget = getBackTarget();
-                        if (backTarget != null) {
-                            guiManager.openGui(player, backTarget);
-                        }
-                    }
-            ));
-        }
-
-        // 닫기 버튼
-        setItem(NAV_CLOSE_SLOT, GuiFactory.createCloseButton(langManager, viewer));
-    }
+    // setupNavigationButtons 메소드 제거 - BaseGui의 setupStandardNavigation 사용
 
     /**
      * 스탯 클릭 처리

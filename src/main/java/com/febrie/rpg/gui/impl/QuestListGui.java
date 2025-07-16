@@ -287,7 +287,7 @@ public class QuestListGui extends BaseGui {
         updateNavigationButtons();
 
         // 닫기 버튼도 추가
-        setItem(CLOSE_BUTTON_SLOT, GuiFactory.createCloseButton(langManager, viewer));
+        setItem(getCloseButtonSlot(), GuiFactory.createCloseButton(langManager, viewer));
     }
 
     @Override

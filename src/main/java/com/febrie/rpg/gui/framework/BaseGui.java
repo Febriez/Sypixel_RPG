@@ -36,10 +36,23 @@ public abstract class BaseGui implements InteractiveGui {
     protected final Inventory inventory;
     protected final Map<Integer, GuiItem> items = new HashMap<>();
 
-    // 네비게이션 버튼 표준 위치
-    protected static final int BACK_BUTTON_SLOT = 48;    // 하단 중앙에서 왼쪽
-    protected static final int CLOSE_BUTTON_SLOT = 49;   // 하단 중앙
-    protected static final int REFRESH_BUTTON_SLOT = 50; // 하단 중앙에서 오른쪽
+    // 네비게이션 버튼 동적 위치 계산을 위한 메소드
+    protected int getBackButtonSlot() {
+        return size - 6;  // 하단 중앙에서 왼쪽 (마지막 줄의 3번째 슬롯)
+    }
+    
+    protected int getCloseButtonSlot() {
+        return size - 5;  // 하단 중앙 (마지막 줄의 4번째 슬롯)
+    }
+    
+    protected int getRefreshButtonSlot() {
+        return size - 4;  // 하단 중앙에서 오른쪽 (마지막 줄의 5번째 슬롯)
+    }
+    
+    // 레거시 지원을 위한 상수 (점진적 마이그레이션용)
+    protected static final int BACK_BUTTON_SLOT = 48;    // 6줄 GUI 기준
+    protected static final int CLOSE_BUTTON_SLOT = 49;   // 6줄 GUI 기준
+    protected static final int REFRESH_BUTTON_SLOT = 50; // 6줄 GUI 기준
 
     /**
      * 생성자
@@ -190,7 +203,7 @@ public abstract class BaseGui implements InteractiveGui {
 
         // 새로고침 버튼
         if (includeRefresh) {
-            setItem(REFRESH_BUTTON_SLOT, GuiFactory.createRefreshButton(() -> {
+            setItem(getRefreshButtonSlot(), GuiFactory.createRefreshButton(() -> {
                 refresh();
                 playClickSound(viewer);
             }, langManager, viewer));
@@ -198,7 +211,7 @@ public abstract class BaseGui implements InteractiveGui {
 
         // 닫기 버튼
         if (includeClose) {
-            setItem(CLOSE_BUTTON_SLOT, GuiFactory.createCloseButton(langManager, viewer));
+            setItem(getCloseButtonSlot(), GuiFactory.createCloseButton(langManager, viewer));
         }
     }
 
@@ -214,10 +227,10 @@ public abstract class BaseGui implements InteractiveGui {
     public void updateNavigationButtons() {
         GuiFramework backTarget = getBackTarget();
         if (backTarget != null) {
-            setItem(BACK_BUTTON_SLOT, createBackButton(backTarget));
+            setItem(getBackButtonSlot(), createBackButton(backTarget));
         } else {
             // 뒤로가기 불가능한 경우 장식 아이템
-            setItem(BACK_BUTTON_SLOT, GuiFactory.createDecoration());
+            setItem(getBackButtonSlot(), GuiFactory.createDecoration());
         }
     }
     

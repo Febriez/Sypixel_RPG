@@ -35,9 +35,7 @@ public class TalentGui extends ScrollableGui {
     private static final int TALENT_TREE_START = 10;
     private static final int TALENTS_PER_ROW = 7;
 
-    // 네비게이션 버튼 위치
-    private static final int NAV_BACK_SLOT = 45;
-    private static final int NAV_CLOSE_SLOT = 53;
+    // NAV_BACK_SLOT, NAV_CLOSE_SLOT 제거 - BaseGui의 동적 메소드 사용
 
     private final RPGPlayer rpgPlayer;
     private final String pageId;
@@ -90,7 +88,8 @@ public class TalentGui extends ScrollableGui {
         setupBackground();
         setupInfoDisplay();
         setupTalentTree();
-        setupNavigationButtons();
+        // 표준 네비게이션 사용 (새로고침 버튼 없음, 닫기 버튼 있음)
+        setupStandardNavigation(false, true);
     }
 
     /**
@@ -315,29 +314,7 @@ public class TalentGui extends ScrollableGui {
         playClickSound(player);
     }
 
-    /**
-     * 네비게이션 버튼 설정
-     */
-    private void setupNavigationButtons() {
-        // 뒤로가기 버튼
-        if (getBackTarget() != null) {
-            setItem(NAV_BACK_SLOT, GuiItem.clickable(
-                    ItemBuilder.of(Material.ARROW)
-                            .displayName(trans("gui.buttons.back.name"))
-                            .addLore(trans("gui.buttons.back.lore"))
-                            .build(),
-                    player -> {
-                        GuiFramework backTarget = getBackTarget();
-                        if (backTarget != null) {
-                            guiManager.openGui(player, backTarget);
-                        }
-                    }
-            ));
-        }
-
-        // 닫기 버튼
-        setItem(NAV_CLOSE_SLOT, GuiFactory.createCloseButton(langManager, viewer));
-    }
+    // setupNavigationButtons 메소드 제거 - BaseGui의 setupStandardNavigation 사용
 
     /**
      * 페이지 타이틀 가져오기
