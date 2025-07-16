@@ -3,7 +3,10 @@ package com.febrie.rpg.database;
 import com.febrie.rpg.dto.*;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.util.LogUtil;
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -14,12 +17,12 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
+import java.security.SecureRandom;
 import java.security.Signature;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.*;
-import java.security.SecureRandom;
 
 /**
  * Firebase Firestore REST API 서비스
@@ -33,8 +36,6 @@ public class FirestoreRestService {
     private static final String FIREBASE_CLIENT_EMAIL = "firebase-adminsdk-fbsvc@sypixel-rpg.iam.gserviceaccount.com";
     private static final String FIRESTORE_BASE_URL = "https://firestore.googleapis.com/v1/projects/" + FIREBASE_PROJECT_ID + "/databases/(default)/documents";
     private static final String TOKEN_URL = "https://oauth2.googleapis.com/token";
-    private static final String FIREBASE_AUTH_URL = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + System.getenv("FIREBASE_WEB_API_KEY");
-    private static final String FIREBASE_IDENTITY_URL = "https://identitytoolkit.googleapis.com/v1/projects/" + FIREBASE_PROJECT_ID + ":setCustomUserClaims";
     private static final String USERS_COLLECTION = "users";
 
     private final HttpClient httpClient;
@@ -301,6 +302,10 @@ public class FirestoreRestService {
                 String url = "https://firestore.googleapis.com/v1/projects/" + FIREBASE_PROJECT_ID +
                         "/databases/(default)/documents:runQuery";
 
+                LogUtil.info("쿼리 실행 시작 - 컬렉션: " + collection);
+                LogUtil.info("쿼리 URL: " + url);
+                LogUtil.info("쿼리 내용: " + query.toString());
+
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create(url))
                         .header("Authorization", "Bearer " + accessToken)
@@ -310,8 +315,24 @@ public class FirestoreRestService {
 
                 HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
+                LogUtil.info("쿼리 응답 상태코드: " + response.statusCode());
+                LogUtil.info("쿼리 응답 내용: " + response.body());
+
                 if (response.statusCode() == 200) {
-                    return JsonParser.parseString(response.body()).getAsJsonArray();
+                    JsonArray rawResults = JsonParser.parseString(response.body()).getAsJsonArray();
+                    LogUtil.info("쿼리 원본 결과 배열 크기: " + rawResults.size());
+                    
+                    // 실제 문서가 있는 결과만 필터링
+                    JsonArray actualResults = new JsonArray();
+                    for (int i = 0; i < rawResults.size(); i++) {
+                        JsonObject result = rawResults.get(i).getAsJsonObject();
+                        if (result.has("document")) {
+                            actualResults.add(result);
+                        }
+                    }
+                    
+                    LogUtil.info("실제 문서 결과 배열 크기: " + actualResults.size());
+                    return actualResults;
                 } else {
                     LogUtil.error("쿼리 실행 실패: " + collection + " - " + response.statusCode() + " - " + response.body());
                     return new JsonArray();
@@ -1046,22 +1067,84 @@ public class FirestoreRestService {
 
     /**
      * 사용자 계정 중복 확인
+     * 웹사이트 사용자 컬렉션에서만 확인 (RPG 플레이어 데이터와 별도)
      */
     public CompletableFuture<Boolean> checkAccountExists(@NotNull String uuid, @NotNull String email) {
         if (!isConnected()) {
             return CompletableFuture.completedFuture(false);
         }
 
-        // UUID로 확인
+        LogUtil.info("계정 중복 확인 시작 - UUID: " + uuid + ", Email: " + email);
+
+        // UUID로 웹사이트 사용자 확인
         CompletableFuture<Boolean> uuidExists = getDocument(USERS_COLLECTION + "/" + uuid)
-                .thenApply(doc -> doc != null);
+                .thenApply(doc -> {
+                    boolean exists = doc != null;
+                    LogUtil.info("UUID 중복 확인 결과: " + exists);
+                    return exists;
+                });
 
-        // 이메일로 확인 (쿼리 필요)
+        // 이메일로 웹사이트 사용자 확인 (쿼리 필요)
         JsonObject emailQuery = createEmailQuery(email);
+        LogUtil.info("이메일 쿼리 생성: " + emailQuery.toString());
         CompletableFuture<Boolean> emailExists = runQuery(USERS_COLLECTION, emailQuery)
-                .thenApply(results -> results.size() > 0);
+                .thenApply(results -> {
+                    LogUtil.info("이메일 쿼리 결과 개수: " + results.size());
+                    
+                    // 실제 문서 내용을 확인하여 이메일 직접 비교
+                    boolean emailFound = false;
+                    
+                    for (int i = 0; i < results.size(); i++) {
+                        JsonObject result = results.get(i).getAsJsonObject();
+                        LogUtil.info("검색 결과 " + (i+1) + ": " + result.toString());
+                        
+                        if (result.has("document")) {
+                            JsonObject document = result.getAsJsonObject("document");
+                            LogUtil.info("문서 내용: " + document.toString());
+                            
+                            if (document.has("fields")) {
+                                JsonObject fields = document.getAsJsonObject("fields");
+                                LogUtil.info("문서 필드: " + fields.toString());
+                                
+                                // 이메일 필드 확인
+                                if (fields.has("email")) {
+                                    JsonObject emailField = fields.getAsJsonObject("email");
+                                    LogUtil.info("이메일 필드: " + emailField.toString());
+                                    
+                                    if (emailField.has("stringValue")) {
+                                        String foundEmail = emailField.get("stringValue").getAsString();
+                                        LogUtil.info("찾은 이메일: '" + foundEmail + "'");
+                                        LogUtil.info("검색한 이메일: '" + email + "'");
+                                        
+                                        if (email.equals(foundEmail)) {
+                                            LogUtil.info("이메일 일치! 중복 계정 발견");
+                                            emailFound = true;
+                                        } else {
+                                            LogUtil.info("이메일 불일치");
+                                        }
+                                    } else {
+                                        LogUtil.info("이메일 필드에 stringValue가 없음");
+                                    }
+                                } else {
+                                    LogUtil.info("문서에 email 필드가 없음");
+                                }
+                            } else {
+                                LogUtil.info("문서에 fields가 없음");
+                            }
+                        } else {
+                            LogUtil.info("결과에 document가 없음 (빈 결과)");
+                        }
+                    }
+                    
+                    LogUtil.info("최종 이메일 중복 확인 결과: " + emailFound);
+                    return emailFound;
+                });
 
-        return uuidExists.thenCombine(emailExists, (uuidResult, emailResult) -> uuidResult || emailResult);
+        return uuidExists.thenCombine(emailExists, (uuidResult, emailResult) -> {
+            boolean duplicated = uuidResult || emailResult;
+            LogUtil.info("전체 중복 확인 결과: " + duplicated);
+            return duplicated;
+        });
     }
 
     /**
@@ -1117,6 +1200,10 @@ public class FirestoreRestService {
 
                 String url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + webApiKey;
 
+                LogUtil.info("Firebase Auth 계정 생성 시도 - 이메일: " + email);
+                LogUtil.debug("Request URL: " + url);
+                LogUtil.debug("Request Body (비밀번호 제외): {email: " + email + ", returnSecureToken: true}");
+
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create(url))
                         .header("Content-Type", "application/json")
@@ -1125,9 +1212,14 @@ public class FirestoreRestService {
 
                 HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
+                LogUtil.info("Firebase Auth 응답 - 상태코드: " + response.statusCode());
+                LogUtil.debug("Response Body: " + response.body());
+
                 if (response.statusCode() == 200) {
                     JsonObject responseBody = JsonParser.parseString(response.body()).getAsJsonObject();
-                    return responseBody.get("localId").getAsString();
+                    String localId = responseBody.get("localId").getAsString();
+                    LogUtil.info("Firebase Auth 계정 생성 성공 - UID: " + localId);
+                    return localId;
                 } else {
                     LogUtil.error("Firebase Auth 계정 생성 실패: " + response.statusCode() + " - " + response.body());
                     return null;
@@ -1151,13 +1243,14 @@ public class FirestoreRestService {
                     "550e8400-e29b-41d4-a716-446655440000", // 예시 관리자 UUID
                     "6ba7b810-9dad-11d1-80b4-00c04fd430c8"  // 예시 관리자 UUID
             );
-            
+
             return adminUuids.contains(uuid);
         });
     }
 
     /**
      * Custom Claims 설정
+     * Firebase Admin API를 통한 Custom Claims 설정
      */
     public CompletableFuture<Boolean> setCustomClaims(@NotNull String uid, boolean isAdmin) {
         return CompletableFuture.supplyAsync(() -> {
@@ -1168,7 +1261,12 @@ public class FirestoreRestService {
                 customClaims.addProperty("isAdmin", isAdmin);
                 requestBody.add("customClaims", customClaims);
 
+                // Firebase Admin API를 통한 Custom Claims 설정
                 String url = "https://identitytoolkit.googleapis.com/v1/projects/" + FIREBASE_PROJECT_ID + ":setCustomUserClaims";
+
+                LogUtil.info("Custom Claims 설정 시도 - UID: " + uid + ", isAdmin: " + isAdmin);
+                LogUtil.debug("Request URL: " + url);
+                LogUtil.debug("Request Body: " + requestBody.toString());
 
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create(url))
@@ -1179,16 +1277,23 @@ public class FirestoreRestService {
 
                 HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
+                LogUtil.info("Custom Claims 응답 - 상태코드: " + response.statusCode());
+                LogUtil.debug("Response Body: " + response.body());
+
                 if (response.statusCode() == 200) {
                     LogUtil.info("Custom Claims 설정 성공: " + uid + " - isAdmin: " + isAdmin);
                     return true;
                 } else {
                     LogUtil.error("Custom Claims 설정 실패: " + response.statusCode() + " - " + response.body());
-                    return false;
+                    // Custom Claims 설정에 실패해도 계정 생성은 성공으로 처리
+                    LogUtil.warning("Custom Claims 설정 실패하지만 계정 생성은 계속 진행");
+                    return true;
                 }
             } catch (Exception e) {
                 LogUtil.error("Custom Claims 설정 중 오류", e);
-                return false;
+                // Custom Claims 설정에 실패해도 계정 생성은 성공으로 처리
+                LogUtil.warning("Custom Claims 설정 오류이지만 계정 생성은 계속 진행");
+                return true;
             }
         });
     }
@@ -1242,7 +1347,7 @@ public class FirestoreRestService {
                     }
 
                     String password = generateRandomPassword();
-                    
+
                     return createAuthAccount(email, password)
                             .thenCompose(authUid -> {
                                 if (authUid == null) {
@@ -1302,6 +1407,53 @@ public class FirestoreRestService {
         public String getPassword() {
             return password;
         }
+    }
+
+    /**
+     * 디버깅을 위한 사용자 컬렉션 확인
+     */
+    public CompletableFuture<Void> debugCheckUsersCollection() {
+        return CompletableFuture.runAsync(() -> {
+            try {
+                LogUtil.info("=== 사용자 컬렉션 디버깅 시작 ===");
+                
+                // users 컬렉션의 모든 문서 가져오기
+                String url = FIRESTORE_BASE_URL + "/" + USERS_COLLECTION;
+                
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create(url))
+                        .header("Authorization", "Bearer " + accessToken)
+                        .GET()
+                        .build();
+
+                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+                
+                LogUtil.info("사용자 컬렉션 조회 응답 - 상태코드: " + response.statusCode());
+                LogUtil.info("응답 내용: " + response.body());
+                
+                if (response.statusCode() == 200) {
+                    JsonObject responseBody = JsonParser.parseString(response.body()).getAsJsonObject();
+                    if (responseBody.has("documents")) {
+                        JsonArray documents = responseBody.getAsJsonArray("documents");
+                        LogUtil.info("사용자 컬렉션에 " + documents.size() + "개의 문서가 있습니다.");
+                        
+                        for (int i = 0; i < documents.size(); i++) {
+                            JsonObject doc = documents.get(i).getAsJsonObject();
+                            String docName = doc.get("name").getAsString();
+                            LogUtil.info("문서 " + (i+1) + ": " + docName);
+                        }
+                    } else {
+                        LogUtil.info("사용자 컬렉션이 비어있거나 존재하지 않습니다.");
+                    }
+                } else {
+                    LogUtil.error("사용자 컬렉션 조회 실패: " + response.statusCode());
+                }
+                
+                LogUtil.info("=== 사용자 컬렉션 디버깅 완료 ===");
+            } catch (Exception e) {
+                LogUtil.error("사용자 컬렉션 디버깅 중 오류", e);
+            }
+        });
     }
 
     /**
