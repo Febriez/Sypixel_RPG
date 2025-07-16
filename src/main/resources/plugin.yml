@@ -34,6 +34,14 @@ commands:
     permission-message: "관리자 권한이 필요합니다. / Admin permission required."
     aliases: [ rpga, 알피지관리 ]
 
+  # Site account command
+  사이트계정발급:
+    description: "웹사이트 계정을 발급받습니다 / Create a website account"
+    usage: "/사이트계정발급 <이메일>"
+    permission: sypixelrpg.siteaccount
+    permission-message: "이 명령어를 사용할 권한이 없습니다. / You do not have permission to use this command."
+    aliases: [ 계정발급, siteaccount, createaccount ]
+
 # Permissions
 permissions:
   # Root permission
@@ -43,6 +51,7 @@ permissions:
     children:
       sypixelrpg.mainmenu: true
       sypixelrpg.admin: true
+      sypixelrpg.siteaccount: true
 
   # Main menu permission
   sypixelrpg.mainmenu:
@@ -53,6 +62,10 @@ permissions:
   sypixelrpg.admin:
     description: "관리자 명령어를 사용할 수 있는 권한 / Permission to use admin commands"
     default: op
+
+  sypixelrpg.siteaccount:
+    description: "사이트 계정을 발급받을 수 있는 권한 / Permission to create site account"
+    default: true
 
   # Future permissions (for upcoming features)
   sypixelrpg.shop:

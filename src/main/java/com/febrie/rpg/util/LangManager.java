@@ -47,7 +47,7 @@ public class LangManager {
 
     // 언어 파일 섹션
     private static final String[] LANGUAGE_SECTIONS = {
-            "general", "gui", "items", "job", "talent", "stat", "messages", "commands", "status", "currency"
+            "general", "gui", "items", "job", "talent", "stat", "messages", "commands", "status", "currency", "quest"
     };
 
     // 지원하는 언어 목록

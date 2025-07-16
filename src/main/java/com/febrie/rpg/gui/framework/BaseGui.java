@@ -6,7 +6,9 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
+import com.febrie.rpg.util.ColorUtil;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -77,6 +79,14 @@ public abstract class BaseGui implements InteractiveGui {
      */
     @Override
     public abstract @NotNull Component getTitle();
+    
+    /**
+     * GUI 타이틀 색상과 스타일을 가져옴 - 하위 클래스에서 오버라이드 가능
+     * 기본값: #4297FF 색상에 볼드 적용
+     */
+    protected @NotNull Component applyTitleStyle(@NotNull Component title) {
+        return title.color(ColorUtil.GUI_TITLE).decorate(TextDecoration.BOLD);
+    }
 
     /**
      * 허용된 클릭 타입 목록 - 하위 클래스에서 오버라이드 가능
@@ -100,7 +110,8 @@ public abstract class BaseGui implements InteractiveGui {
      */
     private Inventory createInventory(@NotNull String titleKey, @NotNull String... titleArgs) {
         Component title = langManager.getComponent(viewer, titleKey, titleArgs);
-        return Bukkit.createInventory(this, size, title);
+        Component styledTitle = applyTitleStyle(title);
+        return Bukkit.createInventory(this, size, styledTitle);
     }
 
     // InteractiveGui 구현

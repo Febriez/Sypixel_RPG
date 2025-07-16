@@ -19,6 +19,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.*;
+import java.security.SecureRandom;
 
 /**
  * Firebase Firestore REST API 서비스
@@ -32,6 +33,9 @@ public class FirestoreRestService {
     private static final String FIREBASE_CLIENT_EMAIL = "firebase-adminsdk-fbsvc@sypixel-rpg.iam.gserviceaccount.com";
     private static final String FIRESTORE_BASE_URL = "https://firestore.googleapis.com/v1/projects/" + FIREBASE_PROJECT_ID + "/databases/(default)/documents";
     private static final String TOKEN_URL = "https://oauth2.googleapis.com/token";
+    private static final String FIREBASE_AUTH_URL = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + System.getenv("FIREBASE_WEB_API_KEY");
+    private static final String FIREBASE_IDENTITY_URL = "https://identitytoolkit.googleapis.com/v1/projects/" + FIREBASE_PROJECT_ID + ":setCustomUserClaims";
+    private static final String USERS_COLLECTION = "users";
 
     private final HttpClient httpClient;
     private String accessToken;
@@ -1036,6 +1040,268 @@ public class FirestoreRestService {
     public CompletableFuture<List<ServerStatsDTO>> loadRecentServerStats(int days) {
         // 복잡한 쿼리 구현 필요
         return CompletableFuture.completedFuture(new ArrayList<>());
+    }
+
+    // ========== 웹사이트 계정 관리 ==========
+
+    /**
+     * 사용자 계정 중복 확인
+     */
+    public CompletableFuture<Boolean> checkAccountExists(@NotNull String uuid, @NotNull String email) {
+        if (!isConnected()) {
+            return CompletableFuture.completedFuture(false);
+        }
+
+        // UUID로 확인
+        CompletableFuture<Boolean> uuidExists = getDocument(USERS_COLLECTION + "/" + uuid)
+                .thenApply(doc -> doc != null);
+
+        // 이메일로 확인 (쿼리 필요)
+        JsonObject emailQuery = createEmailQuery(email);
+        CompletableFuture<Boolean> emailExists = runQuery(USERS_COLLECTION, emailQuery)
+                .thenApply(results -> results.size() > 0);
+
+        return uuidExists.thenCombine(emailExists, (uuidResult, emailResult) -> uuidResult || emailResult);
+    }
+
+    /**
+     * 이메일 중복 확인을 위한 쿼리 생성
+     */
+    private JsonObject createEmailQuery(String email) {
+        JsonObject query = new JsonObject();
+        JsonObject structuredQuery = new JsonObject();
+
+        // FROM 절
+        JsonArray from = new JsonArray();
+        JsonObject collection = new JsonObject();
+        collection.addProperty("collectionId", USERS_COLLECTION);
+        from.add(collection);
+        structuredQuery.add("from", from);
+
+        // WHERE 절
+        JsonObject where = new JsonObject();
+        JsonObject fieldFilter = new JsonObject();
+        JsonObject field = new JsonObject();
+        field.addProperty("fieldPath", "email");
+        fieldFilter.add("field", field);
+        fieldFilter.addProperty("op", "EQUAL");
+        JsonObject value = new JsonObject();
+        value.addProperty("stringValue", email);
+        fieldFilter.add("value", value);
+        where.add("fieldFilter", fieldFilter);
+        structuredQuery.add("where", where);
+
+        // LIMIT 1
+        structuredQuery.addProperty("limit", 1);
+
+        query.add("structuredQuery", structuredQuery);
+        return query;
+    }
+
+    /**
+     * Firebase Auth 계정 생성
+     */
+    public CompletableFuture<String> createAuthAccount(@NotNull String email, @NotNull String password) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                JsonObject requestBody = new JsonObject();
+                requestBody.addProperty("email", email);
+                requestBody.addProperty("password", password);
+                requestBody.addProperty("returnSecureToken", true);
+
+                String webApiKey = System.getenv("FIREBASE_WEB_API_KEY");
+                if (webApiKey == null || webApiKey.isEmpty()) {
+                    LogUtil.error("FIREBASE_WEB_API_KEY 환경변수가 설정되지 않았습니다.");
+                    return null;
+                }
+
+                String url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + webApiKey;
+
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create(url))
+                        .header("Content-Type", "application/json")
+                        .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
+                        .build();
+
+                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+                if (response.statusCode() == 200) {
+                    JsonObject responseBody = JsonParser.parseString(response.body()).getAsJsonObject();
+                    return responseBody.get("localId").getAsString();
+                } else {
+                    LogUtil.error("Firebase Auth 계정 생성 실패: " + response.statusCode() + " - " + response.body());
+                    return null;
+                }
+            } catch (Exception e) {
+                LogUtil.error("Firebase Auth 계정 생성 중 오류", e);
+                return null;
+            }
+        });
+    }
+
+    /**
+     * 관리자 여부 확인 (웹사이트 로직 참조)
+     */
+    public CompletableFuture<Boolean> checkIsAdmin(@NotNull String uuid) {
+        return CompletableFuture.supplyAsync(() -> {
+            // 간단한 관리자 확인 로직
+            // 실제로는 웹사이트의 관리자 확인 로직을 참조하여 구현
+            // 현재는 특정 UUID들을 관리자로 설정
+            List<String> adminUuids = Arrays.asList(
+                    "550e8400-e29b-41d4-a716-446655440000", // 예시 관리자 UUID
+                    "6ba7b810-9dad-11d1-80b4-00c04fd430c8"  // 예시 관리자 UUID
+            );
+            
+            return adminUuids.contains(uuid);
+        });
+    }
+
+    /**
+     * Custom Claims 설정
+     */
+    public CompletableFuture<Boolean> setCustomClaims(@NotNull String uid, boolean isAdmin) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                JsonObject requestBody = new JsonObject();
+                requestBody.addProperty("uid", uid);
+                JsonObject customClaims = new JsonObject();
+                customClaims.addProperty("isAdmin", isAdmin);
+                requestBody.add("customClaims", customClaims);
+
+                String url = "https://identitytoolkit.googleapis.com/v1/projects/" + FIREBASE_PROJECT_ID + ":setCustomUserClaims";
+
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create(url))
+                        .header("Authorization", "Bearer " + accessToken)
+                        .header("Content-Type", "application/json")
+                        .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
+                        .build();
+
+                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+                if (response.statusCode() == 200) {
+                    LogUtil.info("Custom Claims 설정 성공: " + uid + " - isAdmin: " + isAdmin);
+                    return true;
+                } else {
+                    LogUtil.error("Custom Claims 설정 실패: " + response.statusCode() + " - " + response.body());
+                    return false;
+                }
+            } catch (Exception e) {
+                LogUtil.error("Custom Claims 설정 중 오류", e);
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 웹사이트 사용자 정보 저장
+     */
+    public CompletableFuture<Boolean> saveWebsiteUser(@NotNull String uuid, @NotNull String email, boolean isAdmin) {
+        if (!isConnected()) {
+            return CompletableFuture.completedFuture(false);
+        }
+
+        JsonObject doc = new JsonObject();
+        JsonObject fields = new JsonObject();
+
+        fields.add("uuid", createStringValue(uuid));
+        fields.add("email", createStringValue(email));
+        fields.add("isAdmin", createBooleanValue(isAdmin));
+        fields.add("createdAt", createTimestampValue());
+
+        doc.add("fields", fields);
+
+        return setDocument(USERS_COLLECTION + "/" + uuid, doc);
+    }
+
+    /**
+     * 랜덤 비밀번호 생성
+     */
+    public String generateRandomPassword() {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+        StringBuilder password = new StringBuilder();
+        SecureRandom random = new SecureRandom();
+
+        for (int i = 0; i < 12; i++) {
+            password.append(chars.charAt(random.nextInt(chars.length())));
+        }
+
+        return password.toString();
+    }
+
+    /**
+     * 사이트 계정 발급 (통합 메서드)
+     */
+    public CompletableFuture<SiteAccountResult> createSiteAccount(@NotNull String uuid, @NotNull String email) {
+        return checkAccountExists(uuid, email)
+                .thenCompose(exists -> {
+                    if (exists) {
+                        return CompletableFuture.completedFuture(
+                                new SiteAccountResult(false, "이미 등록된 UUID 또는 이메일입니다.", null)
+                        );
+                    }
+
+                    String password = generateRandomPassword();
+                    
+                    return createAuthAccount(email, password)
+                            .thenCompose(authUid -> {
+                                if (authUid == null) {
+                                    return CompletableFuture.completedFuture(
+                                            new SiteAccountResult(false, "Firebase Auth 계정 생성 실패", null)
+                                    );
+                                }
+
+                                return checkIsAdmin(uuid)
+                                        .thenCompose(isAdmin -> {
+                                            CompletableFuture<Boolean> claimsFuture = setCustomClaims(authUid, isAdmin);
+                                            CompletableFuture<Boolean> userFuture = saveWebsiteUser(uuid, email, isAdmin);
+
+                                            return claimsFuture.thenCombine(userFuture, (claimsResult, userResult) -> {
+                                                if (claimsResult && userResult) {
+                                                    return new SiteAccountResult(true, "계정이 성공적으로 생성되었습니다.", password);
+                                                } else {
+                                                    return new SiteAccountResult(false, "계정 설정 중 오류가 발생했습니다.", null);
+                                                }
+                                            });
+                                        });
+                            });
+                });
+    }
+
+    /**
+     * Boolean 값 생성 헬퍼 메서드
+     */
+    private JsonObject createBooleanValue(boolean value) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("booleanValue", value);
+        return obj;
+    }
+
+    /**
+     * 사이트 계정 생성 결과 클래스
+     */
+    public static class SiteAccountResult {
+        private final boolean success;
+        private final String message;
+        private final String password;
+
+        public SiteAccountResult(boolean success, String message, String password) {
+            this.success = success;
+            this.message = message;
+            this.password = password;
+        }
+
+        public boolean isSuccess() {
+            return success;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public String getPassword() {
+            return password;
+        }
     }
 
     /**

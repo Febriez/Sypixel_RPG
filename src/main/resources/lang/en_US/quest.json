@@ -1,0 +1,14 @@
+{
+  "started": "%COLOR_SUCCESS%Quest started: %COLOR_LEGENDARY%{quest}",
+  "start-failed": "%COLOR_ERROR%Failed to start quest!",
+  "declined": "%COLOR_GRAY%Quest declined.",
+  "npc": {
+    "invalid-quest": "%COLOR_ERROR%Invalid quest!",
+    "already-active": "%COLOR_WARNING%You are already on this quest!",
+    "already-completed": "%COLOR_WARNING%You have already completed this quest!",
+    "level-requirement": "%COLOR_ERROR%You need to be level %COLOR_YELLOW%{level}%COLOR_ERROR% or higher to accept this quest!",
+    "job-requirement": "%COLOR_ERROR%You need to be a %COLOR_YELLOW%{job}%COLOR_ERROR% to accept this quest!",
+    "prerequisite-requirement": "%COLOR_ERROR%You must complete prerequisite quests first!",
+    "mutually-exclusive": "%COLOR_ERROR%You have already completed a mutually exclusive quest!"
+  }
+}

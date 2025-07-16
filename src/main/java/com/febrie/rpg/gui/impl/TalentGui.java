@@ -223,8 +223,7 @@ public class TalentGui extends ScrollableGui {
                 int totalBonus = bonus * Math.max(1, currentLevel);
                 builder.addLore(trans("gui.talent.stat-bonus-line",
                         "stat", statName,
-                        "bonus", "+" + totalBonus,
-                        "per-level", "+" + bonus));
+                        "value", String.valueOf(totalBonus)));
             });
         }
 

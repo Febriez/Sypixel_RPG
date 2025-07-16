@@ -67,6 +67,7 @@ public final class ColorUtil {
     public static final TextColor HEALTH = TextColor.color(231, 76, 60);
     public static final TextColor EXPERIENCE = TextColor.color(241, 196, 15);
     public static final TextColor COINS = TextColor.color(255, 215, 0);
+    public static final TextColor GUI_TITLE = TextColor.color(66, 151, 255); // #4297FF
 
     // === 추가 색상 ===
     public static final TextColor LIGHT_GRAY = TextColor.color(192, 192, 192);

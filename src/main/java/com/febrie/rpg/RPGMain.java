@@ -2,6 +2,7 @@ package com.febrie.rpg;
 
 import com.febrie.rpg.command.AdminCommands;
 import com.febrie.rpg.command.MainMenuCommand;
+import com.febrie.rpg.command.SiteAccountCommand;
 import com.febrie.rpg.database.FirestoreRestService;
 import com.febrie.rpg.dto.ServerStatsDTO;
 import com.febrie.rpg.gui.listener.GuiListener;
@@ -39,6 +40,7 @@ public final class RPGMain extends JavaPlugin {
     // 명령어
     private MainMenuCommand mainMenuCommand;
     private AdminCommands adminCommands;
+    private SiteAccountCommand siteAccountCommand;
 
     // 서버 통계 관련
     private BukkitTask serverStatsTask;
@@ -136,6 +138,7 @@ public final class RPGMain extends JavaPlugin {
         // 명령어 객체 생성 (실제 등록은 registerCommands에서)
         this.mainMenuCommand = new MainMenuCommand(this, langManager, guiManager);
         this.adminCommands = new AdminCommands(this, rpgPlayerManager, guiManager, langManager);
+        this.siteAccountCommand = new SiteAccountCommand(this, firestoreService);
         LogUtil.info("명령어 시스템 초기화 완료");
     }
 
@@ -169,8 +172,12 @@ public final class RPGMain extends JavaPlugin {
         getCommand("rpgadmin").setExecutor(adminCommands);
         getCommand("rpgadmin").setTabCompleter(adminCommands);
 
+        // 사이트 계정 명령어 등록
+        getCommand("사이트계정발급").setExecutor(siteAccountCommand);
+
         LogUtil.info("명령어가 등록되었습니다.");
         LogUtil.info("일반 유저: /메뉴 (별칭: /menu, /메인메뉴, /mainmenu, /mm)");
+        LogUtil.info("일반 유저: /사이트계정발급 <이메일>");
         LogUtil.info("관리자: /rpgadmin");
     }
 

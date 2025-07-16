@@ -1,10 +1,10 @@
 {
   "mainmenu": {
-    "title": "%COLOR_LEGENDARY%Main Menu"
+    "title": "Main Menu"
   },
   "profile": {
-    "title": "%COLOR_EPIC%{player}'s Profile",
-    "player-title": "%COLOR_EPIC%{player}'s Profile",
+    "title": "{player}'s Profile",
+    "player-title": "{player}'s Profile",
     "viewing": "%COLOR_GRAY%Viewing {player}'s profile",
     "level": "%COLOR_WHITE%Level: %COLOR_YELLOW%{level}",
     "level-info": "%COLOR_YELLOW%Level Information",
@@ -48,7 +48,7 @@
     "click-for-quests": "%COLOR_YELLOW%▶ Click to view quest list"
   },
   "job-selection": {
-    "title": "%COLOR_LEGENDARY%Job Selection",
+    "title": "Job Selection",
     "choose-wisely": "%COLOR_WARNING%Choose wisely!",
     "current-job": "%COLOR_WHITE%Current Job: %COLOR_INFO%{job}",
     "no-current-job": "%COLOR_GRAY%You don't have a job yet",
@@ -68,7 +68,7 @@
     "selected": "%COLOR_SUCCESS%▶ Selected"
   },
   "job-confirmation": {
-    "title": "%COLOR_LEGENDARY%Confirm Job Selection",
+    "title": "Confirm Job Selection",
     "selected-job": "%COLOR_WHITE%Selected Job:",
     "max-level": "%COLOR_INFO%Max Level: %COLOR_YELLOW%{level}",
     "warning": "%COLOR_ERROR%⚠ Warning: Choose very carefully!",
@@ -91,7 +91,7 @@
     "already-has-job": "%COLOR_ERROR%You already have a job!"
   },
   "stats": {
-    "title": "%COLOR_LEGENDARY%Stat Management",
+    "title": "Stat Management",
     "your-stats": "%COLOR_YELLOW%Your Stats",
     "remaining-points": "%COLOR_WHITE%Remaining Points: %COLOR_YELLOW%{points}",
     "click-to-increase": "%COLOR_YELLOW%▶ Click to increase stat",
@@ -106,8 +106,8 @@
     "click-to-add": "%COLOR_YELLOW%▶ Click to add points"
   },
   "talent": {
-    "title": "%COLOR_LEGENDARY%Talents",
-    "title-with-page": "%COLOR_LEGENDARY%Talents - %COLOR_YELLOW%{page}",
+    "title": "Talents",
+    "title-with-page": "Talents - {page}",
     "remaining-points": "%COLOR_WHITE%Remaining Points: %COLOR_YELLOW%{points}",
     "learned": "%COLOR_SUCCESS%▶ Learned",
     "available": "%COLOR_YELLOW%▶ Available",
@@ -139,7 +139,7 @@
     "has-sub-page": "%COLOR_INFO%Has sub-pages"
   },
   "leaderboard": {
-    "title": "%COLOR_LEGENDARY%Leaderboard",
+    "title": "Leaderboard",
     "subtitle": "%COLOR_GRAY%Check out the server's strongest players!",
     "level-board": "%COLOR_YELLOW%Level Rankings",
     "job-board": "%COLOR_INFO%Job Rankings",
@@ -163,7 +163,7 @@
     "play-more": "%COLOR_GRAY%Play more to compete for rankings!"
   },
   "quest-list": {
-    "title": "%COLOR_LEGENDARY%Quest List",
+    "title": "Quest List",
     "active-quests": "%COLOR_YELLOW%Active Quests",
     "active-quests-desc": "%COLOR_GRAY%Currently active quests",
     "completed-quests": "%COLOR_SUCCESS%Completed Quests",
@@ -176,7 +176,7 @@
     "repeatable": "%COLOR_INFO%Repeatable"
   },
   "quest-accept": {
-    "title": "%COLOR_LEGENDARY%Accept Quest",
+    "title": "Accept Quest",
     "category": "%COLOR_WHITE%Category",
     "difficulty": "%COLOR_WHITE%Difficulty",
     "objectives": "%COLOR_YELLOW%Objectives",
@@ -190,10 +190,11 @@
     "prerequisites-not-complete": "%COLOR_GRAY%Prerequisites not complete",
     "exclusive-quest-completed": "%COLOR_GRAY%Exclusive quest already completed",
     "already-active": "%COLOR_GRAY%Already active",
-    "already-completed": "%COLOR_GRAY%Already completed"
+    "already-completed": "%COLOR_GRAY%Already completed",
+    "level-requirement": "%COLOR_GRAY%Level {level} required"
   },
   "settings": {
-    "title": "%COLOR_LEGENDARY%Settings",
+    "title": "Settings",
     "personal": "%COLOR_YELLOW%Personal Settings",
     "gameplay": "%COLOR_INFO%Gameplay Settings",
     "notifications": "%COLOR_GREEN%Notification Settings",
@@ -203,7 +204,7 @@
     "click-to-change": "%COLOR_GRAY%Click to change"
   },
   "shop": {
-    "title": "%COLOR_LEGENDARY%Shop",
+    "title": "Shop",
     "buy-price": "%COLOR_GREEN%Buy Price: %COLOR_GOLD%{price}G",
     "sell-price": "%COLOR_RED%Sell Price: %COLOR_GOLD%{price}G",
     "your-gold": "%COLOR_WHITE%Your Gold: %COLOR_GOLD%{amount}G",
@@ -216,7 +217,7 @@
     "out-of-stock": "%COLOR_ERROR%Out of stock"
   },
   "dungeon": {
-    "title": "%COLOR_LEGENDARY%Dungeon",
+    "title": "Dungeon",
     "available": "%COLOR_SUCCESS%Available",
     "unavailable": "%COLOR_ERROR%Unavailable",
     "requirements": "%COLOR_YELLOW%Requirements:",
