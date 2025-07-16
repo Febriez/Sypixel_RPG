@@ -73,15 +73,15 @@ public class QuestListGui extends BaseGui {
         createBorder();
 
         // 진행 중/완료 퀘스트 구분선 (3번째 줄에서 퀘스트 표시 영역 제외)
-        setItem(18, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
-        setItem(22, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
-        setItem(26, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
+        setItem(18, GuiFactory.createDecoration());
+        setItem(22, GuiFactory.createDecoration());
+        setItem(26, GuiFactory.createDecoration());
 
         // 중앙 세로 구분선 (4번 슬롯)
-        setItem(4, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
-        setItem(13, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
-        setItem(31, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
-        setItem(40, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
+        setItem(4, GuiFactory.createDecoration());
+        setItem(13, GuiFactory.createDecoration());
+        setItem(31, GuiFactory.createDecoration());
+        setItem(40, GuiFactory.createDecoration());
     }
 
     /**

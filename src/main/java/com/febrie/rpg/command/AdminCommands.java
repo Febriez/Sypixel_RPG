@@ -145,14 +145,15 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
      * 디버그 명령어 처리
      */
     private boolean handleDebugCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        boolean debugMode = LogUtil.isDebugMode();
+        boolean currentDebugMode = LogUtil.isDebugMode();
+        boolean newDebugMode = !currentDebugMode; // 토글
 
-        if (debugMode) {
+        LogUtil.setDebugMode(newDebugMode);
+
+        if (newDebugMode) {
             sender.sendMessage(Component.text("디버그 모드가 활성화되었습니다.", ColorUtil.SUCCESS));
-            LogUtil.setDebugMode(true);
         } else {
             sender.sendMessage(Component.text("디버그 모드가 비활성화되었습니다.", ColorUtil.WARNING));
-            LogUtil.setDebugMode(false);
         }
 
         return true;

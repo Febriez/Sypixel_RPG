@@ -93,8 +93,6 @@ public class SiteAccountCommand implements CommandExecutor {
         // 로딩 메시지 표시
         player.sendMessage(Component.text("계정을 생성하는 중...", ColorUtil.YELLOW));
         
-        // 디버깅: 사용자 컬렉션 확인
-        firestoreService.debugCheckUsersCollection();
         
         // 비동기로 계정 생성 처리
         CompletableFuture<FirestoreRestService.SiteAccountResult> future = 
