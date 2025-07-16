@@ -689,15 +689,23 @@ public class FirestoreRestService {
                 objectivesFields.add(objId, objProgressObj);
             });
             
-            objectivesObj.add("fields", objectivesFields);
-            progressFields.add("objectives", objectivesObj);
+            JsonObject objectivesMapValue = new JsonObject();
+            objectivesMapValue.add("fields", objectivesFields);
+            
+            JsonObject objectivesValue = new JsonObject();
+            objectivesValue.add("mapValue", objectivesMapValue);
+            progressFields.add("objectives", objectivesValue);
             
             progressObj.add("fields", progressFields);
             activeQuestsFields.add(questId, progressObj);
         });
         
-        activeQuestsObj.add("fields", activeQuestsFields);
-        fields.add("activeQuests", activeQuestsObj);
+        JsonObject activeQuestsMapValue = new JsonObject();
+        activeQuestsMapValue.add("fields", activeQuestsFields);
+        
+        JsonObject activeQuestsValue = new JsonObject();
+        activeQuestsValue.add("mapValue", activeQuestsMapValue);
+        fields.add("activeQuests", activeQuestsValue);
 
         // 완료된 퀘스트 저장
         JsonObject completedQuestsObj = new JsonObject();
@@ -715,8 +723,12 @@ public class FirestoreRestService {
             completedQuestsFields.add(questId, completedObj);
         });
         
-        completedQuestsObj.add("fields", completedQuestsFields);
-        fields.add("completedQuests", completedQuestsObj);
+        JsonObject completedQuestsMapValue = new JsonObject();
+        completedQuestsMapValue.add("fields", completedQuestsFields);
+        
+        JsonObject completedQuestsValue = new JsonObject();
+        completedQuestsValue.add("mapValue", completedQuestsMapValue);
+        fields.add("completedQuests", completedQuestsValue);
 
         doc.add("fields", fields);
         return doc;
@@ -1371,61 +1383,29 @@ public class FirestoreRestService {
     }
 
     /**
-     * 관리자 여부 확인 (웹사이트 로직 참조)
+     * 관리자 여부 확인 (마인크래프트 권한 시스템 연동)
      */
     public CompletableFuture<Boolean> checkIsAdmin(@NotNull String uuid) {
         return CompletableFuture.supplyAsync(() -> {
-            // 간단한 관리자 확인 로직
-            // 실제로는 웹사이트의 관리자 확인 로직을 참조하여 구현
-            // 현재는 특정 UUID들을 관리자로 설정
-            List<String> adminUuids = Arrays.asList(
-                    "550e8400-e29b-41d4-a716-446655440000", // 예시 관리자 UUID
-                    "6ba7b810-9dad-11d1-80b4-00c04fd430c8"  // 예시 관리자 UUID
-            );
-
-            return adminUuids.contains(uuid);
-        });
-    }
-
-    /**
-     * Custom Claims 설정
-     * Firebase Admin API를 통한 Custom Claims 설정
-     */
-    public CompletableFuture<Boolean> setCustomClaims(@NotNull String uid, boolean isAdmin) {
-        return CompletableFuture.supplyAsync(() -> {
             try {
-                JsonObject requestBody = new JsonObject();
-                requestBody.addProperty("uid", uid);
-                JsonObject customClaims = new JsonObject();
-                customClaims.addProperty("isAdmin", isAdmin);
-                requestBody.add("customClaims", customClaims);
-
-                // Firebase Admin API를 통한 Custom Claims 설정
-                String url = "https://identitytoolkit.googleapis.com/v1/projects/" + FIREBASE_PROJECT_ID + ":setCustomUserClaims";
-
-                HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create(url))
-                        .header("Authorization", "Bearer " + accessToken)
-                        .header("Content-Type", "application/json")
-                        .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
-                        .build();
-
-                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-                if (response.statusCode() == 200) {
-                    return true;
+                // 마인크래프트 서버에서 플레이어 객체 가져오기
+                org.bukkit.entity.Player player = org.bukkit.Bukkit.getPlayer(java.util.UUID.fromString(uuid));
+                
+                if (player != null) {
+                    // 플레이어가 온라인인 경우 실시간 권한 확인
+                    return player.isOp() || player.hasPermission("sypixelrpg.admin");
                 } else {
-                    LogUtil.error("Custom Claims 설정 실패: " + response.statusCode() + " - " + response.body());
-                    // Custom Claims 설정에 실패해도 계정 생성은 성공으로 처리
-                    return true;
+                    // 플레이어가 오프라인인 경우 OfflinePlayer로 확인
+                    org.bukkit.OfflinePlayer offlinePlayer = org.bukkit.Bukkit.getOfflinePlayer(java.util.UUID.fromString(uuid));
+                    return offlinePlayer.isOp();
                 }
             } catch (Exception e) {
-                LogUtil.error("Custom Claims 설정 중 오류", e);
-                // Custom Claims 설정에 실패해도 계정 생성은 성공으로 처리
-                return true;
+                LogUtil.warning("관리자 권한 확인 중 오류 발생 (UUID: " + uuid + "): " + e.getMessage());
+                return false;
             }
         });
     }
+
 
     /**
      * 웹사이트 사용자 정보 저장
@@ -1487,16 +1467,14 @@ public class FirestoreRestService {
 
                                 return checkIsAdmin(uuid)
                                         .thenCompose(isAdmin -> {
-                                            CompletableFuture<Boolean> claimsFuture = setCustomClaims(authUid, isAdmin);
-                                            CompletableFuture<Boolean> userFuture = saveWebsiteUser(uuid, email, isAdmin);
-
-                                            return claimsFuture.thenCombine(userFuture, (claimsResult, userResult) -> {
-                                                if (claimsResult && userResult) {
-                                                    return new SiteAccountResult(true, "계정이 성공적으로 생성되었습니다.", password);
-                                                } else {
-                                                    return new SiteAccountResult(false, "계정 설정 중 오류가 발생했습니다.", null);
-                                                }
-                                            });
+                                            return saveWebsiteUser(uuid, email, isAdmin)
+                                                    .thenApply(userResult -> {
+                                                        if (userResult) {
+                                                            return new SiteAccountResult(true, "계정이 성공적으로 생성되었습니다.", password);
+                                                        } else {
+                                                            return new SiteAccountResult(false, "계정 설정 중 오류가 발생했습니다.", null);
+                                                        }
+                                                    });
                                         });
                             });
                 });
