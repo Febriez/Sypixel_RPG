@@ -706,6 +706,11 @@ public class FirestoreRestService {
         progressFields.add("startedAt", createIntegerValue(progress.getStartedAt().toEpochMilli()));
         progressFields.add("lastUpdatedAt", createIntegerValue(progress.getLastUpdatedAt().toEpochMilli()));
         
+        // 완료 시간 추가 (완료된 퀘스트인 경우)
+        if (progress.getCompletedAt() != null) {
+            progressFields.add("completedAt", createIntegerValue(progress.getCompletedAt().toEpochMilli()));
+        }
+        
         // 목표 진행도 저장
         JsonObject objectivesFields = new JsonObject();
         progress.getObjectives().forEach((objId, objProgress) -> {
@@ -842,25 +847,39 @@ public class FirestoreRestService {
             String playerIdStr = getStringValue(progressFields, "playerId");
             String state = getStringValue(progressFields, "state");
             int currentObjectiveIndex = getIntValue(progressFields, "currentObjectiveIndex", 0);
-            long startedAt = getLongValue(progressFields, "startedAt");
-            long lastUpdatedAt = getLongValue(progressFields, "lastUpdatedAt");
+            long startedAtMillis = getLongValue(progressFields, "startedAt");
+            long lastUpdatedAtMillis = getLongValue(progressFields, "lastUpdatedAt");
             
             // 목표 진행도 파싱
             Map<String, com.febrie.rpg.quest.progress.ObjectiveProgress> objectives = parseObjectiveProgress(progressFields, playerId);
             
-            // QuestProgress 객체 생성
+            // 시간 변환 (밀리초 -> Instant)
+            java.time.Instant startedAt = startedAtMillis > 0 ? 
+                java.time.Instant.ofEpochMilli(startedAtMillis) : java.time.Instant.now();
+            java.time.Instant lastUpdatedAt = lastUpdatedAtMillis > 0 ? 
+                java.time.Instant.ofEpochMilli(lastUpdatedAtMillis) : java.time.Instant.now();
+            
+            // QuestProgress 객체 생성 (전체 생성자 사용)
             com.febrie.rpg.quest.QuestID questIdEnum = com.febrie.rpg.quest.QuestID.fromLegacyId(questId);
             java.util.UUID playerUuid = java.util.UUID.fromString(playerIdStr != null ? playerIdStr : playerId);
             
-            com.febrie.rpg.quest.progress.QuestProgress questProgress = 
-                new com.febrie.rpg.quest.progress.QuestProgress(questIdEnum, playerUuid, objectives);
+            com.febrie.rpg.quest.progress.QuestProgress.QuestState questState = 
+                state != null ? com.febrie.rpg.quest.progress.QuestProgress.QuestState.valueOf(state) 
+                             : com.febrie.rpg.quest.progress.QuestProgress.QuestState.ACTIVE;
             
-            if (state != null) {
-                questProgress.setState(com.febrie.rpg.quest.progress.QuestProgress.QuestState.valueOf(state));
+            // 완료 시간 파싱 (완료된 퀘스트인 경우)
+            java.time.Instant completedAt = null;
+            if (questState == com.febrie.rpg.quest.progress.QuestProgress.QuestState.COMPLETED) {
+                long completedAtMillis = getLongValue(progressFields, "completedAt");
+                if (completedAtMillis > 0) {
+                    completedAt = java.time.Instant.ofEpochMilli(completedAtMillis);
+                }
             }
-            questProgress.setCurrentObjectiveIndex(currentObjectiveIndex);
             
-            return questProgress;
+            return new com.febrie.rpg.quest.progress.QuestProgress(
+                questIdEnum, playerUuid, objectives, questState, 
+                currentObjectiveIndex, startedAt, completedAt, lastUpdatedAt
+            );
         } catch (Exception e) {
             LogUtil.warning("퀘스트 진행도 파싱 실패 (ID: " + questId + "): " + e.getMessage());
             return null;
