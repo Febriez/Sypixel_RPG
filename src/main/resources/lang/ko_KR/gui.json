@@ -175,6 +175,9 @@
     "rewards": "%COLOR_EMERALD%보상",
     "repeatable": "%COLOR_INFO%반복 가능"
   },
+  "quest-detail": {
+    "title": "퀘스트 상세 정보"
+  },
   "quest-accept": {
     "title": "퀘스트 수락",
     "category": "%COLOR_WHITE%카테고리",

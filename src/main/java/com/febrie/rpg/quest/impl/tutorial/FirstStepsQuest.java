@@ -83,36 +83,16 @@ public class FirstStepsQuest extends Quest {
     }
 
     @Override
-    public @NotNull List<String> getDescription(boolean isKorean) {
+    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
         if (isKorean) {
             return """
                     서버에 오신 것을 환영합니다!
                     기본적인 이동과 상호작용을 배워봅시다.
-                    
-                    목표:
-                    • 스폰 지점 방문
-                    • 마을 상인과 대화
-                    
-                    보상:
-                    • 골드 100
-                    • 기본 도구 세트
-                    • 빵 10개
-                    • 경험치 50
                     """.lines().toList();
         } else {
             return """
                     Welcome to the server!
                     Let's learn basic movement and interaction.
-                    
-                    Objectives:
-                    • Visit spawn point
-                    • Talk to village merchant
-                    
-                    Rewards:
-                    • 100 Gold
-                    • Basic tool set
-                    • 10 Bread
-                    • 50 Experience
                     """.lines().toList();
         }
     }

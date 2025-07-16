@@ -175,6 +175,9 @@
     "rewards": "%COLOR_EMERALD%Rewards",
     "repeatable": "%COLOR_INFO%Repeatable"
   },
+  "quest-detail": {
+    "title": "Quest Details"
+  },
   "quest-accept": {
     "title": "Accept Quest",
     "category": "%COLOR_WHITE%Category",

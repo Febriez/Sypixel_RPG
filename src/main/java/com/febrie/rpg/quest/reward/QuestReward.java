@@ -4,6 +4,8 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * 퀘스트 보상 인터페이스
  * 모든 퀘스트 보상이 구현해야 하는 인터페이스
@@ -49,6 +51,18 @@ public interface QuestReward {
      * @return 보상 정보 Component
      */
     @NotNull Component getDisplayInfo(@NotNull Player player);
+
+    /**
+     * 로어용 보상 정보 목록 생성
+     * 각 보상 항목을 개별 Component로 반환
+     *
+     * @param player 플레이어 (언어 설정 확인용)
+     * @return 로어용 보상 정보 Component 목록
+     */
+    default @NotNull List<Component> getLoreComponents(@NotNull Player player) {
+        // 기본 구현: 단일 Component를 목록으로 반환
+        return List.of(getDisplayInfo(player));
+    }
 
     /**
      * 보상 가능 여부 확인

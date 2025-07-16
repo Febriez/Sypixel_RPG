@@ -78,7 +78,7 @@ public class CollectHerbsQuest extends Quest {
     }
 
     @Override
-    public @NotNull List<String> getDescription(boolean isKorean) {
+    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
         if (isKorean) {
             return Arrays.asList(
                     "연금술사가 약초를 구하고 있습니다.",

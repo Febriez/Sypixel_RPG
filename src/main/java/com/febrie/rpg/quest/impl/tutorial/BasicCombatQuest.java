@@ -76,7 +76,7 @@ public class BasicCombatQuest extends Quest {
     }
 
     @Override
-    public @NotNull List<String> getDescription(boolean isKorean) {
+    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
         if (isKorean) {
             return Arrays.asList(
                     "몬스터와 싸우는 방법을 배워봅시다.",

@@ -89,7 +89,7 @@ public class FarmersRequestQuest extends Quest {
     }
 
     @Override
-    public @NotNull List<String> getDescription(boolean isKorean) {
+    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
         if (isKorean) {
             return Arrays.asList(
                     "농부 김씨가 도움을 요청했습니다.",

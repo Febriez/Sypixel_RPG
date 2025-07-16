@@ -90,7 +90,7 @@ public class HeroesJourneyQuest extends Quest {
     }
 
     @Override
-    public @NotNull List<String> getDescription(boolean isKorean) {
+    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
         if (isKorean) {
             return Arrays.asList(
                     "진정한 영웅이 되기 위한 첫 걸음입니다.",

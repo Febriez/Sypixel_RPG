@@ -91,7 +91,7 @@ public class PathOfLightQuest extends Quest {
     }
 
     @Override
-    public @NotNull List<String> getDescription(boolean isKorean) {
+    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
         if (isKorean) {
             return Arrays.asList(
                     "정의와 선의 길을 걸어갑니다.",

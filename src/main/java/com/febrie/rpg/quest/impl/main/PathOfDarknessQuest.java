@@ -92,7 +92,7 @@ public class PathOfDarknessQuest extends Quest {
     }
 
     @Override
-    public @NotNull List<String> getDescription(boolean isKorean) {
+    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
         if (isKorean) {
             return Arrays.asList(
                     "힘과 지배의 길을 걸어갑니다.",

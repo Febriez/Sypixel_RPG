@@ -90,7 +90,7 @@ public class QuestAcceptGui extends BaseGui {
 
         // 퀘스트 설명
         lore.add(Component.empty());
-        List<String> descriptions = quest.getDescription(viewer.locale().toString().startsWith("ko"));
+        List<String> descriptions = quest.getDisplayInfo(viewer.locale().toString().startsWith("ko"));
         for (String desc : descriptions) {
             lore.add(Component.text(desc, ColorUtil.GRAY));
         }
@@ -132,8 +132,7 @@ public class QuestAcceptGui extends BaseGui {
 
         // 보상 정보
         lore.add(trans("gui.quest-accept.rewards").color(ColorUtil.EMERALD));
-        Component rewardInfo = quest.getReward().getDisplayInfo(viewer);
-        lore.add(Component.text("  • ", ColorUtil.GRAY).append(rewardInfo));
+        lore.addAll(quest.getReward().getLoreComponents(viewer));
 
         // 선행 퀘스트 확인
         List<QuestID> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());

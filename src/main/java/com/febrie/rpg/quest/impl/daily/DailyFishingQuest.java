@@ -78,7 +78,7 @@ public class DailyFishingQuest extends Quest {
     }
 
     @Override
-    public @NotNull List<String> getDescription(boolean isKorean) {
+    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
         if (isKorean) {
             return Arrays.asList(
                     "오늘의 낚시 할당량을 채워주세요!",

@@ -74,7 +74,7 @@ public class DailyMiningQuest extends Quest {
     }
 
     @Override
-    public @NotNull List<String> getDescription(boolean isKorean) {
+    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
         if (isKorean) {
             return Arrays.asList(
                     "오늘의 채광 목표를 완료하세요.",

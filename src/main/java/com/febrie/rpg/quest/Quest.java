@@ -85,12 +85,77 @@ public abstract class Quest {
     public abstract @NotNull String getDisplayName(boolean isKorean);
 
     /**
-     * 퀘스트 설명 (하드코딩)
+     * 퀘스트 기본 설명 (하드코딩)
      *
      * @param isKorean 한국어 여부
-     * @return 퀘스트 설명 (여러 줄)
+     * @return 퀘스트 기본 설명 (여러 줄)
      */
-    public abstract @NotNull List<String> getDescription(boolean isKorean);
+    public abstract @NotNull List<String> getDisplayInfo(boolean isKorean);
+
+    /**
+     * 퀘스트 목표 설명
+     *
+     * @param isKorean 한국어 여부
+     * @return 퀘스트 목표 설명 (여러 줄)
+     */
+    public @NotNull List<String> getGoalDescription(boolean isKorean) {
+        List<String> goals = new ArrayList<>();
+        if (isKorean) {
+            goals.add("목표:");
+        } else {
+            goals.add("Goals:");
+        }
+        
+        for (QuestObjective objective : objectives) {
+            goals.add("• " + getObjectiveDescription(objective, isKorean));
+        }
+        
+        return goals;
+    }
+
+    /**
+     * 퀘스트 보상 설명
+     *
+     * @param isKorean 한국어 여부
+     * @return 퀘스트 보상 설명 (여러 줄)
+     */
+    public @NotNull List<String> getRewardDescription(boolean isKorean) {
+        List<String> rewards = new ArrayList<>();
+        if (isKorean) {
+            rewards.add("보상:");
+        } else {
+            rewards.add("Rewards:");
+        }
+        
+        // 보상 정보는 QuestReward의 getDisplayInfo를 문자열로 변환하여 사용
+        // 임시로 간단하게 구현
+        rewards.add("• " + (isKorean ? "퀘스트 보상" : "Quest Rewards"));
+        
+        return rewards;
+    }
+
+    /**
+     * 퀘스트 전체 설명 (기본 설명 + 목표 + 보상)
+     *
+     * @param isKorean 한국어 여부
+     * @return 퀘스트 전체 설명 (여러 줄)
+     */
+    public @NotNull List<String> getDescription(boolean isKorean) {
+        List<String> description = new ArrayList<>();
+        
+        // 기본 설명
+        description.addAll(getDisplayInfo(isKorean));
+        description.add("");
+        
+        // 목표 설명
+        description.addAll(getGoalDescription(isKorean));
+        description.add("");
+        
+        // 보상 설명
+        description.addAll(getRewardDescription(isKorean));
+        
+        return description;
+    }
 
     /**
      * 퀘스트 정보를 책으로 표시
@@ -115,7 +180,7 @@ public abstract class Quest {
                 .append(Component.text(" ===", NamedTextColor.DARK_GRAY))
                 .append(Component.newline()).append(Component.newline());
 
-        for (String line : getDescription(isKorean)) {
+        for (String line : getDisplayInfo(isKorean)) {
             page1 = page1.append(Component.text(line, ColorUtil.GRAY))
                     .append(Component.newline());
         }

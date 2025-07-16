@@ -205,7 +205,7 @@ public class QuestListGui extends BaseGui {
         List<Component> lore = new ArrayList<>();
 
         // 퀘스트 설명
-        List<String> descriptions = quest.getDescription(viewer.locale().toString().startsWith("ko"));
+        List<String> descriptions = quest.getDisplayInfo(viewer.locale().toString().startsWith("ko"));
         for (String desc : descriptions) {
             lore.add(Component.text(desc, ColorUtil.GRAY));
         }
@@ -215,9 +215,9 @@ public class QuestListGui extends BaseGui {
         lore.add(trans("gui.quest-list.progress")
                 .append(Component.text(": " + progress.getCompletionPercentage() + "%", ColorUtil.EMERALD)));
 
-        // 목표 진행 상황
+        // 상세 목표 진행도
         lore.add(Component.empty());
-        lore.add(trans("gui.quest-list.objectives").color(ColorUtil.YELLOW));
+        lore.add(Component.text("상세 목표 진행도", ColorUtil.YELLOW));
 
         quest.getObjectives().forEach(objective -> {
             var objProgress = progress.getObjectiveProgress(objective.getId());
@@ -239,7 +239,8 @@ public class QuestListGui extends BaseGui {
         builder.addLore(lore);
 
         return GuiItem.clickable(builder.build(), p -> {
-            // TODO: 퀘스트 상세 정보 GUI 열기
+            // 퀘스트 상세 정보 GUI 열기
+            guiManager.openGui(p, new QuestDetailGui(guiManager, langManager, p, quest, progress));
             playClickSound(p);
         });
     }
@@ -256,7 +257,7 @@ public class QuestListGui extends BaseGui {
         List<Component> lore = new ArrayList<>();
 
         // 퀘스트 설명
-        List<String> descriptions = quest.getDescription(viewer.locale().toString().startsWith("ko"));
+        List<String> descriptions = quest.getDisplayInfo(viewer.locale().toString().startsWith("ko"));
         for (String desc : descriptions) {
             lore.add(Component.text(desc, ColorUtil.GRAY));
         }

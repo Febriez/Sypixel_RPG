@@ -152,6 +152,45 @@ public class BasicReward implements QuestReward {
     }
 
     /**
+     * 로어용 보상 정보 목록 생성
+     * 각 보상 항목을 개별 Component로 반환
+     */
+    public @NotNull List<Component> getLoreComponents(@NotNull Player player) {
+        boolean isKorean = player.locale().getLanguage().equals("ko");
+        List<Component> loreComponents = new ArrayList<>();
+
+        // 아이템 보상 표시
+        if (!items.isEmpty()) {
+            loreComponents.add(Component.text("  " + (isKorean ? "아이템:" : "Items:"), ColorUtil.YELLOW));
+
+            for (ItemStack item : items) {
+                loreComponents.add(Component.text("    • ", ColorUtil.GRAY)
+                        .append(Component.translatable(item.getType().translationKey()))
+                        .append(Component.text(" x" + item.getAmount(), ColorUtil.WHITE)));
+            }
+        }
+
+        // 재화 보상 표시
+        if (!currencies.isEmpty()) {
+            loreComponents.add(Component.text("  " + (isKorean ? "재화:" : "Currency:"), ColorUtil.GOLD));
+
+            for (Map.Entry<CurrencyType, Long> entry : currencies.entrySet()) {
+                String currencyName = getCurrencyName(entry.getKey(), isKorean);
+                loreComponents.add(Component.text("    • " + currencyName + " ", ColorUtil.GRAY)
+                        .append(Component.text(entry.getValue().toString(), ColorUtil.WHITE)));
+            }
+        }
+
+        // 경험치 보상 표시
+        if (experience > 0) {
+            loreComponents.add(Component.text("  " + (isKorean ? "경험치:" : "Experience:"), ColorUtil.EMERALD)
+                    .append(Component.text(" " + experience, ColorUtil.WHITE)));
+        }
+
+        return loreComponents;
+    }
+
+    /**
      * 재화 이름 가져오기
      */
     private String getCurrencyName(CurrencyType type, boolean isKorean) {

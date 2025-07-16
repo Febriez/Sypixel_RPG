@@ -627,8 +627,7 @@ public class FirestoreRestService {
                     if (doc == null) {
                         return new PlayerQuestDTO(playerId);
                     }
-                    // 간단한 구현 - 실제로는 더 복잡한 파싱 필요
-                    return new PlayerQuestDTO(playerId);
+                    return parsePlayerQuestDTO(doc, playerId);
                 });
     }
 
@@ -641,14 +640,196 @@ public class FirestoreRestService {
             return CompletableFuture.completedFuture(false);
         }
 
-        // 간단한 구현 - 실제로는 더 복잡한 저장 로직 필요
+        JsonObject doc = createQuestDataDocument(questData);
+        return setDocument(PLAYERS_COLLECTION + "/" + playerId + "/" + QUEST_SUBCOLLECTION + "/data", doc);
+    }
+
+    // ========== 퀘스트 데이터 생성 및 파싱 ==========
+
+    /**
+     * 퀘스트 데이터를 Firestore 문서로 변환
+     */
+    private JsonObject createQuestDataDocument(@NotNull PlayerQuestDTO questData) {
         JsonObject doc = new JsonObject();
         JsonObject fields = new JsonObject();
-        fields.add("playerId", createStringValue(playerId));
-        fields.add("lastUpdated", createTimestampValue());
-        doc.add("fields", fields);
 
-        return setDocument(PLAYERS_COLLECTION + "/" + playerId + "/" + QUEST_SUBCOLLECTION + "/data", doc);
+        // 기본 필드
+        fields.add("playerId", createStringValue(questData.playerId()));
+        fields.add("lastUpdated", createIntegerValue(questData.lastUpdated()));
+
+        // 활성 퀘스트 저장
+        JsonObject activeQuestsObj = new JsonObject();
+        JsonObject activeQuestsFields = new JsonObject();
+        
+        questData.activeQuests().forEach((questId, progress) -> {
+            JsonObject progressObj = new JsonObject();
+            JsonObject progressFields = new JsonObject();
+            
+            progressFields.add("questId", createStringValue(questId));
+            progressFields.add("playerId", createStringValue(progress.getPlayerId().toString()));
+            progressFields.add("state", createStringValue(progress.getState().name()));
+            progressFields.add("currentObjectiveIndex", createIntegerValue(progress.getCurrentObjectiveIndex()));
+            progressFields.add("startedAt", createIntegerValue(progress.getStartedAt().toEpochMilli()));
+            progressFields.add("lastUpdatedAt", createIntegerValue(progress.getLastUpdatedAt().toEpochMilli()));
+            
+            // 목표 진행도 저장
+            JsonObject objectivesObj = new JsonObject();
+            JsonObject objectivesFields = new JsonObject();
+            
+            progress.getObjectives().forEach((objId, objProgress) -> {
+                JsonObject objProgressObj = new JsonObject();
+                JsonObject objProgressFields = new JsonObject();
+                
+                objProgressFields.add("completed", createBooleanValue(objProgress.isCompleted()));
+                objProgressFields.add("progress", createIntegerValue(objProgress.getCurrentValue()));
+                objProgressFields.add("target", createIntegerValue(objProgress.getRequiredValue()));
+                objProgressFields.add("lastUpdated", createIntegerValue(objProgress.getLastUpdated()));
+                
+                objProgressObj.add("fields", objProgressFields);
+                objectivesFields.add(objId, objProgressObj);
+            });
+            
+            objectivesObj.add("fields", objectivesFields);
+            progressFields.add("objectives", objectivesObj);
+            
+            progressObj.add("fields", progressFields);
+            activeQuestsFields.add(questId, progressObj);
+        });
+        
+        activeQuestsObj.add("fields", activeQuestsFields);
+        fields.add("activeQuests", activeQuestsObj);
+
+        // 완료된 퀘스트 저장
+        JsonObject completedQuestsObj = new JsonObject();
+        JsonObject completedQuestsFields = new JsonObject();
+        
+        questData.completedQuests().forEach((questId, completed) -> {
+            JsonObject completedObj = new JsonObject();
+            JsonObject completedFields = new JsonObject();
+            
+            completedFields.add("questId", createStringValue(completed.questId()));
+            completedFields.add("completedAt", createIntegerValue(completed.completedAt()));
+            completedFields.add("completionCount", createIntegerValue(1));
+            
+            completedObj.add("fields", completedFields);
+            completedQuestsFields.add(questId, completedObj);
+        });
+        
+        completedQuestsObj.add("fields", completedQuestsFields);
+        fields.add("completedQuests", completedQuestsObj);
+
+        doc.add("fields", fields);
+        return doc;
+    }
+
+    /**
+     * Firestore 문서를 퀘스트 데이터로 파싱
+     */
+    private PlayerQuestDTO parsePlayerQuestDTO(@NotNull JsonObject doc, @NotNull String playerId) {
+        if (!doc.has("fields")) {
+            return new PlayerQuestDTO(playerId);
+        }
+
+        JsonObject fields = doc.getAsJsonObject("fields");
+        long lastUpdated = getLongValue(fields, "lastUpdated");
+
+        // 활성 퀘스트 파싱
+        Map<String, com.febrie.rpg.quest.progress.QuestProgress> activeQuests = new HashMap<>();
+        if (fields.has("activeQuests")) {
+            JsonObject activeQuestsObj = fields.getAsJsonObject("activeQuests");
+            if (activeQuestsObj.has("fields")) {
+                JsonObject activeQuestsFields = activeQuestsObj.getAsJsonObject("fields");
+                
+                for (Map.Entry<String, JsonElement> entry : activeQuestsFields.entrySet()) {
+                    String questId = entry.getKey();
+                    JsonObject progressObj = entry.getValue().getAsJsonObject();
+                    
+                    if (progressObj.has("fields")) {
+                        JsonObject progressFields = progressObj.getAsJsonObject("fields");
+                        
+                        try {
+                            // QuestProgress 재생성
+                            String playerIdStr = getStringValue(progressFields, "playerId");
+                            String state = getStringValue(progressFields, "state");
+                            int currentObjectiveIndex = getIntValue(progressFields, "currentObjectiveIndex", 0);
+                            long startedAt = getLongValue(progressFields, "startedAt");
+                            long lastUpdatedAt = getLongValue(progressFields, "lastUpdatedAt");
+                            long completedAt = getLongValue(progressFields, "completedAt");
+                            
+                            // 목표 진행도 파싱
+                            Map<String, com.febrie.rpg.quest.progress.ObjectiveProgress> objectives = new HashMap<>();
+                            if (progressFields.has("objectives")) {
+                                JsonObject objectivesObj = progressFields.getAsJsonObject("objectives");
+                                if (objectivesObj.has("fields")) {
+                                    JsonObject objectivesFields = objectivesObj.getAsJsonObject("fields");
+                                    
+                                    for (Map.Entry<String, JsonElement> objEntry : objectivesFields.entrySet()) {
+                                        String objId = objEntry.getKey();
+                                        JsonObject objProgressObj = objEntry.getValue().getAsJsonObject();
+                                        
+                                        if (objProgressObj.has("fields")) {
+                                            JsonObject objProgressFields = objProgressObj.getAsJsonObject("fields");
+                                            
+                                            boolean completed = getBooleanValue(objProgressFields, "completed");
+                                            int progress = getIntValue(objProgressFields, "progress", 0);
+                                            int target = getIntValue(objProgressFields, "target", 1);
+                                            long objLastUpdated = getLongValue(objProgressFields, "lastUpdated");
+                                            
+                                            com.febrie.rpg.quest.progress.ObjectiveProgress objProgress = 
+                                                new com.febrie.rpg.quest.progress.ObjectiveProgress(
+                                                    objId, UUID.fromString(playerId), progress, target, completed
+                                                );
+                                            objectives.put(objId, objProgress);
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            // QuestProgress 객체 생성 (QuestID와 UUID 변환 필요)
+                            try {
+                                com.febrie.rpg.quest.QuestID questIdEnum = com.febrie.rpg.quest.QuestID.fromLegacyId(questId);
+                                java.util.UUID playerUuid = java.util.UUID.fromString(playerIdStr);
+                                
+                                com.febrie.rpg.quest.progress.QuestProgress questProgress = 
+                                    new com.febrie.rpg.quest.progress.QuestProgress(questIdEnum, playerUuid, objectives);
+                                
+                                questProgress.setState(com.febrie.rpg.quest.progress.QuestProgress.QuestState.valueOf(state));
+                                questProgress.setCurrentObjectiveIndex(currentObjectiveIndex);
+                                
+                                activeQuests.put(questId, questProgress);
+                            } catch (Exception e) {
+                                LogUtil.warning("Failed to parse quest progress for: " + questId + " - " + e.getMessage());
+                            }
+                            
+                        } catch (Exception e) {
+                            LogUtil.warning("Failed to parse active quest: " + questId + " - " + e.getMessage());
+                        }
+                    }
+                }
+            }
+        }
+
+        // 완료된 퀘스트 파싱
+        Map<String, CompletedQuestDTO> completedQuests = new HashMap<>();
+        if (fields.has("completedQuests")) {
+            JsonObject completedQuestsObj = fields.getAsJsonObject("completedQuests");
+            if (completedQuestsObj.has("fields")) {
+                JsonObject completedQuestsFields = completedQuestsObj.getAsJsonObject("fields");
+                for (Map.Entry<String, JsonElement> entry : completedQuestsFields.entrySet()) {
+                    String questId = entry.getKey();
+                    JsonObject completedObj = entry.getValue().getAsJsonObject();
+                    if (completedObj.has("fields")) {
+                        JsonObject completedFields = completedObj.getAsJsonObject("fields");
+                        long completedAt = getLongValue(completedFields, "completedAt");
+                        int completionCount = getIntValue(completedFields, "completionCount", 1);
+                        
+                        completedQuests.put(questId, new CompletedQuestDTO(questId, completedAt, completionCount));
+                    }
+                }
+            }
+        }
+
+        return new PlayerQuestDTO(playerId, activeQuests, completedQuests, lastUpdated);
     }
 
     // ========== 문서 파싱 메서드 ==========
@@ -966,6 +1147,20 @@ public class FirestoreRestService {
 
     private long getLongValue(JsonObject fields, String fieldName) {
         return getLongValue(fields, fieldName, 0L);
+    }
+
+    private boolean getBooleanValue(JsonObject fields, String fieldName) {
+        return getBooleanValue(fields, fieldName, false);
+    }
+
+    private boolean getBooleanValue(JsonObject fields, String fieldName, boolean defaultValue) {
+        if (fields.has(fieldName) && fields.get(fieldName).isJsonObject()) {
+            JsonObject field = fields.getAsJsonObject(fieldName);
+            if (field.has("booleanValue")) {
+                return field.get("booleanValue").getAsBoolean();
+            }
+        }
+        return defaultValue;
     }
 
     private double getDoubleValue(JsonObject fields, String fieldName, double defaultValue) {

@@ -88,7 +88,7 @@ public class LostTreasureQuest extends Quest {
     }
 
     @Override
-    public @NotNull List<String> getDescription(boolean isKorean) {
+    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
         if (isKorean) {
             return Arrays.asList(
                     "오래된 지도에 표시된 보물을 찾아주세요.",
