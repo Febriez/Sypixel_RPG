@@ -213,24 +213,7 @@ public class QuestListGui extends BaseGui {
 
         // 진행도 표시
         lore.add(trans("gui.quest-list.progress")
-                .append(Component.text(": " + progress.getCompletionPercentage() + "%", ColorUtil.EMERALD)));
-
-        // 상세 목표 진행도
-        lore.add(Component.empty());
-        lore.add(Component.text("상세 목표 진행도", ColorUtil.YELLOW));
-
-        quest.getObjectives().forEach(objective -> {
-            var objProgress = progress.getObjectiveProgress(objective.getId());
-            if (objProgress != null) {
-                Component status = objProgress.isCompleted()
-                        ? Component.text(" ✓", ColorUtil.SUCCESS)
-                        : Component.text(" " + objective.getProgressString(objProgress), ColorUtil.GRAY);
-
-                lore.add(Component.text("• ", ColorUtil.GRAY)
-                        .append(Component.text(quest.getObjectiveDescription(objective, viewer.locale().toString().startsWith("ko"))))
-                        .append(status));
-            }
-        });
+                .append(Component.text(" " + progress.getCompletionPercentage() + "%", ColorUtil.EMERALD)));
 
         // 클릭 안내
         lore.add(Component.empty());

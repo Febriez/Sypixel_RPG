@@ -648,200 +648,328 @@ public class FirestoreRestService {
 
     /**
      * 퀘스트 데이터를 Firestore 문서로 변환
+     * 안전하고 가독성 좋은 구조로 리팩토링
      */
     private JsonObject createQuestDataDocument(@NotNull PlayerQuestDTO questData) {
-        JsonObject doc = new JsonObject();
-        JsonObject fields = new JsonObject();
+        try {
+            JsonObject doc = new JsonObject();
+            JsonObject fields = new JsonObject();
 
-        // 기본 필드
-        fields.add("playerId", createStringValue(questData.playerId()));
-        fields.add("lastUpdated", createIntegerValue(questData.lastUpdated()));
+            // 기본 필드
+            fields.add("playerId", createStringValue(questData.playerId()));
+            fields.add("lastUpdated", createIntegerValue(questData.lastUpdated()));
 
-        // 활성 퀘스트 저장
-        JsonObject activeQuestsObj = new JsonObject();
+            // 활성 퀘스트 저장
+            fields.add("activeQuests", createActiveQuestsMap(questData.activeQuests()));
+
+            // 완료된 퀘스트 저장
+            fields.add("completedQuests", createCompletedQuestsMap(questData.completedQuests()));
+
+            doc.add("fields", fields);
+            return doc;
+        } catch (Exception e) {
+            LogUtil.error("퀘스트 데이터 문서 생성 중 오류 발생", e);
+            // 빈 문서 반환으로 안전 처리
+            return createEmptyQuestDocument(questData.playerId());
+        }
+    }
+
+    /**
+     * 활성 퀘스트 맵 생성
+     */
+    private JsonObject createActiveQuestsMap(@NotNull Map<String, com.febrie.rpg.quest.progress.QuestProgress> activeQuests) {
         JsonObject activeQuestsFields = new JsonObject();
         
-        questData.activeQuests().forEach((questId, progress) -> {
-            JsonObject progressObj = new JsonObject();
-            JsonObject progressFields = new JsonObject();
-            
-            progressFields.add("questId", createStringValue(questId));
-            progressFields.add("playerId", createStringValue(progress.getPlayerId().toString()));
-            progressFields.add("state", createStringValue(progress.getState().name()));
-            progressFields.add("currentObjectiveIndex", createIntegerValue(progress.getCurrentObjectiveIndex()));
-            progressFields.add("startedAt", createIntegerValue(progress.getStartedAt().toEpochMilli()));
-            progressFields.add("lastUpdatedAt", createIntegerValue(progress.getLastUpdatedAt().toEpochMilli()));
-            
-            // 목표 진행도 저장
-            JsonObject objectivesObj = new JsonObject();
-            JsonObject objectivesFields = new JsonObject();
-            
-            progress.getObjectives().forEach((objId, objProgress) -> {
-                JsonObject objProgressObj = new JsonObject();
+        activeQuests.forEach((questId, progress) -> {
+            try {
+                JsonObject progressValue = createQuestProgressValue(progress);
+                activeQuestsFields.add(questId, progressValue);
+            } catch (Exception e) {
+                LogUtil.warning("활성 퀘스트 데이터 생성 실패 (ID: " + questId + "): " + e.getMessage());
+            }
+        });
+        
+        return createFirestoreMapValue(activeQuestsFields);
+    }
+
+    /**
+     * 퀘스트 진행도 값 생성
+     */
+    private JsonObject createQuestProgressValue(@NotNull com.febrie.rpg.quest.progress.QuestProgress progress) {
+        JsonObject progressFields = new JsonObject();
+        
+        // 기본 진행도 정보
+        progressFields.add("questId", createStringValue(progress.getQuestId().name()));
+        progressFields.add("playerId", createStringValue(progress.getPlayerId().toString()));
+        progressFields.add("state", createStringValue(progress.getState().name()));
+        progressFields.add("currentObjectiveIndex", createIntegerValue(progress.getCurrentObjectiveIndex()));
+        progressFields.add("startedAt", createIntegerValue(progress.getStartedAt().toEpochMilli()));
+        progressFields.add("lastUpdatedAt", createIntegerValue(progress.getLastUpdatedAt().toEpochMilli()));
+        
+        // 목표 진행도 저장
+        JsonObject objectivesFields = new JsonObject();
+        progress.getObjectives().forEach((objId, objProgress) -> {
+            try {
                 JsonObject objProgressFields = new JsonObject();
-                
                 objProgressFields.add("completed", createBooleanValue(objProgress.isCompleted()));
                 objProgressFields.add("progress", createIntegerValue(objProgress.getCurrentValue()));
                 objProgressFields.add("target", createIntegerValue(objProgress.getRequiredValue()));
                 objProgressFields.add("lastUpdated", createIntegerValue(objProgress.getLastUpdated()));
                 
-                objProgressObj.add("fields", objProgressFields);
-                objectivesFields.add(objId, objProgressObj);
-            });
-            
-            JsonObject objectivesMapValue = new JsonObject();
-            objectivesMapValue.add("fields", objectivesFields);
-            
-            JsonObject objectivesValue = new JsonObject();
-            objectivesValue.add("mapValue", objectivesMapValue);
-            progressFields.add("objectives", objectivesValue);
-            
-            progressObj.add("fields", progressFields);
-            activeQuestsFields.add(questId, progressObj);
+                objectivesFields.add(objId, createFirestoreMapValue(objProgressFields));
+            } catch (Exception e) {
+                LogUtil.warning("목표 진행도 생성 실패 (ID: " + objId + "): " + e.getMessage());
+            }
         });
         
-        JsonObject activeQuestsMapValue = new JsonObject();
-        activeQuestsMapValue.add("fields", activeQuestsFields);
+        progressFields.add("objectives", createFirestoreMapValue(objectivesFields));
         
-        JsonObject activeQuestsValue = new JsonObject();
-        activeQuestsValue.add("mapValue", activeQuestsMapValue);
-        fields.add("activeQuests", activeQuestsValue);
+        return createFirestoreMapValue(progressFields);
+    }
 
-        // 완료된 퀘스트 저장
-        JsonObject completedQuestsObj = new JsonObject();
+    /**
+     * 완료된 퀘스트 맵 생성
+     */
+    private JsonObject createCompletedQuestsMap(@NotNull Map<String, CompletedQuestDTO> completedQuests) {
         JsonObject completedQuestsFields = new JsonObject();
         
-        questData.completedQuests().forEach((questId, completed) -> {
-            JsonObject completedObj = new JsonObject();
-            JsonObject completedFields = new JsonObject();
-            
-            completedFields.add("questId", createStringValue(completed.questId()));
-            completedFields.add("completedAt", createIntegerValue(completed.completedAt()));
-            completedFields.add("completionCount", createIntegerValue(1));
-            
-            completedObj.add("fields", completedFields);
-            completedQuestsFields.add(questId, completedObj);
+        completedQuests.forEach((questId, completed) -> {
+            try {
+                JsonObject completedFields = new JsonObject();
+                completedFields.add("questId", createStringValue(completed.questId()));
+                completedFields.add("completedAt", createIntegerValue(completed.completedAt()));
+                completedFields.add("completionCount", createIntegerValue(1));
+                
+                completedQuestsFields.add(questId, createFirestoreMapValue(completedFields));
+            } catch (Exception e) {
+                LogUtil.warning("완료된 퀘스트 데이터 생성 실패 (ID: " + questId + "): " + e.getMessage());
+            }
         });
         
-        JsonObject completedQuestsMapValue = new JsonObject();
-        completedQuestsMapValue.add("fields", completedQuestsFields);
-        
-        JsonObject completedQuestsValue = new JsonObject();
-        completedQuestsValue.add("mapValue", completedQuestsMapValue);
-        fields.add("completedQuests", completedQuestsValue);
+        return createFirestoreMapValue(completedQuestsFields);
+    }
 
+    /**
+     * Firestore mapValue 타입 생성 헬퍼
+     */
+    private JsonObject createFirestoreMapValue(@NotNull JsonObject fields) {
+        JsonObject mapValue = new JsonObject();
+        mapValue.add("fields", fields);
+        
+        JsonObject result = new JsonObject();
+        result.add("mapValue", mapValue);
+        return result;
+    }
+
+    /**
+     * 빈 퀘스트 문서 생성 (오류 시 안전 처리용)
+     */
+    private JsonObject createEmptyQuestDocument(@NotNull String playerId) {
+        JsonObject doc = new JsonObject();
+        JsonObject fields = new JsonObject();
+        
+        fields.add("playerId", createStringValue(playerId));
+        fields.add("lastUpdated", createIntegerValue(System.currentTimeMillis()));
+        fields.add("activeQuests", createFirestoreMapValue(new JsonObject()));
+        fields.add("completedQuests", createFirestoreMapValue(new JsonObject()));
+        
         doc.add("fields", fields);
         return doc;
     }
 
     /**
      * Firestore 문서를 퀘스트 데이터로 파싱
+     * 안전하고 가독성 좋은 구조로 리팩토링
      */
     private PlayerQuestDTO parsePlayerQuestDTO(@NotNull JsonObject doc, @NotNull String playerId) {
-        if (!doc.has("fields")) {
+        try {
+            if (!doc.has("fields")) {
+                return new PlayerQuestDTO(playerId);
+            }
+
+            JsonObject fields = doc.getAsJsonObject("fields");
+            long lastUpdated = getLongValue(fields, "lastUpdated");
+
+            // 활성 퀘스트 파싱
+            Map<String, com.febrie.rpg.quest.progress.QuestProgress> activeQuests = parseActiveQuests(fields, playerId);
+
+            // 완료된 퀘스트 파싱
+            Map<String, CompletedQuestDTO> completedQuests = parseCompletedQuests(fields);
+
+            return new PlayerQuestDTO(playerId, activeQuests, completedQuests, lastUpdated);
+        } catch (Exception e) {
+            LogUtil.error("퀘스트 데이터 파싱 중 오류 발생 (Player: " + playerId + ")", e);
             return new PlayerQuestDTO(playerId);
         }
+    }
 
-        JsonObject fields = doc.getAsJsonObject("fields");
-        long lastUpdated = getLongValue(fields, "lastUpdated");
-
-        // 활성 퀘스트 파싱
+    /**
+     * 활성 퀘스트 파싱
+     */
+    private Map<String, com.febrie.rpg.quest.progress.QuestProgress> parseActiveQuests(@NotNull JsonObject fields, @NotNull String playerId) {
         Map<String, com.febrie.rpg.quest.progress.QuestProgress> activeQuests = new HashMap<>();
-        if (fields.has("activeQuests")) {
-            JsonObject activeQuestsObj = fields.getAsJsonObject("activeQuests");
-            if (activeQuestsObj.has("fields")) {
-                JsonObject activeQuestsFields = activeQuestsObj.getAsJsonObject("fields");
-                
-                for (Map.Entry<String, JsonElement> entry : activeQuestsFields.entrySet()) {
-                    String questId = entry.getKey();
-                    JsonObject progressObj = entry.getValue().getAsJsonObject();
-                    
-                    if (progressObj.has("fields")) {
-                        JsonObject progressFields = progressObj.getAsJsonObject("fields");
-                        
-                        try {
-                            // QuestProgress 재생성
-                            String playerIdStr = getStringValue(progressFields, "playerId");
-                            String state = getStringValue(progressFields, "state");
-                            int currentObjectiveIndex = getIntValue(progressFields, "currentObjectiveIndex", 0);
-                            long startedAt = getLongValue(progressFields, "startedAt");
-                            long lastUpdatedAt = getLongValue(progressFields, "lastUpdatedAt");
-                            long completedAt = getLongValue(progressFields, "completedAt");
-                            
-                            // 목표 진행도 파싱
-                            Map<String, com.febrie.rpg.quest.progress.ObjectiveProgress> objectives = new HashMap<>();
-                            if (progressFields.has("objectives")) {
-                                JsonObject objectivesObj = progressFields.getAsJsonObject("objectives");
-                                if (objectivesObj.has("fields")) {
-                                    JsonObject objectivesFields = objectivesObj.getAsJsonObject("fields");
-                                    
-                                    for (Map.Entry<String, JsonElement> objEntry : objectivesFields.entrySet()) {
-                                        String objId = objEntry.getKey();
-                                        JsonObject objProgressObj = objEntry.getValue().getAsJsonObject();
-                                        
-                                        if (objProgressObj.has("fields")) {
-                                            JsonObject objProgressFields = objProgressObj.getAsJsonObject("fields");
-                                            
-                                            boolean completed = getBooleanValue(objProgressFields, "completed");
-                                            int progress = getIntValue(objProgressFields, "progress", 0);
-                                            int target = getIntValue(objProgressFields, "target", 1);
-                                            long objLastUpdated = getLongValue(objProgressFields, "lastUpdated");
-                                            
-                                            com.febrie.rpg.quest.progress.ObjectiveProgress objProgress = 
-                                                new com.febrie.rpg.quest.progress.ObjectiveProgress(
-                                                    objId, UUID.fromString(playerId), progress, target, completed
-                                                );
-                                            objectives.put(objId, objProgress);
-                                        }
-                                    }
-                                }
-                            }
-                            
-                            // QuestProgress 객체 생성 (QuestID와 UUID 변환 필요)
-                            try {
-                                com.febrie.rpg.quest.QuestID questIdEnum = com.febrie.rpg.quest.QuestID.fromLegacyId(questId);
-                                java.util.UUID playerUuid = java.util.UUID.fromString(playerIdStr);
-                                
-                                com.febrie.rpg.quest.progress.QuestProgress questProgress = 
-                                    new com.febrie.rpg.quest.progress.QuestProgress(questIdEnum, playerUuid, objectives);
-                                
-                                questProgress.setState(com.febrie.rpg.quest.progress.QuestProgress.QuestState.valueOf(state));
-                                questProgress.setCurrentObjectiveIndex(currentObjectiveIndex);
-                                
-                                activeQuests.put(questId, questProgress);
-                            } catch (Exception e) {
-                                LogUtil.warning("Failed to parse quest progress for: " + questId + " - " + e.getMessage());
-                            }
-                            
-                        } catch (Exception e) {
-                            LogUtil.warning("Failed to parse active quest: " + questId + " - " + e.getMessage());
+        
+        try {
+            JsonObject activeQuestsMap = getFirestoreMapFields(fields, "activeQuests");
+            if (activeQuestsMap == null) return activeQuests;
+            
+            for (Map.Entry<String, JsonElement> entry : activeQuestsMap.entrySet()) {
+                String questId = entry.getKey();
+                try {
+                    JsonObject progressFields = getFirestoreMapFields(entry.getValue().getAsJsonObject());
+                    if (progressFields != null) {
+                        com.febrie.rpg.quest.progress.QuestProgress questProgress = parseQuestProgress(questId, progressFields, playerId);
+                        if (questProgress != null) {
+                            activeQuests.put(questId, questProgress);
                         }
                     }
+                } catch (Exception e) {
+                    LogUtil.warning("활성 퀘스트 파싱 실패 (ID: " + questId + "): " + e.getMessage());
                 }
             }
+        } catch (Exception e) {
+            LogUtil.warning("활성 퀘스트 목록 파싱 실패: " + e.getMessage());
         }
+        
+        return activeQuests;
+    }
 
-        // 완료된 퀘스트 파싱
+    /**
+     * 퀘스트 진행도 파싱
+     */
+    private com.febrie.rpg.quest.progress.QuestProgress parseQuestProgress(@NotNull String questId, @NotNull JsonObject progressFields, @NotNull String playerId) {
+        try {
+            String playerIdStr = getStringValue(progressFields, "playerId");
+            String state = getStringValue(progressFields, "state");
+            int currentObjectiveIndex = getIntValue(progressFields, "currentObjectiveIndex", 0);
+            long startedAt = getLongValue(progressFields, "startedAt");
+            long lastUpdatedAt = getLongValue(progressFields, "lastUpdatedAt");
+            
+            // 목표 진행도 파싱
+            Map<String, com.febrie.rpg.quest.progress.ObjectiveProgress> objectives = parseObjectiveProgress(progressFields, playerId);
+            
+            // QuestProgress 객체 생성
+            com.febrie.rpg.quest.QuestID questIdEnum = com.febrie.rpg.quest.QuestID.fromLegacyId(questId);
+            java.util.UUID playerUuid = java.util.UUID.fromString(playerIdStr != null ? playerIdStr : playerId);
+            
+            com.febrie.rpg.quest.progress.QuestProgress questProgress = 
+                new com.febrie.rpg.quest.progress.QuestProgress(questIdEnum, playerUuid, objectives);
+            
+            if (state != null) {
+                questProgress.setState(com.febrie.rpg.quest.progress.QuestProgress.QuestState.valueOf(state));
+            }
+            questProgress.setCurrentObjectiveIndex(currentObjectiveIndex);
+            
+            return questProgress;
+        } catch (Exception e) {
+            LogUtil.warning("퀘스트 진행도 파싱 실패 (ID: " + questId + "): " + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 목표 진행도 파싱
+     */
+    private Map<String, com.febrie.rpg.quest.progress.ObjectiveProgress> parseObjectiveProgress(@NotNull JsonObject progressFields, @NotNull String playerId) {
+        Map<String, com.febrie.rpg.quest.progress.ObjectiveProgress> objectives = new HashMap<>();
+        
+        try {
+            JsonObject objectivesMap = getFirestoreMapFields(progressFields, "objectives");
+            if (objectivesMap == null) return objectives;
+            
+            for (Map.Entry<String, JsonElement> objEntry : objectivesMap.entrySet()) {
+                String objId = objEntry.getKey();
+                try {
+                    JsonObject objProgressFields = getFirestoreMapFields(objEntry.getValue().getAsJsonObject());
+                    if (objProgressFields != null) {
+                        boolean completed = getBooleanValue(objProgressFields, "completed");
+                        int progress = getIntValue(objProgressFields, "progress", 0);
+                        int target = getIntValue(objProgressFields, "target", 1);
+                        long objLastUpdated = getLongValue(objProgressFields, "lastUpdated");
+                        
+                        com.febrie.rpg.quest.progress.ObjectiveProgress objProgress = 
+                            new com.febrie.rpg.quest.progress.ObjectiveProgress(
+                                objId, UUID.fromString(playerId), progress, target, completed
+                            );
+                        objectives.put(objId, objProgress);
+                    }
+                } catch (Exception e) {
+                    LogUtil.warning("목표 진행도 파싱 실패 (ID: " + objId + "): " + e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            LogUtil.warning("목표 진행도 목록 파싱 실패: " + e.getMessage());
+        }
+        
+        return objectives;
+    }
+
+    /**
+     * 완료된 퀘스트 파싱
+     */
+    private Map<String, CompletedQuestDTO> parseCompletedQuests(@NotNull JsonObject fields) {
         Map<String, CompletedQuestDTO> completedQuests = new HashMap<>();
-        if (fields.has("completedQuests")) {
-            JsonObject completedQuestsObj = fields.getAsJsonObject("completedQuests");
-            if (completedQuestsObj.has("fields")) {
-                JsonObject completedQuestsFields = completedQuestsObj.getAsJsonObject("fields");
-                for (Map.Entry<String, JsonElement> entry : completedQuestsFields.entrySet()) {
-                    String questId = entry.getKey();
-                    JsonObject completedObj = entry.getValue().getAsJsonObject();
-                    if (completedObj.has("fields")) {
-                        JsonObject completedFields = completedObj.getAsJsonObject("fields");
+        
+        try {
+            JsonObject completedQuestsMap = getFirestoreMapFields(fields, "completedQuests");
+            if (completedQuestsMap == null) return completedQuests;
+            
+            for (Map.Entry<String, JsonElement> entry : completedQuestsMap.entrySet()) {
+                String questId = entry.getKey();
+                try {
+                    JsonObject completedFields = getFirestoreMapFields(entry.getValue().getAsJsonObject());
+                    if (completedFields != null) {
                         long completedAt = getLongValue(completedFields, "completedAt");
                         int completionCount = getIntValue(completedFields, "completionCount", 1);
                         
                         completedQuests.put(questId, new CompletedQuestDTO(questId, completedAt, completionCount));
                     }
+                } catch (Exception e) {
+                    LogUtil.warning("완료된 퀘스트 파싱 실패 (ID: " + questId + "): " + e.getMessage());
                 }
             }
+        } catch (Exception e) {
+            LogUtil.warning("완료된 퀘스트 목록 파싱 실패: " + e.getMessage());
         }
+        
+        return completedQuests;
+    }
 
-        return new PlayerQuestDTO(playerId, activeQuests, completedQuests, lastUpdated);
+    /**
+     * Firestore mapValue에서 fields 추출 헬퍼
+     */
+    private JsonObject getFirestoreMapFields(@NotNull JsonObject parent, @NotNull String fieldName) {
+        try {
+            if (!parent.has(fieldName)) return null;
+            
+            JsonObject mapObj = parent.getAsJsonObject(fieldName);
+            if (!mapObj.has("mapValue")) return null;
+            
+            JsonObject mapValue = mapObj.getAsJsonObject("mapValue");
+            if (!mapValue.has("fields")) return null;
+            
+            return mapValue.getAsJsonObject("fields");
+        } catch (Exception e) {
+            LogUtil.warning("Firestore mapValue 파싱 실패 (field: " + fieldName + "): " + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * JsonObject에서 직접 mapValue fields 추출
+     */
+    private JsonObject getFirestoreMapFields(@NotNull JsonObject mapObj) {
+        try {
+            if (!mapObj.has("mapValue")) return null;
+            
+            JsonObject mapValue = mapObj.getAsJsonObject("mapValue");
+            if (!mapValue.has("fields")) return null;
+            
+            return mapValue.getAsJsonObject("fields");
+        } catch (Exception e) {
+            LogUtil.warning("Firestore mapValue 직접 파싱 실패: " + e.getMessage());
+            return null;
+        }
     }
 
     // ========== 문서 파싱 메서드 ==========
