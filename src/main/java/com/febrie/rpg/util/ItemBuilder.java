@@ -256,6 +256,40 @@ public class ItemBuilder {
         itemMeta.addItemFlags(flags);
         return this;
     }
+    
+    /**
+     * 모든 아이템 플래그 추가 (자주 사용되는 패턴)
+     * 아이템의 추가 정보(인챈트, 속성 등)를 숨깁니다
+     * 
+     * @return This builder
+     */
+    public ItemBuilder hideAllFlags() {
+        return addItemFlags(ItemFlag.values());
+    }
+    
+    /**
+     * GUI 아이템용 표준 설정 적용
+     * - 모든 플래그 숨김
+     * - 빈 줄 추가 (선택사항)
+     * 
+     * @param addEmptyLine 빈 줄을 추가할지 여부
+     * @return This builder
+     */
+    public ItemBuilder asGuiItem(boolean addEmptyLine) {
+        if (addEmptyLine) {
+            addEmptyLore();
+        }
+        return hideAllFlags();
+    }
+    
+    /**
+     * GUI 아이템용 표준 설정 적용 (빈 줄 추가)
+     * 
+     * @return This builder
+     */
+    public ItemBuilder asGuiItem() {
+        return asGuiItem(true);
+    }
 
     /**
      * Adds an enchantment

@@ -53,14 +53,30 @@ public class ProfileGui extends BaseGui {
 
     /**
      * Creates a new ProfileGui for viewing another player's profile
-     * 프로젝트의 실제 생성자 시그니처와 일치
+     * 
+     * @param guiManager GUI 관리자
+     * @param langManager 언어 관리자
+     * @param viewer GUI를 보는 플레이어
+     * @param targetPlayer 프로필 대상 플레이어
      */
-    public ProfileGui(@NotNull Player targetPlayer, @NotNull Player viewer,
-                      @NotNull GuiManager guiManager, @NotNull LangManager langManager) {
+    public ProfileGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                      @NotNull Player viewer, @NotNull Player targetPlayer) {
         super(viewer, guiManager, langManager, GUI_SIZE, "gui.profile.player-title",
                 "player", targetPlayer.getName());
         this.targetPlayer = targetPlayer;
         setupLayout();
+    }
+    
+    /**
+     * Creates a new ProfileGui for viewing own profile (편의 생성자)
+     * 
+     * @param guiManager GUI 관리자
+     * @param langManager 언어 관리자
+     * @param viewer GUI를 보는 플레이어 (자기 자신의 프로필)
+     */
+    public ProfileGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                      @NotNull Player viewer) {
+        this(guiManager, langManager, viewer, viewer);
     }
 
     @Override
@@ -220,7 +236,7 @@ public class ProfileGui extends BaseGui {
                         .build(),
                 p -> {
                     if (p.equals(targetPlayer)) {
-                        QuestListGui questListGui = new QuestListGui(p, guiManager, langManager);
+                        QuestListGui questListGui = new QuestListGui(guiManager, langManager, p);
                         guiManager.openGui(p, questListGui);
                         playSuccessSound(p);
                     } else {

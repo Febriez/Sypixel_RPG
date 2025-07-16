@@ -41,9 +41,9 @@ public class QuestAcceptGui extends BaseGui {
     private final Quest quest;
     private final QuestManager questManager;
 
-    public QuestAcceptGui(@NotNull Player player, @NotNull GuiManager guiManager,
-                          @NotNull LangManager langManager, @NotNull Quest quest) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.quest-accept.title");
+    public QuestAcceptGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                          @NotNull Player viewer, @NotNull Quest quest) {
+        super(viewer, guiManager, langManager, GUI_SIZE, "gui.quest-accept.title");
         this.quest = quest;
         this.questManager = QuestManager.getInstance();
         setupLayout();

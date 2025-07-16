@@ -65,7 +65,7 @@ public class NPCInteractListener implements Listener {
         if (questIdStr.isEmpty()) {
             // 퀘스트 목록 GUI 열기
             com.febrie.rpg.gui.impl.QuestListGui questListGui = 
-                new com.febrie.rpg.gui.impl.QuestListGui(player, guiManager, langManager);
+                new com.febrie.rpg.gui.impl.QuestListGui(guiManager, langManager, player);
             guiManager.openGui(player, questListGui);
             return;
         }

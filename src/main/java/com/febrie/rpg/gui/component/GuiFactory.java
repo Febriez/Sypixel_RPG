@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -32,6 +33,7 @@ public class GuiFactory {
                 new ItemBuilder(Material.BARRIER)
                         .displayName(langManager.getComponent(player, "gui.buttons.close.name"))
                         .addLore(langManager.getComponent(player, "gui.buttons.close.lore"))
+                        .asGuiItem(false)
                         .build(),
                 Player::closeInventory
         );
@@ -46,6 +48,49 @@ public class GuiFactory {
                 new ItemBuilder(Material.ARROW)
                         .displayName(langManager.getComponent(player, "gui.buttons.back.name"))
                         .addLore(langManager.getComponent(player, "gui.buttons.back.lore"))
+                        .asGuiItem(false)
+                        .build(),
+                action
+        );
+    }
+    
+    /**
+     * 새로고침 버튼 생성
+     */
+    public static GuiItem createRefreshButton(@NotNull Runnable action, @NotNull LangManager langManager, @NotNull Player player) {
+        return GuiItem.clickable(
+                new ItemBuilder(Material.EMERALD)
+                        .displayName(langManager.getComponent(player, "gui.buttons.refresh.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.refresh.lore"))
+                        .asGuiItem(false)
+                        .build(),
+                p -> action.run()
+        );
+    }
+    
+    /**
+     * 다음 페이지 버튼 생성
+     */
+    public static GuiItem createNextPageButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
+        return GuiItem.clickable(
+                new ItemBuilder(Material.ARROW)
+                        .displayName(langManager.getComponent(player, "gui.buttons.next-page.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.next-page.lore"))
+                        .asGuiItem(false)
+                        .build(),
+                action
+        );
+    }
+    
+    /**
+     * 이전 페이지 버튼 생성
+     */
+    public static GuiItem createPreviousPageButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
+        return GuiItem.clickable(
+                new ItemBuilder(Material.ARROW)
+                        .displayName(langManager.getComponent(player, "gui.buttons.previous-page.name"))
+                        .addLore(langManager.getComponent(player, "gui.buttons.previous-page.lore"))
+                        .asGuiItem(false)
                         .build(),
                 action
         );
@@ -92,6 +137,68 @@ public class GuiFactory {
         );
     }
 
+    /**
+     * 메뉴 버튼 생성 (클릭 가능한 기능 버튼)
+     * 
+     * @param material 버튼 재료
+     * @param nameKey 이름 번역 키
+     * @param loreKey 설명 번역 키
+     * @param action 클릭 시 동작
+     * @param langManager 언어 관리자
+     * @param player 플레이어
+     * @return 생성된 메뉴 버튼
+     */
+    public static GuiItem createMenuButton(@NotNull Material material, @NotNull String nameKey, 
+                                           @NotNull String loreKey, @NotNull Consumer<Player> action,
+                                           @NotNull LangManager langManager, @NotNull Player player) {
+        return GuiItem.clickable(
+                new ItemBuilder(material)
+                        .displayName(langManager.getComponent(player, nameKey))
+                        .lore(langManager.getComponentList(player, loreKey))
+                        .asGuiItem()
+                        .build(),
+                action
+        );
+    }
+    
+    /**
+     * 스탯 아이템 생성 (표시 전용)
+     * 
+     * @param material 아이템 재료
+     * @param name 아이템 이름
+     * @param lore 아이템 설명 리스트
+     * @return 생성된 스탯 아이템
+     */
+    public static GuiItem createStatItem(@NotNull Material material, @NotNull Component name, 
+                                         @NotNull List<Component> lore) {
+        return GuiItem.display(
+                new ItemBuilder(material)
+                        .displayName(name)
+                        .lore(lore)
+                        .asGuiItem()
+                        .build()
+        );
+    }
+    
+    /**
+     * 조건부 아이템 생성 (클릭 가능 여부가 조건에 따라 결정)
+     * 
+     * @param builder 아이템 빌더
+     * @param clickable 클릭 가능 여부
+     * @param action 클릭 시 동작 (clickable이 true일 때만 사용)
+     * @return 생성된 GuiItem
+     */
+    public static GuiItem createConditionalItem(@NotNull ItemBuilder builder, boolean clickable, 
+                                                @NotNull Consumer<Player> action) {
+        builder.asGuiItem();
+        
+        if (clickable) {
+            return GuiItem.clickable(builder.build(), action);
+        } else {
+            return GuiItem.display(builder.build());
+        }
+    }
+    
     /**
      * 정보 아이템 생성
      */
@@ -147,31 +254,6 @@ public class GuiFactory {
         );
     }
 
-    /**
-     * 이전 페이지 버튼 생성
-     */
-    public static GuiItem createPreviousPageButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
-        return GuiItem.clickable(
-                new ItemBuilder(Material.ARROW)
-                        .displayName(langManager.getComponent(player, "gui.buttons.previous-page.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.previous-page.lore"))
-                        .build(),
-                action
-        );
-    }
-
-    /**
-     * 다음 페이지 버튼 생성
-     */
-    public static GuiItem createNextPageButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
-        return GuiItem.clickable(
-                new ItemBuilder(Material.ARROW)
-                        .displayName(langManager.getComponent(player, "gui.buttons.next-page.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.next-page.lore"))
-                        .build(),
-                action
-        );
-    }
 
     /**
      * 페이지 정보 표시 아이템 생성

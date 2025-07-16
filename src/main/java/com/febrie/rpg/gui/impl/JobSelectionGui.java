@@ -34,8 +34,8 @@ public class JobSelectionGui extends BaseGui {
     private JobType.JobCategory selectedCategory = JobType.JobCategory.WARRIOR;
 
     public JobSelectionGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
-                           @NotNull Player player, @NotNull RPGPlayer rpgPlayer) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.job-selection.title");
+                           @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
+        super(viewer, guiManager, langManager, GUI_SIZE, "gui.job-selection.title");
         this.rpgPlayer = rpgPlayer;
         setupLayout();
     }

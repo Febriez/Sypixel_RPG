@@ -191,7 +191,7 @@ public class JobConfirmationGui extends BaseGui {
             viewer.closeInventory();
 
             // 프로필 GUI 열기
-            ProfileGui profileGui = new ProfileGui(viewer, viewer, guiManager, langManager);
+            ProfileGui profileGui = new ProfileGui(guiManager, langManager, viewer);
             guiManager.openGui(viewer, profileGui);
 
         } else {

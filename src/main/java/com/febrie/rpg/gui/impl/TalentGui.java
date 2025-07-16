@@ -351,6 +351,6 @@ public class TalentGui extends ScrollableGui {
     @Override
     public GuiFramework getBackTarget() {
         // TalentGui는 ProfileGui로 돌아갉니다
-        return new ProfileGui(viewer, viewer, guiManager, langManager);
+        return new ProfileGui(guiManager, langManager, viewer);
     }
 }

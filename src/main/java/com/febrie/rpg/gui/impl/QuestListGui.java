@@ -17,7 +17,6 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -45,9 +44,9 @@ public class QuestListGui extends BaseGui {
 
     private final QuestManager questManager;
 
-    public QuestListGui(@NotNull Player player, @NotNull GuiManager guiManager,
-                        @NotNull LangManager langManager) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.quest-list.title");
+    public QuestListGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                        @NotNull Player viewer) {
+        super(viewer, guiManager, langManager, GUI_SIZE, "gui.quest-list.title");
         this.questManager = QuestManager.getInstance();
         setupLayout();
     }
@@ -72,12 +71,12 @@ public class QuestListGui extends BaseGui {
     private void setupDecorations() {
         // 전체 경계선
         createBorder();
-        
+
         // 진행 중/완료 퀘스트 구분선 (3번째 줄에서 퀘스트 표시 영역 제외)
         setItem(18, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
         setItem(22, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
         setItem(26, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
-        
+
         // 중앙 세로 구분선 (4번 슬롯)
         setItem(4, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
         setItem(13, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
@@ -86,64 +85,59 @@ public class QuestListGui extends BaseGui {
     }
 
     /**
+     * 라벨 아이템 생성 - 퀘스트 개수에 따라 클릭 가능 여부 결정
+     *
+     * @param builder     아이템 빌더
+     * @param questCount  퀘스트 개수
+     * @param clickAction 클릭 시 실행할 동작 (퀘스트가 MAX_DISPLAY_QUESTS보다 많을 때만 사용)
+     * @return 생성된 GuiItem
+     */
+    private GuiItem createLabelItem(ItemBuilder builder, int questCount, Runnable clickAction) {
+        // 12개 이상이면 우클릭 안내 추가
+        if (questCount > MAX_DISPLAY_QUESTS) {
+            builder.addLore(Component.empty());
+            builder.addLore(Component.text("▶ 우클릭하여 모든 퀘스트를 확인합니다", ColorUtil.YELLOW));
+        }
+
+        // GUI 아이템 표준 설정 적용
+        builder.asGuiItem(false);
+
+        // 클릭 가능 여부에 따라 GuiItem 생성
+        if (questCount > MAX_DISPLAY_QUESTS) {
+            return GuiItem.clickable(builder.build(), p -> {
+                clickAction.run();
+                playClickSound(p);
+            });
+        } else {
+            return GuiItem.display(builder.build());
+        }
+    }
+
+    /**
      * 카테고리 라벨 설정
      */
     private void setupCategoryLabels() {
         List<QuestProgress> activeQuests = questManager.getActiveQuests(viewer.getUniqueId());
         List<QuestID> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
-        
+
         // 진행 중인 퀘스트 라벨
         ItemBuilder activeBuilder = new ItemBuilder(Material.BOOK)
                 .displayName(trans("gui.quest-list.active-quests"))
                 .addLore(trans("gui.quest-list.active-quests-desc"));
-        
-        // 12개 이상이면 우클릭 안내 추가
-        if (activeQuests.size() > MAX_DISPLAY_QUESTS) {
-            activeBuilder.addLore(Component.empty());
-            activeBuilder.addLore(Component.text("▶ 우클릭하여 모든 진행 중 퀘스트를 확인합니다", ColorUtil.YELLOW));
-        }
-        
-        GuiItem activeLabel;
-        if (activeQuests.size() > MAX_DISPLAY_QUESTS) {
-            activeLabel = GuiItem.clickable(
-                    activeBuilder.addItemFlags(ItemFlag.values()).build(),
-                    p -> {
-                        // TODO: 모든 진행 중 퀘스트 보기 GUI 열기
-                        playClickSound(p);
-                    }
-            );
-        } else {
-            activeLabel = GuiItem.display(
-                    activeBuilder.addItemFlags(ItemFlag.values()).build()
-            );
-        }
+
+        GuiItem activeLabel = createLabelItem(activeBuilder, activeQuests.size(), () -> {
+            // TODO: 모든 진행 중 퀘스트 보기 GUI 열기
+        });
         setItem(ACTIVE_LABEL_SLOT, activeLabel);
 
         // 완료된 퀘스트 라벨
         ItemBuilder completedBuilder = new ItemBuilder(Material.ENCHANTED_BOOK)
                 .displayName(trans("gui.quest-list.completed-quests"))
                 .addLore(trans("gui.quest-list.completed-quests-desc"));
-                
-        // 12개 이상이면 우클릭 안내 추가
-        if (completedQuests.size() > MAX_DISPLAY_QUESTS) {
-            completedBuilder.addLore(Component.empty());
-            completedBuilder.addLore(Component.text("▶ 우클릭하여 모든 완료된 퀘스트를 확인합니다", ColorUtil.YELLOW));
-        }
-        
-        GuiItem completedLabel;
-        if (completedQuests.size() > MAX_DISPLAY_QUESTS) {
-            completedLabel = GuiItem.clickable(
-                    completedBuilder.addItemFlags(ItemFlag.values()).build(),
-                    p -> {
-                        // TODO: 모든 완료된 퀘스트 보기 GUI 열기
-                        playClickSound(p);
-                    }
-            );
-        } else {
-            completedLabel = GuiItem.display(
-                    completedBuilder.addItemFlags(ItemFlag.values()).build()
-            );
-        }
+
+        GuiItem completedLabel = createLabelItem(completedBuilder, completedQuests.size(), () -> {
+            // TODO: 모든 완료된 퀘스트 보기 GUI 열기
+        });
         setItem(COMPLETED_LABEL_SLOT, completedLabel);
     }
 
@@ -155,7 +149,7 @@ public class QuestListGui extends BaseGui {
 
         int slot = ACTIVE_QUESTS_START;
         int count = 0;
-        
+
         for (QuestProgress progress : activeQuests) {
             if (count >= MAX_DISPLAY_QUESTS) break; // 최대 18개까지만 표시
 
@@ -165,7 +159,7 @@ public class QuestListGui extends BaseGui {
             GuiItem questItem = createActiveQuestItem(quest, progress);
             setItem(slot++, questItem);
             count++;
-            
+
             // 다음 줄로 이동 (7개마다)
             if (count == 7) {
                 slot = ACTIVE_QUESTS_START + 9; // 세 번째 줄로
@@ -280,7 +274,7 @@ public class QuestListGui extends BaseGui {
         }
 
         builder.addLore(lore);
-        builder.addItemFlags(ItemFlag.values());
+        builder.asGuiItem(false);
 
         return GuiItem.display(builder.build());
     }
@@ -291,7 +285,7 @@ public class QuestListGui extends BaseGui {
     private void setupBackButton() {
         // BaseGui의 표준 뒤로가기 버튼 사용
         updateNavigationButtons();
-        
+
         // 닫기 버튼도 추가
         setItem(CLOSE_BUTTON_SLOT, GuiFactory.createCloseButton(langManager, viewer));
     }
@@ -303,7 +297,6 @@ public class QuestListGui extends BaseGui {
 
     @Override
     public GuiFramework getBackTarget() {
-        // QuestListGui는 MainMenuGui로 돌아갑니다
-        return new MainMenuGui(guiManager, langManager, viewer);
+        return new ProfileGui(guiManager, langManager, viewer);
     }
 }

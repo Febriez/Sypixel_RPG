@@ -243,6 +243,6 @@ public class StatsGui extends ScrollableGui {
     @Override
     public GuiFramework getBackTarget() {
         // StatsGui는 ProfileGui로 돌아갑니다
-        return new ProfileGui(viewer, viewer, guiManager, langManager);
+        return new ProfileGui(guiManager, langManager, viewer);
     }
 }

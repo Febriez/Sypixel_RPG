@@ -190,16 +190,10 @@ public abstract class BaseGui implements InteractiveGui {
 
         // 새로고침 버튼
         if (includeRefresh) {
-            setItem(REFRESH_BUTTON_SLOT, GuiItem.clickable(
-                    new ItemBuilder(Material.EMERALD)
-                            .displayName(langManager.getComponent(viewer, "gui.buttons.refresh.name"))
-                            .addLore(langManager.getComponent(viewer, "gui.buttons.refresh.lore"))
-                            .build(),
-                    p -> {
-                        refresh();
-                        playClickSound(p);
-                    }
-            ));
+            setItem(REFRESH_BUTTON_SLOT, GuiFactory.createRefreshButton(() -> {
+                refresh();
+                playClickSound(viewer);
+            }, langManager, viewer));
         }
 
         // 닫기 버튼
@@ -231,16 +225,10 @@ public abstract class BaseGui implements InteractiveGui {
      * 뒤로가기 버튼 생성
      */
     private GuiItem createBackButton(GuiFramework backTarget) {
-        return GuiItem.clickable(
-                new ItemBuilder(Material.ARROW)
-                        .displayName(langManager.getComponent(viewer, "gui.buttons.back.name"))
-                        .addLore(langManager.getComponent(viewer, "gui.buttons.back.lore"))
-                        .build(),
-                p -> {
-                    guiManager.openGui(p, backTarget);
-                    playBackSound(p);
-                }
-        );
+        return GuiFactory.createBackButton(p -> {
+            guiManager.openGui(p, backTarget);
+            playBackSound(p);
+        }, langManager, viewer);
     }
     
     /**

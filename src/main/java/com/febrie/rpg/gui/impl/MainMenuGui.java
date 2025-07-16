@@ -108,7 +108,7 @@ public class MainMenuGui extends BaseGui {
                 .lore(langManager.getComponentList(viewer, "items.mainmenu.profile-button.lore"))
                 .build(),
             player -> {
-                ProfileGui profileGui = new ProfileGui(player, player, guiManager, langManager);
+                ProfileGui profileGui = new ProfileGui(guiManager, langManager, player);
                 guiManager.openGui(player, profileGui);
             });
             
