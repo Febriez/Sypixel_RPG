@@ -3,6 +3,7 @@ package com.febrie.rpg.gui.impl;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.stat.Stat;
@@ -164,15 +165,12 @@ public class CombatPowerGui extends BaseGui {
     /**
      * 스탯 정보 저장용 내부 클래스
      */
-    private static class StatInfo {
-        final Stat stat;
-        final int multiplier;
-        final Material material;
+    private record StatInfo(Stat stat, int multiplier, Material material) {
+    }
 
-        StatInfo(Stat stat, int multiplier, Material material) {
-            this.stat = stat;
-            this.multiplier = multiplier;
-            this.material = material;
-        }
+    @Override
+    public GuiFramework getBackTarget() {
+        // CombatPowerGui는 MainMenuGui로 돌아갑니다
+        return new MainMenuGui(guiManager, langManager, viewer);
     }
 }

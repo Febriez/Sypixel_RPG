@@ -5,6 +5,7 @@ import com.febrie.rpg.dto.LeaderboardEntryDTO;
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.framework.ScrollableGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
@@ -430,5 +431,11 @@ public class LeaderboardGui extends ScrollableGui {
         if (diff < 3600000) return (diff / 60000) + "분 전";
         if (diff < 86400000) return (diff / 3600000) + "시간 전";
         return (diff / 86400000) + "일 전";
+    }
+
+    @Override
+    public GuiFramework getBackTarget() {
+        // LeaderboardGui는 MainMenuGui로 돌아갑니다
+        return new MainMenuGui(guiManager, langManager, viewer);
     }
 }

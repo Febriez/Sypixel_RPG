@@ -348,5 +348,13 @@
       "%COLOR_GREEN%Flight enabled for 30 seconds",
       "%COLOR_GREEN%All stats temporarily greatly increased"
     ]
+  },
+  "iron_will": {
+    "name": "%COLOR_GRAY%Iron Will",
+    "description": [
+      "%COLOR_GRAY%Resist debuffs with strong willpower.",
+      "%COLOR_GREEN%Vitality +2, Wisdom +2 (per level)",
+      "%COLOR_GREEN%Debuff resistance +20%"
+    ]
   }
 }

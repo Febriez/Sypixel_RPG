@@ -118,7 +118,7 @@ public final class RPGMain extends JavaPlugin {
         LogUtil.info("언어 시스템 초기화 완료");
 
         // GUI 시스템 초기화
-        this.guiManager = new GuiManager(langManager);
+        this.guiManager = new GuiManager(this, langManager);
         LogUtil.info("GUI 시스템 초기화 완료");
 
         // Firebase 서비스 초기화

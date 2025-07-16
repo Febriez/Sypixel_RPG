@@ -38,8 +38,7 @@ public class MainMenuCommand extends BaseCommand {
             return true;
         }
 
-        // 네비게이션 스택 초기화하고 메인 메뉴 열기
-        guiManager.clearNavigationStack(player);
+        // 메인 메뉴 열기
         MainMenuGui mainMenu = new MainMenuGui(guiManager, langManager, player);
         guiManager.openGui(player, mainMenu);
         

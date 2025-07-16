@@ -52,6 +52,8 @@
     "choose-wisely": "%COLOR_WARNING%Choose wisely!",
     "current-job": "%COLOR_WHITE%Current Job: %COLOR_INFO%{job}",
     "no-current-job": "%COLOR_GRAY%You don't have a job yet",
+    "tab-selected": "%COLOR_SUCCESS%▶ Currently selected",
+    "tab-click": "%COLOR_YELLOW%▶ Click to view",
     "confirm-selection": "%COLOR_SUCCESS%Do you want to select this job?",
     "already-selected": "%COLOR_ERROR%You already have a job!",
     "job-categories": "%COLOR_YELLOW%Job Categories",
@@ -97,7 +99,11 @@
     "stat-increased": "%COLOR_SUCCESS%{stat} stat increased!",
     "not-enough-points": "%COLOR_ERROR%Not enough stat points!",
     "current-value": "%COLOR_WHITE%Current: %COLOR_YELLOW%{value}",
-    "click-reset": "%COLOR_RED%▶ Right-click to reset (1 free reset)"
+    "click-reset": "%COLOR_RED%▶ Right-click to reset (1 free reset)",
+    "points-available": "%COLOR_YELLOW%Available Points",
+    "points-count": "%COLOR_WHITE%Points Held: %COLOR_YELLOW%{points}",
+    "points-info": "%COLOR_GRAY%Gain stat points when leveling up",
+    "click-to-add": "%COLOR_YELLOW%▶ Click to add points"
   },
   "talent": {
     "title": "%COLOR_LEGENDARY%Talents",
@@ -116,7 +122,21 @@
     "pages": {
       "main": "Main",
       "default": "Default"
-    }
+    },
+    "page-info": "%COLOR_INFO%Page Information",
+    "current-page": "%COLOR_WHITE%Current Page: %COLOR_YELLOW%{page}",
+    "job": "%COLOR_WHITE%Job: %COLOR_INFO%{job}",
+    "available-points": "%COLOR_WHITE%Available Points: %COLOR_YELLOW%{points}",
+    "level-info": "%COLOR_WHITE%Level %COLOR_YELLOW%{current}%COLOR_WHITE%/%COLOR_YELLOW%{max}",
+    "cannot-learn": "%COLOR_ERROR%Cannot learn",
+    "not-enough-points": "%COLOR_ERROR%Not enough points",
+    "stat-bonuses": "%COLOR_GREEN%Stat Bonuses:",
+    "stat-bonus-line": "%COLOR_WHITE%• {stat}: %COLOR_YELLOW%+{value}",
+    "effects": "%COLOR_AQUA%Effects:",
+    "page": {
+      "main": "Main Talents"
+    },
+    "has-sub-page": "%COLOR_INFO%Has sub-pages"
   },
   "leaderboard": {
     "title": "%COLOR_LEGENDARY%Leaderboard",
@@ -127,6 +147,7 @@
     "combat-board": "%COLOR_RED%Combat Power Rankings",
     "playtime-board": "%COLOR_AQUA%Playtime Rankings",
     "loading": "%COLOR_YELLOW%Loading data...",
+    "loading-description": "%COLOR_GRAY%Please wait a moment...",
     "empty": "%COLOR_GRAY%No data available yet.",
     "your-rank": "%COLOR_SUCCESS%Your Rank: %COLOR_YELLOW%#{rank}",
     "not-ranked": "%COLOR_GRAY%Unranked",

@@ -1,13 +1,12 @@
 package com.febrie.rpg.gui.impl;
 
-import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.framework.ScrollableGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.stat.Stat;
-import com.febrie.rpg.talent.Talent;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -51,7 +50,6 @@ public class StatsGui extends ScrollableGui {
 
     // 네비게이션 버튼 위치
     private static final int NAV_BACK_SLOT = 45;
-    private static final int NAV_TALENTS_SLOT = 50;
     private static final int NAV_CLOSE_SLOT = 53;
 
     private final RPGPlayer rpgPlayer;
@@ -203,31 +201,20 @@ public class StatsGui extends ScrollableGui {
      */
     private void setupNavigationButtons() {
         // 뒤로가기 버튼
-        if (guiManager.canNavigateBack(viewer)) {
+        if (getBackTarget() != null) {
             setItem(NAV_BACK_SLOT, GuiItem.clickable(
                     ItemBuilder.of(Material.ARROW)
                             .displayName(trans("gui.buttons.back.name"))
                             .addLore(trans("gui.buttons.back.lore"))
                             .build(),
-                    guiManager::navigateBack
+                    player -> {
+                        GuiFramework backTarget = getBackTarget();
+                        if (backTarget != null) {
+                            guiManager.openGui(player, backTarget);
+                        }
+                    }
             ));
         }
-
-        // 특성 페이지로 가기 버튼
-        GuiItem talentButton = GuiItem.clickable(
-                ItemBuilder.of(Material.ENCHANTED_BOOK)
-                        .displayName(trans("gui.talent.title"))
-                        .addLore(trans("gui.stats.click-talents"))
-                        .glint(true)
-                        .build(),
-                player -> {
-                    List<Talent> talents = RPGMain.getPlugin()
-                            .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
-                    TalentGui talentGui = new TalentGui(guiManager, langManager, player, rpgPlayer, "main", talents);
-                    guiManager.openGui(player, talentGui);
-                }
-        );
-        setItem(NAV_TALENTS_SLOT, talentButton);
 
         // 닫기 버튼
         setItem(NAV_CLOSE_SLOT, GuiFactory.createCloseButton(langManager, viewer));
@@ -251,5 +238,11 @@ public class StatsGui extends ScrollableGui {
         } else {
             playErrorSound(player);
         }
+    }
+
+    @Override
+    public GuiFramework getBackTarget() {
+        // StatsGui는 ProfileGui로 돌아갑니다
+        return new ProfileGui(viewer, viewer, guiManager, langManager);
     }
 }

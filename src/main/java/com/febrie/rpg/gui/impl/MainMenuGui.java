@@ -5,6 +5,7 @@ import com.febrie.rpg.gui.builder.GuiBuilder;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.talent.Talent;
@@ -50,6 +51,12 @@ public class MainMenuGui extends BaseGui {
     @Override
     public @NotNull Component getTitle() {
         return trans("gui.mainmenu.title");
+    }
+    
+    @Override
+    protected GuiFramework getBackTarget() {
+        // 메인 메뉴는 최상위 메뉴이므로 뒤로가기 없음
+        return null;
     }
 
 

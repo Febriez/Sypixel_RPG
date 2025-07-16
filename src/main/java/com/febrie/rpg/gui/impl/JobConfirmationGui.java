@@ -3,6 +3,7 @@ package com.febrie.rpg.gui.impl;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.player.RPGPlayer;
@@ -207,10 +208,19 @@ public class JobConfirmationGui extends BaseGui {
     private void handleCancel() {
         // 이전 화면으로 돌아가기
         playClickSound(viewer);
-        if (!guiManager.navigateBack(viewer)) {
-            // 뒤로갈 수 없으면 직업 선택 GUI로
+        GuiFramework backTarget = getBackTarget();
+        if (backTarget != null) {
+            guiManager.openGui(viewer, backTarget);
+        } else {
+            // 백타겟이 없으면 직업 선택 GUI로
             JobSelectionGui jobSelectionGui = new JobSelectionGui(guiManager, langManager, viewer, rpgPlayer);
             guiManager.openGui(viewer, jobSelectionGui);
         }
+    }
+
+    @Override
+    public GuiFramework getBackTarget() {
+        // JobConfirmationGui는 JobSelectionGui로 돌아갑니다
+        return new JobSelectionGui(guiManager, langManager, viewer, rpgPlayer);
     }
 }

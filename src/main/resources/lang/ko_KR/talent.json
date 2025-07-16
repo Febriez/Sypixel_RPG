@@ -348,5 +348,13 @@
       "%COLOR_GREEN%30초간 비행 가능",
       "%COLOR_GREEN%모든 능력치 일시적으로 대폭 상승"
     ]
+  },
+  "iron_will": {
+    "name": "%COLOR_GRAY%강철 의지",
+    "description": [
+      "%COLOR_GRAY%강인한 정신력으로 디버프에 저항합니다.",
+      "%COLOR_GREEN%체력 +2, 지혜 +2 (레벨당)",
+      "%COLOR_GREEN%디버프 저항 +20%"
+    ]
   }
 }

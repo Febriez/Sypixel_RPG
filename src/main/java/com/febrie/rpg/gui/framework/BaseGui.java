@@ -209,13 +209,18 @@ public abstract class BaseGui implements InteractiveGui {
     }
 
     /**
+     * 뒤로가기 대상 GUI 반환 - 하위 클래스에서 구현
+     * null을 반환하면 뒤로가기 버튼이 표시되지 않음
+     */
+    protected abstract GuiFramework getBackTarget();
+    
+    /**
      * 네비게이션 버튼 업데이트
-     * GuiManager의 네비게이션 스택 상태에 따라 뒤로가기 버튼 표시
      */
     public void updateNavigationButtons() {
-        // 뒤로가기 버튼 - GuiManager에서 뒤로갈 수 있는지 확인
-        if (guiManager.canNavigateBack(viewer)) {
-            setItem(BACK_BUTTON_SLOT, createBackButton());
+        GuiFramework backTarget = getBackTarget();
+        if (backTarget != null) {
+            setItem(BACK_BUTTON_SLOT, createBackButton(backTarget));
         } else {
             // 뒤로가기 불가능한 경우 장식 아이템
             setItem(BACK_BUTTON_SLOT, GuiFactory.createDecoration());
@@ -223,16 +228,16 @@ public abstract class BaseGui implements InteractiveGui {
     }
     
     /**
-     * 뒤로가기 버튼 생성 - 오버라이드 가능
+     * 뒤로가기 버튼 생성
      */
-    protected GuiItem createBackButton() {
+    private GuiItem createBackButton(GuiFramework backTarget) {
         return GuiItem.clickable(
                 new ItemBuilder(Material.ARROW)
                         .displayName(langManager.getComponent(viewer, "gui.buttons.back.name"))
                         .addLore(langManager.getComponent(viewer, "gui.buttons.back.lore"))
                         .build(),
                 p -> {
-                    guiManager.navigateBack(p);
+                    guiManager.openGui(p, backTarget);
                     playBackSound(p);
                 }
         );

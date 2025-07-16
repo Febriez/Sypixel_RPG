@@ -3,6 +3,7 @@ package com.febrie.rpg.gui.impl;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
@@ -301,8 +302,11 @@ public class QuestAcceptGui extends BaseGui {
                         .build(),
                 p -> {
                     // 이전 화면으로 돌아가기
-                    if (!guiManager.navigateBack(p)) {
-                        // 네비게이션 스택이 비어있으면 GUI 닫기
+                    GuiFramework backTarget = getBackTarget();
+                    if (backTarget != null) {
+                        guiManager.openGui(p, backTarget);
+                    } else {
+                        // 백타겟이 없으면 GUI 닫기
                         p.closeInventory();
                     }
                     playClickSound(p);
@@ -315,5 +319,11 @@ public class QuestAcceptGui extends BaseGui {
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);
+    }
+
+    @Override
+    public GuiFramework getBackTarget() {
+        // QuestAcceptGui는 MainMenuGui로 돌아갑니다
+        return new MainMenuGui(guiManager, langManager, viewer);
     }
 }

@@ -37,18 +37,6 @@ public class GuiFactory {
         );
     }
 
-    /**
-     * 뒤로가기 버튼 생성 (GuiManager 사용)
-     */
-    public static GuiItem createBackButton(@NotNull GuiManager guiManager, @NotNull LangManager langManager, @NotNull Player player) {
-        return GuiItem.clickable(
-                new ItemBuilder(Material.ARROW)
-                        .displayName(langManager.getComponent(player, "gui.buttons.back.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.back.lore"))
-                        .build(),
-                guiManager::navigateBack
-        );
-    }
 
     /**
      * 커스텀 액션이 있는 뒤로가기 버튼 생성

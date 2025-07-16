@@ -3,6 +3,7 @@ package com.febrie.rpg.gui.impl;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.framework.ScrollableGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
@@ -319,13 +320,18 @@ public class TalentGui extends ScrollableGui {
      */
     private void setupNavigationButtons() {
         // 뒤로가기 버튼
-        if (guiManager.canNavigateBack(viewer)) {
+        if (getBackTarget() != null) {
             setItem(NAV_BACK_SLOT, GuiItem.clickable(
                     ItemBuilder.of(Material.ARROW)
                             .displayName(trans("gui.buttons.back.name"))
                             .addLore(trans("gui.buttons.back.lore"))
                             .build(),
-                    guiManager::navigateBack
+                    player -> {
+                        GuiFramework backTarget = getBackTarget();
+                        if (backTarget != null) {
+                            guiManager.openGui(player, backTarget);
+                        }
+                    }
             ));
         }
 
@@ -340,5 +346,11 @@ public class TalentGui extends ScrollableGui {
         String pageKey = "gui.talent.page." + pageId;
         String translated = transString(pageKey);
         return translated.equals(pageKey) ? pageId : translated;
+    }
+
+    @Override
+    public GuiFramework getBackTarget() {
+        // TalentGui는 ProfileGui로 돌아갉니다
+        return new ProfileGui(viewer, viewer, guiManager, langManager);
     }
 }

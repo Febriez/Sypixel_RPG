@@ -3,6 +3,7 @@ package com.febrie.rpg.gui.impl;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.player.RPGPlayer;
@@ -206,5 +207,11 @@ public class JobSelectionGui extends BaseGui {
         );
         guiManager.openGui(viewer, confirmationGui);
         playClickSound(viewer);
+    }
+
+    @Override
+    public GuiFramework getBackTarget() {
+        // JobSelectionGui는 특수한 경우이므로 null을 반환합니다
+        return null;
     }
 }

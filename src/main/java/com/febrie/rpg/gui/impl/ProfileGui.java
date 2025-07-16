@@ -4,6 +4,7 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.util.ColorUtil;
@@ -65,6 +66,12 @@ public class ProfileGui extends BaseGui {
     @Override
     public @NotNull Component getTitle() {
         return trans("gui.profile.player-title", "player", targetPlayer.getName());
+    }
+    
+    @Override
+    protected GuiFramework getBackTarget() {
+        // 프로필에서는 메인 메뉴로 돌아감
+        return new MainMenuGui(guiManager, langManager, viewer);
     }
 
     /**
@@ -389,7 +396,10 @@ public class ProfileGui extends BaseGui {
                         .build(),
                 p -> {
                     // 네비게이션 스택이 비어있어도 메인 메뉴로 돌아가기
-                    if (!guiManager.navigateBack(p)) {
+                    GuiFramework backTarget = getBackTarget();
+                    if (backTarget != null) {
+                        guiManager.openGui(p, backTarget);
+                    } else {
                         // 메인 메뉴 열기
                         MainMenuGui mainMenu = new MainMenuGui(guiManager, langManager, p);
                         guiManager.openGui(p, mainMenu);

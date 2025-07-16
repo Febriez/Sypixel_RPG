@@ -3,6 +3,7 @@ package com.febrie.rpg.gui.impl;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
@@ -298,5 +299,11 @@ public class QuestListGui extends BaseGui {
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);
+    }
+
+    @Override
+    public GuiFramework getBackTarget() {
+        // QuestListGui는 MainMenuGui로 돌아갑니다
+        return new MainMenuGui(guiManager, langManager, viewer);
     }
 }
