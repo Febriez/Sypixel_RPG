@@ -3,64 +3,69 @@ package com.febrie.rpg.quest.objective.impl;
 import com.febrie.rpg.quest.objective.BaseObjective;
 import com.febrie.rpg.quest.objective.ObjectiveType;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * NPC 방문 퀘스트 목표
  * 특정 NPC와 상호작용
+ * 
+ * 사용법:
+ * // UUID로 NPC 지정 (가장 안전)
+ * UUID npcUuid = entity.getUniqueId();
+ * new InteractNPCObjective("talk_merchant", npcUuid)
+ * 
+ * // Citizens NPC ID로 지정 (권장)
+ * new InteractNPCObjective("talk_merchant", 42) // NPC ID가 42인 경우
+ * 
+ * // 빌더 패턴 사용
+ * InteractNPCObjective.builder()
+ *     .id("talk_merchant")
+ *     .npcUuid(npcUuid)
+ *     .build()
+ * 
+ * // 빌더 패턴으로 NPC ID 사용
+ * InteractNPCObjective.builder()
+ *     .id("talk_merchant")
+ *     .npcId(42)
+ *     .build()
  *
  * @author Febrie
  */
 public class InteractNPCObjective extends BaseObjective {
 
-    private final Component npcName;
-    private final @Nullable Villager.Profession profession;
+    private final @Nullable UUID npcUuid;
+    private final @Nullable Integer npcId; // Citizens NPC ID
 
     /**
-     * 이름 기반 생성자 (문자열)
+     * UUID 기반 생성자 (가장 안전)
      *
      * @param id      목표 ID
-     * @param npcName NPC 이름
+     * @param npcUuid NPC UUID
      */
-    public InteractNPCObjective(@NotNull String id, @NotNull String npcName) {
-        this(id, Component.text(npcName), null);
-    }
-
-    /**
-     * 직업 포함 생성자 (문자열)
-     *
-     * @param id         목표 ID
-     * @param npcName    NPC 이름
-     * @param profession 주민 직업 (선택사항)
-     */
-    public InteractNPCObjective(@NotNull String id, @NotNull String npcName,
-                                @Nullable Villager.Profession profession) {
-        this(id, Component.text(npcName), profession);
-    }
-
-    /**
-     * Component 기반 생성자
-     *
-     * @param id         목표 ID
-     * @param npcName    NPC 이름 (Component)
-     * @param profession 주민 직업 (선택사항)
-     */
-    public InteractNPCObjective(@NotNull String id, @NotNull Component npcName,
-                                @Nullable Villager.Profession profession) {
+    public InteractNPCObjective(@NotNull String id, @NotNull UUID npcUuid) {
         super(id, 1);
-        this.npcName = Objects.requireNonNull(npcName);
-        this.profession = profession;
+        this.npcUuid = Objects.requireNonNull(npcUuid);
+        this.npcId = null;
+    }
+    
+    /**
+     * Citizens NPC ID 기반 생성자 (권장)
+     *
+     * @param id    목표 ID
+     * @param npcId Citizens NPC ID
+     */
+    public InteractNPCObjective(@NotNull String id, int npcId) {
+        super(id, 1);
+        this.npcUuid = null;
+        this.npcId = npcId;
     }
 
     @Override
@@ -70,10 +75,15 @@ public class InteractNPCObjective extends BaseObjective {
 
     @Override
     public @NotNull String getStatusInfo(@NotNull ObjectiveProgress progress) {
-        String status = PlainTextComponentSerializer.plainText().serialize(npcName);
-        if (profession != null) {
-            status += " (" + profession.translationKey() + ")";
+        String status;
+        if (npcUuid != null) {
+            status = "NPC (UUID: " + npcUuid.toString().substring(0, 8) + "...)";
+        } else if (npcId != null) {
+            status = "NPC (ID: " + npcId + ")";
+        } else {
+            status = "Unknown NPC";
         }
+        
         if (progress.isCompleted()) {
             status += " ✓";
         }
@@ -91,23 +101,26 @@ public class InteractNPCObjective extends BaseObjective {
             return false;
         }
 
-        // 주민인지 확인
-        if (!(interactEvent.getRightClicked() instanceof Villager villager)) {
+        Entity entity = interactEvent.getRightClicked();
+        
+        // UUID로 확인 (가장 안전한 방법)
+        if (npcUuid != null) {
+            return entity.getUniqueId().equals(npcUuid);
+        }
+        
+        // Citizens NPC ID로 확인
+        if (npcId != null) {
+            // Citizens API 확인
+            if (entity.hasMetadata("NPC")) {
+                net.citizensnpcs.api.npc.NPC npc = net.citizensnpcs.api.CitizensAPI.getNPCRegistry().getNPC(entity);
+                if (npc != null) {
+                    return npc.getId() == npcId;
+                }
+            }
             return false;
         }
 
-        // 이름 확인
-        Component customName = villager.customName();
-        if (!npcName.equals(customName)) {
-            return false;
-        }
-
-        // 직업 확인 (지정된 경우)
-        if (profession != null && villager.getProfession() != profession) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     @Override
@@ -117,58 +130,108 @@ public class InteractNPCObjective extends BaseObjective {
 
     @Override
     protected @NotNull String serializeData() {
-        String npcNameStr = PlainTextComponentSerializer.plainText().serialize(npcName);
-        if (profession != null) {
-            // Registry를 사용하여 NamespacedKey 가져오기
-            NamespacedKey key = Registry.VILLAGER_PROFESSION.getKey(profession);
-            return npcNameStr + ":" + (key != null ? key.toString() : "none");
+        if (npcUuid != null) {
+            return "uuid:" + npcUuid.toString();
+        } else if (npcId != null) {
+            return "id:" + npcId;
         }
-        return npcNameStr;
+        return "unknown";
     }
 
     /**
      * 직렬화된 데이터에서 객체 생성 (역직렬화)
      */
     public static InteractNPCObjective deserialize(@NotNull String id, @NotNull String data) {
-        String[] parts = data.split(":", 2);
-        String npcName = parts[0];
-
-        if (parts.length > 1 && !parts[1].equals("none")) {
+        if (data.startsWith("uuid:")) {
+            String uuidStr = data.substring(5);
             try {
-                // NamespacedKey로부터 Profession 가져오기
-                NamespacedKey key = NamespacedKey.fromString(parts[1]);
-                if (key != null) {
-                    Villager.Profession profession = Registry.VILLAGER_PROFESSION.get(key);
-                    if (profession != null) {
-                        return new InteractNPCObjective(id, npcName, profession);
-                    }
-                }
-            } catch (Exception e) {
-                // 역직렬화 실패 시 기본값으로
+                UUID uuid = UUID.fromString(uuidStr);
+                return new InteractNPCObjective(id, uuid);
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid UUID format: " + uuidStr);
+            }
+        } else if (data.startsWith("id:")) {
+            String idStr = data.substring(3);
+            try {
+                int npcId = Integer.parseInt(idStr);
+                return new InteractNPCObjective(id, npcId);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Invalid NPC ID format: " + idStr);
             }
         }
-
-        return new InteractNPCObjective(id, npcName);
+        
+        throw new IllegalArgumentException("Unknown NPC data format: " + data);
     }
 
     /**
-     * NPC 이름 반환 (Component)
+     * NPC UUID 반환
      */
-    public @NotNull Component getNpcName() {
-        return npcName;
+    public @Nullable UUID getNpcUuid() {
+        return npcUuid;
     }
-
+    
     /**
-     * NPC 이름을 문자열로 반환
+     * NPC ID 반환 (Citizens)
      */
-    public @NotNull String getNpcNameAsString() {
-        return PlainTextComponentSerializer.plainText().serialize(npcName);
+    public @Nullable Integer getNpcId() {
+        return npcId;
     }
-
+    
     /**
-     * 직업 반환
+     * 빌더 클래스
      */
-    public @Nullable Villager.Profession getProfession() {
-        return profession;
+    public static class Builder {
+        private String id;
+        private UUID npcUuid;
+        private Integer npcId;
+        
+        public Builder id(@NotNull String id) {
+            this.id = id;
+            return this;
+        }
+        
+        public Builder npcUuid(@NotNull UUID uuid) {
+            this.npcUuid = uuid;
+            this.npcId = null;
+            return this;
+        }
+        
+        public Builder npcId(int id) {
+            this.npcId = id;
+            this.npcUuid = null;
+            return this;
+        }
+        
+        public InteractNPCObjective build() {
+            if (id == null) {
+                throw new IllegalStateException("ID is required");
+            }
+            
+            if (npcUuid != null) {
+                return new InteractNPCObjective(id, npcUuid);
+            } else if (npcId != null) {
+                return new InteractNPCObjective(id, npcId);
+            } else {
+                throw new IllegalStateException("NPC identifier (UUID or ID) is required");
+            }
+        }
+    }
+    
+    public static Builder builder() {
+        return new Builder();
+    }
+    
+    @Override
+    public @Nullable String validate() {
+        if (npcUuid == null && npcId == null) {
+            return "InteractNPCObjective '" + id + "': NPC UUID나 ID가 설정되지 않았습니다.";
+        }
+        
+        // Citizens NPC ID 유효성 검증
+        if (npcId != null && npcId <= 0) {
+            return "InteractNPCObjective '" + id + "': 잘못된 NPC ID (" + npcId + ")입니다. ID는 1 이상이어야 합니다.";
+        }
+        
+        return null; // 유효함
     }
 }

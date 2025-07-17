@@ -2,6 +2,7 @@ package com.febrie.rpg.quest.registry;
 
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.impl.daily.DailyHuntingQuest;
 import com.febrie.rpg.quest.impl.daily.DailyMiningQuest;
 import com.febrie.rpg.quest.impl.daily.DailyFishingQuest;
@@ -13,6 +14,7 @@ import com.febrie.rpg.quest.impl.tutorial.FirstStepsQuest;
 import com.febrie.rpg.quest.impl.side.FarmersRequestQuest;
 import com.febrie.rpg.quest.impl.side.CollectHerbsQuest;
 import com.febrie.rpg.quest.impl.side.LostTreasureQuest;
+import com.febrie.rpg.util.LogUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -97,10 +99,24 @@ public class QuestRegistry {
             Quest quest = createQuest(id);
             if (quest != null) {
                 quests.put(id, quest);
+                validateQuest(quest);
             }
         }
 
         return quests;
+    }
+    
+    /**
+     * 퀘스트 검증 및 경고 출력
+     */
+    private static void validateQuest(@NotNull Quest quest) {
+        // 각 목표 검증
+        for (QuestObjective objective : quest.getObjectives()) {
+            String error = objective.validate();
+            if (error != null) {
+                LogUtil.warning("[퀘스트 검증] " + quest.getId() + " - " + error);
+            }
+        }
     }
 
     /**

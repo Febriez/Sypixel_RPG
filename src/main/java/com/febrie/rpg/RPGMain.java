@@ -9,6 +9,7 @@ import com.febrie.rpg.gui.listener.GuiListener;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.listener.DamageDisplayListener;
 import com.febrie.rpg.listener.NPCInteractListener;
+import com.febrie.rpg.listener.QuestEventListener;
 import com.febrie.rpg.npc.manager.NPCManager;
 import com.febrie.rpg.npc.NPCTraitSetter;
 import com.febrie.rpg.player.RPGPlayerManager;
@@ -208,6 +209,10 @@ public final class RPGMain extends JavaPlugin {
         // 데미지 표시 리스너 등록
         getServer().getPluginManager().registerEvents(new DamageDisplayListener(this), this);
         LogUtil.info("데미지 표시 리스너 등록 완료");
+        
+        // 퀘스트 이벤트 리스너 등록
+        getServer().getPluginManager().registerEvents(new QuestEventListener(this), this);
+        LogUtil.info("퀘스트 이벤트 리스너 등록 완료");
         
         LogUtil.debug("이벤트 리스너 등록 완료");
     }
@@ -450,6 +455,10 @@ public final class RPGMain extends JavaPlugin {
 
     public QuestGuideManager getQuestGuideManager() {
         return questGuideManager;
+    }
+    
+    public QuestManager getQuestManager() {
+        return QuestManager.getInstance();
     }
 
     public TextDisplayDamageManager getDamageDisplayManager() {

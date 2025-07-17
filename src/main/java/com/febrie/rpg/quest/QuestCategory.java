@@ -58,17 +58,4 @@ public enum QuestCategory {
         return repeatable;
     }
     
-    /**
-     * Get category from legacy string value
-     */
-    public static @NotNull QuestCategory fromString(@NotNull String value) {
-        return switch (value.toLowerCase()) {
-            case "main" -> MAIN;
-            case "side" -> SIDE;
-            case "daily" -> DAILY;
-            case "weekly" -> WEEKLY;
-            case "tutorial" -> TUTORIAL;
-            default -> SIDE; // Default fallback
-        };
-    }
 }

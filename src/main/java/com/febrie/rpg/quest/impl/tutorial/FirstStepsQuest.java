@@ -5,9 +5,11 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
+import com.febrie.rpg.quest.objective.impl.ExploreObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.quest.QuestCategory;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -53,16 +55,13 @@ public class FirstStepsQuest extends Quest {
      * 퀘스트 설정
      */
     private static Builder createBuilder() {
-        // 스폰 지점
-        Location spawnLocation = Bukkit.getWorlds().getFirst().getSpawnLocation();
-
         return new FirstStepsBuilder()
                 .id(QuestID.TUTORIAL_FIRST_STEPS)
                 .objectives(Arrays.asList(
-                        // 1. 스폰 지점 방문
-                        new VisitLocationObjective("visit_spawn", spawnLocation, 10.0, "스폰 지점"),
+                        // 1. 허브 구역 방문 (WorldGuard 영역 이름: Hub)
+                        new ExploreObjective("visit_hub", "Hub"),
                         // 2. 마을 상인 NPC 방문
-                        new InteractNPCObjective("visit_merchant", "마을 상인")
+                        new InteractNPCObjective("visit_merchant", 1) // Citizens NPC ID 1번 사용
                 ))
                 .reward(BasicReward.builder()
                         .addCurrency(CurrencyType.GOLD, 100)
@@ -102,7 +101,7 @@ public class FirstStepsQuest extends Quest {
         String id = objective.getId();
 
         return switch (id) {
-            case "visit_spawn" -> isKorean ? "스폰 지점 방문" : "Visit spawn point";
+            case "visit_hub" -> isKorean ? "허브 구역 방문" : "Visit the Hub area";
             case "visit_merchant" -> isKorean ? "마을 상인과 대화" : "Talk to village merchant";
             default -> objective.getStatusInfo(null);
         };
@@ -153,7 +152,7 @@ public class FirstStepsQuest extends Quest {
     
     @Override
     public String getAcceptDialog() {
-        return "좋습니다! 함께 모험을 시작해봅시다. 먼저 스폰 지점으로 가서 저를 찾아주세요!";
+        return "좋습니다! 함께 모험을 시작해봅시다. 먼저 허브 구역으로 가서 저를 찾아주세요!";
     }
     
     @Override

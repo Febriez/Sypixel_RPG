@@ -117,4 +117,14 @@ public interface QuestObjective {
     static QuestObjective deserialize(@NotNull String data) {
         return null; // 구현체에서 처리
     }
+    
+    /**
+     * 목표 설정 검증
+     * 
+     * @return 검증 결과 (null이면 유효, 문제가 있으면 오류 메시지 반환)
+     */
+    @Nullable
+    default String validate() {
+        return null; // 기본적으로 유효
+    }
 }

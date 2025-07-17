@@ -21,30 +21,40 @@ import java.util.*;
 /**
  * 탐험 퀘스트 목표
  * WorldGuard 영역을 방문하여 탐험
- *
+ * 
+ * 사용법:
+ * // 단일 영역 방문
+ * new ExploreObjective("visit_hub", "Hub")
+ * 
+ * // 여러 영역 방문하려면 각각 ExploreObjective 추가
+ * objectives.add(new ExploreObjective("visit_dungeon1", "dungeon1"));
+ * objectives.add(new ExploreObjective("visit_dungeon2", "dungeon2"));
+ * objectives.add(new ExploreObjective("visit_dungeon3", "dungeon3"));
+ * 
+ * // 빌더 패턴 사용
+ * ExploreObjective.builder()
+ *     .id("visit_hub")
+ *     .region("Hub")
+ *     .build()
+ * 
  * @author Febrie
  */
 public class ExploreObjective extends BaseObjective {
 
-    private final List<String> regionNames;
-    private final Set<String> visitedRegions = new HashSet<>();
+    private final String regionName;
     private final Map<UUID, Set<String>> playerRegionCache = new HashMap<>();
     private final boolean useWorldGuard;
 
     /**
      * WorldGuard 영역 기반 생성자
      *
-     * @param id          목표 ID
-     * @param regionNames WorldGuard 영역 이름 목록
+     * @param id         목표 ID
+     * @param regionName WorldGuard 영역 이름
      */
-    public ExploreObjective(@NotNull String id, @NotNull List<String> regionNames) {
-        super(id, regionNames.size());
-        this.regionNames = new ArrayList<>(regionNames);
+    public ExploreObjective(@NotNull String id, @NotNull String regionName) {
+        super(id, 1);
+        this.regionName = Objects.requireNonNull(regionName);
         this.useWorldGuard = true;
-
-        if (regionNames.isEmpty()) {
-            throw new IllegalArgumentException("At least one region required");
-        }
 
         // WorldGuard 플러그인 확인
         if (Bukkit.getPluginManager().getPlugin("WorldGuard") == null) {
@@ -59,10 +69,7 @@ public class ExploreObjective extends BaseObjective {
 
     @Override
     public @NotNull String getStatusInfo(@NotNull ObjectiveProgress progress) {
-        if (regionNames.size() == 1) {
-            return regionNames.get(0) + " " + getProgressString(progress);
-        }
-        return "Regions " + getProgressString(progress);
+        return regionName + " " + getProgressString(progress);
     }
 
     @Override
@@ -93,21 +100,13 @@ public class ExploreObjective extends BaseObjective {
         // 플레이어의 이전 영역 캐시 가져오기
         Set<String> previousRegions = playerRegionCache.computeIfAbsent(playerId, k -> new HashSet<>());
 
-        // 새로 진입한 영역 확인
-        for (String regionName : regionNames) {
-            if (currentRegions.contains(regionName) &&
-                    !previousRegions.contains(regionName) &&
-                    !visitedRegions.contains(regionName)) {
-
-                visitedRegions.add(regionName);
-                playerRegionCache.put(playerId, new HashSet<>(currentRegions));
-                return true;
-            }
-        }
+        // 대상 영역에 새로 진입했는지 확인
+        boolean enteringRegion = currentRegions.contains(regionName) && !previousRegions.contains(regionName);
 
         // 캐시 업데이트
         playerRegionCache.put(playerId, new HashSet<>(currentRegions));
-        return false;
+        
+        return enteringRegion;
     }
 
     @Override
@@ -136,15 +135,11 @@ public class ExploreObjective extends BaseObjective {
 
     @Override
     protected @NotNull String serializeData() {
-        return String.join(",", regionNames);
+        return regionName;
     }
 
-    public List<String> getRegionNames() {
-        return new ArrayList<>(regionNames);
-    }
-
-    public Set<String> getVisitedRegions() {
-        return new HashSet<>(visitedRegions);
+    public String getRegionName() {
+        return regionName;
     }
 
     /**
@@ -152,5 +147,46 @@ public class ExploreObjective extends BaseObjective {
      */
     public void clearPlayerCache(@NotNull UUID playerId) {
         playerRegionCache.remove(playerId);
+    }
+    
+    /**
+     * 빌더 클래스
+     */
+    public static class Builder {
+        private String id;
+        private String region;
+        
+        public Builder id(@NotNull String id) {
+            this.id = id;
+            return this;
+        }
+        
+        public Builder region(@NotNull String regionName) {
+            this.region = regionName;
+            return this;
+        }
+        
+        public ExploreObjective build() {
+            if (id == null) {
+                throw new IllegalStateException("ID is required");
+            }
+            if (region == null) {
+                throw new IllegalStateException("Region name is required");
+            }
+            return new ExploreObjective(id, region);
+        }
+    }
+    
+    public static Builder builder() {
+        return new Builder();
+    }
+    
+    @Override
+    public @Nullable String validate() {
+        if (regionName == null || regionName.trim().isEmpty()) {
+            return "ExploreObjective '" + id + "': WorldGuard 영역 이름이 설정되지 않았습니다.";
+        }
+        
+        return null; // 유효함
     }
 }

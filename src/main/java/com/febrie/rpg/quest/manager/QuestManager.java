@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.registry.QuestRegistry;
 import com.febrie.rpg.util.LogUtil;
+import com.febrie.rpg.util.QuestNotificationUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -234,6 +235,9 @@ public class QuestManager {
 
         // 저장 예약
         markForSave(playerId);
+        
+        // 퀘스트 시작 알림
+        QuestNotificationUtil.notifyQuestStart(player, quest);
 
         LogUtil.info("Player " + player.getName() + " started quest: " + questId.getDisplayName());
         return true;
@@ -242,7 +246,7 @@ public class QuestManager {
     /**
      * 퀘스트 목표 진행
      */
-    public void progressObjective(@NotNull Player player, @NotNull Event event) {
+    public void progressObjective(@NotNull Event event, @NotNull Player player) {
         UUID playerId = player.getUniqueId();
         PlayerQuestData playerData = getPlayerData(playerId);
         boolean dataChanged = false;
@@ -286,6 +290,9 @@ public class QuestManager {
 
                             // 목표 완료 체크
                             if (objective.isComplete(objProgress)) {
+                                // 목표 달성 알림
+                                QuestNotificationUtil.notifyObjectiveComplete(player, quest, objective);
+                                
                                 // 순차 진행인 경우 다음 목표로
                                 if (quest.isSequential()) {
                                     questProgress.setCurrentObjectiveIndex(
@@ -341,6 +348,8 @@ public class QuestManager {
         Quest quest = getQuest(questId);
         if (quest != null) {
             quest.getReward().grant(player);
+            // 퀘스트 완료 알림
+            QuestNotificationUtil.notifyQuestComplete(player, quest);
             LogUtil.info("Player " + player.getName() + " completed quest: " + questId.getDisplayName());
         }
 

@@ -14,6 +14,22 @@ import java.util.Objects;
 /**
  * 지역 방문 퀘스트 목표
  * 특정 좌표 반경 내 도달
+ * 
+ * 사용법:
+ * // 기본 사용법
+ * Location spawnLocation = world.getSpawnLocation();
+ * new VisitLocationObjective("visit_spawn", spawnLocation, 10.0, "스폰 지점")
+ * 
+ * // 더 큰 반경으로 설정
+ * new VisitLocationObjective("visit_town", townCenter, 50.0, "마을 중앙")
+ * 
+ * // 빌더 패턴 사용
+ * VisitLocationObjective.builder()
+ *     .id("visit_spawn")
+ *     .location(spawnLocation)
+ *     .radius(10.0)
+ *     .locationName("스폰 지점")
+ *     .build()
  *
  * @author Febrie
  */
@@ -108,5 +124,55 @@ public class VisitLocationObjective extends BaseObjective {
      */
     public @NotNull String getLocationName() {
         return locationName;
+    }
+    
+    /**
+     * 빌더 클래스
+     */
+    public static class Builder {
+        private String id;
+        private Location location;
+        private double radius = 10.0; // 기본값
+        private String locationName;
+        
+        public Builder id(@NotNull String id) {
+            this.id = id;
+            return this;
+        }
+        
+        public Builder location(@NotNull Location location) {
+            this.location = location;
+            return this;
+        }
+        
+        public Builder radius(double radius) {
+            if (radius <= 0) {
+                throw new IllegalArgumentException("Radius must be positive");
+            }
+            this.radius = radius;
+            return this;
+        }
+        
+        public Builder locationName(@NotNull String name) {
+            this.locationName = name;
+            return this;
+        }
+        
+        public VisitLocationObjective build() {
+            if (id == null) {
+                throw new IllegalStateException("ID is required");
+            }
+            if (location == null) {
+                throw new IllegalStateException("Location is required");
+            }
+            if (locationName == null) {
+                throw new IllegalStateException("Location name is required");
+            }
+            return new VisitLocationObjective(id, location, radius, locationName);
+        }
+    }
+    
+    public static Builder builder() {
+        return new Builder();
     }
 }

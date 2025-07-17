@@ -8,7 +8,7 @@ description: Sypixel RPG 기능을 위한 통합 플러그인
 website: https://github.com/Febriez/Sypixel_RPG
 
 # Soft dependencies (optional integrations)
-softdepend: [ Vault, PlaceholderAPI, WorldGuard, Citizens ]
+softdepend: [ Vault, PlaceholderAPI, WorldGuard, Citizens, UltimateAdvancementAPI ]
 
 # Load order
 load: POSTWORLD
