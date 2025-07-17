@@ -112,17 +112,17 @@ public class FirstStepsQuest extends Quest {
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("first_steps_dialog");
 
-        dialog.addLine("마을 상인",
-                "오, 새로운 모험가시군요! 환영합니다!",
-                "Oh, a new adventurer! Welcome!");
+        dialog.addLine("튜토리얼 가이드",
+                "안녕하세요! 새로운 모험가님! 이곳 Sypixel RPG 세계에 오신 것을 환영합니다.",
+                "Hello, new adventurer! Welcome to the world of Sypixel RPG!");
 
-        dialog.addLine("마을 상인",
-                "이곳은 모험을 시작하기에 완벽한 장소입니다.",
-                "This is the perfect place to start your adventure.");
+        dialog.addLine("튜토리얼 가이드",
+                "저는 여러분의 첫 걸음을 도와드릴 가이드입니다. 함께 이 세계의 기본을 배워보시죠!",
+                "I'm your guide to help with your first steps. Let's learn the basics of this world together!");
 
-        dialog.addLine("마을 상인",
-                "제가 기본적인 도구들을 드리겠습니다. 앞으로의 여정에 도움이 될 거예요!",
-                "Let me give you some basic tools. They'll help you on your journey!");
+        dialog.addLine("튜토리얼 가이드",
+                "먼저 기본적인 이동과 상호작용 방법을 익혀보겠습니다. 준비되셨나요?",
+                "First, let's learn basic movement and interaction. Are you ready?");
 
         return dialog;
     }
