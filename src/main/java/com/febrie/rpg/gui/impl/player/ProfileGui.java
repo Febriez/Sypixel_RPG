@@ -308,7 +308,7 @@ public class ProfileGui extends BaseGui {
             // 특성 메뉴로 이동 설명 추가
             if (viewer.equals(targetPlayer)) {
                 jobBuilder.addLore(Component.empty())
-                        .addLore(trans("gui.talent.title").color(ColorUtil.YELLOW));
+                        .addLore(trans("gui.profile.click-to-talents").color(ColorUtil.YELLOW));
             }
 
             GuiItem jobInfo = GuiItem.clickable(

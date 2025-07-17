@@ -10,6 +10,7 @@ import com.febrie.rpg.social.MailManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.TextUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
@@ -111,7 +112,7 @@ public class MailDetailGui extends BaseGui {
         }
 
         // 메시지를 여러 줄로 나누기 (25자씩)
-        String[] messageLines = splitMessage(message, 25);
+        String[] messageLines = TextUtil.wrapTextOrDefault(message, 25, "(메시지 없음)");
 
         ItemBuilder messageBuilder = new ItemBuilder(Material.WRITTEN_BOOK)
                 .displayName(Component.text("📄 메시지", ColorUtil.INFO)
@@ -288,38 +289,6 @@ public class MailDetailGui extends BaseGui {
         }
     }
 
-    /**
-     * 메시지를 지정된 길이로 나누기
-     */
-    private String[] splitMessage(String message, int maxLength) {
-        if (message == null || message.isEmpty()) {
-            return new String[]{"(메시지 없음)"};
-        }
-
-        String[] words = message.split(" ");
-        StringBuilder currentLine = new StringBuilder();
-        List<String> lines = new java.util.ArrayList<>();
-
-        for (String word : words) {
-            if (currentLine.length() + word.length() + 1 > maxLength) {
-                if (currentLine.length() > 0) {
-                    lines.add(currentLine.toString());
-                    currentLine = new StringBuilder();
-                }
-            }
-            
-            if (currentLine.length() > 0) {
-                currentLine.append(" ");
-            }
-            currentLine.append(word);
-        }
-
-        if (currentLine.length() > 0) {
-            lines.add(currentLine.toString());
-        }
-
-        return lines.isEmpty() ? new String[]{"(메시지 없음)"} : lines.toArray(new String[0]);
-    }
 
     @Override
     protected List<ClickType> getAllowedClickTypes() {

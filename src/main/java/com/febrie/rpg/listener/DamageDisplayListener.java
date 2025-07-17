@@ -92,33 +92,4 @@ public class DamageDisplayListener implements Listener {
         return null;
     }
     
-    /**
-     * 크리티컬 히트 판정 로직
-     * 나중에 더 정교한 로직으로 교체 가능
-     */
-    private boolean isCriticalHit(@NotNull Player attacker, @NotNull Entity target) {
-        // 기본 크리티컬 확률 (나중에 플레이어 스탯으로 계산)
-        double baseCritChance = 0.1; // 10%
-        
-        // 플레이어의 럭 스탯이나 장비에 따라 크리티컬 확률 조정 가능
-        // RPGPlayer rpgPlayer = plugin.getRPGPlayerManager().getOrCreatePlayer(attacker);
-        // double critChance = baseCritChance + (rpgPlayer.getStats().getTotalStat(Stat.LUCK) * 0.01);
-        
-        return Math.random() < baseCritChance;
-    }
-    
-    /**
-     * 크리티컬 데미지 배율 계산
-     * 나중에 더 정교한 로직으로 교체 가능
-     */
-    private double getCriticalMultiplier(@NotNull Player attacker) {
-        // 기본 크리티컬 배율
-        double baseCritMultiplier = 1.5;
-        
-        // 플레이어의 스탯이나 장비에 따라 크리티컬 배율 조정 가능
-        // RPGPlayer rpgPlayer = plugin.getRPGPlayerManager().getOrCreatePlayer(attacker);
-        // return baseCritMultiplier + (rpgPlayer.getStats().getTotalStat(Stat.STRENGTH) * 0.01);
-        
-        return baseCritMultiplier;
-    }
 }

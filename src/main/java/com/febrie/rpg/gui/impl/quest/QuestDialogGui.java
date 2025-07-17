@@ -1,5 +1,6 @@
 package com.febrie.rpg.gui.impl.quest;
 
+import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
@@ -9,11 +10,11 @@ import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
+import com.febrie.rpg.util.TextUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,24 +30,24 @@ import java.util.List;
 public class QuestDialogGui extends BaseGui {
 
     private final Quest quest;
-    
+
     // 대화 상태
     private int currentDialogIndex = 0;
     private int currentCharIndex = 0;
     private String currentDialog = "";
     private boolean isTyping = false;
     private boolean isDialogComplete = false;
-    
+
     // 애니메이션 관리
     private BukkitTask typingTask;
     private final int typingSpeed; // 틱 단위 (기본값: 2틱 = 100ms)
-    
+
     // 슬롯 정의
     private static final int DIALOG_SLOT = 4; // 가운데 슬롯
     private static final int EXIT_SLOT = 0; // 나가기 버튼
 
-    public QuestDialogGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager, 
-                         @NotNull Player player, @NotNull Quest quest) {
+    public QuestDialogGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                          @NotNull Player player, @NotNull Quest quest) {
         super(player, guiManager, langManager, 9, "gui.quest-dialog.title");
         this.quest = quest;
         this.typingSpeed = getTypingSpeed(player); // 플레이어 설정에서 가져오기
@@ -56,17 +57,7 @@ public class QuestDialogGui extends BaseGui {
      * 플레이어의 대화 속도 설정 가져오기
      */
     private int getTypingSpeed(@NotNull Player player) {
-        try {
-            // RPGMain에서 RPGPlayerManager를 통해 플레이어 설정 가져오기
-            var rpgMain = (com.febrie.rpg.RPGMain) Bukkit.getPluginManager().getPlugin("SypixelRPG");
-            if (rpgMain != null) {
-                var rpgPlayer = rpgMain.getRPGPlayerManager().getOrCreatePlayer(player);
-                return rpgPlayer.getPlayerSettings().getDialogSpeed();
-            }
-        } catch (Exception e) {
-            // 오류 발생 시 기본값 반환
-        }
-        return 2; // 기본값 2틱 (100ms)
+        return RPGMain.getPlugin().getRPGPlayerManager().getOrCreatePlayer(player).getPlayerSettings().getDialogSpeed();
     }
 
     @Override
@@ -77,7 +68,7 @@ public class QuestDialogGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text(quest.getNPCName() + "과의 대화", ColorUtil.GOLD);
+        return langManager.getComponent(viewer, "gui.quest-dialog.title").color(ColorUtil.GOLD);
     }
 
     @Override
@@ -92,8 +83,8 @@ public class QuestDialogGui extends BaseGui {
         // 나가기 버튼 설정
         GuiItem exitButton = GuiItem.clickable(
                 new ItemBuilder(Material.BARRIER)
-                        .displayName(Component.text("대화 나가기", ColorUtil.ERROR))
-                        .addLore(Component.text("클릭하여 대화를 종료합니다", ColorUtil.GRAY))
+                        .displayName(langManager.getComponent(viewer, "gui.quest-dialog.close").color(ColorUtil.ERROR))
+                        .addLore(langManager.getComponent(viewer, "gui.buttons.close.lore").color(ColorUtil.GRAY))
                         .build(),
                 p -> {
                     stopTyping();
@@ -101,9 +92,9 @@ public class QuestDialogGui extends BaseGui {
                     SoundUtil.playCloseSound(p);
                 }
         );
-        
+
         setItem(EXIT_SLOT, exitButton);
-        
+
         // 빈 슬롯들을 투명한 유리판으로 채우기
         for (int i = 1; i < 9; i++) {
             if (i != DIALOG_SLOT) {
@@ -125,7 +116,7 @@ public class QuestDialogGui extends BaseGui {
             openQuestAcceptGui();
             return;
         }
-        
+
         loadCurrentDialog();
         startTypingAnimation();
     }
@@ -150,12 +141,12 @@ public class QuestDialogGui extends BaseGui {
         if (typingTask != null) {
             typingTask.cancel();
         }
-        
+
         typingTask = Bukkit.getScheduler().runTaskTimer(
-            plugin, 
-            this::updateDialogDisplay, 
-            0L, 
-            typingSpeed
+                plugin,
+                this::updateDialogDisplay,
+                0L,
+                typingSpeed
         );
     }
 
@@ -174,7 +165,7 @@ public class QuestDialogGui extends BaseGui {
             updateDialogItem(currentDialog, true);
             return;
         }
-        
+
         // 한글자씩 표시
         currentCharIndex++;
         String displayText = currentDialog.substring(0, currentCharIndex);
@@ -186,64 +177,36 @@ public class QuestDialogGui extends BaseGui {
      */
     private void updateDialogItem(@NotNull String text, boolean isComplete) {
         List<Component> lore = new ArrayList<>();
-        
+
         // 텍스트를 로어로 분할 (한 줄당 최대 40자)
-        String[] lines = wrapText(text, 40);
+        String[] lines = TextUtil.wrapText(text, 40);
         for (String line : lines) {
             lore.add(Component.text(line, ColorUtil.WHITE));
         }
-        
+
         // 상태 표시
         lore.add(Component.empty());
         if (isComplete) {
             if (currentDialogIndex < quest.getDialogCount() - 1) {
-                lore.add(Component.text("▶ 클릭하여 다음 대화 보기", ColorUtil.SUCCESS));
+                lore.add(langManager.getComponent(viewer, "gui.quest-dialog.next-page").color(ColorUtil.SUCCESS));
             } else {
-                lore.add(Component.text("▶ 클릭하여 퀘스트 수락 화면으로", ColorUtil.GOLD));
+                lore.add(langManager.getComponent(viewer, "gui.quest-dialog.accept-quest").color(ColorUtil.GOLD));
             }
         } else {
-            lore.add(Component.text("▶ 클릭하여 전체 대화 보기", ColorUtil.YELLOW));
+            lore.add(langManager.getComponent(viewer, "gui.quest-dialog.skip").color(ColorUtil.YELLOW));
         }
-        
+
         ItemBuilder dialogBuilder = new ItemBuilder(Material.ENCHANTED_BOOK)
-                .displayName(Component.text(quest.getNPCName(), ColorUtil.AQUA));
-        
+                .displayName(langManager.getComponent(viewer, "gui.quest-dialog.npc-name", "{npc}", quest.getNPCName()).color(ColorUtil.AQUA));
+
         for (Component loreLine : lore) {
             dialogBuilder.addLore(loreLine);
         }
-        
+
         GuiItem dialogItem = GuiItem.clickable(dialogBuilder.build(), this::handleDialogClick);
         setItem(DIALOG_SLOT, dialogItem);
     }
 
-    /**
-     * 텍스트를 지정된 길이로 줄바꿈
-     */
-    private String[] wrapText(@NotNull String text, int maxLength) {
-        List<String> lines = new ArrayList<>();
-        String[] words = text.split(" ");
-        StringBuilder currentLine = new StringBuilder();
-        
-        for (String word : words) {
-            if (currentLine.length() + word.length() + 1 > maxLength) {
-                if (currentLine.length() > 0) {
-                    lines.add(currentLine.toString());
-                    currentLine = new StringBuilder();
-                }
-            }
-            
-            if (currentLine.length() > 0) {
-                currentLine.append(" ");
-            }
-            currentLine.append(word);
-        }
-        
-        if (currentLine.length() > 0) {
-            lines.add(currentLine.toString());
-        }
-        
-        return lines.toArray(new String[0]);
-    }
 
     /**
      * 대화 클릭 처리
@@ -286,7 +249,7 @@ public class QuestDialogGui extends BaseGui {
      */
     private void openQuestAcceptGui() {
         stopTyping();
-        
+
         // 현재 GUI를 닫고 퀘스트 수락 GUI 열기
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             guiManager.openQuestAcceptGui(viewer, quest);

@@ -7,11 +7,7 @@ import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.impl.player.ProfileGui;
-import com.febrie.rpg.gui.impl.player.StatsGui;
-import com.febrie.rpg.gui.impl.player.TalentGui;
 import com.febrie.rpg.gui.manager.GuiManager;
-import com.febrie.rpg.player.RPGPlayer;
-import com.febrie.rpg.talent.Talent;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
@@ -33,14 +29,14 @@ public class MainMenuGui extends BaseGui {
 
     private static final int GUI_SIZE = 54; // 6 rows
 
-    // 메뉴 버튼 위치 (3x3 그리드 중앙 배치)
-    private static final int PROFILE_SLOT = 20;
+    // 메뉴 버튼 위치 (새로운 레이아웃)
+    private static final int PROFILE_SLOT = 4; // 상단 프로필
+    private static final int HUB_SLOT = 20;
     private static final int SHOP_SLOT = 22;
     private static final int DUNGEON_SLOT = 24;
-    private static final int STATS_SLOT = 29;
-    private static final int SETTINGS_SLOT = 31;
-    private static final int TALENTS_SLOT = 33;
-    private static final int LEADERBOARD_SLOT = 40;
+    private static final int WILD_SLOT = 30;
+    private static final int ISLAND_SLOT = 32;
+    private static final int LEADERBOARD_SLOT = 31;
 
     // 타이틀 슬롯
     private static final int TITLE_SLOT = 4;
@@ -104,7 +100,7 @@ public class MainMenuGui extends BaseGui {
     private void setupMenuButtons() {
         GuiBuilder builder = new GuiBuilder(this, viewer, langManager, guiManager);
         
-        // 프로필 버튼
+        // 프로필 버튼 (상단)
         builder.menuButton(PROFILE_SLOT, 
             new ItemBuilder(viewer)
                 .displayName(trans("items.mainmenu.profile-button.name"))
@@ -114,6 +110,12 @@ public class MainMenuGui extends BaseGui {
                 ProfileGui profileGui = new ProfileGui(guiManager, langManager, player);
                 guiManager.openGui(player, profileGui);
             });
+            
+        // 허브 버튼 (준비중)
+        builder.menuButton(HUB_SLOT, Material.GRASS_BLOCK,
+            "items.mainmenu.hub-button.name",
+            "items.mainmenu.hub-button.lore",
+            player -> sendMessage(player, "general.coming-soon"));
             
         // 상점 버튼 (준비중)
         builder.menuButton(SHOP_SLOT, Material.EMERALD,
@@ -127,54 +129,29 @@ public class MainMenuGui extends BaseGui {
             "items.mainmenu.dungeon-button.lore",
             player -> sendMessage(player, "general.coming-soon"));
             
-        // 스탯 버튼
-        builder.menuButton(STATS_SLOT, Material.DIAMOND_SWORD,
-            "items.mainmenu.stats-button.name",
-            "items.mainmenu.stats-button.lore",
-            this::openStatsGui);
+        // 야생 버튼 (준비중)
+        builder.menuButton(WILD_SLOT, Material.IRON_SWORD,
+            "items.mainmenu.wild-button.name",
+            "items.mainmenu.wild-button.lore",
+            player -> sendMessage(player, "general.coming-soon"));
             
-        // 설정 버튼
-        setupSettingsButton();
-        
-        // 특성 버튼
-        builder.menuButton(TALENTS_SLOT, Material.ENCHANTING_TABLE,
-            "items.mainmenu.talents-button.name",
-            "items.mainmenu.talents-button.lore",
-            this::openTalentsGui);
+        // 리더보드 버튼
+        setupLeaderboardButton();
             
-        // 빈 슬롯 (기존 리더보드 위치)
-        setItem(LEADERBOARD_SLOT, GuiFactory.createDecoration());
+        // 섬 버튼 (준비중)
+        builder.menuButton(ISLAND_SLOT, Material.COMPASS,
+            "items.mainmenu.island-button.name",
+            "items.mainmenu.island-button.lore",
+            player -> sendMessage(player, "general.coming-soon"));
     }
 
     /**
-     * 스탯 GUI 열기
+     * 리더보드 버튼
      */
-    private void openStatsGui(Player player) {
-        RPGPlayer rpgPlayer = RPGMain.getPlugin()
-                .getRPGPlayerManager().getOrCreatePlayer(player);
-
-        if (!rpgPlayer.hasJob()) {
-            sendMessage(player, "messages.no-job-for-stats");
-            playErrorSound(player);
-            return;
-        }
-
-        StatsGui statsGui = new StatsGui(guiManager, langManager, player, rpgPlayer);
-        guiManager.openGui(player, statsGui);
-        playSuccessSound(player);
-    }
-
-    /**
-     * 설정 버튼 (리더보드로 변경)
-     */
-    private void setupSettingsButton() {
-        Component leaderboardName = viewer.locale().getLanguage().equals("ko")
-                ? Component.text("리더보드", ColorUtil.GOLD)
-                : Component.text("Leaderboard", ColorUtil.GOLD);
-
+    private void setupLeaderboardButton() {
         GuiItem leaderboardButton = GuiItem.clickable(
                 new ItemBuilder(Material.GOLDEN_APPLE)
-                        .displayName(leaderboardName)
+                        .displayName(trans("items.mainmenu.leaderboard-button.name"))
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.leaderboard-button.lore"))
                         .build(),
                 player -> {
@@ -183,27 +160,7 @@ public class MainMenuGui extends BaseGui {
                     playClickSound(player);
                 }
         );
-        setItem(SETTINGS_SLOT, leaderboardButton);
-    }
-
-    /**
-     * 특성 GUI 열기
-     */
-    private void openTalentsGui(Player player) {
-        RPGPlayer rpgPlayer = RPGMain.getPlugin()
-                .getRPGPlayerManager().getOrCreatePlayer(player);
-
-        if (!rpgPlayer.hasJob()) {
-            sendMessage(player, "messages.no-job-for-talents");
-            playErrorSound(player);
-            return;
-        }
-
-        List<Talent> talents = RPGMain.getPlugin()
-                .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
-        TalentGui talentGui = new TalentGui(guiManager, langManager, player, rpgPlayer, "main", talents);
-        guiManager.openGui(player, talentGui);
-        playSuccessSound(player);
+        setItem(LEADERBOARD_SLOT, leaderboardButton);
     }
 
     @Override

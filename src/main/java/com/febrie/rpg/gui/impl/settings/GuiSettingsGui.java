@@ -41,13 +41,13 @@ public class GuiSettingsGui extends BaseGui {
 
     public GuiSettingsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                          @NotNull Player player) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.gui-settings.title");
+        super(player, guiManager, langManager, GUI_SIZE, "gui-settings.title");
         setupLayout();
     }
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("GUI 설정", ColorUtil.UNCOMMON);
+        return langManager.getComponent(viewer, "gui-settings.title").color(ColorUtil.UNCOMMON);
     }
 
     @Override
@@ -76,10 +76,11 @@ public class GuiSettingsGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 new ItemBuilder(Material.IRON_TRAPDOOR)
-                        .displayName(Component.text("🖥 GUI 설정", ColorUtil.UNCOMMON)
+                        .displayName(langManager.getComponent(viewer, "gui-settings.gui-settings")
+                                .color(ColorUtil.UNCOMMON)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("GUI 관련 설정을 변경합니다", ColorUtil.GRAY))
+                        .addLore(langManager.getComponent(viewer, "gui-settings.gui-settings-desc").color(ColorUtil.GRAY))
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -95,8 +96,8 @@ public class GuiSettingsGui extends BaseGui {
         // 볼륨 감소 버튼
         GuiItem volumeDecreaseButton = GuiItem.clickable(
                 new ItemBuilder(Material.RED_CONCRETE)
-                        .displayName(Component.text("- 볼륨 감소", ColorUtil.ERROR))
-                        .addLore(Component.text("클릭하여 볼륨을 5 감소시킵니다", ColorUtil.GRAY))
+                        .displayName(langManager.getComponent(viewer, "gui-settings.volume-decrease").color(ColorUtil.ERROR))
+                        .addLore(langManager.getComponent(viewer, "gui-settings.click-decrease").color(ColorUtil.GRAY))
                         .build(),
                 p -> {
                     int currentVolume = settings.getGuiSoundVolume();
@@ -105,7 +106,7 @@ public class GuiSettingsGui extends BaseGui {
                     
                     updateVolumeDisplay();
                     playClickSound(p);
-                    langManager.sendMessage(p, "설정이 변경되었습니다: 볼륨 " + newVolume + "%");
+                    langManager.sendMessage(p, "gui-settings.volume-changed", "{volume}", String.valueOf(newVolume));
                 }
         );
         setItem(VOLUME_DECREASE_SLOT, volumeDecreaseButton);
@@ -116,8 +117,8 @@ public class GuiSettingsGui extends BaseGui {
         // 볼륨 증가 버튼
         GuiItem volumeIncreaseButton = GuiItem.clickable(
                 new ItemBuilder(Material.GREEN_CONCRETE)
-                        .displayName(Component.text("+ 볼륨 증가", ColorUtil.SUCCESS))
-                        .addLore(Component.text("클릭하여 볼륨을 5 증가시킵니다", ColorUtil.GRAY))
+                        .displayName(langManager.getComponent(viewer, "gui-settings.volume-increase").color(ColorUtil.SUCCESS))
+                        .addLore(langManager.getComponent(viewer, "gui-settings.click-increase").color(ColorUtil.GRAY))
                         .build(),
                 p -> {
                     int currentVolume = settings.getGuiSoundVolume();
@@ -126,7 +127,7 @@ public class GuiSettingsGui extends BaseGui {
                     
                     updateVolumeDisplay();
                     playClickSound(p);
-                    langManager.sendMessage(p, "설정이 변경되었습니다: 볼륨 " + newVolume + "%");
+                    langManager.sendMessage(p, "gui-settings.volume-changed", "{volume}", String.valueOf(newVolume));
                 }
         );
         setItem(VOLUME_INCREASE_SLOT, volumeIncreaseButton);
@@ -158,16 +159,19 @@ public class GuiSettingsGui extends BaseGui {
 
         String volumeBar = createVolumeBar(volume);
         
+        String status = langManager.getMessage(viewer, isMuted ? "gui-settings.status-muted" : "gui-settings.status-active");
+        
         GuiItem volumeDisplay = GuiItem.display(
                 new ItemBuilder(material)
-                        .displayName(Component.text("🔊 GUI 사운드 볼륨", ColorUtil.PRIMARY)
+                        .displayName(langManager.getComponent(viewer, "gui-settings.sound-volume")
+                                .color(ColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("현재 볼륨: " + volume + "%", ColorUtil.WHITE))
+                        .addLore(langManager.getComponent(viewer, "gui-settings.current-volume", "{volume}", String.valueOf(volume)).color(ColorUtil.WHITE))
                         .addLore(Component.text(volumeBar, volume > 0 ? ColorUtil.SUCCESS : ColorUtil.ERROR))
                         .addLore(Component.empty())
-                        .addLore(Component.text("상태: " + (isMuted ? "음소거됨" : "활성화"), 
-                                isMuted ? ColorUtil.ERROR : ColorUtil.SUCCESS))
+                        .addLore(langManager.getComponent(viewer, "gui-settings.status", "{status}", status)
+                                .color(isMuted ? ColorUtil.ERROR : ColorUtil.SUCCESS))
                         .build()
         );
         setItem(VOLUME_DISPLAY_SLOT, volumeDisplay);
@@ -182,16 +186,18 @@ public class GuiSettingsGui extends BaseGui {
         
         boolean isMuted = settings.isGuiSoundMuted();
         
+        String currentStatus = langManager.getMessage(viewer, isMuted ? "gui-settings.status-muted" : "gui-settings.status-active");
+        
         GuiItem muteToggle = GuiItem.clickable(
                 new ItemBuilder(isMuted ? Material.REDSTONE_TORCH : Material.TORCH)
-                        .displayName(Component.text(isMuted ? "🔇 음소거 해제" : "🔇 음소거", 
-                                isMuted ? ColorUtil.SUCCESS : ColorUtil.ERROR)
+                        .displayName(langManager.getComponent(viewer, isMuted ? "gui-settings.unmute" : "gui-settings.mute")
+                                .color(isMuted ? ColorUtil.SUCCESS : ColorUtil.ERROR)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("현재 상태: " + (isMuted ? "음소거됨" : "활성화"), 
-                                isMuted ? ColorUtil.ERROR : ColorUtil.SUCCESS))
+                        .addLore(langManager.getComponent(viewer, "gui-settings.current-status", "{status}", currentStatus)
+                                .color(isMuted ? ColorUtil.ERROR : ColorUtil.SUCCESS))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 " + (isMuted ? "음소거 해제" : "음소거"), ColorUtil.YELLOW))
+                        .addLore(langManager.getComponent(viewer, isMuted ? "gui-settings.click-to-unmute" : "gui-settings.click-to-mute").color(ColorUtil.YELLOW))
                         .build(),
                 p -> {
                     settings.setGuiSoundMuted(!isMuted);
@@ -202,7 +208,7 @@ public class GuiSettingsGui extends BaseGui {
                         playClickSound(p);
                     }
                     
-                    langManager.sendMessage(p, "GUI 사운드가 " + (settings.isGuiSoundMuted() ? "음소거" : "활성화") + "되었습니다");
+                    langManager.sendMessage(p, settings.isGuiSoundMuted() ? "gui-settings.sound-muted" : "gui-settings.sound-unmuted");
                 }
         );
         setItem(MUTE_TOGGLE_SLOT, muteToggle);

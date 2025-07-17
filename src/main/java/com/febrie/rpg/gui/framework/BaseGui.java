@@ -1,8 +1,11 @@
 package com.febrie.rpg.gui.framework;
 
+import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.manager.GuiManager;
+import com.febrie.rpg.player.PlayerSettings;
+import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
@@ -322,22 +325,52 @@ public abstract class BaseGui implements InteractiveGui {
     // 사운드 재생 메소드들
 
     protected void playClickSound(@NotNull Player player) {
-        SoundUtil.playLeverSound(player);
+        RPGPlayer rpgPlayer = RPGMain.getPlugin().getRPGPlayerManager().getOrCreatePlayer(player);
+        PlayerSettings settings = rpgPlayer.getPlayerSettings();
+        
+        if (!settings.isGuiSoundMuted()) {
+            float volume = settings.getGuiSoundVolume() / 100.0f * 0.3f; // 0.3f is base volume
+            SoundUtil.playLeverSound(player, volume);
+        }
     }
 
     protected void playSuccessSound(@NotNull Player player) {
-        SoundUtil.playSuccessSound(player);
+        RPGPlayer rpgPlayer = RPGMain.getPlugin().getRPGPlayerManager().getOrCreatePlayer(player);
+        PlayerSettings settings = rpgPlayer.getPlayerSettings();
+        
+        if (!settings.isGuiSoundMuted()) {
+            float volume = settings.getGuiSoundVolume() / 100.0f * 0.5f; // 0.5f is base volume
+            SoundUtil.playSuccessSound(player, volume);
+        }
     }
 
     protected void playErrorSound(@NotNull Player player) {
-        SoundUtil.playErrorSound(player);
+        RPGPlayer rpgPlayer = RPGMain.getPlugin().getRPGPlayerManager().getOrCreatePlayer(player);
+        PlayerSettings settings = rpgPlayer.getPlayerSettings();
+        
+        if (!settings.isGuiSoundMuted()) {
+            float volume = settings.getGuiSoundVolume() / 100.0f * 0.5f; // 0.5f is base volume
+            SoundUtil.playErrorSound(player, volume);
+        }
     }
 
     protected void playOpenSound(@NotNull Player player) {
-        SoundUtil.playOpenSound(player);
+        RPGPlayer rpgPlayer = RPGMain.getPlugin().getRPGPlayerManager().getOrCreatePlayer(player);
+        PlayerSettings settings = rpgPlayer.getPlayerSettings();
+        
+        if (!settings.isGuiSoundMuted()) {
+            float volume = settings.getGuiSoundVolume() / 100.0f * 0.5f; // 0.5f is base volume
+            SoundUtil.playOpenSound(player, volume);
+        }
     }
 
     protected void playCloseSound(@NotNull Player player) {
-        SoundUtil.playCloseSound(player);
+        RPGPlayer rpgPlayer = RPGMain.getPlugin().getRPGPlayerManager().getOrCreatePlayer(player);
+        PlayerSettings settings = rpgPlayer.getPlayerSettings();
+        
+        if (!settings.isGuiSoundMuted()) {
+            float volume = settings.getGuiSoundVolume() / 100.0f * 0.5f; // 0.5f is base volume
+            SoundUtil.playCloseSound(player, volume);
+        }
     }
 }

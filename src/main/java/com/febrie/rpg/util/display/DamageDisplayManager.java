@@ -3,6 +3,7 @@ package com.febrie.rpg.util.display;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
@@ -12,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -113,7 +113,7 @@ public class DamageDisplayManager {
         ArmorStand armorStand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
         
         // ArmorStand 설정
-        armorStand.setCustomName(text);
+        armorStand.customName(Component.text(text));
         armorStand.setCustomNameVisible(true);
         armorStand.setVisible(false);
         armorStand.setGravity(false);
@@ -225,9 +225,12 @@ public class DamageDisplayManager {
         // 월드의 모든 ArmorStand 중 데미지 표시용인 것들 제거
         Bukkit.getWorlds().forEach(world -> {
             world.getEntitiesByClass(ArmorStand.class).forEach(armorStand -> {
-                if (armorStand.getCustomName() != null && 
-                    (armorStand.getCustomName().contains("§c") || armorStand.getCustomName().contains("§6"))) {
-                    armorStand.remove();
+                Component customName = armorStand.customName();
+                if (customName != null) {
+                    String nameString = customName.toString();
+                    if (nameString.contains("§c") || nameString.contains("§6")) {
+                        armorStand.remove();
+                    }
                 }
             });
         });

@@ -21,7 +21,7 @@
       "lore": [
         "%COLOR_GRAY%스탯 포인트를 할당합니다.",
         "",
-        "%COLOR_YELLOW%▶ 클릭하여 열기"
+        "%COLOR_YELLOW%▶ 클릭하여 스탯 페이지로 이동"
       ]
     },
     "talents-button": {
@@ -33,9 +33,33 @@
       ]
     },
     "leaderboard-button": {
-      "name": "%COLOR_GOLD%서버 랭킹",
+      "name": "%COLOR_GOLD%리더보드",
       "lore": [
         "%COLOR_GRAY%다양한 부문의 순위를 확인합니다.",
+        "",
+        "%COLOR_YELLOW%▶ 클릭하여 열기"
+      ]
+    },
+    "hub-button": {
+      "name": "%COLOR_GREEN%허브",
+      "lore": [
+        "%COLOR_GRAY%중앙 허브로 이동합니다.",
+        "",
+        "%COLOR_YELLOW%▶ 클릭하여 열기"
+      ]
+    },
+    "wild-button": {
+      "name": "%COLOR_RED%야생",
+      "lore": [
+        "%COLOR_GRAY%야생 지역에서 몹을 사냥합니다.",
+        "",
+        "%COLOR_YELLOW%▶ 클릭하여 열기"
+      ]
+    },
+    "island-button": {
+      "name": "%COLOR_AQUA%섬",
+      "lore": [
+        "%COLOR_GRAY%신비로운 섬으로 모험을 떠납니다.",
         "",
         "%COLOR_YELLOW%▶ 클릭하여 열기"
       ]

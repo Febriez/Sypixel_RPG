@@ -81,7 +81,7 @@
     ]
   },
   "mercy": {
-    "name": "%COLOR_SUCCESS%머시",
+    "name": "%COLOR_SUCCESS%메르시",
     "description": [
       "%COLOR_GRAY%자연의 힘으로 아군을 보호합니다.",
       "%COLOR_GRAY%치유와 보호에 특화되어 있습니다.",

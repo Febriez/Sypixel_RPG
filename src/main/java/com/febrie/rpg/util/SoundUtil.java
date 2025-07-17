@@ -35,6 +35,13 @@ public class SoundUtil {
     }
     
     /**
+     * 레버 사운드 재생 (볼륨 조절)
+     */
+    public static void playLeverSound(@NotNull Player player, float volume) {
+        playSound(player, Sound.BLOCK_LEVER_CLICK, volume, 1.2f);
+    }
+    
+    /**
      * 책 넘기는 사운드 재생 (뒤로가기)
      */
     public static void playPageTurnSound(@NotNull Player player) {
@@ -47,12 +54,26 @@ public class SoundUtil {
     public static void playSuccessSound(@NotNull Player player) {
         playSound(player, Sound.ENTITY_PLAYER_LEVELUP);
     }
+    
+    /**
+     * 성공 사운드 재생 (볼륨 조절)
+     */
+    public static void playSuccessSound(@NotNull Player player, float volume) {
+        playSound(player, Sound.ENTITY_PLAYER_LEVELUP, volume);
+    }
 
     /**
      * 에러 사운드 재생
      */
     public static void playErrorSound(@NotNull Player player) {
         playSound(player, Sound.ENTITY_VILLAGER_NO);
+    }
+    
+    /**
+     * 에러 사운드 재생 (볼륨 조절)
+     */
+    public static void playErrorSound(@NotNull Player player, float volume) {
+        playSound(player, Sound.ENTITY_VILLAGER_NO, volume);
     }
 
     /**
@@ -82,12 +103,26 @@ public class SoundUtil {
     public static void playOpenSound(@NotNull Player player) {
         playSound(player, Sound.BLOCK_CHEST_OPEN);
     }
+    
+    /**
+     * GUI 열기 사운드 재생 (볼륨 조절)
+     */
+    public static void playOpenSound(@NotNull Player player, float volume) {
+        playSound(player, Sound.BLOCK_CHEST_OPEN, volume);
+    }
 
     /**
      * GUI 닫기 사운드 재생
      */
     public static void playCloseSound(@NotNull Player player) {
         playSound(player, Sound.BLOCK_CHEST_CLOSE);
+    }
+    
+    /**
+     * GUI 닫기 사운드 재생 (볼륨 조절)
+     */
+    public static void playCloseSound(@NotNull Player player, float volume) {
+        playSound(player, Sound.BLOCK_CHEST_CLOSE, volume);
     }
 
     /**
