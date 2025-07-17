@@ -130,14 +130,17 @@ public final class LogUtil {
     }
 
     /**
+     * warn 메소드 (warning과 동일)
+     */
+    public static void warn(@NotNull String message) {
+        warning(message);
+    }
+
+    /**
      * 성능 측정용 로그
      */
     public static void logPerformance(@NotNull String operation, long startTime) {
         long duration = System.currentTimeMillis() - startTime;
-        if (duration > 100) { // 100ms 이상 걸린 작업만 로그
-            warning("Performance: " + operation + " took " + duration + "ms");
-        } else if (debugMode) {
-            debug("Performance: " + operation + " took " + duration + "ms");
-        }
+        debug("Performance: " + operation + " took " + duration + "ms");
     }
 }

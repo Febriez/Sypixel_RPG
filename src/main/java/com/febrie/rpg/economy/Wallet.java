@@ -1,6 +1,6 @@
 package com.febrie.rpg.economy;
 
-import com.febrie.rpg.dto.WalletDTO;
+import com.febrie.rpg.dto.player.WalletDTO;
 import com.febrie.rpg.util.LogUtil;
 import org.jetbrains.annotations.NotNull;
 

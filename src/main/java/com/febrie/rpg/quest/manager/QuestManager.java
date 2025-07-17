@@ -2,8 +2,8 @@ package com.febrie.rpg.quest.manager;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.FirestoreRestService;
-import com.febrie.rpg.dto.CompletedQuestDTO;
-import com.febrie.rpg.dto.PlayerQuestDTO;
+import com.febrie.rpg.dto.quest.CompletedQuestDTO;
+import com.febrie.rpg.dto.quest.PlayerQuestDTO;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.objective.QuestObjective;
@@ -331,7 +331,7 @@ public class QuestManager {
 
         // 완료 목록에 추가
         CompletedQuestDTO completed = new CompletedQuestDTO(
-                questId.getLegacyId(),
+                questId.name(),
                 Instant.now().toEpochMilli(),
                 1  // TODO: 완료 횟수 추적
         );
@@ -359,7 +359,7 @@ public class QuestManager {
                         // 활성 퀘스트 변환
                         dto.activeQuests().forEach((idStr, progress) -> {
                             try {
-                                QuestID questId = QuestID.fromLegacyId(idStr);
+                                QuestID questId = QuestID.valueOf(idStr);
                                 data.activeQuests.put(questId, progress);
                             } catch (IllegalArgumentException e) {
                                 LogUtil.warning("Unknown quest ID in player data: " + idStr);
@@ -369,7 +369,7 @@ public class QuestManager {
                         // 완료된 퀘스트 변환
                         dto.completedQuests().forEach((idStr, completed) -> {
                             try {
-                                QuestID questId = QuestID.fromLegacyId(idStr);
+                                QuestID questId = QuestID.valueOf(idStr);
                                 data.completedQuests.put(questId, completed);
                             } catch (IllegalArgumentException e) {
                                 LogUtil.warning("Unknown completed quest ID: " + idStr);
@@ -401,11 +401,11 @@ public class QuestManager {
         // DTO로 변환
         Map<String, QuestProgress> activeQuestsDto = new HashMap<>();
         data.activeQuests.forEach((id, progress) ->
-                activeQuestsDto.put(id.getLegacyId(), progress));
+                activeQuestsDto.put(id.name(), progress));
 
         Map<String, CompletedQuestDTO> completedQuestsDto = new HashMap<>();
         data.completedQuests.forEach((id, completed) ->
-                completedQuestsDto.put(id.getLegacyId(), completed));
+                completedQuestsDto.put(id.name(), completed));
 
         PlayerQuestDTO dto = new PlayerQuestDTO(
                 playerId.toString(),

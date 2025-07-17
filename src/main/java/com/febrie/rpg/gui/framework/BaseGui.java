@@ -37,6 +37,9 @@ public abstract class BaseGui implements InteractiveGui {
     protected final int size;
     protected final Inventory inventory;
     protected final Map<Integer, GuiItem> items = new HashMap<>();
+    
+    // 편의용 plugin 접근자
+    protected final com.febrie.rpg.RPGMain plugin;
 
     // 네비게이션 버튼 동적 위치 계산을 위한 메소드
     protected int getBackButtonSlot() {
@@ -65,6 +68,7 @@ public abstract class BaseGui implements InteractiveGui {
         this.viewer = viewer;
         this.guiManager = guiManager;
         this.langManager = langManager;
+        this.plugin = guiManager.getPlugin();
         this.size = validateSize(requestedSize);
         this.inventory = createInventory(titleKey, titleArgs);
     }
@@ -147,6 +151,13 @@ public abstract class BaseGui implements InteractiveGui {
         }
         items.put(slot, item);
         inventory.setItem(slot, item.getItemStack());
+    }
+
+    /**
+     * 아이템 가져오기 - GuiFramework에 없는 자체 메소드
+     */
+    public GuiItem getItem(int slot) {
+        return items.get(slot);
     }
 
     /**

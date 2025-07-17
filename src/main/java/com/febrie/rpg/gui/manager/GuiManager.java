@@ -66,9 +66,21 @@ public class GuiManager {
      * @param quest  퀘스트
      */
     public void openQuestAcceptGui(@NotNull Player player, @NotNull com.febrie.rpg.quest.Quest quest) {
-        com.febrie.rpg.gui.impl.QuestAcceptGui questAcceptGui =
-                new com.febrie.rpg.gui.impl.QuestAcceptGui(this, langManager, player, quest);
+        com.febrie.rpg.gui.impl.quest.QuestAcceptGui questAcceptGui =
+                new com.febrie.rpg.gui.impl.quest.QuestAcceptGui(this, langManager, player, quest);
         openGui(player, questAcceptGui);
+    }
+
+    /**
+     * 퀘스트 대화 GUI 열기
+     *
+     * @param player 플레이어
+     * @param quest  퀘스트
+     */
+    public void openQuestDialogGui(@NotNull Player player, @NotNull com.febrie.rpg.quest.Quest quest) {
+        com.febrie.rpg.gui.impl.quest.QuestDialogGui questDialogGui =
+                new com.febrie.rpg.gui.impl.quest.QuestDialogGui(this, langManager, player, quest);
+        openGui(player, questDialogGui);
     }
 
 

@@ -1,7 +1,7 @@
 package com.febrie.rpg.gui.util;
 
 import com.febrie.rpg.gui.component.GuiItem;
-import com.febrie.rpg.gui.impl.JobSelectionGui;
+import com.febrie.rpg.gui.impl.job.JobSelectionGui;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.stat.Stat;

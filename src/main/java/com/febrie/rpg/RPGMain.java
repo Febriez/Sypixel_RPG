@@ -1,17 +1,22 @@
 package com.febrie.rpg;
 
-import com.febrie.rpg.command.AdminCommands;
-import com.febrie.rpg.command.MainMenuCommand;
-import com.febrie.rpg.command.SiteAccountCommand;
+import com.febrie.rpg.command.admin.AdminCommands;
+import com.febrie.rpg.command.system.MainMenuCommand;
+import com.febrie.rpg.command.system.SiteAccountCommand;
 import com.febrie.rpg.database.FirestoreRestService;
-import com.febrie.rpg.dto.ServerStatsDTO;
+import com.febrie.rpg.dto.system.ServerStatsDTO;
 import com.febrie.rpg.gui.listener.GuiListener;
 import com.febrie.rpg.gui.manager.GuiManager;
+import com.febrie.rpg.listener.DamageDisplayListener;
+import com.febrie.rpg.listener.NPCInteractListener;
+import com.febrie.rpg.npc.manager.NPCManager;
 import com.febrie.rpg.player.RPGPlayerManager;
+import com.febrie.rpg.quest.guide.QuestGuideManager;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.talent.TalentManager;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
+import com.febrie.rpg.util.display.DamageDisplayManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -35,6 +40,9 @@ public final class RPGMain extends JavaPlugin {
     private GuiManager guiManager;
     private RPGPlayerManager rpgPlayerManager;
     private TalentManager talentManager;
+    private NPCManager npcManager;
+    private QuestGuideManager questGuideManager;
+    private DamageDisplayManager damageDisplayManager;
     private FirestoreRestService firestoreService;
 
     // 명령어
@@ -103,6 +111,21 @@ public final class RPGMain extends JavaPlugin {
             guiManager.cleanup();
         }
 
+        // NPC 매니저 정리
+        if (npcManager != null) {
+            npcManager.shutdown();
+        }
+
+        // 퀘스트 가이드 매니저 정리
+        if (questGuideManager != null) {
+            questGuideManager.shutdown();
+        }
+
+        // 데미지 표시 매니저 정리
+        if (damageDisplayManager != null) {
+            damageDisplayManager.shutdown();
+        }
+
         // Firebase 연결 종료
         if (firestoreService != null) {
             firestoreService.shutdown();
@@ -133,6 +156,21 @@ public final class RPGMain extends JavaPlugin {
         
         // QuestManager 초기화
         QuestManager.initialize(this, firestoreService);
+        
+        // NPCManager 초기화 (Citizens가 설치되어 있을 때만)
+        if (getServer().getPluginManager().getPlugin("Citizens") != null) {
+            this.npcManager = new NPCManager(this);
+            LogUtil.info("NPC 관리자 초기화 완료");
+        }
+        
+        // 퀘스트 가이드 매니저 초기화
+        this.questGuideManager = new QuestGuideManager(this);
+        LogUtil.info("퀘스트 가이드 관리자 초기화 완료");
+        
+        // 데미지 표시 매니저 초기화
+        this.damageDisplayManager = new DamageDisplayManager(this);
+        LogUtil.info("데미지 표시 관리자 초기화 완료");
+        
         LogUtil.info("매니저 시스템 초기화 완료");
 
         // 명령어 객체 생성 (실제 등록은 registerCommands에서)
@@ -152,9 +190,13 @@ public final class RPGMain extends JavaPlugin {
         // Citizens가 설치되어 있으면 NPC 리스너 등록
         if (getServer().getPluginManager().getPlugin("Citizens") != null) {
             getServer().getPluginManager().registerEvents(
-                new com.febrie.rpg.listener.NPCInteractListener(this, guiManager, langManager), this);
+                new NPCInteractListener(this, guiManager, langManager), this);
             LogUtil.info("Citizens NPC 리스너 등록 완료");
         }
+        
+        // 데미지 표시 리스너 등록
+        getServer().getPluginManager().registerEvents(new DamageDisplayListener(this), this);
+        LogUtil.info("데미지 표시 리스너 등록 완료");
         
         LogUtil.debug("이벤트 리스너 등록 완료");
     }
@@ -389,6 +431,18 @@ public final class RPGMain extends JavaPlugin {
 
     public TalentManager getTalentManager() {
         return talentManager;
+    }
+
+    public NPCManager getNPCManager() {
+        return npcManager;
+    }
+
+    public QuestGuideManager getQuestGuideManager() {
+        return questGuideManager;
+    }
+
+    public DamageDisplayManager getDamageDisplayManager() {
+        return damageDisplayManager;
     }
 
     public FirestoreRestService getFirebaseService() {

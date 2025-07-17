@@ -1,6 +1,6 @@
 package com.febrie.rpg.talent;
 
-import com.febrie.rpg.dto.TalentDTO;
+import com.febrie.rpg.dto.player.TalentDTO;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.util.ColorUtil;
@@ -276,7 +276,7 @@ public class Talent {
     public static class Builder {
         private final String id;
         private Material icon = Material.BOOK;
-        private TextColor color = com.febrie.rpg.util.ColorUtil.WHITE;
+        private TextColor color = ColorUtil.WHITE;
         private int maxLevel = 1;
         private int requiredPoints = 1;
         private TalentCategory category = TalentCategory.UTILITY;

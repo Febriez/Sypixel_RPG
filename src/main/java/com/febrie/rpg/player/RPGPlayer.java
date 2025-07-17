@@ -3,8 +3,10 @@ package com.febrie.rpg.player;
 import com.febrie.rpg.economy.Wallet;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.level.LevelSystem;
+import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.talent.Talent;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,11 +43,21 @@ public class RPGPlayer {
     // 세션 정보
     private long sessionStartTime = System.currentTimeMillis();
     private boolean dataModified = false;
+    
+    // 플레이어 설정
+    private PlayerSettings playerSettings;
 
     public RPGPlayer(@NotNull Player player) {
         this.playerId = player.getUniqueId();
         this.bukkitPlayer = player;
         // PDC 로드 제거 - 데이터는 RPGPlayerManager가 Firebase에서 로드하여 설정
+        
+        // PlayerSettings 초기화 (NamespacedKey는 RPGMain에서 생성)
+        this.playerSettings = new PlayerSettings(
+            player,
+            new NamespacedKey("sypixelrpg", "dialog_speed"),
+            new NamespacedKey("sypixelrpg", "sound_enabled")
+        );
     }
 
     /**
@@ -350,5 +362,13 @@ public class RPGPlayer {
         cp += stats.getTotalStat(Stat.LUCK) * 2;
 
         return cp;
+    }
+    
+    /**
+     * 플레이어 설정 가져오기
+     */
+    @NotNull
+    public PlayerSettings getPlayerSettings() {
+        return playerSettings;
     }
 }

@@ -1,0 +1,217 @@
+package com.febrie.rpg.gui.impl.job;
+
+import com.febrie.rpg.gui.component.GuiFactory;
+import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.GuiFramework;
+import com.febrie.rpg.gui.manager.GuiManager;
+import com.febrie.rpg.job.JobType;
+import com.febrie.rpg.player.RPGPlayer;
+import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.ItemFlag;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 직업 선택 GUI
+ * 플레이어가 직업을 선택할 수 있는 인터페이스
+ *
+ * @author Febrie, CoffeeTory
+ */
+public class JobSelectionGui extends BaseGui {
+
+    private static final int GUI_SIZE = 54; // 6줄
+
+    private final RPGPlayer rpgPlayer;
+    private JobType.JobCategory selectedCategory = JobType.JobCategory.WARRIOR;
+
+    public JobSelectionGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                           @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
+        super(viewer, guiManager, langManager, GUI_SIZE, "gui.job-selection.title");
+        this.rpgPlayer = rpgPlayer;
+        setupLayout();
+    }
+
+    @Override
+    public @NotNull Component getTitle() {
+        return trans("gui.job-selection.title");
+    }
+
+    @Override
+    public int getSize() {
+        return GUI_SIZE;
+    }
+
+    @Override
+    protected List<ClickType> getAllowedClickTypes() {
+        return List.of(ClickType.LEFT);
+    }
+
+    @Override
+    protected void setupLayout() {
+        setupBackground();
+        setupCategoryTabs();
+        setupJobDisplay();
+        setupNavigationButtons();
+    }
+
+    /**
+     * 배경 설정
+     */
+    private void setupBackground() {
+        // 상단 테두리
+        for (int i = 0; i < 9; i++) {
+            if (i < 3 || i > 5) { // 카테고리 탭 위치 제외
+                setItem(i, GuiFactory.createDecoration());
+            }
+        }
+
+        // 중간 구분선
+        for (int i = 18; i < 27; i++) {
+            setItem(i, GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
+        }
+
+        // 하단 테두리 - 네비게이션 버튼 위치 제외
+        for (int i = 45; i < 54; i++) {
+            if (i != 48 && i != 49) { // BACK_BUTTON_SLOT과 CLOSE_BUTTON_SLOT
+                setItem(i, GuiFactory.createDecoration());
+            }
+        }
+
+        // 좌우 테두리
+        setItem(9, GuiFactory.createDecoration());
+        setItem(17, GuiFactory.createDecoration());
+        setItem(36, GuiFactory.createDecoration());
+        setItem(44, GuiFactory.createDecoration());
+    }
+
+    /**
+     * 카테고리 탭 설정
+     */
+    private void setupCategoryTabs() {
+        int tabSlot = 3;
+
+        for (JobType.JobCategory category : JobType.JobCategory.values()) {
+            boolean isSelected = category == selectedCategory;
+
+            GuiItem tabItem = GuiItem.clickable(
+                    ItemBuilder.of(isSelected ? Material.ENCHANTED_BOOK : Material.BOOK)
+                            .displayName(trans("job.categories." + category.name().toLowerCase())
+                                    .color(category.getColor())
+                                    .decoration(TextDecoration.BOLD, isSelected))
+                            .addLore(Component.empty())
+                            .addLore(isSelected ?
+                                    trans("gui.job-selection.tab-selected") :
+                                    trans("gui.job-selection.tab-click"))
+                            .glint(isSelected)
+                            .build(),
+                    player -> {
+                        if (!isSelected) {
+                            selectedCategory = category;
+                            playClickSound(player);
+                            refresh();
+                        }
+                    }
+            );
+            setItem(tabSlot++, tabItem);
+        }
+    }
+
+    /**
+     * 직업 표시
+     */
+    private void setupJobDisplay() {
+        // 선택된 카테고리의 직업들만 표시
+        List<JobType> categoryJobs = new ArrayList<>();
+        for (JobType job : JobType.values()) {
+            if (job.getCategory() == selectedCategory) {
+                categoryJobs.add(job);
+            }
+        }
+
+        // 직업들을 그리드로 배치
+        int[] slots = {
+                28, 29, 30, 31, 32, 33, 34,  // 4번째 줄
+                37, 38, 39, 40, 41, 42, 43   // 5번째 줄
+        };
+
+        for (int i = 0; i < categoryJobs.size() && i < slots.length; i++) {
+            JobType job = categoryJobs.get(i);
+            setItem(slots[i], createJobItem(job));
+        }
+
+        // 빈 슬롯은 장식 아이템으로 채우기
+        for (int i = categoryJobs.size(); i < slots.length; i++) {
+            setItem(slots[i], GuiFactory.createDecoration(Material.GRAY_STAINED_GLASS_PANE));
+        }
+    }
+
+    /**
+     * 직업 아이템 생성
+     */
+    private GuiItem createJobItem(@NotNull JobType job) {
+        String jobKey = job.name().toLowerCase();
+
+        ItemBuilder builder = ItemBuilder.of(job.getMaterial())
+                .displayName(Component.text(job.getIcon() + " ")
+                        .append(trans("job." + jobKey + ".name"))
+                        .decoration(TextDecoration.BOLD, true))
+                .addLore(Component.empty())
+                .addLore(trans("gui.job-selection.max-level", "level", String.valueOf(job.getMaxLevel())))
+                .addLore(Component.empty());
+
+        // 직업 설명 추가
+        List<Component> description = langManager.getComponentList(viewer, "job." + jobKey + ".description");
+        for (Component line : description) {
+            builder.addLore(line);
+        }
+
+        builder.addLore(Component.empty())
+                .addLore(trans("general.separator"))
+                .addLore(trans("gui.job-selection.warning"))
+                .addLore(trans("general.separator"))
+                .addLore(Component.empty())
+                .addLore(trans("gui.job-selection.click-to-choose"))
+                .flags(ItemFlag.values())
+                .glint(true);
+
+        return GuiItem.clickable(
+                builder.build(),
+                player -> openConfirmationGui(job)
+        );
+    }
+
+    /**
+     * 네비게이션 버튼 설정
+     */
+    private void setupNavigationButtons() {
+        // 표준 네비게이션 설정 사용
+        setupStandardNavigation(false, true); // refresh 버튼 없음, close 버튼 있음
+    }
+
+    /**
+     * 직업 선택 확인 GUI 열기
+     */
+    private void openConfirmationGui(@NotNull JobType job) {
+        // 확인 GUI 열기
+        JobConfirmationGui confirmationGui = new JobConfirmationGui(
+                guiManager, langManager, viewer, rpgPlayer, job
+        );
+        guiManager.openGui(viewer, confirmationGui);
+        playClickSound(viewer);
+    }
+
+    @Override
+    public GuiFramework getBackTarget() {
+        // JobSelectionGui는 특수한 경우이므로 null을 반환합니다
+        return null;
+    }
+}

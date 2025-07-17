@@ -1,7 +1,18 @@
 package com.febrie.rpg.database;
 
-import com.febrie.rpg.dto.*;
+import com.febrie.rpg.dto.player.PlayerDTO;
+import com.febrie.rpg.dto.player.ProgressDTO;
+import com.febrie.rpg.dto.player.StatsDTO;
+import com.febrie.rpg.dto.player.TalentDTO;
+import com.febrie.rpg.dto.player.WalletDTO;
+import com.febrie.rpg.dto.quest.CompletedQuestDTO;
+import com.febrie.rpg.dto.quest.PlayerQuestDTO;
+import com.febrie.rpg.dto.system.LeaderboardEntryDTO;
+import com.febrie.rpg.dto.system.ServerStatsDTO;
 import com.febrie.rpg.job.JobType;
+import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.progress.ObjectiveProgress;
+import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.util.LogUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -20,9 +31,14 @@ import java.security.PrivateKey;
 import java.security.SecureRandom;
 import java.security.Signature;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.*;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 /**
  * Firebase Firestore REST API 서비스
@@ -65,7 +81,7 @@ public class FirestoreRestService {
 
     public FirestoreRestService(@NotNull Plugin plugin) {
         this.httpClient = HttpClient.newBuilder()
-                .connectTimeout(java.time.Duration.ofSeconds(10))
+                .connectTimeout(Duration.ofSeconds(10))
                 .build();
         this.tokenRefreshExecutor = Executors.newSingleThreadScheduledExecutor(r -> {
             Thread thread = new Thread(r);
@@ -592,7 +608,7 @@ public class FirestoreRestService {
             return CompletableFuture.completedFuture(false);
         }
 
-        String documentId = java.time.LocalDate.now().toString();
+        String documentId = LocalDate.now().toString();
         JsonObject doc = createServerStatsDocument(serverStats);
 
         return setDocument(SERVER_STATS_COLLECTION + "/" + documentId, doc);
@@ -607,7 +623,7 @@ public class FirestoreRestService {
         }
 
         // 오늘 날짜의 통계 시도
-        String todayId = java.time.LocalDate.now().toString();
+        String todayId = LocalDate.now().toString();
         return getDocument(SERVER_STATS_COLLECTION + "/" + todayId)
                 .thenApply(doc -> doc == null ? new ServerStatsDTO() : parseServerStatsDTO(doc));
     }
@@ -677,7 +693,7 @@ public class FirestoreRestService {
     /**
      * 활성 퀘스트 맵 생성
      */
-    private JsonObject createActiveQuestsMap(@NotNull Map<String, com.febrie.rpg.quest.progress.QuestProgress> activeQuests) {
+    private JsonObject createActiveQuestsMap(@NotNull Map<String, QuestProgress> activeQuests) {
         JsonObject activeQuestsFields = new JsonObject();
         
         activeQuests.forEach((questId, progress) -> {
@@ -695,7 +711,7 @@ public class FirestoreRestService {
     /**
      * 퀘스트 진행도 값 생성
      */
-    private JsonObject createQuestProgressValue(@NotNull com.febrie.rpg.quest.progress.QuestProgress progress) {
+    private JsonObject createQuestProgressValue(@NotNull QuestProgress progress) {
         JsonObject progressFields = new JsonObject();
         
         // 기본 진행도 정보
@@ -796,7 +812,7 @@ public class FirestoreRestService {
             long lastUpdated = getLongValue(fields, "lastUpdated");
 
             // 활성 퀘스트 파싱
-            Map<String, com.febrie.rpg.quest.progress.QuestProgress> activeQuests = parseActiveQuests(fields, playerId);
+            Map<String, QuestProgress> activeQuests = parseActiveQuests(fields, playerId);
 
             // 완료된 퀘스트 파싱
             Map<String, CompletedQuestDTO> completedQuests = parseCompletedQuests(fields);
@@ -811,8 +827,8 @@ public class FirestoreRestService {
     /**
      * 활성 퀘스트 파싱
      */
-    private Map<String, com.febrie.rpg.quest.progress.QuestProgress> parseActiveQuests(@NotNull JsonObject fields, @NotNull String playerId) {
-        Map<String, com.febrie.rpg.quest.progress.QuestProgress> activeQuests = new HashMap<>();
+    private Map<String, QuestProgress> parseActiveQuests(@NotNull JsonObject fields, @NotNull String playerId) {
+        Map<String, QuestProgress> activeQuests = new HashMap<>();
         
         try {
             JsonObject activeQuestsMap = getFirestoreMapFields(fields, "activeQuests");
@@ -823,7 +839,7 @@ public class FirestoreRestService {
                 try {
                     JsonObject progressFields = getFirestoreMapFields(entry.getValue().getAsJsonObject());
                     if (progressFields != null) {
-                        com.febrie.rpg.quest.progress.QuestProgress questProgress = parseQuestProgress(questId, progressFields, playerId);
+                        QuestProgress questProgress = parseQuestProgress(questId, progressFields, playerId);
                         if (questProgress != null) {
                             activeQuests.put(questId, questProgress);
                         }
@@ -842,7 +858,7 @@ public class FirestoreRestService {
     /**
      * 퀘스트 진행도 파싱
      */
-    private com.febrie.rpg.quest.progress.QuestProgress parseQuestProgress(@NotNull String questId, @NotNull JsonObject progressFields, @NotNull String playerId) {
+    private QuestProgress parseQuestProgress(@NotNull String questId, @NotNull JsonObject progressFields, @NotNull String playerId) {
         try {
             String playerIdStr = getStringValue(progressFields, "playerId");
             String state = getStringValue(progressFields, "state");
@@ -851,32 +867,32 @@ public class FirestoreRestService {
             long lastUpdatedAtMillis = getLongValue(progressFields, "lastUpdatedAt");
             
             // 목표 진행도 파싱
-            Map<String, com.febrie.rpg.quest.progress.ObjectiveProgress> objectives = parseObjectiveProgress(progressFields, playerId);
+            Map<String, ObjectiveProgress> objectives = parseObjectiveProgress(progressFields, playerId);
             
             // 시간 변환 (밀리초 -> Instant)
-            java.time.Instant startedAt = startedAtMillis > 0 ? 
-                java.time.Instant.ofEpochMilli(startedAtMillis) : java.time.Instant.now();
-            java.time.Instant lastUpdatedAt = lastUpdatedAtMillis > 0 ? 
-                java.time.Instant.ofEpochMilli(lastUpdatedAtMillis) : java.time.Instant.now();
+            Instant startedAt = startedAtMillis > 0 ? 
+                Instant.ofEpochMilli(startedAtMillis) : Instant.now();
+            Instant lastUpdatedAt = lastUpdatedAtMillis > 0 ? 
+                Instant.ofEpochMilli(lastUpdatedAtMillis) : Instant.now();
             
             // QuestProgress 객체 생성 (전체 생성자 사용)
-            com.febrie.rpg.quest.QuestID questIdEnum = com.febrie.rpg.quest.QuestID.fromLegacyId(questId);
-            java.util.UUID playerUuid = java.util.UUID.fromString(playerIdStr != null ? playerIdStr : playerId);
+            QuestID questIdEnum = QuestID.valueOf(questId);
+            UUID playerUuid = UUID.fromString(playerIdStr != null ? playerIdStr : playerId);
             
-            com.febrie.rpg.quest.progress.QuestProgress.QuestState questState = 
-                state != null ? com.febrie.rpg.quest.progress.QuestProgress.QuestState.valueOf(state) 
-                             : com.febrie.rpg.quest.progress.QuestProgress.QuestState.ACTIVE;
+            QuestProgress.QuestState questState = 
+                state != null ? QuestProgress.QuestState.valueOf(state) 
+                             : QuestProgress.QuestState.ACTIVE;
             
             // 완료 시간 파싱 (완료된 퀘스트인 경우)
-            java.time.Instant completedAt = null;
-            if (questState == com.febrie.rpg.quest.progress.QuestProgress.QuestState.COMPLETED) {
+            Instant completedAt = null;
+            if (questState == QuestProgress.QuestState.COMPLETED) {
                 long completedAtMillis = getLongValue(progressFields, "completedAt");
                 if (completedAtMillis > 0) {
-                    completedAt = java.time.Instant.ofEpochMilli(completedAtMillis);
+                    completedAt = Instant.ofEpochMilli(completedAtMillis);
                 }
             }
             
-            return new com.febrie.rpg.quest.progress.QuestProgress(
+            return new QuestProgress(
                 questIdEnum, playerUuid, objectives, questState, 
                 currentObjectiveIndex, startedAt, completedAt, lastUpdatedAt
             );
@@ -889,8 +905,8 @@ public class FirestoreRestService {
     /**
      * 목표 진행도 파싱
      */
-    private Map<String, com.febrie.rpg.quest.progress.ObjectiveProgress> parseObjectiveProgress(@NotNull JsonObject progressFields, @NotNull String playerId) {
-        Map<String, com.febrie.rpg.quest.progress.ObjectiveProgress> objectives = new HashMap<>();
+    private Map<String, ObjectiveProgress> parseObjectiveProgress(@NotNull JsonObject progressFields, @NotNull String playerId) {
+        Map<String, ObjectiveProgress> objectives = new HashMap<>();
         
         try {
             JsonObject objectivesMap = getFirestoreMapFields(progressFields, "objectives");
@@ -906,8 +922,8 @@ public class FirestoreRestService {
                         int target = getIntValue(objProgressFields, "target", 1);
                         long objLastUpdated = getLongValue(objProgressFields, "lastUpdated");
                         
-                        com.febrie.rpg.quest.progress.ObjectiveProgress objProgress = 
-                            new com.febrie.rpg.quest.progress.ObjectiveProgress(
+                        ObjectiveProgress objProgress = 
+                            new ObjectiveProgress(
                                 objId, UUID.fromString(playerId), progress, target, completed
                             );
                         objectives.put(objId, objProgress);
@@ -1536,14 +1552,14 @@ public class FirestoreRestService {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 // 마인크래프트 서버에서 플레이어 객체 가져오기
-                org.bukkit.entity.Player player = org.bukkit.Bukkit.getPlayer(java.util.UUID.fromString(uuid));
+                Player player = Bukkit.getPlayer(UUID.fromString(uuid));
                 
                 if (player != null) {
                     // 플레이어가 온라인인 경우 실시간 권한 확인
                     return player.isOp() || player.hasPermission("sypixelrpg.admin");
                 } else {
                     // 플레이어가 오프라인인 경우 OfflinePlayer로 확인
-                    org.bukkit.OfflinePlayer offlinePlayer = org.bukkit.Bukkit.getOfflinePlayer(java.util.UUID.fromString(uuid));
+                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
                     return offlinePlayer.isOp();
                 }
             } catch (Exception e) {
@@ -1663,6 +1679,169 @@ public class FirestoreRestService {
         }
     }
 
+
+    // === 소셜 시스템용 공개 메소드들 ===
+    
+    /**
+     * 문서 설정 (공개 메소드)
+     */
+    public boolean setDocument(@NotNull String collection, @NotNull String documentId, @NotNull Map<String, Object> data) {
+        try {
+            JsonObject jsonData = convertMapToJsonObject(data);
+            return setDocument(collection + "/" + documentId, jsonData).get();
+        } catch (Exception e) {
+            LogUtil.error("문서 설정 실패: " + collection + "/" + documentId, e);
+            return false;
+        }
+    }
+    
+    /**
+     * 문서 가져오기 (공개 메소드)
+     */
+    @Nullable
+    public Map<String, Object> getDocument(@NotNull String collection, @NotNull String documentId) {
+        try {
+            JsonObject doc = getDocument(collection + "/" + documentId).get();
+            if (doc == null) return null;
+            return convertJsonObjectToMap(doc);
+        } catch (Exception e) {
+            LogUtil.error("문서 조회 실패: " + collection + "/" + documentId, e);
+            return null;
+        }
+    }
+    
+    /**
+     * 문서 삭제 (공개 메소드)
+     */
+    public boolean deleteDocument(@NotNull String collection, @NotNull String documentId) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(FIRESTORE_BASE_URL + "/" + collection + "/" + documentId))
+                    .DELETE()
+                    .header("Authorization", "Bearer " + accessToken)
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.statusCode() == 200;
+        } catch (Exception e) {
+            LogUtil.error("문서 삭제 실패: " + collection + "/" + documentId, e);
+            return false;
+        }
+    }
+    
+    /**
+     * 문서 쿼리 (공개 메소드)
+     */
+    @Nullable
+    public Map<String, Object> queryDocuments(@NotNull String collection, @NotNull String query) {
+        try {
+            // Firestore structured query
+            JsonObject structuredQuery = new JsonObject();
+            JsonArray from = new JsonArray();
+            JsonObject fromObj = new JsonObject();
+            fromObj.addProperty("collectionId", collection);
+            from.add(fromObj);
+            structuredQuery.add("from", from);
+            
+            // TODO: 실제 쿼리 구문 분석 구현 (현재는 간단한 구현)
+            
+            JsonObject requestBody = new JsonObject();
+            requestBody.add("structuredQuery", structuredQuery);
+            
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(FIRESTORE_BASE_URL + ":runQuery"))
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
+                    .header("Authorization", "Bearer " + accessToken)
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            
+            if (response.statusCode() == 200) {
+                JsonArray results = JsonParser.parseString(response.body()).getAsJsonArray();
+                JsonObject result = new JsonObject();
+                JsonArray documents = new JsonArray();
+                
+                for (JsonElement element : results) {
+                    JsonObject item = element.getAsJsonObject();
+                    if (item.has("document")) {
+                        documents.add(item.get("document"));
+                    }
+                }
+                
+                result.add("documents", documents);
+                return convertJsonObjectToMap(result);
+            }
+            
+            return null;
+        } catch (Exception e) {
+            LogUtil.error("문서 쿼리 실패: " + collection, e);
+            return null;
+        }
+    }
+    
+    /**
+     * Map을 JsonObject로 변환
+     */
+    private JsonObject convertMapToJsonObject(@NotNull Map<String, Object> map) {
+        JsonObject json = new JsonObject();
+        JsonObject fields = new JsonObject();
+        
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            JsonObject fieldValue = new JsonObject();
+            Object value = entry.getValue();
+            
+            if (value instanceof String) {
+                fieldValue.addProperty("stringValue", (String) value);
+            } else if (value instanceof Boolean) {
+                fieldValue.addProperty("booleanValue", (Boolean) value);
+            } else if (value instanceof Integer) {
+                fieldValue.addProperty("integerValue", (Integer) value);
+            } else if (value instanceof Long) {
+                fieldValue.addProperty("integerValue", (Long) value);
+            } else if (value instanceof Double) {
+                fieldValue.addProperty("doubleValue", (Double) value);
+            } else {
+                fieldValue.addProperty("stringValue", value.toString());
+            }
+            
+            fields.add(entry.getKey(), fieldValue);
+        }
+        
+        json.add("fields", fields);
+        return json;
+    }
+    
+    /**
+     * JsonObject를 Map으로 변환
+     */
+    private Map<String, Object> convertJsonObjectToMap(@NotNull JsonObject json) {
+        Map<String, Object> map = new HashMap<>();
+        
+        if (json.has("fields")) {
+            JsonObject fields = json.getAsJsonObject("fields");
+            
+            for (Map.Entry<String, JsonElement> entry : fields.entrySet()) {
+                JsonObject fieldValue = entry.getValue().getAsJsonObject();
+                
+                Object value = null;
+                if (fieldValue.has("stringValue")) {
+                    value = fieldValue.get("stringValue").getAsString();
+                } else if (fieldValue.has("booleanValue")) {
+                    value = fieldValue.get("booleanValue").getAsBoolean();
+                } else if (fieldValue.has("integerValue")) {
+                    value = fieldValue.get("integerValue").getAsLong();
+                } else if (fieldValue.has("doubleValue")) {
+                    value = fieldValue.get("doubleValue").getAsDouble();
+                }
+                
+                map.put(entry.getKey(), value);
+            }
+        }
+        
+        return map;
+    }
 
     /**
      * 연결 종료

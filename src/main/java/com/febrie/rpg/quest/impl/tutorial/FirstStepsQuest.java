@@ -126,4 +126,28 @@ public class FirstStepsQuest extends Quest {
 
         return dialog;
     }
+
+    @Override
+    public String getDialog(int index) {
+        String[] dialogs = {
+            "안녕하세요! 새로운 모험가님! 이곳 Sypixel RPG 세계에 오신 것을 환영합니다.",
+            "저는 여러분의 첫 걸음을 도와드릴 가이드입니다. 함께 이 세계의 기본을 배워보시죠!",
+            "먼저 기본적인 이동과 상호작용 방법을 익혀보겠습니다. 준비되셨나요?"
+        };
+        
+        if (index >= 0 && index < dialogs.length) {
+            return dialogs[index];
+        }
+        return null;
+    }
+
+    @Override
+    public int getDialogCount() {
+        return 3;
+    }
+
+    @Override
+    public @NotNull String getNPCName() {
+        return "튜토리얼 가이드";
+    }
 }

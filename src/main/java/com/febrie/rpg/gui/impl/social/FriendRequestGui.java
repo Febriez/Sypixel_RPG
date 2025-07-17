@@ -1,0 +1,224 @@
+package com.febrie.rpg.gui.impl.social;
+
+import com.febrie.rpg.dto.social.FriendRequestDTO;
+import com.febrie.rpg.gui.component.GuiFactory;
+import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.GuiFramework;
+import com.febrie.rpg.gui.manager.GuiManager;
+import com.febrie.rpg.social.FriendManager;
+import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
+import org.jetbrains.annotations.NotNull;
+
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+/**
+ * 친구 요청 GUI
+ * 받은 친구 요청을 확인하고 수락/거절할 수 있는 GUI
+ *
+ * @author Febrie
+ */
+public class FriendRequestGui extends BaseGui {
+
+    private static final int GUI_SIZE = 54; // 6 rows
+
+    // 요청 목록 시작 슬롯
+    private static final int REQUESTS_START_SLOT = 10;
+    private static final int REQUESTS_END_SLOT = 43;
+
+    // 타이틀 슬롯
+    private static final int TITLE_SLOT = 4;
+
+    private final FriendManager friendManager;
+
+    public FriendRequestGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                           @NotNull Player player) {
+        super(player, guiManager, langManager, GUI_SIZE, "gui.friend-requests.title");
+        this.friendManager = FriendManager.getInstance();
+        setupLayout();
+        loadRequests();
+    }
+
+    @Override
+    public @NotNull Component getTitle() {
+        return Component.text("친구 요청", ColorUtil.UNCOMMON);
+    }
+
+    @Override
+    protected GuiFramework getBackTarget() {
+        return new FriendListGui(guiManager, langManager, viewer);
+    }
+
+    @Override
+    protected void setupLayout() {
+        setupDecorations();
+        setupStandardNavigation(true, true);
+    }
+
+    /**
+     * 장식 요소 설정
+     */
+    private void setupDecorations() {
+        createBorder();
+        setupTitleItem();
+    }
+
+    /**
+     * 타이틀 아이템 설정
+     */
+    private void setupTitleItem() {
+        GuiItem titleItem = GuiItem.display(
+                new ItemBuilder(Material.WRITABLE_BOOK)
+                        .displayName(Component.text("📨 친구 요청", ColorUtil.UNCOMMON)
+                                .decoration(TextDecoration.BOLD, true))
+                        .addLore(Component.empty())
+                        .addLore(Component.text("받은 친구 요청을 관리합니다", ColorUtil.GRAY))
+                        .build()
+        );
+        setItem(TITLE_SLOT, titleItem);
+    }
+
+    /**
+     * 친구 요청 목록 로드
+     */
+    private void loadRequests() {
+        // 요청 목록 영역 초기화
+        for (int i = REQUESTS_START_SLOT; i <= REQUESTS_END_SLOT; i++) {
+            setItem(i, GuiFactory.createDecoration());
+        }
+
+        // 로딩 표시
+        setItem(22, GuiItem.display(
+                new ItemBuilder(Material.HOPPER)
+                        .displayName(Component.text("로딩 중...", ColorUtil.GRAY))
+                        .build()
+        ));
+
+        // 비동기로 친구 요청 목록 로드
+        friendManager.getPendingRequests(viewer.getUniqueId()).thenAccept(requests -> {
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                displayRequests(requests);
+            });
+        });
+    }
+
+    /**
+     * 친구 요청 목록 표시
+     */
+    private void displayRequests(@NotNull Set<FriendRequestDTO> requests) {
+        // 요청 목록 영역 초기화
+        for (int i = REQUESTS_START_SLOT; i <= REQUESTS_END_SLOT; i++) {
+            setItem(i, GuiFactory.createDecoration());
+        }
+
+        if (requests.isEmpty()) {
+            // 요청이 없을 때
+            setItem(22, GuiItem.display(
+                    new ItemBuilder(Material.BARRIER)
+                            .displayName(Component.text("받은 친구 요청이 없습니다", ColorUtil.ERROR))
+                            .addLore(Component.text("새로운 요청이 오면 알림을 받을 수 있습니다", ColorUtil.GRAY))
+                            .build()
+            ));
+            return;
+        }
+
+        // 요청을 시간순으로 정렬 (최신 순)
+        List<FriendRequestDTO> sortedRequests = requests.stream()
+                .sorted((r1, r2) -> r2.getRequestTime().compareTo(r1.getRequestTime()))
+                .collect(Collectors.toList());
+
+        // 요청 아이템 생성
+        int slot = REQUESTS_START_SLOT;
+        for (FriendRequestDTO request : sortedRequests) {
+            if (slot > REQUESTS_END_SLOT) break;
+
+            // 3개씩 배치 (요청자 정보, 수락, 거절)
+            if (slot + 2 > REQUESTS_END_SLOT) break;
+
+            // 요청자 정보
+            GuiItem requestInfo = GuiItem.display(
+                    new ItemBuilder(Material.PLAYER_HEAD)
+                            .displayName(Component.text(request.getFromPlayerName(), ColorUtil.PRIMARY)
+                                    .decoration(TextDecoration.BOLD, true))
+                            .addLore(Component.empty())
+                            .addLore(Component.text("요청 시간: " + 
+                                    request.getRequestTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")), 
+                                    ColorUtil.GRAY))
+                            .addLore(Component.empty())
+                            .addLore(request.getMessage() != null ? 
+                                    Component.text("메시지: " + request.getMessage(), ColorUtil.WHITE) :
+                                    Component.text("메시지 없음", ColorUtil.GRAY))
+                            .addLore(Component.empty())
+                            .addLore(Component.text("우측 버튼으로 수락/거절", ColorUtil.YELLOW))
+                            .build()
+            );
+            setItem(slot, requestInfo);
+
+            // 수락 버튼
+            GuiItem acceptButton = GuiItem.clickable(
+                    new ItemBuilder(Material.LIME_DYE)
+                            .displayName(Component.text("✓ 수락", ColorUtil.SUCCESS)
+                                    .decoration(TextDecoration.BOLD, true))
+                            .addLore(Component.empty())
+                            .addLore(Component.text(request.getFromPlayerName() + "님의", ColorUtil.GRAY))
+                            .addLore(Component.text("친구 요청을 수락합니다", ColorUtil.GRAY))
+                            .addLore(Component.empty())
+                            .addLore(Component.text("클릭하여 수락", ColorUtil.YELLOW))
+                            .build(),
+                    p -> {
+                        friendManager.acceptFriendRequest(p, request.getId()).thenAccept(success -> {
+                            if (success) {
+                                Bukkit.getScheduler().runTask(plugin, () -> {
+                                    loadRequests(); // 목록 새로고침
+                                });
+                            }
+                        });
+                        playSuccessSound(p);
+                    }
+            );
+            setItem(slot + 1, acceptButton);
+
+            // 거절 버튼
+            GuiItem rejectButton = GuiItem.clickable(
+                    new ItemBuilder(Material.RED_DYE)
+                            .displayName(Component.text("✗ 거절", ColorUtil.ERROR)
+                                    .decoration(TextDecoration.BOLD, true))
+                            .addLore(Component.empty())
+                            .addLore(Component.text(request.getFromPlayerName() + "님의", ColorUtil.GRAY))
+                            .addLore(Component.text("친구 요청을 거절합니다", ColorUtil.GRAY))
+                            .addLore(Component.empty())
+                            .addLore(Component.text("클릭하여 거절", ColorUtil.YELLOW))
+                            .build(),
+                    p -> {
+                        friendManager.rejectFriendRequest(p, request.getId()).thenAccept(success -> {
+                            if (success) {
+                                Bukkit.getScheduler().runTask(plugin, () -> {
+                                    loadRequests(); // 목록 새로고침
+                                });
+                            }
+                        });
+                        playClickSound(p);
+                    }
+            );
+            setItem(slot + 2, rejectButton);
+
+            slot += 9; // 다음 줄로 이동
+        }
+    }
+
+    @Override
+    protected List<ClickType> getAllowedClickTypes() {
+        return List.of(ClickType.LEFT);
+    }
+}

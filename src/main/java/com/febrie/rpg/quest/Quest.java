@@ -260,13 +260,43 @@ public abstract class Quest {
     }
 
     /**
-     * 퀘스트 대화 (없으면 null)
+     * 퀘스트 대화 (없으면 null) - 기존 호환성
      *
      * @return 퀘스트 대화
      */
     @Nullable
     public QuestDialog getDialog() {
         return null; // 기본적으로 대화 없음, 필요한 퀘스트만 오버라이드
+    }
+
+    /**
+     * 인덱스 기반 퀘스트 대화 반환
+     * 
+     * @param index 대화 인덱스
+     * @return 퀘스트 대화 문장
+     */
+    @Nullable
+    public String getDialog(int index) {
+        return null; // 기본적으로 대화 없음, 필요한 퀘스트만 오버라이드
+    }
+
+    /**
+     * 총 대화 개수 반환
+     * 
+     * @return 총 대화 개수
+     */
+    public int getDialogCount() {
+        return 0; // 기본적으로 대화 없음
+    }
+
+    /**
+     * NPC 이름 반환 (대화에서 사용)
+     * 
+     * @return NPC 이름
+     */
+    @NotNull
+    public String getNPCName() {
+        return "Unknown NPC"; // 기본값, 필요한 퀘스트만 오버라이드
     }
 
     /**

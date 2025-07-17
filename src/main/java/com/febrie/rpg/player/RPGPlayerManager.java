@@ -2,7 +2,11 @@ package com.febrie.rpg.player;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.FirestoreRestService;
-import com.febrie.rpg.dto.*;
+import com.febrie.rpg.dto.player.PlayerDTO;
+import com.febrie.rpg.dto.player.ProgressDTO;
+import com.febrie.rpg.dto.player.StatsDTO;
+import com.febrie.rpg.dto.player.TalentDTO;
+import com.febrie.rpg.dto.player.WalletDTO;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.level.LevelSystem;
 import com.febrie.rpg.util.LogUtil;

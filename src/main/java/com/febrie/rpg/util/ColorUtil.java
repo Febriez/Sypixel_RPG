@@ -55,6 +55,7 @@ public final class ColorUtil {
     public static final TextColor RARE = TextColor.color(0, 112, 221);
     public static final TextColor UNCOMMON = TextColor.color(30, 255, 0);
     public static final TextColor COMMON = TextColor.color(157, 157, 157);
+    public static final TextColor MYTHIC = TextColor.color(255, 20, 147); // Deep Pink
 
     // === 상태 색상 ===
     public static final TextColor SUCCESS = TextColor.color(34, 139, 34);
@@ -68,6 +69,7 @@ public final class ColorUtil {
     public static final TextColor EXPERIENCE = TextColor.color(241, 196, 15);
     public static final TextColor COINS = TextColor.color(255, 215, 0);
     public static final TextColor GUI_TITLE = TextColor.color(66, 151, 255); // #4297FF
+    public static final TextColor PRIMARY = TextColor.color(66, 151, 255); // #4297FF
 
     // === 추가 색상 ===
     public static final TextColor LIGHT_GRAY = TextColor.color(192, 192, 192);

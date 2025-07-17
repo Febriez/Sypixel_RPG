@@ -1,6 +1,7 @@
 package com.febrie.rpg.quest;
 
 import org.jetbrains.annotations.NotNull;
+import java.util.Arrays;
 
 /**
  * 모든 퀘스트의 ID를 정의하는 Enum
@@ -11,44 +12,30 @@ import org.jetbrains.annotations.NotNull;
 public enum QuestID {
 
     // ===== 튜토리얼 퀘스트 =====
-    TUTORIAL_FIRST_STEPS("tutorial_first_steps", "첫 걸음", Quest.QuestCategory.TUTORIAL),
-    TUTORIAL_BASIC_COMBAT("tutorial_basic_combat", "기초 전투", Quest.QuestCategory.TUTORIAL),
+    TUTORIAL_FIRST_STEPS("첫 걸음", Quest.QuestCategory.TUTORIAL),
+    TUTORIAL_BASIC_COMBAT("기초 전투", Quest.QuestCategory.TUTORIAL),
 
     // ===== 메인 퀘스트 =====
-    MAIN_HEROES_JOURNEY("main_heroes_journey", "영웅의 여정", Quest.QuestCategory.MAIN),
-    MAIN_PATH_OF_LIGHT("main_path_of_light", "빛의 길", Quest.QuestCategory.MAIN),
-    MAIN_PATH_OF_DARKNESS("main_path_of_darkness", "어둠의 길", Quest.QuestCategory.MAIN),
+    MAIN_HEROES_JOURNEY("영웅의 여정", Quest.QuestCategory.MAIN),
+    MAIN_PATH_OF_LIGHT("빛의 길", Quest.QuestCategory.MAIN),
+    MAIN_PATH_OF_DARKNESS("어둠의 길", Quest.QuestCategory.MAIN),
 
     // ===== 사이드 퀘스트 =====
-    SIDE_FARMERS_REQUEST("side_farmers_request", "농부의 부탁", Quest.QuestCategory.SIDE),
-    SIDE_COLLECT_HERBS("side_collect_herbs", "약초 수집", Quest.QuestCategory.SIDE),
-    SIDE_LOST_TREASURE("side_lost_treasure", "잃어버린 보물", Quest.QuestCategory.SIDE),
+    SIDE_FARMERS_REQUEST("농부의 부탁", Quest.QuestCategory.SIDE),
+    SIDE_COLLECT_HERBS("약초 수집", Quest.QuestCategory.SIDE),
+    SIDE_LOST_TREASURE("잃어버린 보물", Quest.QuestCategory.SIDE),
 
     // ===== 일일 퀘스트 =====
-    DAILY_HUNTING("daily_hunting", "일일 사냥", Quest.QuestCategory.DAILY),
-    DAILY_MINING("daily_mining", "일일 채광", Quest.QuestCategory.DAILY),
-    DAILY_FISHING("daily_fishing", "일일 낚시", Quest.QuestCategory.DAILY);
+    DAILY_HUNTING("일일 사냥", Quest.QuestCategory.DAILY),
+    DAILY_MINING("일일 채광", Quest.QuestCategory.DAILY),
+    DAILY_FISHING("일일 낚시", Quest.QuestCategory.DAILY);
 
-    // ===== 주간 퀘스트 (구현 예정) =====
-    //WEEKLY_RAID_BOSS("weekly_raid_boss", "주간 레이드", Quest.QuestCategory.WEEKLY),
-    //WEEKLY_DUNGEON_CLEAR("weekly_dungeon_clear", "던전 클리어", Quest.QuestCategory.WEEKLY);
-
-    private final String legacyId;
     private final String displayName;
     private final Quest.QuestCategory category;
 
-    QuestID(@NotNull String legacyId, @NotNull String displayName, @NotNull Quest.QuestCategory category) {
-        this.legacyId = legacyId;
+    QuestID(@NotNull String displayName, @NotNull Quest.QuestCategory category) {
         this.displayName = displayName;
         this.category = category;
-    }
-
-    /**
-     * 기존 String ID 반환 (하위 호환성용)
-     */
-    @NotNull
-    public String getLegacyId() {
-        return legacyId;
     }
 
     /**
@@ -72,7 +59,7 @@ public enum QuestID {
      */
     @NotNull
     public String getNameKey() {
-        return "quest." + legacyId.replace("_", ".") + ".name";
+        return "quest." + name().toLowerCase().replace("_", ".") + ".name";
     }
 
     /**
@@ -80,20 +67,7 @@ public enum QuestID {
      */
     @NotNull
     public String getDescriptionKey() {
-        return "quest." + legacyId.replace("_", ".") + ".description";
-    }
-
-    /**
-     * String ID로 QuestID 찾기
-     */
-    @NotNull
-    public static QuestID fromLegacyId(@NotNull String legacyId) {
-        for (QuestID id : values()) {
-            if (id.legacyId.equals(legacyId)) {
-                return id;
-            }
-        }
-        throw new IllegalArgumentException("Unknown quest ID: " + legacyId);
+        return "quest." + name().toLowerCase().replace("_", ".") + ".description";
     }
 
     /**
@@ -101,7 +75,7 @@ public enum QuestID {
      */
     @NotNull
     public static QuestID[] getByCategory(@NotNull Quest.QuestCategory category) {
-        return java.util.Arrays.stream(values())
+        return Arrays.stream(values())
                 .filter(id -> id.category == category)
                 .toArray(QuestID[]::new);
     }
