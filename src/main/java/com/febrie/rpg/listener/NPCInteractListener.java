@@ -13,11 +13,16 @@ import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
+import com.febrie.rpg.util.ColorUtil;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.trait.trait.Equipment;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -49,7 +54,62 @@ public class NPCInteractListener implements Listener {
         NPC npc = event.getNPC();
         Player player = event.getClicker();
 
-        // Trait 시스템 확인
+        // 대기 중인 trait 설정이 있는지 확인
+        com.febrie.rpg.npc.NPCTraitSetter.PendingTrait pending = 
+            com.febrie.rpg.npc.NPCTraitSetter.getInstance().getPendingTrait(player);
+        
+        if (pending != null) {
+            // 관리자 권한 확인
+            if (!player.hasPermission("rpg.admin")) {
+                player.sendMessage(Component.text("권한이 없습니다.", ColorUtil.ERROR));
+                return;
+            }
+            
+            // trait 설정
+            switch (pending.getType()) {
+                case QUEST -> {
+                    QuestID questId = (QuestID) pending.getData();
+                    RPGQuestTrait questTrait = npc.getOrAddTrait(RPGQuestTrait.class);
+                    questTrait.setNpcType("QUEST");
+                    questTrait.setQuestId(questId);
+                    
+                    // 책 아이템 설정
+                    npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.BOOK));
+                    
+                    player.sendMessage(Component.text("NPC에 퀘스트가 설정되었습니다: " + questId.name(), ColorUtil.SUCCESS));
+                    player.sendMessage(Component.text("NPC 이름: " + npc.getName(), ColorUtil.INFO));
+                }
+                case SHOP -> {
+                    String shopType = (String) pending.getData();
+                    RPGShopTrait shopTrait = npc.getOrAddTrait(RPGShopTrait.class);
+                    shopTrait.setNpcType("SHOP");
+                    shopTrait.setShopType(shopType);
+                    
+                    // 에메랄드 아이템 설정
+                    npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.EMERALD));
+                    
+                    player.sendMessage(Component.text("NPC에 상점이 설정되었습니다: " + shopType, ColorUtil.SUCCESS));
+                }
+                case GUIDE -> {
+                    String guideType = (String) pending.getData();
+                    RPGGuideTrait guideTrait = npc.getOrAddTrait(RPGGuideTrait.class);
+                    guideTrait.setNpcType("GUIDE");
+                    guideTrait.setGuideType(guideType);
+                    
+                    // 나침반 아이템 설정
+                    npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.COMPASS));
+                    
+                    player.sendMessage(Component.text("NPC에 가이드가 설정되었습니다: " + guideType, ColorUtil.SUCCESS));
+                }
+            }
+            
+            // 대기 중인 trait 제거
+            com.febrie.rpg.npc.NPCTraitSetter.getInstance().removePendingTrait(player);
+            SoundUtil.playSuccessSound(player);
+            return;
+        }
+
+        // 기존 trait 처리
         if (npc.hasTrait(RPGQuestTrait.class)) {
             RPGQuestTrait questTrait = npc.getOrAddTrait(RPGQuestTrait.class);
             questTrait.onInteract(player);

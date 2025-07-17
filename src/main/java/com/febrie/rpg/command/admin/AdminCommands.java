@@ -106,7 +106,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         sender.sendMessage(Component.text("/rpgadmin exp give <플레이어> <경험치> - 경험치 지급", ColorUtil.YELLOW));
         sender.sendMessage(Component.text("/rpgadmin level set <플레이어> <레벨> - 레벨 설정", ColorUtil.YELLOW));
         sender.sendMessage(Component.text("/rpgadmin job set <플레이어> <직업> - 직업 설정", ColorUtil.YELLOW));
-        sender.sendMessage(Component.text("/rpgadmin npc create <타입> <이름> - NPC 생성", ColorUtil.YELLOW));
+        sender.sendMessage(Component.text("/rpgadmin npc set <퀘스트ID> - NPC에 퀘스트 설정", ColorUtil.YELLOW));
         sender.sendMessage(Component.text("/rpgadmin quest <give|list|reload> - 퀘스트 관리", ColorUtil.YELLOW));
     }
 
@@ -306,78 +306,38 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         }
 
         if (args.length < 2) {
-            sender.sendMessage(Component.text("사용법: /rpgadmin npc create <타입> [이름]", ColorUtil.ERROR));
+            sender.sendMessage(Component.text("사용법: /rpgadmin npc set <퀘스트ID>", ColorUtil.ERROR));
             return true;
         }
 
-        if (!args[1].equalsIgnoreCase("create")) {
-            sender.sendMessage(Component.text("사용법: /rpgadmin npc create <타입> [이름]", ColorUtil.ERROR));
+        if (!args[1].equalsIgnoreCase("set")) {
+            sender.sendMessage(Component.text("사용법: /rpgadmin npc set <퀘스트ID>", ColorUtil.ERROR));
             return true;
         }
 
         if (args.length < 3) {
-            sender.sendMessage(Component.text("사용법: /rpgadmin npc create <타입> [이름]", ColorUtil.ERROR));
-            sender.sendMessage(Component.text("타입: QUEST, SHOP, GUIDE", ColorUtil.GRAY));
+            sender.sendMessage(Component.text("사용법: /rpgadmin npc set <퀘스트ID>", ColorUtil.ERROR));
+            sender.sendMessage(Component.text("예시: /rpgadmin npc set TUTORIAL_FIRST_STEPS", ColorUtil.GRAY));
             return true;
         }
 
-        String npcType = args[2].toUpperCase();
-        String npcName = args.length > 3 ? String.join(" ", Arrays.copyOfRange(args, 3, args.length)) : npcType + " NPC";
-
-        // NPC 생성
-        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, npcName);
-        Location loc = player.getLocation();
-        npc.spawn(loc);
-
-        // Trait 시스템을 사용한 NPC 설정
-        switch (npcType) {
-            case "QUEST" -> {
-                RPGQuestTrait questTrait = npc.getOrAddTrait(RPGQuestTrait.class);
-                questTrait.setNpcType("QUEST");
-                
-                // 퀘스트 ID가 제공된 경우
-                if (args.length > 3) {
-                    try {
-                        QuestID questId = QuestID.valueOf(args[3]);
-                        questTrait.setQuestId(questId);
-                    } catch (IllegalArgumentException e) {
-                        player.sendMessage(Component.text("잘못된 퀘스트 ID입니다: " + args[3], ColorUtil.ERROR));
-                        npc.despawn();
-                        CitizensAPI.getNPCRegistry().deregister(npc);
-                        return true;
-                    }
-                }
-                
-                npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.BOOK));
-                player.sendMessage(Component.text("퀘스트 NPC를 생성했습니다: " + npcName, ColorUtil.SUCCESS));
+        // 퀘스트 ID 파싱
+        try {
+            QuestID questId = QuestID.valueOf(args[2].toUpperCase());
+            
+            // NPCTraitSetter를 통해 대기 상태로 설정
+            com.febrie.rpg.npc.NPCTraitSetter.getInstance().prepareQuestTrait(player, questId);
+            
+        } catch (IllegalArgumentException e) {
+            player.sendMessage(Component.text("잘못된 퀘스트 ID입니다: " + args[2], ColorUtil.ERROR));
+            player.sendMessage(Component.text("사용 가능한 퀘스트 ID:", ColorUtil.YELLOW));
+            
+            // 모든 퀘스트 ID 나열
+            for (QuestID id : QuestID.values()) {
+                player.sendMessage(Component.text("  - " + id.name(), ColorUtil.GRAY));
             }
-            case "SHOP" -> {
-                RPGShopTrait shopTrait = npc.getOrAddTrait(RPGShopTrait.class);
-                shopTrait.setNpcType("SHOP");
-                shopTrait.setShopType("GENERAL");
-                shopTrait.setShopTitle(npcName);
-                
-                npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.EMERALD));
-                player.sendMessage(Component.text("상점 NPC를 생성했습니다: " + npcName, ColorUtil.SUCCESS));
-            }
-            case "GUIDE" -> {
-                RPGGuideTrait guideTrait = npc.getOrAddTrait(RPGGuideTrait.class);
-                guideTrait.setNpcType("GUIDE");
-                guideTrait.setGuideType("GENERAL");
-                
-                npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.COMPASS));
-                player.sendMessage(Component.text("가이드 NPC를 생성했습니다: " + npcName, ColorUtil.SUCCESS));
-            }
-            default -> {
-                npc.despawn();
-                CitizensAPI.getNPCRegistry().deregister(npc);
-                player.sendMessage(Component.text("올바른 NPC 타입을 입력하세요: QUEST, SHOP, GUIDE", ColorUtil.ERROR));
-                return true;
-            }
+            return true;
         }
-
-        // 기본 설정 (Trait에서 자동으로 설정되지만 확실히 하기 위해)
-        npc.setProtected(true);
 
         return true;
     }
@@ -490,7 +450,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                     return List.of("set");
                 }
                 case "npc" -> {
-                    return List.of("create");
+                    return List.of("set");
                 }
                 case "quest" -> {
                     return Arrays.asList("give", "list", "reload");
@@ -509,11 +469,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                     }
                 }
                 case "npc" -> {
-                    if (args[1].equalsIgnoreCase("create")) {
-                        return Arrays.asList("QUEST", "SHOP", "GUIDE")
-                                .stream()
-                                .filter(name -> name.toLowerCase().startsWith(args[2].toLowerCase()))
-                                .collect(Collectors.toList());
+                    if (args[1].equalsIgnoreCase("set")) {
+                        return getQuestIdSuggestions(args[2]);
                     }
                 }
                 case "quest" -> {

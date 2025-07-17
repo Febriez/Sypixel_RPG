@@ -10,13 +10,14 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.listener.DamageDisplayListener;
 import com.febrie.rpg.listener.NPCInteractListener;
 import com.febrie.rpg.npc.manager.NPCManager;
+import com.febrie.rpg.npc.NPCTraitSetter;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.quest.guide.QuestGuideManager;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.talent.TalentManager;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
-import com.febrie.rpg.util.display.DamageDisplayManager;
+import com.febrie.rpg.util.display.TextDisplayDamageManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -41,8 +42,9 @@ public final class RPGMain extends JavaPlugin {
     private RPGPlayerManager rpgPlayerManager;
     private TalentManager talentManager;
     private NPCManager npcManager;
+    private NPCTraitSetter npcTraitSetter;
     private QuestGuideManager questGuideManager;
-    private DamageDisplayManager damageDisplayManager;
+    private TextDisplayDamageManager damageDisplayManager;
     private FirestoreRestService firestoreService;
 
     // 명령어
@@ -125,6 +127,11 @@ public final class RPGMain extends JavaPlugin {
         if (damageDisplayManager != null) {
             damageDisplayManager.shutdown();
         }
+        
+        // NPC Trait Setter 정리
+        if (npcTraitSetter != null) {
+            npcTraitSetter.cleanup();
+        }
 
         // Firebase 연결 종료
         if (firestoreService != null) {
@@ -161,6 +168,10 @@ public final class RPGMain extends JavaPlugin {
         if (getServer().getPluginManager().getPlugin("Citizens") != null) {
             this.npcManager = new NPCManager(this);
             LogUtil.info("NPC 관리자 초기화 완료");
+            
+            // NPC Trait Setter 초기화
+            this.npcTraitSetter = new NPCTraitSetter(this);
+            LogUtil.info("NPC Trait 설정 관리자 초기화 완료");
         }
         
         // 퀘스트 가이드 매니저 초기화
@@ -168,8 +179,8 @@ public final class RPGMain extends JavaPlugin {
         LogUtil.info("퀘스트 가이드 관리자 초기화 완료");
         
         // 데미지 표시 매니저 초기화
-        this.damageDisplayManager = new DamageDisplayManager(this);
-        LogUtil.info("데미지 표시 관리자 초기화 완료");
+        this.damageDisplayManager = new TextDisplayDamageManager(this);
+        LogUtil.info("TextDisplay 기반 데미지 표시 관리자 초기화 완료");
         
         LogUtil.info("매니저 시스템 초기화 완료");
 
@@ -441,7 +452,7 @@ public final class RPGMain extends JavaPlugin {
         return questGuideManager;
     }
 
-    public DamageDisplayManager getDamageDisplayManager() {
+    public TextDisplayDamageManager getDamageDisplayManager() {
         return damageDisplayManager;
     }
 

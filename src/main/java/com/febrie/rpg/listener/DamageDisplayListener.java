@@ -1,7 +1,7 @@
 package com.febrie.rpg.listener;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.util.display.DamageDisplayManager;
+import com.febrie.rpg.util.display.TextDisplayDamageManager;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -23,11 +23,11 @@ import org.jetbrains.annotations.Nullable;
 public class DamageDisplayListener implements Listener {
     
     private final RPGMain plugin;
-    private final DamageDisplayManager damageDisplayManager;
+    private final TextDisplayDamageManager damageDisplayManager;
     
     public DamageDisplayListener(@NotNull RPGMain plugin) {
         this.plugin = plugin;
-        this.damageDisplayManager = DamageDisplayManager.getInstance();
+        this.damageDisplayManager = TextDisplayDamageManager.getInstance();
     }
     
     /**

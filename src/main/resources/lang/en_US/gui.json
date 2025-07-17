@@ -219,6 +219,31 @@
     "current-language": "%COLOR_WHITE%Current Language: %COLOR_YELLOW%{language}",
     "click-to-change": "%COLOR_GRAY%Click to change"
   },
+  "ingame-settings": {
+    "title": "Game Settings"
+  },
+  "gui-settings": {
+    "title": "GUI Settings",
+    "volume-changed": "Setting changed: Volume {volume}%",
+    "sound-muted": "GUI sounds muted",
+    "sound-unmuted": "GUI sounds enabled",
+    "volume-decrease": "- Decrease Volume",
+    "volume-increase": "+ Increase Volume",
+    "click-decrease": "Click to decrease volume by 5",
+    "click-increase": "Click to increase volume by 5",
+    "sound-volume": "🔊 GUI Sound Volume",
+    "current-volume": "Current Volume: {volume}%",
+    "status": "Status: {status}",
+    "status-muted": "Muted",
+    "status-active": "Active",
+    "mute": "🔇 Mute",
+    "unmute": "🔇 Unmute",
+    "current-status": "Current Status: {status}",
+    "click-to-mute": "Click to mute",
+    "click-to-unmute": "Click to unmute",
+    "gui-settings": "🖥 GUI Settings",
+    "gui-settings-desc": "Change GUI related settings"
+  },
   "shop": {
     "title": "Shop",
     "buy-price": "%COLOR_GREEN%Buy Price: %COLOR_GOLD%{price}G",

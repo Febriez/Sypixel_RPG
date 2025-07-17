@@ -42,6 +42,7 @@
   "general": {
     "cannot-view-others-quests": "%COLOR_ERROR%다른 플레이어의 퀘스트를 볼 수 없습니다!"
   },
+  "dialog-speed-changed": "대화 속도가 변경되었습니다: {speed}",
   "gui": {
     "navigation": {
       "main-menu": "%COLOR_YELLOW%메인 메뉴로"

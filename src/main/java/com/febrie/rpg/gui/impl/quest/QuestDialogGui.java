@@ -54,6 +54,7 @@ public class QuestDialogGui extends BaseGui {
         super(player, guiManager, langManager, 9, "gui.quest-dialog.title");
         this.quest = quest;
         this.typingSpeed = getTypingSpeed(player); // 플레이어 설정에서 가져오기
+        setupLayout(); // GUI 레이아웃 초기화
     }
 
     /**
@@ -202,7 +203,7 @@ public class QuestDialogGui extends BaseGui {
         }
 
         ItemBuilder dialogBuilder = new ItemBuilder(Material.ENCHANTED_BOOK)
-                .displayName(langManager.getComponent(viewer, "gui.quest-dialog.npc-name", "{npc}", quest.getNPCName()).color(ColorUtil.AQUA));
+                .displayName(Component.text(quest.getNPCName(), ColorUtil.AQUA));
 
         for (Component loreLine : lore) {
             dialogBuilder.addLore(loreLine);
@@ -256,14 +257,28 @@ public class QuestDialogGui extends BaseGui {
         stopTyping();
         isShowingChoice = true;
         
-        // 기존 아이템 모두 제거
-        for (int i = 0; i < 9; i++) {
+        // 기존 아이템 모두 제거 (나가기 버튼 제외)
+        for (int i = 1; i < 9; i++) {
             setItem(i, GuiItem.display(
                     new ItemBuilder(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
                             .displayName(Component.empty())
                             .build()
             ));
         }
+        
+        // 나가기 버튼 유지
+        GuiItem exitButton = GuiItem.clickable(
+                new ItemBuilder(Material.BARRIER)
+                        .displayName(langManager.getComponent(viewer, "gui.quest-dialog.close").color(ColorUtil.ERROR))
+                        .addLore(langManager.getComponent(viewer, "gui.buttons.close.lore").color(ColorUtil.GRAY))
+                        .build(),
+                p -> {
+                    stopTyping();
+                    p.closeInventory();
+                    SoundUtil.playCloseSound(p);
+                }
+        );
+        setItem(EXIT_SLOT, exitButton);
         
         // 퀘스트 정보 표시
         ItemBuilder questInfoBuilder = new ItemBuilder(Material.WRITTEN_BOOK)
@@ -302,68 +317,39 @@ public class QuestDialogGui extends BaseGui {
      * 퀘스트 수락 처리
      */
     private void handleQuestAccept() {
+        // GUI 즉시 닫기
+        viewer.closeInventory();
+        
+        // 퀘스트 시작
+        com.febrie.rpg.quest.manager.QuestManager.getInstance().startQuest(viewer, quest.getId());
+        
         // 수락 대화 표시
         String acceptDialog = quest.getAcceptDialog();
         if (acceptDialog != null) {
-            // 수락 대화 표시
-            showResponseDialog(acceptDialog, true);
-        } else {
-            // 기본 수락 처리
-            com.febrie.rpg.quest.manager.QuestManager.getInstance().startQuest(viewer, quest.getId());
-            viewer.closeInventory();
-            viewer.sendMessage(Component.text("퀘스트를 수락했습니다!", ColorUtil.SUCCESS));
-            SoundUtil.playSuccessSound(viewer);
+            viewer.sendMessage(Component.text(quest.getNPCName() + ": " + acceptDialog, ColorUtil.YELLOW));
         }
+        
+        viewer.sendMessage(Component.text("퀘스트를 수락했습니다!", ColorUtil.SUCCESS));
+        SoundUtil.playSuccessSound(viewer);
     }
     
     /**
      * 퀘스트 거절 처리
      */
     private void handleQuestDecline() {
+        // GUI 즉시 닫기
+        viewer.closeInventory();
+        
         // 거절 대화 표시
         String declineDialog = quest.getDeclineDialog();
         if (declineDialog != null) {
-            // 거절 대화 표시
-            showResponseDialog(declineDialog, false);
-        } else {
-            // 기본 거절 처리
-            viewer.closeInventory();
-            viewer.sendMessage(Component.text("퀘스트를 거절했습니다.", ColorUtil.GRAY));
-            SoundUtil.playClickSound(viewer);
+            viewer.sendMessage(Component.text(quest.getNPCName() + ": " + declineDialog, ColorUtil.GRAY));
         }
+        
+        viewer.sendMessage(Component.text("퀘스트를 거절했습니다.", ColorUtil.GRAY));
+        SoundUtil.playClickSound(viewer);
     }
     
-    /**
-     * 응답 대화 표시
-     */
-    private void showResponseDialog(@NotNull String dialog, boolean isAccept) {
-        isShowingChoice = false;
-        
-        // GUI 초기화
-        setupDialogGui();
-        
-        // 응답 대화 설정
-        currentDialog = dialog;
-        currentCharIndex = 0;
-        isDialogComplete = false;
-        isTyping = true;
-        
-        // 타이핑 애니메이션 시작
-        startTypingAnimation();
-        
-        // 타이핑 완료 후 처리
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            if (isAccept) {
-                com.febrie.rpg.quest.manager.QuestManager.getInstance().startQuest(viewer, quest.getId());
-                viewer.closeInventory();
-                viewer.sendMessage(Component.text("퀘스트를 수락했습니다!", ColorUtil.SUCCESS));
-                SoundUtil.playSuccessSound(viewer);
-            } else {
-                viewer.closeInventory();
-                SoundUtil.playClickSound(viewer);
-            }
-        }, 80L); // 4초 후 자동 닫기
-    }
     
     /**
      * 플레이어 언어 확인

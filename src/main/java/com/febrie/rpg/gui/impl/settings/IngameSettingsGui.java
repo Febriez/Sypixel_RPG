@@ -120,7 +120,7 @@ public class IngameSettingsGui extends BaseGui {
                     int newSpeed = settings.adjustDialogSpeed(false);
                     updateDialogSpeedDisplay(settings);
                     playClickSound(p);
-                    langManager.sendMessage(p, "대화 속도가 변경되었습니다: " + settings.getDialogSpeedDisplayName());
+                    langManager.sendMessage(p, "dialog-speed-changed", "{speed}", settings.getDialogSpeedDisplayName());
                 }
         );
         setItem(DIALOG_SPEED_DECREASE_SLOT, speedDecreaseButton);
@@ -138,7 +138,7 @@ public class IngameSettingsGui extends BaseGui {
                     int newSpeed = settings.adjustDialogSpeed(true);
                     updateDialogSpeedDisplay(settings);
                     playClickSound(p);
-                    langManager.sendMessage(p, "대화 속도가 변경되었습니다: " + settings.getDialogSpeedDisplayName());
+                    langManager.sendMessage(p, "dialog-speed-changed", "{speed}", settings.getDialogSpeedDisplayName());
                 }
         );
         setItem(DIALOG_SPEED_INCREASE_SLOT, speedIncreaseButton);

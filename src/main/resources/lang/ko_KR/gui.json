@@ -222,6 +222,9 @@
     "current-language": "%COLOR_WHITE%현재 언어: %COLOR_YELLOW%{language}",
     "click-to-change": "%COLOR_GRAY%클릭하여 변경"
   },
+  "ingame-settings": {
+    "title": "게임 설정"
+  },
   "gui-settings": {
     "title": "GUI 설정",
     "volume-changed": "설정이 변경되었습니다: 볼륨 {volume}%",
