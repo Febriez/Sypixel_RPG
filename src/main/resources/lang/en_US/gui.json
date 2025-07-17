@@ -196,6 +196,19 @@
     "already-completed": "%COLOR_GRAY%Already completed",
     "level-requirement": "%COLOR_GRAY%Level {level} required"
   },
+  "quest-dialog": {
+    "title": "Quest Dialog",
+    "continue": "%COLOR_YELLOW%▶ Continue",
+    "skip": "%COLOR_GRAY%▶ Skip",
+    "complete": "%COLOR_SUCCESS%▶ Complete",
+    "accept-quest": "%COLOR_SUCCESS%▶ Accept Quest",
+    "decline-quest": "%COLOR_ERROR%▶ Decline",
+    "next-page": "%COLOR_YELLOW%▶ Next Page",
+    "previous-page": "%COLOR_GRAY%◀ Previous Page",
+    "close": "%COLOR_RED%■ Close",
+    "page-info": "%COLOR_GRAY%Page {current}/{total}",
+    "npc-name": "%COLOR_AQUA%{npc}"
+  },
   "settings": {
     "title": "Settings",
     "personal": "%COLOR_YELLOW%Personal Settings",

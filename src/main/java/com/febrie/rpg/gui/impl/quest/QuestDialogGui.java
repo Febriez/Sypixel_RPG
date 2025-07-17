@@ -37,6 +37,7 @@ public class QuestDialogGui extends BaseGui {
     private String currentDialog = "";
     private boolean isTyping = false;
     private boolean isDialogComplete = false;
+    private boolean isShowingChoice = false; // 수락/거절 선택 표시 여부
 
     // 애니메이션 관리
     private BukkitTask typingTask;
@@ -45,6 +46,8 @@ public class QuestDialogGui extends BaseGui {
     // 슬롯 정의
     private static final int DIALOG_SLOT = 4; // 가운데 슬롯
     private static final int EXIT_SLOT = 0; // 나가기 버튼
+    private static final int ACCEPT_SLOT = 3; // 수락 버튼
+    private static final int DECLINE_SLOT = 5; // 거절 버튼
 
     public QuestDialogGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                           @NotNull Player player, @NotNull Quest quest) {
@@ -112,8 +115,8 @@ public class QuestDialogGui extends BaseGui {
      */
     private void startDialog() {
         if (quest.getDialogCount() == 0) {
-            // 대화가 없으면 바로 퀘스트 수락 화면으로
-            openQuestAcceptGui();
+            // 대화가 없으면 바로 수락/거절 선택 표시
+            showQuestChoice();
             return;
         }
 
@@ -131,6 +134,8 @@ public class QuestDialogGui extends BaseGui {
             currentCharIndex = 0;
             isDialogComplete = false;
             isTyping = true;
+            // 초기 대화 아이템 표시
+            updateDialogItem("", false);
         }
     }
 
@@ -227,8 +232,8 @@ public class QuestDialogGui extends BaseGui {
                 startTypingAnimation();
                 SoundUtil.playClickSound(player);
             } else {
-                // 마지막 대화 완료, 퀘스트 수락 화면으로
-                openQuestAcceptGui();
+                // 마지막 대화 완료, 수락/거절 선택 표시
+                showQuestChoice();
             }
         }
     }
@@ -245,15 +250,126 @@ public class QuestDialogGui extends BaseGui {
     }
 
     /**
-     * 퀘스트 수락 화면 열기
+     * 퀘스트 수락/거절 선택 표시
      */
-    private void openQuestAcceptGui() {
+    private void showQuestChoice() {
         stopTyping();
-
-        // 현재 GUI를 닫고 퀘스트 수락 GUI 열기
+        isShowingChoice = true;
+        
+        // 기존 아이템 모두 제거
+        for (int i = 0; i < 9; i++) {
+            setItem(i, GuiItem.display(
+                    new ItemBuilder(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
+                            .displayName(Component.empty())
+                            .build()
+            ));
+        }
+        
+        // 퀘스트 정보 표시
+        ItemBuilder questInfoBuilder = new ItemBuilder(Material.WRITTEN_BOOK)
+                .displayName(Component.text(quest.getDisplayName(isPlayerKorean()), ColorUtil.GOLD))
+                .addLore(Component.empty());
+        
+        // 퀘스트 설명 추가
+        for (String line : quest.getDisplayInfo(isPlayerKorean())) {
+            questInfoBuilder.addLore(Component.text(line, ColorUtil.WHITE));
+        }
+        
+        setItem(DIALOG_SLOT, GuiItem.display(questInfoBuilder.build()));
+        
+        // 수락 버튼
+        GuiItem acceptButton = GuiItem.clickable(
+                new ItemBuilder(Material.LIME_DYE)
+                        .displayName(langManager.getComponent(viewer, "gui.quest-dialog.accept-quest").color(ColorUtil.SUCCESS))
+                        .addLore(langManager.getComponent(viewer, "gui.quest-accept.accept-desc").color(ColorUtil.GRAY))
+                        .build(),
+                p -> handleQuestAccept()
+        );
+        setItem(ACCEPT_SLOT, acceptButton);
+        
+        // 거절 버튼
+        GuiItem declineButton = GuiItem.clickable(
+                new ItemBuilder(Material.RED_DYE)
+                        .displayName(langManager.getComponent(viewer, "gui.quest-dialog.decline-quest").color(ColorUtil.ERROR))
+                        .addLore(langManager.getComponent(viewer, "gui.quest-accept.decline-desc").color(ColorUtil.GRAY))
+                        .build(),
+                p -> handleQuestDecline()
+        );
+        setItem(DECLINE_SLOT, declineButton);
+    }
+    
+    /**
+     * 퀘스트 수락 처리
+     */
+    private void handleQuestAccept() {
+        // 수락 대화 표시
+        String acceptDialog = quest.getAcceptDialog();
+        if (acceptDialog != null) {
+            // 수락 대화 표시
+            showResponseDialog(acceptDialog, true);
+        } else {
+            // 기본 수락 처리
+            com.febrie.rpg.quest.manager.QuestManager.getInstance().startQuest(viewer, quest.getId());
+            viewer.closeInventory();
+            viewer.sendMessage(Component.text("퀘스트를 수락했습니다!", ColorUtil.SUCCESS));
+            SoundUtil.playSuccessSound(viewer);
+        }
+    }
+    
+    /**
+     * 퀘스트 거절 처리
+     */
+    private void handleQuestDecline() {
+        // 거절 대화 표시
+        String declineDialog = quest.getDeclineDialog();
+        if (declineDialog != null) {
+            // 거절 대화 표시
+            showResponseDialog(declineDialog, false);
+        } else {
+            // 기본 거절 처리
+            viewer.closeInventory();
+            viewer.sendMessage(Component.text("퀘스트를 거절했습니다.", ColorUtil.GRAY));
+            SoundUtil.playClickSound(viewer);
+        }
+    }
+    
+    /**
+     * 응답 대화 표시
+     */
+    private void showResponseDialog(@NotNull String dialog, boolean isAccept) {
+        isShowingChoice = false;
+        
+        // GUI 초기화
+        setupDialogGui();
+        
+        // 응답 대화 설정
+        currentDialog = dialog;
+        currentCharIndex = 0;
+        isDialogComplete = false;
+        isTyping = true;
+        
+        // 타이핑 애니메이션 시작
+        startTypingAnimation();
+        
+        // 타이핑 완료 후 처리
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            guiManager.openQuestAcceptGui(viewer, quest);
-        }, 1L);
+            if (isAccept) {
+                com.febrie.rpg.quest.manager.QuestManager.getInstance().startQuest(viewer, quest.getId());
+                viewer.closeInventory();
+                viewer.sendMessage(Component.text("퀘스트를 수락했습니다!", ColorUtil.SUCCESS));
+                SoundUtil.playSuccessSound(viewer);
+            } else {
+                viewer.closeInventory();
+                SoundUtil.playClickSound(viewer);
+            }
+        }, 80L); // 4초 후 자동 닫기
+    }
+    
+    /**
+     * 플레이어 언어 확인
+     */
+    private boolean isPlayerKorean() {
+        return viewer.locale().getLanguage().equals("ko");
     }
 
 }

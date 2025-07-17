@@ -300,6 +300,26 @@ public abstract class Quest {
     }
 
     /**
+     * 퀘스트 수락 후 대화
+     * 
+     * @return 수락 후 대화 (null이면 기본 메시지 사용)
+     */
+    @Nullable
+    public String getAcceptDialog() {
+        return null; // 기본값, 필요한 퀘스트만 오버라이드
+    }
+
+    /**
+     * 퀘스트 거절 후 대화
+     * 
+     * @return 거절 후 대화 (null이면 기본 메시지 사용)
+     */
+    @Nullable
+    public String getDeclineDialog() {
+        return null; // 기본값, 필요한 퀘스트만 오버라이드
+    }
+
+    /**
      * 퀘스트 목표 목록 반환
      */
     public @NotNull List<QuestObjective> getObjectives() {

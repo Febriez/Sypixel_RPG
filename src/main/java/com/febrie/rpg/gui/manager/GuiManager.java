@@ -2,9 +2,7 @@ package com.febrie.rpg.gui.manager;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.framework.GuiFramework;
-import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LogUtil;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -56,20 +54,7 @@ public class GuiManager {
         // GUI 열기
         gui.open(player);
     }
-    
 
-
-    /**
-     * 퀘스트 수락 GUI 열기
-     *
-     * @param player 플레이어
-     * @param quest  퀘스트
-     */
-    public void openQuestAcceptGui(@NotNull Player player, @NotNull com.febrie.rpg.quest.Quest quest) {
-        com.febrie.rpg.gui.impl.quest.QuestAcceptGui questAcceptGui =
-                new com.febrie.rpg.gui.impl.quest.QuestAcceptGui(this, langManager, player, quest);
-        openGui(player, questAcceptGui);
-    }
 
     /**
      * 퀘스트 대화 GUI 열기

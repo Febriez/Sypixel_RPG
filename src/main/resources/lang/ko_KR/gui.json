@@ -197,11 +197,11 @@
     "level-requirement": "%COLOR_GRAY%레벨 {level} 이상 필요"
   },
   "quest-dialog": {
-    "title": "퀸스트 대화",
+    "title": "퀘스트 대화",
     "continue": "%COLOR_YELLOW%▶ 계속하기",
     "skip": "%COLOR_GRAY%▶ 건너뛰기",
     "complete": "%COLOR_SUCCESS%▶ 완료하기",
-    "accept-quest": "%COLOR_SUCCESS%▶ 퀸스트 수락",
+    "accept-quest": "%COLOR_SUCCESS%▶ 퀘스트 수락",
     "decline-quest": "%COLOR_ERROR%▶ 거절하기",
     "next-page": "%COLOR_YELLOW%▶ 다음 페이지",
     "previous-page": "%COLOR_GRAY%◀ 이전 페이지",

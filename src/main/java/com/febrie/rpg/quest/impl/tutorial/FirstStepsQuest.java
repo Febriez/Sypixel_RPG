@@ -150,4 +150,14 @@ public class FirstStepsQuest extends Quest {
     public @NotNull String getNPCName() {
         return "튜토리얼 가이드";
     }
+    
+    @Override
+    public String getAcceptDialog() {
+        return "좋습니다! 함께 모험을 시작해봅시다. 먼저 스폰 지점으로 가서 저를 찾아주세요!";
+    }
+    
+    @Override
+    public String getDeclineDialog() {
+        return "아직 준비가 안 되셨나요? 준비가 되시면 언제든 다시 찾아와주세요!";
+    }
 }

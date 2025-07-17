@@ -147,12 +147,8 @@ public class NPCInteractListener implements Listener {
             }
         }
 
-        // 대화가 있으면 대화 GUI 열기, 없으면 바로 퀘스트 수락 GUI
-        if (quest.getDialogCount() > 0) {
-            guiManager.openQuestDialogGui(player, quest);
-        } else {
-            guiManager.openQuestAcceptGui(player, quest);
-        }
+        // 퀘스트 대화 GUI 열기 (대화가 없어도 수락/거절 선택 표시)
+        guiManager.openQuestDialogGui(player, quest);
     }
 
     /**
