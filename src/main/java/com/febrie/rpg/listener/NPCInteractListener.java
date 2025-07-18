@@ -118,9 +118,18 @@ public class NPCInteractListener implements Listener {
         }
 
         // 기존 trait 처리
+        if (npc.hasTrait(com.febrie.rpg.npc.trait.RPGQuestRewardTrait.class)) {
+            com.febrie.rpg.npc.trait.RPGQuestRewardTrait rewardTrait = npc.getOrAddTrait(com.febrie.rpg.npc.trait.RPGQuestRewardTrait.class);
+            rewardTrait.onInteract(player);
+            handleQuestRewardNPCWithTrait(npc, player, rewardTrait);
+            return;
+        }
+        
         if (npc.hasTrait(RPGQuestTrait.class)) {
             RPGQuestTrait questTrait = npc.getOrAddTrait(RPGQuestTrait.class);
             questTrait.onInteract(player);
+            
+            
             handleQuestNPCWithTrait(npc, player, questTrait);
             return;
         }
@@ -147,13 +156,13 @@ public class NPCInteractListener implements Listener {
     private void handleQuestNPCWithTrait(NPC npc, Player player, RPGQuestTrait trait) {
         // 먼저 NPC ID 기반 퀘스트 목표 체크
         if (trait.hasNpcId()) {
-            
             // 현재 진행 중인 퀘스트에서 이 NPC와 관련된 목표 찾기
             List<QuestProgress> activeQuests = questManager.getActiveQuests(player.getUniqueId());
             
             for (QuestProgress progress : activeQuests) {
                 Quest quest = questManager.getQuest(progress.getQuestId());
                 if (quest == null) continue;
+                
                 
                 // 순차 진행인 경우 현재 목표만, 자유 진행인 경우 모든 미완료 목표 확인
                 List<QuestObjective> objectivesToCheck = new ArrayList<>();
@@ -162,7 +171,8 @@ public class NPCInteractListener implements Listener {
                     // 순차 진행 - 현재 목표만
                     int currentObjectiveIndex = progress.getCurrentObjectiveIndex();
                     if (currentObjectiveIndex < quest.getObjectives().size()) {
-                        objectivesToCheck.add(quest.getObjectives().get(currentObjectiveIndex));
+                        QuestObjective currentObj = quest.getObjectives().get(currentObjectiveIndex);
+                        objectivesToCheck.add(currentObj);
                     }
                 } else {
                     // 자유 진행 - 모든 미완료 목표
@@ -174,11 +184,11 @@ public class NPCInteractListener implements Listener {
                     }
                 }
                 
+                
                 // 각 목표 확인
                 for (QuestObjective objective : objectivesToCheck) {
                     if (objective instanceof InteractNPCObjective interactObjective) {
                         String npcId = interactObjective.getNpcId();
-                        
                         
                         if (npcId != null && npcId.equals(trait.getNpcId())) {
                             // 퀘스트 목표 진행을 위해 원본 이벤트를 생성하여 전달
@@ -333,6 +343,56 @@ public class NPCInteractListener implements Listener {
             new MainMenuGui(guiManager, langManager, player);
         guiManager.openGui(player, mainMenu);
         SoundUtil.playOpenSound(player);
+    }
+    
+    /**
+     * Trait를 사용하는 퀘스트 보상 NPC 처리
+     */
+    private void handleQuestRewardNPCWithTrait(NPC npc, Player player, com.febrie.rpg.npc.trait.RPGQuestRewardTrait trait) {
+        // 보상 수령 가능한 퀘스트 목록 가져오기
+        List<QuestID> unclaimedQuests = questManager.getUnclaimedRewardQuests(player.getUniqueId());
+        
+        if (unclaimedQuests.isEmpty()) {
+            langManager.sendMessage(player, "quest.reward.no-rewards");
+            SoundUtil.playErrorSound(player);
+            return;
+        }
+        
+        // 특정 퀘스트 ID가 설정된 경우
+        if (!trait.getQuestIds().isEmpty()) {
+            List<QuestID> npcQuests = trait.getQuestIds();
+            unclaimedQuests.retainAll(npcQuests); // NPC가 담당하는 퀘스트만 필터링
+            
+            if (unclaimedQuests.isEmpty()) {
+                langManager.sendMessage(player, "quest.reward.not-this-npc");
+                SoundUtil.playErrorSound(player);
+                return;
+            }
+        }
+        
+        // 보상 수령 가능한 퀘스트가 1개인 경우 바로 보상 GUI 열기
+        if (unclaimedQuests.size() == 1) {
+            QuestID questId = unclaimedQuests.get(0);
+            Quest quest = questManager.getQuest(questId);
+            if (quest != null) {
+                com.febrie.rpg.gui.impl.quest.QuestRewardGui rewardGui = 
+                    new com.febrie.rpg.gui.impl.quest.QuestRewardGui(guiManager, langManager, player, quest);
+                guiManager.openGui(player, rewardGui);
+                SoundUtil.playOpenSound(player);
+            }
+        } else {
+            // 여러 개인 경우 선택 GUI 표시
+            // TODO: 퀘스트 선택 GUI 구현
+            player.sendMessage(Component.text("여러 퀘스트의 보상을 수령할 수 있습니다.", ColorUtil.INFO));
+            player.sendMessage(Component.text("보상 수령 가능 퀘스트:", ColorUtil.GOLD));
+            for (QuestID questId : unclaimedQuests) {
+                Quest quest = questManager.getQuest(questId);
+                if (quest != null) {
+                    boolean isKorean = player.locale().getLanguage().equals("ko");
+                    player.sendMessage(Component.text("- " + quest.getDisplayName(isKorean), ColorUtil.UNCOMMON));
+                }
+            }
+        }
     }
     
     /**

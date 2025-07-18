@@ -7,6 +7,8 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
+import com.febrie.rpg.util.SoundUtil;
+import com.febrie.rpg.util.ToastUtil;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.managers.RegionManager;
@@ -34,6 +36,7 @@ public class LocationCheckTask implements Runnable {
     
     // 플레이어별 마지막 위치 캐시 (이동 감지용)
     private final Map<UUID, Location> lastLocations = new ConcurrentHashMap<>();
+    
     
     public LocationCheckTask(@NotNull RPGMain plugin) {
         this.plugin = plugin;
@@ -126,7 +129,8 @@ public class LocationCheckTask implements Runnable {
                     
                     
                     // 이미 완료된 목표는 스킵
-                    if (progress.isObjectiveComplete(objective.getId())) {
+                    ObjectiveProgress objProgress = progress.getObjective(objective.getId());
+                    if (objProgress == null || objProgress.isCompleted()) {
                         continue;
                     }
                     
@@ -139,14 +143,49 @@ public class LocationCheckTask implements Runnable {
                     
                     // 메인 스레드에서 퀘스트 진행 처리
                     if (shouldProgress) {
+                        final String objId = objective.getId();
+                        
                         Bukkit.getScheduler().runTask(plugin, () -> {
                             // 퀘스트 진행 처리 - 목표 완료 처리
-                            ObjectiveProgress objProgress = progress.getObjective(objective.getId());
-                            if (objProgress != null && objProgress.getCurrentValue() < objProgress.getRequiredValue()) {
-                                objProgress.increment(1); // 방문 목표는 1회만 완료하면 됨
+                            ObjectiveProgress objProg = progress.getObjective(objId);
+                            if (objProg != null && !objProg.isCompleted()) {
+                                int oldValue = objProg.getCurrentValue();
+                                int requiredValue = objProg.getRequiredValue();
+                                
+                                objProg.increment(1); // 방문 목표는 1회만 완료하면 됨
+                                
+                                // 목표가 완료되었을 때만 알림
+                                if (oldValue < requiredValue && objProg.getCurrentValue() >= requiredValue) {
+                                    // 토스트 알림 표시 - 목표 완료
+                                    ToastUtil.showObjectiveCompleteToast(data.player, quest, objective);
+                                    
+                                    // 채팅 메시지
+                                    boolean isKorean = com.febrie.rpg.RPGMain.getPlugin().getLangManager().getPlayerLanguage(data.player).startsWith("ko");
+                                    data.player.sendMessage(net.kyori.adventure.text.Component.text(
+                                        "✓ " + quest.getObjectiveDescription(objective, isKorean),
+                                        com.febrie.rpg.util.ColorUtil.SUCCESS
+                                    ));
+                                    
+                                    // 소리 재생
+                                    SoundUtil.playSuccessSound(data.player);
+                                    
+                                    // 순차 진행인 경우 다음 목표로
+                                    if (quest.isSequential()) {
+                                        progress.setCurrentObjectiveIndex(progress.getCurrentObjectiveIndex() + 1);
+                                    }
+                                }
                                 
                                 // 퀘스트 매니저를 통해 진행 상태 업데이트 및 완료 확인
-                                QuestManager.getInstance().checkQuestCompletion(data.player.getUniqueId(), quest.getId());
+                                QuestManager questManager = QuestManager.getInstance();
+                                boolean questCompleted = questManager.checkQuestCompletion(data.player.getUniqueId(), quest.getId());
+                                
+                                // 퀘스트 전체가 완료되었을 때 토스트 메시지
+                                if (questCompleted) {
+                                    ToastUtil.showQuestCompleteToast(data.player, quest);
+                                }
+                                
+                                // 데이터 저장 예약
+                                questManager.markForSave(data.player.getUniqueId());
                             }
                         });
                     }

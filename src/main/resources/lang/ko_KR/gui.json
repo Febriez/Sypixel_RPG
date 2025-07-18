@@ -172,6 +172,8 @@
     "objectives": "%COLOR_YELLOW%목표",
     "click-details": "%COLOR_GRAY%▶ 클릭하여 상세 정보 보기",
     "completed-status": "%COLOR_SUCCESS%✓ 완료됨",
+    "completed-label": "%COLOR_SUCCESS%✓ 완료됨",
+    "completed": "%COLOR_SUCCESS%완료됨",
     "rewards": "%COLOR_EMERALD%보상",
     "repeatable": "%COLOR_INFO%반복 가능"
   },
@@ -296,5 +298,22 @@
       "name": "%COLOR_INFO%설정",
       "lore": "%COLOR_GRAY%설정을 변경합니다"
     }
+  },
+  "quest-reward": {
+    "title": "퀘스트 보상",
+    "destroy-rewards": "보상 파괴",
+    "destroy-desc": "모든 보상을 포기합니다",
+    "warning-destroy": "⚠️ 이 작업은 되돌릴 수 없습니다!",
+    "claim-all": "모두 받기",
+    "claim-all-desc": "모든 보상을 인벤토리로 가져옵니다",
+    "already-claimed": "이미 보상을 수령했습니다",
+    "inventory-full": "인벤토리가 가득 찼습니다",
+    "not-enough-space": "인벤토리 공간이 부족합니다",
+    "confirm-destroy": "정말로 모든 보상을 파괴하시겠습니까?",
+    "all-claimed": "모든 보상을 수령했습니다!",
+    "exp-received": "경험치 {amount} 획득!",
+    "money-received": "코인 {amount} 획득!",
+    "close-warning": "⚠️ 경고: 보상을 받지 않고 창을 닫았습니다!",
+    "items-lost": "받지 않은 아이템은 사라집니다!"
   }
 }

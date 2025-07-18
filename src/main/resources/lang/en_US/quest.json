@@ -10,5 +10,9 @@
     "job-requirement": "%COLOR_ERROR%You need to be a %COLOR_YELLOW%{job}%COLOR_ERROR% to accept this quest!",
     "prerequisite-requirement": "%COLOR_ERROR%You must complete prerequisite quests first!",
     "mutually-exclusive": "%COLOR_ERROR%You have already completed a mutually exclusive quest!"
+  },
+  "reward": {
+    "no-rewards": "%COLOR_WARNING%No rewards to claim.",
+    "not-this-npc": "%COLOR_WARNING%No rewards available from this NPC."
   }
 }

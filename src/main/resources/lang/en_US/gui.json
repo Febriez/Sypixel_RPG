@@ -172,6 +172,8 @@
     "objectives": "%COLOR_YELLOW%Objectives",
     "click-details": "%COLOR_GRAY%▶ Click for details",
     "completed-status": "%COLOR_SUCCESS%✓ Completed",
+    "completed-label": "%COLOR_SUCCESS%✓ Completed",
+    "completed": "%COLOR_SUCCESS%Completed",
     "rewards": "%COLOR_EMERALD%Rewards",
     "repeatable": "%COLOR_INFO%Repeatable"
   },
@@ -296,5 +298,22 @@
       "name": "%COLOR_INFO%Settings",
       "lore": "%COLOR_GRAY%Change settings"
     }
+  },
+  "quest-reward": {
+    "title": "Quest Rewards",
+    "destroy-rewards": "Destroy Rewards",
+    "destroy-desc": "Forfeit all rewards",
+    "warning-destroy": "⚠️ This action cannot be undone!",
+    "claim-all": "Claim All",
+    "claim-all-desc": "Claim all rewards to your inventory",
+    "already-claimed": "You have already claimed the rewards",
+    "inventory-full": "Your inventory is full",
+    "not-enough-space": "Not enough inventory space",
+    "confirm-destroy": "Are you sure you want to destroy all rewards?",
+    "all-claimed": "All rewards claimed!",
+    "exp-received": "Gained {amount} EXP!",
+    "money-received": "Gained {amount} coins!",
+    "close-warning": "⚠️ Warning: You closed without claiming rewards!",
+    "items-lost": "Unclaimed items will be lost!"
   }
 }

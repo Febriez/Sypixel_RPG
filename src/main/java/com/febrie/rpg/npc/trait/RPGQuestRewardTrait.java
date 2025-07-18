@@ -4,31 +4,28 @@ import com.febrie.rpg.quest.QuestID;
 import net.citizensnpcs.api.persistence.Persist;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitName;
-import net.citizensnpcs.api.util.DataKey;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
- * RPG 퀘스트 NPC를 위한 커스텀 Trait
- * Citizens의 Trait 시스템을 사용해 NPC 데이터를 영구 저장
+ * 퀘스트 보상 NPC를 위한 커스텀 Trait
+ * 플레이어가 퀘스트를 완료한 후 이 NPC와 상호작용하여 보상을 받음
  *
  * @author Febrie
  */
-@TraitName("rpgquest")
-public class RPGQuestTrait extends Trait {
+@TraitName("rpgquestreward")
+public class RPGQuestRewardTrait extends Trait {
 
     @Persist("questIds")
     private List<String> questIds = new ArrayList<>();
     
-    @Persist("npcId")
-    private String npcId = null;
+    @Persist("rewardNpcId")
+    private String rewardNpcId = null;
 
-    public RPGQuestTrait() {
-        super("rpgquest");
+    public RPGQuestRewardTrait() {
+        super("rpgquestreward");
     }
 
     /**
@@ -49,24 +46,24 @@ public class RPGQuestTrait extends Trait {
     }
     
     /**
-     * NPC ID 설정
+     * 보상 NPC ID 설정
      */
-    public void setNpcId(String npcId) {
-        this.npcId = npcId;
+    public void setRewardNpcId(String rewardNpcId) {
+        this.rewardNpcId = rewardNpcId;
     }
     
     /**
-     * NPC ID 조회
+     * 보상 NPC ID 조회
      */
-    public String getNpcId() {
-        return npcId;
+    public String getRewardNpcId() {
+        return rewardNpcId;
     }
     
     /**
-     * NPC ID가 설정되어 있는지 확인
+     * 보상 NPC ID가 설정되어 있는지 확인
      */
-    public boolean hasNpcId() {
-        return npcId != null && !npcId.isEmpty();
+    public boolean hasRewardNpcId() {
+        return rewardNpcId != null && !rewardNpcId.isEmpty();
     }
 
     /**
@@ -92,10 +89,10 @@ public class RPGQuestTrait extends Trait {
     }
 
     /**
-     * NPC ID 초기화
+     * 보상 NPC ID 초기화
      */
-    public void clearNpcId() {
-        this.npcId = null;
+    public void clearRewardNpcId() {
+        this.rewardNpcId = null;
     }
 
     /**
@@ -116,7 +113,6 @@ public class RPGQuestTrait extends Trait {
             npc.setProtected(true);
         }
     }
-    
 
     /**
      * Trait가 NPC에서 제거될 때 호출
@@ -132,7 +128,6 @@ public class RPGQuestTrait extends Trait {
     @Override
     public void onSpawn() {
         super.onSpawn();
-        // 스폰 시 추가 설정이 필요한 경우
     }
 
     /**

@@ -12,7 +12,10 @@ import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.registry.QuestRegistry;
 import com.febrie.rpg.quest.task.LocationCheckTask;
 import com.febrie.rpg.util.LogUtil;
-import com.febrie.rpg.util.QuestNotificationUtil;
+import com.febrie.rpg.util.ToastUtil;
+import com.febrie.rpg.util.SoundUtil;
+import com.febrie.rpg.util.ColorUtil;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -245,8 +248,17 @@ public class QuestManager {
         // 저장 예약
         markForSave(playerId);
         
+        
         // 퀘스트 시작 알림
-        QuestNotificationUtil.notifyQuestStart(player, quest);
+        ToastUtil.showQuestProgressToast(player, quest, progress);
+        
+        // 채팅 메시지
+        boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
+        player.sendMessage(Component.text(isKorean ? "📋 새로운 퀘스트 시작: " : "📋 New quest started: ", ColorUtil.GOLD)
+                .append(Component.text(quest.getDisplayName(isKorean), ColorUtil.RARE)));
+        
+        // 소리 재생
+        SoundUtil.playOpenSound(player);
 
         LogUtil.info("Player " + player.getName() + " started quest: " + questId.getDisplayName());
         return true;
@@ -299,8 +311,15 @@ public class QuestManager {
 
                             // 목표 완료 체크
                             if (objective.isComplete(objProgress)) {
-                                // 목표 달성 알림
-                                QuestNotificationUtil.notifyObjectiveComplete(player, quest, objective);
+                                // 토스트 알림 표시
+                                ToastUtil.showQuestProgressToast(player, quest, questProgress);
+                                
+                                // 채팅 메시지
+                                boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
+                                player.sendMessage(Component.text("✓ " + quest.getObjectiveDescription(objective, isKorean), ColorUtil.SUCCESS));
+                                
+                                // 소리 재생
+                                SoundUtil.playSuccessSound(player);
                                 
                                 // 순차 진행인 경우 다음 목표로
                                 if (quest.isSequential()) {
@@ -345,21 +364,32 @@ public class QuestManager {
         // 진행중 목록에서 제거
         playerData.activeQuests.remove(questId);
 
-        // 완료 목록에 추가
+        // 완료 목록에 추가 (보상 미수령 상태)
         CompletedQuestDTO completed = new CompletedQuestDTO(
                 questId.name(),
                 Instant.now().toEpochMilli(),
-                1  // TODO: 완료 횟수 추적
+                1,  // TODO: 완료 횟수 추적
+                false  // 보상 미수령 상태
         );
         playerData.completedQuests.put(questId, completed);
 
-        // 보상 지급
+        // 보상은 지급하지 않음 (NPC를 통해 수령)
         Quest quest = getQuest(questId);
         if (quest != null) {
-            quest.getReward().grant(player);
-            // 퀘스트 완료 알림
-            QuestNotificationUtil.notifyQuestComplete(player, quest);
-            LogUtil.info("Player " + player.getName() + " completed quest: " + questId.getDisplayName());
+            // 토스트 알림 표시
+            ToastUtil.showQuestProgressToast(player, quest, progress);
+            
+            // 채팅 메시지
+            boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
+            player.sendMessage(Component.text("🎉 ", ColorUtil.GOLD)
+                    .append(Component.text(quest.getDisplayName(isKorean), ColorUtil.LEGENDARY))
+                    .append(Component.text(isKorean ? " 퀘스트를 완료했습니다!" : " quest completed!", ColorUtil.SUCCESS)));
+            player.sendMessage(Component.text(isKorean ? "🎁 보상 NPC를 방문하여 보상을 수령하세요!" : "🎁 Visit the reward NPC to claim your rewards!", ColorUtil.INFO));
+            
+            // 소리 재생 (레벨업 사운드)
+            SoundUtil.playSuccessSound(player);
+            
+            LogUtil.info("Player " + player.getName() + " completed quest: " + questId.name());
         }
 
         progress.complete();
@@ -452,13 +482,13 @@ public class QuestManager {
      * 퀘스트 완료 체크
      * NPCInteractListener에서 호출됨
      */
-    public void checkQuestCompletion(@NotNull UUID playerId, @NotNull QuestID questId) {
+    public boolean checkQuestCompletion(@NotNull UUID playerId, @NotNull QuestID questId) {
         PlayerQuestData playerData = getPlayerData(playerId);
         QuestProgress progress = playerData.activeQuests.get(questId);
-        if (progress == null) return;
+        if (progress == null) return false;
         
         Quest quest = getQuest(questId);
-        if (quest == null) return;
+        if (quest == null) return false;
         
         // 모든 목표가 완료되었는지 확인
         boolean allObjectivesComplete = quest.getObjectives().stream()
@@ -472,8 +502,10 @@ public class QuestManager {
             Player player = Bukkit.getPlayer(playerId);
             if (player != null && progress != null) {
                 completeQuest(player, questId, progress);
+                return true;
             }
         }
+        return false;
     }
 
     /**
@@ -526,5 +558,40 @@ public class QuestManager {
         pendingSaves.clear();
 
         LogUtil.info("QuestManager shutdown complete");
+    }
+    
+    /**
+     * 퀘스트를 보상 수령으로 표시
+     */
+    public void markQuestAsRewarded(@NotNull UUID playerId, @NotNull QuestID questId) {
+        PlayerQuestData playerData = getPlayerData(playerId);
+        CompletedQuestDTO completed = playerData.completedQuests.get(questId);
+        if (completed != null) {
+            completed.setRewarded(true);
+            markForSave(playerId);
+        }
+    }
+    
+    /**
+     * 퀘스트 보상을 받았는지 확인
+     */
+    public boolean hasReceivedReward(@NotNull UUID playerId, @NotNull QuestID questId) {
+        PlayerQuestData playerData = getPlayerData(playerId);
+        CompletedQuestDTO completed = playerData.completedQuests.get(questId);
+        return completed != null && completed.isRewarded();
+    }
+    
+    /**
+     * 보상 미수령 퀘스트 목록 가져오기
+     */
+    public List<QuestID> getUnclaimedRewardQuests(@NotNull UUID playerId) {
+        PlayerQuestData playerData = getPlayerData(playerId);
+        List<QuestID> unclaimed = new ArrayList<>();
+        for (Map.Entry<QuestID, CompletedQuestDTO> entry : playerData.completedQuests.entrySet()) {
+            if (!entry.getValue().isRewarded()) {
+                unclaimed.add(entry.getKey());
+            }
+        }
+        return unclaimed;
     }
 }

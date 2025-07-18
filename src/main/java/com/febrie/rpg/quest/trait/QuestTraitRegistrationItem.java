@@ -3,6 +3,7 @@ package com.febrie.rpg.quest.trait;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.npc.trait.RPGQuestTrait;
 import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.SoundUtil;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.kyori.adventure.text.Component;
@@ -145,6 +146,8 @@ public class QuestTraitRegistrationItem implements Listener {
                     
                     // 막대기 제거 (크리에이티브 모드에서도 제거)
                     item.setAmount(item.getAmount() - 1);
+                    // 성공 소리 재생
+                    SoundUtil.playSuccessSound(player);
                 }
             }
             return;
@@ -163,5 +166,7 @@ public class QuestTraitRegistrationItem implements Listener {
         
         // 막대기 제거 (크리에이티브 모드에서도 제거)
         item.setAmount(item.getAmount() - 1);
+        // 성공 소리 재생
+        SoundUtil.playSuccessSound(player);
     }
 }

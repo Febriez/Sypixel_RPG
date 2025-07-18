@@ -35,7 +35,7 @@ public class QuestListGui extends BaseGui {
 
     // 레이아웃 상수
     private static final int ACTIVE_QUESTS_START = 10;      // 2번째 줄 1번 슬롯부터
-    private static final int COMPLETED_QUESTS_START = 28;   // 4번째 줄 1번 슬롯부터
+    private static final int COMPLETED_QUESTS_START = 14;   // 2번째 줄 중간부터
     private static final int QUESTS_PER_ROW = 7;            // 한 줄에 7개
     private static final int MAX_DISPLAY_QUESTS = 14;       // 최대 표시 개수 (7개 x 2줄)
 
@@ -122,7 +122,7 @@ public class QuestListGui extends BaseGui {
         List<QuestID> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
 
         // 진행 중인 퀘스트 라벨
-        ItemBuilder activeBuilder = new ItemBuilder(Material.BOOK)
+        ItemBuilder activeBuilder = new ItemBuilder(Material.ENCHANTED_BOOK)
                 .displayName(trans("gui.quest-list.active-quests"))
                 .addLore(trans("gui.quest-list.active-quests-desc"));
 
@@ -132,7 +132,7 @@ public class QuestListGui extends BaseGui {
         setItem(ACTIVE_LABEL_SLOT, activeLabel);
 
         // 완료된 퀘스트 라벨
-        ItemBuilder completedBuilder = new ItemBuilder(Material.ENCHANTED_BOOK)
+        ItemBuilder completedBuilder = new ItemBuilder(Material.BOOK)
                 .displayName(trans("gui.quest-list.completed-quests"))
                 .addLore(trans("gui.quest-list.completed-quests-desc"));
 
@@ -148,22 +148,26 @@ public class QuestListGui extends BaseGui {
     private void displayActiveQuests() {
         List<QuestProgress> activeQuests = questManager.getActiveQuests(viewer.getUniqueId());
 
-        int slot = ACTIVE_QUESTS_START;
         int count = 0;
+        int row = 1; // 시작 행 (0부터 시작)
+        int col = 1; // 시작 열 (1번 슬롯 = 왼쪽 3개 영역의 시작)
 
         for (QuestProgress progress : activeQuests) {
-            if (count >= MAX_DISPLAY_QUESTS) break; // 최대 18개까지만 표시
+            if (count >= MAX_DISPLAY_QUESTS) break; // 최대 14개까지만 표시
 
             Quest quest = questManager.getQuest(progress.getQuestId());
             if (quest == null) continue;
 
+            int slot = row * 9 + col;
             GuiItem questItem = createActiveQuestItem(quest, progress);
-            setItem(slot++, questItem);
+            setItem(slot, questItem);
             count++;
 
-            // 다음 줄로 이동 (7개마다)
-            if (count == 7) {
-                slot = ACTIVE_QUESTS_START + 9; // 세 번째 줄로
+            // 다음 위치 계산 (한 줄에 3개씩)
+            col++;
+            if (col >= 4) { // 왼쪽 3개 배치 완료 (1,2,3번 슬롯)
+                col = 1;
+                row++;
             }
         }
     }
@@ -174,22 +178,26 @@ public class QuestListGui extends BaseGui {
     private void displayCompletedQuests() {
         List<QuestID> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
 
-        int slot = COMPLETED_QUESTS_START;
         int count = 0;
+        int row = 1; // 시작 행 (0부터 시작)
+        int col = 5; // 시작 열 (5번 슬롯 = 오른쪽 3개 영역의 시작)
 
         for (QuestID questId : completedQuests) {
-            if (count >= MAX_DISPLAY_QUESTS) break; // 최대 18개까지만 표시
+            if (count >= MAX_DISPLAY_QUESTS) break; // 최대 14개까지만 표시
 
             Quest quest = questManager.getQuest(questId);
             if (quest == null) continue;
 
+            int slot = row * 9 + col;
             GuiItem questItem = createCompletedQuestItem(quest);
-            setItem(slot++, questItem);
+            setItem(slot, questItem);
             count++;
 
-            // 다음 줄로 이동 (7개마다)
-            if (count == 7) {
-                slot = COMPLETED_QUESTS_START + 9; // 다섯 번째 줄로
+            // 다음 위치 계산 (한 줄에 3개씩)
+            col++;
+            if (col >= 8) { // 오른쪽 3개 배치 완료 (5,6,7번 슬롯)
+                col = 5;
+                row++;
             }
         }
     }

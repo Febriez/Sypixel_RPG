@@ -11,10 +11,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
 
 /**
  * NPC 상호작용 퀘스트 목표
@@ -31,9 +28,6 @@ public class InteractNPCObjective extends BaseObjective {
 
     // NPC 식별
     private final @NotNull String npcId; // Trait에 설정된 NPC ID
-    
-    // 상태 관리
-    private final Set<UUID> interactedPlayers = new HashSet<>();
 
     /**
      * NPC ID 기반 생성자
@@ -69,11 +63,7 @@ public class InteractNPCObjective extends BaseObjective {
             return false;
         }
 
-        // 이미 상호작용한 경우 재상호작용 방지
-        UUID playerId = player.getUniqueId();
-        if (interactedPlayers.contains(playerId)) {
-            return false;
-        }
+        // 이미 상호작용한 경우 재상호작용 방지 (제거 - QuestProgress가 이미 완료 여부를 추적함)
 
         // Citizens NPC인지 확인
         if (!entity.hasMetadata("NPC")) {
@@ -92,7 +82,9 @@ public class InteractNPCObjective extends BaseObjective {
             return false;
         }
         
-        return npcId.equals(trait.getNpcId());
+        String traitNpcId = trait.getNpcId();
+        
+        return npcId.equals(traitNpcId);
     }
 
     @Override
@@ -123,12 +115,6 @@ public class InteractNPCObjective extends BaseObjective {
         return npcId;
     }
     
-    /**
-     * 플레이어 캐시 초기화 (메모리 관리용)
-     */
-    public void clearPlayerCache(@NotNull UUID playerId) {
-        interactedPlayers.remove(playerId);
-    }
     
     /**
      * 빌더 클래스
