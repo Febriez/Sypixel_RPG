@@ -55,9 +55,9 @@ public class PaladinOathQuest extends Quest {
                 .id(QuestID.CLASS_PALADIN_OATH)
                 .objectives(Arrays.asList(
                         // 성기사의 길 시작
-                        new InteractNPCObjective("paladin_mentor", 140), // 성기사 스승
+                        new InteractNPCObjective("paladin_mentor", 36), // 성기사 스승
                         new ReachLevelObjective("warrior_mastery", 30),
-                        new InteractNPCObjective("oath_preparation", 140),
+                        new InteractNPCObjective("oath_preparation", 36),
                         
                         // 첫 번째 미덕 - 용기
                         new VisitLocationObjective("courage_trial", "trial_of_courage"),
@@ -68,17 +68,17 @@ public class PaladinOathQuest extends Quest {
                         
                         // 두 번째 미덕 - 정의
                         new VisitLocationObjective("justice_court", "hall_of_justice"),
-                        new InteractNPCObjective("judge_npc", 141), // 정의의 심판관
+                        new InteractNPCObjective("judge_npc", 37), // 정의의 심판관
                         new KillMobObjective("punish_evil", EntityType.PILLAGER, 30),
                         new KillMobObjective("destroy_undead", EntityType.ZOMBIE, 100),
-                        new DeliverItemObjective("return_stolen", "victim_npc", Material.EMERALD, 20),
+                        new DeliverItemObjective("return_stolen", "피해자", Material.EMERALD, 20),
                         new CollectItemObjective("justice_scale", Material.GOLD_INGOT, 20),
                         
                         // 세 번째 미덕 - 자비
                         new VisitLocationObjective("mercy_temple", "temple_of_mercy"),
                         new CollectItemObjective("healing_herbs", Material.GLISTERING_MELON_SLICE, 10),
                         new CraftItemObjective("brew_potions", Material.POTION, 20),
-                        new DeliverItemObjective("heal_wounded", "wounded_soldier", Material.POTION, 10),
+                        new DeliverItemObjective("heal_wounded", "부상병", Material.POTION, 10),
                         new PayCurrencyObjective("charity", CurrencyType.GOLD, 5000),
                         new CollectItemObjective("mercy_tears", Material.GHAST_TEAR, 5),
                         
@@ -91,24 +91,24 @@ public class PaladinOathQuest extends Quest {
                         new CollectItemObjective("sacrifice_token", Material.TOTEM_OF_UNDYING, 1),
                         
                         // 신성한 무기 제작
-                        new InteractNPCObjective("holy_weaponsmith", 142), // 신성 대장장이
+                        new InteractNPCObjective("holy_weaponsmith", 38), // 신성 대장장이
                         new CollectItemObjective("blessed_metal", Material.GOLD_BLOCK, 5),
                         new CollectItemObjective("holy_water", Material.POTION, 3),
                         new CraftItemObjective("forge_sword", Material.GOLDEN_SWORD, 1),
-                        new DeliverItemObjective("bless_weapon", "paladin_mentor", Material.GOLDEN_SWORD, 1),
+                        new DeliverItemObjective("bless_weapon", "성기사 스승", Material.GOLDEN_SWORD, 1),
                         
                         // 최종 서약 의식
                         new VisitLocationObjective("oath_cathedral", "sacred_cathedral"),
                         new PlaceBlockObjective("light_candles", Material.CANDLE, 7),
-                        new InteractNPCObjective("begin_ceremony", 140),
+                        new InteractNPCObjective("begin_ceremony", 36),
                         new KillMobObjective("final_trial", EntityType.WITHER, 1),
                         new SurviveObjective("divine_light", 900), // 15분간 신성한 빛
                         
                         // 성기사 승급
                         new CollectItemObjective("paladin_seal", Material.NETHER_STAR, 1),
-                        new InteractNPCObjective("complete_oath", 140)
+                        new InteractNPCObjective("complete_oath", 36)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 10000)
                         .addCurrency(CurrencyType.DIAMOND, 75)
                         .addItem(new ItemStack(Material.GOLDEN_HELMET)) // 성기사 투구
@@ -120,9 +120,10 @@ public class PaladinOathQuest extends Quest {
                         .build())
                 .sequential(true)
                 .repeatable(false)
-                .category(QuestCategory.NORMAL)
+                .category(QuestCategory.ADVANCEMENT)
                 .minLevel(30)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

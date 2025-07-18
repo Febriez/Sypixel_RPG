@@ -97,7 +97,8 @@ public class ArenaGladiatorQuest extends Quest {
                 .repeatable(true)  // 반복 가능
                 .category(QuestCategory.COMBAT)
                 .minLevel(25)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

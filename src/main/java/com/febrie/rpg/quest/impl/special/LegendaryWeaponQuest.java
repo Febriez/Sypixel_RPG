@@ -112,7 +112,7 @@ public class LegendaryWeaponQuest extends Quest {
                         new CollectItemObjective("legendary_weapon", Material.NETHERITE_SWORD, 1),
                         new InteractNPCObjective("completion_ceremony", 130)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 50000)
                         .addCurrency(CurrencyType.DIAMOND, 500)
                         .addItem(new ItemStack(Material.NETHERITE_SWORD)) // 전설의 무기
@@ -123,9 +123,10 @@ public class LegendaryWeaponQuest extends Quest {
                         .build())
                 .sequential(true)
                 .repeatable(false)
-                .category(QuestCategory.NORMAL)
+                .category(QuestCategory.SPECIAL)
                 .minLevel(50)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

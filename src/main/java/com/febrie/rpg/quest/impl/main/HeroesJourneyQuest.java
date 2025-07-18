@@ -69,7 +69,7 @@ public class HeroesJourneyQuest extends Quest {
                         new CraftItemObjective("craft_iron_sword", Material.IRON_SWORD, 1),
                         new CraftItemObjective("craft_iron_armor", Material.IRON_CHESTPLATE, 1)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 500)
                         .addCurrency(CurrencyType.DIAMOND, 5)
                         .addItem(new ItemStack(Material.DIAMOND))

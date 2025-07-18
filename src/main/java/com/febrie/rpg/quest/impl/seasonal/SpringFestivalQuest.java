@@ -67,7 +67,7 @@ public class SpringFestivalQuest extends Quest {
                         .build())
                 .minLevel(10)
                 .maxLevel(100)
-                .build();
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

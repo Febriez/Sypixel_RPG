@@ -70,7 +70,7 @@ public class LostTreasureQuest extends Quest {
         return new LostTreasureBuilder()
                 .id(QuestID.SIDE_LOST_TREASURE)
                 .objectives(objectives)
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 500)
                         .addCurrency(CurrencyType.DIAMOND, 5)
                         .addItem(new ItemStack(Material.GOLDEN_APPLE, 2))
@@ -79,7 +79,8 @@ public class LostTreasureQuest extends Quest {
                         .build())
                 .sequential(true) // 순차적으로 진행
                 .category(QuestCategory.SIDE)
-                .minLevel(10);
+                .minLevel(10)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

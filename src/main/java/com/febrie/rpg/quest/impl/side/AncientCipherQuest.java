@@ -117,7 +117,7 @@ public class AncientCipherQuest extends Quest {
                         new DeliverItemObjective("deliver_artifact", "archaeologist", Material.HEART_OF_THE_SEA, 1),
                         new InteractNPCObjective("quest_complete", 190)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 8000)
                         .addCurrency(CurrencyType.DIAMOND, 50)
                         .addItem(new ItemStack(Material.ENCHANTED_BOOK, 5))
@@ -131,7 +131,8 @@ public class AncientCipherQuest extends Quest {
                 .repeatable(false)
                 .category(QuestCategory.SIDE)
                 .minLevel(25)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

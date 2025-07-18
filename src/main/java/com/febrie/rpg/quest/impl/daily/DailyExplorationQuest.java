@@ -107,7 +107,7 @@ public class DailyExplorationQuest extends Quest {
                         new DeliverItemObjective("deliver_report", "explorer_guild", Material.WRITTEN_BOOK, 1),
                         new InteractNPCObjective("exploration_complete", 200)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 3000)
                         .addCurrency(CurrencyType.DIAMOND, 20)
                         .addItem(new ItemStack(Material.COMPASS))
@@ -122,7 +122,8 @@ public class DailyExplorationQuest extends Quest {
                 .daily(true)       // 일일 퀘스트
                 .category(QuestCategory.DAILY)
                 .minLevel(15)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

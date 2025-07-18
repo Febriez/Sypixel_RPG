@@ -105,7 +105,7 @@ public class DailyDeliveryQuest extends Quest {
                         // 배달 완료 보고
                         new InteractNPCObjective("report_complete", 240)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 800)
                         .addCurrency(CurrencyType.DIAMOND, 10)
                         .addItem(new ItemStack(Material.LEATHER_BOOTS)) // 배달부 부츠 (속도 향상)
@@ -120,7 +120,8 @@ public class DailyDeliveryQuest extends Quest {
                 .repeatable(true)
                 .category(QuestCategory.DAILY)
                 .minLevel(12)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

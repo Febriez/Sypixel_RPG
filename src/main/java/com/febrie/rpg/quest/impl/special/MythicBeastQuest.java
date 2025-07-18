@@ -139,7 +139,8 @@ public class MythicBeastQuest extends Quest {
                 .repeatable(false)
                 .category(QuestCategory.SPECIAL)
                 .minLevel(55)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

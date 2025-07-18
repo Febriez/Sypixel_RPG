@@ -91,9 +91,9 @@ public class ElementalStonesQuest extends Quest {
                         
                         // 최종 - 원소의 융합
                         new CraftItemObjective("elemental_core", Material.BEACON, 1),
-                        new DeliverItemObjective("return_sage", 103, Material.BEACON, 1)
+                        new DeliverItemObjective("return_sage", "현자 아카테", Material.BEACON, 1)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 5000)
                         .addCurrency(CurrencyType.DIAMOND, 50)
                         .addItem(new ItemStack(Material.BEACON))

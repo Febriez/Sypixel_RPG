@@ -77,9 +77,9 @@ public class FirstTrialQuest extends Quest {
                         new CollectItemObjective("trial_medal", Material.GOLD_INGOT, 1),
                         
                         // 완료
-                        new DeliverItemObjective("return_medal", 102, Material.GOLD_INGOT, 1)
+                        new DeliverItemObjective("return_medal", "현자 도란", Material.GOLD_INGOT, 1)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 3000)
                         .addCurrency(CurrencyType.DIAMOND, 30)
                         .addItem(new ItemStack(Material.DIAMOND_CHESTPLATE))

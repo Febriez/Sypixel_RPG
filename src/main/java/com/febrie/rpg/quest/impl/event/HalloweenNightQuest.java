@@ -11,7 +11,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,6 +24,37 @@ import java.util.List;
  * @author Febrie
  */
 public class HalloweenNightQuest extends Quest {
+    
+    /**
+     * 할로윈 퀘스트 NPC
+     */
+    public enum NPC implements QuestNPC {
+        PUMPKIN_KING(180, "호박 왕", "Pumpkin King"),
+        WITCH(181, "마녀", "Witch"),
+        PARTY_HOST(182, "파티 주최자", "Party Host"),
+        GHOST(183, "유령", "Ghost"),
+        PLAYER(-1, "플레이어", "Player");
+        
+        private final int id;
+        private final String nameKo;
+        private final String nameEn;
+        
+        NPC(int id, String nameKo, String nameEn) {
+            this.id = id;
+            this.nameKo = nameKo;
+            this.nameEn = nameEn;
+        }
+        
+        @Override
+        public int getId() {
+            return id;
+        }
+        
+        @Override
+        public String getDisplayName(boolean isKorean) {
+            return isKorean ? nameKo : nameEn;
+        }
+    }
 
     /**
      * 퀘스트 빌더
@@ -115,7 +148,7 @@ public class HalloweenNightQuest extends Quest {
                         new CollectItemObjective("halloween_mask", Material.CARVED_PUMPKIN, 1),
                         new InteractNPCObjective("event_complete", 180)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 13000)
                         .addCurrency(CurrencyType.DIAMOND, 66)
                         .addItem(new ItemStack(Material.CARVED_PUMPKIN)) // 특별 할로윈 마스크
@@ -130,7 +163,8 @@ public class HalloweenNightQuest extends Quest {
                 .repeatable(true)  // 매년 반복 가능
                 .category(QuestCategory.EVENT)
                 .minLevel(15)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override
@@ -283,6 +317,7 @@ public class HalloweenNightQuest extends Quest {
 
     @Override
     public QuestDialog getDialog() {
+        // 기존 getDialog() 메소드는 하위 호환성을 위해 유지
         QuestDialog dialog = new QuestDialog("halloween_night_dialog");
 
         // 시작
@@ -340,5 +375,92 @@ public class HalloweenNightQuest extends Quest {
                 "See you again next Halloween! Muahahaha!");
 
         return dialog;
+    }
+    
+    @Override
+    @Nullable
+    public List<QuestDialog.DialogLine> getDialogSequence() {
+        List<QuestDialog.DialogLine> sequence = new ArrayList<>();
+        
+        // 호박 왕 대화
+        sequence.add(new QuestDialog.DialogLine(NPC.PUMPKIN_KING.getDisplayName(true), 
+                "후하하하! 또 다시 할로윈의 밤이 찾아왔다! 필멸자여, 나의 도전을 받아들이겠나?",
+                "Muahahaha! Halloween night has come again! Mortal, will you accept my challenge?", null));
+        
+        sequence.add(new QuestDialog.DialogLine(NPC.PUMPKIN_KING.getDisplayName(true),
+                "이 마을은 저주받았다. 오직 용감한 자만이 저주를 풀 수 있지!",
+                "This village is cursed. Only the brave can break the curse!", null));
+        
+        sequence.add(new QuestDialog.DialogLine(NPC.PLAYER.getDisplayName(true),
+                "무엇을 해야 하나요?",
+                "What must I do?", null));
+        
+        sequence.add(new QuestDialog.DialogLine(NPC.PUMPKIN_KING.getDisplayName(true),
+                "먼저 호박을 수확하고 잭오랜턴으로 마을을 밝혀라. 그것이 시작이다.",
+                "First harvest pumpkins and light the village with Jack o'Lanterns. That's the beginning.", null));
+        
+        // 마녀 대화
+        sequence.add(new QuestDialog.DialogLine(NPC.WITCH.getDisplayName(true),
+                "히히히... 또 다른 방문객이군. 내 시험을 통과할 수 있겠나?",
+                "Hehehe... another visitor. Can you pass my test?", null));
+        
+        sequence.add(new QuestDialog.DialogLine(NPC.WITCH.getDisplayName(true),
+                "내 고양이들을 건드리지 마라! 아니면... 저주받을 것이다!",
+                "Don't touch my cats! Or else... you'll be cursed!", null));
+        
+        // 유령 대화
+        sequence.add(new QuestDialog.DialogLine(NPC.GHOST.getDisplayName(true),
+                "우우우... 살아있는 자여... 왜 우리의 영역에 왔는가...",
+                "Ooooh... living one... why have you come to our realm...", null));
+        
+        // 호박 왕 최종 대결
+        sequence.add(new QuestDialog.DialogLine(NPC.PUMPKIN_KING.getDisplayName(true),
+                "인상적이군! 하지만 이제 진짜 시험이 시작된다!",
+                "Impressive! But now the real test begins!", null));
+        
+        sequence.add(new QuestDialog.DialogLine(NPC.PUMPKIN_KING.getDisplayName(true),
+                "나와 내 부하들을 물리칠 수 있다면, 이 마을의 저주가 풀릴 것이다!",
+                "If you can defeat me and my minions, this village's curse will be lifted!", null));
+        
+        // 파티 주최자 대화
+        sequence.add(new QuestDialog.DialogLine(NPC.PARTY_HOST.getDisplayName(true),
+                "해냈어요! 마을이 구원받았습니다! 이제 축하 파티를 열 시간이에요!",
+                "You did it! The village is saved! Now it's time for a celebration party!", null));
+        
+        // 호박 왕 완료 대화
+        sequence.add(new QuestDialog.DialogLine(NPC.PUMPKIN_KING.getDisplayName(true),
+                "놀랍군... 정말로 해냈구나. 이 할로윈 마스크를 받아라. 용기의 증표다.",
+                "Amazing... you really did it. Take this Halloween mask. It's a token of courage.", null));
+        
+        sequence.add(new QuestDialog.DialogLine(NPC.PUMPKIN_KING.getDisplayName(true),
+                "내년 할로윈에 다시 만나자! 후하하하!",
+                "See you again next Halloween! Muahahaha!", null));
+        
+        return sequence;
+    }
+    
+    @Override
+    @Nullable
+    public List<QuestDialog.DialogLine> getNPCDialogs(int npcId) {
+        List<QuestDialog.DialogLine> dialogs = new ArrayList<>();
+        List<QuestDialog.DialogLine> allDialogs = getDialogSequence();
+        
+        if (allDialogs == null) return null;
+        
+        // 특정 NPC ID에 해당하는 대화만 필터링
+        for (NPC npc : NPC.values()) {
+            if (npc.getId() == npcId) {
+                String npcName = npc.getDisplayName(true);
+                for (QuestDialog.DialogLine line : allDialogs) {
+                    if (line.getSpeaker().equals(npcName) || 
+                        line.getSpeaker().equals(npc.getDisplayName(false))) {
+                        dialogs.add(line);
+                    }
+                }
+                break;
+            }
+        }
+        
+        return dialogs.isEmpty() ? null : dialogs;
     }
 }

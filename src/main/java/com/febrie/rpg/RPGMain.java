@@ -213,6 +213,14 @@ public final class RPGMain extends JavaPlugin {
         // 퀘스트 이벤트 리스너 등록
         getServer().getPluginManager().registerEvents(new QuestEventListener(this), this);
         LogUtil.info("퀘스트 이벤트 리스너 등록 완료");
+        
+        // 퀘스트 Trait 등록 아이템 리스너 등록
+        getServer().getPluginManager().registerEvents(new com.febrie.rpg.quest.trait.QuestTraitRegistrationItem(), this);
+        LogUtil.info("퀘스트 Trait 등록 아이템 리스너 등록 완료");
+        
+        // 메뉴 단축키 리스너 등록 (SHIFT + F)
+        getServer().getPluginManager().registerEvents(new com.febrie.rpg.listener.MenuShortcutListener(this, guiManager, langManager), this);
+        LogUtil.info("메뉴 단축키 리스너 등록 완료 (SHIFT + F)");
     }
 
     /**

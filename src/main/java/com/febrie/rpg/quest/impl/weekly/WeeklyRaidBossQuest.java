@@ -86,7 +86,7 @@ public class WeeklyRaidBossQuest extends Quest {
                         new CollectItemObjective("legendary_loot", Material.NETHER_STAR, 1),
                         new DeliverItemObjective("raid_complete", "raid_commander", Material.NETHER_STAR, 1)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 15000)
                         .addCurrency(CurrencyType.DIAMOND, 100)
                         .addItem(new ItemStack(Material.NETHERITE_INGOT, 3))
@@ -99,7 +99,8 @@ public class WeeklyRaidBossQuest extends Quest {
                 .weekly(true)      // 주간 퀘스트
                 .category(QuestCategory.WEEKLY)
                 .minLevel(40)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

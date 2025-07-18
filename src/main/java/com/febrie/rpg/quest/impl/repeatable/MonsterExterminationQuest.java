@@ -2,7 +2,6 @@ package com.febrie.rpg.quest.impl.repeatable;
 
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
-import com.febrie.rpg.quest.QuestNPC;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -53,7 +52,7 @@ public class MonsterExterminationQuest extends Quest {
         return new MonsterExterminationBuilder()
                 .id(QuestID.REPEAT_MONSTER_EXTERMINATION)
                 .objectives(Arrays.asList(
-                        new InteractNPCObjective("guard_captain", QuestNPC.GUARD_CAPTAIN),
+                        new InteractNPCObjective("guard_captain", 4),
                         new KillMobObjective("kill_zombies", EntityType.ZOMBIE, 30),
                         new KillMobObjective("kill_skeletons", EntityType.SKELETON, 25),
                         new KillMobObjective("kill_spiders", EntityType.SPIDER, 20),
@@ -61,7 +60,7 @@ public class MonsterExterminationQuest extends Quest {
                         new CollectItemObjective("collect_proof", Material.ROTTEN_FLESH, 20),
                         new DeliverItemObjective("deliver_proof", "guard_captain", Material.ROTTEN_FLESH, 20)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 1500)
                         .addCurrency(CurrencyType.EXP, 300)
                         .addExperience(200)
@@ -70,7 +69,8 @@ public class MonsterExterminationQuest extends Quest {
                 .repeatable(true)
                 .category(QuestCategory.REPEATABLE)
                 .minLevel(10)
-                .maxLevel(100);
+                .maxLevel(100)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

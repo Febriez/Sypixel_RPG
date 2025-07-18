@@ -67,7 +67,7 @@ public class PathOfLightQuest extends Quest {
                         // 3. 마을 사람들 도와주기 (빵 전달)
                         new DeliverItemObjective("help_villagers", "굶주린 주민", Material.BREAD, 30)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 1000)
                         .addCurrency(CurrencyType.DIAMOND, 20)
                         .addItem(new ItemStack(Material.ELYTRA))  // 엘리트라 (천사의 날개)

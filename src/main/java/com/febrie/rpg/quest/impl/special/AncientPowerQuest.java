@@ -127,7 +127,7 @@ public class AncientPowerQuest extends Quest {
                         // 완료
                         new InteractNPCObjective("power_granted", 220)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 100000)
                         .addCurrency(CurrencyType.DIAMOND, 1000)
                         .addItem(new ItemStack(Material.NETHER_STAR, 10)) // 고대의 힘 핵심
@@ -139,9 +139,10 @@ public class AncientPowerQuest extends Quest {
                         .build())
                 .sequential(true)
                 .repeatable(false)
-                .category(QuestCategory.NORMAL)
+                .category(QuestCategory.SPECIAL)
                 .minLevel(60)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

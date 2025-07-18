@@ -1,6 +1,5 @@
 package com.febrie.rpg.quest.objective.impl;
 
-import com.febrie.rpg.quest.QuestNPC;
 import com.febrie.rpg.quest.objective.BaseObjective;
 import com.febrie.rpg.quest.objective.ObjectiveType;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
@@ -26,8 +25,6 @@ import java.util.UUID;
  * // Citizens NPC ID로 지정 (권장)
  * new InteractNPCObjective("talk_merchant", 42) // NPC ID가 42인 경우
  * 
- * // QuestNPC enum 사용 (가장 권장)
- * new InteractNPCObjective("talk_merchant", QuestNPC.MERCHANT)
  * 
  * // 빌더 패턴 사용
  * InteractNPCObjective.builder()
@@ -41,11 +38,6 @@ import java.util.UUID;
  *     .npcId(42)
  *     .build()
  * 
- * // 빌더 패턴으로 QuestNPC 사용
- * InteractNPCObjective.builder()
- *     .id("talk_merchant")
- *     .questNpc(QuestNPC.MERCHANT)
- *     .build()
  *
  * @author Febrie
  */
@@ -53,7 +45,6 @@ public class InteractNPCObjective extends BaseObjective {
 
     private final @Nullable UUID npcUuid;
     private final @Nullable Integer npcId; // Citizens NPC ID
-    private final @Nullable QuestNPC questNpc; // QuestNPC enum reference
 
     /**
      * UUID 기반 생성자 (가장 안전)
@@ -65,7 +56,6 @@ public class InteractNPCObjective extends BaseObjective {
         super(id, 1);
         this.npcUuid = Objects.requireNonNull(npcUuid);
         this.npcId = null;
-        this.questNpc = null;
     }
     
     /**
@@ -78,21 +68,8 @@ public class InteractNPCObjective extends BaseObjective {
         super(id, 1);
         this.npcUuid = null;
         this.npcId = npcId;
-        this.questNpc = QuestNPC.getByNpcId(npcId);
     }
     
-    /**
-     * QuestNPC enum 기반 생성자 (가장 권장)
-     *
-     * @param id       목표 ID
-     * @param questNpc QuestNPC enum
-     */
-    public InteractNPCObjective(@NotNull String id, @NotNull QuestNPC questNpc) {
-        super(id, 1);
-        this.questNpc = Objects.requireNonNull(questNpc);
-        this.npcId = questNpc.getNpcId();
-        this.npcUuid = null;
-    }
 
     @Override
     public @NotNull ObjectiveType getType() {
@@ -102,10 +79,7 @@ public class InteractNPCObjective extends BaseObjective {
     @Override
     public @NotNull String getStatusInfo(@NotNull ObjectiveProgress progress) {
         String status;
-        if (questNpc != null) {
-            // Default to English name, can be overridden by quest implementations
-            status = questNpc.getEnglishName() + " (ID: " + questNpc.getNpcId() + ")";
-        } else if (npcUuid != null) {
+        if (npcUuid != null) {
             status = "NPC (UUID: " + npcUuid.toString().substring(0, 8) + "...)";
         } else if (npcId != null) {
             status = "NPC (ID: " + npcId + ")";
@@ -159,9 +133,7 @@ public class InteractNPCObjective extends BaseObjective {
 
     @Override
     protected @NotNull String serializeData() {
-        if (questNpc != null) {
-            return "enum:" + questNpc.name();
-        } else if (npcUuid != null) {
+        if (npcUuid != null) {
             return "uuid:" + npcUuid.toString();
         } else if (npcId != null) {
             return "id:" + npcId;
@@ -173,15 +145,7 @@ public class InteractNPCObjective extends BaseObjective {
      * 직렬화된 데이터에서 객체 생성 (역직렬화)
      */
     public static InteractNPCObjective deserialize(@NotNull String id, @NotNull String data) {
-        if (data.startsWith("enum:")) {
-            String enumName = data.substring(5);
-            try {
-                QuestNPC questNpc = QuestNPC.valueOf(enumName);
-                return new InteractNPCObjective(id, questNpc);
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("Invalid QuestNPC enum: " + enumName);
-            }
-        } else if (data.startsWith("uuid:")) {
+        if (data.startsWith("uuid:")) {
             String uuidStr = data.substring(5);
             try {
                 UUID uuid = UUID.fromString(uuidStr);
@@ -216,12 +180,6 @@ public class InteractNPCObjective extends BaseObjective {
         return npcId;
     }
     
-    /**
-     * QuestNPC enum 반환
-     */
-    public @Nullable QuestNPC getQuestNpc() {
-        return questNpc;
-    }
     
     /**
      * 빌더 클래스
@@ -230,7 +188,6 @@ public class InteractNPCObjective extends BaseObjective {
         private String id;
         private UUID npcUuid;
         private Integer npcId;
-        private QuestNPC questNpc;
         
         public Builder id(@NotNull String id) {
             this.id = id;
@@ -246,25 +203,16 @@ public class InteractNPCObjective extends BaseObjective {
         public Builder npcId(int id) {
             this.npcId = id;
             this.npcUuid = null;
-            this.questNpc = null;
             return this;
         }
         
-        public Builder questNpc(@NotNull QuestNPC npc) {
-            this.questNpc = npc;
-            this.npcId = npc.getNpcId();
-            this.npcUuid = null;
-            return this;
-        }
         
         public InteractNPCObjective build() {
             if (id == null) {
                 throw new IllegalStateException("ID is required");
             }
             
-            if (questNpc != null) {
-                return new InteractNPCObjective(id, questNpc);
-            } else if (npcUuid != null) {
+            if (npcUuid != null) {
                 return new InteractNPCObjective(id, npcUuid);
             } else if (npcId != null) {
                 return new InteractNPCObjective(id, npcId);
@@ -280,8 +228,8 @@ public class InteractNPCObjective extends BaseObjective {
     
     @Override
     public @Nullable String validate() {
-        if (npcUuid == null && npcId == null && questNpc == null) {
-            return "InteractNPCObjective '" + id + "': NPC UUID, ID, 또는 QuestNPC가 설정되지 않았습니다.";
+        if (npcUuid == null && npcId == null) {
+            return "InteractNPCObjective '" + id + "': NPC UUID 또는 ID가 설정되지 않았습니다.";
         }
         
         // Citizens NPC ID 유효성 검증

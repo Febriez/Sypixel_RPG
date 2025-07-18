@@ -200,6 +200,7 @@ public class BasicReward implements QuestReward {
             case EMERALD -> isKorean ? "에메랄드" : "Emerald";
             case GHAST_TEAR -> isKorean ? "별가루" : "Stardust";
             case NETHER_STAR -> isKorean ? "별" : "Star";
+            case EXP -> isKorean ? "경험치" : "Experience";
         };
     }
 

@@ -93,7 +93,7 @@ public class DailyBountyHunterQuest extends Quest {
                         new DeliverItemObjective("deliver_head", "bounty_officer", Material.PLAYER_HEAD, 1),
                         new InteractNPCObjective("claim_bounty", 150)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 2500)
                         .addCurrency(CurrencyType.DIAMOND, 15)
                         .addItem(new ItemStack(Material.CROSSBOW))
@@ -107,7 +107,8 @@ public class DailyBountyHunterQuest extends Quest {
                 .daily(true)       // 일일 퀘스트
                 .category(QuestCategory.DAILY)
                 .minLevel(20)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

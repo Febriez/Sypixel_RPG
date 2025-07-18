@@ -66,7 +66,7 @@ public class ChosenOneQuest extends Quest {
                         new CollectItemObjective("wisdom_proof", Material.EMERALD, 1),
                         
                         // 세 번째 시련: 희생
-                        new PayCurrencyObjective("sacrifice_gold", 1000),
+                        new PayCurrencyObjective("sacrifice_gold", CurrencyType.GOLD, 1000),
                         new CollectItemObjective("sacrifice_proof", Material.DIAMOND, 1),
                         
                         // 최종 시련
@@ -74,9 +74,9 @@ public class ChosenOneQuest extends Quest {
                         new CollectItemObjective("chosen_emblem", Material.NETHER_STAR, 1),
                         
                         // 완료
-                        new DeliverItemObjective("return_elder", 101, Material.NETHER_STAR, 1)
+                        new DeliverItemObjective("return_elder", "고대의 장로", Material.NETHER_STAR, 1)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 2000)
                         .addCurrency(CurrencyType.DIAMOND, 20)
                         .addItem(new ItemStack(Material.NETHERITE_SWORD))

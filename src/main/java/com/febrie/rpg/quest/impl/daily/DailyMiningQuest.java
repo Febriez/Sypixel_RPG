@@ -56,7 +56,7 @@ public class DailyMiningQuest extends Quest {
                         new BreakBlockObjective("mine_coal", Material.COAL_ORE, 20),
                         new BreakBlockObjective("mine_iron", Material.IRON_ORE, 10)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 150)
                         .addItem(new ItemStack(Material.IRON_PICKAXE))
                         .addItem(new ItemStack(Material.TORCH, 32))
@@ -65,7 +65,8 @@ public class DailyMiningQuest extends Quest {
                 .sequential(false)
                 .daily(true)  // 일일 퀘스트 설정
                 .category(QuestCategory.DAILY)
-                .minLevel(1);
+                .minLevel(1)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

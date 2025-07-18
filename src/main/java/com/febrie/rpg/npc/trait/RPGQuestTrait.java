@@ -6,6 +6,9 @@ import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitName;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * RPG 퀘스트 NPC를 위한 커스텀 Trait
  * Citizens의 Trait 시스템을 사용해 NPC 데이터를 영구 저장
@@ -15,8 +18,8 @@ import org.bukkit.entity.Player;
 @TraitName("rpgquest")
 public class RPGQuestTrait extends Trait {
 
-    @Persist("questId")
-    private String questId;
+    @Persist("questIds")
+    private List<String> questIds = new ArrayList<>();
 
     @Persist("npcType")
     private String npcType = "QUEST";
@@ -26,25 +29,42 @@ public class RPGQuestTrait extends Trait {
     }
 
     /**
-     * 퀘스트 ID 설정
+     * 퀘스트 ID 추가
      */
-    public void setQuestId(QuestID questId) {
-        this.questId = questId.name();
+    public void addQuest(QuestID questId) {
+        String questIdStr = questId.name();
+        if (!questIds.contains(questIdStr)) {
+            questIds.add(questIdStr);
+        }
+    }
+    
+    /**
+     * 퀘스트 ID 제거
+     */
+    public void removeQuest(QuestID questId) {
+        questIds.remove(questId.name());
     }
 
     /**
-     * 퀘스트 ID 조회
+     * 모든 퀘스트 ID 조회
      */
-    public QuestID getQuestId() {
-        if (questId == null || questId.isEmpty()) {
-            return null;
+    public List<QuestID> getQuestIds() {
+        List<QuestID> result = new ArrayList<>();
+        for (String id : questIds) {
+            try {
+                result.add(QuestID.valueOf(id));
+            } catch (IllegalArgumentException e) {
+                // Invalid quest ID, skip
+            }
         }
-
-        try {
-            return QuestID.valueOf(questId);
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
+        return result;
+    }
+    
+    /**
+     * 특정 퀘스트가 있는지 확인
+     */
+    public boolean hasQuest(QuestID questId) {
+        return questIds.contains(questId.name());
     }
 
     /**

@@ -104,7 +104,7 @@ public class WeeklyWorldBossQuest extends Quest {
                         new DeliverItemObjective("deliver_soul", "world_herald", Material.DRAGON_EGG, 1),
                         new InteractNPCObjective("claim_rewards", 160)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 30000)
                         .addCurrency(CurrencyType.DIAMOND, 200)
                         .addItem(new ItemStack(Material.NETHERITE_CHESTPLATE))
@@ -119,7 +119,8 @@ public class WeeklyWorldBossQuest extends Quest {
                 .weekly(true)      // 주간 퀘스트
                 .category(QuestCategory.WEEKLY)
                 .minLevel(45)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

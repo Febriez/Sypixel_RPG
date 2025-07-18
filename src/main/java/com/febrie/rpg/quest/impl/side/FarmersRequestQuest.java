@@ -71,7 +71,7 @@ public class FarmersRequestQuest extends Quest {
         return new FarmersRequestBuilder()
                 .id(QuestID.SIDE_FARMERS_REQUEST)
                 .objectives(objectives)
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 300)
                         .addCurrency(CurrencyType.EMERALD, 10)
                         .addItem(new ItemStack(Material.GOLDEN_HOE))
@@ -80,7 +80,8 @@ public class FarmersRequestQuest extends Quest {
                         .build())
                 .sequential(true)
                 .category(QuestCategory.SIDE)
-                .minLevel(3);
+                .minLevel(3)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

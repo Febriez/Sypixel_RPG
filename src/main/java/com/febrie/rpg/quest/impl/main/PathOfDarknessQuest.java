@@ -68,7 +68,7 @@ public class PathOfDarknessQuest extends Quest {
                         // 4. 어둠의 아이템 제작
                         new CraftItemObjective("craft_tnt", Material.TNT, 10)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 1500)  // 더 많은 골드
                         .addCurrency(CurrencyType.GHAST_TEAR, 50)  // 특별 재화
                         .addItem(new ItemStack(Material.WITHER_SKELETON_SKULL, 3))  // 위더 소환 재료

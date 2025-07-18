@@ -134,7 +134,7 @@ public class DimensionTravelerQuest extends Quest {
                         new CollectItemObjective("dimensional_core", Material.NETHER_STAR, 6),
                         new InteractNPCObjective("seal_complete", 260)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 150000)
                         .addCurrency(CurrencyType.DIAMOND, 1500)
                         .addItem(new ItemStack(Material.END_PORTAL_FRAME, 12)) // 차원 포탈 프레임
@@ -147,9 +147,10 @@ public class DimensionTravelerQuest extends Quest {
                         .build())
                 .sequential(true)
                 .repeatable(false)
-                .category(QuestCategory.NORMAL)
+                .category(QuestCategory.SPECIAL)
                 .minLevel(65)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

@@ -60,7 +60,7 @@ public class CollectHerbsQuest extends Quest {
         return new CollectHerbsBuilder()
                 .id(QuestID.SIDE_COLLECT_HERBS)
                 .objectives(objectives)
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 250)
                         .addCurrency(CurrencyType.EMERALD, 8)
                         .addItem(new ItemStack(Material.POTION, 5)) // 치유 물약
@@ -69,7 +69,8 @@ public class CollectHerbsQuest extends Quest {
                         .build())
                 .sequential(false) // 순서 상관없이 수집 가능
                 .category(QuestCategory.SIDE)
-                .minLevel(5);
+                .minLevel(5)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

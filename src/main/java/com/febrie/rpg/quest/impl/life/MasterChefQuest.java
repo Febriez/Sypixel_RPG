@@ -55,7 +55,7 @@ public class MasterChefQuest extends Quest {
                 .id(QuestID.LIFE_MASTER_CHEF)
                 .objectives(Arrays.asList(
                         // 시작
-                        new InteractNPCObjective("master_chef", 120), // 요리 마스터
+                        new InteractNPCObjective("master_chef", 32), // 요리 마스터
                         
                         // 기초 재료 수집
                         new HarvestObjective("harvest_wheat", Material.WHEAT, 20),
@@ -74,7 +74,7 @@ public class MasterChefQuest extends Quest {
                         new CollectItemObjective("gather_salmon", Material.SALMON, 10),
                         
                         // 채소와 과일
-                        new HarvestObjective("harvest_vegetables", Material.CARROT, 30),
+                        new HarvestObjective("harvest_vegetables", Material.CARROTS, 30),
                         new CollectItemObjective("gather_carrots", Material.CARROT, 20),
                         new CollectItemObjective("gather_potatoes", Material.POTATO, 20),
                         new CollectItemObjective("gather_beetroot", Material.BEETROOT, 15),
@@ -106,11 +106,11 @@ public class MasterChefQuest extends Quest {
                         new CraftItemObjective("golden_apple", Material.GOLDEN_APPLE, 2),
                         
                         // 완성
-                        new DeliverItemObjective("deliver_feast", "master_chef", Material.CAKE, 1),
-                        new DeliverItemObjective("deliver_golden", "master_chef", Material.GOLDEN_APPLE, 1),
-                        new InteractNPCObjective("graduation", 120)
+                        new DeliverItemObjective("deliver_feast", "요리 마스터", Material.CAKE, 1),
+                        new DeliverItemObjective("deliver_golden", "요리 마스터", Material.GOLDEN_APPLE, 1),
+                        new InteractNPCObjective("graduation", 32)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 3500)
                         .addCurrency(CurrencyType.DIAMOND, 30)
                         .addItem(new ItemStack(Material.GOLDEN_CARROT, 16))
@@ -121,9 +121,10 @@ public class MasterChefQuest extends Quest {
                         .build())
                 .sequential(true)
                 .repeatable(false)
-                .category(QuestCategory.NORMAL)
+                .category(QuestCategory.LIFE)
                 .minLevel(15)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

@@ -55,7 +55,7 @@ public class GuildFortressSiegeQuest extends Quest {
                 .id(QuestID.GUILD_FORTRESS_SIEGE)
                 .objectives(Arrays.asList(
                         // 공성전 준비
-                        new InteractNPCObjective("siege_commander", 170), // 공성 사령관
+                        new InteractNPCObjective("siege_commander", 33), // 공성 사령관
                         new ReachLevelObjective("guild_requirement", 35),
                         new PayCurrencyObjective("siege_registration", CurrencyType.GOLD, 15000),
                         
@@ -106,15 +106,15 @@ public class GuildFortressSiegeQuest extends Quest {
                         
                         // 요새 점령
                         new PlaceBlockObjective("plant_flag", Material.WHITE_BANNER, 1),
-                        new InteractNPCObjective("claim_fortress", 171), // 요새 관리인
+                        new InteractNPCObjective("claim_fortress", 34), // 요새 관리인
                         new PayCurrencyObjective("fortress_tax", CurrencyType.GOLD, 5000),
                         
                         // 승리 보고
                         new DeliverItemObjective("deliver_crown", "siege_commander", Material.GOLDEN_HELMET, 1),
                         new DeliverItemObjective("deliver_artifacts", "guild_master", Material.ENCHANTED_BOOK, 10),
-                        new InteractNPCObjective("victory_report", 170)
+                        new InteractNPCObjective("victory_report", 33)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 50000)
                         .addCurrency(CurrencyType.DIAMOND, 300)
                         .addItem(new ItemStack(Material.BEACON, 3))
@@ -126,8 +126,8 @@ public class GuildFortressSiegeQuest extends Quest {
                         .build())
                 .sequential(true)
                 .repeatable(false)
-                .category(QuestCategory.NORMAL)
-                .prerequisiteQuests(Arrays.asList(QuestID.GUILD_ESTABLISHMENT))
+                .category(QuestCategory.GUILD)
+                .addPrerequisite(QuestID.GUILD_ESTABLISHMENT)
                 .minLevel(35)
                 .maxLevel(0);
     }

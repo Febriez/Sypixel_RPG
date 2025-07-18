@@ -2,7 +2,6 @@ package com.febrie.rpg.quest.impl.branch;
 
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
-import com.febrie.rpg.quest.QuestNPC;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -53,7 +52,7 @@ public class LightPaladinQuest extends Quest {
         return new LightPaladinBuilder()
                 .id(QuestID.BRANCH_LIGHT_PALADIN)
                 .objectives(Arrays.asList(
-                        new InteractNPCObjective("paladin_master", QuestNPC.PALADIN_MASTER),
+                        new InteractNPCObjective("paladin_master", 23),
                         new CollectItemObjective("holy_water", Material.POTION, 10),
                         new KillMobObjective("purge_undead", EntityType.ZOMBIE, 50),
                         new KillMobObjective("purge_skeletons", EntityType.SKELETON, 50),
@@ -65,7 +64,7 @@ public class LightPaladinQuest extends Quest {
                         new CollectItemObjective("light_essence", Material.GLOWSTONE_DUST, 30),
                         new DeliverItemObjective("oath_completion", "paladin_master", Material.GOLDEN_SWORD, 1)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 12000)
                         .addExperience(2500)
                         .build())

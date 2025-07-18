@@ -100,7 +100,7 @@ public class HiddenClassQuest extends Quest {
                         new InteractNPCObjective("final_ceremony", 114),
                         new CollectItemObjective("shadow_mark", Material.PLAYER_HEAD, 1) // 그림자의 표식
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 7500)
                         .addCurrency(CurrencyType.DIAMOND, 50)
                         .addItem(new ItemStack(Material.NETHERITE_SWORD)) // 그림자의 검
@@ -111,9 +111,10 @@ public class HiddenClassQuest extends Quest {
                         .build())
                 .sequential(true)
                 .repeatable(false)
-                .category(QuestCategory.NORMAL)
+                .category(QuestCategory.SPECIAL)
                 .minLevel(35)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

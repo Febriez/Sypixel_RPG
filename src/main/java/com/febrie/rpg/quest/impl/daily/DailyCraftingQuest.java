@@ -74,7 +74,7 @@ public class DailyCraftingQuest extends Quest {
                         new DeliverItemObjective("deliver_armor", "blacksmith", Material.LEATHER_CHESTPLATE, 3),
                         new InteractNPCObjective("report_complete", 230)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 600)
                         .addCurrency(CurrencyType.DIAMOND, 8)
                         .addItem(new ItemStack(Material.CRAFTING_TABLE, 3))
@@ -88,7 +88,8 @@ public class DailyCraftingQuest extends Quest {
                 .repeatable(true)
                 .category(QuestCategory.DAILY)
                 .minLevel(10)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

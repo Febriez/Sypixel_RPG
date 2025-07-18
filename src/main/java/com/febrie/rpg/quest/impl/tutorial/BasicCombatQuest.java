@@ -57,7 +57,7 @@ public class BasicCombatQuest extends Quest {
                         new KillMobObjective("kill_zombies", EntityType.ZOMBIE, 5),
                         new KillMobObjective("kill_skeletons", EntityType.SKELETON, 3)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 200)
                         .addItem(new ItemStack(Material.IRON_SWORD))
                         .addItem(new ItemStack(Material.IRON_CHESTPLATE))

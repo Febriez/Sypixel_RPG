@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import com.febrie.rpg.util.LogUtil;
 
 /**
  * 지역 방문 퀘스트 목표를 비동기로 체크하는 태스크
@@ -30,7 +31,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LocationCheckTask implements Runnable {
     
     private final RPGMain plugin;
-    private final QuestManager questManager;
     
     // 플레이어별 마지막 위치 캐시 (이동 감지용)
     private final Map<UUID, Location> lastLocations = new ConcurrentHashMap<>();
@@ -40,7 +40,6 @@ public class LocationCheckTask implements Runnable {
     
     public LocationCheckTask(@NotNull RPGMain plugin) {
         this.plugin = plugin;
-        this.questManager = plugin.getQuestManager();
     }
     
     @Override
@@ -63,10 +62,11 @@ public class LocationCheckTask implements Runnable {
                     
                     // 지역 방문 목표가 있는 활성 퀘스트가 있는지 확인
                     boolean hasLocationObjective = false;
+                    QuestManager questManager = QuestManager.getInstance();
                     List<QuestProgress> activeQuests = questManager.getActiveQuests(playerId);
                     
                     for (QuestProgress progress : activeQuests) {
-                        Quest quest = questManager.getQuest(progress.getQuestId());
+                        Quest quest = QuestManager.getInstance().getQuest(progress.getQuestId());
                         if (quest == null) continue;
                         
                         for (QuestObjective objective : quest.getObjectives()) {
@@ -120,13 +120,16 @@ public class LocationCheckTask implements Runnable {
             boolean regionChanged = !currentRegions.equals(previousRegions);
             if (regionChanged) {
                 playerRegionsCache.put(playerId, new HashSet<>(currentRegions));
+                if (!currentRegions.isEmpty()) {
+                    LogUtil.info("Player " + data.player.getName() + " is in regions: " + currentRegions);
+                }
             }
             
             // 퀘스트 목표 처리
             for (QuestProgress progress : data.activeQuests) {
                 if (!progress.isActive()) continue;
                 
-                Quest quest = questManager.getQuest(progress.getQuestId());
+                Quest quest = QuestManager.getInstance().getQuest(progress.getQuestId());
                 if (quest == null) continue;
                 
                 // 각 목표 확인
@@ -139,10 +142,17 @@ public class LocationCheckTask implements Runnable {
                     boolean shouldProgress = false;
                     
                     if (visitObj.getLocationType() == VisitLocationObjective.LocationType.WORLDGUARD_REGION) {
-                        // WorldGuard 영역 체크
+                        // WorldGuard 영역 체크 (대소문자 구분 없이)
                         String targetRegion = visitObj.getRegionName();
-                        if (currentRegions.contains(targetRegion) && !previousRegions.contains(targetRegion)) {
+                        boolean inTargetRegion = currentRegions.stream()
+                            .anyMatch(region -> region.equalsIgnoreCase(targetRegion));
+                        boolean wasInTargetRegion = previousRegions.stream()
+                            .anyMatch(region -> region.equalsIgnoreCase(targetRegion));
+                        
+                        if (inTargetRegion && !wasInTargetRegion) {
                             shouldProgress = true;
+                            LogUtil.info("Player " + data.player.getName() + " entered region " + targetRegion + 
+                                " for quest " + quest.getId().name());
                         }
                     } else {
                         // 좌표 기반 체크
@@ -169,7 +179,7 @@ public class LocationCheckTask implements Runnable {
                                 data.lastLocation != null ? data.lastLocation : data.currentLocation,
                                 data.currentLocation
                             );
-                            questManager.progressObjective(fakeEvent, data.player);
+                            QuestManager.getInstance().progressObjective(fakeEvent, data.player);
                         });
                     }
                 }

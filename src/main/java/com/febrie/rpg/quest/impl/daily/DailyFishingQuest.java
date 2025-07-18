@@ -59,7 +59,7 @@ public class DailyFishingQuest extends Quest {
         return new DailyFishingBuilder()
                 .id(QuestID.DAILY_FISHING)
                 .objectives(objectives)
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 200)
                         .addCurrency(CurrencyType.EMERALD, 5)
                         .addItem(new ItemStack(Material.FISHING_ROD)) // 낚싯대
@@ -69,7 +69,8 @@ public class DailyFishingQuest extends Quest {
                 .sequential(false) // 순서 상관없이 진행 가능
                 .category(QuestCategory.DAILY)
                 .minLevel(3)
-                .repeatable(true); // 24시간 쿨다운은 별도 관리
+                .repeatable(true) // 24시간 쿨다운은 별도 관리
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

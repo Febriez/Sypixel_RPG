@@ -89,7 +89,8 @@ public class DailyGatheringQuest extends Quest {
                 .daily(true)       // 일일 퀘스트
                 .category(QuestCategory.DAILY)
                 .minLevel(5)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

@@ -97,7 +97,7 @@ public class GuildEstablishmentQuest extends Quest {
                         // 길드 승인
                         new InteractNPCObjective("final_approval", 116)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 20000)
                         .addCurrency(CurrencyType.DIAMOND, 100)
                         .addItem(new ItemStack(Material.BEACON)) // 길드 신호기
@@ -108,9 +108,10 @@ public class GuildEstablishmentQuest extends Quest {
                         .build())
                 .sequential(true)
                 .repeatable(false)
-                .category(QuestCategory.NORMAL)
+                .category(QuestCategory.GUILD)
                 .minLevel(25)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

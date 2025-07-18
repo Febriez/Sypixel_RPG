@@ -57,7 +57,7 @@ public class DailyHuntingQuest extends Quest {
                         new KillMobObjective("kill_skeletons", EntityType.SKELETON, 15),
                         new KillMobObjective("kill_creepers", EntityType.CREEPER, 10)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 200)
                         .addItem(new ItemStack(Material.ARROW, 64))
                         .addItem(new ItemStack(Material.COOKED_BEEF, 32))
@@ -66,7 +66,8 @@ public class DailyHuntingQuest extends Quest {
                 .sequential(false)
                 .daily(true)  // daily 설정하면 자동으로 repeatable도 true가 됨
                 .category(QuestCategory.DAILY)
-                .minLevel(5);
+                .minLevel(5)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

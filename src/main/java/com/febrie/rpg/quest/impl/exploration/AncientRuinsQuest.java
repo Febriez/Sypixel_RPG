@@ -55,7 +55,7 @@ public class AncientRuinsQuest extends Quest {
                 .id(QuestID.SIDE_ANCIENT_RUINS)
                 .objectives(Arrays.asList(
                         // 시작
-                        new InteractNPCObjective("archaeologist_talk", 106), // 고고학자 헨리
+                        new InteractNPCObjective("archaeologist_talk", 30), // 고고학자 헨리
                         new CollectItemObjective("gather_tools", Material.IRON_PICKAXE, 1),
                         new CollectItemObjective("gather_torches", Material.TORCH, 64),
                         
@@ -83,9 +83,9 @@ public class AncientRuinsQuest extends Quest {
                         
                         // 탈출
                         new SurviveObjective("escape_ruins", 180), // 3분
-                        new DeliverItemObjective("return_artifact", 106, Material.TOTEM_OF_UNDYING, 1)
+                        new DeliverItemObjective("return_artifact", "고고학자 헨리", Material.TOTEM_OF_UNDYING, 1)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 3000)
                         .addCurrency(CurrencyType.DIAMOND, 25)
                         .addItem(new ItemStack(Material.BRUSH))
@@ -95,9 +95,10 @@ public class AncientRuinsQuest extends Quest {
                         .build())
                 .sequential(true)
                 .repeatable(false)
-                .category(QuestCategory.SIDE)
+                .category(Quest.QuestCategory.EXPLORATION)
                 .minLevel(20)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

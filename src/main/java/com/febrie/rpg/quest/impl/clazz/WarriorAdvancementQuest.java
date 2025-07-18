@@ -1,12 +1,11 @@
 package com.febrie.rpg.quest.impl.clazz;
 
+import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
-import com.febrie.rpg.quest.QuestNPC;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.economy.CurrencyType;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +53,7 @@ public class WarriorAdvancementQuest extends Quest {
                 .id(QuestID.CLASS_WARRIOR_ADVANCEMENT)
                 .objectives(Arrays.asList(
                         new ReachLevelObjective("warrior_level", 30),
-                        new InteractNPCObjective("warrior_master", QuestNPC.WARRIOR_MASTER),
+                        new InteractNPCObjective("warrior_master", 20),
                         new KillMobObjective("prove_combat", EntityType.IRON_GOLEM, 20),
                         new KillPlayerObjective("prove_pvp", 10),
                         new CollectItemObjective("warrior_emblem", Material.IRON_INGOT, 50),
@@ -64,7 +63,7 @@ public class WarriorAdvancementQuest extends Quest {
                         new KillMobObjective("final_trial", EntityType.RAVAGER, 5),
                         new DeliverItemObjective("return_emblem", "warrior_master", Material.DIAMOND_SWORD, 1)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 10000)
                         .addCurrency(CurrencyType.EXP, 2500)
                         .addExperience(3000)
@@ -72,7 +71,8 @@ public class WarriorAdvancementQuest extends Quest {
                 .sequential(true)
                 .category(QuestCategory.ADVANCEMENT)
                 .minLevel(30)
-                .maxLevel(100);
+                .maxLevel(100)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class WarriorAdvancementQuest extends Quest {
     @Override
     public @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean) {
         String id = objective.getId();
-        
+
         return switch (id) {
             case "warrior_level" -> isKorean ? "전사 레벨 30 달성" : "Reach Warrior Level 30";
             case "warrior_master" -> isKorean ? "전사 대가와 대화" : "Talk to the Warrior Master";

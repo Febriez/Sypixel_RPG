@@ -95,7 +95,7 @@ public class BlacksmithApprenticeQuest extends Quest {
                         // 졸업
                         new InteractNPCObjective("graduation", 112)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 2500)
                         .addCurrency(CurrencyType.DIAMOND, 20)
                         .addItem(new ItemStack(Material.SMITHING_TABLE))
@@ -107,7 +107,8 @@ public class BlacksmithApprenticeQuest extends Quest {
                 .repeatable(false)
                 .category(QuestCategory.SIDE)
                 .minLevel(10)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

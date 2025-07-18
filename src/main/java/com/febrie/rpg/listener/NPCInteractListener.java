@@ -11,6 +11,7 @@ import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
+import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.ColorUtil;
@@ -24,6 +25,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * Citizens NPC 상호작용 리스너
@@ -71,7 +74,7 @@ public class NPCInteractListener implements Listener {
                     QuestID questId = (QuestID) pending.getData();
                     RPGQuestTrait questTrait = npc.getOrAddTrait(RPGQuestTrait.class);
                     questTrait.setNpcType("QUEST");
-                    questTrait.setQuestId(questId);
+                    questTrait.addQuest(questId);
                     
                     // 책 아이템 설정
                     npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.BOOK));
@@ -137,9 +140,9 @@ public class NPCInteractListener implements Listener {
      * Trait를 사용하는 퀘스트 NPC 처리
      */
     private void handleQuestNPCWithTrait(NPC npc, Player player, RPGQuestTrait trait) {
-        QuestID questId = trait.getQuestId();
+        List<QuestID> questIds = trait.getQuestIds();
         
-        if (questId == null) {
+        if (questIds.isEmpty()) {
             // 퀘스트 목록 GUI 열기
             QuestListGui questListGui = 
                 new QuestListGui(guiManager, langManager, player);
@@ -147,26 +150,43 @@ public class NPCInteractListener implements Listener {
             return;
         }
 
-        // 퀘스트 가져오기
-        Quest quest = questManager.getQuest(questId);
-        if (quest == null) {
-            langManager.sendMessage(player, "quest.npc.invalid-quest");
-            return;
+        // 단일 퀘스트인 경우 직접 처리
+        if (questIds.size() == 1) {
+            QuestID questId = questIds.get(0);
+            Quest quest = questManager.getQuest(questId);
+            if (quest == null) {
+                langManager.sendMessage(player, "quest.npc.invalid-quest");
+                return;
+            }
+            handleSingleQuest(npc, player, quest);
+        } else {
+            // 여러 퀘스트가 있는 경우 선택 GUI 표시
+            // TODO: Quest selection GUI
+            player.sendMessage(Component.text("이 NPC는 여러 퀘스트와 관련되어 있습니다.", ColorUtil.INFO));
         }
 
+    }
+    
+    /**
+     * 단일 퀘스트 처리
+     */
+    private void handleSingleQuest(NPC npc, Player player, Quest quest) {
+        QuestID questId = quest.getId();
+        
         // 이미 퀘스트를 진행 중인지 확인
         boolean hasActiveQuest = questManager.getActiveQuests(player.getUniqueId()).stream()
                 .anyMatch(p -> p.getQuestId().equals(questId));
 
         if (hasActiveQuest) {
-            langManager.sendMessage(player, "quest.npc.already-active");
+            // 진행 중인 퀘스트의 진행도 표시
+            showQuestProgress(player, quest);
             return;
         }
 
         // 이미 완료했고 반복 불가능한지 확인
         boolean hasCompleted = questManager.getCompletedQuests(player.getUniqueId())
                 .contains(questId);
-
+        
         if (hasCompleted && !quest.isRepeatable()) {
             langManager.sendMessage(player, "quest.npc.already-completed");
             return;
@@ -176,7 +196,7 @@ public class NPCInteractListener implements Listener {
         RPGPlayer rpgPlayer = plugin.getRPGPlayerManager().getOrCreatePlayer(player);
         
         // 레벨 요구사항 확인
-        if (quest.getMinLevel() > 0 && rpgPlayer.getLevel() < quest.getMinLevel()) {
+        if (quest.getMinLevel() > 1 && rpgPlayer.getLevel() < quest.getMinLevel()) {
             langManager.sendMessage(player, "quest.npc.level-requirement", 
                 "level", String.valueOf(quest.getMinLevel()));
             return;
@@ -228,6 +248,85 @@ public class NPCInteractListener implements Listener {
             new MainMenuGui(guiManager, langManager, player);
         guiManager.openGui(player, mainMenu);
         SoundUtil.playOpenSound(player);
+    }
+    
+    /**
+     * 퀘스트 진행도 표시
+     */
+    private void showQuestProgress(Player player, Quest quest) {
+        var activeQuests = questManager.getActiveQuests(player.getUniqueId());
+        var progress = activeQuests.stream()
+                .filter(p -> p.getQuestId().equals(quest.getId()))
+                .findFirst()
+                .orElse(null);
+                
+        if (progress == null) return;
+        
+        player.sendMessage(Component.empty());
+        player.sendMessage(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", ColorUtil.GRAY));
+        player.sendMessage(Component.text("📋 ", ColorUtil.GOLD)
+                .append(Component.text(quest.getDisplayName(true), ColorUtil.LEGENDARY))
+                .append(Component.text(" 진행도", ColorUtil.COMMON)));
+        player.sendMessage(Component.empty());
+        
+        // 각 목표별 진행도 표시
+        List<QuestObjective> objectives = quest.getObjectives();
+        for (int i = 0; i < objectives.size(); i++) {
+            QuestObjective objective = objectives.get(i);
+            var objProgress = progress.getObjective(objective.getId());
+            
+            if (objProgress == null) continue;
+            
+            boolean isComplete = objProgress.isCompleted();
+            int current = objProgress.getCurrentValue();
+            int required = objProgress.getRequiredValue();
+            
+            // 체크박스 아이콘
+            String checkBox = isComplete ? "✅" : "☐";
+            
+            // 진행도 바
+            int barLength = 20;
+            int filledLength = (int) ((double) current / required * barLength);
+            StringBuilder progressBar = new StringBuilder();
+            progressBar.append("[");
+            for (int j = 0; j < barLength; j++) {
+                if (j < filledLength) {
+                    progressBar.append("█");
+                } else {
+                    progressBar.append("░");
+                }
+            }
+            progressBar.append("]");
+            
+            // 목표 설명
+            String description = quest.getObjectiveDescription(objective, true);
+            
+            // 진행도 텍스트 (미완료: 노란색, 완료: 초록색)
+            Component progressText = Component.text(checkBox + " ", isComplete ? ColorUtil.SUCCESS : ColorUtil.YELLOW)
+                    .append(Component.text(description, isComplete ? ColorUtil.SUCCESS : ColorUtil.YELLOW))
+                    .append(Component.text(" ", ColorUtil.COMMON))
+                    .append(Component.text(progressBar.toString(), isComplete ? ColorUtil.SUCCESS : ColorUtil.YELLOW))
+                    .append(Component.text(" (" + current + "/" + required + ")", isComplete ? ColorUtil.SUCCESS : ColorUtil.YELLOW));
+                    
+            player.sendMessage(progressText);
+        }
+        
+        // 전체 진행률
+        int completedCount = (int) objectives.stream()
+                .filter(obj -> {
+                    var objProgress = progress.getObjective(obj.getId());
+                    return objProgress != null && objProgress.isCompleted();
+                })
+                .count();
+        
+        double totalProgress = (double) completedCount / objectives.size() * 100;
+        
+        player.sendMessage(Component.empty());
+        player.sendMessage(Component.text("전체 진행률: ", ColorUtil.COMMON)
+                .append(Component.text(String.format("%.1f%%", totalProgress), ColorUtil.GOLD)));
+        player.sendMessage(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", ColorUtil.GRAY));
+        
+        SoundUtil.playClickSound(player);
     }
     
 }

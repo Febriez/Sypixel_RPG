@@ -55,7 +55,7 @@ public class MasterBlacksmithQuest extends Quest {
                 .id(QuestID.CRAFT_MASTER_BLACKSMITH)
                 .objectives(Arrays.asList(
                         // 시작
-                        new InteractNPCObjective("blacksmith_master", 109), // 대장장이 마스터
+                        new InteractNPCObjective("blacksmith_master", 31), // 대장장이 마스터
                         
                         // 재료 수집
                         new BreakBlockObjective("mine_iron", Material.IRON_ORE, 30),
@@ -88,9 +88,9 @@ public class MasterBlacksmithQuest extends Quest {
                         new CraftItemObjective("masterpiece", Material.NETHERITE_SWORD, 1),
                         
                         // 전달
-                        new DeliverItemObjective("deliver_masterpiece", 109, Material.NETHERITE_SWORD, 1)
+                        new DeliverItemObjective("deliver_masterpiece", "blacksmith_master", Material.NETHERITE_SWORD, 1)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 4000)
                         .addCurrency(CurrencyType.DIAMOND, 35)
                         .addItem(new ItemStack(Material.NETHERITE_INGOT, 2))
@@ -100,9 +100,10 @@ public class MasterBlacksmithQuest extends Quest {
                         .build())
                 .sequential(true)
                 .repeatable(false)
-                .category(QuestCategory.NORMAL)
+                .category(Quest.QuestCategory.CRAFTING)
                 .minLevel(20)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

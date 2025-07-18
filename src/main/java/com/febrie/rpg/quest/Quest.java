@@ -264,6 +264,8 @@ public abstract class Quest {
             case REPEATABLE -> isKorean ? "반복 퀘스트" : "Repeatable Quest";
             case SEASONAL -> isKorean ? "시즌 퀘스트" : "Seasonal Quest";
             case BRANCH -> isKorean ? "분기 퀘스트" : "Branch Quest";
+            case CRAFTING -> isKorean ? "제작 퀘스트" : "Crafting Quest";
+            case EXPLORATION -> isKorean ? "탐험 퀘스트" : "Exploration Quest";
         };
     }
 
@@ -278,15 +280,12 @@ public abstract class Quest {
     }
     
     /**
-     * NPC별 퀘스트 대화 반환 - 여러 NPC와 대화하는 퀘스트용
-     * 
-     * @param npc 대화할 NPC
-     * @return 해당 NPC의 퀘스트 대화
+     * 퀘스트 NPC 기본 인터페이스
+     * 각 퀘스트는 inner enum으로 자신만의 NPC를 정의
      */
-    @Nullable
-    public QuestDialog getDialog(@NotNull QuestNPC npc) {
-        // 기본적으로 일반 대화 반환, 필요한 퀘스트만 오버라이드
-        return getDialog();
+    public interface QuestNPC {
+        int getId();
+        String getDisplayName(boolean isKorean);
     }
 
     /**
@@ -309,6 +308,27 @@ public abstract class Quest {
         return 0; // 기본적으로 대화 없음
     }
 
+    /**
+     * NPC별 대화 반환 - 여러 NPC가 등장하는 퀘스트용
+     * 
+     * @param npcId NPC ID
+     * @return 해당 NPC의 대화 리스트
+     */
+    @Nullable
+    public List<QuestDialog.DialogLine> getNPCDialogs(int npcId) {
+        return null; // 기본적으로 없음, 필요한 퀘스트만 오버라이드
+    }
+    
+    /**
+     * 전체 대화 시퀀스 반환 - 순서대로 진행되는 대화
+     * 
+     * @return 전체 대화 시퀀스
+     */
+    @Nullable
+    public List<QuestDialog.DialogLine> getDialogSequence() {
+        return null; // 기본적으로 없음, 필요한 퀘스트만 오버라이드
+    }
+    
     /**
      * NPC 이름 반환 (대화에서 사용)
      * 
@@ -488,7 +508,9 @@ public abstract class Quest {
         LIFE("quest.category.life"),
         REPEATABLE("quest.category.repeatable"),
         SEASONAL("quest.category.seasonal"),
-        BRANCH("quest.category.branch");
+        BRANCH("quest.category.branch"),
+        CRAFTING("quest.category.crafting"),
+        EXPLORATION("quest.category.exploration");
 
         private final String translationKey;
 

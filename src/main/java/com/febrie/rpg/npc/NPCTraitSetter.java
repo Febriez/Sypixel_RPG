@@ -10,7 +10,9 @@ import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -43,6 +45,13 @@ public class NPCTraitSetter {
         // 기존 대기 중인 것이 있으면 취소
         cancelPending(player);
         
+        // 퀘스트 확인
+        com.febrie.rpg.quest.Quest quest = com.febrie.rpg.quest.manager.QuestManager.getInstance().getQuest(questId);
+        if (quest == null) {
+            player.sendMessage(Component.text("구현되지 않은 퀘스트입니다: " + questId.name(), ColorUtil.ERROR));
+            return;
+        }
+        
         // 새로운 대기 설정
         BukkitTask timeoutTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
             if (pendingTraits.remove(player.getUniqueId()) != null) {
@@ -53,8 +62,37 @@ public class NPCTraitSetter {
         PendingTrait pending = new PendingTrait(TraitType.QUEST, questId, timeoutTask);
         pendingTraits.put(player.getUniqueId(), pending);
         
+        // 퀘스트 Trait 등록 아이템 지급 (OP나 admin 권한 있는 경우)
+        if (player.hasPermission("sypixelrpg.admin") || player.isOp()) {
+            // 퀘스트의 모든 NPC 상호작용 목표에 대한 아이템 생성
+            List<Integer> npcIds = new ArrayList<>();
+            for (com.febrie.rpg.quest.objective.QuestObjective objective : quest.getObjectives()) {
+                if (objective instanceof com.febrie.rpg.quest.objective.impl.InteractNPCObjective interactObj) {
+                    Integer npcId = interactObj.getNpcId();
+                    if (npcId != null && !npcIds.contains(npcId)) {
+                        npcIds.add(npcId);
+                    }
+                }
+            }
+            
+            if (npcIds.isEmpty()) {
+                player.getInventory().addItem(
+                    com.febrie.rpg.quest.trait.QuestTraitRegistrationItem.createRegistrationItem(quest)
+                );
+                player.sendMessage(Component.text("퀘스트 Trait 등록 아이템이 지급되었습니다.", ColorUtil.SUCCESS));
+            } else {
+                // 각 NPC별로 개별 아이템 생성
+                for (Integer npcId : npcIds) {
+                    player.getInventory().addItem(
+                        com.febrie.rpg.quest.trait.QuestTraitRegistrationItem.createRegistrationItemForNPC(quest, npcId)
+                    );
+                }
+                player.sendMessage(Component.text(npcIds.size() + "개의 NPC Trait 등록 아이템이 지급되었습니다.", ColorUtil.SUCCESS));
+            }
+        }
+        
         player.sendMessage(Component.text("10초 내에 설정할 NPC를 우클릭하세요.", ColorUtil.INFO));
-        player.sendMessage(Component.text("퀘스트: " + questId.name(), ColorUtil.YELLOW));
+        player.sendMessage(Component.text("퀘스트: " + questId.name() + " - " + quest.getDisplayName(true), ColorUtil.YELLOW));
     }
     
     /**

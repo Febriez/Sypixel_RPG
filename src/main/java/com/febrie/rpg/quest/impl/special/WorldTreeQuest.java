@@ -122,7 +122,7 @@ public class WorldTreeQuest extends Quest {
                         new CollectItemObjective("eternal_leaves", Material.OAK_LEAVES, 100),
                         new InteractNPCObjective("tree_blessing", 250)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 100000)
                         .addCurrency(CurrencyType.DIAMOND, 1000)
                         .addItem(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 5)) // 세계수의 열매
@@ -134,9 +134,10 @@ public class WorldTreeQuest extends Quest {
                         .build())
                 .sequential(true)
                 .repeatable(false)
-                .category(QuestCategory.NORMAL)
+                .category(QuestCategory.SPECIAL)
                 .minLevel(50)
-                .maxLevel(0);
+                .maxLevel(0)
+                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override

@@ -74,7 +74,12 @@ public class QuestManager {
 
         // 모든 퀘스트 초기화
         initializeQuests();
-
+    }
+    
+    /**
+     * 스케줄러 시작 (instance 설정 후 호출되어야 함)
+     */
+    private void startSchedulers() {
         // 자동 저장 스케줄러 시작
         startAutoSaveScheduler();
         
@@ -90,15 +95,7 @@ public class QuestManager {
         Map<QuestID, Quest> allQuests = QuestRegistry.createAllQuests();
         quests.putAll(allQuests);
 
-        LogUtil.info("Initialized " + quests.size() + " quests from " +
-                QuestID.values().length + " defined quest IDs");
-
-        // 구현되지 않은 퀘스트 확인
-        for (QuestID id : QuestID.values()) {
-            if (!QuestRegistry.isImplemented(id)) {
-                LogUtil.warning("Quest not implemented: " + id.name() + " (" + id.getDisplayName() + ")");
-            }
-        }
+        LogUtil.info("Initialized " + quests.size() + " quests");
     }
 
 
@@ -107,7 +104,10 @@ public class QuestManager {
      */
     public static void initialize(@NotNull RPGMain plugin, @NotNull FirestoreRestService firestoreService) {
         if (instance == null) {
+            // instance를 먼저 설정하여 LocationCheckTask가 참조할 수 있도록 함
             instance = new QuestManager(plugin, firestoreService);
+            // instance 설정 후 스케줄러 시작
+            instance.startSchedulers();
             LogUtil.info("QuestManager initialized");
         }
     }

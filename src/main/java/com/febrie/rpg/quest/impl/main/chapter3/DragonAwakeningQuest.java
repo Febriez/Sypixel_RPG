@@ -55,7 +55,7 @@ public class DragonAwakeningQuest extends Quest {
                 .id(QuestID.MAIN_DRAGON_AWAKENING)
                 .objectives(Arrays.asList(
                         // 전설 조사
-                        new InteractNPCObjective("dragon_sage", 124), // 용의 현자
+                        new InteractNPCObjective("dragon_sage", 49), // 용의 현자
                         new CollectItemObjective("ancient_scrolls", Material.WRITTEN_BOOK, 5),
                         new VisitLocationObjective("ancient_library", "dragon_library"),
                         new CollectItemObjective("dragon_lore", Material.ENCHANTED_BOOK, 3),
@@ -76,7 +76,9 @@ public class DragonAwakeningQuest extends Quest {
                         new PlaceBlockObjective("place_gold", Material.GOLD_BLOCK, 10),
                         new PlaceBlockObjective("place_emerald", Material.EMERALD_BLOCK, 5),
                         new CollectItemObjective("ritual_catalyst", Material.END_CRYSTAL, 4),
-                        new PlaceBlockObjective("place_crystals", Material.END_CRYSTAL, 4),
+                        // END_CRYSTAL은 엔티티이므로 PlaceBlockObjective를 사용할 수 없음
+                        // 대신 obsidian을 놓는 것으로 변경
+                        new PlaceBlockObjective("place_obsidian", Material.OBSIDIAN, 4),
                         new SurviveObjective("ritual_duration", 600), // 10분
                         
                         // 용의 시험
@@ -92,7 +94,7 @@ public class DragonAwakeningQuest extends Quest {
                         new VisitLocationObjective("inner_lair", "dragon_inner_lair"),
                         
                         // 용과의 만남
-                        new InteractNPCObjective("sleeping_dragon", 125), // 잠든 고대 용
+                        new InteractNPCObjective("sleeping_dragon", 50), // 잠든 고대 용
                         new CollectItemObjective("dragon_egg", Material.DRAGON_EGG, 1),
                         new DeliverItemObjective("offer_treasures", "sleeping_dragon", Material.DIAMOND_BLOCK, 10),
                         
@@ -100,12 +102,12 @@ public class DragonAwakeningQuest extends Quest {
                         new KillMobObjective("dragon_test", EntityType.ENDER_DRAGON, 1),
                         
                         // 동맹 체결
-                        new InteractNPCObjective("dragon_pact", 125),
+                        new InteractNPCObjective("dragon_pact", 50),
                         new CollectItemObjective("dragon_heart", Material.NETHER_STAR, 1),
                         new CollectItemObjective("pact_scroll", Material.WRITTEN_BOOK, 1),
                         new DeliverItemObjective("complete_pact", "dragon_sage", Material.WRITTEN_BOOK, 1)
                 ))
-                .reward(BasicReward.builder()
+                .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 20000)
                         .addCurrency(CurrencyType.DIAMOND, 150)
                         .addItem(new ItemStack(Material.ELYTRA)) // 용의 날개
@@ -118,7 +120,7 @@ public class DragonAwakeningQuest extends Quest {
                 .sequential(true)
                 .repeatable(false)
                 .category(QuestCategory.MAIN)
-                .prerequisiteQuests(Arrays.asList(QuestID.MAIN_CORRUPTED_LANDS))
+                .addPrerequisite(QuestID.MAIN_CORRUPTED_LANDS)
                 .minLevel(45)
                 .maxLevel(0);
     }
@@ -235,7 +237,7 @@ public class DragonAwakeningQuest extends Quest {
             case "place_gold" -> isKorean ? "금 블록 10개 배치" : "Place 10 Gold Blocks";
             case "place_emerald" -> isKorean ? "에메랄드 블록 5개 배치" : "Place 5 Emerald Blocks";
             case "ritual_catalyst" -> isKorean ? "의식 촉매 4개 수집" : "Collect 4 Ritual Catalysts";
-            case "place_crystals" -> isKorean ? "엔드 수정 4개 설치" : "Place 4 End Crystals";
+            case "place_obsidian" -> isKorean ? "흑요석 4개 배치" : "Place 4 Obsidian blocks";
             case "ritual_duration" -> isKorean ? "10분간 의식 수행" : "Perform ritual for 10 minutes";
             case "flame_dragons" -> isKorean ? "화염 용족 20마리 처치" : "Defeat 20 Flame Dragons";
             case "dragon_priests" -> isKorean ? "용의 사제 10명 처치" : "Defeat 10 Dragon Priests";
