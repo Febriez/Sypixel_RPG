@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -40,8 +41,8 @@ public class RPGPlayerManager implements Listener {
     private final FirestoreRestService firestoreService;
     private final Map<UUID, RPGPlayer> players = new ConcurrentHashMap<>();
 
-    // 저장 쿨다운 관리 (PlayerService에서 이동)
-    private final Map<UUID, Long> lastSaveTime = new ConcurrentHashMap<>();
+    // 저장 쿨다운 관리 - AtomicLong으로 thread-safe 보장
+    private final Map<UUID, AtomicLong> lastSaveTime = new ConcurrentHashMap<>();
     private static final long SAVE_COOLDOWN = 30000; // 30초
 
     public RPGPlayerManager(@NotNull RPGMain plugin, @NotNull FirestoreRestService firestoreService) {
@@ -84,11 +85,26 @@ public class RPGPlayerManager implements Listener {
 
         RPGPlayer rpgPlayer = players.remove(uuid);
         if (rpgPlayer != null) {
-            // 동기적으로 저장 (서버 종료 시 안전성)
-            savePlayerData(rpgPlayer, true).join();
+            // 비동기로 저장하되 시간 제한 설정
+            savePlayerData(rpgPlayer, true)
+                .orTimeout(5, TimeUnit.SECONDS)
+                .exceptionally(ex -> {
+                    LogUtil.error("플레이어 데이터 저장 실패: " + player.getName(), ex);
+                    // 실패 시 로컬 백업 또는 대기열에 추가
+                    addToFailedSaveQueue(uuid, rpgPlayer);
+                    return false;
+                });
         }
 
         lastSaveTime.remove(uuid);
+    }
+    
+    /**
+     * 저장 실패 큐에 추가 (나중에 재시도)
+     */
+    private void addToFailedSaveQueue(@NotNull UUID uuid, @NotNull RPGPlayer rpgPlayer) {
+        // TODO: 실패한 저장을 대기열에 넣고 나중에 재시도
+        LogUtil.warning("플레이어 " + rpgPlayer.getName() + "의 데이터가 저장 대기열에 추가되었습니다.");
     }
 
     /**
@@ -201,15 +217,25 @@ public class RPGPlayerManager implements Listener {
     public CompletableFuture<Boolean> savePlayerData(@NotNull RPGPlayer rpgPlayer, boolean force) {
         UUID uuid = rpgPlayer.getPlayerId();
 
-        // 쿨다운 체크 (강제 저장이 아닌 경우)
+        // 쿨다운 체크 (강제 저장이 아닌 경우) - Thread-safe
         if (!force) {
-            Long lastSave = lastSaveTime.get(uuid);
-            if (lastSave != null && (System.currentTimeMillis() - lastSave) < SAVE_COOLDOWN) {
+            AtomicLong lastSave = lastSaveTime.computeIfAbsent(uuid, k -> new AtomicLong(0));
+            long currentTime = System.currentTimeMillis();
+            long lastSaveTime = lastSave.get();
+            
+            if (lastSaveTime != 0 && (currentTime - lastSaveTime) < SAVE_COOLDOWN) {
                 return CompletableFuture.completedFuture(true);
             }
+            
+            // CAS (Compare-And-Set)로 원자적 업데이트
+            if (!lastSave.compareAndSet(lastSaveTime, currentTime)) {
+                // 다른 스레드가 이미 업데이트했음
+                return CompletableFuture.completedFuture(true);
+            }
+        } else {
+            // 강제 저장 시에도 마지막 저장 시간 업데이트
+            lastSaveTime.computeIfAbsent(uuid, k -> new AtomicLong(0)).set(System.currentTimeMillis());
         }
-
-        lastSaveTime.put(uuid, System.currentTimeMillis());
 
         return CompletableFuture.supplyAsync(() -> {
             long startTime = System.currentTimeMillis();

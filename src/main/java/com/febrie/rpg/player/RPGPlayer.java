@@ -9,6 +9,7 @@ import com.febrie.rpg.talent.Talent;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -63,9 +64,9 @@ public class RPGPlayer {
     /**
      * 직업 설정
      */
-    public boolean setJob(@NotNull JobType job) {
-        if (this.job != null) {
-            return false; // 이미 직업이 있음
+    public boolean setJob(@Nullable JobType job) {
+        if (this.job != null && job != null) {
+            return false; // 이미 직업이 있고 새 직업을 설정하려는 경우
         }
 
         this.job = job;
@@ -219,7 +220,7 @@ public class RPGPlayer {
     }
 
     // Getters
-    @NotNull
+    @Nullable
     public JobType getJob() {
         return job;
     }

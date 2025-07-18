@@ -18,5 +18,9 @@
   "nether_star": {
     "name": "%COLOR_EPIC%Star",
     "description": "%COLOR_GRAY%Premium special currency."
+  },
+  "exp": {
+    "name": "%COLOR_AQUA%Experience",
+    "description": "%COLOR_GRAY%Experience points for leveling up."
   }
 }

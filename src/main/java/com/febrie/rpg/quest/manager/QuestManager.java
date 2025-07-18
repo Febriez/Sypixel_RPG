@@ -444,8 +444,36 @@ public class QuestManager {
     /**
      * 저장 예약
      */
-    private void markForSave(@NotNull UUID playerId) {
+    public void markForSave(@NotNull UUID playerId) {
         pendingSaves.add(playerId);
+    }
+    
+    /**
+     * 퀘스트 완료 체크
+     * NPCInteractListener에서 호출됨
+     */
+    public void checkQuestCompletion(@NotNull UUID playerId, @NotNull QuestID questId) {
+        PlayerQuestData playerData = getPlayerData(playerId);
+        QuestProgress progress = playerData.activeQuests.get(questId);
+        if (progress == null) return;
+        
+        Quest quest = getQuest(questId);
+        if (quest == null) return;
+        
+        // 모든 목표가 완료되었는지 확인
+        boolean allObjectivesComplete = quest.getObjectives().stream()
+                .allMatch(obj -> {
+                    ObjectiveProgress objProgress = progress.getObjective(obj.getId());
+                    return objProgress != null && objProgress.isCompleted();
+                });
+        
+        if (allObjectivesComplete) {
+            // 퀘스트 완료 처리
+            Player player = Bukkit.getPlayer(playerId);
+            if (player != null && progress != null) {
+                completeQuest(player, questId, progress);
+            }
+        }
     }
 
     /**

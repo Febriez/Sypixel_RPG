@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * RPG 퀘스트 NPC를 위한 커스텀 Trait
@@ -20,6 +22,9 @@ public class RPGQuestTrait extends Trait {
 
     @Persist("questIds")
     private List<String> questIds = new ArrayList<>();
+    
+    @Persist("npcId")
+    private String npcId = null;
 
     @Persist("npcType")
     private String npcType = "QUEST";
@@ -44,6 +49,27 @@ public class RPGQuestTrait extends Trait {
     public void removeQuest(QuestID questId) {
         questIds.remove(questId.name());
     }
+    
+    /**
+     * NPC ID 설정
+     */
+    public void setNpcId(String npcId) {
+        this.npcId = npcId;
+    }
+    
+    /**
+     * NPC ID 조회
+     */
+    public String getNpcId() {
+        return npcId;
+    }
+    
+    /**
+     * NPC ID가 설정되어 있는지 확인
+     */
+    public boolean hasNpcId() {
+        return npcId != null && !npcId.isEmpty();
+    }
 
     /**
      * 모든 퀘스트 ID 조회
@@ -67,6 +93,13 @@ public class RPGQuestTrait extends Trait {
         return questIds.contains(questId.name());
     }
 
+    /**
+     * NPC ID 초기화
+     */
+    public void clearNpcId() {
+        this.npcId = null;
+    }
+    
     /**
      * NPC 타입 설정
      */

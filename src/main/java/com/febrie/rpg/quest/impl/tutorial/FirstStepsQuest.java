@@ -59,8 +59,8 @@ public class FirstStepsQuest extends Quest {
                 .objectives(Arrays.asList(
                         // 1. 허브 구역 방문 (WorldGuard 영역 이름: Hub)
                         new VisitLocationObjective("visit_hub", "Hub"),
-                        // 2. 마을 상인 NPC 방문
-                        new InteractNPCObjective("visit_merchant", 3) // 마을 상인 NPC
+                        // 2. 마을 상인 NPC 방문 (NPC Code 기반)
+                        new InteractNPCObjective("visit_merchant", "village_merchant")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 100)

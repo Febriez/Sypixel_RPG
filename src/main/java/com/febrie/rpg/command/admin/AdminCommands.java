@@ -105,6 +105,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         sender.sendMessage(Component.text("/rpgadmin level set <플레이어> <레벨> - 레벨 설정", ColorUtil.YELLOW));
         sender.sendMessage(Component.text("/rpgadmin job set <플레이어> <직업> - 직업 설정", ColorUtil.YELLOW));
         sender.sendMessage(Component.text("/rpgadmin npc set <퀘스트ID> - NPC에 퀘스트 설정", ColorUtil.YELLOW));
+        sender.sendMessage(Component.text("/rpgadmin npc setcode <npcID> [이름] - NPC Trait 등록 막대기 지급", ColorUtil.YELLOW));
         sender.sendMessage(Component.text("/rpgadmin quest <give|list|reload> - 퀘스트 관리", ColorUtil.YELLOW));
     }
 
@@ -287,37 +288,114 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         }
 
         if (args.length < 2) {
-            sender.sendMessage(Component.text("사용법: /rpgadmin npc set <퀘스트ID>", ColorUtil.ERROR));
+            sender.sendMessage(Component.text("사용법:", ColorUtil.ERROR));
+            sender.sendMessage(Component.text("  /rpgadmin npc set <퀘스트ID>", ColorUtil.YELLOW));
+            sender.sendMessage(Component.text("  /rpgadmin npc setcode <npc코드>", ColorUtil.YELLOW));
+            sender.sendMessage(Component.text("  /rpgadmin npc list", ColorUtil.YELLOW));
             return true;
         }
 
-        if (!args[1].equalsIgnoreCase("set")) {
-            sender.sendMessage(Component.text("사용법: /rpgadmin npc set <퀘스트ID>", ColorUtil.ERROR));
-            return true;
-        }
+        String subCmd = args[1].toLowerCase();
 
-        if (args.length < 3) {
-            sender.sendMessage(Component.text("사용법: /rpgadmin npc set <퀘스트ID>", ColorUtil.ERROR));
-            sender.sendMessage(Component.text("예시: /rpgadmin npc set TUTORIAL_FIRST_STEPS", ColorUtil.GRAY));
-            return true;
-        }
+        switch (subCmd) {
+            case "set" -> {
+                if (args.length < 3) {
+                    sender.sendMessage(Component.text("사용법: /rpgadmin npc set <퀘스트ID>", ColorUtil.ERROR));
+                    sender.sendMessage(Component.text("예시: /rpgadmin npc set TUTORIAL_FIRST_STEPS", ColorUtil.GRAY));
+                    return true;
+                }
 
-        // 퀘스트 ID 파싱
-        try {
-            QuestID questId = QuestID.valueOf(args[2].toUpperCase());
-            
-            // NPCTraitSetter를 통해 대기 상태로 설정
-            com.febrie.rpg.npc.NPCTraitSetter.getInstance().prepareQuestTrait(player, questId);
-            
-        } catch (IllegalArgumentException e) {
-            player.sendMessage(Component.text("잘못된 퀘스트 ID입니다: " + args[2], ColorUtil.ERROR));
-            player.sendMessage(Component.text("사용 가능한 퀘스트 ID:", ColorUtil.YELLOW));
-            
-            // 모든 퀘스트 ID 나열
-            for (QuestID id : QuestID.values()) {
-                player.sendMessage(Component.text("  - " + id.name(), ColorUtil.GRAY));
+                // 퀘스트 ID 파싱
+                try {
+                    QuestID questId = QuestID.valueOf(args[2].toUpperCase());
+                    
+                    // NPCTraitSetter를 통해 대기 상태로 설정
+                    com.febrie.rpg.npc.NPCTraitSetter.getInstance().prepareQuestTrait(player, questId);
+                    
+                } catch (IllegalArgumentException e) {
+                    player.sendMessage(Component.text("잘못된 퀘스트 ID입니다: " + args[2], ColorUtil.ERROR));
+                    player.sendMessage(Component.text("사용 가능한 퀘스트 ID:", ColorUtil.YELLOW));
+                    
+                    // 모든 퀘스트 ID 나열
+                    for (QuestID id : QuestID.values()) {
+                        player.sendMessage(Component.text("  - " + id.name(), ColorUtil.GRAY));
+                    }
+                    return true;
+                }
             }
-            return true;
+            
+            case "setcode" -> {
+                // player 변수가 이미 정의되어 있으므로 타입 체크만
+                if (!(sender instanceof Player)) {
+                    sender.sendMessage(Component.text("이 명령어는 플레이어만 사용할 수 있습니다.", ColorUtil.ERROR));
+                    return true;
+                }
+                
+                if (args.length < 3) {
+                    sender.sendMessage(Component.text("사용법: /rpgadmin npc setcode <npcID> [이름]", ColorUtil.ERROR));
+                    sender.sendMessage(Component.text("예시: /rpgadmin npc setcode village_shopper 마을_상인", ColorUtil.GRAY));
+                    return true;
+                }
+                
+                String npcId = args[2];
+                
+                // NPC ID 유효성 검사 (영문 소문자와 언더스코어만 허용)
+                if (!npcId.matches("^[a-z_]+$")) {
+                    sender.sendMessage(Component.text("오류: NPC ID는 영문 소문자와 언더스코어(_)만 사용할 수 있습니다.", ColorUtil.ERROR));
+                    sender.sendMessage(Component.text("올바른 예시: village_shopper, first_npc, quest_giver", ColorUtil.GRAY));
+                    return true;
+                }
+                
+                String displayName = args.length > 3 ? String.join(" ", Arrays.copyOfRange(args, 3, args.length)) : npcId;
+                
+                // Trait 등록 막대기 생성
+                ItemStack traitItem = com.febrie.rpg.quest.trait.QuestTraitRegistrationItem.createRegistrationItem(npcId, displayName);
+                
+                // 인벤토리가 가득 찬 경우 바닥에 드롭
+                if (player.getInventory().firstEmpty() == -1) {
+                    player.getWorld().dropItem(player.getLocation(), traitItem);
+                    player.sendMessage(Component.text("인벤토리가 가득 차서 아이템을 바닥에 드롭했습니다.", ColorUtil.WARNING));
+                } else {
+                    player.getInventory().addItem(traitItem);
+                }
+                
+                player.sendMessage(Component.text("✓ ", ColorUtil.SUCCESS)
+                        .append(Component.text("NPC Trait 등록기를 지급했습니다.", ColorUtil.COMMON)));
+                player.sendMessage(Component.text("NPC ID: ", ColorUtil.GRAY)
+                        .append(Component.text(npcId, ColorUtil.RARE)));
+                player.sendMessage(Component.text("표시 이름: ", ColorUtil.GRAY)
+                        .append(Component.text(displayName, ColorUtil.YELLOW)));
+            }
+            
+            case "list" -> {
+                sender.sendMessage(Component.text("=== Citizens NPC 목록 ===", ColorUtil.GOLD));
+                int count = 0;
+                for (NPC npc : CitizensAPI.getNPCRegistry().sorted()) {
+                    Component npcInfo = Component.text(String.format("[%d] %s", npc.getId(), npc.getName()), ColorUtil.YELLOW);
+                    
+                    // RPGQuestTrait 확인
+                    if (npc.hasTrait(RPGQuestTrait.class)) {
+                        RPGQuestTrait trait = npc.getTrait(RPGQuestTrait.class);
+                        if (trait.hasNpcId()) {
+                            npcInfo = npcInfo.append(Component.text(" - ID: " + trait.getNpcId(), ColorUtil.AQUA));
+                        }
+                        if (!trait.getQuestIds().isEmpty()) {
+                            npcInfo = npcInfo.append(Component.text(" - 퀘스트: " + trait.getQuestIds().size() + "개", ColorUtil.GREEN));
+                        }
+                    }
+                    
+                    sender.sendMessage(npcInfo);
+                    count++;
+                }
+                sender.sendMessage(Component.text("총 " + count + "개의 NPC", ColorUtil.GRAY));
+            }
+            
+            default -> {
+                sender.sendMessage(Component.text("사용법:", ColorUtil.ERROR));
+                sender.sendMessage(Component.text("  /rpgadmin npc set <퀘스트ID>", ColorUtil.YELLOW));
+                sender.sendMessage(Component.text("  /rpgadmin npc setcode <npcID>", ColorUtil.YELLOW));
+                sender.sendMessage(Component.text("  /rpgadmin npc list", ColorUtil.YELLOW));
+            }
         }
 
         return true;
@@ -398,6 +476,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         return true;
     }
 
+
     @Override
     @Nullable
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command,
@@ -431,7 +510,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                     return List.of("set");
                 }
                 case "npc" -> {
-                    return List.of("set");
+                    return Arrays.asList("set", "setcode", "list");
                 }
                 case "quest" -> {
                     return Arrays.asList("give", "list", "reload");

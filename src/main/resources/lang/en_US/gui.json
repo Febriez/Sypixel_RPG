@@ -207,7 +207,10 @@
     "previous-page": "%COLOR_GRAY%◀ Previous Page",
     "close": "%COLOR_RED%■ Close",
     "page-info": "%COLOR_GRAY%Page {current}/{total}",
-    "npc-name": "%COLOR_AQUA%{npc}"
+    "npc-name": "%COLOR_AQUA%{npc}",
+    "rewards-title": "%COLOR_EMERALD%Rewards:",
+    "requirements-title": "%COLOR_YELLOW%Requirements:",
+    "speaking": "%COLOR_WHITE%{npc} is speaking..."
   },
   "settings": {
     "title": "Settings",

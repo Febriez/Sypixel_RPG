@@ -6,6 +6,7 @@ import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
+import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -56,6 +57,9 @@ public class CollectHerbsQuest extends Quest {
         objectives.add(new CollectItemObjective("collect_poppies", Material.POPPY, 10));
         objectives.add(new CollectItemObjective("collect_azure_bluets", Material.AZURE_BLUET, 10));
         objectives.add(new CollectItemObjective("collect_spider_eyes", Material.SPIDER_EYE, 5));
+        
+        // 완료 후 연금술사에게 전달 (NPC 코드 사용)
+        objectives.add(new InteractNPCObjective("deliver_to_alchemist", "alchemist_mina"));
 
         return new CollectHerbsBuilder()
                 .id(QuestID.SIDE_COLLECT_HERBS)
@@ -67,7 +71,7 @@ public class CollectHerbsQuest extends Quest {
                         .addItem(new ItemStack(Material.GLISTERING_MELON_SLICE, 3))
                         .addExperience(150)
                         .build())
-                .sequential(false) // 순서 상관없이 수집 가능
+                .sequential(true) // 순차적으로 진행 (수집 후 전달)
                 .category(QuestCategory.SIDE)
                 .minLevel(5)
                 .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
@@ -90,6 +94,7 @@ public class CollectHerbsQuest extends Quest {
                     "• 양귀비 10개",
                     "• 파란 난초 10개",
                     "• 거미 눈 5개",
+                    "• 연금술사에게 전달",
                     "",
                     "보상:",
                     "• 골드 250",
@@ -108,6 +113,7 @@ public class CollectHerbsQuest extends Quest {
                     "• 10 Poppies",
                     "• 10 Azure Bluets",
                     "• 5 Spider Eyes",
+                    "• Deliver to alchemist",
                     "",
                     "Rewards:",
                     "• 250 Gold",
@@ -128,6 +134,7 @@ public class CollectHerbsQuest extends Quest {
             case "collect_poppies" -> isKorean ? "양귀비 10개 수집" : "Collect 10 Poppies";
             case "collect_azure_bluets" -> isKorean ? "파란 난초 10개 수집" : "Collect 10 Azure Bluets";
             case "collect_spider_eyes" -> isKorean ? "거미 눈 5개 수집" : "Collect 5 Spider Eyes";
+            case "deliver_to_alchemist" -> isKorean ? "연금술사에게 전달" : "Deliver to alchemist";
             default -> objective.getStatusInfo(null);
         };
     }

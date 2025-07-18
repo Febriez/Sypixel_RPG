@@ -12,7 +12,11 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.quest.objective.QuestObjective;
+import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
+import com.febrie.rpg.quest.progress.ObjectiveProgress;
+import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.ColorUtil;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
@@ -26,6 +30,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,6 +62,7 @@ public class NPCInteractListener implements Listener {
         NPC npc = event.getNPC();
         Player player = event.getClicker();
 
+        
         // 대기 중인 trait 설정이 있는지 확인
         com.febrie.rpg.npc.NPCTraitSetter.PendingTrait pending = 
             com.febrie.rpg.npc.NPCTraitSetter.getInstance().getPendingTrait(player);
@@ -140,6 +146,92 @@ public class NPCInteractListener implements Listener {
      * Trait를 사용하는 퀘스트 NPC 처리
      */
     private void handleQuestNPCWithTrait(NPC npc, Player player, RPGQuestTrait trait) {
+        // 먼저 NPC ID 기반 퀘스트 목표 체크
+        if (trait.hasNpcId()) {
+            // 디버그 로그 추가
+            // 디버그 로그
+            // LogUtil.debug("NPC " + npc.getName() + " has ID: " + trait.getNpcId());
+            
+            // 현재 진행 중인 퀘스트에서 이 NPC와 관련된 목표 찾기
+            List<QuestProgress> activeQuests = questManager.getActiveQuests(player.getUniqueId());
+            
+            for (QuestProgress progress : activeQuests) {
+                Quest quest = questManager.getQuest(progress.getQuestId());
+                if (quest == null) continue;
+                
+                // 순차 진행인 경우 현재 목표만, 자유 진행인 경우 모든 미완료 목표 확인
+                List<QuestObjective> objectivesToCheck = new ArrayList<>();
+                
+                if (quest.isSequential()) {
+                    // 순차 진행 - 현재 목표만
+                    int currentObjectiveIndex = progress.getCurrentObjectiveIndex();
+                    if (currentObjectiveIndex < quest.getObjectives().size()) {
+                        objectivesToCheck.add(quest.getObjectives().get(currentObjectiveIndex));
+                    }
+                } else {
+                    // 자유 진행 - 모든 미완료 목표
+                    for (QuestObjective objective : quest.getObjectives()) {
+                        ObjectiveProgress objProgress = progress.getObjective(objective.getId());
+                        if (objProgress != null && !objProgress.isCompleted()) {
+                            objectivesToCheck.add(objective);
+                        }
+                    }
+                }
+                
+                // 각 목표 확인
+                for (QuestObjective objective : objectivesToCheck) {
+                    if (objective instanceof InteractNPCObjective interactObjective) {
+                        String npcId = interactObjective.getNpcId();
+                        
+                        // LogUtil.debug("Checking objective " + objective.getId() + " with NPC ID: " + npcId);
+                        
+                        if (npcId != null && npcId.equals(trait.getNpcId())) {
+                            // 퀘스트 목표 진행을 위해 원본 이벤트를 생성하여 전달
+                            // NPCRightClickEvent를 PlayerInteractEntityEvent로 전환할 수 없으므로
+                            // QuestManager에서 직접 처리하도록 수정
+                            ObjectiveProgress objProgress = progress.getObjective(objective.getId());
+                            if (objProgress != null && !objProgress.isCompleted()) {
+                                // 목표 진행도 증가
+                                objProgress.increment(1);
+                                
+                                // 목표 완료 체크
+                                if (objProgress.isCompleted()) {
+                                    // 목표 완료 알림
+                                    player.sendMessage(Component.text("✓ ", ColorUtil.SUCCESS)
+                                            .append(Component.text(objective.getStatusInfo(objProgress), ColorUtil.SUCCESS)));
+                                    SoundUtil.playSuccessSound(player);
+                                    
+                                    // 순차 진행인 경우 다음 목표로
+                                    if (quest.isSequential()) {
+                                        progress.setCurrentObjectiveIndex(progress.getCurrentObjectiveIndex() + 1);
+                                    }
+                                    
+                                    // 퀘스트 완료 체크
+                                    questManager.checkQuestCompletion(player.getUniqueId(), progress.getQuestId());
+                                } else {
+                                    // 진행도 알림
+                                    player.sendMessage(Component.text("퀘스트 진행: ", ColorUtil.INFO)
+                                            .append(Component.text(objective.getStatusInfo(objProgress), ColorUtil.YELLOW)));
+                                    SoundUtil.playClickSound(player);
+                                }
+                                
+                                // 데이터 저장 예약
+                                questManager.markForSave(player.getUniqueId());
+                                
+                                // LogUtil.debug("Progressed NPC interaction objective for quest " + quest.getId());
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // 퀘스트 목표가 아닌 경우 아무 동작도 하지 않음
+            // LogUtil.debug("No matching quest objective found for NPC codes");
+            return;
+        }
+        
+        // 기존 퀘스트 ID 기반 처리 (일반 퀘스트 NPC)
         List<QuestID> questIds = trait.getQuestIds();
         
         if (questIds.isEmpty()) {

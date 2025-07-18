@@ -68,9 +68,10 @@ public class NPCTraitSetter {
             List<Integer> npcIds = new ArrayList<>();
             for (com.febrie.rpg.quest.objective.QuestObjective objective : quest.getObjectives()) {
                 if (objective instanceof com.febrie.rpg.quest.objective.impl.InteractNPCObjective interactObj) {
-                    Integer npcId = interactObj.getNpcId();
-                    if (npcId != null && !npcIds.contains(npcId)) {
-                        npcIds.add(npcId);
+                    // Citizens NPC ID만 추출 (String npcId는 무시)
+                    Integer citizensNpcId = interactObj.getCitizensNpcId();
+                    if (citizensNpcId != null && !npcIds.contains(citizensNpcId)) {
+                        npcIds.add(citizensNpcId);
                     }
                 }
             }

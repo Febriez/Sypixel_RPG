@@ -3,6 +3,8 @@ package com.febrie.rpg.quest.objective.impl;
 import com.febrie.rpg.quest.objective.BaseObjective;
 import com.febrie.rpg.quest.objective.ObjectiveType;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
+import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.npc.trait.RPGQuestTrait;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
@@ -18,24 +20,20 @@ import java.util.UUID;
  * 특정 NPC와 상호작용
  * 
  * 사용법:
- * // UUID로 NPC 지정 (가장 안전)
+ * // 퀘스트 ID로 trait 체크 (권장)
+ * new InteractNPCObjective("talk_merchant", questId)
+ * 
+ * // UUID로 NPC 지정 (기존 방식)
  * UUID npcUuid = entity.getUniqueId();
  * new InteractNPCObjective("talk_merchant", npcUuid)
  * 
- * // Citizens NPC ID로 지정 (권장)
+ * // Citizens NPC ID로 지정 (기존 방식)
  * new InteractNPCObjective("talk_merchant", 42) // NPC ID가 42인 경우
- * 
  * 
  * // 빌더 패턴 사용
  * InteractNPCObjective.builder()
  *     .id("talk_merchant")
- *     .npcUuid(npcUuid)
- *     .build()
- * 
- * // 빌더 패턴으로 NPC ID 사용
- * InteractNPCObjective.builder()
- *     .id("talk_merchant")
- *     .npcId(42)
+ *     .questId(questId)
  *     .build()
  * 
  *
@@ -44,8 +42,39 @@ import java.util.UUID;
 public class InteractNPCObjective extends BaseObjective {
 
     private final @Nullable UUID npcUuid;
-    private final @Nullable Integer npcId; // Citizens NPC ID
+    private final @Nullable Integer citizensNpcId; // Citizens NPC ID (legacy)
+    private final @Nullable QuestID questId; // Quest ID for trait-based checking (legacy)
+    private final @Nullable String npcId; // NPC ID for trait-based checking
 
+    /**
+     * NPC ID 기반 생성자 (trait 체크용 - 권장)
+     *
+     * @param id    목표 ID
+     * @param npcId NPC ID
+     */
+    public InteractNPCObjective(@NotNull String id, @NotNull String npcId) {
+        super(id, 1);
+        this.npcId = Objects.requireNonNull(npcId);
+        this.npcUuid = null;
+        this.citizensNpcId = null;
+        this.questId = null;
+    }
+    
+    /**
+     * Quest ID 기반 생성자 (레거시)
+     *
+     * @param id      목표 ID
+     * @param questId 퀘스트 ID
+     */
+    @Deprecated
+    public InteractNPCObjective(@NotNull String id, @NotNull QuestID questId) {
+        super(id, 1);
+        this.questId = Objects.requireNonNull(questId);
+        this.npcUuid = null;
+        this.citizensNpcId = null;
+        this.npcId = null;
+    }
+    
     /**
      * UUID 기반 생성자 (가장 안전)
      *
@@ -55,19 +84,24 @@ public class InteractNPCObjective extends BaseObjective {
     public InteractNPCObjective(@NotNull String id, @NotNull UUID npcUuid) {
         super(id, 1);
         this.npcUuid = Objects.requireNonNull(npcUuid);
+        this.citizensNpcId = null;
+        this.questId = null;
         this.npcId = null;
     }
     
     /**
-     * Citizens NPC ID 기반 생성자 (권장)
+     * Citizens NPC ID 기반 생성자 (레거시)
      *
      * @param id    목표 ID
-     * @param npcId Citizens NPC ID
+     * @param citizensNpcId Citizens NPC ID
      */
-    public InteractNPCObjective(@NotNull String id, int npcId) {
+    @Deprecated
+    public InteractNPCObjective(@NotNull String id, int citizensNpcId) {
         super(id, 1);
         this.npcUuid = null;
-        this.npcId = npcId;
+        this.citizensNpcId = citizensNpcId;
+        this.questId = null;
+        this.npcId = null;
     }
     
 
@@ -79,10 +113,14 @@ public class InteractNPCObjective extends BaseObjective {
     @Override
     public @NotNull String getStatusInfo(@NotNull ObjectiveProgress progress) {
         String status;
-        if (npcUuid != null) {
+        if (npcId != null) {
+            status = "NPC와 대화하기"; // NPC ID 기반
+        } else if (questId != null) {
+            status = "퀘스트 NPC와 대화하기";
+        } else if (npcUuid != null) {
             status = "NPC (UUID: " + npcUuid.toString().substring(0, 8) + "...)";
-        } else if (npcId != null) {
-            status = "NPC (ID: " + npcId + ")";
+        } else if (citizensNpcId != null) {
+            status = "NPC (ID: " + citizensNpcId + ")";
         } else {
             status = "Unknown NPC";
         }
@@ -106,18 +144,44 @@ public class InteractNPCObjective extends BaseObjective {
 
         Entity entity = interactEvent.getRightClicked();
         
+        // NPC ID로 trait 확인 (새로운 방식 - 권장)
+        if (npcId != null) {
+            // Citizens API 확인
+            if (entity.hasMetadata("NPC")) {
+                net.citizensnpcs.api.npc.NPC npc = net.citizensnpcs.api.CitizensAPI.getNPCRegistry().getNPC(entity);
+                if (npc != null && npc.hasTrait(RPGQuestTrait.class)) {
+                    RPGQuestTrait trait = npc.getTrait(RPGQuestTrait.class);
+                    return npcId.equals(trait.getNpcId());
+                }
+            }
+            return false;
+        }
+        
+        // Quest ID로 trait 확인 (레거시)
+        if (questId != null) {
+            // Citizens API 확인
+            if (entity.hasMetadata("NPC")) {
+                net.citizensnpcs.api.npc.NPC npc = net.citizensnpcs.api.CitizensAPI.getNPCRegistry().getNPC(entity);
+                if (npc != null && npc.hasTrait(RPGQuestTrait.class)) {
+                    RPGQuestTrait trait = npc.getTrait(RPGQuestTrait.class);
+                    return trait.hasQuest(questId);
+                }
+            }
+            return false;
+        }
+        
         // UUID로 확인 (가장 안전한 방법)
         if (npcUuid != null) {
             return entity.getUniqueId().equals(npcUuid);
         }
         
-        // Citizens NPC ID로 확인
-        if (npcId != null) {
+        // Citizens NPC ID로 확인 (레거시)
+        if (citizensNpcId != null) {
             // Citizens API 확인
             if (entity.hasMetadata("NPC")) {
                 net.citizensnpcs.api.npc.NPC npc = net.citizensnpcs.api.CitizensAPI.getNPCRegistry().getNPC(entity);
                 if (npc != null) {
-                    return npc.getId() == npcId;
+                    return npc.getId() == citizensNpcId;
                 }
             }
             return false;
@@ -133,10 +197,14 @@ public class InteractNPCObjective extends BaseObjective {
 
     @Override
     protected @NotNull String serializeData() {
-        if (npcUuid != null) {
-            return "uuid:" + npcUuid.toString();
-        } else if (npcId != null) {
+        if (npcId != null) {
             return "id:" + npcId;
+        } else if (questId != null) {
+            return "quest:" + questId.name();
+        } else if (npcUuid != null) {
+            return "uuid:" + npcUuid.toString();
+        } else if (citizensNpcId != null) {
+            return "citizens:" + citizensNpcId;
         }
         return "unknown";
     }
@@ -145,7 +213,18 @@ public class InteractNPCObjective extends BaseObjective {
      * 직렬화된 데이터에서 객체 생성 (역직렬화)
      */
     public static InteractNPCObjective deserialize(@NotNull String id, @NotNull String data) {
-        if (data.startsWith("uuid:")) {
+        if (data.startsWith("id:")) {
+            String npcId = data.substring(3);
+            return new InteractNPCObjective(id, npcId);
+        } else if (data.startsWith("quest:")) {
+            String questIdStr = data.substring(6);
+            try {
+                QuestID questId = QuestID.valueOf(questIdStr);
+                return new InteractNPCObjective(id, questId);
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid Quest ID format: " + questIdStr);
+            }
+        } else if (data.startsWith("uuid:")) {
             String uuidStr = data.substring(5);
             try {
                 UUID uuid = UUID.fromString(uuidStr);
@@ -153,13 +232,13 @@ public class InteractNPCObjective extends BaseObjective {
             } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException("Invalid UUID format: " + uuidStr);
             }
-        } else if (data.startsWith("id:")) {
-            String idStr = data.substring(3);
+        } else if (data.startsWith("citizens:")) {
+            String idStr = data.substring(9);
             try {
-                int npcId = Integer.parseInt(idStr);
-                return new InteractNPCObjective(id, npcId);
+                int citizensNpcId = Integer.parseInt(idStr);
+                return new InteractNPCObjective(id, citizensNpcId);
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Invalid NPC ID format: " + idStr);
+                throw new IllegalArgumentException("Invalid Citizens NPC ID format: " + idStr);
             }
         }
         
@@ -174,9 +253,23 @@ public class InteractNPCObjective extends BaseObjective {
     }
     
     /**
-     * NPC ID 반환 (Citizens)
+     * Citizens NPC ID 반환 (레거시)
      */
-    public @Nullable Integer getNpcId() {
+    public @Nullable Integer getCitizensNpcId() {
+        return citizensNpcId;
+    }
+    
+    /**
+     * Quest ID 반환
+     */
+    public @Nullable QuestID getQuestId() {
+        return questId;
+    }
+    
+    /**
+     * NPC ID 반환
+     */
+    public @Nullable String getNpcId() {
         return npcId;
     }
     
@@ -187,22 +280,44 @@ public class InteractNPCObjective extends BaseObjective {
     public static class Builder {
         private String id;
         private UUID npcUuid;
-        private Integer npcId;
+        private Integer citizensNpcId;
+        private QuestID questId;
+        private String npcId;
         
         public Builder id(@NotNull String id) {
             this.id = id;
             return this;
         }
         
-        public Builder npcUuid(@NotNull UUID uuid) {
-            this.npcUuid = uuid;
+        public Builder npcId(@NotNull String npcId) {
+            this.npcId = npcId;
+            this.npcUuid = null;
+            this.citizensNpcId = null;
+            this.questId = null;
+            return this;
+        }
+        
+        public Builder questId(@NotNull QuestID questId) {
+            this.questId = questId;
+            this.npcUuid = null;
+            this.citizensNpcId = null;
             this.npcId = null;
             return this;
         }
         
-        public Builder npcId(int id) {
-            this.npcId = id;
+        public Builder npcUuid(@NotNull UUID uuid) {
+            this.npcUuid = uuid;
+            this.citizensNpcId = null;
+            this.questId = null;
+            this.npcId = null;
+            return this;
+        }
+        
+        public Builder citizensNpcId(int id) {
+            this.citizensNpcId = id;
             this.npcUuid = null;
+            this.questId = null;
+            this.npcId = null;
             return this;
         }
         
@@ -212,12 +327,16 @@ public class InteractNPCObjective extends BaseObjective {
                 throw new IllegalStateException("ID is required");
             }
             
-            if (npcUuid != null) {
-                return new InteractNPCObjective(id, npcUuid);
-            } else if (npcId != null) {
+            if (npcId != null) {
                 return new InteractNPCObjective(id, npcId);
+            } else if (questId != null) {
+                return new InteractNPCObjective(id, questId);
+            } else if (npcUuid != null) {
+                return new InteractNPCObjective(id, npcUuid);
+            } else if (citizensNpcId != null) {
+                return new InteractNPCObjective(id, citizensNpcId);
             } else {
-                throw new IllegalStateException("NPC identifier (UUID, ID, or QuestNPC) is required");
+                throw new IllegalStateException("NPC identifier (NPC ID, QuestID, UUID, or Citizens ID) is required");
             }
         }
     }
@@ -228,13 +347,13 @@ public class InteractNPCObjective extends BaseObjective {
     
     @Override
     public @Nullable String validate() {
-        if (npcUuid == null && npcId == null) {
-            return "InteractNPCObjective '" + id + "': NPC UUID 또는 ID가 설정되지 않았습니다.";
+        if (npcId == null && questId == null && npcUuid == null && citizensNpcId == null) {
+            return "InteractNPCObjective '" + id + "': NPC ID, Quest ID, NPC UUID 또는 Citizens ID가 설정되지 않았습니다.";
         }
         
         // Citizens NPC ID 유효성 검증
-        if (npcId != null && npcId <= 0) {
-            return "InteractNPCObjective '" + id + "': 잘못된 NPC ID (" + npcId + ")입니다. ID는 1 이상이어야 합니다.";
+        if (citizensNpcId != null && citizensNpcId <= 0) {
+            return "InteractNPCObjective '" + id + "': 잘못된 Citizens NPC ID (" + citizensNpcId + ")입니다. ID는 1 이상이어야 합니다.";
         }
         
         return null; // 유효함

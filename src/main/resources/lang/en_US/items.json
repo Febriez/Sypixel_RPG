@@ -21,7 +21,7 @@
       "lore": [
         "%COLOR_GRAY%Allocate your stat points.",
         "",
-        "%COLOR_YELLOW%▶ Click to open"
+        "%COLOR_YELLOW%▶ Click to go to stats page"
       ]
     },
     "talents-button": {
@@ -36,6 +36,30 @@
       "name": "%COLOR_GOLD%Server Rankings",
       "lore": [
         "%COLOR_GRAY%Check rankings in various categories.",
+        "",
+        "%COLOR_YELLOW%▶ Click to open"
+      ]
+    },
+    "hub-button": {
+      "name": "%COLOR_GREEN%Hub",
+      "lore": [
+        "%COLOR_GRAY%Move to the central hub.",
+        "",
+        "%COLOR_YELLOW%▶ Click to open"
+      ]
+    },
+    "wild-button": {
+      "name": "%COLOR_RED%Wild",
+      "lore": [
+        "%COLOR_GRAY%Hunt mobs in the wild area.",
+        "",
+        "%COLOR_YELLOW%▶ Click to open"
+      ]
+    },
+    "island-button": {
+      "name": "%COLOR_AQUA%Island",
+      "lore": [
+        "%COLOR_GRAY%Adventure to mysterious islands.",
         "",
         "%COLOR_YELLOW%▶ Click to open"
       ]

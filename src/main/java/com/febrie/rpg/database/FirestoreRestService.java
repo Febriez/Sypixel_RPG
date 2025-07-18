@@ -14,6 +14,7 @@ import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.util.LogUtil;
+import com.febrie.rpg.util.RetryUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -285,28 +286,40 @@ public class FirestoreRestService {
      * Firestore 문서 쓰기
      */
     private CompletableFuture<Boolean> setDocument(String path, JsonObject data) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create(FIRESTORE_BASE_URL + "/" + path))
-                        .header("Authorization", "Bearer " + accessToken)
-                        .header("Content-Type", "application/json")
-                        .method("PATCH", HttpRequest.BodyPublishers.ofString(data.toString()))
-                        .build();
+        return RetryUtil.executeWithRetry(() -> 
+            CompletableFuture.supplyAsync(() -> {
+                try {
+                    HttpRequest request = HttpRequest.newBuilder()
+                            .uri(URI.create(FIRESTORE_BASE_URL + "/" + path))
+                            .header("Authorization", "Bearer " + accessToken)
+                            .header("Content-Type", "application/json")
+                            .method("PATCH", HttpRequest.BodyPublishers.ofString(data.toString()))
+                            .build();
 
-                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+                    HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-                if (response.statusCode() == 200) {
-                    return true;
-                } else {
-                    LogUtil.error("문서 쓰기 실패: " + path + " - " + response.statusCode() + " - " + response.body());
+                    if (response.statusCode() == 200) {
+                        return true;
+                    } else {
+                        LogUtil.error("문서 쓰기 실패: " + path + " - " + response.statusCode() + " - " + response.body());
+                        // 5xx 오류는 재시도 가능
+                        if (response.statusCode() >= 500) {
+                            throw new RuntimeException("Server error: " + response.statusCode());
+                        }
+                        return false;
+                    }
+                } catch (Exception e) {
+                    LogUtil.error("문서 쓰기 중 오류: " + path, e);
+                    // 네트워크 오류는 재시도
+                    if (e instanceof java.net.ConnectException || 
+                        e instanceof java.net.SocketTimeoutException ||
+                        e instanceof java.io.IOException) {
+                        throw new RuntimeException("네트워크 오류", e);
+                    }
                     return false;
                 }
-            } catch (Exception e) {
-                LogUtil.error("문서 쓰기 중 오류: " + path, e);
-                return false;
-            }
-        });
+            })
+        , false);
     }
 
     /**
