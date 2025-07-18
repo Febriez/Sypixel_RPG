@@ -14,7 +14,6 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -35,9 +34,6 @@ public class LocationCheckTask implements Runnable {
     // 플레이어별 마지막 위치 캐시 (이동 감지용)
     private final Map<UUID, Location> lastLocations = new ConcurrentHashMap<>();
     
-    // 플레이어별 현재 영역 캐시
-    private final Map<UUID, Set<String>> playerRegionsCache = new ConcurrentHashMap<>();
-    
     public LocationCheckTask(@NotNull RPGMain plugin) {
         this.plugin = plugin;
     }
@@ -47,6 +43,7 @@ public class LocationCheckTask implements Runnable {
         // 온라인 플레이어 목록 가져오기
         Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
         if (onlinePlayers.isEmpty()) return;
+        
         
         // 비동기 처리
         CompletableFuture.runAsync(() -> {
@@ -65,9 +62,11 @@ public class LocationCheckTask implements Runnable {
                     QuestManager questManager = QuestManager.getInstance();
                     List<QuestProgress> activeQuests = questManager.getActiveQuests(playerId);
                     
+                    
                     for (QuestProgress progress : activeQuests) {
                         Quest quest = QuestManager.getInstance().getQuest(progress.getQuestId());
                         if (quest == null) continue;
+                        
                         
                         for (QuestObjective objective : quest.getObjectives()) {
                             if (objective instanceof VisitLocationObjective) {
@@ -112,18 +111,6 @@ public class LocationCheckTask implements Runnable {
                 }
             }
             
-            // 현재 위치의 영역 확인
-            Set<String> currentRegions = getRegionsAt(data.currentLocation);
-            Set<String> previousRegions = playerRegionsCache.getOrDefault(playerId, new HashSet<>());
-            
-            // 새로 진입한 영역 확인
-            boolean regionChanged = !currentRegions.equals(previousRegions);
-            if (regionChanged) {
-                playerRegionsCache.put(playerId, new HashSet<>(currentRegions));
-                if (!currentRegions.isEmpty()) {
-                    LogUtil.info("Player " + data.player.getName() + " is in regions: " + currentRegions);
-                }
-            }
             
             // 퀘스트 목표 처리
             for (QuestProgress progress : data.activeQuests) {
@@ -136,50 +123,29 @@ public class LocationCheckTask implements Runnable {
                 for (QuestObjective objective : quest.getObjectives()) {
                     if (!(objective instanceof VisitLocationObjective visitObj)) continue;
                     
+                    
                     // 이미 완료된 목표는 스킵
-                    if (progress.isObjectiveComplete(objective.getId())) continue;
+                    if (progress.isObjectiveComplete(objective.getId())) {
+                        continue;
+                    }
                     
                     boolean shouldProgress = false;
                     
-                    if (visitObj.getLocationType() == VisitLocationObjective.LocationType.WORLDGUARD_REGION) {
-                        // WorldGuard 영역 체크 (대소문자 구분 없이)
-                        String targetRegion = visitObj.getRegionName();
-                        boolean inTargetRegion = currentRegions.stream()
-                            .anyMatch(region -> region.equalsIgnoreCase(targetRegion));
-                        boolean wasInTargetRegion = previousRegions.stream()
-                            .anyMatch(region -> region.equalsIgnoreCase(targetRegion));
-                        
-                        if (inTargetRegion && !wasInTargetRegion) {
-                            shouldProgress = true;
-                            LogUtil.info("Player " + data.player.getName() + " entered region " + targetRegion + 
-                                " for quest " + quest.getId().name());
-                        }
-                    } else {
-                        // 좌표 기반 체크
-                        Location targetLocation = visitObj.getTargetLocation();
-                        if (targetLocation != null && 
-                            data.currentLocation.getWorld().equals(targetLocation.getWorld())) {
-                            double distance = data.currentLocation.distance(targetLocation);
-                            if (distance <= visitObj.getRadius()) {
-                                // 이전에 범위 밖에 있었는지 확인
-                                if (data.lastLocation == null || 
-                                    data.lastLocation.distance(targetLocation) > visitObj.getRadius()) {
-                                    shouldProgress = true;
-                                }
-                            }
-                        }
+                    // VisitLocationObjective의 checkLocation 메서드 호출
+                    if (visitObj.checkLocation(data.player, data.currentLocation)) {
+                        shouldProgress = true;
                     }
                     
                     // 메인 스레드에서 퀘스트 진행 처리
                     if (shouldProgress) {
                         Bukkit.getScheduler().runTask(plugin, () -> {
-                            // PlayerMoveEvent를 시뮬레이션
-                            PlayerMoveEvent fakeEvent = new PlayerMoveEvent(
-                                data.player, 
-                                data.lastLocation != null ? data.lastLocation : data.currentLocation,
-                                data.currentLocation
-                            );
-                            QuestManager.getInstance().progressObjective(fakeEvent, data.player);
+                            // 퀘스트 진행 처리
+                            QuestManager questManager = QuestManager.getInstance();
+                            QuestProgress questProgress = questManager.getQuestProgress(data.player.getUniqueId(), quest.getId());
+                            if (questProgress != null) {
+                                questProgress.incrementObjective(objective.getId(), 1);
+                                questManager.checkQuestCompletion(data.player.getUniqueId(), quest.getId());
+                            }
                         });
                     }
                 }
@@ -194,6 +160,7 @@ public class LocationCheckTask implements Runnable {
         Set<String> regionSet = new HashSet<>();
         
         if (Bukkit.getPluginManager().getPlugin("WorldGuard") == null) {
+            LogUtil.warning("[WorldGuard] Plugin not found!");
             return regionSet;
         }
 
@@ -205,6 +172,10 @@ public class LocationCheckTask implements Runnable {
             for (ProtectedRegion region : regions) {
                 regionSet.add(region.getId());
             }
+            if (!regionSet.isEmpty()) {
+            }
+        } else {
+            LogUtil.warning("[WorldGuard] RegionManager is null for world: " + location.getWorld().getName());
         }
 
         return regionSet;
@@ -215,7 +186,6 @@ public class LocationCheckTask implements Runnable {
      */
     public void clearPlayerCache(@NotNull UUID playerId) {
         lastLocations.remove(playerId);
-        playerRegionsCache.remove(playerId);
     }
     
     /**
@@ -223,7 +193,6 @@ public class LocationCheckTask implements Runnable {
      */
     public void clearAllCaches() {
         lastLocations.clear();
-        playerRegionsCache.clear();
     }
     
     /**

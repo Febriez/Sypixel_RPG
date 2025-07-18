@@ -26,9 +26,6 @@ public class RPGQuestTrait extends Trait {
     @Persist("npcId")
     private String npcId = null;
 
-    @Persist("npcType")
-    private String npcType = "QUEST";
-
     public RPGQuestTrait() {
         super("rpgquest");
     }
@@ -98,20 +95,6 @@ public class RPGQuestTrait extends Trait {
      */
     public void clearNpcId() {
         this.npcId = null;
-    }
-    
-    /**
-     * NPC 타입 설정
-     */
-    public void setNpcType(String npcType) {
-        this.npcType = npcType;
-    }
-
-    /**
-     * NPC 타입 조회
-     */
-    public String getNpcType() {
-        return npcType;
     }
 
     /**

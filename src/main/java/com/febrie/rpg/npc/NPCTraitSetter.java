@@ -12,9 +12,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * NPC Trait 설정 대기 관리자
@@ -64,31 +67,30 @@ public class NPCTraitSetter {
         
         // 퀘스트 Trait 등록 아이템 지급 (OP나 admin 권한 있는 경우)
         if (player.hasPermission("sypixelrpg.admin") || player.isOp()) {
-            // 퀘스트의 모든 NPC 상호작용 목표에 대한 아이템 생성
-            List<Integer> npcIds = new ArrayList<>();
+            // 퀘스트에서 필요한 NPC ID 추출
+            Set<String> requiredNpcIds = new HashSet<>();
             for (com.febrie.rpg.quest.objective.QuestObjective objective : quest.getObjectives()) {
                 if (objective instanceof com.febrie.rpg.quest.objective.impl.InteractNPCObjective interactObj) {
-                    // Citizens NPC ID만 추출 (String npcId는 무시)
-                    Integer citizensNpcId = interactObj.getCitizensNpcId();
-                    if (citizensNpcId != null && !npcIds.contains(citizensNpcId)) {
-                        npcIds.add(citizensNpcId);
+                    String npcId = interactObj.getNpcId();
+                    if (npcId != null && !npcId.isEmpty()) {
+                        requiredNpcIds.add(npcId);
                     }
                 }
             }
             
-            if (npcIds.isEmpty()) {
-                player.getInventory().addItem(
-                    com.febrie.rpg.quest.trait.QuestTraitRegistrationItem.createRegistrationItem(quest)
-                );
-                player.sendMessage(Component.text("퀘스트 Trait 등록 아이템이 지급되었습니다.", ColorUtil.SUCCESS));
+            if (requiredNpcIds.isEmpty()) {
+                player.sendMessage(Component.text("이 퀘스트는 NPC 상호작용 목표가 없습니다.", ColorUtil.WARNING));
             } else {
-                // 각 NPC별로 개별 아이템 생성
-                for (Integer npcId : npcIds) {
-                    player.getInventory().addItem(
-                        com.febrie.rpg.quest.trait.QuestTraitRegistrationItem.createRegistrationItemForNPC(quest, npcId)
+                // 각 NPC ID별로 개별 아이템 생성
+                for (String npcId : requiredNpcIds) {
+                    ItemStack item = com.febrie.rpg.quest.trait.QuestTraitRegistrationItem.createRegistrationItem(
+                        npcId, 
+                        quest.getDisplayName(true) + " - " + npcId
                     );
+                    player.getInventory().addItem(item);
                 }
-                player.sendMessage(Component.text(npcIds.size() + "개의 NPC Trait 등록 아이템이 지급되었습니다.", ColorUtil.SUCCESS));
+                player.sendMessage(Component.text(requiredNpcIds.size() + "개의 NPC Trait 등록 아이템이 지급되었습니다.", ColorUtil.SUCCESS));
+                player.sendMessage(Component.text("NPC ID: " + String.join(", ", requiredNpcIds), ColorUtil.GRAY));
             }
         }
         

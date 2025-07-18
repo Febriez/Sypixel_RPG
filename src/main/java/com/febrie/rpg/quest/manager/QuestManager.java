@@ -502,7 +502,6 @@ public class QuestManager {
         locationCheckTask = new LocationCheckTask(plugin);
         // 3초마다 실행 (60틱 = 3초)
         locationCheckScheduler = Bukkit.getScheduler().runTaskTimer(plugin, locationCheckTask, 60L, 60L);
-        LogUtil.info("Started location check scheduler (every 3 seconds)");
     }
 
     /**

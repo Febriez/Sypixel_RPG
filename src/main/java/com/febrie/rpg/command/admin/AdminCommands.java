@@ -486,7 +486,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         }
 
         if (args.length == 1) {
-            return Arrays.asList("stats", "reload", "debug", "viewprofile", "exp", "level", "job", "npc", "quest")
+            return Arrays.asList("stats", "reload", "viewprofile", "exp", "level", "job", "npc", "quest")
                     .stream()
                     .filter(s -> s.startsWith(args[0].toLowerCase()))
                     .collect(Collectors.toList());

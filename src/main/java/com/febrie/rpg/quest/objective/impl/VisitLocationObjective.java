@@ -12,7 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,19 +29,7 @@ import java.util.*;
  * Location spawnLocation = world.getSpawnLocation();
  * new VisitLocationObjective("visit_spawn", spawnLocation, 10.0, "스폰 지점")
  * 
- * // 빌더 패턴 사용 (영역)
- * VisitLocationObjective.builder()
- *     .id("visit_hub")
- *     .region("Hub")
- *     .build()
- * 
- * // 빌더 패턴 사용 (좌표)
- * VisitLocationObjective.builder()
- *     .id("visit_spawn")
- *     .location(spawnLocation)
- *     .radius(10.0)
- *     .locationName("스폰 지점")
- *     .build()
+ * 참고: LocationCheckTask에서 3초마다 자동으로 위치를 체크함
  *
  * @author Febrie
  */
@@ -86,6 +73,7 @@ public class VisitLocationObjective extends BaseObjective {
 
         // WorldGuard 플러그인 확인
         if (Bukkit.getPluginManager().getPlugin("WorldGuard") == null) {
+            com.febrie.rpg.util.LogUtil.error("[WorldGuard] Plugin is not loaded when creating VisitLocationObjective for region: " + regionName);
             throw new IllegalStateException("WorldGuard plugin is not loaded");
         }
     }
@@ -121,42 +109,26 @@ public class VisitLocationObjective extends BaseObjective {
         return locationName + " " + getProgressString(progress);
     }
 
-    @Override
-    public boolean canProgress(@NotNull Event event, @NotNull Player player) {
-        if (!(event instanceof PlayerMoveEvent moveEvent)) {
-            return false;
-        }
-
-        // 플레이어 확인
-        if (!moveEvent.getPlayer().equals(player)) {
-            return false;
-        }
-
-        Location to = moveEvent.getTo();
-        if (to == null) return false;
-
-        // 작은 움직임은 무시 (블록 단위 이동만 체크)
-        Location from = moveEvent.getFrom();
-        if (from.getBlockX() == to.getBlockX() &&
-                from.getBlockZ() == to.getBlockZ()) {
-            return false;
-        }
-
+    /**
+     * 플레이어가 현재 목표 위치에 있는지 확인
+     * LocationCheckTask에서 호출됨
+     */
+    public boolean checkLocation(@NotNull Player player, @NotNull Location location) {
         UUID playerId = player.getUniqueId();
         boolean inTargetLocation = false;
 
         // 타입에 따른 처리
         if (locationType == LocationType.WORLDGUARD_REGION) {
             // WorldGuard 영역 확인
-            Set<String> currentRegions = getRegionsAt(to);
+            Set<String> currentRegions = getRegionsAt(location);
             inTargetLocation = currentRegions.stream()
                     .anyMatch(region -> region.equalsIgnoreCase(regionName));
         } else {
             // 좌표 기반 확인
-            if (!to.getWorld().equals(targetLocation.getWorld())) {
+            if (!location.getWorld().equals(targetLocation.getWorld())) {
                 return false;
             }
-            inTargetLocation = to.distance(targetLocation) <= radius;
+            inTargetLocation = location.distance(targetLocation) <= radius;
         }
 
         // 이전에 위치에 있었는지 확인
@@ -173,10 +145,17 @@ public class VisitLocationObjective extends BaseObjective {
         
         return false;
     }
+    
+    @Override
+    public boolean canProgress(@NotNull Event event, @NotNull Player player) {
+        // LocationCheckTask에서만 호출되므로 직접 체크하지 않음
+        return false;
+    }
 
     @Override
     public int calculateIncrement(@NotNull Event event, @NotNull Player player) {
-        return canProgress(event, player) ? 1 : 0;
+        // LocationCheckTask에서만 호출되므로 0 반환
+        return 0;
     }
 
     /**
