@@ -1,4 +1,4 @@
-package com.febrie.rpg.island.dto;
+package com.febrie.rpg.dto.island;
 
 import org.bukkit.Location;
 import org.bukkit.World;

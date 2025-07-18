@@ -1865,49 +1865,57 @@ public class FirestoreRestService {
     /**
      * 섬 정보 저장
      */
-    public CompletableFuture<Boolean> saveIsland(@NotNull com.febrie.rpg.island.dto.IslandDTO island) {
+    public CompletableFuture<Boolean> saveIsland(@NotNull com.febrie.rpg.dto.island.IslandDTO island) {
         if (!isConnected()) {
             return CompletableFuture.completedFuture(false);
         }
         
-        JsonObject doc = createIslandDocument(island);
-        return setDocument(ISLANDS_COLLECTION + "/" + island.islandId(), doc);
+        Map<String, Object> data = island.toMap();
+        return setDocument(ISLANDS_COLLECTION + "/" + island.islandId(), convertMapToJsonObject(data));
     }
     
     /**
      * 섬 정보 로드
      */
-    public CompletableFuture<com.febrie.rpg.island.dto.IslandDTO> loadIsland(@NotNull String islandId) {
+    public CompletableFuture<com.febrie.rpg.dto.island.IslandDTO> loadIsland(@NotNull String islandId) {
         if (!isConnected()) {
             return CompletableFuture.completedFuture(null);
         }
         
         return getDocument(ISLANDS_COLLECTION + "/" + islandId)
-                .thenApply(doc -> doc == null ? null : parseIslandDTO(doc));
+                .thenApply(doc -> {
+                    if (doc == null) return null;
+                    Map<String, Object> data = convertJsonObjectToMap(doc);
+                    return com.febrie.rpg.dto.island.IslandDTO.fromMap(data);
+                });
     }
     
     /**
      * 플레이어의 섬 데이터 저장
      */
-    public CompletableFuture<Boolean> savePlayerIslandData(@NotNull com.febrie.rpg.island.dto.PlayerIslandDataDTO data) {
+    public CompletableFuture<Boolean> savePlayerIslandData(@NotNull com.febrie.rpg.dto.island.PlayerIslandDataDTO data) {
         if (!isConnected()) {
             return CompletableFuture.completedFuture(false);
         }
         
-        JsonObject doc = createPlayerIslandDataDocument(data);
-        return setDocument(PLAYER_ISLAND_DATA_COLLECTION + "/" + data.playerUuid(), doc);
+        Map<String, Object> map = data.toMap();
+        return setDocument(PLAYER_ISLAND_DATA_COLLECTION + "/" + data.playerUuid(), convertMapToJsonObject(map));
     }
     
     /**
      * 플레이어의 섬 데이터 로드
      */
-    public CompletableFuture<com.febrie.rpg.island.dto.PlayerIslandDataDTO> loadPlayerIslandData(@NotNull String playerUuid) {
+    public CompletableFuture<com.febrie.rpg.dto.island.PlayerIslandDataDTO> loadPlayerIslandData(@NotNull String playerUuid) {
         if (!isConnected()) {
             return CompletableFuture.completedFuture(null);
         }
         
         return getDocument(PLAYER_ISLAND_DATA_COLLECTION + "/" + playerUuid)
-                .thenApply(doc -> doc == null ? null : parsePlayerIslandDataDTO(doc));
+                .thenApply(doc -> {
+                    if (doc == null) return null;
+                    Map<String, Object> data = convertJsonObjectToMap(doc);
+                    return com.febrie.rpg.dto.island.PlayerIslandDataDTO.fromMap(data);
+                });
     }
     
     /**
@@ -1924,7 +1932,7 @@ public class FirestoreRestService {
     /**
      * 공개 섬 목록 조회
      */
-    public CompletableFuture<List<com.febrie.rpg.island.dto.IslandDTO>> loadPublicIslands(int limit) {
+    public CompletableFuture<List<com.febrie.rpg.dto.island.IslandDTO>> loadPublicIslands(int limit) {
         if (!isConnected()) {
             return CompletableFuture.completedFuture(new ArrayList<>());
         }
@@ -1969,10 +1977,14 @@ public class FirestoreRestService {
         
         return runQuery(ISLANDS_COLLECTION, query)
                 .thenApply(results -> {
-                    List<com.febrie.rpg.island.dto.IslandDTO> islands = new ArrayList<>();
+                    List<com.febrie.rpg.dto.island.IslandDTO> islands = new ArrayList<>();
                     for (JsonObject result : results) {
                         try {
-                            islands.add(parseIslandDTO(result));
+                            if (result.has("document")) {
+                                JsonObject document = result.getAsJsonObject("document");
+                                Map<String, Object> data = convertJsonObjectToMap(document);
+                                islands.add(com.febrie.rpg.dto.island.IslandDTO.fromMap(data));
+                            }
                         } catch (Exception e) {
                             LogUtil.warning("섬 파싱 실패: " + e.getMessage());
                         }
@@ -1981,743 +1993,6 @@ public class FirestoreRestService {
                 });
     }
     
-    /**
-     * 섬 문서 생성
-     */
-    private JsonObject createIslandDocument(@NotNull com.febrie.rpg.island.dto.IslandDTO island) {
-        JsonObject doc = new JsonObject();
-        JsonObject fields = new JsonObject();
-        
-        fields.add("islandId", createStringValue(island.islandId()));
-        fields.add("ownerUuid", createStringValue(island.ownerUuid()));
-        fields.add("ownerName", createStringValue(island.ownerName()));
-        fields.add("islandName", createStringValue(island.islandName()));
-        fields.add("size", createIntegerValue(island.size()));
-        fields.add("isPublic", createBooleanValue(island.isPublic()));
-        fields.add("createdAt", createTimestampValue(island.createdAt()));
-        fields.add("lastActivity", createTimestampValue(island.lastActivity()));
-        
-        // 멤버 목록
-        fields.add("members", createMembersArray(island.members()));
-        
-        // 알바생 목록
-        fields.add("workers", createWorkersArray(island.workers()));
-        
-        // 기여도 맵
-        fields.add("contributions", createContributionsMap(island.contributions()));
-        
-        // 스폰 데이터
-        fields.add("spawnData", createSpawnDataMap(island.spawnData()));
-        
-        // 업그레이드 데이터
-        fields.add("upgradeData", createUpgradeDataMap(island.upgradeData()));
-        
-        // 권한 데이터
-        fields.add("permissions", createPermissionsMap(island.permissions()));
-        
-        // 대기중인 초대
-        fields.add("pendingInvites", createInvitesArray(island.pendingInvites()));
-        
-        // 최근 방문
-        fields.add("recentVisits", createVisitsArray(island.recentVisits()));
-        
-        fields.add("totalResets", createIntegerValue(island.totalResets()));
-        
-        if (island.deletionScheduledAt() != null) {
-            fields.add("deletionScheduledAt", createTimestampValue(island.deletionScheduledAt()));
-        }
-        
-        doc.add("fields", fields);
-        return doc;
-    }
-    
-    /**
-     * 섬 DTO 파싱
-     */
-    private com.febrie.rpg.island.dto.IslandDTO parseIslandDTO(@NotNull JsonObject doc) {
-        JsonObject fields = doc.getAsJsonObject("fields");
-        
-        return new com.febrie.rpg.island.dto.IslandDTO(
-                getStringValue(fields, "islandId"),
-                getStringValue(fields, "ownerUuid"),
-                getStringValue(fields, "ownerName"),
-                getStringValue(fields, "islandName"),
-                getIntValue(fields, "size"),
-                getBooleanValue(fields, "isPublic"),
-                getTimestampValue(fields, "createdAt"),
-                getTimestampValue(fields, "lastActivity"),
-                parseMembersList(fields.get("members")),
-                parseWorkersList(fields.get("workers")),
-                parseContributionsMap(fields.get("contributions")),
-                parseSpawnData(fields.get("spawnData")),
-                parseUpgradeData(fields.get("upgradeData")),
-                parsePermissions(fields.get("permissions")),
-                parseInvitesList(fields.get("pendingInvites")),
-                parseVisitsList(fields.get("recentVisits")),
-                getIntValue(fields, "totalResets"),
-                fields.has("deletionScheduledAt") ? getTimestampValue(fields, "deletionScheduledAt") : null
-        );
-    }
-    
-    /**
-     * 플레이어 섬 데이터 문서 생성
-     */
-    private JsonObject createPlayerIslandDataDocument(@NotNull com.febrie.rpg.island.dto.PlayerIslandDataDTO data) {
-        JsonObject doc = new JsonObject();
-        JsonObject fields = new JsonObject();
-        
-        fields.add("playerUuid", createStringValue(data.playerUuid()));
-        
-        if (data.currentIslandId() != null) {
-            fields.add("currentIslandId", createStringValue(data.currentIslandId()));
-        }
-        
-        if (data.role() != null) {
-            fields.add("role", createStringValue(data.role().name()));
-        }
-        
-        fields.add("totalIslandResets", createIntegerValue(data.totalIslandResets()));
-        fields.add("lastIslandActivity", createTimestampValue(data.lastIslandActivity()));
-        
-        doc.add("fields", fields);
-        return doc;
-    }
-    
-    /**
-     * 플레이어 섬 데이터 DTO 파싱
-     */
-    private com.febrie.rpg.island.dto.PlayerIslandDataDTO parsePlayerIslandDataDTO(@NotNull JsonObject doc) {
-        JsonObject fields = doc.getAsJsonObject("fields");
-        
-        String currentIslandId = fields.has("currentIslandId") ? 
-                getStringValue(fields, "currentIslandId") : null;
-                
-        com.febrie.rpg.island.dto.IslandRole role = null;
-        if (fields.has("role")) {
-            try {
-                role = com.febrie.rpg.island.dto.IslandRole.valueOf(getStringValue(fields, "role"));
-            } catch (Exception e) {
-                LogUtil.warning("Invalid island role: " + getStringValue(fields, "role"));
-            }
-        }
-        
-        return new com.febrie.rpg.island.dto.PlayerIslandDataDTO(
-                getStringValue(fields, "playerUuid"),
-                currentIslandId,
-                role,
-                getIntValue(fields, "totalIslandResets"),
-                getTimestampValue(fields, "lastIslandActivity")
-        );
-    }
-    
-    // 헬퍼 메서드들
-    private JsonObject createMembersArray(List<com.febrie.rpg.island.dto.IslandMemberDTO> members) {
-        JsonObject arrayValue = new JsonObject();
-        JsonArray values = new JsonArray();
-        
-        for (com.febrie.rpg.island.dto.IslandMemberDTO member : members) {
-            JsonObject memberMap = new JsonObject();
-            JsonObject mapValue = new JsonObject();
-            JsonArray fields = new JsonArray();
-            
-            fields.add(createMapField("uuid", createStringValue(member.uuid())));
-            fields.add(createMapField("name", createStringValue(member.name())));
-            fields.add(createMapField("isCoOwner", createBooleanValue(member.isCoOwner())));
-            fields.add(createMapField("joinedAt", createTimestampValue(member.joinedAt())));
-            fields.add(createMapField("lastActivity", createTimestampValue(member.lastActivity())));
-            
-            if (member.personalSpawn() != null) {
-                fields.add(createMapField("personalSpawn", createSpawnPointMap(member.personalSpawn())));
-            }
-            
-            mapValue.add("fields", fields);
-            memberMap.add("mapValue", mapValue);
-            values.add(memberMap);
-        }
-        
-        arrayValue.add("values", values);
-        JsonObject result = new JsonObject();
-        result.add("arrayValue", arrayValue);
-        return result;
-    }
-    
-    private JsonObject createWorkersArray(List<com.febrie.rpg.island.dto.IslandWorkerDTO> workers) {
-        JsonObject arrayValue = new JsonObject();
-        JsonArray values = new JsonArray();
-        
-        for (com.febrie.rpg.island.dto.IslandWorkerDTO worker : workers) {
-            JsonObject workerMap = new JsonObject();
-            JsonObject mapValue = new JsonObject();
-            JsonArray fields = new JsonArray();
-            
-            fields.add(createMapField("uuid", createStringValue(worker.uuid())));
-            fields.add(createMapField("name", createStringValue(worker.name())));
-            fields.add(createMapField("hiredAt", createTimestampValue(worker.hiredAt())));
-            fields.add(createMapField("lastActivity", createTimestampValue(worker.lastActivity())));
-            
-            mapValue.add("fields", fields);
-            workerMap.add("mapValue", mapValue);
-            values.add(workerMap);
-        }
-        
-        arrayValue.add("values", values);
-        JsonObject result = new JsonObject();
-        result.add("arrayValue", arrayValue);
-        return result;
-    }
-    
-    private JsonObject createContributionsMap(Map<String, Long> contributions) {
-        JsonObject mapValue = new JsonObject();
-        JsonArray fields = new JsonArray();
-        
-        for (Map.Entry<String, Long> entry : contributions.entrySet()) {
-            fields.add(createMapField(entry.getKey(), createIntegerValue(entry.getValue())));
-        }
-        
-        mapValue.add("fields", fields);
-        JsonObject result = new JsonObject();
-        result.add("mapValue", mapValue);
-        return result;
-    }
-    
-    private JsonObject createSpawnDataMap(com.febrie.rpg.island.dto.IslandSpawnDTO spawnData) {
-        JsonObject mapValue = new JsonObject();
-        JsonArray fields = new JsonArray();
-        
-        fields.add(createMapField("defaultSpawn", createSpawnPointMap(spawnData.defaultSpawn())));
-        fields.add(createMapField("ownerSpawns", createSpawnPointsArray(spawnData.ownerSpawns())));
-        fields.add(createMapField("memberSpawns", createMemberSpawnsMap(spawnData.memberSpawns())));
-        
-        mapValue.add("fields", fields);
-        JsonObject result = new JsonObject();
-        result.add("mapValue", mapValue);
-        return result;
-    }
-    
-    private JsonObject createSpawnPointMap(com.febrie.rpg.island.dto.IslandSpawnPointDTO spawn) {
-        JsonObject mapValue = new JsonObject();
-        JsonArray fields = new JsonArray();
-        
-        fields.add(createMapField("x", createDoubleValue(spawn.x())));
-        fields.add(createMapField("y", createDoubleValue(spawn.y())));
-        fields.add(createMapField("z", createDoubleValue(spawn.z())));
-        fields.add(createMapField("yaw", createDoubleValue(spawn.yaw())));
-        fields.add(createMapField("pitch", createDoubleValue(spawn.pitch())));
-        fields.add(createMapField("alias", createStringValue(spawn.alias())));
-        
-        mapValue.add("fields", fields);
-        JsonObject result = new JsonObject();
-        result.add("mapValue", mapValue);
-        return result;
-    }
-    
-    private JsonObject createMapField(String key, JsonObject value) {
-        JsonObject field = new JsonObject();
-        JsonObject keyObj = new JsonObject();
-        keyObj.addProperty("stringValue", key);
-        field.add("key", keyObj);
-        field.add("value", value);
-        return field;
-    }
-    
-    private JsonObject createSpawnPointsArray(List<com.febrie.rpg.island.dto.IslandSpawnPointDTO> spawns) {
-        JsonObject arrayValue = new JsonObject();
-        JsonArray values = new JsonArray();
-        
-        for (com.febrie.rpg.island.dto.IslandSpawnPointDTO spawn : spawns) {
-            values.add(createSpawnPointMap(spawn));
-        }
-        
-        arrayValue.add("values", values);
-        JsonObject result = new JsonObject();
-        result.add("arrayValue", arrayValue);
-        return result;
-    }
-    
-    private JsonObject createMemberSpawnsMap(Map<String, com.febrie.rpg.island.dto.IslandSpawnPointDTO> spawns) {
-        JsonObject mapValue = new JsonObject();
-        JsonArray fields = new JsonArray();
-        
-        for (Map.Entry<String, com.febrie.rpg.island.dto.IslandSpawnPointDTO> entry : spawns.entrySet()) {
-            fields.add(createMapField(entry.getKey(), createSpawnPointMap(entry.getValue())));
-        }
-        
-        mapValue.add("fields", fields);
-        JsonObject result = new JsonObject();
-        result.add("mapValue", mapValue);
-        return result;
-    }
-    
-    private JsonObject createUpgradeDataMap(com.febrie.rpg.island.dto.IslandUpgradeDTO upgrade) {
-        JsonObject mapValue = new JsonObject();
-        JsonArray fields = new JsonArray();
-        
-        fields.add(createMapField("sizeLevel", createIntegerValue(upgrade.sizeLevel())));
-        fields.add(createMapField("memberLimit", createIntegerValue(upgrade.memberLimit())));
-        fields.add(createMapField("workerLimit", createIntegerValue(upgrade.workerLimit())));
-        fields.add(createMapField("lastUpgradeAt", createTimestampValue(upgrade.lastUpgradeAt())));
-        
-        mapValue.add("fields", fields);
-        JsonObject result = new JsonObject();
-        result.add("mapValue", mapValue);
-        return result;
-    }
-    
-    private JsonObject createPermissionsMap(com.febrie.rpg.island.dto.IslandPermissionDTO permissions) {
-        JsonObject mapValue = new JsonObject();
-        JsonArray fields = new JsonArray();
-        
-        for (Map.Entry<com.febrie.rpg.island.dto.IslandRole, com.febrie.rpg.island.dto.IslandPermissionDTO.RolePermissions> entry : permissions.rolePermissions().entrySet()) {
-            fields.add(createMapField(entry.getKey().name(), createRolePermissionsMap(entry.getValue())));
-        }
-        
-        mapValue.add("fields", fields);
-        JsonObject result = new JsonObject();
-        result.add("mapValue", mapValue);
-        return result;
-    }
-    
-    private JsonObject createRolePermissionsMap(com.febrie.rpg.island.dto.IslandPermissionDTO.RolePermissions perms) {
-        JsonObject mapValue = new JsonObject();
-        JsonArray fields = new JsonArray();
-        
-        fields.add(createMapField("canBuild", createBooleanValue(perms.canBuild())));
-        fields.add(createMapField("canAccessChest", createBooleanValue(perms.canAccessChest())));
-        fields.add(createMapField("canKillMobs", createBooleanValue(perms.canKillMobs())));
-        fields.add(createMapField("canPickupItems", createBooleanValue(perms.canPickupItems())));
-        fields.add(createMapField("canInviteMembers", createBooleanValue(perms.canInviteMembers())));
-        fields.add(createMapField("canKickMembers", createBooleanValue(perms.canKickMembers())));
-        fields.add(createMapField("canEarnContribution", createBooleanValue(perms.canEarnContribution())));
-        fields.add(createMapField("canSetSpawn", createBooleanValue(perms.canSetSpawn())));
-        
-        mapValue.add("fields", fields);
-        JsonObject result = new JsonObject();
-        result.add("mapValue", mapValue);
-        return result;
-    }
-    
-    private JsonObject createInvitesArray(List<com.febrie.rpg.island.dto.IslandInviteDTO> invites) {
-        JsonObject arrayValue = new JsonObject();
-        JsonArray values = new JsonArray();
-        
-        for (com.febrie.rpg.island.dto.IslandInviteDTO invite : invites) {
-            JsonObject inviteMap = new JsonObject();
-            JsonObject mapValue = new JsonObject();
-            JsonArray fields = new JsonArray();
-            
-            fields.add(createMapField("inviteId", createStringValue(invite.inviteId())));
-            fields.add(createMapField("targetUuid", createStringValue(invite.targetUuid())));
-            fields.add(createMapField("targetName", createStringValue(invite.targetName())));
-            fields.add(createMapField("inviterUuid", createStringValue(invite.inviterUuid())));
-            fields.add(createMapField("inviterName", createStringValue(invite.inviterName())));
-            fields.add(createMapField("createdAt", createTimestampValue(invite.createdAt())));
-            fields.add(createMapField("expiresAt", createTimestampValue(invite.expiresAt())));
-            
-            mapValue.add("fields", fields);
-            inviteMap.add("mapValue", mapValue);
-            values.add(inviteMap);
-        }
-        
-        arrayValue.add("values", values);
-        JsonObject result = new JsonObject();
-        result.add("arrayValue", arrayValue);
-        return result;
-    }
-    
-    private JsonObject createVisitsArray(List<com.febrie.rpg.island.dto.IslandVisitDTO> visits) {
-        JsonObject arrayValue = new JsonObject();
-        JsonArray values = new JsonArray();
-        
-        for (com.febrie.rpg.island.dto.IslandVisitDTO visit : visits) {
-            JsonObject visitMap = new JsonObject();
-            JsonObject mapValue = new JsonObject();
-            JsonArray fields = new JsonArray();
-            
-            fields.add(createMapField("visitorUuid", createStringValue(visit.visitorUuid())));
-            fields.add(createMapField("visitorName", createStringValue(visit.visitorName())));
-            fields.add(createMapField("visitedAt", createTimestampValue(visit.visitedAt())));
-            fields.add(createMapField("duration", createIntegerValue(visit.duration())));
-            
-            mapValue.add("fields", fields);
-            visitMap.add("mapValue", mapValue);
-            values.add(visitMap);
-        }
-        
-        arrayValue.add("values", values);
-        JsonObject result = new JsonObject();
-        result.add("arrayValue", arrayValue);
-        return result;
-    }
-    
-    // 파싱 헬퍼 메서드들
-    private List<com.febrie.rpg.island.dto.IslandMemberDTO> parseMembersList(JsonElement element) {
-        List<com.febrie.rpg.island.dto.IslandMemberDTO> members = new ArrayList<>();
-        if (element == null || !element.isJsonObject()) return members;
-        
-        JsonObject obj = element.getAsJsonObject();
-        if (!obj.has("arrayValue")) return members;
-        
-        JsonArray values = obj.getAsJsonObject("arrayValue").getAsJsonArray("values");
-        for (JsonElement value : values) {
-            JsonObject mapValue = value.getAsJsonObject().getAsJsonObject("mapValue");
-            JsonArray fields = mapValue.getAsJsonArray("fields");
-            
-            String uuid = null, name = null;
-            boolean isCoOwner = false;
-            long joinedAt = 0, lastActivity = 0;
-            com.febrie.rpg.island.dto.IslandSpawnPointDTO personalSpawn = null;
-            
-            for (JsonElement field : fields) {
-                JsonObject fieldObj = field.getAsJsonObject();
-                String key = fieldObj.getAsJsonObject("key").get("stringValue").getAsString();
-                JsonObject val = fieldObj.getAsJsonObject("value");
-                
-                switch (key) {
-                    case "uuid" -> uuid = val.get("stringValue").getAsString();
-                    case "name" -> name = val.get("stringValue").getAsString();
-                    case "isCoOwner" -> isCoOwner = val.get("booleanValue").getAsBoolean();
-                    case "joinedAt" -> joinedAt = parseTimestampToMillis(val.get("timestampValue").getAsString());
-                    case "lastActivity" -> lastActivity = parseTimestampToMillis(val.get("timestampValue").getAsString());
-                    case "personalSpawn" -> personalSpawn = parseSpawnPoint(val);
-                }
-            }
-            
-            members.add(new com.febrie.rpg.island.dto.IslandMemberDTO(uuid, name, isCoOwner, joinedAt, lastActivity, personalSpawn));
-        }
-        
-        return members;
-    }
-    
-    private List<com.febrie.rpg.island.dto.IslandWorkerDTO> parseWorkersList(JsonElement element) {
-        List<com.febrie.rpg.island.dto.IslandWorkerDTO> workers = new ArrayList<>();
-        if (element == null || !element.isJsonObject()) return workers;
-        
-        JsonObject obj = element.getAsJsonObject();
-        if (!obj.has("arrayValue")) return workers;
-        
-        JsonArray values = obj.getAsJsonObject("arrayValue").getAsJsonArray("values");
-        for (JsonElement value : values) {
-            JsonObject mapValue = value.getAsJsonObject().getAsJsonObject("mapValue");
-            JsonArray fields = mapValue.getAsJsonArray("fields");
-            
-            String uuid = null, name = null;
-            long hiredAt = 0, lastActivity = 0;
-            
-            for (JsonElement field : fields) {
-                JsonObject fieldObj = field.getAsJsonObject();
-                String key = fieldObj.getAsJsonObject("key").get("stringValue").getAsString();
-                JsonObject val = fieldObj.getAsJsonObject("value");
-                
-                switch (key) {
-                    case "uuid" -> uuid = val.get("stringValue").getAsString();
-                    case "name" -> name = val.get("stringValue").getAsString();
-                    case "hiredAt" -> hiredAt = parseTimestampToMillis(val.get("timestampValue").getAsString());
-                    case "lastActivity" -> lastActivity = parseTimestampToMillis(val.get("timestampValue").getAsString());
-                }
-            }
-            
-            workers.add(new com.febrie.rpg.island.dto.IslandWorkerDTO(uuid, name, hiredAt, lastActivity));
-        }
-        
-        return workers;
-    }
-    
-    private Map<String, Long> parseContributionsMap(JsonElement element) {
-        Map<String, Long> contributions = new HashMap<>();
-        if (element == null || !element.isJsonObject()) return contributions;
-        
-        JsonObject obj = element.getAsJsonObject();
-        if (!obj.has("mapValue")) return contributions;
-        
-        JsonArray fields = obj.getAsJsonObject("mapValue").getAsJsonArray("fields");
-        for (JsonElement field : fields) {
-            JsonObject fieldObj = field.getAsJsonObject();
-            String key = fieldObj.getAsJsonObject("key").get("stringValue").getAsString();
-            long value = Long.parseLong(fieldObj.getAsJsonObject("value").get("integerValue").getAsString());
-            contributions.put(key, value);
-        }
-        
-        return contributions;
-    }
-    
-    private com.febrie.rpg.island.dto.IslandSpawnDTO parseSpawnData(JsonElement element) {
-        if (element == null || !element.isJsonObject()) {
-            return com.febrie.rpg.island.dto.IslandSpawnDTO.createDefault();
-        }
-        
-        JsonObject obj = element.getAsJsonObject();
-        if (!obj.has("mapValue")) {
-            return com.febrie.rpg.island.dto.IslandSpawnDTO.createDefault();
-        }
-        
-        JsonArray fields = obj.getAsJsonObject("mapValue").getAsJsonArray("fields");
-        com.febrie.rpg.island.dto.IslandSpawnPointDTO defaultSpawn = null;
-        List<com.febrie.rpg.island.dto.IslandSpawnPointDTO> ownerSpawns = new ArrayList<>();
-        Map<String, com.febrie.rpg.island.dto.IslandSpawnPointDTO> memberSpawns = new HashMap<>();
-        
-        for (JsonElement field : fields) {
-            JsonObject fieldObj = field.getAsJsonObject();
-            String key = fieldObj.getAsJsonObject("key").get("stringValue").getAsString();
-            JsonObject val = fieldObj.getAsJsonObject("value");
-            
-            switch (key) {
-                case "defaultSpawn" -> defaultSpawn = parseSpawnPoint(val);
-                case "ownerSpawns" -> ownerSpawns = parseSpawnPointsList(val);
-                case "memberSpawns" -> memberSpawns = parseMemberSpawnsMap(val);
-            }
-        }
-        
-        return new com.febrie.rpg.island.dto.IslandSpawnDTO(
-                defaultSpawn != null ? defaultSpawn : com.febrie.rpg.island.dto.IslandSpawnPointDTO.createDefault(),
-                ownerSpawns,
-                memberSpawns
-        );
-    }
-    
-    private com.febrie.rpg.island.dto.IslandSpawnPointDTO parseSpawnPoint(JsonElement element) {
-        if (element == null || !element.isJsonObject()) return null;
-        
-        JsonObject obj = element.getAsJsonObject();
-        if (!obj.has("mapValue")) return null;
-        
-        JsonArray fields = obj.getAsJsonObject("mapValue").getAsJsonArray("fields");
-        double x = 0, y = 64, z = 0;
-        float yaw = 0, pitch = 0;
-        String alias = "";
-        
-        for (JsonElement field : fields) {
-            JsonObject fieldObj = field.getAsJsonObject();
-            String key = fieldObj.getAsJsonObject("key").get("stringValue").getAsString();
-            JsonObject val = fieldObj.getAsJsonObject("value");
-            
-            switch (key) {
-                case "x" -> x = val.get("doubleValue").getAsDouble();
-                case "y" -> y = val.get("doubleValue").getAsDouble();
-                case "z" -> z = val.get("doubleValue").getAsDouble();
-                case "yaw" -> yaw = val.get("doubleValue").getAsFloat();
-                case "pitch" -> pitch = val.get("doubleValue").getAsFloat();
-                case "alias" -> alias = val.get("stringValue").getAsString();
-            }
-        }
-        
-        return new com.febrie.rpg.island.dto.IslandSpawnPointDTO(x, y, z, yaw, pitch, alias);
-    }
-    
-    private List<com.febrie.rpg.island.dto.IslandSpawnPointDTO> parseSpawnPointsList(JsonElement element) {
-        List<com.febrie.rpg.island.dto.IslandSpawnPointDTO> spawns = new ArrayList<>();
-        if (element == null || !element.isJsonObject()) return spawns;
-        
-        JsonObject obj = element.getAsJsonObject();
-        if (!obj.has("arrayValue")) return spawns;
-        
-        JsonArray values = obj.getAsJsonObject("arrayValue").getAsJsonArray("values");
-        for (JsonElement value : values) {
-            com.febrie.rpg.island.dto.IslandSpawnPointDTO spawn = parseSpawnPoint(value);
-            if (spawn != null) {
-                spawns.add(spawn);
-            }
-        }
-        
-        return spawns;
-    }
-    
-    private Map<String, com.febrie.rpg.island.dto.IslandSpawnPointDTO> parseMemberSpawnsMap(JsonElement element) {
-        Map<String, com.febrie.rpg.island.dto.IslandSpawnPointDTO> spawns = new HashMap<>();
-        if (element == null || !element.isJsonObject()) return spawns;
-        
-        JsonObject obj = element.getAsJsonObject();
-        if (!obj.has("mapValue")) return spawns;
-        
-        JsonArray fields = obj.getAsJsonObject("mapValue").getAsJsonArray("fields");
-        for (JsonElement field : fields) {
-            JsonObject fieldObj = field.getAsJsonObject();
-            String key = fieldObj.getAsJsonObject("key").get("stringValue").getAsString();
-            com.febrie.rpg.island.dto.IslandSpawnPointDTO spawn = parseSpawnPoint(fieldObj.getAsJsonObject("value"));
-            if (spawn != null) {
-                spawns.put(key, spawn);
-            }
-        }
-        
-        return spawns;
-    }
-    
-    private com.febrie.rpg.island.dto.IslandUpgradeDTO parseUpgradeData(JsonElement element) {
-        if (element == null || !element.isJsonObject()) {
-            return com.febrie.rpg.island.dto.IslandUpgradeDTO.createDefault();
-        }
-        
-        JsonObject obj = element.getAsJsonObject();
-        if (!obj.has("mapValue")) {
-            return com.febrie.rpg.island.dto.IslandUpgradeDTO.createDefault();
-        }
-        
-        JsonArray fields = obj.getAsJsonObject("mapValue").getAsJsonArray("fields");
-        int sizeLevel = 0, memberLimit = 3, workerLimit = 1;
-        long lastUpgradeAt = System.currentTimeMillis();
-        
-        for (JsonElement field : fields) {
-            JsonObject fieldObj = field.getAsJsonObject();
-            String key = fieldObj.getAsJsonObject("key").get("stringValue").getAsString();
-            JsonObject val = fieldObj.getAsJsonObject("value");
-            
-            switch (key) {
-                case "sizeLevel" -> sizeLevel = Integer.parseInt(val.get("integerValue").getAsString());
-                case "memberLimit" -> memberLimit = Integer.parseInt(val.get("integerValue").getAsString());
-                case "workerLimit" -> workerLimit = Integer.parseInt(val.get("integerValue").getAsString());
-                case "lastUpgradeAt" -> lastUpgradeAt = parseTimestampToMillis(val.get("timestampValue").getAsString());
-            }
-        }
-        
-        return new com.febrie.rpg.island.dto.IslandUpgradeDTO(sizeLevel, memberLimit, workerLimit, lastUpgradeAt);
-    }
-    
-    private com.febrie.rpg.island.dto.IslandPermissionDTO parsePermissions(JsonElement element) {
-        if (element == null || !element.isJsonObject()) {
-            return com.febrie.rpg.island.dto.IslandPermissionDTO.createDefault();
-        }
-        
-        JsonObject obj = element.getAsJsonObject();
-        if (!obj.has("mapValue")) {
-            return com.febrie.rpg.island.dto.IslandPermissionDTO.createDefault();
-        }
-        
-        Map<com.febrie.rpg.island.dto.IslandRole, com.febrie.rpg.island.dto.IslandPermissionDTO.RolePermissions> permissions = new HashMap<>();
-        JsonArray fields = obj.getAsJsonObject("mapValue").getAsJsonArray("fields");
-        
-        for (JsonElement field : fields) {
-            JsonObject fieldObj = field.getAsJsonObject();
-            String roleName = fieldObj.getAsJsonObject("key").get("stringValue").getAsString();
-            
-            try {
-                com.febrie.rpg.island.dto.IslandRole role = com.febrie.rpg.island.dto.IslandRole.valueOf(roleName);
-                com.febrie.rpg.island.dto.IslandPermissionDTO.RolePermissions perms = parseRolePermissions(fieldObj.getAsJsonObject("value"));
-                permissions.put(role, perms);
-            } catch (Exception e) {
-                LogUtil.warning("Invalid island role: " + roleName);
-            }
-        }
-        
-        return new com.febrie.rpg.island.dto.IslandPermissionDTO(permissions);
-    }
-    
-    private com.febrie.rpg.island.dto.IslandPermissionDTO.RolePermissions parseRolePermissions(JsonElement element) {
-        if (element == null || !element.isJsonObject()) {
-            return com.febrie.rpg.island.dto.IslandPermissionDTO.RolePermissions.none();
-        }
-        
-        JsonObject obj = element.getAsJsonObject();
-        if (!obj.has("mapValue")) {
-            return com.febrie.rpg.island.dto.IslandPermissionDTO.RolePermissions.none();
-        }
-        
-        JsonArray fields = obj.getAsJsonObject("mapValue").getAsJsonArray("fields");
-        boolean canBuild = false, canAccessChest = false, canKillMobs = false, canPickupItems = false;
-        boolean canInviteMembers = false, canKickMembers = false, canEarnContribution = false, canSetSpawn = false;
-        
-        for (JsonElement field : fields) {
-            JsonObject fieldObj = field.getAsJsonObject();
-            String key = fieldObj.getAsJsonObject("key").get("stringValue").getAsString();
-            boolean value = fieldObj.getAsJsonObject("value").get("booleanValue").getAsBoolean();
-            
-            switch (key) {
-                case "canBuild" -> canBuild = value;
-                case "canAccessChest" -> canAccessChest = value;
-                case "canKillMobs" -> canKillMobs = value;
-                case "canPickupItems" -> canPickupItems = value;
-                case "canInviteMembers" -> canInviteMembers = value;
-                case "canKickMembers" -> canKickMembers = value;
-                case "canEarnContribution" -> canEarnContribution = value;
-                case "canSetSpawn" -> canSetSpawn = value;
-            }
-        }
-        
-        return new com.febrie.rpg.island.dto.IslandPermissionDTO.RolePermissions(
-                canBuild, canAccessChest, canKillMobs, canPickupItems,
-                canInviteMembers, canKickMembers, canEarnContribution, canSetSpawn
-        );
-    }
-    
-    private List<com.febrie.rpg.island.dto.IslandInviteDTO> parseInvitesList(JsonElement element) {
-        List<com.febrie.rpg.island.dto.IslandInviteDTO> invites = new ArrayList<>();
-        if (element == null || !element.isJsonObject()) return invites;
-        
-        JsonObject obj = element.getAsJsonObject();
-        if (!obj.has("arrayValue")) return invites;
-        
-        JsonArray values = obj.getAsJsonObject("arrayValue").getAsJsonArray("values");
-        for (JsonElement value : values) {
-            JsonObject mapValue = value.getAsJsonObject().getAsJsonObject("mapValue");
-            JsonArray fields = mapValue.getAsJsonArray("fields");
-            
-            String inviteId = null, targetUuid = null, targetName = null, inviterUuid = null, inviterName = null;
-            long createdAt = 0, expiresAt = 0;
-            
-            for (JsonElement field : fields) {
-                JsonObject fieldObj = field.getAsJsonObject();
-                String key = fieldObj.getAsJsonObject("key").get("stringValue").getAsString();
-                JsonObject val = fieldObj.getAsJsonObject("value");
-                
-                switch (key) {
-                    case "inviteId" -> inviteId = val.get("stringValue").getAsString();
-                    case "targetUuid" -> targetUuid = val.get("stringValue").getAsString();
-                    case "targetName" -> targetName = val.get("stringValue").getAsString();
-                    case "inviterUuid" -> inviterUuid = val.get("stringValue").getAsString();
-                    case "inviterName" -> inviterName = val.get("stringValue").getAsString();
-                    case "createdAt" -> createdAt = parseTimestampToMillis(val.get("timestampValue").getAsString());
-                    case "expiresAt" -> expiresAt = parseTimestampToMillis(val.get("timestampValue").getAsString());
-                }
-            }
-            
-            invites.add(new com.febrie.rpg.island.dto.IslandInviteDTO(
-                    inviteId, targetUuid, targetName, inviterUuid, inviterName, createdAt, expiresAt
-            ));
-        }
-        
-        return invites;
-    }
-    
-    private List<com.febrie.rpg.island.dto.IslandVisitDTO> parseVisitsList(JsonElement element) {
-        List<com.febrie.rpg.island.dto.IslandVisitDTO> visits = new ArrayList<>();
-        if (element == null || !element.isJsonObject()) return visits;
-        
-        JsonObject obj = element.getAsJsonObject();
-        if (!obj.has("arrayValue")) return visits;
-        
-        JsonArray values = obj.getAsJsonObject("arrayValue").getAsJsonArray("values");
-        for (JsonElement value : values) {
-            JsonObject mapValue = value.getAsJsonObject().getAsJsonObject("mapValue");
-            JsonArray fields = mapValue.getAsJsonArray("fields");
-            
-            String visitorUuid = null, visitorName = null;
-            long visitedAt = 0, duration = 0;
-            
-            for (JsonElement field : fields) {
-                JsonObject fieldObj = field.getAsJsonObject();
-                String key = fieldObj.getAsJsonObject("key").get("stringValue").getAsString();
-                JsonObject val = fieldObj.getAsJsonObject("value");
-                
-                switch (key) {
-                    case "visitorUuid" -> visitorUuid = val.get("stringValue").getAsString();
-                    case "visitorName" -> visitorName = val.get("stringValue").getAsString();
-                    case "visitedAt" -> visitedAt = parseTimestampToMillis(val.get("timestampValue").getAsString());
-                    case "duration" -> duration = Long.parseLong(val.get("integerValue").getAsString());
-                }
-            }
-            
-            visits.add(new com.febrie.rpg.island.dto.IslandVisitDTO(visitorUuid, visitorName, visitedAt, duration));
-        }
-        
-        return visits;
-    }
-    
-    private long parseTimestampToMillis(String timestamp) {
-        try {
-            return Instant.parse(timestamp).toEpochMilli();
-        } catch (Exception e) {
-            return System.currentTimeMillis();
-        }
-    }
-
     public void shutdown() {
         tokenRefreshExecutor.shutdown();
         try {

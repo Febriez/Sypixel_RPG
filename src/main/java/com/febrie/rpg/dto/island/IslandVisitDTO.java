@@ -1,6 +1,9 @@
-package com.febrie.rpg.island.dto;
+package com.febrie.rpg.dto.island;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 섬 방문 기록 DTO (Record)
@@ -56,5 +59,31 @@ public record IslandVisitDTO(
         } else {
             return String.format("%d초", seconds);
         }
+    }
+    
+    /**
+     * Map으로 변환 (Firebase 저장용)
+     */
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("visitorUuid", visitorUuid);
+        map.put("visitorName", visitorName);
+        map.put("visitedAt", visitedAt);
+        map.put("duration", duration);
+        return map;
+    }
+    
+    /**
+     * Map에서 생성
+     */
+    public static IslandVisitDTO fromMap(Map<String, Object> map) {
+        if (map == null) return null;
+        
+        return new IslandVisitDTO(
+                (String) map.get("visitorUuid"),
+                (String) map.get("visitorName"),
+                ((Number) map.get("visitedAt")).longValue(),
+                ((Number) map.get("duration")).longValue()
+        );
     }
 }

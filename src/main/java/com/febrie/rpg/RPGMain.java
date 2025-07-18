@@ -4,6 +4,9 @@ import com.febrie.rpg.command.admin.AdminCommands;
 import com.febrie.rpg.command.system.MainMenuCommand;
 import com.febrie.rpg.command.system.SiteAccountCommand;
 import com.febrie.rpg.database.FirestoreRestService;
+import com.febrie.rpg.island.command.IslandCommand;
+import com.febrie.rpg.island.command.IslandConfirmCommand;
+import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.dto.system.ServerStatsDTO;
 import com.febrie.rpg.gui.listener.GuiListener;
 import com.febrie.rpg.gui.manager.GuiManager;
@@ -47,11 +50,15 @@ public final class RPGMain extends JavaPlugin {
     private QuestGuideManager questGuideManager;
     private TextDisplayDamageManager damageDisplayManager;
     private FirestoreRestService firestoreService;
+    private IslandManager islandManager;
 
     // 명령어
     private MainMenuCommand mainMenuCommand;
     private AdminCommands adminCommands;
     private SiteAccountCommand siteAccountCommand;
+    private IslandCommand islandCommand;
+    private IslandConfirmCommand islandDeleteConfirmCommand;
+    private IslandConfirmCommand islandResetConfirmCommand;
 
     // 서버 통계 관련
     private BukkitTask serverStatsTask;
@@ -133,6 +140,11 @@ public final class RPGMain extends JavaPlugin {
         if (npcTraitSetter != null) {
             npcTraitSetter.cleanup();
         }
+        
+        // 섬 매니저 정리
+        if (islandManager != null) {
+            islandManager.clearCache();
+        }
 
         // Firebase 연결 종료
         if (firestoreService != null) {
@@ -183,12 +195,20 @@ public final class RPGMain extends JavaPlugin {
         this.damageDisplayManager = new TextDisplayDamageManager(this);
         LogUtil.info("TextDisplay 기반 데미지 표시 관리자 초기화 완료");
         
+        // 섬 매니저 초기화
+        this.islandManager = new IslandManager(this);
+        this.islandManager.initialize();
+        LogUtil.info("섬 관리자 초기화 완료");
+        
         LogUtil.info("매니저 시스템 초기화 완료");
 
         // 명령어 객체 생성 (실제 등록은 registerCommands에서)
         this.mainMenuCommand = new MainMenuCommand(this, langManager, guiManager);
         this.adminCommands = new AdminCommands(this, rpgPlayerManager, guiManager, langManager);
         this.siteAccountCommand = new SiteAccountCommand(this, firestoreService);
+        this.islandCommand = new IslandCommand(this, islandManager);
+        this.islandDeleteConfirmCommand = new IslandConfirmCommand(this, islandManager, true);
+        this.islandResetConfirmCommand = new IslandConfirmCommand(this, islandManager, false);
         LogUtil.info("명령어 시스템 초기화 완료");
     }
 
@@ -239,9 +259,15 @@ public final class RPGMain extends JavaPlugin {
         // 사이트 계정 명령어 등록
         getCommand("사이트계정발급").setExecutor(siteAccountCommand);
 
+        // 섬 명령어 등록
+        getCommand("섬").setExecutor(islandCommand);
+        getCommand("섬삭제확인").setExecutor(islandDeleteConfirmCommand);
+        getCommand("섬초기화확인").setExecutor(islandResetConfirmCommand);
+
         LogUtil.info("명령어가 등록되었습니다.");
         LogUtil.info("일반 유저: /메뉴 (별칭: /menu, /메인메뉴, /mainmenu, /mm)");
         LogUtil.info("일반 유저: /사이트계정발급 <이메일>");
+        LogUtil.info("일반 유저: /섬 (섬 관리)");
         LogUtil.info("관리자: /rpgadmin");
     }
 

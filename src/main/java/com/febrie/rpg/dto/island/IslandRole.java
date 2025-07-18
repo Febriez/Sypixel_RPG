@@ -1,4 +1,4 @@
-package com.febrie.rpg.island.dto;
+package com.febrie.rpg.dto.island;
 
 /**
  * 섬 내 역할 정의

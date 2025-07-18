@@ -1,8 +1,10 @@
 package com.febrie.rpg.dto.quest;
 
+import com.google.gson.JsonObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 완료된 퀘스트 정보 DTO
@@ -25,5 +27,62 @@ public class CompletedQuestDTO {
     public CompletedQuestDTO(String questId, long completedAt, int completionCount) {
         this(questId, completedAt, completionCount, false);
     }
-
+    
+    /**
+     * JsonObject로 변환
+     */
+    @NotNull
+    public JsonObject toJsonObject() {
+        JsonObject json = new JsonObject();
+        JsonObject fields = new JsonObject();
+        
+        JsonObject questIdValue = new JsonObject();
+        questIdValue.addProperty("stringValue", questId);
+        fields.add("questId", questIdValue);
+        
+        JsonObject completedAtValue = new JsonObject();
+        completedAtValue.addProperty("integerValue", completedAt);
+        fields.add("completedAt", completedAtValue);
+        
+        JsonObject completionCountValue = new JsonObject();
+        completionCountValue.addProperty("integerValue", completionCount);
+        fields.add("completionCount", completionCountValue);
+        
+        JsonObject rewardedValue = new JsonObject();
+        rewardedValue.addProperty("booleanValue", rewarded);
+        fields.add("rewarded", rewardedValue);
+        
+        json.add("fields", fields);
+        return json;
+    }
+    
+    /**
+     * JsonObject에서 CompletedQuestDTO 생성
+     */
+    @NotNull
+    public static CompletedQuestDTO fromJsonObject(@NotNull JsonObject json) {
+        if (!json.has("fields")) {
+            return new CompletedQuestDTO();
+        }
+        
+        JsonObject fields = json.getAsJsonObject("fields");
+        
+        String questId = fields.has("questId") && fields.getAsJsonObject("questId").has("stringValue")
+                ? fields.getAsJsonObject("questId").get("stringValue").getAsString()
+                : "";
+                
+        long completedAt = fields.has("completedAt") && fields.getAsJsonObject("completedAt").has("integerValue")
+                ? fields.getAsJsonObject("completedAt").get("integerValue").getAsLong()
+                : System.currentTimeMillis();
+                
+        int completionCount = fields.has("completionCount") && fields.getAsJsonObject("completionCount").has("integerValue")
+                ? fields.getAsJsonObject("completionCount").get("integerValue").getAsInt()
+                : 1;
+                
+        boolean rewarded = fields.has("rewarded") && fields.getAsJsonObject("rewarded").has("booleanValue")
+                ? fields.getAsJsonObject("rewarded").get("booleanValue").getAsBoolean()
+                : false;
+        
+        return new CompletedQuestDTO(questId, completedAt, completionCount, rewarded);
+    }
 }

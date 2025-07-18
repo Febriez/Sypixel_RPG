@@ -1,7 +1,10 @@
-package com.febrie.rpg.island.dto;
+package com.febrie.rpg.dto.island;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 플레이어의 섬 관련 데이터 DTO (Record)
@@ -80,5 +83,49 @@ public record PlayerIslandDataDTO(
      */
     public boolean canResetIsland() {
         return totalIslandResets < 1;
+    }
+    
+    /**
+     * Map으로 변환 (Firebase 저장용)
+     */
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("playerUuid", playerUuid);
+        if (currentIslandId != null) {
+            map.put("currentIslandId", currentIslandId);
+        }
+        if (role != null) {
+            map.put("role", role.name());
+        }
+        map.put("totalIslandResets", totalIslandResets);
+        map.put("lastIslandActivity", lastIslandActivity);
+        return map;
+    }
+    
+    /**
+     * Map에서 생성
+     */
+    public static PlayerIslandDataDTO fromMap(Map<String, Object> map) {
+        if (map == null) return null;
+        
+        String playerUuid = (String) map.get("playerUuid");
+        String currentIslandId = (String) map.get("currentIslandId");
+        
+        IslandRole role = null;
+        if (map.containsKey("role")) {
+            try {
+                role = IslandRole.valueOf((String) map.get("role"));
+            } catch (IllegalArgumentException e) {
+                // 잘못된 역할 이름은 무시
+            }
+        }
+        
+        return new PlayerIslandDataDTO(
+                playerUuid,
+                currentIslandId,
+                role,
+                ((Number) map.get("totalIslandResets")).intValue(),
+                ((Number) map.get("lastIslandActivity")).longValue()
+        );
     }
 }
