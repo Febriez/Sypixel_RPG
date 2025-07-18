@@ -14,6 +14,20 @@ import com.febrie.rpg.quest.impl.tutorial.FirstStepsQuest;
 import com.febrie.rpg.quest.impl.side.FarmersRequestQuest;
 import com.febrie.rpg.quest.impl.side.CollectHerbsQuest;
 import com.febrie.rpg.quest.impl.side.LostTreasureQuest;
+import com.febrie.rpg.quest.impl.main.chapter1.*;
+import com.febrie.rpg.quest.impl.main.chapter2.*;
+import com.febrie.rpg.quest.impl.main.chapter3.*;
+import com.febrie.rpg.quest.impl.weekly.*;
+import com.febrie.rpg.quest.impl.exploration.*;
+import com.febrie.rpg.quest.impl.combat.*;
+import com.febrie.rpg.quest.impl.crafting.*;
+import com.febrie.rpg.quest.impl.guild.*;
+import com.febrie.rpg.quest.impl.life.*;
+import com.febrie.rpg.quest.impl.special.*;
+import com.febrie.rpg.quest.impl.seasonal.*;
+import com.febrie.rpg.quest.impl.clazz.*;
+import com.febrie.rpg.quest.impl.repeatable.*;
+import com.febrie.rpg.quest.impl.daily.*;
 import com.febrie.rpg.util.LogUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -51,14 +65,48 @@ public class QuestRegistry {
         register(QuestID.DAILY_HUNTING, DailyHuntingQuest::new);
         register(QuestID.DAILY_MINING, DailyMiningQuest::new);
         register(QuestID.DAILY_FISHING, DailyFishingQuest::new);
+        register(QuestID.DAILY_GATHERING, DailyGatheringQuest::new);
 
         // 주간 퀘스트
-        // register(QuestID.WEEKLY_RAID_BOSS, WeeklyRaidBossQuest::new);
-        // register(QuestID.WEEKLY_DUNGEON_CLEAR, WeeklyDungeonClearQuest::new);
+        register(QuestID.WEEKLY_RAID_BOSS, WeeklyRaidBossQuest::new);
 
-        // 이벤트 퀘스트
-        // register(QuestID.EVENT_CHRISTMAS_2024, ChristmasEventQuest::new);
-        // register(QuestID.EVENT_HALLOWEEN_2024, HalloweenEventQuest::new);
+        // Chapter 1 메인 퀘스트
+        register(QuestID.MAIN_ANCIENT_PROPHECY, AncientProphecyQuest::new);
+        register(QuestID.MAIN_CHOSEN_ONE, ChosenOneQuest::new);
+        register(QuestID.MAIN_FIRST_TRIAL, FirstTrialQuest::new);
+
+        // Chapter 2 메인 퀘스트
+        register(QuestID.MAIN_SHADOW_INVASION, ShadowInvasionQuest::new);
+
+        // Chapter 3 메인 퀘스트
+        register(QuestID.MAIN_DRAGON_AWAKENING, DragonAwakeningQuest::new);
+
+        // 탐험 사이드 퀘스트
+        register(QuestID.SIDE_ANCIENT_RUINS, AncientRuinsQuest::new);
+
+        // 전투 퀘스트
+        register(QuestID.COMBAT_ARENA_GLADIATOR, ArenaGladiatorQuest::new);
+
+        // 제작 퀘스트
+        register(QuestID.CRAFT_MASTER_BLACKSMITH, MasterBlacksmithQuest::new);
+
+        // 길드 퀘스트
+        register(QuestID.GUILD_ESTABLISHMENT, GuildEstablishmentQuest::new);
+
+        // 생활 퀘스트
+        register(QuestID.LIFE_MASTER_CHEF, MasterChefQuest::new);
+
+        // 특수 퀘스트
+        register(QuestID.SPECIAL_HIDDEN_CLASS, HiddenClassQuest::new);
+
+        // 시즌 퀘스트
+        register(QuestID.SEASON_SPRING_FESTIVAL, SpringFestivalQuest::new);
+
+        // 직업 퀘스트
+        register(QuestID.CLASS_WARRIOR_ADVANCEMENT, WarriorAdvancementQuest::new);
+
+        // 반복 퀘스트
+        register(QuestID.REPEAT_MONSTER_EXTERMINATION, MonsterExterminationQuest::new);
     }
 
     /**

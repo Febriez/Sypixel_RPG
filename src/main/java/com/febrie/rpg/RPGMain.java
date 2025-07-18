@@ -213,8 +213,6 @@ public final class RPGMain extends JavaPlugin {
         // 퀘스트 이벤트 리스너 등록
         getServer().getPluginManager().registerEvents(new QuestEventListener(this), this);
         LogUtil.info("퀘스트 이벤트 리스너 등록 완료");
-        
-        LogUtil.debug("이벤트 리스너 등록 완료");
     }
 
     /**
@@ -297,8 +295,6 @@ public final class RPGMain extends JavaPlugin {
     private void updateInMemoryStats() {
         try {
             ServerStatsDTO currentStats = collectCurrentServerStats();
-            LogUtil.debug("서버 통계 업데이트 완료 - 온라인: " + currentStats.onlinePlayers() +
-                    ", TPS: " + String.format("%.2f", currentStats.tps()));
         } catch (Exception e) {
             LogUtil.error("서버 통계 업데이트 중 오류 발생", e);
         }
@@ -317,7 +313,6 @@ public final class RPGMain extends JavaPlugin {
 
         // 같은 날짜에 이미 저장했으면 건너뛰기
         if (today.equals(lastSavedDate)) {
-            LogUtil.debug("오늘 이미 서버 통계가 저장되었습니다: " + today);
             return;
         }
 
@@ -387,7 +382,6 @@ public final class RPGMain extends JavaPlugin {
             // TPS는 최대 20으로 제한
             return Math.min(20.0, Math.max(0.0, actualTps));
         } catch (Exception e) {
-            LogUtil.debug("TPS 계산 중 오류: " + e.getMessage());
             return 20.0;
         }
     }

@@ -21,15 +21,6 @@ public class RPGQuestTrait extends Trait {
     @Persist("npcType")
     private String npcType = "QUEST";
 
-    @Persist("dialogText")
-    private String dialogText = "안녕하세요! 퀘스트를 받으시겠습니까?";
-
-    @Persist("completionText")
-    private String completionText = "퀘스트를 완료하셨군요! 수고하셨습니다.";
-
-    @Persist("noQuestText")
-    private String noQuestText = "현재 드릴 퀘스트가 없습니다.";
-
     public RPGQuestTrait() {
         super("rpgquest");
     }
@@ -48,7 +39,7 @@ public class RPGQuestTrait extends Trait {
         if (questId == null || questId.isEmpty()) {
             return null;
         }
-        
+
         try {
             return QuestID.valueOf(questId);
         } catch (IllegalArgumentException e) {
@@ -68,48 +59,6 @@ public class RPGQuestTrait extends Trait {
      */
     public String getNpcType() {
         return npcType;
-    }
-
-    /**
-     * 대화 텍스트 설정
-     */
-    public void setDialogText(String dialogText) {
-        this.dialogText = dialogText;
-    }
-
-    /**
-     * 대화 텍스트 조회
-     */
-    public String getDialogText() {
-        return dialogText;
-    }
-
-    /**
-     * 완료 텍스트 설정
-     */
-    public void setCompletionText(String completionText) {
-        this.completionText = completionText;
-    }
-
-    /**
-     * 완료 텍스트 조회
-     */
-    public String getCompletionText() {
-        return completionText;
-    }
-
-    /**
-     * 퀘스트 없음 텍스트 설정
-     */
-    public void setNoQuestText(String noQuestText) {
-        this.noQuestText = noQuestText;
-    }
-
-    /**
-     * 퀘스트 없음 텍스트 조회
-     */
-    public String getNoQuestText() {
-        return noQuestText;
     }
 
     /**

@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
-import com.febrie.rpg.quest.objective.impl.ExploreObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -59,7 +58,7 @@ public class FirstStepsQuest extends Quest {
                 .id(QuestID.TUTORIAL_FIRST_STEPS)
                 .objectives(Arrays.asList(
                         // 1. 허브 구역 방문 (WorldGuard 영역 이름: Hub)
-                        new ExploreObjective("visit_hub", "Hub"),
+                        new VisitLocationObjective("visit_hub", "Hub"),
                         // 2. 마을 상인 NPC 방문
                         new InteractNPCObjective("visit_merchant", 1) // Citizens NPC ID 1번 사용
                 ))

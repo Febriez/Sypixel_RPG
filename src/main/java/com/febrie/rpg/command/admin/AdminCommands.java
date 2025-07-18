@@ -80,7 +80,6 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         return switch (subCommand) {
             case "stats" -> handleStatsCommand(sender, args);
             case "reload" -> handleReloadCommand(sender, args);
-            case "debug" -> handleDebugCommand(sender, args);
             case "viewprofile" -> handleViewProfileCommand(sender, args);
             case "exp" -> handleExpCommand(sender, args);
             case "level" -> handleLevelCommand(sender, args);
@@ -101,7 +100,6 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         sender.sendMessage(Component.text("=== RPG Admin Commands ===", ColorUtil.GOLD));
         sender.sendMessage(Component.text("/rpgadmin stats - 서버 통계 확인", ColorUtil.YELLOW));
         sender.sendMessage(Component.text("/rpgadmin reload - 설정 리로드", ColorUtil.YELLOW));
-        sender.sendMessage(Component.text("/rpgadmin debug - 디버그 모드 토글", ColorUtil.YELLOW));
         sender.sendMessage(Component.text("/rpgadmin viewprofile <플레이어> - 프로필 확인", ColorUtil.YELLOW));
         sender.sendMessage(Component.text("/rpgadmin exp give <플레이어> <경험치> - 경험치 지급", ColorUtil.YELLOW));
         sender.sendMessage(Component.text("/rpgadmin level set <플레이어> <레벨> - 레벨 설정", ColorUtil.YELLOW));
@@ -144,23 +142,6 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         return true;
     }
 
-    /**
-     * 디버그 명령어 처리
-     */
-    private boolean handleDebugCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        boolean currentDebugMode = LogUtil.isDebugMode();
-        boolean newDebugMode = !currentDebugMode; // 토글
-
-        LogUtil.setDebugMode(newDebugMode);
-
-        if (newDebugMode) {
-            sender.sendMessage(Component.text("디버그 모드가 활성화되었습니다.", ColorUtil.SUCCESS));
-        } else {
-            sender.sendMessage(Component.text("디버그 모드가 비활성화되었습니다.", ColorUtil.WARNING));
-        }
-
-        return true;
-    }
 
     /**
      * 프로필 보기 명령어 처리

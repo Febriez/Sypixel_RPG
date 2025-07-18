@@ -10,11 +10,13 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.registry.QuestRegistry;
+import com.febrie.rpg.quest.task.LocationCheckTask;
 import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.QuestNotificationUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,6 +47,10 @@ public class QuestManager {
 
     // 저장 대기열
     private final Set<UUID> pendingSaves = ConcurrentHashMap.newKeySet();
+    
+    // 지역 방문 체크 태스크
+    private LocationCheckTask locationCheckTask;
+    private BukkitTask locationCheckScheduler;
 
     /**
      * 플레이어별 퀘스트 데이터 (진행도 포함)
@@ -71,6 +77,9 @@ public class QuestManager {
 
         // 자동 저장 스케줄러 시작
         startAutoSaveScheduler();
+        
+        // 지역 방문 체크 스케줄러 시작
+        startLocationCheckScheduler();
     }
 
     /**
@@ -387,8 +396,6 @@ public class QuestManager {
 
                         data.lastUpdated = dto.lastUpdated();
                         playerDataCache.put(playerId, data);
-
-                        LogUtil.debug("Loaded quest data for player: " + playerId);
                     }
                 })
                 .exceptionally(ex -> {
@@ -427,7 +434,6 @@ public class QuestManager {
                 .thenApply(success -> {
                     if (success) {
                         pendingSaves.remove(playerId);
-                        LogUtil.debug("Saved quest data for player: " + playerId);
                     } else {
                         LogUtil.error("Failed to save quest data for player: " + playerId);
                     }
@@ -460,11 +466,31 @@ public class QuestManager {
             }
         }, 20L * 60, 20L * 60); // 1분마다
     }
+    
+    /**
+     * 지역 방문 체크 스케줄러 시작
+     */
+    private void startLocationCheckScheduler() {
+        locationCheckTask = new LocationCheckTask(plugin);
+        // 3초마다 실행 (60틱 = 3초)
+        locationCheckScheduler = Bukkit.getScheduler().runTaskTimer(plugin, locationCheckTask, 60L, 60L);
+        LogUtil.info("Started location check scheduler (every 3 seconds)");
+    }
 
     /**
      * 매니저 종료
      */
     public void shutdown() {
+        // 지역 체크 스케줄러 중지
+        if (locationCheckScheduler != null && !locationCheckScheduler.isCancelled()) {
+            locationCheckScheduler.cancel();
+        }
+        
+        // 지역 체크 태스크 캐시 정리
+        if (locationCheckTask != null) {
+            locationCheckTask.clearAllCaches();
+        }
+        
         // 모든 데이터 저장
         saveAllPendingData();
 

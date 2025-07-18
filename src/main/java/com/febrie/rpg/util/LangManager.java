@@ -95,8 +95,6 @@ public class LangManager {
 
                     // 섹션을 최상위 키로 추가 (중첩 구조 유지)
                     combinedLang.add(section, sectionObject);
-
-                    LogUtil.debug("Loaded language section from resources: " + resourcePath);
                 }
 
             } catch (Exception e) {
@@ -314,8 +312,6 @@ public class LangManager {
 
             if (newColor != null) {
                 currentColor = newColor;
-            } else {
-                LogUtil.debug("Unknown color placeholder: " + colorName);
             }
 
             lastEnd = matcher.end();

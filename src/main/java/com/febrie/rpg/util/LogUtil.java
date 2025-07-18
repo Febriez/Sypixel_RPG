@@ -18,7 +18,6 @@ public final class LogUtil {
 
     private static Logger logger;
     private static String prefix = "[SypixelRPG]";
-    private static boolean debugMode = false;
 
     private LogUtil() {
         throw new UnsupportedOperationException("Utility class");
@@ -30,17 +29,6 @@ public final class LogUtil {
     public static void initialize(@NotNull Plugin plugin) {
         logger = plugin.getLogger();
         prefix = "[" + plugin.getName() + "]";
-    }
-
-    /**
-     * 디버그 모드 설정
-     */
-    public static void setDebugMode(boolean debug) {
-        debugMode = debug;
-    }
-
-    public static boolean isDebugMode() {
-        return debugMode;
     }
 
     /**
@@ -89,19 +77,6 @@ public final class LogUtil {
     }
 
     /**
-     * 디버그 로그 (디버그 모드일 때만 출력)
-     */
-    public static void debug(@NotNull String message) {
-        if (debugMode) {
-            if (logger != null) {
-                logger.info("[DEBUG] " + message);
-            } else {
-                Bukkit.getConsoleSender().sendMessage(prefix + " §7[DEBUG] " + message);
-            }
-        }
-    }
-
-    /**
      * 포맷된 정보 로그
      */
     public static void info(@NotNull String format, @NotNull Object... args) {
@@ -123,24 +98,9 @@ public final class LogUtil {
     }
 
     /**
-     * 포맷된 디버그 로그
-     */
-    public static void debug(@NotNull String format, @NotNull Object... args) {
-        debug(String.format(format, args));
-    }
-
-    /**
      * warn 메소드 (warning과 동일)
      */
     public static void warn(@NotNull String message) {
         warning(message);
-    }
-
-    /**
-     * 성능 측정용 로그
-     */
-    public static void logPerformance(@NotNull String operation, long startTime) {
-        long duration = System.currentTimeMillis() - startTime;
-        debug("Performance: " + operation + " took " + duration + "ms");
     }
 }

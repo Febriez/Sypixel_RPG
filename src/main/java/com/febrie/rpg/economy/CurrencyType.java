@@ -23,7 +23,8 @@ public enum CurrencyType {
     DIAMOND("diamond", Material.DIAMOND, ColorUtil.DIAMOND, "💎", 100000L), // 최대 10만
     EMERALD("emerald", Material.EMERALD, ColorUtil.EMERALD, "💚", 100000L), // 최대 10만
     GHAST_TEAR("ghast_tear", Material.GHAST_TEAR, ColorUtil.LEGENDARY, "✨", 10000L), // 최대 1만 (별가루)
-    NETHER_STAR("nether_star", Material.NETHER_STAR, ColorUtil.EPIC, "⭐", 1000L); // 최대 1천 (별)
+    NETHER_STAR("nether_star", Material.NETHER_STAR, ColorUtil.EPIC, "⭐", 1000L), // 최대 1천 (별)
+    EXP("exp", Material.EXPERIENCE_BOTTLE, ColorUtil.UNCOMMON, "🎯", 10000000L); // 최대 1천만 (경험치)
 
     private final String id;
     private final Material material;

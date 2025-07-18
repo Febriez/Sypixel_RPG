@@ -501,7 +501,6 @@ public class FirestoreRestService {
                                 talentsFuture.get() && progressFuture.get();
                         if (success) {
                             updateCache(uuid, player);
-                            LogUtil.debug("플레이어 데이터 저장 완료: " + uuid);
                         }
                         return success;
                     } catch (Exception e) {

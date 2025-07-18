@@ -256,6 +256,14 @@ public abstract class Quest {
             case EVENT -> isKorean ? "이벤트 퀘스트" : "Event Quest";
             case TUTORIAL -> isKorean ? "튜토리얼" : "Tutorial";
             case NORMAL -> isKorean ? "일반 퀘스트" : "Normal Quest";
+            case COMBAT -> isKorean ? "전투 퀘스트" : "Combat Quest";
+            case GUILD -> isKorean ? "길드 퀘스트" : "Guild Quest";
+            case SPECIAL -> isKorean ? "특별 퀘스트" : "Special Quest";
+            case ADVANCEMENT -> isKorean ? "전직 퀘스트" : "Advancement Quest";
+            case LIFE -> isKorean ? "생활 퀘스트" : "Life Quest";
+            case REPEATABLE -> isKorean ? "반복 퀘스트" : "Repeatable Quest";
+            case SEASONAL -> isKorean ? "시즌 퀘스트" : "Seasonal Quest";
+            case BRANCH -> isKorean ? "분기 퀘스트" : "Branch Quest";
         };
     }
 
@@ -267,6 +275,18 @@ public abstract class Quest {
     @Nullable
     public QuestDialog getDialog() {
         return null; // 기본적으로 대화 없음, 필요한 퀘스트만 오버라이드
+    }
+    
+    /**
+     * NPC별 퀘스트 대화 반환 - 여러 NPC와 대화하는 퀘스트용
+     * 
+     * @param npc 대화할 NPC
+     * @return 해당 NPC의 퀘스트 대화
+     */
+    @Nullable
+    public QuestDialog getDialog(@NotNull QuestNPC npc) {
+        // 기본적으로 일반 대화 반환, 필요한 퀘스트만 오버라이드
+        return getDialog();
     }
 
     /**
@@ -460,7 +480,15 @@ public abstract class Quest {
         WEEKLY("quest.category.weekly"),
         EVENT("quest.category.event"),
         TUTORIAL("quest.category.tutorial"),
-        NORMAL("quest.category.normal");
+        NORMAL("quest.category.normal"),
+        COMBAT("quest.category.combat"),
+        GUILD("quest.category.guild"),
+        SPECIAL("quest.category.special"),
+        ADVANCEMENT("quest.category.advancement"),
+        LIFE("quest.category.life"),
+        REPEATABLE("quest.category.repeatable"),
+        SEASONAL("quest.category.seasonal"),
+        BRANCH("quest.category.branch");
 
         private final String translationKey;
 

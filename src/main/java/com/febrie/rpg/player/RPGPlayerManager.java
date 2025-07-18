@@ -98,8 +98,6 @@ public class RPGPlayerManager implements Listener {
         String uuid = player.getUniqueId().toString();
 
         CompletableFuture.supplyAsync(() -> {
-            long startTime = System.currentTimeMillis();
-
             try {
                 // Firebase에서 데이터 로드
                 PlayerDTO playerDTO = firestoreService.loadPlayer(uuid).get(5, TimeUnit.SECONDS);
@@ -120,7 +118,6 @@ public class RPGPlayerManager implements Listener {
                 RPGPlayer rpgPlayer = new RPGPlayer(player);
                 applyDTOsToPlayer(rpgPlayer, playerDTO, statsDTO, talentDTO, progressDTO, walletDTO);
 
-                LogUtil.logPerformance("플레이어 데이터 로드: " + player.getName(), startTime);
                 return rpgPlayer;
 
             } catch (Exception e) {
@@ -232,7 +229,6 @@ public class RPGPlayerManager implements Listener {
                 ).get(10, TimeUnit.SECONDS);
 
                 if (success) {
-                    LogUtil.logPerformance("플레이어 데이터 저장: " + rpgPlayer.getName(), startTime);
                 }
 
                 return success;
@@ -294,9 +290,7 @@ public class RPGPlayerManager implements Listener {
      */
     private void startAutoSaveScheduler() {
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
-            saveAllOnlinePlayers().thenRun(() ->
-                    LogUtil.debug("모든 플레이어 데이터 자동 저장 완료")
-            );
+            saveAllOnlinePlayers();
         }, 12000L, 12000L); // 10분마다
     }
 
