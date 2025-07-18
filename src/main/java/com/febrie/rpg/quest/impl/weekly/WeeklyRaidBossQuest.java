@@ -55,7 +55,7 @@ public class WeeklyRaidBossQuest extends Quest {
                 .id(QuestID.WEEKLY_RAID_BOSS)
                 .objectives(Arrays.asList(
                         // 준비 단계
-                        new InteractNPCObjective("raid_commander", 104), // 레이드 사령관
+                        new InteractNPCObjective("raid_commander", "raid_commander"), // 레이드 사령관
                         new ReachLevelObjective("level_requirement", 40),
                         new CollectItemObjective("raid_key", Material.TRIPWIRE_HOOK, 3),
                         

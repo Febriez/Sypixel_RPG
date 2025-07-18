@@ -55,7 +55,7 @@ public class DragonAwakeningQuest extends Quest {
                 .id(QuestID.MAIN_DRAGON_AWAKENING)
                 .objectives(Arrays.asList(
                         // 전설 조사
-                        new InteractNPCObjective("dragon_sage", 49), // 용의 현자
+                        new InteractNPCObjective("dragon_sage", "dragon_sage"), // 용의 현자
                         new CollectItemObjective("ancient_scrolls", Material.WRITTEN_BOOK, 5),
                         new VisitLocationObjective("ancient_library", "dragon_library"),
                         new CollectItemObjective("dragon_lore", Material.ENCHANTED_BOOK, 3),
@@ -94,7 +94,7 @@ public class DragonAwakeningQuest extends Quest {
                         new VisitLocationObjective("inner_lair", "dragon_inner_lair"),
                         
                         // 용과의 만남
-                        new InteractNPCObjective("sleeping_dragon", 50), // 잠든 고대 용
+                        new InteractNPCObjective("sleeping_dragon", "ancient_dragon"), // 잠든 고대 용
                         new CollectItemObjective("dragon_egg", Material.DRAGON_EGG, 1),
                         new DeliverItemObjective("offer_treasures", "sleeping_dragon", Material.DIAMOND_BLOCK, 10),
                         
@@ -102,7 +102,7 @@ public class DragonAwakeningQuest extends Quest {
                         new KillMobObjective("dragon_test", EntityType.ENDER_DRAGON, 1),
                         
                         // 동맹 체결
-                        new InteractNPCObjective("dragon_pact", 50),
+                        new InteractNPCObjective("dragon_pact", "ancient_dragon"),
                         new CollectItemObjective("dragon_heart", Material.NETHER_STAR, 1),
                         new CollectItemObjective("pact_scroll", Material.WRITTEN_BOOK, 1),
                         new DeliverItemObjective("complete_pact", "dragon_sage", Material.WRITTEN_BOOK, 1)

@@ -55,7 +55,7 @@ public class GuardianAwakeningQuest extends Quest {
                 .id(QuestID.MAIN_GUARDIAN_AWAKENING)
                 .objectives(Arrays.asList(
                         // 고대 서적 발견
-                        new InteractNPCObjective("ancient_scholar", 51), // 고대 학자
+                        new InteractNPCObjective("ancient_scholar", "ancient_scholar"), // 고대 학자
                         new VisitLocationObjective("library_archives", "ancient_library_archives"),
                         new CollectItemObjective("ancient_tome", Material.WRITTEN_BOOK, 3),
                         new CollectItemObjective("guardian_runes", Material.ENCHANTED_BOOK, 5),
@@ -80,7 +80,7 @@ public class GuardianAwakeningQuest extends Quest {
                         
                         // 수호자 각성
                         new VisitLocationObjective("inner_sanctum", "guardian_temple_sanctum"),
-                        new InteractNPCObjective("sleeping_guardian", 52), // 잠든 수호자
+                        new InteractNPCObjective("sleeping_guardian", "sleeping_guardian"), // 잠든 수호자
                         new DeliverItemObjective("offer_essences", "sleeping_guardian", Material.NETHER_STAR, 1),
                         
                         // 수호자의 시험
@@ -88,7 +88,7 @@ public class GuardianAwakeningQuest extends Quest {
                         // 수호자 선택은 NPC 대화로 처리
                         
                         // 수호자의 축복 받기
-                        new InteractNPCObjective("awakened_guardian", 53),
+                        new InteractNPCObjective("awakened_guardian", "awakened_guardian"),
                         new CollectItemObjective("guardian_blessing", Material.BEACON, 1)
                 ))
                 .reward(new BasicReward.Builder()

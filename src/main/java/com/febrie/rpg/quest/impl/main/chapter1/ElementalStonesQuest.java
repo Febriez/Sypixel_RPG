@@ -55,7 +55,7 @@ public class ElementalStonesQuest extends Quest {
                 .id(QuestID.MAIN_ELEMENTAL_STONES)
                 .objectives(Arrays.asList(
                         // 시작
-                        new InteractNPCObjective("meet_sage", 103), // 원소의 현자
+                        new InteractNPCObjective("meet_sage", "elemental_sage"), // 원소의 현자
                         
                         // 불의 돌 - 용암 지대
                         new VisitLocationObjective("fire_temple", "fire_elemental_temple"),

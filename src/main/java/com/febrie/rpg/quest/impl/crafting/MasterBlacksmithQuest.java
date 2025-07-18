@@ -55,7 +55,7 @@ public class MasterBlacksmithQuest extends Quest {
                 .id(QuestID.CRAFT_MASTER_BLACKSMITH)
                 .objectives(Arrays.asList(
                         // 시작
-                        new InteractNPCObjective("blacksmith_master", 31), // 대장장이 마스터
+                        new InteractNPCObjective("blacksmith_master", "master_blacksmith"), // 대장장이 마스터
                         
                         // 재료 수집
                         new BreakBlockObjective("mine_iron", Material.IRON_ORE, 30),

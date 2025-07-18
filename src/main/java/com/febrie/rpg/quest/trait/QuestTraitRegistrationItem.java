@@ -2,10 +2,6 @@ package com.febrie.rpg.quest.trait;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.npc.trait.RPGQuestTrait;
-import com.febrie.rpg.quest.Quest;
-import com.febrie.rpg.quest.QuestID;
-import com.febrie.rpg.quest.objective.QuestObjective;
-import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.util.ColorUtil;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -32,7 +28,6 @@ import java.util.List;
  */
 public class QuestTraitRegistrationItem implements Listener {
     
-    private static final NamespacedKey QUEST_ID_KEY = new NamespacedKey(RPGMain.getPlugin(), "quest_id");
     private static final NamespacedKey IS_QUEST_ITEM = new NamespacedKey(RPGMain.getPlugin(), "is_quest_trait_item");
     private static final NamespacedKey TARGET_NPC_ID = new NamespacedKey(RPGMain.getPlugin(), "target_npc_id");
     private static final NamespacedKey NPC_ID_KEY = new NamespacedKey(RPGMain.getPlugin(), "npc_id");
@@ -81,37 +76,8 @@ public class QuestTraitRegistrationItem implements Listener {
         return item;
     }
     
-    /**
-     * Create a quest trait registration item for a specific quest
-     * @deprecated Use createRegistrationItem(npcCode, displayName) instead
-     */
-    @Deprecated
-    @NotNull
-    public static ItemStack createRegistrationItem(@NotNull Quest quest) {
-        // 기본적으로 퀘스트 ID를 NPC 코드로 사용
-        return createRegistrationItem("quest_" + quest.getId().name().toLowerCase(), quest.getDisplayName(true));
-    }
     
-    /**
-     * Create a quest trait registration item for a specific NPC
-     * @deprecated Use createRegistrationItem instead - NPC ID dependency is being removed
-     */
-    @Deprecated
-    @NotNull
-    public static ItemStack createRegistrationItemForNPC(@NotNull Quest quest, int npcId) {
-        // 기존 NPC ID 특정 아이템 대신 일반 등록기 반환
-        return createRegistrationItem(quest);
-    }
     
-    /**
-     * Get all NPC IDs related to a quest
-     * @deprecated NPC ID dependency is being removed
-     */
-    @Deprecated
-    @NotNull
-    private static List<Integer> getRelatedNPCIds(@NotNull Quest quest) {
-        return new ArrayList<>();
-    }
     
     @EventHandler
     public void onNPCRightClick(PlayerInteractEntityEvent event) {
@@ -136,16 +102,9 @@ public class QuestTraitRegistrationItem implements Listener {
         
         // Get NPC ID
         String npcId = meta.getPersistentDataContainer().get(NPC_ID_KEY, PersistentDataType.STRING);
-        
-        // Legacy support - Get quest ID if npc id not found
         if (npcId == null) {
-            String questIdStr = meta.getPersistentDataContainer().get(QUEST_ID_KEY, PersistentDataType.STRING);
-            if (questIdStr != null) {
-                npcId = "quest_" + questIdStr.toLowerCase();
-            } else {
-                player.sendMessage(Component.text("오류: NPC ID를 찾을 수 없습니다.", ColorUtil.ERROR));
-                return;
-            }
+            player.sendMessage(Component.text("오류: NPC ID를 찾을 수 없습니다.", ColorUtil.ERROR));
+            return;
         }
         
         // Get NPC

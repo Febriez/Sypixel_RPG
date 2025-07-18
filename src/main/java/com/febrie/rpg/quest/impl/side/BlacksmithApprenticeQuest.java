@@ -55,7 +55,7 @@ public class BlacksmithApprenticeQuest extends Quest {
                 .id(QuestID.SIDE_BLACKSMITH_APPRENTICE)
                 .objectives(Arrays.asList(
                         // 대장장이 만나기
-                        new InteractNPCObjective("meet_blacksmith", 112), // 마을 대장장이
+                        new InteractNPCObjective("meet_blacksmith", "village_blacksmith"), // 마을 대장장이
                         
                         // 기초 재료 수집
                         new CollectItemObjective("gather_coal", Material.COAL, 32),
@@ -85,7 +85,7 @@ public class BlacksmithApprenticeQuest extends Quest {
                         
                         // 품질 테스트
                         new KillMobObjective("test_weapons", EntityType.ZOMBIE, 15),
-                        new InteractNPCObjective("report_test", 112),
+                        new InteractNPCObjective("report_test", "village_blacksmith"),
                         
                         // 최종 시험 - 특별 주문
                         new CollectItemObjective("special_material", Material.DIAMOND, 3),
@@ -93,7 +93,7 @@ public class BlacksmithApprenticeQuest extends Quest {
                         new DeliverItemObjective("deliver_special", "knight_captain", Material.DIAMOND_SWORD, 1), // 기사단장
                         
                         // 졸업
-                        new InteractNPCObjective("graduation", 112)
+                        new InteractNPCObjective("graduation", "village_blacksmith")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 2500)

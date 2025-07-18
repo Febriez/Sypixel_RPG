@@ -55,7 +55,7 @@ public class ArenaGladiatorQuest extends Quest {
                 .id(QuestID.COMBAT_ARENA_GLADIATOR)
                 .objectives(Arrays.asList(
                         // 준비 단계
-                        new InteractNPCObjective("arena_master", 107), // 투기장 관리인
+                        new InteractNPCObjective("arena_master", "arena_master"), // 투기장 관리인
                         new PayCurrencyObjective("entry_fee", CurrencyType.GOLD, 500),
                         new CollectItemObjective("prepare_armor", Material.IRON_CHESTPLATE, 1),
                         new CollectItemObjective("prepare_weapon", Material.IRON_SWORD, 1),
@@ -78,7 +78,7 @@ public class ArenaGladiatorQuest extends Quest {
                         new CollectItemObjective("round3_token", Material.GOLD_NUGGET, 1),
                         
                         // 결승전 - 챔피언과의 대결
-                        new InteractNPCObjective("challenge_champion", 108), // 현 챔피언
+                        new InteractNPCObjective("challenge_champion", "arena_champion"), // 현 챔피언
                         new KillMobObjective("defeat_champion", EntityType.IRON_GOLEM, 1),
                         new CollectItemObjective("champion_belt", Material.GOLDEN_HELMET, 1),
                         

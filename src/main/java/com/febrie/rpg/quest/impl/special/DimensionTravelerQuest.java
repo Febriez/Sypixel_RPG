@@ -55,7 +55,7 @@ public class DimensionTravelerQuest extends Quest {
                 .id(QuestID.SPECIAL_DIMENSION_TRAVELER)
                 .objectives(Arrays.asList(
                         // 차원 여행의 시작
-                        new InteractNPCObjective("dimension_sage", 260), // 차원 현자
+                        new InteractNPCObjective("dimension_sage", "dimension_sage"), // 차원 현자
                         new CollectItemObjective("dimensional_key", Material.END_CRYSTAL, 1),
                         new CollectItemObjective("void_map", Material.FILLED_MAP, 1),
                         
@@ -132,7 +132,7 @@ public class DimensionTravelerQuest extends Quest {
                         new PayCurrencyObjective("stabilize_cost", CurrencyType.GOLD, 100000),
                         new SurviveObjective("dimension_merge", 2400), // 40분간 차원 융합
                         new CollectItemObjective("dimensional_core", Material.NETHER_STAR, 6),
-                        new InteractNPCObjective("seal_complete", 260)
+                        new InteractNPCObjective("seal_complete", "dimension_sage")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 150000)

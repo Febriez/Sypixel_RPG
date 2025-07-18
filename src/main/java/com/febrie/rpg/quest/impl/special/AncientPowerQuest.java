@@ -57,7 +57,7 @@ public class AncientPowerQuest extends Quest {
                         // 숨겨진 시작
                         new CollectItemObjective("mysterious_rune", Material.CRYING_OBSIDIAN, 1),
                         new VisitLocationObjective("hidden_shrine", "forgotten_god_shrine"),
-                        new InteractNPCObjective("ancient_spirit", 220), // 고대 영혼
+                        new InteractNPCObjective("ancient_spirit", "ancient_spirit"), // 고대 영혼
                         
                         // 첫 번째 신 - 전쟁의 신
                         new VisitLocationObjective("war_temple", "temple_of_war"),
@@ -66,7 +66,7 @@ public class AncientPowerQuest extends Quest {
                         new KillPlayerObjective("pvp_kills", 10), // PvP 승리
                         new CollectItemObjective("warrior_souls", Material.IRON_NUGGET, 100),
                         new SurviveObjective("endless_battle", 1200), // 20분간 전투
-                        new InteractNPCObjective("war_god_altar", 221), // 전쟁신 제단
+                        new InteractNPCObjective("war_god_altar", "war_god_altar"), // 전쟁신 제단
                         new CollectItemObjective("war_blessing", Material.IRON_SWORD, 1),
                         
                         // 두 번째 신 - 지혜의 신
@@ -76,7 +76,7 @@ public class AncientPowerQuest extends Quest {
                         new CraftItemObjective("wisdom_elixir", Material.POTION, 30),
                         new PlaceBlockObjective("arrange_puzzle", Material.REDSTONE_LAMP, 16),
                         new SurviveObjective("mental_trial", 600), // 10분간 정신 시험
-                        new InteractNPCObjective("wisdom_god_altar", 222), // 지혜신 제단
+                        new InteractNPCObjective("wisdom_god_altar", "wisdom_god_altar"), // 지혜신 제단
                         new CollectItemObjective("wisdom_blessing", Material.ENCHANTED_BOOK, 1),
                         
                         // 세 번째 신 - 자연의 신
@@ -86,7 +86,7 @@ public class AncientPowerQuest extends Quest {
                         new PlaceBlockObjective("plant_trees", Material.OAK_SAPLING, 20),
                         new KillMobObjective("protect_nature", EntityType.PILLAGER, 30),
                         new CollectItemObjective("nature_essence", Material.EMERALD, 30),
-                        new InteractNPCObjective("nature_god_altar", 223), // 자연신 제단
+                        new InteractNPCObjective("nature_god_altar", "nature_god_altar"), // 자연신 제단
                         new CollectItemObjective("nature_blessing", Material.GOLDEN_APPLE, 1),
                         
                         // 네 번째 신 - 죽음의 신
@@ -97,7 +97,7 @@ public class AncientPowerQuest extends Quest {
                         new CollectItemObjective("soul_fragments", Material.SOUL_SAND, 50),
                         new CollectItemObjective("death_tokens", Material.WITHER_SKELETON_SKULL, 5),
                         new KillMobObjective("death_avatar", EntityType.WITHER, 2),
-                        new InteractNPCObjective("death_god_altar", 224), // 죽음신 제단
+                        new InteractNPCObjective("death_god_altar", "death_god_altar"), // 죽음신 제단
                         new CollectItemObjective("death_blessing", Material.TOTEM_OF_UNDYING, 1),
                         
                         // 다섯 번째 신 - 시간의 신
@@ -107,7 +107,7 @@ public class AncientPowerQuest extends Quest {
                         new SurviveObjective("time_loop", 900), // 15분간 시간 고리
                         new CollectItemObjective("past_artifact", Material.ANCIENT_DEBRIS, 5),
                         new CollectItemObjective("future_artifact", Material.NETHERITE_SCRAP, 5),
-                        new InteractNPCObjective("time_god_altar", 225), // 시간신 제단
+                        new InteractNPCObjective("time_god_altar", "time_god_altar"), // 시간신 제단
                         new CollectItemObjective("time_blessing", Material.ENDER_PEARL, 1),
                         
                         // 최종 의식 - 모든 축복 통합
@@ -125,7 +125,7 @@ public class AncientPowerQuest extends Quest {
                         new CollectItemObjective("ancient_power_core", Material.NETHER_STAR, 5),
                         
                         // 완료
-                        new InteractNPCObjective("power_granted", 220)
+                        new InteractNPCObjective("power_granted", "ancient_spirit")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 100000)

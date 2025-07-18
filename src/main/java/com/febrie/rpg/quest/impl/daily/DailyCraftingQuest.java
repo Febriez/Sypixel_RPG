@@ -53,7 +53,7 @@ public class DailyCraftingQuest extends Quest {
         return new DailyCraftingBuilder()
                 .id(QuestID.DAILY_CRAFTING)
                 .objectives(Arrays.asList(
-                        new InteractNPCObjective("blacksmith", 230), // 대장장이
+                        new InteractNPCObjective("blacksmith", "daily_blacksmith"), // 대장장이
                         // 기본 도구 제작
                         new CraftItemObjective("craft_wood_tools", Material.WOODEN_PICKAXE, 3),
                         new CraftItemObjective("craft_stone_tools", Material.STONE_SWORD, 5),
@@ -72,7 +72,7 @@ public class DailyCraftingQuest extends Quest {
                         // 전달
                         new DeliverItemObjective("deliver_tools", "blacksmith", Material.IRON_AXE, 2),
                         new DeliverItemObjective("deliver_armor", "blacksmith", Material.LEATHER_CHESTPLATE, 3),
-                        new InteractNPCObjective("report_complete", 230)
+                        new InteractNPCObjective("report_complete", "daily_blacksmith")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 600)

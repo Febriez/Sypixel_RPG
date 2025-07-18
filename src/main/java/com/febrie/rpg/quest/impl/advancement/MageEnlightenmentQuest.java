@@ -55,25 +55,25 @@ public class MageEnlightenmentQuest extends Quest {
                 .id(QuestID.CLASS_MAGE_ENLIGHTENMENT)
                 .objectives(Arrays.asList(
                         // 마법사의 길 시작
-                        new InteractNPCObjective("archmage_mentor", 42), // 대마법사 스승
+                        new InteractNPCObjective("archmage_mentor", "archmage_mentor"), // 대마법사 스승
                         new ReachLevelObjective("mage_mastery", 30),
                         new CollectItemObjective("magic_essence", Material.LAPIS_LAZULI, 64),
                         
                         // 첫 번째 시험 - 원소 마법
                         new VisitLocationObjective("elemental_sanctum", "elemental_magic_hall"),
-                        new InteractNPCObjective("fire_elemental", 43), // 불의 정령
+                        new InteractNPCObjective("fire_elemental", "fire_elemental"), // 불의 정령
                         new KillMobObjective("fire_test", EntityType.BLAZE, 30),
                         new CollectItemObjective("fire_essence", Material.BLAZE_POWDER, 20),
                         
-                        new InteractNPCObjective("water_elemental", 44), // 물의 정령
+                        new InteractNPCObjective("water_elemental", "water_elemental"), // 물의 정령
                         new CollectItemObjective("water_essence", Material.PRISMARINE_CRYSTALS, 20),
                         new CollectItemObjective("ice_shards", Material.PACKED_ICE, 10),
                         
-                        new InteractNPCObjective("earth_elemental", 45), // 대지의 정령
+                        new InteractNPCObjective("earth_elemental", "earth_elemental"), // 대지의 정령
                         new BreakBlockObjective("earth_test", Material.STONE, 100),
                         new CollectItemObjective("earth_essence", Material.CLAY_BALL, 30),
                         
-                        new InteractNPCObjective("air_elemental", 46), // 바람의 정령
+                        new InteractNPCObjective("air_elemental", "air_elemental"), // 바람의 정령
                         new KillMobObjective("air_test", EntityType.PHANTOM, 20),
                         new CollectItemObjective("air_essence", Material.PHANTOM_MEMBRANE, 15),
                         
@@ -86,7 +86,7 @@ public class MageEnlightenmentQuest extends Quest {
                         
                         // 세 번째 시험 - 금지된 지식
                         new VisitLocationObjective("forbidden_library", "restricted_magic_archive"),
-                        new InteractNPCObjective("knowledge_keeper", 47), // 지식의 수호자
+                        new InteractNPCObjective("knowledge_keeper", "knowledge_keeper"), // 지식의 수호자
                         new CollectItemObjective("ancient_tomes", Material.ENCHANTED_BOOK, 10),
                         new KillMobObjective("knowledge_guardians", EntityType.VEX, 50),
                         new CollectItemObjective("forbidden_scroll", Material.WRITTEN_BOOK, 1),
@@ -102,7 +102,7 @@ public class MageEnlightenmentQuest extends Quest {
                         
                         // 최종 시험 - 마법 대결
                         new VisitLocationObjective("arcane_arena", "magical_duel_arena"),
-                        new InteractNPCObjective("rival_mage", 48), // 라이벌 마법사
+                        new InteractNPCObjective("rival_mage", "rival_mage"), // 라이벌 마법사
                         new KillMobObjective("illusion_army", EntityType.EVOKER, 10),
                         new KillMobObjective("summoned_vex", EntityType.VEX, 100),
                         new SurviveObjective("magic_duel", 900), // 15분간 마법 대결
@@ -116,7 +116,7 @@ public class MageEnlightenmentQuest extends Quest {
                         
                         // 대마법사 승급
                         new DeliverItemObjective("deliver_orb", "archmage_mentor", Material.NETHER_STAR, 1),
-                        new InteractNPCObjective("graduation_ceremony", 42)
+                        new InteractNPCObjective("graduation_ceremony", "archmage_mentor")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 15000)

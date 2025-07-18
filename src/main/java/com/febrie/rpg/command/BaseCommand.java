@@ -2,6 +2,7 @@ package com.febrie.rpg.command;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LogUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,8 +36,7 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter {
         try {
             return executeCommand(sender, command, label, args);
         } catch (Exception e) {
-            plugin.getLogger().severe("Error executing command " + command.getName() + ": " + e.getMessage());
-            e.printStackTrace();
+            LogUtil.error("Error executing command " + command.getName(), e);
 
             if (sender instanceof Player player) {
                 langManager.sendMessage(player, "general.error");

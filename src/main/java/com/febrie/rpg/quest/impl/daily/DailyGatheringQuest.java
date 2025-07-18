@@ -55,7 +55,7 @@ public class DailyGatheringQuest extends Quest {
                 .id(QuestID.DAILY_GATHERING)
                 .objectives(Arrays.asList(
                         // 기본 자원 수집
-                        new InteractNPCObjective("meet_foreman", 105), // 채집 감독관
+                        new InteractNPCObjective("meet_foreman", "gathering_foreman"), // 채집 감독관
                         new CollectItemObjective("gather_wood", Material.OAK_LOG, 32),
                         new CollectItemObjective("gather_stone", Material.COBBLESTONE, 64),
                         new CollectItemObjective("gather_coal", Material.COAL, 16),

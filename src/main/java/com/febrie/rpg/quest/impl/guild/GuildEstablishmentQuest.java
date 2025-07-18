@@ -55,7 +55,7 @@ public class GuildEstablishmentQuest extends Quest {
                 .id(QuestID.GUILD_ESTABLISHMENT)
                 .objectives(Arrays.asList(
                         // 준비 단계
-                        new InteractNPCObjective("guild_registrar", 116), // 길드 등록관
+                        new InteractNPCObjective("guild_registrar", "guild_registrar"), // 길드 등록관
                         new ReachLevelObjective("level_requirement", 25),
                         new PayCurrencyObjective("registration_fee", CurrencyType.GOLD, 5000),
                         
@@ -72,9 +72,9 @@ public class GuildEstablishmentQuest extends Quest {
                         new PayCurrencyObjective("hall_rental", CurrencyType.GOLD, 10000),
                         
                         // 길드 멤버 모집
-                        new InteractNPCObjective("recruit_npc1", 117), // 첫 번째 지원자
-                        new InteractNPCObjective("recruit_npc2", 118), // 두 번째 지원자
-                        new InteractNPCObjective("recruit_npc3", 119), // 세 번째 지원자
+                        new InteractNPCObjective("recruit_npc1", "guild_recruit_warrior"), // 첫 번째 지원자
+                        new InteractNPCObjective("recruit_npc2", "guild_recruit_mage"), // 두 번째 지원자
+                        new InteractNPCObjective("recruit_npc3", "guild_recruit_archer"), // 세 번째 지원자
                         new CollectItemObjective("member_contracts", Material.PAPER, 5),
                         
                         // 길드 창설 문서
@@ -95,7 +95,7 @@ public class GuildEstablishmentQuest extends Quest {
                         new DeliverItemObjective("complete_mission", "guild_registrar", Material.EMERALD, 30),
                         
                         // 길드 승인
-                        new InteractNPCObjective("final_approval", 116)
+                        new InteractNPCObjective("final_approval", "guild_registrar")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 20000)

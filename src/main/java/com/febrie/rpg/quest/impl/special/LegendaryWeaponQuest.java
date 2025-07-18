@@ -55,7 +55,7 @@ public class LegendaryWeaponQuest extends Quest {
                 .id(QuestID.SPECIAL_LEGENDARY_WEAPON)
                 .objectives(Arrays.asList(
                         // 전설의 시작
-                        new InteractNPCObjective("ancient_blacksmith", 130), // 고대 대장장이
+                        new InteractNPCObjective("ancient_blacksmith", "ancient_blacksmith"), // 고대 대장장이
                         new CollectItemObjective("ancient_blueprints", Material.WRITTEN_BOOK, 1),
                         new VisitLocationObjective("forgotten_forge", "ancient_forge_location"),
                         
@@ -74,7 +74,7 @@ public class LegendaryWeaponQuest extends Quest {
                         new CollectItemObjective("heart_of_abyss", Material.SCULK_CATALYST, 1),
                         
                         // 세 번째 재료 - 용의 불꽃
-                        new InteractNPCObjective("dragon_keeper", 131), // 용의 수호자
+                        new InteractNPCObjective("dragon_keeper", "dragon_keeper"), // 용의 수호자
                         new PayCurrencyObjective("dragon_tribute", CurrencyType.DIAMOND, 50),
                         new VisitLocationObjective("dragon_nest", "ancient_dragon_nest"),
                         new KillMobObjective("dragon_whelps", EntityType.PHANTOM, 25),
@@ -110,7 +110,7 @@ public class LegendaryWeaponQuest extends Quest {
                         
                         // 완성
                         new CollectItemObjective("legendary_weapon", Material.NETHERITE_SWORD, 1),
-                        new InteractNPCObjective("completion_ceremony", 130)
+                        new InteractNPCObjective("completion_ceremony", "ancient_blacksmith")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 50000)

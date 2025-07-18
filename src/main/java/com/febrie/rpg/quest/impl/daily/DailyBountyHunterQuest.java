@@ -55,7 +55,7 @@ public class DailyBountyHunterQuest extends Quest {
                 .id(QuestID.DAILY_BOUNTY_HUNTER)
                 .objectives(Arrays.asList(
                         // 현상금 사무소 방문
-                        new InteractNPCObjective("bounty_officer", 150), // 현상금 담당관
+                        new InteractNPCObjective("bounty_officer", "bounty_officer"), // 현상금 담당관
                         
                         // 첫 번째 현상금 - 일반 범죄자
                         new VisitLocationObjective("criminal_hideout", "bandit_camp"),
@@ -76,7 +76,7 @@ public class DailyBountyHunterQuest extends Quest {
                         new CollectItemObjective("magic_essence", Material.LAPIS_LAZULI, 20),
                         
                         // 네 번째 현상금 - 엘리트 표적
-                        new InteractNPCObjective("informant", 151), // 정보원
+                        new InteractNPCObjective("informant", "bounty_informant"), // 정보원
                         new PayCurrencyObjective("buy_info", CurrencyType.GOLD, 500),
                         new VisitLocationObjective("elite_location", "abandoned_fortress"),
                         new KillMobObjective("elite_guard", EntityType.VINDICATOR, 8),
@@ -91,7 +91,7 @@ public class DailyBountyHunterQuest extends Quest {
                         new DeliverItemObjective("deliver_badges", "bounty_officer", Material.IRON_NUGGET, 15),
                         new DeliverItemObjective("deliver_evidence", "bounty_officer", Material.PAPER, 10),
                         new DeliverItemObjective("deliver_head", "bounty_officer", Material.PLAYER_HEAD, 1),
-                        new InteractNPCObjective("claim_bounty", 150)
+                        new InteractNPCObjective("claim_bounty", "bounty_officer")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 2500)

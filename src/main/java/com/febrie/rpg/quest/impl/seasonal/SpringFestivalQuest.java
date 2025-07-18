@@ -50,7 +50,7 @@ public class SpringFestivalQuest extends Quest {
                 .sequential(false)
                 .repeatable(true)
                 .objectives(Arrays.asList(
-                        new InteractNPCObjective("festival_host", 100),
+                        new InteractNPCObjective("festival_host", "spring_festival_host"),
                         new CollectItemObjective("collect_flowers", Material.DANDELION, 20),
                         new CollectItemObjective("collect_tulips", Material.RED_TULIP, 15),
                         new CollectItemObjective("collect_seeds", Material.WHEAT_SEEDS, 30),

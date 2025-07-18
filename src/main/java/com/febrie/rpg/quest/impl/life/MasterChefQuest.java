@@ -55,7 +55,7 @@ public class MasterChefQuest extends Quest {
                 .id(QuestID.LIFE_MASTER_CHEF)
                 .objectives(Arrays.asList(
                         // 시작
-                        new InteractNPCObjective("master_chef", 32), // 요리 마스터
+                        new InteractNPCObjective("master_chef", "master_chef"), // 요리 마스터
                         
                         // 기초 재료 수집
                         new HarvestObjective("harvest_wheat", Material.WHEAT, 20),
@@ -108,7 +108,7 @@ public class MasterChefQuest extends Quest {
                         // 완성
                         new DeliverItemObjective("deliver_feast", "요리 마스터", Material.CAKE, 1),
                         new DeliverItemObjective("deliver_golden", "요리 마스터", Material.GOLDEN_APPLE, 1),
-                        new InteractNPCObjective("graduation", 32)
+                        new InteractNPCObjective("graduation", "master_chef")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 3500)

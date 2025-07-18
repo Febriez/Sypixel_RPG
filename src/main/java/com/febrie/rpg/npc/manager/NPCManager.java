@@ -75,8 +75,7 @@ public class NPCManager {
             LogUtil.info("RPG NPC Traits가 성공적으로 등록되었습니다.");
 
         } catch (Exception e) {
-            LogUtil.error("RPG NPC Traits 등록 중 오류 발생: " + e.getMessage());
-            e.printStackTrace();
+            LogUtil.error("RPG NPC Traits 등록 중 오류 발생", e);
         }
     }
 

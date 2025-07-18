@@ -65,7 +65,7 @@ public class LostTreasureQuest extends Quest {
         
         // NPC와 상호작용 (보물 수호자)
         objectives.add(new InteractNPCObjective("talk_to_guardian", 
-                2)); // Citizens NPC ID 2번 사용
+                "treasure_guardian")); // 보물 수호자 NPC
 
         return new LostTreasureBuilder()
                 .id(QuestID.SIDE_LOST_TREASURE)

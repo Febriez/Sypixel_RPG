@@ -60,7 +60,7 @@ public class HiddenClassQuest extends Quest {
                         new CollectItemObjective("use_secret_knock", Material.STICK, 1), // 비밀 노크용 막대기
                         
                         // 그림자 길드 입단 시험
-                        new InteractNPCObjective("shadow_master", 114), // 그림자 마스터
+                        new InteractNPCObjective("shadow_master", "shadow_master"), // 그림자 마스터
                         new SurviveObjective("darkness_test", 600), // 10분간 어둠 속 생존
                         new KillPlayerObjective("pvp_test", 1), // PvP 시험
                         
@@ -77,7 +77,7 @@ public class HiddenClassQuest extends Quest {
                         new KillMobObjective("poison_test", EntityType.CAVE_SPIDER, 30),
                         
                         // 세 번째 시련 - 정보 수집
-                        new InteractNPCObjective("spy_merchant", 115), // 정보상
+                        new InteractNPCObjective("spy_merchant", "spy_merchant"), // 정보상
                         new PayCurrencyObjective("bribe_informant", CurrencyType.GOLD, 2000),
                         new CollectItemObjective("secret_documents", Material.WRITTEN_BOOK, 3),
                         new DeliverItemObjective("deliver_intel", "shadow_master", Material.WRITTEN_BOOK, 3),
@@ -97,7 +97,7 @@ public class HiddenClassQuest extends Quest {
                         
                         // 전직 의식
                         // 전직 선택은 NPC 대화로 처리
-                        new InteractNPCObjective("final_ceremony", 114),
+                        new InteractNPCObjective("final_ceremony", "shadow_master"),
                         new CollectItemObjective("shadow_mark", Material.PLAYER_HEAD, 1) // 그림자의 표식
                 ))
                 .reward(new BasicReward.Builder()

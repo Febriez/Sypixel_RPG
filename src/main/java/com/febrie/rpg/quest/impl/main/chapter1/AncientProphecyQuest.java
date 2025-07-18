@@ -41,7 +41,7 @@ public class AncientProphecyQuest extends Quest {
                 .id(QuestID.MAIN_ANCIENT_PROPHECY)
                 .objectives(Arrays.asList(
                         new VisitLocationObjective("visit_elder", "ancient_temple"),
-                        new InteractNPCObjective("talk_elder", 35), // 고대의 장로
+                        new InteractNPCObjective("talk_elder", "ancient_elder"), // 고대의 장로
                         new CollectItemObjective("collect_scrolls", Material.PAPER, 5),
                         new DeliverItemObjective("deliver_scrolls", "고대의 장로", Material.PAPER, 5)
                 ))

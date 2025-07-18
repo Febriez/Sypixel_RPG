@@ -55,7 +55,7 @@ public class AncientRuinsQuest extends Quest {
                 .id(QuestID.SIDE_ANCIENT_RUINS)
                 .objectives(Arrays.asList(
                         // 시작
-                        new InteractNPCObjective("archaeologist_talk", 30), // 고고학자 헨리
+                        new InteractNPCObjective("archaeologist_talk", "archaeologist_henry"), // 고고학자 헨리
                         new CollectItemObjective("gather_tools", Material.IRON_PICKAXE, 1),
                         new CollectItemObjective("gather_torches", Material.TORCH, 64),
                         

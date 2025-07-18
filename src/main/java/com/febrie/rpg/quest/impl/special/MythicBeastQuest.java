@@ -56,7 +56,7 @@ public class MythicBeastQuest extends Quest {
                 .id(QuestID.SPECIAL_MYTHIC_BEAST)
                 .objectives(Arrays.asList(
                         // 전설의 시작
-                        new InteractNPCObjective("beast_scholar", 240), // 신수 학자
+                        new InteractNPCObjective("beast_scholar", "mythic_beast_scholar"), // 신수 학자
                         new CollectItemObjective("ancient_compass", Material.COMPASS, 1),
                         new CollectItemObjective("beast_chronicles", Material.WRITTEN_BOOK, 4),
                         
@@ -67,7 +67,7 @@ public class MythicBeastQuest extends Quest {
                         new SurviveObjective("storm_trial", 600), // 10분간 폭풍 시련
                         new KillMobObjective("storm_elementals", EntityType.PHANTOM, 50),
                         new KillMobObjective("lightning_spirits", EntityType.BLAZE, 30),
-                        new InteractNPCObjective("azure_dragon", 241), // 청룡
+                        new InteractNPCObjective("azure_dragon", "azure_dragon"), // 청룡
                         new CollectItemObjective("dragon_pearl", Material.HEART_OF_THE_SEA, 1),
                         new DeliverItemObjective("dragon_contract", "beast_scholar", Material.HEART_OF_THE_SEA, 1),
                         
@@ -79,7 +79,7 @@ public class MythicBeastQuest extends Quest {
                         new KillMobObjective("spirit_tigers", EntityType.SNOW_GOLEM, 20),
                         new SurviveObjective("hunt_trial", 900), // 15분간 사냥 시련
                         new KillPlayerObjective("prove_warrior", 5), // 전사의 증명
-                        new InteractNPCObjective("white_tiger", 242), // 백호
+                        new InteractNPCObjective("white_tiger", "white_tiger"), // 백호
                         new CollectItemObjective("tiger_claw", Material.BONE, 1),
                         new DeliverItemObjective("tiger_contract", "beast_scholar", Material.BONE, 1),
                         
@@ -92,7 +92,7 @@ public class MythicBeastQuest extends Quest {
                         new KillMobObjective("lava_spirits", EntityType.MAGMA_CUBE, 30),
                         new CraftItemObjective("fire_resistance", Material.POTION, 10),
                         new SurviveObjective("rebirth_trial", 600), // 10분간 재생 시련
-                        new InteractNPCObjective("vermillion_bird", 243), // 주작
+                        new InteractNPCObjective("vermillion_bird", "vermillion_bird"), // 주작
                         new CollectItemObjective("phoenix_egg", Material.DRAGON_EGG, 1),
                         new DeliverItemObjective("bird_contract", "beast_scholar", Material.DRAGON_EGG, 1),
                         
@@ -104,7 +104,7 @@ public class MythicBeastQuest extends Quest {
                         new KillMobObjective("elder_guardians", EntityType.ELDER_GUARDIAN, 3),
                         new CollectItemObjective("ancient_coral", Material.BRAIN_CORAL_BLOCK, 10),
                         new SurviveObjective("depth_trial", 1200), // 20분간 심해 시련
-                        new InteractNPCObjective("black_tortoise", 244), // 현무
+                        new InteractNPCObjective("black_tortoise", "black_tortoise"), // 현무
                         new CollectItemObjective("turtle_shell", Material.TURTLE_HELMET, 1),
                         new DeliverItemObjective("tortoise_contract", "beast_scholar", Material.TURTLE_HELMET, 1),
                         
@@ -122,7 +122,7 @@ public class MythicBeastQuest extends Quest {
                         
                         // 신수의 가호 획득
                         new CollectItemObjective("beast_blessing", Material.NETHER_STAR, 4),
-                        new InteractNPCObjective("final_contract", 240)
+                        new InteractNPCObjective("final_contract", "mythic_beast_scholar")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 80000)

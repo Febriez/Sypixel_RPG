@@ -53,13 +53,13 @@ public class DailyDeliveryQuest extends Quest {
         return new DailyDeliveryBuilder()
                 .id(QuestID.DAILY_DELIVERY)
                 .objectives(Arrays.asList(
-                        new InteractNPCObjective("delivery_master", 240), // 배달부 마스터
+                        new InteractNPCObjective("delivery_master", "delivery_master"), // 배달부 마스터
                         
                         // 첫 번째 배달 - 빵집으로 빵 배달
                         new CollectItemObjective("collect_bread", Material.BREAD, 10),
                         new VisitLocationObjective("visit_bakery", "village_bakery"),
                         new DeliverItemObjective("deliver_bread", "baker", Material.BREAD, 10),
-                        new InteractNPCObjective("baker_thanks", 241),
+                        new InteractNPCObjective("baker_thanks", "village_baker"),
                         
                         // 두 번째 배달 - 약국으로 포션 재료 배달
                         new CollectItemObjective("collect_spider_eyes", Material.SPIDER_EYE, 5),
@@ -67,7 +67,7 @@ public class DailyDeliveryQuest extends Quest {
                         new VisitLocationObjective("visit_pharmacy", "village_pharmacy"),
                         new DeliverItemObjective("deliver_potion_materials", "pharmacist", Material.SPIDER_EYE, 5),
                         new DeliverItemObjective("deliver_sugar", "pharmacist", Material.SUGAR, 10),
-                        new InteractNPCObjective("pharmacist_thanks", 242),
+                        new InteractNPCObjective("pharmacist_thanks", "village_pharmacist"),
                         
                         // 세 번째 배달 - 대장간으로 광물 배달
                         new CollectItemObjective("collect_iron", Material.IRON_INGOT, 20),
@@ -75,7 +75,7 @@ public class DailyDeliveryQuest extends Quest {
                         new VisitLocationObjective("visit_blacksmith", "village_blacksmith"),
                         new DeliverItemObjective("deliver_iron", "blacksmith", Material.IRON_INGOT, 20),
                         new DeliverItemObjective("deliver_coal", "blacksmith", Material.COAL, 30),
-                        new InteractNPCObjective("blacksmith_thanks", 243),
+                        new InteractNPCObjective("blacksmith_thanks", "village_blacksmith"),
                         
                         // 네 번째 배달 - 도서관으로 책 배달
                         new CollectItemObjective("collect_books", Material.BOOK, 5),
@@ -83,7 +83,7 @@ public class DailyDeliveryQuest extends Quest {
                         new VisitLocationObjective("visit_library", "village_library"),
                         new DeliverItemObjective("deliver_books", "librarian", Material.BOOK, 5),
                         new DeliverItemObjective("deliver_paper", "librarian", Material.PAPER, 20),
-                        new InteractNPCObjective("librarian_thanks", 244),
+                        new InteractNPCObjective("librarian_thanks", "village_librarian"),
                         
                         // 다섯 번째 배달 - 농장으로 씨앗 배달
                         new CollectItemObjective("collect_wheat_seeds", Material.WHEAT_SEEDS, 32),
@@ -91,7 +91,7 @@ public class DailyDeliveryQuest extends Quest {
                         new VisitLocationObjective("visit_farm", "village_farm"),
                         new DeliverItemObjective("deliver_seeds", "farmer", Material.WHEAT_SEEDS, 32),
                         new DeliverItemObjective("deliver_fertilizer", "farmer", Material.BONE_MEAL, 16),
-                        new InteractNPCObjective("farmer_thanks", 245),
+                        new InteractNPCObjective("farmer_thanks", "village_farmer"),
                         
                         // 긴급 배달 - 경비대로 무기 배달
                         new CollectItemObjective("collect_swords", Material.IRON_SWORD, 3),
@@ -100,10 +100,10 @@ public class DailyDeliveryQuest extends Quest {
                         new SurviveObjective("urgent_delivery", 300), // 5분 제한
                         new DeliverItemObjective("deliver_weapons", "guard_captain", Material.IRON_SWORD, 3),
                         new DeliverItemObjective("deliver_shields", "guard_captain", Material.SHIELD, 3),
-                        new InteractNPCObjective("guard_thanks", 246),
+                        new InteractNPCObjective("guard_thanks", "village_guard"),
                         
                         // 배달 완료 보고
-                        new InteractNPCObjective("report_complete", 240)
+                        new InteractNPCObjective("report_complete", "delivery_master")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 800)

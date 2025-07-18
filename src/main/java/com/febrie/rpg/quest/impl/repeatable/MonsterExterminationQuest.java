@@ -52,7 +52,7 @@ public class MonsterExterminationQuest extends Quest {
         return new MonsterExterminationBuilder()
                 .id(QuestID.REPEAT_MONSTER_EXTERMINATION)
                 .objectives(Arrays.asList(
-                        new InteractNPCObjective("guard_captain", 4),
+                        new InteractNPCObjective("guard_captain", "village_guard_captain"),
                         new KillMobObjective("kill_zombies", EntityType.ZOMBIE, 30),
                         new KillMobObjective("kill_skeletons", EntityType.SKELETON, 25),
                         new KillMobObjective("kill_spiders", EntityType.SPIDER, 20),

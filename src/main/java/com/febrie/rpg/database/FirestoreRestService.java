@@ -236,7 +236,6 @@ public class FirestoreRestService {
             connected = response.statusCode() == 200 || response.statusCode() == 404;
 
             if (connected) {
-                LogUtil.info("Firebase Firestore REST API 연결 성공!");
             } else {
                 LogUtil.error("Firebase Firestore 연결 실패: " + response.statusCode());
             }

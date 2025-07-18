@@ -53,7 +53,7 @@ public class WarriorAdvancementQuest extends Quest {
                 .id(QuestID.CLASS_WARRIOR_ADVANCEMENT)
                 .objectives(Arrays.asList(
                         new ReachLevelObjective("warrior_level", 30),
-                        new InteractNPCObjective("warrior_master", 20),
+                        new InteractNPCObjective("warrior_master", "warrior_master"),
                         new KillMobObjective("prove_combat", EntityType.IRON_GOLEM, 20),
                         new KillPlayerObjective("prove_pvp", 10),
                         new CollectItemObjective("warrior_emblem", Material.IRON_INGOT, 50),

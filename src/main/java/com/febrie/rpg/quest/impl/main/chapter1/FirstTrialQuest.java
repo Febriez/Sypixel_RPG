@@ -55,7 +55,7 @@ public class FirstTrialQuest extends Quest {
                 .id(QuestID.MAIN_FIRST_TRIAL)
                 .objectives(Arrays.asList(
                         // 준비 단계
-                        new InteractNPCObjective("meet_trainer", 102), // 시련의 훈련관
+                        new InteractNPCObjective("meet_trainer", "trial_trainer"), // 시련의 훈련관
                         new CollectItemObjective("gather_potions", Material.POTION, 10),
                         new CraftItemObjective("craft_shield", Material.SHIELD, 1),
                         

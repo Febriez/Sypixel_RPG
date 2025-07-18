@@ -5,6 +5,7 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
+import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
@@ -139,12 +140,13 @@ public class LocationCheckTask implements Runnable {
                     // 메인 스레드에서 퀘스트 진행 처리
                     if (shouldProgress) {
                         Bukkit.getScheduler().runTask(plugin, () -> {
-                            // 퀘스트 진행 처리
-                            QuestManager questManager = QuestManager.getInstance();
-                            QuestProgress questProgress = questManager.getQuestProgress(data.player.getUniqueId(), quest.getId());
-                            if (questProgress != null) {
-                                questProgress.incrementObjective(objective.getId(), 1);
-                                questManager.checkQuestCompletion(data.player.getUniqueId(), quest.getId());
+                            // 퀘스트 진행 처리 - 목표 완료 처리
+                            ObjectiveProgress objProgress = progress.getObjective(objective.getId());
+                            if (objProgress != null && objProgress.getCurrentValue() < objProgress.getRequiredValue()) {
+                                objProgress.increment(1); // 방문 목표는 1회만 완료하면 됨
+                                
+                                // 퀘스트 매니저를 통해 진행 상태 업데이트 및 완료 확인
+                                QuestManager.getInstance().checkQuestCompletion(data.player.getUniqueId(), quest.getId());
                             }
                         });
                     }

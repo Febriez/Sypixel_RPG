@@ -55,13 +55,13 @@ public class AncientCipherQuest extends Quest {
                 .id(QuestID.SIDE_ANCIENT_CIPHER)
                 .objectives(Arrays.asList(
                         // 미스터리 시작
-                        new InteractNPCObjective("archaeologist", 190), // 고고학자
+                        new InteractNPCObjective("archaeologist", "cipher_archaeologist"), // 고고학자
                         new CollectItemObjective("ancient_tablet", Material.CHISELED_STONE_BRICKS, 1),
                         new VisitLocationObjective("research_lab", "archaeology_lab"),
                         
                         // 첫 번째 단서 - 도서관
                         new VisitLocationObjective("ancient_library", "forbidden_library"),
-                        new InteractNPCObjective("librarian", 191), // 사서
+                        new InteractNPCObjective("librarian", "ancient_librarian"), // 사서
                         new CollectItemObjective("old_books", Material.WRITTEN_BOOK, 5),
                         new BreakBlockObjective("search_shelves", Material.BOOKSHELF, 20),
                         new CollectItemObjective("cipher_key_1", Material.PAPER, 1),
@@ -84,7 +84,7 @@ public class AncientCipherQuest extends Quest {
                         
                         // 네 번째 단서 - 연금술사의 탑
                         new VisitLocationObjective("alchemist_tower", "abandoned_alchemy_tower"),
-                        new InteractNPCObjective("ghost_alchemist", 192), // 유령 연금술사
+                        new InteractNPCObjective("ghost_alchemist", "ghost_alchemist"), // 유령 연금술사
                         new CollectItemObjective("rare_ingredients", Material.GLISTERING_MELON_SLICE, 5),
                         new CollectItemObjective("mystic_dust", Material.GLOWSTONE_DUST, 20),
                         new CraftItemObjective("brew_potion", Material.POTION, 10),
@@ -95,7 +95,7 @@ public class AncientCipherQuest extends Quest {
                         new DeliverItemObjective("deliver_key2", "archaeologist", Material.COMPASS, 1),
                         new DeliverItemObjective("deliver_key3", "archaeologist", Material.CLOCK, 1),
                         new DeliverItemObjective("deliver_key4", "archaeologist", Material.BREWING_STAND, 1),
-                        new InteractNPCObjective("decode_cipher", 190),
+                        new InteractNPCObjective("decode_cipher", "cipher_archaeologist"),
                         
                         // 숨겨진 방 발견
                         new VisitLocationObjective("hidden_chamber", "secret_ancient_vault"),
@@ -115,7 +115,7 @@ public class AncientCipherQuest extends Quest {
                         
                         // 완료
                         new DeliverItemObjective("deliver_artifact", "archaeologist", Material.HEART_OF_THE_SEA, 1),
-                        new InteractNPCObjective("quest_complete", 190)
+                        new InteractNPCObjective("quest_complete", "cipher_archaeologist")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 8000)

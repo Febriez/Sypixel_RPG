@@ -55,10 +55,10 @@ public class WorldTreeQuest extends Quest {
                 .id(QuestID.SPECIAL_WORLD_TREE)
                 .objectives(Arrays.asList(
                         // 세계수의 위기
-                        new InteractNPCObjective("tree_guardian", 250), // 세계수 수호자
+                        new InteractNPCObjective("tree_guardian", "world_tree_guardian"), // 세계수 수호자
                         new VisitLocationObjective("world_tree", "yggdrasil_base"),
                         new CollectItemObjective("dead_leaves", Material.DEAD_BUSH, 20),
-                        new InteractNPCObjective("dying_tree", 251), // 죽어가는 세계수
+                        new InteractNPCObjective("dying_tree", "dying_world_tree"), // 죽어가는 세계수
                         
                         // 첫 번째 뿌리 - 생명의 샘
                         new VisitLocationObjective("life_spring", "root_of_life"),
@@ -70,7 +70,7 @@ public class WorldTreeQuest extends Quest {
                         
                         // 두 번째 뿌리 - 지혜의 우물
                         new VisitLocationObjective("wisdom_well", "root_of_wisdom"),
-                        new InteractNPCObjective("well_keeper", 252), // 우물 지기
+                        new InteractNPCObjective("well_keeper", "life_well_keeper"), // 우물 지기
                         new CollectItemObjective("ancient_runes", Material.ENCHANTED_BOOK, 15),
                         new PayCurrencyObjective("wisdom_price", CurrencyType.DIAMOND, 50),
                         new CraftItemObjective("wisdom_potion", Material.POTION, 20),
@@ -117,10 +117,10 @@ public class WorldTreeQuest extends Quest {
                         new SurviveObjective("tree_awakening", 1800), // 30분 각성
                         
                         // 세계수의 선물
-                        new InteractNPCObjective("revived_tree", 251),
+                        new InteractNPCObjective("revived_tree", "dying_world_tree"),
                         new CollectItemObjective("world_fruit", Material.ENCHANTED_GOLDEN_APPLE, 3),
                         new CollectItemObjective("eternal_leaves", Material.OAK_LEAVES, 100),
-                        new InteractNPCObjective("tree_blessing", 250)
+                        new InteractNPCObjective("tree_blessing", "world_tree_guardian")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 100000)

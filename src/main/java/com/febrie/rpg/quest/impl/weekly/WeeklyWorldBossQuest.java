@@ -55,7 +55,7 @@ public class WeeklyWorldBossQuest extends Quest {
                 .id(QuestID.WEEKLY_WORLD_BOSS)
                 .objectives(Arrays.asList(
                         // 월드 보스 출현 준비
-                        new InteractNPCObjective("world_herald", 160), // 월드 전령
+                        new InteractNPCObjective("world_herald", "world_boss_herald"), // 월드 전령
                         new VisitLocationObjective("boss_spawn", "titan_summoning_grounds"),
                         
                         // 소환 의식 준비
@@ -67,7 +67,7 @@ public class WeeklyWorldBossQuest extends Quest {
                         // 제단 활성화
                         new PlaceBlockObjective("place_crystals", Material.END_CRYSTAL, 8),
                         new PlaceBlockObjective("place_beacons", Material.BEACON, 4),
-                        new InteractNPCObjective("start_ritual", 160),
+                        new InteractNPCObjective("start_ritual", "world_boss_herald"),
                         
                         // 첫 번째 단계 - 타이탄의 하수인들
                         new KillMobObjective("titan_minions", EntityType.GIANT, 10),
@@ -102,7 +102,7 @@ public class WeeklyWorldBossQuest extends Quest {
                         // 보상 수령
                         new DeliverItemObjective("deliver_heart", "world_herald", Material.BEACON, 1),
                         new DeliverItemObjective("deliver_soul", "world_herald", Material.DRAGON_EGG, 1),
-                        new InteractNPCObjective("claim_rewards", 160)
+                        new InteractNPCObjective("claim_rewards", "world_boss_herald")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 30000)

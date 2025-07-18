@@ -55,7 +55,7 @@ public class ShadowInvasionQuest extends Quest {
                 .id(QuestID.MAIN_SHADOW_INVASION)
                 .objectives(Arrays.asList(
                         // 침략 발견
-                        new InteractNPCObjective("scout_report", 39), // 정찰병
+                        new InteractNPCObjective("scout_report", "shadow_scout"), // 정찰병
                         new VisitLocationObjective("shadow_portal", "shadow_breach"),
                         new CollectItemObjective("portal_sample", Material.OBSIDIAN, 5),
                         
@@ -66,7 +66,7 @@ public class ShadowInvasionQuest extends Quest {
                         new CollectItemObjective("dark_fragments", Material.COAL, 30),
                         
                         // 방어 준비
-                        new InteractNPCObjective("commander_talk", 40), // 방어 사령관
+                        new InteractNPCObjective("commander_talk", "defense_commander"), // 방어 사령관
                         new CollectItemObjective("defense_materials", Material.IRON_INGOT, 50),
                         new PlaceBlockObjective("build_walls", Material.IRON_BARS, 30),
                         new PlaceBlockObjective("build_towers", Material.STONE_BRICKS, 20),
@@ -86,7 +86,7 @@ public class ShadowInvasionQuest extends Quest {
                         
                         // 그림자 장군과의 대결
                         new VisitLocationObjective("shadow_throne", "shadow_general_arena"),
-                        new InteractNPCObjective("shadow_general_talk", 41), // 그림자 장군
+                        new InteractNPCObjective("shadow_general_talk", "shadow_general"), // 그림자 장군
                         new KillMobObjective("shadow_general", EntityType.WITHER, 1),
                         new CollectItemObjective("general_crown", Material.WITHER_SKELETON_SKULL, 1),
                         
@@ -99,7 +99,7 @@ public class ShadowInvasionQuest extends Quest {
                         // 전리품 보고
                         new DeliverItemObjective("deliver_crown", "commander", Material.WITHER_SKELETON_SKULL, 1),
                         new DeliverItemObjective("deliver_core", "commander", Material.NETHER_STAR, 1),
-                        new InteractNPCObjective("victory_ceremony", 40)
+                        new InteractNPCObjective("victory_ceremony", "defense_commander")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 12000)

@@ -55,7 +55,7 @@ public class DailyExplorationQuest extends Quest {
                 .id(QuestID.DAILY_EXPLORATION)
                 .objectives(Arrays.asList(
                         // 탐험 시작
-                        new InteractNPCObjective("explorer_guild", 200), // 탐험가 길드장
+                        new InteractNPCObjective("explorer_guild", "explorer_guild_master"), // 탐험가 길드장
                         new CollectItemObjective("prepare_supplies", Material.BREAD, 10),
                         new CollectItemObjective("prepare_torches", Material.TORCH, 32),
                         new CollectItemObjective("prepare_tools", Material.IRON_PICKAXE, 1),
@@ -105,7 +105,7 @@ public class DailyExplorationQuest extends Quest {
                         new DeliverItemObjective("deliver_relics", "explorer_guild", Material.GOLD_NUGGET, 15),
                         new DeliverItemObjective("deliver_maps", "explorer_guild", Material.FILLED_MAP, 5),
                         new DeliverItemObjective("deliver_report", "explorer_guild", Material.WRITTEN_BOOK, 1),
-                        new InteractNPCObjective("exploration_complete", 200)
+                        new InteractNPCObjective("exploration_complete", "explorer_guild_master")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 3000)

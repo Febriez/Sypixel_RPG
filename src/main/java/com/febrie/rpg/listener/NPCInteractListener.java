@@ -79,7 +79,6 @@ public class NPCInteractListener implements Listener {
                 case QUEST -> {
                     QuestID questId = (QuestID) pending.getData();
                     RPGQuestTrait questTrait = npc.getOrAddTrait(RPGQuestTrait.class);
-                    questTrait.setNpcType("QUEST");
                     questTrait.addQuest(questId);
                     
                     // 책 아이템 설정
@@ -148,9 +147,6 @@ public class NPCInteractListener implements Listener {
     private void handleQuestNPCWithTrait(NPC npc, Player player, RPGQuestTrait trait) {
         // 먼저 NPC ID 기반 퀘스트 목표 체크
         if (trait.hasNpcId()) {
-            // 디버그 로그 추가
-            // 디버그 로그
-            // LogUtil.debug("NPC " + npc.getName() + " has ID: " + trait.getNpcId());
             
             // 현재 진행 중인 퀘스트에서 이 NPC와 관련된 목표 찾기
             List<QuestProgress> activeQuests = questManager.getActiveQuests(player.getUniqueId());
@@ -183,7 +179,6 @@ public class NPCInteractListener implements Listener {
                     if (objective instanceof InteractNPCObjective interactObjective) {
                         String npcId = interactObjective.getNpcId();
                         
-                        // LogUtil.debug("Checking objective " + objective.getId() + " with NPC ID: " + npcId);
                         
                         if (npcId != null && npcId.equals(trait.getNpcId())) {
                             // 퀘스트 목표 진행을 위해 원본 이벤트를 생성하여 전달
@@ -218,7 +213,6 @@ public class NPCInteractListener implements Listener {
                                 // 데이터 저장 예약
                                 questManager.markForSave(player.getUniqueId());
                                 
-                                // LogUtil.debug("Progressed NPC interaction objective for quest " + quest.getId());
                                 return;
                             }
                         }
@@ -227,7 +221,6 @@ public class NPCInteractListener implements Listener {
             }
             
             // 퀘스트 목표가 아닌 경우 아무 동작도 하지 않음
-            // LogUtil.debug("No matching quest objective found for NPC codes");
             return;
         }
         

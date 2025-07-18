@@ -88,7 +88,7 @@ public class HalloweenNightQuest extends Quest {
                 .id(QuestID.SEASON_HALLOWEEN_NIGHT)
                 .objectives(Arrays.asList(
                         // 할로윈 시작
-                        new InteractNPCObjective("pumpkin_king", 180), // 호박 왕
+                        new InteractNPCObjective("pumpkin_king", "pumpkin_king"), // 호박 왕
                         new VisitLocationObjective("haunted_village", "spooky_village"),
                         
                         // 호박 수집
@@ -113,7 +113,7 @@ public class HalloweenNightQuest extends Quest {
                         
                         // 마녀의 저택
                         new VisitLocationObjective("witch_mansion", "witchs_manor"),
-                        new InteractNPCObjective("witch_greeting", 181), // 마녀
+                        new InteractNPCObjective("witch_greeting", "halloween_witch"), // 마녀
                         new KillMobObjective("witch_cats", EntityType.CAT, 15),
                         new KillMobObjective("evil_witches", EntityType.WITCH, 20),
                         new CollectItemObjective("witch_brew", Material.POTION, 20),
@@ -133,7 +133,7 @@ public class HalloweenNightQuest extends Quest {
                         new KillMobObjective("summoned_demon", EntityType.WITHER_SKELETON, 66),
                         
                         // 호박 왕과의 대결
-                        new InteractNPCObjective("challenge_king", 180),
+                        new InteractNPCObjective("challenge_king", "pumpkin_king"),
                         new KillMobObjective("pumpkin_minions", EntityType.SNOW_GOLEM, 30),
                         new KillMobObjective("headless_horseman", EntityType.SKELETON_HORSE, 10),
                         new KillMobObjective("pumpkin_king_boss", EntityType.IRON_GOLEM, 3),
@@ -142,11 +142,11 @@ public class HalloweenNightQuest extends Quest {
                         new CollectItemObjective("party_treats", Material.CAKE, 5),
                         new DeliverItemObjective("deliver_treats", "villager", Material.COOKIE, 32),
                         new DeliverItemObjective("deliver_pies", "villager", Material.PUMPKIN_PIE, 10),
-                        new InteractNPCObjective("halloween_party", 182), // 파티 주최자
+                        new InteractNPCObjective("halloween_party", "party_host"), // 파티 주최자
                         
                         // 보상 수령
                         new CollectItemObjective("halloween_mask", Material.CARVED_PUMPKIN, 1),
-                        new InteractNPCObjective("event_complete", 180)
+                        new InteractNPCObjective("event_complete", "pumpkin_king")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 13000)

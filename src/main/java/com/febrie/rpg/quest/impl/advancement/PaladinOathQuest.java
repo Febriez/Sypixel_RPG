@@ -55,9 +55,9 @@ public class PaladinOathQuest extends Quest {
                 .id(QuestID.CLASS_PALADIN_OATH)
                 .objectives(Arrays.asList(
                         // 성기사의 길 시작
-                        new InteractNPCObjective("paladin_mentor", 36), // 성기사 스승
+                        new InteractNPCObjective("paladin_mentor", "paladin_mentor"), // 성기사 스승
                         new ReachLevelObjective("warrior_mastery", 30),
-                        new InteractNPCObjective("oath_preparation", 36),
+                        new InteractNPCObjective("oath_preparation", "paladin_mentor"),
                         
                         // 첫 번째 미덕 - 용기
                         new VisitLocationObjective("courage_trial", "trial_of_courage"),
@@ -68,7 +68,7 @@ public class PaladinOathQuest extends Quest {
                         
                         // 두 번째 미덕 - 정의
                         new VisitLocationObjective("justice_court", "hall_of_justice"),
-                        new InteractNPCObjective("judge_npc", 37), // 정의의 심판관
+                        new InteractNPCObjective("judge_npc", "justice_judge"), // 정의의 심판관
                         new KillMobObjective("punish_evil", EntityType.PILLAGER, 30),
                         new KillMobObjective("destroy_undead", EntityType.ZOMBIE, 100),
                         new DeliverItemObjective("return_stolen", "피해자", Material.EMERALD, 20),
@@ -91,7 +91,7 @@ public class PaladinOathQuest extends Quest {
                         new CollectItemObjective("sacrifice_token", Material.TOTEM_OF_UNDYING, 1),
                         
                         // 신성한 무기 제작
-                        new InteractNPCObjective("holy_weaponsmith", 38), // 신성 대장장이
+                        new InteractNPCObjective("holy_weaponsmith", "holy_weaponsmith"), // 신성 대장장이
                         new CollectItemObjective("blessed_metal", Material.GOLD_BLOCK, 5),
                         new CollectItemObjective("holy_water", Material.POTION, 3),
                         new CraftItemObjective("forge_sword", Material.GOLDEN_SWORD, 1),
@@ -100,13 +100,13 @@ public class PaladinOathQuest extends Quest {
                         // 최종 서약 의식
                         new VisitLocationObjective("oath_cathedral", "sacred_cathedral"),
                         new PlaceBlockObjective("light_candles", Material.CANDLE, 7),
-                        new InteractNPCObjective("begin_ceremony", 36),
+                        new InteractNPCObjective("begin_ceremony", "paladin_mentor"),
                         new KillMobObjective("final_trial", EntityType.WITHER, 1),
                         new SurviveObjective("divine_light", 900), // 15분간 신성한 빛
                         
                         // 성기사 승급
                         new CollectItemObjective("paladin_seal", Material.NETHER_STAR, 1),
-                        new InteractNPCObjective("complete_oath", 36)
+                        new InteractNPCObjective("complete_oath", "paladin_mentor")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 10000)

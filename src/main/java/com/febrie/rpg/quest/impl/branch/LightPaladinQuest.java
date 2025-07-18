@@ -52,7 +52,7 @@ public class LightPaladinQuest extends Quest {
         return new LightPaladinBuilder()
                 .id(QuestID.BRANCH_LIGHT_PALADIN)
                 .objectives(Arrays.asList(
-                        new InteractNPCObjective("paladin_master", 23),
+                        new InteractNPCObjective("paladin_master", "light_paladin_master"),
                         new CollectItemObjective("holy_water", Material.POTION, 10),
                         new KillMobObjective("purge_undead", EntityType.ZOMBIE, 50),
                         new KillMobObjective("purge_skeletons", EntityType.SKELETON, 50),
