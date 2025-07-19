@@ -18,18 +18,23 @@ public record PlayerIslandDataDTO(
         @Nullable String currentIslandId, // 현재 속한 섬 ID (null = 섬 없음)
         @Nullable IslandRole role, // 섬에서의 역할
         int totalIslandResets, // 총 섬 초기화 횟수
-        long lastIslandActivity
+        long totalContribution, // 총 기여도
+        long lastJoined,
+        long lastActivity
 ) {
     /**
      * 새 플레이어 데이터 생성 (섬 없음)
      */
     public static PlayerIslandDataDTO createNew(String playerUuid) {
+        long now = System.currentTimeMillis();
         return new PlayerIslandDataDTO(
                 playerUuid,
                 null,
                 null,
                 0,
-                System.currentTimeMillis()
+                0L, // totalContribution
+                now,
+                now
         );
     }
     
@@ -37,12 +42,15 @@ public record PlayerIslandDataDTO(
      * 섬에 가입
      */
     public PlayerIslandDataDTO joinIsland(String islandId, IslandRole role) {
+        long now = System.currentTimeMillis();
         return new PlayerIslandDataDTO(
                 playerUuid,
                 islandId,
                 role,
                 totalIslandResets,
-                System.currentTimeMillis()
+                totalContribution,
+                now,
+                now
         );
     }
     
@@ -50,12 +58,15 @@ public record PlayerIslandDataDTO(
      * 섬 떠나기
      */
     public PlayerIslandDataDTO leaveIsland() {
+        long now = System.currentTimeMillis();
         return new PlayerIslandDataDTO(
                 playerUuid,
                 null,
                 null,
                 totalIslandResets,
-                System.currentTimeMillis()
+                totalContribution,
+                lastJoined,
+                now
         );
     }
     
@@ -68,6 +79,8 @@ public record PlayerIslandDataDTO(
                 currentIslandId,
                 role,
                 totalIslandResets + 1,
+                totalContribution,
+                lastJoined,
                 System.currentTimeMillis()
         );
     }
@@ -114,9 +127,17 @@ public record PlayerIslandDataDTO(
         totalIslandResetsValue.addProperty("integerValue", totalIslandResets);
         fields.add("totalIslandResets", totalIslandResetsValue);
         
-        JsonObject lastIslandActivityValue = new JsonObject();
-        lastIslandActivityValue.addProperty("integerValue", lastIslandActivity);
-        fields.add("lastIslandActivity", lastIslandActivityValue);
+        JsonObject totalContributionValue = new JsonObject();
+        totalContributionValue.addProperty("integerValue", totalContribution);
+        fields.add("totalContribution", totalContributionValue);
+        
+        JsonObject lastJoinedValue = new JsonObject();
+        lastJoinedValue.addProperty("integerValue", lastJoined);
+        fields.add("lastJoined", lastJoinedValue);
+        
+        JsonObject lastActivityValue = new JsonObject();
+        lastActivityValue.addProperty("integerValue", lastActivity);
+        fields.add("lastActivity", lastActivityValue);
         
         json.add("fields", fields);
         return json;
@@ -155,56 +176,19 @@ public record PlayerIslandDataDTO(
                 ? fields.getAsJsonObject("totalIslandResets").get("integerValue").getAsInt()
                 : 0;
                 
-        long lastIslandActivity = fields.has("lastIslandActivity") && fields.getAsJsonObject("lastIslandActivity").has("integerValue")
-                ? fields.getAsJsonObject("lastIslandActivity").get("integerValue").getAsLong()
+        long totalContribution = fields.has("totalContribution") && fields.getAsJsonObject("totalContribution").has("integerValue")
+                ? fields.getAsJsonObject("totalContribution").get("integerValue").getAsLong()
+                : 0L;
+                
+        long lastJoined = fields.has("lastJoined") && fields.getAsJsonObject("lastJoined").has("integerValue")
+                ? fields.getAsJsonObject("lastJoined").get("integerValue").getAsLong()
+                : System.currentTimeMillis();
+                
+        long lastActivity = fields.has("lastActivity") && fields.getAsJsonObject("lastActivity").has("integerValue")
+                ? fields.getAsJsonObject("lastActivity").get("integerValue").getAsLong()
                 : System.currentTimeMillis();
         
-        return new PlayerIslandDataDTO(playerUuid, currentIslandId, role, totalIslandResets, lastIslandActivity);
+        return new PlayerIslandDataDTO(playerUuid, currentIslandId, role, totalIslandResets, totalContribution, lastJoined, lastActivity);
     }
     
-    /**
-     * Map으로 변환 (Firebase 저장용)
-     */
-    @Deprecated
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("playerUuid", playerUuid);
-        if (currentIslandId != null) {
-            map.put("currentIslandId", currentIslandId);
-        }
-        if (role != null) {
-            map.put("role", role.name());
-        }
-        map.put("totalIslandResets", totalIslandResets);
-        map.put("lastIslandActivity", lastIslandActivity);
-        return map;
-    }
-    
-    /**
-     * Map에서 생성
-     */
-    @Deprecated
-    public static PlayerIslandDataDTO fromMap(Map<String, Object> map) {
-        if (map == null) return null;
-        
-        String playerUuid = (String) map.get("playerUuid");
-        String currentIslandId = (String) map.get("currentIslandId");
-        
-        IslandRole role = null;
-        if (map.containsKey("role")) {
-            try {
-                role = IslandRole.valueOf((String) map.get("role"));
-            } catch (IllegalArgumentException e) {
-                // 잘못된 역할 이름은 무시
-            }
-        }
-        
-        return new PlayerIslandDataDTO(
-                playerUuid,
-                currentIslandId,
-                role,
-                ((Number) map.get("totalIslandResets")).intValue(),
-                ((Number) map.get("lastIslandActivity")).longValue()
-        );
-    }
 }

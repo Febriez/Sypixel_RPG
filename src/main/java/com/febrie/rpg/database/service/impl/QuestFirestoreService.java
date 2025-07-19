@@ -74,11 +74,14 @@ public class QuestFirestoreService extends BaseFirestoreService<PlayerQuestDTO> 
             
             // Active quests 파싱
             Map<String, QuestProgress> activeQuests = new HashMap<>();
+            @SuppressWarnings("unchecked")
             Map<String, Object> activeData = document.get("activeQuests", Map.class);
             if (activeData != null) {
                 activeData.forEach((questId, progressData) -> {
                     if (progressData instanceof Map) {
-                        QuestProgress progress = questProgressFromMap(questId, (Map<String, Object>) progressData);
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> progressMap = (Map<String, Object>) progressData;
+                        QuestProgress progress = questProgressFromMap(questId, progressMap);
                         if (progress != null) {
                             activeQuests.put(questId, progress);
                         }
@@ -88,11 +91,14 @@ public class QuestFirestoreService extends BaseFirestoreService<PlayerQuestDTO> 
             
             // Completed quests 파싱
             Map<String, CompletedQuestDTO> completedQuests = new HashMap<>();
+            @SuppressWarnings("unchecked")
             Map<String, Object> completedData = document.get("completedQuests", Map.class);
             if (completedData != null) {
                 completedData.forEach((questId, completedObj) -> {
                     if (completedObj instanceof Map) {
-                        CompletedQuestDTO completed = completedQuestFromMap((Map<String, Object>) completedObj);
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> completedMap = (Map<String, Object>) completedObj;
+                        CompletedQuestDTO completed = completedQuestFromMap(completedMap);
                         if (completed != null) {
                             completedQuests.put(questId, completed);
                         }
@@ -166,10 +172,10 @@ public class QuestFirestoreService extends BaseFirestoreService<PlayerQuestDTO> 
     private Map<String, Object> completedQuestToMap(@NotNull CompletedQuestDTO completed) {
         Map<String, Object> map = new HashMap<>();
         
-        map.put("questId", completed.questId());
-        map.put("completedAt", completed.completedAt());
-        map.put("completionTime", completed.completionTime());
-        map.put("rewardsClaimed", completed.rewardsClaimed());
+        map.put("questId", completed.getQuestId());
+        map.put("completedAt", completed.getCompletedAt());
+        map.put("completionCount", completed.getCompletionCount());
+        map.put("rewarded", completed.isRewarded());
         
         return map;
     }
@@ -185,11 +191,14 @@ public class QuestFirestoreService extends BaseFirestoreService<PlayerQuestDTO> 
             
             // Objectives 파싱
             Map<String, ObjectiveProgress> objectives = new HashMap<>();
+            @SuppressWarnings("unchecked")
             Map<String, Object> objectivesData = (Map<String, Object>) map.get("objectives");
             if (objectivesData != null) {
                 objectivesData.forEach((objId, objData) -> {
                     if (objData instanceof Map) {
-                        ObjectiveProgress objProgress = objectiveProgressFromMap((Map<String, Object>) objData);
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> objMap = (Map<String, Object>) objData;
+                        ObjectiveProgress objProgress = objectiveProgressFromMap(objMap);
                         if (objProgress != null) {
                             objectives.put(objId, objProgress);
                         }
@@ -252,10 +261,10 @@ public class QuestFirestoreService extends BaseFirestoreService<PlayerQuestDTO> 
         try {
             String questId = (String) map.get("questId");
             long completedAt = ((Number) map.get("completedAt")).longValue();
-            long completionTime = ((Number) map.get("completionTime")).longValue();
-            boolean rewardsClaimed = (Boolean) map.get("rewardsClaimed");
+            int completionCount = ((Number) map.getOrDefault("completionCount", 1)).intValue();
+            boolean rewarded = (Boolean) map.getOrDefault("rewarded", false);
             
-            return new CompletedQuestDTO(questId, completedAt, completionTime, rewardsClaimed);
+            return new CompletedQuestDTO(questId, completedAt, completionCount, rewarded);
             
         } catch (Exception e) {
             LogUtil.warning("CompletedQuestDTO 파싱 실패: " + e.getMessage());

@@ -45,13 +45,13 @@ public class IslandPermissionHandler {
         // 권한 확인
         return switch (permission) {
             case "BUILD" -> rolePerms.canBuild();
-            case "USE_ITEMS" -> rolePerms.canUseItems();
-            case "OPEN_CONTAINERS" -> rolePerms.canOpenContainers();
-            case "INVITE_MEMBERS" -> rolePerms.canInviteMembers();
-            case "KICK_MEMBERS" -> rolePerms.canKickMembers();
+            case "USE_ITEMS" -> rolePerms.canInteract();
+            case "OPEN_CONTAINERS" -> rolePerms.canInteract();
+            case "INVITE_MEMBERS" -> rolePerms.canInvite();
+            case "KICK_MEMBERS" -> rolePerms.canKick();
             case "MANAGE_WORKERS" -> rolePerms.canManageWorkers();
-            case "MODIFY_SPAWNS" -> rolePerms.canModifySpawns();
-            case "CHANGE_SETTINGS" -> rolePerms.canChangeSettings();
+            case "MODIFY_SPAWNS" -> rolePerms.canSetSpawn();
+            case "CHANGE_SETTINGS" -> rolePerms.canManagePermissions();
             default -> false;
         };
     }

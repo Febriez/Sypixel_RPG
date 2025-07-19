@@ -60,7 +60,7 @@ public class MailDetailGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("우편: " + mail.getSubject(), ColorUtil.PRIMARY);
+        return Component.text("우편: " + mail.subject(), ColorUtil.PRIMARY);
     }
 
     @Override
@@ -91,22 +91,22 @@ public class MailDetailGui extends BaseGui {
         // 우편 기본 정보
         GuiItem mailInfoItem = GuiItem.display(
                 new ItemBuilder(Material.PAPER)
-                        .displayName(Component.text(mail.getSubject(), ColorUtil.PRIMARY)
+                        .displayName(Component.text(mail.subject(), ColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("보낸 사람: " + mail.getFromPlayerName(), ColorUtil.WHITE))
-                        .addLore(Component.text("받는 사람: " + mail.getToPlayerName(), ColorUtil.WHITE))
-                        .addLore(Component.text("발송 시간: " + mail.getSentTime().format(
+                        .addLore(Component.text("보낸 사람: " + mail.senderName(), ColorUtil.WHITE))
+                        .addLore(Component.text("받는 사람: " + mail.receiverName(), ColorUtil.WHITE))
+                        .addLore(Component.text("발송 시간: " + java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
                                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")), ColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("상태: " + (mail.isRead() ? "읽음" : "새 우편"), 
-                                mail.isRead() ? ColorUtil.GRAY : ColorUtil.SUCCESS))
+                        .addLore(Component.text("상태: " + (mail.isUnread() ? "새 우편" : "읽음"), 
+                                mail.isUnread() ? ColorUtil.SUCCESS : ColorUtil.GRAY))
                         .build()
         );
         setItem(MAIL_INFO_SLOT, mailInfoItem);
 
         // 메시지 내용
-        String message = mail.getMessage();
+        String message = mail.content();
         if (message == null || message.trim().isEmpty()) {
             message = "(메시지 없음)";
         }
@@ -140,43 +140,20 @@ public class MailDetailGui extends BaseGui {
      * 첨부물 설정
      */
     private void setupAttachments() {
-        if (!mail.hasAttachments()) {
-            // 첨부물이 없는 경우
-            setItem(ATTACHMENT_SLOTS[4], GuiItem.display( // 중앙 슬롯
-                    new ItemBuilder(Material.BARRIER)
-                            .displayName(Component.text("첨부물 없음", ColorUtil.ERROR))
-                            .addLore(Component.text("이 우편에는 첨부물이 없습니다", ColorUtil.GRAY))
-                            .build()
-            ));
-            return;
-        }
-
-        // 첨부물 표시
-        List<ItemStack> attachments = mail.getAttachmentsAsItemStacks();
+        // 첨부물 기능은 현재 MailDTO에 포함되지 않음
+        // 첨부물이 없는 경우로 표시
+        setItem(ATTACHMENT_SLOTS[4], GuiItem.display( // 중앙 슬롯
+                new ItemBuilder(Material.BARRIER)
+                        .displayName(Component.text("첨부물 없음", ColorUtil.ERROR))
+                        .addLore(Component.text("이 우편에는 첨부물이 없습니다", ColorUtil.GRAY))
+                        .build()
+        ));
         
-        for (int i = 0; i < Math.min(attachments.size(), ATTACHMENT_SLOTS.length); i++) {
-            ItemStack attachment = attachments.get(i);
-            if (attachment != null && !attachment.getType().isAir()) {
-                
-                // 첨부물 아이템에 설명 추가
-                ItemBuilder builder = new ItemBuilder(attachment.clone())
-                        .addLore(Component.empty())
-                        .addLore(Component.text("📎 첨부물", ColorUtil.GOLD));
-                
-                if (mail.isCollected()) {
-                    builder.addLore(Component.text("✓ 수령 완료", ColorUtil.SUCCESS));
-                } else {
-                    builder.addLore(Component.text("수령 대기 중", ColorUtil.YELLOW));
-                }
-
-                GuiItem attachmentItem = GuiItem.display(builder.build());
-                setItem(ATTACHMENT_SLOTS[i], attachmentItem);
-            }
-        }
-
         // 나머지 슬롯은 데코레이션으로 채우기
-        for (int i = attachments.size(); i < ATTACHMENT_SLOTS.length; i++) {
-            setItem(ATTACHMENT_SLOTS[i], GuiFactory.createDecoration());
+        for (int i = 0; i < ATTACHMENT_SLOTS.length; i++) {
+            if (i != 4) { // 중앙 슬롯 제외
+                setItem(ATTACHMENT_SLOTS[i], GuiFactory.createDecoration());
+            }
         }
     }
 
@@ -184,45 +161,9 @@ public class MailDetailGui extends BaseGui {
      * 액션 버튼들 설정
      */
     private void setupActionButtons() {
-        // 첨부물 수령 버튼
-        if (mail.hasAttachments() && !mail.isCollected()) {
-            GuiItem collectButton = GuiItem.clickable(
-                    new ItemBuilder(Material.CHEST)
-                            .displayName(Component.text("📦 첨부물 수령", ColorUtil.SUCCESS)
-                                    .decoration(TextDecoration.BOLD, true))
-                            .addLore(Component.empty())
-                            .addLore(Component.text("첨부물을 인벤토리로 가져옵니다", ColorUtil.GRAY))
-                            .addLore(Component.text("첨부물 개수: " + mail.getAttachments().size() + "개", ColorUtil.WHITE))
-                            .addLore(Component.empty())
-                            .addLore(Component.text("클릭하여 수령", ColorUtil.YELLOW))
-                            .build(),
-                    p -> {
-                        mailManager.collectAttachments(p, mail.getId()).thenAccept(success -> {
-                            if (success) {
-                                Bukkit.getScheduler().runTask(plugin, () -> {
-                                    mail.setCollected(true);
-                                    setupAttachments(); // 첨부물 표시 업데이트
-                                    setupActionButtons(); // 버튼 업데이트
-                                });
-                            }
-                        });
-                        playSuccessSound(p);
-                    }
-            );
-            setItem(COLLECT_BUTTON_SLOT, collectButton);
-        } else if (mail.hasAttachments() && mail.isCollected()) {
-            // 이미 수령한 경우
-            setItem(COLLECT_BUTTON_SLOT, GuiItem.display(
-                    new ItemBuilder(Material.LIME_DYE)
-                            .displayName(Component.text("✓ 수령 완료", ColorUtil.SUCCESS)
-                                    .decoration(TextDecoration.BOLD, true))
-                            .addLore(Component.text("첨부물을 이미 수령했습니다", ColorUtil.GRAY))
-                            .build()
-            ));
-        } else {
-            // 첨부물이 없는 경우
-            setItem(COLLECT_BUTTON_SLOT, GuiFactory.createDecoration());
-        }
+        // 첨부물 수령 버튼 - 현재 첨부물 기능 없음
+        // 의미 없는 버튼 설정
+        setItem(COLLECT_BUTTON_SLOT, GuiFactory.createDecoration());
 
         // 삭제 버튼
         GuiItem deleteButton = GuiItem.clickable(
@@ -236,7 +177,7 @@ public class MailDetailGui extends BaseGui {
                         .addLore(Component.text("클릭하여 삭제", ColorUtil.YELLOW))
                         .build(),
                 p -> {
-                    mailManager.deleteMail(mail.getId()).thenAccept(success -> {
+                    mailManager.deleteMail(mail.mailId()).thenAccept(success -> {
                         Bukkit.getScheduler().runTask(plugin, () -> {
                             if (success) {
                                 p.sendMessage("§a우편을 삭제했습니다.");
@@ -258,14 +199,14 @@ public class MailDetailGui extends BaseGui {
                         .displayName(Component.text("✉ 답장하기", ColorUtil.INFO)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text(mail.getFromPlayerName() + "님에게 답장을 보냅니다", ColorUtil.GRAY))
+                        .addLore(Component.text(mail.senderName() + "님에게 답장을 보냅니다", ColorUtil.GRAY))
                         .addLore(Component.empty())
                         .addLore(Component.text("클릭하여 답장", ColorUtil.YELLOW))
                         .build(),
                 p -> {
                     p.closeInventory();
                     p.sendMessage("§e답장 보내기:");
-                    p.sendMessage("§7'/우편보내기 " + mail.getFromPlayerName() + " Re:" + mail.getSubject() + " [메시지]'를 입력하세요.");
+                    p.sendMessage("§7'/우편보내기 " + mail.senderName() + " Re:" + mail.subject() + " [메시지]'를 입력하세요.");
                     playClickSound(p);
                 }
         );
@@ -283,9 +224,10 @@ public class MailDetailGui extends BaseGui {
      * 우편을 읽음 상태로 변경
      */
     private void markAsRead() {
-        if (!mail.isRead()) {
-            mailManager.markAsRead(mail.getId());
-            mail.setRead(true);
+        if (mail.isUnread()) {
+            mailManager.markAsRead(mail.mailId());
+            // Note: MailDTO is immutable, so we can't update the local copy
+            // The GUI will need to be refreshed to see the updated state
         }
     }
 

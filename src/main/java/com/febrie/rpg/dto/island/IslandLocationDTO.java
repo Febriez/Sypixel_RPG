@@ -153,29 +153,4 @@ public record IslandLocationDTO(
         return new IslandLocationDTO(centerX, centerZ, size);
     }
     
-    /**
-     * Map으로 변환 (하위 호환성)
-     */
-    @Deprecated
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("centerX", centerX);
-        map.put("centerZ", centerZ);
-        map.put("size", size);
-        return map;
-    }
-    
-    /**
-     * Map에서 생성 (하위 호환성)
-     */
-    @Deprecated
-    public static IslandLocationDTO fromMap(Map<String, Object> map) {
-        if (map == null) return null;
-        
-        return new IslandLocationDTO(
-                ((Number) map.get("centerX")).intValue(),
-                ((Number) map.get("centerZ")).intValue(),
-                ((Number) map.get("size")).intValue()
-        );
-    }
 }

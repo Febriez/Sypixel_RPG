@@ -221,36 +221,28 @@ public class MailboxGui extends BaseGui {
 
             // 우편 상태에 따른 아이콘
             Material material;
-            if (!mail.isRead()) {
+            if (mail.isUnread()) {
                 material = Material.PAPER; // 읽지 않은 우편
-            } else if (mail.hasAttachments() && !mail.isCollected()) {
-                material = Material.CHEST; // 첨부물이 있는 우편
             } else {
                 material = Material.MAP; // 읽은 우편
             }
 
             String status = "§7읽음";
-            if (!mail.isRead()) {
+            if (mail.isUnread()) {
                 status = "§e새 우편";
-            } else if (mail.hasAttachments() && !mail.isCollected()) {
-                status = "§a첨부물 있음";
             }
 
             GuiItem mailItem = GuiItem.clickable(
                     new ItemBuilder(material)
-                            .displayName(Component.text(mail.getSubject(), ColorUtil.PRIMARY)
-                                    .decoration(TextDecoration.BOLD, !mail.isRead()))
+                            .displayName(Component.text(mail.subject(), ColorUtil.PRIMARY)
+                                    .decoration(TextDecoration.BOLD, mail.isUnread()))
                             .addLore(Component.empty())
-                            .addLore(Component.text("보낸 사람: " + mail.getFromPlayerName(), ColorUtil.WHITE))
+                            .addLore(Component.text("보낸 사람: " + mail.senderName(), ColorUtil.WHITE))
                             .addLore(Component.text("상태: " + status, ColorUtil.GRAY))
-                            .addLore(Component.text("시간: " + mail.getSentTime().format(
+                            .addLore(Component.text("시간: " + java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
                                     DateTimeFormatter.ofPattern("MM-dd HH:mm")), ColorUtil.GRAY))
                             .addLore(Component.empty())
-                            .addLore(mail.hasAttachments() ? 
-                                    Component.text("📎 첨부물 " + mail.getAttachments().size() + "개", ColorUtil.GOLD) :
-                                    Component.text("첨부물 없음", ColorUtil.GRAY))
-                            .addLore(Component.empty())
-                            .addLore(Component.text("클릭하여 열기", ColorUtil.YELLOW))
+                            .addLore(Component.text("클릭하여 우편 확인", ColorUtil.YELLOW))
                             .build(),
                     p -> {
                         MailDetailGui detailGui = new MailDetailGui(guiManager, langManager, p, mail);

@@ -18,6 +18,7 @@ import java.util.List;
  * 퀘스트 진행도 Toast 알림 유틸리티
  * UltimateAdvancementAPI를 사용하여 퀘스트 진행 상황을 표시
  */
+@SuppressWarnings("deprecation") // UltimateAdvancementAPI uses Bungee ChatColor
 public class ToastUtil {
     
     private static final UltimateAdvancementAPI api = UltimateAdvancementAPI.getInstance(RPGMain.getPlugin());

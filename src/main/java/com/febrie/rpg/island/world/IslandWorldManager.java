@@ -318,11 +318,6 @@ public class IslandWorldManager {
         }
         
         @Override
-        public boolean shouldGenerateBedrock() {
-            return false;
-        }
-        
-        @Override
         public boolean shouldGenerateCaves() {
             return false;
         }

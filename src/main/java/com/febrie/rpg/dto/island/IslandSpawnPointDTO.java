@@ -137,35 +137,4 @@ public record IslandSpawnPointDTO(
         return new IslandSpawnPointDTO(x, y, z, yaw, pitch, alias);
     }
     
-    /**
-     * Map으로 변환 (하위 호환성)
-     */
-    @Deprecated
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("x", x);
-        map.put("y", y);
-        map.put("z", z);
-        map.put("yaw", yaw);
-        map.put("pitch", pitch);
-        map.put("alias", alias);
-        return map;
-    }
-    
-    /**
-     * Map에서 생성 (하위 호환성)
-     */
-    @Deprecated
-    public static IslandSpawnPointDTO fromMap(Map<String, Object> map) {
-        if (map == null) return null;
-        
-        return new IslandSpawnPointDTO(
-                ((Number) map.get("x")).doubleValue(),
-                ((Number) map.get("y")).doubleValue(),
-                ((Number) map.get("z")).doubleValue(),
-                ((Number) map.get("yaw")).floatValue(),
-                ((Number) map.get("pitch")).floatValue(),
-                (String) map.get("alias")
-        );
-    }
 }

@@ -87,31 +87,4 @@ public record IslandWorkerDTO(
         return new IslandWorkerDTO(uuid, name, hiredAt, lastActivity);
     }
     
-    /**
-     * Map으로 변환 (Firebase 저장용)
-     */
-    @Deprecated
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("uuid", uuid);
-        map.put("name", name);
-        map.put("hiredAt", hiredAt);
-        map.put("lastActivity", lastActivity);
-        return map;
-    }
-    
-    /**
-     * Map에서 생성
-     */
-    @Deprecated
-    public static IslandWorkerDTO fromMap(Map<String, Object> map) {
-        if (map == null) return null;
-        
-        return new IslandWorkerDTO(
-                (String) map.get("uuid"),
-                (String) map.get("name"),
-                ((Number) map.get("hiredAt")).longValue(),
-                ((Number) map.get("lastActivity")).longValue()
-        );
-    }
 }

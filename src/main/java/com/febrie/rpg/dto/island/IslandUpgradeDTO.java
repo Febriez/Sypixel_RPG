@@ -69,6 +69,16 @@ public record IslandUpgradeDTO(
         return memberLimit < 16;
     }
     
+    // ===== 서비스 호환성을 위한 Alias 메서드들 =====
+    
+    public int currentSize() { return getCurrentSize(); }
+    public int maxSize() { return getCurrentSize(); }
+    public int sizeUpgrades() { return sizeLevel; }
+    public int memberSlots() { return memberLimit; }
+    public int workerSlots() { return workerLimit; }
+    public int spawnSlots() { return 10; } // 기본값
+    public long lastUpgraded() { return lastUpgradeAt; }
+    
     /**
      * JsonObject로 변환 (Firebase 저장용)
      */
@@ -143,35 +153,4 @@ public record IslandUpgradeDTO(
         return new IslandUpgradeDTO(sizeLevel, memberLimitLevel, workerLimitLevel, memberLimit, workerLimit, lastUpgradeAt);
     }
     
-    /**
-     * Map으로 변환 (Firebase 저장용)
-     */
-    @Deprecated
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("sizeLevel", sizeLevel);
-        map.put("memberLimitLevel", memberLimitLevel);
-        map.put("workerLimitLevel", workerLimitLevel);
-        map.put("memberLimit", memberLimit);
-        map.put("workerLimit", workerLimit);
-        map.put("lastUpgradeAt", lastUpgradeAt);
-        return map;
-    }
-    
-    /**
-     * Map에서 생성
-     */
-    @Deprecated
-    public static IslandUpgradeDTO fromMap(Map<String, Object> map) {
-        if (map == null) return createDefault();
-        
-        return new IslandUpgradeDTO(
-                ((Number) map.getOrDefault("sizeLevel", 0)).intValue(),
-                ((Number) map.getOrDefault("memberLimitLevel", 0)).intValue(),
-                ((Number) map.getOrDefault("workerLimitLevel", 0)).intValue(),
-                ((Number) map.getOrDefault("memberLimit", 5)).intValue(),
-                ((Number) map.getOrDefault("workerLimit", 2)).intValue(),
-                ((Number) map.getOrDefault("lastUpgradeAt", System.currentTimeMillis())).longValue()
-        );
-    }
 }

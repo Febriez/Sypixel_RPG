@@ -1,257 +1,154 @@
 package com.febrie.rpg.dto.social;
 
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 /**
- * 우편 데이터 전송 객체
- *
- * @author Febrie
+ * 우편 데이터 전송 객체 (Record)
+ * Firebase 저장용 불변 데이터 구조
+ * 
+ * @author Febrie, CoffeeTory
  */
-public class MailDTO {
-    
-    private String id; // Firestore 문서 ID
-    private UUID fromPlayerId;
-    private String fromPlayerName;
-    private UUID toPlayerId;
-    private String toPlayerName;
-    private String subject;
-    private String message;
-    private LocalDateTime sentTime;
-    private boolean isRead;
-    private boolean hasAttachments;
-    private List<SerializedItemStack> attachments;
-    private boolean isCollected; // 첨부물을 수령했는지 여부
-    
-    public MailDTO() {
-        // Firebase 역직렬화를 위한 기본 생성자
-        this.attachments = new ArrayList<>();
-    }
-    
-    public MailDTO(@NotNull UUID fromPlayerId, @NotNull String fromPlayerName,
-                   @NotNull UUID toPlayerId, @NotNull String toPlayerName,
-                   @NotNull String subject, @Nullable String message) {
-        this.fromPlayerId = fromPlayerId;
-        this.fromPlayerName = fromPlayerName;
-        this.toPlayerId = toPlayerId;
-        this.toPlayerName = toPlayerName;
-        this.subject = subject;
-        this.message = message;
-        this.sentTime = LocalDateTime.now();
-        this.isRead = false;
-        this.hasAttachments = false;
-        this.attachments = new ArrayList<>();
-        this.isCollected = false;
-    }
+public record MailDTO(
+        @NotNull String mailId,
+        @NotNull UUID senderUuid,
+        @NotNull String senderName,
+        @NotNull UUID receiverUuid,
+        @NotNull String receiverName,
+        @NotNull String subject,
+        @NotNull String content,
+        long sentAt,
+        @Nullable Long readAt
+) {
     
     /**
-     * 첨부물 추가
+     * 기본 생성자 - 신규 메일용
      */
-    public void addAttachment(@NotNull ItemStack item) {
-        if (attachments.size() >= 9) { // 최대 9개까지
-            throw new IllegalStateException("첨부물은 최대 9개까지만 가능합니다.");
-        }
-        
-        SerializedItemStack serialized = SerializedItemStack.fromItemStack(item);
-        attachments.add(serialized);
-        hasAttachments = true;
+    public MailDTO(@NotNull String mailId, @NotNull UUID senderUuid, @NotNull String senderName,
+                   @NotNull UUID receiverUuid, @NotNull String receiverName,
+                   @NotNull String subject, @NotNull String content) {
+        this(mailId, senderUuid, senderName, receiverUuid, receiverName, subject, content, System.currentTimeMillis(), null);
     }
     
     /**
-     * 모든 첨부물을 ItemStack으로 변환
+     * JsonObject로 변환
      */
     @NotNull
-    public List<ItemStack> getAttachmentsAsItemStacks() {
-        List<ItemStack> items = new ArrayList<>();
-        for (SerializedItemStack serialized : attachments) {
-            ItemStack item = serialized.toItemStack();
-            if (item != null) {
-                items.add(item);
-            }
+    public JsonObject toJsonObject() {
+        JsonObject json = new JsonObject();
+        JsonObject fields = new JsonObject();
+        
+        JsonObject mailIdValue = new JsonObject();
+        mailIdValue.addProperty("stringValue", mailId);
+        fields.add("mailId", mailIdValue);
+        
+        JsonObject senderUuidValue = new JsonObject();
+        senderUuidValue.addProperty("stringValue", senderUuid.toString());
+        fields.add("senderUuid", senderUuidValue);
+        
+        JsonObject senderNameValue = new JsonObject();
+        senderNameValue.addProperty("stringValue", senderName);
+        fields.add("senderName", senderNameValue);
+        
+        JsonObject receiverUuidValue = new JsonObject();
+        receiverUuidValue.addProperty("stringValue", receiverUuid.toString());
+        fields.add("receiverUuid", receiverUuidValue);
+        
+        JsonObject receiverNameValue = new JsonObject();
+        receiverNameValue.addProperty("stringValue", receiverName);
+        fields.add("receiverName", receiverNameValue);
+        
+        JsonObject subjectValue = new JsonObject();
+        subjectValue.addProperty("stringValue", subject);
+        fields.add("subject", subjectValue);
+        
+        JsonObject contentValue = new JsonObject();
+        contentValue.addProperty("stringValue", content);
+        fields.add("content", contentValue);
+        
+        JsonObject sentAtValue = new JsonObject();
+        sentAtValue.addProperty("integerValue", sentAt);
+        fields.add("sentAt", sentAtValue);
+        
+        if (readAt != null) {
+            JsonObject readAtValue = new JsonObject();
+            readAtValue.addProperty("integerValue", readAt);
+            fields.add("readAt", readAtValue);
         }
-        return items;
+        
+        json.add("fields", fields);
+        return json;
     }
     
     /**
-     * 직렬화된 ItemStack 내부 클래스
+     * JsonObject에서 MailDTO 생성
      */
-    public static class SerializedItemStack {
-        private String material;
-        private int amount;
-        private Map<String, Object> meta; // ItemMeta 정보
-        
-        public SerializedItemStack() {}
-        
-        public SerializedItemStack(@NotNull String material, int amount, @Nullable Map<String, Object> meta) {
-            this.material = material;
-            this.amount = amount;
-            this.meta = meta;
+    @NotNull
+    public static MailDTO fromJsonObject(@NotNull JsonObject json) {
+        if (!json.has("fields")) {
+            throw new IllegalArgumentException("Invalid MailDTO JSON: missing fields");
         }
         
-        @NotNull
-        public static SerializedItemStack fromItemStack(@NotNull ItemStack item) {
-            String material = item.getType().name();
-            int amount = item.getAmount();
-            
-            // 간단한 직렬화 (나중에 더 정교하게 구현 가능)
-            Map<String, Object> meta = null;
-            if (item.hasItemMeta()) {
-                // TODO: ItemMeta 직렬화 구현
-                // 현재는 기본 아이템만 지원
-            }
-            
-            return new SerializedItemStack(material, amount, meta);
-        }
+        JsonObject fields = json.getAsJsonObject("fields");
         
-        @Nullable
-        public ItemStack toItemStack() {
-            try {
-                Material mat = Material.valueOf(material);
-                ItemStack item = new ItemStack(mat, amount);
+        String mailId = fields.has("mailId") && fields.getAsJsonObject("mailId").has("stringValue")
+                ? fields.getAsJsonObject("mailId").get("stringValue").getAsString()
+                : UUID.randomUUID().toString();
                 
-                // TODO: ItemMeta 역직렬화 구현
+        String senderUuidStr = fields.has("senderUuid") && fields.getAsJsonObject("senderUuid").has("stringValue")
+                ? fields.getAsJsonObject("senderUuid").get("stringValue").getAsString()
+                : UUID.randomUUID().toString();
+        UUID senderUuid = UUID.fromString(senderUuidStr);
+        
+        String senderName = fields.has("senderName") && fields.getAsJsonObject("senderName").has("stringValue")
+                ? fields.getAsJsonObject("senderName").get("stringValue").getAsString()
+                : "";
                 
-                return item;
-            } catch (IllegalArgumentException e) {
-                return null; // 잘못된 Material
-            }
+        String receiverUuidStr = fields.has("receiverUuid") && fields.getAsJsonObject("receiverUuid").has("stringValue")
+                ? fields.getAsJsonObject("receiverUuid").get("stringValue").getAsString()
+                : UUID.randomUUID().toString();
+        UUID receiverUuid = UUID.fromString(receiverUuidStr);
+        
+        String receiverName = fields.has("receiverName") && fields.getAsJsonObject("receiverName").has("stringValue")
+                ? fields.getAsJsonObject("receiverName").get("stringValue").getAsString()
+                : "";
+                
+        String subject = fields.has("subject") && fields.getAsJsonObject("subject").has("stringValue")
+                ? fields.getAsJsonObject("subject").get("stringValue").getAsString()
+                : "";
+                
+        String content = fields.has("content") && fields.getAsJsonObject("content").has("stringValue")
+                ? fields.getAsJsonObject("content").get("stringValue").getAsString()
+                : "";
+                
+        long sentAt = fields.has("sentAt") && fields.getAsJsonObject("sentAt").has("integerValue")
+                ? fields.getAsJsonObject("sentAt").get("integerValue").getAsLong()
+                : System.currentTimeMillis();
+                
+        Long readAt = null;
+        if (fields.has("readAt") && fields.getAsJsonObject("readAt").has("integerValue")) {
+            readAt = fields.getAsJsonObject("readAt").get("integerValue").getAsLong();
         }
         
-        // Getters and Setters
-        public String getMaterial() {
-            return material;
-        }
-        
-        public void setMaterial(String material) {
-            this.material = material;
-        }
-        
-        public int getAmount() {
-            return amount;
-        }
-        
-        public void setAmount(int amount) {
-            this.amount = amount;
-        }
-        
-        public Map<String, Object> getMeta() {
-            return meta;
-        }
-        
-        public void setMeta(Map<String, Object> meta) {
-            this.meta = meta;
-        }
+        return new MailDTO(mailId, senderUuid, senderName, receiverUuid, receiverName, subject, content, sentAt, readAt);
     }
     
-    // Getters and Setters
-    public String getId() {
-        return id;
+    /**
+     * 읽음 처리된 새 MailDTO 반환
+     */
+    @NotNull
+    public MailDTO markAsRead() {
+        return new MailDTO(mailId, senderUuid, senderName, receiverUuid, receiverName, 
+                          subject, content, sentAt, System.currentTimeMillis());
     }
     
-    public void setId(String id) {
-        this.id = id;
-    }
-    
-    public UUID getFromPlayerId() {
-        return fromPlayerId;
-    }
-    
-    public void setFromPlayerId(UUID fromPlayerId) {
-        this.fromPlayerId = fromPlayerId;
-    }
-    
-    public String getFromPlayerName() {
-        return fromPlayerName;
-    }
-    
-    public void setFromPlayerName(String fromPlayerName) {
-        this.fromPlayerName = fromPlayerName;
-    }
-    
-    public UUID getToPlayerId() {
-        return toPlayerId;
-    }
-    
-    public void setToPlayerId(UUID toPlayerId) {
-        this.toPlayerId = toPlayerId;
-    }
-    
-    public String getToPlayerName() {
-        return toPlayerName;
-    }
-    
-    public void setToPlayerName(String toPlayerName) {
-        this.toPlayerName = toPlayerName;
-    }
-    
-    public String getSubject() {
-        return subject;
-    }
-    
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-    
-    public String getMessage() {
-        return message;
-    }
-    
-    public void setMessage(String message) {
-        this.message = message;
-    }
-    
-    public LocalDateTime getSentTime() {
-        return sentTime;
-    }
-    
-    public void setSentTime(LocalDateTime sentTime) {
-        this.sentTime = sentTime;
-    }
-    
-    public boolean isRead() {
-        return isRead;
-    }
-    
-    public void setRead(boolean read) {
-        isRead = read;
-    }
-    
-    public boolean hasAttachments() {
-        return hasAttachments;
-    }
-    
-    public void setHasAttachments(boolean hasAttachments) {
-        this.hasAttachments = hasAttachments;
-    }
-    
-    public List<SerializedItemStack> getAttachments() {
-        return attachments;
-    }
-    
-    public void setAttachments(List<SerializedItemStack> attachments) {
-        this.attachments = attachments;
-        this.hasAttachments = attachments != null && !attachments.isEmpty();
-    }
-    
-    public boolean isCollected() {
-        return isCollected;
-    }
-    
-    public void setCollected(boolean collected) {
-        isCollected = collected;
-    }
-    
-    @Override
-    public String toString() {
-        return String.format("Mail{from=%s, to=%s, subject='%s', time=%s, attachments=%d}", 
-                fromPlayerName, toPlayerName, subject, sentTime, attachments.size());
+    /**
+     * 읽지 않은 메일인지 확인
+     */
+    public boolean isUnread() {
+        return readAt == null;
     }
 }

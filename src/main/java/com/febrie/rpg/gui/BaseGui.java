@@ -35,7 +35,7 @@ public abstract class BaseGui implements InventoryHolder {
         this.plugin = plugin;
         this.size = size;
         this.inventory = Bukkit.createInventory(this, size, title);
-        setupItems();
+        // setupItems() should be called after construction by subclasses
     }
     
     /**

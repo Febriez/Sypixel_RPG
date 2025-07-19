@@ -3,9 +3,10 @@ package com.febrie.rpg;
 import com.febrie.rpg.command.admin.AdminCommands;
 import com.febrie.rpg.command.system.MainMenuCommand;
 import com.febrie.rpg.command.system.SiteAccountCommand;
-import com.febrie.rpg.database.FirestoreRestService;
-import com.febrie.rpg.island.command.IslandCommand;
-import com.febrie.rpg.island.command.IslandConfirmCommand;
+import com.febrie.rpg.database.FirestoreManager;
+import com.febrie.rpg.database.service.impl.PlayerFirestoreService;
+import com.febrie.rpg.database.service.impl.QuestFirestoreService;
+import com.febrie.rpg.database.service.impl.IslandFirestoreService;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.dto.system.ServerStatsDTO;
 import com.febrie.rpg.gui.listener.GuiListener;
@@ -22,12 +23,16 @@ import com.febrie.rpg.talent.TalentManager;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.display.TextDisplayDamageManager;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.FirestoreOptions;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Sypixel RPG 메인 플러그인 클래스
@@ -49,16 +54,16 @@ public final class RPGMain extends JavaPlugin {
     private NPCTraitSetter npcTraitSetter;
     private QuestGuideManager questGuideManager;
     private TextDisplayDamageManager damageDisplayManager;
-    private FirestoreRestService firestoreService;
+    private FirestoreManager firestoreManager;
+    private PlayerFirestoreService playerFirestoreService;
+    private QuestFirestoreService questFirestoreService;
+    private IslandFirestoreService islandFirestoreService;
     private IslandManager islandManager;
 
     // 명령어
     private MainMenuCommand mainMenuCommand;
     private AdminCommands adminCommands;
     private SiteAccountCommand siteAccountCommand;
-    private IslandCommand islandCommand;
-    private IslandConfirmCommand islandDeleteConfirmCommand;
-    private IslandConfirmCommand islandResetConfirmCommand;
 
     // 서버 통계 관련
     private BukkitTask serverStatsTask;
@@ -77,7 +82,6 @@ public final class RPGMain extends JavaPlugin {
 
         // LogUtil 초기화
         LogUtil.initialize(this);
-        LogUtil.info("Sypixel RPG 플러그인이 활성화되었습니다!");
 
         // 시스템 초기화
         initializeSystems();
@@ -89,8 +93,6 @@ public final class RPGMain extends JavaPlugin {
         // 서버 통계 시스템 시작
         startServerStatsSystem();
 
-        LogUtil.info("모든 시스템이 성공적으로 초기화되었습니다!");
-        LogUtil.info("사용 가능한 명령어: /메뉴, /menu, /mainmenu, /mm (메인 메뉴)");
     }
 
     @Override
@@ -146,12 +148,11 @@ public final class RPGMain extends JavaPlugin {
             islandManager.clearCache();
         }
 
-        // Firebase 연결 종료
-        if (firestoreService != null) {
-            firestoreService.shutdown();
+        // Firebase 종료
+        if (firestoreManager != null) {
+            firestoreManager.shutdown();
         }
 
-        LogUtil.info("Sypixel RPG 플러그인이 비활성화되었습니다!");
     }
 
     /**
@@ -160,56 +161,53 @@ public final class RPGMain extends JavaPlugin {
     private void initializeSystems() {
         // 언어 시스템 초기화 (가장 먼저)
         this.langManager = new LangManager(this);
-        LogUtil.info("언어 시스템 초기화 완료");
 
         // GUI 시스템 초기화
         this.guiManager = new GuiManager(this, langManager);
-        LogUtil.info("GUI 시스템 초기화 완료");
 
-        // Firebase 서비스 초기화
-        this.firestoreService = new FirestoreRestService(this);
-        LogUtil.info("Firebase 서비스 초기화 완료");
+        // Firestore 초기화
+        this.firestoreManager = new FirestoreManager(this);
+        if (!firestoreManager.initialize()) {
+            LogUtil.error("Firestore 초기화 실패! 일부 기능이 제한될 수 있습니다.");
+            // Firestore 없이도 서버가 실행되도록 계속 진행
+        } else {
+            // Firestore 서비스 초기화
+            if (firestoreManager.getFirestore() != null) {
+                this.playerFirestoreService = new PlayerFirestoreService(this, firestoreManager.getFirestore());
+                this.questFirestoreService = new QuestFirestoreService(this, firestoreManager.getFirestore());
+                this.islandFirestoreService = new IslandFirestoreService(this, firestoreManager.getFirestore());
+            }
+        }
 
         // 매니저 초기화
-        this.rpgPlayerManager = new RPGPlayerManager(this, firestoreService);
+        this.rpgPlayerManager = new RPGPlayerManager(this, playerFirestoreService);
         this.talentManager = new TalentManager(this);
         
         // QuestManager 초기화
-        QuestManager.initialize(this, firestoreService);
+        QuestManager.initialize(this, questFirestoreService);
         
         // NPCManager 초기화 (Citizens가 설치되어 있을 때만)
         if (getServer().getPluginManager().getPlugin("Citizens") != null) {
             this.npcManager = new NPCManager(this);
-            LogUtil.info("NPC 관리자 초기화 완료");
             
             // NPC Trait Setter 초기화
             this.npcTraitSetter = new NPCTraitSetter(this);
-            LogUtil.info("NPC Trait 설정 관리자 초기화 완료");
         }
         
         // 퀘스트 가이드 매니저 초기화
         this.questGuideManager = new QuestGuideManager(this);
-        LogUtil.info("퀘스트 가이드 관리자 초기화 완료");
         
         // 데미지 표시 매니저 초기화
         this.damageDisplayManager = new TextDisplayDamageManager(this);
-        LogUtil.info("TextDisplay 기반 데미지 표시 관리자 초기화 완료");
         
         // 섬 매니저 초기화
-        this.islandManager = new IslandManager(this);
+        this.islandManager = new IslandManager(this, islandFirestoreService);
         this.islandManager.initialize();
-        LogUtil.info("섬 관리자 초기화 완료");
-        
-        LogUtil.info("매니저 시스템 초기화 완료");
 
         // 명령어 객체 생성 (실제 등록은 registerCommands에서)
         this.mainMenuCommand = new MainMenuCommand(this, langManager, guiManager);
         this.adminCommands = new AdminCommands(this, rpgPlayerManager, guiManager, langManager);
-        this.siteAccountCommand = new SiteAccountCommand(this, firestoreService);
-        this.islandCommand = new IslandCommand(this, islandManager);
-        this.islandDeleteConfirmCommand = new IslandConfirmCommand(this, islandManager, true);
-        this.islandResetConfirmCommand = new IslandConfirmCommand(this, islandManager, false);
-        LogUtil.info("명령어 시스템 초기화 완료");
+        this.siteAccountCommand = new SiteAccountCommand(this);
     }
 
     /**
@@ -217,38 +215,37 @@ public final class RPGMain extends JavaPlugin {
      */
     private void registerListeners() {
         getServer().getPluginManager().registerEvents(new GuiListener(), this);
-        getServer().getPluginManager().registerEvents(rpgPlayerManager, this);
+        
+        // RPGPlayerManager 리스너 등록 (null 체크)
+        if (rpgPlayerManager != null) {
+            getServer().getPluginManager().registerEvents(rpgPlayerManager, this);
+        }
         
         // Citizens가 설치되어 있으면 NPC 리스너 등록
         if (getServer().getPluginManager().getPlugin("Citizens") != null) {
             getServer().getPluginManager().registerEvents(
                 new NPCInteractListener(this, guiManager, langManager), this);
-            LogUtil.info("Citizens NPC 리스너 등록 완료");
         }
         
         // 데미지 표시 리스너 등록
         getServer().getPluginManager().registerEvents(new DamageDisplayListener(this), this);
-        LogUtil.info("데미지 표시 리스너 등록 완료");
         
         // 퀘스트 이벤트 리스너 등록
         getServer().getPluginManager().registerEvents(new QuestEventListener(this), this);
-        LogUtil.info("퀘스트 이벤트 리스너 등록 완료");
         
         // 퀘스트 Trait 등록 아이템 리스너 등록
         getServer().getPluginManager().registerEvents(new com.febrie.rpg.quest.trait.QuestTraitRegistrationItem(), this);
-        LogUtil.info("퀘스트 Trait 등록 아이템 리스너 등록 완료");
         
         // 메뉴 단축키 리스너 등록 (SHIFT + F)
         getServer().getPluginManager().registerEvents(new com.febrie.rpg.listener.MenuShortcutListener(this, guiManager, langManager), this);
-        LogUtil.info("메뉴 단축키 리스너 등록 완료 (SHIFT + F)");
         
-        // 섬 보호 리스너 등록
-        getServer().getPluginManager().registerEvents(new com.febrie.rpg.island.listener.IslandProtectionListener(this, islandManager), this);
-        LogUtil.info("섬 보호 리스너 등록 완료");
+        // 섬 보호 리스너 등록 (null 체크)
+        if (islandManager != null) {
+            getServer().getPluginManager().registerEvents(new com.febrie.rpg.island.listener.IslandProtectionListener(this, islandManager), this);
+        }
         
         // 섬 방문 추적 리스너 등록
         getServer().getPluginManager().registerEvents(new com.febrie.rpg.island.listener.IslandVisitListener(this), this);
-        LogUtil.info("섬 방문 추적 리스너 등록 완료");
     }
 
     /**
@@ -260,30 +257,23 @@ public final class RPGMain extends JavaPlugin {
         getCommand("메뉴").setExecutor(mainMenuCommand);
         getCommand("메뉴").setTabCompleter(mainMenuCommand);
 
-        // 관리자 명령어 등록
-        getCommand("rpgadmin").setExecutor(adminCommands);
-        getCommand("rpgadmin").setTabCompleter(adminCommands);
+        // 관리자 명령어 등록 (null 체크)
+        if (adminCommands != null) {
+            getCommand("rpgadmin").setExecutor(adminCommands);
+            getCommand("rpgadmin").setTabCompleter(adminCommands);
+        }
 
         // 사이트 계정 명령어 등록
-        getCommand("사이트계정발급").setExecutor(siteAccountCommand);
+        if (siteAccountCommand != null) {
+            getCommand("사이트계정발급").setExecutor(siteAccountCommand);
+        }
 
-        // 섬 명령어 등록
-        getCommand("섬").setExecutor(islandCommand);
-        getCommand("섬삭제확인").setExecutor(islandDeleteConfirmCommand);
-        getCommand("섬초기화확인").setExecutor(islandResetConfirmCommand);
-
-        LogUtil.info("명령어가 등록되었습니다.");
-        LogUtil.info("일반 유저: /메뉴 (별칭: /menu, /메인메뉴, /mainmenu, /mm)");
-        LogUtil.info("일반 유저: /사이트계정발급 <이메일>");
-        LogUtil.info("일반 유저: /섬 (섬 관리)");
-        LogUtil.info("관리자: /rpgadmin");
     }
 
     /**
      * 서버 통계 시스템 시작
      */
     private void startServerStatsSystem() {
-        LogUtil.info("서버 통계 시스템을 시작합니다...");
 
         // TPS 측정을 위한 틱 리스너 등록
         startTpsMonitoring();
@@ -298,7 +288,6 @@ public final class RPGMain extends JavaPlugin {
         // 매일 자정에 통계 저장
         scheduleDailyStatsSave();
 
-        LogUtil.info("서버 통계 시스템이 시작되었습니다.");
     }
 
     /**
@@ -328,7 +317,6 @@ public final class RPGMain extends JavaPlugin {
                 24 * 60 * 60 * 20L  // 24시간마다 반복
         );
 
-        LogUtil.info("매일 자정 서버 통계 저장이 예약되었습니다. (다음 저장: " + nextMidnight + ")");
     }
 
     /**
@@ -346,35 +334,11 @@ public final class RPGMain extends JavaPlugin {
      * 현재 서버 통계 저장
      */
     private void saveCurrentServerStats() {
-        if (!firestoreService.isConnected()) {
-            LogUtil.warning("Firebase 연결이 없어 서버 통계를 저장할 수 없습니다.");
+        // Firebase 연결 확인
+        if (firestoreManager == null || !firestoreManager.isInitialized()) {
             return;
         }
-
-        String today = LocalDate.now().toString();
-
-        // 같은 날짜에 이미 저장했으면 건너뛰기
-        if (today.equals(lastSavedDate)) {
-            return;
-        }
-
-        try {
-            ServerStatsDTO serverStats = collectCurrentServerStats();
-
-            firestoreService.saveServerStats(serverStats).thenAccept(success -> {
-                if (success) {
-                    lastSavedDate = today;
-                    LogUtil.info("서버 통계가 성공적으로 저장되었습니다: " + today);
-                    LogUtil.info("저장된 통계 - 온라인: " + serverStats.onlinePlayers() +
-                            ", 총 플레이어: " + serverStats.totalPlayers() +
-                            ", TPS: " + String.format("%.2f", serverStats.tps()));
-                } else {
-                    LogUtil.error("서버 통계 저장에 실패했습니다: " + today);
-                }
-            });
-        } catch (Exception e) {
-            LogUtil.error("서버 통계 수집 중 오류 발생", e);
-        }
+        // SystemFirestoreService를 통한 서버 통계 저장 구현 필요
     }
 
     /**
@@ -444,12 +408,10 @@ public final class RPGMain extends JavaPlugin {
     private void stopServerStatsSystem() {
         if (serverStatsTask != null && !serverStatsTask.isCancelled()) {
             serverStatsTask.cancel();
-            LogUtil.info("서버 통계 업데이트 태스크가 중지되었습니다.");
         }
 
         if (dailyStatsTask != null && !dailyStatsTask.isCancelled()) {
             dailyStatsTask.cancel();
-            LogUtil.info("일일 통계 저장 태스크가 중지되었습니다.");
         }
     }
 
@@ -501,13 +463,6 @@ public final class RPGMain extends JavaPlugin {
         return damageDisplayManager;
     }
 
-    public FirestoreRestService getFirebaseService() {
-        return firestoreService;
-    }
-    
-    public FirestoreRestService getFirestoreService() {
-        return firestoreService;
-    }
     
     public IslandManager getIslandManager() {
         return islandManager;

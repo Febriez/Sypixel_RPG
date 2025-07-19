@@ -120,31 +120,4 @@ public record IslandVisitDTO(
         return new IslandVisitDTO(visitorUuid, visitorName, visitedAt, duration);
     }
     
-    /**
-     * Map으로 변환 (Firebase 저장용)
-     */
-    @Deprecated
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("visitorUuid", visitorUuid);
-        map.put("visitorName", visitorName);
-        map.put("visitedAt", visitedAt);
-        map.put("duration", duration);
-        return map;
-    }
-    
-    /**
-     * Map에서 생성
-     */
-    @Deprecated
-    public static IslandVisitDTO fromMap(Map<String, Object> map) {
-        if (map == null) return null;
-        
-        return new IslandVisitDTO(
-                (String) map.get("visitorUuid"),
-                (String) map.get("visitorName"),
-                ((Number) map.get("visitedAt")).longValue(),
-                ((Number) map.get("duration")).longValue()
-        );
-    }
 }

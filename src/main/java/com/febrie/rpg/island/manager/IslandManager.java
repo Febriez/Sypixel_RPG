@@ -1,8 +1,9 @@
 package com.febrie.rpg.island.manager;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.database.FirestoreRestService;
+import com.febrie.rpg.database.service.impl.IslandFirestoreService;
 import com.febrie.rpg.dto.island.*;
+import com.febrie.rpg.island.*;
 import com.febrie.rpg.island.world.IslandWorldManager;
 import com.febrie.rpg.util.LogUtil;
 import org.bukkit.Bukkit;
@@ -13,7 +14,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 섬 시스템 관리자
@@ -24,18 +24,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public class IslandManager {
     
     private final RPGMain plugin;
-    private final FirestoreRestService firestoreService;
     private final IslandWorldManager worldManager;
+    private final IslandService islandService;
+    private final IslandCache cache;
     
-    // 캐시
-    private final Map<String, IslandDTO> islandCache = new ConcurrentHashMap<>(); // islandId -> IslandDTO
-    private final Map<String, String> playerIslandMap = new ConcurrentHashMap<>(); // playerUuid -> islandId
-    private final Map<String, PlayerIslandDataDTO> playerDataCache = new ConcurrentHashMap<>();
-    
-    public IslandManager(@NotNull RPGMain plugin) {
+    public IslandManager(@NotNull RPGMain plugin, @Nullable IslandFirestoreService firestoreService) {
         this.plugin = plugin;
-        this.firestoreService = plugin.getFirestoreService();
         this.worldManager = new IslandWorldManager(plugin);
+        this.islandService = new IslandService(firestoreService);
+        this.cache = new IslandCache();
+        
     }
     
     /**
@@ -43,7 +41,6 @@ public class IslandManager {
      */
     public void initialize() {
         worldManager.initialize();
-        LogUtil.info("섬 관리자 초기화 완료");
     }
     
     /**
@@ -53,153 +50,107 @@ public class IslandManager {
         String ownerUuid = owner.getUniqueId().toString();
         String ownerName = owner.getName();
         
-        return loadPlayerIslandData(ownerUuid).thenCompose(playerData -> {
+        // 플레이어 로드
+        return loadIslandPlayer(ownerUuid, ownerName).thenCompose(islandPlayer -> {
             // 이미 섬이 있는지 확인
-            if (playerData != null && playerData.hasIsland()) {
-                LogUtil.warning(ownerName + "님은 이미 섬을 소유하고 있습니다.");
+            if (islandPlayer.hasIsland()) {
                 return CompletableFuture.completedFuture(null);
             }
             
-            // 섬 ID 생성
-            String islandId = UUID.randomUUID().toString();
-            
-            // 섬 월드에 물리적 섬 생성
-            return worldManager.createNewIsland(85).thenCompose(location -> {
-                // 섬 DTO 생성
-                IslandDTO island = IslandDTO.createNew(islandId, ownerUuid, ownerName, islandName);
-                
-                // 위치 정보를 포함한 새 섬 DTO 생성
-                IslandDTO islandWithLocation = new IslandDTO(
-                        island.islandId(),
-                        island.ownerUuid(),
-                        island.ownerName(),
-                        island.islandName(),
-                        island.size(),
-                        island.isPublic(),
-                        island.createdAt(),
-                        island.lastActivity(),
-                        island.members(),
-                        island.workers(),
-                        island.contributions(),
-                        new IslandSpawnDTO(
-                                IslandSpawnPointDTO.fromLocation(
-                                        location.getCenter(worldManager.getIslandWorld()),
-                                        "섬 중앙"
-                                ),
-                                List.of(),
-                                Map.of()
-                        ),
-                        island.upgradeData(),
-                        island.permissions(),
-                        island.pendingInvites(),
-                        island.recentVisits(),
-                        island.totalResets(),
-                        island.deletionScheduledAt()
-                );
-                
-                // Firestore에 저장
-                return firestoreService.saveIsland(islandWithLocation).thenCompose(saved -> {
-                    if (!saved) {
-                        LogUtil.error("섬 데이터 저장 실패: " + islandId);
-                        return CompletableFuture.completedFuture(null);
-                    }
-                    
-                    // 플레이어 데이터 업데이트
-                    PlayerIslandDataDTO newPlayerData;
-                    if (playerData == null) {
-                        newPlayerData = PlayerIslandDataDTO.createNew(ownerUuid)
-                                .joinIsland(islandId, IslandRole.OWNER);
-                    } else {
-                        newPlayerData = playerData.joinIsland(islandId, IslandRole.OWNER);
-                    }
-                    
-                    return firestoreService.savePlayerIslandData(newPlayerData).thenApply(playerSaved -> {
-                        if (playerSaved) {
-                            // 캐시 업데이트
-                            islandCache.put(islandId, islandWithLocation);
-                            playerIslandMap.put(ownerUuid, islandId);
-                            playerDataCache.put(ownerUuid, newPlayerData);
+            // 새 섬 생성
+            return Island.create(worldManager, ownerUuid, ownerName, islandName)
+                    .thenCompose(island -> {
+                        // Firestore에 저장
+                        return islandService.saveIsland(island.getData()).thenCompose(saved -> {
+                            if (!saved) {
+                                return CompletableFuture.completedFuture(null);
+                            }
                             
-                            LogUtil.info(String.format("새 섬 생성 완료 - 소유자: %s, 섬 이름: %s", 
-                                    ownerName, islandName));
-                            
-                            // 플레이어를 섬으로 텔레포트
-                            Bukkit.getScheduler().runTask(plugin, () -> {
-                                Location spawnLoc = location.getCenter(worldManager.getIslandWorld());
-                                spawnLoc.setY(spawnLoc.getY() + 4); // 약간 위로
-                                owner.teleport(spawnLoc);
-                            });
-                            
-                            return islandWithLocation;
-                        } else {
-                            LogUtil.error("플레이어 섬 데이터 저장 실패: " + ownerUuid);
-                            return null;
-                        }
+                            // 플레이어를 섬에 가입시킴
+                            return islandPlayer.joinIsland(island.getId(), IslandRole.OWNER)
+                                    .thenCompose(joined -> {
+                                        if (!joined) {
+                                            return CompletableFuture.completedFuture(null);
+                                        }
+                                        
+                                        // 플레이어 데이터 저장
+                                        return islandService.savePlayerData(islandPlayer.getData())
+                                                .thenApply(playerSaved -> {
+                                                    if (playerSaved) {
+                                                        // 캐시 업데이트
+                                                        cache.putIsland(island.getId(), island.getData());
+                                                        cache.putPlayerData(ownerUuid, islandPlayer.getData());
+                                                        cache.updateIslandMembers(island.getData());
+                                                        
+                                                        // 플레이어를 섬으로 텔레포트
+                                                        Bukkit.getScheduler().runTask(plugin, () -> 
+                                                            owner.teleport(island.getSpawnLocation())
+                                                        );
+                                                        
+                                                        return island.getData();
+                                                    } else {
+                                                        return null;
+                                                    }
+                                                });
+                                    });
+                        });
                     });
-                });
-            });
         });
     }
     
     /**
      * 섬 정보 로드
      */
-    public CompletableFuture<IslandDTO> loadIsland(@NotNull String islandId) {
+    public CompletableFuture<Island> loadIsland(@NotNull String islandId) {
         // 캐시 확인
-        IslandDTO cached = islandCache.get(islandId);
+        IslandDTO cached = cache.getIsland(islandId);
         if (cached != null) {
-            return CompletableFuture.completedFuture(cached);
+            return CompletableFuture.completedFuture(new Island(worldManager, cached));
         }
         
         // Firestore에서 로드
-        return firestoreService.loadIsland(islandId).thenApply(island -> {
-            if (island != null) {
-                islandCache.put(islandId, island);
-                
-                // 플레이어 맵 업데이트
-                playerIslandMap.put(island.ownerUuid(), islandId);
-                for (IslandMemberDTO member : island.members()) {
-                    playerIslandMap.put(member.uuid(), islandId);
-                }
+        return islandService.loadIsland(islandId).thenApply(islandData -> {
+            if (islandData != null) {
+                cache.putIsland(islandId, islandData);
+                cache.updateIslandMembers(islandData);
+                return new Island(worldManager, islandData);
             }
-            return island;
+            return null;
         });
     }
     
     /**
      * 플레이어의 섬 데이터 로드
      */
-    public CompletableFuture<PlayerIslandDataDTO> loadPlayerIslandData(@NotNull String playerUuid) {
+    public CompletableFuture<IslandPlayer> loadIslandPlayer(@NotNull String playerUuid, @NotNull String playerName) {
         // 캐시 확인
-        PlayerIslandDataDTO cached = playerDataCache.get(playerUuid);
+        PlayerIslandDataDTO cached = cache.getPlayerData(playerUuid);
         if (cached != null) {
-            return CompletableFuture.completedFuture(cached);
+            return CompletableFuture.completedFuture(new IslandPlayer(playerUuid, playerName, cached));
         }
         
         // Firestore에서 로드
-        return firestoreService.loadPlayerIslandData(playerUuid).thenApply(data -> {
+        return islandService.loadPlayerData(playerUuid).thenApply(data -> {
             if (data != null) {
-                playerDataCache.put(playerUuid, data);
-                if (data.currentIslandId() != null) {
-                    playerIslandMap.put(playerUuid, data.currentIslandId());
-                }
+                cache.putPlayerData(playerUuid, data);
             }
-            return data;
+            return new IslandPlayer(playerUuid, playerName, data);
         });
     }
     
     /**
      * 플레이어의 섬 가져오기
      */
-    public CompletableFuture<IslandDTO> getPlayerIsland(@NotNull String playerUuid) {
-        String islandId = playerIslandMap.get(playerUuid);
+    public CompletableFuture<Island> getPlayerIsland(@NotNull String playerUuid, @NotNull String playerName) {
+        String islandId = cache.getPlayerIslandId(playerUuid);
         if (islandId != null) {
             return loadIsland(islandId);
         }
         
-        return loadPlayerIslandData(playerUuid).thenCompose(data -> {
-            if (data != null && data.currentIslandId() != null) {
-                return loadIsland(data.currentIslandId());
+        return loadIslandPlayer(playerUuid, playerName).thenCompose(islandPlayer -> {
+            String currentIslandId = islandPlayer.getCurrentIslandId();
+            if (currentIslandId != null) {
+                return loadIsland(currentIslandId);
             }
             return CompletableFuture.completedFuture(null);
         });
@@ -214,68 +165,35 @@ public class IslandManager {
                 return CompletableFuture.completedFuture(false);
             }
             
-            // 삭제 가능 여부 확인
-            if (!island.canDelete()) {
-                LogUtil.warning("섬 삭제 불가 - 생성 후 1주일이 지나지 않음: " + islandId);
-                return CompletableFuture.completedFuture(false);
-            }
-            
-            // 섬에서 중앙 좌표 가져오기
-            IslandSpawnPointDTO centerSpawn = island.spawnData().defaultSpawn();
-            int centerX = (int) centerSpawn.x();
-            int centerZ = (int) centerSpawn.z();
-            
             // 물리적 섬 삭제
-            return worldManager.deleteIsland(centerX, centerZ, island.size()).thenCompose(v -> {
+            return island.delete().thenCompose(deleted -> {
+                if (!deleted) {
+                    return CompletableFuture.completedFuture(false);
+                }
+                
                 // 모든 멤버의 섬 데이터 제거
                 List<CompletableFuture<Boolean>> memberUpdates = new ArrayList<>();
                 
-                // 섬장
-                memberUpdates.add(updatePlayerLeaveIsland(island.ownerUuid()));
-                
-                // 멤버들
-                for (IslandMemberDTO member : island.members()) {
-                    memberUpdates.add(updatePlayerLeaveIsland(member.uuid()));
+                for (String memberUuid : island.getAllMemberUuids()) {
+                    memberUpdates.add(
+                        loadIslandPlayer(memberUuid, "Unknown").thenCompose(islandPlayer -> 
+                            islandPlayer.leaveIsland().thenCompose(left -> 
+                                islandService.savePlayerData(islandPlayer.getData())
+                            )
+                        )
+                    );
                 }
                 
-                // 알바생들
-                for (IslandWorkerDTO worker : island.workers()) {
-                    memberUpdates.add(updatePlayerLeaveIsland(worker.uuid()));
-                }
-                
-                return CompletableFuture.allOf(memberUpdates.toArray(new CompletableFuture[0]))
-                        .thenCompose(v2 -> {
-                            // Firestore에서 삭제
-                            return firestoreService.deleteIsland(islandId);
-                        })
-                        .thenApply(deleted -> {
-                            if (deleted) {
+                return CompletableFuture.allOf(memberUpdates.toArray(new CompletableFuture<?>[0]))
+                        .thenCompose(v -> islandService.deleteIsland(islandId))
+                        .thenApply(firestoreDeleted -> {
+                            if (firestoreDeleted) {
                                 // 캐시 제거
-                                islandCache.remove(islandId);
-                                LogUtil.info("섬 삭제 완료: " + islandId);
+                                cache.removeIslandMembers(island.getData());
+                                cache.removeIsland(islandId);
                             }
-                            return deleted;
+                            return firestoreDeleted;
                         });
-            });
-        });
-    }
-    
-    /**
-     * 플레이어가 섬을 떠날 때 데이터 업데이트
-     */
-    public CompletableFuture<Boolean> updatePlayerLeaveIsland(@NotNull String playerUuid) {
-        return loadPlayerIslandData(playerUuid).thenCompose(data -> {
-            if (data == null || !data.hasIsland()) {
-                return CompletableFuture.completedFuture(true);
-            }
-            
-            PlayerIslandDataDTO updatedData = data.leaveIsland();
-            return firestoreService.savePlayerIslandData(updatedData).thenApply(saved -> {
-                if (saved) {
-                    playerDataCache.put(playerUuid, updatedData);
-                    playerIslandMap.remove(playerUuid);
-                }
-                return saved;
             });
         });
     }
@@ -290,58 +208,34 @@ public class IslandManager {
             }
             
             // 섬장의 초기화 가능 여부 확인
-            return loadPlayerIslandData(island.ownerUuid()).thenCompose(ownerData -> {
-                if (ownerData == null || !ownerData.canResetIsland()) {
-                    LogUtil.warning("섬 초기화 불가 - 이미 초기화를 사용함: " + island.ownerName());
-                    return CompletableFuture.completedFuture(false);
-                }
-                
-                // 섬 중앙 좌표
-                IslandSpawnPointDTO centerSpawn = island.spawnData().defaultSpawn();
-                int centerX = (int) centerSpawn.x();
-                int centerZ = (int) centerSpawn.z();
-                
-                // 물리적 섬 초기화
-                return worldManager.resetIsland(centerX, centerZ, island.size(), 85).thenCompose(v -> {
-                    // 새로운 섬 데이터 생성 (초기 상태로)
-                    IslandDTO resetIsland = new IslandDTO(
-                            island.islandId(),
-                            island.ownerUuid(),
-                            island.ownerName(),
-                            island.islandName(),
-                            85, // 초기 크기로 리셋
-                            false, // 비공개로 리셋
-                            island.createdAt(), // 생성 시간은 유지
-                            System.currentTimeMillis(),
-                            List.of(), // 멤버 초기화
-                            List.of(), // 알바 초기화
-                            Map.of(island.ownerUuid(), 0L), // 기여도 초기화
-                            IslandSpawnDTO.createDefault(), // 스폰 초기화
-                            IslandUpgradeDTO.createDefault(), // 업그레이드 초기화
-                            IslandPermissionDTO.createDefault(), // 권한 초기화
-                            List.of(), // 초대 초기화
-                            List.of(), // 방문 기록 초기화
-                            island.totalResets() + 1,
-                            null
-                    );
-                    
-                    // 섬장의 초기화 횟수 증가
-                    PlayerIslandDataDTO updatedOwnerData = ownerData.incrementResetCount();
-                    
-                    // 저장
-                    return CompletableFuture.allOf(
-                            firestoreService.saveIsland(resetIsland),
-                            firestoreService.savePlayerIslandData(updatedOwnerData)
-                    ).thenApply(v2 -> {
-                        // 캐시 업데이트
-                        islandCache.put(islandId, resetIsland);
-                        playerDataCache.put(island.ownerUuid(), updatedOwnerData);
+            return loadIslandPlayer(island.getOwnerUuid(), island.getOwnerName())
+                    .thenCompose(ownerPlayer -> {
+                        if (!ownerPlayer.canResetIsland()) {
+                                            return CompletableFuture.completedFuture(false);
+                        }
                         
-                        LogUtil.info("섬 초기화 완료: " + island.islandName());
-                        return true;
+                        // 물리적 섬 초기화
+                        return island.reset().thenCompose(reset -> {
+                            if (!reset) {
+                                return CompletableFuture.completedFuture(false);
+                            }
+                            
+                            // 섬장의 초기화 횟수 증가
+                            ownerPlayer.incrementResetCount();
+                            
+                            // 저장
+                            return CompletableFuture.allOf(
+                                    islandService.saveIsland(island.getData()),
+                                    islandService.savePlayerData(ownerPlayer.getData())
+                            ).thenApply(v -> {
+                                // 캐시 업데이트
+                                cache.putIsland(islandId, island.getData());
+                                cache.putPlayerData(island.getOwnerUuid(), ownerPlayer.getData());
+                                
+                                return true;
+                            });
+                        });
                     });
-                });
-            });
         });
     }
     
@@ -349,16 +243,17 @@ public class IslandManager {
      * 공개 섬 목록 조회
      */
     public CompletableFuture<List<IslandDTO>> getPublicIslands(int limit) {
-        return firestoreService.loadPublicIslands(limit);
+        return islandService.loadPublicIslands(limit);
     }
     
     /**
      * 섬 업데이트
      */
     public CompletableFuture<Boolean> updateIsland(@NotNull IslandDTO island) {
-        return firestoreService.saveIsland(island).thenApply(saved -> {
+        return islandService.saveIsland(island).thenApply(saved -> {
             if (saved) {
-                islandCache.put(island.islandId(), island);
+                cache.putIsland(island.islandId(), island);
+                cache.updateIslandMembers(island);
             }
             return saved;
         });
@@ -368,21 +263,15 @@ public class IslandManager {
      * 플레이어가 현재 있는 섬 찾기
      */
     @Nullable
-    public IslandDTO getIslandAt(@NotNull Location location) {
+    public Island getIslandAt(@NotNull Location location) {
         if (!worldManager.isIslandWorld(location.getWorld())) {
             return null;
         }
         
         // 캐시된 모든 섬 확인
-        for (IslandDTO island : islandCache.values()) {
-            IslandSpawnPointDTO center = island.spawnData().defaultSpawn();
-            IslandLocationDTO islandLoc = new IslandLocationDTO(
-                    (int) center.x(),
-                    (int) center.z(),
-                    island.size()
-            );
-            
-            if (islandLoc.contains(location)) {
+        for (IslandDTO islandData : cache.getAllIslands()) {
+            Island island = new Island(worldManager, islandData);
+            if (island.contains(location)) {
                 return island;
             }
         }
@@ -401,27 +290,20 @@ public class IslandManager {
      * 캐시 초기화
      */
     public void clearCache() {
-        islandCache.clear();
-        playerIslandMap.clear();
-        playerDataCache.clear();
+        cache.clear();
     }
     
     /**
-     * FirestoreService 가져오기
+     * 캐시 통계
      */
-    public FirestoreRestService getFirestoreService() {
-        return firestoreService;
+    public String getCacheStats() {
+        return cache.getStats();
     }
     
     /**
      * 플레이어 캐시 업데이트
      */
     public void updatePlayerCache(@NotNull String playerUuid, @NotNull PlayerIslandDataDTO data) {
-        playerDataCache.put(playerUuid, data);
-        if (data.currentIslandId() != null) {
-            playerIslandMap.put(playerUuid, data.currentIslandId());
-        } else {
-            playerIslandMap.remove(playerUuid);
-        }
+        cache.putPlayerData(playerUuid, data);
     }
 }

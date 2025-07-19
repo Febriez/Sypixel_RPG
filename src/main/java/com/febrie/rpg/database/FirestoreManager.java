@@ -1,13 +1,10 @@
 package com.febrie.rpg.database;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.database.service.impl.*;
 import com.febrie.rpg.util.LogUtil;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.cloud.FirestoreClient;
+import com.google.cloud.firestore.FirestoreOptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,113 +13,111 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Firestore 서비스 통합 관리자
- * Firebase 초기화 및 모든 서비스 인스턴스 관리
+ * Firestore 초기화 및 관리자
+ * Google Cloud Firestore 직접 연결
  *
  * @author Febrie, CoffeeTory
  */
 public class FirestoreManager {
     
     private final RPGMain plugin;
-    private FirebaseApp firebaseApp;
     private Firestore firestore;
-    
-    // 서비스 인스턴스들
-    private PlayerFirestoreService playerService;
-    private QuestFirestoreService questService;
-    private IslandFirestoreService islandService;
-    private PlayerIslandFirestoreService playerIslandService;
-    private SocialFirestoreService socialService;
-    private SystemFirestoreService systemService;
-    
     private boolean initialized = false;
+    
+    // 환경 변수 키
+    private static final String ENV_SERVICE_ACCOUNT_BASE64 = "FIREBASE_PRIVATE_KEY";  // Base64 인코딩된 JSON
     
     public FirestoreManager(@NotNull RPGMain plugin) {
         this.plugin = plugin;
     }
     
     /**
-     * Firebase 초기화
+     * Firestore 초기화
+     * 
+     * @return 초기화 성공 여부
      */
     public boolean initialize() {
+        if (initialized) {
+            LogUtil.warning("Firestore가 이미 초기화되어 있습니다.");
+            return true;
+        }
+        
         try {
-            String privateKey = System.getenv("FIREBASE_PRIVATE_KEY");
-            if (privateKey == null || privateKey.isEmpty()) {
-                LogUtil.warning("FIREBASE_PRIVATE_KEY 환경 변수가 설정되지 않았습니다!");
+            // 환경 변수에서 인증 정보 가져오기
+            GoogleCredentials credentials = getCredentials();
+            if (credentials == null) {
+                LogUtil.error("Firestore 인증 정보를 찾을 수 없습니다.");
                 return false;
             }
             
-            // 서비스 계정 JSON 생성
-            String serviceAccountJson = String.format("""
-                {
-                  "type": "service_account",
-                  "project_id": "sypixel-rpg",
-                  "private_key_id": "key-id",
-                  "private_key": "%s",
-                  "client_email": "firebase-adminsdk-3u9i8@sypixel-rpg.iam.gserviceaccount.com",
-                  "client_id": "117901822812345439607",
-                  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-                  "token_uri": "https://oauth2.googleapis.com/token",
-                  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-                  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-3u9i8%%40sypixel-rpg.iam.gserviceaccount.com"
-                }
-                """, privateKey.replace("\n", "\\n"));
-            
-            GoogleCredentials credentials = GoogleCredentials.fromStream(
-                    new ByteArrayInputStream(serviceAccountJson.getBytes(StandardCharsets.UTF_8))
-            );
-            
-            FirebaseOptions options = FirebaseOptions.builder()
+            // Firestore 옵션 설정
+            FirestoreOptions options = FirestoreOptions.newBuilder()
                     .setCredentials(credentials)
-                    .setProjectId("sypixel-rpg")
                     .build();
             
-            // 기존 앱이 있으면 삭제
-            try {
-                FirebaseApp.getInstance();
-                FirebaseApp.getInstance().delete();
-            } catch (IllegalStateException ignored) {
-                // 앱이 없으면 무시
-            }
-            
-            firebaseApp = FirebaseApp.initializeApp(options);
-            firestore = FirestoreClient.getFirestore(firebaseApp);
-            
-            // 서비스 초기화
-            initializeServices();
+            // Firestore 인스턴스 생성
+            firestore = options.getService();
             
             initialized = true;
             LogUtil.info("Firestore가 성공적으로 초기화되었습니다.");
+            
             return true;
             
-        } catch (IOException e) {
-            LogUtil.warning("Firestore 초기화 실패: " + e.getMessage());
-            e.printStackTrace();
+        } catch (Exception e) {
+            LogUtil.error("Firestore 초기화 실패", e);
             return false;
         }
     }
     
     /**
-     * 모든 서비스 초기화
+     * 인증 정보 가져오기
      */
-    private void initializeServices() {
-        playerService = new PlayerFirestoreService(plugin, firestore);
-        questService = new QuestFirestoreService(plugin, firestore);
-        islandService = new IslandFirestoreService(plugin, firestore);
-        playerIslandService = new PlayerIslandFirestoreService(plugin, firestore);
-        socialService = new SocialFirestoreService(plugin, firestore);
-        systemService = new SystemFirestoreService(plugin, firestore);
+    @Nullable
+    private GoogleCredentials getCredentials() throws IOException {
+        // 환경 변수에서 private key 직접 가져오기
+        String privateKey = System.getenv(ENV_SERVICE_ACCOUNT_BASE64);
+        
+        if (privateKey == null || privateKey.isEmpty()) {
+            LogUtil.error("환경 변수 FIREBASE_PRIVATE_KEY가 설정되지 않았습니다.");
+            return null;
+        }
+        
+        try {
+            // Service Account JSON 구성 (하드코딩)
+            // TODO: 아래 정보를 실제 Service Account 정보로 변경하세요
+            String serviceAccountJson = "{\n" +
+                "  \"type\": \"service_account\",\n" +
+                "  \"project_id\": \"sypixel-rpg\",\n" +
+                "  \"private_key_id\": \"3f270e6d73f3042d7d3edb4c447ec8c64dfb2a8d\",\n" +
+                "  \"private_key\": \"" + privateKey.replace("\n", "\\n") + "\",\n" +
+                "  \"client_email\": \"firebase-adminsdk-fbsvc@sypixel-rpg.iam.gserviceaccount.com\",\n" +
+                "  \"client_id\": \"102998351283687511462\",\n" +
+                "  \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",\n" +
+                "  \"token_uri\": \"https://oauth2.googleapis.com/token\",\n" +
+                "  \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",\n" +
+                "  \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40sypixel-rpg.iam.gserviceaccount.com\"\n" +
+                "}";
+            
+            // JSON으로부터 인증 정보 생성
+            return GoogleCredentials.fromStream(
+                new ByteArrayInputStream(serviceAccountJson.getBytes(StandardCharsets.UTF_8))
+            );
+        } catch (Exception e) {
+            LogUtil.error("Service Account 인증 정보 생성 실패", e);
+            return null;
+        }
     }
     
     /**
-     * 종료 처리
+     * Firestore 인스턴스 가져오기
      */
-    public void shutdown() {
-        if (firebaseApp != null) {
-            firebaseApp.delete();
-            LogUtil.info("Firestore 연결이 종료되었습니다.");
+    @Nullable
+    public Firestore getFirestore() {
+        if (!initialized || firestore == null) {
+            LogUtil.error("Firestore가 초기화되지 않았습니다.");
+            return null;
         }
-        initialized = false;
+        return firestore;
     }
     
     /**
@@ -132,60 +127,19 @@ public class FirestoreManager {
         return initialized;
     }
     
-    // 서비스 게터들
-    @NotNull
-    public PlayerFirestoreService getPlayerService() {
-        if (!initialized) {
-            throw new IllegalStateException("Firestore가 초기화되지 않았습니다!");
-        }
-        return playerService;
-    }
-    
-    @NotNull
-    public QuestFirestoreService getQuestService() {
-        if (!initialized) {
-            throw new IllegalStateException("Firestore가 초기화되지 않았습니다!");
-        }
-        return questService;
-    }
-    
-    @NotNull
-    public IslandFirestoreService getIslandService() {
-        if (!initialized) {
-            throw new IllegalStateException("Firestore가 초기화되지 않았습니다!");
-        }
-        return islandService;
-    }
-    
-    @NotNull
-    public PlayerIslandFirestoreService getPlayerIslandService() {
-        if (!initialized) {
-            throw new IllegalStateException("Firestore가 초기화되지 않았습니다!");
-        }
-        return playerIslandService;
-    }
-    
-    @NotNull
-    public SocialFirestoreService getSocialService() {
-        if (!initialized) {
-            throw new IllegalStateException("Firestore가 초기화되지 않았습니다!");
-        }
-        return socialService;
-    }
-    
-    @NotNull
-    public SystemFirestoreService getSystemService() {
-        if (!initialized) {
-            throw new IllegalStateException("Firestore가 초기화되지 않았습니다!");
-        }
-        return systemService;
-    }
-    
     /**
-     * Firestore 직접 접근 (특수한 경우에만 사용)
+     * Firestore 종료
      */
-    @Nullable
-    public Firestore getFirestore() {
-        return firestore;
+    public void shutdown() {
+        if (firestore != null) {
+            try {
+                firestore.close();
+                LogUtil.info("Firestore가 정상적으로 종료되었습니다.");
+            } catch (Exception e) {
+                LogUtil.error("Firestore 종료 중 오류 발생", e);
+            }
+        }
+        initialized = false;
+        firestore = null;
     }
 }

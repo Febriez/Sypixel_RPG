@@ -1,4 +1,4 @@
-package com.febrie.rpg.island.gui;
+package com.febrie.rpg.gui.impl.island;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;

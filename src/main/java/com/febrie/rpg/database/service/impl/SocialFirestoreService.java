@@ -1,14 +1,15 @@
 package com.febrie.rpg.database.service.impl;
 
 import com.febrie.rpg.RPGMain;
+import com.febrie.rpg.database.service.BaseFirestoreService;
 import com.febrie.rpg.dto.social.FriendshipDTO;
 import com.febrie.rpg.dto.social.MailDTO;
 import com.febrie.rpg.util.LogUtil;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.Query;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -20,347 +21,178 @@ import java.util.stream.Collectors;
  *
  * @author Febrie, CoffeeTory
  */
-public class SocialFirestoreService {
+public class SocialFirestoreService extends BaseFirestoreService<FriendshipDTO> {
     
-    private final RPGMain plugin;
-    private final Firestore firestore;
+    private static final String FRIENDSHIP_COLLECTION = "friendships";
+    private static final String MAIL_COLLECTION = "mail";
     
-    // Friendship 서비스
-    private final FriendshipService friendshipService;
-    
-    // Mail 서비스
-    private final MailService mailService;
+    // Mail 서비스를 위한 별도 BaseFirestoreService
+    private final BaseFirestoreService<MailDTO> mailService;
     
     public SocialFirestoreService(@NotNull RPGMain plugin, @NotNull Firestore firestore) {
-        this.plugin = plugin;
-        this.firestore = firestore;
-        this.friendshipService = new FriendshipService();
-        this.mailService = new MailService();
+        super(plugin, firestore, FRIENDSHIP_COLLECTION, FriendshipDTO.class);
+        
+        // Mail 서비스 초기화
+        this.mailService = new MailBaseFirestoreService(plugin, firestore);
     }
     
-    // ===== Friendship 관련 메소드 =====
+    @Override
+    protected Map<String, Object> toMap(@NotNull FriendshipDTO dto) {
+        return convertJsonToMap(dto.toJsonObject());
+    }
     
+    @Override
+    @Nullable
+    protected FriendshipDTO fromDocument(@NotNull DocumentSnapshot document) {
+        if (!document.exists()) return null;
+        try {
+            JsonObject json = convertMapToJson(document.getData());
+            return FriendshipDTO.fromJsonObject(json);
+        } catch (Exception e) {
+            LogUtil.warning("친구관계 데이터 파싱 실패 [" + document.getId() + "]: " + e.getMessage());
+            return null;
+        }
+    }
+    
+    // ===== 친구 관계 메서드들 =====
+    
+    /**
+     * 플레이어의 친구 목록 조회
+     */
     @NotNull
-    public CompletableFuture<List<FriendshipDTO>> getFriendships(@NotNull UUID playerUuid) {
-        return friendshipService.getFriendships(playerUuid);
+    public CompletableFuture<List<FriendshipDTO>> getFriendships(@NotNull UUID playerId) {
+        Map<String, Object> filters = new HashMap<>();
+        // 두 필드 중 하나라도 매치되는 경우를 찾기 위해 별도 쿼리 필요
+        return query("player1Uuid", playerId.toString())
+                .thenCompose(friendships1 -> 
+                    query("player2Uuid", playerId.toString())
+                        .thenApply(friendships2 -> {
+                            List<FriendshipDTO> all = new ArrayList<>(friendships1);
+                            all.addAll(friendships2);
+                            return all;
+                        })
+                );
     }
     
+    /**
+     * 친구 관계 생성
+     */
     @NotNull
-    public CompletableFuture<Void> createFriendship(@NotNull FriendshipDTO friendship) {
-        return friendshipService.createFriendship(friendship);
+    public CompletableFuture<Void> createFriendship(@NotNull UUID player1, @NotNull String player1Name,
+                                                   @NotNull UUID player2, @NotNull String player2Name) {
+        String friendshipId = generateFriendshipId(player1, player2);
+        FriendshipDTO friendship = new FriendshipDTO(player1, player1Name, player2, player2Name);
+        return save(friendshipId, friendship);
     }
     
+    /**
+     * 친구 관계 삭제
+     */
     @NotNull
-    public CompletableFuture<Void> removeFriendship(@NotNull String friendshipId) {
-        return friendshipService.removeFriendship(friendshipId);
+    public CompletableFuture<Void> deleteFriendship(@NotNull UUID player1, @NotNull UUID player2) {
+        String friendshipId = generateFriendshipId(player1, player2);
+        return delete(friendshipId);
     }
     
+    /**
+     * 친구 여부 확인
+     */
     @NotNull
     public CompletableFuture<Boolean> areFriends(@NotNull UUID player1, @NotNull UUID player2) {
-        return friendshipService.areFriends(player1, player2);
+        return getFriendships(player1).thenApply(friendships -> 
+                friendships.stream().anyMatch(f -> 
+                        f.player1Uuid().equals(player2) || 
+                        f.player2Uuid().equals(player2)));
     }
     
-    // ===== Mail 관련 메소드 =====
-    
-    @NotNull
-    public CompletableFuture<List<MailDTO>> getPlayerMail(@NotNull UUID playerUuid) {
-        return mailService.getPlayerMail(playerUuid);
+    private String generateFriendshipId(UUID player1, UUID player2) {
+        // 항상 일관된 ID를 생성하기 위해 UUID를 정렬
+        if (player1.toString().compareTo(player2.toString()) < 0) {
+            return player1.toString() + "_" + player2.toString();
+        } else {
+            return player2.toString() + "_" + player1.toString();
+        }
     }
     
-    @NotNull
-    public CompletableFuture<List<MailDTO>> getUnreadMail(@NotNull UUID playerUuid) {
-        return mailService.getUnreadMail(playerUuid);
-    }
+    // ===== 메일 관련 메서드들 =====
     
+    /**
+     * 메일 전송
+     */
     @NotNull
     public CompletableFuture<Void> sendMail(@NotNull MailDTO mail) {
-        return mailService.sendMail(mail);
+        return mailService.save(mail.mailId(), mail);
     }
     
+    /**
+     * 받은 메일함 조회
+     */
     @NotNull
-    public CompletableFuture<Void> markAsRead(@NotNull String mailId) {
-        return mailService.markAsRead(mailId);
+    public CompletableFuture<List<MailDTO>> getReceivedMails(@NotNull UUID playerId) {
+        return mailService.query("receiverUuid", playerId.toString());
     }
     
+    /**
+     * 보낸 메일함 조회
+     */
+    @NotNull
+    public CompletableFuture<List<MailDTO>> getSentMails(@NotNull UUID playerId) {
+        return mailService.query("senderUuid", playerId.toString());
+    }
+    
+    /**
+     * 메일 읽음 처리
+     */
+    @NotNull
+    public CompletableFuture<Void> markMailAsRead(@NotNull String mailId) {
+        return mailService.get(mailId).thenCompose(mail -> {
+            if (mail != null && mail.isUnread()) {
+                MailDTO readMail = mail.markAsRead();
+                return mailService.save(mailId, readMail);
+            }
+            return CompletableFuture.completedFuture(null);
+        });
+    }
+    
+    /**
+     * 메일 삭제
+     */
     @NotNull
     public CompletableFuture<Void> deleteMail(@NotNull String mailId) {
-        return mailService.deleteMail(mailId);
+        return mailService.delete(mailId);
     }
     
     /**
-     * Friendship 내부 서비스 클래스
+     * 읽지 않은 메일 개수
      */
-    private class FriendshipService {
-        private static final String COLLECTION_NAME = "friendships";
-        
-        @NotNull
-        CompletableFuture<List<FriendshipDTO>> getFriendships(@NotNull UUID playerUuid) {
-            String playerUuidStr = playerUuid.toString();
-            
-            // player1 또는 player2가 해당 플레이어인 모든 친구 관계 조회
-            CompletableFuture<QuerySnapshot> query1Future = firestore.collection(COLLECTION_NAME)
-                    .whereEqualTo("player1Uuid", playerUuidStr)
-                    .get();
-            
-            CompletableFuture<QuerySnapshot> query2Future = firestore.collection(COLLECTION_NAME)
-                    .whereEqualTo("player2Uuid", playerUuidStr)
-                    .get();
-            
-            return CompletableFuture.allOf(query1Future, query2Future).thenApply(v -> {
-                List<FriendshipDTO> friendships = new ArrayList<>();
-                
-                try {
-                    QuerySnapshot snapshot1 = query1Future.get();
-                    QuerySnapshot snapshot2 = query2Future.get();
-                    
-                    snapshot1.getDocuments().forEach(doc -> {
-                        FriendshipDTO friendship = fromDocument(doc);
-                        if (friendship != null) {
-                            friendships.add(friendship);
-                        }
-                    });
-                    
-                    snapshot2.getDocuments().forEach(doc -> {
-                        FriendshipDTO friendship = fromDocument(doc);
-                        if (friendship != null) {
-                            friendships.add(friendship);
-                        }
-                    });
-                    
-                } catch (Exception e) {
-                    LogUtil.warning("친구 목록 조회 실패: " + e.getMessage());
-                }
-                
-                return friendships;
-            });
-        }
-        
-        @NotNull
-        CompletableFuture<Void> createFriendship(@NotNull FriendshipDTO friendship) {
-            Map<String, Object> data = toMap(friendship);
-            
-            return CompletableFuture.runAsync(() -> {
-                try {
-                    firestore.collection(COLLECTION_NAME)
-                            .document(friendship.friendshipId())
-                            .set(data)
-                            .get();
-                    LogUtil.info("친구 관계 생성 성공: " + friendship.friendshipId());
-                } catch (Exception e) {
-                    LogUtil.warning("친구 관계 생성 실패: " + e.getMessage());
-                    throw new RuntimeException(e);
-                }
-            });
-        }
-        
-        @NotNull
-        CompletableFuture<Void> removeFriendship(@NotNull String friendshipId) {
-            return CompletableFuture.runAsync(() -> {
-                try {
-                    firestore.collection(COLLECTION_NAME)
-                            .document(friendshipId)
-                            .delete()
-                            .get();
-                    LogUtil.info("친구 관계 삭제 성공: " + friendshipId);
-                } catch (Exception e) {
-                    LogUtil.warning("친구 관계 삭제 실패: " + e.getMessage());
-                    throw new RuntimeException(e);
-                }
-            });
-        }
-        
-        @NotNull
-        CompletableFuture<Boolean> areFriends(@NotNull UUID player1, @NotNull UUID player2) {
-            return getFriendships(player1).thenApply(friendships -> 
-                    friendships.stream().anyMatch(f -> 
-                            f.player1Uuid().equals(player2.toString()) || 
-                            f.player2Uuid().equals(player2.toString())));
-        }
-        
-        private Map<String, Object> toMap(@NotNull FriendshipDTO dto) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("friendshipId", dto.friendshipId());
-            map.put("player1Uuid", dto.player1Uuid());
-            map.put("player1Name", dto.player1Name());
-            map.put("player2Uuid", dto.player2Uuid());
-            map.put("player2Name", dto.player2Name());
-            map.put("createdAt", dto.createdAt());
-            return map;
-        }
-        
-        private FriendshipDTO fromDocument(@NotNull DocumentSnapshot doc) {
-            if (!doc.exists()) return null;
-            
-            try {
-                return new FriendshipDTO(
-                        doc.getString("friendshipId"),
-                        doc.getString("player1Uuid"),
-                        doc.getString("player1Name"),
-                        doc.getString("player2Uuid"),
-                        doc.getString("player2Name"),
-                        doc.getLong("createdAt")
-                );
-            } catch (Exception e) {
-                LogUtil.warning("FriendshipDTO 파싱 실패: " + e.getMessage());
-                return null;
-            }
-        }
+    @NotNull
+    public CompletableFuture<Integer> getUnreadMailCount(@NotNull UUID playerId) {
+        return getReceivedMails(playerId).thenApply(mails -> 
+                (int) mails.stream().filter(MailDTO::isUnread).count());
     }
     
     /**
-     * Mail 내부 서비스 클래스
+     * Mail 서비스를 위한 내부 클래스
      */
-    private class MailService {
-        private static final String COLLECTION_NAME = "mail";
-        
-        @NotNull
-        CompletableFuture<List<MailDTO>> getPlayerMail(@NotNull UUID playerUuid) {
-            return CompletableFuture.supplyAsync(() -> {
-                try {
-                    QuerySnapshot snapshot = firestore.collection(COLLECTION_NAME)
-                            .whereEqualTo("receiverUuid", playerUuid.toString())
-                            .orderBy("sentAt", Query.Direction.DESCENDING)
-                            .limit(100)  // 최근 100개만
-                            .get()
-                            .get();
-                    
-                    return snapshot.getDocuments().stream()
-                            .map(this::fromDocument)
-                            .filter(Objects::nonNull)
-                            .collect(Collectors.toList());
-                    
-                } catch (Exception e) {
-                    LogUtil.warning("메일 조회 실패: " + e.getMessage());
-                    return new ArrayList<>();
-                }
-            });
+    private static class MailBaseFirestoreService extends BaseFirestoreService<MailDTO> {
+        public MailBaseFirestoreService(@NotNull RPGMain plugin, @NotNull Firestore firestore) {
+            super(plugin, firestore, MAIL_COLLECTION, MailDTO.class);
         }
         
-        @NotNull
-        CompletableFuture<List<MailDTO>> getUnreadMail(@NotNull UUID playerUuid) {
-            return CompletableFuture.supplyAsync(() -> {
-                try {
-                    QuerySnapshot snapshot = firestore.collection(COLLECTION_NAME)
-                            .whereEqualTo("receiverUuid", playerUuid.toString())
-                            .whereEqualTo("isRead", false)
-                            .orderBy("sentAt", Query.Direction.DESCENDING)
-                            .get()
-                            .get();
-                    
-                    return snapshot.getDocuments().stream()
-                            .map(this::fromDocument)
-                            .filter(Objects::nonNull)
-                            .collect(Collectors.toList());
-                    
-                } catch (Exception e) {
-                    LogUtil.warning("읽지 않은 메일 조회 실패: " + e.getMessage());
-                    return new ArrayList<>();
-                }
-            });
+        @Override
+        protected Map<String, Object> toMap(@NotNull MailDTO dto) {
+            return convertJsonToMap(dto.toJsonObject());
         }
         
-        @NotNull
-        CompletableFuture<Void> sendMail(@NotNull MailDTO mail) {
-            Map<String, Object> data = toMap(mail);
-            
-            return CompletableFuture.runAsync(() -> {
-                try {
-                    firestore.collection(COLLECTION_NAME)
-                            .document(mail.mailId())
-                            .set(data)
-                            .get();
-                    LogUtil.info("메일 전송 성공: " + mail.mailId());
-                } catch (Exception e) {
-                    LogUtil.warning("메일 전송 실패: " + e.getMessage());
-                    throw new RuntimeException(e);
-                }
-            });
-        }
-        
-        @NotNull
-        CompletableFuture<Void> markAsRead(@NotNull String mailId) {
-            return CompletableFuture.runAsync(() -> {
-                try {
-                    firestore.collection(COLLECTION_NAME)
-                            .document(mailId)
-                            .update("isRead", true, "readAt", System.currentTimeMillis())
-                            .get();
-                } catch (Exception e) {
-                    LogUtil.warning("메일 읽음 처리 실패: " + e.getMessage());
-                    throw new RuntimeException(e);
-                }
-            });
-        }
-        
-        @NotNull
-        CompletableFuture<Void> deleteMail(@NotNull String mailId) {
-            return CompletableFuture.runAsync(() -> {
-                try {
-                    firestore.collection(COLLECTION_NAME)
-                            .document(mailId)
-                            .delete()
-                            .get();
-                    LogUtil.info("메일 삭제 성공: " + mailId);
-                } catch (Exception e) {
-                    LogUtil.warning("메일 삭제 실패: " + e.getMessage());
-                    throw new RuntimeException(e);
-                }
-            });
-        }
-        
-        private Map<String, Object> toMap(@NotNull MailDTO dto) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("mailId", dto.mailId());
-            map.put("senderUuid", dto.senderUuid());
-            map.put("senderName", dto.senderName());
-            map.put("receiverUuid", dto.receiverUuid());
-            map.put("receiverName", dto.receiverName());
-            map.put("subject", dto.subject());
-            map.put("content", dto.content());
-            map.put("sentAt", dto.sentAt());
-            map.put("isRead", dto.isRead());
-            
-            if (dto.readAt() != null) {
-                map.put("readAt", dto.readAt());
-            }
-            
-            if (dto.expiresAt() != null) {
-                map.put("expiresAt", dto.expiresAt());
-            }
-            
-            if (!dto.attachments().isEmpty()) {
-                map.put("attachments", dto.attachments());
-            }
-            
-            return map;
-        }
-        
-        private MailDTO fromDocument(@NotNull DocumentSnapshot doc) {
-            if (!doc.exists()) return null;
-            
+        @Override
+        @Nullable
+        protected MailDTO fromDocument(@NotNull DocumentSnapshot document) {
+            if (!document.exists()) return null;
             try {
-                List<String> attachments = new ArrayList<>();
-                Object attachmentsObj = doc.get("attachments");
-                if (attachmentsObj instanceof List) {
-                    attachments = (List<String>) attachmentsObj;
-                }
-                
-                return new MailDTO(
-                        doc.getString("mailId"),
-                        doc.getString("senderUuid"),
-                        doc.getString("senderName"),
-                        doc.getString("receiverUuid"),
-                        doc.getString("receiverName"),
-                        doc.getString("subject"),
-                        doc.getString("content"),
-                        doc.getLong("sentAt"),
-                        doc.getBoolean("isRead"),
-                        doc.getLong("readAt"),
-                        doc.getLong("expiresAt"),
-                        attachments
-                );
+                JsonObject json = convertMapToJson(document.getData());
+                return MailDTO.fromJsonObject(json);
             } catch (Exception e) {
-                LogUtil.warning("MailDTO 파싱 실패: " + e.getMessage());
+                LogUtil.warning("메일 데이터 파싱 실패 [" + document.getId() + "]: " + e.getMessage());
                 return null;
             }
         }

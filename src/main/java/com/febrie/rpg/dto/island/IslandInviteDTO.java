@@ -13,29 +13,47 @@ import java.util.Map;
  */
 public record IslandInviteDTO(
         @NotNull String inviteId,
-        @NotNull String targetUuid,
-        @NotNull String targetName,
+        @NotNull String islandId,
         @NotNull String inviterUuid,
         @NotNull String inviterName,
-        long createdAt,
-        long expiresAt // 만료 시간 (1분)
+        @NotNull String invitedUuid,
+        @NotNull String invitedName,
+        long invitedAt,
+        long expiresAt,
+        @NotNull String message
 ) {
     /**
      * 새 초대 생성
      */
-    public static IslandInviteDTO createNew(String inviteId, String targetUuid, String targetName,
-                                            String inviterUuid, String inviterName) {
+    public static IslandInviteDTO createNew(String inviteId, String islandId, String targetUuid, String targetName,
+                                            String inviterUuid, String inviterName, String message) {
         long now = System.currentTimeMillis();
         return new IslandInviteDTO(
                 inviteId,
-                targetUuid,
-                targetName,
+                islandId,
                 inviterUuid,
                 inviterName,
+                targetUuid,
+                targetName,
                 now,
-                now + (60 * 1000) // 1분 후 만료
+                now + (60 * 1000), // 1분 후 만료
+                message
         );
     }
+    
+    /**
+     * 새 초대 생성 (기본 메시지)
+     */
+    public static IslandInviteDTO createNew(String inviteId, String targetUuid, String targetName,
+                                            String inviterUuid, String inviterName) {
+        return createNew(inviteId, "", targetUuid, targetName, inviterUuid, inviterName, "섬에 초대되었습니다!");
+    }
+    
+    // ===== 호환성을 위한 Alias 메서드들 =====
+    
+    public String targetUuid() { return invitedUuid; }
+    public String targetName() { return invitedName; }
+    public long createdAt() { return invitedAt; }
     
     /**
      * 초대 만료 여부 확인
@@ -64,13 +82,17 @@ public record IslandInviteDTO(
         inviteIdValue.addProperty("stringValue", inviteId);
         fields.add("inviteId", inviteIdValue);
         
-        JsonObject targetUuidValue = new JsonObject();
-        targetUuidValue.addProperty("stringValue", targetUuid);
-        fields.add("targetUuid", targetUuidValue);
+        JsonObject islandIdValue = new JsonObject();
+        islandIdValue.addProperty("stringValue", islandId);
+        fields.add("islandId", islandIdValue);
         
-        JsonObject targetNameValue = new JsonObject();
-        targetNameValue.addProperty("stringValue", targetName);
-        fields.add("targetName", targetNameValue);
+        JsonObject invitedUuidValue = new JsonObject();
+        invitedUuidValue.addProperty("stringValue", invitedUuid);
+        fields.add("invitedUuid", invitedUuidValue);
+        
+        JsonObject invitedNameValue = new JsonObject();
+        invitedNameValue.addProperty("stringValue", invitedName);
+        fields.add("invitedName", invitedNameValue);
         
         JsonObject inviterUuidValue = new JsonObject();
         inviterUuidValue.addProperty("stringValue", inviterUuid);
@@ -80,9 +102,13 @@ public record IslandInviteDTO(
         inviterNameValue.addProperty("stringValue", inviterName);
         fields.add("inviterName", inviterNameValue);
         
-        JsonObject createdAtValue = new JsonObject();
-        createdAtValue.addProperty("integerValue", createdAt);
-        fields.add("createdAt", createdAtValue);
+        JsonObject invitedAtValue = new JsonObject();
+        invitedAtValue.addProperty("integerValue", invitedAt);
+        fields.add("invitedAt", invitedAtValue);
+        
+        JsonObject messageValue = new JsonObject();
+        messageValue.addProperty("stringValue", message);
+        fields.add("message", messageValue);
         
         JsonObject expiresAtValue = new JsonObject();
         expiresAtValue.addProperty("integerValue", expiresAt);
@@ -107,12 +133,16 @@ public record IslandInviteDTO(
                 ? fields.getAsJsonObject("inviteId").get("stringValue").getAsString()
                 : "";
                 
-        String targetUuid = fields.has("targetUuid") && fields.getAsJsonObject("targetUuid").has("stringValue")
-                ? fields.getAsJsonObject("targetUuid").get("stringValue").getAsString()
+        String islandId = fields.has("islandId") && fields.getAsJsonObject("islandId").has("stringValue")
+                ? fields.getAsJsonObject("islandId").get("stringValue").getAsString()
                 : "";
                 
-        String targetName = fields.has("targetName") && fields.getAsJsonObject("targetName").has("stringValue")
-                ? fields.getAsJsonObject("targetName").get("stringValue").getAsString()
+        String invitedUuid = fields.has("invitedUuid") && fields.getAsJsonObject("invitedUuid").has("stringValue")
+                ? fields.getAsJsonObject("invitedUuid").get("stringValue").getAsString()
+                : "";
+                
+        String invitedName = fields.has("invitedName") && fields.getAsJsonObject("invitedName").has("stringValue")
+                ? fields.getAsJsonObject("invitedName").get("stringValue").getAsString()
                 : "";
                 
         String inviterUuid = fields.has("inviterUuid") && fields.getAsJsonObject("inviterUuid").has("stringValue")
@@ -123,48 +153,19 @@ public record IslandInviteDTO(
                 ? fields.getAsJsonObject("inviterName").get("stringValue").getAsString()
                 : "";
                 
-        long createdAt = fields.has("createdAt") && fields.getAsJsonObject("createdAt").has("integerValue")
-                ? fields.getAsJsonObject("createdAt").get("integerValue").getAsLong()
+        long invitedAt = fields.has("invitedAt") && fields.getAsJsonObject("invitedAt").has("integerValue")
+                ? fields.getAsJsonObject("invitedAt").get("integerValue").getAsLong()
                 : System.currentTimeMillis();
                 
         long expiresAt = fields.has("expiresAt") && fields.getAsJsonObject("expiresAt").has("integerValue")
                 ? fields.getAsJsonObject("expiresAt").get("integerValue").getAsLong()
                 : System.currentTimeMillis() + (60 * 1000);
+                
+        String message = fields.has("message") && fields.getAsJsonObject("message").has("stringValue")
+                ? fields.getAsJsonObject("message").get("stringValue").getAsString()
+                : "섬에 초대되었습니다!";
         
-        return new IslandInviteDTO(inviteId, targetUuid, targetName, inviterUuid, inviterName, createdAt, expiresAt);
+        return new IslandInviteDTO(inviteId, islandId, inviterUuid, inviterName, invitedUuid, invitedName, invitedAt, expiresAt, message);
     }
     
-    /**
-     * Map으로 변환 (Firebase 저장용)
-     */
-    @Deprecated
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("inviteId", inviteId);
-        map.put("targetUuid", targetUuid);
-        map.put("targetName", targetName);
-        map.put("inviterUuid", inviterUuid);
-        map.put("inviterName", inviterName);
-        map.put("createdAt", createdAt);
-        map.put("expiresAt", expiresAt);
-        return map;
-    }
-    
-    /**
-     * Map에서 생성
-     */
-    @Deprecated
-    public static IslandInviteDTO fromMap(Map<String, Object> map) {
-        if (map == null) return null;
-        
-        return new IslandInviteDTO(
-                (String) map.get("inviteId"),
-                (String) map.get("targetUuid"),
-                (String) map.get("targetName"),
-                (String) map.get("inviterUuid"),
-                (String) map.get("inviterName"),
-                ((Number) map.get("createdAt")).longValue(),
-                ((Number) map.get("expiresAt")).longValue()
-        );
-    }
 }

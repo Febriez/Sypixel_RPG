@@ -80,7 +80,7 @@ public class PlayerIslandFirestoreService extends BaseFirestoreService<PlayerIsl
                 totalContribution = 0L;
             }
             
-            return new PlayerIslandDataDTO(playerUuid, currentIslandId, role, lastJoined, totalContribution);
+            return new PlayerIslandDataDTO(playerUuid, currentIslandId, role, 0, totalContribution, lastJoined, lastJoined);
             
         } catch (Exception e) {
             LogUtil.warning("플레이어-섬 데이터 파싱 실패 [" + document.getId() + "]: " + e.getMessage());
@@ -96,8 +96,7 @@ public class PlayerIslandFirestoreService extends BaseFirestoreService<PlayerIsl
         return get(playerUuid.toString()).thenApply(data -> {
             if (data == null) {
                 // 새 플레이어 데이터 생성
-                return new PlayerIslandDataDTO(playerUuid.toString(), null, null, 
-                        System.currentTimeMillis(), 0L);
+                return PlayerIslandDataDTO.createNew(playerUuid.toString());
             }
             return data;
         });
@@ -123,8 +122,10 @@ public class PlayerIslandFirestoreService extends BaseFirestoreService<PlayerIsl
                 playerUuid.toString(),
                 islandId,
                 role,
+                0,  // totalIslandResets
+                0L,  // 기여도는 0부터 시작
                 System.currentTimeMillis(),
-                0L  // 기여도는 0부터 시작
+                System.currentTimeMillis()
         );
         
         return savePlayerIslandData(playerUuid, data);
@@ -137,13 +138,7 @@ public class PlayerIslandFirestoreService extends BaseFirestoreService<PlayerIsl
     public CompletableFuture<Void> leaveIsland(@NotNull UUID playerUuid) {
         return getPlayerIslandData(playerUuid).thenCompose(data -> {
             // 현재 섬 정보 제거, 기여도는 유지
-            PlayerIslandDataDTO updated = new PlayerIslandDataDTO(
-                    data.playerUuid(),
-                    null,  // 섬 ID 제거
-                    null,  // 역할 제거
-                    data.lastJoined(),
-                    data.totalContribution()  // 총 기여도는 유지
-            );
+            PlayerIslandDataDTO updated = data.leaveIsland();
             
             return savePlayerIslandData(playerUuid, updated);
         });
@@ -164,8 +159,10 @@ public class PlayerIslandFirestoreService extends BaseFirestoreService<PlayerIsl
                     data.playerUuid(),
                     data.currentIslandId(),
                     newRole,
+                    data.totalIslandResets(),
+                    data.totalContribution(),
                     data.lastJoined(),
-                    data.totalContribution()
+                    System.currentTimeMillis()
             );
             
             return savePlayerIslandData(playerUuid, updated);
@@ -182,8 +179,10 @@ public class PlayerIslandFirestoreService extends BaseFirestoreService<PlayerIsl
                     data.playerUuid(),
                     data.currentIslandId(),
                     data.role(),
+                    data.totalIslandResets(),
+                    data.totalContribution() + amount,
                     data.lastJoined(),
-                    data.totalContribution() + amount
+                    System.currentTimeMillis()
             );
             
             return savePlayerIslandData(playerUuid, updated);

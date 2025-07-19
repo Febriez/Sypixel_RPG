@@ -13,8 +13,16 @@ import java.util.Map;
  * @author Febrie, CoffeeTory
  */
 public record IslandPermissionDTO(
-        @NotNull Map<IslandRole, RolePermissions> rolePermissions
+        @NotNull Map<IslandRole, RolePermissions> rolePermissions,
+        long lastUpdated
 ) {
+    /**
+     * 기본 생성자
+     */
+    public IslandPermissionDTO(@NotNull Map<IslandRole, RolePermissions> rolePermissions) {
+        this(rolePermissions, System.currentTimeMillis());
+    }
+    
     /**
      * 기본 권한 설정 생성
      */
@@ -26,38 +34,44 @@ public record IslandPermissionDTO(
         
         // 부섬장 기본 권한
         permissions.put(IslandRole.CO_OWNER, new RolePermissions(
-                true,  // 블록 설치/파괴
-                true,  // 상자 접근
-                true,  // 몬스터 처치
-                true,  // 아이템 줍기
-                true,  // 섬원 초대
-                false, // 섬원 추방
-                true,  // 기여도 획득
-                true   // 스폰 설정
+                true,  // canBuild
+                true,  // canBreak
+                true,  // canInteract
+                true,  // canInvite
+                false, // canKick
+                true,  // canSetSpawn
+                true,  // canManageWorkers
+                false, // canManagePermissions
+                false, // canUpgrade
+                false  // canReset
         ));
         
         // 일반 섬원 기본 권한
         permissions.put(IslandRole.MEMBER, new RolePermissions(
-                true,  // 블록 설치/파괴
-                true,  // 상자 접근
-                true,  // 몬스터 처치
-                true,  // 아이템 줍기
-                false, // 섬원 초대
-                false, // 섬원 추방
-                true,  // 기여도 획득
-                true   // 스폰 설정
+                true,  // canBuild
+                true,  // canBreak
+                true,  // canInteract
+                false, // canInvite
+                false, // canKick
+                false, // canSetSpawn
+                false, // canManageWorkers
+                false, // canManagePermissions
+                false, // canUpgrade
+                false  // canReset
         ));
         
         // 알바생 기본 권한
         permissions.put(IslandRole.WORKER, new RolePermissions(
-                true,  // 블록 설치/파괴
-                false, // 상자 접근
-                true,  // 몬스터 처치
-                false, // 아이템 줍기
-                false, // 섬원 초대
-                false, // 섬원 추방
-                false, // 기여도 획득
-                false  // 스폰 설정
+                true,  // canBuild
+                true,  // canBreak
+                false, // canInteract
+                false, // canInvite
+                false, // canKick
+                false, // canSetSpawn
+                false, // canManageWorkers
+                false, // canManagePermissions
+                false, // canUpgrade
+                false  // canReset
         ));
         
         // 방문자 기본 권한 (모두 비활성화)
@@ -96,6 +110,11 @@ public record IslandPermissionDTO(
         rolePermissionsValue.add("mapValue", rolePermissionsMap);
         fields.add("rolePermissions", rolePermissionsValue);
         
+        // lastUpdated
+        JsonObject lastUpdatedValue = new JsonObject();
+        lastUpdatedValue.addProperty("integerValue", lastUpdated);
+        fields.add("lastUpdated", lastUpdatedValue);
+        
         json.add("fields", fields);
         return json;
     }
@@ -130,55 +149,9 @@ public record IslandPermissionDTO(
             }
         }
         
-        // 누락된 역할에 대한 기본 권한 추가
-        for (IslandRole role : IslandRole.values()) {
-            if (!permissions.containsKey(role)) {
-                permissions.put(role, createDefault().getPermissions(role));
-            }
-        }
-        
-        return new IslandPermissionDTO(permissions);
-    }
-    
-    /**
-     * Map으로 변환 (Firebase 저장용)
-     */
-    @Deprecated
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        Map<String, Map<String, Object>> permissionsMap = new HashMap<>();
-        
-        rolePermissions.forEach((role, perms) -> {
-            permissionsMap.put(role.name(), perms.toMap());
-        });
-        
-        map.put("rolePermissions", permissionsMap);
-        return map;
-    }
-    
-    /**
-     * Map에서 생성
-     */
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    public static IslandPermissionDTO fromMap(Map<String, Object> map) {
-        if (map == null) return createDefault();
-        
-        Map<IslandRole, RolePermissions> permissions = new HashMap<>();
-        Map<String, Map<String, Object>> permissionsMap = 
-                (Map<String, Map<String, Object>>) map.get("rolePermissions");
-        
-        if (permissionsMap != null) {
-            permissionsMap.forEach((roleName, permsMap) -> {
-                try {
-                    IslandRole role = IslandRole.valueOf(roleName);
-                    RolePermissions perms = RolePermissions.fromMap(permsMap);
-                    permissions.put(role, perms);
-                } catch (IllegalArgumentException e) {
-                    // 잘못된 역할 이름은 무시
-                }
-            });
-        }
+        long lastUpdated = fields.has("lastUpdated") && fields.getAsJsonObject("lastUpdated").has("integerValue")
+                ? fields.getAsJsonObject("lastUpdated").get("integerValue").getAsLong()
+                : System.currentTimeMillis();
         
         // 누락된 역할에 대한 기본 권한 추가
         for (IslandRole role : IslandRole.values()) {
@@ -187,40 +160,37 @@ public record IslandPermissionDTO(
             }
         }
         
-        return new IslandPermissionDTO(permissions);
+        return new IslandPermissionDTO(permissions, lastUpdated);
     }
+    
     
     /**
      * 역할별 권한 정의
      */
     public record RolePermissions(
             boolean canBuild,
-            boolean canAccessChest,
-            boolean canKillMobs,
-            boolean canPickupItems,
-            boolean canInviteMembers,
-            boolean canKickMembers,
-            boolean canEarnContribution,
-            boolean canSetSpawn
+            boolean canBreak,
+            boolean canInteract,
+            boolean canInvite,
+            boolean canKick,
+            boolean canSetSpawn,
+            boolean canManageWorkers,
+            boolean canManagePermissions,
+            boolean canUpgrade,
+            boolean canReset
     ) {
-        // Alias methods for compatibility
-        public boolean canUseItems() { return canPickupItems; }
-        public boolean canOpenContainers() { return canAccessChest; }
-        public boolean canManageWorkers() { return canKickMembers; }
-        public boolean canModifySpawns() { return canSetSpawn; }
-        public boolean canChangeSettings() { return canKickMembers; }
         /**
          * 모든 권한 활성화
          */
         public static RolePermissions all() {
-            return new RolePermissions(true, true, true, true, true, true, true, true);
+            return new RolePermissions(true, true, true, true, true, true, true, true, true, true);
         }
         
         /**
          * 모든 권한 비활성화
          */
         public static RolePermissions none() {
-            return new RolePermissions(false, false, false, false, false, false, false, false);
+            return new RolePermissions(false, false, false, false, false, false, false, false, false, false);
         }
         
         /**
@@ -235,33 +205,41 @@ public record IslandPermissionDTO(
             canBuildValue.addProperty("booleanValue", canBuild);
             fields.add("canBuild", canBuildValue);
             
-            JsonObject canAccessChestValue = new JsonObject();
-            canAccessChestValue.addProperty("booleanValue", canAccessChest);
-            fields.add("canAccessChest", canAccessChestValue);
+            JsonObject canBreakValue = new JsonObject();
+            canBreakValue.addProperty("booleanValue", canBreak);
+            fields.add("canBreak", canBreakValue);
             
-            JsonObject canKillMobsValue = new JsonObject();
-            canKillMobsValue.addProperty("booleanValue", canKillMobs);
-            fields.add("canKillMobs", canKillMobsValue);
+            JsonObject canInteractValue = new JsonObject();
+            canInteractValue.addProperty("booleanValue", canInteract);
+            fields.add("canInteract", canInteractValue);
             
-            JsonObject canPickupItemsValue = new JsonObject();
-            canPickupItemsValue.addProperty("booleanValue", canPickupItems);
-            fields.add("canPickupItems", canPickupItemsValue);
+            JsonObject canInviteValue = new JsonObject();
+            canInviteValue.addProperty("booleanValue", canInvite);
+            fields.add("canInvite", canInviteValue);
             
-            JsonObject canInviteMembersValue = new JsonObject();
-            canInviteMembersValue.addProperty("booleanValue", canInviteMembers);
-            fields.add("canInviteMembers", canInviteMembersValue);
-            
-            JsonObject canKickMembersValue = new JsonObject();
-            canKickMembersValue.addProperty("booleanValue", canKickMembers);
-            fields.add("canKickMembers", canKickMembersValue);
-            
-            JsonObject canEarnContributionValue = new JsonObject();
-            canEarnContributionValue.addProperty("booleanValue", canEarnContribution);
-            fields.add("canEarnContribution", canEarnContributionValue);
+            JsonObject canKickValue = new JsonObject();
+            canKickValue.addProperty("booleanValue", canKick);
+            fields.add("canKick", canKickValue);
             
             JsonObject canSetSpawnValue = new JsonObject();
             canSetSpawnValue.addProperty("booleanValue", canSetSpawn);
             fields.add("canSetSpawn", canSetSpawnValue);
+            
+            JsonObject canManageWorkersValue = new JsonObject();
+            canManageWorkersValue.addProperty("booleanValue", canManageWorkers);
+            fields.add("canManageWorkers", canManageWorkersValue);
+            
+            JsonObject canManagePermissionsValue = new JsonObject();
+            canManagePermissionsValue.addProperty("booleanValue", canManagePermissions);
+            fields.add("canManagePermissions", canManagePermissionsValue);
+            
+            JsonObject canUpgradeValue = new JsonObject();
+            canUpgradeValue.addProperty("booleanValue", canUpgrade);
+            fields.add("canUpgrade", canUpgradeValue);
+            
+            JsonObject canResetValue = new JsonObject();
+            canResetValue.addProperty("booleanValue", canReset);
+            fields.add("canReset", canResetValue);
             
             json.add("fields", fields);
             return json;
@@ -278,76 +256,28 @@ public record IslandPermissionDTO(
             
             JsonObject fields = json.getAsJsonObject("fields");
             
-            boolean canBuild = fields.has("canBuild") && fields.getAsJsonObject("canBuild").has("booleanValue")
-                    ? fields.getAsJsonObject("canBuild").get("booleanValue").getAsBoolean()
-                    : false;
+            boolean canBuild = fields.has("canBuild") && fields.getAsJsonObject("canBuild").has("booleanValue") && fields.getAsJsonObject("canBuild").get("booleanValue").getAsBoolean();
                     
-            boolean canAccessChest = fields.has("canAccessChest") && fields.getAsJsonObject("canAccessChest").has("booleanValue")
-                    ? fields.getAsJsonObject("canAccessChest").get("booleanValue").getAsBoolean()
-                    : false;
+            boolean canBreak = fields.has("canBreak") && fields.getAsJsonObject("canBreak").has("booleanValue") && fields.getAsJsonObject("canBreak").get("booleanValue").getAsBoolean();
                     
-            boolean canKillMobs = fields.has("canKillMobs") && fields.getAsJsonObject("canKillMobs").has("booleanValue")
-                    ? fields.getAsJsonObject("canKillMobs").get("booleanValue").getAsBoolean()
-                    : false;
+            boolean canInteract = fields.has("canInteract") && fields.getAsJsonObject("canInteract").has("booleanValue") && fields.getAsJsonObject("canInteract").get("booleanValue").getAsBoolean();
                     
-            boolean canPickupItems = fields.has("canPickupItems") && fields.getAsJsonObject("canPickupItems").has("booleanValue")
-                    ? fields.getAsJsonObject("canPickupItems").get("booleanValue").getAsBoolean()
-                    : false;
+            boolean canInvite = fields.has("canInvite") && fields.getAsJsonObject("canInvite").has("booleanValue") && fields.getAsJsonObject("canInvite").get("booleanValue").getAsBoolean();
                     
-            boolean canInviteMembers = fields.has("canInviteMembers") && fields.getAsJsonObject("canInviteMembers").has("booleanValue")
-                    ? fields.getAsJsonObject("canInviteMembers").get("booleanValue").getAsBoolean()
-                    : false;
+            boolean canKick = fields.has("canKick") && fields.getAsJsonObject("canKick").has("booleanValue") && fields.getAsJsonObject("canKick").get("booleanValue").getAsBoolean();
                     
-            boolean canKickMembers = fields.has("canKickMembers") && fields.getAsJsonObject("canKickMembers").has("booleanValue")
-                    ? fields.getAsJsonObject("canKickMembers").get("booleanValue").getAsBoolean()
-                    : false;
+            boolean canSetSpawn = fields.has("canSetSpawn") && fields.getAsJsonObject("canSetSpawn").has("booleanValue") && fields.getAsJsonObject("canSetSpawn").get("booleanValue").getAsBoolean();
                     
-            boolean canEarnContribution = fields.has("canEarnContribution") && fields.getAsJsonObject("canEarnContribution").has("booleanValue")
-                    ? fields.getAsJsonObject("canEarnContribution").get("booleanValue").getAsBoolean()
-                    : false;
+            boolean canManageWorkers = fields.has("canManageWorkers") && fields.getAsJsonObject("canManageWorkers").has("booleanValue") && fields.getAsJsonObject("canManageWorkers").get("booleanValue").getAsBoolean();
                     
-            boolean canSetSpawn = fields.has("canSetSpawn") && fields.getAsJsonObject("canSetSpawn").has("booleanValue")
-                    ? fields.getAsJsonObject("canSetSpawn").get("booleanValue").getAsBoolean()
-                    : false;
+            boolean canManagePermissions = fields.has("canManagePermissions") && fields.getAsJsonObject("canManagePermissions").has("booleanValue") && fields.getAsJsonObject("canManagePermissions").get("booleanValue").getAsBoolean();
+                    
+            boolean canUpgrade = fields.has("canUpgrade") && fields.getAsJsonObject("canUpgrade").has("booleanValue") && fields.getAsJsonObject("canUpgrade").get("booleanValue").getAsBoolean();
+                    
+            boolean canReset = fields.has("canReset") && fields.getAsJsonObject("canReset").has("booleanValue") && fields.getAsJsonObject("canReset").get("booleanValue").getAsBoolean();
             
-            return new RolePermissions(canBuild, canAccessChest, canKillMobs, canPickupItems, 
-                    canInviteMembers, canKickMembers, canEarnContribution, canSetSpawn);
-        }
-        
-        /**
-         * Map으로 변환
-         */
-        @Deprecated
-        public Map<String, Object> toMap() {
-            Map<String, Object> map = new HashMap<>();
-            map.put("canBuild", canBuild);
-            map.put("canAccessChest", canAccessChest);
-            map.put("canKillMobs", canKillMobs);
-            map.put("canPickupItems", canPickupItems);
-            map.put("canInviteMembers", canInviteMembers);
-            map.put("canKickMembers", canKickMembers);
-            map.put("canEarnContribution", canEarnContribution);
-            map.put("canSetSpawn", canSetSpawn);
-            return map;
-        }
-        
-        /**
-         * Map에서 생성
-         */
-        @Deprecated
-        public static RolePermissions fromMap(Map<String, Object> map) {
-            if (map == null) return none();
-            
-            return new RolePermissions(
-                    (Boolean) map.getOrDefault("canBuild", false),
-                    (Boolean) map.getOrDefault("canAccessChest", false),
-                    (Boolean) map.getOrDefault("canKillMobs", false),
-                    (Boolean) map.getOrDefault("canPickupItems", false),
-                    (Boolean) map.getOrDefault("canInviteMembers", false),
-                    (Boolean) map.getOrDefault("canKickMembers", false),
-                    (Boolean) map.getOrDefault("canEarnContribution", false),
-                    (Boolean) map.getOrDefault("canSetSpawn", false)
-            );
+            return new RolePermissions(canBuild, canBreak, canInteract, canInvite, canKick, 
+                    canSetSpawn, canManageWorkers, canManagePermissions, canUpgrade, canReset);
         }
     }
 }

@@ -26,6 +26,13 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <release>21</release>
+                    <compilerArgs>
+                        <arg>-Xlint:all</arg>
+                        <arg>-Xlint:-processing</arg>
+                    </compilerArgs>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
 
@@ -43,8 +50,8 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <outputFile>C:/Users/CoffeeTory/Desktop/Minecraft/1.21.7 Test_Server/plugins/Sypixel_RPG.jar</outputFile>
 
-                            <!-- 사용하지 않는 클래스 자동 제거 -->
-                            <minimizeJar>true</minimizeJar>
+                            <!-- 사용하지 않는 클래스 자동 제거 (비활성화 - Firebase 클래스 포함 필요) -->
+                            <minimizeJar>false</minimizeJar>
 
                             <filters>
                                 <filter>
@@ -62,6 +69,25 @@
                                         <exclude>**/module-info.class</exclude>
                                     </excludes>
                                 </filter>
+                                <!-- Firebase 관련 클래스들은 명시적으로 포함 -->
+                                <filter>
+                                    <artifact>com.google.auth:*</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>com.google.cloud:*</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
+                                <filter>
+                                    <artifact>com.google.firebase:*</artifact>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </filter>
                             </filters>
 
                             <transformers>
@@ -73,13 +99,6 @@
                                         implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer"/>
                             </transformers>
 
-                            <!-- 재배치로 충돌 방지 -->
-                            <relocations>
-                                <relocation>
-                                    <pattern>com.google.gson</pattern>
-                                    <shadedPattern>com.febrie.rpg.libs.gson</shadedPattern>
-                                </relocation>
-                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
@@ -151,9 +170,20 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.google.firebase</groupId>
-            <artifactId>firebase-firestore</artifactId>
-            <version>25.1.4</version>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-firestore</artifactId>
+            <version>3.31.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.11.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>3.2.2</version>
         </dependency>
     </dependencies>
 </project>

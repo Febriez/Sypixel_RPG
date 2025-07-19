@@ -73,7 +73,10 @@ public abstract class BaseGui implements InteractiveGui {
         this.langManager = langManager;
         this.plugin = guiManager.getPlugin();
         this.size = validateSize(requestedSize);
-        this.inventory = createInventory(titleKey, titleArgs);
+        // Create inventory without 'this' reference escaping
+        Component title = langManager.getComponent(viewer, titleKey, titleArgs);
+        Component styledTitle = applyTitleStyle(title);
+        this.inventory = Bukkit.createInventory(this, size, styledTitle);
     }
 
     /**

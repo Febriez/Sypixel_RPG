@@ -1,150 +1,131 @@
 package com.febrie.rpg.dto.social;
 
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * 친구 관계 데이터 전송 객체
+ * 친구 관계 데이터 전송 객체 (Record)
+ * Firebase 저장용 불변 데이터 구조
  *
- * @author Febrie
+ * @author Febrie, CoffeeTory
  */
-public class FriendshipDTO {
+public record FriendshipDTO(
+        @NotNull UUID player1Uuid,
+        @NotNull String player1Name,
+        @NotNull UUID player2Uuid,
+        @NotNull String player2Name,
+        long createdAt
+) {
     
-    private String id; // Firestore 문서 ID
-    private UUID player1Id;
-    private String player1Name;
-    private UUID player2Id;
-    private String player2Name;
-    private LocalDateTime friendsSince;
-    private boolean isBlocked; // 차단 여부
-    private UUID blockedBy; // 누가 차단했는지 (null이면 차단 안됨)
-    
-    public FriendshipDTO() {
-        // Firebase 역직렬화를 위한 기본 생성자
+    /**
+     * 기본 생성자 - 신규 친구 관계용
+     */
+    public FriendshipDTO(@NotNull UUID player1Uuid, @NotNull String player1Name,
+                        @NotNull UUID player2Uuid, @NotNull String player2Name) {
+        this(player1Uuid, player1Name, player2Uuid, player2Name, System.currentTimeMillis());
     }
     
-    public FriendshipDTO(@NotNull UUID player1Id, @NotNull String player1Name,
-                        @NotNull UUID player2Id, @NotNull String player2Name) {
-        this.player1Id = player1Id;
-        this.player1Name = player1Name;
-        this.player2Id = player2Id;
-        this.player2Name = player2Name;
-        this.friendsSince = LocalDateTime.now();
-        this.isBlocked = false;
+    /**
+     * JsonObject로 변환
+     */
+    @NotNull
+    public JsonObject toJsonObject() {
+        JsonObject json = new JsonObject();
+        JsonObject fields = new JsonObject();
+        
+        JsonObject player1UuidValue = new JsonObject();
+        player1UuidValue.addProperty("stringValue", player1Uuid.toString());
+        fields.add("player1Uuid", player1UuidValue);
+        
+        JsonObject player1NameValue = new JsonObject();
+        player1NameValue.addProperty("stringValue", player1Name);
+        fields.add("player1Name", player1NameValue);
+        
+        JsonObject player2UuidValue = new JsonObject();
+        player2UuidValue.addProperty("stringValue", player2Uuid.toString());
+        fields.add("player2Uuid", player2UuidValue);
+        
+        JsonObject player2NameValue = new JsonObject();
+        player2NameValue.addProperty("stringValue", player2Name);
+        fields.add("player2Name", player2NameValue);
+        
+        JsonObject createdAtValue = new JsonObject();
+        createdAtValue.addProperty("integerValue", createdAt);
+        fields.add("createdAt", createdAtValue);
+        
+        json.add("fields", fields);
+        return json;
+    }
+    
+    /**
+     * JsonObject에서 FriendshipDTO 생성
+     */
+    @NotNull
+    public static FriendshipDTO fromJsonObject(@NotNull JsonObject json) {
+        if (!json.has("fields")) {
+            throw new IllegalArgumentException("Invalid FriendshipDTO JSON: missing fields");
+        }
+        
+        JsonObject fields = json.getAsJsonObject("fields");
+        
+        String player1UuidStr = fields.has("player1Uuid") && fields.getAsJsonObject("player1Uuid").has("stringValue")
+                ? fields.getAsJsonObject("player1Uuid").get("stringValue").getAsString()
+                : UUID.randomUUID().toString();
+        UUID player1Uuid = UUID.fromString(player1UuidStr);
+        
+        String player1Name = fields.has("player1Name") && fields.getAsJsonObject("player1Name").has("stringValue")
+                ? fields.getAsJsonObject("player1Name").get("stringValue").getAsString()
+                : "";
+                
+        String player2UuidStr = fields.has("player2Uuid") && fields.getAsJsonObject("player2Uuid").has("stringValue")
+                ? fields.getAsJsonObject("player2Uuid").get("stringValue").getAsString()
+                : UUID.randomUUID().toString();
+        UUID player2Uuid = UUID.fromString(player2UuidStr);
+        
+        String player2Name = fields.has("player2Name") && fields.getAsJsonObject("player2Name").has("stringValue")
+                ? fields.getAsJsonObject("player2Name").get("stringValue").getAsString()
+                : "";
+                
+        long createdAt = fields.has("createdAt") && fields.getAsJsonObject("createdAt").has("integerValue")
+                ? fields.getAsJsonObject("createdAt").get("integerValue").getAsLong()
+                : System.currentTimeMillis();
+        
+        return new FriendshipDTO(player1Uuid, player1Name, player2Uuid, player2Name, createdAt);
     }
     
     /**
      * 특정 플레이어가 이 친구 관계에 포함되는지 확인
      */
     public boolean containsPlayer(@NotNull UUID playerId) {
-        return player1Id.equals(playerId) || player2Id.equals(playerId);
+        return player1Uuid.equals(playerId) || player2Uuid.equals(playerId);
     }
     
     /**
-     * 특정 플레이어의 친구 정보 가져오기
+     * 특정 플레이어의 친구 UUID 가져오기
      */
-    @NotNull
-    public FriendInfo getFriendInfo(@NotNull UUID playerId) {
-        if (player1Id.equals(playerId)) {
-            return new FriendInfo(player2Id, player2Name);
-        } else if (player2Id.equals(playerId)) {
-            return new FriendInfo(player1Id, player1Name);
-        } else {
-            throw new IllegalArgumentException("Player not found in this friendship");
+    @Nullable
+    public UUID getFriendUuid(@NotNull UUID playerId) {
+        if (player1Uuid.equals(playerId)) {
+            return player2Uuid;
+        } else if (player2Uuid.equals(playerId)) {
+            return player1Uuid;
         }
+        return null;
     }
     
     /**
-     * 친구 정보 내부 클래스
+     * 특정 플레이어의 친구 이름 가져오기
      */
-    public static class FriendInfo {
-        private final UUID playerId;
-        private final String playerName;
-        
-        public FriendInfo(@NotNull UUID playerId, @NotNull String playerName) {
-            this.playerId = playerId;
-            this.playerName = playerName;
+    @Nullable
+    public String getFriendName(@NotNull UUID playerId) {
+        if (player1Uuid.equals(playerId)) {
+            return player2Name;
+        } else if (player2Uuid.equals(playerId)) {
+            return player1Name;
         }
-        
-        public UUID getPlayerId() {
-            return playerId;
-        }
-        
-        public String getPlayerName() {
-            return playerName;
-        }
-    }
-    
-    // Getters and Setters
-    public String getId() {
-        return id;
-    }
-    
-    public void setId(String id) {
-        this.id = id;
-    }
-    
-    public UUID getPlayer1Id() {
-        return player1Id;
-    }
-    
-    public void setPlayer1Id(UUID player1Id) {
-        this.player1Id = player1Id;
-    }
-    
-    public String getPlayer1Name() {
-        return player1Name;
-    }
-    
-    public void setPlayer1Name(String player1Name) {
-        this.player1Name = player1Name;
-    }
-    
-    public UUID getPlayer2Id() {
-        return player2Id;
-    }
-    
-    public void setPlayer2Id(UUID player2Id) {
-        this.player2Id = player2Id;
-    }
-    
-    public String getPlayer2Name() {
-        return player2Name;
-    }
-    
-    public void setPlayer2Name(String player2Name) {
-        this.player2Name = player2Name;
-    }
-    
-    public LocalDateTime getFriendsSince() {
-        return friendsSince;
-    }
-    
-    public void setFriendsSince(LocalDateTime friendsSince) {
-        this.friendsSince = friendsSince;
-    }
-    
-    public boolean isBlocked() {
-        return isBlocked;
-    }
-    
-    public void setBlocked(boolean blocked) {
-        isBlocked = blocked;
-    }
-    
-    public UUID getBlockedBy() {
-        return blockedBy;
-    }
-    
-    public void setBlockedBy(UUID blockedBy) {
-        this.blockedBy = blockedBy;
-    }
-    
-    @Override
-    public String toString() {
-        return String.format("Friendship{%s ↔ %s, since=%s, blocked=%s}", 
-                player1Name, player2Name, friendsSince, isBlocked);
+        return null;
     }
 }

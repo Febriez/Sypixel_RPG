@@ -119,7 +119,7 @@ public class QuestTraitRegistrationItem implements Listener {
             npc.addTrait(RPGQuestTrait.class);
         }
         
-        RPGQuestTrait trait = npc.getTrait(RPGQuestTrait.class);
+        RPGQuestTrait trait = npc.getTraitNullable(RPGQuestTrait.class);
         
         // 이미 NPC ID가 등록되어 있는지 확인
         if (trait.hasNpcId()) {

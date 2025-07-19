@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -216,8 +217,8 @@ public class FriendListGui extends BaseGui {
         // 친구 목록을 이름순으로 정렬
         List<FriendshipDTO> sortedFriends = friends.stream()
                 .sorted((f1, f2) -> {
-                    String name1 = f1.getFriendInfo(viewer.getUniqueId()).getPlayerName();
-                    String name2 = f2.getFriendInfo(viewer.getUniqueId()).getPlayerName();
+                    String name1 = f1.getFriendName(viewer.getUniqueId());
+                    String name2 = f2.getFriendName(viewer.getUniqueId());
                     return name1.compareToIgnoreCase(name2);
                 })
                 .collect(Collectors.toList());
@@ -227,21 +228,22 @@ public class FriendListGui extends BaseGui {
         for (FriendshipDTO friendship : sortedFriends) {
             if (slot > FRIENDS_END_SLOT) break;
 
-            FriendshipDTO.FriendInfo friendInfo = friendship.getFriendInfo(viewer.getUniqueId());
-            boolean isOnline = friendManager.isPlayerOnline(friendInfo.getPlayerId());
+            UUID friendUuid = friendship.getFriendUuid(viewer.getUniqueId());
+            String friendName = friendship.getFriendName(viewer.getUniqueId());
+            boolean isOnline = friendManager.isPlayerOnline(friendUuid);
 
             Material material = isOnline ? Material.LIME_DYE : Material.GRAY_DYE;
             String status = isOnline ? "§a온라인" : "§7오프라인";
 
             GuiItem friendItem = GuiItem.clickable(
                     new ItemBuilder(material)
-                            .displayName(Component.text(friendInfo.getPlayerName(), 
+                            .displayName(Component.text(friendName, 
                                     isOnline ? ColorUtil.SUCCESS : ColorUtil.GRAY)
                                     .decoration(TextDecoration.BOLD, true))
                             .addLore(Component.empty())
                             .addLore(Component.text("상태: " + status, ColorUtil.WHITE))
                             .addLore(Component.text("친구가 된 날: " + 
-                                    friendship.getFriendsSince().toLocalDate().toString(), ColorUtil.GRAY))
+                                    new java.util.Date(friendship.createdAt()).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate().toString(), ColorUtil.GRAY))
                             .addLore(Component.empty())
                             .addLore(Component.text("좌클릭: 귓말 보내기", ColorUtil.YELLOW))
                             .addLore(Component.text("우클릭: 친구 관리", ColorUtil.YELLOW))
@@ -249,7 +251,7 @@ public class FriendListGui extends BaseGui {
                     p -> {
                         // 귓말 보내기 (추후 구현)
                         p.closeInventory();
-                        p.sendMessage("§e채팅에 '/귓말 " + friendInfo.getPlayerName() + " <메시지>'를 입력하세요.");
+                        p.sendMessage("§e채팅에 '/귓말 " + friendName + " <메시지>'를 입력하세요.");
                         playClickSound(p);
                     }
             );

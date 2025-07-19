@@ -1,4 +1,4 @@
-package com.febrie.rpg.island.gui;
+package com.febrie.rpg.gui.impl.island;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
@@ -118,9 +118,9 @@ public class IslandPermissionGui extends BaseGui {
                 .rolePermissions().get(selectedRole.name());
         
         if (rolePerms == null) {
-            // 기본값 생성
+            // 기본값 생성 - 10개의 boolean 파라미터 필요
             rolePerms = new IslandPermissionDTO.RolePermissions(
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             );
         }
         
@@ -249,7 +249,7 @@ public class IslandPermissionGui extends BaseGui {
         IslandPermissionDTO.RolePermissions rolePerms = permissions.get(selectedRole);
         if (rolePerms == null) {
             rolePerms = new IslandPermissionDTO.RolePermissions(
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             );
         }
         
@@ -303,13 +303,13 @@ public class IslandPermissionGui extends BaseGui {
     private boolean getPermissionValue(@NotNull IslandPermissionDTO.RolePermissions perms, @NotNull String permission) {
         return switch (permission) {
             case "BUILD" -> perms.canBuild();
-            case "USE_ITEMS" -> perms.canUseItems();
-            case "OPEN_CONTAINERS" -> perms.canOpenContainers();
-            case "INVITE_MEMBERS" -> perms.canInviteMembers();
-            case "KICK_MEMBERS" -> perms.canKickMembers();
+            case "USE_ITEMS" -> perms.canInteract();
+            case "OPEN_CONTAINERS" -> perms.canInteract();
+            case "INVITE_MEMBERS" -> perms.canInvite();
+            case "KICK_MEMBERS" -> perms.canKick();
             case "MANAGE_WORKERS" -> perms.canManageWorkers();
-            case "MODIFY_SPAWNS" -> perms.canModifySpawns();
-            case "CHANGE_SETTINGS" -> perms.canChangeSettings();
+            case "MODIFY_SPAWNS" -> perms.canSetSpawn();
+            case "CHANGE_SETTINGS" -> perms.canManagePermissions();
             default -> false;
         };
     }
@@ -322,38 +322,43 @@ public class IslandPermissionGui extends BaseGui {
             @NotNull String permission,
             boolean value) {
         
+        // RolePermissions has 10 parameters: canBuild, canBreak, canInteract, canInvite, canKick,
+        // canSetSpawn, canManageWorkers, canManagePermissions, canUpgrade, canReset
         return switch (permission) {
             case "BUILD" -> new IslandPermissionDTO.RolePermissions(
-                value, perms.canUseItems(), perms.canOpenContainers(), perms.canInviteMembers(),
-                perms.canKickMembers(), perms.canManageWorkers(), perms.canModifySpawns(), perms.canChangeSettings()
+                value, perms.canBreak(), perms.canInteract(), perms.canInvite(),
+                perms.canKick(), perms.canSetSpawn(), perms.canManageWorkers(), perms.canManagePermissions(),
+                perms.canUpgrade(), perms.canReset()
             );
-            case "USE_ITEMS" -> new IslandPermissionDTO.RolePermissions(
-                perms.canBuild(), value, perms.canOpenContainers(), perms.canInviteMembers(),
-                perms.canKickMembers(), perms.canManageWorkers(), perms.canModifySpawns(), perms.canChangeSettings()
-            );
-            case "OPEN_CONTAINERS" -> new IslandPermissionDTO.RolePermissions(
-                perms.canBuild(), perms.canUseItems(), value, perms.canInviteMembers(),
-                perms.canKickMembers(), perms.canManageWorkers(), perms.canModifySpawns(), perms.canChangeSettings()
+            case "USE_ITEMS", "OPEN_CONTAINERS" -> new IslandPermissionDTO.RolePermissions(
+                perms.canBuild(), perms.canBreak(), value, perms.canInvite(),
+                perms.canKick(), perms.canSetSpawn(), perms.canManageWorkers(), perms.canManagePermissions(),
+                perms.canUpgrade(), perms.canReset()
             );
             case "INVITE_MEMBERS" -> new IslandPermissionDTO.RolePermissions(
-                perms.canBuild(), perms.canUseItems(), perms.canOpenContainers(), value,
-                perms.canKickMembers(), perms.canManageWorkers(), perms.canModifySpawns(), perms.canChangeSettings()
+                perms.canBuild(), perms.canBreak(), perms.canInteract(), value,
+                perms.canKick(), perms.canSetSpawn(), perms.canManageWorkers(), perms.canManagePermissions(),
+                perms.canUpgrade(), perms.canReset()
             );
             case "KICK_MEMBERS" -> new IslandPermissionDTO.RolePermissions(
-                perms.canBuild(), perms.canUseItems(), perms.canOpenContainers(), perms.canInviteMembers(),
-                value, perms.canManageWorkers(), perms.canModifySpawns(), perms.canChangeSettings()
+                perms.canBuild(), perms.canBreak(), perms.canInteract(), perms.canInvite(),
+                value, perms.canSetSpawn(), perms.canManageWorkers(), perms.canManagePermissions(),
+                perms.canUpgrade(), perms.canReset()
             );
             case "MANAGE_WORKERS" -> new IslandPermissionDTO.RolePermissions(
-                perms.canBuild(), perms.canUseItems(), perms.canOpenContainers(), perms.canInviteMembers(),
-                perms.canKickMembers(), value, perms.canModifySpawns(), perms.canChangeSettings()
+                perms.canBuild(), perms.canBreak(), perms.canInteract(), perms.canInvite(),
+                perms.canKick(), perms.canSetSpawn(), value, perms.canManagePermissions(),
+                perms.canUpgrade(), perms.canReset()
             );
             case "MODIFY_SPAWNS" -> new IslandPermissionDTO.RolePermissions(
-                perms.canBuild(), perms.canUseItems(), perms.canOpenContainers(), perms.canInviteMembers(),
-                perms.canKickMembers(), perms.canManageWorkers(), value, perms.canChangeSettings()
+                perms.canBuild(), perms.canBreak(), perms.canInteract(), perms.canInvite(),
+                perms.canKick(), value, perms.canManageWorkers(), perms.canManagePermissions(),
+                perms.canUpgrade(), perms.canReset()
             );
             case "CHANGE_SETTINGS" -> new IslandPermissionDTO.RolePermissions(
-                perms.canBuild(), perms.canUseItems(), perms.canOpenContainers(), perms.canInviteMembers(),
-                perms.canKickMembers(), perms.canManageWorkers(), perms.canModifySpawns(), value
+                perms.canBuild(), perms.canBreak(), perms.canInteract(), perms.canInvite(),
+                perms.canKick(), perms.canSetSpawn(), perms.canManageWorkers(), value,
+                perms.canUpgrade(), perms.canReset()
             );
             default -> perms;
         };

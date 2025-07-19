@@ -73,16 +73,14 @@ public class SystemFirestoreService {
                 
                 if (!doc.exists()) {
                     // 기본값 반환
-                    return new ServerStatsDTO(0, 0, 0, 0, 0, 0, 0, 
-                            System.currentTimeMillis(), new HashMap<>());
+                    return new ServerStatsDTO();
                 }
                 
                 return fromServerStatsDocument(doc);
                 
             } catch (Exception e) {
                 LogUtil.warning("서버 통계 조회 실패: " + e.getMessage());
-                return new ServerStatsDTO(0, 0, 0, 0, 0, 0, 0, 
-                        System.currentTimeMillis(), new HashMap<>());
+                return new ServerStatsDTO();
             }
         });
     }
@@ -173,7 +171,7 @@ public class SystemFirestoreService {
                                                            @NotNull String playerName,
                                                            long value) {
         LeaderboardEntryDTO entry = new LeaderboardEntryDTO(
-                playerUuid, playerName, value, 0, System.currentTimeMillis()
+                playerUuid, playerName, 0, value, type.getId()
         );
         
         Map<String, Object> data = leaderboardEntryToMap(entry);
@@ -265,21 +263,21 @@ public class SystemFirestoreService {
     
     private Map<String, Object> serverStatsToMap(@NotNull ServerStatsDTO stats) {
         Map<String, Object> map = new HashMap<>();
+        map.put("onlinePlayers", stats.onlinePlayers());
+        map.put("maxPlayers", stats.maxPlayers());
         map.put("totalPlayers", stats.totalPlayers());
-        map.put("totalIslands", stats.totalIslands());
-        map.put("totalQuests", stats.totalQuests());
-        map.put("totalMoney", stats.totalMoney());
+        map.put("uptime", stats.uptime());
+        map.put("tps", stats.tps());
         map.put("totalPlaytime", stats.totalPlaytime());
-        map.put("totalMonstersKilled", stats.totalMonstersKilled());
-        map.put("totalItemsCreated", stats.totalItemsCreated());
+        map.put("version", stats.version());
         map.put("lastUpdated", stats.lastUpdated());
-        map.put("additionalStats", stats.additionalStats());
         return map;
     }
     
     private ServerStatsDTO fromServerStatsDocument(@NotNull DocumentSnapshot doc) {
         try {
             Map<String, Long> additionalStats = new HashMap<>();
+            @SuppressWarnings("unchecked")
             Map<String, Object> additionalData = doc.get("additionalStats", Map.class);
             if (additionalData != null) {
                 additionalData.forEach((key, value) -> {
@@ -289,21 +287,28 @@ public class SystemFirestoreService {
                 });
             }
             
+            Integer onlinePlayers = doc.getLong("onlinePlayers") != null ? doc.getLong("onlinePlayers").intValue() : 0;
+            Integer maxPlayers = doc.getLong("maxPlayers") != null ? doc.getLong("maxPlayers").intValue() : 100;
+            Integer totalPlayers = doc.getLong("totalPlayers") != null ? doc.getLong("totalPlayers").intValue() : 0;
+            Long uptime = doc.getLong("uptime") != null ? doc.getLong("uptime") : 0L;
+            Double tps = doc.getDouble("tps") != null ? doc.getDouble("tps") : 20.0;
+            Long totalPlaytime = doc.getLong("totalPlaytime") != null ? doc.getLong("totalPlaytime") : 0L;
+            String version = doc.getString("version") != null ? doc.getString("version") : "1.21.7";
+            Long lastUpdated = doc.getLong("lastUpdated") != null ? doc.getLong("lastUpdated") : System.currentTimeMillis();
+            
             return new ServerStatsDTO(
-                    doc.getLong("totalPlayers").intValue(),
-                    doc.getLong("totalIslands").intValue(),
-                    doc.getLong("totalQuests").intValue(),
-                    doc.getLong("totalMoney"),
-                    doc.getLong("totalPlaytime"),
-                    doc.getLong("totalMonstersKilled"),
-                    doc.getLong("totalItemsCreated"),
-                    doc.getLong("lastUpdated"),
-                    additionalStats
+                    onlinePlayers,
+                    maxPlayers,
+                    totalPlayers,
+                    uptime,
+                    tps,
+                    totalPlaytime,
+                    version,
+                    lastUpdated
             );
         } catch (Exception e) {
             LogUtil.warning("ServerStatsDTO 파싱 실패: " + e.getMessage());
-            return new ServerStatsDTO(0, 0, 0, 0, 0, 0, 0, 
-                    System.currentTimeMillis(), new HashMap<>());
+            return new ServerStatsDTO();
         }
     }
     
@@ -311,7 +316,9 @@ public class SystemFirestoreService {
         Map<String, Object> map = new HashMap<>();
         map.put("playerUuid", entry.playerUuid());
         map.put("playerName", entry.playerName());
+        map.put("rank", entry.rank());
         map.put("value", entry.value());
+        map.put("type", entry.type());
         map.put("lastUpdated", entry.lastUpdated());
         return map;
     }
@@ -321,8 +328,9 @@ public class SystemFirestoreService {
             return new LeaderboardEntryDTO(
                     doc.getString("playerUuid"),
                     doc.getString("playerName"),
-                    doc.getLong("value"),
                     rank,
+                    doc.getLong("value"),
+                    doc.getString("type"),
                     doc.getLong("lastUpdated")
             );
         } catch (Exception e) {

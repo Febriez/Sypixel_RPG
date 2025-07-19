@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 섬 스폰 관련 정보 DTO (Record)
@@ -141,62 +140,4 @@ public record IslandSpawnDTO(
         return new IslandSpawnDTO(defaultSpawn, ownerSpawns, memberSpawns);
     }
     
-    /**
-     * Map으로 변환 (Firebase 저장용)
-     */
-    @Deprecated
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("defaultSpawn", defaultSpawn.toMap());
-        map.put("ownerSpawns", ownerSpawns.stream()
-                .map(IslandSpawnPointDTO::toMap)
-                .collect(Collectors.toList()));
-        
-        Map<String, Map<String, Object>> memberSpawnMaps = new HashMap<>();
-        memberSpawns.forEach((uuid, spawn) -> memberSpawnMaps.put(uuid, spawn.toMap()));
-        map.put("memberSpawns", memberSpawnMaps);
-        
-        return map;
-    }
-    
-    /**
-     * Map에서 생성
-     */
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    public static IslandSpawnDTO fromMap(Map<String, Object> map) {
-        if (map == null) return createDefault();
-        
-        IslandSpawnPointDTO defaultSpawn = IslandSpawnPointDTO.fromMap(
-                (Map<String, Object>) map.get("defaultSpawn")
-        );
-        if (defaultSpawn == null) {
-            defaultSpawn = IslandSpawnPointDTO.createDefault();
-        }
-        
-        List<IslandSpawnPointDTO> ownerSpawns = new ArrayList<>();
-        if (map.containsKey("ownerSpawns")) {
-            List<Map<String, Object>> ownerSpawnsList = (List<Map<String, Object>>) map.get("ownerSpawns");
-            for (Map<String, Object> spawnMap : ownerSpawnsList) {
-                IslandSpawnPointDTO spawn = IslandSpawnPointDTO.fromMap(spawnMap);
-                if (spawn != null) {
-                    ownerSpawns.add(spawn);
-                }
-            }
-        }
-        
-        Map<String, IslandSpawnPointDTO> memberSpawns = new HashMap<>();
-        if (map.containsKey("memberSpawns")) {
-            Map<String, Map<String, Object>> memberSpawnMaps = 
-                    (Map<String, Map<String, Object>>) map.get("memberSpawns");
-            memberSpawnMaps.forEach((uuid, spawnMap) -> {
-                IslandSpawnPointDTO spawn = IslandSpawnPointDTO.fromMap(spawnMap);
-                if (spawn != null) {
-                    memberSpawns.put(uuid, spawn);
-                }
-            });
-        }
-        
-        return new IslandSpawnDTO(defaultSpawn, ownerSpawns, memberSpawns);
-    }
 }

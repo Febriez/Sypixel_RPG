@@ -2,6 +2,7 @@ package com.febrie.rpg.island.listener;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
+import com.febrie.rpg.island.Island;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.ColorUtil;
@@ -17,6 +18,7 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.player.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import net.kyori.adventure.text.Component;
 
 /**
  * 섬 보호 리스너
@@ -156,14 +158,14 @@ public class IslandProtectionListener implements Listener {
         }
         
         // 해당 위치의 섬 찾기
-        IslandDTO island = islandManager.getIslandAt(location);
+        Island island = islandManager.getIslandAt(location);
         if (island == null) {
             // 섬이 없는 지역은 보호
             return false;
         }
         
         // 권한 확인
-        return IslandPermissionHandler.hasPermission(island, player, permission);
+        return IslandPermissionHandler.hasPermission(island.getData(), player, permission);
     }
     
     /**
@@ -232,18 +234,21 @@ public class IslandProtectionListener implements Listener {
             return;
         }
         
-        IslandDTO fromIsland = islandManager.getIslandAt(from);
-        IslandDTO toIsland = islandManager.getIslandAt(to);
+        Island fromIsland = islandManager.getIslandAt(from);
+        Island toIsland = islandManager.getIslandAt(to);
         
         // 다른 섬으로 이동했을 때
-        if (fromIsland != toIsland) {
-            if (toIsland != null) {
-                // 새로운 섬에 입장
-                handleIslandEntry(player, toIsland);
-            } else if (fromIsland != null) {
-                // 섬에서 나감
-                handleIslandExit(player, fromIsland);
-            }
+        if ((fromIsland == null && toIsland == null) ||
+            (fromIsland != null && toIsland != null && fromIsland.getId().equals(toIsland.getId()))) {
+            return;
+        }
+        
+        if (toIsland != null && (fromIsland == null || !fromIsland.getId().equals(toIsland.getId()))) {
+            // 새로운 섬에 입장
+            handleIslandEntry(player, toIsland.getData());
+        } else if (fromIsland != null && toIsland == null) {
+            // 섬에서 나감
+            handleIslandExit(player, fromIsland.getData());
         }
     }
     
@@ -255,12 +260,14 @@ public class IslandProtectionListener implements Listener {
         
         // 자기 섬이면 환영 메시지
         if (island.ownerUuid().equals(playerUuid)) {
-            player.sendActionBar(ColorUtil.colorize("&a당신의 섬에 오신 것을 환영합니다!"));
+            player.sendActionBar(Component.text("당신의 섬에 오신 것을 환영합니다!", ColorUtil.GREEN));
         } else if (IslandPermissionHandler.isMember(island, player)) {
-            player.sendActionBar(ColorUtil.colorize("&b" + island.islandName() + " &f섬에 오신 것을 환영합니다!"));
+            player.sendActionBar(Component.text(island.islandName(), ColorUtil.AQUA)
+                    .append(Component.text(" 섬에 오신 것을 환영합니다!", ColorUtil.WHITE)));
         } else {
             // 방문자
-            player.sendActionBar(ColorUtil.colorize("&e" + island.islandName() + " &f섬을 방문중입니다."));
+            player.sendActionBar(Component.text(island.islandName(), ColorUtil.YELLOW)
+                    .append(Component.text(" 섬을 방문중입니다.", ColorUtil.WHITE)));
             
             // 비공개 섬이면 경고
             if (!island.isPublic()) {

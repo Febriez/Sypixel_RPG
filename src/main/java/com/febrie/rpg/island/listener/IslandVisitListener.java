@@ -3,6 +3,7 @@ package com.febrie.rpg.island.listener;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.dto.island.IslandVisitDTO;
+import com.febrie.rpg.island.Island;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.LogUtil;
@@ -90,12 +91,12 @@ public class IslandVisitListener implements Listener {
         }
         
         // 현재 위치의 섬 찾기
-        IslandDTO fromIsland = islandManager.getIslandAt(from);
-        IslandDTO toIsland = islandManager.getIslandAt(to);
+        Island fromIsland = islandManager.getIslandAt(from);
+        Island toIsland = islandManager.getIslandAt(to);
         
         // 같은 섬이면 무시
         if ((fromIsland == null && toIsland == null) ||
-            (fromIsland != null && toIsland != null && fromIsland.islandId().equals(toIsland.islandId()))) {
+            (fromIsland != null && toIsland != null && fromIsland.getId().equals(toIsland.getId()))) {
             return;
         }
         
@@ -112,17 +113,17 @@ public class IslandVisitListener implements Listener {
         // 새 섬에 들어간 경우
         if (toIsland != null) {
             // 본인의 섬이면 방문 기록하지 않음
-            if (toIsland.ownerUuid().equals(playerUuid) ||
-                toIsland.members().stream().anyMatch(m -> m.uuid().equals(playerUuid))) {
+            if (toIsland.getOwnerUuid().equals(playerUuid) ||
+                toIsland.getData().members().stream().anyMatch(m -> m.uuid().equals(playerUuid))) {
                 return;
             }
             
             // 방문 시작
-            currentVisits.put(playerUuid, new VisitInfo(toIsland.islandId(), System.currentTimeMillis()));
+            currentVisits.put(playerUuid, new VisitInfo(toIsland.getId(), System.currentTimeMillis()));
             
             // 환영 메시지 (공개 섬인 경우)
             if (toIsland.isPublic()) {
-                player.sendMessage(ColorUtil.colorize("&a" + toIsland.islandName() + " 섬에 방문하셨습니다!"));
+                player.sendMessage(ColorUtil.colorize("&a" + toIsland.getName() + " 섬에 방문하셨습니다!"));
             }
         }
     }
@@ -150,7 +151,8 @@ public class IslandVisitListener implements Listener {
             );
             
             // 최근 방문 목록 업데이트 (최대 100개 유지)
-            List<IslandVisitDTO> recentVisits = new ArrayList<>(island.recentVisits());
+            IslandDTO islandData = island.getData();
+            List<IslandVisitDTO> recentVisits = new ArrayList<>(islandData.recentVisits());
             recentVisits.add(0, visitRecord); // 최신 방문을 앞에 추가
             
             if (recentVisits.size() > 100) {
@@ -159,29 +161,29 @@ public class IslandVisitListener implements Listener {
             
             // 섬 데이터 업데이트
             IslandDTO updatedIsland = new IslandDTO(
-                    island.islandId(),
-                    island.ownerUuid(),
-                    island.ownerName(),
-                    island.islandName(),
-                    island.size(),
-                    island.isPublic(),
-                    island.createdAt(),
-                    island.lastActivity(),
-                    island.members(),
-                    island.workers(),
-                    island.contributions(),
-                    island.spawnData(),
-                    island.upgradeData(),
-                    island.permissions(),
-                    island.pendingInvites(),
+                    islandData.islandId(),
+                    islandData.ownerUuid(),
+                    islandData.ownerName(),
+                    islandData.islandName(),
+                    islandData.size(),
+                    islandData.isPublic(),
+                    islandData.createdAt(),
+                    islandData.lastActivity(),
+                    islandData.members(),
+                    islandData.workers(),
+                    islandData.contributions(),
+                    islandData.spawnData(),
+                    islandData.upgradeData(),
+                    islandData.permissions(),
+                    islandData.pendingInvites(),
                     recentVisits,
-                    island.totalResets(),
-                    island.deletionScheduledAt()
+                    islandData.totalResets(),
+                    islandData.deletionScheduledAt()
             );
             
             islandManager.updateIsland(updatedIsland).thenAccept(success -> {
                 if (success) {
-                    LogUtil.info("방문 기록 저장: " + playerUuid + " -> " + island.islandName() + 
+                    LogUtil.info("방문 기록 저장: " + playerUuid + " -> " + island.getName() + 
                             " (" + (duration / 1000) + "초)");
                 }
             });

@@ -16,6 +16,9 @@ import com.febrie.rpg.quest.registry.QuestRegistry;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
+import com.febrie.rpg.island.manager.IslandManager;
+import com.febrie.rpg.dto.island.IslandDTO;
+import com.febrie.rpg.dto.island.IslandLocationDTO;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
@@ -23,6 +26,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -51,6 +55,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     private final GuiManager guiManager;
     private final LangManager langManager;
     private final QuestManager questManager;
+    private final IslandManager islandManager;
 
     public AdminCommands(@NotNull RPGMain plugin, @NotNull RPGPlayerManager playerManager,
                          @NotNull GuiManager guiManager, @NotNull LangManager langManager) {
@@ -59,6 +64,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         this.guiManager = guiManager;
         this.langManager = langManager;
         this.questManager = QuestManager.getInstance();
+        this.islandManager = plugin.getIslandManager();
     }
 
     @Override
@@ -86,6 +92,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             case "job" -> handleJobCommand(sender, args);
             case "npc" -> handleNpcCommand(sender, args);
             case "quest" -> handleQuestCommand(sender, args);
+            case "island" -> handleIslandCommand(sender, args);
             default -> {
                 showUsage(sender);
                 yield true;
@@ -107,6 +114,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         sender.sendMessage(Component.text("/rpgadmin npc set <퀘스트ID> - NPC에 퀘스트 설정", ColorUtil.YELLOW));
         sender.sendMessage(Component.text("/rpgadmin npc setcode <npcID> [이름] - NPC Trait 등록 막대기 지급", ColorUtil.YELLOW));
         sender.sendMessage(Component.text("/rpgadmin quest <give|list|reload> - 퀘스트 관리", ColorUtil.YELLOW));
+        sender.sendMessage(Component.text("/rpgadmin island <info|delete|reset|tp> <플레이어> - 섬 관리", ColorUtil.YELLOW));
     }
 
     /**
@@ -375,7 +383,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                     
                     // RPGQuestTrait 확인
                     if (npc.hasTrait(RPGQuestTrait.class)) {
-                        RPGQuestTrait trait = npc.getTrait(RPGQuestTrait.class);
+                        RPGQuestTrait trait = npc.getTraitNullable(RPGQuestTrait.class);
                         if (trait.hasNpcId()) {
                             npcInfo = npcInfo.append(Component.text(" - ID: " + trait.getNpcId(), ColorUtil.AQUA));
                         }
@@ -476,6 +484,142 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         return true;
     }
 
+    /**
+     * 섬 관리 명령어 처리
+     */
+    private boolean handleIslandCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+        if (args.length < 2) {
+            sender.sendMessage(Component.text("사용법:", ColorUtil.ERROR));
+            sender.sendMessage(Component.text("  /rpgadmin island info <플레이어> - 플레이어의 섬 정보 확인", ColorUtil.YELLOW));
+            sender.sendMessage(Component.text("  /rpgadmin island delete <플레이어> - 플레이어의 섬 강제 삭제", ColorUtil.YELLOW));
+            sender.sendMessage(Component.text("  /rpgadmin island reset <플레이어> - 플레이어의 섬 강제 초기화", ColorUtil.YELLOW));
+            sender.sendMessage(Component.text("  /rpgadmin island tp <플레이어> - 플레이어의 섬으로 이동", ColorUtil.YELLOW));
+            return true;
+        }
+
+        String subCmd = args[1].toLowerCase();
+        if (args.length < 3) {
+            sender.sendMessage(Component.text("플레이어 이름을 입력해주세요.", ColorUtil.ERROR));
+            return true;
+        }
+
+        String targetName = args[2];
+        Player target = Bukkit.getPlayer(targetName);
+        
+        if (target == null) {
+            sender.sendMessage(Component.text("플레이어를 찾을 수 없습니다.", ColorUtil.ERROR));
+            return true;
+        }
+
+        String targetUuid = target.getUniqueId().toString();
+
+        switch (subCmd) {
+            case "info" -> {
+                islandManager.getPlayerIsland(targetUuid, targetName).thenAccept(island -> {
+                    if (island == null) {
+                        sender.sendMessage(Component.text(targetName + "은(는) 섬을 소유하고 있지 않습니다.", ColorUtil.ERROR));
+                        return;
+                    }
+
+                    sender.sendMessage(Component.text("=== " + targetName + "의 섬 정보 ===", ColorUtil.GOLD));
+                    sender.sendMessage(Component.text("섬 ID: " + island.getId(), ColorUtil.WHITE));
+                    sender.sendMessage(Component.text("섬 이름: " + island.getName(), ColorUtil.WHITE));
+                    sender.sendMessage(Component.text("섬장: " + island.getOwnerName(), ColorUtil.WHITE));
+                    sender.sendMessage(Component.text("크기: " + island.getSize() + " x " + island.getSize(), ColorUtil.WHITE));
+                    sender.sendMessage(Component.text("멤버 수: " + (island.getData().members().size() + 1) + "/" + (island.getData().upgradeData().memberLimit() + 1), ColorUtil.WHITE));
+                    sender.sendMessage(Component.text("생성일: " + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(island.getData().createdAt())), ColorUtil.GRAY));
+                    sender.sendMessage(Component.text("총 초기화 횟수: " + island.getData().totalResets(), ColorUtil.GRAY));
+                });
+            }
+            
+            case "delete" -> {
+                islandManager.getPlayerIsland(targetUuid, targetName).thenAccept(island -> {
+                    if (island == null) {
+                        sender.sendMessage(Component.text(targetName + "은(는) 섬을 소유하고 있지 않습니다.", ColorUtil.ERROR));
+                        return;
+                    }
+
+                    sender.sendMessage(Component.text("섬을 삭제하는 중...", ColorUtil.YELLOW));
+                    
+                    islandManager.deleteIsland(island.getId()).thenAccept(success -> {
+                        if (success) {
+                            sender.sendMessage(Component.text(targetName + "의 섬이 성공적으로 삭제되었습니다.", ColorUtil.SUCCESS));
+                            
+                            // 섬장이 온라인인 경우 스폰으로 이동
+                            if (target.isOnline()) {
+                                plugin.getServer().getScheduler().runTask(plugin, () -> {
+                                    if (!plugin.getServer().getWorlds().isEmpty()) {
+                                        target.teleport(plugin.getServer().getWorlds().get(0).getSpawnLocation());
+                                        target.sendMessage(Component.text("관리자에 의해 섬이 삭제되었습니다.", ColorUtil.ERROR));
+                                    }
+                                });
+                            }
+                        } else {
+                            sender.sendMessage(Component.text("섬 삭제에 실패했습니다.", ColorUtil.ERROR));
+                        }
+                    });
+                });
+            }
+            
+            case "reset" -> {
+                islandManager.getPlayerIsland(targetUuid, targetName).thenAccept(island -> {
+                    if (island == null) {
+                        sender.sendMessage(Component.text(targetName + "은(는) 섬을 소유하고 있지 않습니다.", ColorUtil.ERROR));
+                        return;
+                    }
+
+                    sender.sendMessage(Component.text("섬을 초기화하는 중...", ColorUtil.YELLOW));
+                    
+                    islandManager.resetIsland(island.getId()).thenAccept(success -> {
+                        if (success) {
+                            sender.sendMessage(Component.text(targetName + "의 섬이 성공적으로 초기화되었습니다.", ColorUtil.SUCCESS));
+                            
+                            // 섬장이 온라인인 경우 알림
+                            if (target.isOnline()) {
+                                target.sendMessage(Component.text("관리자에 의해 섬이 초기화되었습니다.", ColorUtil.WARNING));
+                            }
+                        } else {
+                            sender.sendMessage(Component.text("섬 초기화에 실패했습니다.", ColorUtil.ERROR));
+                        }
+                    });
+                });
+            }
+            
+            case "tp" -> {
+                if (!(sender instanceof Player admin)) {
+                    sender.sendMessage(Component.text("이 명령어는 플레이어만 사용할 수 있습니다.", ColorUtil.ERROR));
+                    return true;
+                }
+                
+                islandManager.getPlayerIsland(targetUuid, targetName).thenAccept(island -> {
+                    if (island == null) {
+                        sender.sendMessage(Component.text(targetName + "은(는) 섬을 소유하고 있지 않습니다.", ColorUtil.ERROR));
+                        return;
+                    }
+
+                    plugin.getServer().getScheduler().runTask(plugin, () -> {
+                        World islandWorld = islandManager.getWorldManager().getIslandWorld();
+                        if (islandWorld == null) {
+                            sender.sendMessage(Component.text("섬 월드를 찾을 수 없습니다.", ColorUtil.ERROR));
+                            return;
+                        }
+                        
+                        Location tpLocation = island.getSpawnLocation();
+                        admin.teleport(tpLocation);
+                        admin.sendMessage(Component.text(targetName + "의 섬으로 이동했습니다.", ColorUtil.SUCCESS));
+                    });
+                });
+            }
+            
+            default -> {
+                sender.sendMessage(Component.text("알 수 없는 하위 명령어입니다.", ColorUtil.ERROR));
+                return true;
+            }
+        }
+
+        return true;
+    }
+
 
     @Override
     @Nullable
@@ -486,7 +630,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         }
 
         if (args.length == 1) {
-            return Arrays.asList("stats", "reload", "viewprofile", "exp", "level", "job", "npc", "quest")
+            return Arrays.asList("stats", "reload", "viewprofile", "exp", "level", "job", "npc", "quest", "island")
                     .stream()
                     .filter(s -> s.startsWith(args[0].toLowerCase()))
                     .collect(Collectors.toList());
@@ -515,6 +659,9 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                 case "quest" -> {
                     return Arrays.asList("give", "list", "reload");
                 }
+                case "island" -> {
+                    return Arrays.asList("info", "delete", "reset", "tp");
+                }
             }
         }
 
@@ -535,6 +682,15 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                 }
                 case "quest" -> {
                     if (args[1].equalsIgnoreCase("give")) {
+                        return Bukkit.getOnlinePlayers().stream()
+                                .map(Player::getName)
+                                .filter(name -> name.toLowerCase().startsWith(args[2].toLowerCase()))
+                                .collect(Collectors.toList());
+                    }
+                }
+                case "island" -> {
+                    if (args[1].equalsIgnoreCase("info") || args[1].equalsIgnoreCase("delete") || 
+                        args[1].equalsIgnoreCase("reset") || args[1].equalsIgnoreCase("tp")) {
                         return Bukkit.getOnlinePlayers().stream()
                                 .map(Player::getName)
                                 .filter(name -> name.toLowerCase().startsWith(args[2].toLowerCase()))

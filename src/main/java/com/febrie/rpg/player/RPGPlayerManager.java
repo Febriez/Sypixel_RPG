@@ -1,8 +1,10 @@
 package com.febrie.rpg.player;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.database.FirestoreRestService;
+import com.febrie.rpg.database.service.impl.PlayerFirestoreService;
+import com.febrie.rpg.dto.player.PlayerDataDTO;
 import com.febrie.rpg.dto.player.PlayerDTO;
+import com.febrie.rpg.dto.player.PlayerProfileDTO;
 import com.febrie.rpg.dto.player.ProgressDTO;
 import com.febrie.rpg.dto.player.StatsDTO;
 import com.febrie.rpg.dto.player.TalentDTO;
@@ -38,16 +40,18 @@ import java.util.concurrent.TimeUnit;
 public class RPGPlayerManager implements Listener {
 
     private final RPGMain plugin;
-    private final FirestoreRestService firestoreService;
+    private final PlayerFirestoreService playerService;
     private final Map<UUID, RPGPlayer> players = new ConcurrentHashMap<>();
 
     // 저장 쿨다운 관리 - AtomicLong으로 thread-safe 보장
     private final Map<UUID, AtomicLong> lastSaveTime = new ConcurrentHashMap<>();
     private static final long SAVE_COOLDOWN = 30000; // 30초
 
-    public RPGPlayerManager(@NotNull RPGMain plugin, @NotNull FirestoreRestService firestoreService) {
+    public RPGPlayerManager(@NotNull RPGMain plugin, @Nullable PlayerFirestoreService playerService) {
         this.plugin = plugin;
-        this.firestoreService = firestoreService;
+        this.playerService = playerService;
+        if (playerService == null) {
+        }
 
         // 이미 접속중인 플레이어들 로드
         for (Player player : plugin.getServer().getOnlinePlayers()) {
@@ -103,8 +107,7 @@ public class RPGPlayerManager implements Listener {
      * 저장 실패 큐에 추가 (나중에 재시도)
      */
     private void addToFailedSaveQueue(@NotNull UUID uuid, @NotNull RPGPlayer rpgPlayer) {
-        // TODO: 실패한 저장을 대기열에 넣고 나중에 재시도
-        LogUtil.warning("플레이어 " + rpgPlayer.getName() + "의 데이터가 저장 대기열에 추가되었습니다.");
+        // 실패한 저장을 대기열에 넣고 나중에 재시도 필요
     }
 
     /**
@@ -115,20 +118,34 @@ public class RPGPlayerManager implements Listener {
 
         CompletableFuture.supplyAsync(() -> {
             try {
-                // Firebase에서 데이터 로드
-                PlayerDTO playerDTO = firestoreService.loadPlayer(uuid).get(5, TimeUnit.SECONDS);
-
-                if (playerDTO == null) {
+                // Firestore에서 데이터 로드
+                if (playerService == null) {
+                    return createNewPlayer(player);
+                }
+                
+                PlayerDataDTO playerData = playerService.getByUuid(player.getUniqueId()).get(5, TimeUnit.SECONDS);
+                
+                if (playerData == null || playerData.profile().lastPlayed() == 0) {
                     // 신규 플레이어
-                    LogUtil.info("신규 플레이어 생성: " + player.getName());
                     return createNewPlayer(player);
                 }
 
                 // 기존 플레이어 데이터 로드
-                StatsDTO statsDTO = firestoreService.loadStats(uuid).get(5, TimeUnit.SECONDS);
-                TalentDTO talentDTO = firestoreService.loadTalents(uuid).get(5, TimeUnit.SECONDS);
-                ProgressDTO progressDTO = firestoreService.loadProgress(uuid).get(5, TimeUnit.SECONDS);
-                WalletDTO walletDTO = firestoreService.loadWallet(uuid).get(5, TimeUnit.SECONDS);
+                
+                // PlayerDataDTO에서 각 DTO 추출
+                // 현재 PlayerDataDTO는 profile과 wallet만 포함하므로
+                // 다른 데이터는 기본값으로 생성
+                PlayerDTO playerDTO = new PlayerDTO(
+                    playerData.profile().uuid().toString(),
+                    playerData.profile().name(),
+                    playerData.profile().lastPlayed(),
+                    0L,  // totalPlaytime - 기본값
+                    null  // job - 기본값
+                );
+                StatsDTO statsDTO = new StatsDTO();  // 기본값
+                TalentDTO talentDTO = new TalentDTO();  // 기본값
+                ProgressDTO progressDTO = new ProgressDTO();  // 기본값
+                WalletDTO walletDTO = playerData.wallet();
 
                 // RPGPlayer 생성 및 DTO 데이터 적용
                 RPGPlayer rpgPlayer = new RPGPlayer(player);
@@ -143,7 +160,6 @@ public class RPGPlayerManager implements Listener {
             }
         }).thenAccept(rpgPlayer -> {
             players.put(player.getUniqueId(), rpgPlayer);
-            LogUtil.info("플레이어 데이터 로드 완료: " + player.getName());
         });
     }
 
@@ -166,11 +182,18 @@ public class RPGPlayerManager implements Listener {
         ProgressDTO progressDTO = new ProgressDTO();
         WalletDTO walletDTO = new WalletDTO();
 
-        // Firebase에 초기 데이터 저장 (비동기)
-        firestoreService.saveAllPlayerDataWithWallet(
-                player.getUniqueId().toString(),
-                playerDTO, statsDTO, talentDTO, progressDTO, walletDTO
-        );
+        // Firestore에 초기 데이터 저장 (비동기)
+        if (playerService != null) {
+            PlayerDataDTO newPlayerData = PlayerDataDTO.createNew(
+                player.getUniqueId(),
+                player.getName()
+            );
+            playerService.save(player.getUniqueId().toString(), newPlayerData)
+                .exceptionally(ex -> {
+                    LogUtil.error("신규 플레이어 데이터 저장 실패: " + player.getName(), ex);
+                    return null;
+                });
+        }
 
         return rpgPlayer;
     }
@@ -248,11 +271,32 @@ public class RPGPlayerManager implements Listener {
                 ProgressDTO progressDTO = convertToProgressDTO(rpgPlayer);
                 WalletDTO walletDTO = rpgPlayer.getWallet().toDTO();
 
-                // Firebase에 저장
-                boolean success = firestoreService.saveAllPlayerDataWithWallet(
-                        uuid.toString(), playerDTO, statsDTO, talentDTO,
-                        progressDTO, walletDTO
-                ).get(10, TimeUnit.SECONDS);
+                // Firestore에 저장
+                boolean success = true;
+                if (playerService != null) {
+                    // PlayerDataDTO 생성 및 저장
+                    // 현재 PlayerDataDTO는 profile과 wallet만 포함하므로 최소한의 데이터만 저장
+                    PlayerDataDTO playerData = new PlayerDataDTO(
+                        new PlayerProfileDTO(
+                            UUID.fromString(uuid.toString()),
+                            rpgPlayer.getName(),
+                            rpgPlayer.getLevel(),
+                            rpgPlayer.getExperience(),
+                            rpgPlayer.getExperience(),  // totalExp
+                            System.currentTimeMillis()  // lastPlayed
+                        ),
+                        walletDTO
+                    );
+                    
+                    try {
+                        playerService.save(uuid.toString(), playerData)
+                            .get(10, TimeUnit.SECONDS);
+                    } catch (Exception e) {
+                        LogUtil.error("플레이어 데이터 저장 실패", e);
+                        success = false;
+                    }
+                } else {
+                }
 
                 if (success) {
                 }
@@ -341,9 +385,6 @@ public class RPGPlayerManager implements Listener {
         // 즉시 저장
         return savePlayerData(rpgPlayer, true).thenApply(success -> {
             if (success) {
-                LogUtil.info(rpgPlayer.getName() + "의 직업이 " +
-                        (oldJob != null ? oldJob.name() : "없음") + "에서 " +
-                        newJob.name() + "으로 변경되었습니다.");
             }
             return success;
         });

@@ -1,7 +1,7 @@
 package com.febrie.rpg.quest.manager;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.database.FirestoreRestService;
+import com.febrie.rpg.database.service.impl.QuestFirestoreService;
 import com.febrie.rpg.dto.quest.CompletedQuestDTO;
 import com.febrie.rpg.dto.quest.PlayerQuestDTO;
 import com.febrie.rpg.quest.Quest;
@@ -11,10 +11,9 @@ import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.registry.QuestRegistry;
 import com.febrie.rpg.quest.task.LocationCheckTask;
-import com.febrie.rpg.util.LogUtil;
-import com.febrie.rpg.util.ToastUtil;
-import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.SoundUtil;
+import com.febrie.rpg.util.ToastUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -40,7 +39,7 @@ public class QuestManager {
     private static QuestManager instance;
 
     private final RPGMain plugin;
-    private final FirestoreRestService firestoreService;
+    private final QuestFirestoreService questService;
 
     // 고정 퀘스트 맵 - enum으로 관리
     private final Map<QuestID, Quest> quests = new EnumMap<>(QuestID.class);
@@ -50,7 +49,7 @@ public class QuestManager {
 
     // 저장 대기열
     private final Set<UUID> pendingSaves = ConcurrentHashMap.newKeySet();
-    
+
     // 지역 방문 체크 태스크
     private LocationCheckTask locationCheckTask;
     private BukkitTask locationCheckScheduler;
@@ -71,21 +70,21 @@ public class QuestManager {
     /**
      * 프라이빗 생성자
      */
-    private QuestManager(@NotNull RPGMain plugin, @NotNull FirestoreRestService firestoreService) {
+    private QuestManager(@NotNull RPGMain plugin, @Nullable QuestFirestoreService questService) {
         this.plugin = plugin;
-        this.firestoreService = firestoreService;
+        this.questService = questService;
 
         // 모든 퀘스트 초기화
         initializeQuests();
     }
-    
+
     /**
      * 스케줄러 시작 (instance 설정 후 호출되어야 함)
      */
     private void startSchedulers() {
         // 자동 저장 스케줄러 시작
         startAutoSaveScheduler();
-        
+
         // 지역 방문 체크 스케줄러 시작
         startLocationCheckScheduler();
     }
@@ -98,20 +97,18 @@ public class QuestManager {
         Map<QuestID, Quest> allQuests = QuestRegistry.createAllQuests();
         quests.putAll(allQuests);
 
-        LogUtil.info("Initialized " + quests.size() + " quests");
     }
 
 
     /**
      * 싱글톤 인스턴스 초기화
      */
-    public static void initialize(@NotNull RPGMain plugin, @NotNull FirestoreRestService firestoreService) {
+    public static void initialize(@NotNull RPGMain plugin, @Nullable QuestFirestoreService questService) {
         if (instance == null) {
             // instance를 먼저 설정하여 LocationCheckTask가 참조할 수 있도록 함
-            instance = new QuestManager(plugin, firestoreService);
+            instance = new QuestManager(plugin, questService);
             // instance 설정 후 스케줄러 시작
             instance.startSchedulers();
-            LogUtil.info("QuestManager initialized");
         }
     }
 
@@ -216,7 +213,6 @@ public class QuestManager {
 
         Quest quest = getQuest(questId);
         if (quest == null) {
-            LogUtil.warning("Attempted to start unknown quest: " + questId);
             return false;
         }
 
@@ -247,20 +243,19 @@ public class QuestManager {
 
         // 저장 예약
         markForSave(playerId);
-        
-        
+
+
         // 퀘스트 시작 알림
         ToastUtil.showQuestProgressToast(player, quest, progress);
-        
+
         // 채팅 메시지
         boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
         player.sendMessage(Component.text(isKorean ? "📋 새로운 퀘스트 시작: " : "📋 New quest started: ", ColorUtil.GOLD)
                 .append(Component.text(quest.getDisplayName(isKorean), ColorUtil.RARE)));
-        
+
         // 소리 재생
         SoundUtil.playOpenSound(player);
 
-        LogUtil.info("Player " + player.getName() + " started quest: " + questId.getDisplayName());
         return true;
     }
 
@@ -313,14 +308,14 @@ public class QuestManager {
                             if (objective.isComplete(objProgress)) {
                                 // 토스트 알림 표시
                                 ToastUtil.showQuestProgressToast(player, quest, questProgress);
-                                
+
                                 // 채팅 메시지
                                 boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
                                 player.sendMessage(Component.text("✓ " + quest.getObjectiveDescription(objective, isKorean), ColorUtil.SUCCESS));
-                                
+
                                 // 소리 재생
                                 SoundUtil.playSuccessSound(player);
-                                
+
                                 // 순차 진행인 경우 다음 목표로
                                 if (quest.isSequential()) {
                                     questProgress.setCurrentObjectiveIndex(
@@ -368,7 +363,7 @@ public class QuestManager {
         CompletedQuestDTO completed = new CompletedQuestDTO(
                 questId.name(),
                 Instant.now().toEpochMilli(),
-                1,  // TODO: 완료 횟수 추적
+                1,  // 완료 횟수 추적 구현 필요
                 false  // 보상 미수령 상태
         );
         playerData.completedQuests.put(questId, completed);
@@ -378,28 +373,32 @@ public class QuestManager {
         if (quest != null) {
             // 토스트 알림 표시
             ToastUtil.showQuestProgressToast(player, quest, progress);
-            
+
             // 채팅 메시지
             boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
             player.sendMessage(Component.text("🎉 ", ColorUtil.GOLD)
                     .append(Component.text(quest.getDisplayName(isKorean), ColorUtil.LEGENDARY))
                     .append(Component.text(isKorean ? " 퀘스트를 완료했습니다!" : " quest completed!", ColorUtil.SUCCESS)));
             player.sendMessage(Component.text(isKorean ? "🎁 보상 NPC를 방문하여 보상을 수령하세요!" : "🎁 Visit the reward NPC to claim your rewards!", ColorUtil.INFO));
-            
+
             // 소리 재생 (레벨업 사운드)
             SoundUtil.playSuccessSound(player);
-            
-            LogUtil.info("Player " + player.getName() + " completed quest: " + questId.name());
+
         }
 
         progress.complete();
     }
 
     /**
-     * 플레이어 데이터 로드
+     * 플레이어 데이터 로드 - DISABLED (FirestoreRestService not available)
      */
     public CompletableFuture<Void> loadPlayerData(@NotNull UUID playerId) {
-        return firestoreService.loadPlayerQuestData(playerId.toString())
+        // DISABLED - FirestoreRestService not available
+        playerDataCache.put(playerId, new PlayerQuestData());
+        return CompletableFuture.completedFuture(null);
+        
+        /* ORIGINAL CODE COMMENTED OUT
+        return CompletableFuture.completedFuture(null) // firestoreService.loadPlayerQuestData(playerId.toString()) - DISABLED
                 .thenAccept(dto -> {
                     if (dto != null) {
                         PlayerQuestData data = new PlayerQuestData();
@@ -410,7 +409,6 @@ public class QuestManager {
                                 QuestID questId = QuestID.valueOf(idStr);
                                 data.activeQuests.put(questId, progress);
                             } catch (IllegalArgumentException e) {
-                                LogUtil.warning("Unknown quest ID in player data: " + idStr);
                             }
                         });
 
@@ -420,7 +418,6 @@ public class QuestManager {
                                 QuestID questId = QuestID.valueOf(idStr);
                                 data.completedQuests.put(questId, completed);
                             } catch (IllegalArgumentException e) {
-                                LogUtil.warning("Unknown completed quest ID: " + idStr);
                             }
                         });
 
@@ -433,12 +430,18 @@ public class QuestManager {
                     playerDataCache.put(playerId, new PlayerQuestData());
                     return null;
                 });
+        */ // END OF COMMENTED CODE
     }
 
     /**
-     * 플레이어 데이터 저장
+     * 플레이어 데이터 저장 - DISABLED (FirestoreRestService not available)
      */
     public void savePlayerData(@NotNull UUID playerId) {
+        // DISABLED - FirestoreRestService not available
+        pendingSaves.remove(playerId);
+        return;
+        
+        /* ORIGINAL CODE COMMENTED OUT
         PlayerQuestData data = playerDataCache.get(playerId);
         if (data == null) {
             return;
@@ -460,7 +463,8 @@ public class QuestManager {
                 data.lastUpdated
         );
 
-        firestoreService.savePlayerQuestData(playerId.toString(), dto)
+        // firestoreService.savePlayerQuestData(playerId.toString(), dto) // DISABLED
+        CompletableFuture.completedFuture(false) // Dummy replacement
                 .thenApply(success -> {
                     if (success) {
                         pendingSaves.remove(playerId);
@@ -469,6 +473,7 @@ public class QuestManager {
                     }
                     return success;
                 });
+        */ // END OF COMMENTED CODE
     }
 
     /**
@@ -477,7 +482,7 @@ public class QuestManager {
     public void markForSave(@NotNull UUID playerId) {
         pendingSaves.add(playerId);
     }
-    
+
     /**
      * 퀘스트 완료 체크
      * NPCInteractListener에서 호출됨
@@ -486,17 +491,17 @@ public class QuestManager {
         PlayerQuestData playerData = getPlayerData(playerId);
         QuestProgress progress = playerData.activeQuests.get(questId);
         if (progress == null) return false;
-        
+
         Quest quest = getQuest(questId);
         if (quest == null) return false;
-        
+
         // 모든 목표가 완료되었는지 확인
         boolean allObjectivesComplete = quest.getObjectives().stream()
                 .allMatch(obj -> {
                     ObjectiveProgress objProgress = progress.getObjective(obj.getId());
                     return objProgress != null && objProgress.isCompleted();
                 });
-        
+
         if (allObjectivesComplete) {
             // 퀘스트 완료 처리
             Player player = Bukkit.getPlayer(playerId);
@@ -526,7 +531,7 @@ public class QuestManager {
             }
         }, 20L * 60, 20L * 60); // 1분마다
     }
-    
+
     /**
      * 지역 방문 체크 스케줄러 시작
      */
@@ -544,12 +549,12 @@ public class QuestManager {
         if (locationCheckScheduler != null && !locationCheckScheduler.isCancelled()) {
             locationCheckScheduler.cancel();
         }
-        
+
         // 지역 체크 태스크 캐시 정리
         if (locationCheckTask != null) {
             locationCheckTask.clearAllCaches();
         }
-        
+
         // 모든 데이터 저장
         saveAllPendingData();
 
@@ -557,9 +562,8 @@ public class QuestManager {
         playerDataCache.clear();
         pendingSaves.clear();
 
-        LogUtil.info("QuestManager shutdown complete");
     }
-    
+
     /**
      * 퀘스트를 보상 수령으로 표시
      */
@@ -571,7 +575,7 @@ public class QuestManager {
             markForSave(playerId);
         }
     }
-    
+
     /**
      * 퀘스트 보상을 받았는지 확인
      */
@@ -580,7 +584,7 @@ public class QuestManager {
         CompletedQuestDTO completed = playerData.completedQuests.get(questId);
         return completed != null && completed.isRewarded();
     }
-    
+
     /**
      * 보상 미수령 퀘스트 목록 가져오기
      */

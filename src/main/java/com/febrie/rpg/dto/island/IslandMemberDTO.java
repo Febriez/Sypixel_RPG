@@ -111,43 +111,4 @@ public record IslandMemberDTO(
         return new IslandMemberDTO(uuid, name, isCoOwner, joinedAt, lastActivity, personalSpawn);
     }
     
-    /**
-     * Map으로 변환 (Firebase 저장용)
-     */
-    @Deprecated
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("uuid", uuid);
-        map.put("name", name);
-        map.put("isCoOwner", isCoOwner);
-        map.put("joinedAt", joinedAt);
-        map.put("lastActivity", lastActivity);
-        if (personalSpawn != null) {
-            map.put("personalSpawn", personalSpawn.toMap());
-        }
-        return map;
-    }
-    
-    /**
-     * Map에서 생성
-     */
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    public static IslandMemberDTO fromMap(Map<String, Object> map) {
-        if (map == null) return null;
-        
-        IslandSpawnPointDTO personalSpawn = null;
-        if (map.containsKey("personalSpawn")) {
-            personalSpawn = IslandSpawnPointDTO.fromMap((Map<String, Object>) map.get("personalSpawn"));
-        }
-        
-        return new IslandMemberDTO(
-                (String) map.get("uuid"),
-                (String) map.get("name"),
-                (Boolean) map.get("isCoOwner"),
-                ((Number) map.get("joinedAt")).longValue(),
-                ((Number) map.get("lastActivity")).longValue(),
-                personalSpawn
-        );
-    }
 }

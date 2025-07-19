@@ -284,52 +284,41 @@ public class LeaderboardGui extends ScrollableGui {
         isLoading = true;
         setupInfoDisplay();
 
-        // Firebase에서 리더보드 로드
-        CompletableFuture<List<LeaderboardEntryDTO>> leaderboardFuture =
-                RPGMain.getPlugin().getFirebaseService().loadLeaderboard(currentType.getId(), 50);
-
-        // 내 순위 로드
-        CompletableFuture<LeaderboardEntryDTO> myRankFuture =
-                RPGMain.getPlugin().getFirebaseService().loadPlayerLeaderboardEntry(
-                        viewer.getUniqueId().toString(), currentType.getId());
-
-        // 두 Future 모두 완료되면 UI 업데이트
-        CompletableFuture.allOf(leaderboardFuture, myRankFuture).thenRun(() -> {
-            try {
-                currentLeaderboard = leaderboardFuture.get();
-                LeaderboardEntryDTO serverMyRank = myRankFuture.get();
-
-                if (serverMyRank != null) {
-                    myRankEntry = serverMyRank;
-                } else {
-                    // 서버에 없으면 현재 데이터로 생성
-                    RPGPlayer rpgPlayer = RPGMain.getPlugin().getRPGPlayerManager().getPlayer(viewer);
-                    if (rpgPlayer != null) {
-                        long value = getValueForType(rpgPlayer, currentType);
-                        myRankEntry = new LeaderboardEntryDTO(
-                                viewer.getUniqueId().toString(),
-                                viewer.getName(),
-                                0, // 순위는 계산 필요
-                                value,
-                                currentType.getId(),
-                                System.currentTimeMillis()
-                        );
-                    }
-                }
-
-                // 메인 스레드에서 UI 업데이트
-                Bukkit.getScheduler().runTask(RPGMain.getPlugin(), () -> {
-                    isLoading = false;
-                    refresh();
-                });
-            } catch (Exception e) {
-                Bukkit.getScheduler().runTask(RPGMain.getPlugin(), () -> {
-                    isLoading = false;
-                    refresh();
-                    sendMessage(viewer, "gui.leaderboard.load-failed");
-                    playErrorSound(viewer);
-                });
-            }
+        // Firebase 서비스가 현재 비활성화됨 - 더미 데이터 사용
+        isLoading = false;
+        currentLeaderboard = new ArrayList<>();
+        myRankEntry = null;
+        
+        // 더미 데이터로 테스트
+        for (int i = 0; i < 10; i++) {
+            currentLeaderboard.add(new LeaderboardEntryDTO(
+                    UUID.randomUUID().toString(),
+                    "Player" + (i + 1),
+                    i + 1,
+                    1000 - (i * 100),
+                    currentType.getId(),
+                    System.currentTimeMillis()
+            ));
+        }
+        
+        // 내 데이터 생성
+        RPGPlayer rpgPlayer = RPGMain.getPlugin().getRPGPlayerManager().getPlayer(viewer);
+        if (rpgPlayer != null) {
+            long value = getValueForType(rpgPlayer, currentType);
+            myRankEntry = new LeaderboardEntryDTO(
+                    viewer.getUniqueId().toString(),
+                    viewer.getName(),
+                    0, // 순위는 계산 필요
+                    value,
+                    currentType.getId(),
+                    System.currentTimeMillis()
+            );
+        }
+        
+        // UI 업데이트
+        Bukkit.getScheduler().runTask(RPGMain.getPlugin(), () -> {
+            isLoading = false;
+            refresh();
         });
     }
 

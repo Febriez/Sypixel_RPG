@@ -1,6 +1,6 @@
 package com.febrie.rpg.framework;
 
-import com.febrie.rpg.database.FirestoreRestService;
+import com.febrie.rpg.database.service.FirestoreService;
 import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.RetryUtil;
 import org.bukkit.plugin.Plugin;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public abstract class AbstractDataManager<K, V> {
     
     protected final Plugin plugin;
-    protected final FirestoreRestService firestoreService;
+    protected final FirestoreService<V> firestoreService;
     
     // 캐시 관리
     private final Map<K, V> cache = new ConcurrentHashMap<>();
@@ -47,7 +47,7 @@ public abstract class AbstractDataManager<K, V> {
      * 생성자
      */
     protected AbstractDataManager(@NotNull Plugin plugin,
-                                  @NotNull FirestoreRestService firestoreService,
+                                  @NotNull FirestoreService<V> firestoreService,
                                   long saveInterval,
                                   long saveCooldown,
                                   boolean enableAutoSave) {
@@ -56,7 +56,12 @@ public abstract class AbstractDataManager<K, V> {
         this.saveInterval = saveInterval;
         this.saveCooldown = saveCooldown;
         this.enableAutoSave = enableAutoSave;
-        
+    }
+    
+    /**
+     * 매니저 초기화 - 하위 클래스에서 생성 후 호출해야 함
+     */
+    protected void initialize() {
         if (enableAutoSave) {
             startAutoSave();
         }
@@ -65,12 +70,31 @@ public abstract class AbstractDataManager<K, V> {
     /**
      * Firestore에서 데이터 로드
      */
-    protected abstract CompletableFuture<V> loadFromFirestore(@NotNull K key);
+    protected CompletableFuture<V> loadFromFirestore(@NotNull K key) {
+        String documentId = convertKeyToId(key);
+        return firestoreService.get(documentId);
+    }
     
     /**
      * Firestore에 데이터 저장
      */
-    protected abstract CompletableFuture<Boolean> saveToFirestore(@NotNull K key, @NotNull V value);
+    protected CompletableFuture<Boolean> saveToFirestore(@NotNull K key, @NotNull V value) {
+        String documentId = convertKeyToId(key);
+        return firestoreService.save(documentId, value)
+            .thenApply(v -> true)
+            .exceptionally(ex -> {
+                LogUtil.error(getManagerName() + " - Firestore 저장 실패: " + documentId, ex);
+                return false;
+            });
+    }
+    
+    /**
+     * 키를 Firestore 문서 ID로 변환
+     * 
+     * @param key 변환할 키
+     * @return Firestore 문서 ID
+     */
+    protected abstract String convertKeyToId(@NotNull K key);
     
     /**
      * 관리자 이름 (로깅용)
@@ -153,7 +177,6 @@ public abstract class AbstractDataManager<K, V> {
                 .thenApply(success -> {
                     if (success) {
                         dirtyEntries.remove(key);
-                        LogUtil.info(getManagerName() + " - 데이터 저장 성공: " + key);
                     } else {
                         LogUtil.error(getManagerName() + " - 데이터 저장 실패: " + key);
                     }
@@ -178,7 +201,7 @@ public abstract class AbstractDataManager<K, V> {
             .map(key -> save(key, force))
             .collect(Collectors.toList());
         
-        return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+        return CompletableFuture.allOf(futures.toArray(new CompletableFuture<?>[0]))
             .whenComplete((result, error) -> {
                 isSaving.set(false);
                 if (error != null) {
@@ -218,7 +241,6 @@ public abstract class AbstractDataManager<K, V> {
             plugin,
             () -> {
                 if (!dirtyEntries.isEmpty()) {
-                    LogUtil.info(getManagerName() + " - 자동 저장 시작: " + dirtyEntries.size() + "개 항목");
                     saveAll(false);
                 }
             },
@@ -242,7 +264,6 @@ public abstract class AbstractDataManager<K, V> {
      */
     public CompletableFuture<Void> shutdown() {
         stopAutoSave();
-        LogUtil.info(getManagerName() + " - 종료 중... 모든 데이터 저장");
         return saveAll(true);
     }
     
