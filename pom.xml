@@ -48,7 +48,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <outputFile>C:/Users/CoffeeTory/Desktop/Minecraft/1.21.7 Test_Server/plugins/Sypixel_RPG.jar</outputFile>
+                            <outputFile>${env.Sypixel_Server}/plugins/Sypixel_RPG.jar</outputFile>
 
                             <!-- 사용하지 않는 클래스 자동 제거 (비활성화 - Firebase 클래스 포함 필요) -->
                             <minimizeJar>false</minimizeJar>
