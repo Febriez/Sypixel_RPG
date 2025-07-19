@@ -2,7 +2,9 @@ package com.febrie.rpg.quest.impl.daily;
 
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.BreakBlockObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -24,7 +26,7 @@ public class DailyMiningQuest extends Quest {
     /**
      * 퀘스트 빌더
      */
-    private static class DailyMiningBuilder extends Quest.Builder {
+    private static class DailyMiningBuilder extends QuestBuilder {
         @Override
         public Quest build() {
             return new DailyMiningQuest(this);
@@ -41,14 +43,14 @@ public class DailyMiningQuest extends Quest {
     /**
      * 빌더 생성자
      */
-    private DailyMiningQuest(@NotNull Builder builder) {
+    private DailyMiningQuest(@NotNull QuestBuilder builder) {
         super(builder);
     }
 
     /**
      * 퀘스트 설정
      */
-    private static Builder createBuilder() {
+    private static QuestBuilder createBuilder() {
         return new DailyMiningBuilder()
                 .id(QuestID.DAILY_MINING)
                 .objectives(Arrays.asList(

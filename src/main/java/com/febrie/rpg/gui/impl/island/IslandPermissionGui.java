@@ -284,7 +284,8 @@ public class IslandPermissionGui extends BaseGui {
                 island.pendingInvites(),
                 island.recentVisits(),
                 island.totalResets(),
-                island.deletionScheduledAt()
+                island.deletionScheduledAt(),
+                island.settings()
         );
         
         refresh();

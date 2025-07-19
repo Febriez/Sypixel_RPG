@@ -2,7 +2,9 @@ package com.febrie.rpg.quest.impl.special;
 
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
@@ -26,7 +28,7 @@ public class DimensionTravelerQuest extends Quest {
     /**
      * 퀘스트 빌더
      */
-    private static class DimensionTravelerBuilder extends Quest.Builder {
+    private static class DimensionTravelerBuilder extends QuestBuilder {
         @Override
         public Quest build() {
             return new DimensionTravelerQuest(this);
@@ -43,14 +45,14 @@ public class DimensionTravelerQuest extends Quest {
     /**
      * 빌더 생성자
      */
-    private DimensionTravelerQuest(@NotNull Builder builder) {
+    private DimensionTravelerQuest(@NotNull QuestBuilder builder) {
         super(builder);
     }
 
     /**
      * 퀘스트 빌더 생성 및 설정
      */
-    private static Builder createBuilder() {
+    private static QuestBuilder createBuilder() {
         return new DimensionTravelerBuilder()
                 .id(QuestID.SPECIAL_DIMENSION_TRAVELER)
                 .objectives(Arrays.asList(

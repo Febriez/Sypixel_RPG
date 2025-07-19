@@ -54,7 +54,7 @@ public class PlayerSettingsGui extends BaseGui {
     public static PlayerSettingsGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                           @NotNull Player player) {
         PlayerSettingsGui gui = new PlayerSettingsGui(guiManager, langManager, player);
-        gui.setupLayout();
+        gui.initialize("gui.settings.title");
         return gui;
     }
 
@@ -72,7 +72,7 @@ public class PlayerSettingsGui extends BaseGui {
     protected void setupLayout() {
         setupDecorations();
         setupSettingButtons();
-        setupStandardNavigation(true, true);
+        setupStandardNavigation(false, true);
     }
 
     /**

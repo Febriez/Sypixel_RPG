@@ -12,9 +12,9 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -34,6 +34,9 @@ public class IslandVisitListener implements Listener {
     // 현재 방문 중인 정보 추적 (플레이어 UUID -> 섬 ID + 시작 시간)
     private final Map<String, VisitInfo> currentVisits = new ConcurrentHashMap<>();
     
+    // 플레이어의 마지막 위치 정보 (플레이어 UUID -> 섬 ID)
+    private final Map<String, String> lastKnownIslands = new ConcurrentHashMap<>();
+    
     // 방문 정보 임시 저장
     private static class VisitInfo {
         final String islandId;
@@ -48,23 +51,89 @@ public class IslandVisitListener implements Listener {
     public IslandVisitListener(@NotNull RPGMain plugin) {
         this.plugin = plugin;
         this.islandManager = plugin.getIslandManager();
-    }
-    
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        // 블록 단위 이동이 아니면 무시
-        if (event.getFrom().getBlockX() == event.getTo().getBlockX() &&
-            event.getFrom().getBlockY() == event.getTo().getBlockY() &&
-            event.getFrom().getBlockZ() == event.getTo().getBlockZ()) {
-            return;
-        }
         
-        handleLocationChange(event.getPlayer(), event.getFrom(), event.getTo());
+        // 2초마다 섬 월드의 플레이어들 위치 확인
+        startLocationChecker();
+    }
+    
+    /**
+     * 2초마다 섬 월드의 플레이어들 위치를 확인하는 스케줄러 시작
+     */
+    private void startLocationChecker() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                // null 체크
+                if (islandManager == null || islandManager.getWorldManager() == null) {
+                    return;
+                }
+                
+                // 섬 월드 가져오기
+                var islandWorld = islandManager.getWorldManager().getIslandWorld();
+                if (islandWorld == null) {
+                    return;
+                }
+                
+                // 섬 월드에 있는 모든 플레이어 확인
+                for (Player player : islandWorld.getPlayers()) {
+                    checkPlayerLocation(player);
+                }
+            }
+        }.runTaskTimer(plugin, 40L, 40L); // 2초(40 ticks)마다 실행
+    }
+    
+    /**
+     * 플레이어의 현재 위치 확인 및 섬 방문 처리
+     */
+    private void checkPlayerLocation(@NotNull Player player) {
+        String playerUuid = player.getUniqueId().toString();
+        Location location = player.getLocation();
+        
+        // 현재 플레이어가 있는 섬 찾기
+        Island currentIsland = islandManager.getIslandAt(location);
+        String currentIslandId = currentIsland != null ? currentIsland.getId() : null;
+        
+        // 이전에 있던 섬 ID
+        String previousIslandId = lastKnownIslands.get(playerUuid);
+        
+        // 섬이 변경되었는지 확인
+        if (!Objects.equals(currentIslandId, previousIslandId)) {
+            // 이전 섬에서 나가기
+            if (previousIslandId != null) {
+                VisitInfo visit = currentVisits.remove(playerUuid);
+                if (visit != null) {
+                    endVisit(playerUuid, visit);
+                }
+            }
+            
+            // 새 섬에 들어가기
+            if (currentIslandId != null) {
+                startVisit(player, currentIsland);
+                lastKnownIslands.put(playerUuid, currentIslandId);
+            } else {
+                lastKnownIslands.remove(playerUuid);
+            }
+        }
     }
     
     @EventHandler
-    public void onPlayerTeleport(PlayerTeleportEvent event) {
-        handleLocationChange(event.getPlayer(), event.getFrom(), event.getTo());
+    public void onPlayerWorldChange(PlayerChangedWorldEvent event) {
+        Player player = event.getPlayer();
+        String playerUuid = player.getUniqueId().toString();
+        
+        // 섬 월드로 이동한 경우
+        if (islandManager != null && islandManager.getWorldManager() != null &&
+            islandManager.getWorldManager().isIslandWorld(player.getWorld())) {
+            // 즉시 위치 확인
+            checkPlayerLocation(player);
+        } else {
+            // 섬 월드에서 나간 경우
+            VisitInfo visit = currentVisits.remove(playerUuid);
+            if (visit != null) {
+                endVisit(playerUuid, visit);
+            }
+            lastKnownIslands.remove(playerUuid);
+        }
     }
     
     @EventHandler
@@ -76,58 +145,35 @@ public class IslandVisitListener implements Listener {
         if (visit != null) {
             endVisit(playerUuid, visit);
         }
+        
+        // 마지막 위치 정보도 제거
+        lastKnownIslands.remove(playerUuid);
     }
     
-    private void handleLocationChange(@NotNull Player player, @NotNull Location from, @NotNull Location to) {
-        // 섬 월드가 아니면 무시
-        if (!islandManager.getWorldManager().isIslandWorld(to.getWorld())) {
-            // 섬 월드에서 나간 경우 방문 종료
-            String playerUuid = player.getUniqueId().toString();
-            VisitInfo visit = currentVisits.remove(playerUuid);
-            if (visit != null) {
-                endVisit(playerUuid, visit);
-            }
-            return;
-        }
-        
-        // 현재 위치의 섬 찾기
-        Island fromIsland = islandManager.getIslandAt(from);
-        Island toIsland = islandManager.getIslandAt(to);
-        
-        // 같은 섬이면 무시
-        if ((fromIsland == null && toIsland == null) ||
-            (fromIsland != null && toIsland != null && fromIsland.getId().equals(toIsland.getId()))) {
-            return;
-        }
-        
+    /**
+     * 섬 방문 시작 처리
+     */
+    private void startVisit(@NotNull Player player, @NotNull Island island) {
         String playerUuid = player.getUniqueId().toString();
         
-        // 이전 섬에서 나간 경우
-        if (fromIsland != null) {
-            VisitInfo visit = currentVisits.remove(playerUuid);
-            if (visit != null) {
-                endVisit(playerUuid, visit);
-            }
+        // 본인의 섬이면 방문 기록하지 않음
+        if (island.getOwnerUuid().equals(playerUuid) ||
+            island.getData().members().stream().anyMatch(m -> m.uuid().equals(playerUuid))) {
+            return;
         }
         
-        // 새 섬에 들어간 경우
-        if (toIsland != null) {
-            // 본인의 섬이면 방문 기록하지 않음
-            if (toIsland.getOwnerUuid().equals(playerUuid) ||
-                toIsland.getData().members().stream().anyMatch(m -> m.uuid().equals(playerUuid))) {
-                return;
-            }
-            
-            // 방문 시작
-            currentVisits.put(playerUuid, new VisitInfo(toIsland.getId(), System.currentTimeMillis()));
-            
-            // 환영 메시지 (공개 섬인 경우)
-            if (toIsland.isPublic()) {
-                player.sendMessage(ColorUtil.colorize("&a" + toIsland.getName() + " 섬에 방문하셨습니다!"));
-            }
+        // 방문 시작
+        currentVisits.put(playerUuid, new VisitInfo(island.getId(), System.currentTimeMillis()));
+        
+        // 환영 메시지 (공개 섬인 경우)
+        if (island.isPublic()) {
+            player.sendMessage(ColorUtil.colorize("&a" + island.getName() + " 섬에 방문하셨습니다!"));
         }
     }
     
+    /**
+     * 섬 방문 종료 처리
+     */
     private void endVisit(@NotNull String playerUuid, @NotNull VisitInfo visit) {
         long duration = System.currentTimeMillis() - visit.startTime;
         
@@ -178,7 +224,8 @@ public class IslandVisitListener implements Listener {
                     islandData.pendingInvites(),
                     recentVisits,
                     islandData.totalResets(),
-                    islandData.deletionScheduledAt()
+                    islandData.deletionScheduledAt(),
+                    islandData.settings()
             );
             
             islandManager.updateIsland(updatedIsland).thenAccept(success -> {

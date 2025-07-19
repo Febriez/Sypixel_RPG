@@ -2,6 +2,7 @@ package com.febrie.rpg.quest.impl.special;
 
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.dialog.QuestDialog;
@@ -27,7 +28,7 @@ public class MythicBeastQuest extends Quest {
     /**
      * 퀘스트 빌더
      */
-    private static class MythicBeastBuilder extends Quest.Builder {
+    private static class MythicBeastBuilder extends QuestBuilder {
         @Override
         public Quest build() {
             return new MythicBeastQuest(this);
@@ -44,14 +45,14 @@ public class MythicBeastQuest extends Quest {
     /**
      * 빌더 생성자
      */
-    private MythicBeastQuest(@NotNull Builder builder) {
+    private MythicBeastQuest(@NotNull QuestBuilder builder) {
         super(builder);
     }
 
     /**
      * 퀘스트 빌더 생성 및 설정
      */
-    private static Builder createBuilder() {
+    private static QuestBuilder createBuilder() {
         return new MythicBeastBuilder()
                 .id(QuestID.SPECIAL_MYTHIC_BEAST)
                 .objectives(Arrays.asList(

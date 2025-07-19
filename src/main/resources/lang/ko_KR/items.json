@@ -151,5 +151,41 @@
     "rare": "%COLOR_RARE%희귀",
     "epic": "%COLOR_EPIC%영웅",
     "legendary": "%COLOR_LEGENDARY%전설"
+  },
+  "island": {
+    "creation": {
+      "title": {
+        "name": "%COLOR_AQUA%섬 생성",
+        "lore": [
+          "%COLOR_GRAY%자신만의 섬을 만들어보세요!",
+          "",
+          "%COLOR_YELLOW%▶ 클릭하여 설정"
+        ]
+      },
+      "name": {
+        "name": "%COLOR_YELLOW%섬 이름",
+        "lore": [
+          "%COLOR_GRAY%섬의 이름을 설정합니다.",
+          "",
+          "%COLOR_YELLOW%▶ 클릭하여 변경"
+        ]
+      },
+      "color": {
+        "name": "%COLOR_EMERALD%섬 색상",
+        "lore": [
+          "%COLOR_GRAY%섬의 테마 색상을 선택합니다.",
+          "",
+          "%COLOR_YELLOW%▶ 클릭하여 변경"
+        ]
+      },
+      "biome": {
+        "name": "%COLOR_GREEN%섬 바이옴",
+        "lore": [
+          "%COLOR_GRAY%섬의 바이옴을 선택합니다.",
+          "",
+          "%COLOR_YELLOW%▶ 클릭하여 변경"
+        ]
+      }
+    }
   }
 }

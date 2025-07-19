@@ -1,7 +1,9 @@
 package com.febrie.rpg.quest.impl.branch;
 
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -24,7 +26,7 @@ public class LightPaladinQuest extends Quest {
     /**
      * 퀘스트 빌더
      */
-    private static class LightPaladinBuilder extends Quest.Builder {
+    private static class LightPaladinBuilder extends QuestBuilder {
         @Override
         public Quest build() {
             return new LightPaladinQuest(this);
@@ -41,14 +43,14 @@ public class LightPaladinQuest extends Quest {
     /**
      * 빌더 생성자
      */
-    private LightPaladinQuest(@NotNull Builder builder) {
+    private LightPaladinQuest(@NotNull QuestBuilder builder) {
         super(builder);
     }
 
     /**
      * 퀘스트 빌더 생성 및 설정
      */
-    private static Builder createBuilder() {
+    private static QuestBuilder createBuilder() {
         return new LightPaladinBuilder()
                 .id(QuestID.BRANCH_LIGHT_PALADIN)
                 .objectives(Arrays.asList(

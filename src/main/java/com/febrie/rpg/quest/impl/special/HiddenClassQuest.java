@@ -2,7 +2,9 @@ package com.febrie.rpg.quest.impl.special;
 
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
@@ -26,7 +28,7 @@ public class HiddenClassQuest extends Quest {
     /**
      * 퀘스트 빌더
      */
-    private static class HiddenClassBuilder extends Quest.Builder {
+    private static class HiddenClassBuilder extends QuestBuilder {
         @Override
         public Quest build() {
             return new HiddenClassQuest(this);
@@ -43,14 +45,14 @@ public class HiddenClassQuest extends Quest {
     /**
      * 빌더 생성자
      */
-    private HiddenClassQuest(@NotNull Builder builder) {
+    private HiddenClassQuest(@NotNull QuestBuilder builder) {
         super(builder);
     }
 
     /**
      * 퀘스트 빌더 생성 및 설정
      */
-    private static Builder createBuilder() {
+    private static QuestBuilder createBuilder() {
         return new HiddenClassBuilder()
                 .id(QuestID.SPECIAL_HIDDEN_CLASS)
                 .objectives(Arrays.asList(

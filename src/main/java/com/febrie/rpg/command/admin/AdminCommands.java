@@ -9,6 +9,7 @@ import com.febrie.rpg.npc.trait.RPGShopTrait;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.quest.progress.QuestProgress;
@@ -454,7 +455,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             case "list" -> {
                 sender.sendMessage(Component.text("=== 사용 가능한 퀘스트 목록 ===", ColorUtil.GOLD));
 
-                for (Quest.QuestCategory category : Quest.QuestCategory.values()) {
+                for (QuestCategory category : QuestCategory.values()) {
                     sender.sendMessage(Component.text("\n" + category.name() + ":", ColorUtil.YELLOW));
 
                     QuestID[] questIds = QuestID.getByCategory(category);

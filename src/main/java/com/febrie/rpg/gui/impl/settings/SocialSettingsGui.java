@@ -54,7 +54,7 @@ public class SocialSettingsGui extends BaseGui {
     public static SocialSettingsGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                           @NotNull Player player) {
         SocialSettingsGui gui = new SocialSettingsGui(guiManager, langManager, player);
-        gui.setupLayout();
+        gui.initialize("gui.social-settings.title");
         return gui;
     }
 
@@ -72,7 +72,7 @@ public class SocialSettingsGui extends BaseGui {
     protected void setupLayout() {
         setupDecorations();
         setupSettingControls();
-        setupStandardNavigation(true, true);
+        setupStandardNavigation(false, true);
     }
 
     /**

@@ -54,7 +54,7 @@ public class NotificationSettingsGui extends BaseGui {
     public static NotificationSettingsGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                                 @NotNull Player player) {
         NotificationSettingsGui gui = new NotificationSettingsGui(guiManager, langManager, player);
-        gui.setupLayout();
+        gui.initialize("gui.notification-settings.title");
         return gui;
     }
 
@@ -72,7 +72,7 @@ public class NotificationSettingsGui extends BaseGui {
     protected void setupLayout() {
         setupDecorations();
         setupSettingControls();
-        setupStandardNavigation(true, true);
+        setupStandardNavigation(false, true);
     }
 
     /**

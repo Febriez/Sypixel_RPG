@@ -66,7 +66,7 @@ public class FriendListGui extends BaseGui {
     public static FriendListGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                       @NotNull Player player) {
         FriendListGui gui = new FriendListGui(guiManager, langManager, player);
-        gui.setupLayout();
+        gui.initialize("gui.friends.title");
         gui.loadFriends();
         return gui;
     }

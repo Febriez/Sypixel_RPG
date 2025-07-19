@@ -315,5 +315,16 @@
     "money-received": "코인 {amount} 획득!",
     "close-warning": "⚠️ 경고: 보상을 받지 않고 창을 닫았습니다!",
     "items-lost": "받지 않은 아이템은 사라집니다!"
+  },
+  "island": {
+    "main": {
+      "title": "섬 관리"
+    },
+    "creation": {
+      "title": "섬 생성"
+    },
+    "biome-selection": {
+      "title": "바이옴 선택"
+    }
   }
 }

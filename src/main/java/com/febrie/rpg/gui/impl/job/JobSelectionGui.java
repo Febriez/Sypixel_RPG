@@ -51,7 +51,7 @@ public class JobSelectionGui extends BaseGui {
     public static JobSelectionGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                         @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
         JobSelectionGui gui = new JobSelectionGui(guiManager, langManager, viewer, rpgPlayer);
-        gui.setupLayout();
+        gui.initialize("gui.job-selection.title");
         return gui;
     }
 

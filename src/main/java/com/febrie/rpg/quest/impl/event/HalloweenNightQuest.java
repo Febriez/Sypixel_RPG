@@ -2,7 +2,9 @@ package com.febrie.rpg.quest.impl.event;
 
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
@@ -59,7 +61,7 @@ public class HalloweenNightQuest extends Quest {
     /**
      * 퀘스트 빌더
      */
-    private static class HalloweenNightBuilder extends Quest.Builder {
+    private static class HalloweenNightBuilder extends QuestBuilder {
         @Override
         public Quest build() {
             return new HalloweenNightQuest(this);
@@ -76,14 +78,14 @@ public class HalloweenNightQuest extends Quest {
     /**
      * 빌더 생성자
      */
-    private HalloweenNightQuest(@NotNull Builder builder) {
+    private HalloweenNightQuest(@NotNull QuestBuilder builder) {
         super(builder);
     }
 
     /**
      * 퀘스트 빌더 생성 및 설정
      */
-    private static Builder createBuilder() {
+    private static QuestBuilder createBuilder() {
         return new HalloweenNightBuilder()
                 .id(QuestID.SEASON_HALLOWEEN_NIGHT)
                 .objectives(Arrays.asList(

@@ -2,7 +2,9 @@ package com.febrie.rpg.quest.impl.daily;
 
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -25,7 +27,7 @@ public class DailyHuntingQuest extends Quest {
     /**
      * 퀘스트 빌더
      */
-    private static class DailyHuntingBuilder extends Quest.Builder {
+    private static class DailyHuntingBuilder extends QuestBuilder {
         @Override
         public Quest build() {
             return new DailyHuntingQuest(this);
@@ -42,14 +44,14 @@ public class DailyHuntingQuest extends Quest {
     /**
      * 빌더 생성자
      */
-    private DailyHuntingQuest(@NotNull Builder builder) {
+    private DailyHuntingQuest(@NotNull QuestBuilder builder) {
         super(builder);
     }
 
     /**
      * 퀘스트 설정
      */
-    private static Builder createBuilder() {
+    private static QuestBuilder createBuilder() {
         return new DailyHuntingBuilder()
                 .id(QuestID.DAILY_HUNTING)
                 .objectives(Arrays.asList(

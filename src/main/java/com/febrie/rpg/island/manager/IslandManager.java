@@ -3,11 +3,13 @@ package com.febrie.rpg.island.manager;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.service.impl.IslandFirestoreService;
 import com.febrie.rpg.dto.island.*;
+import com.febrie.rpg.island.IslandPlayer;
 import com.febrie.rpg.island.*;
 import com.febrie.rpg.island.world.IslandWorldManager;
 import com.febrie.rpg.util.LogUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,9 +33,9 @@ public class IslandManager {
     public IslandManager(@NotNull RPGMain plugin, @Nullable IslandFirestoreService firestoreService) {
         this.plugin = plugin;
         this.worldManager = new IslandWorldManager(plugin);
+        
         this.islandService = new IslandService(firestoreService);
         this.cache = new IslandCache();
-        
     }
     
     /**
@@ -41,6 +43,13 @@ public class IslandManager {
      */
     public void initialize() {
         worldManager.initialize();
+    }
+    
+    /**
+     * WorldManager 가져오기 (Island 클래스용)
+     */
+    private IslandWorldManager getWorldManagerForIsland() {
+        return worldManager;
     }
     
     /**
@@ -104,18 +113,98 @@ public class IslandManager {
     public CompletableFuture<Boolean> createIsland(@NotNull Player owner, @NotNull String islandName, 
                                                    @NotNull String colorHex, @NotNull String biome, 
                                                    @NotNull String template) {
-        // 기본 createIsland 메서드를 호출하고 추가 설정 적용
-        return createIsland(owner, islandName).thenCompose(islandDTO -> {
-            if (islandDTO == null) {
+        String ownerUuid = owner.getUniqueId().toString();
+        String ownerName = owner.getName();
+        
+        // 플레이어 로드
+        return loadIslandPlayer(ownerUuid, ownerName).thenCompose(islandPlayer -> {
+            // 이미 섬을 가지고 있는지 확인
+            if (islandPlayer.hasIsland()) {
+                LogUtil.warning("섬 생성 실패: 플레이어가 이미 섬을 소유하고 있음 - " + ownerName);
                 return CompletableFuture.completedFuture(false);
             }
             
-            // TODO: 색상, 바이옴, 템플릿 설정 적용
-            // 현재는 기본 생성만 수행
-            LogUtil.info("섬 생성 완료 - 이름: " + islandName + ", 색상: " + colorHex + 
-                        ", 바이옴: " + biome + ", 템플릿: " + template);
+            // 물리적 섬 생성
+            CompletableFuture<IslandLocationDTO> locationFuture = worldManager.createNewIsland(85);
             
-            return CompletableFuture.completedFuture(true);
+            return locationFuture.thenCompose(location -> {
+                if (location == null) {
+                    LogUtil.error("물리적 섬 생성 실패");
+                    return CompletableFuture.completedFuture(false);
+                }
+                
+                String islandId = UUID.randomUUID().toString();
+                
+                // 기본 섬 데이터 생성
+                IslandDTO baseIsland = IslandDTO.createNew(islandId, ownerUuid, ownerName, islandName);
+                
+                // 설정을 포함한 새로운 섬 데이터 생성
+                IslandSettingsDTO settings = new IslandSettingsDTO(colorHex, biome, template);
+                IslandDTO islandData = new IslandDTO(
+                    baseIsland.islandId(),
+                    baseIsland.ownerUuid(),
+                    baseIsland.ownerName(),
+                    baseIsland.islandName(),
+                    baseIsland.size(),
+                    baseIsland.isPublic(),
+                    baseIsland.createdAt(),
+                    baseIsland.lastActivity(),
+                    baseIsland.members(),
+                    baseIsland.workers(),
+                    baseIsland.contributions(),
+                    new IslandSpawnDTO(
+                        new IslandSpawnPointDTO(location.centerX(), 66.0, location.centerZ(), 0.0f, 0.0f, "섬 중앙"),
+                        List.of(),
+                        Map.of()
+                    ),
+                    baseIsland.upgradeData(),
+                    baseIsland.permissions(),
+                    baseIsland.pendingInvites(),
+                    baseIsland.recentVisits(),
+                    baseIsland.totalResets(),
+                    baseIsland.deletionScheduledAt(),
+                    settings
+                );
+                
+                // 섬 저장
+                return islandService.saveIsland(islandData).thenCompose(saved -> {
+                    if (!saved) {
+                        return CompletableFuture.completedFuture(false);
+                    }
+                    
+                    // 플레이어 데이터 업데이트
+                    PlayerIslandDataDTO playerData = new PlayerIslandDataDTO(
+                        islandPlayer.getUuid(),
+                        islandId,
+                        IslandRole.OWNER,
+                        0, // totalIslandResets
+                        0L, // totalContribution
+                        System.currentTimeMillis(), // lastJoined
+                        System.currentTimeMillis() // lastActivity
+                    );
+                    
+                    return islandService.savePlayerData(playerData).thenCompose(playerSaved -> {
+                        if (!playerSaved) {
+                            return CompletableFuture.completedFuture(false);
+                        }
+                        
+                        // 캐시 업데이트
+                        cache.putIsland(islandId, islandData);
+                        cache.putPlayerData(ownerUuid, playerData);
+                        
+                        // 바이옴 설정 적용
+                        return applyBiomeToIsland(location.centerX(), location.centerZ(), baseIsland.size(), biome)
+                            .thenApply(biomeApplied -> {
+                                if (biomeApplied) {
+                                    LogUtil.info("섬 바이옴 설정 성공: " + biome);
+                                } else {
+                                    LogUtil.warning("섬 바이옴 설정 실패: " + biome);
+                                }
+                                return true;
+                            });
+                    });
+                });
+            });
         });
     }
     
@@ -126,7 +215,7 @@ public class IslandManager {
         // 캐시 확인
         IslandDTO cached = cache.getIsland(islandId);
         if (cached != null) {
-            return CompletableFuture.completedFuture(new Island(worldManager, cached));
+            return CompletableFuture.completedFuture(new Island(getWorldManagerForIsland(), cached));
         }
         
         // Firestore에서 로드
@@ -134,7 +223,7 @@ public class IslandManager {
             if (islandData != null) {
                 cache.putIsland(islandId, islandData);
                 cache.updateIslandMembers(islandData);
-                return new Island(worldManager, islandData);
+                return new Island(getWorldManagerForIsland(), islandData);
             }
             return null;
         });
@@ -285,13 +374,13 @@ public class IslandManager {
      */
     @Nullable
     public Island getIslandAt(@NotNull Location location) {
-        if (!worldManager.isIslandWorld(location.getWorld())) {
+        if (!getWorldManager().isIslandWorld(location.getWorld())) {
             return null;
         }
         
         // 캐시된 모든 섬 확인
         for (IslandDTO islandData : cache.getAllIslands()) {
-            Island island = new Island(worldManager, islandData);
+            Island island = new Island(getWorldManagerForIsland(), islandData);
             if (island.contains(location)) {
                 return island;
             }
@@ -342,5 +431,70 @@ public class IslandManager {
     @Nullable
     public IslandDTO getIslandFromCache(@NotNull String islandId) {
         return cache.getIsland(islandId);
+    }
+    
+    /**
+     * 섬에 바이옴 적용
+     */
+    private CompletableFuture<Boolean> applyBiomeToIsland(int centerX, int centerZ, int size, String biome) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                org.bukkit.World world = worldManager.getIslandWorld();
+                
+                if (world == null) {
+                    return false;
+                }
+                
+                // 바이옴 문자열을 직접 매칭하여 찾기
+                org.bukkit.block.Biome bukkitBiome = null;
+                String biomeUpper = biome.toUpperCase().replace("-", "_");
+                
+                // 일반적인 바이옴 매핑
+                switch (biomeUpper) {
+                    case "PLAINS" -> bukkitBiome = org.bukkit.block.Biome.PLAINS;
+                    case "FOREST" -> bukkitBiome = org.bukkit.block.Biome.FOREST;
+                    case "DESERT" -> bukkitBiome = org.bukkit.block.Biome.DESERT;
+                    case "JUNGLE" -> bukkitBiome = org.bukkit.block.Biome.JUNGLE;
+                    case "TAIGA" -> bukkitBiome = org.bukkit.block.Biome.TAIGA;
+                    case "SNOWY_TAIGA" -> bukkitBiome = org.bukkit.block.Biome.SNOWY_TAIGA;
+                    case "SAVANNA" -> bukkitBiome = org.bukkit.block.Biome.SAVANNA;
+                    case "SWAMP" -> bukkitBiome = org.bukkit.block.Biome.SWAMP;
+                    case "OCEAN" -> bukkitBiome = org.bukkit.block.Biome.OCEAN;
+                    case "BEACH" -> bukkitBiome = org.bukkit.block.Biome.BEACH;
+                    case "MUSHROOM_FIELDS" -> bukkitBiome = org.bukkit.block.Biome.MUSHROOM_FIELDS;
+                    case "BADLANDS" -> bukkitBiome = org.bukkit.block.Biome.BADLANDS;
+                    case "FLOWER_FOREST" -> bukkitBiome = org.bukkit.block.Biome.FLOWER_FOREST;
+                    case "CHERRY_GROVE" -> bukkitBiome = org.bukkit.block.Biome.CHERRY_GROVE;
+                    case "DARK_FOREST" -> bukkitBiome = org.bukkit.block.Biome.DARK_FOREST;
+                    case "BIRCH_FOREST" -> bukkitBiome = org.bukkit.block.Biome.BIRCH_FOREST;
+                    case "BAMBOO_JUNGLE" -> bukkitBiome = org.bukkit.block.Biome.BAMBOO_JUNGLE;
+                    default -> {
+                        LogUtil.warning("지원하지 않는 바이옴: " + biome);
+                        return false;
+                    }
+                }
+                
+                // 섬 크기에 따라 바이옴 설정 범위 결정
+                int radius = size / 2;
+                final org.bukkit.block.Biome finalBiome = bukkitBiome;
+                
+                // 비동기로 바이옴 설정
+                plugin.getServer().getScheduler().runTask(plugin, () -> {
+                    for (int x = centerX - radius; x <= centerX + radius; x++) {
+                        for (int z = centerZ - radius; z <= centerZ + radius; z++) {
+                            // 모든 높이에 대해 바이옴 설정
+                            for (int y = world.getMinHeight(); y < world.getMaxHeight(); y++) {
+                                world.setBiome(x, y, z, finalBiome);
+                            }
+                        }
+                    }
+                });
+                
+                return true;
+            } catch (Exception e) {
+                LogUtil.error("바이옴 설정 중 오류", e);
+                return false;
+            }
+        });
     }
 }

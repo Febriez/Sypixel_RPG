@@ -2,7 +2,9 @@ package com.febrie.rpg.quest.impl.side;
 
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
@@ -26,7 +28,7 @@ public class BlacksmithApprenticeQuest extends Quest {
     /**
      * 퀘스트 빌더
      */
-    private static class BlacksmithApprenticeBuilder extends Quest.Builder {
+    private static class BlacksmithApprenticeBuilder extends QuestBuilder {
         @Override
         public Quest build() {
             return new BlacksmithApprenticeQuest(this);
@@ -43,14 +45,14 @@ public class BlacksmithApprenticeQuest extends Quest {
     /**
      * 빌더 생성자
      */
-    private BlacksmithApprenticeQuest(@NotNull Builder builder) {
+    private BlacksmithApprenticeQuest(@NotNull QuestBuilder builder) {
         super(builder);
     }
 
     /**
      * 퀘스트 빌더 생성 및 설정
      */
-    private static Builder createBuilder() {
+    private static QuestBuilder createBuilder() {
         return new BlacksmithApprenticeBuilder()
                 .id(QuestID.SIDE_BLACKSMITH_APPRENTICE)
                 .objectives(Arrays.asList(

@@ -2,7 +2,9 @@ package com.febrie.rpg.quest.impl.main;
 
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.CraftItemObjective;
@@ -28,7 +30,7 @@ public class PathOfDarknessQuest extends Quest {
     /**
      * 퀘스트 빌더
      */
-    private static class PathOfDarknessBuilder extends Quest.Builder {
+    private static class PathOfDarknessBuilder extends QuestBuilder {
         @Override
         public Quest build() {
             return new PathOfDarknessQuest(this);
@@ -45,14 +47,14 @@ public class PathOfDarknessQuest extends Quest {
     /**
      * 빌더 생성자
      */
-    private PathOfDarknessQuest(@NotNull Builder builder) {
+    private PathOfDarknessQuest(@NotNull QuestBuilder builder) {
         super(builder);
     }
 
     /**
      * 퀘스트 설정
      */
-    private static Builder createBuilder() {
+    private static QuestBuilder createBuilder() {
         return new PathOfDarknessBuilder()
                 .id(QuestID.MAIN_PATH_OF_DARKNESS)
                 .objectives(Arrays.asList(

@@ -5,6 +5,7 @@ import com.febrie.rpg.database.service.impl.QuestFirestoreService;
 import com.febrie.rpg.dto.quest.CompletedQuestDTO;
 import com.febrie.rpg.dto.quest.PlayerQuestDTO;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
@@ -142,7 +143,7 @@ public class QuestManager {
      * 카테고리별 퀘스트 조회
      */
     @NotNull
-    public List<Quest> getQuestsByCategory(@NotNull Quest.QuestCategory category) {
+    public List<Quest> getQuestsByCategory(@NotNull QuestCategory category) {
         return quests.values().stream()
                 .filter(quest -> quest.getCategory() == category)
                 .collect(Collectors.toList());

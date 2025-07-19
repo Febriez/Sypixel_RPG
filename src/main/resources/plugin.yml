@@ -50,6 +50,28 @@ commands:
     permission-message: "이 명령어를 사용할 권한이 없습니다. / You do not have permission to use this command."
     aliases: [ island, is, 아일랜드 ]
 
+  # Social commands
+  친구:
+    description: "친구 명령어 / Friend commands"
+    usage: "/친구 <추가|삭제|목록|수락|거절> [플레이어]"
+    permission: sypixelrpg.social.friend
+    permission-message: "이 명령어를 사용할 권한이 없습니다. / You do not have permission to use this command."
+    aliases: [ friend, f, 캐구 ]
+
+  메일:
+    description: "메일 명령어 / Mail commands"
+    usage: "/메일 <보내기|받은편지함|삭제> [플레이어] [내용]"
+    permission: sypixelrpg.social.mail
+    permission-message: "이 명령어를 사용할 권한이 없습니다. / You do not have permission to use this command."
+    aliases: [ mail, m, 편지 ]
+
+  귀속말:
+    description: "귀속말 명령어 / Whisper command"
+    usage: "/귀속말 <플레이어> <메시지>"
+    permission: sypixelrpg.social.whisper
+    permission-message: "이 명령어를 사용할 권한이 없습니다. / You do not have permission to use this command."
+    aliases: [ whisper, w, tell, msg, 속삭임 ]
+
 # Permissions
 permissions:
   # Root permission
@@ -61,6 +83,7 @@ permissions:
       sypixelrpg.admin: true
       sypixelrpg.siteaccount: true
       sypixelrpg.island: true
+      sypixelrpg.social.*: true
 
   # Main menu permission
   sypixelrpg.mainmenu:
@@ -78,6 +101,27 @@ permissions:
 
   sypixelrpg.island:
     description: "섬 기능을 사용할 수 있는 권한 / Permission to use island features"
+    default: true
+
+  # Social permissions
+  sypixelrpg.social.*:
+    description: "모든 소셜 기능 권한 / All social permissions"
+    default: true
+    children:
+      sypixelrpg.social.friend: true
+      sypixelrpg.social.mail: true
+      sypixelrpg.social.whisper: true
+
+  sypixelrpg.social.friend:
+    description: "친구 기능을 사용할 수 있는 권한 / Permission to use friend features"
+    default: true
+
+  sypixelrpg.social.mail:
+    description: "메일 기능을 사용할 수 있는 권한 / Permission to use mail features"
+    default: true
+
+  sypixelrpg.social.whisper:
+    description: "귀속말 기능을 사용할 수 있는 권한 / Permission to use whisper feature"
     default: true
 
   # Future permissions (for upcoming features)

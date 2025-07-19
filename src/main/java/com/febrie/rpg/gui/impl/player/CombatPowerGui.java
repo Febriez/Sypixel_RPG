@@ -49,7 +49,7 @@ public class CombatPowerGui extends BaseGui {
     public static CombatPowerGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                        @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
         CombatPowerGui gui = new CombatPowerGui(guiManager, langManager, viewer, rpgPlayer);
-        gui.setupLayout();
+        gui.initialize("gui.combat-power.title");
         return gui;
     }
 

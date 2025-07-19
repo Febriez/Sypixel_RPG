@@ -65,7 +65,7 @@ public class TalentGui extends ScrollableGui {
                                   @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
                                   @NotNull String pageId, @NotNull List<Talent> talents) {
         TalentGui gui = new TalentGui(guiManager, langManager, viewer, rpgPlayer, pageId, talents);
-        gui.setupLayout();
+        gui.initialize("gui.talent.title");
         return gui;
     }
 

@@ -64,7 +64,7 @@ public class MailboxGui extends BaseGui {
     public static MailboxGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                    @NotNull Player player) {
         MailboxGui gui = new MailboxGui(guiManager, langManager, player);
-        gui.setupLayout();
+        gui.initialize("gui.mailbox.title");
         gui.loadMails();
         return gui;
     }

@@ -1,5 +1,6 @@
 package com.febrie.rpg.quest;
 
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
@@ -48,7 +49,7 @@ public abstract class Quest {
     /**
      * 빌더를 통한 생성자
      */
-    protected Quest(@NotNull Builder builder) {
+    protected Quest(@NotNull QuestBuilder builder) {
         this.id = Objects.requireNonNull(builder.id, "Quest ID cannot be null");
         this.objectives = new ArrayList<>(builder.objectives);
         this.reward = Objects.requireNonNull(builder.reward, "Quest reward cannot be null");
@@ -248,25 +249,7 @@ public abstract class Quest {
      * 카테고리 이름 가져오기
      */
     private @NotNull String getCategoryName(boolean isKorean) {
-        return switch (category) {
-            case MAIN -> isKorean ? "메인 퀘스트" : "Main Quest";
-            case SIDE -> isKorean ? "사이드 퀘스트" : "Side Quest";
-            case DAILY -> isKorean ? "일일 퀘스트" : "Daily Quest";
-            case WEEKLY -> isKorean ? "주간 퀘스트" : "Weekly Quest";
-            case EVENT -> isKorean ? "이벤트 퀘스트" : "Event Quest";
-            case TUTORIAL -> isKorean ? "튜토리얼" : "Tutorial";
-            case NORMAL -> isKorean ? "일반 퀘스트" : "Normal Quest";
-            case COMBAT -> isKorean ? "전투 퀘스트" : "Combat Quest";
-            case GUILD -> isKorean ? "길드 퀘스트" : "Guild Quest";
-            case SPECIAL -> isKorean ? "특별 퀘스트" : "Special Quest";
-            case ADVANCEMENT -> isKorean ? "전직 퀘스트" : "Advancement Quest";
-            case LIFE -> isKorean ? "생활 퀘스트" : "Life Quest";
-            case REPEATABLE -> isKorean ? "반복 퀘스트" : "Repeatable Quest";
-            case SEASONAL -> isKorean ? "시즌 퀘스트" : "Seasonal Quest";
-            case BRANCH -> isKorean ? "분기 퀘스트" : "Branch Quest";
-            case CRAFTING -> isKorean ? "제작 퀘스트" : "Crafting Quest";
-            case EXPLORATION -> isKorean ? "탐험 퀘스트" : "Exploration Quest";
-        };
+        return category.getDisplayName(isKorean);
     }
 
     /**
@@ -512,127 +495,4 @@ public abstract class Quest {
         return new QuestProgress(id, playerId, objectives);
     }
 
-    /**
-     * 퀘스트 카테고리
-     */
-    public enum QuestCategory {
-        MAIN("quest.category.main"),
-        SIDE("quest.category.side"),
-        DAILY("quest.category.daily"),
-        WEEKLY("quest.category.weekly"),
-        EVENT("quest.category.event"),
-        TUTORIAL("quest.category.tutorial"),
-        NORMAL("quest.category.normal"),
-        COMBAT("quest.category.combat"),
-        GUILD("quest.category.guild"),
-        SPECIAL("quest.category.special"),
-        ADVANCEMENT("quest.category.advancement"),
-        LIFE("quest.category.life"),
-        REPEATABLE("quest.category.repeatable"),
-        SEASONAL("quest.category.seasonal"),
-        BRANCH("quest.category.branch"),
-        CRAFTING("quest.category.crafting"),
-        EXPLORATION("quest.category.exploration");
-
-        private final String translationKey;
-
-        QuestCategory(String translationKey) {
-            this.translationKey = translationKey;
-        }
-
-        public String getTranslationKey() {
-            return translationKey;
-        }
-    }
-
-    /**
-     * 퀘스트 빌더
-     */
-    public static abstract class Builder {
-        protected QuestID id;
-        protected List<QuestObjective> objectives = new ArrayList<>();
-        protected QuestReward reward;
-        protected boolean sequential = false;
-        protected boolean repeatable = false;
-        protected boolean daily = false;
-        protected boolean weekly = false;
-        protected int minLevel = 1;
-        protected int maxLevel = 0;
-        protected QuestCategory category = QuestCategory.SIDE;
-        protected Set<QuestID> prerequisiteQuests = new HashSet<>();
-        protected Set<QuestID> exclusiveQuests = new HashSet<>();
-
-        public Builder id(@NotNull QuestID id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder objectives(@NotNull List<QuestObjective> objectives) {
-            this.objectives = new ArrayList<>(objectives);
-            return this;
-        }
-
-        public Builder addObjective(@NotNull QuestObjective objective) {
-            this.objectives.add(objective);
-            return this;
-        }
-
-        public Builder reward(@NotNull QuestReward reward) {
-            this.reward = reward;
-            return this;
-        }
-
-        public Builder sequential(boolean sequential) {
-            this.sequential = sequential;
-            return this;
-        }
-
-        public Builder repeatable(boolean repeatable) {
-            this.repeatable = repeatable;
-            return this;
-        }
-
-        public Builder daily(boolean daily) {
-            this.daily = daily;
-            if (daily) {
-                this.repeatable = true; // 일일 퀘스트는 자동으로 반복 가능
-            }
-            return this;
-        }
-
-        public Builder weekly(boolean weekly) {
-            this.weekly = weekly;
-            if (weekly) {
-                this.repeatable = true; // 주간 퀘스트는 자동으로 반복 가능
-            }
-            return this;
-        }
-
-        public Builder minLevel(int minLevel) {
-            this.minLevel = minLevel;
-            return this;
-        }
-
-        public Builder maxLevel(int maxLevel) {
-            this.maxLevel = maxLevel;
-            return this;
-        }
-
-        public Builder category(@NotNull QuestCategory category) {
-            this.category = category;
-            return this;
-        }
-
-        public Builder addPrerequisite(@NotNull QuestID questId) {
-            this.prerequisiteQuests.add(questId);
-            return this;
-        }
-
-        public Builder addExclusive(@NotNull QuestID questId) {
-            this.exclusiveQuests.add(questId);
-            return this;
-        }
-
-        public abstract Quest build();
-    }
 }

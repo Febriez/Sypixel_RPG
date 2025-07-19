@@ -68,10 +68,6 @@ public class SiteAccountCommand implements CommandExecutor {
     // 환경 변수 키
     private static final String ENV_WEB_API_KEY = "FIREBASE_WEB_API_KEY";
 
-    // 관리자 UUID (추후 설정 파일로 이동 필요)
-    private static final String[] ADMIN_UUIDS = {
-            // 관리자 UUID를 여기에 추가
-    };
 
     public SiteAccountCommand(@NotNull RPGMain plugin) {
         this.plugin = plugin;
@@ -131,7 +127,7 @@ public class SiteAccountCommand implements CommandExecutor {
     private void processAccountCreation(@NotNull Player player, @NotNull String email) {
         String uuid = player.getUniqueId().toString();
         String playerName = player.getName();
-        boolean isAdmin = isAdminPlayer(uuid);
+        boolean isAdmin = player.isOp();
 
         // 로딩 메시지 표시
         player.sendMessage(Component.text("계정을 생성하는 중...", ColorUtil.YELLOW));
@@ -189,17 +185,6 @@ public class SiteAccountCommand implements CommandExecutor {
         return password.toString();
     }
 
-    /**
-     * 플레이어가 관리자인지 확인
-     */
-    private boolean isAdminPlayer(String uuid) {
-        for (String adminUuid : ADMIN_UUIDS) {
-            if (adminUuid.equals(uuid)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * Firebase Auth 계정 생성

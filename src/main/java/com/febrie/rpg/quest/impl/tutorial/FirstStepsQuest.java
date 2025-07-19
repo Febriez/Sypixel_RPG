@@ -2,13 +2,14 @@ package com.febrie.rpg.quest.impl.tutorial;
 
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.quest.QuestCategory;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -29,7 +30,7 @@ public class FirstStepsQuest extends Quest {
     /**
      * 퀘스트 빌더
      */
-    private static class FirstStepsBuilder extends Quest.Builder {
+    private static class FirstStepsBuilder extends QuestBuilder {
         @Override
         public Quest build() {
             return new FirstStepsQuest(this);
@@ -46,14 +47,14 @@ public class FirstStepsQuest extends Quest {
     /**
      * 빌더 생성자
      */
-    private FirstStepsQuest(@NotNull Builder builder) {
+    private FirstStepsQuest(@NotNull QuestBuilder builder) {
         super(builder);
     }
 
     /**
      * 퀘스트 설정
      */
-    private static Builder createBuilder() {
+    private static QuestBuilder createBuilder() {
         return new FirstStepsBuilder()
                 .id(QuestID.TUTORIAL_FIRST_STEPS)
                 .objectives(Arrays.asList(

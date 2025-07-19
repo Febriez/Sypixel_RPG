@@ -71,7 +71,7 @@ public class StatsGui extends ScrollableGui {
     public static StatsGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                  @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
         StatsGui gui = new StatsGui(guiManager, langManager, viewer, rpgPlayer);
-        gui.setupLayout();
+        gui.initialize("gui.stats.title");
         return gui;
     }
 

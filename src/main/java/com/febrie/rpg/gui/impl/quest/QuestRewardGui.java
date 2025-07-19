@@ -60,7 +60,7 @@ public class QuestRewardGui extends BaseGui {
     public static QuestRewardGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                        @NotNull Player viewer, @NotNull Quest quest) {
         QuestRewardGui gui = new QuestRewardGui(guiManager, langManager, viewer, quest);
-        gui.setupLayout();
+        gui.initialize("gui.quest-reward.title");
         return gui;
     }
 

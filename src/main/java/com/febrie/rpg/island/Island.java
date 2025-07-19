@@ -75,7 +75,8 @@ public class Island {
                     baseIsland.pendingInvites(),
                     baseIsland.recentVisits(),
                     baseIsland.totalResets(),
-                    baseIsland.deletionScheduledAt()
+                    baseIsland.deletionScheduledAt(),
+                    baseIsland.settings()
             );
             
             
@@ -135,7 +136,8 @@ public class Island {
                             List.of(), // 초대 초기화
                             List.of(), // 방문 기록 초기화
                             islandData.totalResets() + 1,
-                            null
+                            null,
+                            islandData.settings() // 설정 유지
                     );
                     
                     return true;
@@ -213,6 +215,27 @@ public class Island {
     public int getSize() { return islandData.size(); }
     public boolean isPublic() { return islandData.isPublic(); }
     public IslandDTO getData() { return islandData; }
+    
+    /**
+     * 섬 이름 색상 반환
+     */
+    public String getNameColorHex() {
+        return islandData.settings().nameColorHex();
+    }
+    
+    /**
+     * 섬 바이옴 반환
+     */
+    public String getBiome() {
+        return islandData.settings().biome();
+    }
+    
+    /**
+     * 섬 설정 반환
+     */
+    public IslandSettingsDTO getSettings() {
+        return islandData.settings();
+    }
     
     // Setters
     public void setData(@NotNull IslandDTO data) { this.islandData = data; }

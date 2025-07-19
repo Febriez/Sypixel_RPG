@@ -2,7 +2,9 @@ package com.febrie.rpg.quest.impl.main.chapter1;
 
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
@@ -21,7 +23,7 @@ import java.util.List;
  */
 public class AncientProphecyQuest extends Quest {
 
-    private static class AncientProphecyBuilder extends Quest.Builder {
+    private static class AncientProphecyBuilder extends QuestBuilder {
         @Override
         public Quest build() {
             return new AncientProphecyQuest(this);
@@ -32,11 +34,11 @@ public class AncientProphecyQuest extends Quest {
         this(createBuilder());
     }
 
-    private AncientProphecyQuest(@NotNull Builder builder) {
+    private AncientProphecyQuest(@NotNull QuestBuilder builder) {
         super(builder);
     }
 
-    private static Builder createBuilder() {
+    private static QuestBuilder createBuilder() {
         return new AncientProphecyBuilder()
                 .id(QuestID.MAIN_ANCIENT_PROPHECY)
                 .objectives(Arrays.asList(

@@ -118,7 +118,7 @@ public class IslandCreationGui extends BaseGui {
         setupDecorations();
         setupSelectionItems();
         setupCreateButton();
-        setupStandardNavigation(true, true);
+        setupStandardNavigation(false, false);  // 새로고침과 닫기 버튼 둘 다 제거
     }
     
     /**
@@ -203,31 +203,72 @@ public class IslandCreationGui extends BaseGui {
         // 현재 색상으로 양털 색상 결정
         Material woolType = getWoolByHex(islandColorHex);
         
+        // 다음/이전 색상 찾기
+        int currentIndex = AVAILABLE_COLORS.indexOf(islandColorHex);
+        int nextIndex = (currentIndex + 1) % AVAILABLE_COLORS.size();
+        int prevIndex = (currentIndex - 1 + AVAILABLE_COLORS.size()) % AVAILABLE_COLORS.size();
+        String nextColorName = getColorName(AVAILABLE_COLORS.get(nextIndex));
+        String prevColorName = getColorName(AVAILABLE_COLORS.get(prevIndex));
+        
         GuiItem colorItem = new GuiItem(
             new ItemBuilder(woolType)
                 .displayName(trans("items.island.creation.color.name"))
                 .lore(List.of(
                     Component.text(""),
                     Component.text("현재 색상: ", NamedTextColor.GRAY)
-                        .append(Component.text("███", ColorUtil.parseHexColor(islandColorHex))),
+                        .append(Component.text("███", ColorUtil.parseHexColor(islandColorHex)))
+                        .append(Component.text(" " + getColorName(islandColorHex), NamedTextColor.WHITE)),
                     Component.text("Hex: " + islandColorHex, NamedTextColor.GRAY),
                     Component.text(""),
-                    Component.text("좌클릭: 다음 색상", NamedTextColor.YELLOW),
-                    Component.text("우클릭: 이전 색상", NamedTextColor.YELLOW),
-                    Component.text("")
+                    Component.text("좌클릭: ", NamedTextColor.YELLOW)
+                        .append(Component.text("다음 (" + nextColorName + ")", NamedTextColor.GRAY)),
+                    Component.text("우클릭: ", NamedTextColor.YELLOW)
+                        .append(Component.text("이전 (" + prevColorName + ")", NamedTextColor.GRAY)),
+                    Component.text("가운데 클릭: ", NamedTextColor.AQUA)
+                        .append(Component.text("직접 HEX 코드 입력", NamedTextColor.GRAY)),
+                    Component.text(""),
+                    Component.text("예시: #FFFFFF (흰색)", NamedTextColor.DARK_GRAY)
                 ))
                 .build()
         ).onAnyClick((player, clickType) -> {
-            int currentIndex = AVAILABLE_COLORS.indexOf(islandColorHex);
+            int currentColorIndex = AVAILABLE_COLORS.indexOf(islandColorHex);
             if (clickType == ClickType.LEFT) {
-                currentIndex = (currentIndex + 1) % AVAILABLE_COLORS.size();
+                int newIndex = (currentColorIndex + 1) % AVAILABLE_COLORS.size();
+                islandColorHex = AVAILABLE_COLORS.get(newIndex);
+                updateColorItem();
+                updateNameItem();
+                updateCreateButton();
+                playClickSound(player);
             } else if (clickType == ClickType.RIGHT) {
-                currentIndex = (currentIndex - 1 + AVAILABLE_COLORS.size()) % AVAILABLE_COLORS.size();
+                int newIndex = (currentColorIndex - 1 + AVAILABLE_COLORS.size()) % AVAILABLE_COLORS.size();
+                islandColorHex = AVAILABLE_COLORS.get(newIndex);
+                updateColorItem();
+                updateNameItem();
+                updateCreateButton();
+                playClickSound(player);
+            } else if (clickType == ClickType.MIDDLE) {
+                // AnvilGUI로 HEX 코드 입력
+                new AnvilGUI.Builder()
+                    .onClick((slot, stateSnapshot) -> {
+                        if (slot != AnvilGUI.Slot.OUTPUT) {
+                            return Collections.emptyList();
+                        }
+                        String text = stateSnapshot.getText().trim();
+                        if (text.matches("^#[0-9A-Fa-f]{6}$")) {
+                            islandColorHex = text.toUpperCase();
+                            updateColorItem();
+                            updateNameItem();
+                            updateCreateButton();
+                            return List.of(AnvilGUI.ResponseAction.close());
+                        } else {
+                            return List.of(AnvilGUI.ResponseAction.replaceInputText("#RRGGBB 형식으로 입력"));
+                        }
+                    })
+                    .text(islandColorHex)
+                    .title("HEX 색상 코드 입력")
+                    .plugin(RPGMain.getInstance())
+                    .open(player);
             }
-            islandColorHex = AVAILABLE_COLORS.get(currentIndex);
-            updateColorItem();
-            updateNameItem(); // 이름 색상도 업데이트
-            playClickSound(player);
         });
         setItem(COLOR_SLOT, colorItem);
     }
@@ -238,7 +279,7 @@ public class IslandCreationGui extends BaseGui {
     private void updateBiomeItem() {
         Material biomeIcon = getBiomeIcon(selectedBiome);
         
-        GuiItem biomeItem = new GuiItem(
+        GuiItem biomeItem = GuiItem.clickable(
             new ItemBuilder(biomeIcon)
                 .displayName(trans("items.island.creation.biome.name"))
                 .lore(List.of(
@@ -246,22 +287,24 @@ public class IslandCreationGui extends BaseGui {
                     Component.text("현재 바이옴: ", NamedTextColor.GRAY)
                         .append(Component.text(getBiomeName(selectedBiome), NamedTextColor.GREEN)),
                     Component.text(""),
-                    Component.text("좌클릭: 다음 바이옴", NamedTextColor.YELLOW),
-                    Component.text("우클릭: 이전 바이옴", NamedTextColor.YELLOW),
+                    Component.text("▶ 클릭하여 변경", NamedTextColor.YELLOW),
                     Component.text("")
                 ))
-                .build()
-        ).onAnyClick((player, clickType) -> {
-            int currentIndex = AVAILABLE_BIOMES.indexOf(selectedBiome);
-            if (clickType == ClickType.LEFT) {
-                currentIndex = (currentIndex + 1) % AVAILABLE_BIOMES.size();
-            } else if (clickType == ClickType.RIGHT) {
-                currentIndex = (currentIndex - 1 + AVAILABLE_BIOMES.size()) % AVAILABLE_BIOMES.size();
+                .build(),
+            player -> {
+                // 바이옴 선택 GUI 열기
+                IslandBiomeSelectionGui biomeGui = IslandBiomeSelectionGui.create(
+                    guiManager, langManager, player, selectedBiome,
+                    biome -> {
+                        selectedBiome = biome;
+                        updateBiomeItem();
+                        updateCreateButton();
+                    },
+                    this  // 뒤로가기 시 이 GUI로 돌아옴
+                );
+                guiManager.openGui(player, biomeGui);
             }
-            selectedBiome = AVAILABLE_BIOMES.get(currentIndex);
-            updateBiomeItem();
-            playClickSound(player);
-        });
+        );
         setItem(BIOME_SLOT, biomeItem);
     }
     
@@ -357,12 +400,20 @@ public class IslandCreationGui extends BaseGui {
                             .decoration(TextDecoration.BOLD, true))
                         .append(Component.text(" 섬이 생성되었습니다!", NamedTextColor.GREEN)));
                     player.sendMessage(Component.text(""));
-                    player.sendMessage(Component.text("/섬 명령어로 섬 메뉴를 열 수 있습니다.", NamedTextColor.YELLOW));
+                    player.sendMessage(Component.text("잠시 후 섬으로 이동합니다...", NamedTextColor.YELLOW));
                     player.sendMessage(Component.text("====================", NamedTextColor.GREEN));
                     
-                    // 섬 메뉴 열기
-                    IslandMainGui islandGui = IslandMainGui.create(guiManager, langManager, player);
-                    guiManager.openGui(player, islandGui);
+                    // 섬으로 텔레포트 - 메인 스레드에서 실행
+                    org.bukkit.Bukkit.getScheduler().runTaskLater(RPGMain.getInstance(), () -> {
+                        // 생성된 섬 로드 후 텔레포트
+                        islandManager.loadIsland(player.getUniqueId().toString()).thenAccept(island -> {
+                            if (island != null) {
+                                org.bukkit.Bukkit.getScheduler().runTask(RPGMain.getInstance(), () -> {
+                                    player.teleport(island.getSpawnLocation());
+                                });
+                            }
+                        });
+                    }, 20L); // 1초 후 실행
                 } else {
                     player.sendMessage(Component.text("섬 생성에 실패했습니다.", NamedTextColor.RED));
                 }
@@ -465,6 +516,23 @@ public class IslandCreationGui extends BaseGui {
     
     @Override
     protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT, ClickType.RIGHT);
+        return List.of(ClickType.LEFT, ClickType.RIGHT, ClickType.MIDDLE);
+    }
+    
+    /**
+     * 색상 이름 반환
+     */
+    private String getColorName(String hex) {
+        return switch (hex) {
+            case "#FFFF00" -> "노란색";
+            case "#00FF00" -> "초록색";
+            case "#00FFFF" -> "하늘색";
+            case "#FF00FF" -> "보라색";
+            case "#FF0000" -> "빨간색";
+            case "#FFA500" -> "주황색";
+            case "#0000FF" -> "파란색";
+            case "#FFFFFF" -> "흰색";
+            default -> "사용자 정의";
+        };
     }
 }

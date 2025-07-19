@@ -14,6 +14,8 @@
     <properties>
         <java.version>24</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 기본 서버 경로 설정 - 시스템 프로퍼티로 오버라이드 가능 -->
+        <server.path>C:/Users/CoffeeTory/Desktop/Minecraft/Test_Server</server.path>
     </properties>
 
     <build>
@@ -48,7 +50,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <outputFile>${env.Sypixel_Server}/plugins/Sypixel_RPG.jar</outputFile>
+                            <outputFile>${server.path}/plugins/Sypixel_RPG.jar</outputFile>
 
                             <!-- 사용하지 않는 클래스 자동 제거 (비활성화 - Firebase 클래스 포함 필요) -->
                             <minimizeJar>false</minimizeJar>
@@ -139,6 +141,10 @@
             <id>codemc-snapshots</id>
             <url>https://repo.codemc.io/repository/maven-snapshots/</url>
         </repository>
+        <repository>
+            <id>enginehub-maven</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -193,6 +199,18 @@
             <groupId>net.wesjd</groupId>
             <artifactId>anvilgui</artifactId>
             <version>1.10.6-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fastasyncworldedit</groupId>
+            <artifactId>FastAsyncWorldEdit-Core</artifactId>
+            <version>2.13.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fastasyncworldedit</groupId>
+            <artifactId>FastAsyncWorldEdit-Bukkit</artifactId>
+            <version>2.13.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

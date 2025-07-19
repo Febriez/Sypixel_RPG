@@ -52,7 +52,7 @@ public class SystemSettingsGui extends BaseGui {
     public static SystemSettingsGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                           @NotNull Player player) {
         SystemSettingsGui gui = new SystemSettingsGui(guiManager, langManager, player);
-        gui.setupLayout();
+        gui.initialize("gui.system-settings.title");
         return gui;
     }
 
@@ -70,7 +70,7 @@ public class SystemSettingsGui extends BaseGui {
     protected void setupLayout() {
         setupDecorations();
         setupSettingControls();
-        setupStandardNavigation(true, true);
+        setupStandardNavigation(false, true);
     }
 
     /**

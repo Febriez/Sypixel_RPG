@@ -62,7 +62,7 @@ public class QuestListGui extends BaseGui {
     public static QuestListGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                      @NotNull Player viewer) {
         QuestListGui gui = new QuestListGui(guiManager, langManager, viewer);
-        gui.setupLayout();
+        gui.initialize("gui.quest-list.title");
         return gui;
     }
 

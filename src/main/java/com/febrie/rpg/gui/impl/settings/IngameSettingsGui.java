@@ -57,7 +57,7 @@ public class IngameSettingsGui extends BaseGui {
     public static IngameSettingsGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                           @NotNull Player player) {
         IngameSettingsGui gui = new IngameSettingsGui(guiManager, langManager, player);
-        gui.setupLayout();
+        gui.initialize("gui.ingame-settings.title");
         return gui;
     }
 
@@ -75,7 +75,7 @@ public class IngameSettingsGui extends BaseGui {
     protected void setupLayout() {
         setupDecorations();
         setupSettingControls();
-        setupStandardNavigation(true, true);
+        setupStandardNavigation(false, true);
     }
 
     /**

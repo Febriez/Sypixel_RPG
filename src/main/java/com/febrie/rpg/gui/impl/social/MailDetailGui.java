@@ -68,7 +68,7 @@ public class MailDetailGui extends BaseGui {
     public static MailDetailGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                       @NotNull Player player, @NotNull MailDTO mail) {
         MailDetailGui gui = new MailDetailGui(guiManager, langManager, player, mail);
-        gui.setupLayout();
+        gui.initialize("gui.mail-detail.title");
         gui.markAsRead();
         return gui;
     }

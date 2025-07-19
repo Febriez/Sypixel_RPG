@@ -1,6 +1,7 @@
 package com.febrie.rpg.quest.impl.seasonal;
 
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
@@ -19,7 +20,7 @@ public class SpringFestivalQuest extends Quest {
     /**
      * 퀘스트 빌더
      */
-    private static class SpringFestivalBuilder extends Quest.Builder {
+    private static class SpringFestivalBuilder extends QuestBuilder {
         @Override
         public Quest build() {
             return new SpringFestivalQuest(this);
@@ -36,14 +37,14 @@ public class SpringFestivalQuest extends Quest {
     /**
      * 빌더 생성자
      */
-    private SpringFestivalQuest(@NotNull Builder builder) {
+    private SpringFestivalQuest(@NotNull QuestBuilder builder) {
         super(builder);
     }
 
     /**
      * 빌더 생성 메서드
      */
-    private static Builder createBuilder() {
+    private static QuestBuilder createBuilder() {
         return new SpringFestivalBuilder()
                 .id(QuestID.SEASON_SPRING_FESTIVAL)
                 .category(QuestCategory.EVENT)

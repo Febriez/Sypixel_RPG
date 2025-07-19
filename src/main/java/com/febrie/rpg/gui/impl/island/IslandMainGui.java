@@ -80,7 +80,7 @@ public class IslandMainGui extends BaseGui {
     public static IslandMainGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                       @NotNull Player player) {
         IslandMainGui gui = new IslandMainGui(guiManager, langManager, player);
-        gui.setupLayout();
+        gui.initialize("gui.island.main.title");
         return gui;
     }
     
@@ -218,6 +218,7 @@ public class IslandMainGui extends BaseGui {
      */
     private void setupVisitorMenu() {
         setItem(13, createIslandInfoItem());
+        setItem(23, createContributionItem()); // 방문자도 기여도 순위를 볼 수 있도록 추가
         setItem(31, createVisitorListItem());
         setItem(32, createWarpItem());
     }
@@ -226,9 +227,12 @@ public class IslandMainGui extends BaseGui {
      * 섬 정보 아이템 생성
      */
     private GuiItem createIslandInfoItem() {
+        // 섬 이름에 설정된 색상 적용
+        net.kyori.adventure.text.format.TextColor nameColor = ColorUtil.parseHexColor(island.settings().nameColorHex());
+        
         return GuiItem.display(
             new ItemBuilder(Material.GRASS_BLOCK)
-                .displayName(Component.text(island.islandName(), ColorUtil.AQUA))
+                .displayName(Component.text(island.islandName(), nameColor))
                 .lore(List.of(
                     Component.empty(),
                     Component.text("섬장: ", ColorUtil.GRAY).append(Component.text(island.ownerName(), ColorUtil.WHITE)),

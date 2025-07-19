@@ -66,7 +66,7 @@ public class QuestDetailGui extends BaseGui {
     public static QuestDetailGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                        @NotNull Player viewer, @NotNull Quest quest, @NotNull QuestProgress progress) {
         QuestDetailGui gui = new QuestDetailGui(guiManager, langManager, viewer, quest, progress);
-        gui.setupLayout();
+        gui.initialize("gui.quest-detail.title");
         return gui;
     }
 

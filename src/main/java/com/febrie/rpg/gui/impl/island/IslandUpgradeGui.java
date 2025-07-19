@@ -327,7 +327,8 @@ public class IslandUpgradeGui extends BaseGui {
                 island.pendingInvites(),
                 island.recentVisits(),
                 island.totalResets(),
-                island.deletionScheduledAt()
+                island.deletionScheduledAt(),
+                island.settings()
         );
         
         // 저장

@@ -2,7 +2,9 @@ package com.febrie.rpg.quest.impl.clazz;
 
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -24,7 +26,7 @@ public class WarriorAdvancementQuest extends Quest {
     /**
      * 퀘스트 빌더
      */
-    private static class WarriorAdvancementBuilder extends Quest.Builder {
+    private static class WarriorAdvancementBuilder extends QuestBuilder {
         @Override
         public Quest build() {
             return new WarriorAdvancementQuest(this);
@@ -41,14 +43,14 @@ public class WarriorAdvancementQuest extends Quest {
     /**
      * 빌더 생성자
      */
-    private WarriorAdvancementQuest(@NotNull Builder builder) {
+    private WarriorAdvancementQuest(@NotNull QuestBuilder builder) {
         super(builder);
     }
 
     /**
      * 퀘스트 빌더 생성 및 설정
      */
-    private static Builder createBuilder() {
+    private static QuestBuilder createBuilder() {
         return new WarriorAdvancementBuilder()
                 .id(QuestID.CLASS_WARRIOR_ADVANCEMENT)
                 .objectives(Arrays.asList(

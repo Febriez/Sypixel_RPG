@@ -59,7 +59,7 @@ public class FriendRequestGui extends BaseGui {
     public static FriendRequestGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                          @NotNull Player player) {
         FriendRequestGui gui = new FriendRequestGui(guiManager, langManager, player);
-        gui.setupLayout();
+        gui.initialize("gui.friend-requests.title");
         gui.loadRequests();
         return gui;
     }

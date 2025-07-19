@@ -130,7 +130,7 @@ public class LeaderboardGui extends ScrollableGui {
     public static LeaderboardGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                        @NotNull Player viewer, @NotNull LeaderboardType type) {
         LeaderboardGui gui = new LeaderboardGui(guiManager, langManager, viewer, type);
-        gui.setupLayout();
+        gui.initialize("gui.leaderboard.title", "type", type.getDisplayName());
         gui.loadLeaderboard();
         return gui;
     }

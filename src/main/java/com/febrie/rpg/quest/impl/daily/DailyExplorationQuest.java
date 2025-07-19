@@ -2,7 +2,9 @@ package com.febrie.rpg.quest.impl.daily;
 
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
@@ -26,7 +28,7 @@ public class DailyExplorationQuest extends Quest {
     /**
      * 퀘스트 빌더
      */
-    private static class DailyExplorationBuilder extends Quest.Builder {
+    private static class DailyExplorationBuilder extends QuestBuilder {
         @Override
         public Quest build() {
             return new DailyExplorationQuest(this);
@@ -43,14 +45,14 @@ public class DailyExplorationQuest extends Quest {
     /**
      * 빌더 생성자
      */
-    private DailyExplorationQuest(@NotNull Builder builder) {
+    private DailyExplorationQuest(@NotNull QuestBuilder builder) {
         super(builder);
     }
 
     /**
      * 퀘스트 빌더 생성 및 설정
      */
-    private static Builder createBuilder() {
+    private static QuestBuilder createBuilder() {
         return new DailyExplorationBuilder()
                 .id(QuestID.DAILY_EXPLORATION)
                 .objectives(Arrays.asList(

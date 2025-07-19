@@ -253,7 +253,7 @@ public class IslandVisitorGui extends BaseGui {
     }
     
     private ItemStack createBackButton() {
-        return new ItemBuilder(Material.BARRIER)
+        return new ItemBuilder(Material.ARROW)
                 .displayName(ColorUtil.parseComponent("&c뒤로가기"))
                 .addLore(ColorUtil.parseComponent(""))
                 .addLore(ColorUtil.parseComponent("&7메인 메뉴로 돌아갉니다"))

@@ -4,12 +4,14 @@ import com.febrie.rpg.command.admin.AdminCommands;
 import com.febrie.rpg.command.system.MainMenuCommand;
 import com.febrie.rpg.command.system.SiteAccountCommand;
 import com.febrie.rpg.command.island.IslandCommand;
+import com.febrie.rpg.command.social.FriendCommand;
+import com.febrie.rpg.command.social.MailCommand;
+import com.febrie.rpg.command.social.WhisperCommand;
 import com.febrie.rpg.database.FirestoreManager;
 import com.febrie.rpg.database.service.impl.PlayerFirestoreService;
 import com.febrie.rpg.database.service.impl.QuestFirestoreService;
 import com.febrie.rpg.database.service.impl.IslandFirestoreService;
 import com.febrie.rpg.island.manager.IslandManager;
-import com.febrie.rpg.dto.system.ServerStatsDTO;
 import com.febrie.rpg.gui.listener.GuiListener;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.listener.DamageDisplayListener;
@@ -20,6 +22,7 @@ import com.febrie.rpg.npc.NPCTraitSetter;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.quest.guide.QuestGuideManager;
 import com.febrie.rpg.quest.manager.QuestManager;
+import com.febrie.rpg.system.ServerStatsManager;
 import com.febrie.rpg.talent.TalentManager;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
@@ -28,17 +31,12 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreOptions;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.concurrent.CompletableFuture;
 
 /**
  * Sypixel RPG 메인 플러그인 클래스
  * 서비스 패키지 제거 및 간소화된 아키텍처
- * 서버 통계 자동 저장 기능 추가
  *
  * @author Febrie, CoffeeTory
  */
@@ -60,27 +58,20 @@ public final class RPGMain extends JavaPlugin {
     private QuestFirestoreService questFirestoreService;
     private IslandFirestoreService islandFirestoreService;
     private IslandManager islandManager;
+    private ServerStatsManager serverStatsManager;
 
     // 명령어
     private MainMenuCommand mainMenuCommand;
     private AdminCommands adminCommands;
     private SiteAccountCommand siteAccountCommand;
     private IslandCommand islandCommand;
-
-    // 서버 통계 관련
-    private BukkitTask serverStatsTask;
-    private BukkitTask dailyStatsTask;
-    private String lastSavedDate = "";
-    private long startTime;
-
-    // TPS 측정
-    private final long[] tpsHistory = new long[20]; // 최근 20번의 틱 시간 저장
-    private int tpsIndex = 0;
+    private FriendCommand friendCommand;
+    private MailCommand mailCommand;
+    private WhisperCommand whisperCommand;
 
     @Override
     public void onEnable() {
         plugin = this;
-        startTime = System.currentTimeMillis();
 
         // LogUtil 초기화
         LogUtil.initialize(this);
@@ -93,17 +84,17 @@ public final class RPGMain extends JavaPlugin {
         registerCommands();
 
         // 서버 통계 시스템 시작
-        startServerStatsSystem();
-
+        if (serverStatsManager != null) {
+            serverStatsManager.start();
+        }
     }
 
     @Override
     public void onDisable() {
-        // 서버 통계 태스크 중지
-        stopServerStatsSystem();
-
-        // 최종 서버 통계 저장
-        saveCurrentServerStats();
+        // 서버 통계 매니저 종료
+        if (serverStatsManager != null) {
+            serverStatsManager.shutdown();
+        }
 
         // 모든 데이터 저장
         if (rpgPlayerManager != null) {
@@ -205,12 +196,18 @@ public final class RPGMain extends JavaPlugin {
         // 섬 매니저 초기화
         this.islandManager = new IslandManager(this, islandFirestoreService);
         this.islandManager.initialize();
+        
+        // 서버 통계 매니저 초기화
+        this.serverStatsManager = new ServerStatsManager(this, firestoreManager, rpgPlayerManager);
 
         // 명령어 객체 생성 (실제 등록은 registerCommands에서)
         this.mainMenuCommand = new MainMenuCommand(this, langManager, guiManager);
         this.adminCommands = new AdminCommands(this, rpgPlayerManager, guiManager, langManager);
         this.siteAccountCommand = new SiteAccountCommand(this);
         this.islandCommand = new IslandCommand(this);
+        this.friendCommand = new FriendCommand(this, guiManager, langManager);
+        this.mailCommand = new MailCommand(this, guiManager, langManager);
+        this.whisperCommand = new WhisperCommand(this);
     }
 
     /**
@@ -275,166 +272,37 @@ public final class RPGMain extends JavaPlugin {
         if (islandCommand != null) {
             getCommand("섬").setExecutor(islandCommand);
         }
-
-    }
-
-    /**
-     * 서버 통계 시스템 시작
-     */
-    private void startServerStatsSystem() {
-
-        // TPS 측정을 위한 틱 리스너 등록
-        startTpsMonitoring();
-
-        // 5분마다 통계 업데이트 (메모리에서만)
-        serverStatsTask = getServer().getScheduler().runTaskTimerAsynchronously(this,
-                this::updateInMemoryStats,
-                6000L,  // 5분 후 시작
-                6000L   // 5분마다 반복
-        );
-
-        // 매일 자정에 통계 저장
-        scheduleDailyStatsSave();
-
-    }
-
-    /**
-     * TPS 모니터링 시작
-     */
-    private void startTpsMonitoring() {
-        getServer().getScheduler().runTaskTimer(this, () -> {
-            long currentTime = System.currentTimeMillis();
-            tpsHistory[tpsIndex] = currentTime;
-            tpsIndex = (tpsIndex + 1) % tpsHistory.length;
-        }, 0L, 1L); // 매 틱마다 실행
-    }
-
-    /**
-     * 매일 통계 저장 스케줄 설정
-     */
-    private void scheduleDailyStatsSave() {
-        // 다음 자정까지의 시간 계산
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime nextMidnight = now.toLocalDate().plusDays(1).atStartOfDay();
-        long delayTicks = ChronoUnit.SECONDS.between(now, nextMidnight) * 20;
-
-        // 자정에 저장 후 24시간마다 반복
-        dailyStatsTask = getServer().getScheduler().runTaskTimerAsynchronously(this,
-                this::saveCurrentServerStats,
-                delayTicks,     // 다음 자정까지 대기
-                24 * 60 * 60 * 20L  // 24시간마다 반복
-        );
-
-    }
-
-    /**
-     * 메모리 내 통계 업데이트 (저장하지 않음)
-     */
-    private void updateInMemoryStats() {
-        try {
-            ServerStatsDTO currentStats = collectCurrentServerStats();
-        } catch (Exception e) {
-            LogUtil.error("서버 통계 업데이트 중 오류 발생", e);
+        
+        // 소셜 명령어 등록
+        if (friendCommand != null) {
+            getCommand("친구").setExecutor(friendCommand);
+            getCommand("친구").setTabCompleter(friendCommand);
         }
-    }
-
-    /**
-     * 현재 서버 통계 저장
-     */
-    private void saveCurrentServerStats() {
-        // Firebase 연결 확인
-        if (firestoreManager == null || !firestoreManager.isInitialized()) {
-            return;
+        
+        if (mailCommand != null) {
+            getCommand("메일").setExecutor(mailCommand);
+            getCommand("메일").setTabCompleter(mailCommand);
         }
-        // SystemFirestoreService를 통한 서버 통계 저장 구현 필요
-    }
-
-    /**
-     * 현재 서버 통계 수집
-     */
-    private ServerStatsDTO collectCurrentServerStats() {
-        int onlinePlayers = getServer().getOnlinePlayers().size();
-        int maxPlayers = getServer().getMaxPlayers();
-        int totalPlayers = rpgPlayerManager != null ? rpgPlayerManager.getOnlinePlayerCount() : onlinePlayers;
-        long uptime = System.currentTimeMillis() - startTime;
-        double tps = calculateCurrentTPS();
-        long totalPlaytime = calculateTotalPlaytime();
-        String version = getServer().getVersion();
-
-        return new ServerStatsDTO(
-                onlinePlayers, maxPlayers, totalPlayers,
-                uptime, tps, totalPlaytime, version
-        );
-    }
-
-    /**
-     * 현재 TPS 계산
-     */
-    private double calculateCurrentTPS() {
-        if (tpsHistory[0] == 0) {
-            return 20.0; // 아직 충분한 데이터가 없으면 이상적인 값 반환
+        
+        if (whisperCommand != null) {
+            getCommand("귀속말").setExecutor(whisperCommand);
+            getCommand("귀속말").setTabCompleter(whisperCommand);
         }
 
-        try {
-            long newest = tpsHistory[(tpsIndex - 1 + tpsHistory.length) % tpsHistory.length];
-            long oldest = tpsHistory[tpsIndex];
-
-            if (oldest == 0 || newest <= oldest) {
-                return 20.0;
-            }
-
-            long timeDiff = newest - oldest;
-            double secondsDiff = timeDiff / 1000.0;
-
-            if (secondsDiff <= 0) {
-                return 20.0;
-            }
-
-            // 20틱 동안의 시간을 측정했으므로
-            double actualTps = (tpsHistory.length - 1) / secondsDiff;
-
-            // TPS는 최대 20으로 제한
-            return Math.min(20.0, Math.max(0.0, actualTps));
-        } catch (Exception e) {
-            return 20.0;
-        }
-    }
-
-    /**
-     * 총 플레이타임 계산
-     */
-    private long calculateTotalPlaytime() {
-        if (rpgPlayerManager == null) {
-            return 0L;
-        }
-        return rpgPlayerManager.getTotalPlaytime(); // 임시로 서버 업타임 반환
-    }
-
-    /**
-     * 서버 통계 시스템 중지
-     */
-    private void stopServerStatsSystem() {
-        if (serverStatsTask != null && !serverStatsTask.isCancelled()) {
-            serverStatsTask.cancel();
-        }
-
-        if (dailyStatsTask != null && !dailyStatsTask.isCancelled()) {
-            dailyStatsTask.cancel();
-        }
     }
 
     /**
      * 현재 TPS 조회 (외부에서 사용)
      */
     public double getCurrentTPS() {
-        return calculateCurrentTPS();
+        return serverStatsManager != null ? serverStatsManager.calculateCurrentTPS() : 20.0;
     }
 
     /**
      * 서버 업타임 조회 (외부에서 사용)
      */
     public long getUptime() {
-        return System.currentTimeMillis() - startTime;
+        return serverStatsManager != null ? serverStatsManager.getUptime() : 0L;
     }
 
     // Getter 메소드들
@@ -489,7 +357,7 @@ public final class RPGMain extends JavaPlugin {
     }
 
     public long getStartTime() {
-        return startTime;
+        return serverStatsManager != null ? serverStatsManager.getUptime() : 0L;
     }
     
     public PlayerFirestoreService getPlayerFirestoreService() {

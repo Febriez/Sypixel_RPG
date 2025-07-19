@@ -2,7 +2,9 @@ package com.febrie.rpg.quest.impl.tutorial;
 
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
@@ -26,7 +28,7 @@ public class BasicCombatQuest extends Quest {
     /**
      * 퀘스트 빌더
      */
-    private static class BasicCombatBuilder extends Quest.Builder {
+    private static class BasicCombatBuilder extends QuestBuilder {
         @Override
         public Quest build() {
             return new BasicCombatQuest(this);
@@ -43,14 +45,14 @@ public class BasicCombatQuest extends Quest {
     /**
      * 빌더 생성자
      */
-    private BasicCombatQuest(@NotNull Builder builder) {
+    private BasicCombatQuest(@NotNull QuestBuilder builder) {
         super(builder);
     }
 
     /**
      * 퀘스트 설정
      */
-    private static Builder createBuilder() {
+    private static QuestBuilder createBuilder() {
         return new BasicCombatBuilder()
                 .id(QuestID.TUTORIAL_BASIC_COMBAT)
                 .objectives(Arrays.asList(

@@ -68,7 +68,7 @@ public class QuestDialogGui extends BaseGui {
     public static QuestDialogGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                                        @NotNull Player player, @NotNull Quest quest) {
         QuestDialogGui gui = new QuestDialogGui(guiManager, langManager, player, quest);
-        gui.setupLayout(); // GUI 레이아웃 초기화
+        gui.initialize("gui.quest-dialog.title"); // GUI 레이아웃 초기화
         return gui;
     }
 

@@ -33,7 +33,8 @@ public record IslandDTO(
         @NotNull List<IslandInviteDTO> pendingInvites, // 대기중인 초대
         @NotNull List<IslandVisitDTO> recentVisits, // 최근 방문 기록
         int totalResets, // 총 초기화 횟수
-        @Nullable Long deletionScheduledAt // 삭제 예정 시간 (null이면 삭제 예정 없음)
+        @Nullable Long deletionScheduledAt, // 삭제 예정 시간 (null이면 삭제 예정 없음)
+        @NotNull IslandSettingsDTO settings // 섬 설정 (색상, 바이옴, 템플릿)
 ) {
     /**
      * 신규 섬 생성용 기본 생성자
@@ -57,7 +58,8 @@ public record IslandDTO(
                 List.of(),
                 List.of(),
                 0,
-                null
+                null,
+                IslandSettingsDTO.createDefault()
         );
     }
     
@@ -249,6 +251,11 @@ public record IslandDTO(
             fields.add("deletionScheduledAt", deletionValue);
         }
         
+        // settings
+        JsonObject settingsValue = new JsonObject();
+        settingsValue.add("mapValue", settings.toJsonObject());
+        fields.add("settings", settingsValue);
+        
         json.add("fields", fields);
         return json;
     }
@@ -394,6 +401,11 @@ public record IslandDTO(
             deletionScheduledAt = fields.getAsJsonObject("deletionScheduledAt").get("integerValue").getAsLong();
         }
         
+        // settings 파싱
+        IslandSettingsDTO settings = fields.has("settings") && fields.getAsJsonObject("settings").has("mapValue")
+                ? IslandSettingsDTO.fromJsonObject(fields.getAsJsonObject("settings").getAsJsonObject("mapValue"))
+                : IslandSettingsDTO.createDefault();
+        
         return new IslandDTO(
                 islandId,
                 ownerUuid,
@@ -412,7 +424,8 @@ public record IslandDTO(
                 pendingInvites,
                 recentVisits,
                 totalResets,
-                deletionScheduledAt
+                deletionScheduledAt,
+                settings
         );
     }
     
