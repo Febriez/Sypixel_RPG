@@ -1,9 +1,6 @@
 package com.febrie.rpg.dto.quest;
 
 import com.google.gson.JsonObject;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -12,9 +9,6 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Febrie
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class CompletedQuestDTO {
     private String questId;
     private long completedAt;    // 퀘스트 완료 시간
@@ -22,10 +16,64 @@ public class CompletedQuestDTO {
     private boolean rewarded;    // 보상 수령 여부
     
     /**
+     * 기본 생성자
+     */
+    public CompletedQuestDTO() {
+        this.questId = "";
+        this.completedAt = System.currentTimeMillis();
+        this.completionCount = 1;
+        this.rewarded = false;
+    }
+    
+    /**
+     * 전체 생성자
+     */
+    public CompletedQuestDTO(String questId, long completedAt, int completionCount, boolean rewarded) {
+        this.questId = questId;
+        this.completedAt = completedAt;
+        this.completionCount = completionCount;
+        this.rewarded = rewarded;
+    }
+    
+    /**
      * 간편 생성자 (이전 버전 호환용)
      */
     public CompletedQuestDTO(String questId, long completedAt, int completionCount) {
         this(questId, completedAt, completionCount, false);
+    }
+    
+    // Getter methods
+    public String getQuestId() {
+        return questId;
+    }
+    
+    public long getCompletedAt() {
+        return completedAt;
+    }
+    
+    public int getCompletionCount() {
+        return completionCount;
+    }
+    
+    public boolean isRewarded() {
+        return rewarded;
+    }
+    
+    // Setter methods
+    public void setQuestId(String questId) {
+        this.questId = questId;
+    }
+    
+    public void setCompletedAt(long completedAt) {
+        this.completedAt = completedAt;
+    }
+    
+    public void setCompletionCount(int completionCount) {
+        this.completionCount = completionCount;
+    }
+    
+    public void setRewarded(boolean rewarded) {
+        this.rewarded = rewarded;
     }
     
     /**

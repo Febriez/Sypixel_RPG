@@ -263,7 +263,7 @@ public class IslandManager {
     /**
      * 플레이어가 섬을 떠날 때 데이터 업데이트
      */
-    private CompletableFuture<Boolean> updatePlayerLeaveIsland(@NotNull String playerUuid) {
+    public CompletableFuture<Boolean> updatePlayerLeaveIsland(@NotNull String playerUuid) {
         return loadPlayerIslandData(playerUuid).thenCompose(data -> {
             if (data == null || !data.hasIsland()) {
                 return CompletableFuture.completedFuture(true);
@@ -404,5 +404,24 @@ public class IslandManager {
         islandCache.clear();
         playerIslandMap.clear();
         playerDataCache.clear();
+    }
+    
+    /**
+     * FirestoreService 가져오기
+     */
+    public FirestoreRestService getFirestoreService() {
+        return firestoreService;
+    }
+    
+    /**
+     * 플레이어 캐시 업데이트
+     */
+    public void updatePlayerCache(@NotNull String playerUuid, @NotNull PlayerIslandDataDTO data) {
+        playerDataCache.put(playerUuid, data);
+        if (data.currentIslandId() != null) {
+            playerIslandMap.put(playerUuid, data.currentIslandId());
+        } else {
+            playerIslandMap.remove(playerUuid);
+        }
     }
 }

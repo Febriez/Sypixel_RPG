@@ -6,6 +6,7 @@ import com.febrie.rpg.gui.BaseGui;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LegacyItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -85,7 +86,7 @@ public class IslandMainGui extends BaseGui {
      * 섬 정보 아이템 생성
      */
     private ItemStack createIslandInfoItem() {
-        return new ItemBuilder(Material.GRASS_BLOCK)
+        return new LegacyItemBuilder(Material.GRASS_BLOCK)
                 .setDisplayName(ColorUtil.colorize("&b" + island.islandName()))
                 .addLore("")
                 .addLore(ColorUtil.colorize("&7섬장: &f" + island.ownerName()))
@@ -102,7 +103,7 @@ public class IslandMainGui extends BaseGui {
      * 멤버 관리 아이템
      */
     private ItemStack createMemberManagementItem() {
-        return new ItemBuilder(Material.PLAYER_HEAD)
+        return new LegacyItemBuilder(Material.PLAYER_HEAD)
                 .setDisplayName(ColorUtil.colorize("&a멤버 관리"))
                 .addLore("")
                 .addLore(ColorUtil.colorize("&7섬원을 초대하거나"))
@@ -116,7 +117,7 @@ public class IslandMainGui extends BaseGui {
      * 권한 관리 아이템
      */
     private ItemStack createPermissionManagementItem() {
-        return new ItemBuilder(Material.COMMAND_BLOCK)
+        return new LegacyItemBuilder(Material.COMMAND_BLOCK)
                 .setDisplayName(ColorUtil.colorize("&c권한 관리"))
                 .addLore("")
                 .addLore(ColorUtil.colorize("&7각 역할의 권한을"))
@@ -130,13 +131,13 @@ public class IslandMainGui extends BaseGui {
      * 업그레이드 아이템
      */
     private ItemStack createUpgradeItem() {
-        return new ItemBuilder(Material.ANVIL)
+        return new LegacyItemBuilder(Material.ANVIL)
                 .setDisplayName(ColorUtil.colorize("&6업그레이드"))
                 .addLore("")
                 .addLore(ColorUtil.colorize("&7현재 레벨:"))
                 .addLore(ColorUtil.colorize("  &f크기: &e" + island.upgradeData().sizeLevel() + " 레벨"))
-                .addLore(ColorUtil.colorize("  &f멤버: &e" + island.upgradeData().memberLevel() + " 레벨"))
-                .addLore(ColorUtil.colorize("  &f알바: &e" + island.upgradeData().workerLevel() + " 레벨"))
+                .addLore(ColorUtil.colorize("  &f멤버: &e" + island.upgradeData().memberLimitLevel() + " 레벨"))
+                .addLore(ColorUtil.colorize("  &f알바: &e" + island.upgradeData().workerLimitLevel() + " 레벨"))
                 .addLore("")
                 .addLore(ColorUtil.colorize("&e▶ 클릭하여 열기"))
                 .build();
@@ -146,7 +147,7 @@ public class IslandMainGui extends BaseGui {
      * 기여도 아이템
      */
     private ItemStack createContributionItem() {
-        return new ItemBuilder(Material.EMERALD)
+        return new LegacyItemBuilder(Material.EMERALD)
                 .setDisplayName(ColorUtil.colorize("&a기여도"))
                 .addLore("")
                 .addLore(ColorUtil.colorize("&7섬원들의 기여도를"))
@@ -163,7 +164,7 @@ public class IslandMainGui extends BaseGui {
      * 스폰 설정 아이템
      */
     private ItemStack createSpawnSettingsItem() {
-        return new ItemBuilder(Material.ENDER_PEARL)
+        return new LegacyItemBuilder(Material.ENDER_PEARL)
                 .setDisplayName(ColorUtil.colorize("&d스폰 설정"))
                 .addLore("")
                 .addLore(ColorUtil.colorize("&7섬의 스폰 위치를"))
@@ -177,7 +178,7 @@ public class IslandMainGui extends BaseGui {
      * 섬 설정 아이템
      */
     private ItemStack createIslandSettingsItem() {
-        return new ItemBuilder(Material.COMPARATOR)
+        return new LegacyItemBuilder(Material.COMPARATOR)
                 .setDisplayName(ColorUtil.colorize("&9섬 설정"))
                 .addLore("")
                 .addLore(ColorUtil.colorize("&7섬 이름 변경"))
@@ -192,7 +193,7 @@ public class IslandMainGui extends BaseGui {
      * 방문자 목록 아이템
      */
     private ItemStack createVisitorListItem() {
-        return new ItemBuilder(Material.BOOK)
+        return new LegacyItemBuilder(Material.BOOK)
                 .setDisplayName(ColorUtil.colorize("&f방문자 기록"))
                 .addLore("")
                 .addLore(ColorUtil.colorize("&7최근 방문자 목록을"))
@@ -208,7 +209,7 @@ public class IslandMainGui extends BaseGui {
      * 워프 아이템
      */
     private ItemStack createWarpItem() {
-        return new ItemBuilder(Material.COMPASS)
+        return new LegacyItemBuilder(Material.COMPASS)
                 .setDisplayName(ColorUtil.colorize("&b섬으로 이동"))
                 .addLore("")
                 .addLore(ColorUtil.colorize("&7섬으로 순간이동합니다."))
@@ -221,7 +222,7 @@ public class IslandMainGui extends BaseGui {
      * 닫기 버튼
      */
     private ItemStack createCloseButton() {
-        return new ItemBuilder(Material.BARRIER)
+        return new LegacyItemBuilder(Material.BARRIER)
                 .setDisplayName(ColorUtil.colorize("&c닫기"))
                 .addLore("")
                 .addLore(ColorUtil.colorize("&7메뉴를 닫습니다."))
@@ -239,23 +240,19 @@ public class IslandMainGui extends BaseGui {
         switch (slot) {
             case 20 -> { // 멤버 관리
                 if (isOwnerOrCoOwner()) {
-                    // TODO: 멤버 관리 GUI 열기
-                    player.sendMessage(ColorUtil.colorize("&c준비 중인 기능입니다."));
+                    new IslandMemberGui(plugin, islandManager, island, player).open();
                 }
             }
             case 21 -> { // 권한 관리
                 if (isOwner()) {
-                    // TODO: 권한 관리 GUI 열기
-                    player.sendMessage(ColorUtil.colorize("&c준비 중인 기능입니다."));
+                    new IslandPermissionGui(plugin, islandManager, island, player).open();
                 }
             }
             case 22 -> { // 업그레이드
-                // TODO: 업그레이드 GUI 열기
-                player.sendMessage(ColorUtil.colorize("&c준비 중인 기능입니다."));
+                new IslandUpgradeGui(plugin, player, island).open(player);
             }
             case 23 -> { // 기여도
-                // TODO: 기여도 GUI 열기
-                player.sendMessage(ColorUtil.colorize("&c준비 중인 기능입니다."));
+                new IslandContributionGui(plugin, player, island, 1).open();
             }
             case 24 -> { // 스폰 설정
                 if (hasSpawnPermission()) {
@@ -270,8 +267,7 @@ public class IslandMainGui extends BaseGui {
                 }
             }
             case 31 -> { // 방문자 목록
-                // TODO: 방문자 목록 GUI 열기
-                player.sendMessage(ColorUtil.colorize("&c준비 중인 기능입니다."));
+                new IslandVisitorGui(plugin, player, island, 1).open();
             }
             case 32 -> { // 섬으로 이동
                 handleWarp(player);
@@ -311,7 +307,7 @@ public class IslandMainGui extends BaseGui {
         String uuid = viewer.getUniqueId().toString();
         return island.ownerUuid().equals(uuid) || 
                island.members().stream()
-                   .anyMatch(m -> m.uuid().equals(uuid) && m.role().name().equals("CO_OWNER"));
+                   .anyMatch(m -> m.uuid().equals(uuid) && m.isCoOwner());
     }
     
     private boolean hasSpawnPermission() {

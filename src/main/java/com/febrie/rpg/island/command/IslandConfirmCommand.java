@@ -78,7 +78,7 @@ public class IslandConfirmCommand implements CommandExecutor {
                         player.sendMessage(ColorUtil.colorize("&a섬이 성공적으로 삭제되었습니다."));
                         
                         // 플레이어를 스폰으로 이동
-                        if (plugin.getServer().getWorlds().size() > 0) {
+                        if (!plugin.getServer().getWorlds().isEmpty()) {
                             player.teleport(plugin.getServer().getWorlds().get(0).getSpawnLocation());
                         }
                     } else {

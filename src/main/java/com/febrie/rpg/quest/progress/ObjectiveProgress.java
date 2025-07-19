@@ -1,5 +1,6 @@
 package com.febrie.rpg.quest.progress;
 
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -204,5 +205,101 @@ public class ObjectiveProgress {
     public String toString() {
         return String.format("ObjectiveProgress{id=%s, player=%s, progress=%d/%d, completed=%s}",
                 objectiveId, playerId, currentValue, requiredValue, completed);
+    }
+    
+    /**
+     * JsonObject로 변환 (Firebase 저장용)
+     */
+    @NotNull
+    public JsonObject toJsonObject() {
+        JsonObject json = new JsonObject();
+        JsonObject fields = new JsonObject();
+        
+        // objectiveId
+        JsonObject objectiveIdValue = new JsonObject();
+        objectiveIdValue.addProperty("stringValue", objectiveId);
+        fields.add("objectiveId", objectiveIdValue);
+        
+        // playerId
+        JsonObject playerIdValue = new JsonObject();
+        playerIdValue.addProperty("stringValue", playerId.toString());
+        fields.add("playerId", playerIdValue);
+        
+        // currentValue
+        JsonObject currentValueValue = new JsonObject();
+        currentValueValue.addProperty("integerValue", currentValue);
+        fields.add("currentValue", currentValueValue);
+        
+        // requiredValue
+        JsonObject requiredValueValue = new JsonObject();
+        requiredValueValue.addProperty("integerValue", requiredValue);
+        fields.add("requiredValue", requiredValueValue);
+        
+        // completed
+        JsonObject completedValue = new JsonObject();
+        completedValue.addProperty("booleanValue", completed);
+        fields.add("completed", completedValue);
+        
+        // startedAt
+        JsonObject startedAtValue = new JsonObject();
+        startedAtValue.addProperty("integerValue", startedAt);
+        fields.add("startedAt", startedAtValue);
+        
+        // completedAt
+        JsonObject completedAtValue = new JsonObject();
+        completedAtValue.addProperty("integerValue", completedAt);
+        fields.add("completedAt", completedAtValue);
+        
+        // lastUpdated
+        JsonObject lastUpdatedValue = new JsonObject();
+        lastUpdatedValue.addProperty("integerValue", lastUpdated);
+        fields.add("lastUpdated", lastUpdatedValue);
+        
+        json.add("fields", fields);
+        return json;
+    }
+    
+    /**
+     * JsonObject에서 ObjectiveProgress 생성
+     */
+    @NotNull
+    public static ObjectiveProgress fromJsonObject(@NotNull JsonObject json) {
+        if (!json.has("fields")) {
+            throw new IllegalArgumentException("Invalid ObjectiveProgress JSON structure");
+        }
+        
+        JsonObject fields = json.getAsJsonObject("fields");
+        
+        String objectiveId = fields.has("objectiveId") && fields.getAsJsonObject("objectiveId").has("stringValue")
+                ? fields.getAsJsonObject("objectiveId").get("stringValue").getAsString()
+                : "";
+                
+        String playerIdStr = fields.has("playerId") && fields.getAsJsonObject("playerId").has("stringValue")
+                ? fields.getAsJsonObject("playerId").get("stringValue").getAsString()
+                : "";
+        UUID playerId = UUID.fromString(playerIdStr);
+        
+        int currentValue = fields.has("currentValue") && fields.getAsJsonObject("currentValue").has("integerValue")
+                ? fields.getAsJsonObject("currentValue").get("integerValue").getAsInt()
+                : 0;
+                
+        int requiredValue = fields.has("requiredValue") && fields.getAsJsonObject("requiredValue").has("integerValue")
+                ? fields.getAsJsonObject("requiredValue").get("integerValue").getAsInt()
+                : 1;
+                
+        boolean completed = fields.has("completed") && fields.getAsJsonObject("completed").has("booleanValue")
+                ? fields.getAsJsonObject("completed").get("booleanValue").getAsBoolean()
+                : false;
+                
+        long startedAt = fields.has("startedAt") && fields.getAsJsonObject("startedAt").has("integerValue")
+                ? fields.getAsJsonObject("startedAt").get("integerValue").getAsLong()
+                : System.currentTimeMillis();
+                
+        long completedAt = fields.has("completedAt") && fields.getAsJsonObject("completedAt").has("integerValue")
+                ? fields.getAsJsonObject("completedAt").get("integerValue").getAsLong()
+                : 0;
+        
+        return new ObjectiveProgress(objectiveId, playerId, currentValue, requiredValue, 
+                completed, startedAt, completedAt);
     }
 }

@@ -89,7 +89,8 @@ public class QuestRewardGui extends BaseGui {
      */
     private void setupRewardItems() {
         // Quest의 itemRewards 가져오기
-        List<ItemStack> rewards = quest.getItemRewards();
+        // TODO: Implement when Quest has getItemRewards method
+        List<ItemStack> rewards = new ArrayList<>(); // quest.getItemRewards();
         
         int slot = 0;
         for (ItemStack reward : rewards) {
@@ -200,7 +201,7 @@ public class QuestRewardGui extends BaseGui {
     private void giveInstantRewards() {
         // 경험치 지급
         if (quest.getExpReward() > 0) {
-            viewer.giveExp(quest.getExpReward());
+            viewer.giveExp((int) quest.getExpReward());
             viewer.sendMessage(trans("gui.quest-reward.exp-received", 
                 "amount", String.valueOf(quest.getExpReward())).color(ColorUtil.SUCCESS));
         }
@@ -245,9 +246,10 @@ public class QuestRewardGui extends BaseGui {
         return null; // 보상 GUI는 뒤로가기 불가
     }
 
-    @Override
-    public void onClose() {
-        super.onClose();
+    /**
+     * GUI 닫힐 때 처리
+     */
+    public void handleClose() {
         if (!hasClaimed && !rewardItems.isEmpty()) {
             // 경고 메시지
             viewer.sendMessage(Component.empty());

@@ -1,8 +1,12 @@
 package com.febrie.rpg.dto.island;
 
+import com.google.gson.JsonObject;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 섬 위치 정보 DTO (Record)
@@ -97,5 +101,81 @@ public record IslandLocationDTO(
         }
         
         return new IslandLocationDTO(x * gridSize, z * gridSize, 85);
+    }
+    
+    /**
+     * JsonObject로 변환 (Firebase 저장용)
+     */
+    @NotNull
+    public JsonObject toJsonObject() {
+        JsonObject json = new JsonObject();
+        JsonObject fields = new JsonObject();
+        
+        JsonObject centerXValue = new JsonObject();
+        centerXValue.addProperty("integerValue", centerX);
+        fields.add("centerX", centerXValue);
+        
+        JsonObject centerZValue = new JsonObject();
+        centerZValue.addProperty("integerValue", centerZ);
+        fields.add("centerZ", centerZValue);
+        
+        JsonObject sizeValue = new JsonObject();
+        sizeValue.addProperty("integerValue", size);
+        fields.add("size", sizeValue);
+        
+        json.add("fields", fields);
+        return json;
+    }
+    
+    /**
+     * JsonObject에서 생성
+     */
+    @NotNull
+    public static IslandLocationDTO fromJsonObject(@NotNull JsonObject json) {
+        if (!json.has("fields")) {
+            throw new IllegalArgumentException("Invalid IslandLocationDTO JSON: missing fields");
+        }
+        
+        JsonObject fields = json.getAsJsonObject("fields");
+        
+        int centerX = fields.has("centerX") && fields.getAsJsonObject("centerX").has("integerValue")
+                ? fields.getAsJsonObject("centerX").get("integerValue").getAsInt()
+                : 0;
+                
+        int centerZ = fields.has("centerZ") && fields.getAsJsonObject("centerZ").has("integerValue")
+                ? fields.getAsJsonObject("centerZ").get("integerValue").getAsInt()
+                : 0;
+                
+        int size = fields.has("size") && fields.getAsJsonObject("size").has("integerValue")
+                ? fields.getAsJsonObject("size").get("integerValue").getAsInt()
+                : 85;
+        
+        return new IslandLocationDTO(centerX, centerZ, size);
+    }
+    
+    /**
+     * Map으로 변환 (하위 호환성)
+     */
+    @Deprecated
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("centerX", centerX);
+        map.put("centerZ", centerZ);
+        map.put("size", size);
+        return map;
+    }
+    
+    /**
+     * Map에서 생성 (하위 호환성)
+     */
+    @Deprecated
+    public static IslandLocationDTO fromMap(Map<String, Object> map) {
+        if (map == null) return null;
+        
+        return new IslandLocationDTO(
+                ((Number) map.get("centerX")).intValue(),
+                ((Number) map.get("centerZ")).intValue(),
+                ((Number) map.get("size")).intValue()
+        );
     }
 }

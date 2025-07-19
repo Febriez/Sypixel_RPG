@@ -1,7 +1,9 @@
 package com.febrie.rpg.util;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -239,6 +241,60 @@ public final class ColorUtil {
     }
 
     /**
+     * Legacy color codes를 적절한 형식으로 변환
+     * & 기호를 사용한 색상 코드를 처리합니다.
+     * 
+     * 이 메소드는 String을 반환하지만, 내부적으로 Component 변환을 거쳐
+     * 올바른 색상 포맷팅을 보장합니다.
+     *
+     * @param text 변환할 텍스트 (예: "&a안녕하세요 &c테스트")
+     * @return 색상이 적용된 문자열
+     */
+    @NotNull
+    public static String colorize(@NotNull String text) {
+        // Legacy serializer를 사용하여 정확한 변환
+        Component component = LegacyComponentSerializer.legacyAmpersand().deserialize(text);
+        return LegacyComponentSerializer.legacySection().serialize(component);
+    }
+    
+    /**
+     * Legacy color codes를 Component로 변환
+     * & 기호를 사용한 색상 코드를 Adventure Component로 변환합니다.
+     *
+     * @param text 변환할 텍스트 (예: "&a안녕하세요 &c테스트")
+     * @return 색상이 적용된 Component
+     */
+    @NotNull
+    public static Component colorizeToComponent(@NotNull String text) {
+        return LegacyComponentSerializer.legacyAmpersand().deserialize(text);
+    }
+    
+    /**
+     * Legacy color codes를 Component로 변환 (parseComponent alias)
+     * & 기호를 사용한 색상 코드를 Adventure Component로 변환합니다.
+     *
+     * @param text 변환할 텍스트 (예: "&a안녕하세요 &c테스트")
+     * @return 색상이 적용된 Component
+     */
+    @NotNull
+    public static Component parseComponent(@NotNull String text) {
+        return colorizeToComponent(text);
+    }
+
+    /**
+     * Legacy color codes를 String으로 변환 (레거시 용도)
+     * & 기호를 사용한 색상 코드를 § 기호로 변환합니다.
+     *
+     * @param text 변환할 텍스트 (예: "&a안녕하세요 &c테스트")
+     * @return 색상이 적용된 문자열 (§ 기호 사용)
+     */
+    @NotNull
+    public static String translateColorCodes(@NotNull String text) {
+        // & 기호를 § 기호로 직접 변환
+        return text.replace('&', '§');
+    }
+
+    /**
      * 색상을 밝게 만들기
      *
      * @param color  원본 색상
@@ -287,5 +343,33 @@ public final class ColorUtil {
                 255 - color.green(),
                 255 - color.blue()
         );
+    }
+
+    /**
+     * HEX 색상 코드를 포함한 텍스트 변환
+     * & 기호와 HEX 색상 코드 (#RRGGBB)를 모두 지원합니다.
+     *
+     * @param text 변환할 텍스트 (예: "&#FF5555테스트 &a성공")
+     * @return 색상이 적용된 문자열
+     */
+    @NotNull
+    public static String colorizeHex(@NotNull String text) {
+        // HEX 색상 패턴 처리
+        java.util.regex.Pattern hexPattern = java.util.regex.Pattern.compile("&#([A-Fa-f0-9]{6})");
+        java.util.regex.Matcher matcher = hexPattern.matcher(text);
+        
+        StringBuffer buffer = new StringBuffer();
+        while (matcher.find()) {
+            String hex = matcher.group(1);
+            String replacement = "§x";
+            for (char c : hex.toCharArray()) {
+                replacement += "§" + c;
+            }
+            matcher.appendReplacement(buffer, replacement);
+        }
+        matcher.appendTail(buffer);
+        
+        // 일반 색상 코드 처리
+        return buffer.toString().replace('&', '§');
     }
 }

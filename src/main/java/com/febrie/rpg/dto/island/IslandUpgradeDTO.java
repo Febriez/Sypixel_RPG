@@ -13,8 +13,10 @@ import java.util.Map;
  */
 public record IslandUpgradeDTO(
         int sizeLevel, // 섬 크기 업그레이드 레벨 (0 = 85x85, max = 26 for 475x475)
-        int memberLimit, // 현재 섬원 최대치 (기본 3)
-        int workerLimit, // 현재 알바생 최대치 (기본 1)
+        int memberLimitLevel, // 멤버 제한 업그레이드 레벨 (0 = 5명, max = 4 for 40명)
+        int workerLimitLevel, // 알바 제한 업그레이드 레벨 (0 = 2명, max = 4 for 30명)
+        int memberLimit, // 현재 섬원 최대치 (기본 5)
+        int workerLimit, // 현재 알바생 최대치 (기본 2)
         long lastUpgradeAt
 ) {
     /**
@@ -23,8 +25,10 @@ public record IslandUpgradeDTO(
     public static IslandUpgradeDTO createDefault() {
         return new IslandUpgradeDTO(
                 0, // 초기 크기 레벨
-                3, // 기본 섬원 3명
-                1, // 기본 알바 1명
+                0, // 초기 멤버 제한 레벨
+                0, // 초기 알바 제한 레벨
+                5, // 기본 섬원 5명
+                2, // 기본 알바 2명
                 System.currentTimeMillis()
         );
     }
@@ -77,6 +81,14 @@ public record IslandUpgradeDTO(
         sizeLevelValue.addProperty("integerValue", sizeLevel);
         fields.add("sizeLevel", sizeLevelValue);
         
+        JsonObject memberLimitLevelValue = new JsonObject();
+        memberLimitLevelValue.addProperty("integerValue", memberLimitLevel);
+        fields.add("memberLimitLevel", memberLimitLevelValue);
+        
+        JsonObject workerLimitLevelValue = new JsonObject();
+        workerLimitLevelValue.addProperty("integerValue", workerLimitLevel);
+        fields.add("workerLimitLevel", workerLimitLevelValue);
+        
         JsonObject memberLimitValue = new JsonObject();
         memberLimitValue.addProperty("integerValue", memberLimit);
         fields.add("memberLimit", memberLimitValue);
@@ -108,19 +120,27 @@ public record IslandUpgradeDTO(
                 ? fields.getAsJsonObject("sizeLevel").get("integerValue").getAsInt()
                 : 0;
                 
+        int memberLimitLevel = fields.has("memberLimitLevel") && fields.getAsJsonObject("memberLimitLevel").has("integerValue")
+                ? fields.getAsJsonObject("memberLimitLevel").get("integerValue").getAsInt()
+                : 0;
+                
+        int workerLimitLevel = fields.has("workerLimitLevel") && fields.getAsJsonObject("workerLimitLevel").has("integerValue")
+                ? fields.getAsJsonObject("workerLimitLevel").get("integerValue").getAsInt()
+                : 0;
+                
         int memberLimit = fields.has("memberLimit") && fields.getAsJsonObject("memberLimit").has("integerValue")
                 ? fields.getAsJsonObject("memberLimit").get("integerValue").getAsInt()
-                : 3;
+                : 5;
                 
         int workerLimit = fields.has("workerLimit") && fields.getAsJsonObject("workerLimit").has("integerValue")
                 ? fields.getAsJsonObject("workerLimit").get("integerValue").getAsInt()
-                : 1;
+                : 2;
                 
         long lastUpgradeAt = fields.has("lastUpgradeAt") && fields.getAsJsonObject("lastUpgradeAt").has("integerValue")
                 ? fields.getAsJsonObject("lastUpgradeAt").get("integerValue").getAsLong()
                 : System.currentTimeMillis();
         
-        return new IslandUpgradeDTO(sizeLevel, memberLimit, workerLimit, lastUpgradeAt);
+        return new IslandUpgradeDTO(sizeLevel, memberLimitLevel, workerLimitLevel, memberLimit, workerLimit, lastUpgradeAt);
     }
     
     /**
@@ -130,6 +150,8 @@ public record IslandUpgradeDTO(
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
         map.put("sizeLevel", sizeLevel);
+        map.put("memberLimitLevel", memberLimitLevel);
+        map.put("workerLimitLevel", workerLimitLevel);
         map.put("memberLimit", memberLimit);
         map.put("workerLimit", workerLimit);
         map.put("lastUpgradeAt", lastUpgradeAt);
@@ -144,10 +166,12 @@ public record IslandUpgradeDTO(
         if (map == null) return createDefault();
         
         return new IslandUpgradeDTO(
-                ((Number) map.get("sizeLevel")).intValue(),
-                ((Number) map.get("memberLimit")).intValue(),
-                ((Number) map.get("workerLimit")).intValue(),
-                ((Number) map.get("lastUpgradeAt")).longValue()
+                ((Number) map.getOrDefault("sizeLevel", 0)).intValue(),
+                ((Number) map.getOrDefault("memberLimitLevel", 0)).intValue(),
+                ((Number) map.getOrDefault("workerLimitLevel", 0)).intValue(),
+                ((Number) map.getOrDefault("memberLimit", 5)).intValue(),
+                ((Number) map.getOrDefault("workerLimit", 2)).intValue(),
+                ((Number) map.getOrDefault("lastUpgradeAt", System.currentTimeMillis())).longValue()
         );
     }
 }

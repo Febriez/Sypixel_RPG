@@ -244,6 +244,51 @@ public class IslandWorldManager {
     }
     
     /**
+     * 섬 확장
+     */
+    public CompletableFuture<Void> expandIsland(int centerX, int centerZ, int oldSize, int newSize) {
+        return CompletableFuture.runAsync(() -> {
+            // 기존 섬 외곽에 새로운 지형 추가
+            int oldRadius = oldSize / 2;
+            int newRadius = newSize / 2;
+            
+            // 확장된 영역에만 새 지형 생성
+            for (int x = centerX - newRadius; x <= centerX + newRadius; x++) {
+                for (int z = centerZ - newRadius; z <= centerZ + newRadius; z++) {
+                    double oldDistance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(z - centerZ, 2));
+                    double newDistance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(z - centerZ, 2));
+                    
+                    // 기존 섬 범위 밖이고 새 섬 범위 안인 경우에만 생성
+                    if (oldDistance > oldRadius && newDistance <= newRadius) {
+                        // 기반암 층
+                        islandWorld.getBlockAt(x, ISLAND_HEIGHT - 5, z).setType(Material.BEDROCK);
+                        
+                        // 돌 층
+                        for (int y = ISLAND_HEIGHT - 4; y < ISLAND_HEIGHT; y++) {
+                            islandWorld.getBlockAt(x, y, z).setType(Material.STONE);
+                        }
+                        
+                        // 흙 층
+                        for (int y = ISLAND_HEIGHT; y < ISLAND_HEIGHT + 3; y++) {
+                            islandWorld.getBlockAt(x, y, z).setType(Material.DIRT);
+                        }
+                        
+                        // 잔디 층
+                        islandWorld.getBlockAt(x, ISLAND_HEIGHT + 3, z).setType(Material.GRASS_BLOCK);
+                    }
+                }
+            }
+            
+            // 바이옴 재설정 (확장된 크기에 맞게)
+            int biomeSize = calculateBiomeSize(newSize);
+            setBiome(centerX, centerZ, biomeSize, Biome.PLAINS);
+            
+            LogUtil.info(String.format("섬 확장 완료 - 위치: (%d, %d), 크기: %d -> %d", 
+                    centerX, centerZ, oldSize, newSize));
+        });
+    }
+    
+    /**
      * 섬 월드 가져오기
      */
     public World getIslandWorld() {

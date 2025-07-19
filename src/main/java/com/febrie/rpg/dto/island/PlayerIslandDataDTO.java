@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.island;
 
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,8 +87,85 @@ public record PlayerIslandDataDTO(
     }
     
     /**
+     * JsonObject로 변환 (Firebase 저장용)
+     */
+    @NotNull
+    public JsonObject toJsonObject() {
+        JsonObject json = new JsonObject();
+        JsonObject fields = new JsonObject();
+        
+        JsonObject playerUuidValue = new JsonObject();
+        playerUuidValue.addProperty("stringValue", playerUuid);
+        fields.add("playerUuid", playerUuidValue);
+        
+        if (currentIslandId != null) {
+            JsonObject currentIslandIdValue = new JsonObject();
+            currentIslandIdValue.addProperty("stringValue", currentIslandId);
+            fields.add("currentIslandId", currentIslandIdValue);
+        }
+        
+        if (role != null) {
+            JsonObject roleValue = new JsonObject();
+            roleValue.addProperty("stringValue", role.name());
+            fields.add("role", roleValue);
+        }
+        
+        JsonObject totalIslandResetsValue = new JsonObject();
+        totalIslandResetsValue.addProperty("integerValue", totalIslandResets);
+        fields.add("totalIslandResets", totalIslandResetsValue);
+        
+        JsonObject lastIslandActivityValue = new JsonObject();
+        lastIslandActivityValue.addProperty("integerValue", lastIslandActivity);
+        fields.add("lastIslandActivity", lastIslandActivityValue);
+        
+        json.add("fields", fields);
+        return json;
+    }
+    
+    /**
+     * JsonObject에서 생성
+     */
+    @NotNull
+    public static PlayerIslandDataDTO fromJsonObject(@NotNull JsonObject json) {
+        if (!json.has("fields")) {
+            throw new IllegalArgumentException("Invalid PlayerIslandDataDTO JSON: missing fields");
+        }
+        
+        JsonObject fields = json.getAsJsonObject("fields");
+        
+        String playerUuid = fields.has("playerUuid") && fields.getAsJsonObject("playerUuid").has("stringValue")
+                ? fields.getAsJsonObject("playerUuid").get("stringValue").getAsString()
+                : "";
+                
+        String currentIslandId = null;
+        if (fields.has("currentIslandId") && fields.getAsJsonObject("currentIslandId").has("stringValue")) {
+            currentIslandId = fields.getAsJsonObject("currentIslandId").get("stringValue").getAsString();
+        }
+        
+        IslandRole role = null;
+        if (fields.has("role") && fields.getAsJsonObject("role").has("stringValue")) {
+            try {
+                role = IslandRole.valueOf(fields.getAsJsonObject("role").get("stringValue").getAsString());
+            } catch (IllegalArgumentException e) {
+                // 잘못된 역할 이름은 무시
+            }
+        }
+        
+        int totalIslandResets = fields.has("totalIslandResets") && fields.getAsJsonObject("totalIslandResets").has("integerValue")
+                ? fields.getAsJsonObject("totalIslandResets").get("integerValue").getAsInt()
+                : 0;
+                
+        long lastIslandActivity = fields.has("lastIslandActivity") && fields.getAsJsonObject("lastIslandActivity").has("integerValue")
+                ? fields.getAsJsonObject("lastIslandActivity").get("integerValue").getAsLong()
+                : System.currentTimeMillis();
+        
+        return new PlayerIslandDataDTO(playerUuid, currentIslandId, role, totalIslandResets, lastIslandActivity);
+    }
+    
+    /**
      * Map으로 변환 (Firebase 저장용)
      */
+    @Deprecated
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
         map.put("playerUuid", playerUuid);
@@ -105,6 +183,7 @@ public record PlayerIslandDataDTO(
     /**
      * Map에서 생성
      */
+    @Deprecated
     public static PlayerIslandDataDTO fromMap(Map<String, Object> map) {
         if (map == null) return null;
         

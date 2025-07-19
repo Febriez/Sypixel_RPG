@@ -379,6 +379,28 @@ public abstract class Quest {
     public @NotNull QuestReward getReward() {
         return reward;
     }
+    
+    /**
+     * 경험치 보상 (호환성을 위한 메소드)
+     */
+    public long getExpReward() {
+        // 보상이 MixedReward 타입인 경우 경험치 반환
+        if (reward instanceof com.febrie.rpg.quest.reward.MixedReward mixedReward) {
+            return mixedReward.getExp();
+        }
+        return 0;
+    }
+    
+    /**
+     * 돈 보상 (호환성을 위한 메소드)
+     */
+    public long getMoneyReward() {
+        // 보상이 MixedReward 타입인 경우 돈 반환
+        if (reward instanceof com.febrie.rpg.quest.reward.MixedReward mixedReward) {
+            return mixedReward.getMoney();
+        }
+        return 0;
+    }
 
     /**
      * 퀘스트 시작 가능 여부 확인 (하위 클래스에서 추가 조건 구현 가능)

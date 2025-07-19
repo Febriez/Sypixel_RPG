@@ -138,4 +138,19 @@ public class GuiItem {
     public static GuiItem display(@NotNull ItemBuilder builder) {
         return new GuiItem(builder);
     }
+    
+    /**
+     * Creates an empty GUI item (air)
+     */
+    public static GuiItem empty() {
+        return new GuiItem(new ItemStack(org.bukkit.Material.AIR));
+    }
+    
+    /**
+     * Gets the ItemStack
+     */
+    @NotNull
+    public ItemStack getItem() {
+        return itemStack;
+    }
 }

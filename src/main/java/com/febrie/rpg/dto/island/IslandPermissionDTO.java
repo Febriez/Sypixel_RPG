@@ -203,6 +203,12 @@ public record IslandPermissionDTO(
             boolean canEarnContribution,
             boolean canSetSpawn
     ) {
+        // Alias methods for compatibility
+        public boolean canUseItems() { return canPickupItems; }
+        public boolean canOpenContainers() { return canAccessChest; }
+        public boolean canManageWorkers() { return canKickMembers; }
+        public boolean canModifySpawns() { return canSetSpawn; }
+        public boolean canChangeSettings() { return canKickMembers; }
         /**
          * 모든 권한 활성화
          */

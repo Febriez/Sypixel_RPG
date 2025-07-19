@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.island;
 
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -62,8 +63,67 @@ public record IslandVisitDTO(
     }
     
     /**
+     * JsonObject로 변환 (Firebase 저장용)
+     */
+    @NotNull
+    public JsonObject toJsonObject() {
+        JsonObject json = new JsonObject();
+        JsonObject fields = new JsonObject();
+        
+        JsonObject visitorUuidValue = new JsonObject();
+        visitorUuidValue.addProperty("stringValue", visitorUuid);
+        fields.add("visitorUuid", visitorUuidValue);
+        
+        JsonObject visitorNameValue = new JsonObject();
+        visitorNameValue.addProperty("stringValue", visitorName);
+        fields.add("visitorName", visitorNameValue);
+        
+        JsonObject visitedAtValue = new JsonObject();
+        visitedAtValue.addProperty("integerValue", visitedAt);
+        fields.add("visitedAt", visitedAtValue);
+        
+        JsonObject durationValue = new JsonObject();
+        durationValue.addProperty("integerValue", duration);
+        fields.add("duration", durationValue);
+        
+        json.add("fields", fields);
+        return json;
+    }
+    
+    /**
+     * JsonObject에서 생성
+     */
+    @NotNull
+    public static IslandVisitDTO fromJsonObject(@NotNull JsonObject json) {
+        if (!json.has("fields")) {
+            throw new IllegalArgumentException("Invalid IslandVisitDTO JSON: missing fields");
+        }
+        
+        JsonObject fields = json.getAsJsonObject("fields");
+        
+        String visitorUuid = fields.has("visitorUuid") && fields.getAsJsonObject("visitorUuid").has("stringValue")
+                ? fields.getAsJsonObject("visitorUuid").get("stringValue").getAsString()
+                : "";
+                
+        String visitorName = fields.has("visitorName") && fields.getAsJsonObject("visitorName").has("stringValue")
+                ? fields.getAsJsonObject("visitorName").get("stringValue").getAsString()
+                : "";
+                
+        long visitedAt = fields.has("visitedAt") && fields.getAsJsonObject("visitedAt").has("integerValue")
+                ? fields.getAsJsonObject("visitedAt").get("integerValue").getAsLong()
+                : System.currentTimeMillis();
+                
+        long duration = fields.has("duration") && fields.getAsJsonObject("duration").has("integerValue")
+                ? fields.getAsJsonObject("duration").get("integerValue").getAsLong()
+                : 0;
+        
+        return new IslandVisitDTO(visitorUuid, visitorName, visitedAt, duration);
+    }
+    
+    /**
      * Map으로 변환 (Firebase 저장용)
      */
+    @Deprecated
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
         map.put("visitorUuid", visitorUuid);
@@ -76,6 +136,7 @@ public record IslandVisitDTO(
     /**
      * Map에서 생성
      */
+    @Deprecated
     public static IslandVisitDTO fromMap(Map<String, Object> map) {
         if (map == null) return null;
         

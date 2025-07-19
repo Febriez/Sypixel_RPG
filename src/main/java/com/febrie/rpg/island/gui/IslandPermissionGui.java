@@ -1,0 +1,361 @@
+package com.febrie.rpg.island.gui;
+
+import com.febrie.rpg.RPGMain;
+import com.febrie.rpg.dto.island.IslandDTO;
+import com.febrie.rpg.dto.island.IslandPermissionDTO;
+import com.febrie.rpg.dto.island.IslandRole;
+import com.febrie.rpg.gui.BaseGui;
+import com.febrie.rpg.island.manager.IslandManager;
+import com.febrie.rpg.island.permission.IslandPermissionHandler;
+import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LegacyItemBuilder;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * 섬 권한 관리 GUI
+ *
+ * @author Febrie, CoffeeTory
+ */
+public class IslandPermissionGui extends BaseGui {
+    
+    private final IslandManager islandManager;
+    private IslandDTO island;
+    private final Player viewer;
+    private IslandRole selectedRole = IslandRole.MEMBER;
+    
+    // 권한 목록
+    private static final String[] PERMISSIONS = {
+        "BUILD", "USE_ITEMS", "OPEN_CONTAINERS", "INVITE_MEMBERS",
+        "KICK_MEMBERS", "MANAGE_WORKERS", "MODIFY_SPAWNS", "CHANGE_SETTINGS"
+    };
+    
+    public IslandPermissionGui(@NotNull RPGMain plugin, @NotNull IslandManager islandManager,
+                              @NotNull IslandDTO island, @NotNull Player viewer) {
+        super(plugin, 54, ColorUtil.colorize("&c권한 관리 - " + island.islandName()));
+        this.islandManager = islandManager;
+        this.island = island;
+        this.viewer = viewer;
+    }
+    
+    @Override
+    protected void setupItems() {
+        // 배경 설정
+        fillBorder(Material.RED_STAINED_GLASS_PANE);
+        
+        // 역할 선택 버튼들
+        setItem(10, createRoleButton(IslandRole.CO_OWNER));
+        setItem(11, createRoleButton(IslandRole.MEMBER));
+        setItem(12, createRoleButton(IslandRole.WORKER));
+        setItem(13, createRoleButton(IslandRole.VISITOR));
+        
+        // 선택된 역할 표시
+        setItem(15, createSelectedRoleItem());
+        
+        // 권한 토글 버튼들
+        displayPermissions();
+        
+        // 저장 버튼
+        setItem(49, createSaveButton());
+        
+        // 뒤로 가기 버튼
+        setItem(48, createBackButton());
+        
+        // 닫기 버튼
+        setItem(50, createCloseButton());
+    }
+    
+    /**
+     * 역할 버튼 생성
+     */
+    private ItemStack createRoleButton(@NotNull IslandRole role) {
+        Material material = switch (role) {
+            case CO_OWNER -> Material.GOLD_BLOCK;
+            case MEMBER -> Material.IRON_BLOCK;
+            case WORKER -> Material.COAL_BLOCK;
+            case VISITOR -> Material.STONE;
+            default -> Material.BARRIER;
+        };
+        
+        boolean selected = role == selectedRole;
+        
+        return new LegacyItemBuilder(material)
+                .setDisplayName(ColorUtil.colorize((selected ? "&a&l" : "&7") + 
+                        IslandPermissionHandler.getRoleDisplayName(role)))
+                .addLore("")
+                .addLore(ColorUtil.colorize("&7이 역할의 권한을 설정합니다."))
+                .addLore("")
+                .addLore(ColorUtil.colorize(selected ? "&a▶ 선택됨" : "&e▶ 클릭하여 선택"))
+                .setGlowing(selected)
+                .build();
+    }
+    
+    /**
+     * 선택된 역할 표시
+     */
+    private ItemStack createSelectedRoleItem() {
+        return new LegacyItemBuilder(Material.PAPER)
+                .setDisplayName(ColorUtil.colorize("&e현재 편집 중: &f" + 
+                        IslandPermissionHandler.getRoleDisplayName(selectedRole)))
+                .addLore("")
+                .addLore(ColorUtil.colorize("&7좌측에서 다른 역할을 선택하여"))
+                .addLore(ColorUtil.colorize("&7해당 역할의 권한을 편집할 수 있습니다."))
+                .build();
+    }
+    
+    /**
+     * 권한 표시
+     */
+    private void displayPermissions() {
+        IslandPermissionDTO.RolePermissions rolePerms = island.permissions()
+                .rolePermissions().get(selectedRole.name());
+        
+        if (rolePerms == null) {
+            // 기본값 생성
+            rolePerms = new IslandPermissionDTO.RolePermissions(
+                false, false, false, false, false, false, false, false
+            );
+        }
+        
+        int[] slots = {20, 21, 22, 23, 29, 30, 31, 32};
+        
+        for (int i = 0; i < PERMISSIONS.length && i < slots.length; i++) {
+            String permission = PERMISSIONS[i];
+            boolean hasPermission = getPermissionValue(rolePerms, permission);
+            setItem(slots[i], createPermissionItem(permission, hasPermission));
+        }
+    }
+    
+    /**
+     * 권한 아이템 생성
+     */
+    private ItemStack createPermissionItem(@NotNull String permission, boolean enabled) {
+        Material material = enabled ? Material.LIME_DYE : Material.GRAY_DYE;
+        String displayName = IslandPermissionHandler.getPermissionDisplayName(permission);
+        
+        LegacyItemBuilder builder = new LegacyItemBuilder(material)
+                .setDisplayName(ColorUtil.colorize((enabled ? "&a" : "&c") + displayName))
+                .addLore("")
+                .addLore(ColorUtil.colorize("&7상태: " + (enabled ? "&a활성화" : "&c비활성화")))
+                .addLore("");
+        
+        // 권한 설명 추가
+        switch (permission) {
+            case "BUILD" -> builder.addLore(ColorUtil.colorize("&7블록을 설치하고 파괴할 수 있습니다."));
+            case "USE_ITEMS" -> builder.addLore(ColorUtil.colorize("&7문, 버튼 등을 사용할 수 있습니다."));
+            case "OPEN_CONTAINERS" -> builder.addLore(ColorUtil.colorize("&7상자를 열 수 있습니다."));
+            case "INVITE_MEMBERS" -> builder.addLore(ColorUtil.colorize("&7새 멤버를 초대할 수 있습니다."));
+            case "KICK_MEMBERS" -> builder.addLore(ColorUtil.colorize("&7멤버를 추방할 수 있습니다."));
+            case "MANAGE_WORKERS" -> builder.addLore(ColorUtil.colorize("&7알바를 관리할 수 있습니다."));
+            case "MODIFY_SPAWNS" -> builder.addLore(ColorUtil.colorize("&7스폰 위치를 설정할 수 있습니다."));
+            case "CHANGE_SETTINGS" -> builder.addLore(ColorUtil.colorize("&7섬 설정을 변경할 수 있습니다."));
+        }
+        
+        builder.addLore("")
+               .addLore(ColorUtil.colorize("&e▶ 클릭하여 " + (enabled ? "비활성화" : "활성화")));
+        
+        return builder.build();
+    }
+    
+    /**
+     * 저장 버튼
+     */
+    private ItemStack createSaveButton() {
+        return new LegacyItemBuilder(Material.EMERALD_BLOCK)
+                .setDisplayName(ColorUtil.colorize("&a권한 설정 저장"))
+                .addLore("")
+                .addLore(ColorUtil.colorize("&7변경한 권한 설정을 저장합니다."))
+                .addLore("")
+                .addLore(ColorUtil.colorize("&e▶ 클릭하여 저장"))
+                .build();
+    }
+    
+    /**
+     * 뒤로 가기 버튼
+     */
+    private ItemStack createBackButton() {
+        return new LegacyItemBuilder(Material.ARROW)
+                .setDisplayName(ColorUtil.colorize("&f뒤로 가기"))
+                .addLore("")
+                .addLore(ColorUtil.colorize("&7메인 메뉴로 돌아갑니다."))
+                .build();
+    }
+    
+    /**
+     * 닫기 버튼
+     */
+    private ItemStack createCloseButton() {
+        return new LegacyItemBuilder(Material.BARRIER)
+                .setDisplayName(ColorUtil.colorize("&c닫기"))
+                .addLore("")
+                .addLore(ColorUtil.colorize("&7메뉴를 닫습니다."))
+                .build();
+    }
+    
+    @Override
+    protected void handleClick(InventoryClickEvent event) {
+        event.setCancelled(true);
+        
+        if (!(event.getWhoClicked() instanceof Player player)) return;
+        
+        int slot = event.getSlot();
+        
+        switch (slot) {
+            case 10 -> selectRole(IslandRole.CO_OWNER);
+            case 11 -> selectRole(IslandRole.MEMBER);
+            case 12 -> selectRole(IslandRole.WORKER);
+            case 13 -> selectRole(IslandRole.VISITOR);
+            case 48 -> new IslandMainGui(plugin, islandManager, island, viewer).open();
+            case 49 -> savePermissions(player);
+            case 50 -> player.closeInventory();
+            default -> {
+                // 권한 토글 처리
+                int[] permSlots = {20, 21, 22, 23, 29, 30, 31, 32};
+                for (int i = 0; i < permSlots.length && i < PERMISSIONS.length; i++) {
+                    if (slot == permSlots[i]) {
+                        togglePermission(PERMISSIONS[i]);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * 역할 선택
+     */
+    private void selectRole(@NotNull IslandRole role) {
+        if (role != IslandRole.OWNER) { // 섬장 권한은 변경 불가
+            selectedRole = role;
+            refresh();
+        }
+    }
+    
+    /**
+     * 권한 토글
+     */
+    private void togglePermission(@NotNull String permission) {
+        // 현재 권한 설정 가져오기
+        Map<IslandRole, IslandPermissionDTO.RolePermissions> permissions = 
+                new HashMap<>(island.permissions().rolePermissions());
+        
+        IslandPermissionDTO.RolePermissions rolePerms = permissions.get(selectedRole);
+        if (rolePerms == null) {
+            rolePerms = new IslandPermissionDTO.RolePermissions(
+                false, false, false, false, false, false, false, false
+            );
+        }
+        
+        // 권한 토글
+        boolean newValue = !getPermissionValue(rolePerms, permission);
+        rolePerms = setPermissionValue(rolePerms, permission, newValue);
+        permissions.put(selectedRole, rolePerms);
+        
+        // 업데이트된 섬 데이터 생성
+        island = new IslandDTO(
+                island.islandId(),
+                island.ownerUuid(),
+                island.ownerName(),
+                island.islandName(),
+                island.size(),
+                island.isPublic(),
+                island.createdAt(),
+                island.lastActivity(),
+                island.members(),
+                island.workers(),
+                island.contributions(),
+                island.spawnData(),
+                island.upgradeData(),
+                new IslandPermissionDTO(permissions),
+                island.pendingInvites(),
+                island.recentVisits(),
+                island.totalResets(),
+                island.deletionScheduledAt()
+        );
+        
+        refresh();
+    }
+    
+    /**
+     * 권한 저장
+     */
+    private void savePermissions(@NotNull Player player) {
+        islandManager.updateIsland(island).thenAccept(success -> {
+            if (success) {
+                player.sendMessage(ColorUtil.colorize("&a권한 설정이 저장되었습니다!"));
+                new IslandMainGui(plugin, islandManager, island, viewer).open();
+            } else {
+                player.sendMessage(ColorUtil.colorize("&c권한 설정 저장에 실패했습니다."));
+            }
+        });
+    }
+    
+    /**
+     * 권한 값 가져오기
+     */
+    private boolean getPermissionValue(@NotNull IslandPermissionDTO.RolePermissions perms, @NotNull String permission) {
+        return switch (permission) {
+            case "BUILD" -> perms.canBuild();
+            case "USE_ITEMS" -> perms.canUseItems();
+            case "OPEN_CONTAINERS" -> perms.canOpenContainers();
+            case "INVITE_MEMBERS" -> perms.canInviteMembers();
+            case "KICK_MEMBERS" -> perms.canKickMembers();
+            case "MANAGE_WORKERS" -> perms.canManageWorkers();
+            case "MODIFY_SPAWNS" -> perms.canModifySpawns();
+            case "CHANGE_SETTINGS" -> perms.canChangeSettings();
+            default -> false;
+        };
+    }
+    
+    /**
+     * 권한 값 설정
+     */
+    private IslandPermissionDTO.RolePermissions setPermissionValue(
+            @NotNull IslandPermissionDTO.RolePermissions perms,
+            @NotNull String permission,
+            boolean value) {
+        
+        return switch (permission) {
+            case "BUILD" -> new IslandPermissionDTO.RolePermissions(
+                value, perms.canUseItems(), perms.canOpenContainers(), perms.canInviteMembers(),
+                perms.canKickMembers(), perms.canManageWorkers(), perms.canModifySpawns(), perms.canChangeSettings()
+            );
+            case "USE_ITEMS" -> new IslandPermissionDTO.RolePermissions(
+                perms.canBuild(), value, perms.canOpenContainers(), perms.canInviteMembers(),
+                perms.canKickMembers(), perms.canManageWorkers(), perms.canModifySpawns(), perms.canChangeSettings()
+            );
+            case "OPEN_CONTAINERS" -> new IslandPermissionDTO.RolePermissions(
+                perms.canBuild(), perms.canUseItems(), value, perms.canInviteMembers(),
+                perms.canKickMembers(), perms.canManageWorkers(), perms.canModifySpawns(), perms.canChangeSettings()
+            );
+            case "INVITE_MEMBERS" -> new IslandPermissionDTO.RolePermissions(
+                perms.canBuild(), perms.canUseItems(), perms.canOpenContainers(), value,
+                perms.canKickMembers(), perms.canManageWorkers(), perms.canModifySpawns(), perms.canChangeSettings()
+            );
+            case "KICK_MEMBERS" -> new IslandPermissionDTO.RolePermissions(
+                perms.canBuild(), perms.canUseItems(), perms.canOpenContainers(), perms.canInviteMembers(),
+                value, perms.canManageWorkers(), perms.canModifySpawns(), perms.canChangeSettings()
+            );
+            case "MANAGE_WORKERS" -> new IslandPermissionDTO.RolePermissions(
+                perms.canBuild(), perms.canUseItems(), perms.canOpenContainers(), perms.canInviteMembers(),
+                perms.canKickMembers(), value, perms.canModifySpawns(), perms.canChangeSettings()
+            );
+            case "MODIFY_SPAWNS" -> new IslandPermissionDTO.RolePermissions(
+                perms.canBuild(), perms.canUseItems(), perms.canOpenContainers(), perms.canInviteMembers(),
+                perms.canKickMembers(), perms.canManageWorkers(), value, perms.canChangeSettings()
+            );
+            case "CHANGE_SETTINGS" -> new IslandPermissionDTO.RolePermissions(
+                perms.canBuild(), perms.canUseItems(), perms.canOpenContainers(), perms.canInviteMembers(),
+                perms.canKickMembers(), perms.canManageWorkers(), perms.canModifySpawns(), value
+            );
+            default -> perms;
+        };
+    }
+}

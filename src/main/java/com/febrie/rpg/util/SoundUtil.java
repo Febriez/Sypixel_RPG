@@ -145,6 +145,27 @@ public class SoundUtil {
     public static void playSound(@NotNull Player player, @NotNull Sound sound, float volume, float pitch) {
         player.playSound(player.getLocation(), sound, volume, pitch);
     }
+    
+    /**
+     * 아이템 픽업 사운드 재생 (보상 수령)
+     */
+    public static void playItemPickupSound(@NotNull Player player) {
+        playSound(player, Sound.ENTITY_ITEM_PICKUP, 0.5f, 1.0f);
+    }
+    
+    /**
+     * 삭제 사운드 재생
+     */
+    public static void playDeleteSound(@NotNull Player player) {
+        playSound(player, Sound.ENTITY_ITEM_BREAK, 0.5f, 0.8f);
+    }
+    
+    /**
+     * 보상 수령 사운드 재생
+     */
+    public static void playRewardSound(@NotNull Player player) {
+        playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.7f, 1.2f);
+    }
 
     /**
      * 주변 플레이어들에게 사운드 재생

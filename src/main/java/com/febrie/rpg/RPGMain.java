@@ -241,6 +241,14 @@ public final class RPGMain extends JavaPlugin {
         // 메뉴 단축키 리스너 등록 (SHIFT + F)
         getServer().getPluginManager().registerEvents(new com.febrie.rpg.listener.MenuShortcutListener(this, guiManager, langManager), this);
         LogUtil.info("메뉴 단축키 리스너 등록 완료 (SHIFT + F)");
+        
+        // 섬 보호 리스너 등록
+        getServer().getPluginManager().registerEvents(new com.febrie.rpg.island.listener.IslandProtectionListener(this, islandManager), this);
+        LogUtil.info("섬 보호 리스너 등록 완료");
+        
+        // 섬 방문 추적 리스너 등록
+        getServer().getPluginManager().registerEvents(new com.febrie.rpg.island.listener.IslandVisitListener(this), this);
+        LogUtil.info("섬 방문 추적 리스너 등록 완료");
     }
 
     /**
@@ -495,6 +503,14 @@ public final class RPGMain extends JavaPlugin {
 
     public FirestoreRestService getFirebaseService() {
         return firestoreService;
+    }
+    
+    public FirestoreRestService getFirestoreService() {
+        return firestoreService;
+    }
+    
+    public IslandManager getIslandManager() {
+        return islandManager;
     }
 
     public static RPGMain getPlugin() {
