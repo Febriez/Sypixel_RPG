@@ -2,13 +2,14 @@ package com.febrie.rpg.command.system;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.FirestoreManager;
-import com.febrie.rpg.dto.player.PlayerDTO;
-import com.febrie.rpg.dto.player.PlayerDataDTO;
-import com.febrie.rpg.database.service.impl.PlayerFirestoreService;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.LogUtil;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.FieldValue;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.SetOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -32,7 +33,6 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Pattern;
 
@@ -145,16 +145,11 @@ public class SiteAccountCommand implements CommandExecutor {
                     throw new IllegalStateException("Firebase Web API Key가 설정되지 않았습니다.");
                 }
 
-                // 1. Player 컬렉션에서 중복 계정 확인 (isAdmin 필드 존재 여부)
-                PlayerFirestoreService playerService = plugin.getPlayerFirestoreService();
-                if (playerService != null) {
-                    PlayerDataDTO existingPlayer = playerService.getByUuid(UUID.fromString(uuid)).join();
-                    if (existingPlayer != null) {
-                        // 이미 계정이 있으면 중복 발급 불가
-                        plugin.getServer().getScheduler().runTask(plugin, () ->
-                                sendErrorMessage(player, "이미 사이트 계정이 발급되었습니다."));
-                        return;
-                    }
+                // 1. Player 컬렉션에서 siteAccountCreated 필드 확인으로 중복 계정 체크
+                if (checkSiteAccountExists(uuid).join()) {
+                    plugin.getServer().getScheduler().runTask(plugin, () ->
+                            sendErrorMessage(player, "이미 사이트 계정이 발급되었습니다."));
+                    return;
                 }
 
                 // 2. 랜덤 비밀번호 생성
@@ -168,8 +163,8 @@ public class SiteAccountCommand implements CommandExecutor {
                     setCustomClaims(uid, Map.of("isAdmin", true), apiKey);
                 }
 
-                // 5. Player 컬렉션의 isAdmin 필드 업데이트
-                updatePlayerAdminStatus(uuid, playerName, isAdmin);
+                // 5. Player 컬렉션에 siteAccountCreated 및 isAdmin 필드 추가
+                updatePlayerSiteAccountStatus(uuid, playerName, isAdmin, email);
 
                 // 성공 메시지 전송
                 plugin.getServer().getScheduler().runTask(plugin, () ->
@@ -203,16 +198,6 @@ public class SiteAccountCommand implements CommandExecutor {
                 return true;
             }
         }
-        return false;
-    }
-
-    /**
-     * 이메일 중복 확인
-     */
-    private boolean checkEmailExists(String email, String apiKey) throws Exception {
-        // Firebase Auth는 직접적인 이메일 조회를 지원하지 않으므로
-        // 실제로는 Firestore에서 확인하거나 signIn 시도로 확인해야 함
-        // 여기서는 간단히 false 반환 (추후 구현 필요)
         return false;
     }
 
@@ -292,39 +277,72 @@ public class SiteAccountCommand implements CommandExecutor {
     }
 
     /**
-     * Player 컬렉션의 isAdmin 필드 업데이트
+     * 사이트 계정 존재 여부 확인
      */
-    private void updatePlayerAdminStatus(String uuid, String playerName, boolean isAdmin) {
+    private CompletableFuture<Boolean> checkSiteAccountExists(String uuid) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                // Firestore 직접 접근
+                FirestoreManager firestoreManager = plugin.getFirestoreManager();
+                if (firestoreManager == null || !firestoreManager.isInitialized()) {
+                    return false;
+                }
+                Firestore db = firestoreManager.getFirestore();
+                if (db == null) {
+                    return false;
+                }
+
+                // 동기적으로 문서 가져오기
+                DocumentSnapshot doc = db.collection("Player").document(uuid).get().get();
+
+                if (doc.exists()) {
+                    // siteAccountCreated 필드가 있는지 확인
+                    return doc.contains("siteAccountCreated") &&
+                            Boolean.TRUE.equals(doc.getBoolean("siteAccountCreated"));
+                }
+                return false;
+            } catch (Exception e) {
+                LogUtil.error("사이트 계정 확인 중 오류", e);
+                return false;
+            }
+        });
+    }
+
+    /**
+     * Player 컬렉션에 사이트 계정 정보 업데이트
+     */
+    private void updatePlayerSiteAccountStatus(String uuid, String playerName, boolean isAdmin, String email) {
         try {
-            PlayerFirestoreService playerService = plugin.getPlayerFirestoreService();
-            if (playerService == null) {
-                LogUtil.error("PlayerFirestoreService를 가져올 수 없습니다.");
+            // Firestore 직접 접근
+            FirestoreManager firestoreManager = plugin.getFirestoreManager();
+            if (firestoreManager == null || !firestoreManager.isInitialized()) {
+                LogUtil.error("Firestore가 초기화되지 않았습니다.");
                 return;
             }
-            
-            // 기존 플레이어 데이터 가져오기
-            PlayerDataDTO existingPlayer = playerService.getByUuid(UUID.fromString(uuid)).join();
-            PlayerDataDTO updatedPlayer;
-            
-            if (existingPlayer != null) {
-                // 기존 데이터 유지하면서 Firestore에 별도 isAdmin 플래그 저장이 필요함
-                // 현재 PlayerDataDTO 구조로는 isAdmin을 저장할 수 없으므로
-                // 별도의 users 컬렉션이나 플래그가 필요함
-                LogUtil.info("플레이어 데이터가 이미 존재합니다: " + playerName);
-            } else {
-                // 새 플레이어 데이터 생성
-                updatedPlayer = PlayerDataDTO.createNew(UUID.fromString(uuid), playerName);
-                playerService.save(uuid, updatedPlayer).whenComplete((success, error) -> {
-                    if (error != null) {
-                        LogUtil.error("플레이어 데이터 저장 실패", error);
-                    } else {
-                        LogUtil.info("플레이어 데이터가 생성되었습니다: " + playerName);
-                    }
-                });
+            Firestore db = firestoreManager.getFirestore();
+            if (db == null) {
+                LogUtil.error("Firestore 인스턴스를 가져올 수 없습니다.");
+                return;
             }
-                
+
+            // Player 문서에 필드 추가/업데이트
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("siteAccountCreated", true);
+            updates.put("siteAccountEmail", email);
+            updates.put("siteAccountCreatedAt", FieldValue.serverTimestamp());
+            if (isAdmin) {
+                updates.put("isAdmin", true);
+            }
+
+            db.collection("Player").document(uuid)
+                    .set(updates, SetOptions.merge())
+                    .addListener(() -> {
+                        LogUtil.info("플레이어 사이트 계정 정보가 업데이트되었습니다: " + playerName +
+                                " (이메일: " + email + ", 관리자: " + isAdmin + ")");
+                    }, Runnable::run);
+
         } catch (Exception e) {
-            LogUtil.error("플레이어 데이터 업데이트 실패", e);
+            LogUtil.error("플레이어 사이트 계정 정보 업데이트 실패", e);
         }
     }
 

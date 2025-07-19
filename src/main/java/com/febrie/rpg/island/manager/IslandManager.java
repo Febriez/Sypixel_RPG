@@ -99,6 +99,27 @@ public class IslandManager {
     }
     
     /**
+     * 새 섬 생성 (확장 버전 - 색상, 바이옴, 템플릿 지정)
+     */
+    public CompletableFuture<Boolean> createIsland(@NotNull Player owner, @NotNull String islandName, 
+                                                   @NotNull String colorHex, @NotNull String biome, 
+                                                   @NotNull String template) {
+        // 기본 createIsland 메서드를 호출하고 추가 설정 적용
+        return createIsland(owner, islandName).thenCompose(islandDTO -> {
+            if (islandDTO == null) {
+                return CompletableFuture.completedFuture(false);
+            }
+            
+            // TODO: 색상, 바이옴, 템플릿 설정 적용
+            // 현재는 기본 생성만 수행
+            LogUtil.info("섬 생성 완료 - 이름: " + islandName + ", 색상: " + colorHex + 
+                        ", 바이옴: " + biome + ", 템플릿: " + template);
+            
+            return CompletableFuture.completedFuture(true);
+        });
+    }
+    
+    /**
      * 섬 정보 로드
      */
     public CompletableFuture<Island> loadIsland(@NotNull String islandId) {

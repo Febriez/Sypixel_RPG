@@ -8,6 +8,7 @@ import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.impl.player.ProfileGui;
 import com.febrie.rpg.gui.impl.island.IslandMainGui;
+import com.febrie.rpg.gui.impl.island.IslandCreationGui;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.dto.island.PlayerIslandDataDTO;
 import org.bukkit.Bukkit;
@@ -168,9 +169,10 @@ public class MainMenuGui extends BaseGui {
                     guiManager.openGui(player, islandGui);
                     playClickSound(player);
                 } else {
-                    // 섬이 없으면 섬 생성 안내
-                    player.sendMessage(Component.text("아직 섬이 없습니다!", ColorUtil.ERROR));
-                    player.sendMessage(Component.text("/섬 명령어로 섬을 생성할 수 있습니다.", ColorUtil.YELLOW));
+                    // 섬이 없으면 섬 생성 GUI 열기
+                    IslandCreationGui creationGui = new IslandCreationGui(guiManager, langManager, player);
+                    guiManager.openGui(player, creationGui);
+                    playClickSound(player);
                 }
             });
     }
