@@ -36,7 +36,7 @@ public class MenuShortcutListener implements Listener {
         event.setCancelled(true);
         
         // 메인 메뉴 열기
-        MainMenuGui mainMenu = new MainMenuGui(guiManager, langManager, player);
+        MainMenuGui mainMenu = MainMenuGui.create(guiManager, langManager, player);
         guiManager.openGui(player, mainMenu);
         SoundUtil.playOpenSound(player);
     }

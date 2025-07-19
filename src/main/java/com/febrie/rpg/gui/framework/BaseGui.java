@@ -62,10 +62,12 @@ public abstract class BaseGui implements InteractiveGui {
     protected static final int CLOSE_BUTTON_SLOT = 49;   // 6줄 GUI 기준
     protected static final int REFRESH_BUTTON_SLOT = 50; // 6줄 GUI 기준
 
+    private boolean initialized = false;
+    
     /**
-     * 생성자
+     * 생성자 - protected to prevent direct instantiation
      */
-    public BaseGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
+    protected BaseGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                    @NotNull LangManager langManager, int requestedSize,
                    @NotNull String titleKey, @NotNull String... titleArgs) {
         this.viewer = viewer;
@@ -73,10 +75,40 @@ public abstract class BaseGui implements InteractiveGui {
         this.langManager = langManager;
         this.plugin = guiManager.getPlugin();
         this.size = validateSize(requestedSize);
-        // Create inventory without 'this' reference escaping
+        // Inventory will be created during initialization
+    }
+    
+    /**
+     * Initialize the GUI - must be called after construction
+     * This method creates the inventory and sets up the layout
+     */
+    protected void initialize(@NotNull String titleKey, @NotNull String... titleArgs) {
+        if (initialized) {
+            throw new IllegalStateException("GUI already initialized");
+        }
         Component title = langManager.getComponent(viewer, titleKey, titleArgs);
         Component styledTitle = applyTitleStyle(title);
         this.inventory = Bukkit.createInventory(this, size, styledTitle);
+        setupLayout();
+        this.initialized = true;
+    }
+    
+    /**
+     * Factory method helper for subclasses
+     * Subclasses should create their own static factory method that calls this
+     * 
+     * Example usage in subclass:
+     * public static MyGui create(Player viewer, GuiManager manager, LangManager lang) {
+     *     MyGui gui = new MyGui(viewer, manager, lang, 54, "my.title");
+     *     gui.initialize("my.title");
+     *     return gui;
+     * }
+     */
+    protected static <T extends BaseGui> T createAndInitialize(@NotNull T gui, 
+                                                              @NotNull String titleKey, 
+                                                              @NotNull String... titleArgs) {
+        gui.initialize(titleKey, titleArgs);
+        return gui;
     }
 
     /**
@@ -133,6 +165,7 @@ public abstract class BaseGui implements InteractiveGui {
 
     @Override
     public void open(@NotNull Player player) {
+        ensureInitialized();
         if (!player.equals(viewer)) {
             throw new IllegalStateException("Cannot open GUI for different player");
         }
@@ -140,9 +173,19 @@ public abstract class BaseGui implements InteractiveGui {
         // 기본적으로는 GUI 열기 소리 재생하지 않음
         // 필요한 경우 하위 클래스에서 오버라이드
     }
+    
+    /**
+     * Ensure the GUI has been initialized
+     */
+    private void ensureInitialized() {
+        if (!initialized) {
+            throw new IllegalStateException("GUI not initialized. Call initialize() first.");
+        }
+    }
 
     @Override
     public void refresh() {
+        ensureInitialized();
         inventory.clear();
         items.clear();
         setupLayout();

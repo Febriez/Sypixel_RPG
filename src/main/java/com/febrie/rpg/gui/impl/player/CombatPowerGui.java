@@ -172,6 +172,6 @@ public class CombatPowerGui extends BaseGui {
     @Override
     public GuiFramework getBackTarget() {
         // CombatPowerGui는 MainMenuGui로 돌아갑니다
-        return new MainMenuGui(guiManager, langManager, viewer);
+        return MainMenuGui.create(guiManager, langManager, viewer);
     }
 }

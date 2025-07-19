@@ -62,7 +62,7 @@ public class MailboxGui extends BaseGui {
 
     @Override
     protected GuiFramework getBackTarget() {
-        return new MainMenuGui(guiManager, langManager, viewer);
+        return MainMenuGui.create(guiManager, langManager, viewer);
     }
 
     @Override

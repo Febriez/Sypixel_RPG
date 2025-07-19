@@ -7,7 +7,6 @@ import com.febrie.rpg.gui.BaseGui;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LegacyItemBuilder;
 import com.febrie.rpg.util.LogUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -19,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.kyori.adventure.text.Component;
 
 /**
  * 섬 업그레이드 GUI
@@ -64,11 +64,19 @@ public class IslandUpgradeGui extends BaseGui {
     
     private static final int[] WORKER_VALUES = {2, 5, 10, 20, 30};
     
-    public IslandUpgradeGui(@NotNull RPGMain plugin, @NotNull Player player, @NotNull IslandDTO island) {
-        super(plugin, 45, ColorUtil.colorize("&2&l섬 업그레이드"));
+    private IslandUpgradeGui(@NotNull RPGMain plugin, @NotNull Player player, @NotNull IslandDTO island) {
+        super(plugin, 45);
         this.islandManager = plugin.getIslandManager();
         this.player = player;
         this.island = island;
+    }
+    
+    /**
+     * Factory method to create the GUI
+     */
+    public static IslandUpgradeGui create(@NotNull RPGMain plugin, @NotNull Player player, @NotNull IslandDTO island) {
+        IslandUpgradeGui gui = new IslandUpgradeGui(plugin, player, island);
+        return BaseGui.create(gui, ColorUtil.parseComponent("&2&l섬 업그레이드"));
     }
     
     @Override
@@ -110,14 +118,14 @@ public class IslandUpgradeGui extends BaseGui {
         setItem(15, workerItem);
         
         // 정보 아이템
-        ItemStack infoItem = new LegacyItemBuilder(Material.BOOK)
-                .setDisplayName(ColorUtil.colorize("&d&l업그레이드 안내"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7섬 업그레이드는 기여도를 소모합니다"))
-                .addLore(ColorUtil.colorize("&7업그레이드 후에는 다운그레이드할 수 없습니다"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&e섬 크기가 500 이상이면"))
-                .addLore(ColorUtil.colorize("&e바이옴 설정이 가능합니다"))
+        ItemStack infoItem = new ItemBuilder(Material.BOOK)
+                .displayName(ColorUtil.parseComponent("&d&l업그레이드 안내"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7섬 업그레이드는 기여도를 소모합니다"))
+                .addLore(ColorUtil.parseComponent("&7업그레이드 후에는 다운그레이드할 수 없습니다"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&e섬 크기가 500 이상이면"))
+                .addLore(ColorUtil.parseComponent("&e바이옴 설정이 가능합니다"))
                 .build();
         setItem(31, infoItem);
         
@@ -164,9 +172,14 @@ public class IslandUpgradeGui extends BaseGui {
         lore.add(ColorUtil.colorize("&7업그레이드 진행도:"));
         lore.add(createProgressBar(currentLevel, values.length - 1));
         
-        return new LegacyItemBuilder(material)
-                .setDisplayName(ColorUtil.colorize(name))
-                .setLore(lore)
+        List<Component> componentLore = new ArrayList<>();
+        for (String line : lore) {
+            componentLore.add(ColorUtil.parseComponent(line));
+        }
+        
+        return new ItemBuilder(material)
+                .displayName(ColorUtil.parseComponent(name))
+                .lore(componentLore)
                 .build();
     }
     
@@ -189,10 +202,10 @@ public class IslandUpgradeGui extends BaseGui {
     }
     
     private ItemStack createBackButton() {
-        return new LegacyItemBuilder(Material.ARROW)
-                .setDisplayName(ColorUtil.colorize("&c뒤로가기"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7메인 메뉴로 돌아갑니다"))
+        return new ItemBuilder(Material.ARROW)
+                .displayName(ColorUtil.parseComponent("&c뒤로가기"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7메인 메뉴로 돌아갑니다"))
                 .build();
     }
     
@@ -333,7 +346,7 @@ public class IslandUpgradeGui extends BaseGui {
                     }
                     
                     // GUI 새로고침
-                    new IslandUpgradeGui(plugin, player, updatedIsland).open();
+                    IslandUpgradeGui.create(plugin, player, updatedIsland).open();
                 });
             } else {
                 player.sendMessage(ColorUtil.colorize("&c업그레이드 처리 중 오류가 발생했습니다."));

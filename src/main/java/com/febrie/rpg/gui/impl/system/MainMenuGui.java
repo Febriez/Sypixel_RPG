@@ -48,10 +48,18 @@ public class MainMenuGui extends BaseGui {
     // 타이틀 슬롯
     private static final int TITLE_SLOT = 4;
 
-    public MainMenuGui(@NotNull GuiManager guiManager,
+    private MainMenuGui(@NotNull GuiManager guiManager,
                        @NotNull LangManager langManager, @NotNull Player player) {
         super(player, guiManager, langManager, GUI_SIZE, "gui.mainmenu.title");
-        setupLayout();
+    }
+    
+    /**
+     * Factory method to create the GUI
+     */
+    public static MainMenuGui create(@NotNull GuiManager guiManager,
+                                   @NotNull LangManager langManager, @NotNull Player player) {
+        MainMenuGui gui = new MainMenuGui(guiManager, langManager, player);
+        return createAndInitialize(gui, "gui.mainmenu.title");
     }
 
     @Override
@@ -170,7 +178,7 @@ public class MainMenuGui extends BaseGui {
                     playClickSound(player);
                 } else {
                     // 섬이 없으면 섬 생성 GUI 열기
-                    IslandCreationGui creationGui = new IslandCreationGui(guiManager, langManager, player);
+                    IslandCreationGui creationGui = IslandCreationGui.create(guiManager, langManager, player);
                     guiManager.openGui(player, creationGui);
                     playClickSound(player);
                 }

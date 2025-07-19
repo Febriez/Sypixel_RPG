@@ -10,7 +10,6 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LegacyItemBuilder;
 import com.febrie.rpg.util.SkullUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -31,16 +30,24 @@ public class IslandMemberGui extends BaseGui {
     
     private final IslandManager islandManager;
     private final IslandDTO island;
-    private final Player viewer;
     private int currentPage = 0;
     private final int ITEMS_PER_PAGE = 28; // 7x4 grid
     
-    public IslandMemberGui(@NotNull RPGMain plugin, @NotNull IslandManager islandManager,
+    private IslandMemberGui(@NotNull RPGMain plugin, @NotNull IslandManager islandManager,
                           @NotNull IslandDTO island, @NotNull Player viewer) {
-        super(plugin, 54, ColorUtil.colorize("&b섬원 관리 - " + island.islandName()));
+        super(plugin, 54);
         this.islandManager = islandManager;
         this.island = island;
         this.viewer = viewer;
+    }
+    
+    /**
+     * Factory method to create the GUI
+     */
+    public static IslandMemberGui create(@NotNull RPGMain plugin, @NotNull IslandManager islandManager,
+                                       @NotNull IslandDTO island, @NotNull Player viewer) {
+        IslandMemberGui gui = new IslandMemberGui(plugin, islandManager, island, viewer);
+        return BaseGui.create(gui, ColorUtil.parseComponent("&b섬원 관리 - " + island.islandName()));
     }
     
     @Override
@@ -114,15 +121,15 @@ public class IslandMemberGui extends BaseGui {
      * 섬장 아이템 생성
      */
     private ItemStack createOwnerItem() {
-        return new LegacyItemBuilder(SkullUtil.getPlayerHead(island.ownerUuid()))
-                .setDisplayName(ColorUtil.colorize("&6&l" + island.ownerName()))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7역할: &e섬장"))
-                .addLore(ColorUtil.colorize("&7UUID: &f" + island.ownerUuid().substring(0, 8) + "..."))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&a✓ 모든 권한 보유"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&c섬장은 변경할 수 없습니다."))
+        return new ItemBuilder(SkullUtil.getPlayerHead(island.ownerUuid()))
+                .displayName(ColorUtil.parseComponent("&6&l" + island.ownerName()))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7역할: &e섬장"))
+                .addLore(ColorUtil.parseComponent("&7UUID: &f" + island.ownerUuid().substring(0, 8) + "..."))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&a✓ 모든 권한 보유"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&c섬장은 변경할 수 없습니다."))
                 .build();
     }
     
@@ -130,25 +137,25 @@ public class IslandMemberGui extends BaseGui {
      * 멤버 아이템 생성
      */
     private ItemStack createMemberItem(@NotNull IslandMemberDTO member) {
-        LegacyItemBuilder builder = new LegacyItemBuilder(SkullUtil.getPlayerHead(member.uuid()))
-                .setDisplayName(ColorUtil.colorize("&b" + member.name()))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7역할: &f" + IslandPermissionHandler.getRoleDisplayName(member.isCoOwner() ? IslandRole.CO_OWNER : IslandRole.MEMBER)))
-                .addLore(ColorUtil.colorize("&7가입일: &f" + formatDate(member.joinedAt())))
-                .addLore("");
+        ItemBuilder builder = new ItemBuilder(SkullUtil.getPlayerHead(member.uuid()))
+                .displayName(ColorUtil.parseComponent("&b" + member.name()))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7역할: &f" + IslandPermissionHandler.getRoleDisplayName(member.isCoOwner() ? IslandRole.CO_OWNER : IslandRole.MEMBER)))
+                .addLore(ColorUtil.parseComponent("&7가입일: &f" + formatDate(member.joinedAt())))
+                .addLore(ColorUtil.parseComponent(""));
         
         // 권한 표시
         if (member.isCoOwner()) {
-            builder.addLore(ColorUtil.colorize("&a✓ 대부분의 권한 보유"));
+            builder.addLore(ColorUtil.parseComponent("&a✓ 대부분의 권한 보유"));
         } else {
-            builder.addLore(ColorUtil.colorize("&7일반 섬원 권한"));
+            builder.addLore(ColorUtil.parseComponent("&7일반 섬원 권한"));
         }
         
         // 관리 옵션 (권한이 있는 경우)
         if (canManageMember(member)) {
-            builder.addLore("")
-                   .addLore(ColorUtil.colorize("&e▶ 좌클릭: 역할 변경"))
-                   .addLore(ColorUtil.colorize("&c▶ 우클릭: 추방"));
+            builder.addLore(ColorUtil.parseComponent(""))
+                   .addLore(ColorUtil.parseComponent("&e▶ 좌클릭: 역할 변경"))
+                   .addLore(ColorUtil.parseComponent("&c▶ 우클릭: 추방"));
         }
         
         return builder.build();
@@ -158,20 +165,20 @@ public class IslandMemberGui extends BaseGui {
      * 알바 아이템 생성
      */
     private ItemStack createWorkerItem(@NotNull IslandWorkerDTO worker) {
-        LegacyItemBuilder builder = new LegacyItemBuilder(SkullUtil.getPlayerHead(worker.uuid()))
-                .setDisplayName(ColorUtil.colorize("&7" + worker.name()))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7역할: &f알바"))
-                .addLore(ColorUtil.colorize("&7고용일: &f" + formatDate(worker.hiredAt())))
-                .addLore(ColorUtil.colorize("&7마지막 활동: &f" + formatDate(worker.lastActivity())))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7제한된 권한"));
+        ItemBuilder builder = new ItemBuilder(SkullUtil.getPlayerHead(worker.uuid()))
+                .displayName(ColorUtil.parseComponent("&7" + worker.name()))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7역할: &f알바"))
+                .addLore(ColorUtil.parseComponent("&7고용일: &f" + formatDate(worker.hiredAt())))
+                .addLore(ColorUtil.parseComponent("&7마지막 활동: &f" + formatDate(worker.lastActivity())))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7제한된 권한"));
         
         // 관리 옵션 (권한이 있는 경우)
         if (IslandPermissionHandler.hasPermission(island, viewer, "MANAGE_WORKERS")) {
-            builder.addLore("")
-                   .addLore(ColorUtil.colorize("&e▶ 좌클릭: 기간 연장"))
-                   .addLore(ColorUtil.colorize("&c▶ 우클릭: 해고"));
+            builder.addLore(ColorUtil.parseComponent(""))
+                   .addLore(ColorUtil.parseComponent("&e▶ 좌클릭: 기간 연장"))
+                   .addLore(ColorUtil.parseComponent("&c▶ 우클릭: 해고"));
         }
         
         return builder.build();
@@ -181,17 +188,17 @@ public class IslandMemberGui extends BaseGui {
      * 초대 버튼
      */
     private ItemStack createInviteButton() {
-        return new LegacyItemBuilder(Material.EMERALD)
-                .setDisplayName(ColorUtil.colorize("&a새 멤버 초대"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7새로운 섬원을 초대합니다."))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7현재 멤버: &e" + (1 + island.members().size()) + "/" + 
+        return new ItemBuilder(Material.EMERALD)
+                .displayName(ColorUtil.parseComponent("&a새 멤버 초대"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7새로운 섬원을 초대합니다."))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7현재 멤버: &e" + (1 + island.members().size()) + "/" + 
                         (1 + island.upgradeData().memberLimit())))
-                .addLore(ColorUtil.colorize("&7알바: &e" + island.workers().size() + "/" + 
+                .addLore(ColorUtil.parseComponent("&7알바: &e" + island.workers().size() + "/" + 
                         island.upgradeData().workerLimit()))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&e▶ 클릭하여 초대"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&e▶ 클릭하여 초대"))
                 .build();
     }
     
@@ -199,10 +206,10 @@ public class IslandMemberGui extends BaseGui {
      * 뒤로 가기 버튼
      */
     private ItemStack createBackButton() {
-        return new LegacyItemBuilder(Material.ARROW)
-                .setDisplayName(ColorUtil.colorize("&f뒤로 가기"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7메인 메뉴로 돌아갑니다."))
+        return new ItemBuilder(Material.ARROW)
+                .displayName(ColorUtil.parseComponent("&f뒤로 가기"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7메인 메뉴로 돌아갑니다."))
                 .build();
     }
     
@@ -210,10 +217,10 @@ public class IslandMemberGui extends BaseGui {
      * 닫기 버튼
      */
     private ItemStack createCloseButton() {
-        return new LegacyItemBuilder(Material.BARRIER)
-                .setDisplayName(ColorUtil.colorize("&c닫기"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7메뉴를 닫습니다."))
+        return new ItemBuilder(Material.BARRIER)
+                .displayName(ColorUtil.parseComponent("&c닫기"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7메뉴를 닫습니다."))
                 .build();
     }
     
@@ -221,10 +228,10 @@ public class IslandMemberGui extends BaseGui {
      * 이전 페이지 버튼
      */
     private ItemStack createPreviousPageButton() {
-        return new LegacyItemBuilder(Material.ARROW)
-                .setDisplayName(ColorUtil.colorize("&f이전 페이지"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7현재 페이지: &e" + (currentPage + 1)))
+        return new ItemBuilder(Material.ARROW)
+                .displayName(ColorUtil.parseComponent("&f이전 페이지"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7현재 페이지: &e" + (currentPage + 1)))
                 .build();
     }
     
@@ -232,10 +239,10 @@ public class IslandMemberGui extends BaseGui {
      * 다음 페이지 버튼
      */
     private ItemStack createNextPageButton() {
-        return new LegacyItemBuilder(Material.ARROW)
-                .setDisplayName(ColorUtil.colorize("&f다음 페이지"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7현재 페이지: &e" + (currentPage + 1)))
+        return new ItemBuilder(Material.ARROW)
+                .displayName(ColorUtil.parseComponent("&f다음 페이지"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7현재 페이지: &e" + (currentPage + 1)))
                 .build();
     }
     

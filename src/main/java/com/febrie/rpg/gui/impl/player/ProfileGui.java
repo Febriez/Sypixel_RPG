@@ -62,12 +62,11 @@ public class ProfileGui extends BaseGui {
      * @param viewer GUI를 보는 플레이어
      * @param targetPlayer 프로필 대상 플레이어
      */
-    public ProfileGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private ProfileGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                       @NotNull Player viewer, @NotNull Player targetPlayer) {
         super(viewer, guiManager, langManager, GUI_SIZE, "gui.profile.player-title",
                 "player", targetPlayer.getName());
         this.targetPlayer = targetPlayer;
-        setupLayout();
     }
     
     /**
@@ -77,9 +76,26 @@ public class ProfileGui extends BaseGui {
      * @param langManager 언어 관리자
      * @param viewer GUI를 보는 플레이어 (자기 자신의 프로필)
      */
-    public ProfileGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private ProfileGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                       @NotNull Player viewer) {
         this(guiManager, langManager, viewer, viewer);
+    }
+    
+    /**
+     * Factory method to create ProfileGui for viewing another player's profile
+     */
+    public static ProfileGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                  @NotNull Player viewer, @NotNull Player targetPlayer) {
+        ProfileGui gui = new ProfileGui(guiManager, langManager, viewer, targetPlayer);
+        return createAndInitialize(gui, "gui.profile.player-title", "player", targetPlayer.getName());
+    }
+    
+    /**
+     * Factory method to create ProfileGui for viewing own profile
+     */
+    public static ProfileGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                  @NotNull Player viewer) {
+        return create(guiManager, langManager, viewer, viewer);
     }
 
     @Override
@@ -90,7 +106,7 @@ public class ProfileGui extends BaseGui {
     @Override
     protected GuiFramework getBackTarget() {
         // 프로필에서는 메인 메뉴로 돌아감
-        return new MainMenuGui(guiManager, langManager, viewer);
+        return MainMenuGui.create(guiManager, langManager, viewer);
     }
 
     /**
@@ -420,7 +436,7 @@ public class ProfileGui extends BaseGui {
                         guiManager.openGui(p, backTarget);
                     } else {
                         // 메인 메뉴 열기
-                        MainMenuGui mainMenu = new MainMenuGui(guiManager, langManager, p);
+                        MainMenuGui mainMenu = MainMenuGui.create(guiManager, langManager, p);
                         guiManager.openGui(p, mainMenu);
                     }
                     playBackSound(p);

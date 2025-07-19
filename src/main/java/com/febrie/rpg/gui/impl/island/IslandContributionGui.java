@@ -7,7 +7,6 @@ import com.febrie.rpg.gui.GuiHolder;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LegacyItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -87,15 +86,15 @@ public class IslandContributionGui extends GuiHolder {
                 .mapToLong(Long::longValue)
                 .sum();
         
-        return new LegacyItemBuilder(Material.EMERALD_BLOCK)
-                .setDisplayName(ColorUtil.colorize("&6&l섬 기여도 정보"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7섬 이름: &f" + island.islandName()))
-                .addLore(ColorUtil.colorize("&7총 기여도: &a" + String.format("%,d", totalContribution)))
-                .addLore(ColorUtil.colorize("&7기여자 수: &e" + sortedContributions.size() + "명"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7기여도는 섬 업그레이드에"))
-                .addLore(ColorUtil.colorize("&7사용됩니다"))
+        return new ItemBuilder(Material.EMERALD_BLOCK)
+                .displayName(ColorUtil.parseComponent("&6&l섬 기여도 정보"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7섬 이름: &f" + island.islandName()))
+                .addLore(ColorUtil.parseComponent("&7총 기여도: &a" + String.format("%,d", totalContribution)))
+                .addLore(ColorUtil.parseComponent("&7기여자 수: &e" + sortedContributions.size() + "명"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7기여도는 섬 업그레이드에"))
+                .addLore(ColorUtil.parseComponent("&7사용됩니다"))
                 .build();
     }
     
@@ -138,13 +137,13 @@ public class IslandContributionGui extends GuiHolder {
         // 역할 확인
         String role = getPlayerRole(playerUuid);
         
-        ItemStack item = new LegacyItemBuilder(Material.PLAYER_HEAD)
-                .setDisplayName(ColorUtil.colorize(rankColor + "#" + rank + " &f" + playerName))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7기여도: &a" + String.format("%,d", contribution)))
-                .addLore(ColorUtil.colorize("&7역할: " + role))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7전체 기여도의 &e" + 
+        ItemStack item = new ItemBuilder(Material.PLAYER_HEAD)
+                .displayName(ColorUtil.parseComponent(rankColor + "#" + rank + " &f" + playerName))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7기여도: &a" + String.format("%,d", contribution)))
+                .addLore(ColorUtil.parseComponent("&7역할: " + role))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7전체 기여도의 &e" + 
                         String.format("%.1f%%", getContributionPercentage(contribution))))
                 .build();
         
@@ -189,41 +188,41 @@ public class IslandContributionGui extends GuiHolder {
         String playerUuid = viewer.getUniqueId().toString();
         long currentContribution = island.contributions().getOrDefault(playerUuid, 0L);
         
-        return new LegacyItemBuilder(Material.EMERALD)
-                .setDisplayName(ColorUtil.colorize("&a&l기여도 추가"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7현재 내 기여도: &a" + String.format("%,d", currentContribution)))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7아이템이나 재화를 기여하여"))
-                .addLore(ColorUtil.colorize("&7섬 발전에 도움을 줄 수 있습니다"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&e▶ 클릭하여 기여하기"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&c※ 현재 준비 중입니다"))
+        return new ItemBuilder(Material.EMERALD)
+                .displayName(ColorUtil.parseComponent("&a&l기여도 추가"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7현재 내 기여도: &a" + String.format("%,d", currentContribution)))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7아이템이나 재화를 기여하여"))
+                .addLore(ColorUtil.parseComponent("&7섬 발전에 도움을 줄 수 있습니다"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&e▶ 클릭하여 기여하기"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&c※ 현재 준비 중입니다"))
                 .build();
     }
     
     private ItemStack createPreviousPageItem() {
-        return new LegacyItemBuilder(Material.ARROW)
-                .setDisplayName(ColorUtil.colorize("&a이전 페이지"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7페이지 " + (page - 1) + "/" + maxPage))
+        return new ItemBuilder(Material.ARROW)
+                .displayName(ColorUtil.parseComponent("&a이전 페이지"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7페이지 " + (page - 1) + "/" + maxPage))
                 .build();
     }
     
     private ItemStack createNextPageItem() {
-        return new LegacyItemBuilder(Material.ARROW)
-                .setDisplayName(ColorUtil.colorize("&a다음 페이지"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7페이지 " + (page + 1) + "/" + maxPage))
+        return new ItemBuilder(Material.ARROW)
+                .displayName(ColorUtil.parseComponent("&a다음 페이지"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7페이지 " + (page + 1) + "/" + maxPage))
                 .build();
     }
     
     private ItemStack createBackButton() {
-        return new LegacyItemBuilder(Material.BARRIER)
-                .setDisplayName(ColorUtil.colorize("&c뒤로가기"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7메인 메뉴로 돌아갑니다"))
+        return new ItemBuilder(Material.BARRIER)
+                .displayName(ColorUtil.parseComponent("&c뒤로가기"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7메인 메뉴로 돌아갑니다"))
                 .build();
     }
     

@@ -426,6 +426,6 @@ public class LeaderboardGui extends ScrollableGui {
     @Override
     public GuiFramework getBackTarget() {
         // LeaderboardGui는 MainMenuGui로 돌아갑니다
-        return new MainMenuGui(guiManager, langManager, viewer);
+        return MainMenuGui.create(guiManager, langManager, viewer);
     }
 }

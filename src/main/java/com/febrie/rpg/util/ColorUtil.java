@@ -187,6 +187,35 @@ public final class ColorUtil {
             default -> COMMON;
         };
     }
+    
+    /**
+     * Hex 색상 코드를 TextColor로 변환
+     *
+     * @param hex Hex 색상 코드 (예: "#FF0000" 또는 "FF0000")
+     * @return 변환된 TextColor
+     */
+    @NotNull
+    public static TextColor parseHexColor(@NotNull String hex) {
+        // # 제거
+        if (hex.startsWith("#")) {
+            hex = hex.substring(1);
+        }
+        
+        // 유효성 검사
+        if (hex.length() != 6) {
+            throw new IllegalArgumentException("Invalid hex color: " + hex);
+        }
+        
+        try {
+            int rgb = Integer.parseInt(hex, 16);
+            int red = (rgb >> 16) & 0xFF;
+            int green = (rgb >> 8) & 0xFF;
+            int blue = rgb & 0xFF;
+            return TextColor.color(red, green, blue);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid hex color: " + hex, e);
+        }
+    }
 
     /**
      * 체력 비율에 따른 색상 가져오기

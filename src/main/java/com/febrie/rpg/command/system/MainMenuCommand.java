@@ -41,7 +41,7 @@ public class MainMenuCommand extends BaseCommand {
         }
 
         // 메인 메뉴 열기
-        MainMenuGui mainMenu = new MainMenuGui(guiManager, langManager, player);
+        MainMenuGui mainMenu = MainMenuGui.create(guiManager, langManager, player);
         guiManager.openGui(player, mainMenu);
         
         // 명령어로 열 때만 상자 소리 재생

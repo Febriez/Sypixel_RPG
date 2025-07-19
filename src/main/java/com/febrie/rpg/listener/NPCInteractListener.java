@@ -340,7 +340,7 @@ public class NPCInteractListener implements Listener {
     private void handleGuideNPCWithTrait(NPC npc, Player player, RPGGuideTrait trait) {
         // 메인 메뉴 열기
         MainMenuGui mainMenu = 
-            new MainMenuGui(guiManager, langManager, player);
+            MainMenuGui.create(guiManager, langManager, player);
         guiManager.openGui(player, mainMenu);
         SoundUtil.playOpenSound(player);
     }

@@ -25,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * 섬 생성 GUI
@@ -85,12 +86,21 @@ public class IslandCreationGui extends BaseGui {
     
     private final IslandManager islandManager;
     
-    public IslandCreationGui(@NotNull GuiManager guiManager,
+    private IslandCreationGui(@NotNull GuiManager guiManager,
                             @NotNull LangManager langManager, 
                             @NotNull Player player) {
         super(player, guiManager, langManager, GUI_SIZE, "gui.island.creation.title");
         this.islandManager = RPGMain.getInstance().getIslandManager();
-        setupLayout();
+    }
+    
+    /**
+     * Factory method to create the GUI
+     */
+    public static IslandCreationGui create(@NotNull GuiManager guiManager,
+                                         @NotNull LangManager langManager, 
+                                         @NotNull Player player) {
+        IslandCreationGui gui = new IslandCreationGui(guiManager, langManager, player);
+        return createAndInitialize(gui, "gui.island.creation.title");
     }
     
     @Override
@@ -100,7 +110,7 @@ public class IslandCreationGui extends BaseGui {
     
     @Override
     protected GuiFramework getBackTarget() {
-        return new MainMenuGui(guiManager, langManager, viewer);
+        return MainMenuGui.create(guiManager, langManager, viewer);
     }
     
     @Override
@@ -163,14 +173,18 @@ public class IslandCreationGui extends BaseGui {
             player -> {
                 // Anvil GUI로 이름 입력
                 new AnvilGUI.Builder()
-                    .onComplete((p, text) -> {
+                    .onClick((slot, stateSnapshot) -> {
+                        if (slot != AnvilGUI.Slot.OUTPUT) {
+                            return Collections.emptyList();
+                        }
+                        String text = stateSnapshot.getText();
                         if (text.length() > 0 && text.length() <= 20) {
                             islandName = text;
                             updateNameItem();
                             updateCreateButton();
-                            return AnvilGUI.Response.close();
+                            return List.of(AnvilGUI.ResponseAction.close());
                         } else {
-                            return AnvilGUI.Response.text("1-20자 사이로 입력하세요");
+                            return List.of(AnvilGUI.ResponseAction.replaceInputText("1-20자 사이로 입력하세요"));
                         }
                     })
                     .text(islandName)
@@ -189,7 +203,7 @@ public class IslandCreationGui extends BaseGui {
         // 현재 색상으로 양털 색상 결정
         Material woolType = getWoolByHex(islandColorHex);
         
-        GuiItem colorItem = GuiItem.clickable(
+        GuiItem colorItem = new GuiItem(
             new ItemBuilder(woolType)
                 .displayName(trans("items.island.creation.color.name"))
                 .lore(List.of(
@@ -202,20 +216,19 @@ public class IslandCreationGui extends BaseGui {
                     Component.text("우클릭: 이전 색상", NamedTextColor.YELLOW),
                     Component.text("")
                 ))
-                .build(),
-            (player, clickType) -> {
-                int currentIndex = AVAILABLE_COLORS.indexOf(islandColorHex);
-                if (clickType == ClickType.LEFT) {
-                    currentIndex = (currentIndex + 1) % AVAILABLE_COLORS.size();
-                } else if (clickType == ClickType.RIGHT) {
-                    currentIndex = (currentIndex - 1 + AVAILABLE_COLORS.size()) % AVAILABLE_COLORS.size();
-                }
-                islandColorHex = AVAILABLE_COLORS.get(currentIndex);
-                updateColorItem();
-                updateNameItem(); // 이름 색상도 업데이트
-                playClickSound(player);
+                .build()
+        ).onAnyClick((player, clickType) -> {
+            int currentIndex = AVAILABLE_COLORS.indexOf(islandColorHex);
+            if (clickType == ClickType.LEFT) {
+                currentIndex = (currentIndex + 1) % AVAILABLE_COLORS.size();
+            } else if (clickType == ClickType.RIGHT) {
+                currentIndex = (currentIndex - 1 + AVAILABLE_COLORS.size()) % AVAILABLE_COLORS.size();
             }
-        );
+            islandColorHex = AVAILABLE_COLORS.get(currentIndex);
+            updateColorItem();
+            updateNameItem(); // 이름 색상도 업데이트
+            playClickSound(player);
+        });
         setItem(COLOR_SLOT, colorItem);
     }
     
@@ -225,7 +238,7 @@ public class IslandCreationGui extends BaseGui {
     private void updateBiomeItem() {
         Material biomeIcon = getBiomeIcon(selectedBiome);
         
-        GuiItem biomeItem = GuiItem.clickable(
+        GuiItem biomeItem = new GuiItem(
             new ItemBuilder(biomeIcon)
                 .displayName(trans("items.island.creation.biome.name"))
                 .lore(List.of(
@@ -237,19 +250,18 @@ public class IslandCreationGui extends BaseGui {
                     Component.text("우클릭: 이전 바이옴", NamedTextColor.YELLOW),
                     Component.text("")
                 ))
-                .build(),
-            (player, clickType) -> {
-                int currentIndex = AVAILABLE_BIOMES.indexOf(selectedBiome);
-                if (clickType == ClickType.LEFT) {
-                    currentIndex = (currentIndex + 1) % AVAILABLE_BIOMES.size();
-                } else if (clickType == ClickType.RIGHT) {
-                    currentIndex = (currentIndex - 1 + AVAILABLE_BIOMES.size()) % AVAILABLE_BIOMES.size();
-                }
-                selectedBiome = AVAILABLE_BIOMES.get(currentIndex);
-                updateBiomeItem();
-                playClickSound(player);
+                .build()
+        ).onAnyClick((player, clickType) -> {
+            int currentIndex = AVAILABLE_BIOMES.indexOf(selectedBiome);
+            if (clickType == ClickType.LEFT) {
+                currentIndex = (currentIndex + 1) % AVAILABLE_BIOMES.size();
+            } else if (clickType == ClickType.RIGHT) {
+                currentIndex = (currentIndex - 1 + AVAILABLE_BIOMES.size()) % AVAILABLE_BIOMES.size();
             }
-        );
+            selectedBiome = AVAILABLE_BIOMES.get(currentIndex);
+            updateBiomeItem();
+            playClickSound(player);
+        });
         setItem(BIOME_SLOT, biomeItem);
     }
     
