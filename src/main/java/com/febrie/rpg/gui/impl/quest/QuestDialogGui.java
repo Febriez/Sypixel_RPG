@@ -49,12 +49,27 @@ public class QuestDialogGui extends BaseGui {
     private static final int ACCEPT_SLOT = 3; // 수락 버튼
     private static final int DECLINE_SLOT = 5; // 거절 버튼
 
-    public QuestDialogGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private QuestDialogGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                           @NotNull Player player, @NotNull Quest quest) {
         super(player, guiManager, langManager, 9, "gui.quest-dialog.title");
         this.quest = quest;
         this.typingSpeed = getTypingSpeed(player); // 플레이어 설정에서 가져오기
-        setupLayout(); // GUI 레이아웃 초기화
+    }
+
+    /**
+     * QuestDialogGui 인스턴스를 생성하고 초기화합니다.
+     * 
+     * @param guiManager GUI 매니저
+     * @param langManager 언어 매니저
+     * @param player 플레이어
+     * @param quest 퀘스트
+     * @return 초기화된 QuestDialogGui 인스턴스
+     */
+    public static QuestDialogGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                       @NotNull Player player, @NotNull Quest quest) {
+        QuestDialogGui gui = new QuestDialogGui(guiManager, langManager, player, quest);
+        gui.setupLayout(); // GUI 레이아웃 초기화
+        return gui;
     }
 
     /**

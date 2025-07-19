@@ -84,7 +84,7 @@ public class IslandCommand implements CommandExecutor {
      * 섬 메뉴 열기
      */
     private void openIslandMenu(@NotNull Player player) {
-        IslandMainGui islandGui = new IslandMainGui(guiManager, langManager, player);
+        IslandMainGui islandGui = IslandMainGui.create(guiManager, langManager, player);
         guiManager.openGui(player, islandGui);
     }
 }

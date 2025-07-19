@@ -104,7 +104,15 @@ public final class ColorUtil {
         }
 
         // NamedTextColor 색상 캐싱
-        for (NamedTextColor namedColor : NamedTextColor.NAMES.values()) {
+        // Adventure API의 모든 명명된 색상을 직접 추가
+        for (NamedTextColor namedColor : new NamedTextColor[]{
+                NamedTextColor.BLACK, NamedTextColor.DARK_BLUE, NamedTextColor.DARK_GREEN,
+                NamedTextColor.DARK_AQUA, NamedTextColor.DARK_RED, NamedTextColor.DARK_PURPLE,
+                NamedTextColor.GOLD, NamedTextColor.GRAY, NamedTextColor.DARK_GRAY,
+                NamedTextColor.BLUE, NamedTextColor.GREEN, NamedTextColor.AQUA,
+                NamedTextColor.RED, NamedTextColor.LIGHT_PURPLE, NamedTextColor.YELLOW,
+                NamedTextColor.WHITE
+        }) {
             COLOR_CACHE.put(namedColor.toString().toUpperCase(), namedColor);
         }
     }

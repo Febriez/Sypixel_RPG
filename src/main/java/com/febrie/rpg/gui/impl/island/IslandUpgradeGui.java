@@ -224,7 +224,7 @@ public class IslandUpgradeGui extends BaseGui {
             case 15 -> handleWorkerUpgrade();
             case 40 -> {
                 player.closeInventory();
-                new IslandMainGui(plugin.getGuiManager(), plugin.getLangManager(), player).open(player);
+                IslandMainGui.create(plugin.getGuiManager(), plugin.getLangManager(), player).open(player);
             }
         }
     }

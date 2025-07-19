@@ -64,7 +64,7 @@ public class GuiManager {
      */
     public void openQuestDialogGui(@NotNull Player player, @NotNull com.febrie.rpg.quest.Quest quest) {
         com.febrie.rpg.gui.impl.quest.QuestDialogGui questDialogGui =
-                new com.febrie.rpg.gui.impl.quest.QuestDialogGui(this, langManager, player, quest);
+                com.febrie.rpg.gui.impl.quest.QuestDialogGui.create(this, langManager, player, quest);
         openGui(player, questDialogGui);
     }
 

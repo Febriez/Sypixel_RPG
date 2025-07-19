@@ -40,13 +40,28 @@ public class QuestRewardGui extends BaseGui {
     private final List<ItemStack> rewardItems;
     private boolean hasClaimed = false;
 
-    public QuestRewardGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private QuestRewardGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                           @NotNull Player viewer, @NotNull Quest quest) {
         super(viewer, guiManager, langManager, GUI_SIZE, "gui.quest-reward.title");
         this.quest = quest;
         this.questManager = QuestManager.getInstance();
         this.rewardItems = new ArrayList<>();
-        setupLayout();
+    }
+
+    /**
+     * QuestRewardGui 인스턴스를 생성하고 초기화합니다.
+     * 
+     * @param guiManager GUI 매니저
+     * @param langManager 언어 매니저
+     * @param viewer 보는 플레이어
+     * @param quest 퀘스트
+     * @return 초기화된 QuestRewardGui 인스턴스
+     */
+    public static QuestRewardGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                       @NotNull Player viewer, @NotNull Quest quest) {
+        QuestRewardGui gui = new QuestRewardGui(guiManager, langManager, viewer, quest);
+        gui.setupLayout();
+        return gui;
     }
 
     @Override

@@ -47,12 +47,26 @@ public class MailboxGui extends BaseGui {
     private final MailManager mailManager;
     private boolean showReadMails = false;
 
-    public MailboxGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private MailboxGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                      @NotNull Player player) {
         super(player, guiManager, langManager, GUI_SIZE, "gui.mailbox.title");
         this.mailManager = MailManager.getInstance();
-        setupLayout();
-        loadMails();
+    }
+
+    /**
+     * MailboxGui 인스턴스를 생성하고 초기화합니다.
+     * 
+     * @param guiManager GUI 매니저
+     * @param langManager 언어 매니저
+     * @param player 플레이어
+     * @return 초기화된 MailboxGui 인스턴스
+     */
+    public static MailboxGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                   @NotNull Player player) {
+        MailboxGui gui = new MailboxGui(guiManager, langManager, player);
+        gui.setupLayout();
+        gui.loadMails();
+        return gui;
     }
 
     @Override
@@ -245,7 +259,7 @@ public class MailboxGui extends BaseGui {
                             .addLore(Component.text("클릭하여 우편 확인", ColorUtil.YELLOW))
                             .build(),
                     p -> {
-                        MailDetailGui detailGui = new MailDetailGui(guiManager, langManager, p, mail);
+                        MailDetailGui detailGui = MailDetailGui.create(guiManager, langManager, p, mail);
                         guiManager.openGui(p, detailGui);
                         playClickSound(p);
                     }

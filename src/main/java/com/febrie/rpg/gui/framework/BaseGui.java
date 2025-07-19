@@ -38,7 +38,7 @@ public abstract class BaseGui implements InteractiveGui {
     protected final GuiManager guiManager;
     protected final LangManager langManager;
     protected final int size;
-    protected final Inventory inventory;
+    protected Inventory inventory;
     protected final Map<Integer, GuiItem> items = new HashMap<>();
     
     // 편의용 plugin 접근자

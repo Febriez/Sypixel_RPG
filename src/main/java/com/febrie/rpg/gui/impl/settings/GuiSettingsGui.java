@@ -39,10 +39,24 @@ public class GuiSettingsGui extends BaseGui {
     // 타이틀 슬롯
     private static final int TITLE_SLOT = 4;
 
-    public GuiSettingsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private GuiSettingsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                          @NotNull Player player) {
         super(player, guiManager, langManager, GUI_SIZE, "gui-settings.title");
-        setupLayout();
+    }
+
+    /**
+     * GuiSettingsGui 인스턴스를 생성하고 초기화합니다.
+     * 
+     * @param guiManager GUI 매니저
+     * @param langManager 언어 매니저
+     * @param player 플레이어
+     * @return 초기화된 GuiSettingsGui 인스턴스
+     */
+    public static GuiSettingsGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                       @NotNull Player player) {
+        GuiSettingsGui gui = new GuiSettingsGui(guiManager, langManager, player);
+        gui.setupLayout();
+        return gui;
     }
 
     @Override
@@ -52,7 +66,7 @@ public class GuiSettingsGui extends BaseGui {
 
     @Override
     protected GuiFramework getBackTarget() {
-        return new PlayerSettingsGui(guiManager, langManager, viewer);
+        return PlayerSettingsGui.create(guiManager, langManager, viewer);
     }
 
     @Override

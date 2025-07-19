@@ -219,7 +219,7 @@ public class IslandPermissionGui extends BaseGui {
             case 11 -> selectRole(IslandRole.MEMBER);
             case 12 -> selectRole(IslandRole.WORKER);
             case 13 -> selectRole(IslandRole.VISITOR);
-            case 48 -> new IslandMainGui(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
+            case 48 -> IslandMainGui.create(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
             case 49 -> savePermissions(player);
             case 50 -> player.closeInventory();
             default -> {
@@ -297,7 +297,7 @@ public class IslandPermissionGui extends BaseGui {
         islandManager.updateIsland(island).thenAccept(success -> {
             if (success) {
                 player.sendMessage(ColorUtil.colorize("&a권한 설정이 저장되었습니다!"));
-                new IslandMainGui(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
+                IslandMainGui.create(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
             } else {
                 player.sendMessage(ColorUtil.colorize("&c권한 설정 저장에 실패했습니다."));
             }

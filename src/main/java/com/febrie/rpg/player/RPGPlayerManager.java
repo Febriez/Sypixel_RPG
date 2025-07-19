@@ -47,12 +47,26 @@ public class RPGPlayerManager implements Listener {
     private final Map<UUID, AtomicLong> lastSaveTime = new ConcurrentHashMap<>();
     private static final long SAVE_COOLDOWN = 30000; // 30초
 
-    public RPGPlayerManager(@NotNull RPGMain plugin, @Nullable PlayerFirestoreService playerService) {
+    private RPGPlayerManager(@NotNull RPGMain plugin, @Nullable PlayerFirestoreService playerService) {
         this.plugin = plugin;
         this.playerService = playerService;
         if (playerService == null) {
         }
-
+    }
+    
+    /**
+     * Factory method to create and initialize RPGPlayerManager
+     */
+    public static RPGPlayerManager create(@NotNull RPGMain plugin, @Nullable PlayerFirestoreService playerService) {
+        RPGPlayerManager manager = new RPGPlayerManager(plugin, playerService);
+        manager.initialize();
+        return manager;
+    }
+    
+    /**
+     * Initialize the manager after construction
+     */
+    private void initialize() {
         // 이미 접속중인 플레이어들 로드
         for (Player player : plugin.getServer().getOnlinePlayers()) {
             loadPlayerAsync(player);

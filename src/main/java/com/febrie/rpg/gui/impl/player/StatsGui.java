@@ -53,11 +53,26 @@ public class StatsGui extends ScrollableGui {
     private final RPGPlayer rpgPlayer;
     private final Map<Integer, GuiItem> items = new HashMap<>();
 
-    public StatsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private StatsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                     @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
         super(viewer, guiManager, langManager, DEFAULT_SIZE, "gui.stats.title");
         this.rpgPlayer = rpgPlayer;
-        setupLayout();
+    }
+
+    /**
+     * StatsGui 인스턴스를 생성하고 초기화합니다.
+     * 
+     * @param guiManager GUI 매니저
+     * @param langManager 언어 매니저
+     * @param viewer 보는 플레이어
+     * @param rpgPlayer RPG 플레이어
+     * @return 초기화된 StatsGui 인스턴스
+     */
+    public static StatsGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                 @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
+        StatsGui gui = new StatsGui(guiManager, langManager, viewer, rpgPlayer);
+        gui.setupLayout();
+        return gui;
     }
 
     @Override

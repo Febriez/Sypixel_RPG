@@ -62,8 +62,8 @@ public class ProfileGui extends BaseGui {
      * @param viewer GUI를 보는 플레이어
      * @param targetPlayer 프로필 대상 플레이어
      */
-    private ProfileGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
-                      @NotNull Player viewer, @NotNull Player targetPlayer) {
+    protected ProfileGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                        @NotNull Player viewer, @NotNull Player targetPlayer) {
         super(viewer, guiManager, langManager, GUI_SIZE, "gui.profile.player-title",
                 "player", targetPlayer.getName());
         this.targetPlayer = targetPlayer;
@@ -76,8 +76,8 @@ public class ProfileGui extends BaseGui {
      * @param langManager 언어 관리자
      * @param viewer GUI를 보는 플레이어 (자기 자신의 프로필)
      */
-    private ProfileGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
-                      @NotNull Player viewer) {
+    protected ProfileGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                        @NotNull Player viewer) {
         this(guiManager, langManager, viewer, viewer);
     }
     
@@ -255,7 +255,7 @@ public class ProfileGui extends BaseGui {
                         .build(),
                 p -> {
                     if (p.equals(targetPlayer)) {
-                        QuestListGui questListGui = new QuestListGui(guiManager, langManager, p);
+                        QuestListGui questListGui = QuestListGui.create(guiManager, langManager, p);
                         guiManager.openGui(p, questListGui);
                         playSuccessSound(p);
                     } else {
@@ -299,7 +299,7 @@ public class ProfileGui extends BaseGui {
                             .build(),
                     p -> {
                         if (p.equals(targetPlayer)) {
-                            JobSelectionGui jobGui = new JobSelectionGui(guiManager, langManager, p, rpgPlayer);
+                            JobSelectionGui jobGui = JobSelectionGui.create(guiManager, langManager, p, rpgPlayer);
                             guiManager.openGui(p, jobGui);
                             playSuccessSound(p);
                         } else {
@@ -334,7 +334,7 @@ public class ProfileGui extends BaseGui {
                             // Open talent GUI
                             List<com.febrie.rpg.talent.Talent> talents = RPGMain.getPlugin()
                                     .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
-                            TalentGui talentGui = new TalentGui(guiManager, langManager, p, rpgPlayer, "main", talents);
+                            TalentGui talentGui = TalentGui.create(guiManager, langManager, p, rpgPlayer, "main", talents);
                             guiManager.openGui(p, talentGui);
                             playSuccessSound(p);
                         } else {
@@ -365,7 +365,7 @@ public class ProfileGui extends BaseGui {
                     }
 
                     if (p.equals(targetPlayer)) {
-                        StatsGui statsGui = new StatsGui(guiManager, langManager, p, rpgPlayer);
+                        StatsGui statsGui = StatsGui.create(guiManager, langManager, p, rpgPlayer);
                         guiManager.openGui(p, statsGui);
                         playSuccessSound(p);
                     } else {
@@ -455,7 +455,7 @@ public class ProfileGui extends BaseGui {
                             .build(),
                     p -> {
                         com.febrie.rpg.gui.impl.settings.PlayerSettingsGui settingsGui = 
-                            new com.febrie.rpg.gui.impl.settings.PlayerSettingsGui(guiManager, langManager, p);
+                            com.febrie.rpg.gui.impl.settings.PlayerSettingsGui.create(guiManager, langManager, p);
                         guiManager.openGui(p, settingsGui);
                         playClickSound(p);
                     }

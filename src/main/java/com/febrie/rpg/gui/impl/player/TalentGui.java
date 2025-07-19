@@ -41,14 +41,32 @@ public class TalentGui extends ScrollableGui {
     private final String pageId;
     private final List<Talent> talents;
 
-    public TalentGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private TalentGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                      @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
                      @NotNull String pageId, @NotNull List<Talent> talents) {
         super(viewer, guiManager, langManager, GUI_SIZE, "gui.talent.title");
         this.rpgPlayer = rpgPlayer;
         this.pageId = pageId;
         this.talents = talents;
-        setupLayout();
+    }
+
+    /**
+     * TalentGui 인스턴스를 생성하고 초기화합니다.
+     * 
+     * @param guiManager GUI 매니저
+     * @param langManager 언어 매니저
+     * @param viewer 보는 플레이어
+     * @param rpgPlayer RPG 플레이어
+     * @param pageId 페이지 ID
+     * @param talents 특성 목록
+     * @return 초기화된 TalentGui 인스턴스
+     */
+    public static TalentGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                  @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
+                                  @NotNull String pageId, @NotNull List<Talent> talents) {
+        TalentGui gui = new TalentGui(guiManager, langManager, viewer, rpgPlayer, pageId, talents);
+        gui.setupLayout();
+        return gui;
     }
 
     @Override
@@ -307,7 +325,7 @@ public class TalentGui extends ScrollableGui {
             return;
         }
 
-        TalentGui subGui = new TalentGui(guiManager, langManager, player,
+        TalentGui subGui = TalentGui.create(guiManager, langManager, player,
                 rpgPlayer, subPageId, subTalents);
         guiManager.openGui(player, subGui);
         playClickSound(player);

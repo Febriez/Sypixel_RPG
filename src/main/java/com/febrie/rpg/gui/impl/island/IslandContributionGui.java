@@ -4,6 +4,7 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.dto.island.IslandMemberDTO;
 import com.febrie.rpg.gui.GuiHolder;
+import com.febrie.rpg.gui.BaseGui;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
@@ -36,9 +37,9 @@ public class IslandContributionGui extends GuiHolder {
     
     private static final int ITEMS_PER_PAGE = 28; // 7x4 grid
     
-    public IslandContributionGui(@NotNull RPGMain plugin, @NotNull Player viewer, 
-                                 @NotNull IslandDTO island, int page) {
-        super(plugin, 54, ColorUtil.colorize("&6&l기여도 순위"));
+    private IslandContributionGui(@NotNull RPGMain plugin, @NotNull Player viewer, 
+                                  @NotNull IslandDTO island, int page) {
+        super(plugin, 54);
         this.islandManager = plugin.getIslandManager();
         this.viewer = viewer;
         this.island = island;
@@ -50,6 +51,20 @@ public class IslandContributionGui extends GuiHolder {
         
         this.maxPage = (int) Math.ceil((double) sortedContributions.size() / ITEMS_PER_PAGE);
         this.page = Math.max(1, Math.min(page, maxPage));
+    }
+    
+    /**
+     * Factory method to create and open the contribution GUI
+     * @param plugin The plugin instance
+     * @param viewer The player viewing the GUI
+     * @param island The island DTO
+     * @param page The page number to display
+     * @return The initialized GUI instance
+     */
+    public static IslandContributionGui create(@NotNull RPGMain plugin, @NotNull Player viewer, 
+                                               @NotNull IslandDTO island, int page) {
+        IslandContributionGui gui = new IslandContributionGui(plugin, viewer, island, page);
+        return BaseGui.create(gui, ColorUtil.parseComponent("&6&l기여도 순위"));
     }
     
     @Override
@@ -237,12 +252,12 @@ public class IslandContributionGui extends GuiHolder {
         switch (slot) {
             case 45 -> { // 이전 페이지
                 if (page > 1) {
-                    new IslandContributionGui(plugin, viewer, island, page - 1).open();
+                    IslandContributionGui.create(plugin, viewer, island, page - 1).open();
                 }
             }
             case 48 -> { // 뒤로가기
                 player.closeInventory();
-                new IslandMainGui(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
+                IslandMainGui.create(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
             }
             case 49 -> { // 기여하기
                 if (isIslandMember()) {
@@ -252,7 +267,7 @@ public class IslandContributionGui extends GuiHolder {
             }
             case 53 -> { // 다음 페이지
                 if (page < maxPage) {
-                    new IslandContributionGui(plugin, viewer, island, page + 1).open();
+                    IslandContributionGui.create(plugin, viewer, island, page + 1).open();
                 }
             }
         }

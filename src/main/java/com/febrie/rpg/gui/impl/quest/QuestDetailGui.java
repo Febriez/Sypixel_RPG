@@ -45,13 +45,29 @@ public class QuestDetailGui extends BaseGui {
     private final QuestProgress progress;
     private final boolean isKorean;
 
-    public QuestDetailGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private QuestDetailGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                           @NotNull Player viewer, @NotNull Quest quest, @NotNull QuestProgress progress) {
         super(viewer, guiManager, langManager, GUI_SIZE, "gui.quest-detail.title");
         this.quest = quest;
         this.progress = progress;
         this.isKorean = viewer.locale().toString().startsWith("ko");
-        setupLayout();
+    }
+
+    /**
+     * QuestDetailGui 인스턴스를 생성하고 초기화합니다.
+     * 
+     * @param guiManager GUI 매니저
+     * @param langManager 언어 매니저
+     * @param viewer 보는 플레이어
+     * @param quest 퀘스트
+     * @param progress 퀘스트 진행도
+     * @return 초기화된 QuestDetailGui 인스턴스
+     */
+    public static QuestDetailGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                       @NotNull Player viewer, @NotNull Quest quest, @NotNull QuestProgress progress) {
+        QuestDetailGui gui = new QuestDetailGui(guiManager, langManager, viewer, quest, progress);
+        gui.setupLayout();
+        return gui;
     }
 
     @Override
@@ -240,6 +256,6 @@ public class QuestDetailGui extends BaseGui {
 
     @Override
     public GuiFramework getBackTarget() {
-        return new QuestListGui(guiManager, langManager, viewer);
+        return QuestListGui.create(guiManager, langManager, viewer);
     }
 }

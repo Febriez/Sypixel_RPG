@@ -41,7 +41,7 @@ public class IslandMainGui extends BaseGui {
     private final boolean isMember;
     private final boolean isWorker;
     
-    public IslandMainGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager, 
+    private IslandMainGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager, 
                         @NotNull Player player) {
         super(player, guiManager, langManager, 54, "gui.island.main.title");
         this.islandManager = RPGMain.getInstance().getIslandManager();
@@ -67,8 +67,21 @@ public class IslandMainGui extends BaseGui {
             this.isMember = false;
             this.isWorker = false;
         }
-        
-        setupLayout();
+    }
+    
+    /**
+     * IslandMainGui 인스턴스를 생성하고 초기화합니다.
+     * 
+     * @param guiManager GUI 매니저
+     * @param langManager 언어 매니저
+     * @param player 플레이어
+     * @return 초기화된 IslandMainGui 인스턴스
+     */
+    public static IslandMainGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                      @NotNull Player player) {
+        IslandMainGui gui = new IslandMainGui(guiManager, langManager, player);
+        gui.setupLayout();
+        return gui;
     }
     
     @Override
@@ -329,7 +342,7 @@ public class IslandMainGui extends BaseGui {
                 ))
                 .build(),
             player -> {
-                player.sendMessage(Component.text("준비 중인 기능입니다.", ColorUtil.ERROR));
+                IslandContributionGui.create(RPGMain.getInstance(), player, island, 1).open(player);
                 playClickSound(player);
             }
         );

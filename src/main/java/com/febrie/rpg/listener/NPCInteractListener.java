@@ -240,7 +240,7 @@ public class NPCInteractListener implements Listener {
         if (questIds.isEmpty()) {
             // 퀘스트 목록 GUI 열기
             QuestListGui questListGui = 
-                new QuestListGui(guiManager, langManager, player);
+                QuestListGui.create(guiManager, langManager, player);
             guiManager.openGui(player, questListGui);
             return;
         }
@@ -376,7 +376,7 @@ public class NPCInteractListener implements Listener {
             Quest quest = questManager.getQuest(questId);
             if (quest != null) {
                 com.febrie.rpg.gui.impl.quest.QuestRewardGui rewardGui = 
-                    new com.febrie.rpg.gui.impl.quest.QuestRewardGui(guiManager, langManager, player, quest);
+                    com.febrie.rpg.gui.impl.quest.QuestRewardGui.create(guiManager, langManager, player, quest);
                 guiManager.openGui(player, rewardGui);
                 SoundUtil.playOpenSound(player);
             }

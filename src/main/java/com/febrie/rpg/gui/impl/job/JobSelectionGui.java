@@ -33,11 +33,26 @@ public class JobSelectionGui extends BaseGui {
     private final RPGPlayer rpgPlayer;
     private JobType.JobCategory selectedCategory = JobType.JobCategory.WARRIOR;
 
-    public JobSelectionGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private JobSelectionGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                            @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
         super(viewer, guiManager, langManager, GUI_SIZE, "gui.job-selection.title");
         this.rpgPlayer = rpgPlayer;
-        setupLayout();
+    }
+
+    /**
+     * JobSelectionGui 인스턴스를 생성하고 초기화합니다.
+     * 
+     * @param guiManager GUI 매니저
+     * @param langManager 언어 매니저
+     * @param viewer 보는 플레이어
+     * @param rpgPlayer RPG 플레이어
+     * @return 초기화된 JobSelectionGui 인스턴스
+     */
+    public static JobSelectionGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                        @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
+        JobSelectionGui gui = new JobSelectionGui(guiManager, langManager, viewer, rpgPlayer);
+        gui.setupLayout();
+        return gui;
     }
 
     @Override
@@ -202,7 +217,7 @@ public class JobSelectionGui extends BaseGui {
      */
     private void openConfirmationGui(@NotNull JobType job) {
         // 확인 GUI 열기
-        JobConfirmationGui confirmationGui = new JobConfirmationGui(
+        JobConfirmationGui confirmationGui = JobConfirmationGui.create(
                 guiManager, langManager, viewer, rpgPlayer, job
         );
         guiManager.openGui(viewer, confirmationGui);

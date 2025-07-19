@@ -93,18 +93,46 @@ public class LeaderboardGui extends ScrollableGui {
     private LeaderboardEntryDTO myRankEntry = null;
     private boolean isLoading = false;
 
-    public LeaderboardGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private LeaderboardGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                           @NotNull Player viewer) {
         this(guiManager, langManager, viewer, LeaderboardType.LEVEL);
     }
 
-    public LeaderboardGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private LeaderboardGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                           @NotNull Player viewer, @NotNull LeaderboardType type) {
         super(viewer, guiManager, langManager, GUI_SIZE, "gui.leaderboard.title",
                 "type", type.getDisplayName());
         this.currentType = type;
-        setupLayout();
-        loadLeaderboard();
+    }
+
+    /**
+     * LeaderboardGui 인스턴스를 생성하고 초기화합니다.
+     * 
+     * @param guiManager GUI 매니저
+     * @param langManager 언어 매니저
+     * @param viewer 보는 플레이어
+     * @return 초기화된 LeaderboardGui 인스턴스
+     */
+    public static LeaderboardGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                       @NotNull Player viewer) {
+        return create(guiManager, langManager, viewer, LeaderboardType.LEVEL);
+    }
+
+    /**
+     * LeaderboardGui 인스턴스를 생성하고 초기화합니다.
+     * 
+     * @param guiManager GUI 매니저
+     * @param langManager 언어 매니저
+     * @param viewer 보는 플레이어
+     * @param type 리더보드 타입
+     * @return 초기화된 LeaderboardGui 인스턴스
+     */
+    public static LeaderboardGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                       @NotNull Player viewer, @NotNull LeaderboardType type) {
+        LeaderboardGui gui = new LeaderboardGui(guiManager, langManager, viewer, type);
+        gui.setupLayout();
+        gui.loadLeaderboard();
+        return gui;
     }
 
     @Override

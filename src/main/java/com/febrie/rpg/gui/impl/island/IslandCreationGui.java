@@ -361,7 +361,7 @@ public class IslandCreationGui extends BaseGui {
                     player.sendMessage(Component.text("====================", NamedTextColor.GREEN));
                     
                     // 섬 메뉴 열기
-                    IslandMainGui islandGui = new IslandMainGui(guiManager, langManager, player);
+                    IslandMainGui islandGui = IslandMainGui.create(guiManager, langManager, player);
                     guiManager.openGui(player, islandGui);
                 } else {
                     player.sendMessage(Component.text("섬 생성에 실패했습니다.", NamedTextColor.RED));

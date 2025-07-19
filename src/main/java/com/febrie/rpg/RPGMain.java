@@ -182,7 +182,7 @@ public final class RPGMain extends JavaPlugin {
         }
 
         // 매니저 초기화
-        this.rpgPlayerManager = new RPGPlayerManager(this, playerFirestoreService);
+        this.rpgPlayerManager = RPGPlayerManager.create(this, playerFirestoreService);
         this.talentManager = new TalentManager(this);
         
         // QuestManager 초기화

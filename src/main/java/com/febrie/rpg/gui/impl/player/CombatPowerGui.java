@@ -31,11 +31,26 @@ public class CombatPowerGui extends BaseGui {
     private static final int GUI_SIZE = 54; // 6줄 (통일성을 위해 변경)
     private final RPGPlayer rpgPlayer;
 
-    public CombatPowerGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private CombatPowerGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                           @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
         super(viewer, guiManager, langManager, GUI_SIZE, "gui.combat-power.title");
         this.rpgPlayer = rpgPlayer;
-        setupLayout();
+    }
+
+    /**
+     * CombatPowerGui 인스턴스를 생성하고 초기화합니다.
+     * 
+     * @param guiManager GUI 매니저
+     * @param langManager 언어 매니저
+     * @param viewer 보는 플레이어
+     * @param rpgPlayer RPG 플레이어
+     * @return 초기화된 CombatPowerGui 인스턴스
+     */
+    public static CombatPowerGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                       @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
+        CombatPowerGui gui = new CombatPowerGui(guiManager, langManager, viewer, rpgPlayer);
+        gui.setupLayout();
+        return gui;
     }
 
     @Override

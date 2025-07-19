@@ -262,7 +262,7 @@ public class IslandMemberGui extends BaseGui {
                 }
             }
             case 48 -> { // 뒤로 가기
-                new IslandMainGui(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
+                IslandMainGui.create(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
             }
             case 49 -> { // 초대
                 if (IslandPermissionHandler.hasPermission(island, viewer, "INVITE_MEMBERS")) {

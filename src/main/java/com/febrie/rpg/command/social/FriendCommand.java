@@ -69,7 +69,7 @@ public class FriendCommand implements CommandExecutor, TabCompleter {
     private void handleFriendCommand(@NotNull Player player, @NotNull String[] args) {
         if (args.length == 0 || args[0].equalsIgnoreCase("목록") || args[0].equalsIgnoreCase("list")) {
             // 친구 목록 GUI 열기
-            FriendListGui friendListGui = new FriendListGui(guiManager, langManager, player);
+            FriendListGui friendListGui = FriendListGui.create(guiManager, langManager, player);
             guiManager.openGui(player, friendListGui);
         } else {
             sendFriendHelp(player);

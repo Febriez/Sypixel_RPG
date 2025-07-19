@@ -45,11 +45,25 @@ public class QuestListGui extends BaseGui {
 
     private final QuestManager questManager;
 
-    public QuestListGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private QuestListGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                         @NotNull Player viewer) {
         super(viewer, guiManager, langManager, GUI_SIZE, "gui.quest-list.title");
         this.questManager = QuestManager.getInstance();
-        setupLayout();
+    }
+
+    /**
+     * QuestListGui 인스턴스를 생성하고 초기화합니다.
+     * 
+     * @param guiManager GUI 매니저
+     * @param langManager 언어 매니저
+     * @param viewer 보는 플레이어
+     * @return 초기화된 QuestListGui 인스턴스
+     */
+    public static QuestListGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                     @NotNull Player viewer) {
+        QuestListGui gui = new QuestListGui(guiManager, langManager, viewer);
+        gui.setupLayout();
+        return gui;
     }
 
     @Override
@@ -232,7 +246,7 @@ public class QuestListGui extends BaseGui {
 
         return GuiItem.clickable(builder.build(), p -> {
             // 퀘스트 상세 정보 GUI 열기
-            guiManager.openGui(p, new QuestDetailGui(guiManager, langManager, p, quest, progress));
+            guiManager.openGui(p, QuestDetailGui.create(guiManager, langManager, p, quest, progress));
             playClickSound(p);
         });
     }
@@ -290,6 +304,6 @@ public class QuestListGui extends BaseGui {
 
     @Override
     public GuiFramework getBackTarget() {
-        return new ProfileGui(guiManager, langManager, viewer);
+        return ProfileGui.create(guiManager, langManager, viewer);
     }
 }

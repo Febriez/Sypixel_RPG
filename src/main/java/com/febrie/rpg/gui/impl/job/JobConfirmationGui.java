@@ -36,12 +36,21 @@ public class JobConfirmationGui extends BaseGui {
     private final RPGPlayer rpgPlayer;
     private final JobType selectedJob;
 
-    public JobConfirmationGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
-                              @NotNull Player player, @NotNull RPGPlayer rpgPlayer, @NotNull JobType selectedJob) {
+    private JobConfirmationGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                               @NotNull Player player, @NotNull RPGPlayer rpgPlayer, @NotNull JobType selectedJob) {
         super(player, guiManager, langManager, GUI_SIZE, "gui.job-confirmation.title");
         this.rpgPlayer = rpgPlayer;
         this.selectedJob = selectedJob;
-        setupLayout();
+    }
+    
+    /**
+     * Factory method to create and initialize JobConfirmationGui
+     */
+    public static JobConfirmationGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+                                           @NotNull Player player, @NotNull RPGPlayer rpgPlayer, @NotNull JobType selectedJob) {
+        JobConfirmationGui gui = new JobConfirmationGui(guiManager, langManager, player, rpgPlayer, selectedJob);
+        gui.initialize("gui.job-confirmation.title");
+        return gui;
     }
 
     @Override
@@ -192,7 +201,7 @@ public class JobConfirmationGui extends BaseGui {
             viewer.closeInventory();
 
             // 프로필 GUI 열기
-            ProfileGui profileGui = new ProfileGui(guiManager, langManager, viewer);
+            ProfileGui profileGui = ProfileGui.create(guiManager, langManager, viewer);
             guiManager.openGui(viewer, profileGui);
 
         } else {
@@ -214,7 +223,7 @@ public class JobConfirmationGui extends BaseGui {
             guiManager.openGui(viewer, backTarget);
         } else {
             // 백타겟이 없으면 직업 선택 GUI로
-            JobSelectionGui jobSelectionGui = new JobSelectionGui(guiManager, langManager, viewer, rpgPlayer);
+            JobSelectionGui jobSelectionGui = JobSelectionGui.create(guiManager, langManager, viewer, rpgPlayer);
             guiManager.openGui(viewer, jobSelectionGui);
         }
     }
@@ -222,6 +231,6 @@ public class JobConfirmationGui extends BaseGui {
     @Override
     public GuiFramework getBackTarget() {
         // JobConfirmationGui는 JobSelectionGui로 돌아갑니다
-        return new JobSelectionGui(guiManager, langManager, viewer, rpgPlayer);
+        return JobSelectionGui.create(guiManager, langManager, viewer, rpgPlayer);
     }
 }

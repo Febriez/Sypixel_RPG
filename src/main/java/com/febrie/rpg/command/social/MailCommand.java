@@ -69,7 +69,7 @@ public class MailCommand implements CommandExecutor, TabCompleter {
      */
     private void handleMailboxCommand(@NotNull Player player, @NotNull String[] args) {
         // 우편함 GUI 열기
-        MailboxGui mailboxGui = new MailboxGui(guiManager, langManager, player);
+        MailboxGui mailboxGui = MailboxGui.create(guiManager, langManager, player);
         guiManager.openGui(player, mailboxGui);
     }
 

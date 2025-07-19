@@ -122,7 +122,7 @@ public class MainMenuGui extends BaseGui {
                 .lore(langManager.getComponentList(viewer, "items.mainmenu.profile-button.lore"))
                 .build(),
             player -> {
-                ProfileGui profileGui = new ProfileGui(guiManager, langManager, player);
+                ProfileGui profileGui = ProfileGui.create(guiManager, langManager, player);
                 guiManager.openGui(player, profileGui);
             });
             
@@ -173,7 +173,7 @@ public class MainMenuGui extends BaseGui {
                 
                 if (playerIslandData != null && playerIslandData.hasIsland()) {
                     // 섬이 있으면 섬 메뉴 열기
-                    IslandMainGui islandGui = new IslandMainGui(guiManager, langManager, player);
+                    IslandMainGui islandGui = IslandMainGui.create(guiManager, langManager, player);
                     guiManager.openGui(player, islandGui);
                     playClickSound(player);
                 } else {
@@ -195,7 +195,7 @@ public class MainMenuGui extends BaseGui {
                         .lore(langManager.getComponentList(viewer, "items.mainmenu.leaderboard-button.lore"))
                         .build(),
                 player -> {
-                    LeaderboardGui leaderboardGui = new LeaderboardGui(guiManager, langManager, player);
+                    LeaderboardGui leaderboardGui = LeaderboardGui.create(guiManager, langManager, player);
                     guiManager.openGui(player, leaderboardGui);
                     playClickSound(player);
                 }
