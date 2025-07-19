@@ -3,6 +3,7 @@ package com.febrie.rpg;
 import com.febrie.rpg.command.admin.AdminCommands;
 import com.febrie.rpg.command.system.MainMenuCommand;
 import com.febrie.rpg.command.system.SiteAccountCommand;
+import com.febrie.rpg.command.island.IslandCommand;
 import com.febrie.rpg.database.FirestoreManager;
 import com.febrie.rpg.database.service.impl.PlayerFirestoreService;
 import com.febrie.rpg.database.service.impl.QuestFirestoreService;
@@ -64,6 +65,7 @@ public final class RPGMain extends JavaPlugin {
     private MainMenuCommand mainMenuCommand;
     private AdminCommands adminCommands;
     private SiteAccountCommand siteAccountCommand;
+    private IslandCommand islandCommand;
 
     // 서버 통계 관련
     private BukkitTask serverStatsTask;
@@ -208,6 +210,7 @@ public final class RPGMain extends JavaPlugin {
         this.mainMenuCommand = new MainMenuCommand(this, langManager, guiManager);
         this.adminCommands = new AdminCommands(this, rpgPlayerManager, guiManager, langManager);
         this.siteAccountCommand = new SiteAccountCommand(this);
+        this.islandCommand = new IslandCommand(this);
     }
 
     /**
@@ -266,6 +269,11 @@ public final class RPGMain extends JavaPlugin {
         // 사이트 계정 명령어 등록
         if (siteAccountCommand != null) {
             getCommand("사이트계정발급").setExecutor(siteAccountCommand);
+        }
+        
+        // 섬 명령어 등록
+        if (islandCommand != null) {
+            getCommand("섬").setExecutor(islandCommand);
         }
 
     }
@@ -467,12 +475,24 @@ public final class RPGMain extends JavaPlugin {
     public IslandManager getIslandManager() {
         return islandManager;
     }
+    
+    public FirestoreManager getFirestoreManager() {
+        return firestoreManager;
+    }
 
     public static RPGMain getPlugin() {
+        return plugin;
+    }
+    
+    public static RPGMain getInstance() {
         return plugin;
     }
 
     public long getStartTime() {
         return startTime;
+    }
+    
+    public PlayerFirestoreService getPlayerFirestoreService() {
+        return playerFirestoreService;
     }
 }

@@ -1,10 +1,14 @@
 package com.febrie.rpg.command.system;
 
 import com.febrie.rpg.RPGMain;
+import com.febrie.rpg.database.FirestoreManager;
+import com.febrie.rpg.dto.player.PlayerDTO;
+import com.febrie.rpg.dto.player.PlayerDataDTO;
+import com.febrie.rpg.database.service.impl.PlayerFirestoreService;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.LogUtil;
-import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.AccessToken;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -18,18 +22,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.time.Duration;
-import java.util.Base64;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Pattern;
 
@@ -53,24 +56,23 @@ public class SiteAccountCommand implements CommandExecutor {
     private static final String FIREBASE_AUTH_URL = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=";
     private static final String FIREBASE_SET_CUSTOM_CLAIMS_URL = "https://identitytoolkit.googleapis.com/v1/accounts:setAccountInfo?key=";
     private static final String FIREBASE_USER_LOOKUP_URL = "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=";
-    
+
     // HTTP 클라이언트
     private final HttpClient httpClient;
     private final Gson gson;
-    
+
     // 비밀번호 생성용
     private static final String PASSWORD_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
     private static final SecureRandom random = new SecureRandom();
-    
+
     // 환경 변수 키
-    private static final String ENV_SERVICE_ACCOUNT = "FIREBASE_PRIVATE_KEY";
     private static final String ENV_WEB_API_KEY = "FIREBASE_WEB_API_KEY";
-    
+
     // 관리자 UUID (추후 설정 파일로 이동 필요)
     private static final String[] ADMIN_UUIDS = {
-        // 관리자 UUID를 여기에 추가
+            // 관리자 UUID를 여기에 추가
     };
-    
+
     public SiteAccountCommand(@NotNull RPGMain plugin) {
         this.plugin = plugin;
         this.httpClient = HttpClient.newBuilder()
@@ -142,40 +144,45 @@ public class SiteAccountCommand implements CommandExecutor {
                 if (apiKey == null || apiKey.isEmpty()) {
                     throw new IllegalStateException("Firebase Web API Key가 설정되지 않았습니다.");
                 }
-                
-                // 1. 중복 계정 확인 (이메일)
-                if (checkEmailExists(email, apiKey)) {
-                    plugin.getServer().getScheduler().runTask(plugin, () -> 
-                        sendErrorMessage(player, "이미 사용 중인 이메일입니다."));
-                    return;
+
+                // 1. Player 컬렉션에서 중복 계정 확인 (isAdmin 필드 존재 여부)
+                PlayerFirestoreService playerService = plugin.getPlayerFirestoreService();
+                if (playerService != null) {
+                    PlayerDataDTO existingPlayer = playerService.getByUuid(UUID.fromString(uuid)).join();
+                    if (existingPlayer != null) {
+                        // 이미 계정이 있으면 중복 발급 불가
+                        plugin.getServer().getScheduler().runTask(plugin, () ->
+                                sendErrorMessage(player, "이미 사이트 계정이 발급되었습니다."));
+                        return;
+                    }
                 }
-                
+
                 // 2. 랜덤 비밀번호 생성
                 String password = generateRandomPassword();
-                
+
                 // 3. Firebase Auth 계정 생성
                 String uid = createFirebaseAccount(email, password, apiKey);
-                
+
                 // 4. Custom Claims 설정 (isAdmin)
                 if (isAdmin) {
                     setCustomClaims(uid, Map.of("isAdmin", true), apiKey);
                 }
-                
-                // 5. Firestore에 사용자 정보 저장
-                saveUserToFirestore(uid, uuid, email, playerName, isAdmin);
-                
+
+                // 5. Player 컬렉션의 isAdmin 필드 업데이트
+                updatePlayerAdminStatus(uuid, playerName, isAdmin);
+
                 // 성공 메시지 전송
-                plugin.getServer().getScheduler().runTask(plugin, () -> 
-                    sendSuccessMessage(player, email, password));
-                    
+                plugin.getServer().getScheduler().runTask(plugin, () ->
+                        sendSuccessMessage(player, email, password));
+
             } catch (Exception e) {
                 LogUtil.error("사이트 계정 생성 중 오류 발생", e);
-                plugin.getServer().getScheduler().runTask(plugin, () -> 
-                    sendErrorMessage(player, "계정 생성 중 오류가 발생했습니다: " + e.getMessage()));
+                plugin.getServer().getScheduler().runTask(plugin, () ->
+                        sendErrorMessage(player, "계정 생성 중 오류가 발생했습니다: " + e.getMessage()));
             }
         });
     }
-    
+
     /**
      * 랜덤 비밀번호 생성 (12자리)
      */
@@ -186,7 +193,7 @@ public class SiteAccountCommand implements CommandExecutor {
         }
         return password.toString();
     }
-    
+
     /**
      * 플레이어가 관리자인지 확인
      */
@@ -198,7 +205,7 @@ public class SiteAccountCommand implements CommandExecutor {
         }
         return false;
     }
-    
+
     /**
      * 이메일 중복 확인
      */
@@ -208,7 +215,7 @@ public class SiteAccountCommand implements CommandExecutor {
         // 여기서는 간단히 false 반환 (추후 구현 필요)
         return false;
     }
-    
+
     /**
      * Firebase Auth 계정 생성
      */
@@ -217,37 +224,37 @@ public class SiteAccountCommand implements CommandExecutor {
         requestBody.addProperty("email", email);
         requestBody.addProperty("password", password);
         requestBody.addProperty("returnSecureToken", true);
-        
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(FIREBASE_AUTH_URL + apiKey))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
                 .timeout(Duration.ofSeconds(10))
                 .build();
-                
+
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        
+
         if (response.statusCode() != 200) {
             JsonObject error = JsonParser.parseString(response.body()).getAsJsonObject();
             String errorMessage = error.getAsJsonObject("error").get("message").getAsString();
             throw new RuntimeException("Firebase Auth 오류: " + errorMessage);
         }
-        
+
         JsonObject result = JsonParser.parseString(response.body()).getAsJsonObject();
         return result.get("localId").getAsString();
     }
-    
+
     /**
      * Custom Claims 설정
      */
     private void setCustomClaims(String uid, Map<String, Object> claims, String apiKey) throws Exception {
         // Admin SDK 토큰 필요 - Service Account로 생성
         String accessToken = getAdminAccessToken();
-        
+
         JsonObject requestBody = new JsonObject();
         requestBody.addProperty("localId", uid);
         requestBody.add("customAttributes", gson.toJsonTree(claims));
-        
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(FIREBASE_SET_CUSTOM_CLAIMS_URL + apiKey))
                 .header("Content-Type", "application/json")
@@ -255,42 +262,27 @@ public class SiteAccountCommand implements CommandExecutor {
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
                 .timeout(Duration.ofSeconds(10))
                 .build();
-                
+
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        
+
         if (response.statusCode() != 200) {
         }
     }
-    
+
     /**
      * Admin 액세스 토큰 가져오기
      */
     private String getAdminAccessToken() throws IOException {
-        String privateKey = System.getenv(ENV_SERVICE_ACCOUNT);
-        if (privateKey == null || privateKey.isEmpty()) {
-            throw new IllegalStateException("Service Account private key가 설정되지 않았습니다.");
-        }
-        
         try {
-            // Service Account JSON 구성 (하드코딩)
-            // TODO: 아래 정보를 실제 Service Account 정보로 변경하세요
-            String serviceAccountJson = "{\n" +
-                "  \"type\": \"service_account\",\n" +
-                "  \"project_id\": \"YOUR_PROJECT_ID\",\n" +
-                "  \"private_key_id\": \"YOUR_PRIVATE_KEY_ID\",\n" +
-                "  \"private_key\": \"" + privateKey.replace("\n", "\\n") + "\",\n" +
-                "  \"client_email\": \"YOUR_SERVICE_ACCOUNT_EMAIL@YOUR_PROJECT_ID.iam.gserviceaccount.com\",\n" +
-                "  \"client_id\": \"YOUR_CLIENT_ID\",\n" +
-                "  \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",\n" +
-                "  \"token_uri\": \"https://oauth2.googleapis.com/token\",\n" +
-                "  \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",\n" +
-                "  \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/YOUR_SERVICE_ACCOUNT_EMAIL%40YOUR_PROJECT_ID.iam.gserviceaccount.com\"\n" +
-                "}";
-            
-            GoogleCredentials credentials = GoogleCredentials
-                    .fromStream(new ByteArrayInputStream(serviceAccountJson.getBytes(StandardCharsets.UTF_8)))
-                    .createScoped(Collections.singleton("https://www.googleapis.com/auth/cloud-platform"));
-                    
+            // FirestoreManager의 공용 메서드 사용
+            GoogleCredentials credentials = FirestoreManager.getCredentials();
+            if (credentials == null) {
+                throw new IllegalStateException("Service Account 인증 정보를 가져올 수 없습니다.");
+            }
+
+            // Cloud Platform 스코프 추가
+            credentials = credentials.createScoped(Collections.singleton("https://www.googleapis.com/auth/cloud-platform"));
+
             credentials.refreshIfExpired();
             AccessToken token = credentials.getAccessToken();
             return token != null ? token.getTokenValue() : null;
@@ -298,16 +290,42 @@ public class SiteAccountCommand implements CommandExecutor {
             throw new IOException("Service Account 인증 실패", e);
         }
     }
-    
+
     /**
-     * Firestore에 사용자 정보 저장
+     * Player 컬렉션의 isAdmin 필드 업데이트
      */
-    private void saveUserToFirestore(String uid, String minecraftUuid, String email, 
-                                     String displayName, boolean isAdmin) {
-        // Firestore 직접 접근이 필요함
-        // 현재는 FirestoreManager를 통해 저장해야 하지만,
-        // SiteAccountCommand에서만 사용하므로 별도 구현 필요
-        // Firestore REST API 또는 FirestoreManager 활용 필요
+    private void updatePlayerAdminStatus(String uuid, String playerName, boolean isAdmin) {
+        try {
+            PlayerFirestoreService playerService = plugin.getPlayerFirestoreService();
+            if (playerService == null) {
+                LogUtil.error("PlayerFirestoreService를 가져올 수 없습니다.");
+                return;
+            }
+            
+            // 기존 플레이어 데이터 가져오기
+            PlayerDataDTO existingPlayer = playerService.getByUuid(UUID.fromString(uuid)).join();
+            PlayerDataDTO updatedPlayer;
+            
+            if (existingPlayer != null) {
+                // 기존 데이터 유지하면서 Firestore에 별도 isAdmin 플래그 저장이 필요함
+                // 현재 PlayerDataDTO 구조로는 isAdmin을 저장할 수 없으므로
+                // 별도의 users 컬렉션이나 플래그가 필요함
+                LogUtil.info("플레이어 데이터가 이미 존재합니다: " + playerName);
+            } else {
+                // 새 플레이어 데이터 생성
+                updatedPlayer = PlayerDataDTO.createNew(UUID.fromString(uuid), playerName);
+                playerService.save(uuid, updatedPlayer).whenComplete((success, error) -> {
+                    if (error != null) {
+                        LogUtil.error("플레이어 데이터 저장 실패", error);
+                    } else {
+                        LogUtil.info("플레이어 데이터가 생성되었습니다: " + playerName);
+                    }
+                });
+            }
+                
+        } catch (Exception e) {
+            LogUtil.error("플레이어 데이터 업데이트 실패", e);
+        }
     }
 
     /**

@@ -2,20 +2,27 @@ package com.febrie.rpg.gui.impl.island;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
-import com.febrie.rpg.gui.BaseGui;
+import com.febrie.rpg.dto.island.PlayerIslandDataDTO;
+import com.febrie.rpg.gui.component.GuiFactory;
+import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.GuiFramework;
+import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LegacyItemBuilder;
+import com.febrie.rpg.util.LangManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 섬 메인 GUI
@@ -26,256 +33,398 @@ import java.util.Date;
 public class IslandMainGui extends BaseGui {
     
     private final IslandManager islandManager;
+    private final PlayerIslandDataDTO playerIslandData;
     private final IslandDTO island;
-    private final Player viewer;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private final boolean isOwner;
+    private final boolean isCoOwner;
+    private final boolean isMember;
+    private final boolean isWorker;
     
-    public IslandMainGui(@NotNull RPGMain plugin, @NotNull IslandManager islandManager, 
-                        @NotNull IslandDTO island, @NotNull Player viewer) {
-        super(plugin, 45, ColorUtil.colorize("&b섬 관리 - " + island.islandName()));
-        this.islandManager = islandManager;
-        this.island = island;
-        this.viewer = viewer;
+    public IslandMainGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager, 
+                        @NotNull Player player) {
+        super(player, guiManager, langManager, 54, "gui.island.main.title");
+        this.islandManager = RPGMain.getInstance().getIslandManager();
+        
+        // 플레이어의 섬 데이터 가져오기
+        String uuid = player.getUniqueId().toString();
+        this.playerIslandData = islandManager.getPlayerIslandDataFromCache(uuid);
+        
+        if (playerIslandData != null && playerIslandData.hasIsland()) {
+            this.island = islandManager.getIslandFromCache(playerIslandData.currentIslandId());
+            // 역할 확인
+            this.isOwner = island != null && island.ownerUuid().equals(uuid);
+            this.isCoOwner = island != null && island.members().stream()
+                    .anyMatch(m -> m.uuid().equals(uuid) && m.isCoOwner());
+            this.isMember = island != null && island.members().stream()
+                    .anyMatch(m -> m.uuid().equals(uuid) && !m.isCoOwner());
+            this.isWorker = island != null && island.workers().stream()
+                    .anyMatch(w -> w.uuid().equals(uuid));
+        } else {
+            this.island = null;
+            this.isOwner = false;
+            this.isCoOwner = false;
+            this.isMember = false;
+            this.isWorker = false;
+        }
+        
+        setupLayout();
     }
     
     @Override
-    protected void setupItems() {
-        // 배경 설정
-        fillBorder(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
+    public @NotNull Component getTitle() {
+        if (island != null) {
+            return Component.text("섬 관리 - " + island.islandName(), ColorUtil.YELLOW);
+        } else {
+            return trans("gui.island.main.title");
+        }
+    }
+    
+    @Override
+    protected GuiFramework getBackTarget() {
+        // 메인 메뉴로 돌아가기
+        return null;
+    }
+    
+    @Override
+    protected void setupLayout() {
+        if (island == null) {
+            setupNoIslandLayout();
+        } else {
+            setupIslandLayout();
+        }
+        setupStandardNavigation(true, true);
+    }
+    
+    /**
+     * 섬이 없을 때 레이아웃
+     */
+    private void setupNoIslandLayout() {
+        createBorder();
+        
+        // 중앙에 섬 생성 안내
+        GuiItem createIslandInfo = GuiItem.display(
+            new ItemBuilder(Material.GRASS_BLOCK)
+                .displayName(Component.text("섬 생성하기", ColorUtil.YELLOW))
+                .lore(List.of(
+                    Component.empty(),
+                    Component.text("아직 섬이 없습니다!", ColorUtil.RED),
+                    Component.empty(),
+                    Component.text("섬을 생성하면 다음과 같은 기능을 사용할 수 있습니다:", ColorUtil.GRAY),
+                    Component.text("• 자신만의 개인 섬에서 자유로운 건축", ColorUtil.WHITE),
+                    Component.text("• 친구들을 초대하여 함께 플레이", ColorUtil.WHITE),
+                    Component.text("• 섬 업그레이드로 더 넓은 공간 확보", ColorUtil.WHITE),
+                    Component.text("• 섬 워프 포인트 설정", ColorUtil.WHITE),
+                    Component.empty(),
+                    Component.text("섬 생성은 관리자에게 문의하세요!", ColorUtil.YELLOW)
+                ))
+                .build()
+        );
+        setItem(22, createIslandInfo);
+    }
+    
+    /**
+     * 섬이 있을 때 레이아웃
+     */
+    private void setupIslandLayout() {
+        createBorder();
         
         // 섬 정보
         setItem(13, createIslandInfoItem());
         
-        // 멤버 관리 (섬장/부섬장만)
-        if (isOwnerOrCoOwner()) {
-            setItem(20, createMemberManagementItem());
+        // 섬 역할에 따른 메뉴 구성
+        if (isOwner) {
+            // 섬장 메뉴
+            setupOwnerMenu();
+        } else if (isCoOwner) {
+            // 부섬장 메뉴
+            setupCoOwnerMenu();
+        } else if (isMember) {
+            // 멤버 메뉴
+            setupMemberMenu();
+        } else if (isWorker) {
+            // 알바 메뉴
+            setupWorkerMenu();
+        } else {
+            // 방문자 메뉴
+            setupVisitorMenu();
         }
-        
-        // 권한 관리 (섬장만)
-        if (isOwner()) {
-            setItem(21, createPermissionManagementItem());
-        }
-        
-        // 업그레이드
+    }
+    
+    /**
+     * 섬장 메뉴 설정
+     */
+    private void setupOwnerMenu() {
+        setItem(13, createIslandInfoItem());
+        setItem(20, createMemberManagementItem());
+        setItem(21, createPermissionManagementItem());
         setItem(22, createUpgradeItem());
-        
-        // 기여도
         setItem(23, createContributionItem());
-        
-        // 스폰 설정
-        if (hasSpawnPermission()) {
-            setItem(24, createSpawnSettingsItem());
-        }
-        
-        // 섬 설정 (섬장만)
-        if (isOwner()) {
-            setItem(30, createIslandSettingsItem());
-        }
-        
-        // 방문자 목록
+        setItem(24, createSpawnSettingsItem());
+        setItem(30, createIslandSettingsItem());
         setItem(31, createVisitorListItem());
-        
-        // 섬 워프
         setItem(32, createWarpItem());
-        
-        // 닫기 버튼
-        setItem(40, createCloseButton());
+    }
+    
+    /**
+     * 부섬장 메뉴 설정
+     */
+    private void setupCoOwnerMenu() {
+        setItem(13, createIslandInfoItem());
+        setItem(20, createMemberManagementItem());
+        setItem(22, createUpgradeItem());
+        setItem(23, createContributionItem());
+        setItem(24, createSpawnSettingsItem());
+        setItem(31, createVisitorListItem());
+        setItem(32, createWarpItem());
+    }
+    
+    /**
+     * 멤버 메뉴 설정
+     */
+    private void setupMemberMenu() {
+        setItem(13, createIslandInfoItem());
+        setItem(22, createUpgradeItem());
+        setItem(23, createContributionItem());
+        setItem(31, createVisitorListItem());
+        setItem(32, createWarpItem());
+    }
+    
+    /**
+     * 알바 메뉴 설정
+     */
+    private void setupWorkerMenu() {
+        setItem(13, createIslandInfoItem());
+        setItem(23, createContributionItem());
+        setItem(31, createVisitorListItem());
+        setItem(32, createWarpItem());
+    }
+    
+    /**
+     * 방문자 메뉴 설정
+     */
+    private void setupVisitorMenu() {
+        setItem(13, createIslandInfoItem());
+        setItem(31, createVisitorListItem());
+        setItem(32, createWarpItem());
     }
     
     /**
      * 섬 정보 아이템 생성
      */
-    private ItemStack createIslandInfoItem() {
-        return new LegacyItemBuilder(Material.GRASS_BLOCK)
-                .setDisplayName(ColorUtil.colorize("&b" + island.islandName()))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7섬장: &f" + island.ownerName()))
-                .addLore(ColorUtil.colorize("&7크기: &e" + island.size() + " x " + island.size()))
-                .addLore(ColorUtil.colorize("&7멤버: &a" + island.getMemberCount() + "/" + island.upgradeData().memberLimit()))
-                .addLore(ColorUtil.colorize("&7알바: &a" + island.workers().size() + "/" + island.upgradeData().workerLimit()))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7생성일: &f" + dateFormat.format(new Date(island.createdAt()))))
-                .addLore(ColorUtil.colorize("&7공개 여부: " + (island.isPublic() ? "&a공개" : "&c비공개")))
-                .build();
+    private GuiItem createIslandInfoItem() {
+        return GuiItem.display(
+            new ItemBuilder(Material.GRASS_BLOCK)
+                .displayName(Component.text(island.islandName(), ColorUtil.AQUA))
+                .lore(List.of(
+                    Component.empty(),
+                    Component.text("섬장: ", ColorUtil.GRAY).append(Component.text(island.ownerName(), ColorUtil.WHITE)),
+                    Component.text("크기: ", ColorUtil.GRAY).append(Component.text(island.size() + " x " + island.size(), ColorUtil.YELLOW)),
+                    Component.text("멤버: ", ColorUtil.GRAY).append(Component.text(island.getMemberCount() + "/" + island.upgradeData().memberLimit(), ColorUtil.GREEN)),
+                    Component.text("알바: ", ColorUtil.GRAY).append(Component.text(island.workers().size() + "/" + island.upgradeData().workerLimit(), ColorUtil.GREEN)),
+                    Component.empty(),
+                    Component.text("생성일: ", ColorUtil.GRAY).append(Component.text(dateFormat.format(new Date(island.createdAt())), ColorUtil.WHITE)),
+                    Component.text("공개 여부: ", ColorUtil.GRAY).append(
+                        island.isPublic() ? 
+                        Component.text("공개", ColorUtil.GREEN) : 
+                        Component.text("비공개", ColorUtil.RED)
+                    ),
+                    Component.empty(),
+                    Component.text("내 역할: ", ColorUtil.GRAY).append(
+                        isOwner ? Component.text("섬장", ColorUtil.GOLD) :
+                        isCoOwner ? Component.text("부섬장", ColorUtil.YELLOW) :
+                        isMember ? Component.text("멤버", ColorUtil.GREEN) :
+                        isWorker ? Component.text("알바", ColorUtil.AQUA) :
+                        Component.text("방문자", ColorUtil.GRAY)
+                    )
+                ))
+                .build()
+        );
     }
     
     /**
      * 멤버 관리 아이템
      */
-    private ItemStack createMemberManagementItem() {
-        return new LegacyItemBuilder(Material.PLAYER_HEAD)
-                .setDisplayName(ColorUtil.colorize("&a멤버 관리"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7섬원을 초대하거나"))
-                .addLore(ColorUtil.colorize("&7추방할 수 있습니다."))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&e▶ 클릭하여 열기"))
-                .build();
+    private GuiItem createMemberManagementItem() {
+        return GuiItem.clickable(
+            new ItemBuilder(Material.PLAYER_HEAD)
+                .displayName(Component.text("멤버 관리", ColorUtil.GREEN))
+                .lore(List.of(
+                    Component.empty(),
+                    Component.text("섬원을 초대하거나", ColorUtil.GRAY),
+                    Component.text("추방할 수 있습니다.", ColorUtil.GRAY),
+                    Component.empty(),
+                    Component.text("▶ 클릭하여 열기", ColorUtil.YELLOW)
+                ))
+                .build(),
+            player -> {
+                player.sendMessage(Component.text("준비 중인 기능입니다.", ColorUtil.ERROR));
+                playClickSound(player);
+            }
+        );
     }
     
     /**
      * 권한 관리 아이템
      */
-    private ItemStack createPermissionManagementItem() {
-        return new LegacyItemBuilder(Material.COMMAND_BLOCK)
-                .setDisplayName(ColorUtil.colorize("&c권한 관리"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7각 역할의 권한을"))
-                .addLore(ColorUtil.colorize("&7설정할 수 있습니다."))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&e▶ 클릭하여 열기"))
-                .build();
+    private GuiItem createPermissionManagementItem() {
+        return GuiItem.clickable(
+            new ItemBuilder(Material.COMMAND_BLOCK)
+                .displayName(Component.text("권한 관리", ColorUtil.RED))
+                .lore(List.of(
+                    Component.empty(),
+                    Component.text("각 역할의 권한을", ColorUtil.GRAY),
+                    Component.text("설정할 수 있습니다.", ColorUtil.GRAY),
+                    Component.empty(),
+                    Component.text("▶ 클릭하여 열기", ColorUtil.YELLOW)
+                ))
+                .build(),
+            player -> {
+                player.sendMessage(Component.text("준비 중인 기능입니다.", ColorUtil.ERROR));
+                playClickSound(player);
+            }
+        );
     }
     
     /**
      * 업그레이드 아이템
      */
-    private ItemStack createUpgradeItem() {
-        return new LegacyItemBuilder(Material.ANVIL)
-                .setDisplayName(ColorUtil.colorize("&6업그레이드"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7현재 레벨:"))
-                .addLore(ColorUtil.colorize("  &f크기: &e" + island.upgradeData().sizeLevel() + " 레벨"))
-                .addLore(ColorUtil.colorize("  &f멤버: &e" + island.upgradeData().memberLimitLevel() + " 레벨"))
-                .addLore(ColorUtil.colorize("  &f알바: &e" + island.upgradeData().workerLimitLevel() + " 레벨"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&e▶ 클릭하여 열기"))
-                .build();
+    private GuiItem createUpgradeItem() {
+        return GuiItem.clickable(
+            new ItemBuilder(Material.ANVIL)
+                .displayName(Component.text("업그레이드", ColorUtil.GOLD))
+                .lore(List.of(
+                    Component.empty(),
+                    Component.text("현재 레벨:", ColorUtil.GRAY),
+                    Component.text("  크기: ", ColorUtil.WHITE).append(Component.text(island.upgradeData().sizeLevel() + " 레벨", ColorUtil.YELLOW)),
+                    Component.text("  멤버: ", ColorUtil.WHITE).append(Component.text(island.upgradeData().memberLimitLevel() + " 레벨", ColorUtil.YELLOW)),
+                    Component.text("  알바: ", ColorUtil.WHITE).append(Component.text(island.upgradeData().workerLimitLevel() + " 레벨", ColorUtil.YELLOW)),
+                    Component.empty(),
+                    Component.text("▶ 클릭하여 열기", ColorUtil.YELLOW)
+                ))
+                .build(),
+            player -> {
+                player.sendMessage(Component.text("준비 중인 기능입니다.", ColorUtil.ERROR));
+                playClickSound(player);
+            }
+        );
     }
     
     /**
      * 기여도 아이템
      */
-    private ItemStack createContributionItem() {
-        return new LegacyItemBuilder(Material.EMERALD)
-                .setDisplayName(ColorUtil.colorize("&a기여도"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7섬원들의 기여도를"))
-                .addLore(ColorUtil.colorize("&7확인할 수 있습니다."))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7내 기여도: &e" + 
-                        island.contributions().getOrDefault(viewer.getUniqueId().toString(), 0L)))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&e▶ 클릭하여 열기"))
-                .build();
+    private GuiItem createContributionItem() {
+        long myContribution = island.contributions().getOrDefault(viewer.getUniqueId().toString(), 0L);
+        return GuiItem.clickable(
+            new ItemBuilder(Material.EMERALD)
+                .displayName(Component.text("기여도", ColorUtil.GREEN))
+                .lore(List.of(
+                    Component.empty(),
+                    Component.text("섬원들의 기여도를", ColorUtil.GRAY),
+                    Component.text("확인할 수 있습니다.", ColorUtil.GRAY),
+                    Component.empty(),
+                    Component.text("내 기여도: ", ColorUtil.GRAY).append(Component.text(myContribution, ColorUtil.YELLOW)),
+                    Component.empty(),
+                    Component.text("▶ 클릭하여 열기", ColorUtil.YELLOW)
+                ))
+                .build(),
+            player -> {
+                player.sendMessage(Component.text("준비 중인 기능입니다.", ColorUtil.ERROR));
+                playClickSound(player);
+            }
+        );
     }
     
     /**
      * 스폰 설정 아이템
      */
-    private ItemStack createSpawnSettingsItem() {
-        return new LegacyItemBuilder(Material.ENDER_PEARL)
-                .setDisplayName(ColorUtil.colorize("&d스폰 설정"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7섬의 스폰 위치를"))
-                .addLore(ColorUtil.colorize("&7관리할 수 있습니다."))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&e▶ 클릭하여 열기"))
-                .build();
+    private GuiItem createSpawnSettingsItem() {
+        return GuiItem.clickable(
+            new ItemBuilder(Material.ENDER_PEARL)
+                .displayName(Component.text("스폰 설정", ColorUtil.LIGHT_PURPLE))
+                .lore(List.of(
+                    Component.empty(),
+                    Component.text("섬의 스폰 위치를", ColorUtil.GRAY),
+                    Component.text("관리할 수 있습니다.", ColorUtil.GRAY),
+                    Component.empty(),
+                    Component.text("▶ 클릭하여 열기", ColorUtil.YELLOW)
+                ))
+                .build(),
+            player -> {
+                player.sendMessage(Component.text("준비 중인 기능입니다.", ColorUtil.ERROR));
+                playClickSound(player);
+            }
+        );
     }
     
     /**
      * 섬 설정 아이템
      */
-    private ItemStack createIslandSettingsItem() {
-        return new LegacyItemBuilder(Material.COMPARATOR)
-                .setDisplayName(ColorUtil.colorize("&9섬 설정"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7섬 이름 변경"))
-                .addLore(ColorUtil.colorize("&7공개/비공개 설정"))
-                .addLore(ColorUtil.colorize("&7바이옴 변경"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&e▶ 클릭하여 열기"))
-                .build();
+    private GuiItem createIslandSettingsItem() {
+        return GuiItem.clickable(
+            new ItemBuilder(Material.COMPARATOR)
+                .displayName(Component.text("섬 설정", ColorUtil.BLUE))
+                .lore(List.of(
+                    Component.empty(),
+                    Component.text("섬 이름 변경", ColorUtil.GRAY),
+                    Component.text("공개/비공개 설정", ColorUtil.GRAY),
+                    Component.text("바이옴 변경", ColorUtil.GRAY),
+                    Component.empty(),
+                    Component.text("▶ 클릭하여 열기", ColorUtil.YELLOW)
+                ))
+                .build(),
+            player -> {
+                player.sendMessage(Component.text("준비 중인 기능입니다.", ColorUtil.ERROR));
+                playClickSound(player);
+            }
+        );
     }
     
     /**
      * 방문자 목록 아이템
      */
-    private ItemStack createVisitorListItem() {
-        return new LegacyItemBuilder(Material.BOOK)
-                .setDisplayName(ColorUtil.colorize("&f방문자 기록"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7최근 방문자 목록을"))
-                .addLore(ColorUtil.colorize("&7확인할 수 있습니다."))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7최근 방문자: &e" + island.recentVisits().size() + "명"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&e▶ 클릭하여 열기"))
-                .build();
+    private GuiItem createVisitorListItem() {
+        return GuiItem.clickable(
+            new ItemBuilder(Material.BOOK)
+                .displayName(Component.text("방문자 기록", ColorUtil.WHITE))
+                .lore(List.of(
+                    Component.empty(),
+                    Component.text("최근 방문자 목록을", ColorUtil.GRAY),
+                    Component.text("확인할 수 있습니다.", ColorUtil.GRAY),
+                    Component.empty(),
+                    Component.text("최근 방문자: ", ColorUtil.GRAY).append(Component.text(island.recentVisits().size() + "명", ColorUtil.YELLOW)),
+                    Component.empty(),
+                    Component.text("▶ 클릭하여 열기", ColorUtil.YELLOW)
+                ))
+                .build(),
+            player -> {
+                player.sendMessage(Component.text("준비 중인 기능입니다.", ColorUtil.ERROR));
+                playClickSound(player);
+            }
+        );
     }
     
     /**
      * 워프 아이템
      */
-    private ItemStack createWarpItem() {
-        return new LegacyItemBuilder(Material.COMPASS)
-                .setDisplayName(ColorUtil.colorize("&b섬으로 이동"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7섬으로 순간이동합니다."))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&e▶ 클릭하여 이동"))
-                .build();
-    }
-    
-    /**
-     * 닫기 버튼
-     */
-    private ItemStack createCloseButton() {
-        return new LegacyItemBuilder(Material.BARRIER)
-                .setDisplayName(ColorUtil.colorize("&c닫기"))
-                .addLore("")
-                .addLore(ColorUtil.colorize("&7메뉴를 닫습니다."))
-                .build();
+    private GuiItem createWarpItem() {
+        return GuiItem.clickable(
+            new ItemBuilder(Material.COMPASS)
+                .displayName(Component.text("섬으로 이동", ColorUtil.AQUA))
+                .lore(List.of(
+                    Component.empty(),
+                    Component.text("섬으로 순간이동합니다.", ColorUtil.GRAY),
+                    Component.empty(),
+                    Component.text("▶ 클릭하여 이동", ColorUtil.YELLOW)
+                ))
+                .build(),
+            player -> handleWarp(player)
+        );
     }
     
     @Override
-    protected void handleClick(InventoryClickEvent event) {
-        event.setCancelled(true);
-        
-        if (!(event.getWhoClicked() instanceof Player player)) return;
-        
-        int slot = event.getSlot();
-        
-        switch (slot) {
-            case 20 -> { // 멤버 관리
-                if (isOwnerOrCoOwner()) {
-                    new IslandMemberGui(plugin, islandManager, island, player).open();
-                }
-            }
-            case 21 -> { // 권한 관리
-                if (isOwner()) {
-                    new IslandPermissionGui(plugin, islandManager, island, player).open();
-                }
-            }
-            case 22 -> { // 업그레이드
-                new IslandUpgradeGui(plugin, player, island).open(player);
-            }
-            case 23 -> { // 기여도
-                new IslandContributionGui(plugin, player, island, 1).open();
-            }
-            case 24 -> { // 스폰 설정
-                if (hasSpawnPermission()) {
-                    // TODO: 스폰 설정 GUI 열기
-                    player.sendMessage(ColorUtil.colorize("&c준비 중인 기능입니다."));
-                }
-            }
-            case 30 -> { // 섬 설정
-                if (isOwner()) {
-                    // TODO: 섬 설정 GUI 열기
-                    player.sendMessage(ColorUtil.colorize("&c준비 중인 기능입니다."));
-                }
-            }
-            case 31 -> { // 방문자 목록
-                new IslandVisitorGui(plugin, player, island, 1).open();
-            }
-            case 32 -> { // 섬으로 이동
-                handleWarp(player);
-            }
-            case 40 -> { // 닫기
-                player.closeInventory();
-            }
-        }
+    protected List<ClickType> getAllowedClickTypes() {
+        return List.of(ClickType.LEFT);
     }
     
     /**
@@ -283,35 +432,16 @@ public class IslandMainGui extends BaseGui {
      */
     private void handleWarp(@NotNull Player player) {
         player.closeInventory();
-        player.sendMessage(ColorUtil.colorize("&e섬으로 이동 중..."));
+        player.sendMessage(Component.text("섬으로 이동 중...", ColorUtil.YELLOW));
         
         // 스폰 위치 가져오기
         var spawn = island.spawnData().defaultSpawn()
                 .toLocation(islandManager.getWorldManager().getIslandWorld());
         spawn.setY(spawn.getY() + 4);
         
-        Bukkit.getScheduler().runTask(plugin, () -> {
+        Bukkit.getScheduler().runTask(RPGMain.getInstance(), () -> {
             player.teleport(spawn);
-            player.sendMessage(ColorUtil.colorize("&a섬으로 이동했습니다!"));
+            player.sendMessage(Component.text("섬으로 이동했습니다!", ColorUtil.SUCCESS));
         });
-    }
-    
-    /**
-     * 권한 확인 메서드들
-     */
-    private boolean isOwner() {
-        return island.ownerUuid().equals(viewer.getUniqueId().toString());
-    }
-    
-    private boolean isOwnerOrCoOwner() {
-        String uuid = viewer.getUniqueId().toString();
-        return island.ownerUuid().equals(uuid) || 
-               island.members().stream()
-                   .anyMatch(m -> m.uuid().equals(uuid) && m.isCoOwner());
-    }
-    
-    private boolean hasSpawnPermission() {
-        // TODO: 권한 시스템 구현 후 실제 권한 확인
-        return isOwnerOrCoOwner();
     }
 }

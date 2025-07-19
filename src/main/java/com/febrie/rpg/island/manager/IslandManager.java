@@ -306,4 +306,20 @@ public class IslandManager {
     public void updatePlayerCache(@NotNull String playerUuid, @NotNull PlayerIslandDataDTO data) {
         cache.putPlayerData(playerUuid, data);
     }
+    
+    /**
+     * 캐시에서 플레이어 섬 데이터 가져오기
+     */
+    @Nullable
+    public PlayerIslandDataDTO getPlayerIslandDataFromCache(@NotNull String playerUuid) {
+        return cache.getPlayerData(playerUuid);
+    }
+    
+    /**
+     * 캐시에서 섬 데이터 가져오기
+     */
+    @Nullable
+    public IslandDTO getIslandFromCache(@NotNull String islandId) {
+        return cache.getIsland(islandId);
+    }
 }

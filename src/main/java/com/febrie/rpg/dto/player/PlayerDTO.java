@@ -16,13 +16,14 @@ public record PlayerDTO(
         String name,
         long lastLogin,
         long totalPlaytime,
-        @Nullable JobType job
+        @Nullable JobType job,
+        boolean isAdmin
 ) {
     /**
      * 기본 생성자 - 신규 플레이어용
      */
     public PlayerDTO(String uuid, String name) {
-        this(uuid, name, System.currentTimeMillis(), 0L, null);
+        this(uuid, name, System.currentTimeMillis(), 0L, null, false);
     }
     
     /**
@@ -55,6 +56,10 @@ public record PlayerDTO(
             jobValue.addProperty("stringValue", job.name());
             fields.add("job", jobValue);
         }
+        
+        JsonObject isAdminValue = new JsonObject();
+        isAdminValue.addProperty("booleanValue", isAdmin);
+        fields.add("isAdmin", isAdminValue);
         
         json.add("fields", fields);
         return json;
@@ -97,6 +102,10 @@ public record PlayerDTO(
             }
         }
         
-        return new PlayerDTO(uuid, name, lastLogin, totalPlaytime, job);
+        boolean isAdmin = fields.has("isAdmin") && fields.getAsJsonObject("isAdmin").has("booleanValue")
+                ? fields.getAsJsonObject("isAdmin").get("booleanValue").getAsBoolean()
+                : false;
+        
+        return new PlayerDTO(uuid, name, lastLogin, totalPlaytime, job, isAdmin);
     }
 }

@@ -140,7 +140,8 @@ public class RPGPlayerManager implements Listener {
                     playerData.profile().name(),
                     playerData.profile().lastPlayed(),
                     0L,  // totalPlaytime - 기본값
-                    null  // job - 기본값
+                    null,  // job - 기본값
+                    false  // isAdmin - 기본값
                 );
                 StatsDTO statsDTO = new StatsDTO();  // 기본값
                 TalentDTO talentDTO = new TalentDTO();  // 기본값
@@ -175,7 +176,8 @@ public class RPGPlayerManager implements Listener {
                 player.getName(),
                 System.currentTimeMillis(),  // lastLogin
                 0L,                          // totalPlaytime
-                null                         // job
+                null,                        // job
+                false                        // isAdmin
         );
         StatsDTO statsDTO = new StatsDTO();
         TalentDTO talentDTO = new TalentDTO();
@@ -327,7 +329,8 @@ public class RPGPlayerManager implements Listener {
                 rpgPlayer.getName(),
                 System.currentTimeMillis(),  // lastLogin
                 totalPlaytime,
-                rpgPlayer.getJob()
+                rpgPlayer.getJob(),
+                false  // isAdmin - not tracked in RPGPlayer
         );
     }
 

@@ -262,7 +262,7 @@ public class IslandVisitorGui extends BaseGui {
             }
             case 48 -> { // 뒤로가기
                 player.closeInventory();
-                new IslandMainGui(plugin, islandManager, island, viewer).open();
+                new IslandMainGui(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
             }
             case 53 -> { // 다음 페이지
                 if (page < maxPage) {
