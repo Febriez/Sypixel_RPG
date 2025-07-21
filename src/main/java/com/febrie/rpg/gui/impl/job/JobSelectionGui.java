@@ -226,7 +226,7 @@ public class JobSelectionGui extends BaseGui {
 
     @Override
     public GuiFramework getBackTarget() {
-        // JobSelectionGui는 특수한 경우이므로 null을 반환합니다
-        return null;
+        // ProfileGui로 돌아가기
+        return guiManager.getFactory().createProfileGui(viewer, rpgPlayer);
     }
 }
