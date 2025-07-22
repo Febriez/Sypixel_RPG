@@ -3,6 +3,7 @@ package com.febrie.rpg.npc.manager;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.npc.trait.RPGGuideTrait;
 import com.febrie.rpg.npc.trait.RPGQuestTrait;
+import com.febrie.rpg.npc.trait.RPGQuestRewardTrait;
 import com.febrie.rpg.npc.trait.RPGShopTrait;
 import com.febrie.rpg.util.LogUtil;
 import net.citizensnpcs.api.CitizensAPI;
@@ -31,13 +32,8 @@ public class NPCManager {
         this.plugin = plugin;
         this.npcRegistry = CitizensAPI.getNPCRegistry();
         
-        // Trait 등록을 지연시켜 Citizens가 완전히 로드된 후 실행
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                registerTraits();
-            }
-        }.runTaskLater(plugin, 40L); // 2초 후 실행
+        // Citizens가 depend로 설정되어 있으므로 즉시 등록
+        registerTraits();
     }
 
     /**
@@ -59,6 +55,11 @@ public class NPCManager {
             CitizensAPI.getTraitFactory().registerTrait(
                 net.citizensnpcs.api.trait.TraitInfo.create(RPGQuestTrait.class)
                     .withName("rpgquest")
+            );
+            
+            CitizensAPI.getTraitFactory().registerTrait(
+                net.citizensnpcs.api.trait.TraitInfo.create(RPGQuestRewardTrait.class)
+                    .withName("rpgquestreward")
             );
             
             CitizensAPI.getTraitFactory().registerTrait(
@@ -101,6 +102,7 @@ public class NPCManager {
      */
     public boolean isRPGNPC(@NotNull NPC npc) {
         return npc.hasTrait(RPGQuestTrait.class) ||
+               npc.hasTrait(RPGQuestRewardTrait.class) ||
                npc.hasTrait(RPGShopTrait.class) ||
                npc.hasTrait(RPGGuideTrait.class);
     }
