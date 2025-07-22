@@ -254,6 +254,11 @@ public class RPGPlayerManager implements Listener {
      * 플레이어 데이터 저장
      */
     public CompletableFuture<Boolean> savePlayerData(@NotNull RPGPlayer rpgPlayer, boolean force) {
+        // 플러그인이 비활성화된 경우 저장하지 않음
+        if (!plugin.isEnabled()) {
+            return CompletableFuture.completedFuture(false);
+        }
+        
         UUID uuid = rpgPlayer.getPlayerId();
 
         // 쿨다운 체크 (강제 저장이 아닌 경우) - Thread-safe
@@ -443,7 +448,14 @@ public class RPGPlayerManager implements Listener {
      * 모든 플레이어 데이터 저장
      */
     public void saveAll() {
-        saveAllOnlinePlayers().join();
+        try {
+            saveAllOnlinePlayers().join();
+        } catch (Exception e) {
+            // 플러그인 종료 중 발생하는 예외는 무시
+            if (plugin.isEnabled()) {
+                LogUtil.warning("플레이어 데이터 저장 중 오류 발생: " + e.getMessage());
+            }
+        }
     }
 
     /**

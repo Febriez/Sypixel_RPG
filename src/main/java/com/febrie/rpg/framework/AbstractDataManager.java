@@ -159,6 +159,11 @@ public abstract class AbstractDataManager<K, V> {
      * 단일 엔트리 저장
      */
     public CompletableFuture<Boolean> save(@NotNull K key, boolean force) {
+        // 플러그인이 비활성화된 경우 저장하지 않음
+        if (!plugin.isEnabled()) {
+            return CompletableFuture.completedFuture(false);
+        }
+        
         V value = cache.get(key);
         if (value == null) {
             return CompletableFuture.completedFuture(false);

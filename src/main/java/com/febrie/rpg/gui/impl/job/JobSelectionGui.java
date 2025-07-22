@@ -4,6 +4,7 @@ import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
+import com.febrie.rpg.gui.impl.player.ProfileGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.player.RPGPlayer;
@@ -227,6 +228,6 @@ public class JobSelectionGui extends BaseGui {
     @Override
     public GuiFramework getBackTarget() {
         // ProfileGui로 돌아가기
-        return guiManager.getFactory().createProfileGui(viewer, rpgPlayer);
+        return ProfileGui.create(guiManager, guiManager.getLangManager(), viewer, rpgPlayer.getPlayer());
     }
 }

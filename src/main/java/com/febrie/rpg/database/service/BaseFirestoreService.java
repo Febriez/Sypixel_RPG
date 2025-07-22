@@ -245,6 +245,13 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
             clearCache();
         }
     }
+    
+    /**
+     * 서비스 종료 시 정리 작업
+     */
+    public void shutdown() {
+        clearCache();
+    }
 
     /**
      * UUID로 데이터 조회
@@ -506,7 +513,15 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
             } catch (Exception e) {
                 completableFuture.completeExceptionally(e);
             }
-        }, plugin.getServer().getScheduler().getMainThreadExecutor(plugin));
+        }, command -> {
+            // 플러그인이 활성화되어 있을 때만 스케줄러 사용
+            if (plugin.isEnabled()) {
+                plugin.getServer().getScheduler().runTask(plugin, command);
+            } else {
+                // 플러그인이 비활성화된 경우 직접 실행
+                command.run();
+            }
+        });
 
         return completableFuture;
     }

@@ -141,6 +141,17 @@ public final class RPGMain extends JavaPlugin {
             islandManager.clearCache();
         }
 
+        // Firestore 서비스들 정리
+        if (playerFirestoreService != null) {
+            playerFirestoreService.shutdown();
+        }
+        if (questFirestoreService != null) {
+            questFirestoreService.shutdown();
+        }
+        if (islandFirestoreService != null) {
+            islandFirestoreService.shutdown();
+        }
+
         // Firebase 종료
         if (firestoreManager != null) {
             firestoreManager.shutdown();
