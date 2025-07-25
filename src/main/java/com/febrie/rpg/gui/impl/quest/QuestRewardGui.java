@@ -1,13 +1,18 @@
 package com.febrie.rpg.gui.impl.quest;
 
+import com.febrie.rpg.RPGMain;
+import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
+import com.febrie.rpg.player.RPGPlayer;
+import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
+import com.febrie.rpg.quest.reward.MixedReward;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
@@ -38,7 +43,9 @@ public class QuestRewardGui extends BaseGui {
     private final Quest quest;
     private final QuestManager questManager;
     private final List<ItemStack> rewardItems;
+    private final List<ItemStack> claimedItems;
     private boolean hasClaimed = false;
+    private long rewardStartTime;
 
     private QuestRewardGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                           @NotNull Player viewer, @NotNull Quest quest) {
@@ -46,6 +53,8 @@ public class QuestRewardGui extends BaseGui {
         this.quest = quest;
         this.questManager = QuestManager.getInstance();
         this.rewardItems = new ArrayList<>();
+        this.claimedItems = new ArrayList<>();
+        this.rewardStartTime = System.currentTimeMillis();
     }
 
     /**
@@ -103,9 +112,21 @@ public class QuestRewardGui extends BaseGui {
      * 보상 아이템 설정
      */
     private void setupRewardItems() {
-        // Quest의 itemRewards 가져오기
-        // TODO: Implement when Quest has getItemRewards method
-        List<ItemStack> rewards = new ArrayList<>(); // quest.getItemRewards();
+        // Quest의 reward에서 아이템 가져오기
+        List<ItemStack> rewards = new ArrayList<>();
+        
+        // 미수령 상태 확인
+        List<ItemStack> unclaimedItems = questManager.getUnclaimedItems(viewer.getUniqueId(), quest.getId());
+        if (!unclaimedItems.isEmpty()) {
+            rewards = unclaimedItems;
+            // 남은 시간 표시
+            long remainingTime = questManager.getUnclaimedReward(viewer.getUniqueId(), quest.getId()).getRemainingTime();
+            long minutes = remainingTime / 1000 / 60;
+            viewer.sendMessage(trans("gui.quest-reward.unclaimed-timer", "time", String.valueOf(minutes))
+                    .color(ColorUtil.WARNING));
+        } else if (quest.getReward() instanceof MixedReward mixedReward) {
+            rewards.addAll(mixedReward.getItems());
+        }
         
         int slot = 0;
         for (ItemStack reward : rewards) {
@@ -114,7 +135,14 @@ public class QuestRewardGui extends BaseGui {
             ItemStack displayItem = reward.clone();
             rewardItems.add(displayItem);
             
-            GuiItem rewardItem = GuiItem.clickable(displayItem, p -> {
+            // 아이템에 설명 추가
+            ItemBuilder itemBuilder = new ItemBuilder(displayItem);
+            itemBuilder.addLore(Component.empty());
+            itemBuilder.addLore(trans("gui.quest-reward.click-to-claim").color(ColorUtil.GRAY));
+            ItemStack finalItem = itemBuilder.build();
+            
+            final int currentSlot = slot;
+            GuiItem rewardItem = GuiItem.clickable(finalItem, p -> {
                 if (hasClaimed) {
                     p.sendMessage(trans("gui.quest-reward.already-claimed").color(ColorUtil.ERROR));
                     SoundUtil.playErrorSound(p);
@@ -123,14 +151,24 @@ public class QuestRewardGui extends BaseGui {
                 
                 // 개별 아이템 수령
                 if (p.getInventory().firstEmpty() != -1) {
-                    p.getInventory().addItem(displayItem);
+                    ItemStack originalItem = reward.clone();
+                    p.getInventory().addItem(originalItem);
+                    claimedItems.add(originalItem);
                     rewardItems.remove(displayItem);
-                    setItem(getSlotForItem(displayItem), GuiItem.empty());
+                    
+                    // 빈 슬롯으로 변경
+                    ItemStack claimedDisplay = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)
+                            .displayName(trans("gui.quest-reward.claimed").color(ColorUtil.GRAY))
+                            .build();
+                    setItem(currentSlot, GuiItem.display(claimedDisplay));
+                    
                     SoundUtil.playItemPickupSound(p);
                     
                     // 모든 아이템을 수령했는지 확인
                     if (rewardItems.isEmpty()) {
                         completeRewardClaim();
+                        p.closeInventory();
+                        p.sendMessage(trans("gui.quest-reward.all-claimed").color(ColorUtil.SUCCESS));
                     }
                 } else {
                     p.sendMessage(trans("gui.quest-reward.inventory-full").color(ColorUtil.ERROR));
@@ -140,6 +178,15 @@ public class QuestRewardGui extends BaseGui {
             
             setItem(slot, rewardItem);
             slot++;
+        }
+        
+        // 보상 아이템이 없는 경우 안내 메시지
+        if (rewards.isEmpty()) {
+            ItemStack noItemsDisplay = new ItemBuilder(Material.BARRIER)
+                    .displayName(trans("gui.quest-reward.no-items").color(ColorUtil.WARNING))
+                    .addLore(trans("gui.quest-reward.no-items-desc").color(ColorUtil.GRAY))
+                    .build();
+            setItem(22, GuiItem.display(noItemsDisplay));
         }
     }
 
@@ -161,11 +208,10 @@ public class QuestRewardGui extends BaseGui {
                 return;
             }
             
-            // 확인 메시지
-            p.sendMessage(trans("gui.quest-reward.confirm-destroy").color(ColorUtil.WARNING));
-            p.closeInventory();
-            completeRewardClaim();
-            SoundUtil.playDeleteSound(p);
+            // 확인 다이얼로그 열기
+            QuestRewardConfirmGui confirmGui = QuestRewardConfirmGui.create(guiManager, langManager, p, quest, this);
+            guiManager.openGui(p, confirmGui);
+            SoundUtil.playClickSound(p);
         });
         
         setItem(DESTROY_REWARD_SLOT, destroyButton);
@@ -197,14 +243,19 @@ public class QuestRewardGui extends BaseGui {
             }
             
             // 모든 아이템 지급
-            for (ItemStack reward : rewardItems) {
-                p.getInventory().addItem(reward);
+            for (ItemStack reward : new ArrayList<>(rewardItems)) {
+                ItemStack originalItem = reward.clone();
+                // 아이템 설명 제거
+                originalItem.lore(null);
+                p.getInventory().addItem(originalItem);
+                claimedItems.add(originalItem);
             }
+            rewardItems.clear();
             
             p.sendMessage(trans("gui.quest-reward.all-claimed").color(ColorUtil.SUCCESS));
             SoundUtil.playRewardSound(p);
-            p.closeInventory();
             completeRewardClaim();
+            p.closeInventory();
         });
         
         setItem(CLAIM_ALL_SLOT, claimAllButton);
@@ -221,11 +272,15 @@ public class QuestRewardGui extends BaseGui {
                 "amount", String.valueOf(quest.getExpReward())).color(ColorUtil.SUCCESS));
         }
         
-        // 돈 지급 (경제 시스템 연동 필요)
+        // 돈 지급
         if (quest.getMoneyReward() > 0) {
-            // TODO: 경제 시스템 연동
-            viewer.sendMessage(trans("gui.quest-reward.money-received", 
-                "amount", String.valueOf(quest.getMoneyReward())).color(ColorUtil.SUCCESS));
+            RPGPlayerManager playerManager = RPGMain.getInstance().getRPGPlayerManager();
+            RPGPlayer rpgPlayer = playerManager.getPlayer(viewer);
+            if (rpgPlayer != null) {
+                rpgPlayer.getWallet().add(CurrencyType.GOLD, quest.getMoneyReward());
+                viewer.sendMessage(trans("gui.quest-reward.money-received", 
+                    "amount", String.valueOf(quest.getMoneyReward())).color(ColorUtil.SUCCESS));
+            }
         }
     }
 
@@ -236,6 +291,8 @@ public class QuestRewardGui extends BaseGui {
         hasClaimed = true;
         // 퀘스트를 실제로 완료 처리
         questManager.markQuestAsRewarded(viewer.getUniqueId(), quest.getId());
+        // 미수령 보상 제거
+        questManager.removeUnclaimedReward(viewer.getUniqueId(), quest.getId());
     }
 
     /**
@@ -266,12 +323,19 @@ public class QuestRewardGui extends BaseGui {
      */
     public void handleClose() {
         if (!hasClaimed && !rewardItems.isEmpty()) {
+            // 부분 수령한 경우 처리
+            if (!claimedItems.isEmpty() || questManager.getUnclaimedReward(viewer.getUniqueId(), quest.getId()) != null) {
+                // 미수령 아이템 저장
+                questManager.saveUnclaimedReward(viewer.getUniqueId(), quest.getId(), rewardItems);
+            }
+            
             // 경고 메시지
             viewer.sendMessage(Component.empty());
             viewer.sendMessage(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", ColorUtil.ERROR));
             viewer.sendMessage(trans("gui.quest-reward.close-warning").color(ColorUtil.ERROR)
                     .decoration(TextDecoration.BOLD, true));
-            viewer.sendMessage(trans("gui.quest-reward.items-lost").color(ColorUtil.WARNING));
+            viewer.sendMessage(trans("gui.quest-reward.timer-warning").color(ColorUtil.WARNING));
+            viewer.sendMessage(trans("gui.quest-reward.timer-info").color(ColorUtil.YELLOW));
             viewer.sendMessage(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", ColorUtil.ERROR));
         }
     }

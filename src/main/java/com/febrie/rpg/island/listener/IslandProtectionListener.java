@@ -2,10 +2,12 @@ package com.febrie.rpg.island.listener;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
+import com.febrie.rpg.dto.island.IslandVisitDTO;
 import com.febrie.rpg.island.Island;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.ColorUtil;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -15,7 +17,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerBucketFillEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.Painting;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import net.kyori.adventure.text.Component;
@@ -144,6 +156,107 @@ public class IslandProtectionListener implements Listener {
     }
     
     /**
+     * 아이템 줍기 방지
+     */
+    @EventHandler(priority = EventPriority.LOW)
+    public void onEntityPickupItem(EntityPickupItemEvent event) {
+        if (!(event.getEntity() instanceof Player player)) {
+            return;
+        }
+        
+        Location location = event.getItem().getLocation();
+        
+        // 섬 월드가 아니면 허용
+        if (!islandManager.getWorldManager().isIslandWorld(location.getWorld())) {
+            return;
+        }
+        
+        // 해당 위치의 섬 찾기
+        Island island = islandManager.getIslandAt(location);
+        if (island == null) {
+            // 섬이 없는 지역에서는 줍기 방지
+            event.setCancelled(true);
+            return;
+        }
+        
+        // 권한 확인 - 기본적으로 섬원만 아이템을 줍을 수 있음
+        if (!IslandPermissionHandler.isMember(island.getData(), player) && !player.isOp()) {
+            event.setCancelled(true);
+            player.sendActionBar(Component.text("이 섬에서 아이템을 줍을 수 없습니다.", ColorUtil.ERROR));
+        }
+    }
+    
+    /**
+     * 아이템 버리기 방지
+     */
+    @EventHandler(priority = EventPriority.LOW)
+    public void onPlayerDropItem(PlayerDropItemEvent event) {
+        Player player = event.getPlayer();
+        Location location = player.getLocation();
+        
+        // 섬 월드가 아니면 허용
+        if (!islandManager.getWorldManager().isIslandWorld(location.getWorld())) {
+            return;
+        }
+        
+        // 해당 위치의 섬 찾기
+        Island island = islandManager.getIslandAt(location);
+        if (island == null) {
+            // 섬이 없는 지역에서는 버리기 방지
+            event.setCancelled(true);
+            player.sendMessage(ColorUtil.colorize("&c이 지역에서는 아이템을 버릴 수 없습니다."));
+            return;
+        }
+        
+        // 권한 확인 - 기본적으로 섬원만 아이템을 버릴 수 있음
+        if (!IslandPermissionHandler.isMember(island.getData(), player) && !player.isOp()) {
+            event.setCancelled(true);
+            player.sendMessage(ColorUtil.colorize("&c이 섬에서 아이템을 버릴 수 없습니다."));
+        }
+    }
+    
+    /**
+     * 액자, 그림 등 걸린 엔티티 파괴 방지
+     */
+    @EventHandler(priority = EventPriority.LOW)
+    public void onHangingBreak(HangingBreakByEntityEvent event) {
+        if (!(event.getRemover() instanceof Player player)) {
+            return;
+        }
+        
+        Location location = event.getEntity().getLocation();
+        
+        if (!checkPermission(player, location, "BUILD")) {
+            event.setCancelled(true);
+            player.sendMessage(ColorUtil.colorize("&c이 섬에서 이 아이템을 파괴할 권한이 없습니다."));
+        }
+    }
+    
+    /**
+     * 엔티티 손상 방지 (아이템 프레임 등)
+     */
+    @EventHandler(priority = EventPriority.LOW)
+    public void onEntityDamage(EntityDamageByEntityEvent event) {
+        if (!(event.getDamager() instanceof Player player)) {
+            return;
+        }
+        
+        // 아이템 프레임, 그림 등에 대한 손상 방지
+        if (event.getEntityType() == EntityType.ITEM_FRAME ||
+            event.getEntityType() == EntityType.GLOW_ITEM_FRAME ||
+            event.getEntityType() == EntityType.PAINTING ||
+            event.getEntityType() == EntityType.ARMOR_STAND) {
+            
+            Location location = event.getEntity().getLocation();
+            
+            if (!checkPermission(player, location, "BUILD")) {
+                event.setCancelled(true);
+                player.sendMessage(ColorUtil.colorize("&c이 섬에서 이 엔티티를 파괴할 권한이 없습니다."));
+            }
+        }
+    }
+    
+    /**
      * 권한 확인
      */
     private boolean checkPermission(@NotNull Player player, @NotNull Location location, @NotNull String permission) {
@@ -214,48 +327,11 @@ public class IslandProtectionListener implements Listener {
                material == Material.STONECUTTER;
     }
     
-    /**
-     * 방문 추적 - 플레이어가 섬에 들어올 때
-     */
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        // 큰 움직임만 체크 (블록 변경)
-        if (event.getFrom().getBlockX() == event.getTo().getBlockX() &&
-            event.getFrom().getBlockZ() == event.getTo().getBlockZ()) {
-            return;
-        }
-        
-        Player player = event.getPlayer();
-        Location from = event.getFrom();
-        Location to = event.getTo();
-        
-        // 섬 월드가 아니면 무시
-        if (!islandManager.getWorldManager().isIslandWorld(to.getWorld())) {
-            return;
-        }
-        
-        Island fromIsland = islandManager.getIslandAt(from);
-        Island toIsland = islandManager.getIslandAt(to);
-        
-        // 다른 섬으로 이동했을 때
-        if ((fromIsland == null && toIsland == null) ||
-            (fromIsland != null && toIsland != null && fromIsland.getId().equals(toIsland.getId()))) {
-            return;
-        }
-        
-        if (toIsland != null && (fromIsland == null || !fromIsland.getId().equals(toIsland.getId()))) {
-            // 새로운 섬에 입장
-            handleIslandEntry(player, toIsland.getData());
-        } else if (fromIsland != null && toIsland == null) {
-            // 섬에서 나감
-            handleIslandExit(player, fromIsland.getData());
-        }
-    }
     
     /**
      * 섬 입장 처리
      */
-    private void handleIslandEntry(@NotNull Player player, @NotNull IslandDTO island) {
+    public void handleIslandEntry(@NotNull Player player, @NotNull IslandDTO island) {
         String playerUuid = player.getUniqueId().toString();
         
         // 자기 섬이면 환영 메시지
@@ -275,13 +351,70 @@ public class IslandProtectionListener implements Listener {
             }
         }
         
-        // TODO: 방문 기록 추가
+        // 방문 기록 추가
+        addVisitRecord(player, island);
     }
     
     /**
      * 섬 퇴장 처리
      */
-    private void handleIslandExit(@NotNull Player player, @NotNull IslandDTO island) {
-        // TODO: 방문 시간 계산 및 저장
+    public void handleIslandExit(@NotNull Player player, @NotNull IslandDTO island) {
+        // 방문 종료 메시지
+        player.sendActionBar(Component.text(island.islandName(), ColorUtil.YELLOW)
+                .append(Component.text(" 섬에서 나가십니다.", ColorUtil.GRAY)));
+    }
+    
+    /**
+     * 방문 기록 추가
+     */
+    private void addVisitRecord(@NotNull Player player, @NotNull IslandDTO island) {
+        String playerUuid = player.getUniqueId().toString();
+        
+        // 자신의 섬이면 기록하지 않음
+        if (island.ownerUuid().equals(playerUuid)) {
+            return;
+        }
+        
+        // 멤버라면 기록하지 않음
+        if (island.members().stream().anyMatch(m -> m.uuid().equals(playerUuid))) {
+            return;
+        }
+        
+        // 새로운 방문 기록 생성
+        IslandVisitDTO newVisit = IslandVisitDTO.startVisit(
+                playerUuid,
+                player.getName()
+        );
+        
+        // 기존 방문 기록 복사 및 새 기록 추가
+        java.util.List<IslandVisitDTO> updatedVisits = new java.util.ArrayList<>(island.recentVisits());
+        
+        // 중복 방지 - 24시간 이내 동일한 방문자는 기록하지 않음
+        long oneDayAgo = System.currentTimeMillis() - (24 * 60 * 60 * 1000);
+        boolean recentlyVisited = updatedVisits.stream()
+                .anyMatch(v -> v.visitorUuid().equals(playerUuid) && v.visitedAt() > oneDayAgo);
+        
+        if (!recentlyVisited) {
+            updatedVisits.add(0, newVisit); // 최신 방문을 앞에 추가
+            
+            // 최대 50개까지만 보관
+            if (updatedVisits.size() > 50) {
+                updatedVisits = updatedVisits.subList(0, 50);
+            }
+            
+            // 섬 업데이트
+            IslandDTO updated = new IslandDTO(
+                    island.islandId(), island.ownerUuid(), island.ownerName(),
+                    island.islandName(), island.size(), island.isPublic(),
+                    island.createdAt(), System.currentTimeMillis(),
+                    island.members(), island.workers(), island.contributions(),
+                    island.spawnData(), island.upgradeData(), island.permissions(),
+                    island.pendingInvites(), updatedVisits,
+                    island.totalResets(), island.deletionScheduledAt(),
+                    island.settings()
+            );
+            
+            islandManager.updateIsland(updated);
+        }
     }
 }

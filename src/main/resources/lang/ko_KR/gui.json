@@ -1,4 +1,13 @@
 {
+  "common": {
+    "back": "◀ 돌아가기",
+    "close": "닫기",
+    "next-page": "다음 페이지 →",
+    "prev-page": "← 이전 페이지",
+    "confirm": "확인",
+    "cancel": "취소",
+    "settings": "설정"
+  },
   "mainmenu": {
     "title": "메인 메뉴"
   },

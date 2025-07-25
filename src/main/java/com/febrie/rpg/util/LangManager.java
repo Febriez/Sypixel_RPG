@@ -9,6 +9,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -47,7 +48,7 @@ public class LangManager {
 
     // 언어 파일 섹션
     private static final String[] LANGUAGE_SECTIONS = {
-            "general", "gui", "items", "job", "talent", "stat", "messages", "commands", "status", "currency", "quest"
+            "general", "gui", "items", "job", "talent", "stat", "messages", "commands", "status", "currency", "quest", "island"
     };
 
     // 지원하는 언어 목록
@@ -405,11 +406,41 @@ public class LangManager {
     }
 
     /**
+     * CommandSender용 메시지 가져오기 (Player가 아닌 경우 기본 언어 사용)
+     */
+    @NotNull
+    public String getMessage(@NotNull CommandSender sender, @NotNull String key, @NotNull String... placeholders) {
+        if (sender instanceof Player player) {
+            return getMessage(player, key, placeholders);
+        }
+        return getMessage(defaultLanguage, key, placeholders);
+    }
+    
+    /**
+     * CommandSender용 Component 메시지 가져오기 (Player가 아닌 경우 기본 언어 사용)
+     */
+    @NotNull
+    public Component getComponent(@NotNull CommandSender sender, @NotNull String key, @NotNull String... placeholders) {
+        if (sender instanceof Player player) {
+            return getComponent(player, key, placeholders);
+        }
+        return getComponent(defaultLanguage, key, placeholders);
+    }
+    
+    /**
      * 플레이어에게 메시지 전송
      */
     public void sendMessage(@NotNull Player player, @NotNull String key, @NotNull String... placeholders) {
         Component message = getComponent(player, key, placeholders);
         player.sendMessage(message);
+    }
+    
+    /**
+     * CommandSender에게 메시지 전송
+     */
+    public void sendMessage(@NotNull CommandSender sender, @NotNull String key, @NotNull String... placeholders) {
+        Component message = getComponent(sender, key, placeholders);
+        sender.sendMessage(message);
     }
 
     /**

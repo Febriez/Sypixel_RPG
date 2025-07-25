@@ -21,10 +21,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -448,13 +445,45 @@ public class RPGPlayerManager implements Listener {
      * 모든 플레이어 데이터 저장
      */
     public void saveAll() {
+        plugin.getLogger().info("모든 플레이어 데이터 저장 중... (온라인: " + players.size() + "명)");
+        
         try {
-            saveAllOnlinePlayers().join();
-        } catch (Exception e) {
-            // 플러그인 종료 중 발생하는 예외는 무시
-            if (plugin.isEnabled()) {
-                LogUtil.warning("플레이어 데이터 저장 중 오류 발생: " + e.getMessage());
+            List<CompletableFuture<Boolean>> saveFutures = new ArrayList<>();
+            
+            // 모든 플레이어 데이터를 강제 저장
+            for (RPGPlayer rpgPlayer : players.values()) {
+                CompletableFuture<Boolean> future = savePlayerData(rpgPlayer, true)
+                        .exceptionally(throwable -> {
+                            plugin.getLogger().severe("플레이어 데이터 저장 실패: " + 
+                                    rpgPlayer.getPlayerId() + " - " + throwable.getMessage());
+                            return false;
+                        });
+                saveFutures.add(future);
             }
+            
+            // 모든 저장 작업이 완료될 때까지 대기 (최대 10초)
+            CompletableFuture<Void> allFutures = CompletableFuture.allOf(
+                    saveFutures.toArray(new CompletableFuture[0]));
+            
+            allFutures.get(10, TimeUnit.SECONDS);
+            
+            // 성공/실패 개수 계산
+            long successCount = saveFutures.stream()
+                    .filter(future -> {
+                        try {
+                            return future.getNow(false);
+                        } catch (Exception e) {
+                            return false;
+                        }
+                    })
+                    .count();
+            
+            plugin.getLogger().info("플레이어 데이터 저장 완료! (성공: " + successCount + 
+                    "/" + saveFutures.size() + ")");
+            
+        } catch (Exception e) {
+            plugin.getLogger().severe("플레이어 데이터 저장 중 오류 발생: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

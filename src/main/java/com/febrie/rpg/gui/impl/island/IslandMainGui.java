@@ -20,9 +20,8 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+import com.febrie.rpg.util.DateFormatUtil;
 
 /**
  * 섬 메인 GUI
@@ -35,7 +34,6 @@ public class IslandMainGui extends BaseGui {
     private final IslandManager islandManager;
     private final PlayerIslandDataDTO playerIslandData;
     private final IslandDTO island;
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     private final boolean isOwner;
     private final boolean isCoOwner;
     private final boolean isMember;
@@ -87,9 +85,9 @@ public class IslandMainGui extends BaseGui {
     @Override
     public @NotNull Component getTitle() {
         if (island != null) {
-            return Component.text("섬 관리 - " + island.islandName(), ColorUtil.YELLOW);
+            return trans("island.gui.main.title-with-name", "name", island.islandName());
         } else {
-            return trans("gui.island.main.title");
+            return trans("island.gui.main.title");
         }
     }
     
@@ -118,18 +116,18 @@ public class IslandMainGui extends BaseGui {
         // 중앙에 섬 생성 안내
         GuiItem createIslandInfo = GuiItem.display(
             new ItemBuilder(Material.GRASS_BLOCK)
-                .displayName(Component.text("섬 생성하기", ColorUtil.YELLOW))
+                .displayName(trans("island.gui.main.create-island.title"))
                 .lore(List.of(
                     Component.empty(),
-                    Component.text("아직 섬이 없습니다!", ColorUtil.RED),
+                    trans("island.gui.main.create-island.no-island"),
                     Component.empty(),
-                    Component.text("섬을 생성하면 다음과 같은 기능을 사용할 수 있습니다:", ColorUtil.GRAY),
-                    Component.text("• 자신만의 개인 섬에서 자유로운 건축", ColorUtil.WHITE),
-                    Component.text("• 친구들을 초대하여 함께 플레이", ColorUtil.WHITE),
-                    Component.text("• 섬 업그레이드로 더 넓은 공간 확보", ColorUtil.WHITE),
-                    Component.text("• 섬 워프 포인트 설정", ColorUtil.WHITE),
+                    trans("island.gui.main.create-island.description"),
+                    trans("island.gui.main.create-island.feature-1"),
+                    trans("island.gui.main.create-island.feature-2"),
+                    trans("island.gui.main.create-island.feature-3"),
+                    trans("island.gui.main.create-island.feature-4"),
                     Component.empty(),
-                    Component.text("섬 생성은 관리자에게 문의하세요!", ColorUtil.YELLOW)
+                    trans("island.gui.main.create-island.contact-admin")
                 ))
                 .build()
         );
@@ -240,7 +238,7 @@ public class IslandMainGui extends BaseGui {
                     Component.text("멤버: ", ColorUtil.GRAY).append(Component.text(island.getMemberCount() + "/" + island.upgradeData().memberLimit(), ColorUtil.GREEN)),
                     Component.text("알바: ", ColorUtil.GRAY).append(Component.text(island.workers().size() + "/" + island.upgradeData().workerLimit(), ColorUtil.GREEN)),
                     Component.empty(),
-                    Component.text("생성일: ", ColorUtil.GRAY).append(Component.text(dateFormat.format(new Date(island.createdAt())), ColorUtil.WHITE)),
+                    Component.text("생성일: ", ColorUtil.GRAY).append(Component.text(DateFormatUtil.formatFullDateTimeFromMillis(island.createdAt()), ColorUtil.WHITE)),
                     Component.text("공개 여부: ", ColorUtil.GRAY).append(
                         island.isPublic() ? 
                         Component.text("공개", ColorUtil.GREEN) : 
@@ -275,7 +273,8 @@ public class IslandMainGui extends BaseGui {
                 ))
                 .build(),
             player -> {
-                player.sendMessage(Component.text("준비 중인 기능입니다.", ColorUtil.ERROR));
+                player.closeInventory();
+                IslandMemberGui.create(RPGMain.getInstance(), player, island).open();
                 playClickSound(player);
             }
         );
@@ -297,7 +296,8 @@ public class IslandMainGui extends BaseGui {
                 ))
                 .build(),
             player -> {
-                player.sendMessage(Component.text("준비 중인 기능입니다.", ColorUtil.ERROR));
+                player.closeInventory();
+                IslandPermissionGui.create(RPGMain.getInstance(), RPGMain.getInstance().getIslandManager(), island, player).open();
                 playClickSound(player);
             }
         );
@@ -321,7 +321,8 @@ public class IslandMainGui extends BaseGui {
                 ))
                 .build(),
             player -> {
-                player.sendMessage(Component.text("준비 중인 기능입니다.", ColorUtil.ERROR));
+                player.closeInventory();
+                IslandUpgradeGui.create(RPGMain.getInstance(), player, island).open();
                 playClickSound(player);
             }
         );
@@ -368,7 +369,8 @@ public class IslandMainGui extends BaseGui {
                 ))
                 .build(),
             player -> {
-                player.sendMessage(Component.text("준비 중인 기능입니다.", ColorUtil.ERROR));
+                player.closeInventory();
+                IslandSpawnSettingsGui.create(RPGMain.getInstance(), player, island).open();
                 playClickSound(player);
             }
         );
@@ -391,7 +393,8 @@ public class IslandMainGui extends BaseGui {
                 ))
                 .build(),
             player -> {
-                player.sendMessage(Component.text("준비 중인 기능입니다.", ColorUtil.ERROR));
+                player.closeInventory();
+                IslandSettingsGui.create(RPGMain.getInstance(), player, island).open();
                 playClickSound(player);
             }
         );
@@ -415,7 +418,8 @@ public class IslandMainGui extends BaseGui {
                 ))
                 .build(),
             player -> {
-                player.sendMessage(Component.text("준비 중인 기능입니다.", ColorUtil.ERROR));
+                player.closeInventory();
+                IslandVisitorGui.create(RPGMain.getInstance(), player, island, 1).open();
                 playClickSound(player);
             }
         );

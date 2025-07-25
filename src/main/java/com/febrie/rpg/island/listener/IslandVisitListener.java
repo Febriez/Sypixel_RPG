@@ -148,6 +148,9 @@ public class IslandVisitListener implements Listener {
         
         // 마지막 위치 정보도 제거
         lastKnownIslands.remove(playerUuid);
+        
+        // Visit tracker에서도 제거
+        islandManager.getVisitTracker().handlePlayerQuit(event.getPlayer());
     }
     
     /**

@@ -95,7 +95,7 @@ public class IslandPermissionGui extends BaseGui {
         
         return new ItemBuilder(material)
                 .displayName(ColorUtil.parseComponent((selected ? "&a&l" : "&7") + 
-                        IslandPermissionHandler.getRoleDisplayName(role)))
+                        IslandPermissionHandler.getRoleDisplayName(plugin.getLangManager(), plugin.getLangManager().getPlayerLanguage(viewer), role)))
                 .addLore(ColorUtil.parseComponent(""))
                 .addLore(ColorUtil.parseComponent("&7이 역할의 권한을 설정합니다."))
                 .addLore(ColorUtil.parseComponent(""))
@@ -110,7 +110,7 @@ public class IslandPermissionGui extends BaseGui {
     private ItemStack createSelectedRoleItem() {
         return new ItemBuilder(Material.PAPER)
                 .displayName(ColorUtil.parseComponent("&e현재 편집 중: &f" + 
-                        IslandPermissionHandler.getRoleDisplayName(selectedRole)))
+                        IslandPermissionHandler.getRoleDisplayName(plugin.getLangManager(), plugin.getLangManager().getPlayerLanguage(viewer), selectedRole)))
                 .addLore(ColorUtil.parseComponent(""))
                 .addLore(ColorUtil.parseComponent("&7좌측에서 다른 역할을 선택하여"))
                 .addLore(ColorUtil.parseComponent("&7해당 역할의 권한을 편집할 수 있습니다."))
@@ -122,7 +122,7 @@ public class IslandPermissionGui extends BaseGui {
      */
     private void displayPermissions() {
         IslandPermissionDTO.RolePermissions rolePerms = island.permissions()
-                .rolePermissions().get(selectedRole.name());
+                .rolePermissions().get(selectedRole);
         
         if (rolePerms == null) {
             // 기본값 생성 - 10개의 boolean 파라미터 필요
@@ -145,7 +145,7 @@ public class IslandPermissionGui extends BaseGui {
      */
     private ItemStack createPermissionItem(@NotNull String permission, boolean enabled) {
         Material material = enabled ? Material.LIME_DYE : Material.GRAY_DYE;
-        String displayName = IslandPermissionHandler.getPermissionDisplayName(permission);
+        String displayName = IslandPermissionHandler.getPermissionDisplayName(plugin.getLangManager(), plugin.getLangManager().getPlayerLanguage(viewer), permission);
         
         ItemBuilder builder = new ItemBuilder(material)
                 .displayName(ColorUtil.parseComponent((enabled ? "&a" : "&c") + displayName))

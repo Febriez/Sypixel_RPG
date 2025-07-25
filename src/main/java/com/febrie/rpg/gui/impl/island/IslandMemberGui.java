@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.febrie.rpg.util.DateFormatUtil;
 
 /**
  * 섬 멤버 관리 GUI
@@ -44,9 +45,9 @@ public class IslandMemberGui extends BaseGui {
     /**
      * Factory method to create the GUI
      */
-    public static IslandMemberGui create(@NotNull RPGMain plugin, @NotNull IslandManager islandManager,
-                                       @NotNull IslandDTO island, @NotNull Player viewer) {
-        IslandMemberGui gui = new IslandMemberGui(plugin, islandManager, island, viewer);
+    public static IslandMemberGui create(@NotNull RPGMain plugin, @NotNull Player viewer,
+                                       @NotNull IslandDTO island) {
+        IslandMemberGui gui = new IslandMemberGui(plugin, plugin.getIslandManager(), island, viewer);
         return BaseGui.create(gui, ColorUtil.parseComponent("&b섬원 관리 - " + island.islandName()));
     }
     
@@ -140,7 +141,7 @@ public class IslandMemberGui extends BaseGui {
         ItemBuilder builder = new ItemBuilder(SkullUtil.getPlayerHead(member.uuid()))
                 .displayName(ColorUtil.parseComponent("&b" + member.name()))
                 .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7역할: &f" + IslandPermissionHandler.getRoleDisplayName(member.isCoOwner() ? IslandRole.CO_OWNER : IslandRole.MEMBER)))
+                .addLore(ColorUtil.parseComponent("&7역할: &f" + IslandPermissionHandler.getRoleDisplayName(plugin.getLangManager(), plugin.getLangManager().getPlayerLanguage(viewer), member.isCoOwner() ? IslandRole.CO_OWNER : IslandRole.MEMBER)))
                 .addLore(ColorUtil.parseComponent("&7가입일: &f" + formatDate(member.joinedAt())))
                 .addLore(ColorUtil.parseComponent(""));
         
@@ -291,7 +292,44 @@ public class IslandMemberGui extends BaseGui {
      * 멤버 클릭 처리
      */
     private void handleMemberClick(@NotNull InventoryClickEvent event) {
-        // TODO: 멤버 역할 변경 및 추방 처리
+        ItemStack clicked = event.getCurrentItem();
+        if (clicked == null || !clicked.hasItemMeta()) return;
+        
+        Player player = (Player) event.getWhoClicked();
+        
+        // NBT에서 멤버 UUID 가져오기
+        String memberUuid = null;
+        var meta = clicked.getItemMeta();
+        if (meta.hasDisplayName()) {
+            // 아이템에서 멤버 찾기 (슬롯 위치로)
+            int slot = event.getSlot();
+            int index = (currentPage * ITEMS_PER_PAGE) + getItemIndex(slot);
+            
+            if (index >= 0 && index < island.members().size()) {
+                memberUuid = island.members().get(index).uuid();
+            } else if (index >= island.members().size() && 
+                      index < island.members().size() + island.workers().size()) {
+                int workerIndex = index - island.members().size();
+                memberUuid = island.workers().get(workerIndex).uuid();
+            }
+        }
+        
+        if (memberUuid == null) return;
+        
+        // 멤버 관리 메뉴 열기
+        player.closeInventory();
+        IslandMemberManageGui.create(plugin, viewer, island, memberUuid).open(viewer);
+    }
+    
+    /**
+     * 슬롯 위치로 아이템 인덱스 계산
+     */
+    private int getItemIndex(int slot) {
+        // 10-16, 19-25, 28-34 슬롯에서 아이템 인덱스 계산
+        if (slot >= 10 && slot <= 16) return slot - 10;
+        if (slot >= 19 && slot <= 25) return slot - 19 + 7;
+        if (slot >= 28 && slot <= 34) return slot - 28 + 14;
+        return -1;
     }
     
     /**
@@ -319,6 +357,6 @@ public class IslandMemberGui extends BaseGui {
      * 날짜 포맷
      */
     private String formatDate(long timestamp) {
-        return new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date(timestamp));
+        return DateFormatUtil.formatDateOnlyFromMillis(timestamp);
     }
 }

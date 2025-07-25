@@ -25,7 +25,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public class PlayerFirestoreService extends BaseFirestoreService<PlayerDataDTO> {
     
-    private static final String COLLECTION_NAME = "players";
+    private static final String COLLECTION_NAME = "Player";
     
     public PlayerFirestoreService(@NotNull RPGMain plugin, @NotNull Firestore firestore) {
         super(plugin, firestore, COLLECTION_NAME, PlayerDataDTO.class);

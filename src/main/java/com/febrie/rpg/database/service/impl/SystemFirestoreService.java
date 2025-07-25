@@ -66,7 +66,7 @@ public class SystemFirestoreService {
     public CompletableFuture<ServerStatsDTO> getServerStats() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                DocumentSnapshot doc = firestore.collection("server-stats")
+                DocumentSnapshot doc = firestore.collection("ServerStat")
                         .document("current")
                         .get()
                         .get();
@@ -94,7 +94,7 @@ public class SystemFirestoreService {
         
         return CompletableFuture.runAsync(() -> {
             try {
-                firestore.collection("server-stats")
+                firestore.collection("ServerStat")
                         .document("current")
                         .set(data)
                         .get();
@@ -113,7 +113,7 @@ public class SystemFirestoreService {
     public CompletableFuture<Void> incrementServerStat(@NotNull String field, long amount) {
         return CompletableFuture.runAsync(() -> {
             try {
-                firestore.collection("server-stats")
+                firestore.collection("ServerStat")
                         .document("current")
                         .update(field, com.google.cloud.firestore.FieldValue.increment(amount))
                         .get();
@@ -135,9 +135,9 @@ public class SystemFirestoreService {
             try {
                 String collectionName = getLeaderboardCollection(type);
                 
-                QuerySnapshot snapshot = firestore.collection("leaderboards")
+                QuerySnapshot snapshot = firestore.collection("Leaderboard")
                         .document(type.getId())
-                        .collection("entries")
+                        .collection("Entry")
                         .orderBy("value", Query.Direction.DESCENDING)
                         .limit(limit)
                         .get()
@@ -178,9 +178,9 @@ public class SystemFirestoreService {
         
         return CompletableFuture.runAsync(() -> {
             try {
-                firestore.collection("leaderboards")
+                firestore.collection("Leaderboard")
                         .document(type.getId())
-                        .collection("entries")
+                        .collection("Entry")
                         .document(playerUuid)
                         .set(data)
                         .get();
@@ -201,7 +201,7 @@ public class SystemFirestoreService {
                 // 먼저 플레이어의 값 조회
                 DocumentSnapshot playerDoc = firestore.collection("leaderboards")
                         .document(type.getId())
-                        .collection("entries")
+                        .collection("Entry")
                         .document(playerUuid)
                         .get()
                         .get();
@@ -218,7 +218,7 @@ public class SystemFirestoreService {
                 // 플레이어보다 높은 값을 가진 엔트리 수 계산
                 QuerySnapshot higherEntries = firestore.collection("leaderboards")
                         .document(type.getId())
-                        .collection("entries")
+                        .collection("Entry")
                         .whereGreaterThan("value", playerValue)
                         .get()
                         .get();
@@ -240,9 +240,9 @@ public class SystemFirestoreService {
         return CompletableFuture.runAsync(() -> {
             try {
                 // 모든 엔트리 삭제
-                QuerySnapshot snapshot = firestore.collection("leaderboards")
+                QuerySnapshot snapshot = firestore.collection("Leaderboard")
                         .document(type.getId())
-                        .collection("entries")
+                        .collection("Entry")
                         .get()
                         .get();
                 

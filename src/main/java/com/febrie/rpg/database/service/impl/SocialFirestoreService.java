@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
  */
 public class SocialFirestoreService extends BaseFirestoreService<FriendshipDTO> {
     
-    private static final String FRIENDSHIP_COLLECTION = "friendships";
-    private static final String MAIL_COLLECTION = "mail";
+    private static final String FRIENDSHIP_COLLECTION = "Friendship";
+    private static final String MAIL_COLLECTION = "Mail";
     
     // Mail 서비스를 위한 별도 BaseFirestoreService
     private final BaseFirestoreService<MailDTO> mailService;

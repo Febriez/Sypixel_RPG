@@ -97,7 +97,7 @@ public class JobSelectionGui extends BaseGui {
 
         // 하단 테두리 - 네비게이션 버튼 위치 제외
         for (int i = 45; i < 54; i++) {
-            if (i != 48 && i != 49) { // BACK_BUTTON_SLOT과 CLOSE_BUTTON_SLOT
+            if (i != getBackButtonSlot() && i != getCloseButtonSlot()) {
                 setItem(i, GuiFactory.createDecoration());
             }
         }

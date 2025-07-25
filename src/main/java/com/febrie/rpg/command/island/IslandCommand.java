@@ -39,7 +39,7 @@ public class IslandCommand implements CommandExecutor {
                            @NotNull String label, @NotNull String[] args) {
         
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(Component.text("이 명령어는 플레이어만 사용할 수 있습니다.", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.island.player-only"));
             return true;
         }
         
@@ -63,21 +63,21 @@ public class IslandCommand implements CommandExecutor {
      */
     private void showNoIslandMessage(@NotNull Player player) {
         player.sendMessage(Component.text(""));
-        player.sendMessage(Component.text("==== 섬 시스템 ====", ColorUtil.YELLOW));
+        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.title"));
         player.sendMessage(Component.text(""));
-        player.sendMessage(Component.text("아직 섬이 없습니다!", ColorUtil.ERROR));
+        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.message"));
         player.sendMessage(Component.text(""));
-        player.sendMessage(Component.text("섬을 생성하면 다음과 같은 기능을 사용할 수 있습니다:", ColorUtil.GRAY));
-        player.sendMessage(Component.text("• 자신만의 개인 섬에서 자유로운 건축", ColorUtil.WHITE));
-        player.sendMessage(Component.text("• 친구들을 초대하여 함께 플레이", ColorUtil.WHITE));
-        player.sendMessage(Component.text("• 섬 업그레이드로 더 넓은 공간 확보", ColorUtil.WHITE));
-        player.sendMessage(Component.text("• 섬 워프 포인트 설정", ColorUtil.WHITE));
+        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.benefits-title"));
+        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.benefit-1"));
+        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.benefit-2"));
+        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.benefit-3"));
+        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.benefit-4"));
         player.sendMessage(Component.text(""));
-        player.sendMessage(Component.text("섬 생성 방법:", ColorUtil.YELLOW));
-        player.sendMessage(Component.text("1. 메인 메뉴(/메뉴)에서 섬 버튼 클릭", ColorUtil.GRAY));
-        player.sendMessage(Component.text("2. 섬 생성 버튼을 눌러 새로운 섬 생성", ColorUtil.GRAY));
+        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.how-to-title"));
+        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.how-to-1"));
+        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.how-to-2"));
         player.sendMessage(Component.text(""));
-        player.sendMessage(Component.text("==================", ColorUtil.YELLOW));
+        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.divider"));
     }
     
     /**

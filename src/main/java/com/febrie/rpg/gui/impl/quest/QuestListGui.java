@@ -141,7 +141,8 @@ public class QuestListGui extends BaseGui {
                 .addLore(trans("gui.quest-list.active-quests-desc"));
 
         GuiItem activeLabel = createLabelItem(activeBuilder, activeQuests.size(), () -> {
-            // TODO: 모든 진행 중 퀘스트 보기 GUI 열기
+            // 모든 진행 중 퀘스트 보기 GUI 열기
+            AllQuestsGui.create(guiManager, langManager, viewer, AllQuestsGui.QuestFilter.ACTIVE).open(viewer);
         });
         setItem(ACTIVE_LABEL_SLOT, activeLabel);
 
@@ -151,7 +152,8 @@ public class QuestListGui extends BaseGui {
                 .addLore(trans("gui.quest-list.completed-quests-desc"));
 
         GuiItem completedLabel = createLabelItem(completedBuilder, completedQuests.size(), () -> {
-            // TODO: 모든 완료된 퀘스트 보기 GUI 열기
+            // 모든 완료된 퀘스트 보기 GUI 열기
+            AllQuestsGui.create(guiManager, langManager, viewer, AllQuestsGui.QuestFilter.COMPLETED).open(viewer);
         });
         setItem(COMPLETED_LABEL_SLOT, completedLabel);
     }

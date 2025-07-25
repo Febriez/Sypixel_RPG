@@ -4,6 +4,11 @@ import net.citizensnpcs.api.persistence.Persist;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitName;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * RPG 상점 NPC를 위한 커스텀 Trait
@@ -28,6 +33,9 @@ public class RPGShopTrait extends Trait {
 
     @Persist("shopTitle")
     private String shopTitle = "상점";
+    
+    // 상점 아이템 목록
+    private final List<ShopItem> shopItems = new ArrayList<>();
 
     public RPGShopTrait() {
         super("rpgshop");
@@ -143,5 +151,54 @@ public class RPGShopTrait extends Trait {
     @Override
     public void onDespawn() {
         super.onDespawn();
+    }
+    
+    /**
+     * 상점 아이템 추가
+     */
+    public void addShopItem(@NotNull ItemStack item, long buyPrice, long sellPrice, boolean sellable) {
+        shopItems.add(new ShopItem(item, buyPrice, sellPrice, sellable));
+    }
+    
+    /**
+     * 상점 아이템 목록 조회
+     */
+    @NotNull
+    public List<ShopItem> getShopItems() {
+        return new ArrayList<>(shopItems);
+    }
+    
+    /**
+     * 상점 아이템 정보
+     */
+    public static class ShopItem {
+        private final ItemStack item;
+        private final long buyPrice;
+        private final long sellPrice;
+        private final boolean sellable;
+        
+        public ShopItem(@NotNull ItemStack item, long buyPrice, long sellPrice, boolean sellable) {
+            this.item = item.clone();
+            this.buyPrice = buyPrice;
+            this.sellPrice = sellPrice;
+            this.sellable = sellable;
+        }
+        
+        @NotNull
+        public ItemStack getItem() {
+            return item.clone();
+        }
+        
+        public long getBuyPrice() {
+            return buyPrice;
+        }
+        
+        public long getSellPrice() {
+            return sellPrice;
+        }
+        
+        public boolean isSellable() {
+            return sellable;
+        }
     }
 }

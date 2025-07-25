@@ -47,6 +47,10 @@ public class RPGPlayer {
     
     // 플레이어 설정
     private PlayerSettings playerSettings;
+    
+    // 섬 정보
+    @Nullable
+    private String islandId;
 
     public RPGPlayer(@NotNull Player player) {
         this.playerId = player.getUniqueId();
@@ -371,5 +375,21 @@ public class RPGPlayer {
     @NotNull
     public PlayerSettings getPlayerSettings() {
         return playerSettings;
+    }
+    
+    /**
+     * 섬 ID 조회
+     */
+    @Nullable
+    public String getIslandId() {
+        return islandId;
+    }
+    
+    /**
+     * 섬 ID 설정
+     */
+    public void setIslandId(@Nullable String islandId) {
+        this.islandId = islandId;
+        markModified();
     }
 }

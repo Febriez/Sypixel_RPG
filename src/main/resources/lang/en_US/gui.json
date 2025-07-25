@@ -1,4 +1,13 @@
 {
+  "common": {
+    "back": "◀ Back",
+    "close": "Close",
+    "next-page": "Next Page →",
+    "prev-page": "← Previous Page",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "settings": "Settings"
+  },
   "mainmenu": {
     "title": "Main Menu"
   },

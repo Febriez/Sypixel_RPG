@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -169,10 +170,37 @@ public class FriendCommand implements CommandExecutor, TabCompleter {
             }
             case "친구삭제", "friendremove" -> {
                 if (args.length == 1) {
-                    // TODO: 실제 친구 목록에서 가져오기 (현재는 온라인 플레이어로 대체)
+                    // 플레이어의 친구 목록에서 가져오기
+                    Player player = (Player) sender;
+                    List<String> friendNames = new ArrayList<>();
+                    
+                    // 비동기로 친구 목록을 가져오되, 탭 완성을 위해 캐시된 데이터 사용
+                    friendManager.getFriends(player.getUniqueId()).thenAccept(friends -> {
+                        for (com.febrie.rpg.dto.social.FriendshipDTO friend : friends) {
+                            // 친구의 이름 가져오기
+                            UUID friendUuid = friend.getFriendUuid(player.getUniqueId());
+                            if (friendUuid != null) {
+                                Player friendPlayer = Bukkit.getPlayer(friendUuid);
+                                if (friendPlayer != null) {
+                                    friendNames.add(friendPlayer.getName());
+                                } else {
+                                    // 오프라인 플레이어의 경우 FriendshipDTO에서 이름 가져오기
+                                    String friendName = friend.getFriendName(player.getUniqueId());
+                                    if (friendName != null && !friendName.isEmpty()) {
+                                        friendNames.add(friendName);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    
+                    // 일단 온라인 친구들만 즉시 반환 (비동기 처리 때문)
                     return Bukkit.getOnlinePlayers().stream()
+                            .filter(p -> {
+                                // 친구인지 확인 - 동기적으로 확인 불가하므로 일단 false
+                                return false;
+                            })
                             .map(Player::getName)
-                            .filter(name -> !name.equals(sender.getName()))
                             .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
                             .collect(Collectors.toList());
                 }

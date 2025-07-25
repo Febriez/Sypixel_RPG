@@ -64,7 +64,7 @@ public class IslandContributionGui extends GuiHolder {
     public static IslandContributionGui create(@NotNull RPGMain plugin, @NotNull Player viewer, 
                                                @NotNull IslandDTO island, int page) {
         IslandContributionGui gui = new IslandContributionGui(plugin, viewer, island, page);
-        return BaseGui.create(gui, ColorUtil.parseComponent("&6&l기여도 순위"));
+        return GuiHolder.create(gui, "&6&l기여도 순위");
     }
     
     @Override
@@ -261,8 +261,8 @@ public class IslandContributionGui extends GuiHolder {
             }
             case 49 -> { // 기여하기
                 if (isIslandMember()) {
-                    // TODO: 기여 GUI 열기
-                    player.sendMessage(ColorUtil.colorize("&c기여 시스템은 준비 중입니다."));
+                    player.closeInventory();
+                    IslandContributeGui.create(plugin, viewer, island).open(viewer);
                 }
             }
             case 53 -> { // 다음 페이지

@@ -40,7 +40,14 @@
   "region-entered": "%COLOR_INFO%Entered region: {region}",
   "weather-changed": "%COLOR_GRAY%Weather changed to {weather}.",
   "general": {
-    "cannot-view-others-quests": "%COLOR_ERROR%You cannot view other players' quests!"
+    "cannot-view-others-quests": "%COLOR_ERROR%You cannot view other players' quests!",
+    "teleport": {
+      "hub-success": "%COLOR_SUCCESS%Teleported to Hub!"
+    },
+    "error": {
+      "hub-world-not-found": "%COLOR_ERROR%Hub world not found."
+    },
+    "coming-soon": "%COLOR_INFO%Coming soon..."
   },
   "dialog-speed-changed": "Dialog speed changed: {speed}",
   "gui": {

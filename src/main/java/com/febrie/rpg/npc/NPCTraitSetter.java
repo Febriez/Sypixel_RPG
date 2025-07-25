@@ -92,6 +92,16 @@ public class NPCTraitSetter {
                 player.sendMessage(Component.text(requiredNpcIds.size() + "개의 NPC Trait 등록 아이템이 지급되었습니다.", ColorUtil.SUCCESS));
                 player.sendMessage(Component.text("NPC ID: " + String.join(", ", requiredNpcIds), ColorUtil.GRAY));
             }
+            
+            // 기본 보상 NPC 등록 아이템도 자동 지급
+            String rewardNpcId = "reward_" + questId.name().toLowerCase();
+            ItemStack rewardItem = com.febrie.rpg.quest.trait.RewardTraitRegistrationItem.createRegistrationItem(
+                rewardNpcId,
+                quest.getDisplayName(true) + " 보상 NPC"
+            );
+            player.getInventory().addItem(rewardItem);
+            player.sendMessage(Component.text("보상 NPC 등록 아이템도 지급되었습니다.", ColorUtil.SUCCESS));
+            player.sendMessage(Component.text("보상 NPC ID: " + rewardNpcId, ColorUtil.GRAY));
         }
         
         player.sendMessage(Component.text("10초 내에 설정할 NPC를 우클릭하세요.", ColorUtil.INFO));
@@ -141,6 +151,27 @@ public class NPCTraitSetter {
     }
     
     /**
+     * 플레이어가 대화 trait를 설정할 준비를 함
+     */
+    public void prepareDialogTrait(@NotNull Player player, @NotNull List<String> dialogues) {
+        // 기존 대기 중인 것이 있으면 취소
+        cancelPending(player);
+        
+        // 새로운 대기 설정
+        BukkitTask timeoutTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            if (pendingTraits.remove(player.getUniqueId()) != null) {
+                player.sendMessage(Component.text("NPC 설정 시간이 초과되었습니다.", ColorUtil.ERROR));
+            }
+        }, 200L); // 10초
+        
+        PendingTrait pending = new PendingTrait(TraitType.DIALOG, dialogues, timeoutTask);
+        pendingTraits.put(player.getUniqueId(), pending);
+        
+        player.sendMessage(Component.text("10초 내에 설정할 NPC를 우클릭하세요.", ColorUtil.INFO));
+        player.sendMessage(Component.text("대사 개수: " + dialogues.size() + "개", ColorUtil.YELLOW));
+    }
+    
+    /**
      * 플레이어의 대기 중인 trait 가져오기
      */
     @Nullable
@@ -180,7 +211,7 @@ public class NPCTraitSetter {
      * Trait 타입
      */
     public enum TraitType {
-        QUEST, SHOP, GUIDE
+        QUEST, SHOP, GUIDE, REWARD, DIALOG
     }
     
     /**

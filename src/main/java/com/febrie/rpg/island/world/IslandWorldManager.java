@@ -4,6 +4,7 @@ import com.fastasyncworldedit.core.FaweAPI;
 import com.fastasyncworldedit.core.util.TaskManager;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandLocationDTO;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.EditSessionBuilder;
@@ -476,9 +477,9 @@ public class IslandWorldManager {
         // 텔레포트
         player.teleportAsync(spawnLocation).thenAccept(success -> {
             if (success) {
-                player.sendMessage("§a섬으로 이동했습니다!");
+                player.sendMessage(plugin.getLangManager().getMessage(player, "island.messages.teleport-success"));
             } else {
-                player.sendMessage("§c섬으로 이동할 수 없습니다!");
+                player.sendMessage(plugin.getLangManager().getMessage(player, "island.messages.teleport-fail"));
             }
         });
     }

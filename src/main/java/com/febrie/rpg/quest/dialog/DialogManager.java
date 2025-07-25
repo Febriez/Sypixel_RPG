@@ -31,7 +31,7 @@ public class DialogManager {
     /**
      * 대화 진행도 정보
      */
-    private static class DialogProgress {
+    public static class DialogProgress {
         private final String dialogId;
         private int currentLineIndex;
         private long lastInteractionTime;
@@ -123,22 +123,9 @@ public class DialogManager {
      */
     private void showChoiceGUI(@NotNull Player player, @NotNull QuestDialog dialog,
                                @NotNull QuestDialog.DialogLine line, @NotNull DialogProgress progress) {
-        // TODO: GUI 구현 필요
-        // 임시로 채팅으로 표시
-        boolean isKorean = isPlayerKorean(player);
-        player.sendMessage(line.toComponent(isKorean));
-
-        if (line.getChoices() != null) {
-            int index = 1;
-            for (QuestDialog.DialogChoice choice : line.getChoices()) {
-                player.sendMessage(Component.text("  [" + index + "] " + choice.getText(isKorean))
-                        .color(ColorUtil.YELLOW)
-                        .clickEvent(net.kyori.adventure.text.event.ClickEvent.runCommand(
-                                "/dialog choose " + dialog.getId() + " " + choice.getId()
-                        )));
-                index++;
-            }
-        }
+        // DialogChoiceGui 생성 및 표시
+        DialogChoiceGui choiceGui = DialogChoiceGui.create(guiManager, plugin.getLangManager(), player, dialog, line, progress);
+        guiManager.openGui(player, choiceGui);
     }
 
     /**
@@ -157,8 +144,24 @@ public class DialogManager {
             return;
         }
 
-        // TODO: 선택에 따른 처리
-        player.sendMessage(Component.text("선택: " + choiceId, ColorUtil.INFO));
+        // 선택에 따른 다음 대화 인덱스 찾기
+        QuestDialog dialog = DialogRepository.getInstance().getDialog(dialogId);
+        if (dialog != null) {
+            QuestDialog.DialogLine currentLine = dialog.getLine(progress.currentLineIndex);
+            if (currentLine != null && currentLine.hasChoices()) {
+                for (QuestDialog.DialogChoice choice : currentLine.getChoices()) {
+                    if (choice.getId().equals(choiceId)) {
+                        // 선택에 따른 다음 대화 인덱스로 이동
+                        progress.currentLineIndex = choice.getNextLineIndex();
+                        showDialogLine(player, dialog, progress);
+                        return;
+                    }
+                }
+            }
+        }
+        
+        // 선택지를 찾지 못한 경우
+        player.sendMessage(Component.text("잘못된 선택입니다.", ColorUtil.ERROR));
     }
 
     /**
@@ -203,8 +206,17 @@ public class DialogManager {
      * 플레이어가 한국어 사용자인지 확인
      */
     private boolean isPlayerKorean(@NotNull Player player) {
-        // TODO: 실제 언어 설정 확인 로직 필요
-        // 임시로 플레이어 locale 확인
-        return player.locale().toString().startsWith("ko");
+        // 플레이어의 언어 설정 확인
+        String locale = player.locale().toString();
+        
+        // RPGPlayer에서 언어 설정 확인
+        com.febrie.rpg.player.RPGPlayer rpgPlayer = plugin.getRPGPlayerManager().getPlayer(player);
+        if (rpgPlayer != null) {
+            // 현재는 locale로만 판단
+            return locale.startsWith("ko");
+        }
+        
+        // 없으면 클라이언트 locale 사용
+        return locale.startsWith("ko");
     }
 }

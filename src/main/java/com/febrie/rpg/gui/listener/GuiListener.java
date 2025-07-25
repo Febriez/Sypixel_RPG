@@ -1,5 +1,6 @@
 package com.febrie.rpg.gui.listener;
 
+import com.febrie.rpg.gui.BaseGui;
 import com.febrie.rpg.gui.framework.DisplayGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.framework.InteractiveGui;
@@ -41,6 +42,13 @@ public class GuiListener implements Listener {
         // 상단 인벤토리 확인 (GUI 인벤토리)
         Inventory topInventory = event.getView().getTopInventory();
         InventoryHolder holder = topInventory.getHolder();
+
+        // Handle BaseGui (Island GUIs)
+        if (holder instanceof BaseGui baseGui) {
+            // BaseGui handles its own click cancellation
+            baseGui.onClick(event);
+            return;
+        }
 
         // GUI가 아닌 경우 처리하지 않음
         if (!(holder instanceof GuiFramework)) {
@@ -107,6 +115,12 @@ public class GuiListener implements Listener {
 
         Inventory inventory = event.getInventory();
         InventoryHolder holder = inventory.getHolder();
+
+        // Handle BaseGui
+        if (holder instanceof BaseGui) {
+            event.setCancelled(true);
+            return;
+        }
 
         // Handle DisplayGui
         if (holder instanceof DisplayGui displayGui) {

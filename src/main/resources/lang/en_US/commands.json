@@ -76,26 +76,209 @@
     "success": "%COLOR_SUCCESS%Warped to {warp}!"
   },
   "admin": {
-    "setlevel": {
-      "usage": "%COLOR_YELLOW%Usage: /rpgadmin setlevel <player> <level>",
-      "description": "Set a player's level",
-      "success": "%COLOR_SUCCESS%Set {player}'s level to {level}."
+    "no-permission": "%COLOR_ERROR%You don't have permission.",
+    "player-not-found": "%COLOR_ERROR%Player not found.",
+    "player-data-not-found": "%COLOR_ERROR%RPG player data not found.",
+    "invalid-number": "%COLOR_ERROR%Please enter a valid number.",
+    "player-only": "%COLOR_ERROR%This command can only be used by players.",
+    "title": "%COLOR_GOLD%=== RPG Admin Commands ===",
+    "usage": {
+      "title": "%COLOR_GOLD%=== RPG Admin Commands ===",
+      "stats": "%COLOR_YELLOW%/rpgadmin stats - Check server statistics",
+      "reload": "%COLOR_YELLOW%/rpgadmin reload - Reload configuration",
+      "viewprofile": "%COLOR_YELLOW%/rpgadmin viewprofile <player> - View profile",
+      "exp": "%COLOR_YELLOW%/rpgadmin exp give <player> <amount> - Give experience",
+      "level": "%COLOR_YELLOW%/rpgadmin level set <player> <level> - Set level",
+      "job": "%COLOR_YELLOW%/rpgadmin job set <player> <job> - Set job",
+      "npc": "%COLOR_YELLOW%/rpgadmin npc set <questID> - Set quest to NPC",
+      "npc-setcode": "%COLOR_YELLOW%/rpgadmin npc setcode <npcID> [name] - Give NPC trait registration stick",
+      "npc-reward": "%COLOR_YELLOW%/rpgadmin npc reward <rewardID> [name] - Give reward NPC registration stick",
+      "quest": "%COLOR_YELLOW%/rpgadmin quest <give|list|reload> - Quest management",
+      "island": "%COLOR_YELLOW%/rpgadmin island <info|delete|reset|tp> <player> - Island management"
     },
-    "givexp": {
-      "usage": "%COLOR_YELLOW%Usage: /rpgadmin exp give <player> <amount>",
-      "description": "Give experience to a player",
-      "success": "%COLOR_SUCCESS%Gave {amount} experience to {player}."
-    },
-    "setjob": {
-      "usage": "%COLOR_YELLOW%Usage: /rpgadmin job set <player> <job>",
-      "description": "Set a player's job",
-      "success": "%COLOR_SUCCESS%Set {player}'s job to {job}.",
-      "invalid-job": "%COLOR_ERROR%Invalid job: {job}"
+    "stats": {
+      "title": "%COLOR_GOLD%=== RPG Server Statistics ===",
+      "online-players": "%COLOR_WHITE%Online players: {count}",
+      "loaded-players": "%COLOR_WHITE%Loaded RPG players: {count}",
+      "registered-quests": "%COLOR_WHITE%Registered quests: {count}",
+      "implemented-quests": "%COLOR_WHITE%Implemented quests: {count}",
+      "memory-usage": "%COLOR_GRAY%Memory usage: {used}MB / {max}MB"
     },
     "reload": {
-      "usage": "%COLOR_YELLOW%Usage: /rpgadmin reload",
-      "description": "Reload plugin configuration",
+      "reloading": "%COLOR_YELLOW%Reloading configuration...",
       "success": "%COLOR_SUCCESS%Configuration reloaded!"
+    },
+    "viewprofile": {
+      "usage": "%COLOR_ERROR%Usage: /rpgadmin viewprofile <player>",
+      "title": "%COLOR_GOLD%=== {player}'s Profile ===",
+      "level": "%COLOR_WHITE%Level: {level}",
+      "exp": "%COLOR_WHITE%Experience: {current}/{next}",
+      "job": "%COLOR_WHITE%Job: {job}",
+      "job-none": "None",
+      "gold": "%COLOR_GOLD%Gold: {amount}",
+      "diamond": "%COLOR_AQUA%Diamond: {amount}",
+      "active-quests": "%COLOR_YELLOW%Active quests: {count}"
+    },
+    "exp": {
+      "usage": "%COLOR_ERROR%Usage: /rpgadmin exp give <player> <amount>",
+      "must-positive": "%COLOR_ERROR%Experience must be positive.",
+      "success": "%COLOR_SUCCESS%Gave {amount} experience to {player}.",
+      "received": "%COLOR_EMERALD%You received {amount} experience!"
+    },
+    "level": {
+      "usage": "%COLOR_ERROR%Usage: /rpgadmin level set <player> <level>",
+      "range": "%COLOR_ERROR%Level must be between 1-100.",
+      "success": "%COLOR_SUCCESS%Set {player}'s level to {level}.",
+      "set": "%COLOR_GOLD%Your level has been set to {level}!"
+    },
+    "job": {
+      "usage": "%COLOR_ERROR%Usage: /rpgadmin job <player> <job>",
+      "available": "%COLOR_INFO%Available jobs: WARRIOR, MAGE, ARCHER, ASSASSIN",
+      "invalid": "%COLOR_ERROR%Invalid job: {job}",
+      "already-has": "%COLOR_WARNING%{player} already has a job: {job}",
+      "need-reset": "%COLOR_INFO%Job needs to be reset first to change.",
+      "success": "%COLOR_SUCCESS%Set {player}'s job to {job}.",
+      "set": "%COLOR_SUCCESS%Your job has been set to {job}!",
+      "failed": "%COLOR_ERROR%Failed to set job."
+    },
+    "npc": {
+      "citizens-not-found": "%COLOR_ERROR%Citizens plugin is not installed.",
+      "usage": {
+        "title": "%COLOR_ERROR%Usage:",
+        "set": "%COLOR_YELLOW%  /rpgadmin npc set <questID>",
+        "setcode": "%COLOR_YELLOW%  /rpgadmin npc setcode <npcCode>",
+        "reward": "%COLOR_YELLOW%  /rpgadmin npc reward <rewardNpcCode>",
+        "list": "%COLOR_YELLOW%  /rpgadmin npc list"
+      },
+      "set": {
+        "usage": "%COLOR_ERROR%Usage: /rpgadmin npc set <questID>",
+        "example": "%COLOR_GRAY%Example: /rpgadmin npc set TUTORIAL_FIRST_STEPS",
+        "invalid-quest": "%COLOR_ERROR%Invalid quest ID: {id}",
+        "available": "%COLOR_YELLOW%Available quest IDs:"
+      },
+      "setcode": {
+        "usage": "%COLOR_ERROR%Usage: /rpgadmin npc setcode <npcID> [name]",
+        "example": "%COLOR_GRAY%Example: /rpgadmin npc setcode village_shopper Village_Merchant",
+        "invalid-format": "%COLOR_ERROR%Error: NPC ID can only contain lowercase letters and underscores.",
+        "format-example": "%COLOR_GRAY%Valid examples: village_shopper, first_npc, quest_giver",
+        "inventory-full": "%COLOR_WARNING%Inventory full, item dropped on ground.",
+        "success": "%COLOR_SUCCESS%✓ NPC Trait registrator given.",
+        "npc-id": "%COLOR_GRAY%NPC ID: %COLOR_RARE%{id}",
+        "display-name": "%COLOR_GRAY%Display name: %COLOR_YELLOW%{name}"
+      },
+      "reward": {
+        "usage": "%COLOR_ERROR%Usage: /rpgadmin npc reward <rewardNpcID> [name]",
+        "example": "%COLOR_GRAY%Example: /rpgadmin npc reward quest_rewarder Quest_Reward_NPC",
+        "invalid-format": "%COLOR_ERROR%Error: Reward NPC ID can only contain lowercase letters and underscores.",
+        "format-example": "%COLOR_GRAY%Valid examples: quest_rewarder, reward_giver",
+        "inventory-full": "%COLOR_WARNING%Inventory full, item dropped on ground.",
+        "success": "%COLOR_SUCCESS%✓ Reward NPC registrator given.",
+        "npc-id": "%COLOR_GRAY%Reward NPC ID: %COLOR_EPIC%{id}",
+        "display-name": "%COLOR_GRAY%Display name: %COLOR_YELLOW%{name}"
+      },
+      "list": {
+        "title": "%COLOR_GOLD%=== Citizens NPC List ===",
+        "entry": "%COLOR_YELLOW%[{id}] {name}",
+        "id": "%COLOR_AQUA% - ID: {id}",
+        "quests": "%COLOR_GREEN% - Quests: {count}",
+        "total": "%COLOR_GRAY%Total {count} NPCs"
+      }
+    },
+    "quest": {
+      "usage": "%COLOR_ERROR%Usage: /rpgadmin quest <give|list|reload> [player] [questID]",
+      "give": {
+        "usage": "%COLOR_ERROR%Usage: /rpgadmin quest give <player> <questID>",
+        "invalid-id": "%COLOR_ERROR%Invalid quest ID: {id}",
+        "success": "%COLOR_SUCCESS%Gave quest: {id}",
+        "received": "%COLOR_GOLD%You received a new quest: {id}",
+        "failed": "%COLOR_ERROR%Cannot start quest. Already in progress or requirements not met."
+      },
+      "list": {
+        "title": "%COLOR_GOLD%=== Available Quests ===",
+        "category": "%COLOR_YELLOW%\n{category}:",
+        "implemented": "%COLOR_SUCCESS% ✓",
+        "not-implemented": "%COLOR_ERROR% ✗"
+      },
+      "reload": {
+        "success": "%COLOR_SUCCESS%Quest data reloaded."
+      }
+    },
+    "island": {
+      "usage": {
+        "title": "%COLOR_ERROR%Usage:",
+        "info": "%COLOR_YELLOW%  /rpgadmin island info <player> - Check player's island info",
+        "delete": "%COLOR_YELLOW%  /rpgadmin island delete <player> - Force delete player's island",
+        "reset": "%COLOR_YELLOW%  /rpgadmin island reset <player> - Force reset player's island",
+        "tp": "%COLOR_YELLOW%  /rpgadmin island tp <player> - Teleport to player's island"
+      },
+      "player-required": "%COLOR_ERROR%Please enter player name.",
+      "no-island": "%COLOR_ERROR%{player} doesn't own an island.",
+      "info": {
+        "title": "%COLOR_GOLD%=== {player}'s Island Info ===",
+        "id": "%COLOR_WHITE%Island ID: {id}",
+        "name": "%COLOR_WHITE%Island name: {name}",
+        "owner": "%COLOR_WHITE%Island owner: {owner}",
+        "size": "%COLOR_WHITE%Size: {size} x {size}",
+        "members": "%COLOR_WHITE%Members: {current}/{max}",
+        "created": "%COLOR_GRAY%Created: {date}",
+        "resets": "%COLOR_GRAY%Total resets: {count}"
+      },
+      "delete": {
+        "deleting": "%COLOR_YELLOW%Deleting island...",
+        "success": "%COLOR_SUCCESS%Successfully deleted {player}'s island.",
+        "owner-notify": "%COLOR_ERROR%Your island has been deleted by an administrator.",
+        "failed": "%COLOR_ERROR%Failed to delete island."
+      },
+      "reset": {
+        "resetting": "%COLOR_YELLOW%Resetting island...",
+        "success": "%COLOR_SUCCESS%Successfully reset {player}'s island.",
+        "owner-notify": "%COLOR_WARNING%Your island has been reset by an administrator.",
+        "failed": "%COLOR_ERROR%Failed to reset island."
+      },
+      "tp": {
+        "world-not-found": "%COLOR_ERROR%Island world not found.",
+        "success": "%COLOR_SUCCESS%Teleported to {player}'s island."
+      },
+      "unknown-command": "%COLOR_ERROR%Unknown subcommand."
+    }
+  },
+  "siteaccount": {
+    "player-only": "%COLOR_ERROR%This command can only be used by players.",
+    "usage": "%COLOR_YELLOW%Usage: /siteaccount <email>",
+    "invalid-email": "%COLOR_ERROR%Invalid email format.",
+    "processing": "%COLOR_YELLOW%Creating account...",
+    "already-exists": "%COLOR_WARNING%Site account already exists.",
+    "email-taken": "%COLOR_ERROR%Email is already in use.",
+    "error": "%COLOR_ERROR%Error creating account: {error}",
+    "success": {
+      "title": "%COLOR_GOLD%==== Site Account Created ====",
+      "success-message": "%COLOR_SUCCESS%✅ Account successfully created!",
+      "email": "%COLOR_WHITE%📧 Email: %COLOR_YELLOW%{email}",
+      "password": "%COLOR_WHITE%🔑 Password: %COLOR_AQUA%{password}",
+      "password-hover": "%COLOR_GREEN%Click to copy password",
+      "notice-title": "%COLOR_YELLOW%💡 Notice:",
+      "notice-1": "%COLOR_WHITE%- Click the password to copy to clipboard",
+      "notice-2": "%COLOR_WHITE%- Login to the website with email and password",
+      "notice-3": "%COLOR_WHITE%- We recommend changing your password after login",
+      "website": "%COLOR_WHITE%🌐 Website: %COLOR_AQUA%https://sypixel.com",
+      "website-hover": "%COLOR_GREEN%Click to open website",
+      "divider": "%COLOR_GOLD%============================="
+    }
+  },
+  "island": {
+    "player-only": "%COLOR_ERROR%This command can only be used by players.",
+    "no-island": {
+      "title": "%COLOR_YELLOW%==== Island System ====",
+      "message": "%COLOR_ERROR%You don't have an island yet!",
+      "benefits-title": "%COLOR_GRAY%Creating an island gives you access to:",
+      "benefit-1": "%COLOR_WHITE%• Build freely on your own personal island",
+      "benefit-2": "%COLOR_WHITE%• Invite friends to play together",
+      "benefit-3": "%COLOR_WHITE%• Upgrade your island for more space",
+      "benefit-4": "%COLOR_WHITE%• Set island warp points",
+      "how-to-title": "%COLOR_YELLOW%How to create an island:",
+      "how-to-1": "%COLOR_GRAY%1. Click the Island button in Main Menu (/menu)",
+      "how-to-2": "%COLOR_GRAY%2. Click Create Island to make a new island",
+      "divider": "%COLOR_YELLOW%=================="
     }
   }
 }

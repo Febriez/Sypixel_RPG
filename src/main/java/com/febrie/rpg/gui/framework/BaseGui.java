@@ -57,10 +57,6 @@ public abstract class BaseGui implements InteractiveGui {
         return size - 4;  // 하단 중앙에서 오른쪽 (마지막 줄의 5번째 슬롯)
     }
     
-    // 레거시 지원을 위한 상수 (점진적 마이그레이션용)
-    protected static final int BACK_BUTTON_SLOT = 48;    // 6줄 GUI 기준
-    protected static final int CLOSE_BUTTON_SLOT = 49;   // 6줄 GUI 기준
-    protected static final int REFRESH_BUTTON_SLOT = 50; // 6줄 GUI 기준
 
     private boolean initialized = false;
     

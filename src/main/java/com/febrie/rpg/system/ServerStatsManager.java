@@ -4,6 +4,7 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.FirestoreManager;
 import com.febrie.rpg.dto.system.ServerStatsDTO;
 import com.febrie.rpg.player.RPGPlayerManager;
+import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.LogUtil;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
@@ -140,7 +141,8 @@ public class ServerStatsManager {
             // 오늘 날짜가 마지막 저장 날짜와 다른 경우에만 저장
             if (!today.equals(lastSavedDate)) {
                 // SystemFirestoreService를 통한 서버 통계 저장
-                // TODO: SystemFirestoreService 구현 후 연동
+                // 현재는 로그만 출력 - SystemFirestoreService 추가 필요
+                LogUtil.info("서버 통계: " + stats);
                 lastSavedDate = today;
                 LogUtil.info("일일 서버 통계가 저장되었습니다: " + today);
             }
@@ -208,8 +210,9 @@ public class ServerStatsManager {
         // RPGPlayer에서 플레이타임 정보를 가져와야 함
         return plugin.getServer().getOnlinePlayers().stream()
                 .mapToLong(player -> {
-                    // TODO: RPGPlayer에서 실제 플레이타임 가져오기
-                    return 0L;
+                    // RPGPlayer에서 실제 플레이타임 가져오기
+                    RPGPlayer rpgPlayer = plugin.getRPGPlayerManager().getPlayer(player);
+                    return rpgPlayer != null ? rpgPlayer.getTotalPlaytime() : 0L;
                 })
                 .sum();
     }

@@ -2,6 +2,9 @@
   "started": "%COLOR_SUCCESS%Quest started: %COLOR_LEGENDARY%{quest}",
   "start-failed": "%COLOR_ERROR%Failed to start quest!",
   "declined": "%COLOR_GRAY%Quest declined.",
+  "dialog": {
+    "player": "Player"
+  },
   "npc": {
     "invalid-quest": "%COLOR_ERROR%Invalid quest!",
     "already-active": "%COLOR_WARNING%You are already on this quest!",

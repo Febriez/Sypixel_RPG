@@ -2,6 +2,9 @@
   "started": "%COLOR_SUCCESS%퀘스트를 시작했습니다: %COLOR_LEGENDARY%{quest}",
   "start-failed": "%COLOR_ERROR%퀘스트 시작에 실패했습니다!",
   "declined": "%COLOR_GRAY%퀘스트를 거절했습니다.",
+  "dialog": {
+    "player": "플레이어"
+  },
   "npc": {
     "invalid-quest": "%COLOR_ERROR%잘못된 퀘스트입니다!",
     "already-active": "%COLOR_WARNING%이미 이 퀘스트를 진행 중입니다!",

@@ -11,6 +11,7 @@ import com.febrie.rpg.database.FirestoreManager;
 import com.febrie.rpg.database.service.impl.PlayerFirestoreService;
 import com.febrie.rpg.database.service.impl.QuestFirestoreService;
 import com.febrie.rpg.database.service.impl.IslandFirestoreService;
+import com.febrie.rpg.database.service.impl.PlayerIslandDataService;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.gui.listener.GuiListener;
 import com.febrie.rpg.gui.manager.GuiManager;
@@ -57,6 +58,7 @@ public final class RPGMain extends JavaPlugin {
     private PlayerFirestoreService playerFirestoreService;
     private QuestFirestoreService questFirestoreService;
     private IslandFirestoreService islandFirestoreService;
+    private PlayerIslandDataService playerIslandDataService;
     private IslandManager islandManager;
     private ServerStatsManager serverStatsManager;
 
@@ -94,6 +96,11 @@ public final class RPGMain extends JavaPlugin {
         // 서버 통계 매니저 종료
         if (serverStatsManager != null) {
             serverStatsManager.shutdown();
+        }
+        
+        // 섬 매니저 종료
+        if (islandManager != null) {
+            islandManager.shutdown();
         }
 
         // 모든 데이터 저장
@@ -180,6 +187,7 @@ public final class RPGMain extends JavaPlugin {
                 this.playerFirestoreService = new PlayerFirestoreService(this, firestoreManager.getFirestore());
                 this.questFirestoreService = new QuestFirestoreService(this, firestoreManager.getFirestore());
                 this.islandFirestoreService = new IslandFirestoreService(this, firestoreManager.getFirestore());
+                this.playerIslandDataService = new PlayerIslandDataService(this, firestoreManager.getFirestore());
             }
         }
 
@@ -205,7 +213,7 @@ public final class RPGMain extends JavaPlugin {
         this.damageDisplayManager = new TextDisplayDamageManager(this);
         
         // 섬 매니저 초기화
-        this.islandManager = new IslandManager(this, islandFirestoreService);
+        this.islandManager = new IslandManager(this, islandFirestoreService, playerIslandDataService);
         this.islandManager.initialize();
         
         // 서버 통계 매니저 초기화
@@ -246,6 +254,9 @@ public final class RPGMain extends JavaPlugin {
         
         // 퀘스트 Trait 등록 아이템 리스너 등록
         getServer().getPluginManager().registerEvents(new com.febrie.rpg.quest.trait.QuestTraitRegistrationItem(), this);
+        
+        // 보상 Trait 등록 아이템 리스너 등록
+        getServer().getPluginManager().registerEvents(new com.febrie.rpg.quest.trait.RewardTraitRegistrationItem(), this);
         
         // 메뉴 단축키 리스너 등록 (SHIFT + F)
         getServer().getPluginManager().registerEvents(new com.febrie.rpg.listener.MenuShortcutListener(this, guiManager, langManager), this);

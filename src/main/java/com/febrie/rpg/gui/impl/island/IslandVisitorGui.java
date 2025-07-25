@@ -16,10 +16,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import net.kyori.adventure.text.Component;
+import com.febrie.rpg.util.DateFormatUtil;
 
 /**
  * 섬 방문자 목록 GUI
@@ -37,7 +37,6 @@ public class IslandVisitorGui extends BaseGui {
     private final int maxPage;
     
     private static final int ITEMS_PER_PAGE = 28; // 7x4 grid
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd HH:mm");
     
     private IslandVisitorGui(@NotNull RPGMain plugin, @NotNull Player viewer, 
                            @NotNull IslandDTO island, int page) {
@@ -137,7 +136,7 @@ public class IslandVisitorGui extends BaseGui {
         String playerName = offlinePlayer.getName() != null ? offlinePlayer.getName() : "알 수 없음";
         
         // 방문 시간 포맷
-        String visitTime = DATE_FORMAT.format(new Date(visit.visitedAt()));
+        String visitTime = DateFormatUtil.formatSlashDateTimeFromMillis(visit.visitedAt());
         String duration = formatDuration(visit.duration());
         
         // 최근 방문 강조

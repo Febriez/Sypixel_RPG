@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 public class IslandFirestoreService extends BaseFirestoreService<IslandDTO> {
     
-    private static final String COLLECTION_NAME = "islands";
+    private static final String COLLECTION_NAME = "Island";
     
     public IslandFirestoreService(@NotNull RPGMain plugin, @NotNull Firestore firestore) {
         super(plugin, firestore, COLLECTION_NAME, IslandDTO.class);

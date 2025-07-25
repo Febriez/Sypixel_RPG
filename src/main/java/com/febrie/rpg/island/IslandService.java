@@ -1,6 +1,7 @@
 package com.febrie.rpg.island;
 
 import com.febrie.rpg.database.service.impl.IslandFirestoreService;
+import com.febrie.rpg.database.service.impl.PlayerIslandDataService;
 import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.dto.island.PlayerIslandDataDTO;
 import com.febrie.rpg.util.LogUtil;
@@ -20,11 +21,13 @@ import java.util.concurrent.CompletableFuture;
 public class IslandService {
     
     private final IslandFirestoreService firestoreService;
+    private final PlayerIslandDataService playerDataService;
     private final boolean isOfflineMode;
     
-    public IslandService(@Nullable IslandFirestoreService firestoreService) {
+    public IslandService(@Nullable IslandFirestoreService firestoreService, @Nullable PlayerIslandDataService playerDataService) {
         this.firestoreService = firestoreService;
-        this.isOfflineMode = (firestoreService == null);
+        this.playerDataService = playerDataService;
+        this.isOfflineMode = (firestoreService == null || playerDataService == null);
         
     }
     
@@ -92,9 +95,10 @@ public class IslandService {
             return CompletableFuture.completedFuture(true);
         }
         
-        // 플레이어 데이터는 별도 컨렉션에 저장해야 하므로 직접 Firestore 사용
-        // PlayerIslandDataService 구현 필요
-        return CompletableFuture.completedFuture(true)
+        return playerDataService.save(playerData.playerUuid(), playerData)
+                .thenApply(v -> {
+                    return true;
+                })
                 .exceptionally(ex -> {
                     LogUtil.error("플레이어 데이터 저장 실패: " + playerData.playerUuid(), ex);
                     return false;
@@ -109,9 +113,7 @@ public class IslandService {
             return CompletableFuture.completedFuture(null);
         }
         
-        // 플레이어 데이터는 별도 컨렉션에서 로드해야 하므로 직접 Firestore 사용
-        // PlayerIslandDataService 구현 필요
-        return CompletableFuture.completedFuture((PlayerIslandDataDTO) null)
+        return playerDataService.get(playerUuid)
                 .exceptionally(ex -> {
                     LogUtil.error("플레이어 데이터 로드 실패: " + playerUuid, ex);
                     return null;

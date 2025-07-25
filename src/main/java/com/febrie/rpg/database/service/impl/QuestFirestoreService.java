@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  */
 public class QuestFirestoreService extends BaseFirestoreService<PlayerQuestDTO> {
     
-    private static final String COLLECTION_NAME = "player-quests";
+    private static final String COLLECTION_NAME = "PlayerQuest";
     
     public QuestFirestoreService(@NotNull RPGMain plugin, @NotNull Firestore firestore) {
         super(plugin, firestore, COLLECTION_NAME, PlayerQuestDTO.class);

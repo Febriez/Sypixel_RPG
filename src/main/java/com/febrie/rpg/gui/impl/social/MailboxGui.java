@@ -11,6 +11,7 @@ import com.febrie.rpg.social.MailManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import net.wesjd.anvilgui.AnvilGUI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
@@ -20,6 +21,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,6 +48,7 @@ public class MailboxGui extends BaseGui {
 
     private final MailManager mailManager;
     private boolean showReadMails = false;
+    private List<MailDTO> mails = new ArrayList<>();
 
     private MailboxGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                      @NotNull Player player) {
@@ -164,8 +167,8 @@ public class MailboxGui extends BaseGui {
                         .addLore(Component.text("클릭하여 삭제", ColorUtil.YELLOW))
                         .build(),
                 p -> {
-                    // TODO: 읽은 우편 일괄 삭제 구현
-                    p.sendMessage("§c기능 준비 중입니다.");
+                    // 읽은 우편 일괄 삭제 구현
+                    deleteAllReadMails(p);
                     playClickSound(p);
                 }
         );
@@ -201,9 +204,10 @@ public class MailboxGui extends BaseGui {
         ));
 
         // 비동기로 우편 목록 로드
-        mailManager.getMails(viewer.getUniqueId(), showReadMails).thenAccept(mails -> {
+        mailManager.getMails(viewer.getUniqueId(), showReadMails).thenAccept(loadedMails -> {
             Bukkit.getScheduler().runTask(plugin, () -> {
-                displayMails(mails);
+                this.mails = loadedMails;
+                displayMails(this.mails);
             });
         });
     }
@@ -270,6 +274,53 @@ public class MailboxGui extends BaseGui {
         }
     }
 
+    /**
+     * 읽은 우편 일괄 삭제
+     */
+    private void deleteAllReadMails(Player player) {
+        List<MailDTO> readMailsToDelete = mails.stream()
+                .filter(mail -> !mail.isUnread())
+                .toList();
+        
+        if (readMailsToDelete.isEmpty()) {
+            player.sendMessage(ColorUtil.colorize("&e삭제할 읽은 우편이 없습니다."));
+            return;
+        }
+        
+        // 삭제 확인 GUI 표시
+        new AnvilGUI.Builder()
+                .onClick((slot, stateSnapshot) -> {
+                    if (slot != AnvilGUI.Slot.OUTPUT) {
+                        return List.of(AnvilGUI.ResponseAction.run(() -> {}));
+                    }
+                    String text = stateSnapshot.getText();
+                    if ("삭제".equals(text)) {
+                        int deletedCount = 0;
+                        for (MailDTO mail : readMailsToDelete) {
+                            // 우편 삭제 처리
+                            mails.remove(mail);
+                            deletedCount++;
+                        }
+                        
+                        player.sendMessage(ColorUtil.colorize("&a" + deletedCount + "개의 읽은 우편을 삭제했습니다."));
+                        
+                        // GUI 새로고침
+                        Bukkit.getScheduler().runTask(plugin, () -> {
+                            loadMails();
+                            setupLayout();
+                        });
+                        return List.of(AnvilGUI.ResponseAction.close());
+                    } else {
+                        player.sendMessage(ColorUtil.colorize("&c'삭제'를 정확히 입력해주세요."));
+                        return List.of(AnvilGUI.ResponseAction.close());
+                    }
+                })
+                .text("삭제하려면 '삭제' 입력")
+                .title("읽은 우편 " + readMailsToDelete.size() + "개 삭제 확인")
+                .plugin(guiManager.getPlugin())
+                .open(player);
+    }
+    
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);

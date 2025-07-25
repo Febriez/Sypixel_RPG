@@ -1,6 +1,7 @@
 package com.febrie.rpg.island.permission;
 
 import com.febrie.rpg.dto.island.*;
+import com.febrie.rpg.util.LangManager;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -160,16 +161,16 @@ public class IslandPermissionHandler {
     /**
      * 권한 문자열을 사용자 친화적인 이름으로 변환
      */
-    public static String getPermissionDisplayName(@NotNull String permission) {
+    public static String getPermissionDisplayName(@NotNull LangManager langManager, @NotNull String language, @NotNull String permission) {
         return switch (permission) {
-            case "BUILD" -> "건설";
-            case "USE_ITEMS" -> "아이템 사용";
-            case "OPEN_CONTAINERS" -> "상자 열기";
-            case "INVITE_MEMBERS" -> "멤버 초대";
-            case "KICK_MEMBERS" -> "멤버 추방";
-            case "MANAGE_WORKERS" -> "알바 관리";
-            case "MODIFY_SPAWNS" -> "스폰 설정";
-            case "CHANGE_SETTINGS" -> "섬 설정 변경";
+            case "BUILD" -> langManager.getMessage(language, "island.permissions.build");
+            case "USE_ITEMS" -> langManager.getMessage(language, "island.permissions.use-items");
+            case "OPEN_CONTAINERS" -> langManager.getMessage(language, "island.permissions.open-containers");
+            case "INVITE_MEMBERS" -> langManager.getMessage(language, "island.permissions.invite-members");
+            case "KICK_MEMBERS" -> langManager.getMessage(language, "island.permissions.kick-members");
+            case "MANAGE_WORKERS" -> langManager.getMessage(language, "island.permissions.manage-workers");
+            case "MODIFY_SPAWNS" -> langManager.getMessage(language, "island.permissions.set-spawn");
+            case "CHANGE_SETTINGS" -> langManager.getMessage(language, "island.permissions.change-settings");
             default -> permission;
         };
     }
@@ -177,13 +178,13 @@ public class IslandPermissionHandler {
     /**
      * 역할을 사용자 친화적인 이름으로 변환
      */
-    public static String getRoleDisplayName(@NotNull IslandRole role) {
+    public static String getRoleDisplayName(@NotNull LangManager langManager, @NotNull String language, @NotNull IslandRole role) {
         return switch (role) {
-            case OWNER -> "섬장";
-            case CO_OWNER -> "부섬장";
-            case MEMBER -> "섬원";
-            case WORKER -> "알바";
-            case VISITOR -> "방문자";
+            case OWNER -> langManager.getMessage(language, "island.roles.owner");
+            case CO_OWNER -> langManager.getMessage(language, "island.roles.sub-owner");
+            case MEMBER -> langManager.getMessage(language, "island.roles.member");
+            case WORKER -> langManager.getMessage(language, "island.roles.worker");
+            case VISITOR -> langManager.getMessage(language, "island.roles.visitor");
         };
     }
 }

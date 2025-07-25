@@ -7,6 +7,7 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.npc.trait.RPGGuideTrait;
 import com.febrie.rpg.npc.trait.RPGQuestTrait;
 import com.febrie.rpg.npc.trait.RPGShopTrait;
+import com.febrie.rpg.npc.trait.RPGDialogTrait;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
@@ -19,6 +20,9 @@ import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.gui.impl.quest.QuestSelectionGui;
+import com.febrie.rpg.gui.impl.quest.QuestRewardGui;
+import com.febrie.rpg.gui.impl.shop.NPCShopGui;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
@@ -109,6 +113,22 @@ public class NPCInteractListener implements Listener {
                     
                     player.sendMessage(Component.text("NPC에 가이드가 설정되었습니다: " + guideType, ColorUtil.SUCCESS));
                 }
+                case DIALOG -> {
+                    @SuppressWarnings("unchecked")
+                    List<String> dialogues = (List<String>) pending.getData();
+                    RPGDialogTrait dialogTrait = npc.getOrAddTrait(RPGDialogTrait.class);
+                    
+                    // 대사 추가
+                    for (String dialogue : dialogues) {
+                        dialogTrait.addDialogue(dialogue);
+                    }
+                    
+                    // 말풍선 아이템 설정
+                    npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.PAPER));
+                    
+                    player.sendMessage(Component.text("NPC에 대화가 설정되었습니다.", ColorUtil.SUCCESS));
+                    player.sendMessage(Component.text("대사 개수: " + dialogues.size() + "개", ColorUtil.INFO));
+                }
             }
             
             // 대기 중인 trait 제거
@@ -117,14 +137,35 @@ public class NPCInteractListener implements Listener {
             return;
         }
 
-        // 기존 trait 처리
+        // 보상 처리를 먼저 확인 - NPC가 보상을 가지고 있고 플레이어가 받을 수 있는 경우
         if (npc.hasTrait(com.febrie.rpg.npc.trait.RPGQuestRewardTrait.class)) {
             com.febrie.rpg.npc.trait.RPGQuestRewardTrait rewardTrait = npc.getOrAddTrait(com.febrie.rpg.npc.trait.RPGQuestRewardTrait.class);
-            rewardTrait.onInteract(player);
-            handleQuestRewardNPCWithTrait(npc, player, rewardTrait);
-            return;
+            
+            // 보상 수령 가능한 퀘스트가 있는지 확인
+            List<QuestID> unclaimedQuests = questManager.getUnclaimedRewardQuests(player.getUniqueId());
+            boolean hasRewardsToClaimFromThisNPC = false;
+            
+            if (!unclaimedQuests.isEmpty()) {
+                // 이 NPC가 특정 퀘스트만 담당하는 경우
+                if (!rewardTrait.getQuestIds().isEmpty()) {
+                    List<QuestID> npcQuests = rewardTrait.getQuestIds();
+                    hasRewardsToClaimFromThisNPC = unclaimedQuests.stream()
+                            .anyMatch(npcQuests::contains);
+                } else {
+                    // 모든 퀘스트 보상을 담당하는 경우
+                    hasRewardsToClaimFromThisNPC = true;
+                }
+            }
+            
+            // 받을 보상이 있으면 보상 처리를 우선적으로 수행
+            if (hasRewardsToClaimFromThisNPC) {
+                rewardTrait.onInteract(player);
+                handleQuestRewardNPCWithTrait(npc, player, rewardTrait);
+                return;
+            }
         }
         
+        // 기존 trait 처리 - 퀘스트를 먼저 처리
         if (npc.hasTrait(RPGQuestTrait.class)) {
             RPGQuestTrait questTrait = npc.getOrAddTrait(RPGQuestTrait.class);
             questTrait.onInteract(player);
@@ -146,6 +187,12 @@ public class NPCInteractListener implements Listener {
             guideTrait.onInteract(player);
             handleGuideNPCWithTrait(npc, player, guideTrait);
             return;
+        }
+        
+        // 아무 trait도 없거나 dialog trait만 있는 경우
+        if (npc.hasTrait(RPGDialogTrait.class)) {
+            RPGDialogTrait dialogTrait = npc.getOrAddTrait(RPGDialogTrait.class);
+            dialogTrait.onInteract(player);
         }
     }
     
@@ -256,8 +303,14 @@ public class NPCInteractListener implements Listener {
             handleSingleQuest(npc, player, quest);
         } else {
             // 여러 퀘스트가 있는 경우 선택 GUI 표시
-            // TODO: Quest selection GUI
-            player.sendMessage(Component.text("이 NPC는 여러 퀘스트와 관련되어 있습니다.", ColorUtil.INFO));
+            List<Quest> quests = new ArrayList<>();
+            for (QuestID questId : questIds) {
+                Quest quest = questManager.getQuest(questId);
+                if (quest != null) {
+                    quests.add(quest);
+                }
+            }
+            QuestSelectionGui.create(plugin, player, quests, npc.getName()).open();
         }
 
     }
@@ -283,6 +336,12 @@ public class NPCInteractListener implements Listener {
                 .contains(questId);
         
         if (hasCompleted && !quest.isRepeatable()) {
+            // 보상을 받지 않은 경우는 보상 NPC로 안내
+            if (questManager.getUnclaimedRewardQuests(player.getUniqueId()).contains(questId)) {
+                player.sendMessage(Component.text("이 퀘스트는 완료했습니다. 보상 NPC를 찾아가세요.", ColorUtil.INFO));
+                return;
+            }
+            // 보상까지 모두 받은 경우만 완료 메시지 표시
             langManager.sendMessage(player, "quest.npc.already-completed");
             return;
         }
@@ -330,8 +389,8 @@ public class NPCInteractListener implements Listener {
      * Trait를 사용하는 상점 NPC 처리
      */
     private void handleShopNPCWithTrait(NPC npc, Player player, RPGShopTrait trait) {
-        // TODO: 상점 GUI 구현 후 열기
-        langManager.sendMessage(player, "general.coming-soon");
+        // 상점 GUI 열기
+        NPCShopGui.create(plugin, player, trait, npc.getName()).open();
     }
 
     /**
@@ -352,27 +411,34 @@ public class NPCInteractListener implements Listener {
         // 보상 수령 가능한 퀘스트 목록 가져오기
         List<QuestID> unclaimedQuests = questManager.getUnclaimedRewardQuests(player.getUniqueId());
         
-        if (unclaimedQuests.isEmpty()) {
+        // 미수령 보상이 있는 퀘스트도 추가
+        List<QuestID> questsWithUnclaimedItems = new ArrayList<>();
+        for (QuestID questId : QuestID.values()) {
+            if (questManager.getUnclaimedReward(player.getUniqueId(), questId) != null) {
+                questsWithUnclaimedItems.add(questId);
+            }
+        }
+        
+        // 중복 제거하고 합치기
+        java.util.Set<QuestID> allUnclaimedQuests = new java.util.HashSet<>(unclaimedQuests);
+        allUnclaimedQuests.addAll(questsWithUnclaimedItems);
+        
+        // 특정 퀘스트 ID가 설정된 경우
+        if (!trait.getQuestIds().isEmpty()) {
+            List<QuestID> npcQuests = trait.getQuestIds();
+            allUnclaimedQuests.retainAll(npcQuests); // NPC가 담당하는 퀘스트만 필터링
+        }
+        
+        // 보상 수령 가능한 퀘스트가 없는 경우
+        if (allUnclaimedQuests.isEmpty()) {
             langManager.sendMessage(player, "quest.reward.no-rewards");
             SoundUtil.playErrorSound(player);
             return;
         }
         
-        // 특정 퀘스트 ID가 설정된 경우
-        if (!trait.getQuestIds().isEmpty()) {
-            List<QuestID> npcQuests = trait.getQuestIds();
-            unclaimedQuests.retainAll(npcQuests); // NPC가 담당하는 퀘스트만 필터링
-            
-            if (unclaimedQuests.isEmpty()) {
-                langManager.sendMessage(player, "quest.reward.not-this-npc");
-                SoundUtil.playErrorSound(player);
-                return;
-            }
-        }
-        
         // 보상 수령 가능한 퀘스트가 1개인 경우 바로 보상 GUI 열기
-        if (unclaimedQuests.size() == 1) {
-            QuestID questId = unclaimedQuests.get(0);
+        if (allUnclaimedQuests.size() == 1) {
+            QuestID questId = allUnclaimedQuests.iterator().next();
             Quest quest = questManager.getQuest(questId);
             if (quest != null) {
                 com.febrie.rpg.gui.impl.quest.QuestRewardGui rewardGui = 
@@ -382,14 +448,33 @@ public class NPCInteractListener implements Listener {
             }
         } else {
             // 여러 개인 경우 선택 GUI 표시
-            // TODO: 퀘스트 선택 GUI 구현
-            player.sendMessage(Component.text("여러 퀘스트의 보상을 수령할 수 있습니다.", ColorUtil.INFO));
-            player.sendMessage(Component.text("보상 수령 가능 퀘스트:", ColorUtil.GOLD));
+            List<Quest> questsWithRewards = new ArrayList<>();
             for (QuestID questId : unclaimedQuests) {
                 Quest quest = questManager.getQuest(questId);
                 if (quest != null) {
+                    questsWithRewards.add(quest);
+                }
+            }
+            QuestSelectionGui.create(plugin, player, questsWithRewards, npc.getName()).open();
+            for (QuestID questId : allUnclaimedQuests) {
+                Quest quest = questManager.getQuest(questId);
+                if (quest != null) {
                     boolean isKorean = player.locale().getLanguage().equals("ko");
-                    player.sendMessage(Component.text("- " + quest.getDisplayName(isKorean), ColorUtil.UNCOMMON));
+                    String questName = quest.getDisplayName(isKorean);
+                    
+                    // 미수령 아이템이 있는 경우 표시
+                    if (questsWithUnclaimedItems.contains(questId)) {
+                        com.febrie.rpg.quest.reward.UnclaimedReward unclaimed = 
+                                questManager.getUnclaimedReward(player.getUniqueId(), questId);
+                        if (unclaimed != null) {
+                            long remainingMinutes = unclaimed.getRemainingTime() / 1000 / 60;
+                            player.sendMessage(Component.text("- " + questName, ColorUtil.UNCOMMON)
+                                    .append(Component.text(" (미수령 보상 ", ColorUtil.WARNING))
+                                    .append(Component.text(remainingMinutes + "분 남음)", ColorUtil.ERROR)));
+                        }
+                    } else {
+                        player.sendMessage(Component.text("- " + questName, ColorUtil.UNCOMMON));
+                    }
                 }
             }
         }

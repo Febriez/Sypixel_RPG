@@ -2,6 +2,7 @@ package com.febrie.rpg.island.manager;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.service.impl.IslandFirestoreService;
+import com.febrie.rpg.database.service.impl.PlayerIslandDataService;
 import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.island.IslandPlayer;
 import com.febrie.rpg.island.*;
@@ -29,13 +30,15 @@ public class IslandManager {
     private final IslandWorldManager worldManager;
     private final IslandService islandService;
     private final IslandCache cache;
+    private final IslandVisitTracker visitTracker;
     
-    public IslandManager(@NotNull RPGMain plugin, @Nullable IslandFirestoreService firestoreService) {
+    public IslandManager(@NotNull RPGMain plugin, @Nullable IslandFirestoreService firestoreService, @Nullable PlayerIslandDataService playerDataService) {
         this.plugin = plugin;
         this.worldManager = new IslandWorldManager(plugin);
         
-        this.islandService = new IslandService(firestoreService);
+        this.islandService = new IslandService(firestoreService, playerDataService);
         this.cache = new IslandCache();
+        this.visitTracker = new IslandVisitTracker(plugin, this);
     }
     
     /**
@@ -43,6 +46,14 @@ public class IslandManager {
      */
     public void initialize() {
         worldManager.initialize();
+        visitTracker.startTracking();
+    }
+    
+    /**
+     * 종료 처리
+     */
+    public void shutdown() {
+        visitTracker.stopTracking();
     }
     
     /**
@@ -394,6 +405,14 @@ public class IslandManager {
      */
     public IslandWorldManager getWorldManager() {
         return worldManager;
+    }
+    
+    /**
+     * VisitTracker 가져오기
+     */
+    @NotNull
+    public IslandVisitTracker getVisitTracker() {
+        return visitTracker;
     }
     
     /**

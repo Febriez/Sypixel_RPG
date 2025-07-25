@@ -1,0 +1,62 @@
+{
+  "spawn": {
+    "default-name": "Island Center"
+  },
+  "roles": {
+    "owner": "Owner",
+    "sub-owner": "Co-Owner", 
+    "member": "Member",
+    "worker": "Worker",
+    "visitor": "Visitor"
+  },
+  "permissions": {
+    "build": "Build",
+    "use-items": "Use Items",
+    "open-containers": "Open Containers",
+    "invite-members": "Invite Members",
+    "kick-members": "Kick Members",
+    "manage-workers": "Manage Workers",
+    "set-spawn": "Set Spawn",
+    "change-settings": "Change Settings"
+  },
+  "messages": {
+    "teleport-success": "Teleported to island!",
+    "teleport-fail": "Cannot teleport to island!",
+    "no-island": "You don't have an island yet!",
+    "island-info": {
+      "title": "==== Island System ====",
+      "no-island": "You don't have an island yet!",
+      "features": "Create an island to access the following features:",
+      "feature-1": "• Build freely on your own private island",
+      "feature-2": "• Invite friends to play together",
+      "feature-3": "• Upgrade your island for more space",
+      "feature-4": "• Set island warp points",
+      "create-guide": "How to create an island:",
+      "step-1": "1. Click the Island button in the main menu (/menu)",
+      "step-2": "2. Click the Create Island button to create a new island"
+    }
+  },
+  "gui": {
+    "main": {
+      "title": "Island Management",
+      "title-with-name": "Island Management - {name}",
+      "create-island": {
+        "title": "Create Island",
+        "no-island": "You don't have an island yet!",
+        "description": "Create an island to access the following features:",
+        "feature-1": "• Build freely on your own private island",
+        "feature-2": "• Invite friends to play together",
+        "feature-3": "• Upgrade your island for more space",
+        "feature-4": "• Set island warp points",
+        "contact-admin": "Contact an admin to create an island!"
+      }
+    },
+    "biome-selection": {
+      "title": "🌍 Select Biome"
+    },
+    "back-button": "◀ Back"
+  },
+  "error": {
+    "player-only": "This command can only be used by players."
+  }
+}

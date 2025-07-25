@@ -1,5 +1,9 @@
 package com.febrie.rpg.quest.reward;
 
+import com.febrie.rpg.RPGMain;
+import com.febrie.rpg.economy.CurrencyType;
+import com.febrie.rpg.player.RPGPlayer;
+import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -47,10 +51,14 @@ public class MixedReward implements QuestReward {
             player.giveExp((int) exp);
         }
         
-        // 돈 지급 (실제 경제 시스템 연동 필요)
+        // 돈 지급
         if (money > 0) {
-            // TODO: 경제 시스템과 연동
-            player.sendMessage(Component.text("+ " + money + " 코인", ColorUtil.GOLD));
+            RPGPlayerManager playerManager = RPGMain.getInstance().getRPGPlayerManager();
+            RPGPlayer rpgPlayer = playerManager.getPlayer(player);
+            if (rpgPlayer != null) {
+                rpgPlayer.getWallet().add(CurrencyType.GOLD, money);
+                player.sendMessage(Component.text("+ " + money + " 코인", ColorUtil.GOLD));
+            }
         }
     }
     

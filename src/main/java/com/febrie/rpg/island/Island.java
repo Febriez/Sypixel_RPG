@@ -4,6 +4,7 @@ import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.dto.island.IslandLocationDTO;
 import com.febrie.rpg.island.world.IslandWorldManager;
 import com.febrie.rpg.util.LogUtil;
+import com.febrie.rpg.util.LangManager;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
@@ -179,14 +180,88 @@ public class Island {
      * 멤버 추가
      */
     public void addMember(@NotNull String playerUuid, @NotNull String playerName, @NotNull IslandRole role) {
-        // 멤버 추가 로직 구현 필요
+        List<IslandMemberDTO> currentMembers = new java.util.ArrayList<>(islandData.members());
+        
+        // 이미 멤버인지 확인
+        boolean isMember = currentMembers.stream()
+                .anyMatch(m -> m.uuid().equals(playerUuid));
+        if (isMember) {
+            return;
+        }
+        
+        // 새 멤버 추가
+        IslandMemberDTO newMember = IslandMemberDTO.createNew(
+                playerUuid,
+                playerName,
+                role == IslandRole.CO_OWNER
+        );
+        currentMembers.add(newMember);
+        
+        // 기여도 맵에도 추가
+        Map<String, Long> contributions = new java.util.HashMap<>(islandData.contributions());
+        contributions.putIfAbsent(playerUuid, 0L);
+        
+        // 새로운 섬 데이터 생성
+        islandData = new IslandDTO(
+                islandData.islandId(),
+                islandData.ownerUuid(),
+                islandData.ownerName(),
+                islandData.islandName(),
+                islandData.size(),
+                islandData.isPublic(),
+                islandData.createdAt(),
+                System.currentTimeMillis(),
+                currentMembers,
+                islandData.workers(),
+                contributions,
+                islandData.spawnData(),
+                islandData.upgradeData(),
+                islandData.permissions(),
+                islandData.pendingInvites(),
+                islandData.recentVisits(),
+                islandData.totalResets(),
+                islandData.deletionScheduledAt(),
+                islandData.settings()
+        );
     }
     
     /**
      * 멤버 제거
      */
     public void removeMember(@NotNull String playerUuid) {
-        // 멤버 제거 로직 구현 필요
+        List<IslandMemberDTO> currentMembers = new java.util.ArrayList<>(islandData.members());
+        
+        // 멤버 제거
+        currentMembers.removeIf(m -> m.uuid().equals(playerUuid));
+        
+        // 알바 목록에서도 제거
+        List<IslandWorkerDTO> currentWorkers = new java.util.ArrayList<>(islandData.workers());
+        currentWorkers.removeIf(w -> w.uuid().equals(playerUuid));
+        
+        // 기여도는 유지 (기록 보존)
+        
+        // 새로운 섬 데이터 생성
+        islandData = new IslandDTO(
+                islandData.islandId(),
+                islandData.ownerUuid(),
+                islandData.ownerName(),
+                islandData.islandName(),
+                islandData.size(),
+                islandData.isPublic(),
+                islandData.createdAt(),
+                System.currentTimeMillis(),
+                currentMembers,
+                currentWorkers,
+                islandData.contributions(),
+                islandData.spawnData(),
+                islandData.upgradeData(),
+                islandData.permissions(),
+                islandData.pendingInvites(),
+                islandData.recentVisits(),
+                islandData.totalResets(),
+                islandData.deletionScheduledAt(),
+                islandData.settings()
+        );
     }
     
     /**
@@ -240,6 +315,26 @@ public class Island {
     // Setters
     public void setData(@NotNull IslandDTO data) { this.islandData = data; }
     public void setPublic(boolean isPublic) {
-        // isPublic 업데이트 로직 구현 필요
+        islandData = new IslandDTO(
+                islandData.islandId(),
+                islandData.ownerUuid(),
+                islandData.ownerName(),
+                islandData.islandName(),
+                islandData.size(),
+                isPublic,
+                islandData.createdAt(),
+                System.currentTimeMillis(),
+                islandData.members(),
+                islandData.workers(),
+                islandData.contributions(),
+                islandData.spawnData(),
+                islandData.upgradeData(),
+                islandData.permissions(),
+                islandData.pendingInvites(),
+                islandData.recentVisits(),
+                islandData.totalResets(),
+                islandData.deletionScheduledAt(),
+                islandData.settings()
+        );
     }
 }

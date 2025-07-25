@@ -4,6 +4,7 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.FirestoreManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.LogUtil;
+import com.febrie.rpg.util.LangManager;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -45,6 +46,7 @@ import java.util.regex.Pattern;
 public class SiteAccountCommand implements CommandExecutor {
 
     private final RPGMain plugin;
+    private final LangManager langManager;
 
     // 이메일 유효성 검사 패턴
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
@@ -71,6 +73,7 @@ public class SiteAccountCommand implements CommandExecutor {
 
     public SiteAccountCommand(@NotNull RPGMain plugin) {
         this.plugin = plugin;
+        this.langManager = plugin.getLangManager();
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
@@ -82,7 +85,7 @@ public class SiteAccountCommand implements CommandExecutor {
                              @NotNull String label, @NotNull String[] args) {
 
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(Component.text("이 명령어는 플레이어만 사용할 수 있습니다.", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.siteaccount.player-only"));
             return true;
         }
 
@@ -95,7 +98,7 @@ public class SiteAccountCommand implements CommandExecutor {
 
         // 이메일 유효성 검사
         if (!isValidEmail(email)) {
-            player.sendMessage(Component.text("올바른 이메일 형식이 아닙니다.", ColorUtil.ERROR));
+            player.sendMessage(langManager.getComponent(player, "commands.siteaccount.invalid-email"));
             sendUsage(player);
             return true;
         }
@@ -110,8 +113,7 @@ public class SiteAccountCommand implements CommandExecutor {
      * 사용법 안내
      */
     private void sendUsage(@NotNull Player player) {
-        player.sendMessage(Component.text("사용법: /사이트계정발급 <이메일>", ColorUtil.YELLOW));
-        player.sendMessage(Component.text("예시: /사이트계정발급 player@example.com", ColorUtil.GRAY));
+        player.sendMessage(langManager.getComponent(player, "commands.siteaccount.usage"));
     }
 
     /**
@@ -130,7 +132,7 @@ public class SiteAccountCommand implements CommandExecutor {
         boolean isAdmin = player.isOp();
 
         // 로딩 메시지 표시
-        player.sendMessage(Component.text("계정을 생성하는 중...", ColorUtil.YELLOW));
+        player.sendMessage(langManager.getComponent(player, "commands.siteaccount.processing"));
 
         // 비동기로 계정 생성 처리
         CompletableFuture.runAsync(() -> {
@@ -138,13 +140,13 @@ public class SiteAccountCommand implements CommandExecutor {
                 // 환경 변수 확인
                 String apiKey = System.getenv(ENV_WEB_API_KEY);
                 if (apiKey == null || apiKey.isEmpty()) {
-                    throw new IllegalStateException("Firebase Web API Key가 설정되지 않았습니다.");
+                    throw new IllegalStateException("Firebase Web API Key not configured.");
                 }
 
                 // 1. Player 컬렉션에서 siteAccountCreated 필드 확인으로 중복 계정 체크
                 if (checkSiteAccountExists(uuid).join()) {
                     plugin.getServer().getScheduler().runTask(plugin, () ->
-                            sendErrorMessage(player, "이미 사이트 계정이 발급되었습니다."));
+                            player.sendMessage(langManager.getComponent(player, "commands.siteaccount.already-exists")));
                     return;
                 }
 
@@ -169,7 +171,8 @@ public class SiteAccountCommand implements CommandExecutor {
             } catch (Exception e) {
                 LogUtil.error("사이트 계정 생성 중 오류 발생", e);
                 plugin.getServer().getScheduler().runTask(plugin, () ->
-                        sendErrorMessage(player, "계정 생성 중 오류가 발생했습니다: " + e.getMessage()));
+                        player.sendMessage(langManager.getComponent(player, "commands.siteaccount.error",
+                                "error", e.getMessage())));
             }
         });
     }

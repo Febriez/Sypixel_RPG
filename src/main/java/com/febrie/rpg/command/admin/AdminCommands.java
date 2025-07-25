@@ -8,6 +8,7 @@ import com.febrie.rpg.npc.trait.RPGQuestTrait;
 import com.febrie.rpg.npc.trait.RPGShopTrait;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
+import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.QuestID;
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import com.febrie.rpg.util.DateFormatUtil;
 
 /**
  * RPG 관리자 명령어 처리
@@ -73,7 +75,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                              @NotNull String label, @NotNull String[] args) {
 
         if (!sender.hasPermission("rpg.admin")) {
-            sender.sendMessage(Component.text("권한이 없습니다.", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.no-permission"));
             return true;
         }
 
@@ -105,34 +107,41 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
      * 사용법 표시
      */
     private void showUsage(@NotNull CommandSender sender) {
-        sender.sendMessage(Component.text("=== RPG Admin Commands ===", ColorUtil.GOLD));
-        sender.sendMessage(Component.text("/rpgadmin stats - 서버 통계 확인", ColorUtil.YELLOW));
-        sender.sendMessage(Component.text("/rpgadmin reload - 설정 리로드", ColorUtil.YELLOW));
-        sender.sendMessage(Component.text("/rpgadmin viewprofile <플레이어> - 프로필 확인", ColorUtil.YELLOW));
-        sender.sendMessage(Component.text("/rpgadmin exp give <플레이어> <경험치> - 경험치 지급", ColorUtil.YELLOW));
-        sender.sendMessage(Component.text("/rpgadmin level set <플레이어> <레벨> - 레벨 설정", ColorUtil.YELLOW));
-        sender.sendMessage(Component.text("/rpgadmin job set <플레이어> <직업> - 직업 설정", ColorUtil.YELLOW));
-        sender.sendMessage(Component.text("/rpgadmin npc set <퀘스트ID> - NPC에 퀘스트 설정", ColorUtil.YELLOW));
-        sender.sendMessage(Component.text("/rpgadmin npc setcode <npcID> [이름] - NPC Trait 등록 막대기 지급", ColorUtil.YELLOW));
-        sender.sendMessage(Component.text("/rpgadmin quest <give|list|reload> - 퀘스트 관리", ColorUtil.YELLOW));
-        sender.sendMessage(Component.text("/rpgadmin island <info|delete|reset|tp> <플레이어> - 섬 관리", ColorUtil.YELLOW));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.usage.title"));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.usage.stats"));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.usage.reload"));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.usage.viewprofile"));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.usage.exp"));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.usage.level"));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.usage.job"));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.usage.npc"));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.usage.npc-setcode"));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.usage.npc-reward"));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.usage.quest"));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.usage.island"));
     }
 
     /**
      * 통계 명령어 처리
      */
     private boolean handleStatsCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        sender.sendMessage(Component.text("=== RPG 서버 통계 ===", ColorUtil.GOLD));
-        sender.sendMessage(Component.text("온라인 플레이어: " + Bukkit.getOnlinePlayers().size(), ColorUtil.WHITE));
-        sender.sendMessage(Component.text("로드된 RPG 플레이어: " + playerManager.getAllPlayers().size(), ColorUtil.WHITE));
-        sender.sendMessage(Component.text("등록된 퀘스트: " + QuestID.values().length, ColorUtil.WHITE));
-        sender.sendMessage(Component.text("구현된 퀘스트: " + QuestRegistry.getImplementedCount(), ColorUtil.WHITE));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.stats.title"));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.stats.online-players",
+                "count", String.valueOf(Bukkit.getOnlinePlayers().size())));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.stats.loaded-players",
+                "count", String.valueOf(playerManager.getAllPlayers().size())));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.stats.registered-quests",
+                "count", String.valueOf(QuestID.values().length)));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.stats.implemented-quests",
+                "count", String.valueOf(QuestRegistry.getImplementedCount())));
 
         // 메모리 사용량
         Runtime runtime = Runtime.getRuntime();
         long usedMemory = (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024;
         long maxMemory = runtime.maxMemory() / 1024 / 1024;
-        sender.sendMessage(Component.text("메모리 사용량: " + usedMemory + "MB / " + maxMemory + "MB", ColorUtil.GRAY));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.stats.memory-usage",
+                "used", String.valueOf(usedMemory),
+                "max", String.valueOf(maxMemory)));
 
         return true;
     }
@@ -141,14 +150,17 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
      * 리로드 명령어 처리
      */
     private boolean handleReloadCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        sender.sendMessage(Component.text("설정을 리로드하는 중...", ColorUtil.YELLOW));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.reload.reloading"));
 
         // 언어 파일 리로드
         langManager.reload();
+        
+        // 퀘스트 리로드
+        questManager.reloadQuests();
+        
+        // 섬 설정 리로드 (추가 가능)
 
-        // TODO: 다른 설정 파일들도 리로드
-
-        sender.sendMessage(Component.text("설정 리로드 완료!", ColorUtil.SUCCESS));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.reload.success"));
         return true;
     }
 
@@ -158,33 +170,45 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
      */
     private boolean handleViewProfileCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length < 2) {
-            sender.sendMessage(Component.text("사용법: /rpgadmin viewprofile <플레이어>", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.usage"));
             return true;
         }
 
         Player target = Bukkit.getPlayer(args[1]);
         if (target == null) {
-            sender.sendMessage(Component.text("플레이어를 찾을 수 없습니다.", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-not-found"));
             return true;
         }
 
         RPGPlayer rpgPlayer = playerManager.getPlayer(target);
         if (rpgPlayer == null) {
-            sender.sendMessage(Component.text("RPG 플레이어 데이터를 찾을 수 없습니다.", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-data-not-found"));
             return true;
         }
 
         // 프로필 정보 표시
-        sender.sendMessage(Component.text("=== " + target.getName() + "의 프로필 ===", ColorUtil.GOLD));
-        sender.sendMessage(Component.text("레벨: " + rpgPlayer.getLevel(), ColorUtil.WHITE));
-        sender.sendMessage(Component.text("경험치: " + rpgPlayer.getExperience() + "/" + rpgPlayer.getExperienceToNextLevel(), ColorUtil.WHITE));
-        sender.sendMessage(Component.text("직업: " + (rpgPlayer.getJob() != null ? rpgPlayer.getJob().name() : "없음"), ColorUtil.WHITE));
-        sender.sendMessage(Component.text("골드: " + rpgPlayer.getWallet().getBalance(CurrencyType.GOLD), ColorUtil.GOLD));
-        sender.sendMessage(Component.text("다이아몬드: " + rpgPlayer.getWallet().getBalance(CurrencyType.DIAMOND), ColorUtil.AQUA));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.title",
+                "player", target.getName()));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.level",
+                "level", String.valueOf(rpgPlayer.getLevel())));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.exp",
+                "current", String.valueOf(rpgPlayer.getExperience()),
+                "next", String.valueOf(rpgPlayer.getExperienceToNextLevel())));
+        
+        String jobName = rpgPlayer.getJob() != null ? rpgPlayer.getJob().name() : 
+                langManager.getMessage(sender, "commands.admin.viewprofile.job-none");
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.job",
+                "job", jobName));
+        
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.gold",
+                "amount", String.valueOf(rpgPlayer.getWallet().getBalance(CurrencyType.GOLD))));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.diamond",
+                "amount", String.valueOf(rpgPlayer.getWallet().getBalance(CurrencyType.DIAMOND))));
 
         // 퀘스트 정보
         List<QuestProgress> activeQuests = questManager.getActiveQuests(target.getUniqueId());
-        sender.sendMessage(Component.text("진행중인 퀘스트: " + activeQuests.size() + "개", ColorUtil.YELLOW));
+        sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.active-quests",
+                "count", String.valueOf(activeQuests.size())));
 
         return true;
     }
@@ -194,35 +218,38 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
      */
     private boolean handleExpCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length < 4 || !args[1].equalsIgnoreCase("give")) {
-            sender.sendMessage(Component.text("사용법: /rpgadmin exp give <플레이어> <경험치>", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.exp.usage"));
             return true;
         }
 
         Player target = Bukkit.getPlayer(args[2]);
         if (target == null) {
-            sender.sendMessage(Component.text("플레이어를 찾을 수 없습니다.", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-not-found"));
             return true;
         }
 
         try {
             int amount = Integer.parseInt(args[3]);
             if (amount <= 0) {
-                sender.sendMessage(Component.text("경험치는 양수여야 합니다.", ColorUtil.ERROR));
+                sender.sendMessage(langManager.getComponent(sender, "commands.admin.exp.must-positive"));
                 return true;
             }
 
             RPGPlayer rpgPlayer = playerManager.getPlayer(target);
             if (rpgPlayer == null) {
-                sender.sendMessage(Component.text("RPG 플레이어 데이터를 찾을 수 없습니다.", ColorUtil.ERROR));
+                sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-data-not-found"));
                 return true;
             }
 
             rpgPlayer.addExperience(amount);
-            sender.sendMessage(Component.text(target.getName() + "에게 " + amount + " 경험치를 지급했습니다.", ColorUtil.SUCCESS));
-            target.sendMessage(Component.text(amount + " 경험치를 받았습니다!", ColorUtil.EMERALD));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.exp.success",
+                    "player", target.getName(),
+                    "amount", String.valueOf(amount)));
+            target.sendMessage(langManager.getComponent(target, "commands.admin.exp.received",
+                    "amount", String.valueOf(amount)));
 
         } catch (NumberFormatException e) {
-            sender.sendMessage(Component.text("올바른 숫자를 입력해주세요.", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.invalid-number"));
         }
 
         return true;
@@ -233,26 +260,26 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
      */
     private boolean handleLevelCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length < 4 || !args[1].equalsIgnoreCase("set")) {
-            sender.sendMessage(Component.text("사용법: /rpgadmin level set <플레이어> <레벨>", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.level.usage"));
             return true;
         }
 
         Player target = Bukkit.getPlayer(args[2]);
         if (target == null) {
-            sender.sendMessage(Component.text("플레이어를 찾을 수 없습니다.", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-not-found"));
             return true;
         }
 
         try {
             int level = Integer.parseInt(args[3]);
             if (level < 1 || level > 100) {
-                sender.sendMessage(Component.text("레벨은 1-100 사이여야 합니다.", ColorUtil.ERROR));
+                sender.sendMessage(langManager.getComponent(sender, "commands.admin.level.range"));
                 return true;
             }
 
             RPGPlayer rpgPlayer = playerManager.getPlayer(target);
             if (rpgPlayer == null) {
-                sender.sendMessage(Component.text("RPG 플레이어 데이터를 찾을 수 없습니다.", ColorUtil.ERROR));
+                sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-data-not-found"));
                 return true;
             }
 
@@ -263,11 +290,14 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             }
 
             rpgPlayer.setExperience(totalExp);
-            sender.sendMessage(Component.text(target.getName() + "의 레벨을 " + level + "로 설정했습니다.", ColorUtil.SUCCESS));
-            target.sendMessage(Component.text("레벨이 " + level + "로 설정되었습니다!", ColorUtil.GOLD));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.level.success",
+                    "player", target.getName(),
+                    "level", String.valueOf(level)));
+            target.sendMessage(langManager.getComponent(target, "commands.admin.level.set",
+                    "level", String.valueOf(level)));
 
         } catch (NumberFormatException e) {
-            sender.sendMessage(Component.text("올바른 숫자를 입력해주세요.", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.invalid-number"));
         }
 
         return true;
@@ -277,8 +307,55 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
      * 직업 명령어 처리
      */
     private boolean handleJobCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        // TODO: 직업 변경 구현
-        sender.sendMessage(Component.text("직업 변경 기능은 아직 구현되지 않았습니다.", ColorUtil.WARNING));
+        if (args.length < 3) {
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.usage"));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.available"));
+            return true;
+        }
+        
+        Player target = Bukkit.getPlayer(args[1]);
+        if (target == null) {
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-not-found"));
+            return true;
+        }
+        
+        String jobName = args[2].toUpperCase();
+        JobType newJob;
+        
+        try {
+            newJob = JobType.valueOf(jobName);
+        } catch (IllegalArgumentException e) {
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.invalid",
+                    "job", jobName));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.available"));
+            return true;
+        }
+        
+        RPGPlayer rpgPlayer = plugin.getRPGPlayerManager().getPlayer(target);
+        if (rpgPlayer == null) {
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-data-not-found"));
+            return true;
+        }
+        
+        JobType currentJob = rpgPlayer.getJob();
+        if (currentJob != null) {
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.already-has",
+                    "player", target.getName(),
+                    "job", currentJob.name()));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.need-reset"));
+            return true;
+        }
+        
+        if (rpgPlayer.setJob(newJob)) {
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.success",
+                    "player", target.getName(),
+                    "job", newJob.name()));
+            target.sendMessage(langManager.getComponent(target, "commands.admin.job.set",
+                    "job", newJob.name()));
+        } else {
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.failed"));
+        }
+        
         return true;
     }
 
@@ -287,20 +364,21 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
      */
     private boolean handleNpcCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(Component.text("플레이어만 사용할 수 있습니다.", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-only"));
             return true;
         }
 
         if (!Bukkit.getPluginManager().isPluginEnabled("Citizens")) {
-            sender.sendMessage(Component.text("Citizens 플러그인이 설치되어 있지 않습니다.", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.citizens-not-found"));
             return true;
         }
 
         if (args.length < 2) {
-            sender.sendMessage(Component.text("사용법:", ColorUtil.ERROR));
-            sender.sendMessage(Component.text("  /rpgadmin npc set <퀘스트ID>", ColorUtil.YELLOW));
-            sender.sendMessage(Component.text("  /rpgadmin npc setcode <npc코드>", ColorUtil.YELLOW));
-            sender.sendMessage(Component.text("  /rpgadmin npc list", ColorUtil.YELLOW));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.usage.title"));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.usage.set"));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.usage.setcode"));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.usage.reward"));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.usage.list"));
             return true;
         }
 
@@ -309,8 +387,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         switch (subCmd) {
             case "set" -> {
                 if (args.length < 3) {
-                    sender.sendMessage(Component.text("사용법: /rpgadmin npc set <퀘스트ID>", ColorUtil.ERROR));
-                    sender.sendMessage(Component.text("예시: /rpgadmin npc set TUTORIAL_FIRST_STEPS", ColorUtil.GRAY));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.set.usage"));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.set.example"));
                     return true;
                 }
 
@@ -322,8 +400,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                     com.febrie.rpg.npc.NPCTraitSetter.getInstance().prepareQuestTrait(player, questId);
                     
                 } catch (IllegalArgumentException e) {
-                    player.sendMessage(Component.text("잘못된 퀘스트 ID입니다: " + args[2], ColorUtil.ERROR));
-                    player.sendMessage(Component.text("사용 가능한 퀘스트 ID:", ColorUtil.YELLOW));
+                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.set.invalid-quest", "id", args[2]));
+                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.set.available"));
                     
                     // 모든 퀘스트 ID 나열
                     for (QuestID id : QuestID.values()) {
@@ -336,13 +414,13 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             case "setcode" -> {
                 // player 변수가 이미 정의되어 있으므로 타입 체크만
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(Component.text("이 명령어는 플레이어만 사용할 수 있습니다.", ColorUtil.ERROR));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-only"));
                     return true;
                 }
                 
                 if (args.length < 3) {
-                    sender.sendMessage(Component.text("사용법: /rpgadmin npc setcode <npcID> [이름]", ColorUtil.ERROR));
-                    sender.sendMessage(Component.text("예시: /rpgadmin npc setcode village_shopper 마을_상인", ColorUtil.GRAY));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.setcode.usage"));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.setcode.example"));
                     return true;
                 }
                 
@@ -350,8 +428,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                 
                 // NPC ID 유효성 검사 (영문 소문자와 언더스코어만 허용)
                 if (!npcId.matches("^[a-z_]+$")) {
-                    sender.sendMessage(Component.text("오류: NPC ID는 영문 소문자와 언더스코어(_)만 사용할 수 있습니다.", ColorUtil.ERROR));
-                    sender.sendMessage(Component.text("올바른 예시: village_shopper, first_npc, quest_giver", ColorUtil.GRAY));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.setcode.invalid-format"));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.setcode.format-example"));
                     return true;
                 }
                 
@@ -363,47 +441,87 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                 // 인벤토리가 가득 찬 경우 바닥에 드롭
                 if (player.getInventory().firstEmpty() == -1) {
                     player.getWorld().dropItem(player.getLocation(), traitItem);
-                    player.sendMessage(Component.text("인벤토리가 가득 차서 아이템을 바닥에 드롭했습니다.", ColorUtil.WARNING));
+                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.setcode.inventory-full"));
                 } else {
                     player.getInventory().addItem(traitItem);
                 }
                 
-                player.sendMessage(Component.text("✓ ", ColorUtil.SUCCESS)
-                        .append(Component.text("NPC Trait 등록기를 지급했습니다.", ColorUtil.COMMON)));
-                player.sendMessage(Component.text("NPC ID: ", ColorUtil.GRAY)
-                        .append(Component.text(npcId, ColorUtil.RARE)));
-                player.sendMessage(Component.text("표시 이름: ", ColorUtil.GRAY)
-                        .append(Component.text(displayName, ColorUtil.YELLOW)));
+                player.sendMessage(langManager.getComponent(player, "commands.admin.npc.setcode.success"));
+                player.sendMessage(langManager.getComponent(player, "commands.admin.npc.setcode.npc-id", "id", npcId));
+                player.sendMessage(langManager.getComponent(player, "commands.admin.npc.setcode.display-name", "name", displayName));
+            }
+            
+            case "reward" -> {
+                // player 변수가 이미 정의되어 있으므로 타입 체크만
+                if (!(sender instanceof Player)) {
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-only"));
+                    return true;
+                }
+                
+                if (args.length < 3) {
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.reward.usage"));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.reward.example"));
+                    return true;
+                }
+                
+                String rewardNpcId = args[2];
+                
+                // NPC ID 유효성 검사 (영문 소문자와 언더스코어만 허용)
+                if (!rewardNpcId.matches("^[a-z_]+$")) {
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.reward.invalid-format"));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.reward.format-example"));
+                    return true;
+                }
+                
+                String displayName = args.length > 3 ? String.join(" ", Arrays.copyOfRange(args, 3, args.length)) : rewardNpcId;
+                
+                // 보상 Trait 등록 막대기 생성
+                ItemStack rewardItem = com.febrie.rpg.quest.trait.RewardTraitRegistrationItem.createRegistrationItem(rewardNpcId, displayName);
+                
+                // 인벤토리가 가득 찬 경우 바닥에 드롭
+                if (player.getInventory().firstEmpty() == -1) {
+                    player.getWorld().dropItem(player.getLocation(), rewardItem);
+                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.reward.inventory-full"));
+                } else {
+                    player.getInventory().addItem(rewardItem);
+                }
+                
+                player.sendMessage(langManager.getComponent(player, "commands.admin.npc.reward.success"));
+                player.sendMessage(langManager.getComponent(player, "commands.admin.npc.reward.npc-id", "id", rewardNpcId));
+                player.sendMessage(langManager.getComponent(player, "commands.admin.npc.reward.display-name", "name", displayName));
             }
             
             case "list" -> {
-                sender.sendMessage(Component.text("=== Citizens NPC 목록 ===", ColorUtil.GOLD));
+                sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.list.title"));
                 int count = 0;
                 for (NPC npc : CitizensAPI.getNPCRegistry().sorted()) {
-                    Component npcInfo = Component.text(String.format("[%d] %s", npc.getId(), npc.getName()), ColorUtil.YELLOW);
+                    Component npcInfo = langManager.getComponent(sender, "commands.admin.npc.list.entry", 
+                            "id", String.valueOf(npc.getId()), 
+                            "name", npc.getName());
                     
                     // RPGQuestTrait 확인
                     if (npc.hasTrait(RPGQuestTrait.class)) {
                         RPGQuestTrait trait = npc.getTraitNullable(RPGQuestTrait.class);
                         if (trait.hasNpcId()) {
-                            npcInfo = npcInfo.append(Component.text(" - ID: " + trait.getNpcId(), ColorUtil.AQUA));
+                            npcInfo = npcInfo.append(langManager.getComponent(sender, "commands.admin.npc.list.id", "id", trait.getNpcId()));
                         }
                         if (!trait.getQuestIds().isEmpty()) {
-                            npcInfo = npcInfo.append(Component.text(" - 퀘스트: " + trait.getQuestIds().size() + "개", ColorUtil.GREEN));
+                            npcInfo = npcInfo.append(langManager.getComponent(sender, "commands.admin.npc.list.quests", "count", String.valueOf(trait.getQuestIds().size())));
                         }
                     }
                     
                     sender.sendMessage(npcInfo);
                     count++;
                 }
-                sender.sendMessage(Component.text("총 " + count + "개의 NPC", ColorUtil.GRAY));
+                sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.list.total", "count", String.valueOf(count)));
             }
             
             default -> {
-                sender.sendMessage(Component.text("사용법:", ColorUtil.ERROR));
-                sender.sendMessage(Component.text("  /rpgadmin npc set <퀘스트ID>", ColorUtil.YELLOW));
-                sender.sendMessage(Component.text("  /rpgadmin npc setcode <npcID>", ColorUtil.YELLOW));
-                sender.sendMessage(Component.text("  /rpgadmin npc list", ColorUtil.YELLOW));
+                sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.usage.title"));
+                sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.usage.set"));
+                sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.usage.setcode"));
+                sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.usage.reward"));
+                sender.sendMessage(langManager.getComponent(sender, "commands.admin.npc.usage.list"));
             }
         }
 
@@ -415,7 +533,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
      */
     private boolean handleQuestCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length < 2) {
-            sender.sendMessage(Component.text("사용법: /rpgadmin quest <give|list|reload> [플레이어] [퀘스트ID]", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.usage"));
             return true;
         }
 
@@ -424,13 +542,13 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         switch (subCommand) {
             case "give" -> {
                 if (args.length < 4) {
-                    sender.sendMessage(Component.text("사용법: /rpgadmin quest give <플레이어> <퀘스트ID>", ColorUtil.ERROR));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.give.usage"));
                     return true;
                 }
 
                 Player target = Bukkit.getPlayer(args[2]);
                 if (target == null) {
-                    sender.sendMessage(Component.text("플레이어를 찾을 수 없습니다.", ColorUtil.ERROR));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-not-found"));
                     return true;
                 }
 
@@ -439,33 +557,33 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                 try {
                     questId = QuestID.valueOf(args[3].toUpperCase());
                 } catch (IllegalArgumentException e) {
-                    sender.sendMessage(Component.text("올바르지 않은 퀘스트 ID입니다: " + args[3], ColorUtil.ERROR));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.give.invalid-id", "id", args[3]));
                     return true;
                 }
 
                 // 퀘스트 시작
                 if (questManager.startQuest(target, questId)) {
-                    sender.sendMessage(Component.text("퀘스트를 지급했습니다: " + questId.getDisplayName(), ColorUtil.SUCCESS));
-                    target.sendMessage(Component.text("새로운 퀘스트를 받았습니다: " + questId.getDisplayName(), ColorUtil.GOLD));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.give.success", "id", questId.name()));
+                    target.sendMessage(langManager.getComponent(target, "commands.admin.quest.give.received", "id", questId.name()));
                 } else {
-                    sender.sendMessage(Component.text("퀘스트를 시작할 수 없습니다. 이미 진행중이거나 조건을 충족하지 않습니다.", ColorUtil.ERROR));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.give.failed"));
                 }
             }
 
             case "list" -> {
-                sender.sendMessage(Component.text("=== 사용 가능한 퀘스트 목록 ===", ColorUtil.GOLD));
+                sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.list.title"));
 
                 for (QuestCategory category : QuestCategory.values()) {
-                    sender.sendMessage(Component.text("\n" + category.name() + ":", ColorUtil.YELLOW));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.list.category", "category", category.name()));
 
                     QuestID[] questIds = QuestID.getByCategory(category);
                     for (QuestID id : questIds) {
                         boolean implemented = QuestRegistry.isImplemented(id);
                         Component status = implemented
-                                ? Component.text(" ✓", ColorUtil.SUCCESS)
-                                : Component.text(" ✗", ColorUtil.ERROR);
+                                ? langManager.getComponent(sender, "commands.admin.quest.list.implemented")
+                                : langManager.getComponent(sender, "commands.admin.quest.list.not-implemented");
 
-                        sender.sendMessage(Component.text("  - " + id.name() + " (" + id.getDisplayName() + ")")
+                        sender.sendMessage(Component.text("  - " + id.name() + " (" + id.name() + ")")
                                 .append(status));
                     }
                 }
@@ -474,11 +592,11 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             case "reload" -> {
                 // 퀘스트 데이터 리로드 (언어 파일 등)
                 langManager.reload();
-                sender.sendMessage(Component.text("퀘스트 데이터를 리로드했습니다.", ColorUtil.SUCCESS));
+                sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.reload.success"));
             }
 
             default -> {
-                sender.sendMessage(Component.text("사용법: /rpgadmin quest <give|list|reload>", ColorUtil.ERROR));
+                sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.usage"));
             }
         }
 
@@ -490,17 +608,17 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
      */
     private boolean handleIslandCommand(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length < 2) {
-            sender.sendMessage(Component.text("사용법:", ColorUtil.ERROR));
-            sender.sendMessage(Component.text("  /rpgadmin island info <플레이어> - 플레이어의 섬 정보 확인", ColorUtil.YELLOW));
-            sender.sendMessage(Component.text("  /rpgadmin island delete <플레이어> - 플레이어의 섬 강제 삭제", ColorUtil.YELLOW));
-            sender.sendMessage(Component.text("  /rpgadmin island reset <플레이어> - 플레이어의 섬 강제 초기화", ColorUtil.YELLOW));
-            sender.sendMessage(Component.text("  /rpgadmin island tp <플레이어> - 플레이어의 섬으로 이동", ColorUtil.YELLOW));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.usage.title"));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.usage.info"));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.usage.delete"));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.usage.reset"));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.usage.tp"));
             return true;
         }
 
         String subCmd = args[1].toLowerCase();
         if (args.length < 3) {
-            sender.sendMessage(Component.text("플레이어 이름을 입력해주세요.", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.player-required"));
             return true;
         }
 
@@ -508,7 +626,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         Player target = Bukkit.getPlayer(targetName);
         
         if (target == null) {
-            sender.sendMessage(Component.text("플레이어를 찾을 수 없습니다.", ColorUtil.ERROR));
+            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-not-found"));
             return true;
         }
 
@@ -518,45 +636,48 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             case "info" -> {
                 islandManager.getPlayerIsland(targetUuid, targetName).thenAccept(island -> {
                     if (island == null) {
-                        sender.sendMessage(Component.text(targetName + "은(는) 섬을 소유하고 있지 않습니다.", ColorUtil.ERROR));
+                        sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.no-island", "player", targetName));
                         return;
                     }
 
-                    sender.sendMessage(Component.text("=== " + targetName + "의 섬 정보 ===", ColorUtil.GOLD));
-                    sender.sendMessage(Component.text("섬 ID: " + island.getId(), ColorUtil.WHITE));
-                    sender.sendMessage(Component.text("섬 이름: " + island.getName(), ColorUtil.WHITE));
-                    sender.sendMessage(Component.text("섬장: " + island.getOwnerName(), ColorUtil.WHITE));
-                    sender.sendMessage(Component.text("크기: " + island.getSize() + " x " + island.getSize(), ColorUtil.WHITE));
-                    sender.sendMessage(Component.text("멤버 수: " + (island.getData().members().size() + 1) + "/" + (island.getData().upgradeData().memberLimit() + 1), ColorUtil.WHITE));
-                    sender.sendMessage(Component.text("생성일: " + new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date(island.getData().createdAt())), ColorUtil.GRAY));
-                    sender.sendMessage(Component.text("총 초기화 횟수: " + island.getData().totalResets(), ColorUtil.GRAY));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.title", "player", targetName));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.id", "id", island.getId()));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.name", "name", island.getName()));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.owner", "owner", island.getOwnerName()));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.size", "size", String.valueOf(island.getSize())));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.members", 
+                            "current", String.valueOf(island.getData().members().size() + 1),
+                            "max", String.valueOf(island.getData().upgradeData().memberLimit() + 1)));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.created", 
+                            "date", DateFormatUtil.formatFullDateTimeFromMillis(island.getData().createdAt()) + ":" + String.format("%02d", java.time.LocalDateTime.ofInstant(java.time.Instant.ofEpochMilli(island.getData().createdAt()), java.time.ZoneId.systemDefault()).getSecond())));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.resets", "count", String.valueOf(island.getData().totalResets())));
                 });
             }
             
             case "delete" -> {
                 islandManager.getPlayerIsland(targetUuid, targetName).thenAccept(island -> {
                     if (island == null) {
-                        sender.sendMessage(Component.text(targetName + "은(는) 섬을 소유하고 있지 않습니다.", ColorUtil.ERROR));
+                        sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.no-island", "player", targetName));
                         return;
                     }
 
-                    sender.sendMessage(Component.text("섬을 삭제하는 중...", ColorUtil.YELLOW));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.delete.deleting"));
                     
                     islandManager.deleteIsland(island.getId()).thenAccept(success -> {
                         if (success) {
-                            sender.sendMessage(Component.text(targetName + "의 섬이 성공적으로 삭제되었습니다.", ColorUtil.SUCCESS));
+                            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.delete.success", "player", targetName));
                             
                             // 섬장이 온라인인 경우 스폰으로 이동
                             if (target.isOnline()) {
                                 plugin.getServer().getScheduler().runTask(plugin, () -> {
                                     if (!plugin.getServer().getWorlds().isEmpty()) {
                                         target.teleport(plugin.getServer().getWorlds().get(0).getSpawnLocation());
-                                        target.sendMessage(Component.text("관리자에 의해 섬이 삭제되었습니다.", ColorUtil.ERROR));
+                                        target.sendMessage(langManager.getComponent(target, "commands.admin.island.delete.owner-notify"));
                                     }
                                 });
                             }
                         } else {
-                            sender.sendMessage(Component.text("섬 삭제에 실패했습니다.", ColorUtil.ERROR));
+                            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.delete.failed"));
                         }
                     });
                 });
@@ -565,22 +686,22 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             case "reset" -> {
                 islandManager.getPlayerIsland(targetUuid, targetName).thenAccept(island -> {
                     if (island == null) {
-                        sender.sendMessage(Component.text(targetName + "은(는) 섬을 소유하고 있지 않습니다.", ColorUtil.ERROR));
+                        sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.no-island", "player", targetName));
                         return;
                     }
 
-                    sender.sendMessage(Component.text("섬을 초기화하는 중...", ColorUtil.YELLOW));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.reset.resetting"));
                     
                     islandManager.resetIsland(island.getId()).thenAccept(success -> {
                         if (success) {
-                            sender.sendMessage(Component.text(targetName + "의 섬이 성공적으로 초기화되었습니다.", ColorUtil.SUCCESS));
+                            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.reset.success", "player", targetName));
                             
                             // 섬장이 온라인인 경우 알림
                             if (target.isOnline()) {
-                                target.sendMessage(Component.text("관리자에 의해 섬이 초기화되었습니다.", ColorUtil.WARNING));
+                                target.sendMessage(langManager.getComponent(target, "commands.admin.island.reset.owner-notify"));
                             }
                         } else {
-                            sender.sendMessage(Component.text("섬 초기화에 실패했습니다.", ColorUtil.ERROR));
+                            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.reset.failed"));
                         }
                     });
                 });
@@ -588,20 +709,20 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             
             case "tp" -> {
                 if (!(sender instanceof Player admin)) {
-                    sender.sendMessage(Component.text("이 명령어는 플레이어만 사용할 수 있습니다.", ColorUtil.ERROR));
+                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-only"));
                     return true;
                 }
                 
                 islandManager.getPlayerIsland(targetUuid, targetName).thenAccept(island -> {
                     if (island == null) {
-                        sender.sendMessage(Component.text(targetName + "은(는) 섬을 소유하고 있지 않습니다.", ColorUtil.ERROR));
+                        sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.no-island", "player", targetName));
                         return;
                     }
 
                     plugin.getServer().getScheduler().runTask(plugin, () -> {
                         World islandWorld = islandManager.getWorldManager().getIslandWorld();
                         if (islandWorld == null) {
-                            sender.sendMessage(Component.text("섬 월드를 찾을 수 없습니다.", ColorUtil.ERROR));
+                            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.tp.world-not-found"));
                             return;
                         }
                         
@@ -613,7 +734,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             }
             
             default -> {
-                sender.sendMessage(Component.text("알 수 없는 하위 명령어입니다.", ColorUtil.ERROR));
+                sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.unknown-command"));
                 return true;
             }
         }
@@ -655,7 +776,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                     return List.of("set");
                 }
                 case "npc" -> {
-                    return Arrays.asList("set", "setcode", "list");
+                    return Arrays.asList("set", "setcode", "reward", "list");
                 }
                 case "quest" -> {
                     return Arrays.asList("give", "list", "reload");

@@ -85,7 +85,7 @@ public class MainMenuGui extends BaseGui {
     @Override
     public void updateNavigationButtons() {
         // 메인 메뉴는 뒤로가기 버튼 없음 - 항상 데코레이션 표시
-        setItem(BACK_BUTTON_SLOT, GuiFactory.createDecoration());
+        setItem(getBackButtonSlot(), GuiFactory.createDecoration());
     }
 
     /**
@@ -135,10 +135,10 @@ public class MainMenuGui extends BaseGui {
                 if (hubWorld != null) {
                     Location hubLocation = new Location(hubWorld, 0, 65, 0);
                     player.teleport(hubLocation);
-                    player.sendMessage(Component.text("허브로 이동했습니다!", ColorUtil.SUCCESS));
+                    sendMessage(player, "general.teleport.hub-success");
                     playClickSound(player);
                 } else {
-                    player.sendMessage(Component.text("허브 월드를 찾을 수 없습니다.", ColorUtil.ERROR));
+                    sendMessage(player, "general.error.hub-world-not-found");
                 }
             });
             
