@@ -120,27 +120,4 @@ public class RPGDialogTrait extends Trait {
         }
     }
 
-    /**
-     * Trait가 NPC에서 제거될 때 호출
-     */
-    @Override
-    public void onRemove() {
-        super.onRemove();
-    }
-
-    /**
-     * NPC가 스폰될 때 호출
-     */
-    @Override
-    public void onSpawn() {
-        super.onSpawn();
-    }
-
-    /**
-     * NPC가 디스폰될 때 호출
-     */
-    @Override
-    public void onDespawn() {
-        super.onDespawn();
-    }
 }

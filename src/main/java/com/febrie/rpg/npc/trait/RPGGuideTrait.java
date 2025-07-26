@@ -103,12 +103,6 @@ public class RPGGuideTrait extends Trait {
         return tipText;
     }
 
-    /**
-     * 플레이어가 NPC와 상호작용할 때 호출
-     */
-    public void onInteract(Player player) {
-        // 이 메서드는 NPCInteractListener에서 호출됩니다
-    }
 
     /**
      * Trait가 NPC에 추가될 때 호출
@@ -121,27 +115,4 @@ public class RPGGuideTrait extends Trait {
         }
     }
 
-    /**
-     * Trait가 NPC에서 제거될 때 호출
-     */
-    @Override
-    public void onRemove() {
-        super.onRemove();
-    }
-
-    /**
-     * NPC가 스폰될 때 호출
-     */
-    @Override
-    public void onSpawn() {
-        super.onSpawn();
-    }
-
-    /**
-     * NPC가 디스폰될 때 호출
-     */
-    @Override
-    public void onDespawn() {
-        super.onDespawn();
-    }
 }

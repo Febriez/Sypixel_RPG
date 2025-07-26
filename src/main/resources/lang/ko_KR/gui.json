@@ -319,6 +319,8 @@
     "inventory-full": "인벤토리가 가득 찼습니다",
     "not-enough-space": "인벤토리 공간이 부족합니다",
     "confirm-destroy": "정말로 모든 보상을 파괴하시겠습니까?",
+    "no-items": "보상 아이템이 없습니다",
+    "no-items-desc": "이 퀘스트는 아이템 보상이 없습니다",
     "all-claimed": "모든 보상을 수령했습니다!",
     "exp-received": "경험치 {amount} 획득!",
     "money-received": "코인 {amount} 획득!",

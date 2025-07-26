@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.player;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,29 +45,13 @@ public record TalentDTO(
      */
     @NotNull
     public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        // availablePoints
-        JsonObject availablePointsValue = new JsonObject();
-        availablePointsValue.addProperty("integerValue", availablePoints);
-        fields.add("availablePoints", availablePointsValue);
+        fields.add("availablePoints", JsonUtil.createIntegerValue(availablePoints));
+        fields.add("learnedTalents", JsonUtil.createMapField(learnedTalents, 
+                value -> JsonUtil.createIntegerValue(value)));
         
-        // learnedTalents 맵
-        JsonObject learnedTalentsValue = new JsonObject();
-        JsonObject mapValue = new JsonObject();
-        JsonObject talentsFields = new JsonObject();
-        learnedTalents.forEach((key, value) -> {
-            JsonObject intValue = new JsonObject();
-            intValue.addProperty("integerValue", value);
-            talentsFields.add(key, intValue);
-        });
-        mapValue.add("fields", talentsFields);
-        learnedTalentsValue.add("mapValue", mapValue);
-        fields.add("learnedTalents", learnedTalentsValue);
-        
-        json.add("fields", fields);
-        return json;
+        return JsonUtil.wrapInDocument(fields);
     }
     
     /**
@@ -78,24 +63,13 @@ public record TalentDTO(
             return new TalentDTO();
         }
         
-        JsonObject fields = json.getAsJsonObject("fields");
+        JsonObject fields = JsonUtil.unwrapDocument(json);
         
-        int availablePoints = fields.has("availablePoints") && fields.getAsJsonObject("availablePoints").has("integerValue")
-                ? fields.getAsJsonObject("availablePoints").get("integerValue").getAsInt()
-                : 0;
+        int availablePoints = JsonUtil.getIntegerValue(fields, "availablePoints", 0);
         
-        Map<String, Integer> learnedTalents = new HashMap<>();
-        if (fields.has("learnedTalents") && fields.getAsJsonObject("learnedTalents").has("mapValue")) {
-            JsonObject mapValue = fields.getAsJsonObject("learnedTalents").getAsJsonObject("mapValue");
-            if (mapValue.has("fields")) {
-                JsonObject talentFields = mapValue.getAsJsonObject("fields");
-                talentFields.entrySet().forEach(entry -> {
-                    if (entry.getValue().isJsonObject() && entry.getValue().getAsJsonObject().has("integerValue")) {
-                        learnedTalents.put(entry.getKey(), entry.getValue().getAsJsonObject().get("integerValue").getAsInt());
-                    }
-                });
-            }
-        }
+        Map<String, Integer> learnedTalents = JsonUtil.getMapField(fields, "learnedTalents",
+                key -> key,
+                obj -> JsonUtil.getIntegerValue(obj, "integerValue", 0));
         
         return new TalentDTO(availablePoints, learnedTalents);
     }

@@ -10,6 +10,7 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementDispla
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,90 +21,91 @@ import java.util.List;
  */
 @SuppressWarnings("deprecation") // UltimateAdvancementAPI uses Bungee ChatColor
 public class ToastUtil {
-    
+
     private static final UltimateAdvancementAPI api = UltimateAdvancementAPI.getInstance(RPGMain.getPlugin());
-    
+    private static final LangManager langManager = RPGMain.getPlugin().getLangManager();
+
     /**
      * 퀘스트 진행도 Toast 표시
-     * 
-     * @param player 플레이어
-     * @param quest 퀘스트
+     *
+     * @param player   플레이어
+     * @param quest    퀘스트
      * @param progress 퀘스트 진행도
      */
-    public static void showQuestProgressToast(Player player, Quest quest, QuestProgress progress) {
+    public static void showQuestProgressToast(@NotNull Player player, @NotNull Quest quest, QuestProgress progress) {
         boolean isKorean = player.locale().getLanguage().equals("ko");
         String questName = quest.getDisplayName(isKorean);
-        
+
         // 진행도 정보 생성
         List<String> progressInfo = new ArrayList<>();
         List<QuestObjective> objectives = quest.getObjectives();
-        
+
         for (QuestObjective objective : objectives) {
             ObjectiveProgress objProgress = progress.getObjectiveProgress(objective.getId());
             if (objProgress != null) {
                 String objDesc = quest.getObjectiveDescription(objective, isKorean);
-                String progressText = objProgress.isCompleted() 
-                    ? "✓ " + objDesc
-                    : String.format("• %s (%d/%d)", objDesc, objProgress.getCurrentValue(), objProgress.getRequiredAmount());
+                String progressText = objProgress.isCompleted()
+                        ? "✓ " + objDesc
+                        : String.format("• %s (%d/%d)", objDesc, objProgress.getCurrentValue(), objProgress.getRequiredAmount());
                 progressInfo.add(progressText);
             }
         }
-        
+
         // 전체 진행률
         int percentage = progress.getCompletionPercentage();
         progressInfo.add("");
-        progressInfo.add(String.format("%s: %d%%", isKorean ? "전체 진행률" : "Total Progress", percentage));
-        
+        progressInfo.add(String.format("%s: %d%%", langManager.getMessage(player, "quest.total-progress"), percentage));
+
         // Toast 표시
         AdvancementDisplay display = new AdvancementDisplay.Builder(Material.WRITABLE_BOOK, questName)
                 .description(String.join("\n", progressInfo))
                 .frame(AdvancementFrameType.TASK)
                 .defaultColor(net.md_5.bungee.api.ChatColor.AQUA)
                 .build();
-        
+
         api.displayCustomToast(player, display);
     }
-    
+
     /**
      * 퀘스트 목표 완료 Toast 표시
-     * 
-     * @param player 플레이어
-     * @param quest 퀘스트
+     *
+     * @param player    플레이어
+     * @param quest     퀘스트
      * @param objective 완료된 목표
      */
-    public static void showObjectiveCompleteToast(Player player, Quest quest, QuestObjective objective) {
+    public static void showObjectiveCompleteToast(@NotNull Player player, @NotNull Quest quest, QuestObjective objective) {
         boolean isKorean = player.locale().getLanguage().equals("ko");
         String questName = quest.getDisplayName(isKorean);
         String objectiveDesc = quest.getObjectiveDescription(objective, isKorean);
-        
+
         // Toast 표시 - 제목: 퀘스트 이름, 내용: 목표 완료 메시지
         AdvancementDisplay display = new AdvancementDisplay.Builder(Material.EMERALD, questName)
-                .description(objectiveDesc + (isKorean ? " 달성!" : " Complete!"))
+                .description(objectiveDesc + langManager.getMessage(player, "quest.objective-achieved"))
                 .frame(AdvancementFrameType.TASK)
                 .defaultColor(net.md_5.bungee.api.ChatColor.GREEN)
                 .build();
-        
+
         api.displayCustomToast(player, display);
     }
-    
+
     /**
      * 퀘스트 전체 완료 Toast 표시
-     * 
+     *
      * @param player 플레이어
-     * @param quest 완료된 퀘스트
+     * @param quest  완료된 퀘스트
      */
-    public static void showQuestCompleteToast(Player player, Quest quest) {
+    public static void showQuestCompleteToast(@NotNull Player player, @NotNull Quest quest) {
         boolean isKorean = player.locale().getLanguage().equals("ko");
         String questName = quest.getDisplayName(isKorean);
-        String description = isKorean ? "퀘스트를 완료했습니다!" : "Quest completed!";
-        
+        String description = langManager.getMessage(player, "quest.quest-completed-toast");
+
         // Toast 표시
         AdvancementDisplay display = new AdvancementDisplay.Builder(Material.NETHER_STAR, questName)
                 .description(description)
                 .frame(AdvancementFrameType.CHALLENGE)
                 .defaultColor(net.md_5.bungee.api.ChatColor.GOLD)
                 .build();
-        
+
         api.displayCustomToast(player, display);
     }
 }

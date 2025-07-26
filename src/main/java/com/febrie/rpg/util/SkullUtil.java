@@ -55,7 +55,6 @@ public class SkullUtil {
      * @param playerName The name of the player
      * @return The skull ItemStack
      */
-    @SuppressWarnings("deprecation")
     public static ItemStack getSkullFromName(@NotNull String playerName) {
         OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
         return getSkullFromPlayer(player);

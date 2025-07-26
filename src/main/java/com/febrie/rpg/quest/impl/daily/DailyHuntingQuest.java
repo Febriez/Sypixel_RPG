@@ -1,5 +1,6 @@
 package com.febrie.rpg.quest.impl.daily;
 
+import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
@@ -8,6 +9,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
@@ -74,54 +76,26 @@ public class DailyHuntingQuest extends Quest {
 
     @Override
     public @NotNull String getDisplayName(boolean isKorean) {
-        return isKorean ? "일일 사냥" : "Daily Hunting";
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
+        return langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.daily.hunting.name");
     }
 
     @Override
     public @NotNull List<String> getDisplayInfo(boolean isKorean) {
-        if (isKorean) {
-            return Arrays.asList(
-                    "오늘의 사냥 목표를 완료하세요.",
-                    "매일 자정에 리셋됩니다.",
-                    "",
-                    "목표:",
-                    "• 좀비 20마리 처치",
-                    "• 스켈레톤 15마리 처치",
-                    "• 크리퍼 10마리 처치",
-                    "",
-                    "보상:",
-                    "• 골드 200",
-                    "• 화살 64개",
-                    "• 익힌 소고기 32개",
-                    "• 경험치 150"
-            );
-        } else {
-            return Arrays.asList(
-                    "Complete today's hunting objectives.",
-                    "Resets daily at midnight.",
-                    "",
-                    "Objectives:",
-                    "• Kill 20 zombies",
-                    "• Kill 15 skeletons",
-                    "• Kill 10 creepers",
-                    "",
-                    "Rewards:",
-                    "• 200 Gold",
-                    "• 64 Arrows",
-                    "• 32 Cooked Beef",
-                    "• 150 Experience"
-            );
-        }
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
+        String description = langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.daily.hunting.description");
+        return Arrays.asList(description.split("\n"));
     }
 
     @Override
     public @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean) {
         String id = objective.getId();
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
 
         return switch (id) {
-            case "kill_zombies" -> isKorean ? "좀비 20마리 처치" : "Kill 20 zombies";
-            case "kill_skeletons" -> isKorean ? "스켈레톤 15마리 처치" : "Kill 15 skeletons";
-            case "kill_creepers" -> isKorean ? "크리퍼 10마리 처치" : "Kill 10 creepers";
+            case "kill_zombies" -> langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.daily.hunting.objectives.kill_zombies");
+            case "kill_skeletons" -> langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.daily.hunting.objectives.kill_skeletons");
+            case "kill_creepers" -> langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.daily.hunting.objectives.kill_creepers");
             default -> objective.getStatusInfo(null);
         };
     }

@@ -159,7 +159,6 @@ public class NPCInteractListener implements Listener {
             
             // 받을 보상이 있으면 보상 처리를 우선적으로 수행
             if (hasRewardsToClaimFromThisNPC) {
-                rewardTrait.onInteract(player);
                 handleQuestRewardNPCWithTrait(npc, player, rewardTrait);
                 return;
             }
@@ -168,23 +167,18 @@ public class NPCInteractListener implements Listener {
         // 기존 trait 처리 - 퀘스트를 먼저 처리
         if (npc.hasTrait(RPGQuestTrait.class)) {
             RPGQuestTrait questTrait = npc.getOrAddTrait(RPGQuestTrait.class);
-            questTrait.onInteract(player);
-            
-            
             handleQuestNPCWithTrait(npc, player, questTrait);
             return;
         }
 
         if (npc.hasTrait(RPGShopTrait.class)) {
             RPGShopTrait shopTrait = npc.getOrAddTrait(RPGShopTrait.class);
-            shopTrait.onInteract(player);
             handleShopNPCWithTrait(npc, player, shopTrait);
             return;
         }
 
         if (npc.hasTrait(RPGGuideTrait.class)) {
             RPGGuideTrait guideTrait = npc.getOrAddTrait(RPGGuideTrait.class);
-            guideTrait.onInteract(player);
             handleGuideNPCWithTrait(npc, player, guideTrait);
             return;
         }

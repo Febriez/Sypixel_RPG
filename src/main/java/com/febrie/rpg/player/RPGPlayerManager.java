@@ -463,7 +463,7 @@ public class RPGPlayerManager implements Listener {
             
             // 모든 저장 작업이 완료될 때까지 대기 (최대 10초)
             CompletableFuture<Void> allFutures = CompletableFuture.allOf(
-                    saveFutures.toArray(new CompletableFuture[0]));
+                    saveFutures.toArray(new CompletableFuture<?>[0]));
             
             allFutures.get(10, TimeUnit.SECONDS);
             

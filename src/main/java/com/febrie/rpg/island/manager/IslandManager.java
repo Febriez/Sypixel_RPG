@@ -30,7 +30,7 @@ public class IslandManager {
     private final IslandWorldManager worldManager;
     private final IslandService islandService;
     private final IslandCache cache;
-    private final IslandVisitTracker visitTracker;
+    private IslandVisitTracker visitTracker;
     
     public IslandManager(@NotNull RPGMain plugin, @Nullable IslandFirestoreService firestoreService, @Nullable PlayerIslandDataService playerDataService) {
         this.plugin = plugin;
@@ -38,7 +38,8 @@ public class IslandManager {
         
         this.islandService = new IslandService(firestoreService, playerDataService);
         this.cache = new IslandCache();
-        this.visitTracker = new IslandVisitTracker(plugin, this);
+        // this escape 경고 방지 - initialize()에서 생성
+        this.visitTracker = null;
     }
     
     /**
@@ -46,6 +47,8 @@ public class IslandManager {
      */
     public void initialize() {
         worldManager.initialize();
+        // visitTracker 초기화
+        this.visitTracker = new IslandVisitTracker(plugin, this);
         visitTracker.startTracking();
     }
     
@@ -53,7 +56,9 @@ public class IslandManager {
      * 종료 처리
      */
     public void shutdown() {
-        visitTracker.stopTracking();
+        if (visitTracker != null) {
+            visitTracker.stopTracking();
+        }
     }
     
     /**

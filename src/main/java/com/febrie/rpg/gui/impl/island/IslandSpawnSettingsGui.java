@@ -6,6 +6,7 @@ import com.febrie.rpg.dto.island.IslandSpawnDTO;
 import com.febrie.rpg.gui.BaseGui;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -221,17 +222,8 @@ public class IslandSpawnSettingsGui extends BaseGui {
                 island.spawnData().memberSpawns()
         );
         
-        // 섬 업데이트
-        IslandDTO updated = new IslandDTO(
-                island.islandId(), island.ownerUuid(), island.ownerName(),
-                island.islandName(), island.size(), island.isPublic(),
-                island.createdAt(), System.currentTimeMillis(),
-                island.members(), island.workers(), island.contributions(),
-                newSpawn, island.upgradeData(), island.permissions(),
-                island.pendingInvites(), island.recentVisits(),
-                island.totalResets(), island.deletionScheduledAt(),
-                island.settings()
-        );
+        // 섬 업데이트 - GuiHandlerUtil 사용
+        IslandDTO updated = GuiHandlerUtil.updateIslandSpawn(island, newSpawn);
         
         islandManager.updateIsland(updated);
         player.sendMessage(ColorUtil.colorize("&a메인 스폰이 설정되었습니다!"));
@@ -248,17 +240,8 @@ public class IslandSpawnSettingsGui extends BaseGui {
         // 기본 스폰으로 초기화
         IslandSpawnDTO newSpawn = IslandSpawnDTO.createDefault();
         
-        // 섬 업데이트
-        IslandDTO updated = new IslandDTO(
-                island.islandId(), island.ownerUuid(), island.ownerName(),
-                island.islandName(), island.size(), island.isPublic(),
-                island.createdAt(), System.currentTimeMillis(),
-                island.members(), island.workers(), island.contributions(),
-                newSpawn, island.upgradeData(), island.permissions(),
-                island.pendingInvites(), island.recentVisits(),
-                island.totalResets(), island.deletionScheduledAt(),
-                island.settings()
-        );
+        // 섬 업데이트 - GuiHandlerUtil 사용
+        IslandDTO updated = GuiHandlerUtil.updateIslandSpawn(island, newSpawn);
         
         islandManager.updateIsland(updated);
         player.sendMessage(ColorUtil.colorize("&a스폰 설정이 초기화되었습니다!"));

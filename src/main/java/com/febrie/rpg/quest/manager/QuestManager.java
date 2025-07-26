@@ -12,6 +12,8 @@ import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.registry.QuestRegistry;
 import com.febrie.rpg.quest.reward.UnclaimedReward;
+import com.febrie.rpg.quest.reward.QuestReward;
+import com.febrie.rpg.quest.reward.MixedReward;
 import com.febrie.rpg.quest.task.LocationCheckTask;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.SoundUtil;
@@ -279,7 +281,7 @@ public class QuestManager {
 
         // 채팅 메시지
         boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
-        player.sendMessage(Component.text(isKorean ? "📋 새로운 퀘스트 시작: " : "📋 New quest started: ", ColorUtil.GOLD)
+        player.sendMessage(Component.text(plugin.getLangManager().getMessage(player, "quest.started"), ColorUtil.GOLD)
                 .append(Component.text(quest.getDisplayName(isKorean), ColorUtil.RARE)));
 
         // 소리 재생
@@ -400,6 +402,17 @@ public class QuestManager {
         // 보상은 지급하지 않음 (NPC를 통해 수령)
         Quest quest = getQuest(questId);
         if (quest != null) {
+            // 보상 아이템 저장
+            QuestReward questReward = quest.getReward();
+            if (questReward instanceof MixedReward mixedReward) {
+                List<ItemStack> rewardItems = mixedReward.getItems();
+                
+                // UnclaimedReward 생성 및 저장
+                if (!rewardItems.isEmpty()) {
+                    saveUnclaimedReward(playerId, questId, rewardItems);
+                }
+            }
+            
             // 토스트 알림 표시
             ToastUtil.showQuestProgressToast(player, quest, progress);
 
@@ -407,8 +420,8 @@ public class QuestManager {
             boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
             player.sendMessage(Component.text("🎉 ", ColorUtil.GOLD)
                     .append(Component.text(quest.getDisplayName(isKorean), ColorUtil.LEGENDARY))
-                    .append(Component.text(isKorean ? " 퀘스트를 완료했습니다!" : " quest completed!", ColorUtil.SUCCESS)));
-            player.sendMessage(Component.text(isKorean ? "🎁 보상 NPC를 방문하여 보상을 수령하세요!" : "🎁 Visit the reward NPC to claim your rewards!", ColorUtil.INFO));
+                    .append(Component.text(plugin.getLangManager().getMessage(player, "quest.completed"), ColorUtil.SUCCESS)));
+            player.sendMessage(Component.text(plugin.getLangManager().getMessage(player, "quest.reward-npc-visit"), ColorUtil.INFO));
 
             // 소리 재생 (레벨업 사운드)
             SoundUtil.playSuccessSound(player);
@@ -633,7 +646,7 @@ public class QuestManager {
         
         // 모든 저장 작업이 완료될 때까지 대기 (최대 10초)
         try {
-            CompletableFuture.allOf(saveFutures.toArray(new CompletableFuture[0]))
+            CompletableFuture.allOf(saveFutures.toArray(new CompletableFuture<?>[0]))
                     .get(10, TimeUnit.SECONDS);
             plugin.getLogger().info("모든 퀘스트 데이터 저장 완료!");
         } catch (Exception e) {

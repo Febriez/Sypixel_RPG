@@ -161,7 +161,11 @@ public class SocialSettingsGui extends BaseGui {
                     settings.setFriendRequestsEnabled(!enabled);
                     updateFriendRequestsToggle(settings);
                     playClickSound(p);
-                    langManager.sendMessage(p, "친구 요청 받기가 " + (settings.isFriendRequestsEnabled() ? "활성화" : "비활성화") + "되었습니다");
+                    if (settings.isFriendRequestsEnabled()) {
+                        langManager.sendMessage(p, "settings.social.friend-requests-enabled");
+                    } else {
+                        langManager.sendMessage(p, "settings.social.friend-requests-disabled");
+                    }
                 }
         );
         setItem(FRIEND_REQUESTS_SLOT, friendRequestsToggle);
@@ -192,7 +196,11 @@ public class SocialSettingsGui extends BaseGui {
                     settings.setGuildInvitesEnabled(!enabled);
                     updateGuildInvitesToggle(settings);
                     playClickSound(p);
-                    langManager.sendMessage(p, "길드 초대 받기가 " + (settings.isGuildInvitesEnabled() ? "활성화" : "비활성화") + "되었습니다");
+                    if (settings.isGuildInvitesEnabled()) {
+                        langManager.sendMessage(p, "settings.social.guild-invites-enabled");
+                    } else {
+                        langManager.sendMessage(p, "settings.social.guild-invites-disabled");
+                    }
                 }
         );
         setItem(GUILD_INVITES_SLOT, guildInvitesToggle);

@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.quest;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -60,52 +61,21 @@ public record QuestProgressDTO(
      */
     @NotNull
     public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        JsonObject questIdValue = new JsonObject();
-        questIdValue.addProperty("stringValue", questId);
-        fields.add("questId", questIdValue);
-        
-        JsonObject playerIdValue = new JsonObject();
-        playerIdValue.addProperty("stringValue", playerId);
-        fields.add("playerId", playerIdValue);
-        
-        JsonObject stateValue = new JsonObject();
-        stateValue.addProperty("stringValue", state);
-        fields.add("state", stateValue);
-        
-        JsonObject currentObjectiveIndexValue = new JsonObject();
-        currentObjectiveIndexValue.addProperty("integerValue", currentObjectiveIndex);
-        fields.add("currentObjectiveIndex", currentObjectiveIndexValue);
-        
-        JsonObject startedAtValue = new JsonObject();
-        startedAtValue.addProperty("integerValue", startedAt);
-        fields.add("startedAt", startedAtValue);
-        
-        JsonObject lastUpdatedAtValue = new JsonObject();
-        lastUpdatedAtValue.addProperty("integerValue", lastUpdatedAt);
-        fields.add("lastUpdatedAt", lastUpdatedAtValue);
-        
-        JsonObject completedAtValue = new JsonObject();
-        completedAtValue.addProperty("integerValue", completedAt);
-        fields.add("completedAt", completedAtValue);
+        fields.add("questId", JsonUtil.createStringValue(questId));
+        fields.add("playerId", JsonUtil.createStringValue(playerId));
+        fields.add("state", JsonUtil.createStringValue(state));
+        fields.add("currentObjectiveIndex", JsonUtil.createIntegerValue(currentObjectiveIndex));
+        fields.add("startedAt", JsonUtil.createIntegerValue(startedAt));
+        fields.add("lastUpdatedAt", JsonUtil.createIntegerValue(lastUpdatedAt));
+        fields.add("completedAt", JsonUtil.createIntegerValue(completedAt));
         
         // objectives 맵
-        JsonObject objectivesValue = new JsonObject();
-        JsonObject mapValue = new JsonObject();
-        JsonObject objectivesFields = new JsonObject();
-        objectives.forEach((key, value) -> {
-            JsonObject nestedMapValue = new JsonObject();
-            nestedMapValue.add("fields", value.toJsonObject().getAsJsonObject("fields"));
-            objectivesFields.add(key, nestedMapValue);
-        });
-        mapValue.add("fields", objectivesFields);
-        objectivesValue.add("mapValue", mapValue);
-        fields.add("objectives", objectivesValue);
+        fields.add("objectives", JsonUtil.createMapField(objectives,
+                value -> value.toJsonObject()));
         
-        json.add("fields", fields);
-        return json;
+        return JsonUtil.wrapInDocument(fields);
     }
     
     /**
@@ -117,50 +87,24 @@ public record QuestProgressDTO(
             return new QuestProgressDTO("", "");
         }
         
-        JsonObject fields = json.getAsJsonObject("fields");
+        JsonObject fields = JsonUtil.unwrapDocument(json);
         
-        String questId = fields.has("questId") && fields.getAsJsonObject("questId").has("stringValue")
-                ? fields.getAsJsonObject("questId").get("stringValue").getAsString()
-                : "";
-                
-        String playerId = fields.has("playerId") && fields.getAsJsonObject("playerId").has("stringValue")
-                ? fields.getAsJsonObject("playerId").get("stringValue").getAsString()
-                : "";
-                
-        String state = fields.has("state") && fields.getAsJsonObject("state").has("stringValue")
-                ? fields.getAsJsonObject("state").get("stringValue").getAsString()
-                : "ACTIVE";
-                
-        int currentObjectiveIndex = fields.has("currentObjectiveIndex") && fields.getAsJsonObject("currentObjectiveIndex").has("integerValue")
-                ? fields.getAsJsonObject("currentObjectiveIndex").get("integerValue").getAsInt()
-                : 0;
-                
-        long startedAt = fields.has("startedAt") && fields.getAsJsonObject("startedAt").has("integerValue")
-                ? fields.getAsJsonObject("startedAt").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
-                
-        long lastUpdatedAt = fields.has("lastUpdatedAt") && fields.getAsJsonObject("lastUpdatedAt").has("integerValue")
-                ? fields.getAsJsonObject("lastUpdatedAt").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
-                
-        long completedAt = fields.has("completedAt") && fields.getAsJsonObject("completedAt").has("integerValue")
-                ? fields.getAsJsonObject("completedAt").get("integerValue").getAsLong()
-                : 0L;
-                
-        Map<String, ObjectiveProgressDTO> objectives = new HashMap<>();
-        if (fields.has("objectives") && fields.getAsJsonObject("objectives").has("mapValue")) {
-            JsonObject mapValue = fields.getAsJsonObject("objectives").getAsJsonObject("mapValue");
-            if (mapValue.has("fields")) {
-                JsonObject objectivesFields = mapValue.getAsJsonObject("fields");
-                objectivesFields.entrySet().forEach(entry -> {
-                    if (entry.getValue().isJsonObject()) {
-                        JsonObject nestedDoc = new JsonObject();
-                        nestedDoc.add("fields", entry.getValue().getAsJsonObject().get("fields"));
-                        objectives.put(entry.getKey(), ObjectiveProgressDTO.fromJsonObject(nestedDoc));
-                    }
+        String questId = JsonUtil.getStringValue(fields, "questId", "");
+        String playerId = JsonUtil.getStringValue(fields, "playerId", "");
+        String state = JsonUtil.getStringValue(fields, "state", "ACTIVE");
+        int currentObjectiveIndex = JsonUtil.getIntegerValue(fields, "currentObjectiveIndex", 0);
+        long startedAt = JsonUtil.getLongValue(fields, "startedAt", System.currentTimeMillis());
+        long lastUpdatedAt = JsonUtil.getLongValue(fields, "lastUpdatedAt", System.currentTimeMillis());
+        long completedAt = JsonUtil.getLongValue(fields, "completedAt", 0L);
+        
+        // objectives 맵
+        Map<String, ObjectiveProgressDTO> objectives = JsonUtil.getMapField(fields, "objectives",
+                key -> key,
+                obj -> {
+                    JsonObject nestedDoc = new JsonObject();
+                    nestedDoc.add("fields", obj.get("fields"));
+                    return ObjectiveProgressDTO.fromJsonObject(nestedDoc);
                 });
-            }
-        }
         
         return new QuestProgressDTO(questId, playerId, state, currentObjectiveIndex, 
                                    startedAt, lastUpdatedAt, completedAt, objectives);

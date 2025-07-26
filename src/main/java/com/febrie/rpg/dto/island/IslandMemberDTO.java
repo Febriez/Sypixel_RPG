@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.island;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,37 +40,19 @@ public record IslandMemberDTO(
      */
     @NotNull
     public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        JsonObject uuidValue = new JsonObject();
-        uuidValue.addProperty("stringValue", uuid);
-        fields.add("uuid", uuidValue);
-        
-        JsonObject nameValue = new JsonObject();
-        nameValue.addProperty("stringValue", name);
-        fields.add("name", nameValue);
-        
-        JsonObject isCoOwnerValue = new JsonObject();
-        isCoOwnerValue.addProperty("booleanValue", isCoOwner);
-        fields.add("isCoOwner", isCoOwnerValue);
-        
-        JsonObject joinedAtValue = new JsonObject();
-        joinedAtValue.addProperty("integerValue", joinedAt);
-        fields.add("joinedAt", joinedAtValue);
-        
-        JsonObject lastActivityValue = new JsonObject();
-        lastActivityValue.addProperty("integerValue", lastActivity);
-        fields.add("lastActivity", lastActivityValue);
+        fields.add("uuid", JsonUtil.createStringValue(uuid));
+        fields.add("name", JsonUtil.createStringValue(name));
+        fields.add("isCoOwner", JsonUtil.createBooleanValue(isCoOwner));
+        fields.add("joinedAt", JsonUtil.createIntegerValue(joinedAt));
+        fields.add("lastActivity", JsonUtil.createIntegerValue(lastActivity));
         
         if (personalSpawn != null) {
-            JsonObject personalSpawnValue = new JsonObject();
-            personalSpawnValue.add("mapValue", personalSpawn.toJsonObject());
-            fields.add("personalSpawn", personalSpawnValue);
+            fields.add("personalSpawn", JsonUtil.createMapValue(personalSpawn.toJsonObject()));
         }
         
-        json.add("fields", fields);
-        return json;
+        return JsonUtil.wrapInDocument(fields);
     }
     
     /**
@@ -77,35 +60,18 @@ public record IslandMemberDTO(
      */
     @NotNull
     public static IslandMemberDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            throw new IllegalArgumentException("Invalid IslandMemberDTO JSON: missing fields");
-        }
+        JsonObject fields = JsonUtil.unwrapDocument(json);
         
-        JsonObject fields = json.getAsJsonObject("fields");
+        String uuid = JsonUtil.getStringValue(fields, "uuid", "");
+        String name = JsonUtil.getStringValue(fields, "name", "");
+        boolean isCoOwner = JsonUtil.getBooleanValue(fields, "isCoOwner", false);
+        long joinedAt = JsonUtil.getLongValue(fields, "joinedAt", System.currentTimeMillis());
+        long lastActivity = JsonUtil.getLongValue(fields, "lastActivity", System.currentTimeMillis());
         
-        String uuid = fields.has("uuid") && fields.getAsJsonObject("uuid").has("stringValue")
-                ? fields.getAsJsonObject("uuid").get("stringValue").getAsString()
-                : "";
-                
-        String name = fields.has("name") && fields.getAsJsonObject("name").has("stringValue")
-                ? fields.getAsJsonObject("name").get("stringValue").getAsString()
-                : "";
-                
-        boolean isCoOwner = fields.has("isCoOwner") && fields.getAsJsonObject("isCoOwner").has("booleanValue")
-                ? fields.getAsJsonObject("isCoOwner").get("booleanValue").getAsBoolean()
-                : false;
-                
-        long joinedAt = fields.has("joinedAt") && fields.getAsJsonObject("joinedAt").has("integerValue")
-                ? fields.getAsJsonObject("joinedAt").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
-                
-        long lastActivity = fields.has("lastActivity") && fields.getAsJsonObject("lastActivity").has("integerValue")
-                ? fields.getAsJsonObject("lastActivity").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
-                
         IslandSpawnPointDTO personalSpawn = null;
-        if (fields.has("personalSpawn") && fields.getAsJsonObject("personalSpawn").has("mapValue")) {
-            personalSpawn = IslandSpawnPointDTO.fromJsonObject(fields.getAsJsonObject("personalSpawn").getAsJsonObject("mapValue"));
+        JsonObject personalSpawnJson = JsonUtil.getMapValue(fields, "personalSpawn");
+        if (!personalSpawnJson.entrySet().isEmpty()) {
+            personalSpawn = IslandSpawnPointDTO.fromJsonObject(personalSpawnJson);
         }
         
         return new IslandMemberDTO(uuid, name, isCoOwner, joinedAt, lastActivity, personalSpawn);

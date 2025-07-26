@@ -83,7 +83,7 @@ public class NPCTraitSetter {
             } else {
                 // 각 NPC ID별로 개별 아이템 생성
                 for (String npcId : requiredNpcIds) {
-                    ItemStack item = com.febrie.rpg.quest.trait.QuestTraitRegistrationItem.createRegistrationItem(
+                    ItemStack item = com.febrie.rpg.quest.trait.QuestTraitRegistrationItem.create(
                         npcId, 
                         quest.getDisplayName(true) + " - " + npcId
                     );
@@ -95,7 +95,7 @@ public class NPCTraitSetter {
             
             // 기본 보상 NPC 등록 아이템도 자동 지급
             String rewardNpcId = "reward_" + questId.name().toLowerCase();
-            ItemStack rewardItem = com.febrie.rpg.quest.trait.RewardTraitRegistrationItem.createRegistrationItem(
+            ItemStack rewardItem = com.febrie.rpg.quest.trait.RewardTraitRegistrationItem.create(
                 rewardNpcId,
                 quest.getDisplayName(true) + " 보상 NPC"
             );

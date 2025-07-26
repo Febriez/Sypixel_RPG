@@ -6,6 +6,7 @@ import com.febrie.rpg.dto.island.IslandSettingsDTO;
 import com.febrie.rpg.gui.BaseGui;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
@@ -208,8 +209,9 @@ public class IslandSettingsGui extends BaseGui {
                         return Arrays.asList(AnvilGUI.ResponseAction.close());
                     }
                     
-                    // 색상 코드 제거
-                    newName = org.bukkit.ChatColor.stripColor(newName);
+                    // 색상 코드 제거 (Paper API)
+                    newName = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                            .serialize(net.kyori.adventure.text.Component.text(newName));
                     
                     tempIslandName = newName;
                     
@@ -309,27 +311,7 @@ public class IslandSettingsGui extends BaseGui {
                     island.settings().template()
             );
             
-            IslandDTO updated = new IslandDTO(
-                    island.islandId(),
-                    island.ownerUuid(),
-                    island.ownerName(),
-                    island.islandName(),
-                    island.size(),
-                    island.isPublic(),
-                    island.createdAt(),
-                    System.currentTimeMillis(),
-                    island.members(),
-                    island.workers(),
-                    island.contributions(),
-                    island.spawnData(),
-                    island.upgradeData(),
-                    island.permissions(),
-                    island.pendingInvites(),
-                    island.recentVisits(),
-                    island.totalResets(),
-                    island.deletionScheduledAt(),
-                    newSettings
-            );
+            IslandDTO updated = GuiHandlerUtil.updateIslandSettings(island, newSettings);
             islandManager.updateIsland(updated);
             hasChanges = true;
         }
@@ -345,15 +327,6 @@ public class IslandSettingsGui extends BaseGui {
     }
     
     private String getBiomeDisplayName(String biome) {
-        return switch (biome.toUpperCase()) {
-            case "PLAINS" -> "평원";
-            case "FOREST" -> "숲";
-            case "DESERT" -> "사막";
-            case "SNOWY_TAIGA" -> "눈 덮인 타이가";
-            case "JUNGLE" -> "정글";
-            case "OCEAN" -> "바다";
-            case "MUSHROOM_FIELDS" -> "버섯 들판";
-            default -> biome;
-        };
+        return GuiHandlerUtil.getBiomeDisplayName(biome);
     }
 }

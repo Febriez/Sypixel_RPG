@@ -1,6 +1,7 @@
 package com.febrie.rpg.dto.player;
 
 import com.febrie.rpg.job.JobType;
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,38 +32,20 @@ public record PlayerDTO(
      */
     @NotNull
     public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        
         JsonObject fields = new JsonObject();
         
-        JsonObject uuidValue = new JsonObject();
-        uuidValue.addProperty("stringValue", uuid);
-        fields.add("uuid", uuidValue);
-        
-        JsonObject nameValue = new JsonObject();
-        nameValue.addProperty("stringValue", name);
-        fields.add("name", nameValue);
-        
-        JsonObject lastLoginValue = new JsonObject();
-        lastLoginValue.addProperty("integerValue", lastLogin);
-        fields.add("lastLogin", lastLoginValue);
-        
-        JsonObject totalPlaytimeValue = new JsonObject();
-        totalPlaytimeValue.addProperty("integerValue", totalPlaytime);
-        fields.add("totalPlaytime", totalPlaytimeValue);
+        fields.add("uuid", JsonUtil.createStringValue(uuid));
+        fields.add("name", JsonUtil.createStringValue(name));
+        fields.add("lastLogin", JsonUtil.createIntegerValue(lastLogin));
+        fields.add("totalPlaytime", JsonUtil.createIntegerValue(totalPlaytime));
         
         if (job != null) {
-            JsonObject jobValue = new JsonObject();
-            jobValue.addProperty("stringValue", job.name());
-            fields.add("job", jobValue);
+            fields.add("job", JsonUtil.createStringValue(job.name()));
         }
         
-        JsonObject isAdminValue = new JsonObject();
-        isAdminValue.addProperty("booleanValue", isAdmin);
-        fields.add("isAdmin", isAdminValue);
+        fields.add("isAdmin", JsonUtil.createBooleanValue(isAdmin));
         
-        json.add("fields", fields);
-        return json;
+        return JsonUtil.wrapInDocument(fields);
     }
     
     /**
@@ -70,31 +53,16 @@ public record PlayerDTO(
      */
     @NotNull
     public static PlayerDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            throw new IllegalArgumentException("Invalid PlayerDTO JSON: missing fields");
-        }
+        JsonObject fields = JsonUtil.unwrapDocument(json);
         
-        JsonObject fields = json.getAsJsonObject("fields");
+        String uuid = JsonUtil.getStringValue(fields, "uuid", "");
+        String name = JsonUtil.getStringValue(fields, "name", "");
+        long lastLogin = JsonUtil.getLongValue(fields, "lastLogin", System.currentTimeMillis());
+        long totalPlaytime = JsonUtil.getLongValue(fields, "totalPlaytime", 0L);
         
-        String uuid = fields.has("uuid") && fields.getAsJsonObject("uuid").has("stringValue")
-                ? fields.getAsJsonObject("uuid").get("stringValue").getAsString()
-                : "";
-                
-        String name = fields.has("name") && fields.getAsJsonObject("name").has("stringValue")
-                ? fields.getAsJsonObject("name").get("stringValue").getAsString()
-                : "";
-                
-        long lastLogin = fields.has("lastLogin") && fields.getAsJsonObject("lastLogin").has("integerValue")
-                ? fields.getAsJsonObject("lastLogin").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
-                
-        long totalPlaytime = fields.has("totalPlaytime") && fields.getAsJsonObject("totalPlaytime").has("integerValue")
-                ? fields.getAsJsonObject("totalPlaytime").get("integerValue").getAsLong()
-                : 0L;
-                
         JobType job = null;
-        if (fields.has("job") && fields.getAsJsonObject("job").has("stringValue")) {
-            String jobName = fields.getAsJsonObject("job").get("stringValue").getAsString();
+        String jobName = JsonUtil.getStringValue(fields, "job");
+        if (jobName != null && !jobName.isEmpty()) {
             try {
                 job = JobType.valueOf(jobName);
             } catch (IllegalArgumentException ignored) {
@@ -102,9 +70,7 @@ public record PlayerDTO(
             }
         }
         
-        boolean isAdmin = fields.has("isAdmin") && fields.getAsJsonObject("isAdmin").has("booleanValue")
-                ? fields.getAsJsonObject("isAdmin").get("booleanValue").getAsBoolean()
-                : false;
+        boolean isAdmin = JsonUtil.getBooleanValue(fields, "isAdmin", false);
         
         return new PlayerDTO(uuid, name, lastLogin, totalPlaytime, job, isAdmin);
     }

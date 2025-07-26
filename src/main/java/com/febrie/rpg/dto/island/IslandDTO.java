@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.island;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -125,139 +126,40 @@ public record IslandDTO(
      */
     @NotNull
     public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
         // 기본 필드들
-        JsonObject islandIdValue = new JsonObject();
-        islandIdValue.addProperty("stringValue", islandId);
-        fields.add("islandId", islandIdValue);
+        fields.add("islandId", JsonUtil.createStringValue(islandId));
+        fields.add("ownerUuid", JsonUtil.createStringValue(ownerUuid));
+        fields.add("ownerName", JsonUtil.createStringValue(ownerName));
+        fields.add("islandName", JsonUtil.createStringValue(islandName));
+        fields.add("size", JsonUtil.createIntegerValue(size));
+        fields.add("isPublic", JsonUtil.createBooleanValue(isPublic));
+        fields.add("createdAt", JsonUtil.createIntegerValue(createdAt));
+        fields.add("lastActivity", JsonUtil.createIntegerValue(lastActivity));
         
-        JsonObject ownerUuidValue = new JsonObject();
-        ownerUuidValue.addProperty("stringValue", ownerUuid);
-        fields.add("ownerUuid", ownerUuidValue);
-        
-        JsonObject ownerNameValue = new JsonObject();
-        ownerNameValue.addProperty("stringValue", ownerName);
-        fields.add("ownerName", ownerNameValue);
-        
-        JsonObject islandNameValue = new JsonObject();
-        islandNameValue.addProperty("stringValue", islandName);
-        fields.add("islandName", islandNameValue);
-        
-        JsonObject sizeValue = new JsonObject();
-        sizeValue.addProperty("integerValue", size);
-        fields.add("size", sizeValue);
-        
-        JsonObject isPublicValue = new JsonObject();
-        isPublicValue.addProperty("booleanValue", isPublic);
-        fields.add("isPublic", isPublicValue);
-        
-        JsonObject createdAtValue = new JsonObject();
-        createdAtValue.addProperty("integerValue", createdAt);
-        fields.add("createdAt", createdAtValue);
-        
-        JsonObject lastActivityValue = new JsonObject();
-        lastActivityValue.addProperty("integerValue", lastActivity);
-        fields.add("lastActivity", lastActivityValue);
-        
-        // members 배열
-        JsonObject membersValue = new JsonObject();
-        JsonObject membersArray = new JsonObject();
-        JsonArray membersValues = new JsonArray();
-        for (IslandMemberDTO member : members) {
-            JsonObject memberValue = new JsonObject();
-            memberValue.add("mapValue", member.toJsonObject());
-            membersValues.add(memberValue);
-        }
-        membersArray.add("values", membersValues);
-        membersValue.add("arrayValue", membersArray);
-        fields.add("members", membersValue);
-        
-        // workers 배열
-        JsonObject workersValue = new JsonObject();
-        JsonObject workersArray = new JsonObject();
-        JsonArray workersValues = new JsonArray();
-        for (IslandWorkerDTO worker : workers) {
-            JsonObject workerValue = new JsonObject();
-            workerValue.add("mapValue", worker.toJsonObject());
-            workersValues.add(workerValue);
-        }
-        workersArray.add("values", workersValues);
-        workersValue.add("arrayValue", workersArray);
-        fields.add("workers", workersValue);
+        // 배열 필드들
+        fields.add("members", JsonUtil.createArrayValue(members, IslandMemberDTO::toJsonObject));
+        fields.add("workers", JsonUtil.createArrayValue(workers, IslandWorkerDTO::toJsonObject));
+        fields.add("pendingInvites", JsonUtil.createArrayValue(pendingInvites, IslandInviteDTO::toJsonObject));
+        fields.add("recentVisits", JsonUtil.createArrayValue(recentVisits, IslandVisitDTO::toJsonObject));
         
         // contributions 맵
-        JsonObject contributionsValue = new JsonObject();
-        JsonObject contributionsMap = new JsonObject();
-        JsonObject contributionsFields = new JsonObject();
-        contributions.forEach((uuid, value) -> {
-            JsonObject contribValue = new JsonObject();
-            contribValue.addProperty("integerValue", value);
-            contributionsFields.add(uuid, contribValue);
-        });
-        contributionsMap.add("fields", contributionsFields);
-        contributionsValue.add("mapValue", contributionsMap);
-        fields.add("contributions", contributionsValue);
+        fields.add("contributions", JsonUtil.createMapField(contributions, value -> JsonUtil.createIntegerValue(value)));
         
-        // spawnData
-        JsonObject spawnDataValue = new JsonObject();
-        spawnDataValue.add("mapValue", spawnData.toJsonObject());
-        fields.add("spawnData", spawnDataValue);
+        // 중첩 객체들
+        fields.add("spawnData", JsonUtil.createMapValue(spawnData.toJsonObject()));
+        fields.add("upgradeData", JsonUtil.createMapValue(upgradeData.toJsonObject()));
+        fields.add("permissions", JsonUtil.createMapValue(permissions.toJsonObject()));
+        fields.add("settings", JsonUtil.createMapValue(settings.toJsonObject()));
         
-        // upgradeData
-        JsonObject upgradeDataValue = new JsonObject();
-        upgradeDataValue.add("mapValue", upgradeData.toJsonObject());
-        fields.add("upgradeData", upgradeDataValue);
-        
-        // permissions
-        JsonObject permissionsValue = new JsonObject();
-        permissionsValue.add("mapValue", permissions.toJsonObject());
-        fields.add("permissions", permissionsValue);
-        
-        // pendingInvites 배열
-        JsonObject invitesValue = new JsonObject();
-        JsonObject invitesArray = new JsonObject();
-        JsonArray invitesValues = new JsonArray();
-        for (IslandInviteDTO invite : pendingInvites) {
-            JsonObject inviteValue = new JsonObject();
-            inviteValue.add("mapValue", invite.toJsonObject());
-            invitesValues.add(inviteValue);
-        }
-        invitesArray.add("values", invitesValues);
-        invitesValue.add("arrayValue", invitesArray);
-        fields.add("pendingInvites", invitesValue);
-        
-        // recentVisits 배열
-        JsonObject visitsValue = new JsonObject();
-        JsonObject visitsArray = new JsonObject();
-        JsonArray visitsValues = new JsonArray();
-        for (IslandVisitDTO visit : recentVisits) {
-            JsonObject visitValue = new JsonObject();
-            visitValue.add("mapValue", visit.toJsonObject());
-            visitsValues.add(visitValue);
-        }
-        visitsArray.add("values", visitsValues);
-        visitsValue.add("arrayValue", visitsArray);
-        fields.add("recentVisits", visitsValue);
-        
-        JsonObject totalResetsValue = new JsonObject();
-        totalResetsValue.addProperty("integerValue", totalResets);
-        fields.add("totalResets", totalResetsValue);
+        fields.add("totalResets", JsonUtil.createIntegerValue(totalResets));
         
         if (deletionScheduledAt != null) {
-            JsonObject deletionValue = new JsonObject();
-            deletionValue.addProperty("integerValue", deletionScheduledAt);
-            fields.add("deletionScheduledAt", deletionValue);
+            fields.add("deletionScheduledAt", JsonUtil.createIntegerValue(deletionScheduledAt));
         }
         
-        // settings
-        JsonObject settingsValue = new JsonObject();
-        settingsValue.add("mapValue", settings.toJsonObject());
-        fields.add("settings", settingsValue);
-        
-        json.add("fields", fields);
-        return json;
+        return JsonUtil.wrapInDocument(fields);
     }
     
     /**
@@ -265,146 +167,59 @@ public record IslandDTO(
      */
     @NotNull
     public static IslandDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            throw new IllegalArgumentException("Invalid IslandDTO JSON: missing fields");
-        }
-        
-        JsonObject fields = json.getAsJsonObject("fields");
+        JsonObject fields = JsonUtil.unwrapDocument(json);
         
         // 기본 필드 파싱
-        String islandId = fields.has("islandId") && fields.getAsJsonObject("islandId").has("stringValue")
-                ? fields.getAsJsonObject("islandId").get("stringValue").getAsString()
-                : "";
-                
-        String ownerUuid = fields.has("ownerUuid") && fields.getAsJsonObject("ownerUuid").has("stringValue")
-                ? fields.getAsJsonObject("ownerUuid").get("stringValue").getAsString()
-                : "";
-                
-        String ownerName = fields.has("ownerName") && fields.getAsJsonObject("ownerName").has("stringValue")
-                ? fields.getAsJsonObject("ownerName").get("stringValue").getAsString()
-                : "";
-                
-        String islandName = fields.has("islandName") && fields.getAsJsonObject("islandName").has("stringValue")
-                ? fields.getAsJsonObject("islandName").get("stringValue").getAsString()
-                : "";
-                
-        int size = fields.has("size") && fields.getAsJsonObject("size").has("integerValue")
-                ? fields.getAsJsonObject("size").get("integerValue").getAsInt()
-                : 85;
-                
-        boolean isPublic = fields.has("isPublic") && fields.getAsJsonObject("isPublic").has("booleanValue")
-                ? fields.getAsJsonObject("isPublic").get("booleanValue").getAsBoolean()
-                : false;
-                
-        long createdAt = fields.has("createdAt") && fields.getAsJsonObject("createdAt").has("integerValue")
-                ? fields.getAsJsonObject("createdAt").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
-                
-        long lastActivity = fields.has("lastActivity") && fields.getAsJsonObject("lastActivity").has("integerValue")
-                ? fields.getAsJsonObject("lastActivity").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
+        String islandId = JsonUtil.getStringValue(fields, "islandId", "");
+        String ownerUuid = JsonUtil.getStringValue(fields, "ownerUuid", "");
+        String ownerName = JsonUtil.getStringValue(fields, "ownerName", "");
+        String islandName = JsonUtil.getStringValue(fields, "islandName", "");
+        int size = JsonUtil.getIntegerValue(fields, "size", 85);
+        boolean isPublic = JsonUtil.getBooleanValue(fields, "isPublic", false);
+        long createdAt = JsonUtil.getLongValue(fields, "createdAt", System.currentTimeMillis());
+        long lastActivity = JsonUtil.getLongValue(fields, "lastActivity", System.currentTimeMillis());
         
-        // members 배열 파싱
-        List<IslandMemberDTO> members = new ArrayList<>();
-        if (fields.has("members") && fields.getAsJsonObject("members").has("arrayValue")) {
-            JsonObject membersArray = fields.getAsJsonObject("members").getAsJsonObject("arrayValue");
-            if (membersArray.has("values")) {
-                JsonArray membersValues = membersArray.getAsJsonArray("values");
-                for (JsonElement element : membersValues) {
-                    if (element.isJsonObject() && element.getAsJsonObject().has("mapValue")) {
-                        members.add(IslandMemberDTO.fromJsonObject(element.getAsJsonObject().getAsJsonObject("mapValue")));
-                    }
-                }
-            }
-        }
+        // 배열 필드 파싱
+        List<IslandMemberDTO> members = JsonUtil.getArrayValue(fields, "members", IslandMemberDTO::fromJsonObject);
+        List<IslandWorkerDTO> workers = JsonUtil.getArrayValue(fields, "workers", IslandWorkerDTO::fromJsonObject);
+        List<IslandVisitDTO> recentVisits = JsonUtil.getArrayValue(fields, "recentVisits", IslandVisitDTO::fromJsonObject);
         
-        // workers 배열 파싱
-        List<IslandWorkerDTO> workers = new ArrayList<>();
-        if (fields.has("workers") && fields.getAsJsonObject("workers").has("arrayValue")) {
-            JsonObject workersArray = fields.getAsJsonObject("workers").getAsJsonObject("arrayValue");
-            if (workersArray.has("values")) {
-                JsonArray workersValues = workersArray.getAsJsonArray("values");
-                for (JsonElement element : workersValues) {
-                    if (element.isJsonObject() && element.getAsJsonObject().has("mapValue")) {
-                        workers.add(IslandWorkerDTO.fromJsonObject(element.getAsJsonObject().getAsJsonObject("mapValue")));
-                    }
-                }
-            }
-        }
+        // pendingInvites - 만료된 초대 필터링
+        List<IslandInviteDTO> pendingInvites = JsonUtil.getArrayValue(fields, "pendingInvites", IslandInviteDTO::fromJsonObject)
+                .stream()
+                .filter(invite -> !invite.isExpired())
+                .collect(Collectors.toList());
         
         // contributions 맵 파싱
-        Map<String, Long> contributions = new HashMap<>();
-        if (fields.has("contributions") && fields.getAsJsonObject("contributions").has("mapValue")) {
-            JsonObject contribMap = fields.getAsJsonObject("contributions").getAsJsonObject("mapValue");
-            if (contribMap.has("fields")) {
-                JsonObject contribFields = contribMap.getAsJsonObject("fields");
-                for (Map.Entry<String, JsonElement> entry : contribFields.entrySet()) {
-                    if (entry.getValue().isJsonObject() && entry.getValue().getAsJsonObject().has("integerValue")) {
-                        contributions.put(entry.getKey(), entry.getValue().getAsJsonObject().get("integerValue").getAsLong());
-                    }
-                }
-            }
-        }
+        Map<String, Long> contributions = JsonUtil.getMapField(fields, "contributions", 
+                key -> key, 
+                obj -> JsonUtil.getLongValue(obj, "integerValue", 0L));
         
-        // spawnData 파싱
-        IslandSpawnDTO spawnData = fields.has("spawnData") && fields.getAsJsonObject("spawnData").has("mapValue")
-                ? IslandSpawnDTO.fromJsonObject(fields.getAsJsonObject("spawnData").getAsJsonObject("mapValue"))
-                : IslandSpawnDTO.createDefault();
+        // 중첩 객체 파싱
+        JsonObject spawnDataJson = JsonUtil.getMapValue(fields, "spawnData");
+        IslandSpawnDTO spawnData = spawnDataJson.entrySet().isEmpty() 
+                ? IslandSpawnDTO.createDefault() 
+                : IslandSpawnDTO.fromJsonObject(spawnDataJson);
         
-        // upgradeData 파싱
-        IslandUpgradeDTO upgradeData = fields.has("upgradeData") && fields.getAsJsonObject("upgradeData").has("mapValue")
-                ? IslandUpgradeDTO.fromJsonObject(fields.getAsJsonObject("upgradeData").getAsJsonObject("mapValue"))
-                : IslandUpgradeDTO.createDefault();
+        JsonObject upgradeDataJson = JsonUtil.getMapValue(fields, "upgradeData");
+        IslandUpgradeDTO upgradeData = upgradeDataJson.entrySet().isEmpty()
+                ? IslandUpgradeDTO.createDefault()
+                : IslandUpgradeDTO.fromJsonObject(upgradeDataJson);
         
-        // permissions 파싱
-        IslandPermissionDTO permissions = fields.has("permissions") && fields.getAsJsonObject("permissions").has("mapValue")
-                ? IslandPermissionDTO.fromJsonObject(fields.getAsJsonObject("permissions").getAsJsonObject("mapValue"))
-                : IslandPermissionDTO.createDefault();
+        JsonObject permissionsJson = JsonUtil.getMapValue(fields, "permissions");
+        IslandPermissionDTO permissions = permissionsJson.entrySet().isEmpty()
+                ? IslandPermissionDTO.createDefault()
+                : IslandPermissionDTO.fromJsonObject(permissionsJson);
         
-        // pendingInvites 배열 파싱
-        List<IslandInviteDTO> pendingInvites = new ArrayList<>();
-        if (fields.has("pendingInvites") && fields.getAsJsonObject("pendingInvites").has("arrayValue")) {
-            JsonObject invitesArray = fields.getAsJsonObject("pendingInvites").getAsJsonObject("arrayValue");
-            if (invitesArray.has("values")) {
-                JsonArray invitesValues = invitesArray.getAsJsonArray("values");
-                for (JsonElement element : invitesValues) {
-                    if (element.isJsonObject() && element.getAsJsonObject().has("mapValue")) {
-                        IslandInviteDTO invite = IslandInviteDTO.fromJsonObject(element.getAsJsonObject().getAsJsonObject("mapValue"));
-                        if (!invite.isExpired()) {
-                            pendingInvites.add(invite);
-                        }
-                    }
-                }
-            }
-        }
+        JsonObject settingsJson = JsonUtil.getMapValue(fields, "settings");
+        IslandSettingsDTO settings = settingsJson.entrySet().isEmpty()
+                ? IslandSettingsDTO.createDefault()
+                : IslandSettingsDTO.fromJsonObject(settingsJson);
         
-        // recentVisits 배열 파싱
-        List<IslandVisitDTO> recentVisits = new ArrayList<>();
-        if (fields.has("recentVisits") && fields.getAsJsonObject("recentVisits").has("arrayValue")) {
-            JsonObject visitsArray = fields.getAsJsonObject("recentVisits").getAsJsonObject("arrayValue");
-            if (visitsArray.has("values")) {
-                JsonArray visitsValues = visitsArray.getAsJsonArray("values");
-                for (JsonElement element : visitsValues) {
-                    if (element.isJsonObject() && element.getAsJsonObject().has("mapValue")) {
-                        recentVisits.add(IslandVisitDTO.fromJsonObject(element.getAsJsonObject().getAsJsonObject("mapValue")));
-                    }
-                }
-            }
-        }
-        
-        int totalResets = fields.has("totalResets") && fields.getAsJsonObject("totalResets").has("integerValue")
-                ? fields.getAsJsonObject("totalResets").get("integerValue").getAsInt()
-                : 0;
-        
-        Long deletionScheduledAt = null;
-        if (fields.has("deletionScheduledAt") && fields.getAsJsonObject("deletionScheduledAt").has("integerValue")) {
-            deletionScheduledAt = fields.getAsJsonObject("deletionScheduledAt").get("integerValue").getAsLong();
-        }
-        
-        // settings 파싱
-        IslandSettingsDTO settings = fields.has("settings") && fields.getAsJsonObject("settings").has("mapValue")
-                ? IslandSettingsDTO.fromJsonObject(fields.getAsJsonObject("settings").getAsJsonObject("mapValue"))
-                : IslandSettingsDTO.createDefault();
+        int totalResets = JsonUtil.getIntegerValue(fields, "totalResets", 0);
+        Long deletionScheduledAt = fields.has("deletionScheduledAt") 
+                ? JsonUtil.getLongValue(fields, "deletionScheduledAt") 
+                : null;
         
         return new IslandDTO(
                 islandId,

@@ -1,5 +1,6 @@
 package com.febrie.rpg.quest.impl.tutorial;
 
+import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
@@ -10,6 +11,7 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -78,31 +80,25 @@ public class FirstStepsQuest extends Quest {
 
     @Override
     public @NotNull String getDisplayName(boolean isKorean) {
-        return isKorean ? "첫 걸음" : "First Steps";
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
+        return langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.tutorial.first-steps.name");
     }
 
     @Override
     public @NotNull List<String> getDisplayInfo(boolean isKorean) {
-        if (isKorean) {
-            return """
-                    서버에 오신 것을 환영합니다!
-                    기본적인 이동과 상호작용을 배워봅시다.
-                    """.lines().toList();
-        } else {
-            return """
-                    Welcome to the server!
-                    Let's learn basic movement and interaction.
-                    """.lines().toList();
-        }
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
+        String description = langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.tutorial.first-steps.description");
+        return Arrays.asList(description.split("\n"));
     }
 
     @Override
     public @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean) {
         String id = objective.getId();
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
 
         return switch (id) {
-            case "visit_hub" -> isKorean ? "허브 구역 방문" : "Visit the Hub area";
-            case "visit_merchant" -> isKorean ? "마을 상인과 대화" : "Talk to village merchant";
+            case "visit_hub" -> langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.tutorial.first-steps.objectives.visit_hub");
+            case "visit_merchant" -> langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.tutorial.first-steps.objectives.visit_merchant");
             default -> objective.getStatusInfo(null);
         };
     }
@@ -110,32 +106,37 @@ public class FirstStepsQuest extends Quest {
     @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("first_steps_dialog");
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
 
-        dialog.addLine("튜토리얼 가이드",
-                "안녕하세요! 새로운 모험가님! 이곳 Sypixel RPG 세계에 오신 것을 환영합니다.",
-                "Hello, new adventurer! Welcome to the world of Sypixel RPG!");
+        String npcName = langManager.getMessage("ko_KR", "quest.tutorial.first-steps.npc-name");
+        String npcNameEn = langManager.getMessage("en_US", "quest.tutorial.first-steps.npc-name");
 
-        dialog.addLine("튜토리얼 가이드",
-                "저는 여러분의 첫 걸음을 도와드릴 가이드입니다. 함께 이 세계의 기본을 배워보시죠!",
-                "I'm your guide to help with your first steps. Let's learn the basics of this world together!");
+        dialog.addLine(npcName,
+                langManager.getMessage("ko_KR", "quest.tutorial.first-steps.dialogs.welcome"),
+                langManager.getMessage("en_US", "quest.tutorial.first-steps.dialogs.welcome"));
 
-        dialog.addLine("튜토리얼 가이드",
-                "먼저 기본적인 이동과 상호작용 방법을 익혀보겠습니다. 준비되셨나요?",
-                "First, let's learn basic movement and interaction. Are you ready?");
+        dialog.addLine(npcName,
+                langManager.getMessage("ko_KR", "quest.tutorial.first-steps.dialogs.guide-intro"),
+                langManager.getMessage("en_US", "quest.tutorial.first-steps.dialogs.guide-intro"));
+
+        dialog.addLine(npcName,
+                langManager.getMessage("ko_KR", "quest.tutorial.first-steps.dialogs.ready-question"),
+                langManager.getMessage("en_US", "quest.tutorial.first-steps.dialogs.ready-question"));
 
         return dialog;
     }
 
     @Override
     public String getDialog(int index) {
-        String[] dialogs = {
-            "안녕하세요! 새로운 모험가님! 이곳 Sypixel RPG 세계에 오신 것을 환영합니다.",
-            "저는 여러분의 첫 걸음을 도와드릴 가이드입니다. 함께 이 세계의 기본을 배워보시죠!",
-            "먼저 기본적인 이동과 상호작용 방법을 익혀보겠습니다. 준비되셨나요?"
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
+        String[] dialogKeys = {
+            "quest.tutorial.first-steps.dialogs.welcome",
+            "quest.tutorial.first-steps.dialogs.guide-intro",
+            "quest.tutorial.first-steps.dialogs.ready-question"
         };
         
-        if (index >= 0 && index < dialogs.length) {
-            return dialogs[index];
+        if (index >= 0 && index < dialogKeys.length) {
+            return langManager.getMessage("ko_KR", dialogKeys[index]);
         }
         return null;
     }
@@ -147,16 +148,19 @@ public class FirstStepsQuest extends Quest {
 
     @Override
     public @NotNull String getNPCName() {
-        return "튜토리얼 가이드";
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
+        return langManager.getMessage("ko_KR", "quest.tutorial.first-steps.npc-name");
     }
     
     @Override
     public String getAcceptDialog() {
-        return "좋습니다! 함께 모험을 시작해봅시다. 먼저 허브 구역으로 가서 저를 찾아주세요!";
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
+        return langManager.getMessage("ko_KR", "quest.tutorial.first-steps.dialogs.accept");
     }
     
     @Override
     public String getDeclineDialog() {
-        return "아직 준비가 안 되셨나요? 준비가 되시면 언제든 다시 찾아와주세요!";
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
+        return langManager.getMessage("ko_KR", "quest.tutorial.first-steps.dialogs.decline");
     }
 }

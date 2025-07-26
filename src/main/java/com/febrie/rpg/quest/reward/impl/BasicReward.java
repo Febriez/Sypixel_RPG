@@ -5,6 +5,7 @@ import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.quest.reward.QuestReward;
 import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -110,13 +111,13 @@ public class BasicReward implements QuestReward {
 
     @Override
     public @NotNull Component getDisplayInfo(@NotNull Player player) {
-        boolean isKorean = player.locale().getLanguage().equals("ko");
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
         Component result = Component.empty();
         boolean first = true;
 
         // 아이템 보상 표시
         if (!items.isEmpty()) {
-            result = result.append(Component.text(isKorean ? "아이템:" : "Items:", ColorUtil.YELLOW));
+            result = result.append(Component.text(langManager.getMessage(player, "quest.reward.items"), ColorUtil.YELLOW));
 
             for (ItemStack item : items) {
                 result = result.append(Component.newline())
@@ -130,10 +131,10 @@ public class BasicReward implements QuestReward {
         // 재화 보상 표시
         if (!currencies.isEmpty()) {
             if (!first) result = result.append(Component.newline());
-            result = result.append(Component.text(isKorean ? "재화:" : "Currency:", ColorUtil.GOLD));
+            result = result.append(Component.text(langManager.getMessage(player, "quest.reward.currency"), ColorUtil.GOLD));
 
             for (Map.Entry<CurrencyType, Long> entry : currencies.entrySet()) {
-                String currencyName = getCurrencyName(entry.getKey(), isKorean);
+                String currencyName = getCurrencyName(entry.getKey(), player);
                 result = result.append(Component.newline())
                         .append(Component.text("  • " + currencyName + " ", ColorUtil.GRAY))
                         .append(Component.text(entry.getValue().toString(), ColorUtil.WHITE));
@@ -144,7 +145,7 @@ public class BasicReward implements QuestReward {
         // 경험치 보상 표시
         if (experience > 0) {
             if (!first) result = result.append(Component.newline());
-            result = result.append(Component.text(isKorean ? "경험치:" : "Experience:", ColorUtil.EMERALD))
+            result = result.append(Component.text(langManager.getMessage(player, "quest.reward.experience"), ColorUtil.EMERALD))
                     .append(Component.text(" " + experience, ColorUtil.WHITE));
         }
 
@@ -156,12 +157,12 @@ public class BasicReward implements QuestReward {
      * 각 보상 항목을 개별 Component로 반환
      */
     public @NotNull List<Component> getLoreComponents(@NotNull Player player) {
-        boolean isKorean = player.locale().getLanguage().equals("ko");
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
         List<Component> loreComponents = new ArrayList<>();
 
         // 아이템 보상 표시
         if (!items.isEmpty()) {
-            loreComponents.add(Component.text("  " + (isKorean ? "아이템:" : "Items:"), ColorUtil.YELLOW));
+            loreComponents.add(Component.text("  " + langManager.getMessage(player, "quest.reward.items"), ColorUtil.YELLOW));
 
             for (ItemStack item : items) {
                 loreComponents.add(Component.text("    • ", ColorUtil.GRAY)
@@ -172,10 +173,10 @@ public class BasicReward implements QuestReward {
 
         // 재화 보상 표시
         if (!currencies.isEmpty()) {
-            loreComponents.add(Component.text("  " + (isKorean ? "재화:" : "Currency:"), ColorUtil.GOLD));
+            loreComponents.add(Component.text("  " + langManager.getMessage(player, "quest.reward.currency"), ColorUtil.GOLD));
 
             for (Map.Entry<CurrencyType, Long> entry : currencies.entrySet()) {
-                String currencyName = getCurrencyName(entry.getKey(), isKorean);
+                String currencyName = getCurrencyName(entry.getKey(), player);
                 loreComponents.add(Component.text("    • " + currencyName + " ", ColorUtil.GRAY)
                         .append(Component.text(entry.getValue().toString(), ColorUtil.WHITE)));
             }
@@ -183,7 +184,7 @@ public class BasicReward implements QuestReward {
 
         // 경험치 보상 표시
         if (experience > 0) {
-            loreComponents.add(Component.text("  " + (isKorean ? "경험치:" : "Experience:"), ColorUtil.EMERALD)
+            loreComponents.add(Component.text("  " + langManager.getMessage(player, "quest.reward.experience"), ColorUtil.EMERALD)
                     .append(Component.text(" " + experience, ColorUtil.WHITE)));
         }
 
@@ -193,15 +194,10 @@ public class BasicReward implements QuestReward {
     /**
      * 재화 이름 가져오기
      */
-    private String getCurrencyName(CurrencyType type, boolean isKorean) {
-        return switch (type) {
-            case GOLD -> isKorean ? "골드" : "Gold";
-            case DIAMOND -> isKorean ? "다이아몬드" : "Diamond";
-            case EMERALD -> isKorean ? "에메랄드" : "Emerald";
-            case GHAST_TEAR -> isKorean ? "별가루" : "Stardust";
-            case NETHER_STAR -> isKorean ? "별" : "Star";
-            case EXP -> isKorean ? "경험치" : "Experience";
-        };
+    private String getCurrencyName(CurrencyType type, Player player) {
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
+        String currencyKey = type.name().toLowerCase();
+        return langManager.getMessage(player, "quest.reward.currencies." + currencyKey);
     }
 
     /**

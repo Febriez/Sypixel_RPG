@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.player;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,19 +45,11 @@ public record WalletDTO(
      */
     @NotNull
     public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject mapValue = new JsonObject();
-        
-        JsonObject currenciesMap = new JsonObject();
+        JsonObject fields = new JsonObject();
         currencies.forEach((key, value) -> {
-            JsonObject longValue = new JsonObject();
-            longValue.addProperty("integerValue", value);
-            currenciesMap.add(key, longValue);
+            fields.add(key, JsonUtil.createIntegerValue(value));
         });
-        mapValue.add("fields", currenciesMap);
-        json.add("mapValue", mapValue);
-        
-        return json;
+        return fields;
     }
     
     /**
@@ -64,29 +57,13 @@ public record WalletDTO(
      */
     @NotNull
     public JsonObject toFirestoreDocument() {
-        JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        // currencies 맵
-        JsonObject currenciesValue = new JsonObject();
-        JsonObject mapValue = new JsonObject();
-        JsonObject currenciesFields = new JsonObject();
-        currencies.forEach((key, value) -> {
-            JsonObject longValue = new JsonObject();
-            longValue.addProperty("integerValue", value);
-            currenciesFields.add(key, longValue);
-        });
-        mapValue.add("fields", currenciesFields);
-        currenciesValue.add("mapValue", mapValue);
-        fields.add("currencies", currenciesValue);
+        fields.add("currencies", JsonUtil.createMapField(currencies, 
+                value -> JsonUtil.createIntegerValue(value)));
+        fields.add("lastUpdated", JsonUtil.createIntegerValue(lastUpdated));
         
-        // lastUpdated
-        JsonObject lastUpdatedValue = new JsonObject();
-        lastUpdatedValue.addProperty("integerValue", lastUpdated);
-        fields.add("lastUpdated", lastUpdatedValue);
-        
-        json.add("fields", fields);
-        return json;
+        return JsonUtil.wrapInDocument(fields);
     }
     
     /**
@@ -97,14 +74,11 @@ public record WalletDTO(
         Map<String, Long> currencies = new HashMap<>();
         long lastUpdated = System.currentTimeMillis();
         
-        if (json.has("mapValue") && json.getAsJsonObject("mapValue").has("fields")) {
-            JsonObject fields = json.getAsJsonObject("mapValue").getAsJsonObject("fields");
-            fields.entrySet().forEach(entry -> {
-                if (entry.getValue().isJsonObject() && entry.getValue().getAsJsonObject().has("integerValue")) {
-                    currencies.put(entry.getKey(), entry.getValue().getAsJsonObject().get("integerValue").getAsLong());
-                }
-            });
-        }
+        json.entrySet().forEach(entry -> {
+            if (entry.getValue().isJsonObject()) {
+                currencies.put(entry.getKey(), JsonUtil.getLongValue(entry.getValue().getAsJsonObject(), "integerValue", 0L));
+            }
+        });
         
         return new WalletDTO(currencies, lastUpdated);
     }
@@ -118,24 +92,13 @@ public record WalletDTO(
             return new WalletDTO();
         }
         
-        JsonObject fields = json.getAsJsonObject("fields");
-        Map<String, Long> currencies = new HashMap<>();
+        JsonObject fields = JsonUtil.unwrapDocument(json);
         
-        if (fields.has("currencies") && fields.getAsJsonObject("currencies").has("mapValue")) {
-            JsonObject mapValue = fields.getAsJsonObject("currencies").getAsJsonObject("mapValue");
-            if (mapValue.has("fields")) {
-                JsonObject currencyFields = mapValue.getAsJsonObject("fields");
-                currencyFields.entrySet().forEach(entry -> {
-                    if (entry.getValue().isJsonObject() && entry.getValue().getAsJsonObject().has("integerValue")) {
-                        currencies.put(entry.getKey(), entry.getValue().getAsJsonObject().get("integerValue").getAsLong());
-                    }
-                });
-            }
-        }
+        Map<String, Long> currencies = JsonUtil.getMapField(fields, "currencies",
+                key -> key,
+                obj -> JsonUtil.getLongValue(obj, "integerValue", 0L));
         
-        long lastUpdated = fields.has("lastUpdated") && fields.getAsJsonObject("lastUpdated").has("integerValue")
-                ? fields.getAsJsonObject("lastUpdated").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
+        long lastUpdated = JsonUtil.getLongValue(fields, "lastUpdated", System.currentTimeMillis());
         
         return new WalletDTO(currencies, lastUpdated);
     }

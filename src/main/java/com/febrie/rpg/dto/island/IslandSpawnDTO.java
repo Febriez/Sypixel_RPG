@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.island;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -55,42 +56,19 @@ public record IslandSpawnDTO(
      */
     @NotNull
     public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
         // defaultSpawn
-        JsonObject defaultSpawnValue = new JsonObject();
-        defaultSpawnValue.add("mapValue", defaultSpawn.toJsonObject());
-        fields.add("defaultSpawn", defaultSpawnValue);
+        fields.add("defaultSpawn", JsonUtil.createMapValue(defaultSpawn.toJsonObject()));
         
         // ownerSpawns 배열
-        JsonObject ownerSpawnsValue = new JsonObject();
-        JsonObject ownerSpawnsArray = new JsonObject();
-        JsonArray ownerSpawnsValues = new JsonArray();
-        for (IslandSpawnPointDTO spawn : ownerSpawns) {
-            JsonObject spawnValue = new JsonObject();
-            spawnValue.add("mapValue", spawn.toJsonObject());
-            ownerSpawnsValues.add(spawnValue);
-        }
-        ownerSpawnsArray.add("values", ownerSpawnsValues);
-        ownerSpawnsValue.add("arrayValue", ownerSpawnsArray);
-        fields.add("ownerSpawns", ownerSpawnsValue);
+        fields.add("ownerSpawns", JsonUtil.createArrayValue(ownerSpawns, IslandSpawnPointDTO::toJsonObject));
         
         // memberSpawns 맵
-        JsonObject memberSpawnsValue = new JsonObject();
-        JsonObject memberSpawnsMap = new JsonObject();
-        JsonObject memberSpawnsFields = new JsonObject();
-        memberSpawns.forEach((uuid, spawn) -> {
-            JsonObject spawnValue = new JsonObject();
-            spawnValue.add("mapValue", spawn.toJsonObject());
-            memberSpawnsFields.add(uuid, spawnValue);
-        });
-        memberSpawnsMap.add("fields", memberSpawnsFields);
-        memberSpawnsValue.add("mapValue", memberSpawnsMap);
-        fields.add("memberSpawns", memberSpawnsValue);
+        fields.add("memberSpawns", JsonUtil.createMapField(memberSpawns, 
+                spawn -> JsonUtil.createMapValue(spawn.toJsonObject())));
         
-        json.add("fields", fields);
-        return json;
+        return JsonUtil.wrapInDocument(fields);
     }
     
     /**
@@ -102,40 +80,25 @@ public record IslandSpawnDTO(
             return createDefault();
         }
         
-        JsonObject fields = json.getAsJsonObject("fields");
+        JsonObject fields = JsonUtil.unwrapDocument(json);
         
         // defaultSpawn 파싱
-        IslandSpawnPointDTO defaultSpawn = fields.has("defaultSpawn") && fields.getAsJsonObject("defaultSpawn").has("mapValue")
-                ? IslandSpawnPointDTO.fromJsonObject(fields.getAsJsonObject("defaultSpawn").getAsJsonObject("mapValue"))
-                : IslandSpawnPointDTO.createDefault();
+        JsonObject defaultSpawnJson = JsonUtil.getMapValue(fields, "defaultSpawn");
+        IslandSpawnPointDTO defaultSpawn = defaultSpawnJson.entrySet().isEmpty() 
+                ? IslandSpawnPointDTO.createDefault() 
+                : IslandSpawnPointDTO.fromJsonObject(defaultSpawnJson);
         
         // ownerSpawns 배열 파싱
-        List<IslandSpawnPointDTO> ownerSpawns = new ArrayList<>();
-        if (fields.has("ownerSpawns") && fields.getAsJsonObject("ownerSpawns").has("arrayValue")) {
-            JsonObject ownerSpawnsArray = fields.getAsJsonObject("ownerSpawns").getAsJsonObject("arrayValue");
-            if (ownerSpawnsArray.has("values")) {
-                JsonArray ownerSpawnsValues = ownerSpawnsArray.getAsJsonArray("values");
-                for (JsonElement element : ownerSpawnsValues) {
-                    if (element.isJsonObject() && element.getAsJsonObject().has("mapValue")) {
-                        ownerSpawns.add(IslandSpawnPointDTO.fromJsonObject(element.getAsJsonObject().getAsJsonObject("mapValue")));
-                    }
-                }
-            }
-        }
+        List<IslandSpawnPointDTO> ownerSpawns = JsonUtil.getArrayValue(fields, "ownerSpawns", 
+                IslandSpawnPointDTO::fromJsonObject);
         
         // memberSpawns 맵 파싱
-        Map<String, IslandSpawnPointDTO> memberSpawns = new HashMap<>();
-        if (fields.has("memberSpawns") && fields.getAsJsonObject("memberSpawns").has("mapValue")) {
-            JsonObject memberSpawnsMap = fields.getAsJsonObject("memberSpawns").getAsJsonObject("mapValue");
-            if (memberSpawnsMap.has("fields")) {
-                JsonObject memberSpawnsFields = memberSpawnsMap.getAsJsonObject("fields");
-                for (Map.Entry<String, JsonElement> entry : memberSpawnsFields.entrySet()) {
-                    if (entry.getValue().isJsonObject() && entry.getValue().getAsJsonObject().has("mapValue")) {
-                        memberSpawns.put(entry.getKey(), IslandSpawnPointDTO.fromJsonObject(entry.getValue().getAsJsonObject().getAsJsonObject("mapValue")));
-                    }
-                }
-            }
-        }
+        Map<String, IslandSpawnPointDTO> memberSpawns = JsonUtil.getMapField(fields, "memberSpawns",
+                key -> key,
+                obj -> {
+                    JsonObject mapValue = obj.getAsJsonObject("mapValue");
+                    return IslandSpawnPointDTO.fromJsonObject(mapValue);
+                });
         
         return new IslandSpawnDTO(defaultSpawn, ownerSpawns, memberSpawns);
     }

@@ -1,5 +1,6 @@
 package com.febrie.rpg.quest;
 
+import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
@@ -7,6 +8,7 @@ import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.reward.QuestReward;
 import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -101,11 +103,8 @@ public abstract class Quest {
      */
     public @NotNull List<String> getGoalDescription(boolean isKorean) {
         List<String> goals = new ArrayList<>();
-        if (isKorean) {
-            goals.add("목표:");
-        } else {
-            goals.add("Goals:");
-        }
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
+        goals.add("§e목표:");
         
         for (QuestObjective objective : objectives) {
             goals.add("• " + getObjectiveDescription(objective, isKorean));
@@ -122,15 +121,12 @@ public abstract class Quest {
      */
     public @NotNull List<String> getRewardDescription(boolean isKorean) {
         List<String> rewards = new ArrayList<>();
-        if (isKorean) {
-            rewards.add("보상:");
-        } else {
-            rewards.add("Rewards:");
-        }
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
+        rewards.add("§a보상:");
         
         // 보상 정보는 QuestReward의 getDisplayInfo를 문자열로 변환하여 사용
         // 임시로 간단하게 구현
-        rewards.add("• " + (isKorean ? "퀘스트 보상" : "Quest Rewards"));
+        rewards.add("• " + reward.toString());
         
         return rewards;
     }
@@ -170,6 +166,8 @@ public abstract class Quest {
 
         boolean isKorean = player.locale().getLanguage().equals("ko");
 
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
+        
         meta.setTitle("§6RPG 퀘스트 안내서");
         meta.setAuthor("§f시스템");
 
@@ -187,16 +185,16 @@ public abstract class Quest {
         }
 
         page1 = page1.append(Component.newline())
-                .append(Component.text("카테고리: ", ColorUtil.YELLOW))
+                .append(Component.text(langManager.getMessage(player, "quest.category-label"), ColorUtil.YELLOW))
                 .append(Component.text(getCategoryName(isKorean), ColorUtil.WHITE))
                 .append(Component.newline())
-                .append(Component.text("레벨 요구사항: ", ColorUtil.YELLOW))
+                .append(Component.text(langManager.getMessage(player, "quest.level-requirement"), ColorUtil.YELLOW))
                 .append(Component.text(minLevel + (maxLevel > 0 ? "-" + maxLevel : "+"), ColorUtil.WHITE));
 
         pages.add(page1);
 
         // 두 번째 페이지 - 목표
-        Component page2 = Component.text("=== 퀘스트 목표 ===", ColorUtil.GOLD, TextDecoration.BOLD)
+        Component page2 = Component.text(langManager.getMessage(player, "quest.quest-objectives"), ColorUtil.GOLD, TextDecoration.BOLD)
                 .append(Component.newline()).append(Component.newline());
 
         int index = 1;
@@ -210,13 +208,13 @@ public abstract class Quest {
 
         if (sequential) {
             page2 = page2.append(Component.newline())
-                    .append(Component.text("※ 순서대로 진행해야 합니다.", ColorUtil.RED));
+                    .append(Component.text(langManager.getMessage(player, "quest.sequential-note"), ColorUtil.RED));
         }
 
         pages.add(page2);
 
         // 세 번째 페이지 - 보상
-        Component page3 = Component.text("=== 퀘스트 보상 ===", ColorUtil.EMERALD, TextDecoration.BOLD)
+        Component page3 = Component.text(langManager.getMessage(player, "quest.quest-rewards"), ColorUtil.EMERALD, TextDecoration.BOLD)
                 .append(Component.newline()).append(Component.newline());
 
         // 보상 정보 표시
@@ -249,7 +247,9 @@ public abstract class Quest {
      * 카테고리 이름 가져오기
      */
     private @NotNull String getCategoryName(boolean isKorean) {
-        return category.getDisplayName(isKorean);
+        // TODO: Player 객체를 받아서 처리하도록 개선 필요
+        // 임시로 하드코딩된 값 반환
+        return isKorean ? category.name() : category.name();
     }
 
     /**
@@ -319,7 +319,8 @@ public abstract class Quest {
      */
     @NotNull
     public String getNPCName() {
-        return "Unknown NPC"; // 기본값, 필요한 퀘스트만 오버라이드
+        LangManager langManager = RPGMain.getPlugin().getLangManager();
+        return langManager.getMessage("ko_KR", "quest.unknown-npc"); // 기본값, 필요한 퀘스트만 오버라이드
     }
 
     /**

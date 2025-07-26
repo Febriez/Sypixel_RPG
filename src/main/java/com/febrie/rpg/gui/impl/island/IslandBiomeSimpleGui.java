@@ -6,6 +6,7 @@ import com.febrie.rpg.dto.island.IslandSettingsDTO;
 import com.febrie.rpg.gui.BaseGui;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -144,28 +145,8 @@ public class IslandBiomeSimpleGui extends BaseGui {
                 island.settings().template()
         );
         
-        // 섬 업데이트
-        IslandDTO updated = new IslandDTO(
-                island.islandId(),
-                island.ownerUuid(),
-                island.ownerName(),
-                island.islandName(),
-                island.size(),
-                island.isPublic(),
-                island.createdAt(),
-                System.currentTimeMillis(),
-                island.members(),
-                island.workers(),
-                island.contributions(),
-                island.spawnData(),
-                island.upgradeData(),
-                island.permissions(),
-                island.pendingInvites(),
-                island.recentVisits(),
-                island.totalResets(),
-                island.deletionScheduledAt(),
-                newSettings
-        );
+        // 섬 업데이트 - GuiHandlerUtil 사용
+        IslandDTO updated = GuiHandlerUtil.updateIslandSettings(island, newSettings);
         
         islandManager.updateIsland(updated);
         

@@ -2,6 +2,7 @@ package com.febrie.rpg.social;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.social.MailDTO;
+import com.febrie.rpg.util.FirestoreUtil;
 import com.febrie.rpg.util.LogUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -135,36 +136,5 @@ public class MailManager {
      */
     public void clearAllCache() {
         mailCache.clear();
-    }
-    
-    // Helper methods - DISABLED
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> convertToMap(Object obj) {
-        String json = gson.toJson(obj);
-        Type type = new TypeToken<Map<String, Object>>(){}.getType();
-        return gson.fromJson(json, type);
-    }
-    
-    private <T> T convertFromMap(Map<String, Object> map, Class<T> clazz) {
-        String json = gson.toJson(map);
-        return gson.fromJson(json, clazz);
-    }
-    
-    private <T> T parseFirestoreDocument(Map<String, Object> fields, Class<T> clazz) {
-        Map<String, Object> converted = new HashMap<>();
-        
-        for (Map.Entry<String, Object> entry : fields.entrySet()) {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> fieldValue = (Map<String, Object>) entry.getValue();
-            Object value = fieldValue.values().iterator().next();
-            converted.put(entry.getKey(), value);
-        }
-        
-        return convertFromMap(converted, clazz);
-    }
-    
-    private String extractDocumentId(String documentPath) {
-        String[] parts = documentPath.split("/");
-        return parts[parts.length - 1];
     }
 }

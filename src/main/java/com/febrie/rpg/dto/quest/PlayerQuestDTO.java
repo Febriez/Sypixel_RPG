@@ -1,6 +1,7 @@
 package com.febrie.rpg.dto.quest;
 
 import com.febrie.rpg.quest.progress.QuestProgress;
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
@@ -60,51 +61,21 @@ public record PlayerQuestDTO(
      */
     @NotNull
     public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        // playerId
-        JsonObject playerIdValue = new JsonObject();
-        playerIdValue.addProperty("stringValue", playerId);
-        fields.add("playerId", playerIdValue);
+        fields.add("playerId", JsonUtil.createStringValue(playerId));
         
         // activeQuests
-        JsonObject activeQuestsValue = new JsonObject();
-        JsonObject activeQuestsMap = new JsonObject();
-        JsonObject activeQuestsFields = new JsonObject();
-        
-        activeQuests.forEach((questId, progress) -> {
-            JsonObject progressValue = new JsonObject();
-            progressValue.add("mapValue", progress.toJsonObject());
-            activeQuestsFields.add(questId, progressValue);
-        });
-        
-        activeQuestsMap.add("fields", activeQuestsFields);
-        activeQuestsValue.add("mapValue", activeQuestsMap);
-        fields.add("activeQuests", activeQuestsValue);
+        fields.add("activeQuests", JsonUtil.createMapField(activeQuests, 
+                progress -> JsonUtil.createMapValue(progress.toJsonObject())));
         
         // completedQuests
-        JsonObject completedQuestsValue = new JsonObject();
-        JsonObject completedQuestsMap = new JsonObject();
-        JsonObject completedQuestsFields = new JsonObject();
+        fields.add("completedQuests", JsonUtil.createMapField(completedQuests,
+                completed -> JsonUtil.createMapValue(completed.toJsonObject())));
         
-        completedQuests.forEach((questId, completed) -> {
-            JsonObject completedValue = new JsonObject();
-            completedValue.add("mapValue", completed.toJsonObject());
-            completedQuestsFields.add(questId, completedValue);
-        });
+        fields.add("lastUpdated", JsonUtil.createIntegerValue(lastUpdated));
         
-        completedQuestsMap.add("fields", completedQuestsFields);
-        completedQuestsValue.add("mapValue", completedQuestsMap);
-        fields.add("completedQuests", completedQuestsValue);
-        
-        // lastUpdated
-        JsonObject lastUpdatedValue = new JsonObject();
-        lastUpdatedValue.addProperty("integerValue", lastUpdated);
-        fields.add("lastUpdated", lastUpdatedValue);
-        
-        json.add("fields", fields);
-        return json;
+        return JsonUtil.wrapInDocument(fields);
     }
     
     /**
@@ -116,43 +87,27 @@ public record PlayerQuestDTO(
             return new PlayerQuestDTO("");
         }
         
-        JsonObject fields = json.getAsJsonObject("fields");
+        JsonObject fields = JsonUtil.unwrapDocument(json);
         
-        String playerId = fields.has("playerId") && fields.getAsJsonObject("playerId").has("stringValue")
-                ? fields.getAsJsonObject("playerId").get("stringValue").getAsString()
-                : "";
-                
-        Map<String, QuestProgress> activeQuests = new HashMap<>();
-        if (fields.has("activeQuests") && fields.getAsJsonObject("activeQuests").has("mapValue")) {
-            JsonObject activeQuestsMap = fields.getAsJsonObject("activeQuests").getAsJsonObject("mapValue");
-            if (activeQuestsMap.has("fields")) {
-                JsonObject activeQuestsFields = activeQuestsMap.getAsJsonObject("fields");
-                for (Map.Entry<String, JsonElement> entry : activeQuestsFields.entrySet()) {
-                    if (entry.getValue().isJsonObject() && entry.getValue().getAsJsonObject().has("mapValue")) {
-                        QuestProgress progress = QuestProgress.fromJsonObject(entry.getValue().getAsJsonObject().getAsJsonObject("mapValue"));
-                        activeQuests.put(entry.getKey(), progress);
-                    }
-                }
-            }
-        }
+        String playerId = JsonUtil.getStringValue(fields, "playerId", "");
         
-        Map<String, CompletedQuestDTO> completedQuests = new HashMap<>();
-        if (fields.has("completedQuests") && fields.getAsJsonObject("completedQuests").has("mapValue")) {
-            JsonObject completedQuestsMap = fields.getAsJsonObject("completedQuests").getAsJsonObject("mapValue");
-            if (completedQuestsMap.has("fields")) {
-                JsonObject completedQuestsFields = completedQuestsMap.getAsJsonObject("fields");
-                for (Map.Entry<String, JsonElement> entry : completedQuestsFields.entrySet()) {
-                    if (entry.getValue().isJsonObject() && entry.getValue().getAsJsonObject().has("mapValue")) {
-                        CompletedQuestDTO completed = CompletedQuestDTO.fromJsonObject(entry.getValue().getAsJsonObject().getAsJsonObject("mapValue"));
-                        completedQuests.put(entry.getKey(), completed);
-                    }
-                }
-            }
-        }
+        // activeQuests
+        Map<String, QuestProgress> activeQuests = JsonUtil.getMapField(fields, "activeQuests",
+                key -> key,
+                obj -> {
+                    JsonObject mapValue = obj.getAsJsonObject("mapValue");
+                    return QuestProgress.fromJsonObject(mapValue);
+                });
         
-        long lastUpdated = fields.has("lastUpdated") && fields.getAsJsonObject("lastUpdated").has("integerValue")
-                ? fields.getAsJsonObject("lastUpdated").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
+        // completedQuests
+        Map<String, CompletedQuestDTO> completedQuests = JsonUtil.getMapField(fields, "completedQuests",
+                key -> key,
+                obj -> {
+                    JsonObject mapValue = obj.getAsJsonObject("mapValue");
+                    return CompletedQuestDTO.fromJsonObject(mapValue);
+                });
+        
+        long lastUpdated = JsonUtil.getLongValue(fields, "lastUpdated", System.currentTimeMillis());
         
         return new PlayerQuestDTO(playerId, activeQuests, completedQuests, lastUpdated);
     }

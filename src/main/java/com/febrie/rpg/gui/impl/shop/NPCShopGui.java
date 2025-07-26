@@ -89,11 +89,11 @@ public class NPCShopGui extends BaseGui {
         ItemStack baseItem = shopItem.getItem().clone();
         ItemBuilder builder = new ItemBuilder(baseItem);
         
-        // 기존 lore 유지
-        List<String> originalLore = baseItem.getItemMeta().getLore();
+        // 기존 lore 유지 (Paper API)
+        List<net.kyori.adventure.text.Component> originalLore = baseItem.getItemMeta().lore();
         if (originalLore != null) {
-            for (String line : originalLore) {
-                builder.addLore(ColorUtil.parseComponent(line));
+            for (net.kyori.adventure.text.Component line : originalLore) {
+                builder.addLore(line);
             }
         }
         

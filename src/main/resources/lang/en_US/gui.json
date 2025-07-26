@@ -319,6 +319,8 @@
     "inventory-full": "Your inventory is full",
     "not-enough-space": "Not enough inventory space",
     "confirm-destroy": "Are you sure you want to destroy all rewards?",
+    "no-items": "No reward items",
+    "no-items-desc": "This quest has no item rewards",
     "all-claimed": "All rewards claimed!",
     "exp-received": "Gained {amount} EXP!",
     "money-received": "Gained {amount} coins!",
