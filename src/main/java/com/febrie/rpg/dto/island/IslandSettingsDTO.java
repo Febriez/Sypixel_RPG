@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.island;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,17 +34,9 @@ public record IslandSettingsDTO(
     public JsonObject toJsonObject() {
         JsonObject fields = new JsonObject();
         
-        JsonObject colorValue = new JsonObject();
-        colorValue.addProperty("stringValue", nameColorHex);
-        fields.add("nameColorHex", colorValue);
-        
-        JsonObject biomeValue = new JsonObject();
-        biomeValue.addProperty("stringValue", biome);
-        fields.add("biome", biomeValue);
-        
-        JsonObject templateValue = new JsonObject();
-        templateValue.addProperty("stringValue", template);
-        fields.add("template", templateValue);
+        fields.add("nameColorHex", JsonUtil.createStringValue(nameColorHex));
+        fields.add("biome", JsonUtil.createStringValue(biome));
+        fields.add("template", JsonUtil.createStringValue(template));
         
         return fields;
     }
@@ -53,17 +46,9 @@ public record IslandSettingsDTO(
      */
     @NotNull
     public static IslandSettingsDTO fromJsonObject(@NotNull JsonObject fields) {
-        String colorHex = fields.has("nameColorHex") && fields.getAsJsonObject("nameColorHex").has("stringValue")
-                ? fields.getAsJsonObject("nameColorHex").get("stringValue").getAsString()
-                : "#FFFF00";
-                
-        String biome = fields.has("biome") && fields.getAsJsonObject("biome").has("stringValue")
-                ? fields.getAsJsonObject("biome").get("stringValue").getAsString()
-                : "PLAINS";
-                
-        String template = fields.has("template") && fields.getAsJsonObject("template").has("stringValue")
-                ? fields.getAsJsonObject("template").get("stringValue").getAsString()
-                : "BASIC";
+        String colorHex = JsonUtil.getStringValue(fields, "nameColorHex", "#FFFF00");
+        String biome = JsonUtil.getStringValue(fields, "biome", "PLAINS");
+        String template = JsonUtil.getStringValue(fields, "template", "BASIC");
                 
         return new IslandSettingsDTO(colorHex, biome, template);
     }

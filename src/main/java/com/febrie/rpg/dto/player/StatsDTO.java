@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.player;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,29 +33,12 @@ public record StatsDTO(
         JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        JsonObject strengthValue = new JsonObject();
-        strengthValue.addProperty("integerValue", strength);
-        fields.add("strength", strengthValue);
-        
-        JsonObject intelligenceValue = new JsonObject();
-        intelligenceValue.addProperty("integerValue", intelligence);
-        fields.add("intelligence", intelligenceValue);
-        
-        JsonObject dexterityValue = new JsonObject();
-        dexterityValue.addProperty("integerValue", dexterity);
-        fields.add("dexterity", dexterityValue);
-        
-        JsonObject vitalityValue = new JsonObject();
-        vitalityValue.addProperty("integerValue", vitality);
-        fields.add("vitality", vitalityValue);
-        
-        JsonObject wisdomValue = new JsonObject();
-        wisdomValue.addProperty("integerValue", wisdom);
-        fields.add("wisdom", wisdomValue);
-        
-        JsonObject luckValue = new JsonObject();
-        luckValue.addProperty("integerValue", luck);
-        fields.add("luck", luckValue);
+        fields.add("strength", JsonUtil.createIntegerValue(strength));
+        fields.add("intelligence", JsonUtil.createIntegerValue(intelligence));
+        fields.add("dexterity", JsonUtil.createIntegerValue(dexterity));
+        fields.add("vitality", JsonUtil.createIntegerValue(vitality));
+        fields.add("wisdom", JsonUtil.createIntegerValue(wisdom));
+        fields.add("luck", JsonUtil.createIntegerValue(luck));
         
         json.add("fields", fields);
         return json;
@@ -71,29 +55,12 @@ public record StatsDTO(
         
         JsonObject fields = json.getAsJsonObject("fields");
         
-        int strength = fields.has("strength") && fields.getAsJsonObject("strength").has("integerValue")
-                ? fields.getAsJsonObject("strength").get("integerValue").getAsInt()
-                : 10;
-                
-        int intelligence = fields.has("intelligence") && fields.getAsJsonObject("intelligence").has("integerValue")
-                ? fields.getAsJsonObject("intelligence").get("integerValue").getAsInt()
-                : 10;
-                
-        int dexterity = fields.has("dexterity") && fields.getAsJsonObject("dexterity").has("integerValue")
-                ? fields.getAsJsonObject("dexterity").get("integerValue").getAsInt()
-                : 10;
-                
-        int vitality = fields.has("vitality") && fields.getAsJsonObject("vitality").has("integerValue")
-                ? fields.getAsJsonObject("vitality").get("integerValue").getAsInt()
-                : 10;
-                
-        int wisdom = fields.has("wisdom") && fields.getAsJsonObject("wisdom").has("integerValue")
-                ? fields.getAsJsonObject("wisdom").get("integerValue").getAsInt()
-                : 10;
-                
-        int luck = fields.has("luck") && fields.getAsJsonObject("luck").has("integerValue")
-                ? fields.getAsJsonObject("luck").get("integerValue").getAsInt()
-                : 1;
+        int strength = (int) JsonUtil.getLongValue(fields, "strength", 10L);
+        int intelligence = (int) JsonUtil.getLongValue(fields, "intelligence", 10L);
+        int dexterity = (int) JsonUtil.getLongValue(fields, "dexterity", 10L);
+        int vitality = (int) JsonUtil.getLongValue(fields, "vitality", 10L);
+        int wisdom = (int) JsonUtil.getLongValue(fields, "wisdom", 10L);
+        int luck = (int) JsonUtil.getLongValue(fields, "luck", 1L);
         
         return new StatsDTO(strength, intelligence, dexterity, vitality, wisdom, luck);
     }

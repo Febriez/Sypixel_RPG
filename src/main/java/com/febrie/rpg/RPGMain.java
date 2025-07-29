@@ -28,12 +28,7 @@ import com.febrie.rpg.talent.TalentManager;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.display.TextDisplayDamageManager;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.FirestoreOptions;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.concurrent.CompletableFuture;
 
 /**
  * Sypixel RPG 메인 플러그인 클래스
@@ -200,7 +195,7 @@ public final class RPGMain extends JavaPlugin {
         
         // NPCManager 초기화 (Citizens가 설치되어 있을 때만)
         if (getServer().getPluginManager().getPlugin("Citizens") != null) {
-            this.npcManager = new NPCManager(this);
+            this.npcManager = new NPCManager();
             
             // NPC Trait Setter 초기화
             this.npcTraitSetter = new NPCTraitSetter(this);

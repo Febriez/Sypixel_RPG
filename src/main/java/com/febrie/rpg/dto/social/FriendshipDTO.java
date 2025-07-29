@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.social;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,31 +34,15 @@ public record FriendshipDTO(
      */
     @NotNull
     public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        JsonObject player1UuidValue = new JsonObject();
-        player1UuidValue.addProperty("stringValue", player1Uuid.toString());
-        fields.add("player1Uuid", player1UuidValue);
+        fields.add("player1Uuid", JsonUtil.createStringValue(player1Uuid.toString()));
+        fields.add("player1Name", JsonUtil.createStringValue(player1Name));
+        fields.add("player2Uuid", JsonUtil.createStringValue(player2Uuid.toString()));
+        fields.add("player2Name", JsonUtil.createStringValue(player2Name));
+        fields.add("createdAt", JsonUtil.createIntegerValue(createdAt));
         
-        JsonObject player1NameValue = new JsonObject();
-        player1NameValue.addProperty("stringValue", player1Name);
-        fields.add("player1Name", player1NameValue);
-        
-        JsonObject player2UuidValue = new JsonObject();
-        player2UuidValue.addProperty("stringValue", player2Uuid.toString());
-        fields.add("player2Uuid", player2UuidValue);
-        
-        JsonObject player2NameValue = new JsonObject();
-        player2NameValue.addProperty("stringValue", player2Name);
-        fields.add("player2Name", player2NameValue);
-        
-        JsonObject createdAtValue = new JsonObject();
-        createdAtValue.addProperty("integerValue", createdAt);
-        fields.add("createdAt", createdAtValue);
-        
-        json.add("fields", fields);
-        return json;
+        return JsonUtil.wrapInDocument(fields);
     }
     
     /**
@@ -65,33 +50,19 @@ public record FriendshipDTO(
      */
     @NotNull
     public static FriendshipDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            throw new IllegalArgumentException("Invalid FriendshipDTO JSON: missing fields");
-        }
+        JsonObject fields = JsonUtil.unwrapDocument(json);
         
-        JsonObject fields = json.getAsJsonObject("fields");
-        
-        String player1UuidStr = fields.has("player1Uuid") && fields.getAsJsonObject("player1Uuid").has("stringValue")
-                ? fields.getAsJsonObject("player1Uuid").get("stringValue").getAsString()
-                : UUID.randomUUID().toString();
+        String player1UuidStr = JsonUtil.getStringValue(fields, "player1Uuid", UUID.randomUUID().toString());
         UUID player1Uuid = UUID.fromString(player1UuidStr);
         
-        String player1Name = fields.has("player1Name") && fields.getAsJsonObject("player1Name").has("stringValue")
-                ? fields.getAsJsonObject("player1Name").get("stringValue").getAsString()
-                : "";
-                
-        String player2UuidStr = fields.has("player2Uuid") && fields.getAsJsonObject("player2Uuid").has("stringValue")
-                ? fields.getAsJsonObject("player2Uuid").get("stringValue").getAsString()
-                : UUID.randomUUID().toString();
+        String player1Name = JsonUtil.getStringValue(fields, "player1Name", "");
+        
+        String player2UuidStr = JsonUtil.getStringValue(fields, "player2Uuid", UUID.randomUUID().toString());
         UUID player2Uuid = UUID.fromString(player2UuidStr);
         
-        String player2Name = fields.has("player2Name") && fields.getAsJsonObject("player2Name").has("stringValue")
-                ? fields.getAsJsonObject("player2Name").get("stringValue").getAsString()
-                : "";
-                
-        long createdAt = fields.has("createdAt") && fields.getAsJsonObject("createdAt").has("integerValue")
-                ? fields.getAsJsonObject("createdAt").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
+        String player2Name = JsonUtil.getStringValue(fields, "player2Name", "");
+        
+        long createdAt = JsonUtil.getLongValue(fields, "createdAt", System.currentTimeMillis());
         
         return new FriendshipDTO(player1Uuid, player1Name, player2Uuid, player2Name, createdAt);
     }

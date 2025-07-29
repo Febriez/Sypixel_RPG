@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.island;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -78,41 +79,15 @@ public record IslandInviteDTO(
         JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        JsonObject inviteIdValue = new JsonObject();
-        inviteIdValue.addProperty("stringValue", inviteId);
-        fields.add("inviteId", inviteIdValue);
-        
-        JsonObject islandIdValue = new JsonObject();
-        islandIdValue.addProperty("stringValue", islandId);
-        fields.add("islandId", islandIdValue);
-        
-        JsonObject invitedUuidValue = new JsonObject();
-        invitedUuidValue.addProperty("stringValue", invitedUuid);
-        fields.add("invitedUuid", invitedUuidValue);
-        
-        JsonObject invitedNameValue = new JsonObject();
-        invitedNameValue.addProperty("stringValue", invitedName);
-        fields.add("invitedName", invitedNameValue);
-        
-        JsonObject inviterUuidValue = new JsonObject();
-        inviterUuidValue.addProperty("stringValue", inviterUuid);
-        fields.add("inviterUuid", inviterUuidValue);
-        
-        JsonObject inviterNameValue = new JsonObject();
-        inviterNameValue.addProperty("stringValue", inviterName);
-        fields.add("inviterName", inviterNameValue);
-        
-        JsonObject invitedAtValue = new JsonObject();
-        invitedAtValue.addProperty("integerValue", invitedAt);
-        fields.add("invitedAt", invitedAtValue);
-        
-        JsonObject messageValue = new JsonObject();
-        messageValue.addProperty("stringValue", message);
-        fields.add("message", messageValue);
-        
-        JsonObject expiresAtValue = new JsonObject();
-        expiresAtValue.addProperty("integerValue", expiresAt);
-        fields.add("expiresAt", expiresAtValue);
+        fields.add("inviteId", JsonUtil.createStringValue(inviteId));
+        fields.add("islandId", JsonUtil.createStringValue(islandId));
+        fields.add("invitedUuid", JsonUtil.createStringValue(invitedUuid));
+        fields.add("invitedName", JsonUtil.createStringValue(invitedName));
+        fields.add("inviterUuid", JsonUtil.createStringValue(inviterUuid));
+        fields.add("inviterName", JsonUtil.createStringValue(inviterName));
+        fields.add("invitedAt", JsonUtil.createIntegerValue(invitedAt));
+        fields.add("message", JsonUtil.createStringValue(message));
+        fields.add("expiresAt", JsonUtil.createIntegerValue(expiresAt));
         
         json.add("fields", fields);
         return json;
@@ -123,49 +98,60 @@ public record IslandInviteDTO(
      */
     @NotNull
     public static IslandInviteDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            throw new IllegalArgumentException("Invalid IslandInviteDTO JSON: missing fields");
-        }
+        JsonUtil.validateDTOJson(json, "IslandInviteDTO");
         
         JsonObject fields = json.getAsJsonObject("fields");
         
-        String inviteId = fields.has("inviteId") && fields.getAsJsonObject("inviteId").has("stringValue")
-                ? fields.getAsJsonObject("inviteId").get("stringValue").getAsString()
-                : "";
-                
-        String islandId = fields.has("islandId") && fields.getAsJsonObject("islandId").has("stringValue")
-                ? fields.getAsJsonObject("islandId").get("stringValue").getAsString()
-                : "";
-                
-        String invitedUuid = fields.has("invitedUuid") && fields.getAsJsonObject("invitedUuid").has("stringValue")
-                ? fields.getAsJsonObject("invitedUuid").get("stringValue").getAsString()
-                : "";
-                
-        String invitedName = fields.has("invitedName") && fields.getAsJsonObject("invitedName").has("stringValue")
-                ? fields.getAsJsonObject("invitedName").get("stringValue").getAsString()
-                : "";
-                
-        String inviterUuid = fields.has("inviterUuid") && fields.getAsJsonObject("inviterUuid").has("stringValue")
-                ? fields.getAsJsonObject("inviterUuid").get("stringValue").getAsString()
-                : "";
-                
-        String inviterName = fields.has("inviterName") && fields.getAsJsonObject("inviterName").has("stringValue")
-                ? fields.getAsJsonObject("inviterName").get("stringValue").getAsString()
-                : "";
-                
-        long invitedAt = fields.has("invitedAt") && fields.getAsJsonObject("invitedAt").has("integerValue")
-                ? fields.getAsJsonObject("invitedAt").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
-                
-        long expiresAt = fields.has("expiresAt") && fields.getAsJsonObject("expiresAt").has("integerValue")
-                ? fields.getAsJsonObject("expiresAt").get("integerValue").getAsLong()
-                : System.currentTimeMillis() + (60 * 1000);
-                
-        String message = fields.has("message") && fields.getAsJsonObject("message").has("stringValue")
-                ? fields.getAsJsonObject("message").get("stringValue").getAsString()
-                : "섬에 초대되었습니다!";
-        
-        return new IslandInviteDTO(inviteId, islandId, inviterUuid, inviterName, invitedUuid, invitedName, invitedAt, expiresAt, message);
+        try {
+            // 필수 필드 검증
+            JsonUtil.validateRequiredField(fields, "inviteId", "IslandInviteDTO");
+            JsonUtil.validateRequiredField(fields, "inviterUuid", "IslandInviteDTO");
+            JsonUtil.validateRequiredField(fields, "inviterName", "IslandInviteDTO");
+            JsonUtil.validateRequiredField(fields, "invitedUuid", "IslandInviteDTO");
+            JsonUtil.validateRequiredField(fields, "invitedName", "IslandInviteDTO");
+            
+            String inviteId = JsonUtil.getStringValue(fields, "inviteId");
+            String islandId = JsonUtil.getStringValue(fields, "islandId", "");
+            String invitedUuid = JsonUtil.getStringValue(fields, "invitedUuid");
+            String invitedName = JsonUtil.getStringValue(fields, "invitedName");
+            String inviterUuid = JsonUtil.getStringValue(fields, "inviterUuid");
+            String inviterName = JsonUtil.getStringValue(fields, "inviterName");
+            long invitedAt = JsonUtil.getLongValue(fields, "invitedAt", System.currentTimeMillis());
+            long expiresAt = JsonUtil.getLongValue(fields, "expiresAt", System.currentTimeMillis() + (60 * 1000));
+            String message = JsonUtil.getStringValue(fields, "message", "섬에 초대되었습니다!");
+            
+            // 유효성 검증
+            if (inviteId.isEmpty()) {
+                throw new IllegalArgumentException(
+                    "Invalid IslandInviteDTO: inviteId cannot be empty"
+                );
+            }
+            
+            if (invitedUuid.isEmpty() || inviterUuid.isEmpty()) {
+                throw new IllegalArgumentException(
+                    String.format("Invalid IslandInviteDTO: UUID fields cannot be empty. invitedUuid='%s', inviterUuid='%s'",
+                        invitedUuid, inviterUuid)
+                );
+            }
+            
+            if (invitedAt > expiresAt) {
+                throw new IllegalArgumentException(
+                    String.format("Invalid IslandInviteDTO: invitedAt (%d) cannot be after expiresAt (%d)",
+                        invitedAt, expiresAt)
+                );
+            }
+            
+            return new IslandInviteDTO(inviteId, islandId, inviterUuid, inviterName, invitedUuid, invitedName, invitedAt, expiresAt, message);
+        } catch (Exception e) {
+            if (e instanceof IllegalArgumentException) {
+                throw e;
+            }
+            throw new IllegalArgumentException(
+                String.format("Failed to parse IslandInviteDTO: %s. JSON structure: %s", 
+                    e.getMessage(), 
+                    json.toString().length() > 200 ? json.toString().substring(0, 200) + "..." : json.toString())
+            );
+        }
     }
     
 }

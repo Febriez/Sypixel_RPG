@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.island;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -70,21 +71,10 @@ public record IslandVisitDTO(
         JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        JsonObject visitorUuidValue = new JsonObject();
-        visitorUuidValue.addProperty("stringValue", visitorUuid);
-        fields.add("visitorUuid", visitorUuidValue);
-        
-        JsonObject visitorNameValue = new JsonObject();
-        visitorNameValue.addProperty("stringValue", visitorName);
-        fields.add("visitorName", visitorNameValue);
-        
-        JsonObject visitedAtValue = new JsonObject();
-        visitedAtValue.addProperty("integerValue", visitedAt);
-        fields.add("visitedAt", visitedAtValue);
-        
-        JsonObject durationValue = new JsonObject();
-        durationValue.addProperty("integerValue", duration);
-        fields.add("duration", durationValue);
+        fields.add("visitorUuid", JsonUtil.createStringValue(visitorUuid));
+        fields.add("visitorName", JsonUtil.createStringValue(visitorName));
+        fields.add("visitedAt", JsonUtil.createIntegerValue(visitedAt));
+        fields.add("duration", JsonUtil.createIntegerValue(duration));
         
         json.add("fields", fields);
         return json;
@@ -95,29 +85,63 @@ public record IslandVisitDTO(
      */
     @NotNull
     public static IslandVisitDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            throw new IllegalArgumentException("Invalid IslandVisitDTO JSON: missing fields");
-        }
+        JsonUtil.validateDTOJson(json, "IslandVisitDTO");
         
         JsonObject fields = json.getAsJsonObject("fields");
         
-        String visitorUuid = fields.has("visitorUuid") && fields.getAsJsonObject("visitorUuid").has("stringValue")
-                ? fields.getAsJsonObject("visitorUuid").get("stringValue").getAsString()
-                : "";
-                
-        String visitorName = fields.has("visitorName") && fields.getAsJsonObject("visitorName").has("stringValue")
-                ? fields.getAsJsonObject("visitorName").get("stringValue").getAsString()
-                : "";
-                
-        long visitedAt = fields.has("visitedAt") && fields.getAsJsonObject("visitedAt").has("integerValue")
-                ? fields.getAsJsonObject("visitedAt").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
-                
-        long duration = fields.has("duration") && fields.getAsJsonObject("duration").has("integerValue")
-                ? fields.getAsJsonObject("duration").get("integerValue").getAsLong()
-                : 0;
-        
-        return new IslandVisitDTO(visitorUuid, visitorName, visitedAt, duration);
+        try {
+            // 필수 필드 검증
+            JsonUtil.validateRequiredField(fields, "visitorUuid", "IslandVisitDTO");
+            JsonUtil.validateRequiredField(fields, "visitorName", "IslandVisitDTO");
+            
+            String visitorUuid = JsonUtil.getStringValue(fields, "visitorUuid");
+            String visitorName = JsonUtil.getStringValue(fields, "visitorName");
+            long visitedAt = JsonUtil.getLongValue(fields, "visitedAt", System.currentTimeMillis());
+            long duration = JsonUtil.getLongValue(fields, "duration", 0);
+            
+            // 유효성 검증
+            if (visitorUuid.isEmpty()) {
+                throw new IllegalArgumentException(
+                    "Invalid IslandVisitDTO: visitorUuid cannot be empty"
+                );
+            }
+            
+            if (visitorName.isEmpty()) {
+                throw new IllegalArgumentException(
+                    "Invalid IslandVisitDTO: visitorName cannot be empty"
+                );
+            }
+            
+            if (visitedAt < 0) {
+                throw new IllegalArgumentException(
+                    String.format("Invalid IslandVisitDTO: visitedAt cannot be negative, but found: %d", visitedAt)
+                );
+            }
+            
+            if (duration < 0) {
+                throw new IllegalArgumentException(
+                    String.format("Invalid IslandVisitDTO: duration cannot be negative, but found: %d", duration)
+                );
+            }
+            
+            if (duration > 0 && visitedAt + duration > System.currentTimeMillis()) {
+                throw new IllegalArgumentException(
+                    String.format("Invalid IslandVisitDTO: visit end time (%d) cannot be in the future (current time: %d)",
+                        visitedAt + duration, System.currentTimeMillis())
+                );
+            }
+            
+            return new IslandVisitDTO(visitorUuid, visitorName, visitedAt, duration);
+        } catch (Exception e) {
+            if (e instanceof IllegalArgumentException) {
+                throw e;
+            }
+            throw new IllegalArgumentException(
+                String.format("Failed to parse IslandVisitDTO: %s. JSON structure: %s", 
+                    e.getMessage(), 
+                    json.toString().length() > 200 ? json.toString().substring(0, 200) + "..." : json.toString())
+            );
+        }
     }
     
 }

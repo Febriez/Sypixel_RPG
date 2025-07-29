@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.system;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,29 +33,12 @@ public record LeaderboardEntryDTO(
         JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        JsonObject playerUuidValue = new JsonObject();
-        playerUuidValue.addProperty("stringValue", playerUuid);
-        fields.add("playerUuid", playerUuidValue);
-        
-        JsonObject playerNameValue = new JsonObject();
-        playerNameValue.addProperty("stringValue", playerName);
-        fields.add("playerName", playerNameValue);
-        
-        JsonObject rankValue = new JsonObject();
-        rankValue.addProperty("integerValue", rank);
-        fields.add("rank", rankValue);
-        
-        JsonObject valueValue = new JsonObject();
-        valueValue.addProperty("integerValue", value);
-        fields.add("value", valueValue);
-        
-        JsonObject typeValue = new JsonObject();
-        typeValue.addProperty("stringValue", type);
-        fields.add("type", typeValue);
-        
-        JsonObject lastUpdatedValue = new JsonObject();
-        lastUpdatedValue.addProperty("integerValue", lastUpdated);
-        fields.add("lastUpdated", lastUpdatedValue);
+        fields.add("playerUuid", JsonUtil.createStringValue(playerUuid));
+        fields.add("playerName", JsonUtil.createStringValue(playerName));
+        fields.add("rank", JsonUtil.createIntegerValue(rank));
+        fields.add("value", JsonUtil.createIntegerValue(value));
+        fields.add("type", JsonUtil.createStringValue(type));
+        fields.add("lastUpdated", JsonUtil.createIntegerValue(lastUpdated));
         
         json.add("fields", fields);
         return json;
@@ -71,29 +55,12 @@ public record LeaderboardEntryDTO(
         
         JsonObject fields = json.getAsJsonObject("fields");
         
-        String playerUuid = fields.has("playerUuid") && fields.getAsJsonObject("playerUuid").has("stringValue")
-                ? fields.getAsJsonObject("playerUuid").get("stringValue").getAsString()
-                : "";
-                
-        String playerName = fields.has("playerName") && fields.getAsJsonObject("playerName").has("stringValue")
-                ? fields.getAsJsonObject("playerName").get("stringValue").getAsString()
-                : "";
-                
-        int rank = fields.has("rank") && fields.getAsJsonObject("rank").has("integerValue")
-                ? fields.getAsJsonObject("rank").get("integerValue").getAsInt()
-                : 0;
-                
-        long value = fields.has("value") && fields.getAsJsonObject("value").has("integerValue")
-                ? fields.getAsJsonObject("value").get("integerValue").getAsLong()
-                : 0L;
-                
-        String type = fields.has("type") && fields.getAsJsonObject("type").has("stringValue")
-                ? fields.getAsJsonObject("type").get("stringValue").getAsString()
-                : "";
-                
-        long lastUpdated = fields.has("lastUpdated") && fields.getAsJsonObject("lastUpdated").has("integerValue")
-                ? fields.getAsJsonObject("lastUpdated").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
+        String playerUuid = JsonUtil.getStringValue(fields, "playerUuid", "");
+        String playerName = JsonUtil.getStringValue(fields, "playerName", "");
+        int rank = (int) JsonUtil.getLongValue(fields, "rank", 0L);
+        long value = JsonUtil.getLongValue(fields, "value", 0L);
+        String type = JsonUtil.getStringValue(fields, "type", "");
+        long lastUpdated = JsonUtil.getLongValue(fields, "lastUpdated", System.currentTimeMillis());
         
         return new LeaderboardEntryDTO(playerUuid, playerName, rank, value, type, lastUpdated);
     }

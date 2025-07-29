@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.player;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,29 +26,12 @@ public record PlayerProfileDTO(
         JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        JsonObject uuidValue = new JsonObject();
-        uuidValue.addProperty("stringValue", uuid.toString());
-        fields.add("uuid", uuidValue);
-        
-        JsonObject nameValue = new JsonObject();
-        nameValue.addProperty("stringValue", name);
-        fields.add("name", nameValue);
-        
-        JsonObject levelValue = new JsonObject();
-        levelValue.addProperty("integerValue", level);
-        fields.add("level", levelValue);
-        
-        JsonObject expValue = new JsonObject();
-        expValue.addProperty("integerValue", exp);
-        fields.add("exp", expValue);
-        
-        JsonObject totalExpValue = new JsonObject();
-        totalExpValue.addProperty("integerValue", totalExp);
-        fields.add("totalExp", totalExpValue);
-        
-        JsonObject lastPlayedValue = new JsonObject();
-        lastPlayedValue.addProperty("integerValue", lastPlayed);
-        fields.add("lastPlayed", lastPlayedValue);
+        fields.add("uuid", JsonUtil.createStringValue(uuid.toString()));
+        fields.add("name", JsonUtil.createStringValue(name));
+        fields.add("level", JsonUtil.createIntegerValue(level));
+        fields.add("exp", JsonUtil.createIntegerValue(exp));
+        fields.add("totalExp", JsonUtil.createIntegerValue(totalExp));
+        fields.add("lastPlayed", JsonUtil.createIntegerValue(lastPlayed));
         
         json.add("fields", fields);
         return json;
@@ -58,36 +42,18 @@ public record PlayerProfileDTO(
      */
     @NotNull
     public static PlayerProfileDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            throw new IllegalArgumentException("Invalid PlayerProfileDTO JSON: missing fields");
-        }
+        JsonUtil.validateDTOJson(json, "PlayerProfileDTO");
         
         JsonObject fields = json.getAsJsonObject("fields");
         
-        String uuidStr = fields.has("uuid") && fields.getAsJsonObject("uuid").has("stringValue")
-                ? fields.getAsJsonObject("uuid").get("stringValue").getAsString()
-                : UUID.randomUUID().toString();
+        String uuidStr = JsonUtil.getStringValue(fields, "uuid", UUID.randomUUID().toString());
         UUID uuid = UUID.fromString(uuidStr);
         
-        String name = fields.has("name") && fields.getAsJsonObject("name").has("stringValue")
-                ? fields.getAsJsonObject("name").get("stringValue").getAsString()
-                : "";
-                
-        int level = fields.has("level") && fields.getAsJsonObject("level").has("integerValue")
-                ? fields.getAsJsonObject("level").get("integerValue").getAsInt()
-                : 1;
-                
-        long exp = fields.has("exp") && fields.getAsJsonObject("exp").has("integerValue")
-                ? fields.getAsJsonObject("exp").get("integerValue").getAsLong()
-                : 0;
-                
-        long totalExp = fields.has("totalExp") && fields.getAsJsonObject("totalExp").has("integerValue")
-                ? fields.getAsJsonObject("totalExp").get("integerValue").getAsLong()
-                : 0;
-                
-        long lastPlayed = fields.has("lastPlayed") && fields.getAsJsonObject("lastPlayed").has("integerValue")
-                ? fields.getAsJsonObject("lastPlayed").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
+        String name = JsonUtil.getStringValue(fields, "name", "");
+        int level = (int) JsonUtil.getLongValue(fields, "level", 1L);
+        long exp = JsonUtil.getLongValue(fields, "exp", 0L);
+        long totalExp = JsonUtil.getLongValue(fields, "totalExp", 0L);
+        long lastPlayed = JsonUtil.getLongValue(fields, "lastPlayed", System.currentTimeMillis());
         
         return new PlayerProfileDTO(uuid, name, level, exp, totalExp, lastPlayed);
     }

@@ -45,25 +45,13 @@ public record WalletDTO(
      */
     @NotNull
     public JsonObject toJsonObject() {
+        JsonObject walletData = new JsonObject();
         JsonObject fields = new JsonObject();
         currencies.forEach((key, value) -> {
             fields.add(key, JsonUtil.createIntegerValue(value));
         });
-        return fields;
-    }
-    
-    /**
-     * Firebase Document 형식의 JsonObject로 변환
-     */
-    @NotNull
-    public JsonObject toFirestoreDocument() {
-        JsonObject fields = new JsonObject();
-        
-        fields.add("currencies", JsonUtil.createMapField(currencies, 
-                value -> JsonUtil.createIntegerValue(value)));
-        fields.add("lastUpdated", JsonUtil.createIntegerValue(lastUpdated));
-        
-        return JsonUtil.wrapInDocument(fields);
+        walletData.add("fields", fields);
+        return walletData;
     }
     
     /**
@@ -74,31 +62,17 @@ public record WalletDTO(
         Map<String, Long> currencies = new HashMap<>();
         long lastUpdated = System.currentTimeMillis();
         
-        json.entrySet().forEach(entry -> {
+        // fields 구조가 있는 경우와 없는 경우 모두 처리
+        JsonObject fieldsObj = json;
+        if (json.has("fields") && json.get("fields").isJsonObject()) {
+            fieldsObj = json.getAsJsonObject("fields");
+        }
+        
+        fieldsObj.entrySet().forEach(entry -> {
             if (entry.getValue().isJsonObject()) {
                 currencies.put(entry.getKey(), JsonUtil.getLongValue(entry.getValue().getAsJsonObject(), "integerValue", 0L));
             }
         });
-        
-        return new WalletDTO(currencies, lastUpdated);
-    }
-    
-    /**
-     * Firebase Document 형식의 JsonObject에서 WalletDTO 생성
-     */
-    @NotNull
-    public static WalletDTO fromFirestoreDocument(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            return new WalletDTO();
-        }
-        
-        JsonObject fields = JsonUtil.unwrapDocument(json);
-        
-        Map<String, Long> currencies = JsonUtil.getMapField(fields, "currencies",
-                key -> key,
-                obj -> JsonUtil.getLongValue(obj, "integerValue", 0L));
-        
-        long lastUpdated = JsonUtil.getLongValue(fields, "lastUpdated", System.currentTimeMillis());
         
         return new WalletDTO(currencies, lastUpdated);
     }

@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.island;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -87,29 +88,12 @@ public record IslandUpgradeDTO(
         JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        JsonObject sizeLevelValue = new JsonObject();
-        sizeLevelValue.addProperty("integerValue", sizeLevel);
-        fields.add("sizeLevel", sizeLevelValue);
-        
-        JsonObject memberLimitLevelValue = new JsonObject();
-        memberLimitLevelValue.addProperty("integerValue", memberLimitLevel);
-        fields.add("memberLimitLevel", memberLimitLevelValue);
-        
-        JsonObject workerLimitLevelValue = new JsonObject();
-        workerLimitLevelValue.addProperty("integerValue", workerLimitLevel);
-        fields.add("workerLimitLevel", workerLimitLevelValue);
-        
-        JsonObject memberLimitValue = new JsonObject();
-        memberLimitValue.addProperty("integerValue", memberLimit);
-        fields.add("memberLimit", memberLimitValue);
-        
-        JsonObject workerLimitValue = new JsonObject();
-        workerLimitValue.addProperty("integerValue", workerLimit);
-        fields.add("workerLimit", workerLimitValue);
-        
-        JsonObject lastUpgradeAtValue = new JsonObject();
-        lastUpgradeAtValue.addProperty("integerValue", lastUpgradeAt);
-        fields.add("lastUpgradeAt", lastUpgradeAtValue);
+        fields.add("sizeLevel", JsonUtil.createIntegerValue(sizeLevel));
+        fields.add("memberLimitLevel", JsonUtil.createIntegerValue(memberLimitLevel));
+        fields.add("workerLimitLevel", JsonUtil.createIntegerValue(workerLimitLevel));
+        fields.add("memberLimit", JsonUtil.createIntegerValue(memberLimit));
+        fields.add("workerLimit", JsonUtil.createIntegerValue(workerLimit));
+        fields.add("lastUpgradeAt", JsonUtil.createIntegerValue(lastUpgradeAt));
         
         json.add("fields", fields);
         return json;
@@ -126,29 +110,12 @@ public record IslandUpgradeDTO(
         
         JsonObject fields = json.getAsJsonObject("fields");
         
-        int sizeLevel = fields.has("sizeLevel") && fields.getAsJsonObject("sizeLevel").has("integerValue")
-                ? fields.getAsJsonObject("sizeLevel").get("integerValue").getAsInt()
-                : 0;
-                
-        int memberLimitLevel = fields.has("memberLimitLevel") && fields.getAsJsonObject("memberLimitLevel").has("integerValue")
-                ? fields.getAsJsonObject("memberLimitLevel").get("integerValue").getAsInt()
-                : 0;
-                
-        int workerLimitLevel = fields.has("workerLimitLevel") && fields.getAsJsonObject("workerLimitLevel").has("integerValue")
-                ? fields.getAsJsonObject("workerLimitLevel").get("integerValue").getAsInt()
-                : 0;
-                
-        int memberLimit = fields.has("memberLimit") && fields.getAsJsonObject("memberLimit").has("integerValue")
-                ? fields.getAsJsonObject("memberLimit").get("integerValue").getAsInt()
-                : 5;
-                
-        int workerLimit = fields.has("workerLimit") && fields.getAsJsonObject("workerLimit").has("integerValue")
-                ? fields.getAsJsonObject("workerLimit").get("integerValue").getAsInt()
-                : 2;
-                
-        long lastUpgradeAt = fields.has("lastUpgradeAt") && fields.getAsJsonObject("lastUpgradeAt").has("integerValue")
-                ? fields.getAsJsonObject("lastUpgradeAt").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
+        int sizeLevel = (int) JsonUtil.getLongValue(fields, "sizeLevel", 0);
+        int memberLimitLevel = (int) JsonUtil.getLongValue(fields, "memberLimitLevel", 0);
+        int workerLimitLevel = (int) JsonUtil.getLongValue(fields, "workerLimitLevel", 0);
+        int memberLimit = (int) JsonUtil.getLongValue(fields, "memberLimit", 5);
+        int workerLimit = (int) JsonUtil.getLongValue(fields, "workerLimit", 2);
+        long lastUpgradeAt = JsonUtil.getLongValue(fields, "lastUpgradeAt", System.currentTimeMillis());
         
         return new IslandUpgradeDTO(sizeLevel, memberLimitLevel, workerLimitLevel, memberLimit, workerLimit, lastUpgradeAt);
     }

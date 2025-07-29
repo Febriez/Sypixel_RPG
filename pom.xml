@@ -14,12 +14,9 @@
     <properties>
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- 기본 서버 경로 설정 - 시스템 프로퍼티로 오버라이드 가능 -->
-        <server.path>C:/Users/CoffeeTory/Desktop/Minecraft/Test_Server</server.path>
     </properties>
 
     <build>
-        <defaultGoal>clean package</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -50,8 +47,10 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <finalName>SypixelRPG</finalName>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <outputFile>${server.path}/plugins/Sypixel_RPG.jar</outputFile>
+
+                            <!-- target 폴더에만 생성하도록 outputFile 제거 -->
 
                             <!-- 사용하지 않는 클래스 자동 제거 (비활성화 - Firebase 클래스 포함 필요) -->
                             <minimizeJar>false</minimizeJar>
@@ -74,19 +73,14 @@
                                 </filter>
                                 <!-- Firebase 관련 클래스들은 명시적으로 포함 -->
                                 <filter>
-                                    <artifact>com.google.auth:*</artifact>
-                                    <includes>
-                                        <include>**</include>
-                                    </includes>
-                                </filter>
-                                <filter>
                                     <artifact>com.google.cloud:*</artifact>
                                     <includes>
                                         <include>**</include>
                                     </includes>
                                 </filter>
+                                <!-- Caffeine 클래스들도 포함 -->
                                 <filter>
-                                    <artifact>com.google.firebase:*</artifact>
+                                    <artifact>com.github.ben-manes.caffeine:*</artifact>
                                     <includes>
                                         <include>**</include>
                                     </includes>
@@ -106,6 +100,30 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- 빌드 후 자동으로 서버 폴더에 복사하는 플러그인 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy file="${project.build.directory}/SypixelRPG.jar"
+                                      tofile="C:/Users/Febrie/Desktop/Minecraft/Test_Server/plugins/Sypixel RPG.jar"
+                                      overwrite="true"
+                                      failonerror="false"/>
+                                <echo message="JAR 파일이 서버 폴더로 복사되었습니다: C:/Users/Febrie/Desktop/Minecraft/Test_Server/plugins/SypixelRPG.jar"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
         <resources>
@@ -115,7 +133,6 @@
             </resource>
         </resources>
     </build>
-
 
     <repositories>
         <repository>
@@ -142,25 +159,77 @@
             <id>codemc-snapshots</id>
             <url>https://repo.codemc.io/repository/maven-snapshots/</url>
         </repository>
-        <repository>
-            <id>enginehub-maven</id>
-            <url>https://maven.enginehub.org/repo/</url>
-        </repository>
     </repositories>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- Gson 버전을 강제로 최신 버전으로 고정 -->
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.11.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- Guava 버전을 최신으로 고정 -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>33.3.1-jre</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- Commons Lang3 버전 고정 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.17.0</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
+        <!-- Paper API - provided -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
             <version>1.21.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+            <exclusions>
+                <!-- 모든 transitive gson 의존성 제외 -->
+                <exclusion>
+                    <groupId>com.google.code.gson</groupId>
+                    <artifactId>gson</artifactId>
+                </exclusion>
+                <!-- 구버전 guava 제외 -->
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+                <!-- 구버전 commons-lang3 제외 -->
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-lang3</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
+        <!-- Gson - provided (서버에 이미 있음) -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.11.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- WorldGuard - provided -->
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
             <version>7.0.15-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Citizens - provided -->
         <dependency>
             <groupId>net.citizensnpcs</groupId>
             <artifactId>citizens-main</artifactId>
@@ -174,44 +243,65 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- UltimateAdvancementAPI - provided -->
         <dependency>
             <groupId>com.frengor</groupId>
             <artifactId>ultimateadvancementapi</artifactId>
             <version>2.5.2</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Google Cloud Firestore - compile (shade됨) -->
         <dependency>
             <groupId>com.google.cloud</groupId>
             <artifactId>google-cloud-firestore</artifactId>
             <version>3.31.9</version>
         </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.11.0</version>
-            <scope>provided</scope>
-        </dependency>
+
+        <!-- Caffeine - compile (shade됨) -->
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
             <version>3.2.2</version>
         </dependency>
+
+        <!-- AnvilGUI - provided -->
         <dependency>
             <groupId>net.wesjd</groupId>
             <artifactId>anvilgui</artifactId>
             <version>1.10.6-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
+
+        <!-- FastAsyncWorldEdit Core - provided -->
         <dependency>
             <groupId>com.fastasyncworldedit</groupId>
             <artifactId>FastAsyncWorldEdit-Core</artifactId>
             <version>2.13.0</version>
             <scope>provided</scope>
+            <exclusions>
+                <!-- 구버전 guava 제외 -->
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
+        <!-- FastAsyncWorldEdit Bukkit - provided -->
         <dependency>
             <groupId>com.fastasyncworldedit</groupId>
             <artifactId>FastAsyncWorldEdit-Bukkit</artifactId>
             <version>2.13.0</version>
             <scope>provided</scope>
+            <exclusions>
+                <!-- 구버전 guava 제외 -->
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.player;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,14 +33,10 @@ public record PlayerDataDTO(
         JsonObject fields = new JsonObject();
         
         // Profile
-        JsonObject profileValue = new JsonObject();
-        profileValue.add("mapValue", profile.toJsonObject());
-        fields.add("profile", profileValue);
+        fields.add("profile", JsonUtil.createMapValue(profile.toJsonObject()));
         
         // Wallet
-        JsonObject walletValue = new JsonObject();
-        walletValue.add("mapValue", wallet.toJsonObject());
-        fields.add("wallet", walletValue);
+        fields.add("wallet", JsonUtil.createMapValue(wallet.toJsonObject()));
         
         json.add("fields", fields);
         return json;
@@ -50,32 +47,30 @@ public record PlayerDataDTO(
      */
     @NotNull
     public static PlayerDataDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            throw new IllegalArgumentException("Invalid PlayerDataDTO JSON: missing fields");
-        }
+        JsonUtil.validateDTOJson(json, "PlayerDataDTO");
         
         JsonObject fields = json.getAsJsonObject("fields");
         
-        PlayerProfileDTO profile = null;
-        if (fields.has("profile") && fields.getAsJsonObject("profile").has("mapValue")) {
-            profile = PlayerProfileDTO.fromJsonObject(
-                    fields.getAsJsonObject("profile").getAsJsonObject("mapValue")
-            );
+        // Profile
+        JsonObject profileMap = JsonUtil.getMapValue(fields, "profile");
+        PlayerProfileDTO profile;
+        try {
+            profile = profileMap.size() > 0 
+                    ? PlayerProfileDTO.fromJsonObject(profileMap)
+                    : new PlayerProfileDTO(UUID.randomUUID(), "", 1, 0, 0, System.currentTimeMillis());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Failed to parse PlayerDataDTO.profile: " + e.getMessage(), e);
         }
         
-        WalletDTO wallet = null;
-        if (fields.has("wallet") && fields.getAsJsonObject("wallet").has("mapValue")) {
-            wallet = WalletDTO.fromJsonObject(
-                    fields.getAsJsonObject("wallet").getAsJsonObject("mapValue")
-            );
-        }
-        
-        // 기본값 처리
-        if (profile == null) {
-            profile = new PlayerProfileDTO(UUID.randomUUID(), "", 1, 0, 0, System.currentTimeMillis());
-        }
-        if (wallet == null) {
-            wallet = new WalletDTO();
+        // Wallet
+        JsonObject walletMap = JsonUtil.getMapValue(fields, "wallet");
+        WalletDTO wallet;
+        try {
+            wallet = walletMap.size() > 0 
+                    ? WalletDTO.fromJsonObject(walletMap)
+                    : new WalletDTO();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Failed to parse PlayerDataDTO.wallet: " + e.getMessage(), e);
         }
         
         return new PlayerDataDTO(profile, wallet);

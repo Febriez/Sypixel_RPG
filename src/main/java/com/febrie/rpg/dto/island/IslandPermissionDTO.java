@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.island;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
@@ -96,24 +97,11 @@ public record IslandPermissionDTO(
         JsonObject fields = new JsonObject();
         
         // rolePermissions 맵
-        JsonObject rolePermissionsValue = new JsonObject();
-        JsonObject rolePermissionsMap = new JsonObject();
-        JsonObject rolePermissionsFields = new JsonObject();
-        
-        rolePermissions.forEach((role, perms) -> {
-            JsonObject permsValue = new JsonObject();
-            permsValue.add("mapValue", perms.toJsonObject());
-            rolePermissionsFields.add(role.name(), permsValue);
-        });
-        
-        rolePermissionsMap.add("fields", rolePermissionsFields);
-        rolePermissionsValue.add("mapValue", rolePermissionsMap);
-        fields.add("rolePermissions", rolePermissionsValue);
+        fields.add("rolePermissions", JsonUtil.createMapField(rolePermissions, 
+            perms -> JsonUtil.createMapValue(perms.toJsonObject().getAsJsonObject("fields"))));
         
         // lastUpdated
-        JsonObject lastUpdatedValue = new JsonObject();
-        lastUpdatedValue.addProperty("integerValue", lastUpdated);
-        fields.add("lastUpdated", lastUpdatedValue);
+        fields.add("lastUpdated", JsonUtil.createIntegerValue(lastUpdated));
         
         json.add("fields", fields);
         return json;
@@ -149,9 +137,7 @@ public record IslandPermissionDTO(
             }
         }
         
-        long lastUpdated = fields.has("lastUpdated") && fields.getAsJsonObject("lastUpdated").has("integerValue")
-                ? fields.getAsJsonObject("lastUpdated").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
+        long lastUpdated = JsonUtil.getLongValue(fields, "lastUpdated", System.currentTimeMillis());
         
         // 누락된 역할에 대한 기본 권한 추가
         for (IslandRole role : IslandRole.values()) {
@@ -201,45 +187,16 @@ public record IslandPermissionDTO(
             JsonObject json = new JsonObject();
             JsonObject fields = new JsonObject();
             
-            JsonObject canBuildValue = new JsonObject();
-            canBuildValue.addProperty("booleanValue", canBuild);
-            fields.add("canBuild", canBuildValue);
-            
-            JsonObject canBreakValue = new JsonObject();
-            canBreakValue.addProperty("booleanValue", canBreak);
-            fields.add("canBreak", canBreakValue);
-            
-            JsonObject canInteractValue = new JsonObject();
-            canInteractValue.addProperty("booleanValue", canInteract);
-            fields.add("canInteract", canInteractValue);
-            
-            JsonObject canInviteValue = new JsonObject();
-            canInviteValue.addProperty("booleanValue", canInvite);
-            fields.add("canInvite", canInviteValue);
-            
-            JsonObject canKickValue = new JsonObject();
-            canKickValue.addProperty("booleanValue", canKick);
-            fields.add("canKick", canKickValue);
-            
-            JsonObject canSetSpawnValue = new JsonObject();
-            canSetSpawnValue.addProperty("booleanValue", canSetSpawn);
-            fields.add("canSetSpawn", canSetSpawnValue);
-            
-            JsonObject canManageWorkersValue = new JsonObject();
-            canManageWorkersValue.addProperty("booleanValue", canManageWorkers);
-            fields.add("canManageWorkers", canManageWorkersValue);
-            
-            JsonObject canManagePermissionsValue = new JsonObject();
-            canManagePermissionsValue.addProperty("booleanValue", canManagePermissions);
-            fields.add("canManagePermissions", canManagePermissionsValue);
-            
-            JsonObject canUpgradeValue = new JsonObject();
-            canUpgradeValue.addProperty("booleanValue", canUpgrade);
-            fields.add("canUpgrade", canUpgradeValue);
-            
-            JsonObject canResetValue = new JsonObject();
-            canResetValue.addProperty("booleanValue", canReset);
-            fields.add("canReset", canResetValue);
+            fields.add("canBuild", JsonUtil.createBooleanValue(canBuild));
+            fields.add("canBreak", JsonUtil.createBooleanValue(canBreak));
+            fields.add("canInteract", JsonUtil.createBooleanValue(canInteract));
+            fields.add("canInvite", JsonUtil.createBooleanValue(canInvite));
+            fields.add("canKick", JsonUtil.createBooleanValue(canKick));
+            fields.add("canSetSpawn", JsonUtil.createBooleanValue(canSetSpawn));
+            fields.add("canManageWorkers", JsonUtil.createBooleanValue(canManageWorkers));
+            fields.add("canManagePermissions", JsonUtil.createBooleanValue(canManagePermissions));
+            fields.add("canUpgrade", JsonUtil.createBooleanValue(canUpgrade));
+            fields.add("canReset", JsonUtil.createBooleanValue(canReset));
             
             json.add("fields", fields);
             return json;
@@ -256,25 +213,16 @@ public record IslandPermissionDTO(
             
             JsonObject fields = json.getAsJsonObject("fields");
             
-            boolean canBuild = fields.has("canBuild") && fields.getAsJsonObject("canBuild").has("booleanValue") && fields.getAsJsonObject("canBuild").get("booleanValue").getAsBoolean();
-                    
-            boolean canBreak = fields.has("canBreak") && fields.getAsJsonObject("canBreak").has("booleanValue") && fields.getAsJsonObject("canBreak").get("booleanValue").getAsBoolean();
-                    
-            boolean canInteract = fields.has("canInteract") && fields.getAsJsonObject("canInteract").has("booleanValue") && fields.getAsJsonObject("canInteract").get("booleanValue").getAsBoolean();
-                    
-            boolean canInvite = fields.has("canInvite") && fields.getAsJsonObject("canInvite").has("booleanValue") && fields.getAsJsonObject("canInvite").get("booleanValue").getAsBoolean();
-                    
-            boolean canKick = fields.has("canKick") && fields.getAsJsonObject("canKick").has("booleanValue") && fields.getAsJsonObject("canKick").get("booleanValue").getAsBoolean();
-                    
-            boolean canSetSpawn = fields.has("canSetSpawn") && fields.getAsJsonObject("canSetSpawn").has("booleanValue") && fields.getAsJsonObject("canSetSpawn").get("booleanValue").getAsBoolean();
-                    
-            boolean canManageWorkers = fields.has("canManageWorkers") && fields.getAsJsonObject("canManageWorkers").has("booleanValue") && fields.getAsJsonObject("canManageWorkers").get("booleanValue").getAsBoolean();
-                    
-            boolean canManagePermissions = fields.has("canManagePermissions") && fields.getAsJsonObject("canManagePermissions").has("booleanValue") && fields.getAsJsonObject("canManagePermissions").get("booleanValue").getAsBoolean();
-                    
-            boolean canUpgrade = fields.has("canUpgrade") && fields.getAsJsonObject("canUpgrade").has("booleanValue") && fields.getAsJsonObject("canUpgrade").get("booleanValue").getAsBoolean();
-                    
-            boolean canReset = fields.has("canReset") && fields.getAsJsonObject("canReset").has("booleanValue") && fields.getAsJsonObject("canReset").get("booleanValue").getAsBoolean();
+            boolean canBuild = JsonUtil.getBooleanValue(fields, "canBuild", false);
+            boolean canBreak = JsonUtil.getBooleanValue(fields, "canBreak", false);
+            boolean canInteract = JsonUtil.getBooleanValue(fields, "canInteract", false);
+            boolean canInvite = JsonUtil.getBooleanValue(fields, "canInvite", false);
+            boolean canKick = JsonUtil.getBooleanValue(fields, "canKick", false);
+            boolean canSetSpawn = JsonUtil.getBooleanValue(fields, "canSetSpawn", false);
+            boolean canManageWorkers = JsonUtil.getBooleanValue(fields, "canManageWorkers", false);
+            boolean canManagePermissions = JsonUtil.getBooleanValue(fields, "canManagePermissions", false);
+            boolean canUpgrade = JsonUtil.getBooleanValue(fields, "canUpgrade", false);
+            boolean canReset = JsonUtil.getBooleanValue(fields, "canReset", false);
             
             return new RolePermissions(canBuild, canBreak, canInteract, canInvite, canKick, 
                     canSetSpawn, canManageWorkers, canManagePermissions, canUpgrade, canReset);

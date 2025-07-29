@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.system;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,37 +43,14 @@ public record ServerStatsDTO(
         JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        JsonObject onlinePlayersValue = new JsonObject();
-        onlinePlayersValue.addProperty("integerValue", onlinePlayers);
-        fields.add("onlinePlayers", onlinePlayersValue);
-        
-        JsonObject maxPlayersValue = new JsonObject();
-        maxPlayersValue.addProperty("integerValue", maxPlayers);
-        fields.add("maxPlayers", maxPlayersValue);
-        
-        JsonObject totalPlayersValue = new JsonObject();
-        totalPlayersValue.addProperty("integerValue", totalPlayers);
-        fields.add("totalPlayers", totalPlayersValue);
-        
-        JsonObject uptimeValue = new JsonObject();
-        uptimeValue.addProperty("integerValue", uptime);
-        fields.add("uptime", uptimeValue);
-        
-        JsonObject tpsValue = new JsonObject();
-        tpsValue.addProperty("doubleValue", tps);
-        fields.add("tps", tpsValue);
-        
-        JsonObject totalPlaytimeValue = new JsonObject();
-        totalPlaytimeValue.addProperty("integerValue", totalPlaytime);
-        fields.add("totalPlaytime", totalPlaytimeValue);
-        
-        JsonObject versionValue = new JsonObject();
-        versionValue.addProperty("stringValue", version);
-        fields.add("version", versionValue);
-        
-        JsonObject lastUpdatedValue = new JsonObject();
-        lastUpdatedValue.addProperty("integerValue", lastUpdated);
-        fields.add("lastUpdated", lastUpdatedValue);
+        fields.add("onlinePlayers", JsonUtil.createIntegerValue(onlinePlayers));
+        fields.add("maxPlayers", JsonUtil.createIntegerValue(maxPlayers));
+        fields.add("totalPlayers", JsonUtil.createIntegerValue(totalPlayers));
+        fields.add("uptime", JsonUtil.createIntegerValue(uptime));
+        fields.add("tps", JsonUtil.createDoubleValue(tps));
+        fields.add("totalPlaytime", JsonUtil.createIntegerValue(totalPlaytime));
+        fields.add("version", JsonUtil.createStringValue(version));
+        fields.add("lastUpdated", JsonUtil.createIntegerValue(lastUpdated));
         
         json.add("fields", fields);
         return json;
@@ -89,37 +67,14 @@ public record ServerStatsDTO(
         
         JsonObject fields = json.getAsJsonObject("fields");
         
-        int onlinePlayers = fields.has("onlinePlayers") && fields.getAsJsonObject("onlinePlayers").has("integerValue")
-                ? fields.getAsJsonObject("onlinePlayers").get("integerValue").getAsInt()
-                : 0;
-                
-        int maxPlayers = fields.has("maxPlayers") && fields.getAsJsonObject("maxPlayers").has("integerValue")
-                ? fields.getAsJsonObject("maxPlayers").get("integerValue").getAsInt()
-                : 0;
-                
-        int totalPlayers = fields.has("totalPlayers") && fields.getAsJsonObject("totalPlayers").has("integerValue")
-                ? fields.getAsJsonObject("totalPlayers").get("integerValue").getAsInt()
-                : 0;
-                
-        long uptime = fields.has("uptime") && fields.getAsJsonObject("uptime").has("integerValue")
-                ? fields.getAsJsonObject("uptime").get("integerValue").getAsLong()
-                : 0L;
-                
-        double tps = fields.has("tps") && fields.getAsJsonObject("tps").has("doubleValue")
-                ? fields.getAsJsonObject("tps").get("doubleValue").getAsDouble()
-                : 20.0;
-                
-        long totalPlaytime = fields.has("totalPlaytime") && fields.getAsJsonObject("totalPlaytime").has("integerValue")
-                ? fields.getAsJsonObject("totalPlaytime").get("integerValue").getAsLong()
-                : 0L;
-                
-        String version = fields.has("version") && fields.getAsJsonObject("version").has("stringValue")
-                ? fields.getAsJsonObject("version").get("stringValue").getAsString()
-                : "1.21.7";
-                
-        long lastUpdated = fields.has("lastUpdated") && fields.getAsJsonObject("lastUpdated").has("integerValue")
-                ? fields.getAsJsonObject("lastUpdated").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
+        int onlinePlayers = (int) JsonUtil.getLongValue(fields, "onlinePlayers", 0L);
+        int maxPlayers = (int) JsonUtil.getLongValue(fields, "maxPlayers", 0L);
+        int totalPlayers = (int) JsonUtil.getLongValue(fields, "totalPlayers", 0L);
+        long uptime = JsonUtil.getLongValue(fields, "uptime", 0L);
+        double tps = JsonUtil.getDoubleValue(fields, "tps", 20.0);
+        long totalPlaytime = JsonUtil.getLongValue(fields, "totalPlaytime", 0L);
+        String version = JsonUtil.getStringValue(fields, "version", "1.21.7");
+        long lastUpdated = JsonUtil.getLongValue(fields, "lastUpdated", System.currentTimeMillis());
         
         return new ServerStatsDTO(onlinePlayers, maxPlayers, totalPlayers, uptime, tps, 
                                  totalPlaytime, version, lastUpdated);

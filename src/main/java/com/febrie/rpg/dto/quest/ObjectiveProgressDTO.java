@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.quest;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,25 +32,11 @@ public record ObjectiveProgressDTO(
         JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        JsonObject objectiveIdValue = new JsonObject();
-        objectiveIdValue.addProperty("stringValue", objectiveId);
-        fields.add("objectiveId", objectiveIdValue);
-        
-        JsonObject completedValue = new JsonObject();
-        completedValue.addProperty("booleanValue", completed);
-        fields.add("completed", completedValue);
-        
-        JsonObject progressValue = new JsonObject();
-        progressValue.addProperty("integerValue", progress);
-        fields.add("progress", progressValue);
-        
-        JsonObject targetValue = new JsonObject();
-        targetValue.addProperty("integerValue", target);
-        fields.add("target", targetValue);
-        
-        JsonObject lastUpdatedValue = new JsonObject();
-        lastUpdatedValue.addProperty("integerValue", lastUpdated);
-        fields.add("lastUpdated", lastUpdatedValue);
+        fields.add("objectiveId", JsonUtil.createStringValue(objectiveId));
+        fields.add("completed", JsonUtil.createBooleanValue(completed));
+        fields.add("progress", JsonUtil.createIntegerValue(progress));
+        fields.add("target", JsonUtil.createIntegerValue(target));
+        fields.add("lastUpdated", JsonUtil.createIntegerValue(lastUpdated));
         
         json.add("fields", fields);
         return json;
@@ -66,25 +53,11 @@ public record ObjectiveProgressDTO(
         
         JsonObject fields = json.getAsJsonObject("fields");
         
-        String objectiveId = fields.has("objectiveId") && fields.getAsJsonObject("objectiveId").has("stringValue")
-                ? fields.getAsJsonObject("objectiveId").get("stringValue").getAsString()
-                : "";
-                
-        boolean completed = fields.has("completed") && fields.getAsJsonObject("completed").has("booleanValue")
-                ? fields.getAsJsonObject("completed").get("booleanValue").getAsBoolean()
-                : false;
-                
-        int progress = fields.has("progress") && fields.getAsJsonObject("progress").has("integerValue")
-                ? fields.getAsJsonObject("progress").get("integerValue").getAsInt()
-                : 0;
-                
-        int target = fields.has("target") && fields.getAsJsonObject("target").has("integerValue")
-                ? fields.getAsJsonObject("target").get("integerValue").getAsInt()
-                : 0;
-                
-        long lastUpdated = fields.has("lastUpdated") && fields.getAsJsonObject("lastUpdated").has("integerValue")
-                ? fields.getAsJsonObject("lastUpdated").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
+        String objectiveId = JsonUtil.getStringValue(fields, "objectiveId", "");
+        boolean completed = JsonUtil.getBooleanValue(fields, "completed", false);
+        int progress = (int) JsonUtil.getLongValue(fields, "progress", 0L);
+        int target = (int) JsonUtil.getLongValue(fields, "target", 0L);
+        long lastUpdated = JsonUtil.getLongValue(fields, "lastUpdated", System.currentTimeMillis());
         
         return new ObjectiveProgressDTO(objectiveId, completed, progress, target, lastUpdated);
     }

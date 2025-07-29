@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.island;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -107,37 +108,20 @@ public record PlayerIslandDataDTO(
         JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        JsonObject playerUuidValue = new JsonObject();
-        playerUuidValue.addProperty("stringValue", playerUuid);
-        fields.add("playerUuid", playerUuidValue);
+        fields.add("playerUuid", JsonUtil.createStringValue(playerUuid));
         
         if (currentIslandId != null) {
-            JsonObject currentIslandIdValue = new JsonObject();
-            currentIslandIdValue.addProperty("stringValue", currentIslandId);
-            fields.add("currentIslandId", currentIslandIdValue);
+            fields.add("currentIslandId", JsonUtil.createStringValue(currentIslandId));
         }
         
         if (role != null) {
-            JsonObject roleValue = new JsonObject();
-            roleValue.addProperty("stringValue", role.name());
-            fields.add("role", roleValue);
+            fields.add("role", JsonUtil.createStringValue(role.name()));
         }
         
-        JsonObject totalIslandResetsValue = new JsonObject();
-        totalIslandResetsValue.addProperty("integerValue", totalIslandResets);
-        fields.add("totalIslandResets", totalIslandResetsValue);
-        
-        JsonObject totalContributionValue = new JsonObject();
-        totalContributionValue.addProperty("integerValue", totalContribution);
-        fields.add("totalContribution", totalContributionValue);
-        
-        JsonObject lastJoinedValue = new JsonObject();
-        lastJoinedValue.addProperty("integerValue", lastJoined);
-        fields.add("lastJoined", lastJoinedValue);
-        
-        JsonObject lastActivityValue = new JsonObject();
-        lastActivityValue.addProperty("integerValue", lastActivity);
-        fields.add("lastActivity", lastActivityValue);
+        fields.add("totalIslandResets", JsonUtil.createIntegerValue(totalIslandResets));
+        fields.add("totalContribution", JsonUtil.createIntegerValue(totalContribution));
+        fields.add("lastJoined", JsonUtil.createIntegerValue(lastJoined));
+        fields.add("lastActivity", JsonUtil.createIntegerValue(lastActivity));
         
         json.add("fields", fields);
         return json;
@@ -148,47 +132,78 @@ public record PlayerIslandDataDTO(
      */
     @NotNull
     public static PlayerIslandDataDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            throw new IllegalArgumentException("Invalid PlayerIslandDataDTO JSON: missing fields");
-        }
+        JsonUtil.validateDTOJson(json, "PlayerIslandDataDTO");
         
         JsonObject fields = json.getAsJsonObject("fields");
         
-        String playerUuid = fields.has("playerUuid") && fields.getAsJsonObject("playerUuid").has("stringValue")
-                ? fields.getAsJsonObject("playerUuid").get("stringValue").getAsString()
-                : "";
-                
-        String currentIslandId = null;
-        if (fields.has("currentIslandId") && fields.getAsJsonObject("currentIslandId").has("stringValue")) {
-            currentIslandId = fields.getAsJsonObject("currentIslandId").get("stringValue").getAsString();
-        }
-        
-        IslandRole role = null;
-        if (fields.has("role") && fields.getAsJsonObject("role").has("stringValue")) {
-            try {
-                role = IslandRole.valueOf(fields.getAsJsonObject("role").get("stringValue").getAsString());
-            } catch (IllegalArgumentException e) {
-                // 잘못된 역할 이름은 무시
+        try {
+            // 필수 필드 검증
+            JsonUtil.validateRequiredField(fields, "playerUuid", "PlayerIslandDataDTO");
+            
+            String playerUuid = JsonUtil.getStringValue(fields, "playerUuid");
+            
+            if (playerUuid.isEmpty()) {
+                throw new IllegalArgumentException(
+                    "Invalid PlayerIslandDataDTO: playerUuid cannot be empty"
+                );
             }
+            
+            String currentIslandId = null;
+            if (fields.has("currentIslandId")) {
+                currentIslandId = JsonUtil.getStringValue(fields, "currentIslandId", null);
+            }
+            
+            IslandRole role = null;
+            String roleStr = JsonUtil.getStringValue(fields, "role", null);
+            if (roleStr != null && !roleStr.isEmpty()) {
+                try {
+                    role = IslandRole.valueOf(roleStr);
+                } catch (IllegalArgumentException e) {
+                    throw new IllegalArgumentException(
+                        String.format("Invalid PlayerIslandDataDTO: unknown role '%s'. Valid roles are: %s",
+                            roleStr, 
+                            java.util.Arrays.toString(IslandRole.values()))
+                    );
+                }
+            }
+            
+            int totalIslandResets = (int) JsonUtil.getLongValue(fields, "totalIslandResets", 0L);
+            long totalContribution = JsonUtil.getLongValue(fields, "totalContribution", 0L);
+            long lastJoined = JsonUtil.getLongValue(fields, "lastJoined", System.currentTimeMillis());
+            long lastActivity = JsonUtil.getLongValue(fields, "lastActivity", System.currentTimeMillis());
+            
+            // 유효성 검증
+            if (totalIslandResets < 0) {
+                throw new IllegalArgumentException(
+                    String.format("Invalid PlayerIslandDataDTO: totalIslandResets cannot be negative, but found: %d",
+                        totalIslandResets)
+                );
+            }
+            
+            if (totalContribution < 0) {
+                throw new IllegalArgumentException(
+                    String.format("Invalid PlayerIslandDataDTO: totalContribution cannot be negative, but found: %d",
+                        totalContribution)
+                );
+            }
+            
+            if (currentIslandId != null && role == null) {
+                throw new IllegalArgumentException(
+                    "Invalid PlayerIslandDataDTO: player has currentIslandId but no role assigned"
+                );
+            }
+            
+            return new PlayerIslandDataDTO(playerUuid, currentIslandId, role, totalIslandResets, totalContribution, lastJoined, lastActivity);
+        } catch (Exception e) {
+            if (e instanceof IllegalArgumentException) {
+                throw e;
+            }
+            throw new IllegalArgumentException(
+                String.format("Failed to parse PlayerIslandDataDTO: %s. JSON structure: %s", 
+                    e.getMessage(), 
+                    json.toString().length() > 200 ? json.toString().substring(0, 200) + "..." : json.toString())
+            );
         }
-        
-        int totalIslandResets = fields.has("totalIslandResets") && fields.getAsJsonObject("totalIslandResets").has("integerValue")
-                ? fields.getAsJsonObject("totalIslandResets").get("integerValue").getAsInt()
-                : 0;
-                
-        long totalContribution = fields.has("totalContribution") && fields.getAsJsonObject("totalContribution").has("integerValue")
-                ? fields.getAsJsonObject("totalContribution").get("integerValue").getAsLong()
-                : 0L;
-                
-        long lastJoined = fields.has("lastJoined") && fields.getAsJsonObject("lastJoined").has("integerValue")
-                ? fields.getAsJsonObject("lastJoined").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
-                
-        long lastActivity = fields.has("lastActivity") && fields.getAsJsonObject("lastActivity").has("integerValue")
-                ? fields.getAsJsonObject("lastActivity").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
-        
-        return new PlayerIslandDataDTO(playerUuid, currentIslandId, role, totalIslandResets, totalContribution, lastJoined, lastActivity);
     }
     
 }

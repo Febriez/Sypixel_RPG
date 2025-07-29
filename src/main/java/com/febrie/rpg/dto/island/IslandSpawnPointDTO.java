@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.island;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -71,29 +72,12 @@ public record IslandSpawnPointDTO(
         JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        JsonObject xValue = new JsonObject();
-        xValue.addProperty("doubleValue", x);
-        fields.add("x", xValue);
-        
-        JsonObject yValue = new JsonObject();
-        yValue.addProperty("doubleValue", y);
-        fields.add("y", yValue);
-        
-        JsonObject zValue = new JsonObject();
-        zValue.addProperty("doubleValue", z);
-        fields.add("z", zValue);
-        
-        JsonObject yawValue = new JsonObject();
-        yawValue.addProperty("doubleValue", yaw);
-        fields.add("yaw", yawValue);
-        
-        JsonObject pitchValue = new JsonObject();
-        pitchValue.addProperty("doubleValue", pitch);
-        fields.add("pitch", pitchValue);
-        
-        JsonObject aliasValue = new JsonObject();
-        aliasValue.addProperty("stringValue", alias);
-        fields.add("alias", aliasValue);
+        fields.add("x", JsonUtil.createDoubleValue(x));
+        fields.add("y", JsonUtil.createDoubleValue(y));
+        fields.add("z", JsonUtil.createDoubleValue(z));
+        fields.add("yaw", JsonUtil.createDoubleValue(yaw));
+        fields.add("pitch", JsonUtil.createDoubleValue(pitch));
+        fields.add("alias", JsonUtil.createStringValue(alias));
         
         json.add("fields", fields);
         return json;
@@ -110,29 +94,12 @@ public record IslandSpawnPointDTO(
         
         JsonObject fields = json.getAsJsonObject("fields");
         
-        double x = fields.has("x") && fields.getAsJsonObject("x").has("doubleValue")
-                ? fields.getAsJsonObject("x").get("doubleValue").getAsDouble()
-                : 0.0;
-                
-        double y = fields.has("y") && fields.getAsJsonObject("y").has("doubleValue")
-                ? fields.getAsJsonObject("y").get("doubleValue").getAsDouble()
-                : 64.0;
-                
-        double z = fields.has("z") && fields.getAsJsonObject("z").has("doubleValue")
-                ? fields.getAsJsonObject("z").get("doubleValue").getAsDouble()
-                : 0.0;
-                
-        float yaw = fields.has("yaw") && fields.getAsJsonObject("yaw").has("doubleValue")
-                ? fields.getAsJsonObject("yaw").get("doubleValue").getAsFloat()
-                : 0.0f;
-                
-        float pitch = fields.has("pitch") && fields.getAsJsonObject("pitch").has("doubleValue")
-                ? fields.getAsJsonObject("pitch").get("doubleValue").getAsFloat()
-                : 0.0f;
-                
-        String alias = fields.has("alias") && fields.getAsJsonObject("alias").has("stringValue")
-                ? fields.getAsJsonObject("alias").get("stringValue").getAsString()
-                : "섬 중앙";
+        double x = JsonUtil.getDoubleValue(fields, "x", 0.0);
+        double y = JsonUtil.getDoubleValue(fields, "y", 64.0);
+        double z = JsonUtil.getDoubleValue(fields, "z", 0.0);
+        float yaw = (float) JsonUtil.getDoubleValue(fields, "yaw", 0.0);
+        float pitch = (float) JsonUtil.getDoubleValue(fields, "pitch", 0.0);
+        String alias = JsonUtil.getStringValue(fields, "alias", "섬 중앙");
         
         return new IslandSpawnPointDTO(x, y, z, yaw, pitch, alias);
     }

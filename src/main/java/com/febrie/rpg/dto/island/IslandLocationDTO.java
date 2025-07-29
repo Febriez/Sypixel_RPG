@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.island;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -111,17 +112,9 @@ public record IslandLocationDTO(
         JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        JsonObject centerXValue = new JsonObject();
-        centerXValue.addProperty("integerValue", centerX);
-        fields.add("centerX", centerXValue);
-        
-        JsonObject centerZValue = new JsonObject();
-        centerZValue.addProperty("integerValue", centerZ);
-        fields.add("centerZ", centerZValue);
-        
-        JsonObject sizeValue = new JsonObject();
-        sizeValue.addProperty("integerValue", size);
-        fields.add("size", sizeValue);
+        fields.add("centerX", JsonUtil.createIntegerValue(centerX));
+        fields.add("centerZ", JsonUtil.createIntegerValue(centerZ));
+        fields.add("size", JsonUtil.createIntegerValue(size));
         
         json.add("fields", fields);
         return json;
@@ -132,25 +125,37 @@ public record IslandLocationDTO(
      */
     @NotNull
     public static IslandLocationDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            throw new IllegalArgumentException("Invalid IslandLocationDTO JSON: missing fields");
-        }
+        JsonUtil.validateDTOJson(json, "IslandLocationDTO");
         
         JsonObject fields = json.getAsJsonObject("fields");
         
-        int centerX = fields.has("centerX") && fields.getAsJsonObject("centerX").has("integerValue")
-                ? fields.getAsJsonObject("centerX").get("integerValue").getAsInt()
-                : 0;
-                
-        int centerZ = fields.has("centerZ") && fields.getAsJsonObject("centerZ").has("integerValue")
-                ? fields.getAsJsonObject("centerZ").get("integerValue").getAsInt()
-                : 0;
-                
-        int size = fields.has("size") && fields.getAsJsonObject("size").has("integerValue")
-                ? fields.getAsJsonObject("size").get("integerValue").getAsInt()
-                : 85;
-        
-        return new IslandLocationDTO(centerX, centerZ, size);
+        try {
+            // 필수 필드 검증
+            JsonUtil.validateRequiredField(fields, "centerX", "IslandLocationDTO");
+            JsonUtil.validateRequiredField(fields, "centerZ", "IslandLocationDTO");
+            
+            int centerX = (int) JsonUtil.getLongValue(fields, "centerX");
+            int centerZ = (int) JsonUtil.getLongValue(fields, "centerZ");
+            int size = (int) JsonUtil.getLongValue(fields, "size", 85);
+            
+            // 유효성 검증
+            if (size <= 0) {
+                throw new IllegalArgumentException(
+                    String.format("Invalid IslandLocationDTO: size must be positive, but found: %d", size)
+                );
+            }
+            
+            return new IslandLocationDTO(centerX, centerZ, size);
+        } catch (Exception e) {
+            if (e instanceof IllegalArgumentException) {
+                throw e;
+            }
+            throw new IllegalArgumentException(
+                String.format("Failed to parse IslandLocationDTO: %s. JSON structure: %s", 
+                    e.getMessage(), 
+                    json.toString().length() > 200 ? json.toString().substring(0, 200) + "..." : json.toString())
+            );
+        }
     }
     
 }

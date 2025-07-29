@@ -1,16 +1,15 @@
 package com.febrie.rpg.npc.manager;
 
-import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.npc.trait.RPGGuideTrait;
-import com.febrie.rpg.npc.trait.RPGQuestTrait;
 import com.febrie.rpg.npc.trait.RPGQuestRewardTrait;
+import com.febrie.rpg.npc.trait.RPGQuestTrait;
 import com.febrie.rpg.npc.trait.RPGShopTrait;
 import com.febrie.rpg.util.LogUtil;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
+import net.citizensnpcs.api.trait.TraitInfo;
 import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -24,14 +23,12 @@ import java.util.List;
  */
 public class NPCManager {
 
-    private final RPGMain plugin;
     private final NPCRegistry npcRegistry;
     private boolean traitsRegistered = false;
 
-    public NPCManager(@NotNull RPGMain plugin) {
-        this.plugin = plugin;
+    public NPCManager() {
         this.npcRegistry = CitizensAPI.getNPCRegistry();
-        
+
         // Citizens가 depend로 설정되어 있으므로 즉시 등록
         registerTraits();
     }
@@ -52,25 +49,10 @@ public class NPCManager {
             }
 
             // 커스텀 Trait 등록
-            CitizensAPI.getTraitFactory().registerTrait(
-                net.citizensnpcs.api.trait.TraitInfo.create(RPGQuestTrait.class)
-                    .withName("rpgquest")
-            );
-            
-            CitizensAPI.getTraitFactory().registerTrait(
-                net.citizensnpcs.api.trait.TraitInfo.create(RPGQuestRewardTrait.class)
-                    .withName("rpgquestreward")
-            );
-            
-            CitizensAPI.getTraitFactory().registerTrait(
-                net.citizensnpcs.api.trait.TraitInfo.create(RPGShopTrait.class)
-                    .withName("rpgshop")
-            );
-            
-            CitizensAPI.getTraitFactory().registerTrait(
-                net.citizensnpcs.api.trait.TraitInfo.create(RPGGuideTrait.class)
-                    .withName("rpgguide")
-            );
+            CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(RPGQuestTrait.class).withName("rpgquest"));
+            CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(RPGQuestRewardTrait.class).withName("rpgquestreward"));
+            CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(RPGShopTrait.class).withName("rpgshop"));
+            CitizensAPI.getTraitFactory().registerTrait(TraitInfo.create(RPGGuideTrait.class).withName("rpgguide"));
 
             traitsRegistered = true;
             LogUtil.info("RPG NPC Traits가 성공적으로 등록되었습니다.");
@@ -101,10 +83,7 @@ public class NPCManager {
      * NPC가 RPG NPC인지 확인
      */
     public boolean isRPGNPC(@NotNull NPC npc) {
-        return npc.hasTrait(RPGQuestTrait.class) ||
-               npc.hasTrait(RPGQuestRewardTrait.class) ||
-               npc.hasTrait(RPGShopTrait.class) ||
-               npc.hasTrait(RPGGuideTrait.class);
+        return npc.hasTrait(RPGQuestTrait.class) || npc.hasTrait(RPGQuestRewardTrait.class) || npc.hasTrait(RPGShopTrait.class) || npc.hasTrait(RPGGuideTrait.class);
     }
 
     /**
@@ -114,11 +93,8 @@ public class NPCManager {
     public List<NPC> getQuestNPCs() {
         List<NPC> questNPCs = new ArrayList<>();
 
-        for (NPC npc : npcRegistry) {
-            if (npc != null && npc.hasTrait(RPGQuestTrait.class)) {
-                questNPCs.add(npc);
-            }
-        }
+        for (NPC npc : npcRegistry)
+            if (npc != null && npc.hasTrait(RPGQuestTrait.class)) questNPCs.add(npc);
 
         return questNPCs;
     }
@@ -130,11 +106,8 @@ public class NPCManager {
     public List<NPC> getShopNPCs() {
         List<NPC> shopNPCs = new ArrayList<>();
 
-        for (NPC npc : npcRegistry) {
-            if (npc != null && npc.hasTrait(RPGShopTrait.class)) {
-                shopNPCs.add(npc);
-            }
-        }
+        for (NPC npc : npcRegistry)
+            if (npc != null && npc.hasTrait(RPGShopTrait.class)) shopNPCs.add(npc);
 
         return shopNPCs;
     }
@@ -146,11 +119,8 @@ public class NPCManager {
     public List<NPC> getGuideNPCs() {
         List<NPC> guideNPCs = new ArrayList<>();
 
-        for (NPC npc : npcRegistry) {
-            if (npc != null && npc.hasTrait(RPGGuideTrait.class)) {
-                guideNPCs.add(npc);
-            }
-        }
+        for (NPC npc : npcRegistry)
+            if (npc != null && npc.hasTrait(RPGGuideTrait.class)) guideNPCs.add(npc);
 
         return guideNPCs;
     }

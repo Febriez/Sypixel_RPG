@@ -1,6 +1,9 @@
 package com.febrie.rpg.dto.social;
 
+import com.febrie.rpg.util.JsonUtil;
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -10,96 +13,91 @@ import java.util.UUID;
  *
  * @author Febrie
  */
-public class WhisperMessageDTO {
-    
-    private String id; // Firestore 문서 ID
-    private UUID fromPlayerId;
-    private String fromPlayerName;
-    private UUID toPlayerId;
-    private String toPlayerName;
-    private String message;
-    private LocalDateTime sentTime;
-    private boolean isRead;
-    
-    public WhisperMessageDTO() {
-        // Firebase 역직렬화를 위한 기본 생성자
-    }
-    
+public record WhisperMessageDTO(
+        @Nullable String id, // Firestore 문서 ID
+        @NotNull UUID fromPlayerId,
+        @NotNull String fromPlayerName,
+        @NotNull UUID toPlayerId,
+        @NotNull String toPlayerName,
+        @NotNull String message,
+        @NotNull LocalDateTime sentTime,
+        boolean isRead
+) {
+    /**
+     * 새 메시지 생성용 생성자
+     */
     public WhisperMessageDTO(@NotNull UUID fromPlayerId, @NotNull String fromPlayerName,
                             @NotNull UUID toPlayerId, @NotNull String toPlayerName,
                             @NotNull String message) {
-        this.fromPlayerId = fromPlayerId;
-        this.fromPlayerName = fromPlayerName;
-        this.toPlayerId = toPlayerId;
-        this.toPlayerName = toPlayerName;
-        this.message = message;
-        this.sentTime = LocalDateTime.now();
-        this.isRead = false;
+        this(null, fromPlayerId, fromPlayerName, toPlayerId, toPlayerName, 
+             message, LocalDateTime.now(), false);
     }
     
-    // Getters and Setters
-    public String getId() {
-        return id;
+    /**
+     * JsonObject로 변환
+     */
+    @NotNull
+    public JsonObject toJsonObject() {
+        JsonObject fields = new JsonObject();
+        
+        if (id != null) {
+            fields.add("id", JsonUtil.createStringValue(id));
+        }
+        fields.add("fromPlayerId", JsonUtil.createStringValue(fromPlayerId.toString()));
+        fields.add("fromPlayerName", JsonUtil.createStringValue(fromPlayerName));
+        fields.add("toPlayerId", JsonUtil.createStringValue(toPlayerId.toString()));
+        fields.add("toPlayerName", JsonUtil.createStringValue(toPlayerName));
+        fields.add("message", JsonUtil.createStringValue(message));
+        fields.add("sentTime", JsonUtil.createStringValue(sentTime.toString()));
+        fields.add("isRead", JsonUtil.createBooleanValue(isRead));
+        
+        return JsonUtil.wrapInDocument(fields);
     }
     
-    public void setId(String id) {
-        this.id = id;
+    /**
+     * JsonObject에서 WhisperMessageDTO 생성
+     */
+    @NotNull
+    public static WhisperMessageDTO fromJsonObject(@NotNull JsonObject json) {
+        JsonObject fields = JsonUtil.unwrapDocument(json);
+        
+        String id = JsonUtil.getStringValue(fields, "id", null);
+        
+        String fromPlayerIdStr = JsonUtil.getStringValue(fields, "fromPlayerId", UUID.randomUUID().toString());
+        UUID fromPlayerId = UUID.fromString(fromPlayerIdStr);
+        
+        String fromPlayerName = JsonUtil.getStringValue(fields, "fromPlayerName", "");
+        
+        String toPlayerIdStr = JsonUtil.getStringValue(fields, "toPlayerId", UUID.randomUUID().toString());
+        UUID toPlayerId = UUID.fromString(toPlayerIdStr);
+        
+        String toPlayerName = JsonUtil.getStringValue(fields, "toPlayerName", "");
+        
+        String message = JsonUtil.getStringValue(fields, "message", "");
+        
+        String sentTimeStr = JsonUtil.getStringValue(fields, "sentTime", LocalDateTime.now().toString());
+        LocalDateTime sentTime = LocalDateTime.parse(sentTimeStr);
+        
+        boolean isRead = JsonUtil.getBooleanValue(fields, "isRead", false);
+        
+        return new WhisperMessageDTO(id, fromPlayerId, fromPlayerName, toPlayerId, 
+                                    toPlayerName, message, sentTime, isRead);
     }
     
-    public UUID getFromPlayerId() {
-        return fromPlayerId;
+    /**
+     * ID 설정을 위한 새 인스턴스 생성
+     */
+    public WhisperMessageDTO withId(@NotNull String newId) {
+        return new WhisperMessageDTO(newId, fromPlayerId, fromPlayerName, toPlayerId, 
+                                    toPlayerName, message, sentTime, isRead);
     }
     
-    public void setFromPlayerId(UUID fromPlayerId) {
-        this.fromPlayerId = fromPlayerId;
-    }
-    
-    public String getFromPlayerName() {
-        return fromPlayerName;
-    }
-    
-    public void setFromPlayerName(String fromPlayerName) {
-        this.fromPlayerName = fromPlayerName;
-    }
-    
-    public UUID getToPlayerId() {
-        return toPlayerId;
-    }
-    
-    public void setToPlayerId(UUID toPlayerId) {
-        this.toPlayerId = toPlayerId;
-    }
-    
-    public String getToPlayerName() {
-        return toPlayerName;
-    }
-    
-    public void setToPlayerName(String toPlayerName) {
-        this.toPlayerName = toPlayerName;
-    }
-    
-    public String getMessage() {
-        return message;
-    }
-    
-    public void setMessage(String message) {
-        this.message = message;
-    }
-    
-    public LocalDateTime getSentTime() {
-        return sentTime;
-    }
-    
-    public void setSentTime(LocalDateTime sentTime) {
-        this.sentTime = sentTime;
-    }
-    
-    public boolean isRead() {
-        return isRead;
-    }
-    
-    public void setRead(boolean read) {
-        isRead = read;
+    /**
+     * 읽음 상태 변경을 위한 새 인스턴스 생성
+     */
+    public WhisperMessageDTO markAsRead() {
+        return new WhisperMessageDTO(id, fromPlayerId, fromPlayerName, toPlayerId, 
+                                    toPlayerName, message, sentTime, true);
     }
     
     @Override

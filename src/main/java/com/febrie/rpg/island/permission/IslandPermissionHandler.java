@@ -179,12 +179,6 @@ public class IslandPermissionHandler {
      * 역할을 사용자 친화적인 이름으로 변환
      */
     public static String getRoleDisplayName(@NotNull LangManager langManager, @NotNull String language, @NotNull IslandRole role) {
-        return switch (role) {
-            case OWNER -> langManager.getMessage(language, "island.roles.owner");
-            case CO_OWNER -> langManager.getMessage(language, "island.roles.sub-owner");
-            case MEMBER -> langManager.getMessage(language, "island.roles.member");
-            case WORKER -> langManager.getMessage(language, "island.roles.worker");
-            case VISITOR -> langManager.getMessage(language, "island.roles.visitor");
-        };
+        return langManager.getMessage(language, role.getLangKey());
     }
 }

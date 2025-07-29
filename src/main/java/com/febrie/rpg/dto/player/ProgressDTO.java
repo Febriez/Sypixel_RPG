@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.player;
 
+import com.febrie.rpg.util.JsonUtil;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,29 +33,12 @@ public record ProgressDTO(
         JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
         
-        JsonObject currentLevelValue = new JsonObject();
-        currentLevelValue.addProperty("integerValue", currentLevel);
-        fields.add("currentLevel", currentLevelValue);
-        
-        JsonObject totalExperienceValue = new JsonObject();
-        totalExperienceValue.addProperty("integerValue", totalExperience);
-        fields.add("totalExperience", totalExperienceValue);
-        
-        JsonObject levelProgressValue = new JsonObject();
-        levelProgressValue.addProperty("doubleValue", levelProgress);
-        fields.add("levelProgress", levelProgressValue);
-        
-        JsonObject mobsKilledValue = new JsonObject();
-        mobsKilledValue.addProperty("integerValue", mobsKilled);
-        fields.add("mobsKilled", mobsKilledValue);
-        
-        JsonObject playersKilledValue = new JsonObject();
-        playersKilledValue.addProperty("integerValue", playersKilled);
-        fields.add("playersKilled", playersKilledValue);
-        
-        JsonObject deathsValue = new JsonObject();
-        deathsValue.addProperty("integerValue", deaths);
-        fields.add("deaths", deathsValue);
+        fields.add("currentLevel", JsonUtil.createIntegerValue(currentLevel));
+        fields.add("totalExperience", JsonUtil.createIntegerValue(totalExperience));
+        fields.add("levelProgress", JsonUtil.createDoubleValue(levelProgress));
+        fields.add("mobsKilled", JsonUtil.createIntegerValue(mobsKilled));
+        fields.add("playersKilled", JsonUtil.createIntegerValue(playersKilled));
+        fields.add("deaths", JsonUtil.createIntegerValue(deaths));
         
         json.add("fields", fields);
         return json;
@@ -71,29 +55,12 @@ public record ProgressDTO(
         
         JsonObject fields = json.getAsJsonObject("fields");
         
-        int currentLevel = fields.has("currentLevel") && fields.getAsJsonObject("currentLevel").has("integerValue")
-                ? fields.getAsJsonObject("currentLevel").get("integerValue").getAsInt()
-                : 1;
-                
-        long totalExperience = fields.has("totalExperience") && fields.getAsJsonObject("totalExperience").has("integerValue")
-                ? fields.getAsJsonObject("totalExperience").get("integerValue").getAsLong()
-                : 0L;
-                
-        double levelProgress = fields.has("levelProgress") && fields.getAsJsonObject("levelProgress").has("doubleValue")
-                ? fields.getAsJsonObject("levelProgress").get("doubleValue").getAsDouble()
-                : 0.0;
-                
-        int mobsKilled = fields.has("mobsKilled") && fields.getAsJsonObject("mobsKilled").has("integerValue")
-                ? fields.getAsJsonObject("mobsKilled").get("integerValue").getAsInt()
-                : 0;
-                
-        int playersKilled = fields.has("playersKilled") && fields.getAsJsonObject("playersKilled").has("integerValue")
-                ? fields.getAsJsonObject("playersKilled").get("integerValue").getAsInt()
-                : 0;
-                
-        int deaths = fields.has("deaths") && fields.getAsJsonObject("deaths").has("integerValue")
-                ? fields.getAsJsonObject("deaths").get("integerValue").getAsInt()
-                : 0;
+        int currentLevel = (int) JsonUtil.getLongValue(fields, "currentLevel", 1L);
+        long totalExperience = JsonUtil.getLongValue(fields, "totalExperience", 0L);
+        double levelProgress = JsonUtil.getDoubleValue(fields, "levelProgress", 0.0);
+        int mobsKilled = (int) JsonUtil.getLongValue(fields, "mobsKilled", 0L);
+        int playersKilled = (int) JsonUtil.getLongValue(fields, "playersKilled", 0L);
+        int deaths = (int) JsonUtil.getLongValue(fields, "deaths", 0L);
         
         return new ProgressDTO(currentLevel, totalExperience, levelProgress, mobsKilled, playersKilled, deaths);
     }
