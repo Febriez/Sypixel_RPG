@@ -23,6 +23,7 @@ import net.citizensnpcs.api.npc.NPC;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -33,12 +34,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * RPG 관리자 명령어 처리
@@ -64,11 +60,11 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         this.questManager = QuestManager.getInstance();
         this.islandManager = plugin.getIslandManager();
         this.subCommands = new HashMap<>();
-        
+
         // 서브 커맨드 등록
         registerSubCommands();
     }
-    
+
     private void registerSubCommands() {
         subCommands.put("stats", new StatsSubCommand(playerManager, langManager));
         // 다른 서브 커맨드들도 점진적으로 추가
@@ -88,7 +84,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         }
 
         String subCommand = args[0].toLowerCase();
-        
+
         // 서브 커맨드 시스템으로 처리 가능한 경우
         AdminSubCommand subCmd = subCommands.get(subCommand);
         if (subCmd != null) {
@@ -409,8 +405,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
 
             case "setcode" -> {
                 if (args.length < 3) {
-                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.setcode.usage"));
-                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.setcode.example"));
+                    player.sendMessage(Component.text("사용법: /rpgadmin npc setcode <npcId>", ColorUtil.ERROR));
+                    player.sendMessage(Component.text("예시: /rpgadmin npc setcode village_merchant", ColorUtil.GRAY));
                     return true;
                 }
 
@@ -418,33 +414,29 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
 
                 // NPC ID 유효성 검사 (영문 소문자와 언더스코어만 허용)
                 if (!npcId.matches("^[a-z_]+$")) {
-                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.setcode.invalid-format"));
-                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.setcode.format-example"));
+                    player.sendMessage(Component.text("NPC ID는 영문 소문자와 언더스코어만 사용할 수 있습니다.", ColorUtil.ERROR));
                     return true;
                 }
 
-                String displayName = args.length > 3 ? String.join(" ", Arrays.copyOfRange(args, 3, args.length)) : npcId;
-
                 // Trait 등록 막대기 생성
-                ItemStack traitItem = com.febrie.rpg.quest.trait.QuestTraitRegistrationItem.create(npcId, displayName);
+                ItemStack traitItem = com.febrie.rpg.quest.trait.QuestTraitRegistrationItem.create(npcId, npcId);
 
-                // 인벤토리가 가득 찬 경우 바닥에 드롭
+                // 인벤토리가 가득 찬 경우 지급 중단
                 if (player.getInventory().firstEmpty() == -1) {
-                    player.getWorld().dropItem(player.getLocation(), traitItem);
-                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.setcode.inventory-full"));
-                } else {
-                    player.getInventory().addItem(traitItem);
+                    player.sendMessage(Component.text("인벤토리가 가득 찼습니다! 공간을 확보한 후 다시 시도하세요.", ColorUtil.ERROR));
+                    return true;
                 }
 
-                player.sendMessage(langManager.getComponent(player, "commands.admin.npc.setcode.success"));
-                player.sendMessage(langManager.getComponent(player, "commands.admin.npc.setcode.npc-id", "id", npcId));
-                player.sendMessage(langManager.getComponent(player, "commands.admin.npc.setcode.display-name", "name", displayName));
+                player.getInventory().addItem(traitItem);
+
+                player.sendMessage(Component.text("NPC ID 설정기가 지급되었습니다.", ColorUtil.SUCCESS));
+                player.sendMessage(Component.text("NPC ID: " + npcId, ColorUtil.YELLOW));
             }
 
             case "reward" -> {
                 if (args.length < 3) {
-                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.reward.usage"));
-                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.reward.example"));
+                    player.sendMessage(Component.text("사용법: /rpgadmin npc reward <npcId>", ColorUtil.ERROR));
+                    player.sendMessage(Component.text("예시: /rpgadmin npc reward quest_giver", ColorUtil.GRAY));
                     return true;
                 }
 
@@ -452,27 +444,23 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
 
                 // NPC ID 유효성 검사 (영문 소문자와 언더스코어만 허용)
                 if (!rewardNpcId.matches("^[a-z_]+$")) {
-                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.reward.invalid-format"));
-                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.reward.format-example"));
+                    player.sendMessage(Component.text("NPC ID는 영문 소문자와 언더스코어만 사용할 수 있습니다.", ColorUtil.ERROR));
                     return true;
                 }
 
-                String displayName = args.length > 3 ? String.join(" ", Arrays.copyOfRange(args, 3, args.length)) : rewardNpcId;
-
                 // 보상 Trait 등록 막대기 생성
-                ItemStack rewardItem = com.febrie.rpg.quest.trait.RewardTraitRegistrationItem.create(rewardNpcId, displayName);
+                ItemStack rewardItem = com.febrie.rpg.quest.trait.RewardTraitRegistrationItem.create(rewardNpcId, rewardNpcId);
 
-                // 인벤토리가 가득 찬 경우 바닥에 드롭
+                // 인벤토리가 가득 찬 경우 지급 중단
                 if (player.getInventory().firstEmpty() == -1) {
-                    player.getWorld().dropItem(player.getLocation(), rewardItem);
-                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.reward.inventory-full"));
-                } else {
-                    player.getInventory().addItem(rewardItem);
+                    player.sendMessage(Component.text("인벤토리가 가득 찼습니다! 공간을 확보한 후 다시 시도하세요.", ColorUtil.ERROR));
+                    return true;
                 }
 
-                player.sendMessage(langManager.getComponent(player, "commands.admin.npc.reward.success"));
-                player.sendMessage(langManager.getComponent(player, "commands.admin.npc.reward.npc-id", "id", rewardNpcId));
-                player.sendMessage(langManager.getComponent(player, "commands.admin.npc.reward.display-name", "name", displayName));
+                player.getInventory().addItem(rewardItem);
+
+                player.sendMessage(Component.text("보상 NPC 설정기가 지급되었습니다.", ColorUtil.SUCCESS));
+                player.sendMessage(Component.text("NPC ID: " + rewardNpcId, ColorUtil.YELLOW));
             }
 
             case "list" -> {
@@ -496,6 +484,172 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                     count++;
                 }
                 player.sendMessage(langManager.getComponent(player, "commands.admin.npc.list.total", "count", String.valueOf(count)));
+            }
+
+            case "quest" -> {
+                if (args.length < 3) {
+                    player.sendMessage(Component.text("사용법: /rpgadmin npc quest <questId>", ColorUtil.ERROR));
+                    player.sendMessage(Component.text("예시: /rpgadmin npc quest FIRST_STEPS", ColorUtil.GRAY));
+                    return true;
+                }
+
+                // 퀘스트 ID 파싱
+                QuestID questId;
+                try {
+                    questId = QuestID.valueOf(args[2].toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    player.sendMessage(Component.text("잘못된 퀘스트 ID: " + args[2], ColorUtil.ERROR));
+                    return true;
+                }
+
+                // 퀘스트 확인
+                com.febrie.rpg.quest.Quest quest = questManager.getQuest(questId);
+                if (quest == null) {
+                    player.sendMessage(Component.text("구현되지 않은 퀘스트입니다: " + questId.name(), ColorUtil.ERROR));
+                    return true;
+                }
+
+                String displayName = quest.getDisplayName(true);
+
+                ItemStack questItem = com.febrie.rpg.quest.trait.QuestStartTraitRegistrationItem.create(questId, displayName);
+
+                if (player.getInventory().firstEmpty() == -1) {
+                    player.sendMessage(Component.text("인벤토리가 가득 찼습니다! 공간을 확보한 후 다시 시도하세요.", ColorUtil.ERROR));
+                    return true;
+                }
+
+                player.getInventory().addItem(questItem);
+
+                player.sendMessage(Component.text("퀘스트 시작 NPC 설정기가 지급되었습니다.", ColorUtil.SUCCESS));
+                player.sendMessage(Component.text("퀘스트 ID: " + questId.name(), ColorUtil.YELLOW));
+            }
+
+            case "shop" -> {
+                if (args.length < 3) {
+                    player.sendMessage(Component.text("사용법: /rpgadmin npc shop <타입>", ColorUtil.ERROR));
+                    player.sendMessage(Component.text("예시: /rpgadmin npc shop weapons", ColorUtil.GRAY));
+                    return true;
+                }
+
+                String shopType = args[2];
+
+                ItemStack shopItem = com.febrie.rpg.npc.trait.ShopTraitRegistrationItem.create(shopType, shopType);
+
+                if (player.getInventory().firstEmpty() == -1) {
+                    player.sendMessage(Component.text("인벤토리가 가득 찼습니다! 공간을 확보한 후 다시 시도하세요.", ColorUtil.ERROR));
+                    return true;
+                }
+
+                player.getInventory().addItem(shopItem);
+
+                player.sendMessage(Component.text("상점 NPC 설정기가 지급되었습니다.", ColorUtil.SUCCESS));
+                player.sendMessage(Component.text("상점 타입: " + shopType, ColorUtil.YELLOW));
+            }
+
+            case "guide" -> {
+                if (args.length < 3) {
+                    player.sendMessage(Component.text("사용법: /rpgadmin npc guide <타입>", ColorUtil.ERROR));
+                    player.sendMessage(Component.text("예시: /rpgadmin npc guide main", ColorUtil.GRAY));
+                    return true;
+                }
+
+                String guideType = args[2];
+
+                ItemStack guideItem = com.febrie.rpg.npc.trait.GuideTraitRegistrationItem.create(guideType, guideType);
+
+                if (player.getInventory().firstEmpty() == -1) {
+                    player.sendMessage(Component.text("인벤토리가 가득 찼습니다! 공간을 확보한 후 다시 시도하세요.", ColorUtil.ERROR));
+                    return true;
+                }
+
+                player.getInventory().addItem(guideItem);
+
+                player.sendMessage(Component.text("가이드 NPC 설정기가 지급되었습니다.", ColorUtil.SUCCESS));
+                player.sendMessage(Component.text("가이드 타입: " + guideType, ColorUtil.YELLOW));
+            }
+
+            case "dialog" -> {
+                if (args.length < 3) {
+                    player.sendMessage(Component.text("사용법: /rpgadmin npc dialog <대화ID>", ColorUtil.ERROR));
+                    player.sendMessage(Component.text("예시: /rpgadmin npc dialog village_greeting", ColorUtil.GRAY));
+                    return true;
+                }
+
+                String dialogId = args[2];
+
+                // ID 유효성 검사 (영문 소문자와 언더스코어만 허용)
+                if (!dialogId.matches("^[a-z_]+$")) {
+                    player.sendMessage(Component.text("대화 ID는 영문 소문자와 언더스코어만 사용할 수 있습니다.", ColorUtil.ERROR));
+                    return true;
+                }
+
+                ItemStack dialogItem = com.febrie.rpg.npc.trait.DialogTraitRegistrationItem.create(dialogId, dialogId);
+
+                if (player.getInventory().firstEmpty() == -1) {
+                    player.sendMessage(Component.text("인벤토리가 가득 찼습니다! 공간을 확보한 후 다시 시도하세요.", ColorUtil.ERROR));
+                    return true;
+                }
+
+                player.getInventory().addItem(dialogItem);
+
+                player.sendMessage(Component.text("대화 NPC 설정기가 지급되었습니다.", ColorUtil.SUCCESS));
+                player.sendMessage(Component.text("대화 ID: " + dialogId, ColorUtil.YELLOW));
+            }
+
+            case "questall" -> {
+                if (args.length < 3) {
+                    player.sendMessage(Component.text("사용법: /rpgadmin npc questall <questId>", ColorUtil.ERROR));
+                    player.sendMessage(Component.text("예시: /rpgadmin npc questall FIRST_STEPS", ColorUtil.GRAY));
+                    return true;
+                }
+
+                // 퀘스트 ID 파싱
+                QuestID questId;
+                try {
+                    questId = QuestID.valueOf(args[2].toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    player.sendMessage(Component.text("잘못된 퀘스트 ID: " + args[2], ColorUtil.ERROR));
+                    return true;
+                }
+
+                // 퀘스트 확인
+                com.febrie.rpg.quest.Quest quest = questManager.getQuest(questId);
+                if (quest == null) {
+                    player.sendMessage(Component.text("구현되지 않은 퀘스트입니다: " + questId.name(), ColorUtil.ERROR));
+                    return true;
+                }
+
+                String displayName = quest.getDisplayName(true);
+                String npcId = questId.name().toLowerCase();
+
+                // 인벤토리 공간 확인 (3개 필요)
+                int emptySlots = 0;
+                for (ItemStack item : player.getInventory().getStorageContents()) {
+                    if (item == null || item.getType() == Material.AIR) {
+                        emptySlots++;
+                    }
+                }
+
+                if (emptySlots < 3) {
+                    player.sendMessage(Component.text("인벤토리에 최소 3칸의 빈 공간이 필요합니다!", ColorUtil.ERROR));
+                    player.sendMessage(Component.text("현재 빈 공간: " + emptySlots + "칸", ColorUtil.GRAY));
+                    return true;
+                }
+
+                // 3개의 막대기 생성 및 지급
+                ItemStack questItem = com.febrie.rpg.quest.trait.QuestStartTraitRegistrationItem.create(questId, displayName);
+                ItemStack setcodeItem = com.febrie.rpg.quest.trait.QuestTraitRegistrationItem.create(npcId, npcId);
+                ItemStack rewardItem = com.febrie.rpg.quest.trait.RewardTraitRegistrationItem.create(npcId, npcId);
+
+                player.getInventory().addItem(questItem);
+                player.getInventory().addItem(setcodeItem);
+                player.getInventory().addItem(rewardItem);
+
+                player.sendMessage(Component.text("퀘스트 관련 NPC 설정기 3개가 지급되었습니다:", ColorUtil.SUCCESS));
+                player.sendMessage(Component.text("- 퀘스트 시작 NPC 설정기", ColorUtil.GRAY));
+                player.sendMessage(Component.text("- NPC ID 설정기 (" + npcId + ")", ColorUtil.GRAY));
+                player.sendMessage(Component.text("- 보상 NPC 설정기 (" + npcId + ")", ColorUtil.GRAY));
+                player.sendMessage(Component.text("퀘스트: " + questId.name() + " - " + displayName, ColorUtil.YELLOW));
             }
 
             default -> showNpcUsage(player);
@@ -580,7 +734,16 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
      * NPC 사용법 표시
      */
     private void showNpcUsage(@NotNull CommandSender sender) {
-        sendUsageMessages(sender, "commands.admin.npc.usage.title", "commands.admin.npc.usage.set", "commands.admin.npc.usage.setcode", "commands.admin.npc.usage.reward", "commands.admin.npc.usage.list");
+        sender.sendMessage(Component.text("=== NPC 관리 명령어 ===", ColorUtil.GOLD));
+        sender.sendMessage(Component.text("/rpgadmin npc set <questId>", ColorUtil.YELLOW).append(Component.text(" - NPC에 퀘스트 설정 (10초내 우클릭)", ColorUtil.GRAY)));
+        sender.sendMessage(Component.text("/rpgadmin npc setcode <npcId>", ColorUtil.YELLOW).append(Component.text(" - NPC ID 설정 막대기", ColorUtil.GRAY)));
+        sender.sendMessage(Component.text("/rpgadmin npc reward <npcId>", ColorUtil.YELLOW).append(Component.text(" - 보상 NPC 설정 막대기", ColorUtil.GRAY)));
+        sender.sendMessage(Component.text("/rpgadmin npc quest <questId>", ColorUtil.YELLOW).append(Component.text(" - 퀘스트 시작 NPC 막대기", ColorUtil.GRAY)));
+        sender.sendMessage(Component.text("/rpgadmin npc questall <questId>", ColorUtil.YELLOW).append(Component.text(" - 퀘스트 관련 막대기 3개 한번에", ColorUtil.GRAY)));
+        sender.sendMessage(Component.text("/rpgadmin npc shop <타입>", ColorUtil.YELLOW).append(Component.text(" - 상점 NPC 막대기", ColorUtil.GRAY)));
+        sender.sendMessage(Component.text("/rpgadmin npc guide <타입>", ColorUtil.YELLOW).append(Component.text(" - 가이드 NPC 막대기", ColorUtil.GRAY)));
+        sender.sendMessage(Component.text("/rpgadmin npc dialog <대화ID>", ColorUtil.YELLOW).append(Component.text(" - 대화 NPC 막대기", ColorUtil.GRAY)));
+        sender.sendMessage(Component.text("/rpgadmin npc list", ColorUtil.YELLOW).append(Component.text(" - NPC 목록 보기", ColorUtil.GRAY)));
     }
 
     /**
@@ -627,6 +790,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
 
     /**
      * 섬 관리 명령어 내부 처리
+     *
      * @return 처리 결과 (false: 명령어 사용법 표시 필요)
      */
     private boolean handleIslandCommandInternal(@NotNull CommandSender sender, @NotNull String[] args) {
@@ -766,12 +930,9 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             List<String> commands = new ArrayList<>(subCommands.keySet());
             commands.addAll(Arrays.asList("reload", "viewprofile", "exp", "level", "job", "npc", "quest", "island"));
-            return commands.stream()
-                    .filter(s -> s.startsWith(args[0].toLowerCase()))
-                    .sorted()
-                    .toList();
+            return commands.stream().filter(s -> s.startsWith(args[0].toLowerCase())).sorted().toList();
         }
-        
+
         // 서브 커맨드 시스템의 탭 완성 처리
         if (args.length >= 2) {
             String subCommand = args[0].toLowerCase();
@@ -851,21 +1012,14 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
      */
     private @NotNull List<String> getOnlinePlayerSuggestions(@NotNull String partial) {
         String lowerPartial = partial.toLowerCase();
-        return Bukkit.getOnlinePlayers().stream()
-                .map(Player::getName)
-                .filter(name -> name.toLowerCase().startsWith(lowerPartial))
-                .sorted()
-                .toList();
+        return Bukkit.getOnlinePlayers().stream().map(Player::getName).filter(name -> name.toLowerCase().startsWith(lowerPartial)).sorted().toList();
     }
-    
+
     /**
      * 탭 완성 - 퀘스트 ID
      */
     private @NotNull List<String> getQuestIdSuggestions(@NotNull String partial) {
         String upperPartial = partial.toUpperCase();
-        return Arrays.stream(QuestID.values())
-                .map(QuestID::name)
-                .filter(name -> name.startsWith(upperPartial))
-                .toList();
+        return Arrays.stream(QuestID.values()).map(QuestID::name).filter(name -> name.startsWith(upperPartial)).toList();
     }
 }

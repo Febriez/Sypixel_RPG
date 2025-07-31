@@ -1,7 +1,21 @@
 {
-  "started": "%COLOR_SUCCESS%Quest started: %COLOR_LEGENDARY%{quest}",
+  "started": "📋 New quest started: ",
   "start-failed": "%COLOR_ERROR%Failed to start quest!",
+  "completed": " quest completed!",
   "declined": "%COLOR_GRAY%Quest declined.",
+  "reward-npc-visit": "🎁 Visit the reward NPC to claim your rewards!",
+  "total-progress": "Total Progress",
+  "progress": "Progress",
+  "objective-achieved": " Complete!",
+  "quest-completed-toast": "Quest completed!",
+  "goals": "Goals:",
+  "rewards": "Rewards:",
+  "category-label": "Category: ",
+  "level-requirement": "Level Requirement: ",
+  "quest-objectives": "=== Quest Objectives ===",
+  "quest-rewards": "=== Quest Rewards ===",
+  "sequential-note": "※ Must be completed in order.",
+  "unknown-npc": "Unknown NPC",
   "dialog": {
     "player": "Player"
   },
@@ -14,8 +28,137 @@
     "prerequisite-requirement": "%COLOR_ERROR%You must complete prerequisite quests first!",
     "mutually-exclusive": "%COLOR_ERROR%You have already completed a mutually exclusive quest!"
   },
+  "categories": {
+    "main": "Main Quest",
+    "side": "Side Quest",
+    "daily": "Daily Quest",
+    "weekly": "Weekly Quest",
+    "tutorial": "Tutorial",
+    "combat": "Combat Quest",
+    "guild": "Guild Quest",
+    "event": "Event Quest",
+    "special": "Special Quest",
+    "advancement": "Advancement Quest",
+    "repeatable": "Repeatable Quest",
+    "seasonal": "Seasonal Quest",
+    "branch": "Branch Quest",
+    "life": "Life Quest",
+    "crafting": "Crafting Quest",
+    "exploration": "Exploration Quest"
+  },
   "reward": {
+    "title": "Quest Rewards",
+    "items": "Items:",
+    "currency": "Currency:",
+    "experience": "Experience:",
     "no-rewards": "%COLOR_WARNING%No rewards to claim.",
-    "not-this-npc": "%COLOR_WARNING%No rewards available from this NPC."
+    "not-this-npc": "%COLOR_WARNING%No rewards available from this NPC.",
+    "currencies": {
+      "gold": "Gold",
+      "diamond": "Diamond",
+      "emerald": "Emerald",
+      "ghast_tear": "Stardust",
+      "nether_star": "Star",
+      "exp": "Experience"
+    }
+  },
+  "tutorial": {
+    "first-steps": {
+      "name": "First Steps",
+      "description": "Welcome to the server!\nLet's learn basic movement and interaction.",
+      "objectives": {
+        "visit_hub": "Visit the Hub area",
+        "visit_merchant": "Talk to village merchant"
+      },
+      "dialogs": {
+        "welcome": "Hello, new adventurer! Welcome to the world of Sypixel RPG!",
+        "guide-intro": "I'm your guide to help with your first steps. Let's learn the basics of this world together!",
+        "ready-question": "First, let's learn basic movement and interaction. Are you ready?",
+        "accept": "Great! Let's start the adventure together. First, come find me in the Hub area!",
+        "decline": "Not ready yet? Come back anytime when you're prepared!"
+      },
+      "npc-name": "Tutorial Guide"
+    },
+    "basic-combat": {
+      "name": "Basic Combat",
+      "description": "Learn how to fight monsters.\nBe careful, monsters are dangerous!",
+      "objectives": {
+        "kill_zombies": "Kill 5 zombies",
+        "kill_skeletons": "Kill 3 skeletons"
+      }
+    }
+  },
+  "daily": {
+    "hunting": {
+      "name": "Daily Hunting",
+      "description": "Complete today's hunting objectives.\nResets daily at midnight.",
+      "objectives": {
+        "kill_zombies": "Kill 20 zombies",
+        "kill_skeletons": "Kill 15 skeletons",
+        "kill_creepers": "Kill 10 creepers"
+      }
+    },
+    "gathering": {
+      "name": "Daily Gathering",
+      "description": "Gather today's required resources.\nResets daily at midnight.",
+      "objectives": {
+        "gather_logs": "Gather 30 logs",
+        "gather_cobblestone": "Gather 50 cobblestone",
+        "gather_iron": "Gather 10 iron ore"
+      }
+    },
+    "fishing": {
+      "name": "Daily Fishing",
+      "description": "Complete today's fishing objectives.\nResets daily at midnight.",
+      "objectives": {
+        "catch_fish": "Catch 15 fish",
+        "catch_rare": "Catch a rare fish"
+      }
+    },
+    "mining": {
+      "name": "Daily Mining",
+      "description": "Complete today's mining objectives.\nResets daily at midnight.",
+      "objectives": {
+        "mine_stone": "Mine 100 stone",
+        "mine_coal": "Mine 20 coal",
+        "mine_iron": "Mine 15 iron ore",
+        "mine_gold": "Mine 5 gold ore"
+      }
+    },
+    "crafting": {
+      "name": "Daily Crafting",
+      "description": "Complete today's crafting objectives.\nResets daily at midnight.",
+      "objectives": {
+        "craft_tools": "Craft 5 iron tools",
+        "craft_armor": "Craft 3 armor pieces"
+      }
+    },
+    "exploration": {
+      "name": "Daily Exploration",
+      "description": "Explore new areas and discover secrets.\nResets daily at midnight.",
+      "objectives": {
+        "visit_forest": "Visit the Enchanted Forest",
+        "visit_mountains": "Visit the Snowy Mountains",
+        "visit_desert": "Visit the Scorching Desert"
+      }
+    },
+    "delivery": {
+      "name": "Daily Delivery",
+      "description": "Deliver items to various NPCs.\nResets daily at midnight.",
+      "objectives": {
+        "deliver_merchant": "Deliver goods to the merchant",
+        "deliver_blacksmith": "Deliver materials to the blacksmith",
+        "deliver_alchemist": "Deliver ingredients to the alchemist"
+      }
+    },
+    "bounty-hunter": {
+      "name": "Daily Bounty Hunter",
+      "description": "Hunt down today's target monsters.\nResets daily at midnight.",
+      "objectives": {
+        "hunt_elite_zombie": "Hunt the Elite Zombie",
+        "hunt_phantom": "Hunt 5 Phantoms",
+        "hunt_wither_skeleton": "Hunt 3 Wither Skeletons"
+      }
+    }
   }
 }

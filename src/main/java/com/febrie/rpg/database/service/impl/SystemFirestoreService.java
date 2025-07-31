@@ -107,6 +107,34 @@ public class SystemFirestoreService {
     }
     
     /**
+     * 일일 서버 통계 저장
+     * @param date 날짜 (yyyy-MM-dd 형식)
+     * @param stats 서버 통계
+     * @return 저장 결과
+     */
+    @NotNull
+    public CompletableFuture<Void> saveDailyStats(@NotNull String date, @NotNull ServerStatsDTO stats) {
+        Map<String, Object> data = serverStatsToMap(stats);
+        
+        return CompletableFuture.runAsync(() -> {
+            try {
+                // ServerStat/Daily/날짜 경로에 저장
+                firestore.collection("ServerStat")
+                        .document("Daily")
+                        .collection(date.substring(0, 7)) // yyyy-MM 형식으로 월별 분류
+                        .document(date)
+                        .set(data)
+                        .get();
+                
+                LogUtil.info("일일 서버 통계 저장 성공 [" + date + "]");
+            } catch (Exception e) {
+                LogUtil.error("일일 서버 통계 저장 실패 [" + date + "]", e);
+                throw new RuntimeException(e);
+            }
+        });
+    }
+    
+    /**
      * 서버 통계 증가 (원자적 업데이트)
      */
     @NotNull

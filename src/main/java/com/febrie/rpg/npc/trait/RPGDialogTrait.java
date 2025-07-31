@@ -1,6 +1,8 @@
 package com.febrie.rpg.npc.trait;
 
+import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.LangManager;
 import net.citizensnpcs.api.persistence.Persist;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitName;
@@ -20,8 +22,8 @@ import java.util.Random;
 @TraitName("rpgdialog")
 public class RPGDialogTrait extends Trait {
 
-    @Persist("dialogues")
-    private List<String> dialogues = new ArrayList<>();
+    @Persist("dialogId")
+    private String dialogId = null;
     
     @Persist("lastDialogTime")
     private long lastDialogTime = 0;
@@ -30,41 +32,31 @@ public class RPGDialogTrait extends Trait {
     private long dialogCooldown = 3000; // 3초 기본 쿨다운
     
     private final Random random = new Random();
+    private final LangManager langManager = RPGMain.getInstance().getLangManager();
 
     public RPGDialogTrait() {
         super("rpgdialog");
     }
 
     /**
-     * 대사 추가
+     * 대화 ID 설정
      */
-    public void addDialogue(String dialogue) {
-        if (!dialogues.contains(dialogue)) {
-            dialogues.add(dialogue);
-        }
+    public void setDialogId(String dialogId) {
+        this.dialogId = dialogId;
     }
     
     /**
-     * 대사 제거
+     * 대화 ID 조회
      */
-    public void removeDialogue(int index) {
-        if (index >= 0 && index < dialogues.size()) {
-            dialogues.remove(index);
-        }
+    public String getDialogId() {
+        return dialogId;
     }
     
     /**
-     * 모든 대사 조회
+     * 대화 ID가 설정되어 있는지 확인
      */
-    public List<String> getDialogues() {
-        return new ArrayList<>(dialogues);
-    }
-    
-    /**
-     * 대사 초기화
-     */
-    public void clearDialogues() {
-        dialogues.clear();
+    public boolean hasDialogId() {
+        return dialogId != null && !dialogId.isEmpty();
     }
     
     /**
@@ -85,8 +77,8 @@ public class RPGDialogTrait extends Trait {
      * 플레이어가 NPC와 상호작용할 때 호출
      */
     public void onInteract(Player player) {
-        // 대사가 없으면 무시
-        if (dialogues.isEmpty()) {
+        // 대화 ID가 없으면 무시
+        if (!hasDialogId()) {
             return;
         }
         
@@ -96,8 +88,34 @@ public class RPGDialogTrait extends Trait {
             return;
         }
         
+        // lang 파일에서 대화 리스트 가져오기
+        List<String> dialogLines = new ArrayList<>();
+        
+        // TODO: dialog.json 파일에서 직접 읽어오는 시스템 구현 필요
+        // 임시로 dialogId에 따른 기본 대화 제공
+        switch (dialogId) {
+            case "village_greeting" -> {
+                dialogLines.add("안녕하세요! 좋은 날씨네요.");
+                dialogLines.add("이 마을에 오신 것을 환영합니다!");
+                dialogLines.add("오늘도 평화로운 하루네요.");
+            }
+            case "merchant_greeting" -> {
+                dialogLines.add("어서오세요! 좋은 물건이 많이 있습니다.");
+                dialogLines.add("오늘의 특별 상품을 확인해보세요!");
+                dialogLines.add("싸게 드릴게요, 한 번 구경해보세요.");
+            }
+            default -> dialogLines.add("안녕하세요!");
+        }
+        
+        if (dialogLines.isEmpty()) {
+            // 대화가 정의되지 않았으면 기본 메시지
+            player.sendMessage(Component.text("[" + npc.getName() + "] ", ColorUtil.GOLD)
+                    .append(Component.text("...", ColorUtil.GRAY)));
+            return;
+        }
+        
         // 랜덤 대사 선택
-        String dialogue = dialogues.get(random.nextInt(dialogues.size()));
+        String dialogue = dialogLines.get(random.nextInt(dialogLines.size()));
         
         // 대사 출력
         player.sendMessage(Component.empty());

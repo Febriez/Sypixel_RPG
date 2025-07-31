@@ -152,7 +152,7 @@ public class QuestDetailGui extends BaseGui {
         lore.add(Component.empty());
         
         // 전체 진행도
-        lore.add(Component.text("전체 진행도: " + progress.getCompletionPercentage() + "%", ColorUtil.EMERALD));
+        lore.add(Component.text(langManager.getMessage(viewer, "quest.total-progress") + ": " + progress.getCompletionPercentage() + "%", ColorUtil.EMERALD));
         
         builder.addLore(lore);
         builder.asGuiItem(false);
@@ -165,7 +165,7 @@ public class QuestDetailGui extends BaseGui {
      */
     private void setupObjectives() {
         ItemBuilder builder = new ItemBuilder(Material.MAP)
-                .displayName(Component.text("상세 목표 진행도", ColorUtil.YELLOW)
+                .displayName(Component.text(langManager.getMessage(viewer, "gui.quest-detail.objective-progress"), ColorUtil.YELLOW)
                         .decoration(TextDecoration.BOLD, true));
 
         List<Component> lore = new ArrayList<>();
@@ -222,7 +222,7 @@ public class QuestDetailGui extends BaseGui {
             Material material = i < greenSlots ? Material.LIME_STAINED_GLASS_PANE : Material.YELLOW_STAINED_GLASS_PANE;
             
             ItemBuilder builder = new ItemBuilder(material)
-                    .displayName(Component.text("진행도", ColorUtil.WHITE))
+                    .displayName(Component.text(langManager.getMessage(viewer, "quest.progress"), ColorUtil.WHITE))
                     .addLore(Component.text(completionPercentage + "%", ColorUtil.GRAY));
             
             setItem(slot, GuiItem.display(builder.build()));

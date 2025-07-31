@@ -253,6 +253,18 @@ public final class RPGMain extends JavaPlugin {
         // 보상 Trait 등록 아이템 리스너 등록
         getServer().getPluginManager().registerEvents(new com.febrie.rpg.quest.trait.RewardTraitRegistrationItem(), this);
         
+        // 퀘스트 시작 NPC 막대기 리스너 등록
+        getServer().getPluginManager().registerEvents(new com.febrie.rpg.quest.trait.QuestStartTraitRegistrationItem(), this);
+        
+        // 상점 NPC 막대기 리스너 등록
+        getServer().getPluginManager().registerEvents(new com.febrie.rpg.npc.trait.ShopTraitRegistrationItem(), this);
+        
+        // 가이드 NPC 막대기 리스너 등록
+        getServer().getPluginManager().registerEvents(new com.febrie.rpg.npc.trait.GuideTraitRegistrationItem(), this);
+        
+        // 대화 NPC 막대기 리스너 등록
+        getServer().getPluginManager().registerEvents(new com.febrie.rpg.npc.trait.DialogTraitRegistrationItem(), this);
+        
         // 메뉴 단축키 리스너 등록 (SHIFT + F)
         getServer().getPluginManager().registerEvents(new com.febrie.rpg.listener.MenuShortcutListener(this, guiManager, langManager), this);
         

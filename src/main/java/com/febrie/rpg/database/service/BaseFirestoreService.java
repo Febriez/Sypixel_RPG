@@ -122,6 +122,7 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
         }).exceptionally(ex -> {
             LogUtil.warning(String.format("%s 저장 실패 [%s]: %s",
                     collectionName, documentId, ex.getMessage()));
+            ex.printStackTrace();
             return null;
         });
     }

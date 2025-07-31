@@ -187,6 +187,7 @@
     "repeatable": "%COLOR_INFO%Repeatable"
   },
   "quest-detail": {
+    "objective-progress": "Objective Progress",
     "title": "Quest Details"
   },
   "quest-accept": {
@@ -221,7 +222,9 @@
     "npc-name": "%COLOR_AQUA%{npc}",
     "rewards-title": "%COLOR_EMERALD%Rewards:",
     "requirements-title": "%COLOR_YELLOW%Requirements:",
-    "speaking": "%COLOR_WHITE%{npc} is speaking..."
+    "speaking": "%COLOR_WHITE%{npc} is speaking...",
+    "quest-accepted": "Quest accepted!",
+    "quest-declined": "Quest declined."
   },
   "settings": {
     "title": "Settings",
@@ -310,9 +313,12 @@
   },
   "quest-reward": {
     "title": "Quest Rewards",
+    "title-with-expiry": "Quest Rewards - Auto Expire: {time}",
     "destroy-rewards": "Destroy Rewards",
     "destroy-desc": "Forfeit all rewards",
     "warning-destroy": "⚠️ This action cannot be undone!",
+    "warning-destroy-line": "⚠️ This Action",
+    "warning-destroy-line2": "Cannot Be Undone!",
     "claim-all": "Claim All",
     "claim-all-desc": "Claim all rewards to your inventory",
     "already-claimed": "You have already claimed the rewards",
@@ -325,6 +331,14 @@
     "exp-received": "Gained {amount} EXP!",
     "money-received": "Gained {amount} coins!",
     "close-warning": "⚠️ Warning: You closed without claiming rewards!",
-    "items-lost": "Unclaimed items will be lost!"
+    "items-lost": "Unclaimed items will be lost!",
+    "click-to-claim": "Click to claim",
+    "claimed": "Claimed",
+    "unclaimed-timer": "⏰ Time remaining: {time} minutes",
+    "timer-warning": "Unclaimed rewards will be destroyed after 1 hour!",
+    "timer-info": "Visit the reward NPC within the time limit.",
+    "expiry-days": "{days} days",
+    "expiry-hours": "{hours} hours",
+    "expiry-minutes": "{minutes} minutes"
   }
 }

@@ -108,18 +108,18 @@ public class FirstStepsQuest extends Quest {
         QuestDialog dialog = new QuestDialog("first_steps_dialog");
         LangManager langManager = RPGMain.getPlugin().getLangManager();
 
-        String npcName = langManager.getMessage("ko_KR", "quest.tutorial.first-steps.npc-name");
+        String npcNameKo = langManager.getMessage("ko_KR", "quest.tutorial.first-steps.npc-name");
         String npcNameEn = langManager.getMessage("en_US", "quest.tutorial.first-steps.npc-name");
 
-        dialog.addLine(npcName,
+        dialog.addLine(npcNameKo,
                 langManager.getMessage("ko_KR", "quest.tutorial.first-steps.dialogs.welcome"),
                 langManager.getMessage("en_US", "quest.tutorial.first-steps.dialogs.welcome"));
 
-        dialog.addLine(npcName,
+        dialog.addLine(npcNameKo,
                 langManager.getMessage("ko_KR", "quest.tutorial.first-steps.dialogs.guide-intro"),
                 langManager.getMessage("en_US", "quest.tutorial.first-steps.dialogs.guide-intro"));
 
-        dialog.addLine(npcName,
+        dialog.addLine(npcNameKo,
                 langManager.getMessage("ko_KR", "quest.tutorial.first-steps.dialogs.ready-question"),
                 langManager.getMessage("en_US", "quest.tutorial.first-steps.dialogs.ready-question"));
 
@@ -128,6 +128,11 @@ public class FirstStepsQuest extends Quest {
 
     @Override
     public String getDialog(int index) {
+        // This method should not be used - use getDialogForPlayer instead
+        return "";
+    }
+    
+    public String getDialogForPlayer(int index, boolean isKorean) {
         LangManager langManager = RPGMain.getPlugin().getLangManager();
         String[] dialogKeys = {
             "quest.tutorial.first-steps.dialogs.welcome",
@@ -136,7 +141,7 @@ public class FirstStepsQuest extends Quest {
         };
         
         if (index >= 0 && index < dialogKeys.length) {
-            return langManager.getMessage("ko_KR", dialogKeys[index]);
+            return langManager.getMessage(isKorean ? "ko_KR" : "en_US", dialogKeys[index]);
         }
         return null;
     }
@@ -148,19 +153,34 @@ public class FirstStepsQuest extends Quest {
 
     @Override
     public @NotNull String getNPCName() {
+        // This method should not be used - use getNPCNameForPlayer instead
+        return "Tutorial Guide";
+    }
+    
+    public @NotNull String getNPCNameForPlayer(boolean isKorean) {
         LangManager langManager = RPGMain.getPlugin().getLangManager();
-        return langManager.getMessage("ko_KR", "quest.tutorial.first-steps.npc-name");
+        return langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.tutorial.first-steps.npc-name");
     }
     
     @Override
     public String getAcceptDialog() {
+        // This method should not be used - use getAcceptDialogForPlayer instead
+        return "";
+    }
+    
+    public String getAcceptDialogForPlayer(boolean isKorean) {
         LangManager langManager = RPGMain.getPlugin().getLangManager();
-        return langManager.getMessage("ko_KR", "quest.tutorial.first-steps.dialogs.accept");
+        return langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.tutorial.first-steps.dialogs.accept");
     }
     
     @Override
     public String getDeclineDialog() {
+        // This method should not be used - use getDeclineDialogForPlayer instead
+        return "";
+    }
+    
+    public String getDeclineDialogForPlayer(boolean isKorean) {
         LangManager langManager = RPGMain.getPlugin().getLangManager();
-        return langManager.getMessage("ko_KR", "quest.tutorial.first-steps.dialogs.decline");
+        return langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.tutorial.first-steps.dialogs.decline");
     }
 }

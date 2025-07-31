@@ -101,7 +101,7 @@ public class RPGPlayerManager implements Listener {
         RPGPlayer rpgPlayer = players.remove(uuid);
         if (rpgPlayer != null) {
             // 비동기로 저장하되 시간 제한 설정
-            savePlayerData(rpgPlayer, true)
+            savePlayerDataAsync(rpgPlayer, true)
                 .orTimeout(5, TimeUnit.SECONDS)
                 .exceptionally(ex -> {
                     LogUtil.error("플레이어 데이터 저장 실패: " + player.getName(), ex);
@@ -248,9 +248,9 @@ public class RPGPlayerManager implements Listener {
     }
 
     /**
-     * 플레이어 데이터 저장
+     * 플레이어 데이터 비동기 저장 (주기적 저장용)
      */
-    public CompletableFuture<Boolean> savePlayerData(@NotNull RPGPlayer rpgPlayer, boolean force) {
+    public CompletableFuture<Boolean> savePlayerDataAsync(@NotNull RPGPlayer rpgPlayer, boolean force) {
         // 플러그인이 비활성화된 경우 저장하지 않음
         if (!plugin.isEnabled()) {
             return CompletableFuture.completedFuture(false);
@@ -278,54 +278,86 @@ public class RPGPlayerManager implements Listener {
             lastSaveTime.computeIfAbsent(uuid, k -> new AtomicLong(0)).set(System.currentTimeMillis());
         }
 
-        return CompletableFuture.supplyAsync(() -> {
-            long startTime = System.currentTimeMillis();
+        // RPGPlayer를 DTO로 변환
+        PlayerDTO playerDTO = convertToPlayerDTO(rpgPlayer);
+        StatsDTO statsDTO = rpgPlayer.getStats().toDTO();
+        TalentDTO talentDTO = rpgPlayer.getTalents().toDTO();
+        ProgressDTO progressDTO = convertToProgressDTO(rpgPlayer);
+        WalletDTO walletDTO = rpgPlayer.getWallet().toDTO();
 
-            try {
-                // RPGPlayer를 DTO로 변환
-                PlayerDTO playerDTO = convertToPlayerDTO(rpgPlayer);
-                StatsDTO statsDTO = rpgPlayer.getStats().toDTO();
-                TalentDTO talentDTO = rpgPlayer.getTalents().toDTO();
-                ProgressDTO progressDTO = convertToProgressDTO(rpgPlayer);
-                WalletDTO walletDTO = rpgPlayer.getWallet().toDTO();
+        // PlayerDataDTO 생성
+        PlayerDataDTO playerData = new PlayerDataDTO(
+            new PlayerProfileDTO(
+                UUID.fromString(uuid.toString()),
+                rpgPlayer.getName(),
+                rpgPlayer.getLevel(),
+                rpgPlayer.getExperience(),
+                rpgPlayer.getExperience(),  // totalExp
+                System.currentTimeMillis()  // lastPlayed
+            ),
+            walletDTO
+        );
 
-                // Firestore에 저장
-                boolean success = true;
-                if (playerService != null) {
-                    // PlayerDataDTO 생성 및 저장
-                    // 현재 PlayerDataDTO는 profile과 wallet만 포함하므로 최소한의 데이터만 저장
-                    PlayerDataDTO playerData = new PlayerDataDTO(
-                        new PlayerProfileDTO(
-                            UUID.fromString(uuid.toString()),
-                            rpgPlayer.getName(),
-                            rpgPlayer.getLevel(),
-                            rpgPlayer.getExperience(),
-                            rpgPlayer.getExperience(),  // totalExp
-                            System.currentTimeMillis()  // lastPlayed
-                        ),
-                        walletDTO
-                    );
-                    
-                    try {
-                        playerService.save(uuid.toString(), playerData)
-                            .get(10, TimeUnit.SECONDS);
-                    } catch (Exception e) {
-                        LogUtil.error("플레이어 데이터 저장 실패", e);
-                        success = false;
-                    }
-                } else {
-                }
+        if (playerService != null) {
+            LogUtil.info("플레이어 데이터 비동기 저장 시도: " + uuid.toString());
+            return playerService.save(uuid.toString(), playerData)
+                .thenApply(result -> {
+                    LogUtil.info("플레이어 데이터 비동기 저장 성공: " + uuid.toString());
+                    return true;
+                })
+                .exceptionally(throwable -> {
+                    LogUtil.error("플레이어 데이터 비동기 저장 실패: " + uuid.toString(), throwable);
+                    throwable.printStackTrace();
+                    return false;
+                });
+        } else {
+            LogUtil.warning("PlayerService가 null입니다. 플레이어 데이터를 저장할 수 없습니다.");
+            return CompletableFuture.completedFuture(false);
+        }
+    }
 
-                if (success) {
-                }
+    /**
+     * 플레이어 데이터 동기 저장 (서버 종료 시 사용)
+     */
+    public boolean savePlayerDataSync(@NotNull RPGPlayer rpgPlayer) {
+        UUID uuid = rpgPlayer.getPlayerId();
+        
+        try {
+            // RPGPlayer를 DTO로 변환
+            PlayerDTO playerDTO = convertToPlayerDTO(rpgPlayer);
+            StatsDTO statsDTO = rpgPlayer.getStats().toDTO();
+            TalentDTO talentDTO = rpgPlayer.getTalents().toDTO();
+            ProgressDTO progressDTO = convertToProgressDTO(rpgPlayer);
+            WalletDTO walletDTO = rpgPlayer.getWallet().toDTO();
 
-                return success;
+            // PlayerDataDTO 생성
+            PlayerDataDTO playerData = new PlayerDataDTO(
+                new PlayerProfileDTO(
+                    UUID.fromString(uuid.toString()),
+                    rpgPlayer.getName(),
+                    rpgPlayer.getLevel(),
+                    rpgPlayer.getExperience(),
+                    rpgPlayer.getExperience(),  // totalExp
+                    System.currentTimeMillis()  // lastPlayed
+                ),
+                walletDTO
+            );
 
-            } catch (Exception e) {
-                LogUtil.error("플레이어 데이터 저장 실패: " + rpgPlayer.getName(), e);
+            if (playerService != null) {
+                LogUtil.info("플레이어 데이터 동기 저장 시도: " + uuid.toString());
+                playerService.save(uuid.toString(), playerData)
+                    .get(10, TimeUnit.SECONDS);
+                LogUtil.info("플레이어 데이터 동기 저장 성공: " + uuid.toString());
+                return true;
+            } else {
+                LogUtil.warning("PlayerService가 null입니다. 플레이어 데이터를 저장할 수 없습니다.");
                 return false;
             }
-        });
+        } catch (Exception e) {
+            LogUtil.error("플레이어 데이터 동기 저장 실패: " + rpgPlayer.getName(), e);
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
@@ -388,7 +420,7 @@ public class RPGPlayerManager implements Listener {
      */
     public CompletableFuture<Void> saveAllOnlinePlayers() {
         CompletableFuture<?>[] futures = players.values().stream()
-                .map(rpgPlayer -> savePlayerData(rpgPlayer, false))
+                .map(rpgPlayer -> savePlayerDataAsync(rpgPlayer, false))
                 .toArray(CompletableFuture[]::new);
 
         return CompletableFuture.allOf(futures);
@@ -402,7 +434,7 @@ public class RPGPlayerManager implements Listener {
         rpgPlayer.setJob(newJob);
 
         // 즉시 저장
-        return savePlayerData(rpgPlayer, true).thenApply(success -> {
+        return savePlayerDataAsync(rpgPlayer, true).thenApply(success -> {
             if (success) {
             }
             return success;
@@ -448,38 +480,26 @@ public class RPGPlayerManager implements Listener {
         plugin.getLogger().info("모든 플레이어 데이터 저장 중... (온라인: " + players.size() + "명)");
         
         try {
-            List<CompletableFuture<Boolean>> saveFutures = new ArrayList<>();
+            // 모든 플레이어 데이터를 동기적으로 저장
+            int successCount = 0;
+            int totalCount = players.size();
             
-            // 모든 플레이어 데이터를 강제 저장
             for (RPGPlayer rpgPlayer : players.values()) {
-                CompletableFuture<Boolean> future = savePlayerData(rpgPlayer, true)
-                        .exceptionally(throwable -> {
-                            plugin.getLogger().severe("플레이어 데이터 저장 실패: " + 
-                                    rpgPlayer.getPlayerId() + " - " + throwable.getMessage());
-                            return false;
-                        });
-                saveFutures.add(future);
+                try {
+                    boolean success = savePlayerDataSync(rpgPlayer);
+                    if (success) {
+                        successCount++;
+                    } else {
+                        plugin.getLogger().severe("플레이어 데이터 저장 실패: " + rpgPlayer.getPlayerId());
+                    }
+                } catch (Exception e) {
+                    plugin.getLogger().severe("플레이어 데이터 저장 중 오류 발생: " + 
+                            rpgPlayer.getPlayerId() + " - " + e.getMessage());
+                }
             }
             
-            // 모든 저장 작업이 완료될 때까지 대기 (최대 10초)
-            CompletableFuture<Void> allFutures = CompletableFuture.allOf(
-                    saveFutures.toArray(new CompletableFuture<?>[0]));
-            
-            allFutures.get(10, TimeUnit.SECONDS);
-            
-            // 성공/실패 개수 계산
-            long successCount = saveFutures.stream()
-                    .filter(future -> {
-                        try {
-                            return future.getNow(false);
-                        } catch (Exception e) {
-                            return false;
-                        }
-                    })
-                    .count();
-            
             plugin.getLogger().info("플레이어 데이터 저장 완료! (성공: " + successCount + 
-                    "/" + saveFutures.size() + ")");
+                    "/" + totalCount + ")");
             
         } catch (Exception e) {
             plugin.getLogger().severe("플레이어 데이터 저장 중 오류 발생: " + e.getMessage());

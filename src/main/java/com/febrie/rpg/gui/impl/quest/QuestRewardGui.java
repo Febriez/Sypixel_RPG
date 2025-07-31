@@ -13,6 +13,9 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.quest.reward.MixedReward;
+import com.febrie.rpg.quest.reward.QuestReward;
+import com.febrie.rpg.quest.reward.UnclaimedReward;
+import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
@@ -76,9 +79,39 @@ public class QuestRewardGui extends BaseGui {
     @Override
     public @NotNull Component getTitle() {
         boolean isKorean = viewer.locale().getLanguage().equals("ko");
+        
+        // 미수령 보상이 있는 경우 남은 시간 표시
+        UnclaimedReward unclaimedReward = questManager.getUnclaimedReward(viewer.getUniqueId(), quest.getId());
+        if (unclaimedReward != null) {
+            long remainingTime = unclaimedReward.getRemainingTime();
+            String timeText = formatTime(remainingTime, isKorean);
+            
+            return trans("gui.quest-reward.title-with-expiry", "time", timeText)
+                    .append(Component.text(" - ", ColorUtil.GRAY))
+                    .append(Component.text(quest.getDisplayName(isKorean), ColorUtil.LEGENDARY));
+        }
+        
+        // 일반 타이틀
         return trans("gui.quest-reward.title")
                 .append(Component.text(" - ", ColorUtil.GRAY))
                 .append(Component.text(quest.getDisplayName(isKorean), ColorUtil.LEGENDARY));
+    }
+    
+    /**
+     * 시간을 형식화하여 반환
+     */
+    private String formatTime(long milliseconds, boolean isKorean) {
+        long totalMinutes = milliseconds / 1000 / 60;
+        
+        if (totalMinutes >= 1440) { // 1일 이상
+            long days = totalMinutes / 1440;
+            return langManager.getMessage(isKorean ? "ko_KR" : "en_US", "gui.quest-reward.expiry-days", "days", String.valueOf(days));
+        } else if (totalMinutes >= 60) { // 1시간 이상
+            long hours = totalMinutes / 60;
+            return langManager.getMessage(isKorean ? "ko_KR" : "en_US", "gui.quest-reward.expiry-hours", "hours", String.valueOf(hours));
+        } else {
+            return langManager.getMessage(isKorean ? "ko_KR" : "en_US", "gui.quest-reward.expiry-minutes", "minutes", String.valueOf(totalMinutes));
+        }
     }
 
     @Override
@@ -120,12 +153,37 @@ public class QuestRewardGui extends BaseGui {
         if (!unclaimedItems.isEmpty()) {
             rewards = unclaimedItems;
             // 남은 시간 표시
-            long remainingTime = questManager.getUnclaimedReward(viewer.getUniqueId(), quest.getId()).getRemainingTime();
-            long minutes = remainingTime / 1000 / 60;
-            viewer.sendMessage(trans("gui.quest-reward.unclaimed-timer", "time", String.valueOf(minutes))
-                    .color(ColorUtil.WARNING));
-        } else if (quest.getReward() instanceof MixedReward mixedReward) {
-            rewards.addAll(mixedReward.getItems());
+            UnclaimedReward unclaimedReward = questManager.getUnclaimedReward(viewer.getUniqueId(), quest.getId());
+            if (unclaimedReward != null) {
+                long remainingTime = unclaimedReward.getRemainingTime();
+                long minutes = remainingTime / 1000 / 60;
+                viewer.sendMessage(trans("gui.quest-reward.unclaimed-timer", "time", String.valueOf(minutes))
+                        .color(ColorUtil.WARNING));
+            }
+        } else {
+            // 이미 보상을 완전히 받았는지 확인
+            if (questManager.hasReceivedReward(viewer.getUniqueId(), quest.getId())) {
+                hasClaimed = true;
+                // 보상을 이미 받은 경우 안내 메시지
+                ItemStack alreadyClaimedDisplay = new ItemBuilder(Material.BARRIER)
+                        .displayName(trans("gui.quest-reward.already-claimed").color(ColorUtil.ERROR))
+                        .addLore(trans("gui.quest-reward.no-items-desc").color(ColorUtil.GRAY))
+                        .build();
+                setItem(22, GuiItem.display(alreadyClaimedDisplay));
+                return;
+            }
+            
+            // 보상을 아직 받지 않은 경우 quest에서 직접 가져오기
+            if (quest.getReward() instanceof MixedReward mixedReward) {
+                rewards.addAll(mixedReward.getItems());
+            } else if (quest.getReward() != null) {
+                // BasicReward 등 다른 타입의 보상 처리
+                QuestReward questReward = quest.getReward();
+                if (questReward instanceof BasicReward basicReward) {
+                    // BasicReward에서 아이템 가져오기
+                    rewards.addAll(basicReward.getItems());
+                }
+            }
         }
         
         int slot = 0;
@@ -197,9 +255,11 @@ public class QuestRewardGui extends BaseGui {
         // 보상 파괴 버튼
         ItemBuilder destroyBuilder = new ItemBuilder(Material.BARRIER)
                 .displayName(trans("gui.quest-reward.destroy-rewards").color(ColorUtil.ERROR))
+                .addLore(Component.empty())
                 .addLore(trans("gui.quest-reward.destroy-desc").color(ColorUtil.GRAY))
                 .addLore(Component.empty())
-                .addLore(trans("gui.quest-reward.warning-destroy").color(ColorUtil.ERROR));
+                .addLore(trans("gui.quest-reward.warning-destroy-line").color(ColorUtil.ERROR))
+                .addLore(trans("gui.quest-reward.warning-destroy-line2").color(ColorUtil.ERROR));
         
         GuiItem destroyButton = GuiItem.clickable(destroyBuilder.build(), p -> {
             if (hasClaimed) {
@@ -253,7 +313,7 @@ public class QuestRewardGui extends BaseGui {
             rewardItems.clear();
             
             p.sendMessage(trans("gui.quest-reward.all-claimed").color(ColorUtil.SUCCESS));
-            SoundUtil.playRewardSound(p);
+            SoundUtil.playSuccessSound(p);  // 레벨업 소리
             completeRewardClaim();
             p.closeInventory();
         });
@@ -265,6 +325,16 @@ public class QuestRewardGui extends BaseGui {
      * 즉시 지급되는 보상 처리 (돈, 경험치)
      */
     private void giveInstantRewards() {
+        // 이미 보상을 받았는지 확인
+        if (questManager.hasReceivedReward(viewer.getUniqueId(), quest.getId())) {
+            return; // 이미 받은 경우 중복 지급 방지
+        }
+        
+        // 미수령 보상이 있는 경우도 즉시 보상 지급 방지
+        if (questManager.getUnclaimedReward(viewer.getUniqueId(), quest.getId()) != null) {
+            return;
+        }
+        
         // 경험치 지급
         if (quest.getExpReward() > 0) {
             viewer.giveExp((int) quest.getExpReward());

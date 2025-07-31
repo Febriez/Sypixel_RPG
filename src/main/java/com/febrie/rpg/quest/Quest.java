@@ -7,6 +7,7 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.reward.QuestReward;
+import com.febrie.rpg.quest.reward.RewardDeliveryType;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -41,12 +42,18 @@ public abstract class Quest {
     protected final int minLevel;
     protected final int maxLevel;
     protected final QuestCategory category;
+    
+    // 보상 지급 방식
+    protected final RewardDeliveryType rewardDeliveryType;
 
     // 선행 퀘스트 시스템
     private final Set<QuestID> prerequisiteQuests = new HashSet<>();
 
     // 양자택일 퀘스트 시스템
     private final Set<QuestID> exclusiveQuests = new HashSet<>();
+    
+    // 보상 소멸 시간 (밀리초, 기본값: 3일)
+    protected static final long DEFAULT_REWARD_EXPIRY_TIME = 3L * 24L * 60L * 60L * 1000L;
 
     /**
      * 빌더를 통한 생성자
@@ -63,6 +70,7 @@ public abstract class Quest {
         this.minLevel = builder.minLevel;
         this.maxLevel = builder.maxLevel;
         this.category = builder.category;
+        this.rewardDeliveryType = builder.rewardDeliveryType != null ? builder.rewardDeliveryType : RewardDeliveryType.NPC_VISIT;
 
         this.prerequisiteQuests.addAll(builder.prerequisiteQuests);
         this.exclusiveQuests.addAll(builder.exclusiveQuests);
@@ -70,6 +78,14 @@ public abstract class Quest {
         if (objectives.isEmpty()) {
             throw new IllegalArgumentException("Quest must have at least one objective");
         }
+    }
+    
+    /**
+     * 보상 소멸 시간 반환 (밀리초)
+     * 하위 클래스에서 오버라이드 가능
+     */
+    public long getRewardExpiryTime() {
+        return DEFAULT_REWARD_EXPIRY_TIME;
     }
 
     /**
@@ -459,6 +475,13 @@ public abstract class Quest {
      */
     public @NotNull QuestCategory getCategory() {
         return category;
+    }
+    
+    /**
+     * 보상 지급 방식
+     */
+    public @NotNull RewardDeliveryType getRewardDeliveryType() {
+        return rewardDeliveryType;
     }
 
     /**

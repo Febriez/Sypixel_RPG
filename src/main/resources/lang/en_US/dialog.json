@@ -1,0 +1,74 @@
+{
+  "village_greeting": {
+    "lines": [
+      "Hello! What a lovely day!",
+      "Welcome to our village!",
+      "Another peaceful day in the village.",
+      "An adventurer! How exciting!",
+      "Do you need any assistance?"
+    ]
+  },
+  "merchant_greeting": {
+    "lines": [
+      "Welcome! I have the finest goods!",
+      "Check out today's special deals!",
+      "Best prices in town, guaranteed!",
+      "Only the highest quality items here!",
+      "Everything an adventurer needs!"
+    ]
+  },
+  "guard_greeting": {
+    "lines": [
+      "Keeping the peace, as always.",
+      "Seen any suspicious activity?",
+      "Stay vigilant out there.",
+      "Watch out for monsters beyond the walls.",
+      "Safe travels, adventurer!"
+    ]
+  },
+  "farmer_greeting": {
+    "lines": [
+      "Hope we have a good harvest this year.",
+      "Farm work is hard but rewarding.",
+      "Need any fresh vegetables?",
+      "Perfect weather for farming today.",
+      "Hard work puts food on the table!"
+    ]
+  },
+  "tavern_keeper": {
+    "lines": [
+      "Care for a drink?",
+      "Share your tales of adventure!",
+      "Today's special is the hearty stew.",
+      "Rooms upstairs if you need rest.",
+      "Heard any interesting rumors lately?"
+    ]
+  },
+  "mysterious_stranger": {
+    "lines": [
+      "...You seek it too, don't you?",
+      "Fate has already been written.",
+      "Light hides within the darkness.",
+      "Great changes are coming soon.",
+      "Be careful... they are watching."
+    ]
+  },
+  "child_npc": {
+    "lines": [
+      "Wow! A real adventurer!",
+      "I'll be an adventurer when I grow up!",
+      "Wanna play hide and seek?",
+      "Mom says not to talk to strangers...",
+      "Have you ever seen a dragon?"
+    ]
+  },
+  "elder_wisdom": {
+    "lines": [
+      "Youth is fleeting, wisdom eternal.",
+      "This place was bustling in my day...",
+      "Life is a long journey, young one.",
+      "Patience is the mother of success.",
+      "Experience is the best teacher."
+    ]
+  }
+}

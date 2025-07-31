@@ -163,7 +163,7 @@ public class SoundUtil {
     /**
      * 보상 수령 사운드 재생
      */
-    public static void playRewardSound(@NotNull Player player) {
+    public static void playCompleteQuestSound(@NotNull Player player) {
         playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 0.7f, 1.2f);
     }
 

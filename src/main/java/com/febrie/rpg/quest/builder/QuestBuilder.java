@@ -5,6 +5,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.reward.QuestReward;
+import com.febrie.rpg.quest.reward.RewardDeliveryType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public abstract class QuestBuilder {
     public QuestCategory category = QuestCategory.SIDE;
     public Set<QuestID> prerequisiteQuests = new HashSet<>();
     public Set<QuestID> exclusiveQuests = new HashSet<>();
+    public RewardDeliveryType rewardDeliveryType = RewardDeliveryType.NPC_VISIT;
 
     public QuestBuilder id(@NotNull QuestID id) {
         this.id = id;
@@ -100,6 +102,11 @@ public abstract class QuestBuilder {
 
     public QuestBuilder addExclusive(@NotNull QuestID questId) {
         this.exclusiveQuests.add(questId);
+        return this;
+    }
+    
+    public QuestBuilder rewardDeliveryType(@NotNull RewardDeliveryType type) {
+        this.rewardDeliveryType = type;
         return this;
     }
 

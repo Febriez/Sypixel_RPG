@@ -144,7 +144,16 @@ public class QuestDialogGui extends BaseGui {
      * 현재 대화 로드
      */
     private void loadCurrentDialog() {
-        String dialog = quest.getDialog(currentDialogIndex);
+        String dialog = null;
+        
+        // FirstStepsQuest의 경우 플레이어 언어에 맞는 대화 가져오기
+        if (quest instanceof com.febrie.rpg.quest.impl.tutorial.FirstStepsQuest firstStepsQuest) {
+            boolean isKorean = viewer.locale().getLanguage().equals("ko");
+            dialog = firstStepsQuest.getDialogForPlayer(currentDialogIndex, isKorean);
+        } else {
+            dialog = quest.getDialog(currentDialogIndex);
+        }
+        
         if (dialog != null) {
             currentDialog = dialog;
             currentCharIndex = 0;
@@ -217,8 +226,16 @@ public class QuestDialogGui extends BaseGui {
             lore.add(langManager.getComponent(viewer, "gui.quest-dialog.skip").color(ColorUtil.YELLOW));
         }
 
+        String npcName;
+        if (quest instanceof com.febrie.rpg.quest.impl.tutorial.FirstStepsQuest firstStepsQuest) {
+            boolean isKorean = viewer.locale().getLanguage().equals("ko");
+            npcName = firstStepsQuest.getNPCNameForPlayer(isKorean);
+        } else {
+            npcName = quest.getNPCName();
+        }
+        
         ItemBuilder dialogBuilder = new ItemBuilder(Material.ENCHANTED_BOOK)
-                .displayName(Component.text(quest.getNPCName(), ColorUtil.AQUA));
+                .displayName(Component.text(npcName, ColorUtil.AQUA));
 
         for (Component loreLine : lore) {
             dialogBuilder.addLore(loreLine);
@@ -339,12 +356,23 @@ public class QuestDialogGui extends BaseGui {
         com.febrie.rpg.quest.manager.QuestManager.getInstance().startQuest(viewer, quest.getId());
         
         // 수락 대화 표시
-        String acceptDialog = quest.getAcceptDialog();
-        if (acceptDialog != null) {
-            viewer.sendMessage(Component.text(quest.getNPCName() + ": " + acceptDialog, ColorUtil.YELLOW));
+        String acceptDialog = null;
+        String npcName = null;
+        
+        if (quest instanceof com.febrie.rpg.quest.impl.tutorial.FirstStepsQuest firstStepsQuest) {
+            boolean isKorean = viewer.locale().getLanguage().equals("ko");
+            acceptDialog = firstStepsQuest.getAcceptDialogForPlayer(isKorean);
+            npcName = firstStepsQuest.getNPCNameForPlayer(isKorean);
+        } else {
+            acceptDialog = quest.getAcceptDialog();
+            npcName = quest.getNPCName();
         }
         
-        viewer.sendMessage(Component.text("퀘스트를 수락했습니다!", ColorUtil.SUCCESS));
+        if (acceptDialog != null && npcName != null) {
+            viewer.sendMessage(Component.text(npcName + ": " + acceptDialog, ColorUtil.YELLOW));
+        }
+        
+        viewer.sendMessage(langManager.getComponent(viewer, "gui.quest-dialog.quest-accepted").color(ColorUtil.SUCCESS));
         SoundUtil.playSuccessSound(viewer);
     }
     
@@ -356,12 +384,23 @@ public class QuestDialogGui extends BaseGui {
         viewer.closeInventory();
         
         // 거절 대화 표시
-        String declineDialog = quest.getDeclineDialog();
-        if (declineDialog != null) {
-            viewer.sendMessage(Component.text(quest.getNPCName() + ": " + declineDialog, ColorUtil.GRAY));
+        String declineDialog = null;
+        String npcName = null;
+        
+        if (quest instanceof com.febrie.rpg.quest.impl.tutorial.FirstStepsQuest firstStepsQuest) {
+            boolean isKorean = viewer.locale().getLanguage().equals("ko");
+            declineDialog = firstStepsQuest.getDeclineDialogForPlayer(isKorean);
+            npcName = firstStepsQuest.getNPCNameForPlayer(isKorean);
+        } else {
+            declineDialog = quest.getDeclineDialog();
+            npcName = quest.getNPCName();
         }
         
-        viewer.sendMessage(Component.text("퀘스트를 거절했습니다.", ColorUtil.GRAY));
+        if (declineDialog != null && npcName != null) {
+            viewer.sendMessage(Component.text(npcName + ": " + declineDialog, ColorUtil.GRAY));
+        }
+        
+        viewer.sendMessage(langManager.getComponent(viewer, "gui.quest-dialog.quest-declined").color(ColorUtil.GRAY));
         SoundUtil.playClickSound(viewer);
     }
     

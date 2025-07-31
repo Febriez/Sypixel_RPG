@@ -179,7 +179,7 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
                     .filter(ObjectiveProgress::isCompleted)
                     .count();
             int total = quest.getObjectives().size();
-            builder.addLore(Component.text("진행도: " + completed + "/" + total, ColorUtil.YELLOW));
+            builder.addLore(Component.text(langManager.getMessage(viewer, "quest.progress") + ": " + completed + "/" + total, ColorUtil.YELLOW));
         }
         
         builder.addLore(Component.empty());

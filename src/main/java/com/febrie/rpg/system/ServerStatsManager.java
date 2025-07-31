@@ -2,6 +2,7 @@ package com.febrie.rpg.system;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.FirestoreManager;
+import com.febrie.rpg.database.service.impl.SystemFirestoreService;
 import com.febrie.rpg.dto.system.ServerStatsDTO;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.player.RPGPlayer;
@@ -12,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 서버 통계 관리자 - RPGMain에서 분리
@@ -24,6 +27,7 @@ public class ServerStatsManager {
     private final RPGMain plugin;
     private final FirestoreManager firestoreManager;
     private final RPGPlayerManager playerManager;
+    private final SystemFirestoreService systemService;
     
     // TPS 측정
     private final long[] tpsHistory = new long[20]; // 최근 20번의 틱 시간 저장
@@ -44,6 +48,7 @@ public class ServerStatsManager {
         this.plugin = plugin;
         this.firestoreManager = firestoreManager;
         this.playerManager = playerManager;
+        this.systemService = null; // TODO: SystemFirestoreService 추가 필요
         this.startTime = System.currentTimeMillis();
     }
     
@@ -81,8 +86,8 @@ public class ServerStatsManager {
             tpsTask.cancel();
         }
         
-        // 마지막 통계 저장
-        saveCurrentServerStats();
+        // 마지막 통계 동기 저장
+        saveCurrentServerStatsSync();
     }
     
     /**
@@ -107,7 +112,7 @@ public class ServerStatsManager {
         
         // 자정에 저장 후 24시간마다 반복
         dailyStatsTask = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin,
-                this::saveCurrentServerStats,
+                this::saveCurrentServerStatsAsync,
                 delayTicks,     // 다음 자정까지 대기
                 24 * 60 * 60 * 20L  // 24시간마다 반복
         );
@@ -119,18 +124,25 @@ public class ServerStatsManager {
     private void updateInMemoryStats() {
         try {
             ServerStatsDTO currentStats = collectCurrentServerStats();
-            // 필요한 경우 메모리 내 처리 추가
+            // 실시간 통계를 비동기로 저장
+            if (systemService != null) {
+                systemService.updateServerStats(currentStats)
+                    .exceptionally(throwable -> {
+                        LogUtil.error("실시간 서버 통계 업데이트 실패", throwable);
+                        return null;
+                    });
+            }
         } catch (Exception e) {
             LogUtil.error("서버 통계 업데이트 중 오류 발생", e);
         }
     }
     
     /**
-     * 현재 서버 통계 저장
+     * 현재 서버 통계 비동기 저장 (주기적 저장용)
      */
-    private void saveCurrentServerStats() {
+    private void saveCurrentServerStatsAsync() {
         // Firebase 연결 확인
-        if (!firestoreManager.isInitialized()) {
+        if (!firestoreManager.isInitialized() || systemService == null) {
             return;
         }
         
@@ -138,16 +150,60 @@ public class ServerStatsManager {
             ServerStatsDTO stats = collectCurrentServerStats();
             String today = LocalDate.now().toString();
             
-            // 오늘 날짜가 마지막 저장 날짜와 다른 경우에만 저장
+            // 오늘 날짜가 마지막 저장 날짜와 다른 경우에만 일일 통계 저장
             if (!today.equals(lastSavedDate)) {
-                // SystemFirestoreService를 통한 서버 통계 저장
-                // 현재는 로그만 출력 - SystemFirestoreService 추가 필요
-                LogUtil.info("서버 통계: " + stats);
-                lastSavedDate = today;
-                LogUtil.info("일일 서버 통계가 저장되었습니다: " + today);
+                // 일일 통계 저장 (비동기)
+                CompletableFuture<Void> dailyStatsFuture = systemService.saveDailyStats(today, stats)
+                    .thenRun(() -> {
+                        lastSavedDate = today;
+                        LogUtil.info("일일 서버 통계가 저장되었습니다: " + today);
+                    })
+                    .exceptionally(throwable -> {
+                        LogUtil.error("일일 서버 통계 저장 실패: " + today, throwable);
+                        return null;
+                    });
             }
+            
+            // 실시간 통계도 업데이트
+            systemService.updateServerStats(stats)
+                .exceptionally(throwable -> {
+                    LogUtil.error("실시간 서버 통계 업데이트 실패", throwable);
+                    return null;
+                });
+                
         } catch (Exception e) {
             LogUtil.error("서버 통계 저장 중 오류 발생", e);
+        }
+    }
+    
+    /**
+     * 현재 서버 통계 동기 저장 (서버 종료 시 사용)
+     */
+    private void saveCurrentServerStatsSync() {
+        // Firebase 연결 확인
+        if (!firestoreManager.isInitialized() || systemService == null) {
+            return;
+        }
+        
+        try {
+            ServerStatsDTO stats = collectCurrentServerStats();
+            LogUtil.info("서버 통계: " + stats);
+            
+            String today = LocalDate.now().toString();
+            
+            // 일일 통계 저장 (동기)
+            if (!today.equals(lastSavedDate)) {
+                systemService.saveDailyStats(today, stats).get(10, TimeUnit.SECONDS);
+                LogUtil.info("일일 서버 통계가 저장되었습니다: " + today);
+            }
+            
+            // 실시간 통계도 업데이트 (동기)
+            systemService.updateServerStats(stats).get(10, TimeUnit.SECONDS);
+            LogUtil.info("실시간 서버 통계가 저장되었습니다.");
+            
+        } catch (Exception e) {
+            LogUtil.error("서버 통계 동기 저장 중 오류 발생", e);
+            e.printStackTrace();
         }
     }
     

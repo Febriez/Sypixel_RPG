@@ -29,7 +29,7 @@ public class BasicReward implements QuestReward {
     private final int experience;
     private final String descriptionKey;
 
-    private BasicReward(Builder builder) {
+    private BasicReward(@NotNull Builder builder) {
         this.items = new ArrayList<>(builder.items);
         this.currencies = new EnumMap<>(builder.currencies);
         this.experience = builder.experience;
@@ -38,8 +38,7 @@ public class BasicReward implements QuestReward {
 
     @Override
     public void grant(@NotNull Player player) {
-        RPGPlayer rpgPlayer = RPGMain.getPlugin().getRPGPlayerManager()
-                .getOrCreatePlayer(player);
+        RPGPlayer rpgPlayer = RPGMain.getPlugin().getRPGPlayerManager().getOrCreatePlayer(player);
 
         // 아이템 지급
         for (ItemStack item : items) {
@@ -95,18 +94,36 @@ public class BasicReward implements QuestReward {
         return keys.toArray(new String[0]);
     }
 
+    /**
+     * 보상 아이템 목록 조회
+     */
+    @NotNull
+    public List<ItemStack> getItems() {
+        return new ArrayList<>(items);
+    }
+
+    /**
+     * 보상 재화 목록 조회
+     */
+    @NotNull
+    public Map<CurrencyType, Long> getCurrencies() {
+        return new EnumMap<>(currencies);
+    }
+
+    /**
+     * 보상 경험치 조회
+     */
+    public int getExperience() {
+        return experience;
+    }
+
     @Override
     public @NotNull RewardType getType() {
         int types = 0;
         if (!items.isEmpty()) types++;
         if (!currencies.isEmpty()) types++;
         if (experience > 0) types++;
-
-        return types > 1 ? RewardType.MIXED :
-                !items.isEmpty() ? RewardType.ITEM :
-                        !currencies.isEmpty() ? RewardType.CURRENCY :
-                                experience > 0 ? RewardType.EXPERIENCE :
-                                        RewardType.MIXED;
+        return types > 1 ? RewardType.MIXED : !items.isEmpty() ? RewardType.ITEM : !currencies.isEmpty() ? RewardType.CURRENCY : experience > 0 ? RewardType.EXPERIENCE : RewardType.MIXED;
     }
 
     @Override
@@ -120,10 +137,7 @@ public class BasicReward implements QuestReward {
             result = result.append(Component.text(langManager.getMessage(player, "quest.reward.items"), ColorUtil.YELLOW));
 
             for (ItemStack item : items) {
-                result = result.append(Component.newline())
-                        .append(Component.text("  • ", ColorUtil.GRAY))
-                        .append(Component.translatable(item.getType().translationKey()))
-                        .append(Component.text(" x" + item.getAmount(), ColorUtil.WHITE));
+                result = result.append(Component.newline()).append(Component.text("  • ", ColorUtil.GRAY)).append(Component.translatable(item.getType().translationKey())).append(Component.text(" x" + item.getAmount(), ColorUtil.WHITE));
             }
             first = false;
         }
@@ -135,9 +149,7 @@ public class BasicReward implements QuestReward {
 
             for (Map.Entry<CurrencyType, Long> entry : currencies.entrySet()) {
                 String currencyName = getCurrencyName(entry.getKey(), player);
-                result = result.append(Component.newline())
-                        .append(Component.text("  • " + currencyName + " ", ColorUtil.GRAY))
-                        .append(Component.text(entry.getValue().toString(), ColorUtil.WHITE));
+                result = result.append(Component.newline()).append(Component.text("  • " + currencyName + " ", ColorUtil.GRAY)).append(Component.text(entry.getValue().toString(), ColorUtil.WHITE));
             }
             first = false;
         }
@@ -145,8 +157,7 @@ public class BasicReward implements QuestReward {
         // 경험치 보상 표시
         if (experience > 0) {
             if (!first) result = result.append(Component.newline());
-            result = result.append(Component.text(langManager.getMessage(player, "quest.reward.experience"), ColorUtil.EMERALD))
-                    .append(Component.text(" " + experience, ColorUtil.WHITE));
+            result = result.append(Component.text(langManager.getMessage(player, "quest.reward.experience"), ColorUtil.EMERALD)).append(Component.text(" " + experience, ColorUtil.WHITE));
         }
 
         return result;
@@ -165,9 +176,7 @@ public class BasicReward implements QuestReward {
             loreComponents.add(Component.text("  " + langManager.getMessage(player, "quest.reward.items"), ColorUtil.YELLOW));
 
             for (ItemStack item : items) {
-                loreComponents.add(Component.text("    • ", ColorUtil.GRAY)
-                        .append(Component.translatable(item.getType().translationKey()))
-                        .append(Component.text(" x" + item.getAmount(), ColorUtil.WHITE)));
+                loreComponents.add(Component.text("    • ", ColorUtil.GRAY).append(Component.translatable(item.getType().translationKey())).append(Component.text(" x" + item.getAmount(), ColorUtil.WHITE)));
             }
         }
 
@@ -177,15 +186,13 @@ public class BasicReward implements QuestReward {
 
             for (Map.Entry<CurrencyType, Long> entry : currencies.entrySet()) {
                 String currencyName = getCurrencyName(entry.getKey(), player);
-                loreComponents.add(Component.text("    • " + currencyName + " ", ColorUtil.GRAY)
-                        .append(Component.text(entry.getValue().toString(), ColorUtil.WHITE)));
+                loreComponents.add(Component.text("    • " + currencyName + " ", ColorUtil.GRAY).append(Component.text(entry.getValue().toString(), ColorUtil.WHITE)));
             }
         }
 
         // 경험치 보상 표시
         if (experience > 0) {
-            loreComponents.add(Component.text("  " + langManager.getMessage(player, "quest.reward.experience"), ColorUtil.EMERALD)
-                    .append(Component.text(" " + experience, ColorUtil.WHITE)));
+            loreComponents.add(Component.text("  " + langManager.getMessage(player, "quest.reward.experience"), ColorUtil.EMERALD).append(Component.text(" " + experience, ColorUtil.WHITE)));
         }
 
         return loreComponents;

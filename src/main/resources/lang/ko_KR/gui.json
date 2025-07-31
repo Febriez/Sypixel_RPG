@@ -187,7 +187,8 @@
     "repeatable": "%COLOR_INFO%반복 가능"
   },
   "quest-detail": {
-    "title": "퀘스트 상세 정보"
+    "title": "퀘스트 상세 정보",
+    "objective-progress": "목표별 진행도"
   },
   "quest-accept": {
     "title": "퀘스트 수락",
@@ -310,9 +311,12 @@
   },
   "quest-reward": {
     "title": "퀘스트 보상",
+    "title-with-expiry": "퀘스트 보상 - 자동 소멸: {time}",
     "destroy-rewards": "보상 파괴",
     "destroy-desc": "모든 보상을 포기합니다",
     "warning-destroy": "⚠️ 이 작업은 되돌릴 수 없습니다!",
+    "warning-destroy-line": "⚠️ 이 작업은",
+    "warning-destroy-line2": "되돌릴 수 없습니다!",
     "claim-all": "모두 받기",
     "claim-all-desc": "모든 보상을 인벤토리로 가져옵니다",
     "already-claimed": "이미 보상을 수령했습니다",
@@ -323,9 +327,12 @@
     "no-items-desc": "이 퀘스트는 아이템 보상이 없습니다",
     "all-claimed": "모든 보상을 수령했습니다!",
     "exp-received": "경험치 {amount} 획득!",
-    "money-received": "코인 {amount} 획득!",
+    "money-received": "코인 {amount} 획듍!",
     "close-warning": "⚠️ 경고: 보상을 받지 않고 창을 닫았습니다!",
-    "items-lost": "받지 않은 아이템은 사라집니다!"
+    "items-lost": "받지 않은 아이템은 사라집니다!",
+    "expiry-days": "{days}일",
+    "expiry-hours": "{hours}시간",
+    "expiry-minutes": "{minutes}분"
   },
   "island": {
     "main": {

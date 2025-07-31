@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -24,29 +25,29 @@ import java.util.concurrent.CompletableFuture;
  * @author Febrie, CoffeeTory
  */
 public class PlayerFirestoreService extends BaseFirestoreService<PlayerDataDTO> {
-    
+
     private static final String COLLECTION_NAME = "Player";
-    
+
     public PlayerFirestoreService(@NotNull RPGMain plugin, @NotNull Firestore firestore) {
         super(plugin, firestore, COLLECTION_NAME, PlayerDataDTO.class);
     }
-    
+
     @Override
     protected Map<String, Object> toMap(@NotNull PlayerDataDTO dto) {
         return convertJsonToMap(dto.toJsonObject());
     }
-    
+
     @Override
     @Nullable
     protected PlayerDataDTO fromDocument(@NotNull DocumentSnapshot document) {
         if (!document.exists()) {
             return null;
         }
-        
+
         try {
             JsonObject json = convertMapToJson(document.getData());
             return PlayerDataDTO.fromJsonObject(json);
-            
+
         } catch (Exception e) {
             LogUtil.warning("플레이어 데이터 파싱 실패 [" + document.getId() + "]: " + e.getMessage());
             // 기본값 반환
@@ -59,22 +60,16 @@ public class PlayerFirestoreService extends BaseFirestoreService<PlayerDataDTO> 
             }
         }
     }
-    
+
     /**
      * UUID로 플레이어 데이터 조회
      */
     @NotNull
     public CompletableFuture<PlayerDataDTO> getByUuid(@NotNull UUID uuid) {
-        return get(uuid.toString()).thenApply(data -> {
-            if (data == null) {
-                // 신규 플레이어 데이터 생성
-                return PlayerDataDTO.createNew(uuid, "");
-            }
-            return data;
-        });
+        return get(uuid.toString()).thenApply(data -> Objects.requireNonNullElseGet(data, () -> PlayerDataDTO.createNew(uuid, "")));
     }
-    
-    
+
+
     /**
      * 플레이어 프로필만 업데이트
      */
@@ -85,7 +80,7 @@ public class PlayerFirestoreService extends BaseFirestoreService<PlayerDataDTO> 
             return saveByUuid(uuid, updated);
         });
     }
-    
+
     /**
      * 플레이어 지갑만 업데이트
      */
@@ -96,7 +91,7 @@ public class PlayerFirestoreService extends BaseFirestoreService<PlayerDataDTO> 
             return saveByUuid(uuid, updated);
         });
     }
-    
+
     /**
      * 플레이어 레벨 업데이트
      */
@@ -114,7 +109,7 @@ public class PlayerFirestoreService extends BaseFirestoreService<PlayerDataDTO> 
             return updateProfile(uuid, updatedProfile);
         });
     }
-    
+
     /**
      * 플레이어 경험치 추가
      */
@@ -133,7 +128,7 @@ public class PlayerFirestoreService extends BaseFirestoreService<PlayerDataDTO> 
             return updateProfile(uuid, updatedProfile);
         });
     }
-    
+
     /**
      * 재화 추가/차감
      */
@@ -143,19 +138,19 @@ public class PlayerFirestoreService extends BaseFirestoreService<PlayerDataDTO> 
             Map<String, Long> currencies = new HashMap<>(data.wallet().currencies());
             long current = currencies.getOrDefault(currencyType, 0L);
             long newAmount = current + amount;
-            
+
             if (newAmount < 0) {
                 // 잔액 부족
                 return CompletableFuture.completedFuture(false);
             }
-            
+
             currencies.put(currencyType, newAmount);
             WalletDTO updatedWallet = new WalletDTO(currencies, System.currentTimeMillis());
-            
+
             return updateWallet(uuid, updatedWallet).thenApply(v -> true);
         });
     }
-    
+
     /**
      * 재화 설정
      */
@@ -168,13 +163,13 @@ public class PlayerFirestoreService extends BaseFirestoreService<PlayerDataDTO> 
             return updateWallet(uuid, updatedWallet);
         });
     }
-    
+
     /**
      * 재화 조회
      */
     @NotNull
     public CompletableFuture<Long> getCurrency(@NotNull UUID uuid, @NotNull String currencyType) {
-        return getByUuid(uuid).thenApply(data -> 
+        return getByUuid(uuid).thenApply(data ->
                 data.wallet().currencies().getOrDefault(currencyType, 0L));
     }
 }

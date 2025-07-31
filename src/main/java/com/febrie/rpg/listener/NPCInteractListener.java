@@ -114,20 +114,15 @@ public class NPCInteractListener implements Listener {
                     player.sendMessage(Component.text("NPC에 가이드가 설정되었습니다: " + guideType, ColorUtil.SUCCESS));
                 }
                 case DIALOG -> {
-                    @SuppressWarnings("unchecked")
-                    List<String> dialogues = (List<String>) pending.getData();
+                    String dialogId = (String) pending.getData();
                     RPGDialogTrait dialogTrait = npc.getOrAddTrait(RPGDialogTrait.class);
-                    
-                    // 대사 추가
-                    for (String dialogue : dialogues) {
-                        dialogTrait.addDialogue(dialogue);
-                    }
+                    dialogTrait.setDialogId(dialogId);
                     
                     // 말풍선 아이템 설정
                     npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.PAPER));
                     
                     player.sendMessage(Component.text("NPC에 대화가 설정되었습니다.", ColorUtil.SUCCESS));
-                    player.sendMessage(Component.text("대사 개수: " + dialogues.size() + "개", ColorUtil.INFO));
+                    player.sendMessage(Component.text("대화 ID: " + dialogId, ColorUtil.INFO));
                 }
             }
             
@@ -243,8 +238,9 @@ public class NPCInteractListener implements Listener {
                                 // 목표 완료 체크
                                 if (objProgress.isCompleted()) {
                                     // 목표 완료 알림
+                                    boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
                                     player.sendMessage(Component.text("✓ ", ColorUtil.SUCCESS)
-                                            .append(Component.text(objective.getStatusInfo(objProgress), ColorUtil.SUCCESS)));
+                                            .append(Component.text(quest.getObjectiveDescription(objective, isKorean), ColorUtil.SUCCESS)));
                                     SoundUtil.playSuccessSound(player);
                                     
                                     // 순차 진행인 경우 다음 목표로
@@ -256,8 +252,10 @@ public class NPCInteractListener implements Listener {
                                     questManager.checkQuestCompletion(player.getUniqueId(), progress.getQuestId());
                                 } else {
                                     // 진행도 알림
-                                    player.sendMessage(Component.text("퀘스트 진행: ", ColorUtil.INFO)
-                                            .append(Component.text(objective.getStatusInfo(objProgress), ColorUtil.YELLOW)));
+                                    boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
+                                    String progressMsg = isKorean ? "퀘스트 진행: " : "Quest Progress: ";
+                                    player.sendMessage(Component.text(progressMsg, ColorUtil.INFO)
+                                            .append(Component.text(quest.getObjectiveDescription(objective, isKorean) + " " + objective.getProgressString(objProgress), ColorUtil.YELLOW)));
                                     SoundUtil.playClickSound(player);
                                 }
                                 
@@ -490,7 +488,7 @@ public class NPCInteractListener implements Listener {
         player.sendMessage(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", ColorUtil.GRAY));
         player.sendMessage(Component.text("📋 ", ColorUtil.GOLD)
                 .append(Component.text(quest.getDisplayName(true), ColorUtil.LEGENDARY))
-                .append(Component.text(" 진행도", ColorUtil.COMMON)));
+                .append(Component.text(" " + langManager.getMessage(player, "quest.progress"), ColorUtil.COMMON)));
         player.sendMessage(Component.empty());
         
         // 각 목표별 진행도 표시
@@ -546,7 +544,7 @@ public class NPCInteractListener implements Listener {
         double totalProgress = (double) completedCount / objectives.size() * 100;
         
         player.sendMessage(Component.empty());
-        player.sendMessage(Component.text("전체 진행률: ", ColorUtil.COMMON)
+        player.sendMessage(Component.text(langManager.getMessage(player, "quest.total-progress") + ": ", ColorUtil.COMMON)
                 .append(Component.text(String.format("%.1f%%", totalProgress), ColorUtil.GOLD)));
         player.sendMessage(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", ColorUtil.GRAY));
         
