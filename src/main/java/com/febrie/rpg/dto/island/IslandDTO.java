@@ -212,9 +212,11 @@ public record IslandDTO(@NotNull String islandId, @NotNull String ownerUuid, @No
         // contributions 맵 파싱
         Map<String, Long> contributions = new HashMap<>();
         Map<String, Object> contributionsMap = FirestoreUtils.getMap(map, "contributions", new HashMap<>());
-        for (Map.Entry<String, Object> entry : contributionsMap.entrySet()) {
-            if (entry.getValue() instanceof Number) {
-                contributions.put(entry.getKey(), FirestoreUtils.getLong(contributionsMap, entry.getKey()));
+        if (contributionsMap != null) {
+            for (Map.Entry<String, Object> entry : contributionsMap.entrySet()) {
+                if (entry.getValue() instanceof Number) {
+                    contributions.put(entry.getKey(), FirestoreUtils.getLong(contributionsMap, entry.getKey()));
+                }
             }
         }
 
