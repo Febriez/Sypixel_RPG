@@ -76,7 +76,7 @@ public record IslandSpawnDTO(@NotNull IslandSpawnPointDTO defaultSpawn, // 기�
     @SuppressWarnings("unchecked")
     public static IslandSpawnDTO fromMap(@NotNull Map<String, Object> map) {
         // defaultSpawn 파싱
-        Map<String, Object> defaultSpawnMap = FirestoreUtils.getMap(map, "defaultSpawn", null);
+        Map<String, Object> defaultSpawnMap = FirestoreUtils.getMapOrNull(map, "defaultSpawn", null);
         IslandSpawnPointDTO defaultSpawn = defaultSpawnMap != null ? 
             IslandSpawnPointDTO.fromMap(defaultSpawnMap) : IslandSpawnPointDTO.createDefault();
 
@@ -90,11 +90,9 @@ public record IslandSpawnDTO(@NotNull IslandSpawnPointDTO defaultSpawn, // 기�
         // memberSpawns 맵 파싱
         Map<String, IslandSpawnPointDTO> memberSpawns = new HashMap<>();
         Map<String, Object> memberSpawnsMap = FirestoreUtils.getMap(map, "memberSpawns", new HashMap<>());
-        if (memberSpawnsMap != null) {
-            for (Map.Entry<String, Object> entry : memberSpawnsMap.entrySet()) {
-                if (entry.getValue() instanceof Map) {
-                    memberSpawns.put(entry.getKey(), IslandSpawnPointDTO.fromMap((Map<String, Object>) entry.getValue()));
-                }
+        for (Map.Entry<String, Object> entry : memberSpawnsMap.entrySet()) {
+            if (entry.getValue() instanceof Map) {
+                memberSpawns.put(entry.getKey(), IslandSpawnPointDTO.fromMap((Map<String, Object>) entry.getValue()));
             }
         }
 

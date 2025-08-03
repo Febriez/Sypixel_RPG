@@ -65,7 +65,7 @@ public record IslandMemberDTO(
         long joinedAt = FirestoreUtils.getLong(map, "joinedAt", System.currentTimeMillis());
         long lastActivity = FirestoreUtils.getLong(map, "lastActivity", System.currentTimeMillis());
 
-        Map<String, Object> personalSpawnMap = FirestoreUtils.getMap(map, "personalSpawn", null);
+        Map<String, Object> personalSpawnMap = FirestoreUtils.getMapOrNull(map, "personalSpawn", null);
         IslandSpawnPointDTO personalSpawn = personalSpawnMap != null ? IslandSpawnPointDTO.fromMap(personalSpawnMap) : null;
 
         return new IslandMemberDTO(uuid, name, isCoOwner, joinedAt, lastActivity, personalSpawn);

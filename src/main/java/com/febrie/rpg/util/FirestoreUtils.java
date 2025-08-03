@@ -339,12 +339,29 @@ public final class FirestoreUtils {
      * Map에서 Map 값을 안전하게 가져옵니다.
      * @param map Map
      * @param key 키
+     * @param defaultValue 기본값
+     * @return 값이 없으면 defaultValue
+     */
+    @SuppressWarnings("unchecked")
+    @NotNull
+    public static Map<String, Object> getMap(@NotNull Map<String, Object> map, @NotNull String key, @NotNull Map<String, Object> defaultValue) {
+        Object value = map.get(key);
+        if (value instanceof Map) {
+            return (Map<String, Object>) value;
+        }
+        return defaultValue;
+    }
+    
+    /**
+     * Map에서 Map 값을 안전하게 가져옵니다 (null 허용).
+     * @param map Map
+     * @param key 키
      * @param defaultValue 기본값 (null 가능)
      * @return 값이 없으면 defaultValue
      */
     @SuppressWarnings("unchecked")
     @Nullable
-    public static Map<String, Object> getMap(@NotNull Map<String, Object> map, @NotNull String key, @Nullable Map<String, Object> defaultValue) {
+    public static Map<String, Object> getMapOrNull(@NotNull Map<String, Object> map, @NotNull String key, @Nullable Map<String, Object> defaultValue) {
         Object value = map.get(key);
         if (value instanceof Map) {
             return (Map<String, Object>) value;

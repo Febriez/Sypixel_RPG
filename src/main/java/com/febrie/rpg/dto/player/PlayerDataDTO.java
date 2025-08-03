@@ -45,11 +45,11 @@ public record PlayerDataDTO(
         Map<String, Object> profileMap = FirestoreUtils.getMap(map, "profile", new HashMap<>());
         Map<String, Object> walletMap = FirestoreUtils.getMap(map, "wallet", new HashMap<>());
         
-        PlayerProfileDTO profile = (profileMap == null || profileMap.isEmpty()) 
+        PlayerProfileDTO profile = profileMap.isEmpty() 
             ? new PlayerProfileDTO(UUID.randomUUID(), "", 1, 0, 0, System.currentTimeMillis())
             : PlayerProfileDTO.fromMap(profileMap);
             
-        WalletDTO wallet = (walletMap == null || walletMap.isEmpty()) 
+        WalletDTO wallet = walletMap.isEmpty() 
             ? new WalletDTO()
             : WalletDTO.fromMap(walletMap);
         

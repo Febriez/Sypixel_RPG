@@ -212,25 +212,23 @@ public record IslandDTO(@NotNull String islandId, @NotNull String ownerUuid, @No
         // contributions 맵 파싱
         Map<String, Long> contributions = new HashMap<>();
         Map<String, Object> contributionsMap = FirestoreUtils.getMap(map, "contributions", new HashMap<>());
-        if (contributionsMap != null) {
-            for (Map.Entry<String, Object> entry : contributionsMap.entrySet()) {
-                if (entry.getValue() instanceof Number) {
-                    contributions.put(entry.getKey(), FirestoreUtils.getLong(contributionsMap, entry.getKey()));
-                }
+        for (Map.Entry<String, Object> entry : contributionsMap.entrySet()) {
+            if (entry.getValue() instanceof Number) {
+                contributions.put(entry.getKey(), FirestoreUtils.getLong(contributionsMap, entry.getKey()));
             }
         }
 
         // 중첩 객체 파싱
-        Map<String, Object> spawnDataMap = FirestoreUtils.getMap(map, "spawnData", null);
+        Map<String, Object> spawnDataMap = FirestoreUtils.getMapOrNull(map, "spawnData", null);
         IslandSpawnDTO spawnData = spawnDataMap != null ? IslandSpawnDTO.fromMap(spawnDataMap) : IslandSpawnDTO.createDefault();
 
-        Map<String, Object> upgradeDataMap = FirestoreUtils.getMap(map, "upgradeData", null);
+        Map<String, Object> upgradeDataMap = FirestoreUtils.getMapOrNull(map, "upgradeData", null);
         IslandUpgradeDTO upgradeData = upgradeDataMap != null ? IslandUpgradeDTO.fromMap(upgradeDataMap) : IslandUpgradeDTO.createDefault();
 
-        Map<String, Object> permissionsMap = FirestoreUtils.getMap(map, "permissions", null);
+        Map<String, Object> permissionsMap = FirestoreUtils.getMapOrNull(map, "permissions", null);
         IslandPermissionDTO permissions = permissionsMap != null ? IslandPermissionDTO.fromMap(permissionsMap) : IslandPermissionDTO.createDefault();
 
-        Map<String, Object> settingsMap = FirestoreUtils.getMap(map, "settings", null);
+        Map<String, Object> settingsMap = FirestoreUtils.getMapOrNull(map, "settings", null);
         IslandSettingsDTO settings = settingsMap != null ? IslandSettingsDTO.fromMap(settingsMap) : IslandSettingsDTO.createDefault();
 
         int totalResets = FirestoreUtils.getInt(map, "totalResets", 0);
