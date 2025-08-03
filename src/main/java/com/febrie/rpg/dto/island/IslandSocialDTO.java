@@ -59,8 +59,8 @@ public record IslandSocialDTO(
     public List<IslandVisitDTO> getRecentVisits(int days) {
         long cutoffTime = System.currentTimeMillis() - (days * 24L * 60 * 60 * 1000);
         return recentVisits.stream()
-                .filter(visit -> visit.visitTime() > cutoffTime)
-                .sorted((a, b) -> Long.compare(b.visitTime(), a.visitTime()))
+                .filter(visit -> visit.visitedAt() > cutoffTime)
+                .sorted((a, b) -> Long.compare(b.visitedAt(), a.visitedAt()))
                 .collect(Collectors.toList());
     }
 
