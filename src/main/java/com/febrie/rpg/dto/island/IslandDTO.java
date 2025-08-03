@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.island;
 
+import com.febrie.rpg.database.constants.DatabaseConstants;
 import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,7 +36,7 @@ public record IslandDTO(@NotNull String islandId, @NotNull String ownerUuid, @No
      * 신규 섬 생성용 기본 생성자
      */
     public static IslandDTO createNew(String islandId, String ownerUuid, String ownerName, String islandName) {
-        return new IslandDTO(islandId, ownerUuid, ownerName, islandName, 85, // 초기 크기
+        return new IslandDTO(islandId, ownerUuid, ownerName, islandName, DatabaseConstants.ISLAND_INITIAL_SIZE, // 초기 크기
                 false, // 기본 비공개
                 System.currentTimeMillis(), System.currentTimeMillis(), List.of(), List.of(), Map.of(ownerUuid, 0L), IslandSpawnDTO.createDefault(), IslandUpgradeDTO.createDefault(), IslandPermissionDTO.createDefault(), List.of(), List.of(), 0, null, IslandSettingsDTO.createDefault());
     }
@@ -44,8 +45,7 @@ public record IslandDTO(@NotNull String islandId, @NotNull String ownerUuid, @No
      * 섬 삭제 가능 여부 확인 (생성 후 1주일 경과)
      */
     public boolean canDelete() {
-        long oneWeekInMillis = 7L * 24 * 60 * 60 * 1000;
-        return System.currentTimeMillis() - createdAt >= oneWeekInMillis;
+        return System.currentTimeMillis() - createdAt >= DatabaseConstants.ISLAND_DELETE_COOLDOWN_MS;
     }
 
     /**
@@ -93,8 +93,8 @@ public record IslandDTO(@NotNull String islandId, @NotNull String ownerUuid, @No
      */
     public int getBiomeSize() {
         // 500을 넘는 가장 가까운 16의 배수 찾기
-        int minSize = Math.max(size, 500);
-        return ((minSize + 15) / 16) * 16;
+        int minSize = Math.max(size, DatabaseConstants.ISLAND_MIN_BIOME_SIZE);
+        return ((minSize + 15) / DatabaseConstants.ISLAND_BIOME_SIZE_MULTIPLE) * DatabaseConstants.ISLAND_BIOME_SIZE_MULTIPLE;
     }
 
     /**

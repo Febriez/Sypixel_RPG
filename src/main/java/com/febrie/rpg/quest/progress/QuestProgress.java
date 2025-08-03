@@ -413,4 +413,76 @@ public class QuestProgress {
         return new QuestProgress(questId, playerId, objectives, state, currentObjectiveIndex,
                 startedAt, completedAt, lastUpdatedAt);
     }
+    
+    /**
+     * Map으로 변환 (Firestore SDK용)
+     */
+    @NotNull
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("questId", questId.name());
+        map.put("playerId", playerId.toString());
+        
+        // objectives
+        Map<String, Object> objectivesMap = new HashMap<>();
+        objectives.forEach((id, progress) -> objectivesMap.put(id, progress.toMap()));
+        map.put("objectives", objectivesMap);
+        
+        map.put("state", state.name());
+        map.put("currentObjectiveIndex", currentObjectiveIndex);
+        map.put("startedAt", startedAt.toEpochMilli());
+        
+        if (completedAt != null) {
+            map.put("completedAt", completedAt.toEpochMilli());
+        }
+        
+        map.put("lastUpdatedAt", lastUpdatedAt.toEpochMilli());
+        
+        return map;
+    }
+    
+    /**
+     * Map에서 QuestProgress 생성 (Firestore SDK용)
+     */
+    @NotNull
+    @SuppressWarnings("unchecked")
+    public static QuestProgress fromMap(@NotNull Map<String, Object> map) {
+        String questIdStr = (String) map.getOrDefault("questId", "");
+        QuestID questId = QuestID.valueOf(questIdStr);
+        
+        String playerIdStr = (String) map.getOrDefault("playerId", "");
+        UUID playerId = UUID.fromString(playerIdStr);
+        
+        Map<String, ObjectiveProgress> objectives = new HashMap<>();
+        Object objectivesObj = map.get("objectives");
+        if (objectivesObj instanceof Map) {
+            Map<String, Object> objectivesMap = (Map<String, Object>) objectivesObj;
+            objectivesMap.forEach((id, value) -> {
+                if (value instanceof Map) {
+                    objectives.put(id, ObjectiveProgress.fromMap((Map<String, Object>) value));
+                }
+            });
+        }
+        
+        String stateStr = (String) map.getOrDefault("state", "ACTIVE");
+        QuestState state = QuestState.valueOf(stateStr);
+        
+        int currentObjectiveIndex = ((Number) map.getOrDefault("currentObjectiveIndex", 0)).intValue();
+        
+        long startedAtMs = ((Number) map.getOrDefault("startedAt", System.currentTimeMillis())).longValue();
+        Instant startedAt = Instant.ofEpochMilli(startedAtMs);
+        
+        Instant completedAt = null;
+        if (map.containsKey("completedAt")) {
+            long completedAtMs = ((Number) map.get("completedAt")).longValue();
+            completedAt = Instant.ofEpochMilli(completedAtMs);
+        }
+        
+        long lastUpdatedAtMs = ((Number) map.getOrDefault("lastUpdatedAt", System.currentTimeMillis())).longValue();
+        Instant lastUpdatedAt = Instant.ofEpochMilli(lastUpdatedAtMs);
+        
+        return new QuestProgress(questId, playerId, objectives, state, currentObjectiveIndex,
+                startedAt, completedAt, lastUpdatedAt);
+    }
 }

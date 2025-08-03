@@ -1,5 +1,6 @@
 package com.febrie.rpg.database.sync;
 
+import com.febrie.rpg.database.constants.DatabaseConstants;
 import com.febrie.rpg.dto.player.PlayerDataDTO;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +30,7 @@ public class PlayerDataCache {
     
     public PlayerDataCache(long duration, @NotNull TimeUnit unit) {
         this.ttlMillis = unit.toMillis(duration);
-        this.maxSize = 10_000; // 최대 10,000명 캐싱
+        this.maxSize = DatabaseConstants.PLAYER_CACHE_MAX_SIZE; // 최대 5,000명 캐싱
         
         // 정리 스케줄러 (1분마다 실행)
         this.cleanupExecutor = Executors.newSingleThreadScheduledExecutor(r -> {
@@ -38,7 +39,10 @@ public class PlayerDataCache {
             return t;
         });
         
-        cleanupExecutor.scheduleWithFixedDelay(this::cleanupExpired, 1, 1, TimeUnit.MINUTES);
+        cleanupExecutor.scheduleWithFixedDelay(this::cleanupExpired, 
+                DatabaseConstants.CACHE_CLEANUP_INTERVAL_MINUTES, 
+                DatabaseConstants.CACHE_CLEANUP_INTERVAL_MINUTES, 
+                TimeUnit.MINUTES);
     }
     
     /**

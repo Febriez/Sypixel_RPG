@@ -69,8 +69,10 @@ public record PlayerQuestDTO(String playerId, Map<String, QuestProgress> activeQ
         Map<String, Object> map = new HashMap<>();
         map.put("playerId", playerId);
         
-        // activeQuests - 비워두기 (QuestProgress가 Map 지원 안함)
-        map.put("activeQuests", new HashMap<>());
+        // activeQuests - 이제 QuestProgress가 toMap을 지원함
+        Map<String, Object> activeQuestsMap = new HashMap<>();
+        activeQuests.forEach((key, value) -> activeQuestsMap.put(key, value.toMap()));
+        map.put("activeQuests", activeQuestsMap);
         
         // completedQuests
         Map<String, Object> completedQuestsMap = new HashMap<>();
@@ -94,8 +96,17 @@ public record PlayerQuestDTO(String playerId, Map<String, QuestProgress> activeQ
     public static PlayerQuestDTO fromMap(@NotNull Map<String, Object> map) {
         String playerId = (String) map.getOrDefault("playerId", "");
         
-        // activeQuests - 비워두기 (QuestProgress가 Map 지원 안함)
+        // activeQuests - 이제 QuestProgress가 fromMap을 지원함
         Map<String, QuestProgress> activeQuests = new HashMap<>();
+        Object activeObj = map.get("activeQuests");
+        if (activeObj instanceof Map) {
+            Map<String, Object> activeMap = (Map<String, Object>) activeObj;
+            activeMap.forEach((key, value) -> {
+                if (value instanceof Map) {
+                    activeQuests.put(key, QuestProgress.fromMap((Map<String, Object>) value));
+                }
+            });
+        }
         
         // completedQuests
         Map<String, CompletedQuestDTO> completedQuests = new HashMap<>();

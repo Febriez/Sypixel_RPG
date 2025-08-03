@@ -1,5 +1,6 @@
 package com.febrie.rpg.database.helper;
 
+import com.febrie.rpg.database.constants.DatabaseConstants;
 import com.febrie.rpg.util.LogUtil;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
@@ -21,9 +22,9 @@ import java.util.function.Function;
  */
 public class FirestoreHelper {
 
-    private static final int BATCH_SIZE_LIMIT = 500;
-    private static final int MAX_RETRY_ATTEMPTS = 3;
-    private static final long INITIAL_RETRY_DELAY_MS = 1000;
+    private static final int BATCH_SIZE_LIMIT = DatabaseConstants.BATCH_SIZE_LIMIT;
+    private static final int MAX_RETRY_ATTEMPTS = DatabaseConstants.MAX_RETRY_ATTEMPTS;
+    private static final long INITIAL_RETRY_DELAY_MS = DatabaseConstants.INITIAL_RETRY_DELAY_MS;
 
     private final Firestore firestore;
     private final ScheduledExecutorService scheduler;
@@ -58,7 +59,7 @@ public class FirestoreHelper {
             try {
                 ApiFuture<WriteResult> future = firestore.collection(collection).document(documentId).set(data, SetOptions.merge());
 
-                future.get(5, TimeUnit.SECONDS);
+                future.get(DatabaseConstants.WRITE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
                 return null;
             } catch (Exception e) {
                 LogUtil.warning("즉시 저장 실패 [" + collection + "/" + documentId + "]: " + e.getMessage());
@@ -93,10 +94,10 @@ public class FirestoreHelper {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 ApiFuture<T> future = firestore.runTransaction(transactionFunction::apply);
-                return future.get(10, TimeUnit.SECONDS);
+                return future.get(DatabaseConstants.TRANSACTION_TIMEOUT_SECONDS, TimeUnit.SECONDS);
             } catch (Exception e) {
                 if (attemptNumber < MAX_RETRY_ATTEMPTS - 1) {
-                    long delayMs = INITIAL_RETRY_DELAY_MS * (long) Math.pow(2, attemptNumber);
+                    long delayMs = INITIAL_RETRY_DELAY_MS * (long) Math.pow(DatabaseConstants.RETRY_BACKOFF_MULTIPLIER, attemptNumber);
                     LogUtil.debug("트랜잭션 재시도 중... (시도 " + (attemptNumber + 1) + "/" + MAX_RETRY_ATTEMPTS + ")");
 
                     try {
@@ -123,7 +124,7 @@ public class FirestoreHelper {
             try {
                 ApiFuture<WriteResult> future = firestore.collection(collection).document(documentId).update(fields);
 
-                future.get(5, TimeUnit.SECONDS);
+                future.get(DatabaseConstants.WRITE_TIMEOUT_SECONDS, TimeUnit.SECONDS);
                 return null;
             } catch (Exception e) {
                 LogUtil.warning("필드 업데이트 실패 [" + collection + "/" + documentId + "]: " + e.getMessage());
@@ -242,9 +243,9 @@ public class FirestoreHelper {
      * 데이터 우선순위
      */
     public enum DataPriority {
-        HIGH(60_000),      // 1분
-        MEDIUM(180_000),   // 3분  
-        LOW(300_000);      // 5분
+        HIGH(DatabaseConstants.SAVE_INTERVAL_HIGH_PRIORITY),      // 1분
+        MEDIUM(DatabaseConstants.SAVE_INTERVAL_MEDIUM_PRIORITY),   // 3분  
+        LOW(DatabaseConstants.SAVE_INTERVAL_LOW_PRIORITY);      // 5분
 
         private final long saveIntervalMs;
 
@@ -318,7 +319,7 @@ public class FirestoreHelper {
         private void scheduleNextFlush() {
             // 3-5분 사이 랜덤 간격 (서버 부하 분산)
             long baseInterval = priority.getSaveIntervalMs();
-            long randomOffset = priority == DataPriority.HIGH ? 0 : ThreadLocalRandom.current().nextLong(0, 120_000); // 0-2분 랜덤
+            long randomOffset = priority == DataPriority.HIGH ? 0 : ThreadLocalRandom.current().nextLong(0, DatabaseConstants.SAVE_INTERVAL_RANDOM_OFFSET); // 0-2분 랜덤
 
             scheduledFlush = scheduler.schedule(this::flush, baseInterval + randomOffset, TimeUnit.MILLISECONDS);
         }

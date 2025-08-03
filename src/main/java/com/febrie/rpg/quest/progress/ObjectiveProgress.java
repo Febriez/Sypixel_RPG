@@ -3,6 +3,8 @@ package com.febrie.rpg.quest.progress;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -298,6 +300,44 @@ public class ObjectiveProgress {
         long completedAt = fields.has("completedAt") && fields.getAsJsonObject("completedAt").has("integerValue")
                 ? fields.getAsJsonObject("completedAt").get("integerValue").getAsLong()
                 : 0;
+        
+        return new ObjectiveProgress(objectiveId, playerId, currentValue, requiredValue, 
+                completed, startedAt, completedAt);
+    }
+    
+    /**
+     * Map으로 변환 (Firestore SDK용)
+     */
+    @NotNull
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        
+        map.put("objectiveId", objectiveId);
+        map.put("playerId", playerId.toString());
+        map.put("currentValue", currentValue);
+        map.put("requiredValue", requiredValue);
+        map.put("completed", completed);
+        map.put("startedAt", startedAt);
+        map.put("completedAt", completedAt);
+        map.put("lastUpdated", lastUpdated);
+        
+        return map;
+    }
+    
+    /**
+     * Map에서 ObjectiveProgress 생성 (Firestore SDK용)
+     */
+    @NotNull
+    public static ObjectiveProgress fromMap(@NotNull Map<String, Object> map) {
+        String objectiveId = (String) map.getOrDefault("objectiveId", "");
+        String playerIdStr = (String) map.getOrDefault("playerId", "");
+        UUID playerId = UUID.fromString(playerIdStr);
+        
+        int currentValue = ((Number) map.getOrDefault("currentValue", 0)).intValue();
+        int requiredValue = ((Number) map.getOrDefault("requiredValue", 1)).intValue();
+        boolean completed = (Boolean) map.getOrDefault("completed", false);
+        long startedAt = ((Number) map.getOrDefault("startedAt", System.currentTimeMillis())).longValue();
+        long completedAt = ((Number) map.getOrDefault("completedAt", 0L)).longValue();
         
         return new ObjectiveProgress(objectiveId, playerId, currentValue, requiredValue, 
                 completed, startedAt, completedAt);

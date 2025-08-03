@@ -1,6 +1,7 @@
 package com.febrie.rpg.database.task;
 
 import com.febrie.rpg.RPGMain;
+import com.febrie.rpg.database.constants.DatabaseConstants;
 import com.febrie.rpg.database.helper.FirestoreHelper.DataPriority;
 import com.febrie.rpg.database.sync.DataSyncManager;
 import com.febrie.rpg.player.RPGPlayer;
@@ -30,9 +31,9 @@ public class BatchSaveTask extends BukkitRunnable {
     private final Map<UUID, SaveTimeTracker> saveTrackers = new ConcurrentHashMap<>();
     
     // 저장 간격 (밀리초)
-    private static final long HIGH_PRIORITY_INTERVAL = 60_000;     // 1분
-    private static final long MEDIUM_PRIORITY_INTERVAL = 180_000;  // 3분
-    private static final long LOW_PRIORITY_INTERVAL = 300_000;     // 5분
+    private static final long HIGH_PRIORITY_INTERVAL = DatabaseConstants.SAVE_INTERVAL_HIGH_PRIORITY;     // 1분
+    private static final long MEDIUM_PRIORITY_INTERVAL = DatabaseConstants.SAVE_INTERVAL_MEDIUM_PRIORITY;  // 3분
+    private static final long LOW_PRIORITY_INTERVAL = DatabaseConstants.SAVE_INTERVAL_LOW_PRIORITY;     // 5분
     
     // 통계
     private long totalSaves = 0;
@@ -124,7 +125,7 @@ public class BatchSaveTask extends BukkitRunnable {
      * 서버 부하 분산을 위한 랜덤 오프셋 (0-2분)
      */
     private long getRandomOffset() {
-        return ThreadLocalRandom.current().nextLong(0, 120_000);
+        return ThreadLocalRandom.current().nextLong(0, DatabaseConstants.SAVE_INTERVAL_RANDOM_OFFSET);
     }
     
     /**
@@ -179,7 +180,9 @@ public class BatchSaveTask extends BukkitRunnable {
      */
     public void start() {
         // 20틱 = 1초, 600틱 = 30초마다 실행
-        this.runTaskTimerAsynchronously(plugin, 20L, 600L);
+        this.runTaskTimerAsynchronously(plugin, 
+                DatabaseConstants.BATCH_SAVE_INITIAL_DELAY_TICKS, 
+                DatabaseConstants.BATCH_SAVE_INTERVAL_TICKS);
         LogUtil.info("배치 저장 작업 시작됨 (30초 간격)");
     }
     
