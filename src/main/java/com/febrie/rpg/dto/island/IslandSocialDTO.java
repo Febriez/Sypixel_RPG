@@ -93,6 +93,11 @@ public record IslandSocialDTO(
     public static IslandSocialDTO fromMap(@NotNull Map<String, Object> map) {
         String islandId = FirestoreUtils.getString(map, "islandId");
         
+        // 필수 필드 검증
+        if (islandId.isEmpty()) {
+            throw new IllegalArgumentException("IslandSocialDTO: islandId cannot be empty");
+        }
+        
         List<IslandInviteDTO> pendingInvites = new ArrayList<>();
         Object invitesObj = map.get("pendingInvites");
         if (invitesObj instanceof List) {

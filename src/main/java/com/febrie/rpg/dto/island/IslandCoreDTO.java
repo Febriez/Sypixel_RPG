@@ -79,12 +79,31 @@ public record IslandCoreDTO(
      */
     @NotNull
     public static IslandCoreDTO fromMap(@NotNull Map<String, Object> map) {
+        String islandId = FirestoreUtils.getString(map, "islandId");
+        String ownerUuid = FirestoreUtils.getString(map, "ownerUuid");
+        String ownerName = FirestoreUtils.getString(map, "ownerName");
+        String islandName = FirestoreUtils.getString(map, "islandName");
+        
+        // 필수 필드 검증
+        if (islandId.isEmpty()) {
+            throw new IllegalArgumentException("IslandCoreDTO: islandId cannot be empty");
+        }
+        if (ownerUuid.isEmpty()) {
+            throw new IllegalArgumentException("IslandCoreDTO: ownerUuid cannot be empty");
+        }
+        if (ownerName.isEmpty()) {
+            throw new IllegalArgumentException("IslandCoreDTO: ownerName cannot be empty");
+        }
+        if (islandName.isEmpty()) {
+            throw new IllegalArgumentException("IslandCoreDTO: islandName cannot be empty");
+        }
+        
         return new IslandCoreDTO(
-                FirestoreUtils.getString(map, "islandId"),
-                FirestoreUtils.getString(map, "ownerUuid"),
-                FirestoreUtils.getString(map, "ownerName"),
-                FirestoreUtils.getString(map, "islandName"),
-                FirestoreUtils.getInt(map, "size", 85),
+                islandId,
+                ownerUuid,
+                ownerName,
+                islandName,
+                FirestoreUtils.getInt(map, "size", DatabaseConstants.ISLAND_INITIAL_SIZE),
                 FirestoreUtils.getBoolean(map, "isPublic", false),
                 FirestoreUtils.getLong(map, "createdAt", System.currentTimeMillis()),
                 FirestoreUtils.getLong(map, "lastActivity", System.currentTimeMillis()),

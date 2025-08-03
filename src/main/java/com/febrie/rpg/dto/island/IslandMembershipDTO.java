@@ -107,6 +107,11 @@ public record IslandMembershipDTO(
     public static IslandMembershipDTO fromMap(@NotNull Map<String, Object> map) {
         String islandId = FirestoreUtils.getString(map, "islandId");
         
+        // 필수 필드 검증
+        if (islandId.isEmpty()) {
+            throw new IllegalArgumentException("IslandMembershipDTO: islandId cannot be empty");
+        }
+        
         List<IslandMemberDTO> members = new ArrayList<>();
         Object membersObj = map.get("members");
         if (membersObj instanceof List) {

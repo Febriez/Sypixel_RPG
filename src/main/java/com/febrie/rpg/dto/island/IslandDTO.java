@@ -157,14 +157,28 @@ public record IslandDTO(@NotNull String islandId, @NotNull String ownerUuid, @No
      * Map에서 생성
      */
     @NotNull
-    @SuppressWarnings("unchecked")
     public static IslandDTO fromMap(@NotNull Map<String, Object> map) {
         // 기본 필드 파싱
         String islandId = FirestoreUtils.getString(map, "islandId", "");
         String ownerUuid = FirestoreUtils.getString(map, "ownerUuid", "");
         String ownerName = FirestoreUtils.getString(map, "ownerName", "");
         String islandName = FirestoreUtils.getString(map, "islandName", "");
-        int size = FirestoreUtils.getInt(map, "size", 85);
+        
+        // 필수 필드 검증
+        if (islandId.isEmpty()) {
+            throw new IllegalArgumentException("IslandDTO: islandId cannot be empty");
+        }
+        if (ownerUuid.isEmpty()) {
+            throw new IllegalArgumentException("IslandDTO: ownerUuid cannot be empty");
+        }
+        if (ownerName.isEmpty()) {
+            throw new IllegalArgumentException("IslandDTO: ownerName cannot be empty");
+        }
+        if (islandName.isEmpty()) {
+            throw new IllegalArgumentException("IslandDTO: islandName cannot be empty");
+        }
+        
+        int size = FirestoreUtils.getInt(map, "size", DatabaseConstants.ISLAND_INITIAL_SIZE);
         boolean isPublic = FirestoreUtils.getBoolean(map, "isPublic", false);
         long createdAt = FirestoreUtils.getLong(map, "createdAt", System.currentTimeMillis());
         long lastActivity = FirestoreUtils.getLong(map, "lastActivity", System.currentTimeMillis());
