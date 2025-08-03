@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 섬 설정 정보 DTO (Record)
@@ -61,7 +62,7 @@ public record IslandConfigurationDTO(
     @NotNull
     @SuppressWarnings("unchecked")
     public static IslandConfigurationDTO fromMap(@NotNull Map<String, Object> map) {
-        String islandId = FirestoreUtils.getString(map, "islandId");
+        @NotNull String islandId = Objects.requireNonNull(FirestoreUtils.getString(map, "islandId", ""));
         
         // 필수 필드 검증
         if (islandId.isEmpty()) {

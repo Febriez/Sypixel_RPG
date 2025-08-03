@@ -1,11 +1,13 @@
 package com.febrie.rpg.dto.island;
 
+import com.febrie.rpg.database.constants.DatabaseConstants;
 import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 섬 핵심 정보 DTO (Record)
@@ -34,7 +36,7 @@ public record IslandCoreDTO(
                 ownerUuid,
                 ownerName,
                 islandName,
-                85, // 초기 크기
+                DatabaseConstants.ISLAND_INITIAL_SIZE, // 초기 크기
                 false, // 기본 비공개
                 System.currentTimeMillis(),
                 System.currentTimeMillis(),
@@ -47,8 +49,7 @@ public record IslandCoreDTO(
      * 섬 삭제 가능 여부 확인 (생성 후 1주일 경과)
      */
     public boolean canDelete() {
-        long oneWeekInMillis = 7L * 24 * 60 * 60 * 1000;
-        return System.currentTimeMillis() - createdAt >= oneWeekInMillis;
+        return System.currentTimeMillis() - createdAt >= DatabaseConstants.ISLAND_DELETE_COOLDOWN_MS;
     }
 
     /**
@@ -79,10 +80,10 @@ public record IslandCoreDTO(
      */
     @NotNull
     public static IslandCoreDTO fromMap(@NotNull Map<String, Object> map) {
-        String islandId = FirestoreUtils.getString(map, "islandId");
-        String ownerUuid = FirestoreUtils.getString(map, "ownerUuid");
-        String ownerName = FirestoreUtils.getString(map, "ownerName");
-        String islandName = FirestoreUtils.getString(map, "islandName");
+        @NotNull String islandId = Objects.requireNonNull(FirestoreUtils.getString(map, "islandId", ""));
+        @NotNull String ownerUuid = Objects.requireNonNull(FirestoreUtils.getString(map, "ownerUuid", ""));
+        @NotNull String ownerName = Objects.requireNonNull(FirestoreUtils.getString(map, "ownerName", ""));
+        @NotNull String islandName = Objects.requireNonNull(FirestoreUtils.getString(map, "islandName", ""));
         
         // 필수 필드 검증
         if (islandId.isEmpty()) {

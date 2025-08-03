@@ -91,7 +91,7 @@ public record IslandSocialDTO(
     @NotNull
     @SuppressWarnings("unchecked")
     public static IslandSocialDTO fromMap(@NotNull Map<String, Object> map) {
-        String islandId = FirestoreUtils.getString(map, "islandId");
+        @NotNull String islandId = Objects.requireNonNull(FirestoreUtils.getString(map, "islandId", ""));
         
         // 필수 필드 검증
         if (islandId.isEmpty()) {

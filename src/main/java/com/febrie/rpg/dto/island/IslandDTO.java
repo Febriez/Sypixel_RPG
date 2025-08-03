@@ -5,10 +5,7 @@ import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -158,13 +155,13 @@ public record IslandDTO(@NotNull String islandId, @NotNull String ownerUuid, @No
      */
     @NotNull
     public static IslandDTO fromMap(@NotNull Map<String, Object> map) {
-        // 기본 필드 파싱
-        String islandId = FirestoreUtils.getString(map, "islandId", "");
-        String ownerUuid = FirestoreUtils.getString(map, "ownerUuid", "");
-        String ownerName = FirestoreUtils.getString(map, "ownerName", "");
-        String islandName = FirestoreUtils.getString(map, "islandName", "");
+        // 기본 필드 파싱 및 검증
+        @NotNull String islandId = Objects.requireNonNull(FirestoreUtils.getString(map, "islandId", ""));
+        @NotNull String ownerUuid = Objects.requireNonNull(FirestoreUtils.getString(map, "ownerUuid", ""));
+        @NotNull String ownerName = Objects.requireNonNull(FirestoreUtils.getString(map, "ownerName", ""));
+        @NotNull String islandName = Objects.requireNonNull(FirestoreUtils.getString(map, "islandName", ""));
         
-        // 필수 필드 검증
+        // 빈 문자열 검증
         if (islandId.isEmpty()) {
             throw new IllegalArgumentException("IslandDTO: islandId cannot be empty");
         }
