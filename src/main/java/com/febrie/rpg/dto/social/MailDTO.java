@@ -1,10 +1,11 @@
 package com.febrie.rpg.dto.social;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -35,59 +36,57 @@ public record MailDTO(
     }
     
     /**
-     * JsonObject로 변환
+     * Map으로 변환
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
         
-        fields.add("mailId", JsonUtil.createStringValue(mailId));
-        fields.add("senderUuid", JsonUtil.createStringValue(senderUuid.toString()));
-        fields.add("senderName", JsonUtil.createStringValue(senderName));
-        fields.add("receiverUuid", JsonUtil.createStringValue(receiverUuid.toString()));
-        fields.add("receiverName", JsonUtil.createStringValue(receiverName));
-        fields.add("subject", JsonUtil.createStringValue(subject));
-        fields.add("content", JsonUtil.createStringValue(content));
-        fields.add("sentAt", JsonUtil.createIntegerValue(sentAt));
+        map.put("mailId", mailId);
+        map.put("senderUuid", senderUuid.toString());
+        map.put("senderName", senderName);
+        map.put("receiverUuid", receiverUuid.toString());
+        map.put("receiverName", receiverName);
+        map.put("subject", subject);
+        map.put("content", content);
+        map.put("sentAt", sentAt);
         
         if (readAt != null) {
-            fields.add("readAt", JsonUtil.createIntegerValue(readAt));
+            map.put("readAt", readAt);
         }
         
-        return JsonUtil.wrapInDocument(fields);
+        return map;
     }
     
     /**
-     * JsonObject에서 MailDTO 생성
+     * Map에서 MailDTO 생성
      */
     @NotNull
-    public static MailDTO fromJsonObject(@NotNull JsonObject json) {
-        JsonObject fields = JsonUtil.unwrapDocument(json);
+    public static MailDTO fromMap(@NotNull Map<String, Object> map) {
+        String mailId = FirestoreUtils.getString(map, "mailId", UUID.randomUUID().toString());
         
-        String mailId = JsonUtil.getStringValue(fields, "mailId", UUID.randomUUID().toString());
-        
-        String senderUuidStr = JsonUtil.getStringValue(fields, "senderUuid", UUID.randomUUID().toString());
+        String senderUuidStr = FirestoreUtils.getString(map, "senderUuid", UUID.randomUUID().toString());
         UUID senderUuid = UUID.fromString(senderUuidStr);
         
-        String senderName = JsonUtil.getStringValue(fields, "senderName", "");
-        
-        String receiverUuidStr = JsonUtil.getStringValue(fields, "receiverUuid", UUID.randomUUID().toString());
+        String senderName = FirestoreUtils.getString(map, "senderName");
+        String receiverUuidStr = FirestoreUtils.getString(map, "receiverUuid", UUID.randomUUID().toString());
         UUID receiverUuid = UUID.fromString(receiverUuidStr);
         
-        String receiverName = JsonUtil.getStringValue(fields, "receiverName", "");
+        String receiverName = FirestoreUtils.getString(map, "receiverName");
+        String subject = FirestoreUtils.getString(map, "subject");
+        String content = FirestoreUtils.getString(map, "content");
         
-        String subject = JsonUtil.getStringValue(fields, "subject", "");
-        
-        String content = JsonUtil.getStringValue(fields, "content", "");
-        
-        long sentAt = JsonUtil.getLongValue(fields, "sentAt", System.currentTimeMillis());
-        
-        Long readAt = null;
-        if (fields.has("readAt") && fields.getAsJsonObject("readAt").has("integerValue")) {
-            readAt = JsonUtil.getLongValue(fields, "readAt");
-        }
+        long sentAt = FirestoreUtils.getLong(map, "sentAt", System.currentTimeMillis());
+        Long readAt = FirestoreUtils.getLongOrNull(map, "readAt");
         
         return new MailDTO(mailId, senderUuid, senderName, receiverUuid, receiverName, subject, content, sentAt, readAt);
+    }
+    
+    /**
+     * 읽지 않은 메일인지 확인
+     */
+    public boolean isUnread() {
+        return readAt == null;
     }
     
     /**
@@ -97,12 +96,5 @@ public record MailDTO(
     public MailDTO markAsRead() {
         return new MailDTO(mailId, senderUuid, senderName, receiverUuid, receiverName, 
                           subject, content, sentAt, System.currentTimeMillis());
-    }
-    
-    /**
-     * 읽지 않은 메일인지 확인
-     */
-    public boolean isUnread() {
-        return readAt == null;
     }
 }

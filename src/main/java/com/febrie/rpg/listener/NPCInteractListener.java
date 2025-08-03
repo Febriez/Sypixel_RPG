@@ -484,10 +484,12 @@ public class NPCInteractListener implements Listener {
                 
         if (progress == null) return;
         
+        boolean isKorean = player.locale().getLanguage().equals("ko");
+        
         player.sendMessage(Component.empty());
         player.sendMessage(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", ColorUtil.GRAY));
         player.sendMessage(Component.text("📋 ", ColorUtil.GOLD)
-                .append(Component.text(quest.getDisplayName(true), ColorUtil.LEGENDARY))
+                .append(Component.text(quest.getDisplayName(isKorean), ColorUtil.LEGENDARY))
                 .append(Component.text(" " + langManager.getMessage(player, "quest.progress"), ColorUtil.COMMON)));
         player.sendMessage(Component.empty());
         
@@ -521,7 +523,7 @@ public class NPCInteractListener implements Listener {
             progressBar.append("]");
             
             // 목표 설명
-            String description = quest.getObjectiveDescription(objective, true);
+            String description = quest.getObjectiveDescription(objective, isKorean);
             
             // 진행도 텍스트 (미완료: 노란색, 완료: 초록색)
             Component progressText = Component.text(checkBox + " ", isComplete ? ColorUtil.SUCCESS : ColorUtil.YELLOW)

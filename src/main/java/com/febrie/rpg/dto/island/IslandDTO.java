@@ -1,10 +1,11 @@
 package com.febrie.rpg.dto.island;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -97,89 +98,130 @@ public record IslandDTO(@NotNull String islandId, @NotNull String ownerUuid, @No
     }
 
     /**
-     * JsonObject로 변환 (Firebase 저장용)
+     * Map으로 변환 (Firebase 저장용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
 
         // 기본 필드들
-        fields.add("islandId", JsonUtil.createStringValue(islandId));
-        fields.add("ownerUuid", JsonUtil.createStringValue(ownerUuid));
-        fields.add("ownerName", JsonUtil.createStringValue(ownerName));
-        fields.add("islandName", JsonUtil.createStringValue(islandName));
-        fields.add("size", JsonUtil.createIntegerValue(size));
-        fields.add("isPublic", JsonUtil.createBooleanValue(isPublic));
-        fields.add("createdAt", JsonUtil.createIntegerValue(createdAt));
-        fields.add("lastActivity", JsonUtil.createIntegerValue(lastActivity));
+        map.put("islandId", islandId);
+        map.put("ownerUuid", ownerUuid);
+        map.put("ownerName", ownerName);
+        map.put("islandName", islandName);
+        map.put("size", size);
+        map.put("isPublic", isPublic);
+        map.put("createdAt", createdAt);
+        map.put("lastActivity", lastActivity);
 
         // 배열 필드들
-        fields.add("members", JsonUtil.createArrayValue(members, IslandMemberDTO::toJsonObject));
-        fields.add("workers", JsonUtil.createArrayValue(workers, IslandWorkerDTO::toJsonObject));
-        fields.add("pendingInvites", JsonUtil.createArrayValue(pendingInvites, IslandInviteDTO::toJsonObject));
-        fields.add("recentVisits", JsonUtil.createArrayValue(recentVisits, IslandVisitDTO::toJsonObject));
+        List<Map<String, Object>> membersList = members.stream()
+                .map(IslandMemberDTO::toMap)
+                .collect(Collectors.toList());
+        map.put("members", membersList);
+
+        List<Map<String, Object>> workersList = workers.stream()
+                .map(IslandWorkerDTO::toMap)
+                .collect(Collectors.toList());
+        map.put("workers", workersList);
+
+        List<Map<String, Object>> pendingInvitesList = pendingInvites.stream()
+                .map(IslandInviteDTO::toMap)
+                .collect(Collectors.toList());
+        map.put("pendingInvites", pendingInvitesList);
+
+        List<Map<String, Object>> recentVisitsList = recentVisits.stream()
+                .map(IslandVisitDTO::toMap)
+                .collect(Collectors.toList());
+        map.put("recentVisits", recentVisitsList);
 
         // contributions 맵
-        fields.add("contributions", JsonUtil.createMapField(contributions, JsonUtil::createIntegerValue));
+        map.put("contributions", contributions);
 
         // 중첩 객체들
-        fields.add("spawnData", JsonUtil.createMapValue(spawnData.toJsonObject()));
-        fields.add("upgradeData", JsonUtil.createMapValue(upgradeData.toJsonObject()));
-        fields.add("permissions", JsonUtil.createMapValue(permissions.toJsonObject()));
-        fields.add("settings", JsonUtil.createMapValue(settings.toJsonObject()));
+        map.put("spawnData", spawnData.toMap());
+        map.put("upgradeData", upgradeData.toMap());
+        map.put("permissions", permissions.toMap());
+        map.put("settings", settings.toMap());
 
-        fields.add("totalResets", JsonUtil.createIntegerValue(totalResets));
+        map.put("totalResets", totalResets);
 
         if (deletionScheduledAt != null) {
-            fields.add("deletionScheduledAt", JsonUtil.createIntegerValue(deletionScheduledAt));
+            map.put("deletionScheduledAt", deletionScheduledAt);
         }
 
-        return JsonUtil.wrapInDocument(fields);
+        return map;
     }
 
     /**
-     * JsonObject에서 생성
+     * Map에서 생성
      */
     @NotNull
-    public static IslandDTO fromJsonObject(@NotNull JsonObject json) {
-        JsonObject fields = JsonUtil.unwrapDocument(json);
-
+    @SuppressWarnings("unchecked")
+    public static IslandDTO fromMap(@NotNull Map<String, Object> map) {
         // 기본 필드 파싱
-        String islandId = JsonUtil.getStringValue(fields, "islandId", "");
-        String ownerUuid = JsonUtil.getStringValue(fields, "ownerUuid", "");
-        String ownerName = JsonUtil.getStringValue(fields, "ownerName", "");
-        String islandName = JsonUtil.getStringValue(fields, "islandName", "");
-        int size = JsonUtil.getIntegerValue(fields, "size", 85);
-        boolean isPublic = JsonUtil.getBooleanValue(fields, "isPublic", false);
-        long createdAt = JsonUtil.getLongValue(fields, "createdAt", System.currentTimeMillis());
-        long lastActivity = JsonUtil.getLongValue(fields, "lastActivity", System.currentTimeMillis());
+        String islandId = FirestoreUtils.getString(map, "islandId", "");
+        String ownerUuid = FirestoreUtils.getString(map, "ownerUuid", "");
+        String ownerName = FirestoreUtils.getString(map, "ownerName", "");
+        String islandName = FirestoreUtils.getString(map, "islandName", "");
+        int size = FirestoreUtils.getInt(map, "size", 85);
+        boolean isPublic = FirestoreUtils.getBoolean(map, "isPublic", false);
+        long createdAt = FirestoreUtils.getLong(map, "createdAt", System.currentTimeMillis());
+        long lastActivity = FirestoreUtils.getLong(map, "lastActivity", System.currentTimeMillis());
 
         // 배열 필드 파싱
-        List<IslandMemberDTO> members = JsonUtil.getArrayValue(fields, "members", IslandMemberDTO::fromJsonObject);
-        List<IslandWorkerDTO> workers = JsonUtil.getArrayValue(fields, "workers", IslandWorkerDTO::fromJsonObject);
-        List<IslandVisitDTO> recentVisits = JsonUtil.getArrayValue(fields, "recentVisits", IslandVisitDTO::fromJsonObject);
+        List<IslandMemberDTO> members = new ArrayList<>();
+        List<Map<String, Object>> membersList = FirestoreUtils.getList(map, "members", new ArrayList<>());
+        for (Map<String, Object> item : membersList) {
+            members.add(IslandMemberDTO.fromMap(item));
+        }
+
+        List<IslandWorkerDTO> workers = new ArrayList<>();
+        List<Map<String, Object>> workersList = FirestoreUtils.getList(map, "workers", new ArrayList<>());
+        for (Map<String, Object> item : workersList) {
+            workers.add(IslandWorkerDTO.fromMap(item));
+        }
+
+        List<IslandVisitDTO> recentVisits = new ArrayList<>();
+        List<Map<String, Object>> recentVisitsList = FirestoreUtils.getList(map, "recentVisits", new ArrayList<>());
+        for (Map<String, Object> item : recentVisitsList) {
+            recentVisits.add(IslandVisitDTO.fromMap(item));
+        }
 
         // pendingInvites - 만료된 초대 필터링
-        List<IslandInviteDTO> pendingInvites = JsonUtil.getArrayValue(fields, "pendingInvites", IslandInviteDTO::fromJsonObject).stream().filter(invite -> !invite.isExpired()).collect(Collectors.toList());
+        List<IslandInviteDTO> pendingInvites = new ArrayList<>();
+        List<Map<String, Object>> pendingInvitesList = FirestoreUtils.getList(map, "pendingInvites", new ArrayList<>());
+        for (Map<String, Object> item : pendingInvitesList) {
+            IslandInviteDTO invite = IslandInviteDTO.fromMap(item);
+            if (!invite.isExpired()) {
+                pendingInvites.add(invite);
+            }
+        }
 
         // contributions 맵 파싱
-        Map<String, Long> contributions = JsonUtil.getMapField(fields, "contributions", key -> key, obj -> JsonUtil.getLongValue(obj, "integerValue", 0L));
+        Map<String, Long> contributions = new HashMap<>();
+        Map<String, Object> contributionsMap = FirestoreUtils.getMap(map, "contributions", new HashMap<>());
+        for (Map.Entry<String, Object> entry : contributionsMap.entrySet()) {
+            if (entry.getValue() instanceof Number) {
+                contributions.put(entry.getKey(), FirestoreUtils.getLong(contributionsMap, entry.getKey()));
+            }
+        }
 
         // 중첩 객체 파싱
-        JsonObject spawnDataJson = JsonUtil.getMapValue(fields, "spawnData");
-        IslandSpawnDTO spawnData = spawnDataJson.entrySet().isEmpty() ? IslandSpawnDTO.createDefault() : IslandSpawnDTO.fromJsonObject(spawnDataJson);
+        Map<String, Object> spawnDataMap = FirestoreUtils.getMap(map, "spawnData", null);
+        IslandSpawnDTO spawnData = spawnDataMap != null ? IslandSpawnDTO.fromMap(spawnDataMap) : IslandSpawnDTO.createDefault();
 
-        JsonObject upgradeDataJson = JsonUtil.getMapValue(fields, "upgradeData");
-        IslandUpgradeDTO upgradeData = upgradeDataJson.entrySet().isEmpty() ? IslandUpgradeDTO.createDefault() : IslandUpgradeDTO.fromJsonObject(upgradeDataJson);
+        Map<String, Object> upgradeDataMap = FirestoreUtils.getMap(map, "upgradeData", null);
+        IslandUpgradeDTO upgradeData = upgradeDataMap != null ? IslandUpgradeDTO.fromMap(upgradeDataMap) : IslandUpgradeDTO.createDefault();
 
-        JsonObject permissionsJson = JsonUtil.getMapValue(fields, "permissions");
-        IslandPermissionDTO permissions = permissionsJson.entrySet().isEmpty() ? IslandPermissionDTO.createDefault() : IslandPermissionDTO.fromJsonObject(permissionsJson);
+        Map<String, Object> permissionsMap = FirestoreUtils.getMap(map, "permissions", null);
+        IslandPermissionDTO permissions = permissionsMap != null ? IslandPermissionDTO.fromMap(permissionsMap) : IslandPermissionDTO.createDefault();
 
-        JsonObject settingsJson = JsonUtil.getMapValue(fields, "settings");
-        IslandSettingsDTO settings = settingsJson.entrySet().isEmpty() ? IslandSettingsDTO.createDefault() : IslandSettingsDTO.fromJsonObject(settingsJson);
+        Map<String, Object> settingsMap = FirestoreUtils.getMap(map, "settings", null);
+        IslandSettingsDTO settings = settingsMap != null ? IslandSettingsDTO.fromMap(settingsMap) : IslandSettingsDTO.createDefault();
 
-        int totalResets = JsonUtil.getIntegerValue(fields, "totalResets", 0);
-        Long deletionScheduledAt = fields.has("deletionScheduledAt") ? JsonUtil.getLongValue(fields, "deletionScheduledAt") : null;
+        int totalResets = FirestoreUtils.getInt(map, "totalResets", 0);
+        Long deletionScheduledAt = FirestoreUtils.getLong(map, "deletionScheduledAt", null);
 
         return new IslandDTO(islandId, ownerUuid, ownerName, islandName, size, isPublic, createdAt, lastActivity, members, workers, contributions, spawnData, upgradeData, permissions, pendingInvites, recentVisits, totalResets, deletionScheduledAt, settings);
     }

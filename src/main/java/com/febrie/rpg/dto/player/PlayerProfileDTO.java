@@ -1,9 +1,10 @@
 package com.febrie.rpg.dto.player;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -18,43 +19,36 @@ public record PlayerProfileDTO(
         long totalExp,
         long lastPlayed
 ) {
+    
     /**
-     * JsonObject로 변환
+     * Map으로 변환 (Firestore SDK용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
-        
-        fields.add("uuid", JsonUtil.createStringValue(uuid.toString()));
-        fields.add("name", JsonUtil.createStringValue(name));
-        fields.add("level", JsonUtil.createIntegerValue(level));
-        fields.add("exp", JsonUtil.createIntegerValue(exp));
-        fields.add("totalExp", JsonUtil.createIntegerValue(totalExp));
-        fields.add("lastPlayed", JsonUtil.createIntegerValue(lastPlayed));
-        
-        json.add("fields", fields);
-        return json;
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("uuid", uuid.toString());
+        map.put("name", name);
+        map.put("level", level);
+        map.put("exp", exp);
+        map.put("totalExp", totalExp);
+        map.put("lastPlayed", lastPlayed);
+        return map;
     }
     
     /**
-     * JsonObject에서 생성
+     * Map에서 생성 (Firestore SDK용)
      */
     @NotNull
-    public static PlayerProfileDTO fromJsonObject(@NotNull JsonObject json) {
-        JsonUtil.validateDTOJson(json, "PlayerProfileDTO");
-        
-        JsonObject fields = json.getAsJsonObject("fields");
-        
-        String uuidStr = JsonUtil.getStringValue(fields, "uuid", UUID.randomUUID().toString());
+    public static PlayerProfileDTO fromMap(@NotNull Map<String, Object> map) {
+        String uuidStr = FirestoreUtils.getString(map, "uuid", UUID.randomUUID().toString());
         UUID uuid = UUID.fromString(uuidStr);
-        
-        String name = JsonUtil.getStringValue(fields, "name", "");
-        int level = (int) JsonUtil.getLongValue(fields, "level", 1L);
-        long exp = JsonUtil.getLongValue(fields, "exp", 0L);
-        long totalExp = JsonUtil.getLongValue(fields, "totalExp", 0L);
-        long lastPlayed = JsonUtil.getLongValue(fields, "lastPlayed", System.currentTimeMillis());
+        String name = FirestoreUtils.getString(map, "name", "");
+        int level = FirestoreUtils.getInt(map, "level", 1);
+        long exp = FirestoreUtils.getLong(map, "exp", 0L);
+        long totalExp = FirestoreUtils.getLong(map, "totalExp", 0L);
+        long lastPlayed = FirestoreUtils.getLong(map, "lastPlayed", System.currentTimeMillis());
         
         return new PlayerProfileDTO(uuid, name, level, exp, totalExp, lastPlayed);
     }
+    
 }

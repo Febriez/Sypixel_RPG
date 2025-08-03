@@ -1,13 +1,14 @@
 package com.febrie.rpg.dto.quest;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * 완료된 퀘스트 정보 DTO
- * Firebase 저장용 데이터 구조
- *
+ * 
  * @author Febrie
  */
 public record CompletedQuestDTO(
@@ -17,20 +18,6 @@ public record CompletedQuestDTO(
         boolean rewarded       // 보상 수령 여부
 ) {
     /**
-     * 기본 생성자 - 신규 완료 퀘스트용
-     */
-    public CompletedQuestDTO() {
-        this("", System.currentTimeMillis(), 1, false);
-    }
-    
-    /**
-     * 간편 생성자 (이전 버전 호환용)
-     */
-    public CompletedQuestDTO(@NotNull String questId, long completedAt, int completionCount) {
-        this(questId, completedAt, completionCount, false);
-    }
-    
-    /**
      * 퀘스트 완료 생성 팩토리 메소드
      */
     @NotNull
@@ -39,37 +26,27 @@ public record CompletedQuestDTO(
     }
     
     /**
-     * JsonObject로 변환
+     * Map으로 변환
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
-        
-        fields.add("questId", JsonUtil.createStringValue(questId));
-        fields.add("completedAt", JsonUtil.createIntegerValue(completedAt));
-        fields.add("completionCount", JsonUtil.createIntegerValue(completionCount));
-        fields.add("rewarded", JsonUtil.createBooleanValue(rewarded));
-        
-        json.add("fields", fields);
-        return json;
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("questId", questId);
+        map.put("completedAt", completedAt);
+        map.put("completionCount", completionCount);
+        map.put("rewarded", rewarded);
+        return map;
     }
     
     /**
-     * JsonObject에서 CompletedQuestDTO 생성
+     * Map에서 생성
      */
     @NotNull
-    public static CompletedQuestDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            return new CompletedQuestDTO();
-        }
-        
-        JsonObject fields = json.getAsJsonObject("fields");
-        
-        String questId = JsonUtil.getStringValue(fields, "questId", "");
-        long completedAt = JsonUtil.getLongValue(fields, "completedAt", System.currentTimeMillis());
-        int completionCount = (int) JsonUtil.getLongValue(fields, "completionCount", 1L);
-        boolean rewarded = JsonUtil.getBooleanValue(fields, "rewarded", false);
+    public static CompletedQuestDTO fromMap(@NotNull Map<String, Object> map) {
+        String questId = (String) map.getOrDefault("questId", "");
+        long completedAt = FirestoreUtils.getLong(map, "completedAt", System.currentTimeMillis());
+        int completionCount = FirestoreUtils.getInt(map, "completionCount", 1);
+        boolean rewarded = (Boolean) map.getOrDefault("rewarded", false);
         
         return new CompletedQuestDTO(questId, completedAt, completionCount, rewarded);
     }

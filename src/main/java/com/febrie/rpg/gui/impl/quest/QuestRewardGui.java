@@ -16,6 +16,7 @@ import com.febrie.rpg.quest.reward.MixedReward;
 import com.febrie.rpg.quest.reward.QuestReward;
 import com.febrie.rpg.quest.reward.UnclaimedReward;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.quest.reward.ClaimedRewardData;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
@@ -49,6 +50,7 @@ public class QuestRewardGui extends BaseGui {
     private final List<ItemStack> claimedItems;
     private boolean hasClaimed = false;
     private long rewardStartTime;
+    private ClaimedRewardData claimedRewardData;
 
     private QuestRewardGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
                           @NotNull Player viewer, @NotNull Quest quest) {
@@ -162,7 +164,7 @@ public class QuestRewardGui extends BaseGui {
             }
         } else {
             // 이미 보상을 완전히 받았는지 확인
-            if (questManager.hasReceivedReward(viewer.getUniqueId(), quest.getId())) {
+            if (questManager.hasReceivedAllRewards(viewer.getUniqueId(), quest.getId())) {
                 hasClaimed = true;
                 // 보상을 이미 받은 경우 안내 메시지
                 ItemStack alreadyClaimedDisplay = new ItemBuilder(Material.BARRIER)
@@ -186,56 +188,81 @@ public class QuestRewardGui extends BaseGui {
             }
         }
         
+        // 보상 수령 데이터 확인 및 생성
+        if (claimedRewardData == null && !rewards.isEmpty()) {
+            claimedRewardData = questManager.getOrCreateClaimedRewardData(viewer.getUniqueId(), quest.getId());
+        }
+        
         int slot = 0;
+        int itemIndex = 0;
         for (ItemStack reward : rewards) {
             if (slot >= 45) break; // 마지막 줄 전까지만
             
-            ItemStack displayItem = reward.clone();
-            rewardItems.add(displayItem);
+            final int currentItemIndex = itemIndex;
             
-            // 아이템에 설명 추가
-            ItemBuilder itemBuilder = new ItemBuilder(displayItem);
-            itemBuilder.addLore(Component.empty());
-            itemBuilder.addLore(trans("gui.quest-reward.click-to-claim").color(ColorUtil.GRAY));
-            ItemStack finalItem = itemBuilder.build();
-            
-            final int currentSlot = slot;
-            GuiItem rewardItem = GuiItem.clickable(finalItem, p -> {
-                if (hasClaimed) {
-                    p.sendMessage(trans("gui.quest-reward.already-claimed").color(ColorUtil.ERROR));
-                    SoundUtil.playErrorSound(p);
-                    return;
-                }
+            // 이미 수령한 아이템인지 확인
+            if (claimedRewardData != null && claimedRewardData.isItemClaimed(currentItemIndex)) {
+                // 이미 수령한 아이템 표시
+                ItemStack claimedDisplay = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)
+                        .displayName(trans("gui.quest-reward.claimed").color(ColorUtil.GRAY))
+                        .build();
+                setItem(slot, GuiItem.display(claimedDisplay));
+            } else {
+                // 수령 가능한 아이템
+                ItemStack displayItem = reward.clone();
+                rewardItems.add(displayItem);
                 
-                // 개별 아이템 수령
-                if (p.getInventory().firstEmpty() != -1) {
-                    ItemStack originalItem = reward.clone();
-                    p.getInventory().addItem(originalItem);
-                    claimedItems.add(originalItem);
-                    rewardItems.remove(displayItem);
-                    
-                    // 빈 슬롯으로 변경
-                    ItemStack claimedDisplay = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)
-                            .displayName(trans("gui.quest-reward.claimed").color(ColorUtil.GRAY))
-                            .build();
-                    setItem(currentSlot, GuiItem.display(claimedDisplay));
-                    
-                    SoundUtil.playItemPickupSound(p);
-                    
-                    // 모든 아이템을 수령했는지 확인
-                    if (rewardItems.isEmpty()) {
-                        completeRewardClaim();
-                        p.closeInventory();
-                        p.sendMessage(trans("gui.quest-reward.all-claimed").color(ColorUtil.SUCCESS));
+                // 아이템에 설명 추가
+                ItemBuilder itemBuilder = new ItemBuilder(displayItem);
+                itemBuilder.addLore(Component.empty());
+                itemBuilder.addLore(trans("gui.quest-reward.click-to-claim").color(ColorUtil.GRAY));
+                ItemStack finalItem = itemBuilder.build();
+                
+                final int currentSlot = slot;
+                GuiItem rewardItem = GuiItem.clickable(finalItem, p -> {
+                    if (hasClaimed) {
+                        p.sendMessage(trans("gui.quest-reward.already-claimed").color(ColorUtil.ERROR));
+                        SoundUtil.playErrorSound(p);
+                        return;
                     }
-                } else {
-                    p.sendMessage(trans("gui.quest-reward.inventory-full").color(ColorUtil.ERROR));
-                    SoundUtil.playErrorSound(p);
-                }
-            });
+                    
+                    // 개별 아이템 수령
+                    if (p.getInventory().firstEmpty() != -1) {
+                        ItemStack originalItem = reward.clone();
+                        p.getInventory().addItem(originalItem);
+                        claimedItems.add(originalItem);
+                        rewardItems.remove(displayItem);
+                        
+                        // 수령 상태 저장
+                        questManager.markItemRewardClaimed(viewer.getUniqueId(), quest.getId(), currentItemIndex);
+                        plugin.getLogger().info("Quest " + quest.getId() + " - 아이템 " + currentItemIndex + " 수령됨");
+                        
+                        // 빈 슬롯으로 변경
+                        ItemStack claimedDisplay = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)
+                                .displayName(trans("gui.quest-reward.claimed").color(ColorUtil.GRAY))
+                                .build();
+                        setItem(currentSlot, GuiItem.display(claimedDisplay));
+                        
+                        SoundUtil.playItemPickupSound(p);
+                        
+                        // 모든 아이템을 수령했는지 확인
+                        if (rewardItems.isEmpty()) {
+                            // 모든 보상(즉시 보상 + 아이템)이 수령되었는지 확인
+                            checkAndCompleteAllRewards();
+                            p.closeInventory();
+                            p.sendMessage(trans("gui.quest-reward.all-claimed").color(ColorUtil.SUCCESS));
+                        }
+                    } else {
+                        p.sendMessage(trans("gui.quest-reward.inventory-full").color(ColorUtil.ERROR));
+                        SoundUtil.playErrorSound(p);
+                    }
+                });
+                
+                setItem(slot, rewardItem);
+            }
             
-            setItem(slot, rewardItem);
             slot++;
+            itemIndex++;
         }
         
         // 보상 아이템이 없는 경우 안내 메시지
@@ -302,19 +329,42 @@ public class QuestRewardGui extends BaseGui {
                 return;
             }
             
+            // 수령하지 않은 아이템만 찾기
+            List<ItemStack> unclaimedOnlyItems = new ArrayList<>();
+            int totalItemCount = 0;
+            
+            // 전체 보상 아이템 목록 다시 가져오기
+            List<ItemStack> allRewards = new ArrayList<>();
+            if (quest.getReward() instanceof MixedReward mixedReward) {
+                allRewards.addAll(mixedReward.getItems());
+            } else if (quest.getReward() instanceof BasicReward basicReward) {
+                allRewards.addAll(basicReward.getItems());
+            }
+            
+            // 수령하지 않은 아이템만 필터링
+            for (int i = 0; i < allRewards.size(); i++) {
+                if (claimedRewardData == null || !claimedRewardData.isItemClaimed(i)) {
+                    unclaimedOnlyItems.add(allRewards.get(i));
+                    totalItemCount++;
+                }
+            }
+            
             // 모든 아이템 지급
-            for (ItemStack reward : new ArrayList<>(rewardItems)) {
-                ItemStack originalItem = reward.clone();
-                // 아이템 설명 제거
-                originalItem.lore(null);
-                p.getInventory().addItem(originalItem);
-                claimedItems.add(originalItem);
+            int currentIndex = 0;
+            for (int i = 0; i < allRewards.size(); i++) {
+                if (claimedRewardData == null || !claimedRewardData.isItemClaimed(i)) {
+                    ItemStack originalItem = allRewards.get(i).clone();
+                    p.getInventory().addItem(originalItem);
+                    claimedItems.add(originalItem);
+                    questManager.markItemRewardClaimed(viewer.getUniqueId(), quest.getId(), i);
+                }
             }
             rewardItems.clear();
             
             p.sendMessage(trans("gui.quest-reward.all-claimed").color(ColorUtil.SUCCESS));
             SoundUtil.playSuccessSound(p);  // 레벨업 소리
-            completeRewardClaim();
+            // 모든 보상(즉시 보상 + 아이템)이 수령되었는지 확인
+            checkAndCompleteAllRewards();
             p.closeInventory();
         });
         
@@ -325,8 +375,8 @@ public class QuestRewardGui extends BaseGui {
      * 즉시 지급되는 보상 처리 (돈, 경험치)
      */
     private void giveInstantRewards() {
-        // 이미 보상을 받았는지 확인
-        if (questManager.hasReceivedReward(viewer.getUniqueId(), quest.getId())) {
+        // 이미 즉시 보상을 받았는지 확인
+        if (claimedRewardData != null && claimedRewardData.isInstantRewardsClaimed()) {
             return; // 이미 받은 경우 중복 지급 방지
         }
         
@@ -335,25 +385,85 @@ public class QuestRewardGui extends BaseGui {
             return;
         }
         
-        // 경험치 지급
-        if (quest.getExpReward() > 0) {
-            viewer.giveExp((int) quest.getExpReward());
+        // 즉시 보상 수령 여부 확인
+        if (claimedRewardData != null && claimedRewardData.isInstantRewardsClaimed()) {
+            return; // 이미 즉시 보상을 받은 경우
+        }
+        
+        // RPGPlayer 가져오기
+        RPGPlayerManager playerManager = RPGMain.getInstance().getRPGPlayerManager();
+        RPGPlayer rpgPlayer = playerManager.getPlayer(viewer);
+        if (rpgPlayer == null) return;
+        
+        // 경험치 지급 (직업이 있을 때만)
+        if (quest.getExpReward() > 0 && rpgPlayer.getJob() != null) {
+            rpgPlayer.addExperience(quest.getExpReward());
             viewer.sendMessage(trans("gui.quest-reward.exp-received", 
                 "amount", String.valueOf(quest.getExpReward())).color(ColorUtil.SUCCESS));
         }
         
         // 돈 지급
         if (quest.getMoneyReward() > 0) {
-            RPGPlayerManager playerManager = RPGMain.getInstance().getRPGPlayerManager();
-            RPGPlayer rpgPlayer = playerManager.getPlayer(viewer);
-            if (rpgPlayer != null) {
-                rpgPlayer.getWallet().add(CurrencyType.GOLD, quest.getMoneyReward());
-                viewer.sendMessage(trans("gui.quest-reward.money-received", 
-                    "amount", String.valueOf(quest.getMoneyReward())).color(ColorUtil.SUCCESS));
+            rpgPlayer.getWallet().add(CurrencyType.GOLD, quest.getMoneyReward());
+            viewer.sendMessage(trans("gui.quest-reward.money-received", 
+                "amount", String.valueOf(quest.getMoneyReward())).color(ColorUtil.SUCCESS));
+        }
+        
+        // 즉시 보상 수령 표시
+        if (quest.getExpReward() > 0 || quest.getMoneyReward() > 0) {
+            questManager.markInstantRewardsClaimed(viewer.getUniqueId(), quest.getId());
+            
+            // 아이템 보상이 없는 경우 퀘스트를 완전히 보상 수령 상태로 변경
+            boolean hasItemRewards = false;
+            if (quest.getReward() instanceof com.febrie.rpg.quest.reward.impl.BasicReward basicReward) {
+                hasItemRewards = !basicReward.getItems().isEmpty();
+            } else if (quest.getReward() instanceof MixedReward mixedReward) {
+                hasItemRewards = !mixedReward.getItems().isEmpty();
+            }
+            
+            // 아이템이 없고 즉시 보상만 있는 경우, 모든 보상이 수령된 것이므로 완료 처리
+            if (!hasItemRewards) {
+                completeRewardClaim();
             }
         }
     }
 
+    /**
+     * 모든 보상이 수령되었는지 확인하고 완료 처리
+     */
+    private void checkAndCompleteAllRewards() {
+        // 즉시 보상이 수령되었는지 확인
+        if (claimedRewardData == null || !claimedRewardData.isInstantRewardsClaimed()) {
+            plugin.getLogger().info("Quest " + quest.getId() + " - 즉시 보상이 아직 수령되지 않음");
+            return; // 즉시 보상이 수령되지 않았으면 완료 처리하지 않음
+        }
+        
+        // 모든 아이템이 수령되었는지 확인
+        if (quest.getReward() instanceof BasicReward basicReward) {
+            int totalItems = basicReward.getItems().size();
+            if (totalItems > 0) {
+                // 아이템이 있는 경우, 모든 아이템이 수령되었는지 확인
+                if (!claimedRewardData.isFullyClaimed(totalItems)) {
+                    plugin.getLogger().info("Quest " + quest.getId() + " - 아직 수령하지 않은 아이템이 있음: " + claimedRewardData.getUnclaimedItemIndices(totalItems));
+                    return; // 아직 수령하지 않은 아이템이 있음
+                }
+            }
+        } else if (quest.getReward() instanceof MixedReward mixedReward) {
+            int totalItems = mixedReward.getItems().size();
+            if (totalItems > 0) {
+                // 아이템이 있는 경우, 모든 아이템이 수령되었는지 확인
+                if (!claimedRewardData.isFullyClaimed(totalItems)) {
+                    plugin.getLogger().info("Quest " + quest.getId() + " - 아직 수령하지 않은 아이템이 있음: " + claimedRewardData.getUnclaimedItemIndices(totalItems));
+                    return; // 아직 수령하지 않은 아이템이 있음
+                }
+            }
+        }
+        
+        // 모든 보상이 수령되었으므로 완료 처리
+        plugin.getLogger().info("Quest " + quest.getId() + " - 모든 보상이 수령됨, 완료 처리");
+        completeRewardClaim();
+    }
+    
     /**
      * 보상 수령 완료 처리
      */

@@ -88,6 +88,17 @@
       }
     }
   },
+  "main": {
+    "heroes-journey": {
+      "name": "Heroes' Journey"
+    },
+    "path-of-light": {
+      "name": "Path of Light"
+    },
+    "path-of-darkness": {
+      "name": "Path of Darkness"
+    }
+  },
   "daily": {
     "hunting": {
       "name": "Daily Hunting",

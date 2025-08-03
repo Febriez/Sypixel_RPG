@@ -6,7 +6,6 @@ import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.util.LogUtil;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
-import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,8 +29,7 @@ public class IslandFirestoreService extends BaseFirestoreService<IslandDTO> {
     
     @Override
     protected Map<String, Object> toMap(@NotNull IslandDTO dto) {
-        // JSON으로 변환
-        return convertJsonToMap(dto.toJsonObject());
+        return dto.toMap();
     }
     
     @Override
@@ -42,8 +40,11 @@ public class IslandFirestoreService extends BaseFirestoreService<IslandDTO> {
         }
         
         try {
-            // JSON으로 변환
-            return IslandDTO.fromJsonObject(convertMapToJson(document.getData()));
+            Map<String, Object> data = document.getData();
+            if (data != null) {
+                return IslandDTO.fromMap(data);
+            }
+            return null;
         } catch (Exception e) {
             LogUtil.warning("섬 데이터 파싱 실패 [" + document.getId() + "]: " + e.getMessage());
             return null;

@@ -14,6 +14,7 @@ import com.febrie.rpg.quest.registry.QuestRegistry;
 import com.febrie.rpg.quest.reward.MixedReward;
 import com.febrie.rpg.quest.reward.QuestReward;
 import com.febrie.rpg.quest.reward.UnclaimedReward;
+import com.febrie.rpg.quest.reward.ClaimedRewardData;
 import com.febrie.rpg.quest.task.LocationCheckTask;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.SoundUtil;
@@ -67,6 +68,7 @@ public class QuestManager {
         private final Map<QuestID, QuestProgress> activeQuests = new EnumMap<>(QuestID.class);
         private final Map<QuestID, CompletedQuestDTO> completedQuests = new EnumMap<>(QuestID.class);
         private final Map<QuestID, UnclaimedReward> unclaimedRewards = new EnumMap<>(QuestID.class);
+        private final Map<QuestID, ClaimedRewardData> claimedRewardData = new EnumMap<>(QuestID.class);
         private long lastUpdated;
 
         PlayerQuestData() {
@@ -449,6 +451,16 @@ public class QuestManager {
                 }
             });
 
+            // 보상 수령 데이터 변환
+            dto.claimedRewardData().forEach((idStr, rewardData) -> {
+                try {
+                    QuestID questId = QuestID.valueOf(idStr);
+                    data.claimedRewardData.put(questId, rewardData);
+                } catch (IllegalArgumentException e) {
+                    plugin.getLogger().warning("알 수 없는 보상 수령 데이터 퀘스트 ID: " + idStr);
+                }
+            });
+
             data.lastUpdated = dto.lastUpdated();
             playerDataCache.put(playerId, data);
 
@@ -471,7 +483,10 @@ public class QuestManager {
         Map<String, CompletedQuestDTO> completedQuestsDto = new HashMap<>();
         data.completedQuests.forEach((id, completed) -> completedQuestsDto.put(id.name(), completed));
 
-        return new PlayerQuestDTO(playerId.toString(), activeQuestsDto, completedQuestsDto, data.lastUpdated);
+        Map<String, ClaimedRewardData> claimedRewardDataDto = new HashMap<>();
+        data.claimedRewardData.forEach((id, rewardData) -> claimedRewardDataDto.put(id.name(), rewardData));
+
+        return new PlayerQuestDTO(playerId.toString(), activeQuestsDto, completedQuestsDto, claimedRewardDataDto, data.lastUpdated);
     }
 
     /**
@@ -625,14 +640,18 @@ public class QuestManager {
     }
 
     /**
-     * 퀘스트를 보상 수령으로 표시
+     * 퀘스트를 보상 수령으로 표시 (모든 보상이 수령되었을 때만 호출)
      */
     public void markQuestAsRewarded(@NotNull UUID playerId, @NotNull QuestID questId) {
         PlayerQuestData playerData = getPlayerData(playerId);
         CompletedQuestDTO completed = playerData.completedQuests.get(questId);
         if (completed != null) {
             // DTO는 불변 객체이므로 새로운 객체를 생성하여 교체
-            CompletedQuestDTO updatedCompleted = new CompletedQuestDTO(completed.questId(), completed.completedAt(), completed.completionCount(), true // rewarded를 true로 설정
+            CompletedQuestDTO updatedCompleted = new CompletedQuestDTO(
+                completed.questId(), 
+                completed.completedAt(), 
+                completed.completionCount(), 
+                true // rewarded를 true로 설정
             );
             playerData.completedQuests.put(questId, updatedCompleted);
             markForSave(playerId);
@@ -640,23 +659,137 @@ public class QuestManager {
     }
 
     /**
-     * 퀘스트 보상을 받았는지 확인
+     * 퀘스트 보상을 모두 받았는지 확인
      */
-    public boolean hasReceivedReward(@NotNull UUID playerId, @NotNull QuestID questId) {
+    public boolean hasReceivedAllRewards(@NotNull UUID playerId, @NotNull QuestID questId) {
         PlayerQuestData playerData = getPlayerData(playerId);
         CompletedQuestDTO completed = playerData.completedQuests.get(questId);
         return completed != null && completed.rewarded();
     }
+    
+    /**
+     * 특정 보상을 받았는지 확인 (부분 수령 체크)
+     */
+    public boolean hasReceivedReward(@NotNull UUID playerId, @NotNull QuestID questId) {
+        // 전체 보상 수령 확인
+        if (hasReceivedAllRewards(playerId, questId)) {
+            return true;
+        }
+        
+        // 부분 보상 수령 확인
+        ClaimedRewardData claimedData = getClaimedRewardData(playerId, questId);
+        if (claimedData != null) {
+            Quest quest = getQuest(questId);
+            if (quest != null && quest.getReward() instanceof com.febrie.rpg.quest.reward.impl.BasicReward basicReward) {
+                int totalItems = basicReward.getItems().size();
+                // 즉시 보상과 모든 아이템이 수령되었는지 확인
+                return claimedData.isFullyClaimed(totalItems);
+            }
+            // 아이템 보상이 없는 경우 즉시 보상만 확인
+            return claimedData.isInstantRewardsClaimed();
+        }
+        
+        return false;
+    }
+    
+    /**
+     * 보상 수령 데이터 가져오기
+     */
+    @Nullable
+    public ClaimedRewardData getClaimedRewardData(@NotNull UUID playerId, @NotNull QuestID questId) {
+        PlayerQuestData playerData = getPlayerData(playerId);
+        return playerData.claimedRewardData.get(questId);
+    }
+    
+    /**
+     * 보상 수령 데이터 생성 및 저장
+     */
+    @NotNull
+    public ClaimedRewardData getOrCreateClaimedRewardData(@NotNull UUID playerId, @NotNull QuestID questId) {
+        PlayerQuestData playerData = getPlayerData(playerId);
+        ClaimedRewardData data = playerData.claimedRewardData.get(questId);
+        if (data == null) {
+            data = new ClaimedRewardData(playerId, questId);
+            playerData.claimedRewardData.put(questId, data);
+            markForSave(playerId);
+        }
+        return data;
+    }
+    
+    /**
+     * 즉시 보상 수령 처리
+     */
+    public void markInstantRewardsClaimed(@NotNull UUID playerId, @NotNull QuestID questId) {
+        ClaimedRewardData data = getOrCreateClaimedRewardData(playerId, questId);
+        data.markInstantRewardsClaimed();
+        markForSave(playerId);
+    }
+    
+    /**
+     * 아이템 보상 수령 처리
+     */
+    public void markItemRewardClaimed(@NotNull UUID playerId, @NotNull QuestID questId, int itemIndex) {
+        ClaimedRewardData data = getOrCreateClaimedRewardData(playerId, questId);
+        data.markItemClaimed(itemIndex);
+        
+        // 모든 보상이 수령되었는지 확인
+        Quest quest = getQuest(questId);
+        if (quest != null && quest.getReward() instanceof com.febrie.rpg.quest.reward.impl.BasicReward basicReward) {
+            int totalItems = basicReward.getItems().size();
+            if (data.isFullyClaimed(totalItems)) {
+                // 모든 보상이 수령되었으므로 전체 완료 표시
+                markQuestAsRewarded(playerId, questId);
+            }
+        }
+        
+        markForSave(playerId);
+    }
+    
+    /**
+     * 특정 아이템 보상이 수령되었는지 확인
+     */
+    public boolean hasClaimedItem(@NotNull UUID playerId, @NotNull QuestID questId, int itemIndex) {
+        ClaimedRewardData data = getClaimedRewardData(playerId, questId);
+        return data != null && data.isItemClaimed(itemIndex);
+    }
+    
+    /**
+     * 수령하지 않은 아이템 인덱스 목록 가져오기
+     */
+    @NotNull
+    public List<Integer> getUnclaimedItemIndices(@NotNull UUID playerId, @NotNull QuestID questId) {
+        Quest quest = getQuest(questId);
+        if (quest != null && quest.getReward() instanceof com.febrie.rpg.quest.reward.impl.BasicReward basicReward) {
+            int totalItems = basicReward.getItems().size();
+            ClaimedRewardData data = getClaimedRewardData(playerId, questId);
+            if (data != null) {
+                return data.getUnclaimedItemIndices(totalItems);
+            } else {
+                // 아직 아무것도 수령하지 않은 경우
+                List<Integer> allIndices = new ArrayList<>();
+                for (int i = 0; i < totalItems; i++) {
+                    allIndices.add(i);
+                }
+                return allIndices;
+            }
+        }
+        return new ArrayList<>();
+    }
 
     /**
-     * 보상 미수령 퀘스트 목록 가져오기
+     * 보상 미수령 퀘스트 목록 가져오기 (부분 수령 포함)
      */
     public List<QuestID> getUnclaimedRewardQuests(@NotNull UUID playerId) {
         PlayerQuestData playerData = getPlayerData(playerId);
         List<QuestID> unclaimed = new ArrayList<>();
         for (Map.Entry<QuestID, CompletedQuestDTO> entry : playerData.completedQuests.entrySet()) {
+            QuestID questId = entry.getKey();
+            // 전체 보상이 수령되지 않았고
             if (!entry.getValue().rewarded()) {
-                unclaimed.add(entry.getKey());
+                // 부분 보상도 확인
+                if (!hasReceivedReward(playerId, questId)) {
+                    unclaimed.add(questId);
+                }
             }
         }
         return unclaimed;

@@ -372,7 +372,6 @@ public class QuestDialogGui extends BaseGui {
             viewer.sendMessage(Component.text(npcName + ": " + acceptDialog, ColorUtil.YELLOW));
         }
         
-        viewer.sendMessage(langManager.getComponent(viewer, "gui.quest-dialog.quest-accepted").color(ColorUtil.SUCCESS));
         SoundUtil.playSuccessSound(viewer);
     }
     

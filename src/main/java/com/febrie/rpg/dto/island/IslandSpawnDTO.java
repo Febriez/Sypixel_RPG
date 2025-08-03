@@ -1,12 +1,14 @@
 package com.febrie.rpg.dto.island;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 섬 스폰 관련 정보 DTO (Record)
@@ -41,47 +43,58 @@ public record IslandSpawnDTO(@NotNull IslandSpawnPointDTO defaultSpawn, // 기�
     }
 
     /**
-     * JsonObject로 변환 (Firebase 저장용)
+     * Map으로 변환 (Firebase 저장용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
 
         // defaultSpawn
-        fields.add("defaultSpawn", JsonUtil.createMapValue(defaultSpawn.toJsonObject()));
+        map.put("defaultSpawn", defaultSpawn.toMap());
 
         // ownerSpawns 배열
-        fields.add("ownerSpawns", JsonUtil.createArrayValue(ownerSpawns, IslandSpawnPointDTO::toJsonObject));
+        List<Map<String, Object>> ownerSpawnsList = ownerSpawns.stream()
+                .map(IslandSpawnPointDTO::toMap)
+                .collect(Collectors.toList());
+        map.put("ownerSpawns", ownerSpawnsList);
 
         // memberSpawns 맵
-        fields.add("memberSpawns", JsonUtil.createMapField(memberSpawns, spawn -> JsonUtil.createMapValue(spawn.toJsonObject())));
+        Map<String, Map<String, Object>> memberSpawnsMap = memberSpawns.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> entry.getValue().toMap()
+                ));
+        map.put("memberSpawns", memberSpawnsMap);
 
-        return JsonUtil.wrapInDocument(fields);
+        return map;
     }
 
     /**
-     * JsonObject에서 생성
+     * Map에서 생성
      */
     @NotNull
-    public static IslandSpawnDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            return createDefault();
-        }
-
-        JsonObject fields = JsonUtil.unwrapDocument(json);
-
+    @SuppressWarnings("unchecked")
+    public static IslandSpawnDTO fromMap(@NotNull Map<String, Object> map) {
         // defaultSpawn 파싱
-        JsonObject defaultSpawnJson = JsonUtil.getMapValue(fields, "defaultSpawn");
-        IslandSpawnPointDTO defaultSpawn = defaultSpawnJson.entrySet().isEmpty() ? IslandSpawnPointDTO.createDefault() : IslandSpawnPointDTO.fromJsonObject(defaultSpawnJson);
+        Map<String, Object> defaultSpawnMap = FirestoreUtils.getMap(map, "defaultSpawn", null);
+        IslandSpawnPointDTO defaultSpawn = defaultSpawnMap != null ? 
+            IslandSpawnPointDTO.fromMap(defaultSpawnMap) : IslandSpawnPointDTO.createDefault();
 
         // ownerSpawns 배열 파싱
-        List<IslandSpawnPointDTO> ownerSpawns = JsonUtil.getArrayValue(fields, "ownerSpawns", IslandSpawnPointDTO::fromJsonObject);
+        List<IslandSpawnPointDTO> ownerSpawns = new ArrayList<>();
+        List<Map<String, Object>> ownerSpawnsList = FirestoreUtils.getList(map, "ownerSpawns", new ArrayList<>());
+        for (Map<String, Object> item : ownerSpawnsList) {
+            ownerSpawns.add(IslandSpawnPointDTO.fromMap(item));
+        }
 
         // memberSpawns 맵 파싱
-        Map<String, IslandSpawnPointDTO> memberSpawns = JsonUtil.getMapField(fields, "memberSpawns", key -> key, obj -> {
-            JsonObject mapValue = obj.getAsJsonObject("mapValue");
-            return IslandSpawnPointDTO.fromJsonObject(mapValue);
-        });
+        Map<String, IslandSpawnPointDTO> memberSpawns = new HashMap<>();
+        Map<String, Object> memberSpawnsMap = FirestoreUtils.getMap(map, "memberSpawns", new HashMap<>());
+        for (Map.Entry<String, Object> entry : memberSpawnsMap.entrySet()) {
+            if (entry.getValue() instanceof Map) {
+                memberSpawns.put(entry.getKey(), IslandSpawnPointDTO.fromMap((Map<String, Object>) entry.getValue()));
+            }
+        }
 
         return new IslandSpawnDTO(defaultSpawn, ownerSpawns, memberSpawns);
     }

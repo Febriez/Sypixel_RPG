@@ -1,8 +1,10 @@
 package com.febrie.rpg.dto.island;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 섬 알바생 정보 DTO (Record)
@@ -18,31 +20,29 @@ public record IslandWorkerDTO(@NotNull String uuid, @NotNull String name, long h
     }
 
     /**
-     * JsonObject로 변환 (Firebase 저장용)
+     * Map으로 변환 (Firebase 저장용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
 
-        fields.add("uuid", JsonUtil.createStringValue(uuid));
-        fields.add("name", JsonUtil.createStringValue(name));
-        fields.add("hiredAt", JsonUtil.createIntegerValue(hiredAt));
-        fields.add("lastActivity", JsonUtil.createIntegerValue(lastActivity));
+        map.put("uuid", uuid);
+        map.put("name", name);
+        map.put("hiredAt", hiredAt);
+        map.put("lastActivity", lastActivity);
 
-        return JsonUtil.wrapInDocument(fields);
+        return map;
     }
 
     /**
-     * JsonObject에서 생성
+     * Map에서 생성
      */
     @NotNull
-    public static IslandWorkerDTO fromJsonObject(@NotNull JsonObject json) {
-        JsonObject fields = JsonUtil.unwrapDocument(json);
-
-        String uuid = JsonUtil.getStringValue(fields, "uuid", "");
-        String name = JsonUtil.getStringValue(fields, "name", "");
-        long hiredAt = JsonUtil.getLongValue(fields, "hiredAt", System.currentTimeMillis());
-        long lastActivity = JsonUtil.getLongValue(fields, "lastActivity", System.currentTimeMillis());
+    public static IslandWorkerDTO fromMap(@NotNull Map<String, Object> map) {
+        String uuid = FirestoreUtils.getString(map, "uuid", "");
+        String name = FirestoreUtils.getString(map, "name", "");
+        long hiredAt = FirestoreUtils.getLong(map, "hiredAt", System.currentTimeMillis());
+        long lastActivity = FirestoreUtils.getLong(map, "lastActivity", System.currentTimeMillis());
 
         return new IslandWorkerDTO(uuid, name, hiredAt, lastActivity);
     }

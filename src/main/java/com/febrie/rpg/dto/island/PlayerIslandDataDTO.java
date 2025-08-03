@@ -1,7 +1,6 @@
 package com.febrie.rpg.dto.island;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -101,46 +100,37 @@ public record PlayerIslandDataDTO(
     }
     
     /**
-     * JsonObject로 변환 (Firebase 저장용)
+     * Map으로 변환 (Firebase 저장용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
         
-        fields.add("playerUuid", JsonUtil.createStringValue(playerUuid));
+        map.put("playerUuid", playerUuid);
         
         if (currentIslandId != null) {
-            fields.add("currentIslandId", JsonUtil.createStringValue(currentIslandId));
+            map.put("currentIslandId", currentIslandId);
         }
         
         if (role != null) {
-            fields.add("role", JsonUtil.createStringValue(role.name()));
+            map.put("role", role.name());
         }
         
-        fields.add("totalIslandResets", JsonUtil.createIntegerValue(totalIslandResets));
-        fields.add("totalContribution", JsonUtil.createIntegerValue(totalContribution));
-        fields.add("lastJoined", JsonUtil.createIntegerValue(lastJoined));
-        fields.add("lastActivity", JsonUtil.createIntegerValue(lastActivity));
+        map.put("totalIslandResets", totalIslandResets);
+        map.put("totalContribution", totalContribution);
+        map.put("lastJoined", lastJoined);
+        map.put("lastActivity", lastActivity);
         
-        json.add("fields", fields);
-        return json;
+        return map;
     }
     
     /**
-     * JsonObject에서 생성
+     * Map에서 생성
      */
     @NotNull
-    public static PlayerIslandDataDTO fromJsonObject(@NotNull JsonObject json) {
-        JsonUtil.validateDTOJson(json, "PlayerIslandDataDTO");
-        
-        JsonObject fields = json.getAsJsonObject("fields");
-        
+    public static PlayerIslandDataDTO fromMap(@NotNull Map<String, Object> map) {
         try {
-            // 필수 필드 검증
-            JsonUtil.validateRequiredField(fields, "playerUuid", "PlayerIslandDataDTO");
-            
-            String playerUuid = JsonUtil.getStringValue(fields, "playerUuid");
+            String playerUuid = (String) map.getOrDefault("playerUuid", "");
             
             if (playerUuid.isEmpty()) {
                 throw new IllegalArgumentException(
@@ -148,13 +138,10 @@ public record PlayerIslandDataDTO(
                 );
             }
             
-            String currentIslandId = null;
-            if (fields.has("currentIslandId")) {
-                currentIslandId = JsonUtil.getStringValue(fields, "currentIslandId", null);
-            }
+            String currentIslandId = (String) map.get("currentIslandId");
             
             IslandRole role = null;
-            String roleStr = JsonUtil.getStringValue(fields, "role", null);
+            String roleStr = (String) map.get("role");
             if (roleStr != null && !roleStr.isEmpty()) {
                 try {
                     role = IslandRole.valueOf(roleStr);
@@ -167,10 +154,10 @@ public record PlayerIslandDataDTO(
                 }
             }
             
-            int totalIslandResets = (int) JsonUtil.getLongValue(fields, "totalIslandResets", 0L);
-            long totalContribution = JsonUtil.getLongValue(fields, "totalContribution", 0L);
-            long lastJoined = JsonUtil.getLongValue(fields, "lastJoined", System.currentTimeMillis());
-            long lastActivity = JsonUtil.getLongValue(fields, "lastActivity", System.currentTimeMillis());
+            int totalIslandResets = FirestoreUtils.getInt(map, "totalIslandResets", 0);
+            long totalContribution = FirestoreUtils.getLong(map, "totalContribution", 0L);
+            long lastJoined = FirestoreUtils.getLong(map, "lastJoined", System.currentTimeMillis());
+            long lastActivity = FirestoreUtils.getLong(map, "lastActivity", System.currentTimeMillis());
             
             // 유효성 검증
             if (totalIslandResets < 0) {
@@ -199,9 +186,9 @@ public record PlayerIslandDataDTO(
                 throw e;
             }
             throw new IllegalArgumentException(
-                String.format("Failed to parse PlayerIslandDataDTO: %s. JSON structure: %s", 
+                String.format("Failed to parse PlayerIslandDataDTO: %s. Map structure: %s", 
                     e.getMessage(), 
-                    json.toString().length() > 200 ? json.toString().substring(0, 200) + "..." : json.toString())
+                    map.toString().length() > 200 ? map.toString().substring(0, 200) + "..." : map.toString())
             );
         }
     }

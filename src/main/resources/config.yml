@@ -1,0 +1,53 @@
+# SypixelRPG Configuration File
+# 플레이어 기본값 설정
+
+player:
+  # 신규 플레이어 기본 설정
+  defaults:
+    # 시작 레벨 (직업 선택 전에는 레벨 시스템 비활성화)
+    starting-level: 1
+    # 시작 경험치 (직업 선택 전에는 경험치 획득 불가)
+    starting-exp: 0
+    # 시작 스탯 포인트
+    starting-stat-points: 0
+    # 시작 재화
+    starting-currency:
+      gold: 100
+      diamond: 0
+      emerald: 0
+      ghast_tear: 0
+      nether_star: 0
+      exp: 0
+    # 기본 스탯
+    default-stats:
+      STRENGTH: 5
+      DEFENSE: 5
+      INTELLIGENCE: 5
+      SPEED: 5
+      CRITICAL_CHANCE: 5
+      CRITICAL_DAMAGE: 50
+    # 기본 특성 포인트
+    default-talent-points: 0
+
+# 퀘스트 설정
+quest:
+  # 미수령 보상 만료 시간 (시간 단위)
+  unclaimed-reward-expiry-hours: 72
+  # 퀘스트 보상 부분 수령 허용 여부
+  allow-partial-reward-claim: true
+  
+# 데이터 저장 설정
+data:
+  # 자동 저장 간격 (분 단위)
+  auto-save-interval: 10
+  # 저장 쿨다운 (초 단위)
+  save-cooldown: 30
+  
+# 디버그 설정
+debug:
+  # 디버그 모드 활성화
+  enabled: false
+  # 퀘스트 디버그 로그
+  quest-debug: true
+  # 플레이어 데이터 디버그 로그
+  player-data-debug: true

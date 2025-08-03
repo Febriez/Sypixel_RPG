@@ -3,6 +3,7 @@ package com.febrie.rpg.command.system;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.FirestoreManager;
 import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.FirestoreUtils;
 import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.LangManager;
 import com.google.auth.oauth2.AccessToken;
@@ -286,7 +287,7 @@ public class SiteAccountCommand implements CommandExecutor {
                 if (doc.exists()) {
                     // siteAccountCreated 필드가 있는지 확인
                     return doc.contains("siteAccountCreated") &&
-                            Boolean.TRUE.equals(doc.getBoolean("siteAccountCreated"));
+                            FirestoreUtils.getBoolean(doc, "siteAccountCreated", false);
                 }
                 return false;
             } catch (Exception e) {

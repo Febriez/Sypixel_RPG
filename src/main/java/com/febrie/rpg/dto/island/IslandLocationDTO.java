@@ -1,7 +1,6 @@
 package com.febrie.rpg.dto.island;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
@@ -105,38 +104,26 @@ public record IslandLocationDTO(
     }
     
     /**
-     * JsonObject로 변환 (Firebase 저장용)
+     * Map으로 변환 (Firestore SDK용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
-        
-        fields.add("centerX", JsonUtil.createIntegerValue(centerX));
-        fields.add("centerZ", JsonUtil.createIntegerValue(centerZ));
-        fields.add("size", JsonUtil.createIntegerValue(size));
-        
-        json.add("fields", fields);
-        return json;
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("centerX", centerX);
+        map.put("centerZ", centerZ);
+        map.put("size", size);
+        return map;
     }
     
     /**
-     * JsonObject에서 생성
+     * Map에서 생성 (Firestore SDK용)
      */
     @NotNull
-    public static IslandLocationDTO fromJsonObject(@NotNull JsonObject json) {
-        JsonUtil.validateDTOJson(json, "IslandLocationDTO");
-        
-        JsonObject fields = json.getAsJsonObject("fields");
-        
+    public static IslandLocationDTO fromMap(@NotNull Map<String, Object> map) {
         try {
-            // 필수 필드 검증
-            JsonUtil.validateRequiredField(fields, "centerX", "IslandLocationDTO");
-            JsonUtil.validateRequiredField(fields, "centerZ", "IslandLocationDTO");
-            
-            int centerX = (int) JsonUtil.getLongValue(fields, "centerX");
-            int centerZ = (int) JsonUtil.getLongValue(fields, "centerZ");
-            int size = (int) JsonUtil.getLongValue(fields, "size", 85);
+            int centerX = FirestoreUtils.getInt(map, "centerX");
+            int centerZ = FirestoreUtils.getInt(map, "centerZ");
+            int size = FirestoreUtils.getInt(map, "size", 85);
             
             // 유효성 검증
             if (size <= 0) {
@@ -151,9 +138,7 @@ public record IslandLocationDTO(
                 throw e;
             }
             throw new IllegalArgumentException(
-                String.format("Failed to parse IslandLocationDTO: %s. JSON structure: %s", 
-                    e.getMessage(), 
-                    json.toString().length() > 200 ? json.toString().substring(0, 200) + "..." : json.toString())
+                String.format("Failed to parse IslandLocationDTO from Map: %s", e.getMessage())
             );
         }
     }

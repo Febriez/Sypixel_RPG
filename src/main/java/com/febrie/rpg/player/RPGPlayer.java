@@ -6,12 +6,18 @@ import com.febrie.rpg.level.LevelSystem;
 import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.talent.Talent;
+import com.febrie.rpg.dto.player.*;
+import com.febrie.rpg.database.sync.DataSyncManager;
+import com.febrie.rpg.util.LogUtil;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * 플레이어의 RPG 데이터를 관리하는 클래스
@@ -51,6 +57,10 @@ public class RPGPlayer {
     // 섬 정보
     @Nullable
     private String islandId;
+    
+    // 데이터 동기화 매니저
+    @Nullable
+    private DataSyncManager syncManager;
 
     public RPGPlayer(@NotNull Player player) {
         this.playerId = player.getUniqueId();
@@ -238,6 +248,8 @@ public class RPGPlayer {
     }
 
     public void setExperience(long experience) {
+        if (job == null) return; // 직업이 없으면 경험치 설정 불가
+        
         this.experience = experience;
         updateCachedLevelInfo();
         markModified();
@@ -391,5 +403,137 @@ public class RPGPlayer {
     public void setIslandId(@Nullable String islandId) {
         this.islandId = islandId;
         markModified();
+    }
+    
+    /**
+     * 데이터 동기화 매니저 설정
+     */
+    public void setSyncManager(@Nullable DataSyncManager syncManager) {
+        this.syncManager = syncManager;
+    }
+    
+    /**
+     * DTO로 변환
+     */
+    @NotNull
+    public PlayerDataDTO toDTO() {
+        // 프로필 DTO 생성
+        PlayerProfileDTO profile = new PlayerProfileDTO(
+            playerId,
+            bukkitPlayer.getName(),
+            getLevel(),
+            experience,
+            experience, // totalExp
+            System.currentTimeMillis()
+        );
+        
+        // 지갑 DTO는 Wallet 클래스의 toDTO 메소드 사용
+        WalletDTO walletDTO = wallet.toDTO();
+        
+        return new PlayerDataDTO(profile, walletDTO);
+    }
+    
+    /**
+     * DTO에서 데이터 적용
+     */
+    public void applyFromDTO(@NotNull PlayerDataDTO dto) {
+        PlayerProfileDTO profile = dto.profile();
+        
+        // 프로필 데이터 적용
+        this.experience = profile.exp();
+        updateCachedLevelInfo();
+        
+        // 지갑 데이터 적용
+        wallet.applyFromDTO(dto.wallet());
+        
+        // 수정됨 표시하지 않음 (로드 시에는 저장 불필요)
+    }
+    
+    /**
+     * 중요 데이터 즉시 저장 (재화 변경 등)
+     */
+    @NotNull
+    public CompletableFuture<Void> saveImmediate() {
+        if (syncManager == null) {
+            LogUtil.warning("SyncManager가 설정되지 않음: " + playerId);
+            return CompletableFuture.completedFuture(null);
+        }
+        
+        return syncManager.saveOnLogout(this);
+    }
+    
+    /**
+     * 닉네임 변경 (즉시 저장)
+     */
+    @NotNull
+    public CompletableFuture<Void> changeNickname(@NotNull String newNickname) {
+        if (syncManager == null) {
+            LogUtil.warning("SyncManager가 설정되지 않음: " + playerId);
+            return CompletableFuture.completedFuture(null);
+        }
+        
+        return syncManager.updateNickname(this, newNickname)
+            .thenRun(() -> LogUtil.info("닉네임 변경 완료: " + playerId + " -> " + newNickname));
+    }
+    
+    /**
+     * 통계 데이터를 Map으로 변환
+     */
+    @NotNull
+    public Map<String, Object> getStatsMap() {
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("level", getLevel());
+        stats.put("experience", experience);
+        stats.put("statPoints", statPoints);
+        stats.put("mobsKilled", mobsKilled);
+        stats.put("playersKilled", playersKilled);
+        stats.put("deaths", deaths);
+        stats.put("totalPlaytime", totalPlaytime);
+        return stats;
+    }
+    
+    /**
+     * 진행도 데이터를 DTO로 변환
+     */
+    @NotNull
+    public ProgressDTO toProgressDTO() {
+        return new ProgressDTO(
+            getLevel(),
+            experience,
+            getLevelProgress(),
+            mobsKilled,
+            playersKilled,
+            deaths
+        );
+    }
+    
+    /**
+     * 스탯 데이터를 DTO로 변환
+     */
+    @NotNull
+    public StatsDTO toStatsDTO() {
+        return new StatsDTO(
+            stats.getTotalStat(Stat.STRENGTH),
+            stats.getTotalStat(Stat.INTELLIGENCE),
+            stats.getTotalStat(Stat.DEXTERITY),
+            stats.getTotalStat(Stat.VITALITY),
+            stats.getTotalStat(Stat.WISDOM),
+            stats.getTotalStat(Stat.LUCK)
+        );
+    }
+    
+    /**
+     * 특성 데이터를 DTO로 변환
+     */
+    @NotNull
+    public TalentDTO toTalentDTO() {
+        Map<String, Integer> learned = new HashMap<>();
+        // TalentHolder의 실제 구조에 맞게 수정 필요
+        // 임시로 빈 맵 반환
+        
+        return new TalentDTO(
+            0, // 사용 가능한 포인트 - 실제 값으로 교체 필요
+            learned
+        );
     }
 }

@@ -2,6 +2,8 @@ package com.febrie.rpg.player;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.service.impl.PlayerFirestoreService;
+import com.febrie.rpg.database.sync.DataSyncManager;
+import com.febrie.rpg.database.task.BatchSaveTask;
 import com.febrie.rpg.dto.player.PlayerDataDTO;
 import com.febrie.rpg.dto.player.PlayerDTO;
 import com.febrie.rpg.dto.player.PlayerProfileDTO;
@@ -18,6 +20,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,6 +41,8 @@ public class RPGPlayerManager implements Listener {
 
     private final RPGMain plugin;
     private final PlayerFirestoreService playerService;
+    private final DataSyncManager syncManager;
+    private final BatchSaveTask batchSaveTask;
     private final Map<UUID, RPGPlayer> players = new ConcurrentHashMap<>();
 
     // 저장 쿨다운 관리 - AtomicLong으로 thread-safe 보장
@@ -47,6 +52,17 @@ public class RPGPlayerManager implements Listener {
     private RPGPlayerManager(@NotNull RPGMain plugin, @Nullable PlayerFirestoreService playerService) {
         this.plugin = plugin;
         this.playerService = playerService;
+        
+        // DataSyncManager 초기화
+        if (plugin.getFirestore() != null) {
+            this.syncManager = new DataSyncManager(plugin, plugin.getFirestore());
+            this.batchSaveTask = new BatchSaveTask(plugin, syncManager, this);
+            this.batchSaveTask.start();
+        } else {
+            this.syncManager = null;
+            this.batchSaveTask = null;
+        }
+        
         if (playerService == null) {
         }
     }
@@ -95,22 +111,48 @@ public class RPGPlayerManager implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerQuit(@NotNull PlayerQuitEvent event) {
-        Player player = event.getPlayer();
+        handlePlayerDisconnect(event.getPlayer());
+    }
+    
+    /**
+     * 플레이어 강퇴 시 데이터 저장 및 정리
+     */
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerKick(@NotNull PlayerKickEvent event) {
+        handlePlayerDisconnect(event.getPlayer());
+    }
+    
+    /**
+     * 플레이어 연결 해제 처리
+     */
+    private void handlePlayerDisconnect(@NotNull Player player) {
         UUID uuid = player.getUniqueId();
-
         RPGPlayer rpgPlayer = players.remove(uuid);
+        
         if (rpgPlayer != null) {
-            // 비동기로 저장하되 시간 제한 설정
-            savePlayerDataAsync(rpgPlayer, true)
-                .orTimeout(5, TimeUnit.SECONDS)
-                .exceptionally(ex -> {
-                    LogUtil.error("플레이어 데이터 저장 실패: " + player.getName(), ex);
-                    // 실패 시 로컬 백업 또는 대기열에 추가
-                    addToFailedSaveQueue(uuid, rpgPlayer);
-                    return false;
-                });
+            // DataSyncManager를 사용하여 즉시 저장
+            if (syncManager != null) {
+                syncManager.saveOnLogout(rpgPlayer)
+                    .orTimeout(5, TimeUnit.SECONDS)
+                    .exceptionally(ex -> {
+                        LogUtil.error("플레이어 데이터 저장 실패: " + player.getName(), ex);
+                        // 실패 시 로컬 백업 또는 대기열에 추가
+                        addToFailedSaveQueue(uuid, rpgPlayer);
+                        return null;
+                    })
+                    .thenRun(() -> LogUtil.debug("플레이어 데이터 저장 완료: " + player.getName()));
+            } else {
+                // 대체 저장 방식
+                savePlayerDataAsync(rpgPlayer, true)
+                    .orTimeout(5, TimeUnit.SECONDS)
+                    .exceptionally(ex -> {
+                        LogUtil.error("플레이어 데이터 저장 실패: " + player.getName(), ex);
+                        addToFailedSaveQueue(uuid, rpgPlayer);
+                        return false;
+                    });
+            }
         }
-
+        
         lastSaveTime.remove(uuid);
     }
     
@@ -171,6 +213,10 @@ public class RPGPlayerManager implements Listener {
                 return new RPGPlayer(player);
             }
         }).thenAccept(rpgPlayer -> {
+            // DataSyncManager 설정
+            if (syncManager != null) {
+                rpgPlayer.setSyncManager(syncManager);
+            }
             players.put(player.getUniqueId(), rpgPlayer);
         });
     }
@@ -307,7 +353,6 @@ public class RPGPlayerManager implements Listener {
                 })
                 .exceptionally(throwable -> {
                     LogUtil.error("플레이어 데이터 비동기 저장 실패: " + uuid.toString(), throwable);
-                    throwable.printStackTrace();
                     return false;
                 });
         } else {
@@ -355,7 +400,6 @@ public class RPGPlayerManager implements Listener {
             }
         } catch (Exception e) {
             LogUtil.error("플레이어 데이터 동기 저장 실패: " + rpgPlayer.getName(), e);
-            e.printStackTrace();
             return false;
         }
     }
@@ -502,8 +546,7 @@ public class RPGPlayerManager implements Listener {
                     "/" + totalCount + ")");
             
         } catch (Exception e) {
-            plugin.getLogger().severe("플레이어 데이터 저장 중 오류 발생: " + e.getMessage());
-            e.printStackTrace();
+            LogUtil.error("플레이어 데이터 저장 중 오류 발생", e);
         }
     }
 
@@ -512,5 +555,38 @@ public class RPGPlayerManager implements Listener {
      */
     public int getOnlinePlayerCount() {
         return players.size();
+    }
+    
+    /**
+     * 서버 종료 시 모든 데이터 저장
+     */
+    public void shutdown() {
+        LogUtil.info("RPGPlayerManager 종료 중...");
+        
+        // 배치 작업 중지
+        if (batchSaveTask != null) {
+            batchSaveTask.stop();
+        }
+        
+        // 모든 플레이어 데이터 즉시 저장
+        List<CompletableFuture<Void>> saveFutures = new ArrayList<>();
+        for (RPGPlayer player : players.values()) {
+            if (syncManager != null) {
+                saveFutures.add(syncManager.saveOnLogout(player));
+            }
+        }
+        
+        // 모든 저장 완료 대기
+        CompletableFuture.allOf(saveFutures.toArray(new CompletableFuture<?>[0]))
+            .orTimeout(10, TimeUnit.SECONDS)
+            .join();
+            
+        // DataSyncManager 종료
+        if (syncManager != null) {
+            syncManager.shutdown();
+        }
+        
+        players.clear();
+        LogUtil.info("RPGPlayerManager 종료 완료");
     }
 }

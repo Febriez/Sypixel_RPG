@@ -1,9 +1,11 @@
 package com.febrie.rpg.dto.island;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 섬원 정보 DTO (Record)
@@ -33,43 +35,38 @@ public record IslandMemberDTO(
     }
 
     /**
-     * JsonObject로 변환 (Firebase 저장용)
+     * Map으로 변환 (Firebase 저장용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
 
-        fields.add("uuid", JsonUtil.createStringValue(uuid));
-        fields.add("name", JsonUtil.createStringValue(name));
-        fields.add("isCoOwner", JsonUtil.createBooleanValue(isCoOwner));
-        fields.add("joinedAt", JsonUtil.createIntegerValue(joinedAt));
-        fields.add("lastActivity", JsonUtil.createIntegerValue(lastActivity));
+        map.put("uuid", uuid);
+        map.put("name", name);
+        map.put("isCoOwner", isCoOwner);
+        map.put("joinedAt", joinedAt);
+        map.put("lastActivity", lastActivity);
 
         if (personalSpawn != null) {
-            fields.add("personalSpawn", JsonUtil.createMapValue(personalSpawn.toJsonObject()));
+            map.put("personalSpawn", personalSpawn.toMap());
         }
 
-        return JsonUtil.wrapInDocument(fields);
+        return map;
     }
 
     /**
-     * JsonObject에서 생성
+     * Map에서 생성
      */
     @NotNull
-    public static IslandMemberDTO fromJsonObject(@NotNull JsonObject json) {
-        JsonObject fields = JsonUtil.unwrapDocument(json);
+    public static IslandMemberDTO fromMap(@NotNull Map<String, Object> map) {
+        String uuid = FirestoreUtils.getString(map, "uuid", "");
+        String name = FirestoreUtils.getString(map, "name", "");
+        boolean isCoOwner = FirestoreUtils.getBoolean(map, "isCoOwner", false);
+        long joinedAt = FirestoreUtils.getLong(map, "joinedAt", System.currentTimeMillis());
+        long lastActivity = FirestoreUtils.getLong(map, "lastActivity", System.currentTimeMillis());
 
-        String uuid = JsonUtil.getStringValue(fields, "uuid", "");
-        String name = JsonUtil.getStringValue(fields, "name", "");
-        boolean isCoOwner = JsonUtil.getBooleanValue(fields, "isCoOwner", false);
-        long joinedAt = JsonUtil.getLongValue(fields, "joinedAt", System.currentTimeMillis());
-        long lastActivity = JsonUtil.getLongValue(fields, "lastActivity", System.currentTimeMillis());
-
-        IslandSpawnPointDTO personalSpawn = null;
-        JsonObject personalSpawnJson = JsonUtil.getMapValue(fields, "personalSpawn");
-        if (!personalSpawnJson.entrySet().isEmpty()) {
-            personalSpawn = IslandSpawnPointDTO.fromJsonObject(personalSpawnJson);
-        }
+        Map<String, Object> personalSpawnMap = FirestoreUtils.getMap(map, "personalSpawn", null);
+        IslandSpawnPointDTO personalSpawn = personalSpawnMap != null ? IslandSpawnPointDTO.fromMap(personalSpawnMap) : null;
 
         return new IslandMemberDTO(uuid, name, isCoOwner, joinedAt, lastActivity, personalSpawn);
     }

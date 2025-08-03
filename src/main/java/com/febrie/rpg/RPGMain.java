@@ -29,6 +29,7 @@ import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.display.TextDisplayDamageManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Sypixel RPG 메인 플러그인 클래스
@@ -98,9 +99,9 @@ public final class RPGMain extends JavaPlugin {
             islandManager.shutdown();
         }
 
-        // 모든 데이터 저장
+        // RPGPlayerManager 종료 (모든 플레이어 데이터 저장 포함)
         if (rpgPlayerManager != null) {
-            rpgPlayerManager.saveAll();
+            rpgPlayerManager.shutdown();
         }
         
         // QuestManager 종료
@@ -375,6 +376,11 @@ public final class RPGMain extends JavaPlugin {
     
     public FirestoreManager getFirestoreManager() {
         return firestoreManager;
+    }
+    
+    @Nullable
+    public com.google.cloud.firestore.Firestore getFirestore() {
+        return firestoreManager != null ? firestoreManager.getFirestore() : null;
     }
 
     public static RPGMain getPlugin() {

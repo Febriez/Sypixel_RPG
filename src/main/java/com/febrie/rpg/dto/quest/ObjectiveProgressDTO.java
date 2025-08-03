@@ -1,8 +1,10 @@
 package com.febrie.rpg.dto.quest;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 목표 진행도 DTO (Record)
@@ -25,39 +27,34 @@ public record ObjectiveProgressDTO(
     }
     
     /**
-     * JsonObject로 변환
+     * Map으로 변환
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
         
-        fields.add("objectiveId", JsonUtil.createStringValue(objectiveId));
-        fields.add("completed", JsonUtil.createBooleanValue(completed));
-        fields.add("progress", JsonUtil.createIntegerValue(progress));
-        fields.add("target", JsonUtil.createIntegerValue(target));
-        fields.add("lastUpdated", JsonUtil.createIntegerValue(lastUpdated));
+        map.put("objectiveId", objectiveId);
+        map.put("completed", completed);
+        map.put("progress", progress);
+        map.put("target", target);
+        map.put("lastUpdated", lastUpdated);
         
-        json.add("fields", fields);
-        return json;
+        return map;
     }
     
     /**
-     * JsonObject에서 ObjectiveProgressDTO 생성
+     * Map에서 ObjectiveProgressDTO 생성
      */
     @NotNull
-    public static ObjectiveProgressDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            return new ObjectiveProgressDTO("", 0);
-        }
+    public static ObjectiveProgressDTO fromMap(@NotNull Map<String, Object> map) {
+        String objectiveId = (String) map.getOrDefault("objectiveId", "");
         
-        JsonObject fields = json.getAsJsonObject("fields");
+        Object completedObj = map.get("completed");
+        boolean completed = completedObj instanceof Boolean ? (Boolean) completedObj : false;
         
-        String objectiveId = JsonUtil.getStringValue(fields, "objectiveId", "");
-        boolean completed = JsonUtil.getBooleanValue(fields, "completed", false);
-        int progress = (int) JsonUtil.getLongValue(fields, "progress", 0L);
-        int target = (int) JsonUtil.getLongValue(fields, "target", 0L);
-        long lastUpdated = JsonUtil.getLongValue(fields, "lastUpdated", System.currentTimeMillis());
+        int progress = FirestoreUtils.getInt(map, "progress", 0);
+        int target = FirestoreUtils.getInt(map, "target", 0);
+        long lastUpdated = FirestoreUtils.getLong(map, "lastUpdated", System.currentTimeMillis());
         
         return new ObjectiveProgressDTO(objectiveId, completed, progress, target, lastUpdated);
     }

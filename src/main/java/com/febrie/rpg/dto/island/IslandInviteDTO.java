@@ -1,7 +1,6 @@
 package com.febrie.rpg.dto.island;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -72,62 +71,47 @@ public record IslandInviteDTO(
     }
     
     /**
-     * JsonObject로 변환 (Firebase 저장용)
+     * Map으로 변환 (Firestore SDK용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
-        
-        fields.add("inviteId", JsonUtil.createStringValue(inviteId));
-        fields.add("islandId", JsonUtil.createStringValue(islandId));
-        fields.add("invitedUuid", JsonUtil.createStringValue(invitedUuid));
-        fields.add("invitedName", JsonUtil.createStringValue(invitedName));
-        fields.add("inviterUuid", JsonUtil.createStringValue(inviterUuid));
-        fields.add("inviterName", JsonUtil.createStringValue(inviterName));
-        fields.add("invitedAt", JsonUtil.createIntegerValue(invitedAt));
-        fields.add("message", JsonUtil.createStringValue(message));
-        fields.add("expiresAt", JsonUtil.createIntegerValue(expiresAt));
-        
-        json.add("fields", fields);
-        return json;
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("inviteId", inviteId);
+        map.put("islandId", islandId);
+        map.put("invitedUuid", invitedUuid);
+        map.put("invitedName", invitedName);
+        map.put("inviterUuid", inviterUuid);
+        map.put("inviterName", inviterName);
+        map.put("invitedAt", invitedAt);
+        map.put("message", message);
+        map.put("expiresAt", expiresAt);
+        return map;
     }
     
     /**
-     * JsonObject에서 생성
+     * Map에서 생성 (Firestore SDK용)
      */
     @NotNull
-    public static IslandInviteDTO fromJsonObject(@NotNull JsonObject json) {
-        JsonUtil.validateDTOJson(json, "IslandInviteDTO");
-        
-        JsonObject fields = json.getAsJsonObject("fields");
-        
+    public static IslandInviteDTO fromMap(@NotNull Map<String, Object> map) {
         try {
-            // 필수 필드 검증
-            JsonUtil.validateRequiredField(fields, "inviteId", "IslandInviteDTO");
-            JsonUtil.validateRequiredField(fields, "inviterUuid", "IslandInviteDTO");
-            JsonUtil.validateRequiredField(fields, "inviterName", "IslandInviteDTO");
-            JsonUtil.validateRequiredField(fields, "invitedUuid", "IslandInviteDTO");
-            JsonUtil.validateRequiredField(fields, "invitedName", "IslandInviteDTO");
-            
-            String inviteId = JsonUtil.getStringValue(fields, "inviteId");
-            String islandId = JsonUtil.getStringValue(fields, "islandId", "");
-            String invitedUuid = JsonUtil.getStringValue(fields, "invitedUuid");
-            String invitedName = JsonUtil.getStringValue(fields, "invitedName");
-            String inviterUuid = JsonUtil.getStringValue(fields, "inviterUuid");
-            String inviterName = JsonUtil.getStringValue(fields, "inviterName");
-            long invitedAt = JsonUtil.getLongValue(fields, "invitedAt", System.currentTimeMillis());
-            long expiresAt = JsonUtil.getLongValue(fields, "expiresAt", System.currentTimeMillis() + (60 * 1000));
-            String message = JsonUtil.getStringValue(fields, "message", "섬에 초대되었습니다!");
+            String inviteId = FirestoreUtils.getString(map, "inviteId", null);
+            String islandId = FirestoreUtils.getString(map, "islandId");
+            String invitedUuid = FirestoreUtils.getString(map, "invitedUuid", null);
+            String invitedName = FirestoreUtils.getString(map, "invitedName");
+            String inviterUuid = FirestoreUtils.getString(map, "inviterUuid", null);
+            String inviterName = FirestoreUtils.getString(map, "inviterName");
+            long invitedAt = FirestoreUtils.getLong(map, "invitedAt", System.currentTimeMillis());
+            long expiresAt = FirestoreUtils.getLong(map, "expiresAt", System.currentTimeMillis() + (60 * 1000));
+            String message = FirestoreUtils.getString(map, "message", "섬에 초대되었습니다!");
             
             // 유효성 검증
-            if (inviteId.isEmpty()) {
+            if (inviteId == null || inviteId.isEmpty()) {
                 throw new IllegalArgumentException(
                     "Invalid IslandInviteDTO: inviteId cannot be empty"
                 );
             }
             
-            if (invitedUuid.isEmpty() || inviterUuid.isEmpty()) {
+            if (invitedUuid == null || invitedUuid.isEmpty() || inviterUuid == null || inviterUuid.isEmpty()) {
                 throw new IllegalArgumentException(
                     String.format("Invalid IslandInviteDTO: UUID fields cannot be empty. invitedUuid='%s', inviterUuid='%s'",
                         invitedUuid, inviterUuid)
@@ -147,9 +131,7 @@ public record IslandInviteDTO(
                 throw e;
             }
             throw new IllegalArgumentException(
-                String.format("Failed to parse IslandInviteDTO: %s. JSON structure: %s", 
-                    e.getMessage(), 
-                    json.toString().length() > 200 ? json.toString().substring(0, 200) + "..." : json.toString())
+                String.format("Failed to parse IslandInviteDTO from Map: %s", e.getMessage())
             );
         }
     }

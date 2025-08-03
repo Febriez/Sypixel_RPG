@@ -1,10 +1,12 @@
 package com.febrie.rpg.dto.player;
 
 import com.febrie.rpg.job.JobType;
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 플레이어 기본 정보 DTO (Record)
@@ -22,41 +24,39 @@ public record PlayerDTO(String uuid, String name, long lastLogin, long totalPlay
     }
 
     /**
-     * JsonObject로 변환
+     * Map으로 변환
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
 
-        fields.add("uuid", JsonUtil.createStringValue(uuid));
-        fields.add("name", JsonUtil.createStringValue(name));
-        fields.add("lastLogin", JsonUtil.createIntegerValue(lastLogin));
-        fields.add("totalPlaytime", JsonUtil.createIntegerValue(totalPlaytime));
+        map.put("uuid", uuid);
+        map.put("name", name);
+        map.put("lastLogin", lastLogin);
+        map.put("totalPlaytime", totalPlaytime);
 
         if (job != null) {
-            fields.add("job", JsonUtil.createStringValue(job.name()));
+            map.put("job", job.name());
         }
 
-        fields.add("isAdmin", JsonUtil.createBooleanValue(isAdmin));
+        map.put("isAdmin", isAdmin);
 
-        return JsonUtil.wrapInDocument(fields);
+        return map;
     }
 
     /**
-     * JsonObject에서 PlayerDTO 생성
+     * Map에서 PlayerDTO 생성
      */
     @NotNull
-    public static PlayerDTO fromJsonObject(@NotNull JsonObject json) {
-        JsonObject fields = JsonUtil.unwrapDocument(json);
-
-        String uuid = JsonUtil.getStringValue(fields, "uuid", "");
-        String name = JsonUtil.getStringValue(fields, "name", "");
-        long lastLogin = JsonUtil.getLongValue(fields, "lastLogin", System.currentTimeMillis());
-        long totalPlaytime = JsonUtil.getLongValue(fields, "totalPlaytime", 0L);
+    public static PlayerDTO fromMap(@NotNull Map<String, Object> map) {
+        String uuid = FirestoreUtils.getString(map, "uuid", "");
+        String name = FirestoreUtils.getString(map, "name", "");
+        long lastLogin = FirestoreUtils.getLong(map, "lastLogin", System.currentTimeMillis());
+        long totalPlaytime = FirestoreUtils.getLong(map, "totalPlaytime", 0L);
 
         JobType job = null;
-        String jobName = JsonUtil.getStringValue(fields, "job");
-        if (!jobName.isEmpty()) {
+        String jobName = FirestoreUtils.getString(map, "job", null);
+        if (jobName != null && !jobName.isEmpty()) {
             try {
                 job = JobType.valueOf(jobName);
             } catch (IllegalArgumentException ignored) {
@@ -64,7 +64,7 @@ public record PlayerDTO(String uuid, String name, long lastLogin, long totalPlay
             }
         }
 
-        boolean isAdmin = JsonUtil.getBooleanValue(fields, "isAdmin", false);
+        boolean isAdmin = FirestoreUtils.getBoolean(map, "isAdmin", false);
 
         return new PlayerDTO(uuid, name, lastLogin, totalPlaytime, job, isAdmin);
     }

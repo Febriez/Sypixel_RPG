@@ -1,8 +1,6 @@
 package com.febrie.rpg.dto.island;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -89,55 +87,56 @@ public record IslandPermissionDTO(
     }
     
     /**
-     * JsonObject로 변환 (Firebase 저장용)
+     * Map으로 변환 (Firebase 저장용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
         
         // rolePermissions 맵
-        fields.add("rolePermissions", JsonUtil.createMapField(rolePermissions, 
-            perms -> JsonUtil.createMapValue(perms.toJsonObject().getAsJsonObject("fields"))));
+        Map<String, Object> rolePermissionsMap = new HashMap<>();
+        for (Map.Entry<IslandRole, RolePermissions> entry : rolePermissions.entrySet()) {
+            rolePermissionsMap.put(entry.getKey().name(), entry.getValue().toMap());
+        }
+        map.put("rolePermissions", rolePermissionsMap);
         
         // lastUpdated
-        fields.add("lastUpdated", JsonUtil.createIntegerValue(lastUpdated));
+        map.put("lastUpdated", lastUpdated);
         
-        json.add("fields", fields);
-        return json;
+        return map;
     }
     
     /**
-     * JsonObject에서 생성
+     * Map에서 생성
      */
     @NotNull
-    public static IslandPermissionDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
+    public static IslandPermissionDTO fromMap(@NotNull Map<String, Object> map) {
+        if (map.isEmpty()) {
             return createDefault();
         }
         
-        JsonObject fields = json.getAsJsonObject("fields");
         Map<IslandRole, RolePermissions> permissions = new HashMap<>();
         
-        if (fields.has("rolePermissions") && fields.getAsJsonObject("rolePermissions").has("mapValue")) {
-            JsonObject rolePermissionsMap = fields.getAsJsonObject("rolePermissions").getAsJsonObject("mapValue");
-            if (rolePermissionsMap.has("fields")) {
-                JsonObject rolePermissionsFields = rolePermissionsMap.getAsJsonObject("fields");
-                for (Map.Entry<String, JsonElement> entry : rolePermissionsFields.entrySet()) {
-                    try {
-                        IslandRole role = IslandRole.valueOf(entry.getKey());
-                        if (entry.getValue().isJsonObject() && entry.getValue().getAsJsonObject().has("mapValue")) {
-                            RolePermissions perms = RolePermissions.fromJsonObject(entry.getValue().getAsJsonObject().getAsJsonObject("mapValue"));
-                            permissions.put(role, perms);
-                        }
-                    } catch (IllegalArgumentException e) {
-                        // 잘못된 역할 이름은 무시
+        if (map.containsKey("rolePermissions") && map.get("rolePermissions") instanceof Map) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> rolePermissionsMap = (Map<String, Object>) map.get("rolePermissions");
+            
+            for (Map.Entry<String, Object> entry : rolePermissionsMap.entrySet()) {
+                try {
+                    IslandRole role = IslandRole.valueOf(entry.getKey());
+                    if (entry.getValue() instanceof Map) {
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> permsMap = (Map<String, Object>) entry.getValue();
+                        RolePermissions perms = RolePermissions.fromMap(permsMap);
+                        permissions.put(role, perms);
                     }
+                } catch (IllegalArgumentException e) {
+                    // 잘못된 역할 이름은 무시
                 }
             }
         }
         
-        long lastUpdated = JsonUtil.getLongValue(fields, "lastUpdated", System.currentTimeMillis());
+        long lastUpdated = FirestoreUtils.getLong(map, "lastUpdated");
         
         // 누락된 역할에 대한 기본 권한 추가
         for (IslandRole role : IslandRole.values()) {
@@ -180,49 +179,45 @@ public record IslandPermissionDTO(
         }
         
         /**
-         * JsonObject로 변환
+         * Map으로 변환
          */
         @NotNull
-        public JsonObject toJsonObject() {
-            JsonObject json = new JsonObject();
-            JsonObject fields = new JsonObject();
+        public Map<String, Object> toMap() {
+            Map<String, Object> map = new HashMap<>();
             
-            fields.add("canBuild", JsonUtil.createBooleanValue(canBuild));
-            fields.add("canBreak", JsonUtil.createBooleanValue(canBreak));
-            fields.add("canInteract", JsonUtil.createBooleanValue(canInteract));
-            fields.add("canInvite", JsonUtil.createBooleanValue(canInvite));
-            fields.add("canKick", JsonUtil.createBooleanValue(canKick));
-            fields.add("canSetSpawn", JsonUtil.createBooleanValue(canSetSpawn));
-            fields.add("canManageWorkers", JsonUtil.createBooleanValue(canManageWorkers));
-            fields.add("canManagePermissions", JsonUtil.createBooleanValue(canManagePermissions));
-            fields.add("canUpgrade", JsonUtil.createBooleanValue(canUpgrade));
-            fields.add("canReset", JsonUtil.createBooleanValue(canReset));
+            map.put("canBuild", canBuild);
+            map.put("canBreak", canBreak);
+            map.put("canInteract", canInteract);
+            map.put("canInvite", canInvite);
+            map.put("canKick", canKick);
+            map.put("canSetSpawn", canSetSpawn);
+            map.put("canManageWorkers", canManageWorkers);
+            map.put("canManagePermissions", canManagePermissions);
+            map.put("canUpgrade", canUpgrade);
+            map.put("canReset", canReset);
             
-            json.add("fields", fields);
-            return json;
+            return map;
         }
         
         /**
-         * JsonObject에서 생성
+         * Map에서 생성
          */
         @NotNull
-        public static RolePermissions fromJsonObject(@NotNull JsonObject json) {
-            if (!json.has("fields")) {
+        public static RolePermissions fromMap(@NotNull Map<String, Object> map) {
+            if (map.isEmpty()) {
                 return none();
             }
             
-            JsonObject fields = json.getAsJsonObject("fields");
-            
-            boolean canBuild = JsonUtil.getBooleanValue(fields, "canBuild", false);
-            boolean canBreak = JsonUtil.getBooleanValue(fields, "canBreak", false);
-            boolean canInteract = JsonUtil.getBooleanValue(fields, "canInteract", false);
-            boolean canInvite = JsonUtil.getBooleanValue(fields, "canInvite", false);
-            boolean canKick = JsonUtil.getBooleanValue(fields, "canKick", false);
-            boolean canSetSpawn = JsonUtil.getBooleanValue(fields, "canSetSpawn", false);
-            boolean canManageWorkers = JsonUtil.getBooleanValue(fields, "canManageWorkers", false);
-            boolean canManagePermissions = JsonUtil.getBooleanValue(fields, "canManagePermissions", false);
-            boolean canUpgrade = JsonUtil.getBooleanValue(fields, "canUpgrade", false);
-            boolean canReset = JsonUtil.getBooleanValue(fields, "canReset", false);
+            boolean canBuild = FirestoreUtils.getBoolean(map, "canBuild", false);
+            boolean canBreak = FirestoreUtils.getBoolean(map, "canBreak", false);
+            boolean canInteract = FirestoreUtils.getBoolean(map, "canInteract", false);
+            boolean canInvite = FirestoreUtils.getBoolean(map, "canInvite", false);
+            boolean canKick = FirestoreUtils.getBoolean(map, "canKick", false);
+            boolean canSetSpawn = FirestoreUtils.getBoolean(map, "canSetSpawn", false);
+            boolean canManageWorkers = FirestoreUtils.getBoolean(map, "canManageWorkers", false);
+            boolean canManagePermissions = FirestoreUtils.getBoolean(map, "canManagePermissions", false);
+            boolean canUpgrade = FirestoreUtils.getBoolean(map, "canUpgrade", false);
+            boolean canReset = FirestoreUtils.getBoolean(map, "canReset", false);
             
             return new RolePermissions(canBuild, canBreak, canInteract, canInvite, canKick, 
                     canSetSpawn, canManageWorkers, canManagePermissions, canUpgrade, canReset);

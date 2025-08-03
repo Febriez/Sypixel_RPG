@@ -1,7 +1,6 @@
 package com.febrie.rpg.dto.island;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -81,41 +80,37 @@ public record IslandUpgradeDTO(
     public long lastUpgraded() { return lastUpgradeAt; }
     
     /**
-     * JsonObject로 변환 (Firebase 저장용)
+     * Map으로 변환 (Firebase 저장용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
         
-        fields.add("sizeLevel", JsonUtil.createIntegerValue(sizeLevel));
-        fields.add("memberLimitLevel", JsonUtil.createIntegerValue(memberLimitLevel));
-        fields.add("workerLimitLevel", JsonUtil.createIntegerValue(workerLimitLevel));
-        fields.add("memberLimit", JsonUtil.createIntegerValue(memberLimit));
-        fields.add("workerLimit", JsonUtil.createIntegerValue(workerLimit));
-        fields.add("lastUpgradeAt", JsonUtil.createIntegerValue(lastUpgradeAt));
+        map.put("sizeLevel", sizeLevel);
+        map.put("memberLimitLevel", memberLimitLevel);
+        map.put("workerLimitLevel", workerLimitLevel);
+        map.put("memberLimit", memberLimit);
+        map.put("workerLimit", workerLimit);
+        map.put("lastUpgradeAt", lastUpgradeAt);
         
-        json.add("fields", fields);
-        return json;
+        return map;
     }
     
     /**
-     * JsonObject에서 생성
+     * Map에서 생성
      */
     @NotNull
-    public static IslandUpgradeDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
+    public static IslandUpgradeDTO fromMap(@NotNull Map<String, Object> map) {
+        if (map.isEmpty()) {
             return createDefault();
         }
         
-        JsonObject fields = json.getAsJsonObject("fields");
-        
-        int sizeLevel = (int) JsonUtil.getLongValue(fields, "sizeLevel", 0);
-        int memberLimitLevel = (int) JsonUtil.getLongValue(fields, "memberLimitLevel", 0);
-        int workerLimitLevel = (int) JsonUtil.getLongValue(fields, "workerLimitLevel", 0);
-        int memberLimit = (int) JsonUtil.getLongValue(fields, "memberLimit", 5);
-        int workerLimit = (int) JsonUtil.getLongValue(fields, "workerLimit", 2);
-        long lastUpgradeAt = JsonUtil.getLongValue(fields, "lastUpgradeAt", System.currentTimeMillis());
+        int sizeLevel = FirestoreUtils.getInt(map, "sizeLevel", 0);
+        int memberLimitLevel = FirestoreUtils.getInt(map, "memberLimitLevel", 0);
+        int workerLimitLevel = FirestoreUtils.getInt(map, "workerLimitLevel", 0);
+        int memberLimit = FirestoreUtils.getInt(map, "memberLimit", 5);
+        int workerLimit = FirestoreUtils.getInt(map, "workerLimit", 2);
+        long lastUpgradeAt = FirestoreUtils.getLong(map, "lastUpgradeAt", System.currentTimeMillis());
         
         return new IslandUpgradeDTO(sizeLevel, memberLimitLevel, workerLimitLevel, memberLimit, workerLimit, lastUpgradeAt);
     }

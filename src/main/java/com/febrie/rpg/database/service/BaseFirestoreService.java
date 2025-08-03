@@ -6,14 +6,13 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -32,10 +31,7 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
     protected final Class<T> dtoClass;
 
     // 캐시 설정 (5분 만료, 최대 1000개)
-    protected final Cache<String, T> cache = Caffeine.newBuilder()
-            .maximumSize(1000)
-            .expireAfterWrite(5, TimeUnit.MINUTES)
-            .build();
+    protected final Cache<String, T> cache = Caffeine.newBuilder().maximumSize(1000).expireAfterWrite(5, TimeUnit.MINUTES).build();
 
     // 캐시 활성화 여부
     protected boolean cacheEnabled = true;
@@ -48,10 +44,7 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
      * @param collectionName 컬렉션 이름
      * @param dtoClass       DTO 클래스
      */
-    protected BaseFirestoreService(@NotNull RPGMain plugin,
-                                   @NotNull Firestore firestore,
-                                   @NotNull String collectionName,
-                                   @NotNull Class<T> dtoClass) {
+    protected BaseFirestoreService(@NotNull RPGMain plugin, @NotNull Firestore firestore, @NotNull String collectionName, @NotNull Class<T> dtoClass) {
         this.plugin = plugin;
         this.firestore = firestore;
         this.collectionName = collectionName;
@@ -83,10 +76,7 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
         }
 
         // Firestore에서 조회
-        ApiFuture<DocumentSnapshot> future = firestore
-                .collection(collectionName)
-                .document(documentId)
-                .get();
+        ApiFuture<DocumentSnapshot> future = firestore.collection(collectionName).document(documentId).get();
 
         return toCompletableFuture(future).thenApply(document -> {
             if (document.exists()) {
@@ -98,8 +88,7 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
             }
             return null;
         }).exceptionally(ex -> {
-            LogUtil.warning(String.format("%s 조회 실패 [%s]: %s",
-                    collectionName, documentId, ex.getMessage()));
+            LogUtil.warning(String.format("%s 조회 실패 [%s]: %s", collectionName, documentId, ex.getMessage()));
             return null;
         });
     }
@@ -109,10 +98,7 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
     public CompletableFuture<Void> save(@NotNull String documentId, @NotNull T data) {
         Map<String, Object> map = toMap(data);
 
-        ApiFuture<WriteResult> future = firestore
-                .collection(collectionName)
-                .document(documentId)
-                .set(map);
+        ApiFuture<WriteResult> future = firestore.collection(collectionName).document(documentId).set(map);
 
         return toCompletableFuture(future).thenAccept(result -> {
             if (cacheEnabled) {
@@ -120,9 +106,7 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
             }
             LogUtil.info(String.format("%s 저장 성공 [%s]", collectionName, documentId));
         }).exceptionally(ex -> {
-            LogUtil.warning(String.format("%s 저장 실패 [%s]: %s",
-                    collectionName, documentId, ex.getMessage()));
-            ex.printStackTrace();
+            LogUtil.error(String.format("%s 저장 실패 [%s]", collectionName, documentId), ex);
             return null;
         });
     }
@@ -130,17 +114,13 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
     @Override
     @NotNull
     public CompletableFuture<Void> delete(@NotNull String documentId) {
-        ApiFuture<WriteResult> future = firestore
-                .collection(collectionName)
-                .document(documentId)
-                .delete();
+        ApiFuture<WriteResult> future = firestore.collection(collectionName).document(documentId).delete();
 
         return toCompletableFuture(future).thenAccept(result -> {
             cache.invalidate(documentId);
             LogUtil.info(String.format("%s 삭제 성공 [%s]", collectionName, documentId));
         }).exceptionally(ex -> {
-            LogUtil.warning(String.format("%s 삭제 실패 [%s]: %s",
-                    collectionName, documentId, ex.getMessage()));
+            LogUtil.warning(String.format("%s 삭제 실패 [%s]: %s", collectionName, documentId, ex.getMessage()));
             return null;
         });
     }
@@ -148,8 +128,7 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
     @Override
     @NotNull
     public CompletableFuture<List<T>> query(@NotNull String field, @NotNull Object value) {
-        Query query = firestore.collection(collectionName)
-                .whereEqualTo(field, value);
+        Query query = firestore.collection(collectionName).whereEqualTo(field, value);
 
         return executeQuery(query);
     }
@@ -169,66 +148,14 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
     @Override
     @NotNull
     public CompletableFuture<Boolean> exists(@NotNull String documentId) {
-        ApiFuture<DocumentSnapshot> future = firestore
-                .collection(collectionName)
-                .document(documentId)
-                .get();
+        ApiFuture<DocumentSnapshot> future = firestore.collection(collectionName).document(documentId).get();
 
-        return toCompletableFuture(future).thenApply(DocumentSnapshot::exists)
-                .exceptionally(ex -> {
-                    LogUtil.warning(String.format("%s 존재 확인 실패 [%s]: %s",
-                            collectionName, documentId, ex.getMessage()));
-                    return false;
-                });
-    }
-
-    @Override
-    @NotNull
-    public CompletableFuture<Void> batchSave(@NotNull Map<String, T> documents) {
-        WriteBatch batch = firestore.batch();
-
-        documents.forEach((id, data) -> {
-            DocumentReference ref = firestore.collection(collectionName).document(id);
-            batch.set(ref, toMap(data));
-        });
-
-        ApiFuture<List<WriteResult>> future = batch.commit();
-
-        return toCompletableFuture(future).thenAccept(results -> {
-            if (cacheEnabled) {
-                documents.forEach(cache::put);
-            }
-            LogUtil.info(String.format("%s 배치 저장 성공: %d개",
-                    collectionName, documents.size()));
-        }).exceptionally(ex -> {
-            LogUtil.warning(String.format("%s 배치 저장 실패: %s",
-                    collectionName, ex.getMessage()));
-            return null;
+        return toCompletableFuture(future).thenApply(DocumentSnapshot::exists).exceptionally(ex -> {
+            LogUtil.warning(String.format("%s 존재 확인 실패 [%s]: %s", collectionName, documentId, ex.getMessage()));
+            return false;
         });
     }
 
-    @Override
-    @NotNull
-    public CompletableFuture<Void> batchDelete(@NotNull List<String> documentIds) {
-        WriteBatch batch = firestore.batch();
-
-        documentIds.forEach(id -> {
-            DocumentReference ref = firestore.collection(collectionName).document(id);
-            batch.delete(ref);
-        });
-
-        ApiFuture<List<WriteResult>> future = batch.commit();
-
-        return toCompletableFuture(future).thenAccept(results -> {
-            documentIds.forEach(cache::invalidate);
-            LogUtil.info(String.format("%s 배치 삭제 성공: %d개",
-                    collectionName, documentIds.size()));
-        }).exceptionally(ex -> {
-            LogUtil.warning(String.format("%s 배치 삭제 실패: %s",
-                    collectionName, ex.getMessage()));
-            return null;
-        });
-    }
 
     /**
      * 캐시 비우기
@@ -246,7 +173,7 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
             clearCache();
         }
     }
-    
+
     /**
      * 서비스 종료 시 정리 작업
      */
@@ -282,21 +209,14 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
      * 특정 필드 업데이트
      */
     @NotNull
-    public CompletableFuture<Void> updateField(@NotNull String documentId,
-                                               @NotNull String field,
-                                               @NotNull Object value) {
-        ApiFuture<WriteResult> future = firestore
-                .collection(collectionName)
-                .document(documentId)
-                .update(field, value);
+    public CompletableFuture<Void> updateField(@NotNull String documentId, @NotNull String field, @NotNull Object value) {
+        ApiFuture<WriteResult> future = firestore.collection(collectionName).document(documentId).update(field, value);
 
         return toCompletableFuture(future).thenAccept(result -> {
             cache.invalidate(documentId); // 캐시 무효화
-            LogUtil.info(String.format("%s 필드 업데이트 성공 [%s.%s]",
-                    collectionName, documentId, field));
+            LogUtil.info(String.format("%s 필드 업데이트 성공 [%s.%s]", collectionName, documentId, field));
         }).exceptionally(ex -> {
-            LogUtil.warning(String.format("%s 필드 업데이트 실패 [%s.%s]: %s",
-                    collectionName, documentId, field, ex.getMessage()));
+            LogUtil.warning(String.format("%s 필드 업데이트 실패 [%s.%s]: %s", collectionName, documentId, field, ex.getMessage()));
             return null;
         });
     }
@@ -305,21 +225,14 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
      * 숫자 필드 증가
      */
     @NotNull
-    public CompletableFuture<Void> incrementField(@NotNull String documentId,
-                                                  @NotNull String field,
-                                                  long amount) {
-        ApiFuture<WriteResult> future = firestore
-                .collection(collectionName)
-                .document(documentId)
-                .update(field, FieldValue.increment(amount));
+    public CompletableFuture<Void> incrementField(@NotNull String documentId, @NotNull String field, long amount) {
+        ApiFuture<WriteResult> future = firestore.collection(collectionName).document(documentId).update(field, FieldValue.increment(amount));
 
         return toCompletableFuture(future).thenAccept(result -> {
             cache.invalidate(documentId); // 캐시 무효화
-            LogUtil.info(String.format("%s 필드 증가 성공 [%s.%s += %d]",
-                    collectionName, documentId, field, amount));
+            LogUtil.info(String.format("%s 필드 증가 성공 [%s.%s += %d]", collectionName, documentId, field, amount));
         }).exceptionally(ex -> {
-            LogUtil.warning(String.format("%s 필드 증가 실패 [%s.%s]: %s",
-                    collectionName, documentId, field, ex.getMessage()));
+            LogUtil.warning(String.format("%s 필드 증가 실패 [%s.%s]: %s", collectionName, documentId, field, ex.getMessage()));
             return null;
         });
     }
@@ -328,12 +241,8 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
      * 제한된 쿼리
      */
     @NotNull
-    public CompletableFuture<List<T>> queryWithLimit(@NotNull String field,
-                                                     @NotNull Object value,
-                                                     int limit) {
-        Query query = firestore.collection(collectionName)
-                .whereEqualTo(field, value)
-                .limit(limit);
+    public CompletableFuture<List<T>> queryWithLimit(@NotNull String field, @NotNull Object value, int limit) {
+        Query query = firestore.collection(collectionName).whereEqualTo(field, value).limit(limit);
 
         return executeQuery(query);
     }
@@ -342,12 +251,8 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
      * 정렬된 쿼리
      */
     @NotNull
-    public CompletableFuture<List<T>> queryOrdered(@NotNull String orderByField,
-                                                   @NotNull Query.Direction direction,
-                                                   int limit) {
-        Query query = firestore.collection(collectionName)
-                .orderBy(orderByField, direction)
-                .limit(limit);
+    public CompletableFuture<List<T>> queryOrdered(@NotNull String orderByField, @NotNull Query.Direction direction, int limit) {
+        Query query = firestore.collection(collectionName).orderBy(orderByField, direction).limit(limit);
 
         return executeQuery(query);
     }
@@ -371,136 +276,11 @@ public abstract class BaseFirestoreService<T> implements FirestoreService<T> {
             }
             return results;
         }).exceptionally(ex -> {
-            LogUtil.warning(String.format("%s 쿼리 실패: %s",
-                    collectionName, ex.getMessage()));
+            LogUtil.warning(String.format("%s 쿼리 실패: %s", collectionName, ex.getMessage()));
             return new ArrayList<>();
         });
     }
 
-    // ===== JSON 변환 메소드 (Firebase REST API 호환) =====
-
-    /**
-     * Firebase REST API JSON을 일반 Map으로 변환
-     */
-    @NotNull
-    protected Map<String, Object> convertJsonToMap(@NotNull JsonObject json) {
-        Map<String, Object> map = new HashMap<>();
-
-        if (json.has("fields")) {
-            JsonObject fields = json.getAsJsonObject("fields");
-
-            for (Map.Entry<String, JsonElement> entry : fields.entrySet()) {
-                String key = entry.getKey();
-                JsonObject valueObj = entry.getValue().getAsJsonObject();
-
-                if (valueObj.has("stringValue")) {
-                    map.put(key, valueObj.get("stringValue").getAsString());
-                } else if (valueObj.has("integerValue")) {
-                    map.put(key, valueObj.get("integerValue").getAsLong());
-                } else if (valueObj.has("doubleValue")) {
-                    map.put(key, valueObj.get("doubleValue").getAsDouble());
-                } else if (valueObj.has("booleanValue")) {
-                    map.put(key, valueObj.get("booleanValue").getAsBoolean());
-                } else if (valueObj.has("mapValue")) {
-                    map.put(key, convertJsonToMap(valueObj.getAsJsonObject("mapValue")));
-                } else if (valueObj.has("arrayValue")) {
-                    JsonObject arrayValue = valueObj.getAsJsonObject("arrayValue");
-                    if (arrayValue.has("values")) {
-                        JsonArray values = arrayValue.getAsJsonArray("values");
-                        List<Object> list = new ArrayList<>();
-                        for (JsonElement element : values) {
-                            if (element.isJsonObject()) {
-                                JsonObject itemObj = element.getAsJsonObject();
-                                if (itemObj.has("stringValue")) {
-                                    list.add(itemObj.get("stringValue").getAsString());
-                                } else if (itemObj.has("integerValue")) {
-                                    list.add(itemObj.get("integerValue").getAsLong());
-                                } else if (itemObj.has("mapValue")) {
-                                    list.add(convertJsonToMap(itemObj.getAsJsonObject("mapValue")));
-                                }
-                            }
-                        }
-                        map.put(key, list);
-                    } else {
-                        map.put(key, new ArrayList<>());
-                    }
-                }
-            }
-        }
-
-        return map;
-    }
-
-    /**
-     * 일반 Map을 Firebase REST API JSON으로 변환
-     */
-    @NotNull
-    protected JsonObject convertMapToJson(@NotNull Map<String, Object> map) {
-        JsonObject json = new JsonObject();
-        JsonObject fields = convertMapToJsonFields(map);
-        json.add("fields", fields);
-        return json;
-    }
-
-    /**
-     * Map을 JSON fields로 변환 (헬퍼 메소드)
-     */
-    @NotNull
-    private JsonObject convertMapToJsonFields(@NotNull Map<String, Object> map) {
-        JsonObject fields = new JsonObject();
-
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            JsonObject valueObj = new JsonObject();
-
-            if (value == null) {
-                valueObj.add("nullValue", new JsonPrimitive(true));
-            } else if (value instanceof String) {
-                valueObj.addProperty("stringValue", (String) value);
-            } else if (value instanceof Number) {
-                if (value instanceof Double || value instanceof Float) {
-                    valueObj.addProperty("doubleValue", ((Number) value).doubleValue());
-                } else {
-                    valueObj.addProperty("integerValue", ((Number) value).longValue());
-                }
-            } else if (value instanceof Boolean) {
-                valueObj.addProperty("booleanValue", (Boolean) value);
-            } else if (value instanceof Map) {
-                JsonObject mapValue = new JsonObject();
-                @SuppressWarnings("unchecked")
-                Map<String, Object> mapCast = (Map<String, Object>) value;
-                mapValue.add("fields", convertMapToJsonFields(mapCast));
-                valueObj.add("mapValue", mapValue);
-            } else if (value instanceof List) {
-                JsonObject arrayValue = new JsonObject();
-                JsonArray values = new JsonArray();
-
-                for (Object item : (List<?>) value) {
-                    JsonObject itemObj = new JsonObject();
-                    if (item instanceof String) {
-                        itemObj.addProperty("stringValue", (String) item);
-                    } else if (item instanceof Number) {
-                        itemObj.addProperty("integerValue", ((Number) item).longValue());
-                    } else if (item instanceof Map) {
-                        JsonObject mapValue = new JsonObject();
-                        @SuppressWarnings("unchecked")
-                        Map<String, Object> itemMap = (Map<String, Object>) item;
-                        mapValue.add("fields", convertMapToJsonFields(itemMap));
-                        itemObj.add("mapValue", mapValue);
-                    }
-                    values.add(itemObj);
-                }
-
-                arrayValue.add("values", values);
-                valueObj.add("arrayValue", arrayValue);
-            }
-
-            fields.add(key, valueObj);
-        }
-
-        return fields;
-    }
 
     /**
      * ApiFuture를 CompletableFuture로 변환

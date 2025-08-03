@@ -103,4 +103,26 @@ public final class LogUtil {
     public static void warn(@NotNull String message) {
         warning(message);
     }
+    
+    /**
+     * 디버그 로그
+     */
+    public static void debug(@NotNull String message) {
+        if (logger != null) {
+            logger.log(Level.FINE, message);
+        } else {
+            Bukkit.getConsoleSender().sendMessage(prefix + " [DEBUG] " + message);
+        }
+    }
+    
+    /**
+     * 심각한 오류 로그
+     */
+    public static void severe(@NotNull String message) {
+        if (logger != null) {
+            logger.severe(message);
+        } else {
+            Bukkit.getConsoleSender().sendMessage(prefix + " [SEVERE] " + message);
+        }
+    }
 }

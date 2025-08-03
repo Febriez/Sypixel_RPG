@@ -7,6 +7,8 @@ import com.febrie.rpg.dto.quest.PlayerQuestDTO;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
+import com.febrie.rpg.quest.reward.ClaimedRewardData;
+import com.febrie.rpg.util.FirestoreUtils;
 import com.febrie.rpg.util.LogUtil;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
@@ -35,26 +37,32 @@ public class QuestFirestoreService extends BaseFirestoreService<PlayerQuestDTO> 
 
     @Override
     protected Map<String, Object> toMap(@NotNull PlayerQuestDTO dto) {
+        // Use the DTO's built-in toMap method, but handle QuestProgress serialization
         Map<String, Object> map = new HashMap<>();
-
         map.put("playerId", dto.playerId());
-
-        // Active quests
+        
+        // Active quests - serialize QuestProgress to Map
         Map<String, Map<String, Object>> activeQuestsMap = new HashMap<>();
         dto.activeQuests().forEach((questId, progress) -> {
             activeQuestsMap.put(questId, questProgressToMap(progress));
         });
         map.put("activeQuests", activeQuestsMap);
-
-        // Completed quests
+        
+        // Completed quests - use DTO's toMap
         Map<String, Map<String, Object>> completedQuestsMap = new HashMap<>();
         dto.completedQuests().forEach((questId, completed) -> {
-            completedQuestsMap.put(questId, completedQuestToMap(completed));
+            completedQuestsMap.put(questId, completed.toMap());
         });
         map.put("completedQuests", completedQuestsMap);
-
+        
+        // Claimed reward data - use toMap
+        Map<String, Map<String, Object>> claimedRewardDataMap = new HashMap<>();
+        dto.claimedRewardData().forEach((questId, rewardData) -> {
+            claimedRewardDataMap.put(questId, rewardData.toMap());
+        });
+        map.put("claimedRewardData", claimedRewardDataMap);
+        
         map.put("lastUpdated", dto.lastUpdated());
-
         return map;
     }
 
@@ -66,18 +74,26 @@ public class QuestFirestoreService extends BaseFirestoreService<PlayerQuestDTO> 
         }
 
         try {
-            String playerId = document.getString("playerId");
+            Map<String, Object> data = document.getData();
+            if (data == null) {
+                return null;
+            }
+            
+            // Parse data
+            String playerId = (String) data.get("playerId");
             if (playerId == null) {
                 playerId = document.getId();
             }
-
-            // Active quests 파싱
+            
+            // Parse active quests
             Map<String, QuestProgress> activeQuests = new HashMap<>();
-            @SuppressWarnings("unchecked") Map<String, Object> activeData = document.get("activeQuests", Map.class);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> activeData = (Map<String, Object>) data.get("activeQuests");
             if (activeData != null) {
                 activeData.forEach((questId, progressData) -> {
                     if (progressData instanceof Map) {
-                        @SuppressWarnings("unchecked") Map<String, Object> progressMap = (Map<String, Object>) progressData;
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> progressMap = (Map<String, Object>) progressData;
                         QuestProgress progress = questProgressFromMap(questId, progressMap);
                         if (progress != null) {
                             activeQuests.put(questId, progress);
@@ -85,70 +101,80 @@ public class QuestFirestoreService extends BaseFirestoreService<PlayerQuestDTO> 
                     }
                 });
             }
-
-            // Completed quests 파싱
+            
+            // Parse completed quests
             Map<String, CompletedQuestDTO> completedQuests = new HashMap<>();
-            @SuppressWarnings("unchecked") Map<String, Object> completedData = document.get("completedQuests", Map.class);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> completedData = (Map<String, Object>) data.get("completedQuests");
             if (completedData != null) {
                 completedData.forEach((questId, completedObj) -> {
                     if (completedObj instanceof Map) {
-                        @SuppressWarnings("unchecked") Map<String, Object> completedMap = (Map<String, Object>) completedObj;
-                        CompletedQuestDTO completed = completedQuestFromMap(completedMap);
-                        if (completed != null) {
-                            completedQuests.put(questId, completed);
-                        }
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> completedMap = (Map<String, Object>) completedObj;
+                        completedQuests.put(questId, CompletedQuestDTO.fromMap(completedMap));
                     }
                 });
             }
-
-            Long lastUpdated = document.getLong("lastUpdated");
-            if (lastUpdated == null) {
-                lastUpdated = System.currentTimeMillis();
+            
+            // Parse claimed reward data
+            Map<String, ClaimedRewardData> claimedRewardData = new HashMap<>();
+            @SuppressWarnings("unchecked")
+            Map<String, Object> claimedData = (Map<String, Object>) data.get("claimedRewardData");
+            if (claimedData != null) {
+                claimedData.forEach((questId, rewardObj) -> {
+                    if (rewardObj instanceof Map) {
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> rewardMap = (Map<String, Object>) rewardObj;
+                        claimedRewardData.put(questId, ClaimedRewardData.fromMap(rewardMap));
+                    }
+                });
             }
-
-            return new PlayerQuestDTO(playerId, activeQuests, completedQuests, lastUpdated);
+            
+            Long lastUpdated = FirestoreUtils.getLong(data, "lastUpdated", System.currentTimeMillis());
+            
+            return new PlayerQuestDTO(playerId, activeQuests, completedQuests, claimedRewardData, lastUpdated);
 
         } catch (Exception e) {
             LogUtil.warning("퀘스트 데이터 파싱 실패 [" + document.getId() + "]: " + e.getMessage());
             return null;
         }
     }
-
+    
     /**
      * QuestProgress를 Map으로 변환
      */
-    private @NotNull Map<String, Object> questProgressToMap(@NotNull QuestProgress progress) {
+    private Map<String, Object> questProgressToMap(@NotNull QuestProgress progress) {
         Map<String, Object> map = new HashMap<>();
-
+        
         map.put("questId", progress.getQuestId().name());
         map.put("playerId", progress.getPlayerId().toString());
-
+        
         // Objectives
         Map<String, Map<String, Object>> objectivesMap = new HashMap<>();
         progress.getObjectives().forEach((objId, objProgress) -> {
             objectivesMap.put(objId, objectiveProgressToMap(objProgress));
         });
         map.put("objectives", objectivesMap);
-
+        
         map.put("state", progress.getState().name());
         map.put("currentObjectiveIndex", progress.getCurrentObjectiveIndex());
         map.put("startedAt", progress.getStartedAt().toEpochMilli());
-
+        
         if (progress.getCompletedAt() != null) {
             map.put("completedAt", progress.getCompletedAt().toEpochMilli());
         }
-
+        
         map.put("lastUpdatedAt", progress.getLastUpdatedAt().toEpochMilli());
-
+        
         return map;
     }
-
+    
     /**
      * ObjectiveProgress를 Map으로 변환
      */
-    private @NotNull Map<String, Object> objectiveProgressToMap(@NotNull ObjectiveProgress progress) {
+    private Map<String, Object> objectiveProgressToMap(@NotNull ObjectiveProgress progress) {
         Map<String, Object> map = new HashMap<>();
-
+        
         map.put("objectiveId", progress.getObjectiveId());
         map.put("playerId", progress.getPlayerId().toString());
         map.put("currentValue", progress.getCurrentValue());
@@ -157,24 +183,10 @@ public class QuestFirestoreService extends BaseFirestoreService<PlayerQuestDTO> 
         map.put("startedAt", progress.getStartedAt());
         map.put("completedAt", progress.getCompletedAt());
         map.put("lastUpdated", progress.getLastUpdated());
-
+        
         return map;
     }
-
-    /**
-     * CompletedQuestDTO를 Map으로 변환
-     */
-    private @NotNull Map<String, Object> completedQuestToMap(@NotNull CompletedQuestDTO completed) {
-        Map<String, Object> map = new HashMap<>();
-
-        map.put("questId", completed.questId());
-        map.put("completedAt", completed.completedAt());
-        map.put("completionCount", completed.completionCount());
-        map.put("rewarded", completed.rewarded());
-
-        return map;
-    }
-
+    
     /**
      * Map에서 QuestProgress 생성
      */
@@ -182,15 +194,17 @@ public class QuestFirestoreService extends BaseFirestoreService<PlayerQuestDTO> 
     private QuestProgress questProgressFromMap(@NotNull String questIdStr, @NotNull Map<String, Object> map) {
         try {
             QuestID questId = QuestID.valueOf(questIdStr);
-            UUID playerId = UUID.fromString((String) map.get("playerId"));
-
+            UUID playerId = UUID.fromString(FirestoreUtils.getString(map, "playerId", ""));
+            
             // Objectives 파싱
             Map<String, ObjectiveProgress> objectives = new HashMap<>();
-            @SuppressWarnings("unchecked") Map<String, Object> objectivesData = (Map<String, Object>) map.get("objectives");
+            @SuppressWarnings("unchecked")
+            Map<String, Object> objectivesData = (Map<String, Object>) map.get("objectives");
             if (objectivesData != null) {
                 objectivesData.forEach((objId, objData) -> {
                     if (objData instanceof Map) {
-                        @SuppressWarnings("unchecked") Map<String, Object> objMap = (Map<String, Object>) objData;
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> objMap = (Map<String, Object>) objData;
                         ObjectiveProgress objProgress = objectiveProgressFromMap(objMap);
                         if (objProgress != null) {
                             objectives.put(objId, objProgress);
@@ -198,67 +212,50 @@ public class QuestFirestoreService extends BaseFirestoreService<PlayerQuestDTO> 
                     }
                 });
             }
-
-            QuestProgress.QuestState state = QuestProgress.QuestState.valueOf((String) map.get("state"));
-            int currentObjectiveIndex = ((Number) map.getOrDefault("currentObjectiveIndex", 0)).intValue();
-
-            long startedAtMs = ((Number) map.get("startedAt")).longValue();
+            
+            QuestProgress.QuestState state = QuestProgress.QuestState.valueOf(FirestoreUtils.getString(map, "state", "IN_PROGRESS"));
+            int currentObjectiveIndex = FirestoreUtils.getInt(map, "currentObjectiveIndex");
+            
+            long startedAtMs = FirestoreUtils.getLong(map, "startedAt", System.currentTimeMillis());
             Instant startedAt = Instant.ofEpochMilli(startedAtMs);
-
+            
             Instant completedAt = null;
             if (map.containsKey("completedAt")) {
-                long completedAtMs = ((Number) map.get("completedAt")).longValue();
+                long completedAtMs = FirestoreUtils.getLong(map, "completedAt", 0L);
                 completedAt = Instant.ofEpochMilli(completedAtMs);
             }
-
-            long lastUpdatedAtMs = ((Number) map.get("lastUpdatedAt")).longValue();
+            
+            long lastUpdatedAtMs = FirestoreUtils.getLong(map, "lastUpdatedAt", System.currentTimeMillis());
             Instant lastUpdatedAt = Instant.ofEpochMilli(lastUpdatedAtMs);
-
-            return new QuestProgress(questId, playerId, objectives, state, currentObjectiveIndex, startedAt, completedAt, lastUpdatedAt);
-
+            
+            return new QuestProgress(questId, playerId, objectives, state, 
+                    currentObjectiveIndex, startedAt, completedAt, lastUpdatedAt);
+                    
         } catch (Exception e) {
             LogUtil.warning("QuestProgress 파싱 실패: " + e.getMessage());
             return null;
         }
     }
-
+    
     /**
      * Map에서 ObjectiveProgress 생성
      */
     @Nullable
     private ObjectiveProgress objectiveProgressFromMap(@NotNull Map<String, Object> map) {
         try {
-            String objectiveId = (String) map.get("objectiveId");
-            UUID playerId = UUID.fromString((String) map.get("playerId"));
-            int currentValue = ((Number) map.get("currentValue")).intValue();
-            int requiredValue = ((Number) map.get("requiredValue")).intValue();
-            boolean completed = (Boolean) map.get("completed");
-            long startedAt = ((Number) map.get("startedAt")).longValue();
-            long completedAt = ((Number) map.get("completedAt")).longValue();
-
-            return new ObjectiveProgress(objectiveId, playerId, currentValue, requiredValue, completed, startedAt, completedAt);
-
+            String objectiveId = FirestoreUtils.getString(map, "objectiveId", "");
+            UUID playerId = UUID.fromString(FirestoreUtils.getString(map, "playerId", ""));
+            int currentValue = FirestoreUtils.getInt(map, "currentValue");
+            int requiredValue = FirestoreUtils.getInt(map, "requiredValue");
+            boolean completed = FirestoreUtils.getBoolean(map, "completed", false);
+            long startedAt = FirestoreUtils.getLong(map, "startedAt", System.currentTimeMillis());
+            long completedAt = FirestoreUtils.getLong(map, "completedAt", 0L);
+            
+            return new ObjectiveProgress(objectiveId, playerId, currentValue, 
+                    requiredValue, completed, startedAt, completedAt);
+                    
         } catch (Exception e) {
             LogUtil.warning("ObjectiveProgress 파싱 실패: " + e.getMessage());
-            return null;
-        }
-    }
-
-    /**
-     * Map에서 CompletedQuestDTO 생성
-     */
-    @Nullable
-    private CompletedQuestDTO completedQuestFromMap(@NotNull Map<String, Object> map) {
-        try {
-            String questId = (String) map.get("questId");
-            long completedAt = ((Number) map.get("completedAt")).longValue();
-            int completionCount = ((Number) map.getOrDefault("completionCount", 1)).intValue();
-            boolean rewarded = (Boolean) map.getOrDefault("rewarded", false);
-
-            return new CompletedQuestDTO(questId, completedAt, completionCount, rewarded);
-
-        } catch (Exception e) {
-            LogUtil.warning("CompletedQuestDTO 파싱 실패: " + e.getMessage());
             return null;
         }
     }
@@ -296,6 +293,7 @@ public class QuestFirestoreService extends BaseFirestoreService<PlayerQuestDTO> 
                     data.playerId(), 
                     updatedActiveQuests, 
                     data.completedQuests(), 
+                    data.claimedRewardData(),
                     System.currentTimeMillis()));
         });
     }
@@ -314,6 +312,7 @@ public class QuestFirestoreService extends BaseFirestoreService<PlayerQuestDTO> 
                     data.playerId(), 
                     updatedActiveQuests, 
                     updatedCompletedQuests, 
+                    data.claimedRewardData(),
                     System.currentTimeMillis()));
         });
     }
@@ -330,6 +329,7 @@ public class QuestFirestoreService extends BaseFirestoreService<PlayerQuestDTO> 
                     data.playerId(), 
                     updatedActiveQuests, 
                     data.completedQuests(), 
+                    data.claimedRewardData(),
                     System.currentTimeMillis()));
         });
     }

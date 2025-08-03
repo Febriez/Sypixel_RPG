@@ -1,8 +1,10 @@
 package com.febrie.rpg.dto.player;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 플레이어 진행도 정보 DTO (Record)
@@ -26,41 +28,38 @@ public record ProgressDTO(
     }
     
     /**
-     * JsonObject로 변환
+     * Map으로 변환
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
         
-        fields.add("currentLevel", JsonUtil.createIntegerValue(currentLevel));
-        fields.add("totalExperience", JsonUtil.createIntegerValue(totalExperience));
-        fields.add("levelProgress", JsonUtil.createDoubleValue(levelProgress));
-        fields.add("mobsKilled", JsonUtil.createIntegerValue(mobsKilled));
-        fields.add("playersKilled", JsonUtil.createIntegerValue(playersKilled));
-        fields.add("deaths", JsonUtil.createIntegerValue(deaths));
+        map.put("currentLevel", currentLevel);
+        map.put("totalExperience", totalExperience);
+        map.put("levelProgress", levelProgress);
+        map.put("mobsKilled", mobsKilled);
+        map.put("playersKilled", playersKilled);
+        map.put("deaths", deaths);
         
-        json.add("fields", fields);
-        return json;
+        return map;
     }
     
     /**
-     * JsonObject에서 ProgressDTO 생성
+     * Map에서 ProgressDTO 생성
      */
     @NotNull
-    public static ProgressDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
+    public static ProgressDTO fromMap(@NotNull Map<String, Object> map) {
+        if (map.isEmpty()) {
             return new ProgressDTO();
         }
         
-        JsonObject fields = json.getAsJsonObject("fields");
-        
-        int currentLevel = (int) JsonUtil.getLongValue(fields, "currentLevel", 1L);
-        long totalExperience = JsonUtil.getLongValue(fields, "totalExperience", 0L);
-        double levelProgress = JsonUtil.getDoubleValue(fields, "levelProgress", 0.0);
-        int mobsKilled = (int) JsonUtil.getLongValue(fields, "mobsKilled", 0L);
-        int playersKilled = (int) JsonUtil.getLongValue(fields, "playersKilled", 0L);
-        int deaths = (int) JsonUtil.getLongValue(fields, "deaths", 0L);
+        int currentLevel = FirestoreUtils.getInt(map, "currentLevel");
+        if (currentLevel == 0) currentLevel = 1; // 기본값 1로 설정
+        long totalExperience = FirestoreUtils.getLong(map, "totalExperience");
+        double levelProgress = FirestoreUtils.getDouble(map, "levelProgress");
+        int mobsKilled = FirestoreUtils.getInt(map, "mobsKilled");
+        int playersKilled = FirestoreUtils.getInt(map, "playersKilled");
+        int deaths = FirestoreUtils.getInt(map, "deaths");
         
         return new ProgressDTO(currentLevel, totalExperience, levelProgress, mobsKilled, playersKilled, deaths);
     }

@@ -1,8 +1,10 @@
 package com.febrie.rpg.dto.player;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 플레이어 스탯 정보 DTO (Record)
@@ -26,41 +28,37 @@ public record StatsDTO(
     }
     
     /**
-     * JsonObject로 변환
+     * Map으로 변환
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
         
-        fields.add("strength", JsonUtil.createIntegerValue(strength));
-        fields.add("intelligence", JsonUtil.createIntegerValue(intelligence));
-        fields.add("dexterity", JsonUtil.createIntegerValue(dexterity));
-        fields.add("vitality", JsonUtil.createIntegerValue(vitality));
-        fields.add("wisdom", JsonUtil.createIntegerValue(wisdom));
-        fields.add("luck", JsonUtil.createIntegerValue(luck));
+        map.put("strength", strength);
+        map.put("intelligence", intelligence);
+        map.put("dexterity", dexterity);
+        map.put("vitality", vitality);
+        map.put("wisdom", wisdom);
+        map.put("luck", luck);
         
-        json.add("fields", fields);
-        return json;
+        return map;
     }
     
     /**
-     * JsonObject에서 StatsDTO 생성
+     * Map에서 StatsDTO 생성
      */
     @NotNull
-    public static StatsDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
+    public static StatsDTO fromMap(@NotNull Map<String, Object> map) {
+        if (map.isEmpty()) {
             return new StatsDTO(); // 기본값 반환
         }
         
-        JsonObject fields = json.getAsJsonObject("fields");
-        
-        int strength = (int) JsonUtil.getLongValue(fields, "strength", 10L);
-        int intelligence = (int) JsonUtil.getLongValue(fields, "intelligence", 10L);
-        int dexterity = (int) JsonUtil.getLongValue(fields, "dexterity", 10L);
-        int vitality = (int) JsonUtil.getLongValue(fields, "vitality", 10L);
-        int wisdom = (int) JsonUtil.getLongValue(fields, "wisdom", 10L);
-        int luck = (int) JsonUtil.getLongValue(fields, "luck", 1L);
+        int strength = FirestoreUtils.getInt(map, "strength", 10);
+        int intelligence = FirestoreUtils.getInt(map, "intelligence", 10);
+        int dexterity = FirestoreUtils.getInt(map, "dexterity", 10);
+        int vitality = FirestoreUtils.getInt(map, "vitality", 10);
+        int wisdom = FirestoreUtils.getInt(map, "wisdom", 10);
+        int luck = FirestoreUtils.getInt(map, "luck", 1);
         
         return new StatsDTO(strength, intelligence, dexterity, vitality, wisdom, luck);
     }

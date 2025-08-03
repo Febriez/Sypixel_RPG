@@ -1,10 +1,11 @@
 package com.febrie.rpg.dto.social;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -30,39 +31,35 @@ public record FriendshipDTO(
     }
     
     /**
-     * JsonObject로 변환
+     * Map으로 변환 (Firestore SDK용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject fields = new JsonObject();
-        
-        fields.add("player1Uuid", JsonUtil.createStringValue(player1Uuid.toString()));
-        fields.add("player1Name", JsonUtil.createStringValue(player1Name));
-        fields.add("player2Uuid", JsonUtil.createStringValue(player2Uuid.toString()));
-        fields.add("player2Name", JsonUtil.createStringValue(player2Name));
-        fields.add("createdAt", JsonUtil.createIntegerValue(createdAt));
-        
-        return JsonUtil.wrapInDocument(fields);
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("player1Uuid", player1Uuid.toString());
+        map.put("player1Name", player1Name);
+        map.put("player2Uuid", player2Uuid.toString());
+        map.put("player2Name", player2Name);
+        map.put("createdAt", createdAt);
+        return map;
     }
     
     /**
-     * JsonObject에서 FriendshipDTO 생성
+     * Map에서 생성 (Firestore SDK용)
      */
     @NotNull
-    public static FriendshipDTO fromJsonObject(@NotNull JsonObject json) {
-        JsonObject fields = JsonUtil.unwrapDocument(json);
-        
-        String player1UuidStr = JsonUtil.getStringValue(fields, "player1Uuid", UUID.randomUUID().toString());
+    public static FriendshipDTO fromMap(@NotNull Map<String, Object> map) {
+        String player1UuidStr = FirestoreUtils.getString(map, "player1Uuid", UUID.randomUUID().toString());
         UUID player1Uuid = UUID.fromString(player1UuidStr);
         
-        String player1Name = JsonUtil.getStringValue(fields, "player1Name", "");
+        String player1Name = FirestoreUtils.getString(map, "player1Name");
         
-        String player2UuidStr = JsonUtil.getStringValue(fields, "player2Uuid", UUID.randomUUID().toString());
+        String player2UuidStr = FirestoreUtils.getString(map, "player2Uuid", UUID.randomUUID().toString());
         UUID player2Uuid = UUID.fromString(player2UuidStr);
         
-        String player2Name = JsonUtil.getStringValue(fields, "player2Name", "");
+        String player2Name = FirestoreUtils.getString(map, "player2Name");
         
-        long createdAt = JsonUtil.getLongValue(fields, "createdAt", System.currentTimeMillis());
+        long createdAt = FirestoreUtils.getLong(map, "createdAt", System.currentTimeMillis());
         
         return new FriendshipDTO(player1Uuid, player1Name, player2Uuid, player2Name, createdAt);
     }

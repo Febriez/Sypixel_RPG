@@ -1,8 +1,10 @@
 package com.febrie.rpg.dto.system;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 순위표 항목 DTO (Record)
@@ -26,41 +28,37 @@ public record LeaderboardEntryDTO(
     }
     
     /**
-     * JsonObject로 변환
+     * Map으로 변환
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
         
-        fields.add("playerUuid", JsonUtil.createStringValue(playerUuid));
-        fields.add("playerName", JsonUtil.createStringValue(playerName));
-        fields.add("rank", JsonUtil.createIntegerValue(rank));
-        fields.add("value", JsonUtil.createIntegerValue(value));
-        fields.add("type", JsonUtil.createStringValue(type));
-        fields.add("lastUpdated", JsonUtil.createIntegerValue(lastUpdated));
+        map.put("playerUuid", playerUuid);
+        map.put("playerName", playerName);
+        map.put("rank", rank);
+        map.put("value", value);
+        map.put("type", type);
+        map.put("lastUpdated", lastUpdated);
         
-        json.add("fields", fields);
-        return json;
+        return map;
     }
     
     /**
-     * JsonObject에서 LeaderboardEntryDTO 생성
+     * Map에서 LeaderboardEntryDTO 생성
      */
     @NotNull
-    public static LeaderboardEntryDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
+    public static LeaderboardEntryDTO fromMap(@NotNull Map<String, Object> map) {
+        if (map.isEmpty()) {
             return new LeaderboardEntryDTO("", "", 0, 0L, "");
         }
         
-        JsonObject fields = json.getAsJsonObject("fields");
-        
-        String playerUuid = JsonUtil.getStringValue(fields, "playerUuid", "");
-        String playerName = JsonUtil.getStringValue(fields, "playerName", "");
-        int rank = (int) JsonUtil.getLongValue(fields, "rank", 0L);
-        long value = JsonUtil.getLongValue(fields, "value", 0L);
-        String type = JsonUtil.getStringValue(fields, "type", "");
-        long lastUpdated = JsonUtil.getLongValue(fields, "lastUpdated", System.currentTimeMillis());
+        String playerUuid = FirestoreUtils.getString(map, "playerUuid");
+        String playerName = FirestoreUtils.getString(map, "playerName");
+        int rank = FirestoreUtils.getInt(map, "rank");
+        long value = FirestoreUtils.getLong(map, "value");
+        String type = FirestoreUtils.getString(map, "type");
+        long lastUpdated = FirestoreUtils.getLong(map, "lastUpdated", System.currentTimeMillis());
         
         return new LeaderboardEntryDTO(playerUuid, playerName, rank, value, type, lastUpdated);
     }

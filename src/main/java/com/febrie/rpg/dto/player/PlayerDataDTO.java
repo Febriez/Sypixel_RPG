@@ -1,9 +1,10 @@
 package com.febrie.rpg.dto.player;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -24,55 +25,35 @@ public record PlayerDataDTO(
         );
     }
     
+    
     /**
-     * JsonObject로 변환
+     * Map으로 변환 (Firestore SDK용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
-        
-        // Profile
-        fields.add("profile", JsonUtil.createMapValue(profile.toJsonObject()));
-        
-        // Wallet
-        fields.add("wallet", JsonUtil.createMapValue(wallet.toJsonObject()));
-        
-        json.add("fields", fields);
-        return json;
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("profile", profile.toMap());
+        map.put("wallet", wallet.toMap());
+        return map;
     }
     
     /**
-     * JsonObject에서 생성
+     * Map에서 생성 (Firestore SDK용)
      */
     @NotNull
-    public static PlayerDataDTO fromJsonObject(@NotNull JsonObject json) {
-        JsonUtil.validateDTOJson(json, "PlayerDataDTO");
+    public static PlayerDataDTO fromMap(@NotNull Map<String, Object> map) {
+        Map<String, Object> profileMap = FirestoreUtils.getMap(map, "profile", new HashMap<>());
+        Map<String, Object> walletMap = FirestoreUtils.getMap(map, "wallet", new HashMap<>());
         
-        JsonObject fields = json.getAsJsonObject("fields");
-        
-        // Profile
-        JsonObject profileMap = JsonUtil.getMapValue(fields, "profile");
-        PlayerProfileDTO profile;
-        try {
-            profile = profileMap.size() > 0 
-                    ? PlayerProfileDTO.fromJsonObject(profileMap)
-                    : new PlayerProfileDTO(UUID.randomUUID(), "", 1, 0, 0, System.currentTimeMillis());
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Failed to parse PlayerDataDTO.profile: " + e.getMessage(), e);
-        }
-        
-        // Wallet
-        JsonObject walletMap = JsonUtil.getMapValue(fields, "wallet");
-        WalletDTO wallet;
-        try {
-            wallet = walletMap.size() > 0 
-                    ? WalletDTO.fromJsonObject(walletMap)
-                    : new WalletDTO();
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Failed to parse PlayerDataDTO.wallet: " + e.getMessage(), e);
-        }
+        PlayerProfileDTO profile = profileMap.isEmpty() 
+            ? new PlayerProfileDTO(UUID.randomUUID(), "", 1, 0, 0, System.currentTimeMillis())
+            : PlayerProfileDTO.fromMap(profileMap);
+            
+        WalletDTO wallet = walletMap.isEmpty() 
+            ? new WalletDTO()
+            : WalletDTO.fromMap(walletMap);
         
         return new PlayerDataDTO(profile, wallet);
     }
+    
 }

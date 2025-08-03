@@ -1,11 +1,11 @@
 package com.febrie.rpg.dto.social;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -43,53 +43,51 @@ public record FriendRequestDTO(
     }
     
     /**
-     * JsonObject로 변환
+     * Map으로 변환
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
         
         if (id != null) {
-            fields.add("id", JsonUtil.createStringValue(id));
+            map.put("id", id);
         }
-        fields.add("fromPlayerId", JsonUtil.createStringValue(fromPlayerId.toString()));
-        fields.add("fromPlayerName", JsonUtil.createStringValue(fromPlayerName));
-        fields.add("toPlayerId", JsonUtil.createStringValue(toPlayerId.toString()));
-        fields.add("toPlayerName", JsonUtil.createStringValue(toPlayerName));
-        fields.add("requestTime", JsonUtil.createStringValue(requestTime.toString()));
-        fields.add("status", JsonUtil.createStringValue(status));
+        map.put("fromPlayerId", fromPlayerId.toString());
+        map.put("fromPlayerName", fromPlayerName);
+        map.put("toPlayerId", toPlayerId.toString());
+        map.put("toPlayerName", toPlayerName);
+        map.put("requestTime", requestTime.toString());
+        map.put("status", status);
         if (message != null) {
-            fields.add("message", JsonUtil.createStringValue(message));
+            map.put("message", message);
         }
         
-        return JsonUtil.wrapInDocument(fields);
+        return map;
     }
     
     /**
-     * JsonObject에서 FriendRequestDTO 생성
+     * Map에서 FriendRequestDTO 생성
      */
     @NotNull
-    public static FriendRequestDTO fromJsonObject(@NotNull JsonObject json) {
-        JsonObject fields = JsonUtil.unwrapDocument(json);
+    public static FriendRequestDTO fromMap(@NotNull Map<String, Object> map) {
+        String id = (String) map.get("id");
         
-        String id = JsonUtil.getStringValue(fields, "id", null);
-        
-        String fromPlayerIdStr = JsonUtil.getStringValue(fields, "fromPlayerId", UUID.randomUUID().toString());
+        String fromPlayerIdStr = (String) map.getOrDefault("fromPlayerId", UUID.randomUUID().toString());
         UUID fromPlayerId = UUID.fromString(fromPlayerIdStr);
         
-        String fromPlayerName = JsonUtil.getStringValue(fields, "fromPlayerName", "");
+        String fromPlayerName = (String) map.getOrDefault("fromPlayerName", "");
         
-        String toPlayerIdStr = JsonUtil.getStringValue(fields, "toPlayerId", UUID.randomUUID().toString());
+        String toPlayerIdStr = (String) map.getOrDefault("toPlayerId", UUID.randomUUID().toString());
         UUID toPlayerId = UUID.fromString(toPlayerIdStr);
         
-        String toPlayerName = JsonUtil.getStringValue(fields, "toPlayerName", "");
+        String toPlayerName = (String) map.getOrDefault("toPlayerName", "");
         
-        String requestTimeStr = JsonUtil.getStringValue(fields, "requestTime", LocalDateTime.now().toString());
+        String requestTimeStr = (String) map.getOrDefault("requestTime", LocalDateTime.now().toString());
         LocalDateTime requestTime = LocalDateTime.parse(requestTimeStr);
         
-        String status = JsonUtil.getStringValue(fields, "status", "PENDING");
+        String status = (String) map.getOrDefault("status", "PENDING");
         
-        String message = JsonUtil.getStringValue(fields, "message", null);
+        String message = (String) map.get("message");
         
         return new FriendRequestDTO(id, fromPlayerId, fromPlayerName, toPlayerId, 
                                    toPlayerName, requestTime, status, message);

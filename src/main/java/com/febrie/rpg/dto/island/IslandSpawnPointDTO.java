@@ -1,7 +1,6 @@
 package com.febrie.rpg.dto.island;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
@@ -65,41 +64,34 @@ public record IslandSpawnPointDTO(
     }
     
     /**
-     * JsonObject로 변환 (Firebase 저장용)
+     * Map으로 변환 (Firebase 저장용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
         
-        fields.add("x", JsonUtil.createDoubleValue(x));
-        fields.add("y", JsonUtil.createDoubleValue(y));
-        fields.add("z", JsonUtil.createDoubleValue(z));
-        fields.add("yaw", JsonUtil.createDoubleValue(yaw));
-        fields.add("pitch", JsonUtil.createDoubleValue(pitch));
-        fields.add("alias", JsonUtil.createStringValue(alias));
+        map.put("x", x);
+        map.put("y", y);
+        map.put("z", z);
+        map.put("yaw", yaw);
+        map.put("pitch", pitch);
+        map.put("alias", alias);
         
-        json.add("fields", fields);
-        return json;
+        return map;
     }
     
     /**
-     * JsonObject에서 생성
+     * Map에서 생성
      */
     @NotNull
-    public static IslandSpawnPointDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            return createDefault();
-        }
+    public static IslandSpawnPointDTO fromMap(@NotNull Map<String, Object> map) {
+        double x = FirestoreUtils.getDouble(map, "x", 0.0);
+        double y = FirestoreUtils.getDouble(map, "y", 64.0);
+        double z = FirestoreUtils.getDouble(map, "z", 0.0);
+        float yaw = FirestoreUtils.getFloat(map, "yaw", 0.0f);
+        float pitch = FirestoreUtils.getFloat(map, "pitch", 0.0f);
         
-        JsonObject fields = json.getAsJsonObject("fields");
-        
-        double x = JsonUtil.getDoubleValue(fields, "x", 0.0);
-        double y = JsonUtil.getDoubleValue(fields, "y", 64.0);
-        double z = JsonUtil.getDoubleValue(fields, "z", 0.0);
-        float yaw = (float) JsonUtil.getDoubleValue(fields, "yaw", 0.0);
-        float pitch = (float) JsonUtil.getDoubleValue(fields, "pitch", 0.0);
-        String alias = JsonUtil.getStringValue(fields, "alias", "섬 중앙");
+        String alias = (String) map.getOrDefault("alias", "섬 중앙");
         
         return new IslandSpawnPointDTO(x, y, z, yaw, pitch, alias);
     }

@@ -320,6 +320,8 @@
     "claim-all": "모두 받기",
     "claim-all-desc": "모든 보상을 인벤토리로 가져옵니다",
     "already-claimed": "이미 보상을 수령했습니다",
+    "click-to-claim": "클릭하여 수령",
+    "claimed": "수령 완료",
     "inventory-full": "인벤토리가 가득 찼습니다",
     "not-enough-space": "인벤토리 공간이 부족합니다",
     "confirm-destroy": "정말로 모든 보상을 파괴하시겠습니까?",

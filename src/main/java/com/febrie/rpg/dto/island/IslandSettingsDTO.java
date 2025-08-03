@@ -1,8 +1,9 @@
 package com.febrie.rpg.dto.island;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 섬 설정 정보 DTO
@@ -28,27 +29,27 @@ public record IslandSettingsDTO(
     }
     
     /**
-     * JsonObject로 변환 (Firebase 저장용)
+     * Map으로 변환 (Firebase 저장용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
         
-        fields.add("nameColorHex", JsonUtil.createStringValue(nameColorHex));
-        fields.add("biome", JsonUtil.createStringValue(biome));
-        fields.add("template", JsonUtil.createStringValue(template));
+        map.put("nameColorHex", nameColorHex);
+        map.put("biome", biome);
+        map.put("template", template);
         
-        return fields;
+        return map;
     }
     
     /**
-     * JsonObject에서 생성
+     * Map에서 생성
      */
     @NotNull
-    public static IslandSettingsDTO fromJsonObject(@NotNull JsonObject fields) {
-        String colorHex = JsonUtil.getStringValue(fields, "nameColorHex", "#FFFF00");
-        String biome = JsonUtil.getStringValue(fields, "biome", "PLAINS");
-        String template = JsonUtil.getStringValue(fields, "template", "BASIC");
+    public static IslandSettingsDTO fromMap(@NotNull Map<String, Object> map) {
+        String colorHex = map.containsKey("nameColorHex") ? (String) map.get("nameColorHex") : "#FFFF00";
+        String biome = map.containsKey("biome") ? (String) map.get("biome") : "PLAINS";
+        String template = map.containsKey("template") ? (String) map.get("template") : "BASIC";
                 
         return new IslandSettingsDTO(colorHex, biome, template);
     }

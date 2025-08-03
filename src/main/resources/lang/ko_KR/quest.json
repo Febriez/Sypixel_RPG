@@ -88,6 +88,17 @@
       }
     }
   },
+  "main": {
+    "heroes-journey": {
+      "name": "영웅의 여정"
+    },
+    "path-of-light": {
+      "name": "빛의 길"
+    },
+    "path-of-darkness": {
+      "name": "어둠의 길"
+    }
+  },
   "daily": {
     "hunting": {
       "name": "일일 사냥",

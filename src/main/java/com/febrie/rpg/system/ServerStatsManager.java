@@ -203,7 +203,6 @@ public class ServerStatsManager {
             
         } catch (Exception e) {
             LogUtil.error("서버 통계 동기 저장 중 오류 발생", e);
-            e.printStackTrace();
         }
     }
     

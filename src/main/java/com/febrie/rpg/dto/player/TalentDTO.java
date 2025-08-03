@@ -1,7 +1,6 @@
 package com.febrie.rpg.dto.player;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,35 +42,36 @@ public record TalentDTO(
     }
 
     /**
-     * JsonObject로 변환
+     * Map으로 변환
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
 
-        fields.add("availablePoints", JsonUtil.createIntegerValue(availablePoints));
-        fields.add("learnedTalents", JsonUtil.createMapField(learnedTalents,
-                value -> JsonUtil.createIntegerValue(value)));
+        map.put("availablePoints", availablePoints);
+        map.put("learnedTalents", new HashMap<>(learnedTalents));
 
-        return JsonUtil.wrapInDocument(fields);
+        return map;
     }
 
     /**
-     * JsonObject에서 TalentDTO 생성
+     * Map에서 TalentDTO 생성
      */
     @NotNull
-    public static TalentDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            return new TalentDTO();
+    @SuppressWarnings("unchecked")
+    public static TalentDTO fromMap(@NotNull Map<String, Object> map) {
+        int availablePoints = FirestoreUtils.getInt(map, "availablePoints", 0);
+
+        Map<String, Integer> learnedTalents = new HashMap<>();
+        Object learnedTalentsObj = map.get("learnedTalents");
+        if (learnedTalentsObj instanceof Map) {
+            Map<String, Object> learnedTalentsMap = (Map<String, Object>) learnedTalentsObj;
+            for (Map.Entry<String, Object> entry : learnedTalentsMap.entrySet()) {
+                if (entry.getValue() instanceof Number) {
+                    learnedTalents.put(entry.getKey(), ((Number) entry.getValue()).intValue());
+                }
+            }
         }
-
-        JsonObject fields = JsonUtil.unwrapDocument(json);
-
-        int availablePoints = JsonUtil.getIntegerValue(fields, "availablePoints", 0);
-
-        Map<String, Integer> learnedTalents = JsonUtil.getMapField(fields, "learnedTalents",
-                key -> key,
-                obj -> JsonUtil.getIntegerValue(obj, "integerValue", 0));
 
         return new TalentDTO(availablePoints, learnedTalents);
     }

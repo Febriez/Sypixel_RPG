@@ -117,7 +117,7 @@ public final class GuiHandlerUtil {
         } catch (Exception e) {
             String message = errorMessage != null ? errorMessage : "작업 중 오류가 발생했습니다.";
             player.sendMessage(Component.text(message, NamedTextColor.RED));
-            e.printStackTrace();
+            LogUtil.error("GUI 작업 중 오류 발생", e);
         }
     }
     
@@ -232,7 +232,7 @@ public final class GuiHandlerUtil {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.warning("GUI 빈 슬롯 채우기 실패: " + e.getMessage());
         }
     }
 }

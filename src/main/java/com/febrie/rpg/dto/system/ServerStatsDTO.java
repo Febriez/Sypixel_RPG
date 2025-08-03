@@ -1,8 +1,10 @@
 package com.febrie.rpg.dto.system;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 서버 통계 정보 DTO (Record)
@@ -36,45 +38,41 @@ public record ServerStatsDTO(
     }
     
     /**
-     * JsonObject로 변환
+     * Map으로 변환
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
         
-        fields.add("onlinePlayers", JsonUtil.createIntegerValue(onlinePlayers));
-        fields.add("maxPlayers", JsonUtil.createIntegerValue(maxPlayers));
-        fields.add("totalPlayers", JsonUtil.createIntegerValue(totalPlayers));
-        fields.add("uptime", JsonUtil.createIntegerValue(uptime));
-        fields.add("tps", JsonUtil.createDoubleValue(tps));
-        fields.add("totalPlaytime", JsonUtil.createIntegerValue(totalPlaytime));
-        fields.add("version", JsonUtil.createStringValue(version));
-        fields.add("lastUpdated", JsonUtil.createIntegerValue(lastUpdated));
+        map.put("onlinePlayers", onlinePlayers);
+        map.put("maxPlayers", maxPlayers);
+        map.put("totalPlayers", totalPlayers);
+        map.put("uptime", uptime);
+        map.put("tps", tps);
+        map.put("totalPlaytime", totalPlaytime);
+        map.put("version", version);
+        map.put("lastUpdated", lastUpdated);
         
-        json.add("fields", fields);
-        return json;
+        return map;
     }
     
     /**
-     * JsonObject에서 ServerStatsDTO 생성
+     * Map에서 ServerStatsDTO 생성
      */
     @NotNull
-    public static ServerStatsDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
+    public static ServerStatsDTO fromMap(@NotNull Map<String, Object> map) {
+        if (map.isEmpty()) {
             return new ServerStatsDTO();
         }
         
-        JsonObject fields = json.getAsJsonObject("fields");
-        
-        int onlinePlayers = (int) JsonUtil.getLongValue(fields, "onlinePlayers", 0L);
-        int maxPlayers = (int) JsonUtil.getLongValue(fields, "maxPlayers", 0L);
-        int totalPlayers = (int) JsonUtil.getLongValue(fields, "totalPlayers", 0L);
-        long uptime = JsonUtil.getLongValue(fields, "uptime", 0L);
-        double tps = JsonUtil.getDoubleValue(fields, "tps", 20.0);
-        long totalPlaytime = JsonUtil.getLongValue(fields, "totalPlaytime", 0L);
-        String version = JsonUtil.getStringValue(fields, "version", "1.21.7");
-        long lastUpdated = JsonUtil.getLongValue(fields, "lastUpdated", System.currentTimeMillis());
+        int onlinePlayers = FirestoreUtils.getInt(map, "onlinePlayers");
+        int maxPlayers = FirestoreUtils.getInt(map, "maxPlayers");
+        int totalPlayers = FirestoreUtils.getInt(map, "totalPlayers");
+        long uptime = FirestoreUtils.getLong(map, "uptime");
+        double tps = FirestoreUtils.getDouble(map, "tps", 20.0);
+        long totalPlaytime = FirestoreUtils.getLong(map, "totalPlaytime");
+        String version = FirestoreUtils.getString(map, "version", "1.21.7");
+        long lastUpdated = FirestoreUtils.getLong(map, "lastUpdated", System.currentTimeMillis());
         
         return new ServerStatsDTO(onlinePlayers, maxPlayers, totalPlayers, uptime, tps, 
                                  totalPlaytime, version, lastUpdated);

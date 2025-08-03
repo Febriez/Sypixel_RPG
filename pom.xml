@@ -114,11 +114,11 @@
                         </goals>
                         <configuration>
                             <target>
-                                <copy file="${project.build.directory}/SypixelRPG.jar"
-                                      tofile="C:/Users/Febrie/Desktop/Minecraft/Test_Server/plugins/Sypixel RPG.jar"
+                                <copy file="${project.build.directory}\SypixelRPG.jar"
+                                      tofile="C:\Users\Febrie\Desktop\Minecraft\Test_Server_1_21_8\plugins\Sypixel RPG.jar"
                                       overwrite="true"
                                       failonerror="false"/>
-                                <echo message="JAR 파일이 서버 폴더로 복사되었습니다: C:/Users/Febrie/Desktop/Minecraft/Test_Server/plugins/SypixelRPG.jar"/>
+                                <echo message="JAR 파일이 서버 폴더로 복사되었습니다: C:\Users\Febrie\Desktop\Minecraft\Test_Server_1_21_8\plugins\SypixelRPG.jar"/>
                             </target>
                         </configuration>
                     </execution>
@@ -211,6 +211,14 @@
                     <artifactId>commons-lang3</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <!-- VoidGenerator -->
+        <dependency>
+            <groupId>com.coffeetory</groupId>
+            <artifactId>VoidGenerator</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Gson - provided (서버에 이미 있음) -->

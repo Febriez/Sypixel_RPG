@@ -4,6 +4,7 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.service.BaseFirestoreService;
 import com.febrie.rpg.dto.island.IslandRole;
 import com.febrie.rpg.dto.island.PlayerIslandDataDTO;
+import com.febrie.rpg.util.FirestoreUtils;
 import com.febrie.rpg.util.LogUtil;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
@@ -22,7 +23,7 @@ import java.util.Map;
 public class PlayerIslandDataService extends BaseFirestoreService<PlayerIslandDataDTO> {
     
     public PlayerIslandDataService(@NotNull RPGMain plugin, @NotNull Firestore firestore) {
-        super(plugin, firestore, "playerIslandData", PlayerIslandDataDTO.class);
+        super(plugin, firestore, "PlayerIslandData", PlayerIslandDataDTO.class);
     }
     
     @Override
@@ -68,24 +69,10 @@ public class PlayerIslandDataService extends BaseFirestoreService<PlayerIslandDa
                 role = IslandRole.valueOf(roleStr);
             }
             
-            Integer totalIslandResets = document.getLong("totalIslandResets") != null 
-                ? document.getLong("totalIslandResets").intValue() 
-                : 0;
-            
-            Long totalContribution = document.getLong("totalContribution");
-            if (totalContribution == null) {
-                totalContribution = 0L;
-            }
-            
-            Long lastJoined = document.getLong("lastJoined");
-            if (lastJoined == null) {
-                lastJoined = System.currentTimeMillis();
-            }
-            
-            Long lastActivity = document.getLong("lastActivity");
-            if (lastActivity == null) {
-                lastActivity = lastJoined;
-            }
+            int totalIslandResets = FirestoreUtils.getInt(document, "totalIslandResets");
+            long totalContribution = FirestoreUtils.getLong(document, "totalContribution");
+            long lastJoined = FirestoreUtils.getLong(document, "lastJoined", System.currentTimeMillis());
+            long lastActivity = FirestoreUtils.getLong(document, "lastActivity", lastJoined);
             
             return new PlayerIslandDataDTO(playerUuid, currentIslandId, role, totalIslandResets, totalContribution, lastJoined, lastActivity);
             

@@ -1,7 +1,6 @@
 package com.febrie.rpg.dto.player;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -21,7 +20,22 @@ public record WalletDTO(
      * 기본 생성자 - 신규 플레이어용
      */
     public WalletDTO() {
-        this(new HashMap<>(), System.currentTimeMillis());
+        this(getDefaultCurrencies(), System.currentTimeMillis());
+    }
+    
+    /**
+     * 기본 재화 값 가져오기
+     */
+    private static Map<String, Long> getDefaultCurrencies() {
+        Map<String, Long> defaults = new HashMap<>();
+        // CurrencyType enum의 실제 ID 사용
+        defaults.put("gold", 100L);
+        defaults.put("diamond", 0L);
+        defaults.put("emerald", 0L);
+        defaults.put("ghast_tear", 0L);
+        defaults.put("nether_star", 0L);
+        defaults.put("exp", 0L);
+        return defaults;
     }
 
     /**
@@ -40,40 +54,39 @@ public record WalletDTO(
         return new HashMap<>(currencies);
     }
     
+    
     /**
-     * JsonObject로 변환 (서브필드용)
+     * Map으로 변환 (Firestore SDK용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject walletData = new JsonObject();
-        JsonObject fields = new JsonObject();
-        currencies.forEach((key, value) -> {
-            fields.add(key, JsonUtil.createIntegerValue(value));
-        });
-        walletData.add("fields", fields);
-        return walletData;
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("gold", currencies.getOrDefault("gold", 0L));
+        map.put("diamond", currencies.getOrDefault("diamond", 0L));
+        map.put("emerald", currencies.getOrDefault("emerald", 0L));
+        map.put("ghast_tear", currencies.getOrDefault("ghast_tear", 0L));
+        map.put("nether_star", currencies.getOrDefault("nether_star", 0L));
+        map.put("exp", currencies.getOrDefault("exp", 0L));
+        map.put("lastUpdated", lastUpdated);
+        return map;
     }
     
     /**
-     * JsonObject에서 WalletDTO 생성 (서브필드용)
+     * Map에서 생성 (Firestore SDK용)
      */
     @NotNull
-    public static WalletDTO fromJsonObject(@NotNull JsonObject json) {
+    public static WalletDTO fromMap(@NotNull Map<String, Object> map) {
         Map<String, Long> currencies = new HashMap<>();
-        long lastUpdated = System.currentTimeMillis();
+        currencies.put("gold", FirestoreUtils.getLong(map, "gold", 100L));
+        currencies.put("diamond", FirestoreUtils.getLong(map, "diamond", 0L));
+        currencies.put("emerald", FirestoreUtils.getLong(map, "emerald", 0L));
+        currencies.put("ghast_tear", FirestoreUtils.getLong(map, "ghast_tear", 0L));
+        currencies.put("nether_star", FirestoreUtils.getLong(map, "nether_star", 0L));
+        currencies.put("exp", FirestoreUtils.getLong(map, "exp", 0L));
         
-        // fields 구조가 있는 경우와 없는 경우 모두 처리
-        JsonObject fieldsObj = json;
-        if (json.has("fields") && json.get("fields").isJsonObject()) {
-            fieldsObj = json.getAsJsonObject("fields");
-        }
-        
-        fieldsObj.entrySet().forEach(entry -> {
-            if (entry.getValue().isJsonObject()) {
-                currencies.put(entry.getKey(), JsonUtil.getLongValue(entry.getValue().getAsJsonObject(), "integerValue", 0L));
-            }
-        });
+        long lastUpdated = FirestoreUtils.getLong(map, "lastUpdated", System.currentTimeMillis());
         
         return new WalletDTO(currencies, lastUpdated);
     }
+    
 }

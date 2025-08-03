@@ -1,7 +1,6 @@
 package com.febrie.rpg.dto.island;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -64,40 +63,31 @@ public record IslandVisitDTO(
     }
     
     /**
-     * JsonObject로 변환 (Firebase 저장용)
+     * Map으로 변환 (Firebase 저장용)
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
         
-        fields.add("visitorUuid", JsonUtil.createStringValue(visitorUuid));
-        fields.add("visitorName", JsonUtil.createStringValue(visitorName));
-        fields.add("visitedAt", JsonUtil.createIntegerValue(visitedAt));
-        fields.add("duration", JsonUtil.createIntegerValue(duration));
+        map.put("visitorUuid", visitorUuid);
+        map.put("visitorName", visitorName);
+        map.put("visitedAt", visitedAt);
+        map.put("duration", duration);
         
-        json.add("fields", fields);
-        return json;
+        return map;
     }
     
     /**
-     * JsonObject에서 생성
+     * Map에서 생성
      */
     @NotNull
-    public static IslandVisitDTO fromJsonObject(@NotNull JsonObject json) {
-        JsonUtil.validateDTOJson(json, "IslandVisitDTO");
-        
-        JsonObject fields = json.getAsJsonObject("fields");
-        
+    public static IslandVisitDTO fromMap(@NotNull Map<String, Object> map) {
         try {
-            // 필수 필드 검증
-            JsonUtil.validateRequiredField(fields, "visitorUuid", "IslandVisitDTO");
-            JsonUtil.validateRequiredField(fields, "visitorName", "IslandVisitDTO");
+            String visitorUuid = (String) map.getOrDefault("visitorUuid", "");
+            String visitorName = (String) map.getOrDefault("visitorName", "");
             
-            String visitorUuid = JsonUtil.getStringValue(fields, "visitorUuid");
-            String visitorName = JsonUtil.getStringValue(fields, "visitorName");
-            long visitedAt = JsonUtil.getLongValue(fields, "visitedAt", System.currentTimeMillis());
-            long duration = JsonUtil.getLongValue(fields, "duration", 0);
+            long visitedAt = FirestoreUtils.getLong(map, "visitedAt", System.currentTimeMillis());
+            long duration = FirestoreUtils.getLong(map, "duration", 0);
             
             // 유효성 검증
             if (visitorUuid.isEmpty()) {
@@ -137,9 +127,9 @@ public record IslandVisitDTO(
                 throw e;
             }
             throw new IllegalArgumentException(
-                String.format("Failed to parse IslandVisitDTO: %s. JSON structure: %s", 
+                String.format("Failed to parse IslandVisitDTO: %s. Map structure: %s", 
                     e.getMessage(), 
-                    json.toString().length() > 200 ? json.toString().substring(0, 200) + "..." : json.toString())
+                    map.toString().length() > 200 ? map.toString().substring(0, 200) + "..." : map.toString())
             );
         }
     }

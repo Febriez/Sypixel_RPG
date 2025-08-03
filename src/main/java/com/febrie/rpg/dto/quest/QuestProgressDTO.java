@@ -1,11 +1,11 @@
 package com.febrie.rpg.dto.quest;
 
-import com.febrie.rpg.util.JsonUtil;
-import com.google.gson.JsonObject;
+import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 퀘스트 진행도 DTO (Record)
@@ -45,51 +45,57 @@ public record QuestProgressDTO(String questId, String playerId, String state, in
     }
 
     /**
-     * JsonObject로 변환
+     * Map으로 변환
      */
     @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject fields = new JsonObject();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
 
-        fields.add("questId", JsonUtil.createStringValue(questId));
-        fields.add("playerId", JsonUtil.createStringValue(playerId));
-        fields.add("state", JsonUtil.createStringValue(state));
-        fields.add("currentObjectiveIndex", JsonUtil.createIntegerValue(currentObjectiveIndex));
-        fields.add("startedAt", JsonUtil.createIntegerValue(startedAt));
-        fields.add("lastUpdatedAt", JsonUtil.createIntegerValue(lastUpdatedAt));
-        fields.add("completedAt", JsonUtil.createIntegerValue(completedAt));
+        map.put("questId", questId);
+        map.put("playerId", playerId);
+        map.put("state", state);
+        map.put("currentObjectiveIndex", currentObjectiveIndex);
+        map.put("startedAt", startedAt);
+        map.put("lastUpdatedAt", lastUpdatedAt);
+        map.put("completedAt", completedAt);
 
         // objectives 맵
-        fields.add("objectives", JsonUtil.createMapField(objectives, ObjectiveProgressDTO::toJsonObject));
+        Map<String, Map<String, Object>> objectivesMap = objectives.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> entry.getValue().toMap()
+                ));
+        map.put("objectives", objectivesMap);
 
-        return JsonUtil.wrapInDocument(fields);
+        return map;
     }
 
     /**
-     * JsonObject에서 QuestProgressDTO 생성
+     * Map에서 QuestProgressDTO 생성
      */
     @NotNull
-    public static QuestProgressDTO fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            return new QuestProgressDTO("", "");
-        }
-
-        JsonObject fields = JsonUtil.unwrapDocument(json);
-
-        String questId = JsonUtil.getStringValue(fields, "questId", "");
-        String playerId = JsonUtil.getStringValue(fields, "playerId", "");
-        String state = JsonUtil.getStringValue(fields, "state", "ACTIVE");
-        int currentObjectiveIndex = JsonUtil.getIntegerValue(fields, "currentObjectiveIndex", 0);
-        long startedAt = JsonUtil.getLongValue(fields, "startedAt", System.currentTimeMillis());
-        long lastUpdatedAt = JsonUtil.getLongValue(fields, "lastUpdatedAt", System.currentTimeMillis());
-        long completedAt = JsonUtil.getLongValue(fields, "completedAt", 0L);
+    @SuppressWarnings("unchecked")
+    public static QuestProgressDTO fromMap(@NotNull Map<String, Object> map) {
+        String questId = (String) map.getOrDefault("questId", "");
+        String playerId = (String) map.getOrDefault("playerId", "");
+        String state = (String) map.getOrDefault("state", "ACTIVE");
+        
+        int currentObjectiveIndex = FirestoreUtils.getInt(map, "currentObjectiveIndex", 0);
+        long startedAt = FirestoreUtils.getLong(map, "startedAt", System.currentTimeMillis());
+        long lastUpdatedAt = FirestoreUtils.getLong(map, "lastUpdatedAt", System.currentTimeMillis());
+        long completedAt = FirestoreUtils.getLong(map, "completedAt", 0L);
 
         // objectives 맵
-        Map<String, ObjectiveProgressDTO> objectives = JsonUtil.getMapField(fields, "objectives", key -> key, obj -> {
-            JsonObject nestedDoc = new JsonObject();
-            nestedDoc.add("fields", obj.get("fields"));
-            return ObjectiveProgressDTO.fromJsonObject(nestedDoc);
-        });
+        Map<String, ObjectiveProgressDTO> objectives = new HashMap<>();
+        Object objectivesObj = map.get("objectives");
+        if (objectivesObj instanceof Map) {
+            Map<String, Object> objectivesMap = (Map<String, Object>) objectivesObj;
+            for (Map.Entry<String, Object> entry : objectivesMap.entrySet()) {
+                if (entry.getValue() instanceof Map) {
+                    objectives.put(entry.getKey(), ObjectiveProgressDTO.fromMap((Map<String, Object>) entry.getValue()));
+                }
+            }
+        }
 
         return new QuestProgressDTO(questId, playerId, state, currentObjectiveIndex, startedAt, lastUpdatedAt, completedAt, objectives);
     }
