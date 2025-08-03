@@ -90,9 +90,11 @@ public record IslandSpawnDTO(@NotNull IslandSpawnPointDTO defaultSpawn, // 기�
         // memberSpawns 맵 파싱
         Map<String, IslandSpawnPointDTO> memberSpawns = new HashMap<>();
         Map<String, Object> memberSpawnsMap = FirestoreUtils.getMap(map, "memberSpawns", new HashMap<>());
-        for (Map.Entry<String, Object> entry : memberSpawnsMap.entrySet()) {
-            if (entry.getValue() instanceof Map) {
-                memberSpawns.put(entry.getKey(), IslandSpawnPointDTO.fromMap((Map<String, Object>) entry.getValue()));
+        if (memberSpawnsMap != null) {
+            for (Map.Entry<String, Object> entry : memberSpawnsMap.entrySet()) {
+                if (entry.getValue() instanceof Map) {
+                    memberSpawns.put(entry.getKey(), IslandSpawnPointDTO.fromMap((Map<String, Object>) entry.getValue()));
+                }
             }
         }
 
