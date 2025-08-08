@@ -4,8 +4,8 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.BaseGui;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.manager.QuestManager;
-import com.febrie.rpg.quest.progress.QuestProgress;
-import com.febrie.rpg.quest.reward.UnclaimedReward;
+import com.febrie.rpg.dto.quest.ActiveQuestDTO;
+import com.febrie.rpg.dto.quest.CompletedQuestDTO;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import org.bukkit.Material;
@@ -67,9 +67,17 @@ public class QuestSelectionGui extends BaseGui {
     }
     
     private ItemStack createQuestItem(Quest quest) {
-        QuestProgress progress = questManager.getQuestProgress(viewer.getUniqueId(), quest.getId());
-        boolean isCompleted = progress != null && progress.isCompleted();
-        Material material = isCompleted ? Material.ENCHANTED_BOOK : Material.BOOK;
+        // 현재 진행 중인지 확인
+        java.util.Map<String, ActiveQuestDTO> activeQuests = questManager.getActiveQuests(viewer.getUniqueId());
+        boolean isActive = activeQuests.values().stream()
+                .anyMatch(data -> data.questId().equals(quest.getId().name()));
+        
+        // 완료된 퀘스트인지 확인
+        java.util.Map<String, CompletedQuestDTO> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
+        boolean hasReward = completedQuests.values().stream()
+                .anyMatch(data -> data.questId().equals(quest.getId().name()));
+        
+        Material material = hasReward ? Material.ENCHANTED_BOOK : Material.BOOK;
         
         ItemBuilder builder = new ItemBuilder(material)
                 .displayName(ColorUtil.parseComponent("&e&l" + quest.getDisplayName(plugin.getLangManager().getPlayerLanguage(viewer).equals("ko"))));
@@ -84,13 +92,10 @@ public class QuestSelectionGui extends BaseGui {
         builder.addLore(ColorUtil.parseComponent(""));
         
         // 상태 표시
-        if (isCompleted) {
+        if (hasReward) {
             builder.addLore(ColorUtil.parseComponent("&a✔ 완료됨"));
-            UnclaimedReward reward = questManager.getUnclaimedReward(viewer.getUniqueId(), quest.getId());
-            if (reward != null) {
-                builder.addLore(ColorUtil.parseComponent("&6⚡ 보상 수령 가능!"));
-            }
-        } else if (progress != null) {
+            builder.addLore(ColorUtil.parseComponent("&6⚡ 보상 수령 가능!"));
+        } else if (isActive) {
             builder.addLore(ColorUtil.parseComponent("&e진행 중..."));
         } else {
             builder.addLore(ColorUtil.parseComponent("&7새로운 퀘스트"));
@@ -140,14 +145,23 @@ public class QuestSelectionGui extends BaseGui {
             Quest quest = quests.get(index);
             player.closeInventory();
             
-            QuestProgress progress = questManager.getQuestProgress(player.getUniqueId(), quest.getId());
-            boolean isCompleted = progress != null && progress.isCompleted();
-            UnclaimedReward reward = questManager.getUnclaimedReward(player.getUniqueId(), quest.getId());
+            // 현재 진행 중인지 확인
+            java.util.Map<String, ActiveQuestDTO> activeQuests = questManager.getActiveQuests(player.getUniqueId());
+            java.util.Optional<java.util.Map.Entry<String, ActiveQuestDTO>> activeEntry = activeQuests.entrySet().stream()
+                    .filter(entry -> entry.getValue().questId().equals(quest.getId().name()))
+                    .findFirst();
             
-            if (isCompleted && reward != null) {
+            // 완료된 퀘스트인지 확인
+            java.util.Map<String, CompletedQuestDTO> completedQuests = questManager.getCompletedQuests(player.getUniqueId());
+            java.util.Optional<java.util.Map.Entry<String, CompletedQuestDTO>> completedEntry = completedQuests.entrySet().stream()
+                    .filter(entry -> entry.getValue().questId().equals(quest.getId().name()))
+                    .findFirst();
+            
+            if (completedEntry.isPresent()) {
                 // 보상 수령
-                QuestRewardGui.create(plugin.getGuiManager(), plugin.getLangManager(), viewer, quest).open(viewer);
-            } else if (progress != null) {
+                String instanceId = completedEntry.get().getKey();
+                QuestRewardGui.create(plugin.getGuiManager(), plugin.getLangManager(), viewer, quest, instanceId).open(viewer);
+            } else if (activeEntry.isPresent()) {
                 // 진행 상황 표시
                 player.sendMessage(Component.text("퀘스트 '" + quest.getDisplayName(viewer.locale().toString().startsWith("ko")) + "'를 진행 중입니다.", ColorUtil.YELLOW));
             } else {

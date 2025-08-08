@@ -132,8 +132,8 @@ public class QuestListGui extends BaseGui {
      * 카테고리 라벨 설정
      */
     private void setupCategoryLabels() {
-        List<QuestProgress> activeQuests = questManager.getActiveQuests(viewer.getUniqueId());
-        List<QuestID> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
+        var activeQuests = questManager.getActiveQuests(viewer.getUniqueId());
+        var completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
 
         // 진행 중인 퀘스트 라벨
         ItemBuilder activeBuilder = new ItemBuilder(Material.ENCHANTED_BOOK)
@@ -162,17 +162,22 @@ public class QuestListGui extends BaseGui {
      * 진행 중인 퀘스트 표시
      */
     private void displayActiveQuests() {
-        List<QuestProgress> activeQuests = questManager.getActiveQuests(viewer.getUniqueId());
+        java.util.Map<String, com.febrie.rpg.dto.quest.ActiveQuestDTO> activeQuests = questManager.getActiveQuests(viewer.getUniqueId());
 
         int count = 0;
         int row = 1; // 시작 행 (0부터 시작)
         int col = 1; // 시작 열 (1번 슬롯 = 왼쪽 3개 영역의 시작)
 
-        for (QuestProgress progress : activeQuests) {
+        for (java.util.Map.Entry<String, com.febrie.rpg.dto.quest.ActiveQuestDTO> entry : activeQuests.entrySet()) {
             if (count >= MAX_DISPLAY_QUESTS) break; // 최대 14개까지만 표시
 
-            Quest quest = questManager.getQuest(progress.getQuestId());
+            String instanceId = entry.getKey();
+            com.febrie.rpg.dto.quest.ActiveQuestDTO activeData = entry.getValue();
+            Quest quest = questManager.getQuest(QuestID.valueOf(activeData.questId()));
             if (quest == null) continue;
+            
+            QuestProgress progress = questManager.getQuestProgress(viewer.getUniqueId(), instanceId);
+            if (progress == null) continue;
 
             int slot = row * 9 + col;
             GuiItem questItem = createActiveQuestItem(quest, progress);
@@ -192,16 +197,16 @@ public class QuestListGui extends BaseGui {
      * 완료된 퀘스트 표시
      */
     private void displayCompletedQuests() {
-        List<QuestID> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
+        java.util.Map<String, com.febrie.rpg.dto.quest.CompletedQuestDTO> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
 
         int count = 0;
         int row = 1; // 시작 행 (0부터 시작)
         int col = 5; // 시작 열 (5번 슬롯 = 오른쪽 3개 영역의 시작)
 
-        for (QuestID questId : completedQuests) {
+        for (com.febrie.rpg.dto.quest.CompletedQuestDTO completedData : completedQuests.values()) {
             if (count >= MAX_DISPLAY_QUESTS) break; // 최대 14개까지만 표시
 
-            Quest quest = questManager.getQuest(questId);
+            Quest quest = questManager.getQuest(QuestID.valueOf(completedData.questId()));
             if (quest == null) continue;
 
             int slot = row * 9 + col;

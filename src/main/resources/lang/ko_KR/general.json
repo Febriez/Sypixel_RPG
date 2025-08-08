@@ -29,5 +29,8 @@
   "cannot-view-others-stats": "%COLOR_ERROR%다른 플레이어의 스탯은 볼 수 없습니다!",
   "cannot-view-others-talents": "%COLOR_ERROR%다른 플레이어의 특성은 볼 수 없습니다!",
   "cannot-view-others-quests": "%COLOR_ERROR%다른 플레이어의 퀘스트를 볼 수 없습니다!",
-  "cannot-view-others-combat-power": "%COLOR_ERROR%다른 플레이어의 전투력 상세정보를 볼 수 없습니다!"
+  "cannot-view-others-combat-power": "%COLOR_ERROR%다른 플레이어의 전투력 상세정보를 볼 수 없습니다!",
+  "teleport": {
+    "hub-success": "%COLOR_SUCCESS%허브로 이동했습니다!"
+  }
 }

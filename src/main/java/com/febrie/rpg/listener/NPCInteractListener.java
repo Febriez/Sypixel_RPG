@@ -35,7 +35,9 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Citizens NPC 상호작용 리스너
@@ -137,15 +139,23 @@ public class NPCInteractListener implements Listener {
             com.febrie.rpg.npc.trait.RPGQuestRewardTrait rewardTrait = npc.getOrAddTrait(com.febrie.rpg.npc.trait.RPGQuestRewardTrait.class);
             
             // 보상 수령 가능한 퀘스트가 있는지 확인
-            List<QuestID> unclaimedQuests = questManager.getUnclaimedRewardQuests(player.getUniqueId());
+            List<String> unclaimedQuestInstances = questManager.getUnclaimedRewardQuests(player.getUniqueId());
             boolean hasRewardsToClaimFromThisNPC = false;
             
-            if (!unclaimedQuests.isEmpty()) {
+            if (!unclaimedQuestInstances.isEmpty()) {
                 // 이 NPC가 특정 퀘스트만 담당하는 경우
                 if (!rewardTrait.getQuestIds().isEmpty()) {
                     List<QuestID> npcQuests = rewardTrait.getQuestIds();
-                    hasRewardsToClaimFromThisNPC = unclaimedQuests.stream()
-                            .anyMatch(npcQuests::contains);
+                    // instanceId로부터 questId 추출하여 비교
+                    hasRewardsToClaimFromThisNPC = unclaimedQuestInstances.stream()
+                            .anyMatch(instanceId -> {
+                                var completed = questManager.getCompletedQuestData(player.getUniqueId(), instanceId);
+                                if (completed != null) {
+                                    QuestID questId = QuestID.valueOf(completed.questId());
+                                    return npcQuests.contains(questId);
+                                }
+                                return false;
+                            });
                 } else {
                     // 모든 퀘스트 보상을 담당하는 경우
                     hasRewardsToClaimFromThisNPC = true;
@@ -193,80 +203,17 @@ public class NPCInteractListener implements Listener {
         // 먼저 NPC ID 기반 퀘스트 목표 체크
         if (trait.hasNpcId()) {
             // 현재 진행 중인 퀘스트에서 이 NPC와 관련된 목표 찾기
-            List<QuestProgress> activeQuests = questManager.getActiveQuests(player.getUniqueId());
+            java.util.Map<String, com.febrie.rpg.dto.quest.ActiveQuestDTO> activeQuests = questManager.getActiveQuests(player.getUniqueId());
             
-            for (QuestProgress progress : activeQuests) {
-                Quest quest = questManager.getQuest(progress.getQuestId());
+            for (java.util.Map.Entry<String, com.febrie.rpg.dto.quest.ActiveQuestDTO> entry : activeQuests.entrySet()) {
+                String instanceId = entry.getKey();
+                com.febrie.rpg.dto.quest.ActiveQuestDTO activeData = entry.getValue();
+                Quest quest = questManager.getQuest(QuestID.valueOf(activeData.questId()));
                 if (quest == null) continue;
                 
-                
-                // 순차 진행인 경우 현재 목표만, 자유 진행인 경우 모든 미완료 목표 확인
-                List<QuestObjective> objectivesToCheck = new ArrayList<>();
-                
-                if (quest.isSequential()) {
-                    // 순차 진행 - 현재 목표만
-                    int currentObjectiveIndex = progress.getCurrentObjectiveIndex();
-                    if (currentObjectiveIndex < quest.getObjectives().size()) {
-                        QuestObjective currentObj = quest.getObjectives().get(currentObjectiveIndex);
-                        objectivesToCheck.add(currentObj);
-                    }
-                } else {
-                    // 자유 진행 - 모든 미완료 목표
-                    for (QuestObjective objective : quest.getObjectives()) {
-                        ObjectiveProgress objProgress = progress.getObjective(objective.getId());
-                        if (objProgress != null && !objProgress.isCompleted()) {
-                            objectivesToCheck.add(objective);
-                        }
-                    }
-                }
-                
-                
-                // 각 목표 확인
-                for (QuestObjective objective : objectivesToCheck) {
-                    if (objective instanceof InteractNPCObjective interactObjective) {
-                        String npcId = interactObjective.getNpcId();
-                        
-                        if (npcId != null && npcId.equals(trait.getNpcId())) {
-                            // 퀘스트 목표 진행을 위해 원본 이벤트를 생성하여 전달
-                            // NPCRightClickEvent를 PlayerInteractEntityEvent로 전환할 수 없으므로
-                            // QuestManager에서 직접 처리하도록 수정
-                            ObjectiveProgress objProgress = progress.getObjective(objective.getId());
-                            if (objProgress != null && !objProgress.isCompleted()) {
-                                // 목표 진행도 증가
-                                objProgress.increment(1);
-                                
-                                // 목표 완료 체크
-                                if (objProgress.isCompleted()) {
-                                    // 목표 완료 알림
-                                    boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
-                                    player.sendMessage(Component.text("✓ ", ColorUtil.SUCCESS)
-                                            .append(Component.text(quest.getObjectiveDescription(objective, isKorean), ColorUtil.SUCCESS)));
-                                    SoundUtil.playSuccessSound(player);
-                                    
-                                    // 순차 진행인 경우 다음 목표로
-                                    if (quest.isSequential()) {
-                                        progress.setCurrentObjectiveIndex(progress.getCurrentObjectiveIndex() + 1);
-                                    }
-                                    
-                                    // 퀘스트 완료 체크
-                                    questManager.checkQuestCompletion(player.getUniqueId(), progress.getQuestId());
-                                } else {
-                                    // 진행도 알림
-                                    boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
-                                    String progressMsg = isKorean ? "퀘스트 진행: " : "Quest Progress: ";
-                                    player.sendMessage(Component.text(progressMsg, ColorUtil.INFO)
-                                            .append(Component.text(quest.getObjectiveDescription(objective, isKorean) + " " + objective.getProgressString(objProgress), ColorUtil.YELLOW)));
-                                    SoundUtil.playClickSound(player);
-                                }
-                                
-                                // 데이터 저장 예약
-                                questManager.markForSave(player.getUniqueId());
-                                
-                                return;
-                            }
-                        }
-                    }
-                }
+                // NPC 상호작용 처리
+                questManager.handleNPCInteraction(player, instanceId, trait.getNpcId());
+                return;
             }
             
             // 퀘스트 목표가 아닌 경우 아무 동작도 하지 않음
@@ -314,28 +261,48 @@ public class NPCInteractListener implements Listener {
         QuestID questId = quest.getId();
         
         // 이미 퀘스트를 진행 중인지 확인
-        boolean hasActiveQuest = questManager.getActiveQuests(player.getUniqueId()).stream()
-                .anyMatch(p -> p.getQuestId().equals(questId));
+        boolean hasActiveQuest = questManager.getActiveQuests(player.getUniqueId()).values().stream()
+                .anyMatch(p -> p.questId().equals(questId.name()));
 
         if (hasActiveQuest) {
-            // 진행 중인 퀘스트의 진행도 표시
-            showQuestProgress(player, quest);
+            // 진행 중인 퀘스트는 아무 동작도 하지 않음
             return;
         }
 
-        // 이미 완료했고 반복 불가능한지 확인
-        boolean hasCompleted = questManager.getCompletedQuests(player.getUniqueId())
-                .contains(questId);
+        // 완료 제한 확인 (QuestManager.startQuest와 동일한 로직)
+        boolean hasCompleted = questManager.getCompletedQuests(player.getUniqueId()).values().stream()
+                .anyMatch(c -> c.questId().equals(questId.name()));
         
-        if (hasCompleted && !quest.isRepeatable()) {
-            // 보상을 받지 않은 경우는 보상 NPC로 안내
-            if (questManager.getUnclaimedRewardQuests(player.getUniqueId()).contains(questId)) {
+        if (hasCompleted) {
+            // 먼저 보상을 받지 않은 경우 확인
+            // 미수령 보상 확인
+            List<String> unclaimedInstances = questManager.getUnclaimedRewardQuests(player.getUniqueId());
+            boolean hasUnclaimedReward = unclaimedInstances.stream()
+                .anyMatch(instanceId -> {
+                    var completed = questManager.getCompletedQuestData(player.getUniqueId(), instanceId);
+                    return completed != null && completed.questId().equals(questId.name());
+                });
+            
+            if (hasUnclaimedReward) {
                 player.sendMessage(Component.text("이 퀘스트는 완료했습니다. 보상 NPC를 찾아가세요.", ColorUtil.INFO));
                 return;
             }
-            // 보상까지 모두 받은 경우만 완료 메시지 표시
-            langManager.sendMessage(player, "quest.npc.already-completed");
-            return;
+            
+            // 완료 제한 확인
+            int completionLimit = quest.getCompletionLimit();
+            
+            // 완료 불가 퀘스트
+            if (completionLimit == 0) {
+                langManager.sendMessage(player, "quest.npc.already-completed");
+                return;
+            }
+            
+            // 완료 횟수 제한 확인 (-1은 무제한)
+            if (completionLimit > 0) {
+                // 실제로 startQuest를 호출하면 내부에서 체크하므로 여기서는 간단한 메시지만 표시
+                langManager.sendMessage(player, "quest.npc.already-completed");
+                return;
+            }
         }
         
         // 퀘스트 요구사항 확인
@@ -352,7 +319,9 @@ public class NPCInteractListener implements Listener {
         if (!quest.getPrerequisiteQuests().isEmpty()) {
             boolean hasCompletedAllPrereqs = true;
             for (QuestID prereqId : quest.getPrerequisiteQuests()) {
-                if (!questManager.getCompletedQuests(player.getUniqueId()).contains(prereqId)) {
+                boolean hasCompletedPrereq = questManager.getCompletedQuests(player.getUniqueId()).values().stream()
+                        .anyMatch(c -> c.questId().equals(prereqId.name()));
+                if (!hasCompletedPrereq) {
                     hasCompletedAllPrereqs = false;
                     break;
                 }
@@ -366,7 +335,9 @@ public class NPCInteractListener implements Listener {
         // 양자택일 퀘스트 확인
         if (!quest.getExclusiveQuests().isEmpty()) {
             for (QuestID exclusiveId : quest.getExclusiveQuests()) {
-                if (questManager.getCompletedQuests(player.getUniqueId()).contains(exclusiveId)) {
+                boolean hasCompletedExclusive = questManager.getCompletedQuests(player.getUniqueId()).values().stream()
+                        .anyMatch(c -> c.questId().equals(exclusiveId.name()));
+                if (hasCompletedExclusive) {
                     langManager.sendMessage(player, "quest.npc.mutually-exclusive");
                     return;
                 }
@@ -400,157 +371,70 @@ public class NPCInteractListener implements Listener {
      * Trait를 사용하는 퀘스트 보상 NPC 처리
      */
     private void handleQuestRewardNPCWithTrait(NPC npc, Player player, com.febrie.rpg.npc.trait.RPGQuestRewardTrait trait) {
-        // 보상 수령 가능한 퀘스트 목록 가져오기
-        List<QuestID> unclaimedQuests = questManager.getUnclaimedRewardQuests(player.getUniqueId());
+        // 보상 수령 가능한 퀘스트 인스턴스 목록 가져오기
+        List<String> unclaimedInstances = questManager.getUnclaimedRewardQuests(player.getUniqueId());
         
-        // 미수령 보상이 있는 퀘스트도 추가
-        List<QuestID> questsWithUnclaimedItems = new ArrayList<>();
-        for (QuestID questId : QuestID.values()) {
-            if (questManager.getUnclaimedReward(player.getUniqueId(), questId) != null) {
-                questsWithUnclaimedItems.add(questId);
+        // 퀘스트 ID로 변환
+        Set<QuestID> availableQuests = new HashSet<>();
+        for (String instanceId : unclaimedInstances) {
+            var completed = questManager.getCompletedQuestData(player.getUniqueId(), instanceId);
+            if (completed != null) {
+                try {
+                    QuestID questId = QuestID.valueOf(completed.questId());
+                    availableQuests.add(questId);
+                } catch (IllegalArgumentException ignored) {}
             }
         }
-        
-        // 중복 제거하고 합치기
-        java.util.Set<QuestID> allUnclaimedQuests = new java.util.HashSet<>(unclaimedQuests);
-        allUnclaimedQuests.addAll(questsWithUnclaimedItems);
         
         // 특정 퀘스트 ID가 설정된 경우
         if (!trait.getQuestIds().isEmpty()) {
             List<QuestID> npcQuests = trait.getQuestIds();
-            allUnclaimedQuests.retainAll(npcQuests); // NPC가 담당하는 퀘스트만 필터링
+            availableQuests.retainAll(npcQuests); // NPC가 담당하는 퀘스트만 필터링
         }
         
         // 보상 수령 가능한 퀘스트가 없는 경우
-        if (allUnclaimedQuests.isEmpty()) {
+        if (availableQuests.isEmpty()) {
             langManager.sendMessage(player, "quest.reward.no-rewards");
             SoundUtil.playErrorSound(player);
             return;
         }
         
         // 보상 수령 가능한 퀘스트가 1개인 경우 바로 보상 GUI 열기
-        if (allUnclaimedQuests.size() == 1) {
-            QuestID questId = allUnclaimedQuests.iterator().next();
+        if (availableQuests.size() == 1) {
+            QuestID questId = availableQuests.iterator().next();
             Quest quest = questManager.getQuest(questId);
             if (quest != null) {
-                com.febrie.rpg.gui.impl.quest.QuestRewardGui rewardGui = 
-                    com.febrie.rpg.gui.impl.quest.QuestRewardGui.create(guiManager, langManager, player, quest);
-                guiManager.openGui(player, rewardGui);
-                SoundUtil.playOpenSound(player);
+                // 해당 퀘스트의 첫 번째 인스턴스 찾기
+                String instanceId = unclaimedInstances.stream()
+                    .filter(id -> {
+                        var completed = questManager.getCompletedQuestData(player.getUniqueId(), id);
+                        return completed != null && completed.questId().equals(questId.name());
+                    })
+                    .findFirst()
+                    .orElse(null);
+                    
+                if (instanceId != null) {
+                    com.febrie.rpg.gui.impl.quest.QuestRewardGui rewardGui = 
+                        com.febrie.rpg.gui.impl.quest.QuestRewardGui.create(guiManager, langManager, player, quest, instanceId);
+                    guiManager.openGui(player, rewardGui);
+                    SoundUtil.playOpenSound(player);
+                }
             }
         } else {
             // 여러 개인 경우 선택 GUI 표시
             List<Quest> questsWithRewards = new ArrayList<>();
-            for (QuestID questId : unclaimedQuests) {
+            for (QuestID questId : availableQuests) {
                 Quest quest = questManager.getQuest(questId);
                 if (quest != null) {
                     questsWithRewards.add(quest);
                 }
             }
-            QuestSelectionGui.create(plugin, player, questsWithRewards, npc.getName()).open();
-            for (QuestID questId : allUnclaimedQuests) {
-                Quest quest = questManager.getQuest(questId);
-                if (quest != null) {
-                    boolean isKorean = player.locale().getLanguage().equals("ko");
-                    String questName = quest.getDisplayName(isKorean);
-                    
-                    // 미수령 아이템이 있는 경우 표시
-                    if (questsWithUnclaimedItems.contains(questId)) {
-                        com.febrie.rpg.quest.reward.UnclaimedReward unclaimed = 
-                                questManager.getUnclaimedReward(player.getUniqueId(), questId);
-                        if (unclaimed != null) {
-                            long remainingMinutes = unclaimed.getRemainingTime() / 1000 / 60;
-                            player.sendMessage(Component.text("- " + questName, ColorUtil.UNCOMMON)
-                                    .append(Component.text(" (미수령 보상 ", ColorUtil.WARNING))
-                                    .append(Component.text(remainingMinutes + "분 남음)", ColorUtil.ERROR)));
-                        }
-                    } else {
-                        player.sendMessage(Component.text("- " + questName, ColorUtil.UNCOMMON));
-                    }
-                }
+            
+            if (!questsWithRewards.isEmpty()) {
+                QuestSelectionGui.create(plugin, player, questsWithRewards, npc.getName()).open();
             }
         }
     }
     
-    /**
-     * 퀘스트 진행도 표시
-     */
-    private void showQuestProgress(Player player, Quest quest) {
-        var activeQuests = questManager.getActiveQuests(player.getUniqueId());
-        var progress = activeQuests.stream()
-                .filter(p -> p.getQuestId().equals(quest.getId()))
-                .findFirst()
-                .orElse(null);
-                
-        if (progress == null) return;
-        
-        boolean isKorean = player.locale().getLanguage().equals("ko");
-        
-        player.sendMessage(Component.empty());
-        player.sendMessage(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", ColorUtil.GRAY));
-        player.sendMessage(Component.text("📋 ", ColorUtil.GOLD)
-                .append(Component.text(quest.getDisplayName(isKorean), ColorUtil.LEGENDARY))
-                .append(Component.text(" " + langManager.getMessage(player, "quest.progress"), ColorUtil.COMMON)));
-        player.sendMessage(Component.empty());
-        
-        // 각 목표별 진행도 표시
-        List<QuestObjective> objectives = quest.getObjectives();
-        for (int i = 0; i < objectives.size(); i++) {
-            QuestObjective objective = objectives.get(i);
-            var objProgress = progress.getObjective(objective.getId());
-            
-            if (objProgress == null) continue;
-            
-            boolean isComplete = objProgress.isCompleted();
-            int current = objProgress.getCurrentValue();
-            int required = objProgress.getRequiredValue();
-            
-            // 체크박스 아이콘
-            String checkBox = isComplete ? "✅" : "☐";
-            
-            // 진행도 바
-            int barLength = 20;
-            int filledLength = (int) ((double) current / required * barLength);
-            StringBuilder progressBar = new StringBuilder();
-            progressBar.append("[");
-            for (int j = 0; j < barLength; j++) {
-                if (j < filledLength) {
-                    progressBar.append("█");
-                } else {
-                    progressBar.append("░");
-                }
-            }
-            progressBar.append("]");
-            
-            // 목표 설명
-            String description = quest.getObjectiveDescription(objective, isKorean);
-            
-            // 진행도 텍스트 (미완료: 노란색, 완료: 초록색)
-            Component progressText = Component.text(checkBox + " ", isComplete ? ColorUtil.SUCCESS : ColorUtil.YELLOW)
-                    .append(Component.text(description, isComplete ? ColorUtil.SUCCESS : ColorUtil.YELLOW))
-                    .append(Component.text(" ", ColorUtil.COMMON))
-                    .append(Component.text(progressBar.toString(), isComplete ? ColorUtil.SUCCESS : ColorUtil.YELLOW))
-                    .append(Component.text(" (" + current + "/" + required + ")", isComplete ? ColorUtil.SUCCESS : ColorUtil.YELLOW));
-                    
-            player.sendMessage(progressText);
-        }
-        
-        // 전체 진행률
-        int completedCount = (int) objectives.stream()
-                .filter(obj -> {
-                    var objProgress = progress.getObjective(obj.getId());
-                    return objProgress != null && objProgress.isCompleted();
-                })
-                .count();
-        
-        double totalProgress = (double) completedCount / objectives.size() * 100;
-        
-        player.sendMessage(Component.empty());
-        player.sendMessage(Component.text(langManager.getMessage(player, "quest.total-progress") + ": ", ColorUtil.COMMON)
-                .append(Component.text(String.format("%.1f%%", totalProgress), ColorUtil.GOLD)));
-        player.sendMessage(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", ColorUtil.GRAY));
-        
-        SoundUtil.playClickSound(player);
-    }
     
 }

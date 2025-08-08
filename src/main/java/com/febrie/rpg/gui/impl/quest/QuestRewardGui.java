@@ -2,7 +2,6 @@ package com.febrie.rpg.gui.impl.quest;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.economy.CurrencyType;
-import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
@@ -14,9 +13,8 @@ import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.quest.reward.MixedReward;
 import com.febrie.rpg.quest.reward.QuestReward;
-import com.febrie.rpg.quest.reward.UnclaimedReward;
+import com.febrie.rpg.dto.quest.CompletedQuestDTO;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.quest.reward.ClaimedRewardData;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
@@ -45,17 +43,19 @@ public class QuestRewardGui extends BaseGui {
     private static final int CLAIM_ALL_SLOT = 50; // 마지막 줄 가운데 오른쪽
 
     private final Quest quest;
+    private final String instanceId;
     private final QuestManager questManager;
     private final List<ItemStack> rewardItems;
     private final List<ItemStack> claimedItems;
     private boolean hasClaimed = false;
     private long rewardStartTime;
-    private ClaimedRewardData claimedRewardData;
+    private CompletedQuestDTO completedData;
 
     private QuestRewardGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
-                          @NotNull Player viewer, @NotNull Quest quest) {
+                          @NotNull Player viewer, @NotNull Quest quest, @NotNull String instanceId) {
         super(viewer, guiManager, langManager, GUI_SIZE, "gui.quest-reward.title");
         this.quest = quest;
+        this.instanceId = instanceId;
         this.questManager = QuestManager.getInstance();
         this.rewardItems = new ArrayList<>();
         this.claimedItems = new ArrayList<>();
@@ -72,8 +72,8 @@ public class QuestRewardGui extends BaseGui {
      * @return 초기화된 QuestRewardGui 인스턴스
      */
     public static QuestRewardGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
-                                       @NotNull Player viewer, @NotNull Quest quest) {
-        QuestRewardGui gui = new QuestRewardGui(guiManager, langManager, viewer, quest);
+                                       @NotNull Player viewer, @NotNull Quest quest, @NotNull String instanceId) {
+        QuestRewardGui gui = new QuestRewardGui(guiManager, langManager, viewer, quest, instanceId);
         gui.initialize("gui.quest-reward.title");
         return gui;
     }
@@ -81,17 +81,6 @@ public class QuestRewardGui extends BaseGui {
     @Override
     public @NotNull Component getTitle() {
         boolean isKorean = viewer.locale().getLanguage().equals("ko");
-        
-        // 미수령 보상이 있는 경우 남은 시간 표시
-        UnclaimedReward unclaimedReward = questManager.getUnclaimedReward(viewer.getUniqueId(), quest.getId());
-        if (unclaimedReward != null) {
-            long remainingTime = unclaimedReward.getRemainingTime();
-            String timeText = formatTime(remainingTime, isKorean);
-            
-            return trans("gui.quest-reward.title-with-expiry", "time", timeText)
-                    .append(Component.text(" - ", ColorUtil.GRAY))
-                    .append(Component.text(quest.getDisplayName(isKorean), ColorUtil.LEGENDARY));
-        }
         
         // 일반 타이틀
         return trans("gui.quest-reward.title")
@@ -150,21 +139,18 @@ public class QuestRewardGui extends BaseGui {
         // Quest의 reward에서 아이템 가져오기
         List<ItemStack> rewards = new ArrayList<>();
         
-        // 미수령 상태 확인
-        List<ItemStack> unclaimedItems = questManager.getUnclaimedItems(viewer.getUniqueId(), quest.getId());
-        if (!unclaimedItems.isEmpty()) {
-            rewards = unclaimedItems;
-            // 남은 시간 표시
-            UnclaimedReward unclaimedReward = questManager.getUnclaimedReward(viewer.getUniqueId(), quest.getId());
-            if (unclaimedReward != null) {
-                long remainingTime = unclaimedReward.getRemainingTime();
-                long minutes = remainingTime / 1000 / 60;
-                viewer.sendMessage(trans("gui.quest-reward.unclaimed-timer", "time", String.valueOf(minutes))
-                        .color(ColorUtil.WARNING));
+        // 완료된 퀘스트 데이터 가져오기
+        completedData = questManager.getCompletedQuestData(viewer.getUniqueId(), instanceId);
+        
+        if (completedData != null) {
+            // 미수령 아이템 가져오기
+            List<ItemStack> unclaimedItems = questManager.getUnclaimedItems(viewer.getUniqueId(), instanceId);
+            if (!unclaimedItems.isEmpty()) {
+                rewards = unclaimedItems;
             }
         } else {
             // 이미 보상을 완전히 받았는지 확인
-            if (questManager.hasReceivedAllRewards(viewer.getUniqueId(), quest.getId())) {
+            if (questManager.hasReceivedAllRewards(viewer.getUniqueId(), instanceId)) {
                 hasClaimed = true;
                 // 보상을 이미 받은 경우 안내 메시지
                 ItemStack alreadyClaimedDisplay = new ItemBuilder(Material.BARRIER)
@@ -188,10 +174,8 @@ public class QuestRewardGui extends BaseGui {
             }
         }
         
-        // 보상 수령 데이터 확인 및 생성
-        if (claimedRewardData == null && !rewards.isEmpty()) {
-            claimedRewardData = questManager.getOrCreateClaimedRewardData(viewer.getUniqueId(), quest.getId());
-        }
+        // 완료된 퀘스트 데이터가 없다면 새로 생성해야 하는 상황
+        // 하지만 이 GUI가 열리는 시점에는 이미 completedData가 있어야 함
         
         int slot = 0;
         int itemIndex = 0;
@@ -201,7 +185,7 @@ public class QuestRewardGui extends BaseGui {
             final int currentItemIndex = itemIndex;
             
             // 이미 수령한 아이템인지 확인
-            if (claimedRewardData != null && claimedRewardData.isItemClaimed(currentItemIndex)) {
+            if (completedData != null && completedData.isItemClaimed(currentItemIndex)) {
                 // 이미 수령한 아이템 표시
                 ItemStack claimedDisplay = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)
                         .displayName(trans("gui.quest-reward.claimed").color(ColorUtil.GRAY))
@@ -234,7 +218,7 @@ public class QuestRewardGui extends BaseGui {
                         rewardItems.remove(displayItem);
                         
                         // 수령 상태 저장
-                        questManager.markItemRewardClaimed(viewer.getUniqueId(), quest.getId(), currentItemIndex);
+                        questManager.markItemRewardClaimed(viewer.getUniqueId(), instanceId, currentItemIndex);
                         plugin.getLogger().info("Quest " + quest.getId() + " - 아이템 " + currentItemIndex + " 수령됨");
                         
                         // 빈 슬롯으로 변경
@@ -296,7 +280,7 @@ public class QuestRewardGui extends BaseGui {
             }
             
             // 확인 다이얼로그 열기
-            QuestRewardConfirmGui confirmGui = QuestRewardConfirmGui.create(guiManager, langManager, p, quest, this);
+            QuestRewardConfirmGui confirmGui = QuestRewardConfirmGui.create(guiManager, langManager, p, quest, instanceId, this);
             guiManager.openGui(p, confirmGui);
             SoundUtil.playClickSound(p);
         });
@@ -343,20 +327,19 @@ public class QuestRewardGui extends BaseGui {
             
             // 수령하지 않은 아이템만 필터링
             for (int i = 0; i < allRewards.size(); i++) {
-                if (claimedRewardData == null || !claimedRewardData.isItemClaimed(i)) {
+                if (completedData == null || !completedData.isItemClaimed(i)) {
                     unclaimedOnlyItems.add(allRewards.get(i));
                     totalItemCount++;
                 }
             }
             
             // 모든 아이템 지급
-            int currentIndex = 0;
             for (int i = 0; i < allRewards.size(); i++) {
-                if (claimedRewardData == null || !claimedRewardData.isItemClaimed(i)) {
+                if (completedData == null || !completedData.isItemClaimed(i)) {
                     ItemStack originalItem = allRewards.get(i).clone();
                     p.getInventory().addItem(originalItem);
                     claimedItems.add(originalItem);
-                    questManager.markItemRewardClaimed(viewer.getUniqueId(), quest.getId(), i);
+                    questManager.markItemRewardClaimed(viewer.getUniqueId(), instanceId, i);
                 }
             }
             rewardItems.clear();
@@ -376,18 +359,8 @@ public class QuestRewardGui extends BaseGui {
      */
     private void giveInstantRewards() {
         // 이미 즉시 보상을 받았는지 확인
-        if (claimedRewardData != null && claimedRewardData.isInstantRewardsClaimed()) {
+        if (completedData != null && completedData.instantRewardsClaimed()) {
             return; // 이미 받은 경우 중복 지급 방지
-        }
-        
-        // 미수령 보상이 있는 경우도 즉시 보상 지급 방지
-        if (questManager.getUnclaimedReward(viewer.getUniqueId(), quest.getId()) != null) {
-            return;
-        }
-        
-        // 즉시 보상 수령 여부 확인
-        if (claimedRewardData != null && claimedRewardData.isInstantRewardsClaimed()) {
-            return; // 이미 즉시 보상을 받은 경우
         }
         
         // RPGPlayer 가져오기
@@ -411,7 +384,7 @@ public class QuestRewardGui extends BaseGui {
         
         // 즉시 보상 수령 표시
         if (quest.getExpReward() > 0 || quest.getMoneyReward() > 0) {
-            questManager.markInstantRewardsClaimed(viewer.getUniqueId(), quest.getId());
+            questManager.markInstantRewardsClaimed(viewer.getUniqueId(), instanceId);
             
             // 아이템 보상이 없는 경우 퀘스트를 완전히 보상 수령 상태로 변경
             boolean hasItemRewards = false;
@@ -432,36 +405,20 @@ public class QuestRewardGui extends BaseGui {
      * 모든 보상이 수령되었는지 확인하고 완료 처리
      */
     private void checkAndCompleteAllRewards() {
-        // 즉시 보상이 수령되었는지 확인
-        if (claimedRewardData == null || !claimedRewardData.isInstantRewardsClaimed()) {
-            plugin.getLogger().info("Quest " + quest.getId() + " - 즉시 보상이 아직 수령되지 않음");
-            return; // 즉시 보상이 수령되지 않았으면 완료 처리하지 않음
+        // 완료된 퀘스트 데이터를 다시 가져와서 최신 상태 확인
+        CompletedQuestDTO latestData = questManager.getCompletedQuestData(viewer.getUniqueId(), instanceId);
+        if (latestData == null) {
+            plugin.getLogger().info("Quest " + quest.getId() + " - 완료된 퀘스트 데이터가 없음");
+            return;
         }
         
-        // 모든 아이템이 수령되었는지 확인
-        if (quest.getReward() instanceof BasicReward basicReward) {
-            int totalItems = basicReward.getItems().size();
-            if (totalItems > 0) {
-                // 아이템이 있는 경우, 모든 아이템이 수령되었는지 확인
-                if (!claimedRewardData.isFullyClaimed(totalItems)) {
-                    plugin.getLogger().info("Quest " + quest.getId() + " - 아직 수령하지 않은 아이템이 있음: " + claimedRewardData.getUnclaimedItemIndices(totalItems));
-                    return; // 아직 수령하지 않은 아이템이 있음
-                }
-            }
-        } else if (quest.getReward() instanceof MixedReward mixedReward) {
-            int totalItems = mixedReward.getItems().size();
-            if (totalItems > 0) {
-                // 아이템이 있는 경우, 모든 아이템이 수령되었는지 확인
-                if (!claimedRewardData.isFullyClaimed(totalItems)) {
-                    plugin.getLogger().info("Quest " + quest.getId() + " - 아직 수령하지 않은 아이템이 있음: " + claimedRewardData.getUnclaimedItemIndices(totalItems));
-                    return; // 아직 수령하지 않은 아이템이 있음
-                }
-            }
+        // 모든 보상(즉시 보상 + 아이템)이 수령되었는지 확인
+        if (latestData.areAllRewardsClaimed()) {
+            plugin.getLogger().info("Quest " + quest.getId() + " - 모든 보상이 수령됨, 완료 처리");
+            completeRewardClaim();
+        } else {
+            plugin.getLogger().info("Quest " + quest.getId() + " - 아직 미수령 보상이 있음: 즉시보상=" + latestData.instantRewardsClaimed() + ", 미수령아이템=" + latestData.unclaimedItemIndices());
         }
-        
-        // 모든 보상이 수령되었으므로 완료 처리
-        plugin.getLogger().info("Quest " + quest.getId() + " - 모든 보상이 수령됨, 완료 처리");
-        completeRewardClaim();
     }
     
     /**
@@ -469,10 +426,8 @@ public class QuestRewardGui extends BaseGui {
      */
     private void completeRewardClaim() {
         hasClaimed = true;
-        // 퀘스트를 실제로 완료 처리
-        questManager.markQuestAsRewarded(viewer.getUniqueId(), quest.getId());
-        // 미수령 보상 제거
-        questManager.removeUnclaimedReward(viewer.getUniqueId(), quest.getId());
+        // 퀘스트를 실제로 완료 처리 (CompletedQuestDTO -> ClaimedQuestDTO로 이동)
+        questManager.markQuestAsRewarded(viewer.getUniqueId(), instanceId);
     }
 
     /**
@@ -503,11 +458,8 @@ public class QuestRewardGui extends BaseGui {
      */
     public void handleClose() {
         if (!hasClaimed && !rewardItems.isEmpty()) {
-            // 부분 수령한 경우 처리
-            if (!claimedItems.isEmpty() || questManager.getUnclaimedReward(viewer.getUniqueId(), quest.getId()) != null) {
-                // 미수령 아이템 저장
-                questManager.saveUnclaimedReward(viewer.getUniqueId(), quest.getId(), rewardItems);
-            }
+            // 부분 수령한 경우 - 새 시스템에서는 자동으로 CompletedQuestDTO에 미수령 상태가 저장됨
+            // 별도의 저장 로직이 필요하지 않음
             
             // 경고 메시지
             viewer.sendMessage(Component.empty());

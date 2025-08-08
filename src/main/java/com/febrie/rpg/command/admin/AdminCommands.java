@@ -220,7 +220,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.diamond", "amount", String.valueOf(rpgPlayer.getWallet().getBalance(CurrencyType.DIAMOND))));
 
         // 퀘스트 정보
-        List<QuestProgress> activeQuests = questManager.getActiveQuests(target.getUniqueId());
+        java.util.Map<String, com.febrie.rpg.dto.quest.ActiveQuestDTO> activeQuests = questManager.getActiveQuests(target.getUniqueId());
         sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.active-quests", "count", String.valueOf(activeQuests.size())));
 
         return true;
@@ -620,7 +620,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                 }
 
                 String displayName = quest.getDisplayName(true);
-                String npcId = questId.name().toLowerCase();
+                String npcId = questId.name(); // 대문자 ID 사용
 
                 // 인벤토리 공간 확인 (3개 필요)
                 int emptySlots = 0;
@@ -958,7 +958,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                     return List.of("set");
                 }
                 case "npc" -> {
-                    return Arrays.asList("set", "setcode", "reward", "list");
+                    return Arrays.asList("set", "setcode", "reward", "quest", "questall", "shop", "guide", "dialog", "list");
                 }
                 case "quest" -> {
                     return Arrays.asList("give", "list", "reload");
@@ -977,8 +977,18 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                     }
                 }
                 case "npc" -> {
-                    if (args[1].equalsIgnoreCase("set")) {
-                        return getQuestIdSuggestions(args[2]);
+                    switch (args[1].toLowerCase()) {
+                        case "set", "quest", "questall" -> {
+                            return getQuestIdSuggestions(args[2]);
+                        }
+                        case "reward", "setcode" -> {
+                            // Quest ID 대문자로 제안
+                            return getQuestIdSuggestions(args[2]);
+                        }
+                        case "shop", "guide", "dialog" -> {
+                            // 타입별 제안 가능 (현재는 자유 입력)
+                            return List.of();
+                        }
                     }
                 }
                 case "quest" -> {

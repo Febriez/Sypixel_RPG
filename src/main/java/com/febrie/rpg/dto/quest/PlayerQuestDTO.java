@@ -1,8 +1,7 @@
 package com.febrie.rpg.dto.quest;
 
-import com.febrie.rpg.quest.progress.QuestProgress;
-import com.febrie.rpg.quest.reward.ClaimedRewardData;
 import com.febrie.rpg.util.FirestoreUtils;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -14,9 +13,11 @@ import java.util.Map;
  *
  * @author Febrie
  */
-public record PlayerQuestDTO(String playerId, Map<String, QuestProgress> activeQuests,
-                             Map<String, CompletedQuestDTO> completedQuests, 
-                             Map<String, ClaimedRewardData> claimedRewardData, long lastUpdated) {
+public record PlayerQuestDTO(String playerId, 
+                             Map<String, ActiveQuestDTO> activeQuests,
+                             Map<String, CompletedQuestDTO> completedQuests,
+                             Map<String, ClaimedQuestDTO> claimedQuests,
+                             long lastUpdated) {
     /**
      * 기본 생성자 - 신규 플레이어용
      */
@@ -27,38 +28,43 @@ public record PlayerQuestDTO(String playerId, Map<String, QuestProgress> activeQ
     /**
      * 방어적 복사를 위한 생성자
      */
-    public PlayerQuestDTO(String playerId, Map<String, QuestProgress> activeQuests, 
-                         Map<String, CompletedQuestDTO> completedQuests, 
-                         Map<String, ClaimedRewardData> claimedRewardData, long lastUpdated) {
+    public PlayerQuestDTO(String playerId, 
+                         Map<String, ActiveQuestDTO> activeQuests,
+                         Map<String, CompletedQuestDTO> completedQuests,
+                         Map<String, ClaimedQuestDTO> claimedQuests,
+                         long lastUpdated) {
         this.playerId = playerId;
         this.activeQuests = new HashMap<>(activeQuests);
         this.completedQuests = new HashMap<>(completedQuests);
-        this.claimedRewardData = new HashMap<>(claimedRewardData);
+        this.claimedQuests = new HashMap<>(claimedQuests);
         this.lastUpdated = lastUpdated;
     }
 
     /**
      * 활성 퀘스트 맵의 불변 뷰 반환
      */
+    @Contract(value = " -> new", pure = true)
     @Override
-    public Map<String, QuestProgress> activeQuests() {
+    public @NotNull Map<String, ActiveQuestDTO> activeQuests() {
         return new HashMap<>(activeQuests);
     }
 
     /**
      * 완료된 퀘스트 맵의 불변 뷰 반환
      */
+    @Contract(value = " -> new", pure = true)
     @Override
-    public Map<String, CompletedQuestDTO> completedQuests() {
+    public @NotNull Map<String, CompletedQuestDTO> completedQuests() {
         return new HashMap<>(completedQuests);
     }
 
     /**
-     * 수령한 보상 데이터 맵의 불변 뷰 반환
+     * 보상을 모두 수령한 퀘스트 맵의 불변 뷰 반환
      */
+    @Contract(value = " -> new", pure = true)
     @Override
-    public Map<String, ClaimedRewardData> claimedRewardData() {
-        return new HashMap<>(claimedRewardData);
+    public @NotNull Map<String, ClaimedQuestDTO> claimedQuests() {
+        return new HashMap<>(claimedQuests);
     }
 
     /**
@@ -69,7 +75,7 @@ public record PlayerQuestDTO(String playerId, Map<String, QuestProgress> activeQ
         Map<String, Object> map = new HashMap<>();
         map.put("playerId", playerId);
         
-        // activeQuests - 이제 QuestProgress가 toMap을 지원함
+        // activeQuests
         Map<String, Object> activeQuestsMap = new HashMap<>();
         activeQuests.forEach((key, value) -> activeQuestsMap.put(key, value.toMap()));
         map.put("activeQuests", activeQuestsMap);
@@ -79,10 +85,10 @@ public record PlayerQuestDTO(String playerId, Map<String, QuestProgress> activeQ
         completedQuests.forEach((key, value) -> completedQuestsMap.put(key, value.toMap()));
         map.put("completedQuests", completedQuestsMap);
         
-        // claimedRewardData
-        Map<String, Object> claimedRewardDataMap = new HashMap<>();
-        claimedRewardData.forEach((key, value) -> claimedRewardDataMap.put(key, value.toMap()));
-        map.put("claimedRewardData", claimedRewardDataMap);
+        // claimedQuests
+        Map<String, Object> claimedQuestsMap = new HashMap<>();
+        claimedQuests.forEach((key, value) -> claimedQuestsMap.put(key, value.toMap()));
+        map.put("claimedQuests", claimedQuestsMap);
         
         map.put("lastUpdated", lastUpdated);
         return map;
@@ -96,14 +102,14 @@ public record PlayerQuestDTO(String playerId, Map<String, QuestProgress> activeQ
     public static PlayerQuestDTO fromMap(@NotNull Map<String, Object> map) {
         String playerId = (String) map.getOrDefault("playerId", "");
         
-        // activeQuests - 이제 QuestProgress가 fromMap을 지원함
-        Map<String, QuestProgress> activeQuests = new HashMap<>();
+        // activeQuests
+        Map<String, ActiveQuestDTO> activeQuests = new HashMap<>();
         Object activeObj = map.get("activeQuests");
         if (activeObj instanceof Map) {
             Map<String, Object> activeMap = (Map<String, Object>) activeObj;
             activeMap.forEach((key, value) -> {
                 if (value instanceof Map) {
-                    activeQuests.put(key, QuestProgress.fromMap((Map<String, Object>) value));
+                    activeQuests.put(key, ActiveQuestDTO.fromMap((Map<String, Object>) value));
                 }
             });
         }
@@ -120,20 +126,20 @@ public record PlayerQuestDTO(String playerId, Map<String, QuestProgress> activeQ
             });
         }
         
-        // claimedRewardData
-        Map<String, ClaimedRewardData> claimedRewardData = new HashMap<>();
-        Object claimedObj = map.get("claimedRewardData");
+        // claimedQuests
+        Map<String, ClaimedQuestDTO> claimedQuests = new HashMap<>();
+        Object claimedObj = map.get("claimedQuests");
         if (claimedObj instanceof Map) {
             Map<String, Object> claimedMap = (Map<String, Object>) claimedObj;
             claimedMap.forEach((key, value) -> {
                 if (value instanceof Map) {
-                    claimedRewardData.put(key, ClaimedRewardData.fromMap((Map<String, Object>) value));
+                    claimedQuests.put(key, ClaimedQuestDTO.fromMap((Map<String, Object>) value));
                 }
             });
         }
         
         long lastUpdated = FirestoreUtils.getLong(map, "lastUpdated", System.currentTimeMillis());
         
-        return new PlayerQuestDTO(playerId, activeQuests, completedQuests, claimedRewardData, lastUpdated);
+        return new PlayerQuestDTO(playerId, activeQuests, completedQuests, claimedQuests, lastUpdated);
     }
 }

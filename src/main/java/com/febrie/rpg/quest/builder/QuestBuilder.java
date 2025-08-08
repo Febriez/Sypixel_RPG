@@ -33,6 +33,7 @@ public abstract class QuestBuilder {
     public Set<QuestID> prerequisiteQuests = new HashSet<>();
     public Set<QuestID> exclusiveQuests = new HashSet<>();
     public RewardDeliveryType rewardDeliveryType = RewardDeliveryType.NPC_VISIT;
+    public int completionLimit = 1; // 기본값: 1회만 완료 가능
 
     public QuestBuilder id(@NotNull QuestID id) {
         this.id = id;
@@ -107,6 +108,11 @@ public abstract class QuestBuilder {
     
     public QuestBuilder rewardDeliveryType(@NotNull RewardDeliveryType type) {
         this.rewardDeliveryType = type;
+        return this;
+    }
+
+    public QuestBuilder completionLimit(int limit) {
+        this.completionLimit = limit;
         return this;
     }
 

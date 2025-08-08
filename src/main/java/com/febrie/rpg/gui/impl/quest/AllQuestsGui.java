@@ -11,7 +11,8 @@ import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
-import com.febrie.rpg.quest.reward.UnclaimedReward;
+import com.febrie.rpg.dto.quest.ActiveQuestDTO;
+import com.febrie.rpg.dto.quest.CompletedQuestDTO;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
@@ -67,18 +68,18 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
         // 필터에 따라 퀘스트 목록 가져오기
         this.quests = new ArrayList<>();
         if (filter == QuestFilter.ACTIVE) {
-            List<QuestProgress> activeProgress = questManager.getActiveQuests(player.getUniqueId());
-            for (QuestProgress progress : activeProgress) {
-                Quest quest = questManager.getQuest(progress.getQuestId());
+            java.util.Map<String, ActiveQuestDTO> activeQuests = questManager.getActiveQuests(player.getUniqueId());
+            for (ActiveQuestDTO activeData : activeQuests.values()) {
+                Quest quest = questManager.getQuest(QuestID.valueOf(activeData.questId()));
                 if (quest != null) {
                     quests.add(quest);
                 }
             }
         } else {
             // Get completed quests from QuestManager
-            List<QuestID> completedIds = questManager.getCompletedQuests(player.getUniqueId());
-            for (QuestID questId : completedIds) {
-                Quest quest = questManager.getQuest(questId);
+            java.util.Map<String, CompletedQuestDTO> completedQuests = questManager.getCompletedQuests(player.getUniqueId());
+            for (CompletedQuestDTO completedData : completedQuests.values()) {
+                Quest quest = questManager.getQuest(QuestID.valueOf(completedData.questId()));
                 if (quest != null) {
                     quests.add(quest);
                 }
@@ -154,7 +155,16 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
     }
     
     private GuiItem createQuestItem(Quest quest) {
-        QuestProgress progress = questManager.getQuestProgress(viewer.getUniqueId(), quest.getId());
+        // 현재 진행 중인 퀘스트 찾기
+        QuestProgress progress = null;
+        java.util.Map<String, ActiveQuestDTO> activeQuests = questManager.getActiveQuests(viewer.getUniqueId());
+        for (java.util.Map.Entry<String, ActiveQuestDTO> entry : activeQuests.entrySet()) {
+            ActiveQuestDTO activeData = entry.getValue();
+            if (activeData.questId().equals(quest.getId().name())) {
+                progress = questManager.getQuestProgress(viewer.getUniqueId(), entry.getKey());
+                break;
+            }
+        }
         Material material = (progress != null && progress.isCompleted()) ? Material.ENCHANTED_BOOK : Material.BOOK;
         
         ItemBuilder builder = new ItemBuilder(material)
@@ -170,8 +180,11 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
         // 진행 상황
         if (progress != null && progress.isCompleted()) {
             builder.addLore(Component.text("✔ 완료됨", ColorUtil.SUCCESS));
-            UnclaimedReward reward = questManager.getUnclaimedReward(viewer.getUniqueId(), quest.getId());
-            if (reward != null) {
+            // 완료된 퀘스트 확인
+            java.util.Map<String, CompletedQuestDTO> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
+            boolean hasReward = completedQuests.values().stream()
+                    .anyMatch(data -> data.questId().equals(quest.getId().name()));
+            if (hasReward) {
                 builder.addLore(Component.text("⚡ 보상 수령 가능!", ColorUtil.GOLD));
             }
         } else if (progress != null) {
@@ -188,7 +201,16 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
         return GuiItem.clickable(
                 builder.build(),
                 p -> {
-                    QuestProgress qProgress = questManager.getQuestProgress(p.getUniqueId(), quest.getId());
+                    // 현재 진행 중인 퀘스트 찾기
+                    QuestProgress qProgress = null;
+                    java.util.Map<String, ActiveQuestDTO> activeQuestsMap = questManager.getActiveQuests(p.getUniqueId());
+                    for (java.util.Map.Entry<String, ActiveQuestDTO> entry : activeQuestsMap.entrySet()) {
+                        ActiveQuestDTO activeData = entry.getValue();
+                        if (activeData.questId().equals(quest.getId().name())) {
+                            qProgress = questManager.getQuestProgress(p.getUniqueId(), entry.getKey());
+                            break;
+                        }
+                    }
                     QuestDetailGui.create(guiManager, langManager, p, quest, qProgress).open(p);
                     playClickSound(p);
                 }

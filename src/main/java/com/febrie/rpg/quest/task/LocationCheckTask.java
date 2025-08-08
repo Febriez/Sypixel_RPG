@@ -7,6 +7,8 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
+import com.febrie.rpg.dto.quest.ActiveQuestDTO;
+import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.ToastUtil;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -64,13 +66,12 @@ public class LocationCheckTask implements Runnable {
                     // 지역 방문 목표가 있는 활성 퀘스트가 있는지 확인
                     boolean hasLocationObjective = false;
                     QuestManager questManager = QuestManager.getInstance();
-                    List<QuestProgress> activeQuests = questManager.getActiveQuests(playerId);
+                    Map<String, ActiveQuestDTO> activeQuests = questManager.getActiveQuests(playerId);
                     
-                    
-                    for (QuestProgress progress : activeQuests) {
-                        Quest quest = QuestManager.getInstance().getQuest(progress.getQuestId());
+                    for (Map.Entry<String, ActiveQuestDTO> entry : activeQuests.entrySet()) {
+                        ActiveQuestDTO activeData = entry.getValue();
+                        Quest quest = QuestManager.getInstance().getQuest(QuestID.valueOf(activeData.questId()));
                         if (quest == null) continue;
-                        
                         
                         for (QuestObjective objective : quest.getObjectives()) {
                             if (objective instanceof VisitLocationObjective) {
@@ -117,16 +118,22 @@ public class LocationCheckTask implements Runnable {
             
             
             // 퀘스트 목표 처리
-            for (QuestProgress progress : data.activeQuests) {
+            for (Map.Entry<String, ActiveQuestDTO> questEntry : data.activeQuests.entrySet()) {
+                String instanceId = questEntry.getKey();
+                ActiveQuestDTO activeData = questEntry.getValue();
+                // DTO에서 QuestProgress 복원
+                java.util.Map<String, ObjectiveProgress> progressMap = new java.util.HashMap<>();
+                activeData.progress().forEach((key, value) -> progressMap.put(key, ObjectiveProgress.from(value, data.player.getUniqueId())));
+                QuestProgress progress = new QuestProgress(QuestID.valueOf(activeData.questId()), data.player.getUniqueId(), progressMap);
+                
                 if (!progress.isActive()) continue;
                 
-                Quest quest = QuestManager.getInstance().getQuest(progress.getQuestId());
+                Quest quest = QuestManager.getInstance().getQuest(QuestID.valueOf(activeData.questId()));
                 if (quest == null) continue;
                 
                 // 각 목표 확인
                 for (QuestObjective objective : quest.getObjectives()) {
                     if (!(objective instanceof VisitLocationObjective visitObj)) continue;
-                    
                     
                     // 이미 완료된 목표는 스킵
                     ObjectiveProgress objProgress = progress.getObjective(objective.getId());
@@ -177,12 +184,7 @@ public class LocationCheckTask implements Runnable {
                                 
                                 // 퀘스트 매니저를 통해 진행 상태 업데이트 및 완료 확인
                                 QuestManager questManager = QuestManager.getInstance();
-                                boolean questCompleted = questManager.checkQuestCompletion(data.player.getUniqueId(), quest.getId());
-                                
-                                // 퀘스트 전체가 완료되었을 때 토스트 메시지
-                                if (questCompleted) {
-                                    ToastUtil.showQuestCompleteToast(data.player, quest);
-                                }
+                                questManager.checkQuestCompletion(data.player.getUniqueId(), instanceId);
                                 
                                 // 데이터 저장 예약
                                 questManager.markForSave(data.player.getUniqueId());
@@ -243,9 +245,9 @@ public class LocationCheckTask implements Runnable {
         final Player player;
         final Location currentLocation;
         final Location lastLocation;
-        final List<QuestProgress> activeQuests;
+        final Map<String, ActiveQuestDTO> activeQuests;
         
-        PlayerLocationData(Player player, Location currentLocation, Location lastLocation, List<QuestProgress> activeQuests) {
+        PlayerLocationData(Player player, Location currentLocation, Location lastLocation, Map<String, ActiveQuestDTO> activeQuests) {
             this.player = player;
             this.currentLocation = currentLocation;
             this.lastLocation = lastLocation;

@@ -20,6 +20,7 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -31,6 +32,7 @@ import java.util.*;
 public abstract class Quest {
 
     protected final QuestID id;
+    protected final String instanceId;
     protected final List<QuestObjective> objectives;
     protected final QuestReward reward;
 
@@ -42,6 +44,7 @@ public abstract class Quest {
     protected final int minLevel;
     protected final int maxLevel;
     protected final QuestCategory category;
+    protected final int completionLimit;
     
     // 보상 지급 방식
     protected final RewardDeliveryType rewardDeliveryType;
@@ -60,6 +63,7 @@ public abstract class Quest {
      */
     protected Quest(@NotNull QuestBuilder builder) {
         this.id = Objects.requireNonNull(builder.id, "Quest ID cannot be null");
+        this.instanceId = generateInstanceId();
         this.objectives = new ArrayList<>(builder.objectives);
         this.reward = Objects.requireNonNull(builder.reward, "Quest reward cannot be null");
 
@@ -70,6 +74,7 @@ public abstract class Quest {
         this.minLevel = builder.minLevel;
         this.maxLevel = builder.maxLevel;
         this.category = builder.category;
+        this.completionLimit = builder.completionLimit;
         this.rewardDeliveryType = builder.rewardDeliveryType != null ? builder.rewardDeliveryType : RewardDeliveryType.NPC_VISIT;
 
         this.prerequisiteQuests.addAll(builder.prerequisiteQuests);
@@ -78,6 +83,23 @@ public abstract class Quest {
         if (objectives.isEmpty()) {
             throw new IllegalArgumentException("Quest must have at least one objective");
         }
+    }
+    
+    /**
+     * 고유 인스턴스 ID 생성
+     * 형식: QUEST_ID_YY_MM_DD_UUID16자
+     */
+    private String generateInstanceId() {
+        LocalDateTime now = LocalDateTime.now();
+        String datePrefix = String.format("%02d_%02d_%02d_",
+            now.getYear() % 100,
+            now.getMonthValue(),
+            now.getDayOfMonth()
+        );
+        String shortUuid = UUID.randomUUID().toString()
+            .replace("-", "")
+            .substring(0, 16);
+        return id.name() + "_" + datePrefix + shortUuid;
     }
     
     /**
@@ -93,6 +115,13 @@ public abstract class Quest {
      */
     public @NotNull QuestID getId() {
         return id;
+    }
+    
+    /**
+     * 퀘스트 인스턴스 ID 반환
+     */
+    public @NotNull String getInstanceId() {
+        return instanceId;
     }
 
     /**
@@ -489,6 +518,14 @@ public abstract class Quest {
      */
     public boolean isRepeatable() {
         return repeatable;
+    }
+
+    /**
+     * 완료 제한 횟수
+     * @return -1: 무제한, 0: 완료 불가, 1 이상: 해당 횟수만큼 완료 가능
+     */
+    public int getCompletionLimit() {
+        return completionLimit;
     }
 
     /**

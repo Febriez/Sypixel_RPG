@@ -1,5 +1,6 @@
 package com.febrie.rpg.dto.quest;
 
+import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,6 +41,20 @@ public record ObjectiveProgressDTO(
         map.put("lastUpdated", lastUpdated);
         
         return map;
+    }
+    
+    /**
+     * ObjectiveProgress에서 DTO 생성
+     */
+    @NotNull
+    public static ObjectiveProgressDTO from(@NotNull ObjectiveProgress progress) {
+        return new ObjectiveProgressDTO(
+                progress.getObjectiveId(),
+                progress.isCompleted(),
+                progress.getCurrentValue(),
+                progress.getRequiredValue(),
+                progress.getLastUpdated()
+        );
     }
     
     /**

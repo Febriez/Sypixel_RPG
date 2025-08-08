@@ -31,20 +31,22 @@ public class QuestRewardConfirmGui extends BaseGui {
     private static final int NO_SLOT = 15;
     
     private final Quest quest;
+    private final String instanceId;
     private final QuestManager questManager;
     private final QuestRewardGui previousGui;
     
     private QuestRewardConfirmGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
-                                  @NotNull Player viewer, @NotNull Quest quest, @NotNull QuestRewardGui previousGui) {
+                                  @NotNull Player viewer, @NotNull Quest quest, @NotNull String instanceId, @NotNull QuestRewardGui previousGui) {
         super(viewer, guiManager, langManager, GUI_SIZE, "gui.quest-reward.confirm.title");
         this.quest = quest;
+        this.instanceId = instanceId;
         this.questManager = QuestManager.getInstance();
         this.previousGui = previousGui;
     }
     
     public static QuestRewardConfirmGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
-                                               @NotNull Player viewer, @NotNull Quest quest, @NotNull QuestRewardGui previousGui) {
-        QuestRewardConfirmGui gui = new QuestRewardConfirmGui(guiManager, langManager, viewer, quest, previousGui);
+                                               @NotNull Player viewer, @NotNull Quest quest, @NotNull String instanceId, @NotNull QuestRewardGui previousGui) {
+        QuestRewardConfirmGui gui = new QuestRewardConfirmGui(guiManager, langManager, viewer, quest, instanceId, previousGui);
         gui.initialize("gui.quest-reward.confirm.title");
         return gui;
     }
@@ -98,8 +100,8 @@ public class QuestRewardConfirmGui extends BaseGui {
                 .addLore(trans("gui.quest-reward.confirm.yes-desc").color(ColorUtil.GRAY));
         
         GuiItem yesButton = GuiItem.clickable(yesBuilder.build(), p -> {
-            // 보상 파괴
-            questManager.markQuestAsRewarded(p.getUniqueId(), quest.getId());
+            // 보상 파괴 - 퀘스트를 ClaimedQuestData로 이동
+            questManager.markQuestAsRewarded(p.getUniqueId(), instanceId);
             
             p.closeInventory();
             p.sendMessage(Component.empty());

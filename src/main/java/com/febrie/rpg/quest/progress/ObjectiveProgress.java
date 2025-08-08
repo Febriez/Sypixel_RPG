@@ -1,5 +1,6 @@
 package com.febrie.rpg.quest.progress;
 
+import com.febrie.rpg.dto.quest.ObjectiveProgressDTO;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
@@ -341,5 +342,21 @@ public class ObjectiveProgress {
         
         return new ObjectiveProgress(objectiveId, playerId, currentValue, requiredValue, 
                 completed, startedAt, completedAt);
+    }
+    
+    /**
+     * ObjectiveProgressDTO에서 생성
+     */
+    @NotNull
+    public static ObjectiveProgress from(@NotNull ObjectiveProgressDTO dto, @NotNull UUID playerId) {
+        return new ObjectiveProgress(
+                dto.objectiveId(),
+                playerId,
+                dto.progress(),
+                dto.target(),
+                dto.completed(),
+                System.currentTimeMillis(),
+                dto.completed() ? dto.lastUpdated() : 0L
+        );
     }
 }
