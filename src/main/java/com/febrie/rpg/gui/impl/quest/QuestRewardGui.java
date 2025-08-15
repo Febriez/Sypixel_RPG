@@ -51,9 +51,9 @@ public class QuestRewardGui extends BaseGui {
     private long rewardStartTime;
     private CompletedQuestDTO completedData;
 
-    private QuestRewardGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private QuestRewardGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer, @NotNull Quest quest, @NotNull String instanceId) {
-        super(viewer, guiManager, langManager, GUI_SIZE, "gui.quest-reward.title");
+        super(viewer, guiManager, GUI_SIZE, "gui.quest-reward.title");
         this.quest = quest;
         this.instanceId = instanceId;
         this.questManager = QuestManager.getInstance();
@@ -71,37 +71,38 @@ public class QuestRewardGui extends BaseGui {
      * @param quest 퀘스트
      * @return 초기화된 QuestRewardGui 인스턴스
      */
-    public static QuestRewardGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static QuestRewardGui create(@NotNull GuiManager guiManager,
                                        @NotNull Player viewer, @NotNull Quest quest, @NotNull String instanceId) {
-        QuestRewardGui gui = new QuestRewardGui(guiManager, langManager, viewer, quest, instanceId);
+        QuestRewardGui gui = new QuestRewardGui(guiManager, viewer, quest, instanceId);
         gui.initialize("gui.quest-reward.title");
         return gui;
     }
 
     @Override
     public @NotNull Component getTitle() {
-        boolean isKorean = viewer.locale().getLanguage().equals("ko");
-        
         // 일반 타이틀
         return trans("gui.quest-reward.title")
                 .append(Component.text(" - ", ColorUtil.GRAY))
-                .append(Component.text(quest.getDisplayName(isKorean), ColorUtil.LEGENDARY));
+                .append(quest.getDisplayName(viewer).color(ColorUtil.LEGENDARY));
     }
     
     /**
      * 시간을 형식화하여 반환
      */
-    private String formatTime(long milliseconds, boolean isKorean) {
+    private String formatTime(long milliseconds, @NotNull Player player) {
         long totalMinutes = milliseconds / 1000 / 60;
         
         if (totalMinutes >= 1440) { // 1일 이상
             long days = totalMinutes / 1440;
-            return langManager.getMessage(isKorean ? "ko_KR" : "en_US", "gui.quest-reward.expiry-days", "days", String.valueOf(days));
+            return LangManager.getMessage(player, "time.days", "days", String.valueOf(days))
+                    .toString().replaceAll("§.", ""); // 색상 코드 제거
         } else if (totalMinutes >= 60) { // 1시간 이상
             long hours = totalMinutes / 60;
-            return langManager.getMessage(isKorean ? "ko_KR" : "en_US", "gui.quest-reward.expiry-hours", "hours", String.valueOf(hours));
+            return LangManager.getMessage(player, "time.hours", "hours", String.valueOf(hours))
+                    .toString().replaceAll("§.", ""); // 색상 코드 제거
         } else {
-            return langManager.getMessage(isKorean ? "ko_KR" : "en_US", "gui.quest-reward.expiry-minutes", "minutes", String.valueOf(totalMinutes));
+            return LangManager.getMessage(player, "time.minutes", "minutes", String.valueOf(totalMinutes))
+                    .toString().replaceAll("§.", ""); // 색상 코드 제거
         }
     }
 
@@ -280,7 +281,7 @@ public class QuestRewardGui extends BaseGui {
             }
             
             // 확인 다이얼로그 열기
-            QuestRewardConfirmGui confirmGui = QuestRewardConfirmGui.create(guiManager, langManager, p, quest, instanceId, this);
+            QuestRewardConfirmGui confirmGui = QuestRewardConfirmGui.create(guiManager, p, quest, instanceId, this);
             guiManager.openGui(p, confirmGui);
             SoundUtil.playClickSound(p);
         });
@@ -368,22 +369,31 @@ public class QuestRewardGui extends BaseGui {
         RPGPlayer rpgPlayer = playerManager.getPlayer(viewer);
         if (rpgPlayer == null) return;
         
+        // 보상에서 경험치와 돈 정보 가져오기
+        int expReward = 0;
+        long moneyReward = 0;
+        
+        if (quest.getReward() instanceof com.febrie.rpg.quest.reward.impl.BasicReward basicReward) {
+            expReward = basicReward.getExperience();
+            moneyReward = basicReward.getCurrencies().getOrDefault(CurrencyType.GOLD, 0L);
+        }
+        
         // 경험치 지급 (직업이 있을 때만)
-        if (quest.getExpReward() > 0 && rpgPlayer.getJob() != null) {
-            rpgPlayer.addExperience(quest.getExpReward());
+        if (expReward > 0 && rpgPlayer.getJob() != null) {
+            rpgPlayer.addExperience(expReward);
             viewer.sendMessage(trans("gui.quest-reward.exp-received", 
-                "amount", String.valueOf(quest.getExpReward())).color(ColorUtil.SUCCESS));
+                "amount", String.valueOf(expReward)).color(ColorUtil.SUCCESS));
         }
         
         // 돈 지급
-        if (quest.getMoneyReward() > 0) {
-            rpgPlayer.getWallet().add(CurrencyType.GOLD, quest.getMoneyReward());
+        if (moneyReward > 0) {
+            rpgPlayer.getWallet().add(CurrencyType.GOLD, moneyReward);
             viewer.sendMessage(trans("gui.quest-reward.money-received", 
-                "amount", String.valueOf(quest.getMoneyReward())).color(ColorUtil.SUCCESS));
+                "amount", String.valueOf(moneyReward)).color(ColorUtil.SUCCESS));
         }
         
         // 즉시 보상 수령 표시
-        if (quest.getExpReward() > 0 || quest.getMoneyReward() > 0) {
+        if (expReward > 0 || moneyReward > 0) {
             questManager.markInstantRewardsClaimed(viewer.getUniqueId(), instanceId);
             
             // 아이템 보상이 없는 경우 퀘스트를 완전히 보상 수령 상태로 변경

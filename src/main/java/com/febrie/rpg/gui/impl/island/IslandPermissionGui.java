@@ -9,6 +9,7 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -95,7 +96,7 @@ public class IslandPermissionGui extends BaseGui {
         
         return new ItemBuilder(material)
                 .displayName(ColorUtil.parseComponent((selected ? "&a&l" : "&7") + 
-                        IslandPermissionHandler.getRoleDisplayName(plugin.getLangManager(), plugin.getLangManager().getPlayerLanguage(viewer), role)))
+                        IslandPermissionHandler.getRoleDisplayName(plugin.getLangManager(), viewer.locale().getLanguage(), role)))
                 .addLore(ColorUtil.parseComponent(""))
                 .addLore(ColorUtil.parseComponent("&7이 역할의 권한을 설정합니다."))
                 .addLore(ColorUtil.parseComponent(""))
@@ -110,7 +111,7 @@ public class IslandPermissionGui extends BaseGui {
     private ItemStack createSelectedRoleItem() {
         return new ItemBuilder(Material.PAPER)
                 .displayName(ColorUtil.parseComponent("&e현재 편집 중: &f" + 
-                        IslandPermissionHandler.getRoleDisplayName(plugin.getLangManager(), plugin.getLangManager().getPlayerLanguage(viewer), selectedRole)))
+                        IslandPermissionHandler.getRoleDisplayName(plugin.getLangManager(), viewer.locale().getLanguage(), selectedRole)))
                 .addLore(ColorUtil.parseComponent(""))
                 .addLore(ColorUtil.parseComponent("&7좌측에서 다른 역할을 선택하여"))
                 .addLore(ColorUtil.parseComponent("&7해당 역할의 권한을 편집할 수 있습니다."))
@@ -145,7 +146,7 @@ public class IslandPermissionGui extends BaseGui {
      */
     private ItemStack createPermissionItem(@NotNull String permission, boolean enabled) {
         Material material = enabled ? Material.LIME_DYE : Material.GRAY_DYE;
-        String displayName = IslandPermissionHandler.getPermissionDisplayName(plugin.getLangManager(), plugin.getLangManager().getPlayerLanguage(viewer), permission);
+        String displayName = IslandPermissionHandler.getPermissionDisplayName(plugin.getLangManager(), viewer.locale().getLanguage(), permission);
         
         ItemBuilder builder = new ItemBuilder(material)
                 .displayName(ColorUtil.parseComponent((enabled ? "&a" : "&c") + displayName))
@@ -219,7 +220,7 @@ public class IslandPermissionGui extends BaseGui {
             case 11 -> selectRole(IslandRole.MEMBER);
             case 12 -> selectRole(IslandRole.WORKER);
             case 13 -> selectRole(IslandRole.VISITOR);
-            case 48 -> IslandMainGui.create(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
+            case 48 -> IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
             case 49 -> savePermissions(player);
             case 50 -> player.closeInventory();
             default -> {
@@ -298,7 +299,7 @@ public class IslandPermissionGui extends BaseGui {
         islandManager.updateIsland(island).thenAccept(success -> {
             if (success) {
                 player.sendMessage(ColorUtil.colorize("&a권한 설정이 저장되었습니다!"));
-                IslandMainGui.create(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
+                IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
             } else {
                 player.sendMessage(ColorUtil.colorize("&c권한 설정 저장에 실패했습니다."));
             }

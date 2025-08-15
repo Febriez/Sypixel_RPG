@@ -2,18 +2,24 @@ package com.febrie.rpg.gui.impl.shop;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.economy.CurrencyType;
-import com.febrie.rpg.gui.BaseGui;
+import com.febrie.rpg.gui.component.GuiFactory;
+import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.GuiFramework;
+import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.npc.trait.RPGShopTrait;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import net.kyori.adventure.text.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -27,16 +33,14 @@ import java.util.Map;
 public class NPCShopGui extends BaseGui {
     
     private final RPGPlayerManager playerManager;
-    private final Player viewer;
     private final RPGPlayer rpgPlayer;
     private final RPGShopTrait shopTrait;
     private final String shopName;
     
-    private NPCShopGui(@NotNull RPGMain plugin, @NotNull Player viewer,
+    private NPCShopGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                       @NotNull RPGShopTrait shopTrait, @NotNull String shopName) {
-        super(plugin, 54); // 6줄
-        this.playerManager = plugin.getRPGPlayerManager();
-        this.viewer = viewer;
+        super(viewer, guiManager, 54, "gui.shop.title", shopName);
+        this.playerManager = guiManager.getPlugin().getRPGPlayerManager();
         this.rpgPlayer = playerManager.getPlayer(viewer);
         this.shopTrait = shopTrait;
         this.shopName = shopName;
@@ -45,15 +49,27 @@ public class NPCShopGui extends BaseGui {
     /**
      * Factory method to create and open the shop GUI
      */
-    public static NPCShopGui create(@NotNull RPGMain plugin, @NotNull Player viewer,
-                                   @NotNull RPGShopTrait shopTrait, @NotNull String shopName) {
-        NPCShopGui gui = new NPCShopGui(plugin, viewer, shopTrait, shopName);
-        return BaseGui.create(gui, ColorUtil.parseComponent("&2&l" + shopName));
+    public static NPCShopGui create(@NotNull GuiManager guiManager,
+                                   @NotNull Player viewer, @NotNull RPGShopTrait shopTrait, @NotNull String shopName) {
+        NPCShopGui gui = new NPCShopGui(viewer, guiManager, shopTrait, shopName);
+        return createAndInitialize(gui, "gui.shop.title", shopName);
     }
     
     @Override
-    protected void setupItems() {
-        fillBorder(Material.GREEN_STAINED_GLASS_PANE);
+    public @NotNull Component getTitle() {
+        return trans("gui.shop.title", shopName);
+    }
+    
+    @Override
+    protected GuiFramework getBackTarget() {
+        // NPC 상점은 NPC 대화에서 시작되므로 뒤로가기 없음
+        return null;
+    }
+    
+    @Override
+    protected void setupLayout() {
+        createBorder();
+        setupStandardNavigation(false, true);
         
         // 현재 골드 표시
         setItem(4, createGoldDisplay());
@@ -70,22 +86,19 @@ public class NPCShopGui extends BaseGui {
         for (int i = 0; i < items.size() && i < slots.length; i++) {
             setItem(slots[i], createShopItem(items.get(i)));
         }
-        
-        // 닫기 버튼
-        setItem(49, createCloseButton());
     }
     
-    private ItemStack createGoldDisplay() {
+    private GuiItem createGoldDisplay() {
         long gold = rpgPlayer != null ? rpgPlayer.getWallet().getBalance(CurrencyType.GOLD) : 0;
         
-        return new ItemBuilder(Material.GOLD_INGOT)
+        return GuiItem.display(new ItemBuilder(Material.GOLD_INGOT)
                 .displayName(ColorUtil.parseComponent("&6&l보유 골드"))
                 .addLore(ColorUtil.parseComponent(""))
                 .addLore(ColorUtil.parseComponent("&f" + String.format("%,d", gold) + " G"))
-                .build();
+                .build());
     }
     
-    private ItemStack createShopItem(RPGShopTrait.ShopItem shopItem) {
+    private GuiItem createShopItem(RPGShopTrait.ShopItem shopItem) {
         ItemStack baseItem = shopItem.getItem().clone();
         ItemBuilder builder = new ItemBuilder(baseItem);
         
@@ -119,55 +132,20 @@ public class NPCShopGui extends BaseGui {
             builder.addLore(ColorUtil.parseComponent("&e▶ 우클릭으로 판매"));
         }
         
-        return builder.build();
+        return GuiItem.clickable(builder.build(), player -> {
+            // 좌클릭은 구매, 우클릭은 판매 (아이템에서 직접 처리하지 않고 핸들러로 분리)
+        }).onClick(org.bukkit.event.inventory.ClickType.LEFT, (p, click) -> {
+            handleBuy(p, shopItem);
+            playClickSound(p);
+        }).onClick(org.bukkit.event.inventory.ClickType.RIGHT, (p, click) -> {
+            if (shopItem.isSellable()) {
+                handleSell(p, shopItem);
+                playClickSound(p);
+            }
+        });
     }
     
-    private ItemStack createCloseButton() {
-        return new ItemBuilder(Material.BARRIER)
-                .displayName(ColorUtil.parseComponent("&c닫기"))
-                .build();
-    }
     
-    @Override
-    protected void handleClick(InventoryClickEvent event) {
-        event.setCancelled(true);
-        
-        if (!(event.getWhoClicked() instanceof Player player)) return;
-        
-        int slot = event.getSlot();
-        
-        // 닫기
-        if (slot == 49) {
-            player.closeInventory();
-            return;
-        }
-        
-        // 상점 아이템 클릭 처리
-        int[] slots = {
-            10, 11, 12, 13, 14, 15, 16,
-            19, 20, 21, 22, 23, 24, 25,
-            28, 29, 30, 31, 32, 33, 34,
-            37, 38, 39, 40, 41, 42, 43
-        };
-        
-        int index = -1;
-        for (int i = 0; i < slots.length; i++) {
-            if (slots[i] == slot) {
-                index = i;
-                break;
-            }
-        }
-        
-        if (index >= 0 && index < shopTrait.getShopItems().size()) {
-            RPGShopTrait.ShopItem shopItem = shopTrait.getShopItems().get(index);
-            
-            if (event.isLeftClick()) {
-                handleBuy(player, shopItem);
-            } else if (event.isRightClick() && shopItem.isSellable()) {
-                handleSell(player, shopItem);
-            }
-        }
-    }
     
     private void handleBuy(Player player, RPGShopTrait.ShopItem shopItem) {
         if (rpgPlayer == null) return;

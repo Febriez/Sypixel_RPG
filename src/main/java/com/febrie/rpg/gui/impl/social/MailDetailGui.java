@@ -49,9 +49,9 @@ public class MailDetailGui extends BaseGui {
     private final MailDTO mail;
     private final MailManager mailManager;
 
-    private MailDetailGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private MailDetailGui(@NotNull GuiManager guiManager,
                         @NotNull Player player, @NotNull MailDTO mail) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.mail-detail.title");
+        super(player, guiManager, GUI_SIZE, "gui.mail-detail.title");
         this.mail = mail;
         this.mailManager = MailManager.getInstance();
     }
@@ -65,9 +65,9 @@ public class MailDetailGui extends BaseGui {
      * @param mail 우편 데이터
      * @return 초기화된 MailDetailGui 인스턴스
      */
-    public static MailDetailGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static MailDetailGui create(@NotNull GuiManager guiManager,
                                       @NotNull Player player, @NotNull MailDTO mail) {
-        MailDetailGui gui = new MailDetailGui(guiManager, langManager, player, mail);
+        MailDetailGui gui = new MailDetailGui(guiManager, player, mail);
         gui.initialize("gui.mail-detail.title");
         gui.markAsRead();
         return gui;
@@ -80,7 +80,7 @@ public class MailDetailGui extends BaseGui {
 
     @Override
     protected GuiFramework getBackTarget() {
-        return MailboxGui.create(guiManager, langManager, viewer);
+        return MailboxGui.create(guiManager, viewer);
     }
 
     @Override
@@ -196,7 +196,7 @@ public class MailDetailGui extends BaseGui {
                         Bukkit.getScheduler().runTask(plugin, () -> {
                             if (success) {
                                 p.sendMessage("§a우편을 삭제했습니다.");
-                                MailboxGui mailboxGui = MailboxGui.create(guiManager, langManager, p);
+                                MailboxGui mailboxGui = MailboxGui.create(guiManager, p);
                                 guiManager.openGui(p, mailboxGui);
                             } else {
                                 p.sendMessage("§c우편 삭제에 실패했습니다.");

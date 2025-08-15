@@ -36,9 +36,9 @@ public class SystemSettingsGui extends BaseGui {
     // 타이틀 슬롯
     private static final int TITLE_SLOT = 4;
 
-    private SystemSettingsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private SystemSettingsGui(@NotNull GuiManager guiManager,
                             @NotNull Player player) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.system-settings.title");
+        super(player, guiManager, GUI_SIZE, "gui.system-settings.title");
     }
 
     /**
@@ -49,9 +49,9 @@ public class SystemSettingsGui extends BaseGui {
      * @param player 플레이어
      * @return 초기화된 SystemSettingsGui 인스턴스
      */
-    public static SystemSettingsGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static SystemSettingsGui create(@NotNull GuiManager guiManager,
                                           @NotNull Player player) {
-        SystemSettingsGui gui = new SystemSettingsGui(guiManager, langManager, player);
+        SystemSettingsGui gui = new SystemSettingsGui(guiManager, player);
         gui.initialize("gui.system-settings.title");
         return gui;
     }
@@ -63,7 +63,7 @@ public class SystemSettingsGui extends BaseGui {
 
     @Override
     protected GuiFramework getBackTarget() {
-        return PlayerSettingsGui.create(guiManager, langManager, viewer);
+        return PlayerSettingsGui.create(guiManager, viewer);
     }
 
     @Override
@@ -148,7 +148,7 @@ public class SystemSettingsGui extends BaseGui {
                     settings.setConfirmationDialogsEnabled(!enabled);
                     updateConfirmationDialogsToggle(settings);
                     playClickSound(p);
-                    langManager.sendMessage(p, "확인 대화상자가 " + (settings.isConfirmationDialogsEnabled() ? "활성화" : "비활성화") + "되었습니다");
+                    com.febrie.rpg.util.LangManager.sendMessage(p, "확인 대화상자가 " + (settings.isConfirmationDialogsEnabled() ? "활성화" : "비활성화") + "되었습니다");
                 }
         );
         setItem(CONFIRMATION_DIALOGS_SLOT, confirmationDialogsToggle);

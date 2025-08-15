@@ -38,9 +38,9 @@ public class SocialSettingsGui extends BaseGui {
     // 타이틀 슬롯
     private static final int TITLE_SLOT = 4;
 
-    private SocialSettingsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private SocialSettingsGui(@NotNull GuiManager guiManager,
                             @NotNull Player player) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.social-settings.title");
+        super(player, guiManager, GUI_SIZE, "gui.social-settings.title");
     }
 
     /**
@@ -51,9 +51,9 @@ public class SocialSettingsGui extends BaseGui {
      * @param player 플레이어
      * @return 초기화된 SocialSettingsGui 인스턴스
      */
-    public static SocialSettingsGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static SocialSettingsGui create(@NotNull GuiManager guiManager,
                                           @NotNull Player player) {
-        SocialSettingsGui gui = new SocialSettingsGui(guiManager, langManager, player);
+        SocialSettingsGui gui = new SocialSettingsGui(guiManager, player);
         gui.initialize("gui.social-settings.title");
         return gui;
     }
@@ -65,7 +65,7 @@ public class SocialSettingsGui extends BaseGui {
 
     @Override
     protected GuiFramework getBackTarget() {
-        return PlayerSettingsGui.create(guiManager, langManager, viewer);
+        return PlayerSettingsGui.create(guiManager, viewer);
     }
 
     @Override
@@ -162,9 +162,9 @@ public class SocialSettingsGui extends BaseGui {
                     updateFriendRequestsToggle(settings);
                     playClickSound(p);
                     if (settings.isFriendRequestsEnabled()) {
-                        langManager.sendMessage(p, "settings.social.friend-requests-enabled");
+                        com.febrie.rpg.util.LangManager.sendMessage(p, "settings.social.friend-requests-enabled");
                     } else {
-                        langManager.sendMessage(p, "settings.social.friend-requests-disabled");
+                        com.febrie.rpg.util.LangManager.sendMessage(p, "settings.social.friend-requests-disabled");
                     }
                 }
         );
@@ -197,9 +197,9 @@ public class SocialSettingsGui extends BaseGui {
                     updateGuildInvitesToggle(settings);
                     playClickSound(p);
                     if (settings.isGuildInvitesEnabled()) {
-                        langManager.sendMessage(p, "settings.social.guild-invites-enabled");
+                        com.febrie.rpg.util.LangManager.sendMessage(p, "settings.social.guild-invites-enabled");
                     } else {
-                        langManager.sendMessage(p, "settings.social.guild-invites-disabled");
+                        com.febrie.rpg.util.LangManager.sendMessage(p, "settings.social.guild-invites-disabled");
                     }
                 }
         );
@@ -265,7 +265,7 @@ public class SocialSettingsGui extends BaseGui {
                         default -> "알 수 없음";
                     };
                     
-                    langManager.sendMessage(p, "귓말 모드가 '" + newModeDisplay + "'로 변경되었습니다");
+                    com.febrie.rpg.util.LangManager.sendMessage(p, "귓말 모드가 '" + newModeDisplay + "'로 변경되었습니다");
                 }
         );
         setItem(WHISPER_MODE_SLOT, whisperModeToggle);

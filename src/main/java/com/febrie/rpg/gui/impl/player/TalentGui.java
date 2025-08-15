@@ -41,10 +41,10 @@ public class TalentGui extends ScrollableGui {
     private final String pageId;
     private final List<Talent> talents;
 
-    private TalentGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private TalentGui(@NotNull GuiManager guiManager,
                      @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
                      @NotNull String pageId, @NotNull List<Talent> talents) {
-        super(viewer, guiManager, langManager, GUI_SIZE, "gui.talent.title");
+        super(viewer, guiManager, GUI_SIZE, "gui.talent.title");
         this.rpgPlayer = rpgPlayer;
         this.pageId = pageId;
         this.talents = talents;
@@ -61,10 +61,10 @@ public class TalentGui extends ScrollableGui {
      * @param talents 특성 목록
      * @return 초기화된 TalentGui 인스턴스
      */
-    public static TalentGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static TalentGui create(@NotNull GuiManager guiManager,
                                   @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
                                   @NotNull String pageId, @NotNull List<Talent> talents) {
-        TalentGui gui = new TalentGui(guiManager, langManager, viewer, rpgPlayer, pageId, talents);
+        TalentGui gui = new TalentGui(guiManager, viewer, rpgPlayer, pageId, talents);
         gui.initialize("gui.talent.title");
         return gui;
     }
@@ -184,7 +184,7 @@ public class TalentGui extends ScrollableGui {
                 .amount(Math.max(1, currentLevel));
 
         // 설명 추가
-        List<Component> description = langManager.getComponentList(viewer,
+        List<Component> description = com.febrie.rpg.util.LangManager.getComponentList(viewer,
                 "talent." + talent.getId() + ".description");
         description.forEach(builder::addLore);
 
@@ -325,7 +325,7 @@ public class TalentGui extends ScrollableGui {
             return;
         }
 
-        TalentGui subGui = TalentGui.create(guiManager, langManager, player,
+        TalentGui subGui = TalentGui.create(guiManager, player,
                 rpgPlayer, subPageId, subTalents);
         guiManager.openGui(player, subGui);
         playClickSound(player);
@@ -345,6 +345,6 @@ public class TalentGui extends ScrollableGui {
     @Override
     public GuiFramework getBackTarget() {
         // TalentGui는 ProfileGui로 돌아갑니다
-        return new ProfileGui(guiManager, langManager, viewer);
+        return new ProfileGui(guiManager, viewer);
     }
 }

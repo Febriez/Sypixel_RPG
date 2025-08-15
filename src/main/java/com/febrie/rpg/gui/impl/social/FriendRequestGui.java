@@ -41,8 +41,8 @@ public class FriendRequestGui extends BaseGui {
 
     private final FriendManager friendManager;
 
-    private FriendRequestGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager, @NotNull Player player) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.friend-requests.title");
+    private FriendRequestGui(@NotNull GuiManager guiManager, @NotNull Player player) {
+        super(player, guiManager, GUI_SIZE, "gui.friend-requests.title");
         this.friendManager = FriendManager.getInstance();
     }
 
@@ -54,8 +54,8 @@ public class FriendRequestGui extends BaseGui {
      * @param player      플레이어
      * @return 초기화된 FriendRequestGui 인스턴스
      */
-    public static FriendRequestGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager, @NotNull Player player) {
-        FriendRequestGui gui = new FriendRequestGui(guiManager, langManager, player);
+    public static FriendRequestGui create(@NotNull GuiManager guiManager, @NotNull Player player) {
+        FriendRequestGui gui = new FriendRequestGui(guiManager, player);
         gui.initialize("gui.friend-requests.title");
         gui.loadRequests();
         return gui;
@@ -68,7 +68,7 @@ public class FriendRequestGui extends BaseGui {
 
     @Override
     protected GuiFramework getBackTarget() {
-        return FriendListGui.create(guiManager, langManager, viewer);
+        return FriendListGui.create(guiManager, viewer);
     }
 
     @Override

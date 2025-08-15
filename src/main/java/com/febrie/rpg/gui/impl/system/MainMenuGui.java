@@ -48,17 +48,15 @@ public class MainMenuGui extends BaseGui {
     // 타이틀 슬롯
     private static final int TITLE_SLOT = 4;
 
-    private MainMenuGui(@NotNull GuiManager guiManager,
-                       @NotNull LangManager langManager, @NotNull Player player) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.mainmenu.title");
+    private MainMenuGui(@NotNull GuiManager guiManager, @NotNull Player player) {
+        super(player, guiManager, GUI_SIZE, "gui.mainmenu.title");
     }
     
     /**
      * Factory method to create the GUI
      */
-    public static MainMenuGui create(@NotNull GuiManager guiManager,
-                                   @NotNull LangManager langManager, @NotNull Player player) {
-        MainMenuGui gui = new MainMenuGui(guiManager, langManager, player);
+    public static MainMenuGui create(@NotNull GuiManager guiManager, @NotNull Player player) {
+        MainMenuGui gui = new MainMenuGui(guiManager, player);
         return createAndInitialize(gui, "gui.mainmenu.title");
     }
 
@@ -103,7 +101,7 @@ public class MainMenuGui extends BaseGui {
         GuiItem titleItem = GuiItem.display(
                 new ItemBuilder(Material.NETHER_STAR)
                         .displayName(trans("items.mainmenu.title.name"))
-                        .lore(langManager.getComponentList(viewer, "items.mainmenu.title.lore"))
+                        .lore(LangManager.getComponentList(viewer, "items.mainmenu.title.lore"))
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -113,16 +111,16 @@ public class MainMenuGui extends BaseGui {
      * 메뉴 버튼들 설정
      */
     private void setupMenuButtons() {
-        GuiBuilder builder = new GuiBuilder(this, viewer, langManager, guiManager);
+        GuiBuilder builder = new GuiBuilder(this, viewer, guiManager);
         
         // 프로필 버튼 (상단)
         builder.menuButton(PROFILE_SLOT, 
             new ItemBuilder(viewer)
                 .displayName(trans("items.mainmenu.profile-button.name"))
-                .lore(langManager.getComponentList(viewer, "items.mainmenu.profile-button.lore"))
+                .lore(LangManager.getComponentList(viewer, "items.mainmenu.profile-button.lore"))
                 .build(),
             player -> {
-                ProfileGui profileGui = ProfileGui.create(guiManager, langManager, player);
+                ProfileGui profileGui = ProfileGui.create(guiManager, player);
                 guiManager.openGui(player, profileGui);
             });
             
@@ -173,12 +171,12 @@ public class MainMenuGui extends BaseGui {
                 
                 if (playerIslandData != null && playerIslandData.hasIsland()) {
                     // 섬이 있으면 섬 메뉴 열기
-                    IslandMainGui islandGui = IslandMainGui.create(guiManager, langManager, player);
+                    IslandMainGui islandGui = IslandMainGui.create(guiManager, player);
                     guiManager.openGui(player, islandGui);
                     playClickSound(player);
                 } else {
                     // 섬이 없으면 섬 생성 GUI 열기
-                    IslandCreationGui creationGui = IslandCreationGui.create(guiManager, langManager, player);
+                    IslandCreationGui creationGui = IslandCreationGui.create(guiManager, player);
                     guiManager.openGui(player, creationGui);
                     playClickSound(player);
                 }
@@ -192,10 +190,10 @@ public class MainMenuGui extends BaseGui {
         GuiItem leaderboardButton = GuiItem.clickable(
                 new ItemBuilder(Material.GOLDEN_APPLE)
                         .displayName(trans("items.mainmenu.leaderboard-button.name"))
-                        .lore(langManager.getComponentList(viewer, "items.mainmenu.leaderboard-button.lore"))
+                        .lore(LangManager.getComponentList(viewer, "items.mainmenu.leaderboard-button.lore"))
                         .build(),
                 player -> {
-                    LeaderboardGui leaderboardGui = LeaderboardGui.create(guiManager, langManager, player);
+                    LeaderboardGui leaderboardGui = LeaderboardGui.create(guiManager, player);
                     guiManager.openGui(player, leaderboardGui);
                     playClickSound(player);
                 }

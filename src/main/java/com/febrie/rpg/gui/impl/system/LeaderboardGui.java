@@ -93,14 +93,14 @@ public class LeaderboardGui extends ScrollableGui {
     private LeaderboardEntryDTO myRankEntry = null;
     private boolean isLoading = false;
 
-    private LeaderboardGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private LeaderboardGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer) {
-        this(guiManager, langManager, viewer, LeaderboardType.LEVEL);
+        this(guiManager, viewer, LeaderboardType.LEVEL);
     }
 
-    private LeaderboardGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private LeaderboardGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer, @NotNull LeaderboardType type) {
-        super(viewer, guiManager, langManager, GUI_SIZE, "gui.leaderboard.title",
+        super(viewer, guiManager, GUI_SIZE, "gui.leaderboard.title",
                 "type", type.getDisplayName());
         this.currentType = type;
     }
@@ -113,9 +113,9 @@ public class LeaderboardGui extends ScrollableGui {
      * @param viewer 보는 플레이어
      * @return 초기화된 LeaderboardGui 인스턴스
      */
-    public static LeaderboardGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static LeaderboardGui create(@NotNull GuiManager guiManager,
                                        @NotNull Player viewer) {
-        return create(guiManager, langManager, viewer, LeaderboardType.LEVEL);
+        return create(guiManager, viewer, LeaderboardType.LEVEL);
     }
 
     /**
@@ -127,9 +127,9 @@ public class LeaderboardGui extends ScrollableGui {
      * @param type 리더보드 타입
      * @return 초기화된 LeaderboardGui 인스턴스
      */
-    public static LeaderboardGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static LeaderboardGui create(@NotNull GuiManager guiManager,
                                        @NotNull Player viewer, @NotNull LeaderboardType type) {
-        LeaderboardGui gui = new LeaderboardGui(guiManager, langManager, viewer, type);
+        LeaderboardGui gui = new LeaderboardGui(guiManager, viewer, type);
         gui.initialize("gui.leaderboard.title", "type", type.getDisplayName());
         gui.loadLeaderboard();
         return gui;
@@ -454,6 +454,6 @@ public class LeaderboardGui extends ScrollableGui {
     @Override
     public GuiFramework getBackTarget() {
         // LeaderboardGui는 MainMenuGui로 돌아갑니다
-        return MainMenuGui.create(guiManager, langManager, viewer);
+        return MainMenuGui.create(guiManager, viewer);
     }
 }

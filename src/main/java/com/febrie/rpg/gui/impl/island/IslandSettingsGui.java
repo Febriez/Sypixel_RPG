@@ -188,7 +188,7 @@ public class IslandSettingsGui extends BaseGui {
             }
             case 48 -> {
                 player.closeInventory();
-                IslandMainGui.create(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
+                IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
             }
             case 50 -> handleSave(player);
         }
@@ -323,7 +323,7 @@ public class IslandSettingsGui extends BaseGui {
         }
         
         player.closeInventory();
-        IslandMainGui.create(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
+        IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
     }
     
     private String getBiomeDisplayName(String biome) {

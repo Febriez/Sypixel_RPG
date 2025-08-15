@@ -62,9 +62,9 @@ public class ProfileGui extends BaseGui {
      * @param viewer GUI를 보는 플레이어
      * @param targetPlayer 프로필 대상 플레이어
      */
-    protected ProfileGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    protected ProfileGui(@NotNull GuiManager guiManager,
                         @NotNull Player viewer, @NotNull Player targetPlayer) {
-        super(viewer, guiManager, langManager, GUI_SIZE, "gui.profile.player-title",
+        super(viewer, guiManager, GUI_SIZE, "gui.profile.player-title",
                 "player", targetPlayer.getName());
         this.targetPlayer = targetPlayer;
     }
@@ -76,26 +76,26 @@ public class ProfileGui extends BaseGui {
      * @param langManager 언어 관리자
      * @param viewer GUI를 보는 플레이어 (자기 자신의 프로필)
      */
-    protected ProfileGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    protected ProfileGui(@NotNull GuiManager guiManager,
                         @NotNull Player viewer) {
-        this(guiManager, langManager, viewer, viewer);
+        this(guiManager, viewer, viewer);
     }
     
     /**
      * Factory method to create ProfileGui for viewing another player's profile
      */
-    public static ProfileGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static ProfileGui create(@NotNull GuiManager guiManager,
                                   @NotNull Player viewer, @NotNull Player targetPlayer) {
-        ProfileGui gui = new ProfileGui(guiManager, langManager, viewer, targetPlayer);
+        ProfileGui gui = new ProfileGui(guiManager, viewer, targetPlayer);
         return createAndInitialize(gui, "gui.profile.player-title", "player", targetPlayer.getName());
     }
     
     /**
      * Factory method to create ProfileGui for viewing own profile
      */
-    public static ProfileGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static ProfileGui create(@NotNull GuiManager guiManager,
                                   @NotNull Player viewer) {
-        return create(guiManager, langManager, viewer, viewer);
+        return create(guiManager, viewer, viewer);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class ProfileGui extends BaseGui {
     @Override
     protected GuiFramework getBackTarget() {
         // 프로필에서는 메인 메뉴로 돌아감
-        return MainMenuGui.create(guiManager, langManager, viewer);
+        return MainMenuGui.create(guiManager, viewer);
     }
 
     /**
@@ -255,11 +255,11 @@ public class ProfileGui extends BaseGui {
                         .build(),
                 p -> {
                     if (p.equals(targetPlayer)) {
-                        QuestListGui questListGui = QuestListGui.create(guiManager, langManager, p);
+                        QuestListGui questListGui = QuestListGui.create(guiManager, p);
                         guiManager.openGui(p, questListGui);
                         playSuccessSound(p);
                     } else {
-                        langManager.sendMessage(p, "general.cannot-view-others-quests");
+                        com.febrie.rpg.util.LangManager.sendMessage(p, "general.cannot-view-others-quests");
                         playErrorSound(p);
                     }
                 }
@@ -294,16 +294,16 @@ public class ProfileGui extends BaseGui {
             GuiItem jobButton = GuiItem.clickable(
                     ItemBuilder.of(Material.ENCHANTING_TABLE)
                             .displayName(trans("items.mainmenu.job-button.name"))
-                            .addLore(langManager.getComponentList(viewer, "items.mainmenu.job-button.lore"))
+                            .addLore(com.febrie.rpg.util.LangManager.getComponentList(viewer, "items.mainmenu.job-button.lore"))
                             .glint(true)
                             .build(),
                     p -> {
                         if (p.equals(targetPlayer)) {
-                            JobSelectionGui jobGui = JobSelectionGui.create(guiManager, langManager, p, rpgPlayer);
+                            JobSelectionGui jobGui = JobSelectionGui.create(guiManager, p, rpgPlayer);
                             guiManager.openGui(p, jobGui);
                             playSuccessSound(p);
                         } else {
-                            langManager.sendMessage(p, "general.cannot-select-others-job");
+                            com.febrie.rpg.util.LangManager.sendMessage(p, "general.cannot-select-others-job");
                             playErrorSound(p);
                         }
                     }
@@ -334,11 +334,11 @@ public class ProfileGui extends BaseGui {
                             // Open talent GUI
                             List<com.febrie.rpg.talent.Talent> talents = RPGMain.getPlugin()
                                     .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
-                            TalentGui talentGui = TalentGui.create(guiManager, langManager, p, rpgPlayer, "main", talents);
+                            TalentGui talentGui = TalentGui.create(guiManager, p, rpgPlayer, "main", talents);
                             guiManager.openGui(p, talentGui);
                             playSuccessSound(p);
                         } else {
-                            langManager.sendMessage(p, "general.cannot-view-others-talents");
+                            com.febrie.rpg.util.LangManager.sendMessage(p, "general.cannot-view-others-talents");
                             playErrorSound(p);
                         }
                     }
@@ -354,22 +354,22 @@ public class ProfileGui extends BaseGui {
         GuiItem statsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.IRON_CHESTPLATE)
                         .displayName(trans("items.mainmenu.stats-button.name"))
-                        .addLore(langManager.getComponentList(viewer, "items.mainmenu.stats-button.lore"))
+                        .addLore(com.febrie.rpg.util.LangManager.getComponentList(viewer, "items.mainmenu.stats-button.lore"))
                         .flags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES)
                         .build(),
                 p -> {
                     if (!rpgPlayer.hasJob()) {
-                        langManager.sendMessage(p, "messages.no-job-for-stats");
+                        com.febrie.rpg.util.LangManager.sendMessage(p, "messages.no-job-for-stats");
                         playErrorSound(p);
                         return;
                     }
 
                     if (p.equals(targetPlayer)) {
-                        StatsGui statsGui = StatsGui.create(guiManager, langManager, p, rpgPlayer);
+                        StatsGui statsGui = StatsGui.create(guiManager, p, rpgPlayer);
                         guiManager.openGui(p, statsGui);
                         playSuccessSound(p);
                     } else {
-                        langManager.sendMessage(p, "general.cannot-view-others-stats");
+                        com.febrie.rpg.util.LangManager.sendMessage(p, "general.cannot-view-others-stats");
                         playErrorSound(p);
                     }
                 }
@@ -387,7 +387,7 @@ public class ProfileGui extends BaseGui {
                         .addLore(trans("general.coming-soon"))
                         .build(),
                 p -> {
-                    langManager.sendMessage(p, "general.coming-soon");
+                    com.febrie.rpg.util.LangManager.sendMessage(p, "general.coming-soon");
                     playClickSound(p);
                 }
         );
@@ -404,7 +404,7 @@ public class ProfileGui extends BaseGui {
                         .addLore(trans("general.coming-soon"))
                         .build(),
                 p -> {
-                    langManager.sendMessage(p, "general.coming-soon");
+                    com.febrie.rpg.util.LangManager.sendMessage(p, "general.coming-soon");
                     playClickSound(p);
                 }
         );
@@ -436,7 +436,7 @@ public class ProfileGui extends BaseGui {
                         guiManager.openGui(p, backTarget);
                     } else {
                         // 메인 메뉴 열기
-                        MainMenuGui mainMenu = MainMenuGui.create(guiManager, langManager, p);
+                        MainMenuGui mainMenu = MainMenuGui.create(guiManager, p);
                         guiManager.openGui(p, mainMenu);
                     }
                     playBackSound(p);
@@ -444,7 +444,7 @@ public class ProfileGui extends BaseGui {
         ));
 
         // Close button - BaseGui 표준 위치 사용
-        setItem(getCloseButtonSlot(), GuiFactory.createCloseButton(langManager, viewer));
+        setItem(getCloseButtonSlot(), GuiFactory.createCloseButton(viewer));
 
         // User settings button (only for own profile)
         if (viewer.equals(targetPlayer)) {
@@ -455,7 +455,7 @@ public class ProfileGui extends BaseGui {
                             .build(),
                     p -> {
                         com.febrie.rpg.gui.impl.settings.PlayerSettingsGui settingsGui = 
-                            com.febrie.rpg.gui.impl.settings.PlayerSettingsGui.create(guiManager, langManager, p);
+                            com.febrie.rpg.gui.impl.settings.PlayerSettingsGui.create(guiManager, p);
                         guiManager.openGui(p, settingsGui);
                         playClickSound(p);
                     }

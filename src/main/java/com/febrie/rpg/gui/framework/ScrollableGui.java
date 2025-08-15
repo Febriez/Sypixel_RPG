@@ -41,21 +41,19 @@ public abstract class ScrollableGui extends BaseGui {
      * Default: 3 rows, 7 columns, starting at row 1, col 1
      */
     public ScrollableGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
-                         @NotNull LangManager langManager, int size,
-                         @NotNull String titleKey, @NotNull String... titleArgs) {
-        this(viewer, guiManager, langManager, size, titleKey, 3, 7, 1, 1, titleArgs);
+                         int size, @NotNull String titleKey, @NotNull String... titleArgs) {
+        this(viewer, guiManager, size, titleKey, 3, 7, 1, 1, titleArgs);
     }
 
     /**
      * Creates a scrollable GUI with custom configuration
      */
     public ScrollableGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
-                         @NotNull LangManager langManager, int size,
-                         @NotNull String titleKey,
+                         int size, @NotNull String titleKey,
                          int scrollRows, int scrollCols,
                          int scrollStartRow, int scrollStartCol,
                          @NotNull String... titleArgs) {
-        super(viewer, guiManager, langManager, size, titleKey, titleArgs);
+        super(viewer, guiManager, size, titleKey, titleArgs);
 
         this.scrollRows = scrollRows;
         this.scrollCols = scrollCols;

@@ -38,9 +38,9 @@ public class NotificationSettingsGui extends BaseGui {
     // 타이틀 슬롯
     private static final int TITLE_SLOT = 4;
 
-    private NotificationSettingsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private NotificationSettingsGui(@NotNull GuiManager guiManager,
                                   @NotNull Player player) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.notification-settings.title");
+        super(player, guiManager, GUI_SIZE, "gui.notification-settings.title");
     }
 
     /**
@@ -51,9 +51,9 @@ public class NotificationSettingsGui extends BaseGui {
      * @param player 플레이어
      * @return 초기화된 NotificationSettingsGui 인스턴스
      */
-    public static NotificationSettingsGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static NotificationSettingsGui create(@NotNull GuiManager guiManager,
                                                 @NotNull Player player) {
-        NotificationSettingsGui gui = new NotificationSettingsGui(guiManager, langManager, player);
+        NotificationSettingsGui gui = new NotificationSettingsGui(guiManager, player);
         gui.initialize("gui.notification-settings.title");
         return gui;
     }
@@ -65,7 +65,7 @@ public class NotificationSettingsGui extends BaseGui {
 
     @Override
     protected GuiFramework getBackTarget() {
-        return PlayerSettingsGui.create(guiManager, langManager, viewer);
+        return PlayerSettingsGui.create(guiManager, viewer);
     }
 
     @Override
@@ -163,7 +163,7 @@ public class NotificationSettingsGui extends BaseGui {
                     settings.setWhisperNotificationsEnabled(!enabled);
                     updateWhisperNotificationsToggle(settings);
                     playClickSound(p);
-                    langManager.sendMessage(p, "귓말 알림이 " + (settings.isWhisperNotificationsEnabled() ? "활성화" : "비활성화") + "되었습니다");
+                    com.febrie.rpg.util.LangManager.sendMessage(p, "귓말 알림이 " + (settings.isWhisperNotificationsEnabled() ? "활성화" : "비활성화") + "되었습니다");
                 }
         );
         setItem(WHISPER_NOTIFICATIONS_SLOT, whisperNotificationsToggle);
@@ -237,7 +237,7 @@ public class NotificationSettingsGui extends BaseGui {
                         default -> "알 수 없음";
                     };
                     
-                    langManager.sendMessage(p, "초대 알림 모드가 '" + newModeDisplay + "'로 변경되었습니다");
+                    com.febrie.rpg.util.LangManager.sendMessage(p, "초대 알림 모드가 '" + newModeDisplay + "'로 변경되었습니다");
                 }
         );
         setItem(INVITE_NOTIFICATIONS_SLOT, inviteNotificationsToggle);
@@ -271,7 +271,7 @@ public class NotificationSettingsGui extends BaseGui {
                     settings.setServerAnnouncementsEnabled(!enabled);
                     updateServerAnnouncementsToggle(settings);
                     playClickSound(p);
-                    langManager.sendMessage(p, "서버 공지 알림이 " + (settings.isServerAnnouncementsEnabled() ? "활성화" : "비활성화") + "되었습니다");
+                    com.febrie.rpg.util.LangManager.sendMessage(p, "서버 공지 알림이 " + (settings.isServerAnnouncementsEnabled() ? "활성화" : "비활성화") + "되었습니다");
                 }
         );
         setItem(SERVER_ANNOUNCEMENTS_SLOT, serverAnnouncementsToggle);

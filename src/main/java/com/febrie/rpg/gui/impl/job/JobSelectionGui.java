@@ -34,9 +34,9 @@ public class JobSelectionGui extends BaseGui {
     private final RPGPlayer rpgPlayer;
     private JobType.JobCategory selectedCategory = JobType.JobCategory.WARRIOR;
 
-    private JobSelectionGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private JobSelectionGui(@NotNull GuiManager guiManager,
                            @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        super(viewer, guiManager, langManager, GUI_SIZE, "gui.job-selection.title");
+        super(viewer, guiManager, GUI_SIZE, "gui.job-selection.title");
         this.rpgPlayer = rpgPlayer;
     }
 
@@ -49,9 +49,9 @@ public class JobSelectionGui extends BaseGui {
      * @param rpgPlayer RPG 플레이어
      * @return 초기화된 JobSelectionGui 인스턴스
      */
-    public static JobSelectionGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static JobSelectionGui create(@NotNull GuiManager guiManager,
                                         @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        JobSelectionGui gui = new JobSelectionGui(guiManager, langManager, viewer, rpgPlayer);
+        JobSelectionGui gui = new JobSelectionGui(guiManager, viewer, rpgPlayer);
         gui.initialize("gui.job-selection.title");
         return gui;
     }
@@ -185,7 +185,7 @@ public class JobSelectionGui extends BaseGui {
                 .addLore(Component.empty());
 
         // 직업 설명 추가
-        List<Component> description = langManager.getComponentList(viewer, "job." + jobKey + ".description");
+        List<Component> description = com.febrie.rpg.util.LangManager.getComponentList(viewer, "job." + jobKey + ".description");
         for (Component line : description) {
             builder.addLore(line);
         }
@@ -219,7 +219,7 @@ public class JobSelectionGui extends BaseGui {
     private void openConfirmationGui(@NotNull JobType job) {
         // 확인 GUI 열기
         JobConfirmationGui confirmationGui = JobConfirmationGui.create(
-                guiManager, langManager, viewer, rpgPlayer, job
+                guiManager, viewer, rpgPlayer, job
         );
         guiManager.openGui(viewer, confirmationGui);
         playClickSound(viewer);
@@ -228,6 +228,6 @@ public class JobSelectionGui extends BaseGui {
     @Override
     public GuiFramework getBackTarget() {
         // ProfileGui로 돌아가기
-        return ProfileGui.create(guiManager, guiManager.getLangManager(), viewer, rpgPlayer.getPlayer());
+        return ProfileGui.create(guiManager, viewer, rpgPlayer.getPlayer());
     }
 }

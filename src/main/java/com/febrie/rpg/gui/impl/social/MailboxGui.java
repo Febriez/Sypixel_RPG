@@ -50,9 +50,9 @@ public class MailboxGui extends BaseGui {
     private boolean showReadMails = false;
     private List<MailDTO> mails = new ArrayList<>();
 
-    private MailboxGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private MailboxGui(@NotNull GuiManager guiManager,
                      @NotNull Player player) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.mailbox.title");
+        super(player, guiManager, GUI_SIZE, "gui.mailbox.title");
         this.mailManager = MailManager.getInstance();
     }
 
@@ -64,9 +64,9 @@ public class MailboxGui extends BaseGui {
      * @param player 플레이어
      * @return 초기화된 MailboxGui 인스턴스
      */
-    public static MailboxGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static MailboxGui create(@NotNull GuiManager guiManager,
                                    @NotNull Player player) {
-        MailboxGui gui = new MailboxGui(guiManager, langManager, player);
+        MailboxGui gui = new MailboxGui(guiManager, player);
         gui.initialize("gui.mailbox.title");
         gui.loadMails();
         return gui;
@@ -79,7 +79,7 @@ public class MailboxGui extends BaseGui {
 
     @Override
     protected GuiFramework getBackTarget() {
-        return MainMenuGui.create(guiManager, langManager, viewer);
+        return MainMenuGui.create(guiManager, viewer);
     }
 
     @Override
@@ -263,7 +263,7 @@ public class MailboxGui extends BaseGui {
                             .addLore(Component.text("클릭하여 우편 확인", ColorUtil.YELLOW))
                             .build(),
                     p -> {
-                        MailDetailGui detailGui = MailDetailGui.create(guiManager, langManager, p, mail);
+                        MailDetailGui detailGui = MailDetailGui.create(guiManager, p, mail);
                         guiManager.openGui(p, detailGui);
                         playClickSound(p);
                     }

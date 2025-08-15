@@ -193,7 +193,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
             case 32 -> player.sendMessage(ColorUtil.colorize("&c이 기능은 아직 구현되지 않았습니다."));
             case 49 -> {
                 player.closeInventory();
-                IslandMainGui.create(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
+                IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
             }
         }
     }

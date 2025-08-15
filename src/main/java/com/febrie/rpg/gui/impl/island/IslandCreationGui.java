@@ -83,20 +83,16 @@ public class IslandCreationGui extends BaseGui {
 
     private final IslandManager islandManager;
 
-    private IslandCreationGui(@NotNull GuiManager guiManager,
-                              @NotNull LangManager langManager,
-                              @NotNull Player player) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.island.creation.title");
+    private IslandCreationGui(@NotNull GuiManager guiManager, @NotNull Player player) {
+        super(player, guiManager, GUI_SIZE, "gui.island.creation.title");
         this.islandManager = RPGMain.getInstance().getIslandManager();
     }
 
     /**
      * Factory method to create the GUI
      */
-    public static IslandCreationGui create(@NotNull GuiManager guiManager,
-                                           @NotNull LangManager langManager,
-                                           @NotNull Player player) {
-        IslandCreationGui gui = new IslandCreationGui(guiManager, langManager, player);
+    public static IslandCreationGui create(@NotNull GuiManager guiManager, @NotNull Player player) {
+        IslandCreationGui gui = new IslandCreationGui(guiManager, player);
         return createAndInitialize(gui, "gui.island.creation.title");
     }
 
@@ -107,7 +103,7 @@ public class IslandCreationGui extends BaseGui {
 
     @Override
     protected GuiFramework getBackTarget() {
-        return MainMenuGui.create(guiManager, langManager, viewer);
+        return MainMenuGui.create(guiManager, viewer);
     }
 
     @Override
@@ -128,7 +124,7 @@ public class IslandCreationGui extends BaseGui {
         GuiItem titleItem = GuiItem.display(
                 new ItemBuilder(Material.GRASS_BLOCK)
                         .displayName(trans("items.island.creation.title.name"))
-                        .lore(langManager.getComponentList(viewer, "items.island.creation.title.lore"))
+                        .lore(LangManager.getComponentList(viewer, "items.island.creation.title.lore"))
                         .build()
         );
         setItem(4, titleItem);
@@ -291,7 +287,7 @@ public class IslandCreationGui extends BaseGui {
                 player -> {
                     // 바이옴 선택 GUI 열기
                     IslandBiomeSelectionGui biomeGui = IslandBiomeSelectionGui.create(
-                            guiManager, langManager, player, selectedBiome,
+                            guiManager, player, selectedBiome,
                             biome -> {
                                 selectedBiome = biome;
                                 updateBiomeItem();

@@ -10,6 +10,7 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SkullUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -141,7 +142,7 @@ public class IslandMemberGui extends BaseGui {
         ItemBuilder builder = new ItemBuilder(SkullUtil.getPlayerHead(member.uuid()))
                 .displayName(ColorUtil.parseComponent("&b" + member.name()))
                 .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7역할: &f" + IslandPermissionHandler.getRoleDisplayName(plugin.getLangManager(), plugin.getLangManager().getPlayerLanguage(viewer), member.isCoOwner() ? IslandRole.CO_OWNER : IslandRole.MEMBER)))
+                .addLore(ColorUtil.parseComponent("&7역할: &f" + IslandPermissionHandler.getRoleDisplayName(plugin.getLangManager(), viewer.locale().getLanguage(), member.isCoOwner() ? IslandRole.CO_OWNER : IslandRole.MEMBER)))
                 .addLore(ColorUtil.parseComponent("&7가입일: &f" + formatDate(member.joinedAt())))
                 .addLore(ColorUtil.parseComponent(""));
         
@@ -263,7 +264,7 @@ public class IslandMemberGui extends BaseGui {
                 }
             }
             case 48 -> { // 뒤로 가기
-                IslandMainGui.create(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
+                IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
             }
             case 49 -> { // 초대
                 if (IslandPermissionHandler.hasPermission(island, viewer, "INVITE_MEMBERS")) {

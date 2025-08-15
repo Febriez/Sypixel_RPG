@@ -43,14 +43,12 @@ public class QuestDetailGui extends BaseGui {
 
     private final Quest quest;
     private final QuestProgress progress;
-    private final boolean isKorean;
 
-    private QuestDetailGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private QuestDetailGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer, @NotNull Quest quest, @NotNull QuestProgress progress) {
-        super(viewer, guiManager, langManager, GUI_SIZE, "gui.quest-detail.title");
+        super(viewer, guiManager, GUI_SIZE, "gui.quest-detail.title");
         this.quest = quest;
         this.progress = progress;
-        this.isKorean = viewer.locale().toString().startsWith("ko");
     }
 
     /**
@@ -63,9 +61,9 @@ public class QuestDetailGui extends BaseGui {
      * @param progress 퀘스트 진행도
      * @return 초기화된 QuestDetailGui 인스턴스
      */
-    public static QuestDetailGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static QuestDetailGui create(@NotNull GuiManager guiManager,
                                        @NotNull Player viewer, @NotNull Quest quest, @NotNull QuestProgress progress) {
-        QuestDetailGui gui = new QuestDetailGui(guiManager, langManager, viewer, quest, progress);
+        QuestDetailGui gui = new QuestDetailGui(guiManager, viewer, quest, progress);
         gui.initialize("gui.quest-detail.title");
         return gui;
     }
@@ -137,7 +135,7 @@ public class QuestDetailGui extends BaseGui {
      */
     private void setupQuestInfo() {
         ItemBuilder builder = new ItemBuilder(Material.PAPER)
-                .displayName(Component.text(quest.getDisplayName(isKorean))
+                .displayName(quest.getDisplayName(viewer)
                         .color(ColorUtil.LEGENDARY)
                         .decoration(TextDecoration.BOLD, true));
 
@@ -145,14 +143,15 @@ public class QuestDetailGui extends BaseGui {
         
         // 퀘스트 설명
         lore.add(Component.empty());
-        List<String> descriptions = quest.getDisplayInfo(isKorean);
-        for (String desc : descriptions) {
-            lore.add(Component.text(desc, ColorUtil.GRAY));
+        List<Component> descriptions = quest.getDisplayInfo(viewer);
+        for (Component desc : descriptions) {
+            lore.add(desc.color(ColorUtil.GRAY));
         }
         lore.add(Component.empty());
         
         // 전체 진행도
-        lore.add(Component.text(langManager.getMessage(viewer, "quest.total-progress") + ": " + progress.getCompletionPercentage() + "%", ColorUtil.EMERALD));
+        Component totalProgressText = LangManager.getMessage(viewer, "quest.total-progress");
+        lore.add(totalProgressText.append(Component.text(": " + progress.getCompletionPercentage() + "%")).color(ColorUtil.EMERALD));
         
         builder.addLore(lore);
         builder.asGuiItem(false);
@@ -165,7 +164,8 @@ public class QuestDetailGui extends BaseGui {
      */
     private void setupObjectives() {
         ItemBuilder builder = new ItemBuilder(Material.MAP)
-                .displayName(Component.text(langManager.getMessage(viewer, "gui.quest-detail.objective-progress"), ColorUtil.YELLOW)
+                .displayName(LangManager.getMessage(viewer, "gui.quest-detail.objective-progress")
+                        .color(ColorUtil.YELLOW)
                         .decoration(TextDecoration.BOLD, true));
 
         List<Component> lore = new ArrayList<>();
@@ -179,7 +179,7 @@ public class QuestDetailGui extends BaseGui {
                         : Component.text(" " + objective.getProgressString(objProgress), ColorUtil.GRAY);
 
                 lore.add(Component.text("• ", ColorUtil.GRAY)
-                        .append(Component.text(quest.getObjectiveDescription(objective, isKorean)))
+                        .append(quest.getObjectiveDescription(objective, viewer))
                         .append(status));
             }
         });
@@ -222,7 +222,7 @@ public class QuestDetailGui extends BaseGui {
             Material material = i < greenSlots ? Material.LIME_STAINED_GLASS_PANE : Material.YELLOW_STAINED_GLASS_PANE;
             
             ItemBuilder builder = new ItemBuilder(material)
-                    .displayName(Component.text(langManager.getMessage(viewer, "quest.progress"), ColorUtil.WHITE))
+                    .displayName(LangManager.getMessage(viewer, "quest.progress").color(ColorUtil.WHITE))
                     .addLore(Component.text(completionPercentage + "%", ColorUtil.GRAY));
             
             setItem(slot, GuiItem.display(builder.build()));
@@ -246,7 +246,7 @@ public class QuestDetailGui extends BaseGui {
      */
     private void setupBackButton() {
         updateNavigationButtons();
-        setItem(getCloseButtonSlot(), GuiFactory.createCloseButton(langManager, viewer));
+        setItem(getCloseButtonSlot(), GuiFactory.createCloseButton(viewer));
     }
 
     @Override
@@ -256,6 +256,6 @@ public class QuestDetailGui extends BaseGui {
 
     @Override
     public GuiFramework getBackTarget() {
-        return QuestListGui.create(guiManager, langManager, viewer);
+        return QuestListGui.create(guiManager, viewer);
     }
 }

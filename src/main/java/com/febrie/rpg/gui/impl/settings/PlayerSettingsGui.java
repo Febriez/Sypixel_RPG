@@ -38,9 +38,9 @@ public class PlayerSettingsGui extends BaseGui {
     // 타이틀 슬롯
     private static final int TITLE_SLOT = 4;
 
-    private PlayerSettingsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private PlayerSettingsGui(@NotNull GuiManager guiManager,
                             @NotNull Player player) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.settings.title");
+        super(player, guiManager, GUI_SIZE, "gui.settings.title");
     }
 
     /**
@@ -51,9 +51,9 @@ public class PlayerSettingsGui extends BaseGui {
      * @param player 플레이어
      * @return 초기화된 PlayerSettingsGui 인스턴스
      */
-    public static PlayerSettingsGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static PlayerSettingsGui create(@NotNull GuiManager guiManager,
                                           @NotNull Player player) {
-        PlayerSettingsGui gui = new PlayerSettingsGui(guiManager, langManager, player);
+        PlayerSettingsGui gui = new PlayerSettingsGui(guiManager, player);
         gui.initialize("gui.settings.title");
         return gui;
     }
@@ -65,7 +65,7 @@ public class PlayerSettingsGui extends BaseGui {
 
     @Override
     protected GuiFramework getBackTarget() {
-        return ProfileGui.create(guiManager, langManager, viewer);
+        return ProfileGui.create(guiManager, viewer);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class PlayerSettingsGui extends BaseGui {
                         .addLore(Component.text("클릭하여 설정", ColorUtil.YELLOW))
                         .build(),
                 p -> {
-                    GuiSettingsGui guiSettingsGui = GuiSettingsGui.create(guiManager, langManager, p);
+                    GuiSettingsGui guiSettingsGui = GuiSettingsGui.create(guiManager, p);
                     guiManager.openGui(p, guiSettingsGui);
                     playClickSound(p);
                 }
@@ -134,7 +134,7 @@ public class PlayerSettingsGui extends BaseGui {
                         .addLore(Component.text("클릭하여 설정", ColorUtil.YELLOW))
                         .build(),
                 p -> {
-                    IngameSettingsGui ingameSettingsGui = IngameSettingsGui.create(guiManager, langManager, p);
+                    IngameSettingsGui ingameSettingsGui = IngameSettingsGui.create(guiManager, p);
                     guiManager.openGui(p, ingameSettingsGui);
                     playClickSound(p);
                 }
@@ -154,7 +154,7 @@ public class PlayerSettingsGui extends BaseGui {
                         .addLore(Component.text("클릭하여 설정", ColorUtil.YELLOW))
                         .build(),
                 p -> {
-                    SocialSettingsGui socialSettingsGui = SocialSettingsGui.create(guiManager, langManager, p);
+                    SocialSettingsGui socialSettingsGui = SocialSettingsGui.create(guiManager, p);
                     guiManager.openGui(p, socialSettingsGui);
                     playClickSound(p);
                 }
@@ -173,7 +173,7 @@ public class PlayerSettingsGui extends BaseGui {
                         .addLore(Component.text("클릭하여 설정", ColorUtil.YELLOW))
                         .build(),
                 p -> {
-                    SystemSettingsGui systemSettingsGui = SystemSettingsGui.create(guiManager, langManager, p);
+                    SystemSettingsGui systemSettingsGui = SystemSettingsGui.create(guiManager, p);
                     guiManager.openGui(p, systemSettingsGui);
                     playClickSound(p);
                 }
@@ -193,7 +193,7 @@ public class PlayerSettingsGui extends BaseGui {
                         .addLore(Component.text("클릭하여 설정", ColorUtil.YELLOW))
                         .build(),
                 p -> {
-                    NotificationSettingsGui notificationSettingsGui = NotificationSettingsGui.create(guiManager, langManager, p);
+                    NotificationSettingsGui notificationSettingsGui = NotificationSettingsGui.create(guiManager, p);
                     guiManager.openGui(p, notificationSettingsGui);
                     playClickSound(p);
                 }

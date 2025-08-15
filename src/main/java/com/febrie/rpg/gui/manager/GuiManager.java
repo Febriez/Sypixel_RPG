@@ -19,15 +19,13 @@ import java.util.*;
 public class GuiManager {
 
     private final RPGMain plugin;
-    private final LangManager langManager;
 
     // 플레이어별 현재 열려있는 GUI
     private final Map<UUID, GuiFramework> activeGuis = new HashMap<>();
 
 
-    public GuiManager(@NotNull RPGMain plugin, @NotNull LangManager langManager) {
+    public GuiManager(@NotNull RPGMain plugin) {
         this.plugin = plugin;
-        this.langManager = langManager;
     }
 
     /**
@@ -64,7 +62,7 @@ public class GuiManager {
      */
     public void openQuestDialogGui(@NotNull Player player, @NotNull com.febrie.rpg.quest.Quest quest) {
         com.febrie.rpg.gui.impl.quest.QuestDialogGui questDialogGui =
-                com.febrie.rpg.gui.impl.quest.QuestDialogGui.create(this, langManager, player, quest);
+                com.febrie.rpg.gui.impl.quest.QuestDialogGui.create(this, player, quest);
         openGui(player, questDialogGui);
     }
 
@@ -123,14 +121,4 @@ public class GuiManager {
         return new HashMap<>(activeGuis);
     }
 
-    /**
-     * LangManager 가져오기
-     * GUI에서 필요할 때 사용
-     *
-     * @return LangManager 인스턴스
-     */
-    @NotNull
-    public LangManager getLangManager() {
-        return langManager;
-    }
 }

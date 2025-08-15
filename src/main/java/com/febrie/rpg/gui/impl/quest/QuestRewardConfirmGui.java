@@ -35,18 +35,18 @@ public class QuestRewardConfirmGui extends BaseGui {
     private final QuestManager questManager;
     private final QuestRewardGui previousGui;
     
-    private QuestRewardConfirmGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private QuestRewardConfirmGui(@NotNull GuiManager guiManager,
                                   @NotNull Player viewer, @NotNull Quest quest, @NotNull String instanceId, @NotNull QuestRewardGui previousGui) {
-        super(viewer, guiManager, langManager, GUI_SIZE, "gui.quest-reward.confirm.title");
+        super(viewer, guiManager, GUI_SIZE, "gui.quest-reward.confirm.title");
         this.quest = quest;
         this.instanceId = instanceId;
         this.questManager = QuestManager.getInstance();
         this.previousGui = previousGui;
     }
     
-    public static QuestRewardConfirmGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static QuestRewardConfirmGui create(@NotNull GuiManager guiManager,
                                                @NotNull Player viewer, @NotNull Quest quest, @NotNull String instanceId, @NotNull QuestRewardGui previousGui) {
-        QuestRewardConfirmGui gui = new QuestRewardConfirmGui(guiManager, langManager, viewer, quest, instanceId, previousGui);
+        QuestRewardConfirmGui gui = new QuestRewardConfirmGui(guiManager, viewer, quest, instanceId, previousGui);
         gui.initialize("gui.quest-reward.confirm.title");
         return gui;
     }
@@ -108,7 +108,7 @@ public class QuestRewardConfirmGui extends BaseGui {
             p.sendMessage(trans("gui.quest-reward.destroyed").color(ColorUtil.ERROR)
                     .decoration(TextDecoration.BOLD, true));
             p.sendMessage(trans("gui.quest-reward.destroyed-desc", 
-                    "quest", quest.getDisplayName(p.locale().getLanguage().equals("ko")))
+                    "quest", net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(quest.getDisplayName(p)))
                     .color(ColorUtil.WARNING));
             
             SoundUtil.playDeleteSound(p);

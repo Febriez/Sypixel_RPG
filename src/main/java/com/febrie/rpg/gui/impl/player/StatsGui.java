@@ -53,9 +53,9 @@ public class StatsGui extends ScrollableGui {
     private final RPGPlayer rpgPlayer;
     private final Map<Integer, GuiItem> items = new HashMap<>();
 
-    private StatsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private StatsGui(@NotNull GuiManager guiManager,
                     @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        super(viewer, guiManager, langManager, DEFAULT_SIZE, "gui.stats.title");
+        super(viewer, guiManager, DEFAULT_SIZE, "gui.stats.title");
         this.rpgPlayer = rpgPlayer;
     }
 
@@ -68,9 +68,9 @@ public class StatsGui extends ScrollableGui {
      * @param rpgPlayer RPG 플레이어
      * @return 초기화된 StatsGui 인스턴스
      */
-    public static StatsGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static StatsGui create(@NotNull GuiManager guiManager,
                                  @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        StatsGui gui = new StatsGui(guiManager, langManager, viewer, rpgPlayer);
+        StatsGui gui = new StatsGui(guiManager, viewer, rpgPlayer);
         gui.initialize("gui.stats.title");
         return gui;
     }
@@ -192,7 +192,7 @@ public class StatsGui extends ScrollableGui {
             builder.addLore(Component.empty());
 
             // 스탯 설명
-            List<Component> description = langManager.getComponentList(viewer,
+            List<Component> description = com.febrie.rpg.util.LangManager.getComponentList(viewer,
                     "stat." + stat.getId() + ".description");
             description.forEach(builder::addLore);
 
@@ -235,6 +235,6 @@ public class StatsGui extends ScrollableGui {
     @Override
     public GuiFramework getBackTarget() {
         // StatsGui는 ProfileGui로 돌아갑니다
-        return new ProfileGui(guiManager, langManager, viewer);
+        return new ProfileGui(guiManager, viewer);
     }
 }

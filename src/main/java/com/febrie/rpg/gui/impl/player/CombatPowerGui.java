@@ -31,9 +31,9 @@ public class CombatPowerGui extends BaseGui {
     private static final int GUI_SIZE = 54; // 6줄 (통일성을 위해 변경)
     private final RPGPlayer rpgPlayer;
 
-    private CombatPowerGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private CombatPowerGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        super(viewer, guiManager, langManager, GUI_SIZE, "gui.combat-power.title");
+        super(viewer, guiManager, GUI_SIZE, "gui.combat-power.title");
         this.rpgPlayer = rpgPlayer;
     }
 
@@ -46,9 +46,9 @@ public class CombatPowerGui extends BaseGui {
      * @param rpgPlayer RPG 플레이어
      * @return 초기화된 CombatPowerGui 인스턴스
      */
-    public static CombatPowerGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static CombatPowerGui create(@NotNull GuiManager guiManager,
                                        @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        CombatPowerGui gui = new CombatPowerGui(guiManager, langManager, viewer, rpgPlayer);
+        CombatPowerGui gui = new CombatPowerGui(guiManager, viewer, rpgPlayer);
         gui.initialize("gui.combat-power.title");
         return gui;
     }
@@ -187,6 +187,6 @@ public class CombatPowerGui extends BaseGui {
     @Override
     public GuiFramework getBackTarget() {
         // CombatPowerGui는 MainMenuGui로 돌아갑니다
-        return MainMenuGui.create(guiManager, langManager, viewer);
+        return MainMenuGui.create(guiManager, viewer);
     }
 }

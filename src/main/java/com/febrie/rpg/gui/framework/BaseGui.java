@@ -36,7 +36,6 @@ public abstract class BaseGui implements InteractiveGui {
 
     protected final Player viewer;
     protected final GuiManager guiManager;
-    protected final LangManager langManager;
     protected final int size;
     protected Inventory inventory;
     protected final Map<Integer, GuiItem> items = new HashMap<>();
@@ -64,11 +63,9 @@ public abstract class BaseGui implements InteractiveGui {
      * 생성자 - protected to prevent direct instantiation
      */
     protected BaseGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
-                   @NotNull LangManager langManager, int requestedSize,
-                   @NotNull String titleKey, @NotNull String... titleArgs) {
+                   int requestedSize, @NotNull String titleKey, @NotNull String... titleArgs) {
         this.viewer = viewer;
         this.guiManager = guiManager;
-        this.langManager = langManager;
         this.plugin = guiManager.getPlugin();
         this.size = validateSize(requestedSize);
         // Inventory will be created during initialization
@@ -82,7 +79,7 @@ public abstract class BaseGui implements InteractiveGui {
         if (initialized) {
             throw new IllegalStateException("GUI already initialized");
         }
-        Component title = langManager.getComponent(viewer, titleKey, titleArgs);
+        Component title = com.febrie.rpg.util.LangManager.getMessage(viewer, titleKey, titleArgs);
         Component styledTitle = applyTitleStyle(title);
         this.inventory = Bukkit.createInventory(this, size, styledTitle);
         setupLayout();
@@ -94,7 +91,7 @@ public abstract class BaseGui implements InteractiveGui {
      * Subclasses should create their own static factory method that calls this
      * 
      * Example usage in subclass:
-     * public static MyGui create(Player viewer, GuiManager manager, LangManager lang) {
+     * public static MyGui create(Player viewer, GuiManager manager, com.febrie.rpg.util.LangManager lang) {
      *     MyGui gui = new MyGui(viewer, manager, lang, 54, "my.title");
      *     gui.initialize("my.title");
      *     return gui;
@@ -147,7 +144,7 @@ public abstract class BaseGui implements InteractiveGui {
      * 인벤토리 생성
      */
     private Inventory createInventory(@NotNull String titleKey, @NotNull String... titleArgs) {
-        Component title = langManager.getComponent(viewer, titleKey, titleArgs);
+        Component title = com.febrie.rpg.util.LangManager.getMessage(viewer, titleKey, titleArgs);
         Component styledTitle = applyTitleStyle(title);
         return Bukkit.createInventory(this, size, styledTitle);
     }
@@ -273,12 +270,12 @@ public abstract class BaseGui implements InteractiveGui {
             setItem(getRefreshButtonSlot(), GuiFactory.createRefreshButton(() -> {
                 refresh();
                 playClickSound(viewer);
-            }, langManager, viewer));
+            }, viewer));
         }
 
         // 닫기 버튼
         if (includeClose) {
-            setItem(getCloseButtonSlot(), GuiFactory.createCloseButton(langManager, viewer));
+            setItem(getCloseButtonSlot(), GuiFactory.createCloseButton(viewer));
         }
     }
 
@@ -308,7 +305,7 @@ public abstract class BaseGui implements InteractiveGui {
         return GuiFactory.createBackButton(p -> {
             guiManager.openGui(p, backTarget);
             playBackSound(p);
-        }, langManager, viewer);
+        }, viewer);
     }
     
     /**
@@ -347,21 +344,22 @@ public abstract class BaseGui implements InteractiveGui {
      * 번역된 컴포넌트 가져오기 (간편 메소드)
      */
     protected Component trans(@NotNull String key, @NotNull String... args) {
-        return langManager.getComponent(viewer, key, args);
+        return com.febrie.rpg.util.LangManager.getMessage(viewer, key, args);
     }
 
     /**
      * 번역된 문자열 가져오기 (간편 메소드)
      */
     protected String transString(@NotNull String key, @NotNull String... args) {
-        return langManager.getMessage(viewer, key, args);
+        net.kyori.adventure.text.Component comp = com.febrie.rpg.util.LangManager.getMessage(viewer, key, args);
+        return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(comp);
     }
 
     /**
      * 메시지 전송 (간편 메소드)
      */
     protected void sendMessage(@NotNull Player player, @NotNull String key, @NotNull String... args) {
-        langManager.sendMessage(player, key, args);
+        com.febrie.rpg.util.LangManager.sendMessage(player, key, args);
     }
 
     // 사운드 재생 메소드들

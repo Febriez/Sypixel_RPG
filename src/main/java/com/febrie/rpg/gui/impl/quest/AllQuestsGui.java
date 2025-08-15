@@ -58,10 +58,9 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
     private int currentPage = 1;
     
     private AllQuestsGui(@NotNull GuiManager guiManager,
-                        @NotNull LangManager langManager,
                         @NotNull Player player,
                         @NotNull QuestFilter filter) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.all-quests.title");
+        super(player, guiManager, GUI_SIZE, "gui.all-quests.title");
         this.questManager = guiManager.getPlugin().getQuestManager();
         this.filter = filter;
         
@@ -93,10 +92,9 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
      * Factory method to create the GUI
      */
     public static AllQuestsGui create(@NotNull GuiManager guiManager,
-                                     @NotNull LangManager langManager,
                                      @NotNull Player player,
                                      @NotNull QuestFilter filter) {
-        AllQuestsGui gui = new AllQuestsGui(guiManager, langManager, player, filter);
+        AllQuestsGui gui = new AllQuestsGui(guiManager, player, filter);
         return createAndInitialize(gui, "gui.all-quests.title");
     }
     
@@ -107,7 +105,7 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
     
     @Override
     protected GuiFramework getBackTarget() {
-        return QuestListGui.create(guiManager, langManager, viewer);
+        return QuestListGui.create(guiManager, viewer);
     }
     
     @Override
@@ -168,11 +166,11 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
         Material material = (progress != null && progress.isCompleted()) ? Material.ENCHANTED_BOOK : Material.BOOK;
         
         ItemBuilder builder = new ItemBuilder(material)
-                .displayName(Component.text(quest.getDisplayName(langManager.getPlayerLanguage(viewer).equals("ko")), ColorUtil.PRIMARY));
+                .displayName(quest.getDisplayName(viewer).color(ColorUtil.PRIMARY));
         
         // 퀘스트 설명
-        for (String line : quest.getDescription(langManager.getPlayerLanguage(viewer).equals("ko"))) {
-            builder.addLore(Component.text(line, ColorUtil.GRAY));
+        for (Component line : quest.getDescription(viewer)) {
+            builder.addLore(line.color(ColorUtil.GRAY));
         }
         
         builder.addLore(Component.empty());
@@ -192,7 +190,8 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
                     .filter(ObjectiveProgress::isCompleted)
                     .count();
             int total = quest.getObjectives().size();
-            builder.addLore(Component.text(langManager.getMessage(viewer, "quest.progress") + ": " + completed + "/" + total, ColorUtil.YELLOW));
+            Component progressText = com.febrie.rpg.util.LangManager.getMessage(viewer, "quest.progress");
+            builder.addLore(progressText.append(Component.text(": " + completed + "/" + total)).color(ColorUtil.YELLOW));
         }
         
         builder.addLore(Component.empty());
@@ -211,7 +210,7 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
                             break;
                         }
                     }
-                    QuestDetailGui.create(guiManager, langManager, p, quest, qProgress).open(p);
+                    QuestDetailGui.create(guiManager, p, quest, qProgress).open(p);
                     playClickSound(p);
                 }
         );

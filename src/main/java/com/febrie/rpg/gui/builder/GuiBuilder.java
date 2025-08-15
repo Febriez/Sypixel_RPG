@@ -22,14 +22,11 @@ public class GuiBuilder {
     
     private final BaseGui gui;
     private final Player viewer;
-    private final LangManager langManager;
     private final GuiManager guiManager;
     
-    public GuiBuilder(@NotNull BaseGui gui, @NotNull Player viewer, 
-                      @NotNull LangManager langManager, @NotNull GuiManager guiManager) {
+    public GuiBuilder(@NotNull BaseGui gui, @NotNull Player viewer, @NotNull GuiManager guiManager) {
         this.gui = gui;
         this.viewer = viewer;
-        this.langManager = langManager;
         this.guiManager = guiManager;
     }
     
@@ -41,8 +38,8 @@ public class GuiBuilder {
                                  @NotNull Consumer<Player> action) {
         GuiItem button = GuiItem.clickable(
             new ItemBuilder(material)
-                .displayName(langManager.getComponent(viewer, nameKey))
-                .lore(langManager.getComponentList(viewer, loreKey))
+                .displayName(LangManager.getComponent(viewer, nameKey))
+                .lore(LangManager.getComponentList(viewer, loreKey))
                 .build(),
             player -> {
                 action.accept(player);
@@ -73,8 +70,8 @@ public class GuiBuilder {
                              @NotNull String nameKey, @NotNull String loreKey) {
         gui.setItem(slot, GuiItem.display(
             new ItemBuilder(material)
-                .displayName(langManager.getComponent(viewer, nameKey))
-                .lore(langManager.getComponentList(viewer, loreKey))
+                .displayName(LangManager.getComponent(viewer, nameKey))
+                .lore(LangManager.getComponentList(viewer, loreKey))
                 .build()
         ));
         return this;
@@ -170,6 +167,6 @@ public class GuiBuilder {
     
     
     private GuiItem createCloseButton() {
-        return GuiFactory.createCloseButton(langManager, viewer);
+        return GuiFactory.createCloseButton(viewer);
     }
 }

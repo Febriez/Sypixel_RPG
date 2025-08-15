@@ -1,13 +1,18 @@
 package com.febrie.rpg.gui.impl.quest;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.gui.BaseGui;
+import com.febrie.rpg.gui.component.GuiFactory;
+import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.GuiFramework;
+import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.dto.quest.ActiveQuestDTO;
 import com.febrie.rpg.dto.quest.CompletedQuestDTO;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -26,15 +31,13 @@ import java.util.List;
 public class QuestSelectionGui extends BaseGui {
     
     private final QuestManager questManager;
-    private final Player viewer;
     private final List<Quest> quests;
     private final String npcName;
     
-    private QuestSelectionGui(@NotNull RPGMain plugin, @NotNull Player viewer,
+    private QuestSelectionGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                              @NotNull List<Quest> quests, @NotNull String npcName) {
-        super(plugin, Math.min(54, ((quests.size() - 1) / 9 + 1) * 9 + 18)); // 동적 크기
-        this.questManager = plugin.getQuestManager();
-        this.viewer = viewer;
+        super(viewer, guiManager, Math.min(54, ((quests.size() - 1) / 9 + 1) * 9 + 18), "gui.quest-selection.title", npcName);
+        this.questManager = guiManager.getPlugin().getQuestManager();
         this.quests = quests;
         this.npcName = npcName;
     }
@@ -42,15 +45,27 @@ public class QuestSelectionGui extends BaseGui {
     /**
      * Factory method to create and open the quest selection GUI
      */
-    public static QuestSelectionGui create(@NotNull RPGMain plugin, @NotNull Player viewer,
-                                          @NotNull List<Quest> quests, @NotNull String npcName) {
-        QuestSelectionGui gui = new QuestSelectionGui(plugin, viewer, quests, npcName);
-        return BaseGui.create(gui, ColorUtil.parseComponent("&e&l" + npcName + " - 퀘스트 선택"));
+    public static QuestSelectionGui create(@NotNull GuiManager guiManager,
+                                          @NotNull Player viewer, @NotNull List<Quest> quests, @NotNull String npcName) {
+        QuestSelectionGui gui = new QuestSelectionGui(viewer, guiManager, quests, npcName);
+        return createAndInitialize(gui, "gui.quest-selection.title", npcName);
     }
     
     @Override
-    protected void setupItems() {
-        fillBorder(Material.YELLOW_STAINED_GLASS_PANE);
+    public @NotNull Component getTitle() {
+        return trans("gui.quest-selection.title", npcName);
+    }
+    
+    @Override
+    protected GuiFramework getBackTarget() {
+        // 퀘스트 선택은 NPC 대화에서 시작되므로 뒤로가기 없음
+        return null;
+    }
+    
+    @Override
+    protected void setupLayout() {
+        createBorder();
+        setupStandardNavigation(false, true);
         
         // 퀘스트 아이템들 배치
         int slot = 10;
@@ -61,12 +76,9 @@ public class QuestSelectionGui extends BaseGui {
             setItem(slot, createQuestItem(quest));
             slot++;
         }
-        
-        // 닫기 버튼
-        setItem(size - 5, createCloseButton());
     }
     
-    private ItemStack createQuestItem(Quest quest) {
+    private GuiItem createQuestItem(Quest quest) {
         // 현재 진행 중인지 확인
         java.util.Map<String, ActiveQuestDTO> activeQuests = questManager.getActiveQuests(viewer.getUniqueId());
         boolean isActive = activeQuests.values().stream()
@@ -80,13 +92,13 @@ public class QuestSelectionGui extends BaseGui {
         Material material = hasReward ? Material.ENCHANTED_BOOK : Material.BOOK;
         
         ItemBuilder builder = new ItemBuilder(material)
-                .displayName(ColorUtil.parseComponent("&e&l" + quest.getDisplayName(plugin.getLangManager().getPlayerLanguage(viewer).equals("ko"))));
+                .displayName(quest.getDisplayName(viewer).color(ColorUtil.GOLD).decorate(net.kyori.adventure.text.format.TextDecoration.BOLD));
         
         builder.addLore(ColorUtil.parseComponent(""));
         
         // 퀘스트 설명
-        for (String line : quest.getDescription(plugin.getLangManager().getPlayerLanguage(viewer).equals("ko"))) {
-            builder.addLore(ColorUtil.parseComponent("&7" + line));
+        for (Component line : quest.getDescription(viewer)) {
+            builder.addLore(line.color(ColorUtil.GRAY));
         }
         
         builder.addLore(ColorUtil.parseComponent(""));
@@ -104,70 +116,38 @@ public class QuestSelectionGui extends BaseGui {
         builder.addLore(ColorUtil.parseComponent(""));
         builder.addLore(ColorUtil.parseComponent("&e▶ 클릭하여 선택"));
         
-        return builder.build();
+        return GuiItem.clickable(builder.build(), player -> {
+            handleQuestSelection(player, quest);
+            playClickSound(player);
+        });
     }
     
-    private ItemStack createCloseButton() {
-        return new ItemBuilder(Material.BARRIER)
-                .displayName(ColorUtil.parseComponent("&c닫기"))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7GUI를 닫습니다"))
-                .build();
-    }
     
-    @Override
-    protected void handleClick(InventoryClickEvent event) {
-        event.setCancelled(true);
+    private void handleQuestSelection(Player player, Quest quest) {
+        player.closeInventory();
         
-        if (!(event.getWhoClicked() instanceof Player player)) return;
+        // 현재 진행 중인지 확인
+        java.util.Map<String, ActiveQuestDTO> activeQuests = questManager.getActiveQuests(player.getUniqueId());
+        java.util.Optional<java.util.Map.Entry<String, ActiveQuestDTO>> activeEntry = activeQuests.entrySet().stream()
+                .filter(entry -> entry.getValue().questId().equals(quest.getId().name()))
+                .findFirst();
         
-        int slot = event.getSlot();
+        // 완료된 퀘스트인지 확인
+        java.util.Map<String, CompletedQuestDTO> completedQuests = questManager.getCompletedQuests(player.getUniqueId());
+        java.util.Optional<java.util.Map.Entry<String, CompletedQuestDTO>> completedEntry = completedQuests.entrySet().stream()
+                .filter(entry -> entry.getValue().questId().equals(quest.getId().name()))
+                .findFirst();
         
-        // 닫기 버튼
-        if (slot == size - 5) {
-            player.closeInventory();
-            return;
-        }
-        
-        // 퀘스트 선택
-        int index = -1;
-        int checkSlot = 10;
-        for (int i = 0; i < quests.size(); i++) {
-            if (checkSlot % 9 == 8) checkSlot += 2;
-            if (checkSlot == slot) {
-                index = i;
-                break;
-            }
-            checkSlot++;
-        }
-        
-        if (index >= 0 && index < quests.size()) {
-            Quest quest = quests.get(index);
-            player.closeInventory();
-            
-            // 현재 진행 중인지 확인
-            java.util.Map<String, ActiveQuestDTO> activeQuests = questManager.getActiveQuests(player.getUniqueId());
-            java.util.Optional<java.util.Map.Entry<String, ActiveQuestDTO>> activeEntry = activeQuests.entrySet().stream()
-                    .filter(entry -> entry.getValue().questId().equals(quest.getId().name()))
-                    .findFirst();
-            
-            // 완료된 퀘스트인지 확인
-            java.util.Map<String, CompletedQuestDTO> completedQuests = questManager.getCompletedQuests(player.getUniqueId());
-            java.util.Optional<java.util.Map.Entry<String, CompletedQuestDTO>> completedEntry = completedQuests.entrySet().stream()
-                    .filter(entry -> entry.getValue().questId().equals(quest.getId().name()))
-                    .findFirst();
-            
-            if (completedEntry.isPresent()) {
-                // 보상 수령
-                String instanceId = completedEntry.get().getKey();
-                QuestRewardGui.create(plugin.getGuiManager(), plugin.getLangManager(), viewer, quest, instanceId).open(viewer);
-            } else if (activeEntry.isPresent()) {
-                // 진행 상황 표시
-                player.sendMessage(Component.text("퀘스트 '" + quest.getDisplayName(viewer.locale().toString().startsWith("ko")) + "'를 진행 중입니다.", ColorUtil.YELLOW));
-            } else {
-                // 새 퀘스트 시작
-                questManager.startQuest(viewer, quest.getId());
-            }
+        if (completedEntry.isPresent()) {
+            // 보상 수령
+            String instanceId = completedEntry.get().getKey();
+            QuestRewardGui.create(guiManager, viewer, quest, instanceId).open(viewer);
+        } else if (activeEntry.isPresent()) {
+            // 진행 상황 표시
+            player.sendMessage(Component.text("퀘스트 '").append(quest.getDisplayName(viewer)).append(Component.text("'를 진행 중입니다.")).color(ColorUtil.YELLOW));
+        } else {
+            // 새 퀘스트 시작
+            questManager.startQuest(viewer, quest.getId());
         }
     }
 }

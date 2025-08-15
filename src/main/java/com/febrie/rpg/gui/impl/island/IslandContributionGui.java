@@ -257,7 +257,7 @@ public class IslandContributionGui extends GuiHolder {
             }
             case 48 -> { // 뒤로가기
                 player.closeInventory();
-                IslandMainGui.create(plugin.getGuiManager(), plugin.getLangManager(), viewer).open(viewer);
+                IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
             }
             case 49 -> { // 기여하기
                 if (isIslandMember()) {

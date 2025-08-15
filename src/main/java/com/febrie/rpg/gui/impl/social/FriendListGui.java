@@ -49,9 +49,9 @@ public class FriendListGui extends BaseGui {
 
     private final FriendManager friendManager;
 
-    private FriendListGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private FriendListGui(@NotNull GuiManager guiManager,
                         @NotNull Player player) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.friends.title");
+        super(player, guiManager, GUI_SIZE, "gui.friends.title");
         this.friendManager = FriendManager.getInstance();
     }
 
@@ -63,9 +63,9 @@ public class FriendListGui extends BaseGui {
      * @param player 플레이어
      * @return 초기화된 FriendListGui 인스턴스
      */
-    public static FriendListGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static FriendListGui create(@NotNull GuiManager guiManager,
                                       @NotNull Player player) {
-        FriendListGui gui = new FriendListGui(guiManager, langManager, player);
+        FriendListGui gui = new FriendListGui(guiManager, player);
         gui.initialize("gui.friends.title");
         gui.loadFriends();
         return gui;
@@ -78,7 +78,7 @@ public class FriendListGui extends BaseGui {
 
     @Override
     protected GuiFramework getBackTarget() {
-        return MainMenuGui.create(guiManager, langManager, viewer);
+        return MainMenuGui.create(guiManager, viewer);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class FriendListGui extends BaseGui {
                         .addLore(Component.text("클릭하여 열기", ColorUtil.YELLOW))
                         .build(),
                 p -> {
-                    FriendRequestGui requestGui = FriendRequestGui.create(guiManager, langManager, p);
+                    FriendRequestGui requestGui = FriendRequestGui.create(guiManager, p);
                     guiManager.openGui(p, requestGui);
                     playClickSound(p);
                 }

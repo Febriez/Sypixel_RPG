@@ -36,9 +36,9 @@ public class JobConfirmationGui extends BaseGui {
     private final RPGPlayer rpgPlayer;
     private final JobType selectedJob;
 
-    private JobConfirmationGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private JobConfirmationGui(@NotNull GuiManager guiManager,
                                @NotNull Player player, @NotNull RPGPlayer rpgPlayer, @NotNull JobType selectedJob) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.job-confirmation.title");
+        super(player, guiManager, GUI_SIZE, "gui.job-confirmation.title");
         this.rpgPlayer = rpgPlayer;
         this.selectedJob = selectedJob;
     }
@@ -46,9 +46,9 @@ public class JobConfirmationGui extends BaseGui {
     /**
      * Factory method to create and initialize JobConfirmationGui
      */
-    public static JobConfirmationGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static JobConfirmationGui create(@NotNull GuiManager guiManager,
                                            @NotNull Player player, @NotNull RPGPlayer rpgPlayer, @NotNull JobType selectedJob) {
-        JobConfirmationGui gui = new JobConfirmationGui(guiManager, langManager, player, rpgPlayer, selectedJob);
+        JobConfirmationGui gui = new JobConfirmationGui(guiManager, player, rpgPlayer, selectedJob);
         gui.initialize("gui.job-confirmation.title");
         return gui;
     }
@@ -97,7 +97,7 @@ public class JobConfirmationGui extends BaseGui {
                 .addLore(Component.empty());
 
         // 직업 설명
-        List<Component> description = langManager.getComponentList(viewer, "job." + jobKey + ".description");
+        List<Component> description = com.febrie.rpg.util.LangManager.getComponentList(viewer, "job." + jobKey + ".description");
         for (Component line : description) {
             builder.addLore(line);
         }
@@ -201,7 +201,7 @@ public class JobConfirmationGui extends BaseGui {
             viewer.closeInventory();
 
             // 프로필 GUI 열기
-            ProfileGui profileGui = ProfileGui.create(guiManager, langManager, viewer);
+            ProfileGui profileGui = ProfileGui.create(guiManager, viewer);
             guiManager.openGui(viewer, profileGui);
 
         } else {
@@ -223,7 +223,7 @@ public class JobConfirmationGui extends BaseGui {
             guiManager.openGui(viewer, backTarget);
         } else {
             // 백타겟이 없으면 직업 선택 GUI로
-            JobSelectionGui jobSelectionGui = JobSelectionGui.create(guiManager, langManager, viewer, rpgPlayer);
+            JobSelectionGui jobSelectionGui = JobSelectionGui.create(guiManager, viewer, rpgPlayer);
             guiManager.openGui(viewer, jobSelectionGui);
         }
     }
@@ -231,6 +231,6 @@ public class JobConfirmationGui extends BaseGui {
     @Override
     public GuiFramework getBackTarget() {
         // JobConfirmationGui는 JobSelectionGui로 돌아갑니다
-        return JobSelectionGui.create(guiManager, langManager, viewer, rpgPlayer);
+        return JobSelectionGui.create(guiManager, viewer, rpgPlayer);
     }
 }

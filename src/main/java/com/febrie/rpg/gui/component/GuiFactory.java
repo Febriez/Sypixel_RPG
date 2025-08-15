@@ -28,11 +28,11 @@ public class GuiFactory {
     /**
      * 닫기 버튼 생성
      */
-    public static GuiItem createCloseButton(@NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createCloseButton(@NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(Material.BARRIER)
-                        .displayName(langManager.getComponent(player, "gui.buttons.close.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.close.lore"))
+                        .displayName(LangManager.getMessage(player, "gui.buttons.close.name"))
+                        .addLore(LangManager.getMessage(player, "gui.buttons.close.lore"))
                         .asGuiItem(false)
                         .build(),
                 Player::closeInventory
@@ -43,11 +43,11 @@ public class GuiFactory {
     /**
      * 커스텀 액션이 있는 뒤로가기 버튼 생성
      */
-    public static GuiItem createBackButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createBackButton(@NotNull Consumer<Player> action, @NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(Material.ARROW)
-                        .displayName(langManager.getComponent(player, "gui.buttons.back.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.back.lore"))
+                        .displayName(LangManager.getMessage(player, "gui.buttons.back.name"))
+                        .addLore(LangManager.getMessage(player, "gui.buttons.back.lore"))
                         .asGuiItem(false)
                         .build(),
                 action
@@ -57,11 +57,11 @@ public class GuiFactory {
     /**
      * 새로고침 버튼 생성
      */
-    public static GuiItem createRefreshButton(@NotNull Runnable action, @NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createRefreshButton(@NotNull Runnable action, @NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(Material.EMERALD)
-                        .displayName(langManager.getComponent(player, "gui.buttons.refresh.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.refresh.lore"))
+                        .displayName(LangManager.getMessage(player, "gui.buttons.refresh.name"))
+                        .addLore(LangManager.getMessage(player, "gui.buttons.refresh.lore"))
                         .asGuiItem(false)
                         .build(),
                 p -> action.run()
@@ -71,11 +71,11 @@ public class GuiFactory {
     /**
      * 다음 페이지 버튼 생성
      */
-    public static GuiItem createNextPageButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createNextPageButton(@NotNull Consumer<Player> action, @NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(Material.ARROW)
-                        .displayName(langManager.getComponent(player, "gui.buttons.next-page.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.next-page.lore"))
+                        .displayName(LangManager.getMessage(player, "gui.buttons.next-page.name"))
+                        .addLore(LangManager.getMessage(player, "gui.buttons.next-page.lore"))
                         .asGuiItem(false)
                         .build(),
                 action
@@ -85,11 +85,11 @@ public class GuiFactory {
     /**
      * 이전 페이지 버튼 생성
      */
-    public static GuiItem createPreviousPageButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createPreviousPageButton(@NotNull Consumer<Player> action, @NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(Material.ARROW)
-                        .displayName(langManager.getComponent(player, "gui.buttons.previous-page.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.previous-page.lore"))
+                        .displayName(LangManager.getMessage(player, "gui.buttons.previous-page.name"))
+                        .addLore(LangManager.getMessage(player, "gui.buttons.previous-page.lore"))
                         .asGuiItem(false)
                         .build(),
                 action
@@ -117,10 +117,10 @@ public class GuiFactory {
     /**
      * 플레이스홀더 아이템 생성
      */
-    public static GuiItem createPlaceholder(@NotNull String text, @NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createPlaceholder(@NotNull String text, @NotNull Player player) {
         return GuiItem.display(
                 new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)
-                        .displayName(langManager.getComponent(player, text))
+                        .displayName(LangManager.getMessage(player, text))
                         .build()
         );
     }
@@ -128,11 +128,11 @@ public class GuiFactory {
     /**
      * 에러 아이템 생성
      */
-    public static GuiItem createErrorItem(@NotNull String message, @NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createErrorItem(@NotNull String message, @NotNull Player player) {
         return GuiItem.display(
                 new ItemBuilder(Material.BARRIER)
                         .displayName(Component.text("오류", NamedTextColor.RED))
-                        .addLore(langManager.getComponent(player, message))
+                        .addLore(LangManager.getMessage(player, message))
                         .build()
         );
     }
@@ -150,11 +150,11 @@ public class GuiFactory {
      */
     public static GuiItem createMenuButton(@NotNull Material material, @NotNull String nameKey, 
                                            @NotNull String loreKey, @NotNull Consumer<Player> action,
-                                           @NotNull LangManager langManager, @NotNull Player player) {
+                                           @NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(material)
-                        .displayName(langManager.getComponent(player, nameKey))
-                        .lore(langManager.getComponentList(player, loreKey))
+                        .displayName(LangManager.getMessage(player, nameKey))
+                        .lore(LangManager.getComponentList(player, loreKey))
                         .asGuiItem()
                         .build(),
                 action
@@ -202,11 +202,11 @@ public class GuiFactory {
     /**
      * 정보 아이템 생성
      */
-    public static GuiItem createInfoItem(@NotNull String title, @NotNull String lore, @NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createInfoItem(@NotNull String title, @NotNull String lore, @NotNull Player player) {
         return GuiItem.display(
                 new ItemBuilder(Material.BOOK)
-                        .displayName(langManager.getComponent(player, title))
-                        .addLore(langManager.getComponent(player, lore))
+                        .displayName(LangManager.getMessage(player, title))
+                        .addLore(LangManager.getMessage(player, lore))
                         .build()
         );
     }
@@ -214,11 +214,11 @@ public class GuiFactory {
     /**
      * 확인 버튼 생성
      */
-    public static GuiItem createConfirmButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createConfirmButton(@NotNull Consumer<Player> action, @NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(Material.LIME_STAINED_GLASS_PANE)
-                        .displayName(langManager.getComponent(player, "gui.buttons.confirm.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.confirm.lore"))
+                        .displayName(LangManager.getMessage(player, "gui.buttons.confirm.name"))
+                        .addLore(LangManager.getMessage(player, "gui.buttons.confirm.lore"))
                         .build(),
                 action
         );
@@ -227,11 +227,11 @@ public class GuiFactory {
     /**
      * 취소 버튼 생성
      */
-    public static GuiItem createCancelButton(@NotNull Consumer<Player> action, @NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createCancelButton(@NotNull Consumer<Player> action, @NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(Material.RED_STAINED_GLASS_PANE)
-                        .displayName(langManager.getComponent(player, "gui.buttons.cancel.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.cancel.lore"))
+                        .displayName(LangManager.getMessage(player, "gui.buttons.cancel.name"))
+                        .addLore(LangManager.getMessage(player, "gui.buttons.cancel.lore"))
                         .build(),
                 action
         );
@@ -241,14 +241,14 @@ public class GuiFactory {
      * 토글 버튼 생성
      */
     public static GuiItem createToggleButton(boolean state, @NotNull String nameKey, @NotNull Consumer<Player> action,
-                                             @NotNull LangManager langManager, @NotNull Player player) {
+                                             @NotNull Player player) {
         Material material = state ? Material.LIME_DYE : Material.GRAY_DYE;
         String statusKey = state ? "gui.buttons.toggle.enabled" : "gui.buttons.toggle.disabled";
 
         return GuiItem.clickable(
                 new ItemBuilder(material)
-                        .displayName(langManager.getComponent(player, nameKey))
-                        .addLore(langManager.getComponent(player, statusKey))
+                        .displayName(LangManager.getMessage(player, nameKey))
+                        .addLore(LangManager.getMessage(player, statusKey))
                         .build(),
                 action
         );
@@ -258,11 +258,11 @@ public class GuiFactory {
     /**
      * 페이지 정보 표시 아이템 생성
      */
-    public static GuiItem createPageInfo(int currentPage, int totalPages, @NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createPageInfo(int currentPage, int totalPages, @NotNull Player player) {
         return GuiItem.display(
                 new ItemBuilder(Material.PAPER)
-                        .displayName(langManager.getComponent(player, "gui.buttons.page-info.name"))
-                        .addLore(langManager.getComponent(player, "gui.buttons.page-info.lore",
+                        .displayName(LangManager.getMessage(player, "gui.buttons.page-info.name"))
+                        .addLore(LangManager.getMessage(player, "gui.buttons.page-info.lore",
                                 "current", String.valueOf(currentPage),
                                 "total", String.valueOf(totalPages)))
                         .build()
@@ -272,9 +272,9 @@ public class GuiFactory {
     /**
      * 상태 표시 아이템 생성
      */
-    public static GuiItem createStatusIndicator(@NotNull String status, boolean isOnline, @NotNull LangManager langManager, @NotNull Player player) {
+    public static GuiItem createStatusIndicator(@NotNull String status, boolean isOnline, @NotNull Player player) {
         Material material = isOnline ? Material.LIME_DYE : Material.RED_DYE;
-        Component statusComponent = langManager.getComponent(player, isOnline ? "gui.buttons.status.online" : "gui.buttons.status.offline");
+        Component statusComponent = LangManager.getMessage(player, isOnline ? "gui.buttons.status.online" : "gui.buttons.status.offline");
 
         return GuiItem.display(
                 new ItemBuilder(material)

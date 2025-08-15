@@ -39,9 +39,9 @@ public class IslandMainGui extends BaseGui {
     private final boolean isMember;
     private final boolean isWorker;
     
-    private IslandMainGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager, 
+    private IslandMainGui(@NotNull GuiManager guiManager, 
                         @NotNull Player player) {
-        super(player, guiManager, langManager, 54, "gui.island.main.title");
+        super(player, guiManager, 54, "gui.island.main.title");
         this.islandManager = RPGMain.getInstance().getIslandManager();
         
         // 플레이어의 섬 데이터 가져오기
@@ -75,9 +75,9 @@ public class IslandMainGui extends BaseGui {
      * @param player 플레이어
      * @return 초기화된 IslandMainGui 인스턴스
      */
-    public static IslandMainGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static IslandMainGui create(@NotNull GuiManager guiManager,
                                       @NotNull Player player) {
-        IslandMainGui gui = new IslandMainGui(guiManager, langManager, player);
+        IslandMainGui gui = new IslandMainGui(guiManager, player);
         gui.initialize("gui.island.main.title");
         return gui;
     }

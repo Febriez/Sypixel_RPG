@@ -41,9 +41,9 @@ public class IngameSettingsGui extends BaseGui {
     // 타이틀 슬롯
     private static final int TITLE_SLOT = 4;
 
-    private IngameSettingsGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private IngameSettingsGui(@NotNull GuiManager guiManager,
                             @NotNull Player player) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.ingame-settings.title");
+        super(player, guiManager, GUI_SIZE, "gui.ingame-settings.title");
     }
 
     /**
@@ -54,9 +54,9 @@ public class IngameSettingsGui extends BaseGui {
      * @param player 플레이어
      * @return 초기화된 IngameSettingsGui 인스턴스
      */
-    public static IngameSettingsGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static IngameSettingsGui create(@NotNull GuiManager guiManager,
                                           @NotNull Player player) {
-        IngameSettingsGui gui = new IngameSettingsGui(guiManager, langManager, player);
+        IngameSettingsGui gui = new IngameSettingsGui(guiManager, player);
         gui.initialize("gui.ingame-settings.title");
         return gui;
     }
@@ -68,7 +68,7 @@ public class IngameSettingsGui extends BaseGui {
 
     @Override
     protected GuiFramework getBackTarget() {
-        return PlayerSettingsGui.create(guiManager, langManager, viewer);
+        return PlayerSettingsGui.create(guiManager, viewer);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class IngameSettingsGui extends BaseGui {
                     int newSpeed = settings.adjustDialogSpeed(false);
                     updateDialogSpeedDisplay(settings);
                     playClickSound(p);
-                    langManager.sendMessage(p, "dialog-speed-changed", "{speed}", settings.getDialogSpeedDisplayName());
+                    com.febrie.rpg.util.LangManager.sendMessage(p, "dialog-speed-changed", "{speed}", settings.getDialogSpeedDisplayName());
                 }
         );
         setItem(DIALOG_SPEED_DECREASE_SLOT, speedDecreaseButton);
@@ -152,7 +152,7 @@ public class IngameSettingsGui extends BaseGui {
                     int newSpeed = settings.adjustDialogSpeed(true);
                     updateDialogSpeedDisplay(settings);
                     playClickSound(p);
-                    langManager.sendMessage(p, "dialog-speed-changed", "{speed}", settings.getDialogSpeedDisplayName());
+                    com.febrie.rpg.util.LangManager.sendMessage(p, "dialog-speed-changed", "{speed}", settings.getDialogSpeedDisplayName());
                 }
         );
         setItem(DIALOG_SPEED_INCREASE_SLOT, speedIncreaseButton);
@@ -228,7 +228,7 @@ public class IngameSettingsGui extends BaseGui {
                     settings.setQuestAutoGuideEnabled(!enabled);
                     updateQuestGuideToggle(settings);
                     playClickSound(p);
-                    langManager.sendMessage(p, "퀘스트 자동 길안내가 " + (settings.isQuestAutoGuideEnabled() ? "활성화" : "비활성화") + "되었습니다");
+                    com.febrie.rpg.util.LangManager.sendMessage(p, "퀘스트 자동 길안내가 " + (settings.isQuestAutoGuideEnabled() ? "활성화" : "비활성화") + "되었습니다");
                 }
         );
         setItem(QUEST_GUIDE_SLOT, questGuideToggle);
@@ -258,7 +258,7 @@ public class IngameSettingsGui extends BaseGui {
                     settings.setDamageDisplayEnabled(!enabled);
                     updateDamageDisplayToggle(settings);
                     playClickSound(p);
-                    langManager.sendMessage(p, "공격 데미지 표시가 " + (settings.isDamageDisplayEnabled() ? "활성화" : "비활성화") + "되었습니다");
+                    com.febrie.rpg.util.LangManager.sendMessage(p, "공격 데미지 표시가 " + (settings.isDamageDisplayEnabled() ? "활성화" : "비활성화") + "되었습니다");
                 }
         );
         setItem(DAMAGE_DISPLAY_SLOT, damageDisplayToggle);

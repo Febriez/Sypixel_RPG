@@ -56,12 +56,11 @@ public class IslandBiomeSelectionGui extends BaseGui implements BackableGui {
     private final GuiFramework backDestination;
     
     private IslandBiomeSelectionGui(@NotNull GuiManager guiManager,
-                                   @NotNull LangManager langManager,
                                    @NotNull Player player,
                                    @NotNull String currentBiome,
                                    @NotNull Consumer<String> onBiomeSelected,
                                    @NotNull GuiFramework backDestination) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.island.biome-selection.title");
+        super(player, guiManager, GUI_SIZE, "gui.island.biome-selection.title");
         this.currentBiome = currentBiome;
         this.onBiomeSelected = onBiomeSelected;
         this.backDestination = backDestination;
@@ -71,12 +70,11 @@ public class IslandBiomeSelectionGui extends BaseGui implements BackableGui {
      * Factory method to create the GUI
      */
     public static IslandBiomeSelectionGui create(@NotNull GuiManager guiManager,
-                                                @NotNull LangManager langManager,
                                                 @NotNull Player player,
                                                 @NotNull String currentBiome,
                                                 @NotNull Consumer<String> onBiomeSelected,
                                                 @NotNull GuiFramework backDestination) {
-        IslandBiomeSelectionGui gui = new IslandBiomeSelectionGui(guiManager, langManager, player, currentBiome, onBiomeSelected, backDestination);
+        IslandBiomeSelectionGui gui = new IslandBiomeSelectionGui(guiManager, player, currentBiome, onBiomeSelected, backDestination);
         return createAndInitialize(gui, "gui.island.biome-selection.title");
     }
     

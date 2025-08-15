@@ -45,9 +45,9 @@ public class QuestListGui extends BaseGui {
 
     private final QuestManager questManager;
 
-    private QuestListGui(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    private QuestListGui(@NotNull GuiManager guiManager,
                         @NotNull Player viewer) {
-        super(viewer, guiManager, langManager, GUI_SIZE, "gui.quest-list.title");
+        super(viewer, guiManager, GUI_SIZE, "gui.quest-list.title");
         this.questManager = QuestManager.getInstance();
     }
 
@@ -59,9 +59,9 @@ public class QuestListGui extends BaseGui {
      * @param viewer 보는 플레이어
      * @return 초기화된 QuestListGui 인스턴스
      */
-    public static QuestListGui create(@NotNull GuiManager guiManager, @NotNull LangManager langManager,
+    public static QuestListGui create(@NotNull GuiManager guiManager,
                                      @NotNull Player viewer) {
-        QuestListGui gui = new QuestListGui(guiManager, langManager, viewer);
+        QuestListGui gui = new QuestListGui(guiManager, viewer);
         gui.initialize("gui.quest-list.title");
         return gui;
     }
@@ -142,7 +142,7 @@ public class QuestListGui extends BaseGui {
 
         GuiItem activeLabel = createLabelItem(activeBuilder, activeQuests.size(), () -> {
             // 모든 진행 중 퀘스트 보기 GUI 열기
-            AllQuestsGui.create(guiManager, langManager, viewer, AllQuestsGui.QuestFilter.ACTIVE).open(viewer);
+            AllQuestsGui.create(guiManager, viewer, AllQuestsGui.QuestFilter.ACTIVE).open(viewer);
         });
         setItem(ACTIVE_LABEL_SLOT, activeLabel);
 
@@ -153,7 +153,7 @@ public class QuestListGui extends BaseGui {
 
         GuiItem completedLabel = createLabelItem(completedBuilder, completedQuests.size(), () -> {
             // 모든 완료된 퀘스트 보기 GUI 열기
-            AllQuestsGui.create(guiManager, langManager, viewer, AllQuestsGui.QuestFilter.COMPLETED).open(viewer);
+            AllQuestsGui.create(guiManager, viewer, AllQuestsGui.QuestFilter.COMPLETED).open(viewer);
         });
         setItem(COMPLETED_LABEL_SLOT, completedLabel);
     }
@@ -228,16 +228,16 @@ public class QuestListGui extends BaseGui {
      */
     private GuiItem createActiveQuestItem(@NotNull Quest quest, @NotNull QuestProgress progress) {
         ItemBuilder builder = new ItemBuilder(Material.PAPER)
-                .displayName(Component.text(quest.getDisplayName(viewer.locale().toString().startsWith("ko")))
+                .displayName(quest.getDisplayName(viewer)
                         .color(ColorUtil.UNCOMMON)
                         .decoration(TextDecoration.ITALIC, false));
 
         List<Component> lore = new ArrayList<>();
 
         // 퀘스트 설명
-        List<String> descriptions = quest.getDisplayInfo(viewer.locale().toString().startsWith("ko"));
-        for (String desc : descriptions) {
-            lore.add(Component.text(desc, ColorUtil.GRAY));
+        List<Component> descriptions = quest.getDisplayInfo(viewer);
+        for (Component desc : descriptions) {
+            lore.add(desc.color(ColorUtil.GRAY));
         }
         lore.add(Component.empty());
 
@@ -253,7 +253,7 @@ public class QuestListGui extends BaseGui {
 
         return GuiItem.clickable(builder.build(), p -> {
             // 퀘스트 상세 정보 GUI 열기
-            guiManager.openGui(p, QuestDetailGui.create(guiManager, langManager, p, quest, progress));
+            guiManager.openGui(p, QuestDetailGui.create(guiManager, p, quest, progress));
             playClickSound(p);
         });
     }
@@ -263,16 +263,16 @@ public class QuestListGui extends BaseGui {
      */
     private GuiItem createCompletedQuestItem(@NotNull Quest quest) {
         ItemBuilder builder = new ItemBuilder(Material.MAP)
-                .displayName(Component.text(quest.getDisplayName(viewer.locale().toString().startsWith("ko")))
+                .displayName(quest.getDisplayName(viewer)
                         .color(ColorUtil.SUCCESS)
                         .decoration(TextDecoration.ITALIC, false));
 
         List<Component> lore = new ArrayList<>();
 
         // 퀘스트 설명
-        List<String> descriptions = quest.getDisplayInfo(viewer.locale().toString().startsWith("ko"));
-        for (String desc : descriptions) {
-            lore.add(Component.text(desc, ColorUtil.GRAY));
+        List<Component> descriptions = quest.getDisplayInfo(viewer);
+        for (Component desc : descriptions) {
+            lore.add(desc.color(ColorUtil.GRAY));
         }
         lore.add(Component.empty());
 
@@ -301,7 +301,7 @@ public class QuestListGui extends BaseGui {
         updateNavigationButtons();
 
         // 닫기 버튼도 추가
-        setItem(getCloseButtonSlot(), GuiFactory.createCloseButton(langManager, viewer));
+        setItem(getCloseButtonSlot(), GuiFactory.createCloseButton(viewer));
     }
 
     @Override
@@ -311,6 +311,6 @@ public class QuestListGui extends BaseGui {
 
     @Override
     public GuiFramework getBackTarget() {
-        return ProfileGui.create(guiManager, langManager, viewer);
+        return ProfileGui.create(guiManager, viewer);
     }
 }
