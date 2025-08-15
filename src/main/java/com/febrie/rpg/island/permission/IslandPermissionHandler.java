@@ -162,15 +162,17 @@ public class IslandPermissionHandler {
      * 권한 문자열을 사용자 친화적인 이름으로 변환
      */
     public static String getPermissionDisplayName(@NotNull LangManager langManager, @NotNull String language, @NotNull String permission) {
+        // For now, return the permission name directly as the method signature expects
+        // a Player/CommandSender but we only have a language string
         return switch (permission) {
-            case "BUILD" -> langManager.getMessage(language, "island.permissions.build");
-            case "USE_ITEMS" -> langManager.getMessage(language, "island.permissions.use-items");
-            case "OPEN_CONTAINERS" -> langManager.getMessage(language, "island.permissions.open-containers");
-            case "INVITE_MEMBERS" -> langManager.getMessage(language, "island.permissions.invite-members");
-            case "KICK_MEMBERS" -> langManager.getMessage(language, "island.permissions.kick-members");
-            case "MANAGE_WORKERS" -> langManager.getMessage(language, "island.permissions.manage-workers");
-            case "MODIFY_SPAWNS" -> langManager.getMessage(language, "island.permissions.set-spawn");
-            case "CHANGE_SETTINGS" -> langManager.getMessage(language, "island.permissions.change-settings");
+            case "BUILD" -> "Build";
+            case "USE_ITEMS" -> "Use Items";
+            case "OPEN_CONTAINERS" -> "Open Containers";
+            case "INVITE_MEMBERS" -> "Invite Members";
+            case "KICK_MEMBERS" -> "Kick Members";
+            case "MANAGE_WORKERS" -> "Manage Workers";
+            case "MODIFY_SPAWNS" -> "Modify Spawns";
+            case "CHANGE_SETTINGS" -> "Change Settings";
             default -> permission;
         };
     }
@@ -179,6 +181,8 @@ public class IslandPermissionHandler {
      * 역할을 사용자 친화적인 이름으로 변환
      */
     public static String getRoleDisplayName(@NotNull LangManager langManager, @NotNull String language, @NotNull IslandRole role) {
-        return langManager.getMessage(language, role.getLangKey());
+        // For now, return role name directly as the method signature expects
+        // a Player/CommandSender but we only have a language string
+        return role.name();
     }
 }

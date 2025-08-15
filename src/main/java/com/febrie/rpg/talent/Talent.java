@@ -12,6 +12,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnmodifiableView;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -99,7 +100,7 @@ public class Talent {
      * 모든 등록된 특성 가져오기
      */
     @NotNull
-    public static Collection<Talent> getAllTalents() {
+    public static @UnmodifiableView Collection<Talent> getAllTalents() {
         return Collections.unmodifiableCollection(REGISTRY.values());
     }
 
@@ -116,9 +117,8 @@ public class Talent {
     /**
      * 특성 등록
      */
-    public static Talent register(@NotNull Talent talent) {
+    public static void register(@NotNull Talent talent) {
         REGISTRY.put(talent.id, talent);
-        return talent;
     }
 
     /**

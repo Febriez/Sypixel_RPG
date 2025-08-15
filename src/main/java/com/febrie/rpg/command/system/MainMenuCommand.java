@@ -20,9 +20,8 @@ public class MainMenuCommand extends BaseCommand {
 
     private final GuiManager guiManager;
 
-    public MainMenuCommand(@NotNull Plugin plugin, @NotNull LangManager langManager,
-                           @NotNull GuiManager guiManager) {
-        super(plugin, langManager);
+    public MainMenuCommand(@NotNull Plugin plugin, @NotNull GuiManager guiManager) {
+        super(plugin);
         this.guiManager = guiManager;
     }
 
@@ -41,13 +40,13 @@ public class MainMenuCommand extends BaseCommand {
         }
 
         // 메인 메뉴 열기
-        MainMenuGui mainMenu = MainMenuGui.create(guiManager, langManager, player);
+        MainMenuGui mainMenu = MainMenuGui.create(guiManager, player);
         guiManager.openGui(player, mainMenu);
         
         // 명령어로 열 때만 상자 소리 재생
         SoundUtil.playOpenSound(player);
 
-        langManager.sendMessage(player, "commands.mainmenu.success");
+        LangManager.sendMessage(player, "commands.mainmenu.success", new String[0]);
 
         return true;
     }

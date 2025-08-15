@@ -32,7 +32,7 @@ public class RPGDialogTrait extends Trait {
     private long dialogCooldown = 3000; // 3초 기본 쿨다운
     
     private final Random random = new Random();
-    private final LangManager langManager = RPGMain.getInstance().getLangManager();
+    private final com.febrie.rpg.util.LangManager langManager = RPGMain.getInstance().getLangManager();
 
     public RPGDialogTrait() {
         super("rpgdialog");

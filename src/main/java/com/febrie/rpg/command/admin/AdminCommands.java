@@ -4,16 +4,15 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.command.admin.subcommand.AdminSubCommand;
 import com.febrie.rpg.command.admin.subcommand.StatsSubCommand;
 import com.febrie.rpg.economy.CurrencyType;
-import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.job.JobType;
+import com.febrie.rpg.npc.NPCTraitSetter;
 import com.febrie.rpg.npc.trait.RPGQuestTrait;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
-import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.registry.QuestRegistry;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.DateFormatUtil;
@@ -31,6 +30,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,17 +46,13 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
 
     private final RPGMain plugin;
     private final RPGPlayerManager playerManager;
-    private final GuiManager guiManager;
-    private final LangManager langManager;
     private final QuestManager questManager;
     private final IslandManager islandManager;
     private final Map<String, AdminSubCommand> subCommands;
 
-    public AdminCommands(@NotNull RPGMain plugin, @NotNull RPGPlayerManager playerManager, @NotNull GuiManager guiManager, @NotNull LangManager langManager) {
+    public AdminCommands(@NotNull RPGMain plugin, @NotNull RPGPlayerManager playerManager) {
         this.plugin = plugin;
         this.playerManager = playerManager;
-        this.guiManager = guiManager;
-        this.langManager = langManager;
         this.questManager = QuestManager.getInstance();
         this.islandManager = plugin.getIslandManager();
         this.subCommands = new HashMap<>();
@@ -66,15 +62,15 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     }
 
     private void registerSubCommands() {
-        subCommands.put("stats", new StatsSubCommand(playerManager, langManager));
+        subCommands.put("stats", new StatsSubCommand(playerManager));
         // 다른 서브 커맨드들도 점진적으로 추가
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String @NotNull [] args) {
 
         if (!sender.hasPermission("rpg.admin")) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.no-permission"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.no-permission"));
             return true;
         }
 
@@ -124,7 +120,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     /**
      * 명령어가 플레이어 전용인지 확인
      */
-    private boolean requiresPlayer(String subCommand) {
+    @Contract(pure = true)
+    private boolean requiresPlayer(@NotNull String subCommand) {
         return subCommand.equals("npc");
     }
 
@@ -145,7 +142,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     @Nullable
     private Player getPlayerFromSender(@NotNull CommandSender sender) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-only"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-only"));
             return null;
         }
         return player;
@@ -161,9 +158,9 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     /**
      * 여러 메시지 전송 헬퍼 메소드
      */
-    private void sendUsageMessages(@NotNull CommandSender sender, String... keys) {
+    private void sendUsageMessages(@NotNull CommandSender sender, String @NotNull ... keys) {
         for (String key : keys) {
-            sender.sendMessage(langManager.getComponent(sender, key));
+            sender.sendMessage(LangManager.getComponent(sender, key));
         }
     }
 
@@ -172,17 +169,17 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
      * 리로드 명령어 처리
      */
     private boolean handleReloadCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        sender.sendMessage(langManager.getComponent(sender, "commands.admin.reload.reloading"));
+        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.reload.reloading"));
 
         // 언어 파일 리로드
-        langManager.reload();
+        LangManager.reload();
 
         // 퀘스트 리로드
         questManager.reloadQuests();
 
         // 섬 설정 리로드 (추가 가능)
 
-        sender.sendMessage(langManager.getComponent(sender, "commands.admin.reload.success"));
+        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.reload.success"));
         return true;
     }
 
@@ -190,38 +187,39 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     /**
      * 프로필 보기 명령어 처리
      */
-    private boolean handleViewProfileCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+    private boolean handleViewProfileCommand(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         if (args.length < 2) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.usage"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.usage"));
             return true;
         }
 
         Player target = Bukkit.getPlayer(args[1]);
         if (target == null) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-not-found"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
             return true;
         }
 
         RPGPlayer rpgPlayer = playerManager.getPlayer(target);
         if (rpgPlayer == null) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-data-not-found"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-data-not-found"));
             return true;
         }
 
         // 프로필 정보 표시
-        sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.title", "player", target.getName()));
-        sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.level", "level", String.valueOf(rpgPlayer.getLevel())));
-        sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.exp", "current", String.valueOf(rpgPlayer.getExperience()), "next", String.valueOf(rpgPlayer.getExperienceToNextLevel())));
+        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.title", "player", target.getName()));
+        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.level", "level", String.valueOf(rpgPlayer.getLevel())));
+        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.exp", "current", String.valueOf(rpgPlayer.getExperience()), "next", String.valueOf(rpgPlayer.getExperienceToNextLevel())));
 
-        String jobName = rpgPlayer.getJob() != null ? rpgPlayer.getJob().name() : langManager.getMessage(sender, "commands.admin.viewprofile.job-none");
-        sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.job", "job", jobName));
+        Component jobNameComp = rpgPlayer.getJob() != null ? Component.text(rpgPlayer.getJob().name()) : LangManager.getComponent(sender, "commands.admin.viewprofile.job-none");
+        String jobName = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(jobNameComp);
+        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.job", "job", jobName));
 
-        sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.gold", "amount", String.valueOf(rpgPlayer.getWallet().getBalance(CurrencyType.GOLD))));
-        sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.diamond", "amount", String.valueOf(rpgPlayer.getWallet().getBalance(CurrencyType.DIAMOND))));
+        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.gold", "amount", String.valueOf(rpgPlayer.getWallet().getBalance(CurrencyType.GOLD))));
+        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.diamond", "amount", String.valueOf(rpgPlayer.getWallet().getBalance(CurrencyType.DIAMOND))));
 
         // 퀘스트 정보
         java.util.Map<String, com.febrie.rpg.dto.quest.ActiveQuestDTO> activeQuests = questManager.getActiveQuests(target.getUniqueId());
-        sender.sendMessage(langManager.getComponent(sender, "commands.admin.viewprofile.active-quests", "count", String.valueOf(activeQuests.size())));
+        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.active-quests", "count", String.valueOf(activeQuests.size())));
 
         return true;
     }
@@ -229,37 +227,37 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     /**
      * 경험치 명령어 처리
      */
-    private boolean handleExpCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+    private boolean handleExpCommand(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         if (args.length < 4 || !args[1].equalsIgnoreCase("give")) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.exp.usage"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.exp.usage"));
             return true;
         }
 
         Player target = Bukkit.getPlayer(args[2]);
         if (target == null) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-not-found"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
             return true;
         }
 
         try {
             int amount = Integer.parseInt(args[3]);
             if (amount <= 0) {
-                sender.sendMessage(langManager.getComponent(sender, "commands.admin.exp.must-positive"));
+                sender.sendMessage(LangManager.getComponent(sender, "commands.admin.exp.must-positive"));
                 return true;
             }
 
             RPGPlayer rpgPlayer = playerManager.getPlayer(target);
             if (rpgPlayer == null) {
-                sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-data-not-found"));
+                sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-data-not-found"));
                 return true;
             }
 
             rpgPlayer.addExperience(amount);
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.exp.success", "player", target.getName(), "amount", String.valueOf(amount)));
-            target.sendMessage(langManager.getComponent(target, "commands.admin.exp.received", "amount", String.valueOf(amount)));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.exp.success", "player", target.getName(), "amount", String.valueOf(amount)));
+            target.sendMessage(LangManager.getMessage(target, "commands.admin.exp.received", "amount", String.valueOf(amount)));
 
         } catch (NumberFormatException e) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.invalid-number"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.invalid-number"));
         }
 
         return true;
@@ -268,28 +266,28 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     /**
      * 레벨 명령어 처리
      */
-    private boolean handleLevelCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+    private boolean handleLevelCommand(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         if (args.length < 4 || !args[1].equalsIgnoreCase("set")) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.level.usage"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.level.usage"));
             return true;
         }
 
         Player target = Bukkit.getPlayer(args[2]);
         if (target == null) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-not-found"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
             return true;
         }
 
         try {
             int level = Integer.parseInt(args[3]);
             if (level < 1 || level > 100) {
-                sender.sendMessage(langManager.getComponent(sender, "commands.admin.level.range"));
+                sender.sendMessage(LangManager.getComponent(sender, "commands.admin.level.range"));
                 return true;
             }
 
             RPGPlayer rpgPlayer = playerManager.getPlayer(target);
             if (rpgPlayer == null) {
-                sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-data-not-found"));
+                sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-data-not-found"));
                 return true;
             }
 
@@ -300,11 +298,11 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             }
 
             rpgPlayer.setExperience(totalExp);
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.level.success", "player", target.getName(), "level", String.valueOf(level)));
-            target.sendMessage(langManager.getComponent(target, "commands.admin.level.set", "level", String.valueOf(level)));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.level.success", "player", target.getName(), "level", String.valueOf(level)));
+            target.sendMessage(LangManager.getMessage(target, "commands.admin.level.set", "level", String.valueOf(level)));
 
         } catch (NumberFormatException e) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.invalid-number"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.invalid-number"));
         }
 
         return true;
@@ -313,16 +311,16 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     /**
      * 직업 명령어 처리
      */
-    private boolean handleJobCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+    private boolean handleJobCommand(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         if (args.length < 3) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.usage"));
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.available"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.job.usage"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.job.available"));
             return true;
         }
 
         Player target = Bukkit.getPlayer(args[1]);
         if (target == null) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-not-found"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
             return true;
         }
 
@@ -332,29 +330,29 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         try {
             newJob = JobType.valueOf(jobName);
         } catch (IllegalArgumentException e) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.invalid", "job", jobName));
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.available"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.job.invalid", "job", jobName));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.job.available"));
             return true;
         }
 
         RPGPlayer rpgPlayer = plugin.getRPGPlayerManager().getPlayer(target);
         if (rpgPlayer == null) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-data-not-found"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-data-not-found"));
             return true;
         }
 
         JobType currentJob = rpgPlayer.getJob();
         if (currentJob != null) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.already-has", "player", target.getName(), "job", currentJob.name()));
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.need-reset"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.job.already-has", "player", target.getName(), "job", currentJob.name()));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.job.need-reset"));
             return true;
         }
 
         if (rpgPlayer.setJob(newJob)) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.success", "player", target.getName(), "job", newJob.name()));
-            target.sendMessage(langManager.getComponent(target, "commands.admin.job.set", "job", newJob.name()));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.job.success", "player", target.getName(), "job", newJob.name()));
+            target.sendMessage(LangManager.getMessage(target, "commands.admin.job.set", "job", newJob.name()));
         } else {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.job.failed"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.job.failed"));
         }
 
         return true;
@@ -365,7 +363,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
      */
     private boolean handleNpcCommand(@NotNull Player player, @NotNull String[] args) {
         if (!Bukkit.getPluginManager().isPluginEnabled("Citizens")) {
-            player.sendMessage(langManager.getComponent(player, "commands.admin.npc.citizens-not-found"));
+            player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.citizens-not-found"));
             return true;
         }
 
@@ -379,8 +377,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         switch (subCmd) {
             case "set" -> {
                 if (args.length < 3) {
-                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.set.usage"));
-                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.set.example"));
+                    player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.set.usage"));
+                    player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.set.example"));
                     return true;
                 }
 
@@ -389,11 +387,11 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                     QuestID questId = QuestID.valueOf(args[2].toUpperCase());
 
                     // NPCTraitSetter를 통해 대기 상태로 설정
-                    com.febrie.rpg.npc.NPCTraitSetter.getInstance().prepareQuestTrait(player, questId);
+                    NPCTraitSetter.getInstance().prepareQuestTrait(player, questId);
 
                 } catch (IllegalArgumentException e) {
-                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.set.invalid-quest", "id", args[2]));
-                    player.sendMessage(langManager.getComponent(player, "commands.admin.npc.set.available"));
+                    player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.set.invalid-quest", "id", args[2]));
+                    player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.set.available"));
 
                     // 모든 퀘스트 ID 나열
                     for (QuestID id : QuestID.values()) {
@@ -464,26 +462,26 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             }
 
             case "list" -> {
-                player.sendMessage(langManager.getComponent(player, "commands.admin.npc.list.title"));
+                player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.list.title"));
                 int count = 0;
                 for (NPC npc : CitizensAPI.getNPCRegistry().sorted()) {
-                    Component npcInfo = langManager.getComponent(player, "commands.admin.npc.list.entry", "id", String.valueOf(npc.getId()), "name", npc.getName());
+                    Component npcInfo = LangManager.getMessage(player, "commands.admin.npc.list.entry", "id", String.valueOf(npc.getId()), "name", npc.getName());
 
                     // RPGQuestTrait 확인
                     if (npc.hasTrait(RPGQuestTrait.class)) {
                         RPGQuestTrait trait = npc.getTraitNullable(RPGQuestTrait.class);
                         if (trait.hasNpcId()) {
-                            npcInfo = npcInfo.append(langManager.getComponent(player, "commands.admin.npc.list.id", "id", trait.getNpcId()));
+                            npcInfo = npcInfo.append(LangManager.getMessage(player, "commands.admin.npc.list.id", "id", trait.getNpcId()));
                         }
                         if (!trait.getQuestIds().isEmpty()) {
-                            npcInfo = npcInfo.append(langManager.getComponent(player, "commands.admin.npc.list.quests", "count", String.valueOf(trait.getQuestIds().size())));
+                            npcInfo = npcInfo.append(LangManager.getMessage(player, "commands.admin.npc.list.quests", "count", String.valueOf(trait.getQuestIds().size())));
                         }
                     }
 
                     player.sendMessage(npcInfo);
                     count++;
                 }
-                player.sendMessage(langManager.getComponent(player, "commands.admin.npc.list.total", "count", String.valueOf(count)));
+                player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.list.total", "count", String.valueOf(count)));
             }
 
             case "quest" -> {
@@ -509,7 +507,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                String displayName = quest.getDisplayName(true);
+                String displayName = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                        .serialize(quest.getDisplayName(player));
 
                 ItemStack questItem = com.febrie.rpg.quest.trait.QuestStartTraitRegistrationItem.create(questId, displayName);
 
@@ -619,7 +618,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
 
-                String displayName = quest.getDisplayName(true);
+                String displayName = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                        .serialize(quest.getDisplayName(player));
                 String npcId = questId.name(); // 대문자 ID 사용
 
                 // 인벤토리 공간 확인 (3개 필요)
@@ -661,9 +661,9 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     /**
      * 퀘스트 명령어 처리
      */
-    private boolean handleQuestCommand(@NotNull CommandSender sender, @NotNull String[] args) {
+    private boolean handleQuestCommand(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         if (args.length < 2) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.usage"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.usage"));
             return true;
         }
 
@@ -672,13 +672,13 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         switch (subCommand) {
             case "give" -> {
                 if (args.length < 4) {
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.give.usage"));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.give.usage"));
                     return true;
                 }
 
                 Player target = Bukkit.getPlayer(args[2]);
                 if (target == null) {
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-not-found"));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
                     return true;
                 }
 
@@ -687,29 +687,29 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                 try {
                     questId = QuestID.valueOf(args[3].toUpperCase());
                 } catch (IllegalArgumentException e) {
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.give.invalid-id", "id", args[3]));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.give.invalid-id", "id", args[3]));
                     return true;
                 }
 
                 // 퀘스트 시작
                 if (questManager.startQuest(target, questId)) {
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.give.success", "id", questId.name()));
-                    target.sendMessage(langManager.getComponent(target, "commands.admin.quest.give.received", "id", questId.name()));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.give.success", "id", questId.name()));
+                    target.sendMessage(LangManager.getMessage(target, "commands.admin.quest.give.received", "id", questId.name()));
                 } else {
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.give.failed"));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.give.failed"));
                 }
             }
 
             case "list" -> {
-                sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.list.title"));
+                sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.list.title"));
 
                 for (QuestCategory category : QuestCategory.values()) {
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.list.category", "category", category.name()));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.list.category", "category", category.name()));
 
                     QuestID[] questIds = QuestID.getByCategory(category);
                     for (QuestID id : questIds) {
                         boolean implemented = QuestRegistry.isImplemented(id);
-                        Component status = implemented ? langManager.getComponent(sender, "commands.admin.quest.list.implemented") : langManager.getComponent(sender, "commands.admin.quest.list.not-implemented");
+                        Component status = implemented ? LangManager.getComponent(sender, "commands.admin.quest.list.implemented") : LangManager.getComponent(sender, "commands.admin.quest.list.not-implemented");
 
                         sender.sendMessage(Component.text("  - " + id.name() + " (" + id.name() + ")").append(status));
                     }
@@ -718,12 +718,12 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
 
             case "reload" -> {
                 // 퀘스트 데이터 리로드 (언어 파일 등)
-                langManager.reload();
-                sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.reload.success"));
+                LangManager.reload();
+                sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.reload.success"));
             }
 
             default -> {
-                sender.sendMessage(langManager.getComponent(sender, "commands.admin.quest.usage"));
+                sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.usage"));
             }
         }
 
@@ -801,7 +801,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
 
         String subCmd = args[1].toLowerCase();
         if (args.length < 3) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.player-required"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.player-required"));
             return true;
         }
 
@@ -809,7 +809,7 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
         Player target = Bukkit.getPlayer(targetName);
 
         if (target == null) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.admin.player-not-found"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
             return true;
         }
 
@@ -819,45 +819,45 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             case "info" -> {
                 islandManager.getPlayerIsland(targetUuid, targetName).thenAccept(island -> {
                     if (island == null) {
-                        sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.no-island", "player", targetName));
+                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.no-island", "player", targetName));
                         return;
                     }
 
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.title", "player", targetName));
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.id", "id", island.getId()));
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.name", "name", island.getName()));
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.owner", "owner", island.getOwnerName()));
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.size", "size", String.valueOf(island.getSize())));
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.members", "current", String.valueOf(island.getData().members().size() + 1), "max", String.valueOf(island.getData().upgradeData().memberLimit() + 1)));
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.created", "date", DateFormatUtil.formatFullDateTimeFromMillis(island.getData().createdAt()) + ":" + String.format("%02d", java.time.LocalDateTime.ofInstant(java.time.Instant.ofEpochMilli(island.getData().createdAt()), java.time.ZoneId.systemDefault()).getSecond())));
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.info.resets", "count", String.valueOf(island.getData().totalResets())));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.title", "player", targetName));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.id", "id", island.getId()));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.name", "name", island.getName()));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.owner", "owner", island.getOwnerName()));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.size", "size", String.valueOf(island.getSize())));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.members", "current", String.valueOf(island.getData().members().size() + 1), "max", String.valueOf(island.getData().upgradeData().memberLimit() + 1)));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.created", "date", DateFormatUtil.formatFullDateTimeFromMillis(island.getData().createdAt()) + ":" + String.format("%02d", java.time.LocalDateTime.ofInstant(java.time.Instant.ofEpochMilli(island.getData().createdAt()), java.time.ZoneId.systemDefault()).getSecond())));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.resets", "count", String.valueOf(island.getData().totalResets())));
                 });
             }
 
             case "delete" -> {
                 islandManager.getPlayerIsland(targetUuid, targetName).thenAccept(island -> {
                     if (island == null) {
-                        sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.no-island", "player", targetName));
+                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.no-island", "player", targetName));
                         return;
                     }
 
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.delete.deleting"));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.delete.deleting"));
 
                     islandManager.deleteIsland(island.getId()).thenAccept(success -> {
                         if (success) {
-                            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.delete.success", "player", targetName));
+                            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.delete.success", "player", targetName));
 
                             // 섬장이 온라인인 경우 스폰으로 이동
                             if (target.isOnline()) {
                                 plugin.getServer().getScheduler().runTask(plugin, () -> {
                                     if (!plugin.getServer().getWorlds().isEmpty()) {
                                         target.teleport(plugin.getServer().getWorlds().get(0).getSpawnLocation());
-                                        target.sendMessage(langManager.getComponent(target, "commands.admin.island.delete.owner-notify"));
+                                        target.sendMessage(LangManager.getMessage(target, "commands.admin.island.delete.owner-notify"));
                                     }
                                 });
                             }
                         } else {
-                            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.delete.failed"));
+                            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.delete.failed"));
                         }
                     });
                 });
@@ -866,22 +866,22 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
             case "reset" -> {
                 islandManager.getPlayerIsland(targetUuid, targetName).thenAccept(island -> {
                     if (island == null) {
-                        sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.no-island", "player", targetName));
+                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.no-island", "player", targetName));
                         return;
                     }
 
-                    sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.reset.resetting"));
+                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.reset.resetting"));
 
                     islandManager.resetIsland(island.getId()).thenAccept(success -> {
                         if (success) {
-                            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.reset.success", "player", targetName));
+                            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.reset.success", "player", targetName));
 
                             // 섬장이 온라인인 경우 알림
                             if (target.isOnline()) {
-                                target.sendMessage(langManager.getComponent(target, "commands.admin.island.reset.owner-notify"));
+                                target.sendMessage(LangManager.getMessage(target, "commands.admin.island.reset.owner-notify"));
                             }
                         } else {
-                            sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.reset.failed"));
+                            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.reset.failed"));
                         }
                     });
                 });
@@ -892,26 +892,26 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
                 Player admin = (Player) sender;
                 islandManager.getPlayerIsland(targetUuid, targetName).thenAccept(island -> {
                     if (island == null) {
-                        sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.no-island", "player", targetName));
+                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.no-island", "player", targetName));
                         return;
                     }
 
                     plugin.getServer().getScheduler().runTask(plugin, () -> {
                         World islandWorld = islandManager.getWorldManager().getIslandWorld();
                         if (islandWorld == null) {
-                            admin.sendMessage(langManager.getComponent(admin, "commands.admin.island.tp.world-not-found"));
+                            admin.sendMessage(LangManager.getMessage(admin, "commands.admin.island.tp.world-not-found"));
                             return;
                         }
 
                         Location tpLocation = island.getSpawnLocation();
                         admin.teleport(tpLocation);
-                        admin.sendMessage(langManager.getComponent(admin, "commands.admin.island.tp.success", "player", targetName));
+                        admin.sendMessage(LangManager.getMessage(admin, "commands.admin.island.tp.success", "player", targetName));
                     });
                 });
             }
 
             default -> {
-                sender.sendMessage(langManager.getComponent(sender, "commands.admin.island.unknown-command"));
+                sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.unknown-command"));
                 return false;
             }
         }

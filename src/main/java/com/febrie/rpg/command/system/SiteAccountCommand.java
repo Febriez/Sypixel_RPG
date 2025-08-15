@@ -47,7 +47,6 @@ import java.util.regex.Pattern;
 public class SiteAccountCommand implements CommandExecutor {
 
     private final RPGMain plugin;
-    private final LangManager langManager;
 
     // 이메일 유효성 검사 패턴
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
@@ -74,7 +73,6 @@ public class SiteAccountCommand implements CommandExecutor {
 
     public SiteAccountCommand(@NotNull RPGMain plugin) {
         this.plugin = plugin;
-        this.langManager = plugin.getLangManager();
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
@@ -86,7 +84,7 @@ public class SiteAccountCommand implements CommandExecutor {
                              @NotNull String label, @NotNull String[] args) {
 
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.siteaccount.player-only"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.siteaccount.player-only"));
             return true;
         }
 
@@ -99,7 +97,7 @@ public class SiteAccountCommand implements CommandExecutor {
 
         // 이메일 유효성 검사
         if (!isValidEmail(email)) {
-            player.sendMessage(langManager.getComponent(player, "commands.siteaccount.invalid-email"));
+            player.sendMessage(LangManager.getMessage(player, "commands.siteaccount.invalid-email"));
             sendUsage(player);
             return true;
         }
@@ -114,7 +112,7 @@ public class SiteAccountCommand implements CommandExecutor {
      * 사용법 안내
      */
     private void sendUsage(@NotNull Player player) {
-        player.sendMessage(langManager.getComponent(player, "commands.siteaccount.usage"));
+        player.sendMessage(LangManager.getMessage(player, "commands.siteaccount.usage"));
     }
 
     /**
@@ -133,7 +131,7 @@ public class SiteAccountCommand implements CommandExecutor {
         boolean isAdmin = player.isOp();
 
         // 로딩 메시지 표시
-        player.sendMessage(langManager.getComponent(player, "commands.siteaccount.processing"));
+        player.sendMessage(LangManager.getMessage(player, "commands.siteaccount.processing"));
 
         // 비동기로 계정 생성 처리
         CompletableFuture.runAsync(() -> {
@@ -147,7 +145,7 @@ public class SiteAccountCommand implements CommandExecutor {
                 // 1. Player 컬렉션에서 siteAccountCreated 필드 확인으로 중복 계정 체크
                 if (checkSiteAccountExists(uuid).join()) {
                     plugin.getServer().getScheduler().runTask(plugin, () ->
-                            player.sendMessage(langManager.getComponent(player, "commands.siteaccount.already-exists")));
+                            player.sendMessage(LangManager.getMessage(player, "commands.siteaccount.already-exists")));
                     return;
                 }
 
@@ -172,7 +170,7 @@ public class SiteAccountCommand implements CommandExecutor {
             } catch (Exception e) {
                 LogUtil.error("사이트 계정 생성 중 오류 발생", e);
                 plugin.getServer().getScheduler().runTask(plugin, () ->
-                        player.sendMessage(langManager.getComponent(player, "commands.siteaccount.error",
+                        player.sendMessage(LangManager.getMessage(player, "commands.siteaccount.error",
                                 "error", e.getMessage())));
             }
         });

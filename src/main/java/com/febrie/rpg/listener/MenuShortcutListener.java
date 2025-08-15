@@ -20,12 +20,10 @@ public class MenuShortcutListener implements Listener {
     
     private final RPGMain plugin;
     private final GuiManager guiManager;
-    private final LangManager langManager;
     
-    public MenuShortcutListener(@NotNull RPGMain plugin, @NotNull GuiManager guiManager, @NotNull LangManager langManager) {
+    public MenuShortcutListener(@NotNull RPGMain plugin, @NotNull GuiManager guiManager) {
         this.plugin = plugin;
         this.guiManager = guiManager;
-        this.langManager = langManager;
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -36,7 +34,7 @@ public class MenuShortcutListener implements Listener {
         event.setCancelled(true);
         
         // 메인 메뉴 열기
-        MainMenuGui mainMenu = MainMenuGui.create(guiManager, langManager, player);
+        MainMenuGui mainMenu = MainMenuGui.create(guiManager, player);
         guiManager.openGui(player, mainMenu);
         SoundUtil.playOpenSound(player);
     }

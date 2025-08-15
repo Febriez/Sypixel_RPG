@@ -153,7 +153,7 @@ public class ServerStatsManager {
             // 오늘 날짜가 마지막 저장 날짜와 다른 경우에만 일일 통계 저장
             if (!today.equals(lastSavedDate)) {
                 // 일일 통계 저장 (비동기)
-                CompletableFuture<Void> dailyStatsFuture = systemService.saveDailyStats(today, stats)
+                systemService.saveDailyStats(today, stats)
                     .thenRun(() -> {
                         lastSavedDate = today;
                         LogUtil.info("일일 서버 통계가 저장되었습니다: " + today);
@@ -241,14 +241,14 @@ public class ServerStatsManager {
             }
             
             long timeDiff = newest - oldest;
-            double secondsDiff = timeDiff / 1000.0;
+            double secondsDiff = timeDiff / 1000.0; // double (primitive)
             
             if (secondsDiff <= 0) {
                 return 20.0;
             }
             
             // 20틱 동안의 시간을 측정했으므로
-            double actualTps = (tpsHistory.length - 1) / secondsDiff;
+            double actualTps = (tpsHistory.length - 1) / secondsDiff; // double (primitive)
             
             // TPS는 최대 20으로 제한
             return Math.min(20.0, Math.max(0.0, actualTps));

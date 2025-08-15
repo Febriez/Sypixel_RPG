@@ -31,14 +31,11 @@ public class MailCommand implements CommandExecutor, TabCompleter {
 
     private final RPGMain plugin;
     private final GuiManager guiManager;
-    private final LangManager langManager;
     private final MailManager mailManager;
 
-    public MailCommand(@NotNull RPGMain plugin, @NotNull GuiManager guiManager, 
-                      @NotNull LangManager langManager) {
+    public MailCommand(@NotNull RPGMain plugin, @NotNull GuiManager guiManager) {
         this.plugin = plugin;
         this.guiManager = guiManager;
-        this.langManager = langManager;
         this.mailManager = MailManager.getInstance();
     }
 
@@ -69,7 +66,7 @@ public class MailCommand implements CommandExecutor, TabCompleter {
      */
     private void handleMailboxCommand(@NotNull Player player, @NotNull String[] args) {
         // 우편함 GUI 열기
-        MailboxGui mailboxGui = MailboxGui.create(guiManager, langManager, player);
+        MailboxGui mailboxGui = MailboxGui.create(guiManager, player);
         guiManager.openGui(player, mailboxGui);
     }
 

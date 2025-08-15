@@ -1,28 +1,37 @@
 package com.febrie.rpg;
 
 import com.febrie.rpg.command.admin.AdminCommands;
-import com.febrie.rpg.command.system.MainMenuCommand;
-import com.febrie.rpg.command.system.SiteAccountCommand;
 import com.febrie.rpg.command.island.IslandCommand;
 import com.febrie.rpg.command.social.FriendCommand;
 import com.febrie.rpg.command.social.MailCommand;
 import com.febrie.rpg.command.social.WhisperCommand;
+import com.febrie.rpg.command.system.MainMenuCommand;
+import com.febrie.rpg.command.system.SiteAccountCommand;
 import com.febrie.rpg.database.FirestoreManager;
-import com.febrie.rpg.database.service.impl.PlayerFirestoreService;
-import com.febrie.rpg.database.service.impl.QuestFirestoreService;
 import com.febrie.rpg.database.service.impl.IslandFirestoreService;
+import com.febrie.rpg.database.service.impl.PlayerFirestoreService;
 import com.febrie.rpg.database.service.impl.PlayerIslandDataService;
-import com.febrie.rpg.island.manager.IslandManager;
+import com.febrie.rpg.database.service.impl.QuestFirestoreService;
 import com.febrie.rpg.gui.listener.GuiListener;
 import com.febrie.rpg.gui.manager.GuiManager;
+import com.febrie.rpg.island.listener.IslandProtectionListener;
+import com.febrie.rpg.island.listener.IslandVisitListener;
+import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.listener.DamageDisplayListener;
+import com.febrie.rpg.listener.MenuShortcutListener;
 import com.febrie.rpg.listener.NPCInteractListener;
 import com.febrie.rpg.listener.QuestEventListener;
-import com.febrie.rpg.npc.manager.NPCManager;
 import com.febrie.rpg.npc.NPCTraitSetter;
+import com.febrie.rpg.npc.manager.NPCManager;
+import com.febrie.rpg.npc.trait.DialogTraitRegistrationItem;
+import com.febrie.rpg.npc.trait.GuideTraitRegistrationItem;
+import com.febrie.rpg.npc.trait.ShopTraitRegistrationItem;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.quest.guide.QuestGuideManager;
 import com.febrie.rpg.quest.manager.QuestManager;
+import com.febrie.rpg.quest.trait.QuestStartTraitRegistrationItem;
+import com.febrie.rpg.quest.trait.QuestTraitRegistrationItem;
+import com.febrie.rpg.quest.trait.RewardTraitRegistrationItem;
 import com.febrie.rpg.system.ServerStatsManager;
 import com.febrie.rpg.talent.TalentManager;
 import com.febrie.rpg.util.LangManager;
@@ -42,7 +51,6 @@ public final class RPGMain extends JavaPlugin {
     private static RPGMain plugin;
 
     // 핵심 매니저
-    private LangManager langManager;
     private GuiManager guiManager;
     private RPGPlayerManager rpgPlayerManager;
     private TalentManager talentManager;
@@ -93,7 +101,7 @@ public final class RPGMain extends JavaPlugin {
         if (serverStatsManager != null) {
             serverStatsManager.shutdown();
         }
-        
+
         // 섬 매니저 종료
         if (islandManager != null) {
             islandManager.shutdown();
@@ -103,7 +111,7 @@ public final class RPGMain extends JavaPlugin {
         if (rpgPlayerManager != null) {
             rpgPlayerManager.shutdown();
         }
-        
+
         // QuestManager 종료
         try {
             QuestManager questManager = QuestManager.getInstance();
@@ -133,12 +141,12 @@ public final class RPGMain extends JavaPlugin {
         if (damageDisplayManager != null) {
             damageDisplayManager.shutdown();
         }
-        
+
         // NPC Trait Setter 정리
         if (npcTraitSetter != null) {
             npcTraitSetter.cleanup();
         }
-        
+
         // 섬 매니저 정리
         if (islandManager != null) {
             islandManager.clearCache();
@@ -167,10 +175,10 @@ public final class RPGMain extends JavaPlugin {
      */
     private void initializeSystems() {
         // 언어 시스템 초기화 (가장 먼저)
-        this.langManager = new LangManager(this);
+        LangManager.initialize(this);
 
         // GUI 시스템 초기화
-        this.guiManager = new GuiManager(this, langManager);
+        this.guiManager = new GuiManager(this);
 
         // Firestore 초기화
         this.firestoreManager = new FirestoreManager(this);
@@ -190,38 +198,39 @@ public final class RPGMain extends JavaPlugin {
         // 매니저 초기화
         this.rpgPlayerManager = RPGPlayerManager.create(this, playerFirestoreService);
         this.talentManager = new TalentManager(this);
-        
+
         // QuestManager 초기화
         QuestManager.initialize(this, questFirestoreService);
-        
+
         // NPCManager 초기화 (Citizens가 설치되어 있을 때만)
-        if (getServer().getPluginManager().getPlugin("Citizens") != null) {
+        if (getServer().getPluginManager()
+                .getPlugin("Citizens") != null) {
             this.npcManager = new NPCManager();
-            
+
             // NPC Trait Setter 초기화
             this.npcTraitSetter = new NPCTraitSetter(this);
         }
-        
+
         // 퀘스트 가이드 매니저 초기화
         this.questGuideManager = new QuestGuideManager(this);
-        
+
         // 데미지 표시 매니저 초기화
         this.damageDisplayManager = new TextDisplayDamageManager(this);
-        
+
         // 섬 매니저 초기화
         this.islandManager = new IslandManager(this, islandFirestoreService, playerIslandDataService);
         this.islandManager.initialize();
-        
+
         // 서버 통계 매니저 초기화
         this.serverStatsManager = new ServerStatsManager(this, firestoreManager, rpgPlayerManager);
 
         // 명령어 객체 생성 (실제 등록은 registerCommands에서)
-        this.mainMenuCommand = new MainMenuCommand(this, langManager, guiManager);
-        this.adminCommands = new AdminCommands(this, rpgPlayerManager, guiManager, langManager);
+        this.mainMenuCommand = new MainMenuCommand(this, guiManager);
+        this.adminCommands = new AdminCommands(this, rpgPlayerManager);
         this.siteAccountCommand = new SiteAccountCommand(this);
         this.islandCommand = new IslandCommand(this);
-        this.friendCommand = new FriendCommand(this, guiManager, langManager);
-        this.mailCommand = new MailCommand(this, guiManager, langManager);
+        this.friendCommand = new FriendCommand(this, guiManager);
+        this.mailCommand = new MailCommand(this, guiManager);
         this.whisperCommand = new WhisperCommand(this);
     }
 
@@ -229,53 +238,67 @@ public final class RPGMain extends JavaPlugin {
      * 모든 이벤트 리스너 등록
      */
     private void registerListeners() {
-        getServer().getPluginManager().registerEvents(new GuiListener(), this);
-        
+        getServer().getPluginManager()
+                .registerEvents(new GuiListener(), this);
+
         // RPGPlayerManager 리스너 등록 (null 체크)
         if (rpgPlayerManager != null) {
-            getServer().getPluginManager().registerEvents(rpgPlayerManager, this);
+            getServer().getPluginManager()
+                    .registerEvents(rpgPlayerManager, this);
         }
-        
+
         // Citizens가 설치되어 있으면 NPC 리스너 등록
-        if (getServer().getPluginManager().getPlugin("Citizens") != null) {
-            getServer().getPluginManager().registerEvents(
-                new NPCInteractListener(this, guiManager, langManager), this);
+        if (getServer().getPluginManager()
+                .getPlugin("Citizens") != null) {
+            getServer().getPluginManager()
+                    .registerEvents(new NPCInteractListener(this, guiManager), this);
         }
-        
+
         // 데미지 표시 리스너 등록
-        getServer().getPluginManager().registerEvents(new DamageDisplayListener(this), this);
-        
+        getServer().getPluginManager()
+                .registerEvents(new DamageDisplayListener(this), this);
+
         // 퀘스트 이벤트 리스너 등록
-        getServer().getPluginManager().registerEvents(new QuestEventListener(this), this);
-        
+        getServer().getPluginManager()
+                .registerEvents(new QuestEventListener(this), this);
+
         // 퀘스트 Trait 등록 아이템 리스너 등록
-        getServer().getPluginManager().registerEvents(new com.febrie.rpg.quest.trait.QuestTraitRegistrationItem(), this);
-        
+        getServer().getPluginManager()
+                .registerEvents(new QuestTraitRegistrationItem(), this);
+
         // 보상 Trait 등록 아이템 리스너 등록
-        getServer().getPluginManager().registerEvents(new com.febrie.rpg.quest.trait.RewardTraitRegistrationItem(), this);
-        
+        getServer().getPluginManager()
+                .registerEvents(new RewardTraitRegistrationItem(), this);
+
         // 퀘스트 시작 NPC 막대기 리스너 등록
-        getServer().getPluginManager().registerEvents(new com.febrie.rpg.quest.trait.QuestStartTraitRegistrationItem(), this);
-        
+        getServer().getPluginManager()
+                .registerEvents(new QuestStartTraitRegistrationItem(), this);
+
         // 상점 NPC 막대기 리스너 등록
-        getServer().getPluginManager().registerEvents(new com.febrie.rpg.npc.trait.ShopTraitRegistrationItem(), this);
-        
+        getServer().getPluginManager()
+                .registerEvents(new ShopTraitRegistrationItem(), this);
+
         // 가이드 NPC 막대기 리스너 등록
-        getServer().getPluginManager().registerEvents(new com.febrie.rpg.npc.trait.GuideTraitRegistrationItem(), this);
-        
+        getServer().getPluginManager()
+                .registerEvents(new GuideTraitRegistrationItem(), this);
+
         // 대화 NPC 막대기 리스너 등록
-        getServer().getPluginManager().registerEvents(new com.febrie.rpg.npc.trait.DialogTraitRegistrationItem(), this);
-        
+        getServer().getPluginManager()
+                .registerEvents(new DialogTraitRegistrationItem(), this);
+
         // 메뉴 단축키 리스너 등록 (SHIFT + F)
-        getServer().getPluginManager().registerEvents(new com.febrie.rpg.listener.MenuShortcutListener(this, guiManager, langManager), this);
-        
+        getServer().getPluginManager()
+                .registerEvents(new MenuShortcutListener(this, guiManager), this);
+
         // 섬 보호 리스너 등록 (null 체크)
         if (islandManager != null) {
-            getServer().getPluginManager().registerEvents(new com.febrie.rpg.island.listener.IslandProtectionListener(this, islandManager), this);
+            getServer().getPluginManager()
+                    .registerEvents(new IslandProtectionListener(this, islandManager), this);
         }
-        
+
         // 섬 방문 추적 리스너 등록
-        getServer().getPluginManager().registerEvents(new com.febrie.rpg.island.listener.IslandVisitListener(this), this);
+        getServer().getPluginManager()
+                .registerEvents(new IslandVisitListener(this), this);
     }
 
     /**
@@ -284,41 +307,53 @@ public final class RPGMain extends JavaPlugin {
      */
     private void registerCommands() {
         // 메인 메뉴 명령어 등록
-        getCommand("메뉴").setExecutor(mainMenuCommand);
-        getCommand("메뉴").setTabCompleter(mainMenuCommand);
+        registerCommand("메뉴", mainMenuCommand);
 
-        // 관리자 명령어 등록 (null 체크)
-        if (adminCommands != null) {
-            getCommand("rpgadmin").setExecutor(adminCommands);
-            getCommand("rpgadmin").setTabCompleter(adminCommands);
-        }
+        // 관리자 명령어 등록
+        registerCommand("rpgadmin", adminCommands);
 
         // 사이트 계정 명령어 등록
-        if (siteAccountCommand != null) {
-            getCommand("사이트계정발급").setExecutor(siteAccountCommand);
-        }
-        
+        registerCommand("사이트계정발급", siteAccountCommand);
+
         // 섬 명령어 등록
-        if (islandCommand != null) {
-            getCommand("섬").setExecutor(islandCommand);
-        }
-        
+        registerCommand("섬", islandCommand);
+
         // 소셜 명령어 등록
-        if (friendCommand != null) {
-            getCommand("친구").setExecutor(friendCommand);
-            getCommand("친구").setTabCompleter(friendCommand);
-        }
-        
-        if (mailCommand != null) {
-            getCommand("메일").setExecutor(mailCommand);
-            getCommand("메일").setTabCompleter(mailCommand);
-        }
-        
-        if (whisperCommand != null) {
-            getCommand("귀속말").setExecutor(whisperCommand);
-            getCommand("귀속말").setTabCompleter(whisperCommand);
+        registerCommand("친구", friendCommand);
+        registerCommand("메일", mailCommand);
+        registerCommand("귀속말", whisperCommand);
+    }
+
+    /**
+     * 안전한 명령어 등록 헬퍼 메소드
+     * NullPointerException을 방지하고 instanceof를 통해 적절한 인터페이스를 확인
+     *
+     * @param commandName 등록할 명령어 이름
+     * @param handler     명령어 핸들러 (CommandExecutor 및/또는 TabCompleter 구현체)
+     */
+    private void registerCommand(String commandName, Object handler) {
+        if (handler == null) {
+            LogUtil.warn("명령어 핸들러가 null입니다: " + commandName);
+            return;
         }
 
+        var command = getCommand(commandName);
+        if (command == null) {
+            LogUtil.error("plugin.yml에 명령어가 정의되지 않았습니다: " + commandName);
+            return;
+        }
+
+        // CommandExecutor 인터페이스 확인 및 설정
+        if (handler instanceof org.bukkit.command.CommandExecutor executor) {
+            command.setExecutor(executor);
+        } else {
+            LogUtil.warn("핸들러가 CommandExecutor를 구현하지 않습니다: " + commandName);
+        }
+
+        // TabCompleter 인터페이스 확인 및 설정
+        if (handler instanceof org.bukkit.command.TabCompleter tabCompleter) {
+            command.setTabCompleter(tabCompleter);
+        }
     }
 
     /**
@@ -338,7 +373,7 @@ public final class RPGMain extends JavaPlugin {
     // Getter 메소드들
 
     public LangManager getLangManager() {
-        return langManager;
+        return null; // LangManager is now static
     }
 
     public GuiManager getGuiManager() {
@@ -360,7 +395,7 @@ public final class RPGMain extends JavaPlugin {
     public QuestGuideManager getQuestGuideManager() {
         return questGuideManager;
     }
-    
+
     public QuestManager getQuestManager() {
         return QuestManager.getInstance();
     }
@@ -369,15 +404,15 @@ public final class RPGMain extends JavaPlugin {
         return damageDisplayManager;
     }
 
-    
+
     public IslandManager getIslandManager() {
         return islandManager;
     }
-    
+
     public FirestoreManager getFirestoreManager() {
         return firestoreManager;
     }
-    
+
     @Nullable
     public com.google.cloud.firestore.Firestore getFirestore() {
         return firestoreManager != null ? firestoreManager.getFirestore() : null;
@@ -386,7 +421,7 @@ public final class RPGMain extends JavaPlugin {
     public static RPGMain getPlugin() {
         return plugin;
     }
-    
+
     public static RPGMain getInstance() {
         return plugin;
     }
@@ -394,7 +429,7 @@ public final class RPGMain extends JavaPlugin {
     public long getStartTime() {
         return serverStatsManager != null ? serverStatsManager.getUptime() : 0L;
     }
-    
+
     public PlayerFirestoreService getPlayerFirestoreService() {
         return playerFirestoreService;
     }

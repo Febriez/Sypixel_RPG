@@ -23,6 +23,8 @@ import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.gui.impl.quest.QuestSelectionGui;
 import com.febrie.rpg.gui.impl.quest.QuestRewardGui;
 import com.febrie.rpg.gui.impl.shop.NPCShopGui;
+import com.febrie.rpg.npc.NPCTraitSetter;
+import com.febrie.rpg.npc.trait.RPGQuestRewardTrait;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
@@ -30,6 +32,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -49,14 +52,11 @@ public class NPCInteractListener implements Listener {
 
     private final RPGMain plugin;
     private final GuiManager guiManager;
-    private final LangManager langManager;
     private final QuestManager questManager;
 
-    public NPCInteractListener(@NotNull RPGMain plugin, @NotNull GuiManager guiManager,
-                               @NotNull LangManager langManager) {
+    public NPCInteractListener(@NotNull RPGMain plugin, @NotNull GuiManager guiManager) {
         this.plugin = plugin;
         this.guiManager = guiManager;
-        this.langManager = langManager;
         this.questManager = QuestManager.getInstance();
     }
 
@@ -70,8 +70,8 @@ public class NPCInteractListener implements Listener {
 
         
         // 대기 중인 trait 설정이 있는지 확인
-        com.febrie.rpg.npc.NPCTraitSetter.PendingTrait pending = 
-            com.febrie.rpg.npc.NPCTraitSetter.getInstance().getPendingTrait(player);
+        NPCTraitSetter.PendingTrait pending = 
+            NPCTraitSetter.getInstance().getPendingTrait(player);
         
         if (pending != null) {
             // 관리자 권한 확인
@@ -129,14 +129,14 @@ public class NPCInteractListener implements Listener {
             }
             
             // 대기 중인 trait 제거
-            com.febrie.rpg.npc.NPCTraitSetter.getInstance().removePendingTrait(player);
+            NPCTraitSetter.getInstance().removePendingTrait(player);
             SoundUtil.playSuccessSound(player);
             return;
         }
 
         // 보상 처리를 먼저 확인 - NPC가 보상을 가지고 있고 플레이어가 받을 수 있는 경우
-        if (npc.hasTrait(com.febrie.rpg.npc.trait.RPGQuestRewardTrait.class)) {
-            com.febrie.rpg.npc.trait.RPGQuestRewardTrait rewardTrait = npc.getOrAddTrait(com.febrie.rpg.npc.trait.RPGQuestRewardTrait.class);
+        if (npc.hasTrait(RPGQuestRewardTrait.class)) {
+            RPGQuestRewardTrait rewardTrait = npc.getOrAddTrait(RPGQuestRewardTrait.class);
             
             // 보상 수령 가능한 퀘스트가 있는지 확인
             List<String> unclaimedQuestInstances = questManager.getUnclaimedRewardQuests(player.getUniqueId());
@@ -202,21 +202,15 @@ public class NPCInteractListener implements Listener {
     private void handleQuestNPCWithTrait(NPC npc, Player player, RPGQuestTrait trait) {
         // 먼저 NPC ID 기반 퀘스트 목표 체크
         if (trait.hasNpcId()) {
-            // 현재 진행 중인 퀘스트에서 이 NPC와 관련된 목표 찾기
-            java.util.Map<String, com.febrie.rpg.dto.quest.ActiveQuestDTO> activeQuests = questManager.getActiveQuests(player.getUniqueId());
+            String npcId = trait.getNpcId();
             
-            for (java.util.Map.Entry<String, com.febrie.rpg.dto.quest.ActiveQuestDTO> entry : activeQuests.entrySet()) {
-                String instanceId = entry.getKey();
-                com.febrie.rpg.dto.quest.ActiveQuestDTO activeData = entry.getValue();
-                Quest quest = questManager.getQuest(QuestID.valueOf(activeData.questId()));
-                if (quest == null) continue;
-                
-                // NPC 상호작용 처리
-                questManager.handleNPCInteraction(player, instanceId, trait.getNpcId());
-                return;
-            }
+            // InteractNPC 목표 처리 (기존 로직)
+            questManager.handleNPCInteraction(player, npcId);
             
-            // 퀘스트 목표가 아닌 경우 아무 동작도 하지 않음
+            // DeliverItem 목표 처리는 추후 구현
+            // TODO: DeliverItem 목표 처리 구현 필요
+            
+            // 퀘스트 목표 처리가 완료되면 다른 처리를 하지 않음
             return;
         }
         
@@ -226,7 +220,7 @@ public class NPCInteractListener implements Listener {
         if (questIds.isEmpty()) {
             // 퀘스트 목록 GUI 열기
             QuestListGui questListGui = 
-                QuestListGui.create(guiManager, langManager, player);
+                QuestListGui.create(guiManager, player);
             guiManager.openGui(player, questListGui);
             return;
         }
@@ -236,7 +230,7 @@ public class NPCInteractListener implements Listener {
             QuestID questId = questIds.get(0);
             Quest quest = questManager.getQuest(questId);
             if (quest == null) {
-                langManager.sendMessage(player, "quest.npc.invalid-quest");
+                LangManager.sendMessage(player, "quest.npc.invalid-quest");
                 return;
             }
             handleSingleQuest(npc, player, quest);
@@ -249,7 +243,8 @@ public class NPCInteractListener implements Listener {
                     quests.add(quest);
                 }
             }
-            QuestSelectionGui.create(plugin, player, quests, npc.getName()).open();
+            QuestSelectionGui questSelectionGui = QuestSelectionGui.create(guiManager, player, quests, npc.getName());
+            guiManager.openGui(player, questSelectionGui);
         }
 
     }
@@ -293,14 +288,14 @@ public class NPCInteractListener implements Listener {
             
             // 완료 불가 퀘스트
             if (completionLimit == 0) {
-                langManager.sendMessage(player, "quest.npc.already-completed");
+                LangManager.sendMessage(player, "quest.npc.already-completed");
                 return;
             }
             
             // 완료 횟수 제한 확인 (-1은 무제한)
             if (completionLimit > 0) {
                 // 실제로 startQuest를 호출하면 내부에서 체크하므로 여기서는 간단한 메시지만 표시
-                langManager.sendMessage(player, "quest.npc.already-completed");
+                LangManager.sendMessage(player, "quest.npc.already-completed");
                 return;
             }
         }
@@ -310,11 +305,13 @@ public class NPCInteractListener implements Listener {
         
         // 레벨 요구사항 확인
         if (quest.getMinLevel() > 1 && rpgPlayer.getLevel() < quest.getMinLevel()) {
-            langManager.sendMessage(player, "quest.npc.level-requirement", 
+            LangManager.sendMessage(player, "quest.npc.level-requirement", 
                 "level", String.valueOf(quest.getMinLevel()));
             return;
         }
         
+        // TODO: Add prerequisite and exclusive quest checks when methods are implemented
+        /*
         // 선행 퀘스트 요구사항 확인
         if (!quest.getPrerequisiteQuests().isEmpty()) {
             boolean hasCompletedAllPrereqs = true;
@@ -327,7 +324,7 @@ public class NPCInteractListener implements Listener {
                 }
             }
             if (!hasCompletedAllPrereqs) {
-                langManager.sendMessage(player, "quest.npc.prerequisite-requirement");
+                LangManager.sendMessage(player, "quest.npc.prerequisite-requirement");
                 return;
             }
         }
@@ -338,11 +335,12 @@ public class NPCInteractListener implements Listener {
                 boolean hasCompletedExclusive = questManager.getCompletedQuests(player.getUniqueId()).values().stream()
                         .anyMatch(c -> c.questId().equals(exclusiveId.name()));
                 if (hasCompletedExclusive) {
-                    langManager.sendMessage(player, "quest.npc.mutually-exclusive");
+                    LangManager.sendMessage(player, "quest.npc.mutually-exclusive");
                     return;
                 }
             }
         }
+        */
 
         // 퀘스트 대화 GUI 열기 (대화가 없어도 수락/거절 선택 표시)
         guiManager.openQuestDialogGui(player, quest);
@@ -353,7 +351,8 @@ public class NPCInteractListener implements Listener {
      */
     private void handleShopNPCWithTrait(NPC npc, Player player, RPGShopTrait trait) {
         // 상점 GUI 열기
-        NPCShopGui.create(plugin, player, trait, npc.getName()).open();
+        NPCShopGui shopGui = NPCShopGui.create(guiManager, player, trait, npc.getName());
+        guiManager.openGui(player, shopGui);
     }
 
     /**
@@ -362,7 +361,7 @@ public class NPCInteractListener implements Listener {
     private void handleGuideNPCWithTrait(NPC npc, Player player, RPGGuideTrait trait) {
         // 메인 메뉴 열기
         MainMenuGui mainMenu = 
-            MainMenuGui.create(guiManager, langManager, player);
+            MainMenuGui.create(guiManager, player);
         guiManager.openGui(player, mainMenu);
         SoundUtil.playOpenSound(player);
     }
@@ -370,7 +369,7 @@ public class NPCInteractListener implements Listener {
     /**
      * Trait를 사용하는 퀘스트 보상 NPC 처리
      */
-    private void handleQuestRewardNPCWithTrait(NPC npc, Player player, com.febrie.rpg.npc.trait.RPGQuestRewardTrait trait) {
+    private void handleQuestRewardNPCWithTrait(NPC npc, Player player, RPGQuestRewardTrait trait) {
         // 보상 수령 가능한 퀘스트 인스턴스 목록 가져오기
         List<String> unclaimedInstances = questManager.getUnclaimedRewardQuests(player.getUniqueId());
         
@@ -394,7 +393,7 @@ public class NPCInteractListener implements Listener {
         
         // 보상 수령 가능한 퀘스트가 없는 경우
         if (availableQuests.isEmpty()) {
-            langManager.sendMessage(player, "quest.reward.no-rewards");
+            LangManager.sendMessage(player, "quest.reward.no-rewards");
             SoundUtil.playErrorSound(player);
             return;
         }
@@ -414,8 +413,8 @@ public class NPCInteractListener implements Listener {
                     .orElse(null);
                     
                 if (instanceId != null) {
-                    com.febrie.rpg.gui.impl.quest.QuestRewardGui rewardGui = 
-                        com.febrie.rpg.gui.impl.quest.QuestRewardGui.create(guiManager, langManager, player, quest, instanceId);
+                    QuestRewardGui rewardGui = 
+                        QuestRewardGui.create(guiManager, player, quest, instanceId);
                     guiManager.openGui(player, rewardGui);
                     SoundUtil.playOpenSound(player);
                 }
@@ -431,7 +430,8 @@ public class NPCInteractListener implements Listener {
             }
             
             if (!questsWithRewards.isEmpty()) {
-                QuestSelectionGui.create(plugin, player, questsWithRewards, npc.getName()).open();
+                QuestSelectionGui rewardSelectionGui = QuestSelectionGui.create(guiManager, player, questsWithRewards, npc.getName());
+                guiManager.openGui(player, rewardSelectionGui);
             }
         }
     }

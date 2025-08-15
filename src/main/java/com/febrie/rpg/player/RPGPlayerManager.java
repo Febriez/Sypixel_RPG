@@ -129,6 +129,12 @@ public class RPGPlayerManager implements Listener {
         UUID uuid = player.getUniqueId();
         RPGPlayer rpgPlayer = players.remove(uuid);
         
+        // QuestManager 캐시 정리
+        com.febrie.rpg.quest.manager.QuestManager questManager = com.febrie.rpg.quest.manager.QuestManager.getInstance();
+        if (questManager != null) {
+            questManager.clearPlayerCache(uuid);
+        }
+        
         if (rpgPlayer != null) {
             // DataSyncManager를 사용하여 즉시 저장
             if (syncManager != null) {

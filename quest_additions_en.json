@@ -1,0 +1,352 @@
+{
+  "clazz": {
+    "warrior_advancement": {
+      "name": "Warrior Advancement Trial",
+      "description": [
+        "The advancement trial to become a true warrior.",
+        "Prove your combat skills and bravery.",
+        "",
+        "Warrior Features:",
+        "• Powerful melee combat abilities",
+        "• High health and defense",
+        "• Diverse weapon proficiency",
+        "• Rage gauge utilization in combat",
+        "",
+        "Requirements:",
+        "• Level 30 or higher",
+        "• Prove combat skills",
+        "• Verify PvP abilities"
+      ],
+      "objectives": {
+        "warrior_level": "Reach Warrior Level 30",
+        "warrior_master": "Talk to the Warrior Master",
+        "prove_combat": "Prove Combat: Kill 20 Iron Golems",
+        "prove_pvp": "Prove PvP: Kill 10 Players",
+        "warrior_emblem": "Collect 50 Warrior Emblems",
+        "forge_weapon": "Forge a Warrior's Sword",
+        "forge_armor": "Forge a Warrior's Armor",
+        "endurance_test": "Endurance Test: Survive 10 minutes",
+        "final_trial": "Final Trial: Kill 5 Ravagers",
+        "return_emblem": "Return emblem to Warrior Master"
+      }
+    }
+  },
+  "crafting": {
+    "master_blacksmith": {
+      "name": "Path of the Master Blacksmith",
+      "description": [
+        "Begin your training to become a Master Blacksmith.",
+        "Master everything from ore mining to Netherite equipment crafting.",
+        "",
+        "🔨 Training Process:",
+        "• Stage 1: Ore Mining and Smelting",
+        "• Stage 2: Basic Equipment Crafting",
+        "• Stage 3: Advanced Equipment Crafting",
+        "• Stage 4: Enchantment Mastery",
+        "• Stage 5: Netherite Masterpiece",
+        "",
+        "Rewards:",
+        "• 4000 Gold",
+        "• 35 Diamonds",
+        "• 2 Netherite Ingots",
+        "• Smithing Table",
+        "• Anvil",
+        "• 2500 Experience"
+      ],
+      "objectives": {
+        "blacksmith_master": "Talk to the Master Blacksmith",
+        "mine_iron": "Mine 30 Iron Ore",
+        "mine_gold": "Mine 20 Gold Ore",
+        "mine_diamond": "Mine 10 Diamond Ore",
+        "gather_coal": "Gather 64 Coal",
+        "smelt_iron": "Smelt 30 Iron Ingots",
+        "smelt_gold": "Smelt 20 Gold Ingots",
+        "gather_diamonds": "Gather 10 Diamonds",
+        "setup_anvil": "Set up an Anvil",
+        "setup_furnace": "Set up a Blast Furnace",
+        "craft_iron_tools": "Craft 5 Iron Pickaxes",
+        "craft_iron_armor": "Craft 3 Iron Chestplates",
+        "craft_diamond_sword": "Craft 2 Diamond Swords",
+        "craft_diamond_armor": "Craft Diamond Chestplate",
+        "setup_enchanting": "Set up Enchanting Table",
+        "enchanted_sword": "Obtain Enchanted Diamond Sword",
+        "netherite_scrap": "Gather 4 Netherite Scrap",
+        "craft_netherite": "Craft Netherite Ingot",
+        "masterpiece": "Craft Netherite Sword",
+        "deliver_masterpiece": "Deliver masterpiece to Master"
+      }
+    }
+  },
+  "exploration": {
+    "ancient_ruins": {
+      "name": "Secrets of the Ancient Ruins",
+      "description": [
+        "Explore the ancient ruins discovered by Archaeologist Henry.",
+        "Hidden treasures and ancient secrets await you.",
+        "",
+        "⚠️ WARNING: The ruins contain dangerous traps and guardians!",
+        "",
+        "Exploration Areas:",
+        "• Ancient Library - Forgotten Knowledge",
+        "• Treasure Vault - Gold and Gems",
+        "• Hidden Chamber - Ultimate Secret",
+        "",
+        "Rewards:",
+        "• 3000 Gold",
+        "• 25 Diamonds",
+        "• Archaeology tool set",
+        "• 2000 Experience"
+      ],
+      "objectives": {
+        "archaeologist_talk": "Talk to Archaeologist Henry",
+        "gather_tools": "Prepare an Iron Pickaxe",
+        "gather_torches": "Prepare 64 Torches",
+        "ruins_entrance": "Reach Ancient Ruins entrance",
+        "clear_entrance": "Clear 30 stones from entrance",
+        "excavate_dirt": "Excavate 50 dirt blocks",
+        "library_room": "Reach the Ancient Library",
+        "ancient_books": "Collect 3 Ancient Books",
+        "library_guardians": "Defeat 10 Library Spirits",
+        "treasure_room": "Reach the Treasure Vault",
+        "break_pots": "Break 10 Ancient Pots",
+        "ancient_coins": "Collect 30 Ancient Coins",
+        "treasure_guardians": "Defeat 15 Treasure Guardians",
+        "place_lever": "Place a Lever",
+        "secret_chamber": "Discover the Secret Chamber",
+        "ancient_sentinel": "Defeat the Ancient Sentinel",
+        "ancient_artifact": "Obtain Ancient Artifact",
+        "escape_ruins": "Escape ruins within 3 minutes",
+        "return_artifact": "Return artifact to Henry"
+      },
+      "dialog": {
+        "henry": {
+          "line1": "I finally found it! The ruins of the ancient kingdom from legends!",
+          "line2": "But it's dangerous alone. We don't know what's inside.",
+          "line3": "A pickaxe and torches are essential. It'll be dark with many blocked areas.",
+          "line4": "And be careful! The ancients left guardians to stop tomb raiders.",
+          "line5": "Anything from the ancient civilization. Especially if you find artifacts!"
+        },
+        "player": {
+          "line1": "I'll help you. What should I prepare?",
+          "line2": "Got it. What should I look for?"
+        }
+      }
+    }
+  },
+  "branch": {
+    "light_paladin": {
+      "name": "Paladin of Light",
+      "description": [
+        "Having chosen the path of light,",
+        "you are destined to become a paladin",
+        "and fight against darkness.",
+        "",
+        "⚠️ Warning: This choice cannot be undone!",
+        "",
+        "Paladin Features:",
+        "• Powerful healing abilities",
+        "• Special damage against undead",
+        "• Light-blessed defensive skills",
+        "• Ally protection abilities",
+        "",
+        "Requirements:",
+        "• Level 40 or higher",
+        "• Completed Path of Light main quest",
+        "• Not chosen Dark Knight or Neutral Guardian"
+      ],
+      "objectives": {
+        "paladin_master": "Talk to the Paladin Master",
+        "holy_water": "Collect 10 Holy Water",
+        "purge_undead": "Purge 50 Undead Zombies",
+        "purge_skeletons": "Purge 50 Undead Skeletons",
+        "holy_shrine": "Visit the Holy Shrine",
+        "meditation": "Meditate for 10 minutes",
+        "holy_sword": "Craft a Holy Sword",
+        "build_altar": "Build Light Altar (9 Glowstone)",
+        "defeat_darkness": "Defeat 20 Dark Warriors",
+        "light_essence": "Collect 30 Light Essence",
+        "oath_completion": "Complete the Paladin Oath"
+      }
+    }
+  },
+  "advancement": {
+    "mage_enlightenment": {
+      "name": "Mage's Enlightenment",
+      "description": [
+        "Journey to advance from apprentice mage to archmage.",
+        "Master the arcane arts and unlock ultimate magical power.",
+        "",
+        "Path to Enlightenment:",
+        "• Master elemental magic",
+        "• Control mana flow",
+        "• Obtain forbidden knowledge",
+        "• Create new spells",
+        "• Prove yourself in magical combat",
+        "",
+        "Requirements:",
+        "• Level 30 or higher",
+        "• Complete basic combat tutorial"
+      ],
+      "objectives": {
+        "archmage_mentor": "Talk to the Archmage Mentor",
+        "mage_mastery": "Reach Level 30",
+        "magic_essence": "Collect 64 Lapis Lazuli",
+        "elemental_sanctum": "Visit Elemental Sanctum",
+        "fire_elemental": "Talk to Fire Elemental",
+        "fire_test": "Kill 30 Blazes",
+        "fire_essence": "Collect 20 Blaze Powder",
+        "water_elemental": "Talk to Water Elemental",
+        "water_essence": "Collect 20 Prismarine Crystals",
+        "ice_shards": "Collect 10 Packed Ice",
+        "earth_elemental": "Talk to Earth Elemental",
+        "earth_test": "Break 100 Stone blocks",
+        "earth_essence": "Collect 30 Clay Balls",
+        "air_elemental": "Talk to Air Elemental",
+        "air_test": "Kill 20 Phantoms",
+        "air_essence": "Collect 15 Phantom Membranes",
+        "mana_chamber": "Visit Mana Chamber",
+        "mana_crystals": "Place 8 Sea Lanterns",
+        "mana_overflow": "Survive 10 minutes",
+        "pure_mana": "Collect 30 Glowstone",
+        "mana_potion": "Craft 20 Potions",
+        "forbidden_library": "Visit Forbidden Library",
+        "knowledge_keeper": "Talk to Knowledge Keeper",
+        "ancient_tomes": "Collect 10 Enchanted Books",
+        "knowledge_guardians": "Kill 50 Vexes",
+        "forbidden_scroll": "Obtain Written Book",
+        "knowledge_price": "Pay 30 Diamonds",
+        "creation_altar": "Visit Creation Altar",
+        "spell_components": "Collect 10 Ender Pearls",
+        "magic_ink": "Collect 20 Ink Sacs",
+        "create_wand": "Craft a Wand",
+        "enchant_altar": "Place Enchanting Table",
+        "new_spell": "Create New Spell",
+        "arcane_arena": "Visit Arcane Arena",
+        "rival_mage": "Challenge Rival Mage",
+        "illusion_army": "Defeat 10 Evokers",
+        "summoned_vex": "Defeat 100 Vexes",
+        "magic_duel": "Survive 15 minute duel",
+        "rival_defeated": "Defeat 5 Witches",
+        "enlightenment_peak": "Visit Enlightenment Peak",
+        "meditation_circle": "Place 9 White Carpets",
+        "final_meditation": "Meditate for 10 minutes",
+        "enlightenment_orb": "Obtain Nether Star",
+        "deliver_orb": "Deliver Orb to Mentor",
+        "graduation_ceremony": "Complete Graduation"
+      },
+      "dialog": {
+        "mentor": {
+          "line1": "You seek the path of true magic? The journey to enlightenment is long and arduous.",
+          "line2": "You must master all elements, control pure mana, and unlock forbidden knowledge.",
+          "line3": "Let us begin with the elemental trials. Seek out the elemental spirits.",
+          "line4": "Excellent control! Now you must learn to harness pure mana.",
+          "line5": "The final test awaits. Reach the peak and achieve enlightenment.",
+          "line6": "You have done it! You are now a true Archmage.",
+          "line7": "Use your power wisely, and may magic always flow through you."
+        },
+        "player": {
+          "line1": "I am ready to begin my journey to enlightenment."
+        },
+        "fire_elemental": {
+          "line1": "The flames of magic burn within you. Prove your mastery over fire!"
+        },
+        "water_elemental": {
+          "line1": "Flow like water, freeze like ice. Show me your control!"
+        },
+        "earth_elemental": {
+          "line1": "Solid as stone, eternal as the mountains. Test your strength!"
+        },
+        "air_elemental": {
+          "line1": "Swift as wind, light as air. Demonstrate your agility!"
+        },
+        "knowledge_keeper": {
+          "line1": "Forbidden knowledge comes at a price. Are you willing to pay?"
+        },
+        "rival_mage": {
+          "line1": "So you think you're ready to be an Archmage? Face me in combat!"
+        }
+      }
+    },
+    "paladin_oath": {
+      "name": "The Sacred Oath of Paladin",
+      "description": [
+        "Take the sacred oath to advance from warrior to paladin.",
+        "Prove your virtue through trials of courage, justice, mercy, and sacrifice.",
+        "",
+        "The Four Virtues:",
+        "• Courage - Face your fears",
+        "• Justice - Punish evil",
+        "• Mercy - Help the weak",
+        "• Sacrifice - Give of yourself",
+        "",
+        "Requirements:",
+        "• Level 30 or higher",
+        "• Complete basic combat tutorial"
+      ],
+      "objectives": {
+        "paladin_mentor": "Talk to Paladin Mentor",
+        "warrior_mastery": "Reach Level 30",
+        "oath_preparation": "Prepare for the Oath",
+        "courage_trial": "Visit Trial of Courage",
+        "face_fears": "Kill 50 Wither Skeletons",
+        "defeat_champion": "Kill 10 Iron Golems",
+        "courage_test": "Survive 10 minutes",
+        "courage_emblem": "Collect 30 Iron Ingots",
+        "justice_court": "Visit Hall of Justice",
+        "judge_npc": "Talk to Justice Judge",
+        "punish_evil": "Kill 30 Pillagers",
+        "destroy_undead": "Kill 100 Zombies",
+        "return_stolen": "Return 20 Emeralds",
+        "justice_scale": "Collect 20 Gold Ingots",
+        "mercy_temple": "Visit Temple of Mercy",
+        "healing_herbs": "Collect 10 Glistering Melons",
+        "brew_potions": "Brew 20 Potions",
+        "heal_wounded": "Deliver 10 Potions",
+        "charity": "Donate 5000 Gold",
+        "mercy_tears": "Collect 5 Ghast Tears",
+        "sacrifice_altar": "Visit Altar of Sacrifice",
+        "valuable_items": "Collect 30 Diamonds",
+        "place_offering": "Place 3 Diamond Blocks",
+        "endure_pain": "Endure 5 minutes",
+        "sacrifice_wealth": "Sacrifice 50 Diamonds",
+        "sacrifice_token": "Obtain Totem of Undying",
+        "holy_weaponsmith": "Talk to Holy Weaponsmith",
+        "blessed_metal": "Collect 5 Gold Blocks",
+        "holy_water": "Collect 3 Potions",
+        "forge_sword": "Forge Golden Sword",
+        "bless_weapon": "Deliver Golden Sword",
+        "oath_cathedral": "Visit Sacred Cathedral",
+        "light_candles": "Place 7 Candles",
+        "begin_ceremony": "Begin Ceremony",
+        "final_trial": "Defeat the Wither",
+        "divine_light": "Survive 15 minutes",
+        "paladin_seal": "Obtain Nether Star",
+        "complete_oath": "Complete the Oath"
+      },
+      "dialog": {
+        "mentor": {
+          "line1": "You seek to become a Paladin? The path requires great virtue and sacrifice.",
+          "line2": "You must prove yourself through the four virtues: Courage, Justice, Mercy, and Sacrifice.",
+          "line3": "Begin with the Trial of Courage. Face your fears and overcome them.",
+          "line4": "Your courage is proven! Now demonstrate justice in your actions.",
+          "line5": "Well done! Next, show mercy to those in need.",
+          "line6": "Your mercy touches many hearts. Now make the ultimate sacrifice.",
+          "line7": "The ceremony begins! Stand in the divine light and receive your blessing.",
+          "line8": "Face this final trial with all you have learned!",
+          "line9": "You have completed the Sacred Oath! You are now a true Paladin.",
+          "line10": "Go forth and protect the innocent with your newfound power!"
+        },
+        "player": {
+          "line1": "I am ready to take the Sacred Oath and become a Paladin."
+        },
+        "judge": {
+          "line1": "Justice must be swift and fair. Show me your sense of justice!",
+          "line2": "Return what was stolen and punish those who do evil."
+        },
+        "weaponsmith": {
+          "line1": "A Paladin needs a blessed weapon. I'll help you forge one."
+        }
+      }
+    }
+  }
+}

@@ -23,11 +23,9 @@ import java.util.List;
 public abstract class BaseCommand implements CommandExecutor, TabCompleter {
 
     protected final Plugin plugin;
-    protected final LangManager langManager;
 
-    protected BaseCommand(@NotNull Plugin plugin, @NotNull LangManager langManager) {
+    protected BaseCommand(@NotNull Plugin plugin) {
         this.plugin = plugin;
-        this.langManager = langManager;
     }
 
     @Override
@@ -39,7 +37,7 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter {
             LogUtil.error("Error executing command " + command.getName(), e);
 
             if (sender instanceof Player player) {
-                langManager.sendMessage(player, "general.error");
+                LangManager.sendMessage(player, "general.error", new String[0]);
             } else {
                 sender.sendMessage("An error occurred while executing the command.");
             }
@@ -60,7 +58,7 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter {
     protected boolean requirePlayer(@NotNull CommandSender sender) {
         if (!(sender instanceof Player)) {
             if (sender instanceof Player player) {
-                langManager.sendMessage(player, "general.player-only");
+                LangManager.sendMessage(player, "general.player-only", new String[0]);
             } else {
                 sender.sendMessage("This command can only be used by players!");
             }
@@ -74,7 +72,7 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter {
      */
     protected boolean checkPermission(@NotNull Player player, @NotNull String permission) {
         if (!player.hasPermission(permission)) {
-            langManager.sendMessage(player, "general.no-permission");
+            LangManager.sendMessage(player, "general.no-permission", new String[0]);
             return false;
         }
         return true;

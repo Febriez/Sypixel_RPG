@@ -3,6 +3,7 @@ package com.febrie.rpg.island.world;
 import com.fastasyncworldedit.core.util.TaskManager;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandLocationDTO;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.MaxChangedBlocksException;
@@ -485,9 +486,9 @@ public class IslandWorldManager {
         // 텔레포트
         player.teleportAsync(spawnLocation).thenAccept(success -> {
             if (success) {
-                player.sendMessage(plugin.getLangManager().getMessage(player, "island.messages.teleport-success"));
+                player.sendMessage(LangManager.getMessage(player, "island.messages.teleport-success"));
             } else {
-                player.sendMessage(plugin.getLangManager().getMessage(player, "island.messages.teleport-fail"));
+                player.sendMessage(LangManager.getMessage(player, "island.messages.teleport-fail"));
             }
         });
     }

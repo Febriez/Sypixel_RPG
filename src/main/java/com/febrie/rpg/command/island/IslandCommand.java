@@ -24,13 +24,11 @@ public class IslandCommand implements CommandExecutor {
     
     private final RPGMain plugin;
     private final GuiManager guiManager;
-    private final LangManager langManager;
     private final IslandManager islandManager;
     
     public IslandCommand(@NotNull RPGMain plugin) {
         this.plugin = plugin;
         this.guiManager = plugin.getGuiManager();
-        this.langManager = plugin.getLangManager();
         this.islandManager = plugin.getIslandManager();
     }
     
@@ -39,7 +37,7 @@ public class IslandCommand implements CommandExecutor {
                            @NotNull String label, @NotNull String[] args) {
         
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(langManager.getComponent(sender, "commands.island.player-only"));
+            sender.sendMessage(LangManager.getComponent(sender, "commands.island.player-only"));
             return true;
         }
         
@@ -63,28 +61,28 @@ public class IslandCommand implements CommandExecutor {
      */
     private void showNoIslandMessage(@NotNull Player player) {
         player.sendMessage(Component.text(""));
-        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.title"));
+        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.title"));
         player.sendMessage(Component.text(""));
-        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.message"));
+        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.message"));
         player.sendMessage(Component.text(""));
-        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.benefits-title"));
-        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.benefit-1"));
-        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.benefit-2"));
-        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.benefit-3"));
-        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.benefit-4"));
+        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.benefits-title"));
+        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.benefit-1"));
+        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.benefit-2"));
+        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.benefit-3"));
+        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.benefit-4"));
         player.sendMessage(Component.text(""));
-        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.how-to-title"));
-        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.how-to-1"));
-        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.how-to-2"));
+        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.how-to-title"));
+        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.how-to-1"));
+        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.how-to-2"));
         player.sendMessage(Component.text(""));
-        player.sendMessage(langManager.getComponent(player, "commands.island.no-island.divider"));
+        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.divider"));
     }
     
     /**
      * 섬 메뉴 열기
      */
     private void openIslandMenu(@NotNull Player player) {
-        IslandMainGui islandGui = IslandMainGui.create(guiManager, langManager, player);
+        IslandMainGui islandGui = IslandMainGui.create(guiManager, player);
         guiManager.openGui(player, islandGui);
     }
 }

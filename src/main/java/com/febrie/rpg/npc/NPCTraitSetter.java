@@ -85,7 +85,7 @@ public class NPCTraitSetter {
                 for (String npcId : requiredNpcIds) {
                     ItemStack item = com.febrie.rpg.quest.trait.QuestTraitRegistrationItem.create(
                         npcId, 
-                        quest.getDisplayName(true) + " - " + npcId
+                        quest.getDisplayName(player) + " - " + npcId
                     );
                     player.getInventory().addItem(item);
                 }
@@ -97,7 +97,7 @@ public class NPCTraitSetter {
             String rewardNpcId = "reward_" + questId.name().toLowerCase();
             ItemStack rewardItem = com.febrie.rpg.quest.trait.RewardTraitRegistrationItem.create(
                 rewardNpcId,
-                quest.getDisplayName(true) + " 보상 NPC"
+                quest.getDisplayName(player) + " 보상 NPC"
             );
             player.getInventory().addItem(rewardItem);
             player.sendMessage(Component.text("보상 NPC 등록 아이템도 지급되었습니다.", ColorUtil.SUCCESS));
@@ -105,7 +105,7 @@ public class NPCTraitSetter {
         }
         
         player.sendMessage(Component.text("10초 내에 설정할 NPC를 우클릭하세요.", ColorUtil.INFO));
-        player.sendMessage(Component.text("퀘스트: " + questId.name() + " - " + quest.getDisplayName(true), ColorUtil.YELLOW));
+        player.sendMessage(Component.text("퀘스트: " + questId.name() + " - " + quest.getDisplayName(player), ColorUtil.YELLOW));
     }
     
     /**

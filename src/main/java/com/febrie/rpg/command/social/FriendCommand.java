@@ -30,14 +30,11 @@ public class FriendCommand implements CommandExecutor, TabCompleter {
 
     private final RPGMain plugin;
     private final GuiManager guiManager;
-    private final LangManager langManager;
     private final FriendManager friendManager;
 
-    public FriendCommand(@NotNull RPGMain plugin, @NotNull GuiManager guiManager, 
-                        @NotNull LangManager langManager) {
+    public FriendCommand(@NotNull RPGMain plugin, @NotNull GuiManager guiManager) {
         this.plugin = plugin;
         this.guiManager = guiManager;
-        this.langManager = langManager;
         this.friendManager = FriendManager.getInstance();
     }
 
@@ -70,7 +67,7 @@ public class FriendCommand implements CommandExecutor, TabCompleter {
     private void handleFriendCommand(@NotNull Player player, @NotNull String[] args) {
         if (args.length == 0 || args[0].equalsIgnoreCase("목록") || args[0].equalsIgnoreCase("list")) {
             // 친구 목록 GUI 열기
-            FriendListGui friendListGui = FriendListGui.create(guiManager, langManager, player);
+            FriendListGui friendListGui = FriendListGui.create(guiManager, player);
             guiManager.openGui(player, friendListGui);
         } else {
             sendFriendHelp(player);

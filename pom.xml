@@ -115,10 +115,10 @@
                         <configuration>
                             <target>
                                 <copy file="${project.build.directory}\SypixelRPG.jar"
-                                      tofile="C:\Users\Febrie\Desktop\Minecraft\Test_Server_1_21_8\plugins\Sypixel RPG.jar"
+                                      tofile="C:\Users\Febrie\Desktop\Minecraft\Test_Server_1_21_8\plugins\SypixelRPG.jar"
                                       overwrite="true"
                                       failonerror="false"/>
-                                <echo message="JAR 파일이 서버 폴더로 복사되었습니다: C:\Users\Febrie\Desktop\Minecraft\Test_Server_1_21_8\plugins\SypixelRPG.jar"/>
+                                <echo message="JAR file copied to server: C:\Users\Febrie\Desktop\Minecraft\Test_Server_1_21_8\plugins\SypixelRPG.jar"/>
                             </target>
                         </configuration>
                     </execution>

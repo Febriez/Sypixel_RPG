@@ -14,30 +14,28 @@ import org.jetbrains.annotations.NotNull;
 public class StatsSubCommand implements AdminSubCommand {
     
     private final RPGPlayerManager playerManager;
-    private final LangManager langManager;
     
-    public StatsSubCommand(@NotNull RPGPlayerManager playerManager, @NotNull LangManager langManager) {
+    public StatsSubCommand(@NotNull RPGPlayerManager playerManager) {
         this.playerManager = playerManager;
-        this.langManager = langManager;
     }
     
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String[] args) {
-        sender.sendMessage(langManager.getComponent(sender, "commands.admin.stats.title"));
-        sender.sendMessage(langManager.getComponent(sender, "commands.admin.stats.online-players", 
+        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.stats.title"));
+        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.stats.online-players", 
                 "count", String.valueOf(Bukkit.getOnlinePlayers().size())));
-        sender.sendMessage(langManager.getComponent(sender, "commands.admin.stats.loaded-players", 
+        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.stats.loaded-players", 
                 "count", String.valueOf(playerManager.getAllPlayers().size())));
-        sender.sendMessage(langManager.getComponent(sender, "commands.admin.stats.registered-quests", 
+        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.stats.registered-quests", 
                 "count", String.valueOf(QuestID.values().length)));
-        sender.sendMessage(langManager.getComponent(sender, "commands.admin.stats.implemented-quests", 
+        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.stats.implemented-quests", 
                 "count", String.valueOf(QuestRegistry.getImplementedCount())));
 
         // 메모리 사용량
         Runtime runtime = Runtime.getRuntime();
         long usedMemory = (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024;
         long maxMemory = runtime.maxMemory() / 1024 / 1024;
-        sender.sendMessage(langManager.getComponent(sender, "commands.admin.stats.memory-usage", 
+        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.stats.memory-usage", 
                 "used", String.valueOf(usedMemory), 
                 "max", String.valueOf(maxMemory)));
 
