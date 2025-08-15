@@ -8,8 +8,11 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -78,63 +81,18 @@ public class WarriorAdvancementQuest extends Quest {
     }
 
     @Override
-    public @NotNull String getDisplayName(boolean isKorean) {
-        return isKorean ? "전사의 승급 시험" : "Warrior Advancement Trial";
+    public @NotNull Component getDisplayName(@NotNull Player who) {
+        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.clazz.warrior_advancement.name");
     }
 
     @Override
-    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
-        if (isKorean) {
-            return Arrays.asList(
-                    "진정한 전사가 되기 위한 승급 시험입니다.",
-                    "당신의 전투 기술과 용맹함을 증명하세요.",
-                    "",
-                    "전사의 특징:",
-                    "• 강력한 근접 전투 능력",
-                    "• 높은 체력과 방어력",
-                    "• 다양한 무기 숙련도",
-                    "• 전투 중 분노 게이지 활용",
-                    "",
-                    "요구사항:",
-                    "• 레벨 30 이상",
-                    "• 전투 실력 증명",
-                    "• PvP 능력 검증"
-            );
-        } else {
-            return Arrays.asList(
-                    "The advancement trial to become a true warrior.",
-                    "Prove your combat skills and bravery.",
-                    "",
-                    "Warrior Features:",
-                    "• Powerful melee combat abilities",
-                    "• High health and defense",
-                    "• Diverse weapon proficiency",
-                    "• Rage gauge utilization in combat",
-                    "",
-                    "Requirements:",
-                    "• Level 30 or higher",
-                    "• Prove combat skills",
-                    "• Verify PvP abilities"
-            );
-        }
+    public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
+        return com.febrie.rpg.util.LangManager.getList(who, "quest.clazz.warrior_advancement.description");
     }
 
     @Override
-    public @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-
-        return switch (id) {
-            case "warrior_level" -> isKorean ? "전사 레벨 30 달성" : "Reach Warrior Level 30";
-            case "warrior_master" -> isKorean ? "전사 대가와 대화" : "Talk to the Warrior Master";
-            case "prove_combat" -> isKorean ? "전투 실력 증명: 철 골렘 20마리 처치" : "Prove Combat: Kill 20 Iron Golems";
-            case "prove_pvp" -> isKorean ? "PvP 실력 증명: 플레이어 10명 처치" : "Prove PvP: Kill 10 Players";
-            case "warrior_emblem" -> isKorean ? "전사의 증표 50개 수집" : "Collect 50 Warrior Emblems";
-            case "forge_weapon" -> isKorean ? "전사의 검 단조" : "Forge a Warrior's Sword";
-            case "forge_armor" -> isKorean ? "전사의 갑옷 단조" : "Forge a Warrior's Armor";
-            case "endurance_test" -> isKorean ? "지구력 시험: 10분간 생존" : "Endurance Test: Survive 10 minutes";
-            case "final_trial" -> isKorean ? "최종 시험: 파괴수 5마리 처치" : "Final Trial: Kill 5 Ravagers";
-            case "return_emblem" -> isKorean ? "전사 대가에게 증표 전달" : "Return emblem to Warrior Master";
-            default -> objective.getStatusInfo(null);
-        };
+        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.clazz.warrior_advancement.objectives." + id);
     }
 }

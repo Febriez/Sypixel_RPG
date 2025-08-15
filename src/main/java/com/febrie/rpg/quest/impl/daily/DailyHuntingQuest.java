@@ -10,8 +10,10 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -75,28 +77,24 @@ public class DailyHuntingQuest extends Quest {
     }
 
     @Override
-    public @NotNull String getDisplayName(boolean isKorean) {
-        LangManager langManager = RPGMain.getPlugin().getLangManager();
-        return langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.daily.hunting.name");
+    public @NotNull Component getDisplayName(@NotNull Player who) {
+        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.daily.hunting.name");
     }
 
     @Override
-    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
-        LangManager langManager = RPGMain.getPlugin().getLangManager();
-        String description = langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.daily.hunting.description");
-        return Arrays.asList(description.split("\n"));
+    public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
+        return com.febrie.rpg.util.LangManager.getList(who, "quest.daily.hunting.description");
     }
 
     @Override
-    public @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        LangManager langManager = RPGMain.getPlugin().getLangManager();
 
         return switch (id) {
-            case "kill_zombies" -> langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.daily.hunting.objectives.kill_zombies");
-            case "kill_skeletons" -> langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.daily.hunting.objectives.kill_skeletons");
-            case "kill_creepers" -> langManager.getMessage(isKorean ? "ko_KR" : "en_US", "quest.daily.hunting.objectives.kill_creepers");
-            default -> objective.getStatusInfo(null);
+            case "kill_zombies" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.daily.hunting.objectives.kill_zombies");
+            case "kill_skeletons" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.daily.hunting.objectives.kill_skeletons");
+            case "kill_creepers" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.daily.hunting.objectives.kill_creepers");
+            default -> Component.text(objective.getStatusInfo(null));
         };
     }
 }

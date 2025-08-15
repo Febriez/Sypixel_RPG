@@ -4,12 +4,16 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
+import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.economy.CurrencyType;
+import com.febrie.rpg.util.LangManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -76,66 +80,27 @@ public class MonsterExterminationQuest extends Quest {
     }
 
     @Override
-    public @NotNull String getDisplayName(boolean isKorean) {
-        return isKorean ? "몬스터 토벌 임무" : "Monster Extermination Mission";
+    public @NotNull Component getDisplayName(@NotNull Player who) {
+        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.monster_extermination.name");
     }
 
     @Override
-    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
-        if (isKorean) {
-            return Arrays.asList(
-                    "마을 주변의 몬스터들을 토벌하여",
-                    "주민들의 안전을 지켜주세요.",
-                    "",
-                    "언제든지 다시 도전할 수 있습니다.",
-                    "",
-                    "목표:",
-                    "• 좀비 30마리 처치",
-                    "• 스켈레톤 25마리 처치",
-                    "• 거미 20마리 처치",
-                    "• 크리퍼 15마리 처치",
-                    "• 토벌 증거 20개 수집 및 전달",
-                    "",
-                    "보상:",
-                    "• 골드 1500",
-                    "• EXP 300",
-                    "• 경험치 200"
-            );
-        } else {
-            return Arrays.asList(
-                    "Exterminate monsters around the village",
-                    "to keep the residents safe.",
-                    "",
-                    "You can challenge this quest again anytime.",
-                    "",
-                    "Objectives:",
-                    "• Kill 30 Zombies",
-                    "• Kill 25 Skeletons",
-                    "• Kill 20 Spiders",
-                    "• Kill 15 Creepers",
-                    "• Collect and deliver 20 proof items",
-                    "",
-                    "Rewards:",
-                    "• 1500 Gold",
-                    "• 300 EXP",
-                    "• 200 Experience"
-            );
-        }
+    public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
+        return com.febrie.rpg.util.LangManager.getList(who, "quest.monster_extermination.info");
     }
 
     @Override
-    public @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
+        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.monster_extermination.objective." + id);
+    }
+    
+    @Override
+    public QuestDialog getDialog(@NotNull Player player) {
+        QuestDialog dialog = new QuestDialog("monster_extermination_dialog");
         
-        return switch (id) {
-            case "guard_captain" -> isKorean ? "경비대장과 대화" : "Talk to the Guard Captain";
-            case "kill_zombies" -> isKorean ? "좀비 30마리 처치" : "Kill 30 Zombies";
-            case "kill_skeletons" -> isKorean ? "스켈레톤 25마리 처치" : "Kill 25 Skeletons";
-            case "kill_spiders" -> isKorean ? "거미 20마리 처치" : "Kill 20 Spiders";
-            case "kill_creepers" -> isKorean ? "크리퍼 15마리 처치" : "Kill 15 Creepers";
-            case "collect_proof" -> isKorean ? "토벌 증거 20개 수집" : "Collect 20 Proof of Extermination";
-            case "deliver_proof" -> isKorean ? "경비대장에게 증거 전달" : "Deliver proof to Guard Captain";
-            default -> objective.getStatusInfo(null);
-        };
+        dialog.addLine("quest.repeatable_monster_extermination.npcs.guard_captain", "quest.repeatable_monster_extermination.dialogs.line1");
+                
+        return dialog;
     }
 }

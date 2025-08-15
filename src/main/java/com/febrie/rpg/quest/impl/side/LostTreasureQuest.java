@@ -10,9 +10,12 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -86,83 +89,29 @@ public class LostTreasureQuest extends Quest {
     }
 
     @Override
-    public @NotNull String getDisplayName(boolean isKorean) {
-        return isKorean ? "잃어버린 보물" : "Lost Treasure";
+    public @NotNull Component getDisplayName(@NotNull Player who) {
+        return LangManager.getMessage(who, "quest.side.lost_treasure.name");
     }
 
     @Override
-    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
-        if (isKorean) {
-            return Arrays.asList(
-                    "오래된 지도에 표시된 보물을 찾아주세요.",
-                    "세 곳의 장소를 순서대로 방문해야 합니다.",
-                    "",
-                    "목표:",
-                    "• 오래된 유적지 방문",
-                    "• 고대 동굴 방문",
-                    "• 숨겨진 신전 방문",
-                    "• 보물 수호자와 대화",
-                    "",
-                    "보상:",
-                    "• 골드 500",
-                    "• 다이아몬드 5",
-                    "• 황금 사과 2개",
-                    "• 마법이 부여된 책",
-                    "• 경험치 300"
-            );
-        } else {
-            return Arrays.asList(
-                    "Find the treasure marked on the old map.",
-                    "You must visit three locations in order.",
-                    "",
-                    "Objectives:",
-                    "• Visit Old Ruins",
-                    "• Visit Ancient Cave",
-                    "• Visit Hidden Shrine",
-                    "• Talk to Treasure Guardian",
-                    "",
-                    "Rewards:",
-                    "• 500 Gold",
-                    "• 5 Diamonds",
-                    "• 2 Golden Apples",
-                    "• Enchanted Book",
-                    "• 300 Experience"
-            );
-        }
+    public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
+        return LangManager.getComponentList(who, "quest.side.lost_treasure.description");
     }
 
     @Override
-    public @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-
-        return switch (id) {
-            case "visit_old_ruins" -> isKorean ? "오래된 유적지 방문" : "Visit Old Ruins";
-            case "visit_ancient_cave" -> isKorean ? "고대 동굴 방문" : "Visit Ancient Cave";
-            case "visit_hidden_shrine" -> isKorean ? "숨겨진 신전 방문" : "Visit Hidden Shrine";
-            case "talk_to_guardian" -> isKorean ? "보물 수호자와 대화" : "Talk to Treasure Guardian";
-            default -> objective.getStatusInfo(null);
-        };
+        return LangManager.getMessage(who, "quest.side.lost_treasure.objectives." + id);
     }
 
     @Override
-    public QuestDialog getDialog() {
+    public QuestDialog getDialog(@NotNull Player player) {
         QuestDialog dialog = new QuestDialog("lost_treasure_dialog");
 
-        dialog.addLine("탐험가 존",
-                "이 오래된 지도를 보세요. 전설의 보물이 숨겨져 있다고 합니다.",
-                "Look at this old map. It's said to lead to a legendary treasure.");
-
-        dialog.addLine("탐험가 존",
-                "저는 나이가 들어 직접 찾으러 갈 수가 없네요.",
-                "I'm too old to search for it myself.");
-
-        dialog.addLine("탐험가 존",
-                "지도에 표시된 세 곳을 순서대로 방문하면 보물을 찾을 수 있을 거예요.",
-                "Visit the three marked locations in order, and you'll find the treasure.");
-
-        dialog.addLine("탐험가 존",
-                "보물을 찾으면 일부는 당신이 가지세요. 나머지만 가져와 주시면 됩니다.",
-                "When you find the treasure, keep some for yourself. Just bring me the rest.");
+        dialog.addLine("quest.lost_treasure.npcs.explorer", "quest.lost_treasure.dialogs.line1");
+        dialog.addLine("quest.lost_treasure.npcs.explorer", "quest.lost_treasure.dialogs.line2");
+        dialog.addLine("quest.lost_treasure.npcs.explorer", "quest.lost_treasure.dialogs.line3");
+        dialog.addLine("quest.lost_treasure.npcs.explorer", "quest.lost_treasure.dialogs.line4");
 
         return dialog;
     }

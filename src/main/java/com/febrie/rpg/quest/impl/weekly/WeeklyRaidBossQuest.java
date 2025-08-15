@@ -9,8 +9,11 @@ import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -106,147 +109,63 @@ public class WeeklyRaidBossQuest extends Quest {
     }
 
     @Override
-    public @NotNull String getDisplayName(boolean isKorean) {
-        return isKorean ? "주간 레이드: 혼돈의 요새" : "Weekly Raid: Fortress of Chaos";
+    public @NotNull Component getDisplayName(@NotNull Player who) {
+        return LangManager.getMessage(who, "quest.weekly.raid_boss.name");
     }
 
     @Override
-    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
-        if (isKorean) {
-            return Arrays.asList(
-                    "매주 초기화되는 최고 난이도의 레이드 던전입니다.",
-                    "혼돈의 군주와 그의 부하들을 물리치고 전설적인 보상을 획득하세요!",
-                    "",
-                    "⚠️ 경고: 이 레이드는 매우 어렵습니다!",
-                    "• 권장 레벨: 40 이상",
-                    "• 권장 인원: 3-5명의 파티",
-                    "• PvP 구역이 포함되어 있습니다",
-                    "",
-                    "던전 구성:",
-                    "• 1구역: 혼돈의 전당",
-                    "• 2구역: 어둠의 성소",
-                    "• 3구역: 왕좌의 방 (최종 보스)",
-                    "",
-                    "목표:",
-                    "• 레이드 사령관과 대화",
-                    "• 레벨 40 달성",
-                    "• 레이드 열쇠 3개 수집",
-                    "• 혼돈의 요새 입장",
-                    "• 각 구역의 몬스터 처치",
-                    "• 미니 보스 2마리 처치",
-                    "• PvP 구역에서 3명 처치",
-                    "• 혼돈의 군주(최종 보스) 처치",
-                    "• 전설의 전리품 획득",
-                    "",
-                    "보상:",
-                    "• 골드 15,000",
-                    "• 다이아몬드 100개",
-                    "• 네더라이트 주괴 3개",
-                    "• 마법이 부여된 책 5개",
-                    "• 신호기",
-                    "• 경험치 10,000"
-            );
-        } else {
-            return Arrays.asList(
-                    "The highest difficulty raid dungeon that resets weekly.",
-                    "Defeat the Chaos Lord and his minions to earn legendary rewards!",
-                    "",
-                    "⚠️ WARNING: This raid is very difficult!",
-                    "• Recommended Level: 40+",
-                    "• Recommended Party: 3-5 players",
-                    "• Contains PvP zones",
-                    "",
-                    "Dungeon Layout:",
-                    "• Zone 1: Hall of Chaos",
-                    "• Zone 2: Dark Sanctuary",
-                    "• Zone 3: Throne Room (Final Boss)",
-                    "",
-                    "Objectives:",
-                    "• Talk to the Raid Commander",
-                    "• Reach Level 40",
-                    "• Collect 3 Raid Keys",
-                    "• Enter the Fortress of Chaos",
-                    "• Clear monsters in each zone",
-                    "• Defeat 2 Mini Bosses",
-                    "• Kill 3 players in PvP zone",
-                    "• Defeat the Chaos Lord (Final Boss)",
-                    "• Obtain legendary loot",
-                    "",
-                    "Rewards:",
-                    "• 15,000 Gold",
-                    "• 100 Diamonds",
-                    "• 3 Netherite Ingots",
-                    "• 5 Enchanted Books",
-                    "• Beacon",
-                    "• 10,000 Experience"
-            );
-        }
+    public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
+        return LangManager.getList(who, "quest.weekly.raid_boss.description");
     }
 
     @Override
-    public @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
 
         return switch (id) {
-            case "raid_commander" -> isKorean ? "레이드 사령관과 대화" : "Talk to the Raid Commander";
-            case "level_requirement" -> isKorean ? "레벨 40 달성" : "Reach Level 40";
-            case "raid_key" -> isKorean ? "레이드 열쇠 3개 수집" : "Collect 3 Raid Keys";
-            case "raid_entrance" -> isKorean ? "혼돈의 요새 입장" : "Enter the Fortress of Chaos";
-            case "chaos_minions" -> isKorean ? "혼돈의 하수인 30마리 처치" : "Kill 30 Chaos Minions";
-            case "chaos_knights" -> isKorean ? "혼돈의 기사 20마리 처치" : "Kill 20 Chaos Knights";
-            case "mini_boss_1" -> isKorean ? "첫 번째 미니 보스 처치" : "Defeat the First Mini Boss";
-            case "chaos_fragment" -> isKorean ? "혼돈의 파편 5개 수집" : "Collect 5 Chaos Fragments";
-            case "dark_sanctuary" -> isKorean ? "어둠의 성소 도달" : "Reach the Dark Sanctuary";
-            case "darkness_trial" -> isKorean ? "어둠의 시련 5분간 생존" : "Survive the Darkness Trial for 5 minutes";
-            case "shadow_assassins" -> isKorean ? "그림자 암살자 10마리 처치" : "Kill 10 Shadow Assassins";
-            case "void_walkers" -> isKorean ? "공허 방랑자 25마리 처치" : "Kill 25 Void Walkers";
-            case "mini_boss_2" -> isKorean ? "두 번째 미니 보스 처치" : "Defeat the Second Mini Boss";
-            case "void_essence" -> isKorean ? "공허의 정수 10개 수집" : "Collect 10 Void Essences";
-            case "throne_room" -> isKorean ? "왕좌의 방 도달" : "Reach the Throne Room";
-            case "pvp_zone" -> isKorean ? "PvP 구역에서 3명 처치" : "Kill 3 players in PvP zone";
-            case "boss_summon" -> isKorean ? "보스 소환 비용 5000골드 지불" : "Pay 5000 gold to summon boss";
-            case "chaos_lord" -> isKorean ? "혼돈의 군주 처치" : "Defeat the Chaos Lord";
-            case "legendary_loot" -> isKorean ? "전설의 전리품 획득" : "Obtain legendary loot";
-            case "raid_complete" -> isKorean ? "레이드 완료 보고" : "Report raid completion";
-            default -> objective.getStatusInfo(null);
+            case "raid_commander" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.raid_commander");
+            case "level_requirement" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.level_requirement");
+            case "raid_key" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.raid_key");
+            case "raid_entrance" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.raid_entrance");
+            case "chaos_minions" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.chaos_minions");
+            case "chaos_knights" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.chaos_knights");
+            case "mini_boss_1" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.mini_boss_1");
+            case "chaos_fragment" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.chaos_fragment");
+            case "dark_sanctuary" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.dark_sanctuary");
+            case "darkness_trial" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.darkness_trial");
+            case "shadow_assassins" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.shadow_assassins");
+            case "void_walkers" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.void_walkers");
+            case "mini_boss_2" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.mini_boss_2");
+            case "void_essence" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.void_essence");
+            case "throne_room" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.throne_room");
+            case "pvp_zone" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.pvp_zone");
+            case "boss_summon" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.boss_summon");
+            case "chaos_lord" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.chaos_lord");
+            case "legendary_loot" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.legendary_loot");
+            case "raid_complete" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.raid_complete");
+            default -> Component.text(objective.getStatusInfo(null));
         };
     }
 
     @Override
-    public QuestDialog getDialog() {
+    public QuestDialog getDialog(@NotNull Player player) {
         QuestDialog dialog = new QuestDialog("weekly_raid_boss_dialog");
 
-        dialog.addLine("레이드 사령관",
-                "용사여, 혼돈의 요새에 도전할 준비가 되었는가?",
-                "Warrior, are you ready to challenge the Fortress of Chaos?");
+        dialog.addLine("quest.weekly_raid_boss.npcs.raid_commander", "quest.weekly_raid_boss.dialogs.line1");
 
-        dialog.addLine("레이드 사령관",
-                "이곳은 매주 한 번만 도전할 수 있는 최고 난이도의 던전이네.",
-                "This is the highest difficulty dungeon that can only be challenged once per week.");
+        dialog.addLine("quest.weekly_raid_boss.npcs.raid_commander", "quest.weekly_raid_boss.dialogs.line2");
 
-        dialog.addLine("플레이어",
-                "어떤 위험이 기다리고 있나요?",
-                "What dangers await?");
+        dialog.addLine("quest.dialog.player", "quest.weekly_raid_boss.dialogs.line3");
 
-        dialog.addLine("레이드 사령관",
-                "혼돈의 군주와 그의 정예 부대, 그리고... 다른 모험자들이지.",
-                "The Chaos Lord and his elite forces, and... other adventurers.");
+        dialog.addLine("quest.weekly_raid_boss.npcs.raid_commander", "quest.weekly_raid_boss.dialogs.line4");
 
-        dialog.addLine("레이드 사령관",
-                "맞아, 왕좌의 방 앞에는 PvP 구역이 있어. 경쟁도 피할 수 없다네.",
-                "Yes, there's a PvP zone before the Throne Room. Competition is unavoidable.");
+        dialog.addLine("quest.weekly_raid_boss.npcs.raid_commander", "quest.weekly_raid_boss.dialogs.line5");
 
-        dialog.addLine("플레이어",
-                "보상이 그만한 가치가 있나요?",
-                "Are the rewards worth it?");
+        dialog.addLine("quest.dialog.player", "quest.weekly_raid_boss.dialogs.line6");
 
-        dialog.addLine("레이드 사령관",
-                "당연하지! 네더라이트, 전설의 장비, 그리고 막대한 부... 모든 것을 얻을 수 있네.",
-                "Of course! Netherite, legendary equipment, and vast wealth... you can obtain everything.");
+        dialog.addLine("quest.weekly_raid_boss.npcs.raid_commander", "quest.weekly_raid_boss.dialogs.line7");
 
-        dialog.addLine("레이드 사령관",
-                "하지만 먼저 레이드 열쇠 3개를 모아와야 해. 그래야 입장할 수 있다네.",
-                "But first, you need to collect 3 Raid Keys. Only then can you enter.");
+        dialog.addLine("quest.weekly_raid_boss.npcs.raid_commander", "quest.weekly_raid_boss.dialogs.line8");
 
         return dialog;
     }

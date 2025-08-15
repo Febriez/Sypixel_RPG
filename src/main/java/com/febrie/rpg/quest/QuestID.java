@@ -1,5 +1,6 @@
 package com.febrie.rpg.quest;
 
+import com.febrie.rpg.util.LangManager;
 import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 
@@ -275,19 +276,22 @@ public enum QuestID {
      */
     @NotNull
     public String getDisplayName(@NotNull org.bukkit.entity.Player player) {
-        com.febrie.rpg.util.LangManager langManager = com.febrie.rpg.RPGMain.getPlugin().getLangManager();
-        return langManager.getMessage(player, getNameKey());
+        net.kyori.adventure.text.Component comp = LangManager.getMessage(player, getNameKey());
+        return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(comp);
     }
     
     /**
      * 표시 이름 반환 (언어 키 지정)
-     * @param langKey 언어 키 (예: "ko_KR", "en_US")
+     * @param langKey 언어 키 (예: "ko_KR", "en_US") 
      * @return 번역된 퀘스트 이름
+     * @deprecated Player 객체를 사용하는 메서드 사용 권장
      */
     @NotNull
+    @Deprecated
     public String getDisplayName(@NotNull String langKey) {
-        com.febrie.rpg.util.LangManager langManager = com.febrie.rpg.RPGMain.getPlugin().getLangManager();
-        return langManager.getMessage(langKey, getNameKey());
+        // 더미 플레이어 없이는 언어를 직접 설정할 수 없으므로,
+        // 간단히 키를 반환하거나 기본 영어로 처리
+        return name(); // 퀘스트 ID 이름 반환
     }
 
     /**

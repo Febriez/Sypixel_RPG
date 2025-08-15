@@ -100,15 +100,12 @@ public class DialogManager {
             return;
         }
 
-        // 언어 확인
-        boolean isKorean = isPlayerKorean(player);
-
         if (line.hasChoices()) {
             // 선택지가 있으면 GUI로 표시
             showChoiceGUI(player, dialog, line, progress);
         } else {
             // 일반 대화는 채팅으로 표시
-            player.sendMessage(line.toComponent(isKorean));
+            player.sendMessage(line.toComponent(player));
 
             // 다음 대화로 자동 진행 (1.5초 후)
             plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
@@ -124,7 +121,7 @@ public class DialogManager {
     private void showChoiceGUI(@NotNull Player player, @NotNull QuestDialog dialog,
                                @NotNull QuestDialog.DialogLine line, @NotNull DialogProgress progress) {
         // DialogChoiceGui 생성 및 표시
-        DialogChoiceGui choiceGui = DialogChoiceGui.create(guiManager, plugin.getLangManager(), player, dialog, line, progress);
+        DialogChoiceGui choiceGui = DialogChoiceGui.create(guiManager, player, dialog, line, progress);
         guiManager.openGui(player, choiceGui);
     }
 
@@ -202,21 +199,4 @@ public class DialogManager {
         playerDialogs.remove(player.getUniqueId());
     }
 
-    /**
-     * 플레이어가 한국어 사용자인지 확인
-     */
-    private boolean isPlayerKorean(@NotNull Player player) {
-        // 플레이어의 언어 설정 확인
-        String locale = player.locale().toString();
-        
-        // RPGPlayer에서 언어 설정 확인
-        com.febrie.rpg.player.RPGPlayer rpgPlayer = plugin.getRPGPlayerManager().getPlayer(player);
-        if (rpgPlayer != null) {
-            // 현재는 locale로만 판단
-            return locale.startsWith("ko");
-        }
-        
-        // 없으면 클라이언트 locale 사용
-        return locale.startsWith("ko");
-    }
 }

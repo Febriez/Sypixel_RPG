@@ -6,6 +6,7 @@ import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.dialog.QuestDialog;
+import com.febrie.rpg.quest.dialog.DialogManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
@@ -32,13 +33,11 @@ public class DialogChoiceGui extends BaseGui {
     private final QuestDialog.DialogLine dialogLine;
     private final DialogManager.DialogProgress progress;
     
-    private DialogChoiceGui(@NotNull GuiManager guiManager,
-                           @NotNull LangManager langManager,
-                           @NotNull Player player,
+    private DialogChoiceGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                            @NotNull QuestDialog dialog,
                            @NotNull QuestDialog.DialogLine dialogLine,
                            @NotNull DialogManager.DialogProgress progress) {
-        super(player, guiManager, langManager, GUI_SIZE, "gui.dialog-choice.title");
+        super(viewer, guiManager, GUI_SIZE, "gui.dialog-choice.title");
         this.dialog = dialog;
         this.dialogLine = dialogLine;
         this.progress = progress;
@@ -48,18 +47,17 @@ public class DialogChoiceGui extends BaseGui {
      * Factory method to create the GUI
      */
     public static DialogChoiceGui create(@NotNull GuiManager guiManager,
-                                        @NotNull LangManager langManager,
                                         @NotNull Player player,
                                         @NotNull QuestDialog dialog,
                                         @NotNull QuestDialog.DialogLine dialogLine,
                                         @NotNull DialogManager.DialogProgress progress) {
-        DialogChoiceGui gui = new DialogChoiceGui(guiManager, langManager, player, dialog, dialogLine, progress);
+        DialogChoiceGui gui = new DialogChoiceGui(player, guiManager, dialog, dialogLine, progress);
         return createAndInitialize(gui, "gui.dialog-choice.title");
     }
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("대화 선택", ColorUtil.PRIMARY);
+        return trans("gui.dialog-choice.title");
     }
 
     @Override
@@ -75,8 +73,8 @@ public class DialogChoiceGui extends BaseGui {
         // 대화 아이콘
         GuiItem dialogIcon = GuiItem.display(
                 new ItemBuilder(Material.WRITABLE_BOOK)
-                        .displayName(Component.text("대화 선택", ColorUtil.PRIMARY))
-                        .addLore(Component.text("원하는 대답을 선택하세요", ColorUtil.GRAY))
+                        .displayName(trans("gui.dialog-choice.icon"))
+                        .addLore(trans("gui.dialog-choice.description"))
                         .build()
         );
         setItem(4, dialogIcon);
@@ -84,12 +82,11 @@ public class DialogChoiceGui extends BaseGui {
 
     private void displayDialogContent() {
         // NPC 대화 내용 표시
-        boolean isKorean = viewer.locale().toString().startsWith("ko");
-        
-        GuiItem npcDialog = GuiItem.of(
+        GuiItem npcDialog = GuiItem.display(
                 new ItemBuilder(Material.PLAYER_HEAD)
-                        .displayName(Component.text("NPC", ColorUtil.GOLD))
-                        .addLore(Component.text("대화 내용", ColorUtil.WHITE))
+                        .displayName(trans("gui.dialog-choice.npc"))
+                        .addLore(trans("gui.dialog-choice.npc-content"))
+                        .build()
         );
         setItem(13, npcDialog);
     }
@@ -100,8 +97,6 @@ public class DialogChoiceGui extends BaseGui {
             return;
         }
 
-        boolean isKorean = viewer.locale().toString().startsWith("ko");
-        
         // 선택지 위치 계산 (중앙 정렬)
         int[] slots = getChoiceSlots(choices.size());
         
@@ -110,10 +105,10 @@ public class DialogChoiceGui extends BaseGui {
             
             GuiItem choiceItem = GuiItem.clickable(
                     new ItemBuilder(Material.PAPER)
-                            .displayName(Component.text("[선택 " + (i + 1) + "]", ColorUtil.YELLOW))
-                            .addLore(Component.text(choice.getText(isKorean), ColorUtil.WHITE))
+                            .displayName(trans("gui.dialog-choice.option", String.valueOf(i + 1)))
+                            .addLore(choice.getText(viewer).color(ColorUtil.WHITE))
                             .addLore(Component.empty())
-                            .addLore(Component.text("클릭하여 선택", ColorUtil.GRAY))
+                            .addLore(trans("gui.dialog-choice.click-to-select"))
                             .build(),
                     p -> {
                         // 선택 처리

@@ -9,8 +9,11 @@ import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -129,195 +132,41 @@ public class DailyExplorationQuest extends Quest {
     }
 
     @Override
-    public @NotNull String getDisplayName(boolean isKorean) {
-        return isKorean ? "일일 미지의 땅 탐험" : "Daily Unknown Lands Exploration";
+    public @NotNull Component getDisplayName(@NotNull Player who) {
+        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.daily.exploration.name");
     }
 
     @Override
-    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
-        if (isKorean) {
-            return Arrays.asList(
-                    "탐험가 길드의 의뢰를 받아 미지의 땅을 탐험하세요!",
-                    "5개의 서로 다른 지역을 탐험하고 보고서를 작성하세요.",
-                    "",
-                    "🗺️ 탐험 지역:",
-                    "• 버려진 광산 - 오래된 광물과 유물",
-                    "• 숨겨진 폭포 - 희귀한 물고기와 보물",
-                    "• 고대 유적 - 잊혀진 문명의 흔적",
-                    "• 신비한 숲 - 마법 식물과 약초",
-                    "• 용암 동굴 - 화산 광물과 위험",
-                    "",
-                    "탐험 팁:",
-                    "• 충분한 보급품 준비 필수",
-                    "• 각 지역의 특징을 파악하세요",
-                    "• 발견한 것들을 기록하세요",
-                    "• 위험 지역에서는 조심하세요",
-                    "",
-                    "목표:",
-                    "• 탐험가 길드장과 대화",
-                    "• 탐험 보급품 준비",
-                    "• 5개 지역 모두 탐험",
-                    "• 각 지역에서 특산품 수집",
-                    "• 지역 몬스터 처치",
-                    "• 탐험 지도 5장 작성",
-                    "• 탐험 보고서 작성",
-                    "• 수집품과 보고서 제출",
-                    "",
-                    "특별 도전:",
-                    "• 용암 동굴에서 5분간 생존",
-                    "• 숨겨진 폭포에서 희귀 물고기 낚기",
-                    "• 고대 유적의 보물 찾기",
-                    "",
-                    "보상:",
-                    "• 골드 3,000",
-                    "• 다이아몬드 20개",
-                    "• 나침반",
-                    "• 지도 5장",
-                    "• 망원경",
-                    "• 탐험가 부츠",
-                    "• 엔더 진주 3개",
-                    "• 경험치 2,000"
-            );
-        } else {
-            return Arrays.asList(
-                    "Accept the Explorer's Guild request and explore unknown lands!",
-                    "Explore 5 different regions and write a report.",
-                    "",
-                    "🗺️ Exploration Areas:",
-                    "• Abandoned Mine - Old minerals and relics",
-                    "• Hidden Waterfall - Rare fish and treasures",
-                    "• Ancient Ruins - Traces of forgotten civilization",
-                    "• Mystic Forest - Magic plants and herbs",
-                    "• Lava Cavern - Volcanic minerals and danger",
-                    "",
-                    "Exploration Tips:",
-                    "• Prepare sufficient supplies",
-                    "• Understand each region's features",
-                    "• Record your discoveries",
-                    "• Be careful in dangerous areas",
-                    "",
-                    "Objectives:",
-                    "• Talk to Explorer Guild Master",
-                    "• Prepare exploration supplies",
-                    "• Explore all 5 regions",
-                    "• Collect specialties from each region",
-                    "• Defeat regional monsters",
-                    "• Create 5 exploration maps",
-                    "• Write exploration report",
-                    "• Submit collectibles and report",
-                    "",
-                    "Special Challenges:",
-                    "• Survive 5 minutes in lava cavern",
-                    "• Catch rare fish at hidden waterfall",
-                    "• Find treasures in ancient ruins",
-                    "",
-                    "Rewards:",
-                    "• 3,000 Gold",
-                    "• 20 Diamonds",
-                    "• Compass",
-                    "• 5 Maps",
-                    "• Spyglass",
-                    "• Explorer Boots",
-                    "• 3 Ender Pearls",
-                    "• 2,000 Experience"
-            );
-        }
+    public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
+        return com.febrie.rpg.util.LangManager.getList(who, "quest.daily.exploration.description");
     }
 
     @Override
-    public @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean) {
-        String id = objective.getId();
-
-        return switch (id) {
-            case "explorer_guild" -> isKorean ? "탐험가 길드장과 대화" : "Talk to Explorer Guild Master";
-            case "prepare_supplies" -> isKorean ? "빵 10개 준비" : "Prepare 10 bread";
-            case "prepare_torches" -> isKorean ? "횃불 32개 준비" : "Prepare 32 torches";
-            case "prepare_tools" -> isKorean ? "철 곡괭이 준비" : "Prepare iron pickaxe";
-            case "abandoned_mine" -> isKorean ? "버려진 광산 도착" : "Arrive at abandoned mine";
-            case "light_mine" -> isKorean ? "광산에 횃불 10개 설치" : "Place 10 torches in mine";
-            case "mine_ores" -> isKorean ? "철 광석 20개 채굴" : "Mine 20 iron ore";
-            case "find_relics" -> isKorean ? "유물 조각 15개 발견" : "Find 15 relic fragments";
-            case "mine_creatures" -> isKorean ? "광산 생물 20마리 처치" : "Kill 20 mine creatures";
-            case "hidden_waterfall" -> isKorean ? "숨겨진 폭포 발견" : "Discover hidden waterfall";
-            case "waterfall_treasure" -> isKorean ? "폭포 보물 10개 수집" : "Collect 10 waterfall treasures";
-            case "waterfall_fishing" -> isKorean ? "폭포에서 10마리 낚시" : "Fish 10 times at waterfall";
-            case "rare_fish" -> isKorean ? "희귀 물고기 5마리 수집" : "Collect 5 rare fish";
-            case "water_guardians" -> isKorean ? "물의 수호자 15마리 처치" : "Kill 15 water guardians";
-            case "ancient_ruins" -> isKorean ? "고대 유적 도달" : "Reach ancient ruins";
-            case "clear_rubble" -> isKorean ? "잔해 30개 제거" : "Clear 30 rubble";
-            case "ancient_pottery" -> isKorean ? "고대 도자기 5개 수집" : "Collect 5 ancient pottery";
-            case "temple_treasure" -> isKorean ? "신전 보물 10개 획득" : "Obtain 10 temple treasures";
-            case "ruin_guardians" -> isKorean ? "유적 수호자 25마리 처치" : "Kill 25 ruin guardians";
-            case "mystic_forest" -> isKorean ? "신비한 숲 진입" : "Enter mystic forest";
-            case "gather_herbs" -> isKorean ? "약초 20개 채집" : "Gather 20 herbs";
-            case "mystic_flowers" -> isKorean ? "신비한 꽃 10개 수집" : "Collect 10 mystic flowers";
-            case "magic_mushrooms" -> isKorean ? "마법 버섯 15개 수집" : "Collect 15 magic mushrooms";
-            case "forest_spirits" -> isKorean ? "숲의 정령 20마리 처치" : "Kill 20 forest spirits";
-            case "lava_cavern" -> isKorean ? "용암 동굴 진입" : "Enter lava cavern";
-            case "build_bridge" -> isKorean ? "용암 위 다리 건설 (20블록)" : "Build bridge over lava (20 blocks)";
-            case "obsidian_shards" -> isKorean ? "흑요석 조각 10개 수집" : "Collect 10 obsidian shards";
-            case "magma_cream" -> isKorean ? "마그마 크림 5개 수집" : "Collect 5 magma cream";
-            case "lava_creatures" -> isKorean ? "용암 생물 15마리 처치" : "Kill 15 lava creatures";
-            case "heat_survival" -> isKorean ? "5분간 열기 견디기" : "Survive heat for 5 minutes";
-            case "create_maps" -> isKorean ? "지도 5장 제작" : "Create 5 maps";
-            case "mark_locations" -> isKorean ? "위치 표시된 지도 5장 완성" : "Complete 5 marked maps";
-            case "write_report" -> isKorean ? "탐험 보고서 작성" : "Write exploration report";
-            case "deliver_relics" -> isKorean ? "유물 조각 제출" : "Deliver relic fragments";
-            case "deliver_maps" -> isKorean ? "탐험 지도 제출" : "Deliver exploration maps";
-            case "deliver_report" -> isKorean ? "보고서 제출" : "Deliver report";
-            case "exploration_complete" -> isKorean ? "탐험 완료 보고" : "Report exploration complete";
-            default -> objective.getStatusInfo(null);
-        };
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+        String key = "quest.daily.exploration.objectives." + objective.getId();
+        return com.febrie.rpg.util.LangManager.getMessage(who, key);
     }
 
     @Override
-    public QuestDialog getDialog() {
+    public QuestDialog getDialog(@NotNull Player player) {
         QuestDialog dialog = new QuestDialog("daily_exploration_dialog");
-
-        // 시작
-        dialog.addLine("탐험가 길드장",
-                "모험가여! 오늘도 미지의 땅을 탐험할 준비가 되었나?",
-                "Adventurer! Are you ready to explore unknown lands today?");
-
-        dialog.addLine("탐험가 길드장",
-                "5개의 새로운 지역이 발견되었네. 각 지역을 탐험하고 보고서를 작성해주게.",
-                "5 new regions have been discovered. Explore each area and write a report.");
-
-        dialog.addLine("플레이어",
-                "어떤 지역들인가요?",
-                "What kind of regions?");
-
-        dialog.addLine("탐험가 길드장",
-                "버려진 광산, 숨겨진 폭포, 고대 유적, 신비한 숲, 그리고 용암 동굴이네.",
-                "Abandoned mine, hidden waterfall, ancient ruins, mystic forest, and lava cavern.");
-
-        // 탐험 중
-        dialog.addLine("탐험가 길드장",
-                "보급품은 충분한가? 특히 용암 동굴은 매우 위험하니 조심하게.",
-                "Do you have enough supplies? Be especially careful in the lava cavern.");
-
-        // 발견 보고
-        dialog.addLine("플레이어",
-                "폭포에서 희귀한 물고기를 발견했어요!",
-                "I found rare fish at the waterfall!");
-
-        dialog.addLine("탐험가 길드장",
-                "훌륭해! 그런 발견들을 모두 보고서에 기록해주게.",
-                "Excellent! Record all such discoveries in your report.");
-
-        // 완료
-        dialog.addLine("탐험가 길드장",
-                "모든 지역을 탐험했군! 자네의 보고서는 매우 가치있는 정보야.",
-                "You've explored all regions! Your report contains very valuable information.");
-
-        dialog.addLine("탐험가 길드장",
-                "이 지도들은 다른 탐험가들에게도 큰 도움이 될 거네. 수고했네!",
-                "These maps will be of great help to other explorers. Well done!");
-
-        dialog.addLine("탐험가 길드장",
-                "내일도 새로운 지역들이 기다리고 있을 거야. 계속 탐험해주게!",
-                "New regions will be waiting tomorrow too. Keep exploring!");
-
+        
+        // 시작 대화
+        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.start1");
+        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.start2");
+        dialog.addLine("quest.dialog.player", "quest.daily.exploration.dialogs.player_question");
+        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.regions");
+        
+        // 탐험 중 대화
+        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.supplies");
+        dialog.addLine("quest.dialog.player", "quest.daily.exploration.dialogs.discovery");
+        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.record");
+        
+        // 완료 대화
+        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.complete1");
+        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.complete2");
+        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.complete3");
+        
         return dialog;
     }
 }

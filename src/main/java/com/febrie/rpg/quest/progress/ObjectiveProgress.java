@@ -47,10 +47,8 @@ public class ObjectiveProgress {
      * @param requiredValue 필요 수치
      * @param completed     완료 여부
      */
-    public ObjectiveProgress(@NotNull String objectiveId, @NotNull UUID playerId,
-                             int currentValue, int requiredValue, boolean completed) {
-        this(objectiveId, playerId, currentValue, requiredValue, completed,
-                System.currentTimeMillis(), completed ? System.currentTimeMillis() : 0);
+    public ObjectiveProgress(@NotNull String objectiveId, @NotNull UUID playerId, int currentValue, int requiredValue, boolean completed) {
+        this(objectiveId, playerId, currentValue, requiredValue, completed, System.currentTimeMillis(), completed ? System.currentTimeMillis() : 0);
     }
 
     /**
@@ -64,9 +62,7 @@ public class ObjectiveProgress {
      * @param startedAt     시작 시간
      * @param completedAt   완료 시간
      */
-    public ObjectiveProgress(@NotNull String objectiveId, @NotNull UUID playerId,
-                             int currentValue, int requiredValue, boolean completed,
-                             long startedAt, long completedAt) {
+    public ObjectiveProgress(@NotNull String objectiveId, @NotNull UUID playerId, int currentValue, int requiredValue, boolean completed, long startedAt, long completedAt) {
         this.objectiveId = Objects.requireNonNull(objectiveId);
         this.playerId = Objects.requireNonNull(playerId);
         this.currentValue = currentValue;
@@ -130,7 +126,7 @@ public class ObjectiveProgress {
      * @return 진행률
      */
     public double getProgress() {
-        return (double) currentValue / requiredValue;
+        return (double) currentValue / requiredValue; // double (primitive)
     }
 
     /**
@@ -195,8 +191,7 @@ public class ObjectiveProgress {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ObjectiveProgress that)) return false;
-        return Objects.equals(objectiveId, that.objectiveId) &&
-                Objects.equals(playerId, that.playerId);
+        return Objects.equals(objectiveId, that.objectiveId) && Objects.equals(playerId, that.playerId);
     }
 
     @Override
@@ -206,10 +201,9 @@ public class ObjectiveProgress {
 
     @Override
     public String toString() {
-        return String.format("ObjectiveProgress{id=%s, player=%s, progress=%d/%d, completed=%s}",
-                objectiveId, playerId, currentValue, requiredValue, completed);
+        return String.format("ObjectiveProgress{id=%s, player=%s, progress=%d/%d, completed=%s}", objectiveId, playerId, currentValue, requiredValue, completed);
     }
-    
+
     /**
      * JsonObject로 변환 (Firebase 저장용)
      */
@@ -217,51 +211,51 @@ public class ObjectiveProgress {
     public JsonObject toJsonObject() {
         JsonObject json = new JsonObject();
         JsonObject fields = new JsonObject();
-        
+
         // objectiveId
         JsonObject objectiveIdValue = new JsonObject();
         objectiveIdValue.addProperty("stringValue", objectiveId);
         fields.add("objectiveId", objectiveIdValue);
-        
+
         // playerId
         JsonObject playerIdValue = new JsonObject();
         playerIdValue.addProperty("stringValue", playerId.toString());
         fields.add("playerId", playerIdValue);
-        
+
         // currentValue
         JsonObject currentValueValue = new JsonObject();
         currentValueValue.addProperty("integerValue", currentValue);
         fields.add("currentValue", currentValueValue);
-        
+
         // requiredValue
         JsonObject requiredValueValue = new JsonObject();
         requiredValueValue.addProperty("integerValue", requiredValue);
         fields.add("requiredValue", requiredValueValue);
-        
+
         // completed
         JsonObject completedValue = new JsonObject();
         completedValue.addProperty("booleanValue", completed);
         fields.add("completed", completedValue);
-        
+
         // startedAt
         JsonObject startedAtValue = new JsonObject();
         startedAtValue.addProperty("integerValue", startedAt);
         fields.add("startedAt", startedAtValue);
-        
+
         // completedAt
         JsonObject completedAtValue = new JsonObject();
         completedAtValue.addProperty("integerValue", completedAt);
         fields.add("completedAt", completedAtValue);
-        
+
         // lastUpdated
         JsonObject lastUpdatedValue = new JsonObject();
         lastUpdatedValue.addProperty("integerValue", lastUpdated);
         fields.add("lastUpdated", lastUpdatedValue);
-        
+
         json.add("fields", fields);
         return json;
     }
-    
+
     /**
      * JsonObject에서 ObjectiveProgress 생성
      */
@@ -270,61 +264,46 @@ public class ObjectiveProgress {
         if (!json.has("fields")) {
             throw new IllegalArgumentException("Invalid ObjectiveProgress JSON structure");
         }
-        
+
         JsonObject fields = json.getAsJsonObject("fields");
-        
-        String objectiveId = fields.has("objectiveId") && fields.getAsJsonObject("objectiveId").has("stringValue")
-                ? fields.getAsJsonObject("objectiveId").get("stringValue").getAsString()
-                : "";
-                
-        String playerIdStr = fields.has("playerId") && fields.getAsJsonObject("playerId").has("stringValue")
-                ? fields.getAsJsonObject("playerId").get("stringValue").getAsString()
-                : "";
+
+        String objectiveId = fields.has("objectiveId") && fields.getAsJsonObject("objectiveId").has("stringValue") ? fields.getAsJsonObject("objectiveId").get("stringValue").getAsString() : "";
+
+        String playerIdStr = fields.has("playerId") && fields.getAsJsonObject("playerId").has("stringValue") ? fields.getAsJsonObject("playerId").get("stringValue").getAsString() : "";
         UUID playerId = UUID.fromString(playerIdStr);
-        
-        int currentValue = fields.has("currentValue") && fields.getAsJsonObject("currentValue").has("integerValue")
-                ? fields.getAsJsonObject("currentValue").get("integerValue").getAsInt()
-                : 0;
-                
-        int requiredValue = fields.has("requiredValue") && fields.getAsJsonObject("requiredValue").has("integerValue")
-                ? fields.getAsJsonObject("requiredValue").get("integerValue").getAsInt()
-                : 1;
-                
-        boolean completed = fields.has("completed") && fields.getAsJsonObject("completed").has("booleanValue")
-                ? fields.getAsJsonObject("completed").get("booleanValue").getAsBoolean()
-                : false;
-                
-        long startedAt = fields.has("startedAt") && fields.getAsJsonObject("startedAt").has("integerValue")
-                ? fields.getAsJsonObject("startedAt").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
-                
-        long completedAt = fields.has("completedAt") && fields.getAsJsonObject("completedAt").has("integerValue")
-                ? fields.getAsJsonObject("completedAt").get("integerValue").getAsLong()
-                : 0;
-        
-        return new ObjectiveProgress(objectiveId, playerId, currentValue, requiredValue, 
-                completed, startedAt, completedAt);
+
+        int currentValue = fields.has("currentValue") && fields.getAsJsonObject("currentValue").has("integerValue") ? fields.getAsJsonObject("currentValue").get("integerValue").getAsInt() : 0;
+
+        int requiredValue = fields.has("requiredValue") && fields.getAsJsonObject("requiredValue").has("integerValue") ? fields.getAsJsonObject("requiredValue").get("integerValue").getAsInt() : 1;
+
+        boolean completed = fields.has("completed") && fields.getAsJsonObject("completed").has("booleanValue") && fields.getAsJsonObject("completed").get("booleanValue").getAsBoolean();
+
+        long startedAt = fields.has("startedAt") && fields.getAsJsonObject("startedAt").has("integerValue") ? fields.getAsJsonObject("startedAt").get("integerValue").getAsLong() : System.currentTimeMillis();
+
+        long completedAt = fields.has("completedAt") && fields.getAsJsonObject("completedAt").has("integerValue") ? fields.getAsJsonObject("completedAt").get("integerValue").getAsLong() : 0;
+
+        return new ObjectiveProgress(objectiveId, playerId, currentValue, requiredValue, completed, startedAt, completedAt);
     }
-    
+
     /**
      * Map으로 변환 (Firestore SDK용)
      */
     @NotNull
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
-        
+
         map.put("objectiveId", objectiveId);
         map.put("playerId", playerId.toString());
-        map.put("currentValue", currentValue);
-        map.put("requiredValue", requiredValue);
-        map.put("completed", completed);
-        map.put("startedAt", startedAt);
-        map.put("completedAt", completedAt);
-        map.put("lastUpdated", lastUpdated);
-        
+        map.put("currentValue", currentValue); // int (primitive)
+        map.put("requiredValue", requiredValue); // int (primitive)
+        map.put("completed", completed); // boolean (primitive)
+        map.put("startedAt", startedAt); // long (primitive)
+        map.put("completedAt", completedAt); // long (primitive)
+        map.put("lastUpdated", lastUpdated); // long (primitive)
+
         return map;
     }
-    
+
     /**
      * Map에서 ObjectiveProgress 생성 (Firestore SDK용)
      */
@@ -333,30 +312,31 @@ public class ObjectiveProgress {
         String objectiveId = (String) map.getOrDefault("objectiveId", "");
         String playerIdStr = (String) map.getOrDefault("playerId", "");
         UUID playerId = UUID.fromString(playerIdStr);
+
+        // Number로 안전하게 캐스팅 후 primitive로 변환
+        Object currentObj = map.getOrDefault("currentValue", 0);
+        int currentValue = currentObj instanceof Number ? ((Number) currentObj).intValue() : 0;
         
-        int currentValue = ((Number) map.getOrDefault("currentValue", 0)).intValue();
-        int requiredValue = ((Number) map.getOrDefault("requiredValue", 1)).intValue();
-        boolean completed = (Boolean) map.getOrDefault("completed", false);
-        long startedAt = ((Number) map.getOrDefault("startedAt", System.currentTimeMillis())).longValue();
-        long completedAt = ((Number) map.getOrDefault("completedAt", 0L)).longValue();
+        Object requiredObj = map.getOrDefault("requiredValue", 1);
+        int requiredValue = requiredObj instanceof Number ? ((Number) requiredObj).intValue() : 1;
         
-        return new ObjectiveProgress(objectiveId, playerId, currentValue, requiredValue, 
-                completed, startedAt, completedAt);
+        Object completedObj = map.getOrDefault("completed", false);
+        boolean completed = completedObj instanceof Boolean ? (boolean) completedObj : false;
+        
+        Object startedObj = map.getOrDefault("startedAt", System.currentTimeMillis());
+        long startedAt = startedObj instanceof Number ? ((Number) startedObj).longValue() : System.currentTimeMillis();
+        
+        Object completedAtObj = map.getOrDefault("completedAt", 0L);
+        long completedAt = completedAtObj instanceof Number ? ((Number) completedAtObj).longValue() : 0L;
+
+        return new ObjectiveProgress(objectiveId, playerId, currentValue, requiredValue, completed, startedAt, completedAt);
     }
-    
+
     /**
      * ObjectiveProgressDTO에서 생성
      */
     @NotNull
     public static ObjectiveProgress from(@NotNull ObjectiveProgressDTO dto, @NotNull UUID playerId) {
-        return new ObjectiveProgress(
-                dto.objectiveId(),
-                playerId,
-                dto.progress(),
-                dto.target(),
-                dto.completed(),
-                System.currentTimeMillis(),
-                dto.completed() ? dto.lastUpdated() : 0L
-        );
+        return new ObjectiveProgress(dto.objectiveId(), playerId, dto.progress(), dto.target(), dto.completed(), System.currentTimeMillis(), dto.completed() ? dto.lastUpdated() : 0L);
     }
 }

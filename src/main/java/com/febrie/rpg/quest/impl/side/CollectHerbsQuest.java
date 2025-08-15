@@ -10,7 +10,10 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -80,82 +83,33 @@ public class CollectHerbsQuest extends Quest {
     }
 
     @Override
-    public @NotNull String getDisplayName(boolean isKorean) {
-        return isKorean ? "약초 수집" : "Collect Herbs";
+    public @NotNull Component getDisplayName(@NotNull Player who) {
+        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.side.collect_herbs.name");
     }
 
     @Override
-    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
-        if (isKorean) {
-            return Arrays.asList(
-                    "연금술사가 약초를 구하고 있습니다.",
-                    "필요한 재료들을 모아주세요.",
-                    "",
-                    "목표:",
-                    "• 민들레 15개",
-                    "• 양귀비 10개",
-                    "• 파란 난초 10개",
-                    "• 거미 눈 5개",
-                    "• 연금술사에게 전달",
-                    "",
-                    "보상:",
-                    "• 골드 250",
-                    "• 에메랄드 8",
-                    "• 치유 물약 5개",
-                    "• 반짝이는 수박 조각 3개",
-                    "• 경험치 150"
-            );
-        } else {
-            return Arrays.asList(
-                    "The alchemist is looking for herbs.",
-                    "Please collect the required materials.",
-                    "",
-                    "Objectives:",
-                    "• 15 Dandelions",
-                    "• 10 Poppies",
-                    "• 10 Azure Bluets",
-                    "• 5 Spider Eyes",
-                    "• Deliver to alchemist",
-                    "",
-                    "Rewards:",
-                    "• 250 Gold",
-                    "• 8 Emeralds",
-                    "• 5 Healing Potions",
-                    "• 3 Glistering Melon Slices",
-                    "• 150 Experience"
-            );
-        }
+    public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
+        return com.febrie.rpg.util.LangManager.getList(who, "quest.side.collect_herbs.description");
     }
 
     @Override
-    public @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-
-        return switch (id) {
-            case "collect_dandelions" -> isKorean ? "민들레 15개 수집" : "Collect 15 Dandelions";
-            case "collect_poppies" -> isKorean ? "양귀비 10개 수집" : "Collect 10 Poppies";
-            case "collect_azure_bluets" -> isKorean ? "파란 난초 10개 수집" : "Collect 10 Azure Bluets";
-            case "collect_spider_eyes" -> isKorean ? "거미 눈 5개 수집" : "Collect 5 Spider Eyes";
-            case "deliver_to_alchemist" -> isKorean ? "연금술사에게 전달" : "Deliver to alchemist";
-            default -> objective.getStatusInfo(null);
-        };
+        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.side.collect_herbs.objectives." + id);
     }
 
     @Override
-    public QuestDialog getDialog() {
+    public QuestDialog getDialog(@NotNull Player player) {
         QuestDialog dialog = new QuestDialog("collect_herbs_dialog");
 
-        dialog.addLine("연금술사 미나",
-                "안녕하세요, 모험가님. 혹시 약초 수집에 능숙하신가요?",
-                "Hello, adventurer. Are you skilled in herb gathering?");
+        dialog.addLine("quest.side.collect_herbs.dialog.alchemist",
+                "quest.side.collect_herbs.dialog.alchemist.line1");
 
-        dialog.addLine("연금술사 미나",
-                "새로운 물약을 만들기 위해 특별한 재료들이 필요해요.",
-                "I need special ingredients to create new potions.");
+        dialog.addLine("quest.side.collect_herbs.dialog.alchemist",
+                "quest.side.collect_herbs.dialog.alchemist.line2");
 
-        dialog.addLine("연금술사 미나",
-                "민들레 15개, 양귀비 10개, 파란 난초 10개, 그리고 거미 눈 5개를 구해주시면 보답하겠습니다.",
-                "If you bring me 15 dandelions, 10 poppies, 10 azure bluets, and 5 spider eyes, I'll reward you.");
+        dialog.addLine("quest.side.collect_herbs.dialog.alchemist",
+                "quest.side.collect_herbs.dialog.alchemist.line3");
 
         return dialog;
     }

@@ -20,7 +20,7 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.*;
 
 /**
@@ -48,25 +48,21 @@ public abstract class Quest {
     
     // 보상 지급 방식
     protected final RewardDeliveryType rewardDeliveryType;
-
-    // 선행 퀘스트 시스템
-    private final Set<QuestID> prerequisiteQuests = new HashSet<>();
-
-    // 양자택일 퀘스트 시스템
-    private final Set<QuestID> exclusiveQuests = new HashSet<>();
     
-    // 보상 소멸 시간 (밀리초, 기본값: 3일)
-    protected static final long DEFAULT_REWARD_EXPIRY_TIME = 3L * 24L * 60L * 60L * 1000L;
+    // 선행 퀘스트 및 양자택일 퀘스트
+    protected final Set<QuestID> prerequisiteQuests;
+    protected final Set<QuestID> exclusiveQuests;
 
     /**
-     * 빌더를 통한 생성자
+     * QuestBuilder를 통한 생성자
+     *
+     * @param builder QuestBuilder 인스턴스
      */
     protected Quest(@NotNull QuestBuilder builder) {
-        this.id = Objects.requireNonNull(builder.id, "Quest ID cannot be null");
-        this.instanceId = generateInstanceId();
+        this.id = builder.id;
+        this.instanceId = UUID.randomUUID().toString();
         this.objectives = new ArrayList<>(builder.objectives);
-        this.reward = Objects.requireNonNull(builder.reward, "Quest reward cannot be null");
-
+        this.reward = builder.reward;
         this.sequential = builder.sequential;
         this.repeatable = builder.repeatable;
         this.daily = builder.daily;
@@ -75,39 +71,34 @@ public abstract class Quest {
         this.maxLevel = builder.maxLevel;
         this.category = builder.category;
         this.completionLimit = builder.completionLimit;
-        this.rewardDeliveryType = builder.rewardDeliveryType != null ? builder.rewardDeliveryType : RewardDeliveryType.NPC_VISIT;
-
-        this.prerequisiteQuests.addAll(builder.prerequisiteQuests);
-        this.exclusiveQuests.addAll(builder.exclusiveQuests);
-
-        if (objectives.isEmpty()) {
-            throw new IllegalArgumentException("Quest must have at least one objective");
-        }
+        this.rewardDeliveryType = builder.rewardDeliveryType;
+        this.prerequisiteQuests = new HashSet<>(builder.prerequisiteQuests);
+        this.exclusiveQuests = new HashSet<>(builder.exclusiveQuests);
     }
-    
+
     /**
-     * 고유 인스턴스 ID 생성
-     * 형식: QUEST_ID_YY_MM_DD_UUID16자
+     * 빈 목표 리스트로 퀘스트 생성
+     *
+     * @param id       퀘스트 ID
+     * @param reward   퀘스트 보상
+     * @param category 퀘스트 카테고리
      */
-    private String generateInstanceId() {
-        LocalDateTime now = LocalDateTime.now();
-        String datePrefix = String.format("%02d_%02d_%02d_",
-            now.getYear() % 100,
-            now.getMonthValue(),
-            now.getDayOfMonth()
-        );
-        String shortUuid = UUID.randomUUID().toString()
-            .replace("-", "")
-            .substring(0, 16);
-        return id.name() + "_" + datePrefix + shortUuid;
-    }
-    
-    /**
-     * 보상 소멸 시간 반환 (밀리초)
-     * 하위 클래스에서 오버라이드 가능
-     */
-    public long getRewardExpiryTime() {
-        return DEFAULT_REWARD_EXPIRY_TIME;
+    protected Quest(@NotNull QuestID id, @NotNull QuestReward reward, @NotNull QuestCategory category) {
+        this.id = id;
+        this.instanceId = UUID.randomUUID().toString();
+        this.objectives = new ArrayList<>();
+        this.reward = reward;
+        this.sequential = false;
+        this.repeatable = false;
+        this.daily = false;
+        this.weekly = false;
+        this.minLevel = 1;
+        this.maxLevel = 0;
+        this.category = category;
+        this.completionLimit = 1;
+        this.rewardDeliveryType = RewardDeliveryType.INSTANT;
+        this.prerequisiteQuests = new HashSet<>();
+        this.exclusiveQuests = new HashSet<>();
     }
 
     /**
@@ -116,7 +107,28 @@ public abstract class Quest {
     public @NotNull QuestID getId() {
         return id;
     }
-    
+
+    /**
+     * 퀘스트 카테고리 반환
+     */
+    public @NotNull QuestCategory getCategory() {
+        return category;
+    }
+
+    /**
+     * 퀘스트 목표 리스트 반환
+     */
+    public @NotNull List<QuestObjective> getObjectives() {
+        return new ArrayList<>(objectives);
+    }
+
+    /**
+     * 퀘스트 보상 반환
+     */
+    public @NotNull QuestReward getReward() {
+        return reward;
+    }
+
     /**
      * 퀘스트 인스턴스 ID 반환
      */
@@ -125,34 +137,34 @@ public abstract class Quest {
     }
 
     /**
-     * 퀘스트 표시 이름 (하드코딩)
+     * 퀘스트 표시 이름
      *
-     * @param isKorean 한국어 여부
+     * @param who 대상 플레이어
      * @return 퀘스트 이름
      */
-    public abstract @NotNull String getDisplayName(boolean isKorean);
+    public abstract @NotNull Component getDisplayName(@NotNull Player who);
 
     /**
-     * 퀘스트 기본 설명 (하드코딩)
+     * 퀘스트 기본 설명
      *
-     * @param isKorean 한국어 여부
+     * @param who 대상 플레이어
      * @return 퀘스트 기본 설명 (여러 줄)
      */
-    public abstract @NotNull List<String> getDisplayInfo(boolean isKorean);
+    public abstract @NotNull List<Component> getDisplayInfo(@NotNull Player who);
 
     /**
      * 퀘스트 목표 설명
      *
-     * @param isKorean 한국어 여부
+     * @param who 대상 플레이어
      * @return 퀘스트 목표 설명 (여러 줄)
      */
-    public @NotNull List<String> getGoalDescription(boolean isKorean) {
-        List<String> goals = new ArrayList<>();
-        LangManager langManager = RPGMain.getPlugin().getLangManager();
-        goals.add("§e목표:");
+    public @NotNull List<Component> getGoalDescription(@NotNull Player who) {
+        List<Component> goals = new ArrayList<>();
+        goals.add(LangManager.getMessage(who, "quest.goals"));
         
         for (QuestObjective objective : objectives) {
-            goals.add("• " + getObjectiveDescription(objective, isKorean));
+            Component bullet = Component.text("• ", ColorUtil.WHITE);
+            goals.add(bullet.append(getObjectiveDescription(objective, who)));
         }
         
         return goals;
@@ -161,17 +173,16 @@ public abstract class Quest {
     /**
      * 퀘스트 보상 설명
      *
-     * @param isKorean 한국어 여부
+     * @param who 대상 플레이어
      * @return 퀘스트 보상 설명 (여러 줄)
      */
-    public @NotNull List<String> getRewardDescription(boolean isKorean) {
-        List<String> rewards = new ArrayList<>();
-        LangManager langManager = RPGMain.getPlugin().getLangManager();
-        rewards.add("§a보상:");
+    public @NotNull List<Component> getRewardDescription(@NotNull Player who) {
+        List<Component> rewards = new ArrayList<>();
+        rewards.add(LangManager.getMessage(who, "quest.rewards"));
         
-        // 보상 정보는 QuestReward의 getDisplayInfo를 문자열로 변환하여 사용
-        // 임시로 간단하게 구현
-        rewards.add("• " + reward.toString());
+        // 보상 정보는 QuestReward의 getDisplayInfo를 사용
+        Component rewardInfo = getRewardDisplayInfo(who);
+        rewards.add(Component.text("• ", ColorUtil.WHITE).append(rewardInfo));
         
         return rewards;
     }
@@ -179,22 +190,21 @@ public abstract class Quest {
     /**
      * 퀘스트 전체 설명 (기본 설명 + 목표 + 보상)
      *
-     * @param isKorean 한국어 여부
+     * @param who 대상 플레이어
      * @return 퀘스트 전체 설명 (여러 줄)
      */
-    public @NotNull List<String> getDescription(boolean isKorean) {
-        List<String> description = new ArrayList<>();
-        
+    public @NotNull List<Component> getDescription(@NotNull Player who) {
+
         // 기본 설명
-        description.addAll(getDisplayInfo(isKorean));
-        description.add("");
+        List<Component> description = new ArrayList<>(getDisplayInfo(who));
+        description.add(Component.empty());
         
         // 목표 설명
-        description.addAll(getGoalDescription(isKorean));
-        description.add("");
+        description.addAll(getGoalDescription(who));
+        description.add(Component.empty());
         
         // 보상 설명
-        description.addAll(getRewardDescription(isKorean));
+        description.addAll(getRewardDescription(who));
         
         return description;
     }
@@ -208,10 +218,6 @@ public abstract class Quest {
         ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
         BookMeta meta = (BookMeta) book.getItemMeta();
         if (meta == null) return;
-
-        boolean isKorean = player.locale().getLanguage().equals("ko");
-
-        LangManager langManager = RPGMain.getPlugin().getLangManager();
         
         meta.setTitle("§6RPG 퀘스트 안내서");
         meta.setAuthor("§f시스템");
@@ -220,50 +226,50 @@ public abstract class Quest {
 
         // 첫 페이지 - 퀘스트 기본 정보
         Component page1 = Component.text("=== ", NamedTextColor.DARK_GRAY)
-                .append(Component.text(getDisplayName(isKorean), ColorUtil.GOLD, TextDecoration.BOLD))
+                .append(getDisplayName(player).color(ColorUtil.GOLD).decoration(TextDecoration.BOLD, true))
                 .append(Component.text(" ===", NamedTextColor.DARK_GRAY))
                 .append(Component.newline()).append(Component.newline());
 
-        for (String line : getDisplayInfo(isKorean)) {
-            page1 = page1.append(Component.text(line, ColorUtil.GRAY))
+        for (Component line : getDisplayInfo(player)) {
+            page1 = page1.append(line.color(ColorUtil.GRAY))
                     .append(Component.newline());
         }
 
         page1 = page1.append(Component.newline())
-                .append(Component.text(langManager.getMessage(player, "quest.category-label"), ColorUtil.YELLOW))
-                .append(Component.text(getCategoryName(isKorean), ColorUtil.WHITE))
+                .append(LangManager.getMessage(player, "quest.category-label").color(ColorUtil.YELLOW))
+                .append(getCategoryName(player).color(ColorUtil.WHITE))
                 .append(Component.newline())
-                .append(Component.text(langManager.getMessage(player, "quest.level-requirement"), ColorUtil.YELLOW))
+                .append(LangManager.getMessage(player, "quest.level-requirement").color(ColorUtil.YELLOW))
                 .append(Component.text(minLevel + (maxLevel > 0 ? "-" + maxLevel : "+"), ColorUtil.WHITE));
 
         pages.add(page1);
 
         // 두 번째 페이지 - 목표
-        Component page2 = Component.text(langManager.getMessage(player, "quest.quest-objectives"), ColorUtil.GOLD, TextDecoration.BOLD)
+        Component page2 = LangManager.getMessage(player, "quest.quest-objectives").color(ColorUtil.GOLD).decoration(TextDecoration.BOLD, true)
                 .append(Component.newline()).append(Component.newline());
 
         int index = 1;
         for (QuestObjective objective : objectives) {
-            String objectiveText = getObjectiveDescription(objective, isKorean);
+            Component objectiveText = getObjectiveDescription(objective, player);
             page2 = page2.append(Component.text(index + ". ", ColorUtil.YELLOW))
-                    .append(Component.text(objectiveText, ColorUtil.WHITE))
+                    .append(objectiveText.color(ColorUtil.WHITE))
                     .append(Component.newline());
             index++;
         }
 
         if (sequential) {
             page2 = page2.append(Component.newline())
-                    .append(Component.text(langManager.getMessage(player, "quest.sequential-note"), ColorUtil.RED));
+                    .append(LangManager.getMessage(player, "quest.sequential-note").color(ColorUtil.RED));
         }
 
         pages.add(page2);
 
         // 세 번째 페이지 - 보상
-        Component page3 = Component.text(langManager.getMessage(player, "quest.quest-rewards"), ColorUtil.EMERALD, TextDecoration.BOLD)
+        Component page3 = LangManager.getMessage(player, "quest.quest-rewards").color(ColorUtil.EMERALD).decoration(TextDecoration.BOLD, true)
                 .append(Component.newline()).append(Component.newline());
 
         // 보상 정보 표시
-        page3 = page3.append(getRewardDisplayInfo(player, isKorean));
+        page3 = page3.append(getRewardDisplayInfo(player));
 
         pages.add(page3);
 
@@ -278,23 +284,21 @@ public abstract class Quest {
     /**
      * 보상 정보를 표시용 Component로 변환
      */
-    private @NotNull Component getRewardDisplayInfo(@NotNull Player player, boolean isKorean) {
+    private @NotNull Component getRewardDisplayInfo(@NotNull Player player) {
         // QuestReward의 getDisplayInfo 메소드 사용
         return reward.getDisplayInfo(player);
     }
 
     /**
-     * 목표 설명 가져오기 (하드코딩용)
+     * 목표 설명 가져오기
      */
-    public abstract @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean);
+    public abstract @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who);
 
     /**
      * 카테고리 이름 가져오기
      */
-    private @NotNull String getCategoryName(boolean isKorean) {
-        // TODO: Player 객체를 받아서 처리하도록 개선 필요
-        // 임시로 하드코딩된 값 반환
-        return isKorean ? category.name() : category.name();
+    public @NotNull Component getCategoryName(@NotNull Player who) {
+        return LangManager.getMessage(who, "quest.categories." + category.name().toLowerCase());
     }
 
     /**
@@ -304,213 +308,95 @@ public abstract class Quest {
      */
     @Nullable
     public QuestDialog getDialog() {
-        return null; // 기본적으로 대화 없음, 필요한 퀘스트만 오버라이드
+        return null;
+    }
+
+    /**
+     * 플레이어별 대화 (레거시 - 빈 구현)
+     *
+     * @param player 플레이어
+     * @return null
+     */
+    @Nullable
+    public QuestDialog getDialog(@NotNull Player player) {
+        return getDialog();
     }
     
     /**
-     * 퀘스트 NPC 기본 인터페이스
-     * 각 퀘스트는 inner enum으로 자신만의 NPC를 정의
-     */
-    public interface QuestNPC {
-        int getId();
-        String getDisplayName(boolean isKorean);
-    }
-
-    /**
-     * 인덱스 기반 퀘스트 대화 반환
-     * 
-     * @param index 대화 인덱스
-     * @return 퀘스트 대화 문장
-     */
-    @Nullable
-    public String getDialog(int index) {
-        return null; // 기본적으로 대화 없음, 필요한 퀘스트만 오버라이드
-    }
-
-    /**
-     * 총 대화 개수 반환
-     * 
-     * @return 총 대화 개수
+     * 대화 개수 반환 (기본 구현)
+     * @return 대화 개수
      */
     public int getDialogCount() {
-        return 0; // 기본적으로 대화 없음
-    }
-
-    /**
-     * NPC별 대화 반환 - 여러 NPC가 등장하는 퀘스트용
-     * 
-     * @param npcId NPC ID
-     * @return 해당 NPC의 대화 리스트
-     */
-    @Nullable
-    public List<QuestDialog.DialogLine> getNPCDialogs(int npcId) {
-        return null; // 기본적으로 없음, 필요한 퀘스트만 오버라이드
+        QuestDialog dialog = getDialog();
+        return dialog != null ? dialog.getDialogues().size() : 0;
     }
     
     /**
-     * 전체 대화 시퀀스 반환 - 순서대로 진행되는 대화
-     * 
-     * @return 전체 대화 시퀀스
+     * 특정 인덱스의 대화 반환
+     * @param index 대화 인덱스
+     * @param player 플레이어
+     * @return 대화 텍스트
      */
     @Nullable
-    public List<QuestDialog.DialogLine> getDialogSequence() {
-        return null; // 기본적으로 없음, 필요한 퀘스트만 오버라이드
+    public String getDialog(int index, @NotNull Player player) {
+        QuestDialog dialog = getDialog();
+        if (dialog != null && index >= 0 && index < dialog.getDialogues().size()) {
+            return dialog.getDialogues().get(index);
+        }
+        return null;
     }
     
     /**
-     * NPC 이름 반환 (대화에서 사용)
-     * 
+     * NPC 이름 반환
+     * @param player 플레이어
      * @return NPC 이름
      */
     @NotNull
-    public String getNPCName() {
-        LangManager langManager = RPGMain.getPlugin().getLangManager();
-        return langManager.getMessage("ko_KR", "quest.unknown-npc"); // 기본값, 필요한 퀘스트만 오버라이드
-    }
-
-    /**
-     * 퀘스트 수락 후 대화
-     * 
-     * @return 수락 후 대화 (null이면 기본 메시지 사용)
-     */
-    @Nullable
-    public String getAcceptDialog() {
-        return null; // 기본값, 필요한 퀘스트만 오버라이드
-    }
-
-    /**
-     * 퀘스트 거절 후 대화
-     * 
-     * @return 거절 후 대화 (null이면 기본 메시지 사용)
-     */
-    @Nullable
-    public String getDeclineDialog() {
-        return null; // 기본값, 필요한 퀘스트만 오버라이드
-    }
-
-    /**
-     * 퀘스트 목표 목록 반환
-     */
-    public @NotNull List<QuestObjective> getObjectives() {
-        return new ArrayList<>(objectives);
-    }
-
-    /**
-     * 순차적 진행 여부
-     */
-    public boolean isSequential() {
-        return sequential;
-    }
-
-    /**
-     * 퀘스트 보상
-     */
-    public @NotNull QuestReward getReward() {
-        return reward;
+    public String getNPCName(@NotNull Player player) {
+        QuestDialog dialog = getDialog();
+        return dialog != null && dialog.getNpcName() != null ? dialog.getNpcName() : "Quest NPC";
     }
     
     /**
-     * 경험치 보상 (호환성을 위한 메소드)
+     * 퀘스트 수락 대화 반환
+     * @param player 플레이어
+     * @return 수락 대화
      */
-    public long getExpReward() {
-        // 보상이 MixedReward 타입인 경우 경험치 반환
-        if (reward instanceof com.febrie.rpg.quest.reward.MixedReward mixedReward) {
-            return mixedReward.getExp();
-        }
-        return 0;
+    @NotNull
+    public String getAcceptDialog(@NotNull Player player) {
+        return LangManager.getString(player, "quest.dialog.accept-default");
     }
     
     /**
-     * 돈 보상 (호환성을 위한 메소드)
+     * 퀘스트 거절 대화 반환
+     * @param player 플레이어
+     * @return 거절 대화
      */
-    public long getMoneyReward() {
-        // 보상이 MixedReward 타입인 경우 돈 반환
-        if (reward instanceof com.febrie.rpg.quest.reward.MixedReward mixedReward) {
-            return mixedReward.getMoney();
-        }
-        return 0;
+    @NotNull
+    public String getDeclineDialog(@NotNull Player player) {
+        return LangManager.getString(player, "quest.dialog.decline-default");
     }
 
     /**
-     * 퀘스트 시작 가능 여부 확인 (하위 클래스에서 추가 조건 구현 가능)
+     * 플레이어가 시작 가능한지 확인
+     *
+     * @param player 플레이어
+     * @return 시작 가능 여부
      */
-    public boolean canStart(@NotNull UUID playerId) {
+    public boolean canStart(@NotNull Player player) {
+        // 레벨 확인
+        int level = player.getLevel();
+        if (level < minLevel) return false;
+        if (maxLevel > 0 && level > maxLevel) return false;
+
         return true;
     }
 
     /**
-     * 최소 레벨 요구사항
+     * 순차 진행 여부
      */
-    public int getMinLevel() {
-        return minLevel;
-    }
-
-    /**
-     * 최대 레벨 요구사항
-     */
-    public int getMaxLevel() {
-        return maxLevel;
-    }
-
-    /**
-     * 선행 퀘스트 목록
-     */
-    public @NotNull Set<QuestID> getPrerequisiteQuests() {
-        return new HashSet<>(prerequisiteQuests);
-    }
-
-    /**
-     * 양자택일 퀘스트 목록
-     */
-    public @NotNull Set<QuestID> getExclusiveQuests() {
-        return new HashSet<>(exclusiveQuests);
-    }
-
-    /**
-     * 선행 퀘스트 확인
-     */
-    public boolean hasPrerequisiteQuests() {
-        return !prerequisiteQuests.isEmpty();
-    }
-
-    /**
-     * 양자택일 퀘스트 확인
-     */
-    public boolean hasExclusiveQuests() {
-        return !exclusiveQuests.isEmpty();
-    }
-
-    /**
-     * 선행 퀘스트 완료 확인
-     */
-    public boolean arePrerequisitesComplete(@NotNull Collection<QuestID> completedQuests) {
-        return completedQuests.containsAll(prerequisiteQuests);
-    }
-
-    /**
-     * 양자택일 퀘스트 완료 확인
-     */
-    public boolean hasCompletedExclusiveQuests(@NotNull Collection<QuestID> completedQuests) {
-        for (QuestID exclusiveQuest : exclusiveQuests) {
-            if (completedQuests.contains(exclusiveQuest)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 퀘스트 카테고리
-     */
-    public @NotNull QuestCategory getCategory() {
-        return category;
-    }
-    
-    /**
-     * 보상 지급 방식
-     */
-    public @NotNull RewardDeliveryType getRewardDeliveryType() {
-        return rewardDeliveryType;
+    public boolean isSequential() {
+        return sequential;
     }
 
     /**
@@ -518,14 +404,6 @@ public abstract class Quest {
      */
     public boolean isRepeatable() {
         return repeatable;
-    }
-
-    /**
-     * 완료 제한 횟수
-     * @return -1: 무제한, 0: 완료 불가, 1 이상: 해당 횟수만큼 완료 가능
-     */
-    public int getCompletionLimit() {
-        return completionLimit;
     }
 
     /**
@@ -543,17 +421,136 @@ public abstract class Quest {
     }
 
     /**
-     * 퀘스트 진행도 생성
+     * 최소 레벨
      */
-    public @NotNull QuestProgress createProgress(@NotNull UUID playerId) {
-        Map<String, ObjectiveProgress> objectives = new HashMap<>();
-
-        for (QuestObjective objective : this.objectives) {
-            objectives.put(objective.getId(),
-                    new ObjectiveProgress(objective.getId(), playerId, objective.getRequiredAmount()));
-        }
-
-        return new QuestProgress(id, playerId, objectives);
+    public int getMinLevel() {
+        return minLevel;
     }
 
+    /**
+     * 최대 레벨
+     */
+    public int getMaxLevel() {
+        return maxLevel;
+    }
+
+    /**
+     * 하루 제한 횟수
+     */
+    public int getCompletionLimit() {
+        return completionLimit;
+    }
+
+    /**
+     * 보상 지급 방식
+     */
+    public @NotNull RewardDeliveryType getRewardDeliveryType() {
+        return rewardDeliveryType;
+    }
+
+    /**
+     * 퀘스트 진행 상황 업데이트
+     * 퀘스트 목표별로 진행 상황을 업데이트
+     *
+     * @param progress 퀘스트 진행 상황
+     * @param objective 목표
+     * @param amount 증가량
+     * @return 업데이트 성공 여부
+     */
+    public boolean updateProgress(@NotNull QuestProgress progress, @NotNull QuestObjective objective, int amount) {
+        if (progress.isCompleted()) {
+            return false;
+        }
+
+        ObjectiveProgress objProgress = progress.getObjectiveProgress(objective.getId());
+        if (objProgress == null) {
+            return false;
+        }
+
+        // 순차 진행인 경우 이전 목표가 완료되었는지 확인
+        if (sequential) {
+            int currentIndex = objectives.indexOf(objective);
+            if (currentIndex > 0) {
+                for (int i = 0; i < currentIndex; i++) {
+                    ObjectiveProgress prevProgress = progress.getObjectiveProgress(objectives.get(i).getId());
+                    if (prevProgress == null || !prevProgress.isCompleted()) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        objProgress.increment(amount);
+        
+        // 모든 목표가 완료되었는지 확인
+        boolean allCompleted = true;
+        for (QuestObjective obj : objectives) {
+            ObjectiveProgress p = progress.getObjectiveProgress(obj.getId());
+            if (p == null || !p.isCompleted()) {
+                allCompleted = false;
+                break;
+            }
+        }
+
+        if (allCompleted) {
+            progress.setState(QuestProgress.QuestState.COMPLETED);
+            progress.setCompletedAt(Instant.now());
+        }
+
+        return true;
+    }
+
+    /**
+     * 퀘스트 진행 상황 생성
+     *
+     * @return 새로운 퀘스트 진행 상황
+     */
+    public @NotNull QuestProgress createProgress(@NotNull UUID playerId) {
+        Map<String, ObjectiveProgress> objectiveProgressMap = new HashMap<>();
+        for (QuestObjective objective : objectives) {
+            objectiveProgressMap.put(objective.getId(), new ObjectiveProgress(objective.getId(), playerId, objective.getRequiredAmount()));
+        }
+        return new QuestProgress(id, playerId, objectiveProgressMap);
+    }
+    
+    /**
+     * 선행 퀘스트가 모두 완료되었는지 확인
+     * @param completedQuests 완료된 퀘스트 목록
+     * @return 선행 퀘스트 모두 완료 여부
+     */
+    public boolean arePrerequisitesComplete(@NotNull Set<QuestID> completedQuests) {
+        for (QuestID prerequisite : prerequisiteQuests) {
+            if (!completedQuests.contains(prerequisite)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * 양자택일 퀘스트 중 완료된 것이 있는지 확인
+     * @param completedQuests 완료된 퀘스트 목록
+     * @return 양자택일 퀘스트 완료 여부
+     */
+    public boolean hasCompletedExclusiveQuests(@NotNull Set<QuestID> completedQuests) {
+        for (QuestID exclusive : exclusiveQuests) {
+            if (completedQuests.contains(exclusive)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Quest quest = (Quest) o;
+        return Objects.equals(instanceId, quest.instanceId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(instanceId);
+    }
 }

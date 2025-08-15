@@ -11,8 +11,11 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.CraftItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -87,98 +90,46 @@ public class HeroesJourneyQuest extends Quest {
     }
 
     @Override
-    public @NotNull String getDisplayName(boolean isKorean) {
-        return isKorean ? "영웅의 여정" : "Hero's Journey";
+    public @NotNull Component getDisplayName(@NotNull Player who) {
+        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.name");
     }
 
     @Override
-    public @NotNull List<String> getDisplayInfo(boolean isKorean) {
-        if (isKorean) {
-            return Arrays.asList(
-                    "진정한 영웅이 되기 위한 첫 걸음입니다.",
-                    "다양한 도전을 통해 실력을 증명하세요!",
-                    "",
-                    "이 퀘스트는 여러 목표를 동시에 진행할 수 있습니다.",
-                    "각자의 속도로 완성해 나가세요.",
-                    "",
-                    "목표:",
-                    "• 좀비 10마리 처치",
-                    "• 스켈레톤 10마리 처치",
-                    "• 거미 5마리 처치",
-                    "• 철괴 20개 수집",
-                    "• 금괴 10개 수집",
-                    "• 철 검 1개 제작",
-                    "• 철 흉갑 1개 제작",
-                    "",
-                    "보상:",
-                    "• 골드 500",
-                    "• 다이아몬드 5개",
-                    "• 다이아몬드 1개",
-                    "• 마법부여대",
-                    "• 경험치 500"
-            );
-        } else {
-            return Arrays.asList(
-                    "The first step to becoming a true hero.",
-                    "Prove your skills through various challenges!",
-                    "",
-                    "This quest allows multiple objectives to progress simultaneously.",
-                    "Complete them at your own pace.",
-                    "",
-                    "Objectives:",
-                    "• Kill 10 zombies",
-                    "• Kill 10 skeletons",
-                    "• Kill 5 spiders",
-                    "• Collect 20 iron ingots",
-                    "• Collect 10 gold ingots",
-                    "• Craft 1 iron sword",
-                    "• Craft 1 iron chestplate",
-                    "",
-                    "Rewards:",
-                    "• 500 Gold",
-                    "• 5 Diamonds",
-                    "• 1 Diamond",
-                    "• Enchanting Table",
-                    "• 500 Experience"
-            );
-        }
+    public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
+        return com.febrie.rpg.util.LangManager.getList(who, "quest.main.heroes_journey.description");
     }
 
     @Override
-    public @NotNull String getObjectiveDescription(@NotNull QuestObjective objective, boolean isKorean) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
 
         return switch (id) {
-            case "kill_zombies" -> isKorean ? "좀비 10마리 처치" : "Kill 10 zombies";
-            case "kill_skeletons" -> isKorean ? "스켈레톤 10마리 처치" : "Kill 10 skeletons";
-            case "kill_spiders" -> isKorean ? "거미 5마리 처치" : "Kill 5 spiders";
-            case "collect_iron" -> isKorean ? "철괴 20개 수집" : "Collect 20 iron ingots";
-            case "collect_gold" -> isKorean ? "금괴 10개 수집" : "Collect 10 gold ingots";
-            case "craft_iron_sword" -> isKorean ? "철 검 1개 제작" : "Craft 1 iron sword";
-            case "craft_iron_armor" -> isKorean ? "철 흉갑 1개 제작" : "Craft 1 iron chestplate";
-            default -> objective.getStatusInfo(null);
+            case "kill_zombies" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.objectives.kill_zombies");
+            case "kill_skeletons" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.objectives.kill_skeletons");
+            case "kill_spiders" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.objectives.kill_spiders");
+            case "collect_iron" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.objectives.collect_iron");
+            case "collect_gold" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.objectives.collect_gold");
+            case "craft_iron_sword" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.objectives.craft_iron_sword");
+            case "craft_iron_armor" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.objectives.craft_iron_armor");
+            default -> Component.text(objective.getStatusInfo(null));
         };
     }
 
     @Override
-    public QuestDialog getDialog() {
+    public QuestDialog getDialog(@NotNull Player player) {
         QuestDialog dialog = new QuestDialog("heroes_journey_dialog");
 
-        dialog.addLine("모험가 길드장",
-                "드디어 진정한 모험을 시작할 준비가 되셨군요!",
-                "Finally, you're ready to begin your true adventure!");
+        dialog.addLine("quest.main.heroes_journey.dialog.guild_leader",
+                "quest.main.heroes_journey.dialog.guild_leader.line1");
 
-        dialog.addLine("모험가 길드장",
-                "영웅이 되는 길은 험난합니다. 하지만 당신이라면 할 수 있을 거예요.",
-                "The path to becoming a hero is challenging. But I believe you can do it.");
+        dialog.addLine("quest.main.heroes_journey.dialog.guild_leader",
+                "quest.main.heroes_journey.dialog.guild_leader.line2");
 
-        dialog.addLine("모험가 길드장",
-                "다양한 몬스터를 처치하고, 자원을 모아 장비를 만드세요.",
-                "Defeat various monsters, gather resources, and craft equipment.");
+        dialog.addLine("quest.main.heroes_journey.dialog.guild_leader",
+                "quest.main.heroes_journey.dialog.guild_leader.line3");
 
-        dialog.addLine("모험가 길드장",
-                "모든 목표를 달성하면 특별한 보상이 기다리고 있습니다. 행운을 빕니다!",
-                "Special rewards await when you complete all objectives. Good luck!");
+        dialog.addLine("quest.main.heroes_journey.dialog.guild_leader",
+                "quest.main.heroes_journey.dialog.guild_leader.line4");
 
         return dialog;
     }

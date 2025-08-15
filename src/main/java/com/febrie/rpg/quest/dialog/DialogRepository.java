@@ -1,6 +1,7 @@
 package com.febrie.rpg.quest.dialog;
 
 import com.febrie.rpg.quest.QuestID;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -83,14 +84,17 @@ public class DialogRepository {
     private void initializeDialogs() {
         // 예시: 튜토리얼 퀘스트 대화
         QuestDialog tutorialStartDialog = new QuestDialog("tutorial_first_steps_start")
-                .addLine("가이드", "안녕하세요! Sypixel RPG에 오신 것을 환영합니다!", "Hello! Welcome to Sypixel RPG!")
-                .addLine("가이드", "이 세계에서 당신의 모험을 시작해보세요.", "Start your adventure in this world.")
-                .addLineWithChoices("가이드", "준비되셨나요?", "Are you ready?", 
+                .addLine("quest.tutorial.npcs.guide", "quest.tutorial.dialogs.welcome")
+                .addLine("quest.tutorial.npcs.guide", "quest.tutorial.dialogs.start_adventure")
+                .addLineWithChoices(
+                    "quest.tutorial.npcs.guide", 
+                    "quest.tutorial.dialogs.ready_question", 
                     java.util.List.of(
-                        new QuestDialog.DialogChoice("yes", "네, 준비됐습니다!", "Yes, I'm ready!", 3),
-                        new QuestDialog.DialogChoice("no", "아직은...", "Not yet...", -1)
-                    ))
-                .addLine("가이드", "좋습니다! 첫 번째 목표를 알려드리겠습니다.", "Great! Let me tell you your first objective.");
+                        new QuestDialog.DialogChoice("yes", "dialog.tutorial.ready", 3),
+                        new QuestDialog.DialogChoice("no", "dialog.tutorial.not-ready", -1)
+                    )
+                )
+                .addLine("quest.tutorial.npcs.guide", "quest.tutorial.dialogs.first_objective");
                 
         registerQuestDialog(QuestID.TUTORIAL_FIRST_STEPS, "start", tutorialStartDialog);
         
