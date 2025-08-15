@@ -11,6 +11,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,456 +19,311 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
- * 향상된 언어 관리 시스템 - 메모리 전용 버전
- * JAR 내부 리소스에서 직접 읽어 메모리에만 저장
- * 파일 시스템을 사용하지 않음
- *
- * @author Febrie, CoffeeTory
+ * 초경량 언어 관리 시스템
+ * Component 사전 파싱으로 극한의 성능 최적화
+ * Static 메서드로 메모리 효율성 극대화
  */
 public class LangManager {
 
-    private final RPGMain plugin;
-    private final Gson gson = new Gson();
-    private final Map<String, JsonObject> languageConfigs = new HashMap<>();
-    private String defaultLanguage;
+    private static RPGMain plugin;
+    private static final Gson gson = new Gson();
+    private static final Map<String, JsonObject> configs = new HashMap<>();
 
-    // 캐시 시스템 (성능 최적화)
-    private final Map<String, Map<String, String>> messageCache = new ConcurrentHashMap<>();
-    private final Map<String, Map<String, List<String>>> listCache = new ConcurrentHashMap<>();
+    // 키 인덱싱
+    private static Map<String, Integer> keyIndex;
 
-    // 캐시 크기 제한
-    private static final int MAX_CACHE_SIZE = 1000;
+    // Component 배열 (색상 이미 파싱됨)
+    private static Component[] dataKO;
+    private static Component[] dataEN;
+    private static Component[][] listKO;
+    private static Component[][] listEN;
 
-    // 색상 플레이스홀더 패턴
-    private static final Pattern COLOR_PATTERN = Pattern.compile("%COLOR_([A-Z_]+)%");
+    // 플레이스홀더용 원본 텍스트
+    private static String[] rawKO;
+    private static String[] rawEN;
 
-    // 언어 파일 섹션
-    private static final String[] LANGUAGE_SECTIONS = {
-            "general", "gui", "items", "job", "talent", "stat", "messages", "commands", "status", "currency", "quest", "island"
-    };
+    private static final String[] SECTIONS = {"general", "gui", "items", "job", "talent", "stat", "messages", "commands", "status", "currency", "quest", "island"};
 
-    // 지원하는 언어 목록
-    private static final String[] SUPPORTED_LANGUAGES = {
-            "ko_KR", "en_US"
-    };
-
-    public LangManager(@NotNull RPGMain plugin) {
-        this.plugin = plugin;
-        this.defaultLanguage = "ko_KR";
+    /**
+     * 초기화 (플러그인 시작 시 한 번만 호출)
+     */
+    public static void initialize(@NotNull RPGMain pluginInstance) {
+        plugin = pluginInstance;
         loadLanguages();
     }
 
-    /**
-     * 모든 언어 파일을 메모리로 로드
-     */
-    private void loadLanguages() {
-        for (String langCode : SUPPORTED_LANGUAGES) {
-            loadLanguageFromResources(langCode);
+    private static void loadLanguages() {
+        // JSON 로드
+        loadJson("ko_KR");
+        loadJson("en_US");
+
+        // 키 수집 및 인덱싱
+        Set<String> keys = new HashSet<>();
+        configs.values()
+                .forEach(cfg -> collectKeys(cfg, "", keys));
+
+        keyIndex = new HashMap<>();
+        int idx = 0;
+        for (String key : keys) {
+            keyIndex.put(key, idx++);
         }
 
-        // 캐시 초기화
-        initializeCache();
+        // 배열 할당
+        int size = keys.size();
+        dataKO = new Component[size];
+        dataEN = new Component[size];
+        listKO = new Component[size][];
+        listEN = new Component[size][];
+        rawKO = new String[size];
+        rawEN = new String[size];
 
-        LogUtil.info("Language system initialized with " + languageConfigs.size() + " languages in memory: " + languageConfigs.keySet());
+        // 데이터 로드 및 Component 변환
+        for (Map.Entry<String, Integer> e : keyIndex.entrySet()) {
+            loadData("ko_KR", e.getKey(), e.getValue());
+            loadData("en_US", e.getKey(), e.getValue());
+        }
     }
 
-    /**
-     * 특정 언어를 리소스에서 메모리로 직접 로드
-     */
-    private void loadLanguageFromResources(@NotNull String langCode) {
-        JsonObject combinedLang = new JsonObject();
-
-        for (String section : LANGUAGE_SECTIONS) {
-            String resourcePath = "lang/" + langCode + "/" + section + ".json";
-
-            try (InputStream inputStream = plugin.getResource(resourcePath)) {
-                if (inputStream == null) {
-                    LogUtil.warning("Language resource not found: " + resourcePath);
-                    continue;
+    private static void loadJson(String lang) {
+        JsonObject combined = new JsonObject();
+        for (String section : SECTIONS) {
+            try (InputStream is = plugin.getResource("lang/" + lang + "/" + section + ".json")) {
+                if (is != null) {
+                    JsonObject obj = gson.fromJson(new InputStreamReader(is, StandardCharsets.UTF_8), JsonObject.class);
+                    combined.add(section, obj);
                 }
-
-                try (InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
-                    JsonObject sectionObject = gson.fromJson(reader, JsonObject.class);
-
-                    // 섹션을 최상위 키로 추가 (중첩 구조 유지)
-                    combinedLang.add(section, sectionObject);
-                }
-
-            } catch (Exception e) {
-                LogUtil.error("Failed to load language resource " + resourcePath, e);
+            } catch (Exception ignored) {
             }
         }
-
-        // 메모리에 언어 데이터 저장
-        languageConfigs.put(langCode, combinedLang);
-        LogUtil.info("Loaded language '" + langCode + "' into memory");
+        configs.put(lang, combined);
     }
 
-    /**
-     * 캐시 초기화
-     */
-    private void initializeCache() {
-        for (String lang : languageConfigs.keySet()) {
-            messageCache.put(lang, new ConcurrentHashMap<>());
-            listCache.put(lang, new ConcurrentHashMap<>());
+    private static void collectKeys(@NotNull JsonObject obj, String prefix, Set<String> keys) {
+        for (Map.Entry<String, JsonElement> e : obj.entrySet()) {
+            String key = prefix.isEmpty() ? e.getKey() : prefix + "." + e.getKey();
+            if (e.getValue()
+                    .isJsonObject()) {
+                collectKeys(e.getValue()
+                        .getAsJsonObject(), key, keys);
+            } else {
+                keys.add(key);
+            }
         }
     }
 
-    /**
-     * 메시지 가져오기 (캐시 활용)
-     */
-    @NotNull
-    public String getMessage(@NotNull Player player, @NotNull String key, @NotNull String... placeholders) {
-        String lang = getPlayerLanguage(player);
-        return getMessage(lang, key, placeholders);
-    }
+    private static void loadData(String lang, String key, int idx) {
+        JsonElement elem = getJson(configs.get(lang), key);
+        if (elem == null) return;
 
-    /**
-     * 메시지 가져오기 (캐시 활용)
-     */
-    @NotNull
-    public String getMessage(@NotNull String language, @NotNull String key, @NotNull String... placeholders) {
-        // 캐시 확인
-        Map<String, String> langCache = messageCache.get(language);
-        String cachedMessage = langCache != null ? langCache.get(key) : null;
+        boolean isKO = lang.equals("ko_KR");
 
-        String message;
-        if (cachedMessage != null) {
-            message = cachedMessage;
+        if (elem.isJsonArray()) {
+            JsonArray arr = elem.getAsJsonArray();
+            Component[] list = new Component[arr.size()];
+            for (int i = 0; i < arr.size(); i++) {
+                String text = arr.get(i)
+                        .getAsString();
+                list[i] = parseComponent(text);
+                if (text.contains("{")) {
+                    if (isKO) rawKO[idx] = text;
+                    else rawEN[idx] = text;
+                }
+            }
+            if (isKO) listKO[idx] = list;
+            else listEN[idx] = list;
         } else {
-            message = getValueFromJson(language, key);
-            if (message == null) {
-                LogUtil.warning("Missing translation key: " + key + " (language: " + language + ")");
-                return key;
+            String text = elem.getAsString();
+            Component comp = parseComponent(text);
+            if (text.contains("{")) {
+                if (isKO) rawKO[idx] = text;
+                else rawEN[idx] = text;
             }
-
-            // 캐시에 저장
-            if (langCache != null && langCache.size() < MAX_CACHE_SIZE) {
-                langCache.put(key, message);
-            }
+            if (isKO) dataKO[idx] = comp;
+            else dataEN[idx] = comp;
         }
-
-        // 플레이스홀더 교체
-        String result = message;
-        for (int i = 0; i < placeholders.length; i += 2) {
-            if (i + 1 < placeholders.length) {
-                result = result.replace("{" + placeholders[i] + "}", placeholders[i + 1]);
-            }
-        }
-
-        return result;
     }
 
-    /**
-     * Component 메시지 가져오기
-     */
-    @NotNull
-    public Component getComponent(@NotNull Player player, @NotNull String key, @NotNull String... placeholders) {
-        String message = getMessage(player, key, placeholders);
-        return parseColorPlaceholders(message);
-    }
-
-    /**
-     * Component 메시지 가져오기
-     */
-    @NotNull
-    public Component getComponent(@NotNull String language, @NotNull String key, @NotNull String... placeholders) {
-        String message = getMessage(language, key, placeholders);
-        return parseColorPlaceholders(message);
-    }
-
-    /**
-     * Component 리스트 가져오기 (캐시 활용)
-     */
-    @NotNull
-    public List<Component> getComponentList(@NotNull Player player, @NotNull String key, @NotNull String... placeholders) {
-        String lang = getPlayerLanguage(player);
-        return getComponentList(lang, key, placeholders);
-    }
-
-    /**
-     * Component 리스트 가져오기 (캐시 활용)
-     */
-    @NotNull
-    public List<Component> getComponentList(@NotNull String language, @NotNull String key, @NotNull String... placeholders) {
-        // 리스트 캐시 확인
-        Map<String, List<String>> langListCache = listCache.get(language);
-        List<String> cachedList = langListCache != null ? langListCache.get(key) : null;
-
-        if (cachedList == null) {
-            JsonElement element = getElementFromJson(language, key);
-
-            if (element == null || !element.isJsonArray()) {
-                LogUtil.warning("Missing or invalid translation key list: " + key + " (language: " + language + ")");
-                return List.of(Component.text(key));
-            }
-
-            JsonArray jsonArray = element.getAsJsonArray();
-            cachedList = new ArrayList<>();
-
-            for (JsonElement arrayElement : jsonArray) {
-                if (arrayElement.isJsonPrimitive()) {
-                    cachedList.add(arrayElement.getAsString());
-                }
-            }
-
-            // 캐시에 저장
-            if (langListCache != null && langListCache.size() < MAX_CACHE_SIZE) {
-                langListCache.put(key, cachedList);
-            }
+    private static Component parseComponent(@NotNull String text) {
+        if (!text.contains("%COLOR_")) {
+            return Component.text(text);
         }
 
-        // 캐시된 리스트를 Component로 변환
-        List<Component> components = new ArrayList<>();
-        for (String message : cachedList) {
-            String result = message;
-            for (int i = 0; i < placeholders.length; i += 2) {
-                if (i + 1 < placeholders.length) {
-                    result = result.replace("{" + placeholders[i] + "}", placeholders[i + 1]);
-                }
-            }
-            components.add(parseColorPlaceholders(result));
-        }
-
-        return components;
-    }
-
-    /**
-     * JSON에서 값 가져오기
-     */
-    @Nullable
-    private String getValueFromJson(@NotNull String language, @NotNull String key) {
-        JsonElement element = getElementFromJson(language, key);
-        return element != null && element.isJsonPrimitive() ? element.getAsString() : null;
-    }
-
-    /**
-     * JSON에서 요소 가져오기 (폴백 로직 포함)
-     */
-    @Nullable
-    private JsonElement getElementFromJson(@NotNull String language, @NotNull String key) {
-        JsonElement element = navigateJsonPath(languageConfigs.get(language), key);
-
-        // 기본 언어로 폴백
-        if (element == null && !language.equals(defaultLanguage)) {
-            element = navigateJsonPath(languageConfigs.get(defaultLanguage), key);
-        }
-
-        // 영어로 최종 폴백
-        if (element == null && !language.equals("en_US")) {
-            element = navigateJsonPath(languageConfigs.get("en_US"), key);
-        }
-
-        return element;
-    }
-
-    /**
-     * JSON 경로 탐색 (점 표기법 사용)
-     */
-    @Nullable
-    private JsonElement navigateJsonPath(@Nullable JsonObject jsonObject, @NotNull String path) {
-        if (jsonObject == null) {
-            return null;
-        }
-
-        String[] parts = path.split("\\.");
-        JsonElement current = jsonObject;
-
-        for (String part : parts) {
-            if (current == null || !current.isJsonObject()) {
-                return null;
-            }
-            current = current.getAsJsonObject().get(part);
-        }
-
-        return current;
-    }
-
-    /**
-     * 색상 플레이스홀더 파싱
-     */
-    @NotNull
-    private Component parseColorPlaceholders(@NotNull String text) {
-        Matcher matcher = COLOR_PATTERN.matcher(text);
         TextComponent.Builder result = Component.text();
-        int lastEnd = 0;
-        TextColor currentColor = NamedTextColor.WHITE;
+        TextColor color = NamedTextColor.WHITE;
+        int pos = 0;
 
-        while (matcher.find()) {
-            // 매칭 이전 텍스트 추가
-            if (matcher.start() > lastEnd) {
-                String beforeText = text.substring(lastEnd, matcher.start());
-                if (!beforeText.isEmpty()) {
-                    result.append(Component.text(beforeText, currentColor));
-                }
+        while (pos < text.length()) {
+            int start = text.indexOf("%COLOR_", pos);
+            if (start == -1) {
+                result.append(Component.text(text.substring(pos), color));
+                break;
             }
 
-            // 색상 이름 추출
-            String colorName = matcher.group(1);
-            TextColor newColor = ColorUtil.fromName(colorName);
-
-            if (newColor != null) {
-                currentColor = newColor;
+            if (start > pos) {
+                result.append(Component.text(text.substring(pos, start), color));
             }
 
-            lastEnd = matcher.end();
-        }
+            int end = text.indexOf('%', start + 7);
+            if (end == -1) break;
 
-        // 나머지 텍스트 추가
-        if (lastEnd < text.length()) {
-            String remainingText = text.substring(lastEnd);
-            if (!remainingText.isEmpty()) {
-                result.append(Component.text(remainingText, currentColor));
-            }
+            TextColor newColor = ColorUtil.fromName(text.substring(start + 7, end));
+            if (newColor != null) color = newColor;
+            pos = end + 1;
         }
 
         return result.build();
     }
 
+    // 플레이스홀더 처리 헬퍼 메서드
+    @Contract(pure = true)
+    private static String processPlaceholders(@NotNull String raw, String @NotNull ... args) {
+        if (args.length == 0) return raw;
+
+        String result = raw;
+        for (int i = 0; i < args.length; i += 2) {
+            if (i + 1 < args.length) {
+                result = result.replace("{" + args[i] + "}", args[i + 1]);
+            }
+        }
+        return result;
+    }
+
+    // ========== 핵심 Static Component 반환 메서드들 ==========
+
     /**
-     * 플레이어 언어 가져오기 (player.locale() 사용)
+     * Player 기반 메시지 가져오기
      */
     @NotNull
-    public String getPlayerLanguage(@NotNull Player player) {
-        // 클라이언트 locale 실시간 감지
-        String clientLocale = player.locale().toString();
+    public static Component getMessage(@NotNull Player player, @NotNull String key, String... args) {
+        Integer idx = keyIndex.get(key);
+        if (idx == null) return Component.text(key);
 
-        // 언어 코드 추출 (예: ko_KR, en_US 등)
-        if (clientLocale.contains("_")) {
-            String langCode = clientLocale.substring(0, 2);
-            String countryCode = clientLocale.substring(3, 5).toUpperCase();
-            String fullCode = langCode + "_" + countryCode;
+        boolean ko = player.locale()
+                .getLanguage()
+                .equals("ko");
 
-            // 지원하는 언어인지 확인
-            if (languageConfigs.containsKey(fullCode)) {
-                return fullCode;
+        // 플레이스홀더 있으면 원본에서 처리
+        if (args.length > 0) {
+            String raw = ko ? rawKO[idx] : rawEN[idx];
+            if (raw != null) {
+                return parseComponent(processPlaceholders(raw, args));
             }
         }
 
-        // 언어 코드만으로 매칭 시도
-        String langCode = clientLocale.substring(0, 2).toLowerCase();
+        // 이미 파싱된 Component 반환
+        Component data = ko ? dataKO[idx] : dataEN[idx];
+        if (data != null) return data;
 
-        // 한국어 확인
-        if (langCode.equals("ko")) {
-            return "ko_KR";
-        }
-
-        // 영어 또는 기타 언어는 영어로
-        return "en_US";
+        Component[] list = ko ? listKO[idx] : listEN[idx];
+        return (list != null && list.length > 0) ? list[0] : Component.text(key);
     }
 
     /**
-     * 언어 파일 리로드
-     * 메모리 전용 버전이므로 리소스에서 다시 로드
+     * Player 기반 리스트 가져오기
      */
-    public void reload() {
-        languageConfigs.clear();
-        messageCache.clear();
-        listCache.clear();
+    @NotNull
+    public static List<Component> getList(@NotNull Player player, @NotNull String key) {
+        Integer idx = keyIndex.get(key);
+        if (idx == null) return List.of(Component.text(key));
+
+        boolean ko = player.locale()
+                .getLanguage()
+                .equals("ko");
+        Component[] list = ko ? listKO[idx] : listEN[idx];
+
+        if (list != null) return Arrays.asList(list);
+
+        Component single = ko ? dataKO[idx] : dataEN[idx];
+        return single != null ? List.of(single) : List.of(Component.text(key));
+    }
+
+    /**
+     * CommandSender용 메시지 가져오기 (콘솔 지원)
+     */
+    @NotNull
+    public static Component getComponent(@NotNull CommandSender sender, @NotNull String key, String... args) {
+        if (sender instanceof Player player) return getMessage(player, key, args);
+
+        // 콘솔은 영어로 기본 처리
+        Integer idx = keyIndex.get(key);
+        if (idx == null) return Component.text(key);
+
+        // 플레이스홀더 처리
+        if (args.length > 0) {
+            String raw = rawEN[idx];
+            if (raw != null) return parseComponent(processPlaceholders(raw, args));
+        }
+
+        Component data = dataEN[idx];
+        if (data != null) return data;
+
+        Component[] list = listEN[idx];
+        return (list != null && list.length > 0) ? list[0] : Component.text(key);
+    }
+
+    /**
+     * Player 기반 Component 리스트 가져오기 (레거시 호환)
+     */
+    @NotNull
+    public static List<Component> getComponentList(@NotNull Player player, @NotNull String key) {
+        return getList(player, key);
+    }
+
+
+    /**
+     * 리로드
+     */
+    public static void reload() {
+        configs.clear();
         loadLanguages();
-        LogUtil.info("Language system reloaded from resources");
     }
 
-    /**
-     * 사용 가능한 언어 목록
-     */
-    @NotNull
-    public Set<String> getAvailableLanguages() {
-        return Collections.unmodifiableSet(languageConfigs.keySet());
-    }
+    // ========== 내부 헬퍼 메서드 ==========
 
-    /**
-     * 언어 사용 가능 여부 확인
-     */
-    public boolean isLanguageAvailable(@NotNull String language) {
-        return languageConfigs.containsKey(language);
-    }
-
-    /**
-     * 기본 언어 가져오기
-     */
-    @NotNull
-    public String getDefaultLanguage() {
-        return defaultLanguage;
-    }
-
-    /**
-     * 기본 언어 설정
-     */
-    public void setDefaultLanguage(@NotNull String language) {
-        if (languageConfigs.containsKey(language)) {
-            this.defaultLanguage = language;
+    private static @Nullable JsonElement getJson(JsonObject obj, @NotNull String path) {
+        String[] parts = path.split("\\.");
+        JsonElement current = obj;
+        for (String part : parts) {
+            if (current == null || !current.isJsonObject()) return null;
+            current = current.getAsJsonObject()
+                    .get(part);
         }
+        return current;
     }
 
-    /**
-     * CommandSender용 메시지 가져오기 (Player가 아닌 경우 기본 언어 사용)
-     */
-    @NotNull
-    public String getMessage(@NotNull CommandSender sender, @NotNull String key, @NotNull String... placeholders) {
-        if (sender instanceof Player player) {
-            return getMessage(player, key, placeholders);
-        }
-        return getMessage(defaultLanguage, key, placeholders);
-    }
-    
-    /**
-     * CommandSender용 Component 메시지 가져오기 (Player가 아닌 경우 기본 언어 사용)
-     */
-    @NotNull
-    public Component getComponent(@NotNull CommandSender sender, @NotNull String key, @NotNull String... placeholders) {
-        if (sender instanceof Player player) {
-            return getComponent(player, key, placeholders);
-        }
-        return getComponent(defaultLanguage, key, placeholders);
-    }
-    
+    // ========== 추가 유틸리티 메서드 ==========
+
     /**
      * 플레이어에게 메시지 전송
      */
-    public void sendMessage(@NotNull Player player, @NotNull String key, @NotNull String... placeholders) {
-        Component message = getComponent(player, key, placeholders);
-        player.sendMessage(message);
+    public static void sendMessage(@NotNull Player player, @NotNull String key, String... args) {
+        player.sendMessage(getMessage(player, key, args));
     }
-    
+
     /**
      * CommandSender에게 메시지 전송
      */
-    public void sendMessage(@NotNull CommandSender sender, @NotNull String key, @NotNull String... placeholders) {
-        Component message = getComponent(sender, key, placeholders);
-        sender.sendMessage(message);
+    public static void sendMessage(@NotNull CommandSender sender, @NotNull String key, String... args) {
+        if (sender instanceof Player player) {
+            sendMessage(player, key, args);
+        } else {
+            sender.sendMessage(getComponent(sender, key, args));
+        }
     }
 
     /**
-     * 모든 플레이어에게 브로드캐스트
+     * Get plain text string from language key (static method)
+     *
+     * @param player player for locale
+     * @param key    language key
+     * @param args   arguments
+     * @return plain text string
      */
-    public void broadcast(@NotNull String key, @NotNull String... placeholders) {
-        plugin.getServer().getOnlinePlayers().forEach(player ->
-                sendMessage(player, key, placeholders));
-    }
-
-    /**
-     * 캐시 통계 가져오기 (디버깅용)
-     */
-    public Map<String, Integer> getCacheStats() {
-        Map<String, Integer> stats = new HashMap<>();
-        messageCache.forEach((lang, cache) ->
-                stats.put(lang + "_messages", cache.size()));
-        listCache.forEach((lang, cache) ->
-                stats.put(lang + "_lists", cache.size()));
-        return stats;
-    }
-
-    /**
-     * 캐시 초기화
-     */
-    public void clearCache() {
-        messageCache.values().forEach(Map::clear);
-        listCache.values().forEach(Map::clear);
+    public static @NotNull String getString(@NotNull Player player, @NotNull String key, String... args) {
+        Component comp = getMessage(player, key, args);
+        return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                .serialize(comp);
     }
 }
