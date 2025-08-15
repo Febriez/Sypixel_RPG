@@ -1,6 +1,7 @@
 package com.febrie.rpg.quest.objective.impl;
 
 import com.febrie.rpg.quest.objective.BaseObjective;
+import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.quest.objective.ObjectiveType;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -73,7 +74,7 @@ public class VisitLocationObjective extends BaseObjective {
 
         // WorldGuard 플러그인 확인
         if (Bukkit.getPluginManager().getPlugin("WorldGuard") == null) {
-            com.febrie.rpg.util.LogUtil.error("[WorldGuard] Plugin is not loaded when creating VisitLocationObjective for region: " + regionName);
+            LogUtil.error("[WorldGuard] Plugin is not loaded when creating VisitLocationObjective for region: " + regionName);
             throw new IllegalStateException("WorldGuard plugin is not loaded");
         }
     }

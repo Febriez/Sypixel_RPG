@@ -16,10 +16,12 @@ import com.febrie.rpg.quest.registry.QuestRegistry;
 import com.febrie.rpg.quest.reward.MixedReward;
 import com.febrie.rpg.quest.reward.QuestReward;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.quest.service.QuestProgressService;
 import com.febrie.rpg.quest.task.LocationCheckTask;
+import com.febrie.rpg.quest.util.QuestUtil;
 import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
-import com.febrie.rpg.util.ToastUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -54,6 +56,7 @@ public class QuestManager {
 
     // 플레이어별 퀘스트 데이터 캐시 (진행도 관리)
     private final Map<UUID, PlayerQuestData> playerDataCache = new ConcurrentHashMap<>();
+    private QuestProgressService progressService;
 
     // 저장 대기열
     private final Set<UUID> pendingSaves = ConcurrentHashMap.newKeySet();
@@ -61,7 +64,45 @@ public class QuestManager {
     // 지역 방문 체크 태스크
     private LocationCheckTask locationCheckTask;
     private BukkitTask locationCheckScheduler;
+    
+    // NPC 상호작용 목표 인덱스 (NPC ID -> 퀘스트 목표 참조)
+    private final Map<String, Set<NPCObjectiveRef>> npcObjectiveIndex = new ConcurrentHashMap<>();
+    
+    // 플레이어별 활성 NPC 목표 캐시 (플레이어 UUID -> NPC ID -> 퀘스트 인스턴스 ID)
+    private final Map<UUID, Map<String, Set<String>>> playerNPCObjectives = new ConcurrentHashMap<>();
 
+    /**
+     * NPC 목표 참조 클래스
+     */
+    public static class NPCObjectiveRef {
+        public final String questInstanceId;
+        public final String objectiveId;
+        public final QuestID questId;
+        public final UUID playerId;
+        
+        public NPCObjectiveRef(String questInstanceId, String objectiveId, QuestID questId, UUID playerId) {
+            this.questInstanceId = questInstanceId;
+            this.objectiveId = objectiveId;
+            this.questId = questId;
+            this.playerId = playerId;
+        }
+        
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            NPCObjectiveRef that = (NPCObjectiveRef) o;
+            return Objects.equals(questInstanceId, that.questInstanceId) &&
+                   Objects.equals(objectiveId, that.objectiveId) &&
+                   Objects.equals(playerId, that.playerId);
+        }
+        
+        @Override
+        public int hashCode() {
+            return Objects.hash(questInstanceId, objectiveId, playerId);
+        }
+    }
+    
     /**
      * 플레이어별 퀘스트 데이터 (진행도 포함)
      */
@@ -69,7 +110,7 @@ public class QuestManager {
         private final Map<String, ActiveQuestDTO> activeQuests = new ConcurrentHashMap<>();
         private final Map<String, CompletedQuestDTO> completedQuests = new ConcurrentHashMap<>();
         private final Map<String, ClaimedQuestDTO> claimedQuests = new ConcurrentHashMap<>();
-        private long lastUpdated;
+        private long lastUpdated; // long (primitive)
 
         PlayerQuestData() {
             this.lastUpdated = System.currentTimeMillis();
@@ -85,6 +126,9 @@ public class QuestManager {
 
         // 모든 퀘스트 초기화
         initializeQuests();
+        
+        // Progress Service 초기화
+        this.progressService = new QuestProgressService(plugin);
     }
 
     /**
@@ -185,6 +229,23 @@ public class QuestManager {
     }
 
     /**
+     * QuestProgressService 반환
+     */
+    public QuestProgressService getProgressService() {
+        return progressService;
+    }
+    
+    /**
+     * 활성 퀘스트 업데이트 (QuestProgressService에서 호출)
+     */
+    public void updateActiveQuest(@NotNull UUID playerId, @NotNull String instanceId, @NotNull ActiveQuestDTO updatedData) {
+        PlayerQuestData playerData = getPlayerData(playerId);
+        playerData.activeQuests.put(instanceId, updatedData);
+        playerData.lastUpdated = System.currentTimeMillis();
+        markForSave(playerId);
+    }
+    
+    /**
      * 플레이어의 활성 퀘스트 목록
      */
     @NotNull
@@ -275,8 +336,8 @@ public class QuestManager {
             return false;
         }
 
-        // 시작 조건 확인
-        if (!quest.canStart(playerId)) {
+        // 시작 조건 확인 - Player 객체는 이미 매개변수로 전달됨
+        if (!quest.canStart(player)) {
             return false;
         }
 
@@ -313,19 +374,15 @@ public class QuestManager {
         playerData.activeQuests.put(quest.getInstanceId(), activeData);
         playerData.lastUpdated = System.currentTimeMillis();
 
+        // NPC 목표 인덱스 등록
+        registerNPCObjectives(playerId, quest.getInstanceId(), quest);
+        
         // 저장 예약
         markForSave(playerId);
 
 
         // 퀘스트 시작 알림
-        ToastUtil.showQuestProgressToast(player, quest, progress);
-
-        // 채팅 메시지
-        boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
-        player.sendMessage(Component.text(plugin.getLangManager().getMessage(player, "quest.started"), ColorUtil.GOLD).append(Component.text(quest.getDisplayName(isKorean), ColorUtil.RARE)));
-
-        // 소리 재생
-        SoundUtil.playOpenSound(player);
+        QuestUtil.notifyQuestStart(player, quest, progress, plugin);
 
         return true;
     }
@@ -377,15 +434,8 @@ public class QuestManager {
 
                             // 목표 완료 체크
                             if (objective.isComplete(objProgress)) {
-                                // 토스트 알림 표시
-                                ToastUtil.showQuestProgressToast(player, quest, questProgress);
-
-                                // 채팅 메시지
-                                boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
-                                player.sendMessage(Component.text("✓ " + quest.getObjectiveDescription(objective, isKorean), ColorUtil.SUCCESS));
-
-                                // 소리 재생
-                                SoundUtil.playSuccessSound(player);
+                                // 목표 완료 알림
+                                QuestUtil.notifyObjectiveComplete(player, quest, questProgress, objective, plugin);
 
                                 // 순차 진행인 경우 다음 목표로
                                 if (quest.isSequential()) {
@@ -411,7 +461,7 @@ public class QuestManager {
             
             // 퀘스트 완료 체크
             if (isQuestComplete(quest, questProgress)) {
-                completeQuest(player, instanceId, playerData.activeQuests.get(instanceId), questProgress);
+                completeQuest(player, instanceId);
                 dataChanged = true;
             }
         }
@@ -423,6 +473,39 @@ public class QuestManager {
     }
 
     /**
+     * 퀘스트 취소
+     */
+    public boolean cancelQuest(@NotNull UUID playerId, @NotNull String instanceId) {
+        PlayerQuestData playerData = getPlayerData(playerId);
+        ActiveQuestDTO activeData = playerData.activeQuests.get(instanceId);
+        
+        if (activeData == null) {
+            return false;
+        }
+        
+        try {
+            QuestID questId = QuestID.valueOf(activeData.questId());
+            Quest quest = getQuest(questId);
+            
+            // 퀘스트 제거
+            playerData.activeQuests.remove(instanceId);
+            
+            // NPC 인덱스 정리
+            if (quest != null) {
+                unregisterNPCObjectives(playerId, instanceId, quest);
+            }
+            
+            // 저장 예약
+            markForSave(playerId);
+            
+            return true;
+        } catch (IllegalArgumentException e) {
+            plugin.getLogger().warning("잘못된 퀘스트 ID로 취소 시도: " + activeData.questId());
+            return false;
+        }
+    }
+    
+    /**
      * 퀘스트 완료 여부 확인
      */
     private boolean isQuestComplete(@NotNull Quest quest, @NotNull QuestProgress progress) {
@@ -430,16 +513,28 @@ public class QuestManager {
     }
 
     /**
-     * 퀘스트 완료 처리
+     * 퀘스트 완료 처리 (QuestProgressService에서 호출)
      */
-    private void completeQuest(@NotNull Player player, @NotNull String instanceId, 
-                              @NotNull ActiveQuestDTO activeData, @NotNull QuestProgress progress) {
+    public void completeQuest(@NotNull Player player, @NotNull String instanceId) {
         UUID playerId = player.getUniqueId();
         PlayerQuestData playerData = getPlayerData(playerId);
+        ActiveQuestDTO activeData = playerData.activeQuests.get(instanceId);
+        if (activeData == null) return;
+        
+        // ActiveQuestDTO에서 QuestProgress 생성
+        Map<String, ObjectiveProgress> progressMap = new HashMap<>();
+        activeData.progress().forEach((key, value) -> progressMap.put(key, ObjectiveProgress.from(value, playerId)));
+        QuestProgress progress = new QuestProgress(QuestID.valueOf(activeData.questId()), playerId, progressMap);
         QuestID questId = QuestID.valueOf(activeData.questId());
 
         // 진행중 목록에서 제거
         playerData.activeQuests.remove(instanceId);
+        
+        // NPC 목표 인덱스 제거
+        Quest quest = getQuest(questId);
+        if (quest != null) {
+            unregisterNPCObjectives(playerId, instanceId, quest);
+        }
 
         // 총 완료 횟수 계산
         int totalCompletions = QuestManagerHelper.getTotalCompletionCount(
@@ -447,7 +542,6 @@ public class QuestManager {
         int newCompletionCount = totalCompletions + 1;
         
         // 보상 아이템 개수 확인
-        Quest quest = getQuest(questId);
         int totalItemCount = 0;
         if (quest != null && quest.getReward() instanceof com.febrie.rpg.quest.reward.impl.BasicReward basicReward) {
             totalItemCount = basicReward.getItems().size();
@@ -468,18 +562,8 @@ public class QuestManager {
         markForSave(playerId);
         
         if (quest != null) {
-            // 토스트 알림 표시
-            ToastUtil.showQuestProgressToast(player, quest, progress);
-
-            // 채팅 메시지
-            boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
-            player.sendMessage(Component.text("🎉 ", ColorUtil.GOLD)
-                    .append(Component.text(quest.getDisplayName(isKorean), ColorUtil.LEGENDARY))
-                    .append(Component.text(plugin.getLangManager().getMessage(player, "quest.completed"), ColorUtil.SUCCESS)));
-            player.sendMessage(Component.text(plugin.getLangManager().getMessage(player, "quest.reward-npc-visit"), ColorUtil.INFO));
-
-            // 소리 재생 (퀘스트 완료 사운드)
-            SoundUtil.playCompleteQuestSound(player);
+            // 퀘스트 완료 알림
+            QuestUtil.notifyQuestComplete(player, quest, progress, plugin);
         }
 
         progress.complete();
@@ -499,22 +583,19 @@ public class QuestManager {
             PlayerQuestData data = new PlayerQuestData();
 
             // 활성 퀘스트 변환
-            dto.activeQuests().forEach((instanceId, activeData) -> {
-                data.activeQuests.put(instanceId, activeData);
-            });
+            data.activeQuests.putAll(dto.activeQuests());
 
             // 완료된 퀘스트 변환 (보상 미수령)
-            dto.completedQuests().forEach((instanceId, completedData) -> {
-                data.completedQuests.put(instanceId, completedData);
-            });
+            data.completedQuests.putAll(dto.completedQuests());
 
             // 보상 수령 완료 퀘스트 변환
-            dto.claimedQuests().forEach((instanceId, claimedData) -> {
-                data.claimedQuests.put(instanceId, claimedData);
-            });
+            data.claimedQuests.putAll(dto.claimedQuests());
 
             data.lastUpdated = dto.lastUpdated();
             playerDataCache.put(playerId, data);
+            
+            // 활성 퀘스트의 NPC 목표 인덱스 재구성
+            rebuildNPCIndexForPlayer(playerId, data);
 
             plugin.getLogger().info("퀘스트 데이터 로드 완료 [" + playerId + "]: " + 
                 "활성 퀘스트 " + data.activeQuests.size() + "개, " + 
@@ -527,6 +608,39 @@ public class QuestManager {
         });
     }
 
+    /**
+     * 플레이어 데이터 언로드 (로그아웃 시)
+     */
+    public void unloadPlayerData(@NotNull UUID playerId) {
+        // 데이터 저장
+        if (pendingSaves.contains(playerId)) {
+            savePlayerData(playerId);
+        }
+        
+        // NPC 인덱스 정리
+        cleanupPlayerNPCIndex(playerId);
+        
+        // 캐시에서 제거
+        playerDataCache.remove(playerId);
+        pendingSaves.remove(playerId);
+    }
+    
+    /**
+     * 플레이어의 NPC 인덱스 정리
+     */
+    private void cleanupPlayerNPCIndex(@NotNull UUID playerId) {
+        // 플레이어별 NPC 목표 캐시 제거
+        playerNPCObjectives.remove(playerId);
+        
+        // 전체 NPC 인덱스에서 해당 플레이어 참조 제거
+        npcObjectiveIndex.values().forEach(refs -> 
+            refs.removeIf(ref -> ref.playerId.equals(playerId))
+        );
+        
+        // 빈 인덱스 제거
+        npcObjectiveIndex.entrySet().removeIf(entry -> entry.getValue().isEmpty());
+    }
+    
     /**
      * PlayerQuestData를 PlayerQuestDTO로 변환
      */
@@ -614,7 +728,7 @@ public class QuestManager {
             // 퀘스트 완료 처리
             Player player = Bukkit.getPlayer(playerId);
             if (player != null) {
-                completeQuest(player, instanceId, activeData, progress);
+                completeQuest(player, instanceId);
                 return true;
             }
         }
@@ -649,6 +763,16 @@ public class QuestManager {
         locationCheckScheduler = Bukkit.getScheduler().runTaskTimer(plugin, locationCheckTask, 60L, 60L);
     }
 
+    /**
+     * 플레이어 퇴장 시 캐시 정리
+     */
+    public void clearPlayerCache(@NotNull UUID playerId) {
+        // LocationCheckTask 캐시 정리
+        if (locationCheckTask != null) {
+            locationCheckTask.clearPlayerCache(playerId);
+        }
+    }
+    
     /**
      * 매니저 종료
      */
@@ -698,9 +822,11 @@ public class QuestManager {
             plugin.getLogger().severe("퀘스트 데이터 저장 중 오류 발생: " + e.getMessage());
         }
 
-        // 캐시 정리
+        // 캐시 및 인덱스 정리
         playerDataCache.clear();
         pendingSaves.clear();
+        npcObjectiveIndex.clear();
+        playerNPCObjectives.clear();
 
         plugin.getLogger().info("QuestManager 종료 완료.");
     }
@@ -878,88 +1004,240 @@ public class QuestManager {
     }
     
     /**
-     * NPC 상호작용 처리
+     * 퀘스트 진행도 업데이트 (내부용)
      */
-    public void handleNPCInteraction(@NotNull Player player, @NotNull String instanceId, @NotNull String npcId) {
-        PlayerQuestData playerData = getPlayerData(player.getUniqueId());
+    void updateQuestProgress(@NotNull UUID playerId, @NotNull String instanceId, @NotNull QuestProgress progress) {
+        PlayerQuestData playerData = getPlayerData(playerId);
         ActiveQuestDTO activeData = playerData.activeQuests.get(instanceId);
         
-        if (activeData == null) return;
+        if (activeData == null) {
+            return;
+        }
         
-        Quest quest = getQuest(QuestID.valueOf(activeData.questId()));
-        if (quest == null) return;
+        // QuestProgress를 ActiveQuestDTO로 변환하여 저장
+        ActiveQuestDTO updatedData = ActiveQuestDTO.create(
+            activeData.questId(),
+            instanceId,
+            progress.getObjectives()
+        );
         
-        // DTO에서 QuestProgress 복원
-        Map<String, ObjectiveProgress> progressMap = new HashMap<>();
-        activeData.progress().forEach((key, value) -> progressMap.put(key, ObjectiveProgress.from(value, player.getUniqueId())));
-        QuestProgress progress = new QuestProgress(QuestID.valueOf(activeData.questId()), player.getUniqueId(), progressMap);
-        boolean dataChanged = false;
+        playerData.activeQuests.put(instanceId, updatedData);
+        playerData.lastUpdated = System.currentTimeMillis();
+    }
+    
+    /**
+     * NPC 목표 인덱스 등록 (퀘스트 시작 시)
+     */
+    private void registerNPCObjectives(@NotNull UUID playerId, @NotNull String instanceId, @NotNull Quest quest) {
+        for (QuestObjective objective : quest.getObjectives()) {
+            if (objective instanceof com.febrie.rpg.quest.objective.impl.InteractNPCObjective npcObjective) {
+                String npcId = npcObjective.getNpcId();
+                
+                // NPC 전체 인덱스에 추가
+                NPCObjectiveRef ref = new NPCObjectiveRef(instanceId, objective.getId(), quest.getId(), playerId);
+                npcObjectiveIndex.computeIfAbsent(npcId, k -> ConcurrentHashMap.newKeySet()).add(ref);
+                
+                // 플레이어별 NPC 목표 캐시에 추가
+                playerNPCObjectives.computeIfAbsent(playerId, k -> new ConcurrentHashMap<>())
+                    .computeIfAbsent(npcId, k -> ConcurrentHashMap.newKeySet())
+                    .add(instanceId);
+            }
+        }
+    }
+    
+    /**
+     * 플레이어의 NPC 인덱스 재구성 (데이터 로드 시)
+     */
+    private void rebuildNPCIndexForPlayer(@NotNull UUID playerId, @NotNull PlayerQuestData data) {
+        // 기존 플레이어 인덱스 정리
+        playerNPCObjectives.remove(playerId);
         
-        // 순차 진행인 경우 현재 목표만, 자유 진행인 경우 모든 미완료 목표 확인
+        // 플레이어의 모든 활성 퀘스트 인덱싱
+        for (Map.Entry<String, ActiveQuestDTO> entry : data.activeQuests.entrySet()) {
+            String instanceId = entry.getKey();
+            ActiveQuestDTO activeData = entry.getValue();
+            
+            try {
+                QuestID questId = QuestID.valueOf(activeData.questId());
+                Quest quest = getQuest(questId);
+                if (quest != null) {
+                    registerNPCObjectives(playerId, instanceId, quest);
+                }
+            } catch (IllegalArgumentException e) {
+                plugin.getLogger().warning("잘못된 퀘스트 ID: " + activeData.questId());
+            }
+        }
+    }
+    
+    /**
+     * NPC 목표 인덱스 제거 (퀘스트 완료/취소 시)
+     */
+    private void unregisterNPCObjectives(@NotNull UUID playerId, @NotNull String instanceId, @NotNull Quest quest) {
+        for (QuestObjective objective : quest.getObjectives()) {
+            if (objective instanceof com.febrie.rpg.quest.objective.impl.InteractNPCObjective npcObjective) {
+                String npcId = npcObjective.getNpcId();
+                
+                // NPC 전체 인덱스에서 제거
+                Set<NPCObjectiveRef> refs = npcObjectiveIndex.get(npcId);
+                if (refs != null) {
+                    refs.removeIf(ref -> ref.questInstanceId.equals(instanceId) && ref.playerId.equals(playerId));
+                    if (refs.isEmpty()) {
+                        npcObjectiveIndex.remove(npcId);
+                    }
+                }
+                
+                // 플레이어별 NPC 목표 캐시에서 제거
+                Map<String, Set<String>> playerNPCs = playerNPCObjectives.get(playerId);
+                if (playerNPCs != null) {
+                    Set<String> instances = playerNPCs.get(npcId);
+                    if (instances != null) {
+                        instances.remove(instanceId);
+                        if (instances.isEmpty()) {
+                            playerNPCs.remove(npcId);
+                        }
+                    }
+                    if (playerNPCs.isEmpty()) {
+                        playerNPCObjectives.remove(playerId);
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * NPC 상호작용 처리 (최적화 버전)
+     */
+    public void handleNPCInteraction(@NotNull Player player, @NotNull String npcId) {
+        UUID playerId = player.getUniqueId();
+        
+        // 플레이어의 해당 NPC 관련 퀘스트 직접 조회 (O(1))
+        Map<String, Set<String>> playerNPCs = playerNPCObjectives.get(playerId);
+        if (playerNPCs == null) return;
+        
+        Set<String> relatedInstances = playerNPCs.get(npcId);
+        if (relatedInstances == null || relatedInstances.isEmpty()) return;
+        
+        PlayerQuestData playerData = getPlayerData(playerId);
+        boolean anyProgressMade = false;
+        
+        // 관련된 모든 퀘스트 처리
+        for (String instanceId : new ArrayList<>(relatedInstances)) {
+            ActiveQuestDTO activeData = playerData.activeQuests.get(instanceId);
+            if (activeData == null) continue;
+            
+            Quest quest = getQuest(QuestID.valueOf(activeData.questId()));
+            if (quest == null) continue;
+            
+            // QuestProgress 복원
+            Map<String, ObjectiveProgress> progressMap = new HashMap<>();
+            activeData.progress().forEach((key, value) -> 
+                progressMap.put(key, ObjectiveProgress.from(value, playerId)));
+            QuestProgress progress = new QuestProgress(QuestID.valueOf(activeData.questId()), playerId, progressMap);
+            
+            // 해당 NPC와 관련된 목표 처리
+            boolean questProgressMade = processNPCObjectives(player, quest, progress, npcId, instanceId);
+            
+            if (questProgressMade) {
+                anyProgressMade = true;
+                
+                // 진행도를 DTO로 다시 변환하여 저장
+                playerData.activeQuests.put(instanceId, ActiveQuestDTO.create(
+                    activeData.questId(),
+                    instanceId,
+                    progress.getObjectives()
+                ));
+            }
+        }
+        
+        if (anyProgressMade) {
+            playerData.lastUpdated = System.currentTimeMillis();
+            markForSave(playerId);
+        }
+    }
+    
+    /**
+     * NPC 관련 목표 처리 (내부 메서드)
+     */
+    private boolean processNPCObjectives(@NotNull Player player, @NotNull Quest quest, 
+                                        @NotNull QuestProgress progress, @NotNull String npcId,
+                                        @NotNull String instanceId) {
+        boolean progressMade = false;
+        
+        // 순차/자유 진행 모드 확인
         List<QuestObjective> objectivesToCheck = new ArrayList<>();
         
         if (quest.isSequential()) {
-            // 순차 진행 - 현재 목표만
-            int currentObjectiveIndex = progress.getCurrentObjectiveIndex();
-            if (currentObjectiveIndex < quest.getObjectives().size()) {
-                QuestObjective currentObj = quest.getObjectives().get(currentObjectiveIndex);
-                objectivesToCheck.add(currentObj);
+            int currentIndex = progress.getCurrentObjectiveIndex();
+            if (currentIndex < quest.getObjectives().size()) {
+                objectivesToCheck.add(quest.getObjectives().get(currentIndex));
             }
         } else {
             // 자유 진행 - 모든 미완료 목표
-            for (QuestObjective objective : quest.getObjectives()) {
-                ObjectiveProgress objProgress = progress.getObjective(objective.getId());
+            for (QuestObjective obj : quest.getObjectives()) {
+                ObjectiveProgress objProgress = progress.getObjective(obj.getId());
                 if (objProgress != null && !objProgress.isCompleted()) {
-                    objectivesToCheck.add(objective);
+                    objectivesToCheck.add(obj);
                 }
             }
         }
         
-        // 각 목표 확인
+        // NPC 목표 처리
         for (QuestObjective objective : objectivesToCheck) {
-            if (objective instanceof com.febrie.rpg.quest.objective.impl.InteractNPCObjective interactObjective) {
-                String targetNpcId = interactObjective.getNpcId();
-                
-                if (targetNpcId != null && targetNpcId.equals(npcId)) {
+            if (objective instanceof com.febrie.rpg.quest.objective.impl.InteractNPCObjective npcObjective) {
+                if (npcObjective.getNpcId().equals(npcId)) {
                     ObjectiveProgress objProgress = progress.getObjective(objective.getId());
                     if (objProgress != null && !objProgress.isCompleted()) {
-                        // 목표 진행도 증가
+                        // 진행도 증가
                         objProgress.increment(1);
-                        dataChanged = true;
+                        progressMade = true;
                         
-                        // 목표 완료 체크
+                        // 완료 체크
                         if (objProgress.isCompleted()) {
-                            // 목표 완료 알림
-                            boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
-                            player.sendMessage(Component.text("✓ ", ColorUtil.SUCCESS)
-                                    .append(Component.text(quest.getObjectiveDescription(objective, isKorean), ColorUtil.SUCCESS)));
-                            SoundUtil.playSuccessSound(player);
-                            
-                            // 순차 진행인 경우 다음 목표로
-                            if (quest.isSequential()) {
-                                progress.setCurrentObjectiveIndex(progress.getCurrentObjectiveIndex() + 1);
-                            }
-                            
-                            // 퀘스트 완료 체크
-                            checkQuestCompletion(player.getUniqueId(), instanceId);
+                            handleObjectiveCompletion(player, quest, objective, progress, instanceId);
                         } else {
                             // 진행도 알림
-                            boolean isKorean = plugin.getLangManager().getPlayerLanguage(player).startsWith("ko");
-                            String progressMsg = isKorean ? "퀘스트 진행: " : "Quest Progress: ";
-                            player.sendMessage(Component.text(progressMsg, ColorUtil.INFO)
-                                    .append(Component.text(quest.getObjectiveDescription(objective, isKorean) + " " + objective.getProgressString(objProgress), ColorUtil.YELLOW)));
-                            SoundUtil.playClickSound(player);
+                            notifyObjectiveProgress(player, quest, objective, objProgress);
                         }
-                        
-                        break;
                     }
                 }
             }
         }
         
-        if (dataChanged) {
-            markForSave(player.getUniqueId());
+        return progressMade;
+    }
+    
+    /**
+     * 목표 완료 처리
+     */
+    private void handleObjectiveCompletion(@NotNull Player player, @NotNull Quest quest, 
+                                          @NotNull QuestObjective objective, @NotNull QuestProgress progress,
+                                          @NotNull String instanceId) {
+        // 완료 알림
+        player.sendMessage(Component.text("✓ ", ColorUtil.SUCCESS)
+            .append(quest.getObjectiveDescription(objective, player).color(ColorUtil.SUCCESS)));
+        SoundUtil.playSuccessSound(player);
+        
+        // 순차 진행인 경우 다음 목표로
+        if (quest.isSequential()) {
+            progress.setCurrentObjectiveIndex(progress.getCurrentObjectiveIndex() + 1);
         }
+        
+        // 퀘스트 전체 완료 체크
+        checkQuestCompletion(player.getUniqueId(), instanceId);
+    }
+    
+    /**
+     * 목표 진행도 알림
+     */
+    private void notifyObjectiveProgress(@NotNull Player player, @NotNull Quest quest,
+                                        @NotNull QuestObjective objective, @NotNull ObjectiveProgress progress) {
+        Component progressMsg = LangManager.getMessage(player, "quest.progress");
+        
+        player.sendMessage(progressMsg.color(ColorUtil.INFO)
+            .append(Component.text(": ", ColorUtil.INFO))
+            .append(quest.getObjectiveDescription(objective, player).color(ColorUtil.YELLOW))
+            .append(Component.text(" " + objective.getProgressString(progress), ColorUtil.YELLOW)));
+        SoundUtil.playClickSound(player);
     }
     
     /**
