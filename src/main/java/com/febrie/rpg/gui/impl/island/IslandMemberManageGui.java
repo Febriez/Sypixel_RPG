@@ -5,6 +5,8 @@ import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.dto.island.IslandMemberDTO;
 import com.febrie.rpg.dto.island.IslandWorkerDTO;
 import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.ColorUtil;
@@ -29,8 +31,8 @@ import java.util.stream.Collectors;
  */
 public class IslandMemberManageGui extends BaseGui {
     
+    private final RPGMain plugin;
     private final IslandManager islandManager;
-    private final Player viewer;
     private final IslandDTO island;
     private final String targetUuid;
     private final boolean isOwner;
@@ -42,11 +44,11 @@ public class IslandMemberManageGui extends BaseGui {
     private final boolean targetIsCoOwner;
     private final boolean targetIsWorker;
     
-    private IslandMemberManageGui(@NotNull RPGMain plugin, @NotNull Player viewer,
-                                  @NotNull IslandDTO island, @NotNull String targetUuid) {
-        super(plugin, 45); // 5줄 GUI
+    private IslandMemberManageGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
+                                  @NotNull RPGMain plugin, @NotNull IslandDTO island, @NotNull String targetUuid) {
+        super(viewer, guiManager, 45, "&9&l멤버 관리"); // 5줄 GUI
+        this.plugin = plugin;
         this.islandManager = plugin.getIslandManager();
-        this.viewer = viewer;
         this.island = island;
         this.targetUuid = targetUuid;
         this.isOwner = island.ownerUuid().equals(viewer.getUniqueId().toString());
@@ -85,47 +87,55 @@ public class IslandMemberManageGui extends BaseGui {
      */
     public static IslandMemberManageGui create(@NotNull RPGMain plugin, @NotNull Player viewer,
                                               @NotNull IslandDTO island, @NotNull String targetUuid) {
-        IslandMemberManageGui gui = new IslandMemberManageGui(plugin, viewer, island, targetUuid);
-        return BaseGui.create(gui, ColorUtil.parseComponent("&9&l멤버 관리: " + gui.targetName));
+        return new IslandMemberManageGui(viewer, plugin.getGuiManager(), plugin, island, targetUuid);
     }
     
     @Override
-    protected void setupItems() {
+    protected void setupLayout() {
         fillBorder(Material.BLUE_STAINED_GLASS_PANE);
         
         // 멤버 정보
-        setItem(13, createMemberInfoItem());
+        setItem(13, new GuiItem(createMemberInfoItem()));
         
         // 관리 옵션들
         if (canManageMember()) {
             if (!targetIsWorker) {
                 // 멤버 역할 변경
                 if (targetIsCoOwner) {
-                    setItem(20, createDemoteItem()); // 부섬장 → 일반 멤버
+                    setItem(20, new GuiItem(createDemoteItem()).onAnyClick(this::handleDemote)); // 부섬장 → 일반 멤버
                 } else {
-                    setItem(20, createPromoteItem()); // 일반 멤버 → 부섬장
+                    setItem(20, new GuiItem(createPromoteItem()).onAnyClick(this::handlePromote)); // 일반 멤버 → 부섬장
                 }
                 
-                setItem(22, createToWorkerItem()); // 알바생으로 변경
+                setItem(22, new GuiItem(createToWorkerItem()).onAnyClick(this::handleMemberToWorker)); // 알바생으로 변경
             } else {
                 // 알바생 → 멤버로 승급
-                setItem(21, createToMemberItem());
+                setItem(21, new GuiItem(createToMemberItem()).onAnyClick(this::handleWorkerToMember));
             }
             
             // 추방
-            setItem(24, createKickItem());
+            setItem(24, new GuiItem(createKickItem()).onAnyClick(this::handleKick));
             
             // 권한 설정
             if (!targetIsWorker) {
-                setItem(30, createPermissionItem());
+                setItem(30, new GuiItem(createPermissionItem()).onAnyClick(player -> 
+                    player.sendMessage(ColorUtil.colorize("&c개별 권한 설정은 아직 구현되지 않았습니다."))));
             }
         } else {
             // 권한 없음 안내
-            setItem(22, createNoPermissionItem());
+            setItem(22, new GuiItem(createNoPermissionItem()));
         }
         
         // 뒤로가기
-        setItem(40, createBackButton());
+        setItem(40, new GuiItem(createBackButton()).onAnyClick(player -> {
+            player.closeInventory();
+            IslandMemberGui.create(plugin.getGuiManager(), viewer, island).open(viewer);
+        }));
+    }
+    
+    @Override
+    public String getBackTarget() {
+        return "island_members";
     }
     
     private ItemStack createMemberInfoItem() {
@@ -241,45 +251,8 @@ public class IslandMemberManageGui extends BaseGui {
     }
     
     @Override
-    protected void handleClick(InventoryClickEvent event) {
+    public void onClick(InventoryClickEvent event) {
         event.setCancelled(true);
-        
-        if (!(event.getWhoClicked() instanceof Player player)) return;
-        
-        if (!canManageMember()) {
-            player.sendMessage(ColorUtil.colorize("&c이 멤버를 관리할 권한이 없습니다."));
-            return;
-        }
-        
-        int slot = event.getSlot();
-        
-        switch (slot) {
-            case 20 -> {
-                if (!targetIsWorker) {
-                    if (targetIsCoOwner) {
-                        handleDemote(player);
-                    } else {
-                        handlePromote(player);
-                    }
-                }
-            }
-            case 21 -> {
-                if (targetIsWorker) {
-                    handleWorkerToMember(player);
-                }
-            }
-            case 22 -> {
-                if (!targetIsWorker) {
-                    handleMemberToWorker(player);
-                }
-            }
-            case 24 -> handleKick(player);
-            case 30 -> player.sendMessage(ColorUtil.colorize("&c개별 권한 설정은 아직 구현되지 않았습니다."));
-            case 40 -> {
-                player.closeInventory();
-                IslandMemberGui.create(plugin.getGuiManager(), viewer, island).open(viewer);
-            }
-        }
     }
     
     private boolean canManageMember() {
@@ -309,7 +282,7 @@ public class IslandMemberManageGui extends BaseGui {
         updateIslandMembers(updatedMembers, island.workers());
         
         player.sendMessage(ColorUtil.colorize("&a" + targetName + "님을 부섬장으로 승급시켰습니다!"));
-        refresh();
+        setupLayout();
     }
     
     private void handleDemote(Player player) {
@@ -329,7 +302,7 @@ public class IslandMemberManageGui extends BaseGui {
         updateIslandMembers(updatedMembers, island.workers());
         
         player.sendMessage(ColorUtil.colorize("&e" + targetName + "님을 일반 멤버로 강등시켰습니다."));
-        refresh();
+        setupLayout();
     }
     
     private void handleMemberToWorker(Player player) {

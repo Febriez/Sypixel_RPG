@@ -3,6 +3,8 @@ package com.febrie.rpg.gui.impl.island;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
@@ -26,21 +28,21 @@ import java.util.*;
  */
 public class IslandContributeGui extends BaseGui {
     
+    private final RPGMain plugin;
     private final IslandManager islandManager;
     private final RPGPlayerManager playerManager;
-    private final Player viewer;
     private final IslandDTO island;
     private final RPGPlayer rpgPlayer;
     
     // 빠른 기여 금액 옵션
     private static final int[] QUICK_AMOUNTS = {1000, 5000, 10000, 50000, 100000, 500000};
     
-    private IslandContributeGui(@NotNull RPGMain plugin, @NotNull Player viewer,
-                               @NotNull IslandDTO island) {
-        super(plugin, 36); // 4줄 GUI
+    private IslandContributeGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
+                               @NotNull RPGMain plugin, @NotNull IslandDTO island) {
+        super(viewer, guiManager, 36, "&6&l섬 기여하기"); // 4줄 GUI
+        this.plugin = plugin;
         this.islandManager = plugin.getIslandManager();
         this.playerManager = plugin.getRPGPlayerManager();
-        this.viewer = viewer;
         this.island = island;
         this.rpgPlayer = playerManager.getPlayer(viewer);
     }
@@ -50,28 +52,39 @@ public class IslandContributeGui extends BaseGui {
      */
     public static IslandContributeGui create(@NotNull RPGMain plugin, @NotNull Player viewer,
                                             @NotNull IslandDTO island) {
-        IslandContributeGui gui = new IslandContributeGui(plugin, viewer, island);
-        return BaseGui.create(gui, ColorUtil.parseComponent("&6&l섬 기여하기"));
+        return new IslandContributeGui(viewer, plugin.getGuiManager(), plugin, island);
     }
     
     @Override
-    protected void setupItems() {
+    protected void setupLayout() {
         fillBorder(Material.YELLOW_STAINED_GLASS_PANE);
         
         // 현재 보유 골드 정보
-        setItem(4, createGoldInfoItem());
+        setItem(4, new GuiItem(createGoldInfoItem()));
         
         // 빠른 기여 옵션들
         int[] slots = {11, 12, 13, 14, 15, 16};
         for (int i = 0; i < QUICK_AMOUNTS.length && i < slots.length; i++) {
-            setItem(slots[i], createQuickContributeItem(QUICK_AMOUNTS[i]));
+            final int amount = QUICK_AMOUNTS[i];
+            setItem(slots[i], new GuiItem(createQuickContributeItem(amount))
+                    .onAnyClick(player -> contributeGold(player, amount)));
         }
         
         // 사용자 지정 금액
-        setItem(22, createCustomAmountItem());
+        setItem(22, new GuiItem(createCustomAmountItem())
+                .onAnyClick(this::openCustomAmountInput));
         
         // 뒤로가기
-        setItem(31, createBackButton());
+        setItem(31, new GuiItem(createBackButton())
+                .onAnyClick(player -> {
+                    player.closeInventory();
+                    IslandMainGui.create(plugin.getGuiManager(), viewer, island).open(viewer);
+                }));
+    }
+    
+    @Override
+    public String getBackTarget() {
+        return "island_main";
     }
     
     private ItemStack createGoldInfoItem() {
@@ -145,37 +158,11 @@ public class IslandContributeGui extends BaseGui {
     }
     
     @Override
-    protected void handleClick(InventoryClickEvent event) {
+    public void onClick(InventoryClickEvent event) {
         event.setCancelled(true);
-        
-        if (!(event.getWhoClicked() instanceof Player player)) return;
-        
-        int slot = event.getSlot();
-        
-        // 뒤로가기
-        if (slot == 31) {
-            player.closeInventory();
-            IslandContributionGui.create(plugin, viewer, island, 1).open(viewer);
-            return;
-        }
-        
-        // 사용자 지정 금액
-        if (slot == 22) {
-            handleCustomAmount(player);
-            return;
-        }
-        
-        // 빠른 기여 옵션
-        int[] slots = {11, 12, 13, 14, 15, 16};
-        for (int i = 0; i < slots.length && i < QUICK_AMOUNTS.length; i++) {
-            if (slot == slots[i]) {
-                handleContribution(player, QUICK_AMOUNTS[i]);
-                break;
-            }
-        }
     }
     
-    private void handleCustomAmount(Player player) {
+    private void openCustomAmountInput(Player player) {
         new AnvilGUI.Builder()
                 .onClick((slot, stateSnapshot) -> {
                     if (slot != AnvilGUI.Slot.OUTPUT) {
@@ -194,7 +181,7 @@ public class IslandContributeGui extends BaseGui {
                         
                         // GUI 닫고 기여 처리
                         plugin.getServer().getScheduler().runTask(plugin, () -> {
-                            handleContribution(player, amount);
+                            contributeGold(player, amount);
                         });
                         
                     } catch (NumberFormatException e) {
@@ -209,7 +196,7 @@ public class IslandContributeGui extends BaseGui {
                 .open(player);
     }
     
-    private void handleContribution(Player player, int amount) {
+    private void contributeGold(Player player, int amount) {
         if (rpgPlayer == null) {
             player.sendMessage(ColorUtil.colorize("&c플레이어 데이터를 찾을 수 없습니다."));
             return;

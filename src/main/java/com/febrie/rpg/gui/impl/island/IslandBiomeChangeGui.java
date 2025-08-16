@@ -98,47 +98,47 @@ public class IslandBiomeChangeGui extends BaseGui {
         
         // 타이가
         setItem(14, createBiomeItem(Biome.TAIGA, Material.SPRUCE_LOG, 
-                "타이가", "침엽수가 자라는 추운 숲").getItemStack());
+                "타이가", "침엽수가 자라는 추운 숲"));
         
         // 눈 덮인 평원
         setItem(15, createBiomeItem(Biome.SNOWY_PLAINS, Material.SNOW_BLOCK, 
-                "설원", "눈으로 덮인 차가운 평원").getItemStack());
+                "설원", "눈으로 덮인 차가운 평원"));
         
         // 사바나
         setItem(16, createBiomeItem(Biome.SAVANNA, Material.ACACIA_LOG, 
-                "사바나", "아카시아 나무가 자라는 건조한 평원").getItemStack());
+                "사바나", "아카시아 나무가 자라는 건조한 평원"));
         
         // 늪
         setItem(19, createBiomeItem(Biome.SWAMP, Material.LILY_PAD, 
-                "늪", "습하고 어두운 늪지대").getItemStack());
+                "늪", "습하고 어두운 늪지대"));
         
         // 버섯 들판
         setItem(20, createBiomeItem(Biome.MUSHROOM_FIELDS, Material.RED_MUSHROOM_BLOCK, 
-                "버섯 들판", "거대한 버섯이 자라는 특별한 지형").getItemStack());
+                "버섯 들판", "거대한 버섯이 자라는 특별한 지형"));
         
         // 해변
         setItem(21, createBiomeItem(Biome.BEACH, Material.SAND, 
-                "해변", "모래로 덮인 해안가").getItemStack());
+                "해변", "모래로 덮인 해안가"));
         
         // 꽃 숲
         setItem(22, createBiomeItem(Biome.FLOWER_FOREST, Material.ROSE_BUSH, 
-                "꽃 숲", "다양한 꽃이 피는 아름다운 숲").getItemStack());
+                "꽃 숲", "다양한 꽃이 피는 아름다운 숲"));
         
         // 대나무 정글
         setItem(23, createBiomeItem(Biome.BAMBOO_JUNGLE, Material.BAMBOO, 
-                "대나무 정글", "대나무가 무성한 정글").getItemStack());
+                "대나무 정글", "대나무가 무성한 정글"));
         
         // 어두운 숲
         setItem(24, createBiomeItem(Biome.DARK_FOREST, Material.DARK_OAK_LOG, 
-                "어두운 숲", "빛이 잘 들지 않는 울창한 숲").getItemStack());
+                "어두운 숲", "빛이 잘 들지 않는 울창한 숲"));
         
         // 자작나무 숲
         setItem(25, createBiomeItem(Biome.BIRCH_FOREST, Material.BIRCH_LOG, 
-                "자작나무 숲", "자작나무로 가득한 밝은 숲").getItemStack());
+                "자작나무 숲", "자작나무로 가득한 밝은 숲"));
         
         // 메사
         setItem(28, createBiomeItem(Biome.BADLANDS, Material.TERRACOTTA, 
-                "악지", "붉은 점토로 이루어진 협곡 지형").getItemStack());
+                "악지", "붉은 점토로 이루어진 협곡 지형"));
     }
     
     private GuiItem createBiomeItem(Biome biome, Material material, String name, String description) {
@@ -148,7 +148,7 @@ public class IslandBiomeChangeGui extends BaseGui {
         
         boolean isCurrentBiome = currentBiome == biome;
         
-        return GuiItem.clickable(
+        return new GuiItem(
             new ItemBuilder(material)
                 .displayName(Component.text(name, isCurrentBiome ? ColorUtil.LEGENDARY : ColorUtil.YELLOW))
                 .lore(Arrays.asList(
@@ -159,16 +159,15 @@ public class IslandBiomeChangeGui extends BaseGui {
                         Component.text("✓ 현재 바이옴", ColorUtil.GREEN) :
                         Component.text("▶ 클릭하여 변경", ColorUtil.YELLOW)
                 ))
-                .build(),
-            player -> {
-                if (!isCurrentBiome) {
-                    changeBiome(player, biome, name);
-                } else {
-                    player.sendMessage(ColorUtil.colorize("&e이미 선택된 바이옴입니다."));
-                }
-                SoundUtil.playClickSound(player);
+                .build()
+        ).onAnyClick(player -> {
+            if (!isCurrentBiome) {
+                changeBiome(player, biome, name);
+            } else {
+                player.sendMessage(ColorUtil.colorize("&e이미 선택된 바이옴입니다."));
             }
-        );
+            SoundUtil.playClickSound(player);
+        });
     }
     
     private void changeBiome(Player player, Biome biome, String biomeName) {
@@ -218,7 +217,15 @@ public class IslandBiomeChangeGui extends BaseGui {
             currentBiomeName = translateBiomeName(biome);
         }
         
-        return GuiItem.empty();
+        return new GuiItem(
+            new ItemBuilder(Material.COMPASS)
+                .displayName(Component.text("현재 바이옴: " + currentBiomeName, ColorUtil.AQUA))
+                .lore(Arrays.asList(
+                    Component.empty(),
+                    Component.text("섬의 현재 바이옴 설정입니다", ColorUtil.GRAY)
+                ))
+                .build()
+        );
     }
     
     private String translateBiomeName(Biome biome) {
@@ -242,11 +249,12 @@ public class IslandBiomeChangeGui extends BaseGui {
     
     
     private GuiItem createBackButton() {
-        return GuiItem.clickable(
+        return new GuiItem(
             new ItemBuilder(Material.ARROW)
                 .displayName(Component.text("뒤로가기", ColorUtil.YELLOW))
                 .lore(List.of(Component.text("섬 관리 메뉴로 돌아갑니다", ColorUtil.GRAY)))
-                .build(),
+                .build()
+        ).onAnyClick(
             player -> {
                 player.closeInventory();
                 IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
@@ -256,7 +264,7 @@ public class IslandBiomeChangeGui extends BaseGui {
     }
     
     @Override
-    protected void handleClick(InventoryClickEvent event) {
+    public void onClick(InventoryClickEvent event) {
         event.setCancelled(true);
     }
 }
