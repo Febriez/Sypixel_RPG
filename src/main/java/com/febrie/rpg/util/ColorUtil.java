@@ -3,410 +3,83 @@ package com.febrie.rpg.util;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 /**
- * 확장된 색상 유틸리티 클래스
- * NamedTextColor에 없는 커스텀 색상 제공 및 fromName 메소드 추가
- *
+ * 색상 유틸리티 클래스 (레거시 호환성)
+ * 모든 기능은 UnifiedColorUtil로 리다이렉트됩니다.
+ * 
+ * @deprecated Use {@link UnifiedColorUtil} instead
  * @author Febrie, CoffeeTory
  */
+@Deprecated
 public final class ColorUtil {
-
+    
     private ColorUtil() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
-
-    // === 기존 NamedTextColor 색상 ===
-    public static final TextColor AQUA = NamedTextColor.AQUA;
-    public static final TextColor DARK_AQUA = NamedTextColor.DARK_AQUA;
+    
+    // === 색상 상수 (UnifiedColorUtil로 리다이렉트) ===
+    public static final TextColor AQUA = UnifiedColorUtil.AQUA;
     public static final TextColor BLACK = NamedTextColor.BLACK;
-    public static final TextColor GOLD = NamedTextColor.GOLD;
-    public static final TextColor BLUE = NamedTextColor.BLUE;
+    public static final TextColor GOLD = UnifiedColorUtil.GOLD;
+    public static final TextColor BLUE = UnifiedColorUtil.BLUE;
     public static final TextColor DARK_BLUE = NamedTextColor.DARK_BLUE;
     public static final TextColor DARK_GRAY = NamedTextColor.DARK_GRAY;
-    public static final TextColor DARK_GREEN = NamedTextColor.DARK_GREEN;
-    public static final TextColor DARK_PURPLE = NamedTextColor.DARK_PURPLE;
+    public static final TextColor DARK_GREEN = UnifiedColorUtil.DARK_GREEN;
+    public static final TextColor DARK_PURPLE = UnifiedColorUtil.DARK_PURPLE;
     public static final TextColor DARK_RED = NamedTextColor.DARK_RED;
-    public static final TextColor GRAY = NamedTextColor.GRAY;
-    public static final TextColor GREEN = NamedTextColor.GREEN;
-    public static final TextColor LIGHT_PURPLE = NamedTextColor.LIGHT_PURPLE;
-    public static final TextColor RED = NamedTextColor.RED;
-    public static final TextColor WHITE = NamedTextColor.WHITE;
-    public static final TextColor YELLOW = NamedTextColor.YELLOW;
-
-    // === 기본 확장 색상 ===
-    public static final TextColor ORANGE = TextColor.color(255, 165, 0);
-    public static final TextColor PINK = TextColor.color(255, 192, 203);
-    public static final TextColor BROWN = TextColor.color(139, 69, 19);
-    public static final TextColor PURPLE = TextColor.color(147, 0, 211);
-    public static final TextColor LIME = TextColor.color(50, 205, 50);
-    public static final TextColor CYAN = TextColor.color(0, 255, 255);
-
-    // === RPG 테마 색상 ===
-    public static final TextColor LEGENDARY = TextColor.color(255, 215, 0);
-    public static final TextColor EPIC = TextColor.color(163, 53, 238);
-    public static final TextColor RARE = TextColor.color(0, 112, 221);
-    public static final TextColor UNCOMMON = TextColor.color(30, 255, 0);
-    public static final TextColor COMMON = TextColor.color(157, 157, 157);
-    public static final TextColor MYTHIC = TextColor.color(255, 20, 147); // Deep Pink
-
-    // === 상태 색상 ===
-    public static final TextColor SUCCESS = TextColor.color(34, 139, 34);
-    public static final TextColor WARNING = TextColor.color(255, 140, 0);
-    public static final TextColor ERROR = TextColor.color(220, 20, 60);
-    public static final TextColor INFO = TextColor.color(30, 144, 255);
-
-    // === UI 색상 ===
-    public static final TextColor MANA = TextColor.color(52, 152, 219);
-    public static final TextColor HEALTH = TextColor.color(231, 76, 60);
-    public static final TextColor EXPERIENCE = TextColor.color(241, 196, 15);
-    public static final TextColor COINS = TextColor.color(255, 215, 0);
-    public static final TextColor GUI_TITLE = TextColor.color(66, 151, 255); // #4297FF
-    public static final TextColor PRIMARY = TextColor.color(66, 151, 255); // #4297FF
-
-    // === 추가 색상 ===
-    public static final TextColor LIGHT_GRAY = TextColor.color(192, 192, 192);
-
-    // === 재료 색상 ===
-    public static final TextColor DIAMOND = TextColor.color(185, 242, 255); // #B9F2FF
-    public static final TextColor NETHERITE = TextColor.color(68, 58, 69); // #443A45
-    public static final TextColor COPPER = TextColor.color(184, 115, 51); // #B87333
-    public static final TextColor EMERALD = TextColor.color(80, 200, 120); // #50C878
-    public static final TextColor IRON = TextColor.color(176, 176, 176); // #B0B0B0
-
-
-    // 색상 캐시 (성능 최적화)
-    private static final Map<String, TextColor> COLOR_CACHE = new HashMap<>();
-
-    static {
-        // ColorUtil 색상 캐싱
-        Field[] fields = ColorUtil.class.getDeclaredFields();
-        for (Field field : fields) {
-            if (Modifier.isStatic(field.getModifiers()) &&
-                    Modifier.isFinal(field.getModifiers()) &&
-                    field.getType().equals(TextColor.class)) {
-                try {
-                    TextColor color = (TextColor) field.get(null);
-                    COLOR_CACHE.put(field.getName().toUpperCase(), color);
-                } catch (IllegalAccessException e) {
-                    // 무시
-                }
-            }
-        }
-
-        // NamedTextColor 색상 캐싱
-        // Adventure API의 모든 명명된 색상을 직접 추가
-        for (NamedTextColor namedColor : new NamedTextColor[]{
-                NamedTextColor.BLACK, NamedTextColor.DARK_BLUE, NamedTextColor.DARK_GREEN,
-                NamedTextColor.DARK_AQUA, NamedTextColor.DARK_RED, NamedTextColor.DARK_PURPLE,
-                NamedTextColor.GOLD, NamedTextColor.GRAY, NamedTextColor.DARK_GRAY,
-                NamedTextColor.BLUE, NamedTextColor.GREEN, NamedTextColor.AQUA,
-                NamedTextColor.RED, NamedTextColor.LIGHT_PURPLE, NamedTextColor.YELLOW,
-                NamedTextColor.WHITE
-        }) {
-            COLOR_CACHE.put(namedColor.toString().toUpperCase(), namedColor);
-        }
-    }
-
-    /**
-     * 이름으로 색상 가져오기 (LangManager에서 사용)
-     *
-     * @param colorName 색상 이름 (대소문자 구분 없음)
-     * @return TextColor 또는 null
-     */
-    @Nullable
-    public static TextColor fromName(@NotNull String colorName) {
-        return COLOR_CACHE.get(colorName.toUpperCase().replace(" ", "_"));
-    }
-
-    /**
-     * HEX 코드로 색상 생성
-     *
-     * @param hex HEX 색상 코드 (# 제외)
-     * @return TextColor
-     */
-    @NotNull
-    public static TextColor fromHex(@NotNull String hex) {
-        if (hex.startsWith("#")) {
-            hex = hex.substring(1);
-        }
-
-        if (hex.length() != 6) {
-            throw new IllegalArgumentException("Hex color must be 6 characters long");
-        }
-
-        try {
-            int color = Integer.parseInt(hex, 16);
-            return TextColor.color(color);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Invalid hex color: " + hex, e);
-        }
-    }
-
-    /**
-     * 두 색상 간의 그라디언트 색상 생성
-     *
-     * @param start 시작 색상
-     * @param end   끝 색상
-     * @param ratio 비율 (0.0 = 시작, 1.0 = 끝)
-     * @return 보간된 색상
-     */
-    @NotNull
-    public static TextColor gradient(@NotNull TextColor start, @NotNull TextColor end, double ratio) {
-        ratio = Math.max(0.0, Math.min(1.0, ratio));
-
-        int startRed = start.red();
-        int startGreen = start.green();
-        int startBlue = start.blue();
-
-        int endRed = end.red();
-        int endGreen = end.green();
-        int endBlue = end.blue();
-
-        int red = (int) (startRed + (endRed - startRed) * ratio);
-        int green = (int) (startGreen + (endGreen - startGreen) * ratio);
-        int blue = (int) (startBlue + (endBlue - startBlue) * ratio);
-
-        return TextColor.color(red, green, blue);
-    }
-
-    /**
-     * 레어도에 따른 색상 가져오기
-     *
-     * @param rarity 레어도 레벨 (0 = 일반, 4 = 전설)
-     * @return 적절한 레어도 색상
-     */
-    @NotNull
-    public static TextColor rarityColor(int rarity) {
-        return switch (rarity) {
-            case 1 -> UNCOMMON;
-            case 2 -> RARE;
-            case 3 -> EPIC;
-            case 4 -> LEGENDARY;
-            default -> COMMON;
-        };
-    }
+    public static final TextColor GRAY = UnifiedColorUtil.GRAY;
+    public static final TextColor GREEN = UnifiedColorUtil.GREEN;
+    public static final TextColor LIGHT_PURPLE = UnifiedColorUtil.LIGHT_PURPLE;
+    public static final TextColor RED = UnifiedColorUtil.RED;
+    public static final TextColor WHITE = UnifiedColorUtil.WHITE;
+    public static final TextColor YELLOW = UnifiedColorUtil.YELLOW;
+    
+    // 특수 색상
+    public static final TextColor LEGENDARY = UnifiedColorUtil.LEGENDARY;
+    public static final TextColor EPIC = NamedTextColor.DARK_PURPLE;
+    public static final TextColor RARE = NamedTextColor.BLUE;
+    public static final TextColor UNCOMMON = NamedTextColor.GREEN;
+    public static final TextColor COMMON = NamedTextColor.GRAY;
     
     /**
-     * Hex 색상 코드를 TextColor로 변환
-     *
-     * @param hex Hex 색상 코드 (예: "#FF0000" 또는 "FF0000")
-     * @return 변환된 TextColor
-     */
-    @NotNull
-    public static TextColor parseHexColor(@NotNull String hex) {
-        // # 제거
-        if (hex.startsWith("#")) {
-            hex = hex.substring(1);
-        }
-        
-        // 유효성 검사
-        if (hex.length() != 6) {
-            throw new IllegalArgumentException("Invalid hex color: " + hex);
-        }
-        
-        try {
-            int rgb = Integer.parseInt(hex, 16);
-            int red = (rgb >> 16) & 0xFF;
-            int green = (rgb >> 8) & 0xFF;
-            int blue = rgb & 0xFF;
-            return TextColor.color(red, green, blue);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Invalid hex color: " + hex, e);
-        }
-    }
-
-    /**
-     * 체력 비율에 따른 색상 가져오기
-     *
-     * @param healthPercent 체력 비율 (0.0 - 1.0)
-     * @return 빨간색(낮음)에서 초록색(높음)까지의 색상
-     */
-    @NotNull
-    public static TextColor healthColor(double healthPercent) {
-        healthPercent = Math.max(0.0, Math.min(1.0, healthPercent));
-
-        if (healthPercent > 0.6) {
-            // 초록색에서 노란색으로 전환
-            return gradient(TextColor.color(255, 255, 0), TextColor.color(0, 255, 0),
-                    (healthPercent - 0.6) / 0.4);
-        } else if (healthPercent > 0.3) {
-            // 노란색에서 주황색으로 전환
-            return gradient(TextColor.color(255, 165, 0), TextColor.color(255, 255, 0),
-                    (healthPercent - 0.3) / 0.3);
-        } else {
-            // 빨간색에서 주황색으로 전환
-            return gradient(TextColor.color(255, 0, 0), TextColor.color(255, 165, 0),
-                    healthPercent / 0.3);
-        }
-    }
-
-    /**
-     * 사용 가능한 모든 색상 이름 가져오기
-     *
-     * @return 색상 이름 집합
-     */
-    @NotNull
-    public static Set<String> getAvailableColorNames() {
-        return COLOR_CACHE.keySet();
-    }
-
-    /**
-     * RGB 값으로 색상 생성
-     *
-     * @param red   빨간색 (0-255)
-     * @param green 초록색 (0-255)
-     * @param blue  파란색 (0-255)
-     * @return TextColor
-     */
-    @NotNull
-    public static TextColor rgb(int red, int green, int blue) {
-        return TextColor.color(
-                Math.max(0, Math.min(255, red)),
-                Math.max(0, Math.min(255, green)),
-                Math.max(0, Math.min(255, blue))
-        );
-    }
-
-    /**
-     * Legacy color codes를 적절한 형식으로 변환
-     * & 기호를 사용한 색상 코드를 처리합니다.
-     * 
-     * 이 메소드는 String을 반환하지만, 내부적으로 Component 변환을 거쳐
-     * 올바른 색상 포맷팅을 보장합니다.
-     *
-     * @param text 변환할 텍스트 (예: "&a안녕하세요 &c테스트")
-     * @return 색상이 적용된 문자열
-     */
-    @NotNull
-    public static String colorize(@NotNull String text) {
-        // Legacy serializer를 사용하여 정확한 변환
-        Component component = LegacyComponentSerializer.legacyAmpersand().deserialize(text);
-        return LegacyComponentSerializer.legacySection().serialize(component);
-    }
-    
-    /**
-     * Legacy color codes를 Component로 변환
-     * & 기호를 사용한 색상 코드를 Adventure Component로 변환합니다.
-     *
-     * @param text 변환할 텍스트 (예: "&a안녕하세요 &c테스트")
-     * @return 색상이 적용된 Component
-     */
-    @NotNull
-    public static Component colorizeToComponent(@NotNull String text) {
-        return LegacyComponentSerializer.legacyAmpersand().deserialize(text);
-    }
-    
-    /**
-     * Legacy color codes를 Component로 변환 (parseComponent alias)
-     * & 기호를 사용한 색상 코드를 Adventure Component로 변환합니다.
-     *
-     * @param text 변환할 텍스트 (예: "&a안녕하세요 &c테스트")
-     * @return 색상이 적용된 Component
+     * 레거시 색상 코드를 Component로 변환
      */
     @NotNull
     public static Component parseComponent(@NotNull String text) {
-        return colorizeToComponent(text);
+        return UnifiedColorUtil.parseComponent(text);
     }
-
+    
     /**
-     * Legacy color codes를 String으로 변환 (레거시 용도)
-     * & 기호를 사용한 색상 코드를 § 기호로 변환합니다.
-     *
-     * @param text 변환할 텍스트 (예: "&a안녕하세요 &c테스트")
-     * @return 색상이 적용된 문자열 (§ 기호 사용)
+     * 색상 코드를 문자열로 변환
      */
     @NotNull
-    public static String translateColorCodes(@NotNull String text) {
-        // & 기호를 § 기호로 직접 변환
-        return text.replace('&', '§');
+    public static String colorize(@NotNull String text) {
+        return UnifiedColorUtil.colorize(text);
     }
-
+    
     /**
-     * 색상을 밝게 만들기
-     *
-     * @param color  원본 색상
-     * @param factor 밝기 계수 (1.0 이상)
-     * @return 밝아진 색상
+     * Component 생성
      */
     @NotNull
-    public static TextColor brighten(@NotNull TextColor color, float factor) {
-        factor = Math.max(1.0f, factor);
-
-        int red = (int) Math.min(255, color.red() * factor);
-        int green = (int) Math.min(255, color.green() * factor);
-        int blue = (int) Math.min(255, color.blue() * factor);
-
-        return TextColor.color(red, green, blue);
+    public static Component parse(@NotNull String text) {
+        return UnifiedColorUtil.parse(text);
     }
-
+    
     /**
-     * 색상을 어둡게 만들기
-     *
-     * @param color  원본 색상
-     * @param factor 어둡기 계수 (0.0 - 1.0)
-     * @return 어두워진 색상
+     * 텍스트 컴포넌트 생성
      */
     @NotNull
-    public static TextColor darken(@NotNull TextColor color, float factor) {
-        factor = Math.max(0.0f, Math.min(1.0f, factor));
-
-        int red = (int) (color.red() * factor);
-        int green = (int) (color.green() * factor);
-        int blue = (int) (color.blue() * factor);
-
-        return TextColor.color(red, green, blue);
+    public static Component text(@NotNull String text) {
+        return UnifiedColorUtil.text(text);
     }
-
+    
     /**
-     * 색상의 보색 가져오기
-     *
-     * @param color 원본 색상
-     * @return 보색
+     * 색상이 적용된 텍스트 컴포넌트 생성
      */
     @NotNull
-    public static TextColor complement(@NotNull TextColor color) {
-        return TextColor.color(
-                255 - color.red(),
-                255 - color.green(),
-                255 - color.blue()
-        );
-    }
-
-    /**
-     * HEX 색상 코드를 포함한 텍스트 변환
-     * & 기호와 HEX 색상 코드 (#RRGGBB)를 모두 지원합니다.
-     *
-     * @param text 변환할 텍스트 (예: "&#FF5555테스트 &a성공")
-     * @return 색상이 적용된 문자열
-     */
-    @NotNull
-    public static String colorizeHex(@NotNull String text) {
-        // HEX 색상 패턴 처리
-        java.util.regex.Pattern hexPattern = java.util.regex.Pattern.compile("&#([A-Fa-f0-9]{6})");
-        java.util.regex.Matcher matcher = hexPattern.matcher(text);
-        
-        StringBuffer buffer = new StringBuffer();
-        while (matcher.find()) {
-            String hex = matcher.group(1);
-            String replacement = "§x";
-            for (char c : hex.toCharArray()) {
-                replacement += "§" + c;
-            }
-            matcher.appendReplacement(buffer, replacement);
-        }
-        matcher.appendTail(buffer);
-        
-        // 일반 색상 코드 처리
-        return buffer.toString().replace('&', '§');
+    public static Component text(@NotNull String text, @NotNull TextColor color) {
+        return UnifiedColorUtil.text(text, color);
     }
 }

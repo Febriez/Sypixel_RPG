@@ -4,6 +4,7 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
@@ -27,17 +28,17 @@ import java.util.*;
  */
 public class IslandPersonalSpawnGui extends BaseGui {
     
+    private final RPGMain plugin;
     private final IslandManager islandManager;
-    private final Player viewer;
     private final IslandDTO island;
     private final boolean isOwner;
     private final boolean isMember;
     
-    private IslandPersonalSpawnGui(@NotNull RPGMain plugin, @NotNull Player viewer, 
-                                  @NotNull IslandDTO island) {
-        super(plugin, 54);
+    private IslandPersonalSpawnGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
+                                  @NotNull RPGMain plugin, @NotNull IslandDTO island) {
+        super(viewer, guiManager, 54, "개인 스폰 관리");
+        this.plugin = plugin;
         this.islandManager = plugin.getIslandManager();
-        this.viewer = viewer;
         this.island = island;
         
         String playerUuid = viewer.getUniqueId().toString();
@@ -51,34 +52,43 @@ public class IslandPersonalSpawnGui extends BaseGui {
      */
     public static IslandPersonalSpawnGui create(@NotNull RPGMain plugin, @NotNull Player viewer, 
                                                @NotNull IslandDTO island) {
-        IslandPersonalSpawnGui gui = new IslandPersonalSpawnGui(plugin, viewer, island);
-        return BaseGui.create(gui, Component.text("개인 스폰 관리", ColorUtil.YELLOW));
+        return new IslandPersonalSpawnGui(viewer, plugin.getGuiManager(), plugin, island);
     }
     
     @Override
-    protected void setupItems() {
+    protected void setupLayout() {
         fillBorder(Material.CYAN_STAINED_GLASS_PANE);
         
         if (!isOwner && !isMember) {
             // 권한 없음
-            setItem(22, createNoPermissionItem().getItemStack());
+            setItem(22, createNoPermissionItem());
         } else {
             // 현재 개인 스폰 정보
-            setItem(13, createCurrentPersonalSpawnInfo().getItemStack());
+            setItem(13, createCurrentPersonalSpawnInfo());
             
             // 개인 스폰 설정 옵션
-            setItem(20, createSetPersonalSpawnItem().getItemStack());
-            setItem(22, createTeleportToPersonalSpawnItem().getItemStack());
-            setItem(24, createRemovePersonalSpawnItem().getItemStack());
+            setItem(20, createSetPersonalSpawnItem());
+            setItem(22, createTeleportToPersonalSpawnItem());
+            setItem(24, createRemovePersonalSpawnItem());
             
             if (isOwner) {
                 // 섬장 전용: 섬원들의 개인 스폰 관리
-                setItem(31, createManageMemberSpawnsItem().getItemStack());
+                setItem(31, createManageMemberSpawnsItem());
             }
         }
         
         // 뒤로가기
-        setItem(49, createBackButton().getItemStack());
+        setItem(49, createBackButton());
+    }
+    
+    @Override
+    public String getBackTarget() {
+        return "island_spawn_settings";
+    }
+    
+    @Override
+    public void onClick(InventoryClickEvent event) {
+        event.setCancelled(true);
     }
     
     private GuiItem createCurrentPersonalSpawnInfo() {

@@ -4,6 +4,8 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.dto.island.IslandSettingsDTO;
 import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
@@ -28,8 +30,8 @@ import java.util.Collections;
  */
 public class IslandSettingsGui extends BaseGui {
     
+    private final RPGMain plugin;
     private final IslandManager islandManager;
-    private final Player viewer;
     private final IslandDTO island;
     private final boolean isOwner;
     
@@ -38,11 +40,11 @@ public class IslandSettingsGui extends BaseGui {
     private boolean tempIsPublic;
     private String tempBiome;
     
-    private IslandSettingsGui(@NotNull RPGMain plugin, @NotNull Player viewer, 
-                             @NotNull IslandDTO island) {
-        super(plugin, 54);
+    private IslandSettingsGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
+                             @NotNull RPGMain plugin, @NotNull IslandDTO island) {
+        super(viewer, guiManager, 54, "&9&l섬 설정");
+        this.plugin = plugin;
         this.islandManager = plugin.getIslandManager();
-        this.viewer = viewer;
         this.island = island;
         this.isOwner = island.ownerUuid().equals(viewer.getUniqueId().toString());
         
@@ -57,30 +59,42 @@ public class IslandSettingsGui extends BaseGui {
      */
     public static IslandSettingsGui create(@NotNull RPGMain plugin, @NotNull Player viewer, 
                                           @NotNull IslandDTO island) {
-        IslandSettingsGui gui = new IslandSettingsGui(plugin, viewer, island);
-        return BaseGui.create(gui, ColorUtil.parseComponent("&9&l섬 설정"));
+        return new IslandSettingsGui(viewer, plugin.getGuiManager(), plugin, island);
     }
     
     @Override
-    protected void setupItems() {
+    protected void setupLayout() {
         fillBorder(Material.BLUE_STAINED_GLASS_PANE);
         
         // 섬 정보
-        setItem(4, createIslandInfoItem());
+        setItem(4, new GuiItem(createIslandInfoItem()));
         
         // 설정 옵션들
-        setItem(20, createNameChangeItem());
-        setItem(22, createPublicToggleItem());
-        setItem(24, createBiomeChangeItem());
+        setItem(20, new GuiItem(createNameChangeItem()).onAnyClick(this::handleNameChange));
+        setItem(22, new GuiItem(createPublicToggleItem()).onAnyClick(this::handlePublicToggle));
+        setItem(24, new GuiItem(createBiomeChangeItem()).onAnyClick(this::handleBiomeChange));
         
         // 섬 삭제 (섬장만)
         if (isOwner) {
-            setItem(40, createDeleteIslandItem());
+            setItem(40, new GuiItem(createDeleteIslandItem()).onAnyClick(this::handleDeleteIsland));
         }
         
         // 저장 및 취소
-        setItem(48, createCancelButton());
-        setItem(50, createSaveButton());
+        setItem(48, new GuiItem(createCancelButton()).onAnyClick(player -> {
+            player.closeInventory();
+            IslandMainGui.create(plugin.getGuiManager(), viewer, island).open(viewer);
+        }));
+        setItem(50, new GuiItem(createSaveButton()).onAnyClick(this::handleSave));
+    }
+    
+    @Override
+    public String getBackTarget() {
+        return "island_main";
+    }
+    
+    @Override
+    public void onClick(InventoryClickEvent event) {
+        event.setCancelled(true);
     }
     
     private ItemStack createIslandInfoItem() {

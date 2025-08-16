@@ -23,7 +23,7 @@ public class UnifiedColorUtil {
     private static final LegacyComponentSerializer LEGACY = LegacyComponentSerializer.legacyAmpersand();
     private static final Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
     
-    // 표준 색상 정의
+    // 표준 색상 정의 (ColorUtil 호환성을 위해 추가)
     public static final TextColor PRIMARY = TextColor.color(0x00AA00);      // 녹색
     public static final TextColor SECONDARY = TextColor.color(0x5555FF);    // 파란색
     public static final TextColor SUCCESS = TextColor.color(0x55FF55);     // 밝은 녹색
@@ -32,6 +32,20 @@ public class UnifiedColorUtil {
     public static final TextColor INFO = TextColor.color(0xAAAAAA);        // 회색
     public static final TextColor ACCENT = TextColor.color(0xFFFF55);      // 노란색
     public static final TextColor MUTED = TextColor.color(0x555555);       // 어두운 회색
+    
+    // ColorUtil 호환성을 위한 추가 색상
+    public static final TextColor RED = NamedTextColor.RED;
+    public static final TextColor GREEN = NamedTextColor.GREEN;
+    public static final TextColor BLUE = NamedTextColor.BLUE;
+    public static final TextColor YELLOW = NamedTextColor.YELLOW;
+    public static final TextColor GOLD = NamedTextColor.GOLD;
+    public static final TextColor GRAY = NamedTextColor.GRAY;
+    public static final TextColor WHITE = NamedTextColor.WHITE;
+    public static final TextColor AQUA = NamedTextColor.AQUA;
+    public static final TextColor LIGHT_PURPLE = NamedTextColor.LIGHT_PURPLE;
+    public static final TextColor DARK_GREEN = NamedTextColor.DARK_GREEN;
+    public static final TextColor DARK_PURPLE = NamedTextColor.DARK_PURPLE;
+    public static final TextColor LEGENDARY = NamedTextColor.GOLD;
     
     /**
      * 레거시 색상 코드를 Component로 변환 (권장)
