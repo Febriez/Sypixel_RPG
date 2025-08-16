@@ -4,7 +4,9 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.dto.island.IslandPermissionDTO;
 import com.febrie.rpg.dto.island.IslandRole;
-import com.febrie.rpg.gui.BaseGui;
+import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.ColorUtil;
@@ -26,6 +28,7 @@ import java.util.Map;
  */
 public class IslandPermissionGui extends BaseGui {
     
+    private final RPGMain plugin;
     private final IslandManager islandManager;
     private IslandDTO island;
     private IslandRole selectedRole = IslandRole.MEMBER;
@@ -36,12 +39,12 @@ public class IslandPermissionGui extends BaseGui {
         "KICK_MEMBERS", "MANAGE_WORKERS", "MODIFY_SPAWNS", "CHANGE_SETTINGS"
     };
     
-    private IslandPermissionGui(@NotNull RPGMain plugin, @NotNull IslandManager islandManager,
-                              @NotNull IslandDTO island, @NotNull Player viewer) {
-        super(plugin, 54);
-        this.islandManager = islandManager;
+    private IslandPermissionGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
+                              @NotNull RPGMain plugin, @NotNull IslandDTO island) {
+        super(viewer, guiManager, 54, "&c권한 관리 - " + island.islandName());
+        this.plugin = plugin;
+        this.islandManager = plugin.getIslandManager();
         this.island = island;
-        this.viewer = viewer;
     }
     
     /**
@@ -49,36 +52,43 @@ public class IslandPermissionGui extends BaseGui {
      */
     public static IslandPermissionGui create(@NotNull RPGMain plugin, @NotNull IslandManager islandManager,
                                            @NotNull IslandDTO island, @NotNull Player viewer) {
-        IslandPermissionGui gui = new IslandPermissionGui(plugin, islandManager, island, viewer);
-        return BaseGui.create(gui, ColorUtil.parseComponent("&c권한 관리 - " + island.islandName()));
+        return new IslandPermissionGui(viewer, plugin.getGuiManager(), plugin, island);
     }
     
     @Override
-    protected void setupItems() {
+    protected void setupLayout() {
         // 배경 설정
         fillBorder(Material.RED_STAINED_GLASS_PANE);
         
         // 역할 선택 버튼들
-        setItem(10, createRoleButton(IslandRole.CO_OWNER));
-        setItem(11, createRoleButton(IslandRole.MEMBER));
-        setItem(12, createRoleButton(IslandRole.WORKER));
-        setItem(13, createRoleButton(IslandRole.VISITOR));
+        setItem(10, new GuiItem(createRoleButton(IslandRole.CO_OWNER))
+                .onAnyClick(player -> selectRole(IslandRole.CO_OWNER)));
+        setItem(11, new GuiItem(createRoleButton(IslandRole.MEMBER))
+                .onAnyClick(player -> selectRole(IslandRole.MEMBER)));
+        setItem(12, new GuiItem(createRoleButton(IslandRole.WORKER))
+                .onAnyClick(player -> selectRole(IslandRole.WORKER)));
+        setItem(13, new GuiItem(createRoleButton(IslandRole.VISITOR))
+                .onAnyClick(player -> selectRole(IslandRole.VISITOR)));
         
         // 선택된 역할 표시
-        setItem(15, createSelectedRoleItem());
+        setItem(15, new GuiItem(createSelectedRoleItem()));
         
         // 권한 토글 버튼들
         displayPermissions();
         
         // 저장 버튼
-        setItem(49, createSaveButton());
+        setItem(49, new GuiItem(createSaveButton())
+                .onAnyClick(player -> savePermissions(player)));
         
         // 뒤로 가기 버튼
-        setItem(48, createBackButton());
+        setItem(48, new GuiItem(createBackButton())
+                .onAnyClick(player -> IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer)));
         
         // 닫기 버튼
-        setItem(50, createCloseButton());
+        setItem(50, new GuiItem(createCloseButton())
+                .onAnyClick(player -> player.closeInventory()));
     }
+    
     
     /**
      * 역할 버튼 생성
@@ -137,7 +147,9 @@ public class IslandPermissionGui extends BaseGui {
         for (int i = 0; i < PERMISSIONS.length && i < slots.length; i++) {
             String permission = PERMISSIONS[i];
             boolean hasPermission = getPermissionValue(rolePerms, permission);
-            setItem(slots[i], createPermissionItem(permission, hasPermission));
+            final String finalPermission = permission;
+            setItem(slots[i], new GuiItem(createPermissionItem(permission, hasPermission))
+                    .onAnyClick(player -> togglePermission(finalPermission)));
         }
     }
     
@@ -208,32 +220,14 @@ public class IslandPermissionGui extends BaseGui {
     }
     
     @Override
-    protected void handleClick(InventoryClickEvent event) {
+    public String getBackTarget() {
+        return "island_main";
+    }
+    
+    @Override
+    public void onClick(InventoryClickEvent event) {
+        // Handled by GuiItem click handlers
         event.setCancelled(true);
-        
-        if (!(event.getWhoClicked() instanceof Player player)) return;
-        
-        int slot = event.getSlot();
-        
-        switch (slot) {
-            case 10 -> selectRole(IslandRole.CO_OWNER);
-            case 11 -> selectRole(IslandRole.MEMBER);
-            case 12 -> selectRole(IslandRole.WORKER);
-            case 13 -> selectRole(IslandRole.VISITOR);
-            case 48 -> IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
-            case 49 -> savePermissions(player);
-            case 50 -> player.closeInventory();
-            default -> {
-                // 권한 토글 처리
-                int[] permSlots = {20, 21, 22, 23, 29, 30, 31, 32};
-                for (int i = 0; i < permSlots.length && i < PERMISSIONS.length; i++) {
-                    if (slot == permSlots[i]) {
-                        togglePermission(PERMISSIONS[i]);
-                        break;
-                    }
-                }
-            }
-        }
     }
     
     /**
@@ -242,7 +236,7 @@ public class IslandPermissionGui extends BaseGui {
     private void selectRole(@NotNull IslandRole role) {
         if (role != IslandRole.OWNER) { // 섬장 권한은 변경 불가
             selectedRole = role;
-            refresh();
+            setupLayout();
         }
     }
     
@@ -289,7 +283,7 @@ public class IslandPermissionGui extends BaseGui {
                 island.settings()
         );
         
-        refresh();
+        setupLayout();
     }
     
     /**

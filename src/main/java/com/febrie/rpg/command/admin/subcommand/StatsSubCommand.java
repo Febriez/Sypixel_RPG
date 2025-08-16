@@ -1,5 +1,6 @@
 package com.febrie.rpg.command.admin.subcommand;
 
+import com.febrie.rpg.command.admin.subcommand.base.SubCommand;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.registry.QuestRegistry;
@@ -8,15 +9,47 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * 통계 명령어 처리
  */
-public class StatsSubCommand implements AdminSubCommand {
+public class StatsSubCommand implements SubCommand {
     
     private final RPGPlayerManager playerManager;
     
     public StatsSubCommand(@NotNull RPGPlayerManager playerManager) {
         this.playerManager = playerManager;
+    }
+    
+    @Override
+    @NotNull
+    public String getName() {
+        return "stats";
+    }
+    
+    @Override
+    @NotNull
+    public String getDescription() {
+        return "서버 통계 정보 확인";
+    }
+    
+    @Override
+    @NotNull
+    public String getUsage() {
+        return "/rpgadmin stats";
+    }
+    
+    @Override
+    @NotNull
+    public String getPermission() {
+        return "rpg.admin.stats";
+    }
+    
+    @Override
+    @NotNull
+    public List<String> getAliases() {
+        return List.of("info", "status");
     }
     
     @Override

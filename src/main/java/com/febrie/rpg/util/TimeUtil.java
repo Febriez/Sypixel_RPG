@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Utility class for time-related operations
@@ -53,19 +55,24 @@ public final class TimeUtil {
         StringBuilder result = new StringBuilder();
 
         if (days > 0) {
-            result.append(days).append(shortFormat ? "d " : (days == 1 ? " day " : " days "));
+            result.append(days)
+                    .append(shortFormat ? "d " : (days == 1 ? " day " : " days "));
         }
         if (hours > 0) {
-            result.append(hours).append(shortFormat ? "h " : (hours == 1 ? " hour " : " hours "));
+            result.append(hours)
+                    .append(shortFormat ? "h " : (hours == 1 ? " hour " : " hours "));
         }
         if (minutes > 0) {
-            result.append(minutes).append(shortFormat ? "m " : (minutes == 1 ? " minute " : " minutes "));
+            result.append(minutes)
+                    .append(shortFormat ? "m " : (minutes == 1 ? " minute " : " minutes "));
         }
         if (seconds > 0) {
-            result.append(seconds).append(shortFormat ? "s" : (seconds == 1 ? " second" : " seconds"));
+            result.append(seconds)
+                    .append(shortFormat ? "s" : (seconds == 1 ? " second" : " seconds"));
         }
 
-        return result.toString().trim();
+        return result.toString()
+                .trim();
     }
 
     /**
@@ -103,13 +110,14 @@ public final class TimeUtil {
             throw new IllegalArgumentException("Time string cannot be null or empty");
         }
 
-        timeString = timeString.toLowerCase().replaceAll("\\s+", "");
+        String newTimeString = timeString.toLowerCase()
+                .replaceAll("\\s+", "");
         long totalMillis = 0;
 
         // Pattern matches: number followed by unit (d/h/m/s)
         String pattern = "(\\d+)([dhms])";
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(pattern);
-        java.util.regex.Matcher m = p.matcher(timeString);
+        Pattern p = Pattern.compile(pattern);
+        Matcher m = p.matcher(newTimeString);
 
         while (m.find()) {
             long value = Long.parseLong(m.group(1));
@@ -124,7 +132,7 @@ public final class TimeUtil {
         }
 
         if (totalMillis == 0) {
-            throw new IllegalArgumentException("Invalid time format: " + timeString);
+            throw new IllegalArgumentException("Invalid time format: " + newTimeString);
         }
 
         return totalMillis;
@@ -162,10 +170,7 @@ public final class TimeUtil {
      * @return Formatted date string
      */
     public static @NotNull String formatDate(long millis, String pattern) {
-        LocalDateTime dateTime = LocalDateTime.ofInstant(
-                Instant.ofEpochMilli(millis),
-                ZoneId.systemDefault()
-        );
+        LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         return dateTime.format(formatter);
     }

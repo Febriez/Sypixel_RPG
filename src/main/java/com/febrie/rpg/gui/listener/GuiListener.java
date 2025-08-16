@@ -1,6 +1,6 @@
 package com.febrie.rpg.gui.listener;
 
-import com.febrie.rpg.gui.BaseGui;
+import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.DisplayGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.framework.InteractiveGui;

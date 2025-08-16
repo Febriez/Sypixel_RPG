@@ -3,13 +3,16 @@ package com.febrie.rpg.gui.impl.island;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.dto.island.IslandSettingsDTO;
-import com.febrie.rpg.gui.BaseGui;
+import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -24,8 +27,8 @@ import java.util.List;
  */
 public class IslandBiomeSimpleGui extends BaseGui {
     
+    private final RPGMain plugin;
     private final IslandManager islandManager;
-    private final Player viewer;
     private final IslandDTO island;
     private final String currentBiome;
     
@@ -41,11 +44,11 @@ public class IslandBiomeSimpleGui extends BaseGui {
         new BiomeOption("MUSHROOM_FIELDS", "버섯 들판", Material.RED_MUSHROOM, "거대한 버섯이 자라는 특별한 지형")
     );
     
-    private IslandBiomeSimpleGui(@NotNull RPGMain plugin, @NotNull Player viewer,
-                                @NotNull IslandDTO island, @NotNull String currentBiome) {
-        super(plugin, 36); // 4줄 GUI
+    private IslandBiomeSimpleGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
+                                @NotNull RPGMain plugin, @NotNull IslandDTO island, @NotNull String currentBiome) {
+        super(viewer, guiManager, 36, "&b&l바이옴 선택");
+        this.plugin = plugin;
         this.islandManager = plugin.getIslandManager();
-        this.viewer = viewer;
         this.island = island;
         this.currentBiome = currentBiome;
     }
@@ -55,12 +58,11 @@ public class IslandBiomeSimpleGui extends BaseGui {
      */
     public static IslandBiomeSimpleGui create(@NotNull RPGMain plugin, @NotNull Player viewer,
                                              @NotNull IslandDTO island, @NotNull String currentBiome) {
-        IslandBiomeSimpleGui gui = new IslandBiomeSimpleGui(plugin, viewer, island, currentBiome);
-        return BaseGui.create(gui, ColorUtil.parseComponent("&b&l바이옴 선택"));
+        return new IslandBiomeSimpleGui(viewer, plugin.getGuiManager(), plugin, island, currentBiome);
     }
     
     @Override
-    protected void setupItems() {
+    protected void setupLayout() {
         fillBorder(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
         
         // 바이옴 옵션들 배치
@@ -68,11 +70,22 @@ public class IslandBiomeSimpleGui extends BaseGui {
         for (int i = 0; i < BIOMES.size() && i < slots.length; i++) {
             BiomeOption biome = BIOMES.get(i);
             boolean isSelected = biome.id.equals(currentBiome);
-            setItem(slots[i], createBiomeItem(biome, isSelected));
+            final BiomeOption finalBiome = biome;
+            setItem(slots[i], new GuiItem(createBiomeItem(biome, isSelected))
+                    .onAnyClick(player -> handleBiomeSelection(player, finalBiome)));
         }
         
         // 뒤로가기 버튼
-        setItem(31, createBackButton());
+        setItem(31, new GuiItem(createBackButton())
+                .onAnyClick(player -> {
+                    player.closeInventory();
+                    IslandSettingsGui.create(plugin, viewer, island).open(viewer);
+                }));
+    }
+    
+    @Override
+    public String getBackTarget() {
+        return "island_settings";
     }
     
     private ItemStack createBiomeItem(BiomeOption biome, boolean isSelected) {
@@ -106,29 +119,9 @@ public class IslandBiomeSimpleGui extends BaseGui {
     }
     
     @Override
-    protected void handleClick(InventoryClickEvent event) {
+    public void onClick(InventoryClickEvent event) {
+        // Handled by GuiItem click handlers
         event.setCancelled(true);
-        
-        if (!(event.getWhoClicked() instanceof Player player)) return;
-        
-        int slot = event.getSlot();
-        
-        // 뒤로가기
-        if (slot == 31) {
-            player.closeInventory();
-            IslandSettingsGui.create(plugin, viewer, island).open(viewer);
-            return;
-        }
-        
-        // 바이옴 선택 확인
-        int[] slots = {10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25};
-        for (int i = 0; i < slots.length && i < BIOMES.size(); i++) {
-            if (slot == slots[i]) {
-                BiomeOption selected = BIOMES.get(i);
-                handleBiomeSelection(player, selected);
-                break;
-            }
-        }
     }
     
     private void handleBiomeSelection(Player player, BiomeOption biome) {

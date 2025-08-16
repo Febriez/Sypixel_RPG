@@ -1,8 +1,6 @@
 package com.febrie.rpg.quest.progress;
 
 import com.febrie.rpg.quest.QuestID;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -286,133 +284,7 @@ public class QuestProgress {
         return Objects.hash(questId, playerId);
     }
     
-    /**
-     * JsonObject로 변환 (Firebase 저장용)
-     */
-    @NotNull
-    public JsonObject toJsonObject() {
-        JsonObject json = new JsonObject();
-        JsonObject fields = new JsonObject();
-        
-        // questId
-        JsonObject questIdValue = new JsonObject();
-        questIdValue.addProperty("stringValue", questId.name());
-        fields.add("questId", questIdValue);
-        
-        // playerId
-        JsonObject playerIdValue = new JsonObject();
-        playerIdValue.addProperty("stringValue", playerId.toString());
-        fields.add("playerId", playerIdValue);
-        
-        // objectives
-        JsonObject objectivesValue = new JsonObject();
-        JsonObject objectivesMap = new JsonObject();
-        JsonObject objectivesFields = new JsonObject();
-        
-        objectives.forEach((id, progress) -> {
-            JsonObject progressValue = new JsonObject();
-            progressValue.add("mapValue", progress.toJsonObject());
-            objectivesFields.add(id, progressValue);
-        });
-        
-        objectivesMap.add("fields", objectivesFields);
-        objectivesValue.add("mapValue", objectivesMap);
-        fields.add("objectives", objectivesValue);
-        
-        // state
-        JsonObject stateValue = new JsonObject();
-        stateValue.addProperty("stringValue", state.name());
-        fields.add("state", stateValue);
-        
-        // currentObjectiveIndex
-        JsonObject currentObjectiveIndexValue = new JsonObject();
-        currentObjectiveIndexValue.addProperty("integerValue", currentObjectiveIndex);
-        fields.add("currentObjectiveIndex", currentObjectiveIndexValue);
-        
-        // startedAt
-        JsonObject startedAtValue = new JsonObject();
-        startedAtValue.addProperty("integerValue", startedAt.toEpochMilli());
-        fields.add("startedAt", startedAtValue);
-        
-        // completedAt
-        if (completedAt != null) {
-            JsonObject completedAtValue = new JsonObject();
-            completedAtValue.addProperty("integerValue", completedAt.toEpochMilli());
-            fields.add("completedAt", completedAtValue);
-        }
-        
-        // lastUpdatedAt
-        JsonObject lastUpdatedAtValue = new JsonObject();
-        lastUpdatedAtValue.addProperty("integerValue", lastUpdatedAt.toEpochMilli());
-        fields.add("lastUpdatedAt", lastUpdatedAtValue);
-        
-        json.add("fields", fields);
-        return json;
-    }
     
-    /**
-     * JsonObject에서 QuestProgress 생성
-     */
-    @NotNull
-    public static QuestProgress fromJsonObject(@NotNull JsonObject json) {
-        if (!json.has("fields")) {
-            throw new IllegalArgumentException("Invalid QuestProgress JSON structure");
-        }
-        
-        JsonObject fields = json.getAsJsonObject("fields");
-        
-        String questIdStr = fields.has("questId") && fields.getAsJsonObject("questId").has("stringValue")
-                ? fields.getAsJsonObject("questId").get("stringValue").getAsString()
-                : "";
-        QuestID questId = QuestID.valueOf(questIdStr);
-        
-        String playerIdStr = fields.has("playerId") && fields.getAsJsonObject("playerId").has("stringValue")
-                ? fields.getAsJsonObject("playerId").get("stringValue").getAsString()
-                : "";
-        UUID playerId = UUID.fromString(playerIdStr);
-        
-        Map<String, ObjectiveProgress> objectives = new HashMap<>();
-        if (fields.has("objectives") && fields.getAsJsonObject("objectives").has("mapValue")) {
-            JsonObject objectivesMap = fields.getAsJsonObject("objectives").getAsJsonObject("mapValue");
-            if (objectivesMap.has("fields")) {
-                JsonObject objectivesFields = objectivesMap.getAsJsonObject("fields");
-                for (Map.Entry<String, JsonElement> entry : objectivesFields.entrySet()) {
-                    if (entry.getValue().isJsonObject() && entry.getValue().getAsJsonObject().has("mapValue")) {
-                        ObjectiveProgress progress = ObjectiveProgress.fromJsonObject(entry.getValue().getAsJsonObject().getAsJsonObject("mapValue"));
-                        objectives.put(entry.getKey(), progress);
-                    }
-                }
-            }
-        }
-        
-        String stateStr = fields.has("state") && fields.getAsJsonObject("state").has("stringValue")
-                ? fields.getAsJsonObject("state").get("stringValue").getAsString()
-                : "ACTIVE";
-        QuestState state = QuestState.valueOf(stateStr);
-        
-        int currentObjectiveIndex = fields.has("currentObjectiveIndex") && fields.getAsJsonObject("currentObjectiveIndex").has("integerValue")
-                ? fields.getAsJsonObject("currentObjectiveIndex").get("integerValue").getAsInt()
-                : 0;
-                
-        long startedAtMs = fields.has("startedAt") && fields.getAsJsonObject("startedAt").has("integerValue")
-                ? fields.getAsJsonObject("startedAt").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
-        Instant startedAt = Instant.ofEpochMilli(startedAtMs);
-        
-        Instant completedAt = null;
-        if (fields.has("completedAt") && fields.getAsJsonObject("completedAt").has("integerValue")) {
-            long completedAtMs = fields.getAsJsonObject("completedAt").get("integerValue").getAsLong();
-            completedAt = Instant.ofEpochMilli(completedAtMs);
-        }
-        
-        long lastUpdatedAtMs = fields.has("lastUpdatedAt") && fields.getAsJsonObject("lastUpdatedAt").has("integerValue")
-                ? fields.getAsJsonObject("lastUpdatedAt").get("integerValue").getAsLong()
-                : System.currentTimeMillis();
-        Instant lastUpdatedAt = Instant.ofEpochMilli(lastUpdatedAtMs);
-        
-        return new QuestProgress(questId, playerId, objectives, state, currentObjectiveIndex,
-                startedAt, completedAt, lastUpdatedAt);
-    }
     
     /**
      * Map으로 변환 (Firestore SDK용)

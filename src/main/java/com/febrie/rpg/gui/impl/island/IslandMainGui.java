@@ -301,7 +301,7 @@ public class IslandMainGui extends BaseGui {
                 .build(),
             player -> {
                 player.closeInventory();
-                IslandMemberGui.create(RPGMain.getInstance(), player, island).open(player);
+                IslandMemberGui.create(guiManager, player, island).open(player);
                 playClickSound(player);
             }
         );

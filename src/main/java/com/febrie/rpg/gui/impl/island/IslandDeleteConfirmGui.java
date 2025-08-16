@@ -2,7 +2,9 @@ package com.febrie.rpg.gui.impl.island;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
-import com.febrie.rpg.gui.BaseGui;
+import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
@@ -26,16 +28,16 @@ import com.febrie.rpg.util.DateFormatUtil;
  */
 public class IslandDeleteConfirmGui extends BaseGui {
     
+    private final RPGMain plugin;
     private final IslandManager islandManager;
-    private final Player viewer;
     private final IslandDTO island;
     private boolean confirmClicked = false;
     
-    private IslandDeleteConfirmGui(@NotNull RPGMain plugin, @NotNull Player viewer,
-                                  @NotNull IslandDTO island) {
-        super(plugin, 27); // 3줄 GUI
+    private IslandDeleteConfirmGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
+                                  @NotNull RPGMain plugin, @NotNull IslandDTO island) {
+        super(viewer, guiManager, 27, "&4&l⚠ 섬 삭제 확인 ⚠");
+        this.plugin = plugin;
         this.islandManager = plugin.getIslandManager();
-        this.viewer = viewer;
         this.island = island;
     }
     
@@ -44,33 +46,50 @@ public class IslandDeleteConfirmGui extends BaseGui {
      */
     public static IslandDeleteConfirmGui create(@NotNull RPGMain plugin, @NotNull Player viewer,
                                                @NotNull IslandDTO island) {
-        IslandDeleteConfirmGui gui = new IslandDeleteConfirmGui(plugin, viewer, island);
-        return BaseGui.create(gui, ColorUtil.parseComponent("&4&l⚠ 섬 삭제 확인 ⚠"));
+        return new IslandDeleteConfirmGui(viewer, plugin.getGuiManager(), plugin, island);
     }
     
     @Override
-    protected void setupItems() {
+    protected void setupLayout() {
         // 배경을 빨간색 유리판으로 채우기
         ItemStack redPane = new ItemBuilder(Material.RED_STAINED_GLASS_PANE)
                 .displayName(ColorUtil.parseComponent("&c&l⚠ 주의 ⚠"))
                 .hideTooltip(true)
                 .build();
         
-        for (int i = 0; i < size; i++) {
-            inventory.setItem(i, redPane);
+        for (int i = 0; i < getSize(); i++) {
+            setItem(i, new GuiItem(redPane));
         }
         
         // 섬 정보
-        setItem(4, createIslandInfoItem());
+        setItem(4, new GuiItem(createIslandInfoItem()));
         
         // 취소 버튼
-        setItem(11, createCancelButton());
+        setItem(11, new GuiItem(createCancelButton())
+                .onAnyClick(player -> {
+                    player.closeInventory();
+                    IslandSettingsGui.create(plugin, viewer, island).open(viewer);
+                }));
         
         // 확인 버튼 (첫 번째 단계)
-        setItem(15, createConfirmButton());
+        setItem(15, new GuiItem(createConfirmButton())
+                .onAnyClick(player -> {
+                    if (!confirmClicked) {
+                        confirmClicked = true;
+                        setupLayout();
+                        player.sendMessage(ColorUtil.colorize("&c정말로 삭제하시려면 다시 한 번 클릭하세요!"));
+                    } else {
+                        handleFinalDeleteConfirmation(player);
+                    }
+                }));
         
         // 경고 메시지
-        setItem(22, createWarningItem());
+        setItem(22, new GuiItem(createWarningItem()));
+    }
+    
+    @Override
+    public String getBackTarget() {
+        return "island_settings";
     }
     
     private ItemStack createIslandInfoItem() {
@@ -134,28 +153,9 @@ public class IslandDeleteConfirmGui extends BaseGui {
     }
     
     @Override
-    protected void handleClick(InventoryClickEvent event) {
+    public void onClick(InventoryClickEvent event) {
+        // Handled by GuiItem click handlers
         event.setCancelled(true);
-        
-        if (!(event.getWhoClicked() instanceof Player player)) return;
-        
-        int slot = event.getSlot();
-        
-        switch (slot) {
-            case 11 -> { // 취소
-                player.closeInventory();
-                IslandSettingsGui.create(plugin, viewer, island).open(viewer);
-            }
-            case 15 -> { // 확인
-                if (!confirmClicked) {
-                    confirmClicked = true;
-                    refresh();
-                    player.sendMessage(ColorUtil.colorize("&c정말로 삭제하시려면 다시 한 번 클릭하세요!"));
-                } else {
-                    handleFinalDeleteConfirmation(player);
-                }
-            }
-        }
     }
     
     private void handleFinalDeleteConfirmation(Player player) {

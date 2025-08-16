@@ -1,13 +1,16 @@
 package com.febrie.rpg.gui;
 
 import com.febrie.rpg.RPGMain;
+import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.ColorUtil;
 import net.kyori.adventure.text.Component;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Alias for BaseGui - used by some island GUIs
- * This extends BaseGui to provide the same functionality
+ * This extends Framework BaseGui to provide compatibility
  *
  * @author Febrie, CoffeeTory
  */
@@ -15,11 +18,21 @@ public abstract class GuiHolder extends BaseGui {
     
     /**
      * Constructor - protected to prevent direct instantiation
-     * @param plugin The main plugin instance
+     * @param viewer The viewer of the GUI
+     * @param guiManager The GUI manager
      * @param size The size of the inventory (must be multiple of 9)
      */
+    protected GuiHolder(@NotNull Player viewer, @NotNull GuiManager guiManager, int size) {
+        super(viewer, guiManager, size, "gui.default.title");
+    }
+    
+    /**
+     * Legacy constructor for compatibility
+     * @param plugin The main plugin instance
+     * @param size The size of the inventory
+     */
     protected GuiHolder(@NotNull RPGMain plugin, int size) {
-        super(plugin, size);
+        super(null, plugin.getGuiManager(), size, "gui.default.title");
     }
     
     /**
@@ -29,7 +42,7 @@ public abstract class GuiHolder extends BaseGui {
      * @return The initialized GUI instance
      */
     protected static <T extends GuiHolder> T create(@NotNull T gui, @NotNull String title) {
-        gui.initialize(ColorUtil.parseComponent(title));
+        gui.initialize("gui.default.title");
         return gui;
     }
 }

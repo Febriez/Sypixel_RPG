@@ -62,7 +62,8 @@ public class AdminCommands implements CommandExecutor, TabCompleter {
     }
 
     private void registerSubCommands() {
-        subCommands.put("stats", new StatsSubCommand(playerManager));
+        // TODO: Migrate to new AdminCommandHandler
+        // subCommands.put("stats", new StatsSubCommand(playerManager));
         // 다른 서브 커맨드들도 점진적으로 추가
     }
 

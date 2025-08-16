@@ -5,7 +5,11 @@ import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.dto.island.IslandMemberDTO;
 import com.febrie.rpg.dto.island.IslandRole;
 import com.febrie.rpg.dto.island.IslandWorkerDTO;
-import com.febrie.rpg.gui.BaseGui;
+import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.InteractiveGui;
+import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.manager.GuiManager;
+import net.kyori.adventure.text.Component;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.ColorUtil;
@@ -35,60 +39,83 @@ public class IslandMemberGui extends BaseGui {
     private int currentPage = 0;
     private final int ITEMS_PER_PAGE = 28; // 7x4 grid
     
-    private IslandMemberGui(@NotNull RPGMain plugin, @NotNull IslandManager islandManager,
-                          @NotNull IslandDTO island, @NotNull Player viewer) {
-        super(plugin, 54);
-        this.islandManager = islandManager;
+    private IslandMemberGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
+                          @NotNull IslandDTO island) {
+        super(viewer, guiManager, 54, "gui.island.member.title", island.islandName());
+        this.islandManager = guiManager.getPlugin().getIslandManager();
         this.island = island;
-        this.viewer = viewer;
     }
     
     /**
      * Factory method to create the GUI
      */
-    public static IslandMemberGui create(@NotNull RPGMain plugin, @NotNull Player viewer,
+    public static IslandMemberGui create(@NotNull GuiManager guiManager, @NotNull Player viewer,
                                        @NotNull IslandDTO island) {
-        IslandMemberGui gui = new IslandMemberGui(plugin, plugin.getIslandManager(), island, viewer);
-        return BaseGui.create(gui, ColorUtil.parseComponent("&b섬원 관리 - " + island.islandName()));
+        IslandMemberGui gui = new IslandMemberGui(viewer, guiManager, island);
+        gui.initialize("gui.island.member.title", island.islandName());
+        return gui;
     }
     
     @Override
-    protected void setupItems() {
+    protected void setupLayout() {
         // 배경 설정
-        fillBorder(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
+        for (int i = 0; i < 9; i++) {
+            setItem(i, GuiItem.display(
+                ItemBuilder.of(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
+                    .displayName(Component.empty())
+            ));
+        }
+        for (int i = size - 9; i < size; i++) {
+            setItem(i, GuiItem.display(
+                ItemBuilder.of(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
+                    .displayName(Component.empty())
+            ));
+        }
         
         // 섬장 표시 (항상 첫번째)
-        setItem(10, createOwnerItem());
+        setItem(10, GuiItem.display(createOwnerItem()));
         
         // 멤버 목록 표시
         displayMembers();
         
         // 페이지 네비게이션
         if (currentPage > 0) {
-            setItem(45, createPreviousPageButton());
+            setItem(45, GuiItem.clickable(createPreviousPageButton(), player -> {
+                currentPage--;
+                refresh();
+            }));
         }
         
         if (hasNextPage()) {
-            setItem(53, createNextPageButton());
+            setItem(53, GuiItem.clickable(createNextPageButton(), player -> {
+                currentPage++;
+                refresh();
+            }));
         }
         
         // 멤버 초대 버튼 (권한이 있는 경우)
         if (IslandPermissionHandler.hasPermission(island, viewer, "INVITE_MEMBERS")) {
-            setItem(49, createInviteButton());
+            setItem(49, GuiItem.clickable(createInviteButton(), player -> {
+                player.closeInventory();
+                player.sendMessage(ColorUtil.colorize("&a초대할 플레이어의 이름을 입력하세요:"));
+                player.sendMessage(ColorUtil.colorize("&7예시: /섬 초대 <플레이어명>"));
+            }));
         }
         
         // 뒤로 가기 버튼
-        setItem(48, createBackButton());
+        setItem(48, GuiItem.clickable(createBackButton(), player -> 
+            IslandMainGui.create(guiManager, viewer).open(viewer)
+        ));
         
         // 닫기 버튼
-        setItem(50, createCloseButton());
+        setItem(50, GuiItem.clickable(createCloseButton(), Player::closeInventory));
     }
     
     /**
      * 멤버 목록 표시
      */
     private void displayMembers() {
-        List<ItemStack> memberItems = new ArrayList<>();
+        List<ItemBuilder> memberItems = new ArrayList<>();
         
         // 섬원들
         for (IslandMemberDTO member : island.members()) {
@@ -114,7 +141,11 @@ public class IslandMemberGui extends BaseGui {
         for (int i = startIndex; i < endIndex; i++) {
             int slotIndex = i - startIndex;
             if (slotIndex < slots.length) {
-                setItem(slots[slotIndex], memberItems.get(i));
+                int memberIndex = i;
+                setItem(slots[slotIndex], GuiItem.clickable(
+                    memberItems.get(i),
+                    player -> handleMemberItemClick(player, memberIndex)
+                ));
             }
         }
     }
@@ -122,8 +153,8 @@ public class IslandMemberGui extends BaseGui {
     /**
      * 섬장 아이템 생성
      */
-    private ItemStack createOwnerItem() {
-        return new ItemBuilder(SkullUtil.getPlayerHead(island.ownerUuid()))
+    private ItemBuilder createOwnerItem() {
+        return ItemBuilder.from(SkullUtil.getPlayerHead(island.ownerUuid()))
                 .displayName(ColorUtil.parseComponent("&6&l" + island.ownerName()))
                 .addLore(ColorUtil.parseComponent(""))
                 .addLore(ColorUtil.parseComponent("&7역할: &e섬장"))
@@ -131,15 +162,14 @@ public class IslandMemberGui extends BaseGui {
                 .addLore(ColorUtil.parseComponent(""))
                 .addLore(ColorUtil.parseComponent("&a✓ 모든 권한 보유"))
                 .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&c섬장은 변경할 수 없습니다."))
-                .build();
+                .addLore(ColorUtil.parseComponent("&c섬장은 변경할 수 없습니다."));
     }
     
     /**
      * 멤버 아이템 생성
      */
-    private ItemStack createMemberItem(@NotNull IslandMemberDTO member) {
-        ItemBuilder builder = new ItemBuilder(SkullUtil.getPlayerHead(member.uuid()))
+    private ItemBuilder createMemberItem(@NotNull IslandMemberDTO member) {
+        ItemBuilder builder = ItemBuilder.from(SkullUtil.getPlayerHead(member.uuid()))
                 .displayName(ColorUtil.parseComponent("&b" + member.name()))
                 .addLore(ColorUtil.parseComponent(""))
                 .addLore(ColorUtil.parseComponent("&7역할: &f" + IslandPermissionHandler.getRoleDisplayName(plugin.getLangManager(), viewer.locale().getLanguage(), member.isCoOwner() ? IslandRole.CO_OWNER : IslandRole.MEMBER)))
@@ -160,14 +190,14 @@ public class IslandMemberGui extends BaseGui {
                    .addLore(ColorUtil.parseComponent("&c▶ 우클릭: 추방"));
         }
         
-        return builder.build();
+        return builder;
     }
     
     /**
      * 알바 아이템 생성
      */
-    private ItemStack createWorkerItem(@NotNull IslandWorkerDTO worker) {
-        ItemBuilder builder = new ItemBuilder(SkullUtil.getPlayerHead(worker.uuid()))
+    private ItemBuilder createWorkerItem(@NotNull IslandWorkerDTO worker) {
+        ItemBuilder builder = ItemBuilder.from(SkullUtil.getPlayerHead(worker.uuid()))
                 .displayName(ColorUtil.parseComponent("&7" + worker.name()))
                 .addLore(ColorUtil.parseComponent(""))
                 .addLore(ColorUtil.parseComponent("&7역할: &f알바"))
@@ -183,14 +213,14 @@ public class IslandMemberGui extends BaseGui {
                    .addLore(ColorUtil.parseComponent("&c▶ 우클릭: 해고"));
         }
         
-        return builder.build();
+        return builder;
     }
     
     /**
      * 초대 버튼
      */
-    private ItemStack createInviteButton() {
-        return new ItemBuilder(Material.EMERALD)
+    private ItemBuilder createInviteButton() {
+        return ItemBuilder.of(Material.EMERALD)
                 .displayName(ColorUtil.parseComponent("&a새 멤버 초대"))
                 .addLore(ColorUtil.parseComponent(""))
                 .addLore(ColorUtil.parseComponent("&7새로운 섬원을 초대합니다."))
@@ -200,138 +230,77 @@ public class IslandMemberGui extends BaseGui {
                 .addLore(ColorUtil.parseComponent("&7알바: &e" + island.workers().size() + "/" + 
                         island.upgradeData().workerLimit()))
                 .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&e▶ 클릭하여 초대"))
-                .build();
+                .addLore(ColorUtil.parseComponent("&e▶ 클릭하여 초대"));
     }
     
     /**
      * 뒤로 가기 버튼
      */
-    private ItemStack createBackButton() {
-        return new ItemBuilder(Material.ARROW)
+    private ItemBuilder createBackButton() {
+        return ItemBuilder.of(Material.ARROW)
                 .displayName(ColorUtil.parseComponent("&f뒤로 가기"))
                 .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7메인 메뉴로 돌아갑니다."))
-                .build();
+                .addLore(ColorUtil.parseComponent("&7메인 메뉴로 돌아갑니다."));
     }
     
     /**
      * 닫기 버튼
      */
-    private ItemStack createCloseButton() {
-        return new ItemBuilder(Material.BARRIER)
+    private ItemBuilder createCloseButton() {
+        return ItemBuilder.of(Material.BARRIER)
                 .displayName(ColorUtil.parseComponent("&c닫기"))
                 .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7메뉴를 닫습니다."))
-                .build();
+                .addLore(ColorUtil.parseComponent("&7메뉴를 닫습니다."));
     }
     
     /**
      * 이전 페이지 버튼
      */
-    private ItemStack createPreviousPageButton() {
-        return new ItemBuilder(Material.ARROW)
+    private ItemBuilder createPreviousPageButton() {
+        return ItemBuilder.of(Material.ARROW)
                 .displayName(ColorUtil.parseComponent("&f이전 페이지"))
                 .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7현재 페이지: &e" + (currentPage + 1)))
-                .build();
+                .addLore(ColorUtil.parseComponent("&7현재 페이지: &e" + (currentPage + 1)));
     }
     
     /**
      * 다음 페이지 버튼
      */
-    private ItemStack createNextPageButton() {
-        return new ItemBuilder(Material.ARROW)
+    private ItemBuilder createNextPageButton() {
+        return ItemBuilder.of(Material.ARROW)
                 .displayName(ColorUtil.parseComponent("&f다음 페이지"))
                 .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7현재 페이지: &e" + (currentPage + 1)))
-                .build();
+                .addLore(ColorUtil.parseComponent("&7현재 페이지: &e" + (currentPage + 1)));
+    }
+    
+    
+    @Override
+    protected BaseGui getBackTarget() {
+        return IslandMainGui.create(guiManager, viewer);
     }
     
     @Override
-    protected void handleClick(InventoryClickEvent event) {
-        event.setCancelled(true);
-        
-        if (!(event.getWhoClicked() instanceof Player player)) return;
-        
-        int slot = event.getSlot();
-        
-        switch (slot) {
-            case 45 -> { // 이전 페이지
-                if (currentPage > 0) {
-                    currentPage--;
-                    refresh();
-                }
-            }
-            case 48 -> { // 뒤로 가기
-                IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
-            }
-            case 49 -> { // 초대
-                if (IslandPermissionHandler.hasPermission(island, viewer, "INVITE_MEMBERS")) {
-                    player.closeInventory();
-                    player.sendMessage(ColorUtil.colorize("&a초대할 플레이어의 이름을 입력하세요:"));
-                    player.sendMessage(ColorUtil.colorize("&7예시: /섬 초대 <플레이어명>"));
-                }
-            }
-            case 50 -> { // 닫기
-                player.closeInventory();
-            }
-            case 53 -> { // 다음 페이지
-                if (hasNextPage()) {
-                    currentPage++;
-                    refresh();
-                }
-            }
-            default -> {
-                // 멤버 아이템 클릭 처리
-                handleMemberClick(event);
-            }
-        }
+    public Component getTitle() {
+        return ColorUtil.parseComponent("&b섬원 관리 - " + island.islandName());
     }
     
-    /**
-     * 멤버 클릭 처리
-     */
-    private void handleMemberClick(@NotNull InventoryClickEvent event) {
-        ItemStack clicked = event.getCurrentItem();
-        if (clicked == null || !clicked.hasItemMeta()) return;
-        
-        Player player = (Player) event.getWhoClicked();
-        
-        // NBT에서 멤버 UUID 가져오기
+    private void handleMemberItemClick(Player player, int memberIndex) {
         String memberUuid = null;
-        var meta = clicked.getItemMeta();
-        if (meta.hasDisplayName()) {
-            // 아이템에서 멤버 찾기 (슬롯 위치로)
-            int slot = event.getSlot();
-            int index = (currentPage * ITEMS_PER_PAGE) + getItemIndex(slot);
-            
-            if (index >= 0 && index < island.members().size()) {
-                memberUuid = island.members().get(index).uuid();
-            } else if (index >= island.members().size() && 
-                      index < island.members().size() + island.workers().size()) {
-                int workerIndex = index - island.members().size();
-                memberUuid = island.workers().get(workerIndex).uuid();
-            }
+        
+        if (memberIndex < island.members().size()) {
+            memberUuid = island.members().get(memberIndex).uuid();
+        } else if (memberIndex < island.members().size() + island.workers().size()) {
+            int workerIndex = memberIndex - island.members().size();
+            memberUuid = island.workers().get(workerIndex).uuid();
         }
         
-        if (memberUuid == null) return;
-        
-        // 멤버 관리 메뉴 열기
-        player.closeInventory();
-        IslandMemberManageGui.create(plugin, viewer, island, memberUuid).open(viewer);
+        if (memberUuid != null && canManageMember(memberIndex)) {
+            player.closeInventory();
+            IslandMemberManageGui.create(plugin, viewer, island, memberUuid).open(viewer);
+        }
     }
     
-    /**
-     * 슬롯 위치로 아이템 인덱스 계산
-     */
-    private int getItemIndex(int slot) {
-        // 10-16, 19-25, 28-34 슬롯에서 아이템 인덱스 계산
-        if (slot >= 10 && slot <= 16) return slot - 10;
-        if (slot >= 19 && slot <= 25) return slot - 19 + 7;
-        if (slot >= 28 && slot <= 34) return slot - 28 + 14;
-        return -1;
-    }
+    
     
     /**
      * 다음 페이지가 있는지 확인
@@ -339,6 +308,24 @@ public class IslandMemberGui extends BaseGui {
     private boolean hasNextPage() {
         int totalItems = island.members().size() + island.workers().size();
         return (currentPage + 1) * ITEMS_PER_PAGE < totalItems;
+    }
+    
+    /**
+     * 멤버를 관리할 수 있는지 확인
+     */
+    private boolean canManageMember(int memberIndex) {
+        if (memberIndex < island.members().size()) {
+            IslandMemberDTO member = island.members().get(memberIndex);
+            // 섬장만 부섬장을 관리 가능
+            if (member.isCoOwner()) {
+                return IslandPermissionHandler.isOwner(island, viewer);
+            }
+            // 섬장과 부섬장은 일반 멤버 관리 가능
+            return IslandPermissionHandler.hasPermission(island, viewer, "KICK_MEMBERS");
+        } else {
+            // 알바 관리 권한
+            return IslandPermissionHandler.hasPermission(island, viewer, "MANAGE_WORKERS");
+        }
     }
     
     /**
