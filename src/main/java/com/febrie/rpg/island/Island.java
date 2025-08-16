@@ -67,6 +67,7 @@ public class Island {
                                     location.getCenter(worldManager.getIslandWorld()),
                                     "섬 중앙"
                             ),
+                            null,
                             List.of(),
                             Map.of()
                     ),

@@ -155,7 +155,7 @@ public class IslandContributeGui extends BaseGui {
         // 뒤로가기
         if (slot == 31) {
             player.closeInventory();
-            IslandContributionGui.create(plugin, viewer, island, 1).open();
+            IslandContributionGui.create(plugin, viewer, island, 1).open(viewer);
             return;
         }
         
@@ -253,6 +253,6 @@ public class IslandContributeGui extends BaseGui {
         
         // GUI 새로고침
         player.closeInventory();
-        IslandContributionGui.create(plugin, viewer, updated, 1).open();
+        IslandContributionGui.create(plugin, viewer, updated, 1).open(viewer);
     }
 }

@@ -277,7 +277,7 @@ public class IslandMemberManageGui extends BaseGui {
             case 30 -> player.sendMessage(ColorUtil.colorize("&c개별 권한 설정은 아직 구현되지 않았습니다."));
             case 40 -> {
                 player.closeInventory();
-                IslandMemberGui.create(plugin, viewer, island).open();
+                IslandMemberGui.create(plugin, viewer, island).open(viewer);
             }
         }
     }
@@ -350,7 +350,7 @@ public class IslandMemberManageGui extends BaseGui {
         
         player.sendMessage(ColorUtil.colorize("&e" + targetName + "님을 알바생으로 변경했습니다."));
         player.closeInventory();
-        IslandMemberGui.create(plugin, viewer, island).open();
+        IslandMemberGui.create(plugin, viewer, island).open(viewer);
     }
     
     private void handleWorkerToMember(Player player) {
@@ -372,7 +372,7 @@ public class IslandMemberManageGui extends BaseGui {
         
         player.sendMessage(ColorUtil.colorize("&a" + targetName + "님을 정식 멤버로 승급시켰습니다!"));
         player.closeInventory();
-        IslandMemberGui.create(plugin, viewer, island).open();
+        IslandMemberGui.create(plugin, viewer, island).open(viewer);
     }
     
     private void handleKick(Player player) {
@@ -426,7 +426,7 @@ public class IslandMemberManageGui extends BaseGui {
         
         player.sendMessage(ColorUtil.colorize("&c" + targetName + "님을 섬에서 추방했습니다."));
         player.closeInventory();
-        IslandMemberGui.create(plugin, viewer, island).open();
+        IslandMemberGui.create(plugin, viewer, island).open(viewer);
     }
     
     private void updateIslandMembers(List<IslandMemberDTO> members, List<IslandWorkerDTO> workers) {

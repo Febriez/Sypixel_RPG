@@ -347,7 +347,7 @@ public class IslandUpgradeGui extends BaseGui {
                     }
                     
                     // GUI 새로고침
-                    IslandUpgradeGui.create(plugin, player, updatedIsland).open();
+                    IslandUpgradeGui.create(plugin, player, updatedIsland).open(player);
                 });
             } else {
                 player.sendMessage(ColorUtil.colorize("&c업그레이드 처리 중 오류가 발생했습니다."));

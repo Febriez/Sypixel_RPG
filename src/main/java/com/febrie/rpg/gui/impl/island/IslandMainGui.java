@@ -2,6 +2,7 @@ package com.febrie.rpg.gui.impl.island;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
+import com.febrie.rpg.dto.island.IslandMemberDTO;
 import com.febrie.rpg.dto.island.PlayerIslandDataDTO;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
@@ -21,6 +22,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 import com.febrie.rpg.util.DateFormatUtil;
 
@@ -179,6 +181,7 @@ public class IslandMainGui extends BaseGui {
             setItem(31, createVisitorListItem());
         }
         setItem(32, createWarpItem());
+        setItem(33, createBiomeChangeItem());
     }
     
     /**
@@ -195,6 +198,11 @@ public class IslandMainGui extends BaseGui {
             setItem(31, createVisitorListItem());
         }
         setItem(32, createWarpItem());
+        // 바이옴 변경은 권한 있는 경우만 표시
+        if (island.members().stream()
+                .anyMatch(m -> m.uuid().equals(viewer.getUniqueId().toString()) && m.isCoOwner())) {
+            setItem(33, createBiomeChangeItem());
+        }
     }
     
     /**
@@ -202,7 +210,10 @@ public class IslandMainGui extends BaseGui {
      */
     private void setupMemberMenu() {
         setItem(13, createIslandInfoItem());
-        setItem(22, createUpgradeItem());
+        // 업그레이드는 권한 체크 후 표시
+        if (IslandPermissionHandler.hasPermission(island, viewer, "UPGRADE_ISLAND")) {
+            setItem(22, createUpgradeItem());
+        }
         setItem(23, createContributionItem());
         // 방문자 목록은 권한 체크 후 표시
         if (IslandPermissionHandler.hasPermission(island, viewer, "VIEW_VISITORS")) {
@@ -290,7 +301,7 @@ public class IslandMainGui extends BaseGui {
                 .build(),
             player -> {
                 player.closeInventory();
-                IslandMemberGui.create(RPGMain.getInstance(), player, island).open();
+                IslandMemberGui.create(RPGMain.getInstance(), player, island).open(player);
                 playClickSound(player);
             }
         );
@@ -313,7 +324,7 @@ public class IslandMainGui extends BaseGui {
                 .build(),
             player -> {
                 player.closeInventory();
-                IslandPermissionGui.create(RPGMain.getInstance(), RPGMain.getInstance().getIslandManager(), island, player).open();
+                IslandPermissionGui.create(RPGMain.getInstance(), RPGMain.getInstance().getIslandManager(), island, player).open(player);
                 playClickSound(player);
             }
         );
@@ -338,7 +349,7 @@ public class IslandMainGui extends BaseGui {
                 .build(),
             player -> {
                 player.closeInventory();
-                IslandUpgradeGui.create(RPGMain.getInstance(), player, island).open();
+                IslandUpgradeGui.create(RPGMain.getInstance(), player, island).open(player);
                 playClickSound(player);
             }
         );
@@ -410,7 +421,7 @@ public class IslandMainGui extends BaseGui {
                 .build(),
             player -> {
                 player.closeInventory();
-                IslandSettingsGui.create(RPGMain.getInstance(), player, island).open();
+                IslandSettingsGui.create(RPGMain.getInstance(), player, island).open(player);
                 playClickSound(player);
             }
         );
@@ -446,6 +457,32 @@ public class IslandMainGui extends BaseGui {
                 player.closeInventory();
                 IslandVisitorMenuGui.create(guiManager, player, island).open(player);
                 playClickSound(player);
+            }
+        );
+    }
+    
+    /**
+     * 바이옴 변경 아이템
+     */
+    private GuiItem createBiomeChangeItem() {
+        return GuiItem.clickable(
+            new ItemBuilder(Material.GRASS_BLOCK)
+                .displayName(Component.text("바이옴 변경", ColorUtil.GREEN))
+                .lore(Arrays.asList(
+                    Component.empty(),
+                    Component.text("섬의 바이옴을", ColorUtil.GRAY),
+                    Component.text("변경할 수 있습니다.", ColorUtil.GRAY),
+                    Component.empty(),
+                    Component.text("▶ 클릭하여 열기", ColorUtil.YELLOW)
+                ))
+                .build(),
+            player -> {
+                player.closeInventory();
+                var gui = IslandBiomeChangeGui.create(RPGMain.getInstance(), player, island);
+                if (gui != null) {
+                    gui.open(player);
+                    playClickSound(player);
+                }
             }
         );
     }

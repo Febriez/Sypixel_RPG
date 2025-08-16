@@ -139,9 +139,8 @@ public class IslandVisitorGui extends BaseGui {
         String visitTime = DateFormatUtil.formatSlashDateTimeFromMillis(visit.visitedAt());
         String duration = formatDuration(visit.duration());
         
-        // 최근 방문 강조
-        boolean isRecent = System.currentTimeMillis() - visit.visitedAt() < TimeUnit.HOURS.toMillis(24);
-        String nameColor = isRecent ? "&a" : "&f";
+        // 모든 방문자 동일한 색상 사용
+        String nameColor = "&f";
         
         ItemStack item = new ItemBuilder(Material.PLAYER_HEAD)
                 .displayName(ColorUtil.parseComponent(nameColor + playerName))
@@ -270,7 +269,7 @@ public class IslandVisitorGui extends BaseGui {
         switch (slot) {
             case 45 -> { // 이전 페이지
                 if (page > 1) {
-                    IslandVisitorGui.create(plugin, viewer, island, page - 1).open();
+                    IslandVisitorGui.create(plugin, viewer, island, page - 1).open(viewer);
                 }
             }
             case 48 -> { // 뒤로가기
@@ -279,7 +278,7 @@ public class IslandVisitorGui extends BaseGui {
             }
             case 53 -> { // 다음 페이지
                 if (page < maxPage) {
-                    IslandVisitorGui.create(plugin, viewer, island, page + 1).open();
+                    IslandVisitorGui.create(plugin, viewer, island, page + 1).open(viewer);
                 }
             }
         }

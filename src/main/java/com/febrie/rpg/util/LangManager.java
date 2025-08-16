@@ -198,7 +198,10 @@ public class LangManager {
     @NotNull
     public static Component getMessage(@NotNull Player player, @NotNull String key, String... args) {
         Integer idx = keyIndex.get(key);
-        if (idx == null) return Component.text(key);
+        if (idx == null) {
+            plugin.getLogger().warning("Missing translation key: " + key);
+            return Component.text(key);
+        }
 
         boolean ko = player.locale()
                 .getLanguage()
@@ -226,7 +229,10 @@ public class LangManager {
     @NotNull
     public static List<Component> getList(@NotNull Player player, @NotNull String key) {
         Integer idx = keyIndex.get(key);
-        if (idx == null) return List.of(Component.text(key));
+        if (idx == null) {
+            plugin.getLogger().warning("Missing translation key: " + key);
+            return List.of(Component.text(key));
+        }
 
         boolean ko = player.locale()
                 .getLanguage()
@@ -248,7 +254,10 @@ public class LangManager {
 
         // 콘솔은 영어로 기본 처리
         Integer idx = keyIndex.get(key);
-        if (idx == null) return Component.text(key);
+        if (idx == null) {
+            plugin.getLogger().warning("Missing translation key: " + key);
+            return Component.text(key);
+        }
 
         // 플레이스홀더 처리
         if (args.length > 0) {

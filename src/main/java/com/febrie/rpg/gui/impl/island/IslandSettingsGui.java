@@ -217,7 +217,7 @@ public class IslandSettingsGui extends BaseGui {
                     
                     // GUI 다시 열기
                     Bukkit.getScheduler().runTask(plugin, () -> {
-                        IslandSettingsGui.create(plugin, viewer, island).open();
+                        IslandSettingsGui.create(plugin, viewer, island).open(viewer);
                     });
                     
                     return Arrays.asList(AnvilGUI.ResponseAction.close());

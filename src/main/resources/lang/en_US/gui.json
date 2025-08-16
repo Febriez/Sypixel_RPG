@@ -340,5 +340,27 @@
     "expiry-days": "{days} days",
     "expiry-hours": "{hours} hours",
     "expiry-minutes": "{minutes} minutes"
+  },
+  "island": {
+    "main": {
+      "title": "Island Management"
+    },
+    "creation": {
+      "title": "Create Island"
+    },
+    "biome-selection": {
+      "title": "Select Biome"
+    },
+    "visitor": {
+      "menu": {
+        "title": "Visitor Management"
+      },
+      "live": {
+        "title": "Current Visitors"
+      }
+    },
+    "biome-change": {
+      "title": "Change Biome"
+    }
   }
 }

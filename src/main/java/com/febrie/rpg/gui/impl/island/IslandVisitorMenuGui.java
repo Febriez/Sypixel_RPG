@@ -118,7 +118,7 @@ public class IslandVisitorMenuGui extends BaseGui {
                 .build(),
             player -> {
                 player.closeInventory();
-                IslandVisitorGui.create(RPGMain.getInstance(), player, island, 1).open();
+                IslandVisitorGui.create(RPGMain.getInstance(), player, island, 1).open(player);
                 playClickSound(player);
             }
         );

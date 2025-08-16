@@ -252,7 +252,7 @@ public class IslandContributionGui extends GuiHolder {
         switch (slot) {
             case 45 -> { // 이전 페이지
                 if (page > 1) {
-                    IslandContributionGui.create(plugin, viewer, island, page - 1).open();
+                    IslandContributionGui.create(plugin, viewer, island, page - 1).open(viewer);
                 }
             }
             case 48 -> { // 뒤로가기
@@ -267,7 +267,7 @@ public class IslandContributionGui extends GuiHolder {
             }
             case 53 -> { // 다음 페이지
                 if (page < maxPage) {
-                    IslandContributionGui.create(plugin, viewer, island, page + 1).open();
+                    IslandContributionGui.create(plugin, viewer, island, page + 1).open(viewer);
                 }
             }
         }

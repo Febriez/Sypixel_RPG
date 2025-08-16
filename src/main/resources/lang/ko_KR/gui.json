@@ -345,6 +345,17 @@
     },
     "biome-selection": {
       "title": "바이옴 선택"
+    },
+    "visitor": {
+      "menu": {
+        "title": "방문자 관리"
+      },
+      "live": {
+        "title": "현재 방문자"
+      }
+    },
+    "biome-change": {
+      "title": "바이옴 변경"
     }
   }
 }

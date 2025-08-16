@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
  * @author Febrie, CoffeeTory
  */
 public record IslandSpawnDTO(@NotNull IslandSpawnPointDTO defaultSpawn, // 기본 스폰 위치
+                             @Nullable IslandSpawnPointDTO visitorSpawn, // 방문자 스폰 위치
                              @NotNull List<IslandSpawnPointDTO> ownerSpawns, // 섬장 개인 스폰 위치들 (최대 3개)
                              @NotNull Map<String, IslandSpawnPointDTO> memberSpawns // 섬원별 개인 스폰 (UUID -> 스폰)
 ) {
@@ -23,7 +24,7 @@ public record IslandSpawnDTO(@NotNull IslandSpawnPointDTO defaultSpawn, // 기�
      * 기본 스폰 데이터 생성
      */
     public static IslandSpawnDTO createDefault() {
-        return new IslandSpawnDTO(IslandSpawnPointDTO.createDefault(), List.of(), Map.of());
+        return new IslandSpawnDTO(IslandSpawnPointDTO.createDefault(), null, List.of(), Map.of());
     }
 
     /**
@@ -51,6 +52,11 @@ public record IslandSpawnDTO(@NotNull IslandSpawnPointDTO defaultSpawn, // 기�
 
         // defaultSpawn
         map.put("defaultSpawn", defaultSpawn.toMap());
+        
+        // visitorSpawn
+        if (visitorSpawn != null) {
+            map.put("visitorSpawn", visitorSpawn.toMap());
+        }
 
         // ownerSpawns 배열
         List<Map<String, Object>> ownerSpawnsList = ownerSpawns.stream()
@@ -79,6 +85,11 @@ public record IslandSpawnDTO(@NotNull IslandSpawnPointDTO defaultSpawn, // 기�
         Map<String, Object> defaultSpawnMap = FirestoreUtils.getMapOrNull(map, "defaultSpawn", null);
         IslandSpawnPointDTO defaultSpawn = defaultSpawnMap != null ? 
             IslandSpawnPointDTO.fromMap(defaultSpawnMap) : IslandSpawnPointDTO.createDefault();
+        
+        // visitorSpawn 파싱
+        Map<String, Object> visitorSpawnMap = FirestoreUtils.getMapOrNull(map, "visitorSpawn", null);
+        IslandSpawnPointDTO visitorSpawn = visitorSpawnMap != null ?
+            IslandSpawnPointDTO.fromMap(visitorSpawnMap) : null;
 
         // ownerSpawns 배열 파싱
         List<IslandSpawnPointDTO> ownerSpawns = new ArrayList<>();
@@ -96,7 +107,7 @@ public record IslandSpawnDTO(@NotNull IslandSpawnPointDTO defaultSpawn, // 기�
             }
         }
 
-        return new IslandSpawnDTO(defaultSpawn, ownerSpawns, memberSpawns);
+        return new IslandSpawnDTO(defaultSpawn, visitorSpawn, ownerSpawns, memberSpawns);
     }
 
 }

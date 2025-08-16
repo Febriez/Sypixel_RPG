@@ -9,6 +9,7 @@ import com.febrie.rpg.island.IslandCache;
 import com.febrie.rpg.island.IslandPlayer;
 import com.febrie.rpg.island.IslandService;
 import com.febrie.rpg.island.world.IslandWorldManager;
+import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.LogUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -217,7 +218,7 @@ public class IslandManager {
 
                 // 설정을 포함한 새로운 섬 데이터 생성
                 IslandSettingsDTO settings = new IslandSettingsDTO(colorHex, biome, template);
-                IslandDTO islandData = new IslandDTO(baseIsland.islandId(), baseIsland.ownerUuid(), baseIsland.ownerName(), baseIsland.islandName(), baseIsland.size(), baseIsland.isPublic(), baseIsland.createdAt(), baseIsland.lastActivity(), baseIsland.members(), baseIsland.workers(), baseIsland.contributions(), new IslandSpawnDTO(new IslandSpawnPointDTO(location.centerX(), 66.0, location.centerZ(), 0.0f, 0.0f, "섬 중앙"), List.of(), Map.of()), baseIsland.upgradeData(), baseIsland.permissions(), baseIsland.pendingInvites(), baseIsland.recentVisits(), baseIsland.totalResets(), baseIsland.deletionScheduledAt(), settings);
+                IslandDTO islandData = new IslandDTO(baseIsland.islandId(), baseIsland.ownerUuid(), baseIsland.ownerName(), baseIsland.islandName(), baseIsland.size(), baseIsland.isPublic(), baseIsland.createdAt(), baseIsland.lastActivity(), baseIsland.members(), baseIsland.workers(), baseIsland.contributions(), new IslandSpawnDTO(new IslandSpawnPointDTO(location.centerX(), 66.0, location.centerZ(), 0.0f, 0.0f, "섬 중앙"), null, List.of(), Map.of()), baseIsland.upgradeData(), baseIsland.permissions(), baseIsland.pendingInvites(), baseIsland.recentVisits(), baseIsland.totalResets(), baseIsland.deletionScheduledAt(), settings);
 
                 // 섬 저장
                 return islandService.saveIsland(islandData)
@@ -594,5 +595,91 @@ public class IslandManager {
                 return false;
             }
         });
+    }
+
+    /**
+     * 플레이어를 섬으로 텔레포트 (멤버/방문자 구분)
+     */
+    public void teleportToIsland(@NotNull Player player, @NotNull IslandDTO island) {
+        World world = worldManager.getIslandWorld();
+        if (world == null) {
+            player.sendMessage(ColorUtil.colorize("&c섬 월드를 찾을 수 없습니다."));
+            return;
+        }
+
+        Location spawnLocation;
+        String playerUuid = player.getUniqueId()
+                .toString();
+
+        // 섬 주인인지 확인
+        boolean isOwner = island.ownerUuid()
+                .equals(playerUuid);
+
+        // 섬 멤버인지 확인
+        boolean isMember = island.members()
+                .stream()
+                .anyMatch(m -> m.uuid()
+                        .equals(playerUuid));
+
+        // 알바생인지 확인
+        boolean isWorker = island.workers()
+                .stream()
+                .anyMatch(w -> w.uuid()
+                        .equals(playerUuid));
+
+        IslandSpawnDTO spawnData = island.spawnData();
+
+        if (isOwner || isMember || isWorker) {
+            // 섬원/알바생은 기본 스폰으로
+            IslandSpawnPointDTO defaultSpawn = spawnData.defaultSpawn();
+            spawnLocation = new Location(world, defaultSpawn.x(), defaultSpawn.y(), defaultSpawn.z(), defaultSpawn.yaw(), defaultSpawn.pitch());
+        } else {
+            // 방문자는 방문자 스폰으로 (없으면 기본 스폰)
+            IslandSpawnPointDTO visitorSpawn = spawnData.visitorSpawn();
+            if (visitorSpawn != null) {
+                spawnLocation = new Location(world, visitorSpawn.x(), visitorSpawn.y(), visitorSpawn.z(), visitorSpawn.yaw(), visitorSpawn.pitch());
+            } else {
+                IslandSpawnPointDTO defaultSpawn = spawnData.defaultSpawn();
+                spawnLocation = new Location(world, defaultSpawn.x(), defaultSpawn.y(), defaultSpawn.z(), defaultSpawn.yaw(), defaultSpawn.pitch());
+            }
+        }
+
+        // 텔레포트
+        player.teleport(spawnLocation);
+
+        // 메시지
+        if (isOwner || isMember || isWorker) {
+            player.sendMessage(ColorUtil.colorize("&a섬으로 이동했습니다."));
+        } else {
+            player.sendMessage(ColorUtil.colorize("&e" + island.islandName() + " 섬을 방문했습니다."));
+
+            // 방문 기록 추가
+            recordVisit(island, player);
+        }
+    }
+
+    /**
+     * 방문 기록 추가
+     */
+    private void recordVisit(@NotNull IslandDTO island, @NotNull Player visitor) {
+        String visitorUuid = visitor.getUniqueId()
+                .toString();
+        String visitorName = visitor.getName();
+        long now = System.currentTimeMillis();
+
+        // 새 방문 기록 생성
+        IslandVisitDTO newVisit = new IslandVisitDTO(visitorUuid, visitorName, now, 0L);
+
+        // 방문 기록 리스트 업데이트 (최대 100개 유지)
+        List<IslandVisitDTO> visits = new ArrayList<>(island.recentVisits());
+        visits.addFirst(newVisit);
+        if (visits.size() > 100) {
+            visits = visits.subList(0, 100);
+        }
+
+        // 섬 데이터 업데이트
+        IslandDTO updated = new IslandDTO(island.islandId(), island.ownerUuid(), island.ownerName(), island.islandName(), island.size(), island.isPublic(), island.createdAt(), System.currentTimeMillis(), island.members(), island.workers(), island.contributions(), island.spawnData(), island.upgradeData(), island.permissions(), island.pendingInvites(), visits, island.totalResets(), island.deletionScheduledAt(), island.settings());
+
+        updateIsland(updated);
     }
 }

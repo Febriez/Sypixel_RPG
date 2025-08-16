@@ -3,6 +3,7 @@ package com.febrie.rpg.gui.impl.island;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.dto.island.IslandSpawnDTO;
+import com.febrie.rpg.dto.island.IslandSpawnPointDTO;
 import com.febrie.rpg.gui.BaseGui;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.ColorUtil;
@@ -67,6 +68,9 @@ public class IslandSpawnSettingsGui extends BaseGui {
             // 고급 설정
             setItem(30, createSpawnProtectionItem());
             setItem(32, createSpawnMessageItem());
+            
+            // 개인 스폰 관리
+            setItem(40, createPersonalSpawnItem());
         } else {
             // 권한 없음 안내
             setItem(22, createNoPermissionItem());
@@ -79,17 +83,28 @@ public class IslandSpawnSettingsGui extends BaseGui {
     private ItemStack createCurrentSpawnInfo() {
         IslandSpawnDTO spawn = island.spawnData();
         com.febrie.rpg.dto.island.IslandSpawnPointDTO defaultSpawn = spawn.defaultSpawn();
+        com.febrie.rpg.dto.island.IslandSpawnPointDTO visitorSpawn = spawn.visitorSpawn();
         String mainSpawn = String.format("%.1f, %.1f, %.1f", defaultSpawn.x(), defaultSpawn.y(), defaultSpawn.z());
         
-        return new ItemBuilder(Material.BEACON)
+        ItemBuilder builder = new ItemBuilder(Material.BEACON)
                 .displayName(ColorUtil.parseComponent("&b&l현재 스폰 설정"))
                 .addLore(ColorUtil.parseComponent(""))
                 .addLore(ColorUtil.parseComponent("&7기본 스폰: &f" + mainSpawn))
                 .addLore(ColorUtil.parseComponent("&7위치 이름: &f" + defaultSpawn.alias()))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7기본 스폰: 모든 플레이어가 이동하는 위치"))
-                .addLore(ColorUtil.parseComponent("&7개인 스폰은 별도로 설정 가능합니다"))
-                .build();
+                .addLore(ColorUtil.parseComponent(""));
+        
+        if (visitorSpawn != null) {
+            String visitorLoc = String.format("%.1f, %.1f, %.1f", visitorSpawn.x(), visitorSpawn.y(), visitorSpawn.z());
+            builder.addLore(ColorUtil.parseComponent("&7방문자 스폰: &f" + visitorLoc));
+        } else {
+            builder.addLore(ColorUtil.parseComponent("&7방문자 스폰: &c설정되지 않음"));
+        }
+        
+        builder.addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7기본 스폰: 섬원이 이동하는 위치"))
+                .addLore(ColorUtil.parseComponent("&7방문자 스폰: 방문자가 이동하는 위치"));
+        
+        return builder.build();
     }
     
     private ItemStack createSetMainSpawnItem() {
@@ -144,6 +159,17 @@ public class IslandSpawnSettingsGui extends BaseGui {
                 .build();
     }
     
+    private ItemStack createPersonalSpawnItem() {
+        return new ItemBuilder(Material.ENDER_CHEST)
+                .displayName(ColorUtil.parseComponent("&d&l개인 스폰 관리"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&7자신만의 개인 스폰을"))
+                .addLore(ColorUtil.parseComponent("&7설정하고 관리합니다"))
+                .addLore(ColorUtil.parseComponent(""))
+                .addLore(ColorUtil.parseComponent("&e▶ 클릭하여 관리"))
+                .build();
+    }
+    
     private ItemStack createSpawnMessageItem() {
         return new ItemBuilder(Material.WRITABLE_BOOK)
                 .displayName(ColorUtil.parseComponent("&e&l환영 메시지"))
@@ -191,6 +217,10 @@ public class IslandSpawnSettingsGui extends BaseGui {
             case 24 -> handleResetSpawn(player);
             case 30 -> player.sendMessage(ColorUtil.colorize("&c이 기능은 아직 구현되지 않았습니다."));
             case 32 -> player.sendMessage(ColorUtil.colorize("&c이 기능은 아직 구현되지 않았습니다."));
+            case 40 -> {
+                player.closeInventory();
+                IslandPersonalSpawnGui.create(plugin, viewer, island).open(viewer);
+            }
             case 49 -> {
                 player.closeInventory();
                 IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
@@ -218,6 +248,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
         // 새로운 스폰 DTO 생성
         IslandSpawnDTO newSpawn = new IslandSpawnDTO(
                 newDefaultSpawn,
+                island.spawnData().visitorSpawn(),
                 island.spawnData().ownerSpawns(),
                 island.spawnData().memberSpawns()
         );
@@ -231,9 +262,35 @@ public class IslandSpawnSettingsGui extends BaseGui {
     }
     
     private void handleSetVisitorSpawn(Player player) {
-        // 현재 구조에서는 방문자 전용 스폰이 없으므로 기능 비활성화
-        player.sendMessage(ColorUtil.colorize("&c이 기능은 현재 지원되지 않습니다."));
-        player.sendMessage(ColorUtil.colorize("&7모든 플레이어가 기본 스폰을 사용합니다."));
+        Location loc = player.getLocation();
+        
+        // 섬 영역 내인지 확인
+        if (!islandManager.getWorldManager().isIslandWorld(loc.getWorld())) {
+            player.sendMessage(ColorUtil.colorize("&c섬 월드에서만 스폰을 설정할 수 있습니다."));
+            return;
+        }
+        
+        // 방문자 스폰 위치 생성
+        IslandSpawnPointDTO visitorSpawn = new IslandSpawnPointDTO(
+            loc.getX(), loc.getY(), loc.getZ(),
+            loc.getYaw(), loc.getPitch(),
+            loc.getWorld().getName()
+        );
+        
+        // 섬 스폰 데이터 업데이트
+        IslandSpawnDTO newSpawn = new IslandSpawnDTO(
+            island.spawnData().defaultSpawn(),
+            visitorSpawn,
+            island.spawnData().ownerSpawns(),
+            island.spawnData().memberSpawns()
+        );
+        
+        // 섬 업데이트
+        IslandDTO updated = GuiHandlerUtil.updateIslandSpawn(island, newSpawn);
+        
+        islandManager.updateIsland(updated);
+        player.sendMessage(ColorUtil.colorize("&a방문자 스폰이 설정되었습니다!"));
+        refresh();
     }
     
     private void handleResetSpawn(Player player) {
