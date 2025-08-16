@@ -53,6 +53,7 @@ public class IslandPermissionHandler {
             case "MANAGE_WORKERS" -> rolePerms.canManageWorkers();
             case "MODIFY_SPAWNS" -> rolePerms.canSetSpawn();
             case "CHANGE_SETTINGS" -> rolePerms.canManagePermissions();
+            case "VIEW_VISITORS" -> rolePerms.canViewVisitors();
             default -> false;
         };
     }

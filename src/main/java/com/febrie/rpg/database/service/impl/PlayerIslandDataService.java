@@ -11,8 +11,11 @@ import com.google.cloud.firestore.Firestore;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * 플레이어 섬 데이터 Firestore 서비스
@@ -80,5 +83,40 @@ public class PlayerIslandDataService extends BaseFirestoreService<PlayerIslandDa
             LogUtil.warning("플레이어 섬 데이터 파싱 실패 [" + document.getId() + "]: " + e.getMessage());
             return null;
         }
+    }
+    
+    /**
+     * 모든 플레이어 섬 데이터 로드 (사전 로드용)
+     * 서버 시작 시 모든 플레이어 데이터를 캐시에 로드하기 위해 사용
+     */
+    @NotNull
+    public CompletableFuture<List<PlayerIslandDataDTO>> getAllPlayerData() {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                List<PlayerIslandDataDTO> players = new ArrayList<>();
+                
+                // 모든 플레이어 데이터를 가져온 후 필터링
+                var future = firestore.collection("PlayerIslandData").get();
+                
+                var querySnapshot = future.get(30, java.util.concurrent.TimeUnit.SECONDS);
+                
+                for (var doc : querySnapshot.getDocuments()) {
+                    // currentIslandId가 null이 아닌 경우만 추가
+                    if (doc.get("currentIslandId") != null) {
+                        PlayerIslandDataDTO player = fromDocument(doc);
+                        if (player != null) {
+                            players.add(player);
+                        }
+                    }
+                }
+                
+                LogUtil.debug("Firestore에서 " + players.size() + "명 플레이어 섬 데이터 로드");
+                return players;
+                
+            } catch (Exception e) {
+                LogUtil.error("모든 플레이어 섬 데이터 로드 실패", e);
+                return new ArrayList<>();
+            }
+        });
     }
 }

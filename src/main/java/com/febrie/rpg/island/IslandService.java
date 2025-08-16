@@ -139,6 +139,32 @@ public class IslandService {
     }
     
     /**
+     * 모든 섬 데이터 로드
+     */
+    public CompletableFuture<List<IslandDTO>> loadAllIslands() {
+        if (isOfflineMode) {
+            LogUtil.info("오프라인 모드: 섬 데이터를 로드하지 않습니다.");
+            return CompletableFuture.completedFuture(new ArrayList<>());
+        }
+        
+        // getAllIslands()가 이미 CompletableFuture<List<IslandDTO>>를 반환하므로 직접 반환
+        return firestoreService.getAllIslands();
+    }
+    
+    /**
+     * 모든 플레이어 섬 데이터 로드
+     */
+    public CompletableFuture<List<PlayerIslandDataDTO>> loadAllPlayerData() {
+        if (isOfflineMode) {
+            LogUtil.info("오프라인 모드: 플레이어 데이터를 로드하지 않습니다.");
+            return CompletableFuture.completedFuture(new ArrayList<>());
+        }
+        
+        // getAllPlayerData()가 이미 CompletableFuture<List<PlayerIslandDataDTO>>를 반환하므로 직접 반환
+        return playerDataService.getAllPlayerData();
+    }
+    
+    /**
      * 오프라인 모드 여부
      */
     public boolean isOfflineMode() {

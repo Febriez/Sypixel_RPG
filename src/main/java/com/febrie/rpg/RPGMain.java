@@ -15,6 +15,7 @@ import com.febrie.rpg.database.service.impl.QuestFirestoreService;
 import com.febrie.rpg.gui.listener.GuiListener;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.listener.IslandProtectionListener;
+import com.febrie.rpg.island.listener.IslandRespawnListener;
 import com.febrie.rpg.island.listener.IslandVisitListener;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.listener.DamageDisplayListener;
@@ -64,6 +65,7 @@ public final class RPGMain extends JavaPlugin {
     private IslandFirestoreService islandFirestoreService;
     private PlayerIslandDataService playerIslandDataService;
     private IslandManager islandManager;
+    private IslandVisitListener islandVisitListener;
     private ServerStatsManager serverStatsManager;
 
     // 명령어
@@ -294,11 +296,16 @@ public final class RPGMain extends JavaPlugin {
         if (islandManager != null) {
             getServer().getPluginManager()
                     .registerEvents(new IslandProtectionListener(this, islandManager), this);
+            
+            // 섬 리스폰 리스너 등록
+            getServer().getPluginManager()
+                    .registerEvents(new IslandRespawnListener(this, islandManager), this);
         }
 
         // 섬 방문 추적 리스너 등록
+        this.islandVisitListener = new IslandVisitListener(this);
         getServer().getPluginManager()
-                .registerEvents(new IslandVisitListener(this), this);
+                .registerEvents(islandVisitListener, this);
     }
 
     /**
@@ -407,6 +414,10 @@ public final class RPGMain extends JavaPlugin {
 
     public IslandManager getIslandManager() {
         return islandManager;
+    }
+
+    public IslandVisitListener getIslandVisitListener() {
+        return islandVisitListener;
     }
 
     public FirestoreManager getFirestoreManager() {

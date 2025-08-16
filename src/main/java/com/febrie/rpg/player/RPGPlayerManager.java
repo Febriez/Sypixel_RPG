@@ -4,6 +4,7 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.service.impl.PlayerFirestoreService;
 import com.febrie.rpg.database.sync.DataSyncManager;
 import com.febrie.rpg.database.task.BatchSaveTask;
+import com.febrie.rpg.dto.island.PlayerIslandDataDTO;
 import com.febrie.rpg.dto.player.PlayerDataDTO;
 import com.febrie.rpg.dto.player.PlayerDTO;
 import com.febrie.rpg.dto.player.PlayerProfileDTO;
@@ -103,7 +104,23 @@ public class RPGPlayerManager implements Listener {
      */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
-        loadPlayerAsync(event.getPlayer());
+        Player player = event.getPlayer();
+        String uuid = player.getUniqueId().toString();
+        
+        // RPG 데이터 로드
+        loadPlayerAsync(player);
+        
+        // 섬 데이터는 이미 캐시에 있음 - 확인만
+        if (plugin.getIslandManager() != null) {
+            PlayerIslandDataDTO islandData = plugin.getIslandManager()
+                .getPlayerIslandDataFromCache(uuid);
+            
+            if (islandData != null) {
+                LogUtil.debug("플레이어 " + player.getName() + " 섬 데이터 캐시 적중");
+            } else {
+                LogUtil.debug("플레이어 " + player.getName() + " 섬 데이터 없음");
+            }
+        }
     }
 
     /**

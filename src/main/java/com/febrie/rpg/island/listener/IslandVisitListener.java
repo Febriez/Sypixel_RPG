@@ -180,63 +180,26 @@ public class IslandVisitListener implements Listener {
     private void endVisit(@NotNull String playerUuid, @NotNull VisitInfo visit) {
         long duration = System.currentTimeMillis() - visit.startTime;
         
-        // 5초 미만 방문은 기록하지 않음
+        // 5초 미만 방문은 로그 출력하지 않음
         if (duration < 5000) {
             return;
         }
         
-        // 방문 기록 저장
+        // 방문 종료 로그만 출력 (저장하지 않음)
         islandManager.loadIsland(visit.islandId).thenAccept(island -> {
             if (island == null) return;
             
-            // 방문 기록 생성
             Player player = Bukkit.getPlayer(java.util.UUID.fromString(playerUuid));
             String playerName = player != null ? player.getName() : "Unknown";
-            IslandVisitDTO visitRecord = new IslandVisitDTO(
-                    playerUuid,
-                    playerName,
-                    visit.startTime,
-                    duration
-            );
             
-            // 최근 방문 목록 업데이트 (최대 100개 유지)
-            IslandDTO islandData = island.getData();
-            List<IslandVisitDTO> recentVisits = new ArrayList<>(islandData.recentVisits());
-            recentVisits.add(0, visitRecord); // 최신 방문을 앞에 추가
+            // 방문 시간을 분:초 형식으로 표시
+            long totalSeconds = duration / 1000;
+            long minutes = totalSeconds / 60;
+            long seconds = totalSeconds % 60;
+            String timeStr = minutes > 0 ? minutes + "분 " + seconds + "초" : seconds + "초";
             
-            if (recentVisits.size() > 100) {
-                recentVisits = recentVisits.subList(0, 100);
-            }
-            
-            // 섬 데이터 업데이트
-            IslandDTO updatedIsland = new IslandDTO(
-                    islandData.islandId(),
-                    islandData.ownerUuid(),
-                    islandData.ownerName(),
-                    islandData.islandName(),
-                    islandData.size(),
-                    islandData.isPublic(),
-                    islandData.createdAt(),
-                    islandData.lastActivity(),
-                    islandData.members(),
-                    islandData.workers(),
-                    islandData.contributions(),
-                    islandData.spawnData(),
-                    islandData.upgradeData(),
-                    islandData.permissions(),
-                    islandData.pendingInvites(),
-                    recentVisits,
-                    islandData.totalResets(),
-                    islandData.deletionScheduledAt(),
-                    islandData.settings()
-            );
-            
-            islandManager.updateIsland(updatedIsland).thenAccept(success -> {
-                if (success) {
-                    LogUtil.info("방문 기록 저장: " + playerUuid + " -> " + island.getName() + 
-                            " (" + (duration / 1000) + "초)");
-                }
-            });
+            LogUtil.info("방문 종료: " + playerName + " -> " + island.getName() + 
+                    " (" + timeStr + ")");
         });
     }
     
@@ -246,6 +209,88 @@ public class IslandVisitListener implements Listener {
     public Optional<String> getCurrentVisitingIsland(@NotNull String playerUuid) {
         VisitInfo visit = currentVisits.get(playerUuid);
         return visit != null ? Optional.of(visit.islandId) : Optional.empty();
+    }
+    
+    /**
+     * 특정 섬의 현재 방문자 목록 가져오기
+     */
+    public List<CurrentVisitorInfo> getCurrentVisitors(@NotNull String islandId) {
+        List<CurrentVisitorInfo> visitors = new ArrayList<>();
+        currentVisits.forEach((playerUuid, visit) -> {
+            if (visit.islandId.equals(islandId)) {
+                Player player = Bukkit.getPlayer(java.util.UUID.fromString(playerUuid));
+                if (player != null && player.isOnline()) {
+                    visitors.add(new CurrentVisitorInfo(
+                        playerUuid,
+                        player.getName(),
+                        visit.startTime,
+                        System.currentTimeMillis() - visit.startTime
+                    ));
+                }
+            }
+        });
+        return visitors;
+    }
+    
+    /**
+     * 특정 방문자의 방문 정보 가져오기
+     */
+    public Optional<CurrentVisitorInfo> getVisitInfo(@NotNull String islandId, @NotNull String playerUuid) {
+        VisitInfo visit = currentVisits.get(playerUuid);
+        if (visit != null && visit.islandId.equals(islandId)) {
+            Player player = Bukkit.getPlayer(java.util.UUID.fromString(playerUuid));
+            if (player != null && player.isOnline()) {
+                return Optional.of(new CurrentVisitorInfo(
+                    playerUuid,
+                    player.getName(),
+                    visit.startTime,
+                    System.currentTimeMillis() - visit.startTime
+                ));
+            }
+        }
+        return Optional.empty();
+    }
+    
+    /**
+     * 모든 현재 방문자 목록 가져오기
+     */
+    public Map<String, List<CurrentVisitorInfo>> getAllCurrentVisitors() {
+        Map<String, List<CurrentVisitorInfo>> allVisitors = new HashMap<>();
+        currentVisits.forEach((playerUuid, visit) -> {
+            Player player = Bukkit.getPlayer(java.util.UUID.fromString(playerUuid));
+            if (player != null && player.isOnline()) {
+                allVisitors.computeIfAbsent(visit.islandId, k -> new ArrayList<>())
+                    .add(new CurrentVisitorInfo(
+                        playerUuid,
+                        player.getName(),
+                        visit.startTime,
+                        System.currentTimeMillis() - visit.startTime
+                    ));
+            }
+        });
+        return allVisitors;
+    }
+    
+    /**
+     * 현재 방문 정보 클래스
+     */
+    public static class CurrentVisitorInfo {
+        private final String playerUuid;
+        private final String playerName;
+        private final long visitStartTime;
+        private final long currentDuration;
+        
+        public CurrentVisitorInfo(String playerUuid, String playerName, long visitStartTime, long currentDuration) {
+            this.playerUuid = playerUuid;
+            this.playerName = playerName;
+            this.visitStartTime = visitStartTime;
+            this.currentDuration = currentDuration;
+        }
+        
+        public String getPlayerUuid() { return playerUuid; }
+        public String getPlayerName() { return playerName; }
+        public long getVisitStartTime() { return visitStartTime; }
+        public long getCurrentDuration() { return currentDuration; }
     }
     
     /**

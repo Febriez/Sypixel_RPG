@@ -9,6 +9,7 @@ import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
+import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
@@ -173,7 +174,10 @@ public class IslandMainGui extends BaseGui {
         setItem(23, createContributionItem());
         setItem(24, createSpawnSettingsItem());
         setItem(30, createIslandSettingsItem());
-        setItem(31, createVisitorListItem());
+        // 방문자 목록은 권한 체크 후 표시
+        if (IslandPermissionHandler.hasPermission(island, viewer, "VIEW_VISITORS")) {
+            setItem(31, createVisitorListItem());
+        }
         setItem(32, createWarpItem());
     }
     
@@ -186,7 +190,10 @@ public class IslandMainGui extends BaseGui {
         setItem(22, createUpgradeItem());
         setItem(23, createContributionItem());
         setItem(24, createSpawnSettingsItem());
-        setItem(31, createVisitorListItem());
+        // 방문자 목록은 권한 체크 후 표시
+        if (IslandPermissionHandler.hasPermission(island, viewer, "VIEW_VISITORS")) {
+            setItem(31, createVisitorListItem());
+        }
         setItem(32, createWarpItem());
     }
     
@@ -197,7 +204,10 @@ public class IslandMainGui extends BaseGui {
         setItem(13, createIslandInfoItem());
         setItem(22, createUpgradeItem());
         setItem(23, createContributionItem());
-        setItem(31, createVisitorListItem());
+        // 방문자 목록은 권한 체크 후 표시
+        if (IslandPermissionHandler.hasPermission(island, viewer, "VIEW_VISITORS")) {
+            setItem(31, createVisitorListItem());
+        }
         setItem(32, createWarpItem());
     }
     
@@ -207,7 +217,10 @@ public class IslandMainGui extends BaseGui {
     private void setupWorkerMenu() {
         setItem(13, createIslandInfoItem());
         setItem(23, createContributionItem());
-        setItem(31, createVisitorListItem());
+        // 방문자 목록은 권한 체크 후 표시
+        if (IslandPermissionHandler.hasPermission(island, viewer, "VIEW_VISITORS")) {
+            setItem(31, createVisitorListItem());
+        }
         setItem(32, createWarpItem());
     }
     
@@ -217,7 +230,10 @@ public class IslandMainGui extends BaseGui {
     private void setupVisitorMenu() {
         setItem(13, createIslandInfoItem());
         setItem(23, createContributionItem()); // 방문자도 기여도 순위를 볼 수 있도록 추가
-        setItem(31, createVisitorListItem());
+        // 방문자 목록은 권한 체크 후 표시 (방문자는 기본적으로 권한 없음)
+        if (IslandPermissionHandler.hasPermission(island, viewer, "VIEW_VISITORS")) {
+            setItem(31, createVisitorListItem());
+        }
         setItem(32, createWarpItem());
     }
     
@@ -370,7 +386,7 @@ public class IslandMainGui extends BaseGui {
                 .build(),
             player -> {
                 player.closeInventory();
-                IslandSpawnSettingsGui.create(RPGMain.getInstance(), player, island).open();
+                IslandSpawnSettingsGui.create(RPGMain.getInstance(), player, island).open(player);
                 playClickSound(player);
             }
         );
@@ -404,22 +420,31 @@ public class IslandMainGui extends BaseGui {
      * 방문자 목록 아이템
      */
     private GuiItem createVisitorListItem() {
+        // 현재 방문자 수 계산
+        var visitListener = RPGMain.getInstance().getIslandVisitListener();
+        int currentVisitorCount = visitListener != null ? 
+            visitListener.getCurrentVisitors(island.islandId()).size() : 0;
+        
         return GuiItem.clickable(
             new ItemBuilder(Material.BOOK)
-                .displayName(Component.text("방문자 기록", ColorUtil.WHITE))
+                .displayName(Component.text("방문자 관리", ColorUtil.WHITE))
                 .lore(List.of(
                     Component.empty(),
-                    Component.text("최근 방문자 목록을", ColorUtil.GRAY),
+                    Component.text("방문자 관련 정보를", ColorUtil.GRAY),
                     Component.text("확인할 수 있습니다.", ColorUtil.GRAY),
                     Component.empty(),
                     Component.text("최근 방문자: ", ColorUtil.GRAY).append(Component.text(island.recentVisits().size() + "명", ColorUtil.YELLOW)),
+                    Component.text("현재 방문자: ", ColorUtil.GRAY).append(Component.text(currentVisitorCount + "명", ColorUtil.AQUA)),
                     Component.empty(),
-                    Component.text("▶ 클릭하여 열기", ColorUtil.YELLOW)
+                    Component.text("• 방문 히스토리", ColorUtil.DARK_GRAY),
+                    Component.text("• 현재 방문자 (실시간)", ColorUtil.DARK_GRAY),
+                    Component.empty(),
+                    Component.text("▶ 클릭하여 메뉴 열기", ColorUtil.GREEN)
                 ))
                 .build(),
             player -> {
                 player.closeInventory();
-                IslandVisitorGui.create(RPGMain.getInstance(), player, island, 1).open();
+                IslandVisitorMenuGui.create(guiManager, player, island).open(player);
                 playClickSound(player);
             }
         );

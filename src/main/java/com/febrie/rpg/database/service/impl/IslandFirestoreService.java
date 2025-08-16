@@ -84,4 +84,38 @@ public class IslandFirestoreService extends BaseFirestoreService<IslandDTO> {
                         .filter(island -> island.islandName().toLowerCase().contains(lowerSearch))
                         .collect(Collectors.toList()));
     }
+    
+    /**
+     * 모든 섬 데이터 로드 (사전 로드용)
+     * 서버 시작 시 모든 섬 데이터를 캐시에 로드하기 위해 사용
+     */
+    @NotNull
+    public CompletableFuture<List<IslandDTO>> getAllIslands() {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                List<IslandDTO> islands = new ArrayList<>();
+                
+                // 모든 섬 데이터를 가져옴
+                var future = firestore.collection(COLLECTION_NAME)
+                        .orderBy("lastActivity", com.google.cloud.firestore.Query.Direction.DESCENDING)
+                        .get();
+                
+                var querySnapshot = future.get(30, java.util.concurrent.TimeUnit.SECONDS);
+                
+                for (var doc : querySnapshot.getDocuments()) {
+                    IslandDTO island = fromDocument(doc);
+                    if (island != null) {
+                        islands.add(island);
+                    }
+                }
+                
+                LogUtil.debug("Firestore에서 " + islands.size() + "개 섬 데이터 로드");
+                return islands;
+                
+            } catch (Exception e) {
+                LogUtil.error("모든 섬 데이터 로드 실패", e);
+                return new ArrayList<>();
+            }
+        });
+    }
 }

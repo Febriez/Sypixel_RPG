@@ -279,7 +279,6 @@
             <groupId>net.wesjd</groupId>
             <artifactId>anvilgui</artifactId>
             <version>1.10.6-SNAPSHOT</version>
-            <scope>provided</scope>
         </dependency>
 
         <!-- FastAsyncWorldEdit Core - provided -->

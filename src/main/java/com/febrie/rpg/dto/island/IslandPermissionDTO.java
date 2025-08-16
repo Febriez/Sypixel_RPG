@@ -42,7 +42,8 @@ public record IslandPermissionDTO(
                 true,  // canManageWorkers
                 false, // canManagePermissions
                 false, // canUpgrade
-                false  // canReset
+                false, // canReset
+                true   // canViewVisitors
         ));
         
         // 일반 섬원 기본 권한
@@ -56,7 +57,8 @@ public record IslandPermissionDTO(
                 false, // canManageWorkers
                 false, // canManagePermissions
                 false, // canUpgrade
-                false  // canReset
+                false, // canReset
+                false  // canViewVisitors
         ));
         
         // 알바생 기본 권한
@@ -70,7 +72,8 @@ public record IslandPermissionDTO(
                 false, // canManageWorkers
                 false, // canManagePermissions
                 false, // canUpgrade
-                false  // canReset
+                false, // canReset
+                false  // canViewVisitors
         ));
         
         // 방문자 기본 권한 (모두 비활성화)
@@ -162,20 +165,21 @@ public record IslandPermissionDTO(
             boolean canManageWorkers,
             boolean canManagePermissions,
             boolean canUpgrade,
-            boolean canReset
+            boolean canReset,
+            boolean canViewVisitors
     ) {
         /**
          * 모든 권한 활성화
          */
         public static RolePermissions all() {
-            return new RolePermissions(true, true, true, true, true, true, true, true, true, true);
+            return new RolePermissions(true, true, true, true, true, true, true, true, true, true, true);
         }
         
         /**
          * 모든 권한 비활성화
          */
         public static RolePermissions none() {
-            return new RolePermissions(false, false, false, false, false, false, false, false, false, false);
+            return new RolePermissions(false, false, false, false, false, false, false, false, false, false, false);
         }
         
         /**
@@ -195,6 +199,7 @@ public record IslandPermissionDTO(
             map.put("canManagePermissions", canManagePermissions);
             map.put("canUpgrade", canUpgrade);
             map.put("canReset", canReset);
+            map.put("canViewVisitors", canViewVisitors);
             
             return map;
         }
@@ -218,9 +223,10 @@ public record IslandPermissionDTO(
             boolean canManagePermissions = FirestoreUtils.getBoolean(map, "canManagePermissions", false);
             boolean canUpgrade = FirestoreUtils.getBoolean(map, "canUpgrade", false);
             boolean canReset = FirestoreUtils.getBoolean(map, "canReset", false);
+            boolean canViewVisitors = FirestoreUtils.getBoolean(map, "canViewVisitors", false);
             
             return new RolePermissions(canBuild, canBreak, canInteract, canInvite, canKick, 
-                    canSetSpawn, canManageWorkers, canManagePermissions, canUpgrade, canReset);
+                    canSetSpawn, canManageWorkers, canManagePermissions, canUpgrade, canReset, canViewVisitors);
         }
     }
 }

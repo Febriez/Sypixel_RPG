@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * 섬 캐시 관리 클래스
@@ -21,6 +22,10 @@ public class IslandCache {
     private final Map<String, String> playerIslandMap = new ConcurrentHashMap<>(); // playerUuid -> islandId
     private final Map<String, PlayerIslandDataDTO> playerDataCache = new ConcurrentHashMap<>();
     
+    // 캐시 통계
+    private final AtomicLong cacheHits = new AtomicLong(0);
+    private final AtomicLong cacheMisses = new AtomicLong(0);
+    
     /**
      * 섬 캐시에 추가
      */
@@ -33,7 +38,13 @@ public class IslandCache {
      */
     @Nullable
     public IslandDTO getIsland(@NotNull String islandId) {
-        return islandCache.get(islandId);
+        IslandDTO island = islandCache.get(islandId);
+        if (island != null) {
+            cacheHits.incrementAndGet();
+        } else {
+            cacheMisses.incrementAndGet();
+        }
+        return island;
     }
     
     /**
@@ -62,7 +73,13 @@ public class IslandCache {
      */
     @Nullable
     public PlayerIslandDataDTO getPlayerData(@NotNull String playerUuid) {
-        return playerDataCache.get(playerUuid);
+        PlayerIslandDataDTO data = playerDataCache.get(playerUuid);
+        if (data != null) {
+            cacheHits.incrementAndGet();
+        } else {
+            cacheMisses.incrementAndGet();
+        }
+        return data;
     }
     
     /**
@@ -134,6 +151,30 @@ public class IslandCache {
     }
     
     /**
+     * 섬 개수 반환
+     */
+    public int getIslandCount() {
+        return islandCache.size();
+    }
+    
+    /**
+     * 플레이어 데이터 개수 반환
+     */
+    public int getPlayerCount() {
+        return playerDataCache.size();
+    }
+    
+    /**
+     * 예상 메모리 사용량 (KB)
+     */
+    public long getEstimatedMemoryUsage() {
+        // 예상 메모리 사용량 계산
+        long islandMemory = islandCache.size() * 3L; // 3KB per island
+        long playerMemory = playerDataCache.size() / 5; // ~200 bytes per player
+        return islandMemory + playerMemory;
+    }
+    
+    /**
      * 캐시 통계
      */
     public String getStats() {
@@ -142,5 +183,32 @@ public class IslandCache {
                 playerDataCache.size(),
                 playerIslandMap.size()
         );
+    }
+    
+    /**
+     * 캐시 상세 통계
+     */
+    public String getCacheStats() {
+        long totalRequests = cacheHits.get() + cacheMisses.get();
+        double hitRate = totalRequests > 0 ? 
+            (cacheHits.get() / (double)totalRequests * 100) : 0;
+        
+        return String.format(
+            "캐시 통계: 섬 %d개, 플레이어 %d개, 메모리 ~%d KB, 적중률 %.1f%% (%d/%d)",
+            getIslandCount(),
+            getPlayerCount(),
+            getEstimatedMemoryUsage(),
+            hitRate,
+            cacheHits.get(),
+            totalRequests
+        );
+    }
+    
+    /**
+     * 캐시 통계 리셋
+     */
+    public void resetStats() {
+        cacheHits.set(0);
+        cacheMisses.set(0);
     }
 }
