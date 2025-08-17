@@ -3,7 +3,6 @@ package com.febrie.rpg.gui.impl.quest;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
-import com.febrie.rpg.gui.framework.BackableGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.Quest;
@@ -13,7 +12,7 @@ import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.dto.quest.ActiveQuestDTO;
 import com.febrie.rpg.dto.quest.CompletedQuestDTO;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -31,11 +30,11 @@ import java.util.List;
  *
  * @author Febrie, CoffeeTory
  */
-public class AllQuestsGui extends BaseGui implements BackableGui {
+public class AllQuestsGui extends BaseGui {
     
     public enum QuestFilter {
-        ACTIVE("진행 중인 퀘스트"),
-        COMPLETED("완료된 퀘스트");
+        ACTIVE("active"),
+        COMPLETED("completed");
         
         private final String displayName;
         
@@ -100,17 +99,12 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.text(filter.getDisplayName(), ColorUtil.PRIMARY);
+        return trans("quest.filter." + filter.getDisplayName());
     }
     
     @Override
     protected GuiFramework getBackTarget() {
         return QuestListGui.create(guiManager, viewer);
-    }
-    
-    @Override
-    public GuiFramework getBackDestination() {
-        return getBackTarget();
     }
     
     @Override
@@ -126,8 +120,8 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
         // 필터 정보
         GuiItem filterInfo = GuiItem.of(
                 new ItemBuilder(Material.HOPPER)
-                        .displayName(Component.text("필터: " + filter.getDisplayName(), ColorUtil.PRIMARY))
-                        .addLore(Component.text("총 " + quests.size() + "개의 퀘스트", ColorUtil.GRAY))
+                        .displayName(trans("quest.filter").append(trans("quest.filter." + filter.getDisplayName())))
+                        .addLore(trans("quest.total-count", "count", String.valueOf(quests.size())))
                         );
         setItem(4, filterInfo);
     }
@@ -166,24 +160,24 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
         Material material = (progress != null && progress.isCompleted()) ? Material.ENCHANTED_BOOK : Material.BOOK;
         
         ItemBuilder builder = new ItemBuilder(material)
-                .displayName(quest.getDisplayName(viewer).color(ColorUtil.PRIMARY));
+                .displayName(quest.getDisplayName(viewer).color(UnifiedColorUtil.PRIMARY));
         
         // 퀘스트 설명
         for (Component line : quest.getDescription(viewer)) {
-            builder.addLore(line.color(ColorUtil.GRAY));
+            builder.addLore(line.color(UnifiedColorUtil.GRAY));
         }
         
         builder.addLore(Component.empty());
         
         // 진행 상황
         if (progress != null && progress.isCompleted()) {
-            builder.addLore(Component.text("✔ 완료됨", ColorUtil.SUCCESS));
+            builder.addLore(Component.text("✔ 완료됨", UnifiedColorUtil.SUCCESS));
             // 완료된 퀘스트 확인
             java.util.Map<String, CompletedQuestDTO> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
             boolean hasReward = completedQuests.values().stream()
                     .anyMatch(data -> data.questId().equals(quest.getId().name()));
             if (hasReward) {
-                builder.addLore(Component.text("⚡ 보상 수령 가능!", ColorUtil.GOLD));
+                builder.addLore(trans("quest.reward-available").color(UnifiedColorUtil.GOLD));
             }
         } else if (progress != null) {
             int completed = (int) progress.getObjectives().values().stream()
@@ -191,11 +185,11 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
                     .count();
             int total = quest.getObjectives().size();
             Component progressText = com.febrie.rpg.util.LangManager.getMessage(viewer, "quest.progress");
-            builder.addLore(progressText.append(Component.text(": " + completed + "/" + total)).color(ColorUtil.YELLOW));
+            builder.addLore(progressText.append(Component.text(": " + completed + "/" + total)).color(UnifiedColorUtil.YELLOW));
         }
         
         builder.addLore(Component.empty());
-        builder.addLore(Component.text("클릭하여 상세 정보 보기", ColorUtil.YELLOW));
+        builder.addLore(trans("quest.click-for-details").color(UnifiedColorUtil.YELLOW));
         
         return GuiItem.clickable(
                 builder.build(),
@@ -221,8 +215,8 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
         if (currentPage > 1) {
             GuiItem prevButton = GuiItem.clickable(
                     new ItemBuilder(Material.ARROW)
-                            .displayName(Component.text("이전 페이지", ColorUtil.YELLOW))
-                            .addLore(Component.text("페이지 " + (currentPage - 1) + "로 이동", ColorUtil.GRAY))
+                            .displayName(trans("quest.previous-page").color(UnifiedColorUtil.YELLOW))
+                            .addLore(trans("quest.go-to-page", "page", String.valueOf(currentPage - 1)).color(UnifiedColorUtil.GRAY))
                             .build(),
                     p -> {
                         currentPage--;
@@ -237,8 +231,8 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
         if (currentPage < maxPage) {
             GuiItem nextButton = GuiItem.clickable(
                     new ItemBuilder(Material.ARROW)
-                            .displayName(Component.text("다음 페이지", ColorUtil.YELLOW))
-                            .addLore(Component.text("페이지 " + (currentPage + 1) + "로 이동", ColorUtil.GRAY))
+                            .displayName(trans("quest.next-page").color(UnifiedColorUtil.YELLOW))
+                            .addLore(trans("quest.go-to-page", "page", String.valueOf(currentPage + 1)).color(UnifiedColorUtil.GRAY))
                             .build(),
                     p -> {
                         currentPage++;
@@ -265,5 +259,11 @@ public class AllQuestsGui extends BaseGui implements BackableGui {
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

@@ -2,7 +2,8 @@ package com.febrie.rpg.command.admin.subcommand;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.command.admin.subcommand.base.SubCommand;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -65,7 +66,7 @@ public class ReloadCommand implements SubCommand {
     public boolean execute(@NotNull CommandSender sender, @NotNull String[] args) {
         String type = args.length > 0 ? args[0].toLowerCase() : "all";
         
-        sender.sendMessage(ColorUtil.colorize("&e리로드를 시작합니다..."));
+        sender.sendMessage(UnifiedColorUtil.parse("&e리로드를 시작합니다..."));
         
         long startTime = System.currentTimeMillis();
         boolean success = true;
@@ -74,26 +75,26 @@ public class ReloadCommand implements SubCommand {
             switch (type) {
                 case "config" -> {
                     plugin.reloadConfig();
-                    sender.sendMessage(ColorUtil.colorize("&a✓ 설정 파일 리로드 완료"));
+                    sender.sendMessage(UnifiedColorUtil.parse("&a✓ 설정 파일 리로드 완료"));
                 }
                 case "lang" -> {
-                    plugin.getLangManager().reload();
-                    sender.sendMessage(ColorUtil.colorize("&a✓ 언어 파일 리로드 완료"));
+                    LangManager.reload();
+                    sender.sendMessage(UnifiedColorUtil.parse("&a✓ 언어 파일 리로드 완료"));
                 }
                 case "all" -> {
                     plugin.reloadConfig();
-                    plugin.getLangManager().reload();
-                    sender.sendMessage(ColorUtil.colorize("&a✓ 설정 파일 리로드 완료"));
-                    sender.sendMessage(ColorUtil.colorize("&a✓ 언어 파일 리로드 완료"));
+                    LangManager.reload();
+                    sender.sendMessage(UnifiedColorUtil.parse("&a✓ 설정 파일 리로드 완료"));
+                    sender.sendMessage(UnifiedColorUtil.parse("&a✓ 언어 파일 리로드 완료"));
                 }
                 default -> {
-                    sender.sendMessage(ColorUtil.colorize("&c알 수 없는 타입: " + type));
-                    sender.sendMessage(ColorUtil.colorize("&7사용 가능: config, lang, all"));
+                    sender.sendMessage(UnifiedColorUtil.parse("&c알 수 없는 타입: " + type));
+                    sender.sendMessage(UnifiedColorUtil.parse("&7사용 가능: config, lang, all"));
                     return false;
                 }
             }
         } catch (Exception e) {
-            sender.sendMessage(ColorUtil.colorize("&c리로드 중 오류 발생: " + e.getMessage()));
+            sender.sendMessage(UnifiedColorUtil.parse("&c리로드 중 오류 발생: " + e.getMessage()));
             plugin.getLogger().severe("Reload error: " + e.getMessage());
             e.printStackTrace();
             success = false;
@@ -102,12 +103,12 @@ public class ReloadCommand implements SubCommand {
         long elapsed = System.currentTimeMillis() - startTime;
         
         if (success) {
-            sender.sendMessage(ColorUtil.colorize(String.format(
+            sender.sendMessage(UnifiedColorUtil.parse(String.format(
                 "&a리로드 완료! (%dms)",
                 elapsed
             )));
         } else {
-            sender.sendMessage(ColorUtil.colorize("&c리로드 실패"));
+            sender.sendMessage(UnifiedColorUtil.parse("&c리로드 실패"));
         }
         
         return success;

@@ -4,7 +4,7 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
@@ -57,7 +57,7 @@ public class MixedReward implements QuestReward {
             RPGPlayer rpgPlayer = playerManager.getPlayer(player);
             if (rpgPlayer != null) {
                 rpgPlayer.getWallet().add(CurrencyType.GOLD, money);
-                player.sendMessage(Component.text("+ " + money + " 코인", ColorUtil.GOLD));
+                player.sendMessage(Component.text("+ " + money + " 코인", UnifiedColorUtil.GOLD));
             }
         }
     }
@@ -98,25 +98,25 @@ public class MixedReward implements QuestReward {
         Component display = Component.empty();
         
         if (!items.isEmpty()) {
-            display = display.append(Component.text("아이템 보상:", ColorUtil.YELLOW))
+            display = display.append(Component.text("아이템 보상:", UnifiedColorUtil.YELLOW))
                     .append(Component.newline());
             for (ItemStack item : items) {
-                display = display.append(Component.text("  - ", ColorUtil.GRAY))
+                display = display.append(Component.text("  - ", UnifiedColorUtil.GRAY))
                         .append(item.displayName())
-                        .append(Component.text(" x" + item.getAmount(), ColorUtil.YELLOW))
+                        .append(Component.text(" x" + item.getAmount(), UnifiedColorUtil.YELLOW))
                         .append(Component.newline());
             }
         }
         
         if (exp > 0) {
-            display = display.append(Component.text("경험치: ", ColorUtil.GREEN))
-                    .append(Component.text("+" + exp, ColorUtil.YELLOW))
+            display = display.append(Component.text("경험치: ", UnifiedColorUtil.GREEN))
+                    .append(Component.text("+" + exp, UnifiedColorUtil.YELLOW))
                     .append(Component.newline());
         }
         
         if (money > 0) {
-            display = display.append(Component.text("코인: ", ColorUtil.GOLD))
-                    .append(Component.text("+" + money, ColorUtil.YELLOW))
+            display = display.append(Component.text("코인: ", UnifiedColorUtil.GOLD))
+                    .append(Component.text("+" + money, UnifiedColorUtil.YELLOW))
                     .append(Component.newline());
         }
         

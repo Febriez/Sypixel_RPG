@@ -6,7 +6,7 @@ import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.manager.QuestManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
@@ -53,7 +53,7 @@ public class QuestRewardConfirmGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return trans("gui.quest-reward.confirm.title").color(ColorUtil.ERROR);
+        return trans("gui.quest-reward.confirm.title").color(UnifiedColorUtil.ERROR);
     }
     
     @Override
@@ -80,13 +80,13 @@ public class QuestRewardConfirmGui extends BaseGui {
     private void setupMessage() {
         // 중앙에 경고 메시지 표시
         ItemBuilder warningBuilder = new ItemBuilder(Material.BARRIER)
-                .displayName(trans("gui.quest-reward.confirm.message").color(ColorUtil.ERROR)
+                .displayName(trans("gui.quest-reward.confirm.message").color(UnifiedColorUtil.ERROR)
                         .decoration(TextDecoration.BOLD, true))
                 .addLore(Component.empty())
-                .addLore(trans("gui.quest-reward.confirm.warning1").color(ColorUtil.WARNING))
-                .addLore(trans("gui.quest-reward.confirm.warning2").color(ColorUtil.WARNING))
+                .addLore(trans("gui.quest-reward.confirm.warning1").color(UnifiedColorUtil.WARNING))
+                .addLore(trans("gui.quest-reward.confirm.warning2").color(UnifiedColorUtil.WARNING))
                 .addLore(Component.empty())
-                .addLore(trans("gui.quest-reward.confirm.question").color(ColorUtil.YELLOW)
+                .addLore(trans("gui.quest-reward.confirm.question").color(UnifiedColorUtil.YELLOW)
                         .decoration(TextDecoration.BOLD, true));
         
         setItem(13, GuiItem.display(warningBuilder.build()));
@@ -95,9 +95,9 @@ public class QuestRewardConfirmGui extends BaseGui {
     private void setupButtons() {
         // 예 버튼
         ItemBuilder yesBuilder = new ItemBuilder(Material.RED_WOOL)
-                .displayName(trans("gui.quest-reward.confirm.yes").color(ColorUtil.ERROR)
+                .displayName(trans("gui.quest-reward.confirm.yes").color(UnifiedColorUtil.ERROR)
                         .decoration(TextDecoration.BOLD, true))
-                .addLore(trans("gui.quest-reward.confirm.yes-desc").color(ColorUtil.GRAY));
+                .addLore(trans("gui.quest-reward.confirm.yes-desc").color(UnifiedColorUtil.GRAY));
         
         GuiItem yesButton = GuiItem.clickable(yesBuilder.build(), p -> {
             // 보상 파괴 - 퀘스트를 ClaimedQuestData로 이동
@@ -105,11 +105,11 @@ public class QuestRewardConfirmGui extends BaseGui {
             
             p.closeInventory();
             p.sendMessage(Component.empty());
-            p.sendMessage(trans("gui.quest-reward.destroyed").color(ColorUtil.ERROR)
+            p.sendMessage(trans("gui.quest-reward.destroyed").color(UnifiedColorUtil.ERROR)
                     .decoration(TextDecoration.BOLD, true));
             p.sendMessage(trans("gui.quest-reward.destroyed-desc", 
                     "quest", net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(quest.getDisplayName(p)))
-                    .color(ColorUtil.WARNING));
+                    .color(UnifiedColorUtil.WARNING));
             
             SoundUtil.playDeleteSound(p);
         });
@@ -118,9 +118,9 @@ public class QuestRewardConfirmGui extends BaseGui {
         
         // 아니요 버튼
         ItemBuilder noBuilder = new ItemBuilder(Material.LIME_WOOL)
-                .displayName(trans("gui.quest-reward.confirm.no").color(ColorUtil.SUCCESS)
+                .displayName(trans("gui.quest-reward.confirm.no").color(UnifiedColorUtil.SUCCESS)
                         .decoration(TextDecoration.BOLD, true))
-                .addLore(trans("gui.quest-reward.confirm.no-desc").color(ColorUtil.GRAY));
+                .addLore(trans("gui.quest-reward.confirm.no-desc").color(UnifiedColorUtil.GRAY));
         
         GuiItem noButton = GuiItem.clickable(noBuilder.build(), p -> {
             // 이전 GUI로 돌아가기
@@ -139,5 +139,11 @@ public class QuestRewardConfirmGui extends BaseGui {
     @Override
     public GuiFramework getBackTarget() {
         return previousGui;
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

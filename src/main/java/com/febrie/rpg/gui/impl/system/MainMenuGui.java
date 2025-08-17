@@ -15,9 +15,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import com.febrie.rpg.gui.manager.GuiManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.StandardItemBuilder;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -99,9 +100,9 @@ public class MainMenuGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                new ItemBuilder(Material.NETHER_STAR)
+                StandardItemBuilder.guiItem(Material.NETHER_STAR)
                         .displayName(trans("items.mainmenu.title.name"))
-                        .lore(LangManager.getComponentList(viewer, "items.mainmenu.title.lore"))
+                        .lore(LangManager.getList(viewer, "items.mainmenu.title.lore"))
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -117,7 +118,7 @@ public class MainMenuGui extends BaseGui {
         builder.menuButton(PROFILE_SLOT, 
             new ItemBuilder(viewer)
                 .displayName(trans("items.mainmenu.profile-button.name"))
-                .lore(LangManager.getComponentList(viewer, "items.mainmenu.profile-button.lore"))
+                .lore(LangManager.getList(viewer, "items.mainmenu.profile-button.lore"))
                 .build(),
             player -> {
                 ProfileGui profileGui = ProfileGui.create(guiManager, player);
@@ -190,7 +191,7 @@ public class MainMenuGui extends BaseGui {
         GuiItem leaderboardButton = GuiItem.clickable(
                 new ItemBuilder(Material.GOLDEN_APPLE)
                         .displayName(trans("items.mainmenu.leaderboard-button.name"))
-                        .lore(LangManager.getComponentList(viewer, "items.mainmenu.leaderboard-button.lore"))
+                        .lore(LangManager.getList(viewer, "items.mainmenu.leaderboard-button.lore"))
                         .build(),
                 player -> {
                     LeaderboardGui leaderboardGui = LeaderboardGui.create(guiManager, player);
@@ -204,5 +205,11 @@ public class MainMenuGui extends BaseGui {
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

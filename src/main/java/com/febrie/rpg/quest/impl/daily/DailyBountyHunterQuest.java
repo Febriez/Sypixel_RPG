@@ -124,8 +124,7 @@ public class DailyBountyHunterQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, key);
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("daily_bounty_hunter_dialog");
         // 시작
         dialog.addLine("quest.daily.bounty-hunter.npcs.bounty_officer", "quest.daily.bounty-hunter.dialogs.start1");

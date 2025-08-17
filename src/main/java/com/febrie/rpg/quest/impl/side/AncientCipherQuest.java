@@ -147,7 +147,7 @@ public class AncientCipherQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getComponentList(who, "quest.side.ancient_cipher.description");
+        return com.febrie.rpg.util.LangManager.getList(who, "quest.side.ancient_cipher.description");
     }
 
     @Override
@@ -156,8 +156,7 @@ public class AncientCipherQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.side.ancient_cipher.objectives." + id);
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("ancient_cipher_dialog");
 
         dialog.addLine("quest.ancient_cipher.npcs.archaeologist", "quest.ancient_cipher.dialogs.line1");

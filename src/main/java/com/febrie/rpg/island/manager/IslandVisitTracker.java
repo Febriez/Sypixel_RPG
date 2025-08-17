@@ -5,7 +5,7 @@ import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.island.Island;
 import com.febrie.rpg.island.listener.IslandProtectionListener;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

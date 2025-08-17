@@ -10,7 +10,7 @@ import com.febrie.rpg.gui.framework.ScrollableGui;
 import com.febrie.rpg.gui.impl.system.MainMenuGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -24,10 +24,13 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-
 /**
  * 리더보드 GUI - 올바르게 수정된 버전
  * 여러 타입의 리더보드를 탭으로 전환하며 볼 수 있는 GUI
@@ -35,76 +38,63 @@ import java.util.concurrent.CompletableFuture;
  * @author Febrie, CoffeeTory
  */
 public class LeaderboardGui extends ScrollableGui {
-
     private static final int GUI_SIZE = 54; // 6줄
-
     // 리더보드 타입
     public enum LeaderboardType {
-        LEVEL("level", Material.EXPERIENCE_BOTTLE, ColorUtil.EXPERIENCE, "레벨"),
-        COMBAT_POWER("combat_power", Material.DIAMOND_SWORD, ColorUtil.LEGENDARY, "전투력"),
-        GOLD("gold", Material.GOLD_INGOT, ColorUtil.GOLD, "골드"),
-        TOTAL_PLAYTIME("total_playtime", Material.CLOCK, ColorUtil.AQUA, "플레이타임");
-
+        LEVEL("level", Material.EXPERIENCE_BOTTLE, UnifiedColorUtil.EXPERIENCE, "레벨"),
+        COMBAT_POWER("combat_power", Material.DIAMOND_SWORD, UnifiedColorUtil.LEGENDARY, "전투력"),
+        GOLD("gold", Material.GOLD_INGOT, UnifiedColorUtil.GOLD, "골드"),
+        TOTAL_PLAYTIME("total_playtime", Material.CLOCK, UnifiedColorUtil.AQUA, "플레이타임");
         private final String id;
         private final Material icon;
         private final TextColor color;
         private final String displayName;
-
         LeaderboardType(String id, Material icon, TextColor color, String displayName) {
             this.id = id;
             this.icon = icon;
             this.color = color;
             this.displayName = displayName;
         }
-
         public String getId() {
             return id;
         }
-
         public Material getIcon() {
             return icon;
         }
-
         public TextColor getColor() {
             return color;
         }
-
         public String getDisplayName() {
             return displayName;
         }
     }
-
     // 탭 위치
     private static final Map<Integer, LeaderboardType> TAB_POSITIONS = new HashMap<>();
-
     static {
         TAB_POSITIONS.put(2, LeaderboardType.LEVEL);
         TAB_POSITIONS.put(3, LeaderboardType.COMBAT_POWER);
         TAB_POSITIONS.put(5, LeaderboardType.GOLD);
         TAB_POSITIONS.put(6, LeaderboardType.TOTAL_PLAYTIME);
     }
-
     // 특수 슬롯
     private static final int MY_RANK_SLOT = 8;
     private static final int LOADING_SLOT = 4;
-
     private LeaderboardType currentType = LeaderboardType.LEVEL;
     private List<LeaderboardEntryDTO> currentLeaderboard = new ArrayList<>();
     private LeaderboardEntryDTO myRankEntry = null;
     private boolean isLoading = false;
-
     private LeaderboardGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer) {
         this(guiManager, viewer, LeaderboardType.LEVEL);
     }
-
+    
     private LeaderboardGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer, @NotNull LeaderboardType type) {
         super(viewer, guiManager, GUI_SIZE, "gui.leaderboard.title",
                 "type", type.getDisplayName());
         this.currentType = type;
     }
-
+    
     /**
      * LeaderboardGui 인스턴스를 생성하고 초기화합니다.
      * 
@@ -117,12 +107,11 @@ public class LeaderboardGui extends ScrollableGui {
                                        @NotNull Player viewer) {
         return create(guiManager, viewer, LeaderboardType.LEVEL);
     }
-
+    
     /**
      * LeaderboardGui 인스턴스를 생성하고 초기화합니다.
      * 
      * @param guiManager GUI 매니저
-     * @param langManager 언어 매니저
      * @param viewer 보는 플레이어
      * @param type 리더보드 타입
      * @return 초기화된 LeaderboardGui 인스턴스
@@ -134,12 +123,12 @@ public class LeaderboardGui extends ScrollableGui {
         gui.loadLeaderboard();
         return gui;
     }
-
+    
     @Override
     public @NotNull Component getTitle() {
         return trans("gui.leaderboard.title", "type", currentType.getDisplayName());
     }
-
+    
     @Override
     protected void setupLayout() {
         setupBackground();
@@ -147,13 +136,13 @@ public class LeaderboardGui extends ScrollableGui {
         setupInfoDisplay();
         setupNavigationButtons();
     }
-
+    
     @Override
     protected List<GuiItem> getScrollableItems() {
         if (isLoading) {
             return new ArrayList<>();
         }
-
+        
         List<GuiItem> leaderboardItems = new ArrayList<>();
         for (int i = 0; i < currentLeaderboard.size(); i++) {
             LeaderboardEntryDTO entry = currentLeaderboard.get(i);
@@ -161,7 +150,7 @@ public class LeaderboardGui extends ScrollableGui {
         }
         return leaderboardItems;
     }
-
+    
     @Override
     protected void handleNonScrollClick(@NotNull InventoryClickEvent event, @NotNull Player player,
                                         int slot, @NotNull ClickType click) {
@@ -170,12 +159,12 @@ public class LeaderboardGui extends ScrollableGui {
             item.executeAction(player, click);
         }
     }
-
+    
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);
     }
-
+    
     /**
      * 배경 설정
      */
@@ -186,13 +175,13 @@ public class LeaderboardGui extends ScrollableGui {
                 setItem(i, GuiFactory.createDecoration());
             }
         }
-
+        
         // 좌우 테두리
         for (int row = 1; row < 5; row++) {
             setItem(row * 9, GuiFactory.createDecoration());
             setItem(row * 9 + 8, GuiFactory.createDecoration());
         }
-
+        
         // 하단 영역
         for (int i = 45; i < 54; i++) {
             if (i != 49) {
@@ -200,14 +189,13 @@ public class LeaderboardGui extends ScrollableGui {
             }
         }
     }
-
+    
     /**
      * 탭 설정
      */
     private void setupTabs() {
         TAB_POSITIONS.forEach((slot, type) -> {
             boolean isSelected = type == currentType;
-
             GuiItem tabItem = GuiItem.clickable(
                     new ItemBuilder(type.getIcon())
                             .displayName(Component.text(type.getDisplayName(), type.getColor())
@@ -224,7 +212,7 @@ public class LeaderboardGui extends ScrollableGui {
             setItem(slot, tabItem);
         });
     }
-
+    
     /**
      * 정보 표시
      */
@@ -246,10 +234,10 @@ public class LeaderboardGui extends ScrollableGui {
                             .build()
             ));
         }
-
+        
         setupMyRankDisplay();
     }
-
+    
     /**
      * 내 순위 표시
      */
@@ -257,29 +245,25 @@ public class LeaderboardGui extends ScrollableGui {
         if (myRankEntry != null && myRankEntry.rank() > 0) {
             setItem(MY_RANK_SLOT, GuiItem.display(
                     new ItemBuilder(viewer)
-                            .displayName(Component.text("내 순위", ColorUtil.SUCCESS)
-                                    .decoration(TextDecoration.BOLD, true))
-                            .addLore(Component.empty())
+                            .displayName(Component.text("내 순위", UnifiedColorUtil.SUCCESS))
                             .addLore(trans("gui.leaderboard.my-rank", "rank", String.valueOf(myRankEntry.rank())))
                             .addLore(trans("gui.leaderboard.my-value", "value", formatValue(myRankEntry.value())))
-                            .addLore(Component.empty())
                             .addLore(trans("gui.leaderboard.last-updated",
                                     "time", formatTime(myRankEntry.lastUpdated())))
+                            .glint(true)
                             .build()
             ));
         } else {
             setItem(MY_RANK_SLOT, GuiItem.display(
                     new ItemBuilder(viewer)
-                            .displayName(Component.text("내 순위", ColorUtil.GRAY)
-                                    .decoration(TextDecoration.BOLD, true))
-                            .addLore(Component.empty())
+                            .displayName(Component.text("내 순위", UnifiedColorUtil.GRAY))
                             .addLore(trans("gui.leaderboard.no-rank-data"))
                             .addLore(trans("gui.leaderboard.play-more"))
                             .build()
             ));
         }
     }
-
+    
     /**
      * 네비게이션 버튼 설정
      */
@@ -287,7 +271,7 @@ public class LeaderboardGui extends ScrollableGui {
         // BaseGui의 표준 네비게이션 사용
         setupStandardNavigation(false, true);
     }
-
+    
     /**
      * 리더보드 타입 전환
      */
@@ -295,38 +279,35 @@ public class LeaderboardGui extends ScrollableGui {
         if (type == currentType || isLoading) {
             return;
         }
-
+        
         currentType = type;
         currentLeaderboard.clear();
         myRankEntry = null;
-
         refresh();
         loadLeaderboard();
         playClickSound(viewer);
     }
-
+    
     /**
      * 리더보드 데이터 로드
      */
     private void loadLeaderboard() {
         isLoading = true;
-        setupInfoDisplay();
-
         // Firebase 서비스가 현재 비활성화됨 - 더미 데이터 사용
         isLoading = false;
         currentLeaderboard = new ArrayList<>();
-        myRankEntry = null;
         
         // 더미 데이터로 테스트
         for (int i = 0; i < 10; i++) {
-            currentLeaderboard.add(new LeaderboardEntryDTO(
+            LeaderboardEntryDTO entry = new LeaderboardEntryDTO(
                     UUID.randomUUID().toString(),
                     "Player" + (i + 1),
                     i + 1,
                     1000 - (i * 100),
                     currentType.getId(),
                     System.currentTimeMillis()
-            ));
+            );
+            currentLeaderboard.add(entry);
         }
         
         // 내 데이터 생성
@@ -349,7 +330,7 @@ public class LeaderboardGui extends ScrollableGui {
             refresh();
         });
     }
-
+    
     /**
      * 리더보드 항목 생성
      */
@@ -357,7 +338,6 @@ public class LeaderboardGui extends ScrollableGui {
         boolean isMyself = entry.playerUuid().equals(viewer.getUniqueId().toString());
         Material material = getRankMaterial(entry.rank());
         TextColor color = getRankColor(entry.rank());
-
         // 플레이어 머리 사용 (상위 3명 제외)
         ItemBuilder builder;
         if (entry.rank() <= 3) {
@@ -366,25 +346,23 @@ public class LeaderboardGui extends ScrollableGui {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(entry.playerUuid()));
             builder = new ItemBuilder(offlinePlayer.getPlayer());
         }
-
+        
         builder.displayName(Component.text(entry.rank() + ". " + entry.playerName(), color)
                         .decoration(TextDecoration.BOLD, entry.rank() <= 3))
                 .addLore(Component.empty())
                 .addLore(trans("gui.leaderboard.value", "value", formatValue(entry.value())))
                 .addLore(trans("gui.leaderboard.last-updated",
                         "time", formatTime(entry.lastUpdated())));
-
         if (isMyself) {
             builder.addLore(Component.empty())
                     .addLore(trans("gui.leaderboard.this-is-you"))
                     .glint(true);
         }
-
+        
         builder.flags(ItemFlag.values());
-
         return GuiItem.display(builder.build());
     }
-
+    
     /**
      * 타입별 값 가져오기
      */
@@ -396,7 +374,7 @@ public class LeaderboardGui extends ScrollableGui {
             case TOTAL_PLAYTIME -> rpgPlayer.getTotalPlaytime();
         };
     }
-
+    
     /**
      * 순위별 아이템 재료
      */
@@ -408,19 +386,19 @@ public class LeaderboardGui extends ScrollableGui {
             default -> Material.PLAYER_HEAD;
         };
     }
-
+    
     /**
      * 순위별 색상
      */
     private TextColor getRankColor(int rank) {
         return switch (rank) {
-            case 1 -> ColorUtil.LEGENDARY;
-            case 2 -> ColorUtil.GOLD;
-            case 3 -> ColorUtil.IRON;
-            default -> rank <= 10 ? ColorUtil.AQUA : ColorUtil.WHITE;
+            case 1 -> UnifiedColorUtil.LEGENDARY;
+            case 2 -> UnifiedColorUtil.GOLD;
+            case 3 -> UnifiedColorUtil.IRON;
+            default -> rank <= 10 ? UnifiedColorUtil.AQUA : UnifiedColorUtil.WHITE;
         };
     }
-
+    
     /**
      * 값 포맷팅
      */
@@ -430,7 +408,7 @@ public class LeaderboardGui extends ScrollableGui {
         }
         return String.format("%,d", value);
     }
-
+    
     /**
      * 플레이타임 포맷팅
      */
@@ -439,7 +417,7 @@ public class LeaderboardGui extends ScrollableGui {
         long minutes = (seconds % 3600) / 60;
         return String.format("%d시간 %d분", hours, minutes);
     }
-
+    
     /**
      * 시간 포맷팅
      */
@@ -450,10 +428,16 @@ public class LeaderboardGui extends ScrollableGui {
         if (diff < 86400000) return (diff / 3600000) + "시간 전";
         return (diff / 86400000) + "일 전";
     }
-
+    
     @Override
-    public GuiFramework getBackTarget() {
+    protected GuiFramework getBackTarget() {
         // LeaderboardGui는 MainMenuGui로 돌아갑니다
         return MainMenuGui.create(guiManager, viewer);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

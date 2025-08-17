@@ -1,16 +1,13 @@
 package com.febrie.rpg.database.service.impl;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.database.service.BaseFirestoreService;
+import com.febrie.rpg.database.service.GenericFirestoreService;
 import com.febrie.rpg.dto.social.MailDTO;
-import com.febrie.rpg.util.LogUtil;
-import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -20,33 +17,45 @@ import java.util.concurrent.CompletableFuture;
  *
  * @author Febrie, CoffeeTory
  */
-public class MailFirestoreService extends BaseFirestoreService<MailDTO> {
+public class MailFirestoreService {
 
     private static final String COLLECTION_NAME = "Mail";
+    private final GenericFirestoreService<MailDTO> service;
 
     public MailFirestoreService(@NotNull RPGMain plugin, @NotNull Firestore firestore) {
-        super(plugin, firestore, COLLECTION_NAME, MailDTO.class);
+        this.service = GenericFirestoreService.create(
+            plugin,
+            firestore,
+            COLLECTION_NAME,
+            MailDTO.class,
+            MailDTO::toMap,
+            MailDTO::fromMap,
+            id -> null // 메일은 기본값이 없음
+        );
     }
 
-    @Override
-    protected Map<String, Object> toMap(@NotNull MailDTO dto) {
-        return dto.toMap();
+    /**
+     * 문서 ID로 데이터 조회
+     */
+    @NotNull
+    public CompletableFuture<MailDTO> get(@NotNull String id) {
+        return service.get(id);
     }
 
-    @Override
-    @Nullable
-    protected MailDTO fromDocument(@NotNull DocumentSnapshot document) {
-        if (!document.exists()) return null;
-        try {
-            Map<String, Object> data = document.getData();
-            if (data != null) {
-                return MailDTO.fromMap(data);
-            }
-            return null;
-        } catch (Exception e) {
-            LogUtil.warning("메일 데이터 파싱 실패 [" + document.getId() + "]: " + e.getMessage());
-            return null;
-        }
+    /**
+     * 데이터 저장
+     */
+    @NotNull
+    public CompletableFuture<Void> save(@NotNull String id, @NotNull MailDTO data) {
+        return service.save(id, data);
+    }
+
+    /**
+     * 데이터 삭제
+     */
+    @NotNull
+    public CompletableFuture<Void> delete(@NotNull String id) {
+        return service.delete(id);
     }
 
     /**
@@ -62,7 +71,7 @@ public class MailFirestoreService extends BaseFirestoreService<MailDTO> {
      */
     @NotNull
     public CompletableFuture<List<MailDTO>> getReceivedMails(@NotNull UUID playerId) {
-        return query("receiverUuid", playerId.toString());
+        return service.query("receiverUuid", playerId.toString());
     }
 
     /**
@@ -70,7 +79,7 @@ public class MailFirestoreService extends BaseFirestoreService<MailDTO> {
      */
     @NotNull
     public CompletableFuture<List<MailDTO>> getSentMails(@NotNull UUID playerId) {
-        return query("senderUuid", playerId.toString());
+        return service.query("senderUuid", playerId.toString());
     }
 
     /**
@@ -116,7 +125,7 @@ public class MailFirestoreService extends BaseFirestoreService<MailDTO> {
      */
     @NotNull
     public CompletableFuture<List<MailDTO>> getReceivedMailsWithLimit(@NotNull UUID playerId, int limit) {
-        return queryWithLimit("receiverUuid", playerId.toString(), limit);
+        return service.queryWithLimit("receiverUuid", playerId.toString(), limit);
     }
 
     /**
@@ -124,7 +133,7 @@ public class MailFirestoreService extends BaseFirestoreService<MailDTO> {
      */
     @NotNull
     public CompletableFuture<List<MailDTO>> getSentMailsWithLimit(@NotNull UUID playerId, int limit) {
-        return queryWithLimit("senderUuid", playerId.toString(), limit);
+        return service.queryWithLimit("senderUuid", playerId.toString(), limit);
     }
 
     /**
@@ -146,7 +155,7 @@ public class MailFirestoreService extends BaseFirestoreService<MailDTO> {
     @NotNull
     public CompletableFuture<Void> deleteOldMails(int daysOld) {
         long cutoffTime = System.currentTimeMillis() - (daysOld * 24L * 60L * 60L * 1000L);
-        return queryOrdered("sentTime", com.google.cloud.firestore.Query.Direction.ASCENDING, 1000).thenCompose(mails -> {
+        return service.queryOrdered("sentTime", com.google.cloud.firestore.Query.Direction.ASCENDING, 1000).thenCompose(mails -> {
             CompletableFuture<?>[] deleteFutures = mails.stream().filter(mail -> mail.sentAt() < cutoffTime).map(mail -> delete(mail.mailId())).toArray(CompletableFuture[]::new);
             return CompletableFuture.allOf(deleteFutures);
         });

@@ -148,7 +148,6 @@ public class MasterChefQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.life.master_chef.objectives." + id);
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("master_chef_dialog");
 

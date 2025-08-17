@@ -19,7 +19,7 @@ import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.quest.service.QuestProgressService;
 import com.febrie.rpg.quest.task.LocationCheckTask;
 import com.febrie.rpg.quest.util.QuestUtil;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
@@ -159,7 +159,6 @@ public class QuestManager {
     public void reloadQuests() {
         plugin.getLogger().info("퀘스트 데이터 리로드 중...");
 
-        // 기존 퀘스트 맵 클리어
         quests.clear();
 
         // 퀘스트 재초기화
@@ -1049,7 +1048,6 @@ public class QuestManager {
      * 플레이어의 NPC 인덱스 재구성 (데이터 로드 시)
      */
     private void rebuildNPCIndexForPlayer(@NotNull UUID playerId, @NotNull PlayerQuestData data) {
-        // 기존 플레이어 인덱스 정리
         playerNPCObjectives.remove(playerId);
         
         // 플레이어의 모든 활성 퀘스트 인덱싱
@@ -1213,8 +1211,8 @@ public class QuestManager {
                                           @NotNull QuestObjective objective, @NotNull QuestProgress progress,
                                           @NotNull String instanceId) {
         // 완료 알림
-        player.sendMessage(Component.text("✓ ", ColorUtil.SUCCESS)
-            .append(quest.getObjectiveDescription(objective, player).color(ColorUtil.SUCCESS)));
+        player.sendMessage(Component.text("✓ ", UnifiedColorUtil.SUCCESS)
+            .append(quest.getObjectiveDescription(objective, player).color(UnifiedColorUtil.SUCCESS)));
         SoundUtil.playSuccessSound(player);
         
         // 순차 진행인 경우 다음 목표로
@@ -1233,10 +1231,10 @@ public class QuestManager {
                                         @NotNull QuestObjective objective, @NotNull ObjectiveProgress progress) {
         Component progressMsg = LangManager.getMessage(player, "quest.progress");
         
-        player.sendMessage(progressMsg.color(ColorUtil.INFO)
-            .append(Component.text(": ", ColorUtil.INFO))
-            .append(quest.getObjectiveDescription(objective, player).color(ColorUtil.YELLOW))
-            .append(Component.text(" " + objective.getProgressString(progress), ColorUtil.YELLOW)));
+        player.sendMessage(progressMsg.color(UnifiedColorUtil.INFO)
+            .append(Component.text(": ", UnifiedColorUtil.INFO))
+            .append(quest.getObjectiveDescription(objective, player).color(UnifiedColorUtil.YELLOW))
+            .append(Component.text(" " + objective.getProgressString(progress), UnifiedColorUtil.YELLOW)));
         SoundUtil.playClickSound(player);
     }
     
@@ -1256,5 +1254,49 @@ public class QuestManager {
     public List<ItemStack> getUnclaimedItems(@NotNull UUID playerId, @NotNull QuestID questId) {
         // 이 메서드는 더 이상 사용되지 않음
         return new ArrayList<>();
+    }
+    
+    /**
+     * 플레이어의 모든 퀘스트 리셋
+     */
+    public void resetAllQuests(@NotNull UUID playerId) {
+        PlayerQuestData playerData = getPlayerData(playerId);
+        
+        // 모든 활성 퀘스트 취소
+        playerData.activeQuests.clear();
+        
+        // 모든 완료된 퀘스트 제거
+        playerData.completedQuests.clear();
+        
+        // 모든 보상 받은 퀘스트 제거
+        playerData.claimedQuests.clear();
+        
+        // NPC 인덱스 초기화
+        npcObjectiveIndex.clear();
+        
+        // 저장 예약
+        markForSave(playerId);
+    }
+    
+    /**
+     * 특정 퀘스트 리셋
+     */
+    public void resetQuest(@NotNull UUID playerId, @NotNull QuestID questId) {
+        PlayerQuestData playerData = getPlayerData(playerId);
+        
+        // 활성 퀘스트에서 제거
+        playerData.activeQuests.entrySet().removeIf(entry -> 
+            entry.getValue().questId().equals(questId.name()));
+        
+        // 완료된 퀘스트에서 제거
+        playerData.completedQuests.entrySet().removeIf(entry -> 
+            entry.getValue().questId().equals(questId.name()));
+        
+        // 보상 받은 퀘스트에서 제거
+        playerData.claimedQuests.entrySet().removeIf(entry -> 
+            entry.getValue().questId().equals(questId.name()));
+        
+        // 저장 예약
+        markForSave(playerId);
     }
 }

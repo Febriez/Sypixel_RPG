@@ -2,10 +2,14 @@ package com.febrie.rpg.dto.island;
 
 import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.UUID;
 import java.util.stream.Collectors;
-
+import java.util.Objects;
 /**
  * 섬 멤버십 정보 DTO (Record)
  * 섬원, 알바생, 기여도 관련 정보
@@ -29,28 +33,28 @@ public record IslandMembershipDTO(
                 Map.of(ownerUuid, 0L)
         );
     }
-
+    
     /**
      * 현재 섬원 수 (섬장 제외)
      */
     public int getMemberCount() {
         return members.size();
     }
-
+    
     /**
      * 현재 알바생 수
      */
     public int getWorkerCount() {
         return workers.size();
     }
-
+    
     /**
      * 특정 플레이어가 섬원인지 확인
      */
     public boolean isMember(String playerUuid) {
         return members.stream().anyMatch(member -> member.uuid().equals(playerUuid));
     }
-
+    
     /**
      * 특정 플레이어가 부섬장인지 확인
      */
@@ -61,21 +65,21 @@ public record IslandMembershipDTO(
                 .map(IslandMemberDTO::isCoOwner)
                 .orElse(false);
     }
-
+    
     /**
      * 특정 플레이어가 알바생인지 확인
      */
     public boolean isWorker(String playerUuid) {
         return workers.stream().anyMatch(worker -> worker.uuid().equals(playerUuid));
     }
-
+    
     /**
      * 특정 플레이어의 기여도 조회
      */
     public long getContribution(String playerUuid) {
         return contributions.getOrDefault(playerUuid, 0L);
     }
-
+    
     /**
      * Map으로 변환 (Firestore SDK용)
      */
@@ -88,25 +92,20 @@ public record IslandMembershipDTO(
                 .map(IslandMemberDTO::toMap)
                 .collect(Collectors.toList());
         map.put("members", membersList);
-        
         List<Map<String, Object>> workersList = workers.stream()
                 .map(IslandWorkerDTO::toMap)
                 .collect(Collectors.toList());
         map.put("workers", workersList);
-        
         map.put("contributions", new HashMap<>(contributions));
-        
         return map;
     }
-
+    
     /**
      * Map에서 생성 (Firestore SDK용)
      */
-    @NotNull
     @SuppressWarnings("unchecked")
     public static IslandMembershipDTO fromMap(@NotNull Map<String, Object> map) {
         @NotNull String islandId = Objects.requireNonNull(FirestoreUtils.getString(map, "islandId", ""));
-        
         // 필수 필드 검증
         if (islandId.isEmpty()) {
             throw new IllegalArgumentException("IslandMembershipDTO: islandId cannot be empty");
@@ -142,7 +141,6 @@ public record IslandMembershipDTO(
                 }
             });
         }
-        
         return new IslandMembershipDTO(islandId, members, workers, contributions);
     }
 }

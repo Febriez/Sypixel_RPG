@@ -2,7 +2,7 @@ package com.febrie.rpg.npc;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.quest.QuestID;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -45,20 +45,19 @@ public class NPCTraitSetter {
      * 플레이어가 퀘스트 trait를 설정할 준비를 함
      */
     public void prepareQuestTrait(@NotNull Player player, @NotNull QuestID questId) {
-        // 기존 대기 중인 것이 있으면 취소
         cancelPending(player);
         
         // 퀘스트 확인
         com.febrie.rpg.quest.Quest quest = com.febrie.rpg.quest.manager.QuestManager.getInstance().getQuest(questId);
         if (quest == null) {
-            player.sendMessage(Component.text("구현되지 않은 퀘스트입니다: " + questId.name(), ColorUtil.ERROR));
+            player.sendMessage(Component.text("구현되지 않은 퀘스트입니다: " + questId.name(), UnifiedColorUtil.ERROR));
             return;
         }
         
         // 새로운 대기 설정
         BukkitTask timeoutTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
             if (pendingTraits.remove(player.getUniqueId()) != null) {
-                player.sendMessage(Component.text("NPC 설정 시간이 초과되었습니다.", ColorUtil.ERROR));
+                player.sendMessage(Component.text("NPC 설정 시간이 초과되었습니다.", UnifiedColorUtil.ERROR));
             }
         }, 200L); // 10초 (20틱 * 10)
         
@@ -79,7 +78,7 @@ public class NPCTraitSetter {
             }
             
             if (requiredNpcIds.isEmpty()) {
-                player.sendMessage(Component.text("이 퀘스트는 NPC 상호작용 목표가 없습니다.", ColorUtil.WARNING));
+                player.sendMessage(Component.text("이 퀘스트는 NPC 상호작용 목표가 없습니다.", UnifiedColorUtil.WARNING));
             } else {
                 // 각 NPC ID별로 개별 아이템 생성
                 for (String npcId : requiredNpcIds) {
@@ -89,8 +88,8 @@ public class NPCTraitSetter {
                     );
                     player.getInventory().addItem(item);
                 }
-                player.sendMessage(Component.text(requiredNpcIds.size() + "개의 NPC Trait 등록 아이템이 지급되었습니다.", ColorUtil.SUCCESS));
-                player.sendMessage(Component.text("NPC ID: " + String.join(", ", requiredNpcIds), ColorUtil.GRAY));
+                player.sendMessage(Component.text(requiredNpcIds.size() + "개의 NPC Trait 등록 아이템이 지급되었습니다.", UnifiedColorUtil.SUCCESS));
+                player.sendMessage(Component.text("NPC ID: " + String.join(", ", requiredNpcIds), UnifiedColorUtil.GRAY));
             }
             
             // 기본 보상 NPC 등록 아이템도 자동 지급
@@ -100,75 +99,72 @@ public class NPCTraitSetter {
                 quest.getDisplayName(player) + " 보상 NPC"
             );
             player.getInventory().addItem(rewardItem);
-            player.sendMessage(Component.text("보상 NPC 등록 아이템도 지급되었습니다.", ColorUtil.SUCCESS));
-            player.sendMessage(Component.text("보상 NPC ID: " + rewardNpcId, ColorUtil.GRAY));
+            player.sendMessage(Component.text("보상 NPC 등록 아이템도 지급되었습니다.", UnifiedColorUtil.SUCCESS));
+            player.sendMessage(Component.text("보상 NPC ID: " + rewardNpcId, UnifiedColorUtil.GRAY));
         }
         
-        player.sendMessage(Component.text("10초 내에 설정할 NPC를 우클릭하세요.", ColorUtil.INFO));
-        player.sendMessage(Component.text("퀘스트: " + questId.name() + " - " + quest.getDisplayName(player), ColorUtil.YELLOW));
+        player.sendMessage(Component.text("10초 내에 설정할 NPC를 우클릭하세요.", UnifiedColorUtil.INFO));
+        player.sendMessage(Component.text("퀘스트: " + questId.name() + " - " + quest.getDisplayName(player), UnifiedColorUtil.YELLOW));
     }
     
     /**
      * 플레이어가 상점 trait를 설정할 준비를 함
      */
     public void prepareShopTrait(@NotNull Player player, @NotNull String shopType) {
-        // 기존 대기 중인 것이 있으면 취소
         cancelPending(player);
         
         // 새로운 대기 설정
         BukkitTask timeoutTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
             if (pendingTraits.remove(player.getUniqueId()) != null) {
-                player.sendMessage(Component.text("NPC 설정 시간이 초과되었습니다.", ColorUtil.ERROR));
+                player.sendMessage(Component.text("NPC 설정 시간이 초과되었습니다.", UnifiedColorUtil.ERROR));
             }
         }, 200L); // 10초
         
         PendingTrait pending = new PendingTrait(TraitType.SHOP, shopType, timeoutTask);
         pendingTraits.put(player.getUniqueId(), pending);
         
-        player.sendMessage(Component.text("10초 내에 설정할 NPC를 우클릭하세요.", ColorUtil.INFO));
-        player.sendMessage(Component.text("상점 타입: " + shopType, ColorUtil.YELLOW));
+        player.sendMessage(Component.text("10초 내에 설정할 NPC를 우클릭하세요.", UnifiedColorUtil.INFO));
+        player.sendMessage(Component.text("상점 타입: " + shopType, UnifiedColorUtil.YELLOW));
     }
     
     /**
      * 플레이어가 가이드 trait를 설정할 준비를 함
      */
     public void prepareGuideTrait(@NotNull Player player, @NotNull String guideType) {
-        // 기존 대기 중인 것이 있으면 취소
         cancelPending(player);
         
         // 새로운 대기 설정
         BukkitTask timeoutTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
             if (pendingTraits.remove(player.getUniqueId()) != null) {
-                player.sendMessage(Component.text("NPC 설정 시간이 초과되었습니다.", ColorUtil.ERROR));
+                player.sendMessage(Component.text("NPC 설정 시간이 초과되었습니다.", UnifiedColorUtil.ERROR));
             }
         }, 200L); // 10초
         
         PendingTrait pending = new PendingTrait(TraitType.GUIDE, guideType, timeoutTask);
         pendingTraits.put(player.getUniqueId(), pending);
         
-        player.sendMessage(Component.text("10초 내에 설정할 NPC를 우클릭하세요.", ColorUtil.INFO));
-        player.sendMessage(Component.text("가이드 타입: " + guideType, ColorUtil.YELLOW));
+        player.sendMessage(Component.text("10초 내에 설정할 NPC를 우클릭하세요.", UnifiedColorUtil.INFO));
+        player.sendMessage(Component.text("가이드 타입: " + guideType, UnifiedColorUtil.YELLOW));
     }
     
     /**
      * 플레이어가 대화 trait를 설정할 준비를 함
      */
     public void prepareDialogTrait(@NotNull Player player, @NotNull List<String> dialogues) {
-        // 기존 대기 중인 것이 있으면 취소
         cancelPending(player);
         
         // 새로운 대기 설정
         BukkitTask timeoutTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
             if (pendingTraits.remove(player.getUniqueId()) != null) {
-                player.sendMessage(Component.text("NPC 설정 시간이 초과되었습니다.", ColorUtil.ERROR));
+                player.sendMessage(Component.text("NPC 설정 시간이 초과되었습니다.", UnifiedColorUtil.ERROR));
             }
         }, 200L); // 10초
         
         PendingTrait pending = new PendingTrait(TraitType.DIALOG, dialogues, timeoutTask);
         pendingTraits.put(player.getUniqueId(), pending);
         
-        player.sendMessage(Component.text("10초 내에 설정할 NPC를 우클릭하세요.", ColorUtil.INFO));
-        player.sendMessage(Component.text("대사 개수: " + dialogues.size() + "개", ColorUtil.YELLOW));
+        player.sendMessage(Component.text("10초 내에 설정할 NPC를 우클릭하세요.", UnifiedColorUtil.INFO));
+        player.sendMessage(Component.text("대사 개수: " + dialogues.size() + "개", UnifiedColorUtil.YELLOW));
     }
     
     /**

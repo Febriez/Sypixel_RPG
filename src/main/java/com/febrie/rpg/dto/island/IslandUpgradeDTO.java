@@ -69,15 +69,6 @@ public record IslandUpgradeDTO(
         return memberLimit < 16;
     }
     
-    // ===== 서비스 호환성을 위한 Alias 메서드들 =====
-    
-    public int currentSize() { return getCurrentSize(); }
-    public int maxSize() { return getCurrentSize(); }
-    public int sizeUpgrades() { return sizeLevel; }
-    public int memberSlots() { return memberLimit; }
-    public int workerSlots() { return workerLimit; }
-    public int spawnSlots() { return 10; } // 기본값
-    public long lastUpgraded() { return lastUpgradeAt; }
     
     /**
      * Map으로 변환 (Firebase 저장용)

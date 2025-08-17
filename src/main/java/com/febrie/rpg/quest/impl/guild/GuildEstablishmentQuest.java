@@ -135,8 +135,7 @@ public class GuildEstablishmentQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.guild_establishment.objectives." + id);
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("guild_establishment_dialog");
 
         dialog.addLine("quest.guild_establishment.dialog.registrar",

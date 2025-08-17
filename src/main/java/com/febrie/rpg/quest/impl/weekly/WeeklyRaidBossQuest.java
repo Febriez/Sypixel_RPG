@@ -147,8 +147,7 @@ public class WeeklyRaidBossQuest extends Quest {
         };
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("weekly_raid_boss_dialog");
 
         dialog.addLine("quest.weekly_raid_boss.npcs.raid_commander", "quest.weekly_raid_boss.dialogs.line1");

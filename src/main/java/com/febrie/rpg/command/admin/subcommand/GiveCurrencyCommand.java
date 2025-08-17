@@ -5,7 +5,7 @@ import com.febrie.rpg.command.admin.subcommand.base.SubCommand;
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LangManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -75,7 +75,7 @@ public class GiveCurrencyCommand implements SubCommand {
     public boolean execute(@NotNull CommandSender sender, @NotNull String[] args) {
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
-            sender.sendMessage(ColorUtil.colorize("&c플레이어를 찾을 수 없습니다: " + args[0]));
+            sender.sendMessage(UnifiedColorUtil.parse("&c플레이어를 찾을 수 없습니다: " + args[0]));
             return false;
         }
         
@@ -83,8 +83,8 @@ public class GiveCurrencyCommand implements SubCommand {
         try {
             currency = CurrencyType.valueOf(args[1].toUpperCase());
         } catch (IllegalArgumentException e) {
-            sender.sendMessage(ColorUtil.colorize("&c유효하지 않은 재화 타입: " + args[1]));
-            sender.sendMessage(ColorUtil.colorize("&7사용 가능: " + 
+            sender.sendMessage(UnifiedColorUtil.parse("&c유효하지 않은 재화 타입: " + args[1]));
+            sender.sendMessage(UnifiedColorUtil.parse("&7사용 가능: " + 
                 Arrays.stream(CurrencyType.values())
                     .map(Enum::name)
                     .collect(Collectors.joining(", "))));
@@ -95,18 +95,18 @@ public class GiveCurrencyCommand implements SubCommand {
         try {
             amount = Integer.parseInt(args[2]);
             if (amount <= 0) {
-                sender.sendMessage(ColorUtil.colorize("&c금액은 0보다 커야 합니다"));
+                sender.sendMessage(UnifiedColorUtil.parse("&c금액은 0보다 커야 합니다"));
                 return false;
             }
         } catch (NumberFormatException e) {
-            sender.sendMessage(ColorUtil.colorize("&c유효하지 않은 금액: " + args[2]));
+            sender.sendMessage(UnifiedColorUtil.parse("&c유효하지 않은 금액: " + args[2]));
             return false;
         }
         
         // RPGPlayer 가져오기
         RPGPlayer rpgPlayer = playerManager.getPlayer(target.getUniqueId());
         if (rpgPlayer == null) {
-            sender.sendMessage(ColorUtil.colorize("&c플레이어 데이터를 찾을 수 없습니다"));
+            sender.sendMessage(UnifiedColorUtil.parse("&c플레이어 데이터를 찾을 수 없습니다"));
             return false;
         }
         
@@ -114,11 +114,11 @@ public class GiveCurrencyCommand implements SubCommand {
         boolean success = rpgPlayer.getWallet().add(currency, amount);
         
         if (success) {
-            sender.sendMessage(ColorUtil.colorize(String.format(
+            sender.sendMessage(UnifiedColorUtil.parse(String.format(
                 "&a%s에게 %s %d개를 지급했습니다",
                 target.getName(), currency.name(), amount
             )));
-            target.sendMessage(ColorUtil.colorize(String.format(
+            target.sendMessage(UnifiedColorUtil.parse(String.format(
                 "&a%s %d개를 받았습니다!",
                 currency.name(), amount
             )));
@@ -126,7 +126,7 @@ public class GiveCurrencyCommand implements SubCommand {
             // 데이터 저장 요청
             playerManager.savePlayerDataAsync(rpgPlayer, true);
         } else {
-            sender.sendMessage(ColorUtil.colorize("&c재화 지급에 실패했습니다 (최대치 도달 또는 오류)"));
+            sender.sendMessage(UnifiedColorUtil.parse("&c재화 지급에 실패했습니다 (최대치 도달 또는 오류)"));
         }
         
         return true;

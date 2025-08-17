@@ -104,7 +104,6 @@ public class ChosenOneQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.chosen_one.objectives." + id);
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("chosen_one_dialog");
 

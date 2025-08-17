@@ -29,25 +29,25 @@ public final class GuiHandlerUtil {
      */
     @NotNull
     public static IslandDTO updateIslandSettings(@NotNull IslandDTO island, @NotNull IslandSettingsDTO newSettings) {
-        return new IslandDTO(
-                island.islandId(),
-                island.ownerUuid(),
-                island.ownerName(),
-                island.islandName(),
-                island.size(),
-                island.isPublic(),
-                island.createdAt(),
+        return IslandDTO.fromFields(
+                island.core().islandId(),
+                island.core().ownerUuid(),
+                island.core().ownerName(),
+                island.core().islandName(),
+                island.core().size(),
+                island.core().isPublic(),
+                island.core().createdAt(),
                 System.currentTimeMillis(), // lastActivity 업데이트
-                island.members(),
-                island.workers(),
-                island.contributions(),
-                island.spawnData(),
-                island.upgradeData(),
-                island.permissions(),
-                island.pendingInvites(),
-                island.recentVisits(),
-                island.totalResets(),
-                island.deletionScheduledAt(),
+                island.membership().members(),
+                island.membership().workers(),
+                island.membership().contributions(),
+                island.configuration().spawnData(),
+                island.configuration().upgradeData(),
+                island.configuration().permissions(),
+                island.social().pendingInvites(),
+                island.social().recentVisits(),
+                island.core().totalResets(),
+                island.core().deletionScheduledAt(),
                 newSettings
         );
     }
@@ -57,26 +57,26 @@ public final class GuiHandlerUtil {
      */
     @NotNull
     public static IslandDTO updateIslandSpawn(@NotNull IslandDTO island, @NotNull IslandSpawnDTO newSpawnData) {
-        return new IslandDTO(
-                island.islandId(),
-                island.ownerUuid(),
-                island.ownerName(),
-                island.islandName(),
-                island.size(),
-                island.isPublic(),
-                island.createdAt(),
+        return IslandDTO.fromFields(
+                island.core().islandId(),
+                island.core().ownerUuid(),
+                island.core().ownerName(),
+                island.core().islandName(),
+                island.core().size(),
+                island.core().isPublic(),
+                island.core().createdAt(),
                 System.currentTimeMillis(), // lastActivity 업데이트
-                island.members(),
-                island.workers(),
-                island.contributions(),
+                island.membership().members(),
+                island.membership().workers(),
+                island.membership().contributions(),
                 newSpawnData,
-                island.upgradeData(),
-                island.permissions(),
-                island.pendingInvites(),
-                island.recentVisits(),
-                island.totalResets(),
-                island.deletionScheduledAt(),
-                island.settings()
+                island.configuration().upgradeData(),
+                island.configuration().permissions(),
+                island.social().pendingInvites(),
+                island.social().recentVisits(),
+                island.core().totalResets(),
+                island.core().deletionScheduledAt(),
+                island.configuration().settings()
         );
     }
     
@@ -85,26 +85,26 @@ public final class GuiHandlerUtil {
      */
     @NotNull
     public static IslandDTO toggleIslandPublic(@NotNull IslandDTO island) {
-        return new IslandDTO(
-                island.islandId(),
-                island.ownerUuid(),
-                island.ownerName(),
-                island.islandName(),
-                island.size(),
-                !island.isPublic(), // 토글
-                island.createdAt(),
+        return IslandDTO.fromFields(
+                island.core().islandId(),
+                island.core().ownerUuid(),
+                island.core().ownerName(),
+                island.core().islandName(),
+                island.core().size(),
+                !island.core().isPublic(), // 토글
+                island.core().createdAt(),
                 System.currentTimeMillis(), // lastActivity 업데이트
-                island.members(),
-                island.workers(),
-                island.contributions(),
-                island.spawnData(),
-                island.upgradeData(),
-                island.permissions(),
-                island.pendingInvites(),
-                island.recentVisits(),
-                island.totalResets(),
-                island.deletionScheduledAt(),
-                island.settings()
+                island.membership().members(),
+                island.membership().workers(),
+                island.membership().contributions(),
+                island.configuration().spawnData(),
+                island.configuration().upgradeData(),
+                island.configuration().permissions(),
+                island.social().pendingInvites(),
+                island.social().recentVisits(),
+                island.core().totalResets(),
+                island.core().deletionScheduledAt(),
+                island.configuration().settings()
         );
     }
     
@@ -154,7 +154,7 @@ public final class GuiHandlerUtil {
      * 성공 메시지 표시 후 GUI 전환
      */
     public static void successAndSwitch(@NotNull Player player, @NotNull String message, @NotNull BaseGui newGui) {
-        player.sendMessage(ColorUtil.colorize("&a" + message));
+        player.sendMessage(UnifiedColorUtil.parse("&a" + message));
         switchGui(player, newGui);
     }
     
@@ -162,7 +162,7 @@ public final class GuiHandlerUtil {
      * 에러 메시지 표시 후 GUI 닫기
      */
     public static void errorAndClose(@NotNull Player player, @NotNull String message) {
-        player.sendMessage(ColorUtil.colorize("&c" + message));
+        player.sendMessage(UnifiedColorUtil.parse("&c" + message));
         player.closeInventory();
     }
     
@@ -173,7 +173,7 @@ public final class GuiHandlerUtil {
                                                   @Nullable String errorMessage) {
         if (!player.hasPermission(permission)) {
             String message = errorMessage != null ? errorMessage : "이 작업을 수행할 권한이 없습니다.";
-            player.sendMessage(ColorUtil.colorize("&c" + message));
+            player.sendMessage(UnifiedColorUtil.parse("&c" + message));
             return false;
         }
         return true;

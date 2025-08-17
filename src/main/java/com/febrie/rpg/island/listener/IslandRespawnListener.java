@@ -65,11 +65,11 @@ public class IslandRespawnListener implements Listener {
         }
 
         // 섬 스폰 위치 계산
-        IslandSpawnDTO spawnData = island.spawnData();
+        IslandSpawnDTO spawnData = island.configuration().spawnData();
         IslandSpawnPointDTO spawnPoint = null;
 
         // 1. 개인 스폰 확인
-        boolean isOwner = island.ownerUuid().equals(player.getUniqueId().toString());
+        boolean isOwner = island.core().ownerUuid().equals(player.getUniqueId().toString());
         spawnPoint = spawnData.getPersonalSpawn(player.getUniqueId().toString(), isOwner);
 
         // 2. 개인 스폰이 없으면 기본 스폰 사용

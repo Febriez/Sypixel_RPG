@@ -8,7 +8,7 @@ import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -60,7 +60,7 @@ public class NotificationSettingsGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("알림 설정", ColorUtil.MYTHIC);
+        return Component.text("알림 설정", UnifiedColorUtil.MYTHIC);
     }
 
     @Override
@@ -89,10 +89,10 @@ public class NotificationSettingsGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 new ItemBuilder(Material.BELL)
-                        .displayName(Component.text("🔔 알림 설정", ColorUtil.MYTHIC)
+                        .displayName(Component.text("🔔 알림 설정", UnifiedColorUtil.MYTHIC)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("알림 관련 설정을 변경합니다", ColorUtil.GRAY))
+                        .addLore(Component.text("알림 관련 설정을 변경합니다", UnifiedColorUtil.GRAY))
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -146,18 +146,18 @@ public class NotificationSettingsGui extends BaseGui {
         
         GuiItem whisperNotificationsToggle = GuiItem.clickable(
                 new ItemBuilder(enabled ? Material.LIME_CONCRETE : Material.RED_CONCRETE)
-                        .displayName(Component.text("💬 귓말 알림", ColorUtil.PRIMARY)
+                        .displayName(Component.text("💬 귓말 알림", UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
                         .addLore(Component.text("상태: " + (enabled ? "활성화" : "비활성화"), 
-                                enabled ? ColorUtil.SUCCESS : ColorUtil.ERROR))
+                                enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
                         .addLore(Component.empty())
-                        .addLore(Component.text("귓말을 받았을 때", ColorUtil.GRAY))
-                        .addLore(Component.text("채팅에 알림을 표시할지 설정합니다", ColorUtil.GRAY))
+                        .addLore(Component.text("귓말을 받았을 때", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("채팅에 알림을 표시할지 설정합니다", UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("※ 귓말 시스템은 준비중입니다", ColorUtil.YELLOW))
+                        .addLore(Component.text("※ 귓말 시스템은 준비중입니다", UnifiedColorUtil.YELLOW))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), ColorUtil.YELLOW))
+                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), UnifiedColorUtil.YELLOW))
                         .build(),
                 p -> {
                     settings.setWhisperNotificationsEnabled(!enabled);
@@ -201,20 +201,20 @@ public class NotificationSettingsGui extends BaseGui {
         
         GuiItem inviteNotificationsToggle = GuiItem.clickable(
                 new ItemBuilder(material)
-                        .displayName(Component.text("📨 초대 알림", ColorUtil.PRIMARY)
+                        .displayName(Component.text("📨 초대 알림", UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("현재 모드: " + modeDisplay, ColorUtil.WHITE))
-                        .addLore(Component.text(modeDescription, ColorUtil.GRAY))
+                        .addLore(Component.text("현재 모드: " + modeDisplay, UnifiedColorUtil.WHITE))
+                        .addLore(Component.text(modeDescription, UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("친구 요청이나 길드 초대를", ColorUtil.GRAY))
-                        .addLore(Component.text("받았을 때 채팅에 알림을", ColorUtil.GRAY))
-                        .addLore(Component.text("표시할지 설정합니다", ColorUtil.GRAY))
+                        .addLore(Component.text("친구 요청이나 길드 초대를", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("받았을 때 채팅에 알림을", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("표시할지 설정합니다", UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 다음 모드로 변경:", ColorUtil.YELLOW))
-                        .addLore(Component.text("전체 → 친구만 → 길드만 → 끄기", ColorUtil.GRAY))
+                        .addLore(Component.text("클릭하여 다음 모드로 변경:", UnifiedColorUtil.YELLOW))
+                        .addLore(Component.text("전체 → 친구만 → 길드만 → 끄기", UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("※ 관련 시스템은 준비중입니다", ColorUtil.YELLOW))
+                        .addLore(Component.text("※ 관련 시스템은 준비중입니다", UnifiedColorUtil.YELLOW))
                         .build(),
                 p -> {
                     String nextMode = switch (mode) {
@@ -251,21 +251,21 @@ public class NotificationSettingsGui extends BaseGui {
         
         GuiItem serverAnnouncementsToggle = GuiItem.clickable(
                 new ItemBuilder(enabled ? Material.BEACON : Material.GLASS)
-                        .displayName(Component.text("📢 서버 공지 알림", ColorUtil.PRIMARY)
+                        .displayName(Component.text("📢 서버 공지 알림", UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
                         .addLore(Component.text("상태: " + (enabled ? "활성화" : "비활성화"), 
-                                enabled ? ColorUtil.SUCCESS : ColorUtil.ERROR))
+                                enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
                         .addLore(Component.empty())
-                        .addLore(Component.text("서버 공지사항을", ColorUtil.GRAY))
-                        .addLore(Component.text("채팅에 표시할지 설정합니다", ColorUtil.GRAY))
+                        .addLore(Component.text("서버 공지사항을", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("채팅에 표시할지 설정합니다", UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("예시:", ColorUtil.YELLOW))
-                        .addLore(Component.text("• 이벤트 알림", ColorUtil.GRAY))
-                        .addLore(Component.text("• 업데이트 공지", ColorUtil.GRAY))
-                        .addLore(Component.text("• 중요 알림", ColorUtil.GRAY))
+                        .addLore(Component.text("예시:", UnifiedColorUtil.YELLOW))
+                        .addLore(Component.text("• 이벤트 알림", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("• 업데이트 공지", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("• 중요 알림", UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), ColorUtil.YELLOW))
+                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), UnifiedColorUtil.YELLOW))
                         .build(),
                 p -> {
                     settings.setServerAnnouncementsEnabled(!enabled);
@@ -280,5 +280,11 @@ public class NotificationSettingsGui extends BaseGui {
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

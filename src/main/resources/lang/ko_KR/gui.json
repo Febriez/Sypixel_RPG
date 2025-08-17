@@ -344,7 +344,19 @@
       "title": "섬 생성"
     },
     "biome-selection": {
-      "title": "바이옴 선택"
+      "title": "바이옴 선택",
+      "forest": "숲",
+      "plains": "평원",
+      "desert": "사막",
+      "snow": "설원",
+      "jungle": "정글",
+      "swamp": "늪지",
+      "ocean": "바다",
+      "mushroom": "버섯 섬",
+      "savanna": "사바나",
+      "taiga": "타이가",
+      "mountains": "산악",
+      "badlands": "악지"
     },
     "visitor": {
       "menu": {
@@ -356,6 +368,120 @@
     },
     "biome-change": {
       "title": "바이옴 변경"
+    },
+    "contribute": {
+      "title": "섬 기여",
+      "input-amount": "기여할 금액",
+      "input-gold": "기여할 골드 입력"
+    },
+    "member": {
+      "title": "섬 멤버 관리",
+      "role": "역할",
+      "join-date": "가입일",
+      "has-most-permissions": "대부분의 권한 보유",
+      "regular-member-permissions": "일반 섬원 권한"
+    },
+    "permission": {
+      "title": "권한 관리",
+      "select-role-desc": "이 역할의 권한을 설정합니다.",
+      "selected": "선택됨",
+      "click-to-select": "클릭하여 선택",
+      "current-editing": "현재 편집 중",
+      "select-other-role": "좌측에서 다른 역할을 선택하여",
+      "edit-role-permissions": "해당 역할의 권한을 편집할 수 있습니다."
     }
+  },
+  "social": {
+    "mailbox": {
+      "title": "우편함",
+      "title-icon": "📬 우편함",
+      "description": "받은 우편을 확인하세요!",
+      "refresh": "🔄 새로고침",
+      "refresh-desc": "우편 목록을 새로고침합니다",
+      "click-refresh": "클릭하여 새로고침",
+      "send-mail": "📝 우편 보내기",
+      "send-mail-desc": "새로운 우편을 보냅니다",
+      "click-to-write": "클릭하여 작성",
+      "delete-read": "🗑 읽은 우편 삭제",
+      "delete-read-desc": "읽은 우편을 모두 삭제합니다",
+      "except-attachments": "(첨부물이 있는 우편 제외)",
+      "click-to-delete": "클릭하여 삭제",
+      "loading": "로딩 중...",
+      "no-mail": "우편이 없습니다",
+      "no-mail-desc": "받은 우편이 없습니다",
+      "refresh-success": "우편 목록을 새로고침했습니다.",
+      "send-mail-guide": "우편 보내기:",
+      "send-mail-command": "'/우편보내기 <플레이어명> <제목> [메시지]'를 입력하세요.",
+      "send-mail-example": "예시: /우편보내기 Steve 선물 안녕하세요!",
+      "delete-success": "우편을 삭제했습니다",
+      "delete-failed": "우편 삭제에 실패했습니다"
+    },
+    "mail-detail": {
+      "title": "우편 상세",
+      "message-icon": "📄 메시지",
+      "no-attachments": "첨부물 없음",
+      "delete-mail": "🗑 우편 삭제",
+      "reply": "✉ 답장하기"
+    },
+    "friend-list": {
+      "title": "친구 목록",
+      "title-icon": "👥 친구 목록",
+      "requests": "📨 친구 요청",
+      "add-friend": "➕ 친구 추가"
+    },
+    "friend-request": {
+      "title": "친구 요청",
+      "title-icon": "📨 친구 요청",
+      "accept": "✓ 수락",
+      "reject": "✗ 거절"
+    }
+  },
+  "settings": {
+    "title": "설정",
+    "personal": "⚙ 개인 설정",
+    "gui": "🖥 GUI 설정",
+    "social": "👥 소셜 설정",
+    "ingame": "🎮 인게임 설정",
+    "system": "⚙ 시스템 설정",
+    "notifications": "🔔 알림 설정",
+    "gameplay": "%COLOR_INFO%게임플레이 설정",
+    "privacy": "%COLOR_RED%개인정보 설정",
+    "language": "%COLOR_AQUA%언어 설정",
+    "current-language": "%COLOR_WHITE%현재 언어: %COLOR_YELLOW%{language}",
+    "click-to-change": "%COLOR_GRAY%클릭하여 변경",
+    "ingame-settings": {
+      "title": "인게임 설정",
+      "quest-dialog-speed": "💬 퀘스트 대화 속도",
+      "quest-auto-guide": "🧭 퀘스트 자동 길안내"
+    },
+    "social-settings": {
+      "title": "소셜 설정",
+      "friend-requests": "👤 친구 요청 받기",
+      "guild-invites": "🏰 길드 초대 받기",
+      "whisper-mode": "💬 귓말 모드"
+    },
+    "notification-settings": {
+      "title": "알림 설정",
+      "whisper-notifications": "💬 귓말 알림"
+    },
+    "system-settings": {
+      "title": "시스템 설정",
+      "confirmation-dialogs": "❓ 확인 대화상자"
+    }
+  },
+  "system": {
+    "leaderboard": {
+      "my-rank": "내 순위",
+      "just-now": "방금 전",
+      "minutes-ago": "{minutes}분 전",
+      "hours-ago": "{hours}시간 전",
+      "days-ago": "{days}일 전"
+    }
+  },
+  "quest": {
+    "filter": "필터: ",
+    "previous-page": "이전 페이지",
+    "next-page": "다음 페이지",
+    "rewards": "보상"
   }
 }

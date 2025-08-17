@@ -4,7 +4,7 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.progress.QuestProgress;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.ToastUtil;
@@ -31,11 +31,11 @@ public final class QuestUtil {
      * 알림 타입
      */
     public enum NotificationType {
-        QUEST_START("", ColorUtil.GOLD, ColorUtil.RARE, "quest.started", SoundUtil::playOpenSound),
-        OBJECTIVE_COMPLETE("✓ ", ColorUtil.SUCCESS, null, null, SoundUtil::playSuccessSound),
-        QUEST_COMPLETE("🎉 ", ColorUtil.GOLD, ColorUtil.LEGENDARY, "quest.completed", SoundUtil::playCompleteQuestSound),
-        QUEST_CANCEL("❌ ", ColorUtil.ERROR, ColorUtil.COMMON, "quest.cancelled", SoundUtil::playCloseSound),
-        REWARD_CLAIMED("💰 ", ColorUtil.GOLD, ColorUtil.RARE, "quest.reward-claimed", SoundUtil::playItemPickupSound);
+        QUEST_START("", UnifiedColorUtil.GOLD, UnifiedColorUtil.RARE, "quest.started", SoundUtil::playOpenSound),
+        OBJECTIVE_COMPLETE("✓ ", UnifiedColorUtil.SUCCESS, null, null, SoundUtil::playSuccessSound),
+        QUEST_COMPLETE("🎉 ", UnifiedColorUtil.GOLD, UnifiedColorUtil.LEGENDARY, "quest.completed", SoundUtil::playCompleteQuestSound),
+        QUEST_CANCEL("❌ ", UnifiedColorUtil.ERROR, UnifiedColorUtil.COMMON, "quest.cancelled", SoundUtil::playCloseSound),
+        REWARD_CLAIMED("💰 ", UnifiedColorUtil.GOLD, UnifiedColorUtil.RARE, "quest.reward-claimed", SoundUtil::playItemPickupSound);
         
         final String prefix;
         final TextColor prefixColor;
@@ -79,7 +79,7 @@ public final class QuestUtil {
         
         // 채팅 메시지
         player.sendMessage(
-            Component.text("✓ ", ColorUtil.SUCCESS).append(quest.getObjectiveDescription(objective, player))
+            Component.text("✓ ", UnifiedColorUtil.SUCCESS).append(quest.getObjectiveDescription(objective, player))
         );
         
         // 효과음
@@ -95,7 +95,7 @@ public final class QuestUtil {
         
         // 추가 메시지 (보상 NPC 방문 안내)
         player.sendMessage(
-            LangManager.getMessage(player, "quest.reward-npc-visit").color(ColorUtil.INFO)
+            LangManager.getMessage(player, "quest.reward-npc-visit").color(UnifiedColorUtil.INFO)
         );
     }
     
@@ -136,7 +136,7 @@ public final class QuestUtil {
         if (type.messageKey != null) {
             message = message.append(
                 LangManager.getMessage(player, type.messageKey).color(
-                    type == NotificationType.QUEST_CANCEL ? ColorUtil.ERROR : ColorUtil.SUCCESS
+                    type == NotificationType.QUEST_CANCEL ? UnifiedColorUtil.ERROR : UnifiedColorUtil.SUCCESS
                 )
             );
         }

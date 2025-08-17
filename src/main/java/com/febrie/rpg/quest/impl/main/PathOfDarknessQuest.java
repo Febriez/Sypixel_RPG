@@ -107,7 +107,6 @@ public class PathOfDarknessQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.path_of_darkness.objectives." + id);
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("path_of_darkness_dialog");
 

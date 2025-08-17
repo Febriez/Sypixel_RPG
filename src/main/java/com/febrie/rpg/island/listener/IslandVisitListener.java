@@ -5,7 +5,7 @@ import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.dto.island.IslandVisitDTO;
 import com.febrie.rpg.island.Island;
 import com.febrie.rpg.island.manager.IslandManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LogUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -161,7 +161,7 @@ public class IslandVisitListener implements Listener {
         
         // 본인의 섬이면 방문 기록하지 않음
         if (island.getOwnerUuid().equals(playerUuid) ||
-            island.getData().members().stream().anyMatch(m -> m.uuid().equals(playerUuid))) {
+            island.getData().membership().members().stream().anyMatch(m -> m.uuid().equals(playerUuid))) {
             return;
         }
         
@@ -170,7 +170,7 @@ public class IslandVisitListener implements Listener {
         
         // 환영 메시지 (공개 섬인 경우)
         if (island.isPublic()) {
-            player.sendMessage(ColorUtil.colorize("&a" + island.getName() + " 섬에 방문하셨습니다!"));
+            player.sendMessage(UnifiedColorUtil.parse("&a" + island.getName() + " 섬에 방문하셨습니다!"));
         }
     }
     

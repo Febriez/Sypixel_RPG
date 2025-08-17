@@ -4,12 +4,15 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.dto.island.IslandSettingsDTO;
 import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
-import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.StandardItemBuilder;
+import com.febrie.rpg.util.UnifiedColorUtil;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -27,7 +30,6 @@ import java.util.List;
  */
 public class IslandBiomeSimpleGui extends BaseGui {
     
-    private final RPGMain plugin;
     private final IslandManager islandManager;
     private final IslandDTO island;
     private final String currentBiome;
@@ -47,7 +49,6 @@ public class IslandBiomeSimpleGui extends BaseGui {
     private IslandBiomeSimpleGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                 @NotNull RPGMain plugin, @NotNull IslandDTO island, @NotNull String currentBiome) {
         super(viewer, guiManager, 36, "&b&l바이옴 선택");
-        this.plugin = plugin;
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.currentBiome = currentBiome;
@@ -84,37 +85,42 @@ public class IslandBiomeSimpleGui extends BaseGui {
     }
     
     @Override
-    public String getBackTarget() {
-        return "island_settings";
+    protected GuiFramework getBackTarget() {
+        return null; // Use back button with direct navigation
+    }
+    
+    @Override
+    public @NotNull Component getTitle() {
+        return Component.text("바이옴 선택", UnifiedColorUtil.PRIMARY);
     }
     
     private ItemStack createBiomeItem(BiomeOption biome, boolean isSelected) {
-        ItemBuilder builder = new ItemBuilder(biome.material)
-                .displayName(ColorUtil.parseComponent(
-                    (isSelected ? "&a&l" : "&e&l") + biome.displayName
-                ))
-                .addLore(ColorUtil.parseComponent(""));
+        ItemBuilder builder = StandardItemBuilder.guiItem(biome.material)
+                .displayName(trans("gui.island.biome.name", biome.displayName)
+                    .color(isSelected ? UnifiedColorUtil.GREEN : UnifiedColorUtil.YELLOW)
+                    .decorate(net.kyori.adventure.text.format.TextDecoration.BOLD))
+                .addLore(Component.empty());
         
         if (isSelected) {
-            builder.addLore(ColorUtil.parseComponent("&a✔ 현재 선택됨"));
-            builder.addLore(ColorUtil.parseComponent(""));
+            builder.addLore(trans("gui.island.biome.currently_selected"));
+            builder.addLore(Component.empty());
         }
         
-        builder.addLore(ColorUtil.parseComponent("&7" + biome.description));
-        builder.addLore(ColorUtil.parseComponent(""));
+        builder.addLore(trans("gui.island.biome.description", biome.description));
+        builder.addLore(Component.empty());
         
         if (!isSelected) {
-            builder.addLore(ColorUtil.parseComponent("&e▶ 클릭하여 선택"));
+            builder.addLore(trans("gui.island.biome.click_to_select"));
         }
         
         return builder.build();
     }
     
     private ItemStack createBackButton() {
-        return new ItemBuilder(Material.ARROW)
-                .displayName(ColorUtil.parseComponent("&c뒤로가기"))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7설정 메뉴로 돌아갑니다"))
+        return StandardItemBuilder.guiItem(Material.ARROW)
+                .displayName(trans("gui.common.back"))
+                .addLore(Component.empty())
+                .addLore(trans("gui.island.biome.back_to_settings"))
                 .build();
     }
     
@@ -127,15 +133,15 @@ public class IslandBiomeSimpleGui extends BaseGui {
     private void handleBiomeSelection(Player player, BiomeOption biome) {
         // 이미 선택된 바이옴이면 무시
         if (biome.id.equals(currentBiome)) {
-            player.sendMessage(ColorUtil.colorize("&e이미 선택된 바이옴입니다."));
+            sendMessage(player, "gui.island.biome.message.already_selected");
             return;
         }
         
         // 새로운 설정 생성
         IslandSettingsDTO newSettings = new IslandSettingsDTO(
-                island.settings().nameColorHex(),
+                island.configuration().settings().nameColorHex(),
                 biome.id,
-                island.settings().template()
+                island.configuration().settings().template()
         );
         
         // 섬 업데이트 - GuiHandlerUtil 사용
@@ -147,7 +153,7 @@ public class IslandBiomeSimpleGui extends BaseGui {
         // applyBiomeToIsland은 private 메서드이므로 주석 처리
         // 바이옴 설정은 DTO에만 저장
         
-        player.sendMessage(ColorUtil.colorize("&a섬 바이옴이 " + biome.displayName + "&a(으)로 변경되었습니다!"));
+        sendMessage(player, "gui.island.biome.message.changed", biome.displayName);
         player.closeInventory();
         
         // 설정 메뉴로 돌아가기

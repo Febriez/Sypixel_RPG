@@ -8,7 +8,7 @@ import com.febrie.rpg.gui.framework.ScrollableGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.talent.Talent;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -184,7 +184,7 @@ public class TalentGui extends ScrollableGui {
                 .amount(Math.max(1, currentLevel));
 
         // 설명 추가
-        List<Component> description = com.febrie.rpg.util.LangManager.getComponentList(viewer,
+        List<Component> description = com.febrie.rpg.util.LangManager.getList(viewer,
                 "talent." + talent.getId() + ".description");
         description.forEach(builder::addLore);
 
@@ -251,7 +251,7 @@ public class TalentGui extends ScrollableGui {
             builder.addLore(Component.empty());
             builder.addLore(trans("gui.talent.effects"));
             effects.forEach(effect -> builder.addLore(
-                    Component.text("• " + effect, ColorUtil.GRAY)));
+                    Component.text("• " + effect, UnifiedColorUtil.GRAY)));
         }
 
         // 하위 페이지 표시
@@ -346,5 +346,11 @@ public class TalentGui extends ScrollableGui {
     public GuiFramework getBackTarget() {
         // TalentGui는 ProfileGui로 돌아갑니다
         return new ProfileGui(guiManager, viewer);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

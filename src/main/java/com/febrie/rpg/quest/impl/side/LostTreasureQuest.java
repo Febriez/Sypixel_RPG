@@ -95,7 +95,7 @@ public class LostTreasureQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getComponentList(who, "quest.side.lost_treasure.description");
+        return LangManager.getList(who, "quest.side.lost_treasure.description");
     }
 
     @Override
@@ -104,8 +104,7 @@ public class LostTreasureQuest extends Quest {
         return LangManager.getMessage(who, "quest.side.lost_treasure.objectives." + id);
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("lost_treasure_dialog");
 
         dialog.addLine("quest.lost_treasure.npcs.explorer", "quest.lost_treasure.dialogs.line1");

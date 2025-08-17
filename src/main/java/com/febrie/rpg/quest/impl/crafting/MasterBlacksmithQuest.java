@@ -127,7 +127,6 @@ public class MasterBlacksmithQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.crafting.master_blacksmith.objectives." + id);
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("master_blacksmith_dialog");
 

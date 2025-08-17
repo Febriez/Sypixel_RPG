@@ -260,6 +260,18 @@ public class RPGPlayer {
         return cachedLevelInfo != null ? cachedLevelInfo.level() :
                 LevelSystem.getLevelFromExp(experience, job);
     }
+    
+    /**
+     * 레벨을 직접 설정 (관리자 명령어용)
+     * @param level 설정할 레벨
+     */
+    public void setLevel(int level) {
+        if (job == null) return; // 직업이 없으면 레벨 설정 불가
+        
+        // 레벨에 필요한 총 경험치 계산
+        long totalExp = LevelSystem.getTotalExpForLevel(level, job);
+        setExperience(totalExp);
+    }
 
     public double getLevelProgress() {
         if (job == null) return 0.0;

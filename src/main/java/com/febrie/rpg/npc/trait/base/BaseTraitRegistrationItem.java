@@ -1,7 +1,7 @@
 package com.febrie.rpg.npc.trait.base;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.SoundUtil;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -87,18 +87,18 @@ public abstract class BaseTraitRegistrationItem implements Listener {
     @NotNull
     protected List<Component> createLore(@NotNull String traitId) {
         List<Component> lore = new ArrayList<>();
-        lore.add(Component.text(getIdDisplayName() + ": ", ColorUtil.UNCOMMON)
+        lore.add(Component.text(getIdDisplayName() + ": ", UnifiedColorUtil.UNCOMMON)
                 .append(Component.text(traitId, getIdColor())));
         lore.add(Component.empty());
-        lore.add(Component.text("사용법:", ColorUtil.COMMON));
-        lore.add(Component.text("아무 NPC를 우클릭하여 " + getTraitName() + "를", ColorUtil.GRAY));
-        lore.add(Component.text("부착할 수 있습니다.", ColorUtil.GRAY));
+        lore.add(Component.text("사용법:", UnifiedColorUtil.COMMON));
+        lore.add(Component.text("아무 NPC를 우클릭하여 " + getTraitName() + "를", UnifiedColorUtil.GRAY));
+        lore.add(Component.text("부착할 수 있습니다.", UnifiedColorUtil.GRAY));
         lore.add(Component.empty());
-        lore.add(Component.text("설명:", ColorUtil.COMMON));
+        lore.add(Component.text("설명:", UnifiedColorUtil.COMMON));
         
         // Add custom description lines
         for (String line : getDescription()) {
-            lore.add(Component.text(line, ColorUtil.GRAY));
+            lore.add(Component.text(line, UnifiedColorUtil.GRAY));
         }
         
         return lore;
@@ -128,7 +128,7 @@ public abstract class BaseTraitRegistrationItem implements Listener {
         // Get trait ID
         String traitId = meta.getPersistentDataContainer().get(idKey, PersistentDataType.STRING);
         if (traitId == null) {
-            player.sendMessage(Component.text("오류: " + getIdType() + " ID를 찾을 수 없습니다.", ColorUtil.ERROR));
+            player.sendMessage(Component.text("오류: " + getIdType() + " ID를 찾을 수 없습니다.", UnifiedColorUtil.ERROR));
             return;
         }
         
@@ -148,24 +148,24 @@ public abstract class BaseTraitRegistrationItem implements Listener {
         if (hasTraitId(trait)) {
             String existingId = getTraitId(trait);
             if (existingId.equals(traitId)) {
-                player.sendMessage(Component.text("✗ ", ColorUtil.ERROR)
-                        .append(Component.text("이미 동일한 " + getIdType() + " ID가 등록되어 있습니다: ", ColorUtil.WARNING))
+                player.sendMessage(Component.text("✗ ", UnifiedColorUtil.ERROR)
+                        .append(Component.text("이미 동일한 " + getIdType() + " ID가 등록되어 있습니다: ", UnifiedColorUtil.WARNING))
                         .append(Component.text(existingId, getIdColor())));
             } else {
-                player.sendMessage(Component.text("✗ ", ColorUtil.ERROR)
-                        .append(Component.text("이 NPC에는 이미 다른 " + getIdType() + "가 등록되어 있습니다: ", ColorUtil.WARNING))
+                player.sendMessage(Component.text("✗ ", UnifiedColorUtil.ERROR)
+                        .append(Component.text("이 NPC에는 이미 다른 " + getIdType() + "가 등록되어 있습니다: ", UnifiedColorUtil.WARNING))
                         .append(Component.text(existingId, getIdColor())));
-                player.sendMessage(Component.text("현재 ID를 덮어쓰려면 Shift+우클릭하세요.", ColorUtil.GRAY));
+                player.sendMessage(Component.text("현재 ID를 덮어쓰려면 Shift+우클릭하세요.", UnifiedColorUtil.GRAY));
                 
                 // Shift 클릭 시 덮어쓰기
                 if (player.isSneaking()) {
                     setTraitId(trait, traitId);
-                    player.sendMessage(Component.text("✓ ", ColorUtil.SUCCESS)
-                            .append(Component.text(getIdType() + " ID를 ", ColorUtil.COMMON))
-                            .append(Component.text(existingId, ColorUtil.GRAY))
-                            .append(Component.text("에서 ", ColorUtil.COMMON))
+                    player.sendMessage(Component.text("✓ ", UnifiedColorUtil.SUCCESS)
+                            .append(Component.text(getIdType() + " ID를 ", UnifiedColorUtil.COMMON))
+                            .append(Component.text(existingId, UnifiedColorUtil.GRAY))
+                            .append(Component.text("에서 ", UnifiedColorUtil.COMMON))
                             .append(Component.text(traitId, getIdColor()))
-                            .append(Component.text("(으)로 변경했습니다.", ColorUtil.COMMON)));
+                            .append(Component.text("(으)로 변경했습니다.", UnifiedColorUtil.COMMON)));
                     
                     // 막대기 제거 (크리에이티브 모드에서도 제거)
                     item.setAmount(item.getAmount() - 1);
@@ -179,19 +179,19 @@ public abstract class BaseTraitRegistrationItem implements Listener {
         // 새롭게 등록
         setTraitId(trait, traitId);
         
-        player.sendMessage(Component.text("✓ ", ColorUtil.SUCCESS)
-                .append(Component.text("NPC ", ColorUtil.COMMON))
-                .append(Component.text(npc.getName(), ColorUtil.YELLOW))
-                .append(Component.text(" (Citizens ID: " + citizensNpcId + ")에게 ", ColorUtil.GRAY))
-                .append(Component.text(getIdType() + " '", ColorUtil.COMMON))
+        player.sendMessage(Component.text("✓ ", UnifiedColorUtil.SUCCESS)
+                .append(Component.text("NPC ", UnifiedColorUtil.COMMON))
+                .append(Component.text(npc.getName(), UnifiedColorUtil.YELLOW))
+                .append(Component.text(" (Citizens ID: " + citizensNpcId + ")에게 ", UnifiedColorUtil.GRAY))
+                .append(Component.text(getIdType() + " '", UnifiedColorUtil.COMMON))
                 .append(Component.text(traitId, getIdColor()))
-                .append(Component.text("'를 등록했습니다.", ColorUtil.COMMON)));
+                .append(Component.text("'를 등록했습니다.", UnifiedColorUtil.COMMON)));
         
         // Send additional success message if needed
         String additionalMessage = getSuccessMessage();
         if (additionalMessage != null && !additionalMessage.isEmpty()) {
-            player.sendMessage(Component.text("ℹ ", ColorUtil.INFO)
-                    .append(Component.text(additionalMessage, ColorUtil.GRAY)));
+            player.sendMessage(Component.text("ℹ ", UnifiedColorUtil.INFO)
+                    .append(Component.text(additionalMessage, UnifiedColorUtil.GRAY)));
         }
         
         // 막대기 제거 (크리에이티브 모드에서도 제거)

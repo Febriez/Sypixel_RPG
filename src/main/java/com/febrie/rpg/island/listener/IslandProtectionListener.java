@@ -6,7 +6,7 @@ import com.febrie.rpg.dto.island.IslandVisitDTO;
 import com.febrie.rpg.island.Island;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -58,7 +58,7 @@ public class IslandProtectionListener implements Listener {
         
         if (!checkPermission(player, block.getLocation(), "BUILD")) {
             event.setCancelled(true);
-            player.sendMessage(ColorUtil.colorize("&c이 섬에서 블록을 설치할 권한이 없습니다."));
+            player.sendMessage(UnifiedColorUtil.parse("&c이 섬에서 블록을 설치할 권한이 없습니다."));
         }
     }
     
@@ -72,7 +72,7 @@ public class IslandProtectionListener implements Listener {
         
         if (!checkPermission(player, block.getLocation(), "BUILD")) {
             event.setCancelled(true);
-            player.sendMessage(ColorUtil.colorize("&c이 섬에서 블록을 파괴할 권한이 없습니다."));
+            player.sendMessage(UnifiedColorUtil.parse("&c이 섬에서 블록을 파괴할 권한이 없습니다."));
         }
     }
     
@@ -95,7 +95,7 @@ public class IslandProtectionListener implements Listener {
         if (block.getState() instanceof Container) {
             if (!checkPermission(player, block.getLocation(), "OPEN_CONTAINERS")) {
                 event.setCancelled(true);
-                player.sendMessage(ColorUtil.colorize("&c이 섬에서 상자를 열 권한이 없습니다."));
+                player.sendMessage(UnifiedColorUtil.parse("&c이 섬에서 상자를 열 권한이 없습니다."));
                 return;
             }
         }
@@ -104,7 +104,7 @@ public class IslandProtectionListener implements Listener {
         if (isInteractableBlock(type)) {
             if (!checkPermission(player, block.getLocation(), "USE_ITEMS")) {
                 event.setCancelled(true);
-                player.sendMessage(ColorUtil.colorize("&c이 섬에서 이 아이템을 사용할 권한이 없습니다."));
+                player.sendMessage(UnifiedColorUtil.parse("&c이 섬에서 이 아이템을 사용할 권한이 없습니다."));
             }
         }
     }
@@ -119,7 +119,7 @@ public class IslandProtectionListener implements Listener {
         
         if (!checkPermission(player, block.getLocation(), "USE_ITEMS")) {
             event.setCancelled(true);
-            player.sendMessage(ColorUtil.colorize("&c이 섬에서 양동이를 사용할 권한이 없습니다."));
+            player.sendMessage(UnifiedColorUtil.parse("&c이 섬에서 양동이를 사용할 권한이 없습니다."));
         }
     }
     
@@ -133,7 +133,7 @@ public class IslandProtectionListener implements Listener {
         
         if (!checkPermission(player, block.getLocation(), "USE_ITEMS")) {
             event.setCancelled(true);
-            player.sendMessage(ColorUtil.colorize("&c이 섬에서 양동이를 사용할 권한이 없습니다."));
+            player.sendMessage(UnifiedColorUtil.parse("&c이 섬에서 양동이를 사용할 권한이 없습니다."));
         }
     }
     
@@ -150,7 +150,7 @@ public class IslandProtectionListener implements Listener {
             event.getRightClicked().getType().name().contains("PAINTING")) {
             if (!checkPermission(player, location, "USE_ITEMS")) {
                 event.setCancelled(true);
-                player.sendMessage(ColorUtil.colorize("&c이 섬에서 이 아이템을 사용할 권한이 없습니다."));
+                player.sendMessage(UnifiedColorUtil.parse("&c이 섬에서 이 아이템을 사용할 권한이 없습니다."));
             }
         }
     }
@@ -182,7 +182,7 @@ public class IslandProtectionListener implements Listener {
         // 권한 확인 - 기본적으로 섬원만 아이템을 줍을 수 있음
         if (!IslandPermissionHandler.isMember(island.getData(), player) && !player.isOp()) {
             event.setCancelled(true);
-            player.sendActionBar(Component.text("이 섬에서 아이템을 줍을 수 없습니다.", ColorUtil.ERROR));
+            player.sendActionBar(Component.text("이 섬에서 아이템을 줍을 수 없습니다.", UnifiedColorUtil.ERROR));
         }
     }
     
@@ -204,14 +204,14 @@ public class IslandProtectionListener implements Listener {
         if (island == null) {
             // 섬이 없는 지역에서는 버리기 방지
             event.setCancelled(true);
-            player.sendMessage(ColorUtil.colorize("&c이 지역에서는 아이템을 버릴 수 없습니다."));
+            player.sendMessage(UnifiedColorUtil.parse("&c이 지역에서는 아이템을 버릴 수 없습니다."));
             return;
         }
         
         // 권한 확인 - 기본적으로 섬원만 아이템을 버릴 수 있음
         if (!IslandPermissionHandler.isMember(island.getData(), player) && !player.isOp()) {
             event.setCancelled(true);
-            player.sendMessage(ColorUtil.colorize("&c이 섬에서 아이템을 버릴 수 없습니다."));
+            player.sendMessage(UnifiedColorUtil.parse("&c이 섬에서 아이템을 버릴 수 없습니다."));
         }
     }
     
@@ -228,7 +228,7 @@ public class IslandProtectionListener implements Listener {
         
         if (!checkPermission(player, location, "BUILD")) {
             event.setCancelled(true);
-            player.sendMessage(ColorUtil.colorize("&c이 섬에서 이 아이템을 파괴할 권한이 없습니다."));
+            player.sendMessage(UnifiedColorUtil.parse("&c이 섬에서 이 아이템을 파괴할 권한이 없습니다."));
         }
     }
     
@@ -251,7 +251,7 @@ public class IslandProtectionListener implements Listener {
             
             if (!checkPermission(player, location, "BUILD")) {
                 event.setCancelled(true);
-                player.sendMessage(ColorUtil.colorize("&c이 섬에서 이 엔티티를 파괴할 권한이 없습니다."));
+                player.sendMessage(UnifiedColorUtil.parse("&c이 섬에서 이 엔티티를 파괴할 권한이 없습니다."));
             }
         }
     }
@@ -335,19 +335,19 @@ public class IslandProtectionListener implements Listener {
         String playerUuid = player.getUniqueId().toString();
         
         // 자기 섬이면 환영 메시지
-        if (island.ownerUuid().equals(playerUuid)) {
-            player.sendActionBar(Component.text("당신의 섬에 오신 것을 환영합니다!", ColorUtil.GREEN));
+        if (island.core().ownerUuid().equals(playerUuid)) {
+            player.sendActionBar(Component.text("당신의 섬에 오신 것을 환영합니다!", UnifiedColorUtil.GREEN));
         } else if (IslandPermissionHandler.isMember(island, player)) {
-            player.sendActionBar(Component.text(island.islandName(), ColorUtil.AQUA)
-                    .append(Component.text(" 섬에 오신 것을 환영합니다!", ColorUtil.WHITE)));
+            player.sendActionBar(Component.text(island.core().islandName(), UnifiedColorUtil.AQUA)
+                    .append(Component.text(" 섬에 오신 것을 환영합니다!", UnifiedColorUtil.WHITE)));
         } else {
             // 방문자
-            player.sendActionBar(Component.text(island.islandName(), ColorUtil.YELLOW)
-                    .append(Component.text(" 섬을 방문중입니다.", ColorUtil.WHITE)));
+            player.sendActionBar(Component.text(island.core().islandName(), UnifiedColorUtil.YELLOW)
+                    .append(Component.text(" 섬을 방문중입니다.", UnifiedColorUtil.WHITE)));
             
             // 비공개 섬이면 경고
-            if (!island.isPublic()) {
-                player.sendMessage(ColorUtil.colorize("&c주의: 이 섬은 비공개 섬입니다. 권한이 없으면 추방될 수 있습니다."));
+            if (!island.core().isPublic()) {
+                player.sendMessage(UnifiedColorUtil.parse("&c주의: 이 섬은 비공개 섬입니다. 권한이 없으면 추방될 수 있습니다."));
             }
         }
         
@@ -360,8 +360,8 @@ public class IslandProtectionListener implements Listener {
      */
     public void handleIslandExit(@NotNull Player player, @NotNull IslandDTO island) {
         // 방문 종료 메시지
-        player.sendActionBar(Component.text(island.islandName(), ColorUtil.YELLOW)
-                .append(Component.text(" 섬에서 나가십니다.", ColorUtil.GRAY)));
+        player.sendActionBar(Component.text(island.core().islandName(), UnifiedColorUtil.YELLOW)
+                .append(Component.text(" 섬에서 나가십니다.", UnifiedColorUtil.GRAY)));
     }
     
     /**
@@ -371,12 +371,12 @@ public class IslandProtectionListener implements Listener {
         String playerUuid = player.getUniqueId().toString();
         
         // 자신의 섬이면 기록하지 않음
-        if (island.ownerUuid().equals(playerUuid)) {
+        if (island.core().ownerUuid().equals(playerUuid)) {
             return;
         }
         
         // 멤버라면 기록하지 않음
-        if (island.members().stream().anyMatch(m -> m.uuid().equals(playerUuid))) {
+        if (island.membership().members().stream().anyMatch(m -> m.uuid().equals(playerUuid))) {
             return;
         }
         
@@ -386,8 +386,7 @@ public class IslandProtectionListener implements Listener {
                 player.getName()
         );
         
-        // 기존 방문 기록 복사 및 새 기록 추가
-        java.util.List<IslandVisitDTO> updatedVisits = new java.util.ArrayList<>(island.recentVisits());
+        java.util.List<IslandVisitDTO> updatedVisits = new java.util.ArrayList<>(island.social().recentVisits());
         
         // 중복 방지 - 24시간 이내 동일한 방문자는 기록하지 않음
         long oneDayAgo = System.currentTimeMillis() - (24 * 60 * 60 * 1000);
@@ -403,15 +402,15 @@ public class IslandProtectionListener implements Listener {
             }
             
             // 섬 업데이트
-            IslandDTO updated = new IslandDTO(
-                    island.islandId(), island.ownerUuid(), island.ownerName(),
-                    island.islandName(), island.size(), island.isPublic(),
-                    island.createdAt(), System.currentTimeMillis(),
-                    island.members(), island.workers(), island.contributions(),
-                    island.spawnData(), island.upgradeData(), island.permissions(),
-                    island.pendingInvites(), updatedVisits,
-                    island.totalResets(), island.deletionScheduledAt(),
-                    island.settings()
+            IslandDTO updated = IslandDTO.fromFields(
+                    island.core().islandId(), island.core().ownerUuid(), island.core().ownerName(),
+                    island.core().islandName(), island.core().size(), island.core().isPublic(),
+                    island.core().createdAt(), System.currentTimeMillis(),
+                    island.membership().members(), island.membership().workers(), island.membership().contributions(),
+                    island.configuration().spawnData(), island.configuration().upgradeData(), island.configuration().permissions(),
+                    island.social().pendingInvites(), updatedVisits,
+                    island.core().totalResets(), island.core().deletionScheduledAt(),
+                    island.configuration().settings()
             );
             
             islandManager.updateIsland(updated);

@@ -19,7 +19,7 @@ import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.SoundUtil;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.gui.impl.quest.QuestSelectionGui;
 import com.febrie.rpg.gui.impl.quest.QuestRewardGui;
 import com.febrie.rpg.gui.impl.shop.NPCShopGui;
@@ -76,7 +76,7 @@ public class NPCInteractListener implements Listener {
         if (pending != null) {
             // 관리자 권한 확인
             if (!player.hasPermission("rpg.admin")) {
-                player.sendMessage(Component.text("권한이 없습니다.", ColorUtil.ERROR));
+                player.sendMessage(Component.text("권한이 없습니다.", UnifiedColorUtil.ERROR));
                 return;
             }
             
@@ -90,8 +90,8 @@ public class NPCInteractListener implements Listener {
                     // 책 아이템 설정
                     npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.BOOK));
                     
-                    player.sendMessage(Component.text("NPC에 퀘스트가 설정되었습니다: " + questId.name(), ColorUtil.SUCCESS));
-                    player.sendMessage(Component.text("NPC 이름: " + npc.getName(), ColorUtil.INFO));
+                    player.sendMessage(Component.text("NPC에 퀘스트가 설정되었습니다: " + questId.name(), UnifiedColorUtil.SUCCESS));
+                    player.sendMessage(Component.text("NPC 이름: " + npc.getName(), UnifiedColorUtil.INFO));
                 }
                 case SHOP -> {
                     String shopType = (String) pending.getData();
@@ -102,7 +102,7 @@ public class NPCInteractListener implements Listener {
                     // 에메랄드 아이템 설정
                     npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.EMERALD));
                     
-                    player.sendMessage(Component.text("NPC에 상점이 설정되었습니다: " + shopType, ColorUtil.SUCCESS));
+                    player.sendMessage(Component.text("NPC에 상점이 설정되었습니다: " + shopType, UnifiedColorUtil.SUCCESS));
                 }
                 case GUIDE -> {
                     String guideType = (String) pending.getData();
@@ -113,7 +113,7 @@ public class NPCInteractListener implements Listener {
                     // 나침반 아이템 설정
                     npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.COMPASS));
                     
-                    player.sendMessage(Component.text("NPC에 가이드가 설정되었습니다: " + guideType, ColorUtil.SUCCESS));
+                    player.sendMessage(Component.text("NPC에 가이드가 설정되었습니다: " + guideType, UnifiedColorUtil.SUCCESS));
                 }
                 case DIALOG -> {
                     String dialogId = (String) pending.getData();
@@ -123,8 +123,8 @@ public class NPCInteractListener implements Listener {
                     // 말풍선 아이템 설정
                     npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.PAPER));
                     
-                    player.sendMessage(Component.text("NPC에 대화가 설정되었습니다.", ColorUtil.SUCCESS));
-                    player.sendMessage(Component.text("대화 ID: " + dialogId, ColorUtil.INFO));
+                    player.sendMessage(Component.text("NPC에 대화가 설정되었습니다.", UnifiedColorUtil.SUCCESS));
+                    player.sendMessage(Component.text("대화 ID: " + dialogId, UnifiedColorUtil.INFO));
                 }
             }
             
@@ -169,7 +169,6 @@ public class NPCInteractListener implements Listener {
             }
         }
         
-        // 기존 trait 처리 - 퀘스트를 먼저 처리
         if (npc.hasTrait(RPGQuestTrait.class)) {
             RPGQuestTrait questTrait = npc.getOrAddTrait(RPGQuestTrait.class);
             handleQuestNPCWithTrait(npc, player, questTrait);
@@ -207,14 +206,11 @@ public class NPCInteractListener implements Listener {
             // InteractNPC 목표 처리 (기존 로직)
             questManager.handleNPCInteraction(player, npcId);
             
-            // DeliverItem 목표 처리는 추후 구현
-            // TODO: DeliverItem 목표 처리 구현 필요
             
             // 퀘스트 목표 처리가 완료되면 다른 처리를 하지 않음
             return;
         }
         
-        // 기존 퀘스트 ID 기반 처리 (일반 퀘스트 NPC)
         List<QuestID> questIds = trait.getQuestIds();
         
         if (questIds.isEmpty()) {
@@ -279,7 +275,7 @@ public class NPCInteractListener implements Listener {
                 });
             
             if (hasUnclaimedReward) {
-                player.sendMessage(Component.text("이 퀘스트는 완료했습니다. 보상 NPC를 찾아가세요.", ColorUtil.INFO));
+                player.sendMessage(Component.text("이 퀘스트는 완료했습니다. 보상 NPC를 찾아가세요.", UnifiedColorUtil.INFO));
                 return;
             }
             
@@ -310,37 +306,6 @@ public class NPCInteractListener implements Listener {
             return;
         }
         
-        // TODO: Add prerequisite and exclusive quest checks when methods are implemented
-        /*
-        // 선행 퀘스트 요구사항 확인
-        if (!quest.getPrerequisiteQuests().isEmpty()) {
-            boolean hasCompletedAllPrereqs = true;
-            for (QuestID prereqId : quest.getPrerequisiteQuests()) {
-                boolean hasCompletedPrereq = questManager.getCompletedQuests(player.getUniqueId()).values().stream()
-                        .anyMatch(c -> c.questId().equals(prereqId.name()));
-                if (!hasCompletedPrereq) {
-                    hasCompletedAllPrereqs = false;
-                    break;
-                }
-            }
-            if (!hasCompletedAllPrereqs) {
-                LangManager.sendMessage(player, "quest.npc.prerequisite-requirement");
-                return;
-            }
-        }
-        
-        // 양자택일 퀘스트 확인
-        if (!quest.getExclusiveQuests().isEmpty()) {
-            for (QuestID exclusiveId : quest.getExclusiveQuests()) {
-                boolean hasCompletedExclusive = questManager.getCompletedQuests(player.getUniqueId()).values().stream()
-                        .anyMatch(c -> c.questId().equals(exclusiveId.name()));
-                if (hasCompletedExclusive) {
-                    LangManager.sendMessage(player, "quest.npc.mutually-exclusive");
-                    return;
-                }
-            }
-        }
-        */
 
         // 퀘스트 대화 GUI 열기 (대화가 없어도 수락/거절 선택 표시)
         guiManager.openQuestDialogGui(player, quest);

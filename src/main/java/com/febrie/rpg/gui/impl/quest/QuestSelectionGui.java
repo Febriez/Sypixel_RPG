@@ -10,9 +10,9 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.dto.quest.ActiveQuestDTO;
 import com.febrie.rpg.dto.quest.CompletedQuestDTO;
-import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -92,29 +92,29 @@ public class QuestSelectionGui extends BaseGui {
         Material material = hasReward ? Material.ENCHANTED_BOOK : Material.BOOK;
         
         ItemBuilder builder = new ItemBuilder(material)
-                .displayName(quest.getDisplayName(viewer).color(ColorUtil.GOLD).decorate(net.kyori.adventure.text.format.TextDecoration.BOLD));
+                .displayName(quest.getDisplayName(viewer).color(UnifiedColorUtil.GOLD).decorate(net.kyori.adventure.text.format.TextDecoration.BOLD));
         
-        builder.addLore(ColorUtil.parseComponent(""));
+        builder.addLore(Component.empty());
         
         // 퀘스트 설명
         for (Component line : quest.getDescription(viewer)) {
-            builder.addLore(line.color(ColorUtil.GRAY));
+            builder.addLore(line.color(UnifiedColorUtil.GRAY));
         }
         
-        builder.addLore(ColorUtil.parseComponent(""));
+        builder.addLore(Component.empty());
         
         // 상태 표시
         if (hasReward) {
-            builder.addLore(ColorUtil.parseComponent("&a✔ 완료됨"));
-            builder.addLore(ColorUtil.parseComponent("&6⚡ 보상 수령 가능!"));
+            builder.addLore(trans("gui.quest.status.completed"));
+            builder.addLore(trans("gui.quest.status.reward_available"));
         } else if (isActive) {
-            builder.addLore(ColorUtil.parseComponent("&e진행 중..."));
+            builder.addLore(trans("gui.quest.status.in_progress"));
         } else {
-            builder.addLore(ColorUtil.parseComponent("&7새로운 퀘스트"));
+            builder.addLore(trans("gui.quest.status.new_quest"));
         }
         
-        builder.addLore(ColorUtil.parseComponent(""));
-        builder.addLore(ColorUtil.parseComponent("&e▶ 클릭하여 선택"));
+        builder.addLore(Component.empty());
+        builder.addLore(trans("gui.quest.click_to_select"));
         
         return GuiItem.clickable(builder.build(), player -> {
             handleQuestSelection(player, quest);
@@ -144,10 +144,16 @@ public class QuestSelectionGui extends BaseGui {
             QuestRewardGui.create(guiManager, viewer, quest, instanceId).open(viewer);
         } else if (activeEntry.isPresent()) {
             // 진행 상황 표시
-            player.sendMessage(Component.text("퀘스트 '").append(quest.getDisplayName(viewer)).append(Component.text("'를 진행 중입니다.")).color(ColorUtil.YELLOW));
+            player.sendMessage(Component.text("퀘스트 '").append(quest.getDisplayName(viewer)).append(Component.text("'를 진행 중입니다.")).color(UnifiedColorUtil.YELLOW));
         } else {
             // 새 퀘스트 시작
             questManager.startQuest(viewer, quest.getId());
         }
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

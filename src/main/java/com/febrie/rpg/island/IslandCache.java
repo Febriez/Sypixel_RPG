@@ -103,16 +103,16 @@ public class IslandCache {
      */
     public void updateIslandMembers(@NotNull IslandDTO island) {
         // 소유자
-        playerIslandMap.put(island.ownerUuid(), island.islandId());
+        playerIslandMap.put(island.core().ownerUuid(), island.core().islandId());
         
         // 멤버들
-        island.members().forEach(member -> 
-            playerIslandMap.put(member.uuid(), island.islandId())
+        island.membership().members().forEach(member -> 
+            playerIslandMap.put(member.uuid(), island.core().islandId())
         );
         
         // 알바생들
-        island.workers().forEach(worker ->
-            playerIslandMap.put(worker.uuid(), island.islandId())
+        island.membership().workers().forEach(worker ->
+            playerIslandMap.put(worker.uuid(), island.core().islandId())
         );
     }
     
@@ -121,15 +121,15 @@ public class IslandCache {
      */
     public void removeIslandMembers(@NotNull IslandDTO island) {
         // 소유자
-        playerIslandMap.remove(island.ownerUuid());
+        playerIslandMap.remove(island.core().ownerUuid());
         
         // 멤버들
-        island.members().forEach(member -> 
+        island.membership().members().forEach(member -> 
             playerIslandMap.remove(member.uuid())
         );
         
         // 알바생들
-        island.workers().forEach(worker ->
+        island.membership().workers().forEach(worker ->
             playerIslandMap.remove(worker.uuid())
         );
     }

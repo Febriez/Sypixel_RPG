@@ -114,8 +114,7 @@ public class DailyGatheringQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, key);
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("daily_gathering_dialog");
         
         // 시작 대화

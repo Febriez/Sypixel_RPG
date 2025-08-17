@@ -9,7 +9,7 @@ import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.impl.system.MainMenuGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.social.FriendManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -73,7 +73,7 @@ public class FriendListGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("친구 목록", ColorUtil.PRIMARY);
+        return Component.text("친구 목록", UnifiedColorUtil.PRIMARY);
     }
 
     @Override
@@ -102,10 +102,10 @@ public class FriendListGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 new ItemBuilder(Material.PLAYER_HEAD)
-                        .displayName(Component.text("👥 친구 목록", ColorUtil.PRIMARY)
+                        .displayName(Component.text("👥 친구 목록", UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("친구들과 소통하세요!", ColorUtil.GRAY))
+                        .addLore(Component.text("친구들과 소통하세요!", UnifiedColorUtil.GRAY))
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -118,12 +118,12 @@ public class FriendListGui extends BaseGui {
         // 친구 요청 버튼
         GuiItem friendRequestsButton = GuiItem.clickable(
                 new ItemBuilder(Material.WRITABLE_BOOK)
-                        .displayName(Component.text("📨 친구 요청", ColorUtil.UNCOMMON)
+                        .displayName(Component.text("📨 친구 요청", UnifiedColorUtil.UNCOMMON)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("받은 친구 요청을 확인합니다", ColorUtil.GRAY))
+                        .addLore(Component.text("받은 친구 요청을 확인합니다", UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 열기", ColorUtil.YELLOW))
+                        .addLore(Component.text("클릭하여 열기", UnifiedColorUtil.YELLOW))
                         .build(),
                 p -> {
                     FriendRequestGui requestGui = FriendRequestGui.create(guiManager, p);
@@ -136,12 +136,12 @@ public class FriendListGui extends BaseGui {
         // 친구 추가 버튼
         GuiItem addFriendButton = GuiItem.clickable(
                 new ItemBuilder(Material.EMERALD)
-                        .displayName(Component.text("➕ 친구 추가", ColorUtil.SUCCESS)
+                        .displayName(Component.text("➕ 친구 추가", UnifiedColorUtil.SUCCESS)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("새로운 친구를 추가합니다", ColorUtil.GRAY))
+                        .addLore(Component.text("새로운 친구를 추가합니다", UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 추가", ColorUtil.YELLOW))
+                        .addLore(Component.text("클릭하여 추가", UnifiedColorUtil.YELLOW))
                         .build(),
                 p -> {
                     p.closeInventory();
@@ -155,12 +155,12 @@ public class FriendListGui extends BaseGui {
         // 새로고침 버튼
         GuiItem refreshButton = GuiItem.clickable(
                 new ItemBuilder(Material.CLOCK)
-                        .displayName(Component.text("🔄 새로고침", ColorUtil.INFO)
+                        .displayName(Component.text("🔄 새로고침", UnifiedColorUtil.INFO)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("친구 목록을 새로고침합니다", ColorUtil.GRAY))
+                        .addLore(Component.text("친구 목록을 새로고침합니다", UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 새로고침", ColorUtil.YELLOW))
+                        .addLore(Component.text("클릭하여 새로고침", UnifiedColorUtil.YELLOW))
                         .build(),
                 p -> {
                     friendManager.clearCache(p.getUniqueId());
@@ -196,7 +196,7 @@ public class FriendListGui extends BaseGui {
         // 로딩 표시
         setItem(FRIENDS_START_SLOT + 12, GuiItem.display(
                 new ItemBuilder(Material.HOPPER)
-                        .displayName(Component.text("로딩 중...", ColorUtil.GRAY))
+                        .displayName(Component.text("로딩 중...", UnifiedColorUtil.GRAY))
                         .build()
         ));
 
@@ -221,8 +221,8 @@ public class FriendListGui extends BaseGui {
             // 친구가 없을 때
             setItem(FRIENDS_START_SLOT + 12, GuiItem.display(
                     new ItemBuilder(Material.BARRIER)
-                            .displayName(Component.text("친구가 없습니다", ColorUtil.ERROR))
-                            .addLore(Component.text("새로운 친구를 추가해보세요!", ColorUtil.GRAY))
+                            .displayName(Component.text("친구가 없습니다", UnifiedColorUtil.ERROR))
+                            .addLore(Component.text("새로운 친구를 추가해보세요!", UnifiedColorUtil.GRAY))
                             .build()
             ));
             return;
@@ -252,15 +252,15 @@ public class FriendListGui extends BaseGui {
             GuiItem friendItem = GuiItem.clickable(
                     new ItemBuilder(material)
                             .displayName(Component.text(friendName, 
-                                    isOnline ? ColorUtil.SUCCESS : ColorUtil.GRAY)
+                                    isOnline ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.GRAY)
                                     .decoration(TextDecoration.BOLD, true))
                             .addLore(Component.empty())
-                            .addLore(Component.text("상태: " + status, ColorUtil.WHITE))
+                            .addLore(Component.text("상태: " + status, UnifiedColorUtil.WHITE))
                             .addLore(Component.text("친구가 된 날: " + 
-                                    new java.util.Date(friendship.createdAt()).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate().toString(), ColorUtil.GRAY))
+                                    new java.util.Date(friendship.createdAt()).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate().toString(), UnifiedColorUtil.GRAY))
                             .addLore(Component.empty())
-                            .addLore(Component.text("좌클릭: 귓말 보내기", ColorUtil.YELLOW))
-                            .addLore(Component.text("우클릭: 친구 관리", ColorUtil.YELLOW))
+                            .addLore(Component.text("좌클릭: 귓말 보내기", UnifiedColorUtil.YELLOW))
+                            .addLore(Component.text("우클릭: 친구 관리", UnifiedColorUtil.YELLOW))
                             .build(),
                     p -> {
                         // 귓말 보내기 (추후 구현)
@@ -278,5 +278,11 @@ public class FriendListGui extends BaseGui {
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT, ClickType.RIGHT);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

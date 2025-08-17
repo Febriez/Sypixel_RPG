@@ -1,6 +1,6 @@
 package com.febrie.rpg.job;
 
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
@@ -20,19 +20,19 @@ import org.jetbrains.annotations.NotNull;
 public enum JobType {
 
     // 전사 계열 (레벨 200 내외)
-    BERSERKER(JobCategory.WARRIOR, 195, ColorUtil.ERROR, "⚔", Material.DIAMOND_AXE),
-    BRUISER(JobCategory.WARRIOR, 200, ColorUtil.ORANGE, "🛡", Material.IRON_SWORD),
-    TANK(JobCategory.WARRIOR, 205, ColorUtil.NETHERITE, "🏛", Material.SHIELD),
+    BERSERKER(JobCategory.WARRIOR, 195, UnifiedColorUtil.ERROR, "⚔", Material.DIAMOND_AXE),
+    BRUISER(JobCategory.WARRIOR, 200, UnifiedColorUtil.ORANGE, "🛡", Material.IRON_SWORD),
+    TANK(JobCategory.WARRIOR, 205, UnifiedColorUtil.NETHERITE, "🏛", Material.SHIELD),
 
     // 마법사 계열 (레벨 120 내외)
-    PRIEST(JobCategory.MAGE, 115, ColorUtil.LEGENDARY, "✨", Material.GOLDEN_APPLE),
-    DARK_MAGE(JobCategory.MAGE, 120, ColorUtil.EPIC, "🌑", Material.WITHER_SKELETON_SKULL),
-    MERCY(JobCategory.MAGE, 125, ColorUtil.SUCCESS, "💚", Material.TOTEM_OF_UNDYING),
+    PRIEST(JobCategory.MAGE, 115, UnifiedColorUtil.LEGENDARY, "✨", Material.GOLDEN_APPLE),
+    DARK_MAGE(JobCategory.MAGE, 120, UnifiedColorUtil.EPIC, "🌑", Material.WITHER_SKELETON_SKULL),
+    MERCY(JobCategory.MAGE, 125, UnifiedColorUtil.SUCCESS, "💚", Material.TOTEM_OF_UNDYING),
 
     // 궁수 계열 (레벨 100 내외)
-    ARCHER(JobCategory.ARCHER, 95, ColorUtil.EMERALD, "🏹", Material.BOW),
-    SNIPER(JobCategory.ARCHER, 100, ColorUtil.INFO, "🎯", Material.CROSSBOW),
-    SHOTGUNNER(JobCategory.ARCHER, 105, ColorUtil.WARNING, "💥", Material.FIRE_CHARGE);
+    ARCHER(JobCategory.ARCHER, 95, UnifiedColorUtil.EMERALD, "🏹", Material.BOW),
+    SNIPER(JobCategory.ARCHER, 100, UnifiedColorUtil.INFO, "🎯", Material.CROSSBOW),
+    SHOTGUNNER(JobCategory.ARCHER, 105, UnifiedColorUtil.WARNING, "💥", Material.FIRE_CHARGE);
 
     private final JobCategory category;
     private final int maxLevel;
@@ -94,9 +94,9 @@ public enum JobType {
      * 이름은 LangManager에서 job.categories.{name}.name 형식으로 관리
      */
     public enum JobCategory {
-        WARRIOR(ColorUtil.COPPER, Material.IRON_SWORD),
-        MAGE(ColorUtil.EPIC, Material.BLAZE_ROD),
-        ARCHER(ColorUtil.EMERALD, Material.BOW);
+        WARRIOR(UnifiedColorUtil.COPPER, Material.IRON_SWORD),
+        MAGE(UnifiedColorUtil.EPIC, Material.BLAZE_ROD),
+        ARCHER(UnifiedColorUtil.EMERALD, Material.BOW);
 
         private final TextColor color;
         private final Material icon;

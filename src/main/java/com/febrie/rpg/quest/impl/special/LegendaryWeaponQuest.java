@@ -150,7 +150,6 @@ public class LegendaryWeaponQuest extends Quest {
         return LangManager.getMessage(who, "quest.special.legendary_weapon.objectives." + id);
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("legendary_weapon_dialog");
 

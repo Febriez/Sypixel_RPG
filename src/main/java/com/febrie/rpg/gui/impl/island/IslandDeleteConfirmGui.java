@@ -3,11 +3,14 @@ package com.febrie.rpg.gui.impl.island;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.StandardItemBuilder;
+import net.kyori.adventure.text.Component;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -28,7 +31,6 @@ import com.febrie.rpg.util.DateFormatUtil;
  */
 public class IslandDeleteConfirmGui extends BaseGui {
     
-    private final RPGMain plugin;
     private final IslandManager islandManager;
     private final IslandDTO island;
     private boolean confirmClicked = false;
@@ -36,7 +38,6 @@ public class IslandDeleteConfirmGui extends BaseGui {
     private IslandDeleteConfirmGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull RPGMain plugin, @NotNull IslandDTO island) {
         super(viewer, guiManager, 27, "&4&l⚠ 섬 삭제 확인 ⚠");
-        this.plugin = plugin;
         this.islandManager = plugin.getIslandManager();
         this.island = island;
     }
@@ -52,8 +53,8 @@ public class IslandDeleteConfirmGui extends BaseGui {
     @Override
     protected void setupLayout() {
         // 배경을 빨간색 유리판으로 채우기
-        ItemStack redPane = new ItemBuilder(Material.RED_STAINED_GLASS_PANE)
-                .displayName(ColorUtil.parseComponent("&c&l⚠ 주의 ⚠"))
+        ItemStack redPane = StandardItemBuilder.guiItem(Material.RED_STAINED_GLASS_PANE)
+                .displayName(UnifiedColorUtil.parseComponent("&c&l⚠ 주의 ⚠"))
                 .hideTooltip(true)
                 .build();
         
@@ -77,7 +78,7 @@ public class IslandDeleteConfirmGui extends BaseGui {
                     if (!confirmClicked) {
                         confirmClicked = true;
                         setupLayout();
-                        player.sendMessage(ColorUtil.colorize("&c정말로 삭제하시려면 다시 한 번 클릭하세요!"));
+                        player.sendMessage(UnifiedColorUtil.parse("&c정말로 삭제하시려면 다시 한 번 클릭하세요!"));
                     } else {
                         handleFinalDeleteConfirmation(player);
                     }
@@ -88,67 +89,72 @@ public class IslandDeleteConfirmGui extends BaseGui {
     }
     
     @Override
-    public String getBackTarget() {
-        return "island_settings";
+    protected GuiFramework getBackTarget() {
+        return null; // Use back button with direct navigation
+    }
+    
+    @Override
+    public @NotNull Component getTitle() {
+        return Component.text("섬 삭제 확인", UnifiedColorUtil.ERROR);
     }
     
     private ItemStack createIslandInfoItem() {
-        return new ItemBuilder(Material.GRASS_BLOCK)
-                .displayName(ColorUtil.parseComponent("&c&l삭제할 섬: " + island.islandName()))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7섬 ID: &f" + island.islandId()))
-                .addLore(ColorUtil.parseComponent("&7멤버 수: &f" + (1 + island.members().size()) + "명"))
-                .addLore(ColorUtil.parseComponent("&7생성일: &f" + DateFormatUtil.formatDateOnlyFromMillis(island.createdAt())))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&c이 섬의 모든 데이터가 삭제됩니다!"))
+        return StandardItemBuilder.guiItem(Material.GRASS_BLOCK)
+                .displayName(UnifiedColorUtil.parseComponent("&c&l삭제할 섬: " + island.core().islandName()))
+                .addLore(UnifiedColorUtil.parseComponent(""))
+                .addLore(UnifiedColorUtil.parseComponent("&7섬 ID: &f" + island.core().islandId()))
+                .addLore(UnifiedColorUtil.parseComponent("&7멤버 수: &f" + (1 + island.membership().members().size()) + "명"))
+                .addLore(UnifiedColorUtil.parseComponent("&7생성일: &f" + DateFormatUtil.formatDateOnlyFromMillis(island.core().createdAt())))
+                .addLore(UnifiedColorUtil.parseComponent(""))
+                .addLore(UnifiedColorUtil.parseComponent("&c이 섬의 모든 데이터가 삭제됩니다!"))
                 .build();
     }
     
     private ItemStack createCancelButton() {
-        return new ItemBuilder(Material.EMERALD_BLOCK)
-                .displayName(ColorUtil.parseComponent("&a&l취소"))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7섬 삭제를 취소하고"))
-                .addLore(ColorUtil.parseComponent("&7설정 메뉴로 돌아갑니다"))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&e▶ 클릭하여 취소"))
+        return StandardItemBuilder.guiItem(Material.EMERALD_BLOCK)
+                .displayName(UnifiedColorUtil.parseComponent("&a&l취소"))
+                .addLore(UnifiedColorUtil.parseComponent(""))
+                .addLore(UnifiedColorUtil.parseComponent("&7섬 삭제를 취소하고"))
+                .addLore(UnifiedColorUtil.parseComponent("&7설정 메뉴로 돌아갑니다"))
+                .addLore(UnifiedColorUtil.parseComponent(""))
+                .addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 취소"))
                 .build();
     }
     
     private ItemStack createConfirmButton() {
         if (!confirmClicked) {
-            return new ItemBuilder(Material.YELLOW_CONCRETE)
-                    .displayName(ColorUtil.parseComponent("&e&l삭제 확인"))
-                    .addLore(ColorUtil.parseComponent(""))
-                    .addLore(ColorUtil.parseComponent("&7섬을 정말로 삭제하시겠습니까?"))
-                    .addLore(ColorUtil.parseComponent(""))
-                    .addLore(ColorUtil.parseComponent("&c⚠ 이 작업은 되돌릴 수 없습니다!"))
-                    .addLore(ColorUtil.parseComponent(""))
-                    .addLore(ColorUtil.parseComponent("&e▶ 클릭하여 계속"))
+            return StandardItemBuilder.guiItem(Material.YELLOW_CONCRETE)
+                    .displayName(UnifiedColorUtil.parseComponent("&e&l삭제 확인"))
+                    .addLore(UnifiedColorUtil.parseComponent(""))
+                    .addLore(UnifiedColorUtil.parseComponent("&7섬을 정말로 삭제하시겠습니까?"))
+                    .addLore(UnifiedColorUtil.parseComponent(""))
+                    .addLore(UnifiedColorUtil.parseComponent("&c⚠ 이 작업은 되돌릴 수 없습니다!"))
+                    .addLore(UnifiedColorUtil.parseComponent(""))
+                    .addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 계속"))
                     .build();
         } else {
-            return new ItemBuilder(Material.RED_CONCRETE)
-                    .displayName(ColorUtil.parseComponent("&c&l최종 삭제 확인"))
-                    .addLore(ColorUtil.parseComponent(""))
-                    .addLore(ColorUtil.parseComponent("&c⚠ 마지막 경고!"))
-                    .addLore(ColorUtil.parseComponent("&c모든 섬 데이터가 영구 삭제됩니다!"))
-                    .addLore(ColorUtil.parseComponent(""))
-                    .addLore(ColorUtil.parseComponent("&4▶ 클릭하여 영구 삭제"))
+            return StandardItemBuilder.guiItem(Material.RED_CONCRETE)
+                    .displayName(UnifiedColorUtil.parseComponent("&c&l최종 삭제 확인"))
+                    .addLore(UnifiedColorUtil.parseComponent(""))
+                    .addLore(UnifiedColorUtil.parseComponent("&c⚠ 마지막 경고!"))
+                    .addLore(UnifiedColorUtil.parseComponent("&c모든 섬 데이터가 영구 삭제됩니다!"))
+                    .addLore(UnifiedColorUtil.parseComponent(""))
+                    .addLore(UnifiedColorUtil.parseComponent("&4▶ 클릭하여 영구 삭제"))
                     .build();
         }
     }
     
     private ItemStack createWarningItem() {
-        return new ItemBuilder(Material.BARRIER)
-                .displayName(ColorUtil.parseComponent("&4&l삭제 시 사라지는 것들"))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&c• 섬의 모든 블록과 건축물"))
-                .addLore(ColorUtil.parseComponent("&c• 섬 업그레이드 및 설정"))
-                .addLore(ColorUtil.parseComponent("&c• 모든 멤버의 섬 권한"))
-                .addLore(ColorUtil.parseComponent("&c• 섬 기여도 및 통계"))
-                .addLore(ColorUtil.parseComponent("&c• 섬 스폰 위치"))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&4이 모든 것이 영구적으로 삭제됩니다!"))
+        return StandardItemBuilder.guiItem(Material.BARRIER)
+                .displayName(UnifiedColorUtil.parseComponent("&4&l삭제 시 사라지는 것들"))
+                .addLore(UnifiedColorUtil.parseComponent(""))
+                .addLore(UnifiedColorUtil.parseComponent("&c• 섬의 모든 블록과 건축물"))
+                .addLore(UnifiedColorUtil.parseComponent("&c• 섬 업그레이드 및 설정"))
+                .addLore(UnifiedColorUtil.parseComponent("&c• 모든 멤버의 섬 권한"))
+                .addLore(UnifiedColorUtil.parseComponent("&c• 섬 기여도 및 통계"))
+                .addLore(UnifiedColorUtil.parseComponent("&c• 섬 스폰 위치"))
+                .addLore(UnifiedColorUtil.parseComponent(""))
+                .addLore(UnifiedColorUtil.parseComponent("&4이 모든 것이 영구적으로 삭제됩니다!"))
                 .build();
     }
     
@@ -170,7 +176,7 @@ public class IslandDeleteConfirmGui extends BaseGui {
                     
                     // "삭제"를 입력해야 삭제 진행
                     if (!"삭제".equals(input)) {
-                        player.sendMessage(ColorUtil.colorize("&c'삭제'를 정확히 입력해야 합니다."));
+                        player.sendMessage(UnifiedColorUtil.parse("&c'삭제'를 정확히 입력해야 합니다."));
                         return Arrays.asList(AnvilGUI.ResponseAction.close());
                     }
                     
@@ -186,15 +192,15 @@ public class IslandDeleteConfirmGui extends BaseGui {
     }
     
     private void performIslandDeletion(Player player) {
-        player.sendMessage(ColorUtil.colorize("&c섬을 삭제하는 중..."));
+        player.sendMessage(UnifiedColorUtil.parse("&c섬을 삭제하는 중..."));
         
         // 모든 멤버를 섬에서 제거
-        for (var member : island.members()) {
+        for (var member : island.membership().members()) {
             Player memberPlayer = Bukkit.getPlayer(java.util.UUID.fromString(member.uuid()));
             if (memberPlayer != null && memberPlayer.isOnline()) {
                 // 스폰으로 이동
                 memberPlayer.teleport(memberPlayer.getWorld().getSpawnLocation());
-                memberPlayer.sendMessage(ColorUtil.colorize("&c섬이 삭제되어 스폰으로 이동되었습니다."));
+                memberPlayer.sendMessage(UnifiedColorUtil.parse("&c섬이 삭제되어 스폰으로 이동되었습니다."));
             }
         }
         
@@ -202,19 +208,19 @@ public class IslandDeleteConfirmGui extends BaseGui {
         player.teleport(player.getWorld().getSpawnLocation());
         
         // 섬 삭제
-        islandManager.deleteIsland(island.islandId()).whenComplete((success, ex) -> {
+        islandManager.deleteIsland(island.core().islandId()).whenComplete((success, ex) -> {
             if (ex != null) {
-                player.sendMessage(ColorUtil.colorize("&c섬 삭제 중 오류가 발생했습니다: " + ex.getMessage()));
+                player.sendMessage(UnifiedColorUtil.parse("&c섬 삭제 중 오류가 발생했습니다: " + ex.getMessage()));
                 return;
             }
             
             if (success) {
-                player.sendMessage(ColorUtil.colorize("&a섬이 성공적으로 삭제되었습니다."));
+                player.sendMessage(UnifiedColorUtil.parse("&a섬이 성공적으로 삭제되었습니다."));
                 
                 // 플레이어의 섬 정보 제거
                 plugin.getRPGPlayerManager().getPlayer(player).setIslandId(null);
             } else {
-                player.sendMessage(ColorUtil.colorize("&c섬 삭제에 실패했습니다."));
+                player.sendMessage(UnifiedColorUtil.parse("&c섬 삭제에 실패했습니다."));
             }
         });
     }

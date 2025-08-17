@@ -127,7 +127,7 @@ public class GuiUtility {
 
         // 설명 추가
         List<Component> lore = new ArrayList<>();
-        lore.addAll(com.febrie.rpg.util.LangManager.getComponentList(player, "stat." + stat.getId().toLowerCase() + ".description"));
+        lore.addAll(com.febrie.rpg.util.LangManager.getList(player, "stat." + stat.getId().toLowerCase() + ".description"));
 
         // 현재 값 표시
         lore.add(Component.empty());
@@ -171,7 +171,7 @@ public class GuiUtility {
 
         // 설명 추가
         List<Component> lore = new ArrayList<>();
-        lore.addAll(com.febrie.rpg.util.LangManager.getComponentList(player, "talent." + talent.getId() + ".description"));
+        lore.addAll(com.febrie.rpg.util.LangManager.getList(player, "talent." + talent.getId() + ".description"));
 
         // 현재 레벨 표시
         lore.add(Component.empty());
@@ -242,7 +242,7 @@ public class GuiUtility {
                 .flags(ItemFlag.values());
 
         List<Component> lore = new ArrayList<>();
-        lore.addAll(com.febrie.rpg.util.LangManager.getComponentList(player, "job." + jobKey + ".description"));
+        lore.addAll(com.febrie.rpg.util.LangManager.getList(player, "job." + jobKey + ".description"));
 
         return GuiItem.clickable(
                 builder.lore(lore).build(),

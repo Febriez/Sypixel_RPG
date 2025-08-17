@@ -95,7 +95,6 @@ public class QuestEventListener implements Listener {
      */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onCurrencyPayment(CurrencyPaymentEvent event) {
-        // TODO: progressService에 커스텀 이벤트 처리 메서드 추가 필요
         // progressService.handleCurrencyPayment(event);
     }
     
@@ -104,7 +103,6 @@ public class QuestEventListener implements Listener {
      */
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerLevelUp(PlayerLevelUpEvent event) {
-        // TODO: progressService에 커스텀 이벤트 처리 메서드 추가 필요  
         // progressService.handleLevelUp(event);
     }
     

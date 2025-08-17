@@ -10,7 +10,6 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.npc.trait.RPGShopTrait;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
-import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.citizensnpcs.api.npc.NPC;
@@ -92,9 +91,9 @@ public class NPCShopGui extends BaseGui {
         long gold = rpgPlayer != null ? rpgPlayer.getWallet().getBalance(CurrencyType.GOLD) : 0;
         
         return GuiItem.display(new ItemBuilder(Material.GOLD_INGOT)
-                .displayName(ColorUtil.parseComponent("&6&l보유 골드"))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&f" + String.format("%,d", gold) + " G"))
+                .displayName(trans("gui.shop.gold.title"))
+                .addLore(Component.empty())
+                .addLore(trans("gui.shop.gold.amount", String.format("%,d", gold)))
                 .build());
     }
     
@@ -102,7 +101,6 @@ public class NPCShopGui extends BaseGui {
         ItemStack baseItem = shopItem.getItem().clone();
         ItemBuilder builder = new ItemBuilder(baseItem);
         
-        // 기존 lore 유지 (Paper API)
         List<net.kyori.adventure.text.Component> originalLore = baseItem.getItemMeta().lore();
         if (originalLore != null) {
             for (net.kyori.adventure.text.Component line : originalLore) {
@@ -110,26 +108,24 @@ public class NPCShopGui extends BaseGui {
             }
         }
         
-        builder.addLore(ColorUtil.parseComponent(""));
-        builder.addLore(ColorUtil.parseComponent("&7구매 가격: &f" + 
-                String.format("%,d", shopItem.getBuyPrice()) + " G"));
+        builder.addLore(Component.empty());
+        builder.addLore(trans("gui.shop.item.buy_price", String.format("%,d", shopItem.getBuyPrice())));
         
         if (shopItem.isSellable()) {
-            builder.addLore(ColorUtil.parseComponent("&7판매 가격: &f" + 
-                    String.format("%,d", shopItem.getSellPrice()) + " G"));
+            builder.addLore(trans("gui.shop.item.sell_price", String.format("%,d", shopItem.getSellPrice())));
         }
         
-        builder.addLore(ColorUtil.parseComponent(""));
+        builder.addLore(Component.empty());
         
         long playerGold = rpgPlayer != null ? rpgPlayer.getWallet().getBalance(CurrencyType.GOLD) : 0;
         if (playerGold >= shopItem.getBuyPrice()) {
-            builder.addLore(ColorUtil.parseComponent("&a▶ 좌클릭으로 구매"));
+            builder.addLore(trans("gui.shop.item.click_to_buy"));
         } else {
-            builder.addLore(ColorUtil.parseComponent("&c✖ 골드가 부족합니다"));
+            builder.addLore(trans("gui.shop.item.insufficient_gold"));
         }
         
         if (shopItem.isSellable() && hasItem(baseItem)) {
-            builder.addLore(ColorUtil.parseComponent("&e▶ 우클릭으로 판매"));
+            builder.addLore(trans("gui.shop.item.click_to_sell"));
         }
         
         return GuiItem.clickable(builder.build(), player -> {
@@ -152,13 +148,13 @@ public class NPCShopGui extends BaseGui {
         
         long playerGold = rpgPlayer.getWallet().getBalance(CurrencyType.GOLD);
         if (playerGold < shopItem.getBuyPrice()) {
-            player.sendMessage(ColorUtil.colorize("&c골드가 부족합니다!"));
+            sendMessage(player, "gui.shop.message.insufficient_gold");
             return;
         }
         
         // 인벤토리 공간 확인
         if (player.getInventory().firstEmpty() == -1) {
-            player.sendMessage(ColorUtil.colorize("&c인벤토리가 가득 찼습니다!"));
+            sendMessage(player, "gui.shop.message.inventory_full");
             return;
         }
         
@@ -166,8 +162,8 @@ public class NPCShopGui extends BaseGui {
         rpgPlayer.getWallet().subtract(CurrencyType.GOLD, shopItem.getBuyPrice());
         player.getInventory().addItem(shopItem.getItem().clone());
         
-        player.sendMessage(ColorUtil.colorize("&a" + shopItem.getItem().getType().name() + 
-                "을(를) 구매했습니다! (-" + String.format("%,d", shopItem.getBuyPrice()) + " G)"));
+        sendMessage(player, "gui.shop.message.item_bought", 
+                shopItem.getItem().getType().name(), String.format("%,d", shopItem.getBuyPrice()));
         
         // GUI 새로고침
         refresh();
@@ -177,7 +173,7 @@ public class NPCShopGui extends BaseGui {
         if (rpgPlayer == null) return;
         
         if (!hasItem(shopItem.getItem())) {
-            player.sendMessage(ColorUtil.colorize("&c판매할 아이템이 없습니다!"));
+            sendMessage(player, "gui.shop.message.no_item_to_sell");
             return;
         }
         
@@ -185,8 +181,8 @@ public class NPCShopGui extends BaseGui {
         removeItem(player, shopItem.getItem());
         rpgPlayer.getWallet().add(CurrencyType.GOLD, shopItem.getSellPrice());
         
-        player.sendMessage(ColorUtil.colorize("&a" + shopItem.getItem().getType().name() + 
-                "을(를) 판매했습니다! (+" + String.format("%,d", shopItem.getSellPrice()) + " G)"));
+        sendMessage(player, "gui.shop.message.item_sold", 
+                shopItem.getItem().getType().name(), String.format("%,d", shopItem.getSellPrice()));
         
         // GUI 새로고침
         refresh();
@@ -200,5 +196,11 @@ public class NPCShopGui extends BaseGui {
         ItemStack toRemove = item.clone();
         toRemove.setAmount(1);
         player.getInventory().removeItem(toRemove);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

@@ -45,7 +45,29 @@ public class UnifiedColorUtil {
     public static final TextColor LIGHT_PURPLE = NamedTextColor.LIGHT_PURPLE;
     public static final TextColor DARK_GREEN = NamedTextColor.DARK_GREEN;
     public static final TextColor DARK_PURPLE = NamedTextColor.DARK_PURPLE;
+    public static final TextColor DARK_RED = NamedTextColor.DARK_RED;
+    public static final TextColor DARK_BLUE = NamedTextColor.DARK_BLUE;
+    public static final TextColor DARK_GRAY = NamedTextColor.DARK_GRAY;
+    public static final TextColor DARK_AQUA = NamedTextColor.DARK_AQUA;
+    public static final TextColor BLACK = NamedTextColor.BLACK;
     public static final TextColor LEGENDARY = NamedTextColor.GOLD;
+    
+    // 특수 색상들
+    public static final TextColor COPPER = TextColor.color(184, 115, 51); // Copper color for talents
+    public static final TextColor HEALTH = TextColor.color(255, 85, 85); // Red for health
+    public static final TextColor MANA = TextColor.color(51, 153, 255); // Mana blue
+    public static final TextColor EXPERIENCE = TextColor.color(255, 215, 0); // Gold for experience
+    public static final TextColor EPIC = NamedTextColor.DARK_PURPLE;
+    public static final TextColor RARE = NamedTextColor.BLUE;
+    public static final TextColor UNCOMMON = NamedTextColor.GREEN;
+    public static final TextColor COMMON = NamedTextColor.GRAY;
+    public static final TextColor MYTHIC = TextColor.color(255, 0, 255); // Magenta for mythic
+    public static final TextColor ORANGE = TextColor.color(255, 170, 0); // Orange
+    public static final TextColor NETHERITE = TextColor.color(47, 41, 45); // Dark gray for netherite
+    public static final TextColor DIAMOND = TextColor.color(185, 242, 255); // Light cyan for diamond
+    public static final TextColor EMERALD = TextColor.color(85, 255, 85); // Green for emerald
+    public static final TextColor IRON = TextColor.color(192, 192, 192); // Silver/gray for iron
+    public static final TextColor GUI_TITLE = TextColor.color(255, 255, 255); // White for GUI titles
     
     /**
      * 레거시 색상 코드를 Component로 변환 (권장)
@@ -153,7 +175,7 @@ public class UnifiedColorUtil {
     @NotNull
     private static String convertHexColors(@NotNull String text) {
         Matcher matcher = HEX_PATTERN.matcher(text);
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder stringBuilder = new StringBuilder();
         
         while (matcher.find()) {
             String hex = matcher.group(1);
@@ -161,21 +183,11 @@ public class UnifiedColorUtil {
             for (char c : hex.toCharArray()) {
                 replacement.append("§").append(c);
             }
-            matcher.appendReplacement(buffer, replacement.toString());
+            matcher.appendReplacement(stringBuilder, replacement.toString());
         }
         
-        matcher.appendTail(buffer);
-        return buffer.toString();
-    }
-    
-    /**
-     * 레거시 지원용 (deprecated)
-     */
-    @Deprecated
-    @NotNull
-    public static String colorize(@NotNull String text) {
-        return LegacyComponentSerializer.legacySection()
-            .serialize(parse(text));
+        matcher.appendTail(stringBuilder);
+        return stringBuilder.toString();
     }
     
     /**
@@ -184,5 +196,59 @@ public class UnifiedColorUtil {
     @NotNull
     public static Component parseComponent(@NotNull String text) {
         return parse(text);
+    }
+    
+    /**
+     * HEX 색상 코드를 TextColor로 파싱
+     */
+    @NotNull
+    public static TextColor parseHexColor(@NotNull String hex) {
+        // Remove # if present
+        if (hex.startsWith("#")) {
+            hex = hex.substring(1);
+        }
+        
+        // Parse RGB values
+        int r = Integer.parseInt(hex.substring(0, 2), 16);
+        int g = Integer.parseInt(hex.substring(2, 4), 16);
+        int b = Integer.parseInt(hex.substring(4, 6), 16);
+        
+        return TextColor.color(r, g, b);
+    }
+    
+    /**
+     * 색상 이름으로 TextColor 가져오기
+     */
+    @NotNull
+    public static TextColor fromName(@NotNull String name) {
+        return switch (name.toUpperCase()) {
+            case "BLACK" -> BLACK;
+            case "DARK_BLUE" -> DARK_BLUE;
+            case "DARK_GREEN" -> DARK_GREEN;
+            case "DARK_AQUA" -> DARK_AQUA;
+            case "DARK_RED" -> DARK_RED;
+            case "DARK_PURPLE" -> DARK_PURPLE;
+            case "GOLD" -> GOLD;
+            case "GRAY" -> GRAY;
+            case "DARK_GRAY" -> DARK_GRAY;
+            case "BLUE" -> BLUE;
+            case "GREEN" -> GREEN;
+            case "AQUA" -> AQUA;
+            case "RED" -> RED;
+            case "LIGHT_PURPLE" -> LIGHT_PURPLE;
+            case "YELLOW" -> YELLOW;
+            case "WHITE" -> WHITE;
+            case "LEGENDARY" -> LEGENDARY;
+            case "EPIC" -> EPIC;
+            case "RARE" -> RARE;
+            case "UNCOMMON" -> UNCOMMON;
+            case "COMMON" -> COMMON;
+            case "MYTHIC" -> MYTHIC;
+            case "ERROR" -> ERROR;
+            case "SUCCESS" -> SUCCESS;
+            case "WARNING" -> WARNING;
+            case "INFO" -> INFO;
+            default -> WHITE;
+        };
     }
 }

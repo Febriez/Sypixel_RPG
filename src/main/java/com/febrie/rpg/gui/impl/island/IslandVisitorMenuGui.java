@@ -8,7 +8,7 @@ import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -46,7 +46,7 @@ public class IslandVisitorMenuGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return trans("island.gui.visitor.menu.title", "name", island.islandName());
+        return trans("island.gui.visitor.menu.title", "name", island.core().islandName());
     }
     
     @Override
@@ -76,22 +76,22 @@ public class IslandVisitorMenuGui extends BaseGui {
      */
     private GuiItem createIslandInfoItem() {
         // 섬 이름에 설정된 색상 적용
-        net.kyori.adventure.text.format.TextColor nameColor = ColorUtil.parseHexColor(island.settings().nameColorHex());
+        net.kyori.adventure.text.format.TextColor nameColor = UnifiedColorUtil.parseHexColor(island.configuration().settings().nameColorHex());
         
         return GuiItem.display(
             new ItemBuilder(Material.BOOK)
-                .displayName(Component.text(island.islandName(), nameColor))
+                .displayName(Component.text(island.core().islandName(), nameColor))
                 .lore(List.of(
                     Component.empty(),
-                    Component.text("섬장: ", ColorUtil.GRAY).append(Component.text(island.ownerName(), ColorUtil.WHITE)),
-                    Component.text("공개 상태: ", ColorUtil.GRAY).append(
-                        island.isPublic() ? 
-                        Component.text("공개", ColorUtil.GREEN) : 
-                        Component.text("비공개", ColorUtil.RED)
+                    Component.text("섬장: ", UnifiedColorUtil.GRAY).append(Component.text(island.core().ownerName(), UnifiedColorUtil.WHITE)),
+                    Component.text("공개 상태: ", UnifiedColorUtil.GRAY).append(
+                        island.core().isPublic() ? 
+                        Component.text("공개", UnifiedColorUtil.GREEN) : 
+                        Component.text("비공개", UnifiedColorUtil.RED)
                     ),
                     Component.empty(),
-                    Component.text("방문자 관련 정보를", ColorUtil.GRAY),
-                    Component.text("확인할 수 있습니다.", ColorUtil.GRAY)
+                    Component.text("방문자 관련 정보를", UnifiedColorUtil.GRAY),
+                    Component.text("확인할 수 있습니다.", UnifiedColorUtil.GRAY)
                 ))
                 .build()
         );
@@ -101,19 +101,19 @@ public class IslandVisitorMenuGui extends BaseGui {
      * 방문 히스토리 아이템 생성
      */
     private GuiItem createVisitHistoryItem() {
-        int totalVisits = island.recentVisits().size();
+        int totalVisits = island.social().recentVisits().size();
         
         return GuiItem.clickable(
             new ItemBuilder(Material.WRITTEN_BOOK)
-                .displayName(Component.text("방문 히스토리", ColorUtil.YELLOW))
+                .displayName(Component.text("방문 히스토리", UnifiedColorUtil.YELLOW))
                 .lore(List.of(
                     Component.empty(),
-                    Component.text("최근 방문자들의", ColorUtil.GRAY),
-                    Component.text("기록을 확인합니다.", ColorUtil.GRAY),
+                    Component.text("최근 방문자들의", UnifiedColorUtil.GRAY),
+                    Component.text("기록을 확인합니다.", UnifiedColorUtil.GRAY),
                     Component.empty(),
-                    Component.text("총 방문 기록: ", ColorUtil.GRAY).append(Component.text(totalVisits + "회", ColorUtil.YELLOW)),
+                    Component.text("총 방문 기록: ", UnifiedColorUtil.GRAY).append(Component.text(totalVisits + "회", UnifiedColorUtil.YELLOW)),
                     Component.empty(),
-                    Component.text("▶ 클릭하여 열기", ColorUtil.GREEN)
+                    Component.text("▶ 클릭하여 열기", UnifiedColorUtil.GREEN)
                 ))
                 .build(),
             player -> {
@@ -131,22 +131,22 @@ public class IslandVisitorMenuGui extends BaseGui {
         // 현재 방문자 수 계산
         var visitListener = RPGMain.getInstance().getIslandVisitListener();
         int currentVisitorCount = visitListener != null ? 
-            visitListener.getCurrentVisitors(island.islandId()).size() : 0;
+            visitListener.getCurrentVisitors(island.core().islandId()).size() : 0;
         
         return GuiItem.clickable(
             new ItemBuilder(Material.PLAYER_HEAD)
-                .displayName(Component.text("현재 방문자", ColorUtil.AQUA))
+                .displayName(Component.text("현재 방문자", UnifiedColorUtil.AQUA))
                 .lore(List.of(
                     Component.empty(),
-                    Component.text("현재 섬을 방문 중인", ColorUtil.GRAY),
-                    Component.text("플레이어들을 확인합니다.", ColorUtil.GRAY),
+                    Component.text("현재 섬을 방문 중인", UnifiedColorUtil.GRAY),
+                    Component.text("플레이어들을 확인합니다.", UnifiedColorUtil.GRAY),
                     Component.empty(),
-                    Component.text("현재 방문자: ", ColorUtil.GRAY).append(Component.text(currentVisitorCount + "명", ColorUtil.AQUA)),
+                    Component.text("현재 방문자: ", UnifiedColorUtil.GRAY).append(Component.text(currentVisitorCount + "명", UnifiedColorUtil.AQUA)),
                     Component.empty(),
-                    Component.text("※ 실시간으로 업데이트됩니다", ColorUtil.DARK_GRAY),
-                    Component.text("※ 하루마다 초기화됩니다", ColorUtil.DARK_GRAY),
+                    Component.text("※ 실시간으로 업데이트됩니다", UnifiedColorUtil.DARK_GRAY),
+                    Component.text("※ 하루마다 초기화됩니다", UnifiedColorUtil.DARK_GRAY),
                     Component.empty(),
-                    Component.text("▶ 클릭하여 열기", ColorUtil.GREEN)
+                    Component.text("▶ 클릭하여 열기", UnifiedColorUtil.GREEN)
                 ))
                 .build(),
             player -> {
@@ -160,5 +160,11 @@ public class IslandVisitorMenuGui extends BaseGui {
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

@@ -7,7 +7,7 @@ import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.social.FriendManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -63,7 +63,7 @@ public class FriendRequestGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("친구 요청", ColorUtil.UNCOMMON);
+        return Component.text("친구 요청", UnifiedColorUtil.UNCOMMON);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class FriendRequestGui extends BaseGui {
      * 타이틀 아이템 설정
      */
     private void setupTitleItem() {
-        GuiItem titleItem = GuiItem.display(new ItemBuilder(Material.WRITABLE_BOOK).displayName(Component.text("📨 친구 요청", ColorUtil.UNCOMMON).decoration(TextDecoration.BOLD, true)).addLore(Component.empty()).addLore(Component.text("받은 친구 요청을 관리합니다", ColorUtil.GRAY)).build());
+        GuiItem titleItem = GuiItem.display(new ItemBuilder(Material.WRITABLE_BOOK).displayName(Component.text("📨 친구 요청", UnifiedColorUtil.UNCOMMON).decoration(TextDecoration.BOLD, true)).addLore(Component.empty()).addLore(Component.text("받은 친구 요청을 관리합니다", UnifiedColorUtil.GRAY)).build());
         setItem(TITLE_SLOT, titleItem);
     }
 
@@ -103,7 +103,7 @@ public class FriendRequestGui extends BaseGui {
         }
 
         // 로딩 표시
-        setItem(22, GuiItem.display(new ItemBuilder(Material.HOPPER).displayName(Component.text("로딩 중...", ColorUtil.GRAY)).build()));
+        setItem(22, GuiItem.display(new ItemBuilder(Material.HOPPER).displayName(Component.text("로딩 중...", UnifiedColorUtil.GRAY)).build()));
 
         // 비동기로 친구 요청 목록 로드
         friendManager.getPendingRequests(viewer.getUniqueId()).thenAccept(requests -> {
@@ -124,7 +124,7 @@ public class FriendRequestGui extends BaseGui {
 
         if (requests.isEmpty()) {
             // 요청이 없을 때
-            setItem(22, GuiItem.display(new ItemBuilder(Material.BARRIER).displayName(Component.text("받은 친구 요청이 없습니다", ColorUtil.ERROR)).addLore(Component.text("새로운 요청이 오면 알림을 받을 수 있습니다", ColorUtil.GRAY)).build()));
+            setItem(22, GuiItem.display(new ItemBuilder(Material.BARRIER).displayName(Component.text("받은 친구 요청이 없습니다", UnifiedColorUtil.ERROR)).addLore(Component.text("새로운 요청이 오면 알림을 받을 수 있습니다", UnifiedColorUtil.GRAY)).build()));
             return;
         }
 
@@ -140,13 +140,13 @@ public class FriendRequestGui extends BaseGui {
             if (slot + 2 > REQUESTS_END_SLOT) break;
 
             // 요청자 정보
-            GuiItem requestInfo = GuiItem.display(new ItemBuilder(Material.PLAYER_HEAD).displayName(Component.text(request.fromPlayerName(), ColorUtil.PRIMARY).decoration(TextDecoration.BOLD, true)).addLore(Component.empty()).addLore(Component.text("요청 시간: " + request.requestTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")), ColorUtil.GRAY)).addLore(Component.empty()).addLore(request.message() != null ? Component.text("메시지: " + request.message(), ColorUtil.WHITE) : Component.text("메시지 없음", ColorUtil.GRAY)).addLore(Component.empty()).addLore(Component.text("우측 버튼으로 수락/거절", ColorUtil.YELLOW)).build());
+            GuiItem requestInfo = GuiItem.display(new ItemBuilder(Material.PLAYER_HEAD).displayName(Component.text(request.fromPlayerName(), UnifiedColorUtil.PRIMARY).decoration(TextDecoration.BOLD, true)).addLore(Component.empty()).addLore(Component.text("요청 시간: " + request.requestTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")), UnifiedColorUtil.GRAY)).addLore(Component.empty()).addLore(request.message() != null ? Component.text("메시지: " + request.message(), UnifiedColorUtil.WHITE) : Component.text("메시지 없음", UnifiedColorUtil.GRAY)).addLore(Component.empty()).addLore(Component.text("우측 버튼으로 수락/거절", UnifiedColorUtil.YELLOW)).build());
             setItem(slot, requestInfo);
 
             // 수락 버튼
-            GuiItem acceptButton = GuiItem.clickable(new ItemBuilder(Material.LIME_DYE).displayName(Component.text("✓ 수락", ColorUtil.SUCCESS).decoration(TextDecoration.BOLD, true)).addLore(Component.empty()).addLore(Component.text(request.fromPlayerName() + "님의", ColorUtil.GRAY)).addLore(Component.text("친구 요청을 수락합니다", ColorUtil.GRAY)).addLore(Component.empty()).addLore(Component.text("클릭하여 수락", ColorUtil.YELLOW)).build(), p -> {
+            GuiItem acceptButton = GuiItem.clickable(new ItemBuilder(Material.LIME_DYE).displayName(Component.text("✓ 수락", UnifiedColorUtil.SUCCESS).decoration(TextDecoration.BOLD, true)).addLore(Component.empty()).addLore(Component.text(request.fromPlayerName() + "님의", UnifiedColorUtil.GRAY)).addLore(Component.text("친구 요청을 수락합니다", UnifiedColorUtil.GRAY)).addLore(Component.empty()).addLore(Component.text("클릭하여 수락", UnifiedColorUtil.YELLOW)).build(), p -> {
                 if (request.id() == null) {
-                    p.sendMessage(Component.text("친구 요청 ID가 없습니다.", ColorUtil.ERROR));
+                    p.sendMessage(Component.text("친구 요청 ID가 없습니다.", UnifiedColorUtil.ERROR));
                     return;
                 }
                 friendManager.acceptFriendRequest(p, request.id()).thenAccept(success -> {
@@ -160,9 +160,9 @@ public class FriendRequestGui extends BaseGui {
             setItem(slot + 1, acceptButton);
 
             // 거절 버튼
-            GuiItem rejectButton = GuiItem.clickable(new ItemBuilder(Material.RED_DYE).displayName(Component.text("✗ 거절", ColorUtil.ERROR).decoration(TextDecoration.BOLD, true)).addLore(Component.empty()).addLore(Component.text(request.fromPlayerName() + "님의", ColorUtil.GRAY)).addLore(Component.text("친구 요청을 거절합니다", ColorUtil.GRAY)).addLore(Component.empty()).addLore(Component.text("클릭하여 거절", ColorUtil.YELLOW)).build(), p -> {
+            GuiItem rejectButton = GuiItem.clickable(new ItemBuilder(Material.RED_DYE).displayName(Component.text("✗ 거절", UnifiedColorUtil.ERROR).decoration(TextDecoration.BOLD, true)).addLore(Component.empty()).addLore(Component.text(request.fromPlayerName() + "님의", UnifiedColorUtil.GRAY)).addLore(Component.text("친구 요청을 거절합니다", UnifiedColorUtil.GRAY)).addLore(Component.empty()).addLore(Component.text("클릭하여 거절", UnifiedColorUtil.YELLOW)).build(), p -> {
                 if (request.id() == null) {
-                    p.sendMessage(Component.text("친구 요청 ID가 없습니다.", ColorUtil.ERROR));
+                    p.sendMessage(Component.text("친구 요청 ID가 없습니다.", UnifiedColorUtil.ERROR));
                     return;
                 }
                 friendManager.rejectFriendRequest(p, request.id()).thenAccept(success -> {
@@ -182,5 +182,11 @@ public class FriendRequestGui extends BaseGui {
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return super.getAllowedClickTypes();
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

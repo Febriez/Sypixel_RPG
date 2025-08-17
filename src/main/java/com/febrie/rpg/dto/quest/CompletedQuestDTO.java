@@ -2,9 +2,13 @@ package com.febrie.rpg.dto.quest;
 
 import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
-
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.UUID;
 /**
  * 완료했지만 보상을 받지 않은 퀘스트 데이터 DTO
  * 
@@ -69,7 +73,7 @@ public record CompletedQuestDTO(
     public CompletedQuestDTO withItemClaimed(int index) {
         Set<Integer> newIndices = new HashSet<>(unclaimedItemIndices);
         newIndices.remove(index);
-        return new CompletedQuestDTO(questId, instanceId, completedAt, 
+        return new CompletedQuestDTO(questId, instanceId, completedAt,
                                    completionCount, instantRewardsClaimed, newIndices);
     }
     
@@ -105,17 +109,14 @@ public record CompletedQuestDTO(
         map.put("completedAt", completedAt);
         map.put("completionCount", completionCount);
         map.put("instantRewardsClaimed", instantRewardsClaimed);
-        
         // Set을 List로 변환하여 저장
         map.put("unclaimedItemIndices", new ArrayList<>(unclaimedItemIndices));
-        
         return map;
     }
     
     /**
      * Map에서 생성 (Firestore 로드용)
      */
-    @NotNull
     @SuppressWarnings("unchecked")
     public static CompletedQuestDTO fromMap(@NotNull Map<String, Object> map) {
         String questId = (String) map.getOrDefault("questId", "");
@@ -123,7 +124,6 @@ public record CompletedQuestDTO(
         long completedAt = FirestoreUtils.getLong(map, "completedAt", System.currentTimeMillis());
         int completionCount = FirestoreUtils.getInt(map, "completionCount", 1);
         boolean instantRewardsClaimed = (Boolean) map.getOrDefault("instantRewardsClaimed", false);
-        
         // List에서 Set으로 변환
         Set<Integer> unclaimedItemIndices = new HashSet<>();
         Object indicesObj = map.get("unclaimedItemIndices");

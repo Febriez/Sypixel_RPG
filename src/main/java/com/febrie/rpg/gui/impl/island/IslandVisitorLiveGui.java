@@ -8,7 +8,7 @@ import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.listener.IslandVisitListener;
 import com.febrie.rpg.island.manager.IslandManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -49,7 +49,7 @@ public class IslandVisitorLiveGui extends BaseGui {
         // 현재 방문자 목록 가져오기
         var visitListener = RPGMain.getInstance().getIslandVisitListener();
         this.currentVisitors = visitListener != null ? 
-            visitListener.getCurrentVisitors(island.islandId()) : List.of();
+            visitListener.getCurrentVisitors(island.core().islandId()) : List.of();
         
         this.maxPage = (int) Math.ceil((double) currentVisitors.size() / ITEMS_PER_PAGE);
         this.page = Math.max(1, Math.min(page, Math.max(maxPage, 1)));
@@ -67,7 +67,7 @@ public class IslandVisitorLiveGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return trans("island.gui.visitor.live.title", "name", island.islandName());
+        return trans("island.gui.visitor.live.title", "name", island.core().islandName());
     }
     
     @Override
@@ -107,19 +107,19 @@ public class IslandVisitorLiveGui extends BaseGui {
     private GuiItem createInfoItem() {
         return GuiItem.display(
             new ItemBuilder(Material.COMPASS)
-                .displayName(Component.text("현재 방문자", ColorUtil.AQUA))
+                .displayName(Component.text("현재 방문자", UnifiedColorUtil.AQUA))
                 .lore(List.of(
                     Component.empty(),
-                    Component.text("섬 이름: ", ColorUtil.GRAY).append(Component.text(island.islandName(), ColorUtil.WHITE)),
-                    Component.text("현재 방문자: ", ColorUtil.GRAY).append(Component.text(currentVisitors.size() + "명", ColorUtil.AQUA)),
+                    Component.text("섬 이름: ", UnifiedColorUtil.GRAY).append(Component.text(island.core().islandName(), UnifiedColorUtil.WHITE)),
+                    Component.text("현재 방문자: ", UnifiedColorUtil.GRAY).append(Component.text(currentVisitors.size() + "명", UnifiedColorUtil.AQUA)),
                     Component.empty(),
-                    Component.text("실시간으로 업데이트되는", ColorUtil.GRAY),
-                    Component.text("방문자 목록입니다.", ColorUtil.GRAY),
+                    Component.text("실시간으로 업데이트되는", UnifiedColorUtil.GRAY),
+                    Component.text("방문자 목록입니다.", UnifiedColorUtil.GRAY),
                     Component.empty(),
-                    Component.text("※ 방문자를 클릭하면", ColorUtil.DARK_GRAY),
-                    Component.text("   액션 메뉴가 열립니다", ColorUtil.DARK_GRAY),
+                    Component.text("※ 방문자를 클릭하면", UnifiedColorUtil.DARK_GRAY),
+                    Component.text("   액션 메뉴가 열립니다", UnifiedColorUtil.DARK_GRAY),
                     Component.empty(),
-                    Component.text("※ 하루마다 초기화됩니다", ColorUtil.DARK_GRAY)
+                    Component.text("※ 하루마다 초기화됩니다", UnifiedColorUtil.DARK_GRAY)
                 ))
                 .build()
         );
@@ -133,14 +133,14 @@ public class IslandVisitorLiveGui extends BaseGui {
             // 방문자가 없는 경우
             setItem(22, GuiItem.display(
                 new ItemBuilder(Material.BARRIER)
-                    .displayName(Component.text("현재 방문자가 없습니다", ColorUtil.RED))
+                    .displayName(Component.text("현재 방문자가 없습니다", UnifiedColorUtil.RED))
                     .lore(List.of(
                         Component.empty(),
-                        Component.text("현재 섬을 방문 중인", ColorUtil.GRAY),
-                        Component.text("플레이어가 없습니다.", ColorUtil.GRAY),
+                        Component.text("현재 섬을 방문 중인", UnifiedColorUtil.GRAY),
+                        Component.text("플레이어가 없습니다.", UnifiedColorUtil.GRAY),
                         Component.empty(),
-                        Component.text("새로고침 버튼을 눌러", ColorUtil.GRAY),
-                        Component.text("최신 상태로 업데이트하세요.", ColorUtil.GRAY)
+                        Component.text("새로고침 버튼을 눌러", UnifiedColorUtil.GRAY),
+                        Component.text("최신 상태로 업데이트하세요.", UnifiedColorUtil.GRAY)
                     ))
                     .build()
             ));
@@ -181,29 +181,29 @@ public class IslandVisitorLiveGui extends BaseGui {
         long minutes = visitor.getCurrentDuration() / (60 * 1000);
         net.kyori.adventure.text.format.TextColor nameColor;
         if (minutes < 5) {
-            nameColor = ColorUtil.GREEN; // 5분 미만 - 새로운 방문자
+            nameColor = UnifiedColorUtil.GREEN; // 5분 미만 - 새로운 방문자
         } else if (minutes < 30) {
-            nameColor = ColorUtil.YELLOW; // 30분 미만 - 일반 방문자
+            nameColor = UnifiedColorUtil.YELLOW; // 30분 미만 - 일반 방문자
         } else {
-            nameColor = ColorUtil.GOLD; // 30분 이상 - 장기 방문자
+            nameColor = UnifiedColorUtil.GOLD; // 30분 이상 - 장기 방문자
         }
         
         ItemStack item = new ItemBuilder(Material.PLAYER_HEAD)
                 .displayName(Component.text(playerName, nameColor))
                 .lore(List.of(
                     Component.empty(),
-                    Component.text("방문 시작: ", ColorUtil.GRAY).append(
-                        Component.text(formatTimestamp(visitor.getVisitStartTime()), ColorUtil.WHITE)
+                    Component.text("방문 시작: ", UnifiedColorUtil.GRAY).append(
+                        Component.text(formatTimestamp(visitor.getVisitStartTime()), UnifiedColorUtil.WHITE)
                     ),
-                    Component.text("경과 시간: ", ColorUtil.GRAY).append(Component.text(duration, ColorUtil.YELLOW)),
+                    Component.text("경과 시간: ", UnifiedColorUtil.GRAY).append(Component.text(duration, UnifiedColorUtil.YELLOW)),
                     Component.empty(),
-                    Component.text("상태: ", ColorUtil.GRAY).append(
-                        Component.text("온라인", ColorUtil.GREEN)
+                    Component.text("상태: ", UnifiedColorUtil.GRAY).append(
+                        Component.text("온라인", UnifiedColorUtil.GREEN)
                     ),
                     Component.empty(),
-                    Component.text("#" + index + " 현재 방문자", ColorUtil.DARK_GRAY),
+                    Component.text("#" + index + " 현재 방문자", UnifiedColorUtil.DARK_GRAY),
                     Component.empty(),
-                    Component.text("▶ 클릭하여 액션 메뉴 열기", ColorUtil.GREEN)
+                    Component.text("▶ 클릭하여 액션 메뉴 열기", UnifiedColorUtil.GREEN)
                 ))
                 .build();
         
@@ -258,13 +258,13 @@ public class IslandVisitorLiveGui extends BaseGui {
     private GuiItem createRefreshItem() {
         return GuiItem.clickable(
             new ItemBuilder(Material.RECOVERY_COMPASS)
-                .displayName(Component.text("새로고침", ColorUtil.GREEN))
+                .displayName(Component.text("새로고침", UnifiedColorUtil.GREEN))
                 .lore(List.of(
                     Component.empty(),
-                    Component.text("현재 방문자 목록을", ColorUtil.GRAY),
-                    Component.text("최신 상태로 업데이트합니다.", ColorUtil.GRAY),
+                    Component.text("현재 방문자 목록을", UnifiedColorUtil.GRAY),
+                    Component.text("최신 상태로 업데이트합니다.", UnifiedColorUtil.GRAY),
                     Component.empty(),
-                    Component.text("▶ 클릭하여 새로고침", ColorUtil.YELLOW)
+                    Component.text("▶ 클릭하여 새로고침", UnifiedColorUtil.YELLOW)
                 ))
                 .build(),
             player -> {
@@ -281,10 +281,10 @@ public class IslandVisitorLiveGui extends BaseGui {
     private GuiItem createPreviousPageItem() {
         return GuiItem.clickable(
             new ItemBuilder(Material.ARROW)
-                .displayName(Component.text("이전 페이지", ColorUtil.GREEN))
+                .displayName(Component.text("이전 페이지", UnifiedColorUtil.GREEN))
                 .lore(List.of(
                     Component.empty(),
-                    Component.text("페이지 " + (page - 1) + "/" + maxPage, ColorUtil.GRAY)
+                    Component.text("페이지 " + (page - 1) + "/" + maxPage, UnifiedColorUtil.GRAY)
                 ))
                 .build(),
             player -> {
@@ -302,10 +302,10 @@ public class IslandVisitorLiveGui extends BaseGui {
     private GuiItem createNextPageItem() {
         return GuiItem.clickable(
             new ItemBuilder(Material.ARROW)
-                .displayName(Component.text("다음 페이지", ColorUtil.GREEN))
+                .displayName(Component.text("다음 페이지", UnifiedColorUtil.GREEN))
                 .lore(List.of(
                     Component.empty(),
-                    Component.text("페이지 " + (page + 1) + "/" + maxPage, ColorUtil.GRAY)
+                    Component.text("페이지 " + (page + 1) + "/" + maxPage, UnifiedColorUtil.GRAY)
                 ))
                 .build(),
             player -> {
@@ -320,5 +320,11 @@ public class IslandVisitorLiveGui extends BaseGui {
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

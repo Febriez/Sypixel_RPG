@@ -10,7 +10,7 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.quest.progress.QuestProgress;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -111,7 +111,7 @@ public class QuestListGui extends BaseGui {
         // 12개 이상이면 우클릭 안내 추가
         if (questCount > MAX_DISPLAY_QUESTS) {
             builder.addLore(Component.empty());
-            builder.addLore(Component.text("▶ 우클릭하여 모든 퀘스트를 확인합니다", ColorUtil.YELLOW));
+            builder.addLore(Component.text("▶ 우클릭하여 모든 퀘스트를 확인합니다", UnifiedColorUtil.YELLOW));
         }
 
         // GUI 아이템 표준 설정 적용
@@ -229,7 +229,7 @@ public class QuestListGui extends BaseGui {
     private GuiItem createActiveQuestItem(@NotNull Quest quest, @NotNull QuestProgress progress) {
         ItemBuilder builder = new ItemBuilder(Material.PAPER)
                 .displayName(quest.getDisplayName(viewer)
-                        .color(ColorUtil.UNCOMMON)
+                        .color(UnifiedColorUtil.UNCOMMON)
                         .decoration(TextDecoration.ITALIC, false));
 
         List<Component> lore = new ArrayList<>();
@@ -237,17 +237,17 @@ public class QuestListGui extends BaseGui {
         // 퀘스트 설명
         List<Component> descriptions = quest.getDisplayInfo(viewer);
         for (Component desc : descriptions) {
-            lore.add(desc.color(ColorUtil.GRAY));
+            lore.add(desc.color(UnifiedColorUtil.GRAY));
         }
         lore.add(Component.empty());
 
         // 진행도 표시
         lore.add(trans("gui.quest-list.progress")
-                .append(Component.text(" " + progress.getCompletionPercentage() + "%", ColorUtil.EMERALD)));
+                .append(Component.text(" " + progress.getCompletionPercentage() + "%", UnifiedColorUtil.EMERALD)));
 
         // 클릭 안내
         lore.add(Component.empty());
-        lore.add(trans("gui.quest-list.click-details").color(ColorUtil.GRAY));
+        lore.add(trans("gui.quest-list.click-details").color(UnifiedColorUtil.GRAY));
 
         builder.addLore(lore);
 
@@ -264,7 +264,7 @@ public class QuestListGui extends BaseGui {
     private GuiItem createCompletedQuestItem(@NotNull Quest quest) {
         ItemBuilder builder = new ItemBuilder(Material.MAP)
                 .displayName(quest.getDisplayName(viewer)
-                        .color(ColorUtil.SUCCESS)
+                        .color(UnifiedColorUtil.SUCCESS)
                         .decoration(TextDecoration.ITALIC, false));
 
         List<Component> lore = new ArrayList<>();
@@ -272,19 +272,19 @@ public class QuestListGui extends BaseGui {
         // 퀘스트 설명
         List<Component> descriptions = quest.getDisplayInfo(viewer);
         for (Component desc : descriptions) {
-            lore.add(desc.color(ColorUtil.GRAY));
+            lore.add(desc.color(UnifiedColorUtil.GRAY));
         }
         lore.add(Component.empty());
 
         // 완료 표시
         lore.add(trans("gui.quest-list.completed-label")
-                .color(ColorUtil.SUCCESS)
+                .color(UnifiedColorUtil.SUCCESS)
                 .decoration(TextDecoration.BOLD, true));
 
         // 반복 가능 여부
         if (quest.isRepeatable()) {
             lore.add(Component.empty());
-            lore.add(trans("gui.quest-list.repeatable").color(ColorUtil.AQUA));
+            lore.add(trans("gui.quest-list.repeatable").color(UnifiedColorUtil.AQUA));
         }
 
         builder.addLore(lore);
@@ -312,5 +312,11 @@ public class QuestListGui extends BaseGui {
     @Override
     public GuiFramework getBackTarget() {
         return ProfileGui.create(guiManager, viewer);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

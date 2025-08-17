@@ -206,8 +206,6 @@ public class RPGPlayerManager implements Listener {
                     return createNewPlayer(player);
                 }
 
-                // 기존 플레이어 데이터 로드
-                
                 // PlayerDataDTO에서 각 DTO 추출
                 // 현재 PlayerDataDTO는 profile과 wallet만 포함하므로
                 // 다른 데이터는 기본값으로 생성

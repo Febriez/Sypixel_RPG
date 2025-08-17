@@ -26,7 +26,6 @@ import java.util.List;
 public class ToastUtil {
 
     private static final UltimateAdvancementAPI api = UltimateAdvancementAPI.getInstance(RPGMain.getPlugin());
-    private static final LangManager langManager = RPGMain.getPlugin().getLangManager();
 
     /**
      * 퀘스트 진행도 Toast 표시

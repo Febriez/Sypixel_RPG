@@ -1,6 +1,6 @@
 package com.febrie.rpg.economy;
 
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
@@ -19,12 +19,12 @@ import org.jetbrains.annotations.NotNull;
  */
 public enum CurrencyType {
 
-    GOLD("gold", Material.GOLD_INGOT, ColorUtil.GOLD, "💰", 1000000000L), // 최대 10억
-    DIAMOND("diamond", Material.DIAMOND, ColorUtil.DIAMOND, "💎", 100000L), // 최대 10만
-    EMERALD("emerald", Material.EMERALD, ColorUtil.EMERALD, "💚", 100000L), // 최대 10만
-    GHAST_TEAR("ghast_tear", Material.GHAST_TEAR, ColorUtil.LEGENDARY, "✨", 10000L), // 최대 1만 (별가루)
-    NETHER_STAR("nether_star", Material.NETHER_STAR, ColorUtil.EPIC, "⭐", 1000L), // 최대 1천 (별)
-    EXP("exp", Material.EXPERIENCE_BOTTLE, ColorUtil.UNCOMMON, "🎯", 10000000L); // 최대 1천만 (경험치)
+    GOLD("gold", Material.GOLD_INGOT, UnifiedColorUtil.GOLD, "💰", 1000000000L), // 최대 10억
+    DIAMOND("diamond", Material.DIAMOND, UnifiedColorUtil.DIAMOND, "💎", 100000L), // 최대 10만
+    EMERALD("emerald", Material.EMERALD, UnifiedColorUtil.EMERALD, "💚", 100000L), // 최대 10만
+    GHAST_TEAR("ghast_tear", Material.GHAST_TEAR, UnifiedColorUtil.LEGENDARY, "✨", 10000L), // 최대 1만 (별가루)
+    NETHER_STAR("nether_star", Material.NETHER_STAR, UnifiedColorUtil.EPIC, "⭐", 1000L), // 최대 1천 (별)
+    EXP("exp", Material.EXPERIENCE_BOTTLE, UnifiedColorUtil.UNCOMMON, "🎯", 10000000L); // 최대 1천만 (경험치)
 
     private final String id;
     private final Material material;

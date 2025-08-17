@@ -106,7 +106,6 @@ public class ElementalStonesQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.elemental_stones.objectives." + id);
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("elemental_stones_dialog");
 

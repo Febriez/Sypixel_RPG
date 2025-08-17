@@ -157,7 +157,7 @@ public class AncientPowerQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getComponentList(who, "special.ancient_power.description");
+        return LangManager.getList(who, "special.ancient_power.description");
     }
 
     @Override
@@ -166,8 +166,7 @@ public class AncientPowerQuest extends Quest {
         return LangManager.getMessage(who, "special.ancient_power.objectives." + id);
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("ancient_power_dialog");
         
         dialog.addLine("quest.special_ancient_power.npcs.ancient_spirit", "quest.special_ancient_power.dialogs.start_line1");

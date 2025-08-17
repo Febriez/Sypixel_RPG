@@ -115,8 +115,7 @@ public class HeroesJourneyQuest extends Quest {
         };
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("heroes_journey_dialog");
 
         dialog.addLine("quest.main.heroes_journey.dialog.guild_leader",

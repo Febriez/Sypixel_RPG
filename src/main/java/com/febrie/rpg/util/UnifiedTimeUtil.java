@@ -182,7 +182,7 @@ public class UnifiedTimeUtil {
         if (minutes % 60 > 0) {
             result.append(minutes % 60).append("분 ");
         }
-        if (seconds % 60 > 0 || result.length() == 0) {
+        if (seconds % 60 > 0 || result.isEmpty()) {
             result.append(seconds % 60).append("초");
         }
         

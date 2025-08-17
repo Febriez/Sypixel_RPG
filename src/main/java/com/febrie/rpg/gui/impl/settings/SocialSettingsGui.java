@@ -8,7 +8,7 @@ import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -60,7 +60,7 @@ public class SocialSettingsGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("소셜 설정", ColorUtil.EPIC);
+        return Component.text("소셜 설정", UnifiedColorUtil.EPIC);
     }
 
     @Override
@@ -89,10 +89,10 @@ public class SocialSettingsGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 new ItemBuilder(Material.PLAYER_HEAD)
-                        .displayName(Component.text("👥 소셜 설정", ColorUtil.EPIC)
+                        .displayName(Component.text("👥 소셜 설정", UnifiedColorUtil.EPIC)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("소셜 기능 관련 설정을 변경합니다", ColorUtil.GRAY))
+                        .addLore(Component.text("소셜 기능 관련 설정을 변경합니다", UnifiedColorUtil.GRAY))
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -146,16 +146,16 @@ public class SocialSettingsGui extends BaseGui {
         
         GuiItem friendRequestsToggle = GuiItem.clickable(
                 new ItemBuilder(enabled ? Material.EMERALD : Material.REDSTONE)
-                        .displayName(Component.text("👤 친구 요청 받기", ColorUtil.PRIMARY)
+                        .displayName(Component.text("👤 친구 요청 받기", UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
                         .addLore(Component.text("상태: " + (enabled ? "활성화" : "비활성화"), 
-                                enabled ? ColorUtil.SUCCESS : ColorUtil.ERROR))
+                                enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
                         .addLore(Component.empty())
-                        .addLore(Component.text("다른 플레이어로부터", ColorUtil.GRAY))
-                        .addLore(Component.text("친구 요청을 받을지 설정합니다", ColorUtil.GRAY))
+                        .addLore(Component.text("다른 플레이어로부터", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("친구 요청을 받을지 설정합니다", UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), ColorUtil.YELLOW))
+                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), UnifiedColorUtil.YELLOW))
                         .build(),
                 p -> {
                     settings.setFriendRequestsEnabled(!enabled);
@@ -179,18 +179,18 @@ public class SocialSettingsGui extends BaseGui {
         
         GuiItem guildInvitesToggle = GuiItem.clickable(
                 new ItemBuilder(enabled ? Material.GOLD_INGOT : Material.IRON_INGOT)
-                        .displayName(Component.text("🏰 길드 초대 받기", ColorUtil.PRIMARY)
+                        .displayName(Component.text("🏰 길드 초대 받기", UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
                         .addLore(Component.text("상태: " + (enabled ? "활성화" : "비활성화"), 
-                                enabled ? ColorUtil.SUCCESS : ColorUtil.ERROR))
+                                enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
                         .addLore(Component.empty())
-                        .addLore(Component.text("길드로부터 초대를", ColorUtil.GRAY))
-                        .addLore(Component.text("받을지 설정합니다", ColorUtil.GRAY))
+                        .addLore(Component.text("길드로부터 초대를", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("받을지 설정합니다", UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("※ 길드 시스템은 준비중입니다", ColorUtil.YELLOW))
+                        .addLore(Component.text("※ 길드 시스템은 준비중입니다", UnifiedColorUtil.YELLOW))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), ColorUtil.YELLOW))
+                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), UnifiedColorUtil.YELLOW))
                         .build(),
                 p -> {
                     settings.setGuildInvitesEnabled(!enabled);
@@ -235,16 +235,16 @@ public class SocialSettingsGui extends BaseGui {
         
         GuiItem whisperModeToggle = GuiItem.clickable(
                 new ItemBuilder(material)
-                        .displayName(Component.text("💬 귓말 모드", ColorUtil.PRIMARY)
+                        .displayName(Component.text("💬 귓말 모드", UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("현재 모드: " + modeDisplay, ColorUtil.WHITE))
-                        .addLore(Component.text(modeDescription, ColorUtil.GRAY))
+                        .addLore(Component.text("현재 모드: " + modeDisplay, UnifiedColorUtil.WHITE))
+                        .addLore(Component.text(modeDescription, UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 다음 모드로 변경:", ColorUtil.YELLOW))
-                        .addLore(Component.text("전체 → 친구만 → 차단 → 전체", ColorUtil.GRAY))
+                        .addLore(Component.text("클릭하여 다음 모드로 변경:", UnifiedColorUtil.YELLOW))
+                        .addLore(Component.text("전체 → 친구만 → 차단 → 전체", UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("※ 귓말 시스템은 준비중입니다", ColorUtil.YELLOW))
+                        .addLore(Component.text("※ 귓말 시스템은 준비중입니다", UnifiedColorUtil.YELLOW))
                         .build(),
                 p -> {
                     String nextMode = switch (mode) {
@@ -274,5 +274,11 @@ public class SocialSettingsGui extends BaseGui {
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

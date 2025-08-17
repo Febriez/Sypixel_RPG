@@ -91,8 +91,7 @@ public class BasicCombatQuest extends Quest {
         return LangManager.getMessage(who, key);
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("basic_combat_dialog");
 
         dialog.addLine(

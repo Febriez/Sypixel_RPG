@@ -1,7 +1,7 @@
 package com.febrie.rpg.npc.trait.base;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.StandardItemBuilder;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -171,7 +171,6 @@ public abstract class ImprovedBaseTraitRegistrationItem implements Listener {
      * Trait 설정
      */
     protected void setTrait(@NotNull NPC npc, @NotNull String traitId, @NotNull Player player) {
-        // 기존 Trait 제거
         if (npc.hasTrait(getTraitClass())) {
             npc.removeTrait(getTraitClass());
         }
@@ -180,7 +179,7 @@ public abstract class ImprovedBaseTraitRegistrationItem implements Listener {
         Trait trait = createTrait(traitId);
         npc.addTrait(trait);
         
-        player.sendMessage(ColorUtil.colorize(getSuccessMessage(traitId, npc.getId())));
+        player.sendMessage(UnifiedColorUtil.parse(getSuccessMessage(traitId, npc.getId())));
     }
     
     /**
@@ -189,10 +188,10 @@ public abstract class ImprovedBaseTraitRegistrationItem implements Listener {
     protected void removeTrait(@NotNull NPC npc, @NotNull Player player) {
         if (npc.hasTrait(getTraitClass())) {
             npc.removeTrait(getTraitClass());
-            player.sendMessage(ColorUtil.colorize("&cNPC #" + npc.getId() + "에서 " + 
+            player.sendMessage(UnifiedColorUtil.parse("&cNPC #" + npc.getId() + "에서 " + 
                 getTraitType() + " trait를 제거했습니다"));
         } else {
-            player.sendMessage(ColorUtil.colorize("&c이 NPC는 " + 
+            player.sendMessage(UnifiedColorUtil.parse("&c이 NPC는 " + 
                 getTraitType() + " trait를 가지고 있지 않습니다"));
         }
     }

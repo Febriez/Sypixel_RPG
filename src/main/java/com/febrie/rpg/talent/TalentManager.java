@@ -2,7 +2,7 @@ package com.febrie.rpg.talent;
 
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.stat.Stat;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +54,7 @@ public class TalentManager {
         // 광전사 특성
         Talent berserkerStrength = new Talent.Builder("basic_strength")
                 .icon(Material.IRON_INGOT)
-                .color(ColorUtil.COPPER)
+                .color(UnifiedColorUtil.COPPER)
                 .maxLevel(10)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -64,7 +64,7 @@ public class TalentManager {
 
         Talent berserkRage = new Talent.Builder("berserker_rage")
                 .icon(Material.BLAZE_POWDER)
-                .color(ColorUtil.DARK_RED)
+                .color(UnifiedColorUtil.DARK_RED)
                 .maxLevel(5)
                 .requiredPoints(2)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -76,7 +76,7 @@ public class TalentManager {
 
         Talent bloodThirst = new Talent.Builder("bloodthirst")
                 .icon(Material.REDSTONE_BLOCK)
-                .color(ColorUtil.DARK_RED)
+                .color(UnifiedColorUtil.DARK_RED)
                 .maxLevel(5)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -86,7 +86,7 @@ public class TalentManager {
 
         Talent bloodBath = new Talent.Builder("blood_bath")
                 .icon(Material.RED_DYE)
-                .color(ColorUtil.DARK_RED)
+                .color(UnifiedColorUtil.DARK_RED)
                 .maxLevel(3)
                 .requiredPoints(3)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -97,7 +97,7 @@ public class TalentManager {
         // 브루저 특성
         Talent bruiserStrength = new Talent.Builder("basic_strength")
                 .icon(Material.IRON_INGOT)
-                .color(ColorUtil.COPPER)
+                .color(UnifiedColorUtil.COPPER)
                 .maxLevel(10)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -107,7 +107,7 @@ public class TalentManager {
 
         Talent bruiserVitality = new Talent.Builder("basic_vitality")
                 .icon(Material.APPLE)
-                .color(ColorUtil.HEALTH)
+                .color(UnifiedColorUtil.HEALTH)
                 .maxLevel(10)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.DEFENSE)
@@ -117,7 +117,7 @@ public class TalentManager {
 
         Talent balanced = new Talent.Builder("balanced_fighter")
                 .icon(Material.IRON_SWORD)
-                .color(ColorUtil.ORANGE)
+                .color(UnifiedColorUtil.ORANGE)
                 .maxLevel(5)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.UTILITY)
@@ -129,7 +129,7 @@ public class TalentManager {
 
         Talent adaptability = new Talent.Builder("adaptability")
                 .icon(Material.LEATHER_CHESTPLATE)
-                .color(ColorUtil.YELLOW)
+                .color(UnifiedColorUtil.YELLOW)
                 .maxLevel(5)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.DEFENSE)
@@ -140,7 +140,7 @@ public class TalentManager {
 
         Talent counterAttack = new Talent.Builder("counter_attack")
                 .icon(Material.SHIELD)
-                .color(ColorUtil.INFO)
+                .color(UnifiedColorUtil.INFO)
                 .maxLevel(3)
                 .requiredPoints(2)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -151,7 +151,7 @@ public class TalentManager {
         // 탱커 특성
         Talent tankVitality = new Talent.Builder("basic_vitality")
                 .icon(Material.APPLE)
-                .color(ColorUtil.HEALTH)
+                .color(UnifiedColorUtil.HEALTH)
                 .maxLevel(10)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.DEFENSE)
@@ -161,7 +161,7 @@ public class TalentManager {
 
         Talent fortitude = new Talent.Builder("fortitude")
                 .icon(Material.SHIELD)
-                .color(ColorUtil.NETHERITE)
+                .color(UnifiedColorUtil.NETHERITE)
                 .maxLevel(10)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.DEFENSE)
@@ -173,7 +173,7 @@ public class TalentManager {
 
         Talent shieldMastery = new Talent.Builder("shield_mastery")
                 .icon(Material.SHIELD)
-                .color(ColorUtil.DIAMOND)
+                .color(UnifiedColorUtil.DIAMOND)
                 .maxLevel(5)
                 .requiredPoints(2)
                 .category(Talent.TalentCategory.DEFENSE)
@@ -185,7 +185,7 @@ public class TalentManager {
 
         Talent taunt = new Talent.Builder("taunt")
                 .icon(Material.BELL)
-                .color(ColorUtil.WARNING)
+                .color(UnifiedColorUtil.WARNING)
                 .maxLevel(3)
                 .requiredPoints(2)
                 .category(Talent.TalentCategory.UTILITY)
@@ -195,7 +195,7 @@ public class TalentManager {
 
         Talent ironWill = new Talent.Builder("iron_will")
                 .icon(Material.IRON_INGOT)
-                .color(ColorUtil.GRAY)
+                .color(UnifiedColorUtil.GRAY)
                 .maxLevel(5)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.DEFENSE)
@@ -213,7 +213,7 @@ public class TalentManager {
         // 사제 특성
         Talent priestIntelligence = new Talent.Builder("basic_intelligence")
                 .icon(Material.BOOK)
-                .color(ColorUtil.INFO)
+                .color(UnifiedColorUtil.INFO)
                 .maxLevel(10)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -223,7 +223,7 @@ public class TalentManager {
 
         Talent priestWisdom = new Talent.Builder("basic_wisdom")
                 .icon(Material.LAPIS_LAZULI)
-                .color(ColorUtil.INFO)
+                .color(UnifiedColorUtil.INFO)
                 .maxLevel(10)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.UTILITY)
@@ -233,7 +233,7 @@ public class TalentManager {
 
         Talent holyLight = new Talent.Builder("holy_light")
                 .icon(Material.GLOWSTONE_DUST)
-                .color(ColorUtil.LEGENDARY)
+                .color(UnifiedColorUtil.LEGENDARY)
                 .maxLevel(5)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.UTILITY)
@@ -245,7 +245,7 @@ public class TalentManager {
 
         Talent blessing = new Talent.Builder("blessing")
                 .icon(Material.GOLDEN_APPLE)
-                .color(ColorUtil.GOLD)
+                .color(UnifiedColorUtil.GOLD)
                 .maxLevel(3)
                 .requiredPoints(2)
                 .category(Talent.TalentCategory.UTILITY)
@@ -255,7 +255,7 @@ public class TalentManager {
 
         Talent sanctuary = new Talent.Builder("sanctuary")
                 .icon(Material.BEACON)
-                .color(ColorUtil.EMERALD)
+                .color(UnifiedColorUtil.EMERALD)
                 .maxLevel(3)
                 .requiredPoints(3)
                 .category(Talent.TalentCategory.DEFENSE)
@@ -265,7 +265,7 @@ public class TalentManager {
 
         Talent purification = new Talent.Builder("purification")
                 .icon(Material.MILK_BUCKET)
-                .color(ColorUtil.WHITE)
+                .color(UnifiedColorUtil.WHITE)
                 .maxLevel(3)
                 .requiredPoints(2)
                 .category(Talent.TalentCategory.UTILITY)
@@ -276,7 +276,7 @@ public class TalentManager {
         // 이전에 공통이었던 특성들을 사제 전용으로
         Talent angelicBlessing = new Talent.Builder("angelic_blessing")
                 .icon(Material.FEATHER)
-                .color(ColorUtil.LEGENDARY)
+                .color(UnifiedColorUtil.LEGENDARY)
                 .maxLevel(5)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.UTILITY)
@@ -291,7 +291,7 @@ public class TalentManager {
 
         Talent guardianAngel = new Talent.Builder("guardian_angel")
                 .icon(Material.TOTEM_OF_UNDYING)
-                .color(ColorUtil.GOLD)
+                .color(UnifiedColorUtil.GOLD)
                 .maxLevel(1)
                 .requiredPoints(5)
                 .category(Talent.TalentCategory.DEFENSE)
@@ -301,7 +301,7 @@ public class TalentManager {
 
         Talent healingBoost = new Talent.Builder("healing_boost")
                 .icon(Material.GOLDEN_CARROT)
-                .color(ColorUtil.EMERALD)
+                .color(UnifiedColorUtil.EMERALD)
                 .maxLevel(5)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.UTILITY)
@@ -311,7 +311,7 @@ public class TalentManager {
 
         Talent resurrection = new Talent.Builder("resurrection")
                 .icon(Material.END_CRYSTAL)
-                .color(ColorUtil.LEGENDARY)
+                .color(UnifiedColorUtil.LEGENDARY)
                 .maxLevel(1)
                 .requiredPoints(10)
                 .category(Talent.TalentCategory.SPECIAL)
@@ -322,7 +322,7 @@ public class TalentManager {
         // 흑마법사 특성
         Talent warlockIntelligence = new Talent.Builder("basic_intelligence")
                 .icon(Material.BOOK)
-                .color(ColorUtil.INFO)
+                .color(UnifiedColorUtil.INFO)
                 .maxLevel(10)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -332,7 +332,7 @@ public class TalentManager {
 
         Talent darkMagic = new Talent.Builder("dark_magic")
                 .icon(Material.WITHER_ROSE)
-                .color(ColorUtil.DARK_PURPLE)
+                .color(UnifiedColorUtil.DARK_PURPLE)
                 .maxLevel(10)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -344,7 +344,7 @@ public class TalentManager {
 
         Talent shadowBolt = new Talent.Builder("shadow_bolt")
                 .icon(Material.ENDER_PEARL)
-                .color(ColorUtil.DARK_PURPLE)
+                .color(UnifiedColorUtil.DARK_PURPLE)
                 .maxLevel(5)
                 .requiredPoints(2)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -355,7 +355,7 @@ public class TalentManager {
 
         Talent lifeDrain = new Talent.Builder("life_drain")
                 .icon(Material.SPIDER_EYE)
-                .color(ColorUtil.DARK_RED)
+                .color(UnifiedColorUtil.DARK_RED)
                 .maxLevel(5)
                 .requiredPoints(2)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -365,7 +365,7 @@ public class TalentManager {
 
         Talent darkRitual = new Talent.Builder("dark_ritual")
                 .icon(Material.NETHER_STAR)
-                .color(ColorUtil.DARK_PURPLE)
+                .color(UnifiedColorUtil.DARK_PURPLE)
                 .maxLevel(1)
                 .requiredPoints(5)
                 .category(Talent.TalentCategory.SPECIAL)
@@ -381,7 +381,7 @@ public class TalentManager {
         // 궁수 특성
         Talent archerDexterity = new Talent.Builder("basic_dexterity")
                 .icon(Material.FEATHER)
-                .color(ColorUtil.SUCCESS)
+                .color(UnifiedColorUtil.SUCCESS)
                 .maxLevel(10)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.UTILITY)
@@ -391,7 +391,7 @@ public class TalentManager {
 
         Talent archerLuck = new Talent.Builder("basic_luck")
                 .icon(Material.RABBIT_FOOT)
-                .color(ColorUtil.GOLD)
+                .color(UnifiedColorUtil.GOLD)
                 .maxLevel(5)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.UTILITY)
@@ -401,7 +401,7 @@ public class TalentManager {
 
         Talent eagleEye = new Talent.Builder("eagle_eye")
                 .icon(Material.ENDER_EYE)
-                .color(ColorUtil.GREEN)
+                .color(UnifiedColorUtil.GREEN)
                 .maxLevel(5)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -413,7 +413,7 @@ public class TalentManager {
 
         Talent multishot = new Talent.Builder("multishot")
                 .icon(Material.SPECTRAL_ARROW)
-                .color(ColorUtil.EMERALD)
+                .color(UnifiedColorUtil.EMERALD)
                 .maxLevel(3)
                 .requiredPoints(3)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -423,7 +423,7 @@ public class TalentManager {
 
         Talent windWalker = new Talent.Builder("wind_walker")
                 .icon(Material.SUGAR)
-                .color(ColorUtil.AQUA)
+                .color(UnifiedColorUtil.AQUA)
                 .maxLevel(5)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.UTILITY)
@@ -433,7 +433,7 @@ public class TalentManager {
 
         Talent poisonArrows = new Talent.Builder("poison_arrows")
                 .icon(Material.POISONOUS_POTATO)
-                .color(ColorUtil.DARK_GREEN)
+                .color(UnifiedColorUtil.DARK_GREEN)
                 .maxLevel(3)
                 .requiredPoints(2)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -444,7 +444,7 @@ public class TalentManager {
         // 궁수 정밀 사격 하위 페이지
         Talent bowMastery = new Talent.Builder("bow_mastery")
                 .icon(Material.BOW)
-                .color(ColorUtil.COPPER)
+                .color(UnifiedColorUtil.COPPER)
                 .maxLevel(5)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -455,7 +455,7 @@ public class TalentManager {
 
         Talent precision = new Talent.Builder("precision")
                 .icon(Material.TARGET)
-                .color(ColorUtil.YELLOW)
+                .color(UnifiedColorUtil.YELLOW)
                 .maxLevel(5)
                 .requiredPoints(2)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -465,7 +465,7 @@ public class TalentManager {
 
         Talent camouflage = new Talent.Builder("camouflage")
                 .icon(Material.TALL_GRASS)
-                .color(ColorUtil.DARK_GREEN)
+                .color(UnifiedColorUtil.DARK_GREEN)
                 .maxLevel(3)
                 .requiredPoints(3)
                 .category(Talent.TalentCategory.UTILITY)
@@ -475,7 +475,7 @@ public class TalentManager {
 
         Talent headshot = new Talent.Builder("headshot")
                 .icon(Material.SKELETON_SKULL)
-                .color(ColorUtil.RED)
+                .color(UnifiedColorUtil.RED)
                 .maxLevel(3)
                 .requiredPoints(5)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -485,7 +485,7 @@ public class TalentManager {
 
         Talent steadyAim = new Talent.Builder("steady_aim")
                 .icon(Material.SPYGLASS)
-                .color(ColorUtil.INFO)
+                .color(UnifiedColorUtil.INFO)
                 .maxLevel(3)
                 .requiredPoints(2)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -495,7 +495,7 @@ public class TalentManager {
 
         Talent scattershot = new Talent.Builder("scattershot")
                 .icon(Material.ARROW)
-                .color(ColorUtil.ORANGE)
+                .color(UnifiedColorUtil.ORANGE)
                 .maxLevel(3)
                 .requiredPoints(3)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -506,7 +506,7 @@ public class TalentManager {
         // 샷거너 특성
         Talent shotgunnerStrength = new Talent.Builder("basic_strength")
                 .icon(Material.IRON_INGOT)
-                .color(ColorUtil.COPPER)
+                .color(UnifiedColorUtil.COPPER)
                 .maxLevel(10)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -516,7 +516,7 @@ public class TalentManager {
 
         Talent shotgunnerDexterity = new Talent.Builder("basic_dexterity")
                 .icon(Material.FEATHER)
-                .color(ColorUtil.SUCCESS)
+                .color(UnifiedColorUtil.SUCCESS)
                 .maxLevel(10)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.UTILITY)
@@ -526,7 +526,7 @@ public class TalentManager {
 
         Talent pointBlank = new Talent.Builder("point_blank")
                 .icon(Material.TNT)
-                .color(ColorUtil.ERROR)
+                .color(UnifiedColorUtil.ERROR)
                 .maxLevel(3)
                 .requiredPoints(2)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -536,7 +536,7 @@ public class TalentManager {
 
         Talent explosiveShot = new Talent.Builder("explosive_shot")
                 .icon(Material.GUNPOWDER)
-                .color(ColorUtil.ORANGE)
+                .color(UnifiedColorUtil.ORANGE)
                 .maxLevel(3)
                 .requiredPoints(3)
                 .category(Talent.TalentCategory.OFFENSE)
@@ -546,7 +546,7 @@ public class TalentManager {
 
         Talent reload = new Talent.Builder("quick_reload")
                 .icon(Material.LEVER)
-                .color(ColorUtil.YELLOW)
+                .color(UnifiedColorUtil.YELLOW)
                 .maxLevel(5)
                 .requiredPoints(1)
                 .category(Talent.TalentCategory.UTILITY)
@@ -557,7 +557,7 @@ public class TalentManager {
 
         Talent doubleBarrel = new Talent.Builder("double_barrel")
                 .icon(Material.CROSSBOW)
-                .color(ColorUtil.NETHERITE)
+                .color(UnifiedColorUtil.NETHERITE)
                 .maxLevel(1)
                 .requiredPoints(5)
                 .category(Talent.TalentCategory.SPECIAL)

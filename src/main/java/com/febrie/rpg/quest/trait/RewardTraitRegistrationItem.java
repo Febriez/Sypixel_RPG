@@ -2,28 +2,20 @@ package com.febrie.rpg.quest.trait;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.npc.trait.RPGQuestRewardTrait;
-import com.febrie.rpg.npc.trait.base.BaseTraitRegistrationItem;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.npc.trait.base.ImprovedBaseTraitRegistrationItem;
 import net.citizensnpcs.api.trait.Trait;
-import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.NamespacedKey;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 /**
  * Reward Trait Registration Item
- * Allows attaching quest reward traits to NPCs by right-clicking
+ * Allows attaching reward traits to NPCs by right-clicking
  */
-public class RewardTraitRegistrationItem extends BaseTraitRegistrationItem {
+public class RewardTraitRegistrationItem extends ImprovedBaseTraitRegistrationItem {
     
-    private static final NamespacedKey IS_REWARD_ITEM = new NamespacedKey(RPGMain.getPlugin(), "is_reward_trait_item");
-    private static final NamespacedKey REWARD_NPC_ID_KEY = new NamespacedKey(RPGMain.getPlugin(), "reward_npc_id");
-    
-    public RewardTraitRegistrationItem() {
-        super(IS_REWARD_ITEM, REWARD_NPC_ID_KEY);
+    public RewardTraitRegistrationItem(@NotNull RPGMain plugin) {
+        super(plugin);
     }
     
     /**
@@ -31,10 +23,26 @@ public class RewardTraitRegistrationItem extends BaseTraitRegistrationItem {
      */
     @NotNull
     public static ItemStack create(@NotNull String traitId, @NotNull String displayName) {
-        return new RewardTraitRegistrationItem().createRegistrationItem(traitId, displayName);
+        return new RewardTraitRegistrationItem(RPGMain.getPlugin()).createRegistrationItem(traitId, displayName);
     }
     
-    // Implement abstract methods from base class
+    @Override
+    @NotNull
+    protected String getTraitType() {
+        return "reward";
+    }
+    
+    @Override
+    @NotNull
+    protected String getItemDisplayPrefix() {
+        return "Reward NPC";
+    }
+    
+    @Override
+    @NotNull
+    protected NamedTextColor getItemColor() {
+        return NamedTextColor.GOLD;
+    }
     
     @Override
     @NotNull
@@ -43,69 +51,16 @@ public class RewardTraitRegistrationItem extends BaseTraitRegistrationItem {
     }
     
     @Override
-    protected boolean hasTraitId(@NotNull Trait trait) {
-        return ((RPGQuestRewardTrait) trait).hasRewardNpcId();
+    @NotNull
+    protected Trait createTrait(@NotNull String traitId) {
+        RPGQuestRewardTrait trait = new RPGQuestRewardTrait();
+        trait.setRewardNpcId(traitId);
+        return trait;
     }
     
     @Override
     @NotNull
-    protected String getTraitId(@NotNull Trait trait) {
-        return ((RPGQuestRewardTrait) trait).getRewardNpcId();
-    }
-    
-    @Override
-    protected void setTraitId(@NotNull Trait trait, @NotNull String traitId) {
-        ((RPGQuestRewardTrait) trait).setRewardNpcId(traitId);
-    }
-    
-    @Override
-    @NotNull
-    protected String getItemDisplayPrefix() {
-        return "보상 NPC 등록기";
-    }
-    
-    @Override
-    @NotNull
-    protected TextColor getItemColor() {
-        return ColorUtil.EPIC;
-    }
-    
-    @Override
-    @NotNull
-    protected String getIdType() {
-        return "보상 ID";
-    }
-    
-    @Override
-    @NotNull
-    protected String getIdDisplayName() {
-        return "보상 NPC ID";
-    }
-    
-    @Override
-    @NotNull
-    protected TextColor getIdColor() {
-        return ColorUtil.EPIC;
-    }
-    
-    @Override
-    @NotNull
-    protected String getTraitName() {
-        return "보상 Trait";
-    }
-    
-    @Override
-    @NotNull
-    protected List<String> getDescription() {
-        return List.of(
-                "이 Trait가 부착된 NPC는 완료된",
-                "퀘스트의 보상을 지급합니다."
-        );
-    }
-    
-    @Override
-    @Nullable
-    protected String getSuccessMessage() {
-        return "이제 이 NPC는 완료된 퀘스트의 보상을 지급합니다.";
+    protected String getSuccessMessage(@NotNull String traitId, int npcId) {
+        return "&aNPC #" + npcId + "에 보상 '" + traitId + "'를 설정했습니다";
     }
 }

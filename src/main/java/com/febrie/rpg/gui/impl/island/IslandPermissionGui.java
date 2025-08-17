@@ -5,13 +5,16 @@ import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.dto.island.IslandPermissionDTO;
 import com.febrie.rpg.dto.island.IslandRole;
 import com.febrie.rpg.gui.framework.BaseGui;
+import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.StandardItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -28,7 +31,6 @@ import java.util.Map;
  */
 public class IslandPermissionGui extends BaseGui {
     
-    private final RPGMain plugin;
     private final IslandManager islandManager;
     private IslandDTO island;
     private IslandRole selectedRole = IslandRole.MEMBER;
@@ -41,8 +43,7 @@ public class IslandPermissionGui extends BaseGui {
     
     private IslandPermissionGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                               @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, "&c권한 관리 - " + island.islandName());
-        this.plugin = plugin;
+        super(viewer, guiManager, 54, "&c권한 관리 - " + island.core().islandName());
         this.islandManager = plugin.getIslandManager();
         this.island = island;
     }
@@ -53,6 +54,16 @@ public class IslandPermissionGui extends BaseGui {
     public static IslandPermissionGui create(@NotNull RPGMain plugin, @NotNull IslandManager islandManager,
                                            @NotNull IslandDTO island, @NotNull Player viewer) {
         return new IslandPermissionGui(viewer, plugin.getGuiManager(), plugin, island);
+    }
+    
+    @Override
+    public @NotNull Component getTitle() {
+        return Component.text("섬 권한 설정", UnifiedColorUtil.PRIMARY);
+    }
+    
+    @Override
+    protected GuiFramework getBackTarget() {
+        return IslandMainGui.create(guiManager, viewer);
     }
     
     @Override
@@ -104,13 +115,13 @@ public class IslandPermissionGui extends BaseGui {
         
         boolean selected = role == selectedRole;
         
-        return new ItemBuilder(material)
-                .displayName(ColorUtil.parseComponent((selected ? "&a&l" : "&7") + 
-                        IslandPermissionHandler.getRoleDisplayName(plugin.getLangManager(), viewer.locale().getLanguage(), role)))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7이 역할의 권한을 설정합니다."))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent(selected ? "&a▶ 선택됨" : "&e▶ 클릭하여 선택"))
+        return StandardItemBuilder.guiItem(material)
+                .displayName(UnifiedColorUtil.parseComponent((selected ? "&a&l" : "&7") + 
+                        IslandPermissionHandler.getRoleDisplayName(viewer.locale().getLanguage(), role)))
+                .addLore(UnifiedColorUtil.parseComponent(""))
+                .addLore(UnifiedColorUtil.parseComponent("&7이 역할의 권한을 설정합니다."))
+                .addLore(UnifiedColorUtil.parseComponent(""))
+                .addLore(UnifiedColorUtil.parseComponent(selected ? "&a▶ 선택됨" : "&e▶ 클릭하여 선택"))
                 .glint(selected)
                 .build();
     }
@@ -119,12 +130,12 @@ public class IslandPermissionGui extends BaseGui {
      * 선택된 역할 표시
      */
     private ItemStack createSelectedRoleItem() {
-        return new ItemBuilder(Material.PAPER)
-                .displayName(ColorUtil.parseComponent("&e현재 편집 중: &f" + 
-                        IslandPermissionHandler.getRoleDisplayName(plugin.getLangManager(), viewer.locale().getLanguage(), selectedRole)))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7좌측에서 다른 역할을 선택하여"))
-                .addLore(ColorUtil.parseComponent("&7해당 역할의 권한을 편집할 수 있습니다."))
+        return StandardItemBuilder.guiItem(Material.PAPER)
+                .displayName(UnifiedColorUtil.parseComponent("&e현재 편집 중: &f" + 
+                        IslandPermissionHandler.getRoleDisplayName(viewer.locale().getLanguage(), selectedRole)))
+                .addLore(UnifiedColorUtil.parseComponent(""))
+                .addLore(UnifiedColorUtil.parseComponent("&7좌측에서 다른 역할을 선택하여"))
+                .addLore(UnifiedColorUtil.parseComponent("&7해당 역할의 권한을 편집할 수 있습니다."))
                 .build();
     }
     
@@ -132,7 +143,7 @@ public class IslandPermissionGui extends BaseGui {
      * 권한 표시
      */
     private void displayPermissions() {
-        IslandPermissionDTO.RolePermissions rolePerms = island.permissions()
+        IslandPermissionDTO.RolePermissions rolePerms = island.configuration().permissions()
                 .rolePermissions().get(selectedRole);
         
         if (rolePerms == null) {
@@ -158,28 +169,28 @@ public class IslandPermissionGui extends BaseGui {
      */
     private ItemStack createPermissionItem(@NotNull String permission, boolean enabled) {
         Material material = enabled ? Material.LIME_DYE : Material.GRAY_DYE;
-        String displayName = IslandPermissionHandler.getPermissionDisplayName(plugin.getLangManager(), viewer.locale().getLanguage(), permission);
+        String displayName = IslandPermissionHandler.getPermissionDisplayName(viewer.locale().getLanguage(), permission);
         
-        ItemBuilder builder = new ItemBuilder(material)
-                .displayName(ColorUtil.parseComponent((enabled ? "&a" : "&c") + displayName))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7상태: " + (enabled ? "&a활성화" : "&c비활성화")))
-                .addLore(ColorUtil.parseComponent(""));
+        ItemBuilder builder = StandardItemBuilder.guiItem(material)
+                .displayName(UnifiedColorUtil.parseComponent((enabled ? "&a" : "&c") + displayName))
+                .addLore(UnifiedColorUtil.parseComponent(""))
+                .addLore(UnifiedColorUtil.parseComponent("&7상태: " + (enabled ? "&a활성화" : "&c비활성화")))
+                .addLore(UnifiedColorUtil.parseComponent(""));
         
         // 권한 설명 추가
         switch (permission) {
-            case "BUILD" -> builder.addLore(ColorUtil.parseComponent("&7블록을 설치하고 파괴할 수 있습니다."));
-            case "USE_ITEMS" -> builder.addLore(ColorUtil.parseComponent("&7문, 버튼 등을 사용할 수 있습니다."));
-            case "OPEN_CONTAINERS" -> builder.addLore(ColorUtil.parseComponent("&7상자를 열 수 있습니다."));
-            case "INVITE_MEMBERS" -> builder.addLore(ColorUtil.parseComponent("&7새 멤버를 초대할 수 있습니다."));
-            case "KICK_MEMBERS" -> builder.addLore(ColorUtil.parseComponent("&7멤버를 추방할 수 있습니다."));
-            case "MANAGE_WORKERS" -> builder.addLore(ColorUtil.parseComponent("&7알바를 관리할 수 있습니다."));
-            case "MODIFY_SPAWNS" -> builder.addLore(ColorUtil.parseComponent("&7스폰 위치를 설정할 수 있습니다."));
-            case "CHANGE_SETTINGS" -> builder.addLore(ColorUtil.parseComponent("&7섬 설정을 변경할 수 있습니다."));
+            case "BUILD" -> builder.addLore(UnifiedColorUtil.parseComponent("&7블록을 설치하고 파괴할 수 있습니다."));
+            case "USE_ITEMS" -> builder.addLore(UnifiedColorUtil.parseComponent("&7문, 버튼 등을 사용할 수 있습니다."));
+            case "OPEN_CONTAINERS" -> builder.addLore(UnifiedColorUtil.parseComponent("&7상자를 열 수 있습니다."));
+            case "INVITE_MEMBERS" -> builder.addLore(UnifiedColorUtil.parseComponent("&7새 멤버를 초대할 수 있습니다."));
+            case "KICK_MEMBERS" -> builder.addLore(UnifiedColorUtil.parseComponent("&7멤버를 추방할 수 있습니다."));
+            case "MANAGE_WORKERS" -> builder.addLore(UnifiedColorUtil.parseComponent("&7알바를 관리할 수 있습니다."));
+            case "MODIFY_SPAWNS" -> builder.addLore(UnifiedColorUtil.parseComponent("&7스폰 위치를 설정할 수 있습니다."));
+            case "CHANGE_SETTINGS" -> builder.addLore(UnifiedColorUtil.parseComponent("&7섬 설정을 변경할 수 있습니다."));
         }
         
-        builder.addLore(ColorUtil.parseComponent(""))
-               .addLore(ColorUtil.parseComponent("&e▶ 클릭하여 " + (enabled ? "비활성화" : "활성화")));
+        builder.addLore(UnifiedColorUtil.parseComponent(""))
+               .addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 " + (enabled ? "비활성화" : "활성화")));
         
         return builder.build();
     }
@@ -188,12 +199,12 @@ public class IslandPermissionGui extends BaseGui {
      * 저장 버튼
      */
     private ItemStack createSaveButton() {
-        return new ItemBuilder(Material.EMERALD_BLOCK)
-                .displayName(ColorUtil.parseComponent("&a권한 설정 저장"))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7변경한 권한 설정을 저장합니다."))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&e▶ 클릭하여 저장"))
+        return StandardItemBuilder.guiItem(Material.EMERALD_BLOCK)
+                .displayName(UnifiedColorUtil.parseComponent("&a권한 설정 저장"))
+                .addLore(UnifiedColorUtil.parseComponent(""))
+                .addLore(UnifiedColorUtil.parseComponent("&7변경한 권한 설정을 저장합니다."))
+                .addLore(UnifiedColorUtil.parseComponent(""))
+                .addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 저장"))
                 .build();
     }
     
@@ -201,10 +212,10 @@ public class IslandPermissionGui extends BaseGui {
      * 뒤로 가기 버튼
      */
     private ItemStack createBackButton() {
-        return new ItemBuilder(Material.ARROW)
-                .displayName(ColorUtil.parseComponent("&f뒤로 가기"))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7메인 메뉴로 돌아갑니다."))
+        return StandardItemBuilder.guiItem(Material.ARROW)
+                .displayName(UnifiedColorUtil.parseComponent("&f뒤로 가기"))
+                .addLore(UnifiedColorUtil.parseComponent(""))
+                .addLore(UnifiedColorUtil.parseComponent("&7메인 메뉴로 돌아갑니다."))
                 .build();
     }
     
@@ -212,16 +223,11 @@ public class IslandPermissionGui extends BaseGui {
      * 닫기 버튼
      */
     private ItemStack createCloseButton() {
-        return new ItemBuilder(Material.BARRIER)
-                .displayName(ColorUtil.parseComponent("&c닫기"))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7메뉴를 닫습니다."))
+        return StandardItemBuilder.guiItem(Material.BARRIER)
+                .displayName(UnifiedColorUtil.parseComponent("&c닫기"))
+                .addLore(UnifiedColorUtil.parseComponent(""))
+                .addLore(UnifiedColorUtil.parseComponent("&7메뉴를 닫습니다."))
                 .build();
-    }
-    
-    @Override
-    public String getBackTarget() {
-        return "island_main";
     }
     
     @Override
@@ -246,7 +252,7 @@ public class IslandPermissionGui extends BaseGui {
     private void togglePermission(@NotNull String permission) {
         // 현재 권한 설정 가져오기
         Map<IslandRole, IslandPermissionDTO.RolePermissions> permissions = 
-                new HashMap<>(island.permissions().rolePermissions());
+                new HashMap<>(island.configuration().permissions().rolePermissions());
         
         IslandPermissionDTO.RolePermissions rolePerms = permissions.get(selectedRole);
         if (rolePerms == null) {
@@ -261,26 +267,26 @@ public class IslandPermissionGui extends BaseGui {
         permissions.put(selectedRole, rolePerms);
         
         // 업데이트된 섬 데이터 생성
-        island = new IslandDTO(
-                island.islandId(),
-                island.ownerUuid(),
-                island.ownerName(),
-                island.islandName(),
-                island.size(),
-                island.isPublic(),
-                island.createdAt(),
-                island.lastActivity(),
-                island.members(),
-                island.workers(),
-                island.contributions(),
-                island.spawnData(),
-                island.upgradeData(),
+        island = IslandDTO.fromFields(
+                island.core().islandId(),
+                island.core().ownerUuid(),
+                island.core().ownerName(),
+                island.core().islandName(),
+                island.core().size(),
+                island.core().isPublic(),
+                island.core().createdAt(),
+                island.core().lastActivity(),
+                island.membership().members(),
+                island.membership().workers(),
+                island.membership().contributions(),
+                island.configuration().spawnData(),
+                island.configuration().upgradeData(),
                 new IslandPermissionDTO(permissions),
-                island.pendingInvites(),
-                island.recentVisits(),
-                island.totalResets(),
-                island.deletionScheduledAt(),
-                island.settings()
+                island.social().pendingInvites(),
+                island.social().recentVisits(),
+                island.core().totalResets(),
+                island.core().deletionScheduledAt(),
+                island.configuration().settings()
         );
         
         setupLayout();
@@ -292,10 +298,10 @@ public class IslandPermissionGui extends BaseGui {
     private void savePermissions(@NotNull Player player) {
         islandManager.updateIsland(island).thenAccept(success -> {
             if (success) {
-                player.sendMessage(ColorUtil.colorize("&a권한 설정이 저장되었습니다!"));
+                player.sendMessage(UnifiedColorUtil.parse("&a권한 설정이 저장되었습니다!"));
                 IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
             } else {
-                player.sendMessage(ColorUtil.colorize("&c권한 설정 저장에 실패했습니다."));
+                player.sendMessage(UnifiedColorUtil.parse("&c권한 설정 저장에 실패했습니다."));
             }
         });
     }

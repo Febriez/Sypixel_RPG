@@ -83,7 +83,7 @@ public class SpringFestivalQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getComponentList(who, "quest.spring_festival.info");
+        return com.febrie.rpg.util.LangManager.getList(who, "quest.spring_festival.info");
     }
 
     @Override
@@ -92,8 +92,7 @@ public class SpringFestivalQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.spring_festival.objective." + id);
     }
     
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("spring_festival_dialog");
         
         dialog.addLine("quest.spring_festival.npcs.festival_host", "quest.spring_festival.dialogs.start_line1");

@@ -2,6 +2,8 @@ package com.febrie.rpg.dto.island;
 
 import com.febrie.rpg.database.constants.DatabaseConstants;
 import com.febrie.rpg.util.FirestoreUtils;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,7 +13,7 @@ import java.util.Objects;
 
 /**
  * 섬 핵심 정보 DTO (Record)
- * 가장 기본적인 섬 정보만 포함
+ * 가장 기본적인 섬 정보와 위치 정보 포함
  *
  * @author Febrie
  */
@@ -25,7 +27,8 @@ public record IslandCoreDTO(
         long createdAt,
         long lastActivity,
         int totalResets,
-        @Nullable Long deletionScheduledAt
+        @Nullable Long deletionScheduledAt,
+        @Nullable IslandLocationDTO location  // 위치 정보 (옵션)
 ) {
     /**
      * 신규 섬 생성용 기본 생성자
@@ -41,7 +44,28 @@ public record IslandCoreDTO(
                 System.currentTimeMillis(),
                 System.currentTimeMillis(),
                 0,
-                null
+                null,
+                null  // 위치는 나중에 설정
+        );
+    }
+    
+    /**
+     * 위치 정보 포함 생성자
+     */
+    public static IslandCoreDTO createWithLocation(String islandId, String ownerUuid, String ownerName, 
+                                                   String islandName, IslandLocationDTO location) {
+        return new IslandCoreDTO(
+                islandId,
+                ownerUuid,
+                ownerName,
+                islandName,
+                DatabaseConstants.ISLAND_INITIAL_SIZE,
+                false,
+                System.currentTimeMillis(),
+                System.currentTimeMillis(),
+                0,
+                null,
+                location
         );
     }
 
@@ -50,6 +74,28 @@ public record IslandCoreDTO(
      */
     public boolean canDelete() {
         return System.currentTimeMillis() - createdAt >= DatabaseConstants.ISLAND_DELETE_COOLDOWN_MS;
+    }
+    
+    /**
+     * 위치 정보가 있는지 확인
+     */
+    public boolean hasLocation() {
+        return location != null;
+    }
+    
+    /**
+     * 특정 위치가 섬 범위 내에 있는지 확인
+     */
+    public boolean contains(Location loc) {
+        return location != null && location.contains(loc);
+    }
+    
+    /**
+     * 섬 중앙 위치 가져오기
+     */
+    @Nullable
+    public Location getCenter(World world) {
+        return location != null ? location.getCenter(world) : null;
     }
 
     /**
@@ -72,6 +118,10 @@ public record IslandCoreDTO(
             map.put("deletionScheduledAt", deletionScheduledAt);
         }
         
+        if (location != null) {
+            map.put("location", location.toMap());
+        }
+        
         return map;
     }
 
@@ -79,6 +129,7 @@ public record IslandCoreDTO(
      * Map에서 생성 (Firestore SDK용)
      */
     @NotNull
+    @SuppressWarnings("unchecked")
     public static IslandCoreDTO fromMap(@NotNull Map<String, Object> map) {
         @NotNull String islandId = Objects.requireNonNull(FirestoreUtils.getString(map, "islandId", ""));
         @NotNull String ownerUuid = Objects.requireNonNull(FirestoreUtils.getString(map, "ownerUuid", ""));
@@ -99,6 +150,13 @@ public record IslandCoreDTO(
             throw new IllegalArgumentException("IslandCoreDTO: islandName cannot be empty");
         }
         
+        // 위치 정보 파싱 (옵션)
+        IslandLocationDTO location = null;
+        Object locationObj = map.get("location");
+        if (locationObj instanceof Map) {
+            location = IslandLocationDTO.fromMap((Map<String, Object>) locationObj);
+        }
+        
         return new IslandCoreDTO(
                 islandId,
                 ownerUuid,
@@ -109,7 +167,8 @@ public record IslandCoreDTO(
                 FirestoreUtils.getLong(map, "createdAt", System.currentTimeMillis()),
                 FirestoreUtils.getLong(map, "lastActivity", System.currentTimeMillis()),
                 FirestoreUtils.getInt(map, "totalResets", 0),
-                FirestoreUtils.getLongOrNull(map, "deletionScheduledAt")
+                FirestoreUtils.getLongOrNull(map, "deletionScheduledAt"),
+                location
         );
     }
 }

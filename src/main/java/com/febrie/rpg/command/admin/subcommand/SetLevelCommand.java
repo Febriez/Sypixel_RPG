@@ -4,7 +4,7 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.command.admin.subcommand.base.SubCommand;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -72,7 +72,7 @@ public class SetLevelCommand implements SubCommand {
     public boolean execute(@NotNull CommandSender sender, @NotNull String[] args) {
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
-            sender.sendMessage(ColorUtil.colorize("&c플레이어를 찾을 수 없습니다: " + args[0]));
+            sender.sendMessage(UnifiedColorUtil.parse("&c플레이어를 찾을 수 없습니다: " + args[0]));
             return false;
         }
         
@@ -80,29 +80,29 @@ public class SetLevelCommand implements SubCommand {
         try {
             level = Integer.parseInt(args[1]);
             if (level < 1 || level > 1000) {
-                sender.sendMessage(ColorUtil.colorize("&c레벨은 1-1000 사이여야 합니다"));
+                sender.sendMessage(UnifiedColorUtil.parse("&c레벨은 1-1000 사이여야 합니다"));
                 return false;
             }
         } catch (NumberFormatException e) {
-            sender.sendMessage(ColorUtil.colorize("&c유효하지 않은 레벨: " + args[1]));
+            sender.sendMessage(UnifiedColorUtil.parse("&c유효하지 않은 레벨: " + args[1]));
             return false;
         }
         
         RPGPlayer rpgPlayer = playerManager.getPlayer(target.getUniqueId());
         if (rpgPlayer == null) {
-            sender.sendMessage(ColorUtil.colorize("&c플레이어 데이터를 찾을 수 없습니다"));
+            sender.sendMessage(UnifiedColorUtil.parse("&c플레이어 데이터를 찾을 수 없습니다"));
             return false;
         }
         
-        // rpgPlayer.setLevel(level); // TODO: Implement setLevel method
+        rpgPlayer.setLevel(level);
         playerManager.savePlayerDataAsync(rpgPlayer, true);
         
-        sender.sendMessage(ColorUtil.colorize(String.format(
+        sender.sendMessage(UnifiedColorUtil.parse(String.format(
             "&a%s의 레벨을 %d로 설정했습니다",
             target.getName(), level
         )));
         
-        target.sendMessage(ColorUtil.colorize(String.format(
+        target.sendMessage(UnifiedColorUtil.parse(String.format(
             "&a당신의 레벨이 %d로 설정되었습니다!",
             level
         )));

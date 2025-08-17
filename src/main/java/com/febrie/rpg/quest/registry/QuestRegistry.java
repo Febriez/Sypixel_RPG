@@ -44,7 +44,16 @@ import java.util.function.Supplier;
  */
 public class QuestRegistry {
 
+    private static final QuestRegistry INSTANCE = new QuestRegistry();
     private static final Map<QuestID, Supplier<Quest>> questSuppliers = new EnumMap<>(QuestID.class);
+    
+    /**
+     * 싱글톤 인스턴스 반환
+     */
+    @NotNull
+    public static QuestRegistry getInstance() {
+        return INSTANCE;
+    }
 
     static {
         // 튜토리얼 퀘스트
@@ -116,6 +125,14 @@ public class QuestRegistry {
         questSuppliers.put(id, supplier);
     }
 
+    /**
+     * QuestID로 퀘스트 인스턴스 가져오기 (인스턴스 메소드)
+     */
+    @Nullable
+    public Quest getQuest(@NotNull QuestID id) {
+        return createQuest(id);
+    }
+    
     /**
      * QuestID로 퀘스트 인스턴스 생성
      */

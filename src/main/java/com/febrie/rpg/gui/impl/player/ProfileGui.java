@@ -10,7 +10,7 @@ import com.febrie.rpg.gui.impl.quest.QuestListGui;
 import com.febrie.rpg.gui.impl.job.JobSelectionGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.manager.QuestManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.TimeUtil;
@@ -154,7 +154,7 @@ public class ProfileGui extends BaseGui {
         // Player head at top center with wallet info
         ItemBuilder headBuilder = new ItemBuilder(targetPlayer)
                 .displayName(Component.text(targetPlayer.getName())
-                        .color(ColorUtil.LEGENDARY)
+                        .color(UnifiedColorUtil.LEGENDARY)
                         .decoration(TextDecoration.BOLD, true))
                 .addLore(Component.empty())
                 .addLore(trans("gui.profile.online-status",
@@ -173,7 +173,7 @@ public class ProfileGui extends BaseGui {
             // 통화 이름과 금액을 포함한 완전한 Component 생성
             Component currencyLine = trans("currency." + currency.getId() + ".name")
                     .color(currency.getColor())  // 통화 이름에 색상 적용
-                    .append(Component.text(": ", ColorUtil.WHITE))  // 콜론은 흰색으로
+                    .append(Component.text(": ", UnifiedColorUtil.WHITE))  // 콜론은 흰색으로
                     .append(Component.text(String.format("%,d", balance))
                             .color(currency.getColor()));  // 금액도 통화 색상으로
 
@@ -241,7 +241,7 @@ public class ProfileGui extends BaseGui {
         GuiItem questButton = GuiItem.clickable(
                 ItemBuilder.of(Material.WRITTEN_BOOK)
                         .displayName(trans("gui.profile.quest-info")
-                                .color(ColorUtil.UNCOMMON)
+                                .color(UnifiedColorUtil.UNCOMMON)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
                         .addLore(trans("gui.profile.active-quests",
@@ -250,7 +250,7 @@ public class ProfileGui extends BaseGui {
                                 "count", String.valueOf(getCompletedQuestCount())))
                         .addLore(Component.empty())
                         .addLore(trans("gui.profile.click-for-quests")
-                                .color(ColorUtil.GRAY))
+                                .color(UnifiedColorUtil.GRAY))
                         .flags(ItemFlag.values())
                         .build(),
                 p -> {
@@ -294,7 +294,7 @@ public class ProfileGui extends BaseGui {
             GuiItem jobButton = GuiItem.clickable(
                     ItemBuilder.of(Material.ENCHANTING_TABLE)
                             .displayName(trans("items.mainmenu.job-button.name"))
-                            .addLore(com.febrie.rpg.util.LangManager.getComponentList(viewer, "items.mainmenu.job-button.lore"))
+                            .addLore(com.febrie.rpg.util.LangManager.getList(viewer, "items.mainmenu.job-button.lore"))
                             .glint(true)
                             .build(),
                     p -> {
@@ -324,7 +324,7 @@ public class ProfileGui extends BaseGui {
             // 특성 메뉴로 이동 설명 추가
             if (viewer.equals(targetPlayer)) {
                 jobBuilder.addLore(Component.empty())
-                        .addLore(trans("gui.profile.click-to-talents").color(ColorUtil.YELLOW));
+                        .addLore(trans("gui.profile.click-to-talents").color(UnifiedColorUtil.YELLOW));
             }
 
             GuiItem jobInfo = GuiItem.clickable(
@@ -354,7 +354,7 @@ public class ProfileGui extends BaseGui {
         GuiItem statsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.IRON_CHESTPLATE)
                         .displayName(trans("items.mainmenu.stats-button.name"))
-                        .addLore(com.febrie.rpg.util.LangManager.getComponentList(viewer, "items.mainmenu.stats-button.lore"))
+                        .addLore(com.febrie.rpg.util.LangManager.getList(viewer, "items.mainmenu.stats-button.lore"))
                         .flags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES)
                         .build(),
                 p -> {
@@ -383,7 +383,7 @@ public class ProfileGui extends BaseGui {
     private void setupCollectionButton() {
         GuiItem collectionButton = GuiItem.clickable(
                 ItemBuilder.of(Material.BOOK)
-                        .displayName(Component.text("수집북", ColorUtil.INFO))
+                        .displayName(Component.text("수집북", UnifiedColorUtil.INFO))
                         .addLore(trans("general.coming-soon"))
                         .build(),
                 p -> {
@@ -400,7 +400,7 @@ public class ProfileGui extends BaseGui {
     private void setupPetButton() {
         GuiItem petButton = GuiItem.clickable(
                 ItemBuilder.of(Material.BONE)
-                        .displayName(Component.text("애완동물", ColorUtil.UNCOMMON))
+                        .displayName(Component.text("애완동물", UnifiedColorUtil.UNCOMMON))
                         .addLore(trans("general.coming-soon"))
                         .build(),
                 p -> {
@@ -450,8 +450,8 @@ public class ProfileGui extends BaseGui {
         if (viewer.equals(targetPlayer)) {
             GuiItem userSettingsButton = GuiItem.clickable(
                     ItemBuilder.of(Material.COMPARATOR)
-                            .displayName(Component.text("사용자 설정", ColorUtil.GRAY))
-                            .addLore(Component.text("개인 설정을 변경합니다", ColorUtil.GRAY))
+                            .displayName(Component.text("사용자 설정", UnifiedColorUtil.GRAY))
+                            .addLore(Component.text("개인 설정을 변경합니다", UnifiedColorUtil.GRAY))
                             .build(),
                     p -> {
                         com.febrie.rpg.gui.impl.settings.PlayerSettingsGui settingsGui = 
@@ -467,5 +467,11 @@ public class ProfileGui extends BaseGui {
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

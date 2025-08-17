@@ -10,11 +10,15 @@ import com.febrie.rpg.util.LogUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
-
+import java.util.HashSet;
 /**
  * 배치 저장 작업 스케줄러
  * 플레이어 데이터를 주기적으로 Firestore에 저장
@@ -26,26 +30,21 @@ public class BatchSaveTask extends BukkitRunnable {
     private final RPGMain plugin;
     private final DataSyncManager syncManager;
     private final RPGPlayerManager playerManager;
-    
     // 플레이어별 마지막 저장 시간 추적
     private final Map<UUID, SaveTimeTracker> saveTrackers = new ConcurrentHashMap<>();
-    
     // 저장 간격 (밀리초)
     private static final long HIGH_PRIORITY_INTERVAL = DatabaseConstants.SAVE_INTERVAL_HIGH_PRIORITY;     // 1분
     private static final long MEDIUM_PRIORITY_INTERVAL = DatabaseConstants.SAVE_INTERVAL_MEDIUM_PRIORITY;  // 3분
     private static final long LOW_PRIORITY_INTERVAL = DatabaseConstants.SAVE_INTERVAL_LOW_PRIORITY;     // 5분
-    
     // 통계
     private long totalSaves = 0;
     private long failedSaves = 0;
-    
     public BatchSaveTask(@NotNull RPGMain plugin, @NotNull DataSyncManager syncManager, 
                         @NotNull RPGPlayerManager playerManager) {
         this.plugin = plugin;
         this.syncManager = syncManager;
         this.playerManager = playerManager;
     }
-    
     @Override
     public void run() {
         long currentTime = System.currentTimeMillis();
@@ -62,23 +61,17 @@ public class BatchSaveTask extends BukkitRunnable {
                 tracker.lastHighPrioritySave = currentTime;
                 savedCount++;
             }
-            
             if (shouldSave(tracker, currentTime, DataPriority.MEDIUM)) {
                 savePlayerData(player, DataPriority.MEDIUM);
                 tracker.lastMediumPrioritySave = currentTime;
-                savedCount++;
             }
-            
             if (shouldSave(tracker, currentTime, DataPriority.LOW)) {
                 savePlayerData(player, DataPriority.LOW);
                 tracker.lastLowPrioritySave = currentTime;
-                savedCount++;
             }
         }
-        
         // 로그아웃한 플레이어의 추적 정보 정리
         cleanupOfflineTrackers();
-        
         if (savedCount > 0) {
             LogUtil.debug("배치 저장 완료: " + savedCount + "개 작업");
         }
@@ -92,7 +85,6 @@ public class BatchSaveTask extends BukkitRunnable {
         if (!player.isDataModified()) {
             return;
         }
-        
         try {
             syncManager.savePlayerData(player, priority);
             totalSaves++;
@@ -111,13 +103,11 @@ public class BatchSaveTask extends BukkitRunnable {
             case MEDIUM -> tracker.lastMediumPrioritySave;
             case LOW -> tracker.lastLowPrioritySave;
         };
-        
         long interval = switch (priority) {
             case HIGH -> HIGH_PRIORITY_INTERVAL;
             case MEDIUM -> MEDIUM_PRIORITY_INTERVAL + getRandomOffset();
             case LOW -> LOW_PRIORITY_INTERVAL + getRandomOffset();
         };
-        
         return currentTime - lastSave >= interval;
     }
     
@@ -134,7 +124,6 @@ public class BatchSaveTask extends BukkitRunnable {
     private void cleanupOfflineTrackers() {
         Set<UUID> onlinePlayerIds = new HashSet<>();
         playerManager.getAllPlayers().forEach(p -> onlinePlayerIds.add(p.getPlayerId()));
-        
         saveTrackers.keySet().removeIf(playerId -> !onlinePlayerIds.contains(playerId));
     }
     
@@ -143,10 +132,8 @@ public class BatchSaveTask extends BukkitRunnable {
      */
     public void forceSaveAll() {
         LogUtil.info("모든 플레이어 데이터 강제 저장 시작...");
-        
         List<RPGPlayer> players = new ArrayList<>(playerManager.getAllPlayers());
         int saved = 0;
-        
         for (RPGPlayer player : players) {
             try {
                 // 즉시 저장
@@ -156,7 +143,6 @@ public class BatchSaveTask extends BukkitRunnable {
                 LogUtil.severe("강제 저장 실패 [" + player.getPlayerId() + "]: " + e.getMessage());
             }
         }
-        
         LogUtil.info("강제 저장 완료: " + saved + "/" + players.size() + "명");
     }
     

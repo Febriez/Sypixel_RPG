@@ -67,6 +67,22 @@ public record ActiveQuestDTO(
     }
     
     /**
+     * 현재 진행도 (전체 목표 중 완료된 개수)
+     */
+    public int currentProgress() {
+        return (int) progress.values().stream()
+            .filter(ObjectiveProgressDTO::completed)
+            .count();
+    }
+    
+    /**
+     * 필요한 진행도 (전체 목표 개수)
+     */
+    public int requiredProgress() {
+        return progress.size();
+    }
+    
+    /**
      * Map에서 생성 (Firestore 로드용)
      */
     @NotNull

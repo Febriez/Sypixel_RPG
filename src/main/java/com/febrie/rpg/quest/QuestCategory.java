@@ -1,7 +1,7 @@
 package com.febrie.rpg.quest;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
@@ -12,22 +12,22 @@ import org.jetbrains.annotations.NotNull;
  */
 public enum QuestCategory {
     
-    MAIN(ColorUtil.LEGENDARY, 100, false),
-    SIDE(ColorUtil.RARE, 50, false),
-    DAILY(ColorUtil.UNCOMMON, 30, true),
-    WEEKLY(ColorUtil.EPIC, 40, true),
-    TUTORIAL(ColorUtil.COMMON, 10, false),
-    COMBAT(ColorUtil.RARE, 45, false),
-    GUILD(ColorUtil.EPIC, 60, false),
-    EVENT(ColorUtil.LEGENDARY, 90, false),
-    SPECIAL(ColorUtil.MYTHIC, 95, false),
-    ADVANCEMENT(ColorUtil.EPIC, 70, false),
-    REPEATABLE(ColorUtil.COMMON, 20, true),
-    SEASONAL(ColorUtil.RARE, 55, false),
-    BRANCH(ColorUtil.RARE, 65, false),
-    LIFE(ColorUtil.UNCOMMON, 35, false),
-    CRAFTING(ColorUtil.UNCOMMON, 36, false),
-    EXPLORATION(ColorUtil.RARE, 46, false);
+    MAIN(UnifiedColorUtil.LEGENDARY, 100, false),
+    SIDE(UnifiedColorUtil.RARE, 50, false),
+    DAILY(UnifiedColorUtil.UNCOMMON, 30, true),
+    WEEKLY(UnifiedColorUtil.EPIC, 40, true),
+    TUTORIAL(UnifiedColorUtil.COMMON, 10, false),
+    COMBAT(UnifiedColorUtil.RARE, 45, false),
+    GUILD(UnifiedColorUtil.EPIC, 60, false),
+    EVENT(UnifiedColorUtil.LEGENDARY, 90, false),
+    SPECIAL(UnifiedColorUtil.MYTHIC, 95, false),
+    ADVANCEMENT(UnifiedColorUtil.EPIC, 70, false),
+    REPEATABLE(UnifiedColorUtil.COMMON, 20, true),
+    SEASONAL(UnifiedColorUtil.RARE, 55, false),
+    BRANCH(UnifiedColorUtil.RARE, 65, false),
+    LIFE(UnifiedColorUtil.UNCOMMON, 35, false),
+    CRAFTING(UnifiedColorUtil.UNCOMMON, 36, false),
+    EXPLORATION(UnifiedColorUtil.RARE, 46, false);
     
     private final TextColor color;
     private final int priority;

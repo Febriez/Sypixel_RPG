@@ -2,7 +2,7 @@ package com.febrie.rpg.npc.trait;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.npc.trait.base.BaseTraitRegistrationItem;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import net.citizensnpcs.api.trait.Trait;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -81,7 +81,7 @@ public class DialogTraitRegistrationItem extends BaseTraitRegistrationItem {
     @Override
     @NotNull
     protected TextColor getItemColor() {
-        return ColorUtil.COMMON;
+        return UnifiedColorUtil.COMMON;
     }
     
     @Override
@@ -99,7 +99,7 @@ public class DialogTraitRegistrationItem extends BaseTraitRegistrationItem {
     @Override
     @NotNull
     protected TextColor getIdColor() {
-        return ColorUtil.GRAY;
+        return UnifiedColorUtil.GRAY;
     }
     
     @Override

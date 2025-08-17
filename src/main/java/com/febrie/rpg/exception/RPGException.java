@@ -12,6 +12,8 @@ import org.jetbrains.annotations.Nullable;
  */
 public class RPGException extends Exception {
     
+    private static final long serialVersionUID = 1L;
+    
     private final ErrorCode errorCode;
     private final String userMessage;
     

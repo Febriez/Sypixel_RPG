@@ -186,8 +186,7 @@ public class WeeklyWorldBossQuest extends Quest {
         };
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("weekly_world_boss_dialog");
 
         // 시작

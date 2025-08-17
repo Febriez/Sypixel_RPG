@@ -8,7 +8,7 @@ import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.listener.IslandVisitListener;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -88,20 +88,20 @@ public class IslandVisitorActionGui extends BaseGui {
         String duration = formatDuration(visitor.getCurrentDuration());
         
         ItemStack item = new ItemBuilder(Material.PLAYER_HEAD)
-                .displayName(Component.text(playerName, ColorUtil.YELLOW))
+                .displayName(Component.text(playerName, UnifiedColorUtil.YELLOW))
                 .lore(List.of(
                     Component.empty(),
-                    Component.text("방문 시작: ", ColorUtil.GRAY).append(
-                        Component.text(formatTimestamp(visitor.getVisitStartTime()), ColorUtil.WHITE)
+                    Component.text("방문 시작: ", UnifiedColorUtil.GRAY).append(
+                        Component.text(formatTimestamp(visitor.getVisitStartTime()), UnifiedColorUtil.WHITE)
                     ),
-                    Component.text("경과 시간: ", ColorUtil.GRAY).append(Component.text(duration, ColorUtil.YELLOW)),
+                    Component.text("경과 시간: ", UnifiedColorUtil.GRAY).append(Component.text(duration, UnifiedColorUtil.YELLOW)),
                     Component.empty(),
-                    Component.text("상태: ", ColorUtil.GRAY).append(
-                        Component.text("온라인", ColorUtil.GREEN)
+                    Component.text("상태: ", UnifiedColorUtil.GRAY).append(
+                        Component.text("온라인", UnifiedColorUtil.GREEN)
                     ),
                     Component.empty(),
-                    Component.text("아래 버튼을 클릭하여", ColorUtil.GRAY),
-                    Component.text("액션을 선택하세요.", ColorUtil.GRAY)
+                    Component.text("아래 버튼을 클릭하여", UnifiedColorUtil.GRAY),
+                    Component.text("액션을 선택하세요.", UnifiedColorUtil.GRAY)
                 ))
                 .build();
         
@@ -125,28 +125,28 @@ public class IslandVisitorActionGui extends BaseGui {
         Material material;
         
         if (hasPermission) {
-            displayName = Component.text("추방", ColorUtil.RED);
+            displayName = Component.text("추방", UnifiedColorUtil.RED);
             material = Material.IRON_SWORD;
             lore = List.of(
                 Component.empty(),
-                Component.text("이 플레이어를 섬에서", ColorUtil.GRAY),
-                Component.text("즉시 추방합니다.", ColorUtil.GRAY),
+                Component.text("이 플레이어를 섬에서", UnifiedColorUtil.GRAY),
+                Component.text("즉시 추방합니다.", UnifiedColorUtil.GRAY),
                 Component.empty(),
-                Component.text("※ 추방된 플레이어는", ColorUtil.YELLOW),
-                Component.text("   즉시 Hub로 이동됩니다", ColorUtil.YELLOW),
+                Component.text("※ 추방된 플레이어는", UnifiedColorUtil.YELLOW),
+                Component.text("   즉시 Hub로 이동됩니다", UnifiedColorUtil.YELLOW),
                 Component.empty(),
-                Component.text("▶ 클릭하여 추방", ColorUtil.RED)
+                Component.text("▶ 클릭하여 추방", UnifiedColorUtil.RED)
             );
         } else {
-            displayName = Component.text("추방", ColorUtil.DARK_GRAY);
+            displayName = Component.text("추방", UnifiedColorUtil.DARK_GRAY);
             material = Material.BARRIER;
             lore = List.of(
                 Component.empty(),
-                Component.text("이 플레이어를 섬에서", ColorUtil.GRAY),
-                Component.text("추방하는 기능입니다.", ColorUtil.GRAY),
+                Component.text("이 플레이어를 섬에서", UnifiedColorUtil.GRAY),
+                Component.text("추방하는 기능입니다.", UnifiedColorUtil.GRAY),
                 Component.empty(),
-                Component.text("❌ 권한이 없습니다", ColorUtil.RED),
-                Component.text("   추방 권한이 필요합니다", ColorUtil.GRAY)
+                Component.text("❌ 권한이 없습니다", UnifiedColorUtil.RED),
+                Component.text("   추방 권한이 필요합니다", UnifiedColorUtil.GRAY)
             );
         }
         
@@ -171,27 +171,27 @@ public class IslandVisitorActionGui extends BaseGui {
         Material material;
         
         if (hasPermission) {
-            displayName = Component.text("차단", ColorUtil.DARK_RED);
+            displayName = Component.text("차단", UnifiedColorUtil.DARK_RED);
             material = Material.IRON_BARS;
             lore = List.of(
                 Component.empty(),
-                Component.text("이 플레이어의 섬", ColorUtil.GRAY),
-                Component.text("접근을 차단합니다.", ColorUtil.GRAY),
+                Component.text("이 플레이어의 섬", UnifiedColorUtil.GRAY),
+                Component.text("접근을 차단합니다.", UnifiedColorUtil.GRAY),
                 Component.empty(),
-                Component.text("※ 현재 미구현 기능입니다", ColorUtil.YELLOW),
+                Component.text("※ 현재 미구현 기능입니다", UnifiedColorUtil.YELLOW),
                 Component.empty(),
-                Component.text("▶ 클릭 (미구현)", ColorUtil.DARK_GRAY)
+                Component.text("▶ 클릭 (미구현)", UnifiedColorUtil.DARK_GRAY)
             );
         } else {
-            displayName = Component.text("차단", ColorUtil.DARK_GRAY);
+            displayName = Component.text("차단", UnifiedColorUtil.DARK_GRAY);
             material = Material.BARRIER;
             lore = List.of(
                 Component.empty(),
-                Component.text("이 플레이어의 섬", ColorUtil.GRAY),
-                Component.text("접근을 차단하는 기능입니다.", ColorUtil.GRAY),
+                Component.text("이 플레이어의 섬", UnifiedColorUtil.GRAY),
+                Component.text("접근을 차단하는 기능입니다.", UnifiedColorUtil.GRAY),
                 Component.empty(),
-                Component.text("❌ 권한이 없습니다", ColorUtil.RED),
-                Component.text("   차단 권한이 필요합니다", ColorUtil.GRAY)
+                Component.text("❌ 권한이 없습니다", UnifiedColorUtil.RED),
+                Component.text("   차단 권한이 필요합니다", UnifiedColorUtil.GRAY)
             );
         }
         
@@ -217,27 +217,27 @@ public class IslandVisitorActionGui extends BaseGui {
         Material material;
         
         if (isOnline) {
-            displayName = Component.text("귓말", ColorUtil.GREEN);
+            displayName = Component.text("귓말", UnifiedColorUtil.GREEN);
             material = Material.WRITABLE_BOOK;
             lore = List.of(
                 Component.empty(),
-                Component.text("이 플레이어에게", ColorUtil.GRAY),
-                Component.text("귓말을 보냅니다.", ColorUtil.GRAY),
+                Component.text("이 플레이어에게", UnifiedColorUtil.GRAY),
+                Component.text("귓말을 보냅니다.", UnifiedColorUtil.GRAY),
                 Component.empty(),
-                Component.text("※ 채팅창에 메시지를", ColorUtil.YELLOW),
-                Component.text("   입력하여 전송하세요", ColorUtil.YELLOW),
+                Component.text("※ 채팅창에 메시지를", UnifiedColorUtil.YELLOW),
+                Component.text("   입력하여 전송하세요", UnifiedColorUtil.YELLOW),
                 Component.empty(),
-                Component.text("▶ 클릭하여 귓말", ColorUtil.GREEN)
+                Component.text("▶ 클릭하여 귓말", UnifiedColorUtil.GREEN)
             );
         } else {
-            displayName = Component.text("귓말", ColorUtil.DARK_GRAY);
+            displayName = Component.text("귓말", UnifiedColorUtil.DARK_GRAY);
             material = Material.BARRIER;
             lore = List.of(
                 Component.empty(),
-                Component.text("이 플레이어에게", ColorUtil.GRAY),
-                Component.text("귓말을 보내는 기능입니다.", ColorUtil.GRAY),
+                Component.text("이 플레이어에게", UnifiedColorUtil.GRAY),
+                Component.text("귓말을 보내는 기능입니다.", UnifiedColorUtil.GRAY),
                 Component.empty(),
-                Component.text("❌ 플레이어가 오프라인입니다", ColorUtil.RED)
+                Component.text("❌ 플레이어가 오프라인입니다", UnifiedColorUtil.RED)
             );
         }
         
@@ -261,27 +261,27 @@ public class IslandVisitorActionGui extends BaseGui {
         Material material;
         
         if (hasPermission) {
-            displayName = Component.text("초대", ColorUtil.BLUE);
+            displayName = Component.text("초대", UnifiedColorUtil.BLUE);
             material = Material.PAPER;
             lore = List.of(
                 Component.empty(),
-                Component.text("이 플레이어를 섬", ColorUtil.GRAY),
-                Component.text("멤버로 초대합니다.", ColorUtil.GRAY),
+                Component.text("이 플레이어를 섬", UnifiedColorUtil.GRAY),
+                Component.text("멤버로 초대합니다.", UnifiedColorUtil.GRAY),
                 Component.empty(),
-                Component.text("※ 초대장이 전송됩니다", ColorUtil.YELLOW),
+                Component.text("※ 초대장이 전송됩니다", UnifiedColorUtil.YELLOW),
                 Component.empty(),
-                Component.text("▶ 클릭하여 초대", ColorUtil.BLUE)
+                Component.text("▶ 클릭하여 초대", UnifiedColorUtil.BLUE)
             );
         } else {
-            displayName = Component.text("초대", ColorUtil.DARK_GRAY);
+            displayName = Component.text("초대", UnifiedColorUtil.DARK_GRAY);
             material = Material.BARRIER;
             lore = List.of(
                 Component.empty(),
-                Component.text("이 플레이어를 섬", ColorUtil.GRAY),
-                Component.text("멤버로 초대하는 기능입니다.", ColorUtil.GRAY),
+                Component.text("이 플레이어를 섬", UnifiedColorUtil.GRAY),
+                Component.text("멤버로 초대하는 기능입니다.", UnifiedColorUtil.GRAY),
                 Component.empty(),
-                Component.text("❌ 권한이 없습니다", ColorUtil.RED),
-                Component.text("   초대 권한이 필요합니다", ColorUtil.GRAY)
+                Component.text("❌ 권한이 없습니다", UnifiedColorUtil.RED),
+                Component.text("   초대 권한이 필요합니다", UnifiedColorUtil.GRAY)
             );
         }
         
@@ -299,14 +299,14 @@ public class IslandVisitorActionGui extends BaseGui {
      */
     private void handleKick(@NotNull Player player, boolean hasPermission) {
         if (!hasPermission) {
-            player.sendMessage(Component.text("❌ 권한이 없습니다. 추방 권한이 필요합니다.", ColorUtil.RED));
+            player.sendMessage(Component.text("❌ 권한이 없습니다. 추방 권한이 필요합니다.", UnifiedColorUtil.RED));
             playErrorSound(player);
             return;
         }
         
         Player targetPlayer = Bukkit.getPlayer(UUID.fromString(visitor.getPlayerUuid()));
         if (targetPlayer == null || !targetPlayer.isOnline()) {
-            player.sendMessage(Component.text("❌ 대상 플레이어가 오프라인입니다.", ColorUtil.RED));
+            player.sendMessage(Component.text("❌ 대상 플레이어가 오프라인입니다.", UnifiedColorUtil.RED));
             playErrorSound(player);
             return;
         }
@@ -317,11 +317,11 @@ public class IslandVisitorActionGui extends BaseGui {
         var hubWorld = Bukkit.getWorld("world");
         if (hubWorld != null) {
             targetPlayer.teleport(hubWorld.getSpawnLocation());
-            targetPlayer.sendMessage(Component.text("섬에서 추방되었습니다.", ColorUtil.RED));
-            player.sendMessage(Component.text(visitor.getPlayerName() + " 플레이어를 추방했습니다.", ColorUtil.GREEN));
+            targetPlayer.sendMessage(Component.text("섬에서 추방되었습니다.", UnifiedColorUtil.RED));
+            player.sendMessage(Component.text(visitor.getPlayerName() + " 플레이어를 추방했습니다.", UnifiedColorUtil.GREEN));
             playClickSound(player);
         } else {
-            player.sendMessage(Component.text("❌ Hub 월드를 찾을 수 없습니다.", ColorUtil.RED));
+            player.sendMessage(Component.text("❌ Hub 월드를 찾을 수 없습니다.", UnifiedColorUtil.RED));
             playErrorSound(player);
         }
     }
@@ -331,12 +331,12 @@ public class IslandVisitorActionGui extends BaseGui {
      */
     private void handleBan(@NotNull Player player, boolean hasPermission) {
         if (!hasPermission) {
-            player.sendMessage(Component.text("❌ 권한이 없습니다. 차단 권한이 필요합니다.", ColorUtil.RED));
+            player.sendMessage(Component.text("❌ 권한이 없습니다. 차단 권한이 필요합니다.", UnifiedColorUtil.RED));
             playErrorSound(player);
             return;
         }
         
-        player.sendMessage(Component.text("❌ 차단 기능은 현재 구현되지 않았습니다.", ColorUtil.YELLOW));
+        player.sendMessage(Component.text("❌ 차단 기능은 현재 구현되지 않았습니다.", UnifiedColorUtil.YELLOW));
         playErrorSound(player);
     }
     
@@ -345,13 +345,13 @@ public class IslandVisitorActionGui extends BaseGui {
      */
     private void handleWhisper(@NotNull Player player, boolean isOnline) {
         if (!isOnline) {
-            player.sendMessage(Component.text("❌ 대상 플레이어가 오프라인입니다.", ColorUtil.RED));
+            player.sendMessage(Component.text("❌ 대상 플레이어가 오프라인입니다.", UnifiedColorUtil.RED));
             playErrorSound(player);
             return;
         }
         
         player.closeInventory();
-        player.sendMessage(Component.text("채팅창에 귓말을 입력하세요: /tell " + visitor.getPlayerName() + " <메시지>", ColorUtil.GREEN));
+        player.sendMessage(Component.text("채팅창에 귓말을 입력하세요: /tell " + visitor.getPlayerName() + " <메시지>", UnifiedColorUtil.GREEN));
         playClickSound(player);
     }
     
@@ -360,14 +360,14 @@ public class IslandVisitorActionGui extends BaseGui {
      */
     private void handleInvite(@NotNull Player player, boolean hasPermission) {
         if (!hasPermission) {
-            player.sendMessage(Component.text("❌ 권한이 없습니다. 초대 권한이 필요합니다.", ColorUtil.RED));
+            player.sendMessage(Component.text("❌ 권한이 없습니다. 초대 권한이 필요합니다.", UnifiedColorUtil.RED));
             playErrorSound(player);
             return;
         }
         
         Player targetPlayer = Bukkit.getPlayer(UUID.fromString(visitor.getPlayerUuid()));
         if (targetPlayer == null || !targetPlayer.isOnline()) {
-            player.sendMessage(Component.text("❌ 대상 플레이어가 오프라인입니다.", ColorUtil.RED));
+            player.sendMessage(Component.text("❌ 대상 플레이어가 오프라인입니다.", UnifiedColorUtil.RED));
             playErrorSound(player);
             return;
         }
@@ -414,5 +414,11 @@ public class IslandVisitorActionGui extends BaseGui {
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

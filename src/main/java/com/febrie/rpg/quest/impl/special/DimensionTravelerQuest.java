@@ -165,7 +165,7 @@ public class DimensionTravelerQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getComponentList(who, "special.dimension_traveler.description");
+        return LangManager.getList(who, "special.dimension_traveler.description");
     }
 
     @Override
@@ -174,8 +174,7 @@ public class DimensionTravelerQuest extends Quest {
         return LangManager.getMessage(who, "special.dimension_traveler.objectives." + id);
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("dimension_traveler_dialog");
         
         dialog.addLine("quest.special_dimension_traveler.npcs.dimension_sage", "quest.special_dimension_traveler.dialogs.start_line1");

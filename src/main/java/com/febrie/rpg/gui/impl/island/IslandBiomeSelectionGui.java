@@ -2,11 +2,11 @@ package com.febrie.rpg.gui.impl.island;
 
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
-import com.febrie.rpg.gui.framework.BackableGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.StandardItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -24,7 +24,7 @@ import java.util.function.Consumer;
  * 
  * @author CoffeeTory
  */
-public class IslandBiomeSelectionGui extends BaseGui implements BackableGui {
+public class IslandBiomeSelectionGui extends BaseGui {
     
     private static final int GUI_SIZE = 54; // 6 rows
     
@@ -80,16 +80,11 @@ public class IslandBiomeSelectionGui extends BaseGui implements BackableGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("바이옴 선택", ColorUtil.PRIMARY);
+        return Component.text("바이옴 선택", UnifiedColorUtil.PRIMARY);
     }
     
     @Override
     protected GuiFramework getBackTarget() {
-        return backDestination;
-    }
-    
-    @Override
-    public GuiFramework getBackDestination() {
         return backDestination;
     }
     
@@ -108,7 +103,7 @@ public class IslandBiomeSelectionGui extends BaseGui implements BackableGui {
         
         // 제목 아이템
         GuiItem titleItem = GuiItem.display(
-            new ItemBuilder(Material.FILLED_MAP)
+            StandardItemBuilder.guiItem(Material.FILLED_MAP)
                 .displayName(Component.text("🌍 바이옴 선택", NamedTextColor.GREEN)
                     .decoration(TextDecoration.BOLD, true))
                 .lore(List.of(
@@ -141,7 +136,7 @@ public class IslandBiomeSelectionGui extends BaseGui implements BackableGui {
             );
             
             GuiItem biomeItem = GuiItem.clickable(
-                new ItemBuilder(biome.icon)
+                StandardItemBuilder.guiItem(biome.icon)
                     .displayName(Component.text(biome.name, 
                         isSelected ? NamedTextColor.GREEN : NamedTextColor.WHITE)
                         .decoration(TextDecoration.BOLD, isSelected))
@@ -161,7 +156,7 @@ public class IslandBiomeSelectionGui extends BaseGui implements BackableGui {
     
     private void setupBackButton() {
         GuiItem backButton = GuiItem.clickable(
-            new ItemBuilder(Material.ARROW)
+            StandardItemBuilder.guiItem(Material.ARROW)
                 .displayName(Component.text("◀ 돌아가기", NamedTextColor.GRAY))
                 .lore(List.of(
                     Component.text("섬 생성 메뉴로 돌아갑니다", NamedTextColor.GRAY)
@@ -179,4 +174,10 @@ public class IslandBiomeSelectionGui extends BaseGui implements BackableGui {
      * 바이옴 옵션 레코드
      */
     private record BiomeOption(String id, String name, Material icon, String description) {}
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
+    }
 }

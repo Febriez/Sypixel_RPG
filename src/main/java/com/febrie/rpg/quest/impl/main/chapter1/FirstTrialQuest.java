@@ -108,7 +108,6 @@ public class FirstTrialQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.first_trial.objectives." + id);
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("first_trial_dialog");
         dialog.addLine("quest.main.first_trial.dialog.trainer1", "quest.main.first_trial.dialog.trainer1");

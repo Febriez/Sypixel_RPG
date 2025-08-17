@@ -1,10 +1,12 @@
 package com.febrie.rpg.social;
 
 import com.febrie.rpg.RPGMain;
+import com.febrie.rpg.cache.UnifiedCacheManager;
 import com.febrie.rpg.database.FirestoreManager;
 import com.febrie.rpg.database.service.impl.MailFirestoreService;
 import com.febrie.rpg.dto.social.MailDTO;
 import com.febrie.rpg.util.LogUtil;
+import com.github.benmanes.caffeine.cache.Cache;
 import com.google.cloud.firestore.Firestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -15,9 +17,9 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -32,14 +34,14 @@ public class MailManager {
 
     private final RPGMain plugin;
     private final MailFirestoreService mailService;
+    private final UnifiedCacheManager cacheManager;
     private final Gson gson = new Gson();
 
-    // 캐시
-    private final Map<UUID, List<MailDTO>> mailCache = new ConcurrentHashMap<>();
+    // Caffeine 캐시
+    private final Cache<UUID, List<MailDTO>> mailCache;
     
     // 캐시 유효 시간 (3분)
-    private static final long CACHE_DURATION_MS = 180_000;
-    private final Map<UUID, Long> cacheTimestamps = new ConcurrentHashMap<>();
+    private static final Duration CACHE_DURATION = Duration.ofMinutes(3);
 
     // 제한
     private static final int MAX_MAIL_PER_PLAYER = 50; // 플레이어당 최대 우편 개수
@@ -50,6 +52,11 @@ public class MailManager {
         this.plugin = plugin;
         Firestore firestore = plugin.getFirestoreManager().getFirestore();
         this.mailService = new MailFirestoreService(plugin, firestore);
+        this.cacheManager = UnifiedCacheManager.getInstance();
+        
+        // Caffeine 캐시 초기화
+        this.mailCache = cacheManager.createCache("mails", CACHE_DURATION);
+        
         instance = this;
     }
 
@@ -116,7 +123,7 @@ public class MailManager {
             // 우편 전송
             return mailService.sendMail(mail).thenApply(v -> {
                 // 캐시 무효화
-                clearCache(toId);
+                mailCache.invalidate(toId);
 
                 // 알림
                 from.sendMessage("§a우편을 성공적으로 전송했습니다!");
@@ -141,34 +148,28 @@ public class MailManager {
      */
     @NotNull
     public CompletableFuture<List<MailDTO>> getMails(@NotNull UUID playerId, boolean includeRead) {
-        // 캐시 확인
-        Long lastCached = cacheTimestamps.get(playerId);
-        if (lastCached != null && System.currentTimeMillis() - lastCached < CACHE_DURATION_MS) {
-            List<MailDTO> cached = mailCache.get(playerId);
-            if (cached != null) {
-                List<MailDTO> filtered = includeRead ? 
-                    new ArrayList<>(cached) : 
-                    cached.stream().filter(MailDTO::isUnread).collect(Collectors.toList());
-                return CompletableFuture.completedFuture(filtered);
-            }
-        }
-
-        // DB에서 조회
-        return mailService.getReceivedMails(playerId)
-            .thenApply(mails -> {
-                // 캐시 업데이트
-                mailCache.put(playerId, mails);
-                cacheTimestamps.put(playerId, System.currentTimeMillis());
-
-                // 필터링
-                return includeRead ? 
-                    mails : 
-                    mails.stream().filter(MailDTO::isUnread).collect(Collectors.toList());
-            })
-            .exceptionally(ex -> {
-                LogUtil.warning("우편 목록 조회 실패 [" + playerId + "]: " + ex.getMessage());
+        // Caffeine 캐시에서 확인 (없으면 로더 실행)
+        List<MailDTO> cached = mailCache.get(playerId, key -> {
+            try {
+                // DB에서 동기적으로 조회
+                return mailService.getReceivedMails(key)
+                    .exceptionally(ex -> {
+                        LogUtil.warning("우편 목록 조회 실패 [" + key + "]: " + ex.getMessage());
+                        return new ArrayList<>();
+                    })
+                    .join(); // CompletableFuture를 동기화
+            } catch (Exception e) {
+                LogUtil.warning("우편 목록 캐시 로드 실패 [" + key + "]: " + e.getMessage());
                 return new ArrayList<>();
-            });
+            }
+        });
+        
+        // 필터링
+        List<MailDTO> filtered = includeRead ? 
+            new ArrayList<>(cached) : 
+            cached.stream().filter(MailDTO::isUnread).collect(Collectors.toList());
+            
+        return CompletableFuture.completedFuture(filtered);
     }
 
     /**
@@ -179,7 +180,7 @@ public class MailManager {
         return mailService.markMailAsRead(mailId)
             .thenApply(v -> {
                 // 캐시에서도 업데이트
-                mailCache.values().forEach(mails -> 
+                mailCache.asMap().values().forEach(mails -> 
                     mails.stream()
                         .filter(mail -> mail.mailId().equals(mailId))
                         .findFirst()
@@ -229,7 +230,7 @@ public class MailManager {
         return mailService.deleteMail(mailId)
             .thenApply(v -> {
                 // 캐시에서도 제거
-                mailCache.values().forEach(mails -> 
+                mailCache.asMap().values().forEach(mails -> 
                     mails.removeIf(mail -> mail.mailId().equals(mailId))
                 );
                 return true;
@@ -271,16 +272,14 @@ public class MailManager {
      * 캐시 정리
      */
     public void clearCache(@NotNull UUID playerId) {
-        mailCache.remove(playerId);
-        cacheTimestamps.remove(playerId);
+        mailCache.invalidate(playerId);
     }
 
     /**
      * 모든 캐시 정리
      */
     public void clearAllCache() {
-        mailCache.clear();
-        cacheTimestamps.clear();
+        mailCache.invalidateAll();
     }
 
     /**
@@ -288,6 +287,6 @@ public class MailManager {
      */
     public void shutdown() {
         clearAllCache();
-        mailService.shutdown();
+        // Firestore 서비스는 GenericFirestoreService를 사용하므로 별도 shutdown 불필요
     }
 }

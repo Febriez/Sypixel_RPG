@@ -4,7 +4,7 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.command.admin.subcommand.base.SubCommand;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -73,18 +73,18 @@ public class SaveCommand implements SubCommand {
     public boolean execute(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length == 0 || args[0].equalsIgnoreCase("all")) {
             // 모든 온라인 플레이어 저장
-            sender.sendMessage(ColorUtil.colorize("&e모든 온라인 플레이어 데이터를 저장합니다..."));
+            sender.sendMessage(UnifiedColorUtil.parse("&e모든 온라인 플레이어 데이터를 저장합니다..."));
             
             CompletableFuture<Void> saveFuture = playerManager.saveAllOnlinePlayers();
             
             saveFuture.thenRun(() -> {
                 int count = Bukkit.getOnlinePlayers().size();
-                sender.sendMessage(ColorUtil.colorize(String.format(
+                sender.sendMessage(UnifiedColorUtil.parse(String.format(
                     "&a%d명의 플레이어 데이터를 저장했습니다",
                     count
                 )));
             }).exceptionally(ex -> {
-                sender.sendMessage(ColorUtil.colorize("&c데이터 저장 중 오류가 발생했습니다"));
+                sender.sendMessage(UnifiedColorUtil.parse("&c데이터 저장 중 오류가 발생했습니다"));
                 plugin.getLogger().severe("Save error: " + ex.getMessage());
                 return null;
             });
@@ -95,26 +95,26 @@ public class SaveCommand implements SubCommand {
         // 특정 플레이어 저장
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
-            sender.sendMessage(ColorUtil.colorize("&c플레이어를 찾을 수 없습니다: " + args[0]));
+            sender.sendMessage(UnifiedColorUtil.parse("&c플레이어를 찾을 수 없습니다: " + args[0]));
             return false;
         }
         
         RPGPlayer rpgPlayer = playerManager.getPlayer(target.getUniqueId());
         if (rpgPlayer == null) {
-            sender.sendMessage(ColorUtil.colorize("&c플레이어 데이터를 찾을 수 없습니다"));
+            sender.sendMessage(UnifiedColorUtil.parse("&c플레이어 데이터를 찾을 수 없습니다"));
             return false;
         }
         
-        sender.sendMessage(ColorUtil.colorize("&e" + target.getName() + "의 데이터를 저장합니다..."));
+        sender.sendMessage(UnifiedColorUtil.parse("&e" + target.getName() + "의 데이터를 저장합니다..."));
         
         playerManager.savePlayerDataAsync(rpgPlayer, true).thenAccept(success -> {
             if (success) {
-                sender.sendMessage(ColorUtil.colorize("&a" + target.getName() + "의 데이터를 저장했습니다"));
+                sender.sendMessage(UnifiedColorUtil.parse("&a" + target.getName() + "의 데이터를 저장했습니다"));
             } else {
-                sender.sendMessage(ColorUtil.colorize("&c데이터 저장에 실패했습니다"));
+                sender.sendMessage(UnifiedColorUtil.parse("&c데이터 저장에 실패했습니다"));
             }
         }).exceptionally(ex -> {
-            sender.sendMessage(ColorUtil.colorize("&c데이터 저장 중 오류가 발생했습니다"));
+            sender.sendMessage(UnifiedColorUtil.parse("&c데이터 저장 중 오류가 발생했습니다"));
             plugin.getLogger().severe("Save error: " + ex.getMessage());
             return null;
         });

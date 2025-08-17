@@ -8,7 +8,7 @@ import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -58,7 +58,7 @@ public class SystemSettingsGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("시스템 설정", ColorUtil.LEGENDARY);
+        return Component.text("시스템 설정", UnifiedColorUtil.LEGENDARY);
     }
 
     @Override
@@ -87,10 +87,10 @@ public class SystemSettingsGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 new ItemBuilder(Material.REDSTONE_BLOCK)
-                        .displayName(Component.text("⚙ 시스템 설정", ColorUtil.LEGENDARY)
+                        .displayName(Component.text("⚙ 시스템 설정", UnifiedColorUtil.LEGENDARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("시스템 관련 설정을 변경합니다", ColorUtil.GRAY))
+                        .addLore(Component.text("시스템 관련 설정을 변경합니다", UnifiedColorUtil.GRAY))
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -128,21 +128,21 @@ public class SystemSettingsGui extends BaseGui {
         
         GuiItem confirmationDialogsToggle = GuiItem.clickable(
                 new ItemBuilder(enabled ? Material.WRITABLE_BOOK : Material.BOOK)
-                        .displayName(Component.text("❓ 확인 대화상자", ColorUtil.PRIMARY)
+                        .displayName(Component.text("❓ 확인 대화상자", UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
                         .addLore(Component.text("상태: " + (enabled ? "활성화" : "비활성화"), 
-                                enabled ? ColorUtil.SUCCESS : ColorUtil.ERROR))
+                                enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
                         .addLore(Component.empty())
-                        .addLore(Component.text("스탯 배분, 특성 학습 등", ColorUtil.GRAY))
-                        .addLore(Component.text("중요한 행동을 할 때", ColorUtil.GRAY))
-                        .addLore(Component.text("확인 메시지를 표시합니다", ColorUtil.GRAY))
+                        .addLore(Component.text("스탯 배분, 특성 학습 등", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("중요한 행동을 할 때", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("확인 메시지를 표시합니다", UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("예시:", ColorUtil.YELLOW))
-                        .addLore(Component.text("'정말 스탯 포인트를 사용하시겠습니까?'", ColorUtil.GRAY))
-                        .addLore(Component.text("'정말 특성을 배우시겠습니까?'", ColorUtil.GRAY))
+                        .addLore(Component.text("예시:", UnifiedColorUtil.YELLOW))
+                        .addLore(Component.text("'정말 스탯 포인트를 사용하시겠습니까?'", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("'정말 특성을 배우시겠습니까?'", UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), ColorUtil.YELLOW))
+                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), UnifiedColorUtil.YELLOW))
                         .build(),
                 p -> {
                     settings.setConfirmationDialogsEnabled(!enabled);
@@ -157,5 +157,11 @@ public class SystemSettingsGui extends BaseGui {
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

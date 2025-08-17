@@ -9,7 +9,7 @@ import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -120,7 +121,7 @@ public abstract class BaseGui implements InteractiveGui {
      * 기본값: #4297FF 색상에 볼드 적용
      */
     protected @NotNull Component applyTitleStyle(@NotNull Component title) {
-        return title.color(ColorUtil.GUI_TITLE).decorate(TextDecoration.BOLD);
+        return title.color(UnifiedColorUtil.GUI_TITLE).decorate(TextDecoration.BOLD);
     }
 
     /**
@@ -284,6 +285,31 @@ public abstract class BaseGui implements InteractiveGui {
      * null을 반환하면 뒤로가기 버튼이 표시되지 않음
      */
     protected abstract GuiFramework getBackTarget();
+    
+    /**
+     * 클릭 이벤트 처리 - 하위 클래스에서 구현
+     */
+    public abstract void onClick(InventoryClickEvent event);
+    
+    /**
+     * 테두리를 특정 재료로 채우기
+     */
+    protected void fillBorder(Material material) {
+        ItemStack borderItem = new ItemStack(material);
+        // 상단 테두리
+        for (int i = 0; i < 9; i++) {
+            setItem(i, new GuiItem(borderItem));
+        }
+        // 하단 테두리
+        for (int i = inventory.getSize() - 9; i < inventory.getSize(); i++) {
+            setItem(i, new GuiItem(borderItem));
+        }
+        // 좌우 테두리
+        for (int i = 9; i < inventory.getSize() - 9; i += 9) {
+            setItem(i, new GuiItem(borderItem));
+            setItem(i + 8, new GuiItem(borderItem));
+        }
+    }
     
     /**
      * 네비게이션 버튼 업데이트

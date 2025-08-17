@@ -114,7 +114,6 @@ public class PathOfLightQuest extends Quest {
         };
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("path_of_light_dialog");
 

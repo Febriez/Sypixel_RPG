@@ -158,7 +158,6 @@ public class HalloweenNightQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.halloween_night.objective." + id);
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("halloween_night_dialog");
 

@@ -1,58 +1,48 @@
 package com.febrie.rpg.database.sync;
 
+import com.febrie.rpg.cache.UnifiedCacheManager;
 import com.febrie.rpg.database.constants.DatabaseConstants;
 import com.febrie.rpg.dto.player.PlayerDataDTO;
+import com.github.benmanes.caffeine.cache.Cache;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Iterator;
-import java.util.Map;
+import java.time.Duration;
 import java.util.UUID;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * 플레이어 데이터 캐시
- * 5분 TTL로 플레이어 데이터 캐싱
+ * UnifiedCacheManager 기반 Caffeine 캐시 사용
  *
  * @author Febrie, CoffeeTory
  */
 public class PlayerDataCache {
 
-    private final ConcurrentHashMap<UUID, CacheEntry> cache = new ConcurrentHashMap<>();
-    private final ScheduledExecutorService cleanupExecutor;
-    private final long ttlMillis;
-    private final int maxSize;
+    private final Cache<UUID, PlayerDataDTO> cache;
+    private final UnifiedCacheManager cacheManager;
+    
+    // 캐시 이름
+    private static final String CACHE_NAME = "playerData";
+    
+    // 캐시 유효 시간 (5분)
+    private static final Duration CACHE_DURATION = Duration.ofMinutes(5);
 
-    private final AtomicLong hitCount = new AtomicLong(0);
-    private final AtomicLong missCount = new AtomicLong(0);
-    private final AtomicLong evictionCount = new AtomicLong(0);
-
-    public PlayerDataCache(long duration, @NotNull TimeUnit unit) {
-        this.ttlMillis = unit.toMillis(duration);
-        this.maxSize = DatabaseConstants.PLAYER_CACHE_MAX_SIZE; // 최대 5,000명 캐싱
-
-        // 정리 스케줄러 (1분마다 실행)
-        this.cleanupExecutor = Executors.newSingleThreadScheduledExecutor(r -> {
-            Thread t = new Thread(r, "PlayerDataCache-Cleanup");
-            t.setDaemon(true);
-            return t;
-        });
-
-        cleanupExecutor.scheduleWithFixedDelay(this::cleanupExpired, DatabaseConstants.CACHE_CLEANUP_INTERVAL_MINUTES, DatabaseConstants.CACHE_CLEANUP_INTERVAL_MINUTES, TimeUnit.MINUTES);
+    public PlayerDataCache() {
+        this.cacheManager = UnifiedCacheManager.getInstance();
+        // Caffeine 캐시 초기화 (TTL 5분, 최대 5000개)
+        this.cache = cacheManager.createCache(
+            CACHE_NAME, 
+            CACHE_DURATION, 
+            DatabaseConstants.PLAYER_CACHE_MAX_SIZE
+        );
     }
 
     /**
      * 캐시에 데이터 저장
      */
     public void put(@NotNull UUID playerId, @NotNull PlayerDataDTO data) {
-        // 크기 제한 체크
-        if (cache.size() >= maxSize) {
-            // 가장 오래된 항목 제거
-            evictOldestEntry();
-        }
-
-        cache.put(playerId, new CacheEntry(data, System.currentTimeMillis()));
+        cache.put(playerId, data);
     }
 
     /**
@@ -60,51 +50,35 @@ public class PlayerDataCache {
      */
     @Nullable
     public PlayerDataDTO get(@NotNull UUID playerId) {
-        CacheEntry entry = cache.get(playerId);
-
-        if (entry == null) {
-            missCount.incrementAndGet();
-            return null;
-        }
-
-        // TTL 체크
-        if (System.currentTimeMillis() - entry.timestamp > ttlMillis) {
-            cache.remove(playerId);
-            missCount.incrementAndGet();
-            evictionCount.incrementAndGet();
-            return null;
-        }
-
-        hitCount.incrementAndGet();
-        return entry.data;
+        return cache.getIfPresent(playerId);
     }
 
     /**
      * 캐시에서 데이터 제거
      */
     public void invalidate(@NotNull UUID playerId) {
-        cache.remove(playerId);
+        cache.invalidate(playerId);
     }
 
     /**
      * 모든 캐시 데이터 제거
      */
     public void invalidateAll() {
-        cache.clear();
+        cache.invalidateAll();
     }
 
     /**
-     * 캐시 정리
+     * 캐시 정리 (Caffeine이 자동으로 처리)
      */
     public void cleanUp() {
-        cleanupExpired();
+        cache.cleanUp();
     }
 
     /**
      * 캐시 크기
      */
     public long size() {
-        return cache.size();
+        return cache.estimatedSize();
     }
 
     /**
@@ -112,9 +86,15 @@ public class PlayerDataCache {
      */
     @NotNull
     public CacheStats getStats() {
-        return new CacheStats(hitCount.get(), missCount.get(), size(), evictionCount.get(), 0L, // totalLoadTime
-                0L, // loadSuccessCount
-                0L  // loadFailureCount
+        var stats = cache.stats();
+        return new CacheStats(
+            stats.hitCount(),
+            stats.missCount(),
+            cache.estimatedSize(),
+            stats.evictionCount(),
+            stats.totalLoadTime(),
+            stats.loadSuccessCount(),
+            stats.loadFailureCount()
         );
     }
 
@@ -122,9 +102,8 @@ public class PlayerDataCache {
      * 캐시 히트율
      */
     public double getHitRate() {
-        long hits = hitCount.get();
-        long total = hits + missCount.get();
-        return total == 0 ? 0.0 : (double) hits / total;
+        var stats = cache.stats();
+        return stats.hitRate();
     }
 
     /**
@@ -132,80 +111,28 @@ public class PlayerDataCache {
      */
     @NotNull
     public ConcurrentMap<UUID, PlayerDataDTO> asMap() {
-        ConcurrentMap<UUID, PlayerDataDTO> result = new ConcurrentHashMap<>();
-        long now = System.currentTimeMillis();
-
-        cache.forEach((key, entry) -> {
-            if (now - entry.timestamp <= ttlMillis) {
-                result.put(key, entry.data);
-            }
-        });
-
-        return result;
+        return cache.asMap();
     }
 
     /**
-     * 만료된 항목 정리
-     */
-    private void cleanupExpired() {
-        long now = System.currentTimeMillis();
-        Iterator<Map.Entry<UUID, CacheEntry>> iterator = cache.entrySet().iterator();
-
-        while (iterator.hasNext()) {
-            Map.Entry<UUID, CacheEntry> entry = iterator.next();
-            if (now - entry.getValue().timestamp > ttlMillis) {
-                iterator.remove();
-                evictionCount.incrementAndGet();
-            }
-        }
-    }
-
-    /**
-     * 가장 오래된 항목 제거
-     */
-    private void evictOldestEntry() {
-        UUID oldestKey = null;
-        long oldestTime = Long.MAX_VALUE;
-
-        for (Map.Entry<UUID, CacheEntry> entry : cache.entrySet()) {
-            if (entry.getValue().timestamp < oldestTime) {
-                oldestTime = entry.getValue().timestamp;
-                oldestKey = entry.getKey();
-            }
-        }
-
-        if (oldestKey != null) {
-            cache.remove(oldestKey);
-            evictionCount.incrementAndGet();
-        }
-    }
-
-    /**
-     * 리소스 정리
+     * 리소스 정리 (Caffeine은 자동 관리되므로 특별한 정리 불필요)
      */
     public void shutdown() {
-        cleanupExecutor.shutdown();
-        try {
-            if (!cleanupExecutor.awaitTermination(5, TimeUnit.SECONDS)) {
-                cleanupExecutor.shutdownNow();
-            }
-        } catch (InterruptedException e) {
-            cleanupExecutor.shutdownNow();
-            Thread.currentThread().interrupt();
-        }
-    }
-
-    /**
-     * 캐시 엔트리
-     */
-    private record CacheEntry(PlayerDataDTO data, long timestamp) {
+        invalidateAll();
     }
 
     /**
      * 캐시 통계 정보
      */
-    public record CacheStats(long hitCount, long missCount, long size, long evictionCount, long totalLoadTime,
-                             long loadSuccessCount, long loadFailureCount) {
+    public record CacheStats(
+        long hitCount, 
+        long missCount, 
+        long size, 
+        long evictionCount, 
+        long totalLoadTime,
+        long loadSuccessCount, 
+        long loadFailureCount
+    ) {
 
         public double getHitRate() {
             long total = hitCount + missCount;
@@ -214,7 +141,10 @@ public class PlayerDataCache {
 
         @Override
         public @NotNull String toString() {
-            return String.format("CacheStats{size=%d, hits=%d, misses=%d, hitRate=%.2f%%, evictions=%d}", size, hitCount, missCount, getHitRate() * 100, evictionCount);
+            return String.format(
+                "CacheStats{size=%d, hits=%d, misses=%d, hitRate=%.2f%%, evictions=%d}", 
+                size, hitCount, missCount, getHitRate() * 100, evictionCount
+            );
         }
     }
 }

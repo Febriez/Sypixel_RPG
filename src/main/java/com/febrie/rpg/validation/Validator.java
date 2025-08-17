@@ -180,6 +180,7 @@ public class Validator {
      * 검증 예외
      */
     public static class ValidationException extends Exception {
+        private static final long serialVersionUID = 1L;
         private final List<String> errors;
         
         public ValidationException(@NotNull List<String> errors) {

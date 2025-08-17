@@ -7,7 +7,7 @@ import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.dialog.DialogManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -106,7 +106,7 @@ public class DialogChoiceGui extends BaseGui {
             GuiItem choiceItem = GuiItem.clickable(
                     new ItemBuilder(Material.PAPER)
                             .displayName(trans("gui.dialog-choice.option", String.valueOf(i + 1)))
-                            .addLore(choice.getText(viewer).color(ColorUtil.WHITE))
+                            .addLore(choice.getText(viewer).color(UnifiedColorUtil.WHITE))
                             .addLore(Component.empty())
                             .addLore(trans("gui.dialog-choice.click-to-select"))
                             .build(),
@@ -144,5 +144,11 @@ public class DialogChoiceGui extends BaseGui {
     protected GuiFramework getBackTarget() {
         // 다이얼로그 선택지는 뒤로가기 없음
         return null;
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

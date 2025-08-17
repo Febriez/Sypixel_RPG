@@ -168,8 +168,7 @@ public class LangManager {
             int end = text.indexOf('%', start + 7);
             if (end == -1) break;
 
-            TextColor newColor = ColorUtil.fromName(text.substring(start + 7, end));
-            if (newColor != null) color = newColor;
+            color = UnifiedColorUtil.fromName(text.substring(start + 7, end));
             pos = end + 1;
         }
 
@@ -272,13 +271,6 @@ public class LangManager {
         return (list != null && list.length > 0) ? list[0] : Component.text(key);
     }
 
-    /**
-     * Player 기반 Component 리스트 가져오기 (레거시 호환)
-     */
-    @NotNull
-    public static List<Component> getComponentList(@NotNull Player player, @NotNull String key) {
-        return getList(player, key);
-    }
 
 
     /**

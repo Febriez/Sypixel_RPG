@@ -138,7 +138,6 @@ public class HiddenClassQuest extends Quest {
         return LangManager.getMessage(who, "quest.special.hidden_class.objectives." + id);
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("hidden_class_dialog");
         

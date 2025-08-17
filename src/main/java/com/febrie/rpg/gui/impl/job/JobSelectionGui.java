@@ -185,7 +185,7 @@ public class JobSelectionGui extends BaseGui {
                 .addLore(Component.empty());
 
         // 직업 설명 추가
-        List<Component> description = com.febrie.rpg.util.LangManager.getComponentList(viewer, "job." + jobKey + ".description");
+        List<Component> description = com.febrie.rpg.util.LangManager.getList(viewer, "job." + jobKey + ".description");
         for (Component line : description) {
             builder.addLore(line);
         }
@@ -229,5 +229,11 @@ public class JobSelectionGui extends BaseGui {
     public GuiFramework getBackTarget() {
         // ProfileGui로 돌아가기
         return ProfileGui.create(guiManager, viewer, rpgPlayer.getPlayer());
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

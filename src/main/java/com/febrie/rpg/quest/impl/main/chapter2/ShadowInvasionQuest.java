@@ -139,7 +139,6 @@ public class ShadowInvasionQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.shadow_invasion.objectives." + id);
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("shadow_invasion_dialog");
 

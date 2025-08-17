@@ -1,7 +1,7 @@
 package com.febrie.rpg.gui.component;
 
 import com.febrie.rpg.gui.manager.GuiManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -154,7 +154,7 @@ public class GuiFactory {
         return GuiItem.clickable(
                 new ItemBuilder(material)
                         .displayName(LangManager.getMessage(player, nameKey))
-                        .lore(LangManager.getComponentList(player, loreKey))
+                        .lore(LangManager.getList(player, loreKey))
                         .asGuiItem()
                         .build(),
                 action
@@ -278,7 +278,7 @@ public class GuiFactory {
 
         return GuiItem.display(
                 new ItemBuilder(material)
-                        .displayName(Component.text(status, isOnline ? ColorUtil.SUCCESS : ColorUtil.ERROR))
+                        .displayName(Component.text(status, isOnline ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
                         .addLore(statusComponent)
                         .build()
         );

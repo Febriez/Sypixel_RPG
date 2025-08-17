@@ -2,7 +2,7 @@ package com.febrie.rpg.command.system;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.FirestoreManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.FirestoreUtils;
 import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.LangManager;
@@ -337,59 +337,59 @@ public class SiteAccountCommand implements CommandExecutor {
      * 성공 메시지 전송
      */
     private void sendSuccessMessage(@NotNull Player player, @NotNull String email, @NotNull String password) {
-        player.sendMessage(Component.text("==== 사이트 계정 발급 완료 ====", ColorUtil.SUCCESS));
+        player.sendMessage(Component.text("==== 사이트 계정 발급 완료 ====", UnifiedColorUtil.SUCCESS));
         player.sendMessage(Component.text(""));
-        player.sendMessage(Component.text("✅ 계정이 성공적으로 생성되었습니다!", ColorUtil.SUCCESS));
+        player.sendMessage(Component.text("✅ 계정이 성공적으로 생성되었습니다!", UnifiedColorUtil.SUCCESS));
         player.sendMessage(Component.text(""));
 
         // 이메일 정보
-        player.sendMessage(Component.text("📧 이메일: ", ColorUtil.GRAY)
-                .append(Component.text(email, ColorUtil.WHITE)));
+        player.sendMessage(Component.text("📧 이메일: ", UnifiedColorUtil.GRAY)
+                .append(Component.text(email, UnifiedColorUtil.WHITE)));
 
         // 비밀번호 (클릭 가능)
-        Component passwordComponent = Component.text("🔑 비밀번호: ", ColorUtil.GRAY)
-                .append(Component.text(password, ColorUtil.GOLD)
+        Component passwordComponent = Component.text("🔑 비밀번호: ", UnifiedColorUtil.GRAY)
+                .append(Component.text(password, UnifiedColorUtil.GOLD)
                         .decoration(TextDecoration.BOLD, true)
                         .clickEvent(ClickEvent.copyToClipboard(password))
-                        .hoverEvent(HoverEvent.showText(Component.text("클릭하여 비밀번호 복사", ColorUtil.YELLOW)))
+                        .hoverEvent(HoverEvent.showText(Component.text("클릭하여 비밀번호 복사", UnifiedColorUtil.YELLOW)))
                 );
 
         player.sendMessage(passwordComponent);
         player.sendMessage(Component.text(""));
 
         // 안내 메시지
-        player.sendMessage(Component.text("💡 안내사항:", ColorUtil.YELLOW));
-        player.sendMessage(Component.text("- 비밀번호를 클릭하면 클립보드에 복사됩니다", ColorUtil.GRAY));
-        player.sendMessage(Component.text("- 웹사이트에서 이메일과 비밀번호로 로그인하세요", ColorUtil.GRAY));
-        player.sendMessage(Component.text("- 로그인 후 비밀번호를 변경하는 것을 권장합니다", ColorUtil.GRAY));
+        player.sendMessage(Component.text("💡 안내사항:", UnifiedColorUtil.YELLOW));
+        player.sendMessage(Component.text("- 비밀번호를 클릭하면 클립보드에 복사됩니다", UnifiedColorUtil.GRAY));
+        player.sendMessage(Component.text("- 웹사이트에서 이메일과 비밀번호로 로그인하세요", UnifiedColorUtil.GRAY));
+        player.sendMessage(Component.text("- 로그인 후 비밀번호를 변경하는 것을 권장합니다", UnifiedColorUtil.GRAY));
         player.sendMessage(Component.text(""));
 
         // 웹사이트 링크
-        Component websiteLink = Component.text("🌐 웹사이트: ", ColorUtil.GRAY)
-                .append(Component.text("https://sypixel.com", ColorUtil.AQUA)
+        Component websiteLink = Component.text("🌐 웹사이트: ", UnifiedColorUtil.GRAY)
+                .append(Component.text("https://sypixel.com", UnifiedColorUtil.AQUA)
                         .decoration(TextDecoration.UNDERLINED, true)
                         .clickEvent(ClickEvent.openUrl("https://sypixel.com"))
-                        .hoverEvent(HoverEvent.showText(Component.text("클릭하여 웹사이트 열기", ColorUtil.YELLOW)))
+                        .hoverEvent(HoverEvent.showText(Component.text("클릭하여 웹사이트 열기", UnifiedColorUtil.YELLOW)))
                 );
 
         player.sendMessage(websiteLink);
-        player.sendMessage(Component.text("=============================", ColorUtil.SUCCESS));
+        player.sendMessage(Component.text("=============================", UnifiedColorUtil.SUCCESS));
     }
 
     /**
      * 오류 메시지 전송
      */
     private void sendErrorMessage(@NotNull Player player, @NotNull String message) {
-        player.sendMessage(Component.text("==== 사이트 계정 발급 실패 ====", ColorUtil.ERROR));
+        player.sendMessage(Component.text("==== 사이트 계정 발급 실패 ====", UnifiedColorUtil.ERROR));
         player.sendMessage(Component.text(""));
-        player.sendMessage(Component.text("❌ " + message, ColorUtil.ERROR));
+        player.sendMessage(Component.text("❌ " + message, UnifiedColorUtil.ERROR));
         player.sendMessage(Component.text(""));
 
         // 도움말 정보
-        player.sendMessage(Component.text("💡 도움말:", ColorUtil.YELLOW));
-        player.sendMessage(Component.text("- 이미 계정이 있는 경우 웹사이트에서 로그인하세요", ColorUtil.GRAY));
-        player.sendMessage(Component.text("- 문제가 지속되면 관리자에게 문의하세요", ColorUtil.GRAY));
+        player.sendMessage(Component.text("💡 도움말:", UnifiedColorUtil.YELLOW));
+        player.sendMessage(Component.text("- 이미 계정이 있는 경우 웹사이트에서 로그인하세요", UnifiedColorUtil.GRAY));
+        player.sendMessage(Component.text("- 문제가 지속되면 관리자에게 문의하세요", UnifiedColorUtil.GRAY));
         player.sendMessage(Component.text(""));
-        player.sendMessage(Component.text("=============================", ColorUtil.ERROR));
+        player.sendMessage(Component.text("=============================", UnifiedColorUtil.ERROR));
     }
 }

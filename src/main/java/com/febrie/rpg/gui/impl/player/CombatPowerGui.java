@@ -189,4 +189,10 @@ public class CombatPowerGui extends BaseGui {
         // CombatPowerGui는 MainMenuGui로 돌아갑니다
         return MainMenuGui.create(guiManager, viewer);
     }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
+    }
 }

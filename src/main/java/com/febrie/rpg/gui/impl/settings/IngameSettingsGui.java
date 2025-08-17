@@ -8,7 +8,7 @@ import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -63,7 +63,7 @@ public class IngameSettingsGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("인게임 설정", ColorUtil.RARE);
+        return trans("settings.ingame-settings.title");
     }
 
     @Override
@@ -92,10 +92,10 @@ public class IngameSettingsGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 new ItemBuilder(Material.GRASS_BLOCK)
-                        .displayName(Component.text("🎮 인게임 설정", ColorUtil.RARE)
+                        .displayName(trans("settings.ingame")
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("게임 플레이 관련 설정을 변경합니다", ColorUtil.GRAY))
+                        .addLore(trans("settings.gameplay"))
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -127,8 +127,8 @@ public class IngameSettingsGui extends BaseGui {
         // 속도 감소 버튼
         GuiItem speedDecreaseButton = GuiItem.clickable(
                 new ItemBuilder(Material.RED_CONCRETE)
-                        .displayName(Component.text("- 대화 속도 감소", ColorUtil.ERROR))
-                        .addLore(Component.text("대화가 더 느려집니다", ColorUtil.GRAY))
+                        .displayName(trans("gui-settings.volume-decrease").color(UnifiedColorUtil.ERROR))
+                        .addLore(trans("settings.ingame-settings.quest-dialog-speed"))
                         .build(),
                 p -> {
                     int newSpeed = settings.adjustDialogSpeed(false);
@@ -145,8 +145,8 @@ public class IngameSettingsGui extends BaseGui {
         // 속도 증가 버튼
         GuiItem speedIncreaseButton = GuiItem.clickable(
                 new ItemBuilder(Material.GREEN_CONCRETE)
-                        .displayName(Component.text("+ 대화 속도 증가", ColorUtil.SUCCESS))
-                        .addLore(Component.text("대화가 더 빨라집니다", ColorUtil.GRAY))
+                        .displayName(trans("gui-settings.volume-increase").color(UnifiedColorUtil.SUCCESS))
+                        .addLore(trans("settings.ingame-settings.quest-dialog-speed"))
                         .build(),
                 p -> {
                     int newSpeed = settings.adjustDialogSpeed(true);
@@ -191,14 +191,14 @@ public class IngameSettingsGui extends BaseGui {
         
         GuiItem dialogSpeedDisplay = GuiItem.display(
                 new ItemBuilder(material)
-                        .displayName(Component.text("💬 퀘스트 대화 속도", ColorUtil.PRIMARY)
+                        .displayName(trans("settings.ingame-settings.quest-dialog-speed")
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("현재 속도: " + displayName, ColorUtil.WHITE))
-                        .addLore(Component.text(speedBar, ColorUtil.GOLD))
+                        .addLore(trans("gui-settings.current-volume", "volume", displayName))
+                        .addLore(Component.text(speedBar, UnifiedColorUtil.GOLD))
                         .addLore(Component.empty())
-                        .addLore(Component.text("속도 값: " + speed + "틱", ColorUtil.GRAY))
-                        .addLore(Component.text("(낮을수록 빠름)", ColorUtil.GRAY))
+                        .addLore(Component.text("속도 값: " + speed + "틱", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("(낮을수록 빠름)", UnifiedColorUtil.GRAY))
                         .build()
         );
         setItem(DIALOG_SPEED_DISPLAY_SLOT, dialogSpeedDisplay);
@@ -212,17 +212,17 @@ public class IngameSettingsGui extends BaseGui {
         
         GuiItem questGuideToggle = GuiItem.clickable(
                 new ItemBuilder(enabled ? Material.COMPASS : Material.CLOCK)
-                        .displayName(Component.text("🧭 퀘스트 자동 길안내", ColorUtil.PRIMARY)
+                        .displayName(Component.text("🧭 퀘스트 자동 길안내", UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
                         .addLore(Component.text("상태: " + (enabled ? "활성화" : "비활성화"), 
-                                enabled ? ColorUtil.SUCCESS : ColorUtil.ERROR))
+                                enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
                         .addLore(Component.empty())
-                        .addLore(Component.text("퀘스트 시작 시 자동으로", ColorUtil.GRAY))
-                        .addLore(Component.text("목표 지점까지의 길을", ColorUtil.GRAY))
-                        .addLore(Component.text("파티클로 표시합니다", ColorUtil.GRAY))
+                        .addLore(Component.text("퀘스트 시작 시 자동으로", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("목표 지점까지의 길을", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("파티클로 표시합니다", UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), ColorUtil.YELLOW))
+                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), UnifiedColorUtil.YELLOW))
                         .build(),
                 p -> {
                     settings.setQuestAutoGuideEnabled(!enabled);
@@ -242,17 +242,17 @@ public class IngameSettingsGui extends BaseGui {
         
         GuiItem damageDisplayToggle = GuiItem.clickable(
                 new ItemBuilder(enabled ? Material.DIAMOND_SWORD : Material.WOODEN_SWORD)
-                        .displayName(Component.text("⚔ 공격 데미지 표시", ColorUtil.PRIMARY)
+                        .displayName(Component.text("⚔ 공격 데미지 표시", UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
                         .addLore(Component.text("상태: " + (enabled ? "활성화" : "비활성화"), 
-                                enabled ? ColorUtil.SUCCESS : ColorUtil.ERROR))
+                                enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
                         .addLore(Component.empty())
-                        .addLore(Component.text("공격 시 데미지 수치를", ColorUtil.GRAY))
-                        .addLore(Component.text("홀로그램으로 표시합니다", ColorUtil.GRAY))
-                        .addLore(Component.text("(3초간 표시됨)", ColorUtil.GRAY))
+                        .addLore(Component.text("공격 시 데미지 수치를", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("홀로그램으로 표시합니다", UnifiedColorUtil.GRAY))
+                        .addLore(Component.text("(3초간 표시됨)", UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), ColorUtil.YELLOW))
+                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), UnifiedColorUtil.YELLOW))
                         .build(),
                 p -> {
                     settings.setDamageDisplayEnabled(!enabled);
@@ -285,5 +285,11 @@ public class IngameSettingsGui extends BaseGui {
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

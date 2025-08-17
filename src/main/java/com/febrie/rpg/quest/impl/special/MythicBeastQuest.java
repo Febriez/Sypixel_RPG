@@ -163,7 +163,6 @@ public class MythicBeastQuest extends Quest {
         return LangManager.getMessage(who, "quest.special.mythic_beast.objectives." + id);
     }
 
-    @Override  
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("mythic_beast_dialog");
 

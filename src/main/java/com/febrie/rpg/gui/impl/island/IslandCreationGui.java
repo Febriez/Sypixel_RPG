@@ -7,8 +7,9 @@ import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.impl.system.MainMenuGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.StandardItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -122,9 +123,9 @@ public class IslandCreationGui extends BaseGui {
 
         // 제목 아이템
         GuiItem titleItem = GuiItem.display(
-                new ItemBuilder(Material.GRASS_BLOCK)
+                StandardItemBuilder.guiItem(Material.GRASS_BLOCK)
                         .displayName(trans("items.island.creation.title.name"))
-                        .lore(LangManager.getComponentList(viewer, "items.island.creation.title.lore"))
+                        .lore(LangManager.getList(viewer, "items.island.creation.title.lore"))
                         .build()
         );
         setItem(4, titleItem);
@@ -152,12 +153,12 @@ public class IslandCreationGui extends BaseGui {
      */
     private void updateNameItem() {
         GuiItem nameItem = GuiItem.clickable(
-                new ItemBuilder(Material.NAME_TAG)
+                StandardItemBuilder.guiItem(Material.NAME_TAG)
                         .displayName(trans("items.island.creation.name.name"))
                         .lore(List.of(
                                 Component.text(""),
                                 Component.text("현재 이름: ", NamedTextColor.GRAY)
-                                        .append(Component.text(islandName, ColorUtil.parseHexColor(islandColorHex))),
+                                        .append(Component.text(islandName, UnifiedColorUtil.parseHexColor(islandColorHex))),
                                 Component.text(""),
                                 Component.text("클릭하여 이름 변경", NamedTextColor.YELLOW),
                                 Component.text("")
@@ -204,12 +205,12 @@ public class IslandCreationGui extends BaseGui {
         String prevColorName = getColorName(AVAILABLE_COLORS.get(prevIndex));
 
         GuiItem colorItem = new GuiItem(
-                new ItemBuilder(woolType)
+                StandardItemBuilder.guiItem(woolType)
                         .displayName(trans("items.island.creation.color.name"))
                         .lore(List.of(
                                 Component.text(""),
                                 Component.text("현재 색상: ", NamedTextColor.GRAY)
-                                        .append(Component.text("███", ColorUtil.parseHexColor(islandColorHex)))
+                                        .append(Component.text("███", UnifiedColorUtil.parseHexColor(islandColorHex)))
                                         .append(Component.text(" " + getColorName(islandColorHex), NamedTextColor.WHITE)),
                                 Component.text("Hex: " + islandColorHex, NamedTextColor.GRAY),
                                 Component.text(""),
@@ -273,7 +274,7 @@ public class IslandCreationGui extends BaseGui {
         Material biomeIcon = getBiomeIcon(selectedBiome);
 
         GuiItem biomeItem = GuiItem.clickable(
-                new ItemBuilder(biomeIcon)
+                StandardItemBuilder.guiItem(biomeIcon)
                         .displayName(trans("items.island.creation.biome.name"))
                         .lore(List.of(
                                 Component.text(""),
@@ -310,7 +311,7 @@ public class IslandCreationGui extends BaseGui {
             boolean selected = template.equals(selectedTemplate);
 
             GuiItem templateItem = GuiItem.clickable(
-                    new ItemBuilder(getTemplateIcon(template))
+                    StandardItemBuilder.guiItem(getTemplateIcon(template))
                             .displayName(Component.text(getTemplateName(template),
                                             selected ? NamedTextColor.GREEN : NamedTextColor.GRAY)
                                     .decoration(TextDecoration.BOLD, selected))
@@ -350,7 +351,7 @@ public class IslandCreationGui extends BaseGui {
         lore.add(Component.text(""));
         lore.add(Component.text("선택된 설정:", NamedTextColor.YELLOW));
         lore.add(Component.text("• 이름: ", NamedTextColor.GRAY)
-                .append(Component.text(islandName, ColorUtil.parseHexColor(islandColorHex))));
+                .append(Component.text(islandName, UnifiedColorUtil.parseHexColor(islandColorHex))));
         lore.add(Component.text("• 바이옴: ", NamedTextColor.GRAY)
                 .append(Component.text(getBiomeName(selectedBiome), NamedTextColor.GREEN)));
         lore.add(Component.text("• 템플릿: ", NamedTextColor.GRAY)
@@ -361,7 +362,7 @@ public class IslandCreationGui extends BaseGui {
 
         // 섬 생성 처리
         GuiItem createButton = GuiItem.clickable(
-                new ItemBuilder(Material.LIME_CONCRETE)
+                StandardItemBuilder.guiItem(Material.LIME_CONCRETE)
                         .displayName(Component.text("✦ 섬 생성하기 ✦", NamedTextColor.GREEN)
                                 .decoration(TextDecoration.BOLD, true))
                         .lore(lore)
@@ -387,7 +388,7 @@ public class IslandCreationGui extends BaseGui {
                         player.sendMessage(Component.text("==== 섬 생성 완료! ====", NamedTextColor.GREEN));
                         player.sendMessage(Component.text(""));
                         player.sendMessage(Component.text("✦ ", NamedTextColor.GREEN)
-                                .append(Component.text(islandName, ColorUtil.parseHexColor(islandColorHex))
+                                .append(Component.text(islandName, UnifiedColorUtil.parseHexColor(islandColorHex))
                                         .decoration(TextDecoration.BOLD, true))
                                 .append(Component.text(" 섬이 생성되었습니다!", NamedTextColor.GREEN)));
                         player.sendMessage(Component.text(""));
@@ -523,5 +524,11 @@ public class IslandCreationGui extends BaseGui {
             case "#FFFFFF" -> "흰색";
             default -> "사용자 정의";
         };
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

@@ -98,8 +98,7 @@ public class CollectHerbsQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.side.collect_herbs.objectives." + id);
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("collect_herbs_dialog");
 
         dialog.addLine("quest.side.collect_herbs.dialog.alchemist",

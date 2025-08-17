@@ -2,7 +2,7 @@ package com.febrie.rpg.quest.dialog;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.manager.GuiManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LogUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
@@ -158,7 +158,7 @@ public class DialogManager {
         }
         
         // 선택지를 찾지 못한 경우
-        player.sendMessage(Component.text("잘못된 선택입니다.", ColorUtil.ERROR));
+        player.sendMessage(Component.text("잘못된 선택입니다.", UnifiedColorUtil.ERROR));
     }
 
     /**
@@ -177,7 +177,7 @@ public class DialogManager {
             }
         }
 
-        player.sendMessage(Component.text("대화가 종료되었습니다.", ColorUtil.GRAY));
+        player.sendMessage(Component.text("대화가 종료되었습니다.", UnifiedColorUtil.GRAY));
     }
 
     /**

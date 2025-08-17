@@ -96,7 +96,7 @@ public class FarmersRequestQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getComponentList(who, "quest.side.farmers_request.description");
+        return com.febrie.rpg.util.LangManager.getList(who, "quest.side.farmers_request.description");
     }
 
     @Override
@@ -105,8 +105,7 @@ public class FarmersRequestQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.side.farmers_request.objectives." + id);
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("farmers_request_dialog");
 
         dialog.addLine("quest.farmers_request.npcs.farmer", "quest.farmers_request.dialogs.line1");

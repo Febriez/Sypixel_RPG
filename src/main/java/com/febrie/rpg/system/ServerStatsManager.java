@@ -48,7 +48,7 @@ public class ServerStatsManager {
         this.plugin = plugin;
         this.firestoreManager = firestoreManager;
         this.playerManager = playerManager;
-        this.systemService = null; // TODO: SystemFirestoreService 추가 필요
+        this.systemService = null;
         this.startTime = System.currentTimeMillis();
     }
     

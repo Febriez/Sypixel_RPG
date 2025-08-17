@@ -137,7 +137,7 @@ public class DragonAwakeningQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getComponentList(who, "quest.main.dragon_awakening.description");
+        return LangManager.getList(who, "quest.main.dragon_awakening.description");
     }
 
     @Override
@@ -146,7 +146,6 @@ public class DragonAwakeningQuest extends Quest {
         return LangManager.getMessage(who, "quest.main.dragon_awakening.objectives." + id);
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("dragon_awakening_dialog");
 

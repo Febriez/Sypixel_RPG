@@ -1,7 +1,7 @@
 package com.febrie.rpg.stat;
 
 import com.febrie.rpg.dto.player.StatsDTO;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -33,42 +33,42 @@ public class Stat {
     public static final Stat STRENGTH = register(new Stat(
             "strength", "STR",
             Material.IRON_SWORD,
-            ColorUtil.COPPER,
+            UnifiedColorUtil.COPPER,
             10, 999
     ));
 
     public static final Stat INTELLIGENCE = register(new Stat(
             "intelligence", "INT",
             Material.ENCHANTED_BOOK,
-            ColorUtil.INFO,
+            UnifiedColorUtil.INFO,
             10, 999
     ));
 
     public static final Stat DEXTERITY = register(new Stat(
             "dexterity", "DEX",
             Material.FEATHER,
-            ColorUtil.SUCCESS,
+            UnifiedColorUtil.SUCCESS,
             10, 999
     ));
 
     public static final Stat VITALITY = register(new Stat(
             "vitality", "VIT",
             Material.GOLDEN_APPLE,
-            ColorUtil.HEALTH,
+            UnifiedColorUtil.HEALTH,
             10, 999
     ));
 
     public static final Stat WISDOM = register(new Stat(
             "wisdom", "WIS",
             Material.EXPERIENCE_BOTTLE,
-            ColorUtil.MANA,
+            UnifiedColorUtil.MANA,
             10, 999
     ));
 
     public static final Stat LUCK = register(new Stat(
             "luck", "LUK",
             Material.EMERALD,
-            ColorUtil.LEGENDARY,
+            UnifiedColorUtil.LEGENDARY,
             1, 100
     ));
 

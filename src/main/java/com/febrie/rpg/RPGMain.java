@@ -1,6 +1,6 @@
 package com.febrie.rpg;
 
-import com.febrie.rpg.command.admin.AdminCommands;
+import com.febrie.rpg.command.admin.AdminCommandHandler;
 import com.febrie.rpg.command.island.IslandCommand;
 import com.febrie.rpg.command.social.FriendCommand;
 import com.febrie.rpg.command.social.MailCommand;
@@ -70,7 +70,7 @@ public final class RPGMain extends JavaPlugin {
 
     // 명령어
     private MainMenuCommand mainMenuCommand;
-    private AdminCommands adminCommands;
+    private AdminCommandHandler adminCommandHandler;
     private SiteAccountCommand siteAccountCommand;
     private IslandCommand islandCommand;
     private FriendCommand friendCommand;
@@ -154,16 +154,7 @@ public final class RPGMain extends JavaPlugin {
             islandManager.clearCache();
         }
 
-        // Firestore 서비스들 정리
-        if (playerFirestoreService != null) {
-            playerFirestoreService.shutdown();
-        }
-        if (questFirestoreService != null) {
-            questFirestoreService.shutdown();
-        }
-        if (islandFirestoreService != null) {
-            islandFirestoreService.shutdown();
-        }
+        // Firestore 서비스들은 별도 정리 불필요 (GenericFirestoreService 사용)
 
         // Firebase 종료
         if (firestoreManager != null) {
@@ -228,7 +219,7 @@ public final class RPGMain extends JavaPlugin {
 
         // 명령어 객체 생성 (실제 등록은 registerCommands에서)
         this.mainMenuCommand = new MainMenuCommand(this, guiManager);
-        this.adminCommands = new AdminCommands(this, rpgPlayerManager);
+        this.adminCommandHandler = new AdminCommandHandler(this);
         this.siteAccountCommand = new SiteAccountCommand(this);
         this.islandCommand = new IslandCommand(this);
         this.friendCommand = new FriendCommand(this, guiManager);
@@ -266,11 +257,11 @@ public final class RPGMain extends JavaPlugin {
 
         // 퀘스트 Trait 등록 아이템 리스너 등록
         getServer().getPluginManager()
-                .registerEvents(new QuestTraitRegistrationItem(), this);
+                .registerEvents(new QuestTraitRegistrationItem(this), this);
 
         // 보상 Trait 등록 아이템 리스너 등록
         getServer().getPluginManager()
-                .registerEvents(new RewardTraitRegistrationItem(), this);
+                .registerEvents(new RewardTraitRegistrationItem(this), this);
 
         // 퀘스트 시작 NPC 막대기 리스너 등록
         getServer().getPluginManager()
@@ -317,7 +308,7 @@ public final class RPGMain extends JavaPlugin {
         registerCommand("메뉴", mainMenuCommand);
 
         // 관리자 명령어 등록
-        registerCommand("rpgadmin", adminCommands);
+        registerCommand("rpgadmin", adminCommandHandler);
 
         // 사이트 계정 명령어 등록
         registerCommand("사이트계정발급", siteAccountCommand);
@@ -379,10 +370,6 @@ public final class RPGMain extends JavaPlugin {
 
     // Getter 메소드들
 
-    public LangManager getLangManager() {
-        return null; // LangManager is now static
-    }
-
     public GuiManager getGuiManager() {
         return guiManager;
     }
@@ -397,6 +384,10 @@ public final class RPGMain extends JavaPlugin {
 
     public NPCManager getNPCManager() {
         return npcManager;
+    }
+    
+    public NPCTraitSetter getNPCTraitSetter() {
+        return npcTraitSetter;
     }
 
     public QuestGuideManager getQuestGuideManager() {

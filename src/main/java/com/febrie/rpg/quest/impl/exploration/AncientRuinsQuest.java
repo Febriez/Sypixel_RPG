@@ -122,7 +122,6 @@ public class AncientRuinsQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.exploration.ancient_ruins.objectives." + id);
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("ancient_ruins_dialog");
 

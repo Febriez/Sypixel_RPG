@@ -192,7 +192,7 @@ public class StatsGui extends ScrollableGui {
             builder.addLore(Component.empty());
 
             // 스탯 설명
-            List<Component> description = com.febrie.rpg.util.LangManager.getComponentList(viewer,
+            List<Component> description = com.febrie.rpg.util.LangManager.getList(viewer,
                     "stat." + stat.getId() + ".description");
             description.forEach(builder::addLore);
 
@@ -236,5 +236,11 @@ public class StatsGui extends ScrollableGui {
     public GuiFramework getBackTarget() {
         // StatsGui는 ProfileGui로 돌아갑니다
         return new ProfileGui(guiManager, viewer);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

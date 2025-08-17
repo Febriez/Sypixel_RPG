@@ -9,7 +9,7 @@ import com.febrie.rpg.island.IslandCache;
 import com.febrie.rpg.island.IslandPlayer;
 import com.febrie.rpg.island.IslandService;
 import com.febrie.rpg.island.world.IslandWorldManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LogUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -93,7 +93,7 @@ public class IslandManager {
         return islandService.loadAllIslands()
                 .thenAccept(islands -> {
                     for (IslandDTO island : islands) {
-                        cache.putIsland(island.islandId(), island);
+                        cache.putIsland(island.core().islandId(), island);
                         cache.updateIslandMembers(island);
                     }
                     LogUtil.debug("섬 " + islands.size() + "개 캐시 로드 완료");
@@ -218,7 +218,13 @@ public class IslandManager {
 
                 // 설정을 포함한 새로운 섬 데이터 생성
                 IslandSettingsDTO settings = new IslandSettingsDTO(colorHex, biome, template);
-                IslandDTO islandData = new IslandDTO(baseIsland.islandId(), baseIsland.ownerUuid(), baseIsland.ownerName(), baseIsland.islandName(), baseIsland.size(), baseIsland.isPublic(), baseIsland.createdAt(), baseIsland.lastActivity(), baseIsland.members(), baseIsland.workers(), baseIsland.contributions(), new IslandSpawnDTO(new IslandSpawnPointDTO(location.centerX(), 66.0, location.centerZ(), 0.0f, 0.0f, "섬 중앙"), null, List.of(), Map.of()), baseIsland.upgradeData(), baseIsland.permissions(), baseIsland.pendingInvites(), baseIsland.recentVisits(), baseIsland.totalResets(), baseIsland.deletionScheduledAt(), settings);
+                IslandDTO islandData = IslandDTO.fromFields(
+                        baseIsland.core().islandId(), baseIsland.core().ownerUuid(), baseIsland.core().ownerName(), baseIsland.core().islandName(),
+                        baseIsland.core().size(), baseIsland.core().isPublic(), baseIsland.core().createdAt(), baseIsland.core().lastActivity(),
+                        baseIsland.membership().members(), baseIsland.membership().workers(), baseIsland.membership().contributions(),
+                        new IslandSpawnDTO(new IslandSpawnPointDTO(location.centerX(), 66.0, location.centerZ(), 0.0f, 0.0f, "섬 중앙"), null, List.of(), Map.of()),
+                        baseIsland.configuration().upgradeData(), baseIsland.configuration().permissions(), baseIsland.social().pendingInvites(), baseIsland.social().recentVisits(),
+                        baseIsland.core().totalResets(), baseIsland.core().deletionScheduledAt(), settings);
 
                 // 섬 저장
                 return islandService.saveIsland(islandData)
@@ -245,7 +251,7 @@ public class IslandManager {
                                         cache.putPlayerData(ownerUuid, playerData);
 
                                         // 바이옴 설정 적용
-                                        return applyBiomeToIsland(location.centerX(), location.centerZ(), baseIsland.size(), biome).thenApply(biomeApplied -> {
+                                        return applyBiomeToIsland(location.centerX(), location.centerZ(), baseIsland.core().size(), biome).thenApply(biomeApplied -> {
                                             if (biomeApplied) {
                                                 LogUtil.info("섬 바이옴 설정 성공: " + biome);
                                             } else {
@@ -323,17 +329,25 @@ public class IslandManager {
      * 섬 삭제
      */
     public CompletableFuture<Boolean> deleteIsland(@NotNull String islandId) {
+        LogUtil.info("섬 삭제 시작: " + islandId);
+        
         return loadIsland(islandId).thenCompose(island -> {
             if (island == null) {
+                LogUtil.warning("섬 삭제 실패 - 섬을 찾을 수 없음: " + islandId);
                 return CompletableFuture.completedFuture(false);
             }
 
+            LogUtil.debug("물리적 섬 삭제 시작: " + islandId);
+            
             // 물리적 섬 삭제
             return island.delete()
                     .thenCompose(deleted -> {
                         if (!deleted) {
+                            LogUtil.error("물리적 섬 삭제 실패: " + islandId);
                             return CompletableFuture.completedFuture(false);
                         }
+
+                        LogUtil.debug("물리적 섬 삭제 성공, 멤버 데이터 제거 시작: " + islandId);
 
                         // 모든 멤버의 섬 데이터 제거
                         List<CompletableFuture<Boolean>> memberUpdates = new ArrayList<>();
@@ -344,15 +358,25 @@ public class IslandManager {
                         }
 
                         return CompletableFuture.allOf(memberUpdates.toArray(new CompletableFuture<?>[0]))
-                                .thenCompose(v -> islandService.deleteIsland(islandId))
+                                .thenCompose(v -> {
+                                    LogUtil.debug("멤버 데이터 제거 완료, Firestore에서 섬 삭제 시작: " + islandId);
+                                    return islandService.deleteIsland(islandId);
+                                })
                                 .thenApply(firestoreDeleted -> {
                                     if (firestoreDeleted) {
+                                        LogUtil.info("섬 삭제 완료: " + islandId);
                                         // 캐시 제거
                                         cache.removeIslandMembers(island.getData());
                                         cache.removeIsland(islandId);
+                                    } else {
+                                        LogUtil.error("Firestore에서 섬 삭제 실패: " + islandId);
                                     }
                                     return firestoreDeleted;
                                 });
+                    })
+                    .exceptionally(ex -> {
+                        LogUtil.error("섬 삭제 중 예외 발생: " + islandId, ex);
+                        return false;
                     });
         });
     }
@@ -410,7 +434,7 @@ public class IslandManager {
         return islandService.saveIsland(island)
                 .thenApply(saved -> {
                     if (saved) {
-                        cache.putIsland(island.islandId(), island);
+                        cache.putIsland(island.core().islandId(), island);
                         cache.updateIslandMembers(island);
                     }
                     return saved;
@@ -510,11 +534,11 @@ public class IslandManager {
         }
 
         // 스폰 위치 계산
-        IslandSpawnDTO spawnData = island.spawnData();
+        IslandSpawnDTO spawnData = island.configuration().spawnData();
         IslandSpawnPointDTO spawnPoint = null;
 
         // 개인 스폰 또는 기본 스폰
-        boolean isOwner = island.ownerUuid()
+        boolean isOwner = island.core().ownerUuid()
                 .equals(uuid);
         spawnPoint = spawnData.getPersonalSpawn(uuid, isOwner);
 
@@ -603,7 +627,7 @@ public class IslandManager {
     public void teleportToIsland(@NotNull Player player, @NotNull IslandDTO island) {
         World world = worldManager.getIslandWorld();
         if (world == null) {
-            player.sendMessage(ColorUtil.colorize("&c섬 월드를 찾을 수 없습니다."));
+            player.sendMessage(UnifiedColorUtil.parse("&c섬 월드를 찾을 수 없습니다."));
             return;
         }
 
@@ -612,22 +636,22 @@ public class IslandManager {
                 .toString();
 
         // 섬 주인인지 확인
-        boolean isOwner = island.ownerUuid()
+        boolean isOwner = island.core().ownerUuid()
                 .equals(playerUuid);
 
         // 섬 멤버인지 확인
-        boolean isMember = island.members()
+        boolean isMember = island.membership().members()
                 .stream()
                 .anyMatch(m -> m.uuid()
                         .equals(playerUuid));
 
         // 알바생인지 확인
-        boolean isWorker = island.workers()
+        boolean isWorker = island.membership().workers()
                 .stream()
                 .anyMatch(w -> w.uuid()
                         .equals(playerUuid));
 
-        IslandSpawnDTO spawnData = island.spawnData();
+        IslandSpawnDTO spawnData = island.configuration().spawnData();
 
         if (isOwner || isMember || isWorker) {
             // 섬원/알바생은 기본 스폰으로
@@ -649,9 +673,9 @@ public class IslandManager {
 
         // 메시지
         if (isOwner || isMember || isWorker) {
-            player.sendMessage(ColorUtil.colorize("&a섬으로 이동했습니다."));
+            player.sendMessage(UnifiedColorUtil.parse("&a섬으로 이동했습니다."));
         } else {
-            player.sendMessage(ColorUtil.colorize("&e" + island.islandName() + " 섬을 방문했습니다."));
+            player.sendMessage(UnifiedColorUtil.parse("&e" + island.core().islandName() + " 섬을 방문했습니다."));
 
             // 방문 기록 추가
             recordVisit(island, player);
@@ -671,14 +695,14 @@ public class IslandManager {
         IslandVisitDTO newVisit = new IslandVisitDTO(visitorUuid, visitorName, now, 0L);
 
         // 방문 기록 리스트 업데이트 (최대 100개 유지)
-        List<IslandVisitDTO> visits = new ArrayList<>(island.recentVisits());
+        List<IslandVisitDTO> visits = new ArrayList<>(island.social().recentVisits());
         visits.addFirst(newVisit);
         if (visits.size() > 100) {
             visits = visits.subList(0, 100);
         }
 
         // 섬 데이터 업데이트
-        IslandDTO updated = new IslandDTO(island.islandId(), island.ownerUuid(), island.ownerName(), island.islandName(), island.size(), island.isPublic(), island.createdAt(), System.currentTimeMillis(), island.members(), island.workers(), island.contributions(), island.spawnData(), island.upgradeData(), island.permissions(), island.pendingInvites(), visits, island.totalResets(), island.deletionScheduledAt(), island.settings());
+        IslandDTO updated = IslandDTO.fromFields(island.core().islandId(), island.core().ownerUuid(), island.core().ownerName(), island.core().islandName(), island.core().size(), island.core().isPublic(), island.core().createdAt(), System.currentTimeMillis(), island.membership().members(), island.membership().workers(), island.membership().contributions(), island.configuration().spawnData(), island.configuration().upgradeData(), island.configuration().permissions(), island.social().pendingInvites(), visits, island.core().totalResets(), island.core().deletionScheduledAt(), island.configuration().settings());
 
         updateIsland(updated);
     }

@@ -2,13 +2,12 @@ package com.febrie.rpg.quest;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.quest.builder.QuestBuilder;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.reward.QuestReward;
 import com.febrie.rpg.quest.reward.RewardDeliveryType;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -137,6 +136,16 @@ public abstract class Quest {
     }
 
     /**
+     * 퀘스트 이름 가져오기 (간단한 문자열)
+     *
+     * @return 퀘스트 이름
+     */
+    @NotNull
+    public String getName() {
+        return id.name();
+    }
+    
+    /**
      * 퀘스트 표시 이름
      *
      * @param who 대상 플레이어
@@ -163,7 +172,7 @@ public abstract class Quest {
         goals.add(LangManager.getMessage(who, "quest.goals"));
         
         for (QuestObjective objective : objectives) {
-            Component bullet = Component.text("• ", ColorUtil.WHITE);
+            Component bullet = Component.text("• ", UnifiedColorUtil.WHITE);
             goals.add(bullet.append(getObjectiveDescription(objective, who)));
         }
         
@@ -182,7 +191,7 @@ public abstract class Quest {
         
         // 보상 정보는 QuestReward의 getDisplayInfo를 사용
         Component rewardInfo = getRewardDisplayInfo(who);
-        rewards.add(Component.text("• ", ColorUtil.WHITE).append(rewardInfo));
+        rewards.add(Component.text("• ", UnifiedColorUtil.WHITE).append(rewardInfo));
         
         return rewards;
     }
@@ -226,46 +235,46 @@ public abstract class Quest {
 
         // 첫 페이지 - 퀘스트 기본 정보
         Component page1 = Component.text("=== ", NamedTextColor.DARK_GRAY)
-                .append(getDisplayName(player).color(ColorUtil.GOLD).decoration(TextDecoration.BOLD, true))
+                .append(getDisplayName(player).color(UnifiedColorUtil.GOLD).decoration(TextDecoration.BOLD, true))
                 .append(Component.text(" ===", NamedTextColor.DARK_GRAY))
                 .append(Component.newline()).append(Component.newline());
 
         for (Component line : getDisplayInfo(player)) {
-            page1 = page1.append(line.color(ColorUtil.GRAY))
+            page1 = page1.append(line.color(UnifiedColorUtil.GRAY))
                     .append(Component.newline());
         }
 
         page1 = page1.append(Component.newline())
-                .append(LangManager.getMessage(player, "quest.category-label").color(ColorUtil.YELLOW))
-                .append(getCategoryName(player).color(ColorUtil.WHITE))
+                .append(LangManager.getMessage(player, "quest.category-label").color(UnifiedColorUtil.YELLOW))
+                .append(getCategoryName(player).color(UnifiedColorUtil.WHITE))
                 .append(Component.newline())
-                .append(LangManager.getMessage(player, "quest.level-requirement").color(ColorUtil.YELLOW))
-                .append(Component.text(minLevel + (maxLevel > 0 ? "-" + maxLevel : "+"), ColorUtil.WHITE));
+                .append(LangManager.getMessage(player, "quest.level-requirement").color(UnifiedColorUtil.YELLOW))
+                .append(Component.text(minLevel + (maxLevel > 0 ? "-" + maxLevel : "+"), UnifiedColorUtil.WHITE));
 
         pages.add(page1);
 
         // 두 번째 페이지 - 목표
-        Component page2 = LangManager.getMessage(player, "quest.quest-objectives").color(ColorUtil.GOLD).decoration(TextDecoration.BOLD, true)
+        Component page2 = LangManager.getMessage(player, "quest.quest-objectives").color(UnifiedColorUtil.GOLD).decoration(TextDecoration.BOLD, true)
                 .append(Component.newline()).append(Component.newline());
 
         int index = 1;
         for (QuestObjective objective : objectives) {
             Component objectiveText = getObjectiveDescription(objective, player);
-            page2 = page2.append(Component.text(index + ". ", ColorUtil.YELLOW))
-                    .append(objectiveText.color(ColorUtil.WHITE))
+            page2 = page2.append(Component.text(index + ". ", UnifiedColorUtil.YELLOW))
+                    .append(objectiveText.color(UnifiedColorUtil.WHITE))
                     .append(Component.newline());
             index++;
         }
 
         if (sequential) {
             page2 = page2.append(Component.newline())
-                    .append(LangManager.getMessage(player, "quest.sequential-note").color(ColorUtil.RED));
+                    .append(LangManager.getMessage(player, "quest.sequential-note").color(UnifiedColorUtil.RED));
         }
 
         pages.add(page2);
 
         // 세 번째 페이지 - 보상
-        Component page3 = LangManager.getMessage(player, "quest.quest-rewards").color(ColorUtil.EMERALD).decoration(TextDecoration.BOLD, true)
+        Component page3 = LangManager.getMessage(player, "quest.quest-rewards").color(UnifiedColorUtil.EMERALD).decoration(TextDecoration.BOLD, true)
                 .append(Component.newline()).append(Component.newline());
 
         // 보상 정보 표시
@@ -301,34 +310,13 @@ public abstract class Quest {
         return LangManager.getMessage(who, "quest.categories." + category.name().toLowerCase());
     }
 
-    /**
-     * 퀘스트 대화 (없으면 null) - 기존 호환성
-     *
-     * @return 퀘스트 대화
-     */
-    @Nullable
-    public QuestDialog getDialog() {
-        return null;
-    }
-
-    /**
-     * 플레이어별 대화 (레거시 - 빈 구현)
-     *
-     * @param player 플레이어
-     * @return null
-     */
-    @Nullable
-    public QuestDialog getDialog(@NotNull Player player) {
-        return getDialog();
-    }
     
     /**
-     * 대화 개수 반환 (기본 구현)
+     * 대화 개수 반환
      * @return 대화 개수
      */
     public int getDialogCount() {
-        QuestDialog dialog = getDialog();
-        return dialog != null ? dialog.getDialogues().size() : 0;
+        return 0;
     }
     
     /**
@@ -339,10 +327,6 @@ public abstract class Quest {
      */
     @Nullable
     public String getDialog(int index, @NotNull Player player) {
-        QuestDialog dialog = getDialog();
-        if (dialog != null && index >= 0 && index < dialog.getDialogues().size()) {
-            return dialog.getDialogues().get(index);
-        }
         return null;
     }
     
@@ -353,8 +337,7 @@ public abstract class Quest {
      */
     @NotNull
     public String getNPCName(@NotNull Player player) {
-        QuestDialog dialog = getDialog();
-        return dialog != null && dialog.getNpcName() != null ? dialog.getNpcName() : "Quest NPC";
+        return "Quest NPC";
     }
     
     /**

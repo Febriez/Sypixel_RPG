@@ -157,8 +157,7 @@ public class MageEnlightenmentQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.advancement.mage_enlightenment.objectives." + id);
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("mage_enlightenment_dialog");
 
         // 시작

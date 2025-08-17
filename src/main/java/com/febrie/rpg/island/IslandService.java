@@ -39,12 +39,12 @@ public class IslandService {
             return CompletableFuture.completedFuture(true);
         }
         
-        return firestoreService.save(island.islandId(), island)
+        return firestoreService.save(island.core().islandId(), island)
                 .thenApply(v -> {
                     return true;
                 })
                 .exceptionally(ex -> {
-                    LogUtil.error("섬 저장 실패: " + island.islandId(), ex);
+                    LogUtil.error("섬 저장 실패: " + island.core().islandId(), ex);
                     return false;
                 });
     }

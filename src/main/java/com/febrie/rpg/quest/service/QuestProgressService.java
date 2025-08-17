@@ -144,7 +144,6 @@ public final class QuestProgressService {
      */
     public void handleEntityInteract(@NotNull PlayerInteractEntityEvent event, @NotNull String npcId) {
         // DeliverItem 목표는 별도 구현 필요
-        // TODO: DeliverItemObjective 구현
     }
     
     // ==================== 특수 처리 ====================

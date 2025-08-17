@@ -91,8 +91,7 @@ public class DailyMiningQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, key);
     }
     
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("daily_mining_dialog");
         
         // 시작 대화

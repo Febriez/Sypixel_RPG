@@ -6,7 +6,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
@@ -101,27 +100,6 @@ public class FirstStepsQuest extends Quest {
         };
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
-        QuestDialog dialog = new QuestDialog("first_steps_dialog");
-
-        dialog.addLine(
-                "quest.tutorial.first-steps.npc-name",
-                "quest.tutorial.first-steps.dialogs.welcome"
-        );
-
-        dialog.addLine(
-                "quest.tutorial.first-steps.npc-name",
-                "quest.tutorial.first-steps.dialogs.guide-intro"
-        );
-
-        dialog.addLine(
-                "quest.tutorial.first-steps.npc-name",
-                "quest.tutorial.first-steps.dialogs.ready-question"
-        );
-
-        return dialog;
-    }
 
     @Override
     public String getAcceptDialog(@NotNull Player who) {

@@ -128,7 +128,6 @@ public class GuardianAwakeningQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.guardian_awakening.objectives." + id);
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("guardian_awakening_dialog");
 

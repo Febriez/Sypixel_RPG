@@ -39,7 +39,7 @@ public class GuiBuilder {
         GuiItem button = GuiItem.clickable(
             new ItemBuilder(material)
                 .displayName(LangManager.getComponent(viewer, nameKey))
-                .lore(LangManager.getComponentList(viewer, loreKey))
+                .lore(LangManager.getList(viewer, loreKey))
                 .build(),
             player -> {
                 action.accept(player);
@@ -71,7 +71,7 @@ public class GuiBuilder {
         gui.setItem(slot, GuiItem.display(
             new ItemBuilder(material)
                 .displayName(LangManager.getComponent(viewer, nameKey))
-                .lore(LangManager.getComponentList(viewer, loreKey))
+                .lore(LangManager.getList(viewer, loreKey))
                 .build()
         ));
         return this;

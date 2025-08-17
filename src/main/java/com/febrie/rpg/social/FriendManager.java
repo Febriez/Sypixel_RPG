@@ -1,20 +1,22 @@
 package com.febrie.rpg.social;
 
 import com.febrie.rpg.RPGMain;
+import com.febrie.rpg.cache.UnifiedCacheManager;
 import com.febrie.rpg.database.FirestoreManager;
 import com.febrie.rpg.database.service.impl.FriendshipFirestoreService;
 import com.febrie.rpg.dto.social.FriendRequestDTO;
 import com.febrie.rpg.dto.social.FriendshipDTO;
 import com.febrie.rpg.util.LogUtil;
+import com.github.benmanes.caffeine.cache.Cache;
 import com.google.cloud.firestore.Firestore;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -29,19 +31,25 @@ public class FriendManager {
 
     private final RPGMain plugin;
     private final FriendshipFirestoreService friendshipService;
+    private final UnifiedCacheManager cacheManager;
 
-    // 캐시
-    private final Map<UUID, Set<FriendshipDTO>> friendsCache = new ConcurrentHashMap<>();
-    private final Map<UUID, Set<FriendRequestDTO>> pendingRequestsCache = new ConcurrentHashMap<>();
+    // Caffeine 캐시
+    private final Cache<UUID, Set<FriendshipDTO>> friendsCache;
+    private final Cache<UUID, Set<FriendRequestDTO>> pendingRequestsCache;
 
     // 캐시 유효 시간 (5분)
-    private static final long CACHE_DURATION_MS = 300_000;
-    private final Map<UUID, Long> cacheTimestamps = new ConcurrentHashMap<>();
+    private static final Duration CACHE_DURATION = Duration.ofMinutes(5);
 
     public FriendManager(@NotNull RPGMain plugin) {
         this.plugin = plugin;
         Firestore firestore = plugin.getFirestoreManager().getFirestore();
         this.friendshipService = new FriendshipFirestoreService(plugin, firestore);
+        this.cacheManager = UnifiedCacheManager.getInstance();
+        
+        // Caffeine 캐시 초기화
+        this.friendsCache = cacheManager.createCache("friends", CACHE_DURATION);
+        this.pendingRequestsCache = cacheManager.createCache("friendRequests", CACHE_DURATION);
+        
         instance = this;
     }
 
@@ -83,8 +91,8 @@ public class FriendManager {
                 toId, toPlayer.getName()
             ).thenApply(v -> {
                 // 캐시 무효화
-                clearCache(fromId);
-                clearCache(toId);
+                friendsCache.invalidate(fromId);
+                friendsCache.invalidate(toId);
 
                 // 알림
                 from.sendMessage("§a" + toPlayerName + "님과 친구가 되었습니다!");
@@ -112,8 +120,8 @@ public class FriendManager {
         return friendshipService.deleteFriendship(playerId, friendId)
             .thenApply(v -> {
                 // 캐시 무효화
-                clearCache(playerId);
-                clearCache(friendId);
+                friendsCache.invalidate(playerId);
+                friendsCache.invalidate(friendId);
 
                 // 알림
                 player.sendMessage("§e친구 관계가 해제되었습니다.");
@@ -139,30 +147,24 @@ public class FriendManager {
      */
     @NotNull
     public CompletableFuture<Set<FriendshipDTO>> getFriends(@NotNull UUID playerId) {
-        // 캐시 확인
-        Long lastCached = cacheTimestamps.get(playerId);
-        if (lastCached != null && System.currentTimeMillis() - lastCached < CACHE_DURATION_MS) {
-            Set<FriendshipDTO> cached = friendsCache.get(playerId);
-            if (cached != null) {
-                return CompletableFuture.completedFuture(new HashSet<>(cached));
-            }
-        }
-
-        // DB에서 조회
-        return friendshipService.getFriendships(playerId)
-            .thenApply(friendships -> {
-                Set<FriendshipDTO> friendSet = new HashSet<>(friendships);
-                
-                // 캐시 업데이트
-                friendsCache.put(playerId, friendSet);
-                cacheTimestamps.put(playerId, System.currentTimeMillis());
-                
-                return friendSet;
-            })
-            .exceptionally(ex -> {
-                LogUtil.warning("친구 목록 조회 실패 [" + playerId + "]: " + ex.getMessage());
+        // Caffeine 캐시에서 확인 (없으면 로더 실행)
+        Set<FriendshipDTO> cached = friendsCache.get(playerId, key -> {
+            try {
+                // DB에서 동기적으로 조회
+                return friendshipService.getFriendships(key)
+                    .thenApply(HashSet::new)
+                    .exceptionally(ex -> {
+                        LogUtil.warning("친구 목록 조회 실패 [" + key + "]: " + ex.getMessage());
+                        return new HashSet<>();
+                    })
+                    .join(); // CompletableFuture를 동기화
+            } catch (Exception e) {
+                LogUtil.warning("친구 목록 캐시 로드 실패 [" + key + "]: " + e.getMessage());
                 return new HashSet<>();
-            });
+            }
+        });
+        
+        return CompletableFuture.completedFuture(cached != null ? new HashSet<>(cached) : new HashSet<>());
     }
 
     /**
@@ -236,18 +238,16 @@ public class FriendManager {
      * 캐시 정리
      */
     public void clearCache(@NotNull UUID playerId) {
-        friendsCache.remove(playerId);
-        pendingRequestsCache.remove(playerId);
-        cacheTimestamps.remove(playerId);
+        friendsCache.invalidate(playerId);
+        pendingRequestsCache.invalidate(playerId);
     }
 
     /**
      * 모든 캐시 정리
      */
     public void clearAllCache() {
-        friendsCache.clear();
-        pendingRequestsCache.clear();
-        cacheTimestamps.clear();
+        friendsCache.invalidateAll();
+        pendingRequestsCache.invalidateAll();
     }
 
     /**
@@ -255,6 +255,6 @@ public class FriendManager {
      */
     public void shutdown() {
         clearAllCache();
-        friendshipService.shutdown();
+        // Firestore 서비스는 GenericFirestoreService를 사용하므로 별도 shutdown 불필요
     }
 }

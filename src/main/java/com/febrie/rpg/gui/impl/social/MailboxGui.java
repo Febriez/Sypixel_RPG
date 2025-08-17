@@ -8,9 +8,9 @@ import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.impl.system.MainMenuGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.social.MailManager;
-import com.febrie.rpg.util.ColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import net.wesjd.anvilgui.AnvilGUI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -74,7 +74,7 @@ public class MailboxGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("우편함", ColorUtil.PRIMARY);
+        return trans("social.mailbox.title");
     }
 
     @Override
@@ -103,10 +103,10 @@ public class MailboxGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 new ItemBuilder(Material.CHEST)
-                        .displayName(Component.text("📬 우편함", ColorUtil.PRIMARY)
+                        .displayName(trans("social.mailbox.title-icon")
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("받은 우편을 확인하세요!", ColorUtil.GRAY))
+                        .addLore(trans("social.mailbox.description"))
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -119,17 +119,17 @@ public class MailboxGui extends BaseGui {
         // 새로고침 버튼
         GuiItem refreshButton = GuiItem.clickable(
                 new ItemBuilder(Material.CLOCK)
-                        .displayName(Component.text("🔄 새로고침", ColorUtil.INFO)
+                        .displayName(trans("social.mailbox.refresh")
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("우편 목록을 새로고침합니다", ColorUtil.GRAY))
+                        .addLore(trans("social.mailbox.refresh-desc"))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 새로고침", ColorUtil.YELLOW))
+                        .addLore(trans("social.mailbox.click-refresh"))
                         .build(),
                 p -> {
                     mailManager.clearCache(p.getUniqueId());
                     loadMails();
-                    p.sendMessage("§a우편 목록을 새로고침했습니다.");
+                    p.sendMessage(LangManager.getMessage(p, "social.mailbox.refresh-success"));
                     playClickSound(p);
                 }
         );
@@ -138,18 +138,18 @@ public class MailboxGui extends BaseGui {
         // 우편 보내기 버튼
         GuiItem sendMailButton = GuiItem.clickable(
                 new ItemBuilder(Material.WRITABLE_BOOK)
-                        .displayName(Component.text("📝 우편 보내기", ColorUtil.SUCCESS)
+                        .displayName(trans("social.mailbox.send-mail")
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("새로운 우편을 보냅니다", ColorUtil.GRAY))
+                        .addLore(trans("social.mailbox.send-mail-desc"))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 작성", ColorUtil.YELLOW))
+                        .addLore(trans("social.mailbox.click-to-write"))
                         .build(),
                 p -> {
                     p.closeInventory();
-                    p.sendMessage("§e우편 보내기:");
-                    p.sendMessage("§7'/우편보내기 <플레이어명> <제목> [메시지]'를 입력하세요.");
-                    p.sendMessage("§7예시: /우편보내기 Steve 선물 안녕하세요!");
+                    p.sendMessage(LangManager.getMessage(p, "social.mailbox.send-mail-guide"));
+                    p.sendMessage(LangManager.getMessage(p, "social.mailbox.send-mail-command"));
+                    p.sendMessage(LangManager.getMessage(p, "social.mailbox.send-mail-example"));
                     playClickSound(p);
                 }
         );
@@ -158,13 +158,13 @@ public class MailboxGui extends BaseGui {
         // 읽은 우편 삭제 버튼
         GuiItem deleteReadButton = GuiItem.clickable(
                 new ItemBuilder(Material.LAVA_BUCKET)
-                        .displayName(Component.text("🗑 읽은 우편 삭제", ColorUtil.ERROR)
+                        .displayName(trans("social.mailbox.delete-read")
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("읽은 우편을 모두 삭제합니다", ColorUtil.GRAY))
-                        .addLore(Component.text("(첨부물이 있는 우편 제외)", ColorUtil.YELLOW))
+                        .addLore(trans("social.mailbox.delete-read-desc"))
+                        .addLore(trans("social.mailbox.except-attachments"))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 삭제", ColorUtil.YELLOW))
+                        .addLore(trans("social.mailbox.click-to-delete"))
                         .build(),
                 p -> {
                     // 읽은 우편 일괄 삭제 구현
@@ -199,7 +199,7 @@ public class MailboxGui extends BaseGui {
         // 로딩 표시
         setItem(MAILS_START_SLOT + 12, GuiItem.display(
                 new ItemBuilder(Material.HOPPER)
-                        .displayName(Component.text("로딩 중...", ColorUtil.GRAY))
+                        .displayName(trans("social.mailbox.loading"))
                         .build()
         ));
 
@@ -225,8 +225,8 @@ public class MailboxGui extends BaseGui {
             // 우편이 없을 때
             setItem(MAILS_START_SLOT + 12, GuiItem.display(
                     new ItemBuilder(Material.BARRIER)
-                            .displayName(Component.text(showReadMails ? "우편이 없습니다" : "읽지 않은 우편이 없습니다", ColorUtil.ERROR))
-                            .addLore(Component.text("새로운 우편이 오면 알림을 받을 수 있습니다", ColorUtil.GRAY))
+                            .displayName(Component.text(showReadMails ? "우편이 없습니다" : "읽지 않은 우편이 없습니다", UnifiedColorUtil.ERROR))
+                            .addLore(Component.text("새로운 우편이 오면 알림을 받을 수 있습니다", UnifiedColorUtil.GRAY))
                             .build()
             ));
             return;
@@ -252,15 +252,15 @@ public class MailboxGui extends BaseGui {
 
             GuiItem mailItem = GuiItem.clickable(
                     new ItemBuilder(material)
-                            .displayName(Component.text(mail.subject(), ColorUtil.PRIMARY)
+                            .displayName(Component.text(mail.subject(), UnifiedColorUtil.PRIMARY)
                                     .decoration(TextDecoration.BOLD, mail.isUnread()))
                             .addLore(Component.empty())
-                            .addLore(Component.text("보낸 사람: " + mail.senderName(), ColorUtil.WHITE))
-                            .addLore(Component.text("상태: " + status, ColorUtil.GRAY))
+                            .addLore(Component.text("보낸 사람: " + mail.senderName(), UnifiedColorUtil.WHITE))
+                            .addLore(Component.text("상태: " + status, UnifiedColorUtil.GRAY))
                             .addLore(Component.text("시간: " + java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
-                                    DateTimeFormatter.ofPattern("MM-dd HH:mm")), ColorUtil.GRAY))
+                                    DateTimeFormatter.ofPattern("MM-dd HH:mm")), UnifiedColorUtil.GRAY))
                             .addLore(Component.empty())
-                            .addLore(Component.text("클릭하여 우편 확인", ColorUtil.YELLOW))
+                            .addLore(Component.text("클릭하여 우편 확인", UnifiedColorUtil.YELLOW))
                             .build(),
                     p -> {
                         MailDetailGui detailGui = MailDetailGui.create(guiManager, p, mail);
@@ -283,7 +283,7 @@ public class MailboxGui extends BaseGui {
                 .toList();
         
         if (readMailsToDelete.isEmpty()) {
-            player.sendMessage(ColorUtil.colorize("&e삭제할 읽은 우편이 없습니다."));
+            sendMessage(player, "gui.mailbox.message.no_read_mails_to_delete");
             return;
         }
         
@@ -302,7 +302,7 @@ public class MailboxGui extends BaseGui {
                             deletedCount++;
                         }
                         
-                        player.sendMessage(ColorUtil.colorize("&a" + deletedCount + "개의 읽은 우편을 삭제했습니다."));
+                        sendMessage(player, "gui.mailbox.message.deleted_read_mails", String.valueOf(deletedCount));
                         
                         // GUI 새로고침
                         Bukkit.getScheduler().runTask(plugin, () -> {
@@ -311,7 +311,7 @@ public class MailboxGui extends BaseGui {
                         });
                         return List.of(AnvilGUI.ResponseAction.close());
                     } else {
-                        player.sendMessage(ColorUtil.colorize("&c'삭제'를 정확히 입력해주세요."));
+                        sendMessage(player, "gui.mailbox.message.delete_confirmation_invalid");
                         return List.of(AnvilGUI.ResponseAction.close());
                     }
                 })
@@ -324,5 +324,11 @@ public class MailboxGui extends BaseGui {
     @Override
     protected List<ClickType> getAllowedClickTypes() {
         return List.of(ClickType.LEFT);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

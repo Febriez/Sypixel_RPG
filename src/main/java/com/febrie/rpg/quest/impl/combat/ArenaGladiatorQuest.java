@@ -122,8 +122,7 @@ public class ArenaGladiatorQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.arena_gladiator.objective." + id, objective.getStatusInfo(null));
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("arena_gladiator_dialog");
 
         dialog.addLine("quest.arena_gladiator.npcs.arena_master", "quest.arena_gladiator.dialogs.intro1");

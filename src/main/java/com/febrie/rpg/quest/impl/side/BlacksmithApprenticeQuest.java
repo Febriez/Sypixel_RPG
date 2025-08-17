@@ -123,7 +123,7 @@ public class BlacksmithApprenticeQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getComponentList(who, "quest.side.blacksmith_apprentice.description");
+        return com.febrie.rpg.util.LangManager.getList(who, "quest.side.blacksmith_apprentice.description");
     }
 
     @Override
@@ -132,8 +132,7 @@ public class BlacksmithApprenticeQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.side.blacksmith_apprentice.objectives." + id);
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("blacksmith_apprentice_dialog");
 
         dialog.addLine("quest.blacksmith_apprentice.npcs.blacksmith", "quest.blacksmith_apprentice.dialogs.line1");

@@ -8,7 +8,7 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.progress.QuestProgress;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -136,7 +136,7 @@ public class QuestDetailGui extends BaseGui {
     private void setupQuestInfo() {
         ItemBuilder builder = new ItemBuilder(Material.PAPER)
                 .displayName(quest.getDisplayName(viewer)
-                        .color(ColorUtil.LEGENDARY)
+                        .color(UnifiedColorUtil.LEGENDARY)
                         .decoration(TextDecoration.BOLD, true));
 
         List<Component> lore = new ArrayList<>();
@@ -145,13 +145,13 @@ public class QuestDetailGui extends BaseGui {
         lore.add(Component.empty());
         List<Component> descriptions = quest.getDisplayInfo(viewer);
         for (Component desc : descriptions) {
-            lore.add(desc.color(ColorUtil.GRAY));
+            lore.add(desc.color(UnifiedColorUtil.GRAY));
         }
         lore.add(Component.empty());
         
         // 전체 진행도
         Component totalProgressText = LangManager.getMessage(viewer, "quest.total-progress");
-        lore.add(totalProgressText.append(Component.text(": " + progress.getCompletionPercentage() + "%")).color(ColorUtil.EMERALD));
+        lore.add(totalProgressText.append(Component.text(": " + progress.getCompletionPercentage() + "%")).color(UnifiedColorUtil.EMERALD));
         
         builder.addLore(lore);
         builder.asGuiItem(false);
@@ -165,7 +165,7 @@ public class QuestDetailGui extends BaseGui {
     private void setupObjectives() {
         ItemBuilder builder = new ItemBuilder(Material.MAP)
                 .displayName(LangManager.getMessage(viewer, "gui.quest-detail.objective-progress")
-                        .color(ColorUtil.YELLOW)
+                        .color(UnifiedColorUtil.YELLOW)
                         .decoration(TextDecoration.BOLD, true));
 
         List<Component> lore = new ArrayList<>();
@@ -175,10 +175,10 @@ public class QuestDetailGui extends BaseGui {
             var objProgress = progress.getObjectiveProgress(objective.getId());
             if (objProgress != null) {
                 Component status = objProgress.isCompleted()
-                        ? Component.text(" ✓", ColorUtil.SUCCESS)
-                        : Component.text(" " + objective.getProgressString(objProgress), ColorUtil.GRAY);
+                        ? Component.text(" ✓", UnifiedColorUtil.SUCCESS)
+                        : Component.text(" " + objective.getProgressString(objProgress), UnifiedColorUtil.GRAY);
 
-                lore.add(Component.text("• ", ColorUtil.GRAY)
+                lore.add(Component.text("• ", UnifiedColorUtil.GRAY)
                         .append(quest.getObjectiveDescription(objective, viewer))
                         .append(status));
             }
@@ -195,7 +195,7 @@ public class QuestDetailGui extends BaseGui {
      */
     private void setupRewards() {
         ItemBuilder builder = new ItemBuilder(Material.CHEST)
-                .displayName(Component.text("보상", ColorUtil.GOLD)
+                .displayName(Component.text("보상", UnifiedColorUtil.GOLD)
                         .decoration(TextDecoration.BOLD, true));
 
         List<Component> lore = new ArrayList<>();
@@ -222,8 +222,8 @@ public class QuestDetailGui extends BaseGui {
             Material material = i < greenSlots ? Material.LIME_STAINED_GLASS_PANE : Material.YELLOW_STAINED_GLASS_PANE;
             
             ItemBuilder builder = new ItemBuilder(material)
-                    .displayName(LangManager.getMessage(viewer, "quest.progress").color(ColorUtil.WHITE))
-                    .addLore(Component.text(completionPercentage + "%", ColorUtil.GRAY));
+                    .displayName(LangManager.getMessage(viewer, "quest.progress").color(UnifiedColorUtil.WHITE))
+                    .addLore(Component.text(completionPercentage + "%", UnifiedColorUtil.GRAY));
             
             setItem(slot, GuiItem.display(builder.build()));
         }
@@ -257,5 +257,11 @@ public class QuestDetailGui extends BaseGui {
     @Override
     public GuiFramework getBackTarget() {
         return QuestListGui.create(guiManager, viewer);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

@@ -4,7 +4,7 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.quest.reward.QuestReward;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -129,16 +129,15 @@ public class BasicReward implements QuestReward {
 
     @Override
     public @NotNull Component getDisplayInfo(@NotNull Player player) {
-        LangManager langManager = RPGMain.getPlugin().getLangManager();
         Component result = Component.empty();
         boolean first = true;
 
         // 아이템 보상 표시
         if (!items.isEmpty()) {
-            result = result.append(LangManager.getMessage(player, "quest.reward.items").color(ColorUtil.YELLOW));
+            result = result.append(LangManager.getMessage(player, "quest.reward.items").color(UnifiedColorUtil.YELLOW));
 
             for (ItemStack item : items) {
-                result = result.append(Component.newline()).append(Component.text("  • ", ColorUtil.GRAY)).append(Component.translatable(item.getType().translationKey())).append(Component.text(" x" + item.getAmount(), ColorUtil.WHITE));
+                result = result.append(Component.newline()).append(Component.text("  • ", UnifiedColorUtil.GRAY)).append(Component.translatable(item.getType().translationKey())).append(Component.text(" x" + item.getAmount(), UnifiedColorUtil.WHITE));
             }
             first = false;
         }
@@ -146,11 +145,11 @@ public class BasicReward implements QuestReward {
         // 재화 보상 표시
         if (!currencies.isEmpty()) {
             if (!first) result = result.append(Component.newline());
-            result = result.append(LangManager.getMessage(player, "quest.reward.currency").color(ColorUtil.GOLD));
+            result = result.append(LangManager.getMessage(player, "quest.reward.currency").color(UnifiedColorUtil.GOLD));
 
             for (Map.Entry<CurrencyType, Long> entry : currencies.entrySet()) {
                 String currencyName = getCurrencyName(entry.getKey(), player);
-                result = result.append(Component.newline()).append(Component.text("  • " + currencyName + " ", ColorUtil.GRAY)).append(Component.text(entry.getValue().toString(), ColorUtil.WHITE));
+                result = result.append(Component.newline()).append(Component.text("  • " + currencyName + " ", UnifiedColorUtil.GRAY)).append(Component.text(entry.getValue().toString(), UnifiedColorUtil.WHITE));
             }
             first = false;
         }
@@ -158,7 +157,7 @@ public class BasicReward implements QuestReward {
         // 경험치 보상 표시
         if (experience > 0) {
             if (!first) result = result.append(Component.newline());
-            result = result.append(LangManager.getMessage(player, "quest.reward.experience").color(ColorUtil.EMERALD)).append(Component.text(" " + experience, ColorUtil.WHITE));
+            result = result.append(LangManager.getMessage(player, "quest.reward.experience").color(UnifiedColorUtil.EMERALD)).append(Component.text(" " + experience, UnifiedColorUtil.WHITE));
         }
 
         return result;
@@ -169,31 +168,30 @@ public class BasicReward implements QuestReward {
      * 각 보상 항목을 개별 Component로 반환
      */
     public @NotNull List<Component> getLoreComponents(@NotNull Player player) {
-        LangManager langManager = RPGMain.getPlugin().getLangManager();
         List<Component> loreComponents = new ArrayList<>();
 
         // 아이템 보상 표시
         if (!items.isEmpty()) {
-            loreComponents.add(Component.text("  ").append(LangManager.getMessage(player, "quest.reward.items").color(ColorUtil.YELLOW)));
+            loreComponents.add(Component.text("  ").append(LangManager.getMessage(player, "quest.reward.items").color(UnifiedColorUtil.YELLOW)));
 
             for (ItemStack item : items) {
-                loreComponents.add(Component.text("    • ", ColorUtil.GRAY).append(Component.translatable(item.getType().translationKey())).append(Component.text(" x" + item.getAmount(), ColorUtil.WHITE)));
+                loreComponents.add(Component.text("    • ", UnifiedColorUtil.GRAY).append(Component.translatable(item.getType().translationKey())).append(Component.text(" x" + item.getAmount(), UnifiedColorUtil.WHITE)));
             }
         }
 
         // 재화 보상 표시
         if (!currencies.isEmpty()) {
-            loreComponents.add(Component.text("  ").append(LangManager.getMessage(player, "quest.reward.currency").color(ColorUtil.GOLD)));
+            loreComponents.add(Component.text("  ").append(LangManager.getMessage(player, "quest.reward.currency").color(UnifiedColorUtil.GOLD)));
 
             for (Map.Entry<CurrencyType, Long> entry : currencies.entrySet()) {
                 String currencyName = getCurrencyName(entry.getKey(), player);
-                loreComponents.add(Component.text("    • " + currencyName + " ", ColorUtil.GRAY).append(Component.text(entry.getValue().toString(), ColorUtil.WHITE)));
+                loreComponents.add(Component.text("    • " + currencyName + " ", UnifiedColorUtil.GRAY).append(Component.text(entry.getValue().toString(), UnifiedColorUtil.WHITE)));
             }
         }
 
         // 경험치 보상 표시
         if (experience > 0) {
-            loreComponents.add(Component.text("  ").append(LangManager.getMessage(player, "quest.reward.experience").color(ColorUtil.EMERALD)).append(Component.text(" " + experience, ColorUtil.WHITE)));
+            loreComponents.add(Component.text("  ").append(LangManager.getMessage(player, "quest.reward.experience").color(UnifiedColorUtil.EMERALD)).append(Component.text(" " + experience, UnifiedColorUtil.WHITE)));
         }
 
         return loreComponents;
@@ -203,7 +201,6 @@ public class BasicReward implements QuestReward {
      * 재화 이름 가져오기
      */
     private String getCurrencyName(CurrencyType type, Player player) {
-        LangManager langManager = RPGMain.getPlugin().getLangManager();
         String currencyKey = type.name().toLowerCase();
         return PlainTextComponentSerializer.plainText().serialize(LangManager.getMessage(player, "quest.reward.currencies." + currencyKey));
     }

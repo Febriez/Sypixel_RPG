@@ -16,6 +16,16 @@
   "quest-rewards": "=== Quest Rewards ===",
   "sequential-note": "※ Must be completed in order.",
   "unknown-npc": "Unknown NPC",
+  "filter": {
+    "active": "Active Quests",
+    "completed": "Completed Quests"
+  },
+  "total-count": "Total {count} quests",
+  "reward-available": "⚡ Rewards Available!",
+  "click-for-details": "Click to view details",
+  "previous-page": "Previous Page",
+  "next-page": "Next Page",
+  "go-to-page": "Go to page {page}",
   "dialog": {
     "player": "Player"
   },
@@ -69,15 +79,7 @@
       "objectives": {
         "visit_hub": "Visit the Hub area",
         "visit_merchant": "Talk to village merchant"
-      },
-      "dialogs": {
-        "welcome": "Hello, new adventurer! Welcome to the world of Sypixel RPG!",
-        "guide-intro": "I'm your guide to help with your first steps. Let's learn the basics of this world together!",
-        "ready-question": "First, let's learn basic movement and interaction. Are you ready?",
-        "accept": "Great! Let's start the adventure together. First, come find me in the Hub area!",
-        "decline": "Not ready yet? Come back anytime when you're prepared!"
-      },
-      "npc-name": "Tutorial Guide"
+      }
     },
     "basic-combat": {
       "name": "Basic Combat",

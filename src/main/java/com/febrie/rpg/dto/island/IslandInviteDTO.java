@@ -49,11 +49,6 @@ public record IslandInviteDTO(
         return createNew(inviteId, "", targetUuid, targetName, inviterUuid, inviterName, "섬에 초대되었습니다!");
     }
     
-    // ===== 호환성을 위한 Alias 메서드들 =====
-    
-    public String targetUuid() { return invitedUuid; }
-    public String targetName() { return invitedName; }
-    public long createdAt() { return invitedAt; }
     
     /**
      * 초대 만료 여부 확인

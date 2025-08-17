@@ -147,8 +147,7 @@ public class PaladinOathQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.advancement.paladin_oath.objectives." + id);
     }
 
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("paladin_oath_dialog");
 
         // 시작

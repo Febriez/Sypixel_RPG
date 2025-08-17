@@ -349,7 +349,19 @@
       "title": "Create Island"
     },
     "biome-selection": {
-      "title": "Select Biome"
+      "title": "Select Biome",
+      "forest": "Forest",
+      "plains": "Plains",
+      "desert": "Desert",
+      "snow": "Snow",
+      "jungle": "Jungle",
+      "swamp": "Swamp",
+      "ocean": "Ocean",
+      "mushroom": "Mushroom Island",
+      "savanna": "Savanna",
+      "taiga": "Taiga",
+      "mountains": "Mountains",
+      "badlands": "Badlands"
     },
     "visitor": {
       "menu": {
@@ -361,6 +373,120 @@
     },
     "biome-change": {
       "title": "Change Biome"
+    },
+    "contribute": {
+      "title": "Island Contribution",
+      "input-amount": "Contribution Amount",
+      "input-gold": "Enter gold to contribute"
+    },
+    "member": {
+      "title": "Island Members",
+      "role": "Role",
+      "join-date": "Join Date",
+      "has-most-permissions": "Has most permissions",
+      "regular-member-permissions": "Regular member permissions"
+    },
+    "permission": {
+      "title": "Permission Management",
+      "select-role-desc": "Set permissions for this role.",
+      "selected": "Selected",
+      "click-to-select": "Click to select",
+      "current-editing": "Currently editing",
+      "select-other-role": "Select another role from the left",
+      "edit-role-permissions": "to edit that role's permissions."
     }
+  },
+  "social": {
+    "mailbox": {
+      "title": "Mailbox",
+      "title-icon": "📬 Mailbox",
+      "description": "Check your received mail!",
+      "refresh": "🔄 Refresh",
+      "refresh-desc": "Refresh mail list",
+      "click-refresh": "Click to refresh",
+      "send-mail": "📝 Send Mail",
+      "send-mail-desc": "Send a new mail",
+      "click-to-write": "Click to write",
+      "delete-read": "🗑 Delete Read",
+      "delete-read-desc": "Delete all read mail",
+      "except-attachments": "(Except mail with attachments)",
+      "click-to-delete": "Click to delete",
+      "loading": "Loading...",
+      "no-mail": "No mail",
+      "no-mail-desc": "You have no received mail",
+      "refresh-success": "Mail list refreshed.",
+      "send-mail-guide": "Send Mail:",
+      "send-mail-command": "Type '/sendmail <player> <title> [message]'.",
+      "send-mail-example": "Example: /sendmail Steve Gift Hello!",
+      "delete-success": "Mail deleted",
+      "delete-failed": "Failed to delete mail"
+    },
+    "mail-detail": {
+      "title": "Mail Details",
+      "message-icon": "📄 Message",
+      "no-attachments": "No attachments",
+      "delete-mail": "🗑 Delete Mail",
+      "reply": "✉ Reply"
+    },
+    "friend-list": {
+      "title": "Friend List",
+      "title-icon": "👥 Friend List",
+      "requests": "📨 Friend Requests",
+      "add-friend": "➕ Add Friend"
+    },
+    "friend-request": {
+      "title": "Friend Requests",
+      "title-icon": "📨 Friend Requests",
+      "accept": "✓ Accept",
+      "reject": "✗ Reject"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "personal": "⚙ Personal Settings",
+    "gui": "🖥 GUI Settings",
+    "social": "👥 Social Settings",
+    "ingame": "🎮 In-Game Settings",
+    "system": "⚙ System Settings",
+    "notifications": "🔔 Notification Settings",
+    "gameplay": "%COLOR_INFO%Gameplay Settings",
+    "privacy": "%COLOR_RED%Privacy Settings",
+    "language": "%COLOR_AQUA%Language Settings",
+    "current-language": "%COLOR_WHITE%Current language: %COLOR_YELLOW%{language}",
+    "click-to-change": "%COLOR_GRAY%Click to change",
+    "ingame-settings": {
+      "title": "In-Game Settings",
+      "quest-dialog-speed": "💬 Quest Dialog Speed",
+      "quest-auto-guide": "🧭 Quest Auto Guide"
+    },
+    "social-settings": {
+      "title": "Social Settings",
+      "friend-requests": "👤 Accept Friend Requests",
+      "guild-invites": "🏰 Accept Guild Invites",
+      "whisper-mode": "💬 Whisper Mode"
+    },
+    "notification-settings": {
+      "title": "Notification Settings",
+      "whisper-notifications": "💬 Whisper Notifications"
+    },
+    "system-settings": {
+      "title": "System Settings",
+      "confirmation-dialogs": "❓ Confirmation Dialogs"
+    }
+  },
+  "system": {
+    "leaderboard": {
+      "my-rank": "My Rank",
+      "just-now": "Just now",
+      "minutes-ago": "{minutes} minutes ago",
+      "hours-ago": "{hours} hours ago",
+      "days-ago": "{days} days ago"
+    }
+  },
+  "quest": {
+    "filter": "Filter: ",
+    "previous-page": "Previous Page",
+    "next-page": "Next Page",
+    "rewards": "Rewards"
   }
 }

@@ -4,8 +4,9 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.dto.island.IslandVisitDTO;
 import com.febrie.rpg.gui.framework.BaseGui;
-import com.febrie.rpg.island.manager.IslandManager;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.gui.component.GuiItem;
+import com.febrie.rpg.gui.manager.GuiManager;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,12 +16,15 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import net.kyori.adventure.text.Component;
 import com.febrie.rpg.util.DateFormatUtil;
-
 /**
  * 섬 방문자 목록 GUI
  * 최근 방문자 기록을 확인
@@ -29,103 +33,88 @@ import com.febrie.rpg.util.DateFormatUtil;
  */
 public class IslandVisitorGui extends BaseGui {
     
-    private final IslandManager islandManager;
-    private final Player viewer;
     private final IslandDTO island;
     private final List<IslandVisitDTO> visitors;
     private final int page;
     private final int maxPage;
-    
     private static final int ITEMS_PER_PAGE = 28; // 7x4 grid
-    
-    private IslandVisitorGui(@NotNull RPGMain plugin, @NotNull Player viewer, 
-                           @NotNull IslandDTO island, int page) {
-        super(plugin, 54);
-        this.islandManager = plugin.getIslandManager();
-        this.viewer = viewer;
+    private IslandVisitorGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
+                           @NotNull RPGMain plugin, @NotNull IslandDTO island, int page) {
+        super(viewer, guiManager, 54, "&f&l방문자 기록");
         this.island = island;
-        this.visitors = island.recentVisits();
+        this.visitors = island.social().recentVisits();
         
         this.maxPage = (int) Math.ceil((double) visitors.size() / ITEMS_PER_PAGE);
         this.page = Math.max(1, Math.min(page, Math.max(maxPage, 1)));
     }
-    
     /**
      * Factory method to create the GUI
      */
     public static IslandVisitorGui create(@NotNull RPGMain plugin, @NotNull Player viewer, 
                                         @NotNull IslandDTO island, int page) {
-        IslandVisitorGui gui = new IslandVisitorGui(plugin, viewer, island, page);
-        return BaseGui.create(gui, ColorUtil.parseComponent("&f&l방문자 기록"));
+        return new IslandVisitorGui(viewer, plugin.getGuiManager(), plugin, island, page);
     }
     
     @Override
-    protected void setupItems() {
+    protected void setupLayout() {
         // 배경 설정
         fillBorder(Material.WHITE_STAINED_GLASS_PANE);
-        
         // 정보 아이템
-        setItem(4, createInfoItem());
-        
+        setItem(4, new GuiItem(createInfoItem()));
         // 방문자 목록 표시
         displayVisitors();
-        
         // 페이지 네비게이션
         if (page > 1) {
-            setItem(45, createPreviousPageItem());
+            setItem(45, new GuiItem(createPreviousPageItem()).onAnyClick(player -> {
+                IslandVisitorGui.create(plugin, viewer, island, page - 1).open(viewer);
+            }));
         }
-        
         if (page < maxPage) {
-            setItem(53, createNextPageItem());
+            setItem(53, new GuiItem(createNextPageItem()).onAnyClick(player -> {
+                IslandVisitorGui.create(plugin, viewer, island, page + 1).open(viewer);
+            }));
         }
-        
         // 통계 아이템
-        setItem(49, createStatisticsItem());
-        
+        setItem(49, new GuiItem(createStatisticsItem()));
         // 뒤로가기 버튼
-        setItem(48, createBackButton());
+        setItem(48, new GuiItem(createBackButton()));
     }
     
     private ItemStack createInfoItem() {
         return new ItemBuilder(Material.BOOK)
-                .displayName(ColorUtil.parseComponent("&f&l방문자 기록"))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7섬 이름: &f" + island.islandName()))
-                .addLore(ColorUtil.parseComponent("&7총 방문자: &e" + visitors.size() + "명"))
-                .addLore(ColorUtil.parseComponent("&7공개 상태: " + (island.isPublic() ? "&a공개" : "&c비공개")))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7최근 방문자 목록을"))
-                .addLore(ColorUtil.parseComponent("&7확인할 수 있습니다"))
+                .displayName(UnifiedColorUtil.parseComponent("&f&l방문자 기록"))
+                .addLore(UnifiedColorUtil.parseComponent(""))
+                .addLore(UnifiedColorUtil.parseComponent("&7섬 이름: &f" + island.core().islandName()))
+                .addLore(UnifiedColorUtil.parseComponent("&7총 방문자: &e" + visitors.size() + "명"))
+                .addLore(UnifiedColorUtil.parseComponent("&7공개 상태: " + (island.core().isPublic() ? "&a공개" : "&c비공개")))
+                .addLore(UnifiedColorUtil.parseComponent("&7최근 방문자 목록을"))
+                .addLore(UnifiedColorUtil.parseComponent("&7확인할 수 있습니다"))
                 .build();
     }
     
     private void displayVisitors() {
         if (visitors.isEmpty()) {
             // 방문자가 없는 경우
-            setItem(22, new ItemBuilder(Material.BARRIER)
-                    .displayName(ColorUtil.parseComponent("&c방문 기록이 없습니다"))
-                    .addLore(ColorUtil.parseComponent(""))
-                    .addLore(ColorUtil.parseComponent("&7아직 섬을 방문한"))
-                    .addLore(ColorUtil.parseComponent("&7플레이어가 없습니다"))
-                    .build());
+            setItem(22, new GuiItem(new ItemBuilder(Material.BARRIER)
+                    .displayName(UnifiedColorUtil.parseComponent("&c방문 기록이 없습니다"))
+                    .addLore(UnifiedColorUtil.parseComponent(""))
+                    .addLore(UnifiedColorUtil.parseComponent("&7아직 섬을 방문한"))
+                    .addLore(UnifiedColorUtil.parseComponent("&7플레이어가 없습니다"))
+                    .build()));
             return;
         }
-        
         int startIndex = (page - 1) * ITEMS_PER_PAGE;
         int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, visitors.size());
-        
         int slot = 10; // 시작 슬롯
-        
         for (int i = startIndex; i < endIndex; i++) {
             IslandVisitDTO visit = visitors.get(i);
-            setItem(slot, createVisitorItem(visit, i + 1));
+            setItem(slot, new GuiItem(createVisitorItem(visit, i + 1)));
             
             slot++;
             // 다음 줄로 이동
             if ((slot - 10) % 7 == 0) {
                 slot += 2;
             }
-            
             // 최대 슬롯 확인
             if (slot >= 44) break;
         }
@@ -134,29 +123,22 @@ public class IslandVisitorGui extends BaseGui {
     private ItemStack createVisitorItem(IslandVisitDTO visit, int index) {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(visit.visitorUuid()));
         String playerName = offlinePlayer.getName() != null ? offlinePlayer.getName() : "알 수 없음";
-        
         // 방문 시간 포맷
         String visitTime = DateFormatUtil.formatSlashDateTimeFromMillis(visit.visitedAt());
         String duration = formatDuration(visit.duration());
-        
         // 모든 방문자 동일한 색상 사용
         String nameColor = "&f";
-        
         ItemStack item = new ItemBuilder(Material.PLAYER_HEAD)
-                .displayName(ColorUtil.parseComponent(nameColor + playerName))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7방문 시간: &f" + visitTime))
-                .addLore(ColorUtil.parseComponent("&7체류 시간: &e" + duration))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7#" + index + " 방문자"))
+                .displayName(UnifiedColorUtil.parseComponent(nameColor + playerName))
+                .addLore(UnifiedColorUtil.parseComponent("&7방문 시간: &f" + visitTime))
+                .addLore(UnifiedColorUtil.parseComponent("&7체류 시간: &e" + duration))
+                .addLore(UnifiedColorUtil.parseComponent("&7#" + index + " 방문자"))
                 .build();
-        
         // 플레이어 머리 설정
         if (item.getItemMeta() instanceof SkullMeta skullMeta) {
             skullMeta.setOwningPlayer(offlinePlayer);
             item.setItemMeta(skullMeta);
         }
-        
         return item;
     }
     
@@ -165,12 +147,10 @@ public class IslandVisitorGui extends BaseGui {
         if (seconds < 60) {
             return seconds + "초";
         }
-        
         long minutes = seconds / 60;
         if (minutes < 60) {
             return minutes + "분 " + (seconds % 60) + "초";
         }
-        
         long hours = minutes / 60;
         return hours + "시간 " + (minutes % 60) + "분";
     }
@@ -179,12 +159,10 @@ public class IslandVisitorGui extends BaseGui {
         // 통계 계산
         Map<String, Integer> visitorCount = new HashMap<>();
         Map<String, Long> visitorDuration = new HashMap<>();
-        
         for (IslandVisitDTO visit : visitors) {
             visitorCount.merge(visit.visitorUuid(), 1, Integer::sum);
             visitorDuration.merge(visit.visitorUuid(), visit.duration(), Long::sum);
         }
-        
         // 가장 자주 방문한 플레이어 찾기
         String mostFrequent = null;
         int maxVisits = 0;
@@ -194,7 +172,6 @@ public class IslandVisitorGui extends BaseGui {
                 mostFrequent = entry.getKey();
             }
         }
-        
         // 가장 오래 머문 플레이어 찾기
         String longestStay = null;
         long maxDuration = 0;
@@ -204,83 +181,64 @@ public class IslandVisitorGui extends BaseGui {
                 longestStay = entry.getKey();
             }
         }
-        
         List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add(ColorUtil.colorize("&7총 방문 횟수: &e" + visitors.size() + "회"));
-        lore.add(ColorUtil.colorize("&7고유 방문자: &e" + visitorCount.size() + "명"));
-        lore.add("");
-        
+        lore.add("&7총 방문 횟수: &e" + visitors.size() + "회");
+        lore.add("&7고유 방문자: &e" + visitorCount.size() + "명");
         if (mostFrequent != null) {
             OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(mostFrequent));
             String name = player.getName() != null ? player.getName() : "알 수 없음";
-            lore.add(ColorUtil.colorize("&7최다 방문: &a" + name + " &7(" + maxVisits + "회)"));
+            lore.add("&7최다 방문: &a" + name + " &7(" + maxVisits + "회)");
         }
-        
         if (longestStay != null) {
             OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(longestStay));
             String name = player.getName() != null ? player.getName() : "알 수 없음";
-            lore.add(ColorUtil.colorize("&7최장 체류: &a" + name + " &7(" + formatDuration(maxDuration) + ")"));
+            lore.add("&7최장 체류: &a" + name + " &7(" + formatDuration(maxDuration) + ")");
         }
-        
         List<Component> componentLore = new ArrayList<>();
         for (String line : lore) {
-            componentLore.add(ColorUtil.parseComponent(line));
+            componentLore.add(UnifiedColorUtil.parseComponent(line));
         }
-        
         return new ItemBuilder(Material.WRITABLE_BOOK)
-                .displayName(ColorUtil.parseComponent("&6&l방문 통계"))
+                .displayName(UnifiedColorUtil.parseComponent("&6&l방문 통계"))
                 .lore(componentLore)
                 .build();
     }
     
     private ItemStack createPreviousPageItem() {
         return new ItemBuilder(Material.ARROW)
-                .displayName(ColorUtil.parseComponent("&a이전 페이지"))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7페이지 " + (page - 1) + "/" + maxPage))
+                .displayName(UnifiedColorUtil.parseComponent("&a이전 페이지"))
+                .addLore(UnifiedColorUtil.parseComponent("&7페이지 " + (page - 1) + "/" + maxPage))
                 .build();
     }
     
     private ItemStack createNextPageItem() {
         return new ItemBuilder(Material.ARROW)
-                .displayName(ColorUtil.parseComponent("&a다음 페이지"))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7페이지 " + (page + 1) + "/" + maxPage))
+                .displayName(UnifiedColorUtil.parseComponent("&a다음 페이지"))
+                .addLore(UnifiedColorUtil.parseComponent("&7페이지 " + (page + 1) + "/" + maxPage))
                 .build();
     }
     
     private ItemStack createBackButton() {
         return new ItemBuilder(Material.ARROW)
-                .displayName(ColorUtil.parseComponent("&c뒤로가기"))
-                .addLore(ColorUtil.parseComponent(""))
-                .addLore(ColorUtil.parseComponent("&7메인 메뉴로 돌아갉니다"))
+                .displayName(UnifiedColorUtil.parseComponent("&c뒤로가기"))
+                .addLore(UnifiedColorUtil.parseComponent("&7메인 메뉴로 돌아갑니다"))
                 .build();
     }
     
     @Override
-    protected void handleClick(InventoryClickEvent event) {
+    public @NotNull Component getTitle() {
+        return Component.text("방문자 기록", UnifiedColorUtil.PRIMARY);
+    }
+    
+    @Override
+    protected com.febrie.rpg.gui.framework.GuiFramework getBackTarget() {
+        return IslandMainGui.create(plugin.getGuiManager(), viewer);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
         event.setCancelled(true);
-        
-        if (!(event.getWhoClicked() instanceof Player player)) return;
-        
-        int slot = event.getSlot();
-        
-        switch (slot) {
-            case 45 -> { // 이전 페이지
-                if (page > 1) {
-                    IslandVisitorGui.create(plugin, viewer, island, page - 1).open(viewer);
-                }
-            }
-            case 48 -> { // 뒤로가기
-                player.closeInventory();
-                IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
-            }
-            case 53 -> { // 다음 페이지
-                if (page < maxPage) {
-                    IslandVisitorGui.create(plugin, viewer, island, page + 1).open(viewer);
-                }
-            }
-        }
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

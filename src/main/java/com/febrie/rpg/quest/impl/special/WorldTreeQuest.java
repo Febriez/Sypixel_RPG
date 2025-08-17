@@ -180,7 +180,6 @@ public class WorldTreeQuest extends Quest {
         };
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("world_tree_dialog");
 

@@ -2,9 +2,14 @@ package com.febrie.rpg.dto.island;
 
 import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.Objects;
 
 /**
  * 섬 소셜 정보 DTO (Record)
@@ -27,14 +32,14 @@ public record IslandSocialDTO(
                 List.of()
         );
     }
-
+    
     /**
      * 대기중인 초대 수
      */
     public int getPendingInviteCount() {
         return pendingInvites.size();
     }
-
+    
     /**
      * 특정 플레이어에 대한 초대가 있는지 확인
      */
@@ -42,7 +47,7 @@ public record IslandSocialDTO(
         return pendingInvites.stream()
                 .anyMatch(invite -> invite.invitedUuid().equals(playerUuid));
     }
-
+    
     /**
      * 만료된 초대 필터링
      */
@@ -52,7 +57,7 @@ public record IslandSocialDTO(
                 .filter(invite -> invite.expiresAt() > currentTime)
                 .collect(Collectors.toList());
     }
-
+    
     /**
      * 최근 N일 이내 방문 기록
      */
@@ -63,7 +68,7 @@ public record IslandSocialDTO(
                 .sorted((a, b) -> Long.compare(b.visitedAt(), a.visitedAt()))
                 .collect(Collectors.toList());
     }
-
+    
     /**
      * Map으로 변환 (Firestore SDK용)
      */
@@ -76,28 +81,23 @@ public record IslandSocialDTO(
                 .map(IslandInviteDTO::toMap)
                 .collect(Collectors.toList());
         map.put("pendingInvites", invitesList);
-        
         List<Map<String, Object>> visitsList = recentVisits.stream()
                 .map(IslandVisitDTO::toMap)
                 .collect(Collectors.toList());
         map.put("recentVisits", visitsList);
-        
         return map;
     }
-
+    
     /**
      * Map에서 생성 (Firestore SDK용)
      */
-    @NotNull
     @SuppressWarnings("unchecked")
     public static IslandSocialDTO fromMap(@NotNull Map<String, Object> map) {
         @NotNull String islandId = Objects.requireNonNull(FirestoreUtils.getString(map, "islandId", ""));
-        
         // 필수 필드 검증
         if (islandId.isEmpty()) {
             throw new IllegalArgumentException("IslandSocialDTO: islandId cannot be empty");
         }
-        
         List<IslandInviteDTO> pendingInvites = new ArrayList<>();
         Object invitesObj = map.get("pendingInvites");
         if (invitesObj instanceof List) {

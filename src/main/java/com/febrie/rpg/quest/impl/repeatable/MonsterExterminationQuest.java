@@ -95,8 +95,7 @@ public class MonsterExterminationQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.monster_extermination.objective." + id);
     }
     
-    @Override
-    public QuestDialog getDialog(@NotNull Player player) {
+    public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("monster_extermination_dialog");
         
         dialog.addLine("quest.repeatable_monster_extermination.npcs.guard_captain", "quest.repeatable_monster_extermination.dialogs.line1");

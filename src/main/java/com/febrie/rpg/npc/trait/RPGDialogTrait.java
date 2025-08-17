@@ -1,7 +1,7 @@
 package com.febrie.rpg.npc.trait;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LangManager;
 import net.citizensnpcs.api.persistence.Persist;
 import net.citizensnpcs.api.trait.Trait;
@@ -32,7 +32,6 @@ public class RPGDialogTrait extends Trait {
     private long dialogCooldown = 3000; // 3초 기본 쿨다운
     
     private final Random random = new Random();
-    private final com.febrie.rpg.util.LangManager langManager = RPGMain.getInstance().getLangManager();
 
     public RPGDialogTrait() {
         super("rpgdialog");
@@ -91,7 +90,6 @@ public class RPGDialogTrait extends Trait {
         // lang 파일에서 대화 리스트 가져오기
         List<String> dialogLines = new ArrayList<>();
         
-        // TODO: dialog.json 파일에서 직접 읽어오는 시스템 구현 필요
         // 임시로 dialogId에 따른 기본 대화 제공
         switch (dialogId) {
             case "village_greeting" -> {
@@ -109,8 +107,8 @@ public class RPGDialogTrait extends Trait {
         
         if (dialogLines.isEmpty()) {
             // 대화가 정의되지 않았으면 기본 메시지
-            player.sendMessage(Component.text("[" + npc.getName() + "] ", ColorUtil.GOLD)
-                    .append(Component.text("...", ColorUtil.GRAY)));
+            player.sendMessage(Component.text("[" + npc.getName() + "] ", UnifiedColorUtil.GOLD)
+                    .append(Component.text("...", UnifiedColorUtil.GRAY)));
             return;
         }
         
@@ -119,8 +117,8 @@ public class RPGDialogTrait extends Trait {
         
         // 대사 출력
         player.sendMessage(Component.empty());
-        player.sendMessage(Component.text("[" + npc.getName() + "] ", ColorUtil.GOLD)
-                .append(Component.text(dialogue, ColorUtil.COMMON)));
+        player.sendMessage(Component.text("[" + npc.getName() + "] ", UnifiedColorUtil.GOLD)
+                .append(Component.text(dialogue, UnifiedColorUtil.COMMON)));
         
         // 마지막 대화 시간 업데이트
         lastDialogTime = currentTime;

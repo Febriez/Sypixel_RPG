@@ -3,7 +3,7 @@ package com.febrie.rpg.talent;
 import com.febrie.rpg.dto.player.TalentDTO;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.stat.Stat;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LogUtil;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
@@ -254,10 +254,10 @@ public class Talent {
      * 이름은 LangManager에서 talent.category.{name}.name 형식으로 관리
      */
     public enum TalentCategory {
-        OFFENSE(ColorUtil.ERROR),
-        DEFENSE(ColorUtil.INFO),
-        UTILITY(ColorUtil.SUCCESS),
-        SPECIAL(ColorUtil.LEGENDARY);
+        OFFENSE(UnifiedColorUtil.ERROR),
+        DEFENSE(UnifiedColorUtil.INFO),
+        UTILITY(UnifiedColorUtil.SUCCESS),
+        SPECIAL(UnifiedColorUtil.LEGENDARY);
 
         private final TextColor color;
 
@@ -276,7 +276,7 @@ public class Talent {
     public static class Builder {
         private final String id;
         private Material icon = Material.BOOK;
-        private TextColor color = ColorUtil.WHITE;
+        private TextColor color = UnifiedColorUtil.WHITE;
         private int maxLevel = 1;
         private int requiredPoints = 1;
         private TalentCategory category = TalentCategory.UTILITY;

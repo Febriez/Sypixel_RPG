@@ -4,7 +4,7 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.npc.trait.RPGQuestTrait;
 import com.febrie.rpg.npc.trait.base.BaseTraitRegistrationItem;
 import com.febrie.rpg.quest.QuestID;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import net.citizensnpcs.api.trait.Trait;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -120,7 +120,7 @@ public class QuestStartTraitRegistrationItem extends BaseTraitRegistrationItem {
     @Override
     @NotNull
     protected TextColor getItemColor() {
-        return ColorUtil.LEGENDARY;
+        return UnifiedColorUtil.LEGENDARY;
     }
     
     @Override
@@ -138,7 +138,7 @@ public class QuestStartTraitRegistrationItem extends BaseTraitRegistrationItem {
     @Override
     @NotNull
     protected TextColor getIdColor() {
-        return ColorUtil.GOLD;
+        return UnifiedColorUtil.GOLD;
     }
     
     @Override

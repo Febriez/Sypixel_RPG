@@ -63,7 +63,6 @@ public class QuestGuideManager {
         
         UUID playerId = player.getUniqueId();
         
-        // 기존 가이드가 있다면 중지
         stopGuide(player);
         
         // 새로운 가이드 생성

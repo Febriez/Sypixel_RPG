@@ -80,7 +80,6 @@ public class AncientProphecyQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.ancient_prophecy.objectives." + id);
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("ancient_prophecy_dialog");
 

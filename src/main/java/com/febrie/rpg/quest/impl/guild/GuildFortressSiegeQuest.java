@@ -153,7 +153,6 @@ public class GuildFortressSiegeQuest extends Quest {
         return com.febrie.rpg.util.LangManager.getMessage(who, "quest.guild.fortress_siege.objectives." + id);
     }
 
-    @Override
     public QuestDialog getDialog() {
         QuestDialog dialog = new QuestDialog("guild_fortress_siege_dialog");
 

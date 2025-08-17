@@ -36,7 +36,7 @@ public class IslandPermissionHandler {
         }
         
         // 권한 설정에서 역할별 권한 확인
-        IslandPermissionDTO permissions = island.permissions();
+        IslandPermissionDTO permissions = island.configuration().permissions();
         IslandPermissionDTO.RolePermissions rolePerms = permissions.rolePermissions().get(role.name());
         
         if (rolePerms == null) {
@@ -72,19 +72,19 @@ public class IslandPermissionHandler {
     @Nullable
     public static IslandRole getPlayerRole(@NotNull IslandDTO island, @NotNull String playerUuid) {
         // 섬장 확인
-        if (island.ownerUuid().equals(playerUuid)) {
+        if (island.core().ownerUuid().equals(playerUuid)) {
             return IslandRole.OWNER;
         }
         
         // 섬원 확인
-        for (IslandMemberDTO member : island.members()) {
+        for (IslandMemberDTO member : island.membership().members()) {
             if (member.uuid().equals(playerUuid)) {
                 return member.isCoOwner() ? IslandRole.CO_OWNER : IslandRole.MEMBER;
             }
         }
         
         // 알바 확인
-        for (IslandWorkerDTO worker : island.workers()) {
+        for (IslandWorkerDTO worker : island.membership().workers()) {
             if (worker.uuid().equals(playerUuid)) {
                 return IslandRole.WORKER;
             }
@@ -106,12 +106,12 @@ public class IslandPermissionHandler {
      */
     public static boolean isMember(@NotNull IslandDTO island, @NotNull String playerUuid) {
         // 섬장 확인
-        if (island.ownerUuid().equals(playerUuid)) {
+        if (island.core().ownerUuid().equals(playerUuid)) {
             return true;
         }
         
         // 섬원 확인
-        return island.members().stream()
+        return island.membership().members().stream()
                 .anyMatch(member -> member.uuid().equals(playerUuid));
     }
     
@@ -126,7 +126,7 @@ public class IslandPermissionHandler {
      * 플레이어가 알바인지 확인
      */
     public static boolean isWorker(@NotNull IslandDTO island, @NotNull String playerUuid) {
-        return island.workers().stream()
+        return island.membership().workers().stream()
                 .anyMatch(worker -> worker.uuid().equals(playerUuid));
     }
     
@@ -134,7 +134,7 @@ public class IslandPermissionHandler {
      * 플레이어가 섬장인지 확인
      */
     public static boolean isOwner(@NotNull IslandDTO island, @NotNull Player player) {
-        return island.ownerUuid().equals(player.getUniqueId().toString());
+        return island.core().ownerUuid().equals(player.getUniqueId().toString());
     }
     
     /**
@@ -148,7 +148,7 @@ public class IslandPermissionHandler {
      * 플레이어가 부섬장인지 확인
      */
     public static boolean isCoOwner(@NotNull IslandDTO island, @NotNull String playerUuid) {
-        return island.members().stream()
+        return island.membership().members().stream()
                 .anyMatch(member -> member.uuid().equals(playerUuid) && member.isCoOwner());
     }
     
@@ -162,9 +162,7 @@ public class IslandPermissionHandler {
     /**
      * 권한 문자열을 사용자 친화적인 이름으로 변환
      */
-    public static String getPermissionDisplayName(@NotNull LangManager langManager, @NotNull String language, @NotNull String permission) {
-        // For now, return the permission name directly as the method signature expects
-        // a Player/CommandSender but we only have a language string
+    public static String getPermissionDisplayName(@NotNull String language, @NotNull String permission) {
         return switch (permission) {
             case "BUILD" -> "Build";
             case "USE_ITEMS" -> "Use Items";
@@ -181,9 +179,8 @@ public class IslandPermissionHandler {
     /**
      * 역할을 사용자 친화적인 이름으로 변환
      */
-    public static String getRoleDisplayName(@NotNull LangManager langManager, @NotNull String language, @NotNull IslandRole role) {
-        // For now, return role name directly as the method signature expects
-        // a Player/CommandSender but we only have a language string
+    public static String getRoleDisplayName(@NotNull String language, @NotNull IslandRole role) {
+        // TODO: Use LangManager static methods for localization
         return role.name();
     }
 }

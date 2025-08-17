@@ -8,7 +8,7 @@ import com.febrie.rpg.gui.impl.player.ProfileGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.player.RPGPlayer;
-import com.febrie.rpg.util.ColorUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -97,7 +97,7 @@ public class JobConfirmationGui extends BaseGui {
                 .addLore(Component.empty());
 
         // 직업 설명
-        List<Component> description = com.febrie.rpg.util.LangManager.getComponentList(viewer, "job." + jobKey + ".description");
+        List<Component> description = com.febrie.rpg.util.LangManager.getList(viewer, "job." + jobKey + ".description");
         for (Component line : description) {
             builder.addLore(line);
         }
@@ -133,7 +133,7 @@ public class JobConfirmationGui extends BaseGui {
         GuiItem confirmButton = GuiItem.clickable(
                 ItemBuilder.of(Material.LIME_WOOL)
                         .displayName(trans("gui.job-confirmation.confirm")
-                                .color(ColorUtil.SUCCESS)
+                                .color(UnifiedColorUtil.SUCCESS)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
                         .addLore(trans("gui.job-confirmation.confirm-description",
@@ -150,7 +150,7 @@ public class JobConfirmationGui extends BaseGui {
         GuiItem cancelButton = GuiItem.clickable(
                 ItemBuilder.of(Material.RED_WOOL)
                         .displayName(trans("gui.job-confirmation.cancel")
-                                .color(ColorUtil.ERROR)
+                                .color(UnifiedColorUtil.ERROR)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
                         .addLore(trans("gui.job-confirmation.cancel-description"))
@@ -232,5 +232,11 @@ public class JobConfirmationGui extends BaseGui {
     public GuiFramework getBackTarget() {
         // JobConfirmationGui는 JobSelectionGui로 돌아갑니다
         return JobSelectionGui.create(guiManager, viewer, rpgPlayer);
+    }
+    
+    @Override
+    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
+        event.setCancelled(true);
+        // GuiItem이 클릭 처리를 담당합니다
     }
 }

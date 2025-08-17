@@ -1,18 +1,11 @@
 package com.febrie.rpg.database.service.impl;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.database.service.BaseFirestoreService;
+import com.febrie.rpg.database.service.GenericFirestoreService;
 import com.febrie.rpg.dto.player.PlayerDataDTO;
-import com.febrie.rpg.dto.player.PlayerProfileDTO;
-import com.febrie.rpg.dto.player.WalletDTO;
-import com.febrie.rpg.util.LogUtil;
-import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -23,46 +16,60 @@ import java.util.concurrent.CompletableFuture;
  *
  * @author Febrie, CoffeeTory
  */
-public class PlayerFirestoreService extends BaseFirestoreService<PlayerDataDTO> {
+public class PlayerFirestoreService {
 
     private static final String COLLECTION_NAME = "Player";
+    private final GenericFirestoreService<PlayerDataDTO> service;
 
     public PlayerFirestoreService(@NotNull RPGMain plugin, @NotNull Firestore firestore) {
-        super(plugin, firestore, COLLECTION_NAME, PlayerDataDTO.class);
+        this.service = GenericFirestoreService.create(
+            plugin, 
+            firestore, 
+            COLLECTION_NAME, 
+            PlayerDataDTO.class,
+            PlayerDataDTO::toMap,
+            PlayerDataDTO::fromMap,
+            id -> {
+                try {
+                    UUID uuid = UUID.fromString(id);
+                    return PlayerDataDTO.createNew(uuid, "");
+                } catch (IllegalArgumentException e) {
+                    return PlayerDataDTO.createNew(UUID.randomUUID(), "");
+                }
+            }
+        );
     }
 
-    @Override
-    protected Map<String, Object> toMap(@NotNull PlayerDataDTO dto) {
-        return dto.toMap();
+    /**
+     * 문서 ID로 데이터 조회
+     */
+    @NotNull
+    public CompletableFuture<PlayerDataDTO> get(@NotNull String id) {
+        return service.get(id);
     }
 
-    @Override
-    @Nullable
-    protected PlayerDataDTO fromDocument(@NotNull DocumentSnapshot document) {
-        if (!document.exists()) {
-            return null;
-        }
+    /**
+     * 데이터 저장
+     */
+    @NotNull
+    public CompletableFuture<Void> save(@NotNull String id, @NotNull PlayerDataDTO data) {
+        return service.save(id, data);
+    }
 
-        try {
-            Map<String, Object> data = document.getData();
-            
-            if (data != null) {
-                return PlayerDataDTO.fromMap(data);
-            }
-            
-            throw new IllegalStateException("No data found");
+    /**
+     * 데이터 삭제
+     */
+    @NotNull
+    public CompletableFuture<Void> delete(@NotNull String id) {
+        return service.delete(id);
+    }
 
-        } catch (Exception e) {
-            LogUtil.warning("플레이어 데이터 파싱 실패 [" + document.getId() + "]: " + e.getMessage());
-            // 기본값 반환
-            String docId = document.getId();
-            try {
-                UUID uuid = UUID.fromString(docId);
-                return PlayerDataDTO.createNew(uuid, "");
-            } catch (IllegalArgumentException uuidEx) {
-                return PlayerDataDTO.createNew(UUID.randomUUID(), "");
-            }
-        }
+    /**
+     * 문서 존재 여부 확인
+     */
+    @NotNull
+    public CompletableFuture<Boolean> exists(@NotNull String id) {
+        return service.exists(id);
     }
 
     /**
@@ -70,9 +77,9 @@ public class PlayerFirestoreService extends BaseFirestoreService<PlayerDataDTO> 
      */
     @NotNull
     public CompletableFuture<PlayerDataDTO> getByUuid(@NotNull UUID uuid) {
-        return get(uuid.toString()).thenApply(data -> Objects.requireNonNullElseGet(data, () -> PlayerDataDTO.createNew(uuid, "")));
+        return service.get(uuid.toString()).thenApply(data -> 
+            Objects.requireNonNullElseGet(data, () -> PlayerDataDTO.createNew(uuid, "")));
     }
-
 
     // 중복 메소드 제거 - DataSyncManager를 사용하세요
     // - 재화 관련: DataSyncManager.modifyCurrency()

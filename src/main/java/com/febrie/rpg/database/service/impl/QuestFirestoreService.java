@@ -2,15 +2,15 @@ package com.febrie.rpg.database.service.impl;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.service.BaseFirestoreService;
+import com.febrie.rpg.database.service.GenericFirestoreService;
 import com.febrie.rpg.dto.quest.PlayerQuestDTO;
 import com.febrie.rpg.dto.quest.ActiveQuestDTO;
-import com.febrie.rpg.dto.quest.ClaimedQuestDTO;
 import com.febrie.rpg.dto.quest.CompletedQuestDTO;
-import com.febrie.rpg.util.LogUtil;
-import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import com.febrie.rpg.util.LogUtil;
+import com.google.cloud.firestore.DocumentSnapshot;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
