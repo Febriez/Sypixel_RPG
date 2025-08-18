@@ -1,6 +1,6 @@
 package com.febrie.rpg.util;
 
-import com.febrie.rpg.dto.island.IslandDTO;
+import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.dto.island.IslandSettingsDTO;
 import com.febrie.rpg.dto.island.IslandSpawnDTO;
 import com.febrie.rpg.gui.framework.BaseGui;
@@ -29,7 +29,7 @@ public final class GuiHandlerUtil {
      */
     @NotNull
     public static IslandDTO updateIslandSettings(@NotNull IslandDTO island, @NotNull IslandSettingsDTO newSettings) {
-        return IslandDTO.fromFields(
+        IslandCoreDTO updatedCore = new IslandCoreDTO(
                 island.core().islandId(),
                 island.core().ownerUuid(),
                 island.core().ownerName(),
@@ -38,18 +38,20 @@ public final class GuiHandlerUtil {
                 island.core().isPublic(),
                 island.core().createdAt(),
                 System.currentTimeMillis(), // lastActivity 업데이트
-                island.membership().members(),
-                island.membership().workers(),
-                island.membership().contributions(),
+                island.core().totalResets(),
+                island.core().deletionScheduledAt(),
+                island.core().location()
+        );
+        
+        IslandConfigurationDTO updatedConfiguration = new IslandConfigurationDTO(
+                island.core().islandId(),
                 island.configuration().spawnData(),
                 island.configuration().upgradeData(),
                 island.configuration().permissions(),
-                island.social().pendingInvites(),
-                island.social().recentVisits(),
-                island.core().totalResets(),
-                island.core().deletionScheduledAt(),
                 newSettings
         );
+        
+        return new IslandDTO(updatedCore, island.membership(), island.social(), updatedConfiguration);
     }
     
     /**
@@ -57,7 +59,7 @@ public final class GuiHandlerUtil {
      */
     @NotNull
     public static IslandDTO updateIslandSpawn(@NotNull IslandDTO island, @NotNull IslandSpawnDTO newSpawnData) {
-        return IslandDTO.fromFields(
+        IslandCoreDTO updatedCore = new IslandCoreDTO(
                 island.core().islandId(),
                 island.core().ownerUuid(),
                 island.core().ownerName(),
@@ -66,18 +68,20 @@ public final class GuiHandlerUtil {
                 island.core().isPublic(),
                 island.core().createdAt(),
                 System.currentTimeMillis(), // lastActivity 업데이트
-                island.membership().members(),
-                island.membership().workers(),
-                island.membership().contributions(),
+                island.core().totalResets(),
+                island.core().deletionScheduledAt(),
+                island.core().location()
+        );
+        
+        IslandConfigurationDTO updatedConfiguration = new IslandConfigurationDTO(
+                island.core().islandId(),
                 newSpawnData,
                 island.configuration().upgradeData(),
                 island.configuration().permissions(),
-                island.social().pendingInvites(),
-                island.social().recentVisits(),
-                island.core().totalResets(),
-                island.core().deletionScheduledAt(),
                 island.configuration().settings()
         );
+        
+        return new IslandDTO(updatedCore, island.membership(), island.social(), updatedConfiguration);
     }
     
     /**
@@ -85,7 +89,7 @@ public final class GuiHandlerUtil {
      */
     @NotNull
     public static IslandDTO toggleIslandPublic(@NotNull IslandDTO island) {
-        return IslandDTO.fromFields(
+        IslandCoreDTO updatedCore = new IslandCoreDTO(
                 island.core().islandId(),
                 island.core().ownerUuid(),
                 island.core().ownerName(),
@@ -94,18 +98,12 @@ public final class GuiHandlerUtil {
                 !island.core().isPublic(), // 토글
                 island.core().createdAt(),
                 System.currentTimeMillis(), // lastActivity 업데이트
-                island.membership().members(),
-                island.membership().workers(),
-                island.membership().contributions(),
-                island.configuration().spawnData(),
-                island.configuration().upgradeData(),
-                island.configuration().permissions(),
-                island.social().pendingInvites(),
-                island.social().recentVisits(),
                 island.core().totalResets(),
                 island.core().deletionScheduledAt(),
-                island.configuration().settings()
+                island.core().location()
         );
+        
+        return new IslandDTO(updatedCore, island.membership(), island.social(), island.configuration());
     }
     
     /**

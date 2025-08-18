@@ -15,9 +15,14 @@ import org.jetbrains.annotations.NotNull;
  */
 public class RewardTraitRegistrationItem extends ImprovedBaseTraitRegistrationItem {
     
-    public RewardTraitRegistrationItem(@NotNull RPGMain plugin) {
+    private RewardTraitRegistrationItem(@NotNull RPGMain plugin) {
         super(plugin);
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+    
+    public static RewardTraitRegistrationItem create(@NotNull RPGMain plugin) {
+        RewardTraitRegistrationItem item = new RewardTraitRegistrationItem(plugin);
+        plugin.getServer().getPluginManager().registerEvents(item, plugin);
+        return item;
     }
     
     @Override

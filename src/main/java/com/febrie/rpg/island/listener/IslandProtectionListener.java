@@ -1,8 +1,7 @@
 package com.febrie.rpg.island.listener;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.dto.island.IslandDTO;
-import com.febrie.rpg.dto.island.IslandVisitDTO;
+import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.island.Island;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
@@ -402,16 +401,21 @@ public class IslandProtectionListener implements Listener {
             }
             
             // 섬 업데이트
-            IslandDTO updated = IslandDTO.fromFields(
+            IslandCoreDTO updatedCore = new IslandCoreDTO(
                     island.core().islandId(), island.core().ownerUuid(), island.core().ownerName(),
                     island.core().islandName(), island.core().size(), island.core().isPublic(),
                     island.core().createdAt(), System.currentTimeMillis(),
-                    island.membership().members(), island.membership().workers(), island.membership().contributions(),
-                    island.configuration().spawnData(), island.configuration().upgradeData(), island.configuration().permissions(),
-                    island.social().pendingInvites(), updatedVisits,
                     island.core().totalResets(), island.core().deletionScheduledAt(),
-                    island.configuration().settings()
+                    island.core().location()
             );
+            
+            IslandSocialDTO updatedSocial = new IslandSocialDTO(
+                    island.core().islandId(),
+                    island.social().pendingInvites(),
+                    updatedVisits
+            );
+            
+            IslandDTO updated = new IslandDTO(updatedCore, island.membership(), updatedSocial, island.configuration());
             
             islandManager.updateIsland(updated);
         }

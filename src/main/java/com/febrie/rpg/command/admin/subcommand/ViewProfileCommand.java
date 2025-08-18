@@ -28,12 +28,18 @@ public class ViewProfileCommand extends BaseSubCommand {
     private final RPGPlayerManager playerManager;
     private final QuestManager questManager;
     
-    public ViewProfileCommand(@NotNull RPGMain plugin) {
-        super("viewprofile", "rpg.admin.viewprofile", "View a player's RPG profile");
-        this.playerManager = plugin.getRPGPlayerManager();
-        this.questManager = QuestManager.getInstance();
+    private ViewProfileCommand(@NotNull String name, @NotNull String permission, @NotNull String description,
+                               @NotNull RPGPlayerManager playerManager, @NotNull QuestManager questManager) {
+        super(name, permission, description);
+        this.playerManager = playerManager;
+        this.questManager = questManager;
         this.setMinArgs(1);
         this.setUsage("/rpgadmin viewprofile <player>");
+    }
+    
+    public static ViewProfileCommand create(@NotNull RPGMain plugin) {
+        return new ViewProfileCommand("viewprofile", "rpg.admin.viewprofile", "View a player's RPG profile",
+                                     plugin.getRPGPlayerManager(), QuestManager.getInstance());
     }
     
     @Override

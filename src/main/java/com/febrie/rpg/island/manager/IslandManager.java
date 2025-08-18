@@ -218,13 +218,27 @@ public class IslandManager {
 
                 // 설정을 포함한 새로운 섬 데이터 생성
                 IslandSettingsDTO settings = new IslandSettingsDTO(colorHex, biome, template);
-                IslandDTO islandData = IslandDTO.fromFields(
-                        baseIsland.core().islandId(), baseIsland.core().ownerUuid(), baseIsland.core().ownerName(), baseIsland.core().islandName(),
-                        baseIsland.core().size(), baseIsland.core().isPublic(), baseIsland.core().createdAt(), baseIsland.core().lastActivity(),
-                        baseIsland.membership().members(), baseIsland.membership().workers(), baseIsland.membership().contributions(),
-                        new IslandSpawnDTO(new IslandSpawnPointDTO(location.centerX(), 66.0, location.centerZ(), 0.0f, 0.0f, "섬 중앙"), null, List.of(), Map.of()),
-                        baseIsland.configuration().upgradeData(), baseIsland.configuration().permissions(), baseIsland.social().pendingInvites(), baseIsland.social().recentVisits(),
-                        baseIsland.core().totalResets(), baseIsland.core().deletionScheduledAt(), settings);
+                IslandSpawnDTO newSpawnData = new IslandSpawnDTO(
+                        new IslandSpawnPointDTO(location.centerX(), 66.0, location.centerZ(), 0.0f, 0.0f, "섬 중앙"),
+                        null,
+                        List.of(),
+                        Map.of()
+                );
+                
+                IslandConfigurationDTO newConfiguration = new IslandConfigurationDTO(
+                        baseIsland.core().islandId(),
+                        newSpawnData,
+                        baseIsland.configuration().upgradeData(),
+                        baseIsland.configuration().permissions(),
+                        settings
+                );
+                
+                IslandDTO islandData = new IslandDTO(
+                        baseIsland.core(),
+                        baseIsland.membership(),
+                        baseIsland.social(),
+                        newConfiguration
+                );
 
                 // 섬 저장
                 return islandService.saveIsland(islandData)
@@ -702,7 +716,27 @@ public class IslandManager {
         }
 
         // 섬 데이터 업데이트
-        IslandDTO updated = IslandDTO.fromFields(island.core().islandId(), island.core().ownerUuid(), island.core().ownerName(), island.core().islandName(), island.core().size(), island.core().isPublic(), island.core().createdAt(), System.currentTimeMillis(), island.membership().members(), island.membership().workers(), island.membership().contributions(), island.configuration().spawnData(), island.configuration().upgradeData(), island.configuration().permissions(), island.social().pendingInvites(), visits, island.core().totalResets(), island.core().deletionScheduledAt(), island.configuration().settings());
+        IslandCoreDTO updatedCore = new IslandCoreDTO(
+                island.core().islandId(),
+                island.core().ownerUuid(),
+                island.core().ownerName(),
+                island.core().islandName(),
+                island.core().size(),
+                island.core().isPublic(),
+                island.core().createdAt(),
+                System.currentTimeMillis(),
+                island.core().totalResets(),
+                island.core().deletionScheduledAt(),
+                island.core().location()
+        );
+        
+        IslandSocialDTO updatedSocial = new IslandSocialDTO(
+                island.core().islandId(),
+                island.social().pendingInvites(),
+                visits
+        );
+        
+        IslandDTO updated = new IslandDTO(updatedCore, island.membership(), updatedSocial, island.configuration());
 
         updateIsland(updated);
     }

@@ -25,12 +25,17 @@ public class NpcCommand extends BaseSubCommand {
     
     private final NPCTraitSetter npcTraitSetter;
     
-    public NpcCommand(@NotNull RPGMain plugin) {
-        super("npc", "rpg.admin.npc", "Manage NPC traits and settings");
-        this.npcTraitSetter = plugin.getNPCTraitSetter();
+    private NpcCommand(@NotNull String name, @NotNull String permission, @NotNull String description,
+                      @NotNull NPCTraitSetter npcTraitSetter) {
+        super(name, permission, description);
+        this.npcTraitSetter = npcTraitSetter;
         this.setMinArgs(1);
         this.setUsage("/rpgadmin npc <setcode|settrait|reward> [args]");
         this.setPlayerOnly(true);
+    }
+    
+    public static NpcCommand create(@NotNull RPGMain plugin) {
+        return new NpcCommand("npc", "rpg.admin.npc", "Manage NPC traits and settings", plugin.getNPCTraitSetter());
     }
     
     @Override

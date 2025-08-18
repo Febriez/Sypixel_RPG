@@ -35,12 +35,12 @@ public class AdminCommandHandler implements CommandExecutor, TabCompleter {
         // 서브커맨드 등록
         registerSubCommand(new GiveCurrencyCommand(plugin));
         registerSubCommand(new SetLevelCommand(plugin));
-        registerSubCommand(new ExpCommand(plugin));
-        registerSubCommand(new JobCommand(plugin));
-        registerSubCommand(new ViewProfileCommand(plugin));
-        registerSubCommand(new QuestCommand(plugin));
-        registerSubCommand(new IslandCommand(plugin));
-        registerSubCommand(new NpcCommand(plugin));
+        registerSubCommand(ExpCommand.create(plugin));
+        registerSubCommand(JobCommand.create(plugin));
+        registerSubCommand(ViewProfileCommand.create(plugin));
+        registerSubCommand(QuestCommand.create(plugin));
+        registerSubCommand(IslandCommand.create(plugin));
+        registerSubCommand(NpcCommand.create(plugin));
         registerSubCommand(new ReloadCommand(plugin));
         registerSubCommand(new SaveCommand(plugin));
         registerSubCommand(new DebugCommand(plugin));

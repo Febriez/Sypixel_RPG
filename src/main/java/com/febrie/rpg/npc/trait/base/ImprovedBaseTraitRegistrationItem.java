@@ -33,13 +33,36 @@ import java.util.List;
 public abstract class ImprovedBaseTraitRegistrationItem implements Listener {
     
     protected final RPGMain plugin;
-    protected final NamespacedKey itemTypeKey;
-    protected final NamespacedKey idKey;
+    private NamespacedKey itemTypeKey;
+    private NamespacedKey idKey;
     
     protected ImprovedBaseTraitRegistrationItem(@NotNull RPGMain plugin) {
         this.plugin = plugin;
-        this.itemTypeKey = new NamespacedKey(plugin, getTraitType() + "_trait_item");
-        this.idKey = new NamespacedKey(plugin, getTraitType() + "_trait_id");
+    }
+    
+    /**
+     * NamespacedKey 초기화 메서드
+     * 하위 클래스 생성 후 호출되어야 함
+     */
+    protected void initializeKeys() {
+        if (this.itemTypeKey == null) {
+            this.itemTypeKey = new NamespacedKey(plugin, getTraitType() + "_trait_item");
+            this.idKey = new NamespacedKey(plugin, getTraitType() + "_trait_id");
+        }
+    }
+    
+    protected NamespacedKey getItemTypeKey() {
+        if (itemTypeKey == null) {
+            initializeKeys();
+        }
+        return itemTypeKey;
+    }
+    
+    protected NamespacedKey getIdKey() {
+        if (idKey == null) {
+            initializeKeys();
+        }
+        return idKey;
     }
     
     /**

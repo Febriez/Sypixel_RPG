@@ -1,7 +1,7 @@
 package com.febrie.rpg.gui.impl.island;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.dto.island.IslandDTO;
+import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.component.GuiItem;
@@ -205,16 +205,22 @@ public class IslandContributeGui extends BaseGui {
         long currentContribution = newContributions.getOrDefault(playerUuid, 0L);
         newContributions.put(playerUuid, currentContribution + amount);
         // 섬 업데이트
-        IslandDTO updated = IslandDTO.fromFields(
+        IslandCoreDTO updatedCore = new IslandCoreDTO(
                 island.core().islandId(), island.core().ownerUuid(), island.core().ownerName(),
                 island.core().islandName(), island.core().size(), island.core().isPublic(),
                 island.core().createdAt(), System.currentTimeMillis(),
-                island.membership().members(), island.membership().workers(), newContributions,
-                island.configuration().spawnData(), island.configuration().upgradeData(), island.configuration().permissions(),
-                island.social().pendingInvites(), island.social().recentVisits(),
                 island.core().totalResets(), island.core().deletionScheduledAt(),
-                island.configuration().settings()
+                island.core().location()
         );
+        
+        IslandMembershipDTO updatedMembership = new IslandMembershipDTO(
+                island.core().islandId(),
+                island.membership().members(),
+                island.membership().workers(),
+                newContributions
+        );
+        
+        IslandDTO updated = new IslandDTO(updatedCore, updatedMembership, island.social(), island.configuration());
         islandManager.updateIsland(updated);
         player.sendMessage(UnifiedColorUtil.parse("&a" + String.format("%,d", amount) + 
                 " 골드를 섬에 기여했습니다!"));

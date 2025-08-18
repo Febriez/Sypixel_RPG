@@ -181,7 +181,7 @@ public class Validator {
      */
     public static class ValidationException extends Exception {
         private static final long serialVersionUID = 1L;
-        private final List<String> errors;
+        private final ArrayList<String> errors;
         
         public ValidationException(@NotNull List<String> errors) {
             super("Validation failed: " + String.join(", ", errors));
@@ -189,7 +189,7 @@ public class Validator {
         }
         
         public List<String> getErrors() {
-            return errors;
+            return new ArrayList<>(errors);
         }
     }
     

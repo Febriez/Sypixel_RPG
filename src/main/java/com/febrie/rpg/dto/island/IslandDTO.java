@@ -207,37 +207,4 @@ public record IslandDTO(
         
         return new IslandDTO(core, membership, social, configuration);
     }
-
-    /**
-     * 기존 필드 기반 생성자 (하위 호환성)
-     * @deprecated Composite 패턴 사용 권장
-     */
-    @Deprecated
-    public static IslandDTO fromFields(@NotNull String islandId, @NotNull String ownerUuid, 
-                                      @NotNull String ownerName, @NotNull String islandName,
-                                      int size, boolean isPublic, long createdAt, long lastActivity,
-                                      @NotNull List<IslandMemberDTO> members,
-                                      @NotNull List<IslandWorkerDTO> workers,
-                                      @NotNull Map<String, Long> contributions,
-                                      @NotNull IslandSpawnDTO spawnData,
-                                      @NotNull IslandUpgradeDTO upgradeData,
-                                      @NotNull IslandPermissionDTO permissions,
-                                      @NotNull List<IslandInviteDTO> pendingInvites,
-                                      @NotNull List<IslandVisitDTO> recentVisits,
-                                      int totalResets,
-                                      @Nullable Long deletionScheduledAt,
-                                      @NotNull IslandSettingsDTO settings) {
-        
-        IslandCoreDTO core = new IslandCoreDTO(islandId, ownerUuid, ownerName, islandName,
-                size, isPublic, createdAt, lastActivity, totalResets, deletionScheduledAt, null);
-        
-        IslandMembershipDTO membership = new IslandMembershipDTO(islandId, members, workers, contributions);
-        
-        IslandSocialDTO social = new IslandSocialDTO(islandId, pendingInvites, recentVisits);
-        
-        IslandConfigurationDTO configuration = new IslandConfigurationDTO(islandId, 
-                spawnData, upgradeData, permissions, settings);
-        
-        return new IslandDTO(core, membership, social, configuration);
-    }
 }

@@ -50,34 +50,29 @@ public class Island {
             IslandDTO baseIsland = IslandDTO.createNew(islandId, ownerUuid, ownerName, islandName);
             
             // 위치 정보를 포함한 새 섬 DTO 생성
-            IslandDTO islandWithLocation = IslandDTO.fromFields(
-                    baseIsland.core().islandId(),
-                    baseIsland.core().ownerUuid(),
-                    baseIsland.core().ownerName(),
-                    baseIsland.core().islandName(),
-                    baseIsland.core().size(),
-                    baseIsland.core().isPublic(),
-                    baseIsland.core().createdAt(),
-                    baseIsland.core().lastActivity(),
-                    baseIsland.membership().members(),
-                    baseIsland.membership().workers(),
-                    baseIsland.membership().contributions(),
-                    new IslandSpawnDTO(
-                            IslandSpawnPointDTO.fromLocation(
-                                    location.getCenter(worldManager.getIslandWorld()),
-                                    "섬 중앙"
-                            ),
-                            null,
-                            List.of(),
-                            Map.of()
+            IslandSpawnDTO newSpawnData = new IslandSpawnDTO(
+                    IslandSpawnPointDTO.fromLocation(
+                            location.getCenter(worldManager.getIslandWorld()),
+                            "섬 중앙"
                     ),
+                    null,
+                    List.of(),
+                    Map.of()
+            );
+            
+            IslandConfigurationDTO newConfiguration = new IslandConfigurationDTO(
+                    baseIsland.core().islandId(),
+                    newSpawnData,
                     baseIsland.configuration().upgradeData(),
                     baseIsland.configuration().permissions(),
-                    baseIsland.social().pendingInvites(),
-                    baseIsland.social().recentVisits(),
-                    baseIsland.core().totalResets(),
-                    baseIsland.core().deletionScheduledAt(),
                     baseIsland.configuration().settings()
+            );
+            
+            IslandDTO islandWithLocation = new IslandDTO(
+                    baseIsland.core(),
+                    baseIsland.membership(),
+                    baseIsland.social(),
+                    newConfiguration
             );
             
             
@@ -133,7 +128,7 @@ public class Island {
         return worldManager.resetIsland(centerX, centerZ, islandData.core().size(), 85)
                 .thenApply(v -> {
                     // 새로운 섬 데이터 생성 (초기 상태로)
-                    islandData = IslandDTO.fromFields(
+                    IslandCoreDTO newCore = new IslandCoreDTO(
                             islandData.core().islandId(),
                             islandData.core().ownerUuid(),
                             islandData.core().ownerName(),
@@ -142,18 +137,33 @@ public class Island {
                             false, // 비공개로 리셋
                             islandData.core().createdAt(), // 생성 시간은 유지
                             System.currentTimeMillis(),
+                            islandData.core().totalResets() + 1,
+                            null,
+                            null
+                    );
+                    
+                    IslandMembershipDTO newMembership = new IslandMembershipDTO(
+                            islandData.core().islandId(),
                             List.of(), // 멤버 초기화
                             List.of(), // 알바 초기화
-                            Map.of(islandData.core().ownerUuid(), 0L), // 기여도 초기화
+                            Map.of(islandData.core().ownerUuid(), 0L) // 기여도 초기화
+                    );
+                    
+                    IslandSocialDTO newSocial = new IslandSocialDTO(
+                            islandData.core().islandId(),
+                            List.of(), // 초대 초기화
+                            List.of() // 방문 기록 초기화
+                    );
+                    
+                    IslandConfigurationDTO newConfiguration = new IslandConfigurationDTO(
+                            islandData.core().islandId(),
                             IslandSpawnDTO.createDefault(), // 스폰 초기화
                             IslandUpgradeDTO.createDefault(), // 업그레이드 초기화
                             IslandPermissionDTO.createDefault(), // 권한 초기화
-                            List.of(), // 초대 초기화
-                            List.of(), // 방문 기록 초기화
-                            islandData.core().totalResets() + 1,
-                            null,
                             islandData.configuration().settings() // 설정 유지
                     );
+                    
+                    islandData = new IslandDTO(newCore, newMembership, newSocial, newConfiguration);
                     
                     return true;
                 });
@@ -216,7 +226,7 @@ public class Island {
         contributions.putIfAbsent(playerUuid, 0L);
         
         // 새로운 섬 데이터 생성
-        islandData = IslandDTO.fromFields(
+        IslandCoreDTO updatedCore = new IslandCoreDTO(
                 islandData.core().islandId(),
                 islandData.core().ownerUuid(),
                 islandData.core().ownerName(),
@@ -225,18 +235,19 @@ public class Island {
                 islandData.core().isPublic(),
                 islandData.core().createdAt(),
                 System.currentTimeMillis(),
-                currentMembers,
-                islandData.membership().workers(),
-                contributions,
-                islandData.configuration().spawnData(),
-                islandData.configuration().upgradeData(),
-                islandData.configuration().permissions(),
-                islandData.social().pendingInvites(),
-                islandData.social().recentVisits(),
                 islandData.core().totalResets(),
                 islandData.core().deletionScheduledAt(),
-                islandData.configuration().settings()
+                islandData.core().location()
         );
+        
+        IslandMembershipDTO updatedMembership = new IslandMembershipDTO(
+                islandData.core().islandId(),
+                currentMembers,
+                islandData.membership().workers(),
+                contributions
+        );
+        
+        islandData = new IslandDTO(updatedCore, updatedMembership, islandData.social(), islandData.configuration());
     }
     
     /**
@@ -255,7 +266,7 @@ public class Island {
         // 기여도는 유지 (기록 보존)
         
         // 새로운 섬 데이터 생성
-        islandData = IslandDTO.fromFields(
+        IslandCoreDTO updatedCore = new IslandCoreDTO(
                 islandData.core().islandId(),
                 islandData.core().ownerUuid(),
                 islandData.core().ownerName(),
@@ -264,18 +275,19 @@ public class Island {
                 islandData.core().isPublic(),
                 islandData.core().createdAt(),
                 System.currentTimeMillis(),
-                currentMembers,
-                currentWorkers,
-                islandData.membership().contributions(),
-                islandData.configuration().spawnData(),
-                islandData.configuration().upgradeData(),
-                islandData.configuration().permissions(),
-                islandData.social().pendingInvites(),
-                islandData.social().recentVisits(),
                 islandData.core().totalResets(),
                 islandData.core().deletionScheduledAt(),
-                islandData.configuration().settings()
+                islandData.core().location()
         );
+        
+        IslandMembershipDTO updatedMembership = new IslandMembershipDTO(
+                islandData.core().islandId(),
+                currentMembers,
+                currentWorkers,
+                islandData.membership().contributions()
+        );
+        
+        islandData = new IslandDTO(updatedCore, updatedMembership, islandData.social(), islandData.configuration());
     }
     
     /**
@@ -329,7 +341,7 @@ public class Island {
     // Setters
     public void setData(@NotNull IslandDTO data) { this.islandData = data; }
     public void setPublic(boolean isPublic) {
-        islandData = IslandDTO.fromFields(
+        IslandCoreDTO updatedCore = new IslandCoreDTO(
                 islandData.core().islandId(),
                 islandData.core().ownerUuid(),
                 islandData.core().ownerName(),
@@ -338,17 +350,11 @@ public class Island {
                 isPublic,
                 islandData.core().createdAt(),
                 System.currentTimeMillis(),
-                islandData.membership().members(),
-                islandData.membership().workers(),
-                islandData.membership().contributions(),
-                islandData.configuration().spawnData(),
-                islandData.configuration().upgradeData(),
-                islandData.configuration().permissions(),
-                islandData.social().pendingInvites(),
-                islandData.social().recentVisits(),
                 islandData.core().totalResets(),
                 islandData.core().deletionScheduledAt(),
-                islandData.configuration().settings()
+                islandData.core().location()
         );
+        
+        islandData = new IslandDTO(updatedCore, islandData.membership(), islandData.social(), islandData.configuration());
     }
 }

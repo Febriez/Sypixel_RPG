@@ -28,12 +28,18 @@ public class QuestCommand extends BaseSubCommand {
     private final QuestManager questManager;
     private final QuestRegistry questRegistry;
     
-    public QuestCommand(@NotNull RPGMain plugin) {
-        super("quest", "rpg.admin.quest", "Manage player quests");
-        this.questManager = QuestManager.getInstance();
-        this.questRegistry = QuestRegistry.getInstance();
+    private QuestCommand(@NotNull String name, @NotNull String permission, @NotNull String description, 
+                        @NotNull QuestManager questManager, @NotNull QuestRegistry questRegistry) {
+        super(name, permission, description);
+        this.questManager = questManager;
+        this.questRegistry = questRegistry;
         this.setMinArgs(1);
         this.setUsage("/rpgadmin quest <give|complete|reset|list> [player] [questId]");
+    }
+    
+    public static QuestCommand create(@NotNull RPGMain plugin) {
+        return new QuestCommand("quest", "rpg.admin.quest", "Manage player quests",
+                              QuestManager.getInstance(), QuestRegistry.getInstance());
     }
     
     @Override

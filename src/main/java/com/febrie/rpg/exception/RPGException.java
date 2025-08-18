@@ -21,21 +21,39 @@ public class RPGException extends Exception {
         super(message);
         this.errorCode = errorCode;
         this.userMessage = errorCode.getUserMessage();
-        logError();
     }
     
     public RPGException(@NotNull ErrorCode errorCode, @NotNull String message, @Nullable Throwable cause) {
         super(message, cause);
         this.errorCode = errorCode;
         this.userMessage = errorCode.getUserMessage();
-        logError();
     }
     
     public RPGException(@NotNull ErrorCode errorCode, @NotNull String message, @NotNull String userMessage) {
         super(message);
         this.errorCode = errorCode;
         this.userMessage = userMessage;
-        logError();
+    }
+    
+    /**
+     * 로깅을 위한 정적 팩토리 메서드
+     */
+    public static RPGException createAndLog(@NotNull ErrorCode errorCode, @NotNull String message) {
+        RPGException exception = new RPGException(errorCode, message);
+        exception.logError();
+        return exception;
+    }
+    
+    public static RPGException createAndLog(@NotNull ErrorCode errorCode, @NotNull String message, @Nullable Throwable cause) {
+        RPGException exception = new RPGException(errorCode, message, cause);
+        exception.logError();
+        return exception;
+    }
+    
+    public static RPGException createAndLog(@NotNull ErrorCode errorCode, @NotNull String message, @NotNull String userMessage) {
+        RPGException exception = new RPGException(errorCode, message, userMessage);
+        exception.logError();
+        return exception;
     }
     
     @NotNull

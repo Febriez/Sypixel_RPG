@@ -1,7 +1,7 @@
 package com.febrie.rpg.gui.impl.island;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.dto.island.IslandDTO;
+import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.dto.island.IslandPermissionDTO;
 import com.febrie.rpg.dto.island.IslandRole;
 import com.febrie.rpg.gui.framework.BaseGui;
@@ -267,27 +267,15 @@ public class IslandPermissionGui extends BaseGui {
         permissions.put(selectedRole, rolePerms);
         
         // 업데이트된 섬 데이터 생성
-        island = IslandDTO.fromFields(
+        IslandConfigurationDTO updatedConfiguration = new IslandConfigurationDTO(
                 island.core().islandId(),
-                island.core().ownerUuid(),
-                island.core().ownerName(),
-                island.core().islandName(),
-                island.core().size(),
-                island.core().isPublic(),
-                island.core().createdAt(),
-                island.core().lastActivity(),
-                island.membership().members(),
-                island.membership().workers(),
-                island.membership().contributions(),
                 island.configuration().spawnData(),
                 island.configuration().upgradeData(),
                 new IslandPermissionDTO(permissions),
-                island.social().pendingInvites(),
-                island.social().recentVisits(),
-                island.core().totalResets(),
-                island.core().deletionScheduledAt(),
                 island.configuration().settings()
         );
+        
+        island = new IslandDTO(island.core(), island.membership(), island.social(), updatedConfiguration);
         
         setupLayout();
     }

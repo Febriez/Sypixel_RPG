@@ -1,7 +1,7 @@
 package com.febrie.rpg.gui.impl.island;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.dto.island.IslandDTO;
+import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.dto.island.IslandSettingsDTO;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
@@ -246,7 +246,7 @@ public class IslandSettingsGui extends BaseGui {
         
         // 이름 변경
         if (!tempIslandName.equals(island.core().islandName())) {
-            IslandDTO updated = IslandDTO.fromFields(
+            IslandCoreDTO updatedCore = new IslandCoreDTO(
                     island.core().islandId(),
                     island.core().ownerUuid(),
                     island.core().ownerName(),
@@ -255,25 +255,18 @@ public class IslandSettingsGui extends BaseGui {
                     island.core().isPublic(),
                     island.core().createdAt(),
                     System.currentTimeMillis(),
-                    island.membership().members(),
-                    island.membership().workers(),
-                    island.membership().contributions(),
-                    island.configuration().spawnData(),
-                    island.configuration().upgradeData(),
-                    island.configuration().permissions(),
-                    island.social().pendingInvites(),
-                    island.social().recentVisits(),
                     island.core().totalResets(),
                     island.core().deletionScheduledAt(),
-                    island.configuration().settings()
+                    island.core().location()
             );
+            IslandDTO updated = new IslandDTO(updatedCore, island.membership(), island.social(), island.configuration());
             islandManager.updateIsland(updated);
             hasChanges = true;
         }
         
         // 공개/비공개 변경
         if (tempIsPublic != island.core().isPublic()) {
-            IslandDTO updated = IslandDTO.fromFields(
+            IslandCoreDTO updatedCore = new IslandCoreDTO(
                     island.core().islandId(),
                     island.core().ownerUuid(),
                     island.core().ownerName(),
@@ -282,18 +275,11 @@ public class IslandSettingsGui extends BaseGui {
                     tempIsPublic,
                     island.core().createdAt(),
                     System.currentTimeMillis(),
-                    island.membership().members(),
-                    island.membership().workers(),
-                    island.membership().contributions(),
-                    island.configuration().spawnData(),
-                    island.configuration().upgradeData(),
-                    island.configuration().permissions(),
-                    island.social().pendingInvites(),
-                    island.social().recentVisits(),
                     island.core().totalResets(),
                     island.core().deletionScheduledAt(),
-                    island.configuration().settings()
+                    island.core().location()
             );
+            IslandDTO updated = new IslandDTO(updatedCore, island.membership(), island.social(), island.configuration());
             islandManager.updateIsland(updated);
             hasChanges = true;
         }

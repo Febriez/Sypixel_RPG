@@ -287,7 +287,7 @@ public final class RPGMain extends JavaPlugin {
         if (islandManager != null) {
             getServer().getPluginManager()
                     .registerEvents(new IslandProtectionListener(this, islandManager), this);
-            
+
             // 섬 리스폰 리스너 등록
             getServer().getPluginManager()
                     .registerEvents(new IslandRespawnListener(this, islandManager), this);
@@ -385,7 +385,7 @@ public final class RPGMain extends JavaPlugin {
     public NPCManager getNPCManager() {
         return npcManager;
     }
-    
+
     public NPCTraitSetter getNPCTraitSetter() {
         return npcTraitSetter;
     }

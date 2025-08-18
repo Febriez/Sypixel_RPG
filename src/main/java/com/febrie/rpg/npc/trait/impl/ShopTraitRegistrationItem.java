@@ -15,9 +15,14 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ShopTraitRegistrationItem extends ImprovedBaseTraitRegistrationItem {
     
-    public ShopTraitRegistrationItem(@NotNull RPGMain plugin) {
+    private ShopTraitRegistrationItem(@NotNull RPGMain plugin) {
         super(plugin);
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+    
+    public static ShopTraitRegistrationItem create(@NotNull RPGMain plugin) {
+        ShopTraitRegistrationItem item = new ShopTraitRegistrationItem(plugin);
+        plugin.getServer().getPluginManager().registerEvents(item, plugin);
+        return item;
     }
     
     @Override

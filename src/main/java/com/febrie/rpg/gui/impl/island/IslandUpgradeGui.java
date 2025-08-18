@@ -1,7 +1,7 @@
 package com.febrie.rpg.gui.impl.island;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.dto.island.IslandDTO;
+import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.dto.island.IslandUpgradeDTO;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
@@ -310,7 +310,7 @@ public class IslandUpgradeGui extends BaseGui {
         };
         
         // 섬 데이터 업데이트
-        IslandDTO updatedIsland = IslandDTO.fromFields(
+        IslandCoreDTO updatedCore = new IslandCoreDTO(
                 island.core().islandId(),
                 island.core().ownerUuid(),
                 island.core().ownerName(),
@@ -319,18 +319,20 @@ public class IslandUpgradeGui extends BaseGui {
                 island.core().isPublic(),
                 island.core().createdAt(),
                 System.currentTimeMillis(),
-                island.membership().members(),
-                island.membership().workers(),
-                island.membership().contributions(),
+                island.core().totalResets(),
+                island.core().deletionScheduledAt(),
+                island.core().location()
+        );
+        
+        IslandConfigurationDTO updatedConfiguration = new IslandConfigurationDTO(
+                island.core().islandId(),
                 island.configuration().spawnData(),
                 newUpgrade,
                 island.configuration().permissions(),
-                island.social().pendingInvites(),
-                island.social().recentVisits(),
-                island.core().totalResets(),
-                island.core().deletionScheduledAt(),
                 island.configuration().settings()
         );
+        
+        IslandDTO updatedIsland = new IslandDTO(updatedCore, island.membership(), island.social(), updatedConfiguration);
         
         // 저장
         islandManager.updateIsland(updatedIsland).thenAccept(success -> {

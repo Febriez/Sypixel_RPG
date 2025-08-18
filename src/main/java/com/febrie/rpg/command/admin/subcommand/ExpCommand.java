@@ -23,11 +23,16 @@ public class ExpCommand extends BaseSubCommand {
     
     private final RPGPlayerManager playerManager;
     
-    public ExpCommand(@NotNull RPGMain plugin) {
-        super("exp", "rpg.admin.exp", "Manage player experience points");
-        this.playerManager = plugin.getRPGPlayerManager();
+    private ExpCommand(@NotNull String name, @NotNull String permission, @NotNull String description,
+                      @NotNull RPGPlayerManager playerManager) {
+        super(name, permission, description);
+        this.playerManager = playerManager;
         this.setMinArgs(3);
         this.setUsage("/rpgadmin exp give <player> <amount>");
+    }
+    
+    public static ExpCommand create(@NotNull RPGMain plugin) {
+        return new ExpCommand("exp", "rpg.admin.exp", "Manage player experience points", plugin.getRPGPlayerManager());
     }
     
     @Override
@@ -73,7 +78,7 @@ public class ExpCommand extends BaseSubCommand {
     @Override
     public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length == 1) {
-            return Arrays.asList("give");
+            return List.of("give");
         } else if (args.length == 2 && args[0].equalsIgnoreCase("give")) {
             return getOnlinePlayerNames().stream()
                 .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))

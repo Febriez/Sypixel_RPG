@@ -24,11 +24,16 @@ public class JobCommand extends BaseSubCommand {
     
     private final RPGPlayerManager playerManager;
     
-    public JobCommand(@NotNull RPGMain plugin) {
-        super("job", "rpg.admin.job", "Manage player jobs");
-        this.playerManager = plugin.getRPGPlayerManager();
+    private JobCommand(@NotNull String name, @NotNull String permission, @NotNull String description,
+                      @NotNull RPGPlayerManager playerManager) {
+        super(name, permission, description);
+        this.playerManager = playerManager;
         this.setMinArgs(3);
         this.setUsage("/rpgadmin job set <player> <job|none>");
+    }
+    
+    public static JobCommand create(@NotNull RPGMain plugin) {
+        return new JobCommand("job", "rpg.admin.job", "Manage player jobs", plugin.getRPGPlayerManager());
     }
     
     @Override

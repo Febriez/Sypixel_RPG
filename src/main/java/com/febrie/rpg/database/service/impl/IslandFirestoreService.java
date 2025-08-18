@@ -99,8 +99,10 @@ public class IslandFirestoreService {
                     Object membersObj = data.get("members");
                     if (membersObj instanceof List) {
                         for (Object obj : (List<?>) membersObj) {
-                            if (obj instanceof Map) {
-                                members.add(IslandMemberDTO.fromMap((Map<String, Object>) obj));
+                            if (obj instanceof Map<?, ?>) {
+                                @SuppressWarnings("unchecked")
+                                Map<String, Object> memberMap = (Map<String, Object>) obj;
+                                members.add(IslandMemberDTO.fromMap(memberMap));
                             }
                         }
                     }
@@ -109,8 +111,10 @@ public class IslandFirestoreService {
                     Object workersObj = data.get("workers");
                     if (workersObj instanceof List) {
                         for (Object obj : (List<?>) workersObj) {
-                            if (obj instanceof Map) {
-                                workers.add(IslandWorkerDTO.fromMap((Map<String, Object>) obj));
+                            if (obj instanceof Map<?, ?>) {
+                                @SuppressWarnings("unchecked")
+                                Map<String, Object> workerMap = (Map<String, Object>) obj;
+                                workers.add(IslandWorkerDTO.fromMap(workerMap));
                             }
                         }
                     }
@@ -156,8 +160,10 @@ public class IslandFirestoreService {
                     Object invitesObj = data.get("pendingInvites");
                     if (invitesObj instanceof List) {
                         for (Object obj : (List<?>) invitesObj) {
-                            if (obj instanceof Map) {
-                                IslandInviteDTO invite = IslandInviteDTO.fromMap((Map<String, Object>) obj);
+                            if (obj instanceof Map<?, ?>) {
+                                @SuppressWarnings("unchecked")
+                                Map<String, Object> inviteMap = (Map<String, Object>) obj;
+                                IslandInviteDTO invite = IslandInviteDTO.fromMap(inviteMap);
                                 if (!invite.isExpired()) {
                                     invites.add(invite);
                                 }
@@ -169,8 +175,10 @@ public class IslandFirestoreService {
                     Object visitsObj = data.get("recentVisits");
                     if (visitsObj instanceof List) {
                         for (Object obj : (List<?>) visitsObj) {
-                            if (obj instanceof Map) {
-                                visits.add(IslandVisitDTO.fromMap((Map<String, Object>) obj));
+                            if (obj instanceof Map<?, ?>) {
+                                @SuppressWarnings("unchecked")
+                                Map<String, Object> visitMap = (Map<String, Object>) obj;
+                                visits.add(IslandVisitDTO.fromMap(visitMap));
                             }
                         }
                     }
@@ -203,26 +211,34 @@ public class IslandFirestoreService {
                     // 설정 관련 필드만 추출
                     IslandSpawnDTO spawnData = IslandSpawnDTO.createDefault();
                     Object spawnObj = data.get("spawnData");
-                    if (spawnObj instanceof Map) {
-                        spawnData = IslandSpawnDTO.fromMap((Map<String, Object>) spawnObj);
+                    if (spawnObj instanceof Map<?, ?>) {
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> spawnMap = (Map<String, Object>) spawnObj;
+                        spawnData = IslandSpawnDTO.fromMap(spawnMap);
                     }
 
                     IslandUpgradeDTO upgradeData = IslandUpgradeDTO.createDefault();
                     Object upgradeObj = data.get("upgradeData");
-                    if (upgradeObj instanceof Map) {
-                        upgradeData = IslandUpgradeDTO.fromMap((Map<String, Object>) upgradeObj);
+                    if (upgradeObj instanceof Map<?, ?>) {
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> upgradeMap = (Map<String, Object>) upgradeObj;
+                        upgradeData = IslandUpgradeDTO.fromMap(upgradeMap);
                     }
 
                     IslandPermissionDTO permissions = IslandPermissionDTO.createDefault();
                     Object permissionsObj = data.get("permissions");
-                    if (permissionsObj instanceof Map) {
-                        permissions = IslandPermissionDTO.fromMap((Map<String, Object>) permissionsObj);
+                    if (permissionsObj instanceof Map<?, ?>) {
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> permissionsMap = (Map<String, Object>) permissionsObj;
+                        permissions = IslandPermissionDTO.fromMap(permissionsMap);
                     }
 
                     IslandSettingsDTO settings = IslandSettingsDTO.createDefault();
                     Object settingsObj = data.get("settings");
-                    if (settingsObj instanceof Map) {
-                        settings = IslandSettingsDTO.fromMap((Map<String, Object>) settingsObj);
+                    if (settingsObj instanceof Map<?, ?>) {
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> settingsMap = (Map<String, Object>) settingsObj;
+                        settings = IslandSettingsDTO.fromMap(settingsMap);
                     }
 
                     return new IslandConfigurationDTO(id, spawnData, upgradeData, permissions, settings);

@@ -1,7 +1,7 @@
 package com.febrie.rpg.gui.impl.island;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.dto.island.IslandDTO;
+import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.dto.island.IslandMemberDTO;
 import com.febrie.rpg.dto.island.IslandWorkerDTO;
 import com.febrie.rpg.gui.framework.BaseGui;
@@ -362,16 +362,22 @@ public class IslandMemberManageGui extends BaseGui {
     }
     
     private void updateIslandMembers(List<IslandMemberDTO> members, List<IslandWorkerDTO> workers) {
-        IslandDTO updated = IslandDTO.fromFields(
+        IslandCoreDTO updatedCore = new IslandCoreDTO(
                 island.core().islandId(), island.core().ownerUuid(), island.core().ownerName(),
                 island.core().islandName(), island.core().size(), island.core().isPublic(),
                 island.core().createdAt(), System.currentTimeMillis(),
-                members, workers, island.membership().contributions(),
-                island.configuration().spawnData(), island.configuration().upgradeData(), island.configuration().permissions(),
-                island.social().pendingInvites(), island.social().recentVisits(),
                 island.core().totalResets(), island.core().deletionScheduledAt(),
-                island.configuration().settings()
+                island.core().location()
         );
+        
+        IslandMembershipDTO updatedMembership = new IslandMembershipDTO(
+                island.core().islandId(),
+                members,
+                workers,
+                island.membership().contributions()
+        );
+        
+        IslandDTO updated = new IslandDTO(updatedCore, updatedMembership, island.social(), island.configuration());
         islandManager.updateIsland(updated);
         // 현재 인스턴스 변경 불가 (final)
     }
