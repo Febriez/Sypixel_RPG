@@ -71,7 +71,6 @@ public class StatsGui extends ScrollableGui {
     public static StatsGui create(@NotNull GuiManager guiManager,
                                  @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
         StatsGui gui = new StatsGui(guiManager, viewer, rpgPlayer);
-        gui.initialize("gui.stats.title");
         return gui;
     }
 
@@ -238,9 +237,4 @@ public class StatsGui extends ScrollableGui {
         return new ProfileGui(guiManager, viewer);
     }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

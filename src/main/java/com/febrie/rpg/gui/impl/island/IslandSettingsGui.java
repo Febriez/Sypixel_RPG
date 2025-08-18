@@ -43,7 +43,7 @@ public class IslandSettingsGui extends BaseGui {
     
     private IslandSettingsGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                              @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, "&9&l섬 설정");
+        super(viewer, guiManager, 54, "gui.island.settings.title");
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.isOwner = island.core().ownerUuid().equals(viewer.getUniqueId().toString());
@@ -95,11 +95,6 @@ public class IslandSettingsGui extends BaseGui {
     @Override
     public @NotNull Component getTitle() {
         return Component.text("섬 설정", UnifiedColorUtil.PRIMARY);
-    }
-    
-    @Override
-    public void onClick(InventoryClickEvent event) {
-        event.setCancelled(true);
     }
     
     private ItemStack createIslandInfoItem() {
@@ -191,31 +186,26 @@ public class IslandSettingsGui extends BaseGui {
     
     private void handleNameChange(Player player) {
         new AnvilGUI.Builder()
-                .onClick((slot, stateSnapshot) -> {
-                    if (slot != AnvilGUI.Slot.OUTPUT) {
-                        return Collections.emptyList();
-                    }
-                    
-                    String newName = stateSnapshot.getText();
-                    
+                .onComplete((completedPlayer, text) -> {
                     // 유효성 검사
-                    if (newName.isEmpty() || newName.length() > 20) {
+                    if (text.isEmpty() || text.length() > 20) {
                         player.sendMessage(UnifiedColorUtil.parse("&c섬 이름은 1~20자여야 합니다."));
-                        return Arrays.asList(AnvilGUI.ResponseAction.close());
+                        return AnvilGUI.Response.text("1~20자 사이로 입력하세요");
                     }
                     
                     // 색상 코드 제거 (Paper API)
-                    newName = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
-                            .serialize(net.kyori.adventure.text.Component.text(newName));
+                    String newName = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                            .serialize(net.kyori.adventure.text.Component.text(text));
                     
                     tempIslandName = newName;
                     
-                    // GUI 다시 열기
-                    Bukkit.getScheduler().runTask(plugin, () -> {
+                    return AnvilGUI.Response.close();
+                })
+                .onClose(closePlayer -> {
+                    // AnvilGUI가 닫힌 후 다시 열기
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
                         IslandSettingsGui.create(plugin, viewer, island).open(viewer);
-                    });
-                    
-                    return Arrays.asList(AnvilGUI.ResponseAction.close());
+                    }, 1L);
                 })
                 .text(tempIslandName)
                 .title("새로운 섬 이름 입력")

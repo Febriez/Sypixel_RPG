@@ -87,7 +87,7 @@ public class ProfileGui extends BaseGui {
     public static ProfileGui create(@NotNull GuiManager guiManager,
                                   @NotNull Player viewer, @NotNull Player targetPlayer) {
         ProfileGui gui = new ProfileGui(guiManager, viewer, targetPlayer);
-        return createAndInitialize(gui, "gui.profile.player-title", "player", targetPlayer.getName());
+        return gui;
     }
     
     /**
@@ -134,7 +134,7 @@ public class ProfileGui extends BaseGui {
                 setItem(i, GuiFactory.createDecoration());
             }
         }
-
+        
         // 중간 구분선 제거 - 버튼들만 표시
 
         // 좌우 테두리
@@ -462,16 +462,5 @@ public class ProfileGui extends BaseGui {
             );
             setItem(USER_SETTINGS_SLOT, userSettingsButton);
         }
-    }
-
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
     }
 }

@@ -42,6 +42,54 @@ public class NPCTraitSetter {
     }
     
     /**
+     * 플레이어가 퀘스트 trait를 설정할 준비를 함 (막대기 방식)
+     */
+    public void setPendingQuestTrait(@NotNull Player player, @NotNull QuestID questId) {
+        cancelPending(player);
+        
+        BukkitTask timeoutTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            if (pendingTraits.remove(player.getUniqueId()) != null) {
+                player.sendMessage(Component.text("NPC 설정 시간이 초과되었습니다.", UnifiedColorUtil.ERROR));
+            }
+        }, 600L); // 30초
+        
+        PendingTrait pending = new PendingTrait(TraitType.QUEST, questId, timeoutTask);
+        pendingTraits.put(player.getUniqueId(), pending);
+    }
+    
+    /**
+     * 플레이어가 보상 trait를 설정할 준비를 함 (막대기 방식)
+     */
+    public void setPendingRewardTrait(@NotNull Player player, @NotNull QuestID questId) {
+        cancelPending(player);
+        
+        BukkitTask timeoutTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            if (pendingTraits.remove(player.getUniqueId()) != null) {
+                player.sendMessage(Component.text("NPC 설정 시간이 초과되었습니다.", UnifiedColorUtil.ERROR));
+            }
+        }, 600L); // 30초
+        
+        PendingTrait pending = new PendingTrait(TraitType.REWARD, questId, timeoutTask);
+        pendingTraits.put(player.getUniqueId(), pending);
+    }
+    
+    /**
+     * 플레이어가 목표 NPC trait를 설정할 준비를 함 (막대기 방식)
+     */
+    public void setPendingObjectiveTrait(@NotNull Player player, @NotNull String npcCode) {
+        cancelPending(player);
+        
+        BukkitTask timeoutTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            if (pendingTraits.remove(player.getUniqueId()) != null) {
+                player.sendMessage(Component.text("NPC 설정 시간이 초과되었습니다.", UnifiedColorUtil.ERROR));
+            }
+        }, 600L); // 30초
+        
+        PendingTrait pending = new PendingTrait(TraitType.OBJECTIVE, npcCode, timeoutTask);
+        pendingTraits.put(player.getUniqueId(), pending);
+    }
+    
+    /**
      * 플레이어가 퀘스트 trait를 설정할 준비를 함
      */
     public void prepareQuestTrait(@NotNull Player player, @NotNull QuestID questId) {
@@ -207,7 +255,7 @@ public class NPCTraitSetter {
      * Trait 타입
      */
     public enum TraitType {
-        QUEST, SHOP, GUIDE, REWARD, DIALOG
+        QUEST, SHOP, GUIDE, REWARD, DIALOG, OBJECTIVE
     }
     
     /**

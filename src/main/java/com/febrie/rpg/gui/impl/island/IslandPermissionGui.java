@@ -43,7 +43,7 @@ public class IslandPermissionGui extends BaseGui {
     
     private IslandPermissionGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                               @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, "&c권한 관리 - " + island.core().islandName());
+        super(viewer, guiManager, 54, "gui.island.permission.title");
         this.islandManager = plugin.getIslandManager();
         this.island = island;
     }
@@ -228,12 +228,6 @@ public class IslandPermissionGui extends BaseGui {
                 .addLore(UnifiedColorUtil.parseComponent(""))
                 .addLore(UnifiedColorUtil.parseComponent("&7메뉴를 닫습니다."))
                 .build();
-    }
-    
-    @Override
-    public void onClick(InventoryClickEvent event) {
-        // Handled by GuiItem click handlers
-        event.setCancelled(true);
     }
     
     /**

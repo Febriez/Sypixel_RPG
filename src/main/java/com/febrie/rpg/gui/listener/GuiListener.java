@@ -43,13 +43,6 @@ public class GuiListener implements Listener {
         Inventory topInventory = event.getView().getTopInventory();
         InventoryHolder holder = topInventory.getHolder();
 
-        // Handle BaseGui (Island GUIs)
-        if (holder instanceof BaseGui baseGui) {
-            // BaseGui handles its own click cancellation
-            baseGui.onClick(event);
-            return;
-        }
-
         // GUI가 아닌 경우 처리하지 않음
         if (!(holder instanceof GuiFramework)) {
             return;
@@ -67,7 +60,7 @@ public class GuiListener implements Listener {
             return;
         }
 
-        // Handle InteractiveGui
+        // Handle InteractiveGui (includes BaseGui)
         if (holder instanceof InteractiveGui interactiveGui) {
             event.setCancelled(true); // Cancel by default for interactive GUIs
 
@@ -90,8 +83,12 @@ public class GuiListener implements Listener {
                 return;
             }
 
-            // Handle the click
-            interactiveGui.onSlotClick(event, player, slot, event.getClick());
+            // Handle the click - BaseGui는 onClick을 호출
+            if (holder instanceof BaseGui baseGui) {
+                baseGui.onClick(event);
+            } else {
+                interactiveGui.onSlotClick(event, player, slot, event.getClick());
+            }
             return;
         }
 

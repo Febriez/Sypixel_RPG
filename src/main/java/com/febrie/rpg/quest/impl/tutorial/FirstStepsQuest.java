@@ -102,6 +102,26 @@ public class FirstStepsQuest extends Quest {
 
 
     @Override
+    public int getDialogCount() {
+        return 3; // 3개의 대화 페이지
+    }
+    
+    @Override
+    public String getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> LangManager.getString(who, "quest.tutorial.first-steps.dialogs.line1");
+            case 1 -> LangManager.getString(who, "quest.tutorial.first-steps.dialogs.line2");
+            case 2 -> LangManager.getString(who, "quest.tutorial.first-steps.dialogs.line3");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public String getNPCName(@NotNull Player who) {
+        return LangManager.getString(who, "quest.tutorial.first-steps.npc-name");
+    }
+
+    @Override
     public String getAcceptDialog(@NotNull Player who) {
         return LangManager.getString(who, "quest.tutorial.first-steps.dialogs.accept");
     }

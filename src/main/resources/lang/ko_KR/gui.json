@@ -3,10 +3,13 @@
     "back": "◀ 돌아가기",
     "close": "닫기",
     "next-page": "다음 페이지 →",
+    "previous-page": "이전 페이지",
     "prev-page": "← 이전 페이지",
     "confirm": "확인",
     "cancel": "취소",
-    "settings": "설정"
+    "settings": "설정",
+    "unknown": "알 수 없음",
+    "page": "%COLOR_GRAY%페이지 {current}/{max}"
   },
   "mainmenu": {
     "title": "메인 메뉴"
@@ -25,6 +28,7 @@
     "current-job": "%COLOR_WHITE%현재 직업",
     "job-level": "%COLOR_WHITE%직업 레벨: %COLOR_YELLOW%{level}",
     "combat-power": "%COLOR_WHITE%전투력: %COLOR_LEGENDARY%{power}",
+    "click-to-talents": "%COLOR_YELLOW%클릭하여 특성 보기",
     "gold": "%COLOR_WHITE%골드: %COLOR_GOLD%{amount}",
     "playtime": "%COLOR_WHITE%플레이 시간: %COLOR_AQUA%{time}",
     "join-date": "%COLOR_WHITE%가입일: %COLOR_GRAY%{date}",
@@ -343,6 +347,15 @@
     "creation": {
       "title": "섬 생성"
     },
+    "settings": {
+      "title": "섬 설정"
+    },
+    "permission": {
+      "title": "권한 관리"
+    },
+    "upgrade": {
+      "title": "섬 업그레이드"
+    },
     "biome-selection": {
       "title": "바이옴 선택",
       "forest": "숲",
@@ -368,6 +381,16 @@
     },
     "biome-change": {
       "title": "바이옴 변경"
+    },
+    "biome": {
+      "message": {
+        "world_not_found": "섬 월드를 찾을 수 없습니다.",
+        "no_permission": "바이옴을 변경할 권한이 없습니다.",
+        "changing": "바이옴을 변경하는 중...",
+        "changed": "바이옴이 {biome}(으)로 변경되었습니다.",
+        "chunk_reload_notice": "청크가 리로드되면 바이옴이 완전히 업데이트됩니다.",
+        "already_selected": "이미 선택된 바이옴입니다."
+      }
     },
     "contribute": {
       "title": "섬 기여",
@@ -483,5 +506,147 @@
     "previous-page": "이전 페이지",
     "next-page": "다음 페이지",
     "rewards": "보상"
+  },
+  "island-creation": {
+    "current-name": "현재 이름: ",
+    "click-to-change-name": "클릭하여 이름 변경",
+    "current-color": "현재 색상: ",
+    "left-click": "좌클릭: ",
+    "right-click": "우클릭: ",
+    "middle-click": "가운데 클릭: ",
+    "hex-input": "직접 HEX 코드 입력",
+    "hex-example": "예시: #FFFFFF (흰색)",
+    "current-biome": "현재 바이옴: ",
+    "click-to-change": "▶ 클릭하여 변경",
+    "selected": "✔ 선택됨",
+    "click-to-select": "클릭하여 선택",
+    "click-to-create": "클릭하여 섬 생성!",
+    "next": "다음",
+    "previous": "이전"
+  },
+  "island-main": {
+    "owner": "섬장: ",
+    "size": "크기: ",
+    "members": "멤버: ",
+    "workers": "알바: ",
+    "created-date": "생성일: ",
+    "public-status": "공개 여부: ",
+    "public": "공개",
+    "private": "비공개",
+    "my-role": "내 역할: ",
+    "role-owner": "섬장",
+    "role-co-owner": "부섬장",
+    "role-member": "멤버",
+    "role-worker": "알바",
+    "role-visitor": "방문자",
+    "color-change-hint": "▶ 가운데 클릭: 섬 이름 색상 변경",
+    "hex-format-error": "올바른 HEX 색상 코드를 입력하세요. (예: #FF0000)",
+    "color-changed": "섬 이름 색상이 변경되었습니다!",
+    "hex-input-title": "HEX 색상 코드 입력",
+    "member-management-title": "멤버 관리",
+    "member-management-desc1": "섬원을 초대하거나",
+    "member-management-desc2": "추방할 수 있습니다.",
+    "permission-management-title": "권한 관리",
+    "permission-management-desc1": "각 역할의 권한을",
+    "permission-management-desc2": "설정할 수 있습니다.",
+    "upgrade-title": "업그레이드",
+    "upgrade-current-level": "현재 레벨:",
+    "upgrade-size": "  크기: ",
+    "upgrade-member": "  멤버: ",
+    "upgrade-worker": "  알바: ",
+    "upgrade-level": " 레벨",
+    "contribution-title": "기여도",
+    "contribution-desc1": "섬원들의 기여도를",
+    "contribution-desc2": "확인할 수 있습니다.",
+    "contribution-my": "내 기여도: ",
+    "spawn-settings-title": "스폰 설정",
+    "spawn-settings-desc1": "섬의 스폰 위치를",
+    "spawn-settings-desc2": "관리할 수 있습니다.",
+    "island-settings-title": "섬 설정",
+    "island-settings-desc1": "섬 이름 변경",
+    "island-settings-desc2": "공개/비공개 설정",
+    "island-settings-desc3": "바이옴 변경",
+    "visitor-management-title": "방문자 관리",
+    "visitor-management-desc1": "방문자 관련 정보를",
+    "visitor-management-desc2": "확인할 수 있습니다.",
+    "visitor-management-recent": "최근 방문자: ",
+    "visitor-management-current": "현재 방문자: ",
+    "visitor-management-history": "• 방문 히스토리",
+    "visitor-management-realtime": "• 현재 방문자 (실시간)",
+    "visitor-management-open-menu": "▶ 클릭하여 메뉴 열기",
+    "biome-change-title": "바이옴 변경",
+    "biome-change-desc1": "섬의 바이옴을",
+    "biome-change-desc2": "변경할 수 있습니다.",
+    "warp-title": "섬으로 이동",
+    "warp-desc": "섬으로 순간이동합니다.",
+    "warp-moving": "섬으로 이동 중...",
+    "warp-success": "섬으로 이동했습니다!",
+    "click-to-open": "▶ 클릭하여 열기",
+    "click-to-warp": "▶ 클릭하여 이동",
+    "people-count": "명",
+    "contribute": {
+      "title": "섬 기여하기",
+      "gold-info": {
+        "title": "내 골드 정보",
+        "balance": "%COLOR_GRAY%보유 골드: %COLOR_WHITE%{amount} G",
+        "contribution": "%COLOR_GRAY%내 총 기여도: %COLOR_WHITE%{amount} G",
+        "description1": "%COLOR_GRAY%섬에 골드를 기여하면",
+        "description2": "%COLOR_GRAY%섬 업그레이드에 사용됩니다"
+      },
+      "quick-amount": "{amount} G 기여",
+      "click-to-contribute": "%COLOR_GRAY%클릭하여 기여합니다",
+      "click-prompt": "▶ 클릭하여 기여",
+      "insufficient-gold": "골드가 부족합니다",
+      "gold-needed": "필요: {amount} G 더 필요",
+      "custom-amount": {
+        "title": "사용자 지정 금액",
+        "description1": "%COLOR_GRAY%원하는 금액을 직접",
+        "description2": "%COLOR_GRAY%입력할 수 있습니다",
+        "minimum": "%COLOR_GRAY%최소: %COLOR_WHITE%100 G",
+        "maximum": "%COLOR_GRAY%최대: %COLOR_WHITE%보유 골드",
+        "click-prompt": "▶ 클릭하여 입력"
+      },
+      "back-description": "%COLOR_GRAY%기여도 목록으로 돌아갑니다",
+      "anvil": {
+        "placeholder": "기여할 금액",
+        "title": "기여할 골드 입력"
+      },
+      "minimum-amount-error": "%COLOR_ERROR%최소 100 골드 이상 기여해야 합니다.",
+      "invalid-number": "%COLOR_ERROR%올바른 숫자를 입력해주세요.",
+      "insufficient-gold-message": "%COLOR_ERROR%골드가 부족합니다! (보유: {amount} G)",
+      "success": "%COLOR_SUCCESS%{amount} 골드를 섬에 기여했습니다!",
+      "total-contribution": "%COLOR_GRAY%총 기여도: %COLOR_WHITE%{amount} G"
+    },
+    "contribution": {
+      "title": "기여도 순위",
+      "info": {
+        "title": "섬 기여도 정보",
+        "island-name": "%COLOR_GRAY%섬 이름: %COLOR_WHITE%{name}",
+        "total": "%COLOR_GRAY%총 기여도: %COLOR_GREEN%{amount}",
+        "contributors": "%COLOR_GRAY%기여자 수: %COLOR_YELLOW%{count}명",
+        "description1": "%COLOR_GRAY%기여도는 섬 업그레이드에",
+        "description2": "%COLOR_GRAY%사용됩니다"
+      },
+      "contributor": {
+        "contribution": "%COLOR_GRAY%기여도: %COLOR_GREEN%{amount}",
+        "role": "%COLOR_GRAY%역할: {role}",
+        "percentage": "%COLOR_GRAY%전체 기여도의 %COLOR_YELLOW%{percent}%%"
+      },
+      "add": {
+        "title": "기여도 추가",
+        "current": "%COLOR_GRAY%현재 내 기여도: %COLOR_GREEN%{amount}",
+        "description1": "%COLOR_GRAY%아이템이나 재화를 기여하여",
+        "description2": "%COLOR_GRAY%섬 발전에 도움을 줄 수 있습니다",
+        "click": "▶ 클릭하여 기여하기"
+      },
+      "back-description": "%COLOR_GRAY%메인 메뉴로 돌아갑니다"
+    },
+    "role": {
+      "owner": "%COLOR_RED%섬장",
+      "co-owner": "%COLOR_GOLD%부섬장",
+      "member": "%COLOR_GREEN%멤버",
+      "worker": "%COLOR_YELLOW%알바",
+      "contributor": "%COLOR_GRAY%기여자"
+    }
   }
 }

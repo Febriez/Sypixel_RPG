@@ -67,7 +67,6 @@ public class MailboxGui extends BaseGui {
     public static MailboxGui create(@NotNull GuiManager guiManager,
                                    @NotNull Player player) {
         MailboxGui gui = new MailboxGui(guiManager, player);
-        gui.initialize("gui.mailbox.title");
         gui.loadMails();
         return gui;
     }
@@ -321,14 +320,10 @@ public class MailboxGui extends BaseGui {
                 .open(player);
     }
     
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
+    /**
+     * 플레이어에게 메시지 전송
+     */
+    private void sendMessage(Player player, String key, String... args) {
+        LangManager.sendMessage(player, key, args);
     }
 }

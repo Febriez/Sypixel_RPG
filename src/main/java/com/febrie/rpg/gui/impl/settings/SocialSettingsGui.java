@@ -54,7 +54,6 @@ public class SocialSettingsGui extends BaseGui {
     public static SocialSettingsGui create(@NotNull GuiManager guiManager,
                                           @NotNull Player player) {
         SocialSettingsGui gui = new SocialSettingsGui(guiManager, player);
-        gui.initialize("gui.social-settings.title");
         return gui;
     }
 
@@ -270,15 +269,5 @@ public class SocialSettingsGui extends BaseGui {
         );
         setItem(WHISPER_MODE_SLOT, whisperModeToggle);
     }
-
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

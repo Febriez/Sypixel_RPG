@@ -94,7 +94,7 @@ public class AllQuestsGui extends BaseGui {
                                      @NotNull Player player,
                                      @NotNull QuestFilter filter) {
         AllQuestsGui gui = new AllQuestsGui(guiManager, player, filter);
-        return createAndInitialize(gui, "gui.all-quests.title");
+        return gui;
     }
     
     @Override
@@ -171,7 +171,7 @@ public class AllQuestsGui extends BaseGui {
         
         // 진행 상황
         if (progress != null && progress.isCompleted()) {
-            builder.addLore(Component.text("✔ 완료됨", UnifiedColorUtil.SUCCESS));
+            builder.addLore(trans("quest.completed").color(UnifiedColorUtil.SUCCESS));
             // 완료된 퀘스트 확인
             java.util.Map<String, CompletedQuestDTO> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
             boolean hasReward = completedQuests.values().stream()
@@ -256,14 +256,4 @@ public class AllQuestsGui extends BaseGui {
         setItem(49, backButton);
     }
     
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

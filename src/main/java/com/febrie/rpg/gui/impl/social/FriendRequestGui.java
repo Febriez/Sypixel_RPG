@@ -56,7 +56,6 @@ public class FriendRequestGui extends BaseGui {
      */
     public static FriendRequestGui create(@NotNull GuiManager guiManager, @NotNull Player player) {
         FriendRequestGui gui = new FriendRequestGui(guiManager, player);
-        gui.initialize("gui.friend-requests.title");
         gui.loadRequests();
         return gui;
     }
@@ -184,9 +183,4 @@ public class FriendRequestGui extends BaseGui {
         return super.getAllowedClickTypes();
     }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

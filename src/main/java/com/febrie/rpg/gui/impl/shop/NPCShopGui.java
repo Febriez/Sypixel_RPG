@@ -51,7 +51,7 @@ public class NPCShopGui extends BaseGui {
     public static NPCShopGui create(@NotNull GuiManager guiManager,
                                    @NotNull Player viewer, @NotNull RPGShopTrait shopTrait, @NotNull String shopName) {
         NPCShopGui gui = new NPCShopGui(viewer, guiManager, shopTrait, shopName);
-        return createAndInitialize(gui, "gui.shop.title", shopName);
+        return gui;
     }
     
     @Override
@@ -198,9 +198,4 @@ public class NPCShopGui extends BaseGui {
         player.getInventory().removeItem(toRemove);
     }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

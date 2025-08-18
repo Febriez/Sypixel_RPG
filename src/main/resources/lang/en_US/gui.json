@@ -25,6 +25,7 @@
     "current-job": "%COLOR_WHITE%Current Job",
     "job-level": "%COLOR_WHITE%Job Level: %COLOR_YELLOW%{level}",
     "combat-power": "%COLOR_WHITE%Combat Power: %COLOR_LEGENDARY%{power}",
+    "click-to-talents": "%COLOR_YELLOW%Click to view talents",
     "gold": "%COLOR_WHITE%Gold: %COLOR_GOLD%{amount}",
     "playtime": "%COLOR_WHITE%Playtime: %COLOR_AQUA%{time}",
     "join-date": "%COLOR_WHITE%Join Date: %COLOR_GRAY%{date}",
@@ -348,6 +349,15 @@
     "creation": {
       "title": "Create Island"
     },
+    "settings": {
+      "title": "Island Settings"
+    },
+    "permission": {
+      "title": "Permission Management"
+    },
+    "upgrade": {
+      "title": "Island Upgrade"
+    },
     "biome-selection": {
       "title": "Select Biome",
       "forest": "Forest",
@@ -373,6 +383,16 @@
     },
     "biome-change": {
       "title": "Change Biome"
+    },
+    "biome": {
+      "message": {
+        "world_not_found": "Island world not found.",
+        "no_permission": "You don't have permission to change the biome.",
+        "changing": "Changing biome...",
+        "changed": "Biome changed to {biome}.",
+        "chunk_reload_notice": "The biome will fully update when chunks reload.",
+        "already_selected": "This biome is already selected."
+      }
     },
     "contribute": {
       "title": "Island Contribution",
@@ -488,5 +508,83 @@
     "previous-page": "Previous Page",
     "next-page": "Next Page",
     "rewards": "Rewards"
+  },
+  "island-creation": {
+    "current-name": "Current Name: ",
+    "click-to-change-name": "Click to Change Name",
+    "current-color": "Current Color: ",
+    "left-click": "Left Click: ",
+    "right-click": "Right Click: ",
+    "middle-click": "Middle Click: ",
+    "hex-input": "Enter HEX Code Directly",
+    "hex-example": "Example: #FFFFFF (White)",
+    "current-biome": "Current Biome: ",
+    "click-to-change": "▶ Click to Change",
+    "selected": "✔ Selected",
+    "click-to-select": "Click to Select",
+    "click-to-create": "Click to Create Island!",
+    "next": "Next",
+    "previous": "Previous"
+  },
+  "island-main": {
+    "owner": "Owner: ",
+    "size": "Size: ",
+    "members": "Members: ",
+    "workers": "Workers: ",
+    "created-date": "Created: ",
+    "public-status": "Public Status: ",
+    "public": "Public",
+    "private": "Private",
+    "my-role": "My Role: ",
+    "role-owner": "Owner",
+    "role-co-owner": "Co-Owner",
+    "role-member": "Member",
+    "role-worker": "Worker",
+    "role-visitor": "Visitor",
+    "color-change-hint": "▶ Middle Click: Change Island Name Color",
+    "hex-format-error": "Please enter a valid HEX color code. (e.g. #FF0000)",
+    "color-changed": "Island name color has been changed!",
+    "hex-input-title": "Enter HEX Color Code",
+    "member-management-title": "Member Management",
+    "member-management-desc1": "Invite or kick",
+    "member-management-desc2": "island members.",
+    "permission-management-title": "Permission Management",
+    "permission-management-desc1": "Configure permissions",
+    "permission-management-desc2": "for each role.",
+    "upgrade-title": "Upgrade",
+    "upgrade-current-level": "Current Level:",
+    "upgrade-size": "  Size: ",
+    "upgrade-member": "  Members: ",
+    "upgrade-worker": "  Workers: ",
+    "upgrade-level": " Level",
+    "contribution-title": "Contribution",
+    "contribution-desc1": "View contribution",
+    "contribution-desc2": "of island members.",
+    "contribution-my": "My Contribution: ",
+    "spawn-settings-title": "Spawn Settings",
+    "spawn-settings-desc1": "Manage island",
+    "spawn-settings-desc2": "spawn locations.",
+    "island-settings-title": "Island Settings",
+    "island-settings-desc1": "Change island name",
+    "island-settings-desc2": "Public/Private settings",
+    "island-settings-desc3": "Change biome",
+    "visitor-management-title": "Visitor Management",
+    "visitor-management-desc1": "View visitor",
+    "visitor-management-desc2": "information.",
+    "visitor-management-recent": "Recent Visitors: ",
+    "visitor-management-current": "Current Visitors: ",
+    "visitor-management-history": "• Visit History",
+    "visitor-management-realtime": "• Current Visitors (Live)",
+    "visitor-management-open-menu": "▶ Click to Open Menu",
+    "biome-change-title": "Change Biome",
+    "biome-change-desc1": "Change the biome",
+    "biome-change-desc2": "of your island.",
+    "warp-title": "Warp to Island",
+    "warp-desc": "Teleport to the island.",
+    "warp-moving": "Warping to island...",
+    "warp-success": "Warped to island!",
+    "click-to-open": "▶ Click to Open",
+    "click-to-warp": "▶ Click to Warp",
+    "people-count": " people"
   }
 }

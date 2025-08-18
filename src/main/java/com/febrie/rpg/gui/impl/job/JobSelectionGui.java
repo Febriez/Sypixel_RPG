@@ -44,7 +44,6 @@ public class JobSelectionGui extends BaseGui {
      * JobSelectionGui 인스턴스를 생성하고 초기화합니다.
      * 
      * @param guiManager GUI 매니저
-     * @param langManager 언어 매니저
      * @param viewer 보는 플레이어
      * @param rpgPlayer RPG 플레이어
      * @return 초기화된 JobSelectionGui 인스턴스
@@ -52,7 +51,6 @@ public class JobSelectionGui extends BaseGui {
     public static JobSelectionGui create(@NotNull GuiManager guiManager,
                                         @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
         JobSelectionGui gui = new JobSelectionGui(guiManager, viewer, rpgPlayer);
-        gui.initialize("gui.job-selection.title");
         return gui;
     }
 
@@ -64,11 +62,6 @@ public class JobSelectionGui extends BaseGui {
     @Override
     public int getSize() {
         return GUI_SIZE;
-    }
-
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
     }
 
     @Override
@@ -229,11 +222,5 @@ public class JobSelectionGui extends BaseGui {
     public GuiFramework getBackTarget() {
         // ProfileGui로 돌아가기
         return ProfileGui.create(guiManager, viewer, rpgPlayer.getPlayer());
-    }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
     }
 }

@@ -19,6 +19,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class IslandContributeGui extends BaseGui {
     private static final int[] QUICK_AMOUNTS = {1000, 5000, 10000, 50000, 100000, 500000};
     private IslandContributeGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 36, "&6&l섬 기여하기"); // 4줄 GUI
+        super(viewer, guiManager, 36, "gui.island.contribute.title"); // 4줄 GUI
         this.islandManager = plugin.getIslandManager();
         this.playerManager = plugin.getRPGPlayerManager();
         this.island = island;
@@ -53,8 +54,9 @@ public class IslandContributeGui extends BaseGui {
     /**
      * Factory method to create and open the contribution GUI
      */
-    public static IslandContributeGui create(@NotNull RPGMain plugin, @NotNull Player viewer,
-                                            @NotNull IslandDTO island) {
+    @Contract("_, _, _ -> new")
+    public static @NotNull IslandContributeGui create(@NotNull RPGMain plugin, @NotNull Player viewer,
+                                                      @NotNull IslandDTO island) {
         return new IslandContributeGui(viewer, plugin.getGuiManager(), plugin, island);
     }
     @Override
@@ -88,19 +90,19 @@ public class IslandContributeGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("섬 기여하기", UnifiedColorUtil.PRIMARY);
+        return trans("gui.island.contribute.title");
     }
     
     private ItemStack createGoldInfoItem() {
         long currentGold = rpgPlayer != null ? rpgPlayer.getWallet().getBalance(CurrencyType.GOLD) : 0;
         long myContribution = island.membership().contributions().getOrDefault(viewer.getUniqueId().toString(), 0L);
         return StandardItemBuilder.guiItem(Material.GOLD_INGOT)
-                .displayName(UnifiedColorUtil.parseComponent("&6&l내 골드 정보"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7보유 골드: &f" + String.format("%,d", currentGold) + " G"))
-                .addLore(UnifiedColorUtil.parseComponent("&7내 총 기여도: &f" + String.format("%,d", myContribution) + " G"))
-                .addLore(UnifiedColorUtil.parseComponent("&7섬에 골드를 기여하면"))
-                .addLore(UnifiedColorUtil.parseComponent("&7섬 업그레이드에 사용됩니다"))
+                .displayName(trans("gui.island.contribute.gold-info.title").color(UnifiedColorUtil.GOLD))
+                .addLore(Component.empty())
+                .addLore(trans("gui.island.contribute.gold-info.balance", "amount", String.format("%,d", currentGold)))
+                .addLore(trans("gui.island.contribute.gold-info.contribution", "amount", String.format("%,d", myContribution)))
+                .addLore(trans("gui.island.contribute.gold-info.description1"))
+                .addLore(trans("gui.island.contribute.gold-info.description2"))
                 .build();
     }
     
@@ -118,40 +120,35 @@ public class IslandContributeGui extends BaseGui {
         };
         ItemBuilder builder = StandardItemBuilder.guiItem(material)
                 .displayName(UnifiedColorUtil.parseComponent(
-                        (canAfford ? "&e&l" : "&c&l") + String.format("%,d", amount) + " G 기여"
+                        trans("gui.island.contribute.quick-amount", "amount", String.format("%,d", amount)).color(canAfford ? UnifiedColorUtil.YELLOW : UnifiedColorUtil.ERROR)
                 ));
         builder.addLore(UnifiedColorUtil.parseComponent(""));
         if (canAfford) {
-            builder.addLore(UnifiedColorUtil.parseComponent("&7클릭하여 기여합니다"));
-            builder.addLore(UnifiedColorUtil.parseComponent(""));
-            builder.addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 기여"));
+            builder.addLore(trans("gui.island.contribute.click-to-contribute"));
+            builder.addLore(Component.empty());
+            builder.addLore(trans("gui.island.contribute.click-prompt").color(UnifiedColorUtil.YELLOW));
         } else {
-            builder.addLore(UnifiedColorUtil.parseComponent("&c골드가 부족합니다"));
-            builder.addLore(UnifiedColorUtil.parseComponent("&c필요: " + String.format("%,d", amount - currentGold) + " G 더 필요"));
+            builder.addLore(trans("gui.island.contribute.insufficient-gold").color(UnifiedColorUtil.ERROR));
+            builder.addLore(trans("gui.island.contribute.gold-needed", "amount", String.format("%,d", amount - currentGold)).color(UnifiedColorUtil.ERROR));
         }
         return builder.build();
     }
     private ItemStack createCustomAmountItem() {
         return StandardItemBuilder.guiItem(Material.ANVIL)
-                .displayName(UnifiedColorUtil.parseComponent("&b&l사용자 지정 금액"))
-                .addLore(UnifiedColorUtil.parseComponent("&7원하는 금액을 직접"))
-                .addLore(UnifiedColorUtil.parseComponent("&7입력할 수 있습니다"))
-                .addLore(UnifiedColorUtil.parseComponent("&7최소: &f100 G"))
-                .addLore(UnifiedColorUtil.parseComponent("&7최대: &f보유 골드"))
-                .addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 입력"))
+                .displayName(trans("gui.island.contribute.custom-amount.title").color(UnifiedColorUtil.INFO))
+                .addLore(trans("gui.island.contribute.custom-amount.description1"))
+                .addLore(trans("gui.island.contribute.custom-amount.description2"))
+                .addLore(trans("gui.island.contribute.custom-amount.minimum"))
+                .addLore(trans("gui.island.contribute.custom-amount.maximum"))
+                .addLore(trans("gui.island.contribute.custom-amount.click-prompt").color(UnifiedColorUtil.YELLOW))
                 .build();
     }
     
     private ItemStack createBackButton() {
         return StandardItemBuilder.guiItem(Material.ARROW)
-                .displayName(UnifiedColorUtil.parseComponent("&c뒤로가기"))
-                .addLore(UnifiedColorUtil.parseComponent("&7기여도 목록으로 돌아갑니다"))
+                .displayName(trans("gui.common.back").color(UnifiedColorUtil.ERROR))
+                .addLore(trans("gui.island.contribute.back-description"))
                 .build();
-    }
-    
-    @Override
-    public void onClick(InventoryClickEvent event) {
-        event.setCancelled(true);
     }
     
     private void openCustomAmountInput(Player player) {
@@ -166,7 +163,7 @@ public class IslandContributeGui extends BaseGui {
                         int amount = Integer.parseInt(input);
                         
                         if (amount < 100) {
-                            player.sendMessage(UnifiedColorUtil.parse("&c최소 100 골드 이상 기여해야 합니다."));
+                            sendMessage(player, "gui.island.contribute.minimum-amount-error");
                             return Arrays.asList(AnvilGUI.ResponseAction.close());
                         }
                         // GUI 닫고 기여 처리
@@ -174,26 +171,25 @@ public class IslandContributeGui extends BaseGui {
                             contributeGold(player, amount);
                         });
                     } catch (NumberFormatException e) {
-                        player.sendMessage(UnifiedColorUtil.parse("&c올바른 숫자를 입력해주세요."));
+                        sendMessage(player, "gui.island.contribute.invalid-number");
                     }
                     return Arrays.asList(AnvilGUI.ResponseAction.close());
                 })
-                .text("기여할 금액")
-                .title("기여할 골드 입력")
+                .text(transString("gui.island.contribute.anvil.placeholder"))
+                .title(transString("gui.island.contribute.anvil.title"))
                 .plugin(plugin)
                 .open(player);
     }
     
     private void contributeGold(Player player, int amount) {
         if (rpgPlayer == null) {
-            player.sendMessage(UnifiedColorUtil.parse("&c플레이어 데이터를 찾을 수 없습니다."));
+            sendMessage(player, "error.player-data-not-found");
             return;
         }
         
         long currentGold = rpgPlayer.getWallet().getBalance(CurrencyType.GOLD);
         if (currentGold < amount) {
-            player.sendMessage(UnifiedColorUtil.parse("&c골드가 부족합니다! (보유: " + 
-                    String.format("%,d", currentGold) + " G)"));
+            sendMessage(player, "gui.island.contribute.insufficient-gold-message", "amount", String.format("%,d", currentGold));
             return;
         }
         
@@ -222,10 +218,8 @@ public class IslandContributeGui extends BaseGui {
         
         IslandDTO updated = new IslandDTO(updatedCore, updatedMembership, island.social(), island.configuration());
         islandManager.updateIsland(updated);
-        player.sendMessage(UnifiedColorUtil.parse("&a" + String.format("%,d", amount) + 
-                " 골드를 섬에 기여했습니다!"));
-        player.sendMessage(UnifiedColorUtil.parse("&7총 기여도: &f" + 
-                String.format("%,d", currentContribution + amount) + " G"));
+        sendMessage(player, "gui.island.contribute.success", "amount", String.format("%,d", amount));
+        sendMessage(player, "gui.island.contribute.total-contribution", "amount", String.format("%,d", currentContribution + amount));
         // GUI 새로고침
         player.closeInventory();
         IslandContributionGui.create(plugin.getGuiManager(), viewer, updated, 1).open(viewer);

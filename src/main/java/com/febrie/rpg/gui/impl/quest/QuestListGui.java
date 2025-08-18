@@ -62,7 +62,6 @@ public class QuestListGui extends BaseGui {
     public static QuestListGui create(@NotNull GuiManager guiManager,
                                      @NotNull Player viewer) {
         QuestListGui gui = new QuestListGui(guiManager, viewer);
-        gui.initialize("gui.quest-list.title");
         return gui;
     }
 
@@ -97,8 +96,8 @@ public class QuestListGui extends BaseGui {
         setItem(13, GuiFactory.createDecoration());
         setItem(31, GuiFactory.createDecoration());
         setItem(40, GuiFactory.createDecoration());
-    }
 
+    }
     /**
      * 라벨 아이템 생성 - 퀘스트 개수에 따라 클릭 가능 여부 결정
      *
@@ -127,7 +126,7 @@ public class QuestListGui extends BaseGui {
             return GuiItem.display(builder.build());
         }
     }
-
+    
     /**
      * 카테고리 라벨 설정
      */
@@ -157,7 +156,7 @@ public class QuestListGui extends BaseGui {
         });
         setItem(COMPLETED_LABEL_SLOT, completedLabel);
     }
-
+    
     /**
      * 진행 중인 퀘스트 표시
      */
@@ -192,7 +191,7 @@ public class QuestListGui extends BaseGui {
             }
         }
     }
-
+    
     /**
      * 완료된 퀘스트 표시
      */
@@ -222,7 +221,7 @@ public class QuestListGui extends BaseGui {
             }
         }
     }
-
+    
     /**
      * 진행 중인 퀘스트 아이템 생성
      */
@@ -257,7 +256,7 @@ public class QuestListGui extends BaseGui {
             playClickSound(p);
         });
     }
-
+    
     /**
      * 완료된 퀘스트 아이템 생성
      */
@@ -292,7 +291,7 @@ public class QuestListGui extends BaseGui {
 
         return GuiItem.display(builder.build());
     }
-
+    
     /**
      * 뒤로가기 버튼 설정
      */
@@ -305,18 +304,8 @@ public class QuestListGui extends BaseGui {
     }
 
     @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
-
-    @Override
     public GuiFramework getBackTarget() {
         return ProfileGui.create(guiManager, viewer);
     }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }
+    

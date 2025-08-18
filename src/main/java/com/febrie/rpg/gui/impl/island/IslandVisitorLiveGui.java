@@ -61,7 +61,6 @@ public class IslandVisitorLiveGui extends BaseGui {
     public static IslandVisitorLiveGui create(@NotNull GuiManager guiManager, @NotNull Player viewer, 
                                             @NotNull IslandDTO island, int page) {
         IslandVisitorLiveGui gui = new IslandVisitorLiveGui(viewer, guiManager, island, page);
-        gui.initialize("gui.island.visitor.live.title");
         return gui;
     }
     
@@ -93,7 +92,6 @@ public class IslandVisitorLiveGui extends BaseGui {
         if (page < maxPage) {
             setItem(53, createNextPageItem());
         }
-        
         // 새로고침 버튼
         setItem(49, createRefreshItem());
         
@@ -315,16 +313,5 @@ public class IslandVisitorLiveGui extends BaseGui {
                 }
             }
         );
-    }
-    
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
     }
 }

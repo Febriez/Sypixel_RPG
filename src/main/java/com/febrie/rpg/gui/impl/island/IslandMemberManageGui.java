@@ -228,11 +228,6 @@ public class IslandMemberManageGui extends BaseGui {
                 .build();
     }
     
-    @Override
-    public void onClick(InventoryClickEvent event) {
-        event.setCancelled(true);
-    }
-    
     private boolean canManageMember() {
         // 섬장은 모든 멤버 관리 가능
         if (isOwner) return true;

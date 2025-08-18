@@ -119,7 +119,6 @@ public class LeaderboardGui extends ScrollableGui {
     public static LeaderboardGui create(@NotNull GuiManager guiManager,
                                        @NotNull Player viewer, @NotNull LeaderboardType type) {
         LeaderboardGui gui = new LeaderboardGui(guiManager, viewer, type);
-        gui.initialize("gui.leaderboard.title", "type", type.getDisplayName());
         gui.loadLeaderboard();
         return gui;
     }
@@ -158,11 +157,6 @@ public class LeaderboardGui extends ScrollableGui {
         if (item != null && item.hasActions()) {
             item.executeAction(player, click);
         }
-    }
-    
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
     }
     
     /**
@@ -433,11 +427,5 @@ public class LeaderboardGui extends ScrollableGui {
     protected GuiFramework getBackTarget() {
         // LeaderboardGui는 MainMenuGui로 돌아갑니다
         return MainMenuGui.create(guiManager, viewer);
-    }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
     }
 }

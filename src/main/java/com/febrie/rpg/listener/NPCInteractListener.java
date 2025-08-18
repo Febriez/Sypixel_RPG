@@ -3,6 +3,7 @@ package com.febrie.rpg.listener;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.impl.system.MainMenuGui;
 import com.febrie.rpg.gui.impl.quest.QuestListGui;
+import com.febrie.rpg.gui.impl.quest.QuestDetailGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.npc.trait.RPGGuideTrait;
 import com.febrie.rpg.npc.trait.RPGQuestTrait;
@@ -68,31 +69,69 @@ public class NPCInteractListener implements Listener {
         NPC npc = event.getNPC();
         Player player = event.getClicker();
 
-        
-        // 대기 중인 trait 설정이 있는지 확인
-        NPCTraitSetter.PendingTrait pending = 
-            NPCTraitSetter.getInstance().getPendingTrait(player);
-        
-        if (pending != null) {
-            // 관리자 권한 확인
-            if (!player.hasPermission("rpg.admin")) {
-                player.sendMessage(Component.text("권한이 없습니다.", UnifiedColorUtil.ERROR));
-                return;
-            }
-            
-            // trait 설정
-            switch (pending.getType()) {
-                case QUEST -> {
-                    QuestID questId = (QuestID) pending.getData();
-                    RPGQuestTrait questTrait = npc.getOrAddTrait(RPGQuestTrait.class);
-                    questTrait.addQuest(questId);
+        // 막대기를 들고 있는지 확인
+        ItemStack heldItem = player.getInventory().getItemInMainHand();
+        if (heldItem != null && heldItem.getType() != Material.AIR) {
+            // 막대기 종류 확인
+            if (heldItem.getType() == Material.STICK || 
+                heldItem.getType() == Material.BLAZE_ROD || 
+                heldItem.getType() == Material.END_ROD) {
+                
+                // 대기 중인 trait 설정이 있는지 확인
+                NPCTraitSetter.PendingTrait pending = 
+                    NPCTraitSetter.getInstance().getPendingTrait(player);
+                
+                if (pending != null) {
+                    // 관리자 권한 확인
+                    if (!player.hasPermission("rpg.admin")) {
+                        player.sendMessage(Component.text("권한이 없습니다.", UnifiedColorUtil.ERROR));
+                        return;
+                    }
                     
-                    // 책 아이템 설정
-                    npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.BOOK));
-                    
-                    player.sendMessage(Component.text("NPC에 퀘스트가 설정되었습니다: " + questId.name(), UnifiedColorUtil.SUCCESS));
-                    player.sendMessage(Component.text("NPC 이름: " + npc.getName(), UnifiedColorUtil.INFO));
-                }
+                    // trait 설정
+                    switch (pending.getType()) {
+                        case QUEST -> {
+                            QuestID questId = (QuestID) pending.getData();
+                            RPGQuestTrait questTrait = npc.getOrAddTrait(RPGQuestTrait.class);
+                            questTrait.addQuest(questId);
+                            
+                            // 책 아이템 설정
+                            npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.BOOK));
+                            
+                            player.sendMessage(Component.text("✓ NPC에 퀘스트가 설정되었습니다: " + questId.name(), UnifiedColorUtil.SUCCESS));
+                            player.sendMessage(Component.text("NPC 이름: " + npc.getName(), UnifiedColorUtil.INFO));
+                            
+                            // 막대기 제거
+                            heldItem.setAmount(heldItem.getAmount() - 1);
+                        }
+                        case REWARD -> {
+                            QuestID questId = (QuestID) pending.getData();
+                            RPGQuestRewardTrait rewardTrait = npc.getOrAddTrait(RPGQuestRewardTrait.class);
+                            rewardTrait.addQuest(questId);
+                            
+                            // 에메랄드 아이템 설정
+                            npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.EMERALD));
+                            
+                            player.sendMessage(Component.text("✓ NPC에 보상 설정이 완료되었습니다: " + questId.name(), UnifiedColorUtil.SUCCESS));
+                            player.sendMessage(Component.text("NPC 이름: " + npc.getName(), UnifiedColorUtil.INFO));
+                            
+                            // 막대기 제거
+                            heldItem.setAmount(heldItem.getAmount() - 1);
+                        }
+                        case OBJECTIVE -> {
+                            String npcCode = (String) pending.getData();
+                            RPGQuestTrait questTrait = npc.getOrAddTrait(RPGQuestTrait.class);
+                            questTrait.setNpcId(npcCode);
+                            
+                            // 나침반 아이템 설정
+                            npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, new ItemStack(Material.COMPASS));
+                            
+                            player.sendMessage(Component.text("✓ NPC에 퀘스트 목표 코드가 설정되었습니다: " + npcCode, UnifiedColorUtil.SUCCESS));
+                            player.sendMessage(Component.text("NPC 이름: " + npc.getName(), UnifiedColorUtil.INFO));
+                            
+                            // 막대기 제거
+                            heldItem.setAmount(heldItem.getAmount() - 1);
+                        }
                 case SHOP -> {
                     String shopType = (String) pending.getData();
                     RPGShopTrait shopTrait = npc.getOrAddTrait(RPGShopTrait.class);
@@ -133,7 +172,7 @@ public class NPCInteractListener implements Listener {
             SoundUtil.playSuccessSound(player);
             return;
         }
-
+        
         // 보상 처리를 먼저 확인 - NPC가 보상을 가지고 있고 플레이어가 받을 수 있는 경우
         if (npc.hasTrait(RPGQuestRewardTrait.class)) {
             RPGQuestRewardTrait rewardTrait = npc.getOrAddTrait(RPGQuestRewardTrait.class);
@@ -171,7 +210,7 @@ public class NPCInteractListener implements Listener {
         
         if (npc.hasTrait(RPGQuestTrait.class)) {
             RPGQuestTrait questTrait = npc.getOrAddTrait(RPGQuestTrait.class);
-            handleQuestNPCWithTrait(npc, player, questTrait);
+            handleQuestNPCWithTrait(npc, player, questTrait, event);
             return;
         }
 
@@ -193,12 +232,11 @@ public class NPCInteractListener implements Listener {
             dialogTrait.onInteract(player);
         }
     }
-    
 
     /**
      * Trait를 사용하는 퀘스트 NPC 처리
      */
-    private void handleQuestNPCWithTrait(NPC npc, Player player, RPGQuestTrait trait) {
+    private void handleQuestNPCWithTrait(NPC npc, Player player, RPGQuestTrait trait, NPCRightClickEvent event) {
         // 먼저 NPC ID 기반 퀘스트 목표 체크
         if (trait.hasNpcId()) {
             String npcId = trait.getNpcId();
@@ -221,6 +259,23 @@ public class NPCInteractListener implements Listener {
             return;
         }
 
+        // 진행 중인 퀘스트가 있는지 먼저 확인
+        List<QuestID> activeQuestIds = new ArrayList<>();
+        for (QuestID questId : questIds) {
+            boolean hasActiveQuest = questManager.getActiveQuests(player.getUniqueId()).values().stream()
+                    .anyMatch(p -> p.questId().equals(questId.name()));
+            if (hasActiveQuest) {
+                activeQuestIds.add(questId);
+            }
+        }
+        
+        // 진행 중인 퀘스트가 있으면 아무 동작도 하지 않음
+        if (!activeQuestIds.isEmpty()) {
+            // 진행 중인 퀘스트가 있으면 이벤트 취소하고 리턴 (dialog trait가 작동하지 않도록)
+            event.setCancelled(true);
+            return;
+        }
+
         // 단일 퀘스트인 경우 직접 처리
         if (questIds.size() == 1) {
             QuestID questId = questIds.get(0);
@@ -229,7 +284,7 @@ public class NPCInteractListener implements Listener {
                 LangManager.sendMessage(player, "quest.npc.invalid-quest");
                 return;
             }
-            handleSingleQuest(npc, player, quest);
+            handleSingleQuest(npc, player, quest, event);
         } else {
             // 여러 퀘스트가 있는 경우 선택 GUI 표시
             List<Quest> quests = new ArrayList<>();
@@ -248,7 +303,7 @@ public class NPCInteractListener implements Listener {
     /**
      * 단일 퀘스트 처리
      */
-    private void handleSingleQuest(NPC npc, Player player, Quest quest) {
+    private void handleSingleQuest(NPC npc, Player player, Quest quest, NPCRightClickEvent event) {
         QuestID questId = quest.getId();
         
         // 이미 퀘스트를 진행 중인지 확인
@@ -256,7 +311,8 @@ public class NPCInteractListener implements Listener {
                 .anyMatch(p -> p.questId().equals(questId.name()));
 
         if (hasActiveQuest) {
-            // 진행 중인 퀘스트는 아무 동작도 하지 않음
+            // 진행 중인 퀘스트는 이벤트 취소하고 리턴 (dialog trait가 작동하지 않도록)
+            event.setCancelled(true); 
             return;
         }
 

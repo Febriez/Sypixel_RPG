@@ -75,10 +75,21 @@
   "tutorial": {
     "first-steps": {
       "name": "First Steps",
-      "description": "Welcome to the server!\nLet's learn basic movement and interaction.",
+      "description": [
+        "Welcome to the server!",
+        "Let's learn basic movement and interaction."
+      ],
+      "npc-name": "Guide",
       "objectives": {
         "visit_hub": "Visit the Hub area",
         "visit_merchant": "Talk to village merchant"
+      },
+      "dialogs": {
+        "line1": "Hello, adventurer! Welcome to Sypixel RPG!",
+        "line2": "This world is filled with countless adventures and treasures waiting for you.",
+        "line3": "Let's start with the basics, shall we? Head to the Hub, then find the village merchant.",
+        "accept": "Great! Let's explore this world together.",
+        "decline": "Please come back when you're ready."
       }
     },
     "basic-combat": {

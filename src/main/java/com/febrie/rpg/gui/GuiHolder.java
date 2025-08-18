@@ -42,7 +42,7 @@ public abstract class GuiHolder extends BaseGui {
      * @return The initialized GUI instance
      */
     protected static <T extends GuiHolder> T create(@NotNull T gui, @NotNull String title) {
-        gui.initialize("gui.default.title");
+        // GUI is auto-initialized in constructor when titleKey is provided
         return gui;
     }
 }

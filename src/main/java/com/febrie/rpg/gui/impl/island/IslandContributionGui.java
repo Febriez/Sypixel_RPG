@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
@@ -59,16 +60,15 @@ public class IslandContributionGui extends BaseGui {
      * @param page The page number to display
      * @return The initialized GUI instance
      */
-    public static IslandContributionGui create(@NotNull GuiManager guiManager, @NotNull Player viewer, 
-                                               @NotNull IslandDTO island, int page) {
-        IslandContributionGui gui = new IslandContributionGui(guiManager, viewer, island, page);
-        gui.initialize("gui.island.contribution.title");
-        return gui;
+    @Contract("_, _, _, _ -> new")
+    public static @NotNull IslandContributionGui create(@NotNull GuiManager guiManager, @NotNull Player viewer,
+                                                        @NotNull IslandDTO island, int page) {
+        return new IslandContributionGui(guiManager, viewer, island, page);
     }
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("기여도 순위", UnifiedColorUtil.PRIMARY);
+        return trans("gui.island.contribution.title").color(UnifiedColorUtil.PRIMARY);
     }
     
     @Override
@@ -104,13 +104,13 @@ public class IslandContributionGui extends BaseGui {
                 .mapToLong(Long::longValue)
                 .sum();
         return StandardItemBuilder.guiItem(Material.EMERALD_BLOCK)
-                .displayName(UnifiedColorUtil.parseComponent("&6&l섬 기여도 정보"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7섬 이름: &f" + island.core().islandName()))
-                .addLore(UnifiedColorUtil.parseComponent("&7총 기여도: &a" + String.format("%,d", totalContribution)))
-                .addLore(UnifiedColorUtil.parseComponent("&7기여자 수: &e" + sortedContributions.size() + "명"))
-                .addLore(UnifiedColorUtil.parseComponent("&7기여도는 섬 업그레이드에"))
-                .addLore(UnifiedColorUtil.parseComponent("&7사용됩니다"))
+                .displayName(trans("gui.island.contribution.info.title").color(UnifiedColorUtil.GOLD))
+                .addLore(Component.empty())
+                .addLore(trans("gui.island.contribution.info.island-name", "name", island.core().islandName()))
+                .addLore(trans("gui.island.contribution.info.total", "amount", String.format("%,d", totalContribution)))
+                .addLore(trans("gui.island.contribution.info.contributors", "count", String.valueOf(sortedContributions.size())))
+                .addLore(trans("gui.island.contribution.info.description1"))
+                .addLore(trans("gui.island.contribution.info.description2"))
                 .build();
     }
     
@@ -136,7 +136,7 @@ public class IslandContributionGui extends BaseGui {
     
     private ItemStack createContributorItem(String playerUuid, long contribution, int rank) {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(playerUuid));
-        String playerName = offlinePlayer.getName() != null ? offlinePlayer.getName() : "알 수 없음";
+        String playerName = offlinePlayer.getName() != null ? offlinePlayer.getName() : transString("gui.common.unknown");
         // 순위에 따른 메달 색상
         String rankColor = switch (rank) {
             case 1 -> "&6"; // 금
@@ -148,10 +148,9 @@ public class IslandContributionGui extends BaseGui {
         String role = getPlayerRole(playerUuid);
         ItemStack item = StandardItemBuilder.guiItem(Material.PLAYER_HEAD)
                 .displayName(UnifiedColorUtil.parseComponent(rankColor + "#" + rank + " &f" + playerName))
-                .addLore(UnifiedColorUtil.parseComponent("&7기여도: &a" + String.format("%,d", contribution)))
-                .addLore(UnifiedColorUtil.parseComponent("&7역할: " + role))
-                .addLore(UnifiedColorUtil.parseComponent("&7전체 기여도의 &e" + 
-                        String.format("%.1f%%", getContributionPercentage(contribution))))
+                .addLore(trans("gui.island.contribution.contributor.contribution", "amount", String.format("%,d", contribution)))
+                .addLore(trans("gui.island.contribution.contributor.role", "role", role))
+                .addLore(trans("gui.island.contribution.contributor.percentage", "percent", String.format("%.1f", getContributionPercentage(contribution))))
                 .build();
         
         // 플레이어 머리 설정
@@ -164,18 +163,18 @@ public class IslandContributionGui extends BaseGui {
     
     private String getPlayerRole(String playerUuid) {
         if (island.core().ownerUuid().equals(playerUuid)) {
-            return "&c섬장";
+            return transString("gui.island.role.owner");
         }
         for (IslandMemberDTO member : island.membership().members()) {
             if (member.uuid().equals(playerUuid)) {
-                return member.isCoOwner() ? "&6부섬장" : "&a멤버";
+                return member.isCoOwner() ? transString("gui.island.role.co-owner") : transString("gui.island.role.member");
             }
         }
         // 알바생 확인
         if (island.membership().workers().stream().anyMatch(w -> w.uuid().equals(playerUuid))) {
-            return "&e알바";
+            return transString("gui.island.role.worker");
         }
-        return "&7기여자";
+        return transString("gui.island.role.contributor");
     }
     
     private double getContributionPercentage(long contribution) {
@@ -190,33 +189,32 @@ public class IslandContributionGui extends BaseGui {
         String playerUuid = viewer.getUniqueId().toString();
         long currentContribution = island.membership().contributions().getOrDefault(playerUuid, 0L);
         return StandardItemBuilder.guiItem(Material.EMERALD)
-                .displayName(UnifiedColorUtil.parseComponent("&a&l기여도 추가"))
-                .addLore(UnifiedColorUtil.parseComponent("&7현재 내 기여도: &a" + String.format("%,d", currentContribution)))
-                .addLore(UnifiedColorUtil.parseComponent("&7아이템이나 재화를 기여하여"))
-                .addLore(UnifiedColorUtil.parseComponent("&7섬 발전에 도움을 줄 수 있습니다"))
-                .addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 기여하기"))
-                .addLore(UnifiedColorUtil.parseComponent("&c※ 현재 준비 중입니다"))
+                .displayName(trans("gui.island.contribution.add.title").color(UnifiedColorUtil.SUCCESS))
+                .addLore(trans("gui.island.contribution.add.current", "amount", String.format("%,d", currentContribution)))
+                .addLore(trans("gui.island.contribution.add.description1"))
+                .addLore(trans("gui.island.contribution.add.description2"))
+                .addLore(trans("gui.island.contribution.add.click").color(UnifiedColorUtil.YELLOW))
                 .build();
     }
     
     private ItemStack createPreviousPageItem() {
         return StandardItemBuilder.guiItem(Material.ARROW)
-                .displayName(UnifiedColorUtil.parseComponent("&a이전 페이지"))
-                .addLore(UnifiedColorUtil.parseComponent("&7페이지 " + (page - 1) + "/" + maxPage))
+                .displayName(trans("gui.common.previous-page").color(UnifiedColorUtil.SUCCESS))
+                .addLore(trans("gui.common.page", "current", String.valueOf(page - 1), "max", String.valueOf(maxPage)))
                 .build();
     }
     
     private ItemStack createNextPageItem() {
         return StandardItemBuilder.guiItem(Material.ARROW)
-                .displayName(UnifiedColorUtil.parseComponent("&a다음 페이지"))
-                .addLore(UnifiedColorUtil.parseComponent("&7페이지 " + (page + 1) + "/" + maxPage))
+                .displayName(trans("gui.common.next-page").color(UnifiedColorUtil.SUCCESS))
+                .addLore(trans("gui.common.page", "current", String.valueOf(page + 1), "max", String.valueOf(maxPage)))
                 .build();
     }
     
     private ItemStack createBackButton() {
         return StandardItemBuilder.guiItem(Material.ARROW)
-                .displayName(UnifiedColorUtil.parseComponent("&c뒤로가기"))
-                .addLore(UnifiedColorUtil.parseComponent("&7메인 메뉴로 돌아갑니다"))
+                .displayName(trans("gui.common.back").color(UnifiedColorUtil.ERROR))
+                .addLore(trans("gui.island.contribution.back-description"))
                 .build();
     }
     

@@ -54,7 +54,6 @@ public class PlayerSettingsGui extends BaseGui {
     public static PlayerSettingsGui create(@NotNull GuiManager guiManager,
                                           @NotNull Player player) {
         PlayerSettingsGui gui = new PlayerSettingsGui(guiManager, player);
-        gui.initialize("gui.settings.title");
         return gui;
     }
 
@@ -207,15 +206,5 @@ public class PlayerSettingsGui extends BaseGui {
             }
         }
     }
-
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

@@ -64,7 +64,6 @@ public class QuestDetailGui extends BaseGui {
     public static QuestDetailGui create(@NotNull GuiManager guiManager,
                                        @NotNull Player viewer, @NotNull Quest quest, @NotNull QuestProgress progress) {
         QuestDetailGui gui = new QuestDetailGui(guiManager, viewer, quest, progress);
-        gui.initialize("gui.quest-detail.title");
         return gui;
     }
 
@@ -250,18 +249,7 @@ public class QuestDetailGui extends BaseGui {
     }
 
     @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
-
-    @Override
     public GuiFramework getBackTarget() {
         return QuestListGui.create(guiManager, viewer);
-    }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
     }
 }

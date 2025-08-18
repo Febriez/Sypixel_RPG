@@ -54,7 +54,6 @@ public class NotificationSettingsGui extends BaseGui {
     public static NotificationSettingsGui create(@NotNull GuiManager guiManager,
                                                 @NotNull Player player) {
         NotificationSettingsGui gui = new NotificationSettingsGui(guiManager, player);
-        gui.initialize("gui.notification-settings.title");
         return gui;
     }
 
@@ -276,15 +275,5 @@ public class NotificationSettingsGui extends BaseGui {
         );
         setItem(SERVER_ANNOUNCEMENTS_SLOT, serverAnnouncementsToggle);
     }
-
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

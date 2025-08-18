@@ -69,7 +69,7 @@ public class IslandUpgradeGui extends BaseGui {
     
     private IslandUpgradeGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                             @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 45, "&2&l섬 업그레이드");
+        super(viewer, guiManager, 45, "gui.island.upgrade.title");
         this.islandManager = plugin.getIslandManager();
         this.island = island;
     }
@@ -146,11 +146,6 @@ public class IslandUpgradeGui extends BaseGui {
     @Override
     public @NotNull Component getTitle() {
         return Component.text("섬 업그레이드", UnifiedColorUtil.PRIMARY);
-    }
-    
-    @Override
-    public void onClick(InventoryClickEvent event) {
-        event.setCancelled(true);
     }
     
     private ItemStack createUpgradeItem(Material material, String name, 

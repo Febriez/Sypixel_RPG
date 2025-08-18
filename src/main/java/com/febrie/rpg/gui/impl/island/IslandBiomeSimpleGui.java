@@ -124,12 +124,6 @@ public class IslandBiomeSimpleGui extends BaseGui {
                 .build();
     }
     
-    @Override
-    public void onClick(InventoryClickEvent event) {
-        // Handled by GuiItem click handlers
-        event.setCancelled(true);
-    }
-    
     private void handleBiomeSelection(Player player, BiomeOption biome) {
         // 이미 선택된 바이옴이면 무시
         if (biome.id.equals(currentBiome)) {

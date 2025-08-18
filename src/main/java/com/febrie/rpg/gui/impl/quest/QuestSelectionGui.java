@@ -48,7 +48,7 @@ public class QuestSelectionGui extends BaseGui {
     public static QuestSelectionGui create(@NotNull GuiManager guiManager,
                                           @NotNull Player viewer, @NotNull List<Quest> quests, @NotNull String npcName) {
         QuestSelectionGui gui = new QuestSelectionGui(viewer, guiManager, quests, npcName);
-        return createAndInitialize(gui, "gui.quest-selection.title", npcName);
+        return gui;
     }
     
     @Override
@@ -151,9 +151,4 @@ public class QuestSelectionGui extends BaseGui {
         }
     }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

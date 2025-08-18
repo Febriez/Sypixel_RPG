@@ -66,7 +66,6 @@ public class FriendListGui extends BaseGui {
     public static FriendListGui create(@NotNull GuiManager guiManager,
                                       @NotNull Player player) {
         FriendListGui gui = new FriendListGui(guiManager, player);
-        gui.initialize("gui.friends.title");
         gui.loadFriends();
         return gui;
     }
@@ -280,9 +279,4 @@ public class FriendListGui extends BaseGui {
         return List.of(ClickType.LEFT, ClickType.RIGHT);
     }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

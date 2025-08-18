@@ -363,18 +363,19 @@ public class QuestManager {
             return false;
         }
 
-        // 퀘스트 진행도 생성
+        // 퀘스트 진행도 생성 - 각 플레이어마다 고유한 instanceId 생성
+        String instanceId = UUID.randomUUID().toString();
         QuestProgress progress = quest.createProgress(playerId);
         ActiveQuestDTO activeData = ActiveQuestDTO.create(
             questId.name(),
-            quest.getInstanceId(),
+            instanceId,
             progress.getObjectives()
         );
-        playerData.activeQuests.put(quest.getInstanceId(), activeData);
+        playerData.activeQuests.put(instanceId, activeData);
         playerData.lastUpdated = System.currentTimeMillis();
 
         // NPC 목표 인덱스 등록
-        registerNPCObjectives(playerId, quest.getInstanceId(), quest);
+        registerNPCObjectives(playerId, instanceId, quest);
         
         // 저장 예약
         markForSave(playerId);

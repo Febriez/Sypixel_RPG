@@ -52,7 +52,7 @@ public class DialogChoiceGui extends BaseGui {
                                         @NotNull QuestDialog.DialogLine dialogLine,
                                         @NotNull DialogManager.DialogProgress progress) {
         DialogChoiceGui gui = new DialogChoiceGui(player, guiManager, dialog, dialogLine, progress);
-        return createAndInitialize(gui, "gui.dialog-choice.title");
+        return gui;
     }
 
     @Override
@@ -146,9 +146,4 @@ public class DialogChoiceGui extends BaseGui {
         return null;
     }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

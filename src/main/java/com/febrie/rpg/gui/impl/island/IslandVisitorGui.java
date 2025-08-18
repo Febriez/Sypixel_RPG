@@ -236,9 +236,4 @@ public class IslandVisitorGui extends BaseGui {
         return IslandMainGui.create(plugin.getGuiManager(), viewer);
     }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

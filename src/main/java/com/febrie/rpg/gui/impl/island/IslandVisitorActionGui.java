@@ -49,7 +49,6 @@ public class IslandVisitorActionGui extends BaseGui {
     public static IslandVisitorActionGui create(@NotNull GuiManager guiManager, @NotNull Player viewer,
                                               @NotNull IslandDTO island, @NotNull IslandVisitListener.CurrentVisitorInfo visitor) {
         IslandVisitorActionGui gui = new IslandVisitorActionGui(viewer, guiManager, island, visitor);
-        gui.initialize("gui.island.visitor.action.title");
         return gui;
     }
     
@@ -409,16 +408,5 @@ public class IslandVisitorActionGui extends BaseGui {
         java.time.format.DateTimeFormatter formatter = 
             java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss");
         return dateTime.format(formatter);
-    }
-    
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
     }
 }

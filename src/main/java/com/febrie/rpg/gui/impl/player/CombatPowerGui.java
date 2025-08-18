@@ -49,7 +49,6 @@ public class CombatPowerGui extends BaseGui {
     public static CombatPowerGui create(@NotNull GuiManager guiManager,
                                        @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
         CombatPowerGui gui = new CombatPowerGui(guiManager, viewer, rpgPlayer);
-        gui.initialize("gui.combat-power.title");
         return gui;
     }
 
@@ -68,11 +67,6 @@ public class CombatPowerGui extends BaseGui {
         setupBackground();
         setupCombatPowerDisplay();
         setupNavigationButtons();
-    }
-
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
     }
 
     /**
@@ -188,11 +182,5 @@ public class CombatPowerGui extends BaseGui {
     public GuiFramework getBackTarget() {
         // CombatPowerGui는 MainMenuGui로 돌아갑니다
         return MainMenuGui.create(guiManager, viewer);
-    }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
     }
 }

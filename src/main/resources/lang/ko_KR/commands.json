@@ -150,11 +150,30 @@
         "reward": "%COLOR_YELLOW%  /rpgadmin npc reward <보상npc코드>",
         "list": "%COLOR_YELLOW%  /rpgadmin npc list"
       },
+      "not-selected": "%COLOR_ERROR%NPC를 먼저 선택해주세요. (/npc select)",
       "set": {
         "usage": "%COLOR_ERROR%사용법: /rpgadmin npc set <퀘스트ID>",
         "example": "%COLOR_GRAY%예시: /rpgadmin npc set TUTORIAL_FIRST_STEPS",
         "invalid-quest": "%COLOR_ERROR%잘못된 퀘스트 ID입니다: {id}",
         "available": "%COLOR_YELLOW%사용 가능한 퀘스트 ID:"
+      },
+      "settrait": {
+        "usage": "%COLOR_ERROR%사용법: /rpgadmin npc settrait <quest|shop|dialog|guide> [args]",
+        "invalid": "%COLOR_ERROR%잘못된 trait 타입입니다.",
+        "quest": {
+          "usage": "%COLOR_ERROR%사용법: /rpgadmin npc settrait quest <퀘스트ID>",
+          "success": "%COLOR_SUCCESS%NPC '{npc}'에 퀘스트 '{quest}'를 설정했습니다."
+        },
+        "shop": {
+          "success": "%COLOR_SUCCESS%NPC '{npc}'에 상점을 설정했습니다."
+        },
+        "dialog": {
+          "usage": "%COLOR_ERROR%사용법: /rpgadmin npc settrait dialog <대화ID>",
+          "success": "%COLOR_SUCCESS%NPC '{npc}'에 대화 '{dialog}'를 설정했습니다."
+        },
+        "guide": {
+          "success": "%COLOR_SUCCESS%NPC '{npc}'에 가이드를 설정했습니다."
+        }
       },
       "setcode": {
         "usage": "%COLOR_ERROR%사용법: /rpgadmin npc setcode <npcID> [이름]",

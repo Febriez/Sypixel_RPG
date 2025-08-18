@@ -92,24 +92,34 @@ public class LangManager {
             try (InputStream is = plugin.getResource("lang/" + lang + "/" + section + ".json")) {
                 if (is != null) {
                     JsonObject obj = gson.fromJson(new InputStreamReader(is, StandardCharsets.UTF_8), JsonObject.class);
-                    combined.add(section, obj);
+                    // 섹션 이름을 prefix로 사용하여 모든 키를 플랫하게 저장
+                    flattenJson(obj, section, combined);
                 }
             } catch (Exception ignored) {
             }
         }
         configs.put(lang, combined);
     }
+    
+    private static void flattenJson(JsonObject source, String prefix, JsonObject target) {
+        for (Map.Entry<String, JsonElement> entry : source.entrySet()) {
+            String key = prefix + "." + entry.getKey();
+            JsonElement value = entry.getValue();
+            
+            if (value.isJsonObject()) {
+                // 중첩된 객체는 재귀적으로 처리
+                flattenJson(value.getAsJsonObject(), key, target);
+            } else {
+                // 기본값이나 배열은 그대로 저장
+                target.add(key, value);
+            }
+        }
+    }
 
     private static void collectKeys(@NotNull JsonObject obj, String prefix, Set<String> keys) {
         for (Map.Entry<String, JsonElement> e : obj.entrySet()) {
-            String key = prefix.isEmpty() ? e.getKey() : prefix + "." + e.getKey();
-            if (e.getValue()
-                    .isJsonObject()) {
-                collectKeys(e.getValue()
-                        .getAsJsonObject(), key, keys);
-            } else {
-                keys.add(key);
-            }
+            // 이미 플랫하게 저장되어 있으므로 키를 그대로 추가
+            keys.add(e.getKey());
         }
     }
 
@@ -284,14 +294,8 @@ public class LangManager {
     // ========== 내부 헬퍼 메서드 ==========
 
     private static @Nullable JsonElement getJson(JsonObject obj, @NotNull String path) {
-        String[] parts = path.split("\\.");
-        JsonElement current = obj;
-        for (String part : parts) {
-            if (current == null || !current.isJsonObject()) return null;
-            current = current.getAsJsonObject()
-                    .get(part);
-        }
-        return current;
+        // 이미 플랫하게 저장되어 있으므로 직접 키로 조회
+        return obj.get(path);
     }
 
     // ========== 추가 유틸리티 메서드 ==========

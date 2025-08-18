@@ -34,8 +34,9 @@ public class IslandBiomeChangeGui extends BaseGui {
     private final IslandDTO island;
 
     private IslandBiomeChangeGui(@NotNull Player viewer, @NotNull GuiManager guiManager, @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, "&b&l바이옴 변경");
+        super(viewer, guiManager, 54, "gui.island.biome-change.title");
         this.island = island;
+        // plugin is already available from BaseGui
     }
 
     /**
@@ -81,11 +82,6 @@ public class IslandBiomeChangeGui extends BaseGui {
     @Override
     public @NotNull Component getTitle() {
         return Component.text("바이옴 변경", UnifiedColorUtil.PRIMARY);
-    }
-
-    @Override
-    public void onClick(@NotNull InventoryClickEvent event) {
-        event.setCancelled(true);
     }
 
     private void setupBiomeOptions() {
@@ -137,8 +133,11 @@ public class IslandBiomeChangeGui extends BaseGui {
 
     private GuiItem createBiomeItem(Biome biome, Material material, String name, String description) {
         World islandWorld = plugin.getServer()
-                .getWorld("island_" + island.core().islandId());
-        Biome currentBiome = islandWorld != null ? islandWorld.getBiome(0, 100, 0) : Biome.PLAINS;
+                .getWorld("Island");
+        // 섬의 중앙 좌표 가져오기
+        int centerX = (int) island.configuration().spawnData().defaultSpawn().x();
+        int centerZ = (int) island.configuration().spawnData().defaultSpawn().z();
+        Biome currentBiome = islandWorld != null ? islandWorld.getBiome(centerX, 100, centerZ) : Biome.PLAINS;
 
         boolean isCurrentBiome = currentBiome == biome;
 
@@ -157,32 +156,35 @@ public class IslandBiomeChangeGui extends BaseGui {
 
     private void changeBiome(Player player, Biome biome, String biomeName) {
         World islandWorld = plugin.getServer()
-                .getWorld("island_" + island.core().islandId());
+                .getWorld("Island");
         if (islandWorld == null) {
             player.sendMessage(LangManager.getMessage(player, "gui.island.biome.message.world_not_found"));
             return;
         }
 
         player.sendMessage(LangManager.getMessage(player, "gui.island.biome.message.changing"));
-        player.closeInventory();
 
         // 비동기로 바이옴 변경 처리
         plugin.getServer()
                 .getScheduler()
                 .runTaskAsynchronously(plugin, () -> {
+                    // 섬의 중앙 좌표 가져오기
+                    int centerX = (int) island.configuration().spawnData().defaultSpawn().x();
+                    int centerZ = (int) island.configuration().spawnData().defaultSpawn().z();
+                    
                     // 섬 전체 영역의 바이옴 변경
                     int size = island.core().size();
                     int radius = 100 + (size * 50); // 기본 100블록 + 업그레이드당 50블록
 
-                    for (int x = -radius; x <= radius; x += 4) {
-                        for (int z = -radius; z <= radius; z += 4) {
+                    for (int x = centerX - radius; x <= centerX + radius; x += 4) {
+                        for (int z = centerZ - radius; z <= centerZ + radius; z += 4) {
                             for (int y = islandWorld.getMinHeight(); y < islandWorld.getMaxHeight(); y += 4) {
                                 islandWorld.setBiome(x, y, z, biome);
                             }
                         }
                     }
 
-                    // 메인 스레드에서 완료 메시지
+                    // 메인 스레드에서 완료 메시지 및 GUI 재오픈
                     plugin.getServer()
                             .getScheduler()
                             .runTask(plugin, () -> {
@@ -197,6 +199,9 @@ public class IslandBiomeChangeGui extends BaseGui {
                                     player.teleport(player.getLocation()
                                             .subtract(0, 1, 0));
                                 }
+                                
+                                // 섬 메인 GUI로 돌아가기
+                                IslandMainGui.create(plugin.getGuiManager(), player).open(player);
                             });
                 });
     }
@@ -204,11 +209,14 @@ public class IslandBiomeChangeGui extends BaseGui {
     @Contract(" -> new")
     private @NotNull GuiItem createCurrentBiomeInfo() {
         World islandWorld = plugin.getServer()
-                .getWorld("island_" + island.core().islandId());
+                .getWorld("Island");
         String currentBiomeName = "알 수 없음";
 
         if (islandWorld != null) {
-            Biome biome = islandWorld.getBiome(0, 100, 0);
+            // 섬의 중앙 좌표에서 바이옴 가져오기
+            int centerX = (int) island.configuration().spawnData().defaultSpawn().x();
+            int centerZ = (int) island.configuration().spawnData().defaultSpawn().z();
+            Biome biome = islandWorld.getBiome(centerX, 100, centerZ);
             currentBiomeName = translateBiomeName(biome);
         }
 

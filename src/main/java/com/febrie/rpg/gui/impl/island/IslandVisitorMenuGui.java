@@ -40,7 +40,6 @@ public class IslandVisitorMenuGui extends BaseGui {
      */
     public static IslandVisitorMenuGui create(@NotNull GuiManager guiManager, @NotNull Player viewer, @NotNull IslandDTO island) {
         IslandVisitorMenuGui gui = new IslandVisitorMenuGui(viewer, guiManager, island);
-        gui.initialize("gui.island.visitor.menu.title");
         return gui;
     }
     
@@ -155,16 +154,5 @@ public class IslandVisitorMenuGui extends BaseGui {
                 playClickSound(player);
             }
         );
-    }
-    
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
     }
 }

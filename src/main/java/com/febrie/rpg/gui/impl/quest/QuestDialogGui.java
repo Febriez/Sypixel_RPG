@@ -37,7 +37,6 @@ public class QuestDialogGui extends BaseGui {
     private String currentDialog = "";
     private boolean isTyping = false;
     private boolean isDialogComplete = false;
-    private boolean isShowingChoice = false; // 수락/거절 선택 표시 여부
 
     // 애니메이션 관리
     private BukkitTask typingTask;
@@ -50,7 +49,7 @@ public class QuestDialogGui extends BaseGui {
     private static final int DECLINE_SLOT = 5; // 거절 버튼
 
     private QuestDialogGui(@NotNull GuiManager guiManager,
-                          @NotNull Player player, @NotNull Quest quest) {
+                           @NotNull Player player, @NotNull Quest quest) {
         super(player, guiManager, 9, "gui.quest-dialog.title");
         this.quest = quest;
         this.typingSpeed = getTypingSpeed(player); // 플레이어 설정에서 가져오기
@@ -58,17 +57,15 @@ public class QuestDialogGui extends BaseGui {
 
     /**
      * QuestDialogGui 인스턴스를 생성하고 초기화합니다.
-     * 
+     *
      * @param guiManager GUI 매니저
-     * @param langManager 언어 매니저
-     * @param player 플레이어
-     * @param quest 퀘스트
+     * @param player     플레이어
+     * @param quest      퀘스트
      * @return 초기화된 QuestDialogGui 인스턴스
      */
     public static QuestDialogGui create(@NotNull GuiManager guiManager,
-                                       @NotNull Player player, @NotNull Quest quest) {
+                                        @NotNull Player player, @NotNull Quest quest) {
         QuestDialogGui gui = new QuestDialogGui(guiManager, player, quest);
-        gui.initialize("gui.quest-dialog.title"); // GUI 레이아웃 초기화
         return gui;
     }
 
@@ -87,7 +84,8 @@ public class QuestDialogGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.title").color(UnifiedColorUtil.GOLD);
+        return com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.title")
+                .color(UnifiedColorUtil.GOLD);
     }
 
     @Override
@@ -100,19 +98,7 @@ public class QuestDialogGui extends BaseGui {
      */
     private void setupDialogGui() {
         // 나가기 버튼 설정
-        GuiItem exitButton = GuiItem.clickable(
-                new ItemBuilder(Material.BARRIER)
-                        .displayName(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.close").color(UnifiedColorUtil.ERROR))
-                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.buttons.close.lore").color(UnifiedColorUtil.GRAY))
-                        .build(),
-                p -> {
-                    stopTyping();
-                    p.closeInventory();
-                    SoundUtil.playCloseSound(p);
-                }
-        );
-
-        setItem(EXIT_SLOT, exitButton);
+        setItem(EXIT_SLOT, createExitButton());
 
         // 빈 슬롯들을 투명한 유리판으로 채우기
         for (int i = 1; i < 9; i++) {
@@ -130,19 +116,26 @@ public class QuestDialogGui extends BaseGui {
      * 대화 시작
      */
     private void startDialog() {
-        // 바로 수락/거절 선택 표시
-        showQuestChoice();
+        // 퀘스트 대화가 있는지 확인
+        if (quest.getDialogCount() > 0) {
+            // 대화가 있으면 첫 번째 대화 로드
+            loadCurrentDialog();
+            startTypingAnimation();
+        } else {
+            // 대화가 없으면 바로 수락/거절 선택 표시
+            showQuestChoice();
+        }
     }
 
     /**
      * 현재 대화 로드
      */
     private void loadCurrentDialog() {
-        String dialog = null;
-        
+        String dialog;
+
         // 퀘스트에서 대화 가져오기
         dialog = quest.getDialog(currentDialogIndex, viewer);
-        
+
         if (dialog != null) {
             currentDialog = dialog;
             currentCharIndex = 0;
@@ -207,17 +200,20 @@ public class QuestDialogGui extends BaseGui {
         lore.add(Component.empty());
         if (isComplete) {
             if (currentDialogIndex < quest.getDialogCount() - 1) {
-                lore.add(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.next-page").color(UnifiedColorUtil.SUCCESS));
+                lore.add(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.next-page")
+                        .color(UnifiedColorUtil.SUCCESS));
             } else {
-                lore.add(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.accept-quest").color(UnifiedColorUtil.GOLD));
+                lore.add(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.accept-quest")
+                        .color(UnifiedColorUtil.GOLD));
             }
         } else {
-            lore.add(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.skip").color(UnifiedColorUtil.YELLOW));
+            lore.add(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.skip")
+                    .color(UnifiedColorUtil.YELLOW));
         }
 
         String npcName;
         npcName = quest.getNPCName(viewer);
-        
+
         ItemBuilder dialogBuilder = new ItemBuilder(Material.ENCHANTED_BOOK)
                 .displayName(Component.text(npcName, UnifiedColorUtil.AQUA));
 
@@ -271,8 +267,7 @@ public class QuestDialogGui extends BaseGui {
      */
     private void showQuestChoice() {
         stopTyping();
-        isShowingChoice = true;
-        
+
         for (int i = 1; i < 9; i++) {
             setItem(i, GuiItem.display(
                     new ItemBuilder(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
@@ -280,12 +275,92 @@ public class QuestDialogGui extends BaseGui {
                             .build()
             ));
         }
-        
+
         // 나가기 버튼 유지
-        GuiItem exitButton = GuiItem.clickable(
+        setItem(EXIT_SLOT, createExitButton());
+
+        // 퀘스트 정보 표시
+        ItemBuilder questInfoBuilder = new ItemBuilder(Material.WRITTEN_BOOK)
+                .displayName(quest.getDisplayName(viewer).color(UnifiedColorUtil.GOLD))
+                .addLore(Component.empty());
+
+        // 퀘스트 설명 추가
+        for (Component line : quest.getDisplayInfo(viewer)) {
+            questInfoBuilder.addLore(line.color(UnifiedColorUtil.WHITE));
+        }
+
+        setItem(DIALOG_SLOT, GuiItem.display(questInfoBuilder.build()));
+
+        // 수락 버튼
+        GuiItem acceptButton = GuiItem.clickable(
+                new ItemBuilder(Material.LIME_DYE)
+                        .displayName(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.accept-quest")
+                                .color(UnifiedColorUtil.SUCCESS))
+                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-accept.accept-desc")
+                                .color(UnifiedColorUtil.GRAY))
+                        .build(),
+                p -> handleQuestAccept()
+        );
+        setItem(ACCEPT_SLOT, acceptButton);
+
+        // 거절 버튼
+        GuiItem declineButton = GuiItem.clickable(
+                new ItemBuilder(Material.RED_DYE)
+                        .displayName(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.decline-quest")
+                                .color(UnifiedColorUtil.ERROR))
+                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-accept.decline-desc")
+                                .color(UnifiedColorUtil.GRAY))
+                        .build(),
+                p -> handleQuestDecline()
+        );
+        setItem(DECLINE_SLOT, declineButton);
+    }
+
+    /**
+     * 퀘스트 수락 처리
+     */
+    private void handleQuestAccept() {
+        // GUI 즉시 닫기
+        viewer.closeInventory();
+
+        // 퀘스트 시작
+        com.febrie.rpg.quest.manager.QuestManager.getInstance().startQuest(viewer, quest.getId());
+
+        // 수락 대화 표시
+        String acceptDialog = quest.getAcceptDialog(viewer);
+        String npcName = quest.getNPCName(viewer);
+
+        viewer.sendMessage(Component.text(npcName + ": " + acceptDialog, UnifiedColorUtil.YELLOW));
+        SoundUtil.playSuccessSound(viewer);
+    }
+
+    /**
+     * 퀘스트 거절 처리
+     */
+    private void handleQuestDecline() {
+        // GUI 즉시 닫기
+        viewer.closeInventory();
+
+        // 거절 대화 표시
+        String declineDialog = quest.getDeclineDialog(viewer);
+        String npcName = quest.getNPCName(viewer);
+
+        viewer.sendMessage(Component.text(npcName + ": " + declineDialog, UnifiedColorUtil.GRAY));
+        viewer.sendMessage(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.quest-declined")
+                .color(UnifiedColorUtil.GRAY));
+        SoundUtil.playClickSound(viewer);
+    }
+    
+    /**
+     * 나가기 버튼 생성
+     */
+    private GuiItem createExitButton() {
+        return GuiItem.clickable(
                 new ItemBuilder(Material.BARRIER)
-                        .displayName(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.close").color(UnifiedColorUtil.ERROR))
-                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.buttons.close.lore").color(UnifiedColorUtil.GRAY))
+                        .displayName(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.close")
+                                .color(UnifiedColorUtil.ERROR))
+                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.buttons.close.lore")
+                                .color(UnifiedColorUtil.GRAY))
                         .build(),
                 p -> {
                     stopTyping();
@@ -293,99 +368,7 @@ public class QuestDialogGui extends BaseGui {
                     SoundUtil.playCloseSound(p);
                 }
         );
-        setItem(EXIT_SLOT, exitButton);
-        
-        // 퀘스트 정보 표시
-        ItemBuilder questInfoBuilder = new ItemBuilder(Material.WRITTEN_BOOK)
-                .displayName(quest.getDisplayName(viewer).color(UnifiedColorUtil.GOLD))
-                .addLore(Component.empty());
-        
-        // 퀘스트 설명 추가
-        for (Component line : quest.getDisplayInfo(viewer)) {
-            questInfoBuilder.addLore(line.color(UnifiedColorUtil.WHITE));
-        }
-        
-        setItem(DIALOG_SLOT, GuiItem.display(questInfoBuilder.build()));
-        
-        // 수락 버튼
-        GuiItem acceptButton = GuiItem.clickable(
-                new ItemBuilder(Material.LIME_DYE)
-                        .displayName(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.accept-quest").color(UnifiedColorUtil.SUCCESS))
-                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-accept.accept-desc").color(UnifiedColorUtil.GRAY))
-                        .build(),
-                p -> handleQuestAccept()
-        );
-        setItem(ACCEPT_SLOT, acceptButton);
-        
-        // 거절 버튼
-        GuiItem declineButton = GuiItem.clickable(
-                new ItemBuilder(Material.RED_DYE)
-                        .displayName(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.decline-quest").color(UnifiedColorUtil.ERROR))
-                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-accept.decline-desc").color(UnifiedColorUtil.GRAY))
-                        .build(),
-                p -> handleQuestDecline()
-        );
-        setItem(DECLINE_SLOT, declineButton);
     }
-    
-    /**
-     * 퀘스트 수락 처리
-     */
-    private void handleQuestAccept() {
-        // GUI 즉시 닫기
-        viewer.closeInventory();
-        
-        // 퀘스트 시작
-        com.febrie.rpg.quest.manager.QuestManager.getInstance().startQuest(viewer, quest.getId());
-        
-        // 수락 대화 표시
-        String acceptDialog = null;
-        String npcName = null;
-        
-        acceptDialog = quest.getAcceptDialog(viewer);
-        npcName = quest.getNPCName(viewer);
-        
-        if (acceptDialog != null && npcName != null) {
-            viewer.sendMessage(Component.text(npcName + ": " + acceptDialog, UnifiedColorUtil.YELLOW));
-        }
-        
-        SoundUtil.playSuccessSound(viewer);
-    }
-    
-    /**
-     * 퀘스트 거절 처리
-     */
-    private void handleQuestDecline() {
-        // GUI 즉시 닫기
-        viewer.closeInventory();
-        
-        // 거절 대화 표시
-        String declineDialog = null;
-        String npcName = null;
-        
-        declineDialog = quest.getDeclineDialog(viewer);
-        npcName = quest.getNPCName(viewer);
-        
-        if (declineDialog != null && npcName != null) {
-            viewer.sendMessage(Component.text(npcName + ": " + declineDialog, UnifiedColorUtil.GRAY));
-        }
-        
-        viewer.sendMessage(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.quest-declined").color(UnifiedColorUtil.GRAY));
-        SoundUtil.playClickSound(viewer);
-    }
-    
-    
-    /**
-     * 플레이어 언어 확인
-     */
-    private boolean isPlayerKorean() {
-        return viewer.locale().getLanguage().equals("ko");
-    }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
+
 
 }

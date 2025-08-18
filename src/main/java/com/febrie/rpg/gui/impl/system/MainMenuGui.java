@@ -58,7 +58,7 @@ public class MainMenuGui extends BaseGui {
      */
     public static MainMenuGui create(@NotNull GuiManager guiManager, @NotNull Player player) {
         MainMenuGui gui = new MainMenuGui(guiManager, player);
-        return createAndInitialize(gui, "gui.mainmenu.title");
+        return gui;
     }
 
     @Override
@@ -71,7 +71,6 @@ public class MainMenuGui extends BaseGui {
         // 메인 메뉴는 최상위 메뉴이므로 뒤로가기 없음
         return null;
     }
-
 
     @Override
     protected void setupLayout() {
@@ -167,7 +166,7 @@ public class MainMenuGui extends BaseGui {
             "items.mainmenu.island-button.name",
             "items.mainmenu.island-button.lore",
             player -> {
-                IslandManager islandManager = RPGMain.getInstance().getIslandManager();
+                IslandManager islandManager = RPGMain.getPlugin().getIslandManager();
                 PlayerIslandDataDTO playerIslandData = islandManager.getPlayerIslandDataFromCache(player.getUniqueId().toString());
                 
                 if (playerIslandData != null && playerIslandData.hasIsland()) {
@@ -200,16 +199,5 @@ public class MainMenuGui extends BaseGui {
                 }
         );
         setItem(LEADERBOARD_SLOT, leaderboardButton);
-    }
-
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
     }
 }

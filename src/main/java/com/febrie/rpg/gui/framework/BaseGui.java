@@ -59,9 +59,13 @@ public abstract class BaseGui implements InteractiveGui {
     
 
     private boolean initialized = false;
+    private boolean layoutSetup = false;
+    private final String titleKey;
+    private final String[] titleArgs;
     
     /**
      * 생성자 - protected to prevent direct instantiation
+     * 초기화는 open() 메서드에서 처리됩니다
      */
     protected BaseGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                    int requestedSize, @NotNull String titleKey, @NotNull String... titleArgs) {
@@ -69,40 +73,8 @@ public abstract class BaseGui implements InteractiveGui {
         this.guiManager = guiManager;
         this.plugin = guiManager.getPlugin();
         this.size = validateSize(requestedSize);
-        // Inventory will be created during initialization
-    }
-    
-    /**
-     * Initialize the GUI - must be called after construction
-     * This method creates the inventory and sets up the layout
-     */
-    protected void initialize(@NotNull String titleKey, @NotNull String... titleArgs) {
-        if (initialized) {
-            throw new IllegalStateException("GUI already initialized");
-        }
-        Component title = com.febrie.rpg.util.LangManager.getMessage(viewer, titleKey, titleArgs);
-        Component styledTitle = applyTitleStyle(title);
-        this.inventory = Bukkit.createInventory(this, size, styledTitle);
-        setupLayout();
-        this.initialized = true;
-    }
-    
-    /**
-     * Factory method helper for subclasses
-     * Subclasses should create their own static factory method that calls this
-     * 
-     * Example usage in subclass:
-     * public static MyGui create(Player viewer, GuiManager manager, com.febrie.rpg.util.LangManager lang) {
-     *     MyGui gui = new MyGui(viewer, manager, lang, 54, "my.title");
-     *     gui.initialize("my.title");
-     *     return gui;
-     * }
-     */
-    protected static <T extends BaseGui> T createAndInitialize(@NotNull T gui, 
-                                                              @NotNull String titleKey, 
-                                                              @NotNull String... titleArgs) {
-        gui.initialize(titleKey, titleArgs);
-        return gui;
+        this.titleKey = titleKey;
+        this.titleArgs = titleArgs;
     }
 
     /**
@@ -159,9 +131,24 @@ public abstract class BaseGui implements InteractiveGui {
 
     @Override
     public void open(@NotNull Player player) {
-        ensureInitialized();
         if (!player.equals(viewer)) {
             throw new IllegalStateException("Cannot open GUI for different player");
+        }
+        
+        // 첫 open 시에만 초기화
+        if (!initialized && !titleKey.isEmpty()) {
+            Component title = com.febrie.rpg.util.LangManager.getMessage(viewer, titleKey, titleArgs);
+            Component styledTitle = applyTitleStyle(title);
+            this.inventory = Bukkit.createInventory(this, size, styledTitle);
+            this.initialized = true;
+        }
+        
+        ensureInitialized();
+        
+        // 레이아웃이 아직 설정되지 않았다면 설정
+        if (!layoutSetup) {
+            setupLayout();
+            layoutSetup = true;
         }
         player.openInventory(inventory);
         // 기본적으로는 GUI 열기 소리 재생하지 않음
@@ -173,7 +160,7 @@ public abstract class BaseGui implements InteractiveGui {
      */
     private void ensureInitialized() {
         if (!initialized) {
-            throw new IllegalStateException("GUI not initialized. Call initialize() first.");
+            throw new IllegalStateException("GUI not initialized.");
         }
     }
 
@@ -183,6 +170,7 @@ public abstract class BaseGui implements InteractiveGui {
         inventory.clear();
         items.clear();
         setupLayout();
+        layoutSetup = true;
     }
 
     /**
@@ -232,8 +220,8 @@ public abstract class BaseGui implements InteractiveGui {
             return;
         }
 
-        // 허용된 클릭 타입인지 확인
-        if (!isAllowedClickType(click)) {
+        // 허용되지 않은 클릭 타입인지 확인
+        if (isDisallowedClickType(click)) {
             return;
         }
 
@@ -244,10 +232,10 @@ public abstract class BaseGui implements InteractiveGui {
     }
 
     /**
-     * 허용된 클릭 타입인지 확인
+     * 허용되지 않은 클릭 타입인지 확인
      */
-    protected boolean isAllowedClickType(@NotNull ClickType click) {
-        return getAllowedClickTypes().contains(click);
+    protected boolean isDisallowedClickType(@NotNull ClickType click) {
+        return !getAllowedClickTypes().contains(click);
     }
 
     @Override
@@ -287,9 +275,22 @@ public abstract class BaseGui implements InteractiveGui {
     protected abstract GuiFramework getBackTarget();
     
     /**
-     * 클릭 이벤트 처리 - 하위 클래스에서 구현
+     * 클릭 이벤트 처리 - 기본 구현 제공, 필요시 하위 클래스에서 오버라이드
      */
-    public abstract void onClick(InventoryClickEvent event);
+    public void onClick(InventoryClickEvent event) {
+        event.setCancelled(true);
+        
+        // 클릭한 슬롯 가져오기
+        int slot = event.getSlot();
+        
+        // 플레이어 확인
+        if (!(event.getWhoClicked() instanceof Player player)) {
+            return;
+        }
+        
+        // onSlotClick 메서드를 호출하여 GuiItem의 액션 실행
+        onSlotClick(event, player, slot, event.getClick());
+    }
     
     /**
      * 테두리를 특정 재료로 채우기

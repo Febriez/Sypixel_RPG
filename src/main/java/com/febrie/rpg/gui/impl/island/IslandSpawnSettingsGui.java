@@ -97,11 +97,6 @@ public class IslandSpawnSettingsGui extends BaseGui {
         return Component.text("스폰 설정", UnifiedColorUtil.PRIMARY);
     }
     
-    @Override
-    public void onClick(InventoryClickEvent event) {
-        event.setCancelled(true);
-    }
-    
     private ItemStack createCurrentSpawnInfo() {
         IslandSpawnDTO spawn = island.configuration().spawnData();
         com.febrie.rpg.dto.island.IslandSpawnPointDTO defaultSpawn = spawn.defaultSpawn();

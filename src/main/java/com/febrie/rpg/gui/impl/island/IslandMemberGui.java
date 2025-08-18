@@ -53,7 +53,6 @@ public class IslandMemberGui extends BaseGui {
     public static IslandMemberGui create(@NotNull GuiManager guiManager, @NotNull Player viewer,
                                        @NotNull IslandDTO island) {
         IslandMemberGui gui = new IslandMemberGui(viewer, guiManager, island);
-        gui.initialize("gui.island.member.title", island.core().islandName());
         return gui;
     }
     
@@ -349,9 +348,4 @@ public class IslandMemberGui extends BaseGui {
         return DateFormatUtil.formatDateOnlyFromMillis(timestamp);
     }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

@@ -65,7 +65,6 @@ public class TalentGui extends ScrollableGui {
                                   @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
                                   @NotNull String pageId, @NotNull List<Talent> talents) {
         TalentGui gui = new TalentGui(guiManager, viewer, rpgPlayer, pageId, talents);
-        gui.initialize("gui.talent.title");
         return gui;
     }
 
@@ -348,9 +347,4 @@ public class TalentGui extends ScrollableGui {
         return new ProfileGui(guiManager, viewer);
     }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

@@ -52,7 +52,6 @@ public class SystemSettingsGui extends BaseGui {
     public static SystemSettingsGui create(@NotNull GuiManager guiManager,
                                           @NotNull Player player) {
         SystemSettingsGui gui = new SystemSettingsGui(guiManager, player);
-        gui.initialize("gui.system-settings.title");
         return gui;
     }
 
@@ -153,15 +152,5 @@ public class SystemSettingsGui extends BaseGui {
         );
         setItem(CONFIRMATION_DIALOGS_SLOT, confirmationDialogsToggle);
     }
-
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

@@ -93,8 +93,7 @@ public class IslandCreationGui extends BaseGui {
      * Factory method to create the GUI
      */
     public static IslandCreationGui create(@NotNull GuiManager guiManager, @NotNull Player player) {
-        IslandCreationGui gui = new IslandCreationGui(guiManager, player);
-        return createAndInitialize(gui, "gui.island.creation.title");
+        return new IslandCreationGui(guiManager, player);
     }
 
     @Override
@@ -157,10 +156,10 @@ public class IslandCreationGui extends BaseGui {
                         .displayName(trans("items.island.creation.name.name"))
                         .lore(List.of(
                                 Component.text(""),
-                                Component.text("현재 이름: ", NamedTextColor.GRAY)
+                                trans("gui.island-creation.current-name").color(NamedTextColor.GRAY)
                                         .append(Component.text(islandName, UnifiedColorUtil.parseHexColor(islandColorHex))),
                                 Component.text(""),
-                                Component.text("클릭하여 이름 변경", NamedTextColor.YELLOW),
+                                trans("gui.island-creation.click-to-change-name").color(NamedTextColor.YELLOW),
                                 Component.text("")
                         ))
                         .build(),
@@ -209,19 +208,19 @@ public class IslandCreationGui extends BaseGui {
                         .displayName(trans("items.island.creation.color.name"))
                         .lore(List.of(
                                 Component.text(""),
-                                Component.text("현재 색상: ", NamedTextColor.GRAY)
+                                trans("gui.island-creation.current-color").color(NamedTextColor.GRAY)
                                         .append(Component.text("███", UnifiedColorUtil.parseHexColor(islandColorHex)))
                                         .append(Component.text(" " + getColorName(islandColorHex), NamedTextColor.WHITE)),
                                 Component.text("Hex: " + islandColorHex, NamedTextColor.GRAY),
                                 Component.text(""),
-                                Component.text("좌클릭: ", NamedTextColor.YELLOW)
-                                        .append(Component.text("다음 (" + nextColorName + ")", NamedTextColor.GRAY)),
-                                Component.text("우클릭: ", NamedTextColor.YELLOW)
-                                        .append(Component.text("이전 (" + prevColorName + ")", NamedTextColor.GRAY)),
-                                Component.text("가운데 클릭: ", NamedTextColor.AQUA)
-                                        .append(Component.text("직접 HEX 코드 입력", NamedTextColor.GRAY)),
+                                trans("gui.island-creation.left-click").color(NamedTextColor.YELLOW)
+                                        .append(trans("gui.island-creation.next").append(Component.text(" (" + nextColorName + ")", NamedTextColor.GRAY))),
+                                trans("gui.island-creation.right-click").color(NamedTextColor.YELLOW)
+                                        .append(trans("gui.island-creation.previous").append(Component.text(" (" + prevColorName + ")", NamedTextColor.GRAY))),
+                                trans("gui.island-creation.middle-click").color(NamedTextColor.AQUA)
+                                        .append(trans("gui.island-creation.hex-input").color(NamedTextColor.GRAY)),
                                 Component.text(""),
-                                Component.text("예시: #FFFFFF (흰색)", NamedTextColor.DARK_GRAY)
+                                trans("gui.island-creation.hex-example").color(NamedTextColor.DARK_GRAY)
                         ))
                         .build()
         ).onAnyClick((player, clickType) -> {
@@ -278,10 +277,10 @@ public class IslandCreationGui extends BaseGui {
                         .displayName(trans("items.island.creation.biome.name"))
                         .lore(List.of(
                                 Component.text(""),
-                                Component.text("현재 바이옴: ", NamedTextColor.GRAY)
+                                trans("gui.island-creation.current-biome").color(NamedTextColor.GRAY)
                                         .append(Component.text(getBiomeName(selectedBiome), NamedTextColor.GREEN)),
                                 Component.text(""),
-                                Component.text("▶ 클릭하여 변경", NamedTextColor.YELLOW),
+                                trans("gui.island-creation.click-to-change").color(NamedTextColor.YELLOW),
                                 Component.text("")
                         ))
                         .build(),
@@ -320,8 +319,8 @@ public class IslandCreationGui extends BaseGui {
                                     Component.text(getTemplateDescription(template), NamedTextColor.GRAY),
                                     Component.text(""),
                                     selected ?
-                                            Component.text("✔ 선택됨", NamedTextColor.GREEN) :
-                                            Component.text("클릭하여 선택", NamedTextColor.YELLOW),
+                                            trans("gui.island-creation.selected").color(NamedTextColor.GREEN) :
+                                            trans("gui.island-creation.click-to-select").color(NamedTextColor.YELLOW),
                                     Component.text("")
                             ))
                             .glint(selected)
@@ -357,7 +356,7 @@ public class IslandCreationGui extends BaseGui {
         lore.add(Component.text("• 템플릿: ", NamedTextColor.GRAY)
                 .append(Component.text(getTemplateName(selectedTemplate), NamedTextColor.AQUA)));
         lore.add(Component.text(""));
-        lore.add(Component.text("클릭하여 섬 생성!", NamedTextColor.GREEN).decoration(TextDecoration.BOLD, true));
+        lore.add(trans("gui.island-creation.click-to-create").color(NamedTextColor.GREEN).decoration(TextDecoration.BOLD, true));
         lore.add(Component.text(""));
 
         // 섬 생성 처리
@@ -526,9 +525,4 @@ public class IslandCreationGui extends BaseGui {
         };
     }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

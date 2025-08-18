@@ -90,11 +90,6 @@ public class IslandPersonalSpawnGui extends BaseGui {
         return Component.text("개인 스폰 관리", UnifiedColorUtil.PRIMARY);
     }
     
-    @Override
-    public void onClick(InventoryClickEvent event) {
-        event.setCancelled(true);
-    }
-    
     private GuiItem createCurrentPersonalSpawnInfo() {
         IslandSpawnDTO spawnData = island.configuration().spawnData();
         // 개인 스폰 확인

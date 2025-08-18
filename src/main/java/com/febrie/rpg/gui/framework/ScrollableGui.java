@@ -247,8 +247,8 @@ public abstract class ScrollableGui extends BaseGui {
             return;
         }
 
-        // 허용된 클릭 타입인지 확인
-        if (!isAllowedClickType(click)) {
+        // 허용되지 않은 클릭 타입인지 확인
+        if (isDisallowedClickType(click)) {
             return;
         }
 

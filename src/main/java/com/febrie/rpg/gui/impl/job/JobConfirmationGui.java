@@ -49,18 +49,12 @@ public class JobConfirmationGui extends BaseGui {
     public static JobConfirmationGui create(@NotNull GuiManager guiManager,
                                            @NotNull Player player, @NotNull RPGPlayer rpgPlayer, @NotNull JobType selectedJob) {
         JobConfirmationGui gui = new JobConfirmationGui(guiManager, player, rpgPlayer, selectedJob);
-        gui.initialize("gui.job-confirmation.title");
         return gui;
     }
 
     @Override
     public @NotNull Component getTitle() {
         return trans("gui.job-confirmation.title");
-    }
-
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
     }
 
     @Override
@@ -232,11 +226,5 @@ public class JobConfirmationGui extends BaseGui {
     public GuiFramework getBackTarget() {
         // JobConfirmationGui는 JobSelectionGui로 돌아갑니다
         return JobSelectionGui.create(guiManager, viewer, rpgPlayer);
-    }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
     }
 }

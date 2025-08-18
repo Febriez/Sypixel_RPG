@@ -75,7 +75,7 @@ public class IslandBiomeSelectionGui extends BaseGui {
                                                 @NotNull Consumer<String> onBiomeSelected,
                                                 @NotNull GuiFramework backDestination) {
         IslandBiomeSelectionGui gui = new IslandBiomeSelectionGui(guiManager, player, currentBiome, onBiomeSelected, backDestination);
-        return createAndInitialize(gui, "gui.island.biome-selection.title");
+        return gui;
     }
     
     @Override
@@ -175,9 +175,4 @@ public class IslandBiomeSelectionGui extends BaseGui {
      */
     private record BiomeOption(String id, String name, Material icon, String description) {}
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

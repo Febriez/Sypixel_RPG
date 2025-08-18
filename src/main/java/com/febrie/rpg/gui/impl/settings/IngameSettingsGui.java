@@ -57,7 +57,6 @@ public class IngameSettingsGui extends BaseGui {
     public static IngameSettingsGui create(@NotNull GuiManager guiManager,
                                           @NotNull Player player) {
         IngameSettingsGui gui = new IngameSettingsGui(guiManager, player);
-        gui.initialize("gui.ingame-settings.title");
         return gui;
     }
 
@@ -281,15 +280,5 @@ public class IngameSettingsGui extends BaseGui {
         
         return bar.toString();
     }
-
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

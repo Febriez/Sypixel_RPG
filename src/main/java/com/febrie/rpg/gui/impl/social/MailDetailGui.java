@@ -68,7 +68,6 @@ public class MailDetailGui extends BaseGui {
     public static MailDetailGui create(@NotNull GuiManager guiManager,
                                       @NotNull Player player, @NotNull MailDTO mail) {
         MailDetailGui gui = new MailDetailGui(guiManager, player, mail);
-        gui.initialize("gui.mail-detail.title");
         gui.markAsRead();
         return gui;
     }
@@ -245,16 +244,5 @@ public class MailDetailGui extends BaseGui {
             // The GUI will need to be refreshed to see the updated state
         }
     }
-
-
-    @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
     
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
-    }
 }

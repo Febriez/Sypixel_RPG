@@ -74,7 +74,6 @@ public class QuestRewardGui extends BaseGui {
     public static QuestRewardGui create(@NotNull GuiManager guiManager,
                                        @NotNull Player viewer, @NotNull Quest quest, @NotNull String instanceId) {
         QuestRewardGui gui = new QuestRewardGui(guiManager, viewer, quest, instanceId);
-        gui.initialize("gui.quest-reward.title");
         return gui;
     }
 
@@ -454,11 +453,6 @@ public class QuestRewardGui extends BaseGui {
     }
 
     @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
-
-    @Override
     public GuiFramework getBackTarget() {
         return null; // 보상 GUI는 뒤로가기 불가
     }
@@ -480,11 +474,5 @@ public class QuestRewardGui extends BaseGui {
             viewer.sendMessage(trans("gui.quest-reward.timer-info").color(UnifiedColorUtil.YELLOW));
             viewer.sendMessage(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", UnifiedColorUtil.ERROR));
         }
-    }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
     }
 }

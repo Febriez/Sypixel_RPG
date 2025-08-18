@@ -47,7 +47,6 @@ public class QuestRewardConfirmGui extends BaseGui {
     public static QuestRewardConfirmGui create(@NotNull GuiManager guiManager,
                                                @NotNull Player viewer, @NotNull Quest quest, @NotNull String instanceId, @NotNull QuestRewardGui previousGui) {
         QuestRewardConfirmGui gui = new QuestRewardConfirmGui(guiManager, viewer, quest, instanceId, previousGui);
-        gui.initialize("gui.quest-reward.confirm.title");
         return gui;
     }
     
@@ -62,7 +61,6 @@ public class QuestRewardConfirmGui extends BaseGui {
         setupMessage();
         setupButtons();
     }
-    
     private void setupDecorations() {
         // 배경을 검은 유리판으로 채우기
         ItemBuilder blackGlass = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)
@@ -76,7 +74,6 @@ public class QuestRewardConfirmGui extends BaseGui {
             }
         }
     }
-    
     private void setupMessage() {
         // 중앙에 경고 메시지 표시
         ItemBuilder warningBuilder = new ItemBuilder(Material.BARRIER)
@@ -132,18 +129,7 @@ public class QuestRewardConfirmGui extends BaseGui {
     }
     
     @Override
-    protected List<ClickType> getAllowedClickTypes() {
-        return List.of(ClickType.LEFT);
-    }
-    
-    @Override
     public GuiFramework getBackTarget() {
         return previousGui;
-    }
-    
-    @Override
-    public void onClick(org.bukkit.event.inventory.InventoryClickEvent event) {
-        event.setCancelled(true);
-        // GuiItem이 클릭 처리를 담당합니다
     }
 }

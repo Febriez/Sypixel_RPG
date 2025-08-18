@@ -158,12 +158,6 @@ public class IslandDeleteConfirmGui extends BaseGui {
                 .build();
     }
     
-    @Override
-    public void onClick(InventoryClickEvent event) {
-        // Handled by GuiItem click handlers
-        event.setCancelled(true);
-    }
-    
     private void handleFinalDeleteConfirmation(Player player) {
         // AnvilGUI로 최종 확인
         new AnvilGUI.Builder()
