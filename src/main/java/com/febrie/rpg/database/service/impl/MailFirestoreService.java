@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+import net.kyori.adventure.text.Component;
 /**
  * 메일 Firestore 서비스
  * Mail 컬렉션 관리

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import net.kyori.adventure.text.Component;
 /**
  * 친구 관계 데이터 전송 객체 (Record)
  * Firebase 저장용 불변 데이터 구조

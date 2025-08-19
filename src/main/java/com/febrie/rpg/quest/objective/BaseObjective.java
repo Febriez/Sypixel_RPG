@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+import net.kyori.adventure.text.Component;
 /**
  * 퀘스트 목표 기본 추상 클래스
  * 모든 목표의 공통 기능 구현

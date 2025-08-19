@@ -9,7 +9,7 @@ import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -133,18 +133,18 @@ public class PaladinOathQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.advancement.paladin_oath.name");
+        return Component.translatable("quest.advancement.paladin_oath.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getList(who, "quest.advancement.paladin_oath.description");
+        return List.of(Component.translatable("quest.advancement.paladin_oath.description"));
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.advancement.paladin_oath.objectives." + id);
+        return Component.translatable("quest.advancement.paladin_oath.objectives." + id);
     }
 
     public QuestDialog getDialog() {

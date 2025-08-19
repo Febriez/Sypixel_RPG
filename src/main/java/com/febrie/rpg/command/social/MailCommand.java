@@ -1,10 +1,10 @@
 package com.febrie.rpg.command.social;
 
+import net.kyori.adventure.text.Component;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.impl.social.MailboxGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.social.MailManager;
-import com.febrie.rpg.util.LangManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;

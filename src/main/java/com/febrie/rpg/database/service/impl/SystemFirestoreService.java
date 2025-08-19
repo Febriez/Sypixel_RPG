@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import net.kyori.adventure.text.Component;
 /**
  * 시스템 데이터 Firestore 서비스
  * server-stats, leaderboards 컬렉션 관리

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import net.kyori.adventure.text.Component;
 /**
  * 플레이어 프로필 DTO
  * 기본 플레이어 정보

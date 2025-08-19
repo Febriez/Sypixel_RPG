@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 
+import net.kyori.adventure.text.Component;
 /**
  * RPG 통화 타입 열거형
  * 게임 내 다양한 재화를 정의

@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.kyori.adventure.text.Component;
 /**
  * 섬 위치 정보 DTO (Record)
  * 섬의 월드 내 위치와 경계 정보

@@ -10,7 +10,7 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import java.util.List;
 /**
  * 잃어버린 보물 - 사이드 퀘스트
  * 모험가가 잃어버린 보물을 찾아주는 퀘스트
@@ -90,18 +91,18 @@ public class LostTreasureQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.getMessage(who, "quest.side.lost_treasure.name");
+        return Component.translatable("quest.side.lost_treasure.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList(who, "quest.side.lost_treasure.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.side.lost_treasure.description") manually */;
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return LangManager.getMessage(who, "quest.side.lost_treasure.objectives." + id);
+        return Component.translatable("quest.side.lost_treasure.objectives.");
     }
 
     public QuestDialog getDialog() {

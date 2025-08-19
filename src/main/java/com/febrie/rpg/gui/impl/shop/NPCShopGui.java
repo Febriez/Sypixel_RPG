@@ -11,7 +11,6 @@ import com.febrie.rpg.npc.trait.RPGShopTrait;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

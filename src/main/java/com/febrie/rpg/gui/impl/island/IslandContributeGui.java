@@ -119,9 +119,9 @@ public class IslandContributeGui extends BaseGui {
             default -> Material.GOLD_NUGGET;
         };
         ItemBuilder builder = StandardItemBuilder.guiItem(material)
-                .displayName(UnifiedColorUtil.parseComponent(
+                .displayName(
                         trans("gui.island.contribute.quick-amount", "amount", String.format("%,d", amount)).color(canAfford ? UnifiedColorUtil.YELLOW : UnifiedColorUtil.ERROR)
-                ));
+                );
         builder.addLore(UnifiedColorUtil.parseComponent(""));
         if (canAfford) {
             builder.addLore(trans("gui.island.contribute.click-to-contribute"));

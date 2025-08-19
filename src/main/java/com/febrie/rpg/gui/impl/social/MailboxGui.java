@@ -9,7 +9,6 @@ import com.febrie.rpg.gui.impl.system.MainMenuGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.social.MailManager;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import net.wesjd.anvilgui.AnvilGUI;
 import net.kyori.adventure.text.Component;
@@ -128,7 +127,7 @@ public class MailboxGui extends BaseGui {
                 p -> {
                     mailManager.clearCache(p.getUniqueId());
                     loadMails();
-                    p.sendMessage(LangManager.getMessage(p, "social.mailbox.refresh-success"));
+                    p.sendMessage(Component.translatable("social.mailbox.refresh-success"));
                     playClickSound(p);
                 }
         );
@@ -146,9 +145,9 @@ public class MailboxGui extends BaseGui {
                         .build(),
                 p -> {
                     p.closeInventory();
-                    p.sendMessage(LangManager.getMessage(p, "social.mailbox.send-mail-guide"));
-                    p.sendMessage(LangManager.getMessage(p, "social.mailbox.send-mail-command"));
-                    p.sendMessage(LangManager.getMessage(p, "social.mailbox.send-mail-example"));
+                    p.sendMessage(Component.translatable("social.mailbox.send-mail-guide"));
+                    p.sendMessage(Component.translatable("social.mailbox.send-mail-command"));
+                    p.sendMessage(Component.translatable("social.mailbox.send-mail-example"));
                     playClickSound(p);
                 }
         );
@@ -323,7 +322,7 @@ public class MailboxGui extends BaseGui {
     /**
      * 플레이어에게 메시지 전송
      */
-    private void sendMessage(Player player, String key, String... args) {
-        LangManager.sendMessage(player, key, args);
+    protected void sendMessage(Player player, String key, String... args) {
+        player.sendMessage(Component.translatable(key));
     }
 }

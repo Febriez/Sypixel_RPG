@@ -9,7 +9,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -78,12 +78,12 @@ public class DailyHuntingQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.daily.hunting.name");
+        return Component.translatable("quest.daily.hunting.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getList(who, "quest.daily.hunting.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.daily.hunting.description") manually */;
     }
 
     @Override
@@ -91,9 +91,9 @@ public class DailyHuntingQuest extends Quest {
         String id = objective.getId();
 
         return switch (id) {
-            case "kill_zombies" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.daily.hunting.objectives.kill_zombies");
-            case "kill_skeletons" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.daily.hunting.objectives.kill_skeletons");
-            case "kill_creepers" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.daily.hunting.objectives.kill_creepers");
+            case "kill_zombies" -> Component.translatable("quest.daily.hunting.objectives.kill_zombies");
+            case "kill_skeletons" -> Component.translatable("quest.daily.hunting.objectives.kill_skeletons");
+            case "kill_creepers" -> Component.translatable("quest.daily.hunting.objectives.kill_creepers");
             default -> Component.text(objective.getStatusInfo(null));
         };
     }

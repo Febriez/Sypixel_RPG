@@ -9,7 +9,7 @@ import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -110,12 +110,12 @@ public class WeeklyRaidBossQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.getMessage(who, "quest.weekly.raid_boss.name");
+        return Component.translatable("quest.weekly.raid_boss.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList(who, "quest.weekly.raid_boss.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.weekly.raid_boss.description") manually */;
     }
 
     @Override
@@ -123,26 +123,26 @@ public class WeeklyRaidBossQuest extends Quest {
         String id = objective.getId();
 
         return switch (id) {
-            case "raid_commander" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.raid_commander");
-            case "level_requirement" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.level_requirement");
-            case "raid_key" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.raid_key");
-            case "raid_entrance" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.raid_entrance");
-            case "chaos_minions" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.chaos_minions");
-            case "chaos_knights" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.chaos_knights");
-            case "mini_boss_1" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.mini_boss_1");
-            case "chaos_fragment" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.chaos_fragment");
-            case "dark_sanctuary" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.dark_sanctuary");
-            case "darkness_trial" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.darkness_trial");
-            case "shadow_assassins" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.shadow_assassins");
-            case "void_walkers" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.void_walkers");
-            case "mini_boss_2" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.mini_boss_2");
-            case "void_essence" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.void_essence");
-            case "throne_room" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.throne_room");
-            case "pvp_zone" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.pvp_zone");
-            case "boss_summon" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.boss_summon");
-            case "chaos_lord" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.chaos_lord");
-            case "legendary_loot" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.legendary_loot");
-            case "raid_complete" -> LangManager.getMessage(who, "quest.weekly.raid_boss.objectives.raid_complete");
+            case "raid_commander" -> Component.translatable("quest.weekly.raid_boss.objectives.raid_commander");
+            case "level_requirement" -> Component.translatable("quest.weekly.raid_boss.objectives.level_requirement");
+            case "raid_key" -> Component.translatable("quest.weekly.raid_boss.objectives.raid_key");
+            case "raid_entrance" -> Component.translatable("quest.weekly.raid_boss.objectives.raid_entrance");
+            case "chaos_minions" -> Component.translatable("quest.weekly.raid_boss.objectives.chaos_minions");
+            case "chaos_knights" -> Component.translatable("quest.weekly.raid_boss.objectives.chaos_knights");
+            case "mini_boss_1" -> Component.translatable("quest.weekly.raid_boss.objectives.mini_boss_1");
+            case "chaos_fragment" -> Component.translatable("quest.weekly.raid_boss.objectives.chaos_fragment");
+            case "dark_sanctuary" -> Component.translatable("quest.weekly.raid_boss.objectives.dark_sanctuary");
+            case "darkness_trial" -> Component.translatable("quest.weekly.raid_boss.objectives.darkness_trial");
+            case "shadow_assassins" -> Component.translatable("quest.weekly.raid_boss.objectives.shadow_assassins");
+            case "void_walkers" -> Component.translatable("quest.weekly.raid_boss.objectives.void_walkers");
+            case "mini_boss_2" -> Component.translatable("quest.weekly.raid_boss.objectives.mini_boss_2");
+            case "void_essence" -> Component.translatable("quest.weekly.raid_boss.objectives.void_essence");
+            case "throne_room" -> Component.translatable("quest.weekly.raid_boss.objectives.throne_room");
+            case "pvp_zone" -> Component.translatable("quest.weekly.raid_boss.objectives.pvp_zone");
+            case "boss_summon" -> Component.translatable("quest.weekly.raid_boss.objectives.boss_summon");
+            case "chaos_lord" -> Component.translatable("quest.weekly.raid_boss.objectives.chaos_lord");
+            case "legendary_loot" -> Component.translatable("quest.weekly.raid_boss.objectives.legendary_loot");
+            case "raid_complete" -> Component.translatable("quest.weekly.raid_boss.objectives.raid_complete");
             default -> Component.text(objective.getStatusInfo(null));
         };
     }

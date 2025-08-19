@@ -5,7 +5,6 @@ import com.febrie.rpg.command.admin.subcommand.base.BaseSubCommand;
 import com.febrie.rpg.npc.NPCTraitSetter;
 import com.febrie.rpg.npc.trait.RPGQuestTrait;
 import com.febrie.rpg.quest.QuestID;
-import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -148,14 +147,14 @@ public class NpcCommand extends BaseSubCommand {
             
             case "settrait" -> {
                 if (args.length < 2) {
-                    player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.settrait.usage"));
+                    player.sendMessage(Component.translatable("commands.admin.npc.settrait.usage"));
                     return true;
                 }
                 
                 // NPC 선택 체크
                 NPC selectedNPC = CitizensAPI.getDefaultNPCSelector().getSelected(player);
                 if (selectedNPC == null) {
-                    player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.not-selected"));
+                    player.sendMessage(Component.translatable("commands.admin.npc.not-selected"));
                     return true;
                 }
                 
@@ -164,7 +163,7 @@ public class NpcCommand extends BaseSubCommand {
                 switch (traitType) {
                     case "quest" -> {
                         if (args.length < 3) {
-                            player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.settrait.quest.usage"));
+                            player.sendMessage(Component.translatable("commands.admin.npc.settrait.quest.usage"));
                             return true;
                         }
                         
@@ -177,11 +176,11 @@ public class NpcCommand extends BaseSubCommand {
                             com.febrie.rpg.npc.trait.RPGQuestTrait questTrait = selectedNPC.getOrAddTrait(com.febrie.rpg.npc.trait.RPGQuestTrait.class);
                             questTrait.addQuest(questId);
                             
-                            player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.settrait.quest.success",
-                                "npc", selectedNPC.getName(),
-                                "quest", questId.name()));
+                            player.sendMessage(Component.translatable("commands.admin.npc.settrait.quest.success",
+                                Component.text(selectedNPC.getName()),
+                                Component.text(questId.name())));
                         } catch (IllegalArgumentException e) {
-                            player.sendMessage(LangManager.getMessage(player, "commands.admin.quest.invalid-id"));
+                            player.sendMessage(Component.translatable("commands.admin.quest.invalid-id"));
                         }
                     }
                     
@@ -190,13 +189,13 @@ public class NpcCommand extends BaseSubCommand {
                         if (!selectedNPC.hasTrait(com.febrie.rpg.npc.trait.RPGShopTrait.class)) {
                             selectedNPC.addTrait(com.febrie.rpg.npc.trait.RPGShopTrait.class);
                         }
-                        player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.settrait.shop.success",
-                            "npc", selectedNPC.getName()));
+                        player.sendMessage(Component.translatable("commands.admin.npc.settrait.shop.success",
+                            Component.text(selectedNPC.getName())));
                     }
                     
                     case "dialog" -> {
                         if (args.length < 3) {
-                            player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.settrait.dialog.usage"));
+                            player.sendMessage(Component.translatable("commands.admin.npc.settrait.dialog.usage"));
                             return true;
                         }
                         
@@ -208,9 +207,9 @@ public class NpcCommand extends BaseSubCommand {
                         com.febrie.rpg.npc.trait.RPGDialogTrait dialogTrait = selectedNPC.getOrAddTrait(com.febrie.rpg.npc.trait.RPGDialogTrait.class);
                         dialogTrait.setDialogId(dialogId);
                         
-                        player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.settrait.dialog.success",
-                            "npc", selectedNPC.getName(),
-                            "dialog", dialogId));
+                        player.sendMessage(Component.translatable("commands.admin.npc.settrait.dialog.success",
+                            Component.text(selectedNPC.getName()),
+                            Component.text(dialogId)));
                     }
                     
                     case "guide" -> {
@@ -218,12 +217,12 @@ public class NpcCommand extends BaseSubCommand {
                         if (!selectedNPC.hasTrait(com.febrie.rpg.npc.trait.RPGGuideTrait.class)) {
                             selectedNPC.addTrait(com.febrie.rpg.npc.trait.RPGGuideTrait.class);
                         }
-                        player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.settrait.guide.success",
-                            "npc", selectedNPC.getName()));
+                        player.sendMessage(Component.translatable("commands.admin.npc.settrait.guide.success",
+                            Component.text(selectedNPC.getName())));
                     }
                     
                     default -> {
-                        player.sendMessage(LangManager.getMessage(player, "commands.admin.npc.settrait.invalid"));
+                        player.sendMessage(Component.translatable("commands.admin.npc.settrait.invalid"));
                     }
                 }
                 return true;

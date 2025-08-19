@@ -1,11 +1,11 @@
 package com.febrie.rpg.command.admin.subcommand;
 
+import net.kyori.adventure.text.Component;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.command.admin.subcommand.base.BaseSubCommand;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
-import com.febrie.rpg.util.LangManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -39,13 +39,13 @@ public class JobCommand extends BaseSubCommand {
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length < 3 || !args[0].equalsIgnoreCase("set")) {
-            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.job.usage"));
+            sender.sendMessage(Component.translatable("commands.admin.job.usage"));
             return true;
         }
         
         Player target = Bukkit.getPlayer(args[1]);
         if (target == null) {
-            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
+            sender.sendMessage(Component.translatable("commands.admin.player-not-found"));
             return true;
         }
         
@@ -57,36 +57,35 @@ public class JobCommand extends BaseSubCommand {
             try {
                 job = JobType.valueOf(jobName.toUpperCase());
             } catch (IllegalArgumentException e) {
-                sender.sendMessage(LangManager.getComponent(sender, "commands.admin.job.invalid"));
+                sender.sendMessage(Component.translatable("commands.admin.job.invalid"));
                 
                 // 사용 가능한 직업 목록 표시
                 String jobList = Arrays.stream(JobType.values())
                     .map(JobType::name)
                     .collect(Collectors.joining(", "));
-                sender.sendMessage(LangManager.getComponent(sender, "commands.admin.job.available", 
-                    "jobs", jobList));
+                sender.sendMessage(Component.translatable("commands.admin.job.available", 
+                    Component.text(jobList)));
                 return true;
             }
         }
         
         RPGPlayer rpgPlayer = playerManager.getPlayer(target);
         if (rpgPlayer == null) {
-            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-data-not-found"));
+            sender.sendMessage(Component.translatable("commands.admin.player-data-not-found"));
             return true;
         }
         
         rpgPlayer.setJob(job);
         
         if (job == null) {
-            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.job.reset", 
-                "player", target.getName()));
-            target.sendMessage(LangManager.getMessage(target, "commands.admin.job.your-reset"));
+            sender.sendMessage(Component.translatable("commands.admin.job.reset", 
+                Component.text(target.getName())));
+            target.sendMessage(Component.translatable("commands.admin.job.your-reset"));
         } else {
-            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.job.success", 
-                "player", target.getName(), 
-                "job", job.name()));
-            target.sendMessage(LangManager.getMessage(target, "commands.admin.job.your-changed", 
-                "job", job.name()));
+            sender.sendMessage(Component.translatable("commands.admin.job.success", 
+                Component.text(target.getName()), Component.text(job.name())));
+            target.sendMessage(Component.translatable("commands.admin.job.your-changed", 
+                Component.text(job.name())));
         }
         
         return true;

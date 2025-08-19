@@ -3,6 +3,7 @@ package com.febrie.rpg.level;
 import com.febrie.rpg.job.JobType;
 import org.jetbrains.annotations.NotNull;
 
+import net.kyori.adventure.text.Component;
 /**
  * RPG 레벨 시스템
  * 직업별로 다른 경험치 곡선을 사용하여 만렙 직전 레벨에서 2억 경험치가 필요하도록 설계

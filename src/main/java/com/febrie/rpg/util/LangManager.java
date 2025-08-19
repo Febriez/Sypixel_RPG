@@ -2,333 +2,210 @@ package com.febrie.rpg.util;
 
 import com.febrie.rpg.RPGMain;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
-import org.bukkit.command.CommandSender;
+import net.kyori.adventure.translation.GlobalTranslator;
+import net.kyori.adventure.translation.Translator;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
 import java.util.*;
 
 /**
- * 초경량 언어 관리 시스템
- * Component 사전 파싱으로 극한의 성능 최적화
- * Static 메서드로 메모리 효율성 극대화
+ * Adventure API Translator 구현체
+ * JSON 번역 파일을 로드하여 Component.translatable()을 지원
  */
-public class LangManager {
+public class LangManager implements Translator {
 
     private static RPGMain plugin;
+    private static LangManager instance;
     private static final Gson gson = new Gson();
-    private static final Map<String, JsonObject> configs = new HashMap<>();
-
-    // 키 인덱싱
-    private static Map<String, Integer> keyIndex;
-
-    // Component 배열 (색상 이미 파싱됨)
-    private static Component[] dataKO;
-    private static Component[] dataEN;
-    private static Component[][] listKO;
-    private static Component[][] listEN;
-
-    // 플레이스홀더용 원본 텍스트
-    private static String[] rawKO;
-    private static String[] rawEN;
-
     private static final String[] SECTIONS = {"general", "gui", "items", "job", "talent", "stat", "messages", "commands", "status", "currency", "quest", "island"};
 
+    // 번역 데이터 저장 (로케일 -> 키 -> MessageFormat)
+    private final Map<Locale, Map<String, MessageFormat>> translations = new HashMap<>();
+    
+    // TabComplete 자동완성을 위한 로케일별 제안사항 저장
+    private static final Map<Locale, List<String>> tabCompleteSuggestions = new HashMap<>();
+
     /**
-     * 초기화 (플러그인 시작 시 한 번만 호출)
+     * 다국어 시스템 초기화
      */
     public static void initialize(@NotNull RPGMain pluginInstance) {
         plugin = pluginInstance;
-        loadLanguages();
+        
+        // LangManager 인스턴스 생성 및 GlobalTranslator에 등록
+        instance = new LangManager();
+        instance.loadTranslations();
+        GlobalTranslator.translator().addSource(instance);
+
+        // TabComplete 제안사항 로드
+        loadTabCompleteSuggestions();
+
+        plugin.getLogger().info("번역 시스템이 초기화되었습니다.");
     }
 
-    private static void loadLanguages() {
-        // JSON 로드
-        loadJson("ko_KR");
-        loadJson("en_US");
-
-        // 키 수집 및 인덱싱
-        Set<String> keys = new HashSet<>();
-        configs.values()
-                .forEach(cfg -> collectKeys(cfg, "", keys));
-
-        keyIndex = new HashMap<>();
-        int idx = 0;
-        for (String key : keys) {
-            keyIndex.put(key, idx++);
-        }
-
-        // 배열 할당
-        int size = keys.size();
-        dataKO = new Component[size];
-        dataEN = new Component[size];
-        listKO = new Component[size][];
-        listEN = new Component[size][];
-        rawKO = new String[size];
-        rawEN = new String[size];
-
-        // 데이터 로드 및 Component 변환
-        for (Map.Entry<String, Integer> e : keyIndex.entrySet()) {
-            loadData("ko_KR", e.getKey(), e.getValue());
-            loadData("en_US", e.getKey(), e.getValue());
-        }
+    /**
+     * 번역 데이터 로드
+     */
+    private void loadTranslations() {
+        // 지원 언어별 번역 로드
+        loadLanguageTranslations(Locale.KOREAN, "ko_KR");
+        loadLanguageTranslations(Locale.ENGLISH, "en_US");
     }
 
-    private static void loadJson(String lang) {
-        JsonObject combined = new JsonObject();
+    /**
+     * 특정 언어의 번역 파일들을 로드
+     */
+    private void loadLanguageTranslations(Locale locale, String langCode) {
+        Map<String, MessageFormat> localeTranslations = translations.computeIfAbsent(locale, k -> new HashMap<>());
+        
         for (String section : SECTIONS) {
-            try (InputStream is = plugin.getResource("lang/" + lang + "/" + section + ".json")) {
+            try (InputStream is = plugin.getResource("lang/" + langCode + "/" + section + ".json")) {
                 if (is != null) {
                     JsonObject obj = gson.fromJson(new InputStreamReader(is, StandardCharsets.UTF_8), JsonObject.class);
-                    // 섹션 이름을 prefix로 사용하여 모든 키를 플랫하게 저장
-                    flattenJson(obj, section, combined);
+                    registerTranslations(obj, section, locale, localeTranslations);
                 }
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                plugin.getLogger()
+                        .warning("언어 파일 로드 실패: lang/" + langCode + "/" + section + ".json - " + e.getMessage());
             }
         }
-        configs.put(lang, combined);
     }
-    
-    private static void flattenJson(JsonObject source, String prefix, JsonObject target) {
+
+    /**
+     * JSON 객체를 재귀적으로 파싱하여 번역 등록
+     */
+    private void registerTranslations(JsonObject source, String prefix, Locale locale, Map<String, MessageFormat> localeTranslations) {
         for (Map.Entry<String, JsonElement> entry : source.entrySet()) {
             String key = prefix + "." + entry.getKey();
             JsonElement value = entry.getValue();
             
             if (value.isJsonObject()) {
                 // 중첩된 객체는 재귀적으로 처리
-                flattenJson(value.getAsJsonObject(), key, target);
+                registerTranslations(value.getAsJsonObject(), key, locale, localeTranslations);
+            } else if (value.isJsonArray()) {
+                // 배열의 경우 인덱스별로 등록
+                for (int i = 0; i < value.getAsJsonArray().size(); i++) {
+                    String indexKey = key + "[" + i + "]";
+                    String text = value.getAsJsonArray().get(i).getAsString();
+                    localeTranslations.put(indexKey, new MessageFormat(cleanColorCodes(text), locale));
+                }
             } else {
-                // 기본값이나 배열은 그대로 저장
-                target.add(key, value);
+                // 단일 문자열 등록
+                String text = value.getAsString();
+                localeTranslations.put(key, new MessageFormat(cleanColorCodes(text), locale));
             }
         }
     }
 
-    private static void collectKeys(@NotNull JsonObject obj, String prefix, Set<String> keys) {
-        for (Map.Entry<String, JsonElement> e : obj.entrySet()) {
-            // 이미 플랫하게 저장되어 있으므로 키를 그대로 추가
-            keys.add(e.getKey());
-        }
+    /**
+     * Translator 인터페이스 구현 - 이름
+     */
+    @Override
+    public @NotNull Key name() {
+        return Key.key("sypixelrpg", "translations");
     }
 
-    private static void loadData(String lang, String key, int idx) {
-        JsonElement elem = getJson(configs.get(lang), key);
-        if (elem == null) return;
-
-        boolean isKO = lang.equals("ko_KR");
-
-        if (elem.isJsonArray()) {
-            JsonArray arr = elem.getAsJsonArray();
-            Component[] list = new Component[arr.size()];
-            for (int i = 0; i < arr.size(); i++) {
-                String text = arr.get(i)
-                        .getAsString();
-                list[i] = parseComponent(text);
-                if (text.contains("{")) {
-                    if (isKO) rawKO[idx] = text;
-                    else rawEN[idx] = text;
+    /**
+     * Translator 인터페이스 구현 - 번역
+     */
+    @Override
+    public @Nullable MessageFormat translate(@NotNull String key, @NotNull Locale locale) {
+        Map<String, MessageFormat> localeTranslations = translations.get(locale);
+        if (localeTranslations != null) {
+            MessageFormat format = localeTranslations.get(key);
+            if (format != null) {
+                return format;
+            }
+        }
+        
+        // 정확한 로케일이 없으면 언어만 맞는 로케일 찾기
+        for (Map.Entry<Locale, Map<String, MessageFormat>> entry : translations.entrySet()) {
+            if (entry.getKey().getLanguage().equals(locale.getLanguage())) {
+                MessageFormat format = entry.getValue().get(key);
+                if (format != null) {
+                    return format;
                 }
             }
-            if (isKO) listKO[idx] = list;
-            else listEN[idx] = list;
-        } else {
-            String text = elem.getAsString();
-            Component comp = parseComponent(text);
-            if (text.contains("{")) {
-                if (isKO) rawKO[idx] = text;
-                else rawEN[idx] = text;
-            }
-            if (isKO) dataKO[idx] = comp;
-            else dataEN[idx] = comp;
         }
+        
+        // 기본 언어(영어)로 fallback
+        Map<String, MessageFormat> englishTranslations = translations.get(Locale.ENGLISH);
+        if (englishTranslations != null) {
+            return englishTranslations.get(key);
+        }
+        
+        return null;
     }
-
-    private static Component parseComponent(@NotNull String text) {
-        if (!text.contains("%COLOR_")) {
-            return Component.text(text);
-        }
-
-        TextComponent.Builder result = Component.text();
-        TextColor color = NamedTextColor.WHITE;
-        int pos = 0;
-
-        while (pos < text.length()) {
-            int start = text.indexOf("%COLOR_", pos);
-            if (start == -1) {
-                result.append(Component.text(text.substring(pos), color));
-                break;
-            }
-
-            if (start > pos) {
-                result.append(Component.text(text.substring(pos, start), color));
-            }
-
-            int end = text.indexOf('%', start + 7);
-            if (end == -1) break;
-
-            color = UnifiedColorUtil.fromName(text.substring(start + 7, end));
-            pos = end + 1;
-        }
-
-        return result.build();
-    }
-
-    // 플레이스홀더 처리 헬퍼 메서드
-    @Contract(pure = true)
-    private static String processPlaceholders(@NotNull String raw, String @NotNull ... args) {
-        if (args.length == 0) return raw;
-
-        String result = raw;
-        for (int i = 0; i < args.length; i += 2) {
-            if (i + 1 < args.length) {
-                result = result.replace("{" + args[i] + "}", args[i + 1]);
-            }
-        }
-        return result;
-    }
-
-    // ========== 핵심 Static Component 반환 메서드들 ==========
 
     /**
-     * Player 기반 메시지 가져오기
+     * 색상 코드 제거 (번역에서는 텍스트만, 색상은 코드에서 처리)
      */
-    @NotNull
-    public static Component getMessage(@NotNull Player player, @NotNull String key, String... args) {
-        Integer idx = keyIndex.get(key);
-        if (idx == null) {
-            plugin.getLogger().warning("Missing translation key: " + key);
-            return Component.text(key);
-        }
-
-        boolean ko = player.locale()
-                .getLanguage()
-                .equals("ko");
-
-        // 플레이스홀더 있으면 원본에서 처리
-        if (args.length > 0) {
-            String raw = ko ? rawKO[idx] : rawEN[idx];
-            if (raw != null) {
-                return parseComponent(processPlaceholders(raw, args));
-            }
-        }
-
-        // 이미 파싱된 Component 반환
-        Component data = ko ? dataKO[idx] : dataEN[idx];
-        if (data != null) return data;
-
-        Component[] list = ko ? listKO[idx] : listEN[idx];
-        return (list != null && list.length > 0) ? list[0] : Component.text(key);
+    private static String cleanColorCodes(String text) {
+        return text.replaceAll("%COLOR_[^%]+%", "");
     }
 
     /**
-     * Player 기반 리스트 가져오기
+     * TabComplete 자동완성 제안사항 로드
      */
-    @NotNull
-    public static List<Component> getList(@NotNull Player player, @NotNull String key) {
-        Integer idx = keyIndex.get(key);
-        if (idx == null) {
-            plugin.getLogger().warning("Missing translation key: " + key);
-            return List.of(Component.text(key));
-        }
+    private static void loadTabCompleteSuggestions() {
+        // 한국어 자동완성 제안
+        tabCompleteSuggestions.put(Locale.KOREAN, Arrays.asList("안녕하세요!", "ㅎㅇ", "뭐해?", "같이할래?", "넵", "ㅇㅋ", "ㄳ", "ㅅㄱ", "잠깐", "도와주세요"));
 
-        boolean ko = player.locale()
-                .getLanguage()
-                .equals("ko");
-        Component[] list = ko ? listKO[idx] : listEN[idx];
-
-        if (list != null) return Arrays.asList(list);
-
-        Component single = ko ? dataKO[idx] : dataEN[idx];
-        return single != null ? List.of(single) : List.of(Component.text(key));
+        // 영어 자동완성 제안
+        tabCompleteSuggestions.put(Locale.ENGLISH, Arrays.asList("Hello!", "Hi", "What's up?", "Want to join?", "Yes", "OK", "Thanks", "Wait", "Help me", "Sure"));
     }
 
     /**
-     * CommandSender용 메시지 가져오기 (콘솔 지원)
+     * 로케일별 TabComplete 자동완성 제안사항 반환
      */
-    @NotNull
-    public static Component getComponent(@NotNull CommandSender sender, @NotNull String key, String... args) {
-        if (sender instanceof Player player) return getMessage(player, key, args);
+    public static List<String> getTabCompleteSuggestions(@NotNull Player player) {
+        Locale locale = player.locale().getLanguage().equals("ko") ? Locale.KOREAN : Locale.ENGLISH;
+        return tabCompleteSuggestions.getOrDefault(locale, tabCompleteSuggestions.get(Locale.ENGLISH));
+    }
 
-        // 콘솔은 영어로 기본 처리
-        Integer idx = keyIndex.get(key);
-        if (idx == null) {
-            plugin.getLogger().warning("Missing translation key: " + key);
-            return Component.text(key);
-        }
-
-        // 플레이스홀더 처리
-        if (args.length > 0) {
-            String raw = rawEN[idx];
-            if (raw != null) return parseComponent(processPlaceholders(raw, args));
-        }
-
-        Component data = dataEN[idx];
-        if (data != null) return data;
-
-        Component[] list = listEN[idx];
-        return (list != null && list.length > 0) ? list[0] : Component.text(key);
+    /**
+     * Component.translatable을 일반 문자열로 변환 (AnvilGUI 등에서 사용)
+     */
+    public static String getPlainText(@NotNull String key, @NotNull Player player, Component... args) {
+        Component translatable = Component.translatable(key, args);
+        return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                .serialize(GlobalTranslator.render(translatable, player.locale()));
     }
 
 
-
     /**
-     * 리로드
+     * 리로드 - 번역 데이터 재로드
      */
     public static void reload() {
-        configs.clear();
-        loadLanguages();
-    }
-
-    // ========== 내부 헬퍼 메서드 ==========
-
-    private static @Nullable JsonElement getJson(JsonObject obj, @NotNull String path) {
-        // 이미 플랫하게 저장되어 있으므로 직접 키로 조회
-        return obj.get(path);
-    }
-
-    // ========== 추가 유틸리티 메서드 ==========
-
-    /**
-     * 플레이어에게 메시지 전송
-     */
-    public static void sendMessage(@NotNull Player player, @NotNull String key, String... args) {
-        player.sendMessage(getMessage(player, key, args));
-    }
-
-    /**
-     * CommandSender에게 메시지 전송
-     */
-    public static void sendMessage(@NotNull CommandSender sender, @NotNull String key, String... args) {
-        if (sender instanceof Player player) {
-            sendMessage(player, key, args);
-        } else {
-            sender.sendMessage(getComponent(sender, key, args));
+        if (instance != null) {
+            // 기존 번역 데이터 정리
+            instance.translations.clear();
+            tabCompleteSuggestions.clear();
+            
+            // 번역 데이터 재로드
+            instance.loadTranslations();
+            loadTabCompleteSuggestions();
+            
+            plugin.getLogger().info("번역 시스템이 리로드되었습니다.");
         }
     }
 
     /**
-     * Get plain text string from language key (static method)
-     *
-     * @param player player for locale
-     * @param key    language key
-     * @param args   arguments
-     * @return plain text string
+     * 종료 시 GlobalTranslator에서 제거
      */
-    public static @NotNull String getString(@NotNull Player player, @NotNull String key, String... args) {
-        Component comp = getMessage(player, key, args);
-        return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
-                .serialize(comp);
+    public static void shutdown() {
+        if (instance != null) {
+            GlobalTranslator.translator().removeSource(instance);
+            plugin.getLogger().info("번역 시스템이 종료되었습니다.");
+        }
     }
 }

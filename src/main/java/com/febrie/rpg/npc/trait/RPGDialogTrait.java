@@ -2,7 +2,6 @@ package com.febrie.rpg.npc.trait;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.util.UnifiedColorUtil;
-import com.febrie.rpg.util.LangManager;
 import net.citizensnpcs.api.persistence.Persist;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitName;

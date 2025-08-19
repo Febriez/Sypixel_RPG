@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
+import net.kyori.adventure.text.Component;
 /**
  * 플레이어 처치 퀘스트 목표
  * PvP 킬 카운트

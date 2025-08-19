@@ -10,7 +10,6 @@ import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -162,7 +161,7 @@ public class NotificationSettingsGui extends BaseGui {
                     settings.setWhisperNotificationsEnabled(!enabled);
                     updateWhisperNotificationsToggle(settings);
                     playClickSound(p);
-                    com.febrie.rpg.util.LangManager.sendMessage(p, "귓말 알림이 " + (settings.isWhisperNotificationsEnabled() ? "활성화" : "비활성화") + "되었습니다");
+                    p.sendMessage(Component.translatable("settings.whisper-notifications.toggled", Component.text(enabled ? "비활성화" : "활성화")));
                 }
         );
         setItem(WHISPER_NOTIFICATIONS_SLOT, whisperNotificationsToggle);
@@ -236,7 +235,7 @@ public class NotificationSettingsGui extends BaseGui {
                         default -> "알 수 없음";
                     };
                     
-                    com.febrie.rpg.util.LangManager.sendMessage(p, "초대 알림 모드가 '" + newModeDisplay + "'로 변경되었습니다");
+                    p.sendMessage(Component.translatable("settings.invite-notifications.changed", Component.text(newModeDisplay)));
                 }
         );
         setItem(INVITE_NOTIFICATIONS_SLOT, inviteNotificationsToggle);
@@ -270,7 +269,7 @@ public class NotificationSettingsGui extends BaseGui {
                     settings.setServerAnnouncementsEnabled(!enabled);
                     updateServerAnnouncementsToggle(settings);
                     playClickSound(p);
-                    com.febrie.rpg.util.LangManager.sendMessage(p, "서버 공지 알림이 " + (settings.isServerAnnouncementsEnabled() ? "활성화" : "비활성화") + "되었습니다");
+                    p.sendMessage(Component.translatable("settings.server-announcements.toggled", Component.text(enabled ? "비활성화" : "활성화")));
                 }
         );
         setItem(SERVER_ANNOUNCEMENTS_SLOT, serverAnnouncementsToggle);

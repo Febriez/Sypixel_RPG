@@ -8,7 +8,7 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.economy.CurrencyType;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -84,17 +84,17 @@ public class LightPaladinQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.branch.light_paladin.name");
+        return Component.translatable("quest.branch.light_paladin.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getList(who, "quest.branch.light_paladin.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.branch.light_paladin.description") manually */;
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.branch.light_paladin.objectives." + id);
+        return Component.translatable("quest.branch.light_paladin.objectives.");
     }
 }

@@ -1,10 +1,10 @@
 package com.febrie.rpg.command.admin.subcommand;
 
+import net.kyori.adventure.text.Component;
 import com.febrie.rpg.command.admin.subcommand.base.SubCommand;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.registry.QuestRegistry;
-import com.febrie.rpg.util.LangManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * 통계 명령어 처리
+ * Statistics command handler
  */
 public class StatsSubCommand implements SubCommand {
     
@@ -31,7 +31,7 @@ public class StatsSubCommand implements SubCommand {
     @Override
     @NotNull
     public String getDescription() {
-        return "서버 통계 정보 확인";
+        return "View server statistics";
     }
     
     @Override
@@ -54,23 +54,22 @@ public class StatsSubCommand implements SubCommand {
     
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String[] args) {
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.stats.title"));
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.stats.online-players", 
-                "count", String.valueOf(Bukkit.getOnlinePlayers().size())));
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.stats.loaded-players", 
-                "count", String.valueOf(playerManager.getAllPlayers().size())));
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.stats.registered-quests", 
-                "count", String.valueOf(QuestID.values().length)));
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.stats.implemented-quests", 
-                "count", String.valueOf(QuestRegistry.getImplementedCount())));
+        sender.sendMessage(Component.translatable("commands.admin.stats.title"));
+        sender.sendMessage(Component.translatable("commands.admin.stats.online-players", 
+                Component.text(Bukkit.getOnlinePlayers().size())));
+        sender.sendMessage(Component.translatable("commands.admin.stats.loaded-players", 
+                Component.text(playerManager.getAllPlayers().size())));
+        sender.sendMessage(Component.translatable("commands.admin.stats.registered-quests", 
+                Component.text(QuestID.values().length)));
+        sender.sendMessage(Component.translatable("commands.admin.stats.implemented-quests", 
+                Component.text(QuestRegistry.getImplementedCount())));
 
         // 메모리 사용량
         Runtime runtime = Runtime.getRuntime();
         long usedMemory = (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024;
         long maxMemory = runtime.maxMemory() / 1024 / 1024;
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.stats.memory-usage", 
-                "used", String.valueOf(usedMemory), 
-                "max", String.valueOf(maxMemory)));
+        sender.sendMessage(Component.translatable("commands.admin.stats.memory-usage", 
+                Component.text(usedMemory), Component.text(maxMemory)));
 
         return true;
     }

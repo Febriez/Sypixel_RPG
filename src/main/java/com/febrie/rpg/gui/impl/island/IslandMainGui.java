@@ -20,6 +20,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -84,7 +85,7 @@ public class IslandMainGui extends BaseGui {
      */
     public static IslandMainGui create(@NotNull GuiManager guiManager, @NotNull Player player) {
         IslandMainGui gui = new IslandMainGui(guiManager, player);
-        gui.initialize();
+        gui.setupLayout();
         return gui;
     }
 
@@ -274,44 +275,45 @@ public class IslandMainGui extends BaseGui {
             lore.add(trans("gui.island-main.color-change-hint").color(UnifiedColorUtil.AQUA));
         }
 
-        GuiItem.Builder itemBuilder = GuiItem.builder(StandardItemBuilder.guiItem(Material.GRASS_BLOCK)
-                .displayName(Component.text(island.core().islandName(), nameColor)).lore(lore).build());
+        ItemStack itemStack = StandardItemBuilder.guiItem(Material.GRASS_BLOCK)
+                .displayName(Component.text(island.core().islandName(), nameColor)).lore(lore).build();
 
         // 섬장이나 부섬장인 경우에만 클릭 이벤트 추가
         if (isOwner || isCoOwner) {
-            itemBuilder.onAnyClick((player, clickType) -> {
-                if (clickType == org.bukkit.event.inventory.ClickType.MIDDLE) {
-                    handleColorChange(player);
-                }
+            return GuiItem.clickable(itemStack, (player) -> {
+                handleColorChange(player);
             });
         }
 
-        return itemBuilder.build();
+        return GuiItem.of(itemStack);
     }
 
     /**
      * 섬 색상 변경 처리
      */
     private void handleColorChange(Player player) {
-        new AnvilGUI.Builder().onClose((completedPlayer, text) -> {
-                    String hexColor = text;
-                    // HEX 코드 유효성 검사
-                    if (!hexColor.matches("^#[0-9A-Fa-f]{6}$")) {
-                        player.sendMessage(trans("gui.island-main.hex-format-error").color(UnifiedColorUtil.ERROR));
-                        return AnvilGUI.Response.text("#RRGGBB");
-                    }
+        new AnvilGUI.Builder().onClick((slot, stateSnapshot) -> {
+            if (slot != AnvilGUI.Slot.OUTPUT) {
+                return java.util.Collections.emptyList();
+            }
+            String text = stateSnapshot.getText();
+            String hexColor = text;
+            // HEX 코드 유효성 검사
+            if (!hexColor.matches("^#[0-9A-Fa-f]{6}$")) {
+                player.sendMessage(trans("gui.island-main.hex-format-error").color(UnifiedColorUtil.ERROR));
+                return java.util.Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText("#RRGGBB"));
+            }
 
+            // 섬 설정 업데이트
+            IslandSettingsDTO newSettings = new IslandSettingsDTO(hexColor, island.configuration().settings()
+                    .biome(), island.configuration().settings().template());
 
-                    // 섬 설정 업데이트
-                    IslandSettingsDTO newSettings = new IslandSettingsDTO(hexColor, island.configuration().settings()
-                            .biome(), island.configuration().settings().template());
+            IslandDTO updated = GuiHandlerUtil.updateIslandSettings(island, newSettings);
+            islandManager.updateIsland(updated);
 
-                    IslandDTO updated = GuiHandlerUtil.updateIslandSettings(island, newSettings);
-                    islandManager.updateIsland(updated);
+            player.sendMessage(trans("gui.island-main.color-changed").color(UnifiedColorUtil.SUCCESS));
 
-                    player.sendMessage(trans("gui.island-main.color-changed").color(UnifiedColorUtil.SUCCESS));
-
-                    return AnvilGUI.Response.close();
+            return java.util.Collections.singletonList(AnvilGUI.ResponseAction.close());
                 }).onClose(closePlayer -> {
                     // GUI 다시 열기
                     Bukkit.getScheduler().runTaskLater(RPGMain.getInstance(), () -> IslandMainGui.create(guiManager, viewer)

@@ -147,9 +147,9 @@ public class DialogManager {
             QuestDialog.DialogLine currentLine = dialog.getLine(progress.currentLineIndex);
             if (currentLine != null && currentLine.hasChoices()) {
                 for (QuestDialog.DialogChoice choice : currentLine.getChoices()) {
-                    if (choice.getId().equals(choiceId)) {
+                    if (choice.id().equals(choiceId)) {
                         // 선택에 따른 다음 대화 인덱스로 이동
-                        progress.currentLineIndex = choice.getNextLineIndex();
+                        progress.currentLineIndex = choice.nextLineIndex();
                         showDialogLine(player, dialog, progress);
                         return;
                     }

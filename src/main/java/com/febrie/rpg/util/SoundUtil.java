@@ -4,6 +4,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import net.kyori.adventure.text.Component;
 /**
  * 사운드 재생 유틸리티
  * GuiService에서 분리
@@ -38,7 +39,7 @@ public class SoundUtil {
      * 레버 사운드 재생 (볼륨 조절)
      */
     public static void playLeverSound(@NotNull Player player, float volume) {
-        playSound(player, Sound.BLOCK_LEVER_CLICK, volume, 1.2f);
+        sound(Sound.BLOCK_LEVER_CLICK).volume(volume).pitch(1.2f).play(player);
     }
     
     /**
@@ -59,7 +60,7 @@ public class SoundUtil {
      * 성공 사운드 재생 (볼륨 조절)
      */
     public static void playSuccessSound(@NotNull Player player, float volume) {
-        playSound(player, Sound.ENTITY_PLAYER_LEVELUP, volume);
+        sound(Sound.ENTITY_PLAYER_LEVELUP).volume(volume).play(player);
     }
 
     /**
@@ -73,7 +74,7 @@ public class SoundUtil {
      * 에러 사운드 재생 (볼륨 조절)
      */
     public static void playErrorSound(@NotNull Player player, float volume) {
-        playSound(player, Sound.ENTITY_VILLAGER_NO, volume);
+        sound(Sound.ENTITY_VILLAGER_NO).volume(volume).play(player);
     }
 
     /**
@@ -108,7 +109,7 @@ public class SoundUtil {
      * GUI 열기 사운드 재생 (볼륨 조절)
      */
     public static void playOpenSound(@NotNull Player player, float volume) {
-        playSound(player, Sound.BLOCK_CHEST_OPEN, volume);
+        sound(Sound.BLOCK_CHEST_OPEN).volume(volume).play(player);
     }
 
     /**
@@ -122,11 +123,18 @@ public class SoundUtil {
      * GUI 닫기 사운드 재생 (볼륨 조절)
      */
     public static void playCloseSound(@NotNull Player player, float volume) {
-        playSound(player, Sound.BLOCK_CHEST_CLOSE, volume);
+        sound(Sound.BLOCK_CHEST_CLOSE).volume(volume).play(player);
     }
 
     /**
-     * 커스텀 사운드 재생
+     * 사운드 빌더 생성
+     */
+    public static SoundBuilder sound(@NotNull Sound sound) {
+        return new SoundBuilder(sound);
+    }
+
+    /**
+     * 커스텀 사운드 재생 (기본값)
      */
     public static void playSound(@NotNull Player player, @NotNull Sound sound) {
         playSound(player, sound, DEFAULT_VOLUME, DEFAULT_PITCH);
@@ -144,6 +152,33 @@ public class SoundUtil {
      */
     public static void playSound(@NotNull Player player, @NotNull Sound sound, float volume, float pitch) {
         player.playSound(player.getLocation(), sound, volume, pitch);
+    }
+
+    /**
+     * 사운드 빌더 클래스
+     */
+    public static class SoundBuilder {
+        private final Sound sound;
+        private float volume = DEFAULT_VOLUME;
+        private float pitch = DEFAULT_PITCH;
+
+        private SoundBuilder(@NotNull Sound sound) {
+            this.sound = sound;
+        }
+
+        public SoundBuilder volume(float volume) {
+            this.volume = volume;
+            return this;
+        }
+
+        public SoundBuilder pitch(float pitch) {
+            this.pitch = pitch;
+            return this;
+        }
+
+        public void play(@NotNull Player player) {
+            playSound(player, sound, volume, pitch);
+        }
     }
     
     /**

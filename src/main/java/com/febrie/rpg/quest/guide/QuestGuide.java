@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import net.kyori.adventure.text.Component;
 /**
  * 개별 플레이어의 퀘스트 가이드 정보
  *

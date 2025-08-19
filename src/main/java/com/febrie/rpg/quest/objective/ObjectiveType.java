@@ -3,6 +3,7 @@ package com.febrie.rpg.quest.objective;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 
+import net.kyori.adventure.text.Component;
 /**
  * 퀘스트 목표 타입 열거형
  * 지원하는 모든 목표 유형을 정의

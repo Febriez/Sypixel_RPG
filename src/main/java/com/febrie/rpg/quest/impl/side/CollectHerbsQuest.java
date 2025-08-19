@@ -10,7 +10,7 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import java.util.List;
 /**
  * 약초 수집 - 사이드 퀘스트
  * 연금술사를 위해 특정 약초들을 수집
@@ -84,18 +85,18 @@ public class CollectHerbsQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.side.collect_herbs.name");
+        return Component.translatable("quest.side.collect_herbs.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getList(who, "quest.side.collect_herbs.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.side.collect_herbs.description") manually */;
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.side.collect_herbs.objectives." + id);
+        return Component.translatable("quest.side.collect_herbs.objectives.");
     }
 
     public QuestDialog getDialog() {

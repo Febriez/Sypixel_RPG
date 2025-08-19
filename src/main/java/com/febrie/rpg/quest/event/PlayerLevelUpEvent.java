@@ -5,6 +5,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
+import net.kyori.adventure.text.Component;
 /**
  * 플레이어 레벨업 이벤트
  * RPG 시스템에서 레벨이 오를 때 발생

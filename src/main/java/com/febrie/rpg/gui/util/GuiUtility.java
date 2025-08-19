@@ -7,7 +7,6 @@ import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.talent.Talent;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -95,13 +94,12 @@ public class GuiUtility {
      * 플레이어 머리 아이템 생성
      */
     @NotNull
-    public static ItemStack createPlayerHead(@NotNull Player player, @NotNull com.febrie.rpg.util.LangManager langManager) {
+    public static ItemStack createPlayerHead(@NotNull Player player) {
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) head.getItemMeta();
 
         meta.setOwningPlayer(player);
-        meta.displayName(com.febrie.rpg.util.LangManager.getMessage(player, "gui.profile.player-info.name",
-                "player", player.getName()));
+        meta.displayName(Component.translatable("gui.profile.player-info.name", Component.text(player.getName())));
 
         head.setItemMeta(meta);
         return head;
@@ -111,8 +109,7 @@ public class GuiUtility {
      * 스탯 정보 아이템 생성
      */
     @NotNull
-    public static GuiItem createStatItem(@NotNull RPGPlayer rpgPlayer, @NotNull Stat stat,
-                                         @NotNull com.febrie.rpg.util.LangManager langManager) {
+    public static GuiItem createStatItem(@NotNull RPGPlayer rpgPlayer, @NotNull Stat stat) {
         Player player = rpgPlayer.getPlayer();
         if (player == null) {
             return GuiItem.display(new ItemStack(Material.BARRIER));
@@ -122,12 +119,13 @@ public class GuiUtility {
         int bonus = rpgPlayer.getStats().getBonusStat(stat);
 
         ItemBuilder builder = ItemBuilder.of(stat.getIcon())
-                .displayName(com.febrie.rpg.util.LangManager.getMessage(player, "stat." + stat.getId().toLowerCase() + ".name"))
+                .displayName(Component.translatable("stat." + stat.getId().toLowerCase() + ".name"))
                 .flags(ItemFlag.values());
 
         // 설명 추가
         List<Component> lore = new ArrayList<>();
-        lore.addAll(com.febrie.rpg.util.LangManager.getList(player, "stat." + stat.getId().toLowerCase() + ".description"));
+        // Description from translation key
+        lore.add(Component.translatable("stat." + stat.getId().toLowerCase() + ".description"));
 
         // 현재 값 표시
         lore.add(Component.empty());
@@ -153,8 +151,7 @@ public class GuiUtility {
      * 특성 아이템 생성
      */
     @NotNull
-    public static GuiItem createTalentItem(@NotNull Talent talent, @NotNull RPGPlayer rpgPlayer,
-                                           @NotNull com.febrie.rpg.util.LangManager langManager) {
+    public static GuiItem createTalentItem(@NotNull Talent talent, @NotNull RPGPlayer rpgPlayer) {
         Player player = rpgPlayer.getPlayer();
         if (player == null) {
             return GuiItem.display(new ItemStack(Material.BARRIER));
@@ -166,12 +163,13 @@ public class GuiUtility {
 
         Material material = talent.getIcon();
         ItemBuilder builder = ItemBuilder.of(material)
-                .displayName(com.febrie.rpg.util.LangManager.getMessage(player, "talent." + talent.getId() + ".name"))
+                .displayName(Component.translatable("talent." + talent.getId() + ".name"))
                 .flags(ItemFlag.values());
 
         // 설명 추가
         List<Component> lore = new ArrayList<>();
-        lore.addAll(com.febrie.rpg.util.LangManager.getList(player, "talent." + talent.getId() + ".description"));
+        // Description from translation key
+        lore.add(Component.translatable("talent." + talent.getId() + ".description"));
 
         // 현재 레벨 표시
         lore.add(Component.empty());
@@ -206,7 +204,7 @@ public class GuiUtility {
                 int playerLevel = rpgPlayer.getTalents().getTalentLevel(prereqTalent);
                 boolean meets = playerLevel >= requiredLevel;
 
-                Component prereqName = com.febrie.rpg.util.LangManager.getMessage(player, "talent." + prereqTalent.getId() + ".name");
+                Component prereqName = Component.translatable("talent." + prereqTalent.getId() + ".name");
                 lore.add(Component.text("• ")
                         .append(prereqName)
                         .append(Component.text(" Lv." + requiredLevel))
@@ -235,22 +233,22 @@ public class GuiUtility {
      */
     @NotNull
     public static GuiItem createJobItem(@NotNull JobSelectionGui gui, @NotNull String jobKey,
-                                        @NotNull Material material, @NotNull com.febrie.rpg.util.LangManager langManager,
+                                        @NotNull Material material,
                                         @NotNull Player player, @NotNull RPGPlayerManager playerManager) {
         ItemBuilder builder = ItemBuilder.of(material)
-                .displayName(com.febrie.rpg.util.LangManager.getMessage(player, "job." + jobKey + ".name"))
+                .displayName(Component.translatable("job."))
                 .flags(ItemFlag.values());
 
         List<Component> lore = new ArrayList<>();
-        lore.addAll(com.febrie.rpg.util.LangManager.getList(player, "job." + jobKey + ".description"));
+        // Description from translation key
+        lore.add(Component.translatable("job." + jobKey + ".description"));
 
         return GuiItem.clickable(
                 builder.lore(lore).build(),
                 clickPlayer -> {
                     // 직업 선택 로직
                     SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK);
-                    com.febrie.rpg.util.LangManager.sendMessage(clickPlayer, "job.selected", "job",
-                            net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(com.febrie.rpg.util.LangManager.getComponent(clickPlayer, "job." + jobKey + ".name")));
+                    clickPlayer.sendMessage(Component.translatable("job.selected"));
                 }
         );
     }
@@ -259,33 +257,33 @@ public class GuiUtility {
      * 네비게이션 버튼 생성
      */
     @NotNull
-    public static GuiItem createBackButton(@NotNull com.febrie.rpg.util.LangManager langManager, @NotNull Player player) {
+    public static GuiItem createBackButton(@NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.ARROW)
-                        .displayName(com.febrie.rpg.util.LangManager.getMessage(player, "gui.buttons.back.name"))
-                        .addLore(com.febrie.rpg.util.LangManager.getMessage(player, "gui.buttons.back.lore"))
+                        .displayName(Component.translatable("gui.buttons.back.name"))
+                        .addLore(Component.translatable("gui.buttons.back.lore"))
                         .build(),
                 clickPlayer -> SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK)
         );
     }
 
     @NotNull
-    public static GuiItem createRefreshButton(@NotNull com.febrie.rpg.util.LangManager langManager, @NotNull Player player) {
+    public static GuiItem createRefreshButton(@NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.EMERALD)
-                        .displayName(com.febrie.rpg.util.LangManager.getMessage(player, "gui.buttons.refresh.name"))
-                        .addLore(com.febrie.rpg.util.LangManager.getMessage(player, "gui.buttons.refresh.lore"))
+                        .displayName(Component.translatable("gui.buttons.refresh.name"))
+                        .addLore(Component.translatable("gui.buttons.refresh.lore"))
                         .build(),
                 clickPlayer -> SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK)
         );
     }
 
     @NotNull
-    public static GuiItem createCloseButton(@NotNull com.febrie.rpg.util.LangManager langManager, @NotNull Player player) {
+    public static GuiItem createCloseButton(@NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.BARRIER)
-                        .displayName(com.febrie.rpg.util.LangManager.getMessage(player, "gui.buttons.close.name"))
-                        .addLore(com.febrie.rpg.util.LangManager.getMessage(player, "gui.buttons.close.lore"))
+                        .displayName(Component.translatable("gui.buttons.close.name"))
+                        .addLore(Component.translatable("gui.buttons.close.lore"))
                         .build(),
                 clickPlayer -> {
                     SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK);

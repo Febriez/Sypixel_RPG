@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
+import net.kyori.adventure.text.Component;
 /**
  * Utility class for creating skull items
  *

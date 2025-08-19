@@ -11,7 +11,7 @@ import com.febrie.rpg.quest.objective.impl.CraftItemObjective;
 import com.febrie.rpg.quest.objective.impl.DeliverItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -92,12 +92,12 @@ public class PathOfLightQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.path_of_light.name");
+        return Component.translatable("quest.main.path_of_light.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getList(who, "quest.main.path_of_light.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.main.path_of_light.description") manually */;
     }
 
     @Override
@@ -105,11 +105,11 @@ public class PathOfLightQuest extends Quest {
         String id = objective.getId();
 
         return switch (id) {
-            case "purify_undead_zombie" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.path_of_light.objectives.purify_undead_zombie");
-            case "purify_undead_skeleton" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.path_of_light.objectives.purify_undead_skeleton");
-            case "purify_undead_phantom" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.path_of_light.objectives.purify_undead_phantom");
-            case "craft_golden_apple" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.path_of_light.objectives.craft_golden_apple");
-            case "help_villagers" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.path_of_light.objectives.help_villagers");
+            case "purify_undead_zombie" -> Component.translatable("quest.main.path_of_light.objectives.purify_undead_zombie");
+            case "purify_undead_skeleton" -> Component.translatable("quest.main.path_of_light.objectives.purify_undead_skeleton");
+            case "purify_undead_phantom" -> Component.translatable("quest.main.path_of_light.objectives.purify_undead_phantom");
+            case "craft_golden_apple" -> Component.translatable("quest.main.path_of_light.objectives.craft_golden_apple");
+            case "help_villagers" -> Component.translatable("quest.main.path_of_light.objectives.help_villagers");
             default -> Component.text(objective.getStatusInfo(null));
         };
     }

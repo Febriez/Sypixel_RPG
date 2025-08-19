@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+import net.kyori.adventure.text.Component;
 /**
  * A* 알고리즘을 사용한 길찾기 유틸리티
  *

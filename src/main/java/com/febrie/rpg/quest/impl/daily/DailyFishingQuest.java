@@ -9,7 +9,7 @@ import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.FishingObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import java.util.List;
 /**
  * 일일 낚시 - 일일 퀘스트
  * 매일 일정량의 물고기를 낚는 퀘스트
@@ -80,18 +81,18 @@ public class DailyFishingQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.daily.fishing.name");
+        return Component.translatable("quest.daily.fishing.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getList(who, "quest.daily.fishing.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.daily.fishing.description") manually */;
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String key = "quest.daily.fishing.objectives." + objective.getId();
-        return com.febrie.rpg.util.LangManager.getMessage(who, key);
+        return Component.translatable(key);
     }
 
     public QuestDialog getDialog() {

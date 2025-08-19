@@ -10,7 +10,6 @@ import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -161,9 +160,9 @@ public class SocialSettingsGui extends BaseGui {
                     updateFriendRequestsToggle(settings);
                     playClickSound(p);
                     if (settings.isFriendRequestsEnabled()) {
-                        com.febrie.rpg.util.LangManager.sendMessage(p, "settings.social.friend-requests-enabled");
+                        p.sendMessage(Component.translatable("settings.social.friend-requests-enabled"));
                     } else {
-                        com.febrie.rpg.util.LangManager.sendMessage(p, "settings.social.friend-requests-disabled");
+                        p.sendMessage(Component.translatable("settings.social.friend-requests-disabled"));
                     }
                 }
         );
@@ -196,9 +195,9 @@ public class SocialSettingsGui extends BaseGui {
                     updateGuildInvitesToggle(settings);
                     playClickSound(p);
                     if (settings.isGuildInvitesEnabled()) {
-                        com.febrie.rpg.util.LangManager.sendMessage(p, "settings.social.guild-invites-enabled");
+                        p.sendMessage(Component.translatable("settings.social.guild-invites-enabled"));
                     } else {
-                        com.febrie.rpg.util.LangManager.sendMessage(p, "settings.social.guild-invites-disabled");
+                        p.sendMessage(Component.translatable("settings.social.guild-invites-disabled"));
                     }
                 }
         );
@@ -264,7 +263,7 @@ public class SocialSettingsGui extends BaseGui {
                         default -> "알 수 없음";
                     };
                     
-                    com.febrie.rpg.util.LangManager.sendMessage(p, "귓말 모드가 '" + newModeDisplay + "'로 변경되었습니다");
+                    p.sendMessage(Component.translatable("settings.whisper-mode.changed", Component.text(newModeDisplay)));
                 }
         );
         setItem(WHISPER_MODE_SLOT, whisperModeToggle);

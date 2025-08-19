@@ -28,6 +28,8 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
+import net.kyori.adventure.text.Component;
+import java.util.List;
 /**
  * 퀘스트 진행도 처리를 중앙화한 서비스
  * 모든 14개 목표 타입의 진행도 업데이트를 통합 관리

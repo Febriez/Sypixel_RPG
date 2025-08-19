@@ -6,7 +6,6 @@ import com.febrie.rpg.gui.impl.island.IslandMainGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
-import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -37,7 +36,7 @@ public class IslandCommand implements CommandExecutor {
                            @NotNull String label, @NotNull String[] args) {
         
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(LangManager.getComponent(sender, "commands.island.player-only"));
+            sender.sendMessage(Component.translatable("commands.island.player-only"));
             return true;
         }
         
@@ -61,21 +60,21 @@ public class IslandCommand implements CommandExecutor {
      */
     private void showNoIslandMessage(@NotNull Player player) {
         player.sendMessage(Component.text(""));
-        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.title"));
+        player.sendMessage(Component.translatable("commands.island.no-island.title"));
         player.sendMessage(Component.text(""));
-        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.message"));
+        player.sendMessage(Component.translatable("commands.island.no-island.message"));
         player.sendMessage(Component.text(""));
-        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.benefits-title"));
-        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.benefit-1"));
-        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.benefit-2"));
-        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.benefit-3"));
-        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.benefit-4"));
+        player.sendMessage(Component.translatable("commands.island.no-island.benefits-title"));
+        player.sendMessage(Component.translatable("commands.island.no-island.benefit-1"));
+        player.sendMessage(Component.translatable("commands.island.no-island.benefit-2"));
+        player.sendMessage(Component.translatable("commands.island.no-island.benefit-3"));
+        player.sendMessage(Component.translatable("commands.island.no-island.benefit-4"));
         player.sendMessage(Component.text(""));
-        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.how-to-title"));
-        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.how-to-1"));
-        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.how-to-2"));
+        player.sendMessage(Component.translatable("commands.island.no-island.how-to-title"));
+        player.sendMessage(Component.translatable("commands.island.no-island.how-to-1"));
+        player.sendMessage(Component.translatable("commands.island.no-island.how-to-2"));
         player.sendMessage(Component.text(""));
-        player.sendMessage(LangManager.getMessage(player, "commands.island.no-island.divider"));
+        player.sendMessage(Component.translatable("commands.island.no-island.divider"));
     }
     
     /**

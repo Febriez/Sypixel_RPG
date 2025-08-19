@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import net.kyori.adventure.text.Component;
 /**
  * 생존 퀘스트 목표
  * 특정 시간 동안 또는 특정 조건에서 생존

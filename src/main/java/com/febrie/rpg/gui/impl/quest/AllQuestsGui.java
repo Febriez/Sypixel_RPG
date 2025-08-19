@@ -14,7 +14,6 @@ import com.febrie.rpg.dto.quest.ActiveQuestDTO;
 import com.febrie.rpg.dto.quest.CompletedQuestDTO;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -184,7 +183,7 @@ public class AllQuestsGui extends BaseGui {
                     .filter(ObjectiveProgress::isCompleted)
                     .count();
             int total = quest.getObjectives().size();
-            Component progressText = com.febrie.rpg.util.LangManager.getMessage(viewer, "quest.progress");
+            Component progressText = Component.translatable("quest.progress");
             builder.addLore(progressText.append(Component.text(": " + completed + "/" + total)).color(UnifiedColorUtil.YELLOW));
         }
         

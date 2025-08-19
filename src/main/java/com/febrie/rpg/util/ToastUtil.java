@@ -8,7 +8,6 @@ import com.febrie.rpg.quest.progress.QuestProgress;
 import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementDisplay;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
-import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
@@ -55,7 +54,7 @@ public class ToastUtil {
         // 전체 진행률
         int percentage = progress.getCompletionPercentage();
         progressInfo.add("");
-        Component progressComp = LangManager.getMessage(player, "quest.total-progress");
+        Component progressComp = Component.translatable("quest.total-progress");
         String progressText = PlainTextComponentSerializer.plainText().serialize(progressComp);
         progressInfo.add(String.format("%s: %d%%", progressText, percentage));
 
@@ -79,7 +78,7 @@ public class ToastUtil {
         String objectiveDesc = PlainTextComponentSerializer.plainText().serialize(objectiveDescComp);
 
         // Toast 표시 - 제목: 퀘스트 이름, 내용: 목표 완료 메시지
-        Component achievedComp = LangManager.getMessage(player, "quest.objective-achieved");
+        Component achievedComp = Component.translatable("quest.objective-achieved");
         String achievedText = PlainTextComponentSerializer.plainText().serialize(achievedComp);
         AdvancementDisplay display = new AdvancementDisplay.Builder(Material.EMERALD, questName).description(objectiveDesc + achievedText).frame(AdvancementFrameType.TASK).defaultColor(net.md_5.bungee.api.ChatColor.GREEN).build();
 
@@ -95,7 +94,7 @@ public class ToastUtil {
     public static void showQuestCompleteToast(@NotNull Player player, @NotNull Quest quest) {
         Component questNameComp = quest.getDisplayName(player);
         String questName = PlainTextComponentSerializer.plainText().serialize(questNameComp);
-        Component descComp = LangManager.getMessage(player, "quest.quest-completed-toast");
+        Component descComp = Component.translatable("quest.quest-completed-toast");
         String description = PlainTextComponentSerializer.plainText().serialize(descComp);
 
         // Toast 표시

@@ -10,7 +10,7 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.DeliverItemObjective;
 import com.febrie.rpg.quest.objective.impl.HarvestObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import java.util.List;
 /**
  * 농부의 부탁 - 사이드 퀘스트
  * 농부를 도와 농작물을 수확하고 전달
@@ -91,18 +92,18 @@ public class FarmersRequestQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.side.farmers_request.name");
+        return Component.translatable("quest.side.farmers_request.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getList(who, "quest.side.farmers_request.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.side.farmers_request.description") manually */;
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.side.farmers_request.objectives." + id);
+        return Component.translatable("quest.side.farmers_request.objectives.");
     }
 
     public QuestDialog getDialog() {

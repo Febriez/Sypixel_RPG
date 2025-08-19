@@ -9,124 +9,124 @@
     "cancel": "취소",
     "settings": "설정",
     "unknown": "알 수 없음",
-    "page": "%COLOR_GRAY%페이지 {current}/{max}"
+    "page": "페이지 {1}/{2}"
   },
   "mainmenu": {
     "title": "메인 메뉴"
   },
   "profile": {
-    "title": "{player}님의 프로필",
-    "player-title": "{player}님의 프로필",
-    "viewing": "%COLOR_GRAY%{player}님의 프로필을 보는 중",
-    "level": "%COLOR_WHITE%레벨: %COLOR_YELLOW%{level}",
-    "level-info": "%COLOR_YELLOW%레벨 정보",
-    "experience": "%COLOR_WHITE%경험치: %COLOR_GREEN%{exp}",
-    "exp": "%COLOR_WHITE%경험치: %COLOR_GREEN%{current}/{max}",
-    "exp-percent": "%COLOR_GRAY%({percent}%)",
-    "job": "%COLOR_WHITE%직업: %COLOR_INFO%{job}",
-    "no-job": "%COLOR_GRAY%직업 없음",
-    "current-job": "%COLOR_WHITE%현재 직업",
-    "job-level": "%COLOR_WHITE%직업 레벨: %COLOR_YELLOW%{level}",
-    "combat-power": "%COLOR_WHITE%전투력: %COLOR_LEGENDARY%{power}",
-    "click-to-talents": "%COLOR_YELLOW%클릭하여 특성 보기",
-    "gold": "%COLOR_WHITE%골드: %COLOR_GOLD%{amount}",
-    "playtime": "%COLOR_WHITE%플레이 시간: %COLOR_AQUA%{time}",
-    "join-date": "%COLOR_WHITE%가입일: %COLOR_GRAY%{date}",
-    "last-seen": "%COLOR_WHITE%마지막 접속: %COLOR_GRAY%{date}",
-    "stats": "%COLOR_YELLOW%▸ 스탯 정보",
-    "talents": "%COLOR_YELLOW%▸ 특성",
-    "click-for-talents": "%COLOR_YELLOW%▶ 클릭하여 특성 페이지로 이동",
-    "click-for-stats": "%COLOR_YELLOW%▶ 클릭하여 스탯 페이지로 이동",
-    "online-status": "%COLOR_WHITE%현재 상태: {status}",
-    "gamemode": "%COLOR_WHITE%게임모드: %COLOR_GRAY%{mode}",
-    "location": "%COLOR_WHITE%위치: %COLOR_GRAY%{world} ({x}, {y}, {z})",
-    "health": "%COLOR_WHITE%체력: %COLOR_RED%{current}/{max}",
-    "health-info": "%COLOR_RED%체력 정보",
-    "food-info": "%COLOR_ORANGE%배고픔 정보",
-    "food-level": "%COLOR_WHITE%배고픔: %COLOR_ORANGE%{level}/20",
-    "saturation": "%COLOR_WHITE%포만감: %COLOR_YELLOW%{saturation}",
-    "game-info": "%COLOR_INFO%게임 정보",
-    "world": "%COLOR_WHITE%월드: %COLOR_GRAY%{world}",
-    "hunger": "%COLOR_WHITE%배고픔: %COLOR_ORANGE%{current}/{max}",
-    "flight": "%COLOR_WHITE%비행: {status}",
-    "currency-info": "%COLOR_YELLOW%▸ 재화 정보",
-    "game-stats": "%COLOR_LEGENDARY%게임 통계",
-    "mob-kills": "%COLOR_WHITE%몹 처치 수: %COLOR_RED%{kills}",
+    "title": "{0}님의 프로필",
+    "player-title": "{0}님의 프로필",
+    "viewing": "{0}님의 프로필을 보는 중",
+    "level": "레벨: {1}",
+    "level-info": "레벨 정보",
+    "experience": "경험치: {1}",
+    "exp": "경험치: {1}/{2}",
+    "exp-percent": "({2}%)",
+    "job": "직업: {1}",
+    "no-job": "직업 없음",
+    "current-job": "현재 직업",
+    "job-level": "직업 레벨: {1}",
+    "combat-power": "전투력: {2}",
+    "click-to-talents": "클릭하여 특성 보기",
+    "gold": "골드: {1}",
+    "playtime": "플레이 시간: {2}",
+    "join-date": "가입일: {2}",
+    "last-seen": "마지막 접속: {2}",
+    "stats": "▸ 스탯 정보",
+    "talents": "▸ 특성",
+    "click-for-talents": "▶ 클릭하여 특성 페이지로 이동",
+    "click-for-stats": "▶ 클릭하여 스탯 페이지로 이동",
+    "online-status": "현재 상태: {1}",
+    "gamemode": "게임모드: {3}",
+    "location": "위치: {3} ({3}, {4}, {5})",
+    "health": "체력: {1}/{2}",
+    "health-info": "체력 정보",
+    "food-info": "배고픔 정보",
+    "food-level": "배고픔: {1}/20",
+    "saturation": "포만감: {2}",
+    "game-info": "게임 정보",
+    "world": "월드: {3}",
+    "hunger": "배고픔: {1}/{2}",
+    "flight": "비행: {1}",
+    "currency-info": "▸ 재화 정보",
+    "game-stats": "게임 통계",
+    "mob-kills": "몹 처치 수: {kills}",
     "player-info": {
-      "name": "%COLOR_LEGENDARY%{player}"
+      "name": "{0}"
     },
-    "quest-info": "%COLOR_UNCOMMON%퀘스트 정보",
-    "active-quests": "%COLOR_WHITE%진행 중: %COLOR_YELLOW%{count}개",
-    "completed-quests": "%COLOR_WHITE%완료: %COLOR_SUCCESS%{count}개",
-    "click-for-quests": "%COLOR_YELLOW%▶ 클릭하여 퀘스트 목록 보기"
+    "quest-info": "퀘스트 정보",
+    "active-quests": "진행 중: {1}개",
+    "completed-quests": "완료: {1}개",
+    "click-for-quests": "▶ 클릭하여 퀘스트 목록 보기"
   },
   "job-selection": {
     "title": "직업 선택",
-    "choose-wisely": "%COLOR_WARNING%신중하게 선택하세요!",
-    "current-job": "%COLOR_WHITE%현재 직업: %COLOR_INFO%{job}",
-    "no-current-job": "%COLOR_GRAY%아직 직업이 없습니다",
-    "tab-selected": "%COLOR_SUCCESS%▶ 현재 선택됨",
-    "tab-click": "%COLOR_YELLOW%▶ 클릭하여 보기",
-    "confirm-selection": "%COLOR_SUCCESS%이 직업을 선택하시겠습니까?",
-    "already-selected": "%COLOR_ERROR%이미 직업을 선택했습니다!",
-    "job-categories": "%COLOR_YELLOW%직업 카테고리",
-    "jobs-in-category": "%COLOR_WHITE%{category} 직업군",
-    "back-to-categories": "%COLOR_GRAY%카테고리로 돌아가기",
-    "info": "%COLOR_INFO%정보",
-    "click-to-select": "%COLOR_YELLOW%▶ 클릭하여 카테고리 선택",
-    "category-suffix": " %COLOR_GRAY%카테고리",
-    "max-level": "%COLOR_INFO%최대 레벨: %COLOR_YELLOW%{level}",
-    "warning": "%COLOR_ERROR%⚠ 주의: 직업은 한 번 선택하면 변경할 수 없습니다!",
-    "click-to-choose": "%COLOR_SUCCESS%▶ 클릭하여 이 직업 선택",
-    "selected": "%COLOR_SUCCESS%▶ 선택됨"
+    "choose-wisely": "신중하게 선택하세요!",
+    "current-job": "현재 직업: {1}",
+    "no-current-job": "아직 직업이 없습니다",
+    "tab-selected": "▶ 현재 선택됨",
+    "tab-click": "▶ 클릭하여 보기",
+    "confirm-selection": "이 직업을 선택하시겠습니까?",
+    "already-selected": "이미 직업을 선택했습니다!",
+    "job-categories": "직업 카테고리",
+    "jobs-in-category": "{category} 직업군",
+    "back-to-categories": "카테고리로 돌아가기",
+    "info": "정보",
+    "click-to-select": "▶ 클릭하여 카테고리 선택",
+    "category-suffix": "카테고리",
+    "max-level": "최대 레벨: {1}",
+    "warning": "⚠ 주의: 직업은 한 번 선택하면 변경할 수 없습니다!",
+    "click-to-choose": "▶ 클릭하여 이 직업 선택",
+    "selected": "▶ 선택됨"
   },
   "job-confirmation": {
     "title": "직업 선택 확인",
-    "selected-job": "%COLOR_WHITE%선택한 직업:",
-    "max-level": "%COLOR_INFO%최대 레벨: %COLOR_YELLOW%{level}",
-    "warning": "%COLOR_ERROR%⚠ 경고: 정말로 신중하게 선택하세요!",
-    "cannot-change": "%COLOR_ERROR%⚠ 한 번 선택하면 변경할 수 없습니다!",
-    "warning-title": "%COLOR_ERROR%⚠ 주의사항",
-    "warning-description": "%COLOR_YELLOW%직업은 영구적인 선택입니다!",
-    "confirm": "%COLOR_SUCCESS%확인",
-    "confirm-description": "%COLOR_WHITE%{job} 직업을 선택합니다",
-    "click-to-confirm": "%COLOR_GREEN%▶ 클릭하여 확인",
-    "cancel": "%COLOR_ERROR%취소",
-    "cancel-description": "%COLOR_WHITE%직업 선택을 취소합니다",
-    "click-to-cancel": "%COLOR_RED%▶ 클릭하여 취소",
-    "info-title": "%COLOR_INFO%안내사항",
-    "info-line1": "%COLOR_WHITE%• 직업은 캐릭터의 성장 방향을 결정합니다",
-    "info-line2": "%COLOR_WHITE%• 각 직업마다 고유한 스킬과 특성이 있습니다",
-    "info-line3": "%COLOR_WHITE%• 신중하게 선택해주세요!",
-    "success": "%COLOR_SUCCESS%축하합니다! %COLOR_LEGENDARY%{job}%COLOR_SUCCESS% 직업을 선택하셨습니다!",
-    "title-success": "%COLOR_LEGENDARY%직업 선택 완료!",
-    "subtitle-success": "%COLOR_SUCCESS%{job} 직업을 선택하셨습니다",
-    "already-has-job": "%COLOR_ERROR%이미 직업이 있습니다!"
+    "selected-job": "선택한 직업:",
+    "max-level": "최대 레벨: {1}",
+    "warning": "⚠ 경고: 정말로 신중하게 선택하세요!",
+    "cannot-change": "⚠ 한 번 선택하면 변경할 수 없습니다!",
+    "warning-title": "⚠ 주의사항",
+    "warning-description": "직업은 영구적인 선택입니다!",
+    "confirm": "확인",
+    "confirm-description": "{1} 직업을 선택합니다",
+    "click-to-confirm": "▶ 클릭하여 확인",
+    "cancel": "취소",
+    "cancel-description": "직업 선택을 취소합니다",
+    "click-to-cancel": "▶ 클릭하여 취소",
+    "info-title": "안내사항",
+    "info-line1": "• 직업은 캐릭터의 성장 방향을 결정합니다",
+    "info-line2": "• 각 직업마다 고유한 스킬과 특성이 있습니다",
+    "info-line3": "• 신중하게 선택해주세요!",
+    "success": "축하합니다! {1} 직업을 선택하셨습니다!",
+    "title-success": "직업 선택 완료!",
+    "subtitle-success": "{1} 직업을 선택하셨습니다",
+    "already-has-job": "이미 직업이 있습니다!"
   },
   "talent": {
     "title": "특성",
-    "title-with-page": "특성 - {page}",
-    "remaining-points": "%COLOR_WHITE%남은 포인트: %COLOR_YELLOW%{points}",
-    "learned": "%COLOR_SUCCESS%▶ 습득 완료",
-    "available": "%COLOR_YELLOW%▶ 습득 가능",
-    "unavailable": "%COLOR_GRAY%▶ 습득 불가",
-    "requirements": "%COLOR_RED%요구사항:",
-    "click-learn": "%COLOR_SUCCESS%▶ 클릭하여 배우기",
-    "insufficient-points": "%COLOR_ERROR%포인트가 부족합니다",
-    "prerequisite-not-met": "%COLOR_ERROR%선행 조건을 만족하지 않습니다",
-    "click-subpage": "%COLOR_INFO%▶ 우클릭으로 하위 페이지 열기",
-    "talent-learned": "%COLOR_SUCCESS%{talent} 특성을 배웠습니다!",
-    "click-stats": "%COLOR_GRAY%스탯 관리로 이동",
-    "page-info": "%COLOR_INFO%페이지 정보",
-    "current-page": "%COLOR_WHITE%현재 페이지: %COLOR_YELLOW%{page}",
-    "job": "%COLOR_WHITE%직업: %COLOR_INFO%{job}",
-    "available-points": "%COLOR_WHITE%사용 가능한 포인트: %COLOR_YELLOW%{points}",
-    "level-info": "%COLOR_WHITE%레벨 %COLOR_YELLOW%{current}%COLOR_WHITE%/%COLOR_YELLOW%{max}",
-    "cannot-learn": "%COLOR_ERROR%습득할 수 없습니다",
-    "not-enough-points": "%COLOR_ERROR%포인트가 부족합니다",
-    "stat-bonuses": "%COLOR_GREEN%능력치 포인트:",
-    "stat-bonus-line": "%COLOR_WHITE%• {stat}: %COLOR_YELLOW%+{value}",
-    "effects": "%COLOR_AQUA%효과:",
+    "title-with-page": "특성 - {1}",
+    "remaining-points": "남은 포인트: {points}",
+    "learned": "▶ 습득 완료",
+    "available": "▶ 습득 가능",
+    "unavailable": "▶ 습득 불가",
+    "requirements": "요구사항:",
+    "click-learn": "▶ 클릭하여 배우기",
+    "insufficient-points": "포인트가 부족합니다",
+    "prerequisite-not-met": "선행 조건을 만족하지 않습니다",
+    "click-subpage": "▶ 우클릭으로 하위 페이지 열기",
+    "talent-learned": "{talent} 특성을 배웠습니다!",
+    "click-stats": "스탯 관리로 이동",
+    "page-info": "페이지 정보",
+    "current-page": "현재 페이지: {1}",
+    "job": "직업: {1}",
+    "available-points": "사용 가능한 포인트: {points}",
+    "level-info": "레벨 {1}/{2}",
+    "cannot-learn": "습득할 수 없습니다",
+    "not-enough-points": "포인트가 부족합니다",
+    "stat-bonuses": "능력치 포인트:",
+    "stat-bonus-line": "• {stat}: +{value}",
+    "effects": "효과:",
     "pages": {
       "main": "메인",
       "default": "기본"
@@ -134,61 +134,61 @@
     "page": {
       "main": "메인 특성"
     },
-    "has-sub-page": "%COLOR_INFO%하위 페이지가 있습니다"
+    "has-sub-page": "하위 페이지가 있습니다"
   },
   "stats": {
     "title": "스탯 관리",
-    "your-stats": "%COLOR_YELLOW%나의 스탯",
-    "remaining-points": "%COLOR_WHITE%남은 포인트: %COLOR_YELLOW%{points}",
-    "click-to-increase": "%COLOR_YELLOW%▶ 클릭하여 스탯 증가",
-    "max-stat-reached": "%COLOR_ERROR%최대치에 도달했습니다!",
-    "stat-increased": "%COLOR_SUCCESS%{stat} 스탯이 증가했습니다!",
-    "not-enough-points": "%COLOR_ERROR%스탯 포인트가 부족합니다!",
-    "current-value": "%COLOR_WHITE%현재: %COLOR_YELLOW%{value}",
-    "click-reset": "%COLOR_RED%▶ 우클릭으로 초기화 (1회 무료)",
-    "points-available": "%COLOR_YELLOW%사용 가능한 포인트",
-    "points-count": "%COLOR_WHITE%보유 포인트: %COLOR_YELLOW%{points}",
-    "points-info": "%COLOR_GRAY%레벨업 시 스탯 포인트를 획득합니다",
-    "click-to-add": "%COLOR_YELLOW%▶ 클릭하여 포인트 추가"
+    "your-stats": "나의 스탯",
+    "remaining-points": "남은 포인트: {points}",
+    "click-to-increase": "▶ 클릭하여 스탯 증가",
+    "max-stat-reached": "최대치에 도달했습니다!",
+    "stat-increased": "{stat} 스탯이 증가했습니다!",
+    "not-enough-points": "스탯 포인트가 부족합니다!",
+    "current-value": "현재: {value}",
+    "click-reset": "▶ 우클릭으로 초기화 (1회 무료)",
+    "points-available": "사용 가능한 포인트",
+    "points-count": "보유 포인트: {points}",
+    "points-info": "레벨업 시 스탯 포인트를 획득합니다",
+    "click-to-add": "▶ 클릭하여 포인트 추가"
   },
   "leaderboard": {
     "title": "리더보드",
-    "subtitle": "%COLOR_GRAY%서버 최강자들을 확인하세요!",
-    "level-board": "%COLOR_YELLOW%레벨 순위",
-    "job-board": "%COLOR_INFO%직업 순위",
-    "wealth-board": "%COLOR_GOLD%재산 순위",
-    "combat-board": "%COLOR_RED%전투력 순위",
-    "playtime-board": "%COLOR_AQUA%플레이시간 순위",
-    "loading": "%COLOR_YELLOW%데이터를 불러오는 중...",
-    "loading-description": "%COLOR_GRAY%잠시만 기다려주세요...",
-    "empty": "%COLOR_GRAY%아직 데이터가 없습니다.",
-    "your-rank": "%COLOR_SUCCESS%나의 순위: %COLOR_YELLOW%#{rank}",
-    "not-ranked": "%COLOR_GRAY%순위권 밖",
-    "last-updated": "%COLOR_GRAY%마지막 업데이트: {time}",
-    "current-type": "%COLOR_WHITE%현재 타입: %COLOR_YELLOW%{type}",
-    "total-entries": "%COLOR_WHITE%전체 항목: %COLOR_GREEN%{count}",
-    "rank-info": "%COLOR_WHITE%순위: %COLOR_YELLOW%#{rank}",
-    "value-info": "%COLOR_WHITE%{type}: %COLOR_GREEN%{value}",
-    "this-is-you": "%COLOR_SUCCESS%▶ 나의 순위입니다!",
-    "tab-selected": "%COLOR_SUCCESS%▶ 현재 선택됨",
-    "tab-click": "%COLOR_YELLOW%▶ 클릭하여 보기",
-    "no-rank-data": "%COLOR_GRAY%순위 데이터가 없습니다",
-    "play-more": "%COLOR_GRAY%더 플레이하여 순위에 도전하세요!"
+    "subtitle": "서버 최강자들을 확인하세요!",
+    "level-board": "레벨 순위",
+    "job-board": "직업 순위",
+    "wealth-board": "재산 순위",
+    "combat-board": "전투력 순위",
+    "playtime-board": "플레이시간 순위",
+    "loading": "데이터를 불러오는 중...",
+    "loading-description": "잠시만 기다려주세요...",
+    "empty": "아직 데이터가 없습니다.",
+    "your-rank": "나의 순위: #{rank}",
+    "not-ranked": "순위권 밖",
+    "last-updated": "마지막 업데이트: {2}",
+    "current-type": "현재 타입: {type}",
+    "total-entries": "전체 항목: {1}",
+    "rank-info": "순위: #{rank}",
+    "value-info": "{type}: {value}",
+    "this-is-you": "▶ 나의 순위입니다!",
+    "tab-selected": "▶ 현재 선택됨",
+    "tab-click": "▶ 클릭하여 보기",
+    "no-rank-data": "순위 데이터가 없습니다",
+    "play-more": "더 플레이하여 순위에 도전하세요!"
   },
   "quest-list": {
     "title": "퀘스트 목록",
-    "active-quests": "%COLOR_YELLOW%진행 중인 퀘스트",
-    "active-quests-desc": "%COLOR_GRAY%현재 진행 중인 퀘스트입니다",
-    "completed-quests": "%COLOR_SUCCESS%완료된 퀘스트",
-    "completed-quests-desc": "%COLOR_GRAY%완료한 퀘스트 목록입니다",
-    "progress": "%COLOR_WHITE%진행도",
-    "objectives": "%COLOR_YELLOW%목표",
-    "click-details": "%COLOR_GRAY%▶ 클릭하여 상세 정보 보기",
-    "completed-status": "%COLOR_SUCCESS%✓ 완료됨",
-    "completed-label": "%COLOR_SUCCESS%✓ 완료됨",
-    "completed": "%COLOR_SUCCESS%완료됨",
-    "rewards": "%COLOR_EMERALD%보상",
-    "repeatable": "%COLOR_INFO%반복 가능"
+    "active-quests": "진행 중인 퀘스트",
+    "active-quests-desc": "현재 진행 중인 퀘스트입니다",
+    "completed-quests": "완료된 퀘스트",
+    "completed-quests-desc": "완료한 퀘스트 목록입니다",
+    "progress": "진행도",
+    "objectives": "목표",
+    "click-details": "▶ 클릭하여 상세 정보 보기",
+    "completed-status": "✓ 완료됨",
+    "completed-label": "✓ 완료됨",
+    "completed": "완료됨",
+    "rewards": "보상",
+    "repeatable": "반복 가능"
   },
   "quest-detail": {
     "title": "퀘스트 상세 정보",
@@ -196,47 +196,70 @@
   },
   "quest-accept": {
     "title": "퀘스트 수락",
-    "category": "%COLOR_WHITE%카테고리",
-    "difficulty": "%COLOR_WHITE%난이도",
-    "objectives": "%COLOR_YELLOW%목표",
-    "rewards": "%COLOR_EMERALD%보상",
-    "accept": "%COLOR_SUCCESS%수락",
-    "accept-desc": "%COLOR_GRAY%퀘스트를 시작합니다",
-    "decline": "%COLOR_ERROR%거절",
-    "decline-desc": "%COLOR_GRAY%퀘스트를 거절합니다",
-    "cannot-accept": "%COLOR_ERROR%수락할 수 없습니다",
-    "requirements-not-met": "%COLOR_GRAY%요구 조건을 만족하지 않습니다",
-    "prerequisites-not-complete": "%COLOR_GRAY%선행 퀘스트를 완료하지 않았습니다",
-    "exclusive-quest-completed": "%COLOR_GRAY%양자택일 퀘스트를 이미 완료했습니다",
-    "already-active": "%COLOR_GRAY%이미 진행 중입니다",
-    "already-completed": "%COLOR_GRAY%이미 완료했습니다",
-    "level-requirement": "%COLOR_GRAY%레벨 {level} 이상 필요"
+    "category": "카테고리",
+    "difficulty": "난이도",
+    "objectives": "목표",
+    "rewards": "보상",
+    "accept": "수락",
+    "accept-desc": "퀘스트를 시작합니다",
+    "decline": "거절",
+    "decline-desc": "퀘스트를 거절합니다",
+    "cannot-accept": "수락할 수 없습니다",
+    "requirements-not-met": "요구 조건을 만족하지 않습니다",
+    "prerequisites-not-complete": "선행 퀘스트를 완료하지 않았습니다",
+    "exclusive-quest-completed": "양자택일 퀘스트를 이미 완료했습니다",
+    "already-active": "이미 진행 중입니다",
+    "already-completed": "이미 완료했습니다",
+    "level-requirement": "레벨 {1} 이상 필요"
   },
   "quest-dialog": {
     "title": "퀘스트 대화",
-    "continue": "%COLOR_YELLOW%▶ 계속하기",
-    "skip": "%COLOR_GRAY%▶ 건너뛰기",
-    "complete": "%COLOR_SUCCESS%▶ 완료하기",
-    "accept-quest": "%COLOR_SUCCESS%▶ 퀘스트 수락",
-    "decline-quest": "%COLOR_ERROR%▶ 거절하기",
-    "next-page": "%COLOR_YELLOW%▶ 다음 페이지",
-    "previous-page": "%COLOR_GRAY%◀ 이전 페이지",
-    "close": "%COLOR_RED%■ 닫기",
-    "page-info": "%COLOR_GRAY%페이지 {current}/{total}",
-    "rewards-title": "%COLOR_EMERALD%보상:",
-    "requirements-title": "%COLOR_YELLOW%요구사항:",
-    "npc-name": "%COLOR_GOLD%{npc}",
-    "speaking": "%COLOR_WHITE%{npc}가 말합니다..."
+    "continue": "▶ 계속하기",
+    "skip": "▶ 건너뛰기",
+    "complete": "▶ 완료하기",
+    "accept-quest": "▶ 퀘스트 수락",
+    "decline-quest": "▶ 거절하기",
+    "next-page": "▶ 다음 페이지",
+    "previous-page": "◀ 이전 페이지",
+    "close": "■ 닫기",
+    "page-info": "페이지 {1}/{total}",
+    "rewards-title": "보상:",
+    "requirements-title": "요구사항:",
+    "npc-name": "{npc}",
+    "speaking": "{npc}가 말합니다..."
   },
   "settings": {
     "title": "설정",
-    "personal": "%COLOR_YELLOW%개인 설정",
-    "gameplay": "%COLOR_INFO%게임플레이 설정",
-    "notifications": "%COLOR_GREEN%알림 설정",
-    "privacy": "%COLOR_RED%개인정보 설정",
-    "language": "%COLOR_AQUA%언어 설정",
-    "current-language": "%COLOR_WHITE%현재 언어: %COLOR_YELLOW%{language}",
-    "click-to-change": "%COLOR_GRAY%클릭하여 변경"
+    "personal": "⚙ 개인 설정",
+    "gui": "🖥 GUI 설정",
+    "social": "👥 소셜 설정",
+    "ingame": "🎮 인게임 설정",
+    "system": "⚙ 시스템 설정",
+    "notifications": "🔔 알림 설정",
+    "gameplay": "게임플레이 설정",
+    "privacy": "개인정보 설정",
+    "language": "언어 설정",
+    "current-language": "현재 언어: {language}",
+    "click-to-change": "클릭하여 변경",
+    "ingame-settings": {
+      "title": "인게임 설정",
+      "quest-dialog-speed": "💬 퀘스트 대화 속도",
+      "quest-auto-guide": "🧭 퀘스트 자동 길안내"
+    },
+    "social-settings": {
+      "title": "소셜 설정",
+      "friend-requests": "👤 친구 요청 받기",
+      "guild-invites": "🏰 길드 초대 받기",
+      "whisper-mode": "💬 귓말 모드"
+    },
+    "notification-settings": {
+      "title": "알림 설정",
+      "whisper-notifications": "💬 귓말 알림"
+    },
+    "system-settings": {
+      "title": "시스템 설정",
+      "confirmation-dialogs": "❓ 확인 대화상자"
+    }
   },
   "ingame-settings": {
     "title": "게임 설정"
@@ -252,12 +275,12 @@
     "click-increase": "클릭하여 볼륨을 5 증가시킵니다",
     "sound-volume": "🔊 GUI 사운드 볼륨",
     "current-volume": "현재 볼륨: {volume}%",
-    "status": "상태: {status}",
+    "status": "상태: {1}",
     "status-muted": "음소거됨",
     "status-active": "활성화",
     "mute": "🔇 음소거",
     "unmute": "🔇 음소거 해제",
-    "current-status": "현재 상태: {status}",
+    "current-status": "현재 상태: {1}",
     "click-to-mute": "클릭하여 음소거",
     "click-to-unmute": "클릭하여 음소거 해제",
     "gui-settings": "🖥 GUI 설정",
@@ -265,57 +288,57 @@
   },
   "shop": {
     "title": "상점",
-    "buy-price": "%COLOR_GREEN%구매가: %COLOR_GOLD%{price}G",
-    "sell-price": "%COLOR_RED%판매가: %COLOR_GOLD%{price}G",
-    "your-gold": "%COLOR_WHITE%보유 골드: %COLOR_GOLD%{amount}G",
-    "not-enough-gold": "%COLOR_ERROR%골드가 부족합니다!",
-    "purchase-success": "%COLOR_SUCCESS%구매 완료!",
-    "sale-success": "%COLOR_SUCCESS%판매 완료!",
-    "click-to-buy": "%COLOR_YELLOW%▶ 클릭하여 구매",
-    "click-to-sell": "%COLOR_RED%▶ 클릭하여 판매",
-    "shift-click-to-buy": "%COLOR_INFO%▶ Shift+클릭으로 10개 구매",
-    "out-of-stock": "%COLOR_ERROR%재고 없음"
+    "buy-price": "구매가: {price}G",
+    "sell-price": "판매가: {price}G",
+    "your-gold": "보유 골드: {1}G",
+    "not-enough-gold": "골드가 부족합니다!",
+    "purchase-success": "구매 완료!",
+    "sale-success": "판매 완료!",
+    "click-to-buy": "▶ 클릭하여 구매",
+    "click-to-sell": "▶ 클릭하여 판매",
+    "shift-click-to-buy": "▶ Shift+클릭으로 10개 구매",
+    "out-of-stock": "재고 없음"
   },
   "dungeon": {
     "title": "던전",
-    "available": "%COLOR_SUCCESS%입장 가능",
-    "unavailable": "%COLOR_ERROR%입장 불가",
-    "requirements": "%COLOR_YELLOW%입장 조건:",
-    "level-requirement": "%COLOR_WHITE%• 필요 레벨: %COLOR_YELLOW%{level}",
-    "party-requirement": "%COLOR_WHITE%• 파티 필요: {required}",
-    "cooldown": "%COLOR_ERROR%재입장 대기시간: {time}",
-    "rewards": "%COLOR_GREEN%보상:",
-    "click-to-enter": "%COLOR_SUCCESS%▶ 클릭하여 입장"
+    "available": "입장 가능",
+    "unavailable": "입장 불가",
+    "requirements": "입장 조건:",
+    "level-requirement": "• 필요 레벨: {1}",
+    "party-requirement": "• 파티 필요: {required}",
+    "cooldown": "재입장 대기시간: {2}",
+    "rewards": "보상:",
+    "click-to-enter": "▶ 클릭하여 입장"
   },
   "buttons": {
     "back": {
-      "name": "%COLOR_GRAY%뒤로가기",
-      "lore": "%COLOR_YELLOW%▶ 이전 화면으로 돌아갑니다"
+      "name": "뒤로가기",
+      "lore": "▶ 이전 화면으로 돌아갑니다"
     },
     "close": {
-      "name": "%COLOR_RED%닫기",
-      "lore": "%COLOR_GRAY%메뉴를 닫습니다"
+      "name": "닫기",
+      "lore": "메뉴를 닫습니다"
     },
     "refresh": {
-      "name": "%COLOR_GREEN%새로고침",
-      "lore": "%COLOR_GRAY%정보를 새로고침합니다"
+      "name": "새로고침",
+      "lore": "정보를 새로고침합니다"
     },
     "next-page": {
-      "name": "%COLOR_YELLOW%다음 페이지",
-      "lore": "%COLOR_GRAY%페이지 {current}/{max}"
+      "name": "다음 페이지",
+      "lore": "페이지 {1}/{2}"
     },
     "previous-page": {
-      "name": "%COLOR_YELLOW%이전 페이지",
-      "lore": "%COLOR_GRAY%페이지 {current}/{max}"
+      "name": "이전 페이지",
+      "lore": "페이지 {1}/{2}"
     },
     "settings": {
-      "name": "%COLOR_INFO%설정",
-      "lore": "%COLOR_GRAY%설정을 변경합니다"
+      "name": "설정",
+      "lore": "설정을 변경합니다"
     }
   },
   "quest-reward": {
     "title": "퀘스트 보상",
-    "title-with-expiry": "퀘스트 보상 - 자동 소멸: {time}",
+    "title-with-expiry": "퀘스트 보상 - 자동 소멸: {2}",
     "destroy-rewards": "보상 파괴",
     "destroy-desc": "모든 보상을 포기합니다",
     "warning-destroy": "⚠️ 이 작업은 되돌릴 수 없습니다!",
@@ -332,8 +355,8 @@
     "no-items": "보상 아이템이 없습니다",
     "no-items-desc": "이 퀘스트는 아이템 보상이 없습니다",
     "all-claimed": "모든 보상을 수령했습니다!",
-    "exp-received": "경험치 {amount} 획득!",
-    "money-received": "코인 {amount} 획듍!",
+    "exp-received": "경험치 {1} 획득!",
+    "money-received": "코인 {1} 획듍!",
     "close-warning": "⚠️ 경고: 보상을 받지 않고 창을 닫았습니다!",
     "items-lost": "받지 않은 아이템은 사라집니다!",
     "expiry-days": "{days}일",
@@ -351,7 +374,36 @@
       "title": "섬 설정"
     },
     "permission": {
-      "title": "권한 관리"
+      "title": "권한 관리",
+      "select-role-desc": "이 역할의 권한을 설정합니다.",
+      "selected": "선택됨",
+      "click-to-select": "클릭하여 선택",
+      "current-editing": "현재 편집 중",
+      "select-other-role": "좌측에서 다른 역할을 선택하여",
+      "edit-role-permissions": "해당 역할의 권한을 편집할 수 있습니다.",
+      "permissions": {
+        "build": "블록 설치",
+        "build-desc": "블록을 설치하고 파괴할 수 있습니다.",
+        "interact": "상호작용",
+        "interact-desc": "문, 버튼 등을 사용할 수 있습니다.",
+        "use": "아이템 사용",
+        "use-desc": "아이템을 사용할 수 있습니다.",
+        "containers": "상자 열기",
+        "containers-desc": "상자, 화로 등을 열 수 있습니다.",
+        "pvp": "PVP",
+        "pvp-desc": "섬 내에서 PVP를 할 수 있습니다.",
+        "invite": "멤버 초대",
+        "invite-desc": "새로운 멤버를 초대할 수 있습니다.",
+        "kick": "멤버 추방",
+        "kick-desc": "멤버를 추방할 수 있습니다.",
+        "settings": "설정 변경",
+        "settings-desc": "섬 설정을 변경할 수 있습니다."
+      },
+      "save": "권한 설정 저장",
+      "save-desc": "변경한 권한 설정을 저장합니다.",
+      "enabled": "활성화",
+      "disabled": "비활성화",
+      "click-to-toggle": "클릭하여 토글"
     },
     "upgrade": {
       "title": "섬 업그레이드"
@@ -403,15 +455,6 @@
       "join-date": "가입일",
       "has-most-permissions": "대부분의 권한 보유",
       "regular-member-permissions": "일반 섬원 권한"
-    },
-    "permission": {
-      "title": "권한 관리",
-      "select-role-desc": "이 역할의 권한을 설정합니다.",
-      "selected": "선택됨",
-      "click-to-select": "클릭하여 선택",
-      "current-editing": "현재 편집 중",
-      "select-other-role": "좌측에서 다른 역할을 선택하여",
-      "edit-role-permissions": "해당 역할의 권한을 편집할 수 있습니다."
     }
   },
   "social": {
@@ -459,39 +502,6 @@
       "reject": "✗ 거절"
     }
   },
-  "settings": {
-    "title": "설정",
-    "personal": "⚙ 개인 설정",
-    "gui": "🖥 GUI 설정",
-    "social": "👥 소셜 설정",
-    "ingame": "🎮 인게임 설정",
-    "system": "⚙ 시스템 설정",
-    "notifications": "🔔 알림 설정",
-    "gameplay": "%COLOR_INFO%게임플레이 설정",
-    "privacy": "%COLOR_RED%개인정보 설정",
-    "language": "%COLOR_AQUA%언어 설정",
-    "current-language": "%COLOR_WHITE%현재 언어: %COLOR_YELLOW%{language}",
-    "click-to-change": "%COLOR_GRAY%클릭하여 변경",
-    "ingame-settings": {
-      "title": "인게임 설정",
-      "quest-dialog-speed": "💬 퀘스트 대화 속도",
-      "quest-auto-guide": "🧭 퀘스트 자동 길안내"
-    },
-    "social-settings": {
-      "title": "소셜 설정",
-      "friend-requests": "👤 친구 요청 받기",
-      "guild-invites": "🏰 길드 초대 받기",
-      "whisper-mode": "💬 귓말 모드"
-    },
-    "notification-settings": {
-      "title": "알림 설정",
-      "whisper-notifications": "💬 귓말 알림"
-    },
-    "system-settings": {
-      "title": "시스템 설정",
-      "confirmation-dialogs": "❓ 확인 대화상자"
-    }
-  },
   "system": {
     "leaderboard": {
       "my-rank": "내 순위",
@@ -502,21 +512,21 @@
     }
   },
   "quest": {
-    "filter": "필터: ",
+    "filter": "필터:",
     "previous-page": "이전 페이지",
     "next-page": "다음 페이지",
     "rewards": "보상"
   },
   "island-creation": {
-    "current-name": "현재 이름: ",
+    "current-name": "현재 이름:",
     "click-to-change-name": "클릭하여 이름 변경",
-    "current-color": "현재 색상: ",
-    "left-click": "좌클릭: ",
-    "right-click": "우클릭: ",
-    "middle-click": "가운데 클릭: ",
+    "current-color": "현재 색상:",
+    "left-click": "좌클릭:",
+    "right-click": "우클릭:",
+    "middle-click": "가운데 클릭:",
     "hex-input": "직접 HEX 코드 입력",
     "hex-example": "예시: #FFFFFF (흰색)",
-    "current-biome": "현재 바이옴: ",
+    "current-biome": "현재 바이옴:",
     "click-to-change": "▶ 클릭하여 변경",
     "selected": "✔ 선택됨",
     "click-to-select": "클릭하여 선택",
@@ -525,15 +535,15 @@
     "previous": "이전"
   },
   "island-main": {
-    "owner": "섬장: ",
-    "size": "크기: ",
-    "members": "멤버: ",
-    "workers": "알바: ",
-    "created-date": "생성일: ",
-    "public-status": "공개 여부: ",
+    "owner": "섬장:",
+    "size": "크기:",
+    "members": "멤버:",
+    "workers": "알바:",
+    "created-date": "생성일:",
+    "public-status": "공개 여부:",
     "public": "공개",
     "private": "비공개",
-    "my-role": "내 역할: ",
+    "my-role": "내 역할:",
     "role-owner": "섬장",
     "role-co-owner": "부섬장",
     "role-member": "멤버",
@@ -551,14 +561,14 @@
     "permission-management-desc2": "설정할 수 있습니다.",
     "upgrade-title": "업그레이드",
     "upgrade-current-level": "현재 레벨:",
-    "upgrade-size": "  크기: ",
-    "upgrade-member": "  멤버: ",
-    "upgrade-worker": "  알바: ",
-    "upgrade-level": " 레벨",
+    "upgrade-size": "크기:",
+    "upgrade-member": "멤버:",
+    "upgrade-worker": "알바:",
+    "upgrade-level": "레벨",
     "contribution-title": "기여도",
     "contribution-desc1": "섬원들의 기여도를",
     "contribution-desc2": "확인할 수 있습니다.",
-    "contribution-my": "내 기여도: ",
+    "contribution-my": "내 기여도:",
     "spawn-settings-title": "스폰 설정",
     "spawn-settings-desc1": "섬의 스폰 위치를",
     "spawn-settings-desc2": "관리할 수 있습니다.",
@@ -569,8 +579,8 @@
     "visitor-management-title": "방문자 관리",
     "visitor-management-desc1": "방문자 관련 정보를",
     "visitor-management-desc2": "확인할 수 있습니다.",
-    "visitor-management-recent": "최근 방문자: ",
-    "visitor-management-current": "현재 방문자: ",
+    "visitor-management-recent": "최근 방문자:",
+    "visitor-management-current": "현재 방문자:",
     "visitor-management-history": "• 방문 히스토리",
     "visitor-management-realtime": "• 현재 방문자 (실시간)",
     "visitor-management-open-menu": "▶ 클릭하여 메뉴 열기",
@@ -588,65 +598,109 @@
       "title": "섬 기여하기",
       "gold-info": {
         "title": "내 골드 정보",
-        "balance": "%COLOR_GRAY%보유 골드: %COLOR_WHITE%{amount} G",
-        "contribution": "%COLOR_GRAY%내 총 기여도: %COLOR_WHITE%{amount} G",
-        "description1": "%COLOR_GRAY%섬에 골드를 기여하면",
-        "description2": "%COLOR_GRAY%섬 업그레이드에 사용됩니다"
+        "balance": "보유 골드: {1} G",
+        "contribution": "내 총 기여도: {1} G",
+        "description1": "섬에 골드를 기여하면",
+        "description2": "섬 업그레이드에 사용됩니다"
       },
-      "quick-amount": "{amount} G 기여",
-      "click-to-contribute": "%COLOR_GRAY%클릭하여 기여합니다",
+      "quick-amount": "{1} G 기여",
+      "click-to-contribute": "클릭하여 기여합니다",
       "click-prompt": "▶ 클릭하여 기여",
       "insufficient-gold": "골드가 부족합니다",
-      "gold-needed": "필요: {amount} G 더 필요",
+      "gold-needed": "필요: {1} G 더 필요",
       "custom-amount": {
         "title": "사용자 지정 금액",
-        "description1": "%COLOR_GRAY%원하는 금액을 직접",
-        "description2": "%COLOR_GRAY%입력할 수 있습니다",
-        "minimum": "%COLOR_GRAY%최소: %COLOR_WHITE%100 G",
-        "maximum": "%COLOR_GRAY%최대: %COLOR_WHITE%보유 골드",
+        "description1": "원하는 금액을 직접",
+        "description2": "입력할 수 있습니다",
+        "minimum": "최소: 100 G",
+        "maximum": "최대: 보유 골드",
         "click-prompt": "▶ 클릭하여 입력"
       },
-      "back-description": "%COLOR_GRAY%기여도 목록으로 돌아갑니다",
+      "back-description": "기여도 목록으로 돌아갑니다",
       "anvil": {
         "placeholder": "기여할 금액",
         "title": "기여할 골드 입력"
       },
-      "minimum-amount-error": "%COLOR_ERROR%최소 100 골드 이상 기여해야 합니다.",
-      "invalid-number": "%COLOR_ERROR%올바른 숫자를 입력해주세요.",
-      "insufficient-gold-message": "%COLOR_ERROR%골드가 부족합니다! (보유: {amount} G)",
-      "success": "%COLOR_SUCCESS%{amount} 골드를 섬에 기여했습니다!",
-      "total-contribution": "%COLOR_GRAY%총 기여도: %COLOR_WHITE%{amount} G"
+      "minimum-amount-error": "최소 100 골드 이상 기여해야 합니다.",
+      "invalid-number": "올바른 숫자를 입력해주세요.",
+      "insufficient-gold-message": "골드가 부족합니다! (보유: {1} G)",
+      "success": "{1} 골드를 섬에 기여했습니다!",
+      "total-contribution": "총 기여도: {1} G"
     },
     "contribution": {
       "title": "기여도 순위",
       "info": {
         "title": "섬 기여도 정보",
-        "island-name": "%COLOR_GRAY%섬 이름: %COLOR_WHITE%{name}",
-        "total": "%COLOR_GRAY%총 기여도: %COLOR_GREEN%{amount}",
-        "contributors": "%COLOR_GRAY%기여자 수: %COLOR_YELLOW%{count}명",
-        "description1": "%COLOR_GRAY%기여도는 섬 업그레이드에",
-        "description2": "%COLOR_GRAY%사용됩니다"
+        "island-name": "섬 이름: {0}",
+        "total": "총 기여도: {1}",
+        "contributors": "기여자 수: {1}명",
+        "description1": "기여도는 섬 업그레이드에",
+        "description2": "사용됩니다"
       },
       "contributor": {
-        "contribution": "%COLOR_GRAY%기여도: %COLOR_GREEN%{amount}",
-        "role": "%COLOR_GRAY%역할: {role}",
-        "percentage": "%COLOR_GRAY%전체 기여도의 %COLOR_YELLOW%{percent}%%"
+        "contribution": "기여도: {1}",
+        "role": "역할: {role}",
+        "percentage": "전체 기여도의 {2}%%"
       },
       "add": {
         "title": "기여도 추가",
-        "current": "%COLOR_GRAY%현재 내 기여도: %COLOR_GREEN%{amount}",
-        "description1": "%COLOR_GRAY%아이템이나 재화를 기여하여",
-        "description2": "%COLOR_GRAY%섬 발전에 도움을 줄 수 있습니다",
+        "current": "현재 내 기여도: {1}",
+        "description1": "아이템이나 재화를 기여하여",
+        "description2": "섬 발전에 도움을 줄 수 있습니다",
         "click": "▶ 클릭하여 기여하기"
       },
-      "back-description": "%COLOR_GRAY%메인 메뉴로 돌아갑니다"
+      "back-description": "메인 메뉴로 돌아갑니다"
     },
     "role": {
-      "owner": "%COLOR_RED%섬장",
-      "co-owner": "%COLOR_GOLD%부섬장",
-      "member": "%COLOR_GREEN%멤버",
-      "worker": "%COLOR_YELLOW%알바",
-      "contributor": "%COLOR_GRAY%기여자"
+      "owner": "섬장",
+      "co-owner": "부섬장",
+      "member": "멤버",
+      "worker": "알바",
+      "contributor": "기여자"
+    }
+  },
+  "gui-settings": {
+    "title": "GUI 설정",
+    "volume": "볼륨: {0}%",
+    "volume-changed": "볼륨이 {0}%로 변경되었습니다",
+    "sound-enabled": "소리 활성화",
+    "sound-disabled": "소리 비활성화"
+  },
+  "ingame-settings": {
+    "title": "게임 내 설정"
+  },
+  "notification-settings": {
+    "title": "알림 설정"
+  },
+  "social-settings": {
+    "title": "소셜 설정"
+  },
+  "system-settings": {
+    "title": "시스템 설정"
+  },
+  "error": {
+    "title": "오류"
+  },
+  "buttons": {
+    "toggle": {
+      "enabled": "활성화",
+      "disabled": "비활성화"
+    },
+    "confirm": {
+      "name": "확인",
+      "lore": "선택을 확인합니다"
+    },
+    "cancel": {
+      "name": "취소",
+      "lore": "작업을 취소합니다"
+    },
+    "page-info": {
+      "name": "페이지 정보",
+      "lore": "현재 페이지: {0}/{1}"
+    },
+    "status": {
+      "online": "온라인",
+      "offline": "오프라인"
     }
   }
 }

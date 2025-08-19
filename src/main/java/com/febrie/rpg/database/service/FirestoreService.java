@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+import net.kyori.adventure.text.Component;
 /**
  * Firestore 서비스 기본 인터페이스
  * 모든 Firestore 서비스가 구현해야 하는 기본 CRUD 작업 정의

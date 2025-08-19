@@ -1,360 +1,360 @@
 {
   "angelic_blessing": {
-    "name": "%COLOR_LEGENDARY%천사의 축복",
+    "name": "천사의 축복",
     "description": [
-      "%COLOR_GRAY%신성한 힘으로 모든 능력치가 증가합니다.",
-      "%COLOR_GREEN%모든 스탯 +1"
+      "신성한 힘으로 모든 능력치가 증가합니다.",
+      "모든 스탯 +1"
     ]
   },
   "guardian_angel": {
-    "name": "%COLOR_GOLD%수호천사",
+    "name": "수호천사",
     "description": [
-      "%COLOR_GRAY%죽음의 위기에서 한 번 부활합니다.",
-      "%COLOR_GREEN%사망 시 50% 확률로 부활 (재사용 대기시간 5분)"
+      "죽음의 위기에서 한 번 부활합니다.",
+      "사망 시 50% 확률로 부활 (재사용 대기시간 5분)"
     ]
   },
   "healing_boost": {
-    "name": "%COLOR_EMERALD%치유 강화",
+    "name": "치유 강화",
     "description": [
-      "%COLOR_GRAY%모든 치유 효과가 증가합니다.",
-      "%COLOR_GREEN%치유량 +20%"
+      "모든 치유 효과가 증가합니다.",
+      "치유량 +20%"
     ]
   },
   "resurrection": {
-    "name": "%COLOR_LEGENDARY%부활",
+    "name": "부활",
     "description": [
-      "%COLOR_GRAY%아군을 되살릴 수 있습니다.",
-      "%COLOR_GREEN%죽은 아군 부활 (재사용 대기시간 10분)"
+      "아군을 되살릴 수 있습니다.",
+      "죽은 아군 부활 (재사용 대기시간 10분)"
     ]
   },
   "basic_strength": {
-    "name": "%COLOR_RED%기초 근력",
+    "name": "기초 근력",
     "description": [
-      "%COLOR_GRAY%근력을 증가시킵니다.",
-      "%COLOR_GREEN%근력 +2 (레벨당)"
+      "근력을 증가시킵니다.",
+      "근력 +2 (레벨당)"
     ]
   },
   "basic_intelligence": {
-    "name": "%COLOR_BLUE%기초 지능",
+    "name": "기초 지능",
     "description": [
-      "%COLOR_GRAY%지능을 증가시킵니다.",
-      "%COLOR_GREEN%지능 +2 (레벨당)"
+      "지능을 증가시킵니다.",
+      "지능 +2 (레벨당)"
     ]
   },
   "basic_vitality": {
-    "name": "%COLOR_GREEN%기초 체력",
+    "name": "기초 체력",
     "description": [
-      "%COLOR_GRAY%체력을 증가시킵니다.",
-      "%COLOR_GREEN%체력 +3 (레벨당)"
+      "체력을 증가시킵니다.",
+      "체력 +3 (레벨당)"
     ]
   },
   "basic_dexterity": {
-    "name": "%COLOR_YELLOW%기초 민첩",
+    "name": "기초 민첩",
     "description": [
-      "%COLOR_GRAY%민첩을 증가시킵니다.",
-      "%COLOR_GREEN%민첩 +2 (레벨당)"
+      "민첩을 증가시킵니다.",
+      "민첩 +2 (레벨당)"
     ]
   },
   "basic_wisdom": {
-    "name": "%COLOR_PURPLE%기초 지혜",
+    "name": "기초 지혜",
     "description": [
-      "%COLOR_GRAY%지혜를 증가시킵니다.",
-      "%COLOR_GREEN%지혜 +2 (레벨당)"
+      "지혜를 증가시킵니다.",
+      "지혜 +2 (레벨당)"
     ]
   },
   "basic_luck": {
-    "name": "%COLOR_GOLD%기초 행운",
+    "name": "기초 행운",
     "description": [
-      "%COLOR_GRAY%행운을 증가시킵니다.",
-      "%COLOR_GREEN%행운 +1 (레벨당)"
+      "행운을 증가시킵니다.",
+      "행운 +1 (레벨당)"
     ]
   },
   "exp_boost": {
-    "name": "%COLOR_AQUA%경험치 부스트",
+    "name": "경험치 부스트",
     "description": [
-      "%COLOR_GRAY%획득 경험치가 증가합니다.",
-      "%COLOR_GREEN%경험치 획득량 +10% (레벨당)"
+      "획득 경험치가 증가합니다.",
+      "경험치 획득량 +10% (레벨당)"
     ]
   },
   "swiftness": {
-    "name": "%COLOR_SUCCESS%신속",
+    "name": "신속",
     "description": [
-      "%COLOR_GRAY%이동 속도가 증가합니다.",
-      "%COLOR_GREEN%이동 속도 +5% (레벨당)"
+      "이동 속도가 증가합니다.",
+      "이동 속도 +5% (레벨당)"
     ]
   },
   "berserker_rage": {
-    "name": "%COLOR_DARK_RED%광전사의 분노",
+    "name": "광전사의 분노",
     "description": [
-      "%COLOR_GRAY%체력이 낮을수록 더 강해집니다.",
-      "%COLOR_GREEN%근력 +6, 체력 -2 (레벨당)",
-      "%COLOR_GREEN%체력 30% 이하 시 공격력 +50%"
+      "체력이 낮을수록 더 강해집니다.",
+      "근력 +6, 체력 -2 (레벨당)",
+      "체력 30% 이하 시 공격력 +50%"
     ]
   },
   "bloodthirst": {
-    "name": "%COLOR_DARK_RED%피의 갈증",
+    "name": "피의 갈증",
     "description": [
-      "%COLOR_GRAY%적을 처치하면 체력을 회복합니다.",
-      "%COLOR_GREEN%적 처치 시 최대 체력의 5% 회복"
+      "적을 처치하면 체력을 회복합니다.",
+      "적 처치 시 최대 체력의 5% 회복"
     ]
   },
   "blood_bath": {
-    "name": "%COLOR_DARK_RED%피의 욕조",
+    "name": "피의 욕조",
     "description": [
-      "%COLOR_GRAY%광역 공격 시 체력을 흡수합니다.",
-      "%COLOR_GREEN%광역 피해의 10%를 체력으로 흡수"
+      "광역 공격 시 체력을 흡수합니다.",
+      "광역 피해의 10%를 체력으로 흡수"
     ]
   },
   "balanced_fighter": {
-    "name": "%COLOR_ORANGE%균형 전사",
+    "name": "균형 전사",
     "description": [
-      "%COLOR_GRAY%모든 전투 능력이 균형있게 증가합니다.",
-      "%COLOR_GREEN%근력, 체력, 민첩 각 +2 (레벨당)"
+      "모든 전투 능력이 균형있게 증가합니다.",
+      "근력, 체력, 민첩 각 +2 (레벨당)"
     ]
   },
   "adaptability": {
-    "name": "%COLOR_YELLOW%적응력",
+    "name": "적응력",
     "description": [
-      "%COLOR_GRAY%모든 저항력이 증가합니다.",
-      "%COLOR_GREEN%체력 +3 (레벨당)",
-      "%COLOR_GREEN%모든 저항 +2%"
+      "모든 저항력이 증가합니다.",
+      "체력 +3 (레벨당)",
+      "모든 저항 +2%"
     ]
   },
   "counter_attack": {
-    "name": "%COLOR_INFO%반격",
+    "name": "반격",
     "description": [
-      "%COLOR_GRAY%방어 성공 시 반격합니다.",
-      "%COLOR_GREEN%방어 시 30% 확률로 반격"
+      "방어 성공 시 반격합니다.",
+      "방어 시 30% 확률로 반격"
     ]
   },
   "fortitude": {
-    "name": "%COLOR_NETHERITE%불굴",
+    "name": "불굴",
     "description": [
-      "%COLOR_GRAY%받는 피해가 감소합니다.",
-      "%COLOR_GREEN%체력 +5, 피해 감소 5% (레벨당)"
+      "받는 피해가 감소합니다.",
+      "체력 +5, 피해 감소 5% (레벨당)"
     ]
   },
   "shield_mastery": {
-    "name": "%COLOR_IRON%방패 숙련",
+    "name": "방패 숙련",
     "description": [
-      "%COLOR_GRAY%방패 사용 능력이 향상됩니다.",
-      "%COLOR_GREEN%방패 막기 확률 +10%"
+      "방패 사용 능력이 향상됩니다.",
+      "방패 막기 확률 +10%"
     ]
   },
   "taunt": {
-    "name": "%COLOR_RED%도발",
+    "name": "도발",
     "description": [
-      "%COLOR_GRAY%적의 공격을 자신에게 집중시킵니다.",
-      "%COLOR_GREEN%주변 적들을 도발 (5초)"
+      "적의 공격을 자신에게 집중시킵니다.",
+      "주변 적들을 도발 (5초)"
     ]
   },
   "aegis": {
-    "name": "%COLOR_LEGENDARY%이지스",
+    "name": "이지스",
     "description": [
-      "%COLOR_GRAY%절대 방어막을 생성합니다.",
-      "%COLOR_GREEN%최대 체력의 30% 방어막 생성"
+      "절대 방어막을 생성합니다.",
+      "최대 체력의 30% 방어막 생성"
     ]
   },
   "divine_blessing": {
-    "name": "%COLOR_GOLD%신성한 축복",
+    "name": "신성한 축복",
     "description": [
-      "%COLOR_GRAY%신의 은총이 함께합니다.",
-      "%COLOR_GREEN%지혜 +4 (레벨당)",
-      "%COLOR_GREEN%치유 효과 +10%"
+      "신의 은총이 함께합니다.",
+      "지혜 +4 (레벨당)",
+      "치유 효과 +10%"
     ]
   },
   "holy_light": {
-    "name": "%COLOR_YELLOW%성스러운 빛",
+    "name": "성스러운 빛",
     "description": [
-      "%COLOR_GRAY%성스러운 빛으로 치유합니다.",
-      "%COLOR_GREEN%즉시 대상을 치유"
+      "성스러운 빛으로 치유합니다.",
+      "즉시 대상을 치유"
     ]
   },
   "divine_shield": {
-    "name": "%COLOR_AQUA%신성 보호막",
+    "name": "신성 보호막",
     "description": [
-      "%COLOR_GRAY%신성한 보호막을 생성합니다.",
-      "%COLOR_GREEN%5초간 모든 피해 면역"
+      "신성한 보호막을 생성합니다.",
+      "5초간 모든 피해 면역"
     ]
   },
   "mass_heal": {
-    "name": "%COLOR_EMERALD%대규모 치유",
+    "name": "대규모 치유",
     "description": [
-      "%COLOR_GRAY%주변 아군을 모두 치유합니다.",
-      "%COLOR_GREEN%반경 10블록 내 아군 치유"
+      "주변 아군을 모두 치유합니다.",
+      "반경 10블록 내 아군 치유"
     ]
   },
   "dark_power": {
-    "name": "%COLOR_DARK_PURPLE%어둠의 힘",
+    "name": "어둠의 힘",
     "description": [
-      "%COLOR_GRAY%어둠의 힘이 증가합니다.",
-      "%COLOR_GREEN%지능 +5 (레벨당)",
-      "%COLOR_GREEN%마법 피해 +10%"
+      "어둠의 힘이 증가합니다.",
+      "지능 +5 (레벨당)",
+      "마법 피해 +10%"
     ]
   },
   "curse": {
-    "name": "%COLOR_DARK_RED%저주",
+    "name": "저주",
     "description": [
-      "%COLOR_GRAY%적에게 저주를 겁니다.",
-      "%COLOR_GREEN%대상의 모든 능력치 -20%"
+      "적에게 저주를 겁니다.",
+      "대상의 모든 능력치 -20%"
     ]
   },
   "shadow_bolt": {
-    "name": "%COLOR_DARK_GRAY%그림자 화살",
+    "name": "그림자 화살",
     "description": [
-      "%COLOR_GRAY%어둠의 화살을 발사합니다.",
-      "%COLOR_GREEN%관통 피해 + 실명 효과"
+      "어둠의 화살을 발사합니다.",
+      "관통 피해 + 실명 효과"
     ]
   },
   "soul_harvest": {
-    "name": "%COLOR_LEGENDARY%영혼 수확",
+    "name": "영혼 수확",
     "description": [
-      "%COLOR_GRAY%적의 영혼을 수확합니다.",
-      "%COLOR_GREEN%처치 시 최대 마나의 20% 회복"
+      "적의 영혼을 수확합니다.",
+      "처치 시 최대 마나의 20% 회복"
     ]
   },
   "nature_blessing": {
-    "name": "%COLOR_GREEN%자연의 축복",
+    "name": "자연의 축복",
     "description": [
-      "%COLOR_GRAY%자연의 가호를 받습니다.",
-      "%COLOR_GREEN%체력, 지혜 각 +3 (레벨당)"
+      "자연의 가호를 받습니다.",
+      "체력, 지혜 각 +3 (레벨당)"
     ]
   },
   "regeneration": {
-    "name": "%COLOR_LIME%재생",
+    "name": "재생",
     "description": [
-      "%COLOR_GRAY%지속적으로 체력을 회복합니다.",
-      "%COLOR_GREEN%초당 최대 체력의 1% 재생"
+      "지속적으로 체력을 회복합니다.",
+      "초당 최대 체력의 1% 재생"
     ]
   },
   "purify": {
-    "name": "%COLOR_AQUA%정화",
+    "name": "정화",
     "description": [
-      "%COLOR_GRAY%모든 디버프를 제거합니다.",
-      "%COLOR_GREEN%대상의 모든 디버프 제거"
+      "모든 디버프를 제거합니다.",
+      "대상의 모든 디버프 제거"
     ]
   },
   "tree_of_life": {
-    "name": "%COLOR_LEGENDARY%생명의 나무",
+    "name": "생명의 나무",
     "description": [
-      "%COLOR_GRAY%생명의 나무를 소환합니다.",
-      "%COLOR_GREEN%주변 아군 지속 치유 (30초)"
+      "생명의 나무를 소환합니다.",
+      "주변 아군 지속 치유 (30초)"
     ]
   },
   "eagle_eye": {
-    "name": "%COLOR_GREEN%매의 눈",
+    "name": "매의 눈",
     "description": [
-      "%COLOR_GRAY%명중률과 사거리가 증가합니다.",
-      "%COLOR_GREEN%민첩 +3 (레벨당)",
-      "%COLOR_GREEN%명중률 +10%, 사거리 +2"
+      "명중률과 사거리가 증가합니다.",
+      "민첩 +3 (레벨당)",
+      "명중률 +10%, 사거리 +2"
     ]
   },
   "multishot": {
-    "name": "%COLOR_EMERALD%멀티샷",
+    "name": "멀티샷",
     "description": [
-      "%COLOR_GRAY%여러 화살을 동시에 발사합니다.",
-      "%COLOR_GREEN%3발의 화살 동시 발사"
+      "여러 화살을 동시에 발사합니다.",
+      "3발의 화살 동시 발사"
     ]
   },
   "wind_walker": {
-    "name": "%COLOR_AQUA%바람의 걸음",
+    "name": "바람의 걸음",
     "description": [
-      "%COLOR_GRAY%이동 속도와 회피율이 증가합니다.",
-      "%COLOR_GREEN%이동 속도 +10%, 회피율 +5%"
+      "이동 속도와 회피율이 증가합니다.",
+      "이동 속도 +10%, 회피율 +5%"
     ]
   },
   "poison_arrows": {
-    "name": "%COLOR_DARK_GREEN%독화살",
+    "name": "독화살",
     "description": [
-      "%COLOR_GRAY%화살에 독을 바릅니다.",
-      "%COLOR_GREEN%적중 시 독 피해 추가"
+      "화살에 독을 바릅니다.",
+      "적중 시 독 피해 추가"
     ]
   },
   "bow_mastery": {
-    "name": "%COLOR_COPPER%활 숙련",
+    "name": "활 숙련",
     "description": [
-      "%COLOR_GRAY%활 사용 능력이 향상됩니다.",
-      "%COLOR_GREEN%활 공격력 +15%"
+      "활 사용 능력이 향상됩니다.",
+      "활 공격력 +15%"
     ]
   },
   "precision": {
-    "name": "%COLOR_YELLOW%정밀 사격",
+    "name": "정밀 사격",
     "description": [
-      "%COLOR_GRAY%치명타 확률이 증가합니다.",
-      "%COLOR_GREEN%치명타 확률 +10% (레벨당)"
+      "치명타 확률이 증가합니다.",
+      "치명타 확률 +10% (레벨당)"
     ]
   },
   "camouflage": {
-    "name": "%COLOR_DARK_GREEN%위장",
+    "name": "위장",
     "description": [
-      "%COLOR_GRAY%적에게 발견되지 않습니다.",
-      "%COLOR_GREEN%5초간 은신 상태"
+      "적에게 발견되지 않습니다.",
+      "5초간 은신 상태"
     ]
   },
   "headshot": {
-    "name": "%COLOR_RED%헤드샷",
+    "name": "헤드샷",
     "description": [
-      "%COLOR_GRAY%머리를 정확히 노립니다.",
-      "%COLOR_GREEN%헤드샷 피해 +100%"
+      "머리를 정확히 노립니다.",
+      "헤드샷 피해 +100%"
     ]
   },
   "steady_aim": {
-    "name": "%COLOR_INFO%정조준",
+    "name": "정조준",
     "description": [
-      "%COLOR_GRAY%가만히 있을 때 정확도가 증가합니다.",
-      "%COLOR_GREEN%정지 시 명중률 +30%"
+      "가만히 있을 때 정확도가 증가합니다.",
+      "정지 시 명중률 +30%"
     ]
   },
   "scattershot": {
-    "name": "%COLOR_ORANGE%산탄",
+    "name": "산탄",
     "description": [
-      "%COLOR_GRAY%넓은 범위에 화살을 뿌립니다.",
-      "%COLOR_GREEN%부채꼴 범위 공격"
+      "넓은 범위에 화살을 뿌립니다.",
+      "부채꼴 범위 공격"
     ]
   },
   "point_blank": {
-    "name": "%COLOR_ERROR%영거리 사격",
+    "name": "영거리 사격",
     "description": [
-      "%COLOR_GRAY%초근거리에서 치명적인 피해를 입힙니다.",
-      "%COLOR_GREEN%근거리 치명타 확률 +50%"
+      "초근거리에서 치명적인 피해를 입힙니다.",
+      "근거리 치명타 확률 +50%"
     ]
   },
   "explosive_shot": {
-    "name": "%COLOR_ORANGE%폭발탄",
+    "name": "폭발탄",
     "description": [
-      "%COLOR_GRAY%착탄 시 폭발합니다.",
-      "%COLOR_GREEN%범위 폭발 피해"
+      "착탄 시 폭발합니다.",
+      "범위 폭발 피해"
     ]
   },
   "quick_reload": {
-    "name": "%COLOR_YELLOW%빠른 재장전",
+    "name": "빠른 재장전",
     "description": [
-      "%COLOR_GRAY%재장전 속도가 증가합니다.",
-      "%COLOR_GREEN%민첩 +2 (레벨당)",
-      "%COLOR_GREEN%재장전 시간 -20%"
+      "재장전 속도가 증가합니다.",
+      "민첩 +2 (레벨당)",
+      "재장전 시간 -20%"
     ]
   },
   "double_barrel": {
-    "name": "%COLOR_NETHERITE%더블 배럴",
+    "name": "더블 배럴",
     "description": [
-      "%COLOR_GRAY%두 발을 동시에 발사합니다.",
-      "%COLOR_GREEN%2연발 동시 사격"
+      "두 발을 동시에 발사합니다.",
+      "2연발 동시 사격"
     ]
   },
   "ascension": {
-    "name": "%COLOR_LEGENDARY%승천",
+    "name": "승천",
     "description": [
-      "%COLOR_GRAY%일시적으로 초월적인 힘을 얻습니다.",
-      "%COLOR_GREEN%30초간 비행 가능",
-      "%COLOR_GREEN%모든 능력치 일시적으로 대폭 상승"
+      "일시적으로 초월적인 힘을 얻습니다.",
+      "30초간 비행 가능",
+      "모든 능력치 일시적으로 대폭 상승"
     ]
   },
   "iron_will": {
-    "name": "%COLOR_GRAY%강철 의지",
+    "name": "강철 의지",
     "description": [
-      "%COLOR_GRAY%강인한 정신력으로 디버프에 저항합니다.",
-      "%COLOR_GREEN%체력 +2, 지혜 +2 (레벨당)",
-      "%COLOR_GREEN%디버프 저항 +20%"
+      "강인한 정신력으로 디버프에 저항합니다.",
+      "체력 +2, 지혜 +2 (레벨당)",
+      "디버프 저항 +20%"
     ]
   }
 }

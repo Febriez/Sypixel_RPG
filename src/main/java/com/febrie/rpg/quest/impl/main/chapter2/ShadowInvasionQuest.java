@@ -9,7 +9,7 @@ import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -125,18 +125,18 @@ public class ShadowInvasionQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.shadow_invasion.name");
+        return Component.translatable("quest.main.shadow_invasion.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getList(who, "quest.main.shadow_invasion.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.main.shadow_invasion.description") manually */;
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.shadow_invasion.objectives." + id);
+        return Component.translatable("quest.main.shadow_invasion.objectives.");
     }
 
     public QuestDialog getDialog() {

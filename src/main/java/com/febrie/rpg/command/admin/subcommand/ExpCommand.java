@@ -1,10 +1,10 @@
 package com.febrie.rpg.command.admin.subcommand;
 
+import net.kyori.adventure.text.Component;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.command.admin.subcommand.base.BaseSubCommand;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
-import com.febrie.rpg.util.LangManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -38,38 +38,37 @@ public class ExpCommand extends BaseSubCommand {
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length < 3 || !args[0].equalsIgnoreCase("give")) {
-            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.exp.usage"));
+            sender.sendMessage(Component.translatable("commands.admin.exp.usage"));
             return true;
         }
         
         Player target = Bukkit.getPlayer(args[1]);
         if (target == null) {
-            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
+            sender.sendMessage(Component.translatable("commands.admin.player-not-found"));
             return true;
         }
         
         try {
             int amount = Integer.parseInt(args[2]);
             if (amount <= 0) {
-                sender.sendMessage(LangManager.getComponent(sender, "commands.admin.exp.must-positive"));
+                sender.sendMessage(Component.translatable("commands.admin.exp.must-positive"));
                 return true;
             }
             
             RPGPlayer rpgPlayer = playerManager.getPlayer(target);
             if (rpgPlayer == null) {
-                sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-data-not-found"));
+                sender.sendMessage(Component.translatable("commands.admin.player-data-not-found"));
                 return true;
             }
             
             rpgPlayer.addExperience(amount);
-            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.exp.success", 
-                "player", target.getName(), 
-                "amount", String.valueOf(amount)));
-            target.sendMessage(LangManager.getMessage(target, "commands.admin.exp.received", 
-                "amount", String.valueOf(amount)));
+            sender.sendMessage(Component.translatable("commands.admin.exp.success", 
+                Component.text(target.getName()), Component.text(amount)));
+            target.sendMessage(Component.translatable("commands.admin.exp.received", 
+                Component.text(amount)));
             
         } catch (NumberFormatException e) {
-            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.invalid-number"));
+            sender.sendMessage(Component.translatable("commands.admin.invalid-number"));
         }
         
         return true;

@@ -24,6 +24,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.kyori.adventure.text.Component;
 /**
  * 지역 방문 퀘스트 목표를 비동기로 체크하는 태스크
  * 3초마다 온라인 플레이어들의 위치를 확인하여 퀘스트 진행

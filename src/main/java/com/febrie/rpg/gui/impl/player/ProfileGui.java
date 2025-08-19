@@ -259,7 +259,7 @@ public class ProfileGui extends BaseGui {
                         guiManager.openGui(p, questListGui);
                         playSuccessSound(p);
                     } else {
-                        com.febrie.rpg.util.LangManager.sendMessage(p, "general.cannot-view-others-quests");
+                        p.sendMessage(Component.translatable("general.cannot-view-others-quests"));
                         playErrorSound(p);
                     }
                 }
@@ -294,7 +294,7 @@ public class ProfileGui extends BaseGui {
             GuiItem jobButton = GuiItem.clickable(
                     ItemBuilder.of(Material.ENCHANTING_TABLE)
                             .displayName(trans("items.mainmenu.job-button.name"))
-                            .addLore(com.febrie.rpg.util.LangManager.getList(viewer, "items.mainmenu.job-button.lore"))
+                            .addLore(List.of() /* TODO: Convert LangManager.getList("items.mainmenu.job-button.lore") manually */)
                             .glint(true)
                             .build(),
                     p -> {
@@ -303,7 +303,7 @@ public class ProfileGui extends BaseGui {
                             guiManager.openGui(p, jobGui);
                             playSuccessSound(p);
                         } else {
-                            com.febrie.rpg.util.LangManager.sendMessage(p, "general.cannot-select-others-job");
+                            p.sendMessage(Component.translatable("general.cannot-select-others-job"));
                             playErrorSound(p);
                         }
                     }
@@ -338,7 +338,7 @@ public class ProfileGui extends BaseGui {
                             guiManager.openGui(p, talentGui);
                             playSuccessSound(p);
                         } else {
-                            com.febrie.rpg.util.LangManager.sendMessage(p, "general.cannot-view-others-talents");
+                            p.sendMessage(Component.translatable("general.cannot-view-others-talents"));
                             playErrorSound(p);
                         }
                     }
@@ -354,12 +354,12 @@ public class ProfileGui extends BaseGui {
         GuiItem statsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.IRON_CHESTPLATE)
                         .displayName(trans("items.mainmenu.stats-button.name"))
-                        .addLore(com.febrie.rpg.util.LangManager.getList(viewer, "items.mainmenu.stats-button.lore"))
+                        .addLore(List.of() /* TODO: Convert LangManager.getList("items.mainmenu.stats-button.lore") manually */)
                         .flags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES)
                         .build(),
                 p -> {
                     if (!rpgPlayer.hasJob()) {
-                        com.febrie.rpg.util.LangManager.sendMessage(p, "messages.no-job-for-stats");
+                        p.sendMessage(Component.translatable("messages.no-job-for-stats"));
                         playErrorSound(p);
                         return;
                     }
@@ -369,7 +369,7 @@ public class ProfileGui extends BaseGui {
                         guiManager.openGui(p, statsGui);
                         playSuccessSound(p);
                     } else {
-                        com.febrie.rpg.util.LangManager.sendMessage(p, "general.cannot-view-others-stats");
+                        p.sendMessage(Component.translatable("general.cannot-view-others-stats"));
                         playErrorSound(p);
                     }
                 }
@@ -387,7 +387,7 @@ public class ProfileGui extends BaseGui {
                         .addLore(trans("general.coming-soon"))
                         .build(),
                 p -> {
-                    com.febrie.rpg.util.LangManager.sendMessage(p, "general.coming-soon");
+                    p.sendMessage(Component.translatable("general.coming-soon"));
                     playClickSound(p);
                 }
         );
@@ -404,7 +404,7 @@ public class ProfileGui extends BaseGui {
                         .addLore(trans("general.coming-soon"))
                         .build(),
                 p -> {
-                    com.febrie.rpg.util.LangManager.sendMessage(p, "general.coming-soon");
+                    p.sendMessage(Component.translatable("general.coming-soon"));
                     playClickSound(p);
                 }
         );

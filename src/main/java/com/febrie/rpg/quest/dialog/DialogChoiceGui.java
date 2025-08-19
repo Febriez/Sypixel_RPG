@@ -9,7 +9,6 @@ import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.dialog.DialogManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -106,13 +105,13 @@ public class DialogChoiceGui extends BaseGui {
             GuiItem choiceItem = GuiItem.clickable(
                     new ItemBuilder(Material.PAPER)
                             .displayName(trans("gui.dialog-choice.option", String.valueOf(i + 1)))
-                            .addLore(choice.getText(viewer).color(UnifiedColorUtil.WHITE))
+                            .addLore(choice.getText().color(UnifiedColorUtil.WHITE))
                             .addLore(Component.empty())
                             .addLore(trans("gui.dialog-choice.click-to-select"))
                             .build(),
                     p -> {
                         // 선택 처리
-                        DialogManager.getInstance().handleChoice(p, dialog.getId(), choice.getId());
+                        DialogManager.getInstance().handleChoice(p, dialog.getId(), choice.id());
                         p.closeInventory();
                         playClickSound(p);
                     }

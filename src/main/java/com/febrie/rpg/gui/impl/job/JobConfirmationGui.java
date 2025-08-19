@@ -91,7 +91,7 @@ public class JobConfirmationGui extends BaseGui {
                 .addLore(Component.empty());
 
         // 직업 설명
-        List<Component> description = com.febrie.rpg.util.LangManager.getList(viewer, "job." + jobKey + ".description");
+        List<Component> description = List.of(); /* TODO: Convert LangManager.getList("job." + jobKey + ".description") manually */
         for (Component line : description) {
             builder.addLore(line);
         }

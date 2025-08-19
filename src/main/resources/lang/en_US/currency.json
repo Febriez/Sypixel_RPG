@@ -1,26 +1,26 @@
 {
   "gold": {
-    "name": "%COLOR_GOLD%Gold",
-    "description": "%COLOR_GRAY%Basic currency."
+    "name": "Gold",
+    "description": "Basic currency."
   },
   "diamond": {
-    "name": "%COLOR_DIAMOND%Diamond",
-    "description": "%COLOR_GRAY%Rare gem currency."
+    "name": "Diamond",
+    "description": "Rare gem currency."
   },
   "emerald": {
-    "name": "%COLOR_EMERALD%Emerald",
-    "description": "%COLOR_GRAY%Trading gem currency."
+    "name": "Emerald",
+    "description": "Trading gem currency."
   },
   "ghast_tear": {
-    "name": "%COLOR_LEGENDARY%Stardust",
-    "description": "%COLOR_GRAY%Mystical magic currency."
+    "name": "Stardust",
+    "description": "Mystical magic currency."
   },
   "nether_star": {
-    "name": "%COLOR_EPIC%Star",
-    "description": "%COLOR_GRAY%Premium special currency."
+    "name": "Star",
+    "description": "Premium special currency."
   },
   "exp": {
-    "name": "%COLOR_AQUA%Experience",
-    "description": "%COLOR_GRAY%Experience points for leveling up."
+    "name": "Experience",
+    "description": "Experience points for leveling up."
   }
 }

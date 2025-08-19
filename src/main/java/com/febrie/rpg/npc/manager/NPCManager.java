@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.kyori.adventure.text.Component;
 /**
  * RPG NPC 관리자
  * Citizens의 Trait 시스템을 통한 NPC 영구 저장 및 복구 관리

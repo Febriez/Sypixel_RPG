@@ -20,7 +20,6 @@ import com.febrie.rpg.quest.service.QuestProgressService;
 import com.febrie.rpg.quest.task.LocationCheckTask;
 import com.febrie.rpg.quest.util.QuestUtil;
 import com.febrie.rpg.util.UnifiedColorUtil;
-import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -1230,7 +1229,7 @@ public class QuestManager {
      */
     private void notifyObjectiveProgress(@NotNull Player player, @NotNull Quest quest,
                                         @NotNull QuestObjective objective, @NotNull ObjectiveProgress progress) {
-        Component progressMsg = LangManager.getMessage(player, "quest.progress");
+        Component progressMsg = Component.translatable("quest.progress");
         
         player.sendMessage(progressMsg.color(UnifiedColorUtil.INFO)
             .append(Component.text(": ", UnifiedColorUtil.INFO))

@@ -36,6 +36,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import net.kyori.adventure.text.Component;
 /**
  * 퀘스트 레지스트리
  * QuestID와 실제 Quest 구현체를 매핑

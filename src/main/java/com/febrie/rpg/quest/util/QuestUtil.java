@@ -95,7 +95,7 @@ public final class QuestUtil {
         
         // 추가 메시지 (보상 NPC 방문 안내)
         player.sendMessage(
-            LangManager.getMessage(player, "quest.reward-npc-visit").color(UnifiedColorUtil.INFO)
+            Component.translatable("quest.reward-npc-visit").color(UnifiedColorUtil.INFO)
         );
     }
     
@@ -135,7 +135,7 @@ public final class QuestUtil {
         // 추가 메시지 (messageKey가 있는 경우)
         if (type.messageKey != null) {
             message = message.append(
-                LangManager.getMessage(player, type.messageKey).color(
+                Component.translatable(type.messageKey).color(
                     type == NotificationType.QUEST_CANCEL ? UnifiedColorUtil.ERROR : UnifiedColorUtil.SUCCESS
                 )
             );

@@ -22,6 +22,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import net.kyori.adventure.text.Component;
 /**
  * 데이터 동기화 관리자
  * 메모리와 Firestore 간의 데이터 동기화를 담당

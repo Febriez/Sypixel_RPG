@@ -7,7 +7,6 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.Component;
@@ -21,6 +20,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,7 +117,7 @@ public abstract class BaseGui implements InteractiveGui {
      * 인벤토리 생성
      */
     private Inventory createInventory(@NotNull String titleKey, @NotNull String... titleArgs) {
-        Component title = com.febrie.rpg.util.LangManager.getMessage(viewer, titleKey, titleArgs);
+        Component title = Component.translatable(titleKey, Arrays.stream(titleArgs).map(Component::text).toArray(Component[]::new));
         Component styledTitle = applyTitleStyle(title);
         return Bukkit.createInventory(this, size, styledTitle);
     }
@@ -137,7 +137,7 @@ public abstract class BaseGui implements InteractiveGui {
         
         // 첫 open 시에만 초기화
         if (!initialized && !titleKey.isEmpty()) {
-            Component title = com.febrie.rpg.util.LangManager.getMessage(viewer, titleKey, titleArgs);
+            Component title = Component.translatable(titleKey, Arrays.stream(titleArgs).map(Component::text).toArray(Component[]::new));
             Component styledTitle = applyTitleStyle(title);
             this.inventory = Bukkit.createInventory(this, size, styledTitle);
             this.initialized = true;
@@ -371,14 +371,14 @@ public abstract class BaseGui implements InteractiveGui {
      * 번역된 컴포넌트 가져오기 (간편 메소드)
      */
     protected Component trans(@NotNull String key, @NotNull String... args) {
-        return com.febrie.rpg.util.LangManager.getMessage(viewer, key, args);
+        return Component.translatable(key, Arrays.stream(args).map(Component::text).toArray(Component[]::new));
     }
 
     /**
      * 번역된 문자열 가져오기 (간편 메소드)
      */
     protected String transString(@NotNull String key, @NotNull String... args) {
-        net.kyori.adventure.text.Component comp = com.febrie.rpg.util.LangManager.getMessage(viewer, key, args);
+        net.kyori.adventure.text.Component comp = Component.translatable(key, Arrays.stream(args).map(Component::text).toArray(Component[]::new));
         return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(comp);
     }
 
@@ -386,7 +386,7 @@ public abstract class BaseGui implements InteractiveGui {
      * 메시지 전송 (간편 메소드)
      */
     protected void sendMessage(@NotNull Player player, @NotNull String key, @NotNull String... args) {
-        com.febrie.rpg.util.LangManager.sendMessage(player, key, args);
+        player.sendMessage(Component.translatable(key, Arrays.stream(args).map(Component::text).toArray(Component[]::new)));
     }
 
     // 사운드 재생 메소드들

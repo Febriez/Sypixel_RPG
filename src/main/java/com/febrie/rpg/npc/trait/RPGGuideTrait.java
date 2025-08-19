@@ -5,6 +5,7 @@ import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitName;
 import org.bukkit.entity.Player;
 
+import net.kyori.adventure.text.Component;
 /**
  * RPG 가이드 NPC를 위한 커스텀 Trait
  * Citizens의 Trait 시스템을 사용해 NPC 데이터를 영구 저장

@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import net.kyori.adventure.text.Component;
 /**
  * Guide Trait Registration Item
  * NPC를 가이드로 설정하는 막대기

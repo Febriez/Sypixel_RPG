@@ -11,7 +11,7 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.CraftItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -91,12 +91,12 @@ public class HeroesJourneyQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.name");
+        return Component.translatable("quest.main.heroes_journey.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getList(who, "quest.main.heroes_journey.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.main.heroes_journey.description") manually */;
     }
 
     @Override
@@ -104,13 +104,13 @@ public class HeroesJourneyQuest extends Quest {
         String id = objective.getId();
 
         return switch (id) {
-            case "kill_zombies" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.objectives.kill_zombies");
-            case "kill_skeletons" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.objectives.kill_skeletons");
-            case "kill_spiders" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.objectives.kill_spiders");
-            case "collect_iron" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.objectives.collect_iron");
-            case "collect_gold" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.objectives.collect_gold");
-            case "craft_iron_sword" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.objectives.craft_iron_sword");
-            case "craft_iron_armor" -> com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.heroes_journey.objectives.craft_iron_armor");
+            case "kill_zombies" -> Component.translatable("quest.main.heroes_journey.objectives.kill_zombies");
+            case "kill_skeletons" -> Component.translatable("quest.main.heroes_journey.objectives.kill_skeletons");
+            case "kill_spiders" -> Component.translatable("quest.main.heroes_journey.objectives.kill_spiders");
+            case "collect_iron" -> Component.translatable("quest.main.heroes_journey.objectives.collect_iron");
+            case "collect_gold" -> Component.translatable("quest.main.heroes_journey.objectives.collect_gold");
+            case "craft_iron_sword" -> Component.translatable("quest.main.heroes_journey.objectives.craft_iron_sword");
+            case "craft_iron_armor" -> Component.translatable("quest.main.heroes_journey.objectives.craft_iron_armor");
             default -> Component.text(objective.getStatusInfo(null));
         };
     }

@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
+import net.kyori.adventure.text.Component;
 /**
  * 블럭 설치 퀘스트 목표
  * 특정 블럭을 특정 위치/영역에 설치

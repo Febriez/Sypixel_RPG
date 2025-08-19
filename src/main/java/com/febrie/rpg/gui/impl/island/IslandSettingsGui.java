@@ -186,11 +186,16 @@ public class IslandSettingsGui extends BaseGui {
     
     private void handleNameChange(Player player) {
         new AnvilGUI.Builder()
-                .onComplete((completedPlayer, text) -> {
+                .onClick((slot, stateSnapshot) -> {
+                    if (slot != AnvilGUI.Slot.OUTPUT) {
+                        return java.util.Collections.emptyList();
+                    }
+                    
+                    String text = stateSnapshot.getText();
                     // 유효성 검사
                     if (text.isEmpty() || text.length() > 20) {
                         player.sendMessage(UnifiedColorUtil.parse("&c섬 이름은 1~20자여야 합니다."));
-                        return AnvilGUI.Response.text("1~20자 사이로 입력하세요");
+                        return java.util.Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText("1~20자 사이로 입력하세요"));
                     }
                     
                     // 색상 코드 제거 (Paper API)
@@ -199,7 +204,7 @@ public class IslandSettingsGui extends BaseGui {
                     
                     tempIslandName = newName;
                     
-                    return AnvilGUI.Response.close();
+                    return java.util.Collections.singletonList(AnvilGUI.ResponseAction.close());
                 })
                 .onClose(closePlayer -> {
                     // AnvilGUI가 닫힌 후 다시 열기

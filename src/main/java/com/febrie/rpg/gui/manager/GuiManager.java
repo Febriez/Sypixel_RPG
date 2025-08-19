@@ -2,7 +2,6 @@ package com.febrie.rpg.gui.manager;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.framework.GuiFramework;
-import com.febrie.rpg.util.LangManager;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,6 +11,7 @@ import java.util.Set;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.UUID;
+import net.kyori.adventure.text.Component;
 /**
  * GUI 관리자 - 간소화된 버전
  * GUI 열기, 닫기, 네비게이션 기능만 제공

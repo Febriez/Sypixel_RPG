@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
+import net.kyori.adventure.text.Component;
 /**
  * 데이터 관리자를 위한 추상 클래스
  * 캐싱, 자동 저장, 더티 체크 등의 공통 기능 제공

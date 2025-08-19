@@ -15,7 +15,6 @@ import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.StandardItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SkullUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

@@ -14,6 +14,7 @@ import org.bukkit.projectiles.ProjectileSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import net.kyori.adventure.text.Component;
 /**
  * 데미지 표시 이벤트 리스너
  * EntityDamageByEntityEvent를 감지하여 데미지 홀로그램을 표시

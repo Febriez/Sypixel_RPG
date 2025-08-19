@@ -9,7 +9,7 @@ import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -133,18 +133,18 @@ public class DailyExplorationQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.daily.exploration.name");
+        return Component.translatable("quest.daily.exploration.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getList(who, "quest.daily.exploration.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.daily.exploration.description") manually */;
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String key = "quest.daily.exploration.objectives." + objective.getId();
-        return com.febrie.rpg.util.LangManager.getMessage(who, key);
+        return Component.translatable(key);
     }
 
     public QuestDialog getDialog() {

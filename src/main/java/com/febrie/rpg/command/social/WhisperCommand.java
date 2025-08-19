@@ -1,5 +1,6 @@
 package com.febrie.rpg.command.social;
 
+import net.kyori.adventure.text.Component;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.social.WhisperManager;
 import org.bukkit.Bukkit;

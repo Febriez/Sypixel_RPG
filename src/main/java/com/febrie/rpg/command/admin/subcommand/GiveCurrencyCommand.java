@@ -1,12 +1,12 @@
 package com.febrie.rpg.command.admin.subcommand;
 
+import net.kyori.adventure.text.Component;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.command.admin.subcommand.base.SubCommand;
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
-import com.febrie.rpg.util.LangManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

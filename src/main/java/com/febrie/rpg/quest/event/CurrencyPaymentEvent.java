@@ -7,6 +7,7 @@ import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import net.kyori.adventure.text.Component;
 /**
  * 재화 지불 이벤트
  * 플레이어가 재화를 사용할 때 발생

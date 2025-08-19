@@ -102,12 +102,10 @@ public class QuestDialog {
     }
 
     /**
-     * 대화 라인 클래스
+     * 대화 라인 레코드
      */
-    public static class DialogLine {
-        private final String speakerKey;
-        private final String messageKey;
-        private final List<DialogChoice> choices;
+    public record DialogLine(@NotNull String speakerKey, @NotNull String messageKey, 
+                           @Nullable List<DialogChoice> choices) {
 
         public DialogLine(@NotNull String speakerKey, @NotNull String messageKey,
                           @Nullable List<DialogChoice> choices) {
@@ -120,14 +118,14 @@ public class QuestDialog {
          * 화자 이름 Component (Player 기반)
          */
         public @NotNull Component getSpeaker(@NotNull Player player) {
-            return LangManager.getMessage(player, speakerKey);
+            return Component.translatable(speakerKey);
         }
 
         /**
          * 메시지 Component (Player 기반)
          */
         public @NotNull Component getMessage(@NotNull Player player) {
-            return LangManager.getMessage(player, messageKey);
+            return Component.translatable(messageKey);
         }
 
         /**
@@ -157,38 +155,15 @@ public class QuestDialog {
     }
 
     /**
-     * 대화 선택지 클래스
+     * 대화 선택지 record
      */
-    public static class DialogChoice {
-        private final String id;
-        private final String textKey;
-        private final int nextLineIndex;
-
-        public DialogChoice(@NotNull String id, @NotNull String textKey, int nextLineIndex) {
-            this.id = id;
-            this.textKey = textKey;
-            this.nextLineIndex = nextLineIndex;
-        }
-
+    public record DialogChoice(@NotNull String id, @NotNull String textKey, int nextLineIndex) {
+        
         /**
-         * 선택지 ID
+         * 선택지 텍스트 Component
          */
-        public @NotNull String getId() {
-            return id;
-        }
-
-        /**
-         * 선택지 텍스트 Component (Player 기반)
-         */
-        public @NotNull Component getText(@NotNull Player player) {
-            return LangManager.getMessage(player, textKey);
-        }
-
-        /**
-         * 다음 대화 인덱스
-         */
-        public int getNextLineIndex() {
-            return nextLineIndex;
+        public @NotNull Component getText() {
+            return Component.translatable(textKey);
         }
     }
 }

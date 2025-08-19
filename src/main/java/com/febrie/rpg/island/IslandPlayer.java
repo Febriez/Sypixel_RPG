@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
+import net.kyori.adventure.text.Component;
 /**
  * 섬 플레이어 관리 클래스
  * 플레이어와 섬 간의 관계를 관리

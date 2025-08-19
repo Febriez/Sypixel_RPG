@@ -10,7 +10,6 @@ import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -147,7 +146,7 @@ public class SystemSettingsGui extends BaseGui {
                     settings.setConfirmationDialogsEnabled(!enabled);
                     updateConfirmationDialogsToggle(settings);
                     playClickSound(p);
-                    com.febrie.rpg.util.LangManager.sendMessage(p, "확인 대화상자가 " + (settings.isConfirmationDialogsEnabled() ? "활성화" : "비활성화") + "되었습니다");
+                    p.sendMessage(Component.translatable("settings.confirmation-dialogs.toggled", Component.text(enabled ? "비활성화" : "활성화")));
                 }
         );
         setItem(CONFIRMATION_DIALOGS_SLOT, confirmationDialogsToggle);

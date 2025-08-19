@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import net.kyori.adventure.text.Component;
 /**
  * Firestore 서비스 기본 구현체
  * 캐싱, 에러 처리, 공통 로직 제공

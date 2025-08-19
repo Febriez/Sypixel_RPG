@@ -4,6 +4,7 @@ import com.febrie.rpg.util.LogUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import net.kyori.adventure.text.Component;
 /**
  * RPG 시스템 표준 예외
  * 모든 커스텀 예외의 기본 클래스

@@ -22,6 +22,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+import net.kyori.adventure.text.Component;
 /**
  * 우편함 시스템 관리자
  * 우편 보내기, 받기, 첨부물 관리

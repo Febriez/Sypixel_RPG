@@ -191,8 +191,7 @@ public class StatsGui extends ScrollableGui {
             builder.addLore(Component.empty());
 
             // 스탯 설명
-            List<Component> description = com.febrie.rpg.util.LangManager.getList(viewer,
-                    "stat." + stat.getId() + ".description");
+            List<Component> description = List.of(); /* TODO: Convert LangManager.getList("stat." + stat.getId() + ".description") manually */
             description.forEach(builder::addLore);
 
             builder.addLore(Component.empty())

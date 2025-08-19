@@ -9,7 +9,7 @@ import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -105,12 +105,12 @@ public class WeeklyWorldBossQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.getMessage(who, "quest.weekly.world_boss.name");
+        return Component.translatable("quest.weekly.world_boss.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList(who, "quest.weekly.world_boss.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.weekly.world_boss.description") manually */;
     }
 
     @Override
@@ -119,69 +119,69 @@ public class WeeklyWorldBossQuest extends Quest {
 
         return switch (id) {
             case "world_herald" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.world_herald");
+                    Component.translatable("quest.weekly.world_boss.objectives.world_herald");
             case "boss_spawn" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.boss_spawn");
+                    Component.translatable("quest.weekly.world_boss.objectives.boss_spawn");
             case "summoning_crystals" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.summoning_crystals");
+                    Component.translatable("quest.weekly.world_boss.objectives.summoning_crystals");
             case "titan_essence" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.titan_essence");
+                    Component.translatable("quest.weekly.world_boss.objectives.titan_essence");
             case "ancient_runes" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.ancient_runes");
+                    Component.translatable("quest.weekly.world_boss.objectives.ancient_runes");
             case "ritual_cost" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.ritual_cost");
+                    Component.translatable("quest.weekly.world_boss.objectives.ritual_cost");
             case "place_crystals" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.place_crystals");
+                    Component.translatable("quest.weekly.world_boss.objectives.place_crystals");
             case "place_beacons" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.place_beacons");
+                    Component.translatable("quest.weekly.world_boss.objectives.place_beacons");
             case "start_ritual" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.start_ritual");
+                    Component.translatable("quest.weekly.world_boss.objectives.start_ritual");
             case "titan_minions" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.titan_minions");
+                    Component.translatable("quest.weekly.world_boss.objectives.titan_minions");
             case "elemental_guards" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.elemental_guards");
+                    Component.translatable("quest.weekly.world_boss.objectives.elemental_guards");
             case "shadow_priests" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.shadow_priests");
+                    Component.translatable("quest.weekly.world_boss.objectives.shadow_priests");
             case "first_wave" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.first_wave");
+                    Component.translatable("quest.weekly.world_boss.objectives.first_wave");
             case "fire_general" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.fire_general");
+                    Component.translatable("quest.weekly.world_boss.objectives.fire_general");
             case "ice_general" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.ice_general");
+                    Component.translatable("quest.weekly.world_boss.objectives.ice_general");
             case "earth_general" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.earth_general");
+                    Component.translatable("quest.weekly.world_boss.objectives.earth_general");
             case "wind_general" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.wind_general");
+                    Component.translatable("quest.weekly.world_boss.objectives.wind_general");
             case "general_cores" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.general_cores");
+                    Component.translatable("quest.weekly.world_boss.objectives.general_cores");
             case "titan_arena" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.titan_arena");
+                    Component.translatable("quest.weekly.world_boss.objectives.titan_arena");
             case "activate_cores" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.activate_cores");
+                    Component.translatable("quest.weekly.world_boss.objectives.activate_cores");
             case "titan_roar" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.titan_roar");
+                    Component.translatable("quest.weekly.world_boss.objectives.titan_roar");
             case "world_titan_phase1" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.world_titan_phase1");
+                    Component.translatable("quest.weekly.world_boss.objectives.world_titan_phase1");
             case "titan_heart" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.titan_heart");
+                    Component.translatable("quest.weekly.world_boss.objectives.titan_heart");
             case "world_titan_phase2" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.world_titan_phase2");
+                    Component.translatable("quest.weekly.world_boss.objectives.world_titan_phase2");
             case "titan_soul" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.titan_soul");
+                    Component.translatable("quest.weekly.world_boss.objectives.titan_soul");
             case "world_titan_final" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.world_titan_final");
+                    Component.translatable("quest.weekly.world_boss.objectives.world_titan_final");
             case "titan_scales" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.titan_scales");
+                    Component.translatable("quest.weekly.world_boss.objectives.titan_scales");
             case "titan_blood" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.titan_blood");
+                    Component.translatable("quest.weekly.world_boss.objectives.titan_blood");
             case "titan_bones" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.titan_bones");
+                    Component.translatable("quest.weekly.world_boss.objectives.titan_bones");
             case "deliver_heart" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.deliver_heart");
+                    Component.translatable("quest.weekly.world_boss.objectives.deliver_heart");
             case "deliver_soul" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.deliver_soul");
+                    Component.translatable("quest.weekly.world_boss.objectives.deliver_soul");
             case "claim_rewards" ->
-                    LangManager.getMessage(who, "quest.weekly.world_boss.objectives.claim_rewards");
+                    Component.translatable("quest.weekly.world_boss.objectives.claim_rewards");
             default -> Component.text(objective.getStatusInfo(null));
         };
     }

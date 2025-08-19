@@ -14,7 +14,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 
 import java.util.Arrays;
@@ -134,18 +134,18 @@ public class MasterChefQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.life.master_chef.name");
+        return Component.translatable("quest.life.master_chef.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getList(who, "quest.life.master_chef.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.life.master_chef.description") manually */;
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.life.master_chef.objectives." + id);
+        return Component.translatable("quest.life.master_chef.objectives.");
     }
 
     public QuestDialog getDialog() {

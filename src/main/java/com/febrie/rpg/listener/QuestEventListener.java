@@ -17,6 +17,7 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.jetbrains.annotations.NotNull;
 
+import net.kyori.adventure.text.Component;
 /**
  * 퀘스트 시스템을 위한 이벤트 리스너
  * 다양한 이벤트를 처리하여 퀘스트 목표 진행을 체크

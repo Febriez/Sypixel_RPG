@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+import net.kyori.adventure.text.Component;
 /**
  * 섬 캐시 관리 클래스
  * 메모리 캐싱을 통한 성능 최적화

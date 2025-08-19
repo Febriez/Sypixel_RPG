@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import net.kyori.adventure.text.Component;
 /**
  * 섬 전체 정보 DTO (Composite Pattern)
  * 작은 DTO들을 조합하여 전체 섬 정보를 관리

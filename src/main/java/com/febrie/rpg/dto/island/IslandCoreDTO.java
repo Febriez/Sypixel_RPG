@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import net.kyori.adventure.text.Component;
 /**
  * 섬 핵심 정보 DTO (Record)
  * 가장 기본적인 섬 정보와 위치 정보 포함

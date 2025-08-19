@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 
+import net.kyori.adventure.text.Component;
 /**
  * 통합 시간 처리 유틸리티
  * 모든 시간 처리를 Instant 기반으로 표준화

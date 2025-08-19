@@ -101,7 +101,7 @@ public class MainMenuGui extends BaseGui {
         GuiItem titleItem = GuiItem.display(
                 StandardItemBuilder.guiItem(Material.NETHER_STAR)
                         .displayName(trans("items.mainmenu.title.name"))
-                        .lore(LangManager.getList(viewer, "items.mainmenu.title.lore"))
+                        .lore(List.of() /* TODO: Convert LangManager.getList("items.mainmenu.title.lore") manually */)
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -117,7 +117,7 @@ public class MainMenuGui extends BaseGui {
         builder.menuButton(PROFILE_SLOT, 
             new ItemBuilder(viewer)
                 .displayName(trans("items.mainmenu.profile-button.name"))
-                .lore(LangManager.getList(viewer, "items.mainmenu.profile-button.lore"))
+                .lore(List.of() /* TODO: Convert LangManager.getList("items.mainmenu.profile-button.lore") manually */)
                 .build(),
             player -> {
                 ProfileGui profileGui = ProfileGui.create(guiManager, player);
@@ -190,7 +190,7 @@ public class MainMenuGui extends BaseGui {
         GuiItem leaderboardButton = GuiItem.clickable(
                 new ItemBuilder(Material.GOLDEN_APPLE)
                         .displayName(trans("items.mainmenu.leaderboard-button.name"))
-                        .lore(LangManager.getList(viewer, "items.mainmenu.leaderboard-button.lore"))
+                        .lore(List.of() /* TODO: Convert LangManager.getList("items.mainmenu.leaderboard-button.lore") manually */)
                         .build(),
                 player -> {
                     LeaderboardGui leaderboardGui = LeaderboardGui.create(guiManager, player);

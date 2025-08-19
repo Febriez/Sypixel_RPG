@@ -1,7 +1,7 @@
 package com.febrie.rpg.command;
 
+import net.kyori.adventure.text.Component;
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -37,7 +37,7 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter {
             LogUtil.error("Error executing command " + command.getName(), e);
 
             if (sender instanceof Player player) {
-                LangManager.sendMessage(player, "general.error", new String[0]);
+                player.sendMessage(Component.translatable("general.error"));
             } else {
                 sender.sendMessage("An error occurred while executing the command.");
             }
@@ -58,7 +58,7 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter {
     protected boolean requirePlayer(@NotNull CommandSender sender) {
         if (!(sender instanceof Player)) {
             if (sender instanceof Player player) {
-                LangManager.sendMessage(player, "general.player-only", new String[0]);
+                player.sendMessage(Component.translatable("general.player-only"));
             } else {
                 sender.sendMessage("This command can only be used by players!");
             }
@@ -72,7 +72,7 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter {
      */
     protected boolean checkPermission(@NotNull Player player, @NotNull String permission) {
         if (!player.hasPermission(permission)) {
-            LangManager.sendMessage(player, "general.no-permission", new String[0]);
+            player.sendMessage(Component.translatable("general.no-permission"));
             return false;
         }
         return true;

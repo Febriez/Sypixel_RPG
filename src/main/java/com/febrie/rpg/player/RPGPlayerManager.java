@@ -31,6 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.TimeUnit;
 
+import net.kyori.adventure.text.Component;
 /**
  * RPG 플레이어 데이터 관리자
  * 플레이어의 RPG 데이터를 메모리에 캐싱하고 관리

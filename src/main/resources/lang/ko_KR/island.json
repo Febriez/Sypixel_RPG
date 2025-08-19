@@ -4,7 +4,7 @@
   },
   "roles": {
     "owner": "섬장",
-    "sub-owner": "부섬장", 
+    "sub-owner": "부섬장",
     "member": "섬원",
     "worker": "알바",
     "visitor": "방문자"
@@ -18,6 +18,9 @@
     "manage-workers": "알바 관리",
     "set-spawn": "스폰 설정",
     "change-settings": "섬 설정 변경"
+  },
+  "invite": {
+    "default-message": "섬에 초대되었습니다!"
   },
   "messages": {
     "teleport-success": "섬으로 이동했습니다!",
@@ -39,7 +42,7 @@
   "gui": {
     "main": {
       "title": "섬 관리",
-      "title-with-name": "섬 관리 - {name}",
+      "title-with-name": "섬 관리 - {0}",
       "create-island": {
         "title": "섬 생성하기",
         "no-island": "아직 섬이 없습니다!",

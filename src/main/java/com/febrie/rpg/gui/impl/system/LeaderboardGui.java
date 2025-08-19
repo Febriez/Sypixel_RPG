@@ -12,7 +12,6 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -421,6 +420,11 @@ public class LeaderboardGui extends ScrollableGui {
         if (diff < 3600000) return (diff / 60000) + "분 전";
         if (diff < 86400000) return (diff / 3600000) + "시간 전";
         return (diff / 86400000) + "일 전";
+    }
+    
+    @Override
+    protected List<ClickType> getAllowedClickTypes() {
+        return List.of(ClickType.LEFT, ClickType.RIGHT);
     }
     
     @Override

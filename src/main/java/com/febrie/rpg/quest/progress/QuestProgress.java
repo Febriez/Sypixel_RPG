@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
+import net.kyori.adventure.text.Component;
 /**
  * 퀘스트 진행도
  * 플레이어의 특정 퀘스트 진행 상태를 추적

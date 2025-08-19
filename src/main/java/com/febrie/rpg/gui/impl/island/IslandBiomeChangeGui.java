@@ -6,7 +6,6 @@ import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
-import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.StandardItemBuilder;
 import com.febrie.rpg.util.UnifiedColorUtil;
@@ -53,7 +52,7 @@ public class IslandBiomeChangeGui extends BaseGui {
                                 .toString()) && m.isCoOwner());
 
         if (!canChangeBiome) {
-            viewer.sendMessage(LangManager.getMessage(viewer, "gui.island.biome.message.no_permission"));
+            viewer.sendMessage(Component.translatable("gui.island.biome.message.no_permission"));
             return null;
         }
 
@@ -148,7 +147,7 @@ public class IslandBiomeChangeGui extends BaseGui {
             if (!isCurrentBiome) {
                 changeBiome(player, biome, name);
             } else {
-                player.sendMessage(LangManager.getMessage(player, "gui.island.biome.message.already_selected"));
+                player.sendMessage(Component.translatable("gui.island.biome.message.already_selected"));
             }
             SoundUtil.playClickSound(player);
         });
@@ -158,11 +157,11 @@ public class IslandBiomeChangeGui extends BaseGui {
         World islandWorld = plugin.getServer()
                 .getWorld("Island");
         if (islandWorld == null) {
-            player.sendMessage(LangManager.getMessage(player, "gui.island.biome.message.world_not_found"));
+            player.sendMessage(Component.translatable("gui.island.biome.message.world_not_found"));
             return;
         }
 
-        player.sendMessage(LangManager.getMessage(player, "gui.island.biome.message.changing"));
+        player.sendMessage(Component.translatable("gui.island.biome.message.changing"));
 
         // 비동기로 바이옴 변경 처리
         plugin.getServer()
@@ -188,8 +187,8 @@ public class IslandBiomeChangeGui extends BaseGui {
                     plugin.getServer()
                             .getScheduler()
                             .runTask(plugin, () -> {
-                                player.sendMessage(LangManager.getMessage(player, "gui.island.biome.message.changed", "biome", biomeName));
-                                player.sendMessage(LangManager.getMessage(player, "gui.island.biome.message.chunk_reload_notice"));
+                                player.sendMessage(Component.translatable("gui.island.biome.message.changed", Component.text(biomeName)));
+                                player.sendMessage(Component.translatable("gui.island.biome.message.chunk_reload_notice"));
 
                                 // 플레이어가 섬에 있다면 청크 리로드
                                 if (player.getWorld()

@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
+import net.kyori.adventure.text.Component;
 /**
  * 통합 검증 유틸리티
  * 모든 검증 로직을 중앙화
@@ -198,5 +199,23 @@ public class Validator {
      */
     public static <T> ValidationBuilder<T> validate(@Nullable T value, @NotNull String name) {
         return new ValidationBuilder<>(value, name);
+    }
+    
+    /**
+     * IslandInviteDTO 검증
+     */
+    public static void validateIslandInviteData(String inviteId, String invitedUuid, String inviterUuid, long invitedAt, long expiresAt) {
+        // 초대 ID 검증
+        require(inviteId != null && !inviteId.isEmpty(), "Invalid IslandInviteDTO: inviteId cannot be empty");
+        
+        // UUID 필드 검증
+        require(invitedUuid != null && !invitedUuid.isEmpty() && inviterUuid != null && !inviterUuid.isEmpty(),
+            String.format("Invalid IslandInviteDTO: UUID fields cannot be empty. invitedUuid='%s', inviterUuid='%s'",
+                invitedUuid, inviterUuid));
+        
+        // 시간 검증
+        require(invitedAt <= expiresAt, 
+            String.format("Invalid IslandInviteDTO: invitedAt (%d) cannot be after expiresAt (%d)", 
+                invitedAt, expiresAt));
     }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.kyori.adventure.text.Component;
 /**
  * RPG 퀘스트 NPC를 위한 커스텀 Trait
  * Citizens의 Trait 시스템을 사용해 NPC 데이터를 영구 저장

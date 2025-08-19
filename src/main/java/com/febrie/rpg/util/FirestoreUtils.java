@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Map;
 
+import net.kyori.adventure.text.Component;
 /**
  * Firestore 문서에서 값을 안전하게 가져오기 위한 유틸리티 클래스
  * null 체크를 통해 NullPointerException을 방지하고 기본값을 제공합니다.

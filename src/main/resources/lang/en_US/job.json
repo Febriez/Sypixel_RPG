@@ -1,127 +1,127 @@
 {
   "categories": {
-    "warrior": "%COLOR_RED%Warrior",
-    "mage": "%COLOR_PURPLE%Mage",
-    "archer": "%COLOR_GREEN%Archer",
+    "warrior": "Warrior",
+    "mage": "Mage",
+    "archer": "Archer",
     "warrior-full": {
-      "name": "%COLOR_RED%Warrior",
+      "name": "Warrior",
       "description": [
-        "%COLOR_GRAY%A class group with powerful melee combat abilities.",
-        "%COLOR_GRAY%Holds the front line with high health and defense."
+        "A class group with powerful melee combat abilities.",
+        "Holds the front line with high health and defense."
       ]
     },
     "mage-full": {
-      "name": "%COLOR_PURPLE%Mage",
+      "name": "Mage",
       "description": [
-        "%COLOR_GRAY%A class group that wields mystical magical powers.",
-        "%COLOR_GRAY%Dominates the battlefield with powerful spells."
+        "A class group that wields mystical magical powers.",
+        "Dominates the battlefield with powerful spells."
       ]
     },
     "archer-full": {
-      "name": "%COLOR_GREEN%Archer",
+      "name": "Archer",
       "description": [
-        "%COLOR_GRAY%A class group that delivers precise attacks from range.",
-        "%COLOR_GRAY%Features fast mobility and high critical rate."
+        "A class group that delivers precise attacks from range.",
+        "Features fast mobility and high critical rate."
       ]
     }
   },
   "berserker": {
-    "name": "%COLOR_DARK_RED%Berserker",
+    "name": "Berserker",
     "description": [
-      "%COLOR_GRAY%A melee dealer with powerful attack power.",
-      "%COLOR_GRAY%Gets stronger the lower their health is.",
+      "A melee dealer with powerful attack power.",
+      "Gets stronger the lower their health is.",
       "",
-      "%COLOR_SUCCESS%▸ Strength-focused stat growth",
-      "%COLOR_SUCCESS%▸ Can use berserk skills",
-      "%COLOR_SUCCESS%▸ Health-based attack power increase"
+      "▸ Strength-focused stat growth",
+      "▸ Can use berserk skills",
+      "▸ Health-based attack power increase"
     ]
   },
   "bruiser": {
-    "name": "%COLOR_ORANGE%Bruiser",
+    "name": "Bruiser",
     "description": [
-      "%COLOR_GRAY%A warrior balanced between offense and defense.",
-      "%COLOR_GRAY%Can handle various situations.",
+      "A warrior balanced between offense and defense.",
+      "Can handle various situations.",
       "",
-      "%COLOR_SUCCESS%▸ Balanced stat growth",
-      "%COLOR_SUCCESS%▸ Attack/Defense mode switching",
-      "%COLOR_SUCCESS%▸ Highly adaptable combat style"
+      "▸ Balanced stat growth",
+      "▸ Attack/Defense mode switching",
+      "▸ Highly adaptable combat style"
     ]
   },
   "tank": {
-    "name": "%COLOR_NETHERITE%Tank",
+    "name": "Tank",
     "description": [
-      "%COLOR_GRAY%A sturdy shield that protects allies.",
-      "%COLOR_GRAY%Boasts high defense and health.",
+      "A sturdy shield that protects allies.",
+      "Boasts high defense and health.",
       "",
-      "%COLOR_SUCCESS%▸ Vitality-focused stat growth",
-      "%COLOR_SUCCESS%▸ Taunt and shield skills",
-      "%COLOR_SUCCESS%▸ Damage reduction effects"
+      "▸ Vitality-focused stat growth",
+      "▸ Taunt and shield skills",
+      "▸ Damage reduction effects"
     ]
   },
   "priest": {
-    "name": "%COLOR_LEGENDARY%Priest",
+    "name": "Priest",
     "description": [
-      "%COLOR_GRAY%Heals allies with divine power.",
-      "%COLOR_GRAY%Possesses powerful buffs and healing abilities.",
+      "Heals allies with divine power.",
+      "Possesses powerful buffs and healing abilities.",
       "",
-      "%COLOR_SUCCESS%▸ Wisdom-focused stat growth",
-      "%COLOR_SUCCESS%▸ Healing and resurrection skills",
-      "%COLOR_SUCCESS%▸ Buff/Debuff specialization"
+      "▸ Wisdom-focused stat growth",
+      "▸ Healing and resurrection skills",
+      "▸ Buff/Debuff specialization"
     ]
   },
   "dark_mage": {
-    "name": "%COLOR_EPIC%Dark Mage",
+    "name": "Dark Mage",
     "description": [
-      "%COLOR_GRAY%A mage who wields the power of darkness.",
-      "%COLOR_GRAY%Deals powerful area damage.",
+      "A mage who wields the power of darkness.",
+      "Deals powerful area damage.",
       "",
-      "%COLOR_SUCCESS%▸ Intelligence-focused stat growth",
-      "%COLOR_SUCCESS%▸ Curse and dark magic skills",
-      "%COLOR_SUCCESS%▸ Area damage specialization"
+      "▸ Intelligence-focused stat growth",
+      "▸ Curse and dark magic skills",
+      "▸ Area damage specialization"
     ]
   },
   "mercy": {
-    "name": "%COLOR_SUCCESS%Mercy",
+    "name": "Mercy",
     "description": [
-      "%COLOR_GRAY%Protects allies with the power of nature.",
-      "%COLOR_GRAY%Specializes in healing and protection.",
+      "Protects allies with the power of nature.",
+      "Specializes in healing and protection.",
       "",
-      "%COLOR_SUCCESS%▸ Wisdom/Vitality balanced growth",
-      "%COLOR_SUCCESS%▸ Regeneration and purification skills",
-      "%COLOR_SUCCESS%▸ Sustained healing specialization"
+      "▸ Wisdom/Vitality balanced growth",
+      "▸ Regeneration and purification skills",
+      "▸ Sustained healing specialization"
     ]
   },
   "archer": {
-    "name": "%COLOR_EMERALD%Archer",
+    "name": "Archer",
     "description": [
-      "%COLOR_GRAY%Delivers precise shots from long range.",
-      "%COLOR_GRAY%Boasts high mobility and critical rate.",
+      "Delivers precise shots from long range.",
+      "Boasts high mobility and critical rate.",
       "",
-      "%COLOR_SUCCESS%▸ Dexterity-focused stat growth",
-      "%COLOR_SUCCESS%▸ Various arrow skills",
-      "%COLOR_SUCCESS%▸ Critical hit specialization"
+      "▸ Dexterity-focused stat growth",
+      "▸ Various arrow skills",
+      "▸ Critical hit specialization"
     ]
   },
   "sniper": {
-    "name": "%COLOR_INFO%Sniper",
+    "name": "Sniper",
     "description": [
-      "%COLOR_GRAY%Snipes enemies from extreme range.",
-      "%COLOR_GRAY%Each shot is extremely powerful.",
+      "Snipes enemies from extreme range.",
+      "Each shot is extremely powerful.",
       "",
-      "%COLOR_SUCCESS%▸ Dexterity/Luck balanced growth",
-      "%COLOR_SUCCESS%▸ Sniping and piercing skills",
-      "%COLOR_SUCCESS%▸ Single target burst damage"
+      "▸ Dexterity/Luck balanced growth",
+      "▸ Sniping and piercing skills",
+      "▸ Single target burst damage"
     ]
   },
   "shotgunner": {
-    "name": "%COLOR_WARNING%Shotgunner",
+    "name": "Shotgunner",
     "description": [
-      "%COLOR_GRAY%Fires scatter shots at close range.",
-      "%COLOR_GRAY%Features area damage and knockback.",
+      "Fires scatter shots at close range.",
+      "Features area damage and knockback.",
       "",
-      "%COLOR_SUCCESS%▸ Dexterity/Strength balanced growth",
-      "%COLOR_SUCCESS%▸ Scatter and explosive skills",
-      "%COLOR_SUCCESS%▸ Close-range area damage"
+      "▸ Dexterity/Strength balanced growth",
+      "▸ Scatter and explosive skills",
+      "▸ Close-range area damage"
     ]
   }
 }

@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.kyori.adventure.text.Component;
 /**
  * RPG 상점 NPC를 위한 커스텀 Trait
  * Citizens의 Trait 시스템을 사용해 NPC 데이터를 영구 저장

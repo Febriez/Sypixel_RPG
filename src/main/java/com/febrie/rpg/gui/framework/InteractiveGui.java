@@ -5,6 +5,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.NotNull;
 
+import net.kyori.adventure.text.Component;
 /**
  * Interface for GUI implementations that handle player interactions
  * Extends GuiFramework with click handling capabilities

@@ -19,6 +19,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.HashSet;
+import net.kyori.adventure.text.Component;
 /**
  * 배치 저장 작업 스케줄러
  * 플레이어 데이터를 주기적으로 Firestore에 저장

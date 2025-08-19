@@ -1,12 +1,12 @@
 package com.febrie.rpg.command.admin.subcommand;
 
+import net.kyori.adventure.text.Component;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.command.admin.subcommand.base.BaseSubCommand;
 import com.febrie.rpg.dto.island.IslandCoreDTO;
 import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.island.Island;
 import com.febrie.rpg.island.manager.IslandManager;
-import com.febrie.rpg.util.LangManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -49,24 +49,24 @@ public class IslandCommand extends BaseSubCommand {
                     if (sender instanceof Player player) {
                         Island island = islandManager.getIslandAt(player.getLocation());
                         if (island == null) {
-                            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.not-found"));
+                            sender.sendMessage(Component.translatable("commands.admin.island.not-found"));
                             return true;
                         }
                         showIslandInfo(sender, island);
                     } else {
-                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.usage"));
+                        sender.sendMessage(Component.translatable("commands.admin.island.info.usage"));
                     }
                 } else {
                     Player target = Bukkit.getPlayer(args[1]);
                     if (target == null) {
-                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
+                        sender.sendMessage(Component.translatable("commands.admin.player-not-found"));
                         return true;
                     }
 
                     islandManager.getPlayerIsland(target.getUniqueId().toString(), target.getName())
                             .thenAccept(island -> {
                                 if (island == null) {
-                                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.player-no-island", "player", target.getName()));
+                                    sender.sendMessage(Component.translatable("commands.admin.island.player-no-island", Component.text(target.getName())));
                                 } else {
                                     showIslandInfo(sender, island);
                                 }
@@ -77,121 +77,121 @@ public class IslandCommand extends BaseSubCommand {
 
             case "tp" -> {
                 if (!(sender instanceof Player player)) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-only"));
+                    sender.sendMessage(Component.translatable("commands.admin.player-only"));
                     return true;
                 }
 
                 if (args.length < 2) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.tp.usage"));
+                    sender.sendMessage(Component.translatable("commands.admin.island.tp.usage"));
                     return true;
                 }
 
                 Player target = Bukkit.getPlayer(args[1]);
                 if (target == null) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
+                    sender.sendMessage(Component.translatable("commands.admin.player-not-found"));
                     return true;
                 }
 
                 islandManager.getPlayerIsland(target.getUniqueId().toString(), target.getName()).thenAccept(island -> {
                     if (island == null) {
-                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.player-no-island", "player", target.getName()));
+                        sender.sendMessage(Component.translatable("commands.admin.island.player-no-island", Component.text(target.getName())));
                         return;
                     }
 
                     Location spawnLoc = island.getSpawnLocation();
                     if (spawnLoc == null) {
-                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.tp.no-spawn"));
+                        sender.sendMessage(Component.translatable("commands.admin.island.tp.no-spawn"));
                         return;
                     }
 
                     player.teleport(spawnLoc);
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.tp.success", "player", target.getName()));
+                    sender.sendMessage(Component.translatable("commands.admin.island.tp.success", Component.text(target.getName())));
                 });
                 return true;
             }
 
             case "delete" -> {
                 if (args.length < 2) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.delete.usage"));
+                    sender.sendMessage(Component.translatable("commands.admin.island.delete.usage"));
                     return true;
                 }
 
                 Player target = Bukkit.getPlayer(args[1]);
                 if (target == null) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
+                    sender.sendMessage(Component.translatable("commands.admin.player-not-found"));
                     return true;
                 }
 
                 islandManager.getPlayerIsland(target.getUniqueId().toString(), target.getName()).thenAccept(island -> {
                     if (island == null) {
-                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.player-no-island", "player", target.getName()));
+                        sender.sendMessage(Component.translatable("commands.admin.island.player-no-island", Component.text(target.getName())));
                         return;
                     }
 
                     // 확인 메시지
                     if (args.length < 3 || !args[2].equalsIgnoreCase("confirm")) {
-                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.delete.confirm", "player", target.getName()));
+                        sender.sendMessage(Component.translatable("commands.admin.island.delete.confirm", Component.text(target.getName())));
                         return;
                     }
 
                     islandManager.deleteIsland(island.getId());
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.delete.success", "player", target.getName()));
+                    sender.sendMessage(Component.translatable("commands.admin.island.delete.success", Component.text(target.getName())));
                 });
                 return true;
             }
 
             case "reset" -> {
                 if (args.length < 2) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.reset.usage"));
+                    sender.sendMessage(Component.translatable("commands.admin.island.reset.usage"));
                     return true;
                 }
 
                 Player target = Bukkit.getPlayer(args[1]);
                 if (target == null) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
+                    sender.sendMessage(Component.translatable("commands.admin.player-not-found"));
                     return true;
                 }
 
                 islandManager.getPlayerIsland(target.getUniqueId().toString(), target.getName()).thenAccept(island -> {
                     if (island == null) {
-                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.player-no-island", "player", target.getName()));
+                        sender.sendMessage(Component.translatable("commands.admin.island.player-no-island", Component.text(target.getName())));
                         return;
                     }
 
                     // 확인 메시지
                     if (args.length < 3 || !args[2].equalsIgnoreCase("confirm")) {
-                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.reset.confirm", "player", target.getName()));
+                        sender.sendMessage(Component.translatable("commands.admin.island.reset.confirm", Component.text(target.getName())));
                         return;
                     }
 
                     islandManager.resetIsland(island.getId());
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.reset.success", "player", target.getName()));
+                    sender.sendMessage(Component.translatable("commands.admin.island.reset.success", Component.text(target.getName())));
                 });
                 return true;
             }
 
             case "setowner" -> {
                 if (args.length < 3) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.setowner.usage"));
+                    sender.sendMessage(Component.translatable("commands.admin.island.setowner.usage"));
                     return true;
                 }
 
                 Player oldOwner = Bukkit.getPlayer(args[1]);
                 if (oldOwner == null) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
+                    sender.sendMessage(Component.translatable("commands.admin.player-not-found"));
                     return true;
                 }
 
                 final Player newOwner = Bukkit.getPlayer(args[2]);
                 if (newOwner == null) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
+                    sender.sendMessage(Component.translatable("commands.admin.player-not-found"));
                     return true;
                 }
 
                 islandManager.getPlayerIsland(oldOwner.getUniqueId().toString(), oldOwner.getName())
                         .thenAccept(island -> {
                             if (island == null) {
-                                sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.player-no-island", "player", oldOwner.getName()));
+                                sender.sendMessage(Component.translatable("commands.admin.island.player-no-island", Component.text(oldOwner.getName())));
                                 return;
                             }
 
@@ -206,13 +206,13 @@ public class IslandCommand extends BaseSubCommand {
                                     .location());
                             IslandDTO updatedData = new IslandDTO(updatedCore, currentData.membership(), currentData.social(), currentData.configuration());
                             islandManager.updateIsland(updatedData);
-                            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.setowner.success", "oldowner", oldOwner.getName(), "newowner", newOwner.getName()));
+                            sender.sendMessage(Component.translatable("commands.admin.island.setowner.success", Component.text(oldOwner.getName()), Component.text(newOwner.getName())));
                         });
                 return true;
             }
 
             default -> {
-                sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.usage"));
+                sender.sendMessage(Component.translatable("commands.admin.island.usage"));
                 return false;
             }
         }
@@ -221,19 +221,19 @@ public class IslandCommand extends BaseSubCommand {
     private void showIslandInfo(@NotNull CommandSender sender, @NotNull Island island) {
         IslandDTO dto = island.getData();
 
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.title"));
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.id", "id", dto.core()
-                .islandId()));
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.name", "name", dto.core()
-                .islandName()));
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.owner", "owner", dto.core()
-                .ownerName()));
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.members", "count", String.valueOf(dto.membership()
-                .members().size())));
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.size", "size", String.valueOf(dto.core()
-                .size())));
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.island.info.public", "status", dto.core()
-                .isPublic() ? "공개" : "비공개"));
+        sender.sendMessage(Component.translatable("commands.admin.island.info.title"));
+        sender.sendMessage(Component.translatable("commands.admin.island.info.id", Component.text(dto.core()
+                .islandId())));
+        sender.sendMessage(Component.translatable("commands.admin.island.info.name", Component.text(dto.core()
+                .islandName())));
+        sender.sendMessage(Component.translatable("commands.admin.island.info.owner", Component.text(dto.core()
+                .ownerName())));
+        sender.sendMessage(Component.translatable("commands.admin.island.info.members", Component.text(String.valueOf(dto.membership()
+                .members().size()))));
+        sender.sendMessage(Component.translatable("commands.admin.island.info.size", Component.text(String.valueOf(dto.core()
+                .size()))));
+        sender.sendMessage(Component.translatable("commands.admin.island.info.public", Component.text(dto.core()
+                .isPublic() ? "공개" : "비공개")));
     }
 
     @Override

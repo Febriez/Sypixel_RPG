@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+import net.kyori.adventure.text.Component;
 /**
  * 특성 시스템 관리자
  * 모든 특성을 로드하고 관리하며, 직업별 특성 트리를 구성

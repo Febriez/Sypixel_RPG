@@ -10,7 +10,6 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -149,7 +148,7 @@ public class QuestDetailGui extends BaseGui {
         lore.add(Component.empty());
         
         // 전체 진행도
-        Component totalProgressText = LangManager.getMessage(viewer, "quest.total-progress");
+        Component totalProgressText = Component.translatable("quest.total-progress");
         lore.add(totalProgressText.append(Component.text(": " + progress.getCompletionPercentage() + "%")).color(UnifiedColorUtil.EMERALD));
         
         builder.addLore(lore);
@@ -163,7 +162,7 @@ public class QuestDetailGui extends BaseGui {
      */
     private void setupObjectives() {
         ItemBuilder builder = new ItemBuilder(Material.MAP)
-                .displayName(LangManager.getMessage(viewer, "gui.quest-detail.objective-progress")
+                .displayName(Component.translatable("gui.quest-detail.objective-progress")
                         .color(UnifiedColorUtil.YELLOW)
                         .decoration(TextDecoration.BOLD, true));
 
@@ -221,7 +220,7 @@ public class QuestDetailGui extends BaseGui {
             Material material = i < greenSlots ? Material.LIME_STAINED_GLASS_PANE : Material.YELLOW_STAINED_GLASS_PANE;
             
             ItemBuilder builder = new ItemBuilder(material)
-                    .displayName(LangManager.getMessage(viewer, "quest.progress").color(UnifiedColorUtil.WHITE))
+                    .displayName(Component.translatable("quest.progress").color(UnifiedColorUtil.WHITE))
                     .addLore(Component.text(completionPercentage + "%", UnifiedColorUtil.GRAY));
             
             setItem(slot, GuiItem.display(builder.build()));

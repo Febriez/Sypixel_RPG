@@ -17,7 +17,6 @@ import com.febrie.rpg.dto.quest.CompletedQuestDTO;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -93,14 +92,14 @@ public class QuestRewardGui extends BaseGui {
         
         if (totalMinutes >= 1440) { // 1일 이상
             long days = totalMinutes / 1440;
-            return LangManager.getMessage(player, "time.days", "days", String.valueOf(days))
+            return Component.translatable("time.days", Component.text(String.valueOf(days)))
                     .toString().replaceAll("§.", ""); // 색상 코드 제거
         } else if (totalMinutes >= 60) { // 1시간 이상
             long hours = totalMinutes / 60;
-            return LangManager.getMessage(player, "time.hours", "hours", String.valueOf(hours))
+            return Component.translatable("time.hours", Component.text(String.valueOf(hours)))
                     .toString().replaceAll("§.", ""); // 색상 코드 제거
         } else {
-            return LangManager.getMessage(player, "time.minutes", "minutes", String.valueOf(totalMinutes))
+            return Component.translatable("time.minutes", Component.text(String.valueOf(totalMinutes)))
                     .toString().replaceAll("§.", ""); // 색상 코드 제거
         }
     }

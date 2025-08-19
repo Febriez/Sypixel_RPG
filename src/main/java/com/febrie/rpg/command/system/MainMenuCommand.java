@@ -1,9 +1,9 @@
 package com.febrie.rpg.command.system;
 
+import net.kyori.adventure.text.Component;
 import com.febrie.rpg.command.BaseCommand;
 import com.febrie.rpg.gui.impl.system.MainMenuGui;
 import com.febrie.rpg.gui.manager.GuiManager;
-import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -46,7 +46,7 @@ public class MainMenuCommand extends BaseCommand {
         // 명령어로 열 때만 상자 소리 재생
         SoundUtil.playOpenSound(player);
 
-        LangManager.sendMessage(player, "commands.mainmenu.success", new String[0]);
+        player.sendMessage(Component.translatable("commands.mainmenu.success"));
 
         return true;
     }

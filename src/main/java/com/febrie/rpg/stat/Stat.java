@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.kyori.adventure.text.Component;
 /**
  * RPG 스탯 시스템
  * 플레이어의 기본 능력치를 정의하고 관리

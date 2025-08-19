@@ -1,155 +1,155 @@
 {
   "mainmenu": {
     "title": {
-      "name": "%COLOR_LEGENDARY%SypixelRPG",
+      "name": "SypixelRPG",
       "lore": [
-        "%COLOR_GRAY%Start your adventure!",
+        "Start your adventure!",
         "",
-        "%COLOR_YELLOW%Version: 1.0"
+        "Version: 1.0"
       ]
     },
     "profile-button": {
-      "name": "%COLOR_EPIC%My Profile",
+      "name": "My Profile",
       "lore": [
-        "%COLOR_GRAY%View your character information.",
+        "View your character information.",
         "",
-        "%COLOR_YELLOW%▶ Click to open"
+        "▶ Click to open"
       ]
     },
     "stats-button": {
-      "name": "%COLOR_INFO%Stats Management",
+      "name": "Stats Management",
       "lore": [
-        "%COLOR_GRAY%Allocate your stat points.",
+        "Allocate your stat points.",
         "",
-        "%COLOR_YELLOW%▶ Click to go to stats page"
+        "▶ Click to go to stats page"
       ]
     },
     "talents-button": {
-      "name": "%COLOR_LEGENDARY%Talent Tree",
+      "name": "Talent Tree",
       "lore": [
-        "%COLOR_GRAY%Learn and enhance talents.",
+        "Learn and enhance talents.",
         "",
-        "%COLOR_YELLOW%▶ Click to open"
+        "▶ Click to open"
       ]
     },
     "leaderboard-button": {
-      "name": "%COLOR_GOLD%Server Rankings",
+      "name": "Server Rankings",
       "lore": [
-        "%COLOR_GRAY%Check rankings in various categories.",
+        "Check rankings in various categories.",
         "",
-        "%COLOR_YELLOW%▶ Click to open"
+        "▶ Click to open"
       ]
     },
     "hub-button": {
-      "name": "%COLOR_GREEN%Hub",
+      "name": "Hub",
       "lore": [
-        "%COLOR_GRAY%Move to the central hub.",
+        "Move to the central hub.",
         "",
-        "%COLOR_YELLOW%▶ Click to open"
+        "▶ Click to open"
       ]
     },
     "wild-button": {
-      "name": "%COLOR_RED%Wild",
+      "name": "Wild",
       "lore": [
-        "%COLOR_GRAY%Hunt mobs in the wild area.",
+        "Hunt mobs in the wild area.",
         "",
-        "%COLOR_YELLOW%▶ Click to open"
+        "▶ Click to open"
       ]
     },
     "island-button": {
-      "name": "%COLOR_AQUA%Island",
+      "name": "Island",
       "lore": [
-        "%COLOR_GRAY%Adventure to mysterious islands.",
+        "Adventure to mysterious islands.",
         "",
-        "%COLOR_YELLOW%▶ Click to open"
+        "▶ Click to open"
       ]
     },
     "skills-button": {
-      "name": "%COLOR_AQUA%Skills",
+      "name": "Skills",
       "lore": [
-        "%COLOR_GRAY%View and enhance job skills.",
+        "View and enhance job skills.",
         "",
-        "%COLOR_YELLOW%▶ Click to open"
+        "▶ Click to open"
       ]
     },
     "shop-button": {
-      "name": "%COLOR_EMERALD%Shop",
+      "name": "Shop",
       "lore": [
-        "%COLOR_GRAY%Buy and sell items.",
+        "Buy and sell items.",
         "",
-        "%COLOR_YELLOW%▶ Click to open"
+        "▶ Click to open"
       ]
     },
     "dungeon-button": {
-      "name": "%COLOR_DARK_PURPLE%Dungeon",
+      "name": "Dungeon",
       "lore": [
-        "%COLOR_GRAY%Challenge dungeons for rewards.",
+        "Challenge dungeons for rewards.",
         "",
-        "%COLOR_YELLOW%▶ Click to open"
+        "▶ Click to open"
       ]
     },
     "job-button": {
-      "name": "%COLOR_LEGENDARY%Job Selection",
+      "name": "Job Selection",
       "lore": [
-        "%COLOR_GRAY%Choose a job to start your adventure.",
+        "Choose a job to start your adventure.",
         "",
-        "%COLOR_WARNING%⚠ Choose carefully!",
-        "%COLOR_YELLOW%▶ Click to open"
+        "⚠ Choose carefully!",
+        "▶ Click to open"
       ]
     },
     "settings-button": {
-      "name": "%COLOR_GRAY%Global Settings",
+      "name": "Global Settings",
       "lore": [
-        "%COLOR_GRAY%Change global game settings.",
+        "Change global game settings.",
         "",
-        "%COLOR_YELLOW%▶ Click to open"
+        "▶ Click to open"
       ]
     }
   },
   "profile": {
     "job-select": {
-      "name": "%COLOR_LEGENDARY%Select Job",
+      "name": "Select Job",
       "lore": [
-        "%COLOR_GRAY%Choose a job to start your adventure!",
+        "Choose a job to start your adventure!",
         "",
-        "%COLOR_WARNING%⚠ Jobs cannot be changed once selected!",
-        "%COLOR_YELLOW%▶ Click to select"
+        "⚠ Jobs cannot be changed once selected!",
+        "▶ Click to select"
       ]
     },
     "stats-info": {
-      "name": "%COLOR_INFO%Stats Information",
+      "name": "Stats Information",
       "lore": [
-        "%COLOR_GRAY%Your character's ability scores."
+        "Your character's ability scores."
       ]
     },
     "collection": {
-      "name": "%COLOR_GOLD%Collection Book",
+      "name": "Collection Book",
       "lore": [
-        "%COLOR_GRAY%View your collected items.",
-        "%COLOR_GRAY%Complete your collection!"
+        "View your collected items.",
+        "Complete your collection!"
       ]
     },
     "pet": {
-      "name": "%COLOR_EPIC%Pets",
+      "name": "Pets",
       "lore": [
-        "%COLOR_GRAY%Manage your companion pets.",
-        "%COLOR_GRAY%Adventure with your pets!"
+        "Manage your companion pets.",
+        "Adventure with your pets!"
       ]
     },
     "user-settings": {
-      "name": "%COLOR_GRAY%User Settings",
+      "name": "User Settings",
       "lore": [
-        "%COLOR_GRAY%Change personal settings.",
+        "Change personal settings.",
         "",
-        "%COLOR_YELLOW%▶ Click to open"
+        "▶ Click to open"
       ]
     }
   },
   "rarity": {
-    "common": "%COLOR_COMMON%Common",
-    "uncommon": "%COLOR_UNCOMMON%Uncommon",
-    "rare": "%COLOR_RARE%Rare",
-    "epic": "%COLOR_EPIC%Epic",
-    "legendary": "%COLOR_LEGENDARY%Legendary"
+    "common": "Common",
+    "uncommon": "Uncommon",
+    "rare": "Rare",
+    "epic": "Epic",
+    "legendary": "Legendary"
   }
 }

@@ -1,5 +1,6 @@
 package com.febrie.rpg.command.admin.subcommand;
 
+import net.kyori.adventure.text.Component;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.command.admin.subcommand.base.BaseSubCommand;
 import com.febrie.rpg.dto.quest.ActiveQuestDTO;
@@ -7,7 +8,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.quest.registry.QuestRegistry;
-import com.febrie.rpg.util.LangManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -50,35 +50,35 @@ public class QuestCommand extends BaseSubCommand {
             case "list" -> {
                 if (args.length < 2) {
                     // 모든 퀘스트 목록 표시
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.list.title"));
+                    sender.sendMessage(Component.translatable("commands.admin.quest.list.title"));
                     for (QuestID questId : QuestID.values()) {
                         Quest quest = questRegistry.getQuest(questId);
                         if (quest != null) {
-                            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.list.item",
-                                "id", questId.name(),
-                                "name", quest.getName()));
+                            sender.sendMessage(Component.translatable("commands.admin.quest.list.item",
+                                Component.text(questId.name()),
+                                Component.text(quest.getName())));
                         }
                     }
                 } else {
                     // 특정 플레이어의 퀘스트 목록
                     Player target = Bukkit.getPlayer(args[1]);
                     if (target == null) {
-                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
+                        sender.sendMessage(Component.translatable("commands.admin.player-not-found"));
                         return true;
                     }
                     
                     Map<String, ActiveQuestDTO> activeQuests = questManager.getActiveQuests(target.getUniqueId());
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.player-list.title",
-                        "player", target.getName()));
+                    sender.sendMessage(Component.translatable("commands.admin.quest.player-list.title",
+                        Component.text(target.getName())));
                     
                     if (activeQuests.isEmpty()) {
-                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.player-list.empty"));
+                        sender.sendMessage(Component.translatable("commands.admin.quest.player-list.empty"));
                     } else {
                         for (ActiveQuestDTO activeQuest : activeQuests.values()) {
-                            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.player-list.item",
-                                "id", activeQuest.questId(),
-                                "progress", String.valueOf(activeQuest.currentProgress()),
-                                "required", String.valueOf(activeQuest.requiredProgress())));
+                            sender.sendMessage(Component.translatable("commands.admin.quest.player-list.item",
+                                Component.text(activeQuest.questId()),
+                                Component.text(String.valueOf(activeQuest.currentProgress())),
+                                Component.text(String.valueOf(activeQuest.requiredProgress()))));
                         }
                     }
                 }
@@ -87,13 +87,13 @@ public class QuestCommand extends BaseSubCommand {
             
             case "give" -> {
                 if (args.length < 3) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.give.usage"));
+                    sender.sendMessage(Component.translatable("commands.admin.quest.give.usage"));
                     return true;
                 }
                 
                 Player target = Bukkit.getPlayer(args[1]);
                 if (target == null) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
+                    sender.sendMessage(Component.translatable("commands.admin.player-not-found"));
                     return true;
                 }
                 
@@ -102,37 +102,37 @@ public class QuestCommand extends BaseSubCommand {
                     Quest quest = questRegistry.getQuest(questId);
                     
                     if (quest == null) {
-                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.not-found"));
+                        sender.sendMessage(Component.translatable("commands.admin.quest.not-found"));
                         return true;
                     }
                     
                     if (questManager.hasActiveQuest(target.getUniqueId(), questId)) {
-                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.already-active"));
+                        sender.sendMessage(Component.translatable("commands.admin.quest.already-active"));
                         return true;
                     }
                     
                     questManager.startQuest(target, questId);
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.give.success",
-                        "player", target.getName(),
-                        "quest", quest.getName()));
-                    target.sendMessage(LangManager.getMessage(target, "commands.admin.quest.give.received",
-                        "quest", quest.getName()));
+                    sender.sendMessage(Component.translatable("commands.admin.quest.give.success",
+                        Component.text(target.getName()),
+                        Component.text(quest.getName())));
+                    target.sendMessage(Component.translatable("commands.admin.quest.give.received",
+                        Component.text(quest.getName())));
                     
                 } catch (IllegalArgumentException e) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.invalid-id"));
+                    sender.sendMessage(Component.translatable("commands.admin.quest.invalid-id"));
                 }
                 return true;
             }
             
             case "complete" -> {
                 if (args.length < 3) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.complete.usage"));
+                    sender.sendMessage(Component.translatable("commands.admin.quest.complete.usage"));
                     return true;
                 }
                 
                 Player target = Bukkit.getPlayer(args[1]);
                 if (target == null) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
+                    sender.sendMessage(Component.translatable("commands.admin.player-not-found"));
                     return true;
                 }
                 
@@ -140,7 +140,7 @@ public class QuestCommand extends BaseSubCommand {
                     QuestID questId = QuestID.valueOf(args[2].toUpperCase());
                     
                     if (!questManager.hasActiveQuest(target.getUniqueId(), questId)) {
-                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.not-active"));
+                        sender.sendMessage(Component.translatable("commands.admin.quest.not-active"));
                         return true;
                     }
                     
@@ -156,48 +156,48 @@ public class QuestCommand extends BaseSubCommand {
                     if (instanceId != null) {
                         questManager.completeQuest(target, instanceId);
                     }
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.complete.success",
-                        "player", target.getName(),
-                        "quest", args[2]));
+                    sender.sendMessage(Component.translatable("commands.admin.quest.complete.success",
+                        Component.text(target.getName()),
+                        Component.text(args[2])));
                     
                 } catch (IllegalArgumentException e) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.invalid-id"));
+                    sender.sendMessage(Component.translatable("commands.admin.quest.invalid-id"));
                 }
                 return true;
             }
             
             case "reset" -> {
                 if (args.length < 3) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.reset.usage"));
+                    sender.sendMessage(Component.translatable("commands.admin.quest.reset.usage"));
                     return true;
                 }
                 
                 Player target = Bukkit.getPlayer(args[1]);
                 if (target == null) {
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
+                    sender.sendMessage(Component.translatable("commands.admin.player-not-found"));
                     return true;
                 }
                 
                 if (args[2].equalsIgnoreCase("all")) {
                     questManager.resetAllQuests(target.getUniqueId());
-                    sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.reset.all",
-                        "player", target.getName()));
+                    sender.sendMessage(Component.translatable("commands.admin.quest.reset.all",
+                        Component.text(target.getName())));
                 } else {
                     try {
                         QuestID questId = QuestID.valueOf(args[2].toUpperCase());
                         questManager.resetQuest(target.getUniqueId(), questId);
-                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.reset.success",
-                            "player", target.getName(),
-                            "quest", args[2]));
+                        sender.sendMessage(Component.translatable("commands.admin.quest.reset.success",
+                            Component.text(target.getName()),
+                            Component.text(args[2])));
                     } catch (IllegalArgumentException e) {
-                        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.invalid-id"));
+                        sender.sendMessage(Component.translatable("commands.admin.quest.invalid-id"));
                     }
                 }
                 return true;
             }
             
             default -> {
-                sender.sendMessage(LangManager.getComponent(sender, "commands.admin.quest.usage"));
+                sender.sendMessage(Component.translatable("commands.admin.quest.usage"));
                 return false;
             }
         }

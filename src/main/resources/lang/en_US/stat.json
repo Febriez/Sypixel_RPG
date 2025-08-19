@@ -1,50 +1,50 @@
 {
   "strength": {
-    "name": "%COLOR_COPPER%Strength",
+    "name": "Strength",
     "abbreviation": "STR",
     "description": [
-      "%COLOR_GRAY%Increases physical attack power.",
-      "%COLOR_GRAY%Melee weapon damage increases."
+      "Increases physical attack power.",
+      "Melee weapon damage increases."
     ]
   },
   "intelligence": {
-    "name": "%COLOR_INFO%Intelligence",
+    "name": "Intelligence",
     "abbreviation": "INT",
     "description": [
-      "%COLOR_GRAY%Increases magical attack power.",
-      "%COLOR_GRAY%Mana pool increases."
+      "Increases magical attack power.",
+      "Mana pool increases."
     ]
   },
   "dexterity": {
-    "name": "%COLOR_SUCCESS%Dexterity",
+    "name": "Dexterity",
     "abbreviation": "DEX",
     "description": [
-      "%COLOR_GRAY%Increases attack speed.",
-      "%COLOR_GRAY%Evasion rate increases."
+      "Increases attack speed.",
+      "Evasion rate increases."
     ]
   },
   "vitality": {
-    "name": "%COLOR_HEALTH%Vitality",
+    "name": "Vitality",
     "abbreviation": "VIT",
     "description": [
-      "%COLOR_GRAY%Increases maximum health.",
-      "%COLOR_GRAY%Defense increases."
+      "Increases maximum health.",
+      "Defense increases."
     ]
   },
   "wisdom": {
-    "name": "%COLOR_PURPLE%Wisdom",
+    "name": "Wisdom",
     "abbreviation": "WIS",
     "description": [
-      "%COLOR_GRAY%Increases mana regeneration.",
-      "%COLOR_GRAY%Skill cooldowns decrease."
+      "Increases mana regeneration.",
+      "Skill cooldowns decrease."
     ]
   },
   "luck": {
-    "name": "%COLOR_GOLD%Luck",
+    "name": "Luck",
     "abbreviation": "LUK",
     "description": [
-      "%COLOR_GRAY%Increases item drop rate.",
-      "%COLOR_GRAY%Critical damage increases."
+      "Increases item drop rate.",
+      "Critical damage increases."
     ]
   }
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.Objects;
+import net.kyori.adventure.text.Component;
 /**
  * 섬 멤버십 정보 DTO (Record)
  * 섬원, 알바생, 기여도 관련 정보

@@ -5,7 +5,6 @@ import com.febrie.rpg.database.FirestoreManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.FirestoreUtils;
 import com.febrie.rpg.util.LogUtil;
-import com.febrie.rpg.util.LangManager;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -84,7 +83,7 @@ public class SiteAccountCommand implements CommandExecutor {
                              @NotNull String label, @NotNull String[] args) {
 
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(LangManager.getComponent(sender, "commands.siteaccount.player-only"));
+            sender.sendMessage(Component.translatable("commands.siteaccount.player-only"));
             return true;
         }
 
@@ -97,7 +96,7 @@ public class SiteAccountCommand implements CommandExecutor {
 
         // 이메일 유효성 검사
         if (!isValidEmail(email)) {
-            player.sendMessage(LangManager.getMessage(player, "commands.siteaccount.invalid-email"));
+            player.sendMessage(Component.translatable("commands.siteaccount.invalid-email"));
             sendUsage(player);
             return true;
         }
@@ -112,7 +111,7 @@ public class SiteAccountCommand implements CommandExecutor {
      * 사용법 안내
      */
     private void sendUsage(@NotNull Player player) {
-        player.sendMessage(LangManager.getMessage(player, "commands.siteaccount.usage"));
+        player.sendMessage(Component.translatable("commands.siteaccount.usage"));
     }
 
     /**
@@ -131,7 +130,7 @@ public class SiteAccountCommand implements CommandExecutor {
         boolean isAdmin = player.isOp();
 
         // 로딩 메시지 표시
-        player.sendMessage(LangManager.getMessage(player, "commands.siteaccount.processing"));
+        player.sendMessage(Component.translatable("commands.siteaccount.processing"));
 
         // 비동기로 계정 생성 처리
         CompletableFuture.runAsync(() -> {
@@ -145,7 +144,7 @@ public class SiteAccountCommand implements CommandExecutor {
                 // 1. Player 컬렉션에서 siteAccountCreated 필드 확인으로 중복 계정 체크
                 if (checkSiteAccountExists(uuid).join()) {
                     plugin.getServer().getScheduler().runTask(plugin, () ->
-                            player.sendMessage(LangManager.getMessage(player, "commands.siteaccount.already-exists")));
+                            player.sendMessage(Component.translatable("commands.siteaccount.already-exists")));
                     return;
                 }
 
@@ -170,8 +169,7 @@ public class SiteAccountCommand implements CommandExecutor {
             } catch (Exception e) {
                 LogUtil.error("사이트 계정 생성 중 오류 발생", e);
                 plugin.getServer().getScheduler().runTask(plugin, () ->
-                        player.sendMessage(LangManager.getMessage(player, "commands.siteaccount.error",
-                                "error", e.getMessage())));
+                        player.sendMessage(Component.translatable("commands.siteaccount.error")));
             }
         });
     }
@@ -238,6 +236,15 @@ public class SiteAccountCommand implements CommandExecutor {
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() != 200) {
+            try {
+                JsonObject error = JsonParser.parseString(response.body()).getAsJsonObject();
+                String errorMessage = error.getAsJsonObject("error").get("message").getAsString();
+                LogUtil.error("Custom Claims 설정 실패: " + errorMessage);
+                throw new RuntimeException("Custom Claims 설정 실패: " + errorMessage);
+            } catch (Exception e) {
+                LogUtil.error("Custom Claims 설정 실패 (응답 파싱 오류): " + response.body());
+                throw new RuntimeException("Custom Claims 설정 실패 (상태 코드: " + response.statusCode() + ")");
+            }
         }
     }
 

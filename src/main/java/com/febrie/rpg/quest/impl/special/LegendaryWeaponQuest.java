@@ -9,7 +9,7 @@ import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -136,18 +136,18 @@ public class LegendaryWeaponQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.getMessage(who, "special.legendary_weapon.name");
+        return Component.translatable("special.legendary_weapon.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList(who, "quest.special.legendary_weapon.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.special.legendary_weapon.description") manually */;
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return LangManager.getMessage(who, "quest.special.legendary_weapon.objectives." + id);
+        return Component.translatable("quest.special.legendary_weapon.objectives.");
     }
 
     public QuestDialog getDialog() {

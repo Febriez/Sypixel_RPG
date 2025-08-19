@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import net.kyori.adventure.text.Component;
 /**
  * Represents an interactive item in a GUI
  * Supports different actions for different click types

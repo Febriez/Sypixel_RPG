@@ -4,7 +4,7 @@
   },
   "roles": {
     "owner": "Owner",
-    "sub-owner": "Co-Owner", 
+    "sub-owner": "Co-Owner",
     "member": "Member",
     "worker": "Worker",
     "visitor": "Visitor"
@@ -18,6 +18,9 @@
     "manage-workers": "Manage Workers",
     "set-spawn": "Set Spawn",
     "change-settings": "Change Settings"
+  },
+  "invite": {
+    "default-message": "You have been invited to an island!"
   },
   "messages": {
     "teleport-success": "Teleported to island!",
@@ -39,7 +42,7 @@
   "gui": {
     "main": {
       "title": "Island Management",
-      "title-with-name": "Island Management - {name}",
+      "title-with-name": "Island Management - {0}",
       "create-island": {
         "title": "Create Island",
         "no-island": "You don't have an island yet!",

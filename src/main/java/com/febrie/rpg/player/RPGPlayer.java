@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+import net.kyori.adventure.text.Component;
 /**
  * 플레이어의 RPG 데이터를 관리하는 클래스
  * 모든 데이터는 메모리에서 관리되며 Firebase를 통해서만 저장됨

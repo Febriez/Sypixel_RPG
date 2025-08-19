@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.kyori.adventure.text.Component;
 /**
  * 플레이어 기본 정보 DTO (Record)
  * Firebase 저장용 불변 데이터 구조

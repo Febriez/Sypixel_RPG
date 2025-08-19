@@ -1,71 +1,71 @@
 {
-  "profile-opened": "%COLOR_SUCCESS%Profile information updated!",
-  "gui-refreshed": "%COLOR_SUCCESS%Information successfully refreshed!",
-  "no-job-for-talents": "%COLOR_ERROR%You need to select a job first to learn talents!",
-  "no-job-for-stats": "%COLOR_ERROR%You need to select a job first to manage stats!",
-  "job-selected": "%COLOR_SUCCESS%Congratulations! You selected the %COLOR_LEGENDARY%{job}%COLOR_SUCCESS% job!",
-  "already-has-job": "%COLOR_ERROR%You already have a job!",
-  "stat-increased": "%COLOR_SUCCESS%{stat} stat increased!",
-  "not-enough-stat-points": "%COLOR_ERROR%Not enough stat points!",
-  "talent-learned": "%COLOR_SUCCESS%Talent learned: %COLOR_LEGENDARY%{talent}",
-  "not-enough-talent-points": "%COLOR_ERROR%Not enough talent points!",
-  "level-up": "%COLOR_LEGENDARY%Level up! %COLOR_WHITE%{old} → {new}",
-  "talent-learn-failed": "%COLOR_ERROR%Failed to learn talent!",
-  "exp-gained": "%COLOR_GREEN%+{amount} Experience",
-  "gold-gained": "%COLOR_GOLD%+{amount} Gold",
-  "item-received": "%COLOR_AQUA%Item received: {item}",
-  "quest-completed": "%COLOR_SUCCESS%Quest completed: {quest}",
-  "quest-failed": "%COLOR_ERROR%Quest failed: {quest}",
-  "skill-on-cooldown": "%COLOR_ERROR%Skill is on cooldown! ({time} seconds)",
-  "not-enough-mana": "%COLOR_ERROR%Not enough mana!",
-  "target-not-found": "%COLOR_ERROR%Target not found!",
-  "inventory-full": "%COLOR_ERROR%Inventory is full!",
-  "trade-request-sent": "%COLOR_INFO%Trade request sent to {player}.",
-  "trade-request-received": "%COLOR_INFO%{player} requested a trade.",
-  "trade-successful": "%COLOR_SUCCESS%Trade completed!",
-  "trade-cancelled": "%COLOR_WARNING%Trade cancelled.",
-  "party-invited": "%COLOR_INFO%Invited {player} to the party.",
-  "party-joined": "%COLOR_SUCCESS%Joined {party} party.",
-  "party-left": "%COLOR_WARNING%Left the party.",
-  "dungeon-entered": "%COLOR_EPIC%Entered dungeon: {dungeon}",
-  "dungeon-cleared": "%COLOR_LEGENDARY%Dungeon cleared!",
-  "boss-spawned": "%COLOR_DARK_RED%Boss spawned: {boss}",
-  "death-message": "%COLOR_RED%You died! Respawn in: {time} seconds",
-  "respawn-message": "%COLOR_GREEN%Respawned!",
-  "pvp-enabled": "%COLOR_RED%PvP enabled!",
-  "pvp-disabled": "%COLOR_GREEN%PvP disabled.",
-  "kill-streak": "%COLOR_GOLD%{count} kill streak!",
-  "achievement-unlocked": "%COLOR_LEGENDARY%Achievement unlocked: {achievement}",
-  "insufficient-level": "%COLOR_ERROR%Insufficient level! (Required: {level})",
-  "region-entered": "%COLOR_INFO%Entered region: {region}",
-  "weather-changed": "%COLOR_GRAY%Weather changed to {weather}.",
+  "profile-opened": "Profile information updated!",
+  "gui-refreshed": "Information successfully refreshed!",
+  "no-job-for-talents": "You need to select a job first to learn talents!",
+  "no-job-for-stats": "You need to select a job first to manage stats!",
+  "job-selected": "Congratulations! You selected the {1} job!",
+  "already-has-job": "You already have a job!",
+  "stat-increased": "{stat} stat increased!",
+  "not-enough-stat-points": "Not enough stat points!",
+  "talent-learned": "Talent learned: {talent}",
+  "not-enough-talent-points": "Not enough talent points!",
+  "level-up": "Level up! {old} → {new}",
+  "talent-learn-failed": "Failed to learn talent!",
+  "exp-gained": "+{1} Experience",
+  "gold-gained": "+{1} Gold",
+  "item-received": "Item received: {item}",
+  "quest-completed": "Quest completed: {quest}",
+  "quest-failed": "Quest failed: {quest}",
+  "skill-on-cooldown": "Skill is on cooldown! ({2} seconds)",
+  "not-enough-mana": "Not enough mana!",
+  "target-not-found": "Target not found!",
+  "inventory-full": "Inventory is full!",
+  "trade-request-sent": "Trade request sent to {0}.",
+  "trade-request-received": "{0} requested a trade.",
+  "trade-successful": "Trade completed!",
+  "trade-cancelled": "Trade cancelled.",
+  "party-invited": "Invited {0} to the party.",
+  "party-joined": "Joined {party} party.",
+  "party-left": "Left the party.",
+  "dungeon-entered": "Entered dungeon: {dungeon}",
+  "dungeon-cleared": "Dungeon cleared!",
+  "boss-spawned": "Boss spawned: {boss}",
+  "death-message": "You died! Respawn in: {2} seconds",
+  "respawn-message": "Respawned!",
+  "pvp-enabled": "PvP enabled!",
+  "pvp-disabled": "PvP disabled.",
+  "kill-streak": "{1} kill streak!",
+  "achievement-unlocked": "Achievement unlocked: {achievement}",
+  "insufficient-level": "Insufficient level! (Required: {1})",
+  "region-entered": "Entered region: {region}",
+  "weather-changed": "Weather changed to {weather}.",
   "general": {
-    "cannot-view-others-quests": "%COLOR_ERROR%You cannot view other players' quests!",
+    "cannot-view-others-quests": "You cannot view other players' quests!",
     "teleport": {
-      "hub-success": "%COLOR_SUCCESS%Teleported to Hub!"
+      "hub-success": "Teleported to Hub!"
     },
     "error": {
-      "hub-world-not-found": "%COLOR_ERROR%Hub world not found."
+      "hub-world-not-found": "Hub world not found."
     },
-    "coming-soon": "%COLOR_INFO%Coming soon..."
+    "coming-soon": "Coming soon..."
   },
   "dialog-speed-changed": "Dialog speed changed: {speed}",
   "gui": {
     "navigation": {
-      "main-menu": "%COLOR_YELLOW%To Main Menu"
+      "main-menu": "To Main Menu"
     }
   },
   "commands": {
     "mainmenu": {
-      "success": "%COLOR_GREEN%Main menu opened!"
+      "success": "Main menu opened!"
     }
   },
   "settings": {
     "social": {
-      "friend-requests-enabled": "%COLOR_SUCCESS%Friend requests enabled",
-      "friend-requests-disabled": "%COLOR_WARNING%Friend requests disabled",
-      "guild-invites-enabled": "%COLOR_SUCCESS%Guild invitations enabled",
-      "guild-invites-disabled": "%COLOR_WARNING%Guild invitations disabled"
+      "friend-requests-enabled": "Friend requests enabled",
+      "friend-requests-disabled": "Friend requests disabled",
+      "guild-invites-enabled": "Guild invitations enabled",
+      "guild-invites-disabled": "Guild invitations disabled"
     }
   }
 }

@@ -7,6 +7,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
+import net.kyori.adventure.text.Component;
 /**
  * 재시도 로직을 위한 유틸리티 클래스
  * 네트워크 오류나 일시적인 실패에 대해 자동 재시도 기능을 제공

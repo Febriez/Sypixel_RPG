@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+import net.kyori.adventure.text.Component;
 /**
  * 퀘스트 데이터 Firestore 서비스
  * player-quests 컬렉션 관리

@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.kyori.adventure.text.Component;
 /**
  * 퀘스트 길안내 시스템 관리자
  * 플레이어에게 목표 지점까지의 경로를 파티클로 표시

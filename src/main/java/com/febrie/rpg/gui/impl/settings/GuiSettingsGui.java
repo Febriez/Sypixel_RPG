@@ -10,7 +10,6 @@ import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -60,7 +59,7 @@ public class GuiSettingsGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return com.febrie.rpg.util.LangManager.getComponent(viewer, "gui-settings.title").color(UnifiedColorUtil.UNCOMMON);
+        return Component.translatable("gui-settings.title").color(UnifiedColorUtil.UNCOMMON);
     }
 
     @Override
@@ -89,11 +88,11 @@ public class GuiSettingsGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 new ItemBuilder(Material.IRON_TRAPDOOR)
-                        .displayName(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui-settings.gui-settings")
+                        .displayName(Component.translatable("gui-settings.gui-settings")
                                 .color(UnifiedColorUtil.UNCOMMON)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui-settings.gui-settings-desc").color(UnifiedColorUtil.GRAY))
+                        .addLore(Component.translatable("gui-settings.gui-settings-desc").color(UnifiedColorUtil.GRAY))
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -109,8 +108,8 @@ public class GuiSettingsGui extends BaseGui {
         // 볼륨 감소 버튼
         GuiItem volumeDecreaseButton = GuiItem.clickable(
                 new ItemBuilder(Material.RED_CONCRETE)
-                        .displayName(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui-settings.volume-decrease").color(UnifiedColorUtil.ERROR))
-                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui-settings.click-decrease").color(UnifiedColorUtil.GRAY))
+                        .displayName(Component.translatable("gui-settings.volume-decrease").color(UnifiedColorUtil.ERROR))
+                        .addLore(Component.translatable("gui-settings.click-decrease").color(UnifiedColorUtil.GRAY))
                         .build(),
                 p -> {
                     int currentVolume = settings.getGuiSoundVolume();
@@ -119,7 +118,7 @@ public class GuiSettingsGui extends BaseGui {
                     
                     updateVolumeDisplay();
                     playClickSound(p);
-                    com.febrie.rpg.util.LangManager.sendMessage(p, "gui-settings.volume-changed", "{volume}", String.valueOf(newVolume));
+                    p.sendMessage(Component.translatable("gui-settings.volume-changed", Component.text(String.valueOf(newVolume))));
                 }
         );
         setItem(VOLUME_DECREASE_SLOT, volumeDecreaseButton);
@@ -130,8 +129,8 @@ public class GuiSettingsGui extends BaseGui {
         // 볼륨 증가 버튼
         GuiItem volumeIncreaseButton = GuiItem.clickable(
                 new ItemBuilder(Material.GREEN_CONCRETE)
-                        .displayName(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui-settings.volume-increase").color(UnifiedColorUtil.SUCCESS))
-                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui-settings.click-increase").color(UnifiedColorUtil.GRAY))
+                        .displayName(Component.translatable("gui-settings.volume-increase").color(UnifiedColorUtil.SUCCESS))
+                        .addLore(Component.translatable("gui-settings.click-increase").color(UnifiedColorUtil.GRAY))
                         .build(),
                 p -> {
                     int currentVolume = settings.getGuiSoundVolume();
@@ -140,7 +139,7 @@ public class GuiSettingsGui extends BaseGui {
                     
                     updateVolumeDisplay();
                     playClickSound(p);
-                    com.febrie.rpg.util.LangManager.sendMessage(p, "gui-settings.volume-changed", "{volume}", String.valueOf(newVolume));
+                    p.sendMessage(Component.translatable("gui-settings.volume-changed", Component.text(String.valueOf(newVolume))));
                 }
         );
         setItem(VOLUME_INCREASE_SLOT, volumeIncreaseButton);
@@ -172,18 +171,18 @@ public class GuiSettingsGui extends BaseGui {
 
         String volumeBar = createVolumeBar(volume);
         
-        String status = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(com.febrie.rpg.util.LangManager.getComponent(viewer, isMuted ? "gui-settings.status-muted" : "gui-settings.status-active"));
+        String status = isMuted ? "음소거됨" : "활성화됨";
         
         GuiItem volumeDisplay = GuiItem.display(
                 new ItemBuilder(material)
-                        .displayName(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui-settings.sound-volume")
+                        .displayName(Component.translatable("gui-settings.sound-volume")
                                 .color(UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui-settings.current-volume", "{volume}", String.valueOf(volume)).color(UnifiedColorUtil.WHITE))
+                        .addLore(Component.translatable("gui-settings.current-volume", Component.text(String.valueOf(volume))).color(UnifiedColorUtil.WHITE))
                         .addLore(Component.text(volumeBar).color(volume > 0 ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
                         .addLore(Component.empty())
-                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui-settings.status", "{status}", status)
+                        .addLore(Component.translatable("gui-settings.status", Component.text(status))
                                 .color(isMuted ? UnifiedColorUtil.ERROR : UnifiedColorUtil.SUCCESS))
                         .build()
         );
@@ -199,18 +198,18 @@ public class GuiSettingsGui extends BaseGui {
         
         boolean isMuted = settings.isGuiSoundMuted();
         
-        String currentStatus = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(com.febrie.rpg.util.LangManager.getComponent(viewer, isMuted ? "gui-settings.status-muted" : "gui-settings.status-active"));
+        String currentStatus = isMuted ? "음소거됨" : "활성화됨";
         
         GuiItem muteToggle = GuiItem.clickable(
                 new ItemBuilder(isMuted ? Material.REDSTONE_TORCH : Material.TORCH)
-                        .displayName(com.febrie.rpg.util.LangManager.getComponent(viewer, isMuted ? "gui-settings.unmute" : "gui-settings.mute")
+                        .displayName(Component.translatable(isMuted ? "gui-settings.unmute" : "gui-settings.mute")
                                 .color(isMuted ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui-settings.current-status", "{status}", currentStatus)
+                        .addLore(Component.translatable("gui-settings.current-status", Component.text(currentStatus))
                                 .color(isMuted ? UnifiedColorUtil.ERROR : UnifiedColorUtil.SUCCESS))
                         .addLore(Component.empty())
-                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, isMuted ? "gui-settings.click-to-unmute" : "gui-settings.click-to-mute").color(UnifiedColorUtil.YELLOW))
+                        .addLore(Component.translatable(isMuted ? "gui-settings.click-to-unmute" : "gui-settings.click-to-mute").color(UnifiedColorUtil.YELLOW))
                         .build(),
                 p -> {
                     settings.setGuiSoundMuted(!isMuted);
@@ -221,7 +220,7 @@ public class GuiSettingsGui extends BaseGui {
                         playClickSound(p);
                     }
                     
-                    com.febrie.rpg.util.LangManager.sendMessage(p, settings.isGuiSoundMuted() ? "gui-settings.sound-muted" : "gui-settings.sound-unmuted");
+                    p.sendMessage(Component.translatable(settings.isGuiSoundMuted() ? "gui-settings.sound-muted" : "gui-settings.sound-unmuted"));
                 }
         );
         setItem(MUTE_TOGGLE_SLOT, muteToggle);

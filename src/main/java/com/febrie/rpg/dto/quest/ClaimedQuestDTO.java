@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.kyori.adventure.text.Component;
 /**
  * 완료하고 모든 보상을 수령한 퀘스트 데이터 DTO
  * 

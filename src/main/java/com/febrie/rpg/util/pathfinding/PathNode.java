@@ -3,6 +3,7 @@ package com.febrie.rpg.util.pathfinding;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
+import net.kyori.adventure.text.Component;
 /**
  * A* 알고리즘을 위한 패스 노드
  * 

@@ -17,7 +17,6 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
-import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.UnifiedColorUtil;
@@ -171,6 +170,8 @@ public class NPCInteractListener implements Listener {
             NPCTraitSetter.getInstance().removePendingTrait(player);
             SoundUtil.playSuccessSound(player);
             return;
+                }
+            }
         }
         
         // 보상 처리를 먼저 확인 - NPC가 보상을 가지고 있고 플레이어가 받을 수 있는 경우
@@ -281,7 +282,7 @@ public class NPCInteractListener implements Listener {
             QuestID questId = questIds.get(0);
             Quest quest = questManager.getQuest(questId);
             if (quest == null) {
-                LangManager.sendMessage(player, "quest.npc.invalid-quest");
+                player.sendMessage(Component.translatable("quest.npc.invalid-quest"));
                 return;
             }
             handleSingleQuest(npc, player, quest, event);
@@ -340,14 +341,14 @@ public class NPCInteractListener implements Listener {
             
             // 완료 불가 퀘스트
             if (completionLimit == 0) {
-                LangManager.sendMessage(player, "quest.npc.already-completed");
+                player.sendMessage(Component.translatable("quest.npc.already-completed"));
                 return;
             }
             
             // 완료 횟수 제한 확인 (-1은 무제한)
             if (completionLimit > 0) {
                 // 실제로 startQuest를 호출하면 내부에서 체크하므로 여기서는 간단한 메시지만 표시
-                LangManager.sendMessage(player, "quest.npc.already-completed");
+                player.sendMessage(Component.translatable("quest.npc.already-completed"));
                 return;
             }
         }
@@ -357,8 +358,7 @@ public class NPCInteractListener implements Listener {
         
         // 레벨 요구사항 확인
         if (quest.getMinLevel() > 1 && rpgPlayer.getLevel() < quest.getMinLevel()) {
-            LangManager.sendMessage(player, "quest.npc.level-requirement", 
-                "level", String.valueOf(quest.getMinLevel()));
+            player.sendMessage(Component.translatable("quest.npc.level-requirement", Component.text(String.valueOf(quest.getMinLevel()))));
             return;
         }
         
@@ -414,7 +414,7 @@ public class NPCInteractListener implements Listener {
         
         // 보상 수령 가능한 퀘스트가 없는 경우
         if (availableQuests.isEmpty()) {
-            LangManager.sendMessage(player, "quest.reward.no-rewards");
+            player.sendMessage(Component.translatable("quest.reward.no-rewards"));
             SoundUtil.playErrorSound(player);
             return;
         }

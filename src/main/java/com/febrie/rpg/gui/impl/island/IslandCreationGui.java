@@ -124,7 +124,7 @@ public class IslandCreationGui extends BaseGui {
         GuiItem titleItem = GuiItem.display(
                 StandardItemBuilder.guiItem(Material.GRASS_BLOCK)
                         .displayName(trans("items.island.creation.title.name"))
-                        .lore(LangManager.getList(viewer, "items.island.creation.title.lore"))
+                        .lore(List.of() /* TODO: Convert LangManager.getList("items.island.creation.title.lore") manually */)
                         .build()
         );
         setItem(4, titleItem);

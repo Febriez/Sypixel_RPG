@@ -1,189 +1,189 @@
 {
   "mainmenu": {
     "title": {
-      "name": "%COLOR_LEGENDARY%SypixelRPG",
+      "name": "SypixelRPG",
       "lore": [
-        "%COLOR_GRAY%모험을 시작하세요!",
+        "모험을 시작하세요!",
         "",
-        "%COLOR_YELLOW%버전: 1.0"
+        "버전: 1.0"
       ]
     },
     "profile-button": {
-      "name": "%COLOR_EPIC%내 프로필",
+      "name": "내 프로필",
       "lore": [
-        "%COLOR_GRAY%캐릭터 정보를 확인합니다.",
+        "캐릭터 정보를 확인합니다.",
         "",
-        "%COLOR_YELLOW%▶ 클릭하여 열기"
+        "▶ 클릭하여 열기"
       ]
     },
     "stats-button": {
-      "name": "%COLOR_INFO%스탯 관리",
+      "name": "스탯 관리",
       "lore": [
-        "%COLOR_GRAY%스탯 포인트를 할당합니다.",
+        "스탯 포인트를 할당합니다.",
         "",
-        "%COLOR_YELLOW%▶ 클릭하여 스탯 페이지로 이동"
+        "▶ 클릭하여 스탯 페이지로 이동"
       ]
     },
     "talents-button": {
-      "name": "%COLOR_LEGENDARY%특성 트리",
+      "name": "특성 트리",
       "lore": [
-        "%COLOR_GRAY%특성을 배우고 강화합니다.",
+        "특성을 배우고 강화합니다.",
         "",
-        "%COLOR_YELLOW%▶ 클릭하여 열기"
+        "▶ 클릭하여 열기"
       ]
     },
     "leaderboard-button": {
-      "name": "%COLOR_GOLD%리더보드",
+      "name": "리더보드",
       "lore": [
-        "%COLOR_GRAY%다양한 부문의 순위를 확인합니다.",
+        "다양한 부문의 순위를 확인합니다.",
         "",
-        "%COLOR_YELLOW%▶ 클릭하여 열기"
+        "▶ 클릭하여 열기"
       ]
     },
     "hub-button": {
-      "name": "%COLOR_GREEN%허브",
+      "name": "허브",
       "lore": [
-        "%COLOR_GRAY%중앙 허브로 이동합니다.",
+        "중앙 허브로 이동합니다.",
         "",
-        "%COLOR_YELLOW%▶ 클릭하여 열기"
+        "▶ 클릭하여 열기"
       ]
     },
     "wild-button": {
-      "name": "%COLOR_RED%야생",
+      "name": "야생",
       "lore": [
-        "%COLOR_GRAY%야생 지역에서 몹을 사냥합니다.",
+        "야생 지역에서 몹을 사냥합니다.",
         "",
-        "%COLOR_YELLOW%▶ 클릭하여 열기"
+        "▶ 클릭하여 열기"
       ]
     },
     "island-button": {
-      "name": "%COLOR_AQUA%섬",
+      "name": "섬",
       "lore": [
-        "%COLOR_GRAY%신비로운 섬으로 모험을 떠납니다.",
+        "신비로운 섬으로 모험을 떠납니다.",
         "",
-        "%COLOR_YELLOW%▶ 클릭하여 열기"
+        "▶ 클릭하여 열기"
       ]
     },
     "skills-button": {
-      "name": "%COLOR_AQUA%스킬",
+      "name": "스킬",
       "lore": [
-        "%COLOR_GRAY%직업 스킬을 확인하고 강화합니다.",
+        "직업 스킬을 확인하고 강화합니다.",
         "",
-        "%COLOR_YELLOW%▶ 클릭하여 열기"
+        "▶ 클릭하여 열기"
       ]
     },
     "shop-button": {
-      "name": "%COLOR_EMERALD%상점",
+      "name": "상점",
       "lore": [
-        "%COLOR_GRAY%아이템을 사고 팝니다.",
+        "아이템을 사고 팝니다.",
         "",
-        "%COLOR_YELLOW%▶ 클릭하여 열기"
+        "▶ 클릭하여 열기"
       ]
     },
     "dungeon-button": {
-      "name": "%COLOR_DARK_PURPLE%던전",
+      "name": "던전",
       "lore": [
-        "%COLOR_GRAY%던전에 도전하여 보상을 획득하세요.",
+        "던전에 도전하여 보상을 획득하세요.",
         "",
-        "%COLOR_YELLOW%▶ 클릭하여 열기"
+        "▶ 클릭하여 열기"
       ]
     },
     "job-button": {
-      "name": "%COLOR_LEGENDARY%직업 선택",
+      "name": "직업 선택",
       "lore": [
-        "%COLOR_GRAY%모험을 시작할 직업을 선택하세요.",
+        "모험을 시작할 직업을 선택하세요.",
         "",
-        "%COLOR_WARNING%⚠ 신중하게 선택하세요!",
-        "%COLOR_YELLOW%▶ 클릭하여 열기"
+        "⚠ 신중하게 선택하세요!",
+        "▶ 클릭하여 열기"
       ]
     },
     "settings-button": {
-      "name": "%COLOR_GRAY%전체 설정",
+      "name": "전체 설정",
       "lore": [
-        "%COLOR_GRAY%게임 전체 설정을 변경합니다.",
+        "게임 전체 설정을 변경합니다.",
         "",
-        "%COLOR_YELLOW%▶ 클릭하여 열기"
+        "▶ 클릭하여 열기"
       ]
     }
   },
   "profile": {
     "job-select": {
-      "name": "%COLOR_LEGENDARY%직업 선택",
+      "name": "직업 선택",
       "lore": [
-        "%COLOR_GRAY%직업을 선택하여 모험을 시작하세요!",
+        "직업을 선택하여 모험을 시작하세요!",
         "",
-        "%COLOR_WARNING%⚠ 직업은 한 번 선택하면 변경할 수 없습니다!",
-        "%COLOR_YELLOW%▶ 클릭하여 선택"
+        "⚠ 직업은 한 번 선택하면 변경할 수 없습니다!",
+        "▶ 클릭하여 선택"
       ]
     },
     "stats-info": {
-      "name": "%COLOR_INFO%스탯 정보",
+      "name": "스탯 정보",
       "lore": [
-        "%COLOR_GRAY%캐릭터의 능력치 정보입니다."
+        "캐릭터의 능력치 정보입니다."
       ]
     },
     "collection": {
-      "name": "%COLOR_GOLD%수집북",
+      "name": "수집북",
       "lore": [
-        "%COLOR_GRAY%수집한 아이템들을 확인합니다.",
-        "%COLOR_GRAY%도감을 완성해보세요!"
+        "수집한 아이템들을 확인합니다.",
+        "도감을 완성해보세요!"
       ]
     },
     "pet": {
-      "name": "%COLOR_EPIC%애완동물",
+      "name": "애완동물",
       "lore": [
-        "%COLOR_GRAY%동행할 펫을 관리합니다.",
-        "%COLOR_GRAY%펫과 함께 모험을 떠나세요!"
+        "동행할 펫을 관리합니다.",
+        "펫과 함께 모험을 떠나세요!"
       ]
     },
     "user-settings": {
-      "name": "%COLOR_GRAY%사용자 설정",
+      "name": "사용자 설정",
       "lore": [
-        "%COLOR_GRAY%개인 설정을 변경합니다.",
+        "개인 설정을 변경합니다.",
         "",
-        "%COLOR_YELLOW%▶ 클릭하여 열기"
+        "▶ 클릭하여 열기"
       ]
     }
   },
   "rarity": {
-    "common": "%COLOR_COMMON%일반",
-    "uncommon": "%COLOR_UNCOMMON%고급",
-    "rare": "%COLOR_RARE%희귀",
-    "epic": "%COLOR_EPIC%영웅",
-    "legendary": "%COLOR_LEGENDARY%전설"
+    "common": "일반",
+    "uncommon": "고급",
+    "rare": "희귀",
+    "epic": "영웅",
+    "legendary": "전설"
   },
   "island": {
     "creation": {
       "title": {
-        "name": "%COLOR_AQUA%섬 생성",
+        "name": "섬 생성",
         "lore": [
-          "%COLOR_GRAY%자신만의 섬을 만들어보세요!",
+          "자신만의 섬을 만들어보세요!",
           "",
-          "%COLOR_YELLOW%▶ 클릭하여 설정"
+          "▶ 클릭하여 설정"
         ]
       },
       "name": {
-        "name": "%COLOR_YELLOW%섬 이름",
+        "name": "섬 이름",
         "lore": [
-          "%COLOR_GRAY%섬의 이름을 설정합니다.",
+          "섬의 이름을 설정합니다.",
           "",
-          "%COLOR_YELLOW%▶ 클릭하여 변경"
+          "▶ 클릭하여 변경"
         ]
       },
       "color": {
-        "name": "%COLOR_EMERALD%섬 색상",
+        "name": "섬 색상",
         "lore": [
-          "%COLOR_GRAY%섬의 테마 색상을 선택합니다.",
+          "섬의 테마 색상을 선택합니다.",
           "",
-          "%COLOR_YELLOW%▶ 클릭하여 변경"
+          "▶ 클릭하여 변경"
         ]
       },
       "biome": {
-        "name": "%COLOR_GREEN%섬 바이옴",
+        "name": "섬 바이옴",
         "lore": [
-          "%COLOR_GRAY%섬의 바이옴을 선택합니다.",
+          "섬의 바이옴을 선택합니다.",
           "",
-          "%COLOR_YELLOW%▶ 클릭하여 변경"
+          "▶ 클릭하여 변경"
         ]
       }
     }

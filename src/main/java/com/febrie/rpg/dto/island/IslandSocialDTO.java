@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.Objects;
 
+import net.kyori.adventure.text.Component;
 /**
  * 섬 소셜 정보 DTO (Record)
  * 초대, 방문 기록 관련 정보

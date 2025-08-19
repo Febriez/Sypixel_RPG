@@ -5,7 +5,6 @@ import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -38,8 +37,8 @@ public class GuiBuilder {
                                  @NotNull Consumer<Player> action) {
         GuiItem button = GuiItem.clickable(
             new ItemBuilder(material)
-                .displayName(LangManager.getComponent(viewer, nameKey))
-                .lore(LangManager.getList(viewer, loreKey))
+                .displayName(Component.translatable(nameKey))
+                .addLore(Component.translatable(loreKey))
                 .build(),
             player -> {
                 action.accept(player);
@@ -70,8 +69,8 @@ public class GuiBuilder {
                              @NotNull String nameKey, @NotNull String loreKey) {
         gui.setItem(slot, GuiItem.display(
             new ItemBuilder(material)
-                .displayName(LangManager.getComponent(viewer, nameKey))
-                .lore(LangManager.getList(viewer, loreKey))
+                .displayName(Component.translatable(nameKey))
+                .addLore(Component.translatable(loreKey))
                 .build()
         ));
         return this;

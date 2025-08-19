@@ -8,7 +8,7 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.dialog.QuestDialog;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -78,18 +78,18 @@ public class SpringFestivalQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.spring_festival.name");
+        return Component.translatable("quest.spring_festival.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getList(who, "quest.spring_festival.info");
+        return List.of() /* TODO: Convert LangManager.getList("quest.spring_festival.info") manually */;
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.spring_festival.objective." + id);
+        return Component.translatable("quest.spring_festival.objective.");
     }
     
     public QuestDialog getDialog() {

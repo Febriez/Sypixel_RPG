@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.kyori.adventure.text.Component;
 /**
  * 퀘스트 빌더 - Quest.java에서 분리
  * 퀘스트 생성을 위한 빌더 패턴 구현

@@ -1,6 +1,6 @@
 package com.febrie.rpg.quest;
 
-import com.febrie.rpg.util.LangManager;
+import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 
@@ -276,7 +276,7 @@ public enum QuestID {
      */
     @NotNull
     public String getDisplayName(@NotNull org.bukkit.entity.Player player) {
-        net.kyori.adventure.text.Component comp = LangManager.getMessage(player, getNameKey());
+        net.kyori.adventure.text.Component comp = Component.translatable(getNameKey());
         return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(comp);
     }
     

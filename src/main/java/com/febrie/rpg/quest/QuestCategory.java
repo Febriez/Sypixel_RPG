@@ -2,11 +2,11 @@ package com.febrie.rpg.quest;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.util.UnifiedColorUtil;
-import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import net.kyori.adventure.text.Component;
 /**
  * Quest categories with their display properties
  */
@@ -44,7 +44,7 @@ public enum QuestCategory {
      */
     public @NotNull String getDisplayName(@NotNull Player player) {
         String categoryKey = this.name().toLowerCase();
-        net.kyori.adventure.text.Component comp = LangManager.getMessage(player, "quest.categories." + categoryKey);
+        net.kyori.adventure.text.Component comp = net.kyori.adventure.text.Component.translatable("quest.categories." + categoryKey);
         return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(comp);
     }
     

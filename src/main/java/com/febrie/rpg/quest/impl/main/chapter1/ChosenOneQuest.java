@@ -90,18 +90,18 @@ public class ChosenOneQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.chosen_one.name");
+        return Component.translatable("quest.main.chosen_one.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return com.febrie.rpg.util.LangManager.getList(who, "quest.main.chosen_one.info");
+        return List.of() /* TODO: Convert LangManager.getList("quest.main.chosen_one.info") manually */;
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return com.febrie.rpg.util.LangManager.getMessage(who, "quest.main.chosen_one.objectives." + id);
+        return Component.translatable("quest.main.chosen_one.objectives.");
     }
 
     public QuestDialog getDialog() {

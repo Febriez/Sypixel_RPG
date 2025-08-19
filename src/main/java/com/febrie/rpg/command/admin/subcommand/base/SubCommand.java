@@ -1,5 +1,6 @@
 package com.febrie.rpg.command.admin.subcommand.base;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 

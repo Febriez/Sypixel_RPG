@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import net.kyori.adventure.text.Component;
 /**
  * 섬 서비스 래퍼 클래스
  * Firestore 서비스와의 통신을 관리

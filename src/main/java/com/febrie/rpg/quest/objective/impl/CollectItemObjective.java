@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+import net.kyori.adventure.text.Component;
 /**
  * 아이템 수집 퀘스트 목표
  * 특정 아이템을 지정된 수만큼 수집

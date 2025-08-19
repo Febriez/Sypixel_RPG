@@ -9,7 +9,7 @@ import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -124,18 +124,18 @@ public class HiddenClassQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.getMessage(who, "quest.special.hidden_class.name");
+        return Component.translatable("quest.special.hidden_class.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList(who, "quest.special.hidden_class.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.special.hidden_class.description") manually */;
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return LangManager.getMessage(who, "quest.special.hidden_class.objectives." + id);
+        return Component.translatable("quest.special.hidden_class.objectives.");
     }
 
     public QuestDialog getDialog() {

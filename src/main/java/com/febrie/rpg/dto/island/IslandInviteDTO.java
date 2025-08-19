@@ -1,11 +1,14 @@
 package com.febrie.rpg.dto.island;
 
 import com.febrie.rpg.util.FirestoreUtils;
+import com.febrie.rpg.validation.Validator;
+import com.febrie.rpg.database.constants.DatabaseConstants;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import net.kyori.adventure.text.Component;
 /**
  * 섬 초대 정보 DTO (Record)
  *
@@ -36,7 +39,7 @@ public record IslandInviteDTO(
                 targetUuid,
                 targetName,
                 now,
-                now + (60 * 1000), // 1분 후 만료
+                now + DatabaseConstants.ISLAND_INVITE_EXPIRES_MS, // 60초 후 만료
                 message
         );
     }
@@ -46,7 +49,7 @@ public record IslandInviteDTO(
      */
     public static IslandInviteDTO createNew(String inviteId, String targetUuid, String targetName,
                                             String inviterUuid, String inviterName) {
-        return createNew(inviteId, "", targetUuid, targetName, inviterUuid, inviterName, "섬에 초대되었습니다!");
+        return createNew(inviteId, "", targetUuid, targetName, inviterUuid, inviterName, "island.invite.default-message");
     }
     
     
@@ -96,29 +99,11 @@ public record IslandInviteDTO(
             String inviterUuid = FirestoreUtils.getString(map, "inviterUuid", null);
             String inviterName = FirestoreUtils.getString(map, "inviterName");
             long invitedAt = FirestoreUtils.getLong(map, "invitedAt", System.currentTimeMillis());
-            long expiresAt = FirestoreUtils.getLong(map, "expiresAt", System.currentTimeMillis() + (60 * 1000));
-            String message = FirestoreUtils.getString(map, "message", "섬에 초대되었습니다!");
+            long expiresAt = FirestoreUtils.getLong(map, "expiresAt", System.currentTimeMillis() + DatabaseConstants.ISLAND_INVITE_EXPIRES_MS);
+            String message = FirestoreUtils.getString(map, "message", "island.invite.default-message");
             
-            // 유효성 검증
-            if (inviteId == null || inviteId.isEmpty()) {
-                throw new IllegalArgumentException(
-                    "Invalid IslandInviteDTO: inviteId cannot be empty"
-                );
-            }
-            
-            if (invitedUuid == null || invitedUuid.isEmpty() || inviterUuid == null || inviterUuid.isEmpty()) {
-                throw new IllegalArgumentException(
-                    String.format("Invalid IslandInviteDTO: UUID fields cannot be empty. invitedUuid='%s', inviterUuid='%s'",
-                        invitedUuid, inviterUuid)
-                );
-            }
-            
-            if (invitedAt > expiresAt) {
-                throw new IllegalArgumentException(
-                    String.format("Invalid IslandInviteDTO: invitedAt (%d) cannot be after expiresAt (%d)",
-                        invitedAt, expiresAt)
-                );
-            }
+            // 유효성 검증 - Validator 사용
+            Validator.validateIslandInviteData(inviteId, invitedUuid, inviterUuid, invitedAt, expiresAt);
             
             return new IslandInviteDTO(inviteId, islandId, inviterUuid, inviterName, invitedUuid, invitedName, invitedAt, expiresAt, message);
         } catch (Exception e) {

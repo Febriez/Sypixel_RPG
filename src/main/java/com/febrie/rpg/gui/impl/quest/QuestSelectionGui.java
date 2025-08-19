@@ -11,7 +11,6 @@ import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.dto.quest.ActiveQuestDTO;
 import com.febrie.rpg.dto.quest.CompletedQuestDTO;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

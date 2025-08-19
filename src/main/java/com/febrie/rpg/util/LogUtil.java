@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.kyori.adventure.text.Component;
 /**
  * 중앙 집중식 로깅 유틸리티
  * Bukkit.getLogger()의 @ApiStatus.Internal 경고를 방지하고

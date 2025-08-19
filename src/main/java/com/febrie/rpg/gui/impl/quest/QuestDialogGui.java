@@ -8,7 +8,6 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.TextUtil;
 import net.kyori.adventure.text.Component;
@@ -84,7 +83,7 @@ public class QuestDialogGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.title")
+        return Component.translatable("gui.quest-dialog.title")
                 .color(UnifiedColorUtil.GOLD);
     }
 
@@ -200,14 +199,14 @@ public class QuestDialogGui extends BaseGui {
         lore.add(Component.empty());
         if (isComplete) {
             if (currentDialogIndex < quest.getDialogCount() - 1) {
-                lore.add(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.next-page")
+                lore.add(Component.translatable("gui.quest-dialog.next-page")
                         .color(UnifiedColorUtil.SUCCESS));
             } else {
-                lore.add(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.accept-quest")
+                lore.add(Component.translatable("gui.quest-dialog.accept-quest")
                         .color(UnifiedColorUtil.GOLD));
             }
         } else {
-            lore.add(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.skip")
+            lore.add(Component.translatable("gui.quest-dialog.skip")
                     .color(UnifiedColorUtil.YELLOW));
         }
 
@@ -294,9 +293,9 @@ public class QuestDialogGui extends BaseGui {
         // 수락 버튼
         GuiItem acceptButton = GuiItem.clickable(
                 new ItemBuilder(Material.LIME_DYE)
-                        .displayName(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.accept-quest")
+                        .displayName(Component.translatable("gui.quest-dialog.accept-quest")
                                 .color(UnifiedColorUtil.SUCCESS))
-                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-accept.accept-desc")
+                        .addLore(Component.translatable("gui.quest-accept.accept-desc")
                                 .color(UnifiedColorUtil.GRAY))
                         .build(),
                 p -> handleQuestAccept()
@@ -306,9 +305,9 @@ public class QuestDialogGui extends BaseGui {
         // 거절 버튼
         GuiItem declineButton = GuiItem.clickable(
                 new ItemBuilder(Material.RED_DYE)
-                        .displayName(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.decline-quest")
+                        .displayName(Component.translatable("gui.quest-dialog.decline-quest")
                                 .color(UnifiedColorUtil.ERROR))
-                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-accept.decline-desc")
+                        .addLore(Component.translatable("gui.quest-accept.decline-desc")
                                 .color(UnifiedColorUtil.GRAY))
                         .build(),
                 p -> handleQuestDecline()
@@ -346,7 +345,7 @@ public class QuestDialogGui extends BaseGui {
         String npcName = quest.getNPCName(viewer);
 
         viewer.sendMessage(Component.text(npcName + ": " + declineDialog, UnifiedColorUtil.GRAY));
-        viewer.sendMessage(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.quest-declined")
+        viewer.sendMessage(Component.translatable("gui.quest-dialog.quest-declined")
                 .color(UnifiedColorUtil.GRAY));
         SoundUtil.playClickSound(viewer);
     }
@@ -357,9 +356,9 @@ public class QuestDialogGui extends BaseGui {
     private GuiItem createExitButton() {
         return GuiItem.clickable(
                 new ItemBuilder(Material.BARRIER)
-                        .displayName(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.quest-dialog.close")
+                        .displayName(Component.translatable("gui.quest-dialog.close")
                                 .color(UnifiedColorUtil.ERROR))
-                        .addLore(com.febrie.rpg.util.LangManager.getComponent(viewer, "gui.buttons.close.lore")
+                        .addLore(Component.translatable("gui.buttons.close.lore")
                                 .color(UnifiedColorUtil.GRAY))
                         .build(),
                 p -> {

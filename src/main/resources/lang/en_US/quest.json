@@ -1,17 +1,17 @@
 {
-  "started": "📋 New quest started: ",
-  "start-failed": "%COLOR_ERROR%Failed to start quest!",
-  "completed": " quest completed!",
-  "declined": "%COLOR_GRAY%Quest declined.",
+  "started": "📋 New quest started:",
+  "start-failed": "Failed to start quest!",
+  "completed": "quest completed!",
+  "declined": "Quest declined.",
   "reward-npc-visit": "🎁 Visit the reward NPC to claim your rewards!",
   "total-progress": "Total Progress",
   "progress": "Progress",
-  "objective-achieved": " Complete!",
+  "objective-achieved": "Complete!",
   "quest-completed-toast": "Quest completed!",
   "goals": "Goals:",
   "rewards": "Rewards:",
-  "category-label": "Category: ",
-  "level-requirement": "Level Requirement: ",
+  "category-label": "Category:",
+  "level-requirement": "Level Requirement:",
   "quest-objectives": "=== Quest Objectives ===",
   "quest-rewards": "=== Quest Rewards ===",
   "sequential-note": "※ Must be completed in order.",
@@ -20,23 +20,23 @@
     "active": "Active Quests",
     "completed": "Completed Quests"
   },
-  "total-count": "Total {count} quests",
+  "total-count": "Total {1} quests",
   "reward-available": "⚡ Rewards Available!",
   "click-for-details": "Click to view details",
   "previous-page": "Previous Page",
   "next-page": "Next Page",
-  "go-to-page": "Go to page {page}",
+  "go-to-page": "Go to page {1}",
   "dialog": {
     "player": "Player"
   },
   "npc": {
-    "invalid-quest": "%COLOR_ERROR%Invalid quest!",
-    "already-active": "%COLOR_WARNING%You are already on this quest!",
-    "already-completed": "%COLOR_WARNING%You have already completed this quest!",
-    "level-requirement": "%COLOR_ERROR%You need to be level %COLOR_YELLOW%{level}%COLOR_ERROR% or higher to accept this quest!",
-    "job-requirement": "%COLOR_ERROR%You need to be a %COLOR_YELLOW%{job}%COLOR_ERROR% to accept this quest!",
-    "prerequisite-requirement": "%COLOR_ERROR%You must complete prerequisite quests first!",
-    "mutually-exclusive": "%COLOR_ERROR%You have already completed a mutually exclusive quest!"
+    "invalid-quest": "Invalid quest!",
+    "already-active": "You are already on this quest!",
+    "already-completed": "You have already completed this quest!",
+    "level-requirement": "You need to be level {1} or higher to accept this quest!",
+    "job-requirement": "You need to be a {1} to accept this quest!",
+    "prerequisite-requirement": "You must complete prerequisite quests first!",
+    "mutually-exclusive": "You have already completed a mutually exclusive quest!"
   },
   "categories": {
     "main": "Main Quest",
@@ -61,8 +61,8 @@
     "items": "Items:",
     "currency": "Currency:",
     "experience": "Experience:",
-    "no-rewards": "%COLOR_WARNING%No rewards to claim.",
-    "not-this-npc": "%COLOR_WARNING%No rewards available from this NPC.",
+    "no-rewards": "No rewards to claim.",
+    "not-this-npc": "No rewards available from this NPC.",
     "currencies": {
       "gold": "Gold",
       "diamond": "Diamond",
@@ -73,54 +73,14 @@
     }
   },
   "tutorial": {
-    "first-steps": {
-      "name": "First Steps",
-      "description": [
-        "Welcome to the server!",
-        "Let's learn basic movement and interaction."
-      ],
-      "npc-name": "Guide",
-      "objectives": {
-        "visit_hub": "Visit the Hub area",
-        "visit_merchant": "Talk to village merchant"
-      },
-      "dialogs": {
-        "line1": "Hello, adventurer! Welcome to Sypixel RPG!",
-        "line2": "This world is filled with countless adventures and treasures waiting for you.",
-        "line3": "Let's start with the basics, shall we? Head to the Hub, then find the village merchant.",
-        "accept": "Great! Let's explore this world together.",
-        "decline": "Please come back when you're ready."
-      }
+    "npcs": {
+      "guide": "Guide"
     },
-    "basic-combat": {
-      "name": "Basic Combat",
-      "description": [
-        "Learn how to fight monsters.",
-        "Be careful, monsters are dangerous!",
-        "",
-        "Objectives:",
-        "• Kill 5 zombies",
-        "• Kill 3 skeletons",
-        "",
-        "Rewards:",
-        "• 200 Gold",
-        "• Iron Sword",
-        "• Iron Chestplate",
-        "• 20 Cooked Beef",
-        "• 100 Experience"
-      ],
-      "objectives": {
-        "kill_zombies": "Kill 5 zombies",
-        "kill_skeletons": "Kill 3 skeletons"
-      },
-      "npcs": {
-        "combat_instructor": "Combat Instructor"
-      },
-      "dialogs": {
-        "essential_skills": "Combat skills are essential to become an adventurer!",
-        "night_monsters": "Monsters appear at night. Be prepared!",
-        "return_reward": "Defeat zombies and skeletons, then return for better equipment."
-      }
+    "dialogs": {
+      "welcome": "Hello! Welcome to Sypixel RPG!",
+      "start_adventure": "Start your adventure in this world.",
+      "ready_question": "Are you ready?",
+      "first_objective": "Great! Let me tell you your first objective."
     }
   },
   "weekly": {
@@ -525,7 +485,6 @@
         "catch_rare": "Catch a rare fish"
       }
     },
-
     "mining": {
       "name": "Daily Mining",
       "description": "Complete today's mining objectives.\nResets daily at midnight.",
@@ -1499,7 +1458,7 @@
       "",
       "Objectives:",
       "• Kill 30 Zombies",
-      "• Kill 25 Skeletons", 
+      "• Kill 25 Skeletons",
       "• Kill 20 Spiders",
       "• Kill 15 Creepers",
       "• Collect and deliver 20 proof items"
@@ -1611,17 +1570,6 @@
       "line9": "The Titan is changing forms! Each phase requires different strategies!",
       "line10": "Unbelievable... you really defeated the Titan! Heroes of the server!",
       "line11": "These rewards are payment for your courage. Next week, an even stronger Titan will come."
-    }
-  },
-  "tutorial": {
-    "npcs": {
-      "guide": "Guide"
-    },
-    "dialogs": {
-      "welcome": "Hello! Welcome to Sypixel RPG!",
-      "start_adventure": "Start your adventure in this world.",
-      "ready_question": "Are you ready?",
-      "first_objective": "Great! Let me tell you your first objective."
     }
   },
   "npc_names": {

@@ -1,5 +1,6 @@
 package com.febrie.rpg.command.admin;
 
+import net.kyori.adventure.text.Component;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.command.admin.subcommand.*;
 import com.febrie.rpg.command.admin.subcommand.base.SubCommand;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import java.util.List;
 /**
  * 관리자 명령어 핸들러
  * Command Pattern을 사용한 서브커맨드 관리

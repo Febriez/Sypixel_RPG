@@ -6,7 +6,6 @@ import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.quest.manager.QuestManager;
-import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
@@ -45,48 +44,44 @@ public class ViewProfileCommand extends BaseSubCommand {
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length < 1) {
-            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.usage"));
+            sender.sendMessage(Component.translatable("commands.admin.viewprofile.usage"));
             return true;
         }
         
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
-            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-not-found"));
+            sender.sendMessage(Component.translatable("commands.admin.player-not-found"));
             return true;
         }
         
         RPGPlayer rpgPlayer = playerManager.getPlayer(target);
         if (rpgPlayer == null) {
-            sender.sendMessage(LangManager.getComponent(sender, "commands.admin.player-data-not-found"));
+            sender.sendMessage(Component.translatable("commands.admin.player-data-not-found"));
             return true;
         }
         
         // 프로필 정보 표시
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.title", 
-            "player", target.getName()));
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.level", 
-            "level", String.valueOf(rpgPlayer.getLevel())));
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.exp", 
-            "current", String.valueOf(rpgPlayer.getExperience()), 
-            "next", String.valueOf(rpgPlayer.getExperienceToNextLevel())));
+        sender.sendMessage(Component.translatable("commands.admin.viewprofile.title", Component.text(target.getName())));
+        sender.sendMessage(Component.translatable("commands.admin.viewprofile.level", Component.text(rpgPlayer.getLevel())));
+        sender.sendMessage(Component.translatable("commands.admin.viewprofile.exp", 
+            Component.text(rpgPlayer.getExperience()), Component.text(rpgPlayer.getExperienceToNextLevel())));
         
         Component jobNameComp = rpgPlayer.getJob() != null ? 
             Component.text(rpgPlayer.getJob().name()) : 
-            LangManager.getComponent(sender, "commands.admin.viewprofile.job-none");
+            Component.translatable("commands.admin.viewprofile.job-none");
         String jobName = PlainTextComponentSerializer.plainText().serialize(jobNameComp);
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.job", 
-            "job", jobName));
+        sender.sendMessage(Component.translatable("commands.admin.viewprofile.job", Component.text(jobName)));
         
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.gold", 
-            "amount", String.valueOf(rpgPlayer.getWallet().getBalance(CurrencyType.GOLD))));
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.diamond", 
-            "amount", String.valueOf(rpgPlayer.getWallet().getBalance(CurrencyType.DIAMOND))));
+        sender.sendMessage(Component.translatable("commands.admin.viewprofile.gold", 
+            Component.text(rpgPlayer.getWallet().getBalance(CurrencyType.GOLD))));
+        sender.sendMessage(Component.translatable("commands.admin.viewprofile.diamond", 
+            Component.text(rpgPlayer.getWallet().getBalance(CurrencyType.DIAMOND))));
         
         // 퀘스트 정보
         Map<String, com.febrie.rpg.dto.quest.ActiveQuestDTO> activeQuests = 
             questManager.getActiveQuests(target.getUniqueId());
-        sender.sendMessage(LangManager.getComponent(sender, "commands.admin.viewprofile.active-quests", 
-            "count", String.valueOf(activeQuests.size())));
+        sender.sendMessage(Component.translatable("commands.admin.viewprofile.active-quests", 
+            Component.text(activeQuests.size())));
         
         return true;
     }

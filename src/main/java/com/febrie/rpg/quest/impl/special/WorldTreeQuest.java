@@ -9,7 +9,7 @@ import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
+import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -108,12 +108,12 @@ public class WorldTreeQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.getMessage(who, "quest.special.world_tree.name");
+        return Component.translatable("quest.special.world_tree.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList(who, "quest.special.world_tree.description");
+        return List.of() /* TODO: Convert LangManager.getList("quest.special.world_tree.description") manually */;
     }
 
     @Override
@@ -121,61 +121,61 @@ public class WorldTreeQuest extends Quest {
         String id = objective.getId();
 
         return switch (id) {
-            case "tree_guardian" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.tree_guardian");
+            case "tree_guardian" -> Component.translatable("quest.special.world_tree.objectives.tree_guardian");
             case "world_tree_guardian" ->
-                    LangManager.getMessage(who, "quest.special.world_tree.objectives.world_tree_guardian");
-            case "world_tree" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.world_tree");
-            case "dead_leaves" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.dead_leaves");
-            case "dying_tree" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.dying_tree");
-            case "life_spring" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.life_spring");
+                    Component.translatable("quest.special.world_tree.objectives.world_tree_guardian");
+            case "world_tree" -> Component.translatable("quest.special.world_tree.objectives.world_tree");
+            case "dead_leaves" -> Component.translatable("quest.special.world_tree.objectives.dead_leaves");
+            case "dying_tree" -> Component.translatable("quest.special.world_tree.objectives.dying_tree");
+            case "life_spring" -> Component.translatable("quest.special.world_tree.objectives.life_spring");
             case "clear_corruption" ->
-                    LangManager.getMessage(who, "quest.special.world_tree.objectives.clear_corruption");
+                    Component.translatable("quest.special.world_tree.objectives.clear_corruption");
             case "corruption_spirits" ->
-                    LangManager.getMessage(who, "quest.special.world_tree.objectives.corruption_spirits");
-            case "pure_water" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.pure_water");
-            case "purify_spring" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.purify_spring");
-            case "life_essence" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.life_essence");
-            case "wisdom_well" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.wisdom_well");
-            case "well_keeper" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.well_keeper");
-            case "ancient_runes" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.ancient_runes");
-            case "wisdom_price" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.wisdom_price");
-            case "wisdom_potion" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.wisdom_potion");
-            case "meditation" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.meditation");
-            case "wisdom_water" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.wisdom_water");
-            case "fate_threads" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.fate_threads");
-            case "fate_strings" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.fate_strings");
-            case "fate_weavers" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.fate_weavers");
-            case "cave_spiders" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.cave_spiders");
-            case "weave_fate" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.weave_fate");
-            case "destiny_thread" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.destiny_thread");
-            case "time_river" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.time_river");
-            case "time_crystals" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.time_crystals");
-            case "time_stones" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.time_stones");
-            case "time_flux" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.time_flux");
-            case "temporal_sand" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.temporal_sand");
-            case "chronos_dust" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.chronos_dust");
+                    Component.translatable("quest.special.world_tree.objectives.corruption_spirits");
+            case "pure_water" -> Component.translatable("quest.special.world_tree.objectives.pure_water");
+            case "purify_spring" -> Component.translatable("quest.special.world_tree.objectives.purify_spring");
+            case "life_essence" -> Component.translatable("quest.special.world_tree.objectives.life_essence");
+            case "wisdom_well" -> Component.translatable("quest.special.world_tree.objectives.wisdom_well");
+            case "well_keeper" -> Component.translatable("quest.special.world_tree.objectives.well_keeper");
+            case "ancient_runes" -> Component.translatable("quest.special.world_tree.objectives.ancient_runes");
+            case "wisdom_price" -> Component.translatable("quest.special.world_tree.objectives.wisdom_price");
+            case "wisdom_potion" -> Component.translatable("quest.special.world_tree.objectives.wisdom_potion");
+            case "meditation" -> Component.translatable("quest.special.world_tree.objectives.meditation");
+            case "wisdom_water" -> Component.translatable("quest.special.world_tree.objectives.wisdom_water");
+            case "fate_threads" -> Component.translatable("quest.special.world_tree.objectives.fate_threads");
+            case "fate_strings" -> Component.translatable("quest.special.world_tree.objectives.fate_strings");
+            case "fate_weavers" -> Component.translatable("quest.special.world_tree.objectives.fate_weavers");
+            case "cave_spiders" -> Component.translatable("quest.special.world_tree.objectives.cave_spiders");
+            case "weave_fate" -> Component.translatable("quest.special.world_tree.objectives.weave_fate");
+            case "destiny_thread" -> Component.translatable("quest.special.world_tree.objectives.destiny_thread");
+            case "time_river" -> Component.translatable("quest.special.world_tree.objectives.time_river");
+            case "time_crystals" -> Component.translatable("quest.special.world_tree.objectives.time_crystals");
+            case "time_stones" -> Component.translatable("quest.special.world_tree.objectives.time_stones");
+            case "time_flux" -> Component.translatable("quest.special.world_tree.objectives.time_flux");
+            case "temporal_sand" -> Component.translatable("quest.special.world_tree.objectives.temporal_sand");
+            case "chronos_dust" -> Component.translatable("quest.special.world_tree.objectives.chronos_dust");
             case "dream_dimension" ->
-                    LangManager.getMessage(who, "quest.special.world_tree.objectives.dream_dimension");
-            case "nightmares" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.nightmares");
-            case "dream_shards" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.dream_shards");
-            case "dream_catchers" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.dream_catchers");
-            case "lucid_dream" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.lucid_dream");
-            case "dream_essence" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.dream_essence");
-            case "tree_crown" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.tree_crown");
-            case "place_life" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.place_life");
-            case "place_wisdom" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.place_wisdom");
-            case "place_fate" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.place_fate");
-            case "place_time" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.place_time");
-            case "place_dream" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.place_dream");
-            case "plant_seeds" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.plant_seeds");
-            case "grow_forest" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.grow_forest");
-            case "golden_apples" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.golden_apples");
-            case "revival_cost" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.revival_cost");
-            case "tree_awakening" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.tree_awakening");
-            case "revived_tree" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.revived_tree");
-            case "world_fruit" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.world_fruit");
-            case "eternal_leaves" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.eternal_leaves");
-            case "tree_blessing" -> LangManager.getMessage(who, "quest.special.world_tree.objectives.tree_blessing");
+                    Component.translatable("quest.special.world_tree.objectives.dream_dimension");
+            case "nightmares" -> Component.translatable("quest.special.world_tree.objectives.nightmares");
+            case "dream_shards" -> Component.translatable("quest.special.world_tree.objectives.dream_shards");
+            case "dream_catchers" -> Component.translatable("quest.special.world_tree.objectives.dream_catchers");
+            case "lucid_dream" -> Component.translatable("quest.special.world_tree.objectives.lucid_dream");
+            case "dream_essence" -> Component.translatable("quest.special.world_tree.objectives.dream_essence");
+            case "tree_crown" -> Component.translatable("quest.special.world_tree.objectives.tree_crown");
+            case "place_life" -> Component.translatable("quest.special.world_tree.objectives.place_life");
+            case "place_wisdom" -> Component.translatable("quest.special.world_tree.objectives.place_wisdom");
+            case "place_fate" -> Component.translatable("quest.special.world_tree.objectives.place_fate");
+            case "place_time" -> Component.translatable("quest.special.world_tree.objectives.place_time");
+            case "place_dream" -> Component.translatable("quest.special.world_tree.objectives.place_dream");
+            case "plant_seeds" -> Component.translatable("quest.special.world_tree.objectives.plant_seeds");
+            case "grow_forest" -> Component.translatable("quest.special.world_tree.objectives.grow_forest");
+            case "golden_apples" -> Component.translatable("quest.special.world_tree.objectives.golden_apples");
+            case "revival_cost" -> Component.translatable("quest.special.world_tree.objectives.revival_cost");
+            case "tree_awakening" -> Component.translatable("quest.special.world_tree.objectives.tree_awakening");
+            case "revived_tree" -> Component.translatable("quest.special.world_tree.objectives.revived_tree");
+            case "world_fruit" -> Component.translatable("quest.special.world_tree.objectives.world_fruit");
+            case "eternal_leaves" -> Component.translatable("quest.special.world_tree.objectives.eternal_leaves");
+            case "tree_blessing" -> Component.translatable("quest.special.world_tree.objectives.tree_blessing");
             default -> Component.text(objective.getStatusInfo(null));
         };
     }

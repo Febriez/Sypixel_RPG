@@ -45,6 +45,7 @@ public final class DatabaseConstants {
     public static final int ISLAND_MIN_BIOME_SIZE = 500; // 바이옴 최소 크기
     public static final int ISLAND_BIOME_SIZE_MULTIPLE = 16; // 바이옴 크기 배수
     public static final long ISLAND_DELETE_COOLDOWN_MS = 7L * 24 * 60 * 60 * 1000; // 7일
+    public static final long ISLAND_INVITE_EXPIRES_MS = 60 * 1000; // 초대 만료 시간 (60초)
     
     // 컬렉션 이름
     public static final String COLLECTION_PLAYERS = "players";

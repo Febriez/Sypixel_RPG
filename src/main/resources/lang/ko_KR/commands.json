@@ -1,303 +1,318 @@
 {
   "profile": {
-    "usage": "%COLOR_YELLOW%사용법: /profile 또는 /프로필",
+    "usage": "사용법: /profile 또는 /프로필",
     "description": "자신의 프로필을 봅니다",
-    "success": "%COLOR_GREEN%프로필을 열었습니다!"
+    "success": "프로필을 열었습니다!"
   },
   "viewprofile": {
-    "usage": "%COLOR_YELLOW%사용법: /viewprofile <플레이어명> 또는 /프로필보기 <플레이어명>",
+    "usage": "사용법: /viewprofile <플레이어명> 또는 /프로필보기 <플레이어명>",
     "description": "다른 플레이어의 프로필을 봅니다",
-    "success": "%COLOR_GREEN%{player}의 프로필을 열었습니다!",
-    "disabled": "%COLOR_WARNING%이 명령어는 더 이상 사용할 수 없습니다.",
-    "use-admin": "%COLOR_INFO%관리자 명령어를 사용하세요: /rpgadmin viewprofile <플레이어>"
+    "success": "{0}의 프로필을 열었습니다!",
+    "disabled": "이 명령어는 더 이상 사용할 수 없습니다.",
+    "use-admin": "관리자 명령어를 사용하세요: /rpgadmin viewprofile <플레이어>"
   },
   "mainmenu": {
-    "usage": "%COLOR_YELLOW%사용법: /메뉴",
+    "usage": "사용법: /메뉴",
     "description": "메인 메뉴를 엽니다",
-    "success": "%COLOR_GREEN%메인 메뉴를 열었습니다!"
+    "success": "메인 메뉴를 열었습니다!"
   },
   "skills": {
-    "usage": "%COLOR_YELLOW%사용법: /skills 또는 /스킬",
+    "usage": "사용법: /skills 또는 /스킬",
     "description": "스킬 메뉴를 엽니다",
-    "success": "%COLOR_GREEN%스킬 메뉴를 열었습니다!"
+    "success": "스킬 메뉴를 열었습니다!"
   },
   "stats": {
-    "usage": "%COLOR_YELLOW%사용법: /stats 또는 /스탯",
+    "usage": "사용법: /stats 또는 /스탯",
     "description": "스탯 메뉴를 엽니다",
-    "success": "%COLOR_GREEN%스탯 메뉴를 열었습니다!"
+    "success": "스탯 메뉴를 열었습니다!"
   },
   "talents": {
-    "usage": "%COLOR_YELLOW%사용법: /talents 또는 /특성",
+    "usage": "사용법: /talents 또는 /특성",
     "description": "특성 메뉴를 엽니다",
-    "success": "%COLOR_GREEN%특성 메뉴를 열었습니다!"
+    "success": "특성 메뉴를 열었습니다!"
   },
   "leaderboard": {
-    "usage": "%COLOR_YELLOW%사용법: /leaderboard 또는 /리더보드 또는 /순위",
+    "usage": "사용법: /leaderboard 또는 /리더보드 또는 /순위",
     "description": "서버 순위를 확인합니다",
-    "success": "%COLOR_GREEN%리더보드를 열었습니다!"
+    "success": "리더보드를 열었습니다!"
   },
   "party": {
-    "usage": "%COLOR_YELLOW%사용법: /party <create|invite|leave|kick> [플레이어]",
+    "usage": "사용법: /party <create|invite|leave|kick> [플레이어]",
     "description": "파티 관련 명령어",
-    "create-success": "%COLOR_SUCCESS%파티를 생성했습니다!",
-    "invite-success": "%COLOR_SUCCESS%{player}을(를) 파티에 초대했습니다.",
-    "leave-success": "%COLOR_WARNING%파티에서 나갔습니다.",
-    "kick-success": "%COLOR_WARNING%{player}을(를) 파티에서 추방했습니다.",
-    "not-in-party": "%COLOR_ERROR%파티에 속해있지 않습니다.",
-    "already-in-party": "%COLOR_ERROR%이미 파티에 속해있습니다.",
-    "not-party-leader": "%COLOR_ERROR%파티장만 사용할 수 있는 명령어입니다."
+    "create-success": "파티를 생성했습니다!",
+    "invite-success": "{0}을(를) 파티에 초대했습니다.",
+    "leave-success": "파티에서 나갔습니다.",
+    "kick-success": "{0}을(를) 파티에서 추방했습니다.",
+    "not-in-party": "파티에 속해있지 않습니다.",
+    "already-in-party": "이미 파티에 속해있습니다.",
+    "not-party-leader": "파티장만 사용할 수 있는 명령어입니다."
   },
   "trade": {
-    "usage": "%COLOR_YELLOW%사용법: /trade <플레이어>",
+    "usage": "사용법: /trade <플레이어>",
     "description": "다른 플레이어와 거래합니다",
-    "request-sent": "%COLOR_INFO%{player}에게 거래 요청을 보냈습니다.",
-    "no-pending-request": "%COLOR_ERROR%대기 중인 거래 요청이 없습니다.",
-    "cannot-trade-self": "%COLOR_ERROR%자기 자신과는 거래할 수 없습니다."
+    "request-sent": "{0}에게 거래 요청을 보냈습니다.",
+    "no-pending-request": "대기 중인 거래 요청이 없습니다.",
+    "cannot-trade-self": "자기 자신과는 거래할 수 없습니다."
   },
   "spawn": {
-    "usage": "%COLOR_YELLOW%사용법: /spawn",
+    "usage": "사용법: /spawn",
     "description": "스폰으로 이동합니다",
-    "teleporting": "%COLOR_INFO%스폰으로 이동 중... (5초)",
-    "cancelled": "%COLOR_ERROR%이동이 취소되었습니다.",
-    "success": "%COLOR_SUCCESS%스폰으로 이동했습니다!"
+    "teleporting": "스폰으로 이동 중... (5초)",
+    "cancelled": "이동이 취소되었습니다.",
+    "success": "스폰으로 이동했습니다!"
   },
   "home": {
-    "usage": "%COLOR_YELLOW%사용법: /home [이름]",
+    "usage": "사용법: /home [이름]",
     "description": "집으로 이동합니다",
-    "not-set": "%COLOR_ERROR%설정된 집이 없습니다.",
-    "teleporting": "%COLOR_INFO%집으로 이동 중...",
-    "set-success": "%COLOR_SUCCESS%집을 설정했습니다!"
+    "not-set": "설정된 집이 없습니다.",
+    "teleporting": "집으로 이동 중...",
+    "set-success": "집을 설정했습니다!"
   },
   "warp": {
-    "usage": "%COLOR_YELLOW%사용법: /warp <장소>",
+    "usage": "사용법: /warp <장소>",
     "description": "특정 장소로 이동합니다",
-    "not-found": "%COLOR_ERROR%워프 지점을 찾을 수 없습니다: {warp}",
-    "no-permission": "%COLOR_ERROR%이 워프를 사용할 권한이 없습니다.",
-    "success": "%COLOR_SUCCESS%{warp}(으)로 이동했습니다!"
+    "not-found": "워프 지점을 찾을 수 없습니다: {warp}",
+    "no-permission": "이 워프를 사용할 권한이 없습니다.",
+    "success": "{warp}(으)로 이동했습니다!"
   },
   "admin": {
-    "no-permission": "%COLOR_ERROR%권한이 없습니다.",
-    "player-not-found": "%COLOR_ERROR%플레이어를 찾을 수 없습니다.",
-    "player-data-not-found": "%COLOR_ERROR%RPG 플레이어 데이터를 찾을 수 없습니다.",
-    "invalid-number": "%COLOR_ERROR%올바른 숫자를 입력해주세요.",
-    "player-only": "%COLOR_ERROR%플레이어만 사용할 수 있습니다.",
-    "title": "%COLOR_GOLD%=== RPG Admin Commands ===",
+    "no-permission": "권한이 없습니다.",
+    "player-not-found": "플레이어를 찾을 수 없습니다.",
+    "player-data-not-found": "RPG 플레이어 데이터를 찾을 수 없습니다.",
+    "invalid-number": "올바른 숫자를 입력해주세요.",
+    "player-only": "플레이어만 사용할 수 있습니다.",
+    "title": "=== RPG Admin Commands ===",
     "usage": {
-      "title": "%COLOR_GOLD%=== RPG Admin Commands ===",
-      "stats": "%COLOR_YELLOW%/rpgadmin stats - 서버 통계 확인",
-      "reload": "%COLOR_YELLOW%/rpgadmin reload - 설정 리로드",
-      "viewprofile": "%COLOR_YELLOW%/rpgadmin viewprofile <플레이어> - 프로필 확인",
-      "exp": "%COLOR_YELLOW%/rpgadmin exp give <플레이어> <경험치> - 경험치 지급",
-      "level": "%COLOR_YELLOW%/rpgadmin level set <플레이어> <레벨> - 레벨 설정",
-      "job": "%COLOR_YELLOW%/rpgadmin job set <플레이어> <직업> - 직업 설정",
-      "npc": "%COLOR_YELLOW%/rpgadmin npc set <퀘스트ID> - NPC에 퀘스트 설정",
-      "npc-setcode": "%COLOR_YELLOW%/rpgadmin npc setcode <npcID> [이름] - NPC Trait 등록 막대기 지급",
-      "npc-reward": "%COLOR_YELLOW%/rpgadmin npc reward <보상ID> [이름] - 보상 NPC 등록 막대기 지급",
-      "quest": "%COLOR_YELLOW%/rpgadmin quest <give|list|reload> - 퀘스트 관리",
-      "island": "%COLOR_YELLOW%/rpgadmin island <info|delete|reset|tp> <플레이어> - 섬 관리"
+      "title": "=== RPG Admin Commands ===",
+      "stats": "/rpgadmin stats - 서버 통계 확인",
+      "reload": "/rpgadmin reload - 설정 리로드",
+      "viewprofile": "/rpgadmin viewprofile <플레이어> - 프로필 확인",
+      "exp": "/rpgadmin exp give <플레이어> <경험치> - 경험치 지급",
+      "level": "/rpgadmin level set <플레이어> <레벨> - 레벨 설정",
+      "job": "/rpgadmin job set <플레이어> <직업> - 직업 설정",
+      "npc": "/rpgadmin npc set <퀘스트ID> - NPC에 퀘스트 설정",
+      "npc-setcode": "/rpgadmin npc setcode <npcID> [이름] - NPC Trait 등록 막대기 지급",
+      "npc-reward": "/rpgadmin npc reward <보상ID> [이름] - 보상 NPC 등록 막대기 지급",
+      "quest": "/rpgadmin quest <give|list|reload> - 퀘스트 관리",
+      "island": "/rpgadmin island <info|delete|reset|tp> <플레이어> - 섬 관리"
     },
     "stats": {
-      "title": "%COLOR_GOLD%=== RPG 서버 통계 ===",
-      "online-players": "%COLOR_WHITE%온라인 플레이어: {count}",
-      "loaded-players": "%COLOR_WHITE%로드된 RPG 플레이어: {count}",
-      "registered-quests": "%COLOR_WHITE%등록된 퀘스트: {count}",
-      "implemented-quests": "%COLOR_WHITE%구현된 퀘스트: {count}",
-      "memory-usage": "%COLOR_GRAY%메모리 사용량: {used}MB / {max}MB"
+      "title": "=== RPG 서버 통계 ===",
+      "online-players": "온라인 플레이어: {1}",
+      "loaded-players": "로드된 RPG 플레이어: {1}",
+      "registered-quests": "등록된 퀘스트: {1}",
+      "implemented-quests": "구현된 퀘스트: {1}",
+      "memory-usage": "메모리 사용량: {used}MB / {2}MB"
     },
     "reload": {
-      "reloading": "%COLOR_YELLOW%설정을 리로드하는 중...",
-      "success": "%COLOR_SUCCESS%설정 리로드 완료!"
+      "starting": "리로드를 시작합니다...",
+      "config-complete": "✓ 설정 파일 리로드 완료",
+      "lang-complete": "✓ 언어 파일 리로드 완료",
+      "unknown-type": "알 수 없는 타입: {0}",
+      "available-types": "사용 가능: config, lang, all",
+      "error": "리로드 중 오류 발생: {0}",
+      "success": "리로드 완료! ({0}ms)",
+      "failed": "리로드 실패"
     },
     "viewprofile": {
-      "usage": "%COLOR_ERROR%사용법: /rpgadmin viewprofile <플레이어>",
-      "title": "%COLOR_GOLD%=== {player}의 프로필 ===",
-      "level": "%COLOR_WHITE%레벨: {level}",
-      "exp": "%COLOR_WHITE%경험치: {current}/{next}",
-      "job": "%COLOR_WHITE%직업: {job}",
+      "usage": "사용법: /rpgadmin viewprofile <플레이어>",
+      "title": "=== {0}의 프로필 ===",
+      "level": "레벨: {1}",
+      "exp": "경험치: {1}/{next}",
+      "job": "직업: {1}",
       "job-none": "없음",
-      "gold": "%COLOR_GOLD%골드: {amount}",
-      "diamond": "%COLOR_AQUA%다이아몬드: {amount}",
-      "active-quests": "%COLOR_YELLOW%진행중인 퀘스트: {count}개"
+      "gold": "골드: {1}",
+      "diamond": "다이아몬드: {1}",
+      "active-quests": "진행중인 퀘스트: {1}개"
     },
     "exp": {
-      "usage": "%COLOR_ERROR%사용법: /rpgadmin exp give <플레이어> <경험치>",
-      "must-positive": "%COLOR_ERROR%경험치는 양수여야 합니다.",
-      "success": "%COLOR_SUCCESS%{player}에게 {amount} 경험치를 지급했습니다.",
-      "received": "%COLOR_EMERALD%{amount} 경험치를 받았습니다!"
+      "usage": "사용법: /rpgadmin exp give <플레이어> <경험치>",
+      "must-positive": "경험치는 양수여야 합니다.",
+      "success": "{0}에게 {1} 경험치를 지급했습니다.",
+      "received": "{1} 경험치를 받았습니다!"
     },
     "level": {
-      "usage": "%COLOR_ERROR%사용법: /rpgadmin level set <플레이어> <레벨>",
-      "range": "%COLOR_ERROR%레벨은 1-100 사이여야 합니다.",
-      "success": "%COLOR_SUCCESS%{player}의 레벨을 {level}로 설정했습니다.",
-      "set": "%COLOR_GOLD%레벨이 {level}로 설정되었습니다!"
+      "usage": "사용법: /rpgadmin level set <플레이어> <레벨>",
+      "range": "레벨은 1-100 사이여야 합니다.",
+      "success": "{0}의 레벨을 {1}로 설정했습니다.",
+      "set": "레벨이 {1}로 설정되었습니다!"
     },
     "job": {
-      "usage": "%COLOR_ERROR%사용법: /rpgadmin job <플레이어> <직업>",
-      "available": "%COLOR_INFO%사용 가능한 직업: WARRIOR, MAGE, ARCHER, ASSASSIN",
-      "invalid": "%COLOR_ERROR%잘못된 직업입니다: {job}",
-      "already-has": "%COLOR_WARNING%{player}님은 이미 직업이 있습니다: {job}",
-      "need-reset": "%COLOR_INFO%직업 변경을 위해서는 먼저 초기화가 필요합니다.",
-      "success": "%COLOR_SUCCESS%{player}님의 직업을 {job}(으)로 설정했습니다.",
-      "set": "%COLOR_SUCCESS%직업이 {job}(으)로 설정되었습니다!",
-      "failed": "%COLOR_ERROR%직업 설정에 실패했습니다."
+      "usage": "사용법: /rpgadmin job <플레이어> <직업>",
+      "available": "사용 가능한 직업: {0}",
+      "invalid": "잘못된 직업입니다",
+      "reset": "{0}님의 직업을 초기화했습니다",
+      "your-reset": "직업이 초기화되었습니다",
+      "success": "{0}님의 직업을 {1}(으)로 설정했습니다",
+      "your-changed": "직업이 {0}(으)로 변경되었습니다"
     },
     "npc": {
-      "citizens-not-found": "%COLOR_ERROR%Citizens 플러그인이 설치되어 있지 않습니다.",
+      "citizens-not-found": "Citizens 플러그인이 설치되어 있지 않습니다.",
       "usage": {
-        "title": "%COLOR_ERROR%사용법:",
-        "set": "%COLOR_YELLOW%  /rpgadmin npc set <퀘스트ID>",
-        "setcode": "%COLOR_YELLOW%  /rpgadmin npc setcode <npc코드>",
-        "reward": "%COLOR_YELLOW%  /rpgadmin npc reward <보상npc코드>",
-        "list": "%COLOR_YELLOW%  /rpgadmin npc list"
+        "title": "사용법:",
+        "set": "/rpgadmin npc set <퀘스트ID>",
+        "setcode": "/rpgadmin npc setcode <npc코드>",
+        "reward": "/rpgadmin npc reward <보상npc코드>",
+        "list": "/rpgadmin npc list"
       },
-      "not-selected": "%COLOR_ERROR%NPC를 먼저 선택해주세요. (/npc select)",
+      "not-selected": "NPC를 먼저 선택해주세요. (/npc select)",
       "set": {
-        "usage": "%COLOR_ERROR%사용법: /rpgadmin npc set <퀘스트ID>",
-        "example": "%COLOR_GRAY%예시: /rpgadmin npc set TUTORIAL_FIRST_STEPS",
-        "invalid-quest": "%COLOR_ERROR%잘못된 퀘스트 ID입니다: {id}",
-        "available": "%COLOR_YELLOW%사용 가능한 퀘스트 ID:"
+        "usage": "사용법: /rpgadmin npc set <퀘스트ID>",
+        "example": "예시: /rpgadmin npc set TUTORIAL_FIRST_STEPS",
+        "invalid-quest": "잘못된 퀘스트 ID입니다: {id}",
+        "available": "사용 가능한 퀘스트 ID:"
       },
       "settrait": {
-        "usage": "%COLOR_ERROR%사용법: /rpgadmin npc settrait <quest|shop|dialog|guide> [args]",
-        "invalid": "%COLOR_ERROR%잘못된 trait 타입입니다.",
+        "usage": "사용법: /rpgadmin npc settrait <quest|shop|dialog|guide> [args]",
+        "invalid": "잘못된 trait 타입입니다.",
         "quest": {
-          "usage": "%COLOR_ERROR%사용법: /rpgadmin npc settrait quest <퀘스트ID>",
-          "success": "%COLOR_SUCCESS%NPC '{npc}'에 퀘스트 '{quest}'를 설정했습니다."
+          "usage": "사용법: /rpgadmin npc settrait quest <퀘스트ID>",
+          "success": "NPC '{npc}'에 퀘스트 '{quest}'를 설정했습니다."
         },
         "shop": {
-          "success": "%COLOR_SUCCESS%NPC '{npc}'에 상점을 설정했습니다."
+          "success": "NPC '{npc}'에 상점을 설정했습니다."
         },
         "dialog": {
-          "usage": "%COLOR_ERROR%사용법: /rpgadmin npc settrait dialog <대화ID>",
-          "success": "%COLOR_SUCCESS%NPC '{npc}'에 대화 '{dialog}'를 설정했습니다."
+          "usage": "사용법: /rpgadmin npc settrait dialog <대화ID>",
+          "success": "NPC '{npc}'에 대화 '{dialog}'를 설정했습니다."
         },
         "guide": {
-          "success": "%COLOR_SUCCESS%NPC '{npc}'에 가이드를 설정했습니다."
+          "success": "NPC '{npc}'에 가이드를 설정했습니다."
         }
       },
       "setcode": {
-        "usage": "%COLOR_ERROR%사용법: /rpgadmin npc setcode <npcID> [이름]",
-        "example": "%COLOR_GRAY%예시: /rpgadmin npc setcode village_shopper 마을_상인",
-        "invalid-format": "%COLOR_ERROR%오류: NPC ID는 영문 소문자와 언더스코어(_)만 사용할 수 있습니다.",
-        "format-example": "%COLOR_GRAY%올바른 예시: village_shopper, first_npc, quest_giver",
-        "inventory-full": "%COLOR_WARNING%인벤토리가 가득 차서 아이템을 바닥에 드롭했습니다.",
-        "success": "%COLOR_SUCCESS%✓ NPC Trait 등록기를 지급했습니다.",
-        "npc-id": "%COLOR_GRAY%NPC ID: %COLOR_RARE%{id}",
-        "display-name": "%COLOR_GRAY%표시 이름: %COLOR_YELLOW%{name}"
+        "usage": "사용법: /rpgadmin npc setcode <npcID> [이름]",
+        "example": "예시: /rpgadmin npc setcode village_shopper 마을_상인",
+        "invalid-format": "오류: NPC ID는 영문 소문자와 언더스코어(_)만 사용할 수 있습니다.",
+        "format-example": "올바른 예시: village_shopper, first_npc, quest_giver",
+        "inventory-full": "인벤토리가 가득 차서 아이템을 바닥에 드롭했습니다.",
+        "success": "✓ NPC Trait 등록기를 지급했습니다.",
+        "npc-id": "NPC ID: {id}",
+        "display-name": "표시 이름: {0}"
       },
       "reward": {
-        "usage": "%COLOR_ERROR%사용법: /rpgadmin npc reward <rewardNpcID> [이름]",
-        "example": "%COLOR_GRAY%예시: /rpgadmin npc reward quest_rewarder 퀘스트_보상_NPC",
-        "invalid-format": "%COLOR_ERROR%오류: 보상 NPC ID는 영문 소문자와 언더스코어(_)만 사용할 수 있습니다.",
-        "format-example": "%COLOR_GRAY%올바른 예시: quest_rewarder, reward_giver",
-        "inventory-full": "%COLOR_WARNING%인벤토리가 가득 차서 아이템을 바닥에 드롭했습니다.",
-        "success": "%COLOR_SUCCESS%✓ 보상 NPC 등록기를 지급했습니다.",
-        "npc-id": "%COLOR_GRAY%보상 NPC ID: %COLOR_EPIC%{id}",
-        "display-name": "%COLOR_GRAY%표시 이름: %COLOR_YELLOW%{name}"
+        "usage": "사용법: /rpgadmin npc reward <rewardNpcID> [이름]",
+        "example": "예시: /rpgadmin npc reward quest_rewarder 퀘스트_보상_NPC",
+        "invalid-format": "오류: 보상 NPC ID는 영문 소문자와 언더스코어(_)만 사용할 수 있습니다.",
+        "format-example": "올바른 예시: quest_rewarder, reward_giver",
+        "inventory-full": "인벤토리가 가득 차서 아이템을 바닥에 드롭했습니다.",
+        "success": "✓ 보상 NPC 등록기를 지급했습니다.",
+        "npc-id": "보상 NPC ID: {id}",
+        "display-name": "표시 이름: {0}"
       },
       "list": {
-        "title": "%COLOR_GOLD%=== Citizens NPC 목록 ===",
-        "entry": "%COLOR_YELLOW%[{id}] {name}",
-        "id": "%COLOR_AQUA% - ID: {id}",
-        "quests": "%COLOR_GREEN% - 퀘스트: {count}개",
-        "total": "%COLOR_GRAY%총 {count}개의 NPC"
+        "title": "=== Citizens NPC 목록 ===",
+        "entry": "[{id}] {0}",
+        "id": "- ID: {id}",
+        "quests": "- 퀘스트: {1}개",
+        "total": "총 {1}개의 NPC"
       }
     },
     "quest": {
-      "usage": "%COLOR_ERROR%사용법: /rpgadmin quest <give|list|reload> [플레이어] [퀘스트ID]",
+      "usage": "사용법: /rpgadmin quest <give|list|reload> [플레이어] [퀘스트ID]",
       "give": {
-        "usage": "%COLOR_ERROR%사용법: /rpgadmin quest give <플레이어> <퀘스트ID>",
-        "invalid-id": "%COLOR_ERROR%올바르지 않은 퀘스트 ID입니다: {id}",
-        "success": "%COLOR_SUCCESS%퀘스트를 지급했습니다: {id}",
-        "received": "%COLOR_GOLD%새로운 퀘스트를 받았습니다: {id}",
-        "failed": "%COLOR_ERROR%퀘스트를 시작할 수 없습니다. 이미 진행중이거나 조건을 충족하지 않습니다."
+        "usage": "사용법: /rpgadmin quest give <플레이어> <퀘스트ID>",
+        "invalid-id": "올바르지 않은 퀘스트 ID입니다: {id}",
+        "success": "퀘스트를 지급했습니다: {id}",
+        "received": "새로운 퀘스트를 받았습니다: {id}",
+        "failed": "퀘스트를 시작할 수 없습니다. 이미 진행중이거나 조건을 충족하지 않습니다."
       },
       "list": {
-        "title": "%COLOR_GOLD%=== 사용 가능한 퀘스트 목록 ===",
-        "category": "%COLOR_YELLOW%\n{category}:",
-        "implemented": "%COLOR_SUCCESS% ✓",
-        "not-implemented": "%COLOR_ERROR% ✗"
+        "title": "=== 사용 가능한 퀘스트 목록 ===",
+        "category": "{category}:",
+        "implemented": "✓",
+        "not-implemented": "✗"
       },
       "reload": {
-        "success": "%COLOR_SUCCESS%퀘스트 데이터를 리로드했습니다."
+        "success": "퀘스트 데이터를 리로드했습니다."
       }
     },
     "island": {
       "usage": {
-        "title": "%COLOR_ERROR%사용법:",
-        "info": "%COLOR_YELLOW%  /rpgadmin island info <플레이어> - 플레이어의 섬 정보 확인",
-        "delete": "%COLOR_YELLOW%  /rpgadmin island delete <플레이어> - 플레이어의 섬 강제 삭제",
-        "reset": "%COLOR_YELLOW%  /rpgadmin island reset <플레이어> - 플레이어의 섬 강제 초기화",
-        "tp": "%COLOR_YELLOW%  /rpgadmin island tp <플레이어> - 플레이어의 섬으로 이동"
+        "title": "사용법:",
+        "info": "/rpgadmin island info <플레이어> - 플레이어의 섬 정보 확인",
+        "delete": "/rpgadmin island delete <플레이어> - 플레이어의 섬 강제 삭제",
+        "reset": "/rpgadmin island reset <플레이어> - 플레이어의 섬 강제 초기화",
+        "tp": "/rpgadmin island tp <플레이어> - 플레이어의 섬으로 이동"
       },
-      "player-required": "%COLOR_ERROR%플레이어 이름을 입력해주세요.",
-      "no-island": "%COLOR_ERROR%{player}은(는) 섬을 소유하고 있지 않습니다.",
+      "player-required": "플레이어 이름을 입력해주세요.",
+      "player-no-island": "{0}은(는) 섬을 소유하고 있지 않습니다.",
       "info": {
-        "title": "%COLOR_GOLD%=== {player}의 섬 정보 ===",
-        "id": "%COLOR_WHITE%섬 ID: {id}",
-        "name": "%COLOR_WHITE%섬 이름: {name}",
-        "owner": "%COLOR_WHITE%섬장: {owner}",
-        "size": "%COLOR_WHITE%크기: {size} x {size}",
-        "members": "%COLOR_WHITE%멤버 수: {current}/{max}",
-        "created": "%COLOR_GRAY%생성일: {date}",
-        "resets": "%COLOR_GRAY%총 초기화 횟수: {count}"
+        "title": "=== {0}의 섬 정보 ===",
+        "id": "섬 ID: {id}",
+        "name": "섬 이름: {0}",
+        "owner": "섬장: {owner}",
+        "size": "크기: {size} x {size}",
+        "members": "멤버 수: {1}/{2}",
+        "created": "생성일: {2}",
+        "resets": "총 초기화 횟수: {1}"
       },
       "delete": {
-        "deleting": "%COLOR_YELLOW%섬을 삭제하는 중...",
-        "success": "%COLOR_SUCCESS%{player}의 섬이 성공적으로 삭제되었습니다.",
-        "owner-notify": "%COLOR_ERROR%관리자에 의해 섬이 삭제되었습니다.",
-        "failed": "%COLOR_ERROR%섬 삭제에 실패했습니다."
+        "usage": "사용법: /rpgadmin island delete <플레이어> [confirm]",
+        "confirm": "{0}의 섬을 정말 삭제하시겠습니까? 확인하려면 'confirm'을 추가하세요.",
+        "deleting": "섬을 삭제하는 중...",
+        "success": "{0}의 섬이 성공적으로 삭제되었습니다.",
+        "owner-notify": "관리자에 의해 섬이 삭제되었습니다.",
+        "failed": "섬 삭제에 실패했습니다."
       },
       "reset": {
-        "resetting": "%COLOR_YELLOW%섬을 초기화하는 중...",
-        "success": "%COLOR_SUCCESS%{player}의 섬이 성공적으로 초기화되었습니다.",
-        "owner-notify": "%COLOR_WARNING%관리자에 의해 섬이 초기화되었습니다.",
-        "failed": "%COLOR_ERROR%섬 초기화에 실패했습니다."
+        "usage": "사용법: /rpgadmin island reset <플레이어> [confirm]",
+        "confirm": "{0}의 섬을 정말 초기화하시겠습니까? 확인하려면 'confirm'을 추가하세요.",
+        "resetting": "섬을 초기화하는 중...",
+        "success": "{0}의 섬이 성공적으로 초기화되었습니다.",
+        "owner-notify": "관리자에 의해 섬이 초기화되었습니다.",
+        "failed": "섬 초기화에 실패했습니다."
       },
       "tp": {
-        "world-not-found": "%COLOR_ERROR%섬 월드를 찾을 수 없습니다.",
-        "success": "%COLOR_SUCCESS%{player}의 섬으로 이동했습니다."
+        "usage": "사용법: /rpgadmin island tp <플레이어>",
+        "no-spawn": "섬 스폰 위치를 찾을 수 없습니다.",
+        "world-not-found": "섬 월드를 찾을 수 없습니다.",
+        "success": "{0}의 섬으로 이동했습니다."
       },
-      "unknown-command": "%COLOR_ERROR%알 수 없는 하위 명령어입니다."
+      "setowner": {
+        "usage": "사용법: /rpgadmin island setowner <현재소유자> <새소유자>",
+        "success": "섬 소유권을 {0}에서 {1}로 변경했습니다."
+      },
+      "unknown-command": "알 수 없는 하위 명령어입니다."
     }
   },
   "siteaccount": {
-    "player-only": "%COLOR_ERROR%이 명령어는 플레이어만 사용할 수 있습니다.",
-    "usage": "%COLOR_YELLOW%사용법: /사이트계정발급 <이메일>",
-    "invalid-email": "%COLOR_ERROR%올바른 이메일 형식이 아닙니다.",
-    "processing": "%COLOR_YELLOW%계정을 생성하는 중...",
-    "already-exists": "%COLOR_WARNING%이미 사이트 계정이 발급되었습니다.",
-    "email-taken": "%COLOR_ERROR%이미 사용 중인 이메일입니다.",
-    "error": "%COLOR_ERROR%계정 생성 중 오류가 발생했습니다: {error}",
+    "player-only": "이 명령어는 플레이어만 사용할 수 있습니다.",
+    "usage": "사용법: /사이트계정발급 <이메일>",
+    "invalid-email": "올바른 이메일 형식이 아닙니다.",
+    "processing": "계정을 생성하는 중...",
+    "already-exists": "이미 사이트 계정이 발급되었습니다.",
+    "email-taken": "이미 사용 중인 이메일입니다.",
+    "error": "계정 생성 중 오류가 발생했습니다: {error}",
     "success": {
-      "title": "%COLOR_GOLD%==== 사이트 계정 발급 완료 ====",
-      "success-message": "%COLOR_SUCCESS%✅ 계정이 성공적으로 생성되었습니다!",
-      "email": "%COLOR_WHITE%📧 이메일: %COLOR_YELLOW%{email}",
-      "password": "%COLOR_WHITE%🔑 비밀번호: %COLOR_AQUA%{password}",
-      "password-hover": "%COLOR_GREEN%클릭하여 비밀번호 복사",
-      "notice-title": "%COLOR_YELLOW%💡 안내사항:",
-      "notice-1": "%COLOR_WHITE%- 비밀번호를 클릭하면 클립보드에 복사됩니다",
-      "notice-2": "%COLOR_WHITE%- 웹사이트에서 이메일과 비밀번호로 로그인하세요",
-      "notice-3": "%COLOR_WHITE%- 로그인 후 비밀번호를 변경하는 것을 권장합니다",
-      "website": "%COLOR_WHITE%🌐 웹사이트: %COLOR_AQUA%https://sypixel.com",
-      "website-hover": "%COLOR_GREEN%클릭하여 웹사이트 열기",
-      "divider": "%COLOR_GOLD%============================="
+      "title": "==== 사이트 계정 발급 완료 ====",
+      "success-message": "✅ 계정이 성공적으로 생성되었습니다!",
+      "email": "📧 이메일: {email}",
+      "password": "🔑 비밀번호: {password}",
+      "password-hover": "클릭하여 비밀번호 복사",
+      "notice-title": "💡 안내사항:",
+      "notice-1": "- 비밀번호를 클릭하면 클립보드에 복사됩니다",
+      "notice-2": "- 웹사이트에서 이메일과 비밀번호로 로그인하세요",
+      "notice-3": "- 로그인 후 비밀번호를 변경하는 것을 권장합니다",
+      "website": "🌐 웹사이트: https://sypixel.com",
+      "website-hover": "클릭하여 웹사이트 열기",
+      "divider": "============================="
     }
   },
   "island": {
-    "player-only": "%COLOR_ERROR%이 명령어는 플레이어만 사용할 수 있습니다.",
+    "player-only": "이 명령어는 플레이어만 사용할 수 있습니다.",
     "no-island": {
-      "title": "%COLOR_YELLOW%==== 섬 시스템 ====",
-      "message": "%COLOR_ERROR%아직 섬이 없습니다!",
-      "benefits-title": "%COLOR_GRAY%섬을 생성하면 다음과 같은 기능을 사용할 수 있습니다:",
-      "benefit-1": "%COLOR_WHITE%• 자신만의 개인 섬에서 자유로운 건축",
-      "benefit-2": "%COLOR_WHITE%• 친구들을 초대하여 함께 플레이",
-      "benefit-3": "%COLOR_WHITE%• 섬 업그레이드로 더 넓은 공간 확보",
-      "benefit-4": "%COLOR_WHITE%• 섬 워프 포인트 설정",
-      "how-to-title": "%COLOR_YELLOW%섬 생성 방법:",
-      "how-to-1": "%COLOR_GRAY%1. 메인 메뉴(/메뉴)에서 섬 버튼 클릭",
-      "how-to-2": "%COLOR_GRAY%2. 섬 생성 버튼을 눌러 새로운 섬 생성",
-      "divider": "%COLOR_YELLOW%=================="
+      "title": "==== 섬 시스템 ====",
+      "message": "아직 섬이 없습니다!",
+      "benefits-title": "섬을 생성하면 다음과 같은 기능을 사용할 수 있습니다:",
+      "benefit-1": "• 자신만의 개인 섬에서 자유로운 건축",
+      "benefit-2": "• 친구들을 초대하여 함께 플레이",
+      "benefit-3": "• 섬 업그레이드로 더 넓은 공간 확보",
+      "benefit-4": "• 섬 워프 포인트 설정",
+      "how-to-title": "섬 생성 방법:",
+      "how-to-1": "1. 메인 메뉴(/메뉴)에서 섬 버튼 클릭",
+      "how-to-2": "2. 섬 생성 버튼을 눌러 새로운 섬 생성",
+      "divider": "=================="
     }
   }
 }

@@ -8,7 +8,6 @@ import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.reward.QuestReward;
 import com.febrie.rpg.quest.reward.RewardDeliveryType;
 import com.febrie.rpg.util.UnifiedColorUtil;
-import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -169,7 +168,7 @@ public abstract class Quest {
      */
     public @NotNull List<Component> getGoalDescription(@NotNull Player who) {
         List<Component> goals = new ArrayList<>();
-        goals.add(LangManager.getMessage(who, "quest.goals"));
+        goals.add(Component.translatable("quest.goals"));
         
         for (QuestObjective objective : objectives) {
             Component bullet = Component.text("• ", UnifiedColorUtil.WHITE);
@@ -187,7 +186,7 @@ public abstract class Quest {
      */
     public @NotNull List<Component> getRewardDescription(@NotNull Player who) {
         List<Component> rewards = new ArrayList<>();
-        rewards.add(LangManager.getMessage(who, "quest.rewards"));
+        rewards.add(Component.translatable("quest.rewards"));
         
         // 보상 정보는 QuestReward의 getDisplayInfo를 사용
         Component rewardInfo = getRewardDisplayInfo(who);
@@ -245,16 +244,16 @@ public abstract class Quest {
         }
 
         page1 = page1.append(Component.newline())
-                .append(LangManager.getMessage(player, "quest.category-label").color(UnifiedColorUtil.YELLOW))
+                .append(Component.translatable("quest.category-label").color(UnifiedColorUtil.YELLOW))
                 .append(getCategoryName(player).color(UnifiedColorUtil.WHITE))
                 .append(Component.newline())
-                .append(LangManager.getMessage(player, "quest.level-requirement").color(UnifiedColorUtil.YELLOW))
+                .append(Component.translatable("quest.level-requirement").color(UnifiedColorUtil.YELLOW))
                 .append(Component.text(minLevel + (maxLevel > 0 ? "-" + maxLevel : "+"), UnifiedColorUtil.WHITE));
 
         pages.add(page1);
 
         // 두 번째 페이지 - 목표
-        Component page2 = LangManager.getMessage(player, "quest.quest-objectives").color(UnifiedColorUtil.GOLD).decoration(TextDecoration.BOLD, true)
+        Component page2 = Component.translatable("quest.quest-objectives").color(UnifiedColorUtil.GOLD).decoration(TextDecoration.BOLD, true)
                 .append(Component.newline()).append(Component.newline());
 
         int index = 1;
@@ -268,13 +267,13 @@ public abstract class Quest {
 
         if (sequential) {
             page2 = page2.append(Component.newline())
-                    .append(LangManager.getMessage(player, "quest.sequential-note").color(UnifiedColorUtil.RED));
+                    .append(Component.translatable("quest.sequential-note").color(UnifiedColorUtil.RED));
         }
 
         pages.add(page2);
 
         // 세 번째 페이지 - 보상
-        Component page3 = LangManager.getMessage(player, "quest.quest-rewards").color(UnifiedColorUtil.EMERALD).decoration(TextDecoration.BOLD, true)
+        Component page3 = Component.translatable("quest.quest-rewards").color(UnifiedColorUtil.EMERALD).decoration(TextDecoration.BOLD, true)
                 .append(Component.newline()).append(Component.newline());
 
         // 보상 정보 표시
@@ -307,7 +306,7 @@ public abstract class Quest {
      * 카테고리 이름 가져오기
      */
     public @NotNull Component getCategoryName(@NotNull Player who) {
-        return LangManager.getMessage(who, "quest.categories." + category.name().toLowerCase());
+        return Component.translatable("quest.categories." + category.name().toLowerCase());
     }
 
     
@@ -347,7 +346,8 @@ public abstract class Quest {
      */
     @NotNull
     public String getAcceptDialog(@NotNull Player player) {
-        return LangManager.getString(player, "quest.dialog.accept-default");
+        return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+            .serialize(Component.translatable("quest.dialog.accept-default"));
     }
     
     /**
@@ -357,7 +357,8 @@ public abstract class Quest {
      */
     @NotNull
     public String getDeclineDialog(@NotNull Player player) {
-        return LangManager.getString(player, "quest.dialog.decline-default");
+        return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+            .serialize(Component.translatable("quest.dialog.decline-default"));
     }
 
     /**
