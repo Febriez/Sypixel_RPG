@@ -83,7 +83,12 @@ public class DailyHuntingQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.daily.hunting.description") manually */;
+        return Arrays.asList(
+                Component.translatable("quest.daily.hunting.description[0]"),
+                Component.translatable("quest.daily.hunting.description[1]"),
+                Component.translatable("quest.daily.hunting.description[2]"),
+                Component.translatable("quest.daily.hunting.description[3]")
+        );
     }
 
     @Override
@@ -94,7 +99,7 @@ public class DailyHuntingQuest extends Quest {
             case "kill_zombies" -> Component.translatable("quest.daily.hunting.objectives.kill_zombies");
             case "kill_skeletons" -> Component.translatable("quest.daily.hunting.objectives.kill_skeletons");
             case "kill_creepers" -> Component.translatable("quest.daily.hunting.objectives.kill_creepers");
-            default -> Component.text(objective.getStatusInfo(null));
+            default -> Component.text(objective.getStatusInfo(who));
         };
     }
 }

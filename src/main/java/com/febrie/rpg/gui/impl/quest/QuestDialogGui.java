@@ -130,13 +130,13 @@ public class QuestDialogGui extends BaseGui {
      * 현재 대화 로드
      */
     private void loadCurrentDialog() {
-        String dialog;
+        Component dialogComponent = quest.getDialog(currentDialogIndex, viewer);
 
-        // 퀘스트에서 대화 가져오기
-        dialog = quest.getDialog(currentDialogIndex, viewer);
+        if (dialogComponent != null) {
+            // Component를 플레인 텍스트로 변환 (애니메이션을 위해)
 
-        if (dialog != null) {
-            currentDialog = dialog;
+            currentDialog = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                    .serialize(dialogComponent);
             currentCharIndex = 0;
             isDialogComplete = false;
             isTyping = true;
@@ -210,8 +210,9 @@ public class QuestDialogGui extends BaseGui {
                     .color(UnifiedColorUtil.YELLOW));
         }
 
-        String npcName;
-        npcName = quest.getNPCName(viewer);
+        Component npcNameComponent = quest.getNPCName(viewer);
+        String npcName = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                .serialize(npcNameComponent);
 
         ItemBuilder dialogBuilder = new ItemBuilder(Material.ENCHANTED_BOOK)
                 .displayName(Component.text(npcName, UnifiedColorUtil.AQUA));
@@ -325,11 +326,16 @@ public class QuestDialogGui extends BaseGui {
         // 퀘스트 시작
         com.febrie.rpg.quest.manager.QuestManager.getInstance().startQuest(viewer, quest.getId());
 
-        // 수락 대화 표시
-        String acceptDialog = quest.getAcceptDialog(viewer);
-        String npcName = quest.getNPCName(viewer);
-
-        viewer.sendMessage(Component.text(npcName + ": " + acceptDialog, UnifiedColorUtil.YELLOW));
+        // 수락 대화 표시 (Component 직접 조합)
+        Component npcNameComponent = quest.getNPCName(viewer);
+        Component acceptDialog = quest.getAcceptDialog(viewer);
+        
+        // NPC 이름: 대화 형식으로 Component 조합
+        Component message = npcNameComponent.color(UnifiedColorUtil.YELLOW)
+                .append(Component.text(": ", UnifiedColorUtil.YELLOW))
+                .append(acceptDialog.color(UnifiedColorUtil.YELLOW));
+        
+        viewer.sendMessage(message);
         SoundUtil.playSuccessSound(viewer);
     }
 
@@ -340,11 +346,16 @@ public class QuestDialogGui extends BaseGui {
         // GUI 즉시 닫기
         viewer.closeInventory();
 
-        // 거절 대화 표시
-        String declineDialog = quest.getDeclineDialog(viewer);
-        String npcName = quest.getNPCName(viewer);
-
-        viewer.sendMessage(Component.text(npcName + ": " + declineDialog, UnifiedColorUtil.GRAY));
+        // 거절 대화 표시 (Component 직접 조합)
+        Component npcNameComponent = quest.getNPCName(viewer);
+        Component declineDialog = quest.getDeclineDialog(viewer);
+        
+        // NPC 이름: 대화 형식으로 Component 조합
+        Component message = npcNameComponent.color(UnifiedColorUtil.GRAY)
+                .append(Component.text(": ", UnifiedColorUtil.GRAY))
+                .append(declineDialog.color(UnifiedColorUtil.GRAY));
+        
+        viewer.sendMessage(message);
         viewer.sendMessage(Component.translatable("gui.quest-dialog.quest-declined")
                 .color(UnifiedColorUtil.GRAY));
         SoundUtil.playClickSound(viewer);

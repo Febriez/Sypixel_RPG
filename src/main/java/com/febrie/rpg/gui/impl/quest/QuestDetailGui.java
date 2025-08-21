@@ -62,8 +62,7 @@ public class QuestDetailGui extends BaseGui {
      */
     public static QuestDetailGui create(@NotNull GuiManager guiManager,
                                        @NotNull Player viewer, @NotNull Quest quest, @NotNull QuestProgress progress) {
-        QuestDetailGui gui = new QuestDetailGui(guiManager, viewer, quest, progress);
-        return gui;
+        return new QuestDetailGui(guiManager, viewer, quest, progress);
     }
 
     @Override

@@ -1,8 +1,6 @@
 package com.febrie.rpg.util;
 
 import com.febrie.rpg.dto.island.*;
-import com.febrie.rpg.dto.island.IslandSettingsDTO;
-import com.febrie.rpg.dto.island.IslandSpawnDTO;
 import com.febrie.rpg.gui.framework.BaseGui;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -15,15 +13,59 @@ import java.util.function.Supplier;
 
 /**
  * GUI 핸들러 공통 유틸리티
- * 
+ *
  * @author Febrie, CoffeeTory
  */
 public final class GuiHandlerUtil {
-    
+
     private GuiHandlerUtil() {
         // 유틸리티 클래스
     }
-    
+
+    /**
+     * IslandCoreDTO를 업데이트된 lastActivity와 함께 생성
+     * 다른 필드는 모두 기존 값 유지
+     */
+    @NotNull
+    public static IslandCoreDTO createUpdatedCore(@NotNull IslandCoreDTO original) {
+        return new IslandCoreDTO(
+                original.islandId(),
+                original.ownerUuid(),
+                original.ownerName(),
+                original.islandName(),
+                original.size(),
+                original.isPublic(),
+                original.createdAt(),
+                System.currentTimeMillis(), // lastActivity 업데이트
+                original.totalResets(),
+                original.deletionScheduledAt(),
+                original.location()
+        );
+    }
+
+    /**
+     * IslandCoreDTO를 특정 필드만 변경하여 생성
+     */
+    @NotNull
+    public static IslandCoreDTO createUpdatedCore(@NotNull IslandCoreDTO original,
+                                                  @Nullable String newName,
+                                                  @Nullable Boolean newIsPublic,
+                                                  @Nullable Integer newSize) {
+        return new IslandCoreDTO(
+                original.islandId(),
+                original.ownerUuid(),
+                original.ownerName(),
+                newName != null ? newName : original.islandName(),
+                newSize != null ? newSize : original.size(),
+                newIsPublic != null ? newIsPublic : original.isPublic(),
+                original.createdAt(),
+                System.currentTimeMillis(), // lastActivity 업데이트
+                original.totalResets(),
+                original.deletionScheduledAt(),
+                original.location()
+        );
+    }
+
     /**
      * 섬 설정 업데이트 헬퍼 - 설정만 변경
      */
@@ -42,7 +84,7 @@ public final class GuiHandlerUtil {
                 island.core().deletionScheduledAt(),
                 island.core().location()
         );
-        
+
         IslandConfigurationDTO updatedConfiguration = new IslandConfigurationDTO(
                 island.core().islandId(),
                 island.configuration().spawnData(),
@@ -50,10 +92,10 @@ public final class GuiHandlerUtil {
                 island.configuration().permissions(),
                 newSettings
         );
-        
+
         return new IslandDTO(updatedCore, island.membership(), island.social(), updatedConfiguration);
     }
-    
+
     /**
      * 섬 스폰 업데이트 헬퍼 - 스폰 데이터만 변경
      */
@@ -72,7 +114,7 @@ public final class GuiHandlerUtil {
                 island.core().deletionScheduledAt(),
                 island.core().location()
         );
-        
+
         IslandConfigurationDTO updatedConfiguration = new IslandConfigurationDTO(
                 island.core().islandId(),
                 newSpawnData,
@@ -80,10 +122,10 @@ public final class GuiHandlerUtil {
                 island.configuration().permissions(),
                 island.configuration().settings()
         );
-        
+
         return new IslandDTO(updatedCore, island.membership(), island.social(), updatedConfiguration);
     }
-    
+
     /**
      * 섬 공개/비공개 토글 헬퍼
      */
@@ -102,10 +144,10 @@ public final class GuiHandlerUtil {
                 island.core().deletionScheduledAt(),
                 island.core().location()
         );
-        
+
         return new IslandDTO(updatedCore, island.membership(), island.social(), island.configuration());
     }
-    
+
     /**
      * 안전한 GUI 실행 - 예외 처리 포함
      */
@@ -118,12 +160,12 @@ public final class GuiHandlerUtil {
             LogUtil.error("GUI 작업 중 오류 발생", e);
         }
     }
-    
+
     /**
      * 비동기 작업 후 GUI 업데이트
      */
-    public static <T> void asyncUpdate(@NotNull Player player, @NotNull Supplier<T> asyncTask, 
-                                      @NotNull Consumer<T> syncUpdate) {
+    public static <T> void asyncUpdate(@NotNull Player player, @NotNull Supplier<T> asyncTask,
+                                       @NotNull Consumer<T> syncUpdate) {
         player.getServer().getScheduler().runTaskAsynchronously(
                 player.getServer().getPluginManager().getPlugin("SypixelRPG"),
                 () -> {
@@ -135,7 +177,7 @@ public final class GuiHandlerUtil {
                 }
         );
     }
-    
+
     /**
      * GUI 닫고 다른 GUI 열기
      */
@@ -147,7 +189,7 @@ public final class GuiHandlerUtil {
                 1L
         );
     }
-    
+
     /**
      * 성공 메시지 표시 후 GUI 전환
      */
@@ -155,7 +197,7 @@ public final class GuiHandlerUtil {
         player.sendMessage(UnifiedColorUtil.parse("&a" + message));
         switchGui(player, newGui);
     }
-    
+
     /**
      * 에러 메시지 표시 후 GUI 닫기
      */
@@ -163,12 +205,12 @@ public final class GuiHandlerUtil {
         player.sendMessage(UnifiedColorUtil.parse("&c" + message));
         player.closeInventory();
     }
-    
+
     /**
      * 권한 체크 헬퍼
      */
-    public static boolean checkPermissionAndNotify(@NotNull Player player, @NotNull String permission, 
-                                                  @Nullable String errorMessage) {
+    public static boolean checkPermissionAndNotify(@NotNull Player player, @NotNull String permission,
+                                                   @Nullable String errorMessage) {
         if (!player.hasPermission(permission)) {
             String message = errorMessage != null ? errorMessage : "이 작업을 수행할 권한이 없습니다.";
             player.sendMessage(UnifiedColorUtil.parse("&c" + message));
@@ -176,7 +218,7 @@ public final class GuiHandlerUtil {
         }
         return true;
     }
-    
+
     /**
      * 바이옴 표시 이름 변환
      */
@@ -199,30 +241,30 @@ public final class GuiHandlerUtil {
             default -> biome.replace("_", " ");
         };
     }
-    
+
     /**
      * GUI의 빈 슬롯을 장식 아이템으로 채우기
-     * 
-     * @param gui GUI 인스턴스
+     *
+     * @param gui                GUI 인스턴스
      * @param decorationSupplier 장식 아이템 공급자
-     * @param contentStartSlot 컨텐츠 영역 시작 슬롯
-     * @param contentEndSlot 컨텐츠 영역 끝 슬롯
-     * @param guiSize GUI 전체 크기
+     * @param contentStartSlot   컨텐츠 영역 시작 슬롯
+     * @param contentEndSlot     컨텐츠 영역 끝 슬롯
+     * @param guiSize            GUI 전체 크기
      */
     public static void fillEmptySlots(@NotNull Object gui, @NotNull Supplier<Object> decorationSupplier,
-                                     int contentStartSlot, int contentEndSlot, int guiSize) {
+                                      int contentStartSlot, int contentEndSlot, int guiSize) {
         // 리플렉션을 사용하여 GUI의 getItem과 setItem 메소드 호출
         try {
             var getItemMethod = gui.getClass().getMethod("getItem", int.class);
             var setItemMethod = gui.getClass().getMethod("setItem", int.class, Object.class);
-            
+
             // 컨텐츠 영역 이전 슬롯들 채우기
             for (int i = 0; i < contentStartSlot; i++) {
                 if (getItemMethod.invoke(gui, i) == null) {
                     setItemMethod.invoke(gui, i, decorationSupplier.get());
                 }
             }
-            
+
             // 컨텐츠 영역 이후 슬롯들 채우기
             for (int i = contentEndSlot + 1; i < guiSize; i++) {
                 if (getItemMethod.invoke(gui, i) == null) {

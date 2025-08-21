@@ -10,6 +10,8 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
+import java.util.ArrayList;
 import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -86,7 +88,14 @@ public class FirstStepsQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.tutorial.first-steps.description") manually */;
+        // description이 배열이므로 각 줄을 개별적으로 가져옴
+        List<Component> description = new ArrayList<>();
+        // JSON 배열의 각 요소를 순차적으로 가져옴
+        for (int i = 0; i < 4; i++) { // description 배열이 4개 요소를 가짐
+            Component line = Component.translatable("quest.tutorial.first-steps.description." + i);
+            description.add(line);
+        }
+        return description;
     }
 
     @Override
@@ -96,7 +105,7 @@ public class FirstStepsQuest extends Quest {
         return switch (id) {
             case "visit_hub" -> Component.translatable("quest.tutorial.first-steps.objectives.visit_hub");
             case "visit_merchant" -> Component.translatable("quest.tutorial.first-steps.objectives.visit_merchant");
-            default -> Component.text(objective.getStatusInfo(null));
+            default -> Component.text(objective.getStatusInfo(who));
         };
     }
 
@@ -107,27 +116,28 @@ public class FirstStepsQuest extends Quest {
     }
     
     @Override
-    public String getDialog(int index, @NotNull Player who) {
+    public Component getDialog(int index, @NotNull Player who) {
+        // 올바른 키 형식 사용: dialogs.0, dialogs.1, ...
         return switch (index) {
-            case 0 -> Component.translatable("quest.tutorial.first-steps.dialogs.line1").toString();
-            case 1 -> Component.translatable("quest.tutorial.first-steps.dialogs.line2").toString();
-            case 2 -> Component.translatable("quest.tutorial.first-steps.dialogs.line3").toString();
+            case 0 -> Component.translatable("quest.tutorial.first-steps.dialogs.0");
+            case 1 -> Component.translatable("quest.tutorial.first-steps.dialogs.1");
+            case 2 -> Component.translatable("quest.tutorial.first-steps.dialogs.2");
             default -> null;
         };
     }
     
     @Override
-    public String getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.tutorial.first-steps.npc-name").toString();
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.tutorial.first-steps.npc-name");
     }
 
     @Override
-    public String getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.tutorial.first-steps.dialogs.accept").toString();
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.tutorial.first-steps.accept");
     }
     
     @Override
-    public String getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.tutorial.first-steps.dialogs.decline").toString();
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.tutorial.first-steps.decline");
     }
 }

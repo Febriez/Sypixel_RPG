@@ -10,7 +10,9 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.StandardItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -168,9 +170,10 @@ public class IslandDeleteConfirmGui extends BaseGui {
                     
                     String input = stateSnapshot.getText();
                     
-                    // "삭제"를 입력해야 삭제 진행
-                    if (!"삭제".equals(input)) {
-                        player.sendMessage(UnifiedColorUtil.parse("&c'삭제'를 정확히 입력해야 합니다."));
+                    // 삭제 확인 단어 체크
+                    String confirmWord = LangManager.getString("island.delete.confirm-word", player);
+                    if (!confirmWord.equals(input)) {
+                        player.sendMessage(LangManager.get("island.delete.input-error", player).color(NamedTextColor.RED));
                         return Arrays.asList(AnvilGUI.ResponseAction.close());
                     }
                     
@@ -179,8 +182,8 @@ public class IslandDeleteConfirmGui extends BaseGui {
                     
                     return Arrays.asList(AnvilGUI.ResponseAction.close());
                 })
-                .text("'삭제' 입력")
-                .title("섬을 삭제하려면 '삭제' 입력")
+                .text(LangManager.getString("island.delete.input-text", player))
+                .title(LangManager.getString("island.delete.input-title", player))
                 .plugin(plugin)
                 .open(player);
     }
@@ -212,7 +215,10 @@ public class IslandDeleteConfirmGui extends BaseGui {
                 player.sendMessage(UnifiedColorUtil.parse("&a섬이 성공적으로 삭제되었습니다."));
                 
                 // 플레이어의 섬 정보 제거
-                plugin.getRPGPlayerManager().getPlayer(player).setIslandId(null);
+                var rpgPlayer = plugin.getRPGPlayerManager().getPlayer(player);
+                if (rpgPlayer != null) {
+                    rpgPlayer.setIslandId(null);
+                }
             } else {
                 player.sendMessage(UnifiedColorUtil.parse("&c섬 삭제에 실패했습니다."));
             }

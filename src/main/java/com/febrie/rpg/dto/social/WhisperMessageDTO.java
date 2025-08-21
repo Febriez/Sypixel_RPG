@@ -41,9 +41,7 @@ public record WhisperMessageDTO(
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
         
-        if (id != null) {
-            map.put("id", id);
-        }
+        BaseSocialDTO.putIfNotNull(map, "id", id);
         map.put("fromPlayerId", fromPlayerId.toString());
         map.put("fromPlayerName", fromPlayerName);
         map.put("toPlayerId", toPlayerId.toString());
@@ -60,25 +58,17 @@ public record WhisperMessageDTO(
      */
     @NotNull
     public static WhisperMessageDTO fromMap(@NotNull Map<String, Object> map) {
-        String id = (String) map.get("id");
+        String id = BaseSocialDTO.getNullableString(map, "id");
+        UUID fromPlayerId = BaseSocialDTO.parseUUID(map, "fromPlayerId");
+        String fromPlayerName = BaseSocialDTO.getString(map, "fromPlayerName", "");
+        UUID toPlayerId = BaseSocialDTO.parseUUID(map, "toPlayerId");
+        String toPlayerName = BaseSocialDTO.getString(map, "toPlayerName", "");
+        String message = BaseSocialDTO.getString(map, "message", "");
         
-        String fromPlayerIdStr = (String) map.getOrDefault("fromPlayerId", UUID.randomUUID().toString());
-        UUID fromPlayerId = UUID.fromString(fromPlayerIdStr);
-        
-        String fromPlayerName = (String) map.getOrDefault("fromPlayerName", "");
-        
-        String toPlayerIdStr = (String) map.getOrDefault("toPlayerId", UUID.randomUUID().toString());
-        UUID toPlayerId = UUID.fromString(toPlayerIdStr);
-        
-        String toPlayerName = (String) map.getOrDefault("toPlayerName", "");
-        
-        String message = (String) map.getOrDefault("message", "");
-        
-        String sentTimeStr = (String) map.getOrDefault("sentTime", LocalDateTime.now().toString());
+        String sentTimeStr = BaseSocialDTO.getString(map, "sentTime", LocalDateTime.now().toString());
         LocalDateTime sentTime = LocalDateTime.parse(sentTimeStr);
         
-        Object isReadObj = map.get("isRead");
-        boolean isRead = isReadObj instanceof Boolean ? (Boolean) isReadObj : false;
+        boolean isRead = BaseSocialDTO.getBoolean(map, "isRead", false);
         
         return new WhisperMessageDTO(id, fromPlayerId, fromPlayerName, toPlayerId, 
                                     toPlayerName, message, sentTime, isRead);
@@ -101,6 +91,7 @@ public record WhisperMessageDTO(
     }
     
     @Override
+    @NotNull
     public String toString() {
         return String.format("Whisper{from=%s, to=%s, message='%s', time=%s}", 
                 fromPlayerName, toPlayerName, message, sentTime);

@@ -1,21 +1,21 @@
 {
   "common": {
-    "back": "◀ Back",
-    "close": "Close",
-    "next-page": "Next Page →",
-    "prev-page": "← Previous Page",
-    "confirm": "Confirm",
-    "cancel": "Cancel",
-    "settings": "Settings"
+    "back": "%COLOR_SECONDARY%◀ Back",
+    "close": "%COLOR_ERROR%Close",
+    "next-page": "%COLOR_SUCCESS%Next Page →",
+    "prev-page": "%COLOR_WARNING%← Previous Page",
+    "confirm": "%COLOR_SUCCESS%Confirm",
+    "cancel": "%COLOR_ERROR%Cancel",
+    "settings": "%COLOR_INFO%Settings"
   },
   "mainmenu": {
-    "title": "Main Menu"
+    "title": "%COLOR_PRIMARY%Main Menu"
   },
   "profile": {
-    "title": "{0}'s Profile",
-    "player-title": "{0}'s Profile",
-    "viewing": "Viewing {0}'s profile",
-    "level": "Level: {1}",
+    "title": "&6{0}'s Profile",
+    "player-title": "&#FFD700{0}'s Profile",
+    "viewing": "&7Viewing &b{0}'s &7profile",
+    "level": "&aLevel: &f{1}",
     "level-info": "Level Information",
     "experience": "Experience: {1}",
     "exp": "EXP: {1}/{2}",
@@ -48,7 +48,7 @@
     "click-for-talents": "▶ Click to manage talents",
     "click-for-stats": "▶ Click to manage stats",
     "game-stats": "Game Statistics",
-    "mob-kills": "Mob Kills: {kills}",
+    "mob-kills": "Mob Kills: {0}",
     "player-info": {
       "name": "{0}"
     },
@@ -67,7 +67,7 @@
     "confirm-selection": "Do you want to select this job?",
     "already-selected": "You already have a job!",
     "job-categories": "Job Categories",
-    "jobs-in-category": "{category} Jobs",
+    "jobs-in-category": "{0} Jobs",
     "back-to-categories": "Back to Categories",
     "info": "Info",
     "click-to-select": "▶ Click to select category",
@@ -103,22 +103,22 @@
   "stats": {
     "title": "Stat Management",
     "your-stats": "Your Stats",
-    "remaining-points": "Remaining Points: {points}",
+    "remaining-points": "Remaining Points: {0}",
     "click-to-increase": "▶ Click to increase stat",
     "max-stat-reached": "Maximum reached!",
-    "stat-increased": "{stat} stat increased!",
+    "stat-increased": "{0} stat increased!",
     "not-enough-points": "Not enough stat points!",
-    "current-value": "Current: {value}",
+    "current-value": "Current: {1}",
     "click-reset": "▶ Right-click to reset (1 free reset)",
     "points-available": "Available Points",
-    "points-count": "Points Held: {points}",
+    "points-count": "Points Held: {0}",
     "points-info": "Gain stat points when leveling up",
     "click-to-add": "▶ Click to add points"
   },
   "talent": {
     "title": "Talents",
     "title-with-page": "Talents - {1}",
-    "remaining-points": "Remaining Points: {points}",
+    "remaining-points": "Remaining Points: {0}",
     "learned": "▶ Learned",
     "available": "▶ Available",
     "unavailable": "▶ Unavailable",
@@ -127,7 +127,7 @@
     "insufficient-points": "Insufficient points",
     "prerequisite-not-met": "Prerequisites not met",
     "click-subpage": "▶ Right-click to open sub-page",
-    "talent-learned": "Learned {talent} talent!",
+    "talent-learned": "Learned {0} talent!",
     "click-stats": "Go to Stat Management",
     "pages": {
       "main": "Main",
@@ -136,12 +136,12 @@
     "page-info": "Page Information",
     "current-page": "Current Page: {1}",
     "job": "Job: {1}",
-    "available-points": "Available Points: {points}",
+    "available-points": "Available Points: {0}",
     "level-info": "Level {1}/{2}",
     "cannot-learn": "Cannot learn",
     "not-enough-points": "Not enough points",
     "stat-bonuses": "Stat Bonuses:",
-    "stat-bonus-line": "• {stat}: +{value}",
+    "stat-bonus-line": "• {0}: +{1}",
     "effects": "Effects:",
     "page": {
       "main": "Main Talents"
@@ -159,13 +159,13 @@
     "loading": "Loading data...",
     "loading-description": "Please wait a moment...",
     "empty": "No data available yet.",
-    "your-rank": "Your Rank: #{rank}",
+    "your-rank": "Your Rank: #{0}",
     "not-ranked": "Unranked",
     "last-updated": "Last updated: {2}",
-    "current-type": "Current Type: {type}",
+    "current-type": "Current Type: {0}",
     "total-entries": "Total Entries: {1}",
-    "rank-info": "Rank: #{rank}",
-    "value-info": "{type}: {value}",
+    "rank-info": "Rank: #{0}",
+    "value-info": "{0}: {1}",
     "this-is-you": "▶ This is your rank!",
     "tab-selected": "▶ Currently selected",
     "tab-click": "▶ Click to view",
@@ -219,11 +219,11 @@
     "next-page": "▶ Next Page",
     "previous-page": "◀ Previous Page",
     "close": "■ Close",
-    "page-info": "Page {1}/{total}",
-    "npc-name": "{npc}",
+    "page-info": "Page {1}/{1}",
+    "npc-name": "{0}",
     "rewards-title": "Rewards:",
     "requirements-title": "Requirements:",
-    "speaking": "{npc} is speaking...",
+    "speaking": "{0} is speaking...",
     "quest-accepted": "Quest accepted!",
     "quest-declined": "Quest declined."
   },
@@ -238,7 +238,7 @@
     "gameplay": "Gameplay Settings",
     "privacy": "Privacy Settings",
     "language": "Language Settings",
-    "current-language": "Current language: {language}",
+    "current-language": "Current language: {0}",
     "click-to-change": "Click to change",
     "ingame-settings": {
       "title": "In-Game Settings",
@@ -265,7 +265,7 @@
   },
   "gui-settings": {
     "title": "GUI Settings",
-    "volume-changed": "Setting changed: Volume {volume}%",
+    "volume-changed": "Setting changed: Volume {0}%",
     "sound-muted": "GUI sounds muted",
     "sound-unmuted": "GUI sounds enabled",
     "volume-decrease": "- Decrease Volume",
@@ -273,7 +273,7 @@
     "click-decrease": "Click to decrease volume by 5",
     "click-increase": "Click to increase volume by 5",
     "sound-volume": "🔊 GUI Sound Volume",
-    "current-volume": "Current Volume: {volume}%",
+    "current-volume": "Current Volume: {0}%",
     "status": "Status: {1}",
     "status-muted": "Muted",
     "status-active": "Active",
@@ -287,8 +287,8 @@
   },
   "shop": {
     "title": "Shop",
-    "buy-price": "Buy Price: {price}G",
-    "sell-price": "Sell Price: {price}G",
+    "buy-price": "Buy Price: {0}G",
+    "sell-price": "Sell Price: {0}G",
     "your-gold": "Your Gold: {1}G",
     "not-enough-gold": "Not enough gold!",
     "purchase-success": "Purchase successful!",
@@ -304,7 +304,7 @@
     "unavailable": "Unavailable",
     "requirements": "Requirements:",
     "level-requirement": "• Required Level: {1}",
-    "party-requirement": "• Party Required: {required}",
+    "party-requirement": "• Party Required: {0}",
     "cooldown": "Cooldown: {2}",
     "rewards": "Rewards:",
     "click-to-enter": "▶ Click to enter"
@@ -361,9 +361,9 @@
     "unclaimed-timer": "⏰ Time remaining: {2} minutes",
     "timer-warning": "Unclaimed rewards will be destroyed after 1 hour!",
     "timer-info": "Visit the reward NPC within the time limit.",
-    "expiry-days": "{days} days",
-    "expiry-hours": "{hours} hours",
-    "expiry-minutes": "{minutes} minutes"
+    "expiry-days": "{0} days",
+    "expiry-hours": "{0} hours",
+    "expiry-minutes": "{0} minutes"
   },
   "island": {
     "main": {
@@ -441,7 +441,7 @@
         "world_not_found": "Island world not found.",
         "no_permission": "You don't have permission to change the biome.",
         "changing": "Changing biome...",
-        "changed": "Biome changed to {biome}.",
+        "changed": "Biome changed to {0}.",
         "chunk_reload_notice": "The biome will fully update when chunks reload.",
         "already_selected": "This biome is already selected."
       }
@@ -508,9 +508,9 @@
     "leaderboard": {
       "my-rank": "My Rank",
       "just-now": "Just now",
-      "minutes-ago": "{minutes} minutes ago",
-      "hours-ago": "{hours} hours ago",
-      "days-ago": "{days} days ago"
+      "minutes-ago": "{0} minutes ago",
+      "hours-ago": "{0} hours ago",
+      "days-ago": "{0} days ago"
     }
   },
   "quest": {

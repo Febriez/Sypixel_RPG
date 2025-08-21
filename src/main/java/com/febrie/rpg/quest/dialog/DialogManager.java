@@ -31,7 +31,7 @@ public class DialogManager {
     /**
      * 대화 진행도 정보
      */
-    public static class DialogProgress {
+    static class DialogProgress {
         private final String dialogId;
         private int currentLineIndex;
         private long lastInteractionTime;

@@ -6,7 +6,7 @@
   "no-permission": "You don't have permission to use this command.",
   "reload-success": "Configuration reloaded successfully!",
   "coming-soon": "This feature is coming soon!",
-  "error": "An error occurred. Please contact an administrator.",
+  "general-error": "An error occurred. Please contact an administrator.",
   "click-to-select": "Click to select",
   "already-selected": "▶ Selected",
   "click-to-open": "▶ Click to open",
@@ -29,5 +29,12 @@
   "cannot-view-others-stats": "You cannot view another player's stats!",
   "cannot-view-others-talents": "You cannot view another player's talents!",
   "cannot-view-others-quests": "You cannot view another player's quests!",
-  "cannot-view-others-combat-power": "You cannot view other players' combat power details!"
+  "cannot-view-others-combat-power": "You cannot view other players' combat power details!",
+  "teleport": {
+    "hub-success": "Teleported to hub!"
+  },
+  "error": {
+    "general": "An error occurred. Please contact an administrator.",
+    "hub-world-not-found": "Hub world not found! Please contact an administrator."
+  }
 }

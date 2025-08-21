@@ -16,6 +16,50 @@
   "quest-rewards": "=== 퀘스트 보상 ===",
   "sequential-note": "※ 순서대로 진행해야 합니다.",
   "unknown-npc": "알 수 없는 NPC",
+  "tutorial": {
+    "first-steps": {
+      "name": "첫 걸음",
+      "description": [
+        "RPG 게임플레이의 기본을 배웁니다.",
+        "중요한 장소를 방문하고 NPC와 대화하세요.",
+        "",
+        "이 퀘스트는 당신의 첫 모험을 안내해드립니다!"
+      ],
+      "objectives": {
+        "visit_hub": "허브 구역 방문하기",
+        "visit_merchant": "마을 상인과 대화하기"
+      },
+      "dialogs": [
+        "SypixelRPG에 오신 것을 환영합니다! 모험을 시작하는데 도움을 드리겠습니다.",
+        "먼저 허브 구역을 방문해서 세상에 익숙해지세요.",
+        "그 다음에는 마을 상인을 찾아서 거래에 대해 배워보세요. 행운을 빕니다!"
+      ],
+      "npc-name": "가이드",
+      "accept": "모험을 시작할 준비가 되었습니다!",
+      "decline": "나중에 할게요..."
+    },
+    "basic-combat": {
+      "name": "기초 전투 훈련",
+      "description": [
+        "생존에 필요한 필수 전투 기술을 배웁니다.",
+        "일반적인 몬스터와 싸우는 연습을 하세요.",
+        "",
+        "전투의 기술을 마스터해서 진정한 전사가 되어보세요!"
+      ],
+      "objectives": {
+        "kill_zombies": "좀비 5마리 처치",
+        "kill_skeletons": "스켈레톤 3마리 처치"
+      },
+      "npcs": {
+        "combat_instructor": "전투 교관"
+      },
+      "dialogs": {
+        "essential_skills": "전투는 이 세상에서 생존하기 위해 필수적입니다. 기본기를 가르쳐드리겠습니다.",
+        "night_monsters": "밤이 되면 몬스터가 스폰됩니다. 자신을 방어할 준비가 되어있어야 합니다.",
+        "return_reward": "훌륭합니다! 훈련을 완료하면 보상을 위해 저에게 돌아오세요."
+      }
+    }
+  },
   "filter": {
     "active": "진행 중인 퀘스트",
     "completed": "완료된 퀘스트"
@@ -36,7 +80,9 @@
     "level-requirement": "이 퀘스트를 받으려면 레벨 {1} 이상이어야 합니다!",
     "job-requirement": "이 퀘스트를 받으려면 {1} 직업이어야 합니다!",
     "prerequisite-requirement": "선행 퀘스트를 먼저 완료해야 합니다!",
-    "mutually-exclusive": "이미 다른 선택지의 퀘스트를 완료했습니다!"
+    "mutually-exclusive": "이미 다른 선택지의 퀘스트를 완료했습니다!",
+    "no-rewards": "이 퀘스트에는 보상이 없습니다.",
+    "cannot-start": "현재 이 퀘스트를 시작할 수 없습니다."
   },
   "categories": {
     "main": "메인 퀘스트",
@@ -72,7 +118,7 @@
       "exp": "경험치"
     }
   },
-  "tutorial": {
+  "tutorial-quests": {
     "first-steps": {
       "name": "첫 걸음",
       "description": [
@@ -501,7 +547,12 @@
   "daily": {
     "hunting": {
       "name": "일일 사냥",
-      "description": "오늘의 사냥 목표를 완료하세요.\n매일 자정에 리셋됩니다.",
+      "description": [
+        "오늘의 사냥 목표를 완료하세요.",
+        "마을을 위험한 몬스터로부터 보호하는데 도움을 주세요.",
+        "",
+        "매일 자정에 리셋됩니다."
+      ],
       "objectives": {
         "kill_zombies": "좀비 20마리 처치",
         "kill_skeletons": "스켈레톤 15마리 처치",
@@ -510,7 +561,12 @@
     },
     "gathering": {
       "name": "일일 수집",
-      "description": "오늘의 필요한 자원을 수집하세요.\n매일 자정에 리셋됩니다.",
+      "description": [
+        "오늘의 필요한 자원을 수집하세요.",
+        "마을 건설 프로젝트에 필요한 재료를 수집하세요.",
+        "",
+        "매일 자정에 리셋됩니다."
+      ],
       "objectives": {
         "gather_logs": "원목 30개 수집",
         "gather_cobblestone": "조약돌 50개 수집",
@@ -519,7 +575,12 @@
     },
     "fishing": {
       "name": "일일 낚시",
-      "description": "오늘의 낚시 목표를 완료하세요.\n매일 자정에 리셋됩니다.",
+      "description": [
+        "오늘의 낚시 목표를 완료하세요.",
+        "마을 시장에 신선한 물고기를 공급해주세요.",
+        "",
+        "매일 자정에 리셋됩니다."
+      ],
       "objectives": {
         "catch_fish": "물고기 15마리 낚기",
         "catch_rare": "희귀한 물고기 낚기"
@@ -527,12 +588,25 @@
     },
     "mining": {
       "name": "일일 채굴",
-      "description": "오늘의 채굴 목표를 완료하세요.\n매일 자정에 리셋됩니다.",
+      "description": [
+        "오늘의 채굴 목표를 완료하세요.",
+        "마을을 유지하기 위해 필수 자원을 열심히 채굴하세요.",
+        "",
+        "매일 자정에 리셋됩니다."
+      ],
       "objectives": {
-        "mine_stone": "돌 100개 채굴",
-        "mine_coal": "석탄 20개 채굴",
-        "mine_iron": "철광석 15개 채굴",
-        "mine_gold": "금광석 5개 채굴"
+        "mine_stone": "돌 50개 채굴",
+        "mine_coal": "석탄 광석 20개 채굴",
+        "mine_iron": "철광석 10개 채굴"
+      },
+      "npcs": {
+        "foreman": "광산 작업반장"
+      },
+      "dialogs": {
+        "greeting": "오늘도 광산에서 한 교대 일할 시간입니다!",
+        "need_resources": "마을을 운영하려면 더 많은 자원이 필요합니다. 도와주시겠어요?",
+        "player_accept": "물론이죠! 바로 시작하겠습니다.",
+        "good_luck": "훌륭해요! 아래에서 조심하시고, 행운을 빕니다!"
       }
     },
     "crafting": {

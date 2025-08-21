@@ -40,8 +40,6 @@ import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.display.TextDisplayDamageManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
-
-import net.kyori.adventure.text.Component;
 /**
  * Sypixel RPG 메인 플러그인 클래스
  * 서비스 패키지 제거 및 간소화된 아키텍처

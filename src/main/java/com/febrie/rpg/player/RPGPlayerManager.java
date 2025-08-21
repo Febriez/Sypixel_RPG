@@ -147,10 +147,15 @@ public class RPGPlayerManager implements Listener {
         UUID uuid = player.getUniqueId();
         RPGPlayer rpgPlayer = players.remove(uuid);
         
-        // QuestManager 캐시 정리
-        com.febrie.rpg.quest.manager.QuestManager questManager = com.febrie.rpg.quest.manager.QuestManager.getInstance();
-        if (questManager != null) {
-            questManager.clearPlayerCache(uuid);
+        // QuestManager 데이터 언로드 (저장 포함)
+        try {
+            com.febrie.rpg.quest.manager.QuestManager questManager = com.febrie.rpg.quest.manager.QuestManager.getInstance();
+            if (questManager != null) {
+                questManager.unloadPlayerData(uuid);
+                questManager.clearPlayerCache(uuid);
+            }
+        } catch (IllegalStateException e) {
+            LogUtil.warning("QuestManager가 초기화되지 않음 - 퀘스트 데이터 언로드 스킵: " + player.getName());
         }
         
         if (rpgPlayer != null) {
@@ -184,7 +189,9 @@ public class RPGPlayerManager implements Listener {
      * 저장 실패 큐에 추가 (나중에 재시도)
      */
     private void addToFailedSaveQueue(@NotNull UUID uuid, @NotNull RPGPlayer rpgPlayer) {
+        // TODO: Implement failed save queue for retry mechanism
         // 실패한 저장을 대기열에 넣고 나중에 재시도 필요
+        LogUtil.warning("Failed to save player data, retry not implemented yet: " + uuid);
     }
 
     /**
@@ -240,6 +247,21 @@ public class RPGPlayerManager implements Listener {
                 rpgPlayer.setSyncManager(syncManager);
             }
             players.put(player.getUniqueId(), rpgPlayer);
+            
+            // 퀘스트 데이터 로드
+            try {
+                com.febrie.rpg.quest.manager.QuestManager questManager = com.febrie.rpg.quest.manager.QuestManager.getInstance();
+                if (questManager != null) {
+                    questManager.loadPlayerData(player.getUniqueId()).thenRun(() -> {
+                        LogUtil.debug("퀘스트 데이터 로드 완료: " + player.getName());
+                    }).exceptionally(ex -> {
+                        LogUtil.error("퀘스트 데이터 로드 실패: " + player.getName(), ex);
+                        return null;
+                    });
+                }
+            } catch (IllegalStateException e) {
+                LogUtil.warning("QuestManager가 초기화되지 않음 - 퀘스트 데이터 로드 스킵: " + player.getName());
+            }
         });
     }
 
@@ -260,7 +282,14 @@ public class RPGPlayerManager implements Listener {
         );
         StatsDTO statsDTO = new StatsDTO();
         TalentDTO talentDTO = new TalentDTO();
-        ProgressDTO progressDTO = new ProgressDTO();
+        ProgressDTO progressDTO = new ProgressDTO(
+                1, // 레벨 1로 시작 (기본값)
+                0L, // 경험치 0
+                0.0, // 진행도 0%
+                0, // mobsKilled
+                0, // playersKilled
+                0  // deaths
+        );
         WalletDTO walletDTO = new WalletDTO();
 
         // Firestore에 초기 데이터 저장 (비동기)
@@ -306,6 +335,12 @@ public class RPGPlayerManager implements Listener {
             // 레벨에 맞는 경험치 설정
             long totalExp = calculateTotalExpForLevel(progressDTO.currentLevel(), rpgPlayer.getJob());
             rpgPlayer.setExperience(totalExp);
+        } else if (progressDTO.currentLevel() == 0) {
+            // 레벨 0인 경우 레벨 1로 설정
+            if (rpgPlayer.getJob() != null) {
+                long level1Exp = calculateTotalExpForLevel(1, rpgPlayer.getJob());
+                rpgPlayer.setExperience(level1Exp);
+            }
         }
         rpgPlayer.setMobsKilled(progressDTO.mobsKilled());
         rpgPlayer.setPlayersKilled(progressDTO.playersKilled());
@@ -346,25 +381,8 @@ public class RPGPlayerManager implements Listener {
             lastSaveTime.computeIfAbsent(uuid, k -> new AtomicLong(0)).set(System.currentTimeMillis());
         }
 
-        // RPGPlayer를 DTO로 변환
-        PlayerDTO playerDTO = convertToPlayerDTO(rpgPlayer);
-        StatsDTO statsDTO = rpgPlayer.getStats().toDTO();
-        TalentDTO talentDTO = rpgPlayer.getTalents().toDTO();
-        ProgressDTO progressDTO = convertToProgressDTO(rpgPlayer);
-        WalletDTO walletDTO = rpgPlayer.getWallet().toDTO();
-
         // PlayerDataDTO 생성
-        PlayerDataDTO playerData = new PlayerDataDTO(
-            new PlayerProfileDTO(
-                UUID.fromString(uuid.toString()),
-                rpgPlayer.getName(),
-                rpgPlayer.getLevel(),
-                rpgPlayer.getExperience(),
-                rpgPlayer.getExperience(),  // totalExp
-                System.currentTimeMillis()  // lastPlayed
-            ),
-            walletDTO
-        );
+        PlayerDataDTO playerData = createPlayerDataDTO(rpgPlayer);
 
         if (playerService != null) {
             LogUtil.info("플레이어 데이터 비동기 저장 시도: " + uuid.toString());
@@ -390,25 +408,8 @@ public class RPGPlayerManager implements Listener {
         UUID uuid = rpgPlayer.getPlayerId();
         
         try {
-            // RPGPlayer를 DTO로 변환
-            PlayerDTO playerDTO = convertToPlayerDTO(rpgPlayer);
-            StatsDTO statsDTO = rpgPlayer.getStats().toDTO();
-            TalentDTO talentDTO = rpgPlayer.getTalents().toDTO();
-            ProgressDTO progressDTO = convertToProgressDTO(rpgPlayer);
-            WalletDTO walletDTO = rpgPlayer.getWallet().toDTO();
-
             // PlayerDataDTO 생성
-            PlayerDataDTO playerData = new PlayerDataDTO(
-                new PlayerProfileDTO(
-                    UUID.fromString(uuid.toString()),
-                    rpgPlayer.getName(),
-                    rpgPlayer.getLevel(),
-                    rpgPlayer.getExperience(),
-                    rpgPlayer.getExperience(),  // totalExp
-                    System.currentTimeMillis()  // lastPlayed
-                ),
-                walletDTO
-            );
+            PlayerDataDTO playerData = createPlayerDataDTO(rpgPlayer);
 
             if (playerService != null) {
                 LogUtil.info("플레이어 데이터 동기 저장 시도: " + uuid.toString());
@@ -462,6 +463,33 @@ public class RPGPlayerManager implements Listener {
         );
     }
 
+    /**
+     * RPGPlayer를 PlayerDataDTO로 변환
+     */
+    private PlayerDataDTO createPlayerDataDTO(@NotNull RPGPlayer rpgPlayer) {
+        UUID uuid = rpgPlayer.getPlayerId();
+        
+        // RPGPlayer를 DTO로 변환
+        PlayerDTO playerDTO = convertToPlayerDTO(rpgPlayer);
+        StatsDTO statsDTO = rpgPlayer.getStats().toDTO();
+        TalentDTO talentDTO = rpgPlayer.getTalents().toDTO();
+        ProgressDTO progressDTO = convertToProgressDTO(rpgPlayer);
+        WalletDTO walletDTO = rpgPlayer.getWallet().toDTO();
+
+        // PlayerDataDTO 생성
+        return new PlayerDataDTO(
+            new PlayerProfileDTO(
+                UUID.fromString(uuid.toString()),
+                rpgPlayer.getName(),
+                rpgPlayer.getLevel(),
+                rpgPlayer.getExperience(),
+                rpgPlayer.getExperience(),  // totalExp
+                System.currentTimeMillis()  // lastPlayed
+            ),
+            walletDTO
+        );
+    }
+    
     /**
      * 레벨에 필요한 총 경험치 계산 (PlayerService에서 이동)
      */

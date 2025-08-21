@@ -50,18 +50,14 @@ public record FriendRequestDTO(
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
         
-        if (id != null) {
-            map.put("id", id);
-        }
+        BaseSocialDTO.putIfNotNull(map, "id", id);
         map.put("fromPlayerId", fromPlayerId.toString());
         map.put("fromPlayerName", fromPlayerName);
         map.put("toPlayerId", toPlayerId.toString());
         map.put("toPlayerName", toPlayerName);
         map.put("requestTime", requestTime.toString());
         map.put("status", status);
-        if (message != null) {
-            map.put("message", message);
-        }
+        BaseSocialDTO.putIfNotNull(map, "message", message);
         
         return map;
     }
@@ -71,24 +67,17 @@ public record FriendRequestDTO(
      */
     @NotNull
     public static FriendRequestDTO fromMap(@NotNull Map<String, Object> map) {
-        String id = (String) map.get("id");
+        String id = BaseSocialDTO.getNullableString(map, "id");
+        UUID fromPlayerId = BaseSocialDTO.parseUUID(map, "fromPlayerId");
+        String fromPlayerName = BaseSocialDTO.getString(map, "fromPlayerName", "");
+        UUID toPlayerId = BaseSocialDTO.parseUUID(map, "toPlayerId");
+        String toPlayerName = BaseSocialDTO.getString(map, "toPlayerName", "");
         
-        String fromPlayerIdStr = (String) map.getOrDefault("fromPlayerId", UUID.randomUUID().toString());
-        UUID fromPlayerId = UUID.fromString(fromPlayerIdStr);
-        
-        String fromPlayerName = (String) map.getOrDefault("fromPlayerName", "");
-        
-        String toPlayerIdStr = (String) map.getOrDefault("toPlayerId", UUID.randomUUID().toString());
-        UUID toPlayerId = UUID.fromString(toPlayerIdStr);
-        
-        String toPlayerName = (String) map.getOrDefault("toPlayerName", "");
-        
-        String requestTimeStr = (String) map.getOrDefault("requestTime", LocalDateTime.now().toString());
+        String requestTimeStr = BaseSocialDTO.getString(map, "requestTime", LocalDateTime.now().toString());
         LocalDateTime requestTime = LocalDateTime.parse(requestTimeStr);
         
-        String status = (String) map.getOrDefault("status", "PENDING");
-        
-        String message = (String) map.get("message");
+        String status = BaseSocialDTO.getString(map, "status", "PENDING");
+        String message = BaseSocialDTO.getNullableString(map, "message");
         
         return new FriendRequestDTO(id, fromPlayerId, fromPlayerName, toPlayerId, 
                                    toPlayerName, requestTime, status, message);
@@ -132,6 +121,7 @@ public record FriendRequestDTO(
     }
     
     @Override
+    @NotNull
     public String toString() {
         return String.format("FriendRequest{from=%s, to=%s, status=%s, time=%s}", 
                 fromPlayerName, toPlayerName, status, requestTime);

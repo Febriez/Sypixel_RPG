@@ -7,20 +7,20 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Map;
 
-import net.kyori.adventure.text.Component;
 /**
  * Firestore 문서에서 값을 안전하게 가져오기 위한 유틸리티 클래스
  * null 체크를 통해 NullPointerException을 방지하고 기본값을 제공합니다.
  */
 public final class FirestoreUtils {
-    
+
     private FirestoreUtils() {
         // 유틸리티 클래스는 인스턴스화 방지
     }
-    
+
     /**
      * DocumentSnapshot에서 int 값을 안전하게 가져옵니다.
-     * @param doc DocumentSnapshot
+     *
+     * @param doc   DocumentSnapshot
      * @param field 필드 이름
      * @return 값이 없으면 0
      */
@@ -28,11 +28,12 @@ public final class FirestoreUtils {
         Long value = doc.getLong(field);
         return value != null ? value.intValue() : 0;
     }
-    
+
     /**
      * DocumentSnapshot에서 int 값을 안전하게 가져옵니다.
-     * @param doc DocumentSnapshot
-     * @param field 필드 이름
+     *
+     * @param doc          DocumentSnapshot
+     * @param field        필드 이름
      * @param defaultValue 기본값
      * @return 값이 없으면 defaultValue
      */
@@ -40,10 +41,11 @@ public final class FirestoreUtils {
         Long value = doc.getLong(field);
         return value != null ? value.intValue() : defaultValue;
     }
-    
+
     /**
      * DocumentSnapshot에서 long 값을 안전하게 가져옵니다.
-     * @param doc DocumentSnapshot
+     *
+     * @param doc   DocumentSnapshot
      * @param field 필드 이름
      * @return 값이 없으면 0L
      */
@@ -51,11 +53,12 @@ public final class FirestoreUtils {
         Long value = doc.getLong(field);
         return value != null ? value : 0L;
     }
-    
+
     /**
      * DocumentSnapshot에서 long 값을 안전하게 가져옵니다.
-     * @param doc DocumentSnapshot
-     * @param field 필드 이름
+     *
+     * @param doc          DocumentSnapshot
+     * @param field        필드 이름
      * @param defaultValue 기본값
      * @return 값이 없으면 defaultValue
      */
@@ -63,10 +66,11 @@ public final class FirestoreUtils {
         Long value = doc.getLong(field);
         return value != null ? value : defaultValue;
     }
-    
+
     /**
      * DocumentSnapshot에서 double 값을 안전하게 가져옵니다.
-     * @param doc DocumentSnapshot
+     *
+     * @param doc   DocumentSnapshot
      * @param field 필드 이름
      * @return 값이 없으면 0.0
      */
@@ -74,11 +78,12 @@ public final class FirestoreUtils {
         Double value = doc.getDouble(field);
         return value != null ? value : 0.0;
     }
-    
+
     /**
      * DocumentSnapshot에서 double 값을 안전하게 가져옵니다.
-     * @param doc DocumentSnapshot
-     * @param field 필드 이름
+     *
+     * @param doc          DocumentSnapshot
+     * @param field        필드 이름
      * @param defaultValue 기본값
      * @return 값이 없으면 defaultValue
      */
@@ -86,10 +91,11 @@ public final class FirestoreUtils {
         Double value = doc.getDouble(field);
         return value != null ? value : defaultValue;
     }
-    
+
     /**
      * DocumentSnapshot에서 float 값을 안전하게 가져옵니다.
-     * @param doc DocumentSnapshot
+     *
+     * @param doc   DocumentSnapshot
      * @param field 필드 이름
      * @return 값이 없으면 0.0f
      */
@@ -97,11 +103,12 @@ public final class FirestoreUtils {
         Double value = doc.getDouble(field);
         return value != null ? value.floatValue() : 0.0f;
     }
-    
+
     /**
      * DocumentSnapshot에서 float 값을 안전하게 가져옵니다.
-     * @param doc DocumentSnapshot
-     * @param field 필드 이름
+     *
+     * @param doc          DocumentSnapshot
+     * @param field        필드 이름
      * @param defaultValue 기본값
      * @return 값이 없으면 defaultValue
      */
@@ -109,10 +116,11 @@ public final class FirestoreUtils {
         Double value = doc.getDouble(field);
         return value != null ? value.floatValue() : defaultValue;
     }
-    
+
     /**
      * DocumentSnapshot에서 boolean 값을 안전하게 가져옵니다.
-     * @param doc DocumentSnapshot
+     *
+     * @param doc   DocumentSnapshot
      * @param field 필드 이름
      * @return 값이 없으면 false
      */
@@ -120,11 +128,12 @@ public final class FirestoreUtils {
         Boolean value = doc.getBoolean(field);
         return value != null ? value : false;
     }
-    
+
     /**
      * DocumentSnapshot에서 boolean 값을 안전하게 가져옵니다.
-     * @param doc DocumentSnapshot
-     * @param field 필드 이름
+     *
+     * @param doc          DocumentSnapshot
+     * @param field        필드 이름
      * @param defaultValue 기본값
      * @return 값이 없으면 defaultValue
      */
@@ -132,10 +141,11 @@ public final class FirestoreUtils {
         Boolean value = doc.getBoolean(field);
         return value != null ? value : defaultValue;
     }
-    
+
     /**
      * DocumentSnapshot에서 String 값을 안전하게 가져옵니다.
-     * @param doc DocumentSnapshot
+     *
+     * @param doc   DocumentSnapshot
      * @param field 필드 이름
      * @return 값이 없으면 빈 문자열
      */
@@ -144,11 +154,12 @@ public final class FirestoreUtils {
         String value = doc.getString(field);
         return value != null ? value : "";
     }
-    
+
     /**
      * DocumentSnapshot에서 String 값을 안전하게 가져옵니다.
-     * @param doc DocumentSnapshot
-     * @param field 필드 이름
+     *
+     * @param doc          DocumentSnapshot
+     * @param field        필드 이름
      * @param defaultValue 기본값
      * @return 값이 없으면 defaultValue
      */
@@ -157,11 +168,12 @@ public final class FirestoreUtils {
         String value = doc.getString(field);
         return value != null ? value : defaultValue;
     }
-    
+
     // Map에서 값을 가져오는 메소드들
-    
+
     /**
      * Map에서 int 값을 안전하게 가져옵니다.
+     *
      * @param map Map
      * @param key 키
      * @return 값이 없으면 0
@@ -173,11 +185,12 @@ public final class FirestoreUtils {
         }
         return 0;
     }
-    
+
     /**
      * Map에서 int 값을 안전하게 가져옵니다.
-     * @param map Map
-     * @param key 키
+     *
+     * @param map          Map
+     * @param key          키
      * @param defaultValue 기본값
      * @return 값이 없으면 defaultValue
      */
@@ -188,9 +201,10 @@ public final class FirestoreUtils {
         }
         return defaultValue;
     }
-    
+
     /**
      * Map에서 long 값을 안전하게 가져옵니다.
+     *
      * @param map Map
      * @param key 키
      * @return 값이 없으면 0L
@@ -202,11 +216,12 @@ public final class FirestoreUtils {
         }
         return 0L;
     }
-    
+
     /**
      * Map에서 long 값을 안전하게 가져옵니다.
-     * @param map Map
-     * @param key 키
+     *
+     * @param map          Map
+     * @param key          키
      * @param defaultValue 기본값
      * @return 값이 없으면 defaultValue
      */
@@ -217,9 +232,10 @@ public final class FirestoreUtils {
         }
         return defaultValue;
     }
-    
+
     /**
      * Map에서 double 값을 안전하게 가져옵니다.
+     *
      * @param map Map
      * @param key 키
      * @return 값이 없으면 0.0
@@ -231,11 +247,12 @@ public final class FirestoreUtils {
         }
         return 0.0;
     }
-    
+
     /**
      * Map에서 double 값을 안전하게 가져옵니다.
-     * @param map Map
-     * @param key 키
+     *
+     * @param map          Map
+     * @param key          키
      * @param defaultValue 기본값
      * @return 값이 없으면 defaultValue
      */
@@ -246,9 +263,10 @@ public final class FirestoreUtils {
         }
         return defaultValue;
     }
-    
+
     /**
      * Map에서 float 값을 안전하게 가져옵니다.
+     *
      * @param map Map
      * @param key 키
      * @return 값이 없으면 0.0f
@@ -260,11 +278,12 @@ public final class FirestoreUtils {
         }
         return 0.0f;
     }
-    
+
     /**
      * Map에서 float 값을 안전하게 가져옵니다.
-     * @param map Map
-     * @param key 키
+     *
+     * @param map          Map
+     * @param key          키
      * @param defaultValue 기본값
      * @return 값이 없으면 defaultValue
      */
@@ -275,9 +294,10 @@ public final class FirestoreUtils {
         }
         return defaultValue;
     }
-    
+
     /**
      * Map에서 boolean 값을 안전하게 가져옵니다.
+     *
      * @param map Map
      * @param key 키
      * @return 값이 없으면 false
@@ -289,11 +309,12 @@ public final class FirestoreUtils {
         }
         return false;
     }
-    
+
     /**
      * Map에서 boolean 값을 안전하게 가져옵니다.
-     * @param map Map
-     * @param key 키
+     *
+     * @param map          Map
+     * @param key          키
      * @param defaultValue 기본값
      * @return 값이 없으면 defaultValue
      */
@@ -304,9 +325,10 @@ public final class FirestoreUtils {
         }
         return defaultValue;
     }
-    
+
     /**
      * Map에서 String 값을 안전하게 가져옵니다.
+     *
      * @param map Map
      * @param key 키
      * @return 값이 없으면 빈 문자열
@@ -319,11 +341,12 @@ public final class FirestoreUtils {
         }
         return "";
     }
-    
+
     /**
      * Map에서 String 값을 안전하게 가져옵니다 (null 가능).
-     * @param map Map
-     * @param key 키
+     *
+     * @param map          Map
+     * @param key          키
      * @param defaultValue 기본값 (null 가능)
      * @return 값이 없으면 defaultValue
      */
@@ -335,11 +358,12 @@ public final class FirestoreUtils {
         }
         return defaultValue;
     }
-    
+
     /**
      * Map에서 Map 값을 안전하게 가져옵니다.
-     * @param map Map
-     * @param key 키
+     *
+     * @param map          Map
+     * @param key          키
      * @param defaultValue 기본값
      * @return 값이 없으면 defaultValue
      */
@@ -352,11 +376,12 @@ public final class FirestoreUtils {
         }
         return defaultValue;
     }
-    
+
     /**
      * Map에서 Map 값을 안전하게 가져옵니다 (null 허용).
-     * @param map Map
-     * @param key 키
+     *
+     * @param map          Map
+     * @param key          키
      * @param defaultValue 기본값 (null 가능)
      * @return 값이 없으면 defaultValue
      */
@@ -369,11 +394,12 @@ public final class FirestoreUtils {
         }
         return defaultValue;
     }
-    
+
     /**
      * Map에서 List 값을 안전하게 가져옵니다.
-     * @param map Map
-     * @param key 키
+     *
+     * @param map          Map
+     * @param key          키
      * @param defaultValue 기본값
      * @return 값이 없으면 defaultValue
      */
@@ -386,11 +412,12 @@ public final class FirestoreUtils {
         }
         return defaultValue;
     }
-    
+
     /**
      * Map에서 Long 값을 안전하게 가져옵니다 (null 가능).
-     * @param map Map
-     * @param key 키
+     *
+     * @param map          Map
+     * @param key          키
      * @param defaultValue 기본값 (null 가능)
      * @return 값이 없으면 defaultValue
      */
@@ -402,9 +429,10 @@ public final class FirestoreUtils {
         }
         return defaultValue;
     }
-    
+
     /**
      * Map에서 nullable Long 값을 안전하게 가져옵니다.
+     *
      * @param map Map
      * @param key 키
      * @return 값이 없거나 null이면 null

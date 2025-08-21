@@ -3,7 +3,6 @@ package com.febrie.rpg.util;
 import com.febrie.rpg.gui.component.GuiItem;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,8 +19,7 @@ public class StandardItemBuilder {
      */
     @NotNull
     public static ItemBuilder guiItem(@NotNull Material material) {
-        return ItemBuilder.of(material)
-                .hideAllFlags();
+        return ItemBuilder.of(material).hideAllFlags();
     }
 
     /**
@@ -64,9 +62,7 @@ public class StandardItemBuilder {
      */
     @NotNull
     public static ItemBuilder filler(@NotNull Material material) {
-        return ItemBuilder.of(material)
-                .displayName(Component.empty())
-                .hideAllFlags();
+        return ItemBuilder.of(material).displayName(Component.empty()).hideAllFlags();
     }
 
     /**
@@ -146,7 +142,6 @@ public class StandardItemBuilder {
      */
     @NotNull
     public static ItemBuilder from(@NotNull ItemStack item) {
-        return ItemBuilder.from(item)
-                .hideAllFlags();
+        return ItemBuilder.from(item).hideAllFlags();
     }
 }

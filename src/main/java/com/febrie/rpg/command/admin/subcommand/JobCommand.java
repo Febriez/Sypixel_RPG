@@ -94,7 +94,7 @@ public class JobCommand extends BaseSubCommand {
     @Override
     public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length == 1) {
-            return Arrays.asList("set");
+            return List.of("set");
         } else if (args.length == 2 && args[0].equalsIgnoreCase("set")) {
             return getOnlinePlayerNames().stream()
                 .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))

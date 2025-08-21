@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.kyori.adventure.text.Component;
 /**
  * 중앙 집중식 로깅 유틸리티
  * Bukkit.getLogger()의 @ApiStatus.Internal 경고를 방지하고
@@ -73,7 +72,10 @@ public final class LogUtil {
         if (logger != null) {
             logger.log(Level.SEVERE, message, throwable);
         } else {
-            throwable.printStackTrace();
+            Bukkit.getConsoleSender().sendMessage(prefix + " §c[ERROR] " + throwable.getMessage());
+            for (StackTraceElement element : throwable.getStackTrace()) {
+                Bukkit.getConsoleSender().sendMessage(prefix + " §c[ERROR] at " + element.toString());
+            }
         }
     }
 
@@ -104,7 +106,7 @@ public final class LogUtil {
     public static void warn(@NotNull String message) {
         warning(message);
     }
-    
+
     /**
      * 디버그 로그
      */
@@ -115,7 +117,7 @@ public final class LogUtil {
             Bukkit.getConsoleSender().sendMessage(prefix + " [DEBUG] " + message);
         }
     }
-    
+
     /**
      * 심각한 오류 로그
      */

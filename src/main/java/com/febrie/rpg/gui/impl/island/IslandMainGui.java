@@ -84,9 +84,7 @@ public class IslandMainGui extends BaseGui {
      * @return 초기화된 IslandMainGui 인스턴스
      */
     public static IslandMainGui create(@NotNull GuiManager guiManager, @NotNull Player player) {
-        IslandMainGui gui = new IslandMainGui(guiManager, player);
-        gui.setupLayout();
-        return gui;
+        return new IslandMainGui(guiManager, player);
     }
 
     @Override

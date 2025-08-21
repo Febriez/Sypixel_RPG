@@ -23,11 +23,9 @@ import net.kyori.adventure.text.Component;
  */
 public class DamageDisplayListener implements Listener {
     
-    private final RPGMain plugin;
     private final TextDisplayDamageManager damageDisplayManager;
     
     public DamageDisplayListener(@NotNull RPGMain plugin) {
-        this.plugin = plugin;
         this.damageDisplayManager = TextDisplayDamageManager.getInstance();
     }
     

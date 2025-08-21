@@ -19,14 +19,10 @@ import java.util.stream.Collectors;
  *
  * @author Febrie, CoffeeTory
  */
-public class SetLevelCommand implements SubCommand {
-    
-    private final RPGMain plugin;
-    private final RPGPlayerManager playerManager;
+public record SetLevelCommand(@NotNull RPGPlayerManager playerManager) implements SubCommand {
     
     public SetLevelCommand(@NotNull RPGMain plugin) {
-        this.plugin = plugin;
-        this.playerManager = plugin.getRPGPlayerManager();
+        this(plugin.getRPGPlayerManager());
     }
     
     @Override

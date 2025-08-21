@@ -12,7 +12,7 @@
     "page": "페이지 {1}/{2}"
   },
   "mainmenu": {
-    "title": "메인 메뉴"
+    "title": "%COLOR_PRIMARY%메인 메뉴"
   },
   "profile": {
     "title": "{0}님의 프로필",
@@ -51,7 +51,7 @@
     "flight": "비행: {1}",
     "currency-info": "▸ 재화 정보",
     "game-stats": "게임 통계",
-    "mob-kills": "몹 처치 수: {kills}",
+    "mob-kills": "몹 처치 수: {0}",
     "player-info": {
       "name": "{0}"
     },
@@ -70,7 +70,7 @@
     "confirm-selection": "이 직업을 선택하시겠습니까?",
     "already-selected": "이미 직업을 선택했습니다!",
     "job-categories": "직업 카테고리",
-    "jobs-in-category": "{category} 직업군",
+    "jobs-in-category": "{0} 직업군",
     "back-to-categories": "카테고리로 돌아가기",
     "info": "정보",
     "click-to-select": "▶ 클릭하여 카테고리 선택",
@@ -106,7 +106,7 @@
   "talent": {
     "title": "특성",
     "title-with-page": "특성 - {1}",
-    "remaining-points": "남은 포인트: {points}",
+    "remaining-points": "남은 포인트: {0}",
     "learned": "▶ 습득 완료",
     "available": "▶ 습득 가능",
     "unavailable": "▶ 습득 불가",
@@ -115,17 +115,17 @@
     "insufficient-points": "포인트가 부족합니다",
     "prerequisite-not-met": "선행 조건을 만족하지 않습니다",
     "click-subpage": "▶ 우클릭으로 하위 페이지 열기",
-    "talent-learned": "{talent} 특성을 배웠습니다!",
+    "talent-learned": "{0} 특성을 배웠습니다!",
     "click-stats": "스탯 관리로 이동",
     "page-info": "페이지 정보",
     "current-page": "현재 페이지: {1}",
     "job": "직업: {1}",
-    "available-points": "사용 가능한 포인트: {points}",
+    "available-points": "사용 가능한 포인트: {0}",
     "level-info": "레벨 {1}/{2}",
     "cannot-learn": "습득할 수 없습니다",
     "not-enough-points": "포인트가 부족합니다",
     "stat-bonuses": "능력치 포인트:",
-    "stat-bonus-line": "• {stat}: +{value}",
+    "stat-bonus-line": "• {0}: +{1}",
     "effects": "효과:",
     "pages": {
       "main": "메인",
@@ -139,15 +139,15 @@
   "stats": {
     "title": "스탯 관리",
     "your-stats": "나의 스탯",
-    "remaining-points": "남은 포인트: {points}",
+    "remaining-points": "남은 포인트: {0}",
     "click-to-increase": "▶ 클릭하여 스탯 증가",
     "max-stat-reached": "최대치에 도달했습니다!",
-    "stat-increased": "{stat} 스탯이 증가했습니다!",
+    "stat-increased": "{0} 스탯이 증가했습니다!",
     "not-enough-points": "스탯 포인트가 부족합니다!",
-    "current-value": "현재: {value}",
+    "current-value": "현재: {0}",
     "click-reset": "▶ 우클릭으로 초기화 (1회 무료)",
     "points-available": "사용 가능한 포인트",
-    "points-count": "보유 포인트: {points}",
+    "points-count": "보유 포인트: {0}",
     "points-info": "레벨업 시 스탯 포인트를 획득합니다",
     "click-to-add": "▶ 클릭하여 포인트 추가"
   },
@@ -162,13 +162,13 @@
     "loading": "데이터를 불러오는 중...",
     "loading-description": "잠시만 기다려주세요...",
     "empty": "아직 데이터가 없습니다.",
-    "your-rank": "나의 순위: #{rank}",
+    "your-rank": "나의 순위: #{0}",
     "not-ranked": "순위권 밖",
     "last-updated": "마지막 업데이트: {2}",
-    "current-type": "현재 타입: {type}",
+    "current-type": "현재 타입: {0}",
     "total-entries": "전체 항목: {1}",
-    "rank-info": "순위: #{rank}",
-    "value-info": "{type}: {value}",
+    "rank-info": "순위: #{0}",
+    "value-info": "{0}: {0}",
     "this-is-you": "▶ 나의 순위입니다!",
     "tab-selected": "▶ 현재 선택됨",
     "tab-click": "▶ 클릭하여 보기",
@@ -222,11 +222,13 @@
     "next-page": "▶ 다음 페이지",
     "previous-page": "◀ 이전 페이지",
     "close": "■ 닫기",
-    "page-info": "페이지 {1}/{total}",
+    "page-info": "페이지 {1}/{1}",
     "rewards-title": "보상:",
     "requirements-title": "요구사항:",
-    "npc-name": "{npc}",
-    "speaking": "{npc}가 말합니다..."
+    "npc-name": "{0}",
+    "speaking": "{0}가 말합니다...",
+    "quest-accepted": "퀘스트를 수락했습니다!",
+    "quest-declined": "퀘스트를 거절했습니다."
   },
   "settings": {
     "title": "설정",
@@ -239,7 +241,7 @@
     "gameplay": "게임플레이 설정",
     "privacy": "개인정보 설정",
     "language": "언어 설정",
-    "current-language": "현재 언어: {language}",
+    "current-language": "현재 언어: {0}",
     "click-to-change": "클릭하여 변경",
     "ingame-settings": {
       "title": "인게임 설정",
@@ -266,7 +268,7 @@
   },
   "gui-settings": {
     "title": "GUI 설정",
-    "volume-changed": "설정이 변경되었습니다: 볼륨 {volume}%",
+    "volume-changed": "설정이 변경되었습니다: 볼륨 {0}%",
     "sound-muted": "GUI 사운드가 음소거되었습니다",
     "sound-unmuted": "GUI 사운드가 활성화되었습니다",
     "volume-decrease": "- 볼륨 감소",
@@ -274,7 +276,7 @@
     "click-decrease": "클릭하여 볼륨을 5 감소시킵니다",
     "click-increase": "클릭하여 볼륨을 5 증가시킵니다",
     "sound-volume": "🔊 GUI 사운드 볼륨",
-    "current-volume": "현재 볼륨: {volume}%",
+    "current-volume": "현재 볼륨: {0}%",
     "status": "상태: {1}",
     "status-muted": "음소거됨",
     "status-active": "활성화",
@@ -288,8 +290,8 @@
   },
   "shop": {
     "title": "상점",
-    "buy-price": "구매가: {price}G",
-    "sell-price": "판매가: {price}G",
+    "buy-price": "구매가: {0}G",
+    "sell-price": "판매가: {0}G",
     "your-gold": "보유 골드: {1}G",
     "not-enough-gold": "골드가 부족합니다!",
     "purchase-success": "구매 완료!",
@@ -305,7 +307,7 @@
     "unavailable": "입장 불가",
     "requirements": "입장 조건:",
     "level-requirement": "• 필요 레벨: {1}",
-    "party-requirement": "• 파티 필요: {required}",
+    "party-requirement": "• 파티 필요: {0}",
     "cooldown": "재입장 대기시간: {2}",
     "rewards": "보상:",
     "click-to-enter": "▶ 클릭하여 입장"
@@ -359,9 +361,9 @@
     "money-received": "코인 {1} 획듍!",
     "close-warning": "⚠️ 경고: 보상을 받지 않고 창을 닫았습니다!",
     "items-lost": "받지 않은 아이템은 사라집니다!",
-    "expiry-days": "{days}일",
-    "expiry-hours": "{hours}시간",
-    "expiry-minutes": "{minutes}분"
+    "expiry-days": "{0}일",
+    "expiry-hours": "{0}시간",
+    "expiry-minutes": "{0}분"
   },
   "island": {
     "main": {
@@ -439,7 +441,7 @@
         "world_not_found": "섬 월드를 찾을 수 없습니다.",
         "no_permission": "바이옴을 변경할 권한이 없습니다.",
         "changing": "바이옴을 변경하는 중...",
-        "changed": "바이옴이 {biome}(으)로 변경되었습니다.",
+        "changed": "바이옴이 {0}(으)로 변경되었습니다.",
         "chunk_reload_notice": "청크가 리로드되면 바이옴이 완전히 업데이트됩니다.",
         "already_selected": "이미 선택된 바이옴입니다."
       }
@@ -506,9 +508,9 @@
     "leaderboard": {
       "my-rank": "내 순위",
       "just-now": "방금 전",
-      "minutes-ago": "{minutes}분 전",
-      "hours-ago": "{hours}시간 전",
-      "days-ago": "{days}일 전"
+      "minutes-ago": "{0}분 전",
+      "hours-ago": "{0}시간 전",
+      "days-ago": "{0}일 전"
     }
   },
   "quest": {
@@ -639,7 +641,7 @@
       },
       "contributor": {
         "contribution": "기여도: {1}",
-        "role": "역할: {role}",
+        "role": "역할: {0}",
         "percentage": "전체 기여도의 {2}%%"
       },
       "add": {
@@ -659,14 +661,14 @@
       "contributor": "기여자"
     }
   },
-  "gui-settings": {
+  "gui-settings-v2": {
     "title": "GUI 설정",
     "volume": "볼륨: {0}%",
     "volume-changed": "볼륨이 {0}%로 변경되었습니다",
     "sound-enabled": "소리 활성화",
     "sound-disabled": "소리 비활성화"
   },
-  "ingame-settings": {
+  "ingame-settings-v2": {
     "title": "게임 내 설정"
   },
   "notification-settings": {
@@ -681,7 +683,7 @@
   "error": {
     "title": "오류"
   },
-  "buttons": {
+  "buttons-v2": {
     "toggle": {
       "enabled": "활성화",
       "disabled": "비활성화"

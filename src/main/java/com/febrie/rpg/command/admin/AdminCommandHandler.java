@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.command.admin.subcommand.*;
 import com.febrie.rpg.command.admin.subcommand.base.SubCommand;
+import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -47,6 +48,7 @@ public class AdminCommandHandler implements CommandExecutor, TabCompleter {
         registerSubCommand(new SaveCommand(plugin));
         registerSubCommand(new DebugCommand(plugin));
         registerSubCommand(new StatsSubCommand(plugin.getRPGPlayerManager()));
+        registerSubCommand(new LangTestCommand(plugin));
     }
 
     private void registerSubCommand(@NotNull SubCommand command) {
@@ -121,9 +123,7 @@ public class AdminCommandHandler implements CommandExecutor, TabCompleter {
             }
         } catch (Exception e) {
             sender.sendMessage(UnifiedColorUtil.parse("&c명령어 실행 중 오류가 발생했습니다"));
-            plugin.getLogger()
-                    .severe("Error executing admin command: " + e.getMessage());
-            e.printStackTrace();
+            LogUtil.error("Error executing admin command", e);
         }
 
         return true;

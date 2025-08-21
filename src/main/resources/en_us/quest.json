@@ -16,6 +16,50 @@
   "quest-rewards": "=== Quest Rewards ===",
   "sequential-note": "※ Must be completed in order.",
   "unknown-npc": "Unknown NPC",
+  "tutorial": {
+    "first-steps": {
+      "name": "First Steps",
+      "description": [
+        "Learn the basics of RPG gameplay.",
+        "Visit important locations and talk to NPCs.",
+        "",
+        "This quest will guide you through your first adventure!"
+      ],
+      "objectives": {
+        "visit_hub": "Visit the Hub area",
+        "visit_merchant": "Talk to the Village Merchant"
+      },
+      "dialogs": [
+        "Welcome to SypixelRPG! I'll help you get started on your adventure.",
+        "First, you should visit the Hub area to get familiar with the world.",
+        "After that, find the Village Merchant to learn about trading. Good luck!"
+      ],
+      "npc-name": "Guide",
+      "accept": "I'm ready to begin my adventure!",
+      "decline": "Maybe later..."
+    },
+    "basic-combat": {
+      "name": "Basic Combat Training",
+      "description": [
+        "Learn the essential combat skills needed to survive.",
+        "Practice fighting against common monsters.",
+        "",
+        "Master the art of combat to become a true warrior!"
+      ],
+      "objectives": {
+        "kill_zombies": "Kill 5 Zombies",
+        "kill_skeletons": "Kill 3 Skeletons"
+      },
+      "npcs": {
+        "combat_instructor": "Combat Instructor"
+      },
+      "dialogs": {
+        "essential_skills": "Combat is essential for survival in this world. Let me teach you the basics.",
+        "night_monsters": "When night falls, monsters will spawn. You must be ready to defend yourself.",
+        "return_reward": "Good work! Return to me when you've completed your training for a reward."
+      }
+    }
+  },
   "filter": {
     "active": "Active Quests",
     "completed": "Completed Quests"
@@ -36,7 +80,9 @@
     "level-requirement": "You need to be level {1} or higher to accept this quest!",
     "job-requirement": "You need to be a {1} to accept this quest!",
     "prerequisite-requirement": "You must complete prerequisite quests first!",
-    "mutually-exclusive": "You have already completed a mutually exclusive quest!"
+    "mutually-exclusive": "You have already completed a mutually exclusive quest!",
+    "no-rewards": "No rewards available for this quest.",
+    "cannot-start": "You cannot start this quest at this time."
   },
   "categories": {
     "main": "Main Quest",
@@ -72,7 +118,7 @@
       "exp": "Experience"
     }
   },
-  "tutorial": {
+  "tutorial-quests": {
     "npcs": {
       "guide": "Guide"
     },
@@ -461,16 +507,26 @@
   "daily": {
     "hunting": {
       "name": "Daily Hunting",
-      "description": "Complete today's hunting objectives.\nResets daily at midnight.",
+      "description": [
+        "Complete today's hunting objectives.",
+        "Help protect the village from dangerous monsters.",
+        "",
+        "Resets daily at midnight."
+      ],
       "objectives": {
-        "kill_zombies": "Kill 20 zombies",
-        "kill_skeletons": "Kill 15 skeletons",
-        "kill_creepers": "Kill 10 creepers"
+        "kill_zombies": "Kill 20 Zombies",
+        "kill_skeletons": "Kill 15 Skeletons",
+        "kill_creepers": "Kill 10 Creepers"
       }
     },
     "gathering": {
       "name": "Daily Gathering",
-      "description": "Gather today's required resources.\nResets daily at midnight.",
+      "description": [
+        "Gather today's required resources.",
+        "Collect materials needed for town construction projects.",
+        "",
+        "Resets daily at midnight."
+      ],
       "objectives": {
         "gather_logs": "Gather 30 logs",
         "gather_cobblestone": "Gather 50 cobblestone",
@@ -479,7 +535,12 @@
     },
     "fishing": {
       "name": "Daily Fishing",
-      "description": "Complete today's fishing objectives.\nResets daily at midnight.",
+      "description": [
+        "Complete today's fishing objectives.",
+        "Provide fresh fish for the village market.",
+        "",
+        "Resets daily at midnight."
+      ],
       "objectives": {
         "catch_fish": "Catch 15 fish",
         "catch_rare": "Catch a rare fish"
@@ -487,12 +548,25 @@
     },
     "mining": {
       "name": "Daily Mining",
-      "description": "Complete today's mining objectives.\nResets daily at midnight.",
+      "description": [
+        "Complete today's mining objectives.",
+        "Work hard in the mines to gather essential resources.",
+        "",
+        "Resets daily at midnight."
+      ],
       "objectives": {
-        "mine_stone": "Mine 100 stone",
-        "mine_coal": "Mine 20 coal",
-        "mine_iron": "Mine 15 iron ore",
-        "mine_gold": "Mine 5 gold ore"
+        "mine_stone": "Mine 50 Stone",
+        "mine_coal": "Mine 20 Coal Ore",
+        "mine_iron": "Mine 10 Iron Ore"
+      },
+      "npcs": {
+        "foreman": "Mine Foreman"
+      },
+      "dialogs": {
+        "greeting": "Another day, another shift in the mines!",
+        "need_resources": "We need more resources to keep the town running. Can you help?",
+        "player_accept": "Of course! I'll get right on it.",
+        "good_luck": "Great! Be careful down there, and good luck!"
       }
     },
     "crafting": {

@@ -86,7 +86,12 @@ public class DailyFishingQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.daily.fishing.description") manually */;
+        return Arrays.asList(
+                Component.translatable("quest.daily.fishing.description[0]"),
+                Component.translatable("quest.daily.fishing.description[1]"),
+                Component.translatable("quest.daily.fishing.description[2]"),
+                Component.translatable("quest.daily.fishing.description[3]")
+        );
     }
 
     @Override

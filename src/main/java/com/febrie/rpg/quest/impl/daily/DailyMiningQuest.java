@@ -82,7 +82,12 @@ public class DailyMiningQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.daily.mining.description") manually */;
+        return Arrays.asList(
+                Component.translatable("quest.daily.mining.description[0]"),
+                Component.translatable("quest.daily.mining.description[1]"),
+                Component.translatable("quest.daily.mining.description[2]"),
+                Component.translatable("quest.daily.mining.description[3]")
+        );
     }
 
     @Override

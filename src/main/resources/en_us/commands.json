@@ -71,9 +71,9 @@
   "warp": {
     "usage": "Usage: /warp <location>",
     "description": "Warp to a specific location",
-    "not-found": "Warp not found: {warp}",
+    "not-found": "Warp not found: {0}",
     "no-permission": "You don't have permission for this warp.",
-    "success": "Warped to {warp}!"
+    "success": "Warped to {0}!"
   },
   "admin": {
     "no-permission": "You don't have permission.",
@@ -102,7 +102,7 @@
       "loaded-players": "Loaded RPG players: {1}",
       "registered-quests": "Registered quests: {1}",
       "implemented-quests": "Implemented quests: {1}",
-      "memory-usage": "Memory usage: {used}MB / {2}MB"
+      "memory-usage": "Memory usage: {0}MB / {2}MB"
     },
     "reload": {
       "reloading": "Reloading configuration...",
@@ -112,7 +112,7 @@
       "usage": "Usage: /rpgadmin viewprofile <player>",
       "title": "=== {0}'s Profile ===",
       "level": "Level: {1}",
-      "exp": "Experience: {1}/{next}",
+      "exp": "Experience: {1}/{1}",
       "job": "Job: {1}",
       "job-none": "None",
       "gold": "Gold: {1}",
@@ -153,7 +153,7 @@
       "set": {
         "usage": "Usage: /rpgadmin npc set <questID>",
         "example": "Example: /rpgadmin npc set TUTORIAL_FIRST_STEPS",
-        "invalid-quest": "Invalid quest ID: {id}",
+        "invalid-quest": "Invalid quest ID: {0}",
         "available": "Available quest IDs:"
       },
       "setcode": {
@@ -163,7 +163,7 @@
         "format-example": "Valid examples: village_shopper, first_npc, quest_giver",
         "inventory-full": "Inventory full, item dropped on ground.",
         "success": "✓ NPC Trait registrator given.",
-        "npc-id": "NPC ID: {id}",
+        "npc-id": "NPC ID: {0}",
         "display-name": "Display name: {0}"
       },
       "reward": {
@@ -173,13 +173,13 @@
         "format-example": "Valid examples: quest_rewarder, reward_giver",
         "inventory-full": "Inventory full, item dropped on ground.",
         "success": "✓ Reward NPC registrator given.",
-        "npc-id": "Reward NPC ID: {id}",
+        "npc-id": "Reward NPC ID: {0}",
         "display-name": "Display name: {0}"
       },
       "list": {
         "title": "=== Citizens NPC List ===",
-        "entry": "[{id}] {0}",
-        "id": "- ID: {id}",
+        "entry": "[{0}] {0}",
+        "id": "- ID: {0}",
         "quests": "- Quests: {1}",
         "total": "Total {1} NPCs"
       }
@@ -188,14 +188,14 @@
       "usage": "Usage: /rpgadmin quest <give|list|reload> [player] [questID]",
       "give": {
         "usage": "Usage: /rpgadmin quest give <player> <questID>",
-        "invalid-id": "Invalid quest ID: {id}",
-        "success": "Gave quest: {id}",
-        "received": "You received a new quest: {id}",
+        "invalid-id": "Invalid quest ID: {0}",
+        "success": "Gave quest: {0}",
+        "received": "You received a new quest: {0}",
         "failed": "Cannot start quest. Already in progress or requirements not met."
       },
       "list": {
         "title": "=== Available Quests ===",
-        "category": "{category}:",
+        "category": "{0}:",
         "implemented": "✓",
         "not-implemented": "✗"
       },
@@ -215,10 +215,10 @@
       "no-island": "{0} doesn't own an island.",
       "info": {
         "title": "=== {0}'s Island Info ===",
-        "id": "Island ID: {id}",
+        "id": "Island ID: {0}",
         "name": "Island name: {0}",
-        "owner": "Island owner: {owner}",
-        "size": "Size: {size} x {size}",
+        "owner": "Island owner: {0}",
+        "size": "Size: {0} x {0}",
         "members": "Members: {1}/{2}",
         "created": "Created: {2}",
         "resets": "Total resets: {1}"
@@ -249,12 +249,12 @@
     "processing": "Creating account...",
     "already-exists": "Site account already exists.",
     "email-taken": "Email is already in use.",
-    "error": "Error creating account: {error}",
+    "error": "Error creating account: {0}",
     "success": {
       "title": "==== Site Account Created ====",
       "success-message": "✅ Account successfully created!",
-      "email": "📧 Email: {email}",
-      "password": "🔑 Password: {password}",
+      "email": "📧 Email: {0}",
+      "password": "🔑 Password: {1}",
       "password-hover": "Click to copy password",
       "notice-title": "💡 Notice:",
       "notice-1": "- Click the password to copy to clipboard",

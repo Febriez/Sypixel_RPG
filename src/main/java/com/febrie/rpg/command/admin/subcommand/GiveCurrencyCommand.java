@@ -23,11 +23,9 @@ import java.util.stream.Collectors;
  */
 public class GiveCurrencyCommand implements SubCommand {
     
-    private final RPGMain plugin;
     private final RPGPlayerManager playerManager;
     
     public GiveCurrencyCommand(@NotNull RPGMain plugin) {
-        this.plugin = plugin;
         this.playerManager = plugin.getRPGPlayerManager();
     }
     

@@ -57,11 +57,7 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter {
      */
     protected boolean requirePlayer(@NotNull CommandSender sender) {
         if (!(sender instanceof Player)) {
-            if (sender instanceof Player player) {
-                player.sendMessage(Component.translatable("general.player-only"));
-            } else {
-                sender.sendMessage("This command can only be used by players!");
-            }
+            sender.sendMessage("This command can only be used by players!");
             return false;
         }
         return true;
@@ -82,8 +78,13 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter {
      * Registers this command to the plugin
      */
     public void register(@NotNull String commandName) {
-        RPGMain.getPlugin().getCommand(commandName).setExecutor(this);
-        RPGMain.getPlugin().getCommand(commandName).setTabCompleter(this);
+        var command = RPGMain.getPlugin().getCommand(commandName);
+        if (command != null) {
+            command.setExecutor(this);
+            command.setTabCompleter(this);
+        } else {
+            LogUtil.error("Failed to register command: " + commandName + " - command not found in plugin.yml");
+        }
     }
 
     @Override

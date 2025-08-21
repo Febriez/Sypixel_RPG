@@ -11,10 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-
-import net.kyori.adventure.text.Component;
 /**
  * 통합 캐시 매니저
  * 모든 캐시를 Caffeine 기반으로 통일
@@ -53,7 +50,7 @@ public class UnifiedCacheManager {
         return (Cache<K, V>) caches.computeIfAbsent(name, k -> {
             LogUtil.info("Creating cache: " + name + " (TTL: " + ttl.toMinutes() + "min, MaxSize: " + maxSize + ")");
             
-            return Caffeine.newBuilder()
+            return Caffeine.<K, V>newBuilder()
                 .maximumSize(maxSize)
                 .expireAfterWrite(ttl)
                 .removalListener((RemovalListener<K, V>) (key, value, cause) -> {

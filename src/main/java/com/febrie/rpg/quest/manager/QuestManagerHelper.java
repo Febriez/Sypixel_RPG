@@ -19,6 +19,10 @@ import net.kyori.adventure.text.Component;
  */
 public class QuestManagerHelper {
     
+    private QuestManagerHelper() {
+        throw new UnsupportedOperationException("Utility class");
+    }
+    
     /**
      * 특정 퀘스트 ID로 활성 퀘스트 찾기
      */

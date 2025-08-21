@@ -11,7 +11,9 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -194,8 +196,8 @@ public class IslandSettingsGui extends BaseGui {
                     String text = stateSnapshot.getText();
                     // 유효성 검사
                     if (text.isEmpty() || text.length() > 20) {
-                        player.sendMessage(UnifiedColorUtil.parse("&c섬 이름은 1~20자여야 합니다."));
-                        return java.util.Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText("1~20자 사이로 입력하세요"));
+                        player.sendMessage(LangManager.get("island.settings.name-error", player).color(NamedTextColor.RED));
+                        return java.util.Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText(LangManager.getString("island.settings.name-input-error", player)));
                     }
                     
                     // 색상 코드 제거 (Paper API)
@@ -213,7 +215,7 @@ public class IslandSettingsGui extends BaseGui {
                     }, 1L);
                 })
                 .text(tempIslandName)
-                .title("새로운 섬 이름 입력")
+                .title(LangManager.getString("island.gui.creation.island-name-input-title", player))
                 .plugin(plugin)
                 .open(player);
     }
@@ -241,18 +243,10 @@ public class IslandSettingsGui extends BaseGui {
         
         // 이름 변경
         if (!tempIslandName.equals(island.core().islandName())) {
-            IslandCoreDTO updatedCore = new IslandCoreDTO(
-                    island.core().islandId(),
-                    island.core().ownerUuid(),
-                    island.core().ownerName(),
-                    tempIslandName,
-                    island.core().size(),
-                    island.core().isPublic(),
-                    island.core().createdAt(),
-                    System.currentTimeMillis(),
-                    island.core().totalResets(),
-                    island.core().deletionScheduledAt(),
-                    island.core().location()
+            IslandCoreDTO updatedCore = GuiHandlerUtil.createUpdatedCore(island.core(),
+                    tempIslandName, // new name
+                    null, // isPublic unchanged
+                    null  // size unchanged
             );
             IslandDTO updated = new IslandDTO(updatedCore, island.membership(), island.social(), island.configuration());
             islandManager.updateIsland(updated);
@@ -261,18 +255,10 @@ public class IslandSettingsGui extends BaseGui {
         
         // 공개/비공개 변경
         if (tempIsPublic != island.core().isPublic()) {
-            IslandCoreDTO updatedCore = new IslandCoreDTO(
-                    island.core().islandId(),
-                    island.core().ownerUuid(),
-                    island.core().ownerName(),
-                    island.core().islandName(),
-                    island.core().size(),
-                    tempIsPublic,
-                    island.core().createdAt(),
-                    System.currentTimeMillis(),
-                    island.core().totalResets(),
-                    island.core().deletionScheduledAt(),
-                    island.core().location()
+            IslandCoreDTO updatedCore = GuiHandlerUtil.createUpdatedCore(island.core(),
+                    null, // name unchanged
+                    tempIsPublic, // new isPublic
+                    null  // size unchanged
             );
             IslandDTO updated = new IslandDTO(updatedCore, island.membership(), island.social(), island.configuration());
             islandManager.updateIsland(updated);

@@ -176,7 +176,7 @@ public class WorldTreeQuest extends Quest {
             case "world_fruit" -> Component.translatable("quest.special.world_tree.objectives.world_fruit");
             case "eternal_leaves" -> Component.translatable("quest.special.world_tree.objectives.eternal_leaves");
             case "tree_blessing" -> Component.translatable("quest.special.world_tree.objectives.tree_blessing");
-            default -> Component.text(objective.getStatusInfo(null));
+            default -> Component.text(objective.getStatusInfo(who));
         };
     }
 

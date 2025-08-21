@@ -18,11 +18,9 @@ import net.kyori.adventure.text.Component;
  */
 public class MenuShortcutListener implements Listener {
     
-    private final RPGMain plugin;
     private final GuiManager guiManager;
     
     public MenuShortcutListener(@NotNull RPGMain plugin, @NotNull GuiManager guiManager) {
-        this.plugin = plugin;
         this.guiManager = guiManager;
     }
     

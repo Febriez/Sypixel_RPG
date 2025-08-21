@@ -105,7 +105,12 @@ public class DailyGatheringQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.daily.gathering.description") manually */;
+        return Arrays.asList(
+                Component.translatable("quest.daily.gathering.description[0]"),
+                Component.translatable("quest.daily.gathering.description[1]"),
+                Component.translatable("quest.daily.gathering.description[2]"),
+                Component.translatable("quest.daily.gathering.description[3]")
+        );
     }
 
     @Override

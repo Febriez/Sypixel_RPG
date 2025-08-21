@@ -4,24 +4,20 @@ import net.kyori.adventure.text.Component;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.command.admin.subcommand.base.SubCommand;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Reload subcommand
  *
  * @author Febrie, CoffeeTory
  */
-public class ReloadCommand implements SubCommand {
-    
-    private final RPGMain plugin;
-    
-    public ReloadCommand(@NotNull RPGMain plugin) {
-        this.plugin = plugin;
-    }
+public record ReloadCommand(@NotNull RPGMain plugin) implements SubCommand {
     
     @Override
     @NotNull
@@ -96,8 +92,7 @@ public class ReloadCommand implements SubCommand {
             }
         } catch (Exception e) {
             sender.sendMessage(Component.translatable("commands.admin.reload.error", Component.text(e.getMessage())).color(UnifiedColorUtil.ERROR));
-            plugin.getLogger().severe("Reload error: " + e.getMessage());
-            e.printStackTrace();
+            LogUtil.error("Reload error", e);
             success = false;
         }
         
@@ -116,7 +111,7 @@ public class ReloadCommand implements SubCommand {
     @NotNull
     public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length == 1) {
-            return List.of("config", "lang", "all").stream()
+            return Stream.of("config", "lang", "all")
                 .filter(type -> type.startsWith(args[0].toLowerCase()))
                 .toList();
         }

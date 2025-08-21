@@ -17,6 +17,10 @@ import net.kyori.adventure.text.Component;
  */
 public class PathfindingUtil {
 
+    private PathfindingUtil() {
+        throw new UnsupportedOperationException("Utility class");
+    }
+
     private static final int MAX_SEARCH_DISTANCE = 100; // 최대 탐색 거리
     private static final int MAX_ITERATIONS = 10000; // 최대 반복 횟수
 

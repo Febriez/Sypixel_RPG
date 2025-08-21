@@ -40,19 +40,19 @@ public class LeaderboardGui extends ScrollableGui {
     private static final int GUI_SIZE = 54; // 6줄
     // 리더보드 타입
     public enum LeaderboardType {
-        LEVEL("level", Material.EXPERIENCE_BOTTLE, UnifiedColorUtil.EXPERIENCE, "레벨"),
-        COMBAT_POWER("combat_power", Material.DIAMOND_SWORD, UnifiedColorUtil.LEGENDARY, "전투력"),
-        GOLD("gold", Material.GOLD_INGOT, UnifiedColorUtil.GOLD, "골드"),
-        TOTAL_PLAYTIME("total_playtime", Material.CLOCK, UnifiedColorUtil.AQUA, "플레이타임");
+        LEVEL("level", Material.EXPERIENCE_BOTTLE, UnifiedColorUtil.EXPERIENCE, "gui.leaderboard.type.level"),
+        COMBAT_POWER("combat_power", Material.DIAMOND_SWORD, UnifiedColorUtil.LEGENDARY, "gui.leaderboard.type.combat_power"),
+        GOLD("gold", Material.GOLD_INGOT, UnifiedColorUtil.GOLD, "gui.leaderboard.type.gold"),
+        TOTAL_PLAYTIME("total_playtime", Material.CLOCK, UnifiedColorUtil.AQUA, "gui.leaderboard.type.playtime");
         private final String id;
         private final Material icon;
         private final TextColor color;
-        private final String displayName;
-        LeaderboardType(String id, Material icon, TextColor color, String displayName) {
+        private final String displayNameKey;
+        LeaderboardType(String id, Material icon, TextColor color, String displayNameKey) {
             this.id = id;
             this.icon = icon;
             this.color = color;
-            this.displayName = displayName;
+            this.displayNameKey = displayNameKey;
         }
         public String getId() {
             return id;
@@ -63,8 +63,12 @@ public class LeaderboardGui extends ScrollableGui {
         public TextColor getColor() {
             return color;
         }
-        public String getDisplayName() {
-            return displayName;
+        public String getDisplayNameKey() {
+            return displayNameKey;
+        }
+        
+        public Component getDisplayName() {
+            return Component.translatable(displayNameKey);
         }
     }
     // 탭 위치
@@ -191,7 +195,7 @@ public class LeaderboardGui extends ScrollableGui {
             boolean isSelected = type == currentType;
             GuiItem tabItem = GuiItem.clickable(
                     new ItemBuilder(type.getIcon())
-                            .displayName(Component.text(type.getDisplayName(), type.getColor())
+                            .displayName(type.getDisplayName().color(type.getColor())
                                     .decoration(TextDecoration.BOLD, true))
                             .addLore(Component.empty())
                             .addLore(isSelected ?
@@ -238,7 +242,7 @@ public class LeaderboardGui extends ScrollableGui {
         if (myRankEntry != null && myRankEntry.rank() > 0) {
             setItem(MY_RANK_SLOT, GuiItem.display(
                     new ItemBuilder(viewer)
-                            .displayName(Component.text("내 순위", UnifiedColorUtil.SUCCESS))
+                            .displayName(trans("gui.leaderboard.my-rank-title").color(UnifiedColorUtil.SUCCESS))
                             .addLore(trans("gui.leaderboard.my-rank", "rank", String.valueOf(myRankEntry.rank())))
                             .addLore(trans("gui.leaderboard.my-value", "value", formatValue(myRankEntry.value())))
                             .addLore(trans("gui.leaderboard.last-updated",
@@ -249,7 +253,7 @@ public class LeaderboardGui extends ScrollableGui {
         } else {
             setItem(MY_RANK_SLOT, GuiItem.display(
                     new ItemBuilder(viewer)
-                            .displayName(Component.text("내 순위", UnifiedColorUtil.GRAY))
+                            .displayName(trans("gui.leaderboard.my-rank-title").color(UnifiedColorUtil.GRAY))
                             .addLore(trans("gui.leaderboard.no-rank-data"))
                             .addLore(trans("gui.leaderboard.play-more"))
                             .build()
@@ -408,7 +412,8 @@ public class LeaderboardGui extends ScrollableGui {
     private String formatPlaytime(long seconds) {
         long hours = seconds / 3600;
         long minutes = (seconds % 3600) / 60;
-        return String.format("%d시간 %d분", hours, minutes);
+        // Use translation for hours and minutes
+        return trans("gui.leaderboard.playtime-format", "hours", String.valueOf(hours), "minutes", String.valueOf(minutes)).toString();
     }
     
     /**
@@ -416,10 +421,10 @@ public class LeaderboardGui extends ScrollableGui {
      */
     private String formatTime(long timestamp) {
         long diff = System.currentTimeMillis() - timestamp;
-        if (diff < 60000) return "방금 전";
-        if (diff < 3600000) return (diff / 60000) + "분 전";
-        if (diff < 86400000) return (diff / 3600000) + "시간 전";
-        return (diff / 86400000) + "일 전";
+        if (diff < 60000) return trans("gui.leaderboard.time-just-now").toString();
+        if (diff < 3600000) return trans("gui.leaderboard.time-minutes-ago", "minutes", String.valueOf(diff / 60000)).toString();
+        if (diff < 86400000) return trans("gui.leaderboard.time-hours-ago", "hours", String.valueOf(diff / 3600000)).toString();
+        return trans("gui.leaderboard.time-days-ago", "days", String.valueOf(diff / 86400000)).toString();
     }
     
     @Override

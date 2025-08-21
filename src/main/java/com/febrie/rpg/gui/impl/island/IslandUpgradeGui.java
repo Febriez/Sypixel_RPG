@@ -11,6 +11,7 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LogUtil;
+import com.febrie.rpg.util.GuiHandlerUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -305,18 +306,10 @@ public class IslandUpgradeGui extends BaseGui {
         };
         
         // 섬 데이터 업데이트
-        IslandCoreDTO updatedCore = new IslandCoreDTO(
-                island.core().islandId(),
-                island.core().ownerUuid(),
-                island.core().ownerName(),
-                island.core().islandName(),
-                type.equals("size") ? SIZE_VALUES[newLevel] : island.core().size(),
-                island.core().isPublic(),
-                island.core().createdAt(),
-                System.currentTimeMillis(),
-                island.core().totalResets(),
-                island.core().deletionScheduledAt(),
-                island.core().location()
+        IslandCoreDTO updatedCore = GuiHandlerUtil.createUpdatedCore(island.core(),
+                null, // name unchanged
+                null, // isPublic unchanged
+                type.equals("size") ? SIZE_VALUES[newLevel] : null // size only if upgrading size
         );
         
         IslandConfigurationDTO updatedConfiguration = new IslandConfigurationDTO(

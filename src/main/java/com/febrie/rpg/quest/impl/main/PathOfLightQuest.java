@@ -110,7 +110,7 @@ public class PathOfLightQuest extends Quest {
             case "purify_undead_phantom" -> Component.translatable("quest.main.path_of_light.objectives.purify_undead_phantom");
             case "craft_golden_apple" -> Component.translatable("quest.main.path_of_light.objectives.craft_golden_apple");
             case "help_villagers" -> Component.translatable("quest.main.path_of_light.objectives.help_villagers");
-            default -> Component.text(objective.getStatusInfo(null));
+            default -> Component.text(objective.getStatusInfo(who));
         };
     }
 

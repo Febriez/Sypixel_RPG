@@ -70,7 +70,7 @@ public class NPCInteractListener implements Listener {
 
         // 막대기를 들고 있는지 확인
         ItemStack heldItem = player.getInventory().getItemInMainHand();
-        if (heldItem != null && heldItem.getType() != Material.AIR) {
+        if (heldItem.getType() != Material.AIR) {
             // 막대기 종류 확인
             if (heldItem.getType() == Material.STICK || 
                 heldItem.getType() == Material.BLAZE_ROD || 
@@ -279,7 +279,7 @@ public class NPCInteractListener implements Listener {
 
         // 단일 퀘스트인 경우 직접 처리
         if (questIds.size() == 1) {
-            QuestID questId = questIds.get(0);
+            QuestID questId = questIds.getFirst();
             Quest quest = questManager.getQuest(questId);
             if (quest == null) {
                 player.sendMessage(Component.translatable("quest.npc.invalid-quest"));
@@ -353,17 +353,37 @@ public class NPCInteractListener implements Listener {
             }
         }
         
-        // 퀘스트 요구사항 확인
+        // 퀘스트 시작 가능 여부 확인 (대화 GUI 열기 전에 체크)
         RPGPlayer rpgPlayer = plugin.getRPGPlayerManager().getOrCreatePlayer(player);
         
         // 레벨 요구사항 확인
         if (quest.getMinLevel() > 1 && rpgPlayer.getLevel() < quest.getMinLevel()) {
-            player.sendMessage(Component.translatable("quest.npc.level-requirement", Component.text(String.valueOf(quest.getMinLevel()))));
+            player.sendMessage(Component.translatable("quest.npc.level-requirement")
+                .arguments(Component.text(quest.getMinLevel())));
+            event.setCancelled(true);
             return;
         }
         
+        // 이미 진행 중인지 확인
+        boolean isActive = questManager.getActiveQuests(player.getUniqueId()).values().stream()
+                .anyMatch(p -> p.questId().equals(quest.getId().name()));
+        if (isActive) {
+            player.sendMessage(Component.translatable("quest.npc.cannot-start"));
+            event.setCancelled(true);
+            return;
+        }
+        
+        // 완료 제한 확인
+        if (hasCompleted) {
+            int completionLimit = quest.getCompletionLimit();
+            if (completionLimit == 0 || (completionLimit > 0 && hasCompleted)) {
+                player.sendMessage(Component.translatable("quest.npc.already-completed"));
+                event.setCancelled(true);
+                return;
+            }
+        }
 
-        // 퀘스트 대화 GUI 열기 (대화가 없어도 수락/거절 선택 표시)
+        // 모든 조건을 충족하면 퀘스트 대화 GUI 열기
         guiManager.openQuestDialogGui(player, quest);
     }
 

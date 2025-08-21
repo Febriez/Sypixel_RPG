@@ -183,7 +183,7 @@ public class TalentGui extends ScrollableGui {
                 .amount(Math.max(1, currentLevel));
 
         // 설명 추가
-        List<Component> description = List.of(); /* TODO: Convert LangManager.getList("talent." + talent.getId() + ".description") manually */
+        List<Component> description = LangManager.getList("talent." + talent.getId() + ".description", viewer);
         description.forEach(builder::addLore);
 
         // 레벨 정보

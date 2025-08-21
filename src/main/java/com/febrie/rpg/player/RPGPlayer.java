@@ -257,7 +257,7 @@ public class RPGPlayer {
     }
 
     public int getLevel() {
-        if (job == null) return 1;
+        if (job == null) return 1; // 직업이 없어도 기본 레벨 1
         return cachedLevelInfo != null ? cachedLevelInfo.level() :
                 LevelSystem.getLevelFromExp(experience, job);
     }

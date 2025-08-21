@@ -322,10 +322,10 @@ public abstract class Quest {
      * 특정 인덱스의 대화 반환
      * @param index 대화 인덱스
      * @param player 플레이어
-     * @return 대화 텍스트
+     * @return 대화 컴포넌트
      */
     @Nullable
-    public String getDialog(int index, @NotNull Player player) {
+    public Component getDialog(int index, @NotNull Player player) {
         return null;
     }
     
@@ -335,8 +335,8 @@ public abstract class Quest {
      * @return NPC 이름
      */
     @NotNull
-    public String getNPCName(@NotNull Player player) {
-        return "Quest NPC";
+    public Component getNPCName(@NotNull Player player) {
+        return Component.text("Quest NPC");
     }
     
     /**
@@ -345,9 +345,8 @@ public abstract class Quest {
      * @return 수락 대화
      */
     @NotNull
-    public String getAcceptDialog(@NotNull Player player) {
-        return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
-            .serialize(Component.translatable("quest.dialog.accept-default"));
+    public Component getAcceptDialog(@NotNull Player player) {
+        return Component.translatable("quest.dialog.accept-default");
     }
     
     /**
@@ -356,9 +355,8 @@ public abstract class Quest {
      * @return 거절 대화
      */
     @NotNull
-    public String getDeclineDialog(@NotNull Player player) {
-        return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
-            .serialize(Component.translatable("quest.dialog.decline-default"));
+    public Component getDeclineDialog(@NotNull Player player) {
+        return Component.translatable("quest.dialog.decline-default");
     }
 
     /**

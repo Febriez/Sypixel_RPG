@@ -145,17 +145,20 @@ public class AllQuestsGui extends BaseGui {
         }
     }
     
-    private GuiItem createQuestItem(Quest quest) {
-        // 현재 진행 중인 퀘스트 찾기
-        QuestProgress progress = null;
-        java.util.Map<String, ActiveQuestDTO> activeQuests = questManager.getActiveQuests(viewer.getUniqueId());
+    private QuestProgress findQuestProgress(Player player, Quest quest) {
+        java.util.Map<String, ActiveQuestDTO> activeQuests = questManager.getActiveQuests(player.getUniqueId());
         for (java.util.Map.Entry<String, ActiveQuestDTO> entry : activeQuests.entrySet()) {
             ActiveQuestDTO activeData = entry.getValue();
             if (activeData.questId().equals(quest.getId().name())) {
-                progress = questManager.getQuestProgress(viewer.getUniqueId(), entry.getKey());
-                break;
+                return questManager.getQuestProgress(player.getUniqueId(), entry.getKey());
             }
         }
+        return null;
+    }
+    
+    private GuiItem createQuestItem(Quest quest) {
+        // 현재 진행 중인 퀘스트 찾기
+        QuestProgress progress = findQuestProgress(viewer, quest);
         Material material = (progress != null && progress.isCompleted()) ? Material.ENCHANTED_BOOK : Material.BOOK;
         
         ItemBuilder builder = new ItemBuilder(material)
@@ -194,15 +197,7 @@ public class AllQuestsGui extends BaseGui {
                 builder.build(),
                 p -> {
                     // 현재 진행 중인 퀘스트 찾기
-                    QuestProgress qProgress = null;
-                    java.util.Map<String, ActiveQuestDTO> activeQuestsMap = questManager.getActiveQuests(p.getUniqueId());
-                    for (java.util.Map.Entry<String, ActiveQuestDTO> entry : activeQuestsMap.entrySet()) {
-                        ActiveQuestDTO activeData = entry.getValue();
-                        if (activeData.questId().equals(quest.getId().name())) {
-                            qProgress = questManager.getQuestProgress(p.getUniqueId(), entry.getKey());
-                            break;
-                        }
-                    }
+                    QuestProgress qProgress = findQuestProgress(p, quest);
                     QuestDetailGui.create(guiManager, p, quest, qProgress).open(p);
                     playClickSound(p);
                 }

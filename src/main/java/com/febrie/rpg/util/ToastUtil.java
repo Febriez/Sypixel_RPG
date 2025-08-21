@@ -21,8 +21,11 @@ import java.util.List;
  * 퀘스트 진행도 Toast 알림 유틸리티
  * UltimateAdvancementAPI를 사용하여 퀘스트 진행 상황을 표시
  */
-@SuppressWarnings("deprecation") // UltimateAdvancementAPI uses Bungee ChatColor
 public class ToastUtil {
+
+    private ToastUtil() {
+        throw new UnsupportedOperationException("Utility class");
+    }
 
     private static final UltimateAdvancementAPI api = UltimateAdvancementAPI.getInstance(RPGMain.getPlugin());
 
@@ -59,7 +62,8 @@ public class ToastUtil {
         progressInfo.add(String.format("%s: %d%%", progressText, percentage));
 
         // Toast 표시
-        AdvancementDisplay display = new AdvancementDisplay.Builder(Material.WRITABLE_BOOK, questName).description(String.join("\n", progressInfo)).frame(AdvancementFrameType.TASK).defaultColor(net.md_5.bungee.api.ChatColor.AQUA).build();
+        AdvancementDisplay display = new AdvancementDisplay.Builder(Material.WRITABLE_BOOK, questName).description(String.join("\n", progressInfo))
+                .frame(AdvancementFrameType.TASK).defaultColor(net.md_5.bungee.api.ChatColor.AQUA).build();
 
         api.displayCustomToast(player, display);
     }
@@ -80,7 +84,8 @@ public class ToastUtil {
         // Toast 표시 - 제목: 퀘스트 이름, 내용: 목표 완료 메시지
         Component achievedComp = Component.translatable("quest.objective-achieved");
         String achievedText = PlainTextComponentSerializer.plainText().serialize(achievedComp);
-        AdvancementDisplay display = new AdvancementDisplay.Builder(Material.EMERALD, questName).description(objectiveDesc + achievedText).frame(AdvancementFrameType.TASK).defaultColor(net.md_5.bungee.api.ChatColor.GREEN).build();
+        AdvancementDisplay display = new AdvancementDisplay.Builder(Material.EMERALD, questName).description(objectiveDesc + achievedText)
+                .frame(AdvancementFrameType.TASK).defaultColor(net.md_5.bungee.api.ChatColor.GREEN).build();
 
         api.displayCustomToast(player, display);
     }
@@ -98,7 +103,8 @@ public class ToastUtil {
         String description = PlainTextComponentSerializer.plainText().serialize(descComp);
 
         // Toast 표시
-        AdvancementDisplay display = new AdvancementDisplay.Builder(Material.NETHER_STAR, questName).description(description).frame(AdvancementFrameType.CHALLENGE).defaultColor(net.md_5.bungee.api.ChatColor.GOLD).build();
+        AdvancementDisplay display = new AdvancementDisplay.Builder(Material.NETHER_STAR, questName).description(description)
+                .frame(AdvancementFrameType.CHALLENGE).defaultColor(net.md_5.bungee.api.ChatColor.GOLD).build();
 
         api.displayCustomToast(player, display);
     }

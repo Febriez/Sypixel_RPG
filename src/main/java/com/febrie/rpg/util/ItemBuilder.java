@@ -1,8 +1,10 @@
 package com.febrie.rpg.util;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TranslatableComponent;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.translation.GlobalTranslator;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -19,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 /**
@@ -30,6 +33,30 @@ import java.util.function.Consumer;
 public class ItemBuilder {
     private final ItemStack itemStack;
     private final ItemMeta itemMeta;
+    private Locale renderLocale = Locale.ENGLISH; // 기본 렌더링 로케일
+
+    /**
+     * 렌더링에 사용할 로케일 설정
+     * TranslatableComponent를 렌더링할 때 사용됩니다
+     *
+     * @param locale 렌더링 로케일
+     * @return This builder
+     */
+    public ItemBuilder locale(Locale locale) {
+        this.renderLocale = locale;
+        return this;
+    }
+
+    /**
+     * 플레이어의 로케일로 설정
+     *
+     * @param player 플레이어
+     * @return This builder
+     */
+    public ItemBuilder locale(Player player) {
+        this.renderLocale = player.locale();
+        return this;
+    }
 
     /**
      * Creates a new ItemBuilder with the specified material
@@ -70,11 +97,16 @@ public class ItemBuilder {
 
     /**
      * Sets the display name using Adventure Component
+     * Automatically renders TranslatableComponent using GlobalTranslator
      *
      * @param displayName The display name component
      * @return This builder
      */
     public ItemBuilder displayName(Component displayName) {
+        // TranslatableComponent인 경우 GlobalTranslator로 렌더링
+        if (displayName instanceof TranslatableComponent) {
+            displayName = GlobalTranslator.renderer().render(displayName, renderLocale);
+        }
         itemMeta.displayName(displayName.decoration(TextDecoration.ITALIC, false));
         return this;
     }
@@ -125,44 +157,46 @@ public class ItemBuilder {
 
     /**
      * Adds multiple lore lines from a List
+     * Automatically renders TranslatableComponent using GlobalTranslator
      *
      * @param lines The lore lines to add as a List
      * @return This builder
      */
     public ItemBuilder addLore(List<Component> lines) {
-        List<Component> lore = itemMeta.lore();
-        if (lore == null) lore = new ArrayList<>();
-
-        // 각 Component에 italic false 적용
-        for (Component line : lines) {
-            lore.add(line.decoration(TextDecoration.ITALIC, false));
-        }
-
-        itemMeta.lore(lore);
-        return this;
+        return addLoreComponents(lines);
     }
 
     /**
      * Sets the item name (different from display name, used for data packs)
+     * Automatically renders TranslatableComponent using GlobalTranslator
      *
      * @param itemName The item name component
      * @return This builder
      */
     public ItemBuilder itemName(Component itemName) {
+        // TranslatableComponent인 경우 GlobalTranslator로 렌더링
+        if (itemName instanceof TranslatableComponent) {
+            itemName = GlobalTranslator.renderer().render(itemName, renderLocale);
+        }
         itemMeta.itemName(itemName.decoration(TextDecoration.ITALIC, false));
         return this;
     }
 
     /**
      * Sets the lore using Adventure Components (List)
+     * Automatically renders TranslatableComponent using GlobalTranslator
      *
      * @param lore The lore components
      * @return This builder
      */
     public ItemBuilder lore(List<Component> lore) {
-        List<Component> nonItalicLore = lore.stream()
-                .map(component -> component.decoration(TextDecoration.ITALIC, false))
-                .toList();
+        List<Component> nonItalicLore = lore.stream().map(component -> {
+            // TranslatableComponent인 경우 GlobalTranslator로 렌더링
+            if (component instanceof TranslatableComponent) {
+                component = GlobalTranslator.renderer().render(component, renderLocale);
+            }
+            return component.decoration(TextDecoration.ITALIC, false);
+        }).toList();
         itemMeta.lore(nonItalicLore);
         return this;
     }
@@ -179,6 +213,7 @@ public class ItemBuilder {
 
     /**
      * Adds a single line to existing lore
+     * Automatically renders TranslatableComponent using GlobalTranslator
      *
      * @param line The line to add
      * @return This builder
@@ -186,6 +221,12 @@ public class ItemBuilder {
     public ItemBuilder addLore(Component line) {
         List<Component> lore = itemMeta.lore();
         if (lore == null) lore = new ArrayList<>();
+
+        // TranslatableComponent인 경우 GlobalTranslator로 렌더링
+        if (line instanceof TranslatableComponent) {
+            line = GlobalTranslator.renderer().render(line, Locale.ENGLISH);
+        }
+
         lore.add(line.decoration(TextDecoration.ITALIC, false));
         itemMeta.lore(lore);
         return this;
@@ -204,14 +245,34 @@ public class ItemBuilder {
 
     /**
      * Adds multiple lore lines at once
+     * Automatically renders TranslatableComponent using GlobalTranslator
      *
      * @param lines The lore lines to add
      * @return This builder
      */
     public ItemBuilder addLore(Component... lines) {
+        return addLoreComponents(Arrays.asList(lines));
+    }
+
+    /**
+     * Common method to add lore components
+     *
+     * @param components The components to add
+     * @return This builder
+     */
+    private ItemBuilder addLoreComponents(List<Component> components) {
         List<Component> lore = itemMeta.lore();
         if (lore == null) lore = new ArrayList<>();
-        lore.addAll(Arrays.asList(lines));
+
+        // 각 Component에 italic false 적용 및 TranslatableComponent 렌더링
+        for (Component line : components) {
+            // TranslatableComponent인 경우 GlobalTranslator로 렌더링
+            if (line instanceof TranslatableComponent) {
+                line = GlobalTranslator.renderer().render(line, renderLocale);
+            }
+            lore.add(line.decoration(TextDecoration.ITALIC, false));
+        }
+
         itemMeta.lore(lore);
         return this;
     }
@@ -256,22 +317,22 @@ public class ItemBuilder {
         itemMeta.addItemFlags(flags);
         return this;
     }
-    
+
     /**
      * 모든 아이템 플래그 추가 (자주 사용되는 패턴)
      * 아이템의 추가 정보(인챈트, 속성 등)를 숨깁니다
-     * 
+     *
      * @return This builder
      */
     public ItemBuilder hideAllFlags() {
         return addItemFlags(ItemFlag.values());
     }
-    
+
     /**
      * GUI 아이템용 표준 설정 적용
      * - 모든 플래그 숨김
      * - 빈 줄 추가 (선택사항)
-     * 
+     *
      * @param addEmptyLine 빈 줄을 추가할지 여부
      * @return This builder
      */
@@ -281,10 +342,10 @@ public class ItemBuilder {
         }
         return hideAllFlags();
     }
-    
+
     /**
      * GUI 아이템용 표준 설정 적용 (빈 줄 추가)
-     * 
+     *
      * @return This builder
      */
     public ItemBuilder asGuiItem() {

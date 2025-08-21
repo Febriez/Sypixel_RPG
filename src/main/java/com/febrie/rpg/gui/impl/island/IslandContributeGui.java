@@ -13,7 +13,10 @@ import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.StandardItemBuilder;
+import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.GuiHandlerUtil;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -38,7 +41,6 @@ import java.util.Arrays;
 public class IslandContributeGui extends BaseGui {
     
     private final IslandManager islandManager;
-    private final RPGPlayerManager playerManager;
     private final IslandDTO island;
     private final RPGPlayer rpgPlayer;
     // 빠른 기여 금액 옵션
@@ -47,9 +49,8 @@ public class IslandContributeGui extends BaseGui {
                                @NotNull RPGMain plugin, @NotNull IslandDTO island) {
         super(viewer, guiManager, 36, "gui.island.contribute.title"); // 4줄 GUI
         this.islandManager = plugin.getIslandManager();
-        this.playerManager = plugin.getRPGPlayerManager();
         this.island = island;
-        this.rpgPlayer = playerManager.getPlayer(viewer);
+        this.rpgPlayer = plugin.getRPGPlayerManager().getPlayer(viewer);
     }
     /**
      * Factory method to create and open the contribution GUI
@@ -163,20 +164,21 @@ public class IslandContributeGui extends BaseGui {
                         int amount = Integer.parseInt(input);
                         
                         if (amount < 100) {
-                            sendMessage(player, "gui.island.contribute.minimum-amount-error");
-                            return Arrays.asList(AnvilGUI.ResponseAction.close());
+                            player.sendMessage(LangManager.get("island.contribute.amount-too-low", player).color(NamedTextColor.RED));
+                            return List.of(AnvilGUI.ResponseAction.close());
                         }
                         // GUI 닫고 기여 처리
                         plugin.getServer().getScheduler().runTask(plugin, () -> {
                             contributeGold(player, amount);
                         });
                     } catch (NumberFormatException e) {
-                        sendMessage(player, "gui.island.contribute.invalid-number");
+                        player.sendMessage(LangManager.get("island.contribute.invalid-amount", player).color(NamedTextColor.RED));
                     }
-                    return Arrays.asList(AnvilGUI.ResponseAction.close());
+                    return List.of(AnvilGUI.ResponseAction.close());
                 })
-                .text(transString("gui.island.contribute.anvil.placeholder"))
-                .title(transString("gui.island.contribute.anvil.title"))
+                .text(LangManager.getString("island.gui.contribute.contribution-input-text", player))
+                .itemLeft(new ItemStack(Material.GOLD_INGOT))
+                .title(LangManager.getString("island.gui.contribute.contribution-input-title", player))
                 .plugin(plugin)
                 .open(player);
     }
@@ -201,13 +203,7 @@ public class IslandContributeGui extends BaseGui {
         long currentContribution = newContributions.getOrDefault(playerUuid, 0L);
         newContributions.put(playerUuid, currentContribution + amount);
         // 섬 업데이트
-        IslandCoreDTO updatedCore = new IslandCoreDTO(
-                island.core().islandId(), island.core().ownerUuid(), island.core().ownerName(),
-                island.core().islandName(), island.core().size(), island.core().isPublic(),
-                island.core().createdAt(), System.currentTimeMillis(),
-                island.core().totalResets(), island.core().deletionScheduledAt(),
-                island.core().location()
-        );
+        IslandCoreDTO updatedCore = GuiHandlerUtil.createUpdatedCore(island.core());
         
         IslandMembershipDTO updatedMembership = new IslandMembershipDTO(
                 island.core().islandId(),

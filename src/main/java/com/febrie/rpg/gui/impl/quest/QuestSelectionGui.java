@@ -46,8 +46,7 @@ public class QuestSelectionGui extends BaseGui {
      */
     public static QuestSelectionGui create(@NotNull GuiManager guiManager,
                                           @NotNull Player viewer, @NotNull List<Quest> quests, @NotNull String npcName) {
-        QuestSelectionGui gui = new QuestSelectionGui(viewer, guiManager, quests, npcName);
-        return gui;
+        return new QuestSelectionGui(viewer, guiManager, quests, npcName);
     }
     
     @Override
@@ -68,10 +67,9 @@ public class QuestSelectionGui extends BaseGui {
         
         // 퀘스트 아이템들 배치
         int slot = 10;
-        for (int i = 0; i < quests.size(); i++) {
+        for (Quest quest : quests) {
             if (slot % 9 == 8) slot += 2; // 다음 줄로
-            
-            Quest quest = quests.get(i);
+
             setItem(slot, createQuestItem(quest));
             slot++;
         }

@@ -151,5 +151,41 @@
     "rare": "Rare",
     "epic": "Epic",
     "legendary": "Legendary"
+  },
+  "island": {
+    "creation": {
+      "title": {
+        "name": "Create Island",
+        "lore": [
+          "Create your own island!",
+          "",
+          "▶ Click to configure"
+        ]
+      },
+      "name": {
+        "name": "Island Name",
+        "lore": [
+          "Set your island's name.",
+          "",
+          "▶ Click to change"
+        ]
+      },
+      "color": {
+        "name": "Island Color",
+        "lore": [
+          "Select your island's theme color.",
+          "",
+          "▶ Click to change"
+        ]
+      },
+      "biome": {
+        "name": "Island Biome",
+        "lore": [
+          "Select your island's biome.",
+          "",
+          "▶ Click to change"
+        ]
+      }
+    }
   }
 }

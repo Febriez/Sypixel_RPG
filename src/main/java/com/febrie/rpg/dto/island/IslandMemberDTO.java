@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import net.kyori.adventure.text.Component;
 /**
@@ -60,8 +61,8 @@ public record IslandMemberDTO(
      */
     @NotNull
     public static IslandMemberDTO fromMap(@NotNull Map<String, Object> map) {
-        String uuid = FirestoreUtils.getString(map, "uuid", "");
-        String name = FirestoreUtils.getString(map, "name", "");
+        String uuid = Objects.requireNonNull(FirestoreUtils.getString(map, "uuid", ""), "UUID cannot be null");
+        String name = Objects.requireNonNull(FirestoreUtils.getString(map, "name", ""), "Name cannot be null");
         boolean isCoOwner = FirestoreUtils.getBoolean(map, "isCoOwner", false);
         long joinedAt = FirestoreUtils.getLong(map, "joinedAt", System.currentTimeMillis());
         long lastActivity = FirestoreUtils.getLong(map, "lastActivity", System.currentTimeMillis());

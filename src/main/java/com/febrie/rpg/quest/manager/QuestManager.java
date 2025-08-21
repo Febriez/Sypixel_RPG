@@ -311,11 +311,13 @@ public class QuestManager {
 
         // 이미 진행 중인지 확인
         if (QuestManagerHelper.hasActiveQuest(playerData.activeQuests, questId)) {
+            plugin.getLogger().info("퀘스트 시작 실패 [" + player.getName() + "]: " + questId.name() + " - 이미 진행 중");
             return false;
         }
 
         Quest quest = getQuest(questId);
         if (quest == null) {
+            plugin.getLogger().warning("퀘스트 시작 실패 [" + player.getName() + "]: " + questId.name() + " - 퀘스트를 찾을 수 없음");
             return false;
         }
 
@@ -326,16 +328,19 @@ public class QuestManager {
         
         // 완료 불가 퀘스트
         if (completionLimit == 0) {
+            plugin.getLogger().info("퀘스트 시작 실패 [" + player.getName() + "]: " + questId.name() + " - 완료 불가 퀘스트");
             return false;
         }
         
         // 완료 횟수 제한 확인 (-1은 무제한)
         if (completionLimit > 0 && totalCompletions >= completionLimit) {
+            plugin.getLogger().info("퀘스트 시작 실패 [" + player.getName() + "]: " + questId.name() + " - 완료 횟수 제한 초과 (" + totalCompletions + "/" + completionLimit + ")");
             return false;
         }
 
         // 시작 조건 확인 - Player 객체는 이미 매개변수로 전달됨
         if (!quest.canStart(player)) {
+            plugin.getLogger().info("퀘스트 시작 실패 [" + player.getName() + "]: " + questId.name() + " - 시작 조건 미충족 (레벨: " + player.getLevel() + ", 필요 레벨: " + quest.getMinLevel() + ")");
             return false;
         }
 
@@ -354,11 +359,13 @@ public class QuestManager {
         
         // 선행 퀘스트 확인
         if (!quest.arePrerequisitesComplete(completedQuestIds)) {
+            plugin.getLogger().info("퀘스트 시작 실패 [" + player.getName() + "]: " + questId.name() + " - 선행 퀘스트 미완료");
             return false;
         }
 
         // 양자택일 퀘스트 확인
         if (quest.hasCompletedExclusiveQuests(completedQuestIds)) {
+            plugin.getLogger().info("퀘스트 시작 실패 [" + player.getName() + "]: " + questId.name() + " - 양자택일 퀘스트 이미 완료");
             return false;
         }
 
@@ -382,7 +389,8 @@ public class QuestManager {
 
         // 퀘스트 시작 알림
         QuestUtil.notifyQuestStart(player, quest, progress, plugin);
-
+        
+        plugin.getLogger().info("퀘스트 시작 완료 [" + player.getName() + "]: " + questId.name() + " (Instance: " + instanceId + ")");
         return true;
     }
 

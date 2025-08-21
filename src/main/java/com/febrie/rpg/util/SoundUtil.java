@@ -4,7 +4,6 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import net.kyori.adventure.text.Component;
 /**
  * 사운드 재생 유틸리티
  * GuiService에서 분리
@@ -27,21 +26,21 @@ public class SoundUtil {
     public static void playClickSound(@NotNull Player player) {
         playSound(player, Sound.UI_BUTTON_CLICK);
     }
-    
+
     /**
      * 레버 사운드 재생 (GUI 네비게이션)
      */
     public static void playLeverSound(@NotNull Player player) {
         playSound(player, Sound.BLOCK_LEVER_CLICK, 0.3f, 1.2f);
     }
-    
+
     /**
      * 레버 사운드 재생 (볼륨 조절)
      */
     public static void playLeverSound(@NotNull Player player, float volume) {
         sound(Sound.BLOCK_LEVER_CLICK).volume(volume).pitch(1.2f).play(player);
     }
-    
+
     /**
      * 책 넘기는 사운드 재생 (뒤로가기)
      */
@@ -55,7 +54,7 @@ public class SoundUtil {
     public static void playSuccessSound(@NotNull Player player) {
         playSound(player, Sound.ENTITY_PLAYER_LEVELUP);
     }
-    
+
     /**
      * 성공 사운드 재생 (볼륨 조절)
      */
@@ -69,7 +68,7 @@ public class SoundUtil {
     public static void playErrorSound(@NotNull Player player) {
         playSound(player, Sound.ENTITY_VILLAGER_NO);
     }
-    
+
     /**
      * 에러 사운드 재생 (볼륨 조절)
      */
@@ -104,7 +103,7 @@ public class SoundUtil {
     public static void playOpenSound(@NotNull Player player) {
         playSound(player, Sound.BLOCK_CHEST_OPEN);
     }
-    
+
     /**
      * GUI 열기 사운드 재생 (볼륨 조절)
      */
@@ -118,7 +117,7 @@ public class SoundUtil {
     public static void playCloseSound(@NotNull Player player) {
         playSound(player, Sound.BLOCK_CHEST_CLOSE);
     }
-    
+
     /**
      * GUI 닫기 사운드 재생 (볼륨 조절)
      */
@@ -180,21 +179,21 @@ public class SoundUtil {
             playSound(player, sound, volume, pitch);
         }
     }
-    
+
     /**
      * 아이템 픽업 사운드 재생 (보상 수령)
      */
     public static void playItemPickupSound(@NotNull Player player) {
         playSound(player, Sound.ENTITY_ITEM_PICKUP, 0.5f, 1.0f);
     }
-    
+
     /**
      * 삭제 사운드 재생
      */
     public static void playDeleteSound(@NotNull Player player) {
         playSound(player, Sound.ENTITY_ITEM_BREAK, 0.5f, 0.8f);
     }
-    
+
     /**
      * 보상 수령 사운드 재생
      */
@@ -207,8 +206,7 @@ public class SoundUtil {
      */
     public static void playSoundNearby(@NotNull Player source, @NotNull Sound sound, double radius) {
         source.getWorld().getNearbyEntities(source.getLocation(), radius, radius, radius).stream()
-                .filter(entity -> entity instanceof Player)
-                .map(entity -> (Player) entity)
+                .filter(entity -> entity instanceof Player).map(entity -> (Player) entity)
                 .forEach(player -> playSound(player, sound));
     }
 }

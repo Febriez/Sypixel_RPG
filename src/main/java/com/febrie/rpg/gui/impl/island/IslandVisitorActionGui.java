@@ -9,6 +9,7 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.listener.IslandVisitListener;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.UnifiedColorUtil;
+import com.febrie.rpg.util.UnifiedTimeUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -84,7 +85,7 @@ public class IslandVisitorActionGui extends BaseGui {
      */
     private GuiItem createPlayerInfoItem() {
         String playerName = visitor.getPlayerName();
-        String duration = formatDuration(visitor.getCurrentDuration());
+        String duration = UnifiedTimeUtil.formatDuration(visitor.getCurrentDuration());
         
         ItemStack item = new ItemBuilder(Material.PLAYER_HEAD)
                 .displayName(Component.text(playerName, UnifiedColorUtil.YELLOW))
@@ -378,23 +379,6 @@ public class IslandVisitorActionGui extends BaseGui {
         playClickSound(player);
     }
     
-    /**
-     * 경과 시간 포맷 (밀리초 -> 시:분:초)
-     */
-    private String formatDuration(long milliseconds) {
-        long seconds = milliseconds / 1000;
-        if (seconds < 60) {
-            return seconds + "초";
-        }
-        
-        long minutes = seconds / 60;
-        if (minutes < 60) {
-            return minutes + "분 " + (seconds % 60) + "초";
-        }
-        
-        long hours = minutes / 60;
-        return hours + "시간 " + (minutes % 60) + "분";
-    }
     
     /**
      * 타임스탬프 포맷 (밀리초 -> HH:mm:ss)

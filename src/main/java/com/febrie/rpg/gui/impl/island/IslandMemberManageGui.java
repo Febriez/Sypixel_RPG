@@ -13,7 +13,10 @@ import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.StandardItemBuilder;
+import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.GuiHandlerUtil;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -317,16 +320,17 @@ public class IslandMemberManageGui extends BaseGui {
                     }
                     
                     String input = stateSnapshot.getText();
-                    if (!"추방".equals(input)) {
-                        player.sendMessage(UnifiedColorUtil.parse("&c'추방'을 정확히 입력해야 합니다."));
+                    String confirmWord = LangManager.getString("island.member.kick-confirm-word", player);
+                    if (!confirmWord.equals(input)) {
+                        player.sendMessage(LangManager.get("island.member.kick-input-error", player).color(NamedTextColor.RED));
                         return Arrays.asList(AnvilGUI.ResponseAction.close());
                     }
                     // 추방 실행
                     performKick(player);
                     return Arrays.asList(AnvilGUI.ResponseAction.close());
                 })
-                .text("'추방' 입력")
-                .title(targetName + "을(를) 추방하려면 '추방' 입력")
+                .text(LangManager.getString("island.member.kick-input-text", player))
+                .title(LangManager.getString("island.member.kick-input-title", player))
                 .plugin(plugin)
                 .open(player);
     }
@@ -357,13 +361,7 @@ public class IslandMemberManageGui extends BaseGui {
     }
     
     private void updateIslandMembers(List<IslandMemberDTO> members, List<IslandWorkerDTO> workers) {
-        IslandCoreDTO updatedCore = new IslandCoreDTO(
-                island.core().islandId(), island.core().ownerUuid(), island.core().ownerName(),
-                island.core().islandName(), island.core().size(), island.core().isPublic(),
-                island.core().createdAt(), System.currentTimeMillis(),
-                island.core().totalResets(), island.core().deletionScheduledAt(),
-                island.core().location()
-        );
+        IslandCoreDTO updatedCore = GuiHandlerUtil.createUpdatedCore(island.core());
         
         IslandMembershipDTO updatedMembership = new IslandMembershipDTO(
                 island.core().islandId(),

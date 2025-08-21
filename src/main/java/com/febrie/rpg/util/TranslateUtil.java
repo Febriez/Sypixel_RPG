@@ -150,8 +150,7 @@ public final class TranslateUtil {
      * @return Feedback component
      */
     public static @NotNull Component commandFeedback(String key, Component... args) {
-        return Component.translatable("commands." + key, args)
-                .color(NamedTextColor.GRAY);
+        return Component.translatable("commands." + key, args).color(NamedTextColor.GRAY);
     }
 
     /**
@@ -162,8 +161,7 @@ public final class TranslateUtil {
      * @return Error component in red
      */
     public static @NotNull Component errorMessage(String key, Component... args) {
-        return Component.translatable(key, args)
-                .color(NamedTextColor.RED);
+        return Component.translatable(key, args).color(NamedTextColor.RED);
     }
 
     /**
@@ -174,8 +172,7 @@ public final class TranslateUtil {
      * @return Success component in green
      */
     public static @NotNull Component successMessage(String key, Component... args) {
-        return Component.translatable(key, args)
-                .color(NamedTextColor.GREEN);
+        return Component.translatable(key, args).color(NamedTextColor.GREEN);
     }
 
     /**
@@ -185,8 +182,7 @@ public final class TranslateUtil {
      * @return GUI title component
      */
     public static @NotNull Component guiTitle(String key) {
-        return Component.translatable(key)
-                .decoration(TextDecoration.ITALIC, false);
+        return Component.translatable(key).decoration(TextDecoration.ITALIC, false);
     }
 
     /**
@@ -210,8 +206,7 @@ public final class TranslateUtil {
      */
     @Contract("_, _ -> new")
     public static @NotNull Component formatPercentage(String key, double percentage) {
-        return Component.translatable(key,
-                Component.text(String.format("%.1f%%", percentage)));
+        return Component.translatable(key, Component.text(String.format("%.1f%%", percentage)));
     }
 
     /**
@@ -235,8 +230,7 @@ public final class TranslateUtil {
      * @param args        Additional arguments
      * @return Appropriate translatable component
      */
-    public static @NotNull TranslatableComponent plural(String singularKey, String pluralKey,
-                                                        int count, Component @NotNull ... args) {
+    public static @NotNull TranslatableComponent plural(String singularKey, String pluralKey, int count, Component @NotNull ... args) {
         String key = count == 1 ? singularKey : pluralKey;
         Component[] allArgs = new Component[args.length + 1];
         allArgs[0] = Component.text(count);
@@ -251,9 +245,7 @@ public final class TranslateUtil {
      * @return Keybind component
      */
     public static @NotNull Component keybind(String key) {
-        return Component.keybind(key)
-                .color(NamedTextColor.YELLOW)
-                .decoration(TextDecoration.BOLD, true);
+        return Component.keybind(key).color(NamedTextColor.YELLOW).decoration(TextDecoration.BOLD, true);
     }
 
     /**
@@ -265,10 +257,8 @@ public final class TranslateUtil {
      */
     @Contract("_, _ -> new")
     public static @NotNull Component keybindInstruction(String actionKey, String keybindKey) {
-        return Component.translatable(actionKey,
-                Component.keybind(keybindKey)
-                        .color(NamedTextColor.YELLOW)
-                        .decoration(TextDecoration.BOLD, true));
+        return Component.translatable(actionKey, Component.keybind(keybindKey).color(NamedTextColor.YELLOW)
+                .decoration(TextDecoration.BOLD, true));
     }
 
     /**
@@ -279,8 +269,7 @@ public final class TranslateUtil {
      * @return Formatted objective name
      */
     public static @NotNull Component scoreboardObjective(String key, Component... args) {
-        return Component.translatable(key, args)
-                .decoration(TextDecoration.ITALIC, false)
+        return Component.translatable(key, args).decoration(TextDecoration.ITALIC, false)
                 .decoration(TextDecoration.BOLD, true);
     }
 
@@ -292,20 +281,7 @@ public final class TranslateUtil {
      */
     public static boolean isVanillaKey(@NotNull String key) {
         // Common vanilla translation key prefixes
-        return key.startsWith("block.") ||
-                key.startsWith("item.") ||
-                key.startsWith("entity.") ||
-                key.startsWith("effect.") ||
-                key.startsWith("enchantment.") ||
-                key.startsWith("death.") ||
-                key.startsWith("commands.") ||
-                key.startsWith("chat.") ||
-                key.startsWith("gui.") ||
-                key.startsWith("options.") ||
-                key.startsWith("key.") ||
-                key.startsWith("selectWorld.") ||
-                key.startsWith("multiplayer.") ||
-                key.startsWith("narrator.");
+        return key.startsWith("block.") || key.startsWith("item.") || key.startsWith("entity.") || key.startsWith("effect.") || key.startsWith("enchantment.") || key.startsWith("death.") || key.startsWith("commands.") || key.startsWith("chat.") || key.startsWith("gui.") || key.startsWith("options.") || key.startsWith("key.") || key.startsWith("selectWorld.") || key.startsWith("multiplayer.") || key.startsWith("narrator.");
     }
 
     /**
@@ -317,9 +293,6 @@ public final class TranslateUtil {
      */
     @Contract("_, _ -> new")
     public static @NotNull TranslatableComponent withFallback(String key, String fallback) {
-        return Component.translatable()
-                .key(key)
-                .fallback(fallback)
-                .build();
+        return Component.translatable().key(key).fallback(fallback).build();
     }
 }

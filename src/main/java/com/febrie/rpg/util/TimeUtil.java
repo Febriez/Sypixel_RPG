@@ -55,24 +55,19 @@ public final class TimeUtil {
         StringBuilder result = new StringBuilder();
 
         if (days > 0) {
-            result.append(days)
-                    .append(shortFormat ? "d " : (days == 1 ? " day " : " days "));
+            result.append(days).append(shortFormat ? "d " : (days == 1 ? " day " : " days "));
         }
         if (hours > 0) {
-            result.append(hours)
-                    .append(shortFormat ? "h " : (hours == 1 ? " hour " : " hours "));
+            result.append(hours).append(shortFormat ? "h " : (hours == 1 ? " hour " : " hours "));
         }
         if (minutes > 0) {
-            result.append(minutes)
-                    .append(shortFormat ? "m " : (minutes == 1 ? " minute " : " minutes "));
+            result.append(minutes).append(shortFormat ? "m " : (minutes == 1 ? " minute " : " minutes "));
         }
         if (seconds > 0) {
-            result.append(seconds)
-                    .append(shortFormat ? "s" : (seconds == 1 ? " second" : " seconds"));
+            result.append(seconds).append(shortFormat ? "s" : (seconds == 1 ? " second" : " seconds"));
         }
 
-        return result.toString()
-                .trim();
+        return result.toString().trim();
     }
 
     /**
@@ -110,8 +105,7 @@ public final class TimeUtil {
             throw new IllegalArgumentException("Time string cannot be null or empty");
         }
 
-        String newTimeString = timeString.toLowerCase()
-                .replaceAll("\\s+", "");
+        String newTimeString = timeString.toLowerCase().replaceAll("\\s+", "");
         long totalMillis = 0;
 
         // Pattern matches: number followed by unit (d/h/m/s)
@@ -278,7 +272,6 @@ public final class TimeUtil {
      * @return Formatted component
      */
     public static @NotNull Component formatTimeComponent(String prefix, long millis, TextColor color) {
-        return Component.text(prefix, color)
-                .append(Component.text(formatTime(millis), NamedTextColor.WHITE));
+        return Component.text(prefix, color).append(Component.text(formatTime(millis), NamedTextColor.WHITE));
     }
 }

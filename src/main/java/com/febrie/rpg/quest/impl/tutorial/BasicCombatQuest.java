@@ -82,7 +82,12 @@ public class BasicCombatQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.tutorial.basic-combat.description") manually */;
+        return Arrays.asList(
+                Component.translatable("quest.tutorial.basic-combat.description[0]"),
+                Component.translatable("quest.tutorial.basic-combat.description[1]"),
+                Component.translatable("quest.tutorial.basic-combat.description[2]"),
+                Component.translatable("quest.tutorial.basic-combat.description[3]")
+        );
     }
 
     @Override

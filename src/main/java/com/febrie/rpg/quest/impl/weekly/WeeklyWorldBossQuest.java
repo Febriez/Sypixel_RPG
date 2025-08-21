@@ -110,7 +110,34 @@ public class WeeklyWorldBossQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.weekly.world_boss.description") manually */;
+        return Arrays.asList(
+                Component.translatable("quest.weekly.world_boss.description[0]"),
+                Component.translatable("quest.weekly.world_boss.description[1]"),
+                Component.translatable("quest.weekly.world_boss.description[2]"),
+                Component.translatable("quest.weekly.world_boss.description[3]"),
+                Component.translatable("quest.weekly.world_boss.description[4]"),
+                Component.translatable("quest.weekly.world_boss.description[5]"),
+                Component.translatable("quest.weekly.world_boss.description[6]"),
+                Component.translatable("quest.weekly.world_boss.description[7]"),
+                Component.translatable("quest.weekly.world_boss.description[8]"),
+                Component.translatable("quest.weekly.world_boss.description[9]"),
+                Component.translatable("quest.weekly.world_boss.description[10]"),
+                Component.translatable("quest.weekly.world_boss.description[11]"),
+                Component.translatable("quest.weekly.world_boss.description[12]"),
+                Component.translatable("quest.weekly.world_boss.description[13]"),
+                Component.translatable("quest.weekly.world_boss.description[14]"),
+                Component.translatable("quest.weekly.world_boss.description[15]"),
+                Component.translatable("quest.weekly.world_boss.description[16]"),
+                Component.translatable("quest.weekly.world_boss.description[17]"),
+                Component.translatable("quest.weekly.world_boss.description[18]"),
+                Component.translatable("quest.weekly.world_boss.description[19]"),
+                Component.translatable("quest.weekly.world_boss.description[20]"),
+                Component.translatable("quest.weekly.world_boss.description[21]"),
+                Component.translatable("quest.weekly.world_boss.description[22]"),
+                Component.translatable("quest.weekly.world_boss.description[23]"),
+                Component.translatable("quest.weekly.world_boss.description[24]"),
+                Component.translatable("quest.weekly.world_boss.description[25]")
+            );
     }
 
     @Override
@@ -182,7 +209,7 @@ public class WeeklyWorldBossQuest extends Quest {
                     Component.translatable("quest.weekly.world_boss.objectives.deliver_soul");
             case "claim_rewards" ->
                     Component.translatable("quest.weekly.world_boss.objectives.claim_rewards");
-            default -> Component.text(objective.getStatusInfo(null));
+            default -> Component.text(objective.getStatusInfo(who));
         };
     }
 

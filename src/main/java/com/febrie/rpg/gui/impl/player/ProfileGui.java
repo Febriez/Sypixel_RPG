@@ -208,7 +208,8 @@ public class ProfileGui extends BaseGui {
      * Sets up player statistics section
      */
     private void setupStatsSection() {
-        // This section is handled in setupActionButtons
+        // TODO: Implement stats section display
+        // This section is currently handled in setupActionButtons
     }
 
     private void setupActionButtons() {
@@ -294,7 +295,7 @@ public class ProfileGui extends BaseGui {
             GuiItem jobButton = GuiItem.clickable(
                     ItemBuilder.of(Material.ENCHANTING_TABLE)
                             .displayName(trans("items.mainmenu.job-button.name"))
-                            .addLore(List.of() /* TODO: Convert LangManager.getList("items.mainmenu.job-button.lore") manually */)
+                            .addLore(LangManager.getList("items.mainmenu.job-button.lore", viewer))
                             .glint(true)
                             .build(),
                     p -> {
@@ -354,7 +355,7 @@ public class ProfileGui extends BaseGui {
         GuiItem statsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.IRON_CHESTPLATE)
                         .displayName(trans("items.mainmenu.stats-button.name"))
-                        .addLore(List.of() /* TODO: Convert LangManager.getList("items.mainmenu.stats-button.lore") manually */)
+                        .addLore(LangManager.getList("items.mainmenu.stats-button.lore", viewer))
                         .flags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES)
                         .build(),
                 p -> {

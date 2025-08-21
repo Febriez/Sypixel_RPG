@@ -7,6 +7,7 @@ import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
+import com.febrie.rpg.util.UnifiedTimeUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -125,7 +126,7 @@ public class IslandVisitorGui extends BaseGui {
         String playerName = offlinePlayer.getName() != null ? offlinePlayer.getName() : "알 수 없음";
         // 방문 시간 포맷
         String visitTime = DateFormatUtil.formatSlashDateTimeFromMillis(visit.visitedAt());
-        String duration = formatDuration(visit.duration());
+        String duration = UnifiedTimeUtil.formatDuration(visit.duration());
         // 모든 방문자 동일한 색상 사용
         String nameColor = "&f";
         ItemStack item = new ItemBuilder(Material.PLAYER_HEAD)
@@ -142,18 +143,6 @@ public class IslandVisitorGui extends BaseGui {
         return item;
     }
     
-    private String formatDuration(long milliseconds) {
-        long seconds = milliseconds / 1000;
-        if (seconds < 60) {
-            return seconds + "초";
-        }
-        long minutes = seconds / 60;
-        if (minutes < 60) {
-            return minutes + "분 " + (seconds % 60) + "초";
-        }
-        long hours = minutes / 60;
-        return hours + "시간 " + (minutes % 60) + "분";
-    }
     
     private ItemStack createStatisticsItem() {
         // 통계 계산
@@ -193,7 +182,7 @@ public class IslandVisitorGui extends BaseGui {
         if (longestStay != null) {
             OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(longestStay));
             String name = player.getName() != null ? player.getName() : "알 수 없음";
-            lore.add("&7최장 체류: &a" + name + " &7(" + formatDuration(maxDuration) + ")");
+            lore.add("&7최장 체류: &a" + name + " &7(" + UnifiedTimeUtil.formatDuration(maxDuration) + ")");
         }
         List<Component> componentLore = new ArrayList<>();
         for (String line : lore) {

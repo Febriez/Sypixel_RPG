@@ -119,7 +119,7 @@ public class ArenaGladiatorQuest extends Quest {
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return Component.translatable("quest.arena_gladiator.objective.", Component.text(objective.getStatusInfo(null)));
+        return Component.translatable("quest.arena_gladiator.objective.", Component.text(objective.getStatusInfo(who)));
     }
 
     public QuestDialog getDialog() {

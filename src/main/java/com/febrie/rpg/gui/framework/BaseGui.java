@@ -11,6 +11,7 @@ import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -83,10 +84,13 @@ public abstract class BaseGui implements InteractiveGui {
     protected abstract void setupLayout();
 
     /**
-     * GUI 타이틀 - 하위 클래스에서 구현
+     * GUI 타이틀 - titleKey 기반으로 생성
      */
     @Override
-    public abstract @NotNull Component getTitle();
+    public @NotNull Component getTitle() {
+        Component title = Component.translatable(titleKey, Arrays.stream(titleArgs).map(Component::text).toArray(Component[]::new));
+        return applyTitleStyle(title);
+    }
     
     /**
      * GUI 타이틀 색상과 스타일을 가져옴 - 하위 클래스에서 오버라이드 가능
@@ -378,8 +382,8 @@ public abstract class BaseGui implements InteractiveGui {
      * 번역된 문자열 가져오기 (간편 메소드)
      */
     protected String transString(@NotNull String key, @NotNull String... args) {
-        net.kyori.adventure.text.Component comp = Component.translatable(key, Arrays.stream(args).map(Component::text).toArray(Component[]::new));
-        return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(comp);
+        Component comp = Component.translatable(key, Arrays.stream(args).map(Component::text).toArray(Component[]::new));
+        return PlainTextComponentSerializer.plainText().serialize(comp);
     }
 
     /**
