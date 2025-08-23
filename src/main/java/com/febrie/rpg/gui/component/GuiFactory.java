@@ -1,8 +1,8 @@
 package com.febrie.rpg.gui.component;
 
-import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -30,8 +30,9 @@ public class GuiFactory {
     public static GuiItem createCloseButton(@NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(Material.BARRIER)
-                        .displayName(Component.translatable("gui.buttons.close.name"))
-                        .addLore(Component.translatable("gui.buttons.close.lore"))
+                        .locale(player.locale())
+                        .displayNameTranslated("items.gui.buttons.close.name")
+                        .addLoreTranslated("items.gui.buttons.close.lore")
                         .asGuiItem(false)
                         .build(),
                 Player::closeInventory
@@ -45,8 +46,9 @@ public class GuiFactory {
     public static GuiItem createBackButton(@NotNull Consumer<Player> action, @NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(Material.ARROW)
-                        .displayName(Component.translatable("gui.buttons.back.name"))
-                        .addLore(Component.translatable("gui.buttons.back.lore"))
+                        .locale(player.locale())
+                        .displayNameTranslated("items.gui.buttons.back.name")
+                        .addLoreTranslated("items.gui.buttons.back.lore")
                         .asGuiItem(false)
                         .build(),
                 action
@@ -59,8 +61,9 @@ public class GuiFactory {
     public static GuiItem createRefreshButton(@NotNull Runnable action, @NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(Material.EMERALD)
-                        .displayName(Component.translatable("gui.buttons.refresh.name"))
-                        .addLore(Component.translatable("gui.buttons.refresh.lore"))
+                        .locale(player.locale())
+                        .displayNameTranslated("items.gui.buttons.refresh.name")
+                        .addLoreTranslated("items.gui.buttons.refresh.lore")
                         .asGuiItem(false)
                         .build(),
                 p -> action.run()
@@ -73,8 +76,9 @@ public class GuiFactory {
     public static GuiItem createNextPageButton(@NotNull Consumer<Player> action, @NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(Material.ARROW)
-                        .displayName(Component.translatable("gui.buttons.next-page.name"))
-                        .addLore(Component.translatable("gui.buttons.next-page.lore"))
+                        .locale(player.locale())
+                        .displayNameTranslated("items.gui.buttons.next-page.name")
+                        .addLoreTranslated("items.gui.buttons.next-page.lore")
                         .asGuiItem(false)
                         .build(),
                 action
@@ -87,8 +91,9 @@ public class GuiFactory {
     public static GuiItem createPreviousPageButton(@NotNull Consumer<Player> action, @NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(Material.ARROW)
-                        .displayName(Component.translatable("gui.buttons.previous-page.name"))
-                        .addLore(Component.translatable("gui.buttons.previous-page.lore"))
+                        .locale(player.locale())
+                        .displayNameTranslated("items.gui.buttons.previous-page.name")
+                        .addLoreTranslated("items.gui.buttons.previous-page.lore")
                         .asGuiItem(false)
                         .build(),
                 action
@@ -119,7 +124,8 @@ public class GuiFactory {
     public static GuiItem createPlaceholder(@NotNull String text, @NotNull Player player) {
         return GuiItem.display(
                 new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)
-                        .displayName(Component.translatable(text))
+                        .locale(player.locale())
+                        .displayNameTranslated(text)
                         .build()
         );
     }
@@ -130,8 +136,9 @@ public class GuiFactory {
     public static GuiItem createErrorItem(@NotNull String message, @NotNull Player player) {
         return GuiItem.display(
                 new ItemBuilder(Material.BARRIER)
-                        .displayName(Component.translatable("gui.error.title").color(NamedTextColor.RED))
-                        .addLore(Component.translatable(message))
+                        .locale(player.locale())
+                        .displayNameTranslated("items.gui.error.title")
+                        .addLoreTranslated(message)
                         .build()
         );
     }
@@ -143,7 +150,6 @@ public class GuiFactory {
      * @param nameKey 이름 번역 키
      * @param loreKey 설명 번역 키
      * @param action 클릭 시 동작
-     * @param langManager 언어 관리자
      * @param player 플레이어
      * @return 생성된 메뉴 버튼
      */
@@ -152,8 +158,9 @@ public class GuiFactory {
                                            @NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(material)
-                        .displayName(Component.translatable(nameKey))
-                        .addLore(Component.translatable(loreKey))
+                        .locale(player.locale())
+                        .displayNameTranslated(nameKey)
+                        .addLoreTranslated(loreKey)
                         .asGuiItem()
                         .build(),
                 action
@@ -204,8 +211,9 @@ public class GuiFactory {
     public static GuiItem createInfoItem(@NotNull String title, @NotNull String lore, @NotNull Player player) {
         return GuiItem.display(
                 new ItemBuilder(Material.BOOK)
-                        .displayName(Component.translatable(title))
-                        .addLore(Component.translatable(lore))
+                        .locale(player.locale())
+                        .displayNameTranslated(title)
+                        .addLoreTranslated(lore)
                         .build()
         );
     }
@@ -216,8 +224,9 @@ public class GuiFactory {
     public static GuiItem createConfirmButton(@NotNull Consumer<Player> action, @NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(Material.LIME_STAINED_GLASS_PANE)
-                        .displayName(Component.translatable("gui.buttons.confirm.name"))
-                        .addLore(Component.translatable("gui.buttons.confirm.lore"))
+                        .locale(player.locale())
+                        .displayNameTranslated("items.gui.buttons.confirm.name")
+                        .addLoreTranslated("items.gui.buttons.confirm.lore")
                         .build(),
                 action
         );
@@ -229,8 +238,9 @@ public class GuiFactory {
     public static GuiItem createCancelButton(@NotNull Consumer<Player> action, @NotNull Player player) {
         return GuiItem.clickable(
                 new ItemBuilder(Material.RED_STAINED_GLASS_PANE)
-                        .displayName(Component.translatable("gui.buttons.cancel.name"))
-                        .addLore(Component.translatable("gui.buttons.cancel.lore"))
+                        .locale(player.locale())
+                        .displayNameTranslated("items.gui.buttons.cancel.name")
+                        .addLoreTranslated("items.gui.buttons.cancel.lore")
                         .build(),
                 action
         );
@@ -242,12 +252,13 @@ public class GuiFactory {
     public static GuiItem createToggleButton(boolean state, @NotNull String nameKey, @NotNull Consumer<Player> action,
                                              @NotNull Player player) {
         Material material = state ? Material.LIME_DYE : Material.GRAY_DYE;
-        String statusKey = state ? "gui.buttons.toggle.enabled" : "gui.buttons.toggle.disabled";
+        String statusKey = state ? "items.gui.buttons.toggle.enabled" : "items.gui.buttons.toggle.disabled";
 
         return GuiItem.clickable(
                 new ItemBuilder(material)
-                        .displayName(Component.translatable(nameKey))
-                        .addLore(Component.translatable(statusKey))
+                        .locale(player.locale())
+                        .displayNameTranslated(nameKey)
+                        .addLoreTranslated(statusKey)
                         .build(),
                 action
         );
@@ -258,10 +269,15 @@ public class GuiFactory {
      * 페이지 정보 표시 아이템 생성
      */
     public static GuiItem createPageInfo(int currentPage, int totalPages, @NotNull Player player) {
+        // 페이지 정보는 동적 데이터를 포함하므로 Component로 직접 처리
+        Component pageTitle = LangManager.getItemComponent("items.gui.buttons.page-info.name", player.locale());
+        Component pageInfo = LangManager.getComponent("gui.buttons.page-info.lore", player.locale(), 
+                                                      Component.text(currentPage), Component.text(totalPages));
+        
         return GuiItem.display(
                 new ItemBuilder(Material.PAPER)
-                        .displayName(Component.translatable("gui.buttons.page-info.name"))
-                        .addLore(Component.translatable("gui.buttons.page-info.lore", Component.text(currentPage), Component.text(totalPages)))
+                        .displayName(pageTitle)
+                        .addLore(pageInfo)
                         .build()
         );
     }
@@ -271,12 +287,13 @@ public class GuiFactory {
      */
     public static GuiItem createStatusIndicator(@NotNull String status, boolean isOnline, @NotNull Player player) {
         Material material = isOnline ? Material.LIME_DYE : Material.RED_DYE;
-        Component statusComponent = Component.translatable(isOnline ? "gui.buttons.status.online" : "gui.buttons.status.offline");
+        String statusKey = isOnline ? "items.gui.buttons.status.online" : "items.gui.buttons.status.offline";
 
         return GuiItem.display(
                 new ItemBuilder(material)
+                        .locale(player.locale())
                         .displayName(Component.text(status, isOnline ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
-                        .addLore(statusComponent)
+                        .addLoreTranslated(statusKey)
                         .build()
         );
     }

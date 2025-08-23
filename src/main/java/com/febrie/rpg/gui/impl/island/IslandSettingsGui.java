@@ -18,12 +18,9 @@ import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Collections;
 
 /**
@@ -45,7 +42,7 @@ public class IslandSettingsGui extends BaseGui {
     
     private IslandSettingsGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                              @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, "gui.island.settings.title");
+        super(viewer, guiManager, 54, Component.translatable("gui.island.settings.title"));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.isOwner = island.core().ownerUuid().equals(viewer.getUniqueId().toString());
@@ -100,65 +97,58 @@ public class IslandSettingsGui extends BaseGui {
     }
     
     private ItemStack createIslandInfoItem() {
-        return new ItemBuilder(Material.GRASS_BLOCK)
-                .displayName(UnifiedColorUtil.parseComponent("&6&l" + island.core().islandName()))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7섬 ID: &f" + island.core().islandId()))
-                .addLore(UnifiedColorUtil.parseComponent("&7섬장: &f" + island.core().ownerName()))
-                .addLore(UnifiedColorUtil.parseComponent("&7멤버 수: &f" + (1 + island.membership().members().size()) + "명"))
-                .addLore(UnifiedColorUtil.parseComponent("&7상태: " + (island.core().isPublic() ? "&a공개" : "&c비공개")))
+        return ItemBuilder.of(Material.GRASS_BLOCK, viewer.locale())
+                .displayNameTranslated("items.island.settings.info.name")
+                .addLore(Component.empty())
+                .addLore(LangManager.get("gui.island.settings.id", viewer, Component.text(island.core().islandId())))
+                .addLore(LangManager.get("gui.island.settings.owner", viewer, Component.text(island.core().ownerName())))
+                .addLore(LangManager.get("gui.island.settings.members", viewer, Component.text((1 + island.membership().members().size()))))
+                .addLore(LangManager.get("gui.island.settings.status", viewer, 
+                        Component.translatable(island.core().isPublic() ? "status.public" : "status.private")))
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createNameChangeItem() {
-        return new ItemBuilder(Material.NAME_TAG)
-                .displayName(UnifiedColorUtil.parseComponent("&e&l섬 이름 변경"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7현재 이름: &f" + tempIslandName))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7섬 이름을 변경합니다"))
-                .addLore(UnifiedColorUtil.parseComponent("&7최대 20자까지 가능합니다"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 변경"))
+        return ItemBuilder.of(Material.NAME_TAG, viewer.locale())
+                .displayNameTranslated("items.island.settings.name-change.name")
+                .addLore(Component.empty())
+                .addLore(LangManager.get("gui.island.settings.current-name", viewer, Component.text(tempIslandName)))
+                .addLore(Component.empty())
+                .addLoreTranslated("items.island.settings.name-change.lore")
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createPublicToggleItem() {
-        return new ItemBuilder(tempIsPublic ? Material.LIME_DYE : Material.GRAY_DYE)
-                .displayName(UnifiedColorUtil.parseComponent(tempIsPublic ? "&a&l공개 섬" : "&c&l비공개 섬"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7현재 상태: " + (tempIsPublic ? "&a공개" : "&c비공개")))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7공개 섬: 모든 플레이어가 방문 가능"))
-                .addLore(UnifiedColorUtil.parseComponent("&7비공개 섬: 초대받은 플레이어만 방문 가능"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 전환"))
+        return ItemBuilder.of(tempIsPublic ? Material.LIME_DYE : Material.GRAY_DYE, viewer.locale())
+                .displayNameTranslated(tempIsPublic ? "items.island.settings.public.name" : "items.island.settings.private.name")
+                .addLore(Component.empty())
+                .addLore(LangManager.get("gui.island.settings.current-status", viewer, 
+                        Component.translatable(tempIsPublic ? "status.public" : "status.private")))
+                .addLore(Component.empty())
+                .addLoreTranslated("items.island.settings.public-toggle.lore")
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createBiomeChangeItem() {
-        return new ItemBuilder(Material.OAK_SAPLING)
-                .displayName(UnifiedColorUtil.parseComponent("&b&l바이옴 변경"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7현재 바이옴: &f" + getBiomeDisplayName(tempBiome)))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7섬의 바이옴을 변경합니다"))
-                .addLore(UnifiedColorUtil.parseComponent("&7날씨와 환경이 변경됩니다"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 변경"))
+        return ItemBuilder.of(Material.OAK_SAPLING, viewer.locale())
+                .displayNameTranslated("items.island.settings.biome-change.name")
+                .addLore(Component.empty())
+                .addLore(LangManager.get("gui.island.settings.current-biome", viewer, 
+                        Component.text(getBiomeDisplayName(tempBiome))))
+                .addLore(Component.empty())
+                .addLoreTranslated("items.island.settings.biome-change.lore")
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createDeleteIslandItem() {
-        return new ItemBuilder(Material.BARRIER)
-                .displayName(UnifiedColorUtil.parseComponent("&c&l섬 삭제"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&c⚠ 주의: 이 작업은 되돌릴 수 없습니다!"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7섬과 모든 데이터가 영구적으로"))
-                .addLore(UnifiedColorUtil.parseComponent("&7삭제됩니다"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&c▶ 클릭하여 삭제"))
+        return ItemBuilder.of(Material.BARRIER, viewer.locale())
+                .displayNameTranslated("items.island.settings.delete.name")
+                .loreTranslated("items.island.settings.delete.lore")
+                .hideAllFlags()
                 .build();
     }
     
@@ -167,21 +157,21 @@ public class IslandSettingsGui extends BaseGui {
                            tempIsPublic != island.core().isPublic() ||
                            !tempBiome.equals(island.configuration().settings().biome());
         
-        return new ItemBuilder(Material.EMERALD_BLOCK)
-                .displayName(UnifiedColorUtil.parseComponent("&a&l설정 저장"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent(hasChanges ? "&7변경사항이 있습니다" : "&7변경사항이 없습니다"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 저장"))
+        return ItemBuilder.of(Material.EMERALD_BLOCK, viewer.locale())
+                .displayNameTranslated("items.island.settings.save.name")
+                .addLore(Component.empty())
+                .addLore(Component.translatable(hasChanges ? "gui.island.settings.has-changes" : "gui.island.settings.no-changes"))
+                .addLore(Component.empty())
+                .addLoreTranslated("items.island.settings.save.lore")
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createCancelButton() {
-        return new ItemBuilder(Material.REDSTONE_BLOCK)
-                .displayName(UnifiedColorUtil.parseComponent("&c&l취소"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7변경사항을 저장하지 않고"))
-                .addLore(UnifiedColorUtil.parseComponent("&7돌아갑니다"))
+        return ItemBuilder.of(Material.REDSTONE_BLOCK, viewer.locale())
+                .displayNameTranslated("items.buttons.cancel.name")
+                .loreTranslated("items.island.settings.cancel.lore")
+                .hideAllFlags()
                 .build();
     }
     
@@ -201,10 +191,8 @@ public class IslandSettingsGui extends BaseGui {
                     }
                     
                     // 색상 코드 제거 (Paper API)
-                    String newName = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                    tempIslandName = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
                             .serialize(net.kyori.adventure.text.Component.text(text));
-                    
-                    tempIslandName = newName;
                     
                     return java.util.Collections.singletonList(AnvilGUI.ResponseAction.close());
                 })

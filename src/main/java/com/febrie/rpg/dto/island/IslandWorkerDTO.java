@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.kyori.adventure.text.Component;
 /**
  * 섬 알바생 정보 DTO (Record)
  *
@@ -45,7 +44,11 @@ public record IslandWorkerDTO(@NotNull String uuid, @NotNull String name, long h
         long hiredAt = FirestoreUtils.getLong(map, "hiredAt", System.currentTimeMillis());
         long lastActivity = FirestoreUtils.getLong(map, "lastActivity", System.currentTimeMillis());
 
-        return new IslandWorkerDTO(uuid, name, hiredAt, lastActivity);
+        // Ensure non-null values
+        String safeUuid = uuid != null ? uuid : "";
+        String safeName = name != null ? name : "";
+        
+        return new IslandWorkerDTO(safeUuid, safeName, hiredAt, lastActivity);
     }
 
 }

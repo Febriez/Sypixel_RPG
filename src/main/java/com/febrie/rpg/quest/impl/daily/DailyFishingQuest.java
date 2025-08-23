@@ -9,7 +9,6 @@ import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.FishingObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-import java.util.List;
 /**
  * 일일 낚시 - 일일 퀘스트
  * 매일 일정량의 물고기를 낚는 퀘스트

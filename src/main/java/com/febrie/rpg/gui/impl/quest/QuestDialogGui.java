@@ -8,6 +8,7 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.TextUtil;
 import net.kyori.adventure.text.Component;
@@ -49,7 +50,7 @@ public class QuestDialogGui extends BaseGui {
 
     private QuestDialogGui(@NotNull GuiManager guiManager,
                            @NotNull Player player, @NotNull Quest quest) {
-        super(player, guiManager, 9, "gui.quest-dialog.title");
+        super(player, guiManager, 9, Component.translatable("gui.quest-dialog.title"));
         this.quest = quest;
         this.typingSpeed = getTypingSpeed(player); // 플레이어 설정에서 가져오기
     }
@@ -64,8 +65,7 @@ public class QuestDialogGui extends BaseGui {
      */
     public static QuestDialogGui create(@NotNull GuiManager guiManager,
                                         @NotNull Player player, @NotNull Quest quest) {
-        QuestDialogGui gui = new QuestDialogGui(guiManager, player, quest);
-        return gui;
+        return new QuestDialogGui(guiManager, player, quest);
     }
 
     /**
@@ -103,8 +103,9 @@ public class QuestDialogGui extends BaseGui {
         for (int i = 1; i < 9; i++) {
             if (i != DIALOG_SLOT) {
                 setItem(i, GuiItem.display(
-                        new ItemBuilder(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
+                        ItemBuilder.of(Material.LIGHT_GRAY_STAINED_GLASS_PANE, viewer.locale())
                                 .displayName(Component.empty())
+                                .hideAllFlags()
                                 .build()
                 ));
             }
@@ -187,38 +188,32 @@ public class QuestDialogGui extends BaseGui {
      * 대화 아이템 업데이트
      */
     private void updateDialogItem(@NotNull String text, boolean isComplete) {
-        List<Component> lore = new ArrayList<>();
-
-        // 텍스트를 로어로 분할 (한 줄당 최대 40자)
-        String[] lines = TextUtil.wrapText(text, 40);
-        for (String line : lines) {
-            lore.add(Component.text(line, UnifiedColorUtil.WHITE));
-        }
-
-        // 상태 표시
-        lore.add(Component.empty());
-        if (isComplete) {
-            if (currentDialogIndex < quest.getDialogCount() - 1) {
-                lore.add(Component.translatable("gui.quest-dialog.next-page")
-                        .color(UnifiedColorUtil.SUCCESS));
-            } else {
-                lore.add(Component.translatable("gui.quest-dialog.accept-quest")
-                        .color(UnifiedColorUtil.GOLD));
-            }
-        } else {
-            lore.add(Component.translatable("gui.quest-dialog.skip")
-                    .color(UnifiedColorUtil.YELLOW));
-        }
-
         Component npcNameComponent = quest.getNPCName(viewer);
         String npcName = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
                 .serialize(npcNameComponent);
 
-        ItemBuilder dialogBuilder = new ItemBuilder(Material.ENCHANTED_BOOK)
+        ItemBuilder dialogBuilder = ItemBuilder.of(Material.ENCHANTED_BOOK, viewer.locale())
                 .displayName(Component.text(npcName, UnifiedColorUtil.AQUA));
 
-        for (Component loreLine : lore) {
-            dialogBuilder.addLore(loreLine);
+        // 텍스트를 로어로 분할 (한 줄당 최대 40자)
+        String[] lines = TextUtil.wrapText(text, 40);
+        for (String line : lines) {
+            dialogBuilder.addLore(Component.text(line, UnifiedColorUtil.WHITE));
+        }
+
+        // 상태 표시
+        dialogBuilder.addLore(Component.empty());
+        if (isComplete) {
+            if (currentDialogIndex < quest.getDialogCount() - 1) {
+                dialogBuilder.addLore(Component.translatable("gui.quest-dialog.next-page")
+                        .color(UnifiedColorUtil.SUCCESS));
+            } else {
+                dialogBuilder.addLore(Component.translatable("gui.quest-dialog.accept-quest")
+                        .color(UnifiedColorUtil.GOLD));
+            }
+        } else {
+            dialogBuilder.addLore(Component.translatable("gui.quest-dialog.skip")
+                    .color(UnifiedColorUtil.YELLOW));
         }
 
         GuiItem dialogItem = GuiItem.clickable(dialogBuilder.build(), this::handleDialogClick);
@@ -270,8 +265,9 @@ public class QuestDialogGui extends BaseGui {
 
         for (int i = 1; i < 9; i++) {
             setItem(i, GuiItem.display(
-                    new ItemBuilder(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
+                    ItemBuilder.of(Material.LIGHT_GRAY_STAINED_GLASS_PANE, viewer.locale())
                             .displayName(Component.empty())
+                            .hideAllFlags()
                             .build()
             ));
         }
@@ -280,7 +276,7 @@ public class QuestDialogGui extends BaseGui {
         setItem(EXIT_SLOT, createExitButton());
 
         // 퀘스트 정보 표시
-        ItemBuilder questInfoBuilder = new ItemBuilder(Material.WRITTEN_BOOK)
+        ItemBuilder questInfoBuilder = ItemBuilder.of(Material.WRITTEN_BOOK, viewer.locale())
                 .displayName(quest.getDisplayName(viewer).color(UnifiedColorUtil.GOLD))
                 .addLore(Component.empty());
 
@@ -293,11 +289,9 @@ public class QuestDialogGui extends BaseGui {
 
         // 수락 버튼
         GuiItem acceptButton = GuiItem.clickable(
-                new ItemBuilder(Material.LIME_DYE)
-                        .displayName(Component.translatable("gui.quest-dialog.accept-quest")
-                                .color(UnifiedColorUtil.SUCCESS))
-                        .addLore(Component.translatable("gui.quest-accept.accept-desc")
-                                .color(UnifiedColorUtil.GRAY))
+                ItemBuilder.of(Material.LIME_DYE, viewer.locale())
+                        .displayNameTranslated("items.quest.dialog.accept.name")
+                        .addLoreTranslated("items.quest.dialog.accept.lore")
                         .build(),
                 p -> handleQuestAccept()
         );
@@ -305,11 +299,9 @@ public class QuestDialogGui extends BaseGui {
 
         // 거절 버튼
         GuiItem declineButton = GuiItem.clickable(
-                new ItemBuilder(Material.RED_DYE)
-                        .displayName(Component.translatable("gui.quest-dialog.decline-quest")
-                                .color(UnifiedColorUtil.ERROR))
-                        .addLore(Component.translatable("gui.quest-accept.decline-desc")
-                                .color(UnifiedColorUtil.GRAY))
+                ItemBuilder.of(Material.RED_DYE, viewer.locale())
+                        .displayNameTranslated("items.quest.dialog.decline.name")
+                        .addLoreTranslated("items.quest.dialog.decline.lore")
                         .build(),
                 p -> handleQuestDecline()
         );
@@ -366,11 +358,9 @@ public class QuestDialogGui extends BaseGui {
      */
     private GuiItem createExitButton() {
         return GuiItem.clickable(
-                new ItemBuilder(Material.BARRIER)
-                        .displayName(Component.translatable("gui.quest-dialog.close")
-                                .color(UnifiedColorUtil.ERROR))
-                        .addLore(Component.translatable("gui.buttons.close.lore")
-                                .color(UnifiedColorUtil.GRAY))
+                ItemBuilder.of(Material.BARRIER, viewer.locale())
+                        .displayNameTranslated("items.quest.dialog.close.name")
+                        .addLoreTranslated("items.quest.dialog.close.lore")
                         .build(),
                 p -> {
                     stopTyping();

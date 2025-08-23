@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.kyori.adventure.text.Component;
 /**
  * 섬 업그레이드 정보 DTO (Record)
  *

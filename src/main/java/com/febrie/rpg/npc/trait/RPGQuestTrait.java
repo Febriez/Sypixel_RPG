@@ -4,15 +4,10 @@ import com.febrie.rpg.quest.QuestID;
 import net.citizensnpcs.api.persistence.Persist;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitName;
-import net.citizensnpcs.api.util.DataKey;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashSet;
-import java.util.Set;
 
-import net.kyori.adventure.text.Component;
 /**
  * RPG 퀘스트 NPC를 위한 커스텀 Trait
  * Citizens의 Trait 시스템을 사용해 NPC 데이터를 영구 저장

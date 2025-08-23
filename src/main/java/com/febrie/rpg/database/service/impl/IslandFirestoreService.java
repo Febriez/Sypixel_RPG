@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import net.kyori.adventure.text.Component;
 /**
  * 섬 데이터 Firestore 서비스
  * islands 컬렉션 관리

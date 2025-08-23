@@ -1,6 +1,5 @@
 package com.febrie.rpg.command.admin;
 
-import net.kyori.adventure.text.Component;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.command.admin.subcommand.*;
 import com.febrie.rpg.command.admin.subcommand.base.SubCommand;

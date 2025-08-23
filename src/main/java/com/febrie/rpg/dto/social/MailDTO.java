@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import net.kyori.adventure.text.Component;
 /**
  * 우편 데이터 전송 객체 (Record)
  * Firebase 저장용 불변 데이터 구조
@@ -65,12 +64,23 @@ public record MailDTO(
     @NotNull
     public static MailDTO fromMap(@NotNull Map<String, Object> map) {
         String mailId = FirestoreUtils.getString(map, "mailId", UUID.randomUUID().toString());
+        // Ensure non-null mailId
+        if (mailId == null) {
+            mailId = UUID.randomUUID().toString();
+        }
         
         String senderUuidStr = FirestoreUtils.getString(map, "senderUuid", UUID.randomUUID().toString());
+        // Ensure non-null UUID strings
+        if (senderUuidStr == null) {
+            senderUuidStr = UUID.randomUUID().toString();
+        }
         UUID senderUuid = UUID.fromString(senderUuidStr);
         
         String senderName = FirestoreUtils.getString(map, "senderName");
         String receiverUuidStr = FirestoreUtils.getString(map, "receiverUuid", UUID.randomUUID().toString());
+        if (receiverUuidStr == null) {
+            receiverUuidStr = UUID.randomUUID().toString();
+        }
         UUID receiverUuid = UUID.fromString(receiverUuidStr);
         
         String receiverName = FirestoreUtils.getString(map, "receiverName");

@@ -12,11 +12,10 @@ import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.StandardItemBuilder;
 import com.febrie.rpg.util.UnifiedColorUtil;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,19 +35,19 @@ public class IslandBiomeSimpleGui extends BaseGui {
     
     // 사용 가능한 바이옴들
     private static final List<BiomeOption> BIOMES = List.of(
-        new BiomeOption("PLAINS", "평원", Material.GRASS_BLOCK, "넓고 평평한 초원 지형"),
-        new BiomeOption("FOREST", "숲", Material.OAK_SAPLING, "나무가 우거진 숲 지형"),
-        new BiomeOption("DESERT", "사막", Material.SAND, "모래로 덮인 건조한 지형"),
-        new BiomeOption("SNOWY_PLAINS", "설원", Material.SNOW_BLOCK, "눈으로 덮인 차가운 지형"),
-        new BiomeOption("JUNGLE", "정글", Material.JUNGLE_SAPLING, "열대 우림 지형"),
-        new BiomeOption("SWAMP", "늪", Material.LILY_PAD, "습지와 늪 지형"),
-        new BiomeOption("OCEAN", "바다", Material.KELP, "깊고 푸른 바다"),
-        new BiomeOption("MUSHROOM_FIELDS", "버섯 들판", Material.RED_MUSHROOM, "거대한 버섯이 자라는 특별한 지형")
+        new BiomeOption("PLAINS", "biome.plains", Material.GRASS_BLOCK),
+        new BiomeOption("FOREST", "biome.forest", Material.OAK_SAPLING),
+        new BiomeOption("DESERT", "biome.desert", Material.SAND),
+        new BiomeOption("SNOWY_PLAINS", "biome.snowy_plains", Material.SNOW_BLOCK),
+        new BiomeOption("JUNGLE", "biome.jungle", Material.JUNGLE_SAPLING),
+        new BiomeOption("SWAMP", "biome.swamp", Material.LILY_PAD),
+        new BiomeOption("OCEAN", "biome.ocean", Material.KELP),
+        new BiomeOption("MUSHROOM_FIELDS", "biome.mushroom_fields", Material.RED_MUSHROOM)
     );
     
     private IslandBiomeSimpleGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                 @NotNull RPGMain plugin, @NotNull IslandDTO island, @NotNull String currentBiome) {
-        super(viewer, guiManager, 36, "&b&l바이옴 선택");
+        super(viewer, guiManager, 36, Component.translatable("gui.island.biome-simple.title"));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.currentBiome = currentBiome;
@@ -91,36 +90,36 @@ public class IslandBiomeSimpleGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("바이옴 선택", UnifiedColorUtil.PRIMARY);
+        return Component.translatable("gui.island.biome-simple.title");
     }
     
     private ItemStack createBiomeItem(BiomeOption biome, boolean isSelected) {
-        ItemBuilder builder = StandardItemBuilder.guiItem(biome.material)
-                .displayName(trans("gui.island.biome.name", biome.displayName)
-                    .color(isSelected ? UnifiedColorUtil.GREEN : UnifiedColorUtil.YELLOW)
-                    .decorate(net.kyori.adventure.text.format.TextDecoration.BOLD))
+        ItemBuilder builder = ItemBuilder.of(biome.material, getViewerLocale())
+                .displayNameTranslated(biome.biomeKey + ".name")
                 .addLore(Component.empty());
         
         if (isSelected) {
-            builder.addLore(trans("gui.island.biome.currently_selected"));
+            builder.addLoreTranslated("gui.island.biome.currently_selected");
             builder.addLore(Component.empty());
+            builder.glint(true);
         }
         
-        builder.addLore(trans("gui.island.biome.description", biome.description));
+        builder.addLoreTranslated(biome.biomeKey + ".description");
         builder.addLore(Component.empty());
         
         if (!isSelected) {
-            builder.addLore(trans("gui.island.biome.click_to_select"));
+            builder.addLoreTranslated("gui.island.biome.click_to_select");
         }
         
-        return builder.build();
+        return builder.hideAllFlags().build();
     }
     
     private ItemStack createBackButton() {
-        return StandardItemBuilder.guiItem(Material.ARROW)
-                .displayName(trans("gui.common.back"))
+        return ItemBuilder.of(Material.ARROW, getViewerLocale())
+                .displayNameTranslated("gui.buttons.back.name")
                 .addLore(Component.empty())
-                .addLore(trans("gui.island.biome.back_to_settings"))
+                .addLoreTranslated("gui.island.biome.back_to_settings")
+                .hideAllFlags()
                 .build();
     }
     
@@ -147,7 +146,7 @@ public class IslandBiomeSimpleGui extends BaseGui {
         // applyBiomeToIsland은 private 메서드이므로 주석 처리
         // 바이옴 설정은 DTO에만 저장
         
-        sendMessage(player, "gui.island.biome.message.changed", biome.displayName);
+        player.sendMessage(LangManager.get("gui.island.biome.message.changed", player, Component.translatable(biome.biomeKey + ".name")));
         player.closeInventory();
         
         // 설정 메뉴로 돌아가기
@@ -155,5 +154,5 @@ public class IslandBiomeSimpleGui extends BaseGui {
     }
     
     // 바이옴 옵션 레코드
-    private record BiomeOption(String id, String displayName, Material material, String description) {}
+    private record BiomeOption(String id, String biomeKey, Material material) {}
 }

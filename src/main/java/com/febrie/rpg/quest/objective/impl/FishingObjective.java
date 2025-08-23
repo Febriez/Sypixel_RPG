@@ -14,7 +14,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-import net.kyori.adventure.text.Component;
 /**
  * 낚시 퀘스트 목표
  * 특정 아이템 낚기

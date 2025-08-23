@@ -6,13 +6,9 @@ import com.febrie.rpg.dto.social.FriendshipDTO;
 import com.google.cloud.firestore.Firestore;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import net.kyori.adventure.text.Component;
 /**
  * 친구 관계 Firestore 서비스
  * Friendship 컬렉션 관리

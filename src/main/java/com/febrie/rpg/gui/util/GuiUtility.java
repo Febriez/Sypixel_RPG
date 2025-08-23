@@ -8,6 +8,7 @@ import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.talent.Talent;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.SoundUtil;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -259,9 +260,9 @@ public class GuiUtility {
     @NotNull
     public static GuiItem createBackButton(@NotNull Player player) {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.ARROW)
-                        .displayName(Component.translatable("gui.buttons.back.name"))
-                        .addLore(Component.translatable("gui.buttons.back.lore"))
+                ItemBuilder.of(Material.ARROW, player.locale())
+                        .displayName(LangManager.getGuiText("gui.buttons.back.name", player.locale()))
+                        .addLore(LangManager.getGuiText("gui.buttons.back.lore", player.locale()))
                         .build(),
                 clickPlayer -> SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK)
         );
@@ -270,9 +271,9 @@ public class GuiUtility {
     @NotNull
     public static GuiItem createRefreshButton(@NotNull Player player) {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.EMERALD)
-                        .displayName(Component.translatable("gui.buttons.refresh.name"))
-                        .addLore(Component.translatable("gui.buttons.refresh.lore"))
+                ItemBuilder.of(Material.EMERALD, player.locale())
+                        .displayName(LangManager.getGuiText("gui.buttons.refresh.name", player.locale()))
+                        .addLore(LangManager.getGuiText("gui.buttons.refresh.lore", player.locale()))
                         .build(),
                 clickPlayer -> SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK)
         );
@@ -281,9 +282,9 @@ public class GuiUtility {
     @NotNull
     public static GuiItem createCloseButton(@NotNull Player player) {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.BARRIER)
-                        .displayName(Component.translatable("gui.buttons.close.name"))
-                        .addLore(Component.translatable("gui.buttons.close.lore"))
+                ItemBuilder.of(Material.BARRIER, player.locale())
+                        .displayName(LangManager.getGuiText("gui.buttons.close.name", player.locale()))
+                        .addLore(LangManager.getGuiText("gui.buttons.close.lore", player.locale()))
                         .build(),
                 clickPlayer -> {
                     SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK);

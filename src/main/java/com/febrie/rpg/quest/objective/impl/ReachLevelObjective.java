@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
-import net.kyori.adventure.text.Component;
 /**
  * 레벨 달성 퀘스트 목표
  * 특정 레벨에 도달

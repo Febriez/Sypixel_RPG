@@ -1,6 +1,5 @@
 package com.febrie.rpg.quest;
 
-import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;

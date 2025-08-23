@@ -1,7 +1,6 @@
 package com.febrie.rpg.quest.dialog;
 
 import com.febrie.rpg.quest.QuestID;
-import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

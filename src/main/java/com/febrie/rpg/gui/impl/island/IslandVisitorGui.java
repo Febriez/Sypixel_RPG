@@ -9,21 +9,20 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.UnifiedTimeUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.StandardItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import net.kyori.adventure.text.Component;
 import com.febrie.rpg.util.DateFormatUtil;
 /**
@@ -41,7 +40,7 @@ public class IslandVisitorGui extends BaseGui {
     private static final int ITEMS_PER_PAGE = 28; // 7x4 grid
     private IslandVisitorGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                            @NotNull RPGMain plugin, @NotNull IslandDTO island, int page) {
-        super(viewer, guiManager, 54, "&f&l방문자 기록");
+        super(viewer, guiManager, 54, Component.translatable("gui.island.visitor.title"));
         this.island = island;
         this.visitors = island.social().recentVisits();
         
@@ -82,25 +81,25 @@ public class IslandVisitorGui extends BaseGui {
     }
     
     private ItemStack createInfoItem() {
-        return new ItemBuilder(Material.BOOK)
-                .displayName(UnifiedColorUtil.parseComponent("&f&l방문자 기록"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7섬 이름: &f" + island.core().islandName()))
-                .addLore(UnifiedColorUtil.parseComponent("&7총 방문자: &e" + visitors.size() + "명"))
-                .addLore(UnifiedColorUtil.parseComponent("&7공개 상태: " + (island.core().isPublic() ? "&a공개" : "&c비공개")))
-                .addLore(UnifiedColorUtil.parseComponent("&7최근 방문자 목록을"))
-                .addLore(UnifiedColorUtil.parseComponent("&7확인할 수 있습니다"))
+        return ItemBuilder.of(Material.BOOK, viewer.locale())
+                .displayNameTranslated("items.island.visitor.info.name")
+                .addLore(Component.empty())
+                .addLore(LangManager.get("gui.island.visitor.island-name", viewer, Component.text(island.core().islandName())))
+                .addLore(LangManager.get("gui.island.visitor.total-visitors", viewer, Component.text(visitors.size())))
+                .addLore(LangManager.get("gui.island.visitor.public-status", viewer, 
+                        Component.translatable(island.core().isPublic() ? "status.public" : "status.private")))
+                .addLoreTranslated("items.island.visitor.info.lore")
+                .hideAllFlags()
                 .build();
     }
     
     private void displayVisitors() {
         if (visitors.isEmpty()) {
             // 방문자가 없는 경우
-            setItem(22, new GuiItem(new ItemBuilder(Material.BARRIER)
-                    .displayName(UnifiedColorUtil.parseComponent("&c방문 기록이 없습니다"))
-                    .addLore(UnifiedColorUtil.parseComponent(""))
-                    .addLore(UnifiedColorUtil.parseComponent("&7아직 섬을 방문한"))
-                    .addLore(UnifiedColorUtil.parseComponent("&7플레이어가 없습니다"))
+            setItem(22, new GuiItem(ItemBuilder.of(Material.BARRIER, viewer.locale())
+                    .displayNameTranslated("items.island.visitor.no-visitors.name")
+                    .loreTranslated("items.island.visitor.no-visitors.lore")
+                    .hideAllFlags()
                     .build()));
             return;
         }
@@ -123,17 +122,17 @@ public class IslandVisitorGui extends BaseGui {
     
     private ItemStack createVisitorItem(IslandVisitDTO visit, int index) {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(visit.visitorUuid()));
-        String playerName = offlinePlayer.getName() != null ? offlinePlayer.getName() : "알 수 없음";
+        String playerName = offlinePlayer.getName() != null ? offlinePlayer.getName() : "Unknown";
         // 방문 시간 포맷
         String visitTime = DateFormatUtil.formatSlashDateTimeFromMillis(visit.visitedAt());
         String duration = UnifiedTimeUtil.formatDuration(visit.duration());
-        // 모든 방문자 동일한 색상 사용
-        String nameColor = "&f";
-        ItemStack item = new ItemBuilder(Material.PLAYER_HEAD)
-                .displayName(UnifiedColorUtil.parseComponent(nameColor + playerName))
-                .addLore(UnifiedColorUtil.parseComponent("&7방문 시간: &f" + visitTime))
-                .addLore(UnifiedColorUtil.parseComponent("&7체류 시간: &e" + duration))
-                .addLore(UnifiedColorUtil.parseComponent("&7#" + index + " 방문자"))
+        
+        ItemStack item = ItemBuilder.of(Material.PLAYER_HEAD, viewer.locale())
+                .displayName(Component.text(playerName, UnifiedColorUtil.WHITE))
+                .addLore(LangManager.get("gui.island.visitor.visit-time", viewer, Component.text(visitTime)))
+                .addLore(LangManager.get("gui.island.visitor.stay-duration", viewer, Component.text(duration)))
+                .addLore(LangManager.get("gui.island.visitor.visitor-number", viewer, Component.text(index)))
+                .hideAllFlags()
                 .build();
         // 플레이어 머리 설정
         if (item.getItemMeta() instanceof SkullMeta skullMeta) {
@@ -170,54 +169,50 @@ public class IslandVisitorGui extends BaseGui {
                 longestStay = entry.getKey();
             }
         }
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add("&7총 방문 횟수: &e" + visitors.size() + "회");
-        lore.add("&7고유 방문자: &e" + visitorCount.size() + "명");
+        ItemBuilder builder = ItemBuilder.of(Material.WRITABLE_BOOK, viewer.locale())
+                .displayNameTranslated("items.island.visitor.statistics.name")
+                .addLore(Component.empty())
+                .addLore(LangManager.get("gui.island.visitor.total-visits", viewer, Component.text(visitors.size())))
+                .addLore(LangManager.get("gui.island.visitor.unique-visitors", viewer, Component.text(visitorCount.size())));
+        
         if (mostFrequent != null) {
             OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(mostFrequent));
-            String name = player.getName() != null ? player.getName() : "알 수 없음";
-            lore.add("&7최다 방문: &a" + name + " &7(" + maxVisits + "회)");
+            String name = player.getName() != null ? player.getName() : "Unknown";
+            builder.addLore(LangManager.get("gui.island.visitor.most-frequent", viewer, 
+                    Component.text(name), Component.text(maxVisits)));
         }
         if (longestStay != null) {
             OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(longestStay));
-            String name = player.getName() != null ? player.getName() : "알 수 없음";
-            lore.add("&7최장 체류: &a" + name + " &7(" + UnifiedTimeUtil.formatDuration(maxDuration) + ")");
+            String name = player.getName() != null ? player.getName() : "Unknown";
+            builder.addLore(LangManager.get("gui.island.visitor.longest-stay", viewer,
+                    Component.text(name), Component.text(UnifiedTimeUtil.formatDuration(maxDuration))));
         }
-        List<Component> componentLore = new ArrayList<>();
-        for (String line : lore) {
-            componentLore.add(UnifiedColorUtil.parseComponent(line));
-        }
-        return new ItemBuilder(Material.WRITABLE_BOOK)
-                .displayName(UnifiedColorUtil.parseComponent("&6&l방문 통계"))
-                .lore(componentLore)
-                .build();
+        
+        return builder.hideAllFlags().build();
     }
     
     private ItemStack createPreviousPageItem() {
-        return new ItemBuilder(Material.ARROW)
-                .displayName(UnifiedColorUtil.parseComponent("&a이전 페이지"))
-                .addLore(UnifiedColorUtil.parseComponent("&7페이지 " + (page - 1) + "/" + maxPage))
+        return StandardItemBuilder.previousPageButton(viewer.locale(), page - 1)
+                .addLore(LangManager.get("gui.page-info", viewer, 
+                        Component.text(page - 1), Component.text(maxPage)))
                 .build();
     }
     
     private ItemStack createNextPageItem() {
-        return new ItemBuilder(Material.ARROW)
-                .displayName(UnifiedColorUtil.parseComponent("&a다음 페이지"))
-                .addLore(UnifiedColorUtil.parseComponent("&7페이지 " + (page + 1) + "/" + maxPage))
+        return StandardItemBuilder.nextPageButton(viewer.locale(), page + 1)
+                .addLore(LangManager.get("gui.page-info", viewer,
+                        Component.text(page + 1), Component.text(maxPage)))
                 .build();
     }
     
     private ItemStack createBackButton() {
-        return new ItemBuilder(Material.ARROW)
-                .displayName(UnifiedColorUtil.parseComponent("&c뒤로가기"))
-                .addLore(UnifiedColorUtil.parseComponent("&7메인 메뉴로 돌아갑니다"))
+        return StandardItemBuilder.backButton(viewer.locale())
                 .build();
     }
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("방문자 기록", UnifiedColorUtil.PRIMARY);
+        return Component.translatable("gui.island.visitor.title");
     }
     
     @Override

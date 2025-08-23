@@ -2,7 +2,6 @@ package com.febrie.rpg.gui.impl.island;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.*;
-import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
@@ -13,7 +12,6 @@ import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -30,7 +28,7 @@ public class IslandVisitorMenuGui extends BaseGui {
     private final IslandDTO island;
     
     private IslandVisitorMenuGui(@NotNull Player viewer, @NotNull GuiManager guiManager, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 27, "gui.island.visitor.menu.title");
+        super(viewer, guiManager, 27, Component.translatable("gui.island.visitor.menu.title"));
         this.islandManager = RPGMain.getInstance().getIslandManager();
         this.island = island;
     }
@@ -39,13 +37,12 @@ public class IslandVisitorMenuGui extends BaseGui {
      * IslandVisitorMenuGui 인스턴스를 생성하고 초기화합니다.
      */
     public static IslandVisitorMenuGui create(@NotNull GuiManager guiManager, @NotNull Player viewer, @NotNull IslandDTO island) {
-        IslandVisitorMenuGui gui = new IslandVisitorMenuGui(viewer, guiManager, island);
-        return gui;
+        return new IslandVisitorMenuGui(viewer, guiManager, island);
     }
     
     @Override
     public @NotNull Component getTitle() {
-        return trans("island.gui.visitor.menu.title", "name", island.core().islandName());
+        return Component.translatable("island.gui.visitor.menu.title", Component.text(island.core().islandName()));
     }
     
     @Override

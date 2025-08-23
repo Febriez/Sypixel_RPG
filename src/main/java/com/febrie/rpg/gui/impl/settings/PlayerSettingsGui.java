@@ -8,14 +8,12 @@ import com.febrie.rpg.gui.impl.player.ProfileGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 /**
  * 플레이어 개인 설정 메인 GUI
@@ -39,7 +37,7 @@ public class PlayerSettingsGui extends BaseGui {
 
     private PlayerSettingsGui(@NotNull GuiManager guiManager,
                             @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, "gui.settings.title");
+        super(player, guiManager, GUI_SIZE, Component.translatable("gui.settings.title"));
     }
 
     /**
@@ -52,13 +50,12 @@ public class PlayerSettingsGui extends BaseGui {
      */
     public static PlayerSettingsGui create(@NotNull GuiManager guiManager,
                                           @NotNull Player player) {
-        PlayerSettingsGui gui = new PlayerSettingsGui(guiManager, player);
-        return gui;
+        return new PlayerSettingsGui(guiManager, player);
     }
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("개인 설정", UnifiedColorUtil.PRIMARY);
+        return Component.translatable("settings.personal").color(UnifiedColorUtil.PRIMARY);
     }
 
     @Override
@@ -86,11 +83,11 @@ public class PlayerSettingsGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                new ItemBuilder(Material.COMPARATOR)
-                        .displayName(Component.text("⚙ 개인 설정", UnifiedColorUtil.PRIMARY)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.COMPARATOR, viewer.locale())
+                        .displayNameTranslated("items.settings.main.title.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("다양한 설정을 변경할 수 있습니다", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.main.title.lore")
+                        .hideAllFlags()
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -102,14 +99,14 @@ public class PlayerSettingsGui extends BaseGui {
     private void setupSettingButtons() {
         // GUI 설정
         GuiItem guiSettingsButton = GuiItem.clickable(
-                new ItemBuilder(Material.IRON_TRAPDOOR)
-                        .displayName(Component.text("🖥 GUI 설정", UnifiedColorUtil.UNCOMMON)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.IRON_TRAPDOOR, viewer.locale())
+                        .displayNameTranslated("items.settings.gui.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("• GUI 사운드 볼륨 조절", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("• GUI 사운드 음소거/해제", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.gui.lore1")
+                        .addLoreTranslated("items.settings.gui.lore2")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 설정", UnifiedColorUtil.YELLOW))
+                        .addLoreTranslated("items.settings.click")
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     GuiSettingsGui guiSettingsGui = GuiSettingsGui.create(guiManager, p);
@@ -121,15 +118,15 @@ public class PlayerSettingsGui extends BaseGui {
 
         // 인게임 설정
         GuiItem ingameSettingsButton = GuiItem.clickable(
-                new ItemBuilder(Material.GRASS_BLOCK)
-                        .displayName(Component.text("🎮 인게임 설정", UnifiedColorUtil.RARE)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.GRASS_BLOCK, viewer.locale())
+                        .displayNameTranslated("items.settings.ingame.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("• 퀘스트 대화 속도 조절", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("• 자동 길안내 설정", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("• 데미지 표시 설정", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.ingame.lore1")
+                        .addLoreTranslated("items.settings.ingame.lore2")
+                        .addLoreTranslated("items.settings.ingame.lore3")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 설정", UnifiedColorUtil.YELLOW))
+                        .addLoreTranslated("items.settings.click")
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     IngameSettingsGui ingameSettingsGui = IngameSettingsGui.create(guiManager, p);
@@ -141,15 +138,15 @@ public class PlayerSettingsGui extends BaseGui {
 
         // 소셜 설정
         GuiItem socialSettingsButton = GuiItem.clickable(
-                new ItemBuilder(Material.PLAYER_HEAD)
-                        .displayName(Component.text("👥 소셜 설정", UnifiedColorUtil.EPIC)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.PLAYER_HEAD, viewer.locale())
+                        .displayNameTranslated("items.settings.social.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("• 친구 요청 받기 설정", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("• 길드 초대 받기 설정", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("• 귓말 모드 설정", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.social.lore1")
+                        .addLoreTranslated("items.settings.social.lore2")
+                        .addLoreTranslated("items.settings.social.lore3")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 설정", UnifiedColorUtil.YELLOW))
+                        .addLoreTranslated("items.settings.click")
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     SocialSettingsGui socialSettingsGui = SocialSettingsGui.create(guiManager, p);
@@ -161,14 +158,14 @@ public class PlayerSettingsGui extends BaseGui {
 
         // 시스템 설정
         GuiItem systemSettingsButton = GuiItem.clickable(
-                new ItemBuilder(Material.REDSTONE_BLOCK)
-                        .displayName(Component.text("⚙ 시스템 설정", UnifiedColorUtil.LEGENDARY)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.REDSTONE_BLOCK, viewer.locale())
+                        .displayNameTranslated("items.settings.system.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("• 확인 대화상자 설정", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("• 시스템 관련 설정", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.system.lore1")
+                        .addLoreTranslated("items.settings.system.lore2")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 설정", UnifiedColorUtil.YELLOW))
+                        .addLoreTranslated("items.settings.click")
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     SystemSettingsGui systemSettingsGui = SystemSettingsGui.create(guiManager, p);
@@ -180,15 +177,15 @@ public class PlayerSettingsGui extends BaseGui {
 
         // 알림 설정
         GuiItem notificationSettingsButton = GuiItem.clickable(
-                new ItemBuilder(Material.BELL)
-                        .displayName(Component.text("🔔 알림 설정", UnifiedColorUtil.MYTHIC)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.BELL, viewer.locale())
+                        .displayNameTranslated("items.settings.notification.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("• 귓말 알림 설정", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("• 초대 알림 설정", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("• 서버 공지 알림 설정", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.notification.lore1")
+                        .addLoreTranslated("items.settings.notification.lore2")
+                        .addLoreTranslated("items.settings.notification.lore3")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 설정", UnifiedColorUtil.YELLOW))
+                        .addLoreTranslated("items.settings.click")
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     NotificationSettingsGui notificationSettingsGui = NotificationSettingsGui.create(guiManager, p);

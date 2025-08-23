@@ -209,7 +209,7 @@ public class WeeklyWorldBossQuest extends Quest {
                     Component.translatable("quest.weekly.world_boss.objectives.deliver_soul");
             case "claim_rewards" ->
                     Component.translatable("quest.weekly.world_boss.objectives.claim_rewards");
-            default -> Component.text(objective.getStatusInfo(who));
+            default -> Component.translatable("quest.weekly.world_boss.objectives." + id);
         };
     }
 

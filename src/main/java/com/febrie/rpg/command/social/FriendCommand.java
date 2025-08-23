@@ -1,6 +1,5 @@
 package com.febrie.rpg.command.social;
 
-import net.kyori.adventure.text.Component;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.impl.social.FriendListGui;
 import com.febrie.rpg.gui.manager.GuiManager;

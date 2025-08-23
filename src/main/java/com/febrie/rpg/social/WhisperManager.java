@@ -12,7 +12,6 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.kyori.adventure.text.Component;
 /**
  * 귓말 시스템 관리자
  * 귓말 보내기, 받기, 기록 관리

@@ -1,15 +1,13 @@
 package com.febrie.rpg.quest.impl.daily;
 
-import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
-import com.febrie.rpg.quest.builder.QuestBuilder;
-import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
+import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -56,24 +54,13 @@ public class DailyHuntingQuest extends Quest {
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new DailyHuntingBuilder()
-                .id(QuestID.DAILY_HUNTING)
-                .objectives(Arrays.asList(
-                        new KillMobObjective("kill_zombies", EntityType.ZOMBIE, 20),
-                        new KillMobObjective("kill_skeletons", EntityType.SKELETON, 15),
-                        new KillMobObjective("kill_creepers", EntityType.CREEPER, 10)
-                ))
-                .reward(new BasicReward.Builder()
-                        .addCurrency(CurrencyType.GOLD, 200)
-                        .addItem(new ItemStack(Material.ARROW, 64))
-                        .addItem(new ItemStack(Material.COOKED_BEEF, 32))
-                        .addExperience(150)
-                        .build())
-                .sequential(false)
+        return new DailyHuntingBuilder().id(QuestID.DAILY_HUNTING)
+                .objectives(Arrays.asList(new KillMobObjective("kill_zombies", EntityType.ZOMBIE, 20), new KillMobObjective("kill_skeletons", EntityType.SKELETON, 15), new KillMobObjective("kill_creepers", EntityType.CREEPER, 10)))
+                .reward(new BasicReward.Builder().addCurrency(CurrencyType.GOLD, 200)
+                        .addItem(new ItemStack(Material.ARROW, 64)).addItem(new ItemStack(Material.COOKED_BEEF, 32))
+                        .addExperience(150).build()).sequential(false)
                 .daily(true)  // daily 설정하면 자동으로 repeatable도 true가 됨
-                .category(QuestCategory.DAILY)
-                .minLevel(5)
-                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
+                .category(QuestCategory.DAILY).minLevel(5).addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
     }
 
     @Override
@@ -83,12 +70,7 @@ public class DailyHuntingQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return Arrays.asList(
-                Component.translatable("quest.daily.hunting.description[0]"),
-                Component.translatable("quest.daily.hunting.description[1]"),
-                Component.translatable("quest.daily.hunting.description[2]"),
-                Component.translatable("quest.daily.hunting.description[3]")
-        );
+        return Arrays.asList(Component.translatable("quest.daily.hunting.description[0]"), Component.translatable("quest.daily.hunting.description[1]"), Component.translatable("quest.daily.hunting.description[2]"), Component.translatable("quest.daily.hunting.description[3]"));
     }
 
     @Override
@@ -99,7 +81,7 @@ public class DailyHuntingQuest extends Quest {
             case "kill_zombies" -> Component.translatable("quest.daily.hunting.objectives.kill_zombies");
             case "kill_skeletons" -> Component.translatable("quest.daily.hunting.objectives.kill_skeletons");
             case "kill_creepers" -> Component.translatable("quest.daily.hunting.objectives.kill_creepers");
-            default -> Component.text(objective.getStatusInfo(who));
+            default -> Component.translatable("quest.daily.hunting.objectives." + id);
         };
     }
 }

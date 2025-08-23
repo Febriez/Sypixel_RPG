@@ -7,10 +7,8 @@ import com.febrie.rpg.dto.quest.CompletedQuestDTO;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
 import java.util.Map;
 
-import net.kyori.adventure.text.Component;
 /**
  * QuestManager용 헬퍼 메서드들
  * 새로운 데이터 구조로의 전환을 돕는 유틸리티 클래스

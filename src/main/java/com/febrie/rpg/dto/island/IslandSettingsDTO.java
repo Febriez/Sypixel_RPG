@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.kyori.adventure.text.Component;
 /**
  * 섬 설정 정보 DTO
  * 색상, 바이옴, 템플릿 등의 시각적 설정 저장

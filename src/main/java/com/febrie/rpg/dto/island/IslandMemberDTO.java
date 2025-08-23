@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import net.kyori.adventure.text.Component;
 /**
  * 섬원 정보 DTO (Record)
  *

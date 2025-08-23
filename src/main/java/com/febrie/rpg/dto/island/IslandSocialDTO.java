@@ -4,14 +4,11 @@ import com.febrie.rpg.util.FirestoreUtils;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.Objects;
 
-import net.kyori.adventure.text.Component;
 /**
  * 섬 소셜 정보 DTO (Record)
  * 초대, 방문 기록 관련 정보

@@ -1,6 +1,5 @@
 package com.febrie.rpg.gui.impl.island;
 
-import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
@@ -16,7 +15,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +36,7 @@ public class IslandVisitorActionGui extends BaseGui {
     
     private IslandVisitorActionGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull IslandDTO island, @NotNull IslandVisitListener.CurrentVisitorInfo visitor) {
-        super(viewer, guiManager, 27, "gui.island.visitor.action.title");
+        super(viewer, guiManager, 27, Component.translatable("gui.island.visitor.action.title"));
         this.island = island;
         this.visitor = visitor;
         this.targetPlayer = Bukkit.getOfflinePlayer(UUID.fromString(visitor.getPlayerUuid()));
@@ -49,13 +47,12 @@ public class IslandVisitorActionGui extends BaseGui {
      */
     public static IslandVisitorActionGui create(@NotNull GuiManager guiManager, @NotNull Player viewer,
                                               @NotNull IslandDTO island, @NotNull IslandVisitListener.CurrentVisitorInfo visitor) {
-        IslandVisitorActionGui gui = new IslandVisitorActionGui(viewer, guiManager, island, visitor);
-        return gui;
+        return new IslandVisitorActionGui(viewer, guiManager, island, visitor);
     }
     
     @Override
     public @NotNull Component getTitle() {
-        return trans("island.gui.visitor.action.title", "player", visitor.getPlayerName());
+        return Component.translatable("island.gui.visitor.action.title", Component.text(visitor.getPlayerName()));
     }
     
     @Override

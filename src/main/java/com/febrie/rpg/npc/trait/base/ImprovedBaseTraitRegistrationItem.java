@@ -2,7 +2,6 @@ package com.febrie.rpg.npc.trait.base;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.util.UnifiedColorUtil;
-import com.febrie.rpg.util.StandardItemBuilder;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.Trait;

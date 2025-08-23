@@ -1,6 +1,5 @@
 package com.febrie.rpg.gui.impl.social;
 
-import com.febrie.rpg.dto.social.FriendRequestDTO;
 import com.febrie.rpg.dto.social.FriendshipDTO;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
@@ -11,6 +10,7 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.social.FriendManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
@@ -50,7 +50,7 @@ public class FriendListGui extends BaseGui {
 
     private FriendListGui(@NotNull GuiManager guiManager,
                         @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, "gui.friends.title");
+        super(player, guiManager, GUI_SIZE, Component.translatable("gui.friends.title"));
         this.friendManager = FriendManager.getInstance();
     }
 
@@ -71,7 +71,7 @@ public class FriendListGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("친구 목록", UnifiedColorUtil.PRIMARY);
+        return Component.translatable("gui.friends.title");
     }
 
     @Override
@@ -99,11 +99,11 @@ public class FriendListGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                new ItemBuilder(Material.PLAYER_HEAD)
-                        .displayName(Component.text("👥 친구 목록", UnifiedColorUtil.PRIMARY)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.PLAYER_HEAD, viewer.locale())
+                        .displayNameTranslated("items.social.friends.title.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("친구들과 소통하세요!", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.social.friends.title.lore")
+                        .hideAllFlags()
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -115,13 +115,13 @@ public class FriendListGui extends BaseGui {
     private void setupMenuButtons() {
         // 친구 요청 버튼
         GuiItem friendRequestsButton = GuiItem.clickable(
-                new ItemBuilder(Material.WRITABLE_BOOK)
-                        .displayName(Component.text("📨 친구 요청", UnifiedColorUtil.UNCOMMON)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.WRITABLE_BOOK, viewer.locale())
+                        .displayNameTranslated("items.social.friends.requests.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("받은 친구 요청을 확인합니다", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.social.friends.requests.lore")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 열기", UnifiedColorUtil.YELLOW))
+                        .addLoreTranslated("items.social.friends.requests.click")
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     FriendRequestGui requestGui = FriendRequestGui.create(guiManager, p);
@@ -133,18 +133,18 @@ public class FriendListGui extends BaseGui {
 
         // 친구 추가 버튼
         GuiItem addFriendButton = GuiItem.clickable(
-                new ItemBuilder(Material.EMERALD)
-                        .displayName(Component.text("➕ 친구 추가", UnifiedColorUtil.SUCCESS)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.EMERALD, viewer.locale())
+                        .displayNameTranslated("items.social.friends.add.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("새로운 친구를 추가합니다", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.social.friends.add.lore")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 추가", UnifiedColorUtil.YELLOW))
+                        .addLoreTranslated("items.social.friends.add.click")
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     p.closeInventory();
-                    p.sendMessage("§e채팅에 '/친구추가 <플레이어명> [메시지]'를 입력하세요.");
-                    p.sendMessage("§7예시: /친구추가 Steve 안녕하세요!");
+                    p.sendMessage(LangManager.get("gui.friends.add-command-hint", p));
+                    p.sendMessage(LangManager.get("gui.friends.add-command-example", p));
                     playClickSound(p);
                 }
         );
@@ -152,18 +152,18 @@ public class FriendListGui extends BaseGui {
 
         // 새로고침 버튼
         GuiItem refreshButton = GuiItem.clickable(
-                new ItemBuilder(Material.CLOCK)
-                        .displayName(Component.text("🔄 새로고침", UnifiedColorUtil.INFO)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.CLOCK, viewer.locale())
+                        .displayNameTranslated("items.social.friends.refresh.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("친구 목록을 새로고침합니다", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.social.friends.refresh.lore")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 새로고침", UnifiedColorUtil.YELLOW))
+                        .addLoreTranslated("items.social.friends.refresh.click")
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     friendManager.clearCache(p.getUniqueId());
                     loadFriends();
-                    p.sendMessage("§a친구 목록을 새로고침했습니다.");
+                    p.sendMessage(LangManager.get("gui.friends.refreshed", p));
                     playClickSound(p);
                 }
         );
@@ -193,8 +193,9 @@ public class FriendListGui extends BaseGui {
 
         // 로딩 표시
         setItem(FRIENDS_START_SLOT + 12, GuiItem.display(
-                new ItemBuilder(Material.HOPPER)
-                        .displayName(Component.text("로딩 중...", UnifiedColorUtil.GRAY))
+                ItemBuilder.of(Material.HOPPER, viewer.locale())
+                        .displayNameTranslated("items.loading.name")
+                        .hideAllFlags()
                         .build()
         ));
 
@@ -218,9 +219,10 @@ public class FriendListGui extends BaseGui {
         if (friends.isEmpty()) {
             // 친구가 없을 때
             setItem(FRIENDS_START_SLOT + 12, GuiItem.display(
-                    new ItemBuilder(Material.BARRIER)
-                            .displayName(Component.text("친구가 없습니다", UnifiedColorUtil.ERROR))
-                            .addLore(Component.text("새로운 친구를 추가해보세요!", UnifiedColorUtil.GRAY))
+                    ItemBuilder.of(Material.BARRIER, viewer.locale())
+                            .displayNameTranslated("items.social.friends.no-friends.name")
+                            .addLoreTranslated("items.social.friends.no-friends.lore")
+                            .hideAllFlags()
                             .build()
             ));
             return;
@@ -231,6 +233,9 @@ public class FriendListGui extends BaseGui {
                 .sorted((f1, f2) -> {
                     String name1 = f1.getFriendName(viewer.getUniqueId());
                     String name2 = f2.getFriendName(viewer.getUniqueId());
+                    if (name1 == null && name2 == null) return 0;
+                    if (name1 == null) return 1;
+                    if (name2 == null) return -1;
                     return name1.compareToIgnoreCase(name2);
                 })
                 .collect(Collectors.toList());
@@ -242,28 +247,32 @@ public class FriendListGui extends BaseGui {
 
             UUID friendUuid = friendship.getFriendUuid(viewer.getUniqueId());
             String friendName = friendship.getFriendName(viewer.getUniqueId());
+            if (friendUuid == null || friendName == null) {
+                continue; // Skip invalid friend entries
+            }
             boolean isOnline = friendManager.isPlayerOnline(friendUuid);
 
             Material material = isOnline ? Material.LIME_DYE : Material.GRAY_DYE;
-            String status = isOnline ? "§a온라인" : "§7오프라인";
+            Component statusText = Component.translatable(isOnline ? "status.online" : "status.offline");
 
             GuiItem friendItem = GuiItem.clickable(
-                    new ItemBuilder(material)
+                    ItemBuilder.of(material, viewer.locale())
                             .displayName(Component.text(friendName, 
                                     isOnline ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.GRAY)
                                     .decoration(TextDecoration.BOLD, true))
                             .addLore(Component.empty())
-                            .addLore(Component.text("상태: " + status, UnifiedColorUtil.WHITE))
-                            .addLore(Component.text("친구가 된 날: " + 
-                                    new java.util.Date(friendship.createdAt()).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate().toString(), UnifiedColorUtil.GRAY))
+                            .addLore(LangManager.get("gui.friends.status", viewer, statusText))
+                            .addLore(LangManager.get("gui.friends.since", viewer, 
+                                    Component.text(new java.util.Date(friendship.createdAt()).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate().toString())))
                             .addLore(Component.empty())
-                            .addLore(Component.text("좌클릭: 귓말 보내기", UnifiedColorUtil.YELLOW))
-                            .addLore(Component.text("우클릭: 친구 관리", UnifiedColorUtil.YELLOW))
+                            .addLoreTranslated("items.social.friends.friend-item.left-click")
+                            .addLoreTranslated("items.social.friends.friend-item.right-click")
+                            .hideAllFlags()
                             .build(),
                     p -> {
                         // 귓말 보내기 (추후 구현)
                         p.closeInventory();
-                        p.sendMessage("§e채팅에 '/귓말 " + friendName + " <메시지>'를 입력하세요.");
+                        p.sendMessage(LangManager.get("gui.friends.whisper-hint", p, Component.text(friendName)));
                         playClickSound(p);
                     }
             );

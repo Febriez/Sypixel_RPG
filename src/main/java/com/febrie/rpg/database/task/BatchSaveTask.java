@@ -7,19 +7,16 @@ import com.febrie.rpg.database.sync.DataSyncManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.util.LogUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.HashSet;
-import net.kyori.adventure.text.Component;
 /**
  * 배치 저장 작업 스케줄러
  * 플레이어 데이터를 주기적으로 Firestore에 저장

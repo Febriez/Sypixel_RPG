@@ -2,7 +2,6 @@ package com.febrie.rpg.database.service.impl;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.database.service.BaseFirestoreService;
-import com.febrie.rpg.database.service.GenericFirestoreService;
 import com.febrie.rpg.dto.quest.PlayerQuestDTO;
 import com.febrie.rpg.dto.quest.ActiveQuestDTO;
 import com.febrie.rpg.dto.quest.CompletedQuestDTO;
@@ -16,7 +15,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-import net.kyori.adventure.text.Component;
 /**
  * 퀘스트 데이터 Firestore 서비스
  * player-quests 컬렉션 관리

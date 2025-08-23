@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import java.util.Locale;
 
 /**
  * 표준화된 ItemBuilder 래퍼
@@ -21,24 +22,54 @@ public class StandardItemBuilder {
     public static ItemBuilder guiItem(@NotNull Material material) {
         return ItemBuilder.of(material).hideAllFlags();
     }
-
+    
     /**
-     * 표준 GUI 아이템 생성 (이름 포함)
+     * 표준 GUI 아이템 생성 (locale 지원)
      */
     @NotNull
-    public static ItemBuilder guiItem(@NotNull Material material, @NotNull String name) {
-        return guiItem(material).displayName(UnifiedColorUtil.parseComponent(name));
+    public static ItemBuilder guiItem(@NotNull Material material, @NotNull Locale locale) {
+        return ItemBuilder.of(material, locale).hideAllFlags();
     }
 
     /**
-     * 표준 GUI 아이템 생성 (이름과 설명 포함)
+     * 표준 GUI 아이템 생성 (이름 포함) - Deprecated
+     * @deprecated Use guiItemTranslated instead
      */
     @NotNull
+    @Deprecated
+    public static ItemBuilder guiItem(@NotNull Material material, @NotNull String name) {
+        return guiItem(material).displayName(UnifiedColorUtil.parseComponent(name));
+    }
+    
+    /**
+     * 표준 GUI 아이템 생성 (번역 키 사용)
+     */
+    @NotNull
+    public static ItemBuilder guiItemTranslated(@NotNull Material material, @NotNull Locale locale, @NotNull String nameKey) {
+        return guiItem(material, locale).displayNameTranslated(nameKey);
+    }
+
+    /**
+     * 표준 GUI 아이템 생성 (이름과 설명 포함) - Deprecated
+     * @deprecated Use guiItemTranslated instead
+     */
+    @NotNull
+    @Deprecated
     public static ItemBuilder guiItem(@NotNull Material material, @NotNull String name, @NotNull String @NotNull ... lore) {
         ItemBuilder builder = guiItem(material, name);
         for (String line : lore)
             builder.addLore(UnifiedColorUtil.parseComponent(line));
         return builder;
+    }
+    
+    /**
+     * 표준 GUI 아이템 생성 (번역 키 사용)
+     */
+    @NotNull
+    public static ItemBuilder guiItemTranslated(@NotNull Material material, @NotNull Locale locale, @NotNull String nameKey, @NotNull String loreKey) {
+        return guiItem(material, locale)
+                .displayNameTranslated(nameKey)
+                .loreTranslated(loreKey);
     }
 
     /**
@@ -74,33 +105,83 @@ public class StandardItemBuilder {
     }
 
     /**
-     * 뒤로 가기 버튼
+     * 뒤로 가기 버튼 (locale 지원)
      */
     @NotNull
+    public static ItemBuilder backButton(@NotNull Locale locale) {
+        return guiItem(Material.ARROW, locale)
+                .displayNameTranslated("items.buttons.back.name")
+                .loreTranslated("items.buttons.back.lore");
+    }
+    
+    /**
+     * 뒤로 가기 버튼 - Deprecated
+     * @deprecated Use backButton(Locale) instead
+     */
+    @NotNull
+    @Deprecated
     public static ItemBuilder backButton() {
         return guiItem(Material.ARROW, "&f뒤로 가기", "&7이전 메뉴로 돌아갑니다.");
     }
 
     /**
-     * 닫기 버튼
+     * 닫기 버튼 (locale 지원)
      */
     @NotNull
+    public static ItemBuilder closeButton(@NotNull Locale locale) {
+        return guiItem(Material.BARRIER, locale)
+                .displayNameTranslated("items.buttons.close.name")
+                .loreTranslated("items.buttons.close.lore");
+    }
+    
+    /**
+     * 닫기 버튼 - Deprecated
+     * @deprecated Use closeButton(Locale) instead
+     */
+    @NotNull
+    @Deprecated
     public static ItemBuilder closeButton() {
         return guiItem(Material.BARRIER, "&c닫기", "&7메뉴를 닫습니다.");
     }
 
     /**
-     * 다음 페이지 버튼
+     * 다음 페이지 버튼 (locale 지원)
      */
     @NotNull
+    public static ItemBuilder nextPageButton(@NotNull Locale locale, int currentPage) {
+        return guiItem(Material.ARROW, locale)
+                .displayNameTranslated("items.buttons.next-page.name")
+                .addLoreTranslated("items.buttons.next-page.lore")
+                .addLore(LangManager.getGuiText("gui.page-info", locale, String.valueOf(currentPage)));
+    }
+    
+    /**
+     * 다음 페이지 버튼 - Deprecated
+     * @deprecated Use nextPageButton(Locale, int) instead
+     */
+    @NotNull
+    @Deprecated
     public static ItemBuilder nextPageButton(int currentPage) {
         return guiItem(Material.ARROW, "&f다음 페이지", "&7현재 페이지: &e" + currentPage, "&7클릭하여 다음 페이지로 이동");
     }
 
     /**
-     * 이전 페이지 버튼
+     * 이전 페이지 버튼 (locale 지원)
      */
     @NotNull
+    public static ItemBuilder previousPageButton(@NotNull Locale locale, int currentPage) {
+        return guiItem(Material.ARROW, locale)
+                .displayNameTranslated("items.buttons.previous-page.name")
+                .addLoreTranslated("items.buttons.previous-page.lore")
+                .addLore(LangManager.getGuiText("gui.page-info", locale, String.valueOf(currentPage)));
+    }
+    
+    /**
+     * 이전 페이지 버튼 - Deprecated
+     * @deprecated Use previousPageButton(Locale, int) instead
+     */
+    @NotNull
+    @Deprecated
     public static ItemBuilder previousPageButton(int currentPage) {
         return guiItem(Material.ARROW, "&f이전 페이지", "&7현재 페이지: &e" + currentPage, "&7클릭하여 이전 페이지로 이동");
     }
@@ -114,25 +195,61 @@ public class StandardItemBuilder {
     }
 
     /**
-     * 확인 버튼
+     * 확인 버튼 (locale 지원)
      */
     @NotNull
+    public static ItemBuilder confirmButton(@NotNull Locale locale) {
+        return guiItem(Material.LIME_DYE, locale)
+                .displayNameTranslated("items.buttons.confirm.name")
+                .loreTranslated("items.buttons.confirm.lore");
+    }
+    
+    /**
+     * 확인 버튼 - Deprecated
+     * @deprecated Use confirmButton(Locale) instead
+     */
+    @NotNull
+    @Deprecated
     public static ItemBuilder confirmButton() {
         return guiItem(Material.LIME_DYE, "&a확인", "&7클릭하여 확인");
     }
 
     /**
-     * 취소 버튼
+     * 취소 버튼 (locale 지원)
      */
     @NotNull
+    public static ItemBuilder cancelButton(@NotNull Locale locale) {
+        return guiItem(Material.RED_DYE, locale)
+                .displayNameTranslated("items.buttons.cancel.name")
+                .loreTranslated("items.buttons.cancel.lore");
+    }
+    
+    /**
+     * 취소 버튼 - Deprecated
+     * @deprecated Use cancelButton(Locale) instead
+     */
+    @NotNull
+    @Deprecated
     public static ItemBuilder cancelButton() {
         return guiItem(Material.RED_DYE, "&c취소", "&7클릭하여 취소");
     }
 
     /**
-     * 설정 버튼
+     * 설정 버튼 (locale 지원)
      */
     @NotNull
+    public static ItemBuilder settingsButton(@NotNull Locale locale) {
+        return guiItem(Material.COMPARATOR, locale)
+                .displayNameTranslated("items.buttons.settings.name")
+                .loreTranslated("items.buttons.settings.lore");
+    }
+    
+    /**
+     * 설정 버튼 - Deprecated
+     * @deprecated Use settingsButton(Locale) instead
+     */
+    @NotNull
+    @Deprecated
     public static ItemBuilder settingsButton() {
         return guiItem(Material.COMPARATOR, "&e설정", "&7클릭하여 설정 열기");
     }

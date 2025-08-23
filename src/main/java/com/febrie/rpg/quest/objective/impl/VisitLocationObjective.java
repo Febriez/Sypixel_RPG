@@ -18,7 +18,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-import net.kyori.adventure.text.Component;
 /**
  * 지역 방문 퀘스트 목표
  * WorldGuard 영역 또는 특정 좌표 반경 내 도달

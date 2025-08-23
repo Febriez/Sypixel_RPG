@@ -1,10 +1,12 @@
 package com.febrie.rpg.util;
 
+import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.gui.framework.BaseGui;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -166,12 +168,16 @@ public final class GuiHandlerUtil {
      */
     public static <T> void asyncUpdate(@NotNull Player player, @NotNull Supplier<T> asyncTask,
                                        @NotNull Consumer<T> syncUpdate) {
+        Plugin plugin = RPGMain.getInstance();
+        if (plugin == null) {
+            return; // Plugin not initialized
+        }
         player.getServer().getScheduler().runTaskAsynchronously(
-                player.getServer().getPluginManager().getPlugin("SypixelRPG"),
+                plugin,
                 () -> {
                     T result = asyncTask.get();
                     player.getServer().getScheduler().runTask(
-                            player.getServer().getPluginManager().getPlugin("SypixelRPG"),
+                            plugin,
                             () -> syncUpdate.accept(result)
                     );
                 }
@@ -183,8 +189,12 @@ public final class GuiHandlerUtil {
      */
     public static void switchGui(@NotNull Player player, @NotNull BaseGui newGui) {
         player.closeInventory();
+        Plugin plugin = RPGMain.getInstance();
+        if (plugin == null) {
+            return; // Plugin not initialized
+        }
         player.getServer().getScheduler().runTaskLater(
-                player.getServer().getPluginManager().getPlugin("SypixelRPG"),
+                plugin,
                 () -> newGui.open(player),
                 1L
         );

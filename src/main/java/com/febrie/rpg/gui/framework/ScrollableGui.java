@@ -41,19 +41,18 @@ public abstract class ScrollableGui extends BaseGui {
      * Default: 3 rows, 7 columns, starting at row 1, col 1
      */
     public ScrollableGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
-                         int size, @NotNull String titleKey, @NotNull String... titleArgs) {
-        this(viewer, guiManager, size, titleKey, 3, 7, 1, 1, titleArgs);
+                         int size, @NotNull Component title) {
+        this(viewer, guiManager, size, title, 3, 7, 1, 1);
     }
 
     /**
      * Creates a scrollable GUI with custom configuration
      */
     public ScrollableGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
-                         int size, @NotNull String titleKey,
+                         int size, @NotNull Component title,
                          int scrollRows, int scrollCols,
-                         int scrollStartRow, int scrollStartCol,
-                         @NotNull String... titleArgs) {
-        super(viewer, guiManager, size, titleKey, titleArgs);
+                         int scrollStartRow, int scrollStartCol) {
+        super(viewer, guiManager, size, title);
 
         this.scrollRows = scrollRows;
         this.scrollCols = scrollCols;
@@ -150,10 +149,10 @@ public abstract class ScrollableGui extends BaseGui {
 
         return GuiItem.clickable(
                 ItemBuilder.of(material)
-                        .displayName(trans("gui.scroll.up"))
+                        .displayName(Component.translatable("gui.scroll.up"))
                         .addLore(canScrollUp ?
-                                trans("gui.scroll.click-to-scroll-up") :
-                                trans("gui.scroll.at-top"))
+                                Component.translatable("gui.scroll.click-to-scroll-up") :
+                                Component.translatable("gui.scroll.at-top"))
                         .build(),
                 player -> {
                     if (canScrollUp) {
@@ -175,10 +174,10 @@ public abstract class ScrollableGui extends BaseGui {
 
         return GuiItem.clickable(
                 ItemBuilder.of(material)
-                        .displayName(trans("gui.scroll.down"))
+                        .displayName(Component.translatable("gui.scroll.down"))
                         .addLore(canScrollDown ?
-                                trans("gui.scroll.click-to-scroll-down") :
-                                trans("gui.scroll.at-bottom"))
+                                Component.translatable("gui.scroll.click-to-scroll-down") :
+                                Component.translatable("gui.scroll.at-bottom"))
                         .build(),
                 player -> {
                     if (canScrollDown) {

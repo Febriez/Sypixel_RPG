@@ -8,8 +8,9 @@ import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
-import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.StandardItemBuilder;
+import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -22,9 +23,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.HashMap;
-import java.util.ArrayList;
 import java.util.UUID;
 import java.util.stream.Collectors;
 /**
@@ -42,7 +40,7 @@ public class IslandContributionGui extends BaseGui {
     private static final int ITEMS_PER_PAGE = 28; // 7x4 grid
     private IslandContributionGui(@NotNull GuiManager guiManager, @NotNull Player viewer, 
                                   @NotNull IslandDTO island, int page) {
-        super(viewer, guiManager, 54, "gui.island.contribution.title");
+        super(viewer, guiManager, 54, Component.translatable("gui.island.contribution.title"));
         this.island = island;
         
         // 기여도를 내림차순으로 정렬
@@ -68,7 +66,7 @@ public class IslandContributionGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return trans("gui.island.contribution.title").color(UnifiedColorUtil.PRIMARY);
+        return Component.translatable("gui.island.contribution.title");
     }
     
     @Override
@@ -103,14 +101,15 @@ public class IslandContributionGui extends BaseGui {
         long totalContribution = island.membership().contributions().values().stream()
                 .mapToLong(Long::longValue)
                 .sum();
-        return StandardItemBuilder.guiItem(Material.EMERALD_BLOCK)
-                .displayName(trans("gui.island.contribution.info.title").color(UnifiedColorUtil.GOLD))
+        return ItemBuilder.of(Material.EMERALD_BLOCK, getViewerLocale())
+                .displayNameTranslated("gui.island.contribution.info.title")
                 .addLore(Component.empty())
-                .addLore(trans("gui.island.contribution.info.island-name", "name", island.core().islandName()))
-                .addLore(trans("gui.island.contribution.info.total", "amount", String.format("%,d", totalContribution)))
-                .addLore(trans("gui.island.contribution.info.contributors", "count", String.valueOf(sortedContributions.size())))
-                .addLore(trans("gui.island.contribution.info.description1"))
-                .addLore(trans("gui.island.contribution.info.description2"))
+                .addLore(LangManager.get("gui.island.contribution.info.island-name", viewer, Component.text(island.core().islandName())))
+                .addLore(LangManager.get("gui.island.contribution.info.total", viewer, Component.text(String.format("%,d", totalContribution))))
+                .addLore(LangManager.get("gui.island.contribution.info.contributors", viewer, Component.text(String.valueOf(sortedContributions.size()))))
+                .addLoreTranslated("gui.island.contribution.info.description1")
+                .addLoreTranslated("gui.island.contribution.info.description2")
+                .hideAllFlags()
                 .build();
     }
     
@@ -136,7 +135,7 @@ public class IslandContributionGui extends BaseGui {
     
     private ItemStack createContributorItem(String playerUuid, long contribution, int rank) {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(playerUuid));
-        String playerName = offlinePlayer.getName() != null ? offlinePlayer.getName() : transString("gui.common.unknown");
+        String playerName = offlinePlayer.getName() != null ? offlinePlayer.getName() : "Unknown";
         // 순위에 따른 메달 색상
         String rankColor = switch (rank) {
             case 1 -> "&6"; // 금
@@ -145,12 +144,14 @@ public class IslandContributionGui extends BaseGui {
             default -> "&f"; // 기본
         };
         // 역할 확인
-        String role = getPlayerRole(playerUuid);
-        ItemStack item = StandardItemBuilder.guiItem(Material.PLAYER_HEAD)
-                .displayName(UnifiedColorUtil.parseComponent(rankColor + "#" + rank + " &f" + playerName))
-                .addLore(trans("gui.island.contribution.contributor.contribution", "amount", String.format("%,d", contribution)))
-                .addLore(trans("gui.island.contribution.contributor.role", "role", role))
-                .addLore(trans("gui.island.contribution.contributor.percentage", "percent", String.format("%.1f", getContributionPercentage(contribution))))
+        Component role = getPlayerRoleComponent(playerUuid);
+        ItemStack item = ItemBuilder.of(Material.PLAYER_HEAD, getViewerLocale())
+                .displayName(LangManager.get("gui.island.contribution.contributor.name", viewer, 
+                        Component.text("#" + rank), Component.text(playerName)))
+                .addLore(LangManager.get("gui.island.contribution.contributor.contribution", viewer, Component.text(String.format("%,d", contribution))))
+                .addLore(LangManager.get("gui.island.contribution.contributor.role", viewer, role))
+                .addLore(LangManager.get("gui.island.contribution.contributor.percentage", viewer, Component.text(String.format("%.1f", getContributionPercentage(contribution)))))
+                .hideAllFlags()
                 .build();
         
         // 플레이어 머리 설정
@@ -161,20 +162,20 @@ public class IslandContributionGui extends BaseGui {
         return item;
     }
     
-    private String getPlayerRole(String playerUuid) {
+    private Component getPlayerRoleComponent(String playerUuid) {
         if (island.core().ownerUuid().equals(playerUuid)) {
-            return transString("gui.island.role.owner");
+            return Component.translatable("gui.island.role.owner");
         }
         for (IslandMemberDTO member : island.membership().members()) {
             if (member.uuid().equals(playerUuid)) {
-                return member.isCoOwner() ? transString("gui.island.role.co-owner") : transString("gui.island.role.member");
+                return member.isCoOwner() ? Component.translatable("gui.island.role.co-owner") : Component.translatable("gui.island.role.member");
             }
         }
         // 알바생 확인
         if (island.membership().workers().stream().anyMatch(w -> w.uuid().equals(playerUuid))) {
-            return transString("gui.island.role.worker");
+            return Component.translatable("gui.island.role.worker");
         }
-        return transString("gui.island.role.contributor");
+        return Component.translatable("gui.island.role.contributor");
     }
     
     private double getContributionPercentage(long contribution) {
@@ -188,33 +189,37 @@ public class IslandContributionGui extends BaseGui {
     private ItemStack createContributeItem() {
         String playerUuid = viewer.getUniqueId().toString();
         long currentContribution = island.membership().contributions().getOrDefault(playerUuid, 0L);
-        return StandardItemBuilder.guiItem(Material.EMERALD)
-                .displayName(trans("gui.island.contribution.add.title").color(UnifiedColorUtil.SUCCESS))
-                .addLore(trans("gui.island.contribution.add.current", "amount", String.format("%,d", currentContribution)))
-                .addLore(trans("gui.island.contribution.add.description1"))
-                .addLore(trans("gui.island.contribution.add.description2"))
-                .addLore(trans("gui.island.contribution.add.click").color(UnifiedColorUtil.YELLOW))
+        return ItemBuilder.of(Material.EMERALD, getViewerLocale())
+                .displayNameTranslated("gui.island.contribution.add.title")
+                .addLore(LangManager.get("gui.island.contribution.add.current", viewer, Component.text(String.format("%,d", currentContribution))))
+                .addLoreTranslated("gui.island.contribution.add.description1")
+                .addLoreTranslated("gui.island.contribution.add.description2")
+                .addLoreTranslated("gui.island.contribution.add.click")
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createPreviousPageItem() {
-        return StandardItemBuilder.guiItem(Material.ARROW)
-                .displayName(trans("gui.common.previous-page").color(UnifiedColorUtil.SUCCESS))
-                .addLore(trans("gui.common.page", "current", String.valueOf(page - 1), "max", String.valueOf(maxPage)))
+        return ItemBuilder.of(Material.ARROW, getViewerLocale())
+                .displayNameTranslated("gui.common.previous-page")
+                .addLore(LangManager.get("gui.common.page", viewer, Component.text(String.valueOf(page - 1)), Component.text(String.valueOf(maxPage))))
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createNextPageItem() {
-        return StandardItemBuilder.guiItem(Material.ARROW)
-                .displayName(trans("gui.common.next-page").color(UnifiedColorUtil.SUCCESS))
-                .addLore(trans("gui.common.page", "current", String.valueOf(page + 1), "max", String.valueOf(maxPage)))
+        return ItemBuilder.of(Material.ARROW, getViewerLocale())
+                .displayNameTranslated("gui.common.next-page")
+                .addLore(LangManager.get("gui.common.page", viewer, Component.text(String.valueOf(page + 1)), Component.text(String.valueOf(maxPage))))
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createBackButton() {
-        return StandardItemBuilder.guiItem(Material.ARROW)
-                .displayName(trans("gui.common.back").color(UnifiedColorUtil.ERROR))
-                .addLore(trans("gui.island.contribution.back-description"))
+        return ItemBuilder.of(Material.ARROW, getViewerLocale())
+                .displayNameTranslated("gui.buttons.back.name")
+                .addLoreTranslated("gui.island.contribution.back-description")
+                .hideAllFlags()
                 .build();
     }
     

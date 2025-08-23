@@ -12,6 +12,9 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.SkullUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -25,11 +28,9 @@ import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 /**
  * 리더보드 GUI - 올바르게 수정된 버전
  * 여러 타입의 리더보드를 탭으로 전환하며 볼 수 있는 GUI
@@ -93,8 +94,8 @@ public class LeaderboardGui extends ScrollableGui {
     
     private LeaderboardGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer, @NotNull LeaderboardType type) {
-        super(viewer, guiManager, GUI_SIZE, "gui.leaderboard.title",
-                "type", type.getDisplayName());
+        super(viewer, guiManager, GUI_SIZE, 
+                Component.translatable("gui.leaderboard.title", type.getDisplayName()));
         this.currentType = type;
     }
     
@@ -128,7 +129,7 @@ public class LeaderboardGui extends ScrollableGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return trans("gui.leaderboard.title", "type", currentType.getDisplayName());
+        return Component.translatable("gui.leaderboard.title", currentType.getDisplayName());
     }
     
     @Override
@@ -194,13 +195,13 @@ public class LeaderboardGui extends ScrollableGui {
         TAB_POSITIONS.forEach((slot, type) -> {
             boolean isSelected = type == currentType;
             GuiItem tabItem = GuiItem.clickable(
-                    new ItemBuilder(type.getIcon())
+                    ItemBuilder.of(type.getIcon(), viewer.locale())
                             .displayName(type.getDisplayName().color(type.getColor())
                                     .decoration(TextDecoration.BOLD, true))
                             .addLore(Component.empty())
                             .addLore(isSelected ?
-                                    trans("gui.leaderboard.tab-selected") :
-                                    trans("gui.leaderboard.tab-click"))
+                                    Component.translatable("gui.leaderboard.tab-selected") :
+                                    Component.translatable("gui.leaderboard.tab-click"))
                             .glint(isSelected)
                             .flags(ItemFlag.values())
                             .build(),
@@ -216,17 +217,19 @@ public class LeaderboardGui extends ScrollableGui {
     private void setupInfoDisplay() {
         if (isLoading) {
             setItem(LOADING_SLOT, GuiItem.display(
-                    new ItemBuilder(Material.CLOCK)
-                            .displayName(trans("gui.leaderboard.loading"))
-                            .addLore(trans("gui.leaderboard.loading-description"))
+                    ItemBuilder.of(Material.CLOCK, viewer.locale())
+                            .displayNameTranslated("items.leaderboard.loading.name")
+                            .addLoreTranslated("items.leaderboard.loading.lore")
+                            .hideAllFlags()
                             .build()
             ));
         } else {
             setItem(LOADING_SLOT, GuiItem.display(
-                    new ItemBuilder(Material.NETHER_STAR)
-                            .displayName(trans("gui.leaderboard.title", "type", currentType.getDisplayName()))
-                            .addLore(trans("gui.leaderboard.current-type", "type", currentType.getDisplayName()))
-                            .addLore(trans("gui.leaderboard.total-entries", "count", String.valueOf(currentLeaderboard.size())))
+                    ItemBuilder.of(Material.NETHER_STAR, viewer.locale())
+                            .displayName(LangManager.getGuiText("gui.leaderboard.title", viewer.locale(), currentType.getDisplayName()))
+                            .addLore(LangManager.getGuiText("gui.leaderboard.current-type", viewer.locale(), currentType.getDisplayName()))
+                            .addLore(LangManager.getGuiText("gui.leaderboard.total-entries", viewer.locale(), String.valueOf(currentLeaderboard.size())))
+                            .hideAllFlags()
                             .glint(true)
                             .build()
             ));
@@ -241,21 +244,22 @@ public class LeaderboardGui extends ScrollableGui {
     private void setupMyRankDisplay() {
         if (myRankEntry != null && myRankEntry.rank() > 0) {
             setItem(MY_RANK_SLOT, GuiItem.display(
-                    new ItemBuilder(viewer)
-                            .displayName(trans("gui.leaderboard.my-rank-title").color(UnifiedColorUtil.SUCCESS))
-                            .addLore(trans("gui.leaderboard.my-rank", "rank", String.valueOf(myRankEntry.rank())))
-                            .addLore(trans("gui.leaderboard.my-value", "value", formatValue(myRankEntry.value())))
-                            .addLore(trans("gui.leaderboard.last-updated",
-                                    "time", formatTime(myRankEntry.lastUpdated())))
+                    ItemBuilder.from(SkullUtil.getPlayerHead(viewer.getUniqueId().toString()))
+                            .displayNameTranslated("items.leaderboard.my-rank.name")
+                            .addLore(LangManager.getGuiText("gui.leaderboard.my-rank", viewer.locale(), String.valueOf(myRankEntry.rank())))
+                            .addLore(LangManager.getGuiText("gui.leaderboard.my-value", viewer.locale(), formatValue(myRankEntry.value())))
+                            .hideAllFlags()
+                            .addLore(LangManager.getGuiText("gui.leaderboard.last-updated", viewer.locale(), formatTime(myRankEntry.lastUpdated())))
                             .glint(true)
                             .build()
             ));
         } else {
             setItem(MY_RANK_SLOT, GuiItem.display(
-                    new ItemBuilder(viewer)
-                            .displayName(trans("gui.leaderboard.my-rank-title").color(UnifiedColorUtil.GRAY))
-                            .addLore(trans("gui.leaderboard.no-rank-data"))
-                            .addLore(trans("gui.leaderboard.play-more"))
+                    ItemBuilder.from(SkullUtil.getPlayerHead(viewer.getUniqueId().toString()))
+                            .displayNameTranslated("items.leaderboard.no-rank.name")
+                            .addLoreTranslated("items.leaderboard.no-rank.lore1")
+                            .addLoreTranslated("items.leaderboard.no-rank.lore2")
+                            .hideAllFlags()
                             .build()
             ));
         }
@@ -338,21 +342,19 @@ public class LeaderboardGui extends ScrollableGui {
         // 플레이어 머리 사용 (상위 3명 제외)
         ItemBuilder builder;
         if (entry.rank() <= 3) {
-            builder = new ItemBuilder(material);
+            builder = ItemBuilder.of(material, viewer.locale());
         } else {
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(entry.playerUuid()));
-            builder = new ItemBuilder(offlinePlayer.getPlayer());
+            builder = ItemBuilder.from(SkullUtil.getPlayerHead(entry.playerUuid()));
         }
         
         builder.displayName(Component.text(entry.rank() + ". " + entry.playerName(), color)
                         .decoration(TextDecoration.BOLD, entry.rank() <= 3))
                 .addLore(Component.empty())
-                .addLore(trans("gui.leaderboard.value", "value", formatValue(entry.value())))
-                .addLore(trans("gui.leaderboard.last-updated",
-                        "time", formatTime(entry.lastUpdated())));
+                .addLore(LangManager.getGuiText("gui.leaderboard.value", viewer.locale(), formatValue(entry.value())))
+                .addLore(LangManager.getGuiText("gui.leaderboard.last-updated", viewer.locale(), formatTime(entry.lastUpdated())));
         if (isMyself) {
             builder.addLore(Component.empty())
-                    .addLore(trans("gui.leaderboard.this-is-you"))
+                    .addLore(LangManager.getGuiText("gui.leaderboard.this-is-you", viewer.locale()))
                     .glint(true);
         }
         
@@ -412,8 +414,8 @@ public class LeaderboardGui extends ScrollableGui {
     private String formatPlaytime(long seconds) {
         long hours = seconds / 3600;
         long minutes = (seconds % 3600) / 60;
-        // Use translation for hours and minutes
-        return trans("gui.leaderboard.playtime-format", "hours", String.valueOf(hours), "minutes", String.valueOf(minutes)).toString();
+        // Format directly since we need a String return value
+        return hours + "h " + minutes + "m";
     }
     
     /**
@@ -421,10 +423,10 @@ public class LeaderboardGui extends ScrollableGui {
      */
     private String formatTime(long timestamp) {
         long diff = System.currentTimeMillis() - timestamp;
-        if (diff < 60000) return trans("gui.leaderboard.time-just-now").toString();
-        if (diff < 3600000) return trans("gui.leaderboard.time-minutes-ago", "minutes", String.valueOf(diff / 60000)).toString();
-        if (diff < 86400000) return trans("gui.leaderboard.time-hours-ago", "hours", String.valueOf(diff / 3600000)).toString();
-        return trans("gui.leaderboard.time-days-ago", "days", String.valueOf(diff / 86400000)).toString();
+        if (diff < 60000) return "Just now";
+        if (diff < 3600000) return (diff / 60000) + " minutes ago";
+        if (diff < 86400000) return (diff / 3600000) + " hours ago";
+        return (diff / 86400000) + " days ago";
     }
     
     @Override

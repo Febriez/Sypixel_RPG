@@ -9,7 +9,6 @@ import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -119,7 +118,7 @@ public class ArenaGladiatorQuest extends Quest {
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return Component.translatable("quest.arena_gladiator.objective.", Component.text(objective.getStatusInfo(who)));
+        return Component.translatable("quest.arena_gladiator.objective." + id);
     }
 
     public QuestDialog getDialog() {

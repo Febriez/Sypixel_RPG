@@ -7,7 +7,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.kyori.adventure.text.Component;
 /**
  * 플레이어의 섬 관련 데이터 DTO (Record)
  * 플레이어가 어떤 섬에 속해있는지 추적

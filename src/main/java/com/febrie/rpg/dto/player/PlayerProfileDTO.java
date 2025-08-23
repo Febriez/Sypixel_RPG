@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import net.kyori.adventure.text.Component;
 /**
  * 플레이어 프로필 DTO
  * 기본 플레이어 정보
@@ -42,14 +41,20 @@ public record PlayerProfileDTO(
     @NotNull
     public static PlayerProfileDTO fromMap(@NotNull Map<String, Object> map) {
         String uuidStr = FirestoreUtils.getString(map, "uuid", UUID.randomUUID().toString());
+        // Ensure non-null UUID string
+        if (uuidStr == null) {
+            uuidStr = UUID.randomUUID().toString();
+        }
         UUID uuid = UUID.fromString(uuidStr);
         String name = FirestoreUtils.getString(map, "name", "");
+        // Ensure non-null name
+        String safeName = name != null ? name : "";
         int level = FirestoreUtils.getInt(map, "level", 1);
         long exp = FirestoreUtils.getLong(map, "exp", 0L);
         long totalExp = FirestoreUtils.getLong(map, "totalExp", 0L);
         long lastPlayed = FirestoreUtils.getLong(map, "lastPlayed", System.currentTimeMillis());
         
-        return new PlayerProfileDTO(uuid, name, level, exp, totalExp, lastPlayed);
+        return new PlayerProfileDTO(uuid, safeName, level, exp, totalExp, lastPlayed);
     }
     
 }

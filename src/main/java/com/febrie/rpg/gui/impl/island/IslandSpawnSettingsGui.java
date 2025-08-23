@@ -2,8 +2,6 @@ package com.febrie.rpg.gui.impl.island;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.*;
-import com.febrie.rpg.dto.island.IslandSpawnDTO;
-import com.febrie.rpg.dto.island.IslandSpawnPointDTO;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.component.GuiItem;
@@ -12,11 +10,11 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,7 +33,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
     
     private IslandSpawnSettingsGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, "&3&l스폰 설정");
+        super(viewer, guiManager, 54, Component.translatable("gui.island.spawn.title"));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.isOwner = island.core().ownerUuid().equals(viewer.getUniqueId().toString());
@@ -94,7 +92,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("스폰 설정", UnifiedColorUtil.PRIMARY);
+        return Component.translatable("gui.island.spawn.title");
     }
     
     private ItemStack createCurrentSpawnInfo() {
@@ -103,115 +101,87 @@ public class IslandSpawnSettingsGui extends BaseGui {
         com.febrie.rpg.dto.island.IslandSpawnPointDTO visitorSpawn = spawn.visitorSpawn();
         String mainSpawn = String.format("%.1f, %.1f, %.1f", defaultSpawn.x(), defaultSpawn.y(), defaultSpawn.z());
         
-        ItemBuilder builder = new ItemBuilder(Material.BEACON)
-                .displayName(UnifiedColorUtil.parseComponent("&b&l현재 스폰 설정"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7기본 스폰: &f" + mainSpawn))
-                .addLore(UnifiedColorUtil.parseComponent("&7위치 이름: &f" + defaultSpawn.alias()))
-                .addLore(UnifiedColorUtil.parseComponent(""));
+        ItemBuilder builder = ItemBuilder.of(Material.BEACON, viewer.locale())
+                .displayNameTranslated("items.island.spawn.current-info.name")
+                .addLore(Component.empty())
+                .addLore(LangManager.get("gui.island.spawn.default-spawn", viewer, Component.text(mainSpawn)))
+                .addLore(LangManager.get("gui.island.spawn.location-name", viewer, Component.text(defaultSpawn.alias())))
+                .addLore(Component.empty());
         
         if (visitorSpawn != null) {
             String visitorLoc = String.format("%.1f, %.1f, %.1f", visitorSpawn.x(), visitorSpawn.y(), visitorSpawn.z());
-            builder.addLore(UnifiedColorUtil.parseComponent("&7방문자 스폰: &f" + visitorLoc));
+            builder.addLore(LangManager.get("gui.island.spawn.visitor-spawn", viewer, Component.text(visitorLoc)));
         } else {
-            builder.addLore(UnifiedColorUtil.parseComponent("&7방문자 스폰: &c설정되지 않음"));
+            builder.addLore(LangManager.get("gui.island.spawn.visitor-spawn-not-set", viewer));
         }
         
-        builder.addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7기본 스폰: 섬원이 이동하는 위치"))
-                .addLore(UnifiedColorUtil.parseComponent("&7방문자 스폰: 방문자가 이동하는 위치"));
+        builder.addLore(Component.empty())
+                .addLoreTranslated("items.island.spawn.current-info.lore");
         
-        return builder.build();
+        return builder.hideAllFlags().build();
     }
     
     private ItemStack createSetMainSpawnItem() {
-        return new ItemBuilder(Material.ENDER_PEARL)
-                .displayName(UnifiedColorUtil.parseComponent("&a&l메인 스폰 설정"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7현재 위치를 메인 스폰으로"))
-                .addLore(UnifiedColorUtil.parseComponent("&7설정합니다"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7섬원들이 /섬 워프 명령어를"))
-                .addLore(UnifiedColorUtil.parseComponent("&7사용할 때 이동하는 위치입니다"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 설정"))
+        return ItemBuilder.of(Material.ENDER_PEARL, viewer.locale())
+                .displayNameTranslated("items.island.spawn.set-main.name")
+                .loreTranslated("items.island.spawn.set-main.lore")
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createSetVisitorSpawnItem() {
-        return new ItemBuilder(Material.ENDER_EYE)
-                .displayName(UnifiedColorUtil.parseComponent("&d&l방문자 스폰 설정"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7현재 위치를 방문자 스폰으로"))
-                .addLore(UnifiedColorUtil.parseComponent("&7설정합니다"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7방문자가 섬에 들어올 때"))
-                .addLore(UnifiedColorUtil.parseComponent("&7이동하는 위치입니다"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 설정"))
+        return ItemBuilder.of(Material.ENDER_EYE, viewer.locale())
+                .displayNameTranslated("items.island.spawn.set-visitor.name")
+                .loreTranslated("items.island.spawn.set-visitor.lore")
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createResetSpawnItem() {
-        return new ItemBuilder(Material.BARRIER)
-                .displayName(UnifiedColorUtil.parseComponent("&c&l스폰 초기화"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7모든 스폰 설정을"))
-                .addLore(UnifiedColorUtil.parseComponent("&7초기화합니다"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&c주의: 이 작업은 되돌릴 수 없습니다"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 초기화"))
+        return ItemBuilder.of(Material.BARRIER, viewer.locale())
+                .displayNameTranslated("items.island.spawn.reset.name")
+                .loreTranslated("items.island.spawn.reset.lore")
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createSpawnProtectionItem() {
-        return new ItemBuilder(Material.SHIELD)
-                .displayName(UnifiedColorUtil.parseComponent("&6&l스폰 보호"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&c※ 준비 중인 기능입니다"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7스폰 주변 반경을 설정하여"))
-                .addLore(UnifiedColorUtil.parseComponent("&7블록 파괴/설치를 방지합니다"))
+        return ItemBuilder.of(Material.SHIELD, viewer.locale())
+                .displayNameTranslated("items.island.spawn.protection.name")
+                .loreTranslated("items.island.spawn.protection.lore")
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createPersonalSpawnItem() {
-        return new ItemBuilder(Material.ENDER_CHEST)
-                .displayName(UnifiedColorUtil.parseComponent("&d&l개인 스폰 관리"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7자신만의 개인 스폰을"))
-                .addLore(UnifiedColorUtil.parseComponent("&7설정하고 관리합니다"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 관리"))
+        return ItemBuilder.of(Material.ENDER_CHEST, viewer.locale())
+                .displayNameTranslated("items.island.spawn.personal.name")
+                .loreTranslated("items.island.spawn.personal.lore")
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createSpawnMessageItem() {
-        return new ItemBuilder(Material.WRITABLE_BOOK)
-                .displayName(UnifiedColorUtil.parseComponent("&e&l환영 메시지"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&c※ 준비 중인 기능입니다"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7방문자가 섬에 들어올 때"))
-                .addLore(UnifiedColorUtil.parseComponent("&7표시되는 메시지를 설정합니다"))
+        return ItemBuilder.of(Material.WRITABLE_BOOK, viewer.locale())
+                .displayNameTranslated("items.island.spawn.message.name")
+                .loreTranslated("items.island.spawn.message.lore")
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createNoPermissionItem() {
-        return new ItemBuilder(Material.REDSTONE_BLOCK)
-                .displayName(UnifiedColorUtil.parseComponent("&c&l권한 없음"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7스폰 설정은 섬장과"))
-                .addLore(UnifiedColorUtil.parseComponent("&7부섬장만 할 수 있습니다"))
+        return ItemBuilder.of(Material.REDSTONE_BLOCK, viewer.locale())
+                .displayNameTranslated("items.island.spawn.no-permission.name")
+                .loreTranslated("items.island.spawn.no-permission.lore")
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createBackButton() {
-        return new ItemBuilder(Material.ARROW)
-                .displayName(UnifiedColorUtil.parseComponent("&c뒤로가기"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7메인 메뉴로 돌아갑니다"))
+        return ItemBuilder.of(Material.ARROW, viewer.locale())
+                .displayNameTranslated("items.buttons.back.name")
+                .loreTranslated("items.buttons.back.lore")
+                .hideAllFlags()
                 .build();
     }
     

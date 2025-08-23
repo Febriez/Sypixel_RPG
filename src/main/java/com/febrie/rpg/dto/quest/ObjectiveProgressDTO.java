@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.kyori.adventure.text.Component;
 /**
  * 목표 진행도 DTO (Record)
  * Firebase 저장용 불변 데이터 구조

@@ -1,7 +1,5 @@
 package com.febrie.rpg.gui.impl.quest;
 
-import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
@@ -11,11 +9,10 @@ import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.dto.quest.ActiveQuestDTO;
 import com.febrie.rpg.dto.quest.CompletedQuestDTO;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import net.kyori.adventure.text.Component;
 
@@ -35,7 +32,8 @@ public class QuestSelectionGui extends BaseGui {
     
     private QuestSelectionGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                              @NotNull List<Quest> quests, @NotNull String npcName) {
-        super(viewer, guiManager, Math.min(54, ((quests.size() - 1) / 9 + 1) * 9 + 18), "gui.quest-selection.title", npcName);
+        super(viewer, guiManager, Math.min(54, ((quests.size() - 1) / 9 + 1) * 9 + 18), 
+                Component.translatable("gui.quest-selection.title", Component.text(npcName)));
         this.questManager = guiManager.getPlugin().getQuestManager();
         this.quests = quests;
         this.npcName = npcName;
@@ -51,7 +49,7 @@ public class QuestSelectionGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return trans("gui.quest-selection.title", npcName);
+        return LangManager.getGuiText("gui.quest-selection.title", viewer.locale(), npcName);
     }
     
     @Override
@@ -88,7 +86,7 @@ public class QuestSelectionGui extends BaseGui {
         
         Material material = hasReward ? Material.ENCHANTED_BOOK : Material.BOOK;
         
-        ItemBuilder builder = new ItemBuilder(material)
+        ItemBuilder builder = ItemBuilder.of(material, viewer.locale())
                 .displayName(quest.getDisplayName(viewer).color(UnifiedColorUtil.GOLD).decorate(net.kyori.adventure.text.format.TextDecoration.BOLD));
         
         builder.addLore(Component.empty());
@@ -102,16 +100,17 @@ public class QuestSelectionGui extends BaseGui {
         
         // 상태 표시
         if (hasReward) {
-            builder.addLore(trans("gui.quest.status.completed"));
-            builder.addLore(trans("gui.quest.status.reward_available"));
+            builder.addLore(LangManager.getGuiText("gui.quest.status.completed", viewer.locale()));
+            builder.addLore(LangManager.getGuiText("gui.quest.status.reward_available", viewer.locale()));
         } else if (isActive) {
-            builder.addLore(trans("gui.quest.status.in_progress"));
+            builder.addLore(LangManager.getGuiText("gui.quest.status.in_progress", viewer.locale()));
         } else {
-            builder.addLore(trans("gui.quest.status.new_quest"));
+            builder.addLore(LangManager.getGuiText("gui.quest.status.new_quest", viewer.locale()));
         }
         
         builder.addLore(Component.empty());
-        builder.addLore(trans("gui.quest.click_to_select"));
+        builder.addLoreTranslated("items.quest.selection.click-hint");
+        builder.hideAllFlags();
         
         return GuiItem.clickable(builder.build(), player -> {
             handleQuestSelection(player, quest);
@@ -141,7 +140,7 @@ public class QuestSelectionGui extends BaseGui {
             QuestRewardGui.create(guiManager, viewer, quest, instanceId).open(viewer);
         } else if (activeEntry.isPresent()) {
             // 진행 상황 표시
-            player.sendMessage(Component.text("퀘스트 '").append(quest.getDisplayName(viewer)).append(Component.text("'를 진행 중입니다.")).color(UnifiedColorUtil.YELLOW));
+            player.sendMessage(LangManager.get("quest.in-progress", viewer, quest.getDisplayName(viewer)));
         } else {
             // 새 퀘스트 시작
             questManager.startQuest(viewer, quest.getId());

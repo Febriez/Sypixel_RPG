@@ -1,6 +1,5 @@
 package com.febrie.rpg.quest.impl.seasonal;
 
-import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;

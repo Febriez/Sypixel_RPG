@@ -31,7 +31,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.TimeUnit;
 
-import net.kyori.adventure.text.Component;
 /**
  * RPG 플레이어 데이터 관리자
  * 플레이어의 RPG 데이터를 메모리에 캐싱하고 관리
@@ -385,14 +384,14 @@ public class RPGPlayerManager implements Listener {
         PlayerDataDTO playerData = createPlayerDataDTO(rpgPlayer);
 
         if (playerService != null) {
-            LogUtil.info("플레이어 데이터 비동기 저장 시도: " + uuid.toString());
+            LogUtil.info("플레이어 데이터 비동기 저장 시도: " + uuid);
             return playerService.save(uuid.toString(), playerData)
                 .thenApply(result -> {
-                    LogUtil.info("플레이어 데이터 비동기 저장 성공: " + uuid.toString());
+                    LogUtil.info("플레이어 데이터 비동기 저장 성공: " + uuid);
                     return true;
                 })
                 .exceptionally(throwable -> {
-                    LogUtil.error("플레이어 데이터 비동기 저장 실패: " + uuid.toString(), throwable);
+                    LogUtil.error("플레이어 데이터 비동기 저장 실패: " + uuid, throwable);
                     return false;
                 });
         } else {
@@ -412,10 +411,10 @@ public class RPGPlayerManager implements Listener {
             PlayerDataDTO playerData = createPlayerDataDTO(rpgPlayer);
 
             if (playerService != null) {
-                LogUtil.info("플레이어 데이터 동기 저장 시도: " + uuid.toString());
+                LogUtil.info("플레이어 데이터 동기 저장 시도: " + uuid);
                 playerService.save(uuid.toString(), playerData)
                     .get(10, TimeUnit.SECONDS);
-                LogUtil.info("플레이어 데이터 동기 저장 성공: " + uuid.toString());
+                LogUtil.info("플레이어 데이터 동기 저장 성공: " + uuid);
                 return true;
             } else {
                 LogUtil.warning("PlayerService가 null입니다. 플레이어 데이터를 저장할 수 없습니다.");

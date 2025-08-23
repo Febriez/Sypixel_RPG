@@ -6,7 +6,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
 
-import net.kyori.adventure.text.Component;
 /**
  * 플레이어 개인 설정 관리
  * 대화 속도, 사운드 설정 등을 관리

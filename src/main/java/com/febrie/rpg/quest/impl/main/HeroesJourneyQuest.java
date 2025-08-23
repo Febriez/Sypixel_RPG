@@ -111,7 +111,7 @@ public class HeroesJourneyQuest extends Quest {
             case "collect_gold" -> Component.translatable("quest.main.heroes_journey.objectives.collect_gold");
             case "craft_iron_sword" -> Component.translatable("quest.main.heroes_journey.objectives.craft_iron_sword");
             case "craft_iron_armor" -> Component.translatable("quest.main.heroes_journey.objectives.craft_iron_armor");
-            default -> Component.text(objective.getStatusInfo(who));
+            default -> Component.translatable("quest.main.heroes_journey.objectives." + id);
         };
     }
 

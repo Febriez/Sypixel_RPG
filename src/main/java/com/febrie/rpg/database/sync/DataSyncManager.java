@@ -9,20 +9,14 @@ import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.LogUtil;
 import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.Transaction;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.HashMap;
-import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-import net.kyori.adventure.text.Component;
 /**
  * 데이터 동기화 관리자
  * 메모리와 Firestore 간의 데이터 동기화를 담당
@@ -66,7 +60,7 @@ public class DataSyncManager {
                 var snapshot = transaction.get(docRef).get();
             
             PlayerDataDTO currentData = null;
-            if (snapshot.exists()) {
+            if (snapshot.exists() && snapshot.getData() != null) {
                 currentData = PlayerDataDTO.fromMap(snapshot.getData());
             }
             if (currentData == null) {
@@ -162,7 +156,7 @@ public class DataSyncManager {
                     
                 var snapshot = future.get(5, TimeUnit.SECONDS);
                 
-                if (snapshot.exists()) {
+                if (snapshot.exists() && snapshot.getData() != null) {
                     PlayerDataDTO data = PlayerDataDTO.fromMap(snapshot.getData());
                     cache.put(playerId, data);
                     return data;
@@ -198,10 +192,14 @@ public class DataSyncManager {
                 var fromSnapshot = transaction.get(fromRef).get();
                 var toSnapshot = transaction.get(toRef).get();
                 
-                PlayerDataDTO fromData = fromSnapshot.exists() ? 
-                    PlayerDataDTO.fromMap(fromSnapshot.getData()) : null;
-                PlayerDataDTO toData = toSnapshot.exists() ? 
-                    PlayerDataDTO.fromMap(toSnapshot.getData()) : null;
+                PlayerDataDTO fromData = null;
+                if (fromSnapshot.exists() && fromSnapshot.getData() != null) {
+                    fromData = PlayerDataDTO.fromMap(fromSnapshot.getData());
+                }
+                PlayerDataDTO toData = null;
+                if (toSnapshot.exists() && toSnapshot.getData() != null) {
+                    toData = PlayerDataDTO.fromMap(toSnapshot.getData());
+                }
                     
                 if (fromData == null || toData == null) {
                     return false;

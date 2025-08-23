@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import net.kyori.adventure.text.Component;
 /**
  * 플레이어 섬 데이터 Firestore 서비스
  * 플레이어별 섬 관련 데이터를 관리

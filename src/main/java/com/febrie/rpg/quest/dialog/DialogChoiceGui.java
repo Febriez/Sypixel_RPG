@@ -1,6 +1,5 @@
 package com.febrie.rpg.quest.dialog;
 
-import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
@@ -9,8 +8,8 @@ import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.dialog.DialogManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -36,7 +35,7 @@ public class DialogChoiceGui extends BaseGui {
                            @NotNull QuestDialog dialog,
                            @NotNull QuestDialog.DialogLine dialogLine,
                            @NotNull DialogManager.DialogProgress progress) {
-        super(viewer, guiManager, GUI_SIZE, "gui.dialog-choice.title");
+        super(viewer, guiManager, GUI_SIZE, Component.translatable("gui.dialog-choice.title"));
         this.dialog = dialog;
         this.dialogLine = dialogLine;
         this.progress = progress;
@@ -50,13 +49,12 @@ public class DialogChoiceGui extends BaseGui {
                                         @NotNull QuestDialog dialog,
                                         @NotNull QuestDialog.DialogLine dialogLine,
                                         @NotNull DialogManager.DialogProgress progress) {
-        DialogChoiceGui gui = new DialogChoiceGui(player, guiManager, dialog, dialogLine, progress);
-        return gui;
+        return new DialogChoiceGui(player, guiManager, dialog, dialogLine, progress);
     }
 
     @Override
     public @NotNull Component getTitle() {
-        return trans("gui.dialog-choice.title");
+        return LangManager.getGuiText("gui.dialog-choice.title", viewer.locale());
     }
 
     @Override
@@ -72,8 +70,8 @@ public class DialogChoiceGui extends BaseGui {
         // 대화 아이콘
         GuiItem dialogIcon = GuiItem.display(
                 new ItemBuilder(Material.WRITABLE_BOOK)
-                        .displayName(trans("gui.dialog-choice.icon"))
-                        .addLore(trans("gui.dialog-choice.description"))
+                        .displayName(LangManager.getGuiText("gui.dialog-choice.icon", viewer.locale()))
+                        .addLore(LangManager.getGuiText("gui.dialog-choice.description", viewer.locale()))
                         .build()
         );
         setItem(4, dialogIcon);
@@ -83,8 +81,8 @@ public class DialogChoiceGui extends BaseGui {
         // NPC 대화 내용 표시
         GuiItem npcDialog = GuiItem.display(
                 new ItemBuilder(Material.PLAYER_HEAD)
-                        .displayName(trans("gui.dialog-choice.npc"))
-                        .addLore(trans("gui.dialog-choice.npc-content"))
+                        .displayName(LangManager.getGuiText("gui.dialog-choice.npc", viewer.locale()))
+                        .addLore(LangManager.getGuiText("gui.dialog-choice.npc-content", viewer.locale()))
                         .build()
         );
         setItem(13, npcDialog);
@@ -104,10 +102,10 @@ public class DialogChoiceGui extends BaseGui {
             
             GuiItem choiceItem = GuiItem.clickable(
                     new ItemBuilder(Material.PAPER)
-                            .displayName(trans("gui.dialog-choice.option", String.valueOf(i + 1)))
+                            .displayName(LangManager.getGuiText("gui.dialog-choice.option", viewer.locale(), String.valueOf(i + 1)))
                             .addLore(choice.getText().color(UnifiedColorUtil.WHITE))
                             .addLore(Component.empty())
-                            .addLore(trans("gui.dialog-choice.click-to-select"))
+                            .addLore(LangManager.getGuiText("gui.dialog-choice.click-to-select", viewer.locale()))
                             .build(),
                     p -> {
                         // 선택 처리

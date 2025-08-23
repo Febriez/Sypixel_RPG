@@ -9,10 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import net.kyori.adventure.text.Component;
 /**
  * Firestore 초기화 및 관리자
  * Google Cloud Firestore 직접 연결

@@ -4,12 +4,10 @@ import com.febrie.rpg.quest.QuestID;
 import net.citizensnpcs.api.persistence.Persist;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitName;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.kyori.adventure.text.Component;
 /**
  * 퀘스트 보상 NPC를 위한 커스텀 Trait
  * 플레이어가 퀘스트를 완료한 후 이 NPC와 상호작용하여 보상을 받음

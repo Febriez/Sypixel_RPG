@@ -1,4 +1,145 @@
 {
+  "gui": {
+    "buttons": {
+      "close": {
+        "name": "닫기",
+        "lore": [
+          "클릭하여 창을 닫습니다."
+        ]
+      },
+      "back": {
+        "name": "◀ 돌아가기",
+        "lore": [
+          "클릭하여 이전 화면으로 돌아갑니다."
+        ]
+      },
+      "refresh": {
+        "name": "새로고침",
+        "lore": [
+          "클릭하여 화면을 새로고칩니다."
+        ]
+      },
+      "next-page": {
+        "name": "다음 페이지 →",
+        "lore": [
+          "클릭하여 다음 페이지로 이동합니다."
+        ]
+      },
+      "previous-page": {
+        "name": "← 이전 페이지",
+        "lore": [
+          "클릭하여 이전 페이지로 이동합니다."
+        ]
+      },
+      "confirm": {
+        "name": "확인",
+        "lore": [
+          "클릭하여 확인합니다."
+        ]
+      },
+      "cancel": {
+        "name": "취소",
+        "lore": [
+          "클릭하여 취소합니다."
+        ]
+      },
+      "settings": {
+        "name": "설정",
+        "lore": [
+          "클릭하여 설정을 엽니다."
+        ]
+      },
+      "toggle": {
+        "enabled": {
+          "name": "활성화됨",
+          "lore": [
+            "현재 활성화된 상태입니다."
+          ]
+        },
+        "disabled": {
+          "name": "비활성화됨",
+          "lore": [
+            "현재 비활성화된 상태입니다."
+          ]
+        }
+      },
+      "page-info": {
+        "name": "페이지 정보",
+        "lore": [
+          "현재 페이지: {0}/{1}"
+        ]
+      },
+      "status": {
+        "online": {
+          "name": "온라인",
+          "lore": [
+            "현재 접속 중입니다."
+          ]
+        },
+        "offline": {
+          "name": "오프라인",
+          "lore": [
+            "현재 접속 중이 아닙니다."
+          ]
+        }
+      }
+    },
+    "error": {
+      "title": {
+        "name": "오류",
+        "lore": [
+          "오류가 발생했습니다."
+        ]
+      }
+    }
+  },
+  "profile": {
+    "level-info": {
+      "name": "레벨 정보",
+      "lore": [
+        "현재 레벨과 경험치 정보"
+      ]
+    },
+    "game-stats": {
+      "name": "게임 통계",
+      "lore": [
+        "플레이 시간과 전투 통계"
+      ]
+    },
+    "quest-info": {
+      "name": "퀘스트 정보",
+      "lore": [
+        "현재 진행 중인 퀘스트와 완료한 퀘스트"
+      ],
+      "click-lore": [
+        "▶ 클릭하여 퀘스트 목록 열기"
+      ]
+    },
+    "pets": {
+      "name": "애완동물",
+      "lore": [
+        "애완동물을 관리합니다",
+        "",
+        "▶ 클릭하여 열기"
+      ]
+    },
+    "collection-book": {
+      "name": "수집북",
+      "lore": [
+        "수집 진행도를 확인합니다",
+        "",
+        "▶ 클릭하여 열기"
+      ]
+    },
+    "user-settings": {
+      "name": "사용자 설정",
+      "lore": [
+        "개인 설정을 관리합니다",
+        "",
+        "▶ 클릭하여 열기"
+      ]
+    }
+  },
   "mainmenu": {
     "title": {
       "name": "SypixelRPG",
@@ -165,27 +306,938 @@
       "name": {
         "name": "섬 이름",
         "lore": [
-          "섬의 이름을 설정합니다.",
           "",
-          "▶ 클릭하여 변경"
+          "현재 이름: {0}",
+          "",
+          "▶ 클릭하여 이름 변경",
+          ""
         ]
       },
       "color": {
         "name": "섬 색상",
         "lore": [
-          "섬의 테마 색상을 선택합니다.",
           "",
-          "▶ 클릭하여 변경"
+          "현재 색상: {0} {1}",
+          "헥스: {2}",
+          "",
+          "▶ 좌클릭: 다음 ({3})",
+          "▶ 우클릭: 이전 ({4})",
+          "▶ 휠클릭: HEX 입력",
+          "",
+          "예시: #FF5733"
         ]
       },
       "biome": {
         "name": "섬 바이옴",
         "lore": [
-          "섬의 바이옴을 선택합니다.",
           "",
-          "▶ 클릭하여 변경"
+          "&7현재 바이옴: &a{0}",
+          "",
+          "&e클릭하여 변경",
+          ""
+        ]
+      },
+      "template": {
+        "basic": {
+          "name": "기본 섬",
+          "lore": [
+            "",
+            "&7표준 시작 섬",
+            "",
+            "{0}",
+            ""
+          ]
+        },
+        "skyblock": {
+          "name": "스카이블록 섬",
+          "lore": [
+            "",
+            "&7클래식 스카이블록 도전",
+            "",
+            "{0}",
+            ""
+          ]
+        },
+        "large": {
+          "name": "대형 섬",
+          "lore": [
+            "",
+            "&7더 넓은 공간의 큰 섬",
+            "",
+            "{0}",
+            ""
+          ]
+        },
+        "water": {
+          "name": "수상 섬",
+          "lore": [
+            "",
+            "&7물로 둘러싸인 섬",
+            "",
+            "{0}",
+            ""
+          ]
+        }
+      },
+      "create-button": {
+        "name": "&a&l섬 생성",
+        "lore": [
+          "",
+          "&e선택된 설정:",
+          "&7이름: {0}",
+          "&7바이옴: &a{1}",
+          "&7템플릿: &b{2}",
+          "",
+          "&a&l클릭하여 생성!",
+          ""
+        ]
+      }
+    },
+    "gui": {
+      "main": {
+        "create-island": {
+          "title": "🏝 섬 생성",
+          "no-island": "아직 섬이 없습니다!",
+          "description": "클릭하여 나만의 섬을 만들어보세요",
+          "feature-1": "• 자유로운 건축",
+          "feature-2": "• 친구들과 함께 플레이",
+          "feature-3": "• 다양한 바이옴 선택",
+          "feature-4": "• 섬 업그레이드 가능",
+          "contact-admin": "문제가 있다면 관리자에게 문의하세요"
+        }
+      }
+    },
+    "main": {
+      "info": {
+        "name": "{0}",
+        "lore": [
+          "",
+          "&7소유자: &f{0}",
+          "&7크기: &e{1}",
+          "&7멤버: &a{2}",
+          "&7일꾼: &a{3}",
+          "&7생성일: &b{4}",
+          ""
+        ]
+      },
+      "upgrade-info": {
+        "name": "&6&l섬 업그레이드",
+        "lore": [
+          "",
+          "&7현재 레벨:",
+          "&f크기: &e{0} &e레벨",
+          "&f멤버: &e{1} &e레벨",
+          "&f일꾼: &e{2} &e레벨",
+          "",
+          "&e클릭하여 업그레이드 옵션 확인"
+        ]
+      },
+      "contribution-info": {
+        "name": "&a&l기여도",
+        "lore": [
+          "",
+          "&7자원과 노력으로",
+          "&7섬을 지원하세요",
+          "",
+          "&7나의 기여도: &e{0}",
+          "",
+          "&e클릭하여 열기"
+        ]
+      },
+      "visitor-info": {
+        "name": "&b&l방문자 관리",
+        "lore": [
+          "",
+          "&7섬 방문자를",
+          "&7관리합니다",
+          "",
+          "&7최근 방문자: &e{0} &e명",
+          "&7현재 방문자: &b{1} &b명 온라인",
+          "",
+          "&e클릭하여 메뉴 보기"
+        ]
+      },
+      "member-management": {
+        "name": "%COLOR_SUCCESS%멤버 관리",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%섬원을 초대하거나 관리합니다",
+          "%COLOR_SECONDARY%멤버 권한을 설정합니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 열기"
+        ]
+      },
+      "permission-management": {
+        "name": "%COLOR_ERROR%권한 관리",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%각 역할별 권한을 설정합니다",
+          "%COLOR_SECONDARY%멤버가 할 수 있는 행동을 제어합니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 열기"
+        ]
+      },
+      "upgrade": {
+        "name": "%COLOR_GOLD%섬 업그레이드",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%섬 기능을 업그레이드합니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 열기"
+        ]
+      },
+      "contribution": {
+        "name": "%COLOR_SUCCESS%기여도",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%섬 기여도 순위를 확인합니다",
+          "%COLOR_SECONDARY%멤버들의 기여도를 확인합니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 열기"
+        ]
+      },
+      "spawn-settings": {
+        "name": "%COLOR_LIGHT_PURPLE%스폰 설정",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%섬 스폰 위치를 설정합니다",
+          "%COLOR_SECONDARY%개인 스폰 위치를 설정합니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 열기"
+        ]
+      },
+      "island-settings": {
+        "name": "%COLOR_INFO%섬 설정",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%섬 공개 여부를 변경합니다",
+          "%COLOR_SECONDARY%섬 이름을 변경합니다",
+          "%COLOR_SECONDARY%섬 옵션을 설정합니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 열기"
+        ]
+      },
+      "visitor": {
+        "name": "%COLOR_PRIMARY%방문자 관리",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%섬 방문자를 확인하고 관리합니다",
+          "%COLOR_SECONDARY%방문 기록을 확인합니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 메뉴 보기"
+        ]
+      },
+      "biome-change": {
+        "name": "%COLOR_SUCCESS%바이옴 변경",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%섬의 바이옴을 변경합니다",
+          "%COLOR_SECONDARY%지형을 변형시킵니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 열기"
+        ]
+      },
+      "warp": {
+        "name": "%COLOR_AQUA%섬 워프",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%자신의 섬으로 텔레포트합니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 워프"
+        ]
+      }
+    },
+    "member": {
+      "invite": {
+        "name": "%COLOR_SUCCESS%새 멤버 초대",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%새로운 멤버를 초대합니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 초대"
+        ]
+      }
+    },
+    "member-manage": {
+      "member-info": {
+        "name": "%COLOR_AQUA%멤버 정보",
+        "lore": [
+          "%COLOR_SECONDARY%이 멤버를 보고 관리합니다",
+          "%COLOR_SECONDARY%권한과 역할을 설정합니다"
+        ]
+      },
+      "promote": {
+        "name": "%COLOR_GOLD%&l부섬장으로 승급",
+        "lore": [
+          "%COLOR_SECONDARY%이 멤버를 부섬장으로",
+          "%COLOR_SECONDARY%승급시킵니다",
+          "",
+          "%COLOR_WARNING%부섬장 권한:",
+          "%COLOR_SECONDARY%• 멤버 초대/추방",
+          "%COLOR_SECONDARY%• 섬 설정 변경",
+          "%COLOR_SECONDARY%• 권한 관리",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 승급"
+        ]
+      },
+      "demote": {
+        "name": "%COLOR_SECONDARY%&l일반 멤버로 강등",
+        "lore": [
+          "%COLOR_SECONDARY%부섬장을 일반 멤버로",
+          "%COLOR_SECONDARY%강등시킵니다",
+          "",
+          "%COLOR_ERROR%주의: 부섬장 권한을 잃습니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 강등"
+        ]
+      },
+      "to-worker": {
+        "name": "%COLOR_WARNING%&l알바생으로 변경",
+        "lore": [
+          "%COLOR_SECONDARY%멤버를 알바생으로",
+          "%COLOR_SECONDARY%변경합니다",
+          "",
+          "%COLOR_WARNING%알바생 특징:",
+          "%COLOR_SECONDARY%• 제한된 권한",
+          "%COLOR_SECONDARY%• 임시 멤버",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 변경"
+        ]
+      },
+      "to-member": {
+        "name": "%COLOR_SUCCESS%&l정식 멤버로 승급",
+        "lore": [
+          "%COLOR_SECONDARY%알바생을 정식 멤버로",
+          "%COLOR_SECONDARY%승급시킵니다",
+          "",
+          "%COLOR_SUCCESS%정식 멤버 혜택:",
+          "%COLOR_SECONDARY%• 모든 기본 권한",
+          "%COLOR_SECONDARY%• 섬 기여도 추적",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 승급"
+        ]
+      },
+      "kick": {
+        "name": "%COLOR_ERROR%&l섬에서 추방",
+        "lore": [
+          "%COLOR_SECONDARY%이 플레이어를 섬에서",
+          "%COLOR_SECONDARY%추방합니다",
+          "",
+          "%COLOR_ERROR%주의: 이 작업은 되돌릴 수 없습니다",
+          "",
+          "%COLOR_ERROR%▶ 클릭하여 추방"
+        ]
+      },
+      "permission": {
+        "name": "%COLOR_INFO%&l권한 설정",
+        "lore": [
+          "%COLOR_SECONDARY%이 멤버의 개별 권한을",
+          "%COLOR_SECONDARY%설정합니다",
+          "",
+          "%COLOR_ERROR%※ 준비 중인 기능입니다"
+        ]
+      },
+      "no-permission": {
+        "name": "%COLOR_ERROR%&l권한 없음",
+        "lore": [
+          "%COLOR_SECONDARY%이 멤버를 관리할",
+          "%COLOR_SECONDARY%권한이 없습니다"
+        ]
+      }
+    },
+    "settings": {
+      "info": {
+        "name": "%COLOR_GOLD%&l섬 정보",
+        "lore": []
+      },
+      "name-change": {
+        "name": "%COLOR_WARNING%&l섬 이름 변경",
+        "lore": [
+          "%COLOR_SECONDARY%섬 이름을 변경합니다",
+          "%COLOR_SECONDARY%최대 20자까지 가능합니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 변경"
+        ]
+      },
+      "public": {
+        "name": "%COLOR_SUCCESS%&l공개 섬",
+        "lore": []
+      },
+      "private": {
+        "name": "%COLOR_ERROR%&l비공개 섬",
+        "lore": []
+      },
+      "public-toggle": {
+        "lore": [
+          "%COLOR_SECONDARY%공개 섬: 모든 플레이어가 방문 가능",
+          "%COLOR_SECONDARY%비공개 섬: 초대받은 플레이어만 방문 가능",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 전환"
+        ]
+      },
+      "biome-change": {
+        "name": "%COLOR_INFO%&l바이옴 변경",
+        "lore": [
+          "%COLOR_SECONDARY%섬의 바이옴을 변경합니다",
+          "%COLOR_SECONDARY%날씨와 환경이 변경됩니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 변경"
+        ]
+      },
+      "delete": {
+        "name": "%COLOR_ERROR%&l섬 삭제",
+        "lore": [
+          "",
+          "%COLOR_ERROR%⚠ 주의: 이 작업은 되돌릴 수 없습니다!",
+          "",
+          "%COLOR_SECONDARY%섬과 모든 데이터가 영구적으로",
+          "%COLOR_SECONDARY%삭제됩니다",
+          "",
+          "%COLOR_ERROR%▶ 클릭하여 삭제"
+        ]
+      },
+      "save": {
+        "name": "%COLOR_SUCCESS%&l설정 저장",
+        "lore": [
+          "%COLOR_WARNING%▶ 클릭하여 저장"
+        ]
+      },
+      "cancel": {
+        "lore": [
+          "%COLOR_SECONDARY%변경사항을 저장하지 않고",
+          "%COLOR_SECONDARY%돌아갑니다"
+        ]
+      }
+    },
+    "upgrade": {
+      "size": {
+        "name": "%COLOR_SUCCESS%&l섬 크기 업그레이드",
+        "lore": []
+      },
+      "member": {
+        "name": "%COLOR_INFO%&l멤버 제한 업그레이드",
+        "lore": []
+      },
+      "worker": {
+        "name": "%COLOR_WARNING%&l알바 제한 업그레이드",
+        "lore": []
+      },
+      "info": {
+        "name": "%COLOR_LIGHT_PURPLE%&l업그레이드 안내",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%섬 업그레이드는 기여도를 소모합니다",
+          "%COLOR_SECONDARY%업그레이드 후에는 다운그레이드할 수 없습니다",
+          "",
+          "%COLOR_WARNING%섬 크기가 500 이상이면",
+          "%COLOR_WARNING%바이옴 설정이 가능합니다"
+        ]
+      }
+    },
+    "spawn": {
+      "current-info": {
+        "name": "%COLOR_INFO%&l현재 스폰 설정",
+        "lore": [
+          "%COLOR_SECONDARY%기본 스폰: 섬원이 이동하는 위치",
+          "%COLOR_SECONDARY%방문자 스폰: 방문자가 이동하는 위치"
+        ]
+      },
+      "set-main": {
+        "name": "%COLOR_SUCCESS%&l메인 스폰 설정",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%현재 위치를 메인 스폰으로",
+          "%COLOR_SECONDARY%설정합니다",
+          "",
+          "%COLOR_SECONDARY%섬원들이 /섬 워프 명령어를",
+          "%COLOR_SECONDARY%사용할 때 이동하는 위치입니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 설정"
+        ]
+      },
+      "set-visitor": {
+        "name": "%COLOR_LIGHT_PURPLE%&l방문자 스폰 설정",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%현재 위치를 방문자 스폰으로",
+          "%COLOR_SECONDARY%설정합니다",
+          "",
+          "%COLOR_SECONDARY%방문자가 섬에 들어올 때",
+          "%COLOR_SECONDARY%이동하는 위치입니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 설정"
+        ]
+      },
+      "reset": {
+        "name": "%COLOR_ERROR%&l스폰 초기화",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%모든 스폰 설정을",
+          "%COLOR_SECONDARY%초기화합니다",
+          "",
+          "%COLOR_ERROR%주의: 이 작업은 되돌릴 수 없습니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 초기화"
+        ]
+      },
+      "protection": {
+        "name": "%COLOR_GOLD%&l스폰 보호",
+        "lore": [
+          "",
+          "%COLOR_ERROR%※ 준비 중인 기능입니다",
+          "",
+          "%COLOR_SECONDARY%스폰 주변 반경을 설정하여",
+          "%COLOR_SECONDARY%블록 파괴/설치를 방지합니다"
+        ]
+      },
+      "personal": {
+        "name": "%COLOR_LIGHT_PURPLE%&l개인 스폰 관리",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%자신만의 개인 스폰을",
+          "%COLOR_SECONDARY%설정하고 관리합니다",
+          "",
+          "%COLOR_WARNING%▶ 클릭하여 관리"
+        ]
+      },
+      "message": {
+        "name": "%COLOR_WARNING%&l환영 메시지",
+        "lore": [
+          "",
+          "%COLOR_ERROR%※ 준비 중인 기능입니다",
+          "",
+          "%COLOR_SECONDARY%방문자가 섬에 들어올 때",
+          "%COLOR_SECONDARY%표시되는 메시지를 설정합니다"
+        ]
+      },
+      "no-permission": {
+        "name": "%COLOR_ERROR%&l권한 없음",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%스폰 설정은 섬장과",
+          "%COLOR_SECONDARY%부섬장만 할 수 있습니다"
+        ]
+      }
+    },
+    "visitor": {
+      "info": {
+        "name": "%COLOR_WHITE%&l방문자 기록",
+        "lore": [
+          "%COLOR_SECONDARY%최근 방문자 목록을 확인합니다"
+        ]
+      },
+      "no-visitors": {
+        "name": "%COLOR_ERROR%방문 기록이 없습니다",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%아직 섬을 방문한",
+          "%COLOR_SECONDARY%플레이어가 없습니다"
+        ]
+      },
+      "statistics": {
+        "name": "%COLOR_GOLD%&l방문 통계",
+        "lore": []
+      }
+    }
+  },
+  "unit": {
+    "blocks": "블록",
+    "players": "명"
+  },
+  "status": {
+    "public": "%COLOR_SUCCESS%공개",
+    "private": "%COLOR_ERROR%비공개",
+    "online": "%COLOR_SUCCESS%온라인",
+    "offline": "%COLOR_SECONDARY%오프라인"
+  },
+  "member": {
+    "invite-button": {
+      "name": "&a&l플레이어 초대",
+      "lore": [
+        "",
+        "&7새로운 플레이어를 섬에 초대합니다",
+        "",
+        "&7현재 멤버: &e{0}",
+        "&7현재 일꾼: &e{1}",
+        "",
+        "&e클릭하여 초대 보내기"
+      ]
+    },
+    "previous-page": {
+      "name": "&f← 이전 페이지",
+      "lore": [
+        "",
+        "&7현재 페이지: &e{0}",
+        ""
+      ]
+    },
+    "next-page": {
+      "name": "&f다음 페이지 →",
+      "lore": [
+        "",
+        "&7현재 페이지: &e{0}",
+        ""
+      ]
+    }
+  },
+  "personal-spawn": {
+    "info": {
+      "name": "&b&l개인 스폰 포인트",
+      "lore": [
+        "",
+        "&7현재 위치: &e{0}",
+        "",
+        "&7죽었을 때 개인 스폰",
+        "&7포인트에서 부활합니다",
+        "",
+        "&e클릭하여 현재 위치로 설정"
+      ]
+    },
+    "info-not-set": {
+      "name": "&b&l개인 스폰 포인트",
+      "lore": [
+        "",
+        "&c설정된 스폰 포인트 없음",
+        "",
+        "&7개인 스폰 포인트를 설정하여",
+        "&7죽었을 때 여기서 부활하세요",
+        "",
+        "&e클릭하여 현재 위치로 설정"
+      ]
+    }
+  },
+  "social": {
+    "friends": {
+      "title": {
+        "name": "👥 친구 목록",
+        "lore": "친구들과 소통하세요!"
+      },
+      "requests": {
+        "name": "📨 친구 요청",
+        "lore": "받은 친구 요청을 확인합니다",
+        "click": "클릭하여 열기"
+      },
+      "add": {
+        "name": "➕ 친구 추가",
+        "lore": "새로운 친구를 추가합니다",
+        "click": "클릭하여 추가"
+      },
+      "refresh": {
+        "name": "🔄 새로고침",
+        "lore": "친구 목록을 새로고침합니다",
+        "click": "클릭하여 새로고침"
+      },
+      "no-friends": {
+        "name": "친구가 없습니다",
+        "lore": "새로운 친구를 추가해보세요!"
+      },
+      "friend-item": {
+        "left-click": "좌클릭: 귓말 보내기",
+        "right-click": "우클릭: 친구 관리"
+      }
+    },
+    "friend-requests": {
+      "title": {
+        "name": "📨 친구 요청",
+        "lore": "받은 친구 요청을 관리합니다"
+      },
+      "no-requests": {
+        "name": "받은 친구 요청이 없습니다",
+        "lore": "새로운 요청이 오면 알림을 받을 수 있습니다"
+      },
+      "request-info": {
+        "hint": "우측 버튼으로 수락/거절"
+      },
+      "accept": {
+        "name": "✓ 수락",
+        "desc2": "친구 요청을 수락합니다",
+        "click": "클릭하여 수락"
+      },
+      "reject": {
+        "name": "✗ 거절",
+        "desc2": "친구 요청을 거절합니다",
+        "click": "클릭하여 거절"
+      }
+    },
+    "mailbox": {
+      "title": {
+        "name": "📮 우편함",
+        "lore": "우편을 확인하고 관리합니다"
+      },
+      "refresh": {
+        "name": "🔄 새로고침",
+        "lore": "우편 목록을 새로고침합니다",
+        "click": "클릭하여 새로고침"
+      },
+      "send": {
+        "name": "✉️ 우편 보내기",
+        "lore": "다른 플레이어에게 우편을 보냅니다",
+        "click": "클릭하여 작성"
+      },
+      "delete-read": {
+        "name": "🗑️ 읽은 우편 삭제",
+        "lore1": "읽은 우편을 모두 삭제합니다",
+        "lore2": "첨부 파일이 있는 우편은 제외",
+        "click": "클릭하여 삭제"
+      },
+      "no-mails": {
+        "name": "우편이 없습니다",
+        "lore": "새로운 우편이 오면 알림을 받을 수 있습니다"
+      },
+      "no-unread-mails": {
+        "name": "읽지 않은 우편이 없습니다",
+        "lore": "새로운 우편이 오면 알림을 받을 수 있습니다"
+      },
+      "mail-item": {
+        "click": "클릭하여 우편 확인"
+      }
+    },
+    "mail-detail": {
+      "message": {
+        "name": "📄 메시지"
+      },
+      "no-attachments": {
+        "name": "첨부물 없음",
+        "lore": "이 우편에는 첨부물이 없습니다"
+      },
+      "delete": {
+        "name": "🗑 우편 삭제",
+        "lore1": "이 우편을 삭제합니다",
+        "lore2": "(첨부물도 함께 삭제됩니다)",
+        "click": "클릭하여 삭제"
+      },
+      "reply": {
+        "name": "✉ 답장하기",
+        "click": "클릭하여 답장"
+      }
+    }
+  },
+  "loading": {
+    "name": "로딩 중..."
+  },
+  "status": {
+    "new-mail": "§e새 우편",
+    "read": "§7읽음"
+  },
+  "settings": {
+    "main": {
+      "title": {
+        "name": "⚙ 개인 설정",
+        "lore": "다양한 설정을 변경할 수 있습니다"
+      }
+    },
+    "gui": {
+      "name": "🖼 GUI 설정",
+      "lore1": "인터페이스 투명도 조절",
+      "lore2": "애니메이션 속도 조절"
+    },
+    "ingame": {
+      "name": "🎮 인게임 설정",
+      "lore1": "게임플레이 난이도",
+      "lore2": "자동 줍기, 데미지 표시",
+      "lore3": "퀵슬롯 설정"
+    },
+    "social": {
+      "name": "👥 소셜 설정",
+      "lore1": "친구 요청 설정",
+      "lore2": "귓말, 파티 초대 설정",
+      "lore3": "소셜 알림 설정"
+    },
+    "system": {
+      "name": "⚡ 시스템 설정",
+      "lore1": "그래픽 품질, 성능",
+      "lore2": "리소스팩, 사운드 설정"
+    },
+    "notification": {
+      "name": "🔔 알림 설정",
+      "lore1": "시스템, 퀘스트, 업적",
+      "lore2": "친구, 길드, 거래",
+      "lore3": "이벤트, 업데이트 알림"
+    },
+    "click": "클릭하여 설정 열기",
+    "system-settings": {
+      "title": {
+        "name": "⚙ 시스템 설정",
+        "lore": "시스템 관련 설정을 변경합니다"
+      },
+      "confirmation": {
+        "name": "❓ 확인 대화상자",
+        "desc1": "스탯 배분, 특성 학습 등",
+        "desc2": "중요한 행동을 할 때",
+        "desc3": "확인 메시지를 표시합니다",
+        "example-title": "예시:",
+        "example1": "'정말 스탯 포인트를 사용하시겠습니까?'",
+        "example2": "'정말 특성을 배우시겠습니까?'"
+      }
+    },
+    "notification-settings": {
+      "title": {
+        "name": "🔔 알림 설정",
+        "lore": "알림 관련 설정을 변경합니다"
+      },
+      "whisper": {
+        "name": "💬 귓말 알림",
+        "desc1": "귓말을 받았을 때",
+        "desc2": "채팅에 알림을 표시할지 설정합니다",
+        "note": "※ 귓말 시스템은 준비중입니다"
+      },
+      "invite": {
+        "name": "📨 초대 알림",
+        "desc1": "친구 요청이나 길드 초대를",
+        "desc2": "받았을 때 채팅에 알림을",
+        "desc3": "표시할지 설정합니다",
+        "click-hint": "클릭하여 다음 모드로 변경:",
+        "mode-cycle": "전체 → 친구만 → 길드만 → 끄기",
+        "note": "※ 관련 시스템은 준비중입니다"
+      },
+      "server": {
+        "name": "📢 서버 공지 알림",
+        "desc1": "서버 공지사항을",
+        "desc2": "채팅에 표시할지 설정합니다",
+        "example-title": "예시:",
+        "example1": "• 이벤트 알림",
+        "example2": "• 업데이트 공지",
+        "example3": "• 중요 알림"
+      }
+    }
+  },
+  "notification": {
+    "mode": {
+      "all": "전체",
+      "friend-only": "친구 요청만",
+      "guild-only": "길드 초대만",
+      "off": "끄기",
+      "unknown": "알 수 없음",
+      "all.desc": "모든 초대 알림을 표시합니다",
+      "friend-only.desc": "친구 요청 알림만 표시합니다",
+      "guild-only.desc": "길드 초대 알림만 표시합니다",
+      "off.desc": "모든 초대 알림을 숨깁니다",
+      "unknown.desc": "알 수 없는 모드입니다"
+    }
+  },
+  "quest": {
+    "detail": {
+      "info": {
+        "name": "&6&l퀘스트 정보",
+        "lore": [
+          "",
+          "{0}",
+          "",
+          "&7카테고리: &e{1}",
+          "&7난이도: {2}",
+          "&7NPC: &b{3}",
+          ""
+        ]
+      },
+      "objectives": {
+        "name": "&e&l목표",
+        "lore": [
+          "",
+          "{0}",
+          "",
+          "&7진행도: &e{1}%",
+          ""
+        ]
+      },
+      "rewards": {
+        "name": "&a&l보상",
+        "lore": [
+          "",
+          "{0}",
+          ""
+        ]
+      },
+      "complete-button": {
+        "name": "&a&l퀘스트 완료",
+        "lore": [
+          "",
+          "&7모든 목표를 달성했습니다!",
+          "",
+          "&e클릭하여 보상 받기"
+        ]
+      },
+      "abandon-button": {
+        "name": "&c&l퀘스트 포기",
+        "lore": [
+          "",
+          "&7이 퀘스트를 포기합니다",
+          "",
+          "&c클릭하여 포기"
+        ]
+      }
+    },
+    "list": {
+      "active": {
+        "lore": [
+          "",
+          "{0}",
+          "",
+          "&7진행도:",
+          "{1}",
+          "",
+          "&7보상:",
+          "{2}",
+          "",
+          "&e클릭하여 상세 보기"
+        ]
+      },
+      "completed": {
+        "lore": [
+          "",
+          "{0}",
+          "",
+          "&a완료: &f{1}",
+          "",
+          "&7보상:",
+          "{2}",
+          "",
+          "&e클릭하여 수령"
+        ]
+      },
+      "available": {
+        "lore": [
+          "",
+          "{0}",
+          "",
+          "&7요구사항:",
+          "{1}",
+          "",
+          "&7보상:",
+          "{2}",
+          "",
+          "&e클릭하여 시작"
+        ]
+      }
+    },
+    "dialog": {
+      "text": {
+        "name": "&6&lNPC 대화",
+        "lore": [
+          "",
+          "{0}",
+          "",
+          "&7화자: &e{1}",
+          "",
+          "&e클릭하여 계속"
+        ]
+      },
+      "skip-button": {
+        "name": "&7대화 건너뛰기",
+        "lore": [
+          "",
+          "&7끝까지 건너뛰기",
+          "",
+          "&eShift-클릭으로 건너뛰기"
         ]
       }
     }
+  },
+  "status": {
+    "enabled": "활성화",
+    "disabled": "비활성화"
+  },
+  "action": {
+    "enable": "활성화",
+    "disable": "비활성화"
   }
 }

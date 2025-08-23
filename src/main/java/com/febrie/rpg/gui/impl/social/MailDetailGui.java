@@ -9,18 +9,16 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.social.MailManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.TextUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 /**
  * 우편 상세 보기 GUI
@@ -50,7 +48,7 @@ public class MailDetailGui extends BaseGui {
 
     private MailDetailGui(@NotNull GuiManager guiManager,
                         @NotNull Player player, @NotNull MailDTO mail) {
-        super(player, guiManager, GUI_SIZE, "gui.mail-detail.title");
+        super(player, guiManager, GUI_SIZE, Component.translatable("gui.mail-detail.title"));
         this.mail = mail;
         this.mailManager = MailManager.getInstance();
     }
@@ -73,7 +71,7 @@ public class MailDetailGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("우편: " + mail.subject(), UnifiedColorUtil.PRIMARY);
+        return LangManager.get("gui.mail-detail.title", viewer, Component.text(mail.subject()));
     }
 
     @Override
@@ -103,17 +101,18 @@ public class MailDetailGui extends BaseGui {
     private void setupMailInfo() {
         // 우편 기본 정보
         GuiItem mailInfoItem = GuiItem.display(
-                new ItemBuilder(Material.PAPER)
+                ItemBuilder.of(Material.PAPER, viewer.locale())
                         .displayName(Component.text(mail.subject(), UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(Component.text("보낸 사람: " + mail.senderName(), UnifiedColorUtil.WHITE))
-                        .addLore(Component.text("받는 사람: " + mail.receiverName(), UnifiedColorUtil.WHITE))
-                        .addLore(Component.text("발송 시간: " + java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")), UnifiedColorUtil.GRAY))
+                        .addLore(LangManager.get("gui.mail-detail.sender", viewer, Component.text(mail.senderName())))
+                        .addLore(LangManager.get("gui.mail-detail.receiver", viewer, Component.text(mail.receiverName())))
+                        .addLore(LangManager.get("gui.mail-detail.sent-time", viewer, Component.text(java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))))
                         .addLore(Component.empty())
-                        .addLore(Component.text("상태: " + (mail.isUnread() ? "새 우편" : "읽음"), 
-                                mail.isUnread() ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.GRAY))
+                        .addLore(LangManager.get("gui.mail-detail.status", viewer, 
+                                Component.translatable(mail.isUnread() ? "status.new-mail" : "status.read")))
+                        .hideAllFlags()
                         .build()
         );
         setItem(MAIL_INFO_SLOT, mailInfoItem);
@@ -121,19 +120,18 @@ public class MailDetailGui extends BaseGui {
         // 메시지 내용
         String message = mail.content();
         if (message == null || message.trim().isEmpty()) {
-            message = "(메시지 없음)";
+            message = LangManager.getString("gui.mail-detail.no-message", viewer);
         }
 
         // 메시지를 여러 줄로 나누기 (25자씩)
-        String[] messageLines = TextUtil.wrapTextOrDefault(message, 25, "(메시지 없음)");
+        String[] messageLines = TextUtil.wrapTextOrDefault(message, 25, LangManager.getString("gui.mail-detail.no-message", viewer));
 
-        ItemBuilder messageBuilder = new ItemBuilder(Material.WRITTEN_BOOK)
-                .displayName(Component.text("📄 메시지", UnifiedColorUtil.INFO)
-                        .decoration(TextDecoration.BOLD, true))
+        ItemBuilder messageBuilder = ItemBuilder.of(Material.WRITTEN_BOOK, viewer.locale())
+                .displayNameTranslated("items.social.mail-detail.message.name")
                 .addLore(Component.empty())
                 .addLore(messageLines.length > 0 ? 
                         Component.text(messageLines[0], UnifiedColorUtil.WHITE) :
-                        Component.text("(메시지 없음)", UnifiedColorUtil.GRAY));
+                        Component.translatable("gui.mail-detail.no-message").color(UnifiedColorUtil.GRAY));
 
         // 추가 메시지 줄들
         for (int i = 1; i < Math.min(messageLines.length, 8); i++) {
@@ -156,9 +154,10 @@ public class MailDetailGui extends BaseGui {
         // 첨부물 기능은 현재 MailDTO에 포함되지 않음
         // 첨부물이 없는 경우로 표시
         setItem(ATTACHMENT_SLOTS[4], GuiItem.display( // 중앙 슬롯
-                new ItemBuilder(Material.BARRIER)
-                        .displayName(Component.text("첨부물 없음", UnifiedColorUtil.ERROR))
-                        .addLore(Component.text("이 우편에는 첨부물이 없습니다", UnifiedColorUtil.GRAY))
+                ItemBuilder.of(Material.BARRIER, viewer.locale())
+                        .displayNameTranslated("items.social.mail-detail.no-attachments.name")
+                        .addLoreTranslated("items.social.mail-detail.no-attachments.lore")
+                        .hideAllFlags()
                         .build()
         ));
         
@@ -180,24 +179,24 @@ public class MailDetailGui extends BaseGui {
 
         // 삭제 버튼
         GuiItem deleteButton = GuiItem.clickable(
-                new ItemBuilder(Material.LAVA_BUCKET)
-                        .displayName(Component.text("🗑 우편 삭제", UnifiedColorUtil.ERROR)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.LAVA_BUCKET, viewer.locale())
+                        .displayNameTranslated("items.social.mail-detail.delete.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("이 우편을 삭제합니다", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("(첨부물도 함께 삭제됩니다)", UnifiedColorUtil.YELLOW))
+                        .addLoreTranslated("items.social.mail-detail.delete.lore1")
+                        .addLoreTranslated("items.social.mail-detail.delete.lore2")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 삭제", UnifiedColorUtil.YELLOW))
+                        .addLoreTranslated("items.social.mail-detail.delete.click")
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     mailManager.deleteMail(mail.mailId()).thenAccept(success -> {
                         Bukkit.getScheduler().runTask(plugin, () -> {
                             if (success) {
-                                p.sendMessage("§a우편을 삭제했습니다.");
+                                p.sendMessage(LangManager.get("gui.mail-detail.delete-success", p));
                                 MailboxGui mailboxGui = MailboxGui.create(guiManager, p);
                                 guiManager.openGui(p, mailboxGui);
                             } else {
-                                p.sendMessage("§c우편 삭제에 실패했습니다.");
+                                p.sendMessage(LangManager.get("gui.mail-detail.delete-failed", p).color(UnifiedColorUtil.ERROR));
                             }
                         });
                     });
@@ -208,18 +207,19 @@ public class MailDetailGui extends BaseGui {
 
         // 답장 버튼
         GuiItem replyButton = GuiItem.clickable(
-                new ItemBuilder(Material.FEATHER)
-                        .displayName(Component.text("✉ 답장하기", UnifiedColorUtil.INFO)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.FEATHER, viewer.locale())
+                        .displayNameTranslated("items.social.mail-detail.reply.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text(mail.senderName() + "님에게 답장을 보냅니다", UnifiedColorUtil.GRAY))
+                        .addLore(LangManager.get("gui.mail-detail.reply-desc", viewer, Component.text(mail.senderName())))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 답장", UnifiedColorUtil.YELLOW))
+                        .addLoreTranslated("items.social.mail-detail.reply.click")
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     p.closeInventory();
-                    p.sendMessage("§e답장 보내기:");
-                    p.sendMessage("§7'/우편보내기 " + mail.senderName() + " Re:" + mail.subject() + " [메시지]'를 입력하세요.");
+                    p.sendMessage(LangManager.get("gui.mail-detail.reply-guide", p));
+                    p.sendMessage(LangManager.get("gui.mail-detail.reply-command", p, 
+                            Component.text(mail.senderName()), Component.text(mail.subject())));
                     playClickSound(p);
                 }
         );

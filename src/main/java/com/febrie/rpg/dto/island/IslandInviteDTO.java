@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.kyori.adventure.text.Component;
 /**
  * 섬 초대 정보 DTO (Record)
  *
@@ -105,7 +104,13 @@ public record IslandInviteDTO(
             // 유효성 검증 - Validator 사용
             Validator.validateIslandInviteData(inviteId, invitedUuid, inviterUuid, invitedAt, expiresAt);
             
-            return new IslandInviteDTO(inviteId, islandId, inviterUuid, inviterName, invitedUuid, invitedName, invitedAt, expiresAt, message);
+            // Ensure non-null values for constructor
+            String safeInviteId = inviteId != null ? inviteId : "";
+            String safeInviterUuid = inviterUuid != null ? inviterUuid : "";
+            String safeInvitedUuid = invitedUuid != null ? invitedUuid : "";
+            String safeMessage = message != null ? message : "island.invite.default-message";
+            
+            return new IslandInviteDTO(safeInviteId, islandId, safeInviterUuid, inviterName, safeInvitedUuid, invitedName, invitedAt, expiresAt, safeMessage);
         } catch (Exception e) {
             if (e instanceof IllegalArgumentException) {
                 throw e;

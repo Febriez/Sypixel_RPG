@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-import net.kyori.adventure.text.Component;
 /**
  * 퀘스트 목표 진행도
  * 각 목표의 현재 진행 상태를 추적

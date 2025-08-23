@@ -7,7 +7,6 @@ import net.citizensnpcs.api.trait.Trait;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 
-import net.kyori.adventure.text.Component;
 /**
  * 상점 NPC Trait 등록 아이템
  * ImprovedBaseTraitRegistrationItem을 사용한 구현
@@ -53,9 +52,8 @@ public class ShopTraitRegistrationItem extends ImprovedBaseTraitRegistrationItem
     @Override
     @NotNull
     protected Trait createTrait(@NotNull String traitId) {
-        RPGShopTrait trait = new RPGShopTrait();
         // Store the traitId in the trait's data if needed
-        return trait;
+        return new RPGShopTrait();
     }
     
     @Override

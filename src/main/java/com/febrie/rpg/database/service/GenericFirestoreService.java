@@ -7,10 +7,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
-import net.kyori.adventure.text.Component;
 /**
  * 제네릭 Firestore 서비스 구현
  * 모든 Firestore 서비스의 공통 기능을 제공

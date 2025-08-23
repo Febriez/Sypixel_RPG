@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-import net.kyori.adventure.text.Component;
 /**
  * 섬 시스템 관리자
  * 섬 생성, 삭제, 관리 등 모든 섬 관련 기능 총괄

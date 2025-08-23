@@ -7,7 +7,6 @@ import net.citizensnpcs.api.trait.Trait;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 
-import net.kyori.adventure.text.Component;
 /**
  * 보상 NPC Trait 등록 아이템
  * ImprovedBaseTraitRegistrationItem을 사용한 구현
@@ -53,9 +52,8 @@ public class RewardTraitRegistrationItem extends ImprovedBaseTraitRegistrationIt
     @Override
     @NotNull
     protected Trait createTrait(@NotNull String traitId) {
-        RPGQuestRewardTrait trait = new RPGQuestRewardTrait();
         // Store the traitId in the trait's data if needed
-        return trait;
+        return new RPGQuestRewardTrait();
     }
     
     @Override

@@ -1,8 +1,6 @@
 package com.febrie.rpg.island.listener;
 
 import com.febrie.rpg.RPGMain;
-import com.febrie.rpg.dto.island.IslandDTO;
-import com.febrie.rpg.dto.island.IslandVisitDTO;
 import com.febrie.rpg.island.Island;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
@@ -20,7 +18,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.kyori.adventure.text.Component;
 /**
  * 섬 방문 추적 리스너
  * 플레이어가 섬에 입장/퇴장할 때를 감지하고 기록

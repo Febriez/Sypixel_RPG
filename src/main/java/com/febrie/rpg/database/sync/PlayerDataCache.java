@@ -11,7 +11,6 @@ import java.time.Duration;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentMap;
 
-import net.kyori.adventure.text.Component;
 /**
  * 플레이어 데이터 캐시
  * UnifiedCacheManager 기반 Caffeine 캐시 사용

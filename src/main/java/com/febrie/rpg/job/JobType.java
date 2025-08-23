@@ -5,7 +5,6 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 
-import net.kyori.adventure.text.Component;
 /**
  * RPG 직업 타입 열거형
  * 각 직업의 기본 정보와 레벨 상한선을 정의

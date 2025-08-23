@@ -10,14 +10,12 @@ import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 /**
  * 인게임 설정 GUI
@@ -42,7 +40,7 @@ public class IngameSettingsGui extends BaseGui {
 
     private IngameSettingsGui(@NotNull GuiManager guiManager,
                             @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, "gui.ingame-settings.title");
+        super(player, guiManager, GUI_SIZE, Component.translatable("gui.ingame-settings.title"));
     }
 
     /**
@@ -55,13 +53,12 @@ public class IngameSettingsGui extends BaseGui {
      */
     public static IngameSettingsGui create(@NotNull GuiManager guiManager,
                                           @NotNull Player player) {
-        IngameSettingsGui gui = new IngameSettingsGui(guiManager, player);
-        return gui;
+        return new IngameSettingsGui(guiManager, player);
     }
 
     @Override
     public @NotNull Component getTitle() {
-        return trans("settings.ingame-settings.title");
+        return Component.translatable("gui.ingame-settings.title");
     }
 
     @Override
@@ -89,11 +86,11 @@ public class IngameSettingsGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                new ItemBuilder(Material.GRASS_BLOCK)
-                        .displayName(trans("settings.ingame")
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.GRASS_BLOCK, viewer.locale())
+                        .displayNameTranslated("items.settings.ingame-settings.title.name")
                         .addLore(Component.empty())
-                        .addLore(trans("settings.gameplay"))
+                        .addLoreTranslated("items.settings.ingame-settings.title.lore")
+                        .hideAllFlags()
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -124,15 +121,16 @@ public class IngameSettingsGui extends BaseGui {
     private void setupDialogSpeedControls(PlayerSettings settings) {
         // 속도 감소 버튼
         GuiItem speedDecreaseButton = GuiItem.clickable(
-                new ItemBuilder(Material.RED_CONCRETE)
-                        .displayName(trans("gui-settings.volume-decrease").color(UnifiedColorUtil.ERROR))
-                        .addLore(trans("settings.ingame-settings.quest-dialog-speed"))
+                ItemBuilder.of(Material.RED_CONCRETE, viewer.locale())
+                        .displayNameTranslated("items.settings.ingame-settings.speed-decrease.name")
+                        .addLoreTranslated("items.settings.ingame-settings.speed-decrease.lore")
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     int newSpeed = settings.adjustDialogSpeed(false);
                     updateDialogSpeedDisplay(settings);
                     playClickSound(p);
-                    p.sendMessage(Component.translatable("dialog-speed-changed", Component.text(settings.getDialogSpeedDisplayName())));
+                    p.sendMessage(LangManager.get("gui.ingame-settings.dialog-speed-changed", p, Component.text(settings.getDialogSpeedDisplayName())));
                 }
         );
         setItem(DIALOG_SPEED_DECREASE_SLOT, speedDecreaseButton);
@@ -142,15 +140,16 @@ public class IngameSettingsGui extends BaseGui {
 
         // 속도 증가 버튼
         GuiItem speedIncreaseButton = GuiItem.clickable(
-                new ItemBuilder(Material.GREEN_CONCRETE)
-                        .displayName(trans("gui-settings.volume-increase").color(UnifiedColorUtil.SUCCESS))
-                        .addLore(trans("settings.ingame-settings.quest-dialog-speed"))
+                ItemBuilder.of(Material.GREEN_CONCRETE, viewer.locale())
+                        .displayNameTranslated("items.settings.ingame-settings.speed-increase.name")
+                        .addLoreTranslated("items.settings.ingame-settings.speed-increase.lore")
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     int newSpeed = settings.adjustDialogSpeed(true);
                     updateDialogSpeedDisplay(settings);
                     playClickSound(p);
-                    p.sendMessage(Component.translatable("dialog-speed-changed", Component.text(settings.getDialogSpeedDisplayName())));
+                    p.sendMessage(LangManager.get("gui.ingame-settings.dialog-speed-changed", p, Component.text(settings.getDialogSpeedDisplayName())));
                 }
         );
         setItem(DIALOG_SPEED_INCREASE_SLOT, speedIncreaseButton);
@@ -188,15 +187,15 @@ public class IngameSettingsGui extends BaseGui {
         String speedBar = createSpeedBar(speed);
         
         GuiItem dialogSpeedDisplay = GuiItem.display(
-                new ItemBuilder(material)
-                        .displayName(trans("settings.ingame-settings.quest-dialog-speed")
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(material, viewer.locale())
+                        .displayNameTranslated("items.settings.ingame-settings.dialog-speed.name")
                         .addLore(Component.empty())
-                        .addLore(trans("gui-settings.current-volume", "volume", displayName))
+                        .addLore(LangManager.get("gui.ingame-settings.current-speed", viewer, Component.text(displayName)))
                         .addLore(Component.text(speedBar, UnifiedColorUtil.GOLD))
                         .addLore(Component.empty())
-                        .addLore(Component.text("속도 값: " + speed + "틱", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("(낮을수록 빠름)", UnifiedColorUtil.GRAY))
+                        .addLore(LangManager.get("gui.ingame-settings.speed-value", viewer, Component.text(String.valueOf(speed))))
+                        .addLoreTranslated("items.settings.ingame-settings.dialog-speed.note")
+                        .hideAllFlags()
                         .build()
         );
         setItem(DIALOG_SPEED_DISPLAY_SLOT, dialogSpeedDisplay);
@@ -209,24 +208,27 @@ public class IngameSettingsGui extends BaseGui {
         boolean enabled = settings.isQuestAutoGuideEnabled();
         
         GuiItem questGuideToggle = GuiItem.clickable(
-                new ItemBuilder(enabled ? Material.COMPASS : Material.CLOCK)
-                        .displayName(Component.text("🧭 퀘스트 자동 길안내", UnifiedColorUtil.PRIMARY)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(enabled ? Material.COMPASS : Material.CLOCK, viewer.locale())
+                        .displayNameTranslated("items.settings.ingame-settings.quest-guide.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("상태: " + (enabled ? "활성화" : "비활성화"), 
-                                enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
+                        .addLore(LangManager.get("gui.ingame-settings.status", viewer,
+                                Component.translatable(enabled ? "status.enabled" : "status.disabled")
+                                .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
                         .addLore(Component.empty())
-                        .addLore(Component.text("퀘스트 시작 시 자동으로", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("목표 지점까지의 길을", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("파티클로 표시합니다", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.ingame-settings.quest-guide.desc1")
+                        .addLoreTranslated("items.settings.ingame-settings.quest-guide.desc2")
+                        .addLoreTranslated("items.settings.ingame-settings.quest-guide.desc3")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), UnifiedColorUtil.YELLOW))
+                        .addLore(LangManager.get("gui.ingame-settings.click-to-toggle", viewer,
+                                Component.translatable(enabled ? "action.disable" : "action.enable")))
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     settings.setQuestAutoGuideEnabled(!enabled);
                     updateQuestGuideToggle(settings);
                     playClickSound(p);
-                    p.sendMessage(Component.translatable("settings.quest-guide.toggled", Component.text(enabled ? "비활성화" : "활성화")));
+                    p.sendMessage(LangManager.get("gui.ingame-settings.quest-guide-toggled", p,
+                            Component.translatable(settings.isQuestAutoGuideEnabled() ? "status.enabled" : "status.disabled")));
                 }
         );
         setItem(QUEST_GUIDE_SLOT, questGuideToggle);
@@ -239,24 +241,27 @@ public class IngameSettingsGui extends BaseGui {
         boolean enabled = settings.isDamageDisplayEnabled();
         
         GuiItem damageDisplayToggle = GuiItem.clickable(
-                new ItemBuilder(enabled ? Material.DIAMOND_SWORD : Material.WOODEN_SWORD)
-                        .displayName(Component.text("⚔ 공격 데미지 표시", UnifiedColorUtil.PRIMARY)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(enabled ? Material.DIAMOND_SWORD : Material.WOODEN_SWORD, viewer.locale())
+                        .displayNameTranslated("items.settings.ingame-settings.damage-display.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("상태: " + (enabled ? "활성화" : "비활성화"), 
-                                enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
+                        .addLore(LangManager.get("gui.ingame-settings.status", viewer,
+                                Component.translatable(enabled ? "status.enabled" : "status.disabled")
+                                .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
                         .addLore(Component.empty())
-                        .addLore(Component.text("공격 시 데미지 수치를", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("홀로그램으로 표시합니다", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("(3초간 표시됨)", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.ingame-settings.damage-display.desc1")
+                        .addLoreTranslated("items.settings.ingame-settings.damage-display.desc2")
+                        .addLoreTranslated("items.settings.ingame-settings.damage-display.desc3")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), UnifiedColorUtil.YELLOW))
+                        .addLore(LangManager.get("gui.ingame-settings.click-to-toggle", viewer,
+                                Component.translatable(enabled ? "action.disable" : "action.enable")))
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     settings.setDamageDisplayEnabled(!enabled);
                     updateDamageDisplayToggle(settings);
                     playClickSound(p);
-                    p.sendMessage(Component.translatable("settings.damage-display.toggled", Component.text(enabled ? "비활성화" : "활성화")));
+                    p.sendMessage(LangManager.get("gui.ingame-settings.damage-display-toggled", p,
+                            Component.translatable(settings.isDamageDisplayEnabled() ? "status.enabled" : "status.disabled")));
                 }
         );
         setItem(DAMAGE_DISPLAY_SLOT, damageDisplayToggle);

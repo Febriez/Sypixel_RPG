@@ -2,14 +2,12 @@ package com.febrie.rpg.social;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.cache.UnifiedCacheManager;
-import com.febrie.rpg.database.FirestoreManager;
 import com.febrie.rpg.database.service.impl.MailFirestoreService;
 import com.febrie.rpg.dto.social.MailDTO;
 import com.febrie.rpg.util.LogUtil;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.google.cloud.firestore.Firestore;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -22,7 +20,6 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import net.kyori.adventure.text.Component;
 /**
  * 우편함 시스템 관리자
  * 우편 보내기, 받기, 첨부물 관리

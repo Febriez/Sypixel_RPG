@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-import net.kyori.adventure.text.Component;
 /**
  * 농작물 수확 퀘스트 목표
  * 다 자란 농작물 수확

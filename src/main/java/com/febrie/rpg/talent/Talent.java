@@ -17,7 +17,6 @@ import org.jetbrains.annotations.UnmodifiableView;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import net.kyori.adventure.text.Component;
 /**
  * 특성(탤런트) 시스템
  * 웹 형태의 트리 구조로 구성되어 있으며, 각 특성은 하위 특성 페이지를 가질 수 있음

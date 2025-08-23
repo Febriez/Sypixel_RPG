@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import net.kyori.adventure.text.Component;
 /**
  * 플레이어 데이터 DTO
  * 프로필과 지갑 정보를 포함

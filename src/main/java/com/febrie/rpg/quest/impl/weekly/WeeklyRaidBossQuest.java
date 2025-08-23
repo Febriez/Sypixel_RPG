@@ -143,7 +143,7 @@ public class WeeklyRaidBossQuest extends Quest {
             case "chaos_lord" -> Component.translatable("quest.weekly.raid_boss.objectives.chaos_lord");
             case "legendary_loot" -> Component.translatable("quest.weekly.raid_boss.objectives.legendary_loot");
             case "raid_complete" -> Component.translatable("quest.weekly.raid_boss.objectives.raid_complete");
-            default -> Component.text(objective.getStatusInfo(who));
+            default -> Component.translatable("quest.weekly.raid_boss.objectives." + id);
         };
     }
 

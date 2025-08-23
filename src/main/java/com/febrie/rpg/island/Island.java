@@ -6,14 +6,12 @@ import com.febrie.rpg.util.LogUtil;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-import net.kyori.adventure.text.Component;
 /**
  * 섬 엔티티 클래스
  * 섬의 핵심 로직과 데이터를 관리

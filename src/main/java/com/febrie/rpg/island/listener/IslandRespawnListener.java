@@ -16,7 +16,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.jetbrains.annotations.NotNull;
 
-import net.kyori.adventure.text.Component;
 /**
  * 섬 월드 리스폰 이벤트 리스너
  * 플레이어가 섬 월드에서 죽었을 때 적절한 스폰 위치로 리스폰시킴

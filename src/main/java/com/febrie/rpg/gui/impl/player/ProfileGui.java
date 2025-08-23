@@ -5,20 +5,22 @@ import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
-import com.febrie.rpg.gui.impl.system.MainMenuGui;
-import com.febrie.rpg.gui.impl.quest.QuestListGui;
 import com.febrie.rpg.gui.impl.job.JobSelectionGui;
+import com.febrie.rpg.gui.impl.quest.QuestListGui;
+import com.febrie.rpg.gui.impl.settings.PlayerSettingsGui;
+import com.febrie.rpg.gui.impl.system.MainMenuGui;
 import com.febrie.rpg.gui.manager.GuiManager;
+import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.quest.manager.QuestManager;
-import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.SkullUtil;
 import com.febrie.rpg.util.TimeUtil;
+import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 
@@ -56,53 +58,47 @@ public class ProfileGui extends BaseGui {
 
     /**
      * Creates a new ProfileGui for viewing another player's profile
-     * 
-     * @param guiManager GUI 관리자
-     * @param langManager 언어 관리자
-     * @param viewer GUI를 보는 플레이어
+     *
+     * @param guiManager   GUI 관리자
+     * @param langManager  언어 관리자
+     * @param viewer       GUI를 보는 플레이어
      * @param targetPlayer 프로필 대상 플레이어
      */
-    protected ProfileGui(@NotNull GuiManager guiManager,
-                        @NotNull Player viewer, @NotNull Player targetPlayer) {
-        super(viewer, guiManager, GUI_SIZE, "gui.profile.player-title",
-                "player", targetPlayer.getName());
+    protected ProfileGui(@NotNull GuiManager guiManager, @NotNull Player viewer, @NotNull Player targetPlayer) {
+        super(viewer, guiManager, GUI_SIZE, Component.translatable("gui.profile.player-title", Component.translatable("player"), Component.text(targetPlayer.getName())));
         this.targetPlayer = targetPlayer;
     }
-    
+
     /**
      * Creates a new ProfileGui for viewing own profile (편의 생성자)
-     * 
-     * @param guiManager GUI 관리자
+     *
+     * @param guiManager  GUI 관리자
      * @param langManager 언어 관리자
-     * @param viewer GUI를 보는 플레이어 (자기 자신의 프로필)
+     * @param viewer      GUI를 보는 플레이어 (자기 자신의 프로필)
      */
-    protected ProfileGui(@NotNull GuiManager guiManager,
-                        @NotNull Player viewer) {
+    protected ProfileGui(@NotNull GuiManager guiManager, @NotNull Player viewer) {
         this(guiManager, viewer, viewer);
     }
-    
+
     /**
      * Factory method to create ProfileGui for viewing another player's profile
      */
-    public static ProfileGui create(@NotNull GuiManager guiManager,
-                                  @NotNull Player viewer, @NotNull Player targetPlayer) {
-        ProfileGui gui = new ProfileGui(guiManager, viewer, targetPlayer);
-        return gui;
+    public static ProfileGui create(@NotNull GuiManager guiManager, @NotNull Player viewer, @NotNull Player targetPlayer) {
+        return new ProfileGui(guiManager, viewer, targetPlayer);
     }
-    
+
     /**
      * Factory method to create ProfileGui for viewing own profile
      */
-    public static ProfileGui create(@NotNull GuiManager guiManager,
-                                  @NotNull Player viewer) {
+    public static ProfileGui create(@NotNull GuiManager guiManager, @NotNull Player viewer) {
         return create(guiManager, viewer, viewer);
     }
 
     @Override
     public @NotNull Component getTitle() {
-        return trans("gui.profile.player-title", "player", targetPlayer.getName());
+        return Component.translatable("gui.profile.player-title", Component.text(targetPlayer.getName()));
     }
-    
+
     @Override
     protected GuiFramework getBackTarget() {
         // 프로필에서는 메인 메뉴로 돌아감
@@ -134,7 +130,7 @@ public class ProfileGui extends BaseGui {
                 setItem(i, GuiFactory.createDecoration());
             }
         }
-        
+
         // 중간 구분선 제거 - 버튼들만 표시
 
         // 좌우 테두리
@@ -148,19 +144,15 @@ public class ProfileGui extends BaseGui {
      * Sets up player information display
      */
     private void setupPlayerInfo() {
-        com.febrie.rpg.player.RPGPlayer rpgPlayer = RPGMain.getPlugin()
-                .getRPGPlayerManager().getOrCreatePlayer(targetPlayer);
+        com.febrie.rpg.player.RPGPlayer rpgPlayer = RPGMain.getPlugin().getRPGPlayerManager()
+                .getOrCreatePlayer(targetPlayer);
 
         // Player head at top center with wallet info
-        ItemBuilder headBuilder = new ItemBuilder(targetPlayer)
+        ItemBuilder headBuilder = ItemBuilder.from(SkullUtil.getPlayerHead(targetPlayer.getUniqueId().toString()))
                 .displayName(Component.text(targetPlayer.getName())
-                        .color(UnifiedColorUtil.LEGENDARY)
-                        .decoration(TextDecoration.BOLD, true))
+                        .color(UnifiedColorUtil.LEGENDARY).decoration(TextDecoration.BOLD, true))
                 .addLore(Component.empty())
-                .addLore(trans("gui.profile.online-status",
-                        "status", targetPlayer.isOnline() ?
-                                transString("status.online") :
-                                transString("status.offline")))
+                .addLore(Component.translatable("gui.profile.online-status", targetPlayer.isOnline() ? Component.translatable("status.online") : Component.translatable("status.offline")))
                 .addLore(Component.empty());
 
         // Add wallet information - 모든 통화를 일관된 방식으로 표시
@@ -171,37 +163,29 @@ public class ProfileGui extends BaseGui {
             long balance = wallet.getBalance(currency);
 
             // 통화 이름과 금액을 포함한 완전한 Component 생성
-            Component currencyLine = trans("currency." + currency.getId() + ".name")
+            Component currencyLine = LangManager.getGuiText("currency." + currency.getId() + ".name", getViewerLocale())
                     .color(currency.getColor())  // 통화 이름에 색상 적용
                     .append(Component.text(": ", UnifiedColorUtil.WHITE))  // 콜론은 흰색으로
-                    .append(Component.text(String.format("%,d", balance))
-                            .color(currency.getColor()));  // 금액도 통화 색상으로
+                    .append(Component.text(String.format("%,d", balance)).color(currency.getColor()));  // 금액도 통화 색상으로
 
             headBuilder.addLore(currencyLine);
         }
 
         setItem(PLAYER_HEAD_SLOT, GuiItem.display(headBuilder.build()));
 
-        // Level/XP info
-        setItem(LEVEL_INFO_SLOT, GuiItem.display(
-                ItemBuilder.of(Material.EXPERIENCE_BOTTLE)
-                        .displayName(trans("gui.profile.level-info"))
-                        .addLore(trans("gui.profile.level", "level", String.valueOf(rpgPlayer.getLevel())))
-                        .addLore(trans("gui.profile.experience", "exp", String.valueOf(rpgPlayer.getExperience())))
-                        .build()
-        ));
+        // Level/XP info - locale 적용 예시
+        setItem(LEVEL_INFO_SLOT, GuiItem.display(ItemBuilder.of(Material.EXPERIENCE_BOTTLE, getViewerLocale())
+                .displayNameTranslated("items.profile.level-info.name")
+                .addLore(LangManager.get("gui.profile.level", viewer, Component.text(String.valueOf(rpgPlayer.getLevel()))))
+                .addLore(LangManager.get("gui.profile.experience", viewer, Component.text(String.valueOf(rpgPlayer.getExperience()))))
+                .build()));
 
-        // Game stats info
-        setItem(GAME_INFO_SLOT, GuiItem.display(
-                ItemBuilder.of(Material.GOLDEN_SWORD)
-                        .displayName(trans("gui.profile.game-stats"))
-                        .addLore(trans("gui.profile.playtime",
-                                "time", TimeUtil.formatTime(rpgPlayer.getTotalPlaytime())))
-                        .addLore(trans("gui.profile.mob-kills",
-                                "kills", String.valueOf(rpgPlayer.getMobsKilled())))
-                        .flags(org.bukkit.inventory.ItemFlag.values())
-                        .build()
-        ));
+        // Game stats info - locale 적용 예시
+        setItem(GAME_INFO_SLOT, GuiItem.display(ItemBuilder.of(Material.GOLDEN_SWORD, getViewerLocale())
+                .displayNameTranslated("items.profile.game-stats.name")
+                .addLore(LangManager.get("gui.profile.playtime", viewer, Component.text(TimeUtil.formatTime(rpgPlayer.getTotalPlaytime()))))
+                .addLore(LangManager.get("gui.profile.mob-kills", viewer, Component.text(String.valueOf(rpgPlayer.getMobsKilled()))))
+                .flags(org.bukkit.inventory.ItemFlag.values()).build()));
     }
 
     /**
@@ -213,8 +197,8 @@ public class ProfileGui extends BaseGui {
     }
 
     private void setupActionButtons() {
-        com.febrie.rpg.player.RPGPlayer rpgPlayer = RPGMain.getPlugin()
-                .getRPGPlayerManager().getOrCreatePlayer(targetPlayer);
+        com.febrie.rpg.player.RPGPlayer rpgPlayer = RPGMain.getPlugin().getRPGPlayerManager()
+                .getOrCreatePlayer(targetPlayer);
 
         // Job info button - click to open talents menu
         setupJobInfoButton(rpgPlayer);
@@ -239,32 +223,23 @@ public class ProfileGui extends BaseGui {
      * Quest info button setup - 퀘스트 목록으로 이동
      */
     private void setupQuestInfoButton() {
-        GuiItem questButton = GuiItem.clickable(
-                ItemBuilder.of(Material.WRITTEN_BOOK)
-                        .displayName(trans("gui.profile.quest-info")
-                                .color(UnifiedColorUtil.UNCOMMON)
-                                .decoration(TextDecoration.BOLD, true))
-                        .addLore(Component.empty())
-                        .addLore(trans("gui.profile.active-quests",
-                                "count", String.valueOf(getActiveQuestCount())))
-                        .addLore(trans("gui.profile.completed-quests",
-                                "count", String.valueOf(getCompletedQuestCount())))
-                        .addLore(Component.empty())
-                        .addLore(trans("gui.profile.click-for-quests")
-                                .color(UnifiedColorUtil.GRAY))
-                        .flags(ItemFlag.values())
-                        .build(),
-                p -> {
-                    if (p.equals(targetPlayer)) {
-                        QuestListGui questListGui = QuestListGui.create(guiManager, p);
-                        guiManager.openGui(p, questListGui);
-                        playSuccessSound(p);
-                    } else {
-                        p.sendMessage(Component.translatable("general.cannot-view-others-quests"));
-                        playErrorSound(p);
-                    }
-                }
-        );
+        GuiItem questButton = GuiItem.clickable(ItemBuilder.of(Material.WRITTEN_BOOK, getViewerLocale())
+                .displayNameTranslated("items.profile.quest-info.name")
+                .addLore(Component.empty())
+                .addLore(LangManager.get("gui.profile.active-quests", viewer, Component.text(String.valueOf(getActiveQuestCount()))))
+                .addLore(LangManager.get("gui.profile.completed-quests", viewer, Component.text(String.valueOf(getCompletedQuestCount()))))
+                .addLore(Component.empty())
+                .addLoreTranslated("items.profile.quest-info.click-lore")
+                .flags(ItemFlag.values()).build(), p -> {
+            if (p.equals(targetPlayer)) {
+                QuestListGui questListGui = QuestListGui.create(guiManager, p);
+                guiManager.openGui(p, questListGui);
+                playSuccessSound(p);
+            } else {
+                p.sendMessage(Component.translatable("general.cannot-view-others-quests"));
+                playErrorSound(p);
+            }
+        });
         setItem(QUEST_INFO_SLOT, questButton);
     }
 
@@ -272,18 +247,14 @@ public class ProfileGui extends BaseGui {
      * 활성 퀘스트 개수 가져오기
      */
     private int getActiveQuestCount() {
-        return QuestManager.getInstance()
-                .getActiveQuests(targetPlayer.getUniqueId())
-                .size();
+        return QuestManager.getInstance().getActiveQuests(targetPlayer.getUniqueId()).size();
     }
 
     /**
      * 완료된 퀘스트 개수 가져오기
      */
     private int getCompletedQuestCount() {
-        return QuestManager.getInstance()
-                .getCompletedQuests(targetPlayer.getUniqueId())
-                .size();
+        return QuestManager.getInstance().getCompletedQuests(targetPlayer.getUniqueId()).size();
     }
 
     /**
@@ -292,58 +263,52 @@ public class ProfileGui extends BaseGui {
     private void setupJobInfoButton(com.febrie.rpg.player.RPGPlayer rpgPlayer) {
         if (!rpgPlayer.hasJob()) {
             // No job - show job selection button
-            GuiItem jobButton = GuiItem.clickable(
-                    ItemBuilder.of(Material.ENCHANTING_TABLE)
-                            .displayName(trans("items.mainmenu.job-button.name"))
-                            .addLore(LangManager.getList("items.mainmenu.job-button.lore", viewer))
-                            .glint(true)
-                            .build(),
-                    p -> {
-                        if (p.equals(targetPlayer)) {
-                            JobSelectionGui jobGui = JobSelectionGui.create(guiManager, p, rpgPlayer);
-                            guiManager.openGui(p, jobGui);
-                            playSuccessSound(p);
-                        } else {
-                            p.sendMessage(Component.translatable("general.cannot-select-others-job"));
-                            playErrorSound(p);
-                        }
-                    }
-            );
+            GuiItem jobButton = GuiItem.clickable(ItemBuilder.of(Material.ENCHANTING_TABLE, getViewerLocale())
+                    .displayNameTranslated("items.mainmenu.job-button.name")
+                    .addLoreTranslated("items.mainmenu.job-button.lore")
+                    .glint(true).build(), p -> {
+                if (p.equals(targetPlayer)) {
+                    JobSelectionGui jobGui = JobSelectionGui.create(guiManager, p, rpgPlayer);
+                    guiManager.openGui(p, jobGui);
+                    playSuccessSound(p);
+                } else {
+                    p.sendMessage(Component.translatable("general.cannot-select-others-job"));
+                    playErrorSound(p);
+                }
+            });
             setItem(JOB_INFO_SLOT, jobButton);
         } else {
             // Has job - show current job info with level, click to open talents
-            String jobKey = rpgPlayer.getJob().name().toLowerCase();
-            ItemBuilder jobBuilder = ItemBuilder.of(rpgPlayer.getJob().getMaterial())
-                    .displayName(Component.text(rpgPlayer.getJob().getIcon() + " ")
-                            .append(trans("job." + jobKey + ".name"))
-                            .color(rpgPlayer.getJob().getColor())
-                            .decoration(TextDecoration.BOLD, true))
-                    .addLore(Component.empty())
-                    .addLore(trans("gui.profile.job-level", "level", String.valueOf(rpgPlayer.getLevel())))
-                    .addLore(trans("gui.profile.combat-power", "power", String.valueOf(rpgPlayer.getCombatPower())));
+            JobType job = rpgPlayer.getJob();
+            if (job == null) {
+                return; // Safety check
+            }
+            String jobKey = job.name().toLowerCase();
+            ItemBuilder jobBuilder = ItemBuilder.of(job.getMaterial(), getViewerLocale()).displayName(Component.text(job.getIcon() + " ")
+                            .append(Component.translatable("job." + jobKey + ".name")).color(job.getColor())
+                            .decoration(TextDecoration.BOLD, true)).addLore(Component.empty())
+                    .addLore(LangManager.get("gui.profile.job-level", viewer, Component.text(String.valueOf(rpgPlayer.getLevel()))))
+                    .addLore(LangManager.get("gui.profile.combat-power", viewer, Component.text(String.valueOf(rpgPlayer.getCombatPower()))));
 
             // 특성 메뉴로 이동 설명 추가
             if (viewer.equals(targetPlayer)) {
                 jobBuilder.addLore(Component.empty())
-                        .addLore(trans("gui.profile.click-to-talents").color(UnifiedColorUtil.YELLOW));
+                        .addLoreTranslated("gui.profile.click-to-talents");
             }
 
-            GuiItem jobInfo = GuiItem.clickable(
-                    jobBuilder.build(),
-                    p -> {
-                        if (p.equals(targetPlayer)) {
-                            // Open talent GUI
-                            List<com.febrie.rpg.talent.Talent> talents = RPGMain.getPlugin()
-                                    .getTalentManager().getJobMainTalents(rpgPlayer.getJob());
-                            TalentGui talentGui = TalentGui.create(guiManager, p, rpgPlayer, "main", talents);
-                            guiManager.openGui(p, talentGui);
-                            playSuccessSound(p);
-                        } else {
-                            p.sendMessage(Component.translatable("general.cannot-view-others-talents"));
-                            playErrorSound(p);
-                        }
-                    }
-            );
+            GuiItem jobInfo = GuiItem.clickable(jobBuilder.build(), p -> {
+                if (p.equals(targetPlayer)) {
+                    // Open talent GUI
+                    List<com.febrie.rpg.talent.Talent> talents = RPGMain.getPlugin().getTalentManager()
+                            .getJobMainTalents(rpgPlayer.getJob());
+                    TalentGui talentGui = TalentGui.create(guiManager, p, rpgPlayer, "main", talents);
+                    guiManager.openGui(p, talentGui);
+                    playSuccessSound(p);
+                } else {
+                    p.sendMessage(Component.translatable("general.cannot-view-others-talents"));
+                    playErrorSound(p);
+                }
+            });
             setItem(JOB_INFO_SLOT, jobInfo);
         }
     }
@@ -352,29 +317,25 @@ public class ProfileGui extends BaseGui {
      * Stats info button setup
      */
     private void setupStatsInfoButton(com.febrie.rpg.player.RPGPlayer rpgPlayer) {
-        GuiItem statsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.IRON_CHESTPLATE)
-                        .displayName(trans("items.mainmenu.stats-button.name"))
-                        .addLore(LangManager.getList("items.mainmenu.stats-button.lore", viewer))
-                        .flags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES)
-                        .build(),
-                p -> {
-                    if (!rpgPlayer.hasJob()) {
-                        p.sendMessage(Component.translatable("messages.no-job-for-stats"));
-                        playErrorSound(p);
-                        return;
-                    }
+        GuiItem statsButton = GuiItem.clickable(ItemBuilder.of(Material.IRON_CHESTPLATE, getViewerLocale())
+                .displayNameTranslated("items.mainmenu.stats-button.name")
+                .addLoreTranslated("items.mainmenu.stats-button.lore")
+                .flags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES).build(), p -> {
+            if (!rpgPlayer.hasJob()) {
+                p.sendMessage(Component.translatable("messages.no-job-for-stats"));
+                playErrorSound(p);
+                return;
+            }
 
-                    if (p.equals(targetPlayer)) {
-                        StatsGui statsGui = StatsGui.create(guiManager, p, rpgPlayer);
-                        guiManager.openGui(p, statsGui);
-                        playSuccessSound(p);
-                    } else {
-                        p.sendMessage(Component.translatable("general.cannot-view-others-stats"));
-                        playErrorSound(p);
-                    }
-                }
-        );
+            if (p.equals(targetPlayer)) {
+                StatsGui statsGui = StatsGui.create(guiManager, p, rpgPlayer);
+                guiManager.openGui(p, statsGui);
+                playSuccessSound(p);
+            } else {
+                p.sendMessage(Component.translatable("general.cannot-view-others-stats"));
+                playErrorSound(p);
+            }
+        });
         setItem(STATS_INFO_SLOT, statsButton);
     }
 
@@ -382,16 +343,12 @@ public class ProfileGui extends BaseGui {
      * Collection book button setup (coming soon)
      */
     private void setupCollectionButton() {
-        GuiItem collectionButton = GuiItem.clickable(
-                ItemBuilder.of(Material.BOOK)
-                        .displayName(Component.text("수집북", UnifiedColorUtil.INFO))
-                        .addLore(trans("general.coming-soon"))
-                        .build(),
-                p -> {
-                    p.sendMessage(Component.translatable("general.coming-soon"));
-                    playClickSound(p);
-                }
-        );
+        GuiItem collectionButton = GuiItem.clickable(ItemBuilder.of(Material.BOOK, getViewerLocale())
+                .displayNameTranslated("items.profile.collection-book.name")
+                .addLoreTranslated("general.coming-soon").build(), p -> {
+            p.sendMessage(LangManager.getGuiText("general.coming-soon", p.locale()));
+            playClickSound(p);
+        });
         setItem(COLLECTION_SLOT, collectionButton);
     }
 
@@ -399,16 +356,12 @@ public class ProfileGui extends BaseGui {
      * Pet button setup (coming soon)
      */
     private void setupPetButton() {
-        GuiItem petButton = GuiItem.clickable(
-                ItemBuilder.of(Material.BONE)
-                        .displayName(Component.text("애완동물", UnifiedColorUtil.UNCOMMON))
-                        .addLore(trans("general.coming-soon"))
-                        .build(),
-                p -> {
-                    p.sendMessage(Component.translatable("general.coming-soon"));
-                    playClickSound(p);
-                }
-        );
+        GuiItem petButton = GuiItem.clickable(ItemBuilder.of(Material.BONE, getViewerLocale())
+                .displayNameTranslated("items.profile.pets.name")
+                .addLoreTranslated("general.coming-soon").build(), p -> {
+            p.sendMessage(LangManager.getGuiText("general.coming-soon", p.locale()));
+            playClickSound(p);
+        });
         setItem(PET_SLOT, petButton);
     }
 
@@ -425,42 +378,32 @@ public class ProfileGui extends BaseGui {
         }
 
         // Back button - 항상 표시 (메인 메뉴로 돌아가기)
-        setItem(getBackButtonSlot(), GuiItem.clickable(
-                new ItemBuilder(Material.ARROW)
-                        .displayName(trans("gui.buttons.back.name"))
-                        .addLore(trans("gui.buttons.back.lore"))
-                        .build(),
-                p -> {
-                    // 네비게이션 스택이 비어있어도 메인 메뉴로 돌아가기
-                    GuiFramework backTarget = getBackTarget();
-                    if (backTarget != null) {
-                        guiManager.openGui(p, backTarget);
-                    } else {
-                        // 메인 메뉴 열기
-                        MainMenuGui mainMenu = MainMenuGui.create(guiManager, p);
-                        guiManager.openGui(p, mainMenu);
-                    }
-                    playBackSound(p);
-                }
-        ));
+        setItem(getBackButtonSlot(), GuiItem.clickable(ItemBuilder.of(Material.ARROW, getViewerLocale()).displayNameTranslated("gui.buttons.back.name")
+                .addLoreTranslated("gui.buttons.back.lore").build(), p -> {
+            // 네비게이션 스택이 비어있어도 메인 메뉴로 돌아가기
+            GuiFramework backTarget = getBackTarget();
+            if (backTarget != null) {
+                guiManager.openGui(p, backTarget);
+            } else {
+                // 메인 메뉴 열기
+                MainMenuGui mainMenu = MainMenuGui.create(guiManager, p);
+                guiManager.openGui(p, mainMenu);
+            }
+            playBackSound(p);
+        }));
 
         // Close button - BaseGui 표준 위치 사용
         setItem(getCloseButtonSlot(), GuiFactory.createCloseButton(viewer));
 
         // User settings button (only for own profile)
         if (viewer.equals(targetPlayer)) {
-            GuiItem userSettingsButton = GuiItem.clickable(
-                    ItemBuilder.of(Material.COMPARATOR)
-                            .displayName(Component.text("사용자 설정", UnifiedColorUtil.GRAY))
-                            .addLore(Component.text("개인 설정을 변경합니다", UnifiedColorUtil.GRAY))
-                            .build(),
-                    p -> {
-                        com.febrie.rpg.gui.impl.settings.PlayerSettingsGui settingsGui = 
-                            com.febrie.rpg.gui.impl.settings.PlayerSettingsGui.create(guiManager, p);
-                        guiManager.openGui(p, settingsGui);
-                        playClickSound(p);
-                    }
-            );
+            GuiItem userSettingsButton = GuiItem.clickable(ItemBuilder.of(Material.COMPARATOR, getViewerLocale())
+                    .displayNameTranslated("items.profile.user-settings.name")
+                    .addLoreTranslated("items.profile.user-settings.lore").build(), p -> {
+                PlayerSettingsGui settingsGui = PlayerSettingsGui.create(guiManager, p);
+                guiManager.openGui(p, settingsGui);
+                playClickSound(p);
+            });
             setItem(USER_SETTINGS_SLOT, userSettingsButton);
         }
     }

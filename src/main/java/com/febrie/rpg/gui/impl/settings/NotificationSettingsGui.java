@@ -10,14 +10,12 @@ import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 /**
  * 알림 설정 GUI
@@ -39,7 +37,7 @@ public class NotificationSettingsGui extends BaseGui {
 
     private NotificationSettingsGui(@NotNull GuiManager guiManager,
                                   @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, "gui.notification-settings.title");
+        super(player, guiManager, GUI_SIZE, Component.translatable("gui.notification-settings.title"));
     }
 
     /**
@@ -52,13 +50,12 @@ public class NotificationSettingsGui extends BaseGui {
      */
     public static NotificationSettingsGui create(@NotNull GuiManager guiManager,
                                                 @NotNull Player player) {
-        NotificationSettingsGui gui = new NotificationSettingsGui(guiManager, player);
-        return gui;
+        return new NotificationSettingsGui(guiManager, player);
     }
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("알림 설정", UnifiedColorUtil.MYTHIC);
+        return Component.translatable("gui.notification-settings.title");
     }
 
     @Override
@@ -86,11 +83,11 @@ public class NotificationSettingsGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                new ItemBuilder(Material.BELL)
-                        .displayName(Component.text("🔔 알림 설정", UnifiedColorUtil.MYTHIC)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.BELL, viewer.locale())
+                        .displayNameTranslated("items.settings.notification-settings.title.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("알림 관련 설정을 변경합니다", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.notification-settings.title.lore")
+                        .hideAllFlags()
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -143,25 +140,28 @@ public class NotificationSettingsGui extends BaseGui {
         boolean enabled = settings.isWhisperNotificationsEnabled();
         
         GuiItem whisperNotificationsToggle = GuiItem.clickable(
-                new ItemBuilder(enabled ? Material.LIME_CONCRETE : Material.RED_CONCRETE)
-                        .displayName(Component.text("💬 귓말 알림", UnifiedColorUtil.PRIMARY)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(enabled ? Material.LIME_CONCRETE : Material.RED_CONCRETE, viewer.locale())
+                        .displayNameTranslated("items.settings.notification-settings.whisper.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("상태: " + (enabled ? "활성화" : "비활성화"), 
-                                enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
+                        .addLore(LangManager.get("gui.notification-settings.status", viewer,
+                                Component.translatable(enabled ? "status.enabled" : "status.disabled")
+                                .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
                         .addLore(Component.empty())
-                        .addLore(Component.text("귓말을 받았을 때", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("채팅에 알림을 표시할지 설정합니다", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.notification-settings.whisper.desc1")
+                        .addLoreTranslated("items.settings.notification-settings.whisper.desc2")
                         .addLore(Component.empty())
-                        .addLore(Component.text("※ 귓말 시스템은 준비중입니다", UnifiedColorUtil.YELLOW))
+                        .addLoreTranslated("items.settings.notification-settings.whisper.note")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), UnifiedColorUtil.YELLOW))
+                        .addLore(LangManager.get("gui.notification-settings.click-to-toggle", viewer,
+                                Component.translatable(enabled ? "action.disable" : "action.enable")))
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     settings.setWhisperNotificationsEnabled(!enabled);
                     updateWhisperNotificationsToggle(settings);
                     playClickSound(p);
-                    p.sendMessage(Component.translatable("settings.whisper-notifications.toggled", Component.text(enabled ? "비활성화" : "활성화")));
+                    p.sendMessage(LangManager.get("gui.notification-settings.whisper-toggled", p,
+                            Component.translatable(enabled ? "status.disabled" : "status.enabled")));
                 }
         );
         setItem(WHISPER_NOTIFICATIONS_SLOT, whisperNotificationsToggle);
@@ -181,38 +181,38 @@ public class NotificationSettingsGui extends BaseGui {
             default -> Material.WHITE_DYE;
         };
 
-        String modeDisplay = switch (mode) {
-            case "ALL" -> "전체";
-            case "FRIEND_ONLY" -> "친구 요청만";
-            case "GUILD_ONLY" -> "길드 초대만";
-            case "OFF" -> "끄기";
-            default -> "알 수 없음";
+        Component modeDisplay = switch (mode) {
+            case "ALL" -> Component.translatable("notification.mode.all");
+            case "FRIEND_ONLY" -> Component.translatable("notification.mode.friend-only");
+            case "GUILD_ONLY" -> Component.translatable("notification.mode.guild-only");
+            case "OFF" -> Component.translatable("notification.mode.off");
+            default -> Component.translatable("notification.mode.unknown");
         };
 
-        String modeDescription = switch (mode) {
-            case "ALL" -> "모든 초대 알림을 표시합니다";
-            case "FRIEND_ONLY" -> "친구 요청 알림만 표시합니다";
-            case "GUILD_ONLY" -> "길드 초대 알림만 표시합니다";
-            case "OFF" -> "모든 초대 알림을 숨깁니다";
-            default -> "알 수 없는 모드입니다";
+        Component modeDescription = switch (mode) {
+            case "ALL" -> Component.translatable("notification.mode.all.desc");
+            case "FRIEND_ONLY" -> Component.translatable("notification.mode.friend-only.desc");
+            case "GUILD_ONLY" -> Component.translatable("notification.mode.guild-only.desc");
+            case "OFF" -> Component.translatable("notification.mode.off.desc");
+            default -> Component.translatable("notification.mode.unknown.desc");
         };
         
         GuiItem inviteNotificationsToggle = GuiItem.clickable(
-                new ItemBuilder(material)
-                        .displayName(Component.text("📨 초대 알림", UnifiedColorUtil.PRIMARY)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(material, viewer.locale())
+                        .displayNameTranslated("items.settings.notification-settings.invite.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("현재 모드: " + modeDisplay, UnifiedColorUtil.WHITE))
-                        .addLore(Component.text(modeDescription, UnifiedColorUtil.GRAY))
+                        .addLore(LangManager.get("gui.notification-settings.current-mode", viewer, modeDisplay))
+                        .addLore(modeDescription.color(UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("친구 요청이나 길드 초대를", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("받았을 때 채팅에 알림을", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("표시할지 설정합니다", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.notification-settings.invite.desc1")
+                        .addLoreTranslated("items.settings.notification-settings.invite.desc2")
+                        .addLoreTranslated("items.settings.notification-settings.invite.desc3")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 다음 모드로 변경:", UnifiedColorUtil.YELLOW))
-                        .addLore(Component.text("전체 → 친구만 → 길드만 → 끄기", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.notification-settings.invite.click-hint")
+                        .addLoreTranslated("items.settings.notification-settings.invite.mode-cycle")
                         .addLore(Component.empty())
-                        .addLore(Component.text("※ 관련 시스템은 준비중입니다", UnifiedColorUtil.YELLOW))
+                        .addLoreTranslated("items.settings.notification-settings.invite.note")
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     String nextMode = switch (mode) {
@@ -227,15 +227,15 @@ public class NotificationSettingsGui extends BaseGui {
                     updateInviteNotificationsToggle(settings);
                     playClickSound(p);
                     
-                    String newModeDisplay = switch (nextMode) {
-                        case "ALL" -> "전체";
-                        case "FRIEND_ONLY" -> "친구 요청만";
-                        case "GUILD_ONLY" -> "길드 초대만";
-                        case "OFF" -> "끄기";
-                        default -> "알 수 없음";
+                    Component newModeDisplay = switch (nextMode) {
+                        case "ALL" -> Component.translatable("notification.mode.all");
+                        case "FRIEND_ONLY" -> Component.translatable("notification.mode.friend-only");
+                        case "GUILD_ONLY" -> Component.translatable("notification.mode.guild-only");
+                        case "OFF" -> Component.translatable("notification.mode.off");
+                        default -> Component.translatable("notification.mode.unknown");
                     };
                     
-                    p.sendMessage(Component.translatable("settings.invite-notifications.changed", Component.text(newModeDisplay)));
+                    p.sendMessage(LangManager.get("gui.notification-settings.invite-changed", p, newModeDisplay));
                 }
         );
         setItem(INVITE_NOTIFICATIONS_SLOT, inviteNotificationsToggle);
@@ -248,28 +248,31 @@ public class NotificationSettingsGui extends BaseGui {
         boolean enabled = settings.isServerAnnouncementsEnabled();
         
         GuiItem serverAnnouncementsToggle = GuiItem.clickable(
-                new ItemBuilder(enabled ? Material.BEACON : Material.GLASS)
-                        .displayName(Component.text("📢 서버 공지 알림", UnifiedColorUtil.PRIMARY)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(enabled ? Material.BEACON : Material.GLASS, viewer.locale())
+                        .displayNameTranslated("items.settings.notification-settings.server.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("상태: " + (enabled ? "활성화" : "비활성화"), 
-                                enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
+                        .addLore(LangManager.get("gui.notification-settings.status", viewer,
+                                Component.translatable(enabled ? "status.enabled" : "status.disabled")
+                                .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
                         .addLore(Component.empty())
-                        .addLore(Component.text("서버 공지사항을", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("채팅에 표시할지 설정합니다", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.notification-settings.server.desc1")
+                        .addLoreTranslated("items.settings.notification-settings.server.desc2")
                         .addLore(Component.empty())
-                        .addLore(Component.text("예시:", UnifiedColorUtil.YELLOW))
-                        .addLore(Component.text("• 이벤트 알림", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("• 업데이트 공지", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("• 중요 알림", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.notification-settings.server.example-title")
+                        .addLoreTranslated("items.settings.notification-settings.server.example1")
+                        .addLoreTranslated("items.settings.notification-settings.server.example2")
+                        .addLoreTranslated("items.settings.notification-settings.server.example3")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), UnifiedColorUtil.YELLOW))
+                        .addLore(LangManager.get("gui.notification-settings.click-to-toggle", viewer,
+                                Component.translatable(enabled ? "action.disable" : "action.enable")))
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     settings.setServerAnnouncementsEnabled(!enabled);
                     updateServerAnnouncementsToggle(settings);
                     playClickSound(p);
-                    p.sendMessage(Component.translatable("settings.server-announcements.toggled", Component.text(enabled ? "비활성화" : "활성화")));
+                    p.sendMessage(LangManager.get("gui.notification-settings.server-toggled", p,
+                            Component.translatable(enabled ? "status.disabled" : "status.enabled")));
                 }
         );
         setItem(SERVER_ANNOUNCEMENTS_SLOT, serverAnnouncementsToggle);

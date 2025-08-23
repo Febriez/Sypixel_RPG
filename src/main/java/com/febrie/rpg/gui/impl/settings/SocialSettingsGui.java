@@ -10,14 +10,12 @@ import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 /**
  * 소셜 설정 GUI
@@ -39,7 +37,7 @@ public class SocialSettingsGui extends BaseGui {
 
     private SocialSettingsGui(@NotNull GuiManager guiManager,
                             @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, "gui.social-settings.title");
+        super(player, guiManager, GUI_SIZE, Component.translatable("gui.social-settings.title"));
     }
 
     /**
@@ -52,13 +50,12 @@ public class SocialSettingsGui extends BaseGui {
      */
     public static SocialSettingsGui create(@NotNull GuiManager guiManager,
                                           @NotNull Player player) {
-        SocialSettingsGui gui = new SocialSettingsGui(guiManager, player);
-        return gui;
+        return new SocialSettingsGui(guiManager, player);
     }
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("소셜 설정", UnifiedColorUtil.EPIC);
+        return Component.translatable("gui.social-settings.title");
     }
 
     @Override
@@ -86,11 +83,11 @@ public class SocialSettingsGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                new ItemBuilder(Material.PLAYER_HEAD)
-                        .displayName(Component.text("👥 소셜 설정", UnifiedColorUtil.EPIC)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.PLAYER_HEAD, viewer.locale())
+                        .displayNameTranslated("items.settings.social-settings.title.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("소셜 기능 관련 설정을 변경합니다", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.social-settings.title.lore")
+                        .hideAllFlags()
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -143,27 +140,26 @@ public class SocialSettingsGui extends BaseGui {
         boolean enabled = settings.isFriendRequestsEnabled();
         
         GuiItem friendRequestsToggle = GuiItem.clickable(
-                new ItemBuilder(enabled ? Material.EMERALD : Material.REDSTONE)
-                        .displayName(Component.text("👤 친구 요청 받기", UnifiedColorUtil.PRIMARY)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(enabled ? Material.EMERALD : Material.REDSTONE, viewer.locale())
+                        .displayNameTranslated("items.settings.social-settings.friend-requests.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("상태: " + (enabled ? "활성화" : "비활성화"), 
-                                enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
+                        .addLore(LangManager.get("gui.social-settings.status", viewer,
+                                Component.translatable(enabled ? "status.enabled" : "status.disabled")
+                                .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
                         .addLore(Component.empty())
-                        .addLore(Component.text("다른 플레이어로부터", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("친구 요청을 받을지 설정합니다", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.social-settings.friend-requests.desc1")
+                        .addLoreTranslated("items.settings.social-settings.friend-requests.desc2")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), UnifiedColorUtil.YELLOW))
+                        .addLore(LangManager.get("gui.social-settings.click-to-toggle", viewer,
+                                Component.translatable(enabled ? "action.disable" : "action.enable")))
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     settings.setFriendRequestsEnabled(!enabled);
                     updateFriendRequestsToggle(settings);
                     playClickSound(p);
-                    if (settings.isFriendRequestsEnabled()) {
-                        p.sendMessage(Component.translatable("settings.social.friend-requests-enabled"));
-                    } else {
-                        p.sendMessage(Component.translatable("settings.social.friend-requests-disabled"));
-                    }
+                    p.sendMessage(LangManager.get("gui.social-settings.friend-requests-toggled", p,
+                            Component.translatable(settings.isFriendRequestsEnabled() ? "status.enabled" : "status.disabled")));
                 }
         );
         setItem(FRIEND_REQUESTS_SLOT, friendRequestsToggle);
@@ -176,29 +172,28 @@ public class SocialSettingsGui extends BaseGui {
         boolean enabled = settings.isGuildInvitesEnabled();
         
         GuiItem guildInvitesToggle = GuiItem.clickable(
-                new ItemBuilder(enabled ? Material.GOLD_INGOT : Material.IRON_INGOT)
-                        .displayName(Component.text("🏰 길드 초대 받기", UnifiedColorUtil.PRIMARY)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(enabled ? Material.GOLD_INGOT : Material.IRON_INGOT, viewer.locale())
+                        .displayNameTranslated("items.settings.social-settings.guild-invites.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("상태: " + (enabled ? "활성화" : "비활성화"), 
-                                enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
+                        .addLore(LangManager.get("gui.social-settings.status", viewer,
+                                Component.translatable(enabled ? "status.enabled" : "status.disabled")
+                                .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
                         .addLore(Component.empty())
-                        .addLore(Component.text("길드로부터 초대를", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("받을지 설정합니다", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.social-settings.guild-invites.desc1")
+                        .addLoreTranslated("items.settings.social-settings.guild-invites.desc2")
                         .addLore(Component.empty())
-                        .addLore(Component.text("※ 길드 시스템은 준비중입니다", UnifiedColorUtil.YELLOW))
+                        .addLoreTranslated("items.settings.social-settings.guild-invites.note")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), UnifiedColorUtil.YELLOW))
+                        .addLore(LangManager.get("gui.social-settings.click-to-toggle", viewer,
+                                Component.translatable(enabled ? "action.disable" : "action.enable")))
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     settings.setGuildInvitesEnabled(!enabled);
                     updateGuildInvitesToggle(settings);
                     playClickSound(p);
-                    if (settings.isGuildInvitesEnabled()) {
-                        p.sendMessage(Component.translatable("settings.social.guild-invites-enabled"));
-                    } else {
-                        p.sendMessage(Component.translatable("settings.social.guild-invites-disabled"));
-                    }
+                    p.sendMessage(LangManager.get("gui.social-settings.guild-invites-toggled", p,
+                            Component.translatable(settings.isGuildInvitesEnabled() ? "status.enabled" : "status.disabled")));
                 }
         );
         setItem(GUILD_INVITES_SLOT, guildInvitesToggle);
@@ -217,32 +212,32 @@ public class SocialSettingsGui extends BaseGui {
             default -> Material.WHITE_DYE;
         };
 
-        String modeDisplay = switch (mode) {
-            case "ALL" -> "전체";
-            case "FRIENDS_ONLY" -> "친구만";
-            case "BLOCKED" -> "차단";
-            default -> "알 수 없음";
+        Component modeDisplay = switch (mode) {
+            case "ALL" -> Component.translatable("whisper.mode.all");
+            case "FRIENDS_ONLY" -> Component.translatable("whisper.mode.friends-only");
+            case "BLOCKED" -> Component.translatable("whisper.mode.blocked");
+            default -> Component.translatable("whisper.mode.unknown");
         };
 
-        String modeDescription = switch (mode) {
-            case "ALL" -> "모든 플레이어로부터 귓말을 받습니다";
-            case "FRIENDS_ONLY" -> "친구로부터만 귓말을 받습니다";
-            case "BLOCKED" -> "모든 귓말을 차단합니다";
-            default -> "알 수 없는 모드입니다";
+        Component modeDescription = switch (mode) {
+            case "ALL" -> Component.translatable("whisper.mode.all.desc");
+            case "FRIENDS_ONLY" -> Component.translatable("whisper.mode.friends-only.desc");
+            case "BLOCKED" -> Component.translatable("whisper.mode.blocked.desc");
+            default -> Component.translatable("whisper.mode.unknown.desc");
         };
         
         GuiItem whisperModeToggle = GuiItem.clickable(
-                new ItemBuilder(material)
-                        .displayName(Component.text("💬 귓말 모드", UnifiedColorUtil.PRIMARY)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(material, viewer.locale())
+                        .displayNameTranslated("items.settings.social-settings.whisper.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("현재 모드: " + modeDisplay, UnifiedColorUtil.WHITE))
-                        .addLore(Component.text(modeDescription, UnifiedColorUtil.GRAY))
+                        .addLore(LangManager.get("gui.social-settings.current-mode", viewer, modeDisplay))
+                        .addLore(modeDescription.color(UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 다음 모드로 변경:", UnifiedColorUtil.YELLOW))
-                        .addLore(Component.text("전체 → 친구만 → 차단 → 전체", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.social-settings.whisper.click-hint")
+                        .addLoreTranslated("items.settings.social-settings.whisper.mode-cycle")
                         .addLore(Component.empty())
-                        .addLore(Component.text("※ 귓말 시스템은 준비중입니다", UnifiedColorUtil.YELLOW))
+                        .addLoreTranslated("items.settings.social-settings.whisper.note")
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     String nextMode = switch (mode) {
@@ -256,14 +251,14 @@ public class SocialSettingsGui extends BaseGui {
                     updateWhisperModeToggle(settings);
                     playClickSound(p);
                     
-                    String newModeDisplay = switch (nextMode) {
-                        case "ALL" -> "전체";
-                        case "FRIENDS_ONLY" -> "친구만";
-                        case "BLOCKED" -> "차단";
-                        default -> "알 수 없음";
+                    Component newModeDisplay = switch (nextMode) {
+                        case "ALL" -> Component.translatable("whisper.mode.all");
+                        case "FRIENDS_ONLY" -> Component.translatable("whisper.mode.friends-only");
+                        case "BLOCKED" -> Component.translatable("whisper.mode.blocked");
+                        default -> Component.translatable("whisper.mode.unknown");
                     };
                     
-                    p.sendMessage(Component.translatable("settings.whisper-mode.changed", Component.text(newModeDisplay)));
+                    p.sendMessage(LangManager.get("gui.social-settings.whisper-mode-changed", p, newModeDisplay));
                 }
         );
         setItem(WHISPER_MODE_SLOT, whisperModeToggle);

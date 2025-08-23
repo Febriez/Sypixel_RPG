@@ -36,9 +36,10 @@ public class GuiBuilder {
                                  @NotNull String nameKey, @NotNull String loreKey, 
                                  @NotNull Consumer<Player> action) {
         GuiItem button = GuiItem.clickable(
-            new ItemBuilder(material)
-                .displayName(Component.translatable(nameKey))
-                .addLore(Component.translatable(loreKey))
+            ItemBuilder.of(material, viewer.locale())
+                .displayNameTranslated(nameKey)
+                .addLoreTranslated(loreKey)
+                .hideAllFlags()
                 .build(),
             player -> {
                 action.accept(player);
@@ -68,9 +69,10 @@ public class GuiBuilder {
     public GuiBuilder display(int slot, @NotNull Material material,
                              @NotNull String nameKey, @NotNull String loreKey) {
         gui.setItem(slot, GuiItem.display(
-            new ItemBuilder(material)
-                .displayName(Component.translatable(nameKey))
-                .addLore(Component.translatable(loreKey))
+            ItemBuilder.of(material, viewer.locale())
+                .displayNameTranslated(nameKey)
+                .addLoreTranslated(loreKey)
+                .hideAllFlags()
                 .build()
         ));
         return this;

@@ -15,14 +15,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import com.febrie.rpg.gui.manager.GuiManager;
-import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.StandardItemBuilder;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -50,15 +47,14 @@ public class MainMenuGui extends BaseGui {
     private static final int TITLE_SLOT = 4;
 
     private MainMenuGui(@NotNull GuiManager guiManager, @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, "gui.mainmenu.title");
+        super(player, guiManager, GUI_SIZE, Component.translatable("gui.mainmenu.title"));
     }
     
     /**
      * Factory method to create the GUI
      */
     public static MainMenuGui create(@NotNull GuiManager guiManager, @NotNull Player player) {
-        MainMenuGui gui = new MainMenuGui(guiManager, player);
-        return gui;
+        return new MainMenuGui(guiManager, player);
     }
 
     
@@ -95,9 +91,10 @@ public class MainMenuGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                StandardItemBuilder.guiItem(Material.NETHER_STAR)
-                        .displayName(trans("items.mainmenu.title.name"))
-                        .lore(List.of(Component.translatable("items.mainmenu.title.lore")))
+                ItemBuilder.of(Material.NETHER_STAR, getViewerLocale())
+                        .displayNameTranslated("items.mainmenu.title.name")
+                        .addLoreTranslated("items.mainmenu.title.lore")
+                        .hideAllFlags()
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -111,9 +108,10 @@ public class MainMenuGui extends BaseGui {
         
         // 프로필 버튼 (상단)
         builder.menuButton(PROFILE_SLOT, 
-            new ItemBuilder(viewer)
-                .displayName(trans("items.mainmenu.profile-button.name"))
-                .lore(List.of(Component.translatable("items.mainmenu.profile-button.lore")))
+            ItemBuilder.of(Material.PLAYER_HEAD, getViewerLocale())
+                .displayNameTranslated("items.mainmenu.profile-button.name")
+                .addLoreTranslated("items.mainmenu.profile-button.lore")
+                .hideAllFlags()
                 .build(),
             player -> {
                 ProfileGui profileGui = ProfileGui.create(guiManager, player);
@@ -184,9 +182,10 @@ public class MainMenuGui extends BaseGui {
      */
     private void setupLeaderboardButton() {
         GuiItem leaderboardButton = GuiItem.clickable(
-                new ItemBuilder(Material.GOLDEN_APPLE)
-                        .displayName(trans("items.mainmenu.leaderboard-button.name"))
-                        .lore(List.of(Component.translatable("items.mainmenu.leaderboard-button.lore")))
+                ItemBuilder.of(Material.GOLDEN_APPLE, getViewerLocale())
+                        .displayNameTranslated("items.mainmenu.leaderboard-button.name")
+                        .addLoreTranslated("items.mainmenu.leaderboard-button.lore")
+                        .hideAllFlags()
                         .build(),
                 player -> {
                     LeaderboardGui leaderboardGui = LeaderboardGui.create(guiManager, player);

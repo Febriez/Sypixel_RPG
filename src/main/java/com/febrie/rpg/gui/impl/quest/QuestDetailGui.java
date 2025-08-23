@@ -6,15 +6,14 @@ import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.quest.Quest;
-import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -45,7 +44,7 @@ public class QuestDetailGui extends BaseGui {
 
     private QuestDetailGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer, @NotNull Quest quest, @NotNull QuestProgress progress) {
-        super(viewer, guiManager, GUI_SIZE, "gui.quest-detail.title");
+        super(viewer, guiManager, GUI_SIZE, Component.translatable("gui.quest-detail.title"));
         this.quest = quest;
         this.progress = progress;
     }
@@ -67,7 +66,7 @@ public class QuestDetailGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return trans("gui.quest-detail.title");
+        return Component.translatable("gui.quest-detail.title");
     }
 
     @Override
@@ -131,27 +130,24 @@ public class QuestDetailGui extends BaseGui {
      * 퀘스트 정보 설정
      */
     private void setupQuestInfo() {
-        ItemBuilder builder = new ItemBuilder(Material.PAPER)
+        ItemBuilder builder = ItemBuilder.of(Material.PAPER, viewer.locale())
                 .displayName(quest.getDisplayName(viewer)
                         .color(UnifiedColorUtil.LEGENDARY)
-                        .decoration(TextDecoration.BOLD, true));
-
-        List<Component> lore = new ArrayList<>();
+                        .decoration(TextDecoration.BOLD, true))
+                .addLore(Component.empty());
         
         // 퀘스트 설명
-        lore.add(Component.empty());
         List<Component> descriptions = quest.getDisplayInfo(viewer);
         for (Component desc : descriptions) {
-            lore.add(desc.color(UnifiedColorUtil.GRAY));
+            builder.addLore(desc.color(UnifiedColorUtil.GRAY));
         }
-        lore.add(Component.empty());
         
-        // 전체 진행도
-        Component totalProgressText = Component.translatable("quest.total-progress");
-        lore.add(totalProgressText.append(Component.text(": " + progress.getCompletionPercentage() + "%")).color(UnifiedColorUtil.EMERALD));
-        
-        builder.addLore(lore);
-        builder.asGuiItem(false);
+        builder.addLore(Component.empty())
+                // 전체 진행도
+                .addLore(Component.translatable("quest.total-progress")
+                        .append(Component.text(": " + progress.getCompletionPercentage() + "%"))
+                        .color(UnifiedColorUtil.EMERALD))
+                .hideAllFlags();
 
         setItem(QUEST_INFO_SLOT, GuiItem.display(builder.build()));
     }
@@ -160,13 +156,9 @@ public class QuestDetailGui extends BaseGui {
      * 상세 목표 진행도 설정
      */
     private void setupObjectives() {
-        ItemBuilder builder = new ItemBuilder(Material.MAP)
-                .displayName(Component.translatable("gui.quest-detail.objective-progress")
-                        .color(UnifiedColorUtil.YELLOW)
-                        .decoration(TextDecoration.BOLD, true));
-
-        List<Component> lore = new ArrayList<>();
-        lore.add(Component.empty());
+        ItemBuilder builder = ItemBuilder.of(Material.MAP, viewer.locale())
+                .displayNameTranslated("items.quest.detail.objectives.name")
+                .addLore(Component.empty());
         
         quest.getObjectives().forEach(objective -> {
             var objProgress = progress.getObjectiveProgress(objective.getId());
@@ -175,14 +167,17 @@ public class QuestDetailGui extends BaseGui {
                         ? Component.text(" ✓", UnifiedColorUtil.SUCCESS)
                         : Component.text(" " + objective.getProgressString(objProgress), UnifiedColorUtil.GRAY);
 
-                lore.add(Component.text("• ", UnifiedColorUtil.GRAY)
+                builder.addLore(Component.text("• ", UnifiedColorUtil.GRAY)
                         .append(quest.getObjectiveDescription(objective, viewer))
                         .append(status));
             }
         });
         
-        builder.addLore(lore);
-        builder.asGuiItem(false);
+        builder.addLore(Component.empty())
+                .addLore(Component.translatable("quest.overall-progress")
+                        .append(Component.text(": " + progress.getCompletionPercentage() + "%"))
+                        .color(UnifiedColorUtil.YELLOW))
+                .hideAllFlags();
 
         setItem(OBJECTIVES_SLOT, GuiItem.display(builder.build()));
     }
@@ -191,18 +186,16 @@ public class QuestDetailGui extends BaseGui {
      * 보상 설정
      */
     private void setupRewards() {
-        ItemBuilder builder = new ItemBuilder(Material.CHEST)
-                .displayName(Component.text("보상", UnifiedColorUtil.GOLD)
-                        .decoration(TextDecoration.BOLD, true));
-
-        List<Component> lore = new ArrayList<>();
-        lore.add(Component.empty());
+        ItemBuilder builder = ItemBuilder.of(Material.CHEST, viewer.locale())
+                .displayNameTranslated("items.quest.detail.rewards.name")
+                .addLore(Component.empty());
         
         // 보상 정보 추가
-        lore.addAll(quest.getReward().getLoreComponents(viewer));
+        for (Component rewardLine : quest.getReward().getLoreComponents(viewer)) {
+            builder.addLore(rewardLine);
+        }
         
-        builder.addLore(lore);
-        builder.asGuiItem(false);
+        builder.hideAllFlags();
 
         setItem(REWARDS_SLOT, GuiItem.display(builder.build()));
     }
@@ -218,8 +211,8 @@ public class QuestDetailGui extends BaseGui {
             int slot = PROGRESS_BAR_START + i;
             Material material = i < greenSlots ? Material.LIME_STAINED_GLASS_PANE : Material.YELLOW_STAINED_GLASS_PANE;
             
-            ItemBuilder builder = new ItemBuilder(material)
-                    .displayName(Component.translatable("quest.progress").color(UnifiedColorUtil.WHITE))
+            ItemBuilder builder = ItemBuilder.of(material, viewer.locale())
+                    .displayNameTranslated("items.quest.detail.progress.name")
                     .addLore(Component.text(completionPercentage + "%", UnifiedColorUtil.GRAY));
             
             setItem(slot, GuiItem.display(builder.build()));

@@ -8,9 +8,9 @@ import com.febrie.rpg.gui.impl.system.MainMenuGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
-import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.StandardItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -86,9 +86,9 @@ public class IslandCreationGui extends BaseGui {
     private final IslandManager islandManager;
 
     private IslandCreationGui(@NotNull GuiManager guiManager, @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, "gui.island.creation.title");
+        super(player, guiManager, GUI_SIZE, Component.translatable("gui.island.creation.title"));
         this.islandManager = RPGMain.getInstance().getIslandManager();
-        this.islandName = LangManager.getString("island.gui.creation.default-island-name", player);
+        this.islandName = LangManager.getString("island.default-name", player);
     }
 
     /**
@@ -100,7 +100,7 @@ public class IslandCreationGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return trans("gui.island.creation.title");
+        return Component.translatable("gui.island.creation.title");
     }
 
     @Override
@@ -124,9 +124,10 @@ public class IslandCreationGui extends BaseGui {
 
         // 제목 아이템
         GuiItem titleItem = GuiItem.display(
-                StandardItemBuilder.guiItem(Material.GRASS_BLOCK)
-                        .displayName(trans("items.island.creation.title.name"))
-                        .lore(LangManager.getList("items.island.creation.title.lore", viewer))
+                ItemBuilder.of(Material.GRASS_BLOCK, getViewerLocale())
+                        .displayNameTranslated("items.island.creation.title.name")
+                        .addLoreTranslated("items.island.creation.title.lore")
+                        .hideAllFlags()
                         .build()
         );
         setItem(4, titleItem);
@@ -154,16 +155,11 @@ public class IslandCreationGui extends BaseGui {
      */
     private void updateNameItem() {
         GuiItem nameItem = GuiItem.clickable(
-                StandardItemBuilder.guiItem(Material.NAME_TAG)
-                        .displayName(trans("items.island.creation.name.name"))
-                        .lore(List.of(
-                                Component.text(""),
-                                trans("island.gui.creation.current-name").color(NamedTextColor.GRAY)
-                                        .append(Component.text(islandName, UnifiedColorUtil.parseHexColor(islandColorHex))),
-                                Component.text(""),
-                                trans("island.gui.creation.click-to-change-name").color(NamedTextColor.YELLOW),
-                                Component.text("")
-                        ))
+                ItemBuilder.of(Material.NAME_TAG, getViewerLocale())
+                        .displayNameTranslated("items.island.creation.name.name")
+                        .loreTranslated("items.island.creation.name.lore", 
+                                UnifiedColorUtil.parseHexColor(islandColorHex) + islandName)
+                        .hideAllFlags()
                         .build(),
                 player -> {
                     // Anvil GUI로 이름 입력
@@ -184,12 +180,15 @@ public class IslandCreationGui extends BaseGui {
                                     });
                                     return Arrays.asList(AnvilGUI.ResponseAction.close());
                                 } else {
-                                    return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(trans("island.gui.creation.island-name-input-error").toString()));
+                                    return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(
+                                            net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                                                    .serialize(Component.translatable("island.gui.creation.island-name-input-error"))));
                                 }
                             })
                             .text(islandName)
                             .itemLeft(new org.bukkit.inventory.ItemStack(Material.NAME_TAG))
-                            .title(trans("island.gui.creation.island-name-input-title").toString())
+                            .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                                    .serialize(Component.translatable("island.gui.creation.island-name-input-title")))
                             .plugin(RPGMain.getInstance())
                             .open(player);
                 }
@@ -212,24 +211,15 @@ public class IslandCreationGui extends BaseGui {
         String prevColorName = getColorName(AVAILABLE_COLORS.get(prevIndex));
 
         GuiItem colorItem = new GuiItem(
-                StandardItemBuilder.guiItem(woolType)
-                        .displayName(trans("items.island.creation.color.name"))
-                        .lore(List.of(
-                                Component.text(""),
-                                trans("island.gui.creation.current-color").color(NamedTextColor.GRAY)
-                                        .append(Component.text("███", UnifiedColorUtil.parseHexColor(islandColorHex)))
-                                        .append(Component.text(" " + getColorName(islandColorHex), NamedTextColor.WHITE)),
-                                Component.text("Hex: " + islandColorHex, NamedTextColor.GRAY),
-                                Component.text(""),
-                                trans("island.gui.creation.left-click").color(NamedTextColor.YELLOW)
-                                        .append(trans("island.gui.creation.next").append(Component.text(" (" + nextColorName + ")", NamedTextColor.GRAY))),
-                                trans("island.gui.creation.right-click").color(NamedTextColor.YELLOW)
-                                        .append(trans("island.gui.creation.previous").append(Component.text(" (" + prevColorName + ")", NamedTextColor.GRAY))),
-                                trans("island.gui.creation.middle-click").color(NamedTextColor.AQUA)
-                                        .append(trans("island.gui.creation.hex-input").color(NamedTextColor.GRAY)),
-                                Component.text(""),
-                                trans("island.gui.creation.hex-example").color(NamedTextColor.DARK_GRAY)
-                        ))
+                ItemBuilder.of(woolType, getViewerLocale())
+                        .displayNameTranslated("items.island.creation.color.name")
+                        .loreTranslated("items.island.creation.color.lore",
+                                UnifiedColorUtil.parseHexColor(islandColorHex) + "███",
+                                getColorName(islandColorHex),
+                                islandColorHex,
+                                nextColorName,
+                                prevColorName)
+                        .hideAllFlags()
                         .build()
         ).onAnyClick((player, clickType) -> {
             int currentColorIndex = AVAILABLE_COLORS.indexOf(islandColorHex);
@@ -267,12 +257,15 @@ public class IslandCreationGui extends BaseGui {
                                 });
                                 return Arrays.asList(AnvilGUI.ResponseAction.close());
                             } else {
-                                return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(trans("island.gui.creation.hex-input-error").toString()));
+                                return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(
+                                        net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                                                .serialize(Component.translatable("island.gui.creation.hex-input-error"))));
                             }
                         })
                         .text(islandColorHex)
                         .itemLeft(new org.bukkit.inventory.ItemStack(Material.PAPER))
-                        .title(trans("island.gui.creation.hex-input-title").toString())
+                        .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                                .serialize(Component.translatable("island.gui.creation.hex-input-title")))
                         .plugin(RPGMain.getInstance())
                         .open(player);
             }
@@ -285,18 +278,13 @@ public class IslandCreationGui extends BaseGui {
      */
     private void updateBiomeItem() {
         Material biomeIcon = getBiomeIcon(selectedBiome);
-
+        
         GuiItem biomeItem = GuiItem.clickable(
-                StandardItemBuilder.guiItem(biomeIcon)
-                        .displayName(trans("items.island.creation.biome.name"))
-                        .lore(List.of(
-                                Component.text(""),
-                                trans("island.gui.creation.current-biome").color(NamedTextColor.GRAY)
-                                        .append(Component.text(getBiomeName(selectedBiome), NamedTextColor.GREEN)),
-                                Component.text(""),
-                                trans("island.gui.creation.click-to-change").color(NamedTextColor.YELLOW),
-                                Component.text("")
-                        ))
+                ItemBuilder.of(biomeIcon, getViewerLocale())
+                        .displayNameTranslated("items.island.creation.biome.name")
+                        .loreTranslated("items.island.creation.biome.lore", 
+                                getBiomeName(selectedBiome))
+                        .hideAllFlags()
                         .build(),
                 player -> {
                     // 바이옴 선택 GUI 열기
@@ -323,21 +311,17 @@ public class IslandCreationGui extends BaseGui {
             String template = AVAILABLE_TEMPLATES.get(i);
             boolean selected = template.equals(selectedTemplate);
 
+            String statusText = selected ? 
+                    "&a" + LangManager.getString("island.gui.creation.selected", viewer) :
+                    "&e" + LangManager.getString("island.gui.creation.click-to-select", viewer);
+            
             GuiItem templateItem = GuiItem.clickable(
-                    StandardItemBuilder.guiItem(getTemplateIcon(template))
-                            .displayName(Component.text(getTemplateName(template),
-                                            selected ? NamedTextColor.GREEN : NamedTextColor.GRAY)
-                                    .decoration(TextDecoration.BOLD, selected))
-                            .lore(List.of(
-                                    Component.text(""),
-                                    Component.text(getTemplateDescription(template), NamedTextColor.GRAY),
-                                    Component.text(""),
-                                    selected ?
-                                            trans("island.gui.creation.selected").color(NamedTextColor.GREEN) :
-                                            trans("island.gui.creation.click-to-select").color(NamedTextColor.YELLOW),
-                                    Component.text("")
-                            ))
+                    ItemBuilder.of(getTemplateIcon(template), getViewerLocale())
+                            .displayNameTranslated("items.island.creation.template." + template.toLowerCase() + ".name")
+                            .loreTranslated("items.island.creation.template." + template.toLowerCase() + ".lore",
+                                    statusText)
                             .glint(selected)
+                            .hideAllFlags()
                             .build(),
                     player -> {
                         selectedTemplate = template;
@@ -360,26 +344,16 @@ public class IslandCreationGui extends BaseGui {
      * 생성 버튼 업데이트
      */
     private void updateCreateButton() {
-        List<Component> lore = new ArrayList<>();
-        lore.add(Component.text(""));
-        lore.add(trans("island.gui.creation.selected-settings").color(NamedTextColor.YELLOW));
-        lore.add(trans("island.gui.creation.setting-name").color(NamedTextColor.GRAY)
-                .append(Component.text(islandName, UnifiedColorUtil.parseHexColor(islandColorHex))));
-        lore.add(trans("island.gui.creation.setting-biome").color(NamedTextColor.GRAY)
-                .append(Component.text(getBiomeName(selectedBiome), NamedTextColor.GREEN)));
-        lore.add(trans("island.gui.creation.setting-template").color(NamedTextColor.GRAY)
-                .append(Component.text(getTemplateName(selectedTemplate), NamedTextColor.AQUA)));
-        lore.add(Component.text(""));
-        lore.add(trans("island.gui.creation.click-to-create").color(NamedTextColor.GREEN).decoration(TextDecoration.BOLD, true));
-        lore.add(Component.text(""));
-
         // 섬 생성 처리
         GuiItem createButton = GuiItem.clickable(
-                StandardItemBuilder.guiItem(Material.LIME_CONCRETE)
-                        .displayName(trans("island.gui.creation.create-button-title").color(NamedTextColor.GREEN)
-                                .decoration(TextDecoration.BOLD, true))
-                        .lore(lore)
+                ItemBuilder.of(Material.LIME_CONCRETE, getViewerLocale())
+                        .displayNameTranslated("items.island.creation.create-button.name")
+                        .loreTranslated("items.island.creation.create-button.lore",
+                                UnifiedColorUtil.parseHexColor(islandColorHex) + islandName,
+                                getBiomeName(selectedBiome),
+                                getTemplateName(selectedTemplate))
                         .glint(true)
+                        .hideAllFlags()
                         .build(),
                 this::createIsland
         );
@@ -391,22 +365,22 @@ public class IslandCreationGui extends BaseGui {
      */
     private void createIsland(@NotNull Player player) {
         player.closeInventory();
-        player.sendMessage(trans("island.gui.creation.creating-island").color(NamedTextColor.YELLOW));
+        player.sendMessage(Component.translatable("island.gui.creation.creating-island").color(NamedTextColor.YELLOW));
 
         // 비동기로 섬 생성
         islandManager.createIsland(player, islandName, islandColorHex, selectedBiome, selectedTemplate)
                 .thenAccept(success -> {
                     if (success) {
                         player.sendMessage(Component.text(""));
-                        player.sendMessage(trans("island.gui.creation.creation-complete-header").color(NamedTextColor.GREEN));
+                        player.sendMessage(Component.translatable("island.gui.creation.creation-complete-header").color(NamedTextColor.GREEN));
                         player.sendMessage(Component.text(""));
                         player.sendMessage(Component.text("✦ ", NamedTextColor.GREEN)
                                 .append(Component.text(islandName, UnifiedColorUtil.parseHexColor(islandColorHex))
                                         .decoration(TextDecoration.BOLD, true))
-                                .append(trans("island.gui.creation.creation-complete-message").color(NamedTextColor.GREEN)));
+                                .append(Component.translatable("island.gui.creation.creation-complete-message").color(NamedTextColor.GREEN)));
                         player.sendMessage(Component.text(""));
-                        player.sendMessage(trans("island.gui.creation.teleporting-soon").color(NamedTextColor.YELLOW));
-                        player.sendMessage(trans("island.gui.creation.creation-complete-footer").color(NamedTextColor.GREEN));
+                        player.sendMessage(Component.translatable("island.gui.creation.teleporting-soon").color(NamedTextColor.YELLOW));
+                        player.sendMessage(Component.translatable("island.gui.creation.creation-complete-footer").color(NamedTextColor.GREEN));
 
                         // 섬으로 텔레포트 - 메인 스레드에서 실행
                         org.bukkit.Bukkit.getScheduler().runTaskLater(RPGMain.getInstance(), () -> {
@@ -420,11 +394,11 @@ public class IslandCreationGui extends BaseGui {
                             });
                         }, 20L); // 1초 후 실행
                     } else {
-                        player.sendMessage(trans("island.gui.creation.creation-failed").color(NamedTextColor.RED));
+                        player.sendMessage(Component.translatable("island.gui.creation.creation-failed").color(NamedTextColor.RED));
                     }
                 })
                 .exceptionally(ex -> {
-                    player.sendMessage(trans("island.gui.creation.creation-error").color(NamedTextColor.RED)
+                    player.sendMessage(Component.translatable("island.gui.creation.creation-error").color(NamedTextColor.RED)
                             .append(Component.text(ex.getMessage(), NamedTextColor.RED)));
                     return null;
                 });
@@ -466,9 +440,8 @@ public class IslandCreationGui extends BaseGui {
      * 바이옴 표시 이름
      */
     private String getBiomeName(String biome) {
-        String key = "island.gui.creation.biomes." + biome.toLowerCase();
-        String translated = LangManager.getString(key, viewer);
-        return translated.startsWith("island.gui.") ? biome : translated;
+        return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                Component.translatable("island.gui.creation.biomes." + biome.toLowerCase()));
     }
 
     /**
@@ -488,18 +461,16 @@ public class IslandCreationGui extends BaseGui {
      * 템플릿 이름
      */
     private String getTemplateName(String template) {
-        String key = "island.gui.creation.templates." + template.toLowerCase();
-        String translated = LangManager.getString(key, viewer);
-        return translated.startsWith("island.gui.") ? template : translated;
+        return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                Component.translatable("island.gui.creation.templates." + template.toLowerCase() + ".name"));
     }
 
     /**
      * 템플릿 설명
      */
     private String getTemplateDescription(String template) {
-        String key = "island.gui.creation.templates." + template.toLowerCase() + "-desc";
-        String translated = LangManager.getString(key, viewer);
-        return translated.startsWith("island.gui.") ? "" : translated;
+        return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                Component.translatable("island.gui.creation.templates." + template.toLowerCase() + ".desc"));
     }
 
     @Override
@@ -522,7 +493,8 @@ public class IslandCreationGui extends BaseGui {
             case "#FFFFFF" -> "white";
             default -> "custom";
         };
-        return LangManager.getString("island.gui.creation.colors." + colorKey, viewer);
+        return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                Component.translatable("island.gui.creation.colors." + colorKey));
     }
     
 }

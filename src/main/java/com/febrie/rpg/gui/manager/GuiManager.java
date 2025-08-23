@@ -5,13 +5,11 @@ import com.febrie.rpg.gui.framework.GuiFramework;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 import java.util.HashMap;
-import java.util.ArrayList;
+import java.util.Map;
 import java.util.UUID;
-import net.kyori.adventure.text.Component;
+
 /**
  * GUI 관리자 - 간소화된 버전
  * GUI 열기, 닫기, 네비게이션 기능만 제공
@@ -23,17 +21,20 @@ public class GuiManager {
     private final RPGMain plugin;
     // 플레이어별 현재 열려있는 GUI
     private final Map<UUID, GuiFramework> activeGuis = new HashMap<>();
+
     public GuiManager(@NotNull RPGMain plugin) {
         this.plugin = plugin;
     }
+
     /**
      * Get the plugin instance
+     *
      * @return RPGMain plugin
      */
     public RPGMain getPlugin() {
         return plugin;
     }
-    
+
     /**
      * GUI 열기 - 핵심 메소드
      * 모든 GUI는 이 메소드를 통해 열립니다
@@ -43,15 +44,16 @@ public class GuiManager {
      */
     public void openGui(@NotNull Player player, @NotNull GuiFramework gui) {
         UUID playerId = player.getUniqueId();
-        
+
         // 새 GUI 등록
         activeGuis.put(playerId, gui);
         // GUI 열기
         gui.open(player);
     }
-    
+
     /**
      * 퀘스트 대화 GUI 열기
+     *
      * @param player 플레이어
      * @param quest  퀘스트
      */
@@ -60,33 +62,37 @@ public class GuiManager {
                 com.febrie.rpg.gui.impl.quest.QuestDialogGui.create(this, player, quest);
         openGui(player, questDialogGui);
     }
-    
+
     /**
      * 플레이어 관련 데이터 정리
+     *
      * @param player 플레이어
      */
     public void removePlayer(@NotNull Player player) {
         activeGuis.remove(player.getUniqueId());
     }
-    
+
     /**
      * 모든 GUI 정리
      */
     public void cleanup() {
         activeGuis.clear();
     }
-    
+
     /**
      * 현재 열려있는 GUI 가져오기
+     *
      * @param player 플레이어
      * @return 현재 GUI 또는 null
+     */
     @Nullable
     public GuiFramework getActiveGui(@NotNull Player player) {
         return activeGuis.get(player.getUniqueId());
     }
-    
+
     /**
      * 현재 GUI 새로고침
+     *
      * @param player 플레이어
      */
     public void refreshCurrentGui(@NotNull Player player) {
@@ -95,10 +101,11 @@ public class GuiManager {
             gui.refresh();
         }
     }
-    
+
     /**
      * 현재 활성화된 모든 GUI 가져오기
      * 복사본을 반환하여 외부에서 직접 수정하지 못하도록 함
+     *
      * @return 활성 GUI 맵의 복사본
      */
     @NotNull

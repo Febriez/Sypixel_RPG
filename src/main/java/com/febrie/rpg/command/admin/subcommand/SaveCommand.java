@@ -1,6 +1,5 @@
 package com.febrie.rpg.command.admin.subcommand;
 
-import net.kyori.adventure.text.Component;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.command.admin.subcommand.base.SubCommand;
 import com.febrie.rpg.player.RPGPlayer;
@@ -54,16 +53,6 @@ public class SaveCommand implements SubCommand {
         return "rpg.admin.save";
     }
     
-    @Override
-    @NotNull
-    public List<String> getAliases() {
-        return List.of();
-    }
-    
-    @Override
-    public int getMinArgs() {
-        return 0;
-    }
     
     @Override
     public int getMaxArgs() {

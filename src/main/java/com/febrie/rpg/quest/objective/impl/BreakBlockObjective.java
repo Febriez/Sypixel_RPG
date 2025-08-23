@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-import net.kyori.adventure.text.Component;
 /**
  * 블럭 파괴 퀘스트 목표
  * 특정 블럭을 파괴

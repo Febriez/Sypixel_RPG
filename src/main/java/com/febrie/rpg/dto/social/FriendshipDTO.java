@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import net.kyori.adventure.text.Component;
 /**
  * 친구 관계 데이터 전송 객체 (Record)
  * Firebase 저장용 불변 데이터 구조
@@ -51,11 +50,18 @@ public record FriendshipDTO(
     @NotNull
     public static FriendshipDTO fromMap(@NotNull Map<String, Object> map) {
         String player1UuidStr = FirestoreUtils.getString(map, "player1Uuid", UUID.randomUUID().toString());
+        // Ensure non-null UUID strings
+        if (player1UuidStr == null) {
+            player1UuidStr = UUID.randomUUID().toString();
+        }
         UUID player1Uuid = UUID.fromString(player1UuidStr);
         
         String player1Name = FirestoreUtils.getString(map, "player1Name");
         
         String player2UuidStr = FirestoreUtils.getString(map, "player2Uuid", UUID.randomUUID().toString());
+        if (player2UuidStr == null) {
+            player2UuidStr = UUID.randomUUID().toString();
+        }
         UUID player2Uuid = UUID.fromString(player2UuidStr);
         
         String player2Name = FirestoreUtils.getString(map, "player2Name");

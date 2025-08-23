@@ -5,14 +5,13 @@ import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
-import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.StandardItemBuilder;
+import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -36,18 +35,18 @@ public class IslandBiomeSelectionGui extends BaseGui {
     
     // 사용 가능한 바이옴들
     private static final List<BiomeOption> AVAILABLE_BIOMES = List.of(
-        new BiomeOption("PLAINS", "평원", Material.GRASS_BLOCK, "넓고 평평한 초원 지형"),
-        new BiomeOption("FOREST", "숲", Material.OAK_SAPLING, "나무가 우거진 숲 지형"),
-        new BiomeOption("DESERT", "사막", Material.SAND, "모래로 덮인 건조한 지형"),
-        new BiomeOption("SNOWY_PLAINS", "설원", Material.SNOW_BLOCK, "눈으로 덮인 차가운 지형"),
-        new BiomeOption("JUNGLE", "정글", Material.JUNGLE_SAPLING, "열대 우림 지형"),
-        new BiomeOption("SWAMP", "늪", Material.LILY_PAD, "습지와 늪 지형"),
-        new BiomeOption("SAVANNA", "사바나", Material.ACACIA_SAPLING, "드문드문 나무가 있는 초원"),
-        new BiomeOption("MUSHROOM_FIELDS", "버섯 들판", Material.RED_MUSHROOM, "거대한 버섯이 자라는 특별한 지형"),
-        new BiomeOption("TAIGA", "타이가", Material.SPRUCE_SAPLING, "침엽수림 지형"),
-        new BiomeOption("BEACH", "해변", Material.SAND, "모래 해변 지형"),
-        new BiomeOption("CHERRY_GROVE", "벚꽃 숲", Material.CHERRY_SAPLING, "아름다운 벚꽃나무 숲"),
-        new BiomeOption("BAMBOO_JUNGLE", "대나무 정글", Material.BAMBOO, "대나무가 빽빽한 정글")
+        new BiomeOption("PLAINS", "biome.plains", Material.GRASS_BLOCK),
+        new BiomeOption("FOREST", "biome.forest", Material.OAK_SAPLING),
+        new BiomeOption("DESERT", "biome.desert", Material.SAND),
+        new BiomeOption("SNOWY_PLAINS", "biome.snowy_plains", Material.SNOW_BLOCK),
+        new BiomeOption("JUNGLE", "biome.jungle", Material.JUNGLE_SAPLING),
+        new BiomeOption("SWAMP", "biome.swamp", Material.LILY_PAD),
+        new BiomeOption("SAVANNA", "biome.savanna", Material.ACACIA_SAPLING),
+        new BiomeOption("MUSHROOM_FIELDS", "biome.mushroom_fields", Material.RED_MUSHROOM),
+        new BiomeOption("TAIGA", "biome.taiga", Material.SPRUCE_SAPLING),
+        new BiomeOption("BEACH", "biome.beach", Material.SAND),
+        new BiomeOption("CHERRY_GROVE", "biome.cherry_grove", Material.CHERRY_SAPLING),
+        new BiomeOption("BAMBOO_JUNGLE", "biome.bamboo_jungle", Material.BAMBOO)
     );
     
     private final Consumer<String> onBiomeSelected;
@@ -59,7 +58,7 @@ public class IslandBiomeSelectionGui extends BaseGui {
                                    @NotNull String currentBiome,
                                    @NotNull Consumer<String> onBiomeSelected,
                                    @NotNull GuiFramework backDestination) {
-        super(player, guiManager, GUI_SIZE, "gui.island.biome-selection.title");
+        super(player, guiManager, GUI_SIZE, Component.translatable("gui.island.biome-selection.title"));
         this.currentBiome = currentBiome;
         this.onBiomeSelected = onBiomeSelected;
         this.backDestination = backDestination;
@@ -73,13 +72,12 @@ public class IslandBiomeSelectionGui extends BaseGui {
                                                 @NotNull String currentBiome,
                                                 @NotNull Consumer<String> onBiomeSelected,
                                                 @NotNull GuiFramework backDestination) {
-        IslandBiomeSelectionGui gui = new IslandBiomeSelectionGui(guiManager, player, currentBiome, onBiomeSelected, backDestination);
-        return gui;
+        return new IslandBiomeSelectionGui(guiManager, player, currentBiome, onBiomeSelected, backDestination);
     }
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("바이옴 선택", UnifiedColorUtil.PRIMARY);
+        return Component.translatable("gui.island.biome-selection.title");
     }
     
     @Override
@@ -102,15 +100,13 @@ public class IslandBiomeSelectionGui extends BaseGui {
         
         // 제목 아이템
         GuiItem titleItem = GuiItem.display(
-            StandardItemBuilder.guiItem(Material.FILLED_MAP)
-                .displayName(Component.text("🌍 바이옴 선택", NamedTextColor.GREEN)
-                    .decoration(TextDecoration.BOLD, true))
-                .lore(List.of(
-                    Component.text(""),
-                    Component.text("섬의 바이옴을 선택하세요", NamedTextColor.GRAY),
-                    Component.text("바이옴에 따라 지형과 몹이 달라집니다", NamedTextColor.GRAY),
-                    Component.text("")
-                ))
+            ItemBuilder.of(Material.FILLED_MAP, getViewerLocale())
+                .displayNameTranslated("gui.island.biome-selection.info.title")
+                .addLore(Component.empty())
+                .addLoreTranslated("gui.island.biome-selection.info.lore1")
+                .addLoreTranslated("gui.island.biome-selection.info.lore2")
+                .addLore(Component.empty())
+                .hideAllFlags()
                 .build()
         );
         setItem(4, titleItem);
@@ -124,24 +120,24 @@ public class IslandBiomeSelectionGui extends BaseGui {
             BiomeOption biome = AVAILABLE_BIOMES.get(i);
             boolean isSelected = biome.id.equals(currentBiome);
             
-            List<Component> lore = List.of(
-                Component.text(""),
-                Component.text(biome.description, NamedTextColor.GRAY),
-                Component.text(""),
-                isSelected ? 
-                    Component.text("✔ 현재 선택됨", NamedTextColor.GREEN).decoration(TextDecoration.BOLD, true) :
-                    Component.text("▶ 클릭하여 선택", NamedTextColor.YELLOW),
-                Component.text("")
-            );
+            ItemBuilder builder = ItemBuilder.of(biome.icon, getViewerLocale())
+                .displayNameTranslated(biome.biomeKey + ".name")
+                .addLore(Component.empty())
+                .addLoreTranslated(biome.biomeKey + ".description")
+                .addLore(Component.empty());
+            
+            if (isSelected) {
+                builder.addLoreTranslated("gui.island.biome-selection.current-selected");
+                builder.glint(true);
+            } else {
+                builder.addLoreTranslated("gui.island.biome-selection.click-to-select");
+            }
+            
+            builder.addLore(Component.empty());
+            builder.hideAllFlags();
             
             GuiItem biomeItem = GuiItem.clickable(
-                StandardItemBuilder.guiItem(biome.icon)
-                    .displayName(Component.text(biome.name, 
-                        isSelected ? NamedTextColor.GREEN : NamedTextColor.WHITE)
-                        .decoration(TextDecoration.BOLD, isSelected))
-                    .lore(lore)
-                    .glint(isSelected)
-                    .build(),
+                builder.build(),
                 player -> {
                     onBiomeSelected.accept(biome.id);
                     player.closeInventory();
@@ -155,11 +151,10 @@ public class IslandBiomeSelectionGui extends BaseGui {
     
     private void setupBackButton() {
         GuiItem backButton = GuiItem.clickable(
-            StandardItemBuilder.guiItem(Material.ARROW)
-                .displayName(Component.text("◀ 돌아가기", NamedTextColor.GRAY))
-                .lore(List.of(
-                    Component.text("섬 생성 메뉴로 돌아갑니다", NamedTextColor.GRAY)
-                ))
+            ItemBuilder.of(Material.ARROW, getViewerLocale())
+                .displayNameTranslated("gui.buttons.back.name")
+                .addLoreTranslated("gui.island.biome-selection.back.lore")
+                .hideAllFlags()
                 .build(),
             player -> {
                 guiManager.openGui(player, backDestination);
@@ -172,6 +167,6 @@ public class IslandBiomeSelectionGui extends BaseGui {
     /**
      * 바이옴 옵션 레코드
      */
-    private record BiomeOption(String id, String name, Material icon, String description) {}
+    private record BiomeOption(String id, String biomeKey, Material icon) {}
     
 }

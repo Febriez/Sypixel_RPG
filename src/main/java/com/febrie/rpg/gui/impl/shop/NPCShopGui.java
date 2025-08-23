@@ -1,8 +1,6 @@
 package com.febrie.rpg.gui.impl.shop;
 
-import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.economy.CurrencyType;
-import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
@@ -11,16 +9,15 @@ import com.febrie.rpg.npc.trait.RPGShopTrait;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import net.kyori.adventure.text.Component;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * NPC 상점 GUI
@@ -37,7 +34,7 @@ public class NPCShopGui extends BaseGui {
     
     private NPCShopGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                       @NotNull RPGShopTrait shopTrait, @NotNull String shopName) {
-        super(viewer, guiManager, 54, "gui.shop.title", shopName);
+        super(viewer, guiManager, 54, Component.translatable("gui.shop.title", Component.text(shopName)));
         this.playerManager = guiManager.getPlugin().getRPGPlayerManager();
         this.rpgPlayer = playerManager.getPlayer(viewer);
         this.shopTrait = shopTrait;
@@ -49,13 +46,12 @@ public class NPCShopGui extends BaseGui {
      */
     public static NPCShopGui create(@NotNull GuiManager guiManager,
                                    @NotNull Player viewer, @NotNull RPGShopTrait shopTrait, @NotNull String shopName) {
-        NPCShopGui gui = new NPCShopGui(viewer, guiManager, shopTrait, shopName);
-        return gui;
+        return new NPCShopGui(viewer, guiManager, shopTrait, shopName);
     }
     
     @Override
     public @NotNull Component getTitle() {
-        return trans("gui.shop.title", shopName);
+        return Component.translatable("gui.shop.title", Component.text(shopName));
     }
     
     @Override
@@ -89,16 +85,17 @@ public class NPCShopGui extends BaseGui {
     private GuiItem createGoldDisplay() {
         long gold = rpgPlayer != null ? rpgPlayer.getWallet().getBalance(CurrencyType.GOLD) : 0;
         
-        return GuiItem.display(new ItemBuilder(Material.GOLD_INGOT)
-                .displayName(trans("gui.shop.gold.title"))
+        return GuiItem.display(ItemBuilder.of(Material.GOLD_INGOT, viewer.locale())
+                .displayNameTranslated("items.shop.gold.name")
                 .addLore(Component.empty())
-                .addLore(trans("gui.shop.gold.amount", String.format("%,d", gold)))
+                .addLore(LangManager.get("gui.shop.gold.amount", viewer, Component.text(String.format("%,d", gold))))
+                .hideAllFlags()
                 .build());
     }
     
     private GuiItem createShopItem(RPGShopTrait.ShopItem shopItem) {
         ItemStack baseItem = shopItem.getItem().clone();
-        ItemBuilder builder = new ItemBuilder(baseItem);
+        ItemBuilder builder = ItemBuilder.from(baseItem);
         
         List<net.kyori.adventure.text.Component> originalLore = baseItem.getItemMeta().lore();
         if (originalLore != null) {
@@ -108,23 +105,23 @@ public class NPCShopGui extends BaseGui {
         }
         
         builder.addLore(Component.empty());
-        builder.addLore(trans("gui.shop.item.buy_price", String.format("%,d", shopItem.getBuyPrice())));
+        builder.addLore(Component.translatable("gui.shop.item.buy_price", Component.text(String.format("%,d", shopItem.getBuyPrice()))));
         
         if (shopItem.isSellable()) {
-            builder.addLore(trans("gui.shop.item.sell_price", String.format("%,d", shopItem.getSellPrice())));
+            builder.addLore(Component.translatable("gui.shop.item.sell_price", Component.text(String.format("%,d", shopItem.getSellPrice()))));
         }
         
         builder.addLore(Component.empty());
         
         long playerGold = rpgPlayer != null ? rpgPlayer.getWallet().getBalance(CurrencyType.GOLD) : 0;
         if (playerGold >= shopItem.getBuyPrice()) {
-            builder.addLore(trans("gui.shop.item.click_to_buy"));
+            builder.addLore(Component.translatable("gui.shop.item.click_to_buy"));
         } else {
-            builder.addLore(trans("gui.shop.item.insufficient_gold"));
+            builder.addLore(Component.translatable("gui.shop.item.insufficient_gold"));
         }
         
         if (shopItem.isSellable() && hasItem(baseItem)) {
-            builder.addLore(trans("gui.shop.item.click_to_sell"));
+            builder.addLore(Component.translatable("gui.shop.item.click_to_sell"));
         }
         
         return GuiItem.clickable(builder.build(), player -> {

@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import net.kyori.adventure.text.Component;
 /**
  * 섬 스폰 관련 정보 DTO (Record)
  *

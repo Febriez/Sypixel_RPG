@@ -10,14 +10,12 @@ import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 /**
  * 시스템 설정 GUI
@@ -37,7 +35,7 @@ public class SystemSettingsGui extends BaseGui {
 
     private SystemSettingsGui(@NotNull GuiManager guiManager,
                             @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, "gui.system-settings.title");
+        super(player, guiManager, GUI_SIZE, Component.translatable("gui.system-settings.title"));
     }
 
     /**
@@ -50,13 +48,12 @@ public class SystemSettingsGui extends BaseGui {
      */
     public static SystemSettingsGui create(@NotNull GuiManager guiManager,
                                           @NotNull Player player) {
-        SystemSettingsGui gui = new SystemSettingsGui(guiManager, player);
-        return gui;
+        return new SystemSettingsGui(guiManager, player);
     }
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("시스템 설정", UnifiedColorUtil.LEGENDARY);
+        return Component.translatable("gui.system-settings.title");
     }
 
     @Override
@@ -84,11 +81,11 @@ public class SystemSettingsGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                new ItemBuilder(Material.REDSTONE_BLOCK)
-                        .displayName(Component.text("⚙ 시스템 설정", UnifiedColorUtil.LEGENDARY)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(Material.REDSTONE_BLOCK, viewer.locale())
+                        .displayNameTranslated("items.settings.system-settings.title.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("시스템 관련 설정을 변경합니다", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.system-settings.title.lore")
+                        .hideAllFlags()
                         .build()
         );
         setItem(TITLE_SLOT, titleItem);
@@ -125,28 +122,31 @@ public class SystemSettingsGui extends BaseGui {
         boolean enabled = settings.isConfirmationDialogsEnabled();
         
         GuiItem confirmationDialogsToggle = GuiItem.clickable(
-                new ItemBuilder(enabled ? Material.WRITABLE_BOOK : Material.BOOK)
-                        .displayName(Component.text("❓ 확인 대화상자", UnifiedColorUtil.PRIMARY)
-                                .decoration(TextDecoration.BOLD, true))
+                ItemBuilder.of(enabled ? Material.WRITABLE_BOOK : Material.BOOK, viewer.locale())
+                        .displayNameTranslated("items.settings.system-settings.confirmation.name")
                         .addLore(Component.empty())
-                        .addLore(Component.text("상태: " + (enabled ? "활성화" : "비활성화"), 
-                                enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
+                        .addLore(LangManager.get("gui.system-settings.status", viewer, 
+                                Component.translatable(enabled ? "status.enabled" : "status.disabled")
+                                .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
                         .addLore(Component.empty())
-                        .addLore(Component.text("스탯 배분, 특성 학습 등", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("중요한 행동을 할 때", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("확인 메시지를 표시합니다", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.system-settings.confirmation.desc1")
+                        .addLoreTranslated("items.settings.system-settings.confirmation.desc2")
+                        .addLoreTranslated("items.settings.system-settings.confirmation.desc3")
                         .addLore(Component.empty())
-                        .addLore(Component.text("예시:", UnifiedColorUtil.YELLOW))
-                        .addLore(Component.text("'정말 스탯 포인트를 사용하시겠습니까?'", UnifiedColorUtil.GRAY))
-                        .addLore(Component.text("'정말 특성을 배우시겠습니까?'", UnifiedColorUtil.GRAY))
+                        .addLoreTranslated("items.settings.system-settings.confirmation.example-title")
+                        .addLoreTranslated("items.settings.system-settings.confirmation.example1")
+                        .addLoreTranslated("items.settings.system-settings.confirmation.example2")
                         .addLore(Component.empty())
-                        .addLore(Component.text("클릭하여 " + (enabled ? "비활성화" : "활성화"), UnifiedColorUtil.YELLOW))
+                        .addLore(LangManager.get("gui.system-settings.click-to-toggle", viewer,
+                                Component.translatable(enabled ? "action.disable" : "action.enable")))
+                        .hideAllFlags()
                         .build(),
                 p -> {
                     settings.setConfirmationDialogsEnabled(!enabled);
                     updateConfirmationDialogsToggle(settings);
                     playClickSound(p);
-                    p.sendMessage(Component.translatable("settings.confirmation-dialogs.toggled", Component.text(enabled ? "비활성화" : "활성화")));
+                    p.sendMessage(LangManager.get("gui.system-settings.confirmation-toggled", p, 
+                            Component.translatable(enabled ? "status.disabled" : "status.enabled")));
                 }
         );
         setItem(CONFIRMATION_DIALOGS_SLOT, confirmationDialogsToggle);

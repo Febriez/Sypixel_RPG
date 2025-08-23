@@ -6,7 +6,6 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import net.kyori.adventure.text.Component;
 /**
  * 퀘스트 목표 인터페이스
  * 모든 퀘스트 목표가 구현해야 하는 기본 인터페이스

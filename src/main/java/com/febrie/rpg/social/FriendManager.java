@@ -2,7 +2,6 @@ package com.febrie.rpg.social;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.cache.UnifiedCacheManager;
-import com.febrie.rpg.database.FirestoreManager;
 import com.febrie.rpg.database.service.impl.FriendshipFirestoreService;
 import com.febrie.rpg.dto.social.FriendRequestDTO;
 import com.febrie.rpg.dto.social.FriendshipDTO;
@@ -19,7 +18,6 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import net.kyori.adventure.text.Component;
 /**
  * 친구 시스템 관리자
  * 친구 요청, 친구 목록 등을 관리

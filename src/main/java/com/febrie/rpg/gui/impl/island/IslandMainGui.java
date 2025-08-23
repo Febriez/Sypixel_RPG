@@ -12,14 +12,15 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.DateFormatUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.StandardItemBuilder;
 import com.febrie.rpg.util.UnifiedColorUtil;
+import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,7 +45,7 @@ public class IslandMainGui extends BaseGui {
     private final boolean isWorker;
 
     private IslandMainGui(@NotNull GuiManager guiManager, @NotNull Player player) {
-        super(player, guiManager, 54, "gui.island.main.title");
+        super(player, guiManager, 54, Component.translatable("gui.island.main.title"));
         this.islandManager = RPGMain.getInstance().getIslandManager();
 
         // 플레이어의 섬 데이터 가져오기
@@ -90,9 +91,9 @@ public class IslandMainGui extends BaseGui {
     @Override
     public @NotNull Component getTitle() {
         if (island != null) {
-            return trans("island.gui.main.title-with-name", "name", island.core().islandName());
+            return Component.translatable("island.gui.main.title-with-name", Component.text(island.core().islandName()));
         } else {
-            return trans("island.gui.main.title");
+            return Component.translatable("island.gui.main.title");
         }
     }
 
@@ -119,9 +120,19 @@ public class IslandMainGui extends BaseGui {
         createBorder();
 
         // 중앙에 섬 생성 안내
-        GuiItem createIslandInfo = GuiItem.display(StandardItemBuilder.guiItem(Material.GRASS_BLOCK)
-                .displayName(trans("island.gui.main.create-island.title"))
-                .lore(List.of(Component.empty(), trans("island.gui.main.create-island.no-island"), Component.empty(), trans("island.gui.main.create-island.description"), trans("island.gui.main.create-island.feature-1"), trans("island.gui.main.create-island.feature-2"), trans("island.gui.main.create-island.feature-3"), trans("island.gui.main.create-island.feature-4"), Component.empty(), trans("island.gui.main.create-island.contact-admin")))
+        GuiItem createIslandInfo = GuiItem.display(ItemBuilder.of(Material.GRASS_BLOCK, getViewerLocale())
+                .displayNameTranslated("island.gui.main.create-island.title")
+                .addLore(Component.empty())
+                .addLoreTranslated("island.gui.main.create-island.no-island")
+                .addLore(Component.empty())
+                .addLoreTranslated("island.gui.main.create-island.description")
+                .addLoreTranslated("island.gui.main.create-island.feature-1")
+                .addLoreTranslated("island.gui.main.create-island.feature-2")
+                .addLoreTranslated("island.gui.main.create-island.feature-3")
+                .addLoreTranslated("island.gui.main.create-island.feature-4")
+                .addLore(Component.empty())
+                .addLoreTranslated("island.gui.main.create-island.contact-admin")
+                .hideAllFlags()
                 .build());
         setItem(22, createIslandInfo);
     }
@@ -244,37 +255,23 @@ public class IslandMainGui extends BaseGui {
         // 섬 이름에 설정된 색상 적용
         net.kyori.adventure.text.format.TextColor nameColor = UnifiedColorUtil.parseHexColor(island.configuration()
                 .settings().nameColorHex());
-
-        List<Component> lore = new ArrayList<>();
-        lore.add(Component.empty());
-        lore.add(trans("gui.island-main.owner").color(UnifiedColorUtil.GRAY)
-                .append(Component.text(island.core().ownerName(), UnifiedColorUtil.WHITE)));
-        lore.add(trans("gui.island-main.size").color(UnifiedColorUtil.GRAY)
-                .append(Component.text(island.core().size() + " x " + island.core().size(), UnifiedColorUtil.YELLOW)));
-        lore.add(trans("gui.island-main.members").color(UnifiedColorUtil.GRAY)
-                .append(Component.text(island.getMemberCount() + "/" + island.configuration().upgradeData()
-                        .memberLimit(), UnifiedColorUtil.GREEN)));
-        lore.add(trans("gui.island-main.workers").color(UnifiedColorUtil.GRAY)
-                .append(Component.text(island.membership().workers().size() + "/" + island.configuration().upgradeData()
-                        .workerLimit(), UnifiedColorUtil.GREEN)));
-        lore.add(Component.empty());
-        lore.add(trans("gui.island-main.created-date").color(UnifiedColorUtil.GRAY)
-                .append(Component.text(DateFormatUtil.formatFullDateTimeFromMillis(island.core()
-                        .createdAt()), UnifiedColorUtil.WHITE)));
-        lore.add(trans("gui.island-main.public-status").color(UnifiedColorUtil.GRAY).append(island.core()
-                .isPublic() ? trans("gui.island-main.public").color(UnifiedColorUtil.GREEN) : trans("gui.island-main.private").color(UnifiedColorUtil.RED)));
-        lore.add(Component.empty());
-        lore.add(trans("gui.island-main.my-role").color(UnifiedColorUtil.GRAY)
-                .append(isOwner ? trans("gui.island-main.role-owner").color(UnifiedColorUtil.GOLD) : isCoOwner ? trans("gui.island-main.role-co-owner").color(UnifiedColorUtil.YELLOW) : isMember ? trans("gui.island-main.role-member").color(UnifiedColorUtil.GREEN) : isWorker ? trans("gui.island-main.role-worker").color(UnifiedColorUtil.AQUA) : trans("gui.island-main.role-visitor").color(UnifiedColorUtil.GRAY)));
+        
+        ItemBuilder builder = ItemBuilder.of(Material.GRASS_BLOCK, viewer.locale())
+                .displayName(Component.text(island.core().islandName(), nameColor))
+                .loreTranslated("items.island.main.info.lore",
+                        island.core().ownerName(),
+                        island.core().size() + " x " + island.core().size(),
+                        island.getMemberCount() + "/" + island.configuration().upgradeData().memberLimit(),
+                        island.membership().workers().size() + "/" + island.configuration().upgradeData().workerLimit(),
+                        DateFormatUtil.formatFullDateTimeFromMillis(island.core().createdAt()));
 
         // 섬장이나 부섬장인 경우 색상 변경 안내 추가
         if (isOwner || isCoOwner) {
-            lore.add(Component.empty());
-            lore.add(trans("gui.island-main.color-change-hint").color(UnifiedColorUtil.AQUA));
+            builder.addLore(Component.empty());
+            builder.addLore(Component.translatable("gui.island.main.color-change-hint").color(UnifiedColorUtil.AQUA));
         }
 
-        ItemStack itemStack = StandardItemBuilder.guiItem(Material.GRASS_BLOCK)
-                .displayName(Component.text(island.core().islandName(), nameColor)).lore(lore).build();
+        ItemStack itemStack = builder.hideAllFlags().build();
 
         // 섬장이나 부섬장인 경우에만 클릭 이벤트 추가
         if (isOwner || isCoOwner) {
@@ -294,11 +291,10 @@ public class IslandMainGui extends BaseGui {
             if (slot != AnvilGUI.Slot.OUTPUT) {
                 return java.util.Collections.emptyList();
             }
-            String text = stateSnapshot.getText();
-            String hexColor = text;
+            String hexColor = stateSnapshot.getText();
             // HEX 코드 유효성 검사
             if (!hexColor.matches("^#[0-9A-Fa-f]{6}$")) {
-                player.sendMessage(trans("gui.island-main.hex-format-error").color(UnifiedColorUtil.ERROR));
+                player.sendMessage(Component.translatable("gui.island.main.hex-format-error").color(UnifiedColorUtil.ERROR));
                 return java.util.Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText("#RRGGBB"));
             }
 
@@ -309,14 +305,17 @@ public class IslandMainGui extends BaseGui {
             IslandDTO updated = GuiHandlerUtil.updateIslandSettings(island, newSettings);
             islandManager.updateIsland(updated);
 
-            player.sendMessage(trans("gui.island-main.color-changed").color(UnifiedColorUtil.SUCCESS));
+            player.sendMessage(Component.translatable("gui.island.main.color-changed").color(UnifiedColorUtil.SUCCESS));
 
             return java.util.Collections.singletonList(AnvilGUI.ResponseAction.close());
                 }).onClose(closePlayer -> {
                     // GUI 다시 열기
                     Bukkit.getScheduler().runTaskLater(RPGMain.getInstance(), () -> IslandMainGui.create(guiManager, viewer)
                             .open(viewer), 1L);
-                }).text(island.configuration().settings().nameColorHex()).title(transString("gui.island-main.hex-input-title")).plugin(RPGMain.getInstance())
+                }).text(island.configuration().settings().nameColorHex())
+                        .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                                .serialize(net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize("<lang:gui.island.main.hex-input-title>")))
+                        .plugin(RPGMain.getInstance())
                 .open(player);
     }
 
@@ -324,49 +323,58 @@ public class IslandMainGui extends BaseGui {
      * 멤버 관리 아이템
      */
     private GuiItem createMemberManagementItem() {
-        return GuiItem.clickable(StandardItemBuilder.guiItem(Material.PLAYER_HEAD)
-                .displayName(trans("gui.island-main.member-management-title").color(UnifiedColorUtil.GREEN))
-                .lore(List.of(Component.empty(), trans("gui.island-main.member-management-desc1").color(UnifiedColorUtil.GRAY), trans("gui.island-main.member-management-desc2").color(UnifiedColorUtil.GRAY), Component.empty(), trans("gui.island-main.click-to-open").color(UnifiedColorUtil.YELLOW)))
-                .build(), player -> {
-            player.closeInventory();
-            IslandMemberGui.create(guiManager, player, island).open(player);
-            playClickSound(player);
-        });
+        return GuiItem.clickable(
+                ItemBuilder.of(Material.PLAYER_HEAD, getViewerLocale())
+                        .displayNameTranslated("items.island.main.member-management.name")
+                        .addLoreTranslated("items.island.main.member-management.lore")
+                        .hideAllFlags()
+                        .build(),
+                player -> {
+                    player.closeInventory();
+                    IslandMemberGui.create(guiManager, player, island).open(player);
+                    playClickSound(player);
+                }
+        );
     }
 
     /**
      * 권한 관리 아이템
      */
     private GuiItem createPermissionManagementItem() {
-        return GuiItem.clickable(StandardItemBuilder.guiItem(Material.COMMAND_BLOCK)
-                .displayName(trans("gui.island-main.permission-management-title").color(UnifiedColorUtil.RED))
-                .lore(List.of(Component.empty(), trans("gui.island-main.permission-management-desc1").color(UnifiedColorUtil.GRAY), trans("gui.island-main.permission-management-desc2").color(UnifiedColorUtil.GRAY), Component.empty(), trans("gui.island-main.click-to-open").color(UnifiedColorUtil.YELLOW)))
-                .build(), player -> {
-            player.closeInventory();
-            IslandPermissionGui.create(RPGMain.getInstance(), RPGMain.getInstance().getIslandManager(), island, player)
-                    .open(player);
-            playClickSound(player);
-        });
+        return GuiItem.clickable(
+                ItemBuilder.of(Material.COMMAND_BLOCK, getViewerLocale())
+                        .displayNameTranslated("items.island.main.permission-management.name")
+                        .addLoreTranslated("items.island.main.permission-management.lore")
+                        .hideAllFlags()
+                        .build(),
+                player -> {
+                    player.closeInventory();
+                    IslandPermissionGui.create(RPGMain.getInstance(), RPGMain.getInstance().getIslandManager(), island, player)
+                            .open(player);
+                    playClickSound(player);
+                }
+        );
     }
 
     /**
      * 업그레이드 아이템
      */
     private GuiItem createUpgradeItem() {
-        return GuiItem.clickable(StandardItemBuilder.guiItem(Material.ANVIL)
-                .displayName(trans("gui.island-main.upgrade-title").color(UnifiedColorUtil.GOLD))
-                .lore(List.of(Component.empty(), trans("gui.island-main.upgrade-current-level").color(UnifiedColorUtil.GRAY), trans("gui.island-main.upgrade-size").color(UnifiedColorUtil.WHITE)
-                        .append(Component.text(island.configuration().upgradeData()
-                                .sizeLevel() + transString("gui.island-main.upgrade-level"), UnifiedColorUtil.YELLOW)), trans("gui.island-main.upgrade-member").color(UnifiedColorUtil.WHITE)
-                        .append(Component.text(island.configuration().upgradeData()
-                                .memberLimitLevel() + transString("gui.island-main.upgrade-level"), UnifiedColorUtil.YELLOW)), trans("gui.island-main.upgrade-worker").color(UnifiedColorUtil.WHITE)
-                        .append(Component.text(island.configuration().upgradeData()
-                                .workerLimitLevel() + transString("gui.island-main.upgrade-level"), UnifiedColorUtil.YELLOW)), Component.empty(), trans("gui.island-main.click-to-open").color(UnifiedColorUtil.YELLOW)))
-                .build(), player -> {
-            player.closeInventory();
-            IslandUpgradeGui.create(RPGMain.getInstance(), player, island).open(player);
-            playClickSound(player);
-        });
+        return GuiItem.clickable(
+                ItemBuilder.of(Material.ANVIL, getViewerLocale())
+                        .displayNameTranslated("items.island.main.upgrade-info.name")
+                        .loreTranslated("items.island.main.upgrade-info.lore",
+                                String.valueOf(island.configuration().upgradeData().sizeLevel()),
+                                String.valueOf(island.configuration().upgradeData().memberLimitLevel()),
+                                String.valueOf(island.configuration().upgradeData().workerLimitLevel()))
+                        .hideAllFlags()
+                        .build(),
+                player -> {
+                    player.closeInventory();
+                    IslandUpgradeGui.create(RPGMain.getInstance(), player, island).open(player);
+                    playClickSound(player);
+                }
+        );
     }
 
     /**
@@ -374,42 +382,55 @@ public class IslandMainGui extends BaseGui {
      */
     private GuiItem createContributionItem() {
         long myContribution = island.membership().contributions().getOrDefault(viewer.getUniqueId().toString(), 0L);
-        return GuiItem.clickable(StandardItemBuilder.guiItem(Material.EMERALD)
-                .displayName(trans("gui.island-main.contribution-title").color(UnifiedColorUtil.GREEN))
-                .lore(List.of(Component.empty(), trans("gui.island-main.contribution-desc1").color(UnifiedColorUtil.GRAY), trans("gui.island-main.contribution-desc2").color(UnifiedColorUtil.GRAY), Component.empty(), trans("gui.island-main.contribution-my").color(UnifiedColorUtil.GRAY)
-                        .append(Component.text(myContribution, UnifiedColorUtil.YELLOW)), Component.empty(), trans("gui.island-main.click-to-open").color(UnifiedColorUtil.YELLOW)))
-                .build(), player -> {
-            IslandContributionGui.create(guiManager, player, island, 1).open(player);
-            playClickSound(player);
-        });
+        
+        return GuiItem.clickable(
+                ItemBuilder.of(Material.EMERALD, getViewerLocale())
+                        .displayNameTranslated("items.island.main.contribution-info.name")
+                        .loreTranslated("items.island.main.contribution-info.lore",
+                                String.valueOf(myContribution))
+                        .hideAllFlags()
+                        .build(),
+                player -> {
+                    IslandContributionGui.create(guiManager, player, island, 1).open(player);
+                    playClickSound(player);
+                }
+        );
     }
 
     /**
      * 스폰 설정 아이템
      */
     private GuiItem createSpawnSettingsItem() {
-        return GuiItem.clickable(StandardItemBuilder.guiItem(Material.ENDER_PEARL)
-                .displayName(trans("gui.island-main.spawn-settings-title").color(UnifiedColorUtil.LIGHT_PURPLE))
-                .lore(List.of(Component.empty(), trans("gui.island-main.spawn-settings-desc1").color(UnifiedColorUtil.GRAY), trans("gui.island-main.spawn-settings-desc2").color(UnifiedColorUtil.GRAY), Component.empty(), trans("gui.island-main.click-to-open").color(UnifiedColorUtil.YELLOW)))
-                .build(), player -> {
-            player.closeInventory();
-            IslandSpawnSettingsGui.create(RPGMain.getInstance(), player, island).open(player);
-            playClickSound(player);
-        });
+        return GuiItem.clickable(
+                ItemBuilder.of(Material.ENDER_PEARL, getViewerLocale())
+                        .displayNameTranslated("items.island.main.spawn-settings.name")
+                        .addLoreTranslated("items.island.main.spawn-settings.lore")
+                        .hideAllFlags()
+                        .build(),
+                player -> {
+                    player.closeInventory();
+                    IslandSpawnSettingsGui.create(RPGMain.getInstance(), player, island).open(player);
+                    playClickSound(player);
+                }
+        );
     }
 
     /**
      * 섬 설정 아이템
      */
     private GuiItem createIslandSettingsItem() {
-        return GuiItem.clickable(StandardItemBuilder.guiItem(Material.COMPARATOR)
-                .displayName(trans("gui.island-main.island-settings-title").color(UnifiedColorUtil.BLUE))
-                .lore(List.of(Component.empty(), trans("gui.island-main.island-settings-desc1").color(UnifiedColorUtil.GRAY), trans("gui.island-main.island-settings-desc2").color(UnifiedColorUtil.GRAY), trans("gui.island-main.island-settings-desc3").color(UnifiedColorUtil.GRAY), Component.empty(), trans("gui.island-main.click-to-open").color(UnifiedColorUtil.YELLOW)))
-                .build(), player -> {
-            player.closeInventory();
-            IslandSettingsGui.create(RPGMain.getInstance(), player, island).open(player);
-            playClickSound(player);
-        });
+        return GuiItem.clickable(
+                ItemBuilder.of(Material.COMPARATOR, getViewerLocale())
+                        .displayNameTranslated("items.island.main.island-settings.name")
+                        .addLoreTranslated("items.island.main.island-settings.lore")
+                        .hideAllFlags()
+                        .build(),
+                player -> {
+                    player.closeInventory();
+                    IslandSettingsGui.create(RPGMain.getInstance(), player, island).open(player);
+                    playClickSound(player);
+                }
+        );
     }
 
     /**
@@ -420,45 +441,56 @@ public class IslandMainGui extends BaseGui {
         var visitListener = RPGMain.getInstance().getIslandVisitListener();
         int currentVisitorCount = visitListener != null ? visitListener.getCurrentVisitors(island.core().islandId())
                 .size() : 0;
-
-        return GuiItem.clickable(StandardItemBuilder.guiItem(Material.BOOK)
-                .displayName(trans("gui.island-main.visitor-management-title").color(UnifiedColorUtil.WHITE))
-                .lore(List.of(Component.empty(), trans("gui.island-main.visitor-management-desc1").color(UnifiedColorUtil.GRAY), trans("gui.island-main.visitor-management-desc2").color(UnifiedColorUtil.GRAY), Component.empty(), trans("gui.island-main.visitor-management-recent").color(UnifiedColorUtil.GRAY)
-                        .append(Component.text(island.social().recentVisits()
-                                .size() + transString("gui.island-main.people-count"), UnifiedColorUtil.YELLOW)), trans("gui.island-main.visitor-management-current").color(UnifiedColorUtil.GRAY)
-                        .append(Component.text(currentVisitorCount + transString("gui.island-main.people-count"), UnifiedColorUtil.AQUA)), Component.empty(), trans("gui.island-main.visitor-management-history").color(UnifiedColorUtil.DARK_GRAY), trans("gui.island-main.visitor-management-realtime").color(UnifiedColorUtil.DARK_GRAY), Component.empty(), trans("gui.island-main.visitor-management-open-menu").color(UnifiedColorUtil.GREEN)))
-                .build(), player -> {
-            player.closeInventory();
-            IslandVisitorMenuGui.create(guiManager, player, island).open(player);
-            playClickSound(player);
-        });
+        
+        return GuiItem.clickable(
+                ItemBuilder.of(Material.BOOK, getViewerLocale())
+                        .displayNameTranslated("items.island.main.visitor-info.name")
+                        .loreTranslated("items.island.main.visitor-info.lore",
+                                String.valueOf(island.social().recentVisits().size()),
+                                String.valueOf(currentVisitorCount))
+                        .hideAllFlags()
+                        .build(),
+                player -> {
+                    player.closeInventory();
+                    IslandVisitorMenuGui.create(guiManager, player, island).open(player);
+                    playClickSound(player);
+                }
+        );
     }
 
     /**
      * 바이옴 변경 아이템
      */
     private GuiItem createBiomeChangeItem() {
-        return GuiItem.clickable(StandardItemBuilder.guiItem(Material.GRASS_BLOCK)
-                .displayName(trans("gui.island-main.biome-change-title").color(UnifiedColorUtil.GREEN))
-                .lore(Arrays.asList(Component.empty(), trans("gui.island-main.biome-change-desc1").color(UnifiedColorUtil.GRAY), trans("gui.island-main.biome-change-desc2").color(UnifiedColorUtil.GRAY), Component.empty(), trans("gui.island-main.click-to-open").color(UnifiedColorUtil.YELLOW)))
-                .build(), player -> {
-            player.closeInventory();
-            var gui = IslandBiomeChangeGui.create(RPGMain.getInstance(), player, island);
-            if (gui != null) {
-                gui.open(player);
-                playClickSound(player);
-            }
-        });
+        return GuiItem.clickable(
+                ItemBuilder.of(Material.GRASS_BLOCK, getViewerLocale())
+                        .displayNameTranslated("items.island.main.biome-change.name")
+                        .addLoreTranslated("items.island.main.biome-change.lore")
+                        .hideAllFlags()
+                        .build(),
+                player -> {
+                    player.closeInventory();
+                    var gui = IslandBiomeChangeGui.create(RPGMain.getInstance(), player, island);
+                    if (gui != null) {
+                        gui.open(player);
+                        playClickSound(player);
+                    }
+                }
+        );
     }
 
     /**
      * 워프 아이템
      */
     private GuiItem createWarpItem() {
-        return GuiItem.clickable(StandardItemBuilder.guiItem(Material.COMPASS)
-                .displayName(trans("gui.island-main.warp-title").color(UnifiedColorUtil.AQUA))
-                .lore(List.of(Component.empty(), trans("gui.island-main.warp-desc").color(UnifiedColorUtil.GRAY), Component.empty(), trans("gui.island-main.click-to-warp").color(UnifiedColorUtil.YELLOW)))
-                .build(), this::handleWarp);
+        return GuiItem.clickable(
+                ItemBuilder.of(Material.COMPASS, getViewerLocale())
+                        .displayNameTranslated("items.island.main.warp.name")
+                        .addLoreTranslated("items.island.main.warp.lore")
+                        .hideAllFlags()
+                        .build(),
+                this::handleWarp
+        );
     }
 
 
@@ -467,7 +499,7 @@ public class IslandMainGui extends BaseGui {
      */
     private void handleWarp(@NotNull Player player) {
         player.closeInventory();
-        player.sendMessage(trans("gui.island-main.warp-moving").color(UnifiedColorUtil.YELLOW));
+        player.sendMessage(Component.translatable("gui.island.main.warp-moving").color(UnifiedColorUtil.YELLOW));
 
         // 스폰 위치 가져오기
         var spawn = island.configuration().spawnData().defaultSpawn()
@@ -476,7 +508,7 @@ public class IslandMainGui extends BaseGui {
 
         Bukkit.getScheduler().runTask(RPGMain.getInstance(), () -> {
             player.teleport(spawn);
-            player.sendMessage(trans("gui.island-main.warp-success").color(UnifiedColorUtil.SUCCESS));
+            player.sendMessage(Component.translatable("gui.island.main.warp-success").color(UnifiedColorUtil.SUCCESS));
         });
     }
 }

@@ -13,10 +13,8 @@ import org.jetbrains.annotations.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
-import net.kyori.adventure.text.Component;
 /**
  * 서버 통계 관리자 - RPGMain에서 분리
  * 서버 통계 수집, TPS 모니터링, 일일 통계 저장을 담당

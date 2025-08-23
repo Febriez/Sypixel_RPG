@@ -10,11 +10,11 @@ import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,7 +36,7 @@ public class JobSelectionGui extends BaseGui {
 
     private JobSelectionGui(@NotNull GuiManager guiManager,
                            @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        super(viewer, guiManager, GUI_SIZE, "gui.job-selection.title");
+        super(viewer, guiManager, GUI_SIZE, Component.translatable("gui.job-selection.title"));
         this.rpgPlayer = rpgPlayer;
     }
 
@@ -50,13 +50,12 @@ public class JobSelectionGui extends BaseGui {
      */
     public static JobSelectionGui create(@NotNull GuiManager guiManager,
                                         @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        JobSelectionGui gui = new JobSelectionGui(guiManager, viewer, rpgPlayer);
-        return gui;
+        return new JobSelectionGui(guiManager, viewer, rpgPlayer);
     }
 
     @Override
     public @NotNull Component getTitle() {
-        return trans("gui.job-selection.title");
+        return Component.translatable("gui.job-selection.title");
     }
 
     @Override
@@ -113,13 +112,13 @@ public class JobSelectionGui extends BaseGui {
 
             GuiItem tabItem = GuiItem.clickable(
                     ItemBuilder.of(isSelected ? Material.ENCHANTED_BOOK : Material.BOOK)
-                            .displayName(trans("job.categories." + category.name().toLowerCase())
+                            .displayName(Component.translatable("job.categories." + category.name().toLowerCase())
                                     .color(category.getColor())
                                     .decoration(TextDecoration.BOLD, isSelected))
                             .addLore(Component.empty())
                             .addLore(isSelected ?
-                                    trans("gui.job-selection.tab-selected") :
-                                    trans("gui.job-selection.tab-click"))
+                                    Component.translatable("gui.job-selection.tab-selected") :
+                                    Component.translatable("gui.job-selection.tab-click"))
                             .glint(isSelected)
                             .build(),
                     player -> {
@@ -171,10 +170,10 @@ public class JobSelectionGui extends BaseGui {
 
         ItemBuilder builder = ItemBuilder.of(job.getMaterial())
                 .displayName(Component.text(job.getIcon() + " ")
-                        .append(trans("job." + jobKey + ".name"))
+                        .append(LangManager.getGuiText("job." + jobKey + ".name", viewer.locale()))
                         .decoration(TextDecoration.BOLD, true))
                 .addLore(Component.empty())
-                .addLore(trans("gui.job-selection.max-level", "level", String.valueOf(job.getMaxLevel())))
+                .addLore(LangManager.getGuiText("gui.job-selection.max-level", viewer.locale(), String.valueOf(job.getMaxLevel())))
                 .addLore(Component.empty());
 
         // 직업 설명 추가
@@ -184,11 +183,11 @@ public class JobSelectionGui extends BaseGui {
         }
 
         builder.addLore(Component.empty())
-                .addLore(trans("general.separator"))
-                .addLore(trans("gui.job-selection.warning"))
-                .addLore(trans("general.separator"))
+                .addLore(LangManager.getGuiText("general.separator", viewer.locale()))
+                .addLore(LangManager.getGuiText("gui.job-selection.warning", viewer.locale()))
+                .addLore(LangManager.getGuiText("general.separator", viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(trans("gui.job-selection.click-to-choose"))
+                .addLore(LangManager.getGuiText("gui.job-selection.click-to-choose", viewer.locale()))
                 .flags(ItemFlag.values())
                 .glint(true);
 

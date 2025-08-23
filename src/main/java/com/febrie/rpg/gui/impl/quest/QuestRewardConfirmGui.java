@@ -8,15 +8,13 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 /**
  * 퀘스트 보상 파괴 확인 GUI
@@ -36,7 +34,7 @@ public class QuestRewardConfirmGui extends BaseGui {
     
     private QuestRewardConfirmGui(@NotNull GuiManager guiManager,
                                   @NotNull Player viewer, @NotNull Quest quest, @NotNull String instanceId, @NotNull QuestRewardGui previousGui) {
-        super(viewer, guiManager, GUI_SIZE, "gui.quest-reward.confirm.title");
+        super(viewer, guiManager, GUI_SIZE, Component.translatable("gui.quest-reward.confirm.title"));
         this.quest = quest;
         this.instanceId = instanceId;
         this.questManager = QuestManager.getInstance();
@@ -45,13 +43,12 @@ public class QuestRewardConfirmGui extends BaseGui {
     
     public static QuestRewardConfirmGui create(@NotNull GuiManager guiManager,
                                                @NotNull Player viewer, @NotNull Quest quest, @NotNull String instanceId, @NotNull QuestRewardGui previousGui) {
-        QuestRewardConfirmGui gui = new QuestRewardConfirmGui(guiManager, viewer, quest, instanceId, previousGui);
-        return gui;
+        return new QuestRewardConfirmGui(guiManager, viewer, quest, instanceId, previousGui);
     }
     
     @Override
     public @NotNull Component getTitle() {
-        return trans("gui.quest-reward.confirm.title").color(UnifiedColorUtil.ERROR);
+        return Component.translatable("gui.quest-reward.confirm.title").color(UnifiedColorUtil.ERROR);
     }
     
     @Override
@@ -62,8 +59,9 @@ public class QuestRewardConfirmGui extends BaseGui {
     }
     private void setupDecorations() {
         // 배경을 검은 유리판으로 채우기
-        ItemBuilder blackGlass = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE)
-                .displayName(Component.empty());
+        ItemBuilder blackGlass = ItemBuilder.of(Material.BLACK_STAINED_GLASS_PANE, viewer.locale())
+                .displayName(Component.empty())
+                .hideAllFlags();
         
         GuiItem glassPane = GuiItem.display(blackGlass.build());
         
@@ -75,25 +73,24 @@ public class QuestRewardConfirmGui extends BaseGui {
     }
     private void setupMessage() {
         // 중앙에 경고 메시지 표시
-        ItemBuilder warningBuilder = new ItemBuilder(Material.BARRIER)
-                .displayName(trans("gui.quest-reward.confirm.message").color(UnifiedColorUtil.ERROR)
-                        .decoration(TextDecoration.BOLD, true))
+        ItemBuilder warningBuilder = ItemBuilder.of(Material.BARRIER, viewer.locale())
+                .displayNameTranslated("items.quest.reward-confirm.warning.name")
                 .addLore(Component.empty())
-                .addLore(trans("gui.quest-reward.confirm.warning1").color(UnifiedColorUtil.WARNING))
-                .addLore(trans("gui.quest-reward.confirm.warning2").color(UnifiedColorUtil.WARNING))
+                .addLoreTranslated("items.quest.reward-confirm.warning.lore1")
+                .addLoreTranslated("items.quest.reward-confirm.warning.lore2")
                 .addLore(Component.empty())
-                .addLore(trans("gui.quest-reward.confirm.question").color(UnifiedColorUtil.YELLOW)
-                        .decoration(TextDecoration.BOLD, true));
+                .addLoreTranslated("items.quest.reward-confirm.warning.question")
+                .hideAllFlags();
         
         setItem(13, GuiItem.display(warningBuilder.build()));
     }
     
     private void setupButtons() {
         // 예 버튼
-        ItemBuilder yesBuilder = new ItemBuilder(Material.RED_WOOL)
-                .displayName(trans("gui.quest-reward.confirm.yes").color(UnifiedColorUtil.ERROR)
-                        .decoration(TextDecoration.BOLD, true))
-                .addLore(trans("gui.quest-reward.confirm.yes-desc").color(UnifiedColorUtil.GRAY));
+        ItemBuilder yesBuilder = ItemBuilder.of(Material.RED_WOOL, viewer.locale())
+                .displayNameTranslated("items.quest.reward-confirm.yes.name")
+                .addLoreTranslated("items.quest.reward-confirm.yes.lore")
+                .hideAllFlags();
         
         GuiItem yesButton = GuiItem.clickable(yesBuilder.build(), p -> {
             // 보상 파괴 - 퀘스트를 ClaimedQuestData로 이동
@@ -101,10 +98,9 @@ public class QuestRewardConfirmGui extends BaseGui {
             
             p.closeInventory();
             p.sendMessage(Component.empty());
-            p.sendMessage(trans("gui.quest-reward.destroyed").color(UnifiedColorUtil.ERROR)
+            p.sendMessage(Component.translatable("gui.quest-reward.destroyed").color(UnifiedColorUtil.ERROR)
                     .decoration(TextDecoration.BOLD, true));
-            p.sendMessage(trans("gui.quest-reward.destroyed-desc", 
-                    "quest", net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(quest.getDisplayName(p)))
+            p.sendMessage(Component.translatable("gui.quest-reward.destroyed-desc", quest.getDisplayName(p))
                     .color(UnifiedColorUtil.WARNING));
             
             SoundUtil.playDeleteSound(p);
@@ -113,10 +109,10 @@ public class QuestRewardConfirmGui extends BaseGui {
         setItem(YES_SLOT, yesButton);
         
         // 아니요 버튼
-        ItemBuilder noBuilder = new ItemBuilder(Material.LIME_WOOL)
-                .displayName(trans("gui.quest-reward.confirm.no").color(UnifiedColorUtil.SUCCESS)
-                        .decoration(TextDecoration.BOLD, true))
-                .addLore(trans("gui.quest-reward.confirm.no-desc").color(UnifiedColorUtil.GRAY));
+        ItemBuilder noBuilder = ItemBuilder.of(Material.LIME_WOOL, viewer.locale())
+                .displayNameTranslated("items.quest.reward-confirm.no.name")
+                .addLoreTranslated("items.quest.reward-confirm.no.lore")
+                .hideAllFlags();
         
         GuiItem noButton = GuiItem.clickable(noBuilder.build(), p -> {
             // 이전 GUI로 돌아가기

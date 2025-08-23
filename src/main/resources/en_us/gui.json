@@ -55,7 +55,11 @@
     "quest-info": "Quest Info",
     "active-quests": "Active: {1}",
     "completed-quests": "Completed: {1}",
-    "click-for-quests": "▶ Click to view quest list"
+    "click-for-quests": "▶ Click to view quest list",
+    "pets": "Pets",
+    "collection-book": "Collection Book",
+    "user-settings": "User Settings",
+    "user-settings-desc": "Manage your personal settings"
   },
   "job-selection": {
     "title": "Job Selection",
@@ -367,7 +371,50 @@
   },
   "island": {
     "main": {
-      "title": "Island Management"
+      "title": "Island Management",
+      "owner": "Owner: ",
+      "size": "Size: ",
+      "members": "Members: ",
+      "workers": "Workers: ",
+      "created-date": "Created: ",
+      "public-status": "Status: ",
+      "public": "Public",
+      "private": "Private",
+      "my-role": "My Role: ",
+      "role-owner": "Owner",
+      "role-co-owner": "Co-Owner",
+      "role-member": "Member",
+      "role-worker": "Worker",
+      "role-visitor": "Visitor",
+      "color-change-hint": "Click to change island name color",
+      "hex-format-error": "Invalid HEX format! Use #RRGGBB format",
+      "color-changed": "Island color changed successfully!",
+      "hex-input-title": "Enter HEX Color Code",
+      "click-to-open": "Click to open",
+      "people-count": "people",
+      "warp-moving": "Teleporting to island...",
+      "warp-success": "Welcome to your island!",
+      "upgrade": {
+        "current-level": "Current Upgrade Levels:",
+        "size": "• Size: Level ",
+        "member": "• Member Limit: Level ",
+        "worker": "• Worker Limit: Level ",
+        "level": ""
+      },
+      "contribution": {
+        "desc1": "View contribution rankings",
+        "desc2": "Check member contributions",
+        "my": "My Contribution: "
+      },
+      "visitor": {
+        "desc1": "View and manage visitors",
+        "desc2": "Check visitor logs",
+        "recent": "Recent Visitors: ",
+        "current": "Current Visitors: ",
+        "history": "• View visit history",
+        "realtime": "• Real-time visitor tracking",
+        "open-menu": "Click to open visitor menu"
+      }
     },
     "creation": {
       "title": "Create Island"

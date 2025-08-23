@@ -9,10 +9,10 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +32,7 @@ public class CombatPowerGui extends BaseGui {
 
     private CombatPowerGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        super(viewer, guiManager, GUI_SIZE, "gui.combat-power.title");
+        super(viewer, guiManager, GUI_SIZE, Component.translatable("gui.combat-power.title"));
         this.rpgPlayer = rpgPlayer;
     }
 
@@ -47,13 +47,12 @@ public class CombatPowerGui extends BaseGui {
      */
     public static CombatPowerGui create(@NotNull GuiManager guiManager,
                                        @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        CombatPowerGui gui = new CombatPowerGui(guiManager, viewer, rpgPlayer);
-        return gui;
+        return new CombatPowerGui(guiManager, viewer, rpgPlayer);
     }
 
     @Override
     public @NotNull Component getTitle() {
-        return trans("gui.combat-power.title");
+        return Component.translatable("gui.combat-power.title");
     }
 
     @Override
@@ -76,8 +75,8 @@ public class CombatPowerGui extends BaseGui {
 
         // 중앙 장식
         setItem(4, GuiItem.display(
-                ItemBuilder.of(Material.DIAMOND_SWORD)
-                        .displayName(trans("gui.combat-power.total", "power", String.valueOf(rpgPlayer.getCombatPower())))
+                ItemBuilder.of(Material.DIAMOND_SWORD, getViewerLocale())
+                        .displayName(LangManager.get("gui.combat-power.total", viewer, Component.text(String.valueOf(rpgPlayer.getCombatPower()))))
                         .flags(ItemFlag.values())
                         .glint(true)
                         .build()
@@ -103,11 +102,11 @@ public class CombatPowerGui extends BaseGui {
         totalCombatPower += levelContribution;
 
         GuiItem levelItem = GuiItem.display(
-                ItemBuilder.of(Material.EXPERIENCE_BOTTLE)
-                        .displayName(trans("gui.combat-power.level-contribution"))
-                        .addLore(trans("gui.combat-power.level-detail",
-                                "level", String.valueOf(rpgPlayer.getLevel()),
-                                "value", String.valueOf(levelContribution)))
+                ItemBuilder.of(Material.EXPERIENCE_BOTTLE, getViewerLocale())
+                        .displayNameTranslated("gui.combat-power.level-contribution")
+                        .addLore(LangManager.get("gui.combat-power.level-detail", viewer,
+                                Component.text(String.valueOf(rpgPlayer.getLevel())),
+                                Component.text(String.valueOf(levelContribution))))
                         .build()
         );
         setItem(20, levelItem);
@@ -134,15 +133,15 @@ public class CombatPowerGui extends BaseGui {
             int contribution = statValue * info.multiplier;
             statContribution += contribution;
 
-            String statName = transString("stat." + info.stat.getId() + ".name");
+            Component statName = Component.translatable("stat." + info.stat.getId() + ".name");
 
             GuiItem statItem = GuiItem.display(
-                    ItemBuilder.of(info.material)
-                            .displayName(trans("gui.combat-power.stat-contribution", "stat", statName))
-                            .addLore(trans("gui.combat-power.stat-detail",
-                                    "value", String.valueOf(statValue),
-                                    "multiplier", String.valueOf(info.multiplier),
-                                    "total", String.valueOf(contribution)))
+                    ItemBuilder.of(info.material, getViewerLocale())
+                            .displayName(LangManager.get("gui.combat-power.stat-contribution", viewer, statName))
+                            .addLore(LangManager.get("gui.combat-power.stat-detail", viewer,
+                                    Component.text(String.valueOf(statValue)),
+                                    Component.text(String.valueOf(info.multiplier)),
+                                    Component.text(String.valueOf(contribution))))
                             .build()
             );
             setItem(slots[i], statItem);
@@ -152,12 +151,12 @@ public class CombatPowerGui extends BaseGui {
 
         // 총합 표시
         GuiItem totalItem = GuiItem.display(
-                ItemBuilder.of(Material.NETHER_STAR)
-                        .displayName(trans("gui.combat-power.total", "power", String.valueOf(totalCombatPower)))
+                ItemBuilder.of(Material.NETHER_STAR, getViewerLocale())
+                        .displayName(LangManager.get("gui.combat-power.total", viewer, Component.text(String.valueOf(totalCombatPower))))
                         .addLore(Component.empty())
-                        .addLore(trans("gui.combat-power.breakdown"))
-                        .addLore(trans("gui.combat-power.from-level", "value", String.valueOf(levelContribution)))
-                        .addLore(trans("gui.combat-power.from-stats", "value", String.valueOf(statContribution)))
+                        .addLoreTranslated("gui.combat-power.breakdown")
+                        .addLore(LangManager.get("gui.combat-power.from-level", viewer, Component.text(String.valueOf(levelContribution))))
+                        .addLore(LangManager.get("gui.combat-power.from-stats", viewer, Component.text(String.valueOf(statContribution))))
                         .glint(true)
                         .build()
         );

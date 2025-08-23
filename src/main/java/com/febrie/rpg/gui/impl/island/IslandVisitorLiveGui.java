@@ -16,14 +16,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 섬 현재 방문자 실시간 GUI
@@ -43,7 +41,7 @@ public class IslandVisitorLiveGui extends BaseGui {
     
     private IslandVisitorLiveGui(@NotNull Player viewer, @NotNull GuiManager guiManager, 
                                 @NotNull IslandDTO island, int page) {
-        super(viewer, guiManager, 54, "gui.island.visitor.live.title");
+        super(viewer, guiManager, 54, Component.translatable("gui.island.visitor.live.title"));
         this.islandManager = RPGMain.getInstance().getIslandManager();
         this.island = island;
         
@@ -61,13 +59,12 @@ public class IslandVisitorLiveGui extends BaseGui {
      */
     public static IslandVisitorLiveGui create(@NotNull GuiManager guiManager, @NotNull Player viewer, 
                                             @NotNull IslandDTO island, int page) {
-        IslandVisitorLiveGui gui = new IslandVisitorLiveGui(viewer, guiManager, island, page);
-        return gui;
+        return new IslandVisitorLiveGui(viewer, guiManager, island, page);
     }
     
     @Override
     public @NotNull Component getTitle() {
-        return trans("island.gui.visitor.live.title", "name", island.core().islandName());
+        return Component.translatable("island.gui.visitor.live.title", Component.text(island.core().islandName()));
     }
     
     @Override

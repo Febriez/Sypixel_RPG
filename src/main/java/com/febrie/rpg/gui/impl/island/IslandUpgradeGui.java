@@ -2,7 +2,6 @@ package com.febrie.rpg.gui.impl.island;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.*;
-import com.febrie.rpg.dto.island.IslandUpgradeDTO;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.component.GuiItem;
@@ -10,6 +9,8 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.StandardItemBuilder;
 import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import net.kyori.adventure.text.Component;
@@ -17,13 +18,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.kyori.adventure.text.Component;
 
 /**
  * 섬 업그레이드 GUI
@@ -70,7 +69,7 @@ public class IslandUpgradeGui extends BaseGui {
     
     private IslandUpgradeGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                             @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 45, "gui.island.upgrade.title");
+        super(viewer, guiManager, 45, Component.translatable("gui.island.upgrade.title"));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
     }
@@ -90,50 +89,46 @@ public class IslandUpgradeGui extends BaseGui {
         // 섬 크기 업그레이드
         ItemStack sizeItem = createUpgradeItem(
                 Material.GRASS_BLOCK,
-                "&a섬 크기 업그레이드",
+                "items.island.upgrade.size.name",
                 island.configuration().upgradeData().sizeLevel(),
                 SIZE_VALUES,
                 SIZE_UPGRADE_COSTS,
-                "블록"
+                "unit.blocks"
         );
         setItem(11, new GuiItem(sizeItem).onAnyClick(player -> handleSizeUpgrade()));
         
         // 멤버 제한 업그레이드
         ItemStack memberItem = createUpgradeItem(
                 Material.PLAYER_HEAD,
-                "&b멤버 제한 업그레이드",
+                "items.island.upgrade.member.name",
                 island.configuration().upgradeData().memberLimitLevel(),
                 MEMBER_VALUES,
                 MEMBER_UPGRADE_COSTS,
-                "명"
+                "unit.players"
         );
         setItem(13, new GuiItem(memberItem).onAnyClick(player -> handleMemberUpgrade()));
         
         // 알바 제한 업그레이드
         ItemStack workerItem = createUpgradeItem(
                 Material.IRON_HELMET,
-                "&e알바 제한 업그레이드",
+                "items.island.upgrade.worker.name",
                 island.configuration().upgradeData().workerLimitLevel(),
                 WORKER_VALUES,
                 WORKER_UPGRADE_COSTS,
-                "명"
+                "unit.players"
         );
         setItem(15, new GuiItem(workerItem).onAnyClick(player -> handleWorkerUpgrade()));
         
         // 정보 아이템
-        ItemStack infoItem = new ItemBuilder(Material.BOOK)
-                .displayName(UnifiedColorUtil.parseComponent("&d&l업그레이드 안내"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7섬 업그레이드는 기여도를 소모합니다"))
-                .addLore(UnifiedColorUtil.parseComponent("&7업그레이드 후에는 다운그레이드할 수 없습니다"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&e섬 크기가 500 이상이면"))
-                .addLore(UnifiedColorUtil.parseComponent("&e바이옴 설정이 가능합니다"))
+        ItemStack infoItem = ItemBuilder.of(Material.BOOK, viewer.locale())
+                .displayNameTranslated("items.island.upgrade.info.name")
+                .loreTranslated("items.island.upgrade.info.lore")
+                .hideAllFlags()
                 .build();
         setItem(31, new GuiItem(infoItem));
         
         // 뒤로가기 버튼
-        setItem(40, new GuiItem(createBackButton()).onAnyClick(player -> {
+        setItem(40, new GuiItem(StandardItemBuilder.backButton(viewer.locale()).build()).onAnyClick(player -> {
             player.closeInventory();
             IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
         }));
@@ -146,57 +141,54 @@ public class IslandUpgradeGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("섬 업그레이드", UnifiedColorUtil.PRIMARY);
+        return Component.translatable("gui.island.upgrade.title");
     }
     
-    private ItemStack createUpgradeItem(Material material, String name, 
-                                       int currentLevel, int[] values, long[] costs, String unit) {
-        List<String> lore = new ArrayList<>();
-        lore.add("");
+    private ItemStack createUpgradeItem(Material material, String nameKey, 
+                                       int currentLevel, int[] values, long[] costs, String unitKey) {
+        ItemBuilder builder = ItemBuilder.of(material, viewer.locale())
+                .displayNameTranslated(nameKey)
+                .addLore(Component.empty());
         
         // 현재 레벨
-        lore.add("&7현재 레벨: &fLv." + currentLevel + " &7(" + values[currentLevel] + unit + ")");
+        Component unit = Component.translatable(unitKey);
+        builder.addLore(LangManager.get("gui.island.upgrade.current-level", viewer, 
+                Component.text(currentLevel), Component.text(values[currentLevel]), unit));
         
         if (currentLevel < values.length - 1) {
             // 다음 레벨 정보
-            lore.add("&7다음 레벨: &aLv." + (currentLevel + 1) + " &7(" + values[currentLevel + 1] + unit + ")");
+            builder.addLore(LangManager.get("gui.island.upgrade.next-level", viewer,
+                    Component.text(currentLevel + 1), Component.text(values[currentLevel + 1]), unit));
             
             // 업그레이드 비용
             long cost = costs[currentLevel + 1];
             long currentContribution = island.membership().contributions().getOrDefault(viewer.getUniqueId().toString(), 0L);
             
-            lore.add("");
-            lore.add("&7업그레이드 비용: &6" + String.format("%,d", cost) + " 기여도");
+            builder.addLore(Component.empty())
+                   .addLore(LangManager.get("gui.island.upgrade.cost", viewer, Component.text(String.format("%,d", cost))));
             
-            lore.add("&7보유 기여도: " + 
-                    (currentContribution >= cost ? "&a" : "&c") + String.format("%,d", currentContribution));
+            builder.addLore(LangManager.get("gui.island.upgrade.current-contribution", viewer,
+                    Component.text(String.format("%,d", currentContribution))
+                            .color(currentContribution >= cost ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)));
             
-            lore.add("");
+            builder.addLore(Component.empty());
             if (currentContribution >= cost) {
-                lore.add("&a&l클릭하여 업그레이드!");
+                builder.addLore(Component.translatable("gui.island.upgrade.click-to-upgrade").color(UnifiedColorUtil.SUCCESS));
             } else {
-                lore.add("&c기여도가 부족합니다!");
+                builder.addLore(Component.translatable("gui.island.upgrade.insufficient-contribution").color(UnifiedColorUtil.ERROR));
             }
         } else {
             // 최대 레벨
-            lore.add("");
-            lore.add("&6&l최대 레벨 달성!");
+            builder.addLore(Component.empty())
+                   .addLore(Component.translatable("gui.island.upgrade.max-level").color(UnifiedColorUtil.GOLD));
         }
         
         // 레벨 진행도 표시
-        lore.add("");
-        lore.add("&7업그레이드 진행도:");
-        lore.add(createProgressBar(currentLevel, values.length - 1));
+        builder.addLore(Component.empty())
+               .addLore(Component.translatable("gui.island.upgrade.progress").color(UnifiedColorUtil.SECONDARY))
+               .addLore(UnifiedColorUtil.parseComponent(createProgressBar(currentLevel, values.length - 1)));
         
-        List<Component> componentLore = new ArrayList<>();
-        for (String line : lore) {
-            componentLore.add(UnifiedColorUtil.parseComponent(line));
-        }
-        
-        return new ItemBuilder(material)
-                .displayName(UnifiedColorUtil.parseComponent(name))
-                .lore(componentLore)
-                .build();
+        return builder.hideAllFlags().build();
     }
     
     private String createProgressBar(int current, int max) {
@@ -217,13 +209,6 @@ public class IslandUpgradeGui extends BaseGui {
         return builder.toString();
     }
     
-    private ItemStack createBackButton() {
-        return new ItemBuilder(Material.ARROW)
-                .displayName(UnifiedColorUtil.parseComponent("&c뒤로가기"))
-                .addLore(UnifiedColorUtil.parseComponent(""))
-                .addLore(UnifiedColorUtil.parseComponent("&7메인 메뉴로 돌아갑니다"))
-                .build();
-    }
     
     
     private void handleSizeUpgrade() {

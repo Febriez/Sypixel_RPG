@@ -5,7 +5,6 @@ import com.febrie.rpg.dto.island.PlayerIslandDataDTO;
 import com.febrie.rpg.gui.impl.island.IslandMainGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
-import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

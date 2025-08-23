@@ -1,6 +1,5 @@
 package com.febrie.rpg.quest.impl.tutorial;
 
-import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
@@ -10,17 +9,13 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangManager;
-import java.util.ArrayList;
-import java.util.List;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -105,7 +100,7 @@ public class FirstStepsQuest extends Quest {
         return switch (id) {
             case "visit_hub" -> Component.translatable("quest.tutorial.first-steps.objectives.visit_hub");
             case "visit_merchant" -> Component.translatable("quest.tutorial.first-steps.objectives.visit_merchant");
-            default -> Component.text(objective.getStatusInfo(who));
+            default -> Component.translatable("quest.tutorial.first-steps.objectives." + id);
         };
     }
 

@@ -10,20 +10,18 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.Arrays;
 /**
  * 개인 스폰 관리 GUI
@@ -40,7 +38,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
     private final boolean isMember;
     private IslandPersonalSpawnGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, "개인 스폰 관리");
+        super(viewer, guiManager, 54, Component.translatable("gui.island.personal-spawn.title"));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         
@@ -87,7 +85,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.text("개인 스폰 관리", UnifiedColorUtil.PRIMARY);
+        return Component.translatable("gui.island.personal-spawn.title");
     }
     
     private GuiItem createCurrentPersonalSpawnInfo() {
@@ -99,38 +97,29 @@ public class IslandPersonalSpawnGui extends BaseGui {
         } else if (isMember && spawnData.memberSpawns().containsKey(playerUuid)) {
             personalSpawn = spawnData.memberSpawns().get(playerUuid);
         }
-        ItemBuilder builder = new ItemBuilder(Material.ENDER_EYE)
-                .displayName(Component.text("내 개인 스폰", UnifiedColorUtil.AQUA));
-        List<Component> lore = new ArrayList<>();
-        lore.add(Component.empty());
+        ItemBuilder builder = ItemBuilder.of(Material.ENDER_EYE, viewer.locale())
+                .displayNameTranslated("items.island.personal-spawn.info.name");
+        
         if (personalSpawn != null) {
             String location = String.format("%.1f, %.1f, %.1f", 
                 personalSpawn.x(), personalSpawn.y(), personalSpawn.z());
-            lore.add(Component.text("위치: " + location, UnifiedColorUtil.WHITE));
-            if (personalSpawn.alias() != null && !personalSpawn.alias().isEmpty()) {
-                lore.add(Component.text("이름: " + personalSpawn.alias(), UnifiedColorUtil.GRAY));
-            }
+            builder.loreTranslated("items.island.personal-spawn.info.lore", location);
         } else {
-            lore.add(Component.text("설정되지 않음", UnifiedColorUtil.RED));
-            lore.add(Component.text("기본 스폰을 사용합니다", UnifiedColorUtil.GRAY));
+            builder.loreTranslated("items.island.personal-spawn.info-not-set.lore");
         }
-        lore.add(Component.empty());
-        lore.add(Component.text("개인 스폰을 설정하면", UnifiedColorUtil.GRAY));
-        lore.add(Component.text("/섬 워프 시 이곳으로 이동합니다", UnifiedColorUtil.GRAY));
-        builder.lore(lore);
+        
         return new GuiItem(builder.build());
     }
     
     private GuiItem createSetPersonalSpawnItem() {
         return GuiItem.clickable(
-            new ItemBuilder(Material.BEACON)
-                .displayName(Component.text("개인 스폰 설정", UnifiedColorUtil.GREEN))
-                .lore(Arrays.asList(
-                    Component.empty(),
-                    Component.text("현재 위치를", UnifiedColorUtil.GRAY),
-                    Component.text("내 개인 스폰으로 설정합니다", UnifiedColorUtil.GRAY),
-                    Component.text("▶ 클릭하여 설정", UnifiedColorUtil.YELLOW)
-                ))
+            ItemBuilder.of(Material.BEACON, viewer.locale())
+                .displayNameTranslated("items.island.personal-spawn.set.name")
+                .addLore(Component.empty())
+                .addLoreTranslated("items.island.personal-spawn.set.lore1")
+                .addLoreTranslated("items.island.personal-spawn.set.lore2")
+                .addLoreTranslated("items.island.personal-spawn.set.click")
+                .hideAllFlags()
                 .build(),
             player -> {
                 handleSetPersonalSpawn(player);
@@ -145,16 +134,15 @@ public class IslandPersonalSpawnGui extends BaseGui {
             !spawnData.ownerSpawns().isEmpty() :
             spawnData.memberSpawns().containsKey(playerUuid);
         return GuiItem.clickable(
-            new ItemBuilder(Material.ENDER_PEARL)
-                .displayName(Component.text("개인 스폰으로 이동", UnifiedColorUtil.LIGHT_PURPLE))
-                .lore(Arrays.asList(
-                    Component.empty(),
-                    Component.text("내 개인 스폰으로", UnifiedColorUtil.GRAY),
-                    Component.text("즉시 이동합니다", UnifiedColorUtil.GRAY),
-                    hasPersonalSpawn ?
-                        Component.text("▶ 클릭하여 이동", UnifiedColorUtil.YELLOW) :
-                        Component.text("✖ 개인 스폰이 없습니다", UnifiedColorUtil.RED)
-                ))
+            ItemBuilder.of(Material.ENDER_PEARL, viewer.locale())
+                .displayNameTranslated("items.island.personal-spawn.teleport.name")
+                .addLore(Component.empty())
+                .addLoreTranslated("items.island.personal-spawn.teleport.lore1")
+                .addLoreTranslated("items.island.personal-spawn.teleport.lore2")
+                .addLore(hasPersonalSpawn ?
+                    Component.translatable("items.island.personal-spawn.teleport.click").color(UnifiedColorUtil.YELLOW) :
+                    Component.translatable("items.island.personal-spawn.teleport.no-spawn").color(UnifiedColorUtil.RED))
+                .hideAllFlags()
                 .build(),
             player -> {
                 if (hasPersonalSpawn) {
@@ -169,14 +157,13 @@ public class IslandPersonalSpawnGui extends BaseGui {
     
     private GuiItem createRemovePersonalSpawnItem() {
         return GuiItem.clickable(
-            new ItemBuilder(Material.BARRIER)
-                .displayName(Component.text("개인 스폰 제거", UnifiedColorUtil.RED))
-                .lore(Arrays.asList(
-                    Component.empty(),
-                    Component.text("개인 스폰을 제거하고", UnifiedColorUtil.GRAY),
-                    Component.text("기본 스폰을 사용합니다", UnifiedColorUtil.GRAY),
-                    Component.text("▶ 클릭하여 제거", UnifiedColorUtil.YELLOW)
-                ))
+            ItemBuilder.of(Material.BARRIER, viewer.locale())
+                .displayNameTranslated("items.island.personal-spawn.remove.name")
+                .addLore(Component.empty())
+                .addLoreTranslated("items.island.personal-spawn.remove.lore1")
+                .addLoreTranslated("items.island.personal-spawn.remove.lore2")
+                .addLoreTranslated("items.island.personal-spawn.remove.click")
+                .hideAllFlags()
                 .build(),
             player -> {
                 handleRemovePersonalSpawn(player);
@@ -191,15 +178,14 @@ public class IslandPersonalSpawnGui extends BaseGui {
                 .filter(m -> island.configuration().spawnData().memberSpawns().containsKey(m.uuid()))
                 .count();
         return GuiItem.clickable(
-            new ItemBuilder(Material.COMMAND_BLOCK)
-                .displayName(Component.text("섬원 스폰 관리", UnifiedColorUtil.GOLD))
-                .lore(Arrays.asList(
-                    Component.empty(),
-                    Component.text("섬원들의 개인 스폰을", UnifiedColorUtil.GRAY),
-                    Component.text("관리할 수 있습니다", UnifiedColorUtil.GRAY),
-                    Component.text("설정된 스폰: " + spawnsSet + "/" + memberCount, UnifiedColorUtil.YELLOW),
-                    Component.text("▶ 클릭하여 관리", UnifiedColorUtil.GREEN)
-                ))
+            ItemBuilder.of(Material.COMMAND_BLOCK, viewer.locale())
+                .displayNameTranslated("items.island.personal-spawn.manage.name")
+                .addLore(Component.empty())
+                .addLoreTranslated("items.island.personal-spawn.manage.lore1")
+                .addLoreTranslated("items.island.personal-spawn.manage.lore2")
+                .addLore(LangManager.get("items.island.personal-spawn.manage.status", viewer, Component.text(spawnsSet + "/" + memberCount)))
+                .addLoreTranslated("items.island.personal-spawn.manage.click")
+                .hideAllFlags()
                 .build(),
             player -> {
                 player.sendMessage(UnifiedColorUtil.parse("&c이 기능은 아직 구현되지 않았습니다."));
@@ -210,22 +196,22 @@ public class IslandPersonalSpawnGui extends BaseGui {
     
     private GuiItem createNoPermissionItem() {
         return new GuiItem(
-            new ItemBuilder(Material.REDSTONE_BLOCK)
-                .displayName(Component.text("권한 없음", UnifiedColorUtil.RED))
-                .lore(Arrays.asList(
-                    Component.empty(),
-                    Component.text("개인 스폰을 관리할", UnifiedColorUtil.GRAY),
-                    Component.text("권한이 없습니다", UnifiedColorUtil.GRAY)
-                ))
+            ItemBuilder.of(Material.REDSTONE_BLOCK, viewer.locale())
+                .displayNameTranslated("items.island.personal-spawn.no-permission.name")
+                .addLore(Component.empty())
+                .addLoreTranslated("items.island.personal-spawn.no-permission.lore1")
+                .addLoreTranslated("items.island.personal-spawn.no-permission.lore2")
+                .hideAllFlags()
                 .build()
         );
     }
     
     private GuiItem createBackButton() {
         return GuiItem.clickable(
-            new ItemBuilder(Material.ARROW)
-                .displayName(Component.text("뒤로가기", UnifiedColorUtil.YELLOW))
-                .lore(List.of(Component.text("스폰 설정으로 돌아갑니다", UnifiedColorUtil.GRAY)))
+            ItemBuilder.of(Material.ARROW, viewer.locale())
+                .displayNameTranslated("gui.common.back")
+                .addLoreTranslated("items.island.personal-spawn.back.lore")
+                .hideAllFlags()
                 .build(),
             player -> {
                 player.closeInventory();

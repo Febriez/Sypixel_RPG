@@ -1,6 +1,5 @@
 package com.febrie.rpg.gui.impl.quest;
 
-import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
@@ -14,10 +13,10 @@ import com.febrie.rpg.dto.quest.ActiveQuestDTO;
 import com.febrie.rpg.dto.quest.CompletedQuestDTO;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -58,7 +57,7 @@ public class AllQuestsGui extends BaseGui {
     private AllQuestsGui(@NotNull GuiManager guiManager,
                         @NotNull Player player,
                         @NotNull QuestFilter filter) {
-        super(player, guiManager, GUI_SIZE, "gui.all-quests.title");
+        super(player, guiManager, GUI_SIZE, Component.translatable("gui.all-quests.title"));
         this.questManager = guiManager.getPlugin().getQuestManager();
         this.filter = filter;
         
@@ -92,13 +91,12 @@ public class AllQuestsGui extends BaseGui {
     public static AllQuestsGui create(@NotNull GuiManager guiManager,
                                      @NotNull Player player,
                                      @NotNull QuestFilter filter) {
-        AllQuestsGui gui = new AllQuestsGui(guiManager, player, filter);
-        return gui;
+        return new AllQuestsGui(guiManager, player, filter);
     }
     
     @Override
     public @NotNull Component getTitle() {
-        return trans("quest.filter." + filter.getDisplayName());
+        return Component.translatable("quest.filter." + filter.getDisplayName());
     }
     
     @Override
@@ -118,10 +116,10 @@ public class AllQuestsGui extends BaseGui {
         
         // 필터 정보
         GuiItem filterInfo = GuiItem.of(
-                new ItemBuilder(Material.HOPPER)
-                        .displayName(trans("quest.filter").append(trans("quest.filter." + filter.getDisplayName())))
-                        .addLore(trans("quest.total-count", "count", String.valueOf(quests.size())))
-                        );
+                ItemBuilder.of(Material.HOPPER, getViewerLocale())
+                        .displayName(Component.translatable("quest.filter").append(Component.translatable("quest.filter." + filter.getDisplayName())))
+                        .addLore(LangManager.get("quest.total-count", viewer, Component.text(String.valueOf(quests.size()))))
+                        .build());
         setItem(4, filterInfo);
     }
     
@@ -161,7 +159,7 @@ public class AllQuestsGui extends BaseGui {
         QuestProgress progress = findQuestProgress(viewer, quest);
         Material material = (progress != null && progress.isCompleted()) ? Material.ENCHANTED_BOOK : Material.BOOK;
         
-        ItemBuilder builder = new ItemBuilder(material)
+        ItemBuilder builder = ItemBuilder.of(material, getViewerLocale())
                 .displayName(quest.getDisplayName(viewer).color(UnifiedColorUtil.PRIMARY));
         
         // 퀘스트 설명
@@ -173,13 +171,13 @@ public class AllQuestsGui extends BaseGui {
         
         // 진행 상황
         if (progress != null && progress.isCompleted()) {
-            builder.addLore(trans("quest.completed").color(UnifiedColorUtil.SUCCESS));
+            builder.addLoreTranslated("quest.completed");
             // 완료된 퀘스트 확인
             java.util.Map<String, CompletedQuestDTO> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
             boolean hasReward = completedQuests.values().stream()
                     .anyMatch(data -> data.questId().equals(quest.getId().name()));
             if (hasReward) {
-                builder.addLore(trans("quest.reward-available").color(UnifiedColorUtil.GOLD));
+                builder.addLoreTranslated("quest.reward-available");
             }
         } else if (progress != null) {
             int completed = (int) progress.getObjectives().values().stream()
@@ -191,7 +189,7 @@ public class AllQuestsGui extends BaseGui {
         }
         
         builder.addLore(Component.empty());
-        builder.addLore(trans("quest.click-for-details").color(UnifiedColorUtil.YELLOW));
+        builder.addLoreTranslated("quest.click-for-details");
         
         return GuiItem.clickable(
                 builder.build(),
@@ -208,9 +206,9 @@ public class AllQuestsGui extends BaseGui {
         // 이전 페이지
         if (currentPage > 1) {
             GuiItem prevButton = GuiItem.clickable(
-                    new ItemBuilder(Material.ARROW)
-                            .displayName(trans("quest.previous-page").color(UnifiedColorUtil.YELLOW))
-                            .addLore(trans("quest.go-to-page", "page", String.valueOf(currentPage - 1)).color(UnifiedColorUtil.GRAY))
+                    ItemBuilder.of(Material.ARROW, getViewerLocale())
+                            .displayNameTranslated("quest.previous-page")
+                            .addLore(LangManager.get("quest.go-to-page", viewer, Component.text(String.valueOf(currentPage - 1))))
                             .build(),
                     p -> {
                         currentPage--;
@@ -224,9 +222,9 @@ public class AllQuestsGui extends BaseGui {
         // 다음 페이지
         if (currentPage < maxPage) {
             GuiItem nextButton = GuiItem.clickable(
-                    new ItemBuilder(Material.ARROW)
-                            .displayName(trans("quest.next-page").color(UnifiedColorUtil.YELLOW))
-                            .addLore(trans("quest.go-to-page", "page", String.valueOf(currentPage + 1)).color(UnifiedColorUtil.GRAY))
+                    ItemBuilder.of(Material.ARROW, getViewerLocale())
+                            .displayNameTranslated("quest.next-page")
+                            .addLore(LangManager.get("quest.go-to-page", viewer, Component.text(String.valueOf(currentPage + 1))))
                             .build(),
                     p -> {
                         currentPage++;
@@ -239,8 +237,8 @@ public class AllQuestsGui extends BaseGui {
         
         // 뒤로가기
         GuiItem backButton = GuiItem.clickable(
-                new ItemBuilder(Material.ARROW)
-                        .displayName(trans("gui.common.back"))
+                ItemBuilder.of(Material.ARROW, getViewerLocale())
+                        .displayNameTranslated("gui.common.back")
                         .build(),
                 p -> {
                     guiManager.openGui(p, getBackTarget());

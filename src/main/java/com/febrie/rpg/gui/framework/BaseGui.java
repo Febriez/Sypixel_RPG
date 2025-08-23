@@ -6,12 +6,10 @@ import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
-import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -61,21 +60,19 @@ public abstract class BaseGui implements InteractiveGui {
 
     private boolean initialized = false;
     private boolean layoutSetup = false;
-    private final String titleKey;
-    private final String[] titleArgs;
+    private final Component title;
     
     /**
      * 생성자 - protected to prevent direct instantiation
      * 초기화는 open() 메서드에서 처리됩니다
      */
     protected BaseGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
-                   int requestedSize, @NotNull String titleKey, @NotNull String... titleArgs) {
+                   int requestedSize, @NotNull Component title) {
         this.viewer = viewer;
         this.guiManager = guiManager;
         this.plugin = guiManager.getPlugin();
         this.size = validateSize(requestedSize);
-        this.titleKey = titleKey;
-        this.titleArgs = titleArgs;
+        this.title = title;
     }
 
     /**
@@ -84,11 +81,10 @@ public abstract class BaseGui implements InteractiveGui {
     protected abstract void setupLayout();
 
     /**
-     * GUI 타이틀 - titleKey 기반으로 생성
+     * GUI 타이틀
      */
     @Override
     public @NotNull Component getTitle() {
-        Component title = Component.translatable(titleKey, Arrays.stream(titleArgs).map(Component::text).toArray(Component[]::new));
         return applyTitleStyle(title);
     }
     
@@ -98,6 +94,16 @@ public abstract class BaseGui implements InteractiveGui {
      */
     protected @NotNull Component applyTitleStyle(@NotNull Component title) {
         return title.color(UnifiedColorUtil.GUI_TITLE).decorate(TextDecoration.BOLD);
+    }
+    
+    /**
+     * Viewer의 locale을 반환
+     * 하위 클래스에서 ItemBuilder와 함께 사용하기 위한 헬퍼 메서드
+     * 
+     * @return viewer의 locale
+     */
+    protected @NotNull Locale getViewerLocale() {
+        return viewer.locale();
     }
 
     /**
@@ -120,8 +126,7 @@ public abstract class BaseGui implements InteractiveGui {
     /**
      * 인벤토리 생성
      */
-    private Inventory createInventory(@NotNull String titleKey, @NotNull String... titleArgs) {
-        Component title = Component.translatable(titleKey, Arrays.stream(titleArgs).map(Component::text).toArray(Component[]::new));
+    private Inventory createInventory() {
         Component styledTitle = applyTitleStyle(title);
         return Bukkit.createInventory(this, size, styledTitle);
     }
@@ -140,10 +145,8 @@ public abstract class BaseGui implements InteractiveGui {
         }
         
         // 첫 open 시에만 초기화
-        if (!initialized && !titleKey.isEmpty()) {
-            Component title = Component.translatable(titleKey, Arrays.stream(titleArgs).map(Component::text).toArray(Component[]::new));
-            Component styledTitle = applyTitleStyle(title);
-            this.inventory = Bukkit.createInventory(this, size, styledTitle);
+        if (!initialized) {
+            this.inventory = createInventory();
             this.initialized = true;
         }
         
@@ -370,21 +373,6 @@ public abstract class BaseGui implements InteractiveGui {
     }
 
     // 유틸리티 메소드들
-
-    /**
-     * 번역된 컴포넌트 가져오기 (간편 메소드)
-     */
-    protected Component trans(@NotNull String key, @NotNull String... args) {
-        return Component.translatable(key, Arrays.stream(args).map(Component::text).toArray(Component[]::new));
-    }
-
-    /**
-     * 번역된 문자열 가져오기 (간편 메소드)
-     */
-    protected String transString(@NotNull String key, @NotNull String... args) {
-        Component comp = Component.translatable(key, Arrays.stream(args).map(Component::text).toArray(Component[]::new));
-        return PlainTextComponentSerializer.plainText().serialize(comp);
-    }
 
     /**
      * 메시지 전송 (간편 메소드)

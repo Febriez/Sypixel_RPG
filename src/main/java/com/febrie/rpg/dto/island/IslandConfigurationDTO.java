@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import net.kyori.adventure.text.Component;
 /**
  * 섬 설정 정보 DTO (Record)
  * 스폰, 업그레이드, 권한, 설정 관련 정보

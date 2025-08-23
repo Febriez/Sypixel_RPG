@@ -13,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-import net.kyori.adventure.text.Component;
 /**
  * NPC 상호작용 퀘스트 목표
  * Citizens NPC와 상호작용시 진행

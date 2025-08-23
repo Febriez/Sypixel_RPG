@@ -12,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-import net.kyori.adventure.text.Component;
 /**
  * 재화 지불 퀘스트 목표
  * 특정 NPC에게 재화 지불

@@ -3,7 +3,6 @@ package com.febrie.rpg.dto.island;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import net.kyori.adventure.text.Component;
 /**
  * 섬 내 역할 정의
  *

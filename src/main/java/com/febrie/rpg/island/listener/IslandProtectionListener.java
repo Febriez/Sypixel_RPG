@@ -25,10 +25,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.entity.Painting;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import net.kyori.adventure.text.Component;
 
 /**

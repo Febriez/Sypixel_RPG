@@ -8,7 +8,6 @@ import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.player.RPGPlayer;
-import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
@@ -20,18 +19,13 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.UUID;
 import java.util.Collections;
-import java.util.Arrays;
 /**
  * 섬 기여 GUI
  * 플레이어가 섬에 골드를 기여할 수 있는 인터페이스
@@ -47,7 +41,7 @@ public class IslandContributeGui extends BaseGui {
     private static final int[] QUICK_AMOUNTS = {1000, 5000, 10000, 50000, 100000, 500000};
     private IslandContributeGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 36, "gui.island.contribute.title"); // 4줄 GUI
+        super(viewer, guiManager, 36, Component.translatable("gui.island.contribute.title")); // 4줄 GUI
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.rpgPlayer = plugin.getRPGPlayerManager().getPlayer(viewer);
@@ -91,19 +85,20 @@ public class IslandContributeGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return trans("gui.island.contribute.title");
+        return Component.translatable("gui.island.contribute.title");
     }
     
     private ItemStack createGoldInfoItem() {
         long currentGold = rpgPlayer != null ? rpgPlayer.getWallet().getBalance(CurrencyType.GOLD) : 0;
         long myContribution = island.membership().contributions().getOrDefault(viewer.getUniqueId().toString(), 0L);
-        return StandardItemBuilder.guiItem(Material.GOLD_INGOT)
-                .displayName(trans("gui.island.contribute.gold-info.title").color(UnifiedColorUtil.GOLD))
+        return ItemBuilder.of(Material.GOLD_INGOT, getViewerLocale())
+                .displayNameTranslated("gui.island.contribute.gold-info.title")
                 .addLore(Component.empty())
-                .addLore(trans("gui.island.contribute.gold-info.balance", "amount", String.format("%,d", currentGold)))
-                .addLore(trans("gui.island.contribute.gold-info.contribution", "amount", String.format("%,d", myContribution)))
-                .addLore(trans("gui.island.contribute.gold-info.description1"))
-                .addLore(trans("gui.island.contribute.gold-info.description2"))
+                .addLore(LangManager.get("gui.island.contribute.gold-info.balance", viewer, Component.text(String.format("%,d", currentGold))))
+                .addLore(LangManager.get("gui.island.contribute.gold-info.contribution", viewer, Component.text(String.format("%,d", myContribution))))
+                .addLoreTranslated("gui.island.contribute.gold-info.description1")
+                .addLoreTranslated("gui.island.contribute.gold-info.description2")
+                .hideAllFlags()
                 .build();
     }
     
@@ -119,36 +114,36 @@ public class IslandContributeGui extends BaseGui {
             case 500000 -> Material.NETHERITE_INGOT;
             default -> Material.GOLD_NUGGET;
         };
-        ItemBuilder builder = StandardItemBuilder.guiItem(material)
-                .displayName(
-                        trans("gui.island.contribute.quick-amount", "amount", String.format("%,d", amount)).color(canAfford ? UnifiedColorUtil.YELLOW : UnifiedColorUtil.ERROR)
-                );
-        builder.addLore(UnifiedColorUtil.parseComponent(""));
+        ItemBuilder builder = ItemBuilder.of(material, getViewerLocale())
+                .displayName(LangManager.get("gui.island.contribute.quick-amount", viewer, Component.text(String.format("%,d", amount))));
+        builder.addLore(Component.empty());
         if (canAfford) {
-            builder.addLore(trans("gui.island.contribute.click-to-contribute"));
+            builder.addLoreTranslated("gui.island.contribute.click-to-contribute");
             builder.addLore(Component.empty());
-            builder.addLore(trans("gui.island.contribute.click-prompt").color(UnifiedColorUtil.YELLOW));
+            builder.addLoreTranslated("gui.island.contribute.click-prompt");
         } else {
-            builder.addLore(trans("gui.island.contribute.insufficient-gold").color(UnifiedColorUtil.ERROR));
-            builder.addLore(trans("gui.island.contribute.gold-needed", "amount", String.format("%,d", amount - currentGold)).color(UnifiedColorUtil.ERROR));
+            builder.addLoreTranslated("gui.island.contribute.insufficient-gold");
+            builder.addLore(LangManager.get("gui.island.contribute.gold-needed", viewer, Component.text(String.format("%,d", amount - currentGold))));
         }
-        return builder.build();
+        return builder.hideAllFlags().build();
     }
     private ItemStack createCustomAmountItem() {
-        return StandardItemBuilder.guiItem(Material.ANVIL)
-                .displayName(trans("gui.island.contribute.custom-amount.title").color(UnifiedColorUtil.INFO))
-                .addLore(trans("gui.island.contribute.custom-amount.description1"))
-                .addLore(trans("gui.island.contribute.custom-amount.description2"))
-                .addLore(trans("gui.island.contribute.custom-amount.minimum"))
-                .addLore(trans("gui.island.contribute.custom-amount.maximum"))
-                .addLore(trans("gui.island.contribute.custom-amount.click-prompt").color(UnifiedColorUtil.YELLOW))
+        return ItemBuilder.of(Material.ANVIL, getViewerLocale())
+                .displayNameTranslated("gui.island.contribute.custom-amount.title")
+                .addLoreTranslated("gui.island.contribute.custom-amount.description1")
+                .addLoreTranslated("gui.island.contribute.custom-amount.description2")
+                .addLoreTranslated("gui.island.contribute.custom-amount.minimum")
+                .addLoreTranslated("gui.island.contribute.custom-amount.maximum")
+                .addLoreTranslated("gui.island.contribute.custom-amount.click-prompt")
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createBackButton() {
-        return StandardItemBuilder.guiItem(Material.ARROW)
-                .displayName(trans("gui.common.back").color(UnifiedColorUtil.ERROR))
-                .addLore(trans("gui.island.contribute.back-description"))
+        return ItemBuilder.of(Material.ARROW, getViewerLocale())
+                .displayNameTranslated("gui.buttons.back.name")
+                .addLoreTranslated("gui.island.contribute.back-description")
+                .hideAllFlags()
                 .build();
     }
     

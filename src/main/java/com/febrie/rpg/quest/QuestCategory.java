@@ -1,6 +1,5 @@
 package com.febrie.rpg.quest;
 
-import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;

@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.kyori.adventure.text.Component;
 /**
  * Global event listener for all GUI interactions
  * Handles routing events to appropriate GUI implementations

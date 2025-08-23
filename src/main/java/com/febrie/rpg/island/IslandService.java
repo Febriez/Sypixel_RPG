@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import net.kyori.adventure.text.Component;
 /**
  * 섬 서비스 래퍼 클래스
  * Firestore 서비스와의 통신을 관리
@@ -36,14 +35,12 @@ public class IslandService {
      * 섬 저장
      */
     public CompletableFuture<Boolean> saveIsland(@NotNull IslandDTO island) {
-        if (isOfflineMode) {
+        if (isOfflineMode || firestoreService == null) {
             return CompletableFuture.completedFuture(true);
         }
         
         return firestoreService.save(island.core().islandId(), island)
-                .thenApply(v -> {
-                    return true;
-                })
+                .thenApply(v -> true)
                 .exceptionally(ex -> {
                     LogUtil.error("섬 저장 실패: " + island.core().islandId(), ex);
                     return false;
@@ -54,7 +51,7 @@ public class IslandService {
      * 섬 로드
      */
     public CompletableFuture<IslandDTO> loadIsland(@NotNull String islandId) {
-        if (isOfflineMode) {
+        if (isOfflineMode || firestoreService == null) {
             return CompletableFuture.completedFuture(null);
         }
         
@@ -74,14 +71,12 @@ public class IslandService {
      * 섬 삭제
      */
     public CompletableFuture<Boolean> deleteIsland(@NotNull String islandId) {
-        if (isOfflineMode) {
+        if (isOfflineMode || firestoreService == null) {
             return CompletableFuture.completedFuture(true);
         }
         
         return firestoreService.delete(islandId)
-                .thenApply(v -> {
-                    return true;
-                })
+                .thenApply(v -> true)
                 .exceptionally(ex -> {
                     LogUtil.error("섬 삭제 실패: " + islandId, ex);
                     return false;
@@ -92,14 +87,12 @@ public class IslandService {
      * 플레이어 데이터 저장
      */
     public CompletableFuture<Boolean> savePlayerData(@NotNull PlayerIslandDataDTO playerData) {
-        if (isOfflineMode) {
+        if (isOfflineMode || playerDataService == null) {
             return CompletableFuture.completedFuture(true);
         }
         
         return playerDataService.save(playerData.playerUuid(), playerData)
-                .thenApply(v -> {
-                    return true;
-                })
+                .thenApply(v -> true)
                 .exceptionally(ex -> {
                     LogUtil.error("플레이어 데이터 저장 실패: " + playerData.playerUuid(), ex);
                     return false;
@@ -110,7 +103,7 @@ public class IslandService {
      * 플레이어 데이터 로드
      */
     public CompletableFuture<PlayerIslandDataDTO> loadPlayerData(@NotNull String playerUuid) {
-        if (isOfflineMode) {
+        if (isOfflineMode || playerDataService == null) {
             return CompletableFuture.completedFuture(null);
         }
         
@@ -125,14 +118,12 @@ public class IslandService {
      * 공개 섬 목록 조회
      */
     public CompletableFuture<List<IslandDTO>> loadPublicIslands(int limit) {
-        if (isOfflineMode) {
+        if (isOfflineMode || firestoreService == null) {
             return CompletableFuture.completedFuture(new ArrayList<>());
         }
         
         return firestoreService.getPublicIslands()
-                .thenApply(islands -> {
-                    return islands;
-                })
+                .thenApply(islands -> islands)
                 .exceptionally(ex -> {
                     LogUtil.error("공개 섬 목록 로드 실패", ex);
                     return new ArrayList<>();
@@ -143,7 +134,7 @@ public class IslandService {
      * 모든 섬 데이터 로드
      */
     public CompletableFuture<List<IslandDTO>> loadAllIslands() {
-        if (isOfflineMode) {
+        if (isOfflineMode || firestoreService == null) {
             LogUtil.info("오프라인 모드: 섬 데이터를 로드하지 않습니다.");
             return CompletableFuture.completedFuture(new ArrayList<>());
         }
@@ -156,7 +147,7 @@ public class IslandService {
      * 모든 플레이어 섬 데이터 로드
      */
     public CompletableFuture<List<PlayerIslandDataDTO>> loadAllPlayerData() {
-        if (isOfflineMode) {
+        if (isOfflineMode || playerDataService == null) {
             LogUtil.info("오프라인 모드: 플레이어 데이터를 로드하지 않습니다.");
             return CompletableFuture.completedFuture(new ArrayList<>());
         }

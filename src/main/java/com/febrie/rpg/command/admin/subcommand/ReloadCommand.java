@@ -50,11 +50,6 @@ public record ReloadCommand(@NotNull RPGMain plugin) implements SubCommand {
     }
     
     @Override
-    public int getMinArgs() {
-        return 0;
-    }
-    
-    @Override
     public int getMaxArgs() {
         return 1;
     }

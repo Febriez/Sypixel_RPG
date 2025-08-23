@@ -1,13 +1,11 @@
 package com.febrie.rpg.npc.trait.base;
 
-import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.SoundUtil;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.Trait;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;

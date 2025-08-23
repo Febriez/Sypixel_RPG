@@ -44,7 +44,7 @@ public class TalentGui extends ScrollableGui {
     private TalentGui(@NotNull GuiManager guiManager,
                      @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
                      @NotNull String pageId, @NotNull List<Talent> talents) {
-        super(viewer, guiManager, GUI_SIZE, "gui.talent.title");
+        super(viewer, guiManager, GUI_SIZE, Component.translatable("gui.talent.title"));
         this.rpgPlayer = rpgPlayer;
         this.pageId = pageId;
         this.talents = talents;
@@ -64,13 +64,12 @@ public class TalentGui extends ScrollableGui {
     public static TalentGui create(@NotNull GuiManager guiManager,
                                   @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
                                   @NotNull String pageId, @NotNull List<Talent> talents) {
-        TalentGui gui = new TalentGui(guiManager, viewer, rpgPlayer, pageId, talents);
-        return gui;
+        return new TalentGui(guiManager, viewer, rpgPlayer, pageId, talents);
     }
 
     @Override
     public @NotNull Component getTitle() {
-        return trans("gui.talent.title");
+        return Component.translatable("gui.talent.title");
     }
 
     @Override
@@ -130,18 +129,20 @@ public class TalentGui extends ScrollableGui {
      * 정보 표시 영역
      */
     private void setupInfoDisplay() {
-        String jobName = rpgPlayer.hasJob() ?
-                transString("job." + rpgPlayer.getJob().name().toLowerCase() + ".name") :
-                transString("gui.talent.no-job");
+        Component jobName;
+        if (rpgPlayer.hasJob() && rpgPlayer.getJob() != null) {
+            jobName = Component.translatable("job." + rpgPlayer.getJob().name().toLowerCase() + ".name");
+        } else {
+            jobName = Component.translatable("gui.talent.no-job");
+        }
 
         GuiItem pageInfo = GuiItem.display(
-                ItemBuilder.of(Material.ENCHANTED_BOOK)
-                        .displayName(trans("gui.talent.page-info"))
-                        .addLore(trans("gui.talent.current-page", "page", getPageTitle()))
-                        .addLore(trans("gui.talent.job", "job", jobName))
+                ItemBuilder.of(Material.ENCHANTED_BOOK, getViewerLocale())
+                        .displayNameTranslated("gui.talent.page-info")
+                        .addLore(LangManager.get("gui.talent.current-page", viewer, Component.text(getPageTitle())))
+                        .addLore(LangManager.get("gui.talent.job", viewer, jobName))
                         .addLore(Component.empty())
-                        .addLore(trans("gui.talent.available-points",
-                                "points", String.valueOf(rpgPlayer.getTalents().getAvailablePoints())))
+                        .addLore(LangManager.get("gui.talent.available-points", viewer, Component.text(String.valueOf(rpgPlayer.getTalents().getAvailablePoints()))))
                         .glint(true)
                         .build()
         );
@@ -178,8 +179,8 @@ public class TalentGui extends ScrollableGui {
             material = Material.GRAY_DYE;
         }
 
-        ItemBuilder builder = ItemBuilder.of(material)
-                .displayName(trans("talent." + talent.getId() + ".name"))
+        ItemBuilder builder = ItemBuilder.of(material, getViewerLocale())
+                .displayNameTranslated("talent." + talent.getId() + ".name")
                 .amount(Math.max(1, currentLevel));
 
         // 설명 추가
@@ -188,25 +189,24 @@ public class TalentGui extends ScrollableGui {
 
         // 레벨 정보
         builder.addLore(Component.empty());
-        builder.addLore(trans("gui.talent.level-info",
-                "current", String.valueOf(currentLevel),
-                "max", String.valueOf(talent.getMaxLevel())));
+        builder.addLore(LangManager.get("gui.talent.level-info", viewer,
+                Component.text(String.valueOf(currentLevel)),
+                Component.text(String.valueOf(talent.getMaxLevel()))));
 
         // 상태 표시
         if (maxed) {
-            builder.addLore(trans("gui.talent.maxed"))
+            builder.addLoreTranslated("gui.talent.maxed")
                     .glint(true);
         } else if (canLearn) {
-            builder.addLore(trans("gui.talent.can-learn",
-                    "points", String.valueOf(talent.getRequiredPoints())));
+            builder.addLore(LangManager.get("gui.talent.can-learn", viewer, Component.text(String.valueOf(talent.getRequiredPoints()))));
         } else {
-            builder.addLore(trans("gui.talent.cannot-learn"));
+            builder.addLoreTranslated("gui.talent.cannot-learn");
 
             // 선행 조건 표시
             Map<Talent, Integer> prerequisites = talent.getPrerequisites();
             if (!prerequisites.isEmpty()) {
                 builder.addLore(Component.empty());
-                builder.addLore(trans("gui.talent.prerequisites"));
+                builder.addLoreTranslated("gui.talent.prerequisites");
 
                 for (Map.Entry<Talent, Integer> entry : prerequisites.entrySet()) {
                     Talent prereq = entry.getKey();
@@ -214,17 +214,17 @@ public class TalentGui extends ScrollableGui {
                     int playerLevel = rpgPlayer.getTalents().getTalentLevel(prereq);
                     boolean meets = playerLevel >= requiredLevel;
 
-                    String prereqName = transString("talent." + prereq.getId() + ".name");
-                    builder.addLore(trans(meets ? "gui.talent.prereq-met" : "gui.talent.prereq-not-met",
-                            "talent", prereqName,
-                            "level", String.valueOf(requiredLevel),
-                            "current", String.valueOf(playerLevel)));
+                    Component prereqName = Component.translatable("talent." + prereq.getId() + ".name");
+                    builder.addLore(LangManager.get(meets ? "gui.talent.prereq-met" : "gui.talent.prereq-not-met", viewer,
+                            prereqName,
+                            Component.text(String.valueOf(requiredLevel)),
+                            Component.text(String.valueOf(playerLevel))));
                 }
             }
 
             // 포인트 부족
             if (rpgPlayer.getTalents().getAvailablePoints() < talent.getRequiredPoints()) {
-                builder.addLore(trans("gui.talent.not-enough-points"));
+                builder.addLoreTranslated("gui.talent.not-enough-points");
             }
         }
 
@@ -232,14 +232,14 @@ public class TalentGui extends ScrollableGui {
         Map<com.febrie.rpg.stat.Stat, Integer> statBonuses = talent.getStatBonuses(1);
         if (!statBonuses.isEmpty()) {
             builder.addLore(Component.empty());
-            builder.addLore(trans("gui.talent.stat-bonuses"));
+            builder.addLoreTranslated("gui.talent.stat-bonuses");
 
             statBonuses.forEach((stat, bonus) -> {
-                String statName = transString("stat." + stat.getId() + ".name");
+                Component statName = Component.translatable("stat." + stat.getId() + ".name");
                 int totalBonus = bonus * Math.max(1, currentLevel);
-                builder.addLore(trans("gui.talent.stat-bonus-line",
-                        "stat", statName,
-                        "value", String.valueOf(totalBonus)));
+                builder.addLore(LangManager.get("gui.talent.stat-bonus-line", viewer,
+                        statName,
+                        Component.text(String.valueOf(totalBonus))));
             });
         }
 
@@ -247,7 +247,7 @@ public class TalentGui extends ScrollableGui {
         List<String> effects = talent.getEffects();
         if (!effects.isEmpty()) {
             builder.addLore(Component.empty());
-            builder.addLore(trans("gui.talent.effects"));
+            builder.addLoreTranslated("gui.talent.effects");
             effects.forEach(effect -> builder.addLore(
                     Component.text("• " + effect, UnifiedColorUtil.GRAY)));
         }
@@ -255,7 +255,7 @@ public class TalentGui extends ScrollableGui {
         // 하위 페이지 표시
         if (talent.hasSubPage()) {
             builder.addLore(Component.empty());
-            builder.addLore(trans("gui.talent.has-sub-page"));
+            builder.addLoreTranslated("gui.talent.has-sub-page");
         }
 
         builder.flags(ItemFlag.values());
@@ -273,7 +273,7 @@ public class TalentGui extends ScrollableGui {
     private void handleTalentClick(@NotNull Player player, @NotNull Talent talent, int levels) {
         if (!talent.canActivate(rpgPlayer.getTalents())) {
             playErrorSound(player);
-            sendMessage(player, "messages.talent-cannot-learn");
+            player.sendMessage(Component.translatable("messages.talent-cannot-learn"));
             return;
         }
 
@@ -284,7 +284,7 @@ public class TalentGui extends ScrollableGui {
 
         if (actualLevels <= 0) {
             playErrorSound(player);
-            sendMessage(player, "messages.not-enough-talent-points");
+            player.sendMessage(Component.translatable("messages.not-enough-talent-points"));
             return;
         }
 
@@ -296,9 +296,9 @@ public class TalentGui extends ScrollableGui {
         }
 
         playSuccessSound(player);
-        sendMessage(player, "messages.talent-learned",
-                "talent", transString("talent." + talent.getId() + ".name"),
-                "level", String.valueOf(rpgPlayer.getTalents().getTalentLevel(talent)));
+        player.sendMessage(Component.translatable("messages.talent-learned",
+                Component.translatable("talent." + talent.getId() + ".name"),
+                Component.text(String.valueOf(rpgPlayer.getTalents().getTalentLevel(talent)))));
 
         refresh();
     }
@@ -335,9 +335,8 @@ public class TalentGui extends ScrollableGui {
      * 페이지 타이틀 가져오기
      */
     private String getPageTitle() {
-        String pageKey = "gui.talent.page." + pageId;
-        String translated = transString(pageKey);
-        return translated.equals(pageKey) ? pageId : translated;
+        // Page ID를 직접 반환 (Component API와 호환을 위해)
+        return pageId;
     }
 
     @Override

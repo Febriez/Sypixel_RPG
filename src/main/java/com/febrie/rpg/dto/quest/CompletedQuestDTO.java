@@ -8,8 +8,6 @@ import java.util.Set;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.ArrayList;
-import java.util.UUID;
-import net.kyori.adventure.text.Component;
 /**
  * 완료했지만 보상을 받지 않은 퀘스트 데이터 DTO
  * 
