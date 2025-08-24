@@ -86,7 +86,7 @@ public class IngameSettingsGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                ItemBuilder.of(Material.GRASS_BLOCK, viewer.locale())
+                ItemBuilder.of(Material.GRASS_BLOCK)
                         .displayNameTranslated("items.settings.ingame-settings.title.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.settings.ingame-settings.title.lore")
@@ -121,7 +121,7 @@ public class IngameSettingsGui extends BaseGui {
     private void setupDialogSpeedControls(PlayerSettings settings) {
         // 속도 감소 버튼
         GuiItem speedDecreaseButton = GuiItem.clickable(
-                ItemBuilder.of(Material.RED_CONCRETE, viewer.locale())
+                ItemBuilder.of(Material.RED_CONCRETE)
                         .displayNameTranslated("items.settings.ingame-settings.speed-decrease.name")
                         .addLoreTranslated("items.settings.ingame-settings.speed-decrease.lore")
                         .hideAllFlags()
@@ -140,7 +140,7 @@ public class IngameSettingsGui extends BaseGui {
 
         // 속도 증가 버튼
         GuiItem speedIncreaseButton = GuiItem.clickable(
-                ItemBuilder.of(Material.GREEN_CONCRETE, viewer.locale())
+                ItemBuilder.of(Material.GREEN_CONCRETE)
                         .displayNameTranslated("items.settings.ingame-settings.speed-increase.name")
                         .addLoreTranslated("items.settings.ingame-settings.speed-increase.lore")
                         .hideAllFlags()
@@ -187,7 +187,7 @@ public class IngameSettingsGui extends BaseGui {
         String speedBar = createSpeedBar(speed);
         
         GuiItem dialogSpeedDisplay = GuiItem.display(
-                ItemBuilder.of(material, viewer.locale())
+                ItemBuilder.of(material)
                         .displayNameTranslated("items.settings.ingame-settings.dialog-speed.name")
                         .addLore(Component.empty())
                         .addLore(LangManager.get("gui.ingame-settings.current-speed", viewer, Component.text(displayName)))
@@ -208,7 +208,7 @@ public class IngameSettingsGui extends BaseGui {
         boolean enabled = settings.isQuestAutoGuideEnabled();
         
         GuiItem questGuideToggle = GuiItem.clickable(
-                ItemBuilder.of(enabled ? Material.COMPASS : Material.CLOCK, viewer.locale())
+                ItemBuilder.of(enabled ? Material.COMPASS : Material.CLOCK)
                         .displayNameTranslated("items.settings.ingame-settings.quest-guide.name")
                         .addLore(Component.empty())
                         .addLore(LangManager.get("gui.ingame-settings.status", viewer,
@@ -241,7 +241,7 @@ public class IngameSettingsGui extends BaseGui {
         boolean enabled = settings.isDamageDisplayEnabled();
         
         GuiItem damageDisplayToggle = GuiItem.clickable(
-                ItemBuilder.of(enabled ? Material.DIAMOND_SWORD : Material.WOODEN_SWORD, viewer.locale())
+                ItemBuilder.of(enabled ? Material.DIAMOND_SWORD : Material.WOODEN_SWORD)
                         .displayNameTranslated("items.settings.ingame-settings.damage-display.name")
                         .addLore(Component.empty())
                         .addLore(LangManager.get("gui.ingame-settings.status", viewer,

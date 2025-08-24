@@ -54,7 +54,7 @@ public class DialogChoiceGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getGuiText("gui.dialog-choice.title", viewer.locale());
+        return LangManager.getComponent("gui.dialog-choice.title", viewer.locale());
     }
 
     @Override
@@ -70,8 +70,8 @@ public class DialogChoiceGui extends BaseGui {
         // 대화 아이콘
         GuiItem dialogIcon = GuiItem.display(
                 new ItemBuilder(Material.WRITABLE_BOOK)
-                        .displayName(LangManager.getGuiText("gui.dialog-choice.icon", viewer.locale()))
-                        .addLore(LangManager.getGuiText("gui.dialog-choice.description", viewer.locale()))
+                        .displayName(LangManager.getComponent("gui.dialog-choice.icon", viewer.locale()))
+                        .addLore(LangManager.getComponent("gui.dialog-choice.description", viewer.locale()))
                         .build()
         );
         setItem(4, dialogIcon);
@@ -81,8 +81,8 @@ public class DialogChoiceGui extends BaseGui {
         // NPC 대화 내용 표시
         GuiItem npcDialog = GuiItem.display(
                 new ItemBuilder(Material.PLAYER_HEAD)
-                        .displayName(LangManager.getGuiText("gui.dialog-choice.npc", viewer.locale()))
-                        .addLore(LangManager.getGuiText("gui.dialog-choice.npc-content", viewer.locale()))
+                        .displayName(LangManager.getComponent("gui.dialog-choice.npc", viewer.locale()))
+                        .addLore(LangManager.getComponent("gui.dialog-choice.npc-content", viewer.locale()))
                         .build()
         );
         setItem(13, npcDialog);
@@ -102,10 +102,10 @@ public class DialogChoiceGui extends BaseGui {
             
             GuiItem choiceItem = GuiItem.clickable(
                     new ItemBuilder(Material.PAPER)
-                            .displayName(LangManager.getGuiText("gui.dialog-choice.option", viewer.locale(), String.valueOf(i + 1)))
+                            .displayName(LangManager.getComponent("gui.dialog-choice.option", viewer.locale(), String.valueOf(i + 1)))
                             .addLore(choice.getText().color(UnifiedColorUtil.WHITE))
                             .addLore(Component.empty())
-                            .addLore(LangManager.getGuiText("gui.dialog-choice.click-to-select", viewer.locale()))
+                            .addLore(LangManager.getComponent("gui.dialog-choice.click-to-select", viewer.locale()))
                             .build(),
                     p -> {
                         // 선택 처리

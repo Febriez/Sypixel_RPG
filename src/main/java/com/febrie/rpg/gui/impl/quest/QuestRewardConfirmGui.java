@@ -59,7 +59,7 @@ public class QuestRewardConfirmGui extends BaseGui {
     }
     private void setupDecorations() {
         // 배경을 검은 유리판으로 채우기
-        ItemBuilder blackGlass = ItemBuilder.of(Material.BLACK_STAINED_GLASS_PANE, viewer.locale())
+        ItemBuilder blackGlass = ItemBuilder.of(Material.BLACK_STAINED_GLASS_PANE)
                 .displayName(Component.empty())
                 .hideAllFlags();
         
@@ -73,7 +73,7 @@ public class QuestRewardConfirmGui extends BaseGui {
     }
     private void setupMessage() {
         // 중앙에 경고 메시지 표시
-        ItemBuilder warningBuilder = ItemBuilder.of(Material.BARRIER, viewer.locale())
+        ItemBuilder warningBuilder = ItemBuilder.of(Material.BARRIER)
                 .displayNameTranslated("items.quest.reward-confirm.warning.name")
                 .addLore(Component.empty())
                 .addLoreTranslated("items.quest.reward-confirm.warning.lore1")
@@ -87,7 +87,7 @@ public class QuestRewardConfirmGui extends BaseGui {
     
     private void setupButtons() {
         // 예 버튼
-        ItemBuilder yesBuilder = ItemBuilder.of(Material.RED_WOOL, viewer.locale())
+        ItemBuilder yesBuilder = ItemBuilder.of(Material.RED_WOOL)
                 .displayNameTranslated("items.quest.reward-confirm.yes.name")
                 .addLoreTranslated("items.quest.reward-confirm.yes.lore")
                 .hideAllFlags();
@@ -109,7 +109,7 @@ public class QuestRewardConfirmGui extends BaseGui {
         setItem(YES_SLOT, yesButton);
         
         // 아니요 버튼
-        ItemBuilder noBuilder = ItemBuilder.of(Material.LIME_WOOL, viewer.locale())
+        ItemBuilder noBuilder = ItemBuilder.of(Material.LIME_WOOL)
                 .displayNameTranslated("items.quest.reward-confirm.no.name")
                 .addLoreTranslated("items.quest.reward-confirm.no.lore")
                 .hideAllFlags();

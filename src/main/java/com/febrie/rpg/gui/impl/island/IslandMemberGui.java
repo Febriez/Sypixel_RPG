@@ -13,7 +13,6 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.StandardItemBuilder;
 import com.febrie.rpg.util.SkullUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -55,7 +54,7 @@ public class IslandMemberGui extends BaseGui {
         // 배경 설정
         for (int i = 0; i < 9; i++) {
             setItem(i, GuiItem.display(
-                ItemBuilder.of(Material.LIGHT_BLUE_STAINED_GLASS_PANE, viewer.locale())
+                ItemBuilder.of(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
                     .displayName(Component.empty())
                     .hideAllFlags()
                     .build()
@@ -63,7 +62,7 @@ public class IslandMemberGui extends BaseGui {
         }
         for (int i = size - 9; i < size; i++) {
             setItem(i, GuiItem.display(
-                ItemBuilder.of(Material.LIGHT_BLUE_STAINED_GLASS_PANE, viewer.locale())
+                ItemBuilder.of(Material.LIGHT_BLUE_STAINED_GLASS_PANE)
                     .displayName(Component.empty())
                     .hideAllFlags()
                     .build()
@@ -230,7 +229,7 @@ public class IslandMemberGui extends BaseGui {
         String currentWorkers = island.membership().workers().size() + "/" + 
                 island.configuration().upgradeData().workerLimit();
         
-        return ItemBuilder.of(Material.EMERALD, viewer.locale())
+        return ItemBuilder.of(Material.EMERALD)
                 .displayNameTranslated("items.island.member.invite.name")
                 .loreTranslated("items.island.member.invite-button.lore", currentMembers, currentWorkers)
                 .hideAllFlags();
@@ -240,7 +239,7 @@ public class IslandMemberGui extends BaseGui {
      * 뒤로 가기 버튼
      */
     private ItemBuilder createBackButton() {
-        return ItemBuilder.of(Material.ARROW, viewer.locale())
+        return ItemBuilder.of(Material.ARROW)
                 .displayNameTranslated("items.gui.buttons.back.name")
                 .addLoreTranslated("items.gui.buttons.back.lore")
                 .hideAllFlags();
@@ -250,7 +249,7 @@ public class IslandMemberGui extends BaseGui {
      * 닫기 버튼
      */
     private ItemBuilder createCloseButton() {
-        return ItemBuilder.of(Material.BARRIER, viewer.locale())
+        return ItemBuilder.of(Material.BARRIER)
                 .displayNameTranslated("items.gui.buttons.close.name")
                 .addLoreTranslated("items.gui.buttons.close.lore")
                 .hideAllFlags();
@@ -260,7 +259,7 @@ public class IslandMemberGui extends BaseGui {
      * 이전 페이지 버튼
      */
     private ItemBuilder createPreviousPageButton() {
-        return ItemBuilder.of(Material.ARROW, viewer.locale())
+        return ItemBuilder.of(Material.ARROW)
                 .displayNameTranslated("items.gui.buttons.previous-page.name")
                 .loreTranslated("items.island.member.previous-page.lore", String.valueOf(currentPage + 1))
                 .hideAllFlags();
@@ -270,7 +269,7 @@ public class IslandMemberGui extends BaseGui {
      * 다음 페이지 버튼
      */
     private ItemBuilder createNextPageButton() {
-        return ItemBuilder.of(Material.ARROW, viewer.locale())
+        return ItemBuilder.of(Material.ARROW)
                 .displayNameTranslated("items.gui.buttons.next-page.name")
                 .loreTranslated("items.island.member.next-page.lore", String.valueOf(currentPage + 1))
                 .hideAllFlags();

@@ -103,7 +103,7 @@ public class QuestDialogGui extends BaseGui {
         for (int i = 1; i < 9; i++) {
             if (i != DIALOG_SLOT) {
                 setItem(i, GuiItem.display(
-                        ItemBuilder.of(Material.LIGHT_GRAY_STAINED_GLASS_PANE, viewer.locale())
+                        ItemBuilder.of(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
                                 .displayName(Component.empty())
                                 .hideAllFlags()
                                 .build()
@@ -192,7 +192,7 @@ public class QuestDialogGui extends BaseGui {
         String npcName = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
                 .serialize(npcNameComponent);
 
-        ItemBuilder dialogBuilder = ItemBuilder.of(Material.ENCHANTED_BOOK, viewer.locale())
+        ItemBuilder dialogBuilder = ItemBuilder.of(Material.ENCHANTED_BOOK)
                 .displayName(Component.text(npcName, UnifiedColorUtil.AQUA));
 
         // 텍스트를 로어로 분할 (한 줄당 최대 40자)
@@ -265,7 +265,7 @@ public class QuestDialogGui extends BaseGui {
 
         for (int i = 1; i < 9; i++) {
             setItem(i, GuiItem.display(
-                    ItemBuilder.of(Material.LIGHT_GRAY_STAINED_GLASS_PANE, viewer.locale())
+                    ItemBuilder.of(Material.LIGHT_GRAY_STAINED_GLASS_PANE)
                             .displayName(Component.empty())
                             .hideAllFlags()
                             .build()
@@ -276,7 +276,7 @@ public class QuestDialogGui extends BaseGui {
         setItem(EXIT_SLOT, createExitButton());
 
         // 퀘스트 정보 표시
-        ItemBuilder questInfoBuilder = ItemBuilder.of(Material.WRITTEN_BOOK, viewer.locale())
+        ItemBuilder questInfoBuilder = ItemBuilder.of(Material.WRITTEN_BOOK)
                 .displayName(quest.getDisplayName(viewer).color(UnifiedColorUtil.GOLD))
                 .addLore(Component.empty());
 
@@ -289,7 +289,7 @@ public class QuestDialogGui extends BaseGui {
 
         // 수락 버튼
         GuiItem acceptButton = GuiItem.clickable(
-                ItemBuilder.of(Material.LIME_DYE, viewer.locale())
+                ItemBuilder.of(Material.LIME_DYE)
                         .displayNameTranslated("items.quest.dialog.accept.name")
                         .addLoreTranslated("items.quest.dialog.accept.lore")
                         .build(),
@@ -299,7 +299,7 @@ public class QuestDialogGui extends BaseGui {
 
         // 거절 버튼
         GuiItem declineButton = GuiItem.clickable(
-                ItemBuilder.of(Material.RED_DYE, viewer.locale())
+                ItemBuilder.of(Material.RED_DYE)
                         .displayNameTranslated("items.quest.dialog.decline.name")
                         .addLoreTranslated("items.quest.dialog.decline.lore")
                         .build(),
@@ -358,7 +358,7 @@ public class QuestDialogGui extends BaseGui {
      */
     private GuiItem createExitButton() {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.BARRIER, viewer.locale())
+                ItemBuilder.of(Material.BARRIER)
                         .displayNameTranslated("items.quest.dialog.close.name")
                         .addLoreTranslated("items.quest.dialog.close.lore")
                         .build(),

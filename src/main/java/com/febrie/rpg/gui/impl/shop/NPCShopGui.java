@@ -85,7 +85,7 @@ public class NPCShopGui extends BaseGui {
     private GuiItem createGoldDisplay() {
         long gold = rpgPlayer != null ? rpgPlayer.getWallet().getBalance(CurrencyType.GOLD) : 0;
         
-        return GuiItem.display(ItemBuilder.of(Material.GOLD_INGOT, viewer.locale())
+        return GuiItem.display(ItemBuilder.of(Material.GOLD_INGOT)
                 .displayNameTranslated("items.shop.gold.name")
                 .addLore(Component.empty())
                 .addLore(LangManager.get("gui.shop.gold.amount", viewer, Component.text(String.format("%,d", gold))))

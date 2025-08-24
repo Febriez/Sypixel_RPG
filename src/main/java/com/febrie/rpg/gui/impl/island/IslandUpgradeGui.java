@@ -10,7 +10,6 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.StandardItemBuilder;
 import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import net.kyori.adventure.text.Component;
@@ -120,7 +119,7 @@ public class IslandUpgradeGui extends BaseGui {
         setItem(15, new GuiItem(workerItem).onAnyClick(player -> handleWorkerUpgrade()));
         
         // 정보 아이템
-        ItemStack infoItem = ItemBuilder.of(Material.BOOK, viewer.locale())
+        ItemStack infoItem = ItemBuilder.of(Material.BOOK)
                 .displayNameTranslated("items.island.upgrade.info.name")
                 .loreTranslated("items.island.upgrade.info.lore")
                 .hideAllFlags()
@@ -128,7 +127,11 @@ public class IslandUpgradeGui extends BaseGui {
         setItem(31, new GuiItem(infoItem));
         
         // 뒤로가기 버튼
-        setItem(40, new GuiItem(StandardItemBuilder.backButton(viewer.locale()).build()).onAnyClick(player -> {
+        setItem(40, new GuiItem(ItemBuilder.of(Material.ARROW)
+                .displayName(LangManager.getComponent("items.buttons.back.name", viewer.locale()))
+                .addLore(LangManager.getComponent("items.buttons.back.lore", viewer.locale()))
+                .hideAllFlags()
+                .build()).onAnyClick(player -> {
             player.closeInventory();
             IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
         }));
@@ -146,7 +149,7 @@ public class IslandUpgradeGui extends BaseGui {
     
     private ItemStack createUpgradeItem(Material material, String nameKey, 
                                        int currentLevel, int[] values, long[] costs, String unitKey) {
-        ItemBuilder builder = ItemBuilder.of(material, viewer.locale())
+        ItemBuilder builder = ItemBuilder.of(material)
                 .displayNameTranslated(nameKey)
                 .addLore(Component.empty());
         

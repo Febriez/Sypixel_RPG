@@ -16,7 +16,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.StandardItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -47,7 +47,7 @@ public class MainMenuGui extends BaseGui {
     private static final int TITLE_SLOT = 4;
 
     private MainMenuGui(@NotNull GuiManager guiManager, @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, Component.translatable("gui.mainmenu.title"));
+        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.mainmenu.title", player.locale()));
     }
     
     /**
@@ -91,9 +91,9 @@ public class MainMenuGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                ItemBuilder.of(Material.NETHER_STAR, getViewerLocale())
-                        .displayNameTranslated("items.mainmenu.title.name")
-                        .addLoreTranslated("items.mainmenu.title.lore")
+                ItemBuilder.of(Material.NETHER_STAR)
+                        .displayName(LangManager.getComponent("items.mainmenu.title.name", getViewerLocale()))
+                        .addLore(LangManager.getComponent("items.mainmenu.title.lore", getViewerLocale()))
                         .hideAllFlags()
                         .build()
         );
@@ -108,9 +108,9 @@ public class MainMenuGui extends BaseGui {
         
         // 프로필 버튼 (상단)
         builder.menuButton(PROFILE_SLOT, 
-            ItemBuilder.of(Material.PLAYER_HEAD, getViewerLocale())
-                .displayNameTranslated("items.mainmenu.profile-button.name")
-                .addLoreTranslated("items.mainmenu.profile-button.lore")
+            ItemBuilder.of(Material.PLAYER_HEAD)
+                .displayName(LangManager.getComponent("items.mainmenu.profile-button.name", getViewerLocale()))
+                .addLore(LangManager.getComponent("items.mainmenu.profile-button.lore", getViewerLocale()))
                 .hideAllFlags()
                 .build(),
             player -> {
@@ -182,9 +182,9 @@ public class MainMenuGui extends BaseGui {
      */
     private void setupLeaderboardButton() {
         GuiItem leaderboardButton = GuiItem.clickable(
-                ItemBuilder.of(Material.GOLDEN_APPLE, getViewerLocale())
-                        .displayNameTranslated("items.mainmenu.leaderboard-button.name")
-                        .addLoreTranslated("items.mainmenu.leaderboard-button.lore")
+                ItemBuilder.of(Material.GOLDEN_APPLE)
+                        .displayName(LangManager.getComponent("items.mainmenu.leaderboard-button.name", getViewerLocale()))
+                        .addLore(LangManager.getComponent("items.mainmenu.leaderboard-button.lore", getViewerLocale()))
                         .hideAllFlags()
                         .build(),
                 player -> {

@@ -89,7 +89,7 @@ public class FriendRequestGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                ItemBuilder.of(Material.WRITABLE_BOOK, viewer.locale())
+                ItemBuilder.of(Material.WRITABLE_BOOK)
                         .displayNameTranslated("items.social.friend-requests.title.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.social.friend-requests.title.lore")
@@ -110,7 +110,7 @@ public class FriendRequestGui extends BaseGui {
 
         // 로딩 표시
         setItem(22, GuiItem.display(
-                ItemBuilder.of(Material.HOPPER, viewer.locale())
+                ItemBuilder.of(Material.HOPPER)
                         .displayNameTranslated("items.loading.name")
                         .hideAllFlags()
                         .build()
@@ -136,7 +136,7 @@ public class FriendRequestGui extends BaseGui {
         if (requests.isEmpty()) {
             // 요청이 없을 때
             setItem(22, GuiItem.display(
-                    ItemBuilder.of(Material.BARRIER, viewer.locale())
+                    ItemBuilder.of(Material.BARRIER)
                             .displayNameTranslated("items.social.friend-requests.no-requests.name")
                             .addLoreTranslated("items.social.friend-requests.no-requests.lore")
                             .hideAllFlags()
@@ -158,7 +158,7 @@ public class FriendRequestGui extends BaseGui {
 
             // 요청자 정보
             GuiItem requestInfo = GuiItem.display(
-                    ItemBuilder.of(Material.PLAYER_HEAD, viewer.locale())
+                    ItemBuilder.of(Material.PLAYER_HEAD)
                             .displayName(Component.text(request.fromPlayerName(), UnifiedColorUtil.PRIMARY).decoration(TextDecoration.BOLD, true))
                             .addLore(Component.empty())
                             .addLore(LangManager.get("gui.friend-requests.request-time", viewer, Component.text(request.requestTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))))
@@ -175,7 +175,7 @@ public class FriendRequestGui extends BaseGui {
 
             // 수락 버튼
             GuiItem acceptButton = GuiItem.clickable(
-                    ItemBuilder.of(Material.LIME_DYE, viewer.locale())
+                    ItemBuilder.of(Material.LIME_DYE)
                             .displayNameTranslated("items.social.friend-requests.accept.name")
                             .addLore(Component.empty())
                             .addLore(LangManager.get("gui.friend-requests.accept-desc1", viewer, Component.text(request.fromPlayerName())))
@@ -200,7 +200,7 @@ public class FriendRequestGui extends BaseGui {
 
             // 거절 버튼
             GuiItem rejectButton = GuiItem.clickable(
-                    ItemBuilder.of(Material.RED_DYE, viewer.locale())
+                    ItemBuilder.of(Material.RED_DYE)
                             .displayNameTranslated("items.social.friend-requests.reject.name")
                             .addLore(Component.empty())
                             .addLore(LangManager.get("gui.friend-requests.reject-desc1", viewer, Component.text(request.fromPlayerName())))

@@ -100,7 +100,7 @@ public class MailboxGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                ItemBuilder.of(Material.CHEST, viewer.locale())
+                ItemBuilder.of(Material.CHEST)
                         .displayNameTranslated("items.social.mailbox.title.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.social.mailbox.title.lore")
@@ -116,7 +116,7 @@ public class MailboxGui extends BaseGui {
     private void setupMenuButtons() {
         // 새로고침 버튼
         GuiItem refreshButton = GuiItem.clickable(
-                ItemBuilder.of(Material.CLOCK, viewer.locale())
+                ItemBuilder.of(Material.CLOCK)
                         .displayNameTranslated("items.social.mailbox.refresh.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.social.mailbox.refresh.lore")
@@ -135,7 +135,7 @@ public class MailboxGui extends BaseGui {
 
         // 우편 보내기 버튼
         GuiItem sendMailButton = GuiItem.clickable(
-                ItemBuilder.of(Material.WRITABLE_BOOK, viewer.locale())
+                ItemBuilder.of(Material.WRITABLE_BOOK)
                         .displayNameTranslated("items.social.mailbox.send.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.social.mailbox.send.lore")
@@ -155,7 +155,7 @@ public class MailboxGui extends BaseGui {
 
         // 읽은 우편 삭제 버튼
         GuiItem deleteReadButton = GuiItem.clickable(
-                ItemBuilder.of(Material.LAVA_BUCKET, viewer.locale())
+                ItemBuilder.of(Material.LAVA_BUCKET)
                         .displayNameTranslated("items.social.mailbox.delete-read.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.social.mailbox.delete-read.lore1")
@@ -196,7 +196,7 @@ public class MailboxGui extends BaseGui {
 
         // 로딩 표시
         setItem(MAILS_START_SLOT + 12, GuiItem.display(
-                ItemBuilder.of(Material.HOPPER, viewer.locale())
+                ItemBuilder.of(Material.HOPPER)
                         .displayNameTranslated("items.loading.name")
                         .hideAllFlags()
                         .build()
@@ -223,7 +223,7 @@ public class MailboxGui extends BaseGui {
         if (mails.isEmpty()) {
             // 우편이 없을 때
             setItem(MAILS_START_SLOT + 12, GuiItem.display(
-                    ItemBuilder.of(Material.BARRIER, viewer.locale())
+                    ItemBuilder.of(Material.BARRIER)
                             .displayNameTranslated(showReadMails ? "items.social.mailbox.no-mails.name" : "items.social.mailbox.no-unread-mails.name")
                             .addLoreTranslated("items.social.mailbox.no-mails.lore")
                             .hideAllFlags()
@@ -248,7 +248,7 @@ public class MailboxGui extends BaseGui {
             Component status = Component.translatable(mail.isUnread() ? "status.new-mail" : "status.read");
 
             GuiItem mailItem = GuiItem.clickable(
-                    ItemBuilder.of(material, viewer.locale())
+                    ItemBuilder.of(material)
                             .displayName(Component.text(mail.subject(), UnifiedColorUtil.PRIMARY)
                                     .decoration(TextDecoration.BOLD, mail.isUnread()))
                             .addLore(Component.empty())

@@ -13,7 +13,6 @@ import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.DateFormatUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.StandardItemBuilder;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
@@ -256,7 +255,7 @@ public class IslandMainGui extends BaseGui {
         net.kyori.adventure.text.format.TextColor nameColor = UnifiedColorUtil.parseHexColor(island.configuration()
                 .settings().nameColorHex());
         
-        ItemBuilder builder = ItemBuilder.of(Material.GRASS_BLOCK, viewer.locale())
+        ItemBuilder builder = ItemBuilder.of(Material.GRASS_BLOCK)
                 .displayName(Component.text(island.core().islandName(), nameColor))
                 .loreTranslated("items.island.main.info.lore",
                         island.core().ownerName(),

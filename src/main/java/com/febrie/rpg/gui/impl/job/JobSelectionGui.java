@@ -111,7 +111,7 @@ public class JobSelectionGui extends BaseGui {
             boolean isSelected = category == selectedCategory;
 
             GuiItem tabItem = GuiItem.clickable(
-                    ItemBuilder.of(isSelected ? Material.ENCHANTED_BOOK : Material.BOOK)
+                    new ItemBuilder(isSelected ? Material.ENCHANTED_BOOK : Material.BOOK)
                             .displayName(Component.translatable("job.categories." + category.name().toLowerCase())
                                     .color(category.getColor())
                                     .decoration(TextDecoration.BOLD, isSelected))
@@ -168,12 +168,12 @@ public class JobSelectionGui extends BaseGui {
     private GuiItem createJobItem(@NotNull JobType job) {
         String jobKey = job.name().toLowerCase();
 
-        ItemBuilder builder = ItemBuilder.of(job.getMaterial())
+        ItemBuilder builder = new ItemBuilder(job.getMaterial())
                 .displayName(Component.text(job.getIcon() + " ")
-                        .append(LangManager.getGuiText("job." + jobKey + ".name", viewer.locale()))
+                        .append(LangManager.getComponent("job." + jobKey + ".name", viewer.locale()))
                         .decoration(TextDecoration.BOLD, true))
                 .addLore(Component.empty())
-                .addLore(LangManager.getGuiText("gui.job-selection.max-level", viewer.locale(), String.valueOf(job.getMaxLevel())))
+                .addLore(LangManager.getComponent("gui.job-selection.max-level", viewer.locale(), String.valueOf(job.getMaxLevel())))
                 .addLore(Component.empty());
 
         // 직업 설명 추가
@@ -183,11 +183,11 @@ public class JobSelectionGui extends BaseGui {
         }
 
         builder.addLore(Component.empty())
-                .addLore(LangManager.getGuiText("general.separator", viewer.locale()))
-                .addLore(LangManager.getGuiText("gui.job-selection.warning", viewer.locale()))
-                .addLore(LangManager.getGuiText("general.separator", viewer.locale()))
+                .addLore(LangManager.getComponent("general.separator", viewer.locale()))
+                .addLore(LangManager.getComponent("gui.job-selection.warning", viewer.locale()))
+                .addLore(LangManager.getComponent("general.separator", viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.getGuiText("gui.job-selection.click-to-choose", viewer.locale()))
+                .addLore(LangManager.getComponent("gui.job-selection.click-to-choose", viewer.locale()))
                 .flags(ItemFlag.values())
                 .glint(true);
 

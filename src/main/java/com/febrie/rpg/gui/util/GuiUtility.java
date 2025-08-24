@@ -260,9 +260,9 @@ public class GuiUtility {
     @NotNull
     public static GuiItem createBackButton(@NotNull Player player) {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.ARROW, player.locale())
-                        .displayName(LangManager.getGuiText("gui.buttons.back.name", player.locale()))
-                        .addLore(LangManager.getGuiText("gui.buttons.back.lore", player.locale()))
+                ItemBuilder.of(Material.ARROW)
+                        .displayName(LangManager.getComponent("gui.buttons.back.name", player.locale()))
+                        .addLore(LangManager.getComponent("gui.buttons.back.lore", player.locale()))
                         .build(),
                 clickPlayer -> SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK)
         );
@@ -271,9 +271,9 @@ public class GuiUtility {
     @NotNull
     public static GuiItem createRefreshButton(@NotNull Player player) {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.EMERALD, player.locale())
-                        .displayName(LangManager.getGuiText("gui.buttons.refresh.name", player.locale()))
-                        .addLore(LangManager.getGuiText("gui.buttons.refresh.lore", player.locale()))
+                ItemBuilder.of(Material.EMERALD)
+                        .displayName(LangManager.getComponent("gui.buttons.refresh.name", player.locale()))
+                        .addLore(LangManager.getComponent("gui.buttons.refresh.lore", player.locale()))
                         .build(),
                 clickPlayer -> SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK)
         );
@@ -282,9 +282,9 @@ public class GuiUtility {
     @NotNull
     public static GuiItem createCloseButton(@NotNull Player player) {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.BARRIER, player.locale())
-                        .displayName(LangManager.getGuiText("gui.buttons.close.name", player.locale()))
-                        .addLore(LangManager.getGuiText("gui.buttons.close.lore", player.locale()))
+                ItemBuilder.of(Material.BARRIER)
+                        .displayName(LangManager.getComponent("gui.buttons.close.name", player.locale()))
+                        .addLore(LangManager.getComponent("gui.buttons.close.lore", player.locale()))
                         .build(),
                 clickPlayer -> {
                     SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK);

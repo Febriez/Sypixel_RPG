@@ -10,7 +10,6 @@ import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.UnifiedTimeUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.StandardItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -81,14 +80,14 @@ public class IslandVisitorGui extends BaseGui {
     }
     
     private ItemStack createInfoItem() {
-        return ItemBuilder.of(Material.BOOK, viewer.locale())
-                .displayNameTranslated("items.island.visitor.info.name")
+        return ItemBuilder.of(Material.BOOK)
+                .displayName(LangManager.getComponent("items.island.visitor.info.name", viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.get("gui.island.visitor.island-name", viewer, Component.text(island.core().islandName())))
-                .addLore(LangManager.get("gui.island.visitor.total-visitors", viewer, Component.text(visitors.size())))
-                .addLore(LangManager.get("gui.island.visitor.public-status", viewer, 
+                .addLore(LangManager.getComponent("gui.island.visitor.island-name", viewer.locale(), island.core().islandName()))
+                .addLore(LangManager.getComponent("gui.island.visitor.total-visitors", viewer.locale(), visitors.size()))
+                .addLore(LangManager.getComponent("gui.island.visitor.public-status", viewer.locale(), 
                         Component.translatable(island.core().isPublic() ? "status.public" : "status.private")))
-                .addLoreTranslated("items.island.visitor.info.lore")
+                .addLore(LangManager.getComponent("items.island.visitor.info.lore", viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
@@ -96,9 +95,9 @@ public class IslandVisitorGui extends BaseGui {
     private void displayVisitors() {
         if (visitors.isEmpty()) {
             // 방문자가 없는 경우
-            setItem(22, new GuiItem(ItemBuilder.of(Material.BARRIER, viewer.locale())
-                    .displayNameTranslated("items.island.visitor.no-visitors.name")
-                    .loreTranslated("items.island.visitor.no-visitors.lore")
+            setItem(22, new GuiItem(ItemBuilder.of(Material.BARRIER)
+                    .displayName(LangManager.getComponent("items.island.visitor.no-visitors.name", viewer.locale()))
+                    .lore(LangManager.getComponent("items.island.visitor.no-visitors.lore", viewer.locale()))
                     .hideAllFlags()
                     .build()));
             return;
@@ -127,11 +126,11 @@ public class IslandVisitorGui extends BaseGui {
         String visitTime = DateFormatUtil.formatSlashDateTimeFromMillis(visit.visitedAt());
         String duration = UnifiedTimeUtil.formatDuration(visit.duration());
         
-        ItemStack item = ItemBuilder.of(Material.PLAYER_HEAD, viewer.locale())
+        ItemStack item = ItemBuilder.of(Material.PLAYER_HEAD)
                 .displayName(Component.text(playerName, UnifiedColorUtil.WHITE))
-                .addLore(LangManager.get("gui.island.visitor.visit-time", viewer, Component.text(visitTime)))
-                .addLore(LangManager.get("gui.island.visitor.stay-duration", viewer, Component.text(duration)))
-                .addLore(LangManager.get("gui.island.visitor.visitor-number", viewer, Component.text(index)))
+                .addLore(LangManager.getComponent("gui.island.visitor.visit-time", viewer.locale(), visitTime))
+                .addLore(LangManager.getComponent("gui.island.visitor.stay-duration", viewer.locale(), duration))
+                .addLore(LangManager.getComponent("gui.island.visitor.visitor-number", viewer.locale(), index))
                 .hideAllFlags()
                 .build();
         // 플레이어 머리 설정
@@ -169,44 +168,51 @@ public class IslandVisitorGui extends BaseGui {
                 longestStay = entry.getKey();
             }
         }
-        ItemBuilder builder = ItemBuilder.of(Material.WRITABLE_BOOK, viewer.locale())
-                .displayNameTranslated("items.island.visitor.statistics.name")
+        ItemBuilder builder = ItemBuilder.of(Material.WRITABLE_BOOK)
+                .displayName(LangManager.getComponent("items.island.visitor.statistics.name", viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.get("gui.island.visitor.total-visits", viewer, Component.text(visitors.size())))
-                .addLore(LangManager.get("gui.island.visitor.unique-visitors", viewer, Component.text(visitorCount.size())));
+                .addLore(LangManager.getComponent("gui.island.visitor.total-visits", viewer.locale(), visitors.size()))
+                .addLore(LangManager.getComponent("gui.island.visitor.unique-visitors", viewer.locale(), visitorCount.size()));
         
         if (mostFrequent != null) {
             OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(mostFrequent));
             String name = player.getName() != null ? player.getName() : "Unknown";
-            builder.addLore(LangManager.get("gui.island.visitor.most-frequent", viewer, 
-                    Component.text(name), Component.text(maxVisits)));
+            builder.addLore(LangManager.getComponent("gui.island.visitor.most-frequent", viewer.locale(), 
+                    name, maxVisits));
         }
         if (longestStay != null) {
             OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(longestStay));
             String name = player.getName() != null ? player.getName() : "Unknown";
-            builder.addLore(LangManager.get("gui.island.visitor.longest-stay", viewer,
-                    Component.text(name), Component.text(UnifiedTimeUtil.formatDuration(maxDuration))));
+            builder.addLore(LangManager.getComponent("gui.island.visitor.longest-stay", viewer.locale(),
+                    name, UnifiedTimeUtil.formatDuration(maxDuration)));
         }
         
         return builder.hideAllFlags().build();
     }
     
     private ItemStack createPreviousPageItem() {
-        return StandardItemBuilder.previousPageButton(viewer.locale(), page - 1)
-                .addLore(LangManager.get("gui.page-info", viewer, 
-                        Component.text(page - 1), Component.text(maxPage)))
+        return ItemBuilder.of(Material.ARROW)
+                .displayName(LangManager.getComponent("items.buttons.previous-page.name", viewer.locale()))
+                .addLore(LangManager.getComponent("items.buttons.previous-page.lore", viewer.locale()))
+                .addLore(LangManager.getComponent("gui.page-info", viewer.locale(), page - 1, maxPage))
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createNextPageItem() {
-        return StandardItemBuilder.nextPageButton(viewer.locale(), page + 1)
-                .addLore(LangManager.get("gui.page-info", viewer,
-                        Component.text(page + 1), Component.text(maxPage)))
+        return ItemBuilder.of(Material.ARROW)
+                .displayName(LangManager.getComponent("items.buttons.next-page.name", viewer.locale()))
+                .addLore(LangManager.getComponent("items.buttons.next-page.lore", viewer.locale()))
+                .addLore(LangManager.getComponent("gui.page-info", viewer.locale(), page + 1, maxPage))
+                .hideAllFlags()
                 .build();
     }
     
     private ItemStack createBackButton() {
-        return StandardItemBuilder.backButton(viewer.locale())
+        return ItemBuilder.of(Material.ARROW)
+                .displayName(LangManager.getComponent("items.buttons.back.name", viewer.locale()))
+                .addLore(LangManager.getComponent("items.buttons.back.lore", viewer.locale()))
+                .hideAllFlags()
                 .build();
     }
     

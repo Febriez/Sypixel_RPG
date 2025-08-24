@@ -20,19 +20,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.function.Consumer;
 
 /**
  * Fluent interface builder for creating ItemStacks with Adventure API support
- * Enhanced with full color placeholder support for lore
+ * Pure item builder - no translation logic
  *
  * @author Febrie, CoffeeTory
  */
 public class ItemBuilder {
     private final ItemStack itemStack;
     private final ItemMeta itemMeta;
-    private Locale locale; // 번역을 위한 locale 저장
 
     /**
      * Creates a new ItemBuilder with the specified material
@@ -63,17 +61,6 @@ public class ItemBuilder {
         this.itemStack = itemStack.clone();
         this.itemMeta = this.itemStack.getItemMeta();
     }
-    
-    /**
-     * Sets the locale for item translation
-     * 
-     * @param locale The locale to use for translations
-     * @return This builder
-     */
-    public ItemBuilder locale(Locale locale) {
-        this.locale = locale;
-        return this;
-    }
 
     public ItemBuilder(Player targetPlayer) {
         this.itemStack = new ItemStack(Material.PLAYER_HEAD, 1);
@@ -84,7 +71,6 @@ public class ItemBuilder {
 
     /**
      * Sets the display name using Adventure Component
-     * Use displayNameTranslated() for automatic translation support
      *
      * @param displayName The display name component
      * @return This builder
@@ -140,7 +126,6 @@ public class ItemBuilder {
 
     /**
      * Adds multiple lore lines from a List
-     * Use addLoreTranslated() for automatic translation support
      *
      * @param lines The lore lines to add as a List
      * @return This builder
@@ -151,7 +136,6 @@ public class ItemBuilder {
 
     /**
      * Sets the item name (different from display name, used for data packs)
-     * Use this for already translated components
      *
      * @param itemName The item name component
      * @return This builder
@@ -163,7 +147,6 @@ public class ItemBuilder {
 
     /**
      * Sets the lore using Adventure Components (List)
-     * Use loreTranslated() for automatic translation support
      *
      * @param lore The lore components
      * @return This builder
@@ -188,7 +171,6 @@ public class ItemBuilder {
 
     /**
      * Adds a single line to existing lore
-     * Use addLoreTranslated() for automatic translation support
      *
      * @param line The line to add
      * @return This builder
@@ -215,7 +197,6 @@ public class ItemBuilder {
 
     /**
      * Adds multiple lore lines at once
-     * Use addLoreTranslated() for automatic translation support
      *
      * @param lines The lore lines to add
      * @return This builder
@@ -567,112 +548,5 @@ public class ItemBuilder {
     @Contract("_ -> new")
     public static @NotNull ItemBuilder from(ItemStack itemStack) {
         return new ItemBuilder(itemStack);
-    }
-    
-    /**
-     * Sets the display name using a translation key with the configured locale
-     * The translation is resolved immediately from LangManager's item cache
-     * 
-     * @param translationKey The item translation key (e.g. "items.mainmenu.profile-button.name")
-     * @return This builder
-     */
-    public ItemBuilder displayNameTranslated(@NotNull String translationKey) {
-        if (locale == null) {
-            // locale이 설정되지 않았으면 기본값 사용
-            return displayName(Component.text(translationKey));
-        }
-        
-        Component translatedComponent = LangManager.getItemComponent(translationKey, locale);
-        return displayName(translatedComponent);
-    }
-    
-    /**
-     * Sets the lore using translation keys with the configured locale
-     * The translations are resolved immediately from LangManager's item cache
-     * 
-     * @param translationKey The item lore translation key (e.g. "items.mainmenu.profile-button.lore")
-     * @return This builder
-     */
-    public ItemBuilder loreTranslated(@NotNull String translationKey) {
-        if (locale == null) {
-            // locale이 설정되지 않았으면 기본값 사용
-            return addLore(Component.text(translationKey));
-        }
-        
-        List<Component> translatedLore = LangManager.getItemLoreComponents(translationKey, locale);
-        return lore(translatedLore);
-    }
-    
-    /**
-     * Adds translated lore lines using translation key with the configured locale
-     * The translations are resolved immediately from LangManager's item cache
-     * 
-     * @param translationKey The item lore translation key
-     * @return This builder
-     */
-    public ItemBuilder addLoreTranslated(@NotNull String translationKey) {
-        if (locale == null) {
-            return addLore(Component.text(translationKey));
-        }
-        
-        List<Component> translatedLore = LangManager.getItemLoreComponents(translationKey, locale);
-        return addLore(translatedLore);
-    }
-    
-    /**
-     * Sets the lore using translation key with placeholders
-     * Placeholders in the format {0}, {1}, {2} etc. will be replaced with the provided values
-     * 
-     * @param translationKey The item lore translation key
-     * @param placeholders The placeholder values to replace {0}, {1}, etc.
-     * @return This builder
-     */
-    public ItemBuilder loreTranslated(@NotNull String translationKey, @NotNull String... placeholders) {
-        if (locale == null) {
-            return addLore(Component.text(translationKey));
-        }
-        
-        List<Component> translatedLore = LangManager.getItemLoreComponents(translationKey, locale, placeholders);
-        return lore(translatedLore);
-    }
-    
-    /**
-     * Adds translated lore lines using translation key with placeholders
-     * Placeholders in the format {0}, {1}, {2} etc. will be replaced with the provided values
-     * 
-     * @param translationKey The item lore translation key
-     * @param placeholders The placeholder values to replace {0}, {1}, etc.
-     * @return This builder
-     */
-    public ItemBuilder addLoreTranslated(@NotNull String translationKey, @NotNull String... placeholders) {
-        if (locale == null) {
-            return addLore(Component.text(translationKey));
-        }
-        
-        List<Component> translatedLore = LangManager.getItemLoreComponents(translationKey, locale, placeholders);
-        return addLore(translatedLore);
-    }
-    
-    /**
-     * Creates a new ItemBuilder with locale support
-     * 
-     * @param material The material
-     * @param locale The locale for translations
-     * @return A new ItemBuilder with locale configured
-     */
-    public static ItemBuilder of(@NotNull Material material, @NotNull Locale locale) {
-        return new ItemBuilder(material).locale(locale);
-    }
-    
-    /**
-     * Creates a new ItemBuilder with amount and locale support
-     * 
-     * @param material The material
-     * @param amount The amount
-     * @param locale The locale for translations
-     * @return A new ItemBuilder with locale configured
-     */
-    public static ItemBuilder of(@NotNull Material material, int amount, @NotNull Locale locale) {
-        return new ItemBuilder(material, amount).locale(locale);
     }
 }

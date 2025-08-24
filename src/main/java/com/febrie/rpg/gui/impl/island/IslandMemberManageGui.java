@@ -10,7 +10,6 @@ import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
-import com.febrie.rpg.util.StandardItemBuilder;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.GuiHandlerUtil;
@@ -136,7 +135,7 @@ public class IslandMemberManageGui extends BaseGui {
     }
     
     private ItemStack createMemberInfoItem() {
-        return ItemBuilder.of(Material.PLAYER_HEAD, viewer.locale())
+        return ItemBuilder.of(Material.PLAYER_HEAD)
                 .displayNameTranslated("items.island.member-manage.member-info.name")
                 .addLore(Component.empty())
                 .addLore(Component.translatable("gui.island.member-manage.current-role").color(NamedTextColor.GRAY)
@@ -149,7 +148,7 @@ public class IslandMemberManageGui extends BaseGui {
     }
     
     private ItemStack createPromoteItem() {
-        return ItemBuilder.of(Material.GOLDEN_HELMET, viewer.locale())
+        return ItemBuilder.of(Material.GOLDEN_HELMET)
                 .displayNameTranslated("items.island.member-manage.promote.name")
                 .loreTranslated("items.island.member-manage.promote.lore")
                 .hideAllFlags()
@@ -157,7 +156,7 @@ public class IslandMemberManageGui extends BaseGui {
     }
     
     private ItemStack createDemoteItem() {
-        return ItemBuilder.of(Material.IRON_HELMET, viewer.locale())
+        return ItemBuilder.of(Material.IRON_HELMET)
                 .displayNameTranslated("items.island.member-manage.demote.name")
                 .loreTranslated("items.island.member-manage.demote.lore")
                 .hideAllFlags()
@@ -165,7 +164,7 @@ public class IslandMemberManageGui extends BaseGui {
     }
     
     private ItemStack createToWorkerItem() {
-        return ItemBuilder.of(Material.LEATHER_HELMET, viewer.locale())
+        return ItemBuilder.of(Material.LEATHER_HELMET)
                 .displayNameTranslated("items.island.member-manage.to-worker.name")
                 .loreTranslated("items.island.member-manage.to-worker.lore")
                 .hideAllFlags()
@@ -173,7 +172,7 @@ public class IslandMemberManageGui extends BaseGui {
     }
     
     private ItemStack createToMemberItem() {
-        return ItemBuilder.of(Material.DIAMOND_HELMET, viewer.locale())
+        return ItemBuilder.of(Material.DIAMOND_HELMET)
                 .displayNameTranslated("items.island.member-manage.to-member.name")
                 .loreTranslated("items.island.member-manage.to-member.lore")
                 .hideAllFlags()
@@ -181,14 +180,14 @@ public class IslandMemberManageGui extends BaseGui {
     }
     
     private ItemStack createKickItem() {
-        return ItemBuilder.of(Material.BARRIER, viewer.locale())
+        return ItemBuilder.of(Material.BARRIER)
                 .displayNameTranslated("items.island.member-manage.kick.name")
                 .loreTranslated("items.island.member-manage.kick.lore")
                 .hideAllFlags()
                 .build();
     }
     private ItemStack createPermissionItem() {
-        return ItemBuilder.of(Material.COMMAND_BLOCK, viewer.locale())
+        return ItemBuilder.of(Material.COMMAND_BLOCK)
                 .displayNameTranslated("items.island.member-manage.permission.name")
                 .loreTranslated("items.island.member-manage.permission.lore")
                 .hideAllFlags()
@@ -196,7 +195,7 @@ public class IslandMemberManageGui extends BaseGui {
     }
     
     private ItemStack createNoPermissionItem() {
-        return ItemBuilder.of(Material.REDSTONE_BLOCK, viewer.locale())
+        return ItemBuilder.of(Material.REDSTONE_BLOCK)
                 .displayNameTranslated("items.island.member-manage.no-permission.name")
                 .loreTranslated("items.island.member-manage.no-permission.lore")
                 .hideAllFlags()
@@ -204,7 +203,10 @@ public class IslandMemberManageGui extends BaseGui {
     }
     
     private ItemStack createBackButton() {
-        return StandardItemBuilder.backButton(viewer.locale())
+        return ItemBuilder.of(Material.ARROW)
+                .displayName(LangManager.getComponent("items.buttons.back.name", viewer.locale()))
+                .addLore(LangManager.getComponent("items.buttons.back.lore", viewer.locale()))
+                .hideAllFlags()
                 .build();
     }
     

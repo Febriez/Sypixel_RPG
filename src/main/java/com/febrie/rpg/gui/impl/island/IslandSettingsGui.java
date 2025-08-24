@@ -97,7 +97,7 @@ public class IslandSettingsGui extends BaseGui {
     }
     
     private ItemStack createIslandInfoItem() {
-        return ItemBuilder.of(Material.GRASS_BLOCK, viewer.locale())
+        return ItemBuilder.of(Material.GRASS_BLOCK)
                 .displayNameTranslated("items.island.settings.info.name")
                 .addLore(Component.empty())
                 .addLore(LangManager.get("gui.island.settings.id", viewer, Component.text(island.core().islandId())))
@@ -110,7 +110,7 @@ public class IslandSettingsGui extends BaseGui {
     }
     
     private ItemStack createNameChangeItem() {
-        return ItemBuilder.of(Material.NAME_TAG, viewer.locale())
+        return ItemBuilder.of(Material.NAME_TAG)
                 .displayNameTranslated("items.island.settings.name-change.name")
                 .addLore(Component.empty())
                 .addLore(LangManager.get("gui.island.settings.current-name", viewer, Component.text(tempIslandName)))
@@ -121,7 +121,7 @@ public class IslandSettingsGui extends BaseGui {
     }
     
     private ItemStack createPublicToggleItem() {
-        return ItemBuilder.of(tempIsPublic ? Material.LIME_DYE : Material.GRAY_DYE, viewer.locale())
+        return ItemBuilder.of(tempIsPublic ? Material.LIME_DYE : Material.GRAY_DYE)
                 .displayNameTranslated(tempIsPublic ? "items.island.settings.public.name" : "items.island.settings.private.name")
                 .addLore(Component.empty())
                 .addLore(LangManager.get("gui.island.settings.current-status", viewer, 
@@ -133,7 +133,7 @@ public class IslandSettingsGui extends BaseGui {
     }
     
     private ItemStack createBiomeChangeItem() {
-        return ItemBuilder.of(Material.OAK_SAPLING, viewer.locale())
+        return ItemBuilder.of(Material.OAK_SAPLING)
                 .displayNameTranslated("items.island.settings.biome-change.name")
                 .addLore(Component.empty())
                 .addLore(LangManager.get("gui.island.settings.current-biome", viewer, 
@@ -145,7 +145,7 @@ public class IslandSettingsGui extends BaseGui {
     }
     
     private ItemStack createDeleteIslandItem() {
-        return ItemBuilder.of(Material.BARRIER, viewer.locale())
+        return ItemBuilder.of(Material.BARRIER)
                 .displayNameTranslated("items.island.settings.delete.name")
                 .loreTranslated("items.island.settings.delete.lore")
                 .hideAllFlags()
@@ -157,7 +157,7 @@ public class IslandSettingsGui extends BaseGui {
                            tempIsPublic != island.core().isPublic() ||
                            !tempBiome.equals(island.configuration().settings().biome());
         
-        return ItemBuilder.of(Material.EMERALD_BLOCK, viewer.locale())
+        return ItemBuilder.of(Material.EMERALD_BLOCK)
                 .displayNameTranslated("items.island.settings.save.name")
                 .addLore(Component.empty())
                 .addLore(Component.translatable(hasChanges ? "gui.island.settings.has-changes" : "gui.island.settings.no-changes"))
@@ -168,7 +168,7 @@ public class IslandSettingsGui extends BaseGui {
     }
     
     private ItemStack createCancelButton() {
-        return ItemBuilder.of(Material.REDSTONE_BLOCK, viewer.locale())
+        return ItemBuilder.of(Material.REDSTONE_BLOCK)
                 .displayNameTranslated("items.buttons.cancel.name")
                 .loreTranslated("items.island.settings.cancel.lore")
                 .hideAllFlags()

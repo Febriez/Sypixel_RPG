@@ -83,7 +83,7 @@ public class NotificationSettingsGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                ItemBuilder.of(Material.BELL, viewer.locale())
+                ItemBuilder.of(Material.BELL)
                         .displayNameTranslated("items.settings.notification-settings.title.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.settings.notification-settings.title.lore")
@@ -140,7 +140,7 @@ public class NotificationSettingsGui extends BaseGui {
         boolean enabled = settings.isWhisperNotificationsEnabled();
         
         GuiItem whisperNotificationsToggle = GuiItem.clickable(
-                ItemBuilder.of(enabled ? Material.LIME_CONCRETE : Material.RED_CONCRETE, viewer.locale())
+                ItemBuilder.of(enabled ? Material.LIME_CONCRETE : Material.RED_CONCRETE)
                         .displayNameTranslated("items.settings.notification-settings.whisper.name")
                         .addLore(Component.empty())
                         .addLore(LangManager.get("gui.notification-settings.status", viewer,
@@ -198,7 +198,7 @@ public class NotificationSettingsGui extends BaseGui {
         };
         
         GuiItem inviteNotificationsToggle = GuiItem.clickable(
-                ItemBuilder.of(material, viewer.locale())
+                ItemBuilder.of(material)
                         .displayNameTranslated("items.settings.notification-settings.invite.name")
                         .addLore(Component.empty())
                         .addLore(LangManager.get("gui.notification-settings.current-mode", viewer, modeDisplay))
@@ -248,7 +248,7 @@ public class NotificationSettingsGui extends BaseGui {
         boolean enabled = settings.isServerAnnouncementsEnabled();
         
         GuiItem serverAnnouncementsToggle = GuiItem.clickable(
-                ItemBuilder.of(enabled ? Material.BEACON : Material.GLASS, viewer.locale())
+                ItemBuilder.of(enabled ? Material.BEACON : Material.GLASS)
                         .displayNameTranslated("items.settings.notification-settings.server.name")
                         .addLore(Component.empty())
                         .addLore(LangManager.get("gui.notification-settings.status", viewer,

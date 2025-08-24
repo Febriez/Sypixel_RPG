@@ -84,7 +84,7 @@ public class GuiSettingsGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                ItemBuilder.of(Material.IRON_TRAPDOOR, viewer.locale())
+                ItemBuilder.of(Material.IRON_TRAPDOOR)
                         .displayNameTranslated("items.settings.gui-settings.title.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.settings.gui-settings.title.lore")
@@ -103,7 +103,7 @@ public class GuiSettingsGui extends BaseGui {
 
         // 볼륨 감소 버튼
         GuiItem volumeDecreaseButton = GuiItem.clickable(
-                ItemBuilder.of(Material.RED_CONCRETE, viewer.locale())
+                ItemBuilder.of(Material.RED_CONCRETE)
                         .displayNameTranslated("items.settings.gui-settings.volume-decrease.name")
                         .addLoreTranslated("items.settings.gui-settings.volume-decrease.lore")
                         .hideAllFlags()
@@ -125,7 +125,7 @@ public class GuiSettingsGui extends BaseGui {
 
         // 볼륨 증가 버튼
         GuiItem volumeIncreaseButton = GuiItem.clickable(
-                ItemBuilder.of(Material.GREEN_CONCRETE, viewer.locale())
+                ItemBuilder.of(Material.GREEN_CONCRETE)
                         .displayNameTranslated("items.settings.gui-settings.volume-increase.name")
                         .addLoreTranslated("items.settings.gui-settings.volume-increase.lore")
                         .hideAllFlags()
@@ -170,7 +170,7 @@ public class GuiSettingsGui extends BaseGui {
         String volumeBar = createVolumeBar(volume);
         
         GuiItem volumeDisplay = GuiItem.display(
-                ItemBuilder.of(material, viewer.locale())
+                ItemBuilder.of(material)
                         .displayNameTranslated("items.settings.gui-settings.volume.name")
                         .addLore(Component.empty())
                         .addLore(LangManager.get("gui.gui-settings.current-volume", viewer, Component.text(String.valueOf(volume))))
@@ -195,7 +195,7 @@ public class GuiSettingsGui extends BaseGui {
         boolean isMuted = settings.isGuiSoundMuted();
         
         GuiItem muteToggle = GuiItem.clickable(
-                ItemBuilder.of(isMuted ? Material.REDSTONE_TORCH : Material.TORCH, viewer.locale())
+                ItemBuilder.of(isMuted ? Material.REDSTONE_TORCH : Material.TORCH)
                         .displayNameTranslated(isMuted ? "items.settings.gui-settings.unmute.name" : "items.settings.gui-settings.mute.name")
                         .addLore(Component.empty())
                         .addLore(LangManager.get("gui.gui-settings.current-status", viewer,

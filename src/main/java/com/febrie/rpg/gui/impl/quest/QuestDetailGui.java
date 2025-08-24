@@ -130,7 +130,7 @@ public class QuestDetailGui extends BaseGui {
      * 퀘스트 정보 설정
      */
     private void setupQuestInfo() {
-        ItemBuilder builder = ItemBuilder.of(Material.PAPER, viewer.locale())
+        ItemBuilder builder = ItemBuilder.of(Material.PAPER)
                 .displayName(quest.getDisplayName(viewer)
                         .color(UnifiedColorUtil.LEGENDARY)
                         .decoration(TextDecoration.BOLD, true))
@@ -156,7 +156,7 @@ public class QuestDetailGui extends BaseGui {
      * 상세 목표 진행도 설정
      */
     private void setupObjectives() {
-        ItemBuilder builder = ItemBuilder.of(Material.MAP, viewer.locale())
+        ItemBuilder builder = ItemBuilder.of(Material.MAP)
                 .displayNameTranslated("items.quest.detail.objectives.name")
                 .addLore(Component.empty());
         
@@ -186,7 +186,7 @@ public class QuestDetailGui extends BaseGui {
      * 보상 설정
      */
     private void setupRewards() {
-        ItemBuilder builder = ItemBuilder.of(Material.CHEST, viewer.locale())
+        ItemBuilder builder = ItemBuilder.of(Material.CHEST)
                 .displayNameTranslated("items.quest.detail.rewards.name")
                 .addLore(Component.empty());
         
@@ -211,7 +211,7 @@ public class QuestDetailGui extends BaseGui {
             int slot = PROGRESS_BAR_START + i;
             Material material = i < greenSlots ? Material.LIME_STAINED_GLASS_PANE : Material.YELLOW_STAINED_GLASS_PANE;
             
-            ItemBuilder builder = ItemBuilder.of(material, viewer.locale())
+            ItemBuilder builder = ItemBuilder.of(material)
                     .displayNameTranslated("items.quest.detail.progress.name")
                     .addLore(Component.text(completionPercentage + "%", UnifiedColorUtil.GRAY));
             

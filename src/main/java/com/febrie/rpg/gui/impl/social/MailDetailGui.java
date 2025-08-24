@@ -101,7 +101,7 @@ public class MailDetailGui extends BaseGui {
     private void setupMailInfo() {
         // 우편 기본 정보
         GuiItem mailInfoItem = GuiItem.display(
-                ItemBuilder.of(Material.PAPER, viewer.locale())
+                ItemBuilder.of(Material.PAPER)
                         .displayName(Component.text(mail.subject(), UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
@@ -126,7 +126,7 @@ public class MailDetailGui extends BaseGui {
         // 메시지를 여러 줄로 나누기 (25자씩)
         String[] messageLines = TextUtil.wrapTextOrDefault(message, 25, LangManager.getString("gui.mail-detail.no-message", viewer));
 
-        ItemBuilder messageBuilder = ItemBuilder.of(Material.WRITTEN_BOOK, viewer.locale())
+        ItemBuilder messageBuilder = ItemBuilder.of(Material.WRITTEN_BOOK)
                 .displayNameTranslated("items.social.mail-detail.message.name")
                 .addLore(Component.empty())
                 .addLore(messageLines.length > 0 ? 
@@ -154,7 +154,7 @@ public class MailDetailGui extends BaseGui {
         // 첨부물 기능은 현재 MailDTO에 포함되지 않음
         // 첨부물이 없는 경우로 표시
         setItem(ATTACHMENT_SLOTS[4], GuiItem.display( // 중앙 슬롯
-                ItemBuilder.of(Material.BARRIER, viewer.locale())
+                ItemBuilder.of(Material.BARRIER)
                         .displayNameTranslated("items.social.mail-detail.no-attachments.name")
                         .addLoreTranslated("items.social.mail-detail.no-attachments.lore")
                         .hideAllFlags()
@@ -179,7 +179,7 @@ public class MailDetailGui extends BaseGui {
 
         // 삭제 버튼
         GuiItem deleteButton = GuiItem.clickable(
-                ItemBuilder.of(Material.LAVA_BUCKET, viewer.locale())
+                ItemBuilder.of(Material.LAVA_BUCKET)
                         .displayNameTranslated("items.social.mail-detail.delete.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.social.mail-detail.delete.lore1")
@@ -207,7 +207,7 @@ public class MailDetailGui extends BaseGui {
 
         // 답장 버튼
         GuiItem replyButton = GuiItem.clickable(
-                ItemBuilder.of(Material.FEATHER, viewer.locale())
+                ItemBuilder.of(Material.FEATHER)
                         .displayNameTranslated("items.social.mail-detail.reply.name")
                         .addLore(Component.empty())
                         .addLore(LangManager.get("gui.mail-detail.reply-desc", viewer, Component.text(mail.senderName())))

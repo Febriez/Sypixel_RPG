@@ -49,7 +49,7 @@ public class QuestSelectionGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getGuiText("gui.quest-selection.title", viewer.locale(), npcName);
+        return LangManager.getComponent("gui.quest-selection.title", viewer.locale(), npcName);
     }
     
     @Override
@@ -86,7 +86,7 @@ public class QuestSelectionGui extends BaseGui {
         
         Material material = hasReward ? Material.ENCHANTED_BOOK : Material.BOOK;
         
-        ItemBuilder builder = ItemBuilder.of(material, viewer.locale())
+        ItemBuilder builder = new ItemBuilder(material)
                 .displayName(quest.getDisplayName(viewer).color(UnifiedColorUtil.GOLD).decorate(net.kyori.adventure.text.format.TextDecoration.BOLD));
         
         builder.addLore(Component.empty());
@@ -100,16 +100,16 @@ public class QuestSelectionGui extends BaseGui {
         
         // 상태 표시
         if (hasReward) {
-            builder.addLore(LangManager.getGuiText("gui.quest.status.completed", viewer.locale()));
-            builder.addLore(LangManager.getGuiText("gui.quest.status.reward_available", viewer.locale()));
+            builder.addLore(LangManager.getComponent("gui.quest.status.completed", viewer.locale()));
+            builder.addLore(LangManager.getComponent("gui.quest.status.reward_available", viewer.locale()));
         } else if (isActive) {
-            builder.addLore(LangManager.getGuiText("gui.quest.status.in_progress", viewer.locale()));
+            builder.addLore(LangManager.getComponent("gui.quest.status.in_progress", viewer.locale()));
         } else {
-            builder.addLore(LangManager.getGuiText("gui.quest.status.new_quest", viewer.locale()));
+            builder.addLore(LangManager.getComponent("gui.quest.status.new_quest", viewer.locale()));
         }
         
         builder.addLore(Component.empty());
-        builder.addLoreTranslated("items.quest.selection.click-hint");
+        builder.addLore(LangManager.getComponent("items.quest.selection.click-hint", getViewerLocale()));
         builder.hideAllFlags();
         
         return GuiItem.clickable(builder.build(), player -> {

@@ -8,7 +8,6 @@ import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
-import com.febrie.rpg.util.StandardItemBuilder;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;

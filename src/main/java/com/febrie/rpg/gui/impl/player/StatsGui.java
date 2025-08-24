@@ -158,11 +158,11 @@ public class StatsGui extends ScrollableGui {
 
         // 스탯 포인트 정보
         GuiItem statPointsInfo = GuiItem.display(
-                ItemBuilder.of(Material.NETHER_STAR, getViewerLocale())
-                        .displayNameTranslated("gui.stats.points-available")
+                new ItemBuilder(Material.NETHER_STAR)
+                        .displayName(LangManager.getComponent("gui.stats.points-available", getViewerLocale()))
                         .addLore(LangManager.get("gui.stats.points-count", viewer, Component.text(String.valueOf(rpgPlayer.getStatPoints()))))
                         .addLore(Component.empty())
-                        .addLoreTranslated("gui.stats.points-info")
+                        .addLore(LangManager.getComponent("gui.stats.points-info", getViewerLocale()))
                         .glint(rpgPlayer.getStatPoints() > 0)
                         .build()
         );
@@ -178,8 +178,8 @@ public class StatsGui extends ScrollableGui {
             int bonusValue = rpgPlayer.getStats().getBonusStat(stat);
             int totalValue = currentValue + bonusValue;
 
-            ItemBuilder builder = ItemBuilder.of(stat.getIcon(), getViewerLocale())
-                    .displayNameTranslated("stat." + stat.getId() + ".name")
+            ItemBuilder builder = new ItemBuilder(stat.getIcon())
+                    .displayName(LangManager.getComponent("stat." + stat.getId() + ".name", getViewerLocale()))
                     .addLore(Component.empty());
 
             // 현재 스탯
@@ -198,7 +198,7 @@ public class StatsGui extends ScrollableGui {
             description.forEach(builder::addLore);
 
             builder.addLore(Component.empty())
-                    .addLoreTranslated("gui.stats.click-to-add")
+                    .addLore(LangManager.getComponent("gui.stats.click-to-add", getViewerLocale()))
                     .flags(ItemFlag.values());
 
             GuiItem statItem = GuiItem.of(builder.build())

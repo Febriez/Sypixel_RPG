@@ -115,7 +115,7 @@ public class QuestRewardGui extends BaseGui {
      */
     private void setupDecorations() {
         // 마지막 줄을 유리판으로 채우기
-        ItemStack glassPaneItem = ItemBuilder.of(Material.GRAY_STAINED_GLASS_PANE, viewer.locale())
+        ItemStack glassPaneItem = ItemBuilder.of(Material.GRAY_STAINED_GLASS_PANE)
                 .displayName(Component.empty())
                 .hideAllFlags()
                 .build();
@@ -150,7 +150,7 @@ public class QuestRewardGui extends BaseGui {
             if (questManager.hasReceivedAllRewards(viewer.getUniqueId(), instanceId)) {
                 hasClaimed = true;
                 // 보상을 이미 받은 경우 안내 메시지
-                ItemStack alreadyClaimedDisplay = ItemBuilder.of(Material.BARRIER, viewer.locale())
+                ItemStack alreadyClaimedDisplay = ItemBuilder.of(Material.BARRIER)
                         .displayNameTranslated("items.quest.reward.already-claimed.name")
                         .addLoreTranslated("items.quest.reward.already-claimed.lore")
                         .hideAllFlags()
@@ -185,7 +185,7 @@ public class QuestRewardGui extends BaseGui {
             // 이미 수령한 아이템인지 확인
             if (completedData != null && completedData.isItemClaimed(currentItemIndex)) {
                 // 이미 수령한 아이템 표시
-                ItemStack claimedDisplay = ItemBuilder.of(Material.GRAY_STAINED_GLASS_PANE, viewer.locale())
+                ItemStack claimedDisplay = ItemBuilder.of(Material.GRAY_STAINED_GLASS_PANE)
                         .displayNameTranslated("items.quest.reward.claimed.name")
                         .hideAllFlags()
                         .build();
@@ -250,7 +250,7 @@ public class QuestRewardGui extends BaseGui {
         
         // 보상 아이템이 없는 경우 안내 메시지
         if (rewards.isEmpty()) {
-            ItemStack noItemsDisplay = ItemBuilder.of(Material.BARRIER, viewer.locale())
+            ItemStack noItemsDisplay = ItemBuilder.of(Material.BARRIER)
                     .displayNameTranslated("items.quest.reward.no-items.name")
                     .addLoreTranslated("items.quest.reward.no-items.lore")
                     .hideAllFlags()
@@ -264,7 +264,7 @@ public class QuestRewardGui extends BaseGui {
      */
     private void setupButtons() {
         // 보상 파괴 버튼
-        ItemBuilder destroyBuilder = ItemBuilder.of(Material.BARRIER, viewer.locale())
+        ItemBuilder destroyBuilder = ItemBuilder.of(Material.BARRIER)
                 .displayNameTranslated("items.quest.reward.destroy.name")
                 .addLore(Component.empty())
                 .addLoreTranslated("items.quest.reward.destroy.lore")
@@ -288,7 +288,7 @@ public class QuestRewardGui extends BaseGui {
         setItem(DESTROY_REWARD_SLOT, destroyButton);
         
         // 모두 받기 버튼
-        ItemBuilder claimAllBuilder = ItemBuilder.of(Material.EMERALD_BLOCK, viewer.locale())
+        ItemBuilder claimAllBuilder = ItemBuilder.of(Material.EMERALD_BLOCK)
                 .displayNameTranslated("items.quest.reward.claim-all.name")
                 .addLoreTranslated("items.quest.reward.claim-all.lore")
                 .hideAllFlags();

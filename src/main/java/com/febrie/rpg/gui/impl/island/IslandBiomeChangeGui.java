@@ -7,7 +7,6 @@ import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.SoundUtil;
-import com.febrie.rpg.util.StandardItemBuilder;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
@@ -141,16 +140,16 @@ public class IslandBiomeChangeGui extends BaseGui {
 
         boolean isCurrentBiome = currentBiome == biome;
 
-        ItemBuilder builder = ItemBuilder.of(material, getViewerLocale())
-                .displayNameTranslated(biomeKey + ".name")
+        ItemBuilder builder = new ItemBuilder(material)
+                .displayName(LangManager.getComponent(biomeKey + ".name", getViewerLocale()))
                 .addLore(Component.empty())
-                .addLoreTranslated(biomeKey + ".description")
+                .addLore(LangManager.getComponent(biomeKey + ".description", getViewerLocale()))
                 .addLore(Component.empty());
         
         if (isCurrentBiome) {
-            builder.addLoreTranslated("gui.island.biome.current");
+            builder.addLore(LangManager.getComponent("gui.island.biome.current", getViewerLocale()));
         } else {
-            builder.addLoreTranslated("gui.island.biome.click-to-change");
+            builder.addLore(LangManager.getComponent("gui.island.biome.click-to-change", getViewerLocale()));
         }
         
         return new GuiItem(builder.hideAllFlags().build()).onAnyClick(player -> {
@@ -229,12 +228,12 @@ public class IslandBiomeChangeGui extends BaseGui {
             currentBiomeName = Component.translatable(getBiomeKey(biome) + ".name");
         }
 
-        return new GuiItem(ItemBuilder.of(Material.COMPASS, getViewerLocale())
-                .displayNameTranslated("gui.island.biome.current-info")
+        return new GuiItem(new ItemBuilder(Material.COMPASS)
+                .displayName(LangManager.getComponent("gui.island.biome.current-info", getViewerLocale()))
                 .addLore(Component.empty())
                 .addLore(currentBiomeName)
                 .addLore(Component.empty())
-                .addLoreTranslated("gui.island.biome.current-info.lore")
+                .addLore(LangManager.getComponent("gui.island.biome.current-info.lore", getViewerLocale()))
                 .hideAllFlags()
                 .build());
     }
@@ -260,9 +259,9 @@ public class IslandBiomeChangeGui extends BaseGui {
 
 
     private GuiItem createBackButton() {
-        return new GuiItem(ItemBuilder.of(Material.ARROW, getViewerLocale())
-                .displayNameTranslated("gui.buttons.back.name")
-                .addLoreTranslated("gui.island.biome.back.lore")
+        return new GuiItem(new ItemBuilder(Material.ARROW)
+                .displayName(LangManager.getComponent("gui.buttons.back.name", getViewerLocale()))
+                .addLore(LangManager.getComponent("gui.island.biome.back.lore", getViewerLocale()))
                 .hideAllFlags()
                 .build()).onAnyClick(player -> {
             player.closeInventory();

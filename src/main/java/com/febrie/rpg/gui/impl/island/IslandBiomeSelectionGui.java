@@ -5,8 +5,8 @@ import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
-import com.febrie.rpg.util.StandardItemBuilder;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -100,11 +100,11 @@ public class IslandBiomeSelectionGui extends BaseGui {
         
         // 제목 아이템
         GuiItem titleItem = GuiItem.display(
-            ItemBuilder.of(Material.FILLED_MAP, getViewerLocale())
-                .displayNameTranslated("gui.island.biome-selection.info.title")
+            new ItemBuilder(Material.FILLED_MAP)
+                .displayName(LangManager.getComponent("gui.island.biome-selection.info.title", getViewerLocale()))
                 .addLore(Component.empty())
-                .addLoreTranslated("gui.island.biome-selection.info.lore1")
-                .addLoreTranslated("gui.island.biome-selection.info.lore2")
+                .addLore(LangManager.getComponent("gui.island.biome-selection.info.lore1", getViewerLocale()))
+                .addLore(LangManager.getComponent("gui.island.biome-selection.info.lore2", getViewerLocale()))
                 .addLore(Component.empty())
                 .hideAllFlags()
                 .build()
@@ -120,17 +120,17 @@ public class IslandBiomeSelectionGui extends BaseGui {
             BiomeOption biome = AVAILABLE_BIOMES.get(i);
             boolean isSelected = biome.id.equals(currentBiome);
             
-            ItemBuilder builder = ItemBuilder.of(biome.icon, getViewerLocale())
-                .displayNameTranslated(biome.biomeKey + ".name")
+            ItemBuilder builder = new ItemBuilder(biome.icon)
+                .displayName(LangManager.getComponent(biome.biomeKey + ".name", getViewerLocale()))
                 .addLore(Component.empty())
-                .addLoreTranslated(biome.biomeKey + ".description")
+                .addLore(LangManager.getComponent(biome.biomeKey + ".description", getViewerLocale()))
                 .addLore(Component.empty());
             
             if (isSelected) {
-                builder.addLoreTranslated("gui.island.biome-selection.current-selected");
+                builder.addLore(LangManager.getComponent("gui.island.biome-selection.current-selected", getViewerLocale()));
                 builder.glint(true);
             } else {
-                builder.addLoreTranslated("gui.island.biome-selection.click-to-select");
+                builder.addLore(LangManager.getComponent("gui.island.biome-selection.click-to-select", getViewerLocale()));
             }
             
             builder.addLore(Component.empty());
@@ -151,9 +151,9 @@ public class IslandBiomeSelectionGui extends BaseGui {
     
     private void setupBackButton() {
         GuiItem backButton = GuiItem.clickable(
-            ItemBuilder.of(Material.ARROW, getViewerLocale())
-                .displayNameTranslated("gui.buttons.back.name")
-                .addLoreTranslated("gui.island.biome-selection.back.lore")
+            new ItemBuilder(Material.ARROW)
+                .displayName(LangManager.getComponent("gui.buttons.back.name", getViewerLocale()))
+                .addLore(LangManager.getComponent("gui.island.biome-selection.back.lore", getViewerLocale()))
                 .hideAllFlags()
                 .build(),
             player -> {

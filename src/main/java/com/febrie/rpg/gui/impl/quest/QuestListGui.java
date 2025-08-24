@@ -133,7 +133,7 @@ public class QuestListGui extends BaseGui {
         var completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
 
         // 진행 중인 퀘스트 라벨
-        ItemBuilder activeBuilder = ItemBuilder.of(Material.ENCHANTED_BOOK, viewer.locale())
+        ItemBuilder activeBuilder = ItemBuilder.of(Material.ENCHANTED_BOOK)
                 .displayNameTranslated("items.quest.list.active.name")
                 .addLoreTranslated("items.quest.list.active.lore");
 
@@ -144,7 +144,7 @@ public class QuestListGui extends BaseGui {
         setItem(ACTIVE_LABEL_SLOT, activeLabel);
 
         // 완료된 퀘스트 라벨
-        ItemBuilder completedBuilder = ItemBuilder.of(Material.BOOK, viewer.locale())
+        ItemBuilder completedBuilder = ItemBuilder.of(Material.BOOK)
                 .displayNameTranslated("items.quest.list.completed.name")
                 .addLoreTranslated("items.quest.list.completed.lore");
 
@@ -224,7 +224,7 @@ public class QuestListGui extends BaseGui {
      * 진행 중인 퀘스트 아이템 생성
      */
     private GuiItem createActiveQuestItem(@NotNull Quest quest, @NotNull QuestProgress progress) {
-        ItemBuilder builder = ItemBuilder.of(Material.PAPER, viewer.locale())
+        ItemBuilder builder = ItemBuilder.of(Material.PAPER)
                 .displayName(quest.getDisplayName(viewer)
                         .color(UnifiedColorUtil.UNCOMMON)
                         .decoration(TextDecoration.ITALIC, false));
@@ -254,7 +254,7 @@ public class QuestListGui extends BaseGui {
      * 완료된 퀘스트 아이템 생성
      */
     private GuiItem createCompletedQuestItem(@NotNull Quest quest) {
-        ItemBuilder builder = ItemBuilder.of(Material.MAP, viewer.locale())
+        ItemBuilder builder = ItemBuilder.of(Material.MAP)
                 .displayName(quest.getDisplayName(viewer)
                         .color(UnifiedColorUtil.SUCCESS)
                         .decoration(TextDecoration.ITALIC, false));

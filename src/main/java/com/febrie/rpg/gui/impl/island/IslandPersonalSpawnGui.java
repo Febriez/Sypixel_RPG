@@ -97,7 +97,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
         } else if (isMember && spawnData.memberSpawns().containsKey(playerUuid)) {
             personalSpawn = spawnData.memberSpawns().get(playerUuid);
         }
-        ItemBuilder builder = ItemBuilder.of(Material.ENDER_EYE, viewer.locale())
+        ItemBuilder builder = ItemBuilder.of(Material.ENDER_EYE)
                 .displayNameTranslated("items.island.personal-spawn.info.name");
         
         if (personalSpawn != null) {
@@ -113,7 +113,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
     
     private GuiItem createSetPersonalSpawnItem() {
         return GuiItem.clickable(
-            ItemBuilder.of(Material.BEACON, viewer.locale())
+            ItemBuilder.of(Material.BEACON)
                 .displayNameTranslated("items.island.personal-spawn.set.name")
                 .addLore(Component.empty())
                 .addLoreTranslated("items.island.personal-spawn.set.lore1")
@@ -134,7 +134,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
             !spawnData.ownerSpawns().isEmpty() :
             spawnData.memberSpawns().containsKey(playerUuid);
         return GuiItem.clickable(
-            ItemBuilder.of(Material.ENDER_PEARL, viewer.locale())
+            ItemBuilder.of(Material.ENDER_PEARL)
                 .displayNameTranslated("items.island.personal-spawn.teleport.name")
                 .addLore(Component.empty())
                 .addLoreTranslated("items.island.personal-spawn.teleport.lore1")
@@ -157,7 +157,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
     
     private GuiItem createRemovePersonalSpawnItem() {
         return GuiItem.clickable(
-            ItemBuilder.of(Material.BARRIER, viewer.locale())
+            ItemBuilder.of(Material.BARRIER)
                 .displayNameTranslated("items.island.personal-spawn.remove.name")
                 .addLore(Component.empty())
                 .addLoreTranslated("items.island.personal-spawn.remove.lore1")
@@ -178,7 +178,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
                 .filter(m -> island.configuration().spawnData().memberSpawns().containsKey(m.uuid()))
                 .count();
         return GuiItem.clickable(
-            ItemBuilder.of(Material.COMMAND_BLOCK, viewer.locale())
+            ItemBuilder.of(Material.COMMAND_BLOCK)
                 .displayNameTranslated("items.island.personal-spawn.manage.name")
                 .addLore(Component.empty())
                 .addLoreTranslated("items.island.personal-spawn.manage.lore1")
@@ -196,7 +196,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
     
     private GuiItem createNoPermissionItem() {
         return new GuiItem(
-            ItemBuilder.of(Material.REDSTONE_BLOCK, viewer.locale())
+            ItemBuilder.of(Material.REDSTONE_BLOCK)
                 .displayNameTranslated("items.island.personal-spawn.no-permission.name")
                 .addLore(Component.empty())
                 .addLoreTranslated("items.island.personal-spawn.no-permission.lore1")
@@ -208,7 +208,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
     
     private GuiItem createBackButton() {
         return GuiItem.clickable(
-            ItemBuilder.of(Material.ARROW, viewer.locale())
+            ItemBuilder.of(Material.ARROW)
                 .displayNameTranslated("gui.common.back")
                 .addLoreTranslated("items.island.personal-spawn.back.lore")
                 .hideAllFlags()

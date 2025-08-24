@@ -10,7 +10,6 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.StandardItemBuilder;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -111,7 +110,7 @@ public class IslandPermissionGui extends BaseGui {
         
         boolean selected = role == selectedRole;
         
-        return ItemBuilder.of(material, viewer.locale())
+        return ItemBuilder.of(material)
                 .displayName(Component.text(IslandPermissionHandler.getRoleDisplayName(viewer.locale().getLanguage(), role),
                         selected ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.SECONDARY))
                 .addLore(Component.empty())
@@ -129,7 +128,7 @@ public class IslandPermissionGui extends BaseGui {
      * 선택된 역할 표시
      */
     private ItemStack createSelectedRoleItem() {
-        return ItemBuilder.of(Material.PAPER, viewer.locale())
+        return ItemBuilder.of(Material.PAPER)
                 .displayName(Component.translatable("gui.island.permission.current-editing")
                     .color(UnifiedColorUtil.WARNING)
                     .append(Component.text(": "))
@@ -174,7 +173,7 @@ public class IslandPermissionGui extends BaseGui {
         Material material = enabled ? Material.LIME_DYE : Material.GRAY_DYE;
         String displayName = IslandPermissionHandler.getPermissionDisplayName(viewer.locale().getLanguage(), permission);
         
-        ItemBuilder builder = ItemBuilder.of(material, viewer.locale())
+        ItemBuilder builder = ItemBuilder.of(material)
                 .displayName(Component.text(displayName, enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
                 .addLore(Component.empty())
                 .addLore(Component.translatable("gui.island.permission.status")
@@ -206,12 +205,13 @@ public class IslandPermissionGui extends BaseGui {
      * 저장 버튼
      */
     private ItemStack createSaveButton() {
-        return StandardItemBuilder.guiItem(Material.EMERALD_BLOCK)
+        return ItemBuilder.of(Material.EMERALD_BLOCK)
                 .displayName(UnifiedColorUtil.parseComponent("&a권한 설정 저장"))
                 .addLore(UnifiedColorUtil.parseComponent(""))
                 .addLore(UnifiedColorUtil.parseComponent("&7변경한 권한 설정을 저장합니다."))
                 .addLore(UnifiedColorUtil.parseComponent(""))
                 .addLore(UnifiedColorUtil.parseComponent("&e▶ 클릭하여 저장"))
+                .hideAllFlags()
                 .build();
     }
     
@@ -219,10 +219,11 @@ public class IslandPermissionGui extends BaseGui {
      * 뒤로 가기 버튼
      */
     private ItemStack createBackButton() {
-        return StandardItemBuilder.guiItem(Material.ARROW)
+        return ItemBuilder.of(Material.ARROW)
                 .displayName(UnifiedColorUtil.parseComponent("&f뒤로 가기"))
                 .addLore(UnifiedColorUtil.parseComponent(""))
                 .addLore(UnifiedColorUtil.parseComponent("&7메인 메뉴로 돌아갑니다."))
+                .hideAllFlags()
                 .build();
     }
     
@@ -230,10 +231,11 @@ public class IslandPermissionGui extends BaseGui {
      * 닫기 버튼
      */
     private ItemStack createCloseButton() {
-        return StandardItemBuilder.guiItem(Material.BARRIER)
+        return ItemBuilder.of(Material.BARRIER)
                 .displayName(UnifiedColorUtil.parseComponent("&c닫기"))
                 .addLore(UnifiedColorUtil.parseComponent(""))
                 .addLore(UnifiedColorUtil.parseComponent("&7메뉴를 닫습니다."))
+                .hideAllFlags()
                 .build();
     }
     

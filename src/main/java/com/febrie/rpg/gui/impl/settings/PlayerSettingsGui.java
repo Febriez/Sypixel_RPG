@@ -83,7 +83,7 @@ public class PlayerSettingsGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                ItemBuilder.of(Material.COMPARATOR, viewer.locale())
+                ItemBuilder.of(Material.COMPARATOR)
                         .displayNameTranslated("items.settings.main.title.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.settings.main.title.lore")
@@ -99,7 +99,7 @@ public class PlayerSettingsGui extends BaseGui {
     private void setupSettingButtons() {
         // GUI 설정
         GuiItem guiSettingsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.IRON_TRAPDOOR, viewer.locale())
+                ItemBuilder.of(Material.IRON_TRAPDOOR)
                         .displayNameTranslated("items.settings.gui.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.settings.gui.lore1")
@@ -118,7 +118,7 @@ public class PlayerSettingsGui extends BaseGui {
 
         // 인게임 설정
         GuiItem ingameSettingsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.GRASS_BLOCK, viewer.locale())
+                ItemBuilder.of(Material.GRASS_BLOCK)
                         .displayNameTranslated("items.settings.ingame.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.settings.ingame.lore1")
@@ -138,7 +138,7 @@ public class PlayerSettingsGui extends BaseGui {
 
         // 소셜 설정
         GuiItem socialSettingsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.PLAYER_HEAD, viewer.locale())
+                ItemBuilder.of(Material.PLAYER_HEAD)
                         .displayNameTranslated("items.settings.social.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.settings.social.lore1")
@@ -158,7 +158,7 @@ public class PlayerSettingsGui extends BaseGui {
 
         // 시스템 설정
         GuiItem systemSettingsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.REDSTONE_BLOCK, viewer.locale())
+                ItemBuilder.of(Material.REDSTONE_BLOCK)
                         .displayNameTranslated("items.settings.system.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.settings.system.lore1")
@@ -177,7 +177,7 @@ public class PlayerSettingsGui extends BaseGui {
 
         // 알림 설정
         GuiItem notificationSettingsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.BELL, viewer.locale())
+                ItemBuilder.of(Material.BELL)
                         .displayNameTranslated("items.settings.notification.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.settings.notification.lore1")

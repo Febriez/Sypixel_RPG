@@ -99,7 +99,7 @@ public class FriendListGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                ItemBuilder.of(Material.PLAYER_HEAD, viewer.locale())
+                ItemBuilder.of(Material.PLAYER_HEAD)
                         .displayNameTranslated("items.social.friends.title.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.social.friends.title.lore")
@@ -115,7 +115,7 @@ public class FriendListGui extends BaseGui {
     private void setupMenuButtons() {
         // 친구 요청 버튼
         GuiItem friendRequestsButton = GuiItem.clickable(
-                ItemBuilder.of(Material.WRITABLE_BOOK, viewer.locale())
+                ItemBuilder.of(Material.WRITABLE_BOOK)
                         .displayNameTranslated("items.social.friends.requests.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.social.friends.requests.lore")
@@ -133,7 +133,7 @@ public class FriendListGui extends BaseGui {
 
         // 친구 추가 버튼
         GuiItem addFriendButton = GuiItem.clickable(
-                ItemBuilder.of(Material.EMERALD, viewer.locale())
+                ItemBuilder.of(Material.EMERALD)
                         .displayNameTranslated("items.social.friends.add.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.social.friends.add.lore")
@@ -152,7 +152,7 @@ public class FriendListGui extends BaseGui {
 
         // 새로고침 버튼
         GuiItem refreshButton = GuiItem.clickable(
-                ItemBuilder.of(Material.CLOCK, viewer.locale())
+                ItemBuilder.of(Material.CLOCK)
                         .displayNameTranslated("items.social.friends.refresh.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.social.friends.refresh.lore")
@@ -193,7 +193,7 @@ public class FriendListGui extends BaseGui {
 
         // 로딩 표시
         setItem(FRIENDS_START_SLOT + 12, GuiItem.display(
-                ItemBuilder.of(Material.HOPPER, viewer.locale())
+                ItemBuilder.of(Material.HOPPER)
                         .displayNameTranslated("items.loading.name")
                         .hideAllFlags()
                         .build()
@@ -219,7 +219,7 @@ public class FriendListGui extends BaseGui {
         if (friends.isEmpty()) {
             // 친구가 없을 때
             setItem(FRIENDS_START_SLOT + 12, GuiItem.display(
-                    ItemBuilder.of(Material.BARRIER, viewer.locale())
+                    ItemBuilder.of(Material.BARRIER)
                             .displayNameTranslated("items.social.friends.no-friends.name")
                             .addLoreTranslated("items.social.friends.no-friends.lore")
                             .hideAllFlags()
@@ -256,7 +256,7 @@ public class FriendListGui extends BaseGui {
             Component statusText = Component.translatable(isOnline ? "status.online" : "status.offline");
 
             GuiItem friendItem = GuiItem.clickable(
-                    ItemBuilder.of(material, viewer.locale())
+                    ItemBuilder.of(material)
                             .displayName(Component.text(friendName, 
                                     isOnline ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.GRAY)
                                     .decoration(TextDecoration.BOLD, true))

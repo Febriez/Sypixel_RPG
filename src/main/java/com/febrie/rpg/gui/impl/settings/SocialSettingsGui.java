@@ -83,7 +83,7 @@ public class SocialSettingsGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                ItemBuilder.of(Material.PLAYER_HEAD, viewer.locale())
+                ItemBuilder.of(Material.PLAYER_HEAD)
                         .displayNameTranslated("items.settings.social-settings.title.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.settings.social-settings.title.lore")
@@ -140,7 +140,7 @@ public class SocialSettingsGui extends BaseGui {
         boolean enabled = settings.isFriendRequestsEnabled();
         
         GuiItem friendRequestsToggle = GuiItem.clickable(
-                ItemBuilder.of(enabled ? Material.EMERALD : Material.REDSTONE, viewer.locale())
+                ItemBuilder.of(enabled ? Material.EMERALD : Material.REDSTONE)
                         .displayNameTranslated("items.settings.social-settings.friend-requests.name")
                         .addLore(Component.empty())
                         .addLore(LangManager.get("gui.social-settings.status", viewer,
@@ -172,7 +172,7 @@ public class SocialSettingsGui extends BaseGui {
         boolean enabled = settings.isGuildInvitesEnabled();
         
         GuiItem guildInvitesToggle = GuiItem.clickable(
-                ItemBuilder.of(enabled ? Material.GOLD_INGOT : Material.IRON_INGOT, viewer.locale())
+                ItemBuilder.of(enabled ? Material.GOLD_INGOT : Material.IRON_INGOT)
                         .displayNameTranslated("items.settings.social-settings.guild-invites.name")
                         .addLore(Component.empty())
                         .addLore(LangManager.get("gui.social-settings.status", viewer,
@@ -227,7 +227,7 @@ public class SocialSettingsGui extends BaseGui {
         };
         
         GuiItem whisperModeToggle = GuiItem.clickable(
-                ItemBuilder.of(material, viewer.locale())
+                ItemBuilder.of(material)
                         .displayNameTranslated("items.settings.social-settings.whisper.name")
                         .addLore(Component.empty())
                         .addLore(LangManager.get("gui.social-settings.current-mode", viewer, modeDisplay))

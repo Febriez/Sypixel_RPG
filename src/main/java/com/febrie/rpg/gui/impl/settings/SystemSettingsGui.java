@@ -81,7 +81,7 @@ public class SystemSettingsGui extends BaseGui {
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
-                ItemBuilder.of(Material.REDSTONE_BLOCK, viewer.locale())
+                ItemBuilder.of(Material.REDSTONE_BLOCK)
                         .displayNameTranslated("items.settings.system-settings.title.name")
                         .addLore(Component.empty())
                         .addLoreTranslated("items.settings.system-settings.title.lore")
@@ -122,7 +122,7 @@ public class SystemSettingsGui extends BaseGui {
         boolean enabled = settings.isConfirmationDialogsEnabled();
         
         GuiItem confirmationDialogsToggle = GuiItem.clickable(
-                ItemBuilder.of(enabled ? Material.WRITABLE_BOOK : Material.BOOK, viewer.locale())
+                ItemBuilder.of(enabled ? Material.WRITABLE_BOOK : Material.BOOK)
                         .displayNameTranslated("items.settings.system-settings.confirmation.name")
                         .addLore(Component.empty())
                         .addLore(LangManager.get("gui.system-settings.status", viewer, 
