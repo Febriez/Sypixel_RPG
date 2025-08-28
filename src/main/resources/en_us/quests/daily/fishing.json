@@ -1,0 +1,13 @@
+{
+  "name": "Daily Fishing",
+  "description": [
+    "Complete today's fishing objectives.",
+    "Provide fresh fish for the village market.",
+    "",
+    "Resets daily at midnight."
+  ],
+  "objectives": {
+    "catch_fish": "Catch 15 fish",
+    "catch_rare": "Catch a rare fish"
+  }
+}

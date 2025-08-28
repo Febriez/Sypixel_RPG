@@ -1,0 +1,31 @@
+{
+  "name": "Librarian's Mystery",
+  "description": [
+    "The town librarian has discovered strange",
+    "ancient texts that seem to reference a hidden",
+    "treasure vault beneath the library.",
+    "",
+    "Help solve the mystery of these cryptic writings",
+    "and uncover the secrets they contain."
+  ],
+  "objectives": {
+    "decipher_ancient_text": "Decipher the Ancient Text",
+    "find_hidden_passage": "Find the Hidden Passage",
+    "solve_library_puzzle": "Solve the Library Floor Puzzle",
+    "open_secret_vault": "Open the Secret Vault"
+  },
+  "npcs": {
+    "librarian": "Librarian Theodore",
+    "ancient_scholar": "Scholar Elias",
+    "vault_guardian": "Ethereal Guardian"
+  },
+  "dialogs": {
+    "start1": "Ah, perfect timing! I've made an incredible discovery.",
+    "start2": "These ancient texts speak of a vault hidden beneath our very feet.",
+    "start3": "Your adventuring skills combined with my knowledge could unlock this mystery.",
+    "progress1": "Fascinating! You're making excellent progress with the translation.",
+    "progress2": "The puzzle pieces are starting to come together beautifully.",
+    "complete1": "Remarkable! We've uncovered one of the library's greatest secrets.",
+    "complete2": "This discovery will advance our understanding of ancient knowledge significantly."
+  }
+}

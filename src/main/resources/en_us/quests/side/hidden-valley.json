@@ -1,0 +1,32 @@
+{
+  "name": "The Hidden Valley",
+  "description": [
+    "A mysterious valley concealed by ancient magic has been discovered,",
+    "containing rare flora and forgotten secrets.",
+    "",
+    "Navigate through the enchanted barriers and uncover",
+    "the mysteries that lie within this hidden sanctuary."
+  ],
+  "objectives": {
+    "find_valley_entrance": "Locate the Hidden Valley Entrance",
+    "break_magic_barriers": "Break Through 3 Magic Barriers",
+    "collect_rare_flowers": "Collect 10 Moonlight Blossoms",
+    "discover_ancient_shrine": "Discover the Ancient Nature Shrine",
+    "commune_with_spirits": "Commune with the Valley Spirits",
+    "restore_shrine_power": "Restore the Shrine's Natural Power"
+  },
+  "npcs": {
+    "forest_ranger": "Forest Ranger",
+    "valley_guardian": "Valley Guardian",
+    "nature_spirit": "Ancient Nature Spirit"
+  },
+  "dialogs": {
+    "start1": "I've heard tales of a hidden valley protected by ancient magic.",
+    "start2": "The entrance appears only to those pure of heart.",
+    "start3": "Will you help me find this legendary sanctuary?",
+    "progress1": "The magic barriers are weakening... we're getting closer!",
+    "progress2": "These flowers... they glow with otherworldly beauty.",
+    "complete1": "The valley's secrets are now in safe hands.",
+    "complete2": "Nature itself has blessed your noble quest."
+  }
+}

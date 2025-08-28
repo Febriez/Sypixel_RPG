@@ -1,0 +1,52 @@
+{
+  "name": "カオスストーム",
+  "description": [
+    "次元間の対立から生まれた破滅的な次元間嵐が",
+    "現実そのものの構造を引き裂こうと脅かしています。",
+    "",
+    "混沌のエネルギーを切り抜け、無秩序の君主と対決して",
+    "次元ネットワークのバランスを回復させましょう。"
+  ],
+  "objectives": {
+    "storm_prophet": "嵐の預言者と話す",
+    "chaos_epicenter": "カオスストームの震源地を特定する",
+    "chaos_fragments": "カオスの欠片を集める (30)",
+    "chaos_spawns": "カオススポーンを排除する (50)",
+    "storm_tracker": "ストームトラッカーを入手する",
+    "storm_eye": "嵐の目に入る",
+    "survive_storm": "嵐の中で生き抜く",
+    "storm_essence": "ストームエッセンスを集める (100)",
+    "stability_engineer": "次元エンジニアと話す",
+    "stabilizer_parts": "安定化部品を集める (20)",
+    "power_cores": "パワーコアを集める (15)",
+    "control_crystals": "制御クリスタルを入手する (10)",
+    "build_stabilizer": "安定化装置を建設する",
+    "inner_storm": "内部の嵐に入る",
+    "place_stabilizers": "安定化ビーコンを配置する (4)",
+    "chaos_elementals": "カオスエレメンタルを倒す (100)",
+    "chaos_guardians": "カオスガーディアンを倒す (10)",
+    "chaos_lord": "カオスロードと対峙する",
+    "chaos_lord_minions": "カオスロードの手下を倒す (50)",
+    "chaos_lord_battle": "カオスロードを倒す (5)",
+    "chaos_crown": "カオスの王冠を獲得する (3)",
+    "storm_core": "ストームコアに到達する",
+    "activate_stabilizers": "コア安定化装置を起動する (20)",
+    "stabilization_process": "安定化プロセスを生き抜く",
+    "stability_core": "安定性コアを入手する",
+    "storm_prophet_calm": "嵐の預言者に戻る",
+    "storm_control_staff": "ストーム制御杖を受け取る",
+    "dimensional_stabilizer": "次元安定化装置を受け取る"
+  },
+  "npcs": {
+    "chaos_storm_prophet": "カオスストーム預言者",
+    "dimensional_engineer": "次元エンジニア",
+    "chaos_lord": "カオスロード",
+    "stability_guardian": "安定性守護者"
+  },
+  "dialogs": {
+    "line1": "カオスストームがより強くなっている！止めなければ全次元を飲み込むだろう！",
+    "line2": "嵐に入り、この混沌を引き起こしている力と対決します。",
+    "line3": "秩序と混沌は永遠だ！私が代表するものを破壊することはできない！",
+    "line4": "嵐は静まった。次元ネットワークにバランスが回復した。"
+  }
+}

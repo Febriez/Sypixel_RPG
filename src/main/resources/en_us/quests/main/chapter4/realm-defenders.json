@@ -1,0 +1,58 @@
+{
+  "name": "Realm Defenders",
+  "description": [
+    "After repelling the void invasion, you must unite the guardians",
+    "of different realms to prevent future dimensional threats.",
+    "",
+    "Form a grand alliance with the elemental defenders and create",
+    "an unbreakable bond between all dimensions."
+  ],
+  "objectives": {
+    "alliance_emissary": "Speak with the Alliance Emissary",
+    "alliance_treaty": "Collect Alliance Treaties (5)",
+    "defender_council": "Visit the Realm Defender Council",
+    "fire_realm": "Enter the Fire Realm",
+    "fire_guardian": "Speak with the Fire Guardian",
+    "fire_trial": "Complete the Fire Trial (50)",
+    "fire_alliance_token": "Receive the Fire Alliance Token",
+    "ice_realm": "Enter the Ice Realm",
+    "ice_guardian": "Speak with the Ice Guardian",
+    "ice_trial": "Complete the Ice Trial (50)",
+    "ice_alliance_token": "Receive the Ice Alliance Token",
+    "earth_realm": "Enter the Earth Realm",
+    "earth_guardian": "Speak with the Earth Guardian",
+    "earth_trial": "Complete the Earth Trial (30)",
+    "earth_alliance_token": "Receive the Earth Alliance Token",
+    "wind_realm": "Enter the Wind Realm",
+    "wind_guardian": "Speak with the Wind Guardian",
+    "wind_trial": "Complete the Wind Trial (40)",
+    "wind_alliance_token": "Receive the Wind Alliance Token",
+    "ether_realm": "Enter the Ether Realm",
+    "ether_guardian": "Speak with the Ether Guardian",
+    "ether_trial": "Complete the Ether Trial (60)",
+    "ether_alliance_token": "Receive the Ether Alliance Token",
+    "alliance_ceremony": "Attend the Alliance Ceremony",
+    "place_tokens": "Place the Alliance Tokens (5)",
+    "alliance_leader": "Speak with the Supreme Guardian",
+    "alliance_ritual": "Survive the Alliance Ritual",
+    "combined_trial": "Complete the Combined Trial (10)",
+    "unity_crystal": "Collect Unity Crystals (5)",
+    "complete_alliance": "Complete the Alliance Formation",
+    "defender_badge": "Receive Defender Badges (5)",
+    "alliance_banner": "Receive the Alliance Banner"
+  },
+  "npcs": {
+    "alliance_emissary": "Alliance Emissary",
+    "fire_realm_guardian": "Fire Realm Guardian",
+    "ice_realm_guardian": "Ice Realm Guardian",
+    "earth_realm_guardian": "Earth Realm Guardian",
+    "wind_realm_guardian": "Wind Realm Guardian",
+    "ether_realm_guardian": "Ether Realm Guardian",
+    "supreme_guardian": "Supreme Guardian"
+  },
+  "dialogs": {
+    "line1": "The void invasion was just the beginning. We need allies from every realm.",
+    "line2": "I will unite the guardians. Together we can protect all dimensions.",
+    "line3": "The grand alliance is formed! All realms now stand as one against the darkness."
+  }
+}

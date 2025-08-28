@@ -1,0 +1,44 @@
+{
+  "name": "資源収集契約",
+  "description": [
+    "様々な組織のための資源収集契約を履行しましょう！",
+    "ギルド、商人、職人が必要とする材料を集めましょう。",
+    "",
+    "📦 収集の利益：",
+    "• 安定した収入源",
+    "• 稀少材料へのアクセス",
+    "• 向上した採集効率",
+    "• 商人評判ボーナス",
+    "• 優先資源アクセス権"
+  ],
+  "objectives": {
+    "accept_contract": "資源収集契約を受諾",
+    "identify_resources": "必要な資源を特定",
+    "gather_wood": "オーク原木100個を収集",
+    "mine_stone": "丸石ブロック200個を採掘",
+    "collect_metals": "鉄インゴット50個を収集",
+    "find_gems": "貴重な宝石10個を発見",
+    "harvest_crops": "小麦の束300個を収穫",
+    "hunt_materials": "革20個を狩猟",
+    "deep_mining": "稀少な深層地球材料を採掘",
+    "quality_check": "資源品質検査に合格",
+    "deliver_goods": "契約者に商品を配送",
+    "receive_payment": "契約報酬を受領",
+    "bonus_objectives": "ボーナス収集目標を完了",
+    "efficiency_rating": "高効率評価を達成",
+    "contract_renewal": "契約更新資格を獲得"
+  },
+  "npcs": {
+    "contract_manager": "契約管理者",
+    "resource_inspector": "資源品質検査官",
+    "guild_representative": "ギルド資源担当者"
+  },
+  "dialogs": {
+    "start": "緊急の資源収集契約があります。興味はありますか？",
+    "requirements": "契約書には正確な数量と品質基準が明記されています。",
+    "progress": "良い進捗です！効率的な収集作業を続けてください。",
+    "inspection": "これらの材料を検査させてください...品質は受け入れ可能です。",
+    "completion": "素晴らしい仕事です！あなたの効率性は将来の契約のために記録されました。",
+    "renewal": "あなたの実績に基づいて、プレミアム契約を提案します！"
+  }
+}

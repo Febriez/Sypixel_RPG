@@ -1,0 +1,70 @@
+{
+  "plains": {
+    "name": "Plains",
+    "description": "Wide and flat grassland terrain"
+  },
+  "forest": {
+    "name": "Forest",
+    "description": "Forest with various trees"
+  },
+  "desert": {
+    "name": "Desert",
+    "description": "Dry terrain covered with sand"
+  },
+  "jungle": {
+    "name": "Jungle",
+    "description": "Dense tropical jungle"
+  },
+  "taiga": {
+    "name": "Taiga",
+    "description": "Cold forest with coniferous trees"
+  },
+  "snowy_plains": {
+    "name": "Snowy Plains",
+    "description": "Cold plains covered with snow"
+  },
+  "savanna": {
+    "name": "Savanna",
+    "description": "Dry plains with acacia trees"
+  },
+  "swamp": {
+    "name": "Swamp",
+    "description": "Humid and dark swampland"
+  },
+  "mushroom_fields": {
+    "name": "Mushroom Fields",
+    "description": "Special terrain with giant mushrooms"
+  },
+  "beach": {
+    "name": "Beach",
+    "description": "Sandy coastline"
+  },
+  "flower_forest": {
+    "name": "Flower Forest",
+    "description": "Beautiful forest with various flowers"
+  },
+  "bamboo_jungle": {
+    "name": "Bamboo Jungle",
+    "description": "Jungle with dense bamboo"
+  },
+  "dark_forest": {
+    "name": "Dark Forest",
+    "description": "Dense forest with little light"
+  },
+  "birch_forest": {
+    "name": "Birch Forest",
+    "description": "Bright forest full of birch trees"
+  },
+  "badlands": {
+    "name": "Badlands",
+    "description": "Canyon terrain made of red clay"
+  },
+  "ocean": {
+    "name": "Ocean",
+    "description": "Deep blue ocean"
+  },
+  "cherry_grove": {
+    "name": "Cherry Grove",
+    "description": "Beautiful cherry blossom forest"
+  }
+}

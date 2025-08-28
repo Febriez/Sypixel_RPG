@@ -1,0 +1,47 @@
+{
+  "name": "Unleash the Rage",
+  "description": [
+    "Embrace the primal fury within and become",
+    "an unstoppable force of destruction.",
+    "",
+    "Master the art of controlled rage and",
+    "channel your inner beast in battle.",
+    "",
+    "Class Requirements:",
+    "• Level 30 or higher",
+    "• Warrior background preferred",
+    "• Strong will to control rage",
+    "",
+    "Trial Contents:",
+    "• Test of Inner Fury",
+    "• Test of Rage Control",
+    "• Test of Berserker Spirit",
+    "",
+    "Class Rewards:",
+    "• Berserker class advancement",
+    "• Rage mastery techniques",
+    "• Berserker war gear"
+  ],
+  "objectives": {
+    "seek_rage_master": "Seek the Rage Master in the Mountains",
+    "level_check": "Reach Level 30",
+    "fury_test": "Test of Inner Fury: Fight while enraged for 5 minutes",
+    "control_test": "Test of Rage Control: Maintain focus during rage",
+    "spirit_test": "Test of Berserker Spirit: Defeat 10 enemies in single rage",
+    "master_rage": "Master the Berserker Rage",
+    "receive_advancement": "Receive Berserker Advancement"
+  },
+  "npcs": {
+    "rage_master": "Rage Master",
+    "berserker_trainer": "Berserker Trainer",
+    "fury_guardian": "Fury Guardian"
+  },
+  "dialogs": {
+    "start": "The rage burns within you. Are you ready to unleash it?",
+    "requirements": "Rage without control is destruction. Control without rage is weakness.",
+    "fury_trial": "Let your fury guide you, but do not let it consume you.",
+    "control_trial": "True berserkers master their rage, they are not mastered by it.",
+    "spirit_trial": "In the heat of battle, your rage becomes your greatest ally.",
+    "complete": "The rage is yours to command. You are now a true berserker."
+  }
+}

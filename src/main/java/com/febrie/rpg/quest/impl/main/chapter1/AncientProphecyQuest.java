@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -24,23 +23,12 @@ import java.util.List;
  */
 public class AncientProphecyQuest extends Quest {
 
-    private static class AncientProphecyBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new AncientProphecyQuest(this);
-        }
-    }
-
     public AncientProphecyQuest() {
-        this(createBuilder());
-    }
-
-    private AncientProphecyQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     private static QuestBuilder createBuilder() {
-        return new AncientProphecyBuilder()
+        return new QuestBuilder()
                 .id(QuestID.MAIN_ANCIENT_PROPHECY)
                 .objectives(Arrays.asList(
                         new VisitLocationObjective("visit_elder", "ancient_temple"),
@@ -69,23 +57,47 @@ public class AncientProphecyQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.main.ancient_prophecy.info") manually */;
+        return Arrays.asList(
+                Component.translatable("quest.main.ancient-prophecy.description.0"),
+                Component.translatable("quest.main.ancient-prophecy.description.1"),
+                Component.translatable("quest.main.ancient-prophecy.description.2")
+        );
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return Component.translatable("quest.main.ancient_prophecy.objectives.");
+        return Component.translatable("quest.main.ancient-prophecy.objectives." + id);
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("ancient_prophecy_dialog");
-
-        dialog.addLine("quest.ancient_prophecy.npcs.elder", "quest.ancient_prophecy.dialogs.line1");
-        dialog.addLine("quest.ancient_prophecy.npcs.elder", "quest.ancient_prophecy.dialogs.line2");
-        dialog.addLine("quest.dialog.player", "quest.ancient_prophecy.dialogs.player_line1");
-        dialog.addLine("quest.ancient_prophecy.npcs.elder", "quest.ancient_prophecy.dialogs.line3");
-
-        return dialog;
+    @Override
+    public int getDialogCount() {
+        return 4;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.main.ancient-prophecy.dialogs.0");
+            case 1 -> Component.translatable("quest.main.ancient-prophecy.dialogs.1");
+            case 2 -> Component.translatable("quest.main.ancient-prophecy.dialogs.2");
+            case 3 -> Component.translatable("quest.main.ancient-prophecy.dialogs.3");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.main.ancient-prophecy.npc-name");
+    }
+    
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.ancient-prophecy.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.ancient-prophecy.decline");
     }
 }

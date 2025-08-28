@@ -1,0 +1,41 @@
+{
+  "name": "Grace of the Divine",
+  "description": [
+    "The heavens have taken notice of your deeds,",
+    "and the divine realm offers its sacred blessing",
+    "to those deemed worthy of celestial favor.",
+    "",
+    "✨ Divine Blessing Benefits:",
+    "• Sacred protection from dark forces",
+    "• Celestial healing abilities",
+    "• Divine light manipulation",
+    "• Holy weapon empowerment",
+    "• Angelic companion summon"
+  ],
+  "objectives": {
+    "visit_sacred_shrine": "Visit the Sacred Shrine",
+    "purify_corrupted_altar": "Purify 5 Corrupted Altars",
+    "collect_holy_water": "Collect Holy Water from Sacred Spring",
+    "defeat_unholy_creatures": "Defeat 30 Unholy Creatures",
+    "offer_sacred_sacrifice": "Offer Sacred Sacrifice",
+    "channel_divine_energy": "Channel Divine Energy for 10 minutes",
+    "heal_wounded_pilgrims": "Heal 15 Wounded Pilgrims",
+    "receive_divine_blessing": "Receive the Divine Blessing"
+  },
+  "npcs": {
+    "high_priestess": "High Priestess",
+    "celestial_messenger": "Celestial Messenger",
+    "divine_oracle": "Divine Oracle",
+    "sacred_guardian": "Sacred Guardian"
+  },
+  "dialogs": {
+    "start1": "The divine light shines upon you, chosen one.",
+    "start2": "Your pure heart has caught the attention of the heavens.",
+    "start3": "Are you ready to receive the sacred blessing?",
+    "progress1": "The divine energy flows through you more strongly now.",
+    "progress2": "Your faith is being tested, but you remain steadfast.",
+    "progress3": "The celestial realm prepares to bestow its gift.",
+    "complete1": "You are now blessed by divine grace!",
+    "complete2": "May this sacred power guide you on your righteous path."
+  }
+}

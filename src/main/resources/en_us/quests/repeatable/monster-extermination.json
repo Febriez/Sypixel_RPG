@@ -1,0 +1,34 @@
+{
+  "name": "Monster Extermination Mission",
+  "description": [
+    "Exterminate monsters around the village",
+    "to protect the residents' safety.",
+    "",
+    "Can be repeated anytime.",
+    "",
+    "Objectives:",
+    "• Kill 30 zombies",
+    "• Kill 25 skeletons",
+    "• Kill 20 spiders",
+    "• Kill 15 creepers",
+    "• Collect and deliver 20 proof of extermination"
+  ],
+  "objectives": {
+    "guard_captain": "Talk to Guard Captain",
+    "kill_zombies": "Kill 30 zombies",
+    "kill_skeletons": "Kill 25 skeletons",
+    "kill_spiders": "Kill 20 spiders",
+    "kill_creepers": "Kill 15 creepers",
+    "collect_proof": "Collect 20 proof of extermination",
+    "deliver_proof": "Deliver proof to Guard Captain"
+  },
+  "npcs": {
+    "guard_captain": "Guard Captain"
+  },
+  "dialogs": {
+    "start": "Monsters are threatening the village. Will you help with the extermination?",
+    "monsters": "Zombies, skeletons, spiders, creepers... They're all dangerous.",
+    "proof": "Bring proof of extermination and I'll reward you.",
+    "complete": "Well done! The village is safer now."
+  }
+}

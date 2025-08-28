@@ -67,5 +67,63 @@
       "guild-invites-enabled": "Guild invitations enabled",
       "guild-invites-disabled": "Guild invitations disabled"
     }
+  },
+  "whisper": {
+    "disabled": "Whisper function is currently disabled.",
+    "no-reply-target": "No target to reply to. You need to send or receive a whisper first.",
+    "message-too-long": "Message is too long. Please keep it under 256 characters.",
+    "empty-message": "Cannot send an empty message.",
+    "last-target": "Last whisper target: {0}",
+    "reply": {
+      "usage": "Usage: /r <message>",
+      "hint": "You need to send or receive a whisper first."
+    },
+    "commands": {
+      "usage": "Usage: /whisper <player> <message>",
+      "example": "Example: /whisper Steve Hello!"
+    }
+  },
+  "mail": {
+    "player-not-found": "Player not found: {0}",
+    "cannot-send-to-self": "You cannot send mail to yourself.",
+    "attachments-not-supported": "Attachments are not currently supported.",
+    "recipient-mailbox-full": "{0}'s mailbox is full.",
+    "sent-successfully": "Mail sent successfully!",
+    "new-mail-notification": "You have new mail! (/mail)",
+    "send-error": "Error occurred while sending mail.",
+    "not-found": "Mail not found.",
+    "not-recipient": "You are not the recipient of this mail."
+  },
+  "friend": {
+    "player-not-found": "Player not found: {0}",
+    "cannot-add-self": "You cannot send a friend request to yourself.",
+    "already-friends": "You are already friends with {0}.",
+    "added-successfully": "You are now friends with {0}!",
+    "request-error": "Error occurred while sending friend request.",
+    "removed-successfully": "Friend removed.",
+    "removed-notification": "Your friendship with {0} has been removed.",
+    "remove-error": "Error occurred while removing friend.",
+    "requests-not-supported": "Friend requests are not currently supported.",
+    "not-friends": "You are not friends with {0}.",
+    "commands": {
+      "help": {
+        "title": "=== Friend Commands Help ===",
+        "list": "/friend list - Opens friend list GUI",
+        "add": "/friend add <player> [message] - Send friend request",
+        "remove": "/friend remove <player> - Remove friend",
+        "gui-note": "Accept/reject friend requests through the GUI."
+      },
+      "add": {
+        "usage": "Usage: /friend add <player> [message]",
+        "example": "Example: /friend add Steve Hello!"
+      },
+      "remove": {
+        "usage": "Usage: /friend remove <player>"
+      }
+    }
+  },
+  "commands": {
+    "player-only": "This command can only be used by players.",
+    "unknown": "Unknown command."
   }
 }

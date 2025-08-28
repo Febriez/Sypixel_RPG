@@ -1,0 +1,32 @@
+{
+  "name": "忘れられた神殿",
+  "description": [
+    "忘れられた神に捧げられた古代神殿が",
+    "ジャングルの奥深くで再発見されました。",
+    "",
+    "神殿の神聖な力を復活させ、",
+    "その中で眠る神の存在を目覚めさせてください。"
+  ],
+  "objectives": {
+    "locate_temple_ruins": "ジャングルで神殿の遺跡を見つける",
+    "clear_overgrown_vines": "神殿を覆う蔦を取り除く",
+    "light_sacred_braziers": "5つの聖なる火鉢に火を灯す",
+    "defeat_temple_guardians": "石造りの神殿守護者を倒す",
+    "restore_altar_power": "聖なる祭壇の力を復活させる",
+    "commune_with_deity": "忘れられた神と交流する"
+  },
+  "npcs": {
+    "temple_archaeologist": "神殿考古学者",
+    "ancient_priest": "古代司祭の霊",
+    "forgotten_deity": "忘れられた神"
+  },
+  "dialogs": {
+    "start1": "この神殿はこの地域の既知の文明よりも古いものです。",
+    "start2": "ここで崇拝されていた神は時の彼方に失われました。",
+    "start3": "おそらく私たちが一緒にその栄光を取り戻すことができるでしょう。",
+    "progress1": "火鉢が反応しています...神殿が蘇りつつあります！",
+    "progress2": "これらの石を通して古代の力が流れているのを感じます。",
+    "complete1": "神が目覚めて、あなたの努力を祝福しています！",
+    "complete2": "この神殿は再び希望の灯台として立つでしょう。"
+  }
+}

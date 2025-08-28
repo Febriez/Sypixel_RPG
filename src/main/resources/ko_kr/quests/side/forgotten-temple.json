@@ -1,0 +1,32 @@
+{
+  "name": "잊혀진 신전",
+  "description": [
+    "잊혀진 신에게 바쳐진 고대 신전이",
+    "정글 깊숙한 곳에서 재발견되었습니다.",
+    "",
+    "신전의 신성한 힘을 복원하고",
+    "그 안에 잠들어 있는 신성한 존재를 깨워내세요."
+  ],
+  "objectives": {
+    "locate_temple_ruins": "정글에서 신전 유적 발견",
+    "clear_overgrown_vines": "무성하게 자란 신전 덩굴 제거",
+    "light_sacred_braziers": "신성한 화로 5개 점화",
+    "defeat_temple_guardians": "석조 신전 수호자 처치",
+    "restore_altar_power": "신성한 제단의 힘 복원",
+    "commune_with_deity": "잊혀진 신과의 교감"
+  },
+  "npcs": {
+    "temple_archaeologist": "신전 고고학자",
+    "ancient_priest": "고대 사제의 유령",
+    "forgotten_deity": "잊혀진 신"
+  },
+  "dialogs": {
+    "start1": "이 신전은 이 지역의 알려진 어떤 문명보다도 오래된 것입니다.",
+    "start2": "여기서 숭배받던 신은 시간 속으로 사라졌습니다.",
+    "start3": "아마도 우리가 함께 그 옛 영광을 되찾을 수 있을 것입니다.",
+    "progress1": "화로들이 반응하고 있습니다... 신전이 되살아나고 있어요!",
+    "progress2": "이 돌들을 통해 고대의 힘이 흐르는 것을 느낄 수 있습니다.",
+    "complete1": "신이 깨어나서 당신의 노력을 축복하고 있습니다!",
+    "complete2": "이 신전은 다시 한번 희망의 등대가 될 것입니다."
+  }
+}

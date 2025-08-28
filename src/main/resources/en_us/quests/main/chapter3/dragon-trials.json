@@ -1,0 +1,47 @@
+{
+  "quest.main.dragon_trials.name": "Dragon Trials",
+  "quest.main.dragon_trials.description": "Complete the ancient dragon's trials to prove your worth",
+  "quest.main.dragon_trials.objectives": {
+    "ancient_dragon": "Speak with the Ancient Dragon",
+    "trial_arena": "Enter the Trial Arena",
+    "stone_guardians": "Defeat Stone Guardians (0/10)",
+    "lava_elementals": "Defeat Lava Elementals (0/20)",
+    "trial_champion": "Defeat the Trial Champion (0/3)",
+    "trial_token_strength": "Obtain the Token of Strength",
+    "wisdom_temple": "Visit the Wisdom Temple",
+    "ancient_books": "Collect Ancient Books (0/10)",
+    "wisdom_keeper": "Speak with the Wisdom Keeper",
+    "puzzle_pieces": "Collect Puzzle Pieces (0/15)",
+    "solve_puzzle": "Solve the Ancient Puzzle",
+    "trial_token_wisdom": "Obtain the Token of Wisdom",
+    "void_realm": "Enter the Void Realm",
+    "survive_void": "Survive in the Void (0/5 minutes)",
+    "void_creatures": "Defeat Void Creatures (0/30)",
+    "void_guards": "Defeat Void Guards (0/50)",
+    "void_essence": "Collect Void Essence (0/20)",
+    "trial_token_courage": "Obtain the Token of Courage",
+    "sacrifice_gold": "Sacrifice Gold Blocks (0/30)",
+    "sacrifice_diamonds": "Sacrifice Diamond Blocks (0/20)",
+    "sacrifice_emeralds": "Sacrifice Emerald Blocks (0/10)",
+    "trial_token_sacrifice": "Obtain the Token of Sacrifice",
+    "dragon_sanctum": "Enter the Dragon Sanctum",
+    "place_tokens": "Place the Four Tokens",
+    "dragon_avatar": "Defeat Dragon Avatars (0/50)",
+    "elder_dragon": "Defeat Elder Dragons (0/5)",
+    "final_trial": "Survive the Final Trial (0/10 minutes)",
+    "ancient_dragon_final": "Return to the Ancient Dragon",
+    "dragon_blessing": "Receive the Dragon's Blessing",
+    "dragon_scale_armor": "Obtain Dragon Scale Armor"
+  },
+  "quest.main_dragon_trials.dialogs": {
+    "line1": "You have awakened me, but are you truly worthy?",
+    "line2": "I am ready to prove myself.",
+    "line3": "Then face my trials. Each will test a different aspect of your character.",
+    "line4": "Your wisdom exceeds your years, mortal.",
+    "line5": "You have proven yourself worthy. Accept my blessing and become my champion."
+  },
+  "quest.main_dragon_trials.npcs": {
+    "ancient_dragon": "Ancient Dragon",
+    "wisdom_keeper": "Wisdom Keeper"
+  }
+}

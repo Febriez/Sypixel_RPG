@@ -1,0 +1,30 @@
+{
+  "name": "Light Paladin",
+  "description": [
+    "The Order of Light Paladins represents",
+    "the purest form of divine warriors.",
+    "",
+    "Join their ranks and become a beacon",
+    "of hope in the darkest of times."
+  ],
+  "objectives": {
+    "meet_light_order": "Meet with the Order of Light",
+    "complete_trials_of_light": "Complete the Trials of Light",
+    "receive_light_blessing": "Receive the Blessing of Eternal Light",
+    "join_light_paladins": "Join the Light Paladin Order"
+  ],
+  "npcs": {
+    "light_commander": "Commander of Light",
+    "divine_avatar": "Avatar of Divine Light",
+    "light_knight": "Knight of Light"
+  },
+  "dialogs": {
+    "start1": "The Light has chosen you, noble warrior.",
+    "start2": "Few are called to join our sacred order.",
+    "start3": "Will you answer the call and serve the Light?",
+    "progress1": "The Light grows stronger within you.",
+    "progress2": "You exemplify the virtues we hold sacred.",
+    "complete1": "Welcome, brother/sister, to the Order of Light Paladins!",
+    "complete2": "May the eternal light guide your path always."
+  }
+}

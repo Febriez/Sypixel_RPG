@@ -1,0 +1,46 @@
+{
+  "name": "Embrace the Shadows",
+  "description": [
+    "Walk the path of shadows and master the",
+    "ancient arts of stealth and deception.",
+    "",
+    "Learn from the legendary shadow masters",
+    "and become one with the darkness itself.",
+    "",
+    "Class Requirements:",
+    "• Level 25 or higher",
+    "• Stealth expertise required",
+    "",
+    "Trial Contents:",
+    "• Test of Stealth",
+    "• Test of Cunning",
+    "• Test of Shadow Mastery",
+    "",
+    "Class Rewards:",
+    "• Rogue class advancement",
+    "• Shadow manipulation techniques",
+    "• Legendary assassin tools"
+  ],
+  "objectives": {
+    "find_shadow_master": "Find the Shadow Master",
+    "level_check": "Reach Level 25",
+    "stealth_test": "Test of Stealth: Remain undetected for 10 minutes",
+    "cunning_test": "Test of Cunning: Steal 3 items without being caught",
+    "shadow_test": "Test of Shadow Mastery: Defeat enemies using only shadows",
+    "final_trial": "Pass the Shadow Trial",
+    "receive_advancement": "Receive Rogue Advancement"
+  },
+  "npcs": {
+    "shadow_master": "Shadow Master",
+    "stealth_trainer": "Stealth Trainer",
+    "shadow_weaver": "Shadow Weaver"
+  },
+  "dialogs": {
+    "start": "The shadows call to you. Are you ready to answer?",
+    "requirements": "To walk with shadows, you must first become one with darkness.",
+    "stealth_trial": "True stealth is not just hiding, but becoming invisible to all senses.",
+    "cunning_trial": "A rogue's greatest weapon is their mind, not their blade.",
+    "shadow_trial": "The shadows themselves must bend to your will.",
+    "complete": "Excellent. You have become one with the shadows."
+  }
+}

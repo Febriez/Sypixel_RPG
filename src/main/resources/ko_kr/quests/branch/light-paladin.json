@@ -1,0 +1,33 @@
+{
+  "name": "빛의 성기사",
+  "description": [
+    "성기사의 길 중에서도 가장 순수한 빛의 힘을",
+    "다루는 특별한 길로 나아가는 선택입니다.",
+    "",
+    "빛의 성기사가 되어 어둠과 싸우며",
+    "세상에 희망을 가져다주세요."
+  ],
+  "objectives": {
+    "embrace_light_path": "빛의 길 수용",
+    "purify_corrupted_artifacts": "오염된 유물 7개 정화",
+    "master_light_magic": "빛 마법 완전 습득",
+    "establish_light_shrine": "빛의 성소 건립",
+    "train_light_disciples": "빛의 제자 5명 훈련",
+    "become_light_champion": "빛의 챔피언 등극"
+  },
+  "npcs": {
+    "light_master": "빛의 대가",
+    "celestial_being": "천상의 존재",
+    "light_disciple": "빛의 제자",
+    "divine_messenger": "신성한 전령"
+  },
+  "dialogs": {
+    "start1": "빛의 성기사는 가장 순수한 길입니다.",
+    "start2": "이 길을 택하면 큰 책임이 따릅니다.",
+    "start3": "하지만 그만큼 큰 힘과 영광도 얻게 될 것입니다.",
+    "progress1": "빛의 힘이 당신 안에서 강해지고 있습니다.",
+    "progress2": "당신의 존재 자체가 희망의 등불이 되고 있어요.",
+    "complete1": "빛의 성기사의 길을 완성했습니다!",
+    "complete2": "이제 당신은 어둠을 몰아내는 진정한 빛의 전사입니다."
+  }
+}

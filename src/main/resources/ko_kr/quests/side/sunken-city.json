@@ -1,0 +1,32 @@
+{
+  "name": "침몰한 도시",
+  "description": [
+    "깊은 바다의 후퇴하는 물에 의해",
+    "고대 해저 도시의 유적이 드러났습니다.",
+    "",
+    "깊은 곳으로 잠수하여 이 잃어버린",
+    "수중 문명의 신비를 탐험해보세요."
+  ],
+  "objectives": {
+    "acquire_diving_equipment": "심해 잠수 장비 획득",
+    "descend_to_ruins": "침몰한 도시 유적으로 하강",
+    "explore_palace_remains": "수중 궁전 유적 탐험",
+    "collect_ancient_pearls": "고대 바다 진주 8개 수집",
+    "defeat_sea_guardians": "타락한 바다 수호자 처치",
+    "recover_lost_artifacts": "잃어버린 아틀란티스 유물 회수"
+  },
+  "npcs": {
+    "marine_archaeologist": "해양 고고학자",
+    "sea_spirit": "고대 바다 정령",
+    "pearl_diver": "진주 잠수부 대가"
+  },
+  "dialogs": {
+    "start1": "전설에서는 파도 아래 거대한 도시에 대해 말합니다.",
+    "start2": "이제 조수가 오랫동안 숨겨진 것을 드러냈습니다.",
+    "start3": "이 수중 경이로운 곳을 탐험하는 데 함께하세요!",
+    "progress1": "건축물이 숨이 멎을 정도로 아름답습니다... 심지어 물속에서도.",
+    "progress2": "이 진주들은 여전히 고대 마법으로 빛나고 있어요!",
+    "complete1": "우리는 수천 년 동안 잃어버린 보물을 되찾았습니다!",
+    "complete2": "침몰한 도시의 비밀이 역사책을 다시 쓸 것입니다."
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Final Battle",
+  "description": [
+    "The moment of ultimate destiny has arrived.",
+    "Light and darkness clash in the most epic confrontation",
+    "",
+    "Lead the combined forces of all realms into the decisive battle",
+    "that will determine the fate of existence itself."
+  ],
+  "objectives": {
+    "assemble_army": "Assemble the Final Army",
+    "march_to_destiny": "March to the Battlefield of Destiny",
+    "face_dark_lord": "Confront the Dark Overlord",
+    "break_dark_shield": "Break the Shield of Darkness",
+    "defeat_generals": "Defeat the Dark Generals",
+    "destroy_towers": "Destroy the Towers of Doom",
+    "final_confrontation": "Face the Ultimate Evil",
+    "unleash_light": "Unleash the Power of Light",
+    "seal_darkness": "Seal the Source of Darkness",
+    "victory_celebration": "Celebrate the Victory of Light",
+    "restore_balance": "Restore Cosmic Balance",
+    "new_dawn": "Witness the New Dawn"
+  },
+  "npcs": {
+    "army_general": "Supreme General of Light",
+    "dark_overlord": "Dark Overlord of All Evil",
+    "light_avatar": "Avatar of Pure Light",
+    "cosmic_guardian": "Guardian of Cosmic Balance"
+  },
+  "dialogs": {
+    "line1": "This is it, the final battle between light and darkness. Are you ready?",
+    "line2": "I have prepared my whole life for this moment. Let us end this war!",
+    "line3": "You think your pitiful light can defeat the eternal darkness? Impossible!",
+    "line4": "The darkness is sealed! Light has triumphed over all evil!",
+    "line5": "A new age of peace and light begins. We have saved all existence."
+  }
+}

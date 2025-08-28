@@ -1,0 +1,27 @@
+{
+  "name": "Daily Arena Champion",
+  "description": [
+    "Prove your combat prowess in the gladiatorial arena.",
+    "Fight through increasingly difficult matches to claim victory.",
+    "Earn the title of daily champion and valuable rewards.",
+    "",
+    "Resets daily at midnight."
+  ],
+  "objectives": {
+    "arena_master": "Register with the gladiator master",
+    "entry_fee": "Pay the 1000 gold entry fee",
+    "rookie_matches": "Win 5 rookie arena matches",
+    "veteran_matches": "Win 3 veteran arena matches",
+    "champion_match": "Win the champion arena match",
+    "victory_trophy": "Claim your victory trophy",
+    "claim_title": "Claim the daily champion title"
+  },
+  "dialogs": {
+    "start1": "Welcome to the arena, warrior. Do you have what it takes to become today's champion?",
+    "player_accept": "I'm ready to prove myself in combat and claim victory.",
+    "complete1": "Magnificent! You have earned the title of arena champion. Your skill is unmatched today."
+  },
+  "npcs": {
+    "gladiator_master": "Gladiator Master Maximus"
+  }
+}

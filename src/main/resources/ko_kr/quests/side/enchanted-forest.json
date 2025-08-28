@@ -1,0 +1,32 @@
+{
+  "name": "마법에 걸린 숲",
+  "description": [
+    "강력한 마법에 물든 숲이",
+    "타락과 쇠퇴의 징후를 보이기 시작했습니다.",
+    "",
+    "자연의 균형을 되찾고 숲의 존재를 위협하는",
+    "어둠의 마법으로부터 숲을 정화하세요."
+  ],
+  "objectives": {
+    "enter_corrupted_forest": "타락한 마법의 숲 진입",
+    "find_corruption_source": "어둠의 타락 근원지 발견",
+    "purify_tainted_springs": "오염된 숲의 샘 4곳 정화",
+    "defeat_shadow_beasts": "타락한 그림자 야수 25마리 처치",
+    "restore_world_tree": "고대 세계수 복원",
+    "commune_with_dryads": "숲의 드라이어드들과 교감"
+  },
+  "npcs": {
+    "forest_druid": "숲의 장로 드루이드",
+    "dryad_queen": "드라이어드 여왕",
+    "nature_guardian": "고대 자연 수호자"
+  },
+  "dialogs": {
+    "start1": "숲이 고통스럽게 울부짖고 있습니다... 무언가가 그 심장을 독살했어요.",
+    "start2": "어둠의 마법이 신성한 숲을 통해 질병처럼 퍼지고 있습니다.",
+    "start3": "샘들을 정화해야만 남아있는 것을 구할 수 있습니다.",
+    "progress1": "타락이 약해지고 있습니다... 자연이 반격하고 있어요!",
+    "progress2": "정화되는 각 샘마다 숲의 감사함을 느낄 수 있습니다.",
+    "complete1": "세계수가 다시 한번 생명으로 꽃피웠습니다!",
+    "complete2": "마법의 영역에 균형이 되돌아왔습니다."
+  }
+}

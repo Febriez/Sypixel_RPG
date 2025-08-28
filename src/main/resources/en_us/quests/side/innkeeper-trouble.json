@@ -1,0 +1,32 @@
+{
+  "name": "Innkeeper's Trouble",
+  "description": [
+    "The local inn has been plagued by mysterious",
+    "disturbances that are scaring away customers",
+    "and threatening the innkeeper's livelihood.",
+    "",
+    "Investigate the strange occurrences and help",
+    "restore peace to this important gathering place."
+  ],
+  "objectives": {
+    "investigate_disturbances": "Investigate Strange Disturbances",
+    "calm_restless_spirits": "Calm 6 Restless Spirits",
+    "repair_damaged_rooms": "Repair 4 Damaged Rooms",
+    "restore_inn_reputation": "Restore the Inn's Reputation"
+  },
+  "npcs": {
+    "innkeeper": "Innkeeper Margaret",
+    "scared_guest": "Frightened Guest Robert",
+    "local_priest": "Village Priest",
+    "inn_regular": "Regular Customer"
+  },
+  "dialogs": {
+    "start1": "Oh, thank heavens someone has come to help!",
+    "start2": "Strange things have been happening here - doors slamming, cold spots, eerie sounds.",
+    "start3": "My guests are too terrified to stay, and I'm losing everything I've worked for.",
+    "progress1": "You're so brave to face these supernatural disturbances.",
+    "progress2": "I can already feel the atmosphere in the inn beginning to change.",
+    "complete1": "You've saved my inn! The disturbances have completely stopped.",
+    "complete2": "Guests are returning, and business is better than ever. Thank you so much!"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "gold": {
+    "name": "Gold",
+    "description": "Basic currency."
+  },
+  "diamond": {
+    "name": "Diamond",
+    "description": "Rare gem currency."
+  },
+  "emerald": {
+    "name": "Emerald",
+    "description": "Trading gem currency."
+  },
+  "ghast_tear": {
+    "name": "Stardust",
+    "description": "Mystical magic currency."
+  },
+  "nether_star": {
+    "name": "Star",
+    "description": "Premium special currency."
+  },
+  "exp": {
+    "name": "Experience",
+    "description": "Experience points for leveling up."
+  }
+}

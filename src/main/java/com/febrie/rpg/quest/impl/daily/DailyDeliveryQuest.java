@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.builder.QuestBuilder;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -144,23 +143,38 @@ public class DailyDeliveryQuest extends Quest {
         return Component.translatable(key);
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("daily_delivery_dialog");
+    @Override
+    public int getDialogCount() {
+        return 8;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.daily.delivery.dialogs.0");
+            case 1 -> Component.translatable("quest.daily.delivery.dialogs.1");
+            case 2 -> Component.translatable("quest.daily.delivery.dialogs.2");
+            case 3 -> Component.translatable("quest.daily.delivery.dialogs.3");
+            case 4 -> Component.translatable("quest.daily.delivery.dialogs.4");
+            case 5 -> Component.translatable("quest.daily.delivery.dialogs.5");
+            case 6 -> Component.translatable("quest.daily.delivery.dialogs.6");
+            case 7 -> Component.translatable("quest.daily.delivery.dialogs.7");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.daily.delivery.npc-name");
+    }
 
-        // 시작 대화
-        dialog.addLine("quest.daily.delivery.npcs.delivery_master", "quest.daily.delivery.dialogs.start1");
-        dialog.addLine("quest.dialog.player", "quest.daily.delivery.dialogs.player_accept");
-        dialog.addLine("quest.daily.delivery.npcs.delivery_master", "quest.daily.delivery.dialogs.start2");
-
-        // 배달 중 대화
-        dialog.addLine("quest.daily.delivery.npcs.baker", "quest.daily.delivery.dialogs.baker_thanks");
-        dialog.addLine("quest.daily.delivery.npcs.pharmacist", "quest.daily.delivery.dialogs.pharmacist_thanks");
-        dialog.addLine("quest.daily.delivery.npcs.guard_captain", "quest.daily.delivery.dialogs.guard_thanks");
-
-        // 완료 대화
-        dialog.addLine("quest.daily.delivery.npcs.delivery_master", "quest.daily.delivery.dialogs.complete1");
-        dialog.addLine("quest.daily.delivery.npcs.delivery_master", "quest.daily.delivery.dialogs.complete2");
-
-        return dialog;
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.daily.delivery.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.daily.delivery.decline");
     }
 }

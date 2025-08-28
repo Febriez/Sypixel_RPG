@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -29,34 +28,17 @@ import java.util.List;
 public class GuardianAwakeningQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class GuardianAwakeningBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new GuardianAwakeningQuest(this);
-        }
-    }
-
-    /**
-     * 기본 생성자 - 퀘스트 설정
+     * 기본 생성자
      */
     public GuardianAwakeningQuest() {
-        this(createBuilder());
+        super(createBuilder());
     }
 
     /**
-     * 빌더 생성자
-     */
-    private GuardianAwakeningQuest(@NotNull QuestBuilder builder) {
-        super(builder);
-    }
-
-    /**
-     * 퀘스트 빌더 생성 및 설정
+     * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new GuardianAwakeningBuilder()
+        return new QuestBuilder()
                 .id(QuestID.MAIN_GUARDIAN_AWAKENING)
                 .objectives(Arrays.asList(
                         // 고대 서적 발견
@@ -128,18 +110,38 @@ public class GuardianAwakeningQuest extends Quest {
         return Component.translatable("quest.main.guardian_awakening.objectives.");
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("guardian_awakening_dialog");
+    @Override
+    public int getDialogCount() {
+        return 8;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.main.guardian-awakening.dialogs.0");
+            case 1 -> Component.translatable("quest.main.guardian-awakening.dialogs.1");
+            case 2 -> Component.translatable("quest.main.guardian-awakening.dialogs.2");
+            case 3 -> Component.translatable("quest.main.guardian-awakening.dialogs.3");
+            case 4 -> Component.translatable("quest.main.guardian-awakening.dialogs.4");
+            case 5 -> Component.translatable("quest.main.guardian-awakening.dialogs.5");
+            case 6 -> Component.translatable("quest.main.guardian-awakening.dialogs.6");
+            case 7 -> Component.translatable("quest.main.guardian-awakening.dialogs.7");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.main.guardian-awakening.npc-name");
+    }
 
-        dialog.addLine("quest.guardian_awakening.npcs.ancient_scholar", "quest.guardian_awakening.dialogs.line1");
-        dialog.addLine("quest.guardian_awakening.npcs.ancient_scholar", "quest.guardian_awakening.dialogs.line2");
-        dialog.addLine("quest.dialog.player", "quest.guardian_awakening.dialogs.player_line1");
-        dialog.addLine("quest.guardian_awakening.npcs.ancient_scholar", "quest.guardian_awakening.dialogs.line3");
-        dialog.addLine("quest.guardian_awakening.npcs.sleeping_guardian", "quest.guardian_awakening.dialogs.line4");
-        dialog.addLine("quest.guardian_awakening.npcs.awakened_guardian", "quest.guardian_awakening.dialogs.line5");
-        dialog.addLine("quest.guardian_awakening.npcs.awakened_guardian", "quest.guardian_awakening.dialogs.line6");
-        dialog.addLine("quest.guardian_awakening.npcs.awakened_guardian", "quest.guardian_awakening.dialogs.line7");
-
-        return dialog;
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.guardian-awakening.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.guardian-awakening.decline");
     }
 }

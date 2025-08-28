@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.CraftItemObjective;
@@ -31,34 +30,17 @@ import java.util.List;
 public class HeroesJourneyQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class HeroesJourneyBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new HeroesJourneyQuest(this);
-        }
-    }
-
-    /**
-     * 기본 생성자 - 퀘스트 설정
+     * 기본 생성자
      */
     public HeroesJourneyQuest() {
-        this(createBuilder());
+        super(createBuilder());
     }
 
     /**
-     * 빌더 생성자
-     */
-    private HeroesJourneyQuest(@NotNull QuestBuilder builder) {
-        super(builder);
-    }
-
-    /**
-     * 퀘스트 빌더 생성 및 설정
+     * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new HeroesJourneyBuilder()
+        return new QuestBuilder()
                 .id(QuestID.MAIN_HEROES_JOURNEY)
                 .objectives(Arrays.asList(
                         // 1. 다양한 몬스터 처치
@@ -91,12 +73,17 @@ public class HeroesJourneyQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.main.heroes_journey.name");
+        return Component.translatable("quest.main.heroes-journey.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.main.heroes_journey.description") manually */;
+        return Arrays.asList(
+                Component.translatable("quest.main.heroes-journey.description.0"),
+                Component.translatable("quest.main.heroes-journey.description.1"),
+                Component.translatable("quest.main.heroes-journey.description.2"),
+                Component.translatable("quest.main.heroes-journey.description.3")
+        );
     }
 
     @Override
@@ -104,32 +91,45 @@ public class HeroesJourneyQuest extends Quest {
         String id = objective.getId();
 
         return switch (id) {
-            case "kill_zombies" -> Component.translatable("quest.main.heroes_journey.objectives.kill_zombies");
-            case "kill_skeletons" -> Component.translatable("quest.main.heroes_journey.objectives.kill_skeletons");
-            case "kill_spiders" -> Component.translatable("quest.main.heroes_journey.objectives.kill_spiders");
-            case "collect_iron" -> Component.translatable("quest.main.heroes_journey.objectives.collect_iron");
-            case "collect_gold" -> Component.translatable("quest.main.heroes_journey.objectives.collect_gold");
-            case "craft_iron_sword" -> Component.translatable("quest.main.heroes_journey.objectives.craft_iron_sword");
-            case "craft_iron_armor" -> Component.translatable("quest.main.heroes_journey.objectives.craft_iron_armor");
-            default -> Component.translatable("quest.main.heroes_journey.objectives." + id);
+            case "kill_zombies" -> Component.translatable("quest.main.heroes-journey.objectives.kill_zombies");
+            case "kill_skeletons" -> Component.translatable("quest.main.heroes-journey.objectives.kill_skeletons");
+            case "kill_spiders" -> Component.translatable("quest.main.heroes-journey.objectives.kill_spiders");
+            case "collect_iron" -> Component.translatable("quest.main.heroes-journey.objectives.collect_iron");
+            case "collect_gold" -> Component.translatable("quest.main.heroes-journey.objectives.collect_gold");
+            case "craft_iron_sword" -> Component.translatable("quest.main.heroes-journey.objectives.craft_iron_sword");
+            case "craft_iron_armor" -> Component.translatable("quest.main.heroes-journey.objectives.craft_iron_armor");
+            default -> Component.translatable("quest.main.heroes-journey.objectives." + id);
         };
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("heroes_journey_dialog");
+    @Override
+    public int getDialogCount() {
+        return 4;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.main.heroes-journey.dialogs.0");
+            case 1 -> Component.translatable("quest.main.heroes-journey.dialogs.1");
+            case 2 -> Component.translatable("quest.main.heroes-journey.dialogs.2");
+            case 3 -> Component.translatable("quest.main.heroes-journey.dialogs.3");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.main.heroes-journey.npc-name");
+    }
 
-        dialog.addLine("quest.main.heroes_journey.dialog.guild_leader",
-                "quest.main.heroes_journey.dialog.guild_leader.line1");
-
-        dialog.addLine("quest.main.heroes_journey.dialog.guild_leader",
-                "quest.main.heroes_journey.dialog.guild_leader.line2");
-
-        dialog.addLine("quest.main.heroes_journey.dialog.guild_leader",
-                "quest.main.heroes_journey.dialog.guild_leader.line3");
-
-        dialog.addLine("quest.main.heroes_journey.dialog.guild_leader",
-                "quest.main.heroes_journey.dialog.guild_leader.line4");
-
-        return dialog;
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.heroes-journey.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.heroes-journey.decline");
     }
 }

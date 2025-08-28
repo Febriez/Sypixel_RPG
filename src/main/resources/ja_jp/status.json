@@ -1,0 +1,24 @@
+{
+  "online": "Online",
+  "offline": "Offline",
+  "yes": "Yes",
+  "no": "No",
+  "unknown": "Unknown",
+  "enabled": "Enabled",
+  "disabled": "Disabled",
+  "flight": {
+    "yes": "Allowed",
+    "no": "Not allowed",
+    "enabled": "Flight enabled",
+    "disabled": "Flight disabled"
+  },
+  "level": "Level {1}",
+  "job": "Job: {1}",
+  "no-job": "Job: None",
+  "gamemode": {
+    "survival": "Survival",
+    "creative": "Creative",
+    "adventure": "Adventure",
+    "spectator": "Spectator"
+  }
+}

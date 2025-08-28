@@ -1,0 +1,30 @@
+{
+  "name": "春の祭り",
+  "description": [
+    "春の到来を祝う村の大祭りで",
+    "様々なイベントに参加しましょう。",
+    "",
+    "花を飾り、音楽を奏で、",
+    "新しい季節の始まりを祝いましょう。"
+  ],
+  "objectives": {
+    "collect_spring_flowers": "春の花を100本集める",
+    "decorate_village": "村を装飾する",
+    "organize_festival_games": "祭りゲームを企画する",
+    "crown_spring_queen": "春の女王を決める"
+  },
+  "npcs": {
+    "festival_organizer": "祭り主催者",
+    "flower_vendor": "花屋",
+    "spring_queen": "春の女王"
+  },
+  "dialogs": {
+    "start1": "春の祭りの時期がやってきました！",
+    "start2": "今年も素晴らしい祭りにしたいのです。",
+    "start3": "手伝っていただけませんか？",
+    "progress1": "素晴らしい装飾ですね！村が華やかになりました。",
+    "progress2": "祭りの準備が順調に進んでいます。",
+    "complete1": "最高の春の祭りになりました！",
+    "complete2": "村人みんながとても喜んでいます。"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "Thanksgiving Gratitude Feast",
+  "description": [
+    "The season of gratitude has arrived!",
+    "Help the village prepare for the grand Thanksgiving feast",
+    "and celebrate all the blessings we've received."
+  ],
+  "objectives": {
+    "feast_organizer": "Talk to Feast Organizer",
+    "harvest_turkey": "Hunt 5 wild turkeys for the feast",
+    "collect_cranberries": "Collect 40 cranberries",
+    "gather_corn": "Harvest 50 ears of corn",
+    "prepare_stuffing": "Prepare 10 portions of stuffing",
+    "bake_pies": "Bake 8 pumpkin pies",
+    "set_tables": "Set up 12 dining tables",
+    "gratitude_letters": "Write 20 gratitude letters to villagers",
+    "thanksgiving_speech": "Give a thanksgiving speech at the feast"
+  ],
+  "npcs": {
+    "feast_organizer": "Feast Organizer",
+    "village_cook": "Village Cook",
+    "gratitude_keeper": "Gratitude Keeper"
+  },
+  "dialogs": {
+    "start": "Thanksgiving is upon us! Will you help us prepare a feast worthy of our gratitude?",
+    "turkey": "Nothing brings people together like a perfectly roasted turkey at the center of the table.",
+    "player_help": "I'm grateful for the chance to help with this wonderful celebration!",
+    "cranberries": "These tart little berries add the perfect touch to our traditional feast.",
+    "gratitude": "Writing gratitude letters reminds us of all the kindness we've received this year.",
+    "speech": "Your words of thanks will touch everyone's hearts and unite us in gratitude.",
+    "complete": "This has been the most heartwarming Thanksgiving ever, thanks to your generous spirit!"
+  }
+}

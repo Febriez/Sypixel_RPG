@@ -54,7 +54,7 @@ public class Wallet {
                 CurrencyType type = CurrencyType.getById(entry.getKey());
                 setBalance(type, entry.getValue());
             } catch (IllegalArgumentException e) {
-                LogUtil.warning("알 수 없는 통화 타입: " + entry.getKey());
+                LogUtil.warning("Unknown currency type: " + entry.getKey());
             }
         }
     }
@@ -71,7 +71,7 @@ public class Wallet {
      */
     public void setBalance(@NotNull CurrencyType type, long amount) {
         if (amount < 0) {
-            LogUtil.warning("음수 잔액 설정 시도: " + type + " = " + amount);
+            LogUtil.warning("Attempted to set negative balance: " + type + " = " + amount);
             amount = 0;
         }
 

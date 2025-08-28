@@ -1,0 +1,33 @@
+{
+  "name": "Spider Infestation",
+  "description": [
+    "Giant spiders have infested the old warehouse",
+    "district, making it impossible for workers",
+    "to retrieve important stored goods.",
+    "",
+    "Clear out the dangerous arachnids and",
+    "make the warehouses safe for normal",
+    "operations to resume."
+  ],
+  "objectives": {
+    "eliminate_worker_spiders": "Eliminate 15 Giant Worker Spiders",
+    "destroy_spider_nests": "Destroy 6 Spider Nests",
+    "defeat_spider_queen": "Defeat the Spider Queen",
+    "clear_warehouse_webs": "Clear Webs from 10 Warehouse Sections"
+  },
+  "npcs": {
+    "warehouse_manager": "Warehouse Manager Bill",
+    "terrified_worker": "Terrified Warehouse Worker",
+    "exterminator": "Professional Exterminator",
+    "dock_supervisor": "Dock Supervisor"
+  },
+  "dialogs": {
+    "start1": "It's a nightmare in there! Spiders everywhere, some bigger than dogs!",
+    "start2": "My workers refuse to go in, and we have valuable cargo trapped inside.",
+    "start3": "We need someone brave enough to clear out these monstrous arachnids.",
+    "progress1": "You're making great progress! The workers are feeling more hopeful.",
+    "progress2": "Destroying those nests should prevent new spiders from multiplying.",
+    "complete1": "The Spider Queen is dead! The infestation is finally over!",
+    "complete2": "My workers can return safely, and business can get back to normal. Thank you!"
+  }
+}

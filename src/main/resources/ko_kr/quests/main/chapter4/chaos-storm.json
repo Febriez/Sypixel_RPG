@@ -1,0 +1,52 @@
+{
+  "name": "혼돈의 폭풍",
+  "description": [
+    "차원 간의 갈등에서 태어난 파멸적인 차원 간 폭풍이",
+    "현실 자체의 구조를 찢어놓겠다고 위협하고 있습니다.",
+    "",
+    "혼돈의 에너지를 헤쳐나가고 무질서의 군주와 대결하여",
+    "차원 네트워크의 균형을 회복하세요."
+  ],
+  "objectives": {
+    "storm_prophet": "폭풍 예언자와 대화하기",
+    "chaos_epicenter": "혼돈 폭풍의 진원지 위치 파악하기",
+    "chaos_fragments": "혼돈 파편 수집하기 (30)",
+    "chaos_spawns": "혼돈 spawn 제거하기 (50)",
+    "storm_tracker": "폭풍 추적기 획득하기",
+    "storm_eye": "폭풍의 눈 진입하기",
+    "survive_storm": "폭풍 속에서 생존하기",
+    "storm_essence": "폭풍 정수 수집하기 (100)",
+    "stability_engineer": "차원 엔지니어와 대화하기",
+    "stabilizer_parts": "안정화 부품 수집하기 (20)",
+    "power_cores": "동력 코어 모으기 (15)",
+    "control_crystals": "제어 수정 획득하기 (10)",
+    "build_stabilizer": "안정화 장치 건설하기",
+    "inner_storm": "내부 폭풍 진입하기",
+    "place_stabilizers": "안정화 신호기 배치하기 (4)",
+    "chaos_elementals": "혼돈 정령 처치하기 (100)",
+    "chaos_guardians": "혼돈 수호자 처치하기 (10)",
+    "chaos_lord": "혼돈의 군주와 대결하기",
+    "chaos_lord_minions": "혼돈 군주의 부하들 처치하기 (50)",
+    "chaos_lord_battle": "혼돈의 군주 처치하기 (5)",
+    "chaos_crown": "혼돈의 왕관 획득하기 (3)",
+    "storm_core": "폭풍의 핵심에 도달하기",
+    "activate_stabilizers": "핵심 안정화기 활성화하기 (20)",
+    "stabilization_process": "안정화 과정에서 생존하기",
+    "stability_core": "안정성 코어 획득하기",
+    "storm_prophet_calm": "폭풍 예언자에게 돌아가기",
+    "storm_control_staff": "폭풍 제어 지팡이 받기",
+    "dimensional_stabilizer": "차원 안정화기 받기"
+  },
+  "npcs": {
+    "chaos_storm_prophet": "혼돈 폭풍 예언자",
+    "dimensional_engineer": "차원 엔지니어",
+    "chaos_lord": "혼돈의 군주",
+    "stability_guardian": "안정성 수호자"
+  },
+  "dialogs": {
+    "line1": "혼돈의 폭풍이 더욱 강해지고 있다! 막지 못하면 모든 차원을 삼킬 것이다!",
+    "line2": "폭풍 속으로 들어가 이 혼돈을 일으키는 힘과 대결하겠습니다.",
+    "line3": "질서와 혼돈은 영원하다! 내가 대표하는 것을 파괴할 수는 없다!",
+    "line4": "폭풍이 잠잠해졌다. 차원 네트워크에 균형이 회복되었다."
+  }
+}

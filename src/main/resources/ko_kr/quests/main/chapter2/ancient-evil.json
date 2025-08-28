@@ -1,0 +1,34 @@
+{
+  "name": "고대의 악",
+  "description": [
+    "태고적부터 봉인되어 있던 고대의 악이",
+    "깨어나려 하고 있습니다. 이 어둠의 힘이",
+    "완전히 풀려나면 세상이 파멸할 것입니다.",
+    "",
+    "고대의 봉인을 강화하거나 이 악을",
+    "영원히 소멸시켜야 합니다."
+  ],
+  "objectives": {
+    "investigate_seal_weakening": "봉인 약화 조사",
+    "gather_light_fragments": "빛의 파편 20개 수집",
+    "strengthen_ancient_seals": "고대 봉인 3곳 강화",
+    "confront_evil_minions": "악의 부하들 15마리 처치",
+    "enter_darkness_realm": "어둠의 영역 진입",
+    "defeat_ancient_evil": "고대의 악 처치"
+  ],
+  "npcs": {
+    "seal_guardian": "봉인의 수호자",
+    "light_priest": "빛의 대사제",
+    "ancient_evil": "고대의 악",
+    "darkness_herald": "어둠의 전령"
+  },
+  "dialogs": {
+    "start1": "고대의 악이 봉인에서 벗어나려 하고 있습니다.",
+    "start2": "이 위기를 막을 수 있는 것은 당신뿐입니다.",
+    "start3": "빛의 힘을 모아 어둠에 맞서야 합니다.",
+    "progress1": "봉인이 다시 강해지고 있습니다.",
+    "progress2": "어둠의 힘이 빛 앞에서 물러가고 있어요.",
+    "complete1": "고대의 악을 영원히 봉인했습니다!",
+    "complete2": "세상이 다시 평화를 되찾았습니다."
+  }
+}

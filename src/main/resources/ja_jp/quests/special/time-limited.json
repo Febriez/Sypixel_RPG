@@ -1,0 +1,40 @@
+{
+  "name": "時の収束",
+  "description": [
+    "時間そのものが歪み、捻れることで",
+    "ごく短い瞬間にのみ存在する",
+    "特別な機会が生み出されています。",
+    "",
+    "⌛ 期間限定イベント：",
+    "• 時間枠内での完了",
+    "• 特別な時間報酬",
+    "• 時間ロックコンテンツへのアクセス",
+    "• クロノスの祝福発動",
+    "• 時間制御技術の習得"
+  ],
+  "objectives": {
+    "detect_temporal_anomaly": "時間異常の検知",
+    "gather_time_crystals": "時のクリスタル10個収集",
+    "stabilize_rift": "時空の裂け目3つを安定化",
+    "defeat_time_wraiths": "時の亡霊25体撃破",
+    "collect_temporal_essence": "時間精髄50個収集",
+    "activate_chronos_device": "クロノス装置の起動",
+    "survive_time_storm": "15分間の時の嵐を生存",
+    "seal_temporal_breach": "時空破綻の封印"
+  },
+  "npcs": {
+    "temporal_guardian": "時の守護者",
+    "chronos_keeper": "クロノスの管理者",
+    "time_sage": "時の賢者"
+  },
+  "dialogs": {
+    "start1": "時の織物が震えている...何かが近づいている。",
+    "start2": "この異常は長くは続かない。素早く行動せねば！",
+    "start3": "破綻した時の混沌に立ち向かう準備はできているか？",
+    "progress1": "時空歪曲がますます強くなっている...",
+    "progress2": "時間そのものが我々の努力に抵抗している！",
+    "progress3": "耐えろ！収束がもうすぐ完了する！",
+    "complete1": "時の流れそのものを支配したのだ！",
+    "complete2": "時間異常は抑制された。よくやった、英雄よ！"
+  }
+}

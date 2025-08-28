@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -155,51 +154,42 @@ public class HalloweenNightQuest extends Quest {
         return Component.translatable("quest.halloween_night.objective.");
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("halloween_night_dialog");
+    @Override
+    public int getDialogCount() {
+        return 12;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.event.halloween-night.dialogs.0");
+            case 1 -> Component.translatable("quest.event.halloween-night.dialogs.1");
+            case 2 -> Component.translatable("quest.event.halloween-night.dialogs.2");
+            case 3 -> Component.translatable("quest.event.halloween-night.dialogs.3");
+            case 4 -> Component.translatable("quest.event.halloween-night.dialogs.4");
+            case 5 -> Component.translatable("quest.event.halloween-night.dialogs.5");
+            case 6 -> Component.translatable("quest.event.halloween-night.dialogs.6");
+            case 7 -> Component.translatable("quest.event.halloween-night.dialogs.7");
+            case 8 -> Component.translatable("quest.event.halloween-night.dialogs.8");
+            case 9 -> Component.translatable("quest.event.halloween-night.dialogs.9");
+            case 10 -> Component.translatable("quest.event.halloween-night.dialogs.10");
+            case 11 -> Component.translatable("quest.event.halloween-night.dialogs.11");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.event.halloween-night.npc-name");
+    }
 
-        // 시작
-        dialog.addLine("quest.halloween_night.dialog.npc1",
-                "quest.halloween_night.dialog.npc1");
-
-        dialog.addLine("quest.halloween_night.dialog.npc2",
-                "quest.halloween_night.dialog.npc2");
-
-        dialog.addLine("quest.halloween_night.dialog.player1",
-                "quest.halloween_night.dialog.player1");
-
-        dialog.addLine("quest.halloween_night.dialog.npc3",
-                "quest.halloween_night.dialog.npc3");
-
-        // 마녀와의 만남
-        dialog.addLine("quest.halloween_night.dialog.witch1",
-                "quest.halloween_night.dialog.witch1");
-
-        dialog.addLine("quest.halloween_night.dialog.witch2",
-                "quest.halloween_night.dialog.witch2");
-
-        // 유령의 숲
-        dialog.addLine("quest.halloween_night.dialog.ghost1",
-                "quest.halloween_night.dialog.ghost1");
-
-        // 최종 대결
-        dialog.addLine("quest.halloween_night.dialog.npc4",
-                "quest.halloween_night.dialog.npc4");
-
-        dialog.addLine("quest.halloween_night.dialog.npc5",
-                "quest.halloween_night.dialog.npc5");
-
-        // 파티
-        dialog.addLine("quest.halloween_night.dialog.party1",
-                "quest.halloween_night.dialog.party1");
-
-        // 완료
-        dialog.addLine("quest.halloween_night.dialog.npc6",
-                "quest.halloween_night.dialog.npc6");
-
-        dialog.addLine("quest.halloween_night.dialog.npc7",
-                "quest.halloween_night.dialog.npc7");
-
-        return dialog;
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.event.halloween-night.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.event.halloween-night.decline");
     }
 }

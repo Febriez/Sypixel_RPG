@@ -1,0 +1,130 @@
+package com.febrie.rpg.quest.impl.side;
+
+import com.febrie.rpg.economy.CurrencyType;
+import com.febrie.rpg.quest.Quest;
+import com.febrie.rpg.quest.builder.QuestBuilder;
+import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.QuestCategory;
+import com.febrie.rpg.quest.objective.QuestObjective;
+import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
+import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
+import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
+import com.febrie.rpg.quest.reward.impl.BasicReward;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Side Quest: Healer's Request
+ * Assist the village healer in gathering rare ingredients for life-saving potions
+ *
+ * @author Febrie
+ */
+public class HealersRequestQuest extends Quest {
+
+    /**
+     * Quest builder
+     */
+    private static class HealersRequestBuilder extends QuestBuilder {
+        @Override
+        public @NotNull Quest build() {
+            return new HealersRequestQuest(this);
+        }
+    }
+
+    /**
+     * Default constructor
+     */
+    public HealersRequestQuest() {
+        this(createBuilder());
+    }
+
+    /**
+     * Builder constructor
+     */
+    private HealersRequestQuest(@NotNull QuestBuilder builder) {
+        super(builder);
+    }
+
+    /**
+     * Quest setup
+     */
+    private static QuestBuilder createBuilder() {
+        return new HealersRequestBuilder()
+                .id(QuestID.SIDE_HEALERS_REQUEST)
+                .objectives(Arrays.asList(
+                        new InteractNPCObjective("talk_village_healer", "village_healer"),
+                        new VisitLocationObjective("visit_herb_garden", "herb_garden"),
+                        new CollectItemObjective("collect_medicinal_herbs", Material.SWEET_BERRIES, 25),
+                        new CollectItemObjective("collect_spider_eyes", Material.SPIDER_EYE, 8),
+                        new CollectItemObjective("collect_ghast_tears", Material.GHAST_TEAR, 3),
+                        new VisitLocationObjective("visit_sacred_spring", "sacred_spring"),
+                        new CollectItemObjective("collect_holy_water", Material.POTION, 5)
+                ))
+                .reward(new BasicReward.Builder()
+                        .addExperience(1200)
+                        .addCurrency(CurrencyType.GOLD, 300)
+                        .addItem(new ItemStack(Material.GOLDEN_APPLE, 3))
+                        .addItem(new ItemStack(Material.POTION, 5))
+                        .build())
+                .sequential(true)
+                .category(QuestCategory.SIDE)
+                .minLevel(10);
+    }
+
+    @Override
+    public @NotNull Component getDisplayName(@NotNull Player who) {
+        return Component.translatable("quest.side.healers-request.name");
+    }
+
+    @Override
+    public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
+        return Arrays.asList(
+                Component.translatable("quest.side.healers-request.description.0"),
+                Component.translatable("quest.side.healers-request.description.1"),
+                Component.translatable("quest.side.healers-request.description.2"),
+                Component.translatable("quest.side.healers-request.description.3")
+        );
+    }
+
+    @Override
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+        String key = "quest.side.healers-request.objectives." + objective.getId();
+        return Component.translatable(key);
+    }
+
+    @Override
+    public int getDialogCount() {
+        return 3;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.side.healers-request.dialogs.0");
+            case 1 -> Component.translatable("quest.side.healers-request.dialogs.1");
+            case 2 -> Component.translatable("quest.side.healers-request.dialogs.2");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.side.healers-request.npc-name");
+    }
+    
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.side.healers-request.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.side.healers-request.decline");
+    }
+}

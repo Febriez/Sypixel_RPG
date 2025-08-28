@@ -1,0 +1,62 @@
+{
+  "name": "일일 현상금 사냥",
+  "description": [
+    "오늘의 현상금 목표를 추적하고 처치하세요!",
+    "위험한 범죄자들과 몬스터들이 당신을 기다립니다.",
+    "",
+    "🎯 현상금 목표:",
+    "• 산적단 두목과 부하들",
+    "• 위험한 변이 몬스터들",
+    "• 어둠의 마법사 집단",
+    "• 엘리트 현상수배범",
+    "",
+    "사냥 팁:",
+    "• 각 목표는 특정 지역에 출현",
+    "• 정보원에게서 위치 정보 구매 가능",
+    "• 증거품을 반드시 수집할 것",
+    "• 팀으로 사냥하면 더 효율적"
+  ],
+  "objectives": {
+    "bounty_officer": "현상금 담당관과 대화",
+    "criminal_hideout": "범죄자 은신처 찾기",
+    "wanted_bandits": "수배된 산적 15명 처치",
+    "bandit_badges": "산적 휘장 15개 수집",
+    "monster_lair": "몬스터 소굴 찾기",
+    "alpha_spider": "변이 거미 20마리 처치",
+    "pack_leader": "무리 우두머리 10마리 처치",
+    "monster_fangs": "몬스터 송곳니 10개 수집",
+    "wizard_tower": "어둠의 마법사 탑 찾기",
+    "dark_wizards": "어둠의 마법사 5명 처치",
+    "summoned_vex": "소환된 벡스 20마리 처치",
+    "wizard_staves": "마법사 지팡이 5개 수집",
+    "magic_essence": "마법 정수 20개 수집",
+    "informant": "정보원과 접촉",
+    "buy_info": "정보료 500골드 지불",
+    "elite_location": "엘리트 목표 위치 도달",
+    "elite_guard": "엘리트 경비병 8명 처치",
+    "bounty_boss": "현상수배 보스 처치",
+    "boss_head": "보스의 머리 획득",
+    "evidence_documents": "증거 문서 10장 수집",
+    "stolen_goods": "도난품 30개 회수",
+    "deliver_badges": "산적 휘장 제출",
+    "deliver_evidence": "증거 문서 제출",
+    "deliver_head": "보스의 머리 제출",
+    "claim_bounty": "현상금 수령"
+  },
+  "npcs": {
+    "bounty_officer": "현상금 담당관",
+    "bounty_informant": "정보원"
+  },
+  "dialogs": {
+    "start1": "또 다른 현상금 사냥꾼인가? 오늘은 특히 위험한 목표들이 많네.",
+    "start2": "네 개의 현상금이 걸려있다. 모두 처리하면 큰 보상이 기다리고 있지.",
+    "player_question": "어떤 목표들인가요?",
+    "targets": "산적단, 변이 몬스터, 어둠의 마법사, 그리고... 특별한 목표 하나.",
+    "informant1": "엘리트 목표의 위치를 알고 싶나? 500골드면 알려주지.",
+    "informant2": "폐허가 된 요새에 숨어있다. 하지만 조심해, 경비가 삼엄하거든.",
+    "complete1": "인상적이군! 모든 목표를 처리했나?",
+    "player_complete": "네, 증거품도 모두 가져왔습니다.",
+    "complete2": "완벽해! 여기 약속한 현상금이다. 내일도 새로운 목표가 있을 거야.",
+    "complete3": "실력 있는 사냥꾼은 언제나 환영이야. 좋은 장비도 보너스로 주겠네."
+  }
+}

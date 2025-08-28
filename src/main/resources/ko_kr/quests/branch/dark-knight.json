@@ -1,0 +1,44 @@
+{
+  "name": "다크 나이트의 길",
+  "description": [
+    "그림자를 받아들이고 강력한 다크 나이트가 되세요!",
+    "빛과 어둠 사이의 경계선을 걸으며 금지된 능력을 휘둘러보세요.",
+    "",
+    "🌙 다크 나이트의 혜택:",
+    "• 그림자 조작 능력",
+    "• 네크로맨틱 전투 기술",
+    "• 어둠 마법 저항력",
+    "• 공포 유발 존재감",
+    "• 금지된 무기 마스터"
+  ],
+  "objectives": {
+    "embrace_darkness": "어둠의 부름 수락",
+    "dark_ritual": "어둠의 입문 의식 수행",
+    "shadow_training": "그림자 조작 훈련",
+    "collect_dark_essence": "어둠의 정수 크리스탈 50개 수집",
+    "forge_dark_armor": "다크 나이트 갑옷 세트 제작",
+    "master_fear": "공포 유발 기술 마스터",
+    "defeat_light_champion": "빛의 챔피언 격파",
+    "command_undead": "언데드 하수인 지휘법 학습",
+    "dark_pact": "그림자 존재와 계약",
+    "corrupt_holy_ground": "신성한 땅 타락시키기",
+    "face_inner_darkness": "내면의 어둠과 대면",
+    "dark_ascension": "다크 나이트 승천 완료",
+    "claim_dark_throne": "그림자의 왕좌 차지",
+    "spread_darkness": "대륙에 어둠 확산",
+    "become_dark_lord": "다크 로드 지위 달성"
+  },
+  "npcs": {
+    "shadow_master": "그림자의 달인",
+    "dark_priest": "어둠의 사제",
+    "fallen_paladin": "타락한 팔라딘"
+  },
+  "dialogs": {
+    "start": "어둠의 길은 큰 힘을 제공하지만 끔찍한 대가가 따릅니다. 기꺼이 하시겠습니까?",
+    "initiation": "그림자가 당신을 통해 흐르게 하세요. 그들의 차가운 포옹을 느껴보세요.",
+    "corruption": "선과 악은 그냥 말에 불과합니다. 힘이 전부입니다.",
+    "ascension": "당신은 어둠을 완전히 받아들였습니다. 이제 돌아갈 수 없습니다.",
+    "throne": "그림자의 왕좌가 기다립니다. 철권으로 통치하세요.",
+    "complete": "일어나라, 다크 로드여! 당신의 그림자 통치가 지금 시작됩니다!"
+  }
+}

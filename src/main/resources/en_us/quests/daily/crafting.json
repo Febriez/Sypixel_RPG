@@ -1,0 +1,29 @@
+{
+  "name": "Daily Crafting",
+  "description": [
+    "Practice your crafting skills by creating",
+    "useful items for the community.",
+    "",
+    "Complete today's crafting challenges to",
+    "improve your abilities and earn rewards."
+  ],
+  "objectives": {
+    "craft_tools": "Craft 5 Basic Tools",
+    "craft_armor": "Craft 3 Leather Armor Pieces",
+    "craft_potions": "Craft 10 Health Potions",
+    "deliver_crafted_items": "Deliver Items to the Merchant"
+  },
+  "npcs": {
+    "crafting_master": "Crafting Master",
+    "village_merchant": "Village Merchant"
+  },
+  "dialogs": {
+    "start1": "Ready for today's crafting challenge?",
+    "start2": "The village always needs more quality goods.",
+    "start3": "Show me what you can make!",
+    "progress1": "Your crafting skills are improving nicely.",
+    "progress2": "Keep up the good work!",
+    "complete1": "Excellent craftsmanship! Well done.",
+    "complete2": "Come back tomorrow for a new challenge."
+  }
+}

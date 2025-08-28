@@ -1,0 +1,30 @@
+{
+  "name": "Lost Kingdom",
+  "description": [
+    "Deep in the forgotten lands lies a once-great kingdom,",
+    "now lost to time and overrun by ancient evils.",
+    "",
+    "Explore the ruins of this lost civilization and",
+    "uncover the secrets of its mysterious downfall."
+  ],
+  "objectives": {
+    "explore_royal_palace": "Explore the Royal Palace Ruins",
+    "find_royal_crown": "Find the Lost Royal Crown",
+    "awaken_ancient_king": "Awaken the Ancient King's Spirit",
+    "restore_kingdom_heart": "Restore the Kingdom's Heart"
+  },
+  "npcs": {
+    "ancient_king": "Spirit of the Ancient King",
+    "royal_advisor": "Ghostly Royal Advisor",
+    "kingdom_guardian": "Kingdom Guardian"
+  },
+  "dialogs": {
+    "start1": "The Lost Kingdom calls to you, brave hero.",
+    "start2": "Long ago, this was the greatest kingdom in all the land.",
+    "start3": "Now only ruins remain, but perhaps you can restore its glory.",
+    "progress1": "You are uncovering the tragic history of this lost realm.",
+    "progress2": "The spirits of the kingdom watch your progress with hope.",
+    "complete1": "The Lost Kingdom's heart beats once more!",
+    "complete2": "Though still in ruins, the kingdom's spirit has been restored."
+  }
+}

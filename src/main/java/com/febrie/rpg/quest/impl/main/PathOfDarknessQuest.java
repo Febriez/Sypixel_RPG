@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.CraftItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
@@ -30,34 +29,17 @@ import java.util.List;
 public class PathOfDarknessQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class PathOfDarknessBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new PathOfDarknessQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public PathOfDarknessQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private PathOfDarknessQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new PathOfDarknessBuilder()
+        return new QuestBuilder()
                 .id(QuestID.MAIN_PATH_OF_DARKNESS)
                 .objectives(Arrays.asList(
                         // 1. 마을 주민 처치 (어둠의 길...)
@@ -106,13 +88,33 @@ public class PathOfDarknessQuest extends Quest {
         return Component.translatable("quest.main.path_of_darkness.objectives.");
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("path_of_darkness_dialog");
+    @Override
+    public int getDialogCount() {
+        return 3;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.main.path-of-darkness.dialogs.0");
+            case 1 -> Component.translatable("quest.main.path-of-darkness.dialogs.1");
+            case 2 -> Component.translatable("quest.main.path-of-darkness.dialogs.2");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.main.path-of-darkness.npc-name");
+    }
 
-        dialog.addLine("quest.path_of_darkness.npcs.dark_oracle", "quest.path_of_darkness.dialogs.line1");
-        dialog.addLine("quest.path_of_darkness.npcs.dark_oracle", "quest.path_of_darkness.dialogs.line2");
-        dialog.addLine("quest.dialog.player", "quest.path_of_darkness.dialogs.player_line1");
-
-        return dialog;
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.path-of-darkness.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.path-of-darkness.decline");
     }
 }

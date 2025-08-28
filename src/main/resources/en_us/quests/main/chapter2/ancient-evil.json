@@ -1,0 +1,30 @@
+{
+  "name": "Ancient Evil",
+  "description": [
+    "An ancient evil stirs in the deepest depths of the world,",
+    "threatening to break free from its eternal prison.",
+    "",
+    "Venture into the forbidden depths and confront",
+    "this primordial force before it can escape."
+  ],
+  "objectives": {
+    "enter_forbidden_depths": "Enter the Forbidden Depths",
+    "break_evil_seals": "Break the Weakened Prison Seals (3)",
+    "gather_ancient_weapons": "Gather Ancient Weapons of Power",
+    "confront_ancient_evil": "Confront the Ancient Evil"
+  },
+  "npcs": {
+    "ancient_evil": "The Ancient Evil",
+    "seal_guardian": "Guardian of the Seals",
+    "ancient_warrior": "Spirit of Ancient Warrior"
+  },
+  "dialogs": {
+    "start1": "The ancient seals weaken, hero. Something terrible stirs below.",
+    "start2": "This evil has been imprisoned since the dawn of time itself.",
+    "start3": "If it escapes, all worlds will fall into eternal darkness.",
+    "progress1": "You delve deeper into the heart of primordial darkness.",
+    "progress2": "The ancient evil senses your presence and grows agitated.",
+    "complete1": "The Ancient Evil has been defeated and sealed once more!",
+    "complete2": "The world is safe from this primordial threat, for now."
+  }
+}

@@ -6,6 +6,7 @@ import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.Component;
@@ -378,7 +379,8 @@ public abstract class BaseGui implements InteractiveGui {
      * 메시지 전송 (간편 메소드)
      */
     protected void sendMessage(@NotNull Player player, @NotNull String key, @NotNull String... args) {
-        player.sendMessage(Component.translatable(key, Arrays.stream(args).map(Component::text).toArray(Component[]::new)));
+        Component[] componentArgs = Arrays.stream(args).map(Component::text).toArray(Component[]::new);
+        player.sendMessage(LangManager.getComponent(key, player.locale(), (Object[]) componentArgs));
     }
 
     // 사운드 재생 메소드들

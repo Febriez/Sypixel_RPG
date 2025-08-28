@@ -1,0 +1,57 @@
+{
+  "name": "용의 계약",
+  "description": [
+    "고대 용이 당신에게 전설적인 계약을 제안하며,",
+    "영원히 영혼을 결속시키려 합니다.",
+    "",
+    "용족에게 알려진 가장 신성한 의식을 준비하고,",
+    "고대의 존재와 깨질 수 없는 유대를 맺으세요."
+  ],
+  "objectives": {
+    "ancient_dragon": "고대 용과 대화하기",
+    "dragon_blood": "용의 피 수집하기 (10)",
+    "soul_crystals": "영혼 수정 모으기 (5)",
+    "eternal_flame": "영원한 불꽃 수집하기 (30)",
+    "contract_scribe": "계약서 필경사 찾기",
+    "ancient_ink": "고대 잉크 수집하기 (20)",
+    "magic_paper": "마법 종이 모으기 (50)",
+    "binding_essence": "결속의 정수 수집하기 (30)",
+    "deliver_materials": "계약 재료 전달하기",
+    "soul_altar": "영혼의 제단 방문하기",
+    "place_soul_stones": "영혼의 돌 설치하기 (20)",
+    "place_soul_fire": "영혼 불꽃 등불 설치하기 (4)",
+    "soul_guardians": "영혼 수호자 처치하기 (30)",
+    "soul_fragments": "영혼 파편 수집하기 (15)",
+    "dragon_priest": "용의 사제와 대화하기",
+    "blessing_tokens": "축복 토큰 수집하기 (100)",
+    "offer_tribute": "다이아몬드 공물 바치기 (64)",
+    "blessing_ritual": "축복 의식에서 생존하기",
+    "ancient_dragon_signing": "고대 용에게 돌아가기",
+    "dragon_sigil": "용의 인장 얻기",
+    "player_blood": "당신의 피를 바치기 (10)",
+    "sign_contract": "신성한 계약서 서명하기",
+    "place_contract_altar": "계약 제단 설치하기",
+    "binding_chains": "결속의 사슬 수집하기 (30)",
+    "contract_witnesses": "계약 증인 소환하기 (5)",
+    "witness_seals": "증인의 인장 수집하기 (5)",
+    "dragon_heart_chamber": "용의 심장 방으로 들어가기",
+    "dragon_essence": "용의 정수 수집하기 (10)",
+    "soul_merge": "영혼 융합에서 생존하기",
+    "merged_dragon": "융합된 용과 대화하기",
+    "pact_medallion": "계약의 메달 받기",
+    "dragon_companion": "용 동료 받기"
+  },
+  "npcs": {
+    "ancient_dragon": "고대 용",
+    "dragon_scribe": "용의 서기관",
+    "dragon_priest": "용의 사제",
+    "heart_guardian": "심장 수호자"
+  },
+  "dialogs": {
+    "line1": "인간이여, 영원한 계약을 원하는가? 이 의식에서 살아남은 자는 극히 드물다.",
+    "line2": "준비되어 있습니다, 위대한 용이여. 우리의 영혼을 하나로 결속시키고 싶습니다.",
+    "line3": "계약서는 고대의 방식으로 작성되어야 한다. 신성한 재료들을 모아오라.",
+    "line4": "축복 의식은 당신의 영혼 자체를 시험할 것이다. 정말로 준비되었는가?",
+    "line5": "계약이 봉인되었다. 이제 우리는 영원히 결속되었다, 용의 형제여."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "성기사의 맹세",
+  "description": [
+    "빛과 정의를 수호하는 성기사가 되기 위해",
+    "신성한 맹세를 서약하는 의식입니다.",
+    "",
+    "순수한 마음과 강한 의지로 맹세를 완수하고",
+    "진정한 빛의 수호자가 되세요."
+  ],
+  "objectives": {
+    "prove_noble_heart": "고결한 마음 증명",
+    "complete_trials_of_virtue": "미덕의 시련 완료",
+    "protect_innocent_pilgrims": "무고한 순례자들 10명 보호",
+    "banish_unholy_creatures": "부정한 생명체 15마리 퇴치",
+    "receive_divine_blessing": "신성한 축복 받기",
+    "swear_sacred_oath": "신성한 맹세 서약"
+  },
+  "npcs": {
+    "high_priest": "대사제",
+    "divine_angel": "신성한 천사",
+    "oath_keeper": "맹세의 수호자",
+    "light_spirit": "빛의 정령"
+  },
+  "dialogs": {
+    "start1": "성기사의 길은 험난하지만 영광스럽습니다.",
+    "start2": "빛을 수호하겠다는 당신의 의지를 보여주세요.",
+    "start3": "신성한 맹세는 가볍게 할 수 있는 것이 아닙니다.",
+    "progress1": "당신의 순수한 마음이 빛을 발하고 있습니다.",
+    "progress2": "신성한 힘이 당신을 인정하고 있어요.",
+    "complete1": "성기사의 신성한 맹세를 완료했습니다!",
+    "complete2": "이제 당신은 빛의 진정한 수호자가 되었습니다."
+  }
+}

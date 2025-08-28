@@ -1,0 +1,33 @@
+{
+  "name": "Phantom Haunting",
+  "description": [
+    "An ancient mansion on the outskirts of town",
+    "has become haunted by vengeful spirits",
+    "that torment anyone who dares to enter.",
+    "",
+    "Investigate the supernatural disturbances",
+    "and lay the restless spirits to rest",
+    "before they spread their influence further."
+  ],
+  "objectives": {
+    "investigate_mansion": "Investigate the Haunted Mansion",
+    "collect_spirit_essence": "Collect 8 Spirit Essence",
+    "solve_ancient_mystery": "Solve the Ancient Family Mystery",
+    "banish_phantom_lord": "Banish the Phantom Lord"
+  },
+  "npcs": {
+    "paranormal_investigator": "Investigator Helena Cross",
+    "mansion_caretaker": "Old Caretaker Jonas",
+    "local_historian": "Town Historian",
+    "phantom_lord": "Lord Blackwood's Spirit"
+  },
+  "dialogs": {
+    "start1": "That old mansion has been trouble for decades.",
+    "start2": "Strange lights, eerie sounds, and now people are going missing.",
+    "start3": "Something must be done before the haunting spreads to town.",
+    "progress1": "The spirits are restless - their essence is particularly strong.",
+    "progress2": "You've uncovered the truth behind the family's tragic past.",
+    "complete1": "Lord Blackwood's spirit has finally found peace.",
+    "complete2": "The mansion is quiet now. The haunting has ended."
+  }
+}

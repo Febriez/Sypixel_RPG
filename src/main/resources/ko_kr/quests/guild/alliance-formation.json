@@ -1,0 +1,44 @@
+{
+  "name": "길드 동맹 결성",
+  "description": [
+    "다른 길드와 전략적 동맹을 맺어 당신의 위치를 강화하세요!",
+    "상호 이익과 보호를 위해 같은 생각을 가진 길드들과 연합하세요.",
+    "",
+    "🤝 동맹의 혜택:",
+    "• 공유 길드 홀 접근",
+    "• 공동 미션과 레이드",
+    "• 무역 협정 보너스",
+    "• 상호 방어 협정",
+    "• 결합된 길드 이벤트"
+  ],
+  "objectives": {
+    "alliance_proposal": "동맹 제안서 초안 작성",
+    "identify_guilds": "잠재적 동맹 길드 3곳 식별",
+    "diplomatic_meeting": "외교 회의 주선",
+    "gather_gifts": "외교적 선물로 다이아몬드 20개 수집",
+    "craft_treaties": "동맹 조약서 3개 제작",
+    "negotiate_terms": "동맹 조건 협상",
+    "sign_treaty1": "첫 번째 길드와 조약 서명",
+    "sign_treaty2": "두 번째 길드와 조약 서명",
+    "establish_embassy": "길드 대사관 설립",
+    "joint_ceremony": "공동 동맹 의식 조직",
+    "shared_storage": "공유 동맹 창고 설치",
+    "first_joint_mission": "첫 공동 미션 완료",
+    "trade_agreement": "무역 협정 체결",
+    "defense_pact": "상호 방어 협정 서명",
+    "celebrate_alliance": "성공적인 동맹 결성 축하"
+  },
+  "npcs": {
+    "diplomat": "길드 외교관",
+    "ambassador": "동맹 대사",
+    "trade_envoy": "무역 사절"
+  },
+  "dialogs": {
+    "start": "이러한 격동의 시기에 동맹은 생존과 번영에 매우 중요합니다.",
+    "preparation": "협상을 위해 외교적 선물과 공식 문서를 준비해야 합니다.",
+    "negotiation": "외교는 인내심과 기술이 필요합니다. 신중하게 말을 선택하세요.",
+    "ceremony": "오늘은 우리 길드들 간의 새로운 협력 시대의 시작을 의미합니다!",
+    "benefits": "동맹이 형성되었으니, 우리는 어떤 도전도 함께 맞설 수 있습니다!",
+    "complete": "당신의 외교적 노력이 우리 길드를 위해 귀중한 동맹을 확보했습니다!"
+  }
+}

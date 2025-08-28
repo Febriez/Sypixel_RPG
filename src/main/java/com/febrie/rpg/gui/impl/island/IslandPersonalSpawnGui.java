@@ -183,7 +183,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
                 .addLore(Component.empty())
                 .addLoreTranslated("items.island.personal-spawn.manage.lore1")
                 .addLoreTranslated("items.island.personal-spawn.manage.lore2")
-                .addLore(LangManager.get("items.island.personal-spawn.manage.status", viewer, Component.text(spawnsSet + "/" + memberCount)))
+                .addLore(LangManager.getComponent("items.island.personal-spawn.manage.status", getViewerLocale(), Component.text(spawnsSet + "/" + memberCount)))
                 .addLoreTranslated("items.island.personal-spawn.manage.click")
                 .hideAllFlags()
                 .build(),

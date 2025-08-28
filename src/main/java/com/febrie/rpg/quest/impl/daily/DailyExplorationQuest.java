@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -146,25 +145,40 @@ public class DailyExplorationQuest extends Quest {
         return Component.translatable(key);
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("daily_exploration_dialog");
-        
-        // 시작 대화
-        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.start1");
-        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.start2");
-        dialog.addLine("quest.dialog.player", "quest.daily.exploration.dialogs.player_question");
-        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.regions");
-        
-        // 탐험 중 대화
-        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.supplies");
-        dialog.addLine("quest.dialog.player", "quest.daily.exploration.dialogs.discovery");
-        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.record");
-        
-        // 완료 대화
-        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.complete1");
-        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.complete2");
-        dialog.addLine("quest.daily.exploration.npcs.guild_master", "quest.daily.exploration.dialogs.complete3");
-        
-        return dialog;
+    @Override
+    public int getDialogCount() {
+        return 10;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.daily.exploration.dialogs.0");
+            case 1 -> Component.translatable("quest.daily.exploration.dialogs.1");
+            case 2 -> Component.translatable("quest.daily.exploration.dialogs.2");
+            case 3 -> Component.translatable("quest.daily.exploration.dialogs.3");
+            case 4 -> Component.translatable("quest.daily.exploration.dialogs.4");
+            case 5 -> Component.translatable("quest.daily.exploration.dialogs.5");
+            case 6 -> Component.translatable("quest.daily.exploration.dialogs.6");
+            case 7 -> Component.translatable("quest.daily.exploration.dialogs.7");
+            case 8 -> Component.translatable("quest.daily.exploration.dialogs.8");
+            case 9 -> Component.translatable("quest.daily.exploration.dialogs.9");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.daily.exploration.npc-name");
+    }
+
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.daily.exploration.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.daily.exploration.decline");
     }
 }

@@ -1,0 +1,32 @@
+{
+  "name": "Fisherman's Tale",
+  "description": [
+    "An old fisherman claims to have seen a",
+    "legendary sea creature in the nearby waters",
+    "that could be worth a fortune if captured.",
+    "",
+    "Help the fisherman prove his tale is true",
+    "and perhaps catch this mythical beast."
+  ],
+  "objectives": {
+    "gather_special_bait": "Gather Rare Deep-Sea Bait",
+    "craft_reinforced_net": "Craft a Reinforced Fishing Net",
+    "locate_sea_creature": "Locate the Legendary Sea Creature",
+    "capture_or_photograph": "Capture or Photograph the Beast"
+  },
+  "npcs": {
+    "old_fisherman": "Old Fisherman Pete",
+    "dockmaster": "Dockmaster",
+    "marine_scholar": "Marine Scholar",
+    "net_maker": "Net Craftsman"
+  },
+  "dialogs": {
+    "start1": "Nobody believes me, but I know what I saw out there!",
+    "start2": "A creature the size of three boats, with scales that shimmered like diamonds!",
+    "start3": "Help me prove I'm not just a crazy old man telling tales.",
+    "progress1": "That's the right kind of bait! The creature will surely be drawn to it.",
+    "progress2": "With that net, we might actually have a chance of catching it.",
+    "complete1": "By Neptune's beard! You actually found it! Nobody will call me crazy now!",
+    "complete2": "This discovery will make both of us famous throughout all the coastal towns!"
+  }
+}

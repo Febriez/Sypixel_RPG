@@ -1,0 +1,55 @@
+{
+  "name": "길드 창설의 길",
+  "description": [
+    "자신만의 길드를 창설하고 길드 마스터가 되세요!",
+    "동료들과 함께 더 큰 모험을 시작할 수 있습니다.",
+    "",
+    "🏰 길드 혜택:",
+    "• 전용 길드 홀",
+    "• 길드 창고 시스템",
+    "• 길드 전용 퀘스트",
+    "• 길드원 간 거래 수수료 면제",
+    "• 길드 레이드 참여 가능"
+  ],
+  "objectives": {
+    "guild_registrar": "길드 등록관과 대화",
+    "level_requirement": "레벨 25 달성",
+    "registration_fee": "등록비 5,000골드 지불",
+    "gather_wool": "하얀 양털 6개 수집",
+    "gather_stick": "막대기 1개 수집",
+    "gather_dyes": "청금석 3개 수집",
+    "craft_banner": "길드 깃발 제작",
+    "guild_district": "길드 구역 방문",
+    "gather_gold": "금 블록 10개 수집",
+    "gather_emerald": "에메랄드 블록 5개 수집",
+    "hall_rental": "길드 홀 임대료 10,000골드 지불",
+    "recruit_npc1": "첫 번째 지원자와 면접",
+    "recruit_npc2": "두 번째 지원자와 면접",
+    "recruit_npc3": "세 번째 지원자와 면접",
+    "member_contracts": "멤버 계약서 5장 수집",
+    "guild_seal": "길드 인장 획득",
+    "guild_charter": "길드 창설 문서 작성",
+    "submit_charter": "창설 문서 제출",
+    "guild_hall": "길드 홀 방문",
+    "place_banner": "길드 깃발 설치",
+    "place_chest": "상자 3개 설치",
+    "place_furnace": "화로 2개 설치",
+    "place_table": "제작대 2개 설치",
+    "first_mission": "약탈자 20마리 처치",
+    "mission_reward": "에메랄드 30개 수집",
+    "complete_mission": "미션 보상 제출",
+    "final_approval": "최종 승인 받기"
+  },
+  "npcs": {
+    "guild_registrar": "길드 등록관"
+  },
+  "dialogs": {
+    "start": "길드를 창설하려고 하시는군요? 준비가 많이 필요합니다.",
+    "requirements": "레벨 25와 등록비 5,000골드가 필요합니다.",
+    "banner": "먼저 길드 깃발을 만들어야 합니다. 길드의 상징이 될 거예요.",
+    "hall": "길드 홀을 임대하려면 추가로 10,000골드가 필요합니다.",
+    "members": "길드원을 모집해야 합니다. 최소 5명의 서명이 필요해요.",
+    "mission": "첫 번째 길드 미션을 완료해야 정식 인가를 받을 수 있습니다.",
+    "complete": "축하합니다! 이제 당신은 정식 길드 마스터입니다!"
+  }
+}

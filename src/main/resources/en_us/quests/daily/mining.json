@@ -1,0 +1,23 @@
+{
+  "name": "Daily Mining",
+  "description": [
+    "Complete today's mining objectives.",
+    "Work hard in the mines to gather essential resources.",
+    "",
+    "Resets daily at midnight."
+  ],
+  "objectives": {
+    "mine_stone": "Mine 50 Stone",
+    "mine_coal": "Mine 20 Coal Ore",
+    "mine_iron": "Mine 10 Iron Ore"
+  },
+  "npcs": {
+    "foreman": "Mine Foreman"
+  },
+  "dialogs": {
+    "greeting": "Another day, another shift in the mines!",
+    "need_resources": "We need more resources to keep the town running. Can you help?",
+    "player_accept": "Of course! I'll get right on it.",
+    "good_luck": "Great! Be careful down there, and good luck!"
+  }
+}

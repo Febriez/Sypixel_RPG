@@ -10,6 +10,8 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import net.kyori.adventure.text.Component;
+import com.febrie.rpg.util.UnifiedColorUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +38,7 @@ public class WhisperCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, 
                            @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§c이 명령어는 플레이어만 사용할 수 있습니다.");
+            sender.sendMessage(Component.translatable("commands.player-only").color(UnifiedColorUtil.ERROR));
             return true;
         }
 
@@ -46,7 +48,7 @@ public class WhisperCommand implements CommandExecutor, TabCompleter {
             case "귓말", "w", "whisper", "tell", "msg" -> handleWhisperCommand(player, args);
             case "r", "reply", "답장" -> handleReplyCommand(player, args);
             default -> {
-                player.sendMessage("§c알 수 없는 명령어입니다.");
+                player.sendMessage(Component.translatable("commands.unknown").color(UnifiedColorUtil.ERROR));
                 return false;
             }
         }
@@ -59,8 +61,8 @@ public class WhisperCommand implements CommandExecutor, TabCompleter {
      */
     private void handleWhisperCommand(@NotNull Player player, @NotNull String[] args) {
         if (args.length < 2) {
-            player.sendMessage("§c사용법: /귓말 <플레이어명> <메시지>");
-            player.sendMessage("§7예시: /귓말 Steve 안녕하세요!");
+            player.sendMessage(Component.translatable("whisper.commands.usage").color(UnifiedColorUtil.ERROR));
+            player.sendMessage(Component.translatable("whisper.commands.example").color(UnifiedColorUtil.GRAY));
             return;
         }
 
@@ -69,13 +71,13 @@ public class WhisperCommand implements CommandExecutor, TabCompleter {
 
         // 메시지가 너무 길면 제한
         if (message.length() > 256) {
-            player.sendMessage("§c메시지가 너무 깁니다. 256자 이내로 입력해주세요.");
+            player.sendMessage(Component.translatable("whisper.message-too-long").color(UnifiedColorUtil.ERROR));
             return;
         }
 
         // 빈 메시지 방지
         if (message.trim().isEmpty()) {
-            player.sendMessage("§c빈 메시지는 보낼 수 없습니다.");
+            player.sendMessage(Component.translatable("whisper.empty-message").color(UnifiedColorUtil.ERROR));
             return;
         }
 
@@ -90,11 +92,11 @@ public class WhisperCommand implements CommandExecutor, TabCompleter {
         if (args.length < 1) {
             String lastTarget = whisperManager.getLastWhisperTarget(player.getUniqueId());
             if (lastTarget != null) {
-                player.sendMessage("§e마지막 귓말 대상: " + lastTarget);
-                player.sendMessage("§c사용법: /r <메시지>");
+                player.sendMessage(Component.translatable("whisper.last-target", Component.text(lastTarget)).color(UnifiedColorUtil.YELLOW));
+                player.sendMessage(Component.translatable("whisper.reply.usage").color(UnifiedColorUtil.ERROR));
             } else {
-                player.sendMessage("§c답장할 대상이 없습니다.");
-                player.sendMessage("§7먼저 누군가와 귓말을 주고받아야 합니다.");
+                player.sendMessage(Component.translatable("whisper.no-reply-target").color(UnifiedColorUtil.ERROR));
+                player.sendMessage(Component.translatable("whisper.reply.hint").color(UnifiedColorUtil.GRAY));
             }
             return;
         }
@@ -103,13 +105,13 @@ public class WhisperCommand implements CommandExecutor, TabCompleter {
 
         // 메시지가 너무 길면 제한
         if (message.length() > 256) {
-            player.sendMessage("§c메시지가 너무 깁니다. 256자 이내로 입력해주세요.");
+            player.sendMessage(Component.translatable("whisper.message-too-long").color(UnifiedColorUtil.ERROR));
             return;
         }
 
         // 빈 메시지 방지
         if (message.trim().isEmpty()) {
-            player.sendMessage("§c빈 메시지는 보낼 수 없습니다.");
+            player.sendMessage(Component.translatable("whisper.empty-message").color(UnifiedColorUtil.ERROR));
             return;
         }
 

@@ -1,0 +1,44 @@
+{
+  "name": "Legendary Boss Slayer",
+  "description": [
+    "Rise to become the ultimate boss slayer and destroyer of legendary monsters!",
+    "Face the most dangerous creatures that threaten the realm.",
+    "",
+    "⚔️ Slayer Benefits:",
+    "• Access to boss-exclusive loot",
+    "• Enhanced combat abilities",
+    "• Legendary weapon crafting",
+    "• Boss tracking skills",
+    "• Hero recognition and fame"
+  ],
+  "objectives": {
+    "train_combat_skills": "Master basic combat techniques",
+    "defeat_minor_bosses": "Defeat 5 minor dungeon bosses",
+    "craft_boss_gear": "Craft specialized boss-hunting gear",
+    "learn_boss_patterns": "Study boss attack patterns",
+    "defeat_dragon": "Slay the Ancient Red Dragon",
+    "defeat_lich": "Destroy the Undead Lich King",
+    "defeat_kraken": "Vanquish the Sea Kraken",
+    "defeat_titan": "Topple the Stone Titan",
+    "defeat_demon_lord": "Banish the Demon Lord",
+    "collect_trophies": "Collect boss trophies and artifacts",
+    "forge_legend_weapon": "Forge legendary boss-slaying weapon",
+    "face_ultimate_boss": "Face the Ultimate World Destroyer",
+    "save_the_realm": "Save the realm from destruction",
+    "receive_hero_title": "Receive Hero of the Realm title",
+    "enter_hall_of_fame": "Enter the Boss Slayer Hall of Fame"
+  },
+  "npcs": {
+    "combat_master": "Grandmaster of Combat",
+    "boss_tracker": "Legendary Boss Tracker",
+    "hero_chronicler": "Hero Chronicler"
+  },
+  "dialogs": {
+    "start": "The realm's greatest threats await. Do you have the courage to face them?",
+    "training": "Every boss has a weakness. Learn to find it, and victory will be yours.",
+    "first_victory": "Excellent! Your first boss falls. This is only the beginning.",
+    "legendary": "You've proven yourself against legendary foes. Few can match your skill.",
+    "ultimate": "The Ultimate Boss threatens all existence. Only you can stop it now.",
+    "complete": "Champion! Your name will be remembered as the greatest Boss Slayer of all time!"
+  }
+}

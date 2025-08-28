@@ -128,8 +128,8 @@ public class IslandUpgradeGui extends BaseGui {
         
         // 뒤로가기 버튼
         setItem(40, new GuiItem(ItemBuilder.of(Material.ARROW)
-                .displayName(LangManager.getComponent("items.buttons.back.name", viewer.locale()))
-                .addLore(LangManager.getComponent("items.buttons.back.lore", viewer.locale()))
+                .displayName(LangManager.getComponent("items.buttons.back.name", getViewerLocale()))
+                .addLore(LangManager.getComponent("items.buttons.back.lore", getViewerLocale()))
                 .hideAllFlags()
                 .build()).onAnyClick(player -> {
             player.closeInventory();
@@ -155,12 +155,12 @@ public class IslandUpgradeGui extends BaseGui {
         
         // 현재 레벨
         Component unit = Component.translatable(unitKey);
-        builder.addLore(LangManager.get("gui.island.upgrade.current-level", viewer, 
+        builder.addLore(LangManager.getComponent("gui.island.upgrade.current-level", getViewerLocale(), 
                 Component.text(currentLevel), Component.text(values[currentLevel]), unit));
         
         if (currentLevel < values.length - 1) {
             // 다음 레벨 정보
-            builder.addLore(LangManager.get("gui.island.upgrade.next-level", viewer,
+            builder.addLore(LangManager.getComponent("gui.island.upgrade.next-level", getViewerLocale(),
                     Component.text(currentLevel + 1), Component.text(values[currentLevel + 1]), unit));
             
             // 업그레이드 비용
@@ -168,9 +168,9 @@ public class IslandUpgradeGui extends BaseGui {
             long currentContribution = island.membership().contributions().getOrDefault(viewer.getUniqueId().toString(), 0L);
             
             builder.addLore(Component.empty())
-                   .addLore(LangManager.get("gui.island.upgrade.cost", viewer, Component.text(String.format("%,d", cost))));
+                   .addLore(LangManager.getComponent("gui.island.upgrade.cost", getViewerLocale(), Component.text(String.format("%,d", cost))));
             
-            builder.addLore(LangManager.get("gui.island.upgrade.current-contribution", viewer,
+            builder.addLore(LangManager.getComponent("gui.island.upgrade.current-contribution", getViewerLocale(),
                     Component.text(String.format("%,d", currentContribution))
                             .color(currentContribution >= cost ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)));
             

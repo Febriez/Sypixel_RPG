@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.FishingObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -98,15 +97,34 @@ public class DailyFishingQuest extends Quest {
         return Component.translatable(key);
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("daily_fishing_dialog");
-        
-        // 시작 대화
-        dialog.addLine("quest.daily.fishing.npcs.fisherman", "quest.daily.fishing.dialogs.greeting");
-        dialog.addLine("quest.daily.fishing.npcs.fisherman", "quest.daily.fishing.dialogs.daily_reward");
-        dialog.addLine("quest.daily.fishing.npcs.fisherman", "quest.daily.fishing.dialogs.targets");
-        dialog.addLine("quest.daily.fishing.npcs.fisherman", "quest.daily.fishing.dialogs.come_back");
-        
-        return dialog;
+    @Override
+    public int getDialogCount() {
+        return 4;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.daily.fishing.dialogs.0");
+            case 1 -> Component.translatable("quest.daily.fishing.dialogs.1");
+            case 2 -> Component.translatable("quest.daily.fishing.dialogs.2");
+            case 3 -> Component.translatable("quest.daily.fishing.dialogs.3");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.daily.fishing.npc-name");
+    }
+
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.daily.fishing.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.daily.fishing.decline");
     }
 }

@@ -1,0 +1,32 @@
+{
+  "name": "Forgotten Temple",
+  "description": [
+    "An ancient temple dedicated to a forgotten deity",
+    "has been rediscovered in the jungle depths.",
+    "",
+    "Restore the temple's sacred power and awaken",
+    "the slumbering divine presence within."
+  ],
+  "objectives": {
+    "locate_temple_ruins": "Locate the Temple Ruins in the Jungle",
+    "clear_overgrown_vines": "Clear Away Overgrown Temple Vines",
+    "light_sacred_braziers": "Light 5 Sacred Braziers",
+    "defeat_temple_guardians": "Defeat the Stone Temple Guardians",
+    "restore_altar_power": "Restore Power to the Sacred Altar",
+    "commune_with_deity": "Commune with the Forgotten Deity"
+  },
+  "npcs": {
+    "temple_archaeologist": "Temple Archaeologist",
+    "ancient_priest": "Ghost of the Ancient Priest",
+    "forgotten_deity": "The Forgotten Deity"
+  },
+  "dialogs": {
+    "start1": "This temple predates any known civilization in the region.",
+    "start2": "The deity worshipped here has been lost to time.",
+    "start3": "Perhaps we can restore its former glory together.",
+    "progress1": "The braziers are responding... the temple stirs to life!",
+    "progress2": "I can feel the ancient power coursing through these stones.",
+    "complete1": "The deity has awakened and blessed your efforts!",
+    "complete2": "This temple will stand as a beacon of hope once more."
+  }
+}

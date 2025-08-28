@@ -1,0 +1,33 @@
+{
+  "name": "Goblin Raiders",
+  "description": [
+    "A tribe of goblin raiders has been",
+    "terrorizing trade routes and attacking",
+    "merchant caravans throughout the region.",
+    "",
+    "Drive back these savage creatures",
+    "and restore safety to the trade routes",
+    "that connect our cities and towns."
+  ],
+  "objectives": {
+    "defeat_goblin_scouts": "Defeat 12 Goblin Scouts",
+    "destroy_raider_camps": "Destroy 3 Raider Camps",
+    "rescue_captured_merchants": "Rescue 5 Captured Merchants",
+    "confront_chieftain": "Confront the Goblin Chieftain"
+  },
+  "npcs": {
+    "merchant_leader": "Caravan Master Willem",
+    "town_guard": "Guard Captain Sarah",
+    "rescued_trader": "Trader Thompson",
+    "goblin_chieftain": "Goblin Chieftain Grokk"
+  },
+  "dialogs": {
+    "start1": "These goblin raiders are ruining our business!",
+    "start2": "They've been attacking every caravan that passes through.",
+    "start3": "We need someone skilled to drive them back to their holes.",
+    "progress1": "Good work clearing out those scouts! But their camps remain.",
+    "progress2": "The merchants you've rescued are grateful beyond words.",
+    "complete1": "The chieftain is defeated! The goblins are scattering!",
+    "complete2": "Trade routes are safe again thanks to your efforts."
+  }
+}

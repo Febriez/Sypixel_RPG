@@ -1,0 +1,50 @@
+{
+  "name": "Void Invasion",
+  "description": [
+    "The portal you opened has attracted unwanted attention.",
+    "A massive invasion from the Void Realm threatens all existence,",
+    "",
+    "Rally the realm's defenders and push back this otherworldly threat",
+    "before reality itself is consumed by the void."
+  ],
+  "objectives": {
+    "realm_guardian": "Speak with the Realm Guardian",
+    "invasion_site": "Investigate the Invasion Site",
+    "void_scouts": "Eliminate Void Scouts (30)",
+    "invasion_intel": "Gather Invasion Intelligence (3)",
+    "defense_commander": "Speak with the Defense Commander",
+    "defense_supplies": "Collect Defense Supplies (50)",
+    "build_barricades": "Build Iron Barricades (100)",
+    "void_weapons": "Acquire Void Weapons (5)",
+    "void_soldiers": "Defeat Void Soldiers (100)",
+    "void_mages": "Defeat Void Mages (30)",
+    "first_wave": "Survive the First Wave",
+    "void_cores": "Collect Void Cores (50)",
+    "void_knights": "Defeat Void Knights (40)",
+    "void_beasts": "Defeat Void Beasts (20)",
+    "second_wave": "Survive the Second Wave",
+    "void_essence": "Collect Void Essence (30)",
+    "void_general": "Confront the Void General",
+    "void_general_battle": "Defeat the Void General (3)",
+    "general_crown": "Claim the General's Crown",
+    "void_portal": "Locate the Void Portal",
+    "seal_portal": "Seal the Portal with Bedrock (20)",
+    "sealing_stone": "Collect Sealing Stones (3)",
+    "sealing_ritual": "Perform the Sealing Ritual",
+    "realm_guardian_victory": "Report Victory to the Guardian",
+    "victory_medal": "Receive the Victory Medal"
+  },
+  "npcs": {
+    "realm_guardian": "Realm Guardian",
+    "defense_commander": "Defense Commander",
+    "void_general": "Void General",
+    "sealing_sage": "Sealing Sage"
+  },
+  "dialogs": {
+    "line1": "The void tears reality apart! We must act quickly or all will be lost!",
+    "line2": "I will stand against this invasion. Tell me how to stop them.",
+    "line3": "Build fortifications quickly! The next wave will be even stronger!",
+    "line4": "You cannot stop the inevitable! The void will consume everything!",
+    "line5": "The portal is sealed. The realm is safe thanks to your bravery."
+  }
+}

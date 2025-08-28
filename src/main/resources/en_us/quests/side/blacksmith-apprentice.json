@@ -1,0 +1,30 @@
+{
+  "name": "Blacksmith Apprentice",
+  "description": [
+    "The village blacksmith seeks a capable apprentice",
+    "to help with the growing demand for weapons and tools.",
+    "",
+    "Learn the basics of smithing and prove",
+    "your worth as a craftsman."
+  ],
+  "objectives": {
+    "gather_iron_ore": "Gather 15 Iron Ore",
+    "smelt_iron_ingots": "Smelt 10 Iron Ingots",
+    "craft_iron_sword": "Craft an Iron Sword",
+    "deliver_weapons": "Deliver Weapons to the Guard Captain"
+  },
+  "npcs": {
+    "master_blacksmith": "Master Blacksmith",
+    "guard_captain": "Guard Captain",
+    "mining_foreman": "Mining Foreman"
+  },
+  "dialogs": {
+    "start1": "Ah, you look strong enough for smithing work!",
+    "start2": "I need someone to help with the orders piling up.",
+    "start3": "Learn the craft well, and there's good coin in it.",
+    "progress1": "Good work! Your technique is improving.",
+    "progress2": "Keep practicing and you'll be a fine smith.",
+    "complete1": "Excellent! You've proven yourself as an apprentice.",
+    "complete2": "Consider yourself officially hired!"
+  }
+}

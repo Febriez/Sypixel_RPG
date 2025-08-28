@@ -1,0 +1,30 @@
+{
+  "name": "Paladin Oath",
+  "description": [
+    "The sacred oath of the Paladin binds you",
+    "to protect the innocent and fight evil.",
+    "",
+    "Swear your oath before the divine altar",
+    "and become a true champion of light."
+  ],
+  "objectives": {
+    "prove_purity": "Prove Your Purity of Heart",
+    "complete_sacred_pilgrimage": "Complete the Sacred Pilgrimage",
+    "receive_divine_blessing": "Receive the Divine Blessing",
+    "swear_paladin_oath": "Swear the Sacred Paladin Oath"
+  },
+  "npcs": {
+    "high_paladin": "High Paladin",
+    "divine_priest": "Divine Priest",
+    "temple_guardian": "Temple Guardian"
+  },
+  "dialogs": {
+    "start1": "The path of the Paladin is one of great responsibility.",
+    "start2": "You must prove yourself worthy of this sacred calling.",
+    "start3": "Are you prepared to dedicate your life to justice and light?",
+    "progress1": "Your devotion to righteousness shines brightly.",
+    "progress2": "The divine light grows stronger within you.",
+    "complete1": "By the light! You are now a true Paladin!",
+    "complete2": "May your oath guide you always in the fight against darkness."
+  }
+}

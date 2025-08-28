@@ -1,0 +1,44 @@
+{
+  "name": "물약 양조의 달인",
+  "description": [
+    "고대 물약 양조와 연금술의 기술을 습득하세요!",
+    "모험가들에게 알려진 가장 강력한 물약들을 만드는 법을 배우세요.",
+    "",
+    "🧪 양조의 혜택:",
+    "• 전설적인 물약 레시피에 대한 접근",
+    "• 향상된 양조 효율성",
+    "• 독특한 연금술 재료",
+    "• 영구적인 물약 효과",
+    "• 연금술 상점 할인"
+  ],
+  "objectives": {
+    "learn_basics": "기본 물약 양조 학습",
+    "craft_brewing_stand": "고급 양조기 제작",
+    "gather_nether_wart": "지옥사마귀 50개 수집",
+    "collect_ingredients": "희귀 양조 재료 수집",
+    "brew_health_potions": "체력 물약 10개 양조",
+    "brew_mana_potions": "마나 물약 10개 양조",
+    "learn_advanced": "고급 양조 기법 학습",
+    "create_elixir": "첫 번째 엘릭서 제작",
+    "brew_invisibility": "투명화 물약 양조",
+    "brew_strength": "힘 강화 물약 양조",
+    "find_ancient_recipe": "고대 연금술 레시피 발견",
+    "gather_dragon_breath": "용의 숨결 수집",
+    "brew_legendary": "전설적인 물약 양조",
+    "master_test": "연금술 달인 시험 통과",
+    "receive_certification": "달인 양조 자격증 획득"
+  },
+  "npcs": {
+    "master_alchemist": "연금술 달인",
+    "potion_merchant": "물약 상인",
+    "herb_gatherer": "약초 채집 달인"
+  },
+  "dialogs": {
+    "start": "연금술은 예술이자 과학입니다. 그 비밀을 배울 준비가 되셨나요?",
+    "basics": "간단한 물약부터 시작하세요. 기초를 이해하는 것이 중요합니다.",
+    "advanced": "이제 고급 기법으로 넘어갑니다. 한 번의 실수가 폭발적일 수 있습니다!",
+    "legendary": "이 레시피는 수세기 동안 잃어버린 것이었습니다. 최대한 조심해서 다루세요.",
+    "test": "최종 시험은 당신이 진정으로 연금술을 이해하는지 판단할 것입니다.",
+    "complete": "축하합니다, 연금술 달인님! 당신의 물약은 전설이 될 것입니다!"
+  }
+}

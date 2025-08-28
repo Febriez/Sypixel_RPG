@@ -1,0 +1,33 @@
+{
+  "name": "오염된 땅",
+  "description": [
+    "어둠의 힘이 한때 비옥했던 땅을 오염시켜",
+    "생명이 시들어가고 있습니다.",
+    "",
+    "이 저주받은 땅을 정화하고 생명의 힘을",
+    "되돌려 자연의 균형을 회복해야 합니다."
+  ],
+  "objectives": {
+    "investigate_corruption_source": "오염 근원 조사",
+    "collect_purification_crystals": "정화의 수정 15개 수집",
+    "cleanse_corrupted_wells": "오염된 우물 5곳 정화",
+    "defeat_corruption_spirits": "오염의 정령 10마리 처치",
+    "restore_nature_shrines": "자연의 성소 3곳 복원",
+    "banish_corruption_lord": "오염의 군주 추방"
+  },
+  "npcs": {
+    "nature_druid": "자연의 드루이드",
+    "purification_sage": "정화의 현자",
+    "corruption_lord": "오염의 군주",
+    "earth_spirit": "대지의 정령"
+  },
+  "dialogs": {
+    "start1": "이 땅이 어둠의 힘에 의해 오염되었습니다.",
+    "start2": "생명의 근원이 독으로 변해가고 있어요.",
+    "start3": "당신의 힘이 이 땅을 구원할 수 있습니다.",
+    "progress1": "정화의 빛이 어둠을 물리치고 있습니다.",
+    "progress2": "생명의 기운이 서서히 돌아오고 있어요.",
+    "complete1": "오염된 땅이 완전히 정화되었습니다!",
+    "complete2": "자연의 균형이 회복되어 생명이 다시 번성할 것입니다."
+  }
+}

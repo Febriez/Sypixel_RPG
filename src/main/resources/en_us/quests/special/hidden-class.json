@@ -1,0 +1,28 @@
+{
+  "name": "Path of Shadows",
+  "description": [
+    "There is a path that can only be seen in darkness.",
+    "Pass the secret trials of the Shadow Guild and obtain the hidden class.",
+    "",
+    "⚠️ Warning: This quest is very dangerous and includes PvP.",
+    "Once started, there is no turning back."
+  ],
+  "npcs": {
+    "unknown": "???",
+    "shadow_master": "Shadow Master"
+  },
+  "dialogs": {
+    "letter1": "If you're reading this letter, you are the chosen one...",
+    "letter2": "At midnight, knock three times with a stick in front of the abandoned well.",
+    "master1": "It's been a while since someone with potential arrived. Are you ready to walk the path of shadows?",
+    "master2": "This path cannot be reversed. Once you step in, you must go to the end.",
+    "player_ready": "I'm ready.",
+    "master3": "Good. Let's start with the first trial. Learn how to become a true shadow.",
+    "progress": "Impressive. But the real test starts now.",
+    "assassination": "Eliminate the corrupt noble. Bring his seal as proof.",
+    "choice1": "You've passed all trials. Now it's time to choose your path.",
+    "choice2": "Shadow Assassin, Dark Mage, Night Tracker... What will you become?",
+    "complete1": "You are now one of us. Receive the mark of shadows.",
+    "complete2": "This mark is your new identity. Use it wisely."
+  }
+}

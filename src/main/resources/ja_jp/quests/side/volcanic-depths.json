@@ -1,0 +1,32 @@
+{
+  "name": "火山の深淵",
+  "description": [
+    "活火山の奥深くで、希少な鉱物と",
+    "古代火魔法が発見を待っています。",
+    "",
+    "溶岩の深部に降りて、",
+    "火の心臓に隠された宝物を収穫してください。"
+  ],
+  "objectives": {
+    "enter_volcanic_caverns": "危険な火山洞窟に入る",
+    "collect_lava_crystals": "溶岩クリスタルを15個集める",
+    "defeat_fire_elementals": "敵対的な火精霊を20体倒す",
+    "find_magma_chamber": "古代マグマ室を見つける",
+    "activate_fire_forge": "伝説の火の鍛冶場を起動する",
+    "craft_flame_artifact": "強力な炎の秘宝を作製する"
+  },
+  "npcs": {
+    "volcano_explorer": "恐れ知らずの火山探検家",
+    "fire_elemental": "古代火精霊の王",
+    "magma_smith": "伝説のマグマ鍛冶師"
+  },
+  "dialogs": {
+    "start1": "火山は原始の火で鍛造された秘密を保持しています。",
+    "start2": "その燃える深淵に敢えて足を踏み入れる者はほとんどいません。",
+    "start3": "しかし報酬は...想像を超えています！",
+    "progress1": "熱気は激しいですが、クリスタルは壮大です！",
+    "progress2": "古代火魔法が私たちに応答しているのを感じます。",
+    "complete1": "鍛冶場が新しい力で燃えています！",
+    "complete2": "あなたは火山の燃える本質をマスターしました！"
+  }
+}

@@ -27,34 +27,18 @@ import java.util.List;
 public class DailyHuntingQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class DailyHuntingBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new DailyHuntingQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public DailyHuntingQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private DailyHuntingQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new DailyHuntingBuilder().id(QuestID.DAILY_HUNTING)
+        return new QuestBuilder()
+                .id(QuestID.DAILY_HUNTING)
                 .objectives(Arrays.asList(new KillMobObjective("kill_zombies", EntityType.ZOMBIE, 20), new KillMobObjective("kill_skeletons", EntityType.SKELETON, 15), new KillMobObjective("kill_creepers", EntityType.CREEPER, 10)))
                 .reward(new BasicReward.Builder().addCurrency(CurrencyType.GOLD, 200)
                         .addItem(new ItemStack(Material.ARROW, 64)).addItem(new ItemStack(Material.COOKED_BEEF, 32))

@@ -1,0 +1,33 @@
+{
+  "name": "Astral Projection",
+  "description": [
+    "An experienced monk has become trapped",
+    "in the astral plane during meditation,",
+    "unable to return to his physical body.",
+    "",
+    "Learn the ancient art of astral projection",
+    "to enter the ethereal realm and guide",
+    "the lost monk back to the material world."
+  ],
+  "objectives": {
+    "learn_astral_projection": "Learn Astral Projection Technique",
+    "enter_astral_plane": "Enter the Astral Plane",
+    "navigate_ethereal_maze": "Navigate the Ethereal Maze",
+    "rescue_lost_monk": "Rescue the Lost Monk"
+  },
+  "npcs": {
+    "astral_master": "Astral Master Zenith",
+    "monastery_abbot": "Monastery Abbot",
+    "lost_monk": "Brother Transcendence", 
+    "astral_guides": "Ethereal Spirit Guides"
+  },
+  "dialogs": {
+    "start1": "Brother Transcendence has been in deep meditation for days.",
+    "start2": "His spirit is lost somewhere in the astral plane.",
+    "start3": "Only someone who can project their own spirit can reach him.",
+    "progress1": "Your astral form is stabilizing - you're learning quickly.",
+    "progress2": "The ethereal maze shifts and changes, but you're finding your way.",
+    "complete1": "You've found him! Brother Transcendence's spirit is safe.",
+    "complete2": "He's returning to his body - the meditation trance is broken!"
+  }
+}

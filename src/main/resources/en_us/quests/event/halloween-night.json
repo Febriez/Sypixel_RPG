@@ -1,0 +1,46 @@
+{
+  "name": "Cursed Halloween Night",
+  "description": [
+    "Once a year, the night when ghosts awaken!",
+    "Accept the Pumpkin King's challenge and save the village.",
+    "",
+    "🎃 Halloween Event:",
+    "• Period: October 25 - November 1",
+    "• Special monster spawns",
+    "• Halloween-exclusive rewards",
+    "• Spooky atmosphere",
+    "",
+    "Main Activities:",
+    "• Pumpkin farming and jack-o'-lantern crafting",
+    "• Making Halloween candy",
+    "• Exploring the Ghost Forest",
+    "• Visiting the Witch's Mansion",
+    "• Ghost Dimension challenge",
+    "• Performing ominous rituals",
+    "• Final battle with the Pumpkin King",
+    "• Halloween party participation"
+  ],
+  "objectives": {
+    "pumpkin_king": "Talk to Pumpkin King",
+    "haunted_village": "Visit Haunted Village",
+    "harvest_pumpkins": "Harvest 50 pumpkins",
+    "collect_pumpkins": "Collect 30 pumpkins",
+    "carve_lanterns": "Carve 20 jack-o'-lanterns",
+    "decorate_village": "Place 20 jack-o'-lanterns in village",
+    "make_cookies": "Craft 64 cookies",
+    "make_pies": "Craft 20 pumpkin pies",
+    "ghost_forest": "Enter Ghost Forest",
+    "spooky_zombies": "Kill 50 spooky zombies",
+    "skeleton_army": "Kill 40 skeleton army",
+    "witch_mansion": "Visit Witch's Mansion",
+    "evil_witches": "Kill 20 evil witches",
+    "pumpkin_king_boss": "Defeat 3 Pumpkin Kings",
+    "halloween_party": "Join Halloween party",
+    "event_complete": "Report event completion"
+  },
+  "npcs": {
+    "pumpkin_king": "Pumpkin King",
+    "witch": "Witch",
+    "party_host": "Party Host"
+  }
+}

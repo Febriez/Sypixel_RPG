@@ -1,0 +1,33 @@
+{
+  "name": "Miner's Plight",
+  "description": [
+    "A group of miners has been trapped in a",
+    "collapsed mine shaft for days, and rescue",
+    "efforts have been unsuccessful so far.",
+    "",
+    "Use your skills to clear the debris,",
+    "rescue the trapped miners, and restore",
+    "safety to the mine operations."
+  ],
+  "objectives": {
+    "clear_mine_entrance": "Clear Debris from Mine Entrance",
+    "reinforce_support_beams": "Reinforce 8 Damaged Support Beams",
+    "rescue_trapped_miners": "Rescue 5 Trapped Miners",
+    "secure_mine_safety": "Secure Mine for Future Operations"
+  },
+  "npcs": {
+    "mine_foreman": "Mine Foreman Jack",
+    "trapped_miner": "Trapped Miner Tom",
+    "rescue_coordinator": "Rescue Coordinator",
+    "miners_family": "Miner's Wife Anne"
+  },
+  "dialogs": {
+    "start1": "Thank goodness someone with your skills has arrived!",
+    "start2": "Five of our best men are trapped down there, and time is running out.",
+    "start3": "The mine is unstable, but you're our only hope of getting them out alive.",
+    "progress1": "Great work clearing that debris! We can hear voices now.",
+    "progress2": "Those support beams should hold. The mine is looking much safer.",
+    "complete1": "You did it! All the miners are safe and sound!",
+    "complete2": "Their families owe you everything. You're a true hero!"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "name": "Daily Patrol",
+  "description": [
+    "Patrol the city districts and maintain public safety.",
+    "Help the guard captain keep the peace by checking key areas.",
+    "Eliminate threats and gather evidence of criminal activity.",
+    "",
+    "Resets daily at midnight."
+  ],
+  "objectives": {
+    "patrol_captain": "Speak with the patrol captain",
+    "patrol_orders": "Collect patrol orders",
+    "market_district": "Visit the market district",
+    "merchant_leader": "Talk to the merchant guild head",
+    "market_thieves": "Eliminate 5 market thieves",
+    "stolen_goods": "Recover 10 stolen emeralds",
+    "residential_area": "Visit the residential area",
+    "concerned_citizen": "Speak with worried villager",
+    "prowling_monsters": "Kill 8 prowling zombies",
+    "inspect_homes": "Inspect 15 homes for security",
+    "harbor_district": "Visit the harbor district",
+    "dock_master": "Report to the harbor master",
+    "smugglers": "Eliminate 10 smugglers",
+    "contraband": "Confiscate 20 contraband items",
+    "city_walls": "Patrol the city walls",
+    "wall_guard": "Check in with wall sentinel",
+    "wall_climbers": "Remove 12 wall-climbing spiders",
+    "fix_damages": "Repair wall damage with 30 cobblestone",
+    "outskirts": "Patrol the city outskirts",
+    "wild_beasts": "Drive away 6 wild wolves",
+    "bandits": "Defeat 4 bandits",
+    "bandit_evidence": "Collect 4 pieces of bandit evidence",
+    "return_stolen_goods": "Return stolen goods to merchant guild",
+    "turn_in_contraband": "Turn in contraband to harbor master",
+    "submit_evidence": "Submit evidence to guard captain",
+    "final_report": "Give final report to patrol captain"
+  },
+  "dialogs": {
+    "start1": "The city needs constant vigilance to stay safe. Are you ready for today's patrol?",
+    "start2": "Take these orders and check each district. Report any suspicious activity immediately.",
+    "player_accept": "I'm ready to serve and protect the citizens.",
+    "instructions": "Remember - the safety of our people depends on your thoroughness. Good luck out there.",
+    "merchant_complaint": "Those thieves have been hitting our stalls all week! Please help us!",
+    "citizen_concern": "I've been hearing strange noises at night. Could you check around our homes?",
+    "dock_problem": "Smugglers have been using our docks to move illegal goods. We need your help.",
+    "complete1": "Excellent work today. Your patrol has made our city much safer.",
+    "player_report": "All districts secured, captain. Evidence and contraband confiscated.",
+    "complete2": "The citizens can sleep peacefully tonight thanks to your efforts. Well done, guard."
+  },
+  "npcs": {
+    "city_guard_captain": "Captain Marcus",
+    "merchant_guild_head": "Guild Master Helena",
+    "worried_villager": "Concerned Citizen",
+    "harbor_master": "Dockmaster William",
+    "wall_sentinel": "Wall Guard Thomas"
+  }
+}

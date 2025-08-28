@@ -1,0 +1,36 @@
+{
+  "name": "Lost Treasure",
+  "description": [
+    "Find the treasure marked on an old map.",
+    "You must visit three locations in order.",
+    "",
+    "Objectives:",
+    "• Visit the Old Ruins",
+    "• Visit the Ancient Cave",
+    "• Visit the Hidden Shrine",
+    "• Talk to the Treasure Guardian",
+    "",
+    "Rewards:",
+    "• 500 Gold",
+    "• 5 Diamonds",
+    "• 2 Golden Apples",
+    "• Enchanted Book",
+    "• 300 Experience"
+  ],
+  "objectives": {
+    "visit_old_ruins": "Visit the Old Ruins",
+    "visit_ancient_cave": "Visit the Ancient Cave",
+    "visit_hidden_shrine": "Visit the Hidden Shrine",
+    "talk_to_guardian": "Talk to the Treasure Guardian"
+  },
+  "npcs": {
+    "explorer": "Explorer",
+    "guardian": "Treasure Guardian"
+  },
+  "dialogs": {
+    "explorer1": "Look at this old map. They say legendary treasure is hidden here.",
+    "explorer2": "I'm too old to search for it myself.",
+    "explorer3": "If you visit the three marked locations in order, you'll find the treasure.",
+    "explorer4": "When you find the treasure, keep some for yourself. Just bring me the rest."
+  }
+}

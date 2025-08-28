@@ -1,0 +1,34 @@
+{
+  "name": "秋の収穫祭",
+  "description": [
+    "黄金の収穫シーズンが到来しました！",
+    "季節の恵みを集めるお手伝いをして",
+    "村と一緒に秋の豊かさを祝いましょう。"
+  ],
+  "objectives": {
+    "harvest_master": "収穫の達人と話す",
+    "collect_apples": "果樹園からリンゴを40個集める",
+    "harvest_pumpkins": "カボチャを30個収穫する",
+    "gather_acorns": "どんぐりを50個集める",
+    "collect_maple_leaves": "黄金のカエデの葉を25枚集める",
+    "craft_apple_pies": "アップルパイを15個作る",
+    "make_pumpkin_soup": "カボチャスープを20杯作る",
+    "decorate_village": "村の各所に秋の装飾を12個設置する",
+    "scarecrow_contest": "コンテスト用のかかしを5体作る",
+    "harvest_feast": "盛大な収穫祭に参加する"
+  },
+  "npcs": {
+    "harvest_master": "収穫の達人",
+    "village_baker": "村のパン職人",
+    "autumn_decorator": "秋の装飾師"
+  },
+  "dialogs": {
+    "start": "秋の収穫祭へようこそ！季節の恵みがあなたの手助けを待っています。",
+    "apples": "リンゴの木が実で重くなっています。全部集めるのを手伝ってください！",
+    "player_help": "収穫のお祝いをお手伝いできて嬉しいです！",
+    "pumpkins": "この美しいカボチャをご覧ください！素晴らしいスープと装飾品になりますよ。",
+    "decorations": "秋の色彩と収穫の展示で村を美しく飾りましょう。",
+    "feast": "私たちの努力が実を結びました。さあ、収穫祭に参加してください！",
+    "complete": "あなたのおかげで、この収穫祭は何年も語り継がれることでしょう！"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "Shadow Invasion",
+  "description": [
+    "Dark forces have begun their invasion of the realm.",
+    "Shadow creatures emerge from rifts in reality,",
+    "threatening to consume everything in darkness.",
+    "",
+    "Rally the forces of light and push back the shadow invasion!"
+  ],
+  "objectives": {
+    "seal_shadow_rifts": "Seal 5 Shadow Rifts",
+    "defeat_shadow_generals": "Defeat 3 Shadow Generals",
+    "rally_light_forces": "Rally the Forces of Light",
+    "confront_shadow_lord": "Confront the Shadow Lord"
+  },
+  "npcs": {
+    "light_commander": "Commander of Light",
+    "shadow_lord": "The Shadow Lord",
+    "refugee_leader": "Refugee Leader"
+  },
+  "dialogs": {
+    "start1": "Hero! The shadow invasion has begun!",
+    "start2": "Dark rifts have opened across the land, spewing forth creatures of pure darkness.",
+    "start3": "We need your help to seal these rifts and push back the invasion.",
+    "progress1": "Your efforts are turning the tide against the shadows.",
+    "progress2": "But the Shadow Lord grows stronger with each passing moment.",
+    "complete1": "Victory! The shadow invasion has been repelled!",
+    "complete2": "The realm is safe once more, thanks to your heroic efforts."
+  }
+}

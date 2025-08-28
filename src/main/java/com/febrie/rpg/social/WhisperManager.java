@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import net.kyori.adventure.text.Component;
+import com.febrie.rpg.util.UnifiedColorUtil;
 
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -54,7 +56,7 @@ public class WhisperManager {
     @NotNull
     public CompletableFuture<Boolean> sendWhisper(@NotNull Player from, @NotNull String toPlayerName, @NotNull String message) {
         Bukkit.getScheduler().runTask(plugin, () -> {
-            from.sendMessage("§c귓말 기능이 현재 비활성화되어 있습니다.");
+            from.sendMessage(Component.translatable("whisper.disabled").color(UnifiedColorUtil.ERROR));
         });
         return CompletableFuture.completedFuture(false);
     }
@@ -68,7 +70,7 @@ public class WhisperManager {
 
         if (lastTarget == null) {
             Bukkit.getScheduler().runTask(plugin, () -> {
-                from.sendMessage("§c답장할 대상이 없습니다. 먼저 귓말을 주고받아야 합니다.");
+                from.sendMessage(Component.translatable("whisper.no-reply-target").color(UnifiedColorUtil.ERROR));
             });
             return CompletableFuture.completedFuture(false);
         }

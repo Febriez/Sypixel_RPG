@@ -93,8 +93,8 @@ public class IslandContributeGui extends BaseGui {
         return ItemBuilder.of(Material.GOLD_INGOT, getViewerLocale())
                 .displayNameTranslated("gui.island.contribute.gold-info.title")
                 .addLore(Component.empty())
-                .addLore(LangManager.get("gui.island.contribute.gold-info.balance", viewer, Component.text(String.format("%,d", currentGold))))
-                .addLore(LangManager.get("gui.island.contribute.gold-info.contribution", viewer, Component.text(String.format("%,d", myContribution))))
+                .addLore(LangManager.getComponent("gui.island.contribute.gold-info.balance", getViewerLocale(), Component.text(String.format("%,d", currentGold))))
+                .addLore(LangManager.getComponent("gui.island.contribute.gold-info.contribution", getViewerLocale(), Component.text(String.format("%,d", myContribution))))
                 .addLoreTranslated("gui.island.contribute.gold-info.description1")
                 .addLoreTranslated("gui.island.contribute.gold-info.description2")
                 .hideAllFlags()
@@ -114,7 +114,7 @@ public class IslandContributeGui extends BaseGui {
             default -> Material.GOLD_NUGGET;
         };
         ItemBuilder builder = ItemBuilder.of(material, getViewerLocale())
-                .displayName(LangManager.get("gui.island.contribute.quick-amount", viewer, Component.text(String.format("%,d", amount))));
+                .displayName(LangManager.getComponent("gui.island.contribute.quick-amount", getViewerLocale(), Component.text(String.format("%,d", amount))));
         builder.addLore(Component.empty());
         if (canAfford) {
             builder.addLoreTranslated("gui.island.contribute.click-to-contribute");
@@ -122,7 +122,7 @@ public class IslandContributeGui extends BaseGui {
             builder.addLoreTranslated("gui.island.contribute.click-prompt");
         } else {
             builder.addLoreTranslated("gui.island.contribute.insufficient-gold");
-            builder.addLore(LangManager.get("gui.island.contribute.gold-needed", viewer, Component.text(String.format("%,d", amount - currentGold))));
+            builder.addLore(LangManager.getComponent("gui.island.contribute.gold-needed", getViewerLocale(), Component.text(String.format("%,d", amount - currentGold))));
         }
         return builder.hideAllFlags().build();
     }
@@ -158,7 +158,7 @@ public class IslandContributeGui extends BaseGui {
                         int amount = Integer.parseInt(input);
                         
                         if (amount < 100) {
-                            player.sendMessage(LangManager.get("island.contribute.amount-too-low", player).color(NamedTextColor.RED));
+                            player.sendMessage(LangManager.getComponent("island.contribute.amount-too-low", player.locale()).color(NamedTextColor.RED));
                             return List.of(AnvilGUI.ResponseAction.close());
                         }
                         // GUI 닫고 기여 처리
@@ -166,13 +166,13 @@ public class IslandContributeGui extends BaseGui {
                             contributeGold(player, amount);
                         });
                     } catch (NumberFormatException e) {
-                        player.sendMessage(LangManager.get("island.contribute.invalid-amount", player).color(NamedTextColor.RED));
+                        player.sendMessage(LangManager.getComponent("island.contribute.invalid-amount", player.locale()).color(NamedTextColor.RED));
                     }
                     return List.of(AnvilGUI.ResponseAction.close());
                 })
-                .text(LangManager.getString("island.gui.contribute.contribution-input-text", player))
+                .text(LangManager.getString("island.gui.contribute.contribution-input-text", player.locale()))
                 .itemLeft(new ItemStack(Material.GOLD_INGOT))
-                .title(LangManager.getString("island.gui.contribute.contribution-input-title", player))
+                .title(LangManager.getString("island.gui.contribute.contribution-input-title", player.locale()))
                 .plugin(plugin)
                 .open(player);
     }

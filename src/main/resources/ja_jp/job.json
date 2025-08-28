@@ -1,0 +1,127 @@
+{
+  "categories": {
+    "warrior": "Warrior",
+    "mage": "Mage",
+    "archer": "Archer",
+    "warrior-full": {
+      "name": "Warrior",
+      "description": [
+        "A class group with powerful melee combat abilities.",
+        "Holds the front line with high health and defense."
+      ]
+    },
+    "mage-full": {
+      "name": "Mage",
+      "description": [
+        "A class group that wields mystical magical powers.",
+        "Dominates the battlefield with powerful spells."
+      ]
+    },
+    "archer-full": {
+      "name": "Archer",
+      "description": [
+        "A class group that delivers precise attacks from range.",
+        "Features fast mobility and high critical rate."
+      ]
+    }
+  },
+  "berserker": {
+    "name": "Berserker",
+    "description": [
+      "A melee dealer with powerful attack power.",
+      "Gets stronger the lower their health is.",
+      "",
+      "▸ Strength-focused stat growth",
+      "▸ Can use berserk skills",
+      "▸ Health-based attack power increase"
+    ]
+  },
+  "bruiser": {
+    "name": "Bruiser",
+    "description": [
+      "A warrior balanced between offense and defense.",
+      "Can handle various situations.",
+      "",
+      "▸ Balanced stat growth",
+      "▸ Attack/Defense mode switching",
+      "▸ Highly adaptable combat style"
+    ]
+  },
+  "tank": {
+    "name": "Tank",
+    "description": [
+      "A sturdy shield that protects allies.",
+      "Boasts high defense and health.",
+      "",
+      "▸ Vitality-focused stat growth",
+      "▸ Taunt and shield skills",
+      "▸ Damage reduction effects"
+    ]
+  },
+  "priest": {
+    "name": "Priest",
+    "description": [
+      "Heals allies with divine power.",
+      "Possesses powerful buffs and healing abilities.",
+      "",
+      "▸ Wisdom-focused stat growth",
+      "▸ Healing and resurrection skills",
+      "▸ Buff/Debuff specialization"
+    ]
+  },
+  "dark_mage": {
+    "name": "Dark Mage",
+    "description": [
+      "A mage who wields the power of darkness.",
+      "Deals powerful area damage.",
+      "",
+      "▸ Intelligence-focused stat growth",
+      "▸ Curse and dark magic skills",
+      "▸ Area damage specialization"
+    ]
+  },
+  "mercy": {
+    "name": "Mercy",
+    "description": [
+      "Protects allies with the power of nature.",
+      "Specializes in healing and protection.",
+      "",
+      "▸ Wisdom/Vitality balanced growth",
+      "▸ Regeneration and purification skills",
+      "▸ Sustained healing specialization"
+    ]
+  },
+  "archer": {
+    "name": "Archer",
+    "description": [
+      "Delivers precise shots from long range.",
+      "Boasts high mobility and critical rate.",
+      "",
+      "▸ Dexterity-focused stat growth",
+      "▸ Various arrow skills",
+      "▸ Critical hit specialization"
+    ]
+  },
+  "sniper": {
+    "name": "Sniper",
+    "description": [
+      "Snipes enemies from extreme range.",
+      "Each shot is extremely powerful.",
+      "",
+      "▸ Dexterity/Luck balanced growth",
+      "▸ Sniping and piercing skills",
+      "▸ Single target burst damage"
+    ]
+  },
+  "shotgunner": {
+    "name": "Shotgunner",
+    "description": [
+      "Fires scatter shots at close range.",
+      "Features area damage and knockback.",
+      "",
+      "▸ Dexterity/Strength balanced growth",
+      "▸ Scatter and explosive skills",
+      "▸ Close-range area damage"
+    ]
+  }
+}

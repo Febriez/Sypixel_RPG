@@ -1,0 +1,33 @@
+{
+  "name": "일일 배달",
+  "description": [
+    "마을 사람들을 위해 중요한 물건들을",
+    "안전하게 배달하는 임무입니다.",
+    "",
+    "시간 내에 정확한 위치로 배달하여",
+    "마을의 일상을 도와주세요."
+  ],
+  "objectives": {
+    "deliver_medicines": "약품 5개 배달",
+    "deliver_food_supplies": "식량 보급품 3상자 배달",
+    "deliver_letters": "편지 7통 배달",
+    "deliver_crafting_materials": "제작 재료 10개 배달",
+    "urgent_delivery": "긴급 배달 2건 완료",
+    "complete_delivery_route": "배달 경로 전체 완주"
+  },
+  "npcs": {
+    "delivery_coordinator": "배달 조정관",
+    "village_elder": "마을 촌장",
+    "merchant": "상인",
+    "urgent_customer": "급한 고객"
+  },
+  "dialogs": {
+    "start1": "오늘도 중요한 배달 임무가 있습니다.",
+    "start2": "마을 사람들이 당신을 기다리고 있어요.",
+    "start3": "안전하고 빠르게 배달해주세요.",
+    "progress1": "정확하고 신속한 배달, 감사합니다!",
+    "progress2": "마을 사람들이 당신의 도움에 고마워하고 있어요.",
+    "complete1": "오늘의 모든 배달을 완료했습니다!",
+    "complete2": "당신 덕분에 마을이 원활히 돌아가고 있습니다."
+  }
+}

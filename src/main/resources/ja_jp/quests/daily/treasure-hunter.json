@@ -1,0 +1,31 @@
+{
+  "name": "日々の宝探し",
+  "description": [
+    "隠された宝物と貴重な工芸品を探し出しましょう。",
+    "古代の地図を辿って埋もれた富を発見しましょう。",
+    "危険な守護者に立ち向かって報酬を手に入れましょう。",
+    "",
+    "毎日深夜0時にリセットされます。"
+  ],
+  "objectives": {
+    "treasure_dealer": "宝物商人と相談する",
+    "treasure_map": "今日の宝の地図を入手する",
+    "buried_treasure_1": "砂漠遺跡の宝物を探す",
+    "dig_desert_treasure": "砂漠の宝箱を発掘する",
+    "buried_treasure_2": "森の宝物庫を見つける",
+    "dig_forest_treasure": "森の宝箱を発掘する",
+    "underwater_treasure": "沈没船を探検する",
+    "ocean_treasures": "海の宝物からエメラルド20個を収集する",
+    "treasure_guardians": "宝物守護者モンスター10体を倒す",
+    "rare_gems": "希少なダイヤモンドの宝石15個を収集する",
+    "submit_treasures": "収集した宝物を商人に提出する"
+  },
+  "dialogs": {
+    "start1": "おお、富を求める仲間よ！王国中に隠された宝物の地図があります。",
+    "player_interested": "隠された宝物のためならどんな危険も冒す準備ができています。",
+    "complete1": "素晴らしい働きです！これらの宝物であなたは夢を超える富を得るでしょう。"
+  },
+  "npcs": {
+    "treasure_merchant": "宝物商人フェルディナンド"
+  }
+}

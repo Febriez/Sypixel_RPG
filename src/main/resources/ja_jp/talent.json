@@ -1,0 +1,360 @@
+{
+  "angelic_blessing": {
+    "name": "Angelic Blessing",
+    "description": [
+      "All stats increase with divine power.",
+      "All stats +1"
+    ]
+  },
+  "guardian_angel": {
+    "name": "Guardian Angel",
+    "description": [
+      "Resurrect once from death's brink.",
+      "50% chance to resurrect on death (5 min cooldown)"
+    ]
+  },
+  "healing_boost": {
+    "name": "Healing Boost",
+    "description": [
+      "All healing effects are increased.",
+      "Healing amount +20%"
+    ]
+  },
+  "resurrection": {
+    "name": "Resurrection",
+    "description": [
+      "Can resurrect allies.",
+      "Resurrect dead allies (10 min cooldown)"
+    ]
+  },
+  "basic_strength": {
+    "name": "Basic Strength",
+    "description": [
+      "Increases strength.",
+      "Strength +2 (per level)"
+    ]
+  },
+  "basic_intelligence": {
+    "name": "Basic Intelligence",
+    "description": [
+      "Increases intelligence.",
+      "Intelligence +2 (per level)"
+    ]
+  },
+  "basic_vitality": {
+    "name": "Basic Vitality",
+    "description": [
+      "Increases vitality.",
+      "Vitality +3 (per level)"
+    ]
+  },
+  "basic_dexterity": {
+    "name": "Basic Dexterity",
+    "description": [
+      "Increases dexterity.",
+      "Dexterity +2 (per level)"
+    ]
+  },
+  "basic_wisdom": {
+    "name": "Basic Wisdom",
+    "description": [
+      "Increases wisdom.",
+      "Wisdom +2 (per level)"
+    ]
+  },
+  "basic_luck": {
+    "name": "Basic Luck",
+    "description": [
+      "Increases luck.",
+      "Luck +1 (per level)"
+    ]
+  },
+  "exp_boost": {
+    "name": "Experience Boost",
+    "description": [
+      "Gained experience increases.",
+      "Experience gain +10% (per level)"
+    ]
+  },
+  "swiftness": {
+    "name": "Swiftness",
+    "description": [
+      "Movement speed increases.",
+      "Movement speed +5% (per level)"
+    ]
+  },
+  "berserker_rage": {
+    "name": "Berserker's Rage",
+    "description": [
+      "Get stronger the lower your health.",
+      "Strength +6, Vitality -2 (per level)",
+      "Attack power +50% when below 30% health"
+    ]
+  },
+  "bloodthirst": {
+    "name": "Bloodthirst",
+    "description": [
+      "Recover health when killing enemies.",
+      "Recover 5% of max health on kill"
+    ]
+  },
+  "blood_bath": {
+    "name": "Blood Bath",
+    "description": [
+      "Absorb health during area attacks.",
+      "Absorb 10% of area damage as health"
+    ]
+  },
+  "balanced_fighter": {
+    "name": "Balanced Fighter",
+    "description": [
+      "All combat abilities increase evenly.",
+      "Strength, Vitality, Dexterity +2 each (per level)"
+    ]
+  },
+  "adaptability": {
+    "name": "Adaptability",
+    "description": [
+      "All resistances increase.",
+      "Vitality +3 (per level)",
+      "All resistances +2%"
+    ]
+  },
+  "counter_attack": {
+    "name": "Counter Attack",
+    "description": [
+      "Counter when successfully defending.",
+      "30% chance to counter on defense"
+    ]
+  },
+  "fortitude": {
+    "name": "Fortitude",
+    "description": [
+      "Reduce damage taken.",
+      "Vitality +5, Damage reduction 5% (per level)"
+    ]
+  },
+  "shield_mastery": {
+    "name": "Shield Mastery",
+    "description": [
+      "Improved shield usage.",
+      "Shield block chance +10%"
+    ]
+  },
+  "taunt": {
+    "name": "Taunt",
+    "description": [
+      "Focus enemy attacks on yourself.",
+      "Taunt nearby enemies (5 seconds)"
+    ]
+  },
+  "aegis": {
+    "name": "Aegis",
+    "description": [
+      "Create an absolute barrier.",
+      "Create barrier equal to 30% of max health"
+    ]
+  },
+  "divine_blessing": {
+    "name": "Divine Blessing",
+    "description": [
+      "God's grace is with you.",
+      "Wisdom +4 (per level)",
+      "Healing effects +10%"
+    ]
+  },
+  "holy_light": {
+    "name": "Holy Light",
+    "description": [
+      "Heal with holy light.",
+      "Instantly heal target"
+    ]
+  },
+  "divine_shield": {
+    "name": "Divine Shield",
+    "description": [
+      "Create a holy shield.",
+      "Immune to all damage for 5 seconds"
+    ]
+  },
+  "mass_heal": {
+    "name": "Mass Heal",
+    "description": [
+      "Heal all nearby allies.",
+      "Heal allies within 10 blocks"
+    ]
+  },
+  "dark_power": {
+    "name": "Dark Power",
+    "description": [
+      "Dark power increases.",
+      "Intelligence +5 (per level)",
+      "Magic damage +10%"
+    ]
+  },
+  "curse": {
+    "name": "Curse",
+    "description": [
+      "Curse your enemies.",
+      "Reduce target's all stats by 20%"
+    ]
+  },
+  "shadow_bolt": {
+    "name": "Shadow Bolt",
+    "description": [
+      "Fire a bolt of darkness.",
+      "Piercing damage + Blindness effect"
+    ]
+  },
+  "soul_harvest": {
+    "name": "Soul Harvest",
+    "description": [
+      "Harvest enemy souls.",
+      "Recover 20% of max mana on kill"
+    ]
+  },
+  "nature_blessing": {
+    "name": "Nature's Blessing",
+    "description": [
+      "Receive nature's protection.",
+      "Vitality, Wisdom +3 each (per level)"
+    ]
+  },
+  "regeneration": {
+    "name": "Regeneration",
+    "description": [
+      "Continuously recover health.",
+      "Regenerate 1% of max health per second"
+    ]
+  },
+  "purify": {
+    "name": "Purify",
+    "description": [
+      "Remove all debuffs.",
+      "Remove all debuffs from target"
+    ]
+  },
+  "tree_of_life": {
+    "name": "Tree of Life",
+    "description": [
+      "Summon the tree of life.",
+      "Sustained healing for nearby allies (30 seconds)"
+    ]
+  },
+  "eagle_eye": {
+    "name": "Eagle Eye",
+    "description": [
+      "Increased accuracy and range.",
+      "Dexterity +3 (per level)",
+      "Accuracy +10%, Range +2"
+    ]
+  },
+  "multishot": {
+    "name": "Multishot",
+    "description": [
+      "Fire multiple arrows simultaneously.",
+      "Fire 3 arrows at once"
+    ]
+  },
+  "wind_walker": {
+    "name": "Wind Walker",
+    "description": [
+      "Increased movement speed and evasion.",
+      "Movement speed +10%, Evasion +5%"
+    ]
+  },
+  "poison_arrows": {
+    "name": "Poison Arrows",
+    "description": [
+      "Apply poison to arrows.",
+      "Add poison damage on hit"
+    ]
+  },
+  "bow_mastery": {
+    "name": "Bow Mastery",
+    "description": [
+      "Improved bow usage.",
+      "Bow damage +15%"
+    ]
+  },
+  "precision": {
+    "name": "Precision",
+    "description": [
+      "Increased critical chance.",
+      "Critical chance +10% (per level)"
+    ]
+  },
+  "camouflage": {
+    "name": "Camouflage",
+    "description": [
+      "Become undetectable to enemies.",
+      "Stealth for 5 seconds"
+    ]
+  },
+  "headshot": {
+    "name": "Headshot",
+    "description": [
+      "Aim precisely for the head.",
+      "Headshot damage +100%"
+    ]
+  },
+  "steady_aim": {
+    "name": "Steady Aim",
+    "description": [
+      "Increased accuracy when stationary.",
+      "Accuracy +30% when not moving"
+    ]
+  },
+  "scattershot": {
+    "name": "Scattershot",
+    "description": [
+      "Spread arrows over a wide area.",
+      "Fan-shaped area attack"
+    ]
+  },
+  "point_blank": {
+    "name": "Point Blank",
+    "description": [
+      "Deadly damage at close range.",
+      "Close-range critical chance +50%"
+    ]
+  },
+  "explosive_shot": {
+    "name": "Explosive Shot",
+    "description": [
+      "Explodes on impact.",
+      "Area explosion damage"
+    ]
+  },
+  "quick_reload": {
+    "name": "Quick Reload",
+    "description": [
+      "Increased reload speed.",
+      "Dexterity +2 (per level)",
+      "Reload time -20%"
+    ]
+  },
+  "double_barrel": {
+    "name": "Double Barrel",
+    "description": [
+      "Fire two shots simultaneously.",
+      "Double-shot simultaneously"
+    ]
+  },
+  "ascension": {
+    "name": "Ascension",
+    "description": [
+      "Temporarily gain transcendent power.",
+      "Flight enabled for 30 seconds",
+      "All stats temporarily greatly increased"
+    ]
+  },
+  "iron_will": {
+    "name": "Iron Will",
+    "description": [
+      "Resist debuffs with strong willpower.",
+      "Vitality +2, Wisdom +2 (per level)",
+      "Debuff resistance +20%"
+    ]
+  }
+}

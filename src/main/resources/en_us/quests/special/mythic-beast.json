@@ -1,0 +1,33 @@
+{
+  "name": "Mythic Beast",
+  "description": [
+    "A legendary creature of immense power has awakened",
+    "from its ancient slumber, threatening the balance of nature.",
+    "",
+    "Only a true hero can face this mythic beast and",
+    "restore peace to the lands it terrorizes."
+  ],
+  "objectives": {
+    "investigate_beast_sightings": "Investigate Mythic Beast Sightings",
+    "gather_ancient_knowledge": "Study Ancient Beast Lore",
+    "prepare_special_weapons": "Forge Mythic-Slaying Weapons",
+    "track_beast_lair": "Track the Beast to its Lair",
+    "face_mythic_beast": "Confront the Mythic Beast",
+    "claim_beast_trophy": "Claim the Mythic Beast Trophy"
+  },
+  "npcs": {
+    "beast_hunter": "Master Beast Hunter",
+    "ancient_scholar": "Ancient Lore Scholar",
+    "mythic_blacksmith": "Mythic Weaponsmith",
+    "forest_guardian": "Guardian of the Ancient Forest"
+  },
+  "dialogs": {
+    "start1": "A creature of legend has awakened, hero.",
+    "start2": "Its power rivals that of the ancient dragons.",
+    "start3": "You must prepare carefully for this ultimate hunt.",
+    "progress1": "Your preparations show wisdom and courage.",
+    "progress2": "The beast grows restless, sensing your approach.",
+    "complete1": "The mythic beast has been vanquished by your hand!",
+    "complete2": "Your legend will be told for generations to come."
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "Royal Messenger",
+  "description": [
+    "The royal messenger has fallen ill while carrying",
+    "important documents to distant kingdoms.",
+    "",
+    "Take on the responsibility of delivering these",
+    "crucial messages and maintaining diplomatic",
+    "relations between the realms."
+  ],
+  "objectives": {
+    "collect_royal_letters": "Collect the Royal Documents",
+    "deliver_to_northern_kingdom": "Deliver Message to Northern Kingdom",
+    "deliver_to_eastern_duchy": "Deliver Message to Eastern Duchy",
+    "return_with_replies": "Return with Official Replies"
+  },
+  "npcs": {
+    "royal_messenger": "Royal Messenger James",
+    "northern_lord": "Lord Commander Aldric",
+    "eastern_duchess": "Duchess Isabelle",
+    "court_official": "Court Official"
+  },
+  "dialogs": {
+    "start1": "Adventurer! Please, I need your help urgently.",
+    "start2": "I carry messages of great importance, but this fever prevents me from traveling.",
+    "start3": "These documents must reach their destinations. Will you carry them for the crown?",
+    "progress1": "Thank you for taking on this vital mission.",
+    "progress2": "The kingdoms are counting on these messages arriving safely.",
+    "complete1": "You've successfully completed this diplomatic mission!",
+    "complete2": "The crown owes you a debt of gratitude for maintaining these important relations."
+  }
+}

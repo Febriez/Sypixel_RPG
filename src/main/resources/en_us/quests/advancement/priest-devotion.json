@@ -1,0 +1,46 @@
+{
+  "name": "Path of Divine Devotion",
+  "description": [
+    "Strengthen your faith and unlock the",
+    "sacred powers of divine healing and protection.",
+    "",
+    "Serve the divine will and become a beacon",
+    "of hope for all who walk in darkness.",
+    "",
+    "Class Requirements:",
+    "• Level 25 or higher",
+    "• Proven faith and compassion",
+    "",
+    "Trial Contents:",
+    "• Test of Faith",
+    "• Test of Compassion",
+    "• Test of Divine Connection",
+    "",
+    "Class Rewards:",
+    "• Priest class advancement",
+    "• Divine healing mastery",
+    "• Sacred vestments and relics"
+  ],
+  "objectives": {
+    "pray_at_altar": "Pray at the Sacred Altar",
+    "level_check": "Reach Level 25",
+    "faith_test": "Test of Faith: Maintain prayer for 30 minutes",
+    "compassion_test": "Test of Compassion: Heal 20 wounded travelers",
+    "divine_test": "Test of Divine Connection: Channel divine power",
+    "final_blessing": "Receive the Final Divine Blessing",
+    "receive_advancement": "Receive Priest Advancement"
+  },
+  "npcs": {
+    "high_priest": "High Priest",
+    "divine_oracle": "Divine Oracle",
+    "temple_keeper": "Temple Keeper"
+  },
+  "dialogs": {
+    "start": "The path of devotion requires unwavering faith in the divine.",
+    "requirements": "Your heart must be pure and your intentions noble.",
+    "faith_trial": "Faith is not just belief, but absolute trust in divine wisdom.",
+    "compassion_trial": "True priests heal not just the body, but the soul.",
+    "divine_trial": "Let the divine light flow through you and guide your actions.",
+    "complete": "The divine light shines brightly within you. You are blessed."
+  }
+}

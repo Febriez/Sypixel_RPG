@@ -1,0 +1,1218 @@
+{
+  "gui": {
+    "buttons": {
+      "close": {
+        "name": "Close",
+        "lore": [
+          "Click to close this window."
+        ]
+      },
+      "back": {
+        "name": "◀ Back",
+        "lore": [
+          "Click to go back to the previous screen."
+        ]
+      },
+      "refresh": {
+        "name": "Refresh",
+        "lore": [
+          "Click to refresh the screen."
+        ]
+      },
+      "next-page": {
+        "name": "Next Page →",
+        "lore": [
+          "Click to go to the next page."
+        ]
+      },
+      "previous-page": {
+        "name": "← Previous Page",
+        "lore": [
+          "Click to go to the previous page."
+        ]
+      },
+      "confirm": {
+        "name": "Confirm",
+        "lore": [
+          "Click to confirm."
+        ]
+      },
+      "cancel": {
+        "name": "Cancel",
+        "lore": [
+          "Click to cancel."
+        ]
+      },
+      "settings": {
+        "name": "Settings",
+        "lore": [
+          "Click to open settings."
+        ]
+      },
+      "toggle": {
+        "enabled": {
+          "name": "Enabled",
+          "lore": [
+            "Currently enabled."
+          ]
+        },
+        "disabled": {
+          "name": "Disabled",
+          "lore": [
+            "Currently disabled."
+          ]
+        }
+      },
+      "page-info": {
+        "name": "Page Info",
+        "lore": [
+          "Current page: {0}/{1}"
+        ]
+      },
+      "status": {
+        "online": {
+          "name": "Online",
+          "lore": [
+            "Currently online."
+          ]
+        },
+        "offline": {
+          "name": "Offline",
+          "lore": [
+            "Currently offline."
+          ]
+        }
+      }
+    },
+    "error": {
+      "title": {
+        "name": "Error",
+        "lore": [
+          "An error has occurred."
+        ]
+      }
+    }
+  },
+  "profile": {
+    "level-info": {
+      "name": "Level Information",
+      "lore": [
+        "Current level and experience info"
+      ]
+    },
+    "game-stats": {
+      "name": "Game Statistics",
+      "lore": [
+        "Playtime and combat statistics"
+      ]
+    },
+    "quest-info": {
+      "name": "Quest Information",
+      "lore": [
+        "Active and completed quests"
+      ],
+      "click-lore": [
+        "▶ Click to open quest list"
+      ]
+    },
+    "pets": {
+      "name": "Pets",
+      "lore": [
+        "Manage your pets",
+        "",
+        "▶ Click to open"
+      ]
+    },
+    "collection-book": {
+      "name": "Collection Book",
+      "lore": [
+        "View your collection progress",
+        "",
+        "▶ Click to open"
+      ]
+    },
+    "user-settings": {
+      "name": "User Settings",
+      "lore": [
+        "Manage your personal settings",
+        "",
+        "▶ Click to open"
+      ]
+    }
+  },
+  "mainmenu": {
+    "title": {
+      "name": "SypixelRPG",
+      "lore": [
+        "Start your adventure!",
+        "",
+        "Version: 1.0"
+      ]
+    },
+    "profile-button": {
+      "name": "My Profile",
+      "lore": [
+        "View your character information.",
+        "",
+        "▶ Click to open"
+      ]
+    },
+    "stats-button": {
+      "name": "Stats Management",
+      "lore": [
+        "Allocate your stat points.",
+        "",
+        "▶ Click to go to stats page"
+      ]
+    },
+    "talents-button": {
+      "name": "Talent Tree",
+      "lore": [
+        "Learn and enhance talents.",
+        "",
+        "▶ Click to open"
+      ]
+    },
+    "leaderboard-button": {
+      "name": "Server Rankings",
+      "lore": [
+        "Check rankings in various categories.",
+        "",
+        "▶ Click to open"
+      ]
+    },
+    "hub-button": {
+      "name": "Hub",
+      "lore": [
+        "Move to the central hub.",
+        "",
+        "▶ Click to open"
+      ]
+    },
+    "wild-button": {
+      "name": "Wild",
+      "lore": [
+        "Hunt mobs in the wild area.",
+        "",
+        "▶ Click to open"
+      ]
+    },
+    "island-button": {
+      "name": "Island",
+      "lore": [
+        "Adventure to mysterious islands.",
+        "",
+        "▶ Click to open"
+      ]
+    },
+    "skills-button": {
+      "name": "Skills",
+      "lore": [
+        "View and enhance job skills.",
+        "",
+        "▶ Click to open"
+      ]
+    },
+    "shop-button": {
+      "name": "Shop",
+      "lore": [
+        "Buy and sell items.",
+        "",
+        "▶ Click to open"
+      ]
+    },
+    "dungeon-button": {
+      "name": "Dungeon",
+      "lore": [
+        "Challenge dungeons for rewards.",
+        "",
+        "▶ Click to open"
+      ]
+    },
+    "job-button": {
+      "name": "Job Selection",
+      "lore": [
+        "Choose a job to start your adventure.",
+        "",
+        "⚠ Choose carefully!",
+        "▶ Click to open"
+      ]
+    },
+    "settings-button": {
+      "name": "Global Settings",
+      "lore": [
+        "Change global game settings.",
+        "",
+        "▶ Click to open"
+      ]
+    }
+  },
+  "profile": {
+    "job-select": {
+      "name": "Select Job",
+      "lore": [
+        "Choose a job to start your adventure!",
+        "",
+        "⚠ Jobs cannot be changed once selected!",
+        "▶ Click to select"
+      ]
+    },
+    "stats-info": {
+      "name": "Stats Information",
+      "lore": [
+        "Your character's ability scores."
+      ]
+    },
+    "collection": {
+      "name": "Collection Book",
+      "lore": [
+        "View your collected items.",
+        "Complete your collection!"
+      ]
+    },
+    "pet": {
+      "name": "Pets",
+      "lore": [
+        "Manage your companion pets.",
+        "Adventure with your pets!"
+      ]
+    },
+    "user-settings": {
+      "name": "User Settings",
+      "lore": [
+        "Change personal settings.",
+        "",
+        "▶ Click to open"
+      ]
+    }
+  },
+  "rarity": {
+    "common": "Common",
+    "uncommon": "Uncommon",
+    "rare": "Rare",
+    "epic": "Epic",
+    "legendary": "Legendary"
+  },
+  "island": {
+    "creation": {
+      "title": {
+        "name": "Create Island",
+        "lore": [
+          "Create your own island!",
+          "",
+          "▶ Click to configure"
+        ]
+      },
+      "name": {
+        "name": "Island Name",
+        "lore": [
+          "",
+          "Current name: {0}",
+          "",
+          "▶ Click to change name",
+          ""
+        ]
+      },
+      "color": {
+        "name": "Island Color",
+        "lore": [
+          "",
+          "Current color: {0} {1}",
+          "Hex: {2}",
+          "",
+          "▶ Left-click: Next ({3})",
+          "▶ Right-click: Previous ({4})",
+          "▶ Middle-click: Enter HEX",
+          "",
+          "Example: #FF5733"
+        ]
+      },
+      "biome": {
+        "name": "Island Biome",
+        "lore": [
+          "",
+          "&7Current biome: &a{0}",
+          "",
+          "&eClick to change",
+          ""
+        ]
+      },
+      "template": {
+        "basic": {
+          "name": "Basic Island",
+          "lore": [
+            "",
+            "&7Standard starter island",
+            "",
+            "{0}",
+            ""
+          ]
+        },
+        "skyblock": {
+          "name": "Skyblock Island",
+          "lore": [
+            "",
+            "&7Classic skyblock challenge",
+            "",
+            "{0}",
+            ""
+          ]
+        },
+        "large": {
+          "name": "Large Island",
+          "lore": [
+            "",
+            "&7Bigger island with more space",
+            "",
+            "{0}",
+            ""
+          ]
+        },
+        "water": {
+          "name": "Water Island",
+          "lore": [
+            "",
+            "&7Island surrounded by water",
+            "",
+            "{0}",
+            ""
+          ]
+        }
+      },
+      "create-button": {
+        "name": "&a&lCreate Island",
+        "lore": [
+          "",
+          "&eSelected Settings:",
+          "&7Name: {0}",
+          "&7Biome: &a{1}",
+          "&7Template: &b{2}",
+          "",
+          "&a&lClick to create!",
+          ""
+        ]
+      }
+    },
+    "main": {
+      "info": {
+        "name": "{0}",
+        "lore": [
+          "",
+          "&7Owner: &f{0}",
+          "&7Size: &e{1}",
+          "&7Members: &a{2}",
+          "&7Workers: &a{3}",
+          "&7Creation: &b{4}",
+          ""
+        ]
+      },
+      "upgrade-info": {
+        "name": "&6&lIsland Upgrade",
+        "lore": [
+          "",
+          "&7Current Level:",
+          "&fSize: &e{0} &eLevel",
+          "&fMember: &e{1} &eLevel",
+          "&fWorker: &e{2} &eLevel",
+          "",
+          "&eClick to view upgrade options"
+        ]
+      },
+      "contribution-info": {
+        "name": "&a&lContribution",
+        "lore": [
+          "",
+          "&7Support your island with",
+          "&7resources and effort",
+          "",
+          "&7My Contribution: &e{0}",
+          "",
+          "&eClick to open"
+        ]
+      },
+      "visitor-info": {
+        "name": "&b&lVisitor Management",
+        "lore": [
+          "",
+          "&7Manage who can visit",
+          "&7your island",
+          "",
+          "&7Recent Visitors: &e{0} &ePlayers",
+          "&7Current Visitors: &b{1} &bOnline",
+          "",
+          "&eClick to view menu"
+        ]
+      },
+      "member-management": {
+        "name": "%COLOR_SUCCESS%Member Management",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Invite or manage island members",
+          "%COLOR_SECONDARY%Configure member permissions",
+          "",
+          "%COLOR_WARNING%▶ Click to open"
+        ]
+      },
+      "permission-management": {
+        "name": "%COLOR_ERROR%Permission Management",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Set permissions for each role",
+          "%COLOR_SECONDARY%Control what members can do",
+          "",
+          "%COLOR_WARNING%▶ Click to open"
+        ]
+      },
+      "upgrade": {
+        "name": "%COLOR_GOLD%Island Upgrade",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Upgrade your island features",
+          "",
+          "%COLOR_WARNING%▶ Click to open"
+        ]
+      },
+      "contribution": {
+        "name": "%COLOR_SUCCESS%Contribution",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%View island contribution rankings",
+          "%COLOR_SECONDARY%Check member contributions",
+          "",
+          "%COLOR_WARNING%▶ Click to open"
+        ]
+      },
+      "spawn-settings": {
+        "name": "%COLOR_LIGHT_PURPLE%Spawn Settings",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Configure island spawn points",
+          "%COLOR_SECONDARY%Set personal spawn locations",
+          "",
+          "%COLOR_WARNING%▶ Click to open"
+        ]
+      },
+      "island-settings": {
+        "name": "%COLOR_INFO%Island Settings",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Change island visibility",
+          "%COLOR_SECONDARY%Rename your island",
+          "%COLOR_SECONDARY%Configure island options",
+          "",
+          "%COLOR_WARNING%▶ Click to open"
+        ]
+      },
+      "visitor": {
+        "name": "%COLOR_PRIMARY%Visitor Management",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%View and manage island visitors",
+          "%COLOR_SECONDARY%Check visitor history",
+          "",
+          "%COLOR_WARNING%▶ Click to view menu"
+        ]
+      },
+      "biome-change": {
+        "name": "%COLOR_SUCCESS%Biome Change",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Change your island's biome",
+          "%COLOR_SECONDARY%Transform the landscape",
+          "",
+          "%COLOR_WARNING%▶ Click to open"
+        ]
+      },
+      "warp": {
+        "name": "%COLOR_AQUA%Island Warp",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Teleport to your island",
+          "",
+          "%COLOR_WARNING%▶ Click to warp"
+        ]
+      }
+    },
+    "member-manage": {
+      "member-info": {
+        "name": "%COLOR_AQUA%Member Information",
+        "lore": [
+          "%COLOR_SECONDARY%View and manage this member",
+          "%COLOR_SECONDARY%Configure permissions and roles"
+        ]
+      },
+      "promote": {
+        "name": "%COLOR_GOLD%&lPromote to Co-Owner",
+        "lore": [
+          "%COLOR_SECONDARY%Promote this member to",
+          "%COLOR_SECONDARY%co-owner status",
+          "",
+          "%COLOR_WARNING%Co-Owner Permissions:",
+          "%COLOR_SECONDARY%• Invite/kick members",
+          "%COLOR_SECONDARY%• Change island settings",
+          "%COLOR_SECONDARY%• Manage permissions",
+          "",
+          "%COLOR_WARNING%▶ Click to promote"
+        ]
+      },
+      "demote": {
+        "name": "%COLOR_SECONDARY%&lDemote to Member",
+        "lore": [
+          "%COLOR_SECONDARY%Demote co-owner to",
+          "%COLOR_SECONDARY%regular member status",
+          "",
+          "%COLOR_ERROR%Warning: Will lose co-owner permissions",
+          "",
+          "%COLOR_WARNING%▶ Click to demote"
+        ]
+      },
+      "to-worker": {
+        "name": "%COLOR_WARNING%&lChange to Worker",
+        "lore": [
+          "%COLOR_SECONDARY%Change member to",
+          "%COLOR_SECONDARY%worker status",
+          "",
+          "%COLOR_WARNING%Worker Features:",
+          "%COLOR_SECONDARY%• Limited permissions",
+          "%COLOR_SECONDARY%• Temporary member",
+          "",
+          "%COLOR_WARNING%▶ Click to change"
+        ]
+      },
+      "to-member": {
+        "name": "%COLOR_SUCCESS%&lPromote to Member",
+        "lore": [
+          "%COLOR_SECONDARY%Promote worker to",
+          "%COLOR_SECONDARY%full member status",
+          "",
+          "%COLOR_SUCCESS%Member Benefits:",
+          "%COLOR_SECONDARY%• All basic permissions",
+          "%COLOR_SECONDARY%• Island contribution tracking",
+          "",
+          "%COLOR_WARNING%▶ Click to promote"
+        ]
+      },
+      "kick": {
+        "name": "%COLOR_ERROR%&lKick from Island",
+        "lore": [
+          "%COLOR_SECONDARY%Remove this player from",
+          "%COLOR_SECONDARY%the island",
+          "",
+          "%COLOR_ERROR%Warning: This cannot be undone",
+          "",
+          "%COLOR_ERROR%▶ Click to kick"
+        ]
+      },
+      "permission": {
+        "name": "%COLOR_INFO%&lPermission Settings",
+        "lore": [
+          "%COLOR_SECONDARY%Configure individual permissions",
+          "%COLOR_SECONDARY%for this member",
+          "",
+          "%COLOR_ERROR%※ Feature coming soon"
+        ]
+      },
+      "no-permission": {
+        "name": "%COLOR_ERROR%&lNo Permission",
+        "lore": [
+          "%COLOR_SECONDARY%You don't have permission",
+          "%COLOR_SECONDARY%to manage this member"
+        ]
+      }
+    },
+    "member": {
+      "invite-button": {
+        "name": "&a&lInvite Player",
+        "lore": [
+          "",
+          "&7Invite a new player to your island",
+          "",
+          "&7Current Members: &e{0}",
+          "&7Current Workers: &e{1}",
+          "",
+          "&eClick to send invite"
+        ]
+      },
+      "previous-page": {
+        "name": "&f← Previous Page",
+        "lore": [
+          "",
+          "&7Current Page: &e{0}",
+          ""
+        ]
+      },
+      "next-page": {
+        "name": "&fNext Page →",
+        "lore": [
+          "",
+          "&7Current Page: &e{0}",
+          ""
+        ]
+      }
+    },
+    "personal-spawn": {
+      "info": {
+        "name": "&b&lPersonal Spawn Point",
+        "lore": [
+          "",
+          "&7Current Location: &e{0}",
+          "",
+          "&7Respawn at your personal",
+          "&7spawn point when you die",
+          "",
+          "&eClick to set current location"
+        ]
+      },
+      "info-not-set": {
+        "name": "&b&lPersonal Spawn Point",
+        "lore": [
+          "",
+          "&cNo spawn point set",
+          "",
+          "&7Set a personal spawn point",
+          "&7to respawn here when you die",
+          "",
+          "&eClick to set current location"
+        ]
+      }
+    },
+    "settings": {
+      "info": {
+        "name": "%COLOR_GOLD%&lIsland Information",
+        "lore": []
+      },
+      "name-change": {
+        "name": "%COLOR_WARNING%&lChange Island Name",
+        "lore": [
+          "%COLOR_SECONDARY%Change your island's name",
+          "%COLOR_SECONDARY%Maximum 20 characters",
+          "",
+          "%COLOR_WARNING%▶ Click to change"
+        ]
+      },
+      "public": {
+        "name": "%COLOR_SUCCESS%&lPublic Island",
+        "lore": []
+      },
+      "private": {
+        "name": "%COLOR_ERROR%&lPrivate Island",
+        "lore": []
+      },
+      "public-toggle": {
+        "lore": [
+          "%COLOR_SECONDARY%Public: All players can visit",
+          "%COLOR_SECONDARY%Private: Only invited players can visit",
+          "",
+          "%COLOR_WARNING%▶ Click to toggle"
+        ]
+      },
+      "biome-change": {
+        "name": "%COLOR_INFO%&lChange Biome",
+        "lore": [
+          "%COLOR_SECONDARY%Change your island's biome",
+          "%COLOR_SECONDARY%Weather and environment will change",
+          "",
+          "%COLOR_WARNING%▶ Click to change"
+        ]
+      },
+      "delete": {
+        "name": "%COLOR_ERROR%&lDelete Island",
+        "lore": [
+          "",
+          "%COLOR_ERROR%⚠ Warning: This cannot be undone!",
+          "",
+          "%COLOR_SECONDARY%Island and all data will be",
+          "%COLOR_SECONDARY%permanently deleted",
+          "",
+          "%COLOR_ERROR%▶ Click to delete"
+        ]
+      },
+      "save": {
+        "name": "%COLOR_SUCCESS%&lSave Settings",
+        "lore": [
+          "%COLOR_WARNING%▶ Click to save"
+        ]
+      },
+      "cancel": {
+        "lore": [
+          "%COLOR_SECONDARY%Return without saving",
+          "%COLOR_SECONDARY%changes"
+        ]
+      }
+    },
+    "upgrade": {
+      "size": {
+        "name": "%COLOR_SUCCESS%&lIsland Size Upgrade",
+        "lore": []
+      },
+      "member": {
+        "name": "%COLOR_INFO%&lMember Limit Upgrade",
+        "lore": []
+      },
+      "worker": {
+        "name": "%COLOR_WARNING%&lWorker Limit Upgrade",
+        "lore": []
+      },
+      "info": {
+        "name": "%COLOR_LIGHT_PURPLE%&lUpgrade Guide",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Island upgrades consume contribution points",
+          "%COLOR_SECONDARY%Cannot downgrade after upgrading",
+          "",
+          "%COLOR_WARNING%Islands over 500 size can",
+          "%COLOR_WARNING%set biomes"
+        ]
+      }
+    },
+    "spawn": {
+      "current-info": {
+        "name": "%COLOR_INFO%&lCurrent Spawn Settings",
+        "lore": [
+          "%COLOR_SECONDARY%Default spawn: Where members teleport",
+          "%COLOR_SECONDARY%Visitor spawn: Where visitors teleport"
+        ]
+      },
+      "set-main": {
+        "name": "%COLOR_SUCCESS%&lSet Main Spawn",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Set current location as",
+          "%COLOR_SECONDARY%main spawn point",
+          "",
+          "%COLOR_SECONDARY%Members will teleport here",
+          "%COLOR_SECONDARY%when using /island warp",
+          "",
+          "%COLOR_WARNING%▶ Click to set"
+        ]
+      },
+      "set-visitor": {
+        "name": "%COLOR_LIGHT_PURPLE%&lSet Visitor Spawn",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Set current location as",
+          "%COLOR_SECONDARY%visitor spawn point",
+          "",
+          "%COLOR_SECONDARY%Visitors will teleport here",
+          "%COLOR_SECONDARY%when entering the island",
+          "",
+          "%COLOR_WARNING%▶ Click to set"
+        ]
+      },
+      "reset": {
+        "name": "%COLOR_ERROR%&lReset Spawns",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Reset all spawn",
+          "%COLOR_SECONDARY%settings",
+          "",
+          "%COLOR_ERROR%Warning: This cannot be undone",
+          "",
+          "%COLOR_WARNING%▶ Click to reset"
+        ]
+      },
+      "protection": {
+        "name": "%COLOR_GOLD%&lSpawn Protection",
+        "lore": [
+          "",
+          "%COLOR_ERROR%※ Feature coming soon",
+          "",
+          "%COLOR_SECONDARY%Set spawn radius to",
+          "%COLOR_SECONDARY%prevent block breaking/placing"
+        ]
+      },
+      "personal": {
+        "name": "%COLOR_LIGHT_PURPLE%&lPersonal Spawn Management",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Set and manage your",
+          "%COLOR_SECONDARY%personal spawn point",
+          "",
+          "%COLOR_WARNING%▶ Click to manage"
+        ]
+      },
+      "message": {
+        "name": "%COLOR_WARNING%&lWelcome Message",
+        "lore": [
+          "",
+          "%COLOR_ERROR%※ Feature coming soon",
+          "",
+          "%COLOR_SECONDARY%Set message displayed when",
+          "%COLOR_SECONDARY%visitors enter the island"
+        ]
+      },
+      "no-permission": {
+        "name": "%COLOR_ERROR%&lNo Permission",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Only island owner and",
+          "%COLOR_SECONDARY%co-owners can set spawns"
+        ]
+      }
+    },
+    "visitor": {
+      "info": {
+        "name": "%COLOR_WHITE%&lVisitor Records",
+        "lore": [
+          "%COLOR_SECONDARY%View recent visitor list"
+        ]
+      },
+      "no-visitors": {
+        "name": "%COLOR_ERROR%No Visit Records",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%No players have",
+          "%COLOR_SECONDARY%visited the island yet"
+        ]
+      },
+      "statistics": {
+        "name": "%COLOR_GOLD%&lVisit Statistics",
+        "lore": []
+      }
+    }
+  },
+  "unit": {
+    "blocks": "blocks",
+    "players": "players"
+  },
+  "status": {
+    "public": "%COLOR_SUCCESS%Public",
+    "private": "%COLOR_ERROR%Private",
+    "online": "%COLOR_SUCCESS%Online",
+    "offline": "%COLOR_SECONDARY%Offline"
+  },
+  "social": {
+    "friends": {
+      "title": {
+        "name": "👥 Friend List",
+        "lore": "Communicate with your friends!"
+      },
+      "requests": {
+        "name": "📨 Friend Requests",
+        "lore": "Check received friend requests",
+        "click": "Click to open"
+      },
+      "add": {
+        "name": "➕ Add Friend",
+        "lore": "Add a new friend",
+        "click": "Click to add"
+      },
+      "refresh": {
+        "name": "🔄 Refresh",
+        "lore": "Refresh friend list",
+        "click": "Click to refresh"
+      },
+      "no-friends": {
+        "name": "No friends",
+        "lore": "Try adding new friends!"
+      },
+      "friend-item": {
+        "left-click": "Left click: Send whisper",
+        "right-click": "Right click: Manage friend"
+      }
+    },
+    "friend-requests": {
+      "title": {
+        "name": "📨 Friend Requests",
+        "lore": "Manage received friend requests"
+      },
+      "no-requests": {
+        "name": "No friend requests",
+        "lore": "You will be notified when new requests arrive"
+      },
+      "request-info": {
+        "hint": "Use buttons on the right to accept/reject"
+      },
+      "accept": {
+        "name": "✓ Accept",
+        "desc2": "Accept friend request",
+        "click": "Click to accept"
+      },
+      "reject": {
+        "name": "✗ Reject",
+        "desc2": "Reject friend request",
+        "click": "Click to reject"
+      }
+    },
+    "mailbox": {
+      "title": {
+        "name": "📮 Mailbox",
+        "lore": "Check and manage your mail"
+      },
+      "refresh": {
+        "name": "🔄 Refresh",
+        "lore": "Refresh mail list",
+        "click": "Click to refresh"
+      },
+      "send": {
+        "name": "✉️ Send Mail",
+        "lore": "Send mail to other players",
+        "click": "Click to write"
+      },
+      "delete-read": {
+        "name": "🗑️ Delete Read Mails",
+        "lore1": "Delete all read mails",
+        "lore2": "Except mails with attachments",
+        "click": "Click to delete"
+      },
+      "no-mails": {
+        "name": "No mails",
+        "lore": "You will be notified when new mail arrives"
+      },
+      "no-unread-mails": {
+        "name": "No unread mails",
+        "lore": "You will be notified when new mail arrives"
+      },
+      "mail-item": {
+        "click": "Click to view mail"
+      }
+    },
+    "mail-detail": {
+      "message": {
+        "name": "📄 Message"
+      },
+      "no-attachments": {
+        "name": "No attachments",
+        "lore": "This mail has no attachments"
+      },
+      "delete": {
+        "name": "🗑 Delete Mail",
+        "lore1": "Delete this mail",
+        "lore2": "(Attachments will also be deleted)",
+        "click": "Click to delete"
+      },
+      "reply": {
+        "name": "✉ Reply",
+        "click": "Click to reply"
+      }
+    }
+  },
+  "loading": {
+    "name": "Loading..."
+  },
+  "status": {
+    "new-mail": "§eNew Mail",
+    "read": "§7Read"
+  },
+  "settings": {
+    "main": {
+      "title": {
+        "name": "⚙ Personal Settings",
+        "lore": "You can change various settings"
+      }
+    },
+    "gui": {
+      "name": "🖼 GUI Settings",
+      "lore1": "Adjust interface opacity",
+      "lore2": "Customize animation speed"
+    },
+    "ingame": {
+      "name": "🎮 In-game Settings",
+      "lore1": "Gameplay difficulty",
+      "lore2": "Auto pickup, damage display",
+      "lore3": "Quick slot settings"
+    },
+    "social": {
+      "name": "👥 Social Settings",
+      "lore1": "Friend request settings",
+      "lore2": "Whisper, party invite settings",
+      "lore3": "Social notification settings"
+    },
+    "system": {
+      "name": "⚡ System Settings",
+      "lore1": "Graphics quality, performance",
+      "lore2": "Resource pack, sound settings"
+    },
+    "notification": {
+      "name": "🔔 Notification Settings",
+      "lore1": "System, quest, achievement",
+      "lore2": "Friend, guild, trade",
+      "lore3": "Event, update notifications"
+    },
+    "click": "Click to open settings",
+    "system-settings": {
+      "title": {
+        "name": "⚙ System Settings",
+        "lore": "Change system-related settings"
+      },
+      "confirmation": {
+        "name": "❓ Confirmation Dialogs",
+        "desc1": "Stat allocation, skill learning, etc.",
+        "desc2": "Shows confirmation messages",
+        "desc3": "when performing important actions",
+        "example-title": "Examples:",
+        "example1": "'Are you sure you want to use stat points?'",
+        "example2": "'Are you sure you want to learn this skill?'"
+      }
+    },
+    "notification-settings": {
+      "title": {
+        "name": "🔔 Notification Settings",
+        "lore": "Change notification-related settings"
+      },
+      "whisper": {
+        "name": "💬 Whisper Notifications",
+        "desc1": "When you receive a whisper",
+        "desc2": "Shows notification in chat",
+        "note": "※ Whisper system is under development"
+      },
+      "invite": {
+        "name": "📨 Invite Notifications",
+        "desc1": "Friend requests or guild invites",
+        "desc2": "Shows notification in chat",
+        "desc3": "when received",
+        "click-hint": "Click to change to next mode:",
+        "mode-cycle": "All → Friends Only → Guild Only → Off",
+        "note": "※ Related systems are under development"
+      },
+      "server": {
+        "name": "📢 Server Announcement Notifications",
+        "desc1": "Server announcements",
+        "desc2": "Shows in chat",
+        "example-title": "Examples:",
+        "example1": "• Event notifications",
+        "example2": "• Update announcements",
+        "example3": "• Important notices"
+      }
+    }
+  },
+  "notification": {
+    "mode": {
+      "all": "All",
+      "friend-only": "Friends Only",
+      "guild-only": "Guild Only",
+      "off": "Off",
+      "unknown": "Unknown",
+      "all.desc": "Show all invite notifications",
+      "friend-only.desc": "Show friend request notifications only",
+      "guild-only.desc": "Show guild invite notifications only",
+      "off.desc": "Hide all invite notifications",
+      "unknown.desc": "Unknown mode"
+    }
+  },
+  "quest": {
+    "detail": {
+      "info": {
+        "name": "&6&lQuest Information",
+        "lore": [
+          "",
+          "{0}",
+          "",
+          "&7Category: &e{1}",
+          "&7Difficulty: {2}",
+          "&7NPC: &b{3}",
+          ""
+        ]
+      },
+      "objectives": {
+        "name": "&e&lObjectives",
+        "lore": [
+          "",
+          "{0}",
+          "",
+          "&7Progress: &e{1}%",
+          ""
+        ]
+      },
+      "rewards": {
+        "name": "&a&lRewards",
+        "lore": [
+          "",
+          "{0}",
+          ""
+        ]
+      },
+      "complete-button": {
+        "name": "&a&lComplete Quest",
+        "lore": [
+          "",
+          "&7All objectives completed!",
+          "",
+          "&eClick to claim rewards"
+        ]
+      },
+      "abandon-button": {
+        "name": "&c&lAbandon Quest",
+        "lore": [
+          "",
+          "&7Give up on this quest",
+          "",
+          "&cClick to abandon"
+        ]
+      }
+    },
+    "list": {
+      "active": {
+        "lore": [
+          "",
+          "{0}",
+          "",
+          "&7Progress:",
+          "{1}",
+          "",
+          "&7Rewards:",
+          "{2}",
+          "",
+          "&eClick for details"
+        ]
+      },
+      "completed": {
+        "lore": [
+          "",
+          "{0}",
+          "",
+          "&aCompleted: &f{1}",
+          "",
+          "&7Rewards:",
+          "{2}",
+          "",
+          "&eClick to claim"
+        ]
+      },
+      "available": {
+        "lore": [
+          "",
+          "{0}",
+          "",
+          "&7Requirements:",
+          "{1}",
+          "",
+          "&7Rewards:",
+          "{2}",
+          "",
+          "&eClick to start"
+        ]
+      }
+    },
+    "dialog": {
+      "text": {
+        "name": "&6&lNPC Dialog",
+        "lore": [
+          "",
+          "{0}",
+          "",
+          "&7Speaker: &e{1}",
+          "",
+          "&eClick to continue"
+        ]
+      },
+      "skip-button": {
+        "name": "&7Skip Dialog",
+        "lore": [
+          "",
+          "&7Skip to the end",
+          "",
+          "&eShift-click to skip"
+        ]
+      }
+    }
+  },
+  "status": {
+    "enabled": "Enabled",
+    "disabled": "Disabled"
+  },
+  "action": {
+    "enable": "Enable",
+    "disable": "Disable"
+  }
+}

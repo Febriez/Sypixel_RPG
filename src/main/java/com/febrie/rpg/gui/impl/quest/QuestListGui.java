@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 퀘스트 목록 GUI
@@ -133,7 +134,8 @@ public class QuestListGui extends BaseGui {
         var completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
 
         // 진행 중인 퀘스트 라벨
-        ItemBuilder activeBuilder = ItemBuilder.of(Material.ENCHANTED_BOOK)
+        Locale locale = viewer.locale();
+        ItemBuilder activeBuilder = ItemBuilder.of(Material.ENCHANTED_BOOK, locale)
                 .displayNameTranslated("items.quest.list.active.name")
                 .addLoreTranslated("items.quest.list.active.lore");
 
@@ -144,7 +146,7 @@ public class QuestListGui extends BaseGui {
         setItem(ACTIVE_LABEL_SLOT, activeLabel);
 
         // 완료된 퀘스트 라벨
-        ItemBuilder completedBuilder = ItemBuilder.of(Material.BOOK)
+        ItemBuilder completedBuilder = ItemBuilder.of(Material.BOOK, locale)
                 .displayNameTranslated("items.quest.list.completed.name")
                 .addLoreTranslated("items.quest.list.completed.lore");
 
@@ -224,7 +226,8 @@ public class QuestListGui extends BaseGui {
      * 진행 중인 퀘스트 아이템 생성
      */
     private GuiItem createActiveQuestItem(@NotNull Quest quest, @NotNull QuestProgress progress) {
-        ItemBuilder builder = ItemBuilder.of(Material.PAPER)
+        Locale locale = viewer.locale();
+        ItemBuilder builder = ItemBuilder.of(Material.PAPER, locale)
                 .displayName(quest.getDisplayName(viewer)
                         .color(UnifiedColorUtil.UNCOMMON)
                         .decoration(TextDecoration.ITALIC, false));
@@ -254,7 +257,8 @@ public class QuestListGui extends BaseGui {
      * 완료된 퀘스트 아이템 생성
      */
     private GuiItem createCompletedQuestItem(@NotNull Quest quest) {
-        ItemBuilder builder = ItemBuilder.of(Material.MAP)
+        Locale locale = viewer.locale();
+        ItemBuilder builder = ItemBuilder.of(Material.MAP, locale)
                 .displayName(quest.getDisplayName(viewer)
                         .color(UnifiedColorUtil.SUCCESS)
                         .decoration(TextDecoration.ITALIC, false));

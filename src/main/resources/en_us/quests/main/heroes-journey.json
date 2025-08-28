@@ -1,0 +1,35 @@
+{
+  "name": "Hero's Journey",
+  "description": [
+    "The first step to becoming a true hero.",
+    "Prove your skills through various challenges!",
+    "",
+    "This quest allows multiple objectives to progress simultaneously.",
+    "Complete them at your own pace.",
+    "",
+    "Objectives:",
+    "• Kill 10 zombies",
+    "• Kill 10 skeletons",
+    "• Kill 5 spiders",
+    "• Collect 20 iron ingots",
+    "• Collect 10 gold ingots",
+    "• Craft 1 iron sword",
+    "• Craft 1 iron chestplate",
+    "",
+    "Rewards:",
+    "• 500 Gold",
+    "• 5 Diamonds",
+    "• 1 Diamond",
+    "• Enchanting Table",
+    "• 500 Experience"
+  ],
+  "objectives": {
+    "kill_zombies": "Kill 10 zombies",
+    "kill_skeletons": "Kill 10 skeletons",
+    "kill_spiders": "Kill 5 spiders",
+    "collect_iron": "Collect 20 iron ingots",
+    "collect_gold": "Collect 10 gold ingots",
+    "craft_sword": "Craft 1 iron sword",
+    "craft_armor": "Craft 1 iron chestplate"
+  }
+}

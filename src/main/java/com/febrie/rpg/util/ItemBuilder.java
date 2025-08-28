@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 /**
@@ -31,6 +32,7 @@ import java.util.function.Consumer;
 public class ItemBuilder {
     private final ItemStack itemStack;
     private final ItemMeta itemMeta;
+    private Locale locale; // Store locale for translation methods
 
     /**
      * Creates a new ItemBuilder with the specified material
@@ -548,5 +550,103 @@ public class ItemBuilder {
     @Contract("_ -> new")
     public static @NotNull ItemBuilder from(ItemStack itemStack) {
         return new ItemBuilder(itemStack);
+    }
+
+    /**
+     * Static factory method with locale support
+     * The locale is stored and used for translation methods
+     *
+     * @param material The material
+     * @param locale   The locale for translations
+     * @return A new ItemBuilder
+     */
+    public static ItemBuilder of(Material material, Locale locale) {
+        ItemBuilder builder = new ItemBuilder(material);
+        builder.locale = locale;
+        return builder;
+    }
+
+    /**
+     * Sets the display name using translation key with stored locale
+     *
+     * @param key The translation key
+     * @return This builder
+     */
+    public ItemBuilder displayNameTranslated(@NotNull String key) {
+        if (locale == null) {
+            throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale) or call displayNameTranslated(key, locale)");
+        }
+        Component translatedName = LangManager.getComponent(key, locale);
+        return displayName(translatedName);
+    }
+
+    /**
+     * Sets the display name using translation key with explicit locale
+     *
+     * @param key    The translation key
+     * @param locale The player's locale
+     * @return This builder
+     */
+    public ItemBuilder displayNameTranslated(@NotNull String key, @NotNull Locale locale) {
+        Component translatedName = LangManager.getComponent(key, locale);
+        return displayName(translatedName);
+    }
+
+    /**
+     * Adds a translated lore line using stored locale
+     *
+     * @param key The translation key
+     * @return This builder
+     */
+    public ItemBuilder addLoreTranslated(@NotNull String key) {
+        if (locale == null) {
+            throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale) or call addLoreTranslated(key, locale)");
+        }
+        Component translatedLore = LangManager.getComponent(key, locale);
+        return addLore(translatedLore);
+    }
+
+    /**
+     * Adds a translated lore line with explicit locale
+     *
+     * @param key    The translation key
+     * @param locale The player's locale
+     * @return This builder
+     */
+    public ItemBuilder addLoreTranslated(@NotNull String key, @NotNull Locale locale) {
+        Component translatedLore = LangManager.getComponent(key, locale);
+        return addLore(translatedLore);
+    }
+
+    /**
+     * Sets multiple translated lore lines using stored locale
+     *
+     * @param keys The translation keys
+     * @return This builder
+     */
+    public ItemBuilder loreTranslated(@NotNull String... keys) {
+        if (locale == null) {
+            throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale) or call loreTranslated(locale, keys)");
+        }
+        for (String key : keys) {
+            Component translatedLore = LangManager.getComponent(key, locale);
+            addLore(translatedLore);
+        }
+        return this;
+    }
+
+    /**
+     * Sets multiple translated lore lines with explicit locale
+     *
+     * @param locale The player's locale
+     * @param keys   The translation keys
+     * @return This builder
+     */
+    public ItemBuilder loreTranslated(@NotNull Locale locale, @NotNull String... keys) {
+        for (String key : keys) {
+            Component translatedLore = LangManager.getComponent(key, locale);
+            addLore(translatedLore);
+        }
+        return this;
     }
 }

@@ -311,4 +311,118 @@ public class LangManager {
             instance = null;
         }
     }
+
+    /**
+     * 특정 키가 존재하는지 확인
+     *
+     * @param key    번역 키
+     * @param locale 언어
+     * @return 키 존재 여부
+     */
+    public static boolean hasKey(@NotNull String key, @NotNull Locale locale) {
+        if (instance == null) {
+            throw new IllegalStateException("LangManager가 초기화되지 않았습니다.");
+        }
+        
+        Map<String, String> localeTranslations = instance.translations.get(locale);
+        return localeTranslations != null && localeTranslations.containsKey(key);
+    }
+
+    /**
+     * 특정 언어의 모든 키를 반환
+     *
+     * @param locale 언어
+     * @return 모든 키의 집합
+     */
+    public static Set<String> getAllKeys(@NotNull Locale locale) {
+        if (instance == null) {
+            throw new IllegalStateException("LangManager가 초기화되지 않았습니다.");
+        }
+        
+        Map<String, String> localeTranslations = instance.translations.get(locale);
+        return localeTranslations != null ? localeTranslations.keySet() : new HashSet<>();
+    }
+
+    /**
+     * 번역된 문자열을 반환 (Component가 아닌 String)
+     *
+     * @param key    번역 키
+     * @param locale 언어
+     * @return 번역된 문자열
+     */
+    public static String getString(@NotNull String key, @NotNull Locale locale) {
+        if (instance == null) {
+            throw new IllegalStateException("LangManager가 초기화되지 않았습니다.");
+        }
+        
+        Map<String, String> localeTranslations = instance.translations.get(locale);
+        if (localeTranslations == null) {
+            return key; // 번역을 찾지 못하면 키를 반환
+        }
+        
+        return localeTranslations.getOrDefault(key, key);
+    }
+
+    // 디버그 모드 변수 추가
+    private static boolean debugMode = false;
+
+    /**
+     * 디버그 모드 토글
+     *
+     * @return 변경된 디버그 모드 상태
+     */
+    public static boolean toggleDebugMode() {
+        debugMode = !debugMode;
+        if (instance != null) {
+            instance.plugin.getLogger().info("디버그 모드: " + (debugMode ? "활성화" : "비활성화"));
+        }
+        return debugMode;
+    }
+
+    /**
+     * 디버그 모드 상태 확인
+     *
+     * @return 디버그 모드 활성화 여부
+     */
+    public static boolean isDebugMode() {
+        return debugMode;
+    }
+
+    /**
+     * 플레이어의 locale을 사용하여 Component를 반환 (편의 메서드)
+     *
+     * @param key    번역 키
+     * @param player 플레이어 (locale을 가져오기 위해)
+     * @return 번역된 Component
+     */
+    public static Component get(@NotNull String key, @NotNull org.bukkit.entity.Player player) {
+        return getComponent(key, player.locale());
+    }
+
+    /**
+     * 플레이어의 locale을 사용하여 인수가 있는 Component를 반환 (편의 메서드)
+     *
+     * @param key    번역 키
+     * @param player 플레이어 (locale을 가져오기 위해)
+     * @param args   번역 인수들
+     * @return 번역된 Component
+     */
+    public static Component get(@NotNull String key, @NotNull org.bukkit.entity.Player player, @NotNull Object... args) {
+        return getComponent(key, player.locale(), args);
+    }
+
+    /**
+     * 플레이어의 locale을 사용하여 Component 리스트를 반환 (편의 메서드)
+     *
+     * @param key    번역 키
+     * @param player 플레이어 (locale을 가져오기 위해)
+     * @return 번역된 Component 리스트
+     */
+    public static java.util.List<Component> getList(@NotNull String key, @NotNull org.bukkit.entity.Player player) {
+        // For now, return a simple implementation - could be enhanced to support actual list translations
+        String translated = getString(key, player.locale());
+        return java.util.Arrays.stream(translated.split("\\n"))
+                .map(Component::text)
+                .collect(java.util.stream.Collectors.toList());
+    }
 }

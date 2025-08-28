@@ -1,0 +1,50 @@
+{
+  "name": "ボイド侵攻",
+  "description": [
+    "あなたが開いたポータルが望まない注目を集めました。",
+    "ボイド次元からの大規模侵攻がすべての存在を脅かしており、",
+    "",
+    "次元の守護者たちを結集し、この異世界の脅威を押し戻してください",
+    "現実そのものがボイドに飲み込まれる前に。"
+  ],
+  "objectives": {
+    "realm_guardian": "次元守護者と話す",
+    "invasion_site": "侵攻現場を調査する",
+    "void_scouts": "ボイド偵察兵を排除する (30)",
+    "invasion_intel": "侵攻情報を収集する (3)",
+    "defense_commander": "防衛司令官と話す",
+    "defense_supplies": "防衛物資を集める (50)",
+    "build_barricades": "鉄のバリケードを建設する (100)",
+    "void_weapons": "ボイド武器を入手する (5)",
+    "void_soldiers": "ボイド兵士を倒す (100)",
+    "void_mages": "ボイド魔法使いを倒す (30)",
+    "first_wave": "第一波を生き抜く",
+    "void_cores": "ボイドコアを集める (50)",
+    "void_knights": "ボイド騎士を倒す (40)",
+    "void_beasts": "ボイド野獣を倒す (20)",
+    "second_wave": "第二波を生き抜く",
+    "void_essence": "ボイドエッセンスを集める (30)",
+    "void_general": "ボイド将軍と対峙する",
+    "void_general_battle": "ボイド将軍を倒す (3)",
+    "general_crown": "将軍の王冠を獲得する",
+    "void_portal": "ボイドポータルの位置を特定する",
+    "seal_portal": "岩盤でポータルを封印する (20)",
+    "sealing_stone": "封印石を集める (3)",
+    "sealing_ritual": "封印儀式を実行する",
+    "realm_guardian_victory": "守護者に勝利を報告する",
+    "victory_medal": "勝利メダルを受け取る"
+  },
+  "npcs": {
+    "realm_guardian": "次元守護者",
+    "defense_commander": "防衛司令官",
+    "void_general": "ボイド将軍",
+    "sealing_sage": "封印賢者"
+  },
+  "dialogs": {
+    "line1": "ボイドが現実を引き裂いている！早く行動しなければすべてが失われる！",
+    "line2": "この侵攻に立ち向かいます。どうやって阻止するか教えてください。",
+    "line3": "急いで要塞を建設せよ！次の波はさらに強力になるだろう！",
+    "line4": "避けられない運命は止められない！ボイドがすべてを飲み込むだろう！",
+    "line5": "ポータルは封印された。あなたの勇気のおかげで次元は安全だ。"
+  }
+}

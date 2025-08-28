@@ -12,6 +12,8 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import net.kyori.adventure.text.Component;
+import com.febrie.rpg.util.UnifiedColorUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +43,7 @@ public class FriendCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, 
                            @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("§c이 명령어는 플레이어만 사용할 수 있습니다.");
+            sender.sendMessage(Component.translatable("commands.player-only").color(UnifiedColorUtil.ERROR));
             return true;
         }
 
@@ -52,7 +54,7 @@ public class FriendCommand implements CommandExecutor, TabCompleter {
             case "친구추가", "friendadd" -> handleFriendAddCommand(player, args);
             case "친구삭제", "friendremove" -> handleFriendRemoveCommand(player, args);
             default -> {
-                player.sendMessage("§c알 수 없는 명령어입니다.");
+                player.sendMessage(Component.translatable("commands.unknown").color(UnifiedColorUtil.ERROR));
                 return false;
             }
         }
@@ -78,8 +80,8 @@ public class FriendCommand implements CommandExecutor, TabCompleter {
      */
     private void handleFriendAddCommand(@NotNull Player player, @NotNull String[] args) {
         if (args.length < 1) {
-            player.sendMessage("§c사용법: /친구추가 <플레이어명> [메시지]");
-            player.sendMessage("§7예시: /친구추가 Steve 안녕하세요!");
+            player.sendMessage(Component.translatable("friend.commands.add.usage").color(UnifiedColorUtil.ERROR));
+            player.sendMessage(Component.translatable("friend.commands.add.example").color(UnifiedColorUtil.GRAY));
             return;
         }
 
@@ -99,7 +101,7 @@ public class FriendCommand implements CommandExecutor, TabCompleter {
      */
     private void handleFriendRemoveCommand(@NotNull Player player, @NotNull String[] args) {
         if (args.length < 1) {
-            player.sendMessage("§c사용법: /친구삭제 <플레이어명>");
+            player.sendMessage(Component.translatable("friend.commands.remove.usage").color(UnifiedColorUtil.ERROR));
             return;
         }
 
@@ -107,7 +109,7 @@ public class FriendCommand implements CommandExecutor, TabCompleter {
         Player targetPlayer = Bukkit.getPlayer(targetName);
         
         if (targetPlayer == null) {
-            player.sendMessage("§c해당 플레이어를 찾을 수 없습니다: " + targetName);
+            player.sendMessage(Component.translatable("friend.player-not-found", Component.text(targetName)).color(UnifiedColorUtil.ERROR));
             return;
         }
 
@@ -115,7 +117,7 @@ public class FriendCommand implements CommandExecutor, TabCompleter {
         friendManager.areFriends(player.getUniqueId(), targetPlayer.getUniqueId()).thenAccept(areFriends -> {
             if (!areFriends) {
                 Bukkit.getScheduler().runTask(plugin, () -> {
-                    player.sendMessage("§c" + targetName + "님과는 친구가 아닙니다.");
+                    player.sendMessage(Component.translatable("friend.not-friends", Component.text(targetName)).color(UnifiedColorUtil.ERROR));
                 });
                 return;
             }
@@ -128,11 +130,11 @@ public class FriendCommand implements CommandExecutor, TabCompleter {
      * 친구 명령어 도움말 전송
      */
     private void sendFriendHelp(@NotNull Player player) {
-        player.sendMessage("§6=== 친구 명령어 도움말 ===");
-        player.sendMessage("§e/친구 목록 §7- 친구 목록 GUI를 엽니다");
-        player.sendMessage("§e/친구추가 <플레이어명> [메시지] §7- 친구 요청을 보냅니다");
-        player.sendMessage("§e/친구삭제 <플레이어명> §7- 친구를 삭제합니다");
-        player.sendMessage("§7친구 요청 수락/거절은 GUI에서 할 수 있습니다.");
+        player.sendMessage(Component.translatable("friend.commands.help.title").color(UnifiedColorUtil.GOLD));
+        player.sendMessage(Component.translatable("friend.commands.help.list").color(UnifiedColorUtil.YELLOW));
+        player.sendMessage(Component.translatable("friend.commands.help.add").color(UnifiedColorUtil.YELLOW));
+        player.sendMessage(Component.translatable("friend.commands.help.remove").color(UnifiedColorUtil.YELLOW));
+        player.sendMessage(Component.translatable("friend.commands.help.gui-note").color(UnifiedColorUtil.GRAY));
     }
 
     @Override

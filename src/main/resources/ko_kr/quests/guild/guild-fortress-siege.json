@@ -1,0 +1,34 @@
+{
+  "name": "길드 요새 공성전",
+  "description": [
+    "경쟁 길드가 당신의 진영에 영토 지배권을 두고",
+    "장대한 공성전을 제안했습니다.",
+    "",
+    "길드원들과 협력하여 당신의 요새를 방어하거나",
+    "적의 거점을 공격하세요."
+  ],
+  "objectives": {
+    "form_siege_party": "공성 파티 구성 (길드원 5명 이상)",
+    "prepare_siege_weapons": "공성 무기와 방어 시설 준비",
+    "coordinate_attack_plan": "전투 전략 조정",
+    "breach_enemy_walls": "적 요새 성벽 돌파",
+    "capture_control_points": "전략적 거점 3곳 점령",
+    "defeat_enemy_commander": "적 길드 사령관 처치",
+    "claim_fortress": "승리 및 요새 지배권 획득"
+  },
+  "npcs": {
+    "siege_commander": "길드 공성 사령관",
+    "war_engineer": "전쟁 기술자 대가",
+    "battlefield_medic": "길드 전장 의무병",
+    "enemy_commander": "적 길드 사령관"
+  },
+  "dialogs": {
+    "start1": "적이 우리 성문에 접근하고 있습니다, 길드원이여.",
+    "start2": "이 전투가 우리 길드의 미래를 결정할 것입니다.",
+    "start3": "명예롭고 전술적인 정밀함으로 싸우세요.",
+    "progress1": "전장에서의 당신의 협조는 모범적입니다.",
+    "progress2": "적 요새의 성벽이 무너지기 시작하고 있습니다.",
+    "complete1": "승리했습니다! 요새는 우리 것입니다!",
+    "complete2": "당신 길드의 지배력은 이제 논란의 여지가 없습니다."
+  }
+}

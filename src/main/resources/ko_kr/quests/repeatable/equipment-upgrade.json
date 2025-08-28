@@ -1,0 +1,44 @@
+{
+  "name": "장비 업그레이드 서비스",
+  "description": [
+    "장비 업그레이드 및 강화 서비스를 제공하세요!",
+    "다양한 방법으로 다른 모험가들의 장비 개선을 도와주세요.",
+    "",
+    "🔧 업그레이드 혜택:",
+    "• 고급 제작 기술",
+    "• 강화 재료에 대한 접근",
+    "• 제작 길드와의 평판",
+    "• 독점 업그레이드 레시피",
+    "• 마스터 장인 인정"
+  ],
+  "objectives": {
+    "setup_workshop": "장비 업그레이드 작업실 설치",
+    "gather_materials": "업그레이드 재료 수집",
+    "upgrade_weapons": "고객을 위해 무기 10개 업그레이드",
+    "enhance_armor": "갑옷 조각 15개 강화",
+    "apply_enchantments": "마법 부여 20회 적용",
+    "repair_equipment": "손상된 아이템 25개 수리",
+    "custom_modifications": "커스텀 개조 5회 수행",
+    "quality_testing": "업그레이드된 장비 품질 테스트",
+    "client_satisfaction": "높은 고객 만족도 달성",
+    "master_techniques": "마스터 업그레이드 기술 학습",
+    "rare_enhancements": "희귀 강화 재료 적용",
+    "efficiency_improvement": "작업실 효율성 향상",
+    "train_apprentice": "작업실 견습생 훈련",
+    "guild_certification": "길드 인증 획득",
+    "legendary_upgrade": "전설급 장비 업그레이드 수행"
+  },
+  "npcs": {
+    "master_smith": "마스터 대장장이",
+    "equipment_assessor": "장비 품질 평가관",
+    "guild_certifier": "제작 길드 인증관"
+  },
+  "dialogs": {
+    "start": "많은 모험가들이 장비 업그레이드를 필요로 합니다. 도와주실 수 있나요?",
+    "techniques": "각 업그레이드에는 특정 기술과 재료가 필요합니다.",
+    "progress": "작업하는 각 조각마다 당신의 업그레이드 기술이 향상되고 있습니다.",
+    "mastery": "당신은 업그레이드 기술의 진정한 마스터리를 발전시키고 있습니다.",
+    "certification": "당신의 작업이 길드 기준을 충족합니다. 인증서를 드립니다!",
+    "legendary": "이 전설급 업그레이드는 영원히 기억될 것입니다!"
+  }
+}

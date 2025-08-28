@@ -68,7 +68,7 @@ public class IslandMemberManageGui extends BaseGui {
         if (member.isPresent()) {
             this.targetIsCoOwner = member.get().isCoOwner();
             this.targetIsWorker = false;
-            this.currentRole = targetIsCoOwner ? LangManager.getString("island.roles.sub-owner", viewer) : LangManager.getString("island.roles.member", viewer);
+            this.currentRole = targetIsCoOwner ? LangManager.getString("island.roles.sub-owner", getViewerLocale()) : LangManager.getString("island.roles.member", getViewerLocale());
         } else {
             // 알바생 찾기
             Optional<IslandWorkerDTO> worker = island.membership().workers().stream()
@@ -77,7 +77,7 @@ public class IslandMemberManageGui extends BaseGui {
             
             this.targetIsCoOwner = false;
             this.targetIsWorker = worker.isPresent();
-            this.currentRole = targetIsWorker ? LangManager.getString("island.roles.worker", viewer) : "Unknown";
+            this.currentRole = targetIsWorker ? LangManager.getString("island.roles.worker", getViewerLocale()) : "Unknown";
         }
     }
     /**
@@ -204,8 +204,8 @@ public class IslandMemberManageGui extends BaseGui {
     
     private ItemStack createBackButton() {
         return ItemBuilder.of(Material.ARROW)
-                .displayName(LangManager.getComponent("items.buttons.back.name", viewer.locale()))
-                .addLore(LangManager.getComponent("items.buttons.back.lore", viewer.locale()))
+                .displayName(LangManager.getComponent("items.buttons.back.name", getViewerLocale()))
+                .addLore(LangManager.getComponent("items.buttons.back.lore", getViewerLocale()))
                 .hideAllFlags()
                 .build();
     }
@@ -299,17 +299,17 @@ public class IslandMemberManageGui extends BaseGui {
                     }
                     
                     String input = stateSnapshot.getText();
-                    String confirmWord = LangManager.getString("island.member.kick-confirm-word", player);
+                    String confirmWord = LangManager.getString("island.member.kick-confirm-word", player.locale());
                     if (!confirmWord.equals(input)) {
-                        player.sendMessage(LangManager.get("island.member.kick-input-error", player).color(NamedTextColor.RED));
+                        player.sendMessage(LangManager.getComponent("island.member.kick-input-error", player.locale()).color(NamedTextColor.RED));
                         return Arrays.asList(AnvilGUI.ResponseAction.close());
                     }
                     // 추방 실행
                     performKick(player);
                     return Arrays.asList(AnvilGUI.ResponseAction.close());
                 })
-                .text(LangManager.getString("island.member.kick-input-text", player))
-                .title(LangManager.getString("island.member.kick-input-title", player))
+                .text(LangManager.getString("island.member.kick-input-text", player.locale()))
+                .title(LangManager.getString("island.member.kick-input-title", player.locale()))
                 .plugin(plugin)
                 .open(player);
     }

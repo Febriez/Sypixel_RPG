@@ -1,0 +1,30 @@
+{
+  "name": "Dragon Awakening",
+  "description": [
+    "The ancient dragons, guardians of the realm,",
+    "have slumbered for centuries.",
+    "",
+    "With darkness rising, the time has come",
+    "to awaken these mighty beings and seek their aid."
+  ],
+  "objectives": {
+    "find_dragon_lair": "Find the Ancient Dragon Lair",
+    "prove_worthiness": "Prove Your Worthiness to the Dragons",
+    "awaken_fire_dragon": "Awaken the Fire Dragon",
+    "form_dragon_pact": "Form a Pact with the Dragon Council"
+  },
+  "npcs": {
+    "fire_dragon": "Ancient Fire Dragon",
+    "dragon_elder": "Dragon Elder",
+    "dragonkeeper": "Keeper of Dragons"
+  },
+  "dialogs": {
+    "start1": "The dragons have slept since the last great war, hero.",
+    "start2": "Only in times of greatest need do they stir from their ancient slumber.",
+    "start3": "If you can prove yourself worthy, they may aid you in the battles ahead.",
+    "progress1": "The dragons sense your pure intentions and growing power.",
+    "progress2": "You have gained the respect of these ancient guardians.",
+    "complete1": "The dragons have awakened and pledged their aid!",
+    "complete2": "With the dragons at your side, no darkness can prevail."
+  }
+}

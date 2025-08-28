@@ -13,6 +13,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import net.kyori.adventure.text.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -131,7 +132,9 @@ public class RPGPlayer {
         }
 
         // 레벨업 메시지
-        bukkitPlayer.sendMessage("레벨업! " + oldLevel + " → " + newLevel);
+        bukkitPlayer.sendMessage(Component.translatable("level-up", 
+            Component.text(String.valueOf(oldLevel)), 
+            Component.text(String.valueOf(newLevel))));
     }
 
     /**

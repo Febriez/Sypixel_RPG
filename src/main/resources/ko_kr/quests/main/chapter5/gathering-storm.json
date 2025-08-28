@@ -1,0 +1,37 @@
+{
+  "name": "몰아치는 폭풍",
+  "description": [
+    "지평선에 어둠의 구름이 몰려오고 고대의 예언이",
+    "빛과 어둠 사이의 최후 대결의 도래를 예고합니다.",
+    "",
+    "선의 모든 세력을 결집하고 모든 존재의 운명을",
+    "결정할 궁극의 전투를 준비하세요."
+  ],
+  "objectives": {
+    "prophecy_keeper": "예언의 수호자와 대화하기",
+    "ancient_warning": "고대의 경고 읽기",
+    "gather_allies": "모든 동맹 세력 결집하기",
+    "unite_dragons": "용족들 통합하기",
+    "realm_champions": "차원의 용사들 소환하기",
+    "elemental_lords": "원소의 군주들 호출하기",
+    "prepare_weapons": "전설의 무기 제작하기",
+    "gather_artifacts": "신성한 유물 수집하기",
+    "strengthen_defenses": "모든 요새 강화하기",
+    "train_warriors": "정예 전사들 훈련하기",
+    "scout_enemy": "적의 동향 정찰하기",
+    "final_preparations": "최종 준비 완료하기"
+  },
+  "npcs": {
+    "prophecy_keeper": "고대 예언의 수호자",
+    "dragon_elder": "고대 용 의회",
+    "realm_champion": "모든 차원의 용사",
+    "elemental_lord": "원소의 군주"
+  },
+  "dialogs": {
+    "line1": "최후의 폭풍이 다가오고 있다. 모든 예언이 이 순간으로 수렴하고 있다.",
+    "line2": "모든 동맹을 결집시키고 궁극의 대결을 준비하겠습니다.",
+    "line3": "어둠의 세력이 집결하고 있다. 지금 흔들려서는 안 된다.",
+    "line4": "모든 준비가 완료되었다. 최후의 전투가 기다리고 있다.",
+    "line5": "함께라면, 어떤 어둠이 와도 맞설 수 있을 것이다."
+  }
+}

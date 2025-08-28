@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -27,34 +26,17 @@ import java.util.List;
 public class MasterBlacksmithQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class MasterBlacksmithBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new MasterBlacksmithQuest(this);
-        }
-    }
-
-    /**
-     * 기본 생성자 - 퀘스트 설정
+     * 기본 생성자
      */
     public MasterBlacksmithQuest() {
-        this(createBuilder());
+        super(createBuilder());
     }
 
     /**
-     * 빌더 생성자
-     */
-    private MasterBlacksmithQuest(@NotNull QuestBuilder builder) {
-        super(builder);
-    }
-
-    /**
-     * 퀘스트 빌더 생성 및 설정
+     * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new MasterBlacksmithBuilder()
+        return new QuestBuilder()
                 .id(QuestID.CRAFT_MASTER_BLACKSMITH)
                 .objectives(Arrays.asList(
                         // 시작
@@ -125,30 +107,37 @@ public class MasterBlacksmithQuest extends Quest {
         return Component.translatable("quest.crafting.master_blacksmith.objectives.");
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("master_blacksmith_dialog");
+    @Override
+    public int getDialogCount() {
+        return 7;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.crafting.master-blacksmith.dialogs.0");
+            case 1 -> Component.translatable("quest.crafting.master-blacksmith.dialogs.1");
+            case 2 -> Component.translatable("quest.crafting.master-blacksmith.dialogs.2");
+            case 3 -> Component.translatable("quest.crafting.master-blacksmith.dialogs.3");
+            case 4 -> Component.translatable("quest.crafting.master-blacksmith.dialogs.4");
+            case 5 -> Component.translatable("quest.crafting.master-blacksmith.dialogs.5");
+            case 6 -> Component.translatable("quest.crafting.master-blacksmith.dialogs.6");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.crafting.master-blacksmith.npc-name");
+    }
 
-        dialog.addLine("quest.crafting.master_blacksmith.dialog.npc1",
-                "quest.crafting.master_blacksmith.dialog.npc1");
-
-        dialog.addLine("quest.crafting.master_blacksmith.dialog.npc2",
-                "quest.crafting.master_blacksmith.dialog.npc2");
-
-        dialog.addLine("quest.crafting.master_blacksmith.dialog.player1",
-                "quest.crafting.master_blacksmith.dialog.player1");
-
-        dialog.addLine("quest.crafting.master_blacksmith.dialog.npc3",
-                "quest.crafting.master_blacksmith.dialog.npc3");
-
-        dialog.addLine("quest.crafting.master_blacksmith.dialog.npc4",
-                "quest.crafting.master_blacksmith.dialog.npc4");
-
-        dialog.addLine("quest.crafting.master_blacksmith.dialog.player2",
-                "quest.crafting.master_blacksmith.dialog.player2");
-
-        dialog.addLine("quest.crafting.master_blacksmith.dialog.npc5",
-                "quest.crafting.master_blacksmith.dialog.npc5");
-
-        return dialog;
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.crafting.master-blacksmith.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.crafting.master-blacksmith.decline");
     }
 }

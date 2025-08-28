@@ -1,0 +1,29 @@
+{
+  "name": "Farmer's Request",
+  "description": [
+    "A local farmer needs help protecting his crops",
+    "from wild animals and pests.",
+    "",
+    "Help the farmer secure his harvest and",
+    "ensure the village has enough food for winter."
+  ],
+  "objectives": {
+    "kill_crop_pests": "Eliminate 10 Crop Pests",
+    "repair_farm_fence": "Repair the Farm Fence",
+    "collect_seeds": "Collect 20 Quality Seeds",
+    "plant_new_crops": "Plant Seeds in 5 Farm Plots"
+  },
+  "npcs": {
+    "farmer_john": "Farmer John",
+    "village_merchant": "Village Merchant"
+  },
+  "dialogs": {
+    "start1": "Please, adventurer! I need your help!",
+    "start2": "Wild animals keep destroying my crops, and pests are eating everything!",
+    "start3": "Without a good harvest, the village will struggle through winter.",
+    "progress1": "Thank you for helping with the pests!",
+    "progress2": "My crops are looking much better already.",
+    "complete1": "Wonderful! The harvest is saved!",
+    "complete2": "The village will eat well this winter thanks to you."
+  }
+}

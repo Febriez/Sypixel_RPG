@@ -1,0 +1,37 @@
+{
+  "name": "Gathering Storm",
+  "description": [
+    "Dark clouds gather on the horizon as ancient prophecies foretell",
+    "the coming of the final confrontation between light and darkness.",
+    "",
+    "Unite all the forces of good and prepare for the ultimate battle",
+    "that will determine the fate of all existence."
+  ],
+  "objectives": {
+    "prophecy_keeper": "Speak with the Prophecy Keeper",
+    "ancient_warning": "Read the Ancient Warning",
+    "gather_allies": "Rally All Allied Forces",
+    "unite_dragons": "Unite the Dragon Clans",
+    "realm_champions": "Summon Realm Champions",
+    "elemental_lords": "Call Upon the Elemental Lords",
+    "prepare_weapons": "Forge Legendary Weapons",
+    "gather_artifacts": "Collect Sacred Artifacts",
+    "strengthen_defenses": "Fortify All Strongholds",
+    "train_warriors": "Train Elite Warriors",
+    "scout_enemy": "Scout Enemy Movements",
+    "final_preparations": "Complete Final Preparations"
+  },
+  "npcs": {
+    "prophecy_keeper": "Keeper of Ancient Prophecies",
+    "dragon_elder": "Elder Dragon Council",
+    "realm_champion": "Champion of All Realms",
+    "elemental_lord": "Lord of Elements"
+  },
+  "dialogs": {
+    "line1": "The final storm approaches. All prophecies converge on this moment.",
+    "line2": "I will unite every ally and prepare for the ultimate confrontation.",
+    "line3": "The forces of darkness are gathering. We must not falter now.",
+    "line4": "All preparations are complete. The final battle awaits.",
+    "line5": "Together, we shall face whatever darkness comes."
+  }
+}

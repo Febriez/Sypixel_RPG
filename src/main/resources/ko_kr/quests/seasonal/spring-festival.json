@@ -1,0 +1,31 @@
+{
+  "name": "봄 축제의 기쁨",
+  "description": [
+    "봄 축제를 준비하는데 도움을 주세요!",
+    "꽃을 수집하고 축제장을 꾸며",
+    "모두가 즐거운 시간을 보낼 수 있도록 해주세요."
+  ],
+  "objectives": {
+    "festival_host": "축제 진행자와 대화",
+    "collect_flowers": "민들레 20개 수집",
+    "collect_tulips": "튤립 15개 수집",
+    "collect_seeds": "씨앗 30개 수집",
+    "plant_flowers": "민들레 10개 심기",
+    "plant_tulips": "튤립 10개 심기",
+    "harvest_crops": "작물 20개 수확",
+    "make_dyes": "노란색 염료 10개 제작",
+    "protect_festival": "축제장을 위협하는 좀비 15마리 처치",
+    "deliver_decorations": "축제 진행자에게 장식품 전달"
+  },
+  "npcs": {
+    "festival_host": "축제 진행자"
+  },
+  "dialogs": {
+    "start": "봄 축제가 다가오는데 준비할 게 너무 많아요! 도와주실 수 있나요?",
+    "flowers": "꽃이 많이 필요해요. 민들레와 튤립을 모아주세요.",
+    "player_help": "물론이죠! 제가 도와드릴게요.",
+    "planting": "축제장 주변에 꽃도 심어주시면 더 아름다울 거예요.",
+    "zombies": "아! 좀비들이 축제를 방해하려고 해요!",
+    "complete": "정말 감사해요! 덕분에 멋진 축제가 될 것 같아요!"
+  }
+}

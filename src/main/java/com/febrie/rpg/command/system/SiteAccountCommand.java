@@ -167,7 +167,7 @@ public class SiteAccountCommand implements CommandExecutor {
                         sendSuccessMessage(player, email, password));
 
             } catch (Exception e) {
-                LogUtil.error("사이트 계정 생성 중 오류 발생", e);
+                LogUtil.error("Error creating site account", e);
                 plugin.getServer().getScheduler().runTask(plugin, () ->
                         player.sendMessage(Component.translatable("commands.siteaccount.error")));
             }
@@ -207,7 +207,7 @@ public class SiteAccountCommand implements CommandExecutor {
         if (response.statusCode() != 200) {
             JsonObject error = JsonParser.parseString(response.body()).getAsJsonObject();
             String errorMessage = error.getAsJsonObject("error").get("message").getAsString();
-            throw new RuntimeException("Firebase Auth 오류: " + errorMessage);
+            throw new RuntimeException("Firebase Auth error: " + errorMessage);
         }
 
         JsonObject result = JsonParser.parseString(response.body()).getAsJsonObject();
@@ -239,11 +239,11 @@ public class SiteAccountCommand implements CommandExecutor {
             try {
                 JsonObject error = JsonParser.parseString(response.body()).getAsJsonObject();
                 String errorMessage = error.getAsJsonObject("error").get("message").getAsString();
-                LogUtil.error("Custom Claims 설정 실패: " + errorMessage);
-                throw new RuntimeException("Custom Claims 설정 실패: " + errorMessage);
+                LogUtil.error("Failed to set custom claims: " + errorMessage);
+                throw new RuntimeException("Failed to set custom claims: " + errorMessage);
             } catch (Exception e) {
-                LogUtil.error("Custom Claims 설정 실패 (응답 파싱 오류): " + response.body());
-                throw new RuntimeException("Custom Claims 설정 실패 (상태 코드: " + response.statusCode() + ")");
+                LogUtil.error("Failed to set custom claims (response parse error): " + response.body());
+                throw new RuntimeException("Failed to set custom claims (status code: " + response.statusCode() + ")");
             }
         }
     }
@@ -256,7 +256,7 @@ public class SiteAccountCommand implements CommandExecutor {
             // FirestoreManager의 공용 메서드 사용
             GoogleCredentials credentials = FirestoreManager.getCredentials();
             if (credentials == null) {
-                throw new IllegalStateException("Service Account 인증 정보를 가져올 수 없습니다.");
+                throw new IllegalStateException("Cannot get Service Account credentials.");
             }
 
             // Cloud Platform 스코프 추가
@@ -266,7 +266,7 @@ public class SiteAccountCommand implements CommandExecutor {
             AccessToken token = credentials.getAccessToken();
             return token != null ? token.getTokenValue() : null;
         } catch (Exception e) {
-            throw new IOException("Service Account 인증 실패", e);
+            throw new IOException("Service Account authentication failed", e);
         }
     }
 
@@ -296,7 +296,7 @@ public class SiteAccountCommand implements CommandExecutor {
                 }
                 return false;
             } catch (Exception e) {
-                LogUtil.error("사이트 계정 확인 중 오류", e);
+                LogUtil.error("Error checking site account", e);
                 return false;
             }
         });
@@ -331,12 +331,12 @@ public class SiteAccountCommand implements CommandExecutor {
             db.collection("Player").document(uuid)
                     .set(updates, SetOptions.merge())
                     .addListener(() -> {
-                        LogUtil.info("플레이어 사이트 계정 정보가 업데이트되었습니다: " + playerName +
-                                " (이메일: " + email + ", 관리자: " + isAdmin + ")");
+                        LogUtil.info("Player site account info updated: " + playerName +
+                                " (email: " + email + ", admin: " + isAdmin + ")");
                     }, Runnable::run);
 
         } catch (Exception e) {
-            LogUtil.error("플레이어 사이트 계정 정보 업데이트 실패", e);
+            LogUtil.error("Failed to update player site account info", e);
         }
     }
 

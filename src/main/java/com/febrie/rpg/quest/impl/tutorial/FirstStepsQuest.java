@@ -28,34 +28,17 @@ import java.util.List;
 public class FirstStepsQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class FirstStepsBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new FirstStepsQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public FirstStepsQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private FirstStepsQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new FirstStepsBuilder()
+        return new QuestBuilder()
                 .id(QuestID.TUTORIAL_FIRST_STEPS)
                 .objectives(Arrays.asList(
                         // 1. 허브 구역 방문 (WorldGuard 영역 이름: Hub)

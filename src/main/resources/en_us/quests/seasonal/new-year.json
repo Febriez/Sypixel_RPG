@@ -1,0 +1,33 @@
+{
+  "name": "New Year's Resolution",
+  "description": [
+    "A new year brings new opportunities!",
+    "Help the village celebrate the fresh start",
+    "and make resolutions for a brighter future."
+  ],
+  "objectives": {
+    "time_keeper": "Talk to Time Keeper",
+    "collect_fireworks": "Collect 30 colorful fireworks",
+    "gather_celebration_items": "Gather 25 celebration streamers",
+    "make_resolution_scrolls": "Create 15 resolution scrolls",
+    "countdown_preparations": "Help with countdown clock preparations",
+    "midnight_feast": "Prepare food for the midnight feast",
+    "light_fireworks": "Light 20 fireworks at midnight",
+    "resolution_ceremony": "Participate in the resolution ceremony",
+    "new_year_blessing": "Receive the New Year blessing"
+  },
+  "npcs": {
+    "time_keeper": "Time Keeper",
+    "celebration_planner": "Celebration Planner",
+    "resolution_sage": "Resolution Sage"
+  },
+  "dialogs": {
+    "start": "The new year approaches! Will you help us welcome it with proper celebration?",
+    "fireworks": "Fireworks light up the sky and our hearts, banishing the darkness of the old year.",
+    "player_help": "I'm excited to help ring in the new year!",
+    "resolutions": "Writing down our hopes and dreams gives them power to become reality.",
+    "countdown": "As we count down to midnight, we prepare to leave the past behind.",
+    "blessing": "The new year brings infinite possibilities. May your resolutions come true!",
+    "complete": "Thank you for helping make this New Year celebration unforgettable!"
+  }
+}

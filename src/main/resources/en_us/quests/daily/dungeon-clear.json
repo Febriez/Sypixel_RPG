@@ -1,0 +1,35 @@
+{
+  "name": "Daily Dungeon Clear",
+  "description": [
+    "Venture into the dangerous Shadowmoor Dungeon.",
+    "Fight through multiple floors of increasing difficulty.",
+    "Defeat the final boss and claim the dungeon core.",
+    "",
+    "Resets daily at midnight."
+  ],
+  "objectives": {
+    "dungeon_keeper": "Speak with the dungeon overseer",
+    "dungeon_key": "Obtain the dungeon access key",
+    "dungeon_entrance": "Enter the Shadowmoor Dungeon",
+    "floor1_monsters": "Clear Floor 1: Kill 20 zombies",
+    "floor1_boss": "Defeat Floor 1 Boss: Zombie Lord",
+    "floor2": "Advance to dungeon floor 2",
+    "floor2_monsters": "Clear Floor 2: Kill 25 skeletons",
+    "floor2_boss": "Defeat Floor 2 Boss: Skeleton King",
+    "floor3": "Advance to dungeon floor 3",
+    "floor3_monsters": "Clear Floor 3: Kill 15 creepers",
+    "floor3_boss": "Defeat Floor 3 Boss: Charged Creeper",
+    "boss_chamber": "Enter the final boss chamber",
+    "dungeon_lord": "Defeat the Dungeon Lord",
+    "dungeon_core": "Retrieve the dungeon core",
+    "report_success": "Report victory to overseer"
+  },
+  "dialogs": {
+    "start1": "The Shadowmoor Dungeon grows more dangerous each day. Are you prepared for this challenge?",
+    "player_ready": "I'm ready to face whatever lurks in the depths below.",
+    "complete1": "Incredible! You've cleared the entire dungeon and defeated the Dungeon Lord. You are a true hero."
+  },
+  "npcs": {
+    "dungeon_overseer": "Dungeon Overseer Grimwald"
+  }
+}

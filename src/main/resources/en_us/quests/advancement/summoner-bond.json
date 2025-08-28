@@ -1,0 +1,47 @@
+{
+  "name": "The Sacred Bond",
+  "description": [
+    "Forge eternal bonds with mystical creatures",
+    "and become a master of summoning arts.",
+    "",
+    "Learn to call upon ancient beings and",
+    "command their power through mutual respect.",
+    "",
+    "Class Requirements:",
+    "• Level 25 or higher",
+    "• Magic affinity required",
+    "• Empathetic connection to creatures",
+    "",
+    "Trial Contents:",
+    "• Test of Creature Understanding",
+    "• Test of Magical Resonance",
+    "• Test of Eternal Bonds",
+    "",
+    "Class Rewards:",
+    "• Summoner class advancement",
+    "• Creature summoning mastery",
+    "• Mystical summoning artifacts"
+  ],
+  "objectives": {
+    "find_spirit_realm": "Find the Portal to Spirit Realm",
+    "level_check": "Reach Level 25",
+    "understanding_test": "Test of Creature Understanding: Communicate with 5 spirits",
+    "resonance_test": "Test of Magical Resonance: Synchronize with elemental beings",
+    "bond_test": "Test of Eternal Bonds: Form pacts with 3 guardian creatures",
+    "complete_ritual": "Complete the Bonding Ritual",
+    "receive_advancement": "Receive Summoner Advancement"
+  },
+  "npcs": {
+    "spirit_master": "Spirit Master",
+    "creature_sage": "Creature Sage",
+    "bond_keeper": "Bond Keeper"
+  },
+  "dialogs": {
+    "start": "The spirits call to those who understand their nature. Are you one of them?",
+    "requirements": "To summon is not to command, but to form partnerships of mutual respect.",
+    "understanding_trial": "Each creature has its own wisdom. Listen with your heart, not just your ears.",
+    "resonance_trial": "Your magical energy must harmonize with theirs, like instruments in an orchestra.",
+    "bond_trial": "True bonds are forged not through force, but through understanding and trust.",
+    "complete": "The bonds are sealed. You and your summoned allies are now one."
+  }
+}

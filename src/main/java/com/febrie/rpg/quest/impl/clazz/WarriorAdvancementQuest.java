@@ -26,34 +26,17 @@ import java.util.List;
 public class WarriorAdvancementQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class WarriorAdvancementBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new WarriorAdvancementQuest(this);
-        }
-    }
-
-    /**
-     * 기본 생성자 - 퀘스트 설정
+     * 기본 생성자
      */
     public WarriorAdvancementQuest() {
-        this(createBuilder());
+        super(createBuilder());
     }
 
     /**
-     * 빌더 생성자
-     */
-    private WarriorAdvancementQuest(@NotNull QuestBuilder builder) {
-        super(builder);
-    }
-
-    /**
-     * 퀘스트 빌더 생성 및 설정
+     * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new WarriorAdvancementBuilder()
+        return new QuestBuilder()
                 .id(QuestID.CLASS_WARRIOR_ADVANCEMENT)
                 .objectives(Arrays.asList(
                         new ReachLevelObjective("warrior_level", 30),

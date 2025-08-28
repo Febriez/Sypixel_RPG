@@ -1,0 +1,32 @@
+{
+  "name": "Healer's Request",
+  "description": [
+    "The village healer has run out of medicinal herbs",
+    "and potions during a recent outbreak of illness.",
+    "",
+    "Help gather the necessary ingredients and assist",
+    "in treating the sick villagers to restore health",
+    "to the community."
+  ],
+  "objectives": {
+    "collect_healing_herbs": "Collect 15 Healing Herbs",
+    "gather_moonwater": "Gather 5 Bottles of Moonwater",
+    "brew_health_potions": "Brew 8 Health Potions",
+    "treat_sick_villagers": "Treat 12 Sick Villagers"
+  },
+  "npcs": {
+    "village_healer": "Village Healer Miriam",
+    "sick_villager_1": "Sick Villager Thomas",
+    "sick_villager_2": "Sick Villager Elena",
+    "herbalist": "Herbalist Marcus"
+  },
+  "dialogs": {
+    "start1": "Oh, thank goodness you're here! I desperately need help.",
+    "start2": "A terrible sickness has spread through the village, and I've used all my supplies.",
+    "start3": "Please help me gather healing herbs and moonwater to save these people.",
+    "progress1": "Excellent work gathering those herbs!",
+    "progress2": "The potions you've brewed are working wonderfully.",
+    "complete1": "You've saved the entire village! I cannot thank you enough.",
+    "complete2": "Your kindness and skill have restored hope to our community."
+  }
+}

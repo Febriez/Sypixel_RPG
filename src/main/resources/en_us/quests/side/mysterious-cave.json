@@ -1,0 +1,32 @@
+{
+  "name": "Mysterious Cave",
+  "description": [
+    "Strange sounds and glowing lights emanate from",
+    "a recently discovered cave system.",
+    "",
+    "Brave the unknown depths and uncover the source",
+    "of the mysterious phenomena within."
+  ],
+  "objectives": {
+    "enter_cave_system": "Enter the Mysterious Cave System",
+    "investigate_glowing_crystals": "Investigate the Glowing Crystal Formations",
+    "defeat_cave_dwellers": "Defeat 15 Shadow Cave Dwellers",
+    "find_underground_lake": "Discover the Underground Lake",
+    "solve_crystal_puzzle": "Solve the Ancient Crystal Puzzle",
+    "claim_cave_treasure": "Claim the Hidden Cave Treasure"
+  },
+  "npcs": {
+    "cave_explorer": "Experienced Cave Explorer",
+    "crystal_guardian": "Crystal Guardian",
+    "echo_spirit": "Echo Spirit of the Depths"
+  },
+  "dialogs": {
+    "start1": "This cave... it's unlike anything I've explored before.",
+    "start2": "The crystals pulse with an otherworldly energy.",
+    "start3": "Something ancient sleeps in these depths.",
+    "progress1": "The shadows seem to move on their own here.",
+    "progress2": "Listen... can you hear the whispers in the darkness?",
+    "complete1": "The cave's secrets have been unveiled!",
+    "complete2": "You've brought light to the eternal darkness below."
+  }
+}

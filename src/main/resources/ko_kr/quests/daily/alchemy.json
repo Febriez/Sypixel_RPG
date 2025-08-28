@@ -1,0 +1,63 @@
+{
+  "name": "일일 연금술",
+  "description": [
+    "물약 양조술과 재료 수집의 기예를 마스터하세요.",
+    "귀중한 물약을 제작하고 희귀한 연금술 재료를 수집하세요.",
+    "도시에 필수적인 치유와 마법 용품을 공급하세요.",
+    "",
+    "매일 자정에 초기화됩니다."
+  ],
+  "objectives": {
+    "alchemist_master": "대연금술사와 상담하기",
+    "daily_formula": "오늘의 양조 처방전 받기",
+    "alchemy_lab": "연금술 실험실 방문하기",
+    "nether_wart": "네더 사마귀 20개 수집하기",
+    "blaze_powder": "블레이즈 가루 15개 수집하기",
+    "spider_eyes": "거미 눈 10개 수확하기",
+    "ghast_tears": "가스트 눈물 5개 획득하기",
+    "blaze_hunting": "재료를 위해 블레이즈 8마리 사냥하기",
+    "witch_hunting": "시약을 위해 마녀 5명 사냥하기",
+    "ghast_hunting": "희귀 재료를 위해 가스트 3마리 사냥하기",
+    "witch_drops": "마녀에게서 유리병 10개 수집하기",
+    "herb_garden": "마법 약초 정원 방문하기",
+    "golden_carrots": "황금 당근 8개 수집하기",
+    "glistering_melons": "반짝이는 수박 조각 6개 수집하기",
+    "pufferfish": "복어 4마리 잡기",
+    "rabbit_feet": "토끼 발 3개 획득하기",
+    "healing_potions": "치료 물약 10개 양조하기",
+    "strength_potions": "힘 물약 8개 양조하기",
+    "speed_potions": "신속 물약 8개 양조하기",
+    "night_vision_potions": "야간 투시 물약 5개 양조하기",
+    "regeneration_potions": "재생 물약 6개 양조하기",
+    "fire_resistance_potions": "화염 저항 물약 5개 양조하기",
+    "water_breathing_potions": "수중 호흡 물약 4개 양조하기",
+    "invisibility_potions": "투명 물약 3개 양조하기",
+    "splash_healing": "투척용 치료 물약 5개 제작하기",
+    "splash_poison": "투척용 독 물약 3개 제작하기",
+    "splash_weakness": "투척용 나약함 물약 3개 제작하기",
+    "fermented_spider_eyes": "발효된 거미 눈 5개 제작하기",
+    "mundane_potions": "평범한 물약 10개 양조하기",
+    "thick_potions": "진한 물약 8개 양조하기",
+    "potion_merchant": "물약 상인과 거래하기",
+    "deliver_healing": "도시 치료사에게 치료 물약 배달하기",
+    "deliver_combat": "무기 훈련사에게 전투 물약 배달하기",
+    "submit_research": "대연금술사에게 연구 결과 제출하기"
+  },
+  "dialogs": {
+    "start1": "내 실험실에 오신 것을 환영합니다. 오늘 도시에서 물약이 많이 필요하답니다.",
+    "start2": "희귀한 재료가 필요한 특별한 처방전이 있습니다. 도전할 준비가 되었나요?",
+    "player_interested": "연금술의 기예를 배우고 도시를 위해 봉사할 준비가 되었습니다.",
+    "ingredients": "기억하세요 - 좋은 재료가 좋은 물약을 만듭니다. 최고급 재료만 수집하세요.",
+    "merchant_request": "이 물약들은 잘 팔릴 것입니다. 모험가들은 항상 좋은 용품이 필요하니까요.",
+    "healer_need": "이 치료 물약들에 감사드립니다. 진료소에서 많은 생명을 구할 수 있을 것입니다.",
+    "complete1": "훌륭한 작업입니다! 당신의 물약은 품질이 매우 뛰어나군요.",
+    "player_success": "양조 과정은 도전적이었지만 매우 보람찼습니다.",
+    "complete2": "당신은 대연금술사가 될 자질이 있습니다. 도시가 당신에게 빚을 졌군요."
+  },
+  "npcs": {
+    "grand_alchemist": "대연금술사 메리디안",
+    "potion_trader": "물약 상인 보리스",
+    "city_healer": "도시 치료사 리안나",
+    "weapon_trainer": "전투 훈련사 마르쿠스"
+  }
+}

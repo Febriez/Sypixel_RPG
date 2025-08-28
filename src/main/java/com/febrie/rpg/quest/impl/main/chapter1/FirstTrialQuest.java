@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.builder.QuestBuilder;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -107,15 +106,37 @@ public class FirstTrialQuest extends Quest {
         return Component.translatable("quest.main.first_trial.objectives.");
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("first_trial_dialog");
-        dialog.addLine("quest.main.first_trial.dialog.trainer1", "quest.main.first_trial.dialog.trainer1");
-        dialog.addLine("quest.main.first_trial.dialog.trainer2", "quest.main.first_trial.dialog.trainer2");
-        dialog.addLine("quest.main.first_trial.dialog.trainer3", "quest.main.first_trial.dialog.trainer3");
-        dialog.addLine("quest.main.first_trial.dialog.player1", "quest.main.first_trial.dialog.player1");
-        dialog.addLine("quest.main.first_trial.dialog.trainer4", "quest.main.first_trial.dialog.trainer4");
-        dialog.addLine("quest.main.first_trial.dialog.trainer5", "quest.main.first_trial.dialog.trainer5");
-        dialog.addLine("quest.main.first_trial.dialog.player2", "quest.main.first_trial.dialog.player2");
-        return dialog;
+    @Override
+    public int getDialogCount() {
+        return 7;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.main.first-trial.dialogs.0");
+            case 1 -> Component.translatable("quest.main.first-trial.dialogs.1");
+            case 2 -> Component.translatable("quest.main.first-trial.dialogs.2");
+            case 3 -> Component.translatable("quest.main.first-trial.dialogs.3");
+            case 4 -> Component.translatable("quest.main.first-trial.dialogs.4");
+            case 5 -> Component.translatable("quest.main.first-trial.dialogs.5");
+            case 6 -> Component.translatable("quest.main.first-trial.dialogs.6");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.main.first-trial.npc-name");
+    }
+
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.first-trial.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.first-trial.decline");
     }
 }

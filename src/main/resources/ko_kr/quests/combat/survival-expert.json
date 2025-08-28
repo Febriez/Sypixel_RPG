@@ -1,0 +1,44 @@
+{
+  "name": "궁극의 생존 전문가",
+  "description": [
+    "가장 가혹한 환경에서의 생존 기술을 마스터하세요!",
+    "다른 이들이 죽을 곳에서 번영하는 법을 배우고 모든 장애물을 극복하세요.",
+    "",
+    "🛡️ 생존의 혜택:",
+    "• 극한 환경 저항력",
+    "• 고급 자원 수집",
+    "• 비상 대피소 건설",
+    "• 적대적 생물 억제",
+    "• 황야 네비게이션 마스터"
+  ],
+  "objectives": {
+    "basic_survival": "기본 생존 기술 학습",
+    "survive_desert": "사막에서 7일 생존",
+    "survive_arctic": "북극 툰드라에서 7일 생존",
+    "survive_underground": "깊은 동굴에서 7일 생존",
+    "craft_survival_gear": "고급 생존 장비 제작",
+    "find_water_sources": "10개 다른 생태계에서 물 발견",
+    "build_shelters": "5개 환경에서 비상 대피소 건설",
+    "hunt_wild_game": "야생 동물 20종 사냥 및 요리",
+    "identify_plants": "식용 및 독성 식물 50종 식별",
+    "survive_storm": "파괴적인 마법 폭풍 생존",
+    "escape_predators": "위험한 포식자 10마리로부터 탈출",
+    "navigate_wilderness": "도구 없이 100킬로미터 황야 항해",
+    "teach_others": "5명의 제자에게 생존 기술 전수",
+    "ultimate_challenge": "30일 황야 생존 도전 완료",
+    "earn_expert_title": "궁극의 생존 전문가 칭호 획득"
+  },
+  "npcs": {
+    "survival_mentor": "생존 교육 달인",
+    "wilderness_guide": "전설의 황야 안내자",
+    "ranger_captain": "정예 레인저 대장"
+  },
+  "dialogs": {
+    "start": "자연은 아름답기도 하고 치명적이기도 합니다. 그녀의 비밀을 배울 준비가 되셨나요?",
+    "training": "생존에서는 준비와 지식이 어떤 무기보다도 가치가 있습니다.",
+    "hardship": "당신은 다른 이들이 쓰러질 곳에서 견뎌냈습니다. 당신의 회복력이 더욱 강해집니다.",
+    "mastery": "이제 당신처럼 황야를 깊이 이해하는 사람은 거의 없습니다.",
+    "challenge": "궁극의 시험이 기다립니다. 기술 외에는 아무것도 없이 30일간.",
+    "complete": "이제 당신은 궁극의 생존 전문가입니다! 자연 자체가 당신의 전문성에 경의를 표합니다!"
+  }
+}

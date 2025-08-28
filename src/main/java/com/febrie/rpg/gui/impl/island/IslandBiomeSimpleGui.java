@@ -145,7 +145,7 @@ public class IslandBiomeSimpleGui extends BaseGui {
         // applyBiomeToIsland은 private 메서드이므로 주석 처리
         // 바이옴 설정은 DTO에만 저장
         
-        player.sendMessage(LangManager.get("gui.island.biome.message.changed", player, Component.translatable(biome.biomeKey + ".name")));
+        player.sendMessage(LangManager.getComponent("gui.island.biome.message.changed", player.locale(), Component.translatable(biome.biomeKey + ".name")));
         player.closeInventory();
         
         // 설정 메뉴로 돌아가기

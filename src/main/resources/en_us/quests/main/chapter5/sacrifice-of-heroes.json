@@ -1,0 +1,37 @@
+{
+  "name": "Sacrifice of Heroes",
+  "description": [
+    "Victory came at a great cost. Many heroes gave their lives",
+    "to ensure the triumph of light over darkness.",
+    "",
+    "Honor the fallen champions and carry forward their legacy",
+    "as the realms begin to heal from the great war."
+  ],
+  "objectives": {
+    "honor_fallen": "Honor the Fallen Heroes",
+    "build_memorial": "Build the Memorial of Heroes",
+    "collect_memories": "Collect Sacred Memories",
+    "preserve_legacy": "Preserve Their Legacy",
+    "comfort_survivors": "Comfort the Survivors",
+    "rebuild_homes": "Help Rebuild Destroyed Homes",
+    "heal_wounded": "Heal the Wounded",
+    "restore_hope": "Restore Hope to the People",
+    "establish_peace": "Establish Lasting Peace",
+    "create_council": "Create the Peace Council",
+    "plan_future": "Plan the Future",
+    "new_beginning": "Begin the New Era"
+  },
+  "npcs": {
+    "memorial_keeper": "Keeper of Heroes' Memorial",
+    "war_survivor": "Survivor of the Great War",
+    "peace_ambassador": "Ambassador of Peace",
+    "hope_guardian": "Guardian of New Hope"
+  },
+  "dialogs": {
+    "line1": "So many heroes sacrificed everything for our victory. We must remember them.",
+    "line2": "Their sacrifice will not be in vain. I will honor their memory forever.",
+    "line3": "The pain of loss is deep, but their courage lights our path forward.",
+    "line4": "A memorial worthy of their sacrifice. They will never be forgotten.",
+    "line5": "From their sacrifice, a new age of peace and hope is born."
+  }
+}

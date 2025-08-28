@@ -1,0 +1,32 @@
+{
+  "name": "Elemental Stones",
+  "description": [
+    "The four Elemental Stones hold the power to",
+    "balance the forces of nature in the world.",
+    "",
+    "Seek out these ancient artifacts and harness",
+    "their power to restore harmony to the land."
+  ],
+  "objectives": {
+    "find_fire_stone": "Find the Fire Stone in the Volcano",
+    "find_water_stone": "Find the Water Stone in the Deep Ocean",
+    "find_earth_stone": "Find the Earth Stone in the Mountain Cave",
+    "find_air_stone": "Find the Air Stone in the Sky Temple"
+  },
+  "npcs": {
+    "elemental_sage": "Elemental Sage",
+    "fire_guardian": "Fire Guardian",
+    "water_guardian": "Water Guardian",
+    "earth_guardian": "Earth Guardian",
+    "air_guardian": "Air Guardian"
+  },
+  "dialogs": {
+    "start1": "The Elemental Stones have been scattered across the realm, hero.",
+    "start2": "Each stone is guarded by a powerful elemental guardian.",
+    "start3": "You must prove your worth to each guardian to claim their stone.",
+    "progress1": "You have shown mastery over the elemental forces.",
+    "progress2": "Continue your quest, for balance must be restored.",
+    "complete1": "All four Elemental Stones are now in your possession!",
+    "complete2": "The power of the elements flows through you, bringing harmony to the world."
+  }
+}

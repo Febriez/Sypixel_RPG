@@ -1,0 +1,44 @@
+{
+  "name": "Enchantment Mastery",
+  "description": [
+    "Master the mystical art of enchantment and magical item creation!",
+    "Learn to imbue weapons and armor with powerful magical properties.",
+    "",
+    "✨ Enchantment Benefits:",
+    "• Create custom enchantments",
+    "• Enhanced enchanting efficiency",
+    "• Access to forbidden enchantments",
+    "• Magical item repair abilities",
+    "• Enchantment trading privileges"
+  ],
+  "objectives": {
+    "study_magic_theory": "Study magical theory basics",
+    "craft_enchant_table": "Craft master enchanting table",
+    "gather_lapis": "Gather 100 lapis lazuli",
+    "collect_experience": "Collect 500 experience points",
+    "enchant_sword": "Enchant your first sword",
+    "enchant_armor": "Enchant full set of armor",
+    "learn_advanced_runes": "Learn advanced runic writing",
+    "create_spell_book": "Create custom spell book",
+    "enchant_tool": "Enchant mining tools",
+    "find_forbidden_tome": "Find tome of forbidden enchantments",
+    "master_combination": "Master enchantment combination",
+    "create_artifact": "Create your first magical artifact",
+    "enchant_legendary": "Apply legendary enchantment",
+    "pass_examination": "Pass the enchanter's examination",
+    "receive_mastery": "Receive enchantment mastery title"
+  },
+  "npcs": {
+    "grand_enchanter": "Grand Enchanter",
+    "rune_scholar": "Rune Scholar",
+    "magical_librarian": "Magical Librarian"
+  },
+  "dialogs": {
+    "start": "Enchantment is the marriage of magic and craftsmanship. Do you have the dedication?",
+    "theory": "Understanding magical theory is essential. You cannot enchant what you do not understand.",
+    "practice": "Now apply what you've learned. Let the magic flow through your hands.",
+    "advanced": "These are dangerous enchantments. They have destroyed lesser enchanters.",
+    "mastery": "Few reach this level. You have truly mastered the enchantment arts.",
+    "complete": "You are now a Grand Enchanter! Your magical creations will be legendary!"
+  }
+}

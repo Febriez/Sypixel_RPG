@@ -1,0 +1,50 @@
+{
+  "strength": {
+    "name": "Strength",
+    "abbreviation": "STR",
+    "description": [
+      "Increases physical attack power.",
+      "Melee weapon damage increases."
+    ]
+  },
+  "intelligence": {
+    "name": "Intelligence",
+    "abbreviation": "INT",
+    "description": [
+      "Increases magical attack power.",
+      "Mana pool increases."
+    ]
+  },
+  "dexterity": {
+    "name": "Dexterity",
+    "abbreviation": "DEX",
+    "description": [
+      "Increases attack speed.",
+      "Evasion rate increases."
+    ]
+  },
+  "vitality": {
+    "name": "Vitality",
+    "abbreviation": "VIT",
+    "description": [
+      "Increases maximum health.",
+      "Defense increases."
+    ]
+  },
+  "wisdom": {
+    "name": "Wisdom",
+    "abbreviation": "WIS",
+    "description": [
+      "Increases mana regeneration.",
+      "Skill cooldowns decrease."
+    ]
+  },
+  "luck": {
+    "name": "Luck",
+    "abbreviation": "LUK",
+    "description": [
+      "Increases item drop rate.",
+      "Critical damage increases."
+    ]
+  }
+}

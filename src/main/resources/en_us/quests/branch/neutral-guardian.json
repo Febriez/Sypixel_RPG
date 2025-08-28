@@ -1,0 +1,44 @@
+{
+  "name": "Path of the Neutral Guardian",
+  "description": [
+    "Walk the balanced path and become a Guardian of Equilibrium!",
+    "Maintain the balance between all forces and protect the natural order.",
+    "",
+    "⚖️ Guardian Benefits:",
+    "• Balance manipulation abilities",
+    "• Harmony with all elements",
+    "• Peaceful resolution skills",
+    "• Natural order protection",
+    "• Universal respect and trust"
+  ],
+  "objectives": {
+    "seek_balance": "Understand the concept of balance",
+    "meditate_elements": "Meditate with all four elements",
+    "resolve_conflicts": "Peacefully resolve 10 conflicts",
+    "protect_neutrality": "Protect neutral territories",
+    "study_philosophy": "Study ancient balance philosophy",
+    "help_both_sides": "Aid both good and evil causes",
+    "restore_harmony": "Restore harmony to corrupted lands",
+    "unite_factions": "Unite opposing factions",
+    "balance_ritual": "Perform great balance ritual",
+    "speak_all_languages": "Learn to communicate with all beings",
+    "judge_fairly": "Judge complex moral situations",
+    "maintain_peace": "Maintain peace during great conflict",
+    "guardian_trials": "Complete the Guardian Trials",
+    "receive_blessing": "Receive blessing from all forces",
+    "become_eternal_guardian": "Become Eternal Guardian of Balance"
+  },
+  "npcs": {
+    "balance_keeper": "Keeper of Balance",
+    "neutral_sage": "Neutral Sage",
+    "harmony_spirit": "Spirit of Harmony"
+  },
+  "dialogs": {
+    "start": "The path of balance requires wisdom beyond good and evil. Do you understand?",
+    "learning": "True strength lies not in choosing sides, but in understanding all perspectives.",
+    "conflict": "Every conflict has two sides. A Guardian sees both with equal clarity.",
+    "harmony": "You bring peace where others bring war. This is the way of balance.",
+    "trials": "The trials test not your strength, but your wisdom and compassion.",
+    "complete": "You are now the Eternal Guardian. May balance guide your every step."
+  }
+}

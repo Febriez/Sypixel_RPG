@@ -1,0 +1,30 @@
+{
+  "name": "魔法使いの悟り",
+  "description": [
+    "魔法の奥義を極め、真の魔法使いとしての",
+    "悟りを開くための最終試練。",
+    "",
+    "古代の秘術を学び、魔法の真理を",
+    "理解する者のみが到達できる境地。"
+  ],
+  "objectives": {
+    "study_ancient_tomes": "古代魔法書を5冊研究する",
+    "master_elemental_magic": "四大属性魔法をマスターする",
+    "create_philosopher_stone": "賢者の石を作成する",
+    "achieve_enlightenment": "魔法使いの悟りを得る"
+  },
+  "npcs": {
+    "archmage": "大魔法使い",
+    "ancient_spirit": "古代の魔法精霊",
+    "magic_council": "魔法評議会"
+  },
+  "dialogs": {
+    "start1": "魔法の真理を求める者よ、ようこそ。",
+    "start2": "この道は困難だが、真の悟りへと導く。",
+    "start3": "あなたの決意を試す時が来た。",
+    "progress1": "あなたの魔法への理解が深まっている。",
+    "progress2": "悟りの境地に近づいているのを感じる。",
+    "complete1": "おめでとう！あなたは真の魔法使いの悟りを得た！",
+    "complete2": "この知識を世界のために賢く使うのだ。"
+  }
+}

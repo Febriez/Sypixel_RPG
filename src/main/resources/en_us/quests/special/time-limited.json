@@ -1,0 +1,40 @@
+{
+  "name": "Temporal Convergence",
+  "description": [
+    "Time itself bends and warps in this reality,",
+    "creating unique opportunities that exist",
+    "only for the briefest of moments.",
+    "",
+    "⌛ Limited Time Event:",
+    "• Complete within the time window",
+    "• Extraordinary temporal rewards",
+    "• Access to time-locked content",
+    "• Chronos blessing activation",
+    "• Temporal mastery achievements"
+  ],
+  "objectives": {
+    "detect_temporal_anomaly": "Detect the Temporal Anomaly",
+    "gather_time_crystals": "Gather 10 Time Crystals",
+    "stabilize_rift": "Stabilize 3 Temporal Rifts",
+    "defeat_time_wraiths": "Defeat 25 Time Wraiths",
+    "collect_temporal_essence": "Collect 50 Temporal Essence",
+    "activate_chronos_device": "Activate the Chronos Device",
+    "survive_time_storm": "Survive the 15-minute Time Storm",
+    "seal_temporal_breach": "Seal the Temporal Breach"
+  },
+  "npcs": {
+    "temporal_guardian": "Temporal Guardian",
+    "chronos_keeper": "Keeper of Chronos",
+    "time_sage": "Time Sage"
+  },
+  "dialogs": {
+    "start1": "The fabric of time trembles... something approaches.",
+    "start2": "This anomaly won't last long. We must act swiftly!",
+    "start3": "Are you prepared to face the chaos of broken time?",
+    "progress1": "The temporal distortions grow stronger...",
+    "progress2": "Time itself fights against our efforts!",
+    "progress3": "Hold steady! The convergence is almost complete!",
+    "complete1": "You have mastered the flow of time itself!",
+    "complete2": "The temporal anomaly has been contained. Well done, hero!"
+  }
+}

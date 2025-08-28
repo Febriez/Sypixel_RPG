@@ -1,0 +1,30 @@
+{
+  "name": "次元の旅人",
+  "description": [
+    "現実の境界を越えて、異なる次元を旅する",
+    "秘密の技術を習得せよ。",
+    "",
+    "次元の隙間を通り抜け、",
+    "未知の世界の秘密を発見せよ。"
+  ],
+  "objectives": {
+    "find_dimension_portal": "次元ポータルを見つける",
+    "collect_rift_crystals": "裂け目クリスタルを10個集める",
+    "master_teleportation": "テレポート術をマスターする",
+    "explore_parallel_worlds": "平行世界を3つ探索する"
+  },
+  "npcs": {
+    "dimension_mage": "次元魔法使い",
+    "portal_keeper": "ポータルの番人",
+    "void_wanderer": "虚無の放浪者"
+  },
+  "dialogs": {
+    "start1": "現実の壁は想像より薄い、旅人よ。",
+    "start2": "次元を越える力は大きな危険を伴う。",
+    "start3": "しかし、真の探検家にとっては価値のある力だ。",
+    "progress1": "あなたは次元の境界を理解し始めている。",
+    "progress2": "多元宇宙があなたの呼びかけに応えている。",
+    "complete1": "おめでとう！あなたは真の次元の旅人となった！",
+    "complete2": "無限の世界があなたの探索を待っている。"
+  }
+}

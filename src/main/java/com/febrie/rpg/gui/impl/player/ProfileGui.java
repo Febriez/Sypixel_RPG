@@ -176,15 +176,15 @@ public class ProfileGui extends BaseGui {
         // Level/XP info - locale 적용 예시
         setItem(LEVEL_INFO_SLOT, GuiItem.display(new ItemBuilder(Material.EXPERIENCE_BOTTLE)
                 .displayName(LangManager.getComponent("items.profile.level-info.name", getViewerLocale()))
-                .addLore(LangManager.get("gui.profile.level", viewer, Component.text(String.valueOf(rpgPlayer.getLevel()))))
-                .addLore(LangManager.get("gui.profile.experience", viewer, Component.text(String.valueOf(rpgPlayer.getExperience()))))
+                .addLore(LangManager.getComponent("gui.profile.level", getViewerLocale(), Component.text(String.valueOf(rpgPlayer.getLevel()))))
+                .addLore(LangManager.getComponent("gui.profile.experience", getViewerLocale(), Component.text(String.valueOf(rpgPlayer.getExperience()))))
                 .build()));
 
         // Game stats info - locale 적용 예시
         setItem(GAME_INFO_SLOT, GuiItem.display(new ItemBuilder(Material.GOLDEN_SWORD)
                 .displayName(LangManager.getComponent("items.profile.game-stats.name", getViewerLocale()))
-                .addLore(LangManager.get("gui.profile.playtime", viewer, Component.text(TimeUtil.formatTime(rpgPlayer.getTotalPlaytime()))))
-                .addLore(LangManager.get("gui.profile.mob-kills", viewer, Component.text(String.valueOf(rpgPlayer.getMobsKilled()))))
+                .addLore(LangManager.getComponent("gui.profile.playtime", getViewerLocale(), Component.text(TimeUtil.formatTime(rpgPlayer.getTotalPlaytime()))))
+                .addLore(LangManager.getComponent("gui.profile.mob-kills", getViewerLocale(), Component.text(String.valueOf(rpgPlayer.getMobsKilled()))))
                 .flags(org.bukkit.inventory.ItemFlag.values()).build()));
     }
 
@@ -226,8 +226,8 @@ public class ProfileGui extends BaseGui {
         GuiItem questButton = GuiItem.clickable(new ItemBuilder(Material.WRITTEN_BOOK)
                 .displayName(LangManager.getComponent("items.profile.quest-info.name", getViewerLocale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.get("gui.profile.active-quests", viewer, Component.text(String.valueOf(getActiveQuestCount()))))
-                .addLore(LangManager.get("gui.profile.completed-quests", viewer, Component.text(String.valueOf(getCompletedQuestCount()))))
+                .addLore(LangManager.getComponent("gui.profile.active-quests", getViewerLocale(), Component.text(String.valueOf(getActiveQuestCount()))))
+                .addLore(LangManager.getComponent("gui.profile.completed-quests", getViewerLocale(), Component.text(String.valueOf(getCompletedQuestCount()))))
                 .addLore(Component.empty())
                 .addLore(LangManager.getComponent("items.profile.quest-info.click-lore", getViewerLocale()))
                 .flags(ItemFlag.values()).build(), p -> {
@@ -287,8 +287,8 @@ public class ProfileGui extends BaseGui {
             ItemBuilder jobBuilder = new ItemBuilder(job.getMaterial()).displayName(Component.text(job.getIcon() + " ")
                             .append(Component.translatable("job." + jobKey + ".name")).color(job.getColor())
                             .decoration(TextDecoration.BOLD, true)).addLore(Component.empty())
-                    .addLore(LangManager.get("gui.profile.job-level", viewer, Component.text(String.valueOf(rpgPlayer.getLevel()))))
-                    .addLore(LangManager.get("gui.profile.combat-power", viewer, Component.text(String.valueOf(rpgPlayer.getCombatPower()))));
+                    .addLore(LangManager.getComponent("gui.profile.job-level", getViewerLocale(), Component.text(String.valueOf(rpgPlayer.getLevel()))))
+                    .addLore(LangManager.getComponent("gui.profile.combat-power", getViewerLocale(), Component.text(String.valueOf(rpgPlayer.getCombatPower()))));
 
             // 특성 메뉴로 이동 설명 추가
             if (viewer.equals(targetPlayer)) {

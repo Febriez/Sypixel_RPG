@@ -1,0 +1,32 @@
+{
+  "name": "숨겨진 계곡",
+  "description": [
+    "고대 마법으로 은밀하게 숨겨진 신비한 계곡이 발견되었습니다.",
+    "희귀한 식물과 잊혀진 비밀들이 가득한 곳입니다.",
+    "",
+    "마법의 결계를 통과하여 이 숨겨진 성역에",
+    "감춰진 미스터리를 밝혀내세요."
+  ],
+  "objectives": {
+    "find_valley_entrance": "숨겨진 계곡 입구 발견",
+    "break_magic_barriers": "마법 결계 3개 파괴",
+    "collect_rare_flowers": "달빛 꽃잎 10개 수집",
+    "discover_ancient_shrine": "고대 자연 신전 발견",
+    "commune_with_spirits": "계곡의 정령들과 소통",
+    "restore_shrine_power": "신전의 자연력 복원"
+  },
+  "npcs": {
+    "forest_ranger": "숲의 수호자",
+    "valley_guardian": "계곡 수호신",
+    "nature_spirit": "고대 자연 정령"
+  },
+  "dialogs": {
+    "start1": "고대 마법으로 보호받는 숨겨진 계곡의 전설을 들었습니다.",
+    "start2": "순수한 마음을 가진 자에게만 입구가 나타난다고 하죠.",
+    "start3": "이 전설의 성역을 찾는 것을 도와주시겠습니까?",
+    "progress1": "마법 결계가 약해지고 있습니다... 가까워지고 있어요!",
+    "progress2": "이 꽃들... 신비로운 아름다움으로 빛나고 있군요.",
+    "complete1": "계곡의 비밀이 이제 안전한 손에 맡겨졌습니다.",
+    "complete2": "자연 자체가 당신의 숭고한 탐험을 축복하고 있습니다."
+  }
+}

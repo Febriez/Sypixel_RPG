@@ -1,0 +1,44 @@
+{
+  "name": "상업 재벌 제국",
+  "description": [
+    "거대한 무역 제국을 건설하고 궁극의 상업 재벌이 되세요!",
+    "상업의 기술을 마스터하고 전국의 물품 유통을 조절하세요.",
+    "",
+    "💰 재벌의 혜택:",
+    "• 독점적인 무역로 접근",
+    "• 고급 시장 조작",
+    "• 개인 상선단",
+    "• 경제적 영향력",
+    "• 명품 독점권"
+  ],
+  "objectives": {
+    "start_small_business": "첫 번째 소규모 무역 사업 시작",
+    "make_first_profit": "1,000 골드 수익 달성",
+    "establish_shop": "영구 무역 상점 설립",
+    "hire_employees": "상인 직원 5명 고용",
+    "expand_inventory": "500개의 다른 아이템으로 확장",
+    "secure_trade_routes": "주요 무역로 3개 확보",
+    "build_warehouse": "대형 보관 창고 건설",
+    "negotiate_contracts": "독점 공급 계약 협상",
+    "corner_market": "희귀 상품 시장 독점",
+    "establish_branches": "5개 도시에 무역 지점 개설",
+    "build_merchant_fleet": "개인 상선단 건조",
+    "influence_economy": "지역 경제에 영향력 행사",
+    "achieve_monopoly": "명품에서 독점 달성",
+    "become_guild_leader": "상인 길드 리더 되기",
+    "reach_tycoon_status": "상업 재벌 지위 달성"
+  },
+  "npcs": {
+    "trade_master": "무역 달인",
+    "economic_advisor": "경제 고문",
+    "guild_representative": "상인 길드 대표"
+  },
+  "dialogs": {
+    "start": "모든 큰 재산은 하나의 거래에서 시작됩니다. 당신에게 그것이 있나요?",
+    "growth": "당신의 사업이 성장하고 있습니다! 하지만 확장에는 신중한 계획이 필요합니다.",
+    "competition": "다른 상인들이 주목하고 있습니다. 경쟁이 치열할 것입니다.",
+    "success": "당신의 무역 제국이 대륙에 걸쳐 있습니다! 이런 성공을 달성한 사람은 거의 없습니다.",
+    "tycoon": "당신은 상인 세계의 전설이 되었습니다!",
+    "complete": "축하합니다, 상업 재벌님! 당신의 제국은 영원히 기억될 것입니다!"
+  }
+}

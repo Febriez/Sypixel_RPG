@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -27,34 +26,17 @@ import java.util.List;
 public class DailyCraftingQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class DailyCraftingBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new DailyCraftingQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public DailyCraftingQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private DailyCraftingQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new DailyCraftingBuilder()
+        return new QuestBuilder()
                 .id(QuestID.DAILY_CRAFTING)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("blacksmith", "daily_blacksmith"), // 대장장이
@@ -112,52 +94,38 @@ public class DailyCraftingQuest extends Quest {
         return Component.translatable(key);
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("daily_crafting_dialog");
+    @Override
+    public int getDialogCount() {
+        return 8;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.daily.crafting.dialogs.0");
+            case 1 -> Component.translatable("quest.daily.crafting.dialogs.1");
+            case 2 -> Component.translatable("quest.daily.crafting.dialogs.2");
+            case 3 -> Component.translatable("quest.daily.crafting.dialogs.3");
+            case 4 -> Component.translatable("quest.daily.crafting.dialogs.4");
+            case 5 -> Component.translatable("quest.daily.crafting.dialogs.5");
+            case 6 -> Component.translatable("quest.daily.crafting.dialogs.6");
+            case 7 -> Component.translatable("quest.daily.crafting.dialogs.7");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.daily.crafting.npc-name");
+    }
 
-        // 시작
-        dialog.addLine(
-                "quest.daily.crafting.npcs.blacksmith",
-                "quest.daily.crafting.dialogs.start1"
-        );
-
-        dialog.addLine(
-                "quest.dialog.player",
-                "quest.daily.crafting.dialogs.player_question"
-        );
-
-        dialog.addLine(
-                "quest.daily.crafting.npcs.blacksmith",
-                "quest.daily.crafting.dialogs.start2"
-        );
-
-        // 진행 중
-        dialog.addLine(
-                "quest.daily.crafting.npcs.blacksmith",
-                "quest.daily.crafting.dialogs.progress1"
-        );
-
-        dialog.addLine(
-                "quest.dialog.player",
-                "quest.daily.crafting.dialogs.chainmail_question"
-        );
-
-        dialog.addLine(
-                "quest.daily.crafting.npcs.blacksmith",
-                "quest.daily.crafting.dialogs.chainmail_answer"
-        );
-
-        // 완료
-        dialog.addLine(
-                "quest.daily.crafting.npcs.blacksmith",
-                "quest.daily.crafting.dialogs.complete1"
-        );
-
-        dialog.addLine(
-                "quest.daily.crafting.npcs.blacksmith",
-                "quest.daily.crafting.dialogs.complete2"
-        );
-
-        return dialog;
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.daily.crafting.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.daily.crafting.decline");
     }
 }

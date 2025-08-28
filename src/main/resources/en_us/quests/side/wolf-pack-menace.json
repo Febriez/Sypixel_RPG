@@ -1,0 +1,33 @@
+{
+  "name": "Wolf Pack Menace",
+  "description": [
+    "A dangerous pack of dire wolves has been",
+    "terrorizing travelers on the main trade roads",
+    "and threatening the safety of merchants.",
+    "",
+    "Hunt down this aggressive pack and eliminate",
+    "the threat to restore safe passage through",
+    "the region."
+  ],
+  "objectives": {
+    "track_wolf_pack": "Track the Dire Wolf Pack",
+    "eliminate_pack_scouts": "Eliminate 8 Wolf Pack Scouts",
+    "defeat_alpha_wolf": "Defeat the Alpha Dire Wolf",
+    "secure_trade_routes": "Secure the Trade Routes"
+  },
+  "npcs": {
+    "merchant_leader": "Merchant Guild Leader",
+    "frightened_traveler": "Frightened Traveler",
+    "ranger": "Forest Ranger Cole",
+    "caravan_guard": "Caravan Guard Captain"
+  },
+  "dialogs": {
+    "start1": "These wolves are unlike anything we've seen before!",
+    "start2": "They're organized, vicious, and they've already claimed several victims.",
+    "start3": "The trade routes won't be safe until someone deals with this pack.",
+    "progress1": "Good work tracking them! You're getting close to their territory.",
+    "progress2": "Taking out their scouts was smart - it should disrupt their hunting patterns.",
+    "complete1": "The alpha is dead! The pack will scatter without their leader.",
+    "complete2": "Travelers and merchants can use these roads safely once again. Well done!"
+  }
+}

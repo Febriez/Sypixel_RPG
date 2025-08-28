@@ -1,0 +1,33 @@
+{
+  "name": "Valentine's Love Festival",
+  "description": [
+    "Love is in the air this Valentine's season!",
+    "Help spread love and joy throughout the village",
+    "with romantic gestures and heartfelt celebrations."
+  ],
+  "objectives": {
+    "cupid_helper": "Talk to Cupid's Helper",
+    "collect_roses": "Collect 30 red roses",
+    "gather_chocolates": "Gather ingredients for 20 chocolate boxes",
+    "write_love_letters": "Write 15 anonymous love letters",
+    "craft_valentine_cards": "Craft 25 beautiful valentine cards",
+    "decorate_town_square": "Decorate town square with 10 heart decorations",
+    "deliver_gifts": "Deliver surprise gifts to 12 couples",
+    "matchmaking_service": "Help 5 shy villagers find love",
+    "valentine_dance": "Organize the Valentine's Day dance"
+  ],
+  "npcs": {
+    "cupid_helper": "Cupid's Helper",
+    "love_letter_writer": "Love Letter Writer",
+    "romance_coordinator": "Romance Coordinator"
+  },
+  "dialogs": {
+    "start": "Valentine's Day is here! Will you help us spread love throughout our community?",
+    "roses": "Red roses are the classic symbol of love. We need lots for our romantic displays!",
+    "player_help": "I'd love to help make this Valentine's Day special for everyone!",
+    "chocolates": "Nothing says 'I love you' quite like handmade chocolates. Let's make them perfect!",
+    "letters": "Anonymous love letters can spark new romances and rekindle old flames.",
+    "dance": "The Valentine's dance brings couples together under the stars. How romantic!",
+    "complete": "Thanks to you, love has truly blossomed throughout our village this Valentine's Day!"
+  }
+}

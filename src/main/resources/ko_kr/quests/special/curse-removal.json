@@ -1,0 +1,42 @@
+{
+  "name": "영원한 저주 해제",
+  "description": [
+    "끔찍한 저주가 대지에 걸려",
+    "현실을 비틀고 닿는 모든 것을 타락시킵니다.",
+    "오직 진정한 용기를 가진 자만이 그 굴레를 깰 수 있습니다.",
+    "",
+    "💀 저주 해제 과정:",
+    "• 저주의 근원 식별",
+    "• 정화 재료 수집",
+    "• 저주의 주인과 대결",
+    "• 해제 의식 수행",
+    "• 타락한 영역 복원"
+  ],
+  "objectives": {
+    "investigate_curse_origin": "저주의 기원 조사",
+    "gather_purification_herbs": "정화 약초 20개 수집",
+    "craft_cleansing_potion": "정화 물약 5개 제조",
+    "defeat_cursed_guardians": "저주받은 수호자 15마리 처치",
+    "find_curse_anchor": "저주의 정착점 찾기",
+    "break_cursed_seals": "저주받은 봉인 7개 파괴",
+    "confront_curse_master": "저주의 주인과 대결",
+    "perform_breaking_ritual": "해제 의식 수행",
+    "cleanse_corrupted_land": "타락한 땅 정화"
+  },
+  "npcs": {
+    "curse_researcher": "저주 연구자",
+    "purification_expert": "정화 전문가",
+    "curse_victim": "저주 피해자",
+    "ancient_exorcist": "고대 엑소시스트"
+  },
+  "dialogs": {
+    "start1": "저주가 역병처럼 대지에 퍼지고 있다.",
+    "start2": "많은 이들이 그것을 깨려 했지만, 모두 실패했다.",
+    "start3": "정말로 다른 이들이 하지 못한 일을 해낼 수 있다고 믿는가?",
+    "progress1": "저주가 너의 노력에 맞서 반격하고 있다...",
+    "progress2": "그 근원에 더욱 가까워지고 있다.",
+    "progress3": "저주가 약해지면서 공기 자체가 떨리고 있다!",
+    "complete1": "영원한 저주가 해제되었다!",
+    "complete2": "대지가 다시 자유로워졌다. 불가능한 일을 해냈구나!"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "Giant Slayer",
+  "description": [
+    "Ancient giants have awakened from their",
+    "eternal slumber and now threaten to",
+    "crush entire settlements underfoot.",
+    "",
+    "Face these colossal beings in combat",
+    "and prove that even the mightiest giants",
+    "can be brought low by courage and skill."
+  ],
+  "objectives": {
+    "locate_giant_tracks": "Locate Giant Footprints",
+    "gather_giant_weakness_info": "Research Giant Weaknesses",
+    "craft_giant_slaying_gear": "Craft Giant-Slaying Equipment",
+    "defeat_stone_giant": "Defeat the Stone Giant",
+    "slay_frost_giant": "Slay the Frost Giant King"
+  },
+  "npcs": {
+    "giant_scholar": "Scholar Brunhilde",
+    "mountain_guide": "Guide Erikson",
+    "giant_hunter": "Veteran Hunter Gareth",
+    "frost_giant_king": "Frost Giant King Ymir"
+  },
+  "dialogs": {
+    "start1": "Giants walk the earth again! This hasn't happened in centuries!",
+    "start2": "Their massive footsteps shake the very mountains.",
+    "start3": "Legend speaks of those brave enough to face giants in combat.",
+    "progress1": "Those tracks belong to an ancient stone giant, no doubt.",
+    "progress2": "Knowledge is power when facing beings of such immense size.",
+    "complete1": "Incredible! You've slain giants - creatures of legend!",
+    "complete2": "Tales of your giant-slaying prowess will be told for generations."
+  }
+}

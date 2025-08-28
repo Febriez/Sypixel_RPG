@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.builder.QuestBuilder;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.BreakBlockObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -27,34 +26,18 @@ import java.util.List;
 public class DailyMiningQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class DailyMiningBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new DailyMiningQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public DailyMiningQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private DailyMiningQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new DailyMiningBuilder().id(QuestID.DAILY_MINING)
+        return new QuestBuilder()
+                .id(QuestID.DAILY_MINING)
                 .objectives(Arrays.asList(new BreakBlockObjective("mine_stone", Material.STONE, 50), new BreakBlockObjective("mine_coal", Material.COAL_ORE, 20), new BreakBlockObjective("mine_iron", Material.IRON_ORE, 10)))
                 .reward(new BasicReward.Builder().addCurrency(CurrencyType.GOLD, 150)
                         .addItem(new ItemStack(Material.IRON_PICKAXE)).addItem(new ItemStack(Material.TORCH, 32))
@@ -78,15 +61,34 @@ public class DailyMiningQuest extends Quest {
         return Component.translatable(key);
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("daily_mining_dialog");
-
-        // 시작 대화
-        dialog.addLine("quest.daily.mining.npcs.foreman", "quest.daily.mining.dialogs.greeting");
-        dialog.addLine("quest.daily.mining.npcs.foreman", "quest.daily.mining.dialogs.need_resources");
-        dialog.addLine("quest.dialog.player", "quest.daily.mining.dialogs.player_accept");
-        dialog.addLine("quest.daily.mining.npcs.foreman", "quest.daily.mining.dialogs.good_luck");
-
-        return dialog;
+    @Override
+    public int getDialogCount() {
+        return 4;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.daily.mining.dialogs.0");
+            case 1 -> Component.translatable("quest.daily.mining.dialogs.1");
+            case 2 -> Component.translatable("quest.daily.mining.dialogs.2");
+            case 3 -> Component.translatable("quest.daily.mining.dialogs.3");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.daily.mining.npc-name");
+    }
+    
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.daily.mining.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.daily.mining.decline");
     }
 }

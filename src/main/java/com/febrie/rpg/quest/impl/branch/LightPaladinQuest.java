@@ -26,34 +26,17 @@ import java.util.List;
 public class LightPaladinQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class LightPaladinBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new LightPaladinQuest(this);
-        }
-    }
-
-    /**
-     * 기본 생성자 - 퀘스트 설정
+     * 기본 생성자
      */
     public LightPaladinQuest() {
-        this(createBuilder());
+        super(createBuilder());
     }
 
     /**
-     * 빌더 생성자
-     */
-    private LightPaladinQuest(@NotNull QuestBuilder builder) {
-        super(builder);
-    }
-
-    /**
-     * 퀘스트 빌더 생성 및 설정
+     * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new LightPaladinBuilder()
+        return new QuestBuilder()
                 .id(QuestID.BRANCH_LIGHT_PALADIN)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("paladin_master", "light_paladin_master"),

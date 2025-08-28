@@ -1,0 +1,41 @@
+{
+  "name": "神聖なる恩恵",
+  "description": [
+    "天があなたの行いに注目しており、",
+    "神聖な領域が天の恩寵を受けるに",
+    "値すると判断した者に祝福を与えます。",
+    "",
+    "✨ 神聖な祝福の恩恵：",
+    "• 闇の力からの神聖な加護",
+    "• 天の治癒能力",
+    "• 神聖な光の操作",
+    "• 聖なる武器の強化",
+    "• 天使の従者召喚"
+  ],
+  "objectives": {
+    "visit_sacred_shrine": "聖なる祠への参拝",
+    "purify_corrupted_altar": "堕落した祭壇5つの浄化",
+    "collect_holy_water": "聖なる泉から聖水を収集",
+    "defeat_unholy_creatures": "邪悪な生物30体撃破",
+    "offer_sacred_sacrifice": "神聖な生贄の捧げ",
+    "channel_divine_energy": "10分間神聖エネルギーの伝達",
+    "heal_wounded_pilgrims": "負傷した巡礼者15人の治療",
+    "receive_divine_blessing": "神聖な祝福を受ける"
+  },
+  "npcs": {
+    "high_priestess": "大神官",
+    "celestial_messenger": "天の使者",
+    "divine_oracle": "神託者",
+    "sacred_guardian": "聖なる守護者"
+  },
+  "dialogs": {
+    "start1": "神聖な光があなたを照らしている、選ばれし者よ。",
+    "start2": "あなたの純粋な心が天の注目を集めた。",
+    "start3": "神聖な祝福を受ける準備はできているか？",
+    "progress1": "神聖エネルギーがより強くあなたを通じて流れている。",
+    "progress2": "あなたの信仰は試されているが、それでも揺らがない。",
+    "progress3": "天の領域がその贈り物を授ける準備をしている。",
+    "complete1": "今や神聖な恩恵を受けた！",
+    "complete2": "この聖なる力があなたの正しき道を導かんことを。"
+  }
+}

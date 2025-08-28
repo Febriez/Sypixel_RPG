@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -15,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -29,34 +29,17 @@ import java.util.List;
 public class BasicCombatQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class BasicCombatBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new BasicCombatQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public BasicCombatQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private BasicCombatQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new BasicCombatBuilder()
+        return new QuestBuilder()
                 .id(QuestID.TUTORIAL_BASIC_COMBAT)
                 .objectives(Arrays.asList(
                         new KillMobObjective("kill_zombies", EntityType.ZOMBIE, 5),
@@ -96,24 +79,33 @@ public class BasicCombatQuest extends Quest {
         return Component.translatable(key);
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("basic_combat_dialog");
-
-        dialog.addLine(
-                "quest.tutorial.basic-combat.npcs.combat_instructor",
-                "quest.tutorial.basic-combat.dialogs.essential_skills"
-        );
-
-        dialog.addLine(
-                "quest.tutorial.basic-combat.npcs.combat_instructor",
-                "quest.tutorial.basic-combat.dialogs.night_monsters"
-        );
-
-        dialog.addLine(
-                "quest.tutorial.basic-combat.npcs.combat_instructor",
-                "quest.tutorial.basic-combat.dialogs.return_reward"
-        );
-
-        return dialog;
+    @Override
+    public int getDialogCount() {
+        return 3;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.tutorial.basic-combat.dialogs.0");
+            case 1 -> Component.translatable("quest.tutorial.basic-combat.dialogs.1");
+            case 2 -> Component.translatable("quest.tutorial.basic-combat.dialogs.2");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.tutorial.basic-combat.npc-name");
+    }
+    
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.tutorial.basic-combat.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.tutorial.basic-combat.decline");
     }
 }

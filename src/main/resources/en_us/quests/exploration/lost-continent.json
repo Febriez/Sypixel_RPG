@@ -1,0 +1,44 @@
+{
+  "name": "The Lost Continent Discovery",
+  "description": [
+    "Discover the legendary Lost Continent hidden beyond the misty seas!",
+    "Uncover ancient civilizations and their forgotten treasures.",
+    "",
+    "🗺️ Discovery Benefits:",
+    "• Access to unique biomes and creatures",
+    "• Ancient technology and artifacts",
+    "• Rare materials and resources",
+    "• New crafting recipes",
+    "• Exploration achievements and titles"
+  ],
+  "objectives": {
+    "obtain_map": "Obtain ancient sea chart",
+    "gather_supplies": "Gather supplies for long voyage",
+    "craft_compass": "Craft enchanted compass",
+    "build_ship": "Build exploration vessel",
+    "hire_navigator": "Hire experienced navigator",
+    "navigate_storms": "Navigate through treacherous storms",
+    "discover_ruins": "Discover first ancient ruins",
+    "explore_temple": "Explore forgotten temple",
+    "decipher_glyphs": "Decipher ancient glyphs",
+    "find_artifact": "Find the Crystal of Ages",
+    "unlock_chamber": "Unlock sealed chamber",
+    "face_guardian": "Face the ancient guardian",
+    "claim_treasure": "Claim the lost civilization's treasure",
+    "map_continent": "Map the entire lost continent",
+    "establish_camp": "Establish exploration camp"
+  },
+  "npcs": {
+    "cartographer": "Master Cartographer",
+    "navigator": "Seasoned Navigator",
+    "archaeologist": "Ancient Archaeologist"
+  },
+  "dialogs": {
+    "start": "Legends speak of a continent lost to time, hidden beyond the endless mists.",
+    "preparation": "Such a journey requires careful preparation. The seas are treacherous.",
+    "discovery": "By the gods! The legends were true! This continent holds wonders beyond imagination!",
+    "exploration": "These ruins are older than our oldest records. What civilization built this?",
+    "guardian": "The guardian awakens! It has protected these secrets for millennia!",
+    "complete": "You've made the greatest discovery in recorded history! The Lost Continent is real!"
+  }
+}

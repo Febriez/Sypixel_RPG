@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.builder.QuestBuilder;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -104,16 +103,36 @@ public class ChosenOneQuest extends Quest {
         return Component.translatable("quest.main.chosen_one.objectives.");
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("chosen_one_dialog");
+    @Override
+    public int getDialogCount() {
+        return 6;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.main.chosen-one.dialogs.0");
+            case 1 -> Component.translatable("quest.main.chosen-one.dialogs.1");
+            case 2 -> Component.translatable("quest.main.chosen-one.dialogs.2");
+            case 3 -> Component.translatable("quest.main.chosen-one.dialogs.3");
+            case 4 -> Component.translatable("quest.main.chosen-one.dialogs.4");
+            case 5 -> Component.translatable("quest.main.chosen-one.dialogs.5");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.main.chosen-one.npc-name");
+    }
 
-        dialog.addLine("quest.chosen_one.npcs.elder", "quest.chosen_one.dialogs.line1");
-        dialog.addLine("quest.chosen_one.npcs.elder", "quest.chosen_one.dialogs.line2");
-        dialog.addLine("quest.chosen_one.npcs.elder", "quest.chosen_one.dialogs.line3");
-        dialog.addLine("quest.chosen_one.npcs.elder", "quest.chosen_one.dialogs.line4");
-        dialog.addLine("quest.dialog.player", "quest.chosen_one.dialogs.player_line1");
-        dialog.addLine("quest.chosen_one.npcs.elder", "quest.chosen_one.dialogs.line5");
-
-        return dialog;
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.chosen-one.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.chosen-one.decline");
     }
 }

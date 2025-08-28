@@ -1,0 +1,58 @@
+{
+  "name": "차원의 수호자들",
+  "description": [
+    "공허 침공을 물리친 후, 미래의 차원적 위협을 막기 위해",
+    "다른 차원의 수호자들을 결속시켜야 합니다.",
+    "",
+    "원소 수호자들과 대동맹을 결성하고",
+    "모든 차원 간의 깨질 수 없는 유대를 만드세요."
+  ],
+  "objectives": {
+    "alliance_emissary": "동맹 사절과 대화하기",
+    "alliance_treaty": "동맹 조약 수집하기 (5)",
+    "defender_council": "차원 수호자 의회 방문하기",
+    "fire_realm": "불의 차원 진입하기",
+    "fire_guardian": "불의 수호자와 대화하기",
+    "fire_trial": "불의 시험 완성하기 (50)",
+    "fire_alliance_token": "불의 동맹 토큰 받기",
+    "ice_realm": "얼음의 차원 진입하기",
+    "ice_guardian": "얼음의 수호자와 대화하기",
+    "ice_trial": "얼음의 시험 완성하기 (50)",
+    "ice_alliance_token": "얼음의 동맹 토큰 받기",
+    "earth_realm": "대지의 차원 진입하기",
+    "earth_guardian": "대지의 수호자와 대화하기",
+    "earth_trial": "대지의 시험 완성하기 (30)",
+    "earth_alliance_token": "대지의 동맹 토큰 받기",
+    "wind_realm": "바람의 차원 진입하기",
+    "wind_guardian": "바람의 수호자와 대화하기",
+    "wind_trial": "바람의 시험 완성하기 (40)",
+    "wind_alliance_token": "바람의 동맹 토큰 받기",
+    "ether_realm": "에테르 차원 진입하기",
+    "ether_guardian": "에테르 수호자와 대화하기",
+    "ether_trial": "에테르 시험 완성하기 (60)",
+    "ether_alliance_token": "에테르 동맹 토큰 받기",
+    "alliance_ceremony": "동맹 의식 참석하기",
+    "place_tokens": "동맹 토큰 설치하기 (5)",
+    "alliance_leader": "최고 수호자와 대화하기",
+    "alliance_ritual": "동맹 의식에서 생존하기",
+    "combined_trial": "통합 시험 완성하기 (10)",
+    "unity_crystal": "통합 수정 수집하기 (5)",
+    "complete_alliance": "동맹 결성 완료하기",
+    "defender_badge": "수호자 휘장 받기 (5)",
+    "alliance_banner": "동맹 깃발 받기"
+  },
+  "npcs": {
+    "alliance_emissary": "동맹 사절",
+    "fire_realm_guardian": "불의 차원 수호자",
+    "ice_realm_guardian": "얼음의 차원 수호자",
+    "earth_realm_guardian": "대지의 차원 수호자",
+    "wind_realm_guardian": "바람의 차원 수호자",
+    "ether_realm_guardian": "에테르 차원 수호자",
+    "supreme_guardian": "최고 수호자"
+  },
+  "dialogs": {
+    "line1": "공허 침공은 단지 시작에 불과했다. 우리는 모든 차원의 동맹이 필요하다.",
+    "line2": "수호자들을 결속시키겠습니다. 함께라면 모든 차원을 보호할 수 있을 것입니다.",
+    "line3": "대동맹이 결성되었다! 이제 모든 차원이 어둠에 맞서 하나가 되었다."
+  }
+}

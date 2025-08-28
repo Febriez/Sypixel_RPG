@@ -1,0 +1,33 @@
+{
+  "name": "Dream Walker",
+  "description": [
+    "A mysterious phenomenon has trapped several",
+    "villagers in an endless nightmare, leaving",
+    "their bodies in a deep, unnatural sleep.",
+    "",
+    "Enter the dream realm to rescue the trapped",
+    "souls and confront the entity responsible",
+    "for this supernatural sleep curse."
+  ],
+  "objectives": {
+    "enter_dream_realm": "Enter the Dream Realm",
+    "locate_trapped_souls": "Locate 5 Trapped Souls",
+    "collect_dream_fragments": "Collect 12 Dream Fragments", 
+    "defeat_nightmare_lord": "Defeat the Nightmare Lord"
+  },
+  "npcs": {
+    "dream_shaman": "Dream Shaman Morpheus",
+    "sleeping_villagers": "Cursed Villagers",
+    "dream_guide": "Ethereal Dream Guide",
+    "nightmare_lord": "The Nightmare Lord"
+  },
+  "dialogs": {
+    "start1": "The sleep curse has spread faster than we anticipated.",
+    "start2": "These people are trapped between waking and sleeping - lost in nightmares.",
+    "start3": "Only someone with a strong will can enter the dream realm and save them.",
+    "progress1": "You've found another soul! Their dream essence grows stronger.",
+    "progress2": "The dream fragments contain pieces of their shattered hopes.",
+    "complete1": "The Nightmare Lord's hold over the dream realm has been broken!",
+    "complete2": "The villagers are awakening - their nightmares have ended at last."
+  }
+}

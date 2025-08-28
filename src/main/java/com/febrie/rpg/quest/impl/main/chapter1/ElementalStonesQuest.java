@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.builder.QuestBuilder;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -105,25 +104,38 @@ public class ElementalStonesQuest extends Quest {
         return Component.translatable("quest.main.elemental_stones.objectives.");
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("elemental_stones_dialog");
+    @Override
+    public int getDialogCount() {
+        return 8;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.main.elemental-stones.dialogs.0");
+            case 1 -> Component.translatable("quest.main.elemental-stones.dialogs.1");
+            case 2 -> Component.translatable("quest.main.elemental-stones.dialogs.2");
+            case 3 -> Component.translatable("quest.main.elemental-stones.dialogs.3");
+            case 4 -> Component.translatable("quest.main.elemental-stones.dialogs.4");
+            case 5 -> Component.translatable("quest.main.elemental-stones.dialogs.5");
+            case 6 -> Component.translatable("quest.main.elemental-stones.dialogs.6");
+            case 7 -> Component.translatable("quest.main.elemental-stones.dialogs.7");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.main.elemental-stones.npc-name");
+    }
 
-        dialog.addLine("quest.main_elemental_stones.npcs.elemental_sage", "quest.main_elemental_stones.dialogs.line1");
-
-        dialog.addLine("quest.main_elemental_stones.npcs.elemental_sage", "quest.main_elemental_stones.dialogs.line2");
-
-        dialog.addLine("quest.main_elemental_stones.npcs.elemental_sage", "quest.main_elemental_stones.dialogs.line3");
-
-        dialog.addLine("quest.dialog.player", "quest.main_elemental_stones.dialogs.line4");
-
-        dialog.addLine("quest.main_elemental_stones.npcs.elemental_sage", "quest.main_elemental_stones.dialogs.line5");
-
-        dialog.addLine("quest.main_elemental_stones.npcs.elemental_sage", "quest.main_elemental_stones.dialogs.line6");
-
-        dialog.addLine("quest.dialog.player", "quest.main_elemental_stones.dialogs.line7");
-
-        dialog.addLine("quest.main_elemental_stones.npcs.elemental_sage", "quest.main_elemental_stones.dialogs.line8");
-
-        return dialog;
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.elemental-stones.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.elemental-stones.decline");
     }
 }

@@ -1,0 +1,31 @@
+{
+  "name": "일일 보물 사냥꾼",
+  "description": [
+    "숨겨진 보물과 귀중한 유물을 찾아보세요.",
+    "고대 지도를 따라 묻힌 재보를 발견하세요.",
+    "위험한 수호자들에 맞서 보상을 차지하세요.",
+    "",
+    "매일 자정에 초기화됩니다."
+  ],
+  "objectives": {
+    "treasure_dealer": "보물 상인과 상담하기",
+    "treasure_map": "오늘의 보물 지도 획득하기",
+    "buried_treasure_1": "사막 유적 보물 위치 찾기",
+    "dig_desert_treasure": "사막 보물 상자 발굴하기",
+    "buried_treasure_2": "숲 보물고 위치 찾기",
+    "dig_forest_treasure": "숲 보물 상자 발굴하기",
+    "underwater_treasure": "침몰선 탐험하기",
+    "ocean_treasures": "바다 보물에서 에메랄드 20개 수집하기",
+    "treasure_guardians": "보물 수호자 몬스터 10마리 처치하기",
+    "rare_gems": "희귀 다이아몬드 보석 15개 수집하기",
+    "submit_treasures": "수집한 보물을 상인에게 제출하기"
+  },
+  "dialogs": {
+    "start1": "아, 재물을 찾는 동지로군! 왕국 곳곳에 숨겨진 보물의 지도가 있습니다.",
+    "player_interested": "숨겨진 보물을 위해 어떤 위험도 무릅쓸 준비가 되어 있습니다.",
+    "complete1": "훌륭한 작업입니다! 이 보물들로 당신은 꿈꿔왔던 부자가 될 것입니다."
+  },
+  "npcs": {
+    "treasure_merchant": "보물 상인 페르디난드"
+  }
+}

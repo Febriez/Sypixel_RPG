@@ -1,0 +1,37 @@
+{
+  "name": "新時代",
+  "description": [
+    "ついに闇が完全に打ち払われ、新しい黄金時代が始まります。",
+    "次元は平和と繁栄の中で一つになります。",
+    "",
+    "この新時代の基礎を確立し、すべての次元を",
+    "より明るい未来へ導きましょう。"
+  ],
+  "objectives": {
+    "establish_unity": "次元間統合を確立する",
+    "create_alliance": "永遠の同盟を創設する",
+    "build_capital": "平和の首都を建設する",
+    "unite_peoples": "すべての民族を統合する",
+    "establish_trade": "平和な交易を確立する",
+    "share_knowledge": "古代の知識を共有する",
+    "teach_young": "次世代を教育する",
+    "preserve_history": "真の歴史を保存する",
+    "celebrate_peace": "永遠の平和を祝う",
+    "crown_ceremony": "戴冠式に参加する",
+    "accept_title": "永遠の守護者の称号を受け入れる",
+    "new_beginning": "新しい始まりを目撃する"
+  },
+  "npcs": {
+    "unity_council": "次元間統合評議会",
+    "peace_herald": "新平和の伝令",
+    "eternal_sage": "新時代の賢者",
+    "future_guardian": "未来の守護者"
+  },
+  "dialogs": {
+    "line1": "闇の時代は終わった。光と統合の新時代が始まる。",
+    "line2": "平和と繁栄の新世界の建設を助けます。",
+    "line3": "すべての次元が調和の中で統合された。未来は明るい。",
+    "line4": "あなたがこの黄金時代の建築家だ。永遠の称号を受け入れよ。",
+    "line5": "永遠の守護者として、この新時代を永遠に守ることを誓います。"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "Daily Gathering",
+  "description": [
+    "Gather today's required resources.",
+    "Collect materials needed for town construction projects.",
+    "",
+    "Resets daily at midnight."
+  ],
+  "objectives": {
+    "gather_logs": "Gather 30 logs",
+    "gather_cobblestone": "Gather 50 cobblestone",
+    "gather_iron": "Gather 10 iron ore"
+  }
+}

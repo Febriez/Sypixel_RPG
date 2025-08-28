@@ -1,0 +1,35 @@
+{
+  "name": "Elemental Chaos",
+  "description": [
+    "The elemental planes have become unstable,",
+    "causing chaotic manifestations of fire, ice,",
+    "earth, and air throughout the region.",
+    "",
+    "Restore balance to the elemental forces",
+    "by collecting their scattered essences",
+    "and sealing the unstable rifts between worlds."
+  ],
+  "objectives": {
+    "collect_fire_essence": "Collect 5 Fire Essence",
+    "gather_ice_crystals": "Gather 5 Ice Crystals",
+    "obtain_earth_stones": "Obtain 5 Earth Stones",
+    "capture_air_wisps": "Capture 5 Air Wisps",
+    "seal_elemental_rifts": "Seal 4 Elemental Rifts"
+  },
+  "npcs": {
+    "elemental_sage": "Sage Meridian",
+    "fire_guardian": "Fire Guardian Ignis",
+    "ice_guardian": "Ice Guardian Glacius",
+    "earth_guardian": "Earth Guardian Terran",
+    "air_guardian": "Air Guardian Zephyr"
+  },
+  "dialogs": {
+    "start1": "The elemental balance has been shattered!",
+    "start2": "Wild magic is tearing rifts between our world and theirs.",
+    "start3": "Only by gathering their pure essences can we restore order.",
+    "progress1": "Good! The essences resonate with harmonic energy.",
+    "progress2": "Each rift sealed brings us closer to restoring balance.",
+    "complete1": "The elemental chaos has been contained!",
+    "complete2": "Balance is restored between the planes once more."
+  }
+}

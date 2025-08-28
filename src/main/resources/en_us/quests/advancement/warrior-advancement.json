@@ -1,0 +1,39 @@
+{
+  "name": "Path of the Warrior",
+  "description": [
+    "Pass the trials to become a true warrior.",
+    "This quest advances you to the Warrior class.",
+    "",
+    "Class Requirements:",
+    "• Level 20 or higher",
+    "• Combat experience required",
+    "",
+    "Trial Contents:",
+    "• Test of Strength",
+    "• Test of Courage",
+    "• Test of Honor",
+    "",
+    "Class Rewards:",
+    "• Warrior class unlock",
+    "• Warrior-exclusive skills",
+    "• Warrior armor set"
+  ],
+  "objectives": {
+    "warrior_master": "Talk to Warrior Master",
+    "level_check": "Reach Level 20",
+    "strength_test": "Test of Strength: Kill 10 Iron Golems",
+    "courage_test": "Test of Courage: Defeat 1 Boss Monster",
+    "honor_test": "Test of Honor: Win 5 PvP battles",
+    "final_trial": "Pass the final trial",
+    "receive_class": "Receive Warrior class"
+  },
+  "npcs": {
+    "warrior_master": "Warrior Master"
+  },
+  "dialogs": {
+    "start": "You wish to walk the path of the warrior? It is not an easy path.",
+    "requirements": "First, you need sufficient combat experience. Come back when you reach level 20.",
+    "trials": "You must pass three trials: Strength, Courage, and Honor.",
+    "complete": "Excellent! You are now a true warrior."
+  }
+}

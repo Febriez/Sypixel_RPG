@@ -104,15 +104,15 @@ public class IslandSpawnSettingsGui extends BaseGui {
         ItemBuilder builder = ItemBuilder.of(Material.BEACON)
                 .displayNameTranslated("items.island.spawn.current-info.name")
                 .addLore(Component.empty())
-                .addLore(LangManager.get("gui.island.spawn.default-spawn", viewer, Component.text(mainSpawn)))
-                .addLore(LangManager.get("gui.island.spawn.location-name", viewer, Component.text(defaultSpawn.alias())))
+                .addLore(LangManager.getComponent("gui.island.spawn.default-spawn", getViewerLocale(), Component.text(mainSpawn)))
+                .addLore(LangManager.getComponent("gui.island.spawn.location-name", getViewerLocale(), Component.text(defaultSpawn.alias())))
                 .addLore(Component.empty());
         
         if (visitorSpawn != null) {
             String visitorLoc = String.format("%.1f, %.1f, %.1f", visitorSpawn.x(), visitorSpawn.y(), visitorSpawn.z());
-            builder.addLore(LangManager.get("gui.island.spawn.visitor-spawn", viewer, Component.text(visitorLoc)));
+            builder.addLore(LangManager.getComponent("gui.island.spawn.visitor-spawn", getViewerLocale(), Component.text(visitorLoc)));
         } else {
-            builder.addLore(LangManager.get("gui.island.spawn.visitor-spawn-not-set", viewer));
+            builder.addLore(LangManager.getComponent("gui.island.spawn.visitor-spawn-not-set", getViewerLocale()));
         }
         
         builder.addLore(Component.empty())

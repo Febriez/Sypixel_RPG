@@ -1,0 +1,44 @@
+{
+  "name": "Master of Potion Brewing",
+  "description": [
+    "Master the ancient art of potion brewing and alchemy!",
+    "Learn to create the most powerful potions known to adventurers.",
+    "",
+    "🧪 Brewing Benefits:",
+    "• Access to legendary potion recipes",
+    "• Enhanced brewing efficiency",
+    "• Unique alchemical ingredients",
+    "• Permanent potion effects",
+    "• Alchemy shop discounts"
+  ],
+  "objectives": {
+    "learn_basics": "Learn basic potion brewing",
+    "craft_brewing_stand": "Craft advanced brewing stand",
+    "gather_nether_wart": "Gather 50 nether wart",
+    "collect_ingredients": "Collect rare brewing ingredients",
+    "brew_health_potions": "Brew 10 health potions",
+    "brew_mana_potions": "Brew 10 mana potions",
+    "learn_advanced": "Learn advanced brewing techniques",
+    "create_elixir": "Create your first elixir",
+    "brew_invisibility": "Brew invisibility potion",
+    "brew_strength": "Brew strength enhancement potion",
+    "find_ancient_recipe": "Find ancient alchemical recipe",
+    "gather_dragon_breath": "Gather dragon's breath",
+    "brew_legendary": "Brew legendary potion",
+    "master_test": "Pass the master alchemist test",
+    "receive_certification": "Receive master brewing certification"
+  },
+  "npcs": {
+    "master_alchemist": "Master Alchemist",
+    "potion_merchant": "Potion Merchant",
+    "herb_gatherer": "Master Herb Gatherer"
+  },
+  "dialogs": {
+    "start": "Alchemy is both art and science. Are you ready to learn its secrets?",
+    "basics": "Start with simple potions. Understanding the fundamentals is crucial.",
+    "advanced": "Now we move to advanced techniques. One mistake could be explosive!",
+    "legendary": "This recipe has been lost for centuries. Handle it with utmost care.",
+    "test": "The final test will determine if you truly understand the alchemical arts.",
+    "complete": "Congratulations, Master Alchemist! Your potions will be the stuff of legends!"
+  }
+}

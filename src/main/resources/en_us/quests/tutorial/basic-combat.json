@@ -1,0 +1,21 @@
+{
+  "name": "Basic Combat Training",
+  "description": [
+    "Learn the essential combat skills needed to survive.",
+    "Practice fighting against common monsters.",
+    "",
+    "Master the art of combat to become a true warrior!"
+  ],
+  "objectives": {
+    "kill_zombies": "Kill 5 Zombies",
+    "kill_skeletons": "Kill 3 Skeletons"
+  },
+  "npcs": {
+    "combat_instructor": "Combat Instructor"
+  },
+  "dialogs": {
+    "essential_skills": "Combat is essential for survival in this world. Let me teach you the basics.",
+    "night_monsters": "When night falls, monsters will spawn. You must be ready to defend yourself.",
+    "return_reward": "Good work! Return to me when you've completed your training for a reward."
+  }
+}

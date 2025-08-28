@@ -1,0 +1,31 @@
+{
+  "name": "The Chosen One",
+  "description": [
+    "You have been revealed as the Chosen One,",
+    "destined to save the world from impending darkness.",
+    "",
+    "Embrace your destiny and prove your worthiness",
+    "through trials that will test your courage and wisdom."
+  ],
+  "objectives": {
+    "trial_of_courage": "Complete the Trial of Courage",
+    "trial_of_wisdom": "Complete the Trial of Wisdom",
+    "trial_of_strength": "Complete the Trial of Strength",
+    "receive_blessing": "Receive the Blessing of the Ancients"
+  },
+  "npcs": {
+    "guardian_courage": "Guardian of Courage",
+    "guardian_wisdom": "Guardian of Wisdom", 
+    "guardian_strength": "Guardian of Strength",
+    "high_priest": "High Priest of the Ancients"
+  },
+  "dialogs": {
+    "start1": "The time has come, Chosen One, to prove your worthiness.",
+    "start2": "Three trials await you, each testing a different aspect of your character.",
+    "start3": "Only by completing all trials will you be recognized as the true hero.",
+    "progress1": "You have shown great progress in your trials, Chosen One.",
+    "progress2": "Continue on your path, for the fate of the world rests in your hands.",
+    "complete1": "You have completed all trials and proven yourself worthy!",
+    "complete2": "The blessing of the Ancients is now upon you, true hero."
+  }
+}

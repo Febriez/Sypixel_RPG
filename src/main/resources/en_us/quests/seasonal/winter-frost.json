@@ -1,0 +1,34 @@
+{
+  "name": "Winter Frost Festival",
+  "description": [
+    "The magical season of snow and ice has begun!",
+    "Help the village prepare for the Winter Frost Festival",
+    "and embrace the beauty of the frozen season."
+  ],
+  "objectives": {
+    "frost_keeper": "Talk to Frost Keeper",
+    "collect_snowflakes": "Collect 35 unique snowflakes",
+    "gather_icicles": "Gather 20 pristine icicles",
+    "harvest_winter_berries": "Harvest 40 winter berries",
+    "build_snowmen": "Build 8 festive snowmen",
+    "craft_ice_sculptures": "Craft 6 ice sculptures",
+    "make_hot_cocoa": "Brew 25 cups of hot cocoa",
+    "light_winter_lanterns": "Light 15 winter lanterns around town",
+    "ice_skating_rink": "Help build the ice skating rink",
+    "winter_wonderland": "Create a winter wonderland display"
+  },
+  "npcs": {
+    "frost_keeper": "Frost Keeper",
+    "ice_sculptor": "Ice Sculptor",
+    "winter_chef": "Winter Chef"
+  },
+  "dialogs": {
+    "start": "Winter's icy embrace has arrived! Will you help us celebrate the season of frost?",
+    "snowflakes": "Each snowflake is unique, just like our community. Please gather the most beautiful ones!",
+    "player_help": "I'd be delighted to help with the winter festivities!",
+    "icicles": "These crystal-clear icicles will make perfect decorations for our festival.",
+    "sculptures": "Ice sculptures capture winter's eternal beauty. Let's create masterpieces together!",
+    "warmth": "Even in the coldest season, we bring warmth through hot cocoa and community.",
+    "complete": "Thanks to you, this winter festival radiates warmth despite the cold!"
+  }
+}

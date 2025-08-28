@@ -5,114 +5,124 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
-import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
+import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
+import com.febrie.rpg.quest.objective.impl.KillMobObjective;
+import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import java.util.List;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
 /**
- * 잃어버린 보물 - 사이드 퀘스트
- * 모험가가 잃어버린 보물을 찾아주는 퀘스트
+ * Side Quest: Lost Treasure
+ * Find a pirate's lost treasure using an old map
  *
  * @author Febrie
  */
 public class LostTreasureQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class LostTreasureBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new LostTreasureQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public LostTreasureQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private LostTreasureQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        List<QuestObjective> objectives = new ArrayList<>();
-        
-        // 위치 탐색 목표 (순차적으로 진행)
-        // 주의: 실제 서버에서는 월드 이름을 확인해야 함
-        objectives.add(new VisitLocationObjective("visit_old_ruins", 
-                new Location(Bukkit.getWorld("world"), 100, 70, -200), 10.0, "오래된 유적지"));
-        objectives.add(new VisitLocationObjective("visit_ancient_cave", 
-                new Location(Bukkit.getWorld("world"), -150, 50, 300), 10.0, "고대 동굴"));
-        objectives.add(new VisitLocationObjective("visit_hidden_shrine", 
-                new Location(Bukkit.getWorld("world"), 250, 80, 150), 10.0, "숨겨진 신전"));
-        
-        // NPC와 상호작용 (보물 수호자)
-        objectives.add(new InteractNPCObjective("talk_to_guardian", 
-                "treasure_guardian")); // 보물 수호자 NPC
-
-        return new LostTreasureBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_LOST_TREASURE)
-                .objectives(objectives)
+                .objectives(Arrays.asList(
+                        new InteractNPCObjective("talk_old_sailor", "old_sailor"),
+                        new CollectItemObjective("collect_treasure_map", Material.MAP, 1),
+                        new VisitLocationObjective("visit_cursed_cove", "cursed_cove"),
+                        new KillMobObjective("kill_skeletons", EntityType.SKELETON, 12),
+                        new VisitLocationObjective("visit_buried_treasure", "buried_treasure"),
+                        new CollectItemObjective("collect_gold_coins", Material.GOLD_NUGGET, 25),
+                        new CollectItemObjective("collect_ancient_artifact", Material.GOLDEN_APPLE, 1),
+                        new InteractNPCObjective("return_old_sailor", "old_sailor")
+                ))
                 .reward(new BasicReward.Builder()
-                        .addCurrency(CurrencyType.GOLD, 500)
-                        .addCurrency(CurrencyType.DIAMOND, 5)
-                        .addItem(new ItemStack(Material.GOLDEN_APPLE, 2))
-                        .addItem(new ItemStack(Material.ENCHANTED_BOOK))
-                        .addExperience(300)
+                        .addExperience(1500)
+                        .addCurrency(CurrencyType.GOLD, 400)
+                        .addItem(new ItemStack(Material.EMERALD, 5))
+                        .addItem(new ItemStack(Material.DIAMOND, 2))
                         .build())
-                .sequential(true) // 순차적으로 진행
+                .sequential(true)
                 .category(QuestCategory.SIDE)
-                .minLevel(10)
-                .addPrerequisite(QuestID.TUTORIAL_BASIC_COMBAT);
+                .minLevel(12);
     }
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.lost_treasure.name");
+        return Component.translatable("quest.side.lost-treasure.name");
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.side.lost_treasure.description") manually */;
+        List<Component> description = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            Component line = Component.translatable("quest.side.lost-treasure.description." + i);
+            description.add(line);
+        }
+        return description;
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return Component.translatable("quest.side.lost_treasure.objectives.");
+
+        return switch (id) {
+            case "talk_old_sailor" -> Component.translatable("quest.side.lost-treasure.objectives.talk_old_sailor");
+            case "collect_treasure_map" -> Component.translatable("quest.side.lost-treasure.objectives.collect_treasure_map");
+            case "visit_cursed_cove" -> Component.translatable("quest.side.lost-treasure.objectives.visit_cursed_cove");
+            case "kill_skeletons" -> Component.translatable("quest.side.lost-treasure.objectives.kill_skeletons");
+            case "visit_buried_treasure" -> Component.translatable("quest.side.lost-treasure.objectives.visit_buried_treasure");
+            case "collect_gold_coins" -> Component.translatable("quest.side.lost-treasure.objectives.collect_gold_coins");
+            case "collect_ancient_artifact" -> Component.translatable("quest.side.lost-treasure.objectives.collect_ancient_artifact");
+            case "return_old_sailor" -> Component.translatable("quest.side.lost-treasure.objectives.return_old_sailor");
+            default -> Component.translatable("quest.side.lost-treasure.objectives." + id);
+        };
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("lost_treasure_dialog");
+    @Override
+    public int getDialogCount() {
+        return 3;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.side.lost-treasure.dialogs.0");
+            case 1 -> Component.translatable("quest.side.lost-treasure.dialogs.1");
+            case 2 -> Component.translatable("quest.side.lost-treasure.dialogs.2");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.side.lost-treasure.npc-name");
+    }
 
-        dialog.addLine("quest.lost_treasure.npcs.explorer", "quest.lost_treasure.dialogs.line1");
-        dialog.addLine("quest.lost_treasure.npcs.explorer", "quest.lost_treasure.dialogs.line2");
-        dialog.addLine("quest.lost_treasure.npcs.explorer", "quest.lost_treasure.dialogs.line3");
-        dialog.addLine("quest.lost_treasure.npcs.explorer", "quest.lost_treasure.dialogs.line4");
-
-        return dialog;
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.side.lost-treasure.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.side.lost-treasure.decline");
     }
 }

@@ -1,0 +1,34 @@
+{
+  "name": "Ancient Ruins",
+  "description": [
+    "Mysterious ruins have been discovered in the",
+    "far reaches of the wilderness, filled with",
+    "ancient artifacts and forgotten knowledge.",
+    "",
+    "Explore these treacherous ruins and uncover",
+    "the secrets of a lost civilization."
+  ],
+  "objectives": {
+    "locate_ruins_entrance": "Locate the Ancient Ruins Entrance",
+    "navigate_trap_chambers": "Navigate Through Trapped Chambers",
+    "decipher_ancient_inscriptions": "Decipher Ancient Wall Inscriptions",
+    "collect_artifacts": "Collect 5 Ancient Artifacts",
+    "solve_ruins_puzzle": "Solve the Central Chamber Puzzle",
+    "find_treasure_vault": "Discover the Hidden Treasure Vault"
+  },
+  "npcs": {
+    "archaeologist": "Master Archaeologist",
+    "ruins_guide": "Experienced Ruins Guide",
+    "ancient_spirit": "Spirit of the Lost Civilization",
+    "treasure_hunter": "Veteran Treasure Hunter"
+  },
+  "dialogs": {
+    "start1": "These ruins hold secrets from ages past, explorer.",
+    "start2": "Many have entered, but few have returned with treasure.",
+    "start3": "Be cautious - the ancients protected their secrets well.",
+    "progress1": "Your exploration skills prove invaluable in these ruins.",
+    "progress2": "The ancient mechanisms respond to your careful touch.",
+    "complete1": "You have successfully explored the ancient ruins!",
+    "complete2": "The knowledge and treasures you've found are priceless."
+  }
+}

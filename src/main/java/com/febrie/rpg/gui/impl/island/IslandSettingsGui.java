@@ -100,10 +100,10 @@ public class IslandSettingsGui extends BaseGui {
         return ItemBuilder.of(Material.GRASS_BLOCK)
                 .displayNameTranslated("items.island.settings.info.name")
                 .addLore(Component.empty())
-                .addLore(LangManager.get("gui.island.settings.id", viewer, Component.text(island.core().islandId())))
-                .addLore(LangManager.get("gui.island.settings.owner", viewer, Component.text(island.core().ownerName())))
-                .addLore(LangManager.get("gui.island.settings.members", viewer, Component.text((1 + island.membership().members().size()))))
-                .addLore(LangManager.get("gui.island.settings.status", viewer, 
+                .addLore(LangManager.getComponent("gui.island.settings.id", getViewerLocale(), Component.text(island.core().islandId())))
+                .addLore(LangManager.getComponent("gui.island.settings.owner", getViewerLocale(), Component.text(island.core().ownerName())))
+                .addLore(LangManager.getComponent("gui.island.settings.members", getViewerLocale(), Component.text((1 + island.membership().members().size()))))
+                .addLore(LangManager.getComponent("gui.island.settings.status", getViewerLocale(), 
                         Component.translatable(island.core().isPublic() ? "status.public" : "status.private")))
                 .hideAllFlags()
                 .build();
@@ -113,7 +113,7 @@ public class IslandSettingsGui extends BaseGui {
         return ItemBuilder.of(Material.NAME_TAG)
                 .displayNameTranslated("items.island.settings.name-change.name")
                 .addLore(Component.empty())
-                .addLore(LangManager.get("gui.island.settings.current-name", viewer, Component.text(tempIslandName)))
+                .addLore(LangManager.getComponent("gui.island.settings.current-name", getViewerLocale(), Component.text(tempIslandName)))
                 .addLore(Component.empty())
                 .addLoreTranslated("items.island.settings.name-change.lore")
                 .hideAllFlags()
@@ -124,7 +124,7 @@ public class IslandSettingsGui extends BaseGui {
         return ItemBuilder.of(tempIsPublic ? Material.LIME_DYE : Material.GRAY_DYE)
                 .displayNameTranslated(tempIsPublic ? "items.island.settings.public.name" : "items.island.settings.private.name")
                 .addLore(Component.empty())
-                .addLore(LangManager.get("gui.island.settings.current-status", viewer, 
+                .addLore(LangManager.getComponent("gui.island.settings.current-status", getViewerLocale(), 
                         Component.translatable(tempIsPublic ? "status.public" : "status.private")))
                 .addLore(Component.empty())
                 .addLoreTranslated("items.island.settings.public-toggle.lore")
@@ -136,7 +136,7 @@ public class IslandSettingsGui extends BaseGui {
         return ItemBuilder.of(Material.OAK_SAPLING)
                 .displayNameTranslated("items.island.settings.biome-change.name")
                 .addLore(Component.empty())
-                .addLore(LangManager.get("gui.island.settings.current-biome", viewer, 
+                .addLore(LangManager.getComponent("gui.island.settings.current-biome", getViewerLocale(), 
                         Component.text(getBiomeDisplayName(tempBiome))))
                 .addLore(Component.empty())
                 .addLoreTranslated("items.island.settings.biome-change.lore")
@@ -186,8 +186,8 @@ public class IslandSettingsGui extends BaseGui {
                     String text = stateSnapshot.getText();
                     // 유효성 검사
                     if (text.isEmpty() || text.length() > 20) {
-                        player.sendMessage(LangManager.get("island.settings.name-error", player).color(NamedTextColor.RED));
-                        return java.util.Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText(LangManager.getString("island.settings.name-input-error", player)));
+                        player.sendMessage(LangManager.getComponent("island.settings.name-error", player.locale()).color(NamedTextColor.RED));
+                        return java.util.Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText(LangManager.getString("island.settings.name-input-error", player.locale())));
                     }
                     
                     // 색상 코드 제거 (Paper API)
@@ -203,7 +203,7 @@ public class IslandSettingsGui extends BaseGui {
                     }, 1L);
                 })
                 .text(tempIslandName)
-                .title(LangManager.getString("island.gui.creation.island-name-input-title", player))
+                .title(LangManager.getString("island.gui.creation.island-name-input-title", player.locale()))
                 .plugin(plugin)
                 .open(player);
     }

@@ -71,7 +71,7 @@ public class MailDetailGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.get("gui.mail-detail.title", viewer, Component.text(mail.subject()));
+        return LangManager.getComponent("gui.mail-detail.title", getViewerLocale(), Component.text(mail.subject()));
     }
 
     @Override
@@ -105,12 +105,12 @@ public class MailDetailGui extends BaseGui {
                         .displayName(Component.text(mail.subject(), UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(LangManager.get("gui.mail-detail.sender", viewer, Component.text(mail.senderName())))
-                        .addLore(LangManager.get("gui.mail-detail.receiver", viewer, Component.text(mail.receiverName())))
-                        .addLore(LangManager.get("gui.mail-detail.sent-time", viewer, Component.text(java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
+                        .addLore(LangManager.getComponent("gui.mail-detail.sender", getViewerLocale(), Component.text(mail.senderName())))
+                        .addLore(LangManager.getComponent("gui.mail-detail.receiver", getViewerLocale(), Component.text(mail.receiverName())))
+                        .addLore(LangManager.getComponent("gui.mail-detail.sent-time", getViewerLocale(), Component.text(java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
                                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))))
                         .addLore(Component.empty())
-                        .addLore(LangManager.get("gui.mail-detail.status", viewer, 
+                        .addLore(LangManager.getComponent("gui.mail-detail.status", getViewerLocale(), 
                                 Component.translatable(mail.isUnread() ? "status.new-mail" : "status.read")))
                         .hideAllFlags()
                         .build()
@@ -120,11 +120,11 @@ public class MailDetailGui extends BaseGui {
         // 메시지 내용
         String message = mail.content();
         if (message == null || message.trim().isEmpty()) {
-            message = LangManager.getString("gui.mail-detail.no-message", viewer);
+            message = LangManager.getString("gui.mail-detail.no-message", getViewerLocale());
         }
 
         // 메시지를 여러 줄로 나누기 (25자씩)
-        String[] messageLines = TextUtil.wrapTextOrDefault(message, 25, LangManager.getString("gui.mail-detail.no-message", viewer));
+        String[] messageLines = TextUtil.wrapTextOrDefault(message, 25, LangManager.getString("gui.mail-detail.no-message", getViewerLocale()));
 
         ItemBuilder messageBuilder = ItemBuilder.of(Material.WRITTEN_BOOK)
                 .displayNameTranslated("items.social.mail-detail.message.name")
@@ -192,11 +192,11 @@ public class MailDetailGui extends BaseGui {
                     mailManager.deleteMail(mail.mailId()).thenAccept(success -> {
                         Bukkit.getScheduler().runTask(plugin, () -> {
                             if (success) {
-                                p.sendMessage(LangManager.get("gui.mail-detail.delete-success", p));
+                                p.sendMessage(LangManager.getComponent("gui.mail-detail.delete-success", p.locale()));
                                 MailboxGui mailboxGui = MailboxGui.create(guiManager, p);
                                 guiManager.openGui(p, mailboxGui);
                             } else {
-                                p.sendMessage(LangManager.get("gui.mail-detail.delete-failed", p).color(UnifiedColorUtil.ERROR));
+                                p.sendMessage(LangManager.getComponent("gui.mail-detail.delete-failed", p.locale()).color(UnifiedColorUtil.ERROR));
                             }
                         });
                     });
@@ -210,15 +210,15 @@ public class MailDetailGui extends BaseGui {
                 ItemBuilder.of(Material.FEATHER)
                         .displayNameTranslated("items.social.mail-detail.reply.name")
                         .addLore(Component.empty())
-                        .addLore(LangManager.get("gui.mail-detail.reply-desc", viewer, Component.text(mail.senderName())))
+                        .addLore(LangManager.getComponent("gui.mail-detail.reply-desc", getViewerLocale(), Component.text(mail.senderName())))
                         .addLore(Component.empty())
                         .addLoreTranslated("items.social.mail-detail.reply.click")
                         .hideAllFlags()
                         .build(),
                 p -> {
                     p.closeInventory();
-                    p.sendMessage(LangManager.get("gui.mail-detail.reply-guide", p));
-                    p.sendMessage(LangManager.get("gui.mail-detail.reply-command", p, 
+                    p.sendMessage(LangManager.getComponent("gui.mail-detail.reply-guide", p.locale()));
+                    p.sendMessage(LangManager.getComponent("gui.mail-detail.reply-command", p.locale(), 
                             Component.text(mail.senderName()), Component.text(mail.subject())));
                     playClickSound(p);
                 }

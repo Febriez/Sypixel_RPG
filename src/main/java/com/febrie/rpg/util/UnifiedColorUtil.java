@@ -244,26 +244,24 @@ public class UnifiedColorUtil {
     @NotNull
     private static String convertTextColorToLegacy(@NotNull TextColor color) {
         // NamedTextColor인 경우 직접 매핑
-        if (color instanceof NamedTextColor named) {
-            return switch (named) {
-                case BLACK -> "&0";
-                case DARK_BLUE -> "&1";
-                case DARK_GREEN -> "&2";
-                case DARK_AQUA -> "&3";
-                case DARK_RED -> "&4";
-                case DARK_PURPLE -> "&5";
-                case GOLD -> "&6";
-                case GRAY -> "&7";
-                case DARK_GRAY -> "&8";
-                case BLUE -> "&9";
-                case GREEN -> "&a";
-                case AQUA -> "&b";
-                case RED -> "&c";
-                case LIGHT_PURPLE -> "&d";
-                case YELLOW -> "&e";
-                case WHITE -> "&f";
-                default -> "&f";
-            };
+        if (color instanceof NamedTextColor) {
+            if (color == NamedTextColor.BLACK) return "&0";
+            if (color == NamedTextColor.DARK_BLUE) return "&1";
+            if (color == NamedTextColor.DARK_GREEN) return "&2";
+            if (color == NamedTextColor.DARK_AQUA) return "&3";
+            if (color == NamedTextColor.DARK_RED) return "&4";
+            if (color == NamedTextColor.DARK_PURPLE) return "&5";
+            if (color == NamedTextColor.GOLD) return "&6";
+            if (color == NamedTextColor.GRAY) return "&7";
+            if (color == NamedTextColor.DARK_GRAY) return "&8";
+            if (color == NamedTextColor.BLUE) return "&9";
+            if (color == NamedTextColor.GREEN) return "&a";
+            if (color == NamedTextColor.AQUA) return "&b";
+            if (color == NamedTextColor.RED) return "&c";
+            if (color == NamedTextColor.LIGHT_PURPLE) return "&d";
+            if (color == NamedTextColor.YELLOW) return "&e";
+            if (color == NamedTextColor.WHITE) return "&f";
+            return "&f"; // default
         }
         
         // RGB 색상인 경우 HEX로 변환

@@ -1,0 +1,31 @@
+{
+  "name": "Heroes' Alliance",
+  "description": [
+    "The greatest threat requires the greatest heroes.",
+    "Form an alliance with legendary heroes from across the realm",
+    "to face the ultimate challenge together.",
+    "",
+    "United, you stand a chance. Divided, all will fall."
+  ],
+  "objectives": {
+    "recruit_warrior_hero": "Recruit the Legendary Warrior",
+    "recruit_mage_hero": "Recruit the Arcane Master",
+    "recruit_ranger_hero": "Recruit the Forest Guardian",
+    "unite_heroes": "Unite All Heroes at the Great Hall"
+  },
+  "npcs": {
+    "legendary_warrior": "Legendary Warrior",
+    "arcane_master": "Arcane Master",
+    "forest_guardian": "Forest Guardian",
+    "alliance_herald": "Alliance Herald"
+  },
+  "dialogs": {
+    "start1": "The time has come to unite the greatest heroes of our age.",
+    "start2": "Alone, even you cannot face what is coming.",
+    "start3": "Seek out the legendary heroes and convince them to join our cause.",
+    "progress1": "The heroes begin to rally to your call.",
+    "progress2": "Together, you are stronger than any individual could be.",
+    "complete1": "The Heroes' Alliance has been formed!",
+    "complete2": "United, you are ready to face any challenge that awaits."
+  }
+}

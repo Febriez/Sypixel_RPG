@@ -1,0 +1,129 @@
+{
+  "profile-opened": "プロフィール情報が更新されました！",
+  "gui-refreshed": "情報が正常に更新されました！",
+  "no-job-for-talents": "タレントを学ぶには、まず職業を選択する必要があります！",
+  "no-job-for-stats": "ステータスを管理するには、まず職業を選択する必要があります！",
+  "job-selected": "おめでとうございます！{0}の職業を選択しました！",
+  "already-has-job": "すでに職業があります！",
+  "stat-increased": "{0}ステータスが増加しました！",
+  "not-enough-stat-points": "ステータスポイントが不足しています！",
+  "talent-learned": "タレントを習得しました: {0}",
+  "not-enough-talent-points": "タレントポイントが不足しています！",
+  "level-up": "レベルアップ！{0} → {1}",
+  "talent-learn-failed": "タレントの習得に失敗しました！",
+  "exp-gained": "+{0} 経験値",
+  "gold-gained": "+{0} ゴールド",
+  "item-received": "アイテム獲得: {0}",
+  "quest-completed": "クエスト完了: {0}",
+  "quest-failed": "クエスト失敗: {0}",
+  "skill-on-cooldown": "スキルがクールダウン中です！（{0}秒）",
+  "not-enough-mana": "マナが不足しています！",
+  "target-not-found": "ターゲットが見つかりません！",
+  "inventory-full": "インベントリがいっぱいです！",
+  "trade-request-sent": "{0}に取引リクエストを送信しました。",
+  "trade-request-received": "{0}から取引リクエストがありました。",
+  "trade-successful": "取引が完了しました！",
+  "trade-cancelled": "取引がキャンセルされました。",
+  "party-invited": "{0}をパーティーに招待しました。",
+  "party-joined": "{0}のパーティーに参加しました。",
+  "party-left": "パーティーを離れました。",
+  "dungeon-entered": "ダンジョンに入場しました: {0}",
+  "dungeon-cleared": "ダンジョンクリア！",
+  "boss-spawned": "ボスが出現しました: {0}",
+  "death-message": "死亡しました！復活まで: {0}秒",
+  "respawn-message": "復活しました！",
+  "pvp-enabled": "PvPが有効になりました！",
+  "pvp-disabled": "PvPが無効になりました。",
+  "kill-streak": "{0}連続キル！",
+  "achievement-unlocked": "実績解除: {0}",
+  "insufficient-level": "レベルが不足しています！（必要レベル: {0}）",
+  "region-entered": "地域に入りました: {0}",
+  "weather-changed": "天候が{0}に変わりました。",
+  "general": {
+    "cannot-view-others-quests": "他のプレイヤーのクエストは見ることができません！",
+    "teleport": {
+      "hub-success": "ハブにテレポートしました！"
+    },
+    "error": {
+      "hub-world-not-found": "ハブワールドが見つかりません。"
+    },
+    "coming-soon": "準備中..."
+  },
+  "dialog-speed-changed": "会話速度が変更されました: {0}",
+  "gui": {
+    "navigation": {
+      "main-menu": "メインメニューへ"
+    }
+  },
+  "commands": {
+    "mainmenu": {
+      "success": "メインメニューを開きました！"
+    }
+  },
+  "settings": {
+    "social": {
+      "friend-requests-enabled": "フレンドリクエストが有効になりました",
+      "friend-requests-disabled": "フレンドリクエストが無効になりました",
+      "guild-invites-enabled": "ギルド招待が有効になりました",
+      "guild-invites-disabled": "ギルド招待が無効になりました"
+    }
+  },
+  "whisper": {
+    "disabled": "ささやき機能は現在無効になっています。",
+    "no-reply-target": "返信する相手がいません。まずささやきを送受信する必要があります。",
+    "message-too-long": "メッセージが長すぎます。256文字以内にしてください。",
+    "empty-message": "空のメッセージは送信できません。",
+    "last-target": "最後のささやき相手: {0}",
+    "reply": {
+      "usage": "使用方法: /r <メッセージ>",
+      "hint": "まず誰かとささやきを送受信する必要があります。"
+    },
+    "commands": {
+      "usage": "使用方法: /whisper <プレイヤー> <メッセージ>",
+      "example": "例: /whisper Steve こんにちは！"
+    }
+  },
+  "mail": {
+    "player-not-found": "プレイヤーが見つかりません: {0}",
+    "cannot-send-to-self": "自分自身にメールを送ることはできません。",
+    "attachments-not-supported": "添付ファイルは現在サポートされていません。",
+    "recipient-mailbox-full": "{0}のメールボックスがいっぱいです。",
+    "sent-successfully": "メールを正常に送信しました！",
+    "new-mail-notification": "新しいメールが届きました！（/mail）",
+    "send-error": "メール送信中にエラーが発生しました。",
+    "not-found": "メールが見つかりません。",
+    "not-recipient": "このメールの受信者ではありません。"
+  },
+  "friend": {
+    "player-not-found": "プレイヤーが見つかりません: {0}",
+    "cannot-add-self": "自分自身にフレンドリクエストを送ることはできません。",
+    "already-friends": "すでに{0}とフレンドです。",
+    "added-successfully": "{0}とフレンドになりました！",
+    "request-error": "フレンドリクエスト送信中にエラーが発生しました。",
+    "removed-successfully": "フレンド関係を解除しました。",
+    "removed-notification": "{0}とのフレンド関係が解除されました。",
+    "remove-error": "フレンド削除中にエラーが発生しました。",
+    "requests-not-supported": "フレンドリクエスト機能は現在サポートされていません。",
+    "not-friends": "{0}とはフレンドではありません。",
+    "commands": {
+      "help": {
+        "title": "=== フレンドコマンドヘルプ ===",
+        "list": "/friend list - フレンドリストGUIを開く",
+        "add": "/friend add <プレイヤー> [メッセージ] - フレンドリクエストを送る",
+        "remove": "/friend remove <プレイヤー> - フレンドを削除",
+        "gui-note": "フレンドリクエストの承認/拒否はGUIから行えます。"
+      },
+      "add": {
+        "usage": "使用方法: /friend add <プレイヤー> [メッセージ]",
+        "example": "例: /friend add Steve こんにちは！"
+      },
+      "remove": {
+        "usage": "使用方法: /friend remove <プレイヤー>"
+      }
+    }
+  },
+  "commands": {
+    "player-only": "このコマンドはプレイヤーのみ使用できます。",
+    "unknown": "不明なコマンドです。"
+  }
+}

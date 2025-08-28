@@ -1,0 +1,34 @@
+{
+  "name": "Guild Fortress Siege",
+  "description": [
+    "A rival guild has challenged your faction to",
+    "an epic siege battle for territorial control.",
+    "",
+    "Coordinate with your guild members to defend",
+    "your fortress or assault the enemy stronghold."
+  ],
+  "objectives": {
+    "form_siege_party": "Form a Siege Party (5+ Guild Members)",
+    "prepare_siege_weapons": "Prepare Siege Weapons and Defenses",
+    "coordinate_attack_plan": "Coordinate Battle Strategy",
+    "breach_enemy_walls": "Breach the Enemy Fortress Walls",
+    "capture_control_points": "Capture 3 Strategic Control Points",
+    "defeat_enemy_commander": "Defeat the Enemy Guild Commander",
+    "claim_fortress": "Claim Victory and Fortress Control"
+  },
+  "npcs": {
+    "siege_commander": "Guild Siege Commander",
+    "war_engineer": "Master War Engineer",
+    "battlefield_medic": "Guild Battle Medic",
+    "enemy_commander": "Enemy Guild Commander"
+  },
+  "dialogs": {
+    "start1": "The enemy approaches our gates, guild member.",
+    "start2": "This battle will determine our guild's future.",
+    "start3": "Fight with honor and tactical precision.",
+    "progress1": "Your coordination on the battlefield is exemplary.",
+    "progress2": "The enemy fortress walls begin to crumble.",
+    "complete1": "Victory! The fortress is ours!",
+    "complete2": "Your guild's dominance is now undisputed."
+  }
+}

@@ -5,7 +5,6 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.QuestCategory;
-import com.febrie.rpg.quest.dialog.QuestDialog;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.CraftItemObjective;
 import com.febrie.rpg.quest.objective.impl.DeliverItemObjective;
@@ -31,34 +30,17 @@ import java.util.List;
 public class PathOfLightQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class PathOfLightBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new PathOfLightQuest(this);
-        }
-    }
-
-    /**
-     * 기본 생성자 - 퀘스트 설정
+     * 기본 생성자
      */
     public PathOfLightQuest() {
-        this(createBuilder());
+        super(createBuilder());
     }
 
     /**
-     * 빌더 생성자
-     */
-    private PathOfLightQuest(@NotNull QuestBuilder builder) {
-        super(builder);
-    }
-
-    /**
-     * 퀘스트 빌더 생성 및 설정
+     * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new PathOfLightBuilder()
+        return new QuestBuilder()
                 .id(QuestID.MAIN_PATH_OF_LIGHT)
                 .objectives(Arrays.asList(
                         // 1. 언데드 몬스터 정화
@@ -114,18 +96,33 @@ public class PathOfLightQuest extends Quest {
         };
     }
 
-    public QuestDialog getDialog() {
-        QuestDialog dialog = new QuestDialog("path_of_light_dialog");
+    @Override
+    public int getDialogCount() {
+        return 3;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> Component.translatable("quest.main.path-of-light.dialogs.0");
+            case 1 -> Component.translatable("quest.main.path-of-light.dialogs.1");
+            case 2 -> Component.translatable("quest.main.path-of-light.dialogs.2");
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return Component.translatable("quest.main.path-of-light.npc-name");
+    }
 
-        dialog.addLine("quest.main.path_of_light.dialog.guardian1",
-                "quest.main.path_of_light.dialog.guardian1");
-
-        dialog.addLine("quest.main.path_of_light.dialog.guardian2",
-                "quest.main.path_of_light.dialog.guardian2");
-
-        dialog.addLine("quest.main.path_of_light.dialog.guardian3",
-                "quest.main.path_of_light.dialog.guardian3");
-
-        return dialog;
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.path-of-light.accept");
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return Component.translatable("quest.main.path-of-light.decline");
     }
 }

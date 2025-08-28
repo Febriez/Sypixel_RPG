@@ -292,7 +292,7 @@ public class MailboxGui extends BaseGui {
                         return List.of(AnvilGUI.ResponseAction.run(() -> {}));
                     }
                     String text = stateSnapshot.getText();
-                    String confirmWord = LangManager.getString("mailbox.delete-confirm-word", player);
+                    String confirmWord = LangManager.getString("mailbox.delete-confirm-word", player.locale());
                     if (confirmWord.equals(text)) {
                         int deletedCount = 0;
                         for (MailDTO mail : readMailsToDelete) {
@@ -314,8 +314,8 @@ public class MailboxGui extends BaseGui {
                         return List.of(AnvilGUI.ResponseAction.close());
                     }
                 })
-                .text(LangManager.getString("gui.mailbox.delete-confirm-text", player))
-                .title(LangManager.getString("gui.mailbox.delete-confirm-title", player, String.valueOf(readMailsToDelete.size())))
+                .text(LangManager.getString("gui.mailbox.delete-confirm-text", player.locale()))
+                .title(LangManager.getString("gui.mailbox.delete-confirm-title", player.locale()))
                 .plugin(guiManager.getPlugin())
                 .open(player);
     }

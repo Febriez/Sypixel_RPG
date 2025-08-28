@@ -294,7 +294,9 @@ public class IslandMainGui extends BaseGui {
             // HEX 코드 유효성 검사
             if (!hexColor.matches("^#[0-9A-Fa-f]{6}$")) {
                 player.sendMessage(Component.translatable("gui.island.main.hex-format-error").color(UnifiedColorUtil.ERROR));
-                return java.util.Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText("#RRGGBB"));
+                String hexFormatExample = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                        .serialize(LangManager.getComponent("gui.island.main.hex-format-example", player.locale()));
+                return java.util.Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText(hexFormatExample));
             }
 
             // 섬 설정 업데이트
@@ -313,7 +315,7 @@ public class IslandMainGui extends BaseGui {
                             .open(viewer), 1L);
                 }).text(island.configuration().settings().nameColorHex())
                         .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
-                                .serialize(net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize("<lang:gui.island.main.hex-input-title>")))
+                                .serialize(LangManager.getComponent("gui.island.main.hex-input-title", player.locale())))
                         .plugin(RPGMain.getInstance())
                 .open(player);
     }

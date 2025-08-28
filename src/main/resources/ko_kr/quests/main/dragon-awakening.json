@@ -1,0 +1,34 @@
+{
+  "name": "용의 각성",
+  "description": [
+    "고대부터 잠들어 있던 위대한 용이",
+    "깨어나기 시작했습니다. 이 거대한 힘은",
+    "세상을 구원할 수도, 파멸시킬 수도 있습니다.",
+    "",
+    "용과의 유대를 형성하고 그 힘을 올바른",
+    "목적으로 이끌어야 합니다."
+  ],
+  "objectives": {
+    "find_dragon_lair": "용의 둥지 발견",
+    "gather_dragon_offerings": "용의 제물 수집 (보석 20개)",
+    "prove_worthiness": "가치 증명 (고대 시련 통과)",
+    "awaken_ancient_dragon": "고대 용 깨우기",
+    "form_dragon_bond": "용과 유대 형성",
+    "receive_dragon_blessing": "용의 축복 받기"
+  },
+  "npcs": {
+    "dragon_keeper": "용지기",
+    "ancient_dragon": "고대 용",
+    "dragon_scholar": "용 학자",
+    "flame_spirit": "화염의 정령"
+  },
+  "dialogs": {
+    "start1": "고대 용이 깨어나려 합니다, 용감한 자여.",
+    "start2": "용의 힘은 올바른 손에 있어야 합니다.",
+    "start3": "당신이 그 손이 될 수 있는지 증명하세요.",
+    "progress1": "용이 당신의 진정성을 느끼고 있습니다.",
+    "progress2": "고대의 유대가 형성되기 시작합니다.",
+    "complete1": "용과의 유대가 완성되었습니다!",
+    "complete2": "이제 당신은 용의 힘을 지혜롭게 사용할 수 있습니다."
+  }
+}

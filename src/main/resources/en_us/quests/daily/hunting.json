@@ -1,0 +1,14 @@
+{
+  "name": "Daily Hunting",
+  "description": [
+    "Complete today's hunting objectives.",
+    "Help protect the village from dangerous monsters.",
+    "",
+    "Resets daily at midnight."
+  ],
+  "objectives": {
+    "kill_zombies": "Kill 20 Zombies",
+    "kill_skeletons": "Kill 15 Skeletons",
+    "kill_creepers": "Kill 10 Creepers"
+  }
+}

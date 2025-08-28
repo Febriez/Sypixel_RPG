@@ -1,0 +1,153 @@
+{
+  "spawn": {
+    "default-name": "Island Center"
+  },
+  "roles": {
+    "owner": "Owner",
+    "sub-owner": "Co-Owner",
+    "member": "Member",
+    "worker": "Worker",
+    "visitor": "Visitor"
+  },
+  "permissions": {
+    "build": "Build",
+    "use-items": "Use Items",
+    "open-containers": "Open Containers",
+    "invite-members": "Invite Members",
+    "kick-members": "Kick Members",
+    "manage-workers": "Manage Workers",
+    "set-spawn": "Set Spawn",
+    "change-settings": "Change Settings"
+  },
+  "invite": {
+    "default-message": "You have been invited to an island!"
+  },
+  "messages": {
+    "teleport-success": "Teleported to island!",
+    "teleport-fail": "Cannot teleport to island!",
+    "no-island": "You don't have an island yet!",
+    "island-info": {
+      "title": "==== Island System ====",
+      "no-island": "You don't have an island yet!",
+      "features": "Create an island to access the following features:",
+      "feature-1": "• Build freely on your own private island",
+      "feature-2": "• Invite friends to play together",
+      "feature-3": "• Upgrade your island for more space",
+      "feature-4": "• Set island warp points",
+      "create-guide": "How to create an island:",
+      "step-1": "1. Click the Island button in the main menu (/menu)",
+      "step-2": "2. Click the Create Island button to create a new island"
+    }
+  },
+  "gui": {
+    "main": {
+      "title": "Island Management",
+      "title-with-name": "Island Management - {0}",
+      "create-island": {
+        "title": "Create Island",
+        "no-island": "You don't have an island yet!",
+        "description": "Create an island to access the following features:",
+        "feature-1": "• Build freely on your own private island",
+        "feature-2": "• Invite friends to play together",
+        "feature-3": "• Upgrade your island for more space",
+        "feature-4": "• Set island warp points",
+        "contact-admin": "Contact an admin to create an island!"
+      }
+    },
+    "creation": {
+      "title": "Island Creation",
+      "current-name": "Current Name: ",
+      "current-color": "Current Color: ",
+      "current-biome": "Current Biome: ",
+      "click-to-change-name": "Click to change name",
+      "click-to-change": "Click to change",
+      "left-click": "Left Click: ",
+      "right-click": "Right Click: ",
+      "middle-click": "Middle Click: ",
+      "next": "Next",
+      "previous": "Previous",
+      "hex-input": "Enter HEX code",
+      "hex-example": "Example: #FF0000 (Red)",
+      "selected": "✔ Selected",
+      "click-to-select": "Click to select",
+      "click-to-create": "Click to create island!",
+      "selected-settings": "Selected Settings:",
+      "setting-name": "• Name: ",
+      "setting-biome": "• Biome: ",
+      "setting-template": "• Template: ",
+      "create-button-title": "✦ Create Island ✦",
+      "island-name-input-title": "Enter Island Name",
+      "island-name-input-error": "Please enter 1-20 characters",
+      "hex-input-title": "Enter HEX Color Code",
+      "hex-input-error": "Please enter in #RRGGBB format",
+      "default-island-name": "My Island",
+      "creating-island": "Creating island...",
+      "creation-complete-header": "==== Island Creation Complete! ====",
+      "creation-complete-message": " island has been created!",
+      "creation-complete-footer": "====================",
+      "teleporting-soon": "Teleporting to island soon...",
+      "creation-failed": "Island creation failed.",
+      "creation-error": "Error occurred during island creation: ",
+      "biomes": {
+        "plains": "Plains",
+        "forest": "Forest",
+        "desert": "Desert",
+        "snowy_plains": "Snowy Plains",
+        "jungle": "Jungle",
+        "swamp": "Swamp",
+        "savanna": "Savanna",
+        "mushroom_fields": "Mushroom Fields"
+      },
+      "templates": {
+        "basic": "Basic Island",
+        "skyblock": "Skyblock",
+        "large": "Large Island",
+        "water": "Water Island",
+        "basic-desc": "Standard size basic island",
+        "skyblock-desc": "Small floating island in the sky",
+        "large-desc": "Large island with more space",
+        "water-desc": "Island on the water"
+      },
+      "colors": {
+        "yellow": "Yellow",
+        "green": "Green",
+        "cyan": "Cyan",
+        "magenta": "Magenta",
+        "red": "Red",
+        "orange": "Orange",
+        "blue": "Blue",
+        "white": "White",
+        "custom": "Custom"
+      }
+    },
+    "biome-selection": {
+      "title": "🌍 Select Biome"
+    },
+    "back-button": "◀ Back",
+    "delete": {
+      "confirm-word": "DELETE",
+      "input-error": "Please type 'DELETE' exactly.",
+      "input-title": "Type 'DELETE' to confirm",
+      "input-text": "Type here..."
+    },
+    "settings": {
+      "name-error": "Island name must be 1-20 characters.",
+      "name-input-error": "Please enter 1-20 characters"
+    },
+    "member": {
+      "kick-confirm-word": "KICK",
+      "kick-input-error": "Please type 'KICK' exactly.",
+      "kick-input-title": "Type 'KICK' to confirm",
+      "kick-input-text": "Type here..."
+    },
+    "contribute": {
+      "amount-too-low": "Minimum contribution is 100.",
+      "invalid-amount": "Please enter a valid number.",
+      "contribution-input-title": "Enter contribution amount",
+      "contribution-input-text": "Amount..."
+    }
+  },
+  "error": {
+    "player-only": "This command can only be used by players."
+  }
+}

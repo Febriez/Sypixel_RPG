@@ -1,0 +1,44 @@
+{
+  "name": "商業大帝国",
+  "description": [
+    "巨大な貿易帝国を築き、究極の商業大富豪になりましょう！",
+    "商業の技術をマスターし、全国の物品流通を支配しましょう。",
+    "",
+    "💰 大富豪の利益：",
+    "• 独占的な貿易ルートアクセス",
+    "• 高度な市場操作",
+    "• 個人商船団",
+    "• 経済的影響力",
+    "• 高級品独占権"
+  ],
+  "objectives": {
+    "start_small_business": "最初の小規模貿易事業を開始",
+    "make_first_profit": "1,000ゴールドの利益を達成",
+    "establish_shop": "永続的な貿易店を設立",
+    "hire_employees": "商人従業員5名を雇用",
+    "expand_inventory": "500の異なるアイテムに拡張",
+    "secure_trade_routes": "主要貿易ルート3つを確保",
+    "build_warehouse": "大型保管倉庫を建設",
+    "negotiate_contracts": "独占供給契約を交渉",
+    "corner_market": "稀少品市場を独占",
+    "establish_branches": "5つの都市に貿易支店を開設",
+    "build_merchant_fleet": "個人商船団を建造",
+    "influence_economy": "地域経済に影響を与える",
+    "achieve_monopoly": "高級品で独占を達成",
+    "become_guild_leader": "商人ギルドリーダーになる",
+    "reach_tycoon_status": "商業大富豪の地位を達成"
+  },
+  "npcs": {
+    "trade_master": "貿易マスター",
+    "economic_advisor": "経済顧問",
+    "guild_representative": "商人ギルド代表"
+  },
+  "dialogs": {
+    "start": "すべての大きな富は一つの取引から始まります。あなたにはそれがありますか？",
+    "growth": "あなたのビジネスは成長しています！しかし拡張には慎重な計画が必要です。",
+    "competition": "他の商人たちが注目しています。競争は激しくなるでしょう。",
+    "success": "あなたの貿易帝国は大陸に広がっています！このような成功を達成した人はほとんどいません。",
+    "tycoon": "あなたは商人世界の伝説となりました！",
+    "complete": "おめでとうございます、商業大富豪！あなたの帝国は永遠に記憶されるでしょう！"
+  }
+}

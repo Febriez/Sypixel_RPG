@@ -13,6 +13,7 @@ import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -87,7 +88,7 @@ public class IslandCreationGui extends BaseGui {
     private IslandCreationGui(@NotNull GuiManager guiManager, @NotNull Player player) {
         super(player, guiManager, GUI_SIZE, Component.translatable("gui.island.creation.title"));
         this.islandManager = RPGMain.getInstance().getIslandManager();
-        this.islandName = LangManager.getString("island.default-name", player);
+        this.islandName = LangManager.getString("island.default-name", player.locale());
     }
 
     /**
@@ -177,10 +178,10 @@ public class IslandCreationGui extends BaseGui {
                                         // GUI 다시 열기
                                         guiManager.openGui(stateSnapshot.getPlayer(), this);
                                     });
-                                    return Arrays.asList(AnvilGUI.ResponseAction.close());
+                                    return List.of(AnvilGUI.ResponseAction.close());
                                 } else {
-                                    return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(
-                                            net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                                    return List.of(AnvilGUI.ResponseAction.replaceInputText(
+                                            PlainTextComponentSerializer.plainText()
                                                     .serialize(Component.translatable("island.gui.creation.island-name-input-error"))));
                                 }
                             })
@@ -254,10 +255,10 @@ public class IslandCreationGui extends BaseGui {
                                     // GUI 다시 열기
                                     guiManager.openGui(stateSnapshot.getPlayer(), this);
                                 });
-                                return Arrays.asList(AnvilGUI.ResponseAction.close());
+                                return List.of(AnvilGUI.ResponseAction.close());
                             } else {
-                                return Arrays.asList(AnvilGUI.ResponseAction.replaceInputText(
-                                        net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                                return List.of(AnvilGUI.ResponseAction.replaceInputText(
+                                        PlainTextComponentSerializer.plainText()
                                                 .serialize(Component.translatable("island.gui.creation.hex-input-error"))));
                             }
                         })
@@ -310,15 +311,15 @@ public class IslandCreationGui extends BaseGui {
             String template = AVAILABLE_TEMPLATES.get(i);
             boolean selected = template.equals(selectedTemplate);
 
-            String statusText = selected ? 
-                    "&a" + LangManager.getString("island.gui.creation.selected", viewer) :
-                    "&e" + LangManager.getString("island.gui.creation.click-to-select", viewer);
+            Component statusText = selected ? 
+                    LangManager.getComponent("island.gui.creation.selected", getViewerLocale()).color(UnifiedColorUtil.SUCCESS) :
+                    LangManager.getComponent("island.gui.creation.click-to-select", getViewerLocale()).color(UnifiedColorUtil.YELLOW);
             
             GuiItem templateItem = GuiItem.clickable(
                     ItemBuilder.of(getTemplateIcon(template), getViewerLocale())
                             .displayNameTranslated("items.island.creation.template." + template.toLowerCase() + ".name")
-                            .loreTranslated("items.island.creation.template." + template.toLowerCase() + ".lore",
-                                    statusText)
+                            .addLoreTranslated("items.island.creation.template." + template.toLowerCase() + ".lore")
+                            .addLore(statusText)
                             .glint(selected)
                             .hideAllFlags()
                             .build(),

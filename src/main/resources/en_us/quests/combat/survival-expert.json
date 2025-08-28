@@ -1,0 +1,44 @@
+{
+  "name": "Ultimate Survival Expert",
+  "description": [
+    "Master the art of survival in the harshest environments!",
+    "Learn to thrive where others would perish and overcome any obstacle.",
+    "",
+    "🛡️ Survival Benefits:",
+    "• Extreme environment resistance",
+    "• Advanced resource gathering",
+    "• Emergency shelter building",
+    "• Hostile creature deterrent",
+    "• Wilderness navigation mastery"
+  ],
+  "objectives": {
+    "basic_survival": "Learn basic survival skills",
+    "survive_desert": "Survive 7 days in the desert",
+    "survive_arctic": "Survive 7 days in the arctic tundra",
+    "survive_underground": "Survive 7 days in deep caves",
+    "craft_survival_gear": "Craft advanced survival equipment",
+    "find_water_sources": "Locate water in 10 different biomes",
+    "build_shelters": "Build emergency shelters in 5 environments",
+    "hunt_wild_game": "Hunt and cook 20 different wild animals",
+    "identify_plants": "Identify 50 edible and poisonous plants",
+    "survive_storm": "Survive a devastating magical storm",
+    "escape_predators": "Escape from 10 dangerous predators",
+    "navigate_wilderness": "Navigate without tools for 100 kilometers",
+    "teach_others": "Teach survival skills to 5 apprentices",
+    "ultimate_challenge": "Complete 30-day wilderness survival challenge",
+    "earn_expert_title": "Earn Ultimate Survival Expert title"
+  },
+  "npcs": {
+    "survival_mentor": "Master Survival Instructor",
+    "wilderness_guide": "Legendary Wilderness Guide",
+    "ranger_captain": "Elite Ranger Captain"
+  },
+  "dialogs": {
+    "start": "Nature is both beautiful and deadly. Are you prepared to learn her secrets?",
+    "training": "In survival, preparation and knowledge are more valuable than any weapon.",
+    "hardship": "You've endured where others would fall. Your resilience grows stronger.",
+    "mastery": "Few understand the wilderness as intimately as you now do.",
+    "challenge": "The ultimate test awaits. Thirty days with nothing but your skills.",
+    "complete": "You are now the Ultimate Survival Expert! Nature herself bows to your expertise!"
+  }
+}

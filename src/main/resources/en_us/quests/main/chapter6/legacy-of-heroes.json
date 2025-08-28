@@ -1,0 +1,37 @@
+{
+  "name": "Legacy of Heroes",
+  "description": [
+    "The heroes of the great war must not be forgotten.",
+    "Their stories and sacrifices should inspire future generations.",
+    "",
+    "Preserve their legacy and ensure their heroic deeds",
+    "will be remembered for all eternity."
+  ],
+  "objectives": {
+    "collect_stories": "Collect Heroes' Stories",
+    "interview_survivors": "Interview War Survivors",
+    "gather_artifacts": "Gather Heroic Artifacts",
+    "create_archives": "Create the Hero Archives",
+    "write_chronicles": "Write the Chronicles of Heroes",
+    "build_academy": "Build the Heroes' Academy",
+    "train_successors": "Train the Next Heroes",
+    "establish_order": "Establish the Heroic Order",
+    "create_traditions": "Create Heroic Traditions",
+    "inspire_youth": "Inspire the Youth",
+    "preserve_memory": "Preserve Sacred Memory",
+    "eternal_legacy": "Ensure Eternal Legacy"
+  },
+  "npcs": {
+    "chronicler": "Master Chronicler",
+    "hero_survivor": "Surviving Hero",
+    "academy_master": "Academy Grandmaster",
+    "legacy_keeper": "Keeper of Heroic Legacy"
+  },
+  "dialogs": {
+    "line1": "The heroes' stories must live on. Will you help preserve their legacy?",
+    "line2": "Their courage and sacrifice will inspire generations to come.",
+    "line3": "These young ones show great promise. The heroic spirit lives on.",
+    "line4": "The academy stands as a beacon of heroism. Their legacy is secure.",
+    "line5": "As long as their stories are told, true heroes will never truly die."
+  }
+}

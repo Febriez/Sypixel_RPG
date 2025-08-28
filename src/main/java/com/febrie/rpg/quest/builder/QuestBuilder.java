@@ -19,7 +19,7 @@ import java.util.Set;
  *
  * @author Febrie
  */
-public abstract class QuestBuilder {
+public class QuestBuilder {
     public QuestID id;
     public List<QuestObjective> objectives = new ArrayList<>();
     public QuestReward reward;
@@ -115,6 +115,4 @@ public abstract class QuestBuilder {
         this.completionLimit = limit;
         return this;
     }
-
-    public abstract Quest build();
 }

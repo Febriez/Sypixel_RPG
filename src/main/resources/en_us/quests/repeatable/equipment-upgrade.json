@@ -1,0 +1,44 @@
+{
+  "name": "Equipment Upgrade Service",
+  "description": [
+    "Provide equipment upgrade and enhancement services!",
+    "Help other adventurers improve their gear through various methods.",
+    "",
+    "🔧 Upgrade Benefits:",
+    "• Advanced crafting techniques",
+    "• Access to enhancement materials",
+    "• Reputation with crafting guilds",
+    "• Exclusive upgrade recipes",
+    "• Master craftsman recognition"
+  ],
+  "objectives": {
+    "setup_workshop": "Set up equipment upgrade workshop",
+    "gather_materials": "Gather upgrade materials",
+    "upgrade_weapons": "Upgrade 10 weapons for clients",
+    "enhance_armor": "Enhance 15 armor pieces",
+    "apply_enchantments": "Apply 20 enchantments",
+    "repair_equipment": "Repair 25 damaged items",
+    "custom_modifications": "Perform 5 custom modifications",
+    "quality_testing": "Test upgraded equipment quality",
+    "client_satisfaction": "Achieve high client satisfaction",
+    "master_techniques": "Learn master upgrade techniques",
+    "rare_enhancements": "Apply rare enhancement materials",
+    "efficiency_improvement": "Improve workshop efficiency",
+    "train_apprentice": "Train workshop apprentice",
+    "guild_certification": "Earn guild certification",
+    "legendary_upgrade": "Perform legendary equipment upgrade"
+  },
+  "npcs": {
+    "master_smith": "Master Blacksmith",
+    "equipment_assessor": "Equipment Quality Assessor",
+    "guild_certifier": "Crafting Guild Certifier"
+  },
+  "dialogs": {
+    "start": "Many adventurers need their equipment upgraded. Can you help them?",
+    "techniques": "Each upgrade requires specific techniques and materials.",
+    "progress": "Your upgrade skills are improving with each piece you work on.",
+    "mastery": "You're developing true mastery of the upgrade arts.",
+    "certification": "Your work meets guild standards. Here's your certification!",
+    "legendary": "This legendary upgrade will be remembered for ages!"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "name": "Master Blacksmith",
+  "description": [
+    "The ultimate trial to become a legendary blacksmith!",
+    "Craft high-tier equipment and master forge secrets.",
+    "",
+    "🔨 Forge Mastery:",
+    "• Craft 100 basic equipment",
+    "• Complete diamond gear sets",
+    "• Craft netherite equipment",
+    "• Create enchanted gear",
+    "",
+    "Special Challenges:",
+    "• Forge the Legendary Sword",
+    "• Craft Dragon Armor",
+    "• Restore the Ancient Hammer",
+    "",
+    "Rewards:",
+    "• Master Blacksmith title",
+    "• Netherite forge tools",
+    "• Legendary recipes"
+  ],
+  "objectives": {
+    "master_smith": "Talk to Master Blacksmith",
+    "iron_equipment": "Craft 50 iron equipment",
+    "diamond_sword": "Craft 5 diamond swords",
+    "diamond_armor": "Craft 3 diamond armor sets",
+    "netherite_upgrade": "Upgrade to netherite equipment",
+    "enchant_items": "Enchant 20 items",
+    "legendary_materials": "Gather legendary materials",
+    "legendary_sword": "Forge the Legendary Sword",
+    "dragon_armor": "Craft Dragon Armor",
+    "ancient_hammer": "Restore the Ancient Hammer",
+    "final_test": "Pass the final test",
+    "receive_title": "Receive Master title"
+  },
+  "npcs": {
+    "master_smith": "Master Blacksmith"
+  },
+  "dialogs": {
+    "start": "You wish to reach the pinnacle of smithing? It will be a long journey.",
+    "basics": "First, you must perfect the fundamentals.",
+    "advanced": "Netherite... the most powerful material. Can you handle it?",
+    "legendary": "You're ready to create legendary equipment.",
+    "complete": "Amazing! You are now a true Master Blacksmith!"
+  }
+}

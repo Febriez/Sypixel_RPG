@@ -14,6 +14,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import net.kyori.adventure.text.Component;
+import com.febrie.rpg.util.UnifiedColorUtil;
 
 import java.time.Duration;
 import java.util.*;
@@ -81,7 +83,7 @@ public class MailManager {
         // 대상 플레이어 조회
         OfflinePlayer toPlayer = Bukkit.getOfflinePlayer(toPlayerName);
         if (!toPlayer.hasPlayedBefore() && !toPlayer.isOnline()) {
-            from.sendMessage("§c해당 플레이어를 찾을 수 없습니다: " + toPlayerName);
+            from.sendMessage(Component.translatable("mail.player-not-found", Component.text(toPlayerName)).color(UnifiedColorUtil.ERROR));
             return CompletableFuture.completedFuture(false);
         }
 
@@ -90,20 +92,20 @@ public class MailManager {
 
         // 자기 자신에게 우편 보내기 방지
         if (fromId.equals(toId)) {
-            from.sendMessage("§c자기 자신에게는 우편을 보낼 수 없습니다.");
+            from.sendMessage(Component.translatable("mail.cannot-send-to-self").color(UnifiedColorUtil.ERROR));
             return CompletableFuture.completedFuture(false);
         }
 
         // 첨부물 기능은 현재 미지원
         if (!attachments.isEmpty()) {
-            from.sendMessage("§c현재 첨부물 기능은 지원하지 않습니다.");
+            from.sendMessage(Component.translatable("mail.attachments-not-supported").color(UnifiedColorUtil.ERROR));
             return CompletableFuture.completedFuture(false);
         }
 
         // 받는 사람의 우편함이 가득 찼는지 확인
         return getMailCount(toId).thenCompose(mailCount -> {
             if (mailCount >= MAX_MAIL_PER_PLAYER) {
-                from.sendMessage("§c" + toPlayerName + "님의 우편함이 가득 찼습니다.");
+                from.sendMessage(Component.translatable("mail.recipient-mailbox-full", Component.text(toPlayerName)).color(UnifiedColorUtil.ERROR));
                 return CompletableFuture.completedFuture(false);
             }
 
@@ -124,18 +126,18 @@ public class MailManager {
                 mailCache.invalidate(toId);
 
                 // 알림
-                from.sendMessage("§a우편을 성공적으로 전송했습니다!");
+                from.sendMessage(Component.translatable("mail.sent-successfully").color(UnifiedColorUtil.SUCCESS));
                 
                 Player onlineReceiver = Bukkit.getPlayer(toId);
                 if (onlineReceiver != null) {
-                    onlineReceiver.sendMessage("§e새로운 우편이 도착했습니다! §7(/mail)");
+                    onlineReceiver.sendMessage(Component.translatable("mail.new-mail-notification").color(UnifiedColorUtil.YELLOW));
                 }
 
                 LogUtil.info("우편 전송: " + from.getName() + " → " + toPlayerName + " [" + subject + "]");
                 return true;
             }).exceptionally(ex -> {
                 LogUtil.warning("우편 전송 실패: " + ex.getMessage());
-                from.sendMessage("§c우편 전송 중 오류가 발생했습니다.");
+                from.sendMessage(Component.translatable("mail.send-error").color(UnifiedColorUtil.ERROR));
                 return false;
             });
         });
@@ -204,18 +206,18 @@ public class MailManager {
     public CompletableFuture<Boolean> collectAttachments(@NotNull Player player, @NotNull String mailId) {
         return mailService.getMail(mailId).thenCompose(mail -> {
             if (mail == null) {
-                player.sendMessage("§c해당 우편을 찾을 수 없습니다.");
+                player.sendMessage(Component.translatable("mail.not-found").color(UnifiedColorUtil.ERROR));
                 return CompletableFuture.completedFuture(false);
             }
 
             // 권한 확인
             if (!mail.receiverUuid().equals(player.getUniqueId())) {
-                player.sendMessage("§c이 우편의 수신자가 아닙니다.");
+                player.sendMessage(Component.translatable("mail.not-recipient").color(UnifiedColorUtil.ERROR));
                 return CompletableFuture.completedFuture(false);
             }
 
             // 현재 첨부물 기능 미지원
-            player.sendMessage("§c현재 첨부물 기능은 지원하지 않습니다.");
+            player.sendMessage(Component.translatable("mail.attachments-not-supported").color(UnifiedColorUtil.ERROR));
             return CompletableFuture.completedFuture(false);
         });
     }

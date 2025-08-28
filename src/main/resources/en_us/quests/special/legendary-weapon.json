@@ -1,0 +1,30 @@
+{
+  "name": "Legendary Weapon",
+  "description": [
+    "Deep in ancient ruins lies a weapon of immense power,",
+    "forged by the gods themselves in ages past.",
+    "",
+    "Prove yourself worthy of wielding this legendary artifact",
+    "and claim your place among the greatest heroes."
+  ],
+  "objectives": {
+    "find_ancient_ruins": "Find the Ancient Weapon Vault",
+    "solve_divine_trials": "Complete the Three Divine Trials",
+    "defeat_weapon_guardian": "Defeat the Legendary Weapon Guardian",
+    "claim_legendary_weapon": "Claim the Legendary Weapon"
+  },
+  "npcs": {
+    "weapon_guardian": "Guardian of Legends",
+    "divine_spirit": "Divine Spirit of War",
+    "ancient_weaponsmith": "Spirit of the Ancient Weaponsmith"
+  },
+  "dialogs": {
+    "start1": "Few heroes are worthy of wielding divine weapons.",
+    "start2": "The trials ahead will test every aspect of your character.",
+    "start3": "Only the truly worthy may claim this legendary power.",
+    "progress1": "Your determination impresses even the divine spirits.",
+    "progress2": "You grow closer to proving your legendary worth.",
+    "complete1": "You have proven yourself! The legendary weapon is yours!",
+    "complete2": "May this divine blade serve you well in the battles ahead."
+  }
+}

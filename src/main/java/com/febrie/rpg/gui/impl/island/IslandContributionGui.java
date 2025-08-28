@@ -103,9 +103,9 @@ public class IslandContributionGui extends BaseGui {
         return ItemBuilder.of(Material.EMERALD_BLOCK, getViewerLocale())
                 .displayNameTranslated("gui.island.contribution.info.title")
                 .addLore(Component.empty())
-                .addLore(LangManager.get("gui.island.contribution.info.island-name", viewer, Component.text(island.core().islandName())))
-                .addLore(LangManager.get("gui.island.contribution.info.total", viewer, Component.text(String.format("%,d", totalContribution))))
-                .addLore(LangManager.get("gui.island.contribution.info.contributors", viewer, Component.text(String.valueOf(sortedContributions.size()))))
+                .addLore(LangManager.getComponent("gui.island.contribution.info.island-name", getViewerLocale(), Component.text(island.core().islandName())))
+                .addLore(LangManager.getComponent("gui.island.contribution.info.total", getViewerLocale(), Component.text(String.format("%,d", totalContribution))))
+                .addLore(LangManager.getComponent("gui.island.contribution.info.contributors", getViewerLocale(), Component.text(String.valueOf(sortedContributions.size()))))
                 .addLoreTranslated("gui.island.contribution.info.description1")
                 .addLoreTranslated("gui.island.contribution.info.description2")
                 .hideAllFlags()
@@ -145,11 +145,11 @@ public class IslandContributionGui extends BaseGui {
         // 역할 확인
         Component role = getPlayerRoleComponent(playerUuid);
         ItemStack item = ItemBuilder.of(Material.PLAYER_HEAD, getViewerLocale())
-                .displayName(LangManager.get("gui.island.contribution.contributor.name", viewer, 
+                .displayName(LangManager.getComponent("gui.island.contribution.contributor.name", getViewerLocale(), 
                         Component.text("#" + rank), Component.text(playerName)))
-                .addLore(LangManager.get("gui.island.contribution.contributor.contribution", viewer, Component.text(String.format("%,d", contribution))))
-                .addLore(LangManager.get("gui.island.contribution.contributor.role", viewer, role))
-                .addLore(LangManager.get("gui.island.contribution.contributor.percentage", viewer, Component.text(String.format("%.1f", getContributionPercentage(contribution)))))
+                .addLore(LangManager.getComponent("gui.island.contribution.contributor.contribution", getViewerLocale(), Component.text(String.format("%,d", contribution))))
+                .addLore(LangManager.getComponent("gui.island.contribution.contributor.role", getViewerLocale(), role))
+                .addLore(LangManager.getComponent("gui.island.contribution.contributor.percentage", getViewerLocale(), Component.text(String.format("%.1f", getContributionPercentage(contribution)))))
                 .hideAllFlags()
                 .build();
         
@@ -190,7 +190,7 @@ public class IslandContributionGui extends BaseGui {
         long currentContribution = island.membership().contributions().getOrDefault(playerUuid, 0L);
         return ItemBuilder.of(Material.EMERALD, getViewerLocale())
                 .displayNameTranslated("gui.island.contribution.add.title")
-                .addLore(LangManager.get("gui.island.contribution.add.current", viewer, Component.text(String.format("%,d", currentContribution))))
+                .addLore(LangManager.getComponent("gui.island.contribution.add.current", getViewerLocale(), Component.text(String.format("%,d", currentContribution))))
                 .addLoreTranslated("gui.island.contribution.add.description1")
                 .addLoreTranslated("gui.island.contribution.add.description2")
                 .addLoreTranslated("gui.island.contribution.add.click")
@@ -201,7 +201,7 @@ public class IslandContributionGui extends BaseGui {
     private ItemStack createPreviousPageItem() {
         return ItemBuilder.of(Material.ARROW, getViewerLocale())
                 .displayNameTranslated("gui.common.previous-page")
-                .addLore(LangManager.get("gui.common.page", viewer, Component.text(String.valueOf(page - 1)), Component.text(String.valueOf(maxPage))))
+                .addLore(LangManager.getComponent("gui.common.page", getViewerLocale(), Component.text(String.valueOf(page - 1)), Component.text(String.valueOf(maxPage))))
                 .hideAllFlags()
                 .build();
     }
@@ -209,7 +209,7 @@ public class IslandContributionGui extends BaseGui {
     private ItemStack createNextPageItem() {
         return ItemBuilder.of(Material.ARROW, getViewerLocale())
                 .displayNameTranslated("gui.common.next-page")
-                .addLore(LangManager.get("gui.common.page", viewer, Component.text(String.valueOf(page + 1)), Component.text(String.valueOf(maxPage))))
+                .addLore(LangManager.getComponent("gui.common.page", getViewerLocale(), Component.text(String.valueOf(page + 1)), Component.text(String.valueOf(maxPage))))
                 .hideAllFlags()
                 .build();
     }
