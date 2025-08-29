@@ -65,7 +65,7 @@ public class ProfileGui extends BaseGui {
      * @param targetPlayer 프로필 대상 플레이어
      */
     protected ProfileGui(@NotNull GuiManager guiManager, @NotNull Player viewer, @NotNull Player targetPlayer) {
-        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.profile.player_title", viewer, LangManager.getComponent("player", viewer), Component.text(targetPlayer.getName())));
+        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.profile.player_title", viewer.locale(), LangManager.getComponent("player", viewer.locale()), Component.text(targetPlayer.getName())));
         this.targetPlayer = targetPlayer;
     }
 
@@ -96,7 +96,7 @@ public class ProfileGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.profile.player_title", viewer, Component.text(targetPlayer.getName()));
+        return LangManager.getComponent("gui.profile.player_title", viewer.locale(), Component.text(targetPlayer.getName()));
     }
 
     @Override
@@ -152,7 +152,7 @@ public class ProfileGui extends BaseGui {
                 .displayName(Component.text(targetPlayer.getName())
                         .color(UnifiedColorUtil.LEGENDARY).decoration(TextDecoration.BOLD, true))
                 .addLore(Component.empty())
-                .addLore(LangManager.getComponent("gui.profile.online_status", viewer, targetPlayer.isOnline() ? LangManager.getComponent("status.online", viewer) : LangManager.getComponent("status.offline", viewer)))
+                .addLore(LangManager.getComponent("gui.profile.online_status", viewer.locale(), targetPlayer.isOnline() ? LangManager.getComponent("status.online", viewer.locale()) : LangManager.getComponent("status.offline", viewer.locale())))
                 .addLore(Component.empty());
 
         // Add wallet information - 모든 통화를 일관된 방식으로 표시
@@ -174,14 +174,14 @@ public class ProfileGui extends BaseGui {
         setItem(PLAYER_HEAD_SLOT, GuiItem.display(headBuilder.build()));
 
         // Level/XP info - locale 적용 예시
-        setItem(LEVEL_INFO_SLOT, GuiItem.display(new ItemBuilder(Material.EXPERIENCE_BOTTLE)
+        setItem(LEVEL_INFO_SLOT, GuiItem.display(ItemBuilder.of(Material.EXPERIENCE_BOTTLE)
                 .displayName(LangManager.getComponent("items.profile.level-info.name", getViewerLocale()))
                 .addLore(LangManager.getComponent("gui.profile.level", getViewerLocale(), Component.text(String.valueOf(rpgPlayer.getLevel()))))
                 .addLore(LangManager.getComponent("gui.profile.experience", getViewerLocale(), Component.text(String.valueOf(rpgPlayer.getExperience()))))
                 .build()));
 
         // Game stats info - locale 적용 예시
-        setItem(GAME_INFO_SLOT, GuiItem.display(new ItemBuilder(Material.GOLDEN_SWORD)
+        setItem(GAME_INFO_SLOT, GuiItem.display(ItemBuilder.of(Material.GOLDEN_SWORD)
                 .displayName(LangManager.getComponent("items.profile.game-stats.name", getViewerLocale()))
                 .addLore(LangManager.getComponent("gui.profile.playtime", getViewerLocale(), Component.text(TimeUtil.formatTime(rpgPlayer.getTotalPlaytime()))))
                 .addLore(LangManager.getComponent("gui.profile.mob-kills", getViewerLocale(), Component.text(String.valueOf(rpgPlayer.getMobsKilled()))))
@@ -223,7 +223,7 @@ public class ProfileGui extends BaseGui {
      * Quest info button setup - 퀘스트 목록으로 이동
      */
     private void setupQuestInfoButton() {
-        GuiItem questButton = GuiItem.clickable(new ItemBuilder(Material.WRITTEN_BOOK)
+        GuiItem questButton = GuiItem.clickable(ItemBuilder.of(Material.WRITTEN_BOOK)
                 .displayName(LangManager.getComponent("items.profile.quest-info.name", getViewerLocale()))
                 .addLore(Component.empty())
                 .addLore(LangManager.getComponent("gui.profile.active-quests", getViewerLocale(), Component.text(String.valueOf(getActiveQuestCount()))))
@@ -236,7 +236,7 @@ public class ProfileGui extends BaseGui {
                 guiManager.openGui(p, questListGui);
                 playSuccessSound(p);
             } else {
-                p.sendMessage(LangManager.getComponent("general.cannot_view_others_quests", p));
+                p.sendMessage(LangManager.getComponent("general.cannot_view_others_quests", p.locale()));
                 playErrorSound(p);
             }
         });
@@ -263,7 +263,7 @@ public class ProfileGui extends BaseGui {
     private void setupJobInfoButton(com.febrie.rpg.player.RPGPlayer rpgPlayer) {
         if (!rpgPlayer.hasJob()) {
             // No job - show job selection button
-            GuiItem jobButton = GuiItem.clickable(new ItemBuilder(Material.ENCHANTING_TABLE)
+            GuiItem jobButton = GuiItem.clickable(ItemBuilder.of(Material.ENCHANTING_TABLE)
                     .displayName(LangManager.getComponent("items.mainmenu.job-button.name", getViewerLocale()))
                     .lore(List.of(LangManager.getComponent("items.mainmenu.job-button.lore", getViewerLocale())))
                     .glint(true).build(), p -> {
@@ -272,7 +272,7 @@ public class ProfileGui extends BaseGui {
                     guiManager.openGui(p, jobGui);
                     playSuccessSound(p);
                 } else {
-                    p.sendMessage(LangManager.getComponent("general.cannot_select_others_job", p));
+                    p.sendMessage(LangManager.getComponent("general.cannot_select_others_job", p.locale()));
                     playErrorSound(p);
                 }
             });
@@ -284,8 +284,8 @@ public class ProfileGui extends BaseGui {
                 return; // Safety check
             }
             String jobKey = job.name().toLowerCase();
-            ItemBuilder jobBuilder = new ItemBuilder(job.getMaterial()).displayName(Component.text(job.getIcon() + " ")
-                            .append(LangManager.getComponent("job." + jobKey + ".name", viewer)).color(job.getColor())
+            ItemBuilder jobBuilder = ItemBuilder.of(job.getMaterial()).displayName(Component.text(job.getIcon() + " ")
+                            .append(LangManager.getComponent("job." + jobKey + ".name", viewer.locale())).color(job.getColor())
                             .decoration(TextDecoration.BOLD, true)).addLore(Component.empty())
                     .addLore(LangManager.getComponent("gui.profile.job-level", getViewerLocale(), Component.text(String.valueOf(rpgPlayer.getLevel()))))
                     .addLore(LangManager.getComponent("gui.profile.combat-power", getViewerLocale(), Component.text(String.valueOf(rpgPlayer.getCombatPower()))));
@@ -305,7 +305,7 @@ public class ProfileGui extends BaseGui {
                     guiManager.openGui(p, talentGui);
                     playSuccessSound(p);
                 } else {
-                    p.sendMessage(LangManager.getComponent("general.cannot_view_others_talents", p));
+                    p.sendMessage(LangManager.getComponent("general.cannot_view_others_talents", p.locale()));
                     playErrorSound(p);
                 }
             });
@@ -317,12 +317,12 @@ public class ProfileGui extends BaseGui {
      * Stats info button setup
      */
     private void setupStatsInfoButton(com.febrie.rpg.player.RPGPlayer rpgPlayer) {
-        GuiItem statsButton = GuiItem.clickable(new ItemBuilder(Material.IRON_CHESTPLATE)
+        GuiItem statsButton = GuiItem.clickable(ItemBuilder.of(Material.IRON_CHESTPLATE)
                 .displayName(LangManager.getComponent("items.mainmenu.stats-button.name", getViewerLocale()))
                 .lore(List.of(LangManager.getComponent("items.mainmenu.stats-button.lore", getViewerLocale())))
                 .flags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES).build(), p -> {
             if (!rpgPlayer.hasJob()) {
-                p.sendMessage(LangManager.getComponent("messages.no_job_for_stats", p));
+                p.sendMessage(LangManager.getComponent("messages.no_job_for_stats", p.locale()));
                 playErrorSound(p);
                 return;
             }
@@ -332,7 +332,7 @@ public class ProfileGui extends BaseGui {
                 guiManager.openGui(p, statsGui);
                 playSuccessSound(p);
             } else {
-                p.sendMessage(LangManager.getComponent("general.cannot_view_others_stats", p));
+                p.sendMessage(LangManager.getComponent("general.cannot_view_others_stats", p.locale()));
                 playErrorSound(p);
             }
         });
@@ -343,7 +343,7 @@ public class ProfileGui extends BaseGui {
      * Collection book button setup (coming soon)
      */
     private void setupCollectionButton() {
-        GuiItem collectionButton = GuiItem.clickable(new ItemBuilder(Material.BOOK)
+        GuiItem collectionButton = GuiItem.clickable(ItemBuilder.of(Material.BOOK)
                 .displayName(LangManager.getComponent("items.profile.collection-book.name", getViewerLocale()))
                 .lore(List.of(LangManager.getComponent("general.coming-soon", getViewerLocale()))).build(), p -> {
             p.sendMessage(LangManager.getComponent("general.coming-soon", p.locale()));
@@ -356,7 +356,7 @@ public class ProfileGui extends BaseGui {
      * Pet button setup (coming soon)
      */
     private void setupPetButton() {
-        GuiItem petButton = GuiItem.clickable(new ItemBuilder(Material.BONE)
+        GuiItem petButton = GuiItem.clickable(ItemBuilder.of(Material.BONE)
                 .displayName(LangManager.getComponent("items.profile.pets.name", getViewerLocale()))
                 .lore(List.of(LangManager.getComponent("general.coming-soon", getViewerLocale()))).build(), p -> {
             p.sendMessage(LangManager.getComponent("general.coming-soon", p.locale()));
@@ -378,7 +378,7 @@ public class ProfileGui extends BaseGui {
         }
 
         // Back button - 항상 표시 (메인 메뉴로 돌아가기)
-        setItem(getBackButtonSlot(), GuiItem.clickable(new ItemBuilder(Material.ARROW).displayName(LangManager.getComponent("gui.buttons.back.name", getViewerLocale()))
+        setItem(getBackButtonSlot(), GuiItem.clickable(ItemBuilder.of(Material.ARROW).displayName(LangManager.getComponent("gui.buttons.back.name", getViewerLocale()))
                 .lore(List.of(LangManager.getComponent("gui.buttons.back.lore", getViewerLocale()))).build(), p -> {
             // 네비게이션 스택이 비어있어도 메인 메뉴로 돌아가기
             GuiFramework backTarget = getBackTarget();
@@ -397,7 +397,7 @@ public class ProfileGui extends BaseGui {
 
         // User settings button (only for own profile)
         if (viewer.equals(targetPlayer)) {
-            GuiItem userSettingsButton = GuiItem.clickable(new ItemBuilder(Material.COMPARATOR)
+            GuiItem userSettingsButton = GuiItem.clickable(ItemBuilder.of(Material.COMPARATOR)
                     .displayName(LangManager.getComponent("items.profile.user-settings.name", getViewerLocale()))
                     .lore(List.of(LangManager.getComponent("items.profile.user-settings.lore", getViewerLocale()))).build(), p -> {
                 PlayerSettingsGui settingsGui = PlayerSettingsGui.create(guiManager, p);

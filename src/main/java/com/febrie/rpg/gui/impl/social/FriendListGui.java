@@ -50,7 +50,7 @@ public class FriendListGui extends BaseGui {
 
     private FriendListGui(@NotNull GuiManager guiManager,
                         @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.friends.title", player));
+        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.friends.title", player.locale()));
         this.friendManager = FriendManager.getInstance();
     }
 
@@ -71,7 +71,7 @@ public class FriendListGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.friends.title", viewer);
+        return LangManager.getComponent("gui.friends.title", viewer.locale());
     }
 
     @Override
@@ -143,8 +143,8 @@ public class FriendListGui extends BaseGui {
                         .build(),
                 p -> {
                     p.closeInventory();
-                    p.sendMessage(LangManager.get("gui.friends.add-command-hint", p));
-                    p.sendMessage(LangManager.get("gui.friends.add-command-example", p));
+                    p.sendMessage(LangManager.getComponent("gui.friends.add-command-hint", p.locale()));
+                    p.sendMessage(LangManager.getComponent("gui.friends.add-command-example", p.locale()));
                     playClickSound(p);
                 }
         );
@@ -163,7 +163,7 @@ public class FriendListGui extends BaseGui {
                 p -> {
                     friendManager.clearCache(p.getUniqueId());
                     loadFriends();
-                    p.sendMessage(LangManager.get("gui.friends.refreshed", p));
+                    p.sendMessage(LangManager.getComponent("gui.friends.refreshed", p.locale()));
                     playClickSound(p);
                 }
         );
@@ -253,7 +253,7 @@ public class FriendListGui extends BaseGui {
             boolean isOnline = friendManager.isPlayerOnline(friendUuid);
 
             Material material = isOnline ? Material.LIME_DYE : Material.GRAY_DYE;
-            Component statusText = LangManager.getComponent(isOnline ? "status.online" : "status.offline", viewer);
+            Component statusText = LangManager.getComponent(isOnline ? "status.online" : "status.offline", viewer.locale());
 
             GuiItem friendItem = GuiItem.clickable(
                     ItemBuilder.of(material)
@@ -261,8 +261,8 @@ public class FriendListGui extends BaseGui {
                                     isOnline ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.GRAY)
                                     .decoration(TextDecoration.BOLD, true))
                             .addLore(Component.empty())
-                            .addLore(LangManager.get("gui.friends.status", viewer, statusText))
-                            .addLore(LangManager.get("gui.friends.since", viewer, 
+                            .addLore(LangManager.getComponent("gui.friends.status", viewer.locale(), statusText))
+                            .addLore(LangManager.getComponent("gui.friends.since", viewer.locale(), 
                                     Component.text(new java.util.Date(friendship.createdAt()).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate().toString())))
                             .addLore(Component.empty())
                             .addLoreTranslated("items.social.friends.friend-item.left-click")
@@ -272,7 +272,7 @@ public class FriendListGui extends BaseGui {
                     p -> {
                         // 귓말 보내기 (추후 구현)
                         p.closeInventory();
-                        p.sendMessage(LangManager.get("gui.friends.whisper-hint", p, Component.text(friendName)));
+                        p.sendMessage(LangManager.getComponent("gui.friends.whisper-hint", p.locale(), Component.text(friendName)));
                         playClickSound(p);
                     }
             );

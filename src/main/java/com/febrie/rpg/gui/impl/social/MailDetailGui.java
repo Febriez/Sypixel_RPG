@@ -71,7 +71,7 @@ public class MailDetailGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.mail-detail.title", getViewerLocale(), Component.text(mail.subject()));
+        return LangManager.getComponent("gui.mail-detail.title", viewer.locale(), Component.text(mail.subject()));
     }
 
     @Override
@@ -105,12 +105,12 @@ public class MailDetailGui extends BaseGui {
                         .displayName(Component.text(mail.subject(), UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(LangManager.getComponent("gui.mail-detail.sender", getViewerLocale(), Component.text(mail.senderName())))
-                        .addLore(LangManager.getComponent("gui.mail-detail.receiver", getViewerLocale(), Component.text(mail.receiverName())))
-                        .addLore(LangManager.getComponent("gui.mail-detail.sent-time", getViewerLocale(), Component.text(java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
+                        .addLore(LangManager.getComponent("gui.mail-detail.sender", viewer.locale(), Component.text(mail.senderName())))
+                        .addLore(LangManager.getComponent("gui.mail-detail.receiver", viewer.locale(), Component.text(mail.receiverName())))
+                        .addLore(LangManager.getComponent("gui.mail-detail.sent-time", viewer.locale(), Component.text(java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
                                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))))
                         .addLore(Component.empty())
-                        .addLore(LangManager.getComponent("gui.mail-detail.status", getViewerLocale(), 
+                        .addLore(LangManager.getComponent("gui.mail-detail.status", viewer.locale(), 
                                 Component.translatable(mail.isUnread() ? "status.new-mail" : "status.read")))
                         .hideAllFlags()
                         .build()
@@ -120,11 +120,14 @@ public class MailDetailGui extends BaseGui {
         // 메시지 내용
         String message = mail.content();
         if (message == null || message.trim().isEmpty()) {
-            message = LangManager.getString("gui.mail-detail.no-message", getViewerLocale());
+            message = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                    LangManager.getComponent("gui.mail-detail.no-message", viewer.locale()));
         }
 
         // 메시지를 여러 줄로 나누기 (25자씩)
-        String[] messageLines = TextUtil.wrapTextOrDefault(message, 25, LangManager.getString("gui.mail-detail.no-message", getViewerLocale()));
+        String[] messageLines = TextUtil.wrapTextOrDefault(message, 25, 
+                net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                        LangManager.getComponent("gui.mail-detail.no-message", viewer.locale())));
 
         ItemBuilder messageBuilder = ItemBuilder.of(Material.WRITTEN_BOOK)
                 .displayNameTranslated("items.social.mail-detail.message.name")
@@ -210,7 +213,7 @@ public class MailDetailGui extends BaseGui {
                 ItemBuilder.of(Material.FEATHER)
                         .displayNameTranslated("items.social.mail-detail.reply.name")
                         .addLore(Component.empty())
-                        .addLore(LangManager.getComponent("gui.mail-detail.reply-desc", getViewerLocale(), Component.text(mail.senderName())))
+                        .addLore(LangManager.getComponent("gui.mail-detail.reply-desc", viewer.locale(), Component.text(mail.senderName())))
                         .addLore(Component.empty())
                         .addLoreTranslated("items.social.mail-detail.reply.click")
                         .hideAllFlags()

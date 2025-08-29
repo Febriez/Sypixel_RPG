@@ -37,7 +37,7 @@ public class GuiBuilder {
                                  @NotNull String nameKey, @NotNull String loreKey, 
                                  @NotNull Consumer<Player> action) {
         GuiItem button = GuiItem.clickable(
-            new ItemBuilder(material)
+            ItemBuilder.of(material)
                 .displayName(LangManager.getComponent(nameKey, viewer.locale()))
                 .addLore(LangManager.getComponent(loreKey, viewer.locale()))
                 .hideAllFlags()
@@ -70,7 +70,7 @@ public class GuiBuilder {
     public GuiBuilder display(int slot, @NotNull Material material,
                              @NotNull String nameKey, @NotNull String loreKey) {
         gui.setItem(slot, GuiItem.display(
-            new ItemBuilder(material)
+            ItemBuilder.of(material)
                 .displayName(LangManager.getComponent(nameKey, viewer.locale()))
                 .addLore(LangManager.getComponent(loreKey, viewer.locale()))
                 .hideAllFlags()
@@ -93,7 +93,7 @@ public class GuiBuilder {
     public GuiBuilder withBorder() {
         // createBorder is protected, so we'll implement it here
         GuiItem borderItem = GuiItem.display(
-            new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)
+            ItemBuilder.of(Material.GRAY_STAINED_GLASS_PANE)
                 .displayName(Component.empty())
                 .build()
         );
@@ -139,7 +139,7 @@ public class GuiBuilder {
      * Fill empty slots with a specific material
      */
     public GuiBuilder fillEmpty(@NotNull Material material) {
-        ItemStack filler = new ItemBuilder(material)
+        ItemStack filler = ItemBuilder.of(material)
             .displayName(Component.empty())
             .build();
         
@@ -153,7 +153,7 @@ public class GuiBuilder {
      */
     public GuiBuilder withTitle(int slot, @NotNull Component title) {
         gui.setItem(slot, GuiItem.display(
-            new ItemBuilder(Material.NAME_TAG)
+            ItemBuilder.of(Material.NAME_TAG)
                 .displayName(title)
                 .build()
         ));

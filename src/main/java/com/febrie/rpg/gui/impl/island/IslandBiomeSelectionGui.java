@@ -58,7 +58,7 @@ public class IslandBiomeSelectionGui extends BaseGui {
                                    @NotNull String currentBiome,
                                    @NotNull Consumer<String> onBiomeSelected,
                                    @NotNull GuiFramework backDestination) {
-        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.island.biome-selection.title".replace("-", "_"), viewer));
+        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.island.biome-selection.title".replace("-", "_"), player.locale()));
         this.currentBiome = currentBiome;
         this.onBiomeSelected = onBiomeSelected;
         this.backDestination = backDestination;
@@ -77,7 +77,7 @@ public class IslandBiomeSelectionGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.island.biome-selection.title".replace("-", "_"), viewer);
+        return LangManager.getComponent("gui.island.biome-selection.title".replace("-", "_"), viewer.locale());
     }
     
     @Override
@@ -100,7 +100,7 @@ public class IslandBiomeSelectionGui extends BaseGui {
         
         // 제목 아이템
         GuiItem titleItem = GuiItem.display(
-            new ItemBuilder(Material.FILLED_MAP)
+            ItemBuilder.of(Material.FILLED_MAP)
                 .displayName(LangManager.getComponent("gui.island.biome-selection.info.title", getViewerLocale()))
                 .addLore(Component.empty())
                 .addLore(LangManager.getComponent("gui.island.biome-selection.info.lore1", getViewerLocale()))
@@ -120,7 +120,7 @@ public class IslandBiomeSelectionGui extends BaseGui {
             BiomeOption biome = AVAILABLE_BIOMES.get(i);
             boolean isSelected = biome.id.equals(currentBiome);
             
-            ItemBuilder builder = new ItemBuilder(biome.icon)
+            ItemBuilder builder = ItemBuilder.of(biome.icon)
                 .displayName(LangManager.getComponent(biome.biomeKey + ".name", getViewerLocale()))
                 .addLore(Component.empty())
                 .addLore(LangManager.getComponent(biome.biomeKey + ".description", getViewerLocale()))
@@ -151,7 +151,7 @@ public class IslandBiomeSelectionGui extends BaseGui {
     
     private void setupBackButton() {
         GuiItem backButton = GuiItem.clickable(
-            new ItemBuilder(Material.ARROW)
+            ItemBuilder.of(Material.ARROW)
                 .displayName(LangManager.getComponent("gui.buttons.back.name", getViewerLocale()))
                 .addLore(LangManager.getComponent("gui.island.biome-selection.back.lore", getViewerLocale()))
                 .hideAllFlags()

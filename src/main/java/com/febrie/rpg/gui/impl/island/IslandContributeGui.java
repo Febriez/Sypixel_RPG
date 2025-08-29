@@ -40,7 +40,7 @@ public class IslandContributeGui extends BaseGui {
     private static final int[] QUICK_AMOUNTS = {1000, 5000, 10000, 50000, 100000, 500000};
     private IslandContributeGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 36, LangManager.getComponent("gui.island.contribute.title".replace("-", "_"), viewer)); // 4줄 GUI
+        super(viewer, guiManager, 36, LangManager.getComponent("gui.island.contribute.title".replace("-", "_"), viewer.locale())); // 4줄 GUI
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.rpgPlayer = plugin.getRPGPlayerManager().getPlayer(viewer);
@@ -84,7 +84,7 @@ public class IslandContributeGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.island.contribute.title".replace("-", "_"), viewer);
+        return LangManager.getComponent("gui.island.contribute.title".replace("-", "_"), viewer.locale());
     }
     
     private ItemStack createGoldInfoItem() {
@@ -170,9 +170,11 @@ public class IslandContributeGui extends BaseGui {
                     }
                     return List.of(AnvilGUI.ResponseAction.close());
                 })
-                .text(LangManager.getString("island.gui.contribute.contribution-input-text", player.locale()))
+                .text(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                        LangManager.getComponent("island.gui.contribute.contribution-input-text", player.locale())))
                 .itemLeft(new ItemStack(Material.GOLD_INGOT))
-                .title(LangManager.getString("island.gui.contribute.contribution-input-title", player.locale()))
+                .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                        LangManager.getComponent("island.gui.contribute.contribution-input-title", player.locale())))
                 .plugin(plugin)
                 .open(player);
     }

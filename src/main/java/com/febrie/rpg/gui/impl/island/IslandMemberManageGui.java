@@ -49,7 +49,7 @@ public class IslandMemberManageGui extends BaseGui {
     private final boolean targetIsWorker;
     private IslandMemberManageGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull RPGMain plugin, @NotNull IslandDTO island, @NotNull String targetUuid) {
-        super(viewer, guiManager, 45, LangManager.getComponent("gui.island.member-manage.title".replace("-", "_"), viewer)); // 5줄 GUI
+        super(viewer, guiManager, 45, LangManager.getComponent("gui.island.member-manage.title".replace("-", "_"), viewer.locale())); // 5줄 GUI
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.targetUuid = targetUuid;
@@ -68,7 +68,10 @@ public class IslandMemberManageGui extends BaseGui {
         if (member.isPresent()) {
             this.targetIsCoOwner = member.get().isCoOwner();
             this.targetIsWorker = false;
-            this.currentRole = targetIsCoOwner ? LangManager.getString("island.roles.sub-owner", getViewerLocale()) : LangManager.getString("island.roles.member", getViewerLocale());
+            Component subOwnerComponent = LangManager.getComponent("island.roles.sub-owner", viewer.locale());
+            Component memberComponent = LangManager.getComponent("island.roles.member", viewer.locale());
+            Component roleComponent = targetIsCoOwner ? subOwnerComponent : memberComponent;
+            this.currentRole = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(roleComponent);
         } else {
             // 알바생 찾기
             Optional<IslandWorkerDTO> worker = island.membership().workers().stream()
@@ -77,7 +80,8 @@ public class IslandMemberManageGui extends BaseGui {
             
             this.targetIsCoOwner = false;
             this.targetIsWorker = worker.isPresent();
-            this.currentRole = targetIsWorker ? LangManager.getString("island.roles.worker", getViewerLocale()) : "Unknown";
+            Component workerComponent = LangManager.getComponent("island.roles.worker", viewer.locale());
+            this.currentRole = targetIsWorker ? net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(workerComponent) : "Unknown";
         }
     }
     /**
@@ -112,7 +116,7 @@ public class IslandMemberManageGui extends BaseGui {
             setItem(24, new GuiItem(createKickItem()).onAnyClick(this::handleKick));
             // 권한 설정
             setItem(30, new GuiItem(createPermissionItem()).onAnyClick(player -> 
-                player.sendMessage(LangManager.getComponent("gui.island.member-manage.permission-not-implemented".replace("-", "_"), viewer).color(NamedTextColor.RED))));
+                player.sendMessage(LangManager.getComponent("gui.island.member-manage.permission-not-implemented".replace("-", "_"), viewer.locale()).color(NamedTextColor.RED))));
         } else {
             // 권한 없음 안내
             setItem(22, new GuiItem(createNoPermissionItem()));
@@ -138,7 +142,7 @@ public class IslandMemberManageGui extends BaseGui {
         return ItemBuilder.of(Material.PLAYER_HEAD)
                 .displayNameTranslated("items.island.member-manage.member-info.name")
                 .addLore(Component.empty())
-                .addLore(LangManager.getComponent("gui.island.member-manage.current-role".replace("-", "_"), viewer).color(NamedTextColor.GRAY)
+                .addLore(LangManager.getComponent("gui.island.member-manage.current-role".replace("-", "_"), viewer.locale()).color(NamedTextColor.GRAY)
                         .append(Component.text(currentRole, NamedTextColor.WHITE)))
                 .addLore(Component.text("UUID: ", NamedTextColor.GRAY)
                         .append(Component.text(targetUuid.substring(0, 8) + "...", NamedTextColor.WHITE)))
@@ -299,7 +303,8 @@ public class IslandMemberManageGui extends BaseGui {
                     }
                     
                     String input = stateSnapshot.getText();
-                    String confirmWord = LangManager.getString("island.member.kick-confirm-word", player.locale());
+                    Component confirmComponent = LangManager.getComponent("island.member.kick-confirm-word", player.locale());
+                    String confirmWord = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(confirmComponent);
                     if (!confirmWord.equals(input)) {
                         player.sendMessage(LangManager.getComponent("island.member.kick-input-error", player.locale()).color(NamedTextColor.RED));
                         return Arrays.asList(AnvilGUI.ResponseAction.close());
@@ -308,8 +313,10 @@ public class IslandMemberManageGui extends BaseGui {
                     performKick(player);
                     return Arrays.asList(AnvilGUI.ResponseAction.close());
                 })
-                .text(LangManager.getString("island.member.kick-input-text", player.locale()))
-                .title(LangManager.getString("island.member.kick-input-title", player.locale()))
+                .text(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                        LangManager.getComponent("island.member.kick-input-text", player.locale())))
+                .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                        LangManager.getComponent("island.member.kick-input-title", player.locale())))
                 .plugin(plugin)
                 .open(player);
     }

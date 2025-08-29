@@ -161,10 +161,10 @@ public class FriendRequestGui extends BaseGui {
                     ItemBuilder.of(Material.PLAYER_HEAD)
                             .displayName(Component.text(request.fromPlayerName(), UnifiedColorUtil.PRIMARY).decoration(TextDecoration.BOLD, true))
                             .addLore(Component.empty())
-                            .addLore(LangManager.get("gui.friend-requests.request-time", viewer, Component.text(request.requestTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))))
+                            .addLore(LangManager.getComponent("gui.friend-requests.request-time", viewer.locale(), Component.text(request.requestTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))))
                             .addLore(Component.empty())
                             .addLore(request.message() != null ? 
-                                    LangManager.get("gui.friend-requests.message", viewer, Component.text(request.message())) : 
+                                    LangManager.getComponent("gui.friend-requests.message", viewer.locale(), Component.text(request.message())) : 
                                     Component.translatable("gui.friend-requests.no-message").color(UnifiedColorUtil.GRAY))
                             .addLore(Component.empty())
                             .addLoreTranslated("items.social.friend-requests.request-info.hint")
@@ -178,14 +178,14 @@ public class FriendRequestGui extends BaseGui {
                     ItemBuilder.of(Material.LIME_DYE)
                             .displayNameTranslated("items.social.friend-requests.accept.name")
                             .addLore(Component.empty())
-                            .addLore(LangManager.get("gui.friend-requests.accept-desc1", viewer, Component.text(request.fromPlayerName())))
+                            .addLore(LangManager.getComponent("gui.friend-requests.accept-desc1", viewer.locale(), Component.text(request.fromPlayerName())))
                             .addLoreTranslated("items.social.friend-requests.accept.desc2")
                             .addLore(Component.empty())
                             .addLoreTranslated("items.social.friend-requests.accept.click")
                             .hideAllFlags()
                             .build(), p -> {
                 if (request.id() == null) {
-                    p.sendMessage(LangManager.get("error.friend-request-id-missing", p).color(UnifiedColorUtil.ERROR));
+                    p.sendMessage(LangManager.getComponent("error.friend-request-id-missing", p.locale()).color(UnifiedColorUtil.ERROR));
                     return;
                 }
                 friendManager.acceptFriendRequest(p, request.id()).thenAccept(success -> {
@@ -203,14 +203,14 @@ public class FriendRequestGui extends BaseGui {
                     ItemBuilder.of(Material.RED_DYE)
                             .displayNameTranslated("items.social.friend-requests.reject.name")
                             .addLore(Component.empty())
-                            .addLore(LangManager.get("gui.friend-requests.reject-desc1", viewer, Component.text(request.fromPlayerName())))
+                            .addLore(LangManager.getComponent("gui.friend-requests.reject-desc1", viewer.locale(), Component.text(request.fromPlayerName())))
                             .addLoreTranslated("items.social.friend-requests.reject.desc2")
                             .addLore(Component.empty())
                             .addLoreTranslated("items.social.friend-requests.reject.click")
                             .hideAllFlags()
                             .build(), p -> {
                 if (request.id() == null) {
-                    p.sendMessage(LangManager.get("error.friend-request-id-missing", p).color(UnifiedColorUtil.ERROR));
+                    p.sendMessage(LangManager.getComponent("error.friend-request-id-missing", p.locale()).color(UnifiedColorUtil.ERROR));
                     return;
                 }
                 friendManager.rejectFriendRequest(p, request.id()).thenAccept(success -> {

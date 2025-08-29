@@ -37,7 +37,7 @@ public class IslandVisitorActionGui extends BaseGui {
     
     private IslandVisitorActionGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull IslandDTO island, @NotNull IslandVisitListener.CurrentVisitorInfo visitor) {
-        super(viewer, guiManager, 27, LangManager.getComponent("gui.island.visitor.action.title".replace("-", "_"), viewer));
+        super(viewer, guiManager, 27, LangManager.getComponent("gui.island.visitor.action.title".replace("-", "_"), viewer.locale()));
         this.island = island;
         this.visitor = visitor;
         this.targetPlayer = Bukkit.getOfflinePlayer(UUID.fromString(visitor.getPlayerUuid()));
@@ -85,7 +85,7 @@ public class IslandVisitorActionGui extends BaseGui {
         String playerName = visitor.getPlayerName();
         String duration = UnifiedTimeUtil.formatDuration(visitor.getCurrentDuration());
         
-        ItemStack item = new ItemBuilder(Material.PLAYER_HEAD)
+        ItemStack item = ItemBuilder.of(Material.PLAYER_HEAD)
                 .displayName(Component.text(playerName, UnifiedColorUtil.YELLOW))
                 .lore(List.of(
                     Component.empty(),
@@ -149,7 +149,7 @@ public class IslandVisitorActionGui extends BaseGui {
         }
         
         return GuiItem.clickable(
-            new ItemBuilder(material)
+            ItemBuilder.of(material)
                 .displayName(displayName)
                 .lore(lore)
                 .build(),
@@ -194,7 +194,7 @@ public class IslandVisitorActionGui extends BaseGui {
         }
         
         return GuiItem.clickable(
-            new ItemBuilder(material)
+            ItemBuilder.of(material)
                 .displayName(displayName)
                 .lore(lore)
                 .build(),
@@ -240,7 +240,7 @@ public class IslandVisitorActionGui extends BaseGui {
         }
         
         return GuiItem.clickable(
-            new ItemBuilder(material)
+            ItemBuilder.of(material)
                 .displayName(displayName)
                 .lore(lore)
                 .build(),
@@ -284,7 +284,7 @@ public class IslandVisitorActionGui extends BaseGui {
         }
         
         return GuiItem.clickable(
-            new ItemBuilder(material)
+            ItemBuilder.of(material)
                 .displayName(displayName)
                 .lore(lore)
                 .build(),

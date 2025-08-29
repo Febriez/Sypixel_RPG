@@ -56,7 +56,7 @@ public class StatsGui extends ScrollableGui {
 
     private StatsGui(@NotNull GuiManager guiManager,
                     @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        super(viewer, guiManager, DEFAULT_SIZE, LangManager.getComponent("gui.stats.title", viewer));
+        super(viewer, guiManager, DEFAULT_SIZE, LangManager.getComponent("gui.stats.title", viewer.locale()));
         this.rpgPlayer = rpgPlayer;
     }
 
@@ -76,7 +76,7 @@ public class StatsGui extends ScrollableGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.stats.title", viewer);
+        return LangManager.getComponent("gui.stats.title", viewer.locale());
     }
 
     @Override
@@ -141,9 +141,9 @@ public class StatsGui extends ScrollableGui {
     private void setupPlayerInfo() {
         Component jobName;
         if (rpgPlayer.hasJob() && rpgPlayer.getJob() != null) {
-            jobName = LangManager.getComponent("job." + rpgPlayer.getJob().name().toLowerCase() + ".name", viewer);
+            jobName = LangManager.getComponent("job." + rpgPlayer.getJob().name().toLowerCase() + ".name", viewer.locale());
         } else {
-            jobName = LangManager.getComponent("gui.profile.no_job", viewer);
+            jobName = LangManager.getComponent("gui.profile.no_job", viewer.locale());
         }
 
         GuiItem playerInfo = GuiItem.display(
@@ -158,9 +158,9 @@ public class StatsGui extends ScrollableGui {
 
         // 스탯 포인트 정보
         GuiItem statPointsInfo = GuiItem.display(
-                new ItemBuilder(Material.NETHER_STAR)
+                ItemBuilder.of(Material.NETHER_STAR)
                         .displayName(LangManager.getComponent("gui.stats.points-available", getViewerLocale()))
-                        .addLore(LangManager.get("gui.stats.points-count", viewer, Component.text(String.valueOf(rpgPlayer.getStatPoints()))))
+                        .addLore(LangManager.getComponent("gui.stats.points-count", viewer.locale(), Component.text(String.valueOf(rpgPlayer.getStatPoints()))))
                         .addLore(Component.empty())
                         .addLore(LangManager.getComponent("gui.stats.points-info", getViewerLocale()))
                         .glint(rpgPlayer.getStatPoints() > 0)
@@ -178,7 +178,7 @@ public class StatsGui extends ScrollableGui {
             int bonusValue = rpgPlayer.getStats().getBonusStat(stat);
             int totalValue = currentValue + bonusValue;
 
-            ItemBuilder builder = new ItemBuilder(stat.getIcon())
+            ItemBuilder builder = ItemBuilder.of(stat.getIcon())
                     .displayName(LangManager.getComponent("stat." + stat.getId() + ".name", getViewerLocale()))
                     .addLore(Component.empty());
 
@@ -218,14 +218,14 @@ public class StatsGui extends ScrollableGui {
      */
     private void handleStatClick(@NotNull Player player, @NotNull Stat stat, int pointsToAdd) {
         if (rpgPlayer.getStatPoints() < pointsToAdd) {
-            player.sendMessage(LangManager.getComponent("messages.not_enough_stat_points", player));
+            player.sendMessage(LangManager.getComponent("messages.not_enough_stat_points", player.locale()));
             playErrorSound(player);
             return;
         }
 
         if (rpgPlayer.useStatPoint(stat, pointsToAdd)) {
-            player.sendMessage(LangManager.getComponent("messages.stat_increased", player,
-                    LangManager.getComponent("stat." + stat.getId() + ".name", player)));
+            player.sendMessage(LangManager.getComponent("messages.stat_increased", player.locale(),
+                    LangManager.getComponent("stat." + stat.getId() + ".name", player.locale())));
             playSuccessSound(player);
             refresh();
         } else {

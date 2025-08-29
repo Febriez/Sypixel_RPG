@@ -9,6 +9,7 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -28,7 +29,7 @@ public class IslandVisitorMenuGui extends BaseGui {
     private final IslandDTO island;
     
     private IslandVisitorMenuGui(@NotNull Player viewer, @NotNull GuiManager guiManager, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 27, LangManager.getComponent("gui.island.visitor.menu.title".replace("-", "_"), viewer));
+        super(viewer, guiManager, 27, LangManager.getComponent("gui.island.visitor.menu.title".replace("-", "_"), viewer.locale()));
         this.islandManager = RPGMain.getInstance().getIslandManager();
         this.island = island;
     }
@@ -75,7 +76,7 @@ public class IslandVisitorMenuGui extends BaseGui {
         net.kyori.adventure.text.format.TextColor nameColor = UnifiedColorUtil.parseHexColor(island.configuration().settings().nameColorHex());
         
         return GuiItem.display(
-            new ItemBuilder(Material.BOOK)
+            ItemBuilder.of(Material.BOOK)
                 .displayName(Component.text(island.core().islandName(), nameColor))
                 .lore(List.of(
                     Component.empty(),
@@ -100,7 +101,7 @@ public class IslandVisitorMenuGui extends BaseGui {
         int totalVisits = island.social().recentVisits().size();
         
         return GuiItem.clickable(
-            new ItemBuilder(Material.WRITTEN_BOOK)
+            ItemBuilder.of(Material.WRITTEN_BOOK)
                 .displayName(Component.text("방문 히스토리", UnifiedColorUtil.YELLOW))
                 .lore(List.of(
                     Component.empty(),
@@ -130,7 +131,7 @@ public class IslandVisitorMenuGui extends BaseGui {
             visitListener.getCurrentVisitors(island.core().islandId()).size() : 0;
         
         return GuiItem.clickable(
-            new ItemBuilder(Material.PLAYER_HEAD)
+            ItemBuilder.of(Material.PLAYER_HEAD)
                 .displayName(Component.text("현재 방문자", UnifiedColorUtil.AQUA))
                 .lore(List.of(
                     Component.empty(),

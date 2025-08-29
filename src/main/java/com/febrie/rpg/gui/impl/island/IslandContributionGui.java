@@ -39,7 +39,7 @@ public class IslandContributionGui extends BaseGui {
     private static final int ITEMS_PER_PAGE = 28; // 7x4 grid
     private IslandContributionGui(@NotNull GuiManager guiManager, @NotNull Player viewer, 
                                   @NotNull IslandDTO island, int page) {
-        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.contribution.title".replace("-", "_"), viewer));
+        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.contribution.title".replace("-", "_"), viewer.locale()));
         this.island = island;
         
         // 기여도를 내림차순으로 정렬
@@ -65,7 +65,7 @@ public class IslandContributionGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.island.contribution.title".replace("-", "_"), viewer);
+        return LangManager.getComponent("gui.island.contribution.title".replace("-", "_"), viewer.locale());
     }
     
     @Override
@@ -163,18 +163,18 @@ public class IslandContributionGui extends BaseGui {
     
     private Component getPlayerRoleComponent(String playerUuid) {
         if (island.core().ownerUuid().equals(playerUuid)) {
-            return LangManager.getComponent("gui.island.role.owner".replace("-", "_"), viewer);
+            return LangManager.getComponent("gui.island.role.owner".replace("-", "_"), viewer.locale());
         }
         for (IslandMemberDTO member : island.membership().members()) {
             if (member.uuid().equals(playerUuid)) {
-                return member.isCoOwner() ? LangManager.getComponent("gui.island.role.co-owner".replace("-", "_"), viewer) : LangManager.getComponent("gui.island.role.member".replace("-", "_"), viewer);
+                return member.isCoOwner() ? LangManager.getComponent("gui.island.role.co-owner".replace("-", "_"), viewer.locale()) : LangManager.getComponent("gui.island.role.member".replace("-", "_"), viewer.locale());
             }
         }
         // 알바생 확인
         if (island.membership().workers().stream().anyMatch(w -> w.uuid().equals(playerUuid))) {
-            return LangManager.getComponent("gui.island.role.worker".replace("-", "_"), viewer);
+            return LangManager.getComponent("gui.island.role.worker".replace("-", "_"), viewer.locale());
         }
-        return LangManager.getComponent("gui.island.role.contributor".replace("-", "_"), viewer);
+        return LangManager.getComponent("gui.island.role.contributor".replace("-", "_"), viewer.locale());
     }
     
     private double getContributionPercentage(long contribution) {

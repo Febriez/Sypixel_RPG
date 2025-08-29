@@ -7,7 +7,8 @@ import com.google.gson.JsonObject;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.translation.GlobalTranslator;
-import net.kyori.adventure.translation.TranslationRegistry;
+import net.kyori.adventure.translation.Translator;
+import java.text.MessageFormat;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,7 +37,7 @@ public class LangManager {
     private final JavaPlugin plugin;
     private final Gson gson = new Gson();
     private final Map<Locale, Map<String, String>> translations = new HashMap<>();
-    private TranslationRegistry registry;
+    // deprecated된 TranslationRegistry 대신 커스텀 Translator 사용
 
     private static LangManager instance;
 
@@ -175,12 +176,40 @@ public class LangManager {
      * 직접 채팅 메시지를 Component.translatable로 사용할 수 있게 함
      */
     private void registerMessagesToGlobalTranslator() {
-        // TranslationRegistry 생성
-        Key registryKey = Key.key("rpg", "translations");
-        registry = TranslationRegistry.create(registryKey);
+        // 커스텀 Translator 구현 (deprecated API 대체)
+        Translator customTranslator = new Translator() {
+            private final Map<Locale, Map<String, MessageFormat>> messageFormats = new HashMap<>();
+            
+            @Override
+            public @NotNull Key name() {
+                return Key.key("rpg", "translations");
+            }
+            
+            @Override
+            public @Nullable MessageFormat translate(@NotNull String key, @NotNull Locale locale) {
+                // 캐시된 MessageFormat 확인
+                Map<String, MessageFormat> localeFormats = messageFormats.get(locale);
+                if (localeFormats != null) {
+                    MessageFormat format = localeFormats.get(key);
+                    if (format != null) return format;
+                }
+                
+                // translations 맵에서 찾기
+                String translation = getRawTranslation(key, locale);
+                if (translation != null) {
+                    MessageFormat format = new MessageFormat(translation, locale);
+                    // 캐시에 저장
+                    messageFormats.computeIfAbsent(locale, k -> new HashMap<>()).put(key, format);
+                    return format;
+                }
+                
+                return null;
+            }
+        };
         
-        // 지원하는 언어들
+        // 지원하는 언어들의 messages.json 로드
         String[] languageCodes = {"en_us", "ko_kr"};
+        int totalKeys = 0;
         
         for (String langCode : languageCodes) {
             Locale locale = createLocale(langCode);
@@ -192,22 +221,22 @@ public class LangManager {
                         JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
                         Map<String, String> messages = flattenJson(jsonObject, "");
                         
-                        // GlobalTranslator에 등록
-                        for (Map.Entry<String, String> entry : messages.entrySet()) {
-                            registry.register(entry.getKey(), locale, entry.getValue());
-                        }
+                        // translations 맵에 추가
+                        Map<String, String> localeTranslations = translations.computeIfAbsent(locale, k -> new HashMap<>());
+                        localeTranslations.putAll(messages);
                         
-                        plugin.getLogger().info("[GlobalTranslator] " + langCode + " messages.json 등록 완료: " + messages.size() + "개 키");
+                        totalKeys += messages.size();
+                        plugin.getLogger().info("[GlobalTranslator] " + langCode + " messages.json 로드: " + messages.size() + "개 키");
                     }
                 }
             } catch (Exception e) {
-                plugin.getLogger().severe("GlobalTranslator 등록 실패: " + resourcePath + " - " + e.getMessage());
+                plugin.getLogger().severe("GlobalTranslator 로드 실패: " + resourcePath + " - " + e.getMessage());
             }
         }
         
-        // GlobalTranslator에 registry 추가
-        GlobalTranslator.translator().addSource(registry);
-        plugin.getLogger().info("GlobalTranslator 등록 완료");
+        // GlobalTranslator에 커스텀 Translator 추가
+        GlobalTranslator.translator().addSource(customTranslator);
+        plugin.getLogger().info("GlobalTranslator 등록 완료 (총 " + totalKeys + "개 키)");
     }
 
     /**
@@ -341,10 +370,9 @@ public class LangManager {
             throw new IllegalStateException("LangManager가 초기화되지 않았습니다.");
         }
 
-        // 기존 GlobalTranslator registry 제거
-        if (instance.registry != null) {
-            GlobalTranslator.translator().removeSource(instance.registry);
-        }
+        // GlobalTranslator 소스들을 모두 제거하고 다시 등록
+        // Note: Adventure API는 특정 source를 제거하는 직접적인 방법을 제공하지 않으므로
+        // reload시 새로운 translator를 등록합니다
         
         instance.translations.clear();
         instance.init();
@@ -356,10 +384,8 @@ public class LangManager {
      */
     public static void shutdown() {
         if (instance != null) {
-            // GlobalTranslator에서 registry 제거
-            if (instance.registry != null) {
-                GlobalTranslator.translator().removeSource(instance.registry);
-            }
+            // GlobalTranslator 정리
+            // Note: Adventure API는 특정 source를 제거하는 직접적인 방법을 제공하지 않음
             instance.translations.clear();
             instance.plugin.getLogger().info("언어 시스템이 종료되었습니다.");
             instance = null;

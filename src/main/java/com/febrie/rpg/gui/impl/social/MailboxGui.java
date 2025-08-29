@@ -127,7 +127,7 @@ public class MailboxGui extends BaseGui {
                 p -> {
                     mailManager.clearCache(p.getUniqueId());
                     loadMails();
-                    p.sendMessage(LangManager.get("gui.mailbox.refresh-success", p));
+                    p.sendMessage(LangManager.getComponent("gui.mailbox.refresh-success", p.locale()));
                     playClickSound(p);
                 }
         );
@@ -145,9 +145,9 @@ public class MailboxGui extends BaseGui {
                         .build(),
                 p -> {
                     p.closeInventory();
-                    p.sendMessage(LangManager.get("gui.mailbox.send-mail-guide", p));
-                    p.sendMessage(LangManager.get("gui.mailbox.send-mail-command", p));
-                    p.sendMessage(LangManager.get("gui.mailbox.send-mail-example", p));
+                    p.sendMessage(LangManager.getComponent("gui.mailbox.send-mail-guide", p.locale()));
+                    p.sendMessage(LangManager.getComponent("gui.mailbox.send-mail-command", p.locale()));
+                    p.sendMessage(LangManager.getComponent("gui.mailbox.send-mail-example", p.locale()));
                     playClickSound(p);
                 }
         );
@@ -252,9 +252,9 @@ public class MailboxGui extends BaseGui {
                             .displayName(Component.text(mail.subject(), UnifiedColorUtil.PRIMARY)
                                     .decoration(TextDecoration.BOLD, mail.isUnread()))
                             .addLore(Component.empty())
-                            .addLore(LangManager.get("gui.mailbox.sender", viewer, Component.text(mail.senderName())))
-                            .addLore(LangManager.get("gui.mailbox.status", viewer, status))
-                            .addLore(LangManager.get("gui.mailbox.time", viewer, Component.text(java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
+                            .addLore(LangManager.getComponent("gui.mailbox.sender", viewer.locale(), Component.text(mail.senderName())))
+                            .addLore(LangManager.getComponent("gui.mailbox.status", viewer.locale(), status))
+                            .addLore(LangManager.getComponent("gui.mailbox.time", viewer.locale(), Component.text(java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
                                     DateTimeFormatter.ofPattern("MM-dd HH:mm")))))
                             .addLore(Component.empty())
                             .addLoreTranslated("items.social.mailbox.mail-item.click")
@@ -292,7 +292,8 @@ public class MailboxGui extends BaseGui {
                         return List.of(AnvilGUI.ResponseAction.run(() -> {}));
                     }
                     String text = stateSnapshot.getText();
-                    String confirmWord = LangManager.getString("mailbox.delete-confirm-word", player.locale());
+                    Component confirmComponent = LangManager.getComponent("mailbox.delete-confirm-word", player.locale());
+                    String confirmWord = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(confirmComponent);
                     if (confirmWord.equals(text)) {
                         int deletedCount = 0;
                         for (MailDTO mail : readMailsToDelete) {
@@ -314,8 +315,10 @@ public class MailboxGui extends BaseGui {
                         return List.of(AnvilGUI.ResponseAction.close());
                     }
                 })
-                .text(LangManager.getString("gui.mailbox.delete-confirm-text", player.locale()))
-                .title(LangManager.getString("gui.mailbox.delete-confirm-title", player.locale()))
+                .text(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                        LangManager.getComponent("gui.mailbox.delete-confirm-text", player.locale())))
+                .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                        LangManager.getComponent("gui.mailbox.delete-confirm-title", player.locale())))
                 .plugin(guiManager.getPlugin())
                 .open(player);
     }

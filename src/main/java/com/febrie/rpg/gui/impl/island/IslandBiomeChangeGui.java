@@ -33,7 +33,7 @@ public class IslandBiomeChangeGui extends BaseGui {
     private final IslandDTO island;
 
     private IslandBiomeChangeGui(@NotNull Player viewer, @NotNull GuiManager guiManager, @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.biome-change.title".replace("-", "_"), viewer));
+        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.biome-change.title".replace("-", "_"), viewer.locale()));
         this.island = island;
         // plugin is already available from BaseGui
     }
@@ -52,7 +52,7 @@ public class IslandBiomeChangeGui extends BaseGui {
                                 .toString()) && m.isCoOwner());
 
         if (!canChangeBiome) {
-            viewer.sendMessage(LangManager.getComponent("gui.island.biome.message.no_permission".replace("-", "_"), viewer));
+            viewer.sendMessage(LangManager.getComponent("gui.island.biome.message.no_permission".replace("-", "_"), viewer.locale()));
             return null;
         }
 
@@ -80,7 +80,7 @@ public class IslandBiomeChangeGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.island.biome-change.title".replace("-", "_"), viewer);
+        return LangManager.getComponent("gui.island.biome-change.title".replace("-", "_"), viewer.locale());
     }
 
     private void setupBiomeOptions() {
@@ -140,7 +140,7 @@ public class IslandBiomeChangeGui extends BaseGui {
 
         boolean isCurrentBiome = currentBiome == biome;
 
-        ItemBuilder builder = new ItemBuilder(material)
+        ItemBuilder builder = ItemBuilder.of(material)
                 .displayName(LangManager.getComponent(biomeKey + ".name", getViewerLocale()))
                 .addLore(Component.empty())
                 .addLore(LangManager.getComponent(biomeKey + ".description", getViewerLocale()))
@@ -156,7 +156,7 @@ public class IslandBiomeChangeGui extends BaseGui {
             if (!isCurrentBiome) {
                 changeBiome(player, biome, biomeKey);
             } else {
-                player.sendMessage(LangManager.getComponent("gui.island.biome.message.already_selected".replace("-", "_"), viewer));
+                player.sendMessage(LangManager.getComponent("gui.island.biome.message.already_selected".replace("-", "_"), viewer.locale()));
             }
             SoundUtil.playClickSound(player);
         });
@@ -166,11 +166,11 @@ public class IslandBiomeChangeGui extends BaseGui {
         World islandWorld = plugin.getServer()
                 .getWorld("Island");
         if (islandWorld == null) {
-            player.sendMessage(LangManager.getComponent("gui.island.biome.message.world_not_found".replace("-", "_"), viewer));
+            player.sendMessage(LangManager.getComponent("gui.island.biome.message.world_not_found".replace("-", "_"), viewer.locale()));
             return;
         }
 
-        player.sendMessage(LangManager.getComponent("gui.island.biome.message.changing".replace("-", "_"), viewer));
+        player.sendMessage(LangManager.getComponent("gui.island.biome.message.changing".replace("-", "_"), viewer.locale()));
 
         // 비동기로 바이옴 변경 처리
         plugin.getServer()
@@ -197,7 +197,7 @@ public class IslandBiomeChangeGui extends BaseGui {
                             .getScheduler()
                             .runTask(plugin, () -> {
                                 player.sendMessage(Component.translatable("gui.island.biome.message.changed", Component.translatable(biomeKey + ".name")));
-                                player.sendMessage(LangManager.getComponent("gui.island.biome.message.chunk_reload_notice".replace("-", "_"), viewer));
+                                player.sendMessage(LangManager.getComponent("gui.island.biome.message.chunk_reload_notice".replace("-", "_"), viewer.locale()));
 
                                 // 플레이어가 섬에 있다면 청크 리로드
                                 if (player.getWorld()
@@ -218,7 +218,7 @@ public class IslandBiomeChangeGui extends BaseGui {
     private @NotNull GuiItem createCurrentBiomeInfo() {
         World islandWorld = plugin.getServer()
                 .getWorld("Island");
-        Component currentBiomeName = LangManager.getComponent("gui.island.biome.unknown".replace("-", "_"), viewer);
+        Component currentBiomeName = LangManager.getComponent("gui.island.biome.unknown".replace("-", "_"), viewer.locale());
 
         if (islandWorld != null) {
             // 섬의 중앙 좌표에서 바이옴 가져오기
@@ -228,7 +228,7 @@ public class IslandBiomeChangeGui extends BaseGui {
             currentBiomeName = Component.translatable(getBiomeKey(biome) + ".name");
         }
 
-        return new GuiItem(new ItemBuilder(Material.COMPASS)
+        return new GuiItem(ItemBuilder.of(Material.COMPASS)
                 .displayName(LangManager.getComponent("gui.island.biome.current-info", getViewerLocale()))
                 .addLore(Component.empty())
                 .addLore(currentBiomeName)
@@ -259,7 +259,7 @@ public class IslandBiomeChangeGui extends BaseGui {
 
 
     private GuiItem createBackButton() {
-        return new GuiItem(new ItemBuilder(Material.ARROW)
+        return new GuiItem(ItemBuilder.of(Material.ARROW)
                 .displayName(LangManager.getComponent("gui.buttons.back.name", getViewerLocale()))
                 .addLore(LangManager.getComponent("gui.island.biome.back.lore", getViewerLocale()))
                 .hideAllFlags()

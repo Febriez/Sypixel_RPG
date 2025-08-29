@@ -38,7 +38,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
     private final boolean isMember;
     private IslandPersonalSpawnGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.personal-spawn.title".replace("-", "_"), viewer));
+        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.personal-spawn.title".replace("-", "_"), viewer.locale()));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         
@@ -85,7 +85,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.island.personal-spawn.title".replace("-", "_"), viewer);
+        return LangManager.getComponent("gui.island.personal-spawn.title".replace("-", "_"), viewer.locale());
     }
     
     private GuiItem createCurrentPersonalSpawnInfo() {

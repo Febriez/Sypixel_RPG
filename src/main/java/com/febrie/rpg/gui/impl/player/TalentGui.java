@@ -44,7 +44,7 @@ public class TalentGui extends ScrollableGui {
     private TalentGui(@NotNull GuiManager guiManager,
                      @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
                      @NotNull String pageId, @NotNull List<Talent> talents) {
-        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.talent.title", viewer));
+        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.talent.title", viewer.locale()));
         this.rpgPlayer = rpgPlayer;
         this.pageId = pageId;
         this.talents = talents;
@@ -69,7 +69,7 @@ public class TalentGui extends ScrollableGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.talent.title", viewer);
+        return LangManager.getComponent("gui.talent.title", viewer.locale());
     }
 
     @Override
@@ -131,9 +131,9 @@ public class TalentGui extends ScrollableGui {
     private void setupInfoDisplay() {
         Component jobName;
         if (rpgPlayer.hasJob() && rpgPlayer.getJob() != null) {
-            jobName = LangManager.getComponent("job." + rpgPlayer.getJob().name().toLowerCase() + ".name", viewer);
+            jobName = LangManager.getComponent("job." + rpgPlayer.getJob().name().toLowerCase() + ".name", viewer.locale());
         } else {
-            jobName = LangManager.getComponent("gui.talent.no_job", viewer);
+            jobName = LangManager.getComponent("gui.talent.no_job", viewer.locale());
         }
 
         GuiItem pageInfo = GuiItem.display(
@@ -214,7 +214,7 @@ public class TalentGui extends ScrollableGui {
                     int playerLevel = rpgPlayer.getTalents().getTalentLevel(prereq);
                     boolean meets = playerLevel >= requiredLevel;
 
-                    Component prereqName = LangManager.getComponent("talent." + prereq.getId() + ".name", viewer);
+                    Component prereqName = LangManager.getComponent("talent." + prereq.getId() + ".name", viewer.locale());
                     builder.addLore(LangManager.get(meets ? "gui.talent.prereq-met" : "gui.talent.prereq-not-met", viewer,
                             prereqName,
                             Component.text(String.valueOf(requiredLevel)),
@@ -235,7 +235,7 @@ public class TalentGui extends ScrollableGui {
             builder.addLoreTranslated("gui.talent.stat-bonuses");
 
             statBonuses.forEach((stat, bonus) -> {
-                Component statName = LangManager.getComponent("stat." + stat.getId() + ".name", viewer);
+                Component statName = LangManager.getComponent("stat." + stat.getId() + ".name", viewer.locale());
                 int totalBonus = bonus * Math.max(1, currentLevel);
                 builder.addLore(LangManager.get("gui.talent.stat-bonus-line", viewer,
                         statName,
@@ -273,7 +273,7 @@ public class TalentGui extends ScrollableGui {
     private void handleTalentClick(@NotNull Player player, @NotNull Talent talent, int levels) {
         if (!talent.canActivate(rpgPlayer.getTalents())) {
             playErrorSound(player);
-            player.sendMessage(LangManager.getComponent("messages.talent_cannot_learn", player));
+            player.sendMessage(LangManager.getComponent("messages.talent_cannot_learn", player.locale()));
             return;
         }
 
@@ -284,7 +284,7 @@ public class TalentGui extends ScrollableGui {
 
         if (actualLevels <= 0) {
             playErrorSound(player);
-            player.sendMessage(LangManager.getComponent("messages.not_enough_talent_points", player));
+            player.sendMessage(LangManager.getComponent("messages.not_enough_talent_points", player.locale()));
             return;
         }
 
@@ -296,8 +296,8 @@ public class TalentGui extends ScrollableGui {
         }
 
         playSuccessSound(player);
-        player.sendMessage(LangManager.getComponent("messages.talent_learned", player,
-                LangManager.getComponent("talent." + talent.getId() + ".name", player),
+        player.sendMessage(LangManager.getComponent("messages.talent_learned", player.locale(),
+                LangManager.getComponent("talent." + talent.getId() + ".name", player.locale()),
                 Component.text(String.valueOf(rpgPlayer.getTalents().getTalentLevel(talent)))));
 
         refresh();

@@ -37,7 +37,7 @@ public class IslandDeleteConfirmGui extends BaseGui {
     
     private IslandDeleteConfirmGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 27, LangManager.getComponent("gui.island.delete-confirm.title".replace("-", "_"), viewer));
+        super(viewer, guiManager, 27, LangManager.getComponent("gui.island.delete-confirm.title".replace("-", "_"), viewer.locale()));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
     }
@@ -96,7 +96,7 @@ public class IslandDeleteConfirmGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.island.delete-confirm.title".replace("-", "_"), viewer);
+        return LangManager.getComponent("gui.island.delete-confirm.title".replace("-", "_"), viewer.locale());
     }
     
     private ItemStack createIslandInfoItem() {
@@ -175,7 +175,8 @@ public class IslandDeleteConfirmGui extends BaseGui {
                     String input = stateSnapshot.getText();
                     
                     // 삭제 확인 단어 체크
-                    String confirmWord = LangManager.getString("island.delete.confirm-word", player.locale());
+                    Component confirmComponent = LangManager.getComponent("island.delete.confirm-word", player.locale());
+                    String confirmWord = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(confirmComponent);
                     if (!confirmWord.equals(input)) {
                         player.sendMessage(LangManager.getComponent("island.delete.input-error", player.locale()).color(NamedTextColor.RED));
                         return Arrays.asList(AnvilGUI.ResponseAction.close());
@@ -186,8 +187,10 @@ public class IslandDeleteConfirmGui extends BaseGui {
                     
                     return Arrays.asList(AnvilGUI.ResponseAction.close());
                 })
-                .text(LangManager.getString("island.delete.input-text", player.locale()))
-                .title(LangManager.getString("island.delete.input-title", player.locale()))
+                .text(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                        LangManager.getComponent("island.delete.input-text", player.locale())))
+                .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                        LangManager.getComponent("island.delete.input-title", player.locale())))
                 .plugin(plugin)
                 .open(player);
     }

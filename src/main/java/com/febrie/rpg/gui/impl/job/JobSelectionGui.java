@@ -36,7 +36,7 @@ public class JobSelectionGui extends BaseGui {
 
     private JobSelectionGui(@NotNull GuiManager guiManager,
                            @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.job_selection.title", viewer));
+        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.job_selection.title", viewer.locale()));
         this.rpgPlayer = rpgPlayer;
     }
 
@@ -55,7 +55,7 @@ public class JobSelectionGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.job_selection.title", viewer);
+        return LangManager.getComponent("gui.job_selection.title", viewer.locale());
     }
 
     @Override
@@ -111,14 +111,14 @@ public class JobSelectionGui extends BaseGui {
             boolean isSelected = category == selectedCategory;
 
             GuiItem tabItem = GuiItem.clickable(
-                    new ItemBuilder(isSelected ? Material.ENCHANTED_BOOK : Material.BOOK)
-                            .displayName(LangManager.getComponent("job.categories." + category.name().toLowerCase(), viewer)
+                    ItemBuilder.of(isSelected ? Material.ENCHANTED_BOOK : Material.BOOK)
+                            .displayName(LangManager.getComponent("job.categories." + category.name().toLowerCase(), viewer.locale())
                                     .color(category.getColor())
                                     .decoration(TextDecoration.BOLD, isSelected))
                             .addLore(Component.empty())
                             .addLore(isSelected ?
-                                    LangManager.getComponent("gui.job_selection.tab_selected", viewer) :
-                                    LangManager.getComponent("gui.job_selection.tab_click", viewer))
+                                    LangManager.getComponent("gui.job_selection.tab_selected", viewer.locale()) :
+                                    LangManager.getComponent("gui.job_selection.tab_click", viewer.locale()))
                             .glint(isSelected)
                             .build(),
                     player -> {
@@ -168,7 +168,7 @@ public class JobSelectionGui extends BaseGui {
     private GuiItem createJobItem(@NotNull JobType job) {
         String jobKey = job.name().toLowerCase();
 
-        ItemBuilder builder = new ItemBuilder(job.getMaterial())
+        ItemBuilder builder = ItemBuilder.of(job.getMaterial())
                 .displayName(Component.text(job.getIcon() + " ")
                         .append(LangManager.getComponent("job." + jobKey + ".name", viewer.locale()))
                         .decoration(TextDecoration.BOLD, true))

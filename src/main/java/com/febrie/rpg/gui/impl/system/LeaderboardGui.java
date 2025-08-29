@@ -195,7 +195,7 @@ public class LeaderboardGui extends ScrollableGui {
         TAB_POSITIONS.forEach((slot, type) -> {
             boolean isSelected = type == currentType;
             GuiItem tabItem = GuiItem.clickable(
-                    new ItemBuilder(type.getIcon())
+                    ItemBuilder.of(type.getIcon())
                             .displayName(type.getDisplayName().color(type.getColor())
                                     .decoration(TextDecoration.BOLD, true))
                             .addLore(Component.empty())
@@ -217,7 +217,7 @@ public class LeaderboardGui extends ScrollableGui {
     private void setupInfoDisplay() {
         if (isLoading) {
             setItem(LOADING_SLOT, GuiItem.display(
-                    new ItemBuilder(Material.CLOCK)
+                    ItemBuilder.of(Material.CLOCK)
                             .displayName(LangManager.getComponent("items.leaderboard.loading.name", getViewerLocale()))
                             .addLore(LangManager.getComponent("items.leaderboard.loading.lore", getViewerLocale()))
                             .hideAllFlags()
@@ -225,7 +225,7 @@ public class LeaderboardGui extends ScrollableGui {
             ));
         } else {
             setItem(LOADING_SLOT, GuiItem.display(
-                    new ItemBuilder(Material.NETHER_STAR)
+                    ItemBuilder.of(Material.NETHER_STAR)
                             .displayName(LangManager.getComponent("gui.leaderboard.title", viewer.locale(), currentType.getDisplayName()))
                             .addLore(LangManager.getComponent("gui.leaderboard.current-type", viewer.locale(), currentType.getDisplayName()))
                             .addLore(LangManager.getComponent("gui.leaderboard.total-entries", viewer.locale(), String.valueOf(currentLeaderboard.size())))
@@ -342,7 +342,7 @@ public class LeaderboardGui extends ScrollableGui {
         // 플레이어 머리 사용 (상위 3명 제외)
         ItemBuilder builder;
         if (entry.rank() <= 3) {
-            builder = new ItemBuilder(material);
+            builder = ItemBuilder.of(material);
         } else {
             builder = ItemBuilder.from(SkullUtil.getPlayerHead(entry.playerUuid()));
         }

@@ -42,7 +42,7 @@ public class IslandSettingsGui extends BaseGui {
     
     private IslandSettingsGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                              @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.settings.title".replace("-", "_"), viewer));
+        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.settings.title".replace("-", "_"), viewer.locale()));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.isOwner = island.core().ownerUuid().equals(viewer.getUniqueId().toString());
@@ -187,7 +187,9 @@ public class IslandSettingsGui extends BaseGui {
                     // 유효성 검사
                     if (text.isEmpty() || text.length() > 20) {
                         player.sendMessage(LangManager.getComponent("island.settings.name-error", player.locale()).color(NamedTextColor.RED));
-                        return java.util.Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText(LangManager.getString("island.settings.name-input-error", player.locale())));
+                        String errorText = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                                LangManager.getComponent("island.settings.name-input-error", player.locale()));
+                        return java.util.Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText(errorText));
                     }
                     
                     // 색상 코드 제거 (Paper API)
@@ -203,7 +205,8 @@ public class IslandSettingsGui extends BaseGui {
                     }, 1L);
                 })
                 .text(tempIslandName)
-                .title(LangManager.getString("island.gui.creation.island-name-input-title", player.locale()))
+                .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
+                        LangManager.getComponent("island.gui.creation.island-name-input-title", player.locale())))
                 .plugin(plugin)
                 .open(player);
     }

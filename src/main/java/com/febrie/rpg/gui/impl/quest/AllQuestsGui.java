@@ -57,7 +57,7 @@ public class AllQuestsGui extends BaseGui {
     private AllQuestsGui(@NotNull GuiManager guiManager,
                         @NotNull Player player,
                         @NotNull QuestFilter filter) {
-        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.all_quests.title", player));
+        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.all_quests.title", player.locale()));
         this.questManager = guiManager.getPlugin().getQuestManager();
         this.filter = filter;
         
@@ -96,7 +96,7 @@ public class AllQuestsGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("quest.filter." + filter.getDisplayName(), viewer);
+        return LangManager.getComponent("quest.filter." + filter.getDisplayName(), viewer.locale());
     }
     
     @Override
@@ -117,8 +117,8 @@ public class AllQuestsGui extends BaseGui {
         // 필터 정보
         GuiItem filterInfo = GuiItem.of(
                 ItemBuilder.of(Material.HOPPER, getViewerLocale())
-                        .displayName(LangManager.getComponent("quest.filter", viewer).append(LangManager.getComponent("quest.filter." + filter.getDisplayName(), viewer)))
-                        .addLore(LangManager.get("quest.total-count", viewer, Component.text(String.valueOf(quests.size()))))
+                        .displayName(LangManager.getComponent("quest.filter", viewer.locale()).append(LangManager.getComponent("quest.filter." + filter.getDisplayName(), viewer.locale())))
+                        .addLore(LangManager.getComponent("quest.total-count", viewer.locale(), Component.text(String.valueOf(quests.size()))))
                         .build());
         setItem(4, filterInfo);
     }
@@ -184,7 +184,7 @@ public class AllQuestsGui extends BaseGui {
                     .filter(ObjectiveProgress::isCompleted)
                     .count();
             int total = quest.getObjectives().size();
-            Component progressText = LangManager.getComponent("quest.progress", viewer);
+            Component progressText = LangManager.getComponent("quest.progress", viewer.locale());
             builder.addLore(progressText.append(Component.text(": " + completed + "/" + total)).color(UnifiedColorUtil.YELLOW));
         }
         
@@ -208,7 +208,7 @@ public class AllQuestsGui extends BaseGui {
             GuiItem prevButton = GuiItem.clickable(
                     ItemBuilder.of(Material.ARROW, getViewerLocale())
                             .displayNameTranslated("quest.previous-page")
-                            .addLore(LangManager.get("quest.go-to-page", viewer, Component.text(String.valueOf(currentPage - 1))))
+                            .addLore(LangManager.getComponent("quest.go-to-page", viewer.locale(), Component.text(String.valueOf(currentPage - 1))))
                             .build(),
                     p -> {
                         currentPage--;
@@ -224,7 +224,7 @@ public class AllQuestsGui extends BaseGui {
             GuiItem nextButton = GuiItem.clickable(
                     ItemBuilder.of(Material.ARROW, getViewerLocale())
                             .displayNameTranslated("quest.next-page")
-                            .addLore(LangManager.get("quest.go-to-page", viewer, Component.text(String.valueOf(currentPage + 1))))
+                            .addLore(LangManager.getComponent("quest.go-to-page", viewer.locale(), Component.text(String.valueOf(currentPage + 1))))
                             .build(),
                     p -> {
                         currentPage++;

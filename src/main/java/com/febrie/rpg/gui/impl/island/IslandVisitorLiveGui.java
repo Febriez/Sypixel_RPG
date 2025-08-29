@@ -11,6 +11,7 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.UnifiedTimeUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -41,7 +42,7 @@ public class IslandVisitorLiveGui extends BaseGui {
     
     private IslandVisitorLiveGui(@NotNull Player viewer, @NotNull GuiManager guiManager, 
                                 @NotNull IslandDTO island, int page) {
-        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.visitor.live.title".replace("-", "_"), viewer));
+        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.visitor.live.title".replace("-", "_"), viewer.locale()));
         this.islandManager = RPGMain.getInstance().getIslandManager();
         this.island = island;
         
@@ -102,7 +103,7 @@ public class IslandVisitorLiveGui extends BaseGui {
      */
     private GuiItem createInfoItem() {
         return GuiItem.display(
-            new ItemBuilder(Material.COMPASS)
+            ItemBuilder.of(Material.COMPASS)
                 .displayName(Component.text("현재 방문자", UnifiedColorUtil.AQUA))
                 .lore(List.of(
                     Component.empty(),
@@ -128,7 +129,7 @@ public class IslandVisitorLiveGui extends BaseGui {
         if (currentVisitors.isEmpty()) {
             // 방문자가 없는 경우
             setItem(22, GuiItem.display(
-                new ItemBuilder(Material.BARRIER)
+                ItemBuilder.of(Material.BARRIER)
                     .displayName(Component.text("현재 방문자가 없습니다", UnifiedColorUtil.RED))
                     .lore(List.of(
                         Component.empty(),
@@ -184,7 +185,7 @@ public class IslandVisitorLiveGui extends BaseGui {
             nameColor = UnifiedColorUtil.GOLD; // 30분 이상 - 장기 방문자
         }
         
-        ItemStack item = new ItemBuilder(Material.PLAYER_HEAD)
+        ItemStack item = ItemBuilder.of(Material.PLAYER_HEAD)
                 .displayName(Component.text(playerName, nameColor))
                 .lore(List.of(
                     Component.empty(),
@@ -239,7 +240,7 @@ public class IslandVisitorLiveGui extends BaseGui {
      */
     private GuiItem createRefreshItem() {
         return GuiItem.clickable(
-            new ItemBuilder(Material.RECOVERY_COMPASS)
+            ItemBuilder.of(Material.RECOVERY_COMPASS)
                 .displayName(Component.text("새로고침", UnifiedColorUtil.GREEN))
                 .lore(List.of(
                     Component.empty(),
@@ -262,7 +263,7 @@ public class IslandVisitorLiveGui extends BaseGui {
      */
     private GuiItem createPreviousPageItem() {
         return GuiItem.clickable(
-            new ItemBuilder(Material.ARROW)
+            ItemBuilder.of(Material.ARROW)
                 .displayName(Component.text("이전 페이지", UnifiedColorUtil.GREEN))
                 .lore(List.of(
                     Component.empty(),
@@ -283,7 +284,7 @@ public class IslandVisitorLiveGui extends BaseGui {
      */
     private GuiItem createNextPageItem() {
         return GuiItem.clickable(
-            new ItemBuilder(Material.ARROW)
+            ItemBuilder.of(Material.ARROW)
                 .displayName(Component.text("다음 페이지", UnifiedColorUtil.GREEN))
                 .lore(List.of(
                     Component.empty(),

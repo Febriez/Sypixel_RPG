@@ -46,7 +46,7 @@ public class IslandBiomeSimpleGui extends BaseGui {
     
     private IslandBiomeSimpleGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                 @NotNull RPGMain plugin, @NotNull IslandDTO island, @NotNull String currentBiome) {
-        super(viewer, guiManager, 36, LangManager.getComponent("gui.island.biome-simple.title".replace("-", "_"), viewer));
+        super(viewer, guiManager, 36, LangManager.getComponent("gui.island.biome-simple.title".replace("-", "_"), viewer.locale()));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.currentBiome = currentBiome;
@@ -89,7 +89,7 @@ public class IslandBiomeSimpleGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.island.biome-simple.title".replace("-", "_"), viewer);
+        return LangManager.getComponent("gui.island.biome-simple.title".replace("-", "_"), viewer.locale());
     }
     
     private ItemStack createBiomeItem(BiomeOption biome, boolean isSelected) {

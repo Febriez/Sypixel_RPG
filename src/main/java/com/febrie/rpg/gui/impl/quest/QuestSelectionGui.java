@@ -33,7 +33,7 @@ public class QuestSelectionGui extends BaseGui {
     private QuestSelectionGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                              @NotNull List<Quest> quests, @NotNull String npcName) {
         super(viewer, guiManager, Math.min(54, ((quests.size() - 1) / 9 + 1) * 9 + 18), 
-                LangManager.getComponent("gui.quest_selection.title", viewer, Component.text(npcName)));
+                LangManager.getComponent("gui.quest_selection.title", viewer.locale(), Component.text(npcName)));
         this.questManager = guiManager.getPlugin().getQuestManager();
         this.quests = quests;
         this.npcName = npcName;
@@ -49,7 +49,7 @@ public class QuestSelectionGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.quest_selection.title", viewer, npcName);
+        return LangManager.getComponent("gui.quest_selection.title", viewer.locale(), npcName);
     }
     
     @Override
@@ -86,7 +86,7 @@ public class QuestSelectionGui extends BaseGui {
         
         Material material = hasReward ? Material.ENCHANTED_BOOK : Material.BOOK;
         
-        ItemBuilder builder = new ItemBuilder(material)
+        ItemBuilder builder = ItemBuilder.of(material)
                 .displayName(quest.getDisplayName(viewer).color(UnifiedColorUtil.GOLD).decorate(net.kyori.adventure.text.format.TextDecoration.BOLD));
         
         builder.addLore(Component.empty());
@@ -109,7 +109,7 @@ public class QuestSelectionGui extends BaseGui {
         }
         
         builder.addLore(Component.empty());
-        builder.addLore(LangManager.getComponent("items.quest.selection.click-hint", getViewerLocale()));
+        builder.addLore(LangManager.getComponent("items.quest.selection.click-hint", viewer.locale()));
         builder.hideAllFlags();
         
         return GuiItem.clickable(builder.build(), player -> {
@@ -140,7 +140,7 @@ public class QuestSelectionGui extends BaseGui {
             QuestRewardGui.create(guiManager, viewer, quest, instanceId).open(viewer);
         } else if (activeEntry.isPresent()) {
             // 진행 상황 표시
-            player.sendMessage(LangManager.get("quest.in_progress", viewer, quest.getDisplayName(viewer)));
+            player.sendMessage(LangManager.getComponent("quest.in_progress", viewer.locale(), quest.getDisplayName(viewer)));
         } else {
             // 새 퀘스트 시작
             questManager.startQuest(viewer, quest.getId());

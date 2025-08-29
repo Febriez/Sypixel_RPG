@@ -86,9 +86,10 @@ public class IslandCreationGui extends BaseGui {
     private final IslandManager islandManager;
 
     private IslandCreationGui(@NotNull GuiManager guiManager, @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.island.creation.title".replace("-", "_"), viewer));
+        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.island.creation.title".replace("-", "_"), player.locale()));
         this.islandManager = RPGMain.getInstance().getIslandManager();
-        this.islandName = LangManager.getString("island.default-name", player.locale());
+        Component defaultNameComponent = LangManager.getComponent("island.default-name", player.locale());
+        this.islandName = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(defaultNameComponent);
     }
 
     /**
@@ -100,7 +101,7 @@ public class IslandCreationGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.island.creation.title".replace("-", "_"), viewer);
+        return LangManager.getComponent("gui.island.creation.title".replace("-", "_"), viewer.locale());
     }
 
     @Override

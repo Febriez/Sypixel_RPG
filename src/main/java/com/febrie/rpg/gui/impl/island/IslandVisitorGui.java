@@ -39,7 +39,7 @@ public class IslandVisitorGui extends BaseGui {
     private static final int ITEMS_PER_PAGE = 28; // 7x4 grid
     private IslandVisitorGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                            @NotNull RPGMain plugin, @NotNull IslandDTO island, int page) {
-        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.visitor.title".replace("-", "_"), viewer));
+        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.visitor.title".replace("-", "_"), viewer.locale()));
         this.island = island;
         this.visitors = island.social().recentVisits();
         
@@ -218,7 +218,7 @@ public class IslandVisitorGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.island.visitor.title".replace("-", "_"), viewer);
+        return LangManager.getComponent("gui.island.visitor.title".replace("-", "_"), viewer.locale());
     }
     
     @Override

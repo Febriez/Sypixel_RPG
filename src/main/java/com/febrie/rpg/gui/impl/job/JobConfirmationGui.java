@@ -38,7 +38,7 @@ public class JobConfirmationGui extends BaseGui {
 
     private JobConfirmationGui(@NotNull GuiManager guiManager,
                                @NotNull Player player, @NotNull RPGPlayer rpgPlayer, @NotNull JobType selectedJob) {
-        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.job_confirmation.title", player));
+        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.job_confirmation.title", player.locale()));
         this.rpgPlayer = rpgPlayer;
         this.selectedJob = selectedJob;
     }
@@ -53,7 +53,7 @@ public class JobConfirmationGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.job_confirmation.title", viewer);
+        return LangManager.getComponent("gui.job_confirmation.title", viewer.locale());
     }
 
     @Override
@@ -80,7 +80,7 @@ public class JobConfirmationGui extends BaseGui {
         String jobKey = selectedJob.name().toLowerCase();
 
         // 중앙에 직업 정보 표시
-        ItemBuilder builder = new ItemBuilder(selectedJob.getMaterial())
+        ItemBuilder builder = ItemBuilder.of(selectedJob.getMaterial())
                 .displayName(Component.text(selectedJob.getIcon() + " ")
                         .append(LangManager.getComponent("job." + jobKey + ".name", viewer.locale()))
                         .color(selectedJob.getColor())
@@ -109,7 +109,7 @@ public class JobConfirmationGui extends BaseGui {
 
         // 추가 경고 아이콘들
         GuiItem warningItem = GuiItem.display(
-                new ItemBuilder(Material.BARRIER)
+                ItemBuilder.of(Material.BARRIER)
                         .displayName(LangManager.getComponent("gui.job-confirmation.warning-title", viewer.locale()))
                         .addLore(LangManager.getComponent("gui.job-confirmation.warning-description", viewer.locale()))
                         .build()
@@ -124,7 +124,7 @@ public class JobConfirmationGui extends BaseGui {
     private void setupConfirmationButtons() {
         // 확인 버튼 (좌측)
         GuiItem confirmButton = GuiItem.clickable(
-                new ItemBuilder(Material.LIME_WOOL)
+                ItemBuilder.of(Material.LIME_WOOL)
                         .displayName(LangManager.getComponent("gui.job-confirmation.confirm", viewer.locale())
                                 .color(UnifiedColorUtil.SUCCESS)
                                 .decoration(TextDecoration.BOLD, true))
@@ -140,7 +140,7 @@ public class JobConfirmationGui extends BaseGui {
 
         // 취소 버튼 (우측)
         GuiItem cancelButton = GuiItem.clickable(
-                new ItemBuilder(Material.RED_WOOL)
+                ItemBuilder.of(Material.RED_WOOL)
                         .displayName(LangManager.getComponent("gui.job-confirmation.cancel", viewer.locale())
                                 .color(UnifiedColorUtil.ERROR)
                                 .decoration(TextDecoration.BOLD, true))
@@ -155,7 +155,7 @@ public class JobConfirmationGui extends BaseGui {
 
         // 추가 정보 아이템 (하단 중앙)
         GuiItem infoItem = GuiItem.display(
-                new ItemBuilder(Material.BOOK)
+                ItemBuilder.of(Material.BOOK)
                         .displayName(LangManager.getComponent("gui.job-confirmation.info-title", viewer.locale()))
                         .addLore(LangManager.getComponent("gui.job-confirmation.info-line1", viewer.locale()))
                         .addLore(LangManager.getComponent("gui.job-confirmation.info-line2", viewer.locale()))
@@ -170,18 +170,18 @@ public class JobConfirmationGui extends BaseGui {
      */
     private void handleConfirm() {
         if (rpgPlayer.setJob(selectedJob)) {
-            Component jobName = LangManager.getComponent("job." + selectedJob.name().toLowerCase() + ".name", viewer);
+            Component jobName = LangManager.getComponent("job." + selectedJob.name().toLowerCase() + ".name", viewer.locale());
 
             // 성공 메시지
-            viewer.sendMessage(LangManager.getComponent("gui.job_confirmation.success", viewer, jobName));
+            viewer.sendMessage(LangManager.getComponent("gui.job_confirmation.success", viewer.locale(), jobName));
 
             // 축하 효과
             playSuccessSound(viewer);
 
             // Title 표시
             viewer.showTitle(Title.title(
-                    LangManager.getComponent("gui.job_confirmation.title_success", viewer),
-                    LangManager.getComponent("gui.job_confirmation.subtitle_success", viewer, jobName),
+                    LangManager.getComponent("gui.job_confirmation.title_success", viewer.locale()),
+                    LangManager.getComponent("gui.job_confirmation.subtitle_success", viewer.locale(), jobName),
                     Title.Times.times(
                             Duration.ofMillis(500),   // fadeIn
                             Duration.ofMillis(3000),  // stay
