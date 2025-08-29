@@ -1,6 +1,41 @@
-FirstStepsQuest 이랑 BasicCombatQuest 잘 읽고 모든 퀘스트 구현체들 quest impl 들이 잘 구현되어있는지 저 설계대로 되어있는지 확인해주고 다른 방식이나 잘못된 부분이있다면 모두 FirstStepsQuest 이랑
-   BasicCombatQuest 이거대로 맞춰줘 현재 이거 두개가 맞는 형식이야 잘 확인해주고 QuestID 에는 있는데 impl 에 구현되지않은 퀘스트있으면 저 방식대로 잘 추가해줘 그리고 최종적으로 모든 프로젝트에
-  언어 key 값들이 lang 언어 파일에 잘 추가되어있는지와 언어파일들이 싱크맞는지 확인해서 수정해주고 마지막으로는 mvn compile 로 컴파일 오류 모두 수정해줘 시간 오래걸려도 좋으니까 스크립트같은거
-  쓰지말고 직접 천천히 잘 생각하면서 모두 깔끔하게 프로덕션 상태로 준비해줘 라고 한거 이거 하다가 끊겼어 어디까지 했는지 잘 확인하고 너머지 작업 진행해줘 그리고 DailyBountyHunterBuilder extends
-  QuestBuilder 이런 빌더 없어도 되는거 아니야? 거의다 그냥 new 반환해 주던데 그냥 이런 구조 없애고 깔끔하게 바로 만든거 반환해줄 수는 없는거야? 이게 더 나은구조야? 그리고 프로젝트 전체적으로
-  Component.translatable 쓰는 부분 전부 추출해서 그 부분이 아이템 로어나 아이템 이름이나 아이템 관련이라면 전부 LangManager.getComponent 로 바꿔줘
+LeaderboardGui 보면 LangManager.getComponent 로 잘되어있지? 이렇게 모든 gui impl 들이 잘 되어있는지 확인해줘 그리고 하나하나씩 직접 수정하면서
+효율적이게 혹은 가독성좋고 간결하게 수정할 수 있는 gui impl 들은 수정해서 완벽한 gui 패키지로 만들어줘
+최종적으로는 mvn compile 로 컴파일 오류와 warn 도 모두 해결해줘 시간 오래걸려도 되니까 스크립트 쓰지말고 직접 수정해
+GUI 파일 개선 계획
+
+     분석 결과
+
+     GUI 파일들을 검토한 결과, 대부분 LangManager.getComponent()를 사용하고 있으나 일부 개선이 필요한 부분을 발견했습니다:
+
+     주요 개선 사항
+
+     1. QuestRewardGui.java:
+       - "§." 문자열로 색상 코드 제거하는 부분 개선 필요
+       - formatTime 메서드에서 toString().replaceAll() 사용 개선
+     2. MailboxGui.java:
+       - LangManager.get() 사용 부분을 LangManager.getComponent()로 변경
+     3. Island 패키지 GUI들:
+       - AnvilGUI에서 .getText() 사용은 정상 (AnvilGUI API의 일부)
+       - 일부 .replace("-", "_") 사용 개선 가능
+
+     작업 계획
+
+     1단계: 문제 파일 수정
+
+     - QuestRewardGui의 formatTime 메서드 개선
+     - MailboxGui의 LangManager.get() → getComponent() 변경
+     - Island GUI들의 불필요한 문자열 변환 개선
+
+     2단계: 코드 최적화
+
+     - 중복 코드 제거
+     - 가독성 개선
+     - 일관성 있는 코드 스타일 적용
+
+     3단계: 컴파일 및 검증
+
+     - Maven compile 실행
+     - 컴파일 오류 해결
+     - 경고 메시지 해결
+
+오래걸려도 돼. 그러니까 스크립트 사용하지마 직접 수정해
