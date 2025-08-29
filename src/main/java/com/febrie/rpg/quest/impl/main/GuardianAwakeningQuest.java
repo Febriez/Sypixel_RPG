@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -96,18 +97,18 @@ public class GuardianAwakeningQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.main.guardian_awakening.name");
+        return LangManager.get("quest.main.guardian_awakening.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.main.guardian_awakening.info") manually */;
+        return LangManager.getList("quest.main.guardian_awakening.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-        return Component.translatable("quest.main.guardian_awakening.objectives.");
+        String key = "quest.main.guardian_awakening.objectives." + objective.getId();
+        return LangManager.get(key, who);
     }
 
     @Override
@@ -118,30 +119,30 @@ public class GuardianAwakeningQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.main.guardian-awakening.dialogs.0");
-            case 1 -> Component.translatable("quest.main.guardian-awakening.dialogs.1");
-            case 2 -> Component.translatable("quest.main.guardian-awakening.dialogs.2");
-            case 3 -> Component.translatable("quest.main.guardian-awakening.dialogs.3");
-            case 4 -> Component.translatable("quest.main.guardian-awakening.dialogs.4");
-            case 5 -> Component.translatable("quest.main.guardian-awakening.dialogs.5");
-            case 6 -> Component.translatable("quest.main.guardian-awakening.dialogs.6");
-            case 7 -> Component.translatable("quest.main.guardian-awakening.dialogs.7");
+            case 0 -> LangManager.get("quest.main.guardian_awakening.dialogs.0", who);
+            case 1 -> LangManager.get("quest.main.guardian_awakening.dialogs.1", who);
+            case 2 -> LangManager.get("quest.main.guardian_awakening.dialogs.2", who);
+            case 3 -> LangManager.get("quest.main.guardian_awakening.dialogs.3", who);
+            case 4 -> LangManager.get("quest.main.guardian_awakening.dialogs.4", who);
+            case 5 -> LangManager.get("quest.main.guardian_awakening.dialogs.5", who);
+            case 6 -> LangManager.get("quest.main.guardian_awakening.dialogs.6", who);
+            case 7 -> LangManager.get("quest.main.guardian_awakening.dialogs.7", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.main.guardian-awakening.npc-name");
+        return LangManager.get("quest.main.guardian_awakening.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.guardian-awakening.accept");
+        return LangManager.get("quest.main.guardian_awakening.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.guardian-awakening.decline");
+        return LangManager.get("quest.main.guardian_awakening.decline", who);
     }
 }

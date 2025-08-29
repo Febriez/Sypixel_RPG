@@ -10,6 +10,7 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -63,33 +64,17 @@ public class CollectHerbsQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.collect-herbs.name");
+        return LangManager.get("quest.side.collect_herbs.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        List<Component> description = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Component line = Component.translatable("quest.side.collect-herbs.description." + i);
-            description.add(line);
-        }
-        return description;
+        return LangManager.getList("quest.side.collect_herbs.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-
-        return switch (id) {
-            case "talk_village_healer" -> Component.translatable("quest.side.collect-herbs.objectives.talk_village_healer");
-            case "herb_meadow" -> Component.translatable("quest.side.collect-herbs.objectives.herb_meadow");
-            case "healing_herbs" -> Component.translatable("quest.side.collect-herbs.objectives.healing_herbs");
-            case "rare_flowers" -> Component.translatable("quest.side.collect-herbs.objectives.rare_flowers");
-            case "mountain_herbs" -> Component.translatable("quest.side.collect-herbs.objectives.mountain_herbs");
-            case "mountain_sage" -> Component.translatable("quest.side.collect-herbs.objectives.mountain_sage");
-            case "return_village_healer" -> Component.translatable("quest.side.collect-herbs.objectives.return_village_healer");
-            default -> Component.translatable("quest.side.collect-herbs.objectives." + id);
-        };
+        return LangManager.get("quest.side.collect_herbs.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -100,25 +85,25 @@ public class CollectHerbsQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.collect-herbs.dialogs.0");
-            case 1 -> Component.translatable("quest.side.collect-herbs.dialogs.1");
-            case 2 -> Component.translatable("quest.side.collect-herbs.dialogs.2");
+            case 0 -> LangManager.get("quest.side.collect_herbs.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.collect_herbs.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.collect_herbs.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.collect-herbs.npc-name");
+        return LangManager.get("quest.side.collect_herbs.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.collect-herbs.accept");
+        return LangManager.get("quest.side.collect_herbs.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.collect-herbs.decline");
+        return LangManager.get("quest.side.collect_herbs.decline", who);
     }
 }

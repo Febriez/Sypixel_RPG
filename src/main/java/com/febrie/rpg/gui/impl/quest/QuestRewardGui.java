@@ -51,7 +51,7 @@ public class QuestRewardGui extends BaseGui {
 
     private QuestRewardGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer, @NotNull Quest quest, @NotNull String instanceId) {
-        super(viewer, guiManager, GUI_SIZE, Component.translatable("gui.quest-reward.title"));
+        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.quest_reward.title", viewer));
         this.quest = quest;
         this.instanceId = instanceId;
         this.questManager = QuestManager.getInstance();
@@ -77,7 +77,7 @@ public class QuestRewardGui extends BaseGui {
     @Override
     public @NotNull Component getTitle() {
         // 일반 타이틀
-        return Component.translatable("gui.quest-reward.title")
+        return LangManager.getComponent("gui.quest_reward.title", viewer)
                 .append(Component.text(" - ", UnifiedColorUtil.GRAY))
                 .append(quest.getDisplayName(viewer).color(UnifiedColorUtil.LEGENDARY));
     }
@@ -90,14 +90,14 @@ public class QuestRewardGui extends BaseGui {
         
         if (totalMinutes >= 1440) { // 1일 이상
             long days = totalMinutes / 1440;
-            return Component.translatable("time.days", Component.text(String.valueOf(days)))
+            return LangManager.getComponent("time.days", player, Component.text(String.valueOf(days)))
                     .toString().replaceAll("§.", ""); // 색상 코드 제거
         } else if (totalMinutes >= 60) { // 1시간 이상
             long hours = totalMinutes / 60;
-            return Component.translatable("time.hours", Component.text(String.valueOf(hours)))
+            return LangManager.getComponent("time.hours", player, Component.text(String.valueOf(hours)))
                     .toString().replaceAll("§.", ""); // 색상 코드 제거
         } else {
-            return Component.translatable("time.minutes", Component.text(String.valueOf(totalMinutes)))
+            return LangManager.getComponent("time.minutes", player, Component.text(String.valueOf(totalMinutes)))
                     .toString().replaceAll("§.", ""); // 색상 코드 제거
         }
     }
@@ -198,13 +198,13 @@ public class QuestRewardGui extends BaseGui {
                 // 아이템에 설명 추가
                 ItemBuilder itemBuilder = ItemBuilder.from(displayItem);
                 itemBuilder.addLore(Component.empty());
-                itemBuilder.addLore(Component.translatable("gui.quest-reward.click-to-claim").color(UnifiedColorUtil.GRAY));
+                itemBuilder.addLore(LangManager.getComponent("gui.quest_reward.click_to_claim", viewer).color(UnifiedColorUtil.GRAY));
                 ItemStack finalItem = itemBuilder.build();
                 
                 final int currentSlot = slot;
                 GuiItem rewardItem = GuiItem.clickable(finalItem, p -> {
                     if (hasClaimed) {
-                        p.sendMessage(Component.translatable("gui.quest-reward.already-claimed").color(UnifiedColorUtil.ERROR));
+                        p.sendMessage(LangManager.getComponent("gui.quest_reward.already_claimed", p).color(UnifiedColorUtil.ERROR));
                         SoundUtil.playErrorSound(p);
                         return;
                     }
@@ -222,7 +222,7 @@ public class QuestRewardGui extends BaseGui {
                         
                         // 빈 슬롯으로 변경
                         ItemStack claimedDisplay = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)
-                                .displayName(Component.translatable("gui.quest-reward.claimed").color(UnifiedColorUtil.GRAY))
+                                .displayName(LangManager.getComponent("gui.quest_reward.claimed", p).color(UnifiedColorUtil.GRAY))
                                 .build();
                         setItem(currentSlot, GuiItem.display(claimedDisplay));
                         
@@ -233,10 +233,10 @@ public class QuestRewardGui extends BaseGui {
                             // 모든 보상(즉시 보상 + 아이템)이 수령되었는지 확인
                             checkAndCompleteAllRewards();
                             p.closeInventory();
-                            p.sendMessage(Component.translatable("gui.quest-reward.all-claimed").color(UnifiedColorUtil.SUCCESS));
+                            p.sendMessage(LangManager.getComponent("gui.quest_reward.all_claimed", p).color(UnifiedColorUtil.SUCCESS));
                         }
                     } else {
-                        p.sendMessage(Component.translatable("gui.quest-reward.inventory-full").color(UnifiedColorUtil.ERROR));
+                        p.sendMessage(LangManager.getComponent("gui.quest_reward.inventory_full", p).color(UnifiedColorUtil.ERROR));
                         SoundUtil.playErrorSound(p);
                     }
                 });
@@ -269,12 +269,12 @@ public class QuestRewardGui extends BaseGui {
                 .addLore(Component.empty())
                 .addLoreTranslated("items.quest.reward.destroy.lore")
                 .addLore(Component.empty())
-                .addLore(Component.translatable("gui.quest-reward.warning-destroy-line").color(UnifiedColorUtil.ERROR))
-                .addLore(Component.translatable("gui.quest-reward.warning-destroy-line2").color(UnifiedColorUtil.ERROR));
+                .addLore(LangManager.getComponent("gui.quest_reward.warning_destroy_line", viewer).color(UnifiedColorUtil.ERROR))
+                .addLore(LangManager.getComponent("gui.quest_reward.warning_destroy_line2", viewer).color(UnifiedColorUtil.ERROR));
         
         GuiItem destroyButton = GuiItem.clickable(destroyBuilder.build(), p -> {
             if (hasClaimed) {
-                p.sendMessage(Component.translatable("gui.quest-reward.already-claimed").color(UnifiedColorUtil.ERROR));
+                p.sendMessage(LangManager.getComponent("gui.quest_reward.already_claimed", p).color(UnifiedColorUtil.ERROR));
                 SoundUtil.playErrorSound(p);
                 return;
             }
@@ -295,7 +295,7 @@ public class QuestRewardGui extends BaseGui {
         
         GuiItem claimAllButton = GuiItem.clickable(claimAllBuilder.build(), p -> {
             if (hasClaimed) {
-                p.sendMessage(Component.translatable("gui.quest-reward.already-claimed").color(UnifiedColorUtil.ERROR));
+                p.sendMessage(LangManager.getComponent("gui.quest_reward.already_claimed", p).color(UnifiedColorUtil.ERROR));
                 SoundUtil.playErrorSound(p);
                 return;
             }
@@ -309,7 +309,7 @@ public class QuestRewardGui extends BaseGui {
             }
             
             if (emptySlots < rewardItems.size()) {
-                p.sendMessage(Component.translatable("gui.quest-reward.not-enough-space").color(UnifiedColorUtil.ERROR));
+                p.sendMessage(LangManager.getComponent("gui.quest_reward.not_enough_space", p).color(UnifiedColorUtil.ERROR));
                 SoundUtil.playErrorSound(p);
                 return;
             }
@@ -345,7 +345,7 @@ public class QuestRewardGui extends BaseGui {
             }
             rewardItems.clear();
             
-            p.sendMessage(Component.translatable("gui.quest-reward.all-claimed").color(UnifiedColorUtil.SUCCESS));
+            p.sendMessage(LangManager.getComponent("gui.quest_reward.all_claimed", p).color(UnifiedColorUtil.SUCCESS));
             SoundUtil.playSuccessSound(p);  // 레벨업 소리
             // 모든 보상(즉시 보상 + 아이템)이 수령되었는지 확인
             checkAndCompleteAllRewards();
@@ -381,13 +381,13 @@ public class QuestRewardGui extends BaseGui {
         // 경험치 지급 (직업이 있을 때만)
         if (expReward > 0 && rpgPlayer.getJob() != null) {
             rpgPlayer.addExperience(expReward);
-            viewer.sendMessage(Component.translatable("gui.quest-reward.exp-received", Component.text(String.valueOf(expReward))).color(UnifiedColorUtil.SUCCESS));
+            viewer.sendMessage(LangManager.getComponent("gui.quest_reward.exp_received", viewer, Component.text(String.valueOf(expReward))).color(UnifiedColorUtil.SUCCESS));
         }
         
         // 돈 지급
         if (moneyReward > 0) {
             rpgPlayer.getWallet().add(CurrencyType.GOLD, moneyReward);
-            viewer.sendMessage(Component.translatable("gui.quest-reward.money-received", Component.text(String.valueOf(moneyReward))).color(UnifiedColorUtil.SUCCESS));
+            viewer.sendMessage(LangManager.getComponent("gui.quest_reward.money_received", viewer, Component.text(String.valueOf(moneyReward))).color(UnifiedColorUtil.SUCCESS));
         }
         
         // 즉시 보상 수령 표시
@@ -467,10 +467,10 @@ public class QuestRewardGui extends BaseGui {
             // 경고 메시지
             viewer.sendMessage(Component.empty());
             viewer.sendMessage(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", UnifiedColorUtil.ERROR));
-            viewer.sendMessage(Component.translatable("gui.quest-reward.close-warning").color(UnifiedColorUtil.ERROR)
+            viewer.sendMessage(LangManager.getComponent("gui.quest_reward.close_warning", viewer).color(UnifiedColorUtil.ERROR)
                     .decoration(TextDecoration.BOLD, true));
-            viewer.sendMessage(Component.translatable("gui.quest-reward.timer-warning").color(UnifiedColorUtil.WARNING));
-            viewer.sendMessage(Component.translatable("gui.quest-reward.timer-info").color(UnifiedColorUtil.YELLOW));
+            viewer.sendMessage(LangManager.getComponent("gui.quest_reward.timer_warning", viewer).color(UnifiedColorUtil.WARNING));
+            viewer.sendMessage(LangManager.getComponent("gui.quest_reward.timer_info", viewer).color(UnifiedColorUtil.YELLOW));
             viewer.sendMessage(Component.text("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", UnifiedColorUtil.ERROR));
         }
     }

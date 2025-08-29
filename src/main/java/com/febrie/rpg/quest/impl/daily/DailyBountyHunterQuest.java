@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -68,18 +69,18 @@ public class DailyBountyHunterQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.daily.bounty-hunter.name");
+        return LangManager.get("quest.daily.bounty_hunter.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.daily.bounty-hunter.description") manually */;
+        return LangManager.getList("quest.daily.bounty_hunter.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.daily.bounty-hunter.objectives." + objective.getId();
-        return Component.translatable(key);
+        String key = "quest.daily.bounty_hunter.objectives." + objective.getId();
+        return LangManager.get(key, who);
     }
 
     @Override
@@ -90,33 +91,33 @@ public class DailyBountyHunterQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.daily.bounty-hunter.dialogs.0");
-            case 1 -> Component.translatable("quest.daily.bounty-hunter.dialogs.1");
-            case 2 -> Component.translatable("quest.daily.bounty-hunter.dialogs.2");
-            case 3 -> Component.translatable("quest.daily.bounty-hunter.dialogs.3");
-            case 4 -> Component.translatable("quest.daily.bounty-hunter.dialogs.4");
-            case 5 -> Component.translatable("quest.daily.bounty-hunter.dialogs.5");
-            case 6 -> Component.translatable("quest.daily.bounty-hunter.dialogs.6");
-            case 7 -> Component.translatable("quest.daily.bounty-hunter.dialogs.7");
-            case 8 -> Component.translatable("quest.daily.bounty-hunter.dialogs.8");
-            case 9 -> Component.translatable("quest.daily.bounty-hunter.dialogs.9");
-            case 10 -> Component.translatable("quest.daily.bounty-hunter.dialogs.10");
+            case 0 -> LangManager.get("quest.daily.bounty_hunter.dialogs.0", who);
+            case 1 -> LangManager.get("quest.daily.bounty_hunter.dialogs.1", who);
+            case 2 -> LangManager.get("quest.daily.bounty_hunter.dialogs.2", who);
+            case 3 -> LangManager.get("quest.daily.bounty_hunter.dialogs.3", who);
+            case 4 -> LangManager.get("quest.daily.bounty_hunter.dialogs.4", who);
+            case 5 -> LangManager.get("quest.daily.bounty_hunter.dialogs.5", who);
+            case 6 -> LangManager.get("quest.daily.bounty_hunter.dialogs.6", who);
+            case 7 -> LangManager.get("quest.daily.bounty_hunter.dialogs.7", who);
+            case 8 -> LangManager.get("quest.daily.bounty_hunter.dialogs.8", who);
+            case 9 -> LangManager.get("quest.daily.bounty_hunter.dialogs.9", who);
+            case 10 -> LangManager.get("quest.daily.bounty_hunter.dialogs.10", who);
             default -> null;
         };
     }
 
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.daily.bounty-hunter.npc-name");
+        return LangManager.get("quest.daily.bounty_hunter.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.daily.bounty-hunter.accept");
+        return LangManager.get("quest.daily.bounty_hunter.accept", who);
     }
 
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.daily.bounty-hunter.decline");
+        return LangManager.get("quest.daily.bounty_hunter.decline", who);
     }
 }

@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -30,34 +31,17 @@ import java.util.List;
 public class FrozenPeaksQuest extends Quest {
 
     /**
-     * Quest builder
-     */
-    private static class FrozenPeaksBuilder extends QuestBuilder {
-        @Override
-        public @NotNull Quest build() {
-            return new FrozenPeaksQuest(this);
-        }
-    }
-
-    /**
      * Default constructor
      */
     public FrozenPeaksQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * Builder constructor
-     */
-    private FrozenPeaksQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * Quest setup
      */
     private static QuestBuilder createBuilder() {
-        return new FrozenPeaksBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_FROZEN_PEAKS)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("talk_mountain_climber", "mountain_climber"),
@@ -79,23 +63,17 @@ public class FrozenPeaksQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.frozen-peaks.name");
+        return LangManager.get("quest.side.frozen_peaks.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return Arrays.asList(
-                Component.translatable("quest.side.frozen-peaks.description.0"),
-                Component.translatable("quest.side.frozen-peaks.description.1"),
-                Component.translatable("quest.side.frozen-peaks.description.2"),
-                Component.translatable("quest.side.frozen-peaks.description.3")
-        );
+        return LangManager.getList("quest.side.frozen_peaks.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.side.frozen-peaks.objectives." + objective.getId();
-        return Component.translatable(key);
+        return LangManager.get("quest.side.frozen_peaks.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -106,25 +84,25 @@ public class FrozenPeaksQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.frozen-peaks.dialogs.0");
-            case 1 -> Component.translatable("quest.side.frozen-peaks.dialogs.1");
-            case 2 -> Component.translatable("quest.side.frozen-peaks.dialogs.2");
+            case 0 -> LangManager.get("quest.side.frozen_peaks.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.frozen_peaks.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.frozen_peaks.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.frozen-peaks.npc-name");
+        return LangManager.get("quest.side.frozen_peaks.npc_name", who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.frozen-peaks.accept");
+        return LangManager.get("quest.side.frozen_peaks.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.frozen-peaks.decline");
+        return LangManager.get("quest.side.frozen_peaks.decline", who);
     }
 }

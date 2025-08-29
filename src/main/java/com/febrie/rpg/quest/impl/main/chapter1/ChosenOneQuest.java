@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -27,34 +28,17 @@ import java.util.List;
 public class ChosenOneQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class ChosenOneBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new ChosenOneQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자 - 퀘스트 설정
      */
     public ChosenOneQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private ChosenOneQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 빌더 생성 및 설정
      */
     private static QuestBuilder createBuilder() {
-        return new ChosenOneBuilder().id(QuestID.MAIN_CHOSEN_ONE)
+        return new QuestBuilder().id(QuestID.MAIN_CHOSEN_ONE)
                 .objectives(Arrays.asList(
                         // 시련의 동굴 입장
                         new VisitLocationObjective("enter_trial_cave", "trial_cave_entrance"),
@@ -89,18 +73,18 @@ public class ChosenOneQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.main.chosen_one.name");
+        return LangManager.get("quest.main.chosen_one.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.main.chosen_one.info") manually */;
+        return LangManager.getList("quest.main.chosen_one.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return Component.translatable("quest.main.chosen_one.objectives.");
+        return LangManager.get("quest.main.chosen_one.objectives." + id, who);
     }
 
     @Override
@@ -111,28 +95,28 @@ public class ChosenOneQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.main.chosen-one.dialogs.0");
-            case 1 -> Component.translatable("quest.main.chosen-one.dialogs.1");
-            case 2 -> Component.translatable("quest.main.chosen-one.dialogs.2");
-            case 3 -> Component.translatable("quest.main.chosen-one.dialogs.3");
-            case 4 -> Component.translatable("quest.main.chosen-one.dialogs.4");
-            case 5 -> Component.translatable("quest.main.chosen-one.dialogs.5");
+            case 0 -> LangManager.get("quest.main.chosen_one.dialogs.0", who);
+            case 1 -> LangManager.get("quest.main.chosen_one.dialogs.1", who);
+            case 2 -> LangManager.get("quest.main.chosen_one.dialogs.2", who);
+            case 3 -> LangManager.get("quest.main.chosen_one.dialogs.3", who);
+            case 4 -> LangManager.get("quest.main.chosen_one.dialogs.4", who);
+            case 5 -> LangManager.get("quest.main.chosen_one.dialogs.5", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.main.chosen-one.npc-name");
+        return LangManager.get("quest.main.chosen_one.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.chosen-one.accept");
+        return LangManager.get("quest.main.chosen_one.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.chosen-one.decline");
+        return LangManager.get("quest.main.chosen_one.decline", who);
     }
 }

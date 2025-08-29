@@ -47,7 +47,7 @@ public class QuestListGui extends BaseGui {
 
     private QuestListGui(@NotNull GuiManager guiManager,
                         @NotNull Player viewer) {
-        super(viewer, guiManager, GUI_SIZE, Component.translatable("gui.quest-list.title"));
+        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.quest_list.title", viewer));
         this.questManager = QuestManager.getInstance();
     }
 
@@ -66,7 +66,7 @@ public class QuestListGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.quest-list.title");
+        return LangManager.getComponent("gui.quest_list.title", viewer);
     }
 
     @Override
@@ -240,11 +240,11 @@ public class QuestListGui extends BaseGui {
         
         builder.addLore(Component.empty())
                 // 진행도 표시
-                .addLore(Component.translatable("gui.quest-list.progress")
+                .addLore(LangManager.getComponent("gui.quest_list.progress", viewer)
                         .append(Component.text(" " + progress.getCompletionPercentage() + "%", UnifiedColorUtil.EMERALD)))
                 // 클릭 안내
                 .addLore(Component.empty())
-                .addLore(Component.translatable("gui.quest-list.click-details").color(UnifiedColorUtil.GRAY));
+                .addLore(LangManager.getComponent("gui.quest_list.click_details", viewer).color(UnifiedColorUtil.GRAY));
 
         return GuiItem.clickable(builder.build(), p -> {
             // 퀘스트 상세 정보 GUI 열기
@@ -271,14 +271,14 @@ public class QuestListGui extends BaseGui {
         
         builder.addLore(Component.empty())
                 // 완료 표시
-                .addLore(Component.translatable("gui.quest-list.completed-label")
+                .addLore(LangManager.getComponent("gui.quest_list.completed_label", viewer)
                         .color(UnifiedColorUtil.SUCCESS)
                         .decoration(TextDecoration.BOLD, true));
 
         // 반복 가능 여부
         if (quest.isRepeatable()) {
             builder.addLore(Component.empty())
-                    .addLore(Component.translatable("gui.quest-list.repeatable").color(UnifiedColorUtil.AQUA));
+                    .addLore(LangManager.getComponent("gui.quest_list.repeatable", viewer).color(UnifiedColorUtil.AQUA));
         }
 
         builder.hideAllFlags();

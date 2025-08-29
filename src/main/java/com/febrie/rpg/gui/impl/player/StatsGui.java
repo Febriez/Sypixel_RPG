@@ -56,7 +56,7 @@ public class StatsGui extends ScrollableGui {
 
     private StatsGui(@NotNull GuiManager guiManager,
                     @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        super(viewer, guiManager, DEFAULT_SIZE, Component.translatable("gui.stats.title"));
+        super(viewer, guiManager, DEFAULT_SIZE, LangManager.getComponent("gui.stats.title", viewer));
         this.rpgPlayer = rpgPlayer;
     }
 
@@ -76,7 +76,7 @@ public class StatsGui extends ScrollableGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.stats.title");
+        return LangManager.getComponent("gui.stats.title", viewer);
     }
 
     @Override
@@ -141,9 +141,9 @@ public class StatsGui extends ScrollableGui {
     private void setupPlayerInfo() {
         Component jobName;
         if (rpgPlayer.hasJob() && rpgPlayer.getJob() != null) {
-            jobName = Component.translatable("job." + rpgPlayer.getJob().name().toLowerCase() + ".name");
+            jobName = LangManager.getComponent("job." + rpgPlayer.getJob().name().toLowerCase() + ".name", viewer);
         } else {
-            jobName = Component.translatable("gui.profile.no-job");
+            jobName = LangManager.getComponent("gui.profile.no_job", viewer);
         }
 
         GuiItem playerInfo = GuiItem.display(
@@ -218,14 +218,14 @@ public class StatsGui extends ScrollableGui {
      */
     private void handleStatClick(@NotNull Player player, @NotNull Stat stat, int pointsToAdd) {
         if (rpgPlayer.getStatPoints() < pointsToAdd) {
-            player.sendMessage(Component.translatable("messages.not-enough-stat-points"));
+            player.sendMessage(LangManager.getComponent("messages.not_enough_stat_points", player));
             playErrorSound(player);
             return;
         }
 
         if (rpgPlayer.useStatPoint(stat, pointsToAdd)) {
-            player.sendMessage(Component.translatable("messages.stat-increased",
-                    Component.translatable("stat." + stat.getId() + ".name")));
+            player.sendMessage(LangManager.getComponent("messages.stat_increased", player,
+                    LangManager.getComponent("stat." + stat.getId() + ".name", player)));
             playSuccessSound(player);
             refresh();
         } else {

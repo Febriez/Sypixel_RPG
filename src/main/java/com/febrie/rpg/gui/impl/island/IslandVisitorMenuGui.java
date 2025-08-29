@@ -28,7 +28,7 @@ public class IslandVisitorMenuGui extends BaseGui {
     private final IslandDTO island;
     
     private IslandVisitorMenuGui(@NotNull Player viewer, @NotNull GuiManager guiManager, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 27, Component.translatable("gui.island.visitor.menu.title"));
+        super(viewer, guiManager, 27, LangManager.getComponent("gui.island.visitor.menu.title".replace("-", "_"), viewer));
         this.islandManager = RPGMain.getInstance().getIslandManager();
         this.island = island;
     }

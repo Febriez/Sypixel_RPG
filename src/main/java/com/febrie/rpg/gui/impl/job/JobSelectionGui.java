@@ -36,7 +36,7 @@ public class JobSelectionGui extends BaseGui {
 
     private JobSelectionGui(@NotNull GuiManager guiManager,
                            @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        super(viewer, guiManager, GUI_SIZE, Component.translatable("gui.job-selection.title"));
+        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.job_selection.title", viewer));
         this.rpgPlayer = rpgPlayer;
     }
 
@@ -55,7 +55,7 @@ public class JobSelectionGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.job-selection.title");
+        return LangManager.getComponent("gui.job_selection.title", viewer);
     }
 
     @Override
@@ -112,13 +112,13 @@ public class JobSelectionGui extends BaseGui {
 
             GuiItem tabItem = GuiItem.clickable(
                     new ItemBuilder(isSelected ? Material.ENCHANTED_BOOK : Material.BOOK)
-                            .displayName(Component.translatable("job.categories." + category.name().toLowerCase())
+                            .displayName(LangManager.getComponent("job.categories." + category.name().toLowerCase(), viewer)
                                     .color(category.getColor())
                                     .decoration(TextDecoration.BOLD, isSelected))
                             .addLore(Component.empty())
                             .addLore(isSelected ?
-                                    Component.translatable("gui.job-selection.tab-selected") :
-                                    Component.translatable("gui.job-selection.tab-click"))
+                                    LangManager.getComponent("gui.job_selection.tab_selected", viewer) :
+                                    LangManager.getComponent("gui.job_selection.tab_click", viewer))
                             .glint(isSelected)
                             .build(),
                     player -> {

@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -30,34 +31,17 @@ import java.util.List;
 public class ForgottenTempleQuest extends Quest {
 
     /**
-     * Quest builder
-     */
-    private static class ForgottenTempleBuilder extends QuestBuilder {
-        @Override
-        public @NotNull Quest build() {
-            return new ForgottenTempleQuest(this);
-        }
-    }
-
-    /**
      * Default constructor
      */
     public ForgottenTempleQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * Builder constructor
-     */
-    private ForgottenTempleQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * Quest setup
      */
     private static QuestBuilder createBuilder() {
-        return new ForgottenTempleBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_FORGOTTEN_TEMPLE)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("talk_temple_scholar", "temple_scholar"),
@@ -79,23 +63,17 @@ public class ForgottenTempleQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.forgotten-temple.name");
+        return LangManager.get("quest.side.forgotten_temple.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return Arrays.asList(
-                Component.translatable("quest.side.forgotten-temple.description.0"),
-                Component.translatable("quest.side.forgotten-temple.description.1"),
-                Component.translatable("quest.side.forgotten-temple.description.2"),
-                Component.translatable("quest.side.forgotten-temple.description.3")
-        );
+        return LangManager.getList("quest.side.forgotten_temple.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.side.forgotten-temple.objectives." + objective.getId();
-        return Component.translatable(key);
+        return LangManager.get("quest.side.forgotten_temple.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -106,25 +84,25 @@ public class ForgottenTempleQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.forgotten-temple.dialogs.0");
-            case 1 -> Component.translatable("quest.side.forgotten-temple.dialogs.1");
-            case 2 -> Component.translatable("quest.side.forgotten-temple.dialogs.2");
+            case 0 -> LangManager.get("quest.side.forgotten_temple.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.forgotten_temple.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.forgotten_temple.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.forgotten-temple.npc-name");
+        return LangManager.get("quest.side.forgotten_temple.npc_name", who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.forgotten-temple.accept");
+        return LangManager.get("quest.side.forgotten_temple.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.forgotten-temple.decline");
+        return LangManager.get("quest.side.forgotten_temple.decline", who);
     }
 }

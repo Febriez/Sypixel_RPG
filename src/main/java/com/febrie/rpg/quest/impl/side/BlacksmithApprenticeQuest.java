@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -65,33 +66,17 @@ public class BlacksmithApprenticeQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.blacksmith-apprentice.name");
+        return LangManager.get("quest.side.blacksmith_apprentice.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        List<Component> description = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Component line = Component.translatable("quest.side.blacksmith-apprentice.description." + i);
-            description.add(line);
-        }
-        return description;
+        return LangManager.getList("quest.side.blacksmith_apprentice.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-
-        return switch (id) {
-            case "talk_master_blacksmith" -> Component.translatable("quest.side.blacksmith-apprentice.objectives.talk_master_blacksmith");
-            case "iron_ore" -> Component.translatable("quest.side.blacksmith-apprentice.objectives.iron_ore");
-            case "coal" -> Component.translatable("quest.side.blacksmith-apprentice.objectives.coal");
-            case "mining_site" -> Component.translatable("quest.side.blacksmith-apprentice.objectives.mining_site");
-            case "kill_skeletons" -> Component.translatable("quest.side.blacksmith-apprentice.objectives.kill_skeletons");
-            case "refined_iron" -> Component.translatable("quest.side.blacksmith-apprentice.objectives.refined_iron");
-            case "return_master_blacksmith" -> Component.translatable("quest.side.blacksmith-apprentice.objectives.return_master_blacksmith");
-            default -> Component.translatable("quest.side.blacksmith-apprentice.objectives." + id);
-        };
+        return LangManager.get("quest.side.blacksmith_apprentice.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -102,25 +87,25 @@ public class BlacksmithApprenticeQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.blacksmith-apprentice.dialogs.0");
-            case 1 -> Component.translatable("quest.side.blacksmith-apprentice.dialogs.1");
-            case 2 -> Component.translatable("quest.side.blacksmith-apprentice.dialogs.2");
+            case 0 -> LangManager.get("quest.side.blacksmith_apprentice.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.blacksmith_apprentice.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.blacksmith_apprentice.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.blacksmith-apprentice.npc-name");
+        return LangManager.get("quest.side.blacksmith_apprentice.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.blacksmith-apprentice.accept");
+        return LangManager.get("quest.side.blacksmith_apprentice.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.blacksmith-apprentice.decline");
+        return LangManager.get("quest.side.blacksmith_apprentice.decline", who);
     }
 }

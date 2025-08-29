@@ -34,7 +34,7 @@ public class QuestRewardConfirmGui extends BaseGui {
     
     private QuestRewardConfirmGui(@NotNull GuiManager guiManager,
                                   @NotNull Player viewer, @NotNull Quest quest, @NotNull String instanceId, @NotNull QuestRewardGui previousGui) {
-        super(viewer, guiManager, GUI_SIZE, Component.translatable("gui.quest-reward.confirm.title"));
+        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.quest_reward.confirm.title", viewer));
         this.quest = quest;
         this.instanceId = instanceId;
         this.questManager = QuestManager.getInstance();
@@ -48,7 +48,7 @@ public class QuestRewardConfirmGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.quest-reward.confirm.title").color(UnifiedColorUtil.ERROR);
+        return LangManager.getComponent("gui.quest_reward.confirm.title", viewer).color(UnifiedColorUtil.ERROR);
     }
     
     @Override
@@ -98,9 +98,9 @@ public class QuestRewardConfirmGui extends BaseGui {
             
             p.closeInventory();
             p.sendMessage(Component.empty());
-            p.sendMessage(Component.translatable("gui.quest-reward.destroyed").color(UnifiedColorUtil.ERROR)
+            p.sendMessage(LangManager.getComponent("gui.quest_reward.destroyed", p).color(UnifiedColorUtil.ERROR)
                     .decoration(TextDecoration.BOLD, true));
-            p.sendMessage(Component.translatable("gui.quest-reward.destroyed-desc", quest.getDisplayName(p))
+            p.sendMessage(LangManager.getComponent("gui.quest_reward.destroyed_desc", p, quest.getDisplayName(p))
                     .color(UnifiedColorUtil.WARNING));
             
             SoundUtil.playDeleteSound(p);

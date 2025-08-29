@@ -68,7 +68,7 @@ public class IslandUpgradeGui extends BaseGui {
     
     private IslandUpgradeGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                             @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 45, Component.translatable("gui.island.upgrade.title"));
+        super(viewer, guiManager, 45, LangManager.getComponent("gui.island.upgrade.title".replace("-", "_"), viewer));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
     }
@@ -144,7 +144,7 @@ public class IslandUpgradeGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.island.upgrade.title");
+        return LangManager.getComponent("gui.island.upgrade.title".replace("-", "_"), viewer);
     }
     
     private ItemStack createUpgradeItem(Material material, String nameKey, 
@@ -176,19 +176,19 @@ public class IslandUpgradeGui extends BaseGui {
             
             builder.addLore(Component.empty());
             if (currentContribution >= cost) {
-                builder.addLore(Component.translatable("gui.island.upgrade.click-to-upgrade").color(UnifiedColorUtil.SUCCESS));
+                builder.addLore(LangManager.getComponent("gui.island.upgrade.click-to-upgrade".replace("-", "_"), viewer).color(UnifiedColorUtil.SUCCESS));
             } else {
-                builder.addLore(Component.translatable("gui.island.upgrade.insufficient-contribution").color(UnifiedColorUtil.ERROR));
+                builder.addLore(LangManager.getComponent("gui.island.upgrade.insufficient-contribution".replace("-", "_"), viewer).color(UnifiedColorUtil.ERROR));
             }
         } else {
             // 최대 레벨
             builder.addLore(Component.empty())
-                   .addLore(Component.translatable("gui.island.upgrade.max-level").color(UnifiedColorUtil.GOLD));
+                   .addLore(LangManager.getComponent("gui.island.upgrade.max-level".replace("-", "_"), viewer).color(UnifiedColorUtil.GOLD));
         }
         
         // 레벨 진행도 표시
         builder.addLore(Component.empty())
-               .addLore(Component.translatable("gui.island.upgrade.progress").color(UnifiedColorUtil.SECONDARY))
+               .addLore(LangManager.getComponent("gui.island.upgrade.progress".replace("-", "_"), viewer).color(UnifiedColorUtil.SECONDARY))
                .addLore(UnifiedColorUtil.parseComponent(createProgressBar(currentLevel, values.length - 1)));
         
         return builder.hideAllFlags().build();

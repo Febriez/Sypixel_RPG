@@ -4,7 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.translation.GlobalTranslator;
+import net.kyori.adventure.translation.TranslationRegistry;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,6 +36,7 @@ public class LangManager {
     private final JavaPlugin plugin;
     private final Gson gson = new Gson();
     private final Map<Locale, Map<String, String>> translations = new HashMap<>();
+    private TranslationRegistry registry;
 
     private static LangManager instance;
 
@@ -57,6 +61,7 @@ public class LangManager {
      */
     private void init() {
         loadAllTranslations();
+        registerMessagesToGlobalTranslator();
         plugin.getLogger().info("언어 시스템이 초기화되었습니다.");
     }
 
@@ -163,6 +168,46 @@ public class LangManager {
      */
     private Locale createLocale(@NotNull String langCode) {
         return Locale.forLanguageTag(langCode.replace("_", "-"));
+    }
+
+    /**
+     * messages.json 내용을 GlobalTranslator에 등록
+     * 직접 채팅 메시지를 Component.translatable로 사용할 수 있게 함
+     */
+    private void registerMessagesToGlobalTranslator() {
+        // TranslationRegistry 생성
+        Key registryKey = Key.key("rpg", "translations");
+        registry = TranslationRegistry.create(registryKey);
+        
+        // 지원하는 언어들
+        String[] languageCodes = {"en_us", "ko_kr"};
+        
+        for (String langCode : languageCodes) {
+            Locale locale = createLocale(langCode);
+            String resourcePath = "/" + langCode + "/messages.json";
+            
+            try (InputStream stream = plugin.getClass().getResourceAsStream(resourcePath)) {
+                if (stream != null) {
+                    try (InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
+                        JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+                        Map<String, String> messages = flattenJson(jsonObject, "");
+                        
+                        // GlobalTranslator에 등록
+                        for (Map.Entry<String, String> entry : messages.entrySet()) {
+                            registry.register(entry.getKey(), locale, entry.getValue());
+                        }
+                        
+                        plugin.getLogger().info("[GlobalTranslator] " + langCode + " messages.json 등록 완료: " + messages.size() + "개 키");
+                    }
+                }
+            } catch (Exception e) {
+                plugin.getLogger().severe("GlobalTranslator 등록 실패: " + resourcePath + " - " + e.getMessage());
+            }
+        }
+        
+        // GlobalTranslator에 registry 추가
+        GlobalTranslator.translator().addSource(registry);
+        plugin.getLogger().info("GlobalTranslator 등록 완료");
     }
 
     /**
@@ -296,6 +341,11 @@ public class LangManager {
             throw new IllegalStateException("LangManager가 초기화되지 않았습니다.");
         }
 
+        // 기존 GlobalTranslator registry 제거
+        if (instance.registry != null) {
+            GlobalTranslator.translator().removeSource(instance.registry);
+        }
+        
         instance.translations.clear();
         instance.init();
         instance.plugin.getLogger().info("언어 시스템이 리로드되었습니다.");
@@ -306,6 +356,10 @@ public class LangManager {
      */
     public static void shutdown() {
         if (instance != null) {
+            // GlobalTranslator에서 registry 제거
+            if (instance.registry != null) {
+                GlobalTranslator.translator().removeSource(instance.registry);
+            }
             instance.translations.clear();
             instance.plugin.getLogger().info("언어 시스템이 종료되었습니다.");
             instance = null;

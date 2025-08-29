@@ -50,7 +50,7 @@ public class FriendListGui extends BaseGui {
 
     private FriendListGui(@NotNull GuiManager guiManager,
                         @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, Component.translatable("gui.friends.title"));
+        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.friends.title", player));
         this.friendManager = FriendManager.getInstance();
     }
 
@@ -71,7 +71,7 @@ public class FriendListGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.friends.title");
+        return LangManager.getComponent("gui.friends.title", viewer);
     }
 
     @Override
@@ -253,7 +253,7 @@ public class FriendListGui extends BaseGui {
             boolean isOnline = friendManager.isPlayerOnline(friendUuid);
 
             Material material = isOnline ? Material.LIME_DYE : Material.GRAY_DYE;
-            Component statusText = Component.translatable(isOnline ? "status.online" : "status.offline");
+            Component statusText = LangManager.getComponent(isOnline ? "status.online" : "status.offline", viewer);
 
             GuiItem friendItem = GuiItem.clickable(
                     ItemBuilder.of(material)

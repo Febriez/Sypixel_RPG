@@ -38,7 +38,7 @@ public class IslandPermissionGui extends BaseGui {
     
     private IslandPermissionGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                               @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, Component.translatable("gui.island.permission.title"));
+        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.permission.title".replace("-", "_"), viewer));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
     }
@@ -53,7 +53,7 @@ public class IslandPermissionGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.island.permission.title");
+        return LangManager.getComponent("gui.island.permission.title".replace("-", "_"), viewer);
     }
     
     @Override
@@ -114,11 +114,11 @@ public class IslandPermissionGui extends BaseGui {
                 .displayName(Component.text(IslandPermissionHandler.getRoleDisplayName(viewer.locale().getLanguage(), role),
                         selected ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.SECONDARY))
                 .addLore(Component.empty())
-                .addLore(Component.translatable("gui.island.permission.select-role-desc").color(UnifiedColorUtil.SECONDARY))
+                .addLore(LangManager.getComponent("gui.island.permission.select-role-desc".replace("-", "_"), viewer).color(UnifiedColorUtil.SECONDARY))
                 .addLore(Component.empty())
                 .addLore(selected ? 
-                    Component.translatable("gui.island.permission.selected").color(UnifiedColorUtil.SUCCESS) :
-                    Component.translatable("gui.island.permission.click-to-select").color(UnifiedColorUtil.WARNING))
+                    LangManager.getComponent("gui.island.permission.selected".replace("-", "_"), viewer).color(UnifiedColorUtil.SUCCESS) :
+                    LangManager.getComponent("gui.island.permission.click-to-select".replace("-", "_"), viewer).color(UnifiedColorUtil.WARNING))
                 .glint(selected)
                 .hideAllFlags()
                 .build();
@@ -129,14 +129,14 @@ public class IslandPermissionGui extends BaseGui {
      */
     private ItemStack createSelectedRoleItem() {
         return ItemBuilder.of(Material.PAPER)
-                .displayName(Component.translatable("gui.island.permission.current-editing")
+                .displayName(LangManager.getComponent("gui.island.permission.current-editing".replace("-", "_"), viewer)
                     .color(UnifiedColorUtil.WARNING)
                     .append(Component.text(": "))
                     .append(Component.text(IslandPermissionHandler.getRoleDisplayName(viewer.locale().getLanguage(), selectedRole))
                         .color(UnifiedColorUtil.WHITE)))
                 .addLore(Component.empty())
-                .addLore(Component.translatable("gui.island.permission.select-other-role").color(UnifiedColorUtil.SECONDARY))
-                .addLore(Component.translatable("gui.island.permission.edit-role-permissions").color(UnifiedColorUtil.SECONDARY))
+                .addLore(LangManager.getComponent("gui.island.permission.select-other-role".replace("-", "_"), viewer).color(UnifiedColorUtil.SECONDARY))
+                .addLore(LangManager.getComponent("gui.island.permission.edit-role-permissions".replace("-", "_"), viewer).color(UnifiedColorUtil.SECONDARY))
                 .hideAllFlags()
                 .build();
     }
@@ -176,7 +176,7 @@ public class IslandPermissionGui extends BaseGui {
         ItemBuilder builder = ItemBuilder.of(material)
                 .displayName(Component.text(displayName, enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
                 .addLore(Component.empty())
-                .addLore(Component.translatable("gui.island.permission.status")
+                .addLore(LangManager.getComponent("gui.island.permission.status".replace("-", "_"), viewer)
                     .append(Component.text(": "))
                     .append(Component.translatable(enabled ? "gui.island.permission.enabled" : "gui.island.permission.disabled")
                         .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
@@ -185,18 +185,18 @@ public class IslandPermissionGui extends BaseGui {
         
         // 권한 설명 추가
         switch (permission) {
-            case "BUILD" -> builder.addLore(Component.translatable("gui.island.permission.permissions.build-desc").color(UnifiedColorUtil.fromName("GRAY")));
-            case "USE_ITEMS" -> builder.addLore(Component.translatable("gui.island.permission.permissions.interact-desc").color(UnifiedColorUtil.fromName("GRAY")));
-            case "OPEN_CONTAINERS" -> builder.addLore(Component.translatable("gui.island.permission.permissions.containers-desc").color(UnifiedColorUtil.fromName("GRAY")));
-            case "INVITE_MEMBERS" -> builder.addLore(Component.translatable("gui.island.permission.permissions.invite-desc").color(UnifiedColorUtil.fromName("GRAY")));
-            case "KICK_MEMBERS" -> builder.addLore(Component.translatable("gui.island.permission.permissions.kick-desc").color(UnifiedColorUtil.fromName("GRAY")));
-            case "MANAGE_WORKERS" -> builder.addLore(Component.translatable("gui.island.permission.permissions.workers-desc").color(UnifiedColorUtil.SECONDARY));
-            case "MODIFY_SPAWNS" -> builder.addLore(Component.translatable("gui.island.permission.permissions.spawns-desc").color(UnifiedColorUtil.SECONDARY));
-            case "CHANGE_SETTINGS" -> builder.addLore(Component.translatable("gui.island.permission.permissions.settings-desc").color(UnifiedColorUtil.fromName("GRAY")));
+            case "BUILD" -> builder.addLore(LangManager.getComponent("gui.island.permission.permissions.build-desc".replace("-", "_"), viewer).color(UnifiedColorUtil.fromName("GRAY")));
+            case "USE_ITEMS" -> builder.addLore(LangManager.getComponent("gui.island.permission.permissions.interact-desc".replace("-", "_"), viewer).color(UnifiedColorUtil.fromName("GRAY")));
+            case "OPEN_CONTAINERS" -> builder.addLore(LangManager.getComponent("gui.island.permission.permissions.containers-desc".replace("-", "_"), viewer).color(UnifiedColorUtil.fromName("GRAY")));
+            case "INVITE_MEMBERS" -> builder.addLore(LangManager.getComponent("gui.island.permission.permissions.invite-desc".replace("-", "_"), viewer).color(UnifiedColorUtil.fromName("GRAY")));
+            case "KICK_MEMBERS" -> builder.addLore(LangManager.getComponent("gui.island.permission.permissions.kick-desc".replace("-", "_"), viewer).color(UnifiedColorUtil.fromName("GRAY")));
+            case "MANAGE_WORKERS" -> builder.addLore(LangManager.getComponent("gui.island.permission.permissions.workers-desc".replace("-", "_"), viewer).color(UnifiedColorUtil.SECONDARY));
+            case "MODIFY_SPAWNS" -> builder.addLore(LangManager.getComponent("gui.island.permission.permissions.spawns-desc".replace("-", "_"), viewer).color(UnifiedColorUtil.SECONDARY));
+            case "CHANGE_SETTINGS" -> builder.addLore(LangManager.getComponent("gui.island.permission.permissions.settings-desc".replace("-", "_"), viewer).color(UnifiedColorUtil.fromName("GRAY")));
         }
         
         builder.addLore(Component.empty())
-               .addLore(Component.translatable("gui.island.permission.click-to-toggle").color(UnifiedColorUtil.WARNING));
+               .addLore(LangManager.getComponent("gui.island.permission.click-to-toggle".replace("-", "_"), viewer).color(UnifiedColorUtil.WARNING));
         
         return builder.build();
     }

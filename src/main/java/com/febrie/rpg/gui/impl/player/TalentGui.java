@@ -44,7 +44,7 @@ public class TalentGui extends ScrollableGui {
     private TalentGui(@NotNull GuiManager guiManager,
                      @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
                      @NotNull String pageId, @NotNull List<Talent> talents) {
-        super(viewer, guiManager, GUI_SIZE, Component.translatable("gui.talent.title"));
+        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.talent.title", viewer));
         this.rpgPlayer = rpgPlayer;
         this.pageId = pageId;
         this.talents = talents;
@@ -69,7 +69,7 @@ public class TalentGui extends ScrollableGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.talent.title");
+        return LangManager.getComponent("gui.talent.title", viewer);
     }
 
     @Override
@@ -131,9 +131,9 @@ public class TalentGui extends ScrollableGui {
     private void setupInfoDisplay() {
         Component jobName;
         if (rpgPlayer.hasJob() && rpgPlayer.getJob() != null) {
-            jobName = Component.translatable("job." + rpgPlayer.getJob().name().toLowerCase() + ".name");
+            jobName = LangManager.getComponent("job." + rpgPlayer.getJob().name().toLowerCase() + ".name", viewer);
         } else {
-            jobName = Component.translatable("gui.talent.no-job");
+            jobName = LangManager.getComponent("gui.talent.no_job", viewer);
         }
 
         GuiItem pageInfo = GuiItem.display(
@@ -214,7 +214,7 @@ public class TalentGui extends ScrollableGui {
                     int playerLevel = rpgPlayer.getTalents().getTalentLevel(prereq);
                     boolean meets = playerLevel >= requiredLevel;
 
-                    Component prereqName = Component.translatable("talent." + prereq.getId() + ".name");
+                    Component prereqName = LangManager.getComponent("talent." + prereq.getId() + ".name", viewer);
                     builder.addLore(LangManager.get(meets ? "gui.talent.prereq-met" : "gui.talent.prereq-not-met", viewer,
                             prereqName,
                             Component.text(String.valueOf(requiredLevel)),
@@ -235,7 +235,7 @@ public class TalentGui extends ScrollableGui {
             builder.addLoreTranslated("gui.talent.stat-bonuses");
 
             statBonuses.forEach((stat, bonus) -> {
-                Component statName = Component.translatable("stat." + stat.getId() + ".name");
+                Component statName = LangManager.getComponent("stat." + stat.getId() + ".name", viewer);
                 int totalBonus = bonus * Math.max(1, currentLevel);
                 builder.addLore(LangManager.get("gui.talent.stat-bonus-line", viewer,
                         statName,
@@ -273,7 +273,7 @@ public class TalentGui extends ScrollableGui {
     private void handleTalentClick(@NotNull Player player, @NotNull Talent talent, int levels) {
         if (!talent.canActivate(rpgPlayer.getTalents())) {
             playErrorSound(player);
-            player.sendMessage(Component.translatable("messages.talent-cannot-learn"));
+            player.sendMessage(LangManager.getComponent("messages.talent_cannot_learn", player));
             return;
         }
 
@@ -284,7 +284,7 @@ public class TalentGui extends ScrollableGui {
 
         if (actualLevels <= 0) {
             playErrorSound(player);
-            player.sendMessage(Component.translatable("messages.not-enough-talent-points"));
+            player.sendMessage(LangManager.getComponent("messages.not_enough_talent_points", player));
             return;
         }
 
@@ -296,8 +296,8 @@ public class TalentGui extends ScrollableGui {
         }
 
         playSuccessSound(player);
-        player.sendMessage(Component.translatable("messages.talent-learned",
-                Component.translatable("talent." + talent.getId() + ".name"),
+        player.sendMessage(LangManager.getComponent("messages.talent_learned", player,
+                LangManager.getComponent("talent." + talent.getId() + ".name", player),
                 Component.text(String.valueOf(rpgPlayer.getTalents().getTalentLevel(talent)))));
 
         refresh();

@@ -10,6 +10,7 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -28,34 +29,17 @@ import java.util.List;
 public class HealersRequestQuest extends Quest {
 
     /**
-     * Quest builder
-     */
-    private static class HealersRequestBuilder extends QuestBuilder {
-        @Override
-        public @NotNull Quest build() {
-            return new HealersRequestQuest(this);
-        }
-    }
-
-    /**
      * Default constructor
      */
     public HealersRequestQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * Builder constructor
-     */
-    private HealersRequestQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * Quest setup
      */
     private static QuestBuilder createBuilder() {
-        return new HealersRequestBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_HEALERS_REQUEST)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("talk_village_healer", "village_healer"),
@@ -79,23 +63,17 @@ public class HealersRequestQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.healers-request.name");
+        return LangManager.get("quest.side.healers_request.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return Arrays.asList(
-                Component.translatable("quest.side.healers-request.description.0"),
-                Component.translatable("quest.side.healers-request.description.1"),
-                Component.translatable("quest.side.healers-request.description.2"),
-                Component.translatable("quest.side.healers-request.description.3")
-        );
+        return LangManager.getList("quest.side.healers_request.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.side.healers-request.objectives." + objective.getId();
-        return Component.translatable(key);
+        return LangManager.get("quest.side.healers_request.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -106,25 +84,25 @@ public class HealersRequestQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.healers-request.dialogs.0");
-            case 1 -> Component.translatable("quest.side.healers-request.dialogs.1");
-            case 2 -> Component.translatable("quest.side.healers-request.dialogs.2");
+            case 0 -> LangManager.get("quest.side.healers_request.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.healers_request.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.healers_request.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.healers-request.npc-name");
+        return LangManager.get("quest.side.healers_request.npc_name", who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.healers-request.accept");
+        return LangManager.get("quest.side.healers_request.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.healers-request.decline");
+        return LangManager.get("quest.side.healers_request.decline", who);
     }
 }

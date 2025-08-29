@@ -57,7 +57,7 @@ public class AllQuestsGui extends BaseGui {
     private AllQuestsGui(@NotNull GuiManager guiManager,
                         @NotNull Player player,
                         @NotNull QuestFilter filter) {
-        super(player, guiManager, GUI_SIZE, Component.translatable("gui.all-quests.title"));
+        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.all_quests.title", player));
         this.questManager = guiManager.getPlugin().getQuestManager();
         this.filter = filter;
         
@@ -96,7 +96,7 @@ public class AllQuestsGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("quest.filter." + filter.getDisplayName());
+        return LangManager.getComponent("quest.filter." + filter.getDisplayName(), viewer);
     }
     
     @Override
@@ -117,7 +117,7 @@ public class AllQuestsGui extends BaseGui {
         // 필터 정보
         GuiItem filterInfo = GuiItem.of(
                 ItemBuilder.of(Material.HOPPER, getViewerLocale())
-                        .displayName(Component.translatable("quest.filter").append(Component.translatable("quest.filter." + filter.getDisplayName())))
+                        .displayName(LangManager.getComponent("quest.filter", viewer).append(LangManager.getComponent("quest.filter." + filter.getDisplayName(), viewer)))
                         .addLore(LangManager.get("quest.total-count", viewer, Component.text(String.valueOf(quests.size()))))
                         .build());
         setItem(4, filterInfo);
@@ -184,7 +184,7 @@ public class AllQuestsGui extends BaseGui {
                     .filter(ObjectiveProgress::isCompleted)
                     .count();
             int total = quest.getObjectives().size();
-            Component progressText = Component.translatable("quest.progress");
+            Component progressText = LangManager.getComponent("quest.progress", viewer);
             builder.addLore(progressText.append(Component.text(": " + completed + "/" + total)).color(UnifiedColorUtil.YELLOW));
         }
         

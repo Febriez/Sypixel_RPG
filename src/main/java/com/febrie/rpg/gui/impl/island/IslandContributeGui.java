@@ -40,7 +40,7 @@ public class IslandContributeGui extends BaseGui {
     private static final int[] QUICK_AMOUNTS = {1000, 5000, 10000, 50000, 100000, 500000};
     private IslandContributeGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 36, Component.translatable("gui.island.contribute.title")); // 4줄 GUI
+        super(viewer, guiManager, 36, LangManager.getComponent("gui.island.contribute.title".replace("-", "_"), viewer)); // 4줄 GUI
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.rpgPlayer = plugin.getRPGPlayerManager().getPlayer(viewer);
@@ -84,7 +84,7 @@ public class IslandContributeGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.island.contribute.title");
+        return LangManager.getComponent("gui.island.contribute.title".replace("-", "_"), viewer);
     }
     
     private ItemStack createGoldInfoItem() {

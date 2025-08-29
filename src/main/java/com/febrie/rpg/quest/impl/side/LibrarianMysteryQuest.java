@@ -10,6 +10,7 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -29,34 +30,17 @@ import java.util.List;
 public class LibrarianMysteryQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class LibrarianMysteryBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new LibrarianMysteryQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public LibrarianMysteryQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private LibrarianMysteryQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new LibrarianMysteryBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_LIBRARIAN_MYSTERY)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("talk_head_librarian", "head_librarian"),
@@ -80,33 +64,17 @@ public class LibrarianMysteryQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.librarian-mystery.name");
+        return LangManager.get("quest.side.librarian_mystery.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        List<Component> description = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Component line = Component.translatable("quest.side.librarian-mystery.description." + i);
-            description.add(line);
-        }
-        return description;
+        return LangManager.getList("quest.side.librarian_mystery.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-
-        return switch (id) {
-            case "talk_head_librarian" -> Component.translatable("quest.side.librarian-mystery.objectives.talk_head_librarian");
-            case "visit_ancient_archives" -> Component.translatable("quest.side.librarian-mystery.objectives.visit_ancient_archives");
-            case "collect_missing_tome" -> Component.translatable("quest.side.librarian-mystery.objectives.collect_missing_tome");
-            case "collect_cipher_key" -> Component.translatable("quest.side.librarian-mystery.objectives.collect_cipher_key");
-            case "visit_secret_chamber" -> Component.translatable("quest.side.librarian-mystery.objectives.visit_secret_chamber");
-            case "collect_forbidden_knowledge" -> Component.translatable("quest.side.librarian-mystery.objectives.collect_forbidden_knowledge");
-            case "return_head_librarian" -> Component.translatable("quest.side.librarian-mystery.objectives.return_head_librarian");
-            default -> Component.translatable("quest.side.librarian-mystery.objectives." + id);
-        };
+        return LangManager.get("quest.side.librarian_mystery.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -117,25 +85,25 @@ public class LibrarianMysteryQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.librarian-mystery.dialogs.0");
-            case 1 -> Component.translatable("quest.side.librarian-mystery.dialogs.1");
-            case 2 -> Component.translatable("quest.side.librarian-mystery.dialogs.2");
+            case 0 -> LangManager.get("quest.side.librarian_mystery.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.librarian_mystery.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.librarian_mystery.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.librarian-mystery.npc-name");
+        return LangManager.get("quest.side.librarian_mystery.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.librarian-mystery.accept");
+        return LangManager.get("quest.side.librarian_mystery.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.librarian-mystery.decline");
+        return LangManager.get("quest.side.librarian_mystery.decline", who);
     }
 }

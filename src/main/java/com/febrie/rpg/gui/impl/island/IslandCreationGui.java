@@ -86,7 +86,7 @@ public class IslandCreationGui extends BaseGui {
     private final IslandManager islandManager;
 
     private IslandCreationGui(@NotNull GuiManager guiManager, @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, Component.translatable("gui.island.creation.title"));
+        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.island.creation.title".replace("-", "_"), viewer));
         this.islandManager = RPGMain.getInstance().getIslandManager();
         this.islandName = LangManager.getString("island.default-name", player.locale());
     }
@@ -100,7 +100,7 @@ public class IslandCreationGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.island.creation.title");
+        return LangManager.getComponent("gui.island.creation.title".replace("-", "_"), viewer);
     }
 
     @Override

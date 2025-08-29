@@ -37,7 +37,7 @@ public class PlayerSettingsGui extends BaseGui {
 
     private PlayerSettingsGui(@NotNull GuiManager guiManager,
                             @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, Component.translatable("gui.settings.title"));
+        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.settings.title", player));
     }
 
     /**
@@ -55,7 +55,7 @@ public class PlayerSettingsGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("settings.personal").color(UnifiedColorUtil.PRIMARY);
+        return LangManager.getComponent("settings.personal", viewer).color(UnifiedColorUtil.PRIMARY);
     }
 
     @Override

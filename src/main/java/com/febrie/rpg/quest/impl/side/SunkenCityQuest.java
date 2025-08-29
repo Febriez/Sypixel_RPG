@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -31,34 +32,17 @@ import java.util.List;
 public class SunkenCityQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class SunkenCityBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new SunkenCityQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public SunkenCityQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private SunkenCityQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new SunkenCityBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_SUNKEN_CITY)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("deep_sea_diver", "deep_sea_diver"),
@@ -80,32 +64,17 @@ public class SunkenCityQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.sunken-city.name");
+        return LangManager.get("quest.side.sunken_city.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        List<Component> description = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Component line = Component.translatable("quest.side.sunken-city.description." + i);
-            description.add(line);
-        }
-        return description;
+        return LangManager.getList("quest.side.sunken_city.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-
-        return switch (id) {
-            case "deep_sea_diver" -> Component.translatable("quest.side.sunken-city.objectives.deep_sea_diver");
-            case "underwater_ruins" -> Component.translatable("quest.side.sunken-city.objectives.underwater_ruins");
-            case "kill_guardians" -> Component.translatable("quest.side.sunken-city.objectives.kill_guardians");
-            case "sea_crystals" -> Component.translatable("quest.side.sunken-city.objectives.sea_crystals");
-            case "sunken_palace" -> Component.translatable("quest.side.sunken-city.objectives.sunken_palace");
-            case "atlantean_artifact" -> Component.translatable("quest.side.sunken-city.objectives.atlantean_artifact");
-            default -> Component.translatable("quest.side.sunken-city.objectives." + id);
-        };
+        return LangManager.get("quest.side.sunken_city.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -116,25 +85,25 @@ public class SunkenCityQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.sunken-city.dialogs.0");
-            case 1 -> Component.translatable("quest.side.sunken-city.dialogs.1");
-            case 2 -> Component.translatable("quest.side.sunken-city.dialogs.2");
+            case 0 -> LangManager.get("quest.side.sunken_city.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.sunken_city.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.sunken_city.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.sunken-city.npc-name");
+        return LangManager.get("quest.side.sunken_city.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.sunken-city.accept");
+        return LangManager.get("quest.side.sunken_city.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.sunken-city.decline");
+        return LangManager.get("quest.side.sunken_city.decline", who);
     }
 }

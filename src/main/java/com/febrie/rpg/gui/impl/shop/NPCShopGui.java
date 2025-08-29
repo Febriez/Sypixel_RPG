@@ -34,7 +34,7 @@ public class NPCShopGui extends BaseGui {
     
     private NPCShopGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                       @NotNull RPGShopTrait shopTrait, @NotNull String shopName) {
-        super(viewer, guiManager, 54, Component.translatable("gui.shop.title", Component.text(shopName)));
+        super(viewer, guiManager, 54, LangManager.getComponent("gui.shop.title", viewer, Component.text(shopName)));
         this.playerManager = guiManager.getPlugin().getRPGPlayerManager();
         this.rpgPlayer = playerManager.getPlayer(viewer);
         this.shopTrait = shopTrait;
@@ -51,7 +51,7 @@ public class NPCShopGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.shop.title", Component.text(shopName));
+        return LangManager.getComponent("gui.shop.title", viewer, Component.text(shopName));
     }
     
     @Override
@@ -105,23 +105,23 @@ public class NPCShopGui extends BaseGui {
         }
         
         builder.addLore(Component.empty());
-        builder.addLore(Component.translatable("gui.shop.item.buy_price", Component.text(String.format("%,d", shopItem.getBuyPrice()))));
+        builder.addLore(LangManager.getComponent("gui.shop.item.buy_price", viewer, Component.text(String.format("%,d", shopItem.getBuyPrice()))));
         
         if (shopItem.isSellable()) {
-            builder.addLore(Component.translatable("gui.shop.item.sell_price", Component.text(String.format("%,d", shopItem.getSellPrice()))));
+            builder.addLore(LangManager.getComponent("gui.shop.item.sell_price", viewer, Component.text(String.format("%,d", shopItem.getSellPrice()))));
         }
         
         builder.addLore(Component.empty());
         
         long playerGold = rpgPlayer != null ? rpgPlayer.getWallet().getBalance(CurrencyType.GOLD) : 0;
         if (playerGold >= shopItem.getBuyPrice()) {
-            builder.addLore(Component.translatable("gui.shop.item.click_to_buy"));
+            builder.addLore(LangManager.getComponent("gui.shop.item.click_to_buy", viewer));
         } else {
-            builder.addLore(Component.translatable("gui.shop.item.insufficient_gold"));
+            builder.addLore(LangManager.getComponent("gui.shop.item.insufficient_gold", viewer));
         }
         
         if (shopItem.isSellable() && hasItem(baseItem)) {
-            builder.addLore(Component.translatable("gui.shop.item.click_to_sell"));
+            builder.addLore(LangManager.getComponent("gui.shop.item.click_to_sell", viewer));
         }
         
         return GuiItem.clickable(builder.build(), player -> {

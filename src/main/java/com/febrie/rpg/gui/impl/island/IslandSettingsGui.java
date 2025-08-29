@@ -42,7 +42,7 @@ public class IslandSettingsGui extends BaseGui {
     
     private IslandSettingsGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                              @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, Component.translatable("gui.island.settings.title"));
+        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.settings.title".replace("-", "_"), viewer));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.isOwner = island.core().ownerUuid().equals(viewer.getUniqueId().toString());

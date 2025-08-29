@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -26,34 +27,17 @@ import java.util.List;
 public class DailyDeliveryQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class DailyDeliveryBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new DailyDeliveryQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public DailyDeliveryQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private DailyDeliveryQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new DailyDeliveryBuilder()
+        return new QuestBuilder()
                 .id(QuestID.DAILY_DELIVERY)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("delivery_master", "delivery_master"), // 배달부 마스터
@@ -129,18 +113,18 @@ public class DailyDeliveryQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.daily.delivery.name");
+        return LangManager.get("quest.daily.delivery.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.daily.delivery.description") manually */;
+        return LangManager.getList("quest.daily.delivery.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String key = "quest.daily.delivery.objectives." + objective.getId();
-        return Component.translatable(key);
+        return LangManager.get(key, who);
     }
 
     @Override
@@ -151,30 +135,30 @@ public class DailyDeliveryQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.daily.delivery.dialogs.0");
-            case 1 -> Component.translatable("quest.daily.delivery.dialogs.1");
-            case 2 -> Component.translatable("quest.daily.delivery.dialogs.2");
-            case 3 -> Component.translatable("quest.daily.delivery.dialogs.3");
-            case 4 -> Component.translatable("quest.daily.delivery.dialogs.4");
-            case 5 -> Component.translatable("quest.daily.delivery.dialogs.5");
-            case 6 -> Component.translatable("quest.daily.delivery.dialogs.6");
-            case 7 -> Component.translatable("quest.daily.delivery.dialogs.7");
+            case 0 -> LangManager.get("quest.daily.delivery.dialogs.0", who);
+            case 1 -> LangManager.get("quest.daily.delivery.dialogs.1", who);
+            case 2 -> LangManager.get("quest.daily.delivery.dialogs.2", who);
+            case 3 -> LangManager.get("quest.daily.delivery.dialogs.3", who);
+            case 4 -> LangManager.get("quest.daily.delivery.dialogs.4", who);
+            case 5 -> LangManager.get("quest.daily.delivery.dialogs.5", who);
+            case 6 -> LangManager.get("quest.daily.delivery.dialogs.6", who);
+            case 7 -> LangManager.get("quest.daily.delivery.dialogs.7", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.daily.delivery.npc-name");
+        return LangManager.get("quest.daily.delivery.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.daily.delivery.accept");
+        return LangManager.get("quest.daily.delivery.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.daily.delivery.decline");
+        return LangManager.get("quest.daily.delivery.decline", who);
     }
 }

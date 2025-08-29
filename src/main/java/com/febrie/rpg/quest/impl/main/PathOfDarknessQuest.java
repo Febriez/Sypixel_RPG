@@ -10,6 +10,7 @@ import com.febrie.rpg.quest.objective.impl.CraftItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.KillPlayerObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -74,18 +75,18 @@ public class PathOfDarknessQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.main.path_of_darkness.name");
+        return LangManager.get("quest.main.path_of_darkness.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.main.path_of_darkness.info") manually */;
+        return LangManager.getList("quest.main.path_of_darkness.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-        return Component.translatable("quest.main.path_of_darkness.objectives.");
+        String key = "quest.main.path_of_darkness.objectives." + objective.getId();
+        return LangManager.get(key, who);
     }
 
     @Override
@@ -96,25 +97,25 @@ public class PathOfDarknessQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.main.path-of-darkness.dialogs.0");
-            case 1 -> Component.translatable("quest.main.path-of-darkness.dialogs.1");
-            case 2 -> Component.translatable("quest.main.path-of-darkness.dialogs.2");
+            case 0 -> LangManager.get("quest.main.path_of_darkness.dialogs.0", who);
+            case 1 -> LangManager.get("quest.main.path_of_darkness.dialogs.1", who);
+            case 2 -> LangManager.get("quest.main.path_of_darkness.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.main.path-of-darkness.npc-name");
+        return LangManager.get("quest.main.path_of_darkness.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.path-of-darkness.accept");
+        return LangManager.get("quest.main.path_of_darkness.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.path-of-darkness.decline");
+        return LangManager.get("quest.main.path_of_darkness.decline", who);
     }
 }

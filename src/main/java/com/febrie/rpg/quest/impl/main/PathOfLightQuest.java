@@ -10,6 +10,7 @@ import com.febrie.rpg.quest.objective.impl.CraftItemObjective;
 import com.febrie.rpg.quest.objective.impl.DeliverItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -74,26 +75,18 @@ public class PathOfLightQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.main.path_of_light.name");
+        return LangManager.get("quest.main.path_of_light.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.main.path_of_light.description") manually */;
+        return LangManager.getList("quest.main.path_of_light.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-
-        return switch (id) {
-            case "purify_undead_zombie" -> Component.translatable("quest.main.path_of_light.objectives.purify_undead_zombie");
-            case "purify_undead_skeleton" -> Component.translatable("quest.main.path_of_light.objectives.purify_undead_skeleton");
-            case "purify_undead_phantom" -> Component.translatable("quest.main.path_of_light.objectives.purify_undead_phantom");
-            case "craft_golden_apple" -> Component.translatable("quest.main.path_of_light.objectives.craft_golden_apple");
-            case "help_villagers" -> Component.translatable("quest.main.path_of_light.objectives.help_villagers");
-            default -> Component.translatable("quest.main.path_of_light.objectives." + id);
-        };
+        String key = "quest.main.path_of_light.objectives." + objective.getId();
+        return LangManager.get(key, who);
     }
 
     @Override
@@ -104,25 +97,25 @@ public class PathOfLightQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.main.path-of-light.dialogs.0");
-            case 1 -> Component.translatable("quest.main.path-of-light.dialogs.1");
-            case 2 -> Component.translatable("quest.main.path-of-light.dialogs.2");
+            case 0 -> LangManager.get("quest.main.path_of_light.dialogs.0", who);
+            case 1 -> LangManager.get("quest.main.path_of_light.dialogs.1", who);
+            case 2 -> LangManager.get("quest.main.path_of_light.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.main.path-of-light.npc-name");
+        return LangManager.get("quest.main.path_of_light.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.path-of-light.accept");
+        return LangManager.get("quest.main.path_of_light.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.path-of-light.decline");
+        return LangManager.get("quest.main.path_of_light.decline", who);
     }
 }

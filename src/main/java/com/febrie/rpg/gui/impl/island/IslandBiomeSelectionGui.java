@@ -58,7 +58,7 @@ public class IslandBiomeSelectionGui extends BaseGui {
                                    @NotNull String currentBiome,
                                    @NotNull Consumer<String> onBiomeSelected,
                                    @NotNull GuiFramework backDestination) {
-        super(player, guiManager, GUI_SIZE, Component.translatable("gui.island.biome-selection.title"));
+        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.island.biome-selection.title".replace("-", "_"), viewer));
         this.currentBiome = currentBiome;
         this.onBiomeSelected = onBiomeSelected;
         this.backDestination = backDestination;
@@ -77,7 +77,7 @@ public class IslandBiomeSelectionGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.island.biome-selection.title");
+        return LangManager.getComponent("gui.island.biome-selection.title".replace("-", "_"), viewer);
     }
     
     @Override

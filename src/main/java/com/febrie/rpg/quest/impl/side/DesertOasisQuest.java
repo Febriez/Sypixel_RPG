@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -31,34 +32,17 @@ import java.util.List;
 public class DesertOasisQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class DesertOasisBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new DesertOasisQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public DesertOasisQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private DesertOasisQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new DesertOasisBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_DESERT_OASIS)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("talk_desert_nomad", "desert_nomad"),
@@ -80,32 +64,17 @@ public class DesertOasisQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.desert-oasis.name");
+        return LangManager.get("quest.side.desert_oasis.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        List<Component> description = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Component line = Component.translatable("quest.side.desert-oasis.description." + i);
-            description.add(line);
-        }
-        return description;
+        return LangManager.getList("quest.side.desert_oasis.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-
-        return switch (id) {
-            case "talk_desert_nomad" -> Component.translatable("quest.side.desert-oasis.objectives.talk_desert_nomad");
-            case "mirages_edge" -> Component.translatable("quest.side.desert-oasis.objectives.mirages_edge");
-            case "kill_husks" -> Component.translatable("quest.side.desert-oasis.objectives.kill_husks");
-            case "desert_blooms" -> Component.translatable("quest.side.desert-oasis.objectives.desert_blooms");
-            case "hidden_oasis" -> Component.translatable("quest.side.desert-oasis.objectives.hidden_oasis");
-            case "oasis_water" -> Component.translatable("quest.side.desert-oasis.objectives.oasis_water");
-            default -> Component.translatable("quest.side.desert-oasis.objectives." + id);
-        };
+        return LangManager.get("quest.side.desert_oasis.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -116,25 +85,25 @@ public class DesertOasisQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.desert-oasis.dialogs.0");
-            case 1 -> Component.translatable("quest.side.desert-oasis.dialogs.1");
-            case 2 -> Component.translatable("quest.side.desert-oasis.dialogs.2");
+            case 0 -> LangManager.get("quest.side.desert_oasis.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.desert_oasis.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.desert_oasis.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.desert-oasis.npc-name");
+        return LangManager.get("quest.side.desert_oasis.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.desert-oasis.accept");
+        return LangManager.get("quest.side.desert_oasis.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.desert-oasis.decline");
+        return LangManager.get("quest.side.desert_oasis.decline", who);
     }
 }

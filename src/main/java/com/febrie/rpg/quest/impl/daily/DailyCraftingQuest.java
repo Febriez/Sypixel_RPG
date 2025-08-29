@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -80,18 +81,18 @@ public class DailyCraftingQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.daily.crafting.name");
+        return LangManager.get("quest.daily.crafting.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.daily.crafting.description") manually */;
+        return LangManager.getList("quest.daily.crafting.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String key = "quest.daily.crafting.objectives." + objective.getId();
-        return Component.translatable(key);
+        return LangManager.get(key, who);
     }
 
     @Override
@@ -102,30 +103,30 @@ public class DailyCraftingQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.daily.crafting.dialogs.0");
-            case 1 -> Component.translatable("quest.daily.crafting.dialogs.1");
-            case 2 -> Component.translatable("quest.daily.crafting.dialogs.2");
-            case 3 -> Component.translatable("quest.daily.crafting.dialogs.3");
-            case 4 -> Component.translatable("quest.daily.crafting.dialogs.4");
-            case 5 -> Component.translatable("quest.daily.crafting.dialogs.5");
-            case 6 -> Component.translatable("quest.daily.crafting.dialogs.6");
-            case 7 -> Component.translatable("quest.daily.crafting.dialogs.7");
+            case 0 -> LangManager.get("quest.daily.crafting.dialogs.0", who);
+            case 1 -> LangManager.get("quest.daily.crafting.dialogs.1", who);
+            case 2 -> LangManager.get("quest.daily.crafting.dialogs.2", who);
+            case 3 -> LangManager.get("quest.daily.crafting.dialogs.3", who);
+            case 4 -> LangManager.get("quest.daily.crafting.dialogs.4", who);
+            case 5 -> LangManager.get("quest.daily.crafting.dialogs.5", who);
+            case 6 -> LangManager.get("quest.daily.crafting.dialogs.6", who);
+            case 7 -> LangManager.get("quest.daily.crafting.dialogs.7", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.daily.crafting.npc-name");
+        return LangManager.get("quest.daily.crafting.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.daily.crafting.accept");
+        return LangManager.get("quest.daily.crafting.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.daily.crafting.decline");
+        return LangManager.get("quest.daily.crafting.decline", who);
     }
 }

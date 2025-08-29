@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -31,34 +32,17 @@ import java.util.List;
 public class RoyalMessengerQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class RoyalMessengerBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new RoyalMessengerQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public RoyalMessengerQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private RoyalMessengerQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new RoyalMessengerBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_ROYAL_MESSENGER)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("talk_royal_courier", "royal_courier"),
@@ -82,33 +66,17 @@ public class RoyalMessengerQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.royal-messenger.name");
+        return LangManager.get("quest.side.royal_messenger.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        List<Component> description = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Component line = Component.translatable("quest.side.royal-messenger.description." + i);
-            description.add(line);
-        }
-        return description;
+        return LangManager.getList("quest.side.royal_messenger.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-
-        return switch (id) {
-            case "talk_royal_courier" -> Component.translatable("quest.side.royal-messenger.objectives.talk_royal_courier");
-            case "collect_royal_seal" -> Component.translatable("quest.side.royal-messenger.objectives.collect_royal_seal");
-            case "visit_northern_outpost" -> Component.translatable("quest.side.royal-messenger.objectives.visit_northern_outpost");
-            case "kill_bandits" -> Component.translatable("quest.side.royal-messenger.objectives.kill_bandits");
-            case "collect_urgent_message" -> Component.translatable("quest.side.royal-messenger.objectives.collect_urgent_message");
-            case "visit_royal_castle" -> Component.translatable("quest.side.royal-messenger.objectives.visit_royal_castle");
-            case "talk_castle_guard" -> Component.translatable("quest.side.royal-messenger.objectives.talk_castle_guard");
-            default -> Component.translatable("quest.side.royal-messenger.objectives." + id);
-        };
+        return LangManager.get("quest.side.royal_messenger.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -119,25 +87,25 @@ public class RoyalMessengerQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.royal-messenger.dialogs.0");
-            case 1 -> Component.translatable("quest.side.royal-messenger.dialogs.1");
-            case 2 -> Component.translatable("quest.side.royal-messenger.dialogs.2");
+            case 0 -> LangManager.get("quest.side.royal_messenger.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.royal_messenger.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.royal_messenger.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.royal-messenger.npc-name");
+        return LangManager.get("quest.side.royal_messenger.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.royal-messenger.accept");
+        return LangManager.get("quest.side.royal_messenger.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.royal-messenger.decline");
+        return LangManager.get("quest.side.royal_messenger.decline", who);
     }
 }

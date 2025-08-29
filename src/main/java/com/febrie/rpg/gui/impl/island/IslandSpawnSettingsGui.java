@@ -33,7 +33,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
     
     private IslandSpawnSettingsGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, Component.translatable("gui.island.spawn.title"));
+        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.spawn.title".replace("-", "_"), viewer));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.isOwner = island.core().ownerUuid().equals(viewer.getUniqueId().toString());
@@ -92,7 +92,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.island.spawn.title");
+        return LangManager.getComponent("gui.island.spawn.title".replace("-", "_"), viewer);
     }
     
     private ItemStack createCurrentSpawnInfo() {

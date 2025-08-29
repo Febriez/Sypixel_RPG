@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -31,34 +32,17 @@ import java.util.List;
 public class MinersPlightQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class MinersPlightBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new MinersPlightQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public MinersPlightQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private MinersPlightQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new MinersPlightBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_MINERS_PLIGHT)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("talk_mine_foreman", "mine_foreman"),
@@ -82,33 +66,17 @@ public class MinersPlightQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.miners-plight.name");
+        return LangManager.get("quest.side.miners_plight.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        List<Component> description = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Component line = Component.translatable("quest.side.miners-plight.description." + i);
-            description.add(line);
-        }
-        return description;
+        return LangManager.getList("quest.side.miners_plight.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-
-        return switch (id) {
-            case "talk_mine_foreman" -> Component.translatable("quest.side.miners-plight.objectives.talk_mine_foreman");
-            case "visit_collapsed_mine" -> Component.translatable("quest.side.miners-plight.objectives.visit_collapsed_mine");
-            case "collect_support_beams" -> Component.translatable("quest.side.miners-plight.objectives.collect_support_beams");
-            case "kill_cave_spiders" -> Component.translatable("quest.side.miners-plight.objectives.kill_cave_spiders");
-            case "visit_trapped_miners" -> Component.translatable("quest.side.miners-plight.objectives.visit_trapped_miners");
-            case "collect_mining_equipment" -> Component.translatable("quest.side.miners-plight.objectives.collect_mining_equipment");
-            case "return_mine_foreman" -> Component.translatable("quest.side.miners-plight.objectives.return_mine_foreman");
-            default -> Component.translatable("quest.side.miners-plight.objectives." + id);
-        };
+        return LangManager.get("quest.side.miners_plight.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -119,25 +87,25 @@ public class MinersPlightQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.miners-plight.dialogs.0");
-            case 1 -> Component.translatable("quest.side.miners-plight.dialogs.1");
-            case 2 -> Component.translatable("quest.side.miners-plight.dialogs.2");
+            case 0 -> LangManager.get("quest.side.miners_plight.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.miners_plight.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.miners_plight.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.miners-plight.npc-name");
+        return LangManager.get("quest.side.miners_plight.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.miners-plight.accept");
+        return LangManager.get("quest.side.miners_plight.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.miners-plight.decline");
+        return LangManager.get("quest.side.miners_plight.decline", who);
     }
 }

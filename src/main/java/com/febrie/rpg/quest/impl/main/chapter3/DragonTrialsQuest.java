@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -27,34 +28,17 @@ import java.util.List;
 public class DragonTrialsQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class DragonTrialsBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new DragonTrialsQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자 - 퀘스트 설정
      */
     public DragonTrialsQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private DragonTrialsQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 빌더 생성 및 설정
      */
     private static QuestBuilder createBuilder() {
-        return new DragonTrialsBuilder()
+        return new QuestBuilder()
                 .id(QuestID.MAIN_DRAGON_TRIALS)
                 .objectives(Arrays.asList(
                         // 첫 번째 시련: 힘의 시련
@@ -118,18 +102,18 @@ public class DragonTrialsQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.main.dragon_trials.name");
+        return LangManager.get("quest.main.dragon_trials.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of();
+        return LangManager.getList("quest.main.dragon_trials.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return Component.translatable("quest.main.dragon_trials.objectives." + id);
+        return LangManager.get("quest.main.dragon_trials.objectives." + id, who);
     }
 
     @Override
@@ -140,27 +124,27 @@ public class DragonTrialsQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.main.dragon-trials.dialogs.0");
-            case 1 -> Component.translatable("quest.main.dragon-trials.dialogs.1");
-            case 2 -> Component.translatable("quest.main.dragon-trials.dialogs.2");
-            case 3 -> Component.translatable("quest.main.dragon-trials.dialogs.3");
-            case 4 -> Component.translatable("quest.main.dragon-trials.dialogs.4");
+            case 0 -> LangManager.get("quest.main.dragon_trials.dialogs.0", who);
+            case 1 -> LangManager.get("quest.main.dragon_trials.dialogs.1", who);
+            case 2 -> LangManager.get("quest.main.dragon_trials.dialogs.2", who);
+            case 3 -> LangManager.get("quest.main.dragon_trials.dialogs.3", who);
+            case 4 -> LangManager.get("quest.main.dragon_trials.dialogs.4", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.main.dragon-trials.npc-name");
+        return LangManager.get("quest.main.dragon_trials.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.dragon-trials.accept");
+        return LangManager.get("quest.main.dragon_trials.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.dragon-trials.decline");
+        return LangManager.get("quest.main.dragon_trials.decline", who);
     }
 }

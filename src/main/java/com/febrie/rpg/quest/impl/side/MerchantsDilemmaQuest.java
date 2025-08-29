@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -31,34 +32,17 @@ import java.util.List;
 public class MerchantsDilemmaQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class MerchantsDilemmaBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new MerchantsDilemmaQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public MerchantsDilemmaQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private MerchantsDilemmaQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new MerchantsDilemmaBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_MERCHANTS_DILEMMA)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("talk_troubled_merchant", "troubled_merchant"),
@@ -82,33 +66,17 @@ public class MerchantsDilemmaQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.merchants-dilemma.name");
+        return LangManager.get("quest.side.merchants_dilemma.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        List<Component> description = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Component line = Component.translatable("quest.side.merchants-dilemma.description." + i);
-            description.add(line);
-        }
-        return description;
+        return LangManager.getList("quest.side.merchants_dilemma.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-
-        return switch (id) {
-            case "talk_troubled_merchant" -> Component.translatable("quest.side.merchants-dilemma.objectives.talk_troubled_merchant");
-            case "visit_caravan_route" -> Component.translatable("quest.side.merchants-dilemma.objectives.visit_caravan_route");
-            case "kill_pillagers" -> Component.translatable("quest.side.merchants-dilemma.objectives.kill_pillagers");
-            case "collect_stolen_goods" -> Component.translatable("quest.side.merchants-dilemma.objectives.collect_stolen_goods");
-            case "visit_bandits_hideout" -> Component.translatable("quest.side.merchants-dilemma.objectives.visit_bandits_hideout");
-            case "collect_trade_contract" -> Component.translatable("quest.side.merchants-dilemma.objectives.collect_trade_contract");
-            case "return_troubled_merchant" -> Component.translatable("quest.side.merchants-dilemma.objectives.return_troubled_merchant");
-            default -> Component.translatable("quest.side.merchants-dilemma.objectives." + id);
-        };
+        return LangManager.get("quest.side.merchants_dilemma.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -119,25 +87,25 @@ public class MerchantsDilemmaQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.merchants-dilemma.dialogs.0");
-            case 1 -> Component.translatable("quest.side.merchants-dilemma.dialogs.1");
-            case 2 -> Component.translatable("quest.side.merchants-dilemma.dialogs.2");
+            case 0 -> LangManager.get("quest.side.merchants_dilemma.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.merchants_dilemma.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.merchants_dilemma.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.merchants-dilemma.npc-name");
+        return LangManager.get("quest.side.merchants_dilemma.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.merchants-dilemma.accept");
+        return LangManager.get("quest.side.merchants_dilemma.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.merchants-dilemma.decline");
+        return LangManager.get("quest.side.merchants_dilemma.decline", who);
     }
 }

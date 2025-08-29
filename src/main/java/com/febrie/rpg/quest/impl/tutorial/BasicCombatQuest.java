@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -60,23 +61,18 @@ public class BasicCombatQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.tutorial.basic-combat.name");
+        return LangManager.get("quest.tutorial.basic_combat.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return Arrays.asList(
-                Component.translatable("quest.tutorial.basic-combat.description[0]"),
-                Component.translatable("quest.tutorial.basic-combat.description[1]"),
-                Component.translatable("quest.tutorial.basic-combat.description[2]"),
-                Component.translatable("quest.tutorial.basic-combat.description[3]")
-        );
+        return LangManager.getList("quest.tutorial.basic_combat.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.tutorial.basic-combat.objectives." + objective.getId();
-        return Component.translatable(key);
+        String key = "quest.tutorial.basic_combat.objectives." + objective.getId();
+        return LangManager.get(key, who);
     }
 
     @Override
@@ -87,25 +83,25 @@ public class BasicCombatQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.tutorial.basic-combat.dialogs.0");
-            case 1 -> Component.translatable("quest.tutorial.basic-combat.dialogs.1");
-            case 2 -> Component.translatable("quest.tutorial.basic-combat.dialogs.2");
+            case 0 -> LangManager.get("quest.tutorial.basic_combat.dialogs.0", who);
+            case 1 -> LangManager.get("quest.tutorial.basic_combat.dialogs.1", who);
+            case 2 -> LangManager.get("quest.tutorial.basic_combat.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.tutorial.basic-combat.npc-name");
+        return LangManager.get("quest.tutorial.basic_combat.npc_name", who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.tutorial.basic-combat.accept");
+        return LangManager.get("quest.tutorial.basic_combat.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.tutorial.basic-combat.decline");
+        return LangManager.get("quest.tutorial.basic_combat.decline", who);
     }
 }

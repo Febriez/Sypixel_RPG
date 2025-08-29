@@ -50,7 +50,7 @@ public class QuestDialogGui extends BaseGui {
 
     private QuestDialogGui(@NotNull GuiManager guiManager,
                            @NotNull Player player, @NotNull Quest quest) {
-        super(player, guiManager, 9, Component.translatable("gui.quest-dialog.title"));
+        super(player, guiManager, 9, LangManager.getComponent("gui.quest_dialog.title", player));
         this.quest = quest;
         this.typingSpeed = getTypingSpeed(player); // 플레이어 설정에서 가져오기
     }
@@ -83,7 +83,7 @@ public class QuestDialogGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.quest-dialog.title")
+        return LangManager.getComponent("gui.quest_dialog.title", viewer)
                 .color(UnifiedColorUtil.GOLD);
     }
 
@@ -205,14 +205,14 @@ public class QuestDialogGui extends BaseGui {
         dialogBuilder.addLore(Component.empty());
         if (isComplete) {
             if (currentDialogIndex < quest.getDialogCount() - 1) {
-                dialogBuilder.addLore(Component.translatable("gui.quest-dialog.next-page")
+                dialogBuilder.addLore(LangManager.getComponent("gui.quest_dialog.next_page", viewer)
                         .color(UnifiedColorUtil.SUCCESS));
             } else {
-                dialogBuilder.addLore(Component.translatable("gui.quest-dialog.accept-quest")
+                dialogBuilder.addLore(LangManager.getComponent("gui.quest_dialog.accept_quest", viewer)
                         .color(UnifiedColorUtil.GOLD));
             }
         } else {
-            dialogBuilder.addLore(Component.translatable("gui.quest-dialog.skip")
+            dialogBuilder.addLore(LangManager.getComponent("gui.quest_dialog.skip", viewer)
                     .color(UnifiedColorUtil.YELLOW));
         }
 
@@ -348,7 +348,7 @@ public class QuestDialogGui extends BaseGui {
                 .append(declineDialog.color(UnifiedColorUtil.GRAY));
         
         viewer.sendMessage(message);
-        viewer.sendMessage(Component.translatable("gui.quest-dialog.quest-declined")
+        viewer.sendMessage(LangManager.getComponent("gui.quest_dialog.quest_declined", viewer)
                 .color(UnifiedColorUtil.GRAY));
         SoundUtil.playClickSound(viewer);
     }

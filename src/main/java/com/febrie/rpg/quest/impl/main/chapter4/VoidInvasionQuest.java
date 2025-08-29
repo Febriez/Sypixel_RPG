@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -27,34 +28,17 @@ import java.util.List;
 public class VoidInvasionQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class VoidInvasionBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new VoidInvasionQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자 - 퀘스트 설정
      */
     public VoidInvasionQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private VoidInvasionQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 빌더 생성 및 설정
      */
     private static QuestBuilder createBuilder() {
-        return new VoidInvasionBuilder()
+        return new QuestBuilder()
                 .id(QuestID.MAIN_VOID_INVASION)
                 .objectives(Arrays.asList(
                         // 침공 경고
@@ -115,18 +99,18 @@ public class VoidInvasionQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.main.void_invasion.name");
+        return LangManager.get("quest.main.void_invasion.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of();
+        return LangManager.getList("quest.main.void_invasion.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return Component.translatable("quest.main.void_invasion.objectives." + id);
+        return LangManager.get("quest.main.void_invasion.objectives." + id, who);
     }
 
     @Override
@@ -137,26 +121,26 @@ public class VoidInvasionQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.main.void-invasion.dialogs.0");
-            case 1 -> Component.translatable("quest.main.void-invasion.dialogs.1");
-            case 2 -> Component.translatable("quest.main.void-invasion.dialogs.2");
-            case 3 -> Component.translatable("quest.main.void-invasion.dialogs.3");
+            case 0 -> LangManager.get("quest.main.void_invasion.dialogs.0", who);
+            case 1 -> LangManager.get("quest.main.void_invasion.dialogs.1", who);
+            case 2 -> LangManager.get("quest.main.void_invasion.dialogs.2", who);
+            case 3 -> LangManager.get("quest.main.void_invasion.dialogs.3", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.main.void-invasion.npc-name");
+        return LangManager.get("quest.main.void_invasion.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.void-invasion.accept");
+        return LangManager.get("quest.main.void_invasion.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.void-invasion.decline");
+        return LangManager.get("quest.main.void_invasion.decline", who);
     }
 }

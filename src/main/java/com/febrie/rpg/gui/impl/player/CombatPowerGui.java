@@ -32,7 +32,7 @@ public class CombatPowerGui extends BaseGui {
 
     private CombatPowerGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        super(viewer, guiManager, GUI_SIZE, Component.translatable("gui.combat-power.title"));
+        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.combat_power.title", viewer));
         this.rpgPlayer = rpgPlayer;
     }
 
@@ -52,7 +52,7 @@ public class CombatPowerGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.combat-power.title");
+        return LangManager.getComponent("gui.combat_power.title", viewer);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class CombatPowerGui extends BaseGui {
             int contribution = statValue * info.multiplier;
             statContribution += contribution;
 
-            Component statName = Component.translatable("stat." + info.stat.getId() + ".name");
+            Component statName = LangManager.getComponent("stat." + info.stat.getId() + ".name", viewer);
 
             GuiItem statItem = GuiItem.display(
                     ItemBuilder.of(info.material, getViewerLocale())

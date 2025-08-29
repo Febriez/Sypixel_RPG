@@ -41,7 +41,7 @@ public class IslandVisitorLiveGui extends BaseGui {
     
     private IslandVisitorLiveGui(@NotNull Player viewer, @NotNull GuiManager guiManager, 
                                 @NotNull IslandDTO island, int page) {
-        super(viewer, guiManager, 54, Component.translatable("gui.island.visitor.live.title"));
+        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.visitor.live.title".replace("-", "_"), viewer));
         this.islandManager = RPGMain.getInstance().getIslandManager();
         this.island = island;
         

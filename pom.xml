@@ -213,13 +213,15 @@
             </exclusions>
         </dependency>
 
-        <!-- VoidGenerator -->
+        <!-- VoidGenerator - Commented out due to missing dependency -->
+        <!--
         <dependency>
             <groupId>com.coffeetory</groupId>
             <artifactId>VoidGenerator</artifactId>
             <version>1.0.0</version>
             <scope>provided</scope>
         </dependency>
+        -->
 
         <!-- Gson - provided (서버에 이미 있음) -->
         <dependency>

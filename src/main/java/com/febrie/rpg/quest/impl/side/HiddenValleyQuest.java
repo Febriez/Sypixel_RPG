@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -30,34 +31,17 @@ import java.util.List;
 public class HiddenValleyQuest extends Quest {
 
     /**
-     * Quest builder
-     */
-    private static class HiddenValleyBuilder extends QuestBuilder {
-        @Override
-        public @NotNull Quest build() {
-            return new HiddenValleyQuest(this);
-        }
-    }
-
-    /**
      * Default constructor
      */
     public HiddenValleyQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * Builder constructor
-     */
-    private HiddenValleyQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * Quest setup
      */
     private static QuestBuilder createBuilder() {
-        return new HiddenValleyBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_HIDDEN_VALLEY)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("talk_valley_scout", "valley_scout"),
@@ -82,23 +66,17 @@ public class HiddenValleyQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.hidden-valley.name");
+        return LangManager.get("quest.side.hidden_valley.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return Arrays.asList(
-                Component.translatable("quest.side.hidden-valley.description.0"),
-                Component.translatable("quest.side.hidden-valley.description.1"),
-                Component.translatable("quest.side.hidden-valley.description.2"),
-                Component.translatable("quest.side.hidden-valley.description.3")
-        );
+        return LangManager.getList("quest.side.hidden_valley.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.side.hidden-valley.objectives." + objective.getId();
-        return Component.translatable(key);
+        return LangManager.get("quest.side.hidden_valley.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -109,25 +87,25 @@ public class HiddenValleyQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.hidden-valley.dialogs.0");
-            case 1 -> Component.translatable("quest.side.hidden-valley.dialogs.1");
-            case 2 -> Component.translatable("quest.side.hidden-valley.dialogs.2");
+            case 0 -> LangManager.get("quest.side.hidden_valley.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.hidden_valley.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.hidden_valley.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.hidden-valley.npc-name");
+        return LangManager.get("quest.side.hidden_valley.npc_name", who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.hidden-valley.accept");
+        return LangManager.get("quest.side.hidden_valley.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.hidden-valley.decline");
+        return LangManager.get("quest.side.hidden_valley.decline", who);
     }
 }

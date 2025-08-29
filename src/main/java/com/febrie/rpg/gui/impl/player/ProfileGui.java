@@ -65,7 +65,7 @@ public class ProfileGui extends BaseGui {
      * @param targetPlayer 프로필 대상 플레이어
      */
     protected ProfileGui(@NotNull GuiManager guiManager, @NotNull Player viewer, @NotNull Player targetPlayer) {
-        super(viewer, guiManager, GUI_SIZE, Component.translatable("gui.profile.player-title", Component.translatable("player"), Component.text(targetPlayer.getName())));
+        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.profile.player_title", viewer, LangManager.getComponent("player", viewer), Component.text(targetPlayer.getName())));
         this.targetPlayer = targetPlayer;
     }
 
@@ -96,7 +96,7 @@ public class ProfileGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.profile.player-title", Component.text(targetPlayer.getName()));
+        return LangManager.getComponent("gui.profile.player_title", viewer, Component.text(targetPlayer.getName()));
     }
 
     @Override
@@ -152,7 +152,7 @@ public class ProfileGui extends BaseGui {
                 .displayName(Component.text(targetPlayer.getName())
                         .color(UnifiedColorUtil.LEGENDARY).decoration(TextDecoration.BOLD, true))
                 .addLore(Component.empty())
-                .addLore(Component.translatable("gui.profile.online-status", targetPlayer.isOnline() ? Component.translatable("status.online") : Component.translatable("status.offline")))
+                .addLore(LangManager.getComponent("gui.profile.online_status", viewer, targetPlayer.isOnline() ? LangManager.getComponent("status.online", viewer) : LangManager.getComponent("status.offline", viewer)))
                 .addLore(Component.empty());
 
         // Add wallet information - 모든 통화를 일관된 방식으로 표시
@@ -236,7 +236,7 @@ public class ProfileGui extends BaseGui {
                 guiManager.openGui(p, questListGui);
                 playSuccessSound(p);
             } else {
-                p.sendMessage(Component.translatable("general.cannot-view-others-quests"));
+                p.sendMessage(LangManager.getComponent("general.cannot_view_others_quests", p));
                 playErrorSound(p);
             }
         });
@@ -272,7 +272,7 @@ public class ProfileGui extends BaseGui {
                     guiManager.openGui(p, jobGui);
                     playSuccessSound(p);
                 } else {
-                    p.sendMessage(Component.translatable("general.cannot-select-others-job"));
+                    p.sendMessage(LangManager.getComponent("general.cannot_select_others_job", p));
                     playErrorSound(p);
                 }
             });
@@ -285,7 +285,7 @@ public class ProfileGui extends BaseGui {
             }
             String jobKey = job.name().toLowerCase();
             ItemBuilder jobBuilder = new ItemBuilder(job.getMaterial()).displayName(Component.text(job.getIcon() + " ")
-                            .append(Component.translatable("job." + jobKey + ".name")).color(job.getColor())
+                            .append(LangManager.getComponent("job." + jobKey + ".name", viewer)).color(job.getColor())
                             .decoration(TextDecoration.BOLD, true)).addLore(Component.empty())
                     .addLore(LangManager.getComponent("gui.profile.job-level", getViewerLocale(), Component.text(String.valueOf(rpgPlayer.getLevel()))))
                     .addLore(LangManager.getComponent("gui.profile.combat-power", getViewerLocale(), Component.text(String.valueOf(rpgPlayer.getCombatPower()))));
@@ -305,7 +305,7 @@ public class ProfileGui extends BaseGui {
                     guiManager.openGui(p, talentGui);
                     playSuccessSound(p);
                 } else {
-                    p.sendMessage(Component.translatable("general.cannot-view-others-talents"));
+                    p.sendMessage(LangManager.getComponent("general.cannot_view_others_talents", p));
                     playErrorSound(p);
                 }
             });
@@ -322,7 +322,7 @@ public class ProfileGui extends BaseGui {
                 .lore(List.of(LangManager.getComponent("items.mainmenu.stats-button.lore", getViewerLocale())))
                 .flags(org.bukkit.inventory.ItemFlag.HIDE_ATTRIBUTES).build(), p -> {
             if (!rpgPlayer.hasJob()) {
-                p.sendMessage(Component.translatable("messages.no-job-for-stats"));
+                p.sendMessage(LangManager.getComponent("messages.no_job_for_stats", p));
                 playErrorSound(p);
                 return;
             }
@@ -332,7 +332,7 @@ public class ProfileGui extends BaseGui {
                 guiManager.openGui(p, statsGui);
                 playSuccessSound(p);
             } else {
-                p.sendMessage(Component.translatable("general.cannot-view-others-stats"));
+                p.sendMessage(LangManager.getComponent("general.cannot_view_others_stats", p));
                 playErrorSound(p);
             }
         });

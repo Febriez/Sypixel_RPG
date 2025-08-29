@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -28,34 +29,17 @@ import java.util.List;
 public class RestorationQuest extends Quest {
     
     /**
-     * Quest builder
-     */
-    private static class RestorationBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new RestorationQuest(this);
-        }
-    }
-    
-    /**
      * Default constructor
      */
     public RestorationQuest() {
-        this(createBuilder());
-    }
-    
-    /**
-     * Builder constructor
-     */
-    private RestorationQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
     
     /**
      * Quest configuration
      */
     private static QuestBuilder createBuilder() {
-        return new RestorationBuilder()
+        return new QuestBuilder()
                 .id(QuestID.MAIN_RESTORATION)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("restoration_overseer", "restoration_overseer"),
@@ -83,21 +67,17 @@ public class RestorationQuest extends Quest {
     
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.main.restoration.name");
+        return LangManager.get("quest.main.restoration.name", who);
     }
     
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        List<Component> description = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            description.add(Component.translatable("quest.main.restoration.description." + i));
-        }
-        return description;
+        return LangManager.getList("quest.main.restoration.info", who);
     }
     
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return Component.translatable("quest.main.restoration.objectives." + objective.getId());
+        return LangManager.get("quest.main.restoration.objectives." + objective.getId(), who);
     }
     
     @Override
@@ -108,27 +88,27 @@ public class RestorationQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.main.restoration.dialogs.0");
-            case 1 -> Component.translatable("quest.main.restoration.dialogs.1");
-            case 2 -> Component.translatable("quest.main.restoration.dialogs.2");
-            case 3 -> Component.translatable("quest.main.restoration.dialogs.3");
-            case 4 -> Component.translatable("quest.main.restoration.dialogs.4");
+            case 0 -> LangManager.get("quest.main.restoration.dialogs.0", who);
+            case 1 -> LangManager.get("quest.main.restoration.dialogs.1", who);
+            case 2 -> LangManager.get("quest.main.restoration.dialogs.2", who);
+            case 3 -> LangManager.get("quest.main.restoration.dialogs.3", who);
+            case 4 -> LangManager.get("quest.main.restoration.dialogs.4", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.main.restoration.npc-name");
+        return LangManager.get("quest.main.restoration.npc_name", who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.restoration.accept");
+        return LangManager.get("quest.main.restoration.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.restoration.decline");
+        return LangManager.get("quest.main.restoration.decline", who);
     }
 }

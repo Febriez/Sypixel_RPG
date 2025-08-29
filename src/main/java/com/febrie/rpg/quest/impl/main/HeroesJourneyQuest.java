@@ -10,6 +10,7 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.CraftItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -73,33 +74,18 @@ public class HeroesJourneyQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.main.heroes-journey.name");
+        return LangManager.get("quest.main.heroes_journey.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return Arrays.asList(
-                Component.translatable("quest.main.heroes-journey.description.0"),
-                Component.translatable("quest.main.heroes-journey.description.1"),
-                Component.translatable("quest.main.heroes-journey.description.2"),
-                Component.translatable("quest.main.heroes-journey.description.3")
-        );
+        return LangManager.getList("quest.main.heroes_journey.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-
-        return switch (id) {
-            case "kill_zombies" -> Component.translatable("quest.main.heroes-journey.objectives.kill_zombies");
-            case "kill_skeletons" -> Component.translatable("quest.main.heroes-journey.objectives.kill_skeletons");
-            case "kill_spiders" -> Component.translatable("quest.main.heroes-journey.objectives.kill_spiders");
-            case "collect_iron" -> Component.translatable("quest.main.heroes-journey.objectives.collect_iron");
-            case "collect_gold" -> Component.translatable("quest.main.heroes-journey.objectives.collect_gold");
-            case "craft_iron_sword" -> Component.translatable("quest.main.heroes-journey.objectives.craft_iron_sword");
-            case "craft_iron_armor" -> Component.translatable("quest.main.heroes-journey.objectives.craft_iron_armor");
-            default -> Component.translatable("quest.main.heroes-journey.objectives." + id);
-        };
+        String key = "quest.main.heroes_journey.objectives." + objective.getId();
+        return LangManager.get(key, who);
     }
 
     @Override
@@ -110,26 +96,26 @@ public class HeroesJourneyQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.main.heroes-journey.dialogs.0");
-            case 1 -> Component.translatable("quest.main.heroes-journey.dialogs.1");
-            case 2 -> Component.translatable("quest.main.heroes-journey.dialogs.2");
-            case 3 -> Component.translatable("quest.main.heroes-journey.dialogs.3");
+            case 0 -> LangManager.get("quest.main.heroes_journey.dialogs.0", who);
+            case 1 -> LangManager.get("quest.main.heroes_journey.dialogs.1", who);
+            case 2 -> LangManager.get("quest.main.heroes_journey.dialogs.2", who);
+            case 3 -> LangManager.get("quest.main.heroes_journey.dialogs.3", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.main.heroes-journey.npc-name");
+        return LangManager.get("quest.main.heroes_journey.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.heroes-journey.accept");
+        return LangManager.get("quest.main.heroes_journey.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.heroes-journey.decline");
+        return LangManager.get("quest.main.heroes_journey.decline", who);
     }
 }

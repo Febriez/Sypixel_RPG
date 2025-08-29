@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -28,34 +29,17 @@ import java.util.List;
 public class AlchemistExperimentQuest extends Quest {
     
     /**
-     * Quest builder
-     */
-    private static class AlchemistExperimentBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new AlchemistExperimentQuest(this);
-        }
-    }
-    
-    /**
      * Default constructor
      */
     public AlchemistExperimentQuest() {
-        this(createBuilder());
-    }
-    
-    /**
-     * Builder constructor
-     */
-    private AlchemistExperimentQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
     
     /**
      * Quest configuration
      */
     private static QuestBuilder createBuilder() {
-        return new AlchemistExperimentBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_ALCHEMIST_EXPERIMENT)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("mad_alchemist", "mad_alchemist"),
@@ -79,21 +63,17 @@ public class AlchemistExperimentQuest extends Quest {
     
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.alchemist-experiment.name");
+        return LangManager.get("quest.side.alchemist_experiment.name", who);
     }
     
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        List<Component> description = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            description.add(Component.translatable("quest.side.alchemist-experiment.description." + i));
-        }
-        return description;
+        return LangManager.getList("quest.side.alchemist_experiment.info", who);
     }
     
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return Component.translatable("quest.side.alchemist-experiment.objectives." + objective.getId());
+        return LangManager.get("quest.side.alchemist_experiment.objectives." + objective.getId(), who);
     }
     
     @Override
@@ -104,25 +84,25 @@ public class AlchemistExperimentQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.alchemist-experiment.dialogs.0");
-            case 1 -> Component.translatable("quest.side.alchemist-experiment.dialogs.1");
-            case 2 -> Component.translatable("quest.side.alchemist-experiment.dialogs.2");
+            case 0 -> LangManager.get("quest.side.alchemist_experiment.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.alchemist_experiment.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.alchemist_experiment.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.alchemist-experiment.npc-name");
+        return LangManager.get("quest.side.alchemist_experiment.npc_name", who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.alchemist-experiment.accept");
+        return LangManager.get("quest.side.alchemist_experiment.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.alchemist-experiment.decline");
+        return LangManager.get("quest.side.alchemist_experiment.decline", who);
     }
 }

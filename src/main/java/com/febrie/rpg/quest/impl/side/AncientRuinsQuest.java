@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -28,34 +29,17 @@ import java.util.List;
 public class AncientRuinsQuest extends Quest {
     
     /**
-     * Quest builder
-     */
-    private static class AncientRuinsBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new AncientRuinsQuest(this);
-        }
-    }
-    
-    /**
      * Default constructor
      */
     public AncientRuinsQuest() {
-        this(createBuilder());
-    }
-    
-    /**
-     * Builder constructor
-     */
-    private AncientRuinsQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
     
     /**
      * Quest configuration
      */
     private static QuestBuilder createBuilder() {
-        return new AncientRuinsBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_ANCIENT_RUINS)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("archaeologist", "archaeologist"),
@@ -80,21 +64,17 @@ public class AncientRuinsQuest extends Quest {
     
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.ancient-ruins.name");
+        return LangManager.get("quest.side.ancient_ruins.name", who);
     }
     
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        List<Component> description = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            description.add(Component.translatable("quest.side.ancient-ruins.description." + i));
-        }
-        return description;
+        return LangManager.getList("quest.side.ancient_ruins.info", who);
     }
     
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return Component.translatable("quest.side.ancient-ruins.objectives." + objective.getId());
+        return LangManager.get("quest.side.ancient_ruins.objectives." + objective.getId(), who);
     }
     
     @Override
@@ -105,25 +85,25 @@ public class AncientRuinsQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.ancient-ruins.dialogs.0");
-            case 1 -> Component.translatable("quest.side.ancient-ruins.dialogs.1");
-            case 2 -> Component.translatable("quest.side.ancient-ruins.dialogs.2");
+            case 0 -> LangManager.get("quest.side.ancient_ruins.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.ancient_ruins.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.ancient_ruins.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.ancient-ruins.npc-name");
+        return LangManager.get("quest.side.ancient_ruins.npc_name", who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.ancient-ruins.accept");
+        return LangManager.get("quest.side.ancient_ruins.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.ancient-ruins.decline");
+        return LangManager.get("quest.side.ancient_ruins.decline", who);
     }
 }

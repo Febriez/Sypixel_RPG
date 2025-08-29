@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -31,34 +32,17 @@ import java.util.List;
 public class MysteriousCaveQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class MysteriousCaveBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new MysteriousCaveQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public MysteriousCaveQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private MysteriousCaveQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new MysteriousCaveBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_MYSTERIOUS_CAVE)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("talk_cave_explorer", "cave_explorer"),
@@ -80,32 +64,17 @@ public class MysteriousCaveQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.mysterious-cave.name");
+        return LangManager.get("quest.side.mysterious_cave.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        List<Component> description = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Component line = Component.translatable("quest.side.mysterious-cave.description." + i);
-            description.add(line);
-        }
-        return description;
+        return LangManager.getList("quest.side.mysterious_cave.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-
-        return switch (id) {
-            case "talk_cave_explorer" -> Component.translatable("quest.side.mysterious-cave.objectives.talk_cave_explorer");
-            case "visit_dark_cave_entrance" -> Component.translatable("quest.side.mysterious-cave.objectives.visit_dark_cave_entrance");
-            case "kill_bats" -> Component.translatable("quest.side.mysterious-cave.objectives.kill_bats");
-            case "collect_glowing_moss" -> Component.translatable("quest.side.mysterious-cave.objectives.collect_glowing_moss");
-            case "visit_underground_lake" -> Component.translatable("quest.side.mysterious-cave.objectives.visit_underground_lake");
-            case "collect_cave_pearl" -> Component.translatable("quest.side.mysterious-cave.objectives.collect_cave_pearl");
-            default -> Component.translatable("quest.side.mysterious-cave.objectives." + id);
-        };
+        return LangManager.get("quest.side.mysterious_cave.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -116,25 +85,25 @@ public class MysteriousCaveQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.mysterious-cave.dialogs.0");
-            case 1 -> Component.translatable("quest.side.mysterious-cave.dialogs.1");
-            case 2 -> Component.translatable("quest.side.mysterious-cave.dialogs.2");
+            case 0 -> LangManager.get("quest.side.mysterious_cave.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.mysterious_cave.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.mysterious_cave.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.mysterious-cave.npc-name");
+        return LangManager.get("quest.side.mysterious_cave.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.mysterious-cave.accept");
+        return LangManager.get("quest.side.mysterious_cave.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.mysterious-cave.decline");
+        return LangManager.get("quest.side.mysterious_cave.decline", who);
     }
 }

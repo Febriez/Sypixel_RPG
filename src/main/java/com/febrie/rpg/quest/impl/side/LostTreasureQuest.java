@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -66,34 +67,17 @@ public class LostTreasureQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.lost-treasure.name");
+        return LangManager.get("quest.side.lost_treasure.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        List<Component> description = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Component line = Component.translatable("quest.side.lost-treasure.description." + i);
-            description.add(line);
-        }
-        return description;
+        return LangManager.getList("quest.side.lost_treasure.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-
-        return switch (id) {
-            case "talk_old_sailor" -> Component.translatable("quest.side.lost-treasure.objectives.talk_old_sailor");
-            case "collect_treasure_map" -> Component.translatable("quest.side.lost-treasure.objectives.collect_treasure_map");
-            case "visit_cursed_cove" -> Component.translatable("quest.side.lost-treasure.objectives.visit_cursed_cove");
-            case "kill_skeletons" -> Component.translatable("quest.side.lost-treasure.objectives.kill_skeletons");
-            case "visit_buried_treasure" -> Component.translatable("quest.side.lost-treasure.objectives.visit_buried_treasure");
-            case "collect_gold_coins" -> Component.translatable("quest.side.lost-treasure.objectives.collect_gold_coins");
-            case "collect_ancient_artifact" -> Component.translatable("quest.side.lost-treasure.objectives.collect_ancient_artifact");
-            case "return_old_sailor" -> Component.translatable("quest.side.lost-treasure.objectives.return_old_sailor");
-            default -> Component.translatable("quest.side.lost-treasure.objectives." + id);
-        };
+        return LangManager.get("quest.side.lost_treasure.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -104,25 +88,25 @@ public class LostTreasureQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.lost-treasure.dialogs.0");
-            case 1 -> Component.translatable("quest.side.lost-treasure.dialogs.1");
-            case 2 -> Component.translatable("quest.side.lost-treasure.dialogs.2");
+            case 0 -> LangManager.get("quest.side.lost_treasure.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.lost_treasure.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.lost_treasure.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.lost-treasure.npc-name");
+        return LangManager.get("quest.side.lost_treasure.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.lost-treasure.accept");
+        return LangManager.get("quest.side.lost_treasure.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.lost-treasure.decline");
+        return LangManager.get("quest.side.lost_treasure.decline", who);
     }
 }

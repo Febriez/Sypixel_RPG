@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -27,34 +28,17 @@ import java.util.List;
 public class FirstTrialQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class FirstTrialBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new FirstTrialQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자 - 퀘스트 설정
      */
     public FirstTrialQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private FirstTrialQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 빌더 생성 및 설정
      */
     private static QuestBuilder createBuilder() {
-        return new FirstTrialBuilder().id(QuestID.MAIN_FIRST_TRIAL)
+        return new QuestBuilder().id(QuestID.MAIN_FIRST_TRIAL)
                 .objectives(Arrays.asList(
                         // 준비 단계
                         new InteractNPCObjective("meet_trainer", "trial_trainer"), // 시련의 훈련관
@@ -92,18 +76,18 @@ public class FirstTrialQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.main.first_trial.name");
+        return LangManager.get("quest.main.first_trial.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.main.first_trial.description") manually */;
+        return LangManager.getList("quest.main.first_trial.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return Component.translatable("quest.main.first_trial.objectives.");
+        return LangManager.get("quest.main.first_trial.objectives." + id, who);
     }
 
     @Override
@@ -114,29 +98,29 @@ public class FirstTrialQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.main.first-trial.dialogs.0");
-            case 1 -> Component.translatable("quest.main.first-trial.dialogs.1");
-            case 2 -> Component.translatable("quest.main.first-trial.dialogs.2");
-            case 3 -> Component.translatable("quest.main.first-trial.dialogs.3");
-            case 4 -> Component.translatable("quest.main.first-trial.dialogs.4");
-            case 5 -> Component.translatable("quest.main.first-trial.dialogs.5");
-            case 6 -> Component.translatable("quest.main.first-trial.dialogs.6");
+            case 0 -> LangManager.get("quest.main.first_trial.dialogs.0", who);
+            case 1 -> LangManager.get("quest.main.first_trial.dialogs.1", who);
+            case 2 -> LangManager.get("quest.main.first_trial.dialogs.2", who);
+            case 3 -> LangManager.get("quest.main.first_trial.dialogs.3", who);
+            case 4 -> LangManager.get("quest.main.first_trial.dialogs.4", who);
+            case 5 -> LangManager.get("quest.main.first_trial.dialogs.5", who);
+            case 6 -> LangManager.get("quest.main.first_trial.dialogs.6", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.main.first-trial.npc-name");
+        return LangManager.get("quest.main.first_trial.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.first-trial.accept");
+        return LangManager.get("quest.main.first_trial.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.first-trial.decline");
+        return LangManager.get("quest.main.first_trial.decline", who);
     }
 }

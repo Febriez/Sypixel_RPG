@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.FishingObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -25,27 +26,10 @@ import java.util.*;
 public class DailyFishingQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class DailyFishingBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new DailyFishingQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public DailyFishingQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private DailyFishingQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
@@ -59,7 +43,7 @@ public class DailyFishingQuest extends Quest {
         objectives.add(new FishingObjective("catch_salmon", FishingObjective.FishType.SPECIFIC, 5, Material.SALMON)); // 연어 5마리
         objectives.add(new FishingObjective("catch_pufferfish", FishingObjective.FishType.SPECIFIC, 2, Material.PUFFERFISH)); // 복어 2마리
 
-        return new DailyFishingBuilder()
+        return new QuestBuilder()
                 .id(QuestID.DAILY_FISHING)
                 .objectives(objectives)
                 .reward(new BasicReward.Builder()
@@ -78,23 +62,18 @@ public class DailyFishingQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.daily.fishing.name");
+        return LangManager.get("quest.daily.fishing.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return Arrays.asList(
-                Component.translatable("quest.daily.fishing.description[0]"),
-                Component.translatable("quest.daily.fishing.description[1]"),
-                Component.translatable("quest.daily.fishing.description[2]"),
-                Component.translatable("quest.daily.fishing.description[3]")
-        );
+        return LangManager.getList("quest.daily.fishing.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String key = "quest.daily.fishing.objectives." + objective.getId();
-        return Component.translatable(key);
+        return LangManager.get(key, who);
     }
 
     @Override
@@ -105,26 +84,26 @@ public class DailyFishingQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.daily.fishing.dialogs.0");
-            case 1 -> Component.translatable("quest.daily.fishing.dialogs.1");
-            case 2 -> Component.translatable("quest.daily.fishing.dialogs.2");
-            case 3 -> Component.translatable("quest.daily.fishing.dialogs.3");
+            case 0 -> LangManager.get("quest.daily.fishing.dialogs.0", who);
+            case 1 -> LangManager.get("quest.daily.fishing.dialogs.1", who);
+            case 2 -> LangManager.get("quest.daily.fishing.dialogs.2", who);
+            case 3 -> LangManager.get("quest.daily.fishing.dialogs.3", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.daily.fishing.npc-name");
+        return LangManager.get("quest.daily.fishing.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.daily.fishing.accept");
+        return LangManager.get("quest.daily.fishing.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.daily.fishing.decline");
+        return LangManager.get("quest.daily.fishing.decline", who);
     }
 }

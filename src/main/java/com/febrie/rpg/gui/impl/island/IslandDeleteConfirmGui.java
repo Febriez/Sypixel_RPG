@@ -37,7 +37,7 @@ public class IslandDeleteConfirmGui extends BaseGui {
     
     private IslandDeleteConfirmGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 27, Component.translatable("gui.island.delete-confirm.title"));
+        super(viewer, guiManager, 27, LangManager.getComponent("gui.island.delete-confirm.title".replace("-", "_"), viewer));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
     }
@@ -96,7 +96,7 @@ public class IslandDeleteConfirmGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.island.delete-confirm.title");
+        return LangManager.getComponent("gui.island.delete-confirm.title".replace("-", "_"), viewer);
     }
     
     private ItemStack createIslandInfoItem() {

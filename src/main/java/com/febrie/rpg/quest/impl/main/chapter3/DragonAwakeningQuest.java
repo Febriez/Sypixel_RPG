@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -27,34 +28,17 @@ import java.util.List;
 public class DragonAwakeningQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class DragonAwakeningBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new DragonAwakeningQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자 - 퀘스트 설정
      */
     public DragonAwakeningQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private DragonAwakeningQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 빌더 생성 및 설정
      */
     private static QuestBuilder createBuilder() {
-        return new DragonAwakeningBuilder()
+        return new QuestBuilder()
                 .id(QuestID.MAIN_DRAGON_AWAKENING)
                 .objectives(Arrays.asList(
                         // 전설 조사
@@ -130,18 +114,18 @@ public class DragonAwakeningQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.main.dragon_awakening.name");
+        return LangManager.get("quest.main.dragon_awakening.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.main.dragon_awakening.description") manually */;
+        return LangManager.getList("quest.main.dragon_awakening.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return Component.translatable("quest.main.dragon_awakening.objectives.");
+        return LangManager.get("quest.main.dragon_awakening.objectives." + id, who);
     }
 
     @Override
@@ -152,34 +136,34 @@ public class DragonAwakeningQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.main.dragon-awakening.dialogs.0");
-            case 1 -> Component.translatable("quest.main.dragon-awakening.dialogs.1");
-            case 2 -> Component.translatable("quest.main.dragon-awakening.dialogs.2");
-            case 3 -> Component.translatable("quest.main.dragon-awakening.dialogs.3");
-            case 4 -> Component.translatable("quest.main.dragon-awakening.dialogs.4");
-            case 5 -> Component.translatable("quest.main.dragon-awakening.dialogs.5");
-            case 6 -> Component.translatable("quest.main.dragon-awakening.dialogs.6");
-            case 7 -> Component.translatable("quest.main.dragon-awakening.dialogs.7");
-            case 8 -> Component.translatable("quest.main.dragon-awakening.dialogs.8");
-            case 9 -> Component.translatable("quest.main.dragon-awakening.dialogs.9");
-            case 10 -> Component.translatable("quest.main.dragon-awakening.dialogs.10");
-            case 11 -> Component.translatable("quest.main.dragon-awakening.dialogs.11");
+            case 0 -> LangManager.get("quest.main.dragon_awakening.dialogs.0", who);
+            case 1 -> LangManager.get("quest.main.dragon_awakening.dialogs.1", who);
+            case 2 -> LangManager.get("quest.main.dragon_awakening.dialogs.2", who);
+            case 3 -> LangManager.get("quest.main.dragon_awakening.dialogs.3", who);
+            case 4 -> LangManager.get("quest.main.dragon_awakening.dialogs.4", who);
+            case 5 -> LangManager.get("quest.main.dragon_awakening.dialogs.5", who);
+            case 6 -> LangManager.get("quest.main.dragon_awakening.dialogs.6", who);
+            case 7 -> LangManager.get("quest.main.dragon_awakening.dialogs.7", who);
+            case 8 -> LangManager.get("quest.main.dragon_awakening.dialogs.8", who);
+            case 9 -> LangManager.get("quest.main.dragon_awakening.dialogs.9", who);
+            case 10 -> LangManager.get("quest.main.dragon_awakening.dialogs.10", who);
+            case 11 -> LangManager.get("quest.main.dragon_awakening.dialogs.11", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.main.dragon-awakening.npc-name");
+        return LangManager.get("quest.main.dragon_awakening.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.dragon-awakening.accept");
+        return LangManager.get("quest.main.dragon_awakening.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.dragon-awakening.decline");
+        return LangManager.get("quest.main.dragon_awakening.decline", who);
     }
 }

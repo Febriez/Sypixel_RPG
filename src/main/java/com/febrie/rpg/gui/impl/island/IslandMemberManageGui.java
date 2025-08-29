@@ -49,7 +49,7 @@ public class IslandMemberManageGui extends BaseGui {
     private final boolean targetIsWorker;
     private IslandMemberManageGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull RPGMain plugin, @NotNull IslandDTO island, @NotNull String targetUuid) {
-        super(viewer, guiManager, 45, Component.translatable("gui.island.member-manage.title")); // 5줄 GUI
+        super(viewer, guiManager, 45, LangManager.getComponent("gui.island.member-manage.title".replace("-", "_"), viewer)); // 5줄 GUI
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.targetUuid = targetUuid;
@@ -112,7 +112,7 @@ public class IslandMemberManageGui extends BaseGui {
             setItem(24, new GuiItem(createKickItem()).onAnyClick(this::handleKick));
             // 권한 설정
             setItem(30, new GuiItem(createPermissionItem()).onAnyClick(player -> 
-                player.sendMessage(Component.translatable("gui.island.member-manage.permission-not-implemented").color(NamedTextColor.RED))));
+                player.sendMessage(LangManager.getComponent("gui.island.member-manage.permission-not-implemented".replace("-", "_"), viewer).color(NamedTextColor.RED))));
         } else {
             // 권한 없음 안내
             setItem(22, new GuiItem(createNoPermissionItem()));
@@ -138,7 +138,7 @@ public class IslandMemberManageGui extends BaseGui {
         return ItemBuilder.of(Material.PLAYER_HEAD)
                 .displayNameTranslated("items.island.member-manage.member-info.name")
                 .addLore(Component.empty())
-                .addLore(Component.translatable("gui.island.member-manage.current-role").color(NamedTextColor.GRAY)
+                .addLore(LangManager.getComponent("gui.island.member-manage.current-role".replace("-", "_"), viewer).color(NamedTextColor.GRAY)
                         .append(Component.text(currentRole, NamedTextColor.WHITE)))
                 .addLore(Component.text("UUID: ", NamedTextColor.GRAY)
                         .append(Component.text(targetUuid.substring(0, 8) + "...", NamedTextColor.WHITE)))

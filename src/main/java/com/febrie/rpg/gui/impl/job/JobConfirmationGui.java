@@ -38,7 +38,7 @@ public class JobConfirmationGui extends BaseGui {
 
     private JobConfirmationGui(@NotNull GuiManager guiManager,
                                @NotNull Player player, @NotNull RPGPlayer rpgPlayer, @NotNull JobType selectedJob) {
-        super(player, guiManager, GUI_SIZE, Component.translatable("gui.job-confirmation.title"));
+        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.job_confirmation.title", player));
         this.rpgPlayer = rpgPlayer;
         this.selectedJob = selectedJob;
     }
@@ -53,7 +53,7 @@ public class JobConfirmationGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.job-confirmation.title");
+        return LangManager.getComponent("gui.job_confirmation.title", viewer);
     }
 
     @Override
@@ -170,18 +170,18 @@ public class JobConfirmationGui extends BaseGui {
      */
     private void handleConfirm() {
         if (rpgPlayer.setJob(selectedJob)) {
-            Component jobName = Component.translatable("job." + selectedJob.name().toLowerCase() + ".name");
+            Component jobName = LangManager.getComponent("job." + selectedJob.name().toLowerCase() + ".name", viewer);
 
             // 성공 메시지
-            viewer.sendMessage(Component.translatable("gui.job-confirmation.success", jobName));
+            viewer.sendMessage(LangManager.getComponent("gui.job_confirmation.success", viewer, jobName));
 
             // 축하 효과
             playSuccessSound(viewer);
 
             // Title 표시
             viewer.showTitle(Title.title(
-                    Component.translatable("gui.job-confirmation.title-success"),
-                    Component.translatable("gui.job-confirmation.subtitle-success", jobName),
+                    LangManager.getComponent("gui.job_confirmation.title_success", viewer),
+                    LangManager.getComponent("gui.job_confirmation.subtitle_success", viewer, jobName),
                     Title.Times.times(
                             Duration.ofMillis(500),   // fadeIn
                             Duration.ofMillis(3000),  // stay

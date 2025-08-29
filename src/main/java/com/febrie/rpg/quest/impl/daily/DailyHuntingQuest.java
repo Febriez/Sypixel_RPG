@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -49,12 +50,12 @@ public class DailyHuntingQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.daily.hunting.name");
+        return LangManager.get("quest.daily.hunting.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return Arrays.asList(Component.translatable("quest.daily.hunting.description[0]"), Component.translatable("quest.daily.hunting.description[1]"), Component.translatable("quest.daily.hunting.description[2]"), Component.translatable("quest.daily.hunting.description[3]"));
+        return LangManager.getList("quest.daily.hunting.info", who);
     }
 
     @Override
@@ -62,10 +63,40 @@ public class DailyHuntingQuest extends Quest {
         String id = objective.getId();
 
         return switch (id) {
-            case "kill_zombies" -> Component.translatable("quest.daily.hunting.objectives.kill_zombies");
-            case "kill_skeletons" -> Component.translatable("quest.daily.hunting.objectives.kill_skeletons");
-            case "kill_creepers" -> Component.translatable("quest.daily.hunting.objectives.kill_creepers");
-            default -> Component.translatable("quest.daily.hunting.objectives." + id);
+            case "kill_zombies" -> LangManager.get("quest.daily.hunting.objectives.kill_zombies", who);
+            case "kill_skeletons" -> LangManager.get("quest.daily.hunting.objectives.kill_skeletons", who);
+            case "kill_creepers" -> LangManager.get("quest.daily.hunting.objectives.kill_creepers", who);
+            default -> LangManager.get("quest.daily.hunting.objectives." + id, who);
         };
+    }
+    
+    @Override
+    public int getDialogCount() {
+        return 3;
+    }
+    
+    @Override
+    public Component getDialog(int index, @NotNull Player who) {
+        return switch (index) {
+            case 0 -> LangManager.get("quest.daily.hunting.dialogs.0", who);
+            case 1 -> LangManager.get("quest.daily.hunting.dialogs.1", who);
+            case 2 -> LangManager.get("quest.daily.hunting.dialogs.2", who);
+            default -> null;
+        };
+    }
+    
+    @Override
+    public @NotNull Component getNPCName(@NotNull Player who) {
+        return LangManager.get("quest.daily.hunting.npc_name", who);
+    }
+    
+    @Override
+    public @NotNull Component getAcceptDialog(@NotNull Player who) {
+        return LangManager.get("quest.daily.hunting.accept", who);
+    }
+    
+    @Override
+    public @NotNull Component getDeclineDialog(@NotNull Player who) {
+        return LangManager.get("quest.daily.hunting.decline", who);
     }
 }

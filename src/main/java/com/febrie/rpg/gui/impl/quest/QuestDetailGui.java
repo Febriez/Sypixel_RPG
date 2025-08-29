@@ -44,7 +44,7 @@ public class QuestDetailGui extends BaseGui {
 
     private QuestDetailGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer, @NotNull Quest quest, @NotNull QuestProgress progress) {
-        super(viewer, guiManager, GUI_SIZE, Component.translatable("gui.quest-detail.title"));
+        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.quest_detail.title", viewer));
         this.quest = quest;
         this.progress = progress;
     }
@@ -66,7 +66,7 @@ public class QuestDetailGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.quest-detail.title");
+        return LangManager.getComponent("gui.quest_detail.title", viewer);
     }
 
     @Override
@@ -144,7 +144,7 @@ public class QuestDetailGui extends BaseGui {
         
         builder.addLore(Component.empty())
                 // 전체 진행도
-                .addLore(Component.translatable("quest.total-progress")
+                .addLore(LangManager.getComponent("quest.total_progress", viewer)
                         .append(Component.text(": " + progress.getCompletionPercentage() + "%"))
                         .color(UnifiedColorUtil.EMERALD))
                 .hideAllFlags();
@@ -174,7 +174,7 @@ public class QuestDetailGui extends BaseGui {
         });
         
         builder.addLore(Component.empty())
-                .addLore(Component.translatable("quest.overall-progress")
+                .addLore(LangManager.getComponent("quest.overall_progress", viewer)
                         .append(Component.text(": " + progress.getCompletionPercentage() + "%"))
                         .color(UnifiedColorUtil.YELLOW))
                 .hideAllFlags();

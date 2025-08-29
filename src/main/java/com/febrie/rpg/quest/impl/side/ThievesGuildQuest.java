@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -31,34 +32,17 @@ import java.util.List;
 public class ThievesGuildQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class ThievesGuildBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new ThievesGuildQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public ThievesGuildQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private ThievesGuildQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new ThievesGuildBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_THIEVES_GUILD)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("guild_contact", "guild_contact"),
@@ -82,33 +66,17 @@ public class ThievesGuildQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.thieves-guild.name");
+        return LangManager.get("quest.side.thieves_guild.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        List<Component> description = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Component line = Component.translatable("quest.side.thieves-guild.description." + i);
-            description.add(line);
-        }
-        return description;
+        return LangManager.getList("quest.side.thieves_guild.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-
-        return switch (id) {
-            case "guild_contact" -> Component.translatable("quest.side.thieves-guild.objectives.guild_contact");
-            case "secret_entrance" -> Component.translatable("quest.side.thieves-guild.objectives.secret_entrance");
-            case "lockpicks" -> Component.translatable("quest.side.thieves-guild.objectives.lockpicks");
-            case "rival_hideout" -> Component.translatable("quest.side.thieves-guild.objectives.rival_hideout");
-            case "kill_vindicators" -> Component.translatable("quest.side.thieves-guild.objectives.kill_vindicators");
-            case "stolen_ledger" -> Component.translatable("quest.side.thieves-guild.objectives.stolen_ledger");
-            case "guild_master" -> Component.translatable("quest.side.thieves-guild.objectives.guild_master");
-            default -> Component.translatable("quest.side.thieves-guild.objectives." + id);
-        };
+        return LangManager.get("quest.side.thieves_guild.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -119,26 +87,26 @@ public class ThievesGuildQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.thieves-guild.dialogs.0");
-            case 1 -> Component.translatable("quest.side.thieves-guild.dialogs.1");
-            case 2 -> Component.translatable("quest.side.thieves-guild.dialogs.2");
-            case 3 -> Component.translatable("quest.side.thieves-guild.dialogs.3");
+            case 0 -> LangManager.get("quest.side.thieves_guild.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.thieves_guild.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.thieves_guild.dialogs.2", who);
+            case 3 -> LangManager.get("quest.side.thieves_guild.dialogs.3", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.thieves-guild.npc-name");
+        return LangManager.get("quest.side.thieves_guild.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.thieves-guild.accept");
+        return LangManager.get("quest.side.thieves_guild.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.thieves-guild.decline");
+        return LangManager.get("quest.side.thieves_guild.decline", who);
     }
 }

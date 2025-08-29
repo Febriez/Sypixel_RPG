@@ -69,7 +69,7 @@ public class LeaderboardGui extends ScrollableGui {
         }
         
         public Component getDisplayName() {
-            return Component.translatable(displayNameKey);
+            return LangManager.getComponent(displayNameKey, null);
         }
     }
     // 탭 위치
@@ -95,7 +95,7 @@ public class LeaderboardGui extends ScrollableGui {
     private LeaderboardGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer, @NotNull LeaderboardType type) {
         super(viewer, guiManager, GUI_SIZE, 
-                Component.translatable("gui.leaderboard.title", type.getDisplayName()));
+                LangManager.getComponent("gui.leaderboard.title", viewer.locale(), type.getDisplayName()));
         this.currentType = type;
     }
     
@@ -129,7 +129,7 @@ public class LeaderboardGui extends ScrollableGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.leaderboard.title", currentType.getDisplayName());
+        return LangManager.getComponent("gui.leaderboard.title", viewer.locale(), currentType.getDisplayName());
     }
     
     @Override
@@ -200,8 +200,8 @@ public class LeaderboardGui extends ScrollableGui {
                                     .decoration(TextDecoration.BOLD, true))
                             .addLore(Component.empty())
                             .addLore(isSelected ?
-                                    Component.translatable("gui.leaderboard.tab-selected") :
-                                    Component.translatable("gui.leaderboard.tab-click"))
+                                    LangManager.getComponent("gui.leaderboard.tab_selected", viewer.locale()) :
+                                    LangManager.getComponent("gui.leaderboard.tab_click", viewer.locale()))
                             .glint(isSelected)
                             .flags(ItemFlag.values())
                             .build(),

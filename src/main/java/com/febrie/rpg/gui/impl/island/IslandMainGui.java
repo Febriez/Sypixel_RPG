@@ -44,7 +44,7 @@ public class IslandMainGui extends BaseGui {
     private final boolean isWorker;
 
     private IslandMainGui(@NotNull GuiManager guiManager, @NotNull Player player) {
-        super(player, guiManager, 54, Component.translatable("gui.island.main.title"));
+        super(player, guiManager, 54, LangManager.getComponent("gui.island.main.title", player));
         this.islandManager = RPGMain.getInstance().getIslandManager();
 
         // 플레이어의 섬 데이터 가져오기
@@ -90,9 +90,9 @@ public class IslandMainGui extends BaseGui {
     @Override
     public @NotNull Component getTitle() {
         if (island != null) {
-            return Component.translatable("island.gui.main.title-with-name", Component.text(island.core().islandName()));
+            return LangManager.getComponent("island.gui.main.title_with_name", viewer, Component.text(island.core().islandName()));
         } else {
-            return Component.translatable("island.gui.main.title");
+            return LangManager.getComponent("island.gui.main.title", viewer);
         }
     }
 
@@ -267,7 +267,7 @@ public class IslandMainGui extends BaseGui {
         // 섬장이나 부섬장인 경우 색상 변경 안내 추가
         if (isOwner || isCoOwner) {
             builder.addLore(Component.empty());
-            builder.addLore(Component.translatable("gui.island.main.color-change-hint").color(UnifiedColorUtil.AQUA));
+            builder.addLore(LangManager.getComponent("gui.island.main.color_change_hint", viewer).color(UnifiedColorUtil.AQUA));
         }
 
         ItemStack itemStack = builder.hideAllFlags().build();
@@ -293,9 +293,9 @@ public class IslandMainGui extends BaseGui {
             String hexColor = stateSnapshot.getText();
             // HEX 코드 유효성 검사
             if (!hexColor.matches("^#[0-9A-Fa-f]{6}$")) {
-                player.sendMessage(Component.translatable("gui.island.main.hex-format-error").color(UnifiedColorUtil.ERROR));
+                player.sendMessage(LangManager.getComponent("gui.island.main.hex_format_error", player).color(UnifiedColorUtil.ERROR));
                 String hexFormatExample = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
-                        .serialize(LangManager.getComponent("gui.island.main.hex-format-example", player.locale()));
+                        .serialize(LangManager.getComponent("gui.island.main.hex_format_example", player));
                 return java.util.Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText(hexFormatExample));
             }
 
@@ -306,7 +306,7 @@ public class IslandMainGui extends BaseGui {
             IslandDTO updated = GuiHandlerUtil.updateIslandSettings(island, newSettings);
             islandManager.updateIsland(updated);
 
-            player.sendMessage(Component.translatable("gui.island.main.color-changed").color(UnifiedColorUtil.SUCCESS));
+            player.sendMessage(LangManager.getComponent("gui.island.main.color_changed", player).color(UnifiedColorUtil.SUCCESS));
 
             return java.util.Collections.singletonList(AnvilGUI.ResponseAction.close());
                 }).onClose(closePlayer -> {
@@ -315,7 +315,7 @@ public class IslandMainGui extends BaseGui {
                             .open(viewer), 1L);
                 }).text(island.configuration().settings().nameColorHex())
                         .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
-                                .serialize(LangManager.getComponent("gui.island.main.hex-input-title", player.locale())))
+                                .serialize(LangManager.getComponent("gui.island.main.hex_input_title", player)))
                         .plugin(RPGMain.getInstance())
                 .open(player);
     }
@@ -500,7 +500,7 @@ public class IslandMainGui extends BaseGui {
      */
     private void handleWarp(@NotNull Player player) {
         player.closeInventory();
-        player.sendMessage(Component.translatable("gui.island.main.warp-moving").color(UnifiedColorUtil.YELLOW));
+        player.sendMessage(LangManager.getComponent("gui.island.main.warp_moving", player).color(UnifiedColorUtil.YELLOW));
 
         // 스폰 위치 가져오기
         var spawn = island.configuration().spawnData().defaultSpawn()
@@ -509,7 +509,7 @@ public class IslandMainGui extends BaseGui {
 
         Bukkit.getScheduler().runTask(RPGMain.getInstance(), () -> {
             player.teleport(spawn);
-            player.sendMessage(Component.translatable("gui.island.main.warp-success").color(UnifiedColorUtil.SUCCESS));
+            player.sendMessage(LangManager.getComponent("gui.island.main.warp_success", player).color(UnifiedColorUtil.SUCCESS));
         });
     }
 }

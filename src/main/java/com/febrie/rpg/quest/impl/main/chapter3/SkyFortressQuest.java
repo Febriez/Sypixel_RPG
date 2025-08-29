@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -27,34 +28,17 @@ import java.util.List;
 public class SkyFortressQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class SkyFortressBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new SkyFortressQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자 - 퀘스트 설정
      */
     public SkyFortressQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private SkyFortressQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 빌더 생성 및 설정
      */
     private static QuestBuilder createBuilder() {
-        return new SkyFortressBuilder()
+        return new QuestBuilder()
                 .id(QuestID.MAIN_SKY_FORTRESS)
                 .objectives(Arrays.asList(
                         // 하늘 요새 발견
@@ -137,18 +121,18 @@ public class SkyFortressQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.main.sky_fortress.name");
+        return LangManager.get("quest.main.sky_fortress.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of();
+        return LangManager.getList("quest.main.sky_fortress.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return Component.translatable("quest.main.sky_fortress.objectives." + id);
+        return LangManager.get("quest.main.sky_fortress.objectives." + id, who);
     }
 
     @Override
@@ -159,27 +143,27 @@ public class SkyFortressQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.main.sky-fortress.dialogs.0");
-            case 1 -> Component.translatable("quest.main.sky-fortress.dialogs.1");
-            case 2 -> Component.translatable("quest.main.sky-fortress.dialogs.2");
-            case 3 -> Component.translatable("quest.main.sky-fortress.dialogs.3");
-            case 4 -> Component.translatable("quest.main.sky-fortress.dialogs.4");
+            case 0 -> LangManager.get("quest.main.sky_fortress.dialogs.0", who);
+            case 1 -> LangManager.get("quest.main.sky_fortress.dialogs.1", who);
+            case 2 -> LangManager.get("quest.main.sky_fortress.dialogs.2", who);
+            case 3 -> LangManager.get("quest.main.sky_fortress.dialogs.3", who);
+            case 4 -> LangManager.get("quest.main.sky_fortress.dialogs.4", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.main.sky-fortress.npc-name");
+        return LangManager.get("quest.main.sky_fortress.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.sky-fortress.accept");
+        return LangManager.get("quest.main.sky_fortress.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.sky-fortress.decline");
+        return LangManager.get("quest.main.sky_fortress.decline", who);
     }
 }

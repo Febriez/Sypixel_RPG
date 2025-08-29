@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -31,34 +32,17 @@ import java.util.List;
 public class InnkeeperTroubleQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class InnkeeperTroubleBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new InnkeeperTroubleQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자
      */
     public InnkeeperTroubleQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private InnkeeperTroubleQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new InnkeeperTroubleBuilder()
+        return new QuestBuilder()
                 .id(QuestID.SIDE_INNKEEPER_TROUBLE)
                 .objectives(Arrays.asList(
                         new InteractNPCObjective("talk_worried_innkeeper", "worried_innkeeper"),
@@ -82,33 +66,17 @@ public class InnkeeperTroubleQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.innkeeper-trouble.name");
+        return LangManager.get("quest.side.innkeeper_trouble.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        List<Component> description = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Component line = Component.translatable("quest.side.innkeeper-trouble.description." + i);
-            description.add(line);
-        }
-        return description;
+        return LangManager.getList("quest.side.innkeeper_trouble.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-
-        return switch (id) {
-            case "talk_worried_innkeeper" -> Component.translatable("quest.side.innkeeper-trouble.objectives.talk_worried_innkeeper");
-            case "visit_inn_basement" -> Component.translatable("quest.side.innkeeper-trouble.objectives.visit_inn_basement");
-            case "kill_spiders" -> Component.translatable("quest.side.innkeeper-trouble.objectives.kill_spiders");
-            case "collect_inn_supplies" -> Component.translatable("quest.side.innkeeper-trouble.objectives.collect_inn_supplies");
-            case "collect_ale_barrels" -> Component.translatable("quest.side.innkeeper-trouble.objectives.collect_ale_barrels");
-            case "visit_storage_room" -> Component.translatable("quest.side.innkeeper-trouble.objectives.visit_storage_room");
-            case "return_worried_innkeeper" -> Component.translatable("quest.side.innkeeper-trouble.objectives.return_worried_innkeeper");
-            default -> Component.translatable("quest.side.innkeeper-trouble.objectives." + id);
-        };
+        return LangManager.get("quest.side.innkeeper_trouble.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -119,25 +87,25 @@ public class InnkeeperTroubleQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.innkeeper-trouble.dialogs.0");
-            case 1 -> Component.translatable("quest.side.innkeeper-trouble.dialogs.1");
-            case 2 -> Component.translatable("quest.side.innkeeper-trouble.dialogs.2");
+            case 0 -> LangManager.get("quest.side.innkeeper_trouble.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.innkeeper_trouble.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.innkeeper_trouble.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.innkeeper-trouble.npc-name");
+        return LangManager.get("quest.side.innkeeper_trouble.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.innkeeper-trouble.accept");
+        return LangManager.get("quest.side.innkeeper_trouble.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.innkeeper-trouble.decline");
+        return LangManager.get("quest.side.innkeeper_trouble.decline", who);
     }
 }

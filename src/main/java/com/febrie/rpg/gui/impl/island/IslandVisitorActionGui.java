@@ -7,6 +7,7 @@ import com.febrie.rpg.gui.framework.GuiFramework;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.listener.IslandVisitListener;
 import com.febrie.rpg.island.permission.IslandPermissionHandler;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.UnifiedTimeUtil;
 import com.febrie.rpg.util.ItemBuilder;
@@ -36,7 +37,7 @@ public class IslandVisitorActionGui extends BaseGui {
     
     private IslandVisitorActionGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull IslandDTO island, @NotNull IslandVisitListener.CurrentVisitorInfo visitor) {
-        super(viewer, guiManager, 27, Component.translatable("gui.island.visitor.action.title"));
+        super(viewer, guiManager, 27, LangManager.getComponent("gui.island.visitor.action.title".replace("-", "_"), viewer));
         this.island = island;
         this.visitor = visitor;
         this.targetPlayer = Bukkit.getOfflinePlayer(UUID.fromString(visitor.getPlayerUuid()));

@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -64,23 +65,17 @@ public class FarmersRequestQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.side.farmers-request.name");
+        return LangManager.get("quest.side.farmers_request.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return Arrays.asList(
-                Component.translatable("quest.side.farmers-request.description.0"),
-                Component.translatable("quest.side.farmers-request.description.1"),
-                Component.translatable("quest.side.farmers-request.description.2"),
-                Component.translatable("quest.side.farmers-request.description.3")
-        );
+        return LangManager.getList("quest.side.farmers_request.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.side.farmers-request.objectives." + objective.getId();
-        return Component.translatable(key);
+        return LangManager.get("quest.side.farmers_request.objectives." + objective.getId(), who);
     }
 
     @Override
@@ -91,25 +86,25 @@ public class FarmersRequestQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.side.farmers-request.dialogs.0");
-            case 1 -> Component.translatable("quest.side.farmers-request.dialogs.1");
-            case 2 -> Component.translatable("quest.side.farmers-request.dialogs.2");
+            case 0 -> LangManager.get("quest.side.farmers_request.dialogs.0", who);
+            case 1 -> LangManager.get("quest.side.farmers_request.dialogs.1", who);
+            case 2 -> LangManager.get("quest.side.farmers_request.dialogs.2", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.side.farmers-request.npc-name");
+        return LangManager.get("quest.side.farmers_request.npc_name", who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.farmers-request.accept");
+        return LangManager.get("quest.side.farmers_request.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.side.farmers-request.decline");
+        return LangManager.get("quest.side.farmers_request.decline", who);
     }
 }

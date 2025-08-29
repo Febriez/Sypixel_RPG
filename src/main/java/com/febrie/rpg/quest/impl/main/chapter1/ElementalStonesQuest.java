@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -27,34 +28,17 @@ import java.util.List;
 public class ElementalStonesQuest extends Quest {
 
     /**
-     * 퀘스트 빌더
-     */
-    private static class ElementalStonesBuilder extends QuestBuilder {
-        @Override
-        public Quest build() {
-            return new ElementalStonesQuest(this);
-        }
-    }
-
-    /**
      * 기본 생성자 - 퀘스트 설정
      */
     public ElementalStonesQuest() {
-        this(createBuilder());
-    }
-
-    /**
-     * 빌더 생성자
-     */
-    private ElementalStonesQuest(@NotNull QuestBuilder builder) {
-        super(builder);
+        super(createBuilder());
     }
 
     /**
      * 퀘스트 빌더 생성 및 설정
      */
     private static QuestBuilder createBuilder() {
-        return new ElementalStonesBuilder().id(QuestID.MAIN_ELEMENTAL_STONES)
+        return new QuestBuilder().id(QuestID.MAIN_ELEMENTAL_STONES)
                 .objectives(Arrays.asList(
                         // 시작
                         new InteractNPCObjective("meet_sage", "elemental_sage"), // 원소의 현자
@@ -90,18 +74,18 @@ public class ElementalStonesQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return Component.translatable("quest.main.elemental_stones.name");
+        return LangManager.get("quest.main.elemental_stones.name", who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return List.of() /* TODO: Convert LangManager.getList("quest.main.elemental_stones.description") manually */;
+        return LangManager.getList("quest.main.elemental_stones.info", who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
-        return Component.translatable("quest.main.elemental_stones.objectives.");
+        return LangManager.get("quest.main.elemental_stones.objectives." + id, who);
     }
 
     @Override
@@ -112,30 +96,30 @@ public class ElementalStonesQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> Component.translatable("quest.main.elemental-stones.dialogs.0");
-            case 1 -> Component.translatable("quest.main.elemental-stones.dialogs.1");
-            case 2 -> Component.translatable("quest.main.elemental-stones.dialogs.2");
-            case 3 -> Component.translatable("quest.main.elemental-stones.dialogs.3");
-            case 4 -> Component.translatable("quest.main.elemental-stones.dialogs.4");
-            case 5 -> Component.translatable("quest.main.elemental-stones.dialogs.5");
-            case 6 -> Component.translatable("quest.main.elemental-stones.dialogs.6");
-            case 7 -> Component.translatable("quest.main.elemental-stones.dialogs.7");
+            case 0 -> LangManager.get("quest.main.elemental_stones.dialogs.0", who);
+            case 1 -> LangManager.get("quest.main.elemental_stones.dialogs.1", who);
+            case 2 -> LangManager.get("quest.main.elemental_stones.dialogs.2", who);
+            case 3 -> LangManager.get("quest.main.elemental_stones.dialogs.3", who);
+            case 4 -> LangManager.get("quest.main.elemental_stones.dialogs.4", who);
+            case 5 -> LangManager.get("quest.main.elemental_stones.dialogs.5", who);
+            case 6 -> LangManager.get("quest.main.elemental_stones.dialogs.6", who);
+            case 7 -> LangManager.get("quest.main.elemental_stones.dialogs.7", who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return Component.translatable("quest.main.elemental-stones.npc-name");
+        return LangManager.get("quest.main.elemental_stones.npc_name", who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.elemental-stones.accept");
+        return LangManager.get("quest.main.elemental_stones.accept", who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return Component.translatable("quest.main.elemental-stones.decline");
+        return LangManager.get("quest.main.elemental_stones.decline", who);
     }
 }

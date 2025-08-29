@@ -94,8 +94,8 @@ public class IslandMemberGui extends BaseGui {
         if (IslandPermissionHandler.hasPermission(island, viewer, "INVITE_MEMBERS")) {
             setItem(49, GuiItem.clickable(createInviteButton(), player -> {
                 player.closeInventory();
-                player.sendMessage(Component.translatable("gui.island.member.invite-prompt").color(UnifiedColorUtil.GREEN));
-                player.sendMessage(Component.translatable("gui.island.member.invite-example").color(UnifiedColorUtil.GRAY));
+                player.sendMessage(LangManager.getComponent("gui.island.member.invite-prompt".replace("-", "_"), viewer).color(UnifiedColorUtil.GREEN));
+                player.sendMessage(LangManager.getComponent("gui.island.member.invite-example".replace("-", "_"), viewer).color(UnifiedColorUtil.GRAY));
             }));
         }
         
@@ -154,14 +154,14 @@ public class IslandMemberGui extends BaseGui {
         return ItemBuilder.from(SkullUtil.getPlayerHead(island.core().ownerUuid()))
                 .displayName(Component.text(island.core().ownerName()).color(UnifiedColorUtil.GOLD).decorate(TextDecoration.BOLD))
                 .addLore(Component.empty())
-                .addLore(Component.translatable("gui.island.member.role").color(UnifiedColorUtil.GRAY)
-                        .append(Component.translatable("gui.island.member.role-owner").color(UnifiedColorUtil.YELLOW)))
+                .addLore(LangManager.getComponent("gui.island.member.role".replace("-", "_"), viewer).color(UnifiedColorUtil.GRAY)
+                        .append(LangManager.getComponent("gui.island.member.role-owner".replace("-", "_"), viewer).color(UnifiedColorUtil.YELLOW)))
                 .addLore(Component.text("UUID: ").color(UnifiedColorUtil.GRAY)
                         .append(Component.text(island.core().ownerUuid().substring(0, 8) + "...", UnifiedColorUtil.WHITE)))
                 .addLore(Component.empty())
-                .addLore(Component.translatable("gui.island.member.all-permissions").color(UnifiedColorUtil.GREEN))
+                .addLore(LangManager.getComponent("gui.island.member.all-permissions".replace("-", "_"), viewer).color(UnifiedColorUtil.GREEN))
                 .addLore(Component.empty())
-                .addLore(Component.translatable("gui.island.member.owner-cannot-change").color(UnifiedColorUtil.RED));
+                .addLore(LangManager.getComponent("gui.island.member.owner-cannot-change".replace("-", "_"), viewer).color(UnifiedColorUtil.RED));
     }
     
     /**
@@ -171,24 +171,24 @@ public class IslandMemberGui extends BaseGui {
         ItemBuilder builder = ItemBuilder.from(SkullUtil.getPlayerHead(member.uuid()))
                 .displayName(Component.text(member.name(), UnifiedColorUtil.AQUA))
                 .addLore(Component.empty())
-                .addLore(Component.translatable("gui.island.member.role").color(UnifiedColorUtil.GRAY)
+                .addLore(LangManager.getComponent("gui.island.member.role".replace("-", "_"), viewer).color(UnifiedColorUtil.GRAY)
                         .append(Component.text(IslandPermissionHandler.getRoleDisplayName(viewer.locale().getLanguage(), member.isCoOwner() ? IslandRole.CO_OWNER : IslandRole.MEMBER), UnifiedColorUtil.WHITE)))
-                .addLore(Component.translatable("gui.island.member.join-date").color(UnifiedColorUtil.GRAY)
+                .addLore(LangManager.getComponent("gui.island.member.join-date".replace("-", "_"), viewer).color(UnifiedColorUtil.GRAY)
                         .append(Component.text(formatDate(member.joinedAt()), UnifiedColorUtil.WHITE)))
                 .addLore(Component.empty());
         
         // 권한 표시
         if (member.isCoOwner()) {
-            builder.addLore(Component.translatable("gui.island.member.most-permissions").color(UnifiedColorUtil.GREEN));
+            builder.addLore(LangManager.getComponent("gui.island.member.most-permissions".replace("-", "_"), viewer).color(UnifiedColorUtil.GREEN));
         } else {
-            builder.addLore(Component.translatable("gui.island.member.normal-permissions").color(UnifiedColorUtil.GRAY));
+            builder.addLore(LangManager.getComponent("gui.island.member.normal-permissions".replace("-", "_"), viewer).color(UnifiedColorUtil.GRAY));
         }
         
         // 관리 옵션 (권한이 있는 경우)
         if (canManageMember(member)) {
             builder.addLore(Component.empty())
-                   .addLore(Component.translatable("gui.island.member.left-click-role").color(UnifiedColorUtil.YELLOW))
-                   .addLore(Component.translatable("gui.island.member.right-click-kick").color(UnifiedColorUtil.RED));
+                   .addLore(LangManager.getComponent("gui.island.member.left-click-role".replace("-", "_"), viewer).color(UnifiedColorUtil.YELLOW))
+                   .addLore(LangManager.getComponent("gui.island.member.right-click-kick".replace("-", "_"), viewer).color(UnifiedColorUtil.RED));
         }
         
         return builder;
@@ -201,20 +201,20 @@ public class IslandMemberGui extends BaseGui {
         ItemBuilder builder = ItemBuilder.from(SkullUtil.getPlayerHead(worker.uuid()))
                 .displayName(Component.text(worker.name(), UnifiedColorUtil.GRAY))
                 .addLore(Component.empty())
-                .addLore(Component.translatable("gui.island.member.role").color(UnifiedColorUtil.GRAY)
-                        .append(Component.translatable("gui.island.member.role-worker").color(UnifiedColorUtil.WHITE)))
-                .addLore(Component.translatable("gui.island.member.hire-date").color(UnifiedColorUtil.GRAY)
+                .addLore(LangManager.getComponent("gui.island.member.role".replace("-", "_"), viewer).color(UnifiedColorUtil.GRAY)
+                        .append(LangManager.getComponent("gui.island.member.role-worker".replace("-", "_"), viewer).color(UnifiedColorUtil.WHITE)))
+                .addLore(LangManager.getComponent("gui.island.member.hire-date".replace("-", "_"), viewer).color(UnifiedColorUtil.GRAY)
                         .append(Component.text(formatDate(worker.hiredAt()), UnifiedColorUtil.WHITE)))
-                .addLore(Component.translatable("gui.island.member.last-activity").color(UnifiedColorUtil.GRAY)
+                .addLore(LangManager.getComponent("gui.island.member.last-activity".replace("-", "_"), viewer).color(UnifiedColorUtil.GRAY)
                         .append(Component.text(formatDate(worker.lastActivity()), UnifiedColorUtil.WHITE)))
                 .addLore(Component.empty())
-                .addLore(Component.translatable("gui.island.member.limited-permissions").color(UnifiedColorUtil.GRAY));
+                .addLore(LangManager.getComponent("gui.island.member.limited-permissions".replace("-", "_"), viewer).color(UnifiedColorUtil.GRAY));
         
         // 관리 옵션 (권한이 있는 경우)
         if (IslandPermissionHandler.hasPermission(island, viewer, "MANAGE_WORKERS")) {
             builder.addLore(Component.empty())
-                   .addLore(Component.translatable("gui.island.member.left-click-extend").color(UnifiedColorUtil.YELLOW))
-                   .addLore(Component.translatable("gui.island.member.right-click-fire").color(UnifiedColorUtil.RED));
+                   .addLore(LangManager.getComponent("gui.island.member.left-click-extend".replace("-", "_"), viewer).color(UnifiedColorUtil.YELLOW))
+                   .addLore(LangManager.getComponent("gui.island.member.right-click-fire".replace("-", "_"), viewer).color(UnifiedColorUtil.RED));
         }
         
         return builder;

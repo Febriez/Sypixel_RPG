@@ -33,7 +33,7 @@ public class QuestSelectionGui extends BaseGui {
     private QuestSelectionGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                              @NotNull List<Quest> quests, @NotNull String npcName) {
         super(viewer, guiManager, Math.min(54, ((quests.size() - 1) / 9 + 1) * 9 + 18), 
-                Component.translatable("gui.quest-selection.title", Component.text(npcName)));
+                LangManager.getComponent("gui.quest_selection.title", viewer, Component.text(npcName)));
         this.questManager = guiManager.getPlugin().getQuestManager();
         this.quests = quests;
         this.npcName = npcName;
@@ -49,7 +49,7 @@ public class QuestSelectionGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.quest-selection.title", viewer.locale(), npcName);
+        return LangManager.getComponent("gui.quest_selection.title", viewer, npcName);
     }
     
     @Override
@@ -140,7 +140,7 @@ public class QuestSelectionGui extends BaseGui {
             QuestRewardGui.create(guiManager, viewer, quest, instanceId).open(viewer);
         } else if (activeEntry.isPresent()) {
             // 진행 상황 표시
-            player.sendMessage(LangManager.get("quest.in-progress", viewer, quest.getDisplayName(viewer)));
+            player.sendMessage(LangManager.get("quest.in_progress", viewer, quest.getDisplayName(viewer)));
         } else {
             // 새 퀘스트 시작
             questManager.startQuest(viewer, quest.getId());
