@@ -122,7 +122,7 @@
       }
     }
   },
-  "commands": {
+  "commands-general": {
     "player-only": "This command can only be used by players.",
     "unknown": "Unknown command."
   }

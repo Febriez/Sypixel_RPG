@@ -93,7 +93,7 @@
       }
     }
   },
-  "profile": {
+  "profile-v2": {
     "level-info": {
       "name": "Level Information",
       "lore": [
@@ -304,7 +304,7 @@
         ]
       },
       "name": {
-        "name": "Island Name",
+        "title": "島の名前",
         "lore": [
           "",
           "Current name: {0}",
@@ -990,7 +990,7 @@
   "loading": {
     "name": "Loading..."
   },
-  "status": {
+  "status-v2": {
     "new-mail": "§eNew Mail",
     "read": "§7Read"
   },
@@ -1207,7 +1207,7 @@
       }
     }
   },
-  "status": {
+  "status-v3": {
     "enabled": "Enabled",
     "disabled": "Disabled"
   },
