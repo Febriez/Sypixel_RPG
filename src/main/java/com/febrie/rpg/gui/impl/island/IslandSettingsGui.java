@@ -147,7 +147,7 @@ public class IslandSettingsGui extends BaseGui {
     private ItemStack createDeleteIslandItem() {
         return ItemBuilder.of(Material.BARRIER)
                 .displayNameTranslated("items.island.settings.delete.name")
-                .loreTranslated("items.island.settings.delete.lore")
+                .loreTranslated(viewer.locale(), "items.island.settings.delete.lore")
                 .hideAllFlags()
                 .build();
     }
@@ -170,7 +170,7 @@ public class IslandSettingsGui extends BaseGui {
     private ItemStack createCancelButton() {
         return ItemBuilder.of(Material.REDSTONE_BLOCK)
                 .displayNameTranslated("items.buttons.cancel.name")
-                .loreTranslated("items.island.settings.cancel.lore")
+                .loreTranslated(viewer.locale(), "items.island.settings.cancel.lore")
                 .hideAllFlags()
                 .build();
     }

@@ -17,6 +17,9 @@ import org.bukkit.World;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangHelper;
+import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -25,8 +28,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * 메인 메뉴 GUI - 리팩토링된 버전
- * RPG 기능들에 접근할 수 있는 중앙 허브
+ * Main Menu GUI - Refactored Version
+ * Central hub for accessing RPG features
  *
  * @author Febrie, CoffeeTory
  */
@@ -34,8 +37,8 @@ public class MainMenuGui extends BaseGui {
 
     private static final int GUI_SIZE = 54; // 6 rows
 
-    // 메뉴 버튼 위치 (새로운 레이아웃)
-    private static final int PROFILE_SLOT = 4; // 상단 프로필
+    // Menu button positions (new layout)
+    private static final int PROFILE_SLOT = 4; // Top profile
     private static final int HUB_SLOT = 20;
     private static final int SHOP_SLOT = 21;
     private static final int DUNGEON_SLOT = 22;
@@ -43,11 +46,11 @@ public class MainMenuGui extends BaseGui {
     private static final int ISLAND_SLOT = 24;
     private static final int LEADERBOARD_SLOT = 31;
 
-    // 타이틀 슬롯
+    // Title slot
     private static final int TITLE_SLOT = 4;
 
     private MainMenuGui(@NotNull GuiManager guiManager, @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.mainmenu.title", player.locale()));
+        super(player, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_MAINMENU_TITLE, player));
     }
     
     /**
@@ -60,7 +63,7 @@ public class MainMenuGui extends BaseGui {
     
     @Override
     protected GuiFramework getBackTarget() {
-        // 메인 메뉴는 최상위 메뉴이므로 뒤로가기 없음
+        // 메인 메뉴??최상??메뉴?��?�??�로가�??�음
         return null;
     }
 
@@ -68,18 +71,18 @@ public class MainMenuGui extends BaseGui {
     protected void setupLayout() {
         setupDecorations();
         setupMenuButtons();
-        // 메인 메뉴는 닫기 버튼만 표시
+        // 메인 메뉴???�기 버튼�??�시
         setupStandardNavigation(false, true);
     }
 
     @Override
     public void updateNavigationButtons() {
-        // 메인 메뉴는 뒤로가기 버튼 없음 - 항상 데코레이션 표시
+        // 메인 메뉴???�로가�?버튼 ?�음 - ??�� ?�코?�이???�시
         setItem(getBackButtonSlot(), GuiFactory.createDecoration());
     }
 
     /**
-     * 장식 요소 설정
+     * ?�식 ?�소 ?�정
      */
     private void setupDecorations() {
         createBorder();
@@ -87,13 +90,13 @@ public class MainMenuGui extends BaseGui {
     }
 
     /**
-     * 타이틀 아이템 설정
+     * ?�?��? ?�이???�정
      */
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 ItemBuilder.of(Material.NETHER_STAR)
-                        .displayName(LangManager.getComponent("items.mainmenu.title.name", getViewerLocale()))
-                        .addLore(LangManager.getComponent("items.mainmenu.title.lore", getViewerLocale()))
+                        .displayName(LangManager.text(LangKey.ITEMS_MAINMENU_TITLE_NAME, viewer))
+                        .addLore(LangManager.list(LangKey.ITEMS_MAINMENU_TITLE_LORE, viewer))
                         .hideAllFlags()
                         .build()
         );
@@ -101,16 +104,16 @@ public class MainMenuGui extends BaseGui {
     }
 
     /**
-     * 메뉴 버튼들 설정
+     * 메뉴 버튼???�정
      */
     private void setupMenuButtons() {
         GuiBuilder builder = new GuiBuilder(this, viewer, guiManager);
         
-        // 프로필 버튼 (상단)
+        // ?�로??버튼 (?�단)
         builder.menuButton(PROFILE_SLOT, 
             ItemBuilder.of(Material.PLAYER_HEAD)
-                .displayName(LangManager.getComponent("items.mainmenu.profile-button.name", getViewerLocale()))
-                .addLore(LangManager.getComponent("items.mainmenu.profile-button.lore", getViewerLocale()))
+                .displayName(LangManager.text(LangKey.ITEMS_MAINMENU_PROFILE_BUTTON_NAME, viewer))
+                .addLore(LangManager.list(LangKey.ITEMS_MAINMENU_PROFILE_BUTTON_LORE, viewer))
                 .hideAllFlags()
                 .build(),
             player -> {
@@ -118,10 +121,10 @@ public class MainMenuGui extends BaseGui {
                 guiManager.openGui(player, profileGui);
             });
             
-        // 허브 버튼 (네더의 별)
+        // ?�브 버튼 (?�더??�?
         builder.menuButton(HUB_SLOT, Material.NETHER_STAR,
-            "items.mainmenu.hub-button.name",
-            "items.mainmenu.hub-button.lore",
+            LangKey.ITEMS_MAINMENU_HUB_BUTTON_NAME,
+            LangKey.ITEMS_MAINMENU_HUB_BUTTON_LORE,
             player -> {
                 World hubWorld = Bukkit.getWorld("Hub");
                 if (hubWorld != null) {
@@ -134,42 +137,42 @@ public class MainMenuGui extends BaseGui {
                 }
             });
             
-        // 상점 버튼 (준비중)
+        // ?�점 버튼 (준비중)
         builder.menuButton(SHOP_SLOT, Material.EMERALD,
-            "items.mainmenu.shop-button.name",
-            "items.mainmenu.shop-button.lore",
+            LangKey.ITEMS_MAINMENU_SHOP_BUTTON_NAME,
+            LangKey.ITEMS_MAINMENU_SHOP_BUTTON_LORE,
             player -> sendMessage(player, "general.coming-soon"));
             
-        // 던전 버튼 (준비중)
+        // ?�전 버튼 (준비중)
         builder.menuButton(DUNGEON_SLOT, Material.END_PORTAL_FRAME,
-            "items.mainmenu.dungeon-button.name",
-            "items.mainmenu.dungeon-button.lore",
+            LangKey.ITEMS_MAINMENU_DUNGEON_BUTTON_NAME,
+            LangKey.ITEMS_MAINMENU_DUNGEON_BUTTON_LORE,
             player -> sendMessage(player, "general.coming-soon"));
             
-        // 야생 버튼 (준비중)
+        // ?�생 버튼 (준비중)
         builder.menuButton(WILD_SLOT, Material.IRON_SWORD,
-            "items.mainmenu.wild-button.name",
-            "items.mainmenu.wild-button.lore",
+            LangKey.ITEMS_MAINMENU_WILD_BUTTON_NAME,
+            LangKey.ITEMS_MAINMENU_WILD_BUTTON_LORE,
             player -> sendMessage(player, "general.coming-soon"));
             
         // 리더보드 버튼
         setupLeaderboardButton();
             
-        // 섬 버튼 (잔디 블럭)
+        // ??버튼 (?�디 블럭)
         builder.menuButton(ISLAND_SLOT, Material.GRASS_BLOCK,
-            "items.mainmenu.island-button.name",
-            "items.mainmenu.island-button.lore",
+            LangKey.ITEMS_MAINMENU_ISLAND_BUTTON_NAME,
+            LangKey.ITEMS_MAINMENU_ISLAND_BUTTON_LORE,
             player -> {
                 IslandManager islandManager = RPGMain.getPlugin().getIslandManager();
                 PlayerIslandDataDTO playerIslandData = islandManager.getPlayerIslandDataFromCache(player.getUniqueId().toString());
                 
                 if (playerIslandData != null && playerIslandData.hasIsland()) {
-                    // 섬이 있으면 섬 메뉴 열기
+                    // ?�이 ?�으�???메뉴 ?�기
                     IslandMainGui islandGui = IslandMainGui.create(guiManager, player);
                     guiManager.openGui(player, islandGui);
                     playClickSound(player);
                 } else {
-                    // 섬이 없으면 섬 생성 GUI 열기
+                    // ?�이 ?�으�????�성 GUI ?�기
                     IslandCreationGui creationGui = IslandCreationGui.create(guiManager, player);
                     guiManager.openGui(player, creationGui);
                     playClickSound(player);
@@ -183,8 +186,8 @@ public class MainMenuGui extends BaseGui {
     private void setupLeaderboardButton() {
         GuiItem leaderboardButton = GuiItem.clickable(
                 ItemBuilder.of(Material.GOLDEN_APPLE)
-                        .displayName(LangManager.getComponent("items.mainmenu.leaderboard-button.name", getViewerLocale()))
-                        .addLore(LangManager.getComponent("items.mainmenu.leaderboard-button.lore", getViewerLocale()))
+                        .displayName(LangManager.text(LangKey.ITEMS_MAINMENU_LEADERBOARD_BUTTON_NAME, viewer))
+                        .addLore(LangManager.list(LangKey.ITEMS_MAINMENU_LEADERBOARD_BUTTON_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {

@@ -154,7 +154,7 @@ public class IslandMemberManageGui extends BaseGui {
     private ItemStack createPromoteItem() {
         return ItemBuilder.of(Material.GOLDEN_HELMET)
                 .displayNameTranslated("items.island.member-manage.promote.name")
-                .loreTranslated("items.island.member-manage.promote.lore")
+                .loreTranslated(viewer.locale(), "items.island.member-manage.promote.lore")
                 .hideAllFlags()
                 .build();
     }
@@ -162,7 +162,7 @@ public class IslandMemberManageGui extends BaseGui {
     private ItemStack createDemoteItem() {
         return ItemBuilder.of(Material.IRON_HELMET)
                 .displayNameTranslated("items.island.member-manage.demote.name")
-                .loreTranslated("items.island.member-manage.demote.lore")
+                .loreTranslated(viewer.locale(), "items.island.member-manage.demote.lore")
                 .hideAllFlags()
                 .build();
     }
@@ -170,7 +170,7 @@ public class IslandMemberManageGui extends BaseGui {
     private ItemStack createToWorkerItem() {
         return ItemBuilder.of(Material.LEATHER_HELMET)
                 .displayNameTranslated("items.island.member-manage.to-worker.name")
-                .loreTranslated("items.island.member-manage.to-worker.lore")
+                .loreTranslated(viewer.locale(), "items.island.member-manage.to-worker.lore")
                 .hideAllFlags()
                 .build();
     }
@@ -178,7 +178,7 @@ public class IslandMemberManageGui extends BaseGui {
     private ItemStack createToMemberItem() {
         return ItemBuilder.of(Material.DIAMOND_HELMET)
                 .displayNameTranslated("items.island.member-manage.to-member.name")
-                .loreTranslated("items.island.member-manage.to-member.lore")
+                .loreTranslated(viewer.locale(), "items.island.member-manage.to-member.lore")
                 .hideAllFlags()
                 .build();
     }
@@ -186,14 +186,14 @@ public class IslandMemberManageGui extends BaseGui {
     private ItemStack createKickItem() {
         return ItemBuilder.of(Material.BARRIER)
                 .displayNameTranslated("items.island.member-manage.kick.name")
-                .loreTranslated("items.island.member-manage.kick.lore")
+                .loreTranslated(viewer.locale(), "items.island.member-manage.kick.lore")
                 .hideAllFlags()
                 .build();
     }
     private ItemStack createPermissionItem() {
         return ItemBuilder.of(Material.COMMAND_BLOCK)
                 .displayNameTranslated("items.island.member-manage.permission.name")
-                .loreTranslated("items.island.member-manage.permission.lore")
+                .loreTranslated(viewer.locale(), "items.island.member-manage.permission.lore")
                 .hideAllFlags()
                 .build();
     }
@@ -201,7 +201,7 @@ public class IslandMemberManageGui extends BaseGui {
     private ItemStack createNoPermissionItem() {
         return ItemBuilder.of(Material.REDSTONE_BLOCK)
                 .displayNameTranslated("items.island.member-manage.no-permission.name")
-                .loreTranslated("items.island.member-manage.no-permission.lore")
+                .loreTranslated(viewer.locale(), "items.island.member-manage.no-permission.lore")
                 .hideAllFlags()
                 .build();
     }

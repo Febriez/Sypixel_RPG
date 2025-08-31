@@ -9,6 +9,8 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.LangHelper;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -69,7 +71,7 @@ public class DimensionalRiftQuest extends Quest {
                         new VisitLocationObjective("rift_core", "dimensional_rift_core"),
                         new PlaceBlockObjective("place_anchors", Material.LODESTONE, 10),
                         new KillMobObjective("rift_guardians", EntityType.ELDER_GUARDIAN, 15),
-                        new PlaceBlockObjective("activate_seal", Material.END_CRYSTAL, 10),
+                        new CollectItemObjective("activate_seal_crystals", Material.END_CRYSTAL, 10),
                         new SurviveObjective("first_seal_attempt", 900), // 15분
                         
                         // 균열 확장 대응
@@ -118,18 +120,18 @@ public class DimensionalRiftQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.get("quest.main.dimensional_rift.name", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList("quest.main.dimensional_rift.info", who);
+        return LangManager.list(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_INFO, who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-        return LangManager.get("quest.main.dimensional_rift.objectives." + id, who);
+        String key = "quest.main.dimensional_rift.objectives." + objective.getId();
+        return LangManager.get(key, who);
     }
 
     @Override
@@ -140,27 +142,27 @@ public class DimensionalRiftQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> LangManager.get("quest.main.dimensional_rift.dialogs.0", who);
-            case 1 -> LangManager.get("quest.main.dimensional_rift.dialogs.1", who);
-            case 2 -> LangManager.get("quest.main.dimensional_rift.dialogs.2", who);
-            case 3 -> LangManager.get("quest.main.dimensional_rift.dialogs.3", who);
-            case 4 -> LangManager.get("quest.main.dimensional_rift.dialogs.4", who);
+            case 0 -> LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DIALOGS_0, who);
+            case 1 -> LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DIALOGS_1, who);
+            case 2 -> LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DIALOGS_2, who);
+            case 3 -> LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DIALOGS_3, who);
+            case 4 -> LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DIALOGS_4, who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.get("quest.main.dimensional_rift.npc_name", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.get("quest.main.dimensional_rift.accept", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.get("quest.main.dimensional_rift.decline", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DECLINE, who);
     }
 }

@@ -9,6 +9,8 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.LangHelper;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -53,12 +55,12 @@ public class AncientProphecyQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.get("quest.main.ancient_prophecy.name", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_ANCIENT_PROPHECY_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList("quest.main.ancient_prophecy.info", who);
+        return LangManager.list(LangKey.QUEST_MAIN_ANCIENT_PROPHECY_INFO, who);
     }
 
     @Override
@@ -75,26 +77,26 @@ public class AncientProphecyQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> LangManager.get("quest.main.ancient_prophecy.dialogs.0", who);
-            case 1 -> LangManager.get("quest.main.ancient_prophecy.dialogs.1", who);
-            case 2 -> LangManager.get("quest.main.ancient_prophecy.dialogs.2", who);
-            case 3 -> LangManager.get("quest.main.ancient_prophecy.dialogs.3", who);
+            case 0 -> LangHelper.text(LangKey.QUEST_MAIN_ANCIENT_PROPHECY_DIALOGS_0, who);
+            case 1 -> LangHelper.text(LangKey.QUEST_MAIN_ANCIENT_PROPHECY_DIALOGS_1, who);
+            case 2 -> LangHelper.text(LangKey.QUEST_MAIN_ANCIENT_PROPHECY_DIALOGS_2, who);
+            case 3 -> LangHelper.text(LangKey.QUEST_MAIN_ANCIENT_PROPHECY_DIALOGS_3, who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.get("quest.main.ancient_prophecy.npc_name", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_ANCIENT_PROPHECY_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.get("quest.main.ancient_prophecy.accept", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_ANCIENT_PROPHECY_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.get("quest.main.ancient_prophecy.decline", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_ANCIENT_PROPHECY_DECLINE, who);
     }
 }

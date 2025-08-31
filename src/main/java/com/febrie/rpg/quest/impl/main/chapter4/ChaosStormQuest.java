@@ -8,6 +8,8 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangHelper;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -103,12 +105,12 @@ public class ChaosStormQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.get("quest.main.chaos_storm.name", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_CHAOS_STORM_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList("quest.main.chaos_storm.info", who);
+        return LangManager.list(LangKey.QUEST_MAIN_CHAOS_STORM_INFO, who);
     }
 
     @Override
@@ -125,26 +127,26 @@ public class ChaosStormQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> LangManager.get("quest.main.chaos_storm.dialogs.0", who);
-            case 1 -> LangManager.get("quest.main.chaos_storm.dialogs.1", who);
-            case 2 -> LangManager.get("quest.main.chaos_storm.dialogs.2", who);
-            case 3 -> LangManager.get("quest.main.chaos_storm.dialogs.3", who);
+            case 0 -> LangHelper.text(LangKey.QUEST_MAIN_CHAOS_STORM_DIALOGS_0, who);
+            case 1 -> LangHelper.text(LangKey.QUEST_MAIN_CHAOS_STORM_DIALOGS_1, who);
+            case 2 -> LangHelper.text(LangKey.QUEST_MAIN_CHAOS_STORM_DIALOGS_2, who);
+            case 3 -> LangHelper.text(LangKey.QUEST_MAIN_CHAOS_STORM_DIALOGS_3, who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.get("quest.main.chaos_storm.npc_name", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_CHAOS_STORM_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.get("quest.main.chaos_storm.accept", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_CHAOS_STORM_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.get("quest.main.chaos_storm.decline", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_CHAOS_STORM_DECLINE, who);
     }
 }

@@ -6,6 +6,8 @@ import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangHelper;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -34,12 +36,12 @@ public class GuiBuilder {
      * Add a clickable menu button with standard sound
      */
     public GuiBuilder menuButton(int slot, @NotNull Material material, 
-                                 @NotNull String nameKey, @NotNull String loreKey, 
+                                 @NotNull LangKey nameKey, @NotNull LangKey loreKey, 
                                  @NotNull Consumer<Player> action) {
         GuiItem button = GuiItem.clickable(
             ItemBuilder.of(material)
-                .displayName(LangManager.getComponent(nameKey, viewer.locale()))
-                .addLore(LangManager.getComponent(loreKey, viewer.locale()))
+                .displayName(LangHelper.text(nameKey, viewer.locale()))
+                .addLore(LangHelper.list(loreKey, viewer))
                 .hideAllFlags()
                 .build(),
             player -> {
@@ -68,11 +70,11 @@ public class GuiBuilder {
      * Add a display-only item
      */
     public GuiBuilder display(int slot, @NotNull Material material,
-                             @NotNull String nameKey, @NotNull String loreKey) {
+                             @NotNull LangKey nameKey, @NotNull LangKey loreKey) {
         gui.setItem(slot, GuiItem.display(
             ItemBuilder.of(material)
-                .displayName(LangManager.getComponent(nameKey, viewer.locale()))
-                .addLore(LangManager.getComponent(loreKey, viewer.locale()))
+                .displayName(LangHelper.text(nameKey, viewer.locale()))
+                .addLore(LangHelper.list(loreKey, viewer))
                 .hideAllFlags()
                 .build()
         ));
@@ -127,8 +129,7 @@ public class GuiBuilder {
      * Add navigation buttons (close only)
      */
     public GuiBuilder withNavigation(boolean showBack, boolean showClose) {
-        // GuiBuilder는 더 이상 뒤로가기를 지원하지 않음
-        // BaseGui의 updateNavigationButtons()를 사용해야 함
+        // Close button only - back button handled by BaseGui
         if (showClose) {
             gui.setItem(gui.getSize() - 1, createCloseButton());
         }

@@ -8,6 +8,8 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.economy.CurrencyType;
+import com.febrie.rpg.util.LangHelper;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -67,29 +69,29 @@ public class LightPaladinQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.get("quest.branch.light_paladin.name", who);
+        return LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList("quest.branch.light_paladin.info", who);
+        return LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_INFO, who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
         return switch (id) {
-            case "paladin_master" -> LangManager.get("quest.branch.light_paladin.objectives.paladin_master", who);
-            case "holy_water" -> LangManager.get("quest.branch.light_paladin.objectives.holy_water", who);
-            case "purge_undead" -> LangManager.get("quest.branch.light_paladin.objectives.purge_undead", who);
-            case "purge_skeletons" -> LangManager.get("quest.branch.light_paladin.objectives.purge_skeletons", who);
-            case "holy_shrine" -> LangManager.get("quest.branch.light_paladin.objectives.holy_shrine", who);
-            case "meditation" -> LangManager.get("quest.branch.light_paladin.objectives.meditation", who);
-            case "holy_sword" -> LangManager.get("quest.branch.light_paladin.objectives.holy_sword", who);
-            case "build_altar" -> LangManager.get("quest.branch.light_paladin.objectives.build_altar", who);
-            case "defeat_darkness" -> LangManager.get("quest.branch.light_paladin.objectives.defeat_darkness", who);
-            case "light_essence" -> LangManager.get("quest.branch.light_paladin.objectives.light_essence", who);
-            case "oath_completion" -> LangManager.get("quest.branch.light_paladin.objectives.oath_completion", who);
+            case "paladin_master" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PALADIN_MASTER, who);
+            case "holy_water" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_WATER, who);
+            case "purge_undead" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PURGE_UNDEAD, who);
+            case "purge_skeletons" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PURGE_SKELETONS, who);
+            case "holy_shrine" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_SHRINE, who);
+            case "meditation" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_MEDITATION, who);
+            case "holy_sword" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_SWORD, who);
+            case "build_altar" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_BUILD_ALTAR, who);
+            case "defeat_darkness" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_DEFEAT_DARKNESS, who);
+            case "light_essence" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_LIGHT_ESSENCE, who);
+            case "oath_completion" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_OATH_COMPLETION, who);
             default -> LangManager.get("quest.branch.light_paladin.objectives." + id, who);
         };
     }
@@ -102,27 +104,27 @@ public class LightPaladinQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> LangManager.get("quest.branch.light_paladin.dialogs.0", who);
-            case 1 -> LangManager.get("quest.branch.light_paladin.dialogs.1", who);
-            case 2 -> LangManager.get("quest.branch.light_paladin.dialogs.2", who);
-            case 3 -> LangManager.get("quest.branch.light_paladin.dialogs.3", who);
-            case 4 -> LangManager.get("quest.branch.light_paladin.dialogs.4", who);
+            case 0 -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DIALOGS_0, who);
+            case 1 -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DIALOGS_1, who);
+            case 2 -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DIALOGS_2, who);
+            case 3 -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DIALOGS_3, who);
+            case 4 -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DIALOGS_4, who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.get("quest.branch.light_paladin.npc_name", who);
+        return LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.get("quest.branch.light_paladin.accept", who);
+        return LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.get("quest.branch.light_paladin.decline", who);
+        return LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DECLINE, who);
     }
 }

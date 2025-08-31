@@ -8,6 +8,8 @@ import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangHelper;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -76,12 +78,12 @@ public class FirstTrialQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.get("quest.main.first_trial.name", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_FIRST_TRIAL_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList("quest.main.first_trial.info", who);
+        return LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_INFO, who);
     }
 
     @Override
@@ -98,29 +100,29 @@ public class FirstTrialQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> LangManager.get("quest.main.first_trial.dialogs.0", who);
-            case 1 -> LangManager.get("quest.main.first_trial.dialogs.1", who);
-            case 2 -> LangManager.get("quest.main.first_trial.dialogs.2", who);
-            case 3 -> LangManager.get("quest.main.first_trial.dialogs.3", who);
-            case 4 -> LangManager.get("quest.main.first_trial.dialogs.4", who);
-            case 5 -> LangManager.get("quest.main.first_trial.dialogs.5", who);
-            case 6 -> LangManager.get("quest.main.first_trial.dialogs.6", who);
+            case 0 -> LangHelper.text(LangKey.QUEST_MAIN_FIRST_TRIAL_DIALOGS_0, who);
+            case 1 -> LangHelper.text(LangKey.QUEST_MAIN_FIRST_TRIAL_DIALOGS_1, who);
+            case 2 -> LangHelper.text(LangKey.QUEST_MAIN_FIRST_TRIAL_DIALOGS_2, who);
+            case 3 -> LangHelper.text(LangKey.QUEST_MAIN_FIRST_TRIAL_DIALOGS_3, who);
+            case 4 -> LangHelper.text(LangKey.QUEST_MAIN_FIRST_TRIAL_DIALOGS_4, who);
+            case 5 -> LangHelper.text(LangKey.QUEST_MAIN_FIRST_TRIAL_DIALOGS_5, who);
+            case 6 -> LangHelper.text(LangKey.QUEST_MAIN_FIRST_TRIAL_DIALOGS_6, who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.get("quest.main.first_trial.npc_name", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_FIRST_TRIAL_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.get("quest.main.first_trial.accept", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_FIRST_TRIAL_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.get("quest.main.first_trial.decline", who);
+        return LangHelper.text(LangKey.QUEST_MAIN_FIRST_TRIAL_DECLINE, who);
     }
 }

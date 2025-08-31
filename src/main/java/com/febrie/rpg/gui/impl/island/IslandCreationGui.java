@@ -158,7 +158,7 @@ public class IslandCreationGui extends BaseGui {
         GuiItem nameItem = GuiItem.clickable(
                 ItemBuilder.of(Material.NAME_TAG, getViewerLocale())
                         .displayNameTranslated("items.island.creation.name.name")
-                        .loreTranslated("items.island.creation.name.lore", 
+                        .loreTranslated(viewer.locale(), "items.island.creation.name.lore", 
                                 UnifiedColorUtil.parseHexColor(islandColorHex) + islandName)
                         .hideAllFlags()
                         .build(),
@@ -214,7 +214,7 @@ public class IslandCreationGui extends BaseGui {
         GuiItem colorItem = new GuiItem(
                 ItemBuilder.of(woolType, getViewerLocale())
                         .displayNameTranslated("items.island.creation.color.name")
-                        .loreTranslated("items.island.creation.color.lore",
+                        .loreTranslated(viewer.locale(), "items.island.creation.color.lore",
                                 UnifiedColorUtil.parseHexColor(islandColorHex) + "███",
                                 getColorName(islandColorHex),
                                 islandColorHex,
@@ -283,7 +283,7 @@ public class IslandCreationGui extends BaseGui {
         GuiItem biomeItem = GuiItem.clickable(
                 ItemBuilder.of(biomeIcon, getViewerLocale())
                         .displayNameTranslated("items.island.creation.biome.name")
-                        .loreTranslated("items.island.creation.biome.lore", 
+                        .loreTranslated(viewer.locale(), "items.island.creation.biome.lore", 
                                 getBiomeName(selectedBiome))
                         .hideAllFlags()
                         .build(),
@@ -349,7 +349,7 @@ public class IslandCreationGui extends BaseGui {
         GuiItem createButton = GuiItem.clickable(
                 ItemBuilder.of(Material.LIME_CONCRETE, getViewerLocale())
                         .displayNameTranslated("items.island.creation.create-button.name")
-                        .loreTranslated("items.island.creation.create-button.lore",
+                        .loreTranslated(viewer.locale(), "items.island.creation.create-button.lore",
                                 UnifiedColorUtil.parseHexColor(islandColorHex) + islandName,
                                 getBiomeName(selectedBiome),
                                 getTemplateName(selectedTemplate))

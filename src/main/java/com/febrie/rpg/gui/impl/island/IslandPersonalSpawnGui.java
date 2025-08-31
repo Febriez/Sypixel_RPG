@@ -103,9 +103,9 @@ public class IslandPersonalSpawnGui extends BaseGui {
         if (personalSpawn != null) {
             String location = String.format("%.1f, %.1f, %.1f", 
                 personalSpawn.x(), personalSpawn.y(), personalSpawn.z());
-            builder.loreTranslated("items.island.personal-spawn.info.lore", location);
+            builder.loreTranslated(viewer.locale(), "items.island.personal-spawn.info.lore", location);
         } else {
-            builder.loreTranslated("items.island.personal-spawn.info-not-set.lore");
+            builder.loreTranslated(viewer.locale(), "items.island.personal-spawn.info-not-set.lore");
         }
         
         return new GuiItem(builder.build());

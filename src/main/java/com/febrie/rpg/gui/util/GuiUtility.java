@@ -9,6 +9,7 @@ import com.febrie.rpg.talent.Talent;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -26,27 +27,24 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * GUI 관련 유틸리티 클래스
- * ItemBuilder를 활용한 GUI 아이템 생성 도우미
- * GuiService 기능 통합
+ * GUI 관???�틸리티 ?�래?? * ItemBuilder�??�용??GUI ?�이???�성 ?�우�? * GuiService 기능 ?�합
  *
  * @author Febrie, CoffeeTory
  */
 public class GuiUtility {
 
     private GuiUtility() {
-        throw new UnsupportedOperationException("유틸리티 클래스는 인스턴스화할 수 없습니다.");
+        throw new UnsupportedOperationException("?�틸리티 ?�래?�는 ?�스?�스?�할 ???�습?�다.");
     }
 
     /**
-     * GUI 아이템 설정 - 핵심 메소드
-     * Map과 Inventory 동시 업데이트
+     * GUI ?�이???�정 - ?�심 메소??     * Map�?Inventory ?�시 ?�데?�트
      */
     public static void setItem(int slot, @NotNull GuiItem item,
                                @NotNull Map<Integer, GuiItem> items,
                                @NotNull Inventory inventory) {
         if (slot < 0 || slot >= inventory.getSize()) {
-            return; // 잘못된 슬롯 번호 무시
+            return; // ?�못???�롯 번호 무시
         }
 
         items.put(slot, item);
@@ -54,7 +52,7 @@ public class GuiUtility {
     }
 
     /**
-     * 여러 슬롯에 같은 아이템 설정
+     * ?�러 ?�롯??같�? ?�이???�정
      */
     public static void setItems(@NotNull GuiItem item,
                                 @NotNull Map<Integer, GuiItem> items,
@@ -66,7 +64,7 @@ public class GuiUtility {
     }
 
     /**
-     * 특정 행에 아이템 설정
+     * ?�정 ?�에 ?�이???�정
      */
     public static void setRow(int row, @NotNull GuiItem item,
                               @NotNull Map<Integer, GuiItem> items,
@@ -79,7 +77,7 @@ public class GuiUtility {
     }
 
     /**
-     * 특정 열에 아이템 설정
+     * ?�정 ?�에 ?�이???�정
      */
     public static void setColumn(int column, @NotNull GuiItem item,
                                  @NotNull Map<Integer, GuiItem> items,
@@ -92,7 +90,7 @@ public class GuiUtility {
     }
 
     /**
-     * 플레이어 머리 아이템 생성
+     * ?�레?�어 머리 ?�이???�성
      */
     @NotNull
     public static ItemStack createPlayerHead(@NotNull Player player) {
@@ -107,7 +105,7 @@ public class GuiUtility {
     }
 
     /**
-     * 스탯 정보 아이템 생성
+     * ?�탯 ?�보 ?�이???�성
      */
     @NotNull
     public static GuiItem createStatItem(@NotNull RPGPlayer rpgPlayer, @NotNull Stat stat) {
@@ -123,22 +121,22 @@ public class GuiUtility {
                 .displayName(Component.translatable("stat." + stat.getId().toLowerCase() + ".name"))
                 .flags(ItemFlag.values());
 
-        // 설명 추가
+        // ?�명 추�?
         List<Component> lore = new ArrayList<>();
         // Description from translation key
         lore.add(Component.translatable("stat." + stat.getId().toLowerCase() + ".description"));
 
-        // 현재 값 표시
+        // ?�재 �??�시
         lore.add(Component.empty());
-        lore.add(Component.text("현재 값: ")
+        lore.add(Component.text("?�재 �? ")
                 .color(NamedTextColor.GRAY)
                 .append(Component.text(String.valueOf(value))
                         .color(NamedTextColor.WHITE)
                         .decoration(TextDecoration.BOLD, true)));
 
-        // 보너스 표시 (있는 경우)
+        // 보너???�시 (?�는 경우)
         if (bonus > 0) {
-            lore.add(Component.text("보너스: ")
+            lore.add(Component.text("보너?? ")
                     .color(NamedTextColor.GRAY)
                     .append(Component.text("+" + bonus)
                             .color(NamedTextColor.GREEN)
@@ -149,7 +147,7 @@ public class GuiUtility {
     }
 
     /**
-     * 특성 아이템 생성
+     * ?�성 ?�이???�성
      */
     @NotNull
     public static GuiItem createTalentItem(@NotNull Talent talent, @NotNull RPGPlayer rpgPlayer) {
@@ -167,36 +165,36 @@ public class GuiUtility {
                 .displayName(Component.translatable("talent." + talent.getId() + ".name"))
                 .flags(ItemFlag.values());
 
-        // 설명 추가
+        // ?�명 추�?
         List<Component> lore = new ArrayList<>();
         // Description from translation key
         lore.add(Component.translatable("talent." + talent.getId() + ".description"));
 
-        // 현재 레벨 표시
+        // ?�재 ?�벨 ?�시
         lore.add(Component.empty());
-        lore.add(Component.text("레벨: " + currentLevel + "/" + talent.getMaxLevel())
+        lore.add(Component.text("?�벨: " + currentLevel + "/" + talent.getMaxLevel())
                 .color(NamedTextColor.WHITE));
 
-        // 상태 표시
+        // ?�태 ?�시
         if (currentLevel >= talent.getMaxLevel()) {
-            lore.add(Component.text("✓ 최대 레벨")
+            lore.add(Component.text("Max Level")
                     .color(NamedTextColor.GREEN)
                     .decoration(TextDecoration.BOLD, true));
         } else if (canLearn) {
-            lore.add(Component.text("클릭하여 레벨업")
+            lore.add(Component.text("Click to level up")
                     .color(NamedTextColor.YELLOW)
                     .decoration(TextDecoration.ITALIC, true));
         } else {
-            lore.add(Component.text("✗ 레벨업 불가")
+            lore.add(Component.text("Cannot level up")
                     .color(NamedTextColor.RED)
                     .decoration(TextDecoration.BOLD, true));
         }
 
-        // 필요 조건 표시 (선행 특성)
+        // ?�요 조건 ?�시 (?�행 ?�성)
         Map<Talent, Integer> prerequisites = talent.getPrerequisites();
         if (!prerequisites.isEmpty()) {
             lore.add(Component.empty());
-            lore.add(Component.text("필요 조건:")
+            lore.add(Component.text("?�요 조건:")
                     .color(NamedTextColor.GRAY));
 
             for (Map.Entry<Talent, Integer> entry : prerequisites.entrySet()) {
@@ -206,22 +204,22 @@ public class GuiUtility {
                 boolean meets = playerLevel >= requiredLevel;
 
                 Component prereqName = Component.translatable("talent." + prereqTalent.getId() + ".name");
-                lore.add(Component.text("• ")
+                lore.add(Component.text("??")
                         .append(prereqName)
                         .append(Component.text(" Lv." + requiredLevel))
                         .color(meets ? NamedTextColor.GREEN : NamedTextColor.RED));
             }
         }
 
-        // 특수 효과 표시
+        // ?�수 ?�과 ?�시
         List<String> effects = talent.getEffects();
         if (!effects.isEmpty()) {
             lore.add(Component.empty());
-            lore.add(Component.text("효과:")
+            lore.add(Component.text("?�과:")
                     .color(NamedTextColor.AQUA));
 
             for (String effect : effects) {
-                lore.add(Component.text("• " + effect)
+                lore.add(Component.text("??" + effect)
                         .color(NamedTextColor.GRAY));
             }
         }
@@ -230,7 +228,7 @@ public class GuiUtility {
     }
 
     /**
-     * 직업 선택 아이템 생성
+     * 직업 ?�택 ?�이???�성
      */
     @NotNull
     public static GuiItem createJobItem(@NotNull JobSelectionGui gui, @NotNull String jobKey,
@@ -247,7 +245,7 @@ public class GuiUtility {
         return GuiItem.clickable(
                 builder.lore(lore).build(),
                 clickPlayer -> {
-                    // 직업 선택 로직
+                    // 직업 ?�택 로직
                     SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK);
                     clickPlayer.sendMessage(Component.translatable("job.selected"));
                 }
@@ -255,14 +253,14 @@ public class GuiUtility {
     }
 
     /**
-     * 네비게이션 버튼 생성
+     * ?�비게이??버튼 ?�성
      */
     @NotNull
     public static GuiItem createBackButton(@NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.ARROW)
-                        .displayName(LangManager.getComponent("gui.buttons.back.name", player.locale()))
-                        .addLore(LangManager.getComponent("gui.buttons.back.lore", player.locale()))
+                        .displayName(LangManager.text(LangKey.GUI_BUTTONS_BACK_NAME, player))
+                        .addLore(LangManager.text(LangKey.GUI_BUTTONS_BACK_LORE, player))
                         .build(),
                 clickPlayer -> SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK)
         );
@@ -272,8 +270,8 @@ public class GuiUtility {
     public static GuiItem createRefreshButton(@NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.EMERALD)
-                        .displayName(LangManager.getComponent("gui.buttons.refresh.name", player.locale()))
-                        .addLore(LangManager.getComponent("gui.buttons.refresh.lore", player.locale()))
+                        .displayName(LangManager.text(LangKey.GUI_BUTTONS_REFRESH_NAME, player))
+                        .addLore(LangManager.text(LangKey.GUI_BUTTONS_REFRESH_LORE, player))
                         .build(),
                 clickPlayer -> SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK)
         );
@@ -283,8 +281,8 @@ public class GuiUtility {
     public static GuiItem createCloseButton(@NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.BARRIER)
-                        .displayName(LangManager.getComponent("gui.buttons.close.name", player.locale()))
-                        .addLore(LangManager.getComponent("gui.buttons.close.lore", player.locale()))
+                        .displayName(LangManager.text(LangKey.GUI_BUTTONS_CLOSE_NAME, player))
+                        .addLore(LangManager.list(LangKey.GUI_BUTTONS_CLOSE_LORE, player))
                         .build(),
                 clickPlayer -> {
                     SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK);
@@ -294,7 +292,7 @@ public class GuiUtility {
     }
 
     /**
-     * 빈 슬롯 아이템 생성
+     * �??�롯 ?�이???�성
      */
     @NotNull
     public static GuiItem createEmptySlot() {
@@ -306,7 +304,7 @@ public class GuiUtility {
     }
 
     /**
-     * 장식용 아이템 생성
+     * ?�식???�이???�성
      */
     @NotNull
     public static GuiItem createDecoration(@NotNull Material material) {
@@ -318,8 +316,7 @@ public class GuiUtility {
     }
 
     /**
-     * 슬롯 유효성 검사
-     */
+     * ?�롯 ?�효??검??     */
     public static boolean isValidSlot(int slot, @NotNull Inventory inventory) {
         return slot >= 0 && slot < inventory.getSize();
     }

@@ -121,7 +121,7 @@ public class IslandUpgradeGui extends BaseGui {
         // 정보 아이템
         ItemStack infoItem = ItemBuilder.of(Material.BOOK)
                 .displayNameTranslated("items.island.upgrade.info.name")
-                .loreTranslated("items.island.upgrade.info.lore")
+                .loreTranslated(viewer.locale(), "items.island.upgrade.info.lore")
                 .hideAllFlags()
                 .build();
         setItem(31, new GuiItem(infoItem));

@@ -9,8 +9,9 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangHelper;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -36,7 +37,7 @@ public class JobSelectionGui extends BaseGui {
 
     private JobSelectionGui(@NotNull GuiManager guiManager,
                            @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.job_selection.title", viewer.locale()));
+        super(viewer, guiManager, GUI_SIZE, LangHelper.text(LangKey.GUI_JOB_SELECTION_TITLE, viewer));
         this.rpgPlayer = rpgPlayer;
     }
 
@@ -55,7 +56,7 @@ public class JobSelectionGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.job_selection.title", viewer.locale());
+        return LangHelper.text(LangKey.GUI_JOB_SELECTION_TITLE, viewer);
     }
 
     @Override
@@ -112,13 +113,13 @@ public class JobSelectionGui extends BaseGui {
 
             GuiItem tabItem = GuiItem.clickable(
                     ItemBuilder.of(isSelected ? Material.ENCHANTED_BOOK : Material.BOOK)
-                            .displayName(LangManager.getComponent("job.categories." + category.name().toLowerCase(), viewer.locale())
+                            .displayName(LangHelper.text(LangKey.valueOf("JOB_CATEGORIES_" + category.name().toUpperCase()), viewer)
                                     .color(category.getColor())
                                     .decoration(TextDecoration.BOLD, isSelected))
                             .addLore(Component.empty())
                             .addLore(isSelected ?
-                                    LangManager.getComponent("gui.job_selection.tab_selected", viewer.locale()) :
-                                    LangManager.getComponent("gui.job_selection.tab_click", viewer.locale()))
+                                    LangHelper.text(LangKey.GUI_JOB_SELECTION_TAB_SELECTED, viewer) :
+                                    LangHelper.text(LangKey.GUI_JOB_SELECTION_TAB_CLICK, viewer))
                             .glint(isSelected)
                             .build(),
                     player -> {
@@ -170,24 +171,24 @@ public class JobSelectionGui extends BaseGui {
 
         ItemBuilder builder = ItemBuilder.of(job.getMaterial())
                 .displayName(Component.text(job.getIcon() + " ")
-                        .append(LangManager.getComponent("job." + jobKey + ".name", viewer.locale()))
+                        .append(LangHelper.text(LangKey.valueOf("JOB_" + jobKey.toUpperCase() + "_NAME"), viewer))
                         .decoration(TextDecoration.BOLD, true))
                 .addLore(Component.empty())
-                .addLore(LangManager.getComponent("gui.job-selection.max-level", viewer.locale(), String.valueOf(job.getMaxLevel())))
+                .addLore(LangHelper.text(LangKey.GUI_JOB_SELECTION_MAX_LEVEL, viewer, String.valueOf(job.getMaxLevel())))
                 .addLore(Component.empty());
 
         // 직업 설명 추가
-        List<Component> description = List.of(); /* TODO: Convert LangManager.getList("job." + jobKey + ".description") manually */
+        List<Component> description = LangHelper.list(LangKey.valueOf("JOB_" + jobKey.toUpperCase() + "_DESCRIPTION"), viewer);
         for (Component line : description) {
             builder.addLore(line);
         }
 
         builder.addLore(Component.empty())
-                .addLore(LangManager.getComponent("general.separator", viewer.locale()))
-                .addLore(LangManager.getComponent("gui.job-selection.warning", viewer.locale()))
-                .addLore(LangManager.getComponent("general.separator", viewer.locale()))
+                .addLore(LangHelper.text(LangKey.GENERAL_SEPARATOR, viewer))
+                .addLore(LangHelper.text(LangKey.GUI_JOB_SELECTION_WARNING, viewer))
+                .addLore(LangHelper.text(LangKey.GENERAL_SEPARATOR, viewer))
                 .addLore(Component.empty())
-                .addLore(LangManager.getComponent("gui.job-selection.click-to-choose", viewer.locale()))
+                .addLore(LangHelper.text(LangKey.GUI_JOB_SELECTION_CLICK_TO_CHOOSE, viewer))
                 .flags(ItemFlag.values())
                 .glint(true);
 

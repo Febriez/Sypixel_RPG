@@ -3,6 +3,10 @@ package com.febrie.rpg.gui.component;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangHelper;
+import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.LangHelper;
+import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -13,8 +17,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * GUI 컴포넌트 팩토리 - 올바르게 수정된 버전
- * 자주 사용되는 GUI 아이템 생성을 위한 유틸리티 클래스
+ * GUI Component Factory - Properly Configured Version
+ * Utility class for creating frequently used GUI items
  *
  * @author Febrie, CoffeeTory
  */
@@ -25,13 +29,13 @@ public class GuiFactory {
     }
 
     /**
-     * 닫기 버튼 생성
+     * ?�기 버튼 ?�성
      */
     public static GuiItem createCloseButton(@NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.BARRIER)
-                        .displayName(LangManager.getComponent("items.gui.buttons.close.name", player.locale()))
-                        .addLore(LangManager.getComponent("items.gui.buttons.close.lore", player.locale()))
+                        .displayName(LangManager.text(LangKey.GUI_BUTTONS_CLOSE_NAME, player))
+                        .addLore(LangManager.list(LangKey.GUI_BUTTONS_CLOSE_LORE, player))
                         .asGuiItem(false)
                         .build(),
                 Player::closeInventory
@@ -40,13 +44,13 @@ public class GuiFactory {
 
 
     /**
-     * 커스텀 액션이 있는 뒤로가기 버튼 생성
+     * 커스?� ?�션???�는 ?�로가�?버튼 ?�성
      */
     public static GuiItem createBackButton(@NotNull Consumer<Player> action, @NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.ARROW)
-                        .displayName(LangManager.getComponent("items.gui.buttons.back.name", player.locale()))
-                        .addLore(LangManager.getComponent("items.gui.buttons.back.lore", player.locale()))
+                        .displayName(LangManager.text(LangKey.GUI_BUTTONS_BACK_NAME, player))
+                        .addLore(LangManager.list(LangKey.GUI_BUTTONS_BACK_LORE, player))
                         .asGuiItem(false)
                         .build(),
                 action
@@ -54,13 +58,13 @@ public class GuiFactory {
     }
     
     /**
-     * 새로고침 버튼 생성
+     * ?�로고침 버튼 ?�성
      */
     public static GuiItem createRefreshButton(@NotNull Runnable action, @NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.EMERALD)
-                        .displayName(LangManager.getComponent("items.gui.buttons.refresh.name", player.locale()))
-                        .addLore(LangManager.getComponent("items.gui.buttons.refresh.lore", player.locale()))
+                        .displayName(LangManager.text(LangKey.GUI_BUTTONS_REFRESH_NAME, player))
+                        .addLore(LangManager.list(LangKey.GUI_BUTTONS_REFRESH_LORE, player))
                         .asGuiItem(false)
                         .build(),
                 p -> action.run()
@@ -68,13 +72,13 @@ public class GuiFactory {
     }
     
     /**
-     * 다음 페이지 버튼 생성
+     * ?�음 ?�이지 버튼 ?�성
      */
     public static GuiItem createNextPageButton(@NotNull Consumer<Player> action, @NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.ARROW)
-                        .displayName(LangManager.getComponent("items.gui.buttons.next-page.name", player.locale()))
-                        .addLore(LangManager.getComponent("items.gui.buttons.next-page.lore", player.locale()))
+                        .displayName(LangManager.text(LangKey.GUI_BUTTONS_NEXT_PAGE_NAME, player))
+                        .addLore(LangManager.list(LangKey.GUI_BUTTONS_NEXT_PAGE_LORE, player))
                         .asGuiItem(false)
                         .build(),
                 action
@@ -82,13 +86,13 @@ public class GuiFactory {
     }
     
     /**
-     * 이전 페이지 버튼 생성
+     * ?�전 ?�이지 버튼 ?�성
      */
     public static GuiItem createPreviousPageButton(@NotNull Consumer<Player> action, @NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.ARROW)
-                        .displayName(LangManager.getComponent("items.gui.buttons.previous-page.name", player.locale()))
-                        .addLore(LangManager.getComponent("items.gui.buttons.previous-page.lore", player.locale()))
+                        .displayName(LangManager.text(LangKey.GUI_BUTTONS_PREVIOUS_PAGE_NAME, player))
+                        .addLore(LangManager.list(LangKey.GUI_BUTTONS_PREVIOUS_PAGE_LORE, player))
                         .asGuiItem(false)
                         .build(),
                 action
@@ -96,14 +100,14 @@ public class GuiFactory {
     }
 
     /**
-     * 장식용 아이템 생성
+     * ?�식???�이???�성
      */
     public static GuiItem createDecoration() {
         return createDecoration(Material.BLACK_STAINED_GLASS_PANE);
     }
 
     /**
-     * 특정 재료로 장식용 아이템 생성
+     * ?�정 ?�료�??�식???�이???�성
      */
     public static GuiItem createDecoration(@NotNull Material material) {
         return GuiItem.display(
@@ -114,45 +118,43 @@ public class GuiFactory {
     }
 
     /**
-     * 플레이스홀더 아이템 생성
+     * ?�레?�스?�???�이???�성
      */
-    public static GuiItem createPlaceholder(@NotNull String text, @NotNull Player player) {
+    public static GuiItem createPlaceholder(@NotNull LangKey textKey, @NotNull Player player) {
         return GuiItem.display(
                 ItemBuilder.of(Material.GRAY_STAINED_GLASS_PANE)
-                        .displayName(LangManager.getComponent(text, player.locale()))
+                        .displayName(LangHelper.text(textKey, player))
                         .build()
         );
     }
 
     /**
-     * 에러 아이템 생성
+     * ?�러 ?�이???�성
      */
-    public static GuiItem createErrorItem(@NotNull String message, @NotNull Player player) {
+    public static GuiItem createErrorItem(@NotNull LangKey messageKey, @NotNull Player player) {
         return GuiItem.display(
                 ItemBuilder.of(Material.BARRIER)
-                        .displayName(LangManager.getComponent("items.gui.error.title", player.locale()))
-                        .addLore(LangManager.getComponent(message, player.locale()))
+                        .displayName(LangHelper.text(LangKey.ITEMS_GUI_ERROR_TITLE, player))
+                        .addLore(LangHelper.text(messageKey, player))
                         .build()
         );
     }
 
     /**
-     * 메뉴 버튼 생성 (클릭 가능한 기능 버튼)
+     * 메뉴 버튼 ?�성 (?�릭 가?�한 기능 버튼)
      * 
-     * @param material 버튼 재료
-     * @param nameKey 이름 번역 키
-     * @param loreKey 설명 번역 키
-     * @param action 클릭 시 동작
-     * @param player 플레이어
-     * @return 생성된 메뉴 버튼
+     * @param material 버튼 ?�료
+     * @param nameKey ?�름 번역 ??     * @param loreKey ?�명 번역 ??     * @param action ?�릭 ???�작
+     * @param player ?�레?�어
+     * @return ?�성??메뉴 버튼
      */
-    public static GuiItem createMenuButton(@NotNull Material material, @NotNull String nameKey, 
-                                           @NotNull String loreKey, @NotNull Consumer<Player> action,
+    public static GuiItem createMenuButton(@NotNull Material material, @NotNull LangKey nameKey, 
+                                           @NotNull LangKey loreKey, @NotNull Consumer<Player> action,
                                            @NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(material)
-                        .displayName(LangManager.getComponent(nameKey, player.locale()))
-                        .addLore(LangManager.getComponent(loreKey, player.locale()))
+                        .displayName(LangHelper.text(nameKey, player))
+                        .addLore(LangHelper.text(loreKey, player))
                         .asGuiItem()
                         .build(),
                 action
@@ -160,13 +162,11 @@ public class GuiFactory {
     }
     
     /**
-     * 스탯 아이템 생성 (표시 전용)
+     * ?�탯 ?�이???�성 (?�시 ?�용)
      * 
-     * @param material 아이템 재료
-     * @param name 아이템 이름
-     * @param lore 아이템 설명 리스트
-     * @return 생성된 스탯 아이템
-     */
+     * @param material ?�이???�료
+     * @param name ?�이???�름
+     * @param lore ?�이???�명 리스??     * @return ?�성???�탯 ?�이??     */
     public static GuiItem createStatItem(@NotNull Material material, @NotNull Component name, 
                                          @NotNull List<Component> lore) {
         return GuiItem.display(
@@ -179,12 +179,12 @@ public class GuiFactory {
     }
     
     /**
-     * 조건부 아이템 생성 (클릭 가능 여부가 조건에 따라 결정)
+     * 조건부 ?�이???�성 (?�릭 가???��?가 조건???�라 결정)
      * 
-     * @param builder 아이템 빌더
-     * @param clickable 클릭 가능 여부
-     * @param action 클릭 시 동작 (clickable이 true일 때만 사용)
-     * @return 생성된 GuiItem
+     * @param builder ?�이??빌더
+     * @param clickable ?�릭 가???��?
+     * @param action ?�릭 ???�작 (clickable??true???�만 ?�용)
+     * @return ?�성??GuiItem
      */
     public static GuiItem createConditionalItem(@NotNull ItemBuilder builder, boolean clickable, 
                                                 @NotNull Consumer<Player> action) {
@@ -198,55 +198,55 @@ public class GuiFactory {
     }
     
     /**
-     * 정보 아이템 생성
+     * ?�보 ?�이???�성
      */
-    public static GuiItem createInfoItem(@NotNull String title, @NotNull String lore, @NotNull Player player) {
+    public static GuiItem createInfoItem(@NotNull LangKey titleKey, @NotNull LangKey loreKey, @NotNull Player player) {
         return GuiItem.display(
                 ItemBuilder.of(Material.BOOK)
-                        .displayName(LangManager.getComponent(title, player.locale()))
-                        .addLore(LangManager.getComponent(lore, player.locale()))
+                        .displayName(LangHelper.text(titleKey, player))
+                        .addLore(LangHelper.text(loreKey, player))
                         .build()
         );
     }
 
     /**
-     * 확인 버튼 생성
+     * ?�인 버튼 ?�성
      */
     public static GuiItem createConfirmButton(@NotNull Consumer<Player> action, @NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.LIME_STAINED_GLASS_PANE)
-                        .displayName(LangManager.getComponent("items.gui.buttons.confirm.name", player.locale()))
-                        .addLore(LangManager.getComponent("items.gui.buttons.confirm.lore", player.locale()))
+                        .displayName(LangManager.text(LangKey.ITEMS_GUI_BUTTONS_CONFIRM_NAME, player))
+                        .addLore(LangManager.text(LangKey.ITEMS_GUI_BUTTONS_CONFIRM_LORE, player))
                         .build(),
                 action
         );
     }
 
     /**
-     * 취소 버튼 생성
+     * 취소 버튼 ?�성
      */
     public static GuiItem createCancelButton(@NotNull Consumer<Player> action, @NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.RED_STAINED_GLASS_PANE)
-                        .displayName(LangManager.getComponent("items.gui.buttons.cancel.name", player.locale()))
-                        .addLore(LangManager.getComponent("items.gui.buttons.cancel.lore", player.locale()))
+                        .displayName(LangManager.text(LangKey.ITEMS_GUI_BUTTONS_CANCEL_NAME, player))
+                        .addLore(LangManager.text(LangKey.ITEMS_GUI_BUTTONS_CANCEL_LORE, player))
                         .build(),
                 action
         );
     }
 
     /**
-     * 토글 버튼 생성
+     * ?��? 버튼 ?�성
      */
-    public static GuiItem createToggleButton(boolean state, @NotNull String nameKey, @NotNull Consumer<Player> action,
+    public static GuiItem createToggleButton(boolean state, @NotNull LangKey nameKey, @NotNull Consumer<Player> action,
                                              @NotNull Player player) {
         Material material = state ? Material.LIME_DYE : Material.GRAY_DYE;
-        String statusKey = state ? "items.gui.buttons.toggle.enabled" : "items.gui.buttons.toggle.disabled";
+        LangKey statusKey = state ? LangKey.ITEMS_GUI_BUTTONS_TOGGLE_ENABLED : LangKey.ITEMS_GUI_BUTTONS_TOGGLE_DISABLED;
 
         return GuiItem.clickable(
                 ItemBuilder.of(material)
-                        .displayName(LangManager.getComponent(nameKey, player.locale()))
-                        .addLore(LangManager.getComponent(statusKey, player.locale()))
+                        .displayName(LangHelper.text(nameKey, player))
+                        .addLore(LangHelper.text(statusKey, player))
                         .build(),
                 action
         );
@@ -254,12 +254,12 @@ public class GuiFactory {
 
 
     /**
-     * 페이지 정보 표시 아이템 생성
+     * ?�이지 ?�보 ?�시 ?�이???�성
      */
     public static GuiItem createPageInfo(int currentPage, int totalPages, @NotNull Player player) {
-        // 페이지 정보는 동적 데이터를 포함하므로 Component로 직접 처리
-        Component pageTitle = LangManager.getComponent("items.gui.buttons.page-info.name", player.locale());
-        Component pageInfo = LangManager.getComponent("gui.buttons.page-info.lore", player.locale(), 
+        // ?�이지 ?�보???�적 ?�이?��? ?�함?��?�?Component�?직접 처리
+        Component pageTitle = LangManager.text(LangKey.ITEMS_GUI_BUTTONS_PAGE_INFO_NAME, player);
+        Component pageInfo = LangManager.text(LangKey.GUI_BUTTONS_PAGE_INFO_LORE, player, 
                                                       Component.text(currentPage), Component.text(totalPages));
         
         return GuiItem.display(
@@ -271,16 +271,16 @@ public class GuiFactory {
     }
 
     /**
-     * 상태 표시 아이템 생성
+     * ?�태 ?�시 ?�이???�성
      */
     public static GuiItem createStatusIndicator(@NotNull String status, boolean isOnline, @NotNull Player player) {
         Material material = isOnline ? Material.LIME_DYE : Material.RED_DYE;
-        String statusKey = isOnline ? "items.gui.buttons.status.online" : "items.gui.buttons.status.offline";
+        LangKey statusKey = isOnline ? LangKey.ITEMS_GUI_BUTTONS_STATUS_ONLINE : LangKey.ITEMS_GUI_BUTTONS_STATUS_OFFLINE;
 
         return GuiItem.display(
                 ItemBuilder.of(material)
                         .displayName(Component.text(status, isOnline ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
-                        .addLore(LangManager.getComponent(statusKey, player.locale()))
+                        .addLore(LangHelper.text(statusKey, player))
                         .build()
         );
     }

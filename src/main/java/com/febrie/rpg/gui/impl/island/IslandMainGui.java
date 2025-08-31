@@ -13,6 +13,8 @@ import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.DateFormatUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangHelper;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
@@ -28,8 +30,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 섬 메인 GUI
- * 섬 관련 모든 기능에 접근할 수 있는 메인 인터페이스
+ * Island Main GUI
+ * Main interface for accessing all island-related features
  *
  * @author Febrie, CoffeeTory
  */
@@ -44,10 +46,10 @@ public class IslandMainGui extends BaseGui {
     private final boolean isWorker;
 
     private IslandMainGui(@NotNull GuiManager guiManager, @NotNull Player player) {
-        super(player, guiManager, 54, LangManager.getComponent("gui.island.main.title", player.locale()));
+        super(player, guiManager, 54, LangHelper.text(LangKey.GUI_ISLAND_MAIN_TITLE, player));
         this.islandManager = RPGMain.getInstance().getIslandManager();
 
-        // 플레이어의 섬 데이터 가져오기
+        // Get player island data
         String uuid = player.getUniqueId().toString();
         this.playerIslandData = islandManager.getPlayerIslandDataFromCache(uuid);
 
@@ -58,7 +60,7 @@ public class IslandMainGui extends BaseGui {
             } else {
                 this.island = null;
             }
-            // 역할 확인
+            // ??�� ?�인
             this.isOwner = island != null && island.core().ownerUuid().equals(uuid);
             this.isCoOwner = island != null && island.membership().members().stream()
                     .anyMatch(m -> m.uuid().equals(uuid) && m.isCoOwner());
@@ -76,12 +78,12 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * IslandMainGui 인스턴스를 생성하고 초기화합니다.
+     * IslandMainGui ?�스?�스�??�성?�고 초기?�합?�다.
      *
-     * @param guiManager  GUI 매니저
-     * @param langManager 언어 매니저
-     * @param player      플레이어
-     * @return 초기화된 IslandMainGui 인스턴스
+     * @param guiManager  GUI 매니?�
+     * @param langManager ?�어 매니?�
+     * @param player      ?�레?�어
+     * @return 초기?�된 IslandMainGui ?�스?�스
      */
     public static IslandMainGui create(@NotNull GuiManager guiManager, @NotNull Player player) {
         return new IslandMainGui(guiManager, player);
@@ -90,15 +92,15 @@ public class IslandMainGui extends BaseGui {
     @Override
     public @NotNull Component getTitle() {
         if (island != null) {
-            return LangManager.getComponent("island.gui.main.title_with_name", viewer.locale(), Component.text(island.core().islandName()));
+            return LangHelper.text(LangKey.ISLAND_GUI_MAIN_TITLE_WITH_NAME, viewer, Component.text(island.core().islandName()));
         } else {
-            return LangManager.getComponent("island.gui.main.title", viewer.locale());
+            return LangHelper.text(LangKey.ISLAND_GUI_MAIN_TITLE, viewer);
         }
     }
 
     @Override
     protected GuiFramework getBackTarget() {
-        // 메인 메뉴로 돌아가기
+        // Return to main menu
         return null;
     }
 
@@ -113,12 +115,12 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * 섬이 없을 때 레이아웃
+     * ?�이 ?�을 ???�이?�웃
      */
     private void setupNoIslandLayout() {
         createBorder();
 
-        // 중앙에 섬 생성 안내
+        // 중앙?????�성 ?�내
         GuiItem createIslandInfo = GuiItem.display(ItemBuilder.of(Material.GRASS_BLOCK, getViewerLocale())
                 .displayNameTranslated("island.gui.main.create-island.title")
                 .addLore(Component.empty())
@@ -137,35 +139,35 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * 섬이 있을 때 레이아웃
+     * ?�이 ?�을 ???�이?�웃
      */
     private void setupIslandLayout() {
         createBorder();
 
-        // 섬 정보
+        // ???�보
         setItem(13, createIslandInfoItem());
 
-        // 섬 역할에 따른 메뉴 구성
+        // ????��???�른 메뉴 구성
         if (isOwner) {
-            // 섬장 메뉴
+            // ?�장 메뉴
             setupOwnerMenu();
         } else if (isCoOwner) {
-            // 부섬장 메뉴
+            // 부?�장 메뉴
             setupCoOwnerMenu();
         } else if (isMember) {
             // 멤버 메뉴
             setupMemberMenu();
         } else if (isWorker) {
-            // 알바 메뉴
+            // ?�바 메뉴
             setupWorkerMenu();
         } else {
-            // 방문자 메뉴
+            // 방문??메뉴
             setupVisitorMenu();
         }
     }
 
     /**
-     * 섬장 메뉴 설정
+     * ?�장 메뉴 ?�정
      */
     private void setupOwnerMenu() {
         setItem(13, createIslandInfoItem());
@@ -175,7 +177,7 @@ public class IslandMainGui extends BaseGui {
         setItem(23, createContributionItem());
         setItem(24, createSpawnSettingsItem());
         setItem(30, createIslandSettingsItem());
-        // 방문자 목록은 권한 체크 후 표시
+        // 방문??목록?� 권한 체크 ???�시
         if (IslandPermissionHandler.hasPermission(island, viewer, "VIEW_VISITORS")) {
             setItem(31, createVisitorListItem());
         }
@@ -184,7 +186,7 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * 부섬장 메뉴 설정
+     * 부?�장 메뉴 ?�정
      */
     private void setupCoOwnerMenu() {
         setItem(13, createIslandInfoItem());
@@ -192,12 +194,12 @@ public class IslandMainGui extends BaseGui {
         setItem(22, createUpgradeItem());
         setItem(23, createContributionItem());
         setItem(24, createSpawnSettingsItem());
-        // 방문자 목록은 권한 체크 후 표시
+        // 방문??목록?� 권한 체크 ???�시
         if (IslandPermissionHandler.hasPermission(island, viewer, "VIEW_VISITORS")) {
             setItem(31, createVisitorListItem());
         }
         setItem(32, createWarpItem());
-        // 바이옴 변경은 권한 있는 경우만 표시
+        // 바이??변경�? 권한 ?�는 경우�??�시
         if (island.membership().members().stream()
                 .anyMatch(m -> m.uuid().equals(viewer.getUniqueId().toString()) && m.isCoOwner())) {
             setItem(33, createBiomeChangeItem());
@@ -205,16 +207,16 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * 멤버 메뉴 설정
+     * 멤버 메뉴 ?�정
      */
     private void setupMemberMenu() {
         setItem(13, createIslandInfoItem());
-        // 업그레이드는 권한 체크 후 표시
+        // ?�그?�이?�는 권한 체크 ???�시
         if (IslandPermissionHandler.hasPermission(island, viewer, "UPGRADE_ISLAND")) {
             setItem(22, createUpgradeItem());
         }
         setItem(23, createContributionItem());
-        // 방문자 목록은 권한 체크 후 표시
+        // 방문??목록?� 권한 체크 ???�시
         if (IslandPermissionHandler.hasPermission(island, viewer, "VIEW_VISITORS")) {
             setItem(31, createVisitorListItem());
         }
@@ -222,12 +224,12 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * 알바 메뉴 설정
+     * ?�바 메뉴 ?�정
      */
     private void setupWorkerMenu() {
         setItem(13, createIslandInfoItem());
         setItem(23, createContributionItem());
-        // 방문자 목록은 권한 체크 후 표시
+        // 방문??목록?� 권한 체크 ???�시
         if (IslandPermissionHandler.hasPermission(island, viewer, "VIEW_VISITORS")) {
             setItem(31, createVisitorListItem());
         }
@@ -235,12 +237,12 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * 방문자 메뉴 설정
+     * 방문??메뉴 ?�정
      */
     private void setupVisitorMenu() {
         setItem(13, createIslandInfoItem());
-        setItem(23, createContributionItem()); // 방문자도 기여도 순위를 볼 수 있도록 추가
-        // 방문자 목록은 권한 체크 후 표시 (방문자는 기본적으로 권한 없음)
+        setItem(23, createContributionItem()); // 방문?�도 기여???�위�?�????�도�?추�?
+        // 방문??목록?� 권한 체크 ???�시 (방문?�는 기본?�으�?권한 ?�음)
         if (IslandPermissionHandler.hasPermission(island, viewer, "VIEW_VISITORS")) {
             setItem(31, createVisitorListItem());
         }
@@ -248,42 +250,36 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * 섬 정보 아이템 생성
+     * ???�보 ?�이???�성
      */
     private GuiItem createIslandInfoItem() {
-        // 섬 이름에 설정된 색상 적용
+        // ???�름???�정???�상 ?�용
         net.kyori.adventure.text.format.TextColor nameColor = UnifiedColorUtil.parseHexColor(island.configuration()
                 .settings().nameColorHex());
         
         ItemBuilder builder = ItemBuilder.of(Material.GRASS_BLOCK)
                 .displayName(Component.text(island.core().islandName(), nameColor))
-                .loreTranslated("items.island.main.info.lore",
-                        island.core().ownerName(),
-                        island.core().size() + " x " + island.core().size(),
-                        island.getMemberCount() + "/" + island.configuration().upgradeData().memberLimit(),
-                        island.membership().workers().size() + "/" + island.configuration().upgradeData().workerLimit(),
-                        DateFormatUtil.formatFullDateTimeFromMillis(island.core().createdAt()));
+                .addLore(LangHelper.list(LangKey.ITEMS_ISLAND_MAIN_INFO_LORE, viewer))
+                .hideAllFlags();
 
-        // 섬장이나 부섬장인 경우 색상 변경 안내 추가
+        // ?�장?�나 부?�장??경우 ?�상 변�??�내 추�?
         if (isOwner || isCoOwner) {
             builder.addLore(Component.empty());
-            builder.addLore(LangManager.getComponent("gui.island.main.color_change_hint", viewer.locale()).color(UnifiedColorUtil.AQUA));
+            builder.addLore(LangHelper.text(LangKey.GUI_ISLAND_MAIN_COLOR_CHANGE_HINT, viewer).color(UnifiedColorUtil.AQUA));
         }
 
-        ItemStack itemStack = builder.hideAllFlags().build();
+        ItemStack itemStack = builder.build();
 
-        // 섬장이나 부섬장인 경우에만 클릭 이벤트 추가
+        // ?�장?�나 부?�장??경우?�만 ?�릭 ?�벤??추�?
         if (isOwner || isCoOwner) {
-            return GuiItem.clickable(itemStack, (player) -> {
-                handleColorChange(player);
-            });
+            return GuiItem.clickable(itemStack, this::handleColorChange);
         }
 
         return GuiItem.of(itemStack);
     }
 
     /**
-     * 섬 색상 변경 처리
+     * ???�상 변�?처리
      */
     private void handleColorChange(Player player) {
         new AnvilGUI.Builder().onClick((slot, stateSnapshot) -> {
@@ -291,43 +287,42 @@ public class IslandMainGui extends BaseGui {
                 return java.util.Collections.emptyList();
             }
             String hexColor = stateSnapshot.getText();
-            // HEX 코드 유효성 검사
+            // HEX code validation
             if (!hexColor.matches("^#[0-9A-Fa-f]{6}$")) {
-                player.sendMessage(LangManager.getComponent("gui.island.main.hex_format_error", player.locale()).color(UnifiedColorUtil.ERROR));
+                player.sendMessage(LangHelper.text(LangKey.GUI_ISLAND_MAIN_HEX_FORMAT_ERROR, player).color(UnifiedColorUtil.ERROR));
                 String hexFormatExample = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
-                        .serialize(LangManager.getComponent("gui.island.main.hex_format_example", player.locale()));
+                        .serialize(LangHelper.text(LangKey.GUI_ISLAND_MAIN_HEX_FORMAT_EXAMPLE, player));
                 return java.util.Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText(hexFormatExample));
             }
 
-            // 섬 설정 업데이트
+            // Update settings
             IslandSettingsDTO newSettings = new IslandSettingsDTO(hexColor, island.configuration().settings()
                     .biome(), island.configuration().settings().template());
 
             IslandDTO updated = GuiHandlerUtil.updateIslandSettings(island, newSettings);
             islandManager.updateIsland(updated);
 
-            player.sendMessage(LangManager.getComponent("gui.island.main.color_changed", player.locale()).color(UnifiedColorUtil.SUCCESS));
+            player.sendMessage(LangHelper.text(LangKey.GUI_ISLAND_MAIN_COLOR_CHANGED, player).color(UnifiedColorUtil.SUCCESS));
 
             return java.util.Collections.singletonList(AnvilGUI.ResponseAction.close());
                 }).onClose(closePlayer -> {
-                    // GUI 다시 열기
+                    // GUI ?�시 ?�기
                     Bukkit.getScheduler().runTaskLater(RPGMain.getInstance(), () -> IslandMainGui.create(guiManager, viewer)
                             .open(viewer), 1L);
                 }).text(island.configuration().settings().nameColorHex())
                         .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
-                                .serialize(LangManager.getComponent("gui.island.main.hex_input_title", player.locale())))
+                                .serialize(LangHelper.text(LangKey.GUI_ISLAND_MAIN_HEX_INPUT_TITLE, player)))
                         .plugin(RPGMain.getInstance())
                 .open(player);
     }
 
     /**
-     * 멤버 관리 아이템
-     */
+     * 멤버 관�??�이??     */
     private GuiItem createMemberManagementItem() {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.PLAYER_HEAD, getViewerLocale())
-                        .displayNameTranslated("items.island.main.member-management.name")
-                        .addLoreTranslated("items.island.main.member-management.lore")
+                        .displayNameTranslated("items.island.member.invite.name")
+                        .addLore(LangHelper.list(LangKey.ITEMS_ISLAND_MEMBER_INVITE_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -339,13 +334,12 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * 권한 관리 아이템
-     */
+     * 권한 관�??�이??     */
     private GuiItem createPermissionManagementItem() {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.COMMAND_BLOCK, getViewerLocale())
-                        .displayNameTranslated("items.island.main.permission-management.name")
-                        .addLoreTranslated("items.island.main.permission-management.lore")
+                        .displayNameTranslated("items.island.member.permission.name")
+                        .addLore(LangHelper.list(LangKey.ITEMS_ISLAND_MEMBER_PERMISSION_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -358,16 +352,12 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * 업그레이드 아이템
-     */
+     * ?�그?�이???�이??     */
     private GuiItem createUpgradeItem() {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.ANVIL, getViewerLocale())
                         .displayNameTranslated("items.island.main.upgrade-info.name")
-                        .loreTranslated("items.island.main.upgrade-info.lore",
-                                String.valueOf(island.configuration().upgradeData().sizeLevel()),
-                                String.valueOf(island.configuration().upgradeData().memberLimitLevel()),
-                                String.valueOf(island.configuration().upgradeData().workerLimitLevel()))
+                        .addLore(LangHelper.list(LangKey.ITEMS_ISLAND_MAIN_UPGRADE_INFO_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -379,16 +369,14 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * 기여도 아이템
-     */
+     * 기여???�이??     */
     private GuiItem createContributionItem() {
         long myContribution = island.membership().contributions().getOrDefault(viewer.getUniqueId().toString(), 0L);
         
         return GuiItem.clickable(
                 ItemBuilder.of(Material.EMERALD, getViewerLocale())
                         .displayNameTranslated("items.island.main.contribution-info.name")
-                        .loreTranslated("items.island.main.contribution-info.lore",
-                                String.valueOf(myContribution))
+                        .addLore(LangHelper.list(LangKey.ITEMS_ISLAND_MAIN_CONTRIBUTION_INFO_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -399,13 +387,12 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * 스폰 설정 아이템
-     */
+     * ?�폰 ?�정 ?�이??     */
     private GuiItem createSpawnSettingsItem() {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.ENDER_PEARL, getViewerLocale())
-                        .displayNameTranslated("items.island.main.spawn-settings.name")
-                        .addLoreTranslated("items.island.main.spawn-settings.lore")
+                        .displayNameTranslated("items.island.spawn.current-info.name")
+                        .addLore(LangHelper.list(LangKey.ITEMS_ISLAND_SPAWN_CURRENT_INFO_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -417,13 +404,12 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * 섬 설정 아이템
-     */
+     * ???�정 ?�이??     */
     private GuiItem createIslandSettingsItem() {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.COMPARATOR, getViewerLocale())
                         .displayNameTranslated("items.island.main.island-settings.name")
-                        .addLoreTranslated("items.island.main.island-settings.lore")
+                        .addLore(LangHelper.list(LangKey.ITEMS_ISLAND_MAIN_ISLAND_SETTINGS_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -435,20 +421,17 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * 방문자 목록 아이템
-     */
+     * 방문??목록 ?�이??     */
     private GuiItem createVisitorListItem() {
-        // 현재 방문자 수 계산
+        // ?�재 방문????계산
         var visitListener = RPGMain.getInstance().getIslandVisitListener();
         int currentVisitorCount = visitListener != null ? visitListener.getCurrentVisitors(island.core().islandId())
                 .size() : 0;
         
         return GuiItem.clickable(
                 ItemBuilder.of(Material.BOOK, getViewerLocale())
-                        .displayNameTranslated("items.island.main.visitor-info.name")
-                        .loreTranslated("items.island.main.visitor-info.lore",
-                                String.valueOf(island.social().recentVisits().size()),
-                                String.valueOf(currentVisitorCount))
+                        .displayNameTranslated("items.island.main.visitor.name")
+                        .addLore(LangHelper.list(LangKey.ITEMS_ISLAND_MAIN_VISITOR_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -460,13 +443,12 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * 바이옴 변경 아이템
-     */
+     * 바이??변�??�이??     */
     private GuiItem createBiomeChangeItem() {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.GRASS_BLOCK, getViewerLocale())
                         .displayNameTranslated("items.island.main.biome-change.name")
-                        .addLoreTranslated("items.island.main.biome-change.lore")
+                        .addLore(LangHelper.list(LangKey.ITEMS_ISLAND_MAIN_BIOME_CHANGE_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -481,13 +463,12 @@ public class IslandMainGui extends BaseGui {
     }
 
     /**
-     * 워프 아이템
-     */
+     * ?�프 ?�이??     */
     private GuiItem createWarpItem() {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.COMPASS, getViewerLocale())
                         .displayNameTranslated("items.island.main.warp.name")
-                        .addLoreTranslated("items.island.main.warp.lore")
+                        .addLore(LangHelper.list(LangKey.ITEMS_ISLAND_MAIN_WARP_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 this::handleWarp
@@ -496,20 +477,20 @@ public class IslandMainGui extends BaseGui {
 
 
     /**
-     * 섬으로 워프
+     * ?�으�??�프
      */
     private void handleWarp(@NotNull Player player) {
         player.closeInventory();
-        player.sendMessage(LangManager.getComponent("gui.island.main.warp_moving", player.locale()).color(UnifiedColorUtil.YELLOW));
+        player.sendMessage(LangHelper.text(LangKey.GUI_ISLAND_MAIN_WARP_MOVING, player).color(UnifiedColorUtil.YELLOW));
 
-        // 스폰 위치 가져오기
+        // Get spawn location
         var spawn = island.configuration().spawnData().defaultSpawn()
                 .toLocation(islandManager.getWorldManager().getIslandWorld());
         spawn.setY(spawn.getY() + 4);
 
         Bukkit.getScheduler().runTask(RPGMain.getInstance(), () -> {
             player.teleport(spawn);
-            player.sendMessage(LangManager.getComponent("gui.island.main.warp_success", player.locale()).color(UnifiedColorUtil.SUCCESS));
+            player.sendMessage(LangHelper.text(LangKey.GUI_ISLAND_MAIN_WARP_SUCCESS, player).color(UnifiedColorUtil.SUCCESS));
         });
     }
 }

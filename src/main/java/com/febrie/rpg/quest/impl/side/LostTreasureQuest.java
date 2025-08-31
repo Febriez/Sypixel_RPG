@@ -11,6 +11,8 @@ import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangHelper;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -67,12 +69,12 @@ public class LostTreasureQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.get("quest.side.lost_treasure.name", who);
+        return LangHelper.text(LangKey.QUEST_SIDE_LOST_TREASURE_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList("quest.side.lost_treasure.info", who);
+        return LangManager.list(LangKey.QUEST_SIDE_LOST_TREASURE_INFO, who);
     }
 
     @Override
@@ -88,25 +90,25 @@ public class LostTreasureQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> LangManager.get("quest.side.lost_treasure.dialogs.0", who);
-            case 1 -> LangManager.get("quest.side.lost_treasure.dialogs.1", who);
-            case 2 -> LangManager.get("quest.side.lost_treasure.dialogs.2", who);
+            case 0 -> LangHelper.text(LangKey.QUEST_SIDE_LOST_TREASURE_DIALOGS_0, who);
+            case 1 -> LangHelper.text(LangKey.QUEST_SIDE_LOST_TREASURE_DIALOGS_1, who);
+            case 2 -> LangHelper.text(LangKey.QUEST_SIDE_LOST_TREASURE_DIALOGS_2, who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.get("quest.side.lost_treasure.npc_name", who);
+        return LangHelper.text(LangKey.QUEST_SIDE_LOST_TREASURE_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.get("quest.side.lost_treasure.accept", who);
+        return LangHelper.text(LangKey.QUEST_SIDE_LOST_TREASURE_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.get("quest.side.lost_treasure.decline", who);
+        return LangHelper.text(LangKey.QUEST_SIDE_LOST_TREASURE_DECLINE, who);
     }
 }

@@ -11,6 +11,8 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangHelper;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -66,12 +68,12 @@ public class BlacksmithApprenticeQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.get("quest.side.blacksmith_apprentice.name", who);
+        return LangHelper.text(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList("quest.side.blacksmith_apprentice.info", who);
+        return LangManager.list(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_INFO, who);
     }
 
     @Override
@@ -87,25 +89,25 @@ public class BlacksmithApprenticeQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> LangManager.get("quest.side.blacksmith_apprentice.dialogs.0", who);
-            case 1 -> LangManager.get("quest.side.blacksmith_apprentice.dialogs.1", who);
-            case 2 -> LangManager.get("quest.side.blacksmith_apprentice.dialogs.2", who);
+            case 0 -> LangHelper.text(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_DIALOGS_0, who);
+            case 1 -> LangHelper.text(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_DIALOGS_1, who);
+            case 2 -> LangHelper.text(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_DIALOGS_2, who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.get("quest.side.blacksmith_apprentice.npc_name", who);
+        return LangHelper.text(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.get("quest.side.blacksmith_apprentice.accept", who);
+        return LangHelper.text(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.get("quest.side.blacksmith_apprentice.decline", who);
+        return LangHelper.text(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_DECLINE, who);
     }
 }

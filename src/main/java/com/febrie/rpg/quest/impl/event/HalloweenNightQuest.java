@@ -8,6 +8,8 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.LangHelper;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -124,12 +126,12 @@ public class HalloweenNightQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.get("quest.event.halloween_night.name", who);
+        return LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList("quest.event.halloween_night.info", who);
+        return LangManager.list(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_INFO, who);
     }
 
     @Override
@@ -146,34 +148,34 @@ public class HalloweenNightQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> LangManager.get("quest.event.halloween_night.dialogs.0", who);
-            case 1 -> LangManager.get("quest.event.halloween_night.dialogs.1", who);
-            case 2 -> LangManager.get("quest.event.halloween_night.dialogs.2", who);
-            case 3 -> LangManager.get("quest.event.halloween_night.dialogs.3", who);
-            case 4 -> LangManager.get("quest.event.halloween_night.dialogs.4", who);
-            case 5 -> LangManager.get("quest.event.halloween_night.dialogs.5", who);
-            case 6 -> LangManager.get("quest.event.halloween_night.dialogs.6", who);
-            case 7 -> LangManager.get("quest.event.halloween_night.dialogs.7", who);
-            case 8 -> LangManager.get("quest.event.halloween_night.dialogs.8", who);
-            case 9 -> LangManager.get("quest.event.halloween_night.dialogs.9", who);
-            case 10 -> LangManager.get("quest.event.halloween_night.dialogs.10", who);
-            case 11 -> LangManager.get("quest.event.halloween_night.dialogs.11", who);
+            case 0 -> LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_DIALOGS_0, who);
+            case 1 -> LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_DIALOGS_1, who);
+            case 2 -> LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_DIALOGS_2, who);
+            case 3 -> LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_DIALOGS_3, who);
+            case 4 -> LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_DIALOGS_4, who);
+            case 5 -> LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_DIALOGS_5, who);
+            case 6 -> LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_DIALOGS_6, who);
+            case 7 -> LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_DIALOGS_7, who);
+            case 8 -> LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_DIALOGS_8, who);
+            case 9 -> LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_DIALOGS_9, who);
+            case 10 -> LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_DIALOGS_10, who);
+            case 11 -> LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_DIALOGS_11, who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.get("quest.event.halloween_night.npc_name", who);
+        return LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.get("quest.event.halloween_night.accept", who);
+        return LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.get("quest.event.halloween_night.decline", who);
+        return LangHelper.text(LangKey.QUEST_EVENT_HALLOWEEN_NIGHT_DECLINE, who);
     }
 }

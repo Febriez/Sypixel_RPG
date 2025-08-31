@@ -160,8 +160,7 @@ public final class RPGMain extends JavaPlugin {
             firestoreManager.shutdown();
         }
         
-        // 다국어 시스템 종료
-        LangManager.shutdown();
+        // 다국어 시스템은 정적이므로 종료 불필요
 
     }
 
@@ -170,7 +169,7 @@ public final class RPGMain extends JavaPlugin {
      */
     private void initializeSystems() {
         // 언어 시스템 초기화 (가장 먼저)
-        LangManager.initialize(this);
+        LangManager.init(this);
 
         // GUI 시스템 초기화
         this.guiManager = new GuiManager(this);

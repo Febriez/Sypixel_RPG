@@ -83,25 +83,14 @@ public class ItemBuilder {
     }
 
     /**
-     * Sets the display name with color
-     *
-     * @param text  The text to display
-     * @param color The color to apply
-     * @return This builder
-     */
-    public ItemBuilder displayName(String text, TextColor color) {
-        return displayName(Component.text(text).color(color).decoration(TextDecoration.ITALIC, false));
-    }
-
-    /**
-     * Sets the display name with color and decorations
+     * Sets the display name with color and optional decorations
      *
      * @param text        The text to display
      * @param color       The color to apply
-     * @param decorations The decorations to apply
+     * @param decorations The decorations to apply (optional)
      * @return This builder
      */
-    public ItemBuilder displayName(String text, TextColor color, TextDecoration @NotNull ... decorations) {
+    public ItemBuilder displayName(String text, TextColor color, TextDecoration... decorations) {
         Component component = Component.text(text).color(color).decoration(TextDecoration.ITALIC, false);
         for (TextDecoration decoration : decorations) {
             component = component.decorate(decoration);
@@ -126,15 +115,6 @@ public class ItemBuilder {
         return this;
     }
 
-    /**
-     * Adds multiple lore lines from a List
-     *
-     * @param lines The lore lines to add as a List
-     * @return This builder
-     */
-    public ItemBuilder addLore(List<Component> lines) {
-        return addLoreComponents(lines);
-    }
 
     /**
      * Sets the item name (different from display name, used for data packs)
@@ -155,8 +135,7 @@ public class ItemBuilder {
      */
     public ItemBuilder lore(List<Component> lore) {
         List<Component> nonItalicLore = lore.stream()
-            .map(component -> component.decoration(TextDecoration.ITALIC, false))
-            .toList();
+                .map(component -> component.decoration(TextDecoration.ITALIC, false)).toList();
         itemMeta.lore(nonItalicLore);
         return this;
     }
@@ -180,7 +159,7 @@ public class ItemBuilder {
     public ItemBuilder addLore(Component line) {
         List<Component> lore = itemMeta.lore();
         if (lore == null) lore = new ArrayList<>();
-        
+
         lore.add(line.decoration(TextDecoration.ITALIC, false));
         itemMeta.lore(lore);
         return this;
@@ -204,16 +183,16 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder addLore(Component... lines) {
-        return addLoreComponents(Arrays.asList(lines));
+        return addLore(Arrays.asList(lines));
     }
 
     /**
-     * Common method to add lore components
+     * Adds multiple lore lines from a list
      *
      * @param components The components to add
      * @return This builder
      */
-    private ItemBuilder addLoreComponents(List<Component> components) {
+    public ItemBuilder addLore(List<Component> components) {
         List<Component> lore = itemMeta.lore();
         if (lore == null) lore = new ArrayList<>();
 
@@ -259,13 +238,6 @@ public class ItemBuilder {
         return this;
     }
 
-    /**
-     * 아이템 플래그 추가
-     */
-    public ItemBuilder addItemFlags(ItemFlag... flags) {
-        itemMeta.addItemFlags(flags);
-        return this;
-    }
 
     /**
      * 모든 아이템 플래그 추가 (자주 사용되는 패턴)
@@ -274,7 +246,7 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder hideAllFlags() {
-        return addItemFlags(ItemFlag.values());
+        return flags(ItemFlag.values());
     }
 
     /**
@@ -571,12 +543,13 @@ public class ItemBuilder {
      *
      * @param key The translation key
      * @return This builder
+     *
      */
-    public ItemBuilder displayNameTranslated(@NotNull String key) {
+    public ItemBuilder displayNameTranslated(@NotNull LangKey key) {
         if (locale == null) {
             throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale) or call displayNameTranslated(key, locale)");
         }
-        Component translatedName = LangManager.getComponent(key, locale);
+        Component translatedName = LangHelper.text(key, locale);
         return displayName(translatedName);
     }
 
@@ -587,8 +560,8 @@ public class ItemBuilder {
      * @param locale The player's locale
      * @return This builder
      */
-    public ItemBuilder displayNameTranslated(@NotNull String key, @NotNull Locale locale) {
-        Component translatedName = LangManager.getComponent(key, locale);
+    public ItemBuilder displayNameTranslated(@NotNull LangKey key, @NotNull Locale locale) {
+        Component translatedName = LangHelper.text(key, locale);
         return displayName(translatedName);
     }
 
@@ -598,11 +571,11 @@ public class ItemBuilder {
      * @param key The translation key
      * @return This builder
      */
-    public ItemBuilder addLoreTranslated(@NotNull String key) {
+    public ItemBuilder addLoreTranslated(@NotNull LangKey key) {
         if (locale == null) {
             throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale) or call addLoreTranslated(key, locale)");
         }
-        Component translatedLore = LangManager.getComponent(key, locale);
+        Component translatedLore = LangHelper.text(key, locale);
         return addLore(translatedLore);
     }
 
@@ -613,27 +586,11 @@ public class ItemBuilder {
      * @param locale The player's locale
      * @return This builder
      */
-    public ItemBuilder addLoreTranslated(@NotNull String key, @NotNull Locale locale) {
-        Component translatedLore = LangManager.getComponent(key, locale);
+    public ItemBuilder addLoreTranslated(@NotNull LangKey key, @NotNull Locale locale) {
+        Component translatedLore = LangHelper.text(key, locale);
         return addLore(translatedLore);
     }
 
-    /**
-     * Sets multiple translated lore lines using stored locale
-     *
-     * @param keys The translation keys
-     * @return This builder
-     */
-    public ItemBuilder loreTranslated(@NotNull String... keys) {
-        if (locale == null) {
-            throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale) or call loreTranslated(locale, keys)");
-        }
-        for (String key : keys) {
-            Component translatedLore = LangManager.getComponent(key, locale);
-            addLore(translatedLore);
-        }
-        return this;
-    }
 
     /**
      * Sets multiple translated lore lines with explicit locale
@@ -642,10 +599,32 @@ public class ItemBuilder {
      * @param keys   The translation keys
      * @return This builder
      */
+    public ItemBuilder loreTranslated(@NotNull Locale locale, @NotNull LangKey... keys) {
+        for (LangKey key : keys) {
+            Component translatedLore = LangHelper.text(key, locale);
+            addLore(translatedLore);
+        }
+        return this;
+    }
+    
+    // Minimal compatibility layer - should migrate to LangKey
+    public ItemBuilder displayNameTranslated(@NotNull String key) {
+        if (locale == null) {
+            throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale)");
+        }
+        return displayName(LangManager.getComponent(key, locale));
+    }
+    
+    public ItemBuilder addLoreTranslated(@NotNull String key) {
+        if (locale == null) {
+            throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale)");
+        }
+        return addLore(LangManager.getComponent(key, locale));
+    }
+    
     public ItemBuilder loreTranslated(@NotNull Locale locale, @NotNull String... keys) {
         for (String key : keys) {
-            Component translatedLore = LangManager.getComponent(key, locale);
-            addLore(translatedLore);
+            addLore(LangManager.getComponent(key, locale));
         }
         return this;
     }

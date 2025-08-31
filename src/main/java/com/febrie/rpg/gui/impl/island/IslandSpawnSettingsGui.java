@@ -124,7 +124,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
     private ItemStack createSetMainSpawnItem() {
         return ItemBuilder.of(Material.ENDER_PEARL)
                 .displayNameTranslated("items.island.spawn.set-main.name")
-                .loreTranslated("items.island.spawn.set-main.lore")
+                .loreTranslated(viewer.locale(), "items.island.spawn.set-main.lore")
                 .hideAllFlags()
                 .build();
     }
@@ -132,7 +132,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
     private ItemStack createSetVisitorSpawnItem() {
         return ItemBuilder.of(Material.ENDER_EYE)
                 .displayNameTranslated("items.island.spawn.set-visitor.name")
-                .loreTranslated("items.island.spawn.set-visitor.lore")
+                .loreTranslated(viewer.locale(), "items.island.spawn.set-visitor.lore")
                 .hideAllFlags()
                 .build();
     }
@@ -140,7 +140,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
     private ItemStack createResetSpawnItem() {
         return ItemBuilder.of(Material.BARRIER)
                 .displayNameTranslated("items.island.spawn.reset.name")
-                .loreTranslated("items.island.spawn.reset.lore")
+                .loreTranslated(viewer.locale(), "items.island.spawn.reset.lore")
                 .hideAllFlags()
                 .build();
     }
@@ -148,7 +148,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
     private ItemStack createSpawnProtectionItem() {
         return ItemBuilder.of(Material.SHIELD)
                 .displayNameTranslated("items.island.spawn.protection.name")
-                .loreTranslated("items.island.spawn.protection.lore")
+                .loreTranslated(viewer.locale(), "items.island.spawn.protection.lore")
                 .hideAllFlags()
                 .build();
     }
@@ -156,7 +156,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
     private ItemStack createPersonalSpawnItem() {
         return ItemBuilder.of(Material.ENDER_CHEST)
                 .displayNameTranslated("items.island.spawn.personal.name")
-                .loreTranslated("items.island.spawn.personal.lore")
+                .loreTranslated(viewer.locale(), "items.island.spawn.personal.lore")
                 .hideAllFlags()
                 .build();
     }
@@ -164,7 +164,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
     private ItemStack createSpawnMessageItem() {
         return ItemBuilder.of(Material.WRITABLE_BOOK)
                 .displayNameTranslated("items.island.spawn.message.name")
-                .loreTranslated("items.island.spawn.message.lore")
+                .loreTranslated(viewer.locale(), "items.island.spawn.message.lore")
                 .hideAllFlags()
                 .build();
     }
@@ -172,7 +172,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
     private ItemStack createNoPermissionItem() {
         return ItemBuilder.of(Material.REDSTONE_BLOCK)
                 .displayNameTranslated("items.island.spawn.no-permission.name")
-                .loreTranslated("items.island.spawn.no-permission.lore")
+                .loreTranslated(viewer.locale(), "items.island.spawn.no-permission.lore")
                 .hideAllFlags()
                 .build();
     }
@@ -180,7 +180,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
     private ItemStack createBackButton() {
         return ItemBuilder.of(Material.ARROW)
                 .displayNameTranslated("items.buttons.back.name")
-                .loreTranslated("items.buttons.back.lore")
+                .loreTranslated(viewer.locale(), "items.buttons.back.lore")
                 .hideAllFlags()
                 .build();
     }

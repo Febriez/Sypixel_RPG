@@ -232,7 +232,7 @@ public class IslandMemberGui extends BaseGui {
         
         return ItemBuilder.of(Material.EMERALD)
                 .displayNameTranslated("items.island.member.invite.name")
-                .loreTranslated("items.island.member.invite-button.lore", currentMembers, currentWorkers)
+                .loreTranslated(viewer.locale(), "items.island.member.invite-button.lore", currentMembers, currentWorkers)
                 .hideAllFlags();
     }
     
@@ -242,7 +242,7 @@ public class IslandMemberGui extends BaseGui {
     private ItemBuilder createBackButton() {
         return ItemBuilder.of(Material.ARROW)
                 .displayNameTranslated("items.gui.buttons.back.name")
-                .addLoreTranslated("items.gui.buttons.back.lore")
+                .addLoreTranslated("gui.buttons.back.lore")
                 .hideAllFlags();
     }
     
@@ -252,7 +252,7 @@ public class IslandMemberGui extends BaseGui {
     private ItemBuilder createCloseButton() {
         return ItemBuilder.of(Material.BARRIER)
                 .displayNameTranslated("items.gui.buttons.close.name")
-                .addLoreTranslated("items.gui.buttons.close.lore")
+                .addLoreTranslated("gui.buttons.close.lore")
                 .hideAllFlags();
     }
     
@@ -262,7 +262,7 @@ public class IslandMemberGui extends BaseGui {
     private ItemBuilder createPreviousPageButton() {
         return ItemBuilder.of(Material.ARROW)
                 .displayNameTranslated("items.gui.buttons.previous-page.name")
-                .loreTranslated("items.island.member.previous-page.lore", String.valueOf(currentPage + 1))
+                .loreTranslated(viewer.locale(), "items.island.member.previous-page.lore", String.valueOf(currentPage + 1))
                 .hideAllFlags();
     }
     
@@ -272,7 +272,7 @@ public class IslandMemberGui extends BaseGui {
     private ItemBuilder createNextPageButton() {
         return ItemBuilder.of(Material.ARROW)
                 .displayNameTranslated("items.gui.buttons.next-page.name")
-                .loreTranslated("items.island.member.next-page.lore", String.valueOf(currentPage + 1))
+                .loreTranslated(viewer.locale(), "items.island.member.next-page.lore", String.valueOf(currentPage + 1))
                 .hideAllFlags();
     }
     

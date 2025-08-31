@@ -533,6 +533,220 @@
         ]
       }
     },
+    "member": {
+      "permission": {
+        "name": "%COLOR_INFO%&lPermission Settings",
+        "lore": [
+          "%COLOR_SECONDARY%Configure individual permissions",
+          "%COLOR_SECONDARY%for this member",
+          "",
+          "%COLOR_ERROR%※ Feature coming soon"
+        ]
+      },
+      "invite": {
+        "name": "%COLOR_SUCCESS%Invite New Member",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Invite a new member",
+          "",
+          "%COLOR_WARNING%▶ Click to invite"
+        ]
+      }
+    },
+    "spawn": {
+      "current-info": {
+        "name": "%COLOR_INFO%&lCurrent Spawn Settings",
+        "lore": [
+          "%COLOR_SECONDARY%Default spawn: Where members teleport",
+          "%COLOR_SECONDARY%Visitor spawn: Where visitors teleport"
+        ]
+      },
+      "set-main": {
+        "name": "%COLOR_SUCCESS%&lSet Main Spawn",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Set current location as",
+          "%COLOR_SECONDARY%the main spawn point",
+          "",
+          "%COLOR_SECONDARY%Members will teleport here",
+          "%COLOR_SECONDARY%when using /island warp",
+          "",
+          "%COLOR_WARNING%▶ Click to set"
+        ]
+      },
+      "set-visitor": {
+        "name": "%COLOR_LIGHT_PURPLE%&lSet Visitor Spawn",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Set current location as",
+          "%COLOR_SECONDARY%the visitor spawn point",
+          "",
+          "%COLOR_SECONDARY%Visitors will teleport here",
+          "%COLOR_SECONDARY%when entering the island",
+          "",
+          "%COLOR_WARNING%▶ Click to set"
+        ]
+      },
+      "reset": {
+        "name": "%COLOR_ERROR%&lReset Spawns",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Reset all spawn",
+          "%COLOR_SECONDARY%settings to default",
+          "",
+          "%COLOR_ERROR%Warning: Cannot be undone",
+          "",
+          "%COLOR_WARNING%▶ Click to reset"
+        ]
+      },
+      "protection": {
+        "name": "%COLOR_GOLD%&lSpawn Protection",
+        "lore": [
+          "",
+          "%COLOR_ERROR%※ Feature coming soon",
+          "",
+          "%COLOR_SECONDARY%Set spawn protection radius",
+          "%COLOR_SECONDARY%to prevent block damage"
+        ]
+      },
+      "personal": {
+        "name": "%COLOR_LIGHT_PURPLE%&lPersonal Spawn",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Manage your personal",
+          "%COLOR_SECONDARY%spawn point",
+          "",
+          "%COLOR_WARNING%▶ Click to manage"
+        ]
+      },
+      "message": {
+        "name": "%COLOR_WARNING%&lWelcome Message",
+        "lore": [
+          "",
+          "%COLOR_ERROR%※ Feature coming soon",
+          "",
+          "%COLOR_SECONDARY%Set a message displayed",
+          "%COLOR_SECONDARY%when visitors enter"
+        ]
+      },
+      "no-permission": {
+        "name": "%COLOR_ERROR%&lNo Permission",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Only island owner and",
+          "%COLOR_SECONDARY%co-owners can set spawns"
+        ]
+      }
+    },
+    "settings": {
+      "info": {
+        "name": "%COLOR_GOLD%&lIsland Info",
+        "lore": []
+      },
+      "name-change": {
+        "name": "%COLOR_WARNING%&lChange Island Name",
+        "lore": [
+          "%COLOR_SECONDARY%Change your island name",
+          "%COLOR_SECONDARY%Maximum 20 characters",
+          "",
+          "%COLOR_WARNING%▶ Click to change"
+        ]
+      },
+      "public": {
+        "name": "%COLOR_SUCCESS%&lPublic Island",
+        "lore": []
+      },
+      "private": {
+        "name": "%COLOR_ERROR%&lPrivate Island",
+        "lore": []
+      },
+      "public-toggle": {
+        "lore": [
+          "%COLOR_SECONDARY%Public: All players can visit",
+          "%COLOR_SECONDARY%Private: Invited players only",
+          "",
+          "%COLOR_WARNING%▶ Click to toggle"
+        ]
+      },
+      "biome-change": {
+        "name": "%COLOR_INFO%&lChange Biome",
+        "lore": [
+          "%COLOR_SECONDARY%Change your island's biome",
+          "%COLOR_SECONDARY%Weather and environment will change",
+          "",
+          "%COLOR_WARNING%▶ Click to change"
+        ]
+      },
+      "delete": {
+        "name": "%COLOR_ERROR%&lDelete Island",
+        "lore": [
+          "",
+          "%COLOR_ERROR%⚠ Warning: Cannot be undone!",
+          "",
+          "%COLOR_SECONDARY%Your island and all data",
+          "%COLOR_SECONDARY%will be permanently deleted",
+          "",
+          "%COLOR_ERROR%▶ Click to delete"
+        ]
+      },
+      "save": {
+        "name": "%COLOR_SUCCESS%&lSave Settings",
+        "lore": [
+          "%COLOR_WARNING%▶ Click to save"
+        ]
+      },
+      "cancel": {
+        "lore": [
+          "%COLOR_SECONDARY%Return without saving",
+          "%COLOR_SECONDARY%changes"
+        ]
+      }
+    },
+    "upgrade": {
+      "size": {
+        "name": "%COLOR_SUCCESS%&lUpgrade Island Size",
+        "lore": []
+      },
+      "member": {
+        "name": "%COLOR_INFO%&lUpgrade Member Limit",
+        "lore": []
+      },
+      "worker": {
+        "name": "%COLOR_WARNING%&lUpgrade Worker Limit",
+        "lore": []
+      },
+      "info": {
+        "name": "%COLOR_LIGHT_PURPLE%&lUpgrade Guide",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%Island upgrades cost contribution points",
+          "%COLOR_SECONDARY%Upgrades cannot be downgraded",
+          "",
+          "%COLOR_WARNING%When island size is 500+",
+          "%COLOR_WARNING%You can change biome settings"
+        ]
+      }
+    },
+    "visitor": {
+      "info": {
+        "name": "%COLOR_WHITE%&lVisitor History",
+        "lore": [
+          "%COLOR_SECONDARY%View recent visitors"
+        ]
+      },
+      "no-visitors": {
+        "name": "%COLOR_ERROR%No Visit History",
+        "lore": [
+          "",
+          "%COLOR_SECONDARY%No players have",
+          "%COLOR_SECONDARY%visited your island yet"
+        ]
+      },
+      "statistics": {
+        "name": "%COLOR_GOLD%&lVisit Statistics",
+        "lore": []
+      }
+    },
     "member-manage": {
       "member-info": {
         "name": "%COLOR_AQUA%Member Information",

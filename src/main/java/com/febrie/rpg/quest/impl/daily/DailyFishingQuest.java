@@ -9,6 +9,10 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.FishingObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangHelper;
+import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.LangHelper;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -62,12 +66,12 @@ public class DailyFishingQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.get("quest.daily.fishing.name", who);
+        return LangHelper.text(LangKey.QUEST_DAILY_FISHING_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList("quest.daily.fishing.info", who);
+        return LangHelper.list(LangKey.QUEST_DAILY_FISHING_INFO, who);
     }
 
     @Override
@@ -84,26 +88,26 @@ public class DailyFishingQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> LangManager.get("quest.daily.fishing.dialogs.0", who);
-            case 1 -> LangManager.get("quest.daily.fishing.dialogs.1", who);
-            case 2 -> LangManager.get("quest.daily.fishing.dialogs.2", who);
-            case 3 -> LangManager.get("quest.daily.fishing.dialogs.3", who);
+            case 0 -> LangHelper.text(LangKey.QUEST_DAILY_FISHING_DIALOGS_0, who);
+            case 1 -> LangHelper.text(LangKey.QUEST_DAILY_FISHING_DIALOGS_1, who);
+            case 2 -> LangHelper.text(LangKey.QUEST_DAILY_FISHING_DIALOGS_2, who);
+            case 3 -> LangHelper.text(LangKey.QUEST_DAILY_FISHING_DIALOGS_3, who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.get("quest.daily.fishing.npc_name", who);
+        return LangHelper.text(LangKey.QUEST_DAILY_FISHING_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.get("quest.daily.fishing.accept", who);
+        return LangHelper.text(LangKey.QUEST_DAILY_FISHING_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.get("quest.daily.fishing.decline", who);
+        return LangHelper.text(LangKey.QUEST_DAILY_FISHING_DECLINE, who);
     }
 }

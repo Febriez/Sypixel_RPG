@@ -9,6 +9,8 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.LangHelper;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -64,12 +66,12 @@ public class AncientRuinsQuest extends Quest {
     
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.get("quest.side.ancient_ruins.name", who);
+        return LangHelper.text(LangKey.QUEST_SIDE_ANCIENT_RUINS_NAME, who);
     }
     
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.getList("quest.side.ancient_ruins.info", who);
+        return LangManager.list(LangKey.QUEST_SIDE_ANCIENT_RUINS_INFO, who);
     }
     
     @Override
@@ -85,25 +87,25 @@ public class AncientRuinsQuest extends Quest {
     @Override
     public Component getDialog(int index, @NotNull Player who) {
         return switch (index) {
-            case 0 -> LangManager.get("quest.side.ancient_ruins.dialogs.0", who);
-            case 1 -> LangManager.get("quest.side.ancient_ruins.dialogs.1", who);
-            case 2 -> LangManager.get("quest.side.ancient_ruins.dialogs.2", who);
+            case 0 -> LangHelper.text(LangKey.QUEST_SIDE_ANCIENT_RUINS_DIALOGS_0, who);
+            case 1 -> LangHelper.text(LangKey.QUEST_SIDE_ANCIENT_RUINS_DIALOGS_1, who);
+            case 2 -> LangHelper.text(LangKey.QUEST_SIDE_ANCIENT_RUINS_DIALOGS_2, who);
             default -> null;
         };
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.get("quest.side.ancient_ruins.npc_name", who);
+        return LangHelper.text(LangKey.QUEST_SIDE_ANCIENT_RUINS_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.get("quest.side.ancient_ruins.accept", who);
+        return LangHelper.text(LangKey.QUEST_SIDE_ANCIENT_RUINS_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.get("quest.side.ancient_ruins.decline", who);
+        return LangHelper.text(LangKey.QUEST_SIDE_ANCIENT_RUINS_DECLINE, who);
     }
 }
