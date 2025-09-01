@@ -8,6 +8,92 @@
     "cancel": "%COLOR_ERROR%Cancel",
     "settings": "%COLOR_INFO%Settings"
   },
+  "page-info": "Page {0}/{1}",
+  "leaderboard": {
+    "tab_selected": "▶ Currently selected",
+    "tab_click": "▶ Click to view",
+    "type": {
+      "level": "Level",
+      "combat_power": "Combat Power",
+      "gold": "Gold",
+      "playtime": "Playtime"
+    },
+    "my-rank": "My Rank",
+    "my-value": "My Value: {0}"
+  },
+  "combat_power": {
+    "title": "Combat Power",
+    "total": "Total Combat Power: {0}",
+    "breakdown": "Power Breakdown",
+    "from_level": "From Level: {0}",
+    "from_stats": "From Stats: {0}",
+    "level_contribution": "Level Contribution",
+    "level_detail": "Level {0} = {1} power",
+    "stat_contribution": "Stat Contribution",
+    "stat_detail": "{0}: {1} power"
+  },
+  "job_confirmation": {
+    "title": "Job Selection Confirmation",
+    "title_success": "Job Selected!",
+    "subtitle_success": "You are now a {0}!",
+    "selected_job": "Selected Job: {0}",
+    "max_level": "Max Level: {0}",
+    "warning": "⚠ Warning",
+    "warning_title": "Important Notice",
+    "warning_description": "Once selected, you cannot change your job!",
+    "info_title": "Job Information",
+    "info_line1": "• This choice is permanent",
+    "info_line2": "• You will gain job-specific abilities",
+    "info_line3": "• Each job has unique talents",
+    "confirm": "Confirm Selection",
+    "confirm_description": "Select this job permanently",
+    "click_to_confirm": "Click to confirm",
+    "cancel": "Cancel",
+    "cancel_description": "Return to job selection",
+    "click_to_cancel": "Click to cancel",
+    "success": "Successfully selected {0} job!",
+    "already_has_job": "You already have a job!",
+    "cannot_change": "You cannot change your job!"
+  },
+  "job_selection": {
+    "title": "Choose Your Job",
+    "tab_selected": "▶ Currently viewing",
+    "tab_click": "▶ Click to view",
+    "max_level": "Max Level: {0}",
+    "click_to_choose": "Click to choose this job",
+    "warning": "⚠ This choice is permanent!"
+  },
+  "stats": {
+    "points_available": "Available Points",
+    "points_count": "Points: {0}",
+    "points_info": "Earn points by leveling up",
+    "current_value": "Current: {0}",
+    "base_bonus": "Base + Bonus",
+    "click_to_add": "Click to add point"
+  },
+  "talent": {
+    "no_job": "Select a job first!",
+    "page_info": "Page {0}/{1}",
+    "current_page": "Current Page: {0}",
+    "available_points": "Available Points: {0}",
+    "level_info": "Level {0}/{1}",
+    "stat_bonuses": "Stat Bonuses:",
+    "stat_bonus_line": "• {0}: +{1}",
+    "prerequisites": "Prerequisites:",
+    "prereq_met": "✓ {0}",
+    "prereq_not_met": "✗ {0}",
+    "can_learn": "✓ Can learn",
+    "cannot_learn": "✗ Cannot learn",
+    "not_enough_points": "Not enough talent points",
+    "maxed": "Max level reached",
+    "has_sub_page": "Has sub-talents"
+  },
+  "system_settings": {
+    "title": "System Settings",
+    "status": "Status: {0}",
+    "click_to_toggle": "Click to toggle",
+    "confirmation_toggled": "Confirmation dialogs {0}"
+  },
   "mainmenu": {
     "title": "%COLOR_PRIMARY%Main Menu"
   },
@@ -174,7 +260,11 @@
     "tab-selected": "▶ Currently selected",
     "tab-click": "▶ Click to view",
     "no-rank-data": "No ranking data",
-    "play-more": "Play more to compete for rankings!"
+    "play-more": "Play more to compete for rankings!",
+    "value": "Value: {0}"
+  },
+  "all_quests": {
+    "title": "All Quests"
   },
   "quest-list": {
     "title": "Quest List",
@@ -300,7 +390,17 @@
     "click-to-buy": "▶ Click to buy",
     "click-to-sell": "▶ Click to sell",
     "shift-click-to-buy": "▶ Shift+Click to buy 10",
-    "out-of-stock": "Out of stock"
+    "out-of-stock": "Out of stock",
+    "gold": {
+      "amount": "Gold: {0}"
+    },
+    "item": {
+      "buy_price": "Buy: {0}G",
+      "sell_price": "Sell: {0}G",
+      "click_to_buy": "Click to purchase",
+      "click_to_sell": "Click to sell",
+      "insufficient_gold": "Insufficient gold!"
+    }
   },
   "dungeon": {
     "title": "Dungeon",
@@ -372,6 +472,8 @@
   "island": {
     "main": {
       "title": "Island Management",
+      "hex_format_error": "Invalid HEX format! Use #RRGGBB format",
+      "warp_moving": "Teleporting to island...",
       "owner": "Owner: ",
       "size": "Size: ",
       "members": "Members: ",
@@ -414,6 +516,42 @@
         "history": "• View visit history",
         "realtime": "• Real-time visitor tracking",
         "open-menu": "Click to open visitor menu"
+      },
+      "info": {
+        "lore": {
+          "1": "Island information",
+          "2": "Click to view details"
+        }
+      },
+      "member_management": {
+        "title": "Member Management",
+        "desc1": "Invite or kick",
+        "desc2": "island members"
+      },
+      "permission_management": {
+        "title": "Permission Management",
+        "desc1": "Configure permissions",
+        "desc2": "for each role"
+      },
+      "spawn_settings": {
+        "title": "Spawn Settings",
+        "desc1": "Manage island",
+        "desc2": "spawn locations"
+      },
+      "island_settings": {
+        "title": "Island Settings",
+        "desc1": "Change island name",
+        "desc2": "Public/Private settings",
+        "desc3": "Change biome"
+      },
+      "biome_change": {
+        "title": "Change Biome",
+        "desc1": "Change the biome",
+        "desc2": "of your island"
+      },
+      "warp": {
+        "title": "Warp to Island",
+        "desc": "Teleport to the island"
       }
     },
     "creation": {
@@ -496,14 +634,57 @@
     "contribute": {
       "title": "Island Contribution",
       "input-amount": "Contribution Amount",
-      "input-gold": "Enter gold to contribute"
+      "input-gold": "Enter gold to contribute",
+      "gold-info": {
+        "balance": "Balance: {0}G",
+        "contribution": "Your Contribution: {0}G"
+      },
+      "quick-amount": "Quick Amount: {0}G",
+      "gold-needed": "Gold Needed: {0}G"
+    },
+    "contribution": {
+      "title": "Island Contributions",
+      "info": {
+        "island-name": "Island: {0}",
+        "total": "Total Contributions: {0}G",
+        "contributors": "Contributors: {0}"
+      },
+      "contributor": {
+        "name": "{0}",
+        "contribution": "Contribution: {0}G",
+        "role": "Role: {0}",
+        "percentage": "Percentage: {0}%"
+      },
+      "add": {
+        "current": "Current: {0}G"
+      }
+    },
+    "member-manage": {
+      "title": "Member Management",
+      "permission-not-implemented": "This permission is not yet implemented",
+      "current-role": "Current Role: {0}"
     },
     "member": {
       "title": "Island Members",
       "role": "Role",
       "join-date": "Join Date",
       "has-most-permissions": "Has most permissions",
-      "regular-member-permissions": "Regular member permissions"
+      "regular-member-permissions": "Regular member permissions",
+      "invite-prompt": "Enter player name to invite:",
+      "invite-example": "Example: PlayerName",
+      "role-owner": "Owner",
+      "all-permissions": "Has all permissions",
+      "owner-cannot-change": "Owner role cannot be changed",
+      "most-permissions": "Has most management permissions",
+      "normal-permissions": "Has normal member permissions",
+      "left-click-role": "Left-click to change role",
+      "right-click-kick": "Right-click to kick member",
+      "role-worker": "Worker",
+      "hire-date": "Hired: {0}",
+      "last-activity": "Last Activity: {0}",
+      "limited-permissions": "Has limited permissions",
+      "left-click-extend": "Left-click to extend contract",
+      "right-click-fire": "Right-click to fire worker"
     }
   },
   "social": {
@@ -648,7 +829,13 @@
     "title": "Select an Option",
     "choose": "Choose your response:",
     "confirm": "Confirm Selection",
-    "option-selected": "You selected: {0}"
+    "option-selected": "You selected: {0}",
+    "icon": "💬",
+    "description": "Choose your dialog option",
+    "npc": "NPC: {0}",
+    "npc-content": "{0}",
+    "option": "Option {0}",
+    "click-to-select": "Click to select this option"
   },
   "mailbox": {
     "title": "Mailbox",
@@ -670,9 +857,20 @@
     "attachment-collected": "Attachment collected!",
     "delete-confirm": "Are you sure you want to delete this mail?",
     "deleted": "Mail deleted",
-    "sent-success": "Mail sent successfully!"
+    "sent-success": "Mail sent successfully!",
+    "refresh-success": "Mailbox refreshed!",
+    "send-mail-guide": "To send mail, use the command below:",
+    "send-mail-command": "/mail send <player> <message>",
+    "send-mail-example": "Example: /mail send Steve Hello!",
+    "sender": "Sender: {0}",
+    "status": "Status: {0}",
+    "time": "Time: {0}",
+    "delete-confirm-word": "DELETE",
+    "delete-confirm-text": "Type DELETE to confirm deletion",
+    "delete-confirm-title": "Confirm Mail Deletion"
   },
   "mail-detail": {
+    "title": "Mail Details",
     "from": "From: {0}",
     "to": "To: {0}",
     "date": "Date: {0}",
@@ -684,7 +882,17 @@
     "reply": "Reply",
     "forward": "Forward",
     "delete": "Delete",
-    "back": "Back to Inbox"
+    "back": "Back to Inbox",
+    "sender": "Sender: {0}",
+    "receiver": "Receiver: {0}",
+    "sent-time": "Sent: {0}",
+    "status": "Status: {0}",
+    "no-message": "No message content",
+    "delete-success": "Mail deleted successfully!",
+    "delete-failed": "Failed to delete mail",
+    "reply-desc": "Click to reply to this mail",
+    "reply-guide": "Use the command to reply:",
+    "reply-command": "/mail reply {0} <message>"
   },
   "friend-requests": {
     "title": "Friend Requests",
@@ -698,7 +906,20 @@
     "no-requests": "No pending friend requests",
     "accepted": "Friend request accepted!",
     "declined": "Friend request declined",
-    "already-friends": "You are already friends with {0}"
+    "already-friends": "You are already friends with {0}",
+    "request-time": "Request Time: {0}",
+    "message": "Message: {0}",
+    "accept-desc1": "Click to accept this friend request",
+    "reject-desc1": "Click to reject this friend request"
+  },
+  "friends": {
+    "title": "Friends",
+    "add-command-hint": "To add a friend, use:",
+    "add-command-example": "/friend add <player>",
+    "refreshed": "Friends list refreshed!",
+    "status": "Status: {0}",
+    "since": "Friends since: {0}",
+    "whisper-hint": "Click to send a whisper"
   },
   "friend-list": {
     "title": "Friends List",

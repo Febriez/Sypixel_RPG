@@ -45,7 +45,8 @@
       "hub-success": "ハブにテレポートしました！"
     },
     "error": {
-      "hub-world-not-found": "ハブワールドが見つかりません。"
+      "hub-world-not-found": "ハブワールドが見つかりません。",
+      "friend-request-id-missing": "Friend request ID is missing!"
     },
     "coming-soon": "準備中..."
   },

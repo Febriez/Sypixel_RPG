@@ -23,6 +23,14 @@
     "name": "Snowy Plains",
     "description": "Cold plains covered with snow"
   },
+  "snowy-plains": "Snowy Plains",
+  "snowy_plains": "Snowy Plains",
+  "mushroom_fields": "Mushroom Fields",
+  "flower_forest": "Flower Forest",
+  "bamboo_jungle": "Bamboo Jungle",
+  "dark_forest": "Dark Forest",
+  "birch_forest": "Birch Forest",
+  "cherry_grove": "Cherry Grove",
   "savanna": {
     "name": "Savanna",
     "description": "Dry plains with acacia trees"
@@ -66,5 +74,21 @@
   "cherry_grove": {
     "name": "Cherry Grove",
     "description": "Beautiful cherry blossom forest"
-  }
+  },
+  "plains": "Plains",
+  "forest": "Forest",
+  "desert": "Desert",
+  "jungle": "Jungle",
+  "taiga": "Taiga",
+  "savanna": "Savanna",
+  "swamp": "Swamp",
+  "mushroom-fields": "Mushroom Fields",
+  "beach": "Beach",
+  "flower-forest": "Flower Forest",
+  "bamboo-jungle": "Bamboo Jungle",
+  "dark-forest": "Dark Forest",
+  "birch-forest": "Birch Forest",
+  "badlands": "Badlands",
+  "ocean": "Ocean",
+  "cherry-grove": "Cherry Grove"
 }

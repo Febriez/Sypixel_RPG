@@ -1,4 +1,5 @@
 {
+  "default-name": "New Island",
   "spawn": {
     "default-name": "Island Center"
   },
@@ -42,6 +43,7 @@
   "gui": {
     "main": {
       "title": "Island Management",
+      "title_with_name": "Island Management - {0}",
       "title-with-name": "Island Management - {0}",
       "create-island": {
         "title": "Create Island",
@@ -52,7 +54,64 @@
         "feature-3": "• Upgrade your island for more space",
         "feature-4": "• Set island warp points",
         "contact-admin": "Contact an admin to create an island!"
+      },
+      "hex_format_error": "Invalid HEX format! Use #RRGGBB",
+      "hex_format_example": "Example: #FF0000",
+      "color_changed": "Island color changed to {0}",
+      "hex_input_title": "Enter HEX Color Code",
+      "warp_moving": "Warping to island...",
+      "warp_success": "Successfully warped to island!",
+      "info": {
+        "lore": ["Island Information", "Level: {0}", "Members: {1}"],
+        "members": "Members: {0}/{1}"
+      },
+      "create": {
+        "lore1": "Click to create",
+        "lore2": "your own island!"
+      },
+      "spawn": {
+        "name": "Island Spawn",
+        "lore": ["Teleport to", "island spawn point"]
+      },
+      "visit": {
+        "name": "Visit Islands"
+      },
+      "members": {
+        "lore": ["Manage island", "members and permissions"]
+      },
+      "settings": {
+        "lore": ["Configure island", "settings"]
+      },
+      "upgrades": {
+        "lore": ["Upgrade your", "island features"]
+      },
+      "permissions": {
+        "lore": ["Manage member", "permissions"]
+      },
+      "biome": {
+        "lore": ["Change island", "biome"]
+      },
+      "contributions": {
+        "lore": ["View island", "contributions"]
+      },
+      "visitors": {
+        "lore": ["Manage visitor", "settings"]
+      },
+      "reset": {
+        "lore": ["Reset your", "island"]
+      },
+      "leave": {
+        "lore": ["Leave this", "island"]
+      },
+      "back": {
+        "name": "Back"
+      },
+      "close": {
+        "name": "Close"
       }
+    },
+    "create": {
+      "title": "Create New Island"
     },
     "creation": {
       "title": "Island Creation",
@@ -128,7 +187,24 @@
       "confirm-word": "DELETE",
       "input-error": "Please type 'DELETE' exactly.",
       "input-title": "Type 'DELETE' to confirm",
-      "input-text": "Type here..."
+      "input-text": "Type here...",
+      "success": "Island deleted successfully!",
+      "warning": "⚠ Warning: This action cannot be undone!",
+      "description": "All island data will be permanently deleted."
+    },
+    "contribute": {
+      "title": "Island Contribution",
+      "input_amount": "Contribution Amount",
+      "input_gold": "Enter gold amount to contribute",
+      "gold_info": {
+        "balance": "Your Balance: {0}G",
+        "contribution": "Your Contribution: {0}G"
+      },
+      "quick_amount": "Quick Amount: {0}G",
+      "gold_needed": "Gold Needed: {0}G",
+      "success": "Successfully contributed {0}G!",
+      "not_enough_gold": "You don't have enough gold!",
+      "invalid_amount": "Please enter a valid amount."
     },
     "settings": {
       "name-error": "Island name must be 1-20 characters.",
@@ -138,13 +214,54 @@
       "kick-confirm-word": "KICK",
       "kick-input-error": "Please type 'KICK' exactly.",
       "kick-input-title": "Type 'KICK' to confirm",
-      "kick-input-text": "Type here..."
+      "kick-input-text": "Type here...",
+      "invite-prompt": "Enter player name to invite:",
+      "invite-example": "Example: PlayerName",
+      "role-owner": "Owner",
+      "all-permissions": "Has all permissions",
+      "owner-cannot-change": "Owner role cannot be changed",
+      "most-permissions": "Has most management permissions",
+      "normal-permissions": "Has normal member permissions",
+      "left-click-role": "Left-click to change role",
+      "right-click-kick": "Right-click to kick member",
+      "role-worker": "Worker",
+      "hire-date": "Hired: {0}",
+      "last-activity": "Last Activity: {0}",
+      "limited-permissions": "Has limited permissions",
+      "left-click-extend": "Left-click to extend contract",
+      "right-click-fire": "Right-click to fire worker",
+      "manage-title": "Member Management",
+      "manage-permission-not-implemented": "This permission is not yet implemented",
+      "manage-current-role": "Current Role: {0}"
     },
     "contribute": {
       "amount-too-low": "Minimum contribution is 100.",
       "invalid-amount": "Please enter a valid number.",
       "contribution-input-title": "Enter contribution amount",
-      "contribution-input-text": "Amount..."
+      "contribution-input-text": "Amount...",
+      "gold-info": {
+        "balance": "Balance: {0}G",
+        "contribution": "Your Contribution: {0}G"
+      },
+      "quick-amount": "Quick Amount: {0}G",
+      "gold-needed": "Gold Needed: {0}G"
+    },
+    "contribution": {
+      "title": "Island Contributions",
+      "info": {
+        "island-name": "Island: {0}",
+        "total": "Total Contributions: {0}G",
+        "contributors": "Contributors: {0}"
+      },
+      "contributor": {
+        "name": "{0}",
+        "contribution": "Contribution: {0}G",
+        "role": "Role: {0}",
+        "percentage": "Percentage: {0}%"
+      },
+      "add": {
+        "current": "Current: {0}G"
+      }
     }
   },
   "error": {

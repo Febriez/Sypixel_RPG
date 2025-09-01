@@ -138,16 +138,58 @@
       "kick-confirm-word": "KICK",
       "kick-input-error": "Please type 'KICK' exactly.",
       "kick-input-title": "Type 'KICK' to confirm",
-      "kick-input-text": "Type here..."
+      "kick-input-text": "Type here...",
+      "invite-prompt": "Enter player name to invite:",
+      "invite-example": "Example: PlayerName",
+      "role-owner": "Owner",
+      "all-permissions": "Has all permissions",
+      "owner-cannot-change": "Owner role cannot be changed",
+      "most-permissions": "Has most management permissions",
+      "normal-permissions": "Has normal member permissions",
+      "left-click-role": "Left-click to change role",
+      "right-click-kick": "Right-click to kick member",
+      "role-worker": "Worker",
+      "hire-date": "Hired: {0}",
+      "last-activity": "Last Activity: {0}",
+      "limited-permissions": "Has limited permissions",
+      "left-click-extend": "Left-click to extend contract",
+      "right-click-fire": "Right-click to fire worker",
+      "manage-title": "Member Management",
+      "manage-permission-not-implemented": "This permission is not yet implemented",
+      "manage-current-role": "Current Role: {0}"
     },
     "contribute": {
       "amount-too-low": "Minimum contribution is 100.",
       "invalid-amount": "Please enter a valid number.",
       "contribution-input-title": "Enter contribution amount",
-      "contribution-input-text": "Amount..."
+      "contribution-input-text": "Amount...",
+      "gold-info": {
+        "balance": "Balance: {0}G",
+        "contribution": "Your Contribution: {0}G"
+      },
+      "quick-amount": "Quick Amount: {0}G",
+      "gold-needed": "Gold Needed: {0}G"
+    },
+    "contribution": {
+      "title": "Island Contributions",
+      "info": {
+        "island-name": "Island: {0}",
+        "total": "Total Contributions: {0}G",
+        "contributors": "Contributors: {0}"
+      },
+      "contributor": {
+        "name": "{0}",
+        "contribution": "Contribution: {0}G",
+        "role": "Role: {0}",
+        "percentage": "Percentage: {0}%"
+      },
+      "add": {
+        "current": "Current: {0}G"
+      }
     }
   },
   "error": {
     "player-only": "This command can only be used by players."
-  }
+  },
+  "default-name": "New Island"
 }

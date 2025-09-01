@@ -322,7 +322,17 @@
     "click-to-buy": "▶ 클릭하여 구매",
     "click-to-sell": "▶ 클릭하여 판매",
     "shift-click-to-buy": "▶ Shift+클릭으로 10개 구매",
-    "out-of-stock": "재고 없음"
+    "out-of-stock": "재고 없음",
+    "gold": {
+      "amount": "골드: {0}"
+    },
+    "item": {
+      "buy_price": "구매: {0}G",
+      "sell_price": "판매: {0}G",
+      "click_to_buy": "클릭하여 구매",
+      "click_to_sell": "클릭하여 판매",
+      "insufficient_gold": "골드 부족!"
+    }
   },
   "dungeon": {
     "title": "던전",
@@ -478,7 +488,26 @@
     },
     "member": {
       "title": "섬 멤버 - {0}",
-      "current-page": "현재 페이지: "
+      "current-page": "현재 페이지: ",
+      "role": "Role",
+      "join-date": "Join Date",
+      "has-most-permissions": "Has most permissions",
+      "regular-member-permissions": "Regular member permissions",
+      "invite-prompt": "Enter player name to invite:",
+      "invite-example": "Example: PlayerName",
+      "role-owner": "Owner",
+      "all-permissions": "Has all permissions",
+      "owner-cannot-change": "Owner role cannot be changed",
+      "most-permissions": "Has most management permissions",
+      "normal-permissions": "Has normal member permissions",
+      "left-click-role": "Left-click to change role",
+      "right-click-kick": "Right-click to kick member",
+      "role-worker": "Worker",
+      "hire-date": "Hired: {0}",
+      "last-activity": "Last Activity: {0}",
+      "limited-permissions": "Has limited permissions",
+      "left-click-extend": "Left-click to extend contract",
+      "right-click-fire": "Right-click to fire worker"
     },
     "settings": {
       "title": "섬 설정"
@@ -578,7 +607,13 @@
     "contribute": {
       "title": "섬 기여",
       "input-amount": "기여할 금액",
-      "input-gold": "기여할 골드 입력"
+      "input-gold": "기여할 골드 입력",
+      "gold-info": {
+        "balance": "Balance: {0}G",
+        "contribution": "Your Contribution: {0}G"
+      },
+      "quick-amount": "Quick Amount: {0}G",
+      "gold-needed": "Gold Needed: {0}G"
     },
     "member-management": {
       "title": "섬 멤버 관리",
@@ -640,6 +675,28 @@
       "error": "섬 삭제 중 오류가 발생했습니다: {0}",
       "success": "섬이 성공적으로 삭제되었습니다.",
       "failed": "섬 삭제에 실패했습니다."
+    },
+    "contribution": {
+      "title": "Island Contributions",
+      "info": {
+        "island-name": "Island: {0}",
+        "total": "Total Contributions: {0}G",
+        "contributors": "Contributors: {0}"
+      },
+      "contributor": {
+        "name": "{0}",
+        "contribution": "Contribution: {0}G",
+        "role": "Role: {0}",
+        "percentage": "Percentage: {0}%"
+      },
+      "add": {
+        "current": "Current: {0}G"
+      }
+    },
+    "member-manage": {
+      "title": "Member Management",
+      "permission-not-implemented": "This permission is not yet implemented",
+      "current-role": "Current Role: {0}"
     }
   },
   "social": {
@@ -891,7 +948,13 @@
     "title": "선택하기",
     "choose": "응답을 선택하세요:",
     "confirm": "선택 확인",
-    "option-selected": "{0}을(를) 선택했습니다"
+    "option-selected": "{0}을(를) 선택했습니다",
+    "icon": "💬",
+    "description": "대화 옵션 선택",
+    "npc": "NPC: {0}",
+    "npc-content": "{0}",
+    "option": "옵션 {0}",
+    "click-to-select": "클릭하여 이 옵션 선택"
   },
   "mailbox": {
     "title": "우편함",
@@ -913,9 +976,20 @@
     "attachment-collected": "첨부를 받았습니다!",
     "delete-confirm": "이 편지를 삭제하시겠습니까?",
     "deleted": "편지를 삭제했습니다",
-    "sent-success": "편지를 성공적으로 보냈습니다!"
+    "sent-success": "편지를 성공적으로 보냈습니다!",
+    "refresh-success": "우편함을 새로고침했습니다!",
+    "send-mail-guide": "우편을 보내려면 아래 명령어를 사용하세요:",
+    "send-mail-command": "/mail send <플레이어> <메시지>",
+    "send-mail-example": "예시: /mail send Steve 안녕하세요!",
+    "sender": "보낸이: {0}",
+    "status": "상태: {0}",
+    "time": "시간: {0}",
+    "delete-confirm-word": "삭제",
+    "delete-confirm-text": "삭제하려면 '삭제'를 입력하세요",
+    "delete-confirm-title": "우편 삭제 확인"
   },
   "mail-detail": {
+    "title": "우편 상세",
     "from": "보낸이: {0}",
     "to": "받는이: {0}",
     "date": "날짜: {0}",
@@ -927,7 +1001,17 @@
     "reply": "답장",
     "forward": "전달",
     "delete": "삭제",
-    "back": "받은편지함으로"
+    "back": "받은편지함으로",
+    "sender": "발신자: {0}",
+    "receiver": "수신자: {0}",
+    "sent-time": "발송 시간: {0}",
+    "status": "상태: {0}",
+    "no-message": "메시지 내용 없음",
+    "delete-success": "우편을 성공적으로 삭제했습니다!",
+    "delete-failed": "우편 삭제에 실패했습니다",
+    "reply-desc": "클릭하여 이 우편에 답장",
+    "reply-guide": "답장하려면 다음 명령어를 사용하세요:",
+    "reply-command": "/mail reply {0} <메시지>"
   },
   "friend-requests": {
     "title": "친구 요청",
@@ -941,7 +1025,20 @@
     "no-requests": "대기 중인 친구 요청이 없습니다",
     "accepted": "친구 요청을 수락했습니다!",
     "declined": "친구 요청을 거절했습니다",
-    "already-friends": "{0}님과 이미 친구입니다"
+    "already-friends": "{0}님과 이미 친구입니다",
+    "request-time": "요청 시간: {0}",
+    "message": "메시지: {0}",
+    "accept-desc1": "클릭하여 이 친구 요청 수락",
+    "reject-desc1": "클릭하여 이 친구 요청 거절"
+  },
+  "friends": {
+    "title": "친구",
+    "add-command-hint": "친구를 추가하려면:",
+    "add-command-example": "/friend add <플레이어>",
+    "refreshed": "친구 목록을 새로고침했습니다!",
+    "status": "상태: {0}",
+    "since": "친구가 된 날짜: {0}",
+    "whisper-hint": "클릭하여 귓속말 보내기"
   },
   "friend-list": {
     "title": "친구 목록",

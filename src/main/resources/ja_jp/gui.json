@@ -174,7 +174,8 @@
     "tab-selected": "▶ Currently selected",
     "tab-click": "▶ Click to view",
     "no-rank-data": "No ranking data",
-    "play-more": "Play more to compete for rankings!"
+    "play-more": "Play more to compete for rankings!",
+    "value": "Value: {0}"
   },
   "quest-list": {
     "title": "Quest List",
@@ -300,7 +301,17 @@
     "click-to-buy": "▶ Click to buy",
     "click-to-sell": "▶ Click to sell",
     "shift-click-to-buy": "▶ Shift+Click to buy 10",
-    "out-of-stock": "Out of stock"
+    "out-of-stock": "Out of stock",
+    "gold": {
+      "amount": "Gold: {0}"
+    },
+    "item": {
+      "buy_price": "Buy: {0}G",
+      "sell_price": "Sell: {0}G",
+      "click_to_buy": "Click to purchase",
+      "click_to_sell": "Click to sell",
+      "insufficient_gold": "Insufficient gold!"
+    }
   },
   "dungeon": {
     "title": "Dungeon",
@@ -496,14 +507,57 @@
     "contribute": {
       "title": "Island Contribution",
       "input-amount": "Contribution Amount",
-      "input-gold": "Enter gold to contribute"
+      "input-gold": "Enter gold to contribute",
+      "gold-info": {
+        "balance": "Balance: {0}G",
+        "contribution": "Your Contribution: {0}G"
+      },
+      "quick-amount": "Quick Amount: {0}G",
+      "gold-needed": "Gold Needed: {0}G"
     },
     "member": {
       "title": "Island Members",
       "role": "Role",
       "join-date": "Join Date",
       "has-most-permissions": "Has most permissions",
-      "regular-member-permissions": "Regular member permissions"
+      "regular-member-permissions": "Regular member permissions",
+      "invite-prompt": "Enter player name to invite:",
+      "invite-example": "Example: PlayerName",
+      "role-owner": "Owner",
+      "all-permissions": "Has all permissions",
+      "owner-cannot-change": "Owner role cannot be changed",
+      "most-permissions": "Has most management permissions",
+      "normal-permissions": "Has normal member permissions",
+      "left-click-role": "Left-click to change role",
+      "right-click-kick": "Right-click to kick member",
+      "role-worker": "Worker",
+      "hire-date": "Hired: {0}",
+      "last-activity": "Last Activity: {0}",
+      "limited-permissions": "Has limited permissions",
+      "left-click-extend": "Left-click to extend contract",
+      "right-click-fire": "Right-click to fire worker"
+    },
+    "contribution": {
+      "title": "Island Contributions",
+      "info": {
+        "island-name": "Island: {0}",
+        "total": "Total Contributions: {0}G",
+        "contributors": "Contributors: {0}"
+      },
+      "contributor": {
+        "name": "{0}",
+        "contribution": "Contribution: {0}G",
+        "role": "Role: {0}",
+        "percentage": "Percentage: {0}%"
+      },
+      "add": {
+        "current": "Current: {0}G"
+      }
+    },
+    "member-manage": {
+      "title": "Member Management",
+      "permission-not-implemented": "This permission is not yet implemented",
+      "current-role": "Current Role: {0}"
     }
   },
   "social": {
@@ -648,7 +702,13 @@
     "title": "選択",
     "choose": "返答を選んでください:",
     "confirm": "選択確認",
-    "option-selected": "{0}を選択しました"
+    "option-selected": "{0}を選択しました",
+    "icon": "💬",
+    "description": "Choose your dialog option",
+    "npc": "NPC: {0}",
+    "npc-content": "{0}",
+    "option": "Option {0}",
+    "click-to-select": "Click to select this option"
   },
   "mailbox": {
     "title": "メールボックス",
@@ -670,7 +730,17 @@
     "attachment-collected": "添付を受け取りました！",
     "delete-confirm": "このメールを削除しますか？",
     "deleted": "メールを削除しました",
-    "sent-success": "メールを送信しました！"
+    "sent-success": "メールを送信しました！",
+    "refresh-success": "Mailbox refreshed!",
+    "send-mail-guide": "To send mail, use the command below:",
+    "send-mail-command": "/mail send <player> <message>",
+    "send-mail-example": "Example: /mail send Steve Hello!",
+    "sender": "Sender: {0}",
+    "status": "Status: {0}",
+    "time": "Time: {0}",
+    "delete-confirm-word": "DELETE",
+    "delete-confirm-text": "Type DELETE to confirm deletion",
+    "delete-confirm-title": "Confirm Mail Deletion"
   },
   "mail-detail": {
     "from": "送信者: {0}",
@@ -684,7 +754,18 @@
     "reply": "返信",
     "forward": "転送",
     "delete": "削除",
-    "back": "受信箱に戻る"
+    "back": "受信箱に戻る",
+    "title": "Mail Details",
+    "sender": "Sender: {0}",
+    "receiver": "Receiver: {0}",
+    "sent-time": "Sent: {0}",
+    "status": "Status: {0}",
+    "no-message": "No message content",
+    "delete-success": "Mail deleted successfully!",
+    "delete-failed": "Failed to delete mail",
+    "reply-desc": "Click to reply to this mail",
+    "reply-guide": "Use the command to reply:",
+    "reply-command": "/mail reply {0} <message>"
   },
   "friend-requests": {
     "title": "フレンドリクエスト",
@@ -698,7 +779,11 @@
     "no-requests": "保留中のフレンドリクエストはありません",
     "accepted": "フレンドリクエストを承認しました！",
     "declined": "フレンドリクエストを拒否しました",
-    "already-friends": "{0}さんとすでにフレンドです"
+    "already-friends": "{0}さんとすでにフレンドです",
+    "request-time": "Request Time: {0}",
+    "message": "Message: {0}",
+    "accept-desc1": "Click to accept this friend request",
+    "reject-desc1": "Click to reject this friend request"
   },
   "friend-list": {
     "title": "フレンドリスト",
@@ -813,5 +898,17 @@
     "not-enough-coins": "コインが不足しています！",
     "upgrade-success": "アップグレード成功！",
     "requirements-not-met": "必要条件を満たしていません！"
+  },
+  "all_quests": {
+    "title": "All Quests"
+  },
+  "friends": {
+    "title": "Friends",
+    "add-command-hint": "To add a friend, use:",
+    "add-command-example": "/friend add <player>",
+    "refreshed": "Friends list refreshed!",
+    "status": "Status: {0}",
+    "since": "Friends since: {0}",
+    "whisper-hint": "Click to send a whisper"
   }
 }

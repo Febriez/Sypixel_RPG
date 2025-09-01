@@ -30,6 +30,14 @@
   "cannot-view-others-talents": "You cannot view another player's talents!",
   "cannot-view-others-quests": "You cannot view another player's quests!",
   "cannot-view-others-combat-power": "You cannot view other players' combat power details!",
+  "cannot_view_others_quests": "You cannot view other players' quests!",
+  "cannot_view_others_stats": "You cannot view other players' stats!",
+  "cannot_view_others_talents": "You cannot view other players' talents!",
+  "cannot_select_others_job": "You cannot select another player's job!",
+  "action": {
+    "enable": "Enable",
+    "disable": "Disable"
+  },
   "teleport": {
     "hub-success": "Teleported to hub!"
   },

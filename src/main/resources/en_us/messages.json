@@ -3,12 +3,18 @@
   "gui-refreshed": "Information successfully refreshed!",
   "no-job-for-talents": "You need to select a job first to learn talents!",
   "no-job-for-stats": "You need to select a job first to manage stats!",
+  "no_job_for_stats": "You need to select a job first to manage stats!",
   "job-selected": "Congratulations! You selected the {0} job!",
   "already-has-job": "You already have a job!",
   "stat-increased": "{0} stat increased!",
+  "stat_increased": "{0} increased!",
   "not-enough-stat-points": "Not enough stat points!",
+  "not_enough_stat_points": "Not enough stat points!",
   "talent-learned": "Talent learned: {0}",
+  "talent_learned": "Talent learned: {0}",
+  "talent_cannot_learn": "Cannot learn this talent!",
   "not-enough-talent-points": "Not enough talent points!",
+  "not_enough_talent_points": "Not enough talent points!",
   "level-up": "Level up! {0} → {1}",
   "talent-learn-failed": "Failed to learn talent!",
   "exp-gained": "+{0} Experience",
@@ -45,7 +51,8 @@
       "hub-success": "Teleported to Hub!"
     },
     "error": {
-      "hub-world-not-found": "Hub world not found."
+      "hub-world-not-found": "Hub world not found.",
+      "friend-request-id-missing": "Friend request ID is missing!"
     },
     "coming-soon": "Coming soon..."
   },
@@ -94,6 +101,10 @@
     "not-found": "Mail not found.",
     "not-recipient": "You are not the recipient of this mail."
   },
+  "mailbox": {
+    "delete-confirm-word": "DELETE",
+    "delete_confirm_word": "DELETE"
+  },
   "friend": {
     "player-not-found": "Player not found: {0}",
     "cannot-add-self": "You cannot send a friend request to yourself.",
@@ -125,5 +136,9 @@
   "commands-general": {
     "player-only": "This command can only be used by players.",
     "unknown": "Unknown command."
+  },
+  "error": {
+    "hub_world_not_found": "Hub world not found! Please contact an administrator.",
+    "friend_request_id_missing": "Friend request ID is missing!"
   }
 }

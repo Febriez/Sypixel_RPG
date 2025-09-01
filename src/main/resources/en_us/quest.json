@@ -1,4 +1,6 @@
 {
+  "filter": "Filter: {0}",
+  "total-count": "Total Quests: {0}",
   "started": "📋 New quest started:",
   "start-failed": "Failed to start quest!",
   "completed": "quest completed!",
@@ -63,7 +65,8 @@
       "decline": "Mining isn't for me..."
     },
     "hunting": {
-      "name": "Monster Hunter", 
+      "name": "Monster Hunter",
+      "info": "Hunt dangerous monsters threatening the village",
       "objectives": {
         "kill_zombies": "Kill 10 Zombies",
         "kill_skeletons": "Kill 5 Skeletons",
@@ -80,6 +83,7 @@
     },
     "gathering": {
       "name": "Resource Gathering",
+      "info": "Gather essential resources for the village",
       "dialogs": {
         "0": "We need various resources for the village.",
         "1": "Can you gather some wood and stone?",
@@ -95,14 +99,89 @@
     },
     "fishing": {
       "name": "Daily Fishing",
+      "info": "Catch fresh fish for the village market",
       "dialogs": {
         "0": "The village needs fresh fish!",
         "1": "Can you catch 10 fish for us?",
-        "2": "Any type of fish will do."
+        "2": "Any type of fish will do.",
+        "3": "You can find the best fishing spots near the lake."
       },
       "npc_name": "Fisherman",
       "accept": "I'll catch them!",
       "decline": "I don't like fishing..."
+    },
+    "exploration": {
+      "name": "Daily Exploration",
+      "info": "Explore new areas and report findings",
+      "dialogs": {
+        "0": "We need someone to explore the uncharted territories.",
+        "1": "There might be valuable resources or hidden dangers.",
+        "2": "Scout the area and report back to me.",
+        "3": "Be careful out there, adventurer.",
+        "4": "Mark any points of interest on this map.",
+        "5": "Your exploration helps keep our village safe.",
+        "6": "We'll reward you for any discoveries.",
+        "7": "The wilderness holds many secrets.",
+        "8": "Are you ready to venture into the unknown?",
+        "9": "Your courage will be well compensated."
+      },
+      "npc_name": "Scout Master",
+      "accept": "I'll explore the area!",
+      "decline": "I prefer staying in town..."
+    },
+    "delivery": {
+      "name": "Daily Delivery",
+      "info": "Deliver packages to various NPCs",
+      "dialogs": {
+        "0": "I have important packages that need delivery.",
+        "1": "Can you help me deliver them to the right people?",
+        "2": "Each package is labeled with the recipient's name.",
+        "3": "Make sure they arrive safely and on time.",
+        "4": "Some deliveries might be urgent.",
+        "5": "You'll be our official courier for today.",
+        "6": "The recipients are expecting these packages.",
+        "7": "Thank you for your help!"
+      },
+      "npc_name": "Postmaster",
+      "accept": "I'll deliver them all!",
+      "decline": "I'm not a delivery person..."
+    },
+    "crafting": {
+      "name": "Daily Crafting",
+      "info": "Craft items for the village needs",
+      "dialogs": {
+        "0": "We need someone skilled in crafting.",
+        "1": "Can you help us create some essential items?",
+        "2": "We need tools, weapons, and armor.",
+        "3": "The materials are ready, we just need your expertise.",
+        "4": "Quality craftsmanship is always appreciated.",
+        "5": "Your creations will help the entire village.",
+        "6": "We'll provide the recipes if you need them.",
+        "7": "Time to put your crafting skills to use!"
+      },
+      "npc_name": "Master Crafter",
+      "accept": "I'll craft what you need!",
+      "decline": "Crafting isn't my specialty..."
+    },
+    "bounty_hunter": {
+      "name": "Bounty Hunter",
+      "info": "Hunt down dangerous criminals",
+      "dialogs": {
+        "0": "There are dangerous criminals on the loose.",
+        "1": "We need someone brave enough to hunt them down.",
+        "2": "Each target has a bounty on their head.",
+        "3": "Bring them to justice, dead or alive.",
+        "4": "These criminals are extremely dangerous.",
+        "5": "You'll need skill and cunning to catch them.",
+        "6": "The kingdom will reward you handsomely.",
+        "7": "Check the wanted posters for details.",
+        "8": "Are you ready to become a bounty hunter?",
+        "9": "Justice must be served.",
+        "10": "Good luck, and stay safe out there."
+      },
+      "npc_name": "Bounty Board Keeper",
+      "accept": "I'll bring them to justice!",
+      "decline": "Too dangerous for me..."
     }
   },
   
@@ -311,6 +390,655 @@
       "npc_name": "Nature Guardian",
       "accept": "I'll heal the land!",
       "decline": "Nature will heal itself..."
+    },
+    "ancient_prophecy": {
+      "name": "Ancient Prophecy",
+      "info": "Fulfill the ancient prophecy",
+      "dialogs": {
+        "0": "The ancient prophecy speaks of you.",
+        "1": "You are the chosen one who will save our world.",
+        "2": "But first, you must gather the Sacred Artifacts.",
+        "3": "Only then can you face the coming darkness."
+      },
+      "npc_name": "Oracle",
+      "accept": "I will fulfill the prophecy!",
+      "decline": "I don't believe in prophecies..."
+    },
+    "chosen_one": {
+      "name": "The Chosen One",
+      "info": "Embrace your destiny as the chosen hero",
+      "dialogs": {
+        "0": "You are the one we've been waiting for.",
+        "1": "The signs are clear - you are the Chosen One.",
+        "2": "Great power lies dormant within you.",
+        "3": "We must awaken it before it's too late.",
+        "4": "The fate of all realms rests in your hands.",
+        "5": "Will you accept your destiny?"
+      },
+      "npc_name": "Destiny Keeper",
+      "accept": "I accept my destiny!",
+      "decline": "This burden is too great..."
+    },
+    "elemental_stones": {
+      "name": "Elemental Stones",
+      "info": "Collect all elemental stones",
+      "dialogs": {
+        "0": "The Elemental Stones hold immense power.",
+        "1": "Fire, Water, Earth, and Air - each guards its stone jealously.",
+        "2": "You must convince or defeat the Elemental Guardians.",
+        "3": "The Fire Stone burns in the Volcanic Heart.",
+        "4": "The Water Stone rests in the Ocean's Depths.",
+        "5": "The Earth Stone lies buried in the Mountain's Core.",
+        "6": "The Air Stone floats in the Sky Temple.",
+        "7": "Gather them all to unlock ultimate power!"
+      },
+      "npc_name": "Elemental Sage",
+      "accept": "I'll gather the stones!",
+      "decline": "The elements are too powerful..."
+    },
+    "first_trial": {
+      "name": "The First Trial",
+      "info": "Complete your first heroic trial",
+      "dialogs": {
+        "0": "Every hero must face their first trial.",
+        "1": "This test will determine your true potential.",
+        "2": "You must enter the Trial Chamber alone.",
+        "3": "Face your fears and overcome them.",
+        "4": "Many have tried, few have succeeded.",
+        "5": "Your courage will be tested to its limits.",
+        "6": "Are you ready to begin?"
+      },
+      "npc_name": "Trial Master",
+      "accept": "I'm ready for the trial!",
+      "decline": "I need more preparation..."
+    },
+    "lost_kingdom": {
+      "name": "The Lost Kingdom",
+      "info": "Discover the fate of the lost kingdom",
+      "dialogs": {
+        "0": "Long ago, a great kingdom vanished overnight.",
+        "1": "No one knows what happened to it.",
+        "2": "But I've found clues to its location!",
+        "3": "Will you help me uncover the truth?",
+        "4": "The lost kingdom's treasures await!"
+      },
+      "npc_name": "Kingdom Seeker",
+      "accept": "Let's find the lost kingdom!",
+      "decline": "Some things should stay lost..."
+    },
+    "shadow_invasion": {
+      "name": "Shadow Invasion",
+      "info": "Repel the shadow creature invasion",
+      "dialogs": {
+        "0": "Shadow creatures are invading our realm!",
+        "1": "They emerge from dark portals at night.",
+        "2": "We must close these portals before it's too late.",
+        "3": "Will you help us fight back the darkness?"
+      },
+      "npc_name": "Shadow Hunter",
+      "accept": "I'll stop the invasion!",
+      "decline": "Shadows are too dangerous..."
+    },
+    "corrupted_lands": {
+      "name": "Corrupted Lands",
+      "info": "Purify the corrupted territories",
+      "dialogs": {
+        "0": "Dark magic has corrupted vast territories.",
+        "1": "The land itself has turned evil.",
+        "2": "Plants wither, animals become monsters.",
+        "3": "We need someone to purify these lands.",
+        "4": "It's dangerous work, but necessary."
+      },
+      "npc_name": "Land Purifier",
+      "accept": "I'll purify the corruption!",
+      "decline": "Corruption is too strong..."
+    },
+    "ancient_evil": {
+      "name": "Ancient Evil",
+      "info": "Prevent the awakening of an ancient evil",
+      "dialogs": {
+        "0": "An ancient evil stirs in its prison.",
+        "1": "The seals that bind it are weakening.",
+        "2": "If it breaks free, all will be lost.",
+        "3": "We must strengthen the seals!",
+        "4": "Time is running out!"
+      },
+      "npc_name": "Seal Guardian",
+      "accept": "I'll strengthen the seals!",
+      "decline": "This is beyond me..."
+    },
+    "heroes_alliance": {
+      "name": "Heroes Alliance",
+      "info": "Form an alliance of legendary heroes",
+      "dialogs": {
+        "0": "The threat is too great for one hero alone.",
+        "1": "We must form an alliance of champions.",
+        "2": "Seek out the greatest warriors of each land.",
+        "3": "Convince them to join our cause.",
+        "4": "Together, we can save the world!",
+        "5": "Will you lead this alliance?"
+      },
+      "npc_name": "Alliance Founder",
+      "accept": "I'll unite the heroes!",
+      "decline": "I work alone..."
+    },
+    "dragon_awakening": {
+      "name": "Dragon Awakening",
+      "info": "Awaken the ancient dragon ally",
+      "dialogs": {
+        "0": "The Ancient Dragon sleeps beneath the mountain.",
+        "1": "It has slumbered for a thousand years.",
+        "2": "But we need its power to face the coming threat.",
+        "3": "The Dragon Awakening Ritual is dangerous.",
+        "4": "You'll need the Dragon Horn to wake it.",
+        "5": "And the Dragon's Trust to gain its aid.",
+        "6": "The dragon may attack if awakened improperly.",
+        "7": "You must speak the Ancient Dragon Language.",
+        "8": "Learn the words: 'Draconis Awakum Allies'",
+        "9": "The dragon will test your worth.",
+        "10": "Only the pure of heart can pass.",
+        "11": "Are you ready for this challenge?"
+      },
+      "npc_name": "Dragon Keeper",
+      "accept": "I'll awaken the dragon!",
+      "decline": "Dragons are too dangerous..."
+    },
+    "dragon_trials": {
+      "name": "Dragon Trials",
+      "info": "Complete the trials of the Dragon Lords",
+      "dialogs": {
+        "0": "The Dragon Lords have issued a challenge.",
+        "1": "Complete their trials to earn their respect.",
+        "2": "Each trial tests a different virtue.",
+        "3": "Courage, Wisdom, Strength, and Honor.",
+        "4": "Success grants you dragon powers!"
+      },
+      "npc_name": "Dragon Herald",
+      "accept": "I accept the trials!",
+      "decline": "I'm not ready for dragons..."
+    },
+    "dragon_heart": {
+      "name": "Dragon Heart",
+      "info": "Obtain the legendary Dragon Heart",
+      "dialogs": {
+        "0": "The Dragon Heart is a legendary artifact.",
+        "1": "It grants its wielder dragon-like powers.",
+        "2": "But it's guarded by the Elder Dragon.",
+        "3": "You must prove yourself worthy.",
+        "4": "The heart chooses its owner.",
+        "5": "Will you seek this power?"
+      },
+      "npc_name": "Dragon Sage",
+      "accept": "I'll claim the Dragon Heart!",
+      "decline": "That power is too much..."
+    },
+    "dragon_pact": {
+      "name": "Dragon Pact",
+      "info": "Form a pact with the dragon clan",
+      "dialogs": {
+        "0": "The Dragon Clan offers you a pact.",
+        "1": "Serve them, and gain their power.",
+        "2": "But the pact binds you forever.",
+        "3": "You'll become part dragon yourself.",
+        "4": "Is this a price you're willing to pay?"
+      },
+      "npc_name": "Dragon Emissary",
+      "accept": "I accept the pact!",
+      "decline": "I'll remain fully human..."
+    },
+    "sky_fortress": {
+      "name": "Sky Fortress",
+      "info": "Assault the floating sky fortress",
+      "dialogs": {
+        "0": "A massive fortress floats in the sky.",
+        "1": "It's the enemy's main stronghold.",
+        "2": "We must assault it to end this war.",
+        "3": "But first, we need a way to reach it.",
+        "4": "Will you lead the assault?"
+      },
+      "npc_name": "Sky General",
+      "accept": "I'll lead the assault!",
+      "decline": "I'm afraid of heights..."
+    },
+    "shadow_cult": {
+      "name": "Shadow Cult",
+      "info": "Infiltrate and destroy the shadow cult",
+      "dialogs": {
+        "0": "A dark cult operates in the shadows.",
+        "1": "They're planning something terrible.",
+        "2": "We need someone to infiltrate them.",
+        "3": "Learn their plans and stop them.",
+        "4": "This mission requires absolute secrecy."
+      },
+      "npc_name": "Spy Master",
+      "accept": "I'll infiltrate the cult!",
+      "decline": "Too risky for me..."
+    },
+    "forbidden_ritual": {
+      "name": "Forbidden Ritual",
+      "info": "Stop the forbidden ritual",
+      "dialogs": {
+        "0": "The cultists are performing a forbidden ritual!",
+        "1": "They're trying to summon an ancient demon!",
+        "2": "We must stop them before midnight!",
+        "3": "The ritual site is heavily guarded.",
+        "4": "Failure means the end of our world!"
+      },
+      "npc_name": "Ritual Expert",
+      "accept": "I'll stop the ritual!",
+      "decline": "Demons terrify me..."
+    },
+    "chaos_storm": {
+      "name": "Chaos Storm",
+      "info": "Survive the magical chaos storm",
+      "dialogs": {
+        "0": "A chaos storm approaches our realm!",
+        "1": "It warps reality itself!",
+        "2": "We need to activate the protection barriers.",
+        "3": "But someone must venture into the storm.",
+        "4": "Will you brave the chaos?"
+      },
+      "npc_name": "Storm Warden",
+      "accept": "I'll face the storm!",
+      "decline": "Chaos is unpredictable..."
+    },
+    "dark_fortress": {
+      "name": "Dark Fortress",
+      "info": "Siege the dark lord's fortress",
+      "dialogs": {
+        "0": "The Dark Lord's fortress stands before us.",
+        "1": "Its walls are said to be impenetrable.",
+        "2": "But we've found a secret entrance.",
+        "3": "We need a hero to lead the infiltration.",
+        "4": "This could be our only chance!"
+      },
+      "npc_name": "Siege Commander",
+      "accept": "I'll breach the fortress!",
+      "decline": "The fortress is too strong..."
+    },
+    "dimensional_rift": {
+      "name": "Dimensional Rift",
+      "info": "Close the dimensional rift",
+      "dialogs": {
+        "0": "A rift between dimensions has opened!",
+        "1": "Strange creatures pour through!",
+        "2": "Reality itself is at risk!",
+        "3": "We must close it from both sides!",
+        "4": "Will you enter the other dimension?"
+      },
+      "npc_name": "Dimension Walker",
+      "accept": "I'll close the rift!",
+      "decline": "Other dimensions scare me..."
+    }
+  },
+  
+  "side": {
+    "thieves_guild": {
+      "name": "The Thieves Guild",
+      "info": "Join the underground thieves guild",
+      "dialogs": {
+        "0": "Psst... You look like someone who appreciates... opportunities.",
+        "1": "The Thieves Guild is always looking for talented individuals.",
+        "2": "We operate in the shadows, taking what others won't miss.",
+        "3": "Interested in joining our brotherhood?"
+      },
+      "npc_name": "Shadow Broker",
+      "accept": "I'm interested...",
+      "decline": "I walk in the light."
+    },
+    "volcanic_depths": {
+      "name": "Volcanic Depths",
+      "info": "Explore the dangerous volcanic caves",
+      "dialogs": {
+        "0": "The volcanic depths hold rare minerals.",
+        "1": "But the heat and lava make it extremely dangerous.",
+        "2": "Will you brave the depths for riches?"
+      },
+      "npc_name": "Volcano Explorer",
+      "accept": "I'll explore the depths!",
+      "decline": "Too hot for me..."
+    },
+    "ancient_ruins": {
+      "name": "Ancient Ruins",
+      "info": "Investigate the mysterious ancient ruins",
+      "dialogs": {
+        "0": "Ancient ruins have been discovered nearby.",
+        "1": "They may contain powerful artifacts.",
+        "2": "But beware - they're protected by ancient magic."
+      },
+      "npc_name": "Archaeologist",
+      "accept": "I'll investigate!",
+      "decline": "Leave the past buried..."
+    },
+    "alchemist_experiment": {
+      "name": "The Alchemist's Experiment",
+      "info": "Help the alchemist with a dangerous experiment",
+      "dialogs": {
+        "0": "I need help with a delicate experiment.",
+        "1": "It could revolutionize potion-making!",
+        "2": "Though there is a small chance of explosion..."
+      },
+      "npc_name": "Mad Alchemist",
+      "accept": "For science!",
+      "decline": "I value my eyebrows..."
+    },
+    "royal_messenger": {
+      "name": "Royal Messenger",
+      "info": "Deliver a secret message for the royal court",
+      "dialogs": {
+        "0": "I have a confidential message for the Duke.",
+        "1": "It must be delivered without anyone knowing.",
+        "2": "Can I trust you with this task?"
+      },
+      "npc_name": "Royal Advisor",
+      "accept": "Your secret is safe.",
+      "decline": "I don't do secrets..."
+    },
+    "sunken_city": {
+      "name": "The Sunken City",
+      "info": "Explore the underwater ruins",
+      "dialogs": {
+        "0": "Legends speak of a city beneath the waves.",
+        "1": "It sank centuries ago with all its treasures.",
+        "2": "Do you have the courage to dive deep?"
+      },
+      "npc_name": "Deep Sea Diver",
+      "accept": "I'll find the city!",
+      "decline": "I can't swim well..."
+    },
+    "blacksmith_apprentice": {
+      "name": "Blacksmith's Apprentice",
+      "info": "Learn the art of blacksmithing",
+      "dialogs": {
+        "0": "I'm looking for an apprentice.",
+        "1": "The work is hard but rewarding.",
+        "2": "You'll learn to forge legendary weapons."
+      },
+      "npc_name": "Master Blacksmith",
+      "accept": "Teach me, master!",
+      "decline": "Too much hard work..."
+    },
+    "collect_herbs": {
+      "name": "Herb Collection",
+      "info": "Gather rare herbs for the healer",
+      "dialogs": {
+        "0": "I need rare herbs for my medicines.",
+        "1": "They grow in dangerous places.",
+        "2": "Will you gather them for me?"
+      },
+      "npc_name": "Village Healer",
+      "accept": "I'll find the herbs!",
+      "decline": "I'm not good with plants..."
+    },
+    "crystal_cavern": {
+      "name": "Crystal Cavern",
+      "info": "Mine magical crystals from the cavern",
+      "dialogs": {
+        "0": "The crystal cavern is full of magical gems.",
+        "1": "But it's guarded by crystal golems.",
+        "2": "Are you brave enough to enter?"
+      },
+      "npc_name": "Gem Collector",
+      "accept": "I'll get those crystals!",
+      "decline": "Golems are too tough..."
+    },
+    "desert_oasis": {
+      "name": "Desert Oasis",
+      "info": "Find the hidden oasis in the desert",
+      "dialogs": {
+        "0": "There's a hidden oasis in the desert.",
+        "1": "It contains the Water of Life.",
+        "2": "Many have searched, few have returned."
+      },
+      "npc_name": "Desert Nomad",
+      "accept": "I'll find the oasis!",
+      "decline": "The desert is too harsh..."
+    },
+    "enchanted_forest": {
+      "name": "Enchanted Forest",
+      "info": "Navigate through the magical forest",
+      "dialogs": {
+        "0": "The enchanted forest is full of magic.",
+        "1": "But it's easy to get lost forever.",
+        "2": "Will you risk entering?"
+      },
+      "npc_name": "Forest Ranger",
+      "accept": "I'll explore the forest!",
+      "decline": "Magic forests are dangerous..."
+    },
+    "farmers_request": {
+      "name": "Farmer's Request",
+      "info": "Help the farmer with his crops",
+      "dialogs": {
+        "0": "My crops are being destroyed by pests!",
+        "1": "I need someone to help protect them.",
+        "2": "Will you help save my harvest?"
+      },
+      "npc_name": "Worried Farmer",
+      "accept": "I'll save your crops!",
+      "decline": "I'm not a farmer..."
+    },
+    "fisherman_tale": {
+      "name": "Fisherman's Tale",
+      "info": "Catch the legendary fish",
+      "dialogs": {
+        "0": "They say a legendary fish lives in the deep lake.",
+        "1": "I've been trying to catch it for years.",
+        "2": "Maybe you'll have better luck?"
+      },
+      "npc_name": "Old Fisherman",
+      "accept": "I'll catch it!",
+      "decline": "Sounds like a myth..."
+    },
+    "forgotten_temple": {
+      "name": "Forgotten Temple",
+      "info": "Explore the abandoned temple",
+      "dialogs": {
+        "0": "An ancient temple lies forgotten in the jungle.",
+        "1": "It's said to contain powerful relics.",
+        "2": "But it's also full of traps."
+      },
+      "npc_name": "Temple Scholar",
+      "accept": "I'll explore the temple!",
+      "decline": "Traps are too dangerous..."
+    },
+    "frozen_peaks": {
+      "name": "Frozen Peaks",
+      "info": "Climb the frozen mountain peaks",
+      "dialogs": {
+        "0": "The frozen peaks hold ancient ice crystals.",
+        "1": "But the cold is deadly.",
+        "2": "Will you brave the frozen heights?"
+      },
+      "npc_name": "Mountain Climber",
+      "accept": "I'll climb the peaks!",
+      "decline": "Too cold for me..."
+    },
+    "healers_request": {
+      "name": "Healer's Request",
+      "info": "Help cure the mysterious illness",
+      "dialogs": {
+        "0": "A mysterious illness has struck the village.",
+        "1": "I need special ingredients for the cure.",
+        "2": "Will you help me save them?"
+      },
+      "npc_name": "Village Healer",
+      "accept": "I'll get the ingredients!",
+      "decline": "I'm not a healer..."
+    },
+    "hidden_valley": {
+      "name": "Hidden Valley",
+      "info": "Discover the secret valley",
+      "dialogs": {
+        "0": "Legends speak of a hidden valley.",
+        "1": "It's a paradise untouched by time.",
+        "2": "Will you search for it?"
+      },
+      "npc_name": "Explorer",
+      "accept": "I'll find the valley!",
+      "decline": "Sounds too good to be true..."
+    },
+    "innkeeper_trouble": {
+      "name": "Innkeeper's Trouble",
+      "info": "Help the innkeeper with rowdy customers",
+      "dialogs": {
+        "0": "Some customers have been causing trouble.",
+        "1": "They won't pay and won't leave.",
+        "2": "Can you help me deal with them?"
+      },
+      "npc_name": "Innkeeper",
+      "accept": "I'll handle them!",
+      "decline": "Not my problem..."
+    },
+    "librarian_mystery": {
+      "name": "Librarian's Mystery",
+      "info": "Solve the library's ancient mystery",
+      "dialogs": {
+        "0": "Strange things happen in the library at night.",
+        "1": "Books move on their own, whispers echo.",
+        "2": "Will you investigate?"
+      },
+      "npc_name": "Head Librarian",
+      "accept": "I'll solve the mystery!",
+      "decline": "Ghosts aren't real..."
+    },
+    "lost_treasure": {
+      "name": "Lost Treasure",
+      "info": "Search for the pirate's lost treasure",
+      "dialogs": {
+        "0": "I have a map to a pirate's treasure!",
+        "1": "It's buried somewhere on the coast.",
+        "2": "Want to search for it together?"
+      },
+      "npc_name": "Treasure Hunter",
+      "accept": "Let's find that treasure!",
+      "decline": "Probably fake..."
+    },
+    "merchants_dilemma": {
+      "name": "Merchant's Dilemma",
+      "info": "Help the merchant recover stolen goods",
+      "dialogs": {
+        "0": "Bandits stole my entire shipment!",
+        "1": "I'll go bankrupt without those goods.",
+        "2": "Please help me recover them!"
+      },
+      "npc_name": "Desperate Merchant",
+      "accept": "I'll get your goods back!",
+      "decline": "Too risky..."
+    },
+    "miners_plight": {
+      "name": "Miner's Plight",
+      "info": "Rescue trapped miners",
+      "dialogs": {
+        "0": "There's been a cave-in at the mine!",
+        "1": "Several miners are trapped inside.",
+        "2": "We need someone brave to rescue them!"
+      },
+      "npc_name": "Mine Foreman",
+      "accept": "I'll save them!",
+      "decline": "I'm claustrophobic..."
+    },
+    "mysterious_cave": {
+      "name": "Mysterious Cave",
+      "info": "Investigate the strange cave",
+      "dialogs": {
+        "0": "A strange cave has appeared overnight.",
+        "1": "Weird sounds come from within.",
+        "2": "Will you investigate?"
+      },
+      "npc_name": "Local Guide",
+      "accept": "I'll check it out!",
+      "decline": "Sounds dangerous..."
+    }
+  },
+  
+  "branch": {
+    "light_paladin": {
+      "name": "Path of the Paladin",
+      "info": "Become a holy warrior of light",
+      "objectives": {
+        "paladin_master": "Find the Paladin Master",
+        "holy_water": "Obtain Holy Water from the Sacred Spring",
+        "purge_undead": "Defeat 50 undead creatures",
+        "purge_skeletons": "Defeat 30 skeleton warriors",
+        "holy_shrine": "Visit 5 Holy Shrines",
+        "meditation": "Meditate at the Temple of Light",
+        "holy_sword": "Forge a Holy Sword",
+        "build_altar": "Build an Altar of Light",
+        "defeat_darkness": "Defeat a Dark Champion",
+        "light_essence": "Collect 10 Essence of Light",
+        "oath_completion": "Complete the Paladin's Oath"
+      },
+      "dialogs": {
+        "0": "You seek the path of the Paladin, young one?",
+        "1": "A Paladin is more than a warrior - they are a beacon of hope.",
+        "2": "You must prove your devotion to the Light.",
+        "3": "Complete these sacred trials to earn your place among us.",
+        "4": "May the Light guide your way."
+      },
+      "npc_name": "Paladin Master",
+      "accept": "I will walk the path of Light!",
+      "decline": "I am not ready for this commitment..."
+    }
+  },
+  
+  "clazz": {
+    "warrior_advancement": {
+      "name": "Warrior Advancement",
+      "info": "Advance your warrior class to the next level",
+      "dialogs": {
+        "0": "You've proven yourself as a warrior.",
+        "1": "It's time to advance to the next level.",
+        "2": "This will unlock new abilities and skills.",
+        "3": "But first, you must pass the Trial of Strength.",
+        "4": "Are you ready to become a true warrior?"
+      },
+      "npc_name": "Warrior Trainer",
+      "accept": "I'm ready to advance!",
+      "decline": "I need more training..."
+    }
+  },
+  
+  "crafting": {
+    "master_blacksmith": {
+      "name": "Master Blacksmith",
+      "info": "Learn advanced blacksmithing techniques",
+      "dialogs": {
+        "0": "So you want to become a master blacksmith?",
+        "1": "It takes years of dedication and practice.",
+        "2": "You'll need to prove your skills first.",
+        "3": "Craft these items to show your worth:",
+        "4": "A Damascus Steel Sword",
+        "5": "A set of Mythril Armor",
+        "6": "And a pair of Enchanted Gauntlets"
+      },
+      "npc_name": "Grandmaster Smith",
+      "accept": "I'll prove my skills!",
+      "decline": "That's too advanced for me..."
+    }
+  },
+  
+  "event": {
+    "halloween_night": {
+      "name": "Halloween Night",
+      "info": "Celebrate the spooky Halloween event",
+      "dialogs": {
+        "0": "The veil between worlds grows thin tonight!",
+        "1": "Halloween has come to our realm!",
+        "2": "Ghosts and ghouls roam the streets.",
+        "3": "Collect candy from trick-or-treating!",
+        "4": "But beware the Headless Horseman...",
+        "5": "He rides at midnight seeking heads!",
+        "6": "Gather pumpkins for jack-o'-lanterns.",
+        "7": "Visit the Haunted Mansion if you dare!",
+        "8": "Complete Halloween challenges for special rewards!",
+        "9": "Costumes grant bonus experience tonight!",
+        "10": "The spirits are restless - be careful!",
+        "11": "Happy Halloween, brave adventurer!"
+      },
+      "npc_name": "Halloween Spirit",
+      "accept": "Let's celebrate Halloween!",
+      "decline": "Too spooky for me..."
     }
   }
 }

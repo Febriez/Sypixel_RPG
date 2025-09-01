@@ -50,18 +50,8 @@
         ]
       },
       "toggle": {
-        "enabled": {
-          "name": "Enabled",
-          "lore": [
-            "Currently enabled."
-          ]
-        },
-        "disabled": {
-          "name": "Disabled",
-          "lore": [
-            "Currently disabled."
-          ]
-        }
+        "enabled": "Enabled",
+        "disabled": "Disabled"
       },
       "page-info": {
         "name": "Page Info",
@@ -1428,5 +1418,42 @@
   "action": {
     "enable": "Enable",
     "disable": "Disable"
+  },
+  "settings": {
+    "system_settings": {
+      "title": {
+        "name": "System Settings",
+        "lore": ["Configure system settings"]
+      },
+      "confirmation": {
+        "name": "Confirmation Dialogs",
+        "desc1": "Toggle confirmation dialogs",
+        "desc2": "for important actions",
+        "desc3": "Current: {0}",
+        "example_title": "Examples:",
+        "example1": "• Job selection",
+        "example2": "• Item deletion"
+      }
+    }
+  },
+  "leaderboard": {
+    "loading": {
+      "name": "Loading...",
+      "lore": ["Please wait..."]
+    },
+    "my-rank": {
+      "name": "My Rank: #{0}"
+    },
+    "no-rank": {
+      "name": "Not Ranked",
+      "lore1": "Play more to",
+      "lore2": "get ranked!"
+    }
+  },
+  "buttons": {
+    "back": {
+      "name": "Back",
+      "lore": ["Go back"]
+    }
   }
 }
