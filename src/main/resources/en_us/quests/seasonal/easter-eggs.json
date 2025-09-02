@@ -15,7 +15,7 @@
     "prepare_candy": "Prepare 60 pieces of Easter candy",
     "easter_egg_hunt": "Organize the great Easter egg hunt",
     "spring_blessing": "Participate in the spring blessing ceremony"
-  ],
+  },
   "npcs": {
     "easter_bunny": "Easter Bunny",
     "egg_painter": "Egg Painter",

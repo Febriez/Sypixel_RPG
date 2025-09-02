@@ -15,7 +15,7 @@
     "set_tables": "Set up 12 dining tables",
     "gratitude_letters": "Write 20 gratitude letters to villagers",
     "thanksgiving_speech": "Give a thanksgiving speech at the feast"
-  ],
+  },
   "npcs": {
     "feast_organizer": "Feast Organizer",
     "village_cook": "Village Cook",

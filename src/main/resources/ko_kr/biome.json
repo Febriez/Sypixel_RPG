@@ -66,5 +66,11 @@
   "cherry_grove": {
     "name": "벚꽃 숲",
     "description": "아름다운 벚꽃나무 숲"
-  }
+  },
+  "mushroom_fields": "버섯 들판",
+  "flower_forest": "꽃 숲",
+  "bamboo_jungle": "대나무 정글",
+  "dark_forest": "어두운 숲",
+  "birch_forest": "자작나무 숲",
+  "cherry_grove": "벚꽃 숲"
 }

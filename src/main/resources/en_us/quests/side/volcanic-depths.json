@@ -14,7 +14,7 @@
     "find_magma_chamber": "Locate the Ancient Magma Chamber",
     "activate_fire_forge": "Activate the Legendary Fire Forge",
     "craft_flame_artifact": "Craft a Powerful Flame Artifact"
-  ],
+  },
   "npcs": {
     "volcano_explorer": "Fearless Volcano Explorer",
     "fire_elemental": "Ancient Fire Elemental Lord",

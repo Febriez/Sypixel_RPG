@@ -1,6 +1,13 @@
 {
   "gui": {
+    "error": {
+      "title": "오류"
+    },
     "buttons": {
+      "status": {
+        "online": "온라인",
+        "offline": "오프라인"
+      },
       "close": {
         "name": "닫기",
         "lore": [

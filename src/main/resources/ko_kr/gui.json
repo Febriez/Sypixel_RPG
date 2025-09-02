@@ -138,7 +138,22 @@
     "page": {
       "main": "메인 특성"
     },
-    "has-sub-page": "하위 페이지가 있습니다"
+    "has-sub-page": "하위 페이지가 있습니다",
+    "no_job": "직업 없음",
+    "page_info": "페이지 정보",
+    "current_page": "현재 페이지: {0}",
+    "available_points": "사용 가능 포인트: {0}",
+    "level_info": "레벨 {0}/{1}",
+    "stat_bonuses": "스탯 보너스",
+    "stat_bonus_line": "• {0}: +{1}",
+    "prerequisites": "선행 조건",
+    "prereq_met": "✓ 충족됨",
+    "prereq_not_met": "✗ 충족되지 않음",
+    "can_learn": "학습 가능",
+    "cannot_learn": "학습 불가",
+    "not_enough_points": "포인트 부족",
+    "maxed": "최대 레벨",
+    "has_sub_page": "하위 페이지 있음"
   },
   "stats": {
     "title": "스탯 관리",
@@ -153,7 +168,13 @@
     "points-available": "사용 가능한 포인트",
     "points-count": "보유 포인트: {0}",
     "points-info": "레벨업 시 스탯 포인트를 획득합니다",
-    "click-to-add": "▶ 클릭하여 포인트 추가"
+    "click-to-add": "▶ 클릭하여 포인트 추가",
+    "points_available": "사용 가능한 포인트",
+    "points_count": "포인트: {0}",
+    "points_info": "레벨업 시 포인트를 얻습니다",
+    "current_value": "현재 값: {0}",
+    "base_bonus": "기본 보너스: {0}",
+    "click_to_add": "▶ 클릭하여 추가"
   },
   "leaderboard": {
     "title": "리더보드",
@@ -177,7 +198,17 @@
     "tab-selected": "▶ 현재 선택됨",
     "tab-click": "▶ 클릭하여 보기",
     "no-rank-data": "순위 데이터가 없습니다",
-    "play-more": "더 플레이하여 순위에 도전하세요!"
+    "play-more": "더 플레이하여 순위에 도전하세요!",
+    "tab_selected": "▶ 현재 선택됨",
+    "tab_click": "▶ 클릭하여 보기",
+    "type": {
+      "level": "레벨",
+      "combat_power": "전투력",
+      "gold": "골드",
+      "playtime": "플레이시간"
+    },
+    "my-rank": "내 순위",
+    "my-value": "내 값: {0}"
   },
   "quest-list": {
     "title": "퀘스트 목록",
@@ -455,12 +486,65 @@
       "role-visitor": "방문자",
       "color-change-hint": "클릭하여 섬 이름 색상 변경",
       "hex-format-error": "잘못된 HEX 형식입니다! #RRGGBB 형식으로 입력하세요",
+      "hex_format_example": "#RRGGBB 형식 예시",
       "color-changed": "섬 색상이 성공적으로 변경되었습니다!",
+      "color_changed": "색상이 변경되었습니다",
       "hex-input-title": "HEX 색상 코드 입력",
+      "hex_input_title": "HEX 색상 코드 입력",
       "click-to-open": "클릭하여 열기",
       "people-count": "명",
       "warp-moving": "섬으로 이동중...",
       "warp-success": "섬에 오신 것을 환영합니다!",
+      "warp_success": "섬으로 이동했습니다!",
+      "info": {
+        "lore": "섬 정보를 확인합니다",
+        "members": "{0}명의 멤버"
+      },
+      "create": {
+        "title": "섬 생성",
+        "lore1": "새로운 섬을 만듭니다",
+        "lore2": "자신만의 공간을 가지세요"
+      },
+      "spawn": {
+        "name": "스폰 설정",
+        "lore": "섬 스폰 위치를 설정합니다"
+      },
+      "visit": {
+        "name": "섬 방문"
+      },
+      "members": {
+        "lore": "멤버를 관리합니다"
+      },
+      "settings": {
+        "lore": "섬 설정을 변경합니다"
+      },
+      "upgrades": {
+        "lore": "섬을 업그레이드합니다"
+      },
+      "permissions": {
+        "lore": "권한을 설정합니다"
+      },
+      "biome": {
+        "lore": "바이옴을 변경합니다"
+      },
+      "contributions": {
+        "lore": "기여도를 확인합니다"
+      },
+      "visitors": {
+        "lore": "방문자를 관리합니다"
+      },
+      "reset": {
+        "lore": "섬을 초기화합니다"
+      },
+      "leave": {
+        "lore": "섬을 떠납니다"
+      },
+      "back": {
+        "name": "뒤로가기"
+      },
+      "close": {
+        "name": "닫기"
+      },
       "upgrade": {
         "current-level": "현재 업그레이드 레벨:",
         "size": "• 크기: 레벨 ",
@@ -484,6 +568,9 @@
       }
     },
     "creation": {
+      "title": "섬 생성"
+    },
+    "create": {
       "title": "섬 생성"
     },
     "member": {
@@ -985,6 +1072,7 @@
     "status": "상태: {0}",
     "time": "시간: {0}",
     "delete-confirm-word": "삭제",
+    "delete_confirm_word": "삭제",
     "delete-confirm-text": "삭제하려면 '삭제'를 입력하세요",
     "delete-confirm-title": "우편 삭제 확인"
   },

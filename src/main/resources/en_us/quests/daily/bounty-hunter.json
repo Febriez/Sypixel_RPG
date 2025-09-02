@@ -12,7 +12,7 @@
     "capture_thieves": "Capture 3 Master Thieves",
     "eliminate_monster": "Eliminate the Rogue Monster",
     "collect_bounties": "Collect All Bounty Rewards"
-  ],
+  },
   "npcs": {
     "bounty_master": "Bounty Master",
     "sheriff": "Town Sheriff",

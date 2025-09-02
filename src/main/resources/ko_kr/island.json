@@ -127,9 +127,13 @@
     "back-button": "◀ 돌아가기",
     "delete": {
       "confirm-word": "삭제",
+      "confirm_word": "삭제",
       "input-error": "'삭제'를 정확히 입력해야 합니다.",
+      "input_error": "입력 오류",
       "input-title": "'삭제'를 입력하여 확인",
-      "input-text": "여기에 입력..."
+      "input_title": "섬 삭제 확인",
+      "input-text": "여기에 입력...",
+      "input_text": "삭제하려면 '삭제'를 입력하세요"
     },
     "settings": {
       "name-error": "섬 이름은 1~20자여야 합니다.",
@@ -137,13 +141,19 @@
     },
     "member": {
       "kick-confirm-word": "추방",
+      "kick_confirm_word": "추방",
       "kick-input-error": "'추방'을 정확히 입력해야 합니다.",
+      "kick_input_error": "입력 오류",
       "kick-input-title": "'추방'을 입력하여 확인",
-      "kick-input-text": "여기에 입력..."
+      "kick_input_title": "멤버 추방 확인",
+      "kick-input-text": "여기에 입력...",
+      "kick_input_text": "추방하려면 '추방'을 입력하세요"
     },
     "contribute": {
       "amount-too-low": "최소 기여도는 100입니다.",
+      "amount_too_low": "금액이 너무 적습니다",
       "invalid-amount": "올바른 숫자를 입력하세요.",
+      "invalid_amount": "잘못된 금액입니다",
       "contribution-input-title": "기여도 입력",
       "contribution-input-text": "금액...",
       "gold-info": {

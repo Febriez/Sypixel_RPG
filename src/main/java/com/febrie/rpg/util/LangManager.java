@@ -42,63 +42,24 @@ public class LangManager {
         Set<String> allKeys = new HashSet<>();  // Track all keys for duplicate detection
 
         void report(JavaPlugin plugin) {
-            plugin.getLogger().info("[LangManager] === File Loading Report ===");
-            plugin.getLogger().info("[LangManager] Total files scanned: " + totalFiles);
-            plugin.getLogger().info("[LangManager] Successfully loaded: " + successfulLoads);
-            plugin.getLogger().info("[LangManager] Failed to load: " + failedLoads);
+            // Only report errors
+            if (failedLoads > 0) {
+                plugin.getLogger().warning("[LangManager] Failed to load " + failedLoads + " files");
+            }
             
             // Report duplicate keys if found
             if (!duplicateKeys.isEmpty()) {
                 plugin.getLogger().warning("[LangManager] Duplicate keys found: " + duplicateKeys.size() + " keys");
-                if (debugMode) {
-                    duplicateKeys.forEach(key -> 
-                        plugin.getLogger().warning("  - Duplicate: " + key));
-                }
-            }
-            
-            // Report keys per file in debug mode
-            if (debugMode && !keysPerFile.isEmpty()) {
-                plugin.getLogger().info("[LangManager] Keys per file:");
-                keysPerFile.entrySet().stream()
-                    .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
-                    .limit(10)  // Show top 10 files
-                    .forEach(entry -> 
-                        plugin.getLogger().info("  - " + entry.getKey().substring(entry.getKey().lastIndexOf('/') + 1) + ": " + entry.getValue() + " keys"));
+                duplicateKeys.forEach(key -> 
+                    plugin.getLogger().warning("  - Duplicate: " + key));
             }
         }
     }
 
     public static void init(@NotNull JavaPlugin plugin) {
         LangManager.plugin = plugin;
-        debugMode = true; // 초기화 시 로깅 활성화
-        plugin.getLogger().info("[LangManager] Starting language initialization...");
+        debugMode = false; // 디버그 모드 비활성화
         loadAllLanguages();
-        debugMode = false; // 로딩 후 비활성화
-
-        // 로드된 키 요약 출력
-        plugin.getLogger().info("[LangManager] === Language Loading Summary ===");
-        for (Locale locale : singles.keySet()) {
-            plugin.getLogger().info("[LangManager] Locale: " + locale);
-            Map<String, Component> singleMap = singles.get(locale);
-            Map<String, List<Component>> arrayMap = arrays.get(locale);
-
-            // 카테고리별로 키 개수 카운트
-            Map<String, Integer> categoryCounts = new HashMap<>();
-            for (String key : singleMap.keySet()) {
-                String category = key.split("\\.")[0];
-                categoryCounts.put(category, categoryCounts.getOrDefault(category, 0) + 1);
-            }
-            for (String key : arrayMap.keySet()) {
-                String category = key.split("\\.")[0];
-                categoryCounts.put(category + "_array", categoryCounts.getOrDefault(category + "_array", 0) + 1);
-            }
-
-            for (Map.Entry<String, Integer> catEntry : categoryCounts.entrySet()) {
-                plugin.getLogger().info("  - " + catEntry.getKey() + ": " + catEntry.getValue() + " keys");
-            }
-        }
-        plugin.getLogger().info("[LangManager] === End of Summary ===");
-
         // Validate all enum keys
         validateKeys();
     }
@@ -121,10 +82,8 @@ public class LangManager {
         singles.put(locale, singleMap);
         arrays.put(locale, arrayMap);
 
-        plugin.getLogger()
-                .info("[LangManager] Loaded " + singleMap.size() + " texts and " + arrayMap.size() + " lists for " + locale);
-
-        if (debugMode) {
+        // Only report if there are errors
+        if (stats.failedLoads > 0 || !stats.duplicateKeys.isEmpty()) {
             stats.report(plugin);
         }
     }
@@ -160,7 +119,6 @@ public class LangManager {
             if (value.isJsonPrimitive()) {
                 Component comp = UnifiedColorUtil.parseComponent(value.getAsString());
                 singleMap.put(key, comp);
-                logDebug("Registered text key: " + key);
             } else if (value.isJsonArray()) {
                 List<Component> list = new ArrayList<>();
                 for (JsonElement elem : value.getAsJsonArray()) {
@@ -170,7 +128,6 @@ public class LangManager {
                 }
                 if (!list.isEmpty()) {
                     arrayMap.put(key, list);
-                    logDebug("Registered array key: " + key + " (size: " + list.size() + ")");
                 }
             } else if (value.isJsonObject()) {
                 processJsonObject(value.getAsJsonObject(), key + ".", singleMap, arrayMap, stats);
@@ -395,7 +352,6 @@ public class LangManager {
 
                     if (success) {
                         stats.successfulLoads++;
-                        logDebug("Loaded: " + entryName + " -> prefix: " + prefix);
                     } else {
                         stats.failedLoads++;
                     }
@@ -452,7 +408,6 @@ public class LangManager {
 
                 if (success) {
                     stats.successfulLoads++;
-                    logDebug("Loaded: " + relativePath + " -> prefix: " + prefix);
                 } else {
                     stats.failedLoads++;
                 }
@@ -551,7 +506,10 @@ public class LangManager {
 
         try (InputStream stream = LangManager.class.getResourceAsStream(resourcePath)) {
             if (stream == null) {
-                logDebug("Resource not found: " + resourcePath);
+                // Only log if it's not a quest file (they're expected to be in subdirectories)
+                if (!resourcePath.contains("/quests/")) {
+                    logWarning("Resource not found: " + resourcePath);
+                }
                 return false;
             }
 
@@ -579,7 +537,6 @@ public class LangManager {
     public static void validateKeys() {
         if (plugin == null) return;
 
-        plugin.getLogger().info("[LangManager] Validating language keys...");
         int missingCount = 0;
 
         for (LangKey key : LangKey.values()) {
@@ -597,9 +554,7 @@ public class LangManager {
             }
         }
 
-        if (missingCount == 0) {
-            plugin.getLogger().info("[LangManager] All language keys validated successfully!");
-        } else {
+        if (missingCount > 0) {
             plugin.getLogger().warning("[LangManager] Found " + missingCount + " missing keys");
         }
     }
