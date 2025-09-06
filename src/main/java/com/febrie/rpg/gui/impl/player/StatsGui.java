@@ -8,7 +8,7 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangHelper;
+
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.SkullUtil;
@@ -58,7 +58,7 @@ public class StatsGui extends ScrollableGui {
 
     private StatsGui(@NotNull GuiManager guiManager,
                     @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        super(viewer, guiManager, DEFAULT_SIZE, LangHelper.text(LangKey.GUI_STATS_TITLE, viewer));
+        super(viewer, guiManager, DEFAULT_SIZE, LangManager.text(LangKey.GUI_STATS_TITLE, viewer));
         this.rpgPlayer = rpgPlayer;
     }
 
@@ -78,7 +78,7 @@ public class StatsGui extends ScrollableGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangHelper.text(LangKey.GUI_STATS_TITLE, viewer);
+        return LangManager.text(LangKey.GUI_STATS_TITLE, viewer);
     }
 
     @Override
@@ -143,17 +143,17 @@ public class StatsGui extends ScrollableGui {
     private void setupPlayerInfo() {
         Component jobName;
         if (rpgPlayer.hasJob() && rpgPlayer.getJob() != null) {
-            jobName = LangHelper.text(LangKey.valueOf("JOB_" + rpgPlayer.getJob().name().toUpperCase() + "_NAME"), viewer);
+            jobName = LangManager.text(LangKey.valueOf("JOB_" + rpgPlayer.getJob().name().toUpperCase() + "_NAME"), viewer);
         } else {
-            jobName = LangHelper.text(LangKey.GUI_PROFILE_NO_JOB, viewer);
+            jobName = LangManager.text(LangKey.GUI_PROFILE_NO_JOB, viewer);
         }
 
         GuiItem playerInfo = GuiItem.display(
                 ItemBuilder.from(SkullUtil.getPlayerHead(viewer.getUniqueId().toString()))
-                        .displayName(LangHelper.text(LangKey.GUI_PROFILE_PLAYER_INFO_NAME, viewer, viewer.getName()))
-                        .addLore(LangHelper.text(LangKey.GUI_PROFILE_LEVEL, viewer, String.valueOf(rpgPlayer.getLevel())))
-                        .addLore(LangHelper.text(LangKey.GUI_PROFILE_JOB, viewer, jobName))
-                        .addLore(LangHelper.text(LangKey.GUI_PROFILE_COMBAT_POWER, viewer, String.valueOf(rpgPlayer.getCombatPower())))
+                        .displayName(LangManager.text(LangKey.GUI_PROFILE_PLAYER_INFO_NAME, viewer, viewer.getName()))
+                        .addLore(LangManager.text(LangKey.GUI_PROFILE_LEVEL, viewer, String.valueOf(rpgPlayer.getLevel())))
+                        .addLore(LangManager.text(LangKey.GUI_PROFILE_JOB, viewer, jobName))
+                        .addLore(LangManager.text(LangKey.GUI_PROFILE_COMBAT_POWER, viewer, String.valueOf(rpgPlayer.getCombatPower())))
                         .build()
         );
         setItem(PLAYER_INFO_SLOT, playerInfo);
@@ -161,10 +161,10 @@ public class StatsGui extends ScrollableGui {
         // 스탯 포인트 정보
         GuiItem statPointsInfo = GuiItem.display(
                 ItemBuilder.of(Material.NETHER_STAR)
-                        .displayName(LangHelper.text(LangKey.GUI_STATS_POINTS_AVAILABLE, viewer))
-                        .addLore(LangHelper.text(LangKey.GUI_STATS_POINTS_COUNT, viewer, String.valueOf(rpgPlayer.getStatPoints())))
+                        .displayName(LangManager.text(LangKey.GUI_STATS_POINTS_AVAILABLE, viewer))
+                        .addLore(LangManager.text(LangKey.GUI_STATS_POINTS_COUNT, viewer, String.valueOf(rpgPlayer.getStatPoints())))
                         .addLore(Component.empty())
-                        .addLore(LangHelper.text(LangKey.GUI_STATS_POINTS_INFO, viewer))
+                        .addLore(LangManager.text(LangKey.GUI_STATS_POINTS_INFO, viewer))
                         .glint(rpgPlayer.getStatPoints() > 0)
                         .build()
         );
@@ -181,14 +181,14 @@ public class StatsGui extends ScrollableGui {
             int totalValue = currentValue + bonusValue;
 
             ItemBuilder builder = ItemBuilder.of(stat.getIcon())
-                    .displayName(LangHelper.text(LangKey.valueOf("STAT_" + stat.getId().toUpperCase() + "_NAME"), viewer))
+                    .displayName(LangManager.text(LangKey.valueOf("STAT_" + stat.getId().toUpperCase() + "_NAME"), viewer))
                     .addLore(Component.empty());
 
             // 현재 스탯
-            builder.addLore(LangHelper.text(LangKey.GUI_STATS_CURRENT_VALUE, viewer, String.valueOf(totalValue)));
+            builder.addLore(LangManager.text(LangKey.GUI_STATS_CURRENT_VALUE, viewer, String.valueOf(totalValue)));
 
             if (bonusValue > 0) {
-                builder.addLore(LangHelper.text(LangKey.GUI_STATS_BASE_BONUS, viewer,
+                builder.addLore(LangManager.text(LangKey.GUI_STATS_BASE_BONUS, viewer,
                         String.valueOf(currentValue),
                         "+" + bonusValue));
             }
@@ -196,11 +196,11 @@ public class StatsGui extends ScrollableGui {
             builder.addLore(Component.empty());
 
             // 스탯 설명
-            List<Component> description = LangHelper.list(LangKey.valueOf("STAT_" + stat.getId().toUpperCase() + "_DESCRIPTION"), viewer);
+            List<Component> description = LangManager.list(LangKey.valueOf("STAT_" + stat.getId().toUpperCase() + "_DESCRIPTION"), viewer);
             description.forEach(builder::addLore);
 
             builder.addLore(Component.empty())
-                    .addLore(LangHelper.text(LangKey.GUI_STATS_CLICK_TO_ADD, viewer))
+                    .addLore(LangManager.text(LangKey.GUI_STATS_CLICK_TO_ADD, viewer))
                     .flags(ItemFlag.values());
 
             GuiItem statItem = GuiItem.of(builder.build())
@@ -220,14 +220,14 @@ public class StatsGui extends ScrollableGui {
      */
     private void handleStatClick(@NotNull Player player, @NotNull Stat stat, int pointsToAdd) {
         if (rpgPlayer.getStatPoints() < pointsToAdd) {
-            player.sendMessage(LangHelper.text(LangKey.MESSAGES_NOT_ENOUGH_STAT_POINTS, player));
+            player.sendMessage(LangManager.text(LangKey.MESSAGES_NOT_ENOUGH_STAT_POINTS, player));
             playErrorSound(player);
             return;
         }
 
         if (rpgPlayer.useStatPoint(stat, pointsToAdd)) {
-            player.sendMessage(LangHelper.text(LangKey.MESSAGES_STAT_INCREASED, player,
-                    LangHelper.text(LangKey.valueOf("STAT_" + stat.getId().toUpperCase() + "_NAME"), player)));
+            player.sendMessage(LangManager.text(LangKey.MESSAGES_STAT_INCREASED, player,
+                    LangManager.text(LangKey.valueOf("STAT_" + stat.getId().toUpperCase() + "_NAME"), player)));
             playSuccessSound(player);
             refresh();
         } else {

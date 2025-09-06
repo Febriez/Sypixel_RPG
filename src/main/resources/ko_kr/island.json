@@ -1,94 +1,94 @@
 {
-  "default-name": "새로운 섬",
+  "default_name": "새로운 섬",
   "spawn": {
-    "default-name": "섬 중앙"
+    "default_name": "섬 중앙"
   },
   "roles": {
     "owner": "섬장",
-    "sub-owner": "부섬장",
+    "sub_owner": "부섬장",
     "member": "섬원",
     "worker": "알바",
     "visitor": "방문자"
   },
   "permissions": {
     "build": "건설",
-    "use-items": "아이템 사용",
-    "open-containers": "상자 열기",
-    "invite-members": "멤버 초대",
-    "kick-members": "멤버 추방",
-    "manage-workers": "알바 관리",
-    "set-spawn": "스폰 설정",
-    "change-settings": "섬 설정 변경"
+    "use_items": "아이템 사용",
+    "open_containers": "상자 열기",
+    "invite_members": "멤버 초대",
+    "kick_members": "멤버 추방",
+    "manage_workers": "알바 관리",
+    "set_spawn": "스폰 설정",
+    "change_settings": "섬 설정 변경"
   },
   "invite": {
-    "default-message": "섬에 초대되었습니다!"
+    "default_message": "섬에 초대되었습니다!"
   },
   "messages": {
-    "teleport-success": "섬으로 이동했습니다!",
-    "teleport-fail": "섬으로 이동할 수 없습니다!",
-    "no-island": "아직 섬이 없습니다!",
-    "island-info": {
+    "teleport_success": "섬으로 이동했습니다!",
+    "teleport_fail": "섬으로 이동할 수 없습니다!",
+    "no_island": "아직 섬이 없습니다!",
+    "island_info": {
       "title": "==== 섬 시스템 ====",
-      "no-island": "아직 섬이 없습니다!",
+      "no_island": "아직 섬이 없습니다!",
       "features": "섬을 생성하면 다음과 같은 기능을 사용할 수 있습니다:",
-      "feature-1": "• 자신만의 개인 섬에서 자유로운 건축",
-      "feature-2": "• 친구들을 초대하여 함께 플레이",
-      "feature-3": "• 섬 업그레이드로 더 넓은 공간 확보",
-      "feature-4": "• 섬 워프 포인트 설정",
-      "create-guide": "섬 생성 방법:",
-      "step-1": "1. 메인 메뉴(/메뉴)에서 섬 버튼 클릭",
-      "step-2": "2. 섬 생성 버튼을 눌러 새로운 섬 생성"
+      "feature_1": "• 자신만의 개인 섬에서 자유로운 건축",
+      "feature_2": "• 친구들을 초대하여 함께 플레이",
+      "feature_3": "• 섬 업그레이드로 더 넓은 공간 확보",
+      "feature_4": "• 섬 워프 포인트 설정",
+      "create_guide": "섬 생성 방법:",
+      "step_1": "1. 메인 메뉴(/메뉴)에서 섬 버튼 클릭",
+      "step_2": "2. 섬 생성 버튼을 눌러 새로운 섬 생성"
     }
   },
   "gui": {
     "main": {
       "title": "섬 관리",
-      "title-with-name": "섬 관리 - {0}",
-      "create-island": {
+      "title_with_name": "섬 관리 - {0}",
+      "create_island": {
         "title": "섬 생성하기",
-        "no-island": "아직 섬이 없습니다!",
+        "no_island": "아직 섬이 없습니다!",
         "description": "섬을 생성하면 다음과 같은 기능을 사용할 수 있습니다:",
-        "feature-1": "• 자신만의 개인 섬에서 자유로운 건축",
-        "feature-2": "• 친구들을 초대하여 함께 플레이",
-        "feature-3": "• 섬 업그레이드로 더 넓은 공간 확보",
-        "feature-4": "• 섬 워프 포인트 설정",
-        "contact-admin": "섬 생성은 관리자에게 문의하세요!"
+        "feature_1": "• 자신만의 개인 섬에서 자유로운 건축",
+        "feature_2": "• 친구들을 초대하여 함께 플레이",
+        "feature_3": "• 섬 업그레이드로 더 넓은 공간 확보",
+        "feature_4": "• 섬 워프 포인트 설정",
+        "contact_admin": "섬 생성은 관리자에게 문의하세요!"
       }
     },
     "creation": {
       "title": "섬 생성",
-      "current-name": "현재 이름: ",
-      "current-color": "현재 색상: ",
-      "current-biome": "현재 바이옴: ",
-      "click-to-change-name": "클릭하여 이름 변경",
-      "click-to-change": "클릭하여 변경",
-      "left-click": "좌클릭: ",
-      "right-click": "우클릭: ",
-      "middle-click": "휠클릭: ",
+      "current_name": "현재 이름: ",
+      "current_color": "현재 색상: ",
+      "current_biome": "현재 바이옴: ",
+      "click_to_change_name": "클릭하여 이름 변경",
+      "click_to_change": "클릭하여 변경",
+      "left_click": "좌클릭: ",
+      "right_click": "우클릭: ",
+      "middle_click": "휠클릭: ",
       "next": "다음",
       "previous": "이전",
-      "hex-input": "HEX 코드 입력",
-      "hex-example": "예시: #FF0000 (빨간색)",
+      "hex_input": "HEX 코드 입력",
+      "hex_example": "예시: #FF0000 (빨간색)",
       "selected": "✔ 선택됨",
-      "click-to-select": "클릭하여 선택",
-      "click-to-create": "클릭하여 섬 생성!",
-      "selected-settings": "선택된 설정:",
-      "setting-name": "• 이름: ",
-      "setting-biome": "• 바이옴: ",
-      "setting-template": "• 템플릿: ",
-      "create-button-title": "✦ 섬 생성하기 ✦",
-      "island-name-input-title": "섬 이름 입력",
-      "island-name-input-error": "1-20자 사이로 입력하세요",
-      "hex-input-title": "HEX 색상 코드 입력",
-      "hex-input-error": "#RRGGBB 형식으로 입력하세요",
-      "default-island-name": "나의 섬",
-      "creating-island": "섬을 생성하는 중...",
-      "creation-complete-header": "==== 섬 생성 완료! ====",
-      "creation-complete-message": " 섬이 생성되었습니다!",
-      "creation-complete-footer": "====================",
-      "teleporting-soon": "잠시 후 섬으로 이동합니다...",
-      "creation-failed": "섬 생성에 실패했습니다.",
-      "creation-error": "섬 생성 중 오류가 발생했습니다: ",
+      "click_to_select": "클릭하여 선택",
+      "click_to_create": "클릭하여 섬 생성!",
+      "selected_settings": "선택된 설정:",
+      "setting_name": "• 이름: ",
+      "setting_biome": "• 바이옴: ",
+      "setting_template": "• 템플릿: ",
+      "create_button_title": "✦ 섬 생성하기 ✦",
+      "island_name_input_title": "섬 이름 입력",
+      "island_name_input_error": "1-20자 사이로 입력하세요",
+      "hex_input_title": "HEX 색상 코드 입력",
+      "hex_input_error": "#RRGGBB 형식으로 입력하세요",
+      "default_island_name": "나의 섬",
+      "creating_island": "섬을 생성하는 중...",
+      "creation_complete_header": "==== 섬 생성 완료! ====",
+      "creation_complete_message": " 섬이 생성되었습니다!",
+      "creation_complete_footer": "====================",
+      "teleporting_soon": "잠시 후 섬으로 이동합니다...",
+      "creation_failed": "섬 생성에 실패했습니다.",
+      "creation_error": "섬 생성 중 오류가 발생했습니다: ",
       "biomes": {
         "plains": "평원",
         "forest": "숲",
@@ -104,10 +104,10 @@
         "skyblock": "스카이블럭",
         "large": "대형 섬",
         "water": "수상 섬",
-        "basic-desc": "표준 크기의 기본 섬",
-        "skyblock-desc": "하늘에 떠있는 작은 섬",
-        "large-desc": "넓은 공간의 대형 섬",
-        "water-desc": "바다 위의 수상 섬"
+        "basic_desc": "표준 크기의 기본 섬",
+        "skyblock_desc": "하늘에 떠있는 작은 섬",
+        "large_desc": "넓은 공간의 대형 섬",
+        "water_desc": "바다 위의 수상 섬"
       },
       "colors": {
         "yellow": "노란색",
@@ -121,52 +121,42 @@
         "custom": "사용자 정의"
       }
     },
-    "biome-selection": {
+    "biome_selection": {
       "title": "🌍 바이옴 선택"
     },
-    "back-button": "◀ 돌아가기",
+    "back_button": "◀ 돌아가기",
     "delete": {
-      "confirm-word": "삭제",
       "confirm_word": "삭제",
-      "input-error": "'삭제'를 정확히 입력해야 합니다.",
       "input_error": "입력 오류",
-      "input-title": "'삭제'를 입력하여 확인",
       "input_title": "섬 삭제 확인",
-      "input-text": "여기에 입력...",
       "input_text": "삭제하려면 '삭제'를 입력하세요"
     },
     "settings": {
-      "name-error": "섬 이름은 1~20자여야 합니다.",
-      "name-input-error": "1~20자 사이로 입력하세요"
+      "name_error": "섬 이름은 1~20자여야 합니다.",
+      "name_input_error": "1~20자 사이로 입력하세요"
     },
     "member": {
-      "kick-confirm-word": "추방",
       "kick_confirm_word": "추방",
-      "kick-input-error": "'추방'을 정확히 입력해야 합니다.",
       "kick_input_error": "입력 오류",
-      "kick-input-title": "'추방'을 입력하여 확인",
       "kick_input_title": "멤버 추방 확인",
-      "kick-input-text": "여기에 입력...",
       "kick_input_text": "추방하려면 '추방'을 입력하세요"
     },
     "contribute": {
-      "amount-too-low": "최소 기여도는 100입니다.",
       "amount_too_low": "금액이 너무 적습니다",
-      "invalid-amount": "올바른 숫자를 입력하세요.",
       "invalid_amount": "잘못된 금액입니다",
-      "contribution-input-title": "기여도 입력",
-      "contribution-input-text": "금액...",
-      "gold-info": {
+      "contribution_input_title": "기여도 입력",
+      "contribution_input_text": "금액...",
+      "gold_info": {
         "balance": "잔액: {0}G",
         "contribution": "내 기여도: {0}G"
       },
-      "quick-amount": "빠른 금액: {0}G",
-      "gold-needed": "필요 골드: {0}G"
+      "quick_amount": "빠른 금액: {0}G",
+      "gold_needed": "필요 골드: {0}G"
     },
     "contribution": {
       "title": "섬 기여도",
       "info": {
-        "island-name": "섬: {0}",
+        "island_name": "섬: {0}",
         "total": "총 기여도: {0}G",
         "contributors": "기여자: {0}명"
       },
@@ -182,6 +172,22 @@
     }
   },
   "error": {
-    "player-only": "이 명령어는 플레이어만 사용할 수 있습니다."
+    "player_only": "이 명령어는 플레이어만 사용할 수 있습니다."
+  },
+  "contribute": {
+    "amount_too_low": "기여 금액이 너무 적습니다!",
+    "invalid_amount": "잘못된 기여 금액입니다!"
+  },
+  "delete": {
+    "confirm_word": "삭제",
+    "input_error": "삭제를 입력하여 확인해주세요",
+    "input_text": "섬을 영구적으로 삭제하려면 삭제를 입력하세요",
+    "input_title": "섬 삭제 확인"
+  },
+  "member": {
+    "kick_confirm_word": "추방",
+    "kick_input_error": "추방을 입력하여 확인해주세요",
+    "kick_input_text": "이 멤버를 섬에서 추방하려면 추방을 입력하세요",
+    "kick_input_title": "멤버 추방 확인"
   }
 }

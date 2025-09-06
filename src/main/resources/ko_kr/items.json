@@ -1,13 +1,6 @@
 {
   "gui": {
-    "error": {
-      "title": "오류"
-    },
     "buttons": {
-      "status": {
-        "online": "온라인",
-        "offline": "오프라인"
-      },
       "close": {
         "name": "닫기",
         "lore": [
@@ -26,13 +19,13 @@
           "클릭하여 화면을 새로고칩니다."
         ]
       },
-      "next-page": {
+      "next_page": {
         "name": "다음 페이지 →",
         "lore": [
           "클릭하여 다음 페이지로 이동합니다."
         ]
       },
-      "previous-page": {
+      "previous_page": {
         "name": "← 이전 페이지",
         "lore": [
           "클릭하여 이전 페이지로 이동합니다."
@@ -70,7 +63,7 @@
           ]
         }
       },
-      "page-info": {
+      "page_info": {
         "name": "페이지 정보",
         "lore": [
           "현재 페이지: {0}/{1}"
@@ -101,24 +94,24 @@
     }
   },
   "profile": {
-    "level-info": {
+    "level_info": {
       "name": "레벨 정보",
       "lore": [
         "현재 레벨과 경험치 정보"
       ]
     },
-    "game-stats": {
+    "game_stats": {
       "name": "게임 통계",
       "lore": [
         "플레이 시간과 전투 통계"
       ]
     },
-    "quest-info": {
+    "quest_info": {
       "name": "퀘스트 정보",
       "lore": [
         "현재 진행 중인 퀘스트와 완료한 퀘스트"
       ],
-      "click-lore": [
+      "click_lore": [
         "▶ 클릭하여 퀘스트 목록 열기"
       ]
     },
@@ -130,7 +123,7 @@
         "▶ 클릭하여 열기"
       ]
     },
-    "collection-book": {
+    "collection_book": {
       "name": "수집북",
       "lore": [
         "수집 진행도를 확인합니다",
@@ -138,7 +131,7 @@
         "▶ 클릭하여 열기"
       ]
     },
-    "user-settings": {
+    "user_settings": {
       "name": "사용자 설정",
       "lore": [
         "개인 설정을 변경합니다",
@@ -146,7 +139,7 @@
         "▶ 클릭하여 열기"
       ]
     },
-    "job-select": {
+    "job_select": {
       "name": "직업 선택",
       "lore": [
         "직업을 선택하여 모험을 시작하세요!",
@@ -155,7 +148,7 @@
         "▶ 클릭하여 선택"
       ]
     },
-    "stats-info": {
+    "stats_info": {
       "name": "스탯 정보",
       "lore": [
         "캐릭터의 능력치 정보입니다."
@@ -171,7 +164,7 @@
         "버전: 1.0"
       ]
     },
-    "profile-button": {
+    "profile_button": {
       "name": "내 프로필",
       "lore": [
         "캐릭터 정보를 확인합니다.",
@@ -179,7 +172,7 @@
         "▶ 클릭하여 열기"
       ]
     },
-    "stats-button": {
+    "stats_button": {
       "name": "스탯 관리",
       "lore": [
         "스탯 포인트를 할당합니다.",
@@ -187,7 +180,7 @@
         "▶ 클릭하여 스탯 페이지로 이동"
       ]
     },
-    "talents-button": {
+    "talents_button": {
       "name": "특성 트리",
       "lore": [
         "특성을 배우고 강화합니다.",
@@ -195,7 +188,7 @@
         "▶ 클릭하여 열기"
       ]
     },
-    "leaderboard-button": {
+    "leaderboard_button": {
       "name": "리더보드",
       "lore": [
         "다양한 부문의 순위를 확인합니다.",
@@ -203,7 +196,7 @@
         "▶ 클릭하여 열기"
       ]
     },
-    "hub-button": {
+    "hub_button": {
       "name": "허브",
       "lore": [
         "중앙 허브로 이동합니다.",
@@ -211,7 +204,7 @@
         "▶ 클릭하여 열기"
       ]
     },
-    "wild-button": {
+    "wild_button": {
       "name": "야생",
       "lore": [
         "야생 지역에서 몹을 사냥합니다.",
@@ -219,7 +212,7 @@
         "▶ 클릭하여 열기"
       ]
     },
-    "island-button": {
+    "island_button": {
       "name": "섬",
       "lore": [
         "신비로운 섬으로 모험을 떠납니다.",
@@ -227,7 +220,7 @@
         "▶ 클릭하여 열기"
       ]
     },
-    "skills-button": {
+    "skills_button": {
       "name": "스킬",
       "lore": [
         "직업 스킬을 확인하고 강화합니다.",
@@ -235,7 +228,7 @@
         "▶ 클릭하여 열기"
       ]
     },
-    "shop-button": {
+    "shop_button": {
       "name": "상점",
       "lore": [
         "아이템을 사고 팝니다.",
@@ -243,7 +236,7 @@
         "▶ 클릭하여 열기"
       ]
     },
-    "dungeon-button": {
+    "dungeon_button": {
       "name": "던전",
       "lore": [
         "던전에 도전하여 보상을 획득하세요.",
@@ -251,7 +244,7 @@
         "▶ 클릭하여 열기"
       ]
     },
-    "job-button": {
+    "job_button": {
       "name": "직업 선택",
       "lore": [
         "모험을 시작할 직업을 선택하세요.",
@@ -260,7 +253,7 @@
         "▶ 클릭하여 열기"
       ]
     },
-    "settings-button": {
+    "settings_button": {
       "name": "전체 설정",
       "lore": [
         "게임 전체 설정을 변경합니다.",
@@ -362,7 +355,7 @@
           ]
         }
       },
-      "create-button": {
+      "create_button": {
         "name": "&a&l섬 생성",
         "lore": [
           "",
@@ -378,15 +371,15 @@
     },
     "gui": {
       "main": {
-        "create-island": {
+        "create_island": {
           "title": "🏝 섬 생성",
-          "no-island": "아직 섬이 없습니다!",
+          "no_island": "아직 섬이 없습니다!",
           "description": "클릭하여 나만의 섬을 만들어보세요",
-          "feature-1": "• 자유로운 건축",
-          "feature-2": "• 친구들과 함께 플레이",
-          "feature-3": "• 다양한 바이옴 선택",
-          "feature-4": "• 섬 업그레이드 가능",
-          "contact-admin": "문제가 있다면 관리자에게 문의하세요"
+          "feature_1": "• 자유로운 건축",
+          "feature_2": "• 친구들과 함께 플레이",
+          "feature_3": "• 다양한 바이옴 선택",
+          "feature_4": "• 섬 업그레이드 가능",
+          "contact_admin": "문제가 있다면 관리자에게 문의하세요"
         }
       }
     },
@@ -403,7 +396,7 @@
           ""
         ]
       },
-      "upgrade-info": {
+      "upgrade_info": {
         "name": "&6&l섬 업그레이드",
         "lore": [
           "",
@@ -415,7 +408,7 @@
           "&e클릭하여 업그레이드 옵션 확인"
         ]
       },
-      "contribution-info": {
+      "contribution_info": {
         "name": "&a&l기여도",
         "lore": [
           "",
@@ -427,7 +420,7 @@
           "&e클릭하여 열기"
         ]
       },
-      "visitor-info": {
+      "visitor_info": {
         "name": "&b&l방문자 관리",
         "lore": [
           "",
@@ -440,7 +433,7 @@
           "&e클릭하여 메뉴 보기"
         ]
       },
-      "member-management": {
+      "member_management": {
         "name": "%COLOR_SUCCESS%멤버 관리",
         "lore": [
           "",
@@ -450,7 +443,7 @@
           "%COLOR_WARNING%▶ 클릭하여 열기"
         ]
       },
-      "permission-management": {
+      "permission_management": {
         "name": "%COLOR_ERROR%권한 관리",
         "lore": [
           "",
@@ -479,7 +472,7 @@
           "%COLOR_WARNING%▶ 클릭하여 열기"
         ]
       },
-      "spawn-settings": {
+      "spawn_settings": {
         "name": "%COLOR_LIGHT_PURPLE%스폰 설정",
         "lore": [
           "",
@@ -489,7 +482,7 @@
           "%COLOR_WARNING%▶ 클릭하여 열기"
         ]
       },
-      "island-settings": {
+      "island_settings": {
         "name": "%COLOR_INFO%섬 설정",
         "lore": [
           "",
@@ -510,7 +503,7 @@
           "%COLOR_WARNING%▶ 클릭하여 메뉴 보기"
         ]
       },
-      "biome-change": {
+      "biome_change": {
         "name": "%COLOR_SUCCESS%바이옴 변경",
         "lore": [
           "",
@@ -541,8 +534,8 @@
         ]
       }
     },
-    "member-manage": {
-      "member-info": {
+    "member_manage": {
+      "member_info": {
         "name": "%COLOR_AQUA%멤버 정보",
         "lore": [
           "%COLOR_SECONDARY%이 멤버를 보고 관리합니다",
@@ -574,7 +567,7 @@
           "%COLOR_WARNING%▶ 클릭하여 강등"
         ]
       },
-      "to-worker": {
+      "to_worker": {
         "name": "%COLOR_WARNING%&l알바생으로 변경",
         "lore": [
           "%COLOR_SECONDARY%멤버를 알바생으로",
@@ -587,7 +580,7 @@
           "%COLOR_WARNING%▶ 클릭하여 변경"
         ]
       },
-      "to-member": {
+      "to_member": {
         "name": "%COLOR_SUCCESS%&l정식 멤버로 승급",
         "lore": [
           "%COLOR_SECONDARY%알바생을 정식 멤버로",
@@ -620,7 +613,7 @@
           "%COLOR_ERROR%※ 준비 중인 기능입니다"
         ]
       },
-      "no-permission": {
+      "no_permission": {
         "name": "%COLOR_ERROR%&l권한 없음",
         "lore": [
           "%COLOR_SECONDARY%이 멤버를 관리할",
@@ -633,7 +626,7 @@
         "name": "%COLOR_GOLD%&l섬 정보",
         "lore": []
       },
-      "name-change": {
+      "name_change": {
         "name": "%COLOR_WARNING%&l섬 이름 변경",
         "lore": [
           "%COLOR_SECONDARY%섬 이름을 변경합니다",
@@ -650,7 +643,7 @@
         "name": "%COLOR_ERROR%&l비공개 섬",
         "lore": []
       },
-      "public-toggle": {
+      "public_toggle": {
         "lore": [
           "%COLOR_SECONDARY%공개 섬: 모든 플레이어가 방문 가능",
           "%COLOR_SECONDARY%비공개 섬: 초대받은 플레이어만 방문 가능",
@@ -658,7 +651,7 @@
           "%COLOR_WARNING%▶ 클릭하여 전환"
         ]
       },
-      "biome-change": {
+      "biome_change": {
         "name": "%COLOR_INFO%&l바이옴 변경",
         "lore": [
           "%COLOR_SECONDARY%섬의 바이옴을 변경합니다",
@@ -718,14 +711,14 @@
       }
     },
     "spawn": {
-      "current-info": {
+      "current_info": {
         "name": "%COLOR_INFO%&l현재 스폰 설정",
         "lore": [
           "%COLOR_SECONDARY%기본 스폰: 섬원이 이동하는 위치",
           "%COLOR_SECONDARY%방문자 스폰: 방문자가 이동하는 위치"
         ]
       },
-      "set-main": {
+      "set_main": {
         "name": "%COLOR_SUCCESS%&l메인 스폰 설정",
         "lore": [
           "",
@@ -738,7 +731,7 @@
           "%COLOR_WARNING%▶ 클릭하여 설정"
         ]
       },
-      "set-visitor": {
+      "set_visitor": {
         "name": "%COLOR_LIGHT_PURPLE%&l방문자 스폰 설정",
         "lore": [
           "",
@@ -793,7 +786,7 @@
           "%COLOR_SECONDARY%표시되는 메시지를 설정합니다"
         ]
       },
-      "no-permission": {
+      "no_permission": {
         "name": "%COLOR_ERROR%&l권한 없음",
         "lore": [
           "",
@@ -809,7 +802,7 @@
           "%COLOR_SECONDARY%최근 방문자 목록을 확인합니다"
         ]
       },
-      "no-visitors": {
+      "no_visitors": {
         "name": "%COLOR_ERROR%방문 기록이 없습니다",
         "lore": [
           "",
@@ -834,7 +827,7 @@
     "offline": "%COLOR_SECONDARY%오프라인"
   },
   "member": {
-    "invite-button": {
+    "invite_button": {
       "name": "&a&l플레이어 초대",
       "lore": [
         "",
@@ -846,7 +839,7 @@
         "&e클릭하여 초대 보내기"
       ]
     },
-    "previous-page": {
+    "previous_page": {
       "name": "&f← 이전 페이지",
       "lore": [
         "",
@@ -854,7 +847,7 @@
         ""
       ]
     },
-    "next-page": {
+    "next_page": {
       "name": "&f다음 페이지 →",
       "lore": [
         "",
@@ -863,7 +856,7 @@
       ]
     }
   },
-  "personal-spawn": {
+  "personal_spawn": {
     "info": {
       "name": "&b&l개인 스폰 포인트",
       "lore": [
@@ -876,7 +869,7 @@
         "&e클릭하여 현재 위치로 설정"
       ]
     },
-    "info-not-set": {
+    "info_not_set": {
       "name": "&b&l개인 스폰 포인트",
       "lore": [
         "",
@@ -910,25 +903,25 @@
         "lore": "친구 목록을 새로고침합니다",
         "click": "클릭하여 새로고침"
       },
-      "no-friends": {
+      "no_friends": {
         "name": "친구가 없습니다",
         "lore": "새로운 친구를 추가해보세요!"
       },
-      "friend-item": {
-        "left-click": "좌클릭: 귓말 보내기",
-        "right-click": "우클릭: 친구 관리"
+      "friend_item": {
+        "left_click": "좌클릭: 귓말 보내기",
+        "right_click": "우클릭: 친구 관리"
       }
     },
-    "friend-requests": {
+    "friend_requests": {
       "title": {
         "name": "📨 친구 요청",
         "lore": "받은 친구 요청을 관리합니다"
       },
-      "no-requests": {
+      "no_requests": {
         "name": "받은 친구 요청이 없습니다",
         "lore": "새로운 요청이 오면 알림을 받을 수 있습니다"
       },
-      "request-info": {
+      "request_info": {
         "hint": "우측 버튼으로 수락/거절"
       },
       "accept": {
@@ -957,29 +950,29 @@
         "lore": "다른 플레이어에게 우편을 보냅니다",
         "click": "클릭하여 작성"
       },
-      "delete-read": {
+      "delete_read": {
         "name": "🗑️ 읽은 우편 삭제",
         "lore1": "읽은 우편을 모두 삭제합니다",
         "lore2": "첨부 파일이 있는 우편은 제외",
         "click": "클릭하여 삭제"
       },
-      "no-mails": {
+      "no_mails": {
         "name": "우편이 없습니다",
         "lore": "새로운 우편이 오면 알림을 받을 수 있습니다"
       },
-      "no-unread-mails": {
+      "no_unread_mails": {
         "name": "읽지 않은 우편이 없습니다",
         "lore": "새로운 우편이 오면 알림을 받을 수 있습니다"
       },
-      "mail-item": {
+      "mail_item": {
         "click": "클릭하여 우편 확인"
       }
     },
-    "mail-detail": {
+    "mail_detail": {
       "message": {
         "name": "📄 메시지"
       },
-      "no-attachments": {
+      "no_attachments": {
         "name": "첨부물 없음",
         "lore": "이 우편에는 첨부물이 없습니다"
       },
@@ -998,8 +991,8 @@
   "loading": {
     "name": "로딩 중..."
   },
-  "status-v2": {
-    "new-mail": "§e새 우편",
+  "status_v2": {
+    "new_mail": "§e새 우편",
     "read": "§7읽음"
   },
   "settings": {
@@ -1038,7 +1031,7 @@
       "lore3": "이벤트, 업데이트 알림"
     },
     "click": "클릭하여 설정 열기",
-    "system-settings": {
+    "system_settings": {
       "title": {
         "name": "⚙ 시스템 설정",
         "lore": "시스템 관련 설정을 변경합니다"
@@ -1048,12 +1041,12 @@
         "desc1": "스탯 배분, 특성 학습 등",
         "desc2": "중요한 행동을 할 때",
         "desc3": "확인 메시지를 표시합니다",
-        "example-title": "예시:",
+        "example_title": "예시:",
         "example1": "'정말 스탯 포인트를 사용하시겠습니까?'",
         "example2": "'정말 특성을 배우시겠습니까?'"
       }
     },
-    "notification-settings": {
+    "notification_settings": {
       "title": {
         "name": "🔔 알림 설정",
         "lore": "알림 관련 설정을 변경합니다"
@@ -1069,15 +1062,15 @@
         "desc1": "친구 요청이나 길드 초대를",
         "desc2": "받았을 때 채팅에 알림을",
         "desc3": "표시할지 설정합니다",
-        "click-hint": "클릭하여 다음 모드로 변경:",
-        "mode-cycle": "전체 → 친구만 → 길드만 → 끄기",
+        "click_hint": "클릭하여 다음 모드로 변경:",
+        "mode_cycle": "전체 → 친구만 → 길드만 → 끄기",
         "note": "※ 관련 시스템은 준비중입니다"
       },
       "server": {
         "name": "📢 서버 공지 알림",
         "desc1": "서버 공지사항을",
         "desc2": "채팅에 표시할지 설정합니다",
-        "example-title": "예시:",
+        "example_title": "예시:",
         "example1": "• 이벤트 알림",
         "example2": "• 업데이트 공지",
         "example3": "• 중요 알림"
@@ -1087,13 +1080,13 @@
   "notification": {
     "mode": {
       "all": "전체",
-      "friend-only": "친구 요청만",
-      "guild-only": "길드 초대만",
+      "friend_only": "친구 요청만",
+      "guild_only": "길드 초대만",
       "off": "끄기",
       "unknown": "알 수 없음",
       "all.desc": "모든 초대 알림을 표시합니다",
-      "friend-only.desc": "친구 요청 알림만 표시합니다",
-      "guild-only.desc": "길드 초대 알림만 표시합니다",
+      "friend_only.desc": "친구 요청 알림만 표시합니다",
+      "guild_only.desc": "길드 초대 알림만 표시합니다",
       "off.desc": "모든 초대 알림을 숨깁니다",
       "unknown.desc": "알 수 없는 모드입니다"
     }
@@ -1130,7 +1123,7 @@
           ""
         ]
       },
-      "complete-button": {
+      "complete_button": {
         "name": "&a&l퀘스트 완료",
         "lore": [
           "",
@@ -1139,7 +1132,7 @@
           "&e클릭하여 보상 받기"
         ]
       },
-      "abandon-button": {
+      "abandon_button": {
         "name": "&c&l퀘스트 포기",
         "lore": [
           "",
@@ -1204,7 +1197,7 @@
           "&e클릭하여 계속"
         ]
       },
-      "skip-button": {
+      "skip_button": {
         "name": "&7대화 건너뛰기",
         "lore": [
           "",
@@ -1214,21 +1207,27 @@
         ]
       }
     },
-    "list-v2": {
+    "list_v2": {
       "active": {
         "name": "진행 중인 퀘스트",
-        "lore": ["현재 진행 중인 퀘스트 목록입니다"]
+        "lore": [
+          "현재 진행 중인 퀘스트 목록입니다"
+        ]
       },
       "completed": {
         "name": "완료된 퀘스트",
-        "lore": ["완료한 퀘스트 목록입니다"]
+        "lore": [
+          "완료한 퀘스트 목록입니다"
+        ]
       },
-      "view-all": {
-        "lore": ["▶ 전체 보기"]
+      "view_all": {
+        "lore": [
+          "▶ 전체 보기"
+        ]
       }
     }
   },
-  "status-v3": {
+  "status_v3": {
     "enabled": "활성화",
     "disabled": "비활성화"
   },
@@ -1237,8 +1236,10 @@
     "disable": "비활성화"
   },
   "general": {
-    "coming-soon": {
-      "lore": ["이 기능은 곧 추가됩니다!"]
+    "coming_soon": {
+      "lore": [
+        "이 기능은 곧 추가됩니다!"
+      ]
     }
   }
 }

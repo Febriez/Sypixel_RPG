@@ -11,7 +11,7 @@ import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangHelper;
+
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -64,7 +64,7 @@ public class FirstStepsQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_NAME, who);
+        return LangManager.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_NAME, who);
     }
 
     @Override
@@ -73,11 +73,11 @@ public class FirstStepsQuest extends Quest {
     }
 
     @Override
-    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "visit_hub" -> LangHelper.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_OBJECTIVES_VISIT_HUB, who);
-            case "visit_merchant" -> LangHelper.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_OBJECTIVES_VISIT_MERCHANT, who);
-            default -> Component.empty();
+            case "visit_hub" -> LangManager.list(LangKey.QUEST_TUTORIAL_FIRST_STEPS_OBJECTIVES_VISIT_HUB, who);
+            case "visit_merchant" -> LangManager.list(LangKey.QUEST_TUTORIAL_FIRST_STEPS_OBJECTIVES_VISIT_MERCHANT, who);
+            default -> new ArrayList<>();
         };
     }
 
@@ -88,28 +88,22 @@ public class FirstStepsQuest extends Quest {
     }
     
     @Override
-    public Component getDialog(int index, @NotNull Player who) {
-        // 올바른 키 형식 사용: dialogs.0, dialogs.1, ...
-        return switch (index) {
-            case 0 -> LangHelper.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_DIALOGS_0, who);
-            case 1 -> LangHelper.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_DIALOGS_1, who);
-            case 2 -> LangHelper.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_DIALOGS_2, who);
-            default -> null;
-        };
+    public @NotNull Component getDialog(int index, @NotNull Player who) {
+        return getDialogs(LangKey.QUEST_TUTORIAL_FIRST_STEPS_DIALOGS, who).get(index);
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_NPC_NAME, who);
+        return LangManager.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_ACCEPT, who);
+        return LangManager.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_DECLINE, who);
+        return LangManager.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_DECLINE, who);
     }
 }

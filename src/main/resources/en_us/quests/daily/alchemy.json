@@ -1,63 +1,18 @@
 {
   "name": "Daily Alchemy",
-  "description": [
-    "Master the art of potion brewing and ingredient gathering.",
-    "Create valuable potions and collect rare alchemical components.",
-    "Supply the city with essential healing and magical supplies.",
-    "",
-    "Resets daily at midnight."
+  "info": "Master the art of potion brewing and ingredient gathering. Create valuable potions and collect rare alchemical components. Supply the city with essential healing and magical supplies. Resets daily at midnight.",
+  "dialogs": [
+    "Welcome to my laboratory. The city has great need for potions today.",
+    "I have a special formula that requires rare ingredients. Are you up for the challenge?",
+    "I'm ready to learn the alchemical arts and serve the city.",
+    "Remember - quality ingredients make quality potions. Gather only the finest materials.",
+    "These potions will sell well. The adventurers always need good supplies.",
+    "Thank you for these healing potions. They'll save many lives in the clinic.",
+    "Magnificent work! Your potions are of exceptional quality.",
+    "The brewing process was challenging but very rewarding.",
+    "You have the makings of a master alchemist. The city is in your debt."
   ],
-  "objectives": {
-    "alchemist_master": "Consult with the grand alchemist",
-    "daily_formula": "Receive today's brewing formula",
-    "alchemy_lab": "Visit the alchemical laboratory",
-    "nether_wart": "Collect 20 nether wart",
-    "blaze_powder": "Gather 15 blaze powder",
-    "spider_eyes": "Harvest 10 spider eyes",
-    "ghast_tears": "Obtain 5 ghast tears",
-    "blaze_hunting": "Hunt 8 blazes for materials",
-    "witch_hunting": "Hunt 5 witches for reagents",
-    "ghast_hunting": "Hunt 3 ghasts for rare components",
-    "witch_drops": "Collect 10 glass bottles from witches",
-    "herb_garden": "Visit the magical herb garden",
-    "golden_carrots": "Gather 8 golden carrots",
-    "glistering_melons": "Collect 6 glistering melon slices",
-    "pufferfish": "Catch 4 pufferfish",
-    "rabbit_feet": "Obtain 3 rabbit feet",
-    "healing_potions": "Brew 10 healing potions",
-    "strength_potions": "Brew 8 strength potions",
-    "speed_potions": "Brew 8 speed potions",
-    "night_vision_potions": "Brew 5 night vision potions",
-    "regeneration_potions": "Brew 6 regeneration potions",
-    "fire_resistance_potions": "Brew 5 fire resistance potions",
-    "water_breathing_potions": "Brew 4 water breathing potions",
-    "invisibility_potions": "Brew 3 invisibility potions",
-    "splash_healing": "Create 5 splash healing potions",
-    "splash_poison": "Create 3 splash poison potions",
-    "splash_weakness": "Create 3 splash weakness potions",
-    "fermented_spider_eyes": "Craft 5 fermented spider eyes",
-    "mundane_potions": "Brew 10 mundane potions",
-    "thick_potions": "Brew 8 thick potions",
-    "potion_merchant": "Trade with the potion merchant",
-    "deliver_healing": "Deliver healing potions to city healer",
-    "deliver_combat": "Deliver combat potions to weapon trainer",
-    "submit_research": "Submit research to grand alchemist"
-  },
-  "dialogs": {
-    "start1": "Welcome to my laboratory. The city has great need for potions today.",
-    "start2": "I have a special formula that requires rare ingredients. Are you up for the challenge?",
-    "player_interested": "I'm ready to learn the alchemical arts and serve the city.",
-    "ingredients": "Remember - quality ingredients make quality potions. Gather only the finest materials.",
-    "merchant_request": "These potions will sell well. The adventurers always need good supplies.",
-    "healer_need": "Thank you for these healing potions. They'll save many lives in the clinic.",
-    "complete1": "Magnificent work! Your potions are of exceptional quality.",
-    "player_success": "The brewing process was challenging but very rewarding.",
-    "complete2": "You have the makings of a master alchemist. The city is in your debt."
-  },
-  "npcs": {
-    "grand_alchemist": "Grand Alchemist Meridian",
-    "potion_trader": "Potion Merchant Boris",
-    "city_healer": "City Healer Lyanna",
-    "weapon_trainer": "Combat Trainer Marcus"
-  }
+  "npc_name": "Grand Alchemist Meridian",
+  "accept": "I'm ready to learn the alchemical arts and serve the city.",
+  "decline": "I need to prepare my brewing equipment first."
 }

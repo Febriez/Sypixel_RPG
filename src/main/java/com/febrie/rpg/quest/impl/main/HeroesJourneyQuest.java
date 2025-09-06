@@ -12,7 +12,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.LangHelper;
+
 import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -22,7 +22,6 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * 영웅의 여정 - 메인 퀘스트 1
@@ -76,7 +75,7 @@ public class HeroesJourneyQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_NAME, who);
+        return LangManager.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_NAME, who);
     }
 
     @Override
@@ -85,7 +84,7 @@ public class HeroesJourneyQuest extends Quest {
     }
 
     @Override
-    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String key = "quest.main.heroes_journey.objectives." + objective.getId();
         return LangManager.get(key, who);
     }
@@ -96,28 +95,22 @@ public class HeroesJourneyQuest extends Quest {
     }
     
     @Override
-    public Component getDialog(int index, @NotNull Player who) {
-        return switch (index) {
-            case 0 -> LangHelper.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_DIALOGS_0, who);
-            case 1 -> LangHelper.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_DIALOGS_1, who);
-            case 2 -> LangHelper.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_DIALOGS_2, who);
-            case 3 -> LangHelper.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_DIALOGS_3, who);
-            default -> null;
-        };
+    public @NotNull Component getDialog(int index, @NotNull Player who) {
+        return getDialogs(LangKey.QUEST_MAIN_HEROES_JOURNEY_DIALOGS, who).get(index);
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_NPC_NAME, who);
+        return LangManager.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_ACCEPT, who);
+        return LangManager.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_DECLINE, who);
+        return LangManager.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_DECLINE, who);
     }
 }

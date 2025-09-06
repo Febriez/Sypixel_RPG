@@ -10,7 +10,7 @@ import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.LangHelper;
+
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -120,7 +120,7 @@ public class DimensionalRiftQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_NAME, who);
+        return LangManager.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_NAME, who);
     }
 
     @Override
@@ -129,7 +129,7 @@ public class DimensionalRiftQuest extends Quest {
     }
 
     @Override
-    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String key = "quest.main.dimensional_rift.objectives." + objective.getId();
         return LangManager.get(key, who);
     }
@@ -140,29 +140,22 @@ public class DimensionalRiftQuest extends Quest {
     }
     
     @Override
-    public Component getDialog(int index, @NotNull Player who) {
-        return switch (index) {
-            case 0 -> LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DIALOGS_0, who);
-            case 1 -> LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DIALOGS_1, who);
-            case 2 -> LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DIALOGS_2, who);
-            case 3 -> LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DIALOGS_3, who);
-            case 4 -> LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DIALOGS_4, who);
-            default -> null;
-        };
+    public @NotNull Component getDialog(int index, @NotNull Player who) {
+        return getDialogs(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DIALOGS, who).get(index);
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_NPC_NAME, who);
+        return LangManager.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_ACCEPT, who);
+        return LangManager.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DECLINE, who);
+        return LangManager.text(LangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DECLINE, who);
     }
 }

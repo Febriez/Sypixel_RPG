@@ -10,7 +10,7 @@ import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.talent.Talent;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangHelper;
+
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
@@ -46,7 +46,7 @@ public class TalentGui extends ScrollableGui {
     private TalentGui(@NotNull GuiManager guiManager,
                      @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer,
                      @NotNull String pageId, @NotNull List<Talent> talents) {
-        super(viewer, guiManager, GUI_SIZE, LangHelper.text(LangKey.GUI_TALENT_TITLE, viewer));
+        super(viewer, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_TALENT_TITLE, viewer));
         this.rpgPlayer = rpgPlayer;
         this.pageId = pageId;
         this.talents = talents;
@@ -71,7 +71,7 @@ public class TalentGui extends ScrollableGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangHelper.text(LangKey.GUI_TALENT_TITLE, viewer);
+        return LangManager.text(LangKey.GUI_TALENT_TITLE, viewer);
     }
 
     @Override
@@ -133,18 +133,18 @@ public class TalentGui extends ScrollableGui {
     private void setupInfoDisplay() {
         Component jobName;
         if (rpgPlayer.hasJob() && rpgPlayer.getJob() != null) {
-            jobName = LangHelper.text(LangKey.valueOf("JOB_" + rpgPlayer.getJob().name().toUpperCase() + "_NAME"), viewer);
+            jobName = LangManager.text(LangKey.valueOf("JOB_" + rpgPlayer.getJob().name().toUpperCase() + "_NAME"), viewer);
         } else {
-            jobName = LangHelper.text(LangKey.GUI_TALENT_NO_JOB, viewer);
+            jobName = LangManager.text(LangKey.GUI_TALENT_NO_JOB, viewer);
         }
 
         GuiItem pageInfo = GuiItem.display(
                 ItemBuilder.of(Material.ENCHANTED_BOOK, getViewerLocale())
-                        .displayName(LangHelper.text(LangKey.GUI_TALENT_PAGE_INFO, viewer))
-                        .addLore(LangHelper.text(LangKey.GUI_TALENT_CURRENT_PAGE, viewer, getPageTitle()))
-                        .addLore(LangHelper.text(LangKey.GUI_TALENT_JOB, viewer, jobName))
+                        .displayName(LangManager.text(LangKey.GUI_TALENT_PAGE_INFO, viewer))
+                        .addLore(LangManager.text(LangKey.GUI_TALENT_CURRENT_PAGE, viewer, getPageTitle()))
+                        .addLore(LangManager.text(LangKey.GUI_TALENT_JOB, viewer, jobName))
                         .addLore(Component.empty())
-                        .addLore(LangHelper.text(LangKey.GUI_TALENT_AVAILABLE_POINTS, viewer, String.valueOf(rpgPlayer.getTalents().getAvailablePoints())))
+                        .addLore(LangManager.text(LangKey.GUI_TALENT_AVAILABLE_POINTS, viewer, String.valueOf(rpgPlayer.getTalents().getAvailablePoints())))
                         .glint(true)
                         .build()
         );
@@ -182,33 +182,33 @@ public class TalentGui extends ScrollableGui {
         }
 
         ItemBuilder builder = ItemBuilder.of(material, getViewerLocale())
-                .displayName(LangHelper.text(LangKey.valueOf("TALENT_" + talent.getId().toUpperCase() + "_NAME"), viewer))
+                .displayName(LangManager.text(LangKey.valueOf("TALENT_" + talent.getId().toUpperCase() + "_NAME"), viewer))
                 .amount(Math.max(1, currentLevel));
 
         // 설명 추가
-        List<Component> description = LangHelper.list(LangKey.valueOf("TALENT_" + talent.getId().toUpperCase() + "_DESCRIPTION"), viewer);
+        List<Component> description = LangManager.list(LangKey.valueOf("TALENT_" + talent.getId().toUpperCase() + "_DESCRIPTION"), viewer);
         description.forEach(builder::addLore);
 
         // 레벨 정보
         builder.addLore(Component.empty());
-        builder.addLore(LangHelper.text(LangKey.GUI_TALENT_LEVEL_INFO, viewer,
+        builder.addLore(LangManager.text(LangKey.GUI_TALENT_LEVEL_INFO, viewer,
                 String.valueOf(currentLevel),
                 String.valueOf(talent.getMaxLevel())));
 
         // 상태 표시
         if (maxed) {
-            builder.addLore(LangHelper.text(LangKey.GUI_TALENT_MAXED, viewer))
+            builder.addLore(LangManager.text(LangKey.GUI_TALENT_MAXED, viewer))
                     .glint(true);
         } else if (canLearn) {
-            builder.addLore(LangHelper.text(LangKey.GUI_TALENT_CAN_LEARN, viewer, String.valueOf(talent.getRequiredPoints())));
+            builder.addLore(LangManager.text(LangKey.GUI_TALENT_CAN_LEARN, viewer, String.valueOf(talent.getRequiredPoints())));
         } else {
-            builder.addLore(LangHelper.text(LangKey.GUI_TALENT_CANNOT_LEARN, viewer));
+            builder.addLore(LangManager.text(LangKey.GUI_TALENT_CANNOT_LEARN, viewer));
 
             // 선행 조건 표시
             Map<Talent, Integer> prerequisites = talent.getPrerequisites();
             if (!prerequisites.isEmpty()) {
                 builder.addLore(Component.empty());
-                builder.addLore(LangHelper.text(LangKey.GUI_TALENT_PREREQUISITES, viewer));
+                builder.addLore(LangManager.text(LangKey.GUI_TALENT_PREREQUISITES, viewer));
 
                 for (Map.Entry<Talent, Integer> entry : prerequisites.entrySet()) {
                     Talent prereq = entry.getKey();
@@ -216,8 +216,8 @@ public class TalentGui extends ScrollableGui {
                     int playerLevel = rpgPlayer.getTalents().getTalentLevel(prereq);
                     boolean meets = playerLevel >= requiredLevel;
 
-                    Component prereqName = LangHelper.text(LangKey.valueOf("TALENT_" + prereq.getId().toUpperCase() + "_NAME"), viewer);
-                    builder.addLore(LangHelper.text(meets ? LangKey.GUI_TALENT_PREREQ_MET : LangKey.GUI_TALENT_PREREQ_NOT_MET, viewer,
+                    Component prereqName = LangManager.text(LangKey.valueOf("TALENT_" + prereq.getId().toUpperCase() + "_NAME"), viewer);
+                    builder.addLore(LangManager.text(meets ? LangKey.GUI_TALENT_PREREQ_MET : LangKey.GUI_TALENT_PREREQ_NOT_MET, viewer,
                             prereqName,
                             String.valueOf(requiredLevel),
                             String.valueOf(playerLevel)));
@@ -226,7 +226,7 @@ public class TalentGui extends ScrollableGui {
 
             // 포인트 부족
             if (rpgPlayer.getTalents().getAvailablePoints() < talent.getRequiredPoints()) {
-                builder.addLore(LangHelper.text(LangKey.GUI_TALENT_NOT_ENOUGH_POINTS, viewer));
+                builder.addLore(LangManager.text(LangKey.GUI_TALENT_NOT_ENOUGH_POINTS, viewer));
             }
         }
 
@@ -234,12 +234,12 @@ public class TalentGui extends ScrollableGui {
         Map<com.febrie.rpg.stat.Stat, Integer> statBonuses = talent.getStatBonuses(1);
         if (!statBonuses.isEmpty()) {
             builder.addLore(Component.empty());
-            builder.addLore(LangHelper.text(LangKey.GUI_TALENT_STAT_BONUSES, viewer));
+            builder.addLore(LangManager.text(LangKey.GUI_TALENT_STAT_BONUSES, viewer));
 
             statBonuses.forEach((stat, bonus) -> {
-                Component statName = LangHelper.text(LangKey.valueOf("STAT_" + stat.getId().toUpperCase() + "_NAME"), viewer);
+                Component statName = LangManager.text(LangKey.valueOf("STAT_" + stat.getId().toUpperCase() + "_NAME"), viewer);
                 int totalBonus = bonus * Math.max(1, currentLevel);
-                builder.addLore(LangHelper.text(LangKey.GUI_TALENT_STAT_BONUS_LINE, viewer,
+                builder.addLore(LangManager.text(LangKey.GUI_TALENT_STAT_BONUS_LINE, viewer,
                         statName,
                         String.valueOf(totalBonus)));
             });
@@ -249,7 +249,7 @@ public class TalentGui extends ScrollableGui {
         List<String> effects = talent.getEffects();
         if (!effects.isEmpty()) {
             builder.addLore(Component.empty());
-            builder.addLore(LangHelper.text(LangKey.GUI_TALENT_EFFECTS, viewer));
+            builder.addLore(LangManager.text(LangKey.GUI_TALENT_EFFECTS, viewer));
             effects.forEach(effect -> builder.addLore(
                     Component.text("• " + effect, UnifiedColorUtil.GRAY)));
         }
@@ -257,7 +257,7 @@ public class TalentGui extends ScrollableGui {
         // 하위 페이지 표시
         if (talent.hasSubPage()) {
             builder.addLore(Component.empty());
-            builder.addLore(LangHelper.text(LangKey.GUI_TALENT_HAS_SUB_PAGE, viewer));
+            builder.addLore(LangManager.text(LangKey.GUI_TALENT_HAS_SUB_PAGE, viewer));
         }
 
         builder.flags(ItemFlag.values());
@@ -275,7 +275,7 @@ public class TalentGui extends ScrollableGui {
     private void handleTalentClick(@NotNull Player player, @NotNull Talent talent, int levels) {
         if (!talent.canActivate(rpgPlayer.getTalents())) {
             playErrorSound(player);
-            player.sendMessage(LangHelper.text(LangKey.MESSAGES_TALENT_CANNOT_LEARN, player));
+            player.sendMessage(LangManager.text(LangKey.MESSAGES_TALENT_CANNOT_LEARN, player));
             return;
         }
 
@@ -286,7 +286,7 @@ public class TalentGui extends ScrollableGui {
 
         if (actualLevels <= 0) {
             playErrorSound(player);
-            player.sendMessage(LangHelper.text(LangKey.MESSAGES_NOT_ENOUGH_TALENT_POINTS, player));
+            player.sendMessage(LangManager.text(LangKey.MESSAGES_NOT_ENOUGH_TALENT_POINTS, player));
             return;
         }
 
@@ -298,8 +298,8 @@ public class TalentGui extends ScrollableGui {
         }
 
         playSuccessSound(player);
-        player.sendMessage(LangHelper.text(LangKey.MESSAGES_TALENT_LEARNED, player,
-                LangHelper.text(LangKey.valueOf("TALENT_" + talent.getId().toUpperCase() + "_NAME"), player),
+        player.sendMessage(LangManager.text(LangKey.MESSAGES_TALENT_LEARNED, player,
+                LangManager.text(LangKey.valueOf("TALENT_" + talent.getId().toUpperCase() + "_NAME"), player),
                 String.valueOf(rpgPlayer.getTalents().getTalentLevel(talent))));
 
         refresh();

@@ -1,37 +1,14 @@
 {
   "name": "Restoration",
-  "description": [
-    "The new era has begun, but the scars of war run deep.",
-    "The world needs healing and restoration on a grand scale.",
-    "",
-    "Use your power and wisdom to rebuild what was lost",
-    "and create something even greater than before."
+  "info": "The new era has begun, but the scars of war run deep. The world needs healing and restoration on a grand scale. Use your power and wisdom to rebuild what was lost and create something even greater than before.",
+  "dialogs": [
+    "The world bears many wounds from the great war. Can you help heal them?",
+    "I will restore this world to its former glory, and make it even better.",
+    "Life returns to the dead lands. Your power is truly remarkable.",
+    "The restoration is complete. The world is reborn in beauty and peace.",
+    "This restored world will be a testament to the power of hope and healing."
   ],
-  "objectives": {
-    "assess_damage": "Assess the War Damage",
-    "heal_lands": "Heal the Scarred Lands",
-    "purify_waters": "Purify Corrupted Waters",
-    "restore_forests": "Restore the Ancient Forests",
-    "rebuild_cities": "Rebuild the Great Cities",
-    "repair_monuments": "Repair Sacred Monuments",
-    "revive_magic": "Revive the Flow of Magic",
-    "cleanse_corruption": "Cleanse Dark Corruption",
-    "bring_life": "Bring Life to Barren Areas",
-    "unite_creatures": "Unite All Living Creatures",
-    "establish_harmony": "Establish Natural Harmony",
-    "complete_restoration": "Complete the Great Restoration"
-  },
-  "npcs": {
-    "restoration_guide": "Guide of Restoration",
-    "nature_spirit": "Ancient Nature Spirit",
-    "life_guardian": "Guardian of All Life",
-    "harmony_keeper": "Keeper of Natural Harmony"
-  },
-  "dialogs": {
-    "line1": "The world bears many wounds from the great war. Can you help heal them?",
-    "line2": "I will restore this world to its former glory, and make it even better.",
-    "line3": "Life returns to the dead lands. Your power is truly remarkable.",
-    "line4": "The restoration is complete. The world is reborn in beauty and peace.",
-    "line5": "This restored world will be a testament to the power of hope and healing."
-  }
+  "npc_name": "Guide of Restoration",
+  "accept": "I will restore this world to its former glory, and make it even better.",
+  "decline": "The damage is too extensive."
 }

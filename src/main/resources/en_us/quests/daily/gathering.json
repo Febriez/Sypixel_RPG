@@ -1,14 +1,13 @@
 {
   "name": "Daily Gathering",
-  "description": [
-    "Gather today's required resources.",
-    "Collect materials needed for town construction projects.",
-    "",
-    "Resets daily at midnight."
+  "info": "Gather today's required resources. Collect materials needed for town construction projects. Resets daily at midnight.",
+  "dialogs": [
+    "The town's construction projects need materials.",
+    "Can you help us gather resources today?",
+    "I'll collect everything you need!",
+    "Excellent! Your efforts keep our town growing."
   ],
-  "objectives": {
-    "gather_logs": "Gather 30 logs",
-    "gather_cobblestone": "Gather 50 cobblestone",
-    "gather_iron": "Gather 10 iron ore"
-  }
+  "npc_name": "Resource Manager",
+  "accept": "I'll gather the materials!",
+  "decline": "My inventory is full right now."
 }

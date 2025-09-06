@@ -1,23 +1,23 @@
 {
-  "language-code": "en_US",
+  "language_code": "en_US",
   "prefix": "[SypixelRPG]",
-  "player-only": "This command can only be used by players!",
-  "player-not-found": "Player not found: {0}",
-  "no-permission": "You don't have permission to use this command.",
-  "reload-success": "Configuration reloaded successfully!",
-  "coming-soon": "This feature is coming soon!",
-  "general-error": "An error occurred. Please contact an administrator.",
-  "click-to-select": "Click to select",
-  "already-selected": "▶ Selected",
-  "click-to-open": "▶ Click to open",
-  "click-to-choose": "▶ Click to choose this job",
-  "job-warning": "⚠ Warning: Jobs cannot be changed once selected!",
+  "player_only": "This command can only be used by players!",
+  "player_not_found": "Player not found: {0}",
+  "no_permission": "You don't have permission to use this command.",
+  "reload_success": "Configuration reloaded successfully!",
+  "coming_soon": "This feature is coming soon!",
+  "general_error": "An error occurred. Please contact an administrator.",
+  "click_to_select": "Click to select",
+  "already_selected": "▶ Selected",
+  "click_to_open": "▶ Click to open",
+  "click_to_choose": "▶ Click to choose this job",
+  "job_warning": "⚠ Warning: Jobs cannot be changed once selected!",
   "separator": "━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-  "max-level": "Max Level: {1}",
-  "click-previous-page": "Previous page",
+  "max_level": "Max Level: {1}",
+  "click_previous_page": "Previous page",
   "unknown": "Unknown",
   "loading": "Loading...",
-  "loading-description": "Please wait a moment",
+  "loading_description": "Please wait a moment",
   "saving": "Saving...",
   "completed": "Completed!",
   "failed": "Failed!",
@@ -25,24 +25,42 @@
   "no": "No",
   "enabled": "Enabled",
   "disabled": "Disabled",
-  "cannot-select-others-job": "You cannot select another player's job!",
-  "cannot-view-others-stats": "You cannot view another player's stats!",
-  "cannot-view-others-talents": "You cannot view another player's talents!",
-  "cannot-view-others-quests": "You cannot view another player's quests!",
-  "cannot-view-others-combat-power": "You cannot view other players' combat power details!",
-  "cannot_view_others_quests": "You cannot view other players' quests!",
+  "cannot_select_others_job": "You cannot select another player's job!",
   "cannot_view_others_stats": "You cannot view other players' stats!",
   "cannot_view_others_talents": "You cannot view other players' talents!",
-  "cannot_select_others_job": "You cannot select another player's job!",
+  "cannot_view_others_quests": "You cannot view other players' quests!",
+  "cannot_view_others_combat_power": "You cannot view other players' combat power details!",
   "action": {
     "enable": "Enable",
     "disable": "Disable"
   },
   "teleport": {
-    "hub-success": "Teleported to hub!"
+    "hub_success": "Teleported to hub!"
   },
   "error": {
     "general": "An error occurred. Please contact an administrator.",
-    "hub-world-not-found": "Hub world not found! Please contact an administrator."
+    "hub_world_not_found": "Hub world not found! Please contact an administrator.",
+    "friend_request_id_missing": "Friend request ID is missing!"
+  },
+  "mailbox": {
+    "delete_confirm_word": "DELETE"
+  },
+  "island": {
+    "contribute": {
+      "amount_too_low": "Contribution amount is too low!",
+      "invalid_amount": "Invalid contribution amount!"
+    },
+    "delete": {
+      "confirm_word": "DELETE",
+      "input_error": "Input error! Please type DELETE to confirm.",
+      "input_text": "Type DELETE to confirm island deletion",
+      "input_title": "Confirm Island Deletion"
+    },
+    "member": {
+      "kick_confirm_word": "KICK",
+      "kick_input_error": "Input error! Please type KICK to confirm.",
+      "kick_input_text": "Type KICK to confirm member removal",
+      "kick_input_title": "Confirm Member Kick"
+    }
   }
 }

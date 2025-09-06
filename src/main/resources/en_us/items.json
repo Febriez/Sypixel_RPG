@@ -19,13 +19,13 @@
           "Click to refresh the screen."
         ]
       },
-      "next-page": {
+      "next_page": {
         "name": "Next Page →",
         "lore": [
           "Click to go to the next page."
         ]
       },
-      "previous-page": {
+      "previous_page": {
         "name": "← Previous Page",
         "lore": [
           "Click to go to the previous page."
@@ -53,55 +53,52 @@
         "enabled": "Enabled",
         "disabled": "Disabled"
       },
-      "page-info": {
+      "page_info": {
         "name": "Page Info",
         "lore": [
           "Current page: {0}/{1}"
         ]
       },
       "status": {
-        "online": {
-          "name": "Online",
-          "lore": [
-            "Currently online."
-          ]
-        },
-        "offline": {
-          "name": "Offline",
-          "lore": [
-            "Currently offline."
-          ]
-        }
+        "online": "Online",
+        "offline": "Offline",
+        "online_name": "Online",
+        "online_lore": [
+          "Currently online."
+        ],
+        "offline_name": "Offline",
+        "offline_lore": [
+          "Currently offline."
+        ]
       }
     },
     "error": {
-      "title": {
-        "name": "Error",
-        "lore": [
-          "An error has occurred."
-        ]
-      }
+      "title": "Error",
+      "title_name": "Error",
+      "title_lore": [
+        "An error has occurred."
+      ]
     }
   },
-  "profile-v2": {
-    "level-info": {
+  "profile_v2": {
+    "level_info": {
       "name": "Level Information",
       "lore": [
         "Current level and experience info"
       ]
     },
-    "game-stats": {
+    "game_stats": {
       "name": "Game Statistics",
       "lore": [
         "Playtime and combat statistics"
       ]
     },
-    "quest-info": {
+    "quest_info": {
       "name": "Quest Information",
       "lore": [
         "Active and completed quests"
       ],
-      "click-lore": [
+      "click_lore": [
         "▶ Click to open quest list"
       ]
     },
@@ -113,7 +110,7 @@
         "▶ Click to open"
       ]
     },
-    "collection-book": {
+    "collection_book": {
       "name": "Collection Book",
       "lore": [
         "View your collection progress",
@@ -121,7 +118,7 @@
         "▶ Click to open"
       ]
     },
-    "user-settings": {
+    "user_settings": {
       "name": "User Settings",
       "lore": [
         "Manage your personal settings",
@@ -139,7 +136,7 @@
         "Version: 1.0"
       ]
     },
-    "profile-button": {
+    "profile_button": {
       "name": "My Profile",
       "lore": [
         "View your character information.",
@@ -147,7 +144,7 @@
         "▶ Click to open"
       ]
     },
-    "stats-button": {
+    "stats_button": {
       "name": "Stats Management",
       "lore": [
         "Allocate your stat points.",
@@ -155,7 +152,7 @@
         "▶ Click to go to stats page"
       ]
     },
-    "talents-button": {
+    "talents_button": {
       "name": "Talent Tree",
       "lore": [
         "Learn and enhance talents.",
@@ -163,7 +160,7 @@
         "▶ Click to open"
       ]
     },
-    "leaderboard-button": {
+    "leaderboard_button": {
       "name": "Server Rankings",
       "lore": [
         "Check rankings in various categories.",
@@ -171,7 +168,7 @@
         "▶ Click to open"
       ]
     },
-    "hub-button": {
+    "hub_button": {
       "name": "Hub",
       "lore": [
         "Move to the central hub.",
@@ -179,7 +176,7 @@
         "▶ Click to open"
       ]
     },
-    "wild-button": {
+    "wild_button": {
       "name": "Wild",
       "lore": [
         "Hunt mobs in the wild area.",
@@ -187,7 +184,7 @@
         "▶ Click to open"
       ]
     },
-    "island-button": {
+    "island_button": {
       "name": "Island",
       "lore": [
         "Adventure to mysterious islands.",
@@ -195,7 +192,7 @@
         "▶ Click to open"
       ]
     },
-    "skills-button": {
+    "skills_button": {
       "name": "Skills",
       "lore": [
         "View and enhance job skills.",
@@ -203,7 +200,7 @@
         "▶ Click to open"
       ]
     },
-    "shop-button": {
+    "shop_button": {
       "name": "Shop",
       "lore": [
         "Buy and sell items.",
@@ -211,7 +208,7 @@
         "▶ Click to open"
       ]
     },
-    "dungeon-button": {
+    "dungeon_button": {
       "name": "Dungeon",
       "lore": [
         "Challenge dungeons for rewards.",
@@ -219,7 +216,7 @@
         "▶ Click to open"
       ]
     },
-    "job-button": {
+    "job_button": {
       "name": "Job Selection",
       "lore": [
         "Choose a job to start your adventure.",
@@ -228,7 +225,7 @@
         "▶ Click to open"
       ]
     },
-    "settings-button": {
+    "settings_button": {
       "name": "Global Settings",
       "lore": [
         "Change global game settings.",
@@ -238,7 +235,7 @@
     }
   },
   "profile": {
-    "job-select": {
+    "job_select": {
       "name": "Select Job",
       "lore": [
         "Choose a job to start your adventure!",
@@ -247,7 +244,7 @@
         "▶ Click to select"
       ]
     },
-    "stats-info": {
+    "stats_info": {
       "name": "Stats Information",
       "lore": [
         "Your character's ability scores."
@@ -267,7 +264,7 @@
         "Adventure with your pets!"
       ]
     },
-    "user-settings": {
+    "user_settings": {
       "name": "User Settings",
       "lore": [
         "Change personal settings.",
@@ -369,7 +366,7 @@
           ]
         }
       },
-      "create-button": {
+      "create_button": {
         "name": "&a&lCreate Island",
         "lore": [
           "",
@@ -396,7 +393,7 @@
           ""
         ]
       },
-      "upgrade-info": {
+      "upgrade_info": {
         "name": "&6&lIsland Upgrade",
         "lore": [
           "",
@@ -408,7 +405,7 @@
           "&eClick to view upgrade options"
         ]
       },
-      "contribution-info": {
+      "contribution_info": {
         "name": "&a&lContribution",
         "lore": [
           "",
@@ -420,7 +417,7 @@
           "&eClick to open"
         ]
       },
-      "visitor-info": {
+      "visitor_info": {
         "name": "&b&lVisitor Management",
         "lore": [
           "",
@@ -433,7 +430,7 @@
           "&eClick to view menu"
         ]
       },
-      "member-management": {
+      "member_management": {
         "name": "%COLOR_SUCCESS%Member Management",
         "lore": [
           "",
@@ -443,7 +440,7 @@
           "%COLOR_WARNING%▶ Click to open"
         ]
       },
-      "permission-management": {
+      "permission_management": {
         "name": "%COLOR_ERROR%Permission Management",
         "lore": [
           "",
@@ -472,7 +469,7 @@
           "%COLOR_WARNING%▶ Click to open"
         ]
       },
-      "spawn-settings": {
+      "spawn_settings": {
         "name": "%COLOR_LIGHT_PURPLE%Spawn Settings",
         "lore": [
           "",
@@ -482,7 +479,7 @@
           "%COLOR_WARNING%▶ Click to open"
         ]
       },
-      "island-settings": {
+      "island_settings": {
         "name": "%COLOR_INFO%Island Settings",
         "lore": [
           "",
@@ -503,7 +500,7 @@
           "%COLOR_WARNING%▶ Click to view menu"
         ]
       },
-      "biome-change": {
+      "biome_change": {
         "name": "%COLOR_SUCCESS%Biome Change",
         "lore": [
           "",
@@ -544,14 +541,14 @@
       }
     },
     "spawn": {
-      "current-info": {
+      "current_info": {
         "name": "%COLOR_INFO%&lCurrent Spawn Settings",
         "lore": [
           "%COLOR_SECONDARY%Default spawn: Where members teleport",
           "%COLOR_SECONDARY%Visitor spawn: Where visitors teleport"
         ]
       },
-      "set-main": {
+      "set_main": {
         "name": "%COLOR_SUCCESS%&lSet Main Spawn",
         "lore": [
           "",
@@ -564,7 +561,7 @@
           "%COLOR_WARNING%▶ Click to set"
         ]
       },
-      "set-visitor": {
+      "set_visitor": {
         "name": "%COLOR_LIGHT_PURPLE%&lSet Visitor Spawn",
         "lore": [
           "",
@@ -619,7 +616,7 @@
           "%COLOR_SECONDARY%when visitors enter"
         ]
       },
-      "no-permission": {
+      "no_permission": {
         "name": "%COLOR_ERROR%&lNo Permission",
         "lore": [
           "",
@@ -633,7 +630,7 @@
         "name": "%COLOR_GOLD%&lIsland Info",
         "lore": []
       },
-      "name-change": {
+      "name_change": {
         "name": "%COLOR_WARNING%&lChange Island Name",
         "lore": [
           "%COLOR_SECONDARY%Change your island name",
@@ -650,7 +647,7 @@
         "name": "%COLOR_ERROR%&lPrivate Island",
         "lore": []
       },
-      "public-toggle": {
+      "public_toggle": {
         "lore": [
           "%COLOR_SECONDARY%Public: All players can visit",
           "%COLOR_SECONDARY%Private: Invited players only",
@@ -658,7 +655,7 @@
           "%COLOR_WARNING%▶ Click to toggle"
         ]
       },
-      "biome-change": {
+      "biome_change": {
         "name": "%COLOR_INFO%&lChange Biome",
         "lore": [
           "%COLOR_SECONDARY%Change your island's biome",
@@ -724,7 +721,7 @@
           "%COLOR_SECONDARY%View recent visitors"
         ]
       },
-      "no-visitors": {
+      "no_visitors": {
         "name": "%COLOR_ERROR%No Visit History",
         "lore": [
           "",
@@ -737,8 +734,8 @@
         "lore": []
       }
     },
-    "member-manage": {
-      "member-info": {
+    "member_manage": {
+      "member_info": {
         "name": "%COLOR_AQUA%Member Information",
         "lore": [
           "%COLOR_SECONDARY%View and manage this member",
@@ -770,7 +767,7 @@
           "%COLOR_WARNING%▶ Click to demote"
         ]
       },
-      "to-worker": {
+      "to_worker": {
         "name": "%COLOR_WARNING%&lChange to Worker",
         "lore": [
           "%COLOR_SECONDARY%Change member to",
@@ -783,7 +780,7 @@
           "%COLOR_WARNING%▶ Click to change"
         ]
       },
-      "to-member": {
+      "to_member": {
         "name": "%COLOR_SUCCESS%&lPromote to Member",
         "lore": [
           "%COLOR_SECONDARY%Promote worker to",
@@ -816,7 +813,7 @@
           "%COLOR_ERROR%※ Feature coming soon"
         ]
       },
-      "no-permission": {
+      "no_permission": {
         "name": "%COLOR_ERROR%&lNo Permission",
         "lore": [
           "%COLOR_SECONDARY%You don't have permission",
@@ -824,8 +821,8 @@
         ]
       }
     },
-    "member-v2": {
-      "invite-button": {
+    "member_v2": {
+      "invite_button": {
         "name": "&a&lInvite Player",
         "lore": [
           "",
@@ -837,7 +834,7 @@
           "&eClick to send invite"
         ]
       },
-      "previous-page": {
+      "previous_page": {
         "name": "&f← Previous Page",
         "lore": [
           "",
@@ -845,7 +842,7 @@
           ""
         ]
       },
-      "next-page": {
+      "next_page": {
         "name": "&fNext Page →",
         "lore": [
           "",
@@ -854,7 +851,7 @@
         ]
       }
     },
-    "personal-spawn": {
+    "personal_spawn": {
       "info": {
         "name": "&b&lPersonal Spawn Point",
         "lore": [
@@ -867,7 +864,7 @@
           "&eClick to set current location"
         ]
       },
-      "info-not-set": {
+      "info_not_set": {
         "name": "&b&lPersonal Spawn Point",
         "lore": [
           "",
@@ -880,12 +877,12 @@
         ]
       }
     },
-    "settings-v2": {
+    "settings_v2": {
       "info": {
         "name": "%COLOR_GOLD%&lIsland Information",
         "lore": []
       },
-      "name-change": {
+      "name_change": {
         "name": "%COLOR_WARNING%&lChange Island Name",
         "lore": [
           "%COLOR_SECONDARY%Change your island's name",
@@ -902,7 +899,7 @@
         "name": "%COLOR_ERROR%&lPrivate Island",
         "lore": []
       },
-      "public-toggle": {
+      "public_toggle": {
         "lore": [
           "%COLOR_SECONDARY%Public: All players can visit",
           "%COLOR_SECONDARY%Private: Only invited players can visit",
@@ -910,7 +907,7 @@
           "%COLOR_WARNING%▶ Click to toggle"
         ]
       },
-      "biome-change": {
+      "biome_change": {
         "name": "%COLOR_INFO%&lChange Biome",
         "lore": [
           "%COLOR_SECONDARY%Change your island's biome",
@@ -944,7 +941,7 @@
         ]
       }
     },
-    "upgrade-v2": {
+    "upgrade_v2": {
       "size": {
         "name": "%COLOR_SUCCESS%&lIsland Size Upgrade",
         "lore": []
@@ -969,15 +966,15 @@
         ]
       }
     },
-    "spawn-v2": {
-      "current-info": {
+    "spawn_v2": {
+      "current_info": {
         "name": "%COLOR_INFO%&lCurrent Spawn Settings",
         "lore": [
           "%COLOR_SECONDARY%Default spawn: Where members teleport",
           "%COLOR_SECONDARY%Visitor spawn: Where visitors teleport"
         ]
       },
-      "set-main": {
+      "set_main": {
         "name": "%COLOR_SUCCESS%&lSet Main Spawn",
         "lore": [
           "",
@@ -990,7 +987,7 @@
           "%COLOR_WARNING%▶ Click to set"
         ]
       },
-      "set-visitor": {
+      "set_visitor": {
         "name": "%COLOR_LIGHT_PURPLE%&lSet Visitor Spawn",
         "lore": [
           "",
@@ -1045,7 +1042,7 @@
           "%COLOR_SECONDARY%visitors enter the island"
         ]
       },
-      "no-permission": {
+      "no_permission": {
         "name": "%COLOR_ERROR%&lNo Permission",
         "lore": [
           "",
@@ -1054,14 +1051,14 @@
         ]
       }
     },
-    "visitor-v2": {
+    "visitor_v2": {
       "info": {
         "name": "%COLOR_WHITE%&lVisitor Records",
         "lore": [
           "%COLOR_SECONDARY%View recent visitor list"
         ]
       },
-      "no-visitors": {
+      "no_visitors": {
         "name": "%COLOR_ERROR%No Visit Records",
         "lore": [
           "",
@@ -1106,25 +1103,25 @@
         "lore": "Refresh friend list",
         "click": "Click to refresh"
       },
-      "no-friends": {
+      "no_friends": {
         "name": "No friends",
         "lore": "Try adding new friends!"
       },
-      "friend-item": {
-        "left-click": "Left click: Send whisper",
-        "right-click": "Right click: Manage friend"
+      "friend_item": {
+        "left_click": "Left click: Send whisper",
+        "right_click": "Right click: Manage friend"
       }
     },
-    "friend-requests": {
+    "friend_requests": {
       "title": {
         "name": "📨 Friend Requests",
         "lore": "Manage received friend requests"
       },
-      "no-requests": {
+      "no_requests": {
         "name": "No friend requests",
         "lore": "You will be notified when new requests arrive"
       },
-      "request-info": {
+      "request_info": {
         "hint": "Use buttons on the right to accept/reject"
       },
       "accept": {
@@ -1153,29 +1150,29 @@
         "lore": "Send mail to other players",
         "click": "Click to write"
       },
-      "delete-read": {
+      "delete_read": {
         "name": "🗑️ Delete Read Mails",
         "lore1": "Delete all read mails",
         "lore2": "Except mails with attachments",
         "click": "Click to delete"
       },
-      "no-mails": {
+      "no_mails": {
         "name": "No mails",
         "lore": "You will be notified when new mail arrives"
       },
-      "no-unread-mails": {
+      "no_unread_mails": {
         "name": "No unread mails",
         "lore": "You will be notified when new mail arrives"
       },
-      "mail-item": {
+      "mail_item": {
         "click": "Click to view mail"
       }
     },
-    "mail-detail": {
+    "mail_detail": {
       "message": {
         "name": "📄 Message"
       },
-      "no-attachments": {
+      "no_attachments": {
         "name": "No attachments",
         "lore": "This mail has no attachments"
       },
@@ -1194,102 +1191,39 @@
   "loading": {
     "name": "Loading..."
   },
-  "status-v2": {
-    "new-mail": "§eNew Mail",
+  "status_v2": {
+    "new_mail": "§eNew Mail",
     "read": "§7Read"
   },
   "settings": {
-    "main": {
+    "system_settings": {
       "title": {
-        "name": "⚙ Personal Settings",
-        "lore": "You can change various settings"
-      }
-    },
-    "gui": {
-      "name": "🖼 GUI Settings",
-      "lore1": "Adjust interface opacity",
-      "lore2": "Customize animation speed"
-    },
-    "ingame": {
-      "name": "🎮 In-game Settings",
-      "lore1": "Gameplay difficulty",
-      "lore2": "Auto pickup, damage display",
-      "lore3": "Quick slot settings"
-    },
-    "social": {
-      "name": "👥 Social Settings",
-      "lore1": "Friend request settings",
-      "lore2": "Whisper, party invite settings",
-      "lore3": "Social notification settings"
-    },
-    "system": {
-      "name": "⚡ System Settings",
-      "lore1": "Graphics quality, performance",
-      "lore2": "Resource pack, sound settings"
-    },
-    "notification": {
-      "name": "🔔 Notification Settings",
-      "lore1": "System, quest, achievement",
-      "lore2": "Friend, guild, trade",
-      "lore3": "Event, update notifications"
-    },
-    "click": "Click to open settings",
-    "system-settings": {
-      "title": {
-        "name": "⚙ System Settings",
-        "lore": "Change system-related settings"
+        "name": "System Settings",
+        "lore": [
+          "Configure system settings"
+        ]
       },
       "confirmation": {
-        "name": "❓ Confirmation Dialogs",
-        "desc1": "Stat allocation, skill learning, etc.",
-        "desc2": "Shows confirmation messages",
-        "desc3": "when performing important actions",
-        "example-title": "Examples:",
-        "example1": "'Are you sure you want to use stat points?'",
-        "example2": "'Are you sure you want to learn this skill?'"
-      }
-    },
-    "notification-settings": {
-      "title": {
-        "name": "🔔 Notification Settings",
-        "lore": "Change notification-related settings"
-      },
-      "whisper": {
-        "name": "💬 Whisper Notifications",
-        "desc1": "When you receive a whisper",
-        "desc2": "Shows notification in chat",
-        "note": "※ Whisper system is under development"
-      },
-      "invite": {
-        "name": "📨 Invite Notifications",
-        "desc1": "Friend requests or guild invites",
-        "desc2": "Shows notification in chat",
-        "desc3": "when received",
-        "click-hint": "Click to change to next mode:",
-        "mode-cycle": "All → Friends Only → Guild Only → Off",
-        "note": "※ Related systems are under development"
-      },
-      "server": {
-        "name": "📢 Server Announcement Notifications",
-        "desc1": "Server announcements",
-        "desc2": "Shows in chat",
-        "example-title": "Examples:",
-        "example1": "• Event notifications",
-        "example2": "• Update announcements",
-        "example3": "• Important notices"
+        "name": "Confirmation Dialogs",
+        "desc1": "Toggle confirmation dialogs",
+        "desc2": "for important actions",
+        "desc3": "Current: {0}",
+        "example_title": "Examples:",
+        "example1": "• Job selection",
+        "example2": "• Item deletion"
       }
     }
   },
   "notification": {
     "mode": {
       "all": "All",
-      "friend-only": "Friends Only",
-      "guild-only": "Guild Only",
+      "friend_only": "Friends Only",
+      "guild_only": "Guild Only",
       "off": "Off",
       "unknown": "Unknown",
       "all.desc": "Show all invite notifications",
-      "friend-only.desc": "Show friend request notifications only",
-      "guild-only.desc": "Show guild invite notifications only",
+      "friend_only.desc": "Show friend request notifications only",
+      "guild_only.desc": "Show guild invite notifications only",
       "off.desc": "Hide all invite notifications",
       "unknown.desc": "Unknown mode"
     }
@@ -1326,7 +1260,7 @@
           ""
         ]
       },
-      "complete-button": {
+      "complete_button": {
         "name": "&a&lComplete Quest",
         "lore": [
           "",
@@ -1335,7 +1269,7 @@
           "&eClick to claim rewards"
         ]
       },
-      "abandon-button": {
+      "abandon_button": {
         "name": "&c&lAbandon Quest",
         "lore": [
           "",
@@ -1400,7 +1334,7 @@
           "&eClick to continue"
         ]
       },
-      "skip-button": {
+      "skip_button": {
         "name": "&7Skip Dialog",
         "lore": [
           "",
@@ -1411,7 +1345,7 @@
       }
     }
   },
-  "status-v3": {
+  "status_v3": {
     "enabled": "Enabled",
     "disabled": "Disabled"
   },
@@ -1419,32 +1353,17 @@
     "enable": "Enable",
     "disable": "Disable"
   },
-  "settings": {
-    "system_settings": {
-      "title": {
-        "name": "System Settings",
-        "lore": ["Configure system settings"]
-      },
-      "confirmation": {
-        "name": "Confirmation Dialogs",
-        "desc1": "Toggle confirmation dialogs",
-        "desc2": "for important actions",
-        "desc3": "Current: {0}",
-        "example_title": "Examples:",
-        "example1": "• Job selection",
-        "example2": "• Item deletion"
-      }
-    }
-  },
   "leaderboard": {
     "loading": {
       "name": "Loading...",
-      "lore": ["Please wait..."]
+      "lore": [
+        "Please wait..."
+      ]
     },
-    "my-rank": {
+    "my_rank": {
       "name": "My Rank: #{0}"
     },
-    "no-rank": {
+    "no_rank": {
       "name": "Not Ranked",
       "lore1": "Play more to",
       "lore2": "get ranked!"
@@ -1453,7 +1372,9 @@
   "buttons": {
     "back": {
       "name": "Back",
-      "lore": ["Go back"]
+      "lore": [
+        "Go back"
+      ]
     }
   }
 }

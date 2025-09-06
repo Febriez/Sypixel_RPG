@@ -1217,8 +1217,14 @@ public class QuestManager {
                                           @NotNull QuestObjective objective, @NotNull QuestProgress progress,
                                           @NotNull String instanceId) {
         // 완료 알림
-        player.sendMessage(Component.text("✓ ", UnifiedColorUtil.SUCCESS)
-            .append(quest.getObjectiveDescription(objective, player).color(UnifiedColorUtil.SUCCESS)));
+        List<Component> objectiveDescs = quest.getObjectiveDescription(objective, player);
+        Component message = Component.text("✓ ", UnifiedColorUtil.SUCCESS);
+        if (!objectiveDescs.isEmpty()) {
+            for (Component desc : objectiveDescs) {
+                message = message.append(desc.color(UnifiedColorUtil.SUCCESS)).append(Component.space());
+            }
+        }
+        player.sendMessage(message);
         SoundUtil.playSuccessSound(player);
         
         // 순차 진행인 경우 다음 목표로
@@ -1237,10 +1243,18 @@ public class QuestManager {
                                         @NotNull QuestObjective objective, @NotNull ObjectiveProgress progress) {
         Component progressMsg = Component.translatable("quest.progress");
         
-        player.sendMessage(progressMsg.color(UnifiedColorUtil.INFO)
-            .append(Component.text(": ", UnifiedColorUtil.INFO))
-            .append(quest.getObjectiveDescription(objective, player).color(UnifiedColorUtil.YELLOW))
-            .append(Component.text(" " + objective.getProgressString(progress), UnifiedColorUtil.YELLOW)));
+        List<Component> objectiveDescs = quest.getObjectiveDescription(objective, player);
+        Component message = progressMsg.color(UnifiedColorUtil.INFO)
+            .append(Component.text(": ", UnifiedColorUtil.INFO));
+        
+        if (!objectiveDescs.isEmpty()) {
+            for (Component desc : objectiveDescs) {
+                message = message.append(desc.color(UnifiedColorUtil.YELLOW)).append(Component.space());
+            }
+        }
+        
+        message = message.append(Component.text(objective.getProgressString(progress), UnifiedColorUtil.YELLOW));
+        player.sendMessage(message);
         SoundUtil.playClickSound(player);
     }
     

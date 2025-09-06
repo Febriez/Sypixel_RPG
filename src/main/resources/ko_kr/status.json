@@ -14,7 +14,7 @@
   },
   "level": "레벨 {1}",
   "job": "직업: {1}",
-  "no-job": "직업: 없음",
+  "no_job": "직업: 없음",
   "gamemode": {
     "survival": "생존",
     "creative": "크리에이티브",

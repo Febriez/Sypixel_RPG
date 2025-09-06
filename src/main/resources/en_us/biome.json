@@ -23,14 +23,6 @@
     "name": "Snowy Plains",
     "description": "Cold plains covered with snow"
   },
-  "snowy-plains": "Snowy Plains",
-  "snowy_plains": "Snowy Plains",
-  "mushroom_fields": "Mushroom Fields",
-  "flower_forest": "Flower Forest",
-  "bamboo_jungle": "Bamboo Jungle",
-  "dark_forest": "Dark Forest",
-  "birch_forest": "Birch Forest",
-  "cherry_grove": "Cherry Grove",
   "savanna": {
     "name": "Savanna",
     "description": "Dry plains with acacia trees"
@@ -75,20 +67,212 @@
     "name": "Cherry Grove",
     "description": "Beautiful cherry blossom forest"
   },
-  "plains": "Plains",
-  "forest": "Forest",
-  "desert": "Desert",
-  "jungle": "Jungle",
-  "taiga": "Taiga",
-  "savanna": "Savanna",
-  "swamp": "Swamp",
-  "mushroom-fields": "Mushroom Fields",
-  "beach": "Beach",
-  "flower-forest": "Flower Forest",
-  "bamboo-jungle": "Bamboo Jungle",
-  "dark-forest": "Dark Forest",
-  "birch-forest": "Birch Forest",
-  "badlands": "Badlands",
-  "ocean": "Ocean",
-  "cherry-grove": "Cherry Grove"
+  "snowy_taiga": {
+    "name": "Snowy Taiga",
+    "description": "Cold coniferous forest covered in snow"
+  },
+  "mountains": {
+    "name": "Mountains",
+    "description": "High mountain terrain with steep cliffs"
+  },
+  "river": {
+    "name": "River",
+    "description": "Flowing water cutting through the terrain"
+  },
+  "deep_ocean": {
+    "name": "Deep Ocean",
+    "description": "Very deep ocean waters"
+  },
+  "snowy_beach": {
+    "name": "Snowy Beach",
+    "description": "Cold beach covered in snow"
+  },
+  "frozen_river": {
+    "name": "Frozen River",
+    "description": "River covered with ice"
+  },
+  "ice_spikes": {
+    "name": "Ice Spikes",
+    "description": "Frozen plains with tall ice spikes"
+  },
+  "giant_tree_taiga": {
+    "name": "Giant Tree Taiga",
+    "description": "Taiga with massive spruce trees"
+  },
+  "jungle_edge": {
+    "name": "Jungle Edge",
+    "description": "Transition between jungle and other biomes"
+  },
+  "swamp_hills": {
+    "name": "Swamp Hills",
+    "description": "Hilly swampland terrain"
+  },
+  "wooded_badlands_plateau": {
+    "name": "Wooded Badlands Plateau",
+    "description": "Badlands plateau with oak trees"
+  },
+  "badlands_plateau": {
+    "name": "Badlands Plateau",
+    "description": "Flat-topped badlands terrain"
+  },
+  "frozen_ocean": {
+    "name": "Frozen Ocean",
+    "description": "Ocean surface covered with ice"
+  },
+  "warm_ocean": {
+    "name": "Warm Ocean",
+    "description": "Tropical ocean with coral reefs"
+  },
+  "lukewarm_ocean": {
+    "name": "Lukewarm Ocean",
+    "description": "Temperate ocean waters"
+  },
+  "cold_ocean": {
+    "name": "Cold Ocean",
+    "description": "Chilly ocean waters"
+  },
+  "the_void": {
+    "name": "The Void",
+    "description": "Empty void with nothing"
+  },
+  "sunflower_plains": {
+    "name": "Sunflower Plains",
+    "description": "Plains filled with sunflowers"
+  },
+  "windswept_hills": {
+    "name": "Windswept Hills",
+    "description": "Hills shaped by strong winds"
+  },
+  "windswept_forest": {
+    "name": "Windswept Forest",
+    "description": "Forest on windy hills"
+  },
+  "windswept_gravelly_hills": {
+    "name": "Windswept Gravelly Hills",
+    "description": "Gravelly hills shaped by wind"
+  },
+  "windswept_savanna": {
+    "name": "Windswept Savanna",
+    "description": "Savanna with wind-swept terrain"
+  },
+  "jungle_hills": {
+    "name": "Jungle Hills",
+    "description": "Hilly jungle terrain"
+  },
+  "sparse_jungle": {
+    "name": "Sparse Jungle",
+    "description": "Jungle with fewer trees"
+  },
+  "eroded_badlands": {
+    "name": "Eroded Badlands",
+    "description": "Heavily eroded badlands terrain"
+  },
+  "savanna_plateau": {
+    "name": "Savanna Plateau",
+    "description": "Flat-topped savanna terrain"
+  },
+  "deep_lukewarm_ocean": {
+    "name": "Deep Lukewarm Ocean",
+    "description": "Deep temperate ocean waters"
+  },
+  "deep_cold_ocean": {
+    "name": "Deep Cold Ocean",
+    "description": "Deep and cold ocean waters"
+  },
+  "deep_frozen_ocean": {
+    "name": "Deep Frozen Ocean",
+    "description": "Deep ocean covered with ice"
+  },
+  "grove": {
+    "name": "Grove",
+    "description": "Snowy slopes with spruce trees"
+  },
+  "snowy_slopes": {
+    "name": "Snowy Slopes",
+    "description": "Snow-covered mountain slopes"
+  },
+  "frozen_peaks": {
+    "name": "Frozen Peaks",
+    "description": "Icy mountain peaks"
+  },
+  "jagged_peaks": {
+    "name": "Jagged Peaks",
+    "description": "Sharp and rocky mountain peaks"
+  },
+  "stony_peaks": {
+    "name": "Stony Peaks",
+    "description": "Stone-covered mountain peaks"
+  },
+  "meadow": {
+    "name": "Meadow",
+    "description": "Flowery mountain meadow"
+  },
+  "old_growth_birch_forest": {
+    "name": "Old Growth Birch Forest",
+    "description": "Ancient birch forest with tall trees"
+  },
+  "old_growth_pine_taiga": {
+    "name": "Old Growth Pine Taiga",
+    "description": "Ancient pine forest"
+  },
+  "old_growth_spruce_taiga": {
+    "name": "Old Growth Spruce Taiga",
+    "description": "Ancient spruce forest"
+  },
+  "mangrove_swamp": {
+    "name": "Mangrove Swamp",
+    "description": "Swamp with mangrove trees"
+  },
+  "deep_dark": {
+    "name": "Deep Dark",
+    "description": "Dark underground biome"
+  },
+  "dripstone_caves": {
+    "name": "Dripstone Caves",
+    "description": "Caves with dripstone formations"
+  },
+  "lush_caves": {
+    "name": "Lush Caves",
+    "description": "Underground caves with vegetation"
+  },
+  "nether_wastes": {
+    "name": "Nether Wastes",
+    "description": "Barren nether terrain"
+  },
+  "warped_forest": {
+    "name": "Warped Forest",
+    "description": "Blue nether forest"
+  },
+  "crimson_forest": {
+    "name": "Crimson Forest",
+    "description": "Red nether forest"
+  },
+  "soul_sand_valley": {
+    "name": "Soul Sand Valley",
+    "description": "Valley filled with soul sand"
+  },
+  "basalt_deltas": {
+    "name": "Basalt Deltas",
+    "description": "Volcanic nether terrain"
+  },
+  "the_end": {
+    "name": "The End",
+    "description": "End dimension main island"
+  },
+  "small_end_islands": {
+    "name": "Small End Islands",
+    "description": "Small floating end islands"
+  },
+  "end_midlands": {
+    "name": "End Midlands",
+    "description": "Medium-sized end islands"
+  },
+  "end_highlands": {
+    "name": "End Highlands",
+    "description": "Large end islands with cities"
+  },
+  "end_barrens": {
+    "name": "End Barrens",
+    "description": "Empty end islands"
+  }
 }

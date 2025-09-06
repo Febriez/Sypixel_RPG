@@ -9,10 +9,8 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangHelper;
+
 import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.LangHelper;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -54,22 +52,22 @@ public class DailyHuntingQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_DAILY_HUNTING_NAME, who);
+        return LangManager.text(LangKey.QUEST_DAILY_HUNTING_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangHelper.list(LangKey.QUEST_DAILY_HUNTING_INFO, who);
+        return LangManager.list(LangKey.QUEST_DAILY_HUNTING_INFO, who);
     }
 
     @Override
-    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
 
         return switch (id) {
-            case "kill_zombies" -> LangHelper.text(LangKey.QUEST_DAILY_HUNTING_OBJECTIVES_KILL_ZOMBIES, who);
-            case "kill_skeletons" -> LangHelper.text(LangKey.QUEST_DAILY_HUNTING_OBJECTIVES_KILL_SKELETONS, who);
-            case "kill_creepers" -> LangHelper.text(LangKey.QUEST_DAILY_HUNTING_OBJECTIVES_KILL_CREEPERS, who);
+            case "kill_zombies" -> LangManager.list(LangKey.QUEST_DAILY_HUNTING_OBJECTIVES_KILL_ZOMBIES, who);
+            case "kill_skeletons" -> LangManager.list(LangKey.QUEST_DAILY_HUNTING_OBJECTIVES_KILL_SKELETONS, who);
+            case "kill_creepers" -> LangManager.list(LangKey.QUEST_DAILY_HUNTING_OBJECTIVES_KILL_CREEPERS, who);
             default -> LangManager.get("quest.daily.hunting.objectives." + id, who);
         };
     }
@@ -80,27 +78,22 @@ public class DailyHuntingQuest extends Quest {
     }
     
     @Override
-    public Component getDialog(int index, @NotNull Player who) {
-        return switch (index) {
-            case 0 -> LangHelper.text(LangKey.QUEST_DAILY_HUNTING_DIALOGS_0, who);
-            case 1 -> LangHelper.text(LangKey.QUEST_DAILY_HUNTING_DIALOGS_1, who);
-            case 2 -> LangHelper.text(LangKey.QUEST_DAILY_HUNTING_DIALOGS_2, who);
-            default -> null;
-        };
+    public @NotNull Component getDialog(int index, @NotNull Player who) {
+        return getDialogs(LangKey.QUEST_DAILY_HUNTING_DIALOGS, who).get(index);
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_DAILY_HUNTING_NPC_NAME, who);
+        return LangManager.text(LangKey.QUEST_DAILY_HUNTING_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_DAILY_HUNTING_ACCEPT, who);
+        return LangManager.text(LangKey.QUEST_DAILY_HUNTING_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_DAILY_HUNTING_DECLINE, who);
+        return LangManager.text(LangKey.QUEST_DAILY_HUNTING_DECLINE, who);
     }
 }

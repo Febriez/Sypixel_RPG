@@ -1,59 +1,59 @@
 {
-  "profile-opened": "プロフィール情報が更新されました！",
-  "gui-refreshed": "情報が正常に更新されました！",
-  "no-job-for-talents": "タレントを学ぶには、まず職業を選択する必要があります！",
-  "no-job-for-stats": "ステータスを管理するには、まず職業を選択する必要があります！",
-  "job-selected": "おめでとうございます！{0}の職業を選択しました！",
-  "already-has-job": "すでに職業があります！",
-  "stat-increased": "{0}ステータスが増加しました！",
-  "not-enough-stat-points": "ステータスポイントが不足しています！",
-  "talent-learned": "タレントを習得しました: {0}",
-  "not-enough-talent-points": "タレントポイントが不足しています！",
-  "level-up": "レベルアップ！{0} → {1}",
-  "talent-learn-failed": "タレントの習得に失敗しました！",
-  "exp-gained": "+{0} 経験値",
-  "gold-gained": "+{0} ゴールド",
-  "item-received": "アイテム獲得: {0}",
-  "quest-completed": "クエスト完了: {0}",
-  "quest-failed": "クエスト失敗: {0}",
-  "skill-on-cooldown": "スキルがクールダウン中です！（{0}秒）",
-  "not-enough-mana": "マナが不足しています！",
-  "target-not-found": "ターゲットが見つかりません！",
-  "inventory-full": "インベントリがいっぱいです！",
-  "trade-request-sent": "{0}に取引リクエストを送信しました。",
-  "trade-request-received": "{0}から取引リクエストがありました。",
-  "trade-successful": "取引が完了しました！",
-  "trade-cancelled": "取引がキャンセルされました。",
-  "party-invited": "{0}をパーティーに招待しました。",
-  "party-joined": "{0}のパーティーに参加しました。",
-  "party-left": "パーティーを離れました。",
-  "dungeon-entered": "ダンジョンに入場しました: {0}",
-  "dungeon-cleared": "ダンジョンクリア！",
-  "boss-spawned": "ボスが出現しました: {0}",
-  "death-message": "死亡しました！復活まで: {0}秒",
-  "respawn-message": "復活しました！",
-  "pvp-enabled": "PvPが有効になりました！",
-  "pvp-disabled": "PvPが無効になりました。",
-  "kill-streak": "{0}連続キル！",
-  "achievement-unlocked": "実績解除: {0}",
-  "insufficient-level": "レベルが不足しています！（必要レベル: {0}）",
-  "region-entered": "地域に入りました: {0}",
-  "weather-changed": "天候が{0}に変わりました。",
+  "profile_opened": "プロフィール情報が更新されました！",
+  "gui_refreshed": "情報が正常に更新されました！",
+  "no_job_for_talents": "タレントを学ぶには、まず職業を選択する必要があります！",
+  "no_job_for_stats": "ステータスを管理するには、まず職業を選択する必要があります！",
+  "job_selected": "おめでとうございます！{0}の職業を選択しました！",
+  "already_has_job": "すでに職業があります！",
+  "stat_increased": "{0}ステータスが増加しました！",
+  "not_enough_stat_points": "ステータスポイントが不足しています！",
+  "talent_learned": "タレントを習得しました: {0}",
+  "not_enough_talent_points": "タレントポイントが不足しています！",
+  "level_up": "レベルアップ！{0} → {1}",
+  "talent_learn_failed": "タレントの習得に失敗しました！",
+  "exp_gained": "+{0} 経験値",
+  "gold_gained": "+{0} ゴールド",
+  "item_received": "アイテム獲得: {0}",
+  "quest_completed": "クエスト完了: {0}",
+  "quest_failed": "クエスト失敗: {0}",
+  "skill_on_cooldown": "スキルがクールダウン中です！（{0}秒）",
+  "not_enough_mana": "マナが不足しています！",
+  "target_not_found": "ターゲットが見つかりません！",
+  "inventory_full": "インベントリがいっぱいです！",
+  "trade_request_sent": "{0}に取引リクエストを送信しました。",
+  "trade_request_received": "{0}から取引リクエストがありました。",
+  "trade_successful": "取引が完了しました！",
+  "trade_cancelled": "取引がキャンセルされました。",
+  "party_invited": "{0}をパーティーに招待しました。",
+  "party_joined": "{0}のパーティーに参加しました。",
+  "party_left": "パーティーを離れました。",
+  "dungeon_entered": "ダンジョンに入場しました: {0}",
+  "dungeon_cleared": "ダンジョンクリア！",
+  "boss_spawned": "ボスが出現しました: {0}",
+  "death_message": "死亡しました！復活まで: {0}秒",
+  "respawn_message": "復活しました！",
+  "pvp_enabled": "PvPが有効になりました！",
+  "pvp_disabled": "PvPが無効になりました。",
+  "kill_streak": "{0}連続キル！",
+  "achievement_unlocked": "実績解除: {0}",
+  "insufficient_level": "レベルが不足しています！（必要レベル: {0}）",
+  "region_entered": "地域に入りました: {0}",
+  "weather_changed": "天候が{0}に変わりました。",
   "general": {
-    "cannot-view-others-quests": "他のプレイヤーのクエストは見ることができません！",
+    "cannot_view_others_quests": "他のプレイヤーのクエストは見ることができません！",
     "teleport": {
-      "hub-success": "ハブにテレポートしました！"
+      "hub_success": "ハブにテレポートしました！"
     },
     "error": {
-      "hub-world-not-found": "ハブワールドが見つかりません。",
-      "friend-request-id-missing": "Friend request ID is missing!"
+      "hub_world_not_found": "ハブワールドが見つかりません。",
+      "friend_request_id_missing": "Friend request ID is missing!"
     },
-    "coming-soon": "準備中..."
+    "coming_soon": "準備中..."
   },
-  "dialog-speed-changed": "会話速度が変更されました: {0}",
+  "dialog_speed_changed": "会話速度が変更されました: {0}",
   "gui": {
     "navigation": {
-      "main-menu": "メインメニューへ"
+      "main_menu": "メインメニューへ"
     }
   },
   "commands": {
@@ -63,18 +63,18 @@
   },
   "settings": {
     "social": {
-      "friend-requests-enabled": "フレンドリクエストが有効になりました",
-      "friend-requests-disabled": "フレンドリクエストが無効になりました",
-      "guild-invites-enabled": "ギルド招待が有効になりました",
-      "guild-invites-disabled": "ギルド招待が無効になりました"
+      "friend_requests_enabled": "フレンドリクエストが有効になりました",
+      "friend_requests_disabled": "フレンドリクエストが無効になりました",
+      "guild_invites_enabled": "ギルド招待が有効になりました",
+      "guild_invites_disabled": "ギルド招待が無効になりました"
     }
   },
   "whisper": {
     "disabled": "ささやき機能は現在無効になっています。",
-    "no-reply-target": "返信する相手がいません。まずささやきを送受信する必要があります。",
-    "message-too-long": "メッセージが長すぎます。256文字以内にしてください。",
-    "empty-message": "空のメッセージは送信できません。",
-    "last-target": "最後のささやき相手: {0}",
+    "no_reply_target": "返信する相手がいません。まずささやきを送受信する必要があります。",
+    "message_too_long": "メッセージが長すぎます。256文字以内にしてください。",
+    "empty_message": "空のメッセージは送信できません。",
+    "last_target": "最後のささやき相手: {0}",
     "reply": {
       "usage": "使用方法: /r <メッセージ>",
       "hint": "まず誰かとささやきを送受信する必要があります。"
@@ -85,34 +85,34 @@
     }
   },
   "mail": {
-    "player-not-found": "プレイヤーが見つかりません: {0}",
-    "cannot-send-to-self": "自分自身にメールを送ることはできません。",
-    "attachments-not-supported": "添付ファイルは現在サポートされていません。",
-    "recipient-mailbox-full": "{0}のメールボックスがいっぱいです。",
-    "sent-successfully": "メールを正常に送信しました！",
-    "new-mail-notification": "新しいメールが届きました！（/mail）",
-    "send-error": "メール送信中にエラーが発生しました。",
-    "not-found": "メールが見つかりません。",
-    "not-recipient": "このメールの受信者ではありません。"
+    "player_not_found": "プレイヤーが見つかりません: {0}",
+    "cannot_send_to_self": "自分自身にメールを送ることはできません。",
+    "attachments_not_supported": "添付ファイルは現在サポートされていません。",
+    "recipient_mailbox_full": "{0}のメールボックスがいっぱいです。",
+    "sent_successfully": "メールを正常に送信しました！",
+    "new_mail_notification": "新しいメールが届きました！（/mail）",
+    "send_error": "メール送信中にエラーが発生しました。",
+    "not_found": "メールが見つかりません。",
+    "not_recipient": "このメールの受信者ではありません。"
   },
   "friend": {
-    "player-not-found": "プレイヤーが見つかりません: {0}",
-    "cannot-add-self": "自分自身にフレンドリクエストを送ることはできません。",
-    "already-friends": "すでに{0}とフレンドです。",
-    "added-successfully": "{0}とフレンドになりました！",
-    "request-error": "フレンドリクエスト送信中にエラーが発生しました。",
-    "removed-successfully": "フレンド関係を解除しました。",
-    "removed-notification": "{0}とのフレンド関係が解除されました。",
-    "remove-error": "フレンド削除中にエラーが発生しました。",
-    "requests-not-supported": "フレンドリクエスト機能は現在サポートされていません。",
-    "not-friends": "{0}とはフレンドではありません。",
+    "player_not_found": "プレイヤーが見つかりません: {0}",
+    "cannot_add_self": "自分自身にフレンドリクエストを送ることはできません。",
+    "already_friends": "すでに{0}とフレンドです。",
+    "added_successfully": "{0}とフレンドになりました！",
+    "request_error": "フレンドリクエスト送信中にエラーが発生しました。",
+    "removed_successfully": "フレンド関係を解除しました。",
+    "removed_notification": "{0}とのフレンド関係が解除されました。",
+    "remove_error": "フレンド削除中にエラーが発生しました。",
+    "requests_not_supported": "フレンドリクエスト機能は現在サポートされていません。",
+    "not_friends": "{0}とはフレンドではありません。",
     "commands": {
       "help": {
         "title": "=== フレンドコマンドヘルプ ===",
         "list": "/friend list - フレンドリストGUIを開く",
         "add": "/friend add <プレイヤー> [メッセージ] - フレンドリクエストを送る",
         "remove": "/friend remove <プレイヤー> - フレンドを削除",
-        "gui-note": "フレンドリクエストの承認/拒否はGUIから行えます。"
+        "gui_note": "フレンドリクエストの承認/拒否はGUIから行えます。"
       },
       "add": {
         "usage": "使用方法: /friend add <プレイヤー> [メッセージ]",
@@ -123,8 +123,8 @@
       }
     }
   },
-  "commands-general": {
-    "player-only": "このコマンドはプレイヤーのみ使用できます。",
+  "commands_general": {
+    "player_only": "このコマンドはプレイヤーのみ使用できます。",
     "unknown": "不明なコマンドです。"
   }
 }

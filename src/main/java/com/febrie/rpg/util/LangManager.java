@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextReplacementConfig;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,123 +19,26 @@ import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 /**
- * 간결한 언어 관리자 v2.0
- * Component 객체를 직접 저장하여 런타임 파싱 최소화
+ * 통합 언어 관리자 v3.0
+ * LangHelper 기능 통합 및 최적화
  */
 public class LangManager {
     private static JavaPlugin plugin;
     private static final Map<Locale, Map<String, Component>> singles = new HashMap<>();
     private static final Map<Locale, Map<String, List<Component>>> arrays = new HashMap<>();
     private static Locale defaultLocale = Locale.US;
-    private static boolean debugMode = false;
-
-    // 지원하는 언어 목록
     private static final String[] SUPPORTED_LOCALES = {"ko_kr", "en_us", "ja_jp"};
-
-    // 로딩 통계
-    private static class LoadStatistics {
-        int totalFiles = 0;
-        int successfulLoads = 0;
-        int failedLoads = 0;
-        Map<String, Integer> keysPerFile = new HashMap<>();
-        Set<String> duplicateKeys = new HashSet<>();
-        Set<String> allKeys = new HashSet<>();  // Track all keys for duplicate detection
-
-        void report(JavaPlugin plugin) {
-            // Only report errors
-            if (failedLoads > 0) {
-                plugin.getLogger().warning("[LangManager] Failed to load " + failedLoads + " files");
-            }
-            
-            // Report duplicate keys if found
-            if (!duplicateKeys.isEmpty()) {
-                plugin.getLogger().warning("[LangManager] Duplicate keys found: " + duplicateKeys.size() + " keys");
-                duplicateKeys.forEach(key -> 
-                    plugin.getLogger().warning("  - Duplicate: " + key));
-            }
-        }
-    }
 
     public static void init(@NotNull JavaPlugin plugin) {
         LangManager.plugin = plugin;
-        debugMode = false; // 디버그 모드 비활성화
         loadAllLanguages();
-        // Validate all enum keys
         validateKeys();
     }
 
-    private static void loadAllLanguages() {
-        for (String localeStr : SUPPORTED_LOCALES) {
-            Locale locale = parseLocale(localeStr);
-            loadLanguage(localeStr, locale);
-        }
-    }
-
-    private static void loadLanguage(@NotNull String localeDir, @NotNull Locale locale) {
-        Map<String, Component> singleMap = new HashMap<>();
-        Map<String, List<Component>> arrayMap = new HashMap<>();
-        LoadStatistics stats = new LoadStatistics();
-
-        // Dynamic loading from plugin JAR
-        loadLanguageFromPlugin(localeDir, locale, singleMap, arrayMap, stats);
-
-        singles.put(locale, singleMap);
-        arrays.put(locale, arrayMap);
-
-        // Only report if there are errors
-        if (stats.failedLoads > 0 || !stats.duplicateKeys.isEmpty()) {
-            stats.report(plugin);
-        }
-    }
-
-    // Keep the old loadJsonResource for backward compatibility
-    private static void loadJsonResource(@NotNull String resourcePath, @NotNull String prefix, @NotNull Map<String, Component> singleMap, @NotNull Map<String, List<Component>> arrayMap) {
-        LoadStatistics dummyStats = new LoadStatistics();
-        loadJsonResource(resourcePath, prefix, singleMap, arrayMap, dummyStats);
-    }
-
-    private static void processJsonObject(@NotNull JsonObject obj, @NotNull String prefix, 
-                                         @NotNull Map<String, Component> singleMap, 
-                                         @NotNull Map<String, List<Component>> arrayMap) {
-        processJsonObject(obj, prefix, singleMap, arrayMap, null);
-    }
-    
-    private static void processJsonObject(@NotNull JsonObject obj, @NotNull String prefix, 
-                                         @NotNull Map<String, Component> singleMap, 
-                                         @NotNull Map<String, List<Component>> arrayMap,
-                                         LoadStatistics stats) {
-        for (Map.Entry<String, JsonElement> entry : obj.entrySet()) {
-            String key = prefix + entry.getKey();
-            JsonElement value = entry.getValue();
-
-            // Check for duplicate keys
-            if (stats != null) {
-                if (stats.allKeys.contains(key)) {
-                    stats.duplicateKeys.add(key);
-                }
-                stats.allKeys.add(key);
-            }
-
-            if (value.isJsonPrimitive()) {
-                Component comp = UnifiedColorUtil.parseComponent(value.getAsString());
-                singleMap.put(key, comp);
-            } else if (value.isJsonArray()) {
-                List<Component> list = new ArrayList<>();
-                for (JsonElement elem : value.getAsJsonArray()) {
-                    if (elem.isJsonPrimitive()) {
-                        list.add(UnifiedColorUtil.parseComponent(elem.getAsString()));
-                    }
-                }
-                if (!list.isEmpty()) {
-                    arrayMap.put(key, list);
-                }
-            } else if (value.isJsonObject()) {
-                processJsonObject(value.getAsJsonObject(), key + ".", singleMap, arrayMap, stats);
-            }
-        }
-    }
+    // ===== Public API Methods =====
 
     @NotNull
     public static Component text(@NotNull LangKey key) {
@@ -141,7 +46,7 @@ public class LangManager {
     }
 
     @NotNull
-    public static Component text(@NotNull LangKey key, @NotNull org.bukkit.entity.Player player) {
+    public static Component text(@NotNull LangKey key, @NotNull Player player) {
         return textInternal(key.getKey(), player.locale());
     }
 
@@ -152,14 +57,60 @@ public class LangManager {
 
     @NotNull
     public static Component text(@NotNull LangKey key, @NotNull Locale locale, Object... args) {
-        return LangHelper.text(key, locale, args);
+        Component base = textInternal(key.getKey(), locale);
+        return replacePlaceholders(base, args);
     }
 
     @NotNull
-    public static Component text(@NotNull LangKey key, @NotNull org.bukkit.entity.Player player, Object... args) {
-        return LangHelper.text(key, player.locale(), args);
+    public static Component text(@NotNull LangKey key, @NotNull Player player, Object... args) {
+        return text(key, player.locale(), args);
     }
 
+    @NotNull
+    public static List<Component> list(@NotNull LangKey key) {
+        return listInternal(key.getKey(), defaultLocale);
+    }
+
+    @NotNull
+    public static List<Component> list(@NotNull LangKey key, @NotNull Player player) {
+        return listInternal(key.getKey(), player.locale());
+    }
+
+    @NotNull
+    public static List<Component> list(@NotNull LangKey key, @NotNull Locale locale) {
+        return listInternal(key.getKey(), locale);
+    }
+
+    @NotNull
+    public static List<Component> list(@NotNull LangKey key, @NotNull Locale locale, Object... args) {
+        List<Component> base = listInternal(key.getKey(), locale);
+        return base.stream().map(comp -> replacePlaceholders(comp, args)).collect(Collectors.toList());
+    }
+
+    @NotNull
+    public static List<Component> list(@NotNull LangKey key, @NotNull Player player, Object... args) {
+        return list(key, player.locale(), args);
+    }
+
+    public static boolean hasKey(@NotNull LangKey key, @NotNull Locale locale) {
+        String keyStr = key.getKey();
+        Map<String, Component> singleMap = singles.get(locale);
+        if (singleMap != null && singleMap.containsKey(keyStr)) return true;
+        Map<String, List<Component>> arrayMap = arrays.get(locale);
+        return arrayMap != null && arrayMap.containsKey(keyStr);
+    }
+
+    public static void setDefaultLocale(@NotNull Locale locale) {
+        defaultLocale = locale;
+    }
+
+    public static void reload() {
+        singles.clear();
+        arrays.clear();
+        loadAllLanguages();
+    }
+
+    // ===== Private Helper Methods =====
 
     @NotNull
     private static Component textInternal(@NotNull String key, @NotNull Locale locale) {
@@ -173,34 +124,8 @@ public class LangManager {
             return textInternal(key, defaultLocale);
         }
 
-        // 키가 없을 때 로깅
-        logWarning("Missing key: " + key + " for locale: " + locale);
+        logWarning("Missing key: " + key);
         return Component.text(key);
-    }
-
-    @NotNull
-    public static List<Component> list(@NotNull LangKey key) {
-        return listInternal(key.getKey(), defaultLocale);
-    }
-
-    @NotNull
-    public static List<Component> list(@NotNull LangKey key, @NotNull org.bukkit.entity.Player player) {
-        return listInternal(key.getKey(), player.locale());
-    }
-
-    @NotNull
-    public static List<Component> list(@NotNull LangKey key, @NotNull Locale locale) {
-        return listInternal(key.getKey(), locale);
-    }
-
-    @NotNull
-    public static List<Component> list(@NotNull LangKey key, @NotNull Locale locale, Object... args) {
-        return LangHelper.list(key, locale, args);
-    }
-
-    @NotNull
-    public static List<Component> list(@NotNull LangKey key, @NotNull org.bukkit.entity.Player player, Object... args) {
-        return LangHelper.list(key, player.locale(), args);
     }
 
     @NotNull
@@ -219,6 +144,143 @@ public class LangManager {
     }
 
     @NotNull
+    private static Component replacePlaceholders(@NotNull Component component, Object... args) {
+        Component result = component;
+        for (int i = 0; i < args.length; i++) {
+            String placeholder = "{" + i + "}";
+            String replacement = String.valueOf(args[i]);
+            TextReplacementConfig config = TextReplacementConfig.builder().matchLiteral(placeholder)
+                    .replacement(Component.text(replacement)).build();
+            result = result.replaceText(config);
+        }
+        return result;
+    }
+
+    // ===== Loading Methods =====
+
+    private static void loadAllLanguages() {
+        for (String localeStr : SUPPORTED_LOCALES) {
+            Locale locale = parseLocale(localeStr);
+            loadLanguage(localeStr, locale);
+        }
+    }
+
+    private static void loadLanguage(@NotNull String localeDir, @NotNull Locale locale) {
+        Map<String, Component> singleMap = new HashMap<>();
+        Map<String, List<Component>> arrayMap = new HashMap<>();
+
+        try {
+            File pluginFile = new File(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+
+            if (pluginFile.isFile() && pluginFile.getName().endsWith(".jar")) {
+                loadFromJar(pluginFile, localeDir, singleMap, arrayMap);
+            } else {
+                loadFromFileSystem(localeDir, singleMap, arrayMap);
+            }
+        } catch (Exception e) {
+            logError("Failed to load language: " + localeDir, e);
+        }
+
+        singles.put(locale, singleMap);
+        arrays.put(locale, arrayMap);
+    }
+
+    private static void loadFromJar(@NotNull File jarFile, @NotNull String localeDir, @NotNull Map<String, Component> singleMap, @NotNull Map<String, List<Component>> arrayMap) {
+        try (JarFile jar = new JarFile(jarFile)) {
+            Enumeration<JarEntry> entries = jar.entries();
+            while (entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
+                String entryName = entry.getName();
+
+                if (!entry.isDirectory() && entryName.startsWith(localeDir + "/") && entryName.endsWith(".json")) {
+                    String relativePath = entryName.substring(localeDir.length() + 1);
+                    String prefix = generatePrefix(relativePath);
+                    loadJsonResource("/" + entryName, prefix, singleMap, arrayMap);
+                }
+            }
+        } catch (IOException e) {
+            logError("Failed to read JAR", e);
+        }
+    }
+
+    private static void loadFromFileSystem(@NotNull String localeDir, @NotNull Map<String, Component> singleMap, @NotNull Map<String, List<Component>> arrayMap) {
+        try {
+            java.net.URL resourceUrl = LangManager.class.getClassLoader().getResource(localeDir);
+            if (resourceUrl != null) {
+                File dir = new File(resourceUrl.toURI());
+                if (dir.exists() && dir.isDirectory()) {
+                    scanDirectory(dir, localeDir, "", singleMap, arrayMap);
+                }
+            }
+        } catch (Exception e) {
+            logError("Failed to load from file system", e);
+        }
+    }
+
+    private static void scanDirectory(@NotNull File dir, @NotNull String localeDir, @NotNull String subPath, @NotNull Map<String, Component> singleMap, @NotNull Map<String, List<Component>> arrayMap) {
+        File[] files = dir.listFiles();
+        if (files == null) return;
+
+        for (File file : files) {
+            String s = subPath.isEmpty() ? file.getName() : subPath + "/" + file.getName();
+            if (file.isDirectory()) {
+                scanDirectory(file, localeDir, s, singleMap, arrayMap);
+            } else if (file.getName().endsWith(".json")) {
+                String resourcePath = "/" + localeDir + "/" + s;
+                String prefix = generatePrefix(s);
+                loadJsonResource(resourcePath, prefix, singleMap, arrayMap);
+            }
+        }
+    }
+
+    private static void loadJsonResource(@NotNull String resourcePath, @NotNull String prefix, @NotNull Map<String, Component> singleMap, @NotNull Map<String, List<Component>> arrayMap) {
+        try (InputStream stream = LangManager.class.getResourceAsStream(resourcePath)) {
+            if (stream == null) return;
+
+            try (InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
+                JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
+                processJsonObject(root, prefix, singleMap, arrayMap);
+            }
+        } catch (IOException | JsonSyntaxException e) {
+            logError("Failed to load " + resourcePath, e);
+        }
+    }
+
+    private static void processJsonObject(@NotNull JsonObject obj, @NotNull String prefix, @NotNull Map<String, Component> singleMap, @NotNull Map<String, List<Component>> arrayMap) {
+        for (Map.Entry<String, JsonElement> entry : obj.entrySet()) {
+            String key = prefix + entry.getKey();
+            JsonElement value = entry.getValue();
+
+            if (value.isJsonPrimitive()) {
+                singleMap.put(key, UnifiedColorUtil.parseComponent(value.getAsString()));
+            } else if (value.isJsonArray()) {
+                List<Component> list = new ArrayList<>();
+                for (JsonElement elem : value.getAsJsonArray()) {
+                    if (elem.isJsonPrimitive()) {
+                        list.add(UnifiedColorUtil.parseComponent(elem.getAsString()));
+                    }
+                }
+                if (!list.isEmpty()) {
+                    arrayMap.put(key, list);
+                }
+            } else if (value.isJsonObject()) {
+                processJsonObject(value.getAsJsonObject(), key + ".", singleMap, arrayMap);
+            }
+        }
+    }
+
+    @NotNull
+    private static String generatePrefix(@NotNull String filePath) {
+        String path = filePath.replace(".json", "").replace("/", ".").replace("\\", ".").replace("-", "_");
+
+        if (path.startsWith("quests.")) {
+            path = "quest" + path.substring(6);
+        }
+
+        return path.endsWith(".") ? path : path + ".";
+    }
+
+    @NotNull
     private static Locale parseLocale(@NotNull String str) {
         String[] parts = str.split("_");
         if (parts.length == 2) {
@@ -227,318 +289,10 @@ public class LangManager {
         return Locale.US;
     }
 
-    public static void setDefaultLocale(@NotNull Locale locale) {
-        defaultLocale = locale;
-    }
-
-    public static void reload() {
-        singles.clear();
-        arrays.clear();
-        loadAllLanguages();
-    }
-
-    // Key validation method
-    public static boolean hasKey(@NotNull LangKey key, @NotNull Locale locale) {
-        return hasKey(key.getKey(), locale);
-    }
-
-    public static boolean toggleDebugMode() {
-        debugMode = !debugMode;
-        return debugMode;
-    }
-    
-    // Logging helper methods
-    private static void logDebug(String message) {
-        if (debugMode && plugin != null) {
-            plugin.getLogger().info("[LangManager] " + message);
-        }
-    }
-    
-    private static void logWarning(String message) {
-        if (plugin != null) {
-            plugin.getLogger().warning("[LangManager] " + message);
-        }
-    }
-    
-    private static void logError(String message, Exception e) {
-        if (plugin != null) {
-            plugin.getLogger().log(Level.WARNING, "[LangManager] " + message, e);
-        }
-    }
-
-    // Minimal compatibility layer for existing code
-    // These should be migrated to use LangKey in the future
-    @NotNull
-    public static Component getComponent(@NotNull String key, @NotNull Locale locale) {
-        return textInternal(key, locale);
-    }
-
-    @NotNull
-    public static Component getComponent(@NotNull String key, @NotNull Locale locale, Object... args) {
-        Component base = textInternal(key, locale);
-        return LangHelper.replacePlaceholders(base, args);
-    }
-
-    public static boolean hasKey(@NotNull String key, @NotNull Locale locale) {
-        Map<String, Component> singleMap = singles.get(locale);
-        if (singleMap != null && singleMap.containsKey(key)) return true;
-        Map<String, List<Component>> arrayMap = arrays.get(locale);
-        return arrayMap != null && arrayMap.containsKey(key);
-    }
-
-    @NotNull
-    public static Component get(@NotNull String key, @NotNull org.bukkit.entity.Player player) {
-        return textInternal(key, player.locale());
-    }
-
-    @NotNull
-    public static Component get(@NotNull String key, @NotNull org.bukkit.entity.Player player, Object... args) {
-        Component base = textInternal(key, player.locale());
-        return LangHelper.replacePlaceholders(base, args);
-    }
-
-    public static Set<String> getAllKeys(@NotNull Locale locale) {
-        Set<String> keys = new HashSet<>();
-        Map<String, Component> singleMap = singles.get(locale);
-        if (singleMap != null) keys.addAll(singleMap.keySet());
-        Map<String, List<Component>> arrayMap = arrays.get(locale);
-        if (arrayMap != null) keys.addAll(arrayMap.keySet());
-        return keys;
-    }
-
-    /**
-     * Dynamically load all JSON files from plugin JAR
-     */
-    private static void loadLanguageFromPlugin(@NotNull String localeDir, @NotNull Locale locale, @NotNull Map<String, Component> singleMap, @NotNull Map<String, List<Component>> arrayMap, @NotNull LoadStatistics stats) {
-        try {
-            // Get the plugin JAR file
-            File pluginFile = new File(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-
-            if (pluginFile.isFile() && pluginFile.getName().endsWith(".jar")) {
-                // Production environment - load from JAR
-                loadFromJar(pluginFile, localeDir, singleMap, arrayMap, stats);
-            } else {
-                // Development environment - load from file system
-                loadFromFileSystem(localeDir, singleMap, arrayMap, stats);
-            }
-        } catch (Exception e) {
-            logError("Failed to load language files for " + localeDir, e);
-        }
-    }
-
-    /**
-     * Load JSON files from JAR (production)
-     */
-    private static void loadFromJar(@NotNull File jarFile, @NotNull String localeDir, @NotNull Map<String, Component> singleMap, @NotNull Map<String, List<Component>> arrayMap, @NotNull LoadStatistics stats) {
-        try (JarFile jar = new JarFile(jarFile)) {
-            Enumeration<JarEntry> entries = jar.entries();
-
-            while (entries.hasMoreElements()) {
-                JarEntry entry = entries.nextElement();
-                String entryName = entry.getName();
-
-                // Check if this entry is a JSON file in the correct locale directory
-                if (!entry.isDirectory() && entryName.startsWith(localeDir + "/") && entryName.endsWith(".json")) {
-
-                    stats.totalFiles++;
-
-                    // Extract relative path and generate prefix
-                    String relativePath = entryName.substring(localeDir.length() + 1);
-                    String prefix = generatePrefix(relativePath);
-
-                    // Load the JSON file
-                    String resourcePath = "/" + entryName;
-                    boolean success = loadJsonResource(resourcePath, prefix, singleMap, arrayMap, stats);
-
-                    if (success) {
-                        stats.successfulLoads++;
-                    } else {
-                        stats.failedLoads++;
-                    }
-                }
-            }
-        } catch (IOException e) {
-            logError("Failed to read JAR file", e);
-        }
-    }
-
-    /**
-     * Load JSON files from file system (development)
-     */
-    private static void loadFromFileSystem(@NotNull String localeDir, @NotNull Map<String, Component> singleMap, @NotNull Map<String, List<Component>> arrayMap, @NotNull LoadStatistics stats) {
-        try {
-            // Try to get resource as URL
-            java.net.URL resourceUrl = LangManager.class.getClassLoader().getResource(localeDir);
-            if (resourceUrl == null) {
-                logWarning("Resource directory not found: " + localeDir);
-                return;
-            }
-
-            File dir = new File(resourceUrl.toURI());
-            if (dir.exists() && dir.isDirectory()) {
-                scanDirectory(dir, localeDir, "", singleMap, arrayMap, stats);
-            }
-        } catch (Exception e) {
-            logError("Failed to load from file system", e);
-        }
-    }
-
-    /**
-     * Recursively scan directory for JSON files
-     */
-    private static void scanDirectory(@NotNull File dir, @NotNull String localeDir, @NotNull String subPath, @NotNull Map<String, Component> singleMap, @NotNull Map<String, List<Component>> arrayMap, @NotNull LoadStatistics stats) {
-        File[] files = dir.listFiles();
-        if (files == null) return;
-
-        for (File file : files) {
-            if (file.isDirectory()) {
-                // Recursively scan subdirectory
-                String newSubPath = subPath.isEmpty() ? file.getName() : subPath + "/" + file.getName();
-                scanDirectory(file, localeDir, newSubPath, singleMap, arrayMap, stats);
-            } else if (file.getName().endsWith(".json")) {
-                stats.totalFiles++;
-
-                // Build resource path and prefix
-                String relativePath = subPath.isEmpty() ? file.getName() : subPath + "/" + file.getName();
-                String resourcePath = "/" + localeDir + "/" + relativePath;
-                String prefix = generatePrefix(relativePath);
-
-                // Load the JSON file
-                boolean success = loadJsonResource(resourcePath, prefix, singleMap, arrayMap, stats);
-
-                if (success) {
-                    stats.successfulLoads++;
-                } else {
-                    stats.failedLoads++;
-                }
-            }
-        }
-    }
-
-    /**
-     * Generate key prefix from file path
-     * Examples:
-     * quest.json -> quest.
-     * quests/tutorial/first-steps.json -> quest.tutorial.first_steps.
-     * quests/daily/mining.json -> quest.daily.mining.
-     */
-    private static String generatePrefix(@NotNull String filePath) {
-        // Remove .json extension
-        String path = filePath.replace(".json", "");
-
-        // Replace path separators with dots
-        path = path.replace("/", ".");
-        path = path.replace("\\", ".");
-
-        // Replace hyphens with underscores
-        path = path.replace("-", "_");
-
-        // Convert quests -> quest (plural to singular)
-        if (path.startsWith("quests.")) {
-            path = "quest" + path.substring(6);
-        }
-
-        // Add trailing dot if not present
-        if (!path.endsWith(".")) {
-            path = path + ".";
-        }
-
-        return path;
-    }
-    
-    /**
-     * Validate resource path to prevent path traversal attacks
-     * @return true if path is safe to use
-     */
-    private static boolean isValidResourcePath(@NotNull String resourcePath) {
-        // Null/empty check
-        if (resourcePath == null || resourcePath.isEmpty()) {
-            return false;
-        }
-        
-        // Path must start with /
-        if (!resourcePath.startsWith("/")) {
-            return false;
-        }
-        
-        // Path must not contain any dangerous characters or sequences
-        if (resourcePath.contains("..") || 
-            resourcePath.contains("~") || 
-            resourcePath.contains("\\") ||  // No backslashes
-            resourcePath.contains("%") ||   // No URL encoding
-            resourcePath.contains(":") ||   // No drive letters
-            resourcePath.contains("*") ||   // No wildcards
-            resourcePath.contains("?")) {   // No wildcards
-            return false;
-        }
-        
-        // Path must end with .json
-        if (!resourcePath.toLowerCase().endsWith(".json")) {
-            return false;
-        }
-        
-        // Path must be within allowed locale directories
-        String path = resourcePath.substring(1); // Remove leading /
-        
-        // Check against whitelist of allowed locales
-        for (String locale : SUPPORTED_LOCALES) {
-            if (path.startsWith(locale + "/")) {
-                // Additional check: path should only contain alphanumeric, -, _, / and .
-                String remaining = path.substring(locale.length() + 1);
-                if (remaining.matches("^[a-zA-Z0-9/_.-]+\\.json$")) {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
-    }
-
-    /**
-     * Modified loadJsonResource to return success status
-     */
-    private static boolean loadJsonResource(@NotNull String resourcePath, @NotNull String prefix, @NotNull Map<String, Component> singleMap, @NotNull Map<String, List<Component>> arrayMap, @NotNull LoadStatistics stats) {
-        // Validate resource path to prevent path traversal
-        if (!isValidResourcePath(resourcePath)) {
-            logWarning("Invalid resource path: " + resourcePath);
-            return false;
-        }
-
-        try (InputStream stream = LangManager.class.getResourceAsStream(resourcePath)) {
-            if (stream == null) {
-                // Only log if it's not a quest file (they're expected to be in subdirectories)
-                if (!resourcePath.contains("/quests/")) {
-                    logWarning("Resource not found: " + resourcePath);
-                }
-                return false;
-            }
-
-            try (InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
-                JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
-                int beforeSingle = singleMap.size();
-                int beforeArray = arrayMap.size();
-
-                processJsonObject(root, prefix, singleMap, arrayMap, stats);
-
-                int keysAdded = (singleMap.size() - beforeSingle) + (arrayMap.size() - beforeArray);
-                stats.keysPerFile.put(resourcePath, keysAdded);
-
-                return true;
-            }
-        } catch (IOException | JsonSyntaxException e) {
-            logError("Failed to load " + resourcePath, e);
-            return false;
-        }
-    }
-
-    /**
-     * Validates all enum keys against loaded language files
-     */
-    public static void validateKeys() {
+    private static void validateKeys() {
         if (plugin == null) return;
 
         int missingCount = 0;
-
         for (LangKey key : LangKey.values()) {
             boolean found = false;
             for (Locale locale : singles.keySet()) {
@@ -547,15 +301,135 @@ public class LangManager {
                     break;
                 }
             }
-
             if (!found) {
-                logWarning("Missing translation for key: " + key.name() + " (" + key.getKey() + ")");
+                logWarning("Missing translation: " + key.name());
                 missingCount++;
             }
         }
 
         if (missingCount > 0) {
             plugin.getLogger().warning("[LangManager] Found " + missingCount + " missing keys");
+        }
+    }
+
+    // ===== Backward Compatibility Methods (Temporary) =====
+    
+    /**
+     * Temporary backward compatibility method for String keys
+     * @deprecated Use LangKey-based methods instead
+     */
+    @Deprecated
+    @NotNull
+    public static List<Component> get(@NotNull String key, @NotNull Player player) {
+        return listInternal(key, player.locale());
+    }
+    
+    /**
+     * Temporary backward compatibility method for String keys with args
+     * Returns a single Component for compatibility with older code that expects Component
+     * @deprecated Use LangKey-based methods instead
+     */
+    @Deprecated
+    @NotNull
+    public static Component get(@NotNull String key, @NotNull Player player, Object... args) {
+        Component base = textInternal(key, player.locale());
+        return replacePlaceholders(base, args);
+    }
+    
+    /**
+     * Temporary backward compatibility method for String keys
+     * @deprecated Use LangKey-based methods instead
+     */
+    @Deprecated
+    @NotNull
+    public static Component getComponent(@NotNull String key, @NotNull Locale locale) {
+        return textInternal(key, locale);
+    }
+    
+    /**
+     * Temporary backward compatibility method for String keys with args
+     * @deprecated Use LangKey-based methods instead
+     */
+    @Deprecated
+    @NotNull
+    public static Component getComponent(@NotNull String key, @NotNull Locale locale, Object... args) {
+        Component base = textInternal(key, locale);
+        return replacePlaceholders(base, args);
+    }
+    
+    /**
+     * Temporary backward compatibility text method for String keys
+     * @deprecated Use LangKey-based methods instead
+     */
+    @Deprecated
+    @NotNull
+    public static Component text(@NotNull String key, @NotNull Locale locale) {
+        return textInternal(key, locale);
+    }
+    
+    /**
+     * Temporary backward compatibility text method for String keys with args
+     * @deprecated Use LangKey-based methods instead
+     */
+    @Deprecated
+    @NotNull
+    public static Component text(@NotNull String key, @NotNull Locale locale, Object... args) {
+        Component base = textInternal(key, locale);
+        return replacePlaceholders(base, args);
+    }
+    
+    /**
+     * Temporary backward compatibility text method for String keys with player
+     * @deprecated Use LangKey-based methods instead
+     */
+    @Deprecated
+    @NotNull
+    public static Component text(@NotNull String key, @NotNull Player player) {
+        return textInternal(key, player.locale());
+    }
+    
+    /**
+     * Temporary backward compatibility text method for String keys with player and args
+     * @deprecated Use LangKey-based methods instead
+     */
+    @Deprecated
+    @NotNull
+    public static Component text(@NotNull String key, @NotNull Player player, Object... args) {
+        Component base = textInternal(key, player.locale());
+        return replacePlaceholders(base, args);
+    }
+    
+    /**
+     * Temporary backward compatibility list method for String keys
+     * @deprecated Use LangKey-based methods instead
+     */
+    @Deprecated
+    @NotNull
+    public static List<Component> list(@NotNull String key, @NotNull Locale locale) {
+        return listInternal(key, locale);
+    }
+    
+    /**
+     * Temporary backward compatibility list method for String keys with player
+     * @deprecated Use LangKey-based methods instead
+     */
+    @Deprecated
+    @NotNull
+    public static List<Component> list(@NotNull String key, @NotNull Player player) {
+        return listInternal(key, player.locale());
+    }
+
+    // ===== Logging Methods =====
+
+    private static void logWarning(String message) {
+        if (plugin != null) {
+            plugin.getLogger().warning("[LangManager] " + message);
+        }
+    }
+
+    private static void logError(String message, Exception e) {
+        if (plugin != null) {
+            plugin.getLogger().log(Level.WARNING, "[LangManager] " + message, e);
         }
     }
 }

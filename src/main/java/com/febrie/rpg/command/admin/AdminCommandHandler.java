@@ -47,7 +47,6 @@ public class AdminCommandHandler implements CommandExecutor, TabCompleter {
         registerSubCommand(new SaveCommand(plugin));
         registerSubCommand(new DebugCommand(plugin));
         registerSubCommand(new StatsSubCommand(plugin.getRPGPlayerManager()));
-        registerSubCommand(new LangTestCommand(plugin));
     }
 
     private void registerSubCommand(@NotNull SubCommand command) {

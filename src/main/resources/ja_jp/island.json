@@ -1,93 +1,93 @@
 {
   "spawn": {
-    "default-name": "Island Center"
+    "default_name": "Island Center"
   },
   "roles": {
     "owner": "Owner",
-    "sub-owner": "Co-Owner",
+    "sub_owner": "Co-Owner",
     "member": "Member",
     "worker": "Worker",
     "visitor": "Visitor"
   },
   "permissions": {
     "build": "Build",
-    "use-items": "Use Items",
-    "open-containers": "Open Containers",
-    "invite-members": "Invite Members",
-    "kick-members": "Kick Members",
-    "manage-workers": "Manage Workers",
-    "set-spawn": "Set Spawn",
-    "change-settings": "Change Settings"
+    "use_items": "Use Items",
+    "open_containers": "Open Containers",
+    "invite_members": "Invite Members",
+    "kick_members": "Kick Members",
+    "manage_workers": "Manage Workers",
+    "set_spawn": "Set Spawn",
+    "change_settings": "Change Settings"
   },
   "invite": {
-    "default-message": "You have been invited to an island!"
+    "default_message": "You have been invited to an island!"
   },
   "messages": {
-    "teleport-success": "Teleported to island!",
-    "teleport-fail": "Cannot teleport to island!",
-    "no-island": "You don't have an island yet!",
-    "island-info": {
+    "teleport_success": "Teleported to island!",
+    "teleport_fail": "Cannot teleport to island!",
+    "no_island": "You don't have an island yet!",
+    "island_info": {
       "title": "==== Island System ====",
-      "no-island": "You don't have an island yet!",
+      "no_island": "You don't have an island yet!",
       "features": "Create an island to access the following features:",
-      "feature-1": "• Build freely on your own private island",
-      "feature-2": "• Invite friends to play together",
-      "feature-3": "• Upgrade your island for more space",
-      "feature-4": "• Set island warp points",
-      "create-guide": "How to create an island:",
-      "step-1": "1. Click the Island button in the main menu (/menu)",
-      "step-2": "2. Click the Create Island button to create a new island"
+      "feature_1": "• Build freely on your own private island",
+      "feature_2": "• Invite friends to play together",
+      "feature_3": "• Upgrade your island for more space",
+      "feature_4": "• Set island warp points",
+      "create_guide": "How to create an island:",
+      "step_1": "1. Click the Island button in the main menu (/menu)",
+      "step_2": "2. Click the Create Island button to create a new island"
     }
   },
   "gui": {
     "main": {
       "title": "Island Management",
-      "title-with-name": "Island Management - {0}",
-      "create-island": {
+      "title_with_name": "Island Management - {0}",
+      "create_island": {
         "title": "Create Island",
-        "no-island": "You don't have an island yet!",
+        "no_island": "You don't have an island yet!",
         "description": "Create an island to access the following features:",
-        "feature-1": "• Build freely on your own private island",
-        "feature-2": "• Invite friends to play together",
-        "feature-3": "• Upgrade your island for more space",
-        "feature-4": "• Set island warp points",
-        "contact-admin": "Contact an admin to create an island!"
+        "feature_1": "• Build freely on your own private island",
+        "feature_2": "• Invite friends to play together",
+        "feature_3": "• Upgrade your island for more space",
+        "feature_4": "• Set island warp points",
+        "contact_admin": "Contact an admin to create an island!"
       }
     },
     "creation": {
       "title": "Island Creation",
-      "current-name": "Current Name: ",
-      "current-color": "Current Color: ",
-      "current-biome": "Current Biome: ",
-      "click-to-change-name": "Click to change name",
-      "click-to-change": "Click to change",
-      "left-click": "Left Click: ",
-      "right-click": "Right Click: ",
-      "middle-click": "Middle Click: ",
+      "current_name": "Current Name: ",
+      "current_color": "Current Color: ",
+      "current_biome": "Current Biome: ",
+      "click_to_change_name": "Click to change name",
+      "click_to_change": "Click to change",
+      "left_click": "Left Click: ",
+      "right_click": "Right Click: ",
+      "middle_click": "Middle Click: ",
       "next": "Next",
       "previous": "Previous",
-      "hex-input": "Enter HEX code",
-      "hex-example": "Example: #FF0000 (Red)",
+      "hex_input": "Enter HEX code",
+      "hex_example": "Example: #FF0000 (Red)",
       "selected": "✔ Selected",
-      "click-to-select": "Click to select",
-      "click-to-create": "Click to create island!",
-      "selected-settings": "Selected Settings:",
-      "setting-name": "• Name: ",
-      "setting-biome": "• Biome: ",
-      "setting-template": "• Template: ",
-      "create-button-title": "✦ Create Island ✦",
-      "island-name-input-title": "Enter Island Name",
-      "island-name-input-error": "Please enter 1-20 characters",
-      "hex-input-title": "Enter HEX Color Code",
-      "hex-input-error": "Please enter in #RRGGBB format",
-      "default-island-name": "My Island",
-      "creating-island": "Creating island...",
-      "creation-complete-header": "==== Island Creation Complete! ====",
-      "creation-complete-message": " island has been created!",
-      "creation-complete-footer": "====================",
-      "teleporting-soon": "Teleporting to island soon...",
-      "creation-failed": "Island creation failed.",
-      "creation-error": "Error occurred during island creation: ",
+      "click_to_select": "Click to select",
+      "click_to_create": "Click to create island!",
+      "selected_settings": "Selected Settings:",
+      "setting_name": "• Name: ",
+      "setting_biome": "• Biome: ",
+      "setting_template": "• Template: ",
+      "create_button_title": "✦ Create Island ✦",
+      "island_name_input_title": "Enter Island Name",
+      "island_name_input_error": "Please enter 1-20 characters",
+      "hex_input_title": "Enter HEX Color Code",
+      "hex_input_error": "Please enter in #RRGGBB format",
+      "default_island_name": "My Island",
+      "creating_island": "Creating island...",
+      "creation_complete_header": "==== Island Creation Complete! ====",
+      "creation_complete_message": " island has been created!",
+      "creation_complete_footer": "====================",
+      "teleporting_soon": "Teleporting to island soon...",
+      "creation_failed": "Island creation failed.",
+      "creation_error": "Error occurred during island creation: ",
       "biomes": {
         "plains": "Plains",
         "forest": "Forest",
@@ -103,10 +103,10 @@
         "skyblock": "Skyblock",
         "large": "Large Island",
         "water": "Water Island",
-        "basic-desc": "Standard size basic island",
-        "skyblock-desc": "Small floating island in the sky",
-        "large-desc": "Large island with more space",
-        "water-desc": "Island on the water"
+        "basic_desc": "Standard size basic island",
+        "skyblock_desc": "Small floating island in the sky",
+        "large_desc": "Large island with more space",
+        "water_desc": "Island on the water"
       },
       "colors": {
         "yellow": "Yellow",
@@ -120,60 +120,60 @@
         "custom": "Custom"
       }
     },
-    "biome-selection": {
+    "biome_selection": {
       "title": "🌍 Select Biome"
     },
-    "back-button": "◀ Back",
+    "back_button": "◀ Back",
     "delete": {
-      "confirm-word": "DELETE",
-      "input-error": "Please type 'DELETE' exactly.",
-      "input-title": "Type 'DELETE' to confirm",
-      "input-text": "Type here..."
+      "confirm_word": "DELETE",
+      "input_error": "Please type 'DELETE' exactly.",
+      "input_title": "Type 'DELETE' to confirm",
+      "input_text": "Type here..."
     },
     "settings": {
-      "name-error": "Island name must be 1-20 characters.",
-      "name-input-error": "Please enter 1-20 characters"
+      "name_error": "Island name must be 1-20 characters.",
+      "name_input_error": "Please enter 1-20 characters"
     },
     "member": {
-      "kick-confirm-word": "KICK",
-      "kick-input-error": "Please type 'KICK' exactly.",
-      "kick-input-title": "Type 'KICK' to confirm",
-      "kick-input-text": "Type here...",
-      "invite-prompt": "Enter player name to invite:",
-      "invite-example": "Example: PlayerName",
-      "role-owner": "Owner",
-      "all-permissions": "Has all permissions",
-      "owner-cannot-change": "Owner role cannot be changed",
-      "most-permissions": "Has most management permissions",
-      "normal-permissions": "Has normal member permissions",
-      "left-click-role": "Left-click to change role",
-      "right-click-kick": "Right-click to kick member",
-      "role-worker": "Worker",
-      "hire-date": "Hired: {0}",
-      "last-activity": "Last Activity: {0}",
-      "limited-permissions": "Has limited permissions",
-      "left-click-extend": "Left-click to extend contract",
-      "right-click-fire": "Right-click to fire worker",
-      "manage-title": "Member Management",
-      "manage-permission-not-implemented": "This permission is not yet implemented",
-      "manage-current-role": "Current Role: {0}"
+      "kick_confirm_word": "KICK",
+      "kick_input_error": "Please type 'KICK' exactly.",
+      "kick_input_title": "Type 'KICK' to confirm",
+      "kick_input_text": "Type here...",
+      "invite_prompt": "Enter player name to invite:",
+      "invite_example": "Example: PlayerName",
+      "role_owner": "Owner",
+      "all_permissions": "Has all permissions",
+      "owner_cannot_change": "Owner role cannot be changed",
+      "most_permissions": "Has most management permissions",
+      "normal_permissions": "Has normal member permissions",
+      "left_click_role": "Left-click to change role",
+      "right_click_kick": "Right-click to kick member",
+      "role_worker": "Worker",
+      "hire_date": "Hired: {0}",
+      "last_activity": "Last Activity: {0}",
+      "limited_permissions": "Has limited permissions",
+      "left_click_extend": "Left-click to extend contract",
+      "right_click_fire": "Right-click to fire worker",
+      "manage_title": "Member Management",
+      "manage_permission_not_implemented": "This permission is not yet implemented",
+      "manage_current_role": "Current Role: {0}"
     },
     "contribute": {
-      "amount-too-low": "Minimum contribution is 100.",
-      "invalid-amount": "Please enter a valid number.",
-      "contribution-input-title": "Enter contribution amount",
-      "contribution-input-text": "Amount...",
-      "gold-info": {
+      "amount_too_low": "Minimum contribution is 100.",
+      "invalid_amount": "Please enter a valid number.",
+      "contribution_input_title": "Enter contribution amount",
+      "contribution_input_text": "Amount...",
+      "gold_info": {
         "balance": "Balance: {0}G",
         "contribution": "Your Contribution: {0}G"
       },
-      "quick-amount": "Quick Amount: {0}G",
-      "gold-needed": "Gold Needed: {0}G"
+      "quick_amount": "Quick Amount: {0}G",
+      "gold_needed": "Gold Needed: {0}G"
     },
     "contribution": {
       "title": "Island Contributions",
       "info": {
-        "island-name": "Island: {0}",
+        "island_name": "Island: {0}",
         "total": "Total Contributions: {0}G",
         "contributors": "Contributors: {0}"
       },
@@ -189,7 +189,23 @@
     }
   },
   "error": {
-    "player-only": "This command can only be used by players."
+    "player_only": "This command can only be used by players."
   },
-  "default-name": "New Island"
+  "default_name": "New Island",
+  "contribute": {
+    "amount_too_low": "貢献額が少なすぎます！",
+    "invalid_amount": "無効な貢献額です！"
+  },
+  "delete": {
+    "confirm_word": "削除",
+    "input_error": "削除と入力して確認してください",
+    "input_text": "島を永久に削除するには削除と入力してください",
+    "input_title": "島の削除確認"
+  },
+  "member": {
+    "kick_confirm_word": "追放",
+    "kick_input_error": "追放と入力して確認してください",
+    "kick_input_text": "このメンバーを島から追放するには追放と入力してください",
+    "kick_input_title": "メンバー追放確認"
+  }
 }

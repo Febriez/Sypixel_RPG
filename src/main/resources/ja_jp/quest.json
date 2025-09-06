@@ -1,176 +1,33 @@
 {
+  "quest_tracker": "クエストトラッカー",
+  "quest_log": "クエストログ",
+  "active_quests": "進行中のクエスト",
+  "completed_quests": "完了したクエスト",
+  "available_quests": "利用可能なクエスト",
+  "quest_details": "クエスト詳細",
+  "quest_giver": "クエスト提供者:",
+  "quest_location": "場所:",
+  "quest_difficulty": "難易度:",
+  "quest_type": "タイプ:",
+  "main_quest": "メインクエスト",
+  "side_quest": "サイドクエスト",
   "started": "📋 新しいクエスト開始:",
-  "start-failed": "クエストの開始に失敗しました！",
+  "start_failed": "クエストの開始に失敗しました！",
   "completed": "✔ 完了",
   "declined": "クエストを拒否しました。",
-  "reward-npc-visit": "🎁 報酬NPCを訪問して報酬を受け取ってください！",
-  "total-progress": "全体の進捗",
+  "reward_npc_visit": "🎁 報酬NPCを訪問して報酬を受け取ってください！",
+  "total_progress": "全体の進捗",
   "progress": "進捗",
-  "objective-achieved": "達成！",
-  "quest-completed-toast": "クエストを完了しました！",
+  "objective_achieved": "達成！",
+  "quest_completed_toast": "クエストを完了しました！",
   "goals": "目標:",
   "rewards": "報酬:",
-  "category-label": "カテゴリ:",
-  "level-requirement": "レベル要件:",
-  "quest-objectives": "=== クエスト目標 ===",
-  "quest-rewards": "=== クエスト報酬 ===",
-  "sequential-note": "※ 順番に完了する必要があります。",
-  "unknown-npc": "不明なNPC",
-  "filter": "Filter: {0}",
-  "total-count": "Total Quests: {0}",
-  "tutorial": {},
-  "daily": {},
-  "main": {
-    "realm_defenders": {
-      "name": "Realm Defenders",
-      "info": "Defend the realm from invasion",
-      "dialogs": {
-        "0": "Enemy forces are at our gates!",
-        "1": "We need every able warrior.",
-        "2": "Will you stand with us?"
-      },
-      "npc_name": "General",
-      "accept": "I will defend the realm!",
-      "decline": "I cannot fight..."
-    },
-    "realm_portal": {
-      "name": "The Realm Portal",
-      "info": "Close the interdimensional portal",
-      "dialogs": {
-        "0": "A portal to another dimension has opened!",
-        "1": "Monsters are pouring through.",
-        "2": "We must close it before it's too late.",
-        "3": "You'll need the Portal Key to seal it."
-      },
-      "npc_name": "Portal Guardian",
-      "accept": "I'll close the portal!",
-      "decline": "Too risky..."
-    },
-    "void_invasion": {
-      "name": "Void Invasion",
-      "info": "Stop the void creatures",
-      "dialogs": {
-        "0": "The void is consuming our world!",
-        "1": "Dark creatures emerge from the shadows.",
-        "2": "We must push them back.",
-        "3": "Are you brave enough to enter the void?"
-      },
-      "npc_name": "Void Watcher",
-      "accept": "I'll enter the void!",
-      "decline": "The void terrifies me..."
-    },
-    "final_battle": {
-      "name": "The Final Battle",
-      "info": "Face the ultimate evil",
-      "dialogs": {
-        "0": "The time has come for the final confrontation.",
-        "1": "All our hopes rest on you.",
-        "2": "The Dark Lord awaits in his fortress.",
-        "3": "This battle will decide the fate of the world.",
-        "4": "Are you ready, hero?"
-      },
-      "npc_name": "King",
-      "accept": "I am ready!",
-      "decline": "I need more time..."
-    },
-    "gathering_storm": {
-      "name": "The Gathering Storm",
-      "info": "Prepare for the coming darkness",
-      "dialogs": {
-        "0": "Dark clouds gather on the horizon.",
-        "1": "A storm unlike any other approaches.",
-        "2": "We must prepare our defenses.",
-        "3": "Gather the storm crystals to protect the city."
-      },
-      "npc_name": "Weather Sage",
-      "accept": "I'll gather the crystals!",
-      "decline": "Storms scare me..."
-    },
-    "last_stand": {
-      "name": "The Last Stand",
-      "info": "Make your final stand",
-      "dialogs": {
-        "0": "This is it - our last chance.",
-        "1": "The enemy surrounds us.",
-        "2": "We fight here or we fall.",
-        "3": "Will you stand with us?",
-        "4": "For honor and glory!"
-      },
-      "npc_name": "Commander",
-      "accept": "To the last!",
-      "decline": "I cannot..."
-    },
-    "new_era": {
-      "name": "A New Era",
-      "info": "Begin the age of peace",
-      "dialogs": {
-        "0": "The war is over at last.",
-        "1": "A new era of peace begins.",
-        "2": "But we must remain vigilant.",
-        "3": "Help us rebuild what was lost.",
-        "4": "Together, we'll create a better world."
-      },
-      "npc_name": "Peace Keeper",
-      "accept": "I'll help rebuild!",
-      "decline": "My work is done..."
-    },
-    "sacrifice_of_heroes": {
-      "name": "Sacrifice of Heroes",
-      "info": "Honor the fallen heroes",
-      "dialogs": {
-        "0": "Many heroes have fallen in this war.",
-        "1": "Their sacrifice must not be forgotten.",
-        "2": "We must honor their memory.",
-        "3": "Gather the memorial stones.",
-        "4": "Place them at the Heroes' Monument.",
-        "5": "Their legacy will live forever."
-      },
-      "npc_name": "Memorial Keeper",
-      "accept": "I'll honor them!",
-      "decline": "It's too painful..."
-    },
-    "eternal_guardian": {
-      "name": "The Eternal Guardian",
-      "info": "Become the eternal protector",
-      "dialogs": {
-        "0": "The realm needs an eternal guardian.",
-        "1": "One who will watch over it forever.",
-        "2": "This is a great responsibility.",
-        "3": "You will gain immense power.",
-        "4": "But you must sacrifice your mortality.",
-        "5": "Will you become the Eternal Guardian?"
-      },
-      "npc_name": "Ancient One",
-      "accept": "I accept this duty!",
-      "decline": "I choose to remain mortal..."
-    },
-    "legacy_of_heroes": {
-      "name": "Legacy of Heroes",
-      "info": "Continue the heroes' legacy",
-      "dialogs": {
-        "0": "The old heroes have passed.",
-        "1": "But their legacy must continue.",
-        "2": "You are the new generation.",
-        "3": "Take up their mantle.",
-        "4": "Lead us into the future."
-      },
-      "npc_name": "Veteran Hero",
-      "accept": "I'll carry on their legacy!",
-      "decline": "I'm not worthy..."
-    },
-    "restoration": {
-      "name": "The Great Restoration",
-      "info": "Restore the damaged lands",
-      "dialogs": {
-        "0": "The war has left scars on the land.",
-        "1": "Nature itself needs healing.",
-        "2": "Use the Seeds of Life to restore the forests.",
-        "3": "Purify the corrupted waters.",
-        "4": "The land will bloom again."
-      },
-      "npc_name": "Nature Guardian",
-      "accept": "I'll heal the land!",
-      "decline": "Nature will heal itself..."
-    }
-  }
+  "category_label": "カテゴリ:",
+  "level_requirement": "レベル要件:",
+  "quest_objectives": "=== クエスト目標 ===",
+  "quest_rewards": "=== クエスト報酬 ===",
+  "sequential_note": "※ 順番に完了する必要があります。",
+  "unknown_npc": "不明なNPC",
+  "filter": "フィルター: {0}",
+  "total_count": "総クエスト数: {0}"
 }

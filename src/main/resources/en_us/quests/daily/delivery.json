@@ -1,31 +1,16 @@
 {
   "name": "Daily Delivery",
-  "description": [
-    "Help the postal service deliver important",
-    "packages and messages around the village.",
-    "",
-    "Complete your delivery route efficiently",
-    "to keep the community connected."
+  "info": "Help the postal service deliver important packages and messages around the village. Complete your delivery route efficiently to keep the community connected.",
+  "dialogs": [
+    "Thanks for volunteering for delivery duty!",
+    "These packages and letters need to reach their destinations today.",
+    "The village depends on reliable delivery service.",
+    "Great work! The recipients are very grateful.",
+    "You're making excellent time on your route.",
+    "Perfect! All deliveries completed successfully.",
+    "The village stays connected thanks to people like you."
   ],
-  "objectives": {
-    "collect_packages": "Collect 8 Packages from the Post Office",
-    "deliver_to_merchants": "Deliver Packages to 3 Merchants",
-    "deliver_to_residents": "Deliver Mail to 5 Residents",
-    "return_confirmation": "Return Delivery Confirmations"
-  },
-  "npcs": {
-    "postmaster": "Village Postmaster",
-    "merchant_anna": "Merchant Anna",
-    "merchant_bob": "Merchant Bob",
-    "merchant_clara": "Merchant Clara"
-  },
-  "dialogs": {
-    "start1": "Thanks for volunteering for delivery duty!",
-    "start2": "These packages and letters need to reach their destinations today.",
-    "start3": "The village depends on reliable delivery service.",
-    "progress1": "Great work! The recipients are very grateful.",
-    "progress2": "You're making excellent time on your route.",
-    "complete1": "Perfect! All deliveries completed successfully.",
-    "complete2": "The village stays connected thanks to people like you."
-  }
+  "npc_name": "Village Postmaster",
+  "accept": "I'll help with the deliveries!",
+  "decline": "I can't carry that many packages right now."
 }

@@ -1,13 +1,13 @@
 {
   "name": "Daily Fishing",
-  "description": [
-    "Complete today's fishing objectives.",
-    "Provide fresh fish for the village market.",
-    "",
-    "Resets daily at midnight."
+  "info": "Complete today's fishing objectives. Provide fresh fish for the village market. Resets daily at midnight.",
+  "dialogs": [
+    "The fishing conditions are perfect today!",
+    "We need fresh fish for the market. Can you help?",
+    "I'll catch the best fish you've ever seen!",
+    "Great! The villagers will appreciate fresh fish."
   ],
-  "objectives": {
-    "catch_fish": "Catch 15 fish",
-    "catch_rare": "Catch a rare fish"
-  }
+  "npc_name": "Fishing Master",
+  "accept": "I'll catch today's quota!",
+  "decline": "I need to repair my fishing rod first."
 }

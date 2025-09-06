@@ -9,21 +9,18 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangHelper;
+
 import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.LangHelper;
+
 import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * 기초 전투 - 튜토리얼 퀘스트 2
@@ -65,16 +62,16 @@ public class BasicCombatQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_NAME, who);
+        return LangManager.text(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangHelper.list(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_INFO, who);
+        return LangManager.list(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_INFO, who);
     }
 
     @Override
-    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String key = "quest.tutorial.basic_combat.objectives." + objective.getId();
         return LangManager.get(key, who);
     }
@@ -85,27 +82,22 @@ public class BasicCombatQuest extends Quest {
     }
     
     @Override
-    public Component getDialog(int index, @NotNull Player who) {
-        return switch (index) {
-            case 0 -> LangHelper.text(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_DIALOGS_0, who);
-            case 1 -> LangHelper.text(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_DIALOGS_1, who);
-            case 2 -> LangHelper.text(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_DIALOGS_2, who);
-            default -> null;
-        };
+    public @NotNull Component getDialog(int index, @NotNull Player who) {
+        return getDialogs(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_DIALOGS, who).get(index);
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_NPC_NAME, who);
+        return LangManager.text(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_ACCEPT, who);
+        return LangManager.text(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_DECLINE, who);
+        return LangManager.text(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_DECLINE, who);
     }
 }

@@ -8,7 +8,7 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.economy.CurrencyType;
-import com.febrie.rpg.util.LangHelper;
+
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -69,7 +69,7 @@ public class LightPaladinQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_NAME, who);
+        return LangManager.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_NAME, who);
     }
 
     @Override
@@ -78,20 +78,20 @@ public class LightPaladinQuest extends Quest {
     }
 
     @Override
-    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String id = objective.getId();
         return switch (id) {
-            case "paladin_master" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PALADIN_MASTER, who);
-            case "holy_water" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_WATER, who);
-            case "purge_undead" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PURGE_UNDEAD, who);
-            case "purge_skeletons" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PURGE_SKELETONS, who);
-            case "holy_shrine" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_SHRINE, who);
-            case "meditation" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_MEDITATION, who);
-            case "holy_sword" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_SWORD, who);
-            case "build_altar" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_BUILD_ALTAR, who);
-            case "defeat_darkness" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_DEFEAT_DARKNESS, who);
-            case "light_essence" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_LIGHT_ESSENCE, who);
-            case "oath_completion" -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_OATH_COMPLETION, who);
+            case "paladin_master" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PALADIN_MASTER, who);
+            case "holy_water" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_WATER, who);
+            case "purge_undead" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PURGE_UNDEAD, who);
+            case "purge_skeletons" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PURGE_SKELETONS, who);
+            case "holy_shrine" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_SHRINE, who);
+            case "meditation" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_MEDITATION, who);
+            case "holy_sword" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_SWORD, who);
+            case "build_altar" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_BUILD_ALTAR, who);
+            case "defeat_darkness" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_DEFEAT_DARKNESS, who);
+            case "light_essence" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_LIGHT_ESSENCE, who);
+            case "oath_completion" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_OATH_COMPLETION, who);
             default -> LangManager.get("quest.branch.light_paladin.objectives." + id, who);
         };
     }
@@ -102,29 +102,22 @@ public class LightPaladinQuest extends Quest {
     }
     
     @Override
-    public Component getDialog(int index, @NotNull Player who) {
-        return switch (index) {
-            case 0 -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DIALOGS_0, who);
-            case 1 -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DIALOGS_1, who);
-            case 2 -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DIALOGS_2, who);
-            case 3 -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DIALOGS_3, who);
-            case 4 -> LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DIALOGS_4, who);
-            default -> null;
-        };
+    public @NotNull Component getDialog(int index, @NotNull Player who) {
+        return getDialogs(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DIALOGS, who).get(index);
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_NPC_NAME, who);
+        return LangManager.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_ACCEPT, who);
+        return LangManager.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DECLINE, who);
+        return LangManager.text(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DECLINE, who);
     }
 }

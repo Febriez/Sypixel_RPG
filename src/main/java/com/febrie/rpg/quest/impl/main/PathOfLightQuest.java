@@ -10,7 +10,7 @@ import com.febrie.rpg.quest.objective.impl.CraftItemObjective;
 import com.febrie.rpg.quest.objective.impl.DeliverItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangHelper;
+
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import java.util.List;
@@ -22,7 +22,6 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * 빛의 길 - 선택 퀘스트 (선)
@@ -77,7 +76,7 @@ public class PathOfLightQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_MAIN_PATH_OF_LIGHT_NAME, who);
+        return LangManager.text(LangKey.QUEST_MAIN_PATH_OF_LIGHT_NAME, who);
     }
 
     @Override
@@ -86,7 +85,7 @@ public class PathOfLightQuest extends Quest {
     }
 
     @Override
-    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String key = "quest.main.path_of_light.objectives." + objective.getId();
         return LangManager.get(key, who);
     }
@@ -97,27 +96,22 @@ public class PathOfLightQuest extends Quest {
     }
     
     @Override
-    public Component getDialog(int index, @NotNull Player who) {
-        return switch (index) {
-            case 0 -> LangHelper.text(LangKey.QUEST_MAIN_PATH_OF_LIGHT_DIALOGS_0, who);
-            case 1 -> LangHelper.text(LangKey.QUEST_MAIN_PATH_OF_LIGHT_DIALOGS_1, who);
-            case 2 -> LangHelper.text(LangKey.QUEST_MAIN_PATH_OF_LIGHT_DIALOGS_2, who);
-            default -> null;
-        };
+    public @NotNull Component getDialog(int index, @NotNull Player who) {
+        return getDialogs(LangKey.QUEST_MAIN_PATH_OF_LIGHT_DIALOGS, who).get(index);
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_MAIN_PATH_OF_LIGHT_NPC_NAME, who);
+        return LangManager.text(LangKey.QUEST_MAIN_PATH_OF_LIGHT_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_MAIN_PATH_OF_LIGHT_ACCEPT, who);
+        return LangManager.text(LangKey.QUEST_MAIN_PATH_OF_LIGHT_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_MAIN_PATH_OF_LIGHT_DECLINE, who);
+        return LangManager.text(LangKey.QUEST_MAIN_PATH_OF_LIGHT_DECLINE, who);
     }
 }

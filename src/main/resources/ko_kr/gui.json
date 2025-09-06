@@ -2,9 +2,9 @@
   "common": {
     "back": "◀ 돌아가기",
     "close": "닫기",
-    "next-page": "다음 페이지 →",
-    "previous-page": "이전 페이지",
-    "prev-page": "← 이전 페이지",
+    "next_page": "다음 페이지 →",
+    "previous_page": "이전 페이지",
+    "prev_page": "← 이전 페이지",
     "confirm": "확인",
     "cancel": "취소",
     "settings": "설정",
@@ -16,120 +16,120 @@
   },
   "profile": {
     "title": "{0}님의 프로필",
-    "player-title": "{0}님의 프로필",
+    "player_title": "{0}님의 프로필",
     "viewing": "{0}님의 프로필을 보는 중",
     "level": "레벨: {0}",
-    "level-info": "레벨 정보",
+    "level_info": "레벨 정보",
     "experience": "경험치: {0}",
     "exp": "경험치: {0}/{1}",
-    "exp-percent": "({0}%)",
+    "exp_percent": "({0}%)",
     "job": "직업: {0}",
-    "no-job": "직업 없음",
-    "current-job": "현재 직업",
-    "job-level": "직업 레벨: {0}",
-    "combat-power": "전투력: {0}",
-    "click-to-talents": "클릭하여 특성 보기",
+    "no_job": "직업 없음",
+    "current_job": "현재 직업",
+    "job_level": "직업 레벨: {0}",
+    "combat_power": "전투력: {0}",
+    "click_to_talents": "클릭하여 특성 보기",
     "gold": "골드: {0}",
     "playtime": "플레이 시간: {0}",
-    "join-date": "가입일: {0}",
-    "last-seen": "마지막 접속: {0}",
+    "join_date": "가입일: {0}",
+    "last_seen": "마지막 접속: {0}",
     "stats": "▸ 스탯 정보",
     "talents": "▸ 특성",
-    "click-for-talents": "▶ 클릭하여 특성 페이지로 이동",
-    "click-for-stats": "▶ 클릭하여 스탯 페이지로 이동",
-    "online-status": "현재 상태: {0}",
+    "click_for_talents": "▶ 클릭하여 특성 페이지로 이동",
+    "click_for_stats": "▶ 클릭하여 스탯 페이지로 이동",
+    "online_status": "현재 상태: {0}",
     "gamemode": "게임모드: {0}",
     "location": "위치: {0} ({1}, {2}, {3})",
     "health": "체력: {0}/{1}",
-    "health-info": "체력 정보",
-    "food-info": "배고픔 정보",
-    "food-level": "배고픔: {0}/20",
+    "health_info": "체력 정보",
+    "food_info": "배고픔 정보",
+    "food_level": "배고픔: {0}/20",
     "saturation": "포만감: {0}",
-    "game-info": "게임 정보",
+    "game_info": "게임 정보",
     "world": "월드: {0}",
     "hunger": "배고픔: {0}/{1}",
     "flight": "비행: {0}",
-    "currency-info": "▸ 재화 정보",
-    "game-stats": "게임 통계",
-    "mob-kills": "몹 처치 수: {0}",
-    "player-info": {
+    "currency_info": "▸ 재화 정보",
+    "game_stats": "게임 통계",
+    "mob_kills": "몹 처치 수: {0}",
+    "player_info": {
       "name": "{0}"
     },
-    "quest-info": "퀘스트 정보",
-    "active-quests": "진행 중: {0}개",
-    "completed-quests": "완료: {0}개",
-    "click-for-quests": "▶ 클릭하여 퀘스트 목록 보기",
-    "collection-book": "수집북",
+    "quest_info": "퀘스트 정보",
+    "active_quests": "진행 중: {0}개",
+    "completed_quests": "완료: {0}개",
+    "click_for_quests": "▶ 클릭하여 퀘스트 목록 보기",
+    "collection_book": "수집북",
     "pets": "애완동물",
-    "user-settings": "사용자 설정",
-    "user-settings-desc": "개인 설정을 변경합니다"
+    "user_settings": "사용자 설정",
+    "user_settings_desc": "개인 설정을 변경합니다"
   },
-  "job-selection": {
+  "job_selection": {
     "title": "직업 선택",
-    "choose-wisely": "신중하게 선택하세요!",
-    "current-job": "현재 직업: {0}",
-    "no-current-job": "아직 직업이 없습니다",
-    "tab-selected": "▶ 현재 선택됨",
-    "tab-click": "▶ 클릭하여 보기",
-    "confirm-selection": "이 직업을 선택하시겠습니까?",
-    "already-selected": "이미 직업을 선택했습니다!",
-    "job-categories": "직업 카테고리",
-    "jobs-in-category": "{0} 직업군",
-    "back-to-categories": "카테고리로 돌아가기",
+    "choose_wisely": "신중하게 선택하세요!",
+    "current_job": "현재 직업: {0}",
+    "no_current_job": "아직 직업이 없습니다",
+    "tab_selected": "▶ 현재 선택됨",
+    "tab_click": "▶ 클릭하여 보기",
+    "confirm_selection": "이 직업을 선택하시겠습니까?",
+    "already_selected": "이미 직업을 선택했습니다!",
+    "job_categories": "직업 카테고리",
+    "jobs_in_category": "{0} 직업군",
+    "back_to_categories": "카테고리로 돌아가기",
     "info": "정보",
-    "click-to-select": "▶ 클릭하여 카테고리 선택",
-    "category-suffix": "카테고리",
-    "max-level": "최대 레벨: {0}",
+    "click_to_select": "▶ 클릭하여 카테고리 선택",
+    "category_suffix": "카테고리",
+    "max_level": "최대 레벨: {0}",
     "warning": "⚠ 주의: 직업은 한 번 선택하면 변경할 수 없습니다!",
-    "click-to-choose": "▶ 클릭하여 이 직업 선택",
+    "click_to_choose": "▶ 클릭하여 이 직업 선택",
     "selected": "▶ 선택됨"
   },
-  "job-confirmation": {
+  "job_confirmation": {
     "title": "직업 선택 확인",
-    "selected-job": "선택한 직업:",
-    "max-level": "최대 레벨: {0}",
+    "selected_job": "선택한 직업:",
+    "max_level": "최대 레벨: {0}",
     "warning": "⚠ 경고: 정말로 신중하게 선택하세요!",
-    "cannot-change": "⚠ 한 번 선택하면 변경할 수 없습니다!",
-    "warning-title": "⚠ 주의사항",
-    "warning-description": "직업은 영구적인 선택입니다!",
+    "cannot_change": "⚠ 한 번 선택하면 변경할 수 없습니다!",
+    "warning_title": "⚠ 주의사항",
+    "warning_description": "직업은 영구적인 선택입니다!",
     "confirm": "확인",
-    "confirm-description": "{0} 직업을 선택합니다",
-    "click-to-confirm": "▶ 클릭하여 확인",
+    "confirm_description": "{0} 직업을 선택합니다",
+    "click_to_confirm": "▶ 클릭하여 확인",
     "cancel": "취소",
-    "cancel-description": "직업 선택을 취소합니다",
-    "click-to-cancel": "▶ 클릭하여 취소",
-    "info-title": "안내사항",
-    "info-line1": "• 직업은 캐릭터의 성장 방향을 결정합니다",
-    "info-line2": "• 각 직업마다 고유한 스킬과 특성이 있습니다",
-    "info-line3": "• 신중하게 선택해주세요!",
+    "cancel_description": "직업 선택을 취소합니다",
+    "click_to_cancel": "▶ 클릭하여 취소",
+    "info_title": "안내사항",
+    "info_line1": "• 직업은 캐릭터의 성장 방향을 결정합니다",
+    "info_line2": "• 각 직업마다 고유한 스킬과 특성이 있습니다",
+    "info_line3": "• 신중하게 선택해주세요!",
     "success": "축하합니다! {1} 직업을 선택하셨습니다!",
-    "title-success": "직업 선택 완료!",
-    "subtitle-success": "{1} 직업을 선택하셨습니다",
-    "already-has-job": "이미 직업이 있습니다!"
+    "title_success": "직업 선택 완료!",
+    "subtitle_success": "{1} 직업을 선택하셨습니다",
+    "already_has_job": "이미 직업이 있습니다!"
   },
   "talent": {
     "title": "특성",
-    "title-with-page": "특성 - {1}",
-    "remaining-points": "남은 포인트: {0}",
+    "title_with_page": "특성 - {1}",
+    "remaining_points": "남은 포인트: {0}",
     "learned": "▶ 습득 완료",
     "available": "▶ 습득 가능",
     "unavailable": "▶ 습득 불가",
     "requirements": "요구사항:",
-    "click-learn": "▶ 클릭하여 배우기",
-    "insufficient-points": "포인트가 부족합니다",
-    "prerequisite-not-met": "선행 조건을 만족하지 않습니다",
-    "click-subpage": "▶ 우클릭으로 하위 페이지 열기",
-    "talent-learned": "{0} 특성을 배웠습니다!",
-    "click-stats": "스탯 관리로 이동",
-    "page-info": "페이지 정보",
-    "current-page": "현재 페이지: {1}",
+    "click_learn": "▶ 클릭하여 배우기",
+    "insufficient_points": "포인트가 부족합니다",
+    "prerequisite_not_met": "선행 조건을 만족하지 않습니다",
+    "click_subpage": "▶ 우클릭으로 하위 페이지 열기",
+    "talent_learned": "{0} 특성을 배웠습니다!",
+    "click_stats": "스탯 관리로 이동",
+    "page_info": "페이지 정보",
+    "current_page": "현재 페이지: {0}",
     "job": "직업: {1}",
-    "available-points": "사용 가능한 포인트: {0}",
-    "level-info": "레벨 {1}/{2}",
-    "cannot-learn": "습득할 수 없습니다",
-    "not-enough-points": "포인트가 부족합니다",
-    "stat-bonuses": "능력치 포인트:",
-    "stat-bonus-line": "• {0}: +{1}",
+    "available_points": "사용 가능 포인트: {0}",
+    "level_info": "레벨 {0}/{1}",
+    "cannot_learn": "학습 불가",
+    "not_enough_points": "포인트 부족",
+    "stat_bonuses": "스탯 보너스",
+    "stat_bonus_line": "• {0}: +{1}",
     "effects": "효과:",
     "pages": {
       "main": "메인",
@@ -138,132 +138,116 @@
     "page": {
       "main": "메인 특성"
     },
-    "has-sub-page": "하위 페이지가 있습니다",
+    "has_sub_page": "하위 페이지 있음",
     "no_job": "직업 없음",
-    "page_info": "페이지 정보",
-    "current_page": "현재 페이지: {0}",
-    "available_points": "사용 가능 포인트: {0}",
-    "level_info": "레벨 {0}/{1}",
-    "stat_bonuses": "스탯 보너스",
-    "stat_bonus_line": "• {0}: +{1}",
     "prerequisites": "선행 조건",
     "prereq_met": "✓ 충족됨",
     "prereq_not_met": "✗ 충족되지 않음",
     "can_learn": "학습 가능",
-    "cannot_learn": "학습 불가",
-    "not_enough_points": "포인트 부족",
-    "maxed": "최대 레벨",
-    "has_sub_page": "하위 페이지 있음"
+    "maxed": "최대 레벨"
   },
   "stats": {
     "title": "스탯 관리",
-    "your-stats": "나의 스탯",
-    "remaining-points": "남은 포인트: {0}",
-    "click-to-increase": "▶ 클릭하여 스탯 증가",
-    "max-stat-reached": "최대치에 도달했습니다!",
-    "stat-increased": "{0} 스탯이 증가했습니다!",
-    "not-enough-points": "스탯 포인트가 부족합니다!",
-    "current-value": "현재: {0}",
-    "click-reset": "▶ 우클릭으로 초기화 (1회 무료)",
-    "points-available": "사용 가능한 포인트",
-    "points-count": "보유 포인트: {0}",
-    "points-info": "레벨업 시 스탯 포인트를 획득합니다",
-    "click-to-add": "▶ 클릭하여 포인트 추가",
+    "your_stats": "나의 스탯",
+    "remaining_points": "남은 포인트: {0}",
+    "click_to_increase": "▶ 클릭하여 스탯 증가",
+    "max_stat_reached": "최대치에 도달했습니다!",
+    "stat_increased": "{0} 스탯이 증가했습니다!",
+    "not_enough_points": "스탯 포인트가 부족합니다!",
+    "current_value": "현재 값: {0}",
+    "click_reset": "▶ 우클릭으로 초기화 (1회 무료)",
     "points_available": "사용 가능한 포인트",
     "points_count": "포인트: {0}",
     "points_info": "레벨업 시 포인트를 얻습니다",
-    "current_value": "현재 값: {0}",
-    "base_bonus": "기본 보너스: {0}",
-    "click_to_add": "▶ 클릭하여 추가"
+    "click_to_add": "▶ 클릭하여 추가",
+    "base_bonus": "기본 보너스: {0}"
   },
   "leaderboard": {
     "title": "리더보드",
     "subtitle": "서버 최강자들을 확인하세요!",
-    "level-board": "레벨 순위",
-    "job-board": "직업 순위",
-    "wealth-board": "재산 순위",
-    "combat-board": "전투력 순위",
-    "playtime-board": "플레이시간 순위",
+    "level_board": "레벨 순위",
+    "job_board": "직업 순위",
+    "wealth_board": "재산 순위",
+    "combat_board": "전투력 순위",
+    "playtime_board": "플레이시간 순위",
     "loading": "데이터를 불러오는 중...",
-    "loading-description": "잠시만 기다려주세요...",
+    "loading_description": "잠시만 기다려주세요...",
     "empty": "아직 데이터가 없습니다.",
-    "your-rank": "나의 순위: #{0}",
-    "not-ranked": "순위권 밖",
-    "last-updated": "마지막 업데이트: {2}",
-    "current-type": "현재 타입: {0}",
-    "total-entries": "전체 항목: {1}",
-    "rank-info": "순위: #{0}",
-    "value-info": "{0}: {0}",
-    "this-is-you": "▶ 나의 순위입니다!",
-    "tab-selected": "▶ 현재 선택됨",
-    "tab-click": "▶ 클릭하여 보기",
-    "no-rank-data": "순위 데이터가 없습니다",
-    "play-more": "더 플레이하여 순위에 도전하세요!",
+    "your_rank": "나의 순위: #{0}",
+    "not_ranked": "순위권 밖",
+    "last_updated": "마지막 업데이트: {2}",
+    "current_type": "현재 타입: {0}",
+    "total_entries": "전체 항목: {1}",
+    "rank_info": "순위: #{0}",
+    "value_info": "{0}: {0}",
+    "this_is_you": "▶ 나의 순위입니다!",
     "tab_selected": "▶ 현재 선택됨",
     "tab_click": "▶ 클릭하여 보기",
+    "no_rank_data": "순위 데이터가 없습니다",
+    "play_more": "더 플레이하여 순위에 도전하세요!",
     "type": {
       "level": "레벨",
       "combat_power": "전투력",
       "gold": "골드",
       "playtime": "플레이시간"
     },
-    "my-rank": "내 순위",
-    "my-value": "내 값: {0}"
+    "my_rank": "내 순위",
+    "my_value": "내 값: {0}"
   },
-  "quest-list": {
+  "quest_list": {
     "title": "퀘스트 목록",
-    "active-quests": "진행 중인 퀘스트",
-    "active-quests-desc": "현재 진행 중인 퀘스트입니다",
-    "completed-quests": "완료된 퀘스트",
-    "completed-quests-desc": "완료한 퀘스트 목록입니다",
+    "active_quests": "진행 중인 퀘스트",
+    "active_quests_desc": "현재 진행 중인 퀘스트입니다",
+    "completed_quests": "완료된 퀘스트",
+    "completed_quests_desc": "완료한 퀘스트 목록입니다",
     "progress": "진행도",
     "objectives": "목표",
-    "click-details": "▶ 클릭하여 상세 정보 보기",
-    "completed-status": "✓ 완료됨",
-    "completed-label": "✓ 완료됨",
+    "click_details": "▶ 클릭하여 상세 정보 보기",
+    "completed_status": "✓ 완료됨",
+    "completed_label": "✓ 완료됨",
     "completed": "완료됨",
     "rewards": "보상",
     "repeatable": "반복 가능"
   },
-  "quest-detail": {
+  "quest_detail": {
     "title": "퀘스트 상세 정보",
-    "objective-progress": "목표별 진행도"
+    "objective_progress": "목표별 진행도"
   },
-  "quest-accept": {
+  "quest_accept": {
     "title": "퀘스트 수락",
     "category": "카테고리",
     "difficulty": "난이도",
     "objectives": "목표",
     "rewards": "보상",
     "accept": "수락",
-    "accept-desc": "퀘스트를 시작합니다",
+    "accept_desc": "퀘스트를 시작합니다",
     "decline": "거절",
-    "decline-desc": "퀘스트를 거절합니다",
-    "cannot-accept": "수락할 수 없습니다",
-    "requirements-not-met": "요구 조건을 만족하지 않습니다",
-    "prerequisites-not-complete": "선행 퀘스트를 완료하지 않았습니다",
-    "exclusive-quest-completed": "양자택일 퀘스트를 이미 완료했습니다",
-    "already-active": "이미 진행 중입니다",
-    "already-completed": "이미 완료했습니다",
-    "level-requirement": "레벨 {1} 이상 필요"
+    "decline_desc": "퀘스트를 거절합니다",
+    "cannot_accept": "수락할 수 없습니다",
+    "requirements_not_met": "요구 조건을 만족하지 않습니다",
+    "prerequisites_not_complete": "선행 퀘스트를 완료하지 않았습니다",
+    "exclusive_quest_completed": "양자택일 퀘스트를 이미 완료했습니다",
+    "already_active": "이미 진행 중입니다",
+    "already_completed": "이미 완료했습니다",
+    "level_requirement": "레벨 {1} 이상 필요"
   },
-  "quest-dialog": {
+  "quest_dialog": {
     "title": "퀘스트 대화",
     "continue": "▶ 계속하기",
     "skip": "▶ 건너뛰기",
     "complete": "▶ 완료하기",
-    "accept-quest": "▶ 퀘스트 수락",
-    "decline-quest": "▶ 거절하기",
-    "next-page": "▶ 다음 페이지",
-    "previous-page": "◀ 이전 페이지",
+    "accept_quest": "▶ 퀘스트 수락",
+    "decline_quest": "▶ 거절하기",
+    "next_page": "▶ 다음 페이지",
+    "previous_page": "◀ 이전 페이지",
     "close": "■ 닫기",
-    "page-info": "페이지 {1}/{1}",
-    "rewards-title": "보상:",
-    "requirements-title": "요구사항:",
-    "npc-name": "{0}",
+    "page_info": "페이지 {1}/{1}",
+    "rewards_title": "보상:",
+    "requirements_title": "요구사항:",
+    "npc_name": "{0}",
     "speaking": "{0}가 말합니다...",
-    "quest-accepted": "퀘스트를 수락했습니다!",
-    "quest-declined": "퀘스트를 거절했습니다."
+    "quest_accepted": "퀘스트를 수락했습니다!",
+    "quest_declined": "퀘스트를 거절했습니다."
   },
   "settings": {
     "title": "설정",
@@ -276,84 +260,84 @@
     "gameplay": "게임플레이 설정",
     "privacy": "개인정보 설정",
     "language": "언어 설정",
-    "current-language": "현재 언어: {0}",
-    "click-to-change": "클릭하여 변경",
-    "click-to-settings": "클릭하여 설정",
-    "gui-settings-title": "🖥 GUI 설정",
-    "gui-settings-desc1": "• GUI 사운드 볼륨 조절",
-    "gui-settings-desc2": "• GUI 사운드 음소거/해제",
-    "ingame-settings-title": "🎮 인게임 설정",
-    "ingame-settings-desc1": "• 퀘스트 대화 속도 조절",
-    "ingame-settings-desc2": "• 자동 길안내 설정",
-    "ingame-settings-desc3": "• 데미지 표시 설정",
-    "social-settings-title": "👥 소셜 설정",
-    "social-settings-desc1": "• 친구 요청 받기 설정",
-    "social-settings-desc2": "• 길드 초대 받기 설정",
-    "social-settings-desc3": "• 귓말 모드 설정",
-    "system-settings-title": "⚙ 시스템 설정",
-    "system-settings-desc1": "• 확인 대화상자 설정",
-    "system-settings-desc2": "• 시스템 관련 설정",
-    "notification-settings-title": "🔔 알림 설정",
-    "notification-settings-desc1": "• 귓말 알림 설정",
-    "notification-settings-desc2": "• 초대 알림 설정",
-    "notification-settings-desc3": "• 서버 공지 알림 설정",
-    "ingame-settings": {
+    "current_language": "현재 언어: {0}",
+    "click_to_change": "클릭하여 변경",
+    "click_to_settings": "클릭하여 설정",
+    "gui_settings_title": "🖥 GUI 설정",
+    "gui_settings_desc1": "• GUI 사운드 볼륨 조절",
+    "gui_settings_desc2": "• GUI 사운드 음소거/해제",
+    "ingame_settings_title": "🎮 인게임 설정",
+    "ingame_settings_desc1": "• 퀘스트 대화 속도 조절",
+    "ingame_settings_desc2": "• 자동 길안내 설정",
+    "ingame_settings_desc3": "• 데미지 표시 설정",
+    "social_settings_title": "👥 소셜 설정",
+    "social_settings_desc1": "• 친구 요청 받기 설정",
+    "social_settings_desc2": "• 길드 초대 받기 설정",
+    "social_settings_desc3": "• 귓말 모드 설정",
+    "system_settings_title": "⚙ 시스템 설정",
+    "system_settings_desc1": "• 확인 대화상자 설정",
+    "system_settings_desc2": "• 시스템 관련 설정",
+    "notification_settings_title": "🔔 알림 설정",
+    "notification_settings_desc1": "• 귓말 알림 설정",
+    "notification_settings_desc2": "• 초대 알림 설정",
+    "notification_settings_desc3": "• 서버 공지 알림 설정",
+    "ingame_settings": {
       "title": "인게임 설정",
-      "quest-dialog-speed": "💬 퀘스트 대화 속도",
-      "quest-auto-guide": "🧭 퀘스트 자동 길안내"
+      "quest_dialog_speed": "💬 퀘스트 대화 속도",
+      "quest_auto_guide": "🧭 퀘스트 자동 길안내"
     },
-    "social-settings": {
+    "social_settings": {
       "title": "소셜 설정",
-      "friend-requests": "👤 친구 요청 받기",
-      "guild-invites": "🏰 길드 초대 받기",
-      "whisper-mode": "💬 귓말 모드"
+      "friend_requests": "👤 친구 요청 받기",
+      "guild_invites": "🏰 길드 초대 받기",
+      "whisper_mode": "💬 귓말 모드"
     },
-    "notification-settings": {
+    "notification_settings": {
       "title": "알림 설정",
-      "whisper-notifications": "💬 귓말 알림"
+      "whisper_notifications": "💬 귓말 알림"
     },
-    "system-settings": {
+    "system_settings": {
       "title": "시스템 설정",
-      "confirmation-dialogs": "❓ 확인 대화상자"
+      "confirmation_dialogs": "❓ 확인 대화상자"
     }
   },
-  "ingame-settings": {
+  "ingame_settings": {
     "title": "게임 설정"
   },
-  "gui-settings": {
+  "gui_settings": {
     "title": "GUI 설정",
-    "volume-changed": "설정이 변경되었습니다: 볼륨 {0}%",
-    "sound-muted": "GUI 사운드가 음소거되었습니다",
-    "sound-unmuted": "GUI 사운드가 활성화되었습니다",
-    "volume-decrease": "- 볼륨 감소",
-    "volume-increase": "+ 볼륨 증가",
-    "click-decrease": "클릭하여 볼륨을 5 감소시킵니다",
-    "click-increase": "클릭하여 볼륨을 5 증가시킵니다",
-    "sound-volume": "🔊 GUI 사운드 볼륨",
-    "current-volume": "현재 볼륨: {0}%",
+    "volume_changed": "설정이 변경되었습니다: 볼륨 {0}%",
+    "sound_muted": "GUI 사운드가 음소거되었습니다",
+    "sound_unmuted": "GUI 사운드가 활성화되었습니다",
+    "volume_decrease": "- 볼륨 감소",
+    "volume_increase": "+ 볼륨 증가",
+    "click_decrease": "클릭하여 볼륨을 5 감소시킵니다",
+    "click_increase": "클릭하여 볼륨을 5 증가시킵니다",
+    "sound_volume": "🔊 GUI 사운드 볼륨",
+    "current_volume": "현재 볼륨: {0}%",
     "status": "상태: {1}",
-    "status-muted": "음소거됨",
-    "status-active": "활성화",
+    "status_muted": "음소거됨",
+    "status_active": "활성화",
     "mute": "🔇 음소거",
     "unmute": "🔇 음소거 해제",
-    "current-status": "현재 상태: {1}",
-    "click-to-mute": "클릭하여 음소거",
-    "click-to-unmute": "클릭하여 음소거 해제",
-    "gui-settings": "🖥 GUI 설정",
-    "gui-settings-desc": "GUI 관련 설정을 변경합니다"
+    "current_status": "현재 상태: {1}",
+    "click_to_mute": "클릭하여 음소거",
+    "click_to_unmute": "클릭하여 음소거 해제",
+    "gui_settings": "🖥 GUI 설정",
+    "gui_settings_desc": "GUI 관련 설정을 변경합니다"
   },
   "shop": {
     "title": "상점",
-    "buy-price": "구매가: {0}G",
-    "sell-price": "판매가: {0}G",
-    "your-gold": "보유 골드: {1}G",
-    "not-enough-gold": "골드가 부족합니다!",
-    "purchase-success": "구매 완료!",
-    "sale-success": "판매 완료!",
-    "click-to-buy": "▶ 클릭하여 구매",
-    "click-to-sell": "▶ 클릭하여 판매",
-    "shift-click-to-buy": "▶ Shift+클릭으로 10개 구매",
-    "out-of-stock": "재고 없음",
+    "buy_price": "구매가: {0}G",
+    "sell_price": "판매가: {0}G",
+    "your_gold": "보유 골드: {1}G",
+    "not_enough_gold": "골드가 부족합니다!",
+    "purchase_success": "구매 완료!",
+    "sale_success": "판매 완료!",
+    "click_to_buy": "▶ 클릭하여 구매",
+    "click_to_sell": "▶ 클릭하여 판매",
+    "shift_click_to_buy": "▶ Shift+클릭으로 10개 구매",
+    "out_of_stock": "재고 없음",
     "gold": {
       "amount": "골드: {0}"
     },
@@ -370,11 +354,11 @@
     "available": "입장 가능",
     "unavailable": "입장 불가",
     "requirements": "입장 조건:",
-    "level-requirement": "• 필요 레벨: {1}",
-    "party-requirement": "• 파티 필요: {0}",
+    "level_requirement": "• 필요 레벨: {1}",
+    "party_requirement": "• 파티 필요: {0}",
     "cooldown": "재입장 대기시간: {2}",
     "rewards": "보상:",
-    "click-to-enter": "▶ 클릭하여 입장"
+    "click_to_enter": "▶ 클릭하여 입장"
   },
   "buttons": {
     "back": {
@@ -395,13 +379,13 @@
         "정보를 새로고침합니다"
       ]
     },
-    "next-page": {
+    "next_page": {
       "name": "다음 페이지",
       "lore": [
         "페이지 {1}/{2}"
       ]
     },
-    "previous-page": {
+    "previous_page": {
       "name": "이전 페이지",
       "lore": [
         "페이지 {1}/{2}"
@@ -429,7 +413,7 @@
       "enabled": "활성화됨",
       "disabled": "비활성화됨"
     },
-    "page-info": {
+    "page_info": {
       "name": "페이지 정보",
       "lore": [
         "페이지 {0}/{1}"
@@ -440,61 +424,58 @@
       "offline": "오프라인"
     }
   },
-  "quest-reward": {
+  "quest_reward": {
     "title": "퀘스트 보상",
-    "title-with-expiry": "퀘스트 보상 - 자동 소멸: {2}",
-    "destroy-rewards": "보상 파괴",
-    "destroy-desc": "모든 보상을 포기합니다",
-    "warning-destroy": "⚠️ 이 작업은 되돌릴 수 없습니다!",
-    "warning-destroy-line": "⚠️ 이 작업은",
-    "warning-destroy-line2": "되돌릴 수 없습니다!",
-    "claim-all": "모두 받기",
-    "claim-all-desc": "모든 보상을 인벤토리로 가져옵니다",
-    "already-claimed": "이미 보상을 수령했습니다",
-    "click-to-claim": "클릭하여 수령",
+    "title_with_expiry": "퀘스트 보상 - 자동 소멸: {2}",
+    "destroy_rewards": "보상 파괴",
+    "destroy_desc": "모든 보상을 포기합니다",
+    "warning_destroy": "⚠️ 이 작업은 되돌릴 수 없습니다!",
+    "warning_destroy_line": "⚠️ 이 작업은",
+    "warning_destroy_line2": "되돌릴 수 없습니다!",
+    "claim_all": "모두 받기",
+    "claim_all_desc": "모든 보상을 인벤토리로 가져옵니다",
+    "already_claimed": "이미 보상을 수령했습니다",
+    "click_to_claim": "클릭하여 수령",
     "claimed": "수령 완료",
-    "inventory-full": "인벤토리가 가득 찼습니다",
-    "not-enough-space": "인벤토리 공간이 부족합니다",
-    "confirm-destroy": "정말로 모든 보상을 파괴하시겠습니까?",
-    "no-items": "보상 아이템이 없습니다",
-    "no-items-desc": "이 퀘스트는 아이템 보상이 없습니다",
-    "all-claimed": "모든 보상을 수령했습니다!",
-    "exp-received": "경험치 {1} 획득!",
-    "money-received": "코인 {1} 획듍!",
-    "close-warning": "⚠️ 경고: 보상을 받지 않고 창을 닫았습니다!",
-    "items-lost": "받지 않은 아이템은 사라집니다!",
-    "expiry-days": "{0}일",
-    "expiry-hours": "{0}시간",
-    "expiry-minutes": "{0}분"
+    "inventory_full": "인벤토리가 가득 찼습니다",
+    "not_enough_space": "인벤토리 공간이 부족합니다",
+    "confirm_destroy": "정말로 모든 보상을 파괴하시겠습니까?",
+    "no_items": "보상 아이템이 없습니다",
+    "no_items_desc": "이 퀘스트는 아이템 보상이 없습니다",
+    "all_claimed": "모든 보상을 수령했습니다!",
+    "exp_received": "경험치 {1} 획득!",
+    "money_received": "코인 {1} 획듍!",
+    "close_warning": "⚠️ 경고: 보상을 받지 않고 창을 닫았습니다!",
+    "items_lost": "받지 않은 아이템은 사라집니다!",
+    "expiry_days": "{0}일",
+    "expiry_hours": "{0}시간",
+    "expiry_minutes": "{0}분"
   },
   "island": {
     "main": {
       "title": "섬 관리",
       "owner": "섬장: ",
       "size": "크기: ",
-      "members": "멤버: ",
+      "member_count": "멤버: ",
       "workers": "알바: ",
-      "created-date": "생성일: ",
-      "public-status": "상태: ",
+      "created_date": "생성일: ",
+      "public_status": "상태: ",
       "public": "공개",
       "private": "비공개",
-      "my-role": "나의 역할: ",
-      "role-owner": "섬장",
-      "role-co-owner": "부섬장",
-      "role-member": "멤버",
-      "role-worker": "알바",
-      "role-visitor": "방문자",
-      "color-change-hint": "클릭하여 섬 이름 색상 변경",
-      "hex-format-error": "잘못된 HEX 형식입니다! #RRGGBB 형식으로 입력하세요",
+      "my_role": "나의 역할: ",
+      "role_owner": "섬장",
+      "role_co_owner": "부섬장",
+      "role_member": "멤버",
+      "role_worker": "알바",
+      "role_visitor": "방문자",
+      "color_change_hint": "클릭하여 섬 이름 색상 변경",
+      "hex_format_error": "잘못된 HEX 형식입니다! #RRGGBB 형식으로 입력하세요",
       "hex_format_example": "#RRGGBB 형식 예시",
-      "color-changed": "섬 색상이 성공적으로 변경되었습니다!",
       "color_changed": "색상이 변경되었습니다",
-      "hex-input-title": "HEX 색상 코드 입력",
       "hex_input_title": "HEX 색상 코드 입력",
-      "click-to-open": "클릭하여 열기",
-      "people-count": "명",
-      "warp-moving": "섬으로 이동중...",
-      "warp-success": "섬에 오신 것을 환영합니다!",
+      "click_to_open": "클릭하여 열기",
+      "people_count": "명",
+      "warp_moving": "섬으로 이동중...",
       "warp_success": "섬으로 이동했습니다!",
       "info": {
         "lore": "섬 정보를 확인합니다",
@@ -546,7 +527,7 @@
         "name": "닫기"
       },
       "upgrade": {
-        "current-level": "현재 업그레이드 레벨:",
+        "current_level": "현재 업그레이드 레벨:",
         "size": "• 크기: 레벨 ",
         "member": "• 멤버 제한: 레벨 ",
         "worker": "• 알바 제한: 레벨 ",
@@ -564,7 +545,7 @@
         "current": "현재 방문자: ",
         "history": "• 방문 기록 보기",
         "realtime": "• 실시간 방문자 추적",
-        "open-menu": "클릭하여 방문자 메뉴 열기"
+        "open_menu": "클릭하여 방문자 메뉴 열기"
       }
     },
     "creation": {
@@ -575,66 +556,66 @@
     },
     "member": {
       "title": "섬 멤버 - {0}",
-      "current-page": "현재 페이지: ",
+      "current_page": "현재 페이지: ",
       "role": "Role",
-      "join-date": "Join Date",
-      "has-most-permissions": "Has most permissions",
-      "regular-member-permissions": "Regular member permissions",
-      "invite-prompt": "Enter player name to invite:",
-      "invite-example": "Example: PlayerName",
-      "role-owner": "Owner",
-      "all-permissions": "Has all permissions",
-      "owner-cannot-change": "Owner role cannot be changed",
-      "most-permissions": "Has most management permissions",
-      "normal-permissions": "Has normal member permissions",
-      "left-click-role": "Left-click to change role",
-      "right-click-kick": "Right-click to kick member",
-      "role-worker": "Worker",
-      "hire-date": "Hired: {0}",
-      "last-activity": "Last Activity: {0}",
-      "limited-permissions": "Has limited permissions",
-      "left-click-extend": "Left-click to extend contract",
-      "right-click-fire": "Right-click to fire worker"
+      "join_date": "Join Date",
+      "has_most_permissions": "Has most permissions",
+      "regular_member_permissions": "Regular member permissions",
+      "invite_prompt": "Enter player name to invite:",
+      "invite_example": "Example: PlayerName",
+      "role_owner": "Owner",
+      "all_permissions": "Has all permissions",
+      "owner_cannot_change": "Owner role cannot be changed",
+      "most_permissions": "Has most management permissions",
+      "normal_permissions": "Has normal member permissions",
+      "left_click_role": "Left-click to change role",
+      "right_click_kick": "Right-click to kick member",
+      "role_worker": "Worker",
+      "hire_date": "Hired: {0}",
+      "last_activity": "Last Activity: {0}",
+      "limited_permissions": "Has limited permissions",
+      "left_click_extend": "Left-click to extend contract",
+      "right_click_fire": "우클릭하여 해고"
     },
     "settings": {
       "title": "섬 설정"
     },
     "permission": {
       "title": "권한 관리",
-      "select-role-desc": "이 역할의 권한을 설정합니다.",
+      "select_role_desc": "이 역할의 권한을 설정합니다.",
       "selected": "선택됨",
-      "click-to-select": "클릭하여 선택",
-      "current-editing": "현재 편집 중",
-      "select-other-role": "좌측에서 다른 역할을 선택하여",
-      "edit-role-permissions": "해당 역할의 권한을 편집할 수 있습니다.",
+      "click_to_select": "클릭하여 선택",
+      "current_editing": "현재 편집 중",
+      "select_other_role": "좌측에서 다른 역할을 선택하여",
+      "edit_role_permissions": "해당 역할의 권한을 편집할 수 있습니다.",
       "permissions": {
         "build": "블록 설치",
-        "build-desc": "블록을 설치하고 파괴할 수 있습니다.",
+        "build_desc": "블록을 설치하고 파괴할 수 있습니다.",
         "interact": "상호작용",
-        "interact-desc": "문, 버튼 등을 사용할 수 있습니다.",
+        "interact_desc": "문, 버튼 등을 사용할 수 있습니다.",
         "use": "아이템 사용",
-        "use-desc": "아이템을 사용할 수 있습니다.",
+        "use_desc": "아이템을 사용할 수 있습니다.",
         "containers": "상자 열기",
-        "containers-desc": "상자, 화로 등을 열 수 있습니다.",
+        "containers_desc": "상자, 화로 등을 열 수 있습니다.",
         "pvp": "PVP",
-        "pvp-desc": "섬 내에서 PVP를 할 수 있습니다.",
+        "pvp_desc": "섬 내에서 PVP를 할 수 있습니다.",
         "invite": "멤버 초대",
-        "invite-desc": "새로운 멤버를 초대할 수 있습니다.",
+        "invite_desc": "새로운 멤버를 초대할 수 있습니다.",
         "kick": "멤버 추방",
-        "kick-desc": "멤버를 추방할 수 있습니다.",
+        "kick_desc": "멤버를 추방할 수 있습니다.",
         "settings": "설정 변경",
-        "settings-desc": "섬 설정을 변경할 수 있습니다."
+        "settings_desc": "섬 설정을 변경할 수 있습니다."
       },
       "save": "권한 설정 저장",
-      "save-desc": "변경한 권한 설정을 저장합니다.",
+      "save_desc": "변경한 권한 설정을 저장합니다.",
       "enabled": "활성화",
       "disabled": "비활성화",
-      "click-to-toggle": "클릭하여 토글"
+      "click_to_toggle": "클릭하여 토글"
     },
     "upgrade": {
       "title": "섬 업그레이드"
     },
-    "biome-selection": {
+    "biome_selection": {
       "title": "바이옴 선택",
       "forest": "숲",
       "plains": "평원",
@@ -653,8 +634,8 @@
         "lore1": "섬의 바이옴을 선택하세요",
         "lore2": "바이옴에 따라 지형과 몹이 달라집니다"
       },
-      "current-selected": "✔ 현재 선택됨",
-      "click-to-select": "▶ 클릭하여 선택",
+      "current_selected": "✔ 현재 선택됨",
+      "click_to_select": "▶ 클릭하여 선택",
       "back": {
         "lore": [
           "섬 생성 메뉴로 돌아갑니다"
@@ -669,7 +650,7 @@
         "title": "현재 방문자"
       }
     },
-    "biome-change": {
+    "biome_change": {
       "title": "바이옴 변경"
     },
     "biome": {
@@ -682,9 +663,9 @@
         "already_selected": "이미 선택된 바이옴입니다."
       },
       "current": "✔ 현재 바이옴",
-      "click-to-change": "▶ 클릭하여 변경",
-      "current-info": "🌍 현재 바이옴: {0}",
-      "current-info.lore": "섬의 현재 바이옴 정보입니다",
+      "click_to_change": "▶ 클릭하여 변경",
+      "current_info": "🌍 현재 바이옴: {0}",
+      "current_info.lore": "섬의 현재 바이옴 정보입니다",
       "back.lore": "바이옴 선택 메뉴로 돌아갑니다",
       "currently_selected": "✔ 현재 선택됨",
       "click_to_select": "▶ 클릭하여 선택",
@@ -693,37 +674,37 @@
     },
     "contribute": {
       "title": "섬 기여",
-      "input-amount": "기여할 금액",
-      "input-gold": "기여할 골드 입력",
-      "gold-info": {
+      "input_amount": "기여할 금액",
+      "input_gold": "기여할 골드 입력",
+      "gold_info": {
         "balance": "Balance: {0}G",
         "contribution": "Your Contribution: {0}G"
       },
-      "quick-amount": "Quick Amount: {0}G",
-      "gold-needed": "Gold Needed: {0}G"
+      "quick_amount": "Quick Amount: {0}G",
+      "gold_needed": "Gold Needed: {0}G"
     },
-    "member-management": {
+    "member_management": {
       "title": "섬 멤버 관리",
       "role": "역할",
-      "join-date": "가입일",
-      "has-most-permissions": "대부분의 권한 보유",
-      "regular-member-permissions": "일반 섬원 권한"
+      "join_date": "가입일",
+      "has_most_permissions": "대부분의 권한 보유",
+      "regular_member_permissions": "일반 섬원 권한"
     },
     "role": {
       "owner": "섬주",
-      "co-owner": "부섬주",
+      "co_owner": "부섬주",
       "member": "멤버",
       "worker": "알바생",
       "contributor": "기여자"
     },
-    "biome-simple": {
+    "biome_simple": {
       "title": "바이옴 선택"
     },
-    "delete-confirm": {
+    "delete_confirm": {
       "title": "⚠ 섬 삭제 확인 ⚠",
       "warning": "⚠ 주의 ⚠",
-      "click-again": "정말로 삭제하시려면 다시 한 번 클릭하세요!",
-      "island-info": {
+      "click_again": "정말로 삭제하시려면 다시 한 번 클릭하세요!",
+      "island_info": {
         "title": "삭제할 섬: {0}",
         "id": "섬 ID: {0}",
         "members": "멤버 수: {0}명",
@@ -742,13 +723,13 @@
         "warning": "⚠ 이 작업은 되돌릴 수 없습니다!",
         "click": "▶ 클릭하여 계속"
       },
-      "final-confirm": {
+      "final_confirm": {
         "title": "최종 삭제 확인",
         "warning1": "⚠ 마지막 경고!",
         "warning2": "모든 섬 데이터가 영구 삭제됩니다!",
         "click": "▶ 클릭하여 영구 삭제"
       },
-      "warning-list": {
+      "warning_list": {
         "title": "삭제 시 사라지는 것들",
         "item1": "• 섬의 모든 블록과 건축물",
         "item2": "• 섬 업그레이드 및 설정",
@@ -758,17 +739,17 @@
         "final": "이 모든 것이 영구적으로 삭제됩니다!"
       },
       "deleting": "섬을 삭제하는 중...",
-      "member-teleported": "섬이 삭제되어 스폰으로 이동되었습니다.",
+      "member_teleported": "섬이 삭제되어 스폰으로 이동되었습니다.",
       "error": "섬 삭제 중 오류가 발생했습니다: {0}",
       "success": "섬이 성공적으로 삭제되었습니다.",
       "failed": "섬 삭제에 실패했습니다."
     },
     "contribution": {
-      "title": "Island Contributions",
+      "title": "섬 기여도",
       "info": {
-        "island-name": "Island: {0}",
-        "total": "Total Contributions: {0}G",
-        "contributors": "Contributors: {0}"
+        "island_name": "Island: {0}",
+        "total": "총 기여도: {0}G",
+        "contributors": "기여자: {0}"
       },
       "contributor": {
         "name": "{0}",
@@ -780,187 +761,187 @@
         "current": "Current: {0}G"
       }
     },
-    "member-manage": {
-      "title": "Member Management",
-      "permission-not-implemented": "This permission is not yet implemented",
-      "current-role": "Current Role: {0}"
+    "member_manage": {
+      "title": "멤버 관리",
+      "permission_not_implemented": "이 권한은 아직 구현되지 않았습니다",
+      "current_role": "현재 역할: {0}"
     }
   },
   "social": {
     "mailbox": {
       "title": "우편함",
-      "title-icon": "📬 우편함",
+      "title_icon": "📬 우편함",
       "description": "받은 우편을 확인하세요!",
       "refresh": "🔄 새로고침",
-      "refresh-desc": "우편 목록을 새로고침합니다",
-      "click-refresh": "클릭하여 새로고침",
-      "send-mail": "📝 우편 보내기",
-      "send-mail-desc": "새로운 우편을 보냅니다",
-      "click-to-write": "클릭하여 작성",
-      "delete-read": "🗑 읽은 우편 삭제",
-      "delete-read-desc": "읽은 우편을 모두 삭제합니다",
-      "except-attachments": "(첨부물이 있는 우편 제외)",
-      "click-to-delete": "클릭하여 삭제",
+      "refresh_desc": "우편 목록을 새로고침합니다",
+      "click_refresh": "클릭하여 새로고침",
+      "send_mail": "📝 우편 보내기",
+      "send_mail_desc": "새로운 우편을 보냅니다",
+      "click_to_write": "클릭하여 작성",
+      "delete_read": "🗑 읽은 우편 삭제",
+      "delete_read_desc": "읽은 우편을 모두 삭제합니다",
+      "except_attachments": "(첨부물이 있는 우편 제외)",
+      "click_to_delete": "클릭하여 삭제",
       "loading": "로딩 중...",
-      "no-mail": "우편이 없습니다",
-      "no-mail-desc": "받은 우편이 없습니다",
-      "refresh-success": "우편 목록을 새로고침했습니다.",
-      "send-mail-guide": "우편 보내기:",
-      "send-mail-command": "'/우편보내기 <플레이어명> <제목> [메시지]'를 입력하세요.",
-      "send-mail-example": "예시: /우편보내기 Steve 선물 안녕하세요!",
-      "delete-success": "우편을 삭제했습니다",
-      "delete-failed": "우편 삭제에 실패했습니다"
+      "no_mail": "우편이 없습니다",
+      "no_mail_desc": "받은 우편이 없습니다",
+      "refresh_success": "우편 목록을 새로고침했습니다.",
+      "send_mail_guide": "우편 보내기:",
+      "send_mail_command": "'/우편보내기 <플레이어명> <제목> [메시지]'를 입력하세요.",
+      "send_mail_example": "예시: /우편보내기 Steve 선물 안녕하세요!",
+      "delete_success": "우편을 삭제했습니다",
+      "delete_failed": "우편 삭제에 실패했습니다"
     },
-    "mail-detail": {
+    "mail_detail": {
       "title": "우편 상세",
-      "message-icon": "📄 메시지",
-      "no-attachments": "첨부물 없음",
-      "delete-mail": "🗑 우편 삭제",
+      "message_icon": "📄 메시지",
+      "no_attachments": "첨부물 없음",
+      "delete_mail": "🗑 우편 삭제",
       "reply": "✉ 답장하기"
     },
-    "friend-list": {
+    "friend_list": {
       "title": "친구 목록",
-      "title-icon": "👥 친구 목록",
+      "title_icon": "👥 친구 목록",
       "requests": "📨 친구 요청",
-      "add-friend": "➕ 친구 추가"
+      "add_friend": "➕ 친구 추가"
     },
-    "friend-request": {
+    "friend_request": {
       "title": "친구 요청",
-      "title-icon": "📨 친구 요청",
+      "title_icon": "📨 친구 요청",
       "accept": "✓ 수락",
       "reject": "✗ 거절"
     }
   },
   "system": {
     "leaderboard": {
-      "my-rank": "내 순위",
-      "just-now": "방금 전",
-      "minutes-ago": "{0}분 전",
-      "hours-ago": "{0}시간 전",
-      "days-ago": "{0}일 전"
+      "my_rank": "내 순위",
+      "just_now": "방금 전",
+      "minutes_ago": "{0}분 전",
+      "hours_ago": "{0}시간 전",
+      "days_ago": "{0}일 전"
     }
   },
   "quest": {
     "filter": "필터:",
-    "previous-page": "이전 페이지",
-    "next-page": "다음 페이지",
+    "previous_page": "이전 페이지",
+    "next_page": "다음 페이지",
     "rewards": "보상"
   },
-  "island-creation": {
-    "current-name": "현재 이름:",
-    "click-to-change-name": "클릭하여 이름 변경",
-    "current-color": "현재 색상:",
-    "left-click": "좌클릭:",
-    "right-click": "우클릭:",
-    "middle-click": "가운데 클릭:",
-    "hex-input": "직접 HEX 코드 입력",
-    "hex-example": "예시: #FFFFFF (흰색)",
-    "current-biome": "현재 바이옴:",
-    "click-to-change": "▶ 클릭하여 변경",
+  "island_creation": {
+    "current_name": "현재 이름:",
+    "click_to_change_name": "클릭하여 이름 변경",
+    "current_color": "현재 색상:",
+    "left_click": "좌클릭:",
+    "right_click": "우클릭:",
+    "middle_click": "가운데 클릭:",
+    "hex_input": "직접 HEX 코드 입력",
+    "hex_example": "예시: #FFFFFF (흰색)",
+    "current_biome": "현재 바이옴:",
+    "click_to_change": "▶ 클릭하여 변경",
     "selected": "✔ 선택됨",
-    "click-to-select": "클릭하여 선택",
-    "click-to-create": "클릭하여 섬 생성!",
+    "click_to_select": "클릭하여 선택",
+    "click_to_create": "클릭하여 섬 생성!",
     "next": "다음",
     "previous": "이전"
   },
-  "island-main": {
+  "island_main": {
     "owner": "섬장:",
     "size": "크기:",
     "members": "멤버:",
     "workers": "알바:",
-    "created-date": "생성일:",
-    "public-status": "공개 여부:",
+    "created_date": "생성일:",
+    "public_status": "공개 여부:",
     "public": "공개",
     "private": "비공개",
-    "my-role": "내 역할:",
-    "role-owner": "섬장",
-    "role-co-owner": "부섬장",
-    "role-member": "멤버",
-    "role-worker": "알바",
-    "role-visitor": "방문자",
-    "color-change-hint": "▶ 가운데 클릭: 섬 이름 색상 변경",
-    "hex-format-error": "올바른 HEX 색상 코드를 입력하세요. (예: #FF0000)",
-    "color-changed": "섬 이름 색상이 변경되었습니다!",
-    "hex-input-title": "HEX 색상 코드 입력",
-    "member-management-title": "멤버 관리",
-    "member-management-desc1": "섬원을 초대하거나",
-    "member-management-desc2": "추방할 수 있습니다.",
-    "permission-management-title": "권한 관리",
-    "permission-management-desc1": "각 역할의 권한을",
-    "permission-management-desc2": "설정할 수 있습니다.",
-    "upgrade-title": "업그레이드",
-    "upgrade-current-level": "현재 레벨:",
-    "upgrade-size": "크기:",
-    "upgrade-member": "멤버:",
-    "upgrade-worker": "알바:",
-    "upgrade-level": "레벨",
-    "contribution-title": "기여도",
-    "contribution-desc1": "섬원들의 기여도를",
-    "contribution-desc2": "확인할 수 있습니다.",
-    "contribution-my": "내 기여도:",
-    "spawn-settings-title": "스폰 설정",
-    "spawn-settings-desc1": "섬의 스폰 위치를",
-    "spawn-settings-desc2": "관리할 수 있습니다.",
-    "island-settings-title": "섬 설정",
-    "island-settings-desc1": "섬 이름 변경",
-    "island-settings-desc2": "공개/비공개 설정",
-    "island-settings-desc3": "바이옴 변경",
-    "visitor-management-title": "방문자 관리",
-    "visitor-management-desc1": "방문자 관련 정보를",
-    "visitor-management-desc2": "확인할 수 있습니다.",
-    "visitor-management-recent": "최근 방문자:",
-    "visitor-management-current": "현재 방문자:",
-    "visitor-management-history": "• 방문 히스토리",
-    "visitor-management-realtime": "• 현재 방문자 (실시간)",
-    "visitor-management-open-menu": "▶ 클릭하여 메뉴 열기",
-    "biome-change-title": "바이옴 변경",
-    "biome-change-desc1": "섬의 바이옴을",
-    "biome-change-desc2": "변경할 수 있습니다.",
-    "warp-title": "섬으로 이동",
-    "warp-desc": "섬으로 순간이동합니다.",
-    "warp-moving": "섬으로 이동 중...",
-    "warp-success": "섬으로 이동했습니다!",
-    "click-to-open": "▶ 클릭하여 열기",
-    "click-to-warp": "▶ 클릭하여 이동",
-    "people-count": "명",
+    "my_role": "내 역할:",
+    "role_owner": "섬장",
+    "role_co_owner": "부섬장",
+    "role_member": "멤버",
+    "role_worker": "알바",
+    "role_visitor": "방문자",
+    "color_change_hint": "▶ 가운데 클릭: 섬 이름 색상 변경",
+    "hex_format_error": "올바른 HEX 색상 코드를 입력하세요. (예: #FF0000)",
+    "color_changed": "섬 이름 색상이 변경되었습니다!",
+    "hex_input_title": "HEX 색상 코드 입력",
+    "member_management_title": "멤버 관리",
+    "member_management_desc1": "섬원을 초대하거나",
+    "member_management_desc2": "추방할 수 있습니다.",
+    "permission_management_title": "권한 관리",
+    "permission_management_desc1": "각 역할의 권한을",
+    "permission_management_desc2": "설정할 수 있습니다.",
+    "upgrade_title": "업그레이드",
+    "upgrade_current_level": "현재 레벨:",
+    "upgrade_size": "크기:",
+    "upgrade_member": "멤버:",
+    "upgrade_worker": "알바:",
+    "upgrade_level": "레벨",
+    "contribution_title": "기여도",
+    "contribution_desc1": "섬원들의 기여도를",
+    "contribution_desc2": "확인할 수 있습니다.",
+    "contribution_my": "내 기여도:",
+    "spawn_settings_title": "스폰 설정",
+    "spawn_settings_desc1": "섬의 스폰 위치를",
+    "spawn_settings_desc2": "관리할 수 있습니다.",
+    "island_settings_title": "섬 설정",
+    "island_settings_desc1": "섬 이름 변경",
+    "island_settings_desc2": "공개/비공개 설정",
+    "island_settings_desc3": "바이옴 변경",
+    "visitor_management_title": "방문자 관리",
+    "visitor_management_desc1": "방문자 관련 정보를",
+    "visitor_management_desc2": "확인할 수 있습니다.",
+    "visitor_management_recent": "최근 방문자:",
+    "visitor_management_current": "현재 방문자:",
+    "visitor_management_history": "• 방문 히스토리",
+    "visitor_management_realtime": "• 현재 방문자 (실시간)",
+    "visitor_management_open_menu": "▶ 클릭하여 메뉴 열기",
+    "biome_change_title": "바이옴 변경",
+    "biome_change_desc1": "섬의 바이옴을",
+    "biome_change_desc2": "변경할 수 있습니다.",
+    "warp_title": "섬으로 이동",
+    "warp_desc": "섬으로 순간이동합니다.",
+    "warp_moving": "섬으로 이동 중...",
+    "warp_success": "섬으로 이동했습니다!",
+    "click_to_open": "▶ 클릭하여 열기",
+    "click_to_warp": "▶ 클릭하여 이동",
+    "people_count": "명",
     "contribute": {
       "title": "섬 기여하기",
-      "gold-info": {
+      "gold_info": {
         "title": "내 골드 정보",
         "balance": "보유 골드: {1} G",
         "contribution": "내 총 기여도: {1} G",
         "description1": "섬에 골드를 기여하면",
         "description2": "섬 업그레이드에 사용됩니다"
       },
-      "quick-amount": "{1} G 기여",
-      "click-to-contribute": "클릭하여 기여합니다",
-      "click-prompt": "▶ 클릭하여 기여",
-      "insufficient-gold": "골드가 부족합니다",
-      "gold-needed": "필요: {1} G 더 필요",
-      "custom-amount": {
+      "quick_amount": "{1} G 기여",
+      "click_to_contribute": "클릭하여 기여합니다",
+      "click_prompt": "▶ 클릭하여 기여",
+      "insufficient_gold": "골드가 부족합니다",
+      "gold_needed": "필요: {1} G 더 필요",
+      "custom_amount": {
         "title": "사용자 지정 금액",
         "description1": "원하는 금액을 직접",
         "description2": "입력할 수 있습니다",
         "minimum": "최소: 100 G",
         "maximum": "최대: 보유 골드",
-        "click-prompt": "▶ 클릭하여 입력"
+        "click_prompt": "▶ 클릭하여 입력"
       },
-      "back-description": "기여도 목록으로 돌아갑니다",
+      "back_description": "기여도 목록으로 돌아갑니다",
       "anvil": {
         "placeholder": "기여할 금액",
         "title": "기여할 골드 입력"
       },
-      "minimum-amount-error": "최소 100 골드 이상 기여해야 합니다.",
-      "invalid-number": "올바른 숫자를 입력해주세요.",
-      "insufficient-gold-message": "골드가 부족합니다! (보유: {1} G)",
+      "minimum_amount_error": "최소 100 골드 이상 기여해야 합니다.",
+      "invalid_number": "올바른 숫자를 입력해주세요.",
+      "insufficient_gold_message": "골드가 부족합니다! (보유: {1} G)",
       "success": "{1} 골드를 섬에 기여했습니다!",
-      "total-contribution": "총 기여도: {1} G"
+      "total_contribution": "총 기여도: {1} G"
     },
     "contribution": {
       "title": "기여도 순위",
       "info": {
         "title": "섬 기여도 정보",
-        "island-name": "섬 이름: {0}",
+        "island_name": "섬 이름: {0}",
         "total": "총 기여도: {1}",
         "contributors": "기여자 수: {1}명",
         "description1": "기여도는 섬 업그레이드에",
@@ -978,32 +959,32 @@
         "description2": "섬 발전에 도움을 줄 수 있습니다",
         "click": "▶ 클릭하여 기여하기"
       },
-      "back-description": "메인 메뉴로 돌아갑니다"
+      "back_description": "메인 메뉴로 돌아갑니다"
     }
   },
-  "gui-settings-v2": {
+  "gui_settings_v2": {
     "title": "GUI 설정",
     "volume": "볼륨: {0}%",
-    "volume-changed": "볼륨이 {0}%로 변경되었습니다",
-    "sound-enabled": "소리 활성화",
-    "sound-disabled": "소리 비활성화"
+    "volume_changed": "볼륨이 {0}%로 변경되었습니다",
+    "sound_enabled": "소리 활성화",
+    "sound_disabled": "소리 비활성화"
   },
-  "ingame-settings-v2": {
+  "ingame_settings_v2": {
     "title": "게임 내 설정"
   },
-  "notification-settings": {
+  "notification_settings": {
     "title": "알림 설정"
   },
-  "social-settings": {
+  "social_settings": {
     "title": "소셜 설정"
   },
-  "system-settings": {
+  "system_settings": {
     "title": "시스템 설정"
   },
   "error": {
     "title": "오류"
   },
-  "buttons-v2": {
+  "buttons_v2": {
     "toggle": {
       "enabled": "활성화",
       "disabled": "비활성화"
@@ -1020,7 +1001,7 @@
         "작업을 취소합니다"
       ]
     },
-    "page-info": {
+    "page_info": {
       "name": "페이지 정보",
       "lore": [
         "현재 페이지: {0}/{1}"
@@ -1031,17 +1012,17 @@
       "offline": "오프라인"
     }
   },
-  "dialog-choice": {
+  "dialog_choice": {
     "title": "선택하기",
     "choose": "응답을 선택하세요:",
     "confirm": "선택 확인",
-    "option-selected": "{0}을(를) 선택했습니다",
+    "option_selected": "{0}을(를) 선택했습니다",
     "icon": "💬",
     "description": "대화 옵션 선택",
     "npc": "NPC: {0}",
-    "npc-content": "{0}",
+    "npc_content": "{0}",
     "option": "옵션 {0}",
-    "click-to-select": "클릭하여 이 옵션 선택"
+    "click_to_select": "클릭하여 이 옵션 선택"
   },
   "mailbox": {
     "title": "우편함",
@@ -1055,28 +1036,27 @@
     "delete": "삭제",
     "reply": "답장",
     "forward": "전달",
-    "mark-read": "읽음 표시",
-    "mark-unread": "읽지 않음 표시",
-    "no-mail": "받은 편지가 없습니다",
+    "mark_read": "읽음 표시",
+    "mark_unread": "읽지 않음 표시",
+    "no_mail": "받은 편지가 없습니다",
     "attachments": "첨부: {0}",
-    "collect-attachment": "첨부 받기",
-    "attachment-collected": "첨부를 받았습니다!",
-    "delete-confirm": "이 편지를 삭제하시겠습니까?",
+    "collect_attachment": "첨부 받기",
+    "attachment_collected": "첨부를 받았습니다!",
+    "delete_confirm": "이 편지를 삭제하시겠습니까?",
     "deleted": "편지를 삭제했습니다",
-    "sent-success": "편지를 성공적으로 보냈습니다!",
-    "refresh-success": "우편함을 새로고침했습니다!",
-    "send-mail-guide": "우편을 보내려면 아래 명령어를 사용하세요:",
-    "send-mail-command": "/mail send <플레이어> <메시지>",
-    "send-mail-example": "예시: /mail send Steve 안녕하세요!",
+    "sent_success": "편지를 성공적으로 보냈습니다!",
+    "refresh_success": "우편함을 새로고침했습니다!",
+    "send_mail_guide": "우편을 보내려면 아래 명령어를 사용하세요:",
+    "send_mail_command": "/mail send <플레이어> <메시지>",
+    "send_mail_example": "예시: /mail send Steve 안녕하세요!",
     "sender": "보낸이: {0}",
     "status": "상태: {0}",
     "time": "시간: {0}",
-    "delete-confirm-word": "삭제",
     "delete_confirm_word": "삭제",
-    "delete-confirm-text": "삭제하려면 '삭제'를 입력하세요",
-    "delete-confirm-title": "우편 삭제 확인"
+    "delete_confirm_text": "삭제하려면 '삭제'를 입력하세요",
+    "delete_confirm_title": "우편 삭제 확인"
   },
-  "mail-detail": {
+  "mail_detail": {
     "title": "우편 상세",
     "from": "보낸이: {0}",
     "to": "받는이: {0}",
@@ -1084,131 +1064,131 @@
     "subject": "제목: {0}",
     "message": "메시지:",
     "attachments": "첨부파일:",
-    "no-attachments": "첨부파일 없음",
-    "collect-all": "모든 첨부 받기",
+    "no_attachments": "첨부파일 없음",
+    "collect_all": "모든 첨부 받기",
     "reply": "답장",
     "forward": "전달",
     "delete": "삭제",
     "back": "받은편지함으로",
     "sender": "발신자: {0}",
     "receiver": "수신자: {0}",
-    "sent-time": "발송 시간: {0}",
+    "sent_time": "발송 시간: {0}",
     "status": "상태: {0}",
-    "no-message": "메시지 내용 없음",
-    "delete-success": "우편을 성공적으로 삭제했습니다!",
-    "delete-failed": "우편 삭제에 실패했습니다",
-    "reply-desc": "클릭하여 이 우편에 답장",
-    "reply-guide": "답장하려면 다음 명령어를 사용하세요:",
-    "reply-command": "/mail reply {0} <메시지>"
+    "no_message": "메시지 내용 없음",
+    "delete_success": "우편을 성공적으로 삭제했습니다!",
+    "delete_failed": "우편 삭제에 실패했습니다",
+    "reply_desc": "클릭하여 이 우편에 답장",
+    "reply_guide": "답장하려면 다음 명령어를 사용하세요:",
+    "reply_command": "/mail reply {0} <메시지>"
   },
-  "friend-requests": {
+  "friend_requests": {
     "title": "친구 요청",
     "pending": "대기 중인 요청: {0}",
-    "sent-by": "보낸 사람: {0}",
-    "sent-date": "날짜: {0}",
+    "sent_by": "보낸 사람: {0}",
+    "sent_date": "날짜: {0}",
     "accept": "수락",
     "decline": "거절",
-    "accept-all": "모두 수락",
-    "decline-all": "모두 거절",
-    "no-requests": "대기 중인 친구 요청이 없습니다",
+    "accept_all": "모두 수락",
+    "decline_all": "모두 거절",
+    "no_requests": "대기 중인 친구 요청이 없습니다",
     "accepted": "친구 요청을 수락했습니다!",
     "declined": "친구 요청을 거절했습니다",
-    "already-friends": "{0}님과 이미 친구입니다",
-    "request-time": "요청 시간: {0}",
+    "already_friends": "{0}님과 이미 친구입니다",
+    "request_time": "요청 시간: {0}",
     "message": "메시지: {0}",
-    "accept-desc1": "클릭하여 이 친구 요청 수락",
-    "reject-desc1": "클릭하여 이 친구 요청 거절"
+    "accept_desc1": "클릭하여 이 친구 요청 수락",
+    "reject_desc1": "클릭하여 이 친구 요청 거절"
   },
   "friends": {
     "title": "친구",
-    "add-command-hint": "친구를 추가하려면:",
-    "add-command-example": "/friend add <플레이어>",
+    "add_command_hint": "친구를 추가하려면:",
+    "add_command_example": "/friend add <플레이어>",
     "refreshed": "친구 목록을 새로고침했습니다!",
     "status": "상태: {0}",
     "since": "친구가 된 날짜: {0}",
-    "whisper-hint": "클릭하여 귓속말 보내기"
+    "whisper_hint": "클릭하여 귓속말 보내기"
   },
-  "friend-list": {
+  "friend_list": {
     "title": "친구 목록",
     "online": "온라인 친구: {0}",
     "offline": "오프라인 친구: {0}",
     "total": "전체 친구: {0}/{1}",
     "status": "상태: {0}",
-    "last-seen": "마지막 접속: {0}",
+    "last_seen": "마지막 접속: {0}",
     "location": "위치: {0}",
-    "invite-party": "파티 초대",
-    "send-message": "메시지 보내기",
+    "invite_party": "파티 초대",
+    "send_message": "메시지 보내기",
     "teleport": "순간이동",
-    "remove-friend": "친구 삭제",
+    "remove_friend": "친구 삭제",
     "profile": "프로필 보기",
-    "no-friends": "아직 친구가 없습니다",
-    "add-friend": "친구 추가",
-    "friend-removed": "친구를 삭제했습니다",
-    "invite-sent": "파티 초대를 보냈습니다!"
+    "no_friends": "아직 친구가 없습니다",
+    "add_friend": "친구 추가",
+    "friend_removed": "친구를 삭제했습니다",
+    "invite_sent": "파티 초대를 보냈습니다!"
   },
-  "island-settings": {
+  "island_settings": {
     "title": "섬 설정",
     "name": "섬 이름:",
-    "name-change": "이름 변경",
-    "name-changed": "섬 이름을 변경했습니다!",
+    "name_change": "이름 변경",
+    "name_changed": "섬 이름을 변경했습니다!",
     "privacy": "공개 설정:",
     "public": "공개",
     "private": "비공개",
-    "toggle-privacy": "공개 설정 변경",
+    "toggle_privacy": "공개 설정 변경",
     "biome": "바이옴:",
-    "change-biome": "바이옴 변경",
-    "reset-island": "섬 초기화",
-    "reset-warning": "⚠ 모든 것이 삭제됩니다!",
-    "reset-confirm": "초기화하려면 'CONFIRM'을 입력하세요",
-    "banned-players": "차단된 플레이어",
+    "change_biome": "바이옴 변경",
+    "reset_island": "섬 초기화",
+    "reset_warning": "⚠ 모든 것이 삭제됩니다!",
+    "reset_confirm": "초기화하려면 'CONFIRM'을 입력하세요",
+    "banned_players": "차단된 플레이어",
     "unban": "차단 해제",
-    "no-banned": "차단된 플레이어가 없습니다",
-    "settings-saved": "설정을 저장했습니다!"
+    "no_banned": "차단된 플레이어가 없습니다",
+    "settings_saved": "설정을 저장했습니다!"
   },
-  "island-spawn-settings": {
+  "island_spawn_settings": {
     "title": "스폰 설정",
-    "main-spawn": "메인 스폰",
-    "visitor-spawn": "방문자 스폰",
-    "set-location": "위치 설정",
-    "current-location": "현재 위치: {0}, {1}, {2}",
-    "location-set": "스폰 위치를 설정했습니다!",
-    "reset-spawn": "기본값으로 초기화",
-    "spawn-protection": "스폰 보호 반경: {0}",
-    "increase-radius": "반경 증가",
-    "decrease-radius": "반경 감소",
-    "lock-spawn": "스폰 잠금",
-    "unlock-spawn": "스폰 잠금 해제",
-    "spawn-locked": "스폰이 잠겼습니다",
-    "spawn-unlocked": "스폰 잠금이 해제되었습니다"
+    "main_spawn": "메인 스폰",
+    "visitor_spawn": "방문자 스폰",
+    "set_location": "위치 설정",
+    "current_location": "현재 위치: {0}, {1}, {2}",
+    "location_set": "스폰 위치를 설정했습니다!",
+    "reset_spawn": "기본값으로 초기화",
+    "spawn_protection": "스폰 보호 반경: {0}",
+    "increase_radius": "반경 증가",
+    "decrease_radius": "반경 감소",
+    "lock_spawn": "스폰 잠금",
+    "unlock_spawn": "스폰 잠금 해제",
+    "spawn_locked": "스폰이 잠겼습니다",
+    "spawn_unlocked": "스폰 잠금이 해제되었습니다"
   },
-  "island-personal-spawn": {
+  "island_personal_spawn": {
     "title": "개인 스폰",
-    "set-spawn": "개인 스폰 설정",
-    "current-spawn": "현재 스폰: {0}, {1}, {2}",
-    "spawn-set": "개인 스폰을 설정했습니다!",
-    "teleport-spawn": "스폰으로 이동",
-    "delete-spawn": "스폰 삭제",
-    "spawn-deleted": "개인 스폰을 삭제했습니다",
-    "no-spawn-set": "설정된 개인 스폰이 없습니다"
+    "set_spawn": "개인 스폰 설정",
+    "current_spawn": "현재 스폰: {0}, {1}, {2}",
+    "spawn_set": "개인 스폰을 설정했습니다!",
+    "teleport_spawn": "스폰으로 이동",
+    "delete_spawn": "스폰 삭제",
+    "spawn_deleted": "개인 스폰을 삭제했습니다",
+    "no_spawn_set": "설정된 개인 스폰이 없습니다"
   },
-  "island-member-manage": {
+  "island_member_manage": {
     "title": "멤버 관리: {0}",
     "role": "역할: {0}",
-    "change-role": "역할 변경",
+    "change_role": "역할 변경",
     "promote": "승진",
     "demote": "강등",
     "kick": "섬에서 추방",
     "ban": "섬 차단",
-    "transfer-ownership": "소유권 이전",
-    "transfer-warning": "⚠ 되돌릴 수 없습니다!",
-    "transfer-confirm": "확인하려면 'TRANSFER'를 입력하세요",
+    "transfer_ownership": "소유권 이전",
+    "transfer_warning": "⚠ 되돌릴 수 없습니다!",
+    "transfer_confirm": "확인하려면 'TRANSFER'를 입력하세요",
     "promoted": "{0}님을 승진시켰습니다!",
     "demoted": "{0}님을 강등시켰습니다!",
     "kicked": "{0}님을 추방했습니다!",
     "banned": "{0}님을 차단했습니다!",
-    "ownership-transferred": "{0}님에게 소유권을 이전했습니다!"
+    "ownership_transferred": "{0}님에게 소유권을 이전했습니다!"
   },
-  "island-member": {
+  "island_member": {
     "title": "섬 멤버",
     "total": "전체 멤버: {0}/{1}",
     "workers": "알바생: {0}/{1}",
@@ -1216,30 +1196,43 @@
     "role": "역할: {0}",
     "joined": "가입일: {0}",
     "contribution": "기여도: {0}",
-    "last-online": "마지막 접속: {0}",
+    "last_online": "마지막 접속: {0}",
     "manage": "관리",
     "invite": "플레이어 초대",
-    "pending-invites": "대기 중인 초대: {0}",
-    "no-members": "아직 멤버가 없습니다"
+    "pending_invites": "대기 중인 초대: {0}",
+    "no_members": "아직 멤버가 없습니다"
   },
-  "island-upgrade": {
+  "island_upgrade": {
     "title": "섬 업그레이드",
-    "size-upgrade": "크기 업그레이드",
-    "current-size": "현재 크기: {0}x{0}",
-    "next-size": "다음 크기: {0}x{0}",
-    "member-upgrade": "멤버 제한",
-    "current-members": "현재 제한: {0}",
-    "next-members": "다음 제한: {0}",
-    "worker-upgrade": "알바생 제한",
-    "current-workers": "현재 제한: {0}",
-    "next-workers": "다음 제한: {0}",
+    "size_upgrade": "크기 업그레이드",
+    "current_size": "현재 크기: {0}x{0}",
+    "next_size": "다음 크기: {0}x{0}",
+    "member_upgrade": "멤버 제한",
+    "current_members": "현재 제한: {0}",
+    "next_members": "다음 제한: {0}",
+    "worker_upgrade": "알바생 제한",
+    "current_workers": "현재 제한: {0}",
+    "next_workers": "다음 제한: {0}",
     "cost": "비용: {0} 코인",
     "requirements": "요구사항:",
-    "level-required": "섬 레벨 {0} 필요",
+    "level_required": "섬 레벨 {0} 필요",
     "upgrade": "업그레이드",
-    "max-level": "최대 레벨 도달",
-    "not-enough-coins": "코인이 부족합니다!",
-    "upgrade-success": "업그레이드 성공!",
-    "requirements-not-met": "요구사항을 충족하지 못했습니다!"
+    "max_level": "최대 레벨 도달",
+    "not_enough_coins": "코인이 부족합니다!",
+    "upgrade_success": "업그레이드 성공!",
+    "requirements_not_met": "요구사항을 충족하지 못했습니다!"
+  },
+  "items": {
+    "gui": {
+      "buttons": {
+        "status": {
+          "online": "온라인",
+          "offline": "오프라인"
+        }
+      },
+      "error": {
+        "title": "오류"
+      }
+    }
   }
 }

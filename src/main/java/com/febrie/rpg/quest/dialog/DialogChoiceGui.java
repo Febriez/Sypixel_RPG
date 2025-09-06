@@ -9,7 +9,7 @@ import com.febrie.rpg.quest.dialog.DialogManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangHelper;
+
 import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -56,7 +56,7 @@ public class DialogChoiceGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangHelper.text(LangKey.GUI_DIALOG_CHOICE_TITLE, viewer.locale());
+        return LangManager.text(LangKey.GUI_DIALOG_CHOICE_TITLE, viewer.locale());
     }
 
     @Override
@@ -72,8 +72,8 @@ public class DialogChoiceGui extends BaseGui {
         // 대화 아이콘
         GuiItem dialogIcon = GuiItem.display(
                 new ItemBuilder(Material.WRITABLE_BOOK)
-                        .displayName(LangHelper.text(LangKey.GUI_DIALOG_CHOICE_ICON, viewer.locale()))
-                        .addLore(LangHelper.text(LangKey.GUI_DIALOG_CHOICE_DESCRIPTION, viewer.locale()))
+                        .displayName(LangManager.text(LangKey.GUI_DIALOG_CHOICE_ICON, viewer.locale()))
+                        .addLore(LangManager.text(LangKey.GUI_DIALOG_CHOICE_DESCRIPTION, viewer.locale()))
                         .build()
         );
         setItem(4, dialogIcon);
@@ -83,8 +83,8 @@ public class DialogChoiceGui extends BaseGui {
         // NPC 대화 내용 표시
         GuiItem npcDialog = GuiItem.display(
                 new ItemBuilder(Material.PLAYER_HEAD)
-                        .displayName(LangHelper.text(LangKey.GUI_DIALOG_CHOICE_NPC, viewer.locale()))
-                        .addLore(LangHelper.text(LangKey.GUI_DIALOG_CHOICE_NPC_CONTENT, viewer.locale()))
+                        .displayName(LangManager.text(LangKey.GUI_DIALOG_CHOICE_NPC, viewer.locale()))
+                        .addLore(LangManager.text(LangKey.GUI_DIALOG_CHOICE_NPC_CONTENT, viewer.locale()))
                         .build()
         );
         setItem(13, npcDialog);
@@ -104,10 +104,10 @@ public class DialogChoiceGui extends BaseGui {
             
             GuiItem choiceItem = GuiItem.clickable(
                     new ItemBuilder(Material.PAPER)
-                            .displayName(LangHelper.text(LangKey.GUI_DIALOG_CHOICE_OPTION, viewer.locale(), String.valueOf(i + 1)))
+                            .displayName(LangManager.text(LangKey.GUI_DIALOG_CHOICE_OPTION, viewer.locale(), String.valueOf(i + 1)))
                             .addLore(choice.getText().color(UnifiedColorUtil.WHITE))
                             .addLore(Component.empty())
-                            .addLore(LangHelper.text(LangKey.GUI_DIALOG_CHOICE_CLICK_TO_SELECT, viewer.locale()))
+                            .addLore(LangManager.text(LangKey.GUI_DIALOG_CHOICE_CLICK_TO_SELECT, viewer.locale()))
                             .build(),
                     p -> {
                         // 선택 처리

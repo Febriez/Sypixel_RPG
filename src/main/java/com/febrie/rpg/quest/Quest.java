@@ -6,6 +6,8 @@ import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.reward.QuestReward;
 import com.febrie.rpg.quest.reward.RewardDeliveryType;
+import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -257,10 +259,19 @@ public abstract class Quest {
 
         int index = 1;
         for (QuestObjective objective : objectives) {
-            Component objectiveText = getObjectiveDescription(objective, player);
-            page2 = page2.append(Component.text(index + ". ", UnifiedColorUtil.YELLOW))
-                    .append(objectiveText.color(UnifiedColorUtil.WHITE))
-                    .append(Component.newline());
+            List<Component> objectiveTexts = getObjectiveDescription(objective, player);
+            page2 = page2.append(Component.text(index + ". ", UnifiedColorUtil.YELLOW));
+            
+            // Join the objective description components
+            if (!objectiveTexts.isEmpty()) {
+                Component joinedText = objectiveTexts.get(0);
+                for (int i = 1; i < objectiveTexts.size(); i++) {
+                    joinedText = joinedText.append(Component.space()).append(objectiveTexts.get(i));
+                }
+                page2 = page2.append(joinedText.color(UnifiedColorUtil.WHITE));
+            }
+            
+            page2 = page2.append(Component.newline());
             index++;
         }
 
@@ -299,7 +310,7 @@ public abstract class Quest {
     /**
      * 목표 설명 가져오기
      */
-    public abstract @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who);
+    public abstract @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who);
 
     /**
      * 카테고리 이름 가져오기
@@ -323,9 +334,28 @@ public abstract class Quest {
      * @param player 플레이어
      * @return 대화 컴포넌트
      */
-    @Nullable
-    public Component getDialog(int index, @NotNull Player player) {
-        return null;
+    @NotNull
+    public abstract Component getDialog(int index, @NotNull Player player);
+
+    /**
+     * 대화 반환
+     * @param player 플레이어
+     * @return 대화 컴포넌트
+     */
+    @NotNull
+    public List<Component> getDialogs(@NotNull Player player) {
+        return new ArrayList<>();
+    }
+    
+    /**
+     * 대화 목록을 언어 키로부터 가져오는 헬퍼 메소드
+     * @param dialogKey 대화 언어 키
+     * @param player 플레이어
+     * @return 대화 컴포넌트 리스트
+     */
+    @NotNull
+    protected List<Component> getDialogs(@NotNull LangKey dialogKey, @NotNull Player player) {
+        return LangManager.list(dialogKey, player);
     }
     
     /**

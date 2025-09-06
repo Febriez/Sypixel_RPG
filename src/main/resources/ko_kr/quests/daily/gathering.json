@@ -1,14 +1,4 @@
 {
   "name": "일일 수집",
-  "description": [
-    "오늘의 필요한 자원을 수집하세요.",
-    "마을 건설 프로젝트에 필요한 재료를 수집하세요.",
-    "",
-    "매일 자정에 리셋됩니다."
-  ],
-  "objectives": {
-    "gather_logs": "원목 30개 수집",
-    "gather_cobblestone": "조약돌 50개 수집",
-    "gather_iron": "철광석 10개 수집"
-  }
+  "dialogs": []
 }

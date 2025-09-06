@@ -17,7 +17,7 @@ import org.bukkit.World;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangHelper;
+
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;

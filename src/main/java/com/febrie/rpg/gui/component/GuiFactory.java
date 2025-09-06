@@ -3,9 +3,9 @@ package com.febrie.rpg.gui.component;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangHelper;
+
 import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.LangHelper;
+
 import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -123,7 +123,7 @@ public class GuiFactory {
     public static GuiItem createPlaceholder(@NotNull LangKey textKey, @NotNull Player player) {
         return GuiItem.display(
                 ItemBuilder.of(Material.GRAY_STAINED_GLASS_PANE)
-                        .displayName(LangHelper.text(textKey, player))
+                        .displayName(LangManager.text(textKey, player))
                         .build()
         );
     }
@@ -134,8 +134,8 @@ public class GuiFactory {
     public static GuiItem createErrorItem(@NotNull LangKey messageKey, @NotNull Player player) {
         return GuiItem.display(
                 ItemBuilder.of(Material.BARRIER)
-                        .displayName(LangHelper.text(LangKey.ITEMS_GUI_ERROR_TITLE, player))
-                        .addLore(LangHelper.text(messageKey, player))
+                        .displayName(LangManager.text(LangKey.ITEMS_GUI_ERROR_TITLE, player))
+                        .addLore(LangManager.text(messageKey, player))
                         .build()
         );
     }
@@ -153,8 +153,8 @@ public class GuiFactory {
                                            @NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(material)
-                        .displayName(LangHelper.text(nameKey, player))
-                        .addLore(LangHelper.text(loreKey, player))
+                        .displayName(LangManager.text(nameKey, player))
+                        .addLore(LangManager.text(loreKey, player))
                         .asGuiItem()
                         .build(),
                 action
@@ -203,8 +203,8 @@ public class GuiFactory {
     public static GuiItem createInfoItem(@NotNull LangKey titleKey, @NotNull LangKey loreKey, @NotNull Player player) {
         return GuiItem.display(
                 ItemBuilder.of(Material.BOOK)
-                        .displayName(LangHelper.text(titleKey, player))
-                        .addLore(LangHelper.text(loreKey, player))
+                        .displayName(LangManager.text(titleKey, player))
+                        .addLore(LangManager.text(loreKey, player))
                         .build()
         );
     }
@@ -245,8 +245,8 @@ public class GuiFactory {
 
         return GuiItem.clickable(
                 ItemBuilder.of(material)
-                        .displayName(LangHelper.text(nameKey, player))
-                        .addLore(LangHelper.text(statusKey, player))
+                        .displayName(LangManager.text(nameKey, player))
+                        .addLore(LangManager.text(statusKey, player))
                         .build(),
                 action
         );
@@ -280,7 +280,7 @@ public class GuiFactory {
         return GuiItem.display(
                 ItemBuilder.of(material)
                         .displayName(Component.text(status, isOnline ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
-                        .addLore(LangHelper.text(statusKey, player))
+                        .addLore(LangManager.text(statusKey, player))
                         .build()
         );
     }

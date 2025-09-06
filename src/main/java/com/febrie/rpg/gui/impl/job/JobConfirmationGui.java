@@ -10,7 +10,7 @@ import com.febrie.rpg.job.JobType;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangHelper;
+
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
@@ -39,7 +39,7 @@ public class JobConfirmationGui extends BaseGui {
 
     private JobConfirmationGui(@NotNull GuiManager guiManager,
                                @NotNull Player player, @NotNull RPGPlayer rpgPlayer, @NotNull JobType selectedJob) {
-        super(player, guiManager, GUI_SIZE, LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_TITLE, player));
+        super(player, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_JOB_CONFIRMATION_TITLE, player));
         this.rpgPlayer = rpgPlayer;
         this.selectedJob = selectedJob;
     }
@@ -54,7 +54,7 @@ public class JobConfirmationGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_TITLE, viewer);
+        return LangManager.text(LangKey.GUI_JOB_CONFIRMATION_TITLE, viewer);
     }
 
     @Override
@@ -83,26 +83,26 @@ public class JobConfirmationGui extends BaseGui {
         // 중앙에 직업 정보 표시
         ItemBuilder builder = ItemBuilder.of(selectedJob.getMaterial())
                 .displayName(Component.text(selectedJob.getIcon() + " ")
-                        .append(LangHelper.text(LangKey.valueOf("JOB_" + jobKey.toUpperCase() + "_NAME"), viewer))
+                        .append(LangManager.text(LangKey.valueOf("JOB_" + jobKey.toUpperCase() + "_NAME"), viewer))
                         .color(selectedJob.getColor())
                         .decoration(TextDecoration.BOLD, true))
                 .addLore(Component.empty())
-                .addLore(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_SELECTED_JOB, viewer))
+                .addLore(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_SELECTED_JOB, viewer))
                 .addLore(Component.empty());
 
         // 직업 설명
-        List<Component> description = LangHelper.list(LangKey.valueOf("JOB_" + jobKey.toUpperCase() + "_DESCRIPTION"), viewer);
+        List<Component> description = LangManager.list(LangKey.valueOf("JOB_" + jobKey.toUpperCase() + "_DESCRIPTION"), viewer);
         for (Component line : description) {
             builder.addLore(line);
         }
 
         builder.addLore(Component.empty())
-                .addLore(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_MAX_LEVEL, viewer, String.valueOf(selectedJob.getMaxLevel())))
+                .addLore(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_MAX_LEVEL, viewer, String.valueOf(selectedJob.getMaxLevel())))
                 .addLore(Component.empty())
-                .addLore(LangHelper.text(LangKey.GENERAL_SEPARATOR, viewer))
-                .addLore(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_WARNING, viewer))
-                .addLore(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_CANNOT_CHANGE, viewer))
-                .addLore(LangHelper.text(LangKey.GENERAL_SEPARATOR, viewer))
+                .addLore(LangManager.text(LangKey.GENERAL_SEPARATOR, viewer))
+                .addLore(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_WARNING, viewer))
+                .addLore(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_CANNOT_CHANGE, viewer))
+                .addLore(LangManager.text(LangKey.GENERAL_SEPARATOR, viewer))
                 .flags(ItemFlag.values())
                 .glint(true);
 
@@ -111,8 +111,8 @@ public class JobConfirmationGui extends BaseGui {
         // 추가 경고 아이콘들
         GuiItem warningItem = GuiItem.display(
                 ItemBuilder.of(Material.BARRIER)
-                        .displayName(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_WARNING_TITLE, viewer))
-                        .addLore(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_WARNING_DESCRIPTION, viewer))
+                        .displayName(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_WARNING_TITLE, viewer))
+                        .addLore(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_WARNING_DESCRIPTION, viewer))
                         .build()
         );
         setItem(3, warningItem);
@@ -126,13 +126,13 @@ public class JobConfirmationGui extends BaseGui {
         // 확인 버튼 (좌측)
         GuiItem confirmButton = GuiItem.clickable(
                 ItemBuilder.of(Material.LIME_WOOL)
-                        .displayName(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_CONFIRM, viewer)
+                        .displayName(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_CONFIRM, viewer)
                                 .color(UnifiedColorUtil.SUCCESS)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_CONFIRM_DESCRIPTION, viewer, selectedJob.name()))
+                        .addLore(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_CONFIRM_DESCRIPTION, viewer, selectedJob.name()))
                         .addLore(Component.empty())
-                        .addLore(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_CLICK_TO_CONFIRM, viewer))
+                        .addLore(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_CLICK_TO_CONFIRM, viewer))
                         .glint(true)
                         .build(),
                 player -> handleConfirm()
@@ -142,13 +142,13 @@ public class JobConfirmationGui extends BaseGui {
         // 취소 버튼 (우측)
         GuiItem cancelButton = GuiItem.clickable(
                 ItemBuilder.of(Material.RED_WOOL)
-                        .displayName(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_CANCEL, viewer)
+                        .displayName(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_CANCEL, viewer)
                                 .color(UnifiedColorUtil.ERROR)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_CANCEL_DESCRIPTION, viewer))
+                        .addLore(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_CANCEL_DESCRIPTION, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_CLICK_TO_CANCEL, viewer))
+                        .addLore(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_CLICK_TO_CANCEL, viewer))
                         .build(),
                 player -> handleCancel()
         );
@@ -157,10 +157,10 @@ public class JobConfirmationGui extends BaseGui {
         // 추가 정보 아이템 (하단 중앙)
         GuiItem infoItem = GuiItem.display(
                 ItemBuilder.of(Material.BOOK)
-                        .displayName(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_INFO_TITLE, viewer))
-                        .addLore(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_INFO_LINE1, viewer))
-                        .addLore(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_INFO_LINE2, viewer))
-                        .addLore(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_INFO_LINE3, viewer))
+                        .displayName(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_INFO_TITLE, viewer))
+                        .addLore(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_INFO_LINE1, viewer))
+                        .addLore(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_INFO_LINE2, viewer))
+                        .addLore(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_INFO_LINE3, viewer))
                         .build()
         );
         setItem(22, infoItem);
@@ -171,18 +171,18 @@ public class JobConfirmationGui extends BaseGui {
      */
     private void handleConfirm() {
         if (rpgPlayer.setJob(selectedJob)) {
-            Component jobName = LangHelper.text(LangKey.valueOf("JOB_" + selectedJob.name().toUpperCase() + "_NAME"), viewer);
+            Component jobName = LangManager.text(LangKey.valueOf("JOB_" + selectedJob.name().toUpperCase() + "_NAME"), viewer);
 
             // 성공 메시지
-            viewer.sendMessage(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_SUCCESS, viewer, jobName));
+            viewer.sendMessage(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_SUCCESS, viewer, jobName));
 
             // 축하 효과
             playSuccessSound(viewer);
 
             // Title 표시
             viewer.showTitle(Title.title(
-                    LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_TITLE_SUCCESS, viewer),
-                    LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_SUBTITLE_SUCCESS, viewer, jobName),
+                    LangManager.text(LangKey.GUI_JOB_CONFIRMATION_TITLE_SUCCESS, viewer),
+                    LangManager.text(LangKey.GUI_JOB_CONFIRMATION_SUBTITLE_SUCCESS, viewer, jobName),
                     Title.Times.times(
                             Duration.ofMillis(500),   // fadeIn
                             Duration.ofMillis(3000),  // stay
@@ -199,7 +199,7 @@ public class JobConfirmationGui extends BaseGui {
 
         } else {
             // 이미 직업이 있는 경우 (보통 일어나지 않아야 함)
-            viewer.sendMessage(LangHelper.text(LangKey.GUI_JOB_CONFIRMATION_ALREADY_HAS_JOB, viewer));
+            viewer.sendMessage(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_ALREADY_HAS_JOB, viewer));
             playErrorSound(viewer);
             viewer.closeInventory();
         }

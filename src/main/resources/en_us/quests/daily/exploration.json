@@ -1,29 +1,16 @@
 {
   "name": "Daily Exploration",
-  "description": [
-    "Venture into unexplored territories and",
-    "discover new locations for the Explorers' Guild.",
-    "",
-    "Map unknown areas and report your findings",
-    "to expand our knowledge of the world."
+  "info": "Venture into unexplored territories and discover new locations for the Explorers' Guild. Map unknown areas and report your findings to expand our knowledge of the world.",
+  "dialogs": [
+    "Ready for today's exploration mission?",
+    "There are still many unmapped areas in our region.",
+    "Your discoveries help keep our maps up to date.",
+    "Fascinating discoveries! Keep exploring.",
+    "Your exploration skills are quite impressive.",
+    "Excellent work! These maps will be invaluable.",
+    "Thanks to explorers like you, our world grows less mysterious each day."
   ],
-  "objectives": {
-    "explore_new_areas": "Explore 3 Uncharted Areas",
-    "find_landmarks": "Find 5 Notable Landmarks",
-    "collect_samples": "Collect 10 Environmental Samples",
-    "create_map": "Create a Map of Your Discoveries"
-  },
-  "npcs": {
-    "guild_cartographer": "Guild Cartographer",
-    "exploration_leader": "Exploration Leader"
-  },
-  "dialogs": {
-    "start1": "Ready for today's exploration mission?",
-    "start2": "There are still many unmapped areas in our region.",
-    "start3": "Your discoveries help keep our maps up to date.",
-    "progress1": "Fascinating discoveries! Keep exploring.",
-    "progress2": "Your exploration skills are quite impressive.",
-    "complete1": "Excellent work! These maps will be invaluable.",
-    "complete2": "Thanks to explorers like you, our world grows less mysterious each day."
-  }
+  "npc_name": "Guild Cartographer",
+  "accept": "I'm ready to explore the unknown!",
+  "decline": "I need better equipment first."
 }

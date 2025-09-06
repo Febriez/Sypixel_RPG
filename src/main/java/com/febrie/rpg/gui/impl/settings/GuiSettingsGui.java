@@ -115,7 +115,7 @@ public class GuiSettingsGui extends BaseGui {
                     
                     updateVolumeDisplay();
                     playClickSound(p);
-                    p.sendMessage(LangManager.get("gui.gui-settings.volume-changed", p, Component.text(String.valueOf(newVolume))));
+                    p.sendMessage(LangManager.get("gui.gui-settings.volume-changed", p, String.valueOf(newVolume)));
                 }
         );
         setItem(VOLUME_DECREASE_SLOT, volumeDecreaseButton);
@@ -137,7 +137,7 @@ public class GuiSettingsGui extends BaseGui {
                     
                     updateVolumeDisplay();
                     playClickSound(p);
-                    p.sendMessage(LangManager.get("gui.gui-settings.volume-changed", p, Component.text(String.valueOf(newVolume))));
+                    p.sendMessage(LangManager.get("gui.gui-settings.volume-changed", p, String.valueOf(newVolume)));
                 }
         );
         setItem(VOLUME_INCREASE_SLOT, volumeIncreaseButton);
@@ -214,7 +214,7 @@ public class GuiSettingsGui extends BaseGui {
                         playClickSound(p);
                     }
                     
-                    p.sendMessage(LangManager.get(settings.isGuiSoundMuted() ? "gui.gui-settings.sound-muted" : "gui.gui-settings.sound-unmuted", p));
+                    p.sendMessage(LangManager.text(settings.isGuiSoundMuted() ? "gui.gui-settings.sound-muted" : "gui.gui-settings.sound-unmuted", p));
                 }
         );
         setItem(MUTE_TOGGLE_SLOT, muteToggle);

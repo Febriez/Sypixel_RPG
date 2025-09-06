@@ -9,7 +9,7 @@
     "description": "다른 플레이어의 프로필을 봅니다",
     "success": "{0}의 프로필을 열었습니다!",
     "disabled": "이 명령어는 더 이상 사용할 수 없습니다.",
-    "use-admin": "관리자 명령어를 사용하세요: /rpgadmin viewprofile <플레이어>"
+    "use_admin": "관리자 명령어를 사용하세요: /rpgadmin viewprofile <플레이어>"
   },
   "mainmenu": {
     "usage": "사용법: /메뉴",
@@ -39,20 +39,20 @@
   "party": {
     "usage": "사용법: /party <create|invite|leave|kick> [플레이어]",
     "description": "파티 관련 명령어",
-    "create-success": "파티를 생성했습니다!",
-    "invite-success": "{0}을(를) 파티에 초대했습니다.",
-    "leave-success": "파티에서 나갔습니다.",
-    "kick-success": "{0}을(를) 파티에서 추방했습니다.",
-    "not-in-party": "파티에 속해있지 않습니다.",
-    "already-in-party": "이미 파티에 속해있습니다.",
-    "not-party-leader": "파티장만 사용할 수 있는 명령어입니다."
+    "create_success": "파티를 생성했습니다!",
+    "invite_success": "{0}을(를) 파티에 초대했습니다.",
+    "leave_success": "파티에서 나갔습니다.",
+    "kick_success": "{0}을(를) 파티에서 추방했습니다.",
+    "not_in_party": "파티에 속해있지 않습니다.",
+    "already_in_party": "이미 파티에 속해있습니다.",
+    "not_party_leader": "파티장만 사용할 수 있는 명령어입니다."
   },
   "trade": {
     "usage": "사용법: /trade <플레이어>",
     "description": "다른 플레이어와 거래합니다",
-    "request-sent": "{0}에게 거래 요청을 보냈습니다.",
-    "no-pending-request": "대기 중인 거래 요청이 없습니다.",
-    "cannot-trade-self": "자기 자신과는 거래할 수 없습니다."
+    "request_sent": "{0}에게 거래 요청을 보냈습니다.",
+    "no_pending_request": "대기 중인 거래 요청이 없습니다.",
+    "cannot_trade_self": "자기 자신과는 거래할 수 없습니다."
   },
   "spawn": {
     "usage": "사용법: /spawn",
@@ -64,23 +64,23 @@
   "home": {
     "usage": "사용법: /home [이름]",
     "description": "집으로 이동합니다",
-    "not-set": "설정된 집이 없습니다.",
+    "not_set": "설정된 집이 없습니다.",
     "teleporting": "집으로 이동 중...",
-    "set-success": "집을 설정했습니다!"
+    "set_success": "집을 설정했습니다!"
   },
   "warp": {
     "usage": "사용법: /warp <장소>",
     "description": "특정 장소로 이동합니다",
-    "not-found": "워프 지점을 찾을 수 없습니다: {0}",
-    "no-permission": "이 워프를 사용할 권한이 없습니다.",
+    "not_found": "워프 지점을 찾을 수 없습니다: {0}",
+    "no_permission": "이 워프를 사용할 권한이 없습니다.",
     "success": "{0}(으)로 이동했습니다!"
   },
   "admin": {
-    "no-permission": "권한이 없습니다.",
-    "player-not-found": "플레이어를 찾을 수 없습니다.",
-    "player-data-not-found": "RPG 플레이어 데이터를 찾을 수 없습니다.",
-    "invalid-number": "올바른 숫자를 입력해주세요.",
-    "player-only": "플레이어만 사용할 수 있습니다.",
+    "no_permission": "권한이 없습니다.",
+    "player_not_found": "플레이어를 찾을 수 없습니다.",
+    "player_data_not_found": "RPG 플레이어 데이터를 찾을 수 없습니다.",
+    "invalid_number": "올바른 숫자를 입력해주세요.",
+    "player_only": "플레이어만 사용할 수 있습니다.",
     "title": "=== RPG Admin Commands ===",
     "usage": {
       "title": "=== RPG Admin Commands ===",
@@ -91,25 +91,25 @@
       "level": "/rpgadmin level set <플레이어> <레벨> - 레벨 설정",
       "job": "/rpgadmin job set <플레이어> <직업> - 직업 설정",
       "npc": "/rpgadmin npc set <퀘스트ID> - NPC에 퀘스트 설정",
-      "npc-setcode": "/rpgadmin npc setcode <npcID> [이름] - NPC Trait 등록 막대기 지급",
-      "npc-reward": "/rpgadmin npc reward <보상ID> [이름] - 보상 NPC 등록 막대기 지급",
+      "npc_setcode": "/rpgadmin npc setcode <npcID> [이름] - NPC Trait 등록 막대기 지급",
+      "npc_reward": "/rpgadmin npc reward <보상ID> [이름] - 보상 NPC 등록 막대기 지급",
       "quest": "/rpgadmin quest <give|list|reload> - 퀘스트 관리",
       "island": "/rpgadmin island <info|delete|reset|tp> <플레이어> - 섬 관리"
     },
     "stats": {
       "title": "=== RPG 서버 통계 ===",
-      "online-players": "온라인 플레이어: {1}",
-      "loaded-players": "로드된 RPG 플레이어: {1}",
-      "registered-quests": "등록된 퀘스트: {1}",
-      "implemented-quests": "구현된 퀘스트: {1}",
-      "memory-usage": "메모리 사용량: {0}MB / {2}MB"
+      "online_players": "온라인 플레이어: {1}",
+      "loaded_players": "로드된 RPG 플레이어: {1}",
+      "registered_quests": "등록된 퀘스트: {1}",
+      "implemented_quests": "구현된 퀘스트: {1}",
+      "memory_usage": "메모리 사용량: {0}MB / {2}MB"
     },
     "reload": {
       "starting": "리로드를 시작합니다...",
-      "config-complete": "✓ 설정 파일 리로드 완료",
-      "lang-complete": "✓ 언어 파일 리로드 완료",
-      "unknown-type": "알 수 없는 타입: {0}",
-      "available-types": "사용 가능: config, lang, all",
+      "config_complete": "✓ 설정 파일 리로드 완료",
+      "lang_complete": "✓ 언어 파일 리로드 완료",
+      "unknown_type": "알 수 없는 타입: {0}",
+      "available_types": "사용 가능: config, lang, all",
       "error": "리로드 중 오류 발생: {0}",
       "success": "리로드 완료! ({0}ms)",
       "failed": "리로드 실패"
@@ -120,14 +120,14 @@
       "level": "레벨: {1}",
       "exp": "경험치: {1}/{1}",
       "job": "직업: {1}",
-      "job-none": "없음",
+      "job_none": "없음",
       "gold": "골드: {1}",
       "diamond": "다이아몬드: {1}",
-      "active-quests": "진행중인 퀘스트: {1}개"
+      "active_quests": "진행중인 퀘스트: {1}개"
     },
     "exp": {
       "usage": "사용법: /rpgadmin exp give <플레이어> <경험치>",
-      "must-positive": "경험치는 양수여야 합니다.",
+      "must_positive": "경험치는 양수여야 합니다.",
       "success": "{0}에게 {1} 경험치를 지급했습니다.",
       "received": "{1} 경험치를 받았습니다!"
     },
@@ -142,12 +142,12 @@
       "available": "사용 가능한 직업: {0}",
       "invalid": "잘못된 직업입니다",
       "reset": "{0}님의 직업을 초기화했습니다",
-      "your-reset": "직업이 초기화되었습니다",
+      "your_reset": "직업이 초기화되었습니다",
       "success": "{0}님의 직업을 {1}(으)로 설정했습니다",
-      "your-changed": "직업이 {0}(으)로 변경되었습니다"
+      "your_changed": "직업이 {0}(으)로 변경되었습니다"
     },
     "npc": {
-      "citizens-not-found": "Citizens 플러그인이 설치되어 있지 않습니다.",
+      "citizens_not_found": "Citizens 플러그인이 설치되어 있지 않습니다.",
       "usage": {
         "title": "사용법:",
         "set": "/rpgadmin npc set <퀘스트ID>",
@@ -155,11 +155,11 @@
         "reward": "/rpgadmin npc reward <보상npc코드>",
         "list": "/rpgadmin npc list"
       },
-      "not-selected": "NPC를 먼저 선택해주세요. (/npc select)",
+      "not_selected": "NPC를 먼저 선택해주세요. (/npc select)",
       "set": {
         "usage": "사용법: /rpgadmin npc set <퀘스트ID>",
         "example": "예시: /rpgadmin npc set TUTORIAL_FIRST_STEPS",
-        "invalid-quest": "잘못된 퀘스트 ID입니다: {0}",
+        "invalid_quest": "잘못된 퀘스트 ID입니다: {0}",
         "available": "사용 가능한 퀘스트 ID:"
       },
       "settrait": {
@@ -183,22 +183,22 @@
       "setcode": {
         "usage": "사용법: /rpgadmin npc setcode <npcID> [이름]",
         "example": "예시: /rpgadmin npc setcode village_shopper 마을_상인",
-        "invalid-format": "오류: NPC ID는 영문 소문자와 언더스코어(_)만 사용할 수 있습니다.",
-        "format-example": "올바른 예시: village_shopper, first_npc, quest_giver",
-        "inventory-full": "인벤토리가 가득 차서 아이템을 바닥에 드롭했습니다.",
+        "invalid_format": "오류: NPC ID는 영문 소문자와 언더스코어(_)만 사용할 수 있습니다.",
+        "format_example": "올바른 예시: village_shopper, first_npc, quest_giver",
+        "inventory_full": "인벤토리가 가득 차서 아이템을 바닥에 드롭했습니다.",
         "success": "✓ NPC Trait 등록기를 지급했습니다.",
-        "npc-id": "NPC ID: {0}",
-        "display-name": "표시 이름: {0}"
+        "npc_id": "NPC ID: {0}",
+        "display_name": "표시 이름: {0}"
       },
       "reward": {
         "usage": "사용법: /rpgadmin npc reward <rewardNpcID> [이름]",
         "example": "예시: /rpgadmin npc reward quest_rewarder 퀘스트_보상_NPC",
-        "invalid-format": "오류: 보상 NPC ID는 영문 소문자와 언더스코어(_)만 사용할 수 있습니다.",
-        "format-example": "올바른 예시: quest_rewarder, reward_giver",
-        "inventory-full": "인벤토리가 가득 차서 아이템을 바닥에 드롭했습니다.",
+        "invalid_format": "오류: 보상 NPC ID는 영문 소문자와 언더스코어(_)만 사용할 수 있습니다.",
+        "format_example": "올바른 예시: quest_rewarder, reward_giver",
+        "inventory_full": "인벤토리가 가득 차서 아이템을 바닥에 드롭했습니다.",
         "success": "✓ 보상 NPC 등록기를 지급했습니다.",
-        "npc-id": "보상 NPC ID: {0}",
-        "display-name": "표시 이름: {0}"
+        "npc_id": "보상 NPC ID: {0}",
+        "display_name": "표시 이름: {0}"
       },
       "list": {
         "title": "=== Citizens NPC 목록 ===",
@@ -212,7 +212,7 @@
       "usage": "사용법: /rpgadmin quest <give|list|reload> [플레이어] [퀘스트ID]",
       "give": {
         "usage": "사용법: /rpgadmin quest give <플레이어> <퀘스트ID>",
-        "invalid-id": "올바르지 않은 퀘스트 ID입니다: {0}",
+        "invalid_id": "올바르지 않은 퀘스트 ID입니다: {0}",
         "success": "퀘스트를 지급했습니다: {0}",
         "received": "새로운 퀘스트를 받았습니다: {0}",
         "failed": "퀘스트를 시작할 수 없습니다. 이미 진행중이거나 조건을 충족하지 않습니다."
@@ -221,7 +221,7 @@
         "title": "=== 사용 가능한 퀘스트 목록 ===",
         "category": "{0}:",
         "implemented": "✓",
-        "not-implemented": "✗"
+        "not_implemented": "✗"
       },
       "reload": {
         "success": "퀘스트 데이터를 리로드했습니다."
@@ -235,8 +235,8 @@
         "reset": "/rpgadmin island reset <플레이어> - 플레이어의 섬 강제 초기화",
         "tp": "/rpgadmin island tp <플레이어> - 플레이어의 섬으로 이동"
       },
-      "player-required": "플레이어 이름을 입력해주세요.",
-      "player-no-island": "{0}은(는) 섬을 소유하고 있지 않습니다.",
+      "player_required": "플레이어 이름을 입력해주세요.",
+      "player_no_island": "{0}은(는) 섬을 소유하고 있지 않습니다.",
       "info": {
         "title": "=== {0}의 섬 정보 ===",
         "id": "섬 ID: {0}",
@@ -252,7 +252,7 @@
         "confirm": "{0}의 섬을 정말 삭제하시겠습니까? 확인하려면 'confirm'을 추가하세요.",
         "deleting": "섬을 삭제하는 중...",
         "success": "{0}의 섬이 성공적으로 삭제되었습니다.",
-        "owner-notify": "관리자에 의해 섬이 삭제되었습니다.",
+        "owner_notify": "관리자에 의해 섬이 삭제되었습니다.",
         "failed": "섬 삭제에 실패했습니다."
       },
       "reset": {
@@ -260,65 +260,65 @@
         "confirm": "{0}의 섬을 정말 초기화하시겠습니까? 확인하려면 'confirm'을 추가하세요.",
         "resetting": "섬을 초기화하는 중...",
         "success": "{0}의 섬이 성공적으로 초기화되었습니다.",
-        "owner-notify": "관리자에 의해 섬이 초기화되었습니다.",
+        "owner_notify": "관리자에 의해 섬이 초기화되었습니다.",
         "failed": "섬 초기화에 실패했습니다."
       },
       "tp": {
         "usage": "사용법: /rpgadmin island tp <플레이어>",
-        "no-spawn": "섬 스폰 위치를 찾을 수 없습니다.",
-        "world-not-found": "섬 월드를 찾을 수 없습니다.",
+        "no_spawn": "섬 스폰 위치를 찾을 수 없습니다.",
+        "world_not_found": "섬 월드를 찾을 수 없습니다.",
         "success": "{0}의 섬으로 이동했습니다."
       },
       "setowner": {
         "usage": "사용법: /rpgadmin island setowner <현재소유자> <새소유자>",
         "success": "섬 소유권을 {0}에서 {1}로 변경했습니다."
       },
-      "unknown-command": "알 수 없는 하위 명령어입니다."
+      "unknown_command": "알 수 없는 하위 명령어입니다."
     }
   },
   "siteaccount": {
-    "player-only": "이 명령어는 플레이어만 사용할 수 있습니다.",
+    "player_only": "이 명령어는 플레이어만 사용할 수 있습니다.",
     "usage": "사용법: /사이트계정발급 <이메일>",
-    "invalid-email": "올바른 이메일 형식이 아닙니다.",
+    "invalid_email": "올바른 이메일 형식이 아닙니다.",
     "processing": "계정을 생성하는 중...",
-    "already-exists": "이미 사이트 계정이 발급되었습니다.",
-    "email-taken": "이미 사용 중인 이메일입니다.",
+    "already_exists": "이미 사이트 계정이 발급되었습니다.",
+    "email_taken": "이미 사용 중인 이메일입니다.",
     "error": "계정 생성 중 오류가 발생했습니다: {0}",
     "success": {
       "title": "==== 사이트 계정 발급 완료 ====",
-      "success-message": "✅ 계정이 성공적으로 생성되었습니다!",
+      "success_message": "✅ 계정이 성공적으로 생성되었습니다!",
       "email": "📧 이메일: ",
       "password": "🔑 비밀번호: ",
-      "password-hover": "클릭하여 비밀번호 복사",
-      "notice-title": "💡 안내사항:",
-      "notice-1": "- 비밀번호를 클릭하면 클립보드에 복사됩니다",
-      "notice-2": "- 웹사이트에서 이메일과 비밀번호로 로그인하세요",
-      "notice-3": "- 로그인 후 비밀번호를 변경하는 것을 권장합니다",
+      "password_hover": "클릭하여 비밀번호 복사",
+      "notice_title": "💡 안내사항:",
+      "notice_1": "- 비밀번호를 클릭하면 클립보드에 복사됩니다",
+      "notice_2": "- 웹사이트에서 이메일과 비밀번호로 로그인하세요",
+      "notice_3": "- 로그인 후 비밀번호를 변경하는 것을 권장합니다",
       "website": "🌐 웹사이트: ",
-      "website-hover": "클릭하여 웹사이트 열기",
+      "website_hover": "클릭하여 웹사이트 열기",
       "divider": "============================="
     },
     "failure": {
       "title": "==== 사이트 계정 발급 실패 ====",
-      "help-title": "💡 도움말:",
-      "help-1": "- 이미 계정이 있는 경우 웹사이트에서 로그인하세요",
-      "help-2": "- 문제가 지속되면 관리자에게 문의하세요",
+      "help_title": "💡 도움말:",
+      "help_1": "- 이미 계정이 있는 경우 웹사이트에서 로그인하세요",
+      "help_2": "- 문제가 지속되면 관리자에게 문의하세요",
       "divider": "============================="
     }
   },
   "island": {
-    "player-only": "이 명령어는 플레이어만 사용할 수 있습니다.",
-    "no-island": {
+    "player_only": "이 명령어는 플레이어만 사용할 수 있습니다.",
+    "no_island": {
       "title": "==== 섬 시스템 ====",
       "message": "아직 섬이 없습니다!",
-      "benefits-title": "섬을 생성하면 다음과 같은 기능을 사용할 수 있습니다:",
-      "benefit-1": "• 자신만의 개인 섬에서 자유로운 건축",
-      "benefit-2": "• 친구들을 초대하여 함께 플레이",
-      "benefit-3": "• 섬 업그레이드로 더 넓은 공간 확보",
-      "benefit-4": "• 섬 워프 포인트 설정",
-      "how-to-title": "섬 생성 방법:",
-      "how-to-1": "1. 메인 메뉴(/메뉴)에서 섬 버튼 클릭",
-      "how-to-2": "2. 섬 생성 버튼을 눌러 새로운 섬 생성",
+      "benefits_title": "섬을 생성하면 다음과 같은 기능을 사용할 수 있습니다:",
+      "benefit_1": "• 자신만의 개인 섬에서 자유로운 건축",
+      "benefit_2": "• 친구들을 초대하여 함께 플레이",
+      "benefit_3": "• 섬 업그레이드로 더 넓은 공간 확보",
+      "benefit_4": "• 섬 워프 포인트 설정",
+      "how_to_title": "섬 생성 방법:",
+      "how_to_1": "1. 메인 메뉴(/메뉴)에서 섬 버튼 클릭",
+      "how_to_2": "2. 섬 생성 버튼을 눌러 새로운 섬 생성",
       "divider": "=================="
     }
   }

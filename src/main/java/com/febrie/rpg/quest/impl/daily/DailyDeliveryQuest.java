@@ -8,7 +8,7 @@ import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.LangHelper;
+
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
@@ -115,7 +115,7 @@ public class DailyDeliveryQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_DAILY_DELIVERY_NAME, who);
+        return LangManager.text(LangKey.QUEST_DAILY_DELIVERY_NAME, who);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class DailyDeliveryQuest extends Quest {
     }
 
     @Override
-    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         String key = "quest.daily.delivery.objectives." + objective.getId();
         return LangManager.get(key, who);
     }
@@ -135,32 +135,22 @@ public class DailyDeliveryQuest extends Quest {
     }
     
     @Override
-    public Component getDialog(int index, @NotNull Player who) {
-        return switch (index) {
-            case 0 -> LangHelper.text(LangKey.QUEST_DAILY_DELIVERY_DIALOGS_0, who);
-            case 1 -> LangHelper.text(LangKey.QUEST_DAILY_DELIVERY_DIALOGS_1, who);
-            case 2 -> LangHelper.text(LangKey.QUEST_DAILY_DELIVERY_DIALOGS_2, who);
-            case 3 -> LangHelper.text(LangKey.QUEST_DAILY_DELIVERY_DIALOGS_3, who);
-            case 4 -> LangHelper.text(LangKey.QUEST_DAILY_DELIVERY_DIALOGS_4, who);
-            case 5 -> LangHelper.text(LangKey.QUEST_DAILY_DELIVERY_DIALOGS_5, who);
-            case 6 -> LangHelper.text(LangKey.QUEST_DAILY_DELIVERY_DIALOGS_6, who);
-            case 7 -> LangHelper.text(LangKey.QUEST_DAILY_DELIVERY_DIALOGS_7, who);
-            default -> null;
-        };
+    public @NotNull Component getDialog(int index, @NotNull Player who) {
+        return getDialogs(LangKey.QUEST_DAILY_DELIVERY_DIALOGS, who).get(index);
     }
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_DAILY_DELIVERY_NPC_NAME, who);
+        return LangManager.text(LangKey.QUEST_DAILY_DELIVERY_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_DAILY_DELIVERY_ACCEPT, who);
+        return LangManager.text(LangKey.QUEST_DAILY_DELIVERY_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangHelper.text(LangKey.QUEST_DAILY_DELIVERY_DECLINE, who);
+        return LangManager.text(LangKey.QUEST_DAILY_DELIVERY_DECLINE, who);
     }
 }

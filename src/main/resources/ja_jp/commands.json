@@ -9,7 +9,7 @@
     "description": "View another player's profile",
     "success": "Opened {0}'s profile!",
     "disabled": "This command is no longer available.",
-    "use-admin": "Use admin command: /rpgadmin viewprofile <player>"
+    "use_admin": "Use admin command: /rpgadmin viewprofile <player>"
   },
   "mainmenu": {
     "usage": "Usage: /menu",
@@ -39,20 +39,20 @@
   "party": {
     "usage": "Usage: /party <create|invite|leave|kick> [player]",
     "description": "Party related commands",
-    "create-success": "Party created!",
-    "invite-success": "Invited {0} to the party.",
-    "leave-success": "Left the party.",
-    "kick-success": "Kicked {0} from the party.",
-    "not-in-party": "You are not in a party.",
-    "already-in-party": "You are already in a party.",
-    "not-party-leader": "Only the party leader can use this command."
+    "create_success": "Party created!",
+    "invite_success": "Invited {0} to the party.",
+    "leave_success": "Left the party.",
+    "kick_success": "Kicked {0} from the party.",
+    "not_in_party": "You are not in a party.",
+    "already_in_party": "You are already in a party.",
+    "not_party_leader": "Only the party leader can use this command."
   },
   "trade": {
     "usage": "Usage: /trade <player>",
     "description": "Trade with another player",
-    "request-sent": "Trade request sent to {0}.",
-    "no-pending-request": "No pending trade request.",
-    "cannot-trade-self": "You cannot trade with yourself."
+    "request_sent": "Trade request sent to {0}.",
+    "no_pending_request": "No pending trade request.",
+    "cannot_trade_self": "You cannot trade with yourself."
   },
   "spawn": {
     "usage": "Usage: /spawn",
@@ -64,23 +64,23 @@
   "home": {
     "usage": "Usage: /home [name]",
     "description": "Teleport to your home",
-    "not-set": "No home set.",
+    "not_set": "No home set.",
     "teleporting": "Teleporting home...",
-    "set-success": "Home set!"
+    "set_success": "Home set!"
   },
   "warp": {
     "usage": "Usage: /warp <location>",
     "description": "Warp to a specific location",
-    "not-found": "Warp not found: {0}",
-    "no-permission": "You don't have permission for this warp.",
+    "not_found": "Warp not found: {0}",
+    "no_permission": "You don't have permission for this warp.",
     "success": "Warped to {0}!"
   },
   "admin": {
-    "no-permission": "You don't have permission.",
-    "player-not-found": "Player not found.",
-    "player-data-not-found": "RPG player data not found.",
-    "invalid-number": "Please enter a valid number.",
-    "player-only": "This command can only be used by players.",
+    "no_permission": "You don't have permission.",
+    "player_not_found": "Player not found.",
+    "player_data_not_found": "RPG player data not found.",
+    "invalid_number": "Please enter a valid number.",
+    "player_only": "This command can only be used by players.",
     "title": "=== RPG Admin Commands ===",
     "usage": {
       "title": "=== RPG Admin Commands ===",
@@ -91,18 +91,18 @@
       "level": "/rpgadmin level set <player> <level> - Set level",
       "job": "/rpgadmin job set <player> <job> - Set job",
       "npc": "/rpgadmin npc set <questID> - Set quest to NPC",
-      "npc-setcode": "/rpgadmin npc setcode <npcID> [name] - Give NPC trait registration stick",
-      "npc-reward": "/rpgadmin npc reward <rewardID> [name] - Give reward NPC registration stick",
+      "npc_setcode": "/rpgadmin npc setcode <npcID> [name] - Give NPC trait registration stick",
+      "npc_reward": "/rpgadmin npc reward <rewardID> [name] - Give reward NPC registration stick",
       "quest": "/rpgadmin quest <give|list|reload> - Quest management",
       "island": "/rpgadmin island <info|delete|reset|tp> <player> - Island management"
     },
     "stats": {
       "title": "=== RPG Server Statistics ===",
-      "online-players": "Online players: {1}",
-      "loaded-players": "Loaded RPG players: {1}",
-      "registered-quests": "Registered quests: {1}",
-      "implemented-quests": "Implemented quests: {1}",
-      "memory-usage": "Memory usage: {0}MB / {2}MB"
+      "online_players": "Online players: {1}",
+      "loaded_players": "Loaded RPG players: {1}",
+      "registered_quests": "Registered quests: {1}",
+      "implemented_quests": "Implemented quests: {1}",
+      "memory_usage": "Memory usage: {0}MB / {2}MB"
     },
     "reload": {
       "reloading": "Reloading configuration...",
@@ -114,14 +114,14 @@
       "level": "Level: {1}",
       "exp": "Experience: {1}/{1}",
       "job": "Job: {1}",
-      "job-none": "None",
+      "job_none": "None",
       "gold": "Gold: {1}",
       "diamond": "Diamond: {1}",
-      "active-quests": "Active quests: {1}"
+      "active_quests": "Active quests: {1}"
     },
     "exp": {
       "usage": "Usage: /rpgadmin exp give <player> <amount>",
-      "must-positive": "Experience must be positive.",
+      "must_positive": "Experience must be positive.",
       "success": "Gave {1} experience to {0}.",
       "received": "You received {1} experience!"
     },
@@ -135,14 +135,14 @@
       "usage": "Usage: /rpgadmin job <player> <job>",
       "available": "Available jobs: WARRIOR, MAGE, ARCHER, ASSASSIN",
       "invalid": "Invalid job: {1}",
-      "already-has": "{0} already has a job: {1}",
-      "need-reset": "Job needs to be reset first to change.",
+      "already_has": "{0} already has a job: {1}",
+      "need_reset": "Job needs to be reset first to change.",
       "success": "Set {0}'s job to {1}.",
       "set": "Your job has been set to {1}!",
       "failed": "Failed to set job."
     },
     "npc": {
-      "citizens-not-found": "Citizens plugin is not installed.",
+      "citizens_not_found": "Citizens plugin is not installed.",
       "usage": {
         "title": "Usage:",
         "set": "/rpgadmin npc set <questID>",
@@ -153,28 +153,28 @@
       "set": {
         "usage": "Usage: /rpgadmin npc set <questID>",
         "example": "Example: /rpgadmin npc set TUTORIAL_FIRST_STEPS",
-        "invalid-quest": "Invalid quest ID: {0}",
+        "invalid_quest": "Invalid quest ID: {0}",
         "available": "Available quest IDs:"
       },
       "setcode": {
         "usage": "Usage: /rpgadmin npc setcode <npcID> [name]",
         "example": "Example: /rpgadmin npc setcode village_shopper Village_Merchant",
-        "invalid-format": "Error: NPC ID can only contain lowercase letters and underscores.",
-        "format-example": "Valid examples: village_shopper, first_npc, quest_giver",
-        "inventory-full": "Inventory full, item dropped on ground.",
+        "invalid_format": "Error: NPC ID can only contain lowercase letters and underscores.",
+        "format_example": "Valid examples: village_shopper, first_npc, quest_giver",
+        "inventory_full": "Inventory full, item dropped on ground.",
         "success": "✓ NPC Trait registrator given.",
-        "npc-id": "NPC ID: {0}",
-        "display-name": "Display name: {0}"
+        "npc_id": "NPC ID: {0}",
+        "display_name": "Display name: {0}"
       },
       "reward": {
         "usage": "Usage: /rpgadmin npc reward <rewardNpcID> [name]",
         "example": "Example: /rpgadmin npc reward quest_rewarder Quest_Reward_NPC",
-        "invalid-format": "Error: Reward NPC ID can only contain lowercase letters and underscores.",
-        "format-example": "Valid examples: quest_rewarder, reward_giver",
-        "inventory-full": "Inventory full, item dropped on ground.",
+        "invalid_format": "Error: Reward NPC ID can only contain lowercase letters and underscores.",
+        "format_example": "Valid examples: quest_rewarder, reward_giver",
+        "inventory_full": "Inventory full, item dropped on ground.",
         "success": "✓ Reward NPC registrator given.",
-        "npc-id": "Reward NPC ID: {0}",
-        "display-name": "Display name: {0}"
+        "npc_id": "Reward NPC ID: {0}",
+        "display_name": "Display name: {0}"
       },
       "list": {
         "title": "=== Citizens NPC List ===",
@@ -188,7 +188,7 @@
       "usage": "Usage: /rpgadmin quest <give|list|reload> [player] [questID]",
       "give": {
         "usage": "Usage: /rpgadmin quest give <player> <questID>",
-        "invalid-id": "Invalid quest ID: {0}",
+        "invalid_id": "Invalid quest ID: {0}",
         "success": "Gave quest: {0}",
         "received": "You received a new quest: {0}",
         "failed": "Cannot start quest. Already in progress or requirements not met."
@@ -197,7 +197,7 @@
         "title": "=== Available Quests ===",
         "category": "{0}:",
         "implemented": "✓",
-        "not-implemented": "✗"
+        "not_implemented": "✗"
       },
       "reload": {
         "success": "Quest data reloaded."
@@ -211,8 +211,8 @@
         "reset": "/rpgadmin island reset <player> - Force reset player's island",
         "tp": "/rpgadmin island tp <player> - Teleport to player's island"
       },
-      "player-required": "Please enter player name.",
-      "no-island": "{0} doesn't own an island.",
+      "player_required": "Please enter player name.",
+      "no_island": "{0} doesn't own an island.",
       "info": {
         "title": "=== {0}'s Island Info ===",
         "id": "Island ID: {0}",
@@ -226,65 +226,65 @@
       "delete": {
         "deleting": "Deleting island...",
         "success": "Successfully deleted {0}'s island.",
-        "owner-notify": "Your island has been deleted by an administrator.",
+        "owner_notify": "Your island has been deleted by an administrator.",
         "failed": "Failed to delete island."
       },
       "reset": {
         "resetting": "Resetting island...",
         "success": "Successfully reset {0}'s island.",
-        "owner-notify": "Your island has been reset by an administrator.",
+        "owner_notify": "Your island has been reset by an administrator.",
         "failed": "Failed to reset island."
       },
       "tp": {
-        "world-not-found": "Island world not found.",
+        "world_not_found": "Island world not found.",
         "success": "Teleported to {0}'s island."
       },
-      "unknown-command": "Unknown subcommand."
+      "unknown_command": "Unknown subcommand."
     }
   },
   "siteaccount": {
-    "player-only": "This command can only be used by players.",
+    "player_only": "This command can only be used by players.",
     "usage": "Usage: /siteaccount <email>",
-    "invalid-email": "Invalid email format.",
+    "invalid_email": "Invalid email format.",
     "processing": "Creating account...",
-    "already-exists": "Site account already exists.",
-    "email-taken": "Email is already in use.",
+    "already_exists": "Site account already exists.",
+    "email_taken": "Email is already in use.",
     "error": "Error creating account: {0}",
     "success": {
       "title": "==== Site Account Created ====",
-      "success-message": "✅ Account successfully created!",
+      "success_message": "✅ Account successfully created!",
       "email": "📧 Email: ",
       "password": "🔑 Password: ",
-      "password-hover": "Click to copy password",
-      "notice-title": "💡 Notice:",
-      "notice-1": "- Click the password to copy to clipboard",
-      "notice-2": "- Login to the website with email and password",
-      "notice-3": "- We recommend changing your password after login",
+      "password_hover": "Click to copy password",
+      "notice_title": "💡 Notice:",
+      "notice_1": "- Click the password to copy to clipboard",
+      "notice_2": "- Login to the website with email and password",
+      "notice_3": "- We recommend changing your password after login",
       "website": "🌐 Website: ",
-      "website-hover": "Click to open website",
+      "website_hover": "Click to open website",
       "divider": "============================="
     },
     "failure": {
       "title": "==== Site Account Creation Failed ====",
-      "help-title": "💡 Help:",
-      "help-1": "- If you already have an account, login on the website",
-      "help-2": "- If the problem persists, contact an administrator",
+      "help_title": "💡 Help:",
+      "help_1": "- If you already have an account, login on the website",
+      "help_2": "- If the problem persists, contact an administrator",
       "divider": "============================="
     }
   },
   "island": {
-    "player-only": "This command can only be used by players.",
-    "no-island": {
+    "player_only": "This command can only be used by players.",
+    "no_island": {
       "title": "==== Island System ====",
       "message": "You don't have an island yet!",
-      "benefits-title": "Creating an island gives you access to:",
-      "benefit-1": "• Build freely on your own personal island",
-      "benefit-2": "• Invite friends to play together",
-      "benefit-3": "• Upgrade your island for more space",
-      "benefit-4": "• Set island warp points",
-      "how-to-title": "How to create an island:",
-      "how-to-1": "1. Click the Island button in Main Menu (/menu)",
-      "how-to-2": "2. Click Create Island to make a new island",
+      "benefits_title": "Creating an island gives you access to:",
+      "benefit_1": "• Build freely on your own personal island",
+      "benefit_2": "• Invite friends to play together",
+      "benefit_3": "• Upgrade your island for more space",
+      "benefit_4": "• Set island warp points",
+      "how_to_title": "How to create an island:",
+      "how_to_1": "1. Click the Island button in Main Menu (/menu)",
+      "how_to_2": "2. Click Create Island to make a new island",
       "divider": "=================="
     }
   }

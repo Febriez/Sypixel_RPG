@@ -549,7 +549,20 @@ public class ItemBuilder {
         if (locale == null) {
             throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale) or call displayNameTranslated(key, locale)");
         }
-        Component translatedName = LangHelper.text(key, locale);
+        Component translatedName = LangManager.text(key, locale);
+        return displayName(translatedName);
+    }
+    
+    /**
+     * Temporary backward compatibility method for String keys
+     * @deprecated Use LangKey-based methods instead
+     */
+    @Deprecated
+    public ItemBuilder displayNameTranslated(@NotNull String key) {
+        if (locale == null) {
+            throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale) or call displayNameTranslated(key, locale)");
+        }
+        Component translatedName = LangManager.text(key, locale);
         return displayName(translatedName);
     }
 
@@ -561,7 +574,17 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder displayNameTranslated(@NotNull LangKey key, @NotNull Locale locale) {
-        Component translatedName = LangHelper.text(key, locale);
+        Component translatedName = LangManager.text(key, locale);
+        return displayName(translatedName);
+    }
+    
+    /**
+     * Temporary backward compatibility method for String keys with locale
+     * @deprecated Use LangKey-based methods instead
+     */
+    @Deprecated
+    public ItemBuilder displayNameTranslated(@NotNull String key, @NotNull Locale locale) {
+        Component translatedName = LangManager.text(key, locale);
         return displayName(translatedName);
     }
 
@@ -575,7 +598,20 @@ public class ItemBuilder {
         if (locale == null) {
             throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale) or call addLoreTranslated(key, locale)");
         }
-        Component translatedLore = LangHelper.text(key, locale);
+        Component translatedLore = LangManager.text(key, locale);
+        return addLore(translatedLore);
+    }
+    
+    /**
+     * Temporary backward compatibility method for String keys
+     * @deprecated Use LangKey-based methods instead
+     */
+    @Deprecated
+    public ItemBuilder addLoreTranslated(@NotNull String key) {
+        if (locale == null) {
+            throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale) or call addLoreTranslated(key, locale)");
+        }
+        Component translatedLore = LangManager.text(key, locale);
         return addLore(translatedLore);
     }
 
@@ -587,7 +623,17 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder addLoreTranslated(@NotNull LangKey key, @NotNull Locale locale) {
-        Component translatedLore = LangHelper.text(key, locale);
+        Component translatedLore = LangManager.text(key, locale);
+        return addLore(translatedLore);
+    }
+    
+    /**
+     * Temporary backward compatibility method for String keys with locale
+     * @deprecated Use LangKey-based methods instead
+     */
+    @Deprecated
+    public ItemBuilder addLoreTranslated(@NotNull String key, @NotNull Locale locale) {
+        Component translatedLore = LangManager.text(key, locale);
         return addLore(translatedLore);
     }
 
@@ -601,31 +647,20 @@ public class ItemBuilder {
      */
     public ItemBuilder loreTranslated(@NotNull Locale locale, @NotNull LangKey... keys) {
         for (LangKey key : keys) {
-            Component translatedLore = LangHelper.text(key, locale);
+            Component translatedLore = LangManager.text(key, locale);
             addLore(translatedLore);
         }
         return this;
     }
     
-    // Minimal compatibility layer - should migrate to LangKey
-    public ItemBuilder displayNameTranslated(@NotNull String key) {
-        if (locale == null) {
-            throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale)");
-        }
-        return displayName(LangManager.getComponent(key, locale));
+    /**
+     * Temporary backward compatibility method for String key with args
+     * @deprecated Use LangKey-based methods instead
+     */
+    @Deprecated
+    public ItemBuilder loreTranslated(@NotNull Locale locale, @NotNull String key, Object... args) {
+        Component translatedLore = LangManager.text(key, locale, args);
+        return addLore(translatedLore);
     }
     
-    public ItemBuilder addLoreTranslated(@NotNull String key) {
-        if (locale == null) {
-            throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale)");
-        }
-        return addLore(LangManager.getComponent(key, locale));
-    }
-    
-    public ItemBuilder loreTranslated(@NotNull Locale locale, @NotNull String... keys) {
-        for (String key : keys) {
-            addLore(LangManager.getComponent(key, locale));
-        }
-        return this;
-    }
 }

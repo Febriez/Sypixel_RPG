@@ -1,28 +1,27 @@
 {
-  "language-code": "ko_KR",
+  "language_code": "ko_KR",
   "prefix": "[SypixelRPG]",
-  "player-only": "이 명령어는 플레이어만 사용할 수 있습니다!",
-  "player-not-found": "플레이어를 찾을 수 없습니다: {0}",
-  "no-permission": "이 명령어를 사용할 권한이 없습니다.",
-  "reload-success": "설정이 성공적으로 다시 로드되었습니다!",
-  "coming-soon": "이 기능은 곧 추가됩니다!",
+  "player_only": "이 명령어는 플레이어만 사용할 수 있습니다!",
+  "player_not_found": "플레이어를 찾을 수 없습니다: {0}",
+  "no_permission": "이 명령어를 사용할 권한이 없습니다.",
+  "reload_success": "설정이 성공적으로 다시 로드되었습니다!",
   "coming_soon": "곧 출시 예정",
-  "general-error": "오류가 발생했습니다. 관리자에게 문의하세요.",
+  "general_error": "오류가 발생했습니다. 관리자에게 문의하세요.",
   "action": {
     "enable": "활성화",
     "disable": "비활성화"
   },
-  "click-to-select": "클릭하여 선택",
-  "already-selected": "▶ 선택됨",
-  "click-to-open": "▶ 클릭하여 열기",
-  "click-to-choose": "▶ 클릭하여 이 직업 선택",
-  "job-warning": "⚠ 주의: 직업은 한 번 선택하면 변경할 수 없습니다!",
+  "click_to_select": "클릭하여 선택",
+  "already_selected": "▶ 선택됨",
+  "click_to_open": "▶ 클릭하여 열기",
+  "click_to_choose": "▶ 클릭하여 이 직업 선택",
+  "job_warning": "⚠ 주의: 직업은 한 번 선택하면 변경할 수 없습니다!",
   "separator": "━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-  "max-level": "최대 레벨: {1}",
-  "click-previous-page": "이전 페이지로",
+  "max_level": "최대 레벨: {1}",
+  "click_previous_page": "이전 페이지로",
   "unknown": "정보 없음",
   "loading": "로딩 중...",
-  "loading-description": "잠시만 기다려주세요",
+  "loading_description": "잠시만 기다려주세요",
   "saving": "저장 중...",
   "completed": "완료!",
   "failed": "실패!",
@@ -30,18 +29,37 @@
   "no": "아니오",
   "enabled": "활성화",
   "disabled": "비활성화",
-  "cannot-select-others-job": "다른 플레이어의 직업은 선택할 수 없습니다!",
-  "cannot-view-others-stats": "다른 플레이어의 스탯은 볼 수 없습니다!",
-  "cannot-view-others-talents": "다른 플레이어의 특성은 볼 수 없습니다!",
-  "cannot-view-others-quests": "다른 플레이어의 퀘스트를 볼 수 없습니다!",
-  "cannot-view-others-combat-power": "다른 플레이어의 전투력 상세정보를 볼 수 없습니다!",
+  "cannot_select_others_job": "다른 플레이어의 직업은 선택할 수 없습니다!",
+  "cannot_view_others_stats": "다른 플레이어의 스탯은 볼 수 없습니다!",
+  "cannot_view_others_talents": "다른 플레이어의 특성은 볼 수 없습니다!",
+  "cannot_view_others_quests": "다른 플레이어의 퀘스트를 볼 수 없습니다!",
+  "cannot_view_others_combat_power": "다른 플레이어의 전투력 상세정보를 볼 수 없습니다!",
   "teleport": {
-    "hub-success": "허브로 이동했습니다!"
+    "hub_success": "허브로 이동했습니다!"
   },
   "error": {
     "general": "오류가 발생했습니다. 관리자에게 문의하세요.",
-    "hub-world-not-found": "허브 월드를 찾을 수 없습니다! 관리자에게 문의해주세요.",
-    "friend-request-id-missing": "친구 요청 ID가 없습니다",
+    "hub_world_not_found": "허브 월드를 찾을 수 없습니다! 관리자에게 문의해주세요.",
     "friend_request_id_missing": "친구 요청 ID가 없습니다"
-  }
+  },
+  "island": {
+    "contribute": {
+      "amount_too_low": "기여 금액이 너무 적습니다!",
+      "invalid_amount": "잘못된 기여 금액입니다!"
+    },
+    "delete": {
+      "confirm_word": "삭제",
+      "input_error": "입력 오류! 삭제를 확인하려면 '삭제'를 입력하세요.",
+      "input_text": "섬 삭제를 확인하려면 '삭제'를 입력하세요",
+      "input_title": "섬 삭제 확인"
+    },
+    "member": {
+      "kick_confirm_word": "추방",
+      "kick_input_error": "입력 오류! 추방을 확인하려면 '추방'을 입력하세요.",
+      "kick_input_text": "멤버 추방을 확인하려면 '추방'을 입력하세요",
+      "kick_input_title": "멤버 추방 확인"
+    }
+  },
+  "enable": "활성화",
+  "disable": "비활성화"
 }
