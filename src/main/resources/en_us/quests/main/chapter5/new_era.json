@@ -1,0 +1,14 @@
+{
+  "name": "New Era",
+  "info": "With the darkness finally vanquished, a new golden age begins. The realms unite in peace and prosperity. Establish the foundations of this new era and guide all dimensions toward a brighter future.",
+  "dialogs": [
+    "The age of darkness is over. A new era of light and unity begins.",
+    "I will help build this new world of peace and prosperity.",
+    "All dimensions are united in harmony. The future is bright.",
+    "You are the architect of this golden age. Accept your eternal title.",
+    "As the Eternal Guardian, I pledge to protect this new era forever."
+  ],
+  "npc_name": "Council of Interdimensional Unity",
+  "accept": "I will help build this new world of peace and prosperity.",
+  "decline": "I am not ready for such responsibility."
+}

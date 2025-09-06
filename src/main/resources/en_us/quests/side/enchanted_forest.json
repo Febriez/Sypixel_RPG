@@ -1,0 +1,12 @@
+{
+  "name": "Forest Spirits' Anger",
+  "info": "Investigate the strange happenings in the enchanted forest.",
+  "dialogs": [
+    "The forest spirits are angry!",
+    "Animals are fleeing, and the trees whisper warnings.",
+    "Please, discover what disturbs the forest."
+  ],
+  "npc_name": "Forest Druid",
+  "accept": "I'll investigate!",
+  "decline": "Nature's scary."
+}

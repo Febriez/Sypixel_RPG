@@ -1,0 +1,14 @@
+{
+  "name": "Void Invasion",
+  "info": "The portal you opened has attracted unwanted attention. A massive invasion from the Void Realm threatens all existence, Rally the realm's defenders and push back this otherworldly threat before reality itself is consumed by the void.",
+  "dialogs": [
+    "The void tears reality apart! We must act quickly or all will be lost!",
+    "I will stand against this invasion. Tell me how to stop them.",
+    "Build fortifications quickly! The next wave will be even stronger!",
+    "You cannot stop the inevitable! The void will consume everything!",
+    "The portal is sealed. The realm is safe thanks to your bravery."
+  ],
+  "npc_name": "Realm Guardian",
+  "accept": "I will stand against this invasion. Tell me how to stop them.",
+  "decline": "The void forces are too powerful."
+}

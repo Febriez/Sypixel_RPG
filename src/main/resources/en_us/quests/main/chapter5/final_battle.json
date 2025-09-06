@@ -1,0 +1,14 @@
+{
+  "name": "Final Battle",
+  "info": "The moment of ultimate destiny has arrived. Light and darkness clash in the most epic confrontation Lead the combined forces of all realms into the decisive battle that will determine the fate of existence itself.",
+  "dialogs": [
+    "This is it, the final battle between light and darkness. Are you ready?",
+    "I have prepared my whole life for this moment. Let us end this war!",
+    "You think your pitiful light can defeat the eternal darkness? Impossible!",
+    "The darkness is sealed! Light has triumphed over all evil!",
+    "A new age of peace and light begins. We have saved all existence."
+  ],
+  "npc_name": "Supreme General of Light",
+  "accept": "I have prepared my whole life for this moment. Let us end this war!",
+  "decline": "I need more time to prepare."
+}

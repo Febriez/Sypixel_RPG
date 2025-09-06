@@ -1,0 +1,16 @@
+{
+  "name": "Shadow Invasion",
+  "info": "Dark forces have begun their invasion of the realm. Shadow creatures emerge from rifts in reality, threatening to consume everything in darkness. Rally the forces of light and push back the shadow invasion!",
+  "dialogs": [
+    "Hero! The shadow invasion has begun!",
+    "Dark rifts have opened across the land, spewing forth creatures of pure darkness.",
+    "We need your help to seal these rifts and push back the invasion.",
+    "Your efforts are turning the tide against the shadows.",
+    "But the Shadow Lord grows stronger with each passing moment.",
+    "Victory! The shadow invasion has been repelled!",
+    "The realm is safe once more, thanks to your heroic efforts."
+  ],
+  "npc_name": "Commander of Light",
+  "accept": "I will stop the shadow invasion!",
+  "decline": "The shadows are too powerful."
+}

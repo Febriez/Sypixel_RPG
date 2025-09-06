@@ -1,0 +1,12 @@
+{
+  "name": "Cave-In Rescue",
+  "info": "Rescue the trapped miners from the collapsed mine.",
+  "dialogs": [
+    "The mine collapsed! My brothers are trapped inside!",
+    "The passages are dangerous and unstable.",
+    "Please, you're their only hope!"
+  ],
+  "npc_name": "Desperate Miner",
+  "accept": "I'll save them!",
+  "decline": "Too risky."
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Royal Decree",
+  "info": "Deliver an urgent message to the neighboring kingdom.",
+  "dialogs": [
+    "I bear an urgent message for the King of Westmarch!",
+    "But bandits block the roads, and I cannot make it.",
+    "Will you carry this royal decree?"
+  ],
+  "npc_name": "Royal Herald",
+  "accept": "For the kingdom!",
+  "decline": "Not my duty."
+}

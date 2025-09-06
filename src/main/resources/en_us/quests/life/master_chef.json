@@ -1,0 +1,10 @@
+{
+  "name": "Path to Master Chef",
+  "dialogs": [
+    "Welcome to the world of cooking! Do you wish to become a master?",
+    "First, you must be able to perfectly create basic dishes.",
+    "Now it's time to challenge more difficult recipes.",
+    "Prove your skills in the cooking contest!",
+    "Congratulations! You are now a Master Chef!"
+  ]
+}

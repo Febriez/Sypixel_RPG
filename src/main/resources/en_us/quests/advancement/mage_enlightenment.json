@@ -1,0 +1,16 @@
+{
+  "name": "Mage Enlightenment",
+  "info": "The path of magical enlightenment requires deep understanding of the arcane forces. Study under master mages and unlock the true potential of your magical abilities.",
+  "dialogs": [
+    "The path to magical enlightenment is not easy, young mage.",
+    "You must master all schools of elemental magic.",
+    "Only then will you achieve true arcane enlightenment.",
+    "Your magical understanding grows deeper.",
+    "The arcane forces respond more readily to your call.",
+    "Congratulations! You have achieved magical enlightenment!",
+    "You are now recognized as a true master of the arcane arts."
+  ],
+  "npc_name": "Grand Archmage",
+  "accept": "I seek magical enlightenment!",
+  "decline": "I need more magical study first."
+}

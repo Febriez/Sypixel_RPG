@@ -1,0 +1,12 @@
+{
+  "name": "Herbal Medicine",
+  "info": "Gather rare medicinal herbs for the village healer.",
+  "dialogs": [
+    "The plague is spreading, and I'm running low on medicine!",
+    "I need silverleaf and moonflower from the enchanted grove.",
+    "Please, lives depend on this!"
+  ],
+  "npc_name": "Healer Mira",
+  "accept": "I'll save them!",
+  "decline": "Too dangerous."
+}

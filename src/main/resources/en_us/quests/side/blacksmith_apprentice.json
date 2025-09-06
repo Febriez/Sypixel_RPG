@@ -1,0 +1,12 @@
+{
+  "name": "Training the Apprentice",
+  "info": "Help train the blacksmith's new apprentice.",
+  "dialogs": [
+    "My new apprentice needs combat training.",
+    "Could you spar with him and teach him real battle?",
+    "Don't go too hard on him - he's still learning!"
+  ],
+  "npc_name": "Master Blacksmith",
+  "accept": "I'll train him!",
+  "decline": "Not a teacher."
+}

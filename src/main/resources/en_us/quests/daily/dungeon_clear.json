@@ -1,0 +1,12 @@
+{
+  "name": "Daily Dungeon Clear",
+  "info": "Venture into the dangerous Shadowmoor Dungeon. Fight through multiple floors of increasing difficulty. Defeat the final boss and claim the dungeon core. Resets daily at midnight.",
+  "dialogs": [
+    "The Shadowmoor Dungeon grows more dangerous each day. Are you prepared for this challenge?",
+    "I'm ready to face whatever lurks in the depths below.",
+    "Incredible! You've cleared the entire dungeon and defeated the Dungeon Lord. You are a true hero."
+  ],
+  "npc_name": "Dungeon Overseer Grimwald",
+  "accept": "I'm ready to face whatever lurks in the depths below.",
+  "decline": "I need better gear before entering the dungeon."
+}

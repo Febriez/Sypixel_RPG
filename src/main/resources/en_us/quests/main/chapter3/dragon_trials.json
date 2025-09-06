@@ -1,0 +1,14 @@
+{
+  "name": "Dragon Trials",
+  "info": "Complete the ancient dragon's trials to prove your worth. Each trial will test a different aspect of your character. Only those who pass all trials can earn the dragon's blessing.",
+  "dialogs": [
+    "You have awakened me, but are you truly worthy?",
+    "I am ready to prove myself.",
+    "Then face my trials. Each will test a different aspect of your character.",
+    "Your wisdom exceeds your years, mortal.",
+    "You have proven yourself worthy. Accept my blessing and become my champion."
+  ],
+  "npc_name": "Ancient Dragon",
+  "accept": "I am ready to prove myself.",
+  "decline": "I need more time to prepare."
+}

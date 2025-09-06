@@ -1,0 +1,12 @@
+{
+  "name": "Sea Serpent Hunt",
+  "info": "Investigate the fisherman's tale of a sea monster.",
+  "dialogs": [
+    "I saw it with my own eyes! A massive sea serpent!",
+    "No one believes me, but it destroyed my boat!",
+    "Help me prove it exists and get revenge!"
+  ],
+  "npc_name": "Old Fisherman",
+  "accept": "Let's hunt it!",
+  "decline": "Just a tale."
+}

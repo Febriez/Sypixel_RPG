@@ -1,0 +1,12 @@
+{
+  "name": "Valley of Time",
+  "info": "Discover the location of the hidden valley.",
+  "dialogs": [
+    "Legends speak of a hidden valley untouched by time.",
+    "Where dinosaurs still roam and ancient plants grow.",
+    "Find it, and you'll be richly rewarded!"
+  ],
+  "npc_name": "Explorer Davies",
+  "accept": "Adventure!",
+  "decline": "Sounds fake."
+}

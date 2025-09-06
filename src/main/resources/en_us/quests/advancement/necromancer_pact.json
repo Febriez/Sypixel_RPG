@@ -1,0 +1,15 @@
+{
+  "name": "The Dark Pact",
+  "info": "Embrace the forbidden arts of necromancy and forge a pact with the realm of the dead. Master the ancient powers of death magic and command the undead to serve your will. Class Requirements: • Level 30 or higher • Dark magic affinity • Willingness to embrace darkness Trial Contents: • Test of Dark Resolve • Test of Death Magic • Test of Undead Command Class Rewards: • Necromancer class advancement • Death magic mastery • Necromantic artifacts",
+  "dialogs": [
+    "The dark arts call to you. Are you prepared to pay the price?",
+    "Death magic requires sacrifice. Your soul will be forever changed.",
+    "The darkness will test your will. Do not let it consume you entirely.",
+    "Death is not the end, but a doorway to greater power.",
+    "The dead will serve those who understand their nature.",
+    "The pact is sealed. You are now bound to the realm of death."
+  ],
+  "npc_name": "Dark Master",
+  "accept": "I will embrace the dark arts!",
+  "decline": "This path is too dark for me."
+}

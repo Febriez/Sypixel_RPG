@@ -1,0 +1,14 @@
+{
+  "name": "Warrior's Trial",
+  "info": "Prove your strength to advance as a warrior.",
+  "dialogs": [
+    "So you wish to advance in the warrior's path?",
+    "Strength alone is not enough. You need skill and honor.",
+    "Defeat the champions in the arena to prove your worth.",
+    "Show me that you have mastered your combat techniques.",
+    "Only then will I teach you the advanced warrior arts."
+  ],
+  "npc_name": "Warrior Master Thorin",
+  "accept": "I'll prove my strength!",
+  "decline": "I'm not ready yet."
+}

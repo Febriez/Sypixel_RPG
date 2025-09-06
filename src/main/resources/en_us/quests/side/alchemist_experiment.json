@@ -1,0 +1,12 @@
+{
+  "name": "Alchemical Breakthrough",
+  "info": "Help the alchemist with a dangerous experiment.",
+  "dialogs": [
+    "I'm on the verge of a breakthrough!",
+    "But I need rare ingredients for my experiment.",
+    "Warning: there might be... explosive results."
+  ],
+  "npc_name": "Alchemist Zoran",
+  "accept": "Science!",
+  "decline": "Too risky."
+}

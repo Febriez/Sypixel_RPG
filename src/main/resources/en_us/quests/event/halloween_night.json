@@ -1,0 +1,21 @@
+{
+  "name": "Night of Terrors",
+  "info": "Survive the horrors of Halloween night.",
+  "dialogs": [
+    "The veil between worlds grows thin tonight!",
+    "Spirits and monsters roam freely on Halloween.",
+    "The Headless Horseman rides again!",
+    "Collect candy from defeating monsters.",
+    "But beware - not all treats are safe to eat.",
+    "Some say the Pumpkin King himself will appear.",
+    "Will you brave the night of terrors?",
+    "The town needs protectors during this dark time.",
+    "Ghosts, ghouls, and worse things lurk in shadows.",
+    "Light the jack-o'-lanterns to ward off evil.",
+    "Survive until dawn, and great rewards await!",
+    "But fail... and join the spirits forever."
+  ],
+  "npc_name": "Spirit Medium Luna",
+  "accept": "I fear no ghost!",
+  "decline": "Too scary for me!"
+}

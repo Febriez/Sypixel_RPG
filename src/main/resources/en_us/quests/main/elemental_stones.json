@@ -1,0 +1,16 @@
+{
+  "name": "Elemental Stones",
+  "info": "The four Elemental Stones hold the power to balance the forces of nature in the world. Seek out these ancient artifacts and harness their power to restore harmony to the land.",
+  "dialogs": [
+    "The Elemental Stones have been scattered across the realm, hero.",
+    "Each stone is guarded by a powerful elemental guardian.",
+    "You must prove your worth to each guardian to claim their stone.",
+    "You have shown mastery over the elemental forces.",
+    "Continue your quest, for balance must be restored.",
+    "All four Elemental Stones are now in your possession!",
+    "The power of the elements flows through you, bringing harmony to the world."
+  ],
+  "npc_name": "Elemental Sage",
+  "accept": "I will find all the Elemental Stones!",
+  "decline": "This quest seems too dangerous."
+}

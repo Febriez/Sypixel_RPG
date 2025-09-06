@@ -1,0 +1,20 @@
+{
+  "name": "Bounty Hunt",
+  "info": "Track down and defeat dangerous criminals.",
+  "dialogs": [
+    "You look like someone who can handle themselves in a fight.",
+    "There's a dangerous bandit causing trouble in the region.",
+    "He's been robbing travelers on the eastern road.",
+    "Last seen near the old windmill.",
+    "He's dangerous - travels with a gang of thieves.",
+    "Bring me proof of his defeat and I'll reward you.",
+    "The kingdom offers good gold for such services.",
+    "Many have tried and failed - are you different?",
+    "Remember: he's cunning as well as dangerous.",
+    "Dead or alive - but alive pays better.",
+    "Good luck, bounty hunter."
+  ],
+  "npc_name": "Bounty Board Keeper",
+  "accept": "I'll bring them to justice!",
+  "decline": "Too risky."
+}

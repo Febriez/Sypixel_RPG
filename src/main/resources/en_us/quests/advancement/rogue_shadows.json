@@ -1,0 +1,15 @@
+{
+  "name": "Embrace the Shadows",
+  "info": "Walk the path of shadows and master the ancient arts of stealth and deception. Learn from the legendary shadow masters and become one with the darkness itself. Class Requirements: • Level 25 or higher • Stealth expertise required Trial Contents: • Test of Stealth • Test of Cunning • Test of Shadow Mastery Class Rewards: • Rogue class advancement • Shadow manipulation techniques • Legendary assassin tools",
+  "dialogs": [
+    "The shadows call to you. Are you ready to answer?",
+    "To walk with shadows, you must first become one with darkness.",
+    "True stealth is not just hiding, but becoming invisible to all senses.",
+    "A rogue's greatest weapon is their mind, not their blade.",
+    "The shadows themselves must bend to your will.",
+    "Excellent. You have become one with the shadows."
+  ],
+  "npc_name": "Shadow Master",
+  "accept": "I will become one with the shadows!",
+  "decline": "I prefer to walk in the light."
+}

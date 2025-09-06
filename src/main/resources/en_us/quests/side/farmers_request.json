@@ -1,0 +1,12 @@
+{
+  "name": "Farmer's Plight",
+  "info": "Help the farmer protect his crops from pests.",
+  "dialogs": [
+    "My crops! They're being destroyed by giant rats!",
+    "I've tried everything, but they keep coming back.",
+    "Please, help me save my harvest!"
+  ],
+  "npc_name": "Farmer John",
+  "accept": "I'll help!",
+  "decline": "Not my problem."
+}

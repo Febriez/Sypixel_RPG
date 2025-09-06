@@ -1,0 +1,12 @@
+{
+  "name": "Undead Uprising",
+  "dialogs": [
+    "Thank the gods you're here! The dead have risen from their graves!",
+    "A dark necromancer has cursed our lands with his foul magic.",
+    "Please, you must help us put these tormented souls to rest.",
+    "The undead numbers are thinning, but their master still commands them.",
+    "You've found his lair? Be careful - dark magic runs thick there.",
+    "It's over! The necromancer has been vanquished!",
+    "The dead can finally rest in peace. You've saved us all."
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Oasis of Visions",
+  "info": "Find the hidden oasis in the desert.",
+  "dialogs": [
+    "My grandfather spoke of a hidden oasis in the desert.",
+    "It's said to have water that grants visions.",
+    "Find it, and bring me a vial of its water."
+  ],
+  "npc_name": "Desert Nomad",
+  "accept": "I'll find it!",
+  "decline": "Too much sand."
+}

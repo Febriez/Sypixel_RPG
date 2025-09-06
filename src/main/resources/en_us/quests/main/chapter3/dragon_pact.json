@@ -1,0 +1,14 @@
+{
+  "name": "Dragon Pact",
+  "info": "The ancient dragon offers you a legendary pact, binding your souls together for eternity. Prepare for the most sacred ritual known to dragonkind, and forge an unbreakable bond with the ancient one.",
+  "dialogs": [
+    "Mortal, you seek the eternal pact? Few have ever survived this ritual.",
+    "I am prepared, great dragon. I wish to bind our souls as one.",
+    "The contract must be written with the ancient ways. Gather the sacred materials.",
+    "The blessing ritual will test your very soul. Are you truly ready?",
+    "The pact is sealed. We are bound forever, dragon-brother."
+  ],
+  "npc_name": "Ancient Dragon",
+  "accept": "I am prepared, great dragon. I wish to bind our souls as one.",
+  "decline": "I cannot commit to such an eternal bond."
+}

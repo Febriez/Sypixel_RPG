@@ -1,0 +1,12 @@
+{
+  "name": "Realm Defenders",
+  "info": "After repelling the void invasion, you must unite the guardians of different realms to prevent future dimensional threats. Form a grand alliance with the elemental defenders and create an unbreakable bond between all dimensions.",
+  "dialogs": [
+    "The void invasion was just the beginning. We need allies from every realm.",
+    "I will unite the guardians. Together we can protect all dimensions.",
+    "The grand alliance is formed! All realms now stand as one against the darkness."
+  ],
+  "npc_name": "Alliance Emissary",
+  "accept": "I will unite the guardians. Together we can protect all dimensions.",
+  "decline": "I'm not ready for diplomatic missions."
+}

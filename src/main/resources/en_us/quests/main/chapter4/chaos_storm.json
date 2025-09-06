@@ -1,0 +1,13 @@
+{
+  "name": "Chaos Storm",
+  "info": "A catastrophic interdimensional storm threatens to tear apart the fabric of reality itself, born from the conflicts between realms. Navigate the chaotic energies and confront the lord of disorder to restore balance to the dimensional network.",
+  "dialogs": [
+    "The chaos storm grows stronger! It will consume all dimensions if not stopped!",
+    "I will enter the storm and confront whatever force is causing this chaos.",
+    "Order and chaos are eternal! You cannot destroy what I represent!",
+    "The storm has calmed. Balance is restored to the dimensional network."
+  ],
+  "npc_name": "Chaos Storm Prophet",
+  "accept": "I will enter the storm and confront whatever force is causing this chaos.",
+  "decline": "The storm is too chaotic for me."
+}

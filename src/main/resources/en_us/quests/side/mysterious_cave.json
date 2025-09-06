@@ -1,0 +1,12 @@
+{
+  "name": "Echoes in the Dark",
+  "info": "Investigate the mysterious sounds from the cave.",
+  "dialogs": [
+    "Every night, strange sounds echo from that cave.",
+    "Screams, laughter, sometimes beautiful singing...",
+    "No one who enters has ever returned. Will you investigate?"
+  ],
+  "npc_name": "Village Elder",
+  "accept": "I'll investigate!",
+  "decline": "Too spooky."
+}

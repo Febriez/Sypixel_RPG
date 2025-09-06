@@ -1,0 +1,12 @@
+{
+  "name": "Temple of the Ancients",
+  "info": "Explore the forgotten temple in the mountains.",
+  "dialogs": [
+    "High in the mountains lies a forgotten temple.",
+    "It's said to hold the wisdom of ancient monks.",
+    "Bring me any scrolls or artifacts you find there."
+  ],
+  "npc_name": "Scholar Aldric",
+  "accept": "Knowledge awaits!",
+  "decline": "Too high up."
+}

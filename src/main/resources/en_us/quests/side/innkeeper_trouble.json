@@ -1,0 +1,12 @@
+{
+  "name": "Tavern Troubles",
+  "info": "Help the innkeeper with his rowdy customers.",
+  "dialogs": [
+    "These mercenaries won't pay their tab!",
+    "They're drunk and causing trouble.",
+    "Could you... convince them to pay up?"
+  ],
+  "npc_name": "Innkeeper Tom",
+  "accept": "I'll handle it!",
+  "decline": "Call the guards."
+}

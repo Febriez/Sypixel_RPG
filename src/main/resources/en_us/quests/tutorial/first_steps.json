@@ -1,0 +1,12 @@
+{
+  "name": "First Steps",
+  "info": "Learn the basic controls and mechanics of the game.",
+  "dialogs": [
+    "Welcome, traveler! I see you're new to these lands.",
+    "Let me teach you the basics of survival here.",
+    "First, try moving around using the WASD keys."
+  ],
+  "npc_name": "Tutorial Guide",
+  "accept": "I'm ready to learn!",
+  "decline": "Maybe later..."
+}

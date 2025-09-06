@@ -1,0 +1,11 @@
+{
+  "name": "Guild Resource War",
+  "dialogs": [
+    "The neighboring guild has been encroaching on our territory. It's time to show them our strength!",
+    "We need supplies and soldiers before we can engage in warfare.",
+    "Our scouts have identified key resource nodes. We must capture and hold them.",
+    "The battle has begun! Secure those mining nodes and defend our positions!",
+    "Excellent work! The resource nodes are ours, and our guild's power has grown significantly!",
+    "With control of these resources, our guild will prosper for years to come!"
+  ]
+}

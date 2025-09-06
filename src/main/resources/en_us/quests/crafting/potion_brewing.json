@@ -1,0 +1,11 @@
+{
+  "name": "Master of Potion Brewing",
+  "dialogs": [
+    "Alchemy is both art and science. Are you ready to learn its secrets?",
+    "Start with simple potions. Understanding the fundamentals is crucial.",
+    "Now we move to advanced techniques. One mistake could be explosive!",
+    "This recipe has been lost for centuries. Handle it with utmost care.",
+    "The final test will determine if you truly understand the alchemical arts.",
+    "Congratulations, Master Alchemist! Your potions will be the stuff of legends!"
+  ]
+}

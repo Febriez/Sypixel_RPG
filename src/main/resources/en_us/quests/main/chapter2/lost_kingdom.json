@@ -1,0 +1,16 @@
+{
+  "name": "Lost Kingdom",
+  "info": "Deep in the forgotten lands lies a once-great kingdom, now lost to time and overrun by ancient evils. Explore the ruins of this lost civilization and uncover the secrets of its mysterious downfall.",
+  "dialogs": [
+    "The Lost Kingdom calls to you, brave hero.",
+    "Long ago, this was the greatest kingdom in all the land.",
+    "Now only ruins remain, but perhaps you can restore its glory.",
+    "You are uncovering the tragic history of this lost realm.",
+    "The spirits of the kingdom watch your progress with hope.",
+    "The Lost Kingdom's heart beats once more!",
+    "Though still in ruins, the kingdom's spirit has been restored."
+  ],
+  "npc_name": "Ghostly Royal Advisor",
+  "accept": "I will explore the lost kingdom!",
+  "decline": "These ruins are too dangerous."
+}

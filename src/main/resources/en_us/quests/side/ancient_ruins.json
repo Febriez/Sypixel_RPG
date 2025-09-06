@@ -1,0 +1,12 @@
+{
+  "name": "The Ancient Ruins",
+  "info": "Investigate the mysterious ruins that appeared overnight.",
+  "dialogs": [
+    "Did you hear? Ancient ruins materialized in the desert!",
+    "Strange energies emanate from within.",
+    "We need someone brave enough to investigate."
+  ],
+  "npc_name": "Archaeologist Sarah",
+  "accept": "I'll explore them!",
+  "decline": "Sounds cursed."
+}

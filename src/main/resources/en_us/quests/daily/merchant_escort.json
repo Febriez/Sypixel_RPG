@@ -1,0 +1,13 @@
+{
+  "name": "Daily Merchant Escort",
+  "info": "Safely escort a traveling merchant to their destination. Protect valuable cargo from bandits and monsters. Navigate dangerous roads and ensure safe passage. Resets daily at midnight.",
+  "dialogs": [
+    "We have a merchant who needs safe passage to the distant city. The roads are treacherous.",
+    "I'm carrying valuable goods. Please keep me safe on this dangerous journey.",
+    "I'll ensure your safe passage. No harm will come to you or your cargo.",
+    "Excellent work! The merchant arrived safely with all goods intact. You have our gratitude."
+  ],
+  "npc_name": "Guild Leader Cornelius",
+  "accept": "I'll ensure your safe passage. No harm will come to you or your cargo.",
+  "decline": "I'm not available for escort duty right now."
+}

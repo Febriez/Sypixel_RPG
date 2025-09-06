@@ -1,0 +1,12 @@
+{
+  "name": "Crystal Harvest",
+  "info": "Mine magical crystals from the crystal cavern.",
+  "dialogs": [
+    "The crystal cavern is full of magical gems!",
+    "But it's guarded by crystal golems.",
+    "Bring me 20 magic crystals if you dare enter."
+  ],
+  "npc_name": "Gem Merchant",
+  "accept": "Crystals await!",
+  "decline": "Too risky."
+}

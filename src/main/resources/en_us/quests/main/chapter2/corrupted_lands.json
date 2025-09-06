@@ -1,0 +1,16 @@
+{
+  "name": "Corrupted Lands",
+  "info": "The corruption has spread across vast regions, turning fertile lands into twisted wastelands. Venture into these corrupted territories and find a way to cleanse them of the dark influence.",
+  "dialogs": [
+    "The corruption spreads like a plague across our lands.",
+    "Ancient forests have become twisted mockeries of their former beauty.",
+    "Only you can venture into these dangerous lands and find a cure.",
+    "Your efforts are slowly healing the corrupted lands.",
+    "But the source of corruption still remains strong.",
+    "The corruption has been cleansed from these lands!",
+    "Nature begins to reclaim what was once lost to darkness."
+  ],
+  "npc_name": "Druid of Nature",
+  "accept": "I will cleanse these lands!",
+  "decline": "The corruption is too dangerous."
+}

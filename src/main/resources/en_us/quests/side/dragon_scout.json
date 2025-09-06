@@ -1,0 +1,12 @@
+{
+  "name": "Dragon Scout",
+  "dialogs": [
+    "Dragon sightings are no small matter - we must investigate.",
+    "These creatures can level entire towns if they're hostile.",
+    "We need someone skilled enough to get close without provoking them.",
+    "Fresh dragon scales! This confirms they're definitely in the area.",
+    "You found their lair? Approach with extreme caution.",
+    "A young dragon, not fully grown - that explains the behavior.",
+    "Your report will help us prepare appropriate safety measures."
+  ]
+}

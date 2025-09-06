@@ -1,0 +1,13 @@
+{
+  "name": "The Ancient Prophecy",
+  "info": "Uncover the truth behind the ancient prophecy.",
+  "dialogs": [
+    "The prophecy speaks of a chosen one...",
+    "One who will save our world from eternal darkness.",
+    "Could it be... that you are the one?",
+    "Seek the Oracle in the Temple of Time for answers."
+  ],
+  "npc_name": "Elder Sage",
+  "accept": "I'll seek the truth!",
+  "decline": "Prophecies are just stories."
+}

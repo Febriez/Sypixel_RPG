@@ -1,0 +1,12 @@
+{
+  "name": "Ancient Ruins",
+  "dialogs": [
+    "These ruins hold secrets from ages past, explorer.",
+    "Many have entered, but few have returned with treasure.",
+    "Be cautious - the ancients protected their secrets well.",
+    "Your exploration skills prove invaluable in these ruins.",
+    "The ancient mechanisms respond to your careful touch.",
+    "You have successfully explored the ancient ruins!",
+    "The knowledge and treasures you've found are priceless."
+  ]
+}

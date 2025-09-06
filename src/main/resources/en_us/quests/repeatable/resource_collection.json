@@ -1,0 +1,11 @@
+{
+  "name": "Resource Collection Contract",
+  "dialogs": [
+    "We have urgent resource collection contracts available. Are you interested?",
+    "The contract specifies exact quantities and quality standards.",
+    "Good progress! Keep up the efficient collection work.",
+    "Let me inspect these materials... Quality looks acceptable.",
+    "Excellent work! Your efficiency is noted for future contracts.",
+    "Based on your performance, we're offering you a premium contract!"
+  ]
+}

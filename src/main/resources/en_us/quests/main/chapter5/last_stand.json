@@ -1,0 +1,14 @@
+{
+  "name": "Last Stand",
+  "info": "The forces of darkness have begun their final assault. All the strongholds of light are under siege simultaneously. Hold the line against overwhelming odds and protect the last bastions of hope in this darkest hour.",
+  "dialogs": [
+    "This is our darkest hour. All our strongholds are under attack.",
+    "I will not let the light fade. We will hold the line!",
+    "The enemy is everywhere, but our resolve remains strong.",
+    "We've held against impossible odds. There is still hope.",
+    "The last stand is complete. Now we prepare for the final battle."
+  ],
+  "npc_name": "Last Fortress Commander",
+  "accept": "I will not let the light fade. We will hold the line!",
+  "decline": "The siege is too overwhelming."
+}

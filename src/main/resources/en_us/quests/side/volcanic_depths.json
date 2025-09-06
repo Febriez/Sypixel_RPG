@@ -1,0 +1,12 @@
+{
+  "name": "Into the Volcano",
+  "info": "Explore the dangerous volcanic caves for rare materials.",
+  "dialogs": [
+    "The volcanic depths hold incredible treasures!",
+    "But few who enter ever return...",
+    "If you're brave enough, I need obsidian crystals from there."
+  ],
+  "npc_name": "Geologist Marcus",
+  "accept": "I fear no heat!",
+  "decline": "Too hot for me."
+}

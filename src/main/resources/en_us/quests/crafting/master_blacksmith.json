@@ -1,0 +1,16 @@
+{
+  "name": "Master Blacksmith's Legacy",
+  "info": "Learn the ancient art of legendary weapon crafting.",
+  "dialogs": [
+    "You want to learn the secrets of legendary crafting?",
+    "It took me decades to master these techniques.",
+    "First, you must understand the properties of rare metals.",
+    "Mithril, adamantium, orichalcum - each has unique properties.",
+    "Gather these materials and I'll teach you.",
+    "But beware - one mistake can ruin everything.",
+    "Are you prepared for this commitment?"
+  ],
+  "npc_name": "Master Smith Ironforge",
+  "accept": "Teach me, master!",
+  "decline": "Too complex for me."
+}

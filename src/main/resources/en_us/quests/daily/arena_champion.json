@@ -1,0 +1,12 @@
+{
+  "name": "Daily Arena Champion",
+  "info": "Prove your combat prowess in the gladiatorial arena. Fight through increasingly difficult matches to claim victory. Earn the title of daily champion and valuable rewards. Resets daily at midnight.",
+  "dialogs": [
+    "Welcome to the arena, warrior. Do you have what it takes to become today's champion?",
+    "I'm ready to prove myself in combat and claim victory.",
+    "Magnificent! You have earned the title of arena champion. Your skill is unmatched today."
+  ],
+  "npc_name": "Gladiator Master Maximus",
+  "accept": "I'm ready to prove myself in combat and claim victory.",
+  "decline": "I'm not ready for arena combat yet."
+}

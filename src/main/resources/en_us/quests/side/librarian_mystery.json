@@ -1,0 +1,12 @@
+{
+  "name": "The Book Thief",
+  "info": "Solve the mystery of the missing library books.",
+  "dialogs": [
+    "Books are disappearing from the library!",
+    "Every night, another tome vanishes without a trace.",
+    "Help me solve this mystery!"
+  ],
+  "npc_name": "Librarian Agnes",
+  "accept": "Mystery time!",
+  "decline": "Too puzzling."
+}

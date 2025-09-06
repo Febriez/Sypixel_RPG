@@ -1,0 +1,12 @@
+{
+  "name": "Daily Treasure Hunter",
+  "info": "Seek out hidden treasures and valuable artifacts. Follow ancient maps to discover buried riches. Brave dangerous guardians to claim your rewards. Resets daily at midnight.",
+  "dialogs": [
+    "Ah, a fellow seeker of fortune! I have maps to treasures hidden across the realm.",
+    "I'm ready to brave any danger for hidden treasures.",
+    "Exceptional work! These treasures will make you rich beyond your dreams."
+  ],
+  "npc_name": "Treasure Merchant Ferdinand",
+  "accept": "I'm ready to brave any danger for hidden treasures.",
+  "decline": "I don't have the equipment for treasure hunting."
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Ice Crystal Quest",
+  "info": "Climb the frozen peaks to retrieve the ice crystal.",
+  "dialogs": [
+    "Atop the frozen peaks grows the eternal ice crystal.",
+    "It never melts and radiates powerful magic.",
+    "Many have died trying to retrieve it. Will you succeed?"
+  ],
+  "npc_name": "Ice Mage Crysta",
+  "accept": "I'll climb!",
+  "decline": "Too cold."
+}

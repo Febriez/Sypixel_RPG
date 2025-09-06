@@ -1,0 +1,16 @@
+{
+  "name": "The First Trial",
+  "info": "Your first trial as the chosen hero begins now. Face the challenges that await in the Trial Chambers and prove that you are worthy of your destiny. This trial will test your combat skills and determination.",
+  "dialogs": [
+    "Welcome to your first trial, chosen hero.",
+    "The Trial Chamber will test every aspect of your abilities.",
+    "Enter when you are ready, and may fortune favor you.",
+    "You are performing admirably in the trial.",
+    "Stay focused and continue forward, hero.",
+    "Congratulations! You have completed your first trial.",
+    "You have proven yourself worthy of the title 'Hero'."
+  ],
+  "npc_name": "Trial Master",
+  "accept": "I'm ready to face the trial!",
+  "decline": "I need more preparation time."
+}

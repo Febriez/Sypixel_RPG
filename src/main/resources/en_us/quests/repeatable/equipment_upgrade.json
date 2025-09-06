@@ -1,0 +1,11 @@
+{
+  "name": "Equipment Upgrade Service",
+  "dialogs": [
+    "Many adventurers need their equipment upgraded. Can you help them?",
+    "Each upgrade requires specific techniques and materials.",
+    "Your upgrade skills are improving with each piece you work on.",
+    "You're developing true mastery of the upgrade arts.",
+    "Your work meets guild standards. Here's your certification!",
+    "This legendary upgrade will be remembered for ages!"
+  ]
+}

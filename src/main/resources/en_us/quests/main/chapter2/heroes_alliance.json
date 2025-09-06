@@ -1,0 +1,16 @@
+{
+  "name": "Heroes' Alliance",
+  "info": "The greatest threat requires the greatest heroes. Form an alliance with legendary heroes from across the realm to face the ultimate challenge together. United, you stand a chance. Divided, all will fall.",
+  "dialogs": [
+    "The time has come to unite the greatest heroes of our age.",
+    "Alone, even you cannot face what is coming.",
+    "Seek out the legendary heroes and convince them to join our cause.",
+    "The heroes begin to rally to your call.",
+    "Together, you are stronger than any individual could be.",
+    "The Heroes' Alliance has been formed!",
+    "United, you are ready to face any challenge that awaits."
+  ],
+  "npc_name": "Alliance Herald",
+  "accept": "I will unite the heroes!",
+  "decline": "I prefer to work alone."
+}

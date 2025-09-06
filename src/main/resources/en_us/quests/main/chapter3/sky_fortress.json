@@ -1,0 +1,14 @@
+{
+  "name": "Sky Fortress",
+  "info": "High above the clouds lies an ancient dragon fortress, floating in the endless sky and defended by fierce guardians. Take to the skies and conquer this aerial stronghold to prove your worth as a true dragon ally.",
+  "dialogs": [
+    "The sky fortress has been unconquered for centuries. Are you truly ready for this challenge?",
+    "I've soared through many skies. This fortress will fall before me.",
+    "The towers each hold ancient powers. Master them all to reach the commander.",
+    "You have conquered my fortress, warrior. I yield to your strength.",
+    "The skies are yours to command now. Rule them wisely."
+  ],
+  "npc_name": "Sky Navigator",
+  "accept": "I've soared through many skies. This fortress will fall before me.",
+  "decline": "I need better flying equipment first."
+}

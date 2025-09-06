@@ -1,0 +1,15 @@
+{
+  "name": "Path of Precision",
+  "info": "Master the art of precision archery to become an elite archer of unmatched accuracy. Train under legendary marksmen and unlock the secrets of perfect aim and deadly precision. Class Requirements: • Level 25 or higher • Ranged combat experience Trial Contents: • Test of Accuracy • Test of Focus • Test of Wind Reading Class Rewards: • Archer class advancement • Precision archery techniques • Master archer equipment",
+  "dialogs": [
+    "The path of precision requires absolute focus and dedication.",
+    "Your aim must be perfect. Practice until you never miss.",
+    "Accuracy is not just hitting the target, but hitting exactly where you intend.",
+    "True archers must trust their instincts even when sight fails them.",
+    "The wind is not your enemy, but your ally. Learn to read its whispers.",
+    "Excellent! You have mastered the art of precision archery."
+  ],
+  "npc_name": "Master Archer",
+  "accept": "I will master the art of precision archery!",
+  "decline": "My aim needs more practice first."
+}

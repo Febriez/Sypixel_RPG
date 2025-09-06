@@ -1,0 +1,14 @@
+{
+  "name": "Dimensional Rift",
+  "info": "A massive tear in the fabric of reality threatens to consume all known dimensions, growing larger with each passing moment. Rally all your allies and seal this ultimate threat before existence itself is unraveled by the void beyond.",
+  "dialogs": [
+    "This rift is beyond anything we've encountered! It's tearing reality apart!",
+    "I will gather all our allies and seal this threat once and for all.",
+    "You think your pathetic seals can contain the infinite void? I am eternity!",
+    "The rift is sealed! All dimensions are safe thanks to your heroic efforts.",
+    "The balance between dimensions is restored. I am truly the Realm Protector."
+  ],
+  "npc_name": "Dimensional Scientist",
+  "accept": "I will gather all our allies and seal this threat once and for all.",
+  "decline": "This threat is beyond my current abilities."
+}

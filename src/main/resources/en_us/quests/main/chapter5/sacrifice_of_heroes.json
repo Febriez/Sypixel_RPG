@@ -1,0 +1,14 @@
+{
+  "name": "Sacrifice of Heroes",
+  "info": "Victory came at a great cost. Many heroes gave their lives to ensure the triumph of light over darkness. Honor the fallen champions and carry forward their legacy as the realms begin to heal from the great war.",
+  "dialogs": [
+    "So many heroes sacrificed everything for our victory. We must remember them.",
+    "Their sacrifice will not be in vain. I will honor their memory forever.",
+    "The pain of loss is deep, but their courage lights our path forward.",
+    "A memorial worthy of their sacrifice. They will never be forgotten.",
+    "From their sacrifice, a new age of peace and hope is born."
+  ],
+  "npc_name": "Keeper of Heroes' Memorial",
+  "accept": "Their sacrifice will not be in vain. I will honor their memory forever.",
+  "decline": "The memories are too painful."
+}

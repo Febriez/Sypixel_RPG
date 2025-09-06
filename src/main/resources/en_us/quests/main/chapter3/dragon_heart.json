@@ -1,0 +1,15 @@
+{
+  "name": "Dragon Heart",
+  "info": "The legendary Dragon Heart lies hidden in the deepest sanctum, protected by ancient guardians and sealed by powerful magic. Face the ultimate trial to claim this artifact of immense power and complete your transformation into a true Dragon Lord.",
+  "dialogs": [
+    "The Dragon Heart... it has been lost for millennia. Only the worthy may claim it.",
+    "I will prove my worth. Guide me to this legendary artifact.",
+    "Three keys seal the heart's chamber. Fire, ice, and storm must all bend to your will.",
+    "You dare challenge the Dragon Emperor? Your arrogance will be your downfall!",
+    "The heart recognizes you as its rightful master. Take it, and become legend.",
+    "You have become the Dragon Lord. Use this power wisely, for all realms now depend on you."
+  ],
+  "npc_name": "Ancient Dragon",
+  "accept": "I will prove my worth and claim the Dragon Heart!",
+  "decline": "I am not ready for this ultimate trial."
+}

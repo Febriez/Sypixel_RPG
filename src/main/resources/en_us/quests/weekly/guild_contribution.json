@@ -1,0 +1,8 @@
+{
+  "name": "Weekly Guild Contribution",
+  "dialogs": [
+    "Welcome, guild member! This week we need your dedication to strengthen our community. Are you ready to contribute?",
+    "I'm ready to serve the guild with honor!",
+    "Excellent work! Your contributions this week have made our guild stronger. The rewards are well deserved."
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Spider Infestation",
+  "dialogs": [
+    "It's a nightmare in there! Spiders everywhere, some bigger than dogs!",
+    "My workers refuse to go in, and we have valuable cargo trapped inside.",
+    "We need someone brave enough to clear out these monstrous arachnids.",
+    "You're making great progress! The workers are feeling more hopeful.",
+    "Destroying those nests should prevent new spiders from multiplying.",
+    "The Spider Queen is dead! The infestation is finally over!",
+    "My workers can return safely, and business can get back to normal. Thank you!"
+  ]
+}

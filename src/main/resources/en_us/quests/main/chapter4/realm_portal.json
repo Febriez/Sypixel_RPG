@@ -1,0 +1,13 @@
+{
+  "name": "Realm Portal",
+  "info": "With the Dragon Heart's power, you can now access other dimensions. A dimensional scholar seeks your aid to open a portal to the Void Realm, Master the forbidden arts of dimensional magic and become the first to traverse the boundaries between worlds.",
+  "dialogs": [
+    "The barriers between realms grow thin. With your power, we can breach them safely.",
+    "I am ready to explore beyond our world. What do you need?",
+    "The portal frame must be forged with perfect precision, or reality itself could tear.",
+    "The portal is complete! Step through and witness the infinite cosmos."
+  ],
+  "npc_name": "Dimension Scholar",
+  "accept": "I am ready to explore beyond our world. What do you need?",
+  "decline": "Dimensional travel is too dangerous."
+}

@@ -1,0 +1,17 @@
+{
+  "name": "Path of Shadows",
+  "dialogs": [
+    "If you're reading this letter, you are the chosen one...",
+    "At midnight, knock three times with a stick in front of the abandoned well.",
+    "It's been a while since someone with potential arrived. Are you ready to walk the path of shadows?",
+    "This path cannot be reversed. Once you step in, you must go to the end.",
+    "I'm ready.",
+    "Good. Let's start with the first trial. Learn how to become a true shadow.",
+    "Impressive. But the real test starts now.",
+    "Eliminate the corrupt noble. Bring his seal as proof.",
+    "You've passed all trials. Now it's time to choose your path.",
+    "Shadow Assassin, Dark Mage, Night Tracker... What will you become?",
+    "You are now one of us. Receive the mark of shadows.",
+    "This mark is your new identity. Use it wisely."
+  ]
+}

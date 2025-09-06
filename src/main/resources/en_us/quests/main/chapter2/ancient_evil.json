@@ -1,0 +1,16 @@
+{
+  "name": "Ancient Evil",
+  "info": "An ancient evil stirs in the deepest depths of the world, threatening to break free from its eternal prison. Venture into the forbidden depths and confront this primordial force before it can escape.",
+  "dialogs": [
+    "The ancient seals weaken, hero. Something terrible stirs below.",
+    "This evil has been imprisoned since the dawn of time itself.",
+    "If it escapes, all worlds will fall into eternal darkness.",
+    "You delve deeper into the heart of primordial darkness.",
+    "The ancient evil senses your presence and grows agitated.",
+    "The Ancient Evil has been defeated and sealed once more!",
+    "The world is safe from this primordial threat, for now."
+  ],
+  "npc_name": "Guardian of the Seals",
+  "accept": "I will stop this ancient evil!",
+  "decline": "This is beyond my power."
+}
