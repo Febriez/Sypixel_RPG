@@ -1,5 +1,31 @@
 {
   "name": "Summer Solstice Celebration",
+  "info": "Celebrate the sun's greatest power during the Summer Solstice through rituals and meditation.",
+  "npc_name": "Solar Priest",
+  "accept": "I'd be honored to help with the solstice celebration!",
+  "decline": "The sun's power is too intense for me right now.",
+  "objectives": [
+    {
+      "id": "gather_sunflowers",
+      "description": "Collect sunflowers that capture the sun's essence"
+    },
+    {
+      "id": "collect_fire_crystals",
+      "description": "Gather fire crystals to amplify the sun's energy"
+    },
+    {
+      "id": "banish_shadow_beasts",
+      "description": "Drive away the restless shadow beasts"
+    },
+    {
+      "id": "conduct_solar_ritual",
+      "description": "Participate in the solar ritual ceremony"
+    },
+    {
+      "id": "commune_with_sun",
+      "description": "Join in meditation to commune with the eternal sun"
+    }
+  ],
   "dialogs": [
     "The Summer Solstice brings the sun's greatest power! Will you help us celebrate?",
     "Sunflowers capture the sun's essence perfectly. We need many for the ceremony.",

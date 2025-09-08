@@ -350,11 +350,11 @@ public class LeaderboardGui extends ScrollableGui {
         builder.displayName(Component.text(entry.rank() + ". " + entry.playerName(), color)
                         .decoration(TextDecoration.BOLD, entry.rank() <= 3))
                 .addLore(Component.empty())
-                .addLore(LangManager.getComponent("gui.leaderboard.value", viewer.locale(), formatValue(entry.value())))
-                .addLore(LangManager.getComponent("gui.leaderboard.last-updated", viewer.locale(), formatTime(entry.lastUpdated())));
+                .addLore(LangManager.text(LangKey.GUI_LEADERBOARD_VALUE, viewer, formatValue(entry.value())))
+                .addLore(LangManager.text(LangKey.GUI_LEADERBOARD_LAST_UPDATED, viewer, formatTime(entry.lastUpdated())));
         if (isMyself) {
             builder.addLore(Component.empty())
-                    .addLore(LangManager.getComponent("gui.leaderboard.this-is-you", viewer.locale()))
+                    .addLore(LangManager.text(LangKey.GUI_LEADERBOARD_THIS_IS_YOU, viewer))
                     .glint(true);
         }
         

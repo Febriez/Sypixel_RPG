@@ -1,6 +1,14 @@
 {
   "name": "Ice Crystal Quest",
   "info": "Climb the frozen peaks to retrieve the ice crystal.",
+  "objectives": {
+    "mountain_guide": "Meet the mountain guide",
+    "frozen_trail": "Follow the frozen trail",
+    "kill_strays": "Defeat 20 strays",
+    "ice_crystals": "Collect 15 ice crystals",
+    "summit": "Reach the summit",
+    "frost_heart": "Obtain the frost heart"
+  },
   "dialogs": [
     "Atop the frozen peaks grows the eternal ice crystal.",
     "It never melts and radiates powerful magic.",

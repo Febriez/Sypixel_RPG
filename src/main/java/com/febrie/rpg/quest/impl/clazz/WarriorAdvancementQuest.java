@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * 전사 승급 퀘스트
@@ -41,9 +42,9 @@ public class WarriorAdvancementQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.CLASS_WARRIOR_ADVANCEMENT)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         new ReachLevelObjective("warrior_level", 30),
-                        new InteractNPCObjective("warrior_master", "warrior_master"),
+                        new InteractNPCObjective("warrior_master", "warrior_master", 1),
                         new KillMobObjective("prove_combat", EntityType.IRON_GOLEM, 20),
                         new KillPlayerObjective("prove_pvp", 10),
                         new CollectItemObjective("warrior_emblem", Material.IRON_INGOT, 50),
@@ -75,10 +76,21 @@ public class WarriorAdvancementQuest extends Quest {
         return LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_INFO, who);
     }
 
-    @Override
+        @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.clazz.warrior_advancement.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "warrior_level" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_LEVEL, who);
+            case "warrior_master" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_MASTER, who);
+            case "prove_combat" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_COMBAT, who);
+            case "prove_pvp" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_PVP, who);
+            case "warrior_emblem" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_EMBLEM, who);
+            case "forge_weapon" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_FORGE_WEAPON, who);
+            case "forge_armor" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_FORGE_ARMOR, who);
+            case "endurance_test" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_ENDURANCE_TEST, who);
+            case "final_trial" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_FINAL_TRIAL, who);
+            case "return_emblem" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_RETURN_EMBLEM, who);
+            default -> new ArrayList<>();
+        };
     }
 
     @Override
@@ -86,9 +98,14 @@ public class WarriorAdvancementQuest extends Quest {
         return 5;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

@@ -1,5 +1,31 @@
 {
   "name": "Guild Resource War",
+  "info": "Fight to control valuable resource nodes and expand your guild's territory and power.",
+  "npc_name": "War Strategist",
+  "accept": "It's time to secure those resources for our guild!",
+  "decline": "We're not ready for a resource war yet.",
+  "objectives": [
+    {
+      "id": "gather_war_supplies",
+      "description": "Gather supplies and recruit soldiers for the resource war"
+    },
+    {
+      "id": "scout_resource_nodes",
+      "description": "Scout and identify key resource nodes to capture"
+    },
+    {
+      "id": "initiate_assault",
+      "description": "Launch the assault on enemy-controlled resource nodes"
+    },
+    {
+      "id": "capture_mining_nodes",
+      "description": "Capture and secure the valuable mining nodes"
+    },
+    {
+      "id": "defend_positions",
+      "description": "Defend your captured positions against counterattacks"
+    }
+  ],
   "dialogs": [
     "The neighboring guild has been encroaching on our territory. It's time to show them our strength!",
     "We need supplies and soldiers before we can engage in warfare.",

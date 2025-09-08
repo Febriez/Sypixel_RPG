@@ -11,6 +11,7 @@ import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -38,7 +39,7 @@ public class GuiSettingsGui extends BaseGui {
 
     private GuiSettingsGui(@NotNull GuiManager guiManager,
                          @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, Component.translatable("gui.gui-settings.title"));
+        super(player, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_GUI_SETTINGS_TITLE, player));
     }
 
     /**
@@ -56,7 +57,7 @@ public class GuiSettingsGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.gui-settings.title");
+        return LangManager.text(LangKey.GUI_GUI_SETTINGS_TITLE, viewer);
     }
 
     @Override
@@ -85,9 +86,9 @@ public class GuiSettingsGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 ItemBuilder.of(Material.IRON_TRAPDOOR)
-                        .displayNameTranslated("items.settings.gui-settings.title.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_GUI_SETTINGS_TITLE_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.gui-settings.title.lore")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_GUI_SETTINGS_TITLE_LORE, viewer))
                         .hideAllFlags()
                         .build()
         );
@@ -104,8 +105,8 @@ public class GuiSettingsGui extends BaseGui {
         // 볼륨 감소 버튼
         GuiItem volumeDecreaseButton = GuiItem.clickable(
                 ItemBuilder.of(Material.RED_CONCRETE)
-                        .displayNameTranslated("items.settings.gui-settings.volume-decrease.name")
-                        .addLoreTranslated("items.settings.gui-settings.volume-decrease.lore")
+                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_DECREASE_NAME, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_DECREASE_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
@@ -115,7 +116,7 @@ public class GuiSettingsGui extends BaseGui {
                     
                     updateVolumeDisplay();
                     playClickSound(p);
-                    p.sendMessage(LangManager.get("gui.gui-settings.volume-changed", p, String.valueOf(newVolume)));
+                    p.sendMessage(LangManager.text(LangKey.GUI_GUI_SETTINGS_VOLUME_CHANGED, p, String.valueOf(newVolume)));
                 }
         );
         setItem(VOLUME_DECREASE_SLOT, volumeDecreaseButton);
@@ -126,8 +127,8 @@ public class GuiSettingsGui extends BaseGui {
         // 볼륨 증가 버튼
         GuiItem volumeIncreaseButton = GuiItem.clickable(
                 ItemBuilder.of(Material.GREEN_CONCRETE)
-                        .displayNameTranslated("items.settings.gui-settings.volume-increase.name")
-                        .addLoreTranslated("items.settings.gui-settings.volume-increase.lore")
+                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_INCREASE_NAME, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_INCREASE_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
@@ -137,7 +138,7 @@ public class GuiSettingsGui extends BaseGui {
                     
                     updateVolumeDisplay();
                     playClickSound(p);
-                    p.sendMessage(LangManager.get("gui.gui-settings.volume-changed", p, String.valueOf(newVolume)));
+                    p.sendMessage(LangManager.text(LangKey.GUI_GUI_SETTINGS_VOLUME_CHANGED, p, String.valueOf(newVolume)));
                 }
         );
         setItem(VOLUME_INCREASE_SLOT, volumeIncreaseButton);
@@ -171,13 +172,13 @@ public class GuiSettingsGui extends BaseGui {
         
         GuiItem volumeDisplay = GuiItem.display(
                 ItemBuilder.of(material)
-                        .displayNameTranslated("items.settings.gui-settings.volume.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.get("gui.gui-settings.current-volume", viewer, Component.text(String.valueOf(volume))))
+                        .addLore(LangManager.text(LangKey.GUI_GUI_SETTINGS_CURRENT_VOLUME, viewer, Component.text(String.valueOf(volume))))
                         .addLore(Component.text(volumeBar).color(volume > 0 ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
                         .addLore(Component.empty())
-                        .addLore(LangManager.get("gui.gui-settings.status", viewer,
-                                Component.translatable(isMuted ? "status.muted" : "status.active")
+                        .addLore(LangManager.text(LangKey.GUI_GUI_SETTINGS_STATUS, viewer,
+                                (isMuted ? LangManager.text(LangKey.STATUS_MUTED, viewer) : LangManager.text(LangKey.STATUS_ACTIVE, viewer))
                                 .color(isMuted ? UnifiedColorUtil.ERROR : UnifiedColorUtil.SUCCESS)))
                         .hideAllFlags()
                         .build()
@@ -196,13 +197,13 @@ public class GuiSettingsGui extends BaseGui {
         
         GuiItem muteToggle = GuiItem.clickable(
                 ItemBuilder.of(isMuted ? Material.REDSTONE_TORCH : Material.TORCH)
-                        .displayNameTranslated(isMuted ? "items.settings.gui-settings.unmute.name" : "items.settings.gui-settings.mute.name")
+                        .displayName(LangManager.text(isMuted ? LangKey.ITEMS_SETTINGS_GUI_SETTINGS_UNMUTE_NAME : LangKey.ITEMS_SETTINGS_GUI_SETTINGS_MUTE_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.get("gui.gui-settings.current-status", viewer,
-                                Component.translatable(isMuted ? "status.muted" : "status.active")
+                        .addLore(LangManager.text(LangKey.GUI_GUI_SETTINGS_CURRENT_STATUS, viewer,
+                                (isMuted ? LangManager.text(LangKey.STATUS_MUTED, viewer) : LangManager.text(LangKey.STATUS_ACTIVE, viewer))
                                 .color(isMuted ? UnifiedColorUtil.ERROR : UnifiedColorUtil.SUCCESS)))
                         .addLore(Component.empty())
-                        .addLoreTranslated(isMuted ? "items.settings.gui-settings.unmute.lore" : "items.settings.gui-settings.mute.lore")
+                        .addLore(LangManager.text(isMuted ? LangKey.ITEMS_SETTINGS_GUI_SETTINGS_UNMUTE_LORE : LangKey.ITEMS_SETTINGS_GUI_SETTINGS_MUTE_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
@@ -214,7 +215,7 @@ public class GuiSettingsGui extends BaseGui {
                         playClickSound(p);
                     }
                     
-                    p.sendMessage(LangManager.text(settings.isGuiSoundMuted() ? "gui.gui-settings.sound-muted" : "gui.gui-settings.sound-unmuted", p));
+                    p.sendMessage(LangManager.text(settings.isGuiSoundMuted() ? LangKey.GUI_GUI_SETTINGS_SOUND_MUTED : LangKey.GUI_GUI_SETTINGS_SOUND_UNMUTED, p));
                 }
         );
         setItem(MUTE_TOGGLE_SLOT, muteToggle);

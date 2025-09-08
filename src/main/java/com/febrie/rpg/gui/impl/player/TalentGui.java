@@ -139,7 +139,7 @@ public class TalentGui extends ScrollableGui {
         }
 
         GuiItem pageInfo = GuiItem.display(
-                ItemBuilder.of(Material.ENCHANTED_BOOK, getViewerLocale())
+                ItemBuilder.of(Material.ENCHANTED_BOOK)
                         .displayName(LangManager.text(LangKey.GUI_TALENT_PAGE_INFO, viewer))
                         .addLore(LangManager.text(LangKey.GUI_TALENT_CURRENT_PAGE, viewer, getPageTitle()))
                         .addLore(LangManager.text(LangKey.GUI_TALENT_JOB, viewer, jobName))
@@ -181,7 +181,7 @@ public class TalentGui extends ScrollableGui {
             material = Material.GRAY_DYE;
         }
 
-        ItemBuilder builder = ItemBuilder.of(material, getViewerLocale())
+        ItemBuilder builder = ItemBuilder.of(material)
                 .displayName(LangManager.text(LangKey.valueOf("TALENT_" + talent.getId().toUpperCase() + "_NAME"), viewer))
                 .amount(Math.max(1, currentLevel));
 

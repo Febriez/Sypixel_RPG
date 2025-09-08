@@ -1,6 +1,10 @@
 {
   "name": "Basic Combat",
   "info": "Learn how to fight and defend yourself.",
+  "objectives": {
+    "kill_zombies": "Defeat 5 zombies",
+    "kill_skeletons": "Defeat 3 skeletons"
+  },
   "dialogs": [
     "Now that you can move, it's time to learn combat!",
     "Take this wooden sword and practice on the training dummy.",

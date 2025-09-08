@@ -29,5 +29,398 @@
   "sequential_note": "※ 順番に完了する必要があります。",
   "unknown_npc": "不明なNPC",
   "filter": "フィルター: {0}",
-  "total_count": "総クエスト数: {0}"
+  "total_count": "総クエスト数: {0}",
+  "main": {
+    "lost_kingdom": {
+      "name": "[TRANSLATE: Lost Kingdom]",
+      "info": "[TRANSLATE: Deep in the forgotten lands lies a once-great kingdom]",
+      "dialogs": [
+        "[TRANSLATE: The Lost Kingdom calls to you, brave hero.]"
+      ],
+      "npc_name": "[TRANSLATE: Ghostly Royal Advisor]",
+      "accept": "[TRANSLATE: I will explore the lost kingdom!]",
+      "decline": "[TRANSLATE: These ruins are too dangerous.]"
+    },
+    "shadow_invasion": {
+      "name": "[TRANSLATE: Shadow Invasion]",
+      "info": "[TRANSLATE: Dark forces are invading from the shadow realm]",
+      "dialogs": [
+        "[TRANSLATE: The shadows grow stronger each day.]"
+      ],
+      "npc_name": "[TRANSLATE: Shadow Hunter]",
+      "accept": "[TRANSLATE: I'll stop the invasion!]",
+      "decline": "[TRANSLATE: Too risky for me.]"
+    },
+    "corrupted_lands": {
+      "name": "[TRANSLATE: Corrupted Lands]",
+      "info": "[TRANSLATE: The corruption spreads across the realm]",
+      "dialogs": [
+        "[TRANSLATE: The land itself cries out in pain.]"
+      ],
+      "npc_name": "[TRANSLATE: Nature Guardian]",
+      "accept": "[TRANSLATE: I'll cleanse the corruption!]",
+      "decline": "[TRANSLATE: I'm not ready.]"
+    },
+    "ancient_evil": {
+      "name": "[TRANSLATE: Ancient Evil]",
+      "info": "[TRANSLATE: An ancient evil has awakened]",
+      "dialogs": [
+        "[TRANSLATE: An evil older than time itself stirs.]"
+      ],
+      "npc_name": "[TRANSLATE: Elder Sage]",
+      "accept": "[TRANSLATE: I'll face this evil!]",
+      "decline": "[TRANSLATE: This is beyond me.]"
+    },
+    "heroes_alliance": {
+      "name": "[TRANSLATE: Heroes Alliance]",
+      "info": "[TRANSLATE: Unite the greatest heroes of the realm]",
+      "dialogs": [
+        "[TRANSLATE: We need the mightiest heroes united.]"
+      ],
+      "npc_name": "[TRANSLATE: Alliance Messenger]",
+      "accept": "[TRANSLATE: I'll gather the heroes!]",
+      "decline": "[TRANSLATE: I work alone.]",
+      "objectives": {
+        "alliance_messenger": "[TRANSLATE: Meet the alliance messenger]",
+        "heroes_stronghold": "[TRANSLATE: Travel to the Heroes' Stronghold]",
+        "legendary_warrior": "[TRANSLATE: Recruit the Legendary Warrior]",
+        "arcane_mage": "[TRANSLATE: Recruit the Arcane Mage]",
+        "shadow_assassin": "[TRANSLATE: Recruit the Shadow Assassin]",
+        "alliance_token": "[TRANSLATE: Obtain Alliance Tokens]",
+        "kill_ender_dragon": "[TRANSLATE: Defeat the Ender Dragon]",
+        "kill_withers": "[TRANSLATE: Defeat 3 Withers]",
+        "alliance_hall": "[TRANSLATE: Build the Alliance Hall]",
+        "heroes_council": "[TRANSLATE: Form the Heroes' Council]"
+      }
+    },
+    "dragon_trials": {
+      "name": "[TRANSLATE: Dragon Trials]",
+      "info": "[TRANSLATE: Face the ancient dragon trials]",
+      "dialogs": [
+        "[TRANSLATE: The dragons test only the worthy.]"
+      ],
+      "npc_name": "[TRANSLATE: Dragon Elder]",
+      "accept": "[TRANSLATE: I accept the trials!]",
+      "decline": "[TRANSLATE: I'm not ready.]"
+    },
+    "dragon_heart": {
+      "name": "[TRANSLATE: Dragon Heart]",
+      "info": "[TRANSLATE: Seek the legendary Dragon Heart]",
+      "dialogs": [
+        "[TRANSLATE: The Dragon Heart holds immense power.]"
+      ],
+      "npc_name": "[TRANSLATE: Dragon Keeper]",
+      "accept": "[TRANSLATE: I'll find the heart!]",
+      "decline": "[TRANSLATE: Too dangerous.]"
+    },
+    "dragon_pact": {
+      "name": "[TRANSLATE: Dragon Pact]",
+      "info": "[TRANSLATE: Form a pact with the ancient dragons]",
+      "dialogs": [
+        "[TRANSLATE: The dragons offer their alliance.]"
+      ],
+      "npc_name": "[TRANSLATE: Dragon Lord]",
+      "accept": "[TRANSLATE: I accept the pact!]",
+      "decline": "[TRANSLATE: I don't trust dragons.]"
+    },
+    "sky_fortress": {
+      "name": "[TRANSLATE: Sky Fortress]",
+      "info": "[TRANSLATE: Assault the floating fortress]",
+      "dialogs": [
+        "[TRANSLATE: The Sky Fortress threatens all below.]"
+      ],
+      "npc_name": "[TRANSLATE: Sky Captain]",
+      "accept": "[TRANSLATE: I'll storm the fortress!]",
+      "decline": "[TRANSLATE: I can't reach that high.]"
+    },
+    "chaos_storm": {
+      "name": "[TRANSLATE: Chaos Storm]",
+      "info": "[TRANSLATE: Stop the storm of chaos]",
+      "dialogs": [
+        "[TRANSLATE: Chaos threatens to tear reality apart.]"
+      ],
+      "npc_name": "[TRANSLATE: Order Keeper]",
+      "accept": "[TRANSLATE: I'll stop the storm!]",
+      "decline": "[TRANSLATE: This is too chaotic.]"
+    },
+    "dimensional_rift": {
+      "name": "[TRANSLATE: Dimensional Rift]",
+      "info": "[TRANSLATE: Close the rifts between dimensions]",
+      "dialogs": [
+        "[TRANSLATE: Rifts are tearing our world apart.]"
+      ],
+      "npc_name": "[TRANSLATE: Rift Walker]",
+      "accept": "[TRANSLATE: I'll seal the rifts!]",
+      "decline": "[TRANSLATE: I don't understand dimensions.]"
+    },
+    "realm_defenders": {
+      "name": "[TRANSLATE: Realm Defenders]",
+      "info": "[TRANSLATE: Rally the defenders of the realm]",
+      "dialogs": [
+        "[TRANSLATE: Our realm needs its defenders now.]"
+      ],
+      "npc_name": "[TRANSLATE: Defense Commander]",
+      "accept": "[TRANSLATE: I'll lead the defense!]",
+      "decline": "[TRANSLATE: I'm not a leader.]"
+    },
+    "realm_portal": {
+      "name": "[TRANSLATE: Realm Portal]",
+      "info": "[TRANSLATE: Control the portal between realms]",
+      "dialogs": [
+        "[TRANSLATE: The portal must be secured.]"
+      ],
+      "npc_name": "[TRANSLATE: Portal Guardian]",
+      "accept": "[TRANSLATE: I'll secure the portal!]",
+      "decline": "[TRANSLATE: Portals are unstable.]"
+    },
+    "void_invasion": {
+      "name": "[TRANSLATE: Void Invasion]",
+      "info": "[TRANSLATE: Stop the invasion from the void]",
+      "dialogs": [
+        "[TRANSLATE: The void consumes everything.]"
+      ],
+      "npc_name": "[TRANSLATE: Void Hunter]",
+      "accept": "[TRANSLATE: I'll stop the void!]",
+      "decline": "[TRANSLATE: The void terrifies me.]"
+    },
+    "final_battle": {
+      "name": "[TRANSLATE: Final Battle]",
+      "info": "[TRANSLATE: Face the ultimate enemy]",
+      "dialogs": [
+        "[TRANSLATE: This is the final confrontation.]"
+      ],
+      "npc_name": "[TRANSLATE: War General]",
+      "accept": "[TRANSLATE: I'm ready for the end!]",
+      "decline": "[TRANSLATE: I need more time.]"
+    },
+    "gathering_storm": {
+      "name": "[TRANSLATE: Gathering Storm]",
+      "info": "[TRANSLATE: Prepare for the coming storm]",
+      "dialogs": [
+        "[TRANSLATE: A storm unlike any other approaches.]"
+      ],
+      "npc_name": "[TRANSLATE: Storm Watcher]",
+      "accept": "[TRANSLATE: I'll weather the storm!]",
+      "decline": "[TRANSLATE: I should take shelter.]"
+    },
+    "last_stand": {
+      "name": "[TRANSLATE: Last Stand]",
+      "info": "[TRANSLATE: Make your final stand]",
+      "dialogs": [
+        "[TRANSLATE: This is our last chance.]"
+      ],
+      "npc_name": "[TRANSLATE: Last Commander]",
+      "accept": "[TRANSLATE: I'll stand to the end!]",
+      "decline": "[TRANSLATE: I can't face this.]"
+    },
+    "new_era": {
+      "name": "[TRANSLATE: New Era]",
+      "info": "[TRANSLATE: Begin a new era of peace]",
+      "dialogs": [
+        "[TRANSLATE: A new age dawns.]"
+      ],
+      "npc_name": "[TRANSLATE: Era Herald]",
+      "accept": "[TRANSLATE: I'll lead the new era!]",
+      "decline": "[TRANSLATE: I belong to the old ways.]"
+    },
+    "sacrifice_of_heroes": {
+      "name": "[TRANSLATE: Sacrifice of Heroes]",
+      "info": "[TRANSLATE: Honor the sacrifice of fallen heroes]",
+      "dialogs": [
+        "[TRANSLATE: Heroes gave everything for this moment.]"
+      ],
+      "npc_name": "[TRANSLATE: Memorial Keeper]",
+      "accept": "[TRANSLATE: I'll honor their sacrifice!]",
+      "decline": "[TRANSLATE: I can't bear the loss.]"
+    },
+    "eternal_guardian": {
+      "name": "[TRANSLATE: Eternal Guardian]",
+      "info": "[TRANSLATE: Become the eternal guardian]",
+      "dialogs": [
+        "[TRANSLATE: The realm needs an eternal protector.]"
+      ],
+      "npc_name": "[TRANSLATE: Ancient One]",
+      "accept": "[TRANSLATE: I'll be the guardian!]",
+      "decline": "[TRANSLATE: Eternity is too long.]"
+    },
+    "legacy_of_heroes": {
+      "name": "[TRANSLATE: Legacy of Heroes]",
+      "info": "[TRANSLATE: Preserve the legacy of heroes]",
+      "dialogs": [
+        "[TRANSLATE: Heroes must never be forgotten.]"
+      ],
+      "npc_name": "[TRANSLATE: Lore Keeper]",
+      "accept": "[TRANSLATE: I'll preserve the legacy!]",
+      "decline": "[TRANSLATE: History will forget us all.]"
+    },
+    "restoration": {
+      "name": "[TRANSLATE: Restoration]",
+      "info": "[TRANSLATE: Restore the world to its former glory]",
+      "dialogs": [
+        "[TRANSLATE: The world can be healed.]"
+      ],
+      "npc_name": "[TRANSLATE: Restoration Sage]",
+      "accept": "[TRANSLATE: I'll restore everything!]",
+      "decline": "[TRANSLATE: Some things should stay broken.]"
+    },
+    "guardian_awakening": {
+      "npc_name": "[TRANSLATE: Guardian Spirit]",
+      "accept": "[TRANSLATE: I'll awaken the guardian!]",
+      "decline": "[TRANSLATE: Let it sleep.]"
+    },
+    "path_of_darkness": {
+      "dialogs": [
+        "[TRANSLATE: The dark path offers power but at a cost.]"
+      ]
+    },
+    "path_of_light": {
+      "dialogs": [
+        "[TRANSLATE: The path of light is difficult but righteous.]"
+      ]
+    },
+    "shadow_cult": {
+      "name": "[TRANSLATE: Shadow Cult]",
+      "info": "[TRANSLATE: Infiltrate and destroy the shadow cult]",
+      "dialogs": [
+        "[TRANSLATE: The shadow cult grows stronger.]"
+      ],
+      "npc_name": "[TRANSLATE: Shadow Hunter]",
+      "accept": "[TRANSLATE: I'll stop the cult!]",
+      "decline": "[TRANSLATE: Too dangerous.]"
+    },
+    "forbidden_ritual": {
+      "name": "[TRANSLATE: Forbidden Ritual]",
+      "info": "[TRANSLATE: Stop the forbidden ritual]",
+      "dialogs": [
+        "[TRANSLATE: A dark ritual threatens the realm.]"
+      ],
+      "npc_name": "[TRANSLATE: Ritual Expert]",
+      "accept": "[TRANSLATE: I'll stop the ritual!]",
+      "decline": "[TRANSLATE: I don't meddle with dark magic.]"
+    },
+    "dark_fortress": {
+      "name": "[TRANSLATE: Dark Fortress]",
+      "info": "[TRANSLATE: Assault the dark fortress]",
+      "dialogs": [
+        "[TRANSLATE: The dark fortress looms ahead.]"
+      ],
+      "npc_name": "[TRANSLATE: Fortress Scout]",
+      "accept": "[TRANSLATE: I'll storm the fortress!]",
+      "decline": "[TRANSLATE: I need more allies.]"
+    }
+  },
+  "daily": {
+    "crafting": {
+      "objectives": {
+        "craft_master": "[TRANSLATE: Meet the craft master]",
+        "gather_materials": "[TRANSLATE: Gather crafting materials]",
+        "craft_items": "[TRANSLATE: Craft required items]",
+        "deliver_items": "[TRANSLATE: Deliver crafted items]"
+      }
+    },
+    "delivery": {
+      "objectives": {
+        "postmaster": "[TRANSLATE: Meet the postmaster]",
+        "collect_packages": "[TRANSLATE: Collect packages]",
+        "deliver_packages": "[TRANSLATE: Deliver packages]",
+        "return_postmaster": "[TRANSLATE: Return to postmaster]"
+      }
+    }
+  },
+  "side": {
+    "desert_oasis": {
+      "objectives": {
+        "find_oasis": "[TRANSLATE: Find the oasis location]",
+        "clear_sand": "[TRANSLATE: Clear the sand]",
+        "water_source": "[TRANSLATE: Find water source]",
+        "plant_palms": "[TRANSLATE: Plant palm trees]",
+        "oasis_complete": "[TRANSLATE: Complete the oasis]"
+      }
+    },
+    "blacksmith_apprentice": {
+      "objectives": {
+        "meet_blacksmith": "[TRANSLATE: Meet the blacksmith]",
+        "gather_iron": "[TRANSLATE: Gather iron ore]",
+        "forge_sword": "[TRANSLATE: Forge a sword]"
+      }
+    },
+    "fisherman_tale": {
+      "objectives": {
+        "meet_fisherman": "[TRANSLATE: Meet the fisherman]",
+        "catch_bass": "[TRANSLATE: Catch bass]",
+        "catch_salmon": "[TRANSLATE: Catch salmon]"
+      }
+    },
+    "farmers_request": {
+      "objectives": {
+        "meet_farmer": "[TRANSLATE: Meet the farmer]",
+        "plant_wheat": "[TRANSLATE: Plant wheat seeds]"
+      }
+    },
+    "frozen_peaks": {
+      "objectives": {
+        "climb_peaks": "[TRANSLATE: Climb the frozen peaks]",
+        "defeat_yeti": "[TRANSLATE: Defeat the yeti]",
+        "summit_reached": "[TRANSLATE: Reach the summit]"
+      }
+    },
+    "enchanted_forest": {
+      "objectives": {
+        "ancient_trees": "[TRANSLATE: Find ancient trees]",
+        "magical_creatures": "[TRANSLATE: Meet magical creatures]",
+        "forest_heart": "[TRANSLATE: Find the forest heart]",
+        "blessing_received": "[TRANSLATE: Receive forest blessing]"
+      }
+    },
+    "goblin_raiders": {
+      "objectives": {
+        "village_chief": "[TRANSLATE: Talk to village chief]",
+        "scout_camps": "[TRANSLATE: Scout goblin camps]",
+        "defeat_goblins": "[TRANSLATE: Defeat goblins]",
+        "retrieve_stolen": "[TRANSLATE: Retrieve stolen goods]",
+        "village_safe": "[TRANSLATE: Secure the village]"
+      }
+    },
+    "lost_treasure": {
+      "objectives": {
+        "find_map": "[TRANSLATE: Find treasure map]",
+        "solve_riddle": "[TRANSLATE: Solve the riddle]",
+        "dig_treasure": "[TRANSLATE: Dig up treasure]",
+        "claim_reward": "[TRANSLATE: Claim your reward]"
+      }
+    },
+    "mysterious_cave": {
+      "objectives": {
+        "enter_cave": "[TRANSLATE: Enter the cave]",
+        "light_torches": "[TRANSLATE: Light the torches]",
+        "defeat_bats": "[TRANSLATE: Defeat cave bats]",
+        "find_crystal": "[TRANSLATE: Find the crystal]"
+      }
+    },
+    "wolf_pack_menace": {
+      "objectives": {
+        "hunter": "[TRANSLATE: Meet the hunter]",
+        "track_wolves": "[TRANSLATE: Track the wolves]",
+        "defeat_alpha": "[TRANSLATE: Defeat alpha wolf]",
+        "collect_pelts": "[TRANSLATE: Collect wolf pelts]",
+        "return_hunter": "[TRANSLATE: Return to hunter]"
+      }
+    },
+    "collect_herbs": {
+      "objectives": {
+        "find_herbs": "[TRANSLATE: Find herbs]",
+        "rare_herbs": "[TRANSLATE: Find rare herbs]",
+        "deliver_herbs": "[TRANSLATE: Deliver herbs]"
+      }
+    },
+    "spider_infestation": {
+      "objectives": {
+        "exterminator": "[TRANSLATE: Meet exterminator]",
+        "clear_webs": "[TRANSLATE: Clear spider webs]",
+        "kill_spiders": "[TRANSLATE: Kill spiders]",
+        "queen_spider": "[TRANSLATE: Defeat spider queen]",
+        "area_cleared": "[TRANSLATE: Clear the area]"
+      }
+    }
+  }
 }

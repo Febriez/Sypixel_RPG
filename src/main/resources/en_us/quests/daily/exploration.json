@@ -1,6 +1,12 @@
 {
   "name": "Daily Exploration",
   "info": "Venture into unexplored territories and discover new locations for the Explorers' Guild. Map unknown areas and report your findings to expand our knowledge of the world.",
+  "objectives": {
+    "explorer": "Talk to the explorer",
+    "new_areas": "Discover 3 new areas",
+    "map_regions": "Map unexplored regions",
+    "report_findings": "Report your findings"
+  },
   "dialogs": [
     "Ready for today's exploration mission?",
     "There are still many unmapped areas in our region.",

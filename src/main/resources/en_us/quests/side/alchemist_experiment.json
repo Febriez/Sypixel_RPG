@@ -1,6 +1,15 @@
 {
   "name": "Alchemical Breakthrough",
   "info": "Help the alchemist with a dangerous experiment.",
+  "objectives": {
+    "mad_alchemist": "Meet the mad alchemist",
+    "alchemy_lab": "Visit the alchemy laboratory",
+    "rare_reagents": "Gather 10 blaze powder",
+    "dragon_scales": "Collect 5 dragon scales",
+    "kill_witches": "Defeat 8 witches",
+    "philosopher_stone": "Obtain a philosopher's stone",
+    "mad_alchemist_complete": "Return to the alchemist"
+  },
   "dialogs": [
     "I'm on the verge of a breakthrough!",
     "But I need rare ingredients for my experiment.",

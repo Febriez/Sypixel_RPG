@@ -1,6 +1,16 @@
 {
   "name": "Gathering Storm",
   "info": "Dark clouds gather on the horizon as ancient prophecies foretell the coming of the final confrontation between light and darkness. Unite all the forces of good and prepare for the ultimate battle that will determine the fate of all existence.",
+  "objectives": {
+    "storm_warden": "Speak with the Storm Warden",
+    "storm_peaks": "Visit the Storm Peaks",
+    "storm_crystal": "Collect Storm Crystals",
+    "kill_phantoms": "Defeat the Phantoms",
+    "lightning_rod": "Collect Lightning Rods",
+    "kill_charged_creepers": "Defeat Charged Creepers",
+    "thunder_spire": "Visit the Thunder Spire",
+    "storm_keeper": "Speak with the Storm Keeper"
+  },
   "dialogs": [
     "The final storm approaches. All prophecies converge on this moment.",
     "I will unite every ally and prepare for the ultimate confrontation.",

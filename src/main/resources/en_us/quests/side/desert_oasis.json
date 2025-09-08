@@ -1,6 +1,14 @@
 {
   "name": "Oasis of Visions",
   "info": "Find the hidden oasis in the desert.",
+  "objectives": {
+    "desert_nomad": "Talk to the desert nomad",
+    "desert_dunes": "Cross the desert dunes",
+    "kill_husks": "Defeat 25 husks",
+    "cactus_fruit": "Collect 15 cactus fruits",
+    "hidden_oasis": "Find the hidden oasis",
+    "oasis_water": "Collect oasis water"
+  },
   "dialogs": [
     "My grandfather spoke of a hidden oasis in the desert.",
     "It's said to have water that grants visions.",

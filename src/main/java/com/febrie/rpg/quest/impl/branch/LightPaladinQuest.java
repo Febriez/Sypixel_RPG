@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,8 +42,8 @@ public class LightPaladinQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.BRANCH_LIGHT_PALADIN)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("paladin_master", "light_paladin_master"),
+                .objectives(List.of(
+                        new InteractNPCObjective("paladin_master", "light_paladin_master", 1),
                         new CollectItemObjective("holy_water", Material.POTION, 10),
                         new KillMobObjective("purge_undead", EntityType.ZOMBIE, 50),
                         new KillMobObjective("purge_skeletons", EntityType.SKELETON, 50),
@@ -79,20 +80,19 @@ public class LightPaladinQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-        return switch (id) {
+        return switch (objective.getId()) {
+            case "light_essence" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_LIGHT_ESSENCE, who);
+            case "purge_skeletons" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PURGE_SKELETONS, who);
+            case "meditation" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_MEDITATION, who);
+            case "holy_shrine" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_SHRINE, who);
             case "paladin_master" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PALADIN_MASTER, who);
             case "holy_water" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_WATER, who);
             case "purge_undead" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PURGE_UNDEAD, who);
-            case "purge_skeletons" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PURGE_SKELETONS, who);
-            case "holy_shrine" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_SHRINE, who);
-            case "meditation" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_MEDITATION, who);
+            case "oath_completion" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_OATH_COMPLETION, who);
             case "holy_sword" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_SWORD, who);
             case "build_altar" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_BUILD_ALTAR, who);
             case "defeat_darkness" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_DEFEAT_DARKNESS, who);
-            case "light_essence" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_LIGHT_ESSENCE, who);
-            case "oath_completion" -> LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_OATH_COMPLETION, who);
-            default -> LangManager.get("quest.branch.light_paladin.objectives." + id, who);
+            default -> new ArrayList<>();
         };
     }
     
@@ -101,9 +101,14 @@ public class LightPaladinQuest extends Quest {
         return 5;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_BRANCH_LIGHT_PALADIN_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

@@ -7,6 +7,7 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -35,18 +36,18 @@ public class IslandBiomeSelectionGui extends BaseGui {
     
     // 사용 가능한 바이옴들
     private static final List<BiomeOption> AVAILABLE_BIOMES = List.of(
-        new BiomeOption("PLAINS", "biome.plains", Material.GRASS_BLOCK),
-        new BiomeOption("FOREST", "biome.forest", Material.OAK_SAPLING),
-        new BiomeOption("DESERT", "biome.desert", Material.SAND),
-        new BiomeOption("SNOWY_PLAINS", "biome.snowy_plains", Material.SNOW_BLOCK),
-        new BiomeOption("JUNGLE", "biome.jungle", Material.JUNGLE_SAPLING),
-        new BiomeOption("SWAMP", "biome.swamp", Material.LILY_PAD),
-        new BiomeOption("SAVANNA", "biome.savanna", Material.ACACIA_SAPLING),
-        new BiomeOption("MUSHROOM_FIELDS", "biome.mushroom_fields", Material.RED_MUSHROOM),
-        new BiomeOption("TAIGA", "biome.taiga", Material.SPRUCE_SAPLING),
-        new BiomeOption("BEACH", "biome.beach", Material.SAND),
-        new BiomeOption("CHERRY_GROVE", "biome.cherry_grove", Material.CHERRY_SAPLING),
-        new BiomeOption("BAMBOO_JUNGLE", "biome.bamboo_jungle", Material.BAMBOO)
+        new BiomeOption("PLAINS", LangKey.BIOME_PLAINS_NAME, LangKey.BIOME_PLAINS_DESCRIPTION, Material.GRASS_BLOCK),
+        new BiomeOption("FOREST", LangKey.BIOME_FOREST_NAME, LangKey.BIOME_FOREST_DESCRIPTION, Material.OAK_SAPLING),
+        new BiomeOption("DESERT", LangKey.BIOME_DESERT_NAME, LangKey.BIOME_DESERT_DESCRIPTION, Material.SAND),
+        new BiomeOption("SNOWY_PLAINS", LangKey.BIOME_SNOWY_PLAINS_NAME, LangKey.BIOME_SNOWY_PLAINS_DESCRIPTION, Material.SNOW_BLOCK),
+        new BiomeOption("JUNGLE", LangKey.BIOME_JUNGLE_NAME, LangKey.BIOME_JUNGLE_DESCRIPTION, Material.JUNGLE_SAPLING),
+        new BiomeOption("SWAMP", LangKey.BIOME_SWAMP_NAME, LangKey.BIOME_SWAMP_DESCRIPTION, Material.LILY_PAD),
+        new BiomeOption("SAVANNA", LangKey.BIOME_SAVANNA_NAME, LangKey.BIOME_SAVANNA_DESCRIPTION, Material.ACACIA_SAPLING),
+        new BiomeOption("MUSHROOM_FIELDS", LangKey.BIOME_MUSHROOM_FIELDS_NAME, LangKey.BIOME_MUSHROOM_FIELDS_DESCRIPTION, Material.RED_MUSHROOM),
+        new BiomeOption("TAIGA", LangKey.BIOME_TAIGA_NAME, LangKey.BIOME_TAIGA_DESCRIPTION, Material.SPRUCE_SAPLING),
+        new BiomeOption("BEACH", LangKey.BIOME_BEACH_NAME, LangKey.BIOME_BEACH_DESCRIPTION, Material.SAND),
+        new BiomeOption("CHERRY_GROVE", LangKey.BIOME_CHERRY_GROVE_NAME, LangKey.BIOME_CHERRY_GROVE_DESCRIPTION, Material.CHERRY_SAPLING),
+        new BiomeOption("BAMBOO_JUNGLE", LangKey.BIOME_BAMBOO_JUNGLE_NAME, LangKey.BIOME_BAMBOO_JUNGLE_DESCRIPTION, Material.BAMBOO)
     );
     
     private final Consumer<String> onBiomeSelected;
@@ -58,7 +59,7 @@ public class IslandBiomeSelectionGui extends BaseGui {
                                    @NotNull String currentBiome,
                                    @NotNull Consumer<String> onBiomeSelected,
                                    @NotNull GuiFramework backDestination) {
-        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.island.biome-selection.title".replace("-", "_"), player.locale()));
+        super(player, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_TITLE, player.locale()));
         this.currentBiome = currentBiome;
         this.onBiomeSelected = onBiomeSelected;
         this.backDestination = backDestination;
@@ -77,7 +78,7 @@ public class IslandBiomeSelectionGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.island.biome-selection.title".replace("-", "_"), viewer.locale());
+        return LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_TITLE, viewer.locale());
     }
     
     @Override
@@ -101,10 +102,10 @@ public class IslandBiomeSelectionGui extends BaseGui {
         // 제목 아이템
         GuiItem titleItem = GuiItem.display(
             ItemBuilder.of(Material.FILLED_MAP)
-                .displayName(LangManager.getComponent("gui.island.biome-selection.info.title", getViewerLocale()))
+                .displayName(LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_INFO_TITLE, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.getComponent("gui.island.biome-selection.info.lore1", getViewerLocale()))
-                .addLore(LangManager.getComponent("gui.island.biome-selection.info.lore2", getViewerLocale()))
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_INFO_LORE1, getViewerLocale()))
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_INFO_LORE2, getViewerLocale()))
                 .addLore(Component.empty())
                 .hideAllFlags()
                 .build()
@@ -121,16 +122,20 @@ public class IslandBiomeSelectionGui extends BaseGui {
             boolean isSelected = biome.id.equals(currentBiome);
             
             ItemBuilder builder = ItemBuilder.of(biome.icon)
-                .displayName(LangManager.getComponent(biome.biomeKey + ".name", getViewerLocale()))
-                .addLore(Component.empty())
-                .addLore(LangManager.getComponent(biome.biomeKey + ".description", getViewerLocale()))
+                .displayName(LangManager.text(biome.nameKey, getViewerLocale()))
                 .addLore(Component.empty());
             
+            // Add description as list
+            for (Component line : LangManager.list(biome.descriptionKey, getViewerLocale())) {
+                builder.addLore(line);
+            }
+            builder.addLore(Component.empty());
+            
             if (isSelected) {
-                builder.addLore(LangManager.getComponent("gui.island.biome-selection.current-selected", getViewerLocale()));
+                builder.addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_CURRENT_SELECTED, getViewerLocale()));
                 builder.glint(true);
             } else {
-                builder.addLore(LangManager.getComponent("gui.island.biome-selection.click-to-select", getViewerLocale()));
+                builder.addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_CLICK_TO_SELECT, getViewerLocale()));
             }
             
             builder.addLore(Component.empty());
@@ -152,8 +157,8 @@ public class IslandBiomeSelectionGui extends BaseGui {
     private void setupBackButton() {
         GuiItem backButton = GuiItem.clickable(
             ItemBuilder.of(Material.ARROW)
-                .displayName(LangManager.getComponent("gui.buttons.back.name", getViewerLocale()))
-                .addLore(LangManager.getComponent("gui.island.biome-selection.back.lore", getViewerLocale()))
+                .displayName(LangManager.text(LangKey.GUI_BUTTONS_BACK_NAME, getViewerLocale()))
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_BACK_LORE, getViewerLocale()))
                 .hideAllFlags()
                 .build(),
             player -> {
@@ -167,6 +172,6 @@ public class IslandBiomeSelectionGui extends BaseGui {
     /**
      * 바이옴 옵션 레코드
      */
-    private record BiomeOption(String id, String biomeKey, Material icon) {}
+    private record BiomeOption(String id, LangKey nameKey, LangKey descriptionKey, Material icon) {}
     
 }

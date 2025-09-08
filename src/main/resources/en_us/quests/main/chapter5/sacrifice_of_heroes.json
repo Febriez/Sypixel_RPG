@@ -1,6 +1,17 @@
 {
   "name": "Sacrifice of Heroes",
   "info": "Victory came at a great cost. Many heroes gave their lives to ensure the triumph of light over darkness. Honor the fallen champions and carry forward their legacy as the realms begin to heal from the great war.",
+  "objectives": {
+    "memorial_keeper": "Speak with the Memorial Keeper",
+    "heroes_memorial": "Visit the Heroes Memorial",
+    "hero_medallion": "Collect Hero Medallions",
+    "eternal_flame_altar": "Visit the Eternal Flame Altar",
+    "essence_of_valor": "Collect Essence of Valor",
+    "kill_vexes": "Defeat the Vexes",
+    "spirit_crystal": "Collect Spirit Crystals",
+    "sanctuary_of_light": "Visit the Sanctuary of Light",
+    "spirit_guide": "Speak with the Spirit Guide"
+  },
   "dialogs": [
     "So many heroes sacrificed everything for our victory. We must remember them.",
     "Their sacrifice will not be in vain. I will honor their memory forever.",

@@ -1,5 +1,35 @@
 {
   "name": "World Tree",
+  "info": "Journey to the heart of creation to restore the dying World Tree and save all existence from fading.",
+  "npc_name": "Guardian of Life",
+  "accept": "I'll journey to the heart of creation to save the World Tree.",
+  "decline": "This responsibility is too great for me to bear.",
+  "objectives": [
+    {
+      "id": "recognize_life_source_weakness",
+      "description": "Understand that the source of all life is growing weak"
+    },
+    {
+      "id": "prevent_existence_fade",
+      "description": "Act to prevent all existence from fading without the World Tree"
+    },
+    {
+      "id": "journey_to_creation_heart",
+      "description": "Travel to the very heart of creation itself"
+    },
+    {
+      "id": "strengthen_ancient_roots",
+      "description": "Help life force flow stronger through the ancient roots"
+    },
+    {
+      "id": "prove_pure_intentions",
+      "description": "Show pure intentions that the World Tree recognizes"
+    },
+    {
+      "id": "restore_world_tree",
+      "description": "Successfully restore the World Tree to bloom with renewed vitality"
+    }
+  ],
   "dialogs": [
     "The source of all life grows weak, champion.",
     "Without the World Tree, all existence will fade.",

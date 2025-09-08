@@ -1,5 +1,31 @@
 {
   "name": "Guild Fortress Siege",
+  "info": "Lead your guild in an epic siege battle to capture an enemy fortress and establish dominance.",
+  "npc_name": "Siege Commander",
+  "accept": "Our guild is ready for battle!",
+  "decline": "We need more time to prepare for this siege.",
+  "objectives": [
+    {
+      "id": "prepare_siege_equipment",
+      "description": "Prepare siege weapons and equipment for the assault"
+    },
+    {
+      "id": "coordinate_guild_forces",
+      "description": "Coordinate and organize guild members for battle"
+    },
+    {
+      "id": "breach_fortress_walls",
+      "description": "Use siege equipment to breach the fortress walls"
+    },
+    {
+      "id": "secure_fortress_interior",
+      "description": "Fight through the fortress and secure key positions"
+    },
+    {
+      "id": "claim_victory",
+      "description": "Defeat the enemy guild and claim the fortress"
+    }
+  ],
   "dialogs": [
     "The enemy approaches our gates, guild member.",
     "This battle will determine our guild's future.",

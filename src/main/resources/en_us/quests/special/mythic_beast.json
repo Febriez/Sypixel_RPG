@@ -1,5 +1,31 @@
 {
   "name": "Mythic Beast",
+  "info": "Hunt down a legendary creature whose power rivals ancient dragons in the ultimate test of skill.",
+  "npc_name": "Legendary Hunter",
+  "accept": "I'm ready to hunt this mythic beast.",
+  "decline": "This creature is too dangerous for me to face.",
+  "objectives": [
+    {
+      "id": "investigate_legendary_awakening",
+      "description": "Investigate the awakening of the legendary creature"
+    },
+    {
+      "id": "assess_dragon_level_power",
+      "description": "Understand the beast's power that rivals ancient dragons"
+    },
+    {
+      "id": "prepare_ultimate_hunt",
+      "description": "Prepare carefully for the ultimate hunt"
+    },
+    {
+      "id": "approach_restless_beast",
+      "description": "Approach the beast as it grows restless sensing you"
+    },
+    {
+      "id": "vanquish_mythic_beast",
+      "description": "Successfully vanquish the mythic beast in combat"
+    }
+  ],
   "dialogs": [
     "A creature of legend has awakened, hero.",
     "Its power rivals that of the ancient dragons.",

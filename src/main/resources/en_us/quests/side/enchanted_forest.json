@@ -1,6 +1,14 @@
 {
   "name": "Forest Spirits' Anger",
   "info": "Investigate the strange happenings in the enchanted forest.",
+  "objectives": {
+    "forest_guardian": "Meet the forest guardian",
+    "enchanted_grove": "Enter the enchanted grove",
+    "kill_wolves": "Defeat 15 wolves",
+    "magic_saplings": "Collect 10 magic saplings",
+    "ancient_tree": "Find the ancient tree",
+    "tree_essence": "Gather tree essence"
+  },
   "dialogs": [
     "The forest spirits are angry!",
     "Animals are fleeing, and the trees whisper warnings.",

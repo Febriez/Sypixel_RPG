@@ -1,5 +1,31 @@
 {
   "name": "New Year's Resolution",
+  "info": "Welcome the new year with a grand celebration full of fireworks, hopes, and fresh beginnings.",
+  "npc_name": "New Year Celebrant",
+  "accept": "I'm excited to help ring in the new year!",
+  "decline": "I'd rather spend New Year's quietly.",
+  "objectives": [
+    {
+      "id": "prepare_fireworks",
+      "description": "Prepare fireworks to light up the sky and hearts"
+    },
+    {
+      "id": "write_resolutions",
+      "description": "Help villagers write down their hopes and dreams"
+    },
+    {
+      "id": "organize_countdown",
+      "description": "Organize the midnight countdown celebration"
+    },
+    {
+      "id": "celebrate_new_beginning",
+      "description": "Celebrate the new beginning as the old year passes"
+    },
+    {
+      "id": "spread_new_year_joy",
+      "description": "Spread joy and infinite possibilities for the new year"
+    }
+  ],
   "dialogs": [
     "The new year approaches! Will you help us welcome it with proper celebration?",
     "Fireworks light up the sky and our hearts, banishing the darkness of the old year.",

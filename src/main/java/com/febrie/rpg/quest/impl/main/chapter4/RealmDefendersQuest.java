@@ -42,46 +42,46 @@ public class RealmDefendersQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_REALM_DEFENDERS)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         // 동맹 제안
-                        new InteractNPCObjective("alliance_emissary", "alliance_emissary"),
+                        new InteractNPCObjective("alliance_emissary", "alliance_emissary", 1),
                         new CollectItemObjective("alliance_treaty", Material.WRITTEN_BOOK, 5),
                         new VisitLocationObjective("defender_council", "realm_defender_council"),
                         
                         // 불의 차원 수호자
                         new VisitLocationObjective("fire_realm", "fire_realm_portal"),
-                        new InteractNPCObjective("fire_guardian", "fire_realm_guardian"),
+                        new InteractNPCObjective("fire_guardian", "fire_realm_guardian", 1),
                         new KillMobObjective("fire_trial", EntityType.BLAZE, 50),
                         new CollectItemObjective("fire_alliance_token", Material.BLAZE_POWDER, 1),
                         
                         // 얼음 차원 수호자
                         new VisitLocationObjective("ice_realm", "ice_realm_portal"),
-                        new InteractNPCObjective("ice_guardian", "ice_realm_guardian"),
+                        new InteractNPCObjective("ice_guardian", "ice_realm_guardian", 1),
                         new KillMobObjective("ice_trial", EntityType.STRAY, 50),
                         new CollectItemObjective("ice_alliance_token", Material.PACKED_ICE, 1),
                         
                         // 대지 차원 수호자
                         new VisitLocationObjective("earth_realm", "earth_realm_portal"),
-                        new InteractNPCObjective("earth_guardian", "earth_realm_guardian"),
+                        new InteractNPCObjective("earth_guardian", "earth_realm_guardian", 1),
                         new KillMobObjective("earth_trial", EntityType.IRON_GOLEM, 30),
                         new CollectItemObjective("earth_alliance_token", Material.DIRT, 1),
                         
                         // 풍의 차원 수호자
                         new VisitLocationObjective("wind_realm", "wind_realm_portal"),
-                        new InteractNPCObjective("wind_guardian", "wind_realm_guardian"),
+                        new InteractNPCObjective("wind_guardian", "wind_realm_guardian", 1),
                         new KillMobObjective("wind_trial", EntityType.PHANTOM, 40),
                         new CollectItemObjective("wind_alliance_token", Material.FEATHER, 1),
                         
                         // 에테르 차원 수호자
                         new VisitLocationObjective("ether_realm", "ether_realm_portal"),
-                        new InteractNPCObjective("ether_guardian", "ether_realm_guardian"),
+                        new InteractNPCObjective("ether_guardian", "ether_realm_guardian", 1),
                         new KillMobObjective("ether_trial", EntityType.VEX, 60),
                         new CollectItemObjective("ether_alliance_token", Material.GLOWSTONE_DUST, 1),
                         
                         // 동맹 의식
                         new VisitLocationObjective("alliance_ceremony", "grand_alliance_hall"),
                         new PlaceBlockObjective("place_tokens", Material.BEACON, 5),
-                        new InteractNPCObjective("alliance_leader", "supreme_guardian"),
+                        new InteractNPCObjective("alliance_leader", "supreme_guardian", 1),
                         new SurviveObjective("alliance_ritual", 600), // 10분
                         
                         // 통합 시험
@@ -122,8 +122,41 @@ public class RealmDefendersQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-        return LangManager.get("quest.main.realm_defenders.objectives." + id, who);
+        return switch (objective.getId()) {
+            case "alliance_emissary" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ALLIANCE_EMISSARY, who);
+            case "alliance_treaty" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ALLIANCE_TREATY, who);
+            case "defender_council" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_DEFENDER_COUNCIL, who);
+            case "fire_realm" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_FIRE_REALM, who);
+            case "fire_guardian" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_FIRE_GUARDIAN, who);
+            case "fire_trial" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_FIRE_TRIAL, who);
+            case "fire_alliance_token" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_FIRE_ALLIANCE_TOKEN, who);
+            case "ice_realm" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ICE_REALM, who);
+            case "ice_guardian" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ICE_GUARDIAN, who);
+            case "ice_trial" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ICE_TRIAL, who);
+            case "ice_alliance_token" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ICE_ALLIANCE_TOKEN, who);
+            case "earth_realm" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_EARTH_REALM, who);
+            case "earth_guardian" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_EARTH_GUARDIAN, who);
+            case "earth_trial" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_EARTH_TRIAL, who);
+            case "earth_alliance_token" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_EARTH_ALLIANCE_TOKEN, who);
+            case "wind_realm" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_WIND_REALM, who);
+            case "wind_guardian" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_WIND_GUARDIAN, who);
+            case "wind_trial" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_WIND_TRIAL, who);
+            case "wind_alliance_token" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_WIND_ALLIANCE_TOKEN, who);
+            case "ether_realm" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ETHER_REALM, who);
+            case "ether_guardian" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ETHER_GUARDIAN, who);
+            case "ether_trial" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ETHER_TRIAL, who);
+            case "ether_alliance_token" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ETHER_ALLIANCE_TOKEN, who);
+            case "alliance_ceremony" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ALLIANCE_CEREMONY, who);
+            case "place_tokens" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_PLACE_TOKENS, who);
+            case "alliance_leader" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ALLIANCE_LEADER, who);
+            case "alliance_ritual" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ALLIANCE_RITUAL, who);
+            case "combined_trial" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_COMBINED_TRIAL, who);
+            case "unity_crystal" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_UNITY_CRYSTAL, who);
+            case "complete_alliance" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_COMPLETE_ALLIANCE, who);
+            case "defender_badge" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_DEFENDER_BADGE, who);
+            case "alliance_banner" -> LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ALLIANCE_BANNER, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -131,9 +164,14 @@ public class RealmDefendersQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_REALM_DEFENDERS_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_REALM_DEFENDERS_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

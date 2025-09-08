@@ -45,8 +45,8 @@ public class ForgottenTempleQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_FORGOTTEN_TEMPLE)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_temple_scholar", "temple_scholar"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_temple_scholar", "temple_scholar", 1),
                         new VisitLocationObjective("visit_temple_ruins", "temple_ruins"),
                         new KillMobObjective("kill_zombies", EntityType.ZOMBIE, 15),
                         new CollectItemObjective("collect_temple_key", Material.GOLDEN_SWORD, 1),
@@ -75,7 +75,15 @@ public class ForgottenTempleQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.forgotten_temple.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "talk_temple_scholar" -> LangManager.list(LangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_TALK_TEMPLE_SCHOLAR, who);
+            case "visit_temple_ruins" -> LangManager.list(LangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_VISIT_TEMPLE_RUINS, who);
+            case "kill_zombies" -> LangManager.list(LangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_KILL_ZOMBIES, who);
+            case "collect_temple_key" -> LangManager.list(LangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_COLLECT_TEMPLE_KEY, who);
+            case "visit_inner_sanctum" -> LangManager.list(LangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_VISIT_INNER_SANCTUM, who);
+            case "collect_sacred_relic" -> LangManager.list(LangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_COLLECT_SACRED_RELIC, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -83,9 +91,14 @@ public class ForgottenTempleQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

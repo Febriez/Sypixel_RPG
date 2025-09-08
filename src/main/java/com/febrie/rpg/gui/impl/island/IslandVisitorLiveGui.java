@@ -11,6 +11,7 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.UnifiedTimeUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -42,7 +43,7 @@ public class IslandVisitorLiveGui extends BaseGui {
     
     private IslandVisitorLiveGui(@NotNull Player viewer, @NotNull GuiManager guiManager, 
                                 @NotNull IslandDTO island, int page) {
-        super(viewer, guiManager, 54, LangManager.getComponent("gui.island.visitor.live.title".replace("-", "_"), viewer.locale()));
+        super(viewer, guiManager, 54, LangManager.text(LangKey.GUI_ISLAND_VISITOR_LIVE_TITLE, viewer));
         this.islandManager = RPGMain.getInstance().getIslandManager();
         this.island = island;
         

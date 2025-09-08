@@ -138,12 +138,12 @@ public class WhisperCommand implements CommandExecutor, TabCompleter {
                             .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
                             .collect(Collectors.toList());
                 } else if (args.length == 2) {
-                    return Arrays.asList("안녕하세요!", "ㅎㅇ", "뭐해?", "같이할래?");
+                    return List.of("안녕하세요!", "ㅎㅇ", "뭐해?", "같이할래?");
                 }
             }
             case "r", "reply", "답장" -> {
                 if (args.length == 1) {
-                    return Arrays.asList("넵", "ㅇㅋ", "알겠어요", "고마워요");
+                    return List.of("넵", "ㅇㅋ", "알겠어요", "고마워요");
                 }
             }
         }

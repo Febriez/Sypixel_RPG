@@ -1,6 +1,13 @@
 {
   "name": "The Sacred Bond",
   "info": "Forge eternal bonds with mystical creatures and become a master of summoning arts. Learn to call upon ancient beings and command their power through mutual respect. Class Requirements: • Level 25 or higher • Magic affinity required • Empathetic connection to creatures Trial Contents: • Test of Creature Understanding • Test of Magical Resonance • Test of Eternal Bonds Class Rewards: • Summoner class advancement • Creature summoning mastery • Mystical summoning artifacts",
+  "objectives": {
+    "summoner_sage": "Meet summoner sage",
+    "summon_familiar": "Summon your familiar",
+    "elemental_summons": "Master elemental summons",
+    "bond_strength": "Strengthen your bond",
+    "summoner_pact": "Complete summoner pact"
+  },
   "dialogs": [
     "The spirits call to those who understand their nature. Are you one of them?",
     "To summon is not to command, but to form partnerships of mutual respect.",

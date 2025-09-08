@@ -1,6 +1,13 @@
 {
   "name": "Unleash the Rage",
   "info": "Embrace the primal fury within and become an unstoppable force of destruction. Master the art of controlled rage and channel your inner beast in battle. Class Requirements: • Level 30 or higher • Warrior background preferred • Strong will to control rage Trial Contents: • Test of Inner Fury • Test of Rage Control • Test of Berserker Spirit Class Rewards: • Berserker class advancement • Rage mastery techniques • Berserker war gear",
+  "objectives": {
+    "berserker_trainer": "Meet berserker trainer",
+    "rage_control": "Learn rage control",
+    "combat_frenzy": "Enter combat frenzy",
+    "berserk_trial": "Complete berserk trial",
+    "master_rage": "Master your rage"
+  },
   "dialogs": [
     "The rage burns within you. Are you ready to unleash it?",
     "Rage without control is destruction. Control without rage is weakness.",

@@ -9,6 +9,7 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.TextUtil;
 import net.kyori.adventure.text.Component;
@@ -50,7 +51,7 @@ public class QuestDialogGui extends BaseGui {
 
     private QuestDialogGui(@NotNull GuiManager guiManager,
                            @NotNull Player player, @NotNull Quest quest) {
-        super(player, guiManager, 9, LangManager.getComponent("gui.quest_dialog.title", player.locale()));
+        super(player, guiManager, 9, LangManager.text(LangKey.GUI_QUEST_DIALOG_TITLE, player.locale()));
         this.quest = quest;
         this.typingSpeed = getTypingSpeed(player); // 플레이어 설정에서 가져오기
     }
@@ -83,7 +84,7 @@ public class QuestDialogGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.quest_dialog.title", viewer.locale())
+        return LangManager.text(LangKey.GUI_QUEST_DIALOG_TITLE, viewer.locale())
                 .color(UnifiedColorUtil.GOLD);
     }
 
@@ -205,14 +206,14 @@ public class QuestDialogGui extends BaseGui {
         dialogBuilder.addLore(Component.empty());
         if (isComplete) {
             if (currentDialogIndex < quest.getDialogCount() - 1) {
-                dialogBuilder.addLore(LangManager.getComponent("gui.quest_dialog.next_page", viewer.locale())
+                dialogBuilder.addLore(LangManager.text(LangKey.GUI_QUEST_DIALOG_NEXT_PAGE, viewer.locale())
                         .color(UnifiedColorUtil.SUCCESS));
             } else {
-                dialogBuilder.addLore(LangManager.getComponent("gui.quest_dialog.accept_quest", viewer.locale())
+                dialogBuilder.addLore(LangManager.text(LangKey.GUI_QUEST_DIALOG_ACCEPT_QUEST, viewer.locale())
                         .color(UnifiedColorUtil.GOLD));
             }
         } else {
-            dialogBuilder.addLore(LangManager.getComponent("gui.quest_dialog.skip", viewer.locale())
+            dialogBuilder.addLore(LangManager.text(LangKey.GUI_QUEST_DIALOG_SKIP, viewer.locale())
                     .color(UnifiedColorUtil.YELLOW));
         }
 
@@ -290,8 +291,8 @@ public class QuestDialogGui extends BaseGui {
         // 수락 버튼
         GuiItem acceptButton = GuiItem.clickable(
                 ItemBuilder.of(Material.LIME_DYE)
-                        .displayNameTranslated("items.quest.dialog.accept.name")
-                        .addLoreTranslated("items.quest.dialog.accept.lore")
+                        .displayName(LangManager.text(LangKey.ITEMS_QUEST_DIALOG_ACCEPT_NAME, viewer.locale()))
+                        .addLore(LangManager.list(LangKey.ITEMS_QUEST_DIALOG_ACCEPT_LORE, viewer.locale()))
                         .build(),
                 p -> handleQuestAccept()
         );
@@ -300,8 +301,8 @@ public class QuestDialogGui extends BaseGui {
         // 거절 버튼
         GuiItem declineButton = GuiItem.clickable(
                 ItemBuilder.of(Material.RED_DYE)
-                        .displayNameTranslated("items.quest.dialog.decline.name")
-                        .addLoreTranslated("items.quest.dialog.decline.lore")
+                        .displayName(LangManager.text(LangKey.ITEMS_QUEST_DIALOG_DECLINE_NAME, viewer.locale()))
+                        .addLore(LangManager.list(LangKey.ITEMS_QUEST_DIALOG_DECLINE_LORE, viewer.locale()))
                         .build(),
                 p -> handleQuestDecline()
         );
@@ -348,7 +349,7 @@ public class QuestDialogGui extends BaseGui {
                 .append(declineDialog.color(UnifiedColorUtil.GRAY));
         
         viewer.sendMessage(message);
-        viewer.sendMessage(LangManager.getComponent("gui.quest_dialog.quest_declined", viewer.locale())
+        viewer.sendMessage(LangManager.text(LangKey.GUI_QUEST_DIALOG_QUEST_DECLINED, viewer.locale())
                 .color(UnifiedColorUtil.GRAY));
         SoundUtil.playClickSound(viewer);
     }
@@ -359,8 +360,8 @@ public class QuestDialogGui extends BaseGui {
     private GuiItem createExitButton() {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.BARRIER)
-                        .displayNameTranslated("items.quest.dialog.close.name")
-                        .addLoreTranslated("items.quest.dialog.close.lore")
+                        .displayName(LangManager.text(LangKey.ITEMS_QUEST_DIALOG_CLOSE_NAME, viewer.locale()))
+                        .addLore(LangManager.list(LangKey.ITEMS_QUEST_DIALOG_CLOSE_LORE, viewer.locale()))
                         .build(),
                 p -> {
                     stopTyping();

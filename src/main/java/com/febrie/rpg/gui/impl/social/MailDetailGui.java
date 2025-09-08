@@ -9,6 +9,7 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.social.MailManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.TextUtil;
 import net.kyori.adventure.text.Component;
@@ -71,7 +72,7 @@ public class MailDetailGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.mail-detail.title", viewer.locale(), Component.text(mail.subject()));
+        return LangManager.text(LangKey.GUI_MAIL_DETAIL_TITLE, viewer, Component.text(mail.subject()));
     }
 
     @Override
@@ -105,13 +106,13 @@ public class MailDetailGui extends BaseGui {
                         .displayName(Component.text(mail.subject(), UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(LangManager.getComponent("gui.mail-detail.sender", viewer.locale(), Component.text(mail.senderName())))
-                        .addLore(LangManager.getComponent("gui.mail-detail.receiver", viewer.locale(), Component.text(mail.receiverName())))
-                        .addLore(LangManager.getComponent("gui.mail-detail.sent-time", viewer.locale(), Component.text(java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
+                        .addLore(LangManager.text(LangKey.GUI_MAIL_DETAIL_SENDER, viewer, Component.text(mail.senderName())))
+                        .addLore(LangManager.text(LangKey.GUI_MAIL_DETAIL_RECEIVER, viewer, Component.text(mail.receiverName())))
+                        .addLore(LangManager.text(LangKey.GUI_MAIL_DETAIL_SENT_TIME, viewer, Component.text(java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
                                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))))
                         .addLore(Component.empty())
-                        .addLore(LangManager.getComponent("gui.mail-detail.status", viewer.locale(), 
-                                Component.translatable(mail.isUnread() ? "status.new-mail" : "status.read")))
+                        .addLore(LangManager.text(LangKey.GUI_MAIL_DETAIL_STATUS, viewer, 
+                                LangManager.text(mail.isUnread() ? LangKey.STATUS_NEW_MAIL : LangKey.STATUS_READ, viewer)))
                         .hideAllFlags()
                         .build()
         );
@@ -121,20 +122,20 @@ public class MailDetailGui extends BaseGui {
         String message = mail.content();
         if (message == null || message.trim().isEmpty()) {
             message = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                    LangManager.getComponent("gui.mail-detail.no-message", viewer.locale()));
+                    LangManager.text(LangKey.GUI_MAIL_DETAIL_NO_MESSAGE, viewer));
         }
 
         // 메시지를 여러 줄로 나누기 (25자씩)
         String[] messageLines = TextUtil.wrapTextOrDefault(message, 25, 
                 net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                        LangManager.getComponent("gui.mail-detail.no-message", viewer.locale())));
+                        LangManager.text(LangKey.GUI_MAIL_DETAIL_NO_MESSAGE, viewer)));
 
         ItemBuilder messageBuilder = ItemBuilder.of(Material.WRITTEN_BOOK)
-                .displayNameTranslated("items.social.mail-detail.message.name")
+                .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_MESSAGE_NAME, viewer))
                 .addLore(Component.empty())
                 .addLore(messageLines.length > 0 ? 
                         Component.text(messageLines[0], UnifiedColorUtil.WHITE) :
-                        Component.translatable("gui.mail-detail.no-message").color(UnifiedColorUtil.GRAY));
+                        LangManager.text(LangKey.GUI_MAIL_DETAIL_NO_MESSAGE, viewer));
 
         // 추가 메시지 줄들
         for (int i = 1; i < Math.min(messageLines.length, 8); i++) {
@@ -158,8 +159,8 @@ public class MailDetailGui extends BaseGui {
         // 첨부물이 없는 경우로 표시
         setItem(ATTACHMENT_SLOTS[4], GuiItem.display( // 중앙 슬롯
                 ItemBuilder.of(Material.BARRIER)
-                        .displayNameTranslated("items.social.mail-detail.no-attachments.name")
-                        .addLoreTranslated("items.social.mail-detail.no-attachments.lore")
+                        .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_NO_ATTACHMENTS_NAME, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_NO_ATTACHMENTS_LORE, viewer))
                         .hideAllFlags()
                         .build()
         ));
@@ -183,23 +184,23 @@ public class MailDetailGui extends BaseGui {
         // 삭제 버튼
         GuiItem deleteButton = GuiItem.clickable(
                 ItemBuilder.of(Material.LAVA_BUCKET)
-                        .displayNameTranslated("items.social.mail-detail.delete.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_DELETE_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.mail-detail.delete.lore1")
-                        .addLoreTranslated("items.social.mail-detail.delete.lore2")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_DELETE_LORE1, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_DELETE_LORE2, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.mail-detail.delete.click")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_DELETE_CLICK, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
                     mailManager.deleteMail(mail.mailId()).thenAccept(success -> {
                         Bukkit.getScheduler().runTask(plugin, () -> {
                             if (success) {
-                                p.sendMessage(LangManager.getComponent("gui.mail-detail.delete-success", p.locale()));
+                                p.sendMessage(LangManager.text(LangKey.GUI_MAIL_DETAIL_DELETE_SUCCESS, p));
                                 MailboxGui mailboxGui = MailboxGui.create(guiManager, p);
                                 guiManager.openGui(p, mailboxGui);
                             } else {
-                                p.sendMessage(LangManager.getComponent("gui.mail-detail.delete-failed", p.locale()).color(UnifiedColorUtil.ERROR));
+                                p.sendMessage(LangManager.text(LangKey.GUI_MAIL_DETAIL_DELETE_FAILED, p).color(UnifiedColorUtil.ERROR));
                             }
                         });
                     });
@@ -211,17 +212,17 @@ public class MailDetailGui extends BaseGui {
         // 답장 버튼
         GuiItem replyButton = GuiItem.clickable(
                 ItemBuilder.of(Material.FEATHER)
-                        .displayNameTranslated("items.social.mail-detail.reply.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_REPLY_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.getComponent("gui.mail-detail.reply-desc", viewer.locale(), Component.text(mail.senderName())))
+                        .addLore(LangManager.text(LangKey.GUI_MAIL_DETAIL_REPLY_DESC, viewer, Component.text(mail.senderName())))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.mail-detail.reply.click")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_REPLY_CLICK, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
                     p.closeInventory();
-                    p.sendMessage(LangManager.getComponent("gui.mail-detail.reply-guide", p.locale()));
-                    p.sendMessage(LangManager.getComponent("gui.mail-detail.reply-command", p.locale(), 
+                    p.sendMessage(LangManager.text(LangKey.GUI_MAIL_DETAIL_REPLY_GUIDE, p));
+                    p.sendMessage(LangManager.text(LangKey.GUI_MAIL_DETAIL_REPLY_COMMAND, p, 
                             Component.text(mail.senderName()), Component.text(mail.subject())));
                     playClickSound(p);
                 }

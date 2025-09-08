@@ -1,6 +1,17 @@
 {
   "name": "Eternal Guardian",
   "info": "Your journey has led you to this ultimate destiny. You must accept the role of Eternal Guardian of all realms. Embrace your eternal duty to protect the peace you've helped create and ensure that darkness never again threatens existence.",
+  "objectives": {
+    "eternal_sage": "Speak with the Eternal Sage",
+    "guardian_sanctum": "Visit the Guardian Sanctum",
+    "guardian_sigil": "Collect Guardian Sigils",
+    "essence_of_protection": "Collect Essence of Protection",
+    "watchtower_peak": "Visit the Watchtower Peak",
+    "vigilant_crystal": "Collect Vigilant Crystals",
+    "eternal_oath": "Take the Eternal Oath",
+    "nexus_of_worlds": "Visit the Nexus of Worlds",
+    "world_spirit": "Commune with the World Spirit"
+  },
   "dialogs": [
     "You have proven yourself worthy of the ultimate responsibility. Will you accept?",
     "I accept the eternal duty. I will guard all realms until the end of time.",

@@ -1,6 +1,12 @@
 {
   "name": "Daily Patrol",
   "info": "Patrol the city districts and maintain public safety. Help the guard captain keep the peace by checking key areas. Eliminate threats and gather evidence of criminal activity. Resets daily at midnight.",
+  "objectives": {
+    "guard_captain": "Report to guard captain",
+    "patrol_walls": "Patrol the city walls",
+    "check_gates": "Check all city gates",
+    "report_captain": "Report back to captain"
+  },
   "dialogs": [
     "The city needs constant vigilance to stay safe. Are you ready for today's patrol?",
     "Take these orders and check each district. Report any suspicious activity immediately.",

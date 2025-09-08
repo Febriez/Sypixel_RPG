@@ -41,9 +41,9 @@ public class ElementalStonesQuest extends Quest {
      */
     private static QuestBuilder createBuilder() {
         return new QuestBuilder().id(QuestID.MAIN_ELEMENTAL_STONES)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         // 시작
-                        new InteractNPCObjective("meet_sage", "elemental_sage"), // 원소의 현자
+                        new InteractNPCObjective("meet_sage", "elemental_sage", 1), // 원소의 현자
 
                         // 불의 돌 - 용암 지대
                         new VisitLocationObjective("fire_temple", "fire_elemental_temple"), new KillMobObjective("fire_elementals", EntityType.BLAZE, 15), new KillMobObjective("magma_cubes", EntityType.MAGMA_CUBE, 10), new CollectItemObjective("fire_essence", Material.BLAZE_POWDER, 20), new KillMobObjective("fire_guardian", EntityType.WITHER_SKELETON, 1), new CollectItemObjective("fire_stone", Material.BLAZE_ROD, 1),
@@ -86,8 +86,36 @@ public class ElementalStonesQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-        return LangManager.get("quest.main.elemental_stones.objectives." + id, who);
+        return switch (objective.getId()) {
+            case "meet_sage" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_MEET_SAGE, who);
+            case "fire_temple" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_FIRE_TEMPLE, who);
+            case "fire_elementals" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_FIRE_ELEMENTALS, who);
+            case "magma_cubes" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_MAGMA_CUBES, who);
+            case "fire_essence" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_FIRE_ESSENCE, who);
+            case "fire_guardian" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_FIRE_GUARDIAN, who);
+            case "fire_stone" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_FIRE_STONE, who);
+            case "water_temple" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_WATER_TEMPLE, who);
+            case "water_elementals" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_WATER_ELEMENTALS, who);
+            case "drowned" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_DROWNED, who);
+            case "water_essence" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_WATER_ESSENCE, who);
+            case "water_guardian" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_WATER_GUARDIAN, who);
+            case "water_stone" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_WATER_STONE, who);
+            case "earth_temple" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_EARTH_TEMPLE, who);
+            case "mine_ores" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_MINE_ORES, who);
+            case "earth_elementals" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_EARTH_ELEMENTALS, who);
+            case "earth_essence" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_EARTH_ESSENCE, who);
+            case "earth_guardian" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_EARTH_GUARDIAN, who);
+            case "earth_stone" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_EARTH_STONE, who);
+            case "air_temple" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_AIR_TEMPLE, who);
+            case "air_elementals" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_AIR_ELEMENTALS, who);
+            case "vexes" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_VEXES, who);
+            case "air_essence" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_AIR_ESSENCE, who);
+            case "air_guardian" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_AIR_GUARDIAN, who);
+            case "air_stone" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_AIR_STONE, who);
+            case "elemental_core" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_ELEMENTAL_CORE, who);
+            case "return_sage" -> LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_RETURN_SAGE, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -95,9 +123,14 @@ public class ElementalStonesQuest extends Quest {
         return 8;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_ELEMENTAL_STONES_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_ELEMENTAL_STONES_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

@@ -42,11 +42,11 @@ public class DragonHeartQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_DRAGON_HEART)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         // 전설의 시작
-                        new InteractNPCObjective("ancient_dragon", "ancient_dragon"),
+                        new InteractNPCObjective("ancient_dragon", "ancient_dragon", 1),
                         new CollectItemObjective("prophecy_scroll", Material.WRITTEN_BOOK, 1),
-                        new InteractNPCObjective("elder_sage", "elder_sage"),
+                        new InteractNPCObjective("elder_sage", "elder_sage", 1),
                         new VisitLocationObjective("heart_shrine", "dragon_heart_shrine"),
                         
                         // 세 가지 열쇠 수집
@@ -86,20 +86,20 @@ public class DragonHeartQuest extends Quest {
                         new CollectItemObjective("guardian_essence", Material.NETHER_STAR, 3),
                         
                         // 고대 용왕과의 대결
-                        new InteractNPCObjective("dragon_emperor", "ancient_dragon_emperor"),
+                        new InteractNPCObjective("dragon_emperor", "ancient_dragon_emperor", 1),
                         new KillMobObjective("dragon_emperor_battle", EntityType.ENDER_DRAGON, 3),
                         new SurviveObjective("emperor_wrath", 900), // 15분 생존
                         new CollectItemObjective("emperor_crown", Material.DRAGON_HEAD, 1),
                         
                         // 용의 심장 획득
                         new VisitLocationObjective("heart_core", "dragon_heart_core"),
-                        new InteractNPCObjective("heart_guardian", "heart_guardian_spirit"),
+                        new InteractNPCObjective("heart_guardian", "heart_guardian_spirit", 1),
                         new CollectItemObjective("dragon_heart_fragment", Material.NETHER_STAR, 5),
                         new PlaceBlockObjective("assemble_heart", Material.BEACON, 1),
                         new CollectItemObjective("true_dragon_heart", Material.DRAGON_EGG, 1),
                         
                         // 챕터 완결
-                        new InteractNPCObjective("ancient_dragon_finale", "ancient_dragon"),
+                        new InteractNPCObjective("ancient_dragon_finale", "ancient_dragon", 1),
                         new CollectItemObjective("dragon_blessing_eternal", Material.ENCHANTED_GOLDEN_APPLE, 1),
                         new CollectItemObjective("dragon_lord_title", Material.WRITTEN_BOOK, 1)
                 ))
@@ -134,8 +134,50 @@ public class DragonHeartQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-        return LangManager.get("quest.main.dragon_heart.objectives." + id, who);
+        return switch (objective.getId()) {
+            case "ancient_dragon" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ANCIENT_DRAGON, who);
+            case "prophecy_scroll" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_PROPHECY_SCROLL, who);
+            case "elder_sage" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ELDER_SAGE, who);
+            case "heart_shrine" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_HEART_SHRINE, who);
+            case "lava_depths" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_LAVA_DEPTHS, who);
+            case "lava_dragons" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_LAVA_DRAGONS, who);
+            case "lava_crystals" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_LAVA_CRYSTALS, who);
+            case "fire_lord" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_FIRE_LORD, who);
+            case "fire_key" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_FIRE_KEY, who);
+            case "frozen_peaks" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_FROZEN_PEAKS, who);
+            case "ice_dragons" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ICE_DRAGONS, who);
+            case "ice_crystals" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ICE_CRYSTALS, who);
+            case "frost_guardian" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_FROST_GUARDIAN, who);
+            case "ice_key" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ICE_KEY, who);
+            case "storm_nexus" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_STORM_NEXUS, who);
+            case "storm_dragons" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_STORM_DRAGONS, who);
+            case "storm_crystals" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_STORM_CRYSTALS, who);
+            case "thunder_lord" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_THUNDER_LORD, who);
+            case "storm_key" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_STORM_KEY, who);
+            case "heart_chamber_entrance" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_HEART_CHAMBER_ENTRANCE, who);
+            case "place_fire_key" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_PLACE_FIRE_KEY, who);
+            case "place_ice_key" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_PLACE_ICE_KEY, who);
+            case "place_storm_key" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_PLACE_STORM_KEY, who);
+            case "key_ritual" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_KEY_RITUAL, who);
+            case "guardian_arena" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_GUARDIAN_ARENA, who);
+            case "fire_guardian" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_FIRE_GUARDIAN, who);
+            case "ice_guardian" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ICE_GUARDIAN, who);
+            case "storm_guardian" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_STORM_GUARDIAN, who);
+            case "guardian_essence" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_GUARDIAN_ESSENCE, who);
+            case "dragon_emperor" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_DRAGON_EMPEROR, who);
+            case "dragon_emperor_battle" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_DRAGON_EMPEROR_BATTLE, who);
+            case "emperor_wrath" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_EMPEROR_WRATH, who);
+            case "emperor_crown" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_EMPEROR_CROWN, who);
+            case "heart_core" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_HEART_CORE, who);
+            case "heart_guardian" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_HEART_GUARDIAN, who);
+            case "dragon_heart_fragment" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_DRAGON_HEART_FRAGMENT, who);
+            case "assemble_heart" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ASSEMBLE_HEART, who);
+            case "true_dragon_heart" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_TRUE_DRAGON_HEART, who);
+            case "ancient_dragon_finale" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ANCIENT_DRAGON_FINALE, who);
+            case "dragon_blessing_eternal" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_DRAGON_BLESSING_ETERNAL, who);
+            case "dragon_lord_title" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_OBJECTIVES_DRAGON_LORD_TITLE, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -143,9 +185,14 @@ public class DragonHeartQuest extends Quest {
         return 6;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_DRAGON_HEART_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_DRAGON_HEART_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

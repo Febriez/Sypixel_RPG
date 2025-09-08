@@ -1,5 +1,31 @@
 {
   "name": "The Lost Continent Discovery",
+  "info": "Embark on an epic voyage to discover the legendary Lost Continent hidden beyond the mists.",
+  "npc_name": "Master Navigator",
+  "accept": "I'll brave the treacherous seas to find the Lost Continent!",
+  "decline": "This voyage is too dangerous for me to attempt.",
+  "objectives": [
+    {
+      "id": "prepare_expedition",
+      "description": "Prepare supplies and equipment for the treacherous journey"
+    },
+    {
+      "id": "navigate_mists",
+      "description": "Navigate through the endless mists to find the continent"
+    },
+    {
+      "id": "discover_continent",
+      "description": "Make landfall on the legendary Lost Continent"
+    },
+    {
+      "id": "explore_ruins",
+      "description": "Explore the ancient ruins of the lost civilization"
+    },
+    {
+      "id": "face_guardian",
+      "description": "Confront the ancient guardian protecting the continent's secrets"
+    }
+  ],
   "dialogs": [
     "Legends speak of a continent lost to time, hidden beyond the endless mists.",
     "Such a journey requires careful preparation. The seas are treacherous.",

@@ -1,6 +1,12 @@
 {
   "name": "Daily Training",
   "info": "Complete comprehensive combat training exercises. Improve your combat skills through various training disciplines. Master strength, agility, swordplay, archery, magic, and defense. Resets daily at midnight.",
+  "objectives": {
+    "trainer": "Meet your trainer",
+    "combat_practice": "Complete combat practice",
+    "skill_training": "Train your skills",
+    "final_test": "Pass the final test"
+  },
   "dialogs": [
     "Welcome to the training grounds. Are you ready to push your limits today?",
     "We'll test every aspect of your combat abilities. Only the dedicated succeed.",

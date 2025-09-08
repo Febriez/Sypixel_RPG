@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * 일일 현상금 사냥 - 일일 퀘스트
@@ -40,9 +41,9 @@ public class DailyBountyHunterQuest extends Quest {
      * 퀘스트 설정
      */
     private static QuestBuilder createBuilder() {
-        return new QuestBuilder().id(QuestID.DAILY_BOUNTY_HUNTER).objectives(Arrays.asList(
+        return new QuestBuilder().id(QuestID.DAILY_BOUNTY_HUNTER).objectives(List.of(
                         // 현상금 사무소 방문
-                        new InteractNPCObjective("bounty_officer", "bounty_officer"), // 현상금 담당관
+                        new InteractNPCObjective("bounty_officer", "bounty_officer", 1), // 현상금 담당관
 
                         // 첫 번째 현상금 - 일반 범죄자
                         new VisitLocationObjective("criminal_hideout", "bandit_camp"), new KillMobObjective("wanted_bandits", EntityType.PILLAGER, 15), new CollectItemObjective("bandit_badges", Material.IRON_NUGGET, 15),
@@ -54,12 +55,12 @@ public class DailyBountyHunterQuest extends Quest {
                         new VisitLocationObjective("wizard_tower", "dark_wizard_tower"), new KillMobObjective("dark_wizards", EntityType.EVOKER, 5), new KillMobObjective("summoned_vex", EntityType.VEX, 20), new CollectItemObjective("wizard_staves", Material.STICK, 5), new CollectItemObjective("magic_essence", Material.LAPIS_LAZULI, 20),
 
                         // 네 번째 현상금 - 엘리트 표적
-                        new InteractNPCObjective("informant", "bounty_informant"), // 정보원
+                        new InteractNPCObjective("informant", "bounty_informant", 1), // 정보원
                         new PayCurrencyObjective("buy_info", CurrencyType.GOLD, 500), new VisitLocationObjective("elite_location", "abandoned_fortress"), new KillMobObjective("elite_guard", EntityType.VINDICATOR, 8), new KillMobObjective("bounty_boss", EntityType.RAVAGER, 1), new CollectItemObjective("boss_head", Material.PLAYER_HEAD, 1),
                         // 증거 수집
                         new CollectItemObjective("evidence_documents", Material.PAPER, 10), new CollectItemObjective("stolen_goods", Material.EMERALD, 30),
                         // 보고 및 보상
-                        new DeliverItemObjective("deliver_badges", "bounty_officer", Material.IRON_NUGGET, 15), new DeliverItemObjective("deliver_evidence", "bounty_officer", Material.PAPER, 10), new DeliverItemObjective("deliver_head", "bounty_officer", Material.PLAYER_HEAD, 1), new InteractNPCObjective("claim_bounty", "bounty_officer")))
+                        new DeliverItemObjective("deliver_badges", "bounty_officer", Material.IRON_NUGGET, 15), new DeliverItemObjective("deliver_evidence", "bounty_officer", Material.PAPER, 10), new DeliverItemObjective("deliver_head", "bounty_officer", Material.PLAYER_HEAD, 1), new InteractNPCObjective("claim_bounty", "bounty_officer", 1)))
                 .reward(new BasicReward.Builder().addCurrency(CurrencyType.GOLD, 2500)
                         .addCurrency(CurrencyType.DIAMOND, 15).addItem(new ItemStack(Material.CROSSBOW))
                         .addItem(new ItemStack(Material.ARROW, 64)).addItem(new ItemStack(Material.SPYGLASS))
@@ -79,10 +80,36 @@ public class DailyBountyHunterQuest extends Quest {
         return LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_INFO, who);
     }
 
-    @Override
+        @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.daily.bounty_hunter.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "bounty_officer" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_BOUNTY_OFFICER, who);
+            case "criminal_hideout" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_CRIMINAL_HIDEOUT, who);
+            case "wanted_bandits" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_WANTED_BANDITS, who);
+            case "bandit_badges" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_BANDIT_BADGES, who);
+            case "monster_lair" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_MONSTER_LAIR, who);
+            case "alpha_spider" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_ALPHA_SPIDER, who);
+            case "pack_leader" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_PACK_LEADER, who);
+            case "monster_fangs" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_MONSTER_FANGS, who);
+            case "wizard_tower" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_WIZARD_TOWER, who);
+            case "dark_wizards" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_DARK_WIZARDS, who);
+            case "summoned_vex" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_SUMMONED_VEX, who);
+            case "wizard_staves" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_WIZARD_STAVES, who);
+            case "magic_essence" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_MAGIC_ESSENCE, who);
+            case "informant" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_INFORMANT, who);
+            case "buy_info" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_BUY_INFO, who);
+            case "elite_location" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_ELITE_LOCATION, who);
+            case "elite_guard" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_ELITE_GUARD, who);
+            case "bounty_boss" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_BOUNTY_BOSS, who);
+            case "boss_head" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_BOSS_HEAD, who);
+            case "evidence_documents" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_EVIDENCE_DOCUMENTS, who);
+            case "stolen_goods" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_STOLEN_GOODS, who);
+            case "deliver_badges" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_DELIVER_BADGES, who);
+            case "deliver_evidence" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_DELIVER_EVIDENCE, who);
+            case "deliver_head" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_DELIVER_HEAD, who);
+            case "claim_bounty" -> LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_CLAIM_BOUNTY, who);
+            default -> new ArrayList<>();
+        };
     }
 
     @Override
@@ -90,9 +117,14 @@ public class DailyBountyHunterQuest extends Quest {
         return 11;
     }
 
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_DAILY_BOUNTY_HUNTER_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_DAILY_BOUNTY_HUNTER_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
 
     @Override

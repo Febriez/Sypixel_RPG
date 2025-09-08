@@ -1,6 +1,12 @@
 {
   "name": "Daily Fishing",
   "info": "Complete today's fishing objectives. Provide fresh fish for the village market. Resets daily at midnight.",
+  "objectives": {
+    "fisherman": "Talk to the fisherman",
+    "catch_fish": "Catch 10 fish",
+    "rare_fish": "Catch a rare fish",
+    "sell_fish": "Sell your catch"
+  },
   "dialogs": [
     "The fishing conditions are perfect today!",
     "We need fresh fish for the market. Can you help?",

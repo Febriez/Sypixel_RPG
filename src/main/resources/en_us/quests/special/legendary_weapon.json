@@ -1,5 +1,31 @@
 {
   "name": "Legendary Weapon",
+  "info": "Prove your worth through divine trials to claim a legendary weapon that few heroes can wield.",
+  "npc_name": "Weapon Guardian",
+  "accept": "I'm ready to prove my worth for a legendary weapon.",
+  "decline": "I don't feel ready for such divine trials yet.",
+  "objectives": [
+    {
+      "id": "prove_hero_worthiness",
+      "description": "Demonstrate you are worthy of wielding divine weapons"
+    },
+    {
+      "id": "complete_character_trials",
+      "description": "Pass trials that test every aspect of your character"
+    },
+    {
+      "id": "impress_divine_spirits",
+      "description": "Show determination that impresses the divine spirits"
+    },
+    {
+      "id": "prove_legendary_worth",
+      "description": "Prove you have the legendary worth to claim the weapon"
+    },
+    {
+      "id": "claim_legendary_weapon",
+      "description": "Successfully claim the legendary weapon as your own"
+    }
+  ],
   "dialogs": [
     "Few heroes are worthy of wielding divine weapons.",
     "The trials ahead will test every aspect of your character.",

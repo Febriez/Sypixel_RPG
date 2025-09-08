@@ -42,15 +42,15 @@ public class DragonPactQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_DRAGON_PACT)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         // 계약 준비
-                        new InteractNPCObjective("ancient_dragon", "ancient_dragon"),
+                        new InteractNPCObjective("ancient_dragon", "ancient_dragon", 1),
                         new CollectItemObjective("dragon_blood", Material.REDSTONE_BLOCK, 10),
                         new CollectItemObjective("soul_crystals", Material.END_CRYSTAL, 5),
                         new CollectItemObjective("eternal_flame", Material.BLAZE_POWDER, 30),
                         
                         // 계약서 작성
-                        new InteractNPCObjective("contract_scribe", "dragon_scribe"),
+                        new InteractNPCObjective("contract_scribe", "dragon_scribe", 1),
                         new CollectItemObjective("ancient_ink", Material.INK_SAC, 20),
                         new CollectItemObjective("magic_paper", Material.PAPER, 50),
                         new CollectItemObjective("binding_essence", Material.EXPERIENCE_BOTTLE, 30),
@@ -64,13 +64,13 @@ public class DragonPactQuest extends Quest {
                         new CollectItemObjective("soul_fragments", Material.PHANTOM_MEMBRANE, 15),
                         
                         // 용의 축복 받기
-                        new InteractNPCObjective("dragon_priest", "dragon_priest"),
+                        new InteractNPCObjective("dragon_priest", "dragon_priest", 1),
                         new CollectItemObjective("blessing_tokens", Material.GOLD_NUGGET, 100),
                         new DeliverItemObjective("offer_tribute", "dragon_priest", Material.DIAMOND, 64),
                         new SurviveObjective("blessing_ritual", 300), // 5분 의식
                         
                         // 계약 서명
-                        new InteractNPCObjective("ancient_dragon_signing", "ancient_dragon"),
+                        new InteractNPCObjective("ancient_dragon_signing", "ancient_dragon", 1),
                         new CollectItemObjective("dragon_sigil", Material.NETHER_STAR, 1),
                         new CollectItemObjective("player_blood", Material.REDSTONE, 10),
                         new DeliverItemObjective("sign_contract", "ancient_dragon", Material.WRITTEN_BOOK, 1),
@@ -85,7 +85,7 @@ public class DragonPactQuest extends Quest {
                         new VisitLocationObjective("dragon_heart_chamber", "dragon_heart_chamber"),
                         new CollectItemObjective("dragon_essence", Material.DRAGON_BREATH, 10),
                         new SurviveObjective("soul_merge", 600), // 10분 영혼 융합
-                        new InteractNPCObjective("merged_dragon", "ancient_dragon"),
+                        new InteractNPCObjective("merged_dragon", "ancient_dragon", 1),
                         
                         // 계약 효력 발동
                         new CollectItemObjective("pact_medallion", Material.NETHERITE_INGOT, 1),
@@ -120,8 +120,41 @@ public class DragonPactQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-        return LangManager.get("quest.main.dragon_pact.objectives." + id, who);
+        return switch (objective.getId()) {
+            case "ancient_dragon" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_ANCIENT_DRAGON, who);
+            case "dragon_blood" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_DRAGON_BLOOD, who);
+            case "soul_crystals" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_SOUL_CRYSTALS, who);
+            case "eternal_flame" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_ETERNAL_FLAME, who);
+            case "contract_scribe" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_CONTRACT_SCRIBE, who);
+            case "ancient_ink" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_ANCIENT_INK, who);
+            case "magic_paper" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_MAGIC_PAPER, who);
+            case "binding_essence" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_BINDING_ESSENCE, who);
+            case "deliver_materials" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_DELIVER_MATERIALS, who);
+            case "soul_altar" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_SOUL_ALTAR, who);
+            case "place_soul_stones" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_PLACE_SOUL_STONES, who);
+            case "place_soul_fire" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_PLACE_SOUL_FIRE, who);
+            case "soul_guardians" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_SOUL_GUARDIANS, who);
+            case "soul_fragments" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_SOUL_FRAGMENTS, who);
+            case "dragon_priest" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_DRAGON_PRIEST, who);
+            case "blessing_tokens" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_BLESSING_TOKENS, who);
+            case "offer_tribute" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_OFFER_TRIBUTE, who);
+            case "blessing_ritual" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_BLESSING_RITUAL, who);
+            case "ancient_dragon_signing" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_ANCIENT_DRAGON_SIGNING, who);
+            case "dragon_sigil" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_DRAGON_SIGIL, who);
+            case "player_blood" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_PLAYER_BLOOD, who);
+            case "sign_contract" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_SIGN_CONTRACT, who);
+            case "place_contract_altar" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_PLACE_CONTRACT_ALTAR, who);
+            case "binding_chains" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_BINDING_CHAINS, who);
+            case "contract_witnesses" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_CONTRACT_WITNESSES, who);
+            case "witness_seals" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_WITNESS_SEALS, who);
+            case "dragon_heart_chamber" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_DRAGON_HEART_CHAMBER, who);
+            case "dragon_essence" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_DRAGON_ESSENCE, who);
+            case "soul_merge" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_SOUL_MERGE, who);
+            case "merged_dragon" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_MERGED_DRAGON, who);
+            case "pact_medallion" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_PACT_MEDALLION, who);
+            case "dragon_companion" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_OBJECTIVES_DRAGON_COMPANION, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -129,9 +162,14 @@ public class DragonPactQuest extends Quest {
         return 5;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_DRAGON_PACT_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_DRAGON_PACT_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

@@ -1,5 +1,31 @@
 {
   "name": "Christmas Spirit Celebration",
+  "info": "Spread Christmas joy throughout the village by participating in holiday traditions and gift-giving.",
+  "npc_name": "Christmas Helper",
+  "accept": "I'm filled with Christmas spirit and ready to help spread joy!",
+  "decline": "I'm not feeling the Christmas spirit right now.",
+  "objectives": [
+    {
+      "id": "wrap_gifts",
+      "description": "Wrap gifts with love and thoughtfulness for villagers"
+    },
+    {
+      "id": "decorate_christmas_tree",
+      "description": "Help decorate the village Christmas tree"
+    },
+    {
+      "id": "bake_christmas_cookies",
+      "description": "Bake fresh Christmas cookies to bring warmth to homes"
+    },
+    {
+      "id": "sing_christmas_carols",
+      "description": "Spread joy by singing Christmas carols throughout the village"
+    },
+    {
+      "id": "deliver_christmas_cheer",
+      "description": "Deliver Christmas cheer to every household in the village"
+    }
+  ],
   "dialogs": [
     "Christmas is almost here! Will you help us fill the village with holiday magic?",
     "Every wrapped gift contains not just an item, but love and thoughtfulness too.",

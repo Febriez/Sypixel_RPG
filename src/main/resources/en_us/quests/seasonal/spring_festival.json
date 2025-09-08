@@ -1,5 +1,31 @@
 {
   "name": "Joy of Spring Festival",
+  "info": "Help prepare for the Spring Festival by gathering flowers, decorating, and protecting the celebration.",
+  "npc_name": "Spring Festival Organizer",
+  "accept": "Of course! I'll help you make this festival wonderful!",
+  "decline": "I'm too busy to help with the festival preparations.",
+  "objectives": [
+    {
+      "id": "collect_spring_flowers",
+      "description": "Collect dandelions and tulips for the festival"
+    },
+    {
+      "id": "plant_festival_flowers",
+      "description": "Plant flowers around the festival grounds for decoration"
+    },
+    {
+      "id": "defend_from_zombies",
+      "description": "Protect the festival from zombie disruption"
+    },
+    {
+      "id": "prepare_spring_decorations",
+      "description": "Set up beautiful spring decorations for the festival"
+    },
+    {
+      "id": "celebrate_spring_arrival",
+      "description": "Join the joyous Spring Festival celebration"
+    }
+  ],
   "dialogs": [
     "Spring Festival is coming but there's so much to prepare! Can you help?",
     "We need lots of flowers. Please collect dandelions and tulips.",

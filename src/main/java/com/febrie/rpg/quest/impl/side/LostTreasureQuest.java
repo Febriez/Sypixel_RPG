@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Side Quest: Lost Treasure
@@ -45,15 +46,15 @@ public class LostTreasureQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_LOST_TREASURE)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_old_sailor", "old_sailor"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_old_sailor", "old_sailor", 1),
                         new CollectItemObjective("collect_treasure_map", Material.MAP, 1),
                         new VisitLocationObjective("visit_cursed_cove", "cursed_cove"),
                         new KillMobObjective("kill_skeletons", EntityType.SKELETON, 12),
                         new VisitLocationObjective("visit_buried_treasure", "buried_treasure"),
                         new CollectItemObjective("collect_gold_coins", Material.GOLD_NUGGET, 25),
                         new CollectItemObjective("collect_ancient_artifact", Material.GOLDEN_APPLE, 1),
-                        new InteractNPCObjective("return_old_sailor", "old_sailor")
+                        new InteractNPCObjective("return_old_sailor", "old_sailor", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addExperience(1500)
@@ -76,9 +77,16 @@ public class LostTreasureQuest extends Quest {
         return LangManager.list(LangKey.QUEST_SIDE_LOST_TREASURE_INFO, who);
     }
 
-    @Override
+        @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.lost_treasure.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "treasure_hunter" -> LangManager.list(LangKey.QUEST_SIDE_LOST_TREASURE_OBJECTIVES_TREASURE_HUNTER, who);
+            case "find_map" -> LangManager.list(LangKey.QUEST_SIDE_LOST_TREASURE_OBJECTIVES_FIND_MAP, who);
+            case "solve_riddle" -> LangManager.list(LangKey.QUEST_SIDE_LOST_TREASURE_OBJECTIVES_SOLVE_RIDDLE, who);
+            case "dig_treasure" -> LangManager.list(LangKey.QUEST_SIDE_LOST_TREASURE_OBJECTIVES_DIG_TREASURE, who);
+            case "claim_reward" -> LangManager.list(LangKey.QUEST_SIDE_LOST_TREASURE_OBJECTIVES_CLAIM_REWARD, who);
+            default -> new ArrayList<>();
+        };
     }
 
     @Override
@@ -86,9 +94,14 @@ public class LostTreasureQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_LOST_TREASURE_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_LOST_TREASURE_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

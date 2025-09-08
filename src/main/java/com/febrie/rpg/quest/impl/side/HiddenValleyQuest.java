@@ -45,15 +45,15 @@ public class HiddenValleyQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_HIDDEN_VALLEY)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_valley_scout", "valley_scout"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_valley_scout", "valley_scout", 1),
                         new VisitLocationObjective("visit_mountain_pass", "mountain_pass"),
                         new CollectItemObjective("collect_mountain_flower", Material.AZURE_BLUET, 12),
                         new VisitLocationObjective("visit_hidden_entrance", "hidden_entrance"),
                         new KillMobObjective("kill_wolves", EntityType.WOLF, 8),
                         new VisitLocationObjective("visit_valley_heart", "valley_heart"),
                         new CollectItemObjective("collect_valley_crystal", Material.EMERALD, 3),
-                        new InteractNPCObjective("talk_valley_guardian", "valley_guardian")
+                        new InteractNPCObjective("talk_valley_guardian", "valley_guardian", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addExperience(2500)
@@ -78,7 +78,17 @@ public class HiddenValleyQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.hidden_valley.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "talk_valley_scout" -> LangManager.list(LangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_TALK_VALLEY_SCOUT, who);
+            case "visit_mountain_pass" -> LangManager.list(LangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_VISIT_MOUNTAIN_PASS, who);
+            case "collect_mountain_flower" -> LangManager.list(LangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_COLLECT_MOUNTAIN_FLOWER, who);
+            case "visit_hidden_entrance" -> LangManager.list(LangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_VISIT_HIDDEN_ENTRANCE, who);
+            case "kill_wolves" -> LangManager.list(LangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_KILL_WOLVES, who);
+            case "visit_valley_heart" -> LangManager.list(LangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_VISIT_VALLEY_HEART, who);
+            case "collect_valley_crystal" -> LangManager.list(LangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_COLLECT_VALLEY_CRYSTAL, who);
+            case "talk_valley_guardian" -> LangManager.list(LangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_TALK_VALLEY_GUARDIAN, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -86,9 +96,14 @@ public class HiddenValleyQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_HIDDEN_VALLEY_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_HIDDEN_VALLEY_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

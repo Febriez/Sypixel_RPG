@@ -286,9 +286,12 @@ public class ProfileGui extends BaseGui {
                 return; // Safety check
             }
             String jobKey = job.name().toLowerCase();
-            ItemBuilder jobBuilder = ItemBuilder.of(job.getMaterial()).displayName(Component.text(job.getIcon() + " ")
-                            .append(LangManager.text(LangKey.valueOf("JOB_" + jobKey.toUpperCase() + "_NAME"), viewer)).color(job.getColor())
-                            .decoration(TextDecoration.BOLD, true)).addLore(Component.empty())
+            ItemBuilder jobBuilder = ItemBuilder.of(job.getMaterial())
+                    .displayName(Component.text(job.getIcon() + " ")
+                            .append(LangManager.text(LangKey.valueOf("JOB_" + jobKey.toUpperCase() + "_NAME"), viewer))
+                            .color(job.getColor())
+                            .decoration(TextDecoration.BOLD, true))
+                    .addLore(Component.empty())
                     .addLore(LangManager.text(LangKey.GUI_PROFILE_JOB_LEVEL, viewer, String.valueOf(rpgPlayer.getLevel())))
                     .addLore(LangManager.text(LangKey.GUI_PROFILE_COMBAT_POWER, viewer, String.valueOf(rpgPlayer.getCombatPower())));
 

@@ -1,6 +1,18 @@
 {
   "name": "Heroes' Alliance",
   "info": "The greatest threat requires the greatest heroes. Form an alliance with legendary heroes from across the realm to face the ultimate challenge together. United, you stand a chance. Divided, all will fall.",
+  "objectives": {
+    "alliance_messenger": "Meet with the alliance messenger",
+    "heroes_stronghold": "Travel to the heroes' stronghold",
+    "legendary_warrior": "Recruit the legendary warrior",
+    "arcane_mage": "Convince the arcane mage to join",
+    "shadow_assassin": "Find the elusive shadow assassin",
+    "alliance_token": "Collect 10 alliance tokens",
+    "kill_ender_dragon": "Prove your worth by slaying the Ender Dragon",
+    "kill_withers": "Defeat 2 Wither bosses",
+    "alliance_hall": "Visit the alliance hall",
+    "heroes_council": "Attend the heroes' council meeting"
+  },
   "dialogs": [
     "The time has come to unite the greatest heroes of our age.",
     "Alone, even you cannot face what is coming.",

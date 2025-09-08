@@ -8,6 +8,7 @@ import com.febrie.rpg.gui.impl.player.ProfileGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -37,7 +38,7 @@ public class PlayerSettingsGui extends BaseGui {
 
     private PlayerSettingsGui(@NotNull GuiManager guiManager,
                             @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.settings.title", player.locale()));
+        super(player, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_SETTINGS_TITLE, player));
     }
 
     /**
@@ -55,7 +56,7 @@ public class PlayerSettingsGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("settings.personal", viewer.locale()).color(UnifiedColorUtil.PRIMARY);
+        return LangManager.text(LangKey.SETTINGS_PERSONAL, viewer).color(UnifiedColorUtil.PRIMARY);
     }
 
     @Override
@@ -84,9 +85,9 @@ public class PlayerSettingsGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 ItemBuilder.of(Material.COMPARATOR)
-                        .displayNameTranslated("items.settings.main.title.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_MAIN_TITLE_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.main.title.lore")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_MAIN_TITLE_LORE, viewer))
                         .hideAllFlags()
                         .build()
         );
@@ -100,12 +101,12 @@ public class PlayerSettingsGui extends BaseGui {
         // GUI 설정
         GuiItem guiSettingsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.IRON_TRAPDOOR)
-                        .displayNameTranslated("items.settings.gui.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_GUI_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.gui.lore1")
-                        .addLoreTranslated("items.settings.gui.lore2")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_GUI_LORE1, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_GUI_LORE2, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.click")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_CLICK, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
@@ -119,13 +120,13 @@ public class PlayerSettingsGui extends BaseGui {
         // 인게임 설정
         GuiItem ingameSettingsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.GRASS_BLOCK)
-                        .displayNameTranslated("items.settings.ingame.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_INGAME_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.ingame.lore1")
-                        .addLoreTranslated("items.settings.ingame.lore2")
-                        .addLoreTranslated("items.settings.ingame.lore3")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_INGAME_LORE1, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_INGAME_LORE2, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_INGAME_LORE3, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.click")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_CLICK, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
@@ -139,13 +140,13 @@ public class PlayerSettingsGui extends BaseGui {
         // 소셜 설정
         GuiItem socialSettingsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.PLAYER_HEAD)
-                        .displayNameTranslated("items.settings.social.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.social.lore1")
-                        .addLoreTranslated("items.settings.social.lore2")
-                        .addLoreTranslated("items.settings.social.lore3")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_LORE1, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_LORE2, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_LORE3, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.click")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_CLICK, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
@@ -159,12 +160,12 @@ public class PlayerSettingsGui extends BaseGui {
         // 시스템 설정
         GuiItem systemSettingsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.REDSTONE_BLOCK)
-                        .displayNameTranslated("items.settings.system.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_SYSTEM_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.system.lore1")
-                        .addLoreTranslated("items.settings.system.lore2")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SYSTEM_LORE1, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SYSTEM_LORE2, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.click")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_CLICK, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
@@ -178,13 +179,13 @@ public class PlayerSettingsGui extends BaseGui {
         // 알림 설정
         GuiItem notificationSettingsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.BELL)
-                        .displayNameTranslated("items.settings.notification.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_NOTIFICATION_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.notification.lore1")
-                        .addLoreTranslated("items.settings.notification.lore2")
-                        .addLoreTranslated("items.settings.notification.lore3")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_NOTIFICATION_LORE1, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_NOTIFICATION_LORE2, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_NOTIFICATION_LORE3, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.click")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_CLICK, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {

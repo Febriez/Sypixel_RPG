@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,17 +43,17 @@ public class HeroesAllianceQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_HEROES_ALLIANCE)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("alliance_messenger", "alliance_messenger"),
+                .objectives(List.of(
+                        new InteractNPCObjective("alliance_messenger", "alliance_messenger", 1),
                         new VisitLocationObjective("heroes_stronghold", "heroes_stronghold_area"),
-                        new InteractNPCObjective("legendary_warrior", "legendary_warrior"),
-                        new InteractNPCObjective("arcane_mage", "arcane_mage"),
-                        new InteractNPCObjective("shadow_assassin", "shadow_assassin"),
+                        new InteractNPCObjective("legendary_warrior", "legendary_warrior", 1),
+                        new InteractNPCObjective("arcane_mage", "arcane_mage", 1),
+                        new InteractNPCObjective("shadow_assassin", "shadow_assassin", 1),
                         new CollectItemObjective("alliance_token", Material.NETHERITE_INGOT, 10),
                         new KillMobObjective("kill_ender_dragon", EntityType.ENDER_DRAGON, 1),
                         new KillMobObjective("kill_withers", EntityType.WITHER, 2),
                         new VisitLocationObjective("alliance_hall", "alliance_hall_area"),
-                        new InteractNPCObjective("heroes_council", "heroes_council")
+                        new InteractNPCObjective("heroes_council", "heroes_council", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 5000)
@@ -80,7 +81,19 @@ public class HeroesAllianceQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.main.heroes_alliance.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "alliance_messenger" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_ALLIANCE_MESSENGER, who);
+            case "heroes_stronghold" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_HEROES_STRONGHOLD, who);
+            case "legendary_warrior" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_LEGENDARY_WARRIOR, who);
+            case "arcane_mage" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_ARCANE_MAGE, who);
+            case "shadow_assassin" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_SHADOW_ASSASSIN, who);
+            case "alliance_token" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_ALLIANCE_TOKEN, who);
+            case "kill_ender_dragon" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_KILL_ENDER_DRAGON, who);
+            case "kill_withers" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_KILL_WITHERS, who);
+            case "alliance_hall" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_ALLIANCE_HALL, who);
+            case "heroes_council" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_HEROES_COUNCIL, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
     
     @Override
@@ -89,8 +102,13 @@ public class HeroesAllianceQuest extends Quest {
     }
     
     @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_DIALOGS, who);
+    }
+    
+    @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_HEROES_ALLIANCE_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

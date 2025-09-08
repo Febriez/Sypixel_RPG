@@ -42,8 +42,8 @@ public class LastStandQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_LAST_STAND)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("alliance_commander", "alliance_commander"),
+                .objectives(List.of(
+                        new InteractNPCObjective("alliance_commander", "alliance_commander", 1),
                         new VisitLocationObjective("fortress_battlements", "fortress_battlements_area"),
                         new CollectItemObjective("siege_weapon", Material.CROSSBOW, 10),
                         new KillMobObjective("kill_pillagers", EntityType.PILLAGER, 30),
@@ -51,7 +51,7 @@ public class LastStandQuest extends Quest {
                         new KillMobObjective("kill_ravagers", EntityType.RAVAGER, 8),
                         new CollectItemObjective("barrier_crystal", Material.END_CRYSTAL, 5),
                         new VisitLocationObjective("last_fortress", "last_fortress_area"),
-                        new InteractNPCObjective("war_strategist", "war_strategist")
+                        new InteractNPCObjective("war_strategist", "war_strategist", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 7500)
@@ -78,7 +78,18 @@ public class LastStandQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.main.last_stand.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "alliance_commander" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_ALLIANCE_COMMANDER, who);
+            case "fortress_battlements" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_FORTRESS_BATTLEMENTS, who);
+            case "siege_weapon" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_SIEGE_WEAPON, who);
+            case "kill_pillagers" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_KILL_PILLAGERS, who);
+            case "blessed_arrows" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_BLESSED_ARROWS, who);
+            case "kill_ravagers" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_KILL_RAVAGERS, who);
+            case "barrier_crystal" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_BARRIER_CRYSTAL, who);
+            case "last_fortress" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_LAST_FORTRESS, who);
+            case "war_strategist" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_WAR_STRATEGIST, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
     
     @Override
@@ -86,9 +97,14 @@ public class LastStandQuest extends Quest {
         return 5;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_LAST_STAND_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

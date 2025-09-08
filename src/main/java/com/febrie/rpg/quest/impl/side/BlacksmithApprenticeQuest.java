@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Blacksmith Apprentice - Side Quest
@@ -45,14 +46,14 @@ public class BlacksmithApprenticeQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_BLACKSMITH_APPRENTICE)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_master_blacksmith", "master_blacksmith"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_master_blacksmith", "master_blacksmith", 1),
                         new CollectItemObjective("iron_ore", Material.IRON_ORE, 20),
                         new CollectItemObjective("coal", Material.COAL, 15),
                         new VisitLocationObjective("mining_site", "Mining_Site"),
                         new KillMobObjective("kill_skeletons", EntityType.SKELETON, 10),
                         new CollectItemObjective("refined_iron", Material.IRON_INGOT, 12),
-                        new InteractNPCObjective("return_master_blacksmith", "master_blacksmith")
+                        new InteractNPCObjective("return_master_blacksmith", "master_blacksmith", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addExperience(1500)
@@ -75,9 +76,18 @@ public class BlacksmithApprenticeQuest extends Quest {
         return LangManager.list(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_INFO, who);
     }
 
-    @Override
+        @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.blacksmith_apprentice.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "talk_master_blacksmith" -> LangManager.list(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_TALK_MASTER_BLACKSMITH, who);
+            case "iron_ore" -> LangManager.list(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_IRON_ORE, who);
+            case "coal" -> LangManager.list(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_COAL, who);
+            case "mining_site" -> LangManager.list(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_MINING_SITE, who);
+            case "kill_skeletons" -> LangManager.list(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_KILL_SKELETONS, who);
+            case "refined_iron" -> LangManager.list(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_REFINED_IRON, who);
+            case "return_master_blacksmith" -> LangManager.list(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_RETURN_MASTER_BLACKSMITH, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -85,9 +95,14 @@ public class BlacksmithApprenticeQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

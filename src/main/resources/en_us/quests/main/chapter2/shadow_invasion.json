@@ -1,6 +1,14 @@
 {
   "name": "Shadow Invasion",
   "info": "Dark forces have begun their invasion of the realm. Shadow creatures emerge from rifts in reality, threatening to consume everything in darkness. Rally the forces of light and push back the shadow invasion!",
+  "objectives": {
+    "scout_captain": "Meet with the scout captain",
+    "shadow_portal": "Visit the shadow portal",
+    "kill_wither_skeletons": "Kill 15 wither skeletons",
+    "kill_phantoms": "Kill 10 phantoms",
+    "corrupted_fortress": "Visit the corrupted fortress",
+    "resistance_leader": "Speak with the resistance leader"
+  },
   "dialogs": [
     "Hero! The shadow invasion has begun!",
     "Dark rifts have opened across the land, spewing forth creatures of pure darkness.",

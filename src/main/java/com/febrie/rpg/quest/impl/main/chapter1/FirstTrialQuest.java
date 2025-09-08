@@ -41,9 +41,9 @@ public class FirstTrialQuest extends Quest {
      */
     private static QuestBuilder createBuilder() {
         return new QuestBuilder().id(QuestID.MAIN_FIRST_TRIAL)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         // 준비 단계
-                        new InteractNPCObjective("meet_trainer", "trial_trainer"), // 시련의 훈련관
+                        new InteractNPCObjective("meet_trainer", "trial_trainer", 1), // 시련의 훈련관
                         new CollectItemObjective("gather_potions", Material.POTION, 10), new CraftItemObjective("craft_shield", Material.SHIELD, 1),
 
                         // 시련의 경기장 입장
@@ -88,8 +88,22 @@ public class FirstTrialQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-        return LangManager.get("quest.main.first_trial.objectives." + id, who);
+        return switch (objective.getId()) {
+            case "meet_trainer" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_MEET_TRAINER, who);
+            case "gather_potions" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_GATHER_POTIONS, who);
+            case "craft_shield" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_CRAFT_SHIELD, who);
+            case "enter_arena" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_ENTER_ARENA, who);
+            case "survive_wave1" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_SURVIVE_WAVE1, who);
+            case "wave1_zombies" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE1_ZOMBIES, who);
+            case "wave1_skeletons" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE1_SKELETONS, who);
+            case "survive_wave2" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_SURVIVE_WAVE2, who);
+            case "wave2_spiders" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE2_SPIDERS, who);
+            case "wave2_creepers" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE2_CREEPERS, who);
+            case "boss_fight" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_BOSS_FIGHT, who);
+            case "trial_medal" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_TRIAL_MEDAL, who);
+            case "return_medal" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_RETURN_MEDAL, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -97,9 +111,14 @@ public class FirstTrialQuest extends Quest {
         return 7;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_FIRST_TRIAL_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

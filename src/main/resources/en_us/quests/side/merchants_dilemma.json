@@ -1,6 +1,14 @@
 {
   "name": "Stolen Goods",
   "info": "Help the merchant recover his stolen goods.",
+  "objectives": {
+    "merchant": "Talk to the merchant",
+    "trade_route": "Scout the trade route",
+    "kill_bandits": "Defeat 15 bandits",
+    "stolen_goods": "Recover stolen goods",
+    "escort_caravan": "Escort the caravan",
+    "deliver_goods": "Deliver goods safely"
+  },
   "dialogs": [
     "Bandits robbed my caravan!",
     "They took everything - my life's savings!",

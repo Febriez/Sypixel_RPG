@@ -1,6 +1,11 @@
 {
   "name": "Daily Hunting",
   "info": "Complete today's hunting objectives. Help protect the village from dangerous monsters. Resets daily at midnight.",
+  "objectives": {
+    "kill_zombies": "Eliminate 20 zombies",
+    "kill_skeletons": "Eliminate 15 skeletons",
+    "kill_creepers": "Eliminate 10 creepers"
+  },
   "dialogs": [
     "The monsters are getting bolder. We need hunters like you.",
     "Will you help us clear the area of dangerous creatures?",

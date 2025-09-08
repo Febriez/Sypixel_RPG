@@ -83,7 +83,7 @@ public class ExpCommand extends BaseSubCommand {
                 .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))
                 .collect(Collectors.toList());
         } else if (args.length == 3 && args[0].equalsIgnoreCase("give")) {
-            return Arrays.asList("100", "500", "1000", "5000", "10000");
+            return List.of("100", "500", "1000", "5000", "10000");
         }
         return List.of();
     }

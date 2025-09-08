@@ -1,5 +1,31 @@
 {
   "name": "Dimension Traveler",
+  "info": "Learn to walk between dimensions by mastering dimensional energy and unlocking the secrets of the multiverse.",
+  "npc_name": "Dimensional Sage",
+  "accept": "I'm ready to learn dimensional travel.",
+  "decline": "The dimensional barriers are too dangerous for me.",
+  "objectives": [
+    {
+      "id": "sense_dimensional_barriers",
+      "description": "Learn to sense the thinning barriers between dimensions"
+    },
+    {
+      "id": "harness_dimensional_energy",
+      "description": "Master the art of harnessing dimensional energy"
+    },
+    {
+      "id": "strengthen_dimensional_mastery",
+      "description": "Grow stronger in your mastery over dimensional forces"
+    },
+    {
+      "id": "explore_portal_secrets",
+      "description": "Discover the secrets of the multiverse through portals"
+    },
+    {
+      "id": "become_dimension_master",
+      "description": "Achieve true mastery of dimensional travel"
+    }
+  ],
   "dialogs": [
     "The barriers between dimensions grow thin, traveler.",
     "You have the potential to walk between worlds.",

@@ -1,6 +1,25 @@
 {
   "name": "Daily Delivery",
   "info": "Help the postal service deliver important packages and messages around the village. Complete your delivery route efficiently to keep the community connected.",
+  "objectives": {
+    "delivery_master": "Talk to the delivery master",
+    "collect_bread": "Collect 10 bread",
+    "visit_bakery": "Visit the village bakery",
+    "deliver_bread": "Deliver 10 bread to the baker",
+    "baker_thanks": "Talk to the village baker",
+    "collect_spider_eyes": "Collect 5 spider eyes",
+    "collect_sugar": "Collect 10 sugar",
+    "visit_pharmacy": "Visit the village pharmacy",
+    "deliver_potion_materials": "Deliver 5 spider eyes to pharmacist",
+    "deliver_sugar": "Deliver 10 sugar to pharmacist",
+    "pharmacist_thanks": "Talk to the village pharmacist",
+    "collect_iron": "Collect 20 iron ingots",
+    "collect_coal": "Collect 30 coal",
+    "visit_blacksmith": "Visit the village blacksmith",
+    "deliver_iron": "Deliver 20 iron ingots to blacksmith",
+    "deliver_coal": "Deliver 30 coal to blacksmith",
+    "blacksmith_thanks": "Talk to the village blacksmith"
+  },
   "dialogs": [
     "Thanks for volunteering for delivery duty!",
     "These packages and letters need to reach their destinations today.",

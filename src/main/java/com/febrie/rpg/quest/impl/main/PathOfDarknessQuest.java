@@ -44,7 +44,7 @@ public class PathOfDarknessQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_PATH_OF_DARKNESS)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         // 1. 마을 주민 처치 (어둠의 길...)
                         new KillMobObjective("eliminate_villagers", EntityType.VILLAGER, 10),
 
@@ -87,8 +87,13 @@ public class PathOfDarknessQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.main.path_of_darkness.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "eliminate_villagers" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_ELIMINATE_VILLAGERS, who);
+            case "dominate_players" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_DOMINATE_PLAYERS, who);
+            case "hunt_wither_skeletons" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_HUNT_WITHER_SKELETONS, who);
+            case "craft_tnt" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_CRAFT_TNT, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -96,9 +101,14 @@ public class PathOfDarknessQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

@@ -1,6 +1,13 @@
 {
   "name": "Path of Precision",
   "info": "Master the art of precision archery to become an elite archer of unmatched accuracy. Train under legendary marksmen and unlock the secrets of perfect aim and deadly precision. Class Requirements: • Level 25 or higher • Ranged combat experience Trial Contents: • Test of Accuracy • Test of Focus • Test of Wind Reading Class Rewards: • Archer class advancement • Precision archery techniques • Master archer equipment",
+  "objectives": {
+    "archery_master": "Meet the archery master",
+    "precision_training": "Complete precision training",
+    "moving_targets": "Hit 20 moving targets",
+    "long_range": "Master long-range shots",
+    "final_test": "Pass the final test"
+  },
   "dialogs": [
     "The path of precision requires absolute focus and dedication.",
     "Your aim must be perfect. Practice until you never miss.",

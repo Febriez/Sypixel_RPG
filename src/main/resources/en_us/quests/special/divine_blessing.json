@@ -1,5 +1,31 @@
 {
   "name": "Grace of the Divine",
+  "info": "Receive divine blessing through pure heart, unwavering faith, and steadfast devotion to righteousness.",
+  "npc_name": "Divine Messenger",
+  "accept": "I'm ready to receive the sacred blessing.",
+  "decline": "I don't feel worthy of divine grace yet.",
+  "objectives": [
+    {
+      "id": "prove_pure_heart",
+      "description": "Demonstrate the pure heart that caught heaven's attention"
+    },
+    {
+      "id": "accept_divine_light",
+      "description": "Allow the divine light to shine upon you as chosen one"
+    },
+    {
+      "id": "channel_divine_energy",
+      "description": "Learn to channel divine energy flowing through you"
+    },
+    {
+      "id": "withstand_faith_test",
+      "description": "Remain steadfast when your faith is tested"
+    },
+    {
+      "id": "receive_celestial_gift",
+      "description": "Accept the divine blessing from the celestial realm"
+    }
+  ],
   "dialogs": [
     "The divine light shines upon you, chosen one.",
     "Your pure heart has caught the attention of the heavens.",

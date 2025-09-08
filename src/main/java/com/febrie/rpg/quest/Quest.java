@@ -343,9 +343,7 @@ public abstract class Quest {
      * @return 대화 컴포넌트
      */
     @NotNull
-    public List<Component> getDialogs(@NotNull Player player) {
-        return new ArrayList<>();
-    }
+    public abstract List<Component> getDialogs(@NotNull Player player);
     
     /**
      * 대화 목록을 언어 키로부터 가져오는 헬퍼 메소드

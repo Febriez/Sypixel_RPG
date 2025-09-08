@@ -1,11 +1,18 @@
 {
   "name": "Equipment Upgrade Service",
+  "info": "Upgrade and repair equipment for adventurers. This service contract can be repeated for steady income.",
+  "npc_name": "Master Smith",
+  "accept": "Excellent! I'll provide the materials and instructions for the upgrades.",
+  "decline": "No worries. The forge will be here when you're ready to work.",
+  "objectives": {
+    "collect_iron": "Collect 32 iron ingots",
+    "craft_tools": "Craft 3 iron pickaxes",
+    "repair_items": "Repair 5 damaged items",
+    "enchant_items": "Enchant 3 items"
+  },
   "dialogs": [
     "Many adventurers need their equipment upgraded. Can you help them?",
     "Each upgrade requires specific techniques and materials.",
-    "Your upgrade skills are improving with each piece you work on.",
-    "You're developing true mastery of the upgrade arts.",
-    "Your work meets guild standards. Here's your certification!",
-    "This legendary upgrade will be remembered for ages!"
+    "Your upgrade skills are improving with each piece you work on."
   ]
 }

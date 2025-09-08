@@ -42,8 +42,8 @@ public class SacrificeOfHeroesQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_SACRIFICE_OF_HEROES)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("memorial_keeper", "memorial_keeper"),
+                .objectives(List.of(
+                        new InteractNPCObjective("memorial_keeper", "memorial_keeper", 1),
                         new VisitLocationObjective("heroes_memorial", "heroes_memorial_area"),
                         new CollectItemObjective("hero_medallion", Material.GOLDEN_APPLE, 10),
                         new VisitLocationObjective("eternal_flame_altar", "eternal_flame_altar_area"),
@@ -51,7 +51,7 @@ public class SacrificeOfHeroesQuest extends Quest {
                         new KillMobObjective("kill_vexes", EntityType.VEX, 30),
                         new CollectItemObjective("spirit_crystal", Material.SOUL_LANTERN, 15),
                         new VisitLocationObjective("sanctuary_of_light", "sanctuary_of_light_area"),
-                        new InteractNPCObjective("spirit_guide", "spirit_guide")
+                        new InteractNPCObjective("spirit_guide", "spirit_guide", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 12500)
@@ -78,7 +78,18 @@ public class SacrificeOfHeroesQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.main.sacrifice_of_heroes.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "memorial_keeper" -> LangManager.list(LangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_MEMORIAL_KEEPER, who);
+            case "heroes_memorial" -> LangManager.list(LangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_HEROES_MEMORIAL, who);
+            case "hero_medallion" -> LangManager.list(LangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_HERO_MEDALLION, who);
+            case "eternal_flame_altar" -> LangManager.list(LangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_ETERNAL_FLAME_ALTAR, who);
+            case "essence_of_valor" -> LangManager.list(LangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_ESSENCE_OF_VALOR, who);
+            case "kill_vexes" -> LangManager.list(LangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_KILL_VEXES, who);
+            case "spirit_crystal" -> LangManager.list(LangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_SPIRIT_CRYSTAL, who);
+            case "sanctuary_of_light" -> LangManager.list(LangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_SANCTUARY_OF_LIGHT, who);
+            case "spirit_guide" -> LangManager.list(LangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_SPIRIT_GUIDE, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
     
     @Override
@@ -86,9 +97,14 @@ public class SacrificeOfHeroesQuest extends Quest {
         return 6;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

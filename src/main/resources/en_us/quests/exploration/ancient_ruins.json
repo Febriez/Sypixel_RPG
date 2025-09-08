@@ -1,5 +1,31 @@
 {
   "name": "Ancient Ruins",
+  "info": "Explore mysterious ancient ruins and uncover their long-lost secrets and treasures.",
+  "npc_name": "Ruin Explorer",
+  "accept": "I'm ready to explore these ancient mysteries!",
+  "decline": "These ruins seem too dangerous for me.",
+  "objectives": [
+    {
+      "id": "enter_ruins",
+      "description": "Enter the ancient ruins complex"
+    },
+    {
+      "id": "navigate_traps",
+      "description": "Navigate through the ancient trap systems"
+    },
+    {
+      "id": "solve_mechanisms",
+      "description": "Solve the ancient mechanism puzzles"
+    },
+    {
+      "id": "find_treasures",
+      "description": "Discover the hidden treasures within"
+    },
+    {
+      "id": "uncover_secrets",
+      "description": "Reveal the ancient knowledge and complete the exploration"
+    }
+  ],
   "dialogs": [
     "These ruins hold secrets from ages past, explorer.",
     "Many have entered, but few have returned with treasure.",

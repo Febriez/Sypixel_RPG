@@ -42,8 +42,8 @@ public class FinalBattleQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_FINAL_BATTLE)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("chosen_champion", "chosen_champion"),
+                .objectives(List.of(
+                        new InteractNPCObjective("chosen_champion", "chosen_champion", 1),
                         new VisitLocationObjective("battlefield_gates", "battlefield_gates_area"),
                         new KillMobObjective("kill_withers", EntityType.WITHER, 3),
                         new CollectItemObjective("heart_of_darkness", Material.WITHER_SKELETON_SKULL, 5),
@@ -51,7 +51,7 @@ public class FinalBattleQuest extends Quest {
                         new CollectItemObjective("dragon_essence", Material.DRAGON_EGG, 1),
                         new VisitLocationObjective("void_nexus", "void_nexus_area"),
                         new KillMobObjective("kill_endermen", EntityType.ENDERMAN, 50),
-                        new InteractNPCObjective("ancient_oracle", "ancient_oracle")
+                        new InteractNPCObjective("ancient_oracle", "ancient_oracle", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 10000)
@@ -78,7 +78,18 @@ public class FinalBattleQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.main.final_battle.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "chosen_champion" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_CHOSEN_CHAMPION, who);
+            case "battlefield_gates" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_BATTLEFIELD_GATES, who);
+            case "kill_withers" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_KILL_WITHERS, who);
+            case "heart_of_darkness" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_HEART_OF_DARKNESS, who);
+            case "kill_ender_dragon" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_KILL_ENDER_DRAGON, who);
+            case "dragon_essence" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_DRAGON_ESSENCE, who);
+            case "void_nexus" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_VOID_NEXUS, who);
+            case "kill_endermen" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_KILL_ENDERMEN, who);
+            case "ancient_oracle" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_ANCIENT_ORACLE, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
     
     @Override
@@ -86,9 +97,14 @@ public class FinalBattleQuest extends Quest {
         return 5;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_FINAL_BATTLE_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

@@ -1,6 +1,14 @@
 {
   "name": "Tavern Troubles",
   "info": "Help the innkeeper with his rowdy customers.",
+  "objectives": {
+    "innkeeper": "Talk to the innkeeper",
+    "cellar": "Check the cellar",
+    "kill_rats": "Clear 20 rats",
+    "repair_barrels": "Repair 5 barrels",
+    "stolen_supplies": "Recover stolen supplies",
+    "report_innkeeper": "Report to the innkeeper"
+  },
   "dialogs": [
     "These mercenaries won't pay their tab!",
     "They're drunk and causing trouble.",

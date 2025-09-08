@@ -110,10 +110,10 @@ public class LangManager {
         loadAllLanguages();
     }
 
-    // ===== Private Helper Methods =====
+    // ===== Internal Methods (Public for Direct Migration) =====
 
     @NotNull
-    private static Component textInternal(@NotNull String key, @NotNull Locale locale) {
+    public static Component textInternal(@NotNull String key, @NotNull Locale locale) {
         Map<String, Component> localeMap = singles.get(locale);
         if (localeMap != null) {
             Component result = localeMap.get(key);
@@ -144,13 +144,20 @@ public class LangManager {
     }
 
     @NotNull
-    private static Component replacePlaceholders(@NotNull Component component, Object... args) {
+    public static Component replacePlaceholders(@NotNull Component component, Object... args) {
         Component result = component;
         for (int i = 0; i < args.length; i++) {
             String placeholder = "{" + i + "}";
-            String replacement = String.valueOf(args[i]);
+            Component replacementComponent;
+
+            if (args[i] instanceof Component) {
+                replacementComponent = (Component) args[i];
+            } else {
+                replacementComponent = Component.text(String.valueOf(args[i]));
+            }
+
             TextReplacementConfig config = TextReplacementConfig.builder().matchLiteral(placeholder)
-                    .replacement(Component.text(replacement)).build();
+                    .replacement(replacementComponent).build();
             result = result.replaceText(config);
         }
         return result;
@@ -159,10 +166,13 @@ public class LangManager {
     // ===== Loading Methods =====
 
     private static void loadAllLanguages() {
+        plugin.getLogger().info("[LangManager] Starting language loading...");
         for (String localeStr : SUPPORTED_LOCALES) {
             Locale locale = parseLocale(localeStr);
+            plugin.getLogger().info("[LangManager] Loading language: " + localeStr);
             loadLanguage(localeStr, locale);
         }
+        plugin.getLogger().info("[LangManager] Language loading complete.");
     }
 
     private static void loadLanguage(@NotNull String localeDir, @NotNull Locale locale) {
@@ -173,8 +183,10 @@ public class LangManager {
             File pluginFile = new File(plugin.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
 
             if (pluginFile.isFile() && pluginFile.getName().endsWith(".jar")) {
+                plugin.getLogger().info("[LangManager] Loading from JAR: " + localeDir);
                 loadFromJar(pluginFile, localeDir, singleMap, arrayMap);
             } else {
+                plugin.getLogger().info("[LangManager] Loading from filesystem: " + localeDir);
                 loadFromFileSystem(localeDir, singleMap, arrayMap);
             }
         } catch (Exception e) {
@@ -183,6 +195,8 @@ public class LangManager {
 
         singles.put(locale, singleMap);
         arrays.put(locale, arrayMap);
+        plugin.getLogger()
+                .info("[LangManager] Loaded " + singleMap.size() + " single keys and " + arrayMap.size() + " array keys for " + localeDir);
     }
 
     private static void loadFromJar(@NotNull File jarFile, @NotNull String localeDir, @NotNull Map<String, Component> singleMap, @NotNull Map<String, List<Component>> arrayMap) {
@@ -235,11 +249,21 @@ public class LangManager {
 
     private static void loadJsonResource(@NotNull String resourcePath, @NotNull String prefix, @NotNull Map<String, Component> singleMap, @NotNull Map<String, List<Component>> arrayMap) {
         try (InputStream stream = LangManager.class.getResourceAsStream(resourcePath)) {
-            if (stream == null) return;
+            if (stream == null) {
+                plugin.getLogger().warning("[LangManager] Resource not found: " + resourcePath);
+                return;
+            }
 
             try (InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
                 JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
+                plugin.getLogger().fine("[LangManager] Loading JSON: " + resourcePath + " with prefix: " + prefix);
+                int beforeSingle = singleMap.size();
+                int beforeArray = arrayMap.size();
                 processJsonObject(root, prefix, singleMap, arrayMap);
+                int addedSingle = singleMap.size() - beforeSingle;
+                int addedArray = arrayMap.size() - beforeArray;
+                plugin.getLogger()
+                        .fine("[LangManager] Loaded from " + resourcePath + ": " + addedSingle + " singles, " + addedArray + " arrays");
             }
         } catch (IOException | JsonSyntaxException e) {
             logError("Failed to load " + resourcePath, e);
@@ -271,11 +295,19 @@ public class LangManager {
 
     @NotNull
     private static String generatePrefix(@NotNull String filePath) {
-        String path = filePath.replace(".json", "").replace("/", ".").replace("\\", ".").replace("-", "_");
+        // Remove .json extension and convert path separators to dots
+        String path = filePath.replace(".json", "").replace("/", ".").replace("\\", ".");
 
+        // Replace hyphens with underscores for consistency with LangKey enum
+        path = path.replace("-", "_");
+
+        // Handle quest files specially - they should start with "quest" not "quests"
         if (path.startsWith("quests.")) {
-            path = "quest" + path.substring(6);
+            path = "quest." + path.substring(7); // "quests." is 7 chars
         }
+
+        // Log the prefix generation for debugging
+        plugin.getLogger().fine("[LangManager] Generated prefix: " + filePath + " -> " + path);
 
         return path.endsWith(".") ? path : path + ".";
     }
@@ -292,7 +324,11 @@ public class LangManager {
     private static void validateKeys() {
         if (plugin == null) return;
 
+        plugin.getLogger().info("[LangManager] Validating " + LangKey.values().length + " translation keys...");
+
         int missingCount = 0;
+        List<String> missingKeys = new ArrayList<>();
+
         for (LangKey key : LangKey.values()) {
             boolean found = false;
             for (Locale locale : singles.keySet()) {
@@ -302,122 +338,24 @@ public class LangManager {
                 }
             }
             if (!found) {
-                logWarning("Missing translation: " + key.name());
+                String keyName = key.name() + " (" + key.getKey() + ")";
+                logWarning("Missing translation: " + keyName);
+                missingKeys.add(keyName);
                 missingCount++;
             }
         }
 
         if (missingCount > 0) {
             plugin.getLogger().warning("[LangManager] Found " + missingCount + " missing keys");
+            plugin.getLogger().warning("[LangManager] Missing keys: ");
+            for (String key : missingKeys) {
+                plugin.getLogger().warning("  - " + key);
+            }
+        } else {
+            plugin.getLogger().info("[LangManager] All translation keys validated successfully!");
         }
     }
 
-    // ===== Backward Compatibility Methods (Temporary) =====
-    
-    /**
-     * Temporary backward compatibility method for String keys
-     * @deprecated Use LangKey-based methods instead
-     */
-    @Deprecated
-    @NotNull
-    public static List<Component> get(@NotNull String key, @NotNull Player player) {
-        return listInternal(key, player.locale());
-    }
-    
-    /**
-     * Temporary backward compatibility method for String keys with args
-     * Returns a single Component for compatibility with older code that expects Component
-     * @deprecated Use LangKey-based methods instead
-     */
-    @Deprecated
-    @NotNull
-    public static Component get(@NotNull String key, @NotNull Player player, Object... args) {
-        Component base = textInternal(key, player.locale());
-        return replacePlaceholders(base, args);
-    }
-    
-    /**
-     * Temporary backward compatibility method for String keys
-     * @deprecated Use LangKey-based methods instead
-     */
-    @Deprecated
-    @NotNull
-    public static Component getComponent(@NotNull String key, @NotNull Locale locale) {
-        return textInternal(key, locale);
-    }
-    
-    /**
-     * Temporary backward compatibility method for String keys with args
-     * @deprecated Use LangKey-based methods instead
-     */
-    @Deprecated
-    @NotNull
-    public static Component getComponent(@NotNull String key, @NotNull Locale locale, Object... args) {
-        Component base = textInternal(key, locale);
-        return replacePlaceholders(base, args);
-    }
-    
-    /**
-     * Temporary backward compatibility text method for String keys
-     * @deprecated Use LangKey-based methods instead
-     */
-    @Deprecated
-    @NotNull
-    public static Component text(@NotNull String key, @NotNull Locale locale) {
-        return textInternal(key, locale);
-    }
-    
-    /**
-     * Temporary backward compatibility text method for String keys with args
-     * @deprecated Use LangKey-based methods instead
-     */
-    @Deprecated
-    @NotNull
-    public static Component text(@NotNull String key, @NotNull Locale locale, Object... args) {
-        Component base = textInternal(key, locale);
-        return replacePlaceholders(base, args);
-    }
-    
-    /**
-     * Temporary backward compatibility text method for String keys with player
-     * @deprecated Use LangKey-based methods instead
-     */
-    @Deprecated
-    @NotNull
-    public static Component text(@NotNull String key, @NotNull Player player) {
-        return textInternal(key, player.locale());
-    }
-    
-    /**
-     * Temporary backward compatibility text method for String keys with player and args
-     * @deprecated Use LangKey-based methods instead
-     */
-    @Deprecated
-    @NotNull
-    public static Component text(@NotNull String key, @NotNull Player player, Object... args) {
-        Component base = textInternal(key, player.locale());
-        return replacePlaceholders(base, args);
-    }
-    
-    /**
-     * Temporary backward compatibility list method for String keys
-     * @deprecated Use LangKey-based methods instead
-     */
-    @Deprecated
-    @NotNull
-    public static List<Component> list(@NotNull String key, @NotNull Locale locale) {
-        return listInternal(key, locale);
-    }
-    
-    /**
-     * Temporary backward compatibility list method for String keys with player
-     * @deprecated Use LangKey-based methods instead
-     */
-    @Deprecated
-    @NotNull
-    public static List<Component> list(@NotNull String key, @NotNull Player player) {
-        return listInternal(key, player.locale());
-    }
 
     // ===== Logging Methods =====
 

@@ -10,6 +10,7 @@ import com.febrie.rpg.player.PlayerSettings;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -84,9 +85,9 @@ public class SocialSettingsGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 ItemBuilder.of(Material.PLAYER_HEAD)
-                        .displayNameTranslated("items.settings.social-settings.title.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_TITLE_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.social-settings.title.lore")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_TITLE_LORE, viewer))
                         .hideAllFlags()
                         .build()
         );
@@ -141,16 +142,16 @@ public class SocialSettingsGui extends BaseGui {
         
         GuiItem friendRequestsToggle = GuiItem.clickable(
                 ItemBuilder.of(enabled ? Material.EMERALD : Material.REDSTONE)
-                        .displayNameTranslated("items.settings.social-settings.friend-requests.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_FRIEND_REQUESTS_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.get("gui.social-settings.status", viewer,
+                        .addLore(LangManager.text(LangKey.GUI_SOCIAL_SETTINGS_STATUS, viewer,
                                 Component.translatable(enabled ? "status.enabled" : "status.disabled")
                                 .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.social-settings.friend-requests.desc1")
-                        .addLoreTranslated("items.settings.social-settings.friend-requests.desc2")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_FRIEND_REQUESTS_DESC1, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_FRIEND_REQUESTS_DESC2, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.get("gui.social-settings.click-to-toggle", viewer,
+                        .addLore(LangManager.text(LangKey.GUI_SOCIAL_SETTINGS_CLICK_TO_TOGGLE, viewer,
                                 Component.translatable(enabled ? "action.disable" : "action.enable")))
                         .hideAllFlags()
                         .build(),
@@ -158,7 +159,7 @@ public class SocialSettingsGui extends BaseGui {
                     settings.setFriendRequestsEnabled(!enabled);
                     updateFriendRequestsToggle(settings);
                     playClickSound(p);
-                    p.sendMessage(LangManager.get("gui.social-settings.friend-requests-toggled", p,
+                    p.sendMessage(LangManager.text(LangKey.GUI_SOCIAL_SETTINGS_FRIEND_REQUESTS_TOGGLED, p,
                             Component.translatable(settings.isFriendRequestsEnabled() ? "status.enabled" : "status.disabled")));
                 }
         );
@@ -173,18 +174,18 @@ public class SocialSettingsGui extends BaseGui {
         
         GuiItem guildInvitesToggle = GuiItem.clickable(
                 ItemBuilder.of(enabled ? Material.GOLD_INGOT : Material.IRON_INGOT)
-                        .displayNameTranslated("items.settings.social-settings.guild-invites.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_GUILD_INVITES_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.get("gui.social-settings.status", viewer,
+                        .addLore(LangManager.text(LangKey.GUI_SOCIAL_SETTINGS_STATUS, viewer,
                                 Component.translatable(enabled ? "status.enabled" : "status.disabled")
                                 .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.social-settings.guild-invites.desc1")
-                        .addLoreTranslated("items.settings.social-settings.guild-invites.desc2")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_GUILD_INVITES_DESC1, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_GUILD_INVITES_DESC2, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.social-settings.guild-invites.note")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_GUILD_INVITES_NOTE, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.get("gui.social-settings.click-to-toggle", viewer,
+                        .addLore(LangManager.text(LangKey.GUI_SOCIAL_SETTINGS_CLICK_TO_TOGGLE, viewer,
                                 Component.translatable(enabled ? "action.disable" : "action.enable")))
                         .hideAllFlags()
                         .build(),
@@ -192,7 +193,7 @@ public class SocialSettingsGui extends BaseGui {
                     settings.setGuildInvitesEnabled(!enabled);
                     updateGuildInvitesToggle(settings);
                     playClickSound(p);
-                    p.sendMessage(LangManager.get("gui.social-settings.guild-invites-toggled", p,
+                    p.sendMessage(LangManager.text(LangKey.GUI_SOCIAL_SETTINGS_GUILD_INVITES_TOGGLED, p,
                             Component.translatable(settings.isGuildInvitesEnabled() ? "status.enabled" : "status.disabled")));
                 }
         );
@@ -228,15 +229,15 @@ public class SocialSettingsGui extends BaseGui {
         
         GuiItem whisperModeToggle = GuiItem.clickable(
                 ItemBuilder.of(material)
-                        .displayNameTranslated("items.settings.social-settings.whisper.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.get("gui.social-settings.current-mode", viewer, modeDisplay))
+                        .addLore(LangManager.text(LangKey.GUI_SOCIAL_SETTINGS_CURRENT_MODE, viewer, modeDisplay))
                         .addLore(modeDescription.color(UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.social-settings.whisper.click-hint")
-                        .addLoreTranslated("items.settings.social-settings.whisper.mode-cycle")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_CLICK_HINT, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_MODE_CYCLE, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.settings.social-settings.whisper.note")
+                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_NOTE, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
@@ -258,7 +259,7 @@ public class SocialSettingsGui extends BaseGui {
                         default -> Component.translatable("whisper.mode.unknown");
                     };
                     
-                    p.sendMessage(LangManager.get("gui.social-settings.whisper-mode-changed", p, newModeDisplay));
+                    p.sendMessage(LangManager.text(LangKey.GUI_SOCIAL_SETTINGS_WHISPER_MODE_CHANGED, p, newModeDisplay));
                 }
         );
         setItem(WHISPER_MODE_SLOT, whisperModeToggle);

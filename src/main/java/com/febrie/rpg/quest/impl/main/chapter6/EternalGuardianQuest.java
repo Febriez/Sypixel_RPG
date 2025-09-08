@@ -41,8 +41,8 @@ public class EternalGuardianQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_ETERNAL_GUARDIAN)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("eternal_sage", "eternal_sage"),
+                .objectives(List.of(
+                        new InteractNPCObjective("eternal_sage", "eternal_sage", 1),
                         new VisitLocationObjective("guardian_sanctum", "guardian_sanctum_area"),
                         new CollectItemObjective("guardian_sigil", Material.SHIELD, 5),
                         new CollectItemObjective("essence_of_protection", Material.TURTLE_HELMET, 3),
@@ -50,7 +50,7 @@ public class EternalGuardianQuest extends Quest {
                         new CollectItemObjective("vigilant_crystal", Material.OBSERVER, 8),
                         new CollectItemObjective("eternal_oath", Material.WRITTEN_BOOK, 1),
                         new VisitLocationObjective("nexus_of_worlds", "nexus_of_worlds_area"),
-                        new InteractNPCObjective("world_spirit", "world_spirit")
+                        new InteractNPCObjective("world_spirit", "world_spirit", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 30000)
@@ -77,7 +77,18 @@ public class EternalGuardianQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.main.eternal_guardian.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "eternal_sage" -> LangManager.list(LangKey.QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_ETERNAL_SAGE, who);
+            case "guardian_sanctum" -> LangManager.list(LangKey.QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_GUARDIAN_SANCTUM, who);
+            case "guardian_sigil" -> LangManager.list(LangKey.QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_GUARDIAN_SIGIL, who);
+            case "essence_of_protection" -> LangManager.list(LangKey.QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_ESSENCE_OF_PROTECTION, who);
+            case "watchtower_peak" -> LangManager.list(LangKey.QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_WATCHTOWER_PEAK, who);
+            case "vigilant_crystal" -> LangManager.list(LangKey.QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_VIGILANT_CRYSTAL, who);
+            case "eternal_oath" -> LangManager.list(LangKey.QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_ETERNAL_OATH, who);
+            case "nexus_of_worlds" -> LangManager.list(LangKey.QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_NEXUS_OF_WORLDS, who);
+            case "world_spirit" -> LangManager.list(LangKey.QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_WORLD_SPIRIT, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
     
     @Override
@@ -85,9 +96,14 @@ public class EternalGuardianQuest extends Quest {
         return 6;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_ETERNAL_GUARDIAN_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_ETERNAL_GUARDIAN_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

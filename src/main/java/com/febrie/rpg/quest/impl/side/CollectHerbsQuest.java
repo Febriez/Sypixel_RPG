@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Side Quest: Collect Herbs
@@ -43,14 +44,14 @@ public class CollectHerbsQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_COLLECT_HERBS)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_village_healer", "village_healer"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_village_healer", "village_healer", 1),
                         new VisitLocationObjective("herb_meadow", "Herb_Meadow"),
                         new CollectItemObjective("healing_herbs", Material.SWEET_BERRIES, 20),
                         new CollectItemObjective("rare_flowers", Material.POPPY, 10),
                         new VisitLocationObjective("mountain_herbs", "Mountain_Herbs"),
                         new CollectItemObjective("mountain_sage", Material.FERN, 8),
-                        new InteractNPCObjective("return_village_healer", "village_healer")
+                        new InteractNPCObjective("return_village_healer", "village_healer", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addExperience(600)
@@ -73,9 +74,18 @@ public class CollectHerbsQuest extends Quest {
         return LangManager.list(LangKey.QUEST_SIDE_COLLECT_HERBS_INFO, who);
     }
 
-    @Override
+        @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.collect_herbs.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "talk_village_healer" -> LangManager.list(LangKey.QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_TALK_VILLAGE_HEALER, who);
+            case "herb_meadow" -> LangManager.list(LangKey.QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_HERB_MEADOW, who);
+            case "healing_herbs" -> LangManager.list(LangKey.QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_HEALING_HERBS, who);
+            case "rare_flowers" -> LangManager.list(LangKey.QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_RARE_FLOWERS, who);
+            case "mountain_herbs" -> LangManager.list(LangKey.QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_MOUNTAIN_HERBS, who);
+            case "mountain_sage" -> LangManager.list(LangKey.QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_MOUNTAIN_SAGE, who);
+            case "return_village_healer" -> LangManager.list(LangKey.QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_RETURN_VILLAGE_HEALER, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -83,9 +93,14 @@ public class CollectHerbsQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_COLLECT_HERBS_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_COLLECT_HERBS_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

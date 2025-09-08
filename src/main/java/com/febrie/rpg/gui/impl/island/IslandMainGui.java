@@ -120,19 +120,19 @@ public class IslandMainGui extends BaseGui {
     private void setupNoIslandLayout() {
         createBorder();
 
-        // 중앙?????�성 ?�내
-        GuiItem createIslandInfo = GuiItem.display(ItemBuilder.of(Material.GRASS_BLOCK, getViewerLocale())
-                .displayNameTranslated("island.gui.main.create-island.title")
+        // 중앙 섬 생성 안내
+        GuiItem createIslandInfo = GuiItem.display(ItemBuilder.of(Material.GRASS_BLOCK)
+                .displayName(LangManager.text(LangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_TITLE, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLoreTranslated("island.gui.main.create-island.no-island")
+                .addLore(LangManager.text(LangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_NO_ISLAND, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLoreTranslated("island.gui.main.create-island.description")
-                .addLoreTranslated("island.gui.main.create-island.feature-1")
-                .addLoreTranslated("island.gui.main.create-island.feature-2")
-                .addLoreTranslated("island.gui.main.create-island.feature-3")
-                .addLoreTranslated("island.gui.main.create-island.feature-4")
+                .addLore(LangManager.text(LangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_DESCRIPTION, getViewerLocale()))
+                .addLore(LangManager.text(LangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_FEATURE_1, getViewerLocale()))
+                .addLore(LangManager.text(LangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_FEATURE_2, getViewerLocale()))
+                .addLore(LangManager.text(LangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_FEATURE_3, getViewerLocale()))
+                .addLore(LangManager.text(LangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_FEATURE_4, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLoreTranslated("island.gui.main.create-island.contact-admin")
+                .addLore(LangManager.text(LangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_CONTACT_ADMIN, getViewerLocale()))
                 .hideAllFlags()
                 .build());
         setItem(22, createIslandInfo);
@@ -320,8 +320,8 @@ public class IslandMainGui extends BaseGui {
      * 멤버 관�??�이??     */
     private GuiItem createMemberManagementItem() {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.PLAYER_HEAD, getViewerLocale())
-                        .displayNameTranslated("items.island.member.invite.name")
+                ItemBuilder.of(Material.PLAYER_HEAD)
+                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MEMBER_INVITE_NAME, getViewerLocale()))
                         .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MEMBER_INVITE_LORE, viewer))
                         .hideAllFlags()
                         .build(),
@@ -337,8 +337,8 @@ public class IslandMainGui extends BaseGui {
      * 권한 관�??�이??     */
     private GuiItem createPermissionManagementItem() {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.COMMAND_BLOCK, getViewerLocale())
-                        .displayNameTranslated("items.island.member.permission.name")
+                ItemBuilder.of(Material.COMMAND_BLOCK)
+                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MEMBER_PERMISSION_NAME, getViewerLocale()))
                         .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MEMBER_PERMISSION_LORE, viewer))
                         .hideAllFlags()
                         .build(),
@@ -355,8 +355,8 @@ public class IslandMainGui extends BaseGui {
      * ?�그?�이???�이??     */
     private GuiItem createUpgradeItem() {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.ANVIL, getViewerLocale())
-                        .displayNameTranslated("items.island.main.upgrade-info.name")
+                ItemBuilder.of(Material.ANVIL)
+                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MAIN_UPGRADE_INFO_NAME, getViewerLocale()))
                         .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MAIN_UPGRADE_INFO_LORE, viewer))
                         .hideAllFlags()
                         .build(),
@@ -374,8 +374,8 @@ public class IslandMainGui extends BaseGui {
         long myContribution = island.membership().contributions().getOrDefault(viewer.getUniqueId().toString(), 0L);
         
         return GuiItem.clickable(
-                ItemBuilder.of(Material.EMERALD, getViewerLocale())
-                        .displayNameTranslated("items.island.main.contribution-info.name")
+                ItemBuilder.of(Material.EMERALD)
+                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MAIN_CONTRIBUTION_INFO_NAME, getViewerLocale()))
                         .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MAIN_CONTRIBUTION_INFO_LORE, viewer))
                         .hideAllFlags()
                         .build(),
@@ -390,8 +390,8 @@ public class IslandMainGui extends BaseGui {
      * ?�폰 ?�정 ?�이??     */
     private GuiItem createSpawnSettingsItem() {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.ENDER_PEARL, getViewerLocale())
-                        .displayNameTranslated("items.island.spawn.current-info.name")
+                ItemBuilder.of(Material.ENDER_PEARL)
+                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_SPAWN_CURRENT_INFO_NAME, getViewerLocale()))
                         .addLore(LangManager.list(LangKey.ITEMS_ISLAND_SPAWN_CURRENT_INFO_LORE, viewer))
                         .hideAllFlags()
                         .build(),
@@ -407,8 +407,8 @@ public class IslandMainGui extends BaseGui {
      * ???�정 ?�이??     */
     private GuiItem createIslandSettingsItem() {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.COMPARATOR, getViewerLocale())
-                        .displayNameTranslated("items.island.main.island-settings.name")
+                ItemBuilder.of(Material.COMPARATOR)
+                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MAIN_ISLAND_SETTINGS_NAME, getViewerLocale()))
                         .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MAIN_ISLAND_SETTINGS_LORE, viewer))
                         .hideAllFlags()
                         .build(),
@@ -429,8 +429,8 @@ public class IslandMainGui extends BaseGui {
                 .size() : 0;
         
         return GuiItem.clickable(
-                ItemBuilder.of(Material.BOOK, getViewerLocale())
-                        .displayNameTranslated("items.island.main.visitor.name")
+                ItemBuilder.of(Material.BOOK)
+                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MAIN_VISITOR_NAME, getViewerLocale()))
                         .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MAIN_VISITOR_LORE, viewer))
                         .hideAllFlags()
                         .build(),
@@ -446,8 +446,8 @@ public class IslandMainGui extends BaseGui {
      * 바이??변�??�이??     */
     private GuiItem createBiomeChangeItem() {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.GRASS_BLOCK, getViewerLocale())
-                        .displayNameTranslated("items.island.main.biome-change.name")
+                ItemBuilder.of(Material.GRASS_BLOCK)
+                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MAIN_BIOME_CHANGE_NAME, getViewerLocale()))
                         .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MAIN_BIOME_CHANGE_LORE, viewer))
                         .hideAllFlags()
                         .build(),
@@ -466,8 +466,8 @@ public class IslandMainGui extends BaseGui {
      * ?�프 ?�이??     */
     private GuiItem createWarpItem() {
         return GuiItem.clickable(
-                ItemBuilder.of(Material.COMPASS, getViewerLocale())
-                        .displayNameTranslated("items.island.main.warp.name")
+                ItemBuilder.of(Material.COMPASS)
+                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MAIN_WARP_NAME, getViewerLocale()))
                         .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MAIN_WARP_LORE, viewer))
                         .hideAllFlags()
                         .build(),

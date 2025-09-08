@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * 일일 제작 - 일일 퀘스트
@@ -41,8 +42,8 @@ public class DailyCraftingQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.DAILY_CRAFTING)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("blacksmith", "daily_blacksmith"), // 대장장이
+                .objectives(List.of(
+                        new InteractNPCObjective("blacksmith", "daily_blacksmith", 1), // 대장장이
                         // 기본 도구 제작
                         new CraftItemObjective("craft_wood_tools", Material.WOODEN_PICKAXE, 3),
                         new CraftItemObjective("craft_stone_tools", Material.STONE_SWORD, 5),
@@ -61,7 +62,7 @@ public class DailyCraftingQuest extends Quest {
                         // 전달
                         new DeliverItemObjective("deliver_tools", "blacksmith", Material.IRON_AXE, 2),
                         new DeliverItemObjective("deliver_armor", "blacksmith", Material.LEATHER_CHESTPLATE, 3),
-                        new InteractNPCObjective("report_complete", "daily_blacksmith")
+                        new InteractNPCObjective("report_complete", "daily_blacksmith", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 600)
@@ -91,10 +92,26 @@ public class DailyCraftingQuest extends Quest {
         return LangManager.list(LangKey.QUEST_DAILY_CRAFTING_INFO, who);
     }
 
-    @Override
+        @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.daily.crafting.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "blacksmith" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_BLACKSMITH, who);
+            case "craft_wood_tools" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_WOOD_TOOLS, who);
+            case "craft_stone_tools" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_STONE_TOOLS, who);
+            case "craft_iron_tools" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_IRON_TOOLS, who);
+            case "craft_leather_armor" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_LEATHER_ARMOR, who);
+            case "craft_chainmail" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_CHAINMAIL, who);
+            case "craft_furnace" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_FURNACE, who);
+            case "craft_chest" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_CHEST, who);
+            case "craft_torches" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_TORCHES, who);
+            case "craft_ladder" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_LADDER, who);
+            case "craft_bread" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_BREAD, who);
+            case "craft_cookies" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_COOKIES, who);
+            case "deliver_tools" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_DELIVER_TOOLS, who);
+            case "deliver_armor" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_DELIVER_ARMOR, who);
+            case "report_complete" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_REPORT_COMPLETE, who);
+            default -> new ArrayList<>();
+        };
     }
 
     @Override
@@ -102,9 +119,14 @@ public class DailyCraftingQuest extends Quest {
         return 8;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_DAILY_CRAFTING_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_DAILY_CRAFTING_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

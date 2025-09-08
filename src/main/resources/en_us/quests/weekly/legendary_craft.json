@@ -1,4 +1,23 @@
 {
   "name": "Weekly Legendary Crafting",
-  "dialogs": []
+  "info": "Craft a legendary item using rare materials available this week.",
+  "objectives": {
+    "gather_essence": "Gather 5 legendary essences",
+    "collect_materials": "Collect rare crafting materials",
+    "find_blueprint": "Find the weekly legendary blueprint",
+    "prepare_forge": "Prepare the ancient forge",
+    "craft_legendary": "Craft the legendary item"
+  },
+  "dialogs": [
+    "Master crafter! A new legendary blueprint has been discovered.",
+    "This week's design requires the rarest of materials.",
+    "Only a true master can forge such powerful equipment.",
+    "The ancient forge must be prepared with special rituals.",
+    "Many have tried and failed to complete this craft.",
+    "Success will grant you fame throughout the realm.",
+    "Do you have the skill to create a legend?"
+  ],
+  "npc_name": "Master Artificer",
+  "accept": "I'll craft it!",
+  "decline": "Beyond my skill."
 }

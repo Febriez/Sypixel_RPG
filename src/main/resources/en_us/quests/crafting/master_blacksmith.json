@@ -1,6 +1,28 @@
 {
   "name": "Master Blacksmith's Legacy",
   "info": "Learn the ancient art of legendary weapon crafting.",
+  "objectives": {
+    "blacksmith_master": "Meet the blacksmith master",
+    "mine_iron": "Mine 30 iron ore blocks",
+    "mine_gold": "Mine 20 gold ore blocks",
+    "mine_diamond": "Mine 10 diamond ore blocks",
+    "gather_coal": "Gather 64 coal",
+    "smelt_iron": "Smelt 30 iron ingots",
+    "smelt_gold": "Smelt 20 gold ingots",
+    "gather_diamonds": "Gather 10 diamonds",
+    "setup_anvil": "Place an anvil",
+    "setup_furnace": "Place a blast furnace",
+    "craft_iron_tools": "Craft 5 iron pickaxes",
+    "craft_iron_armor": "Craft 3 iron chestplates",
+    "craft_diamond_sword": "Craft 2 diamond swords",
+    "craft_diamond_armor": "Craft 1 diamond chestplate",
+    "setup_enchanting": "Place an enchanting table",
+    "enchanted_sword": "Obtain an enchanted diamond sword",
+    "netherite_scrap": "Collect 4 netherite scraps",
+    "craft_netherite": "Craft 1 netherite ingot",
+    "masterpiece": "Craft a netherite sword",
+    "deliver_masterpiece": "Deliver the masterpiece to the blacksmith"
+  },
   "dialogs": [
     "You want to learn the secrets of legendary crafting?",
     "It took me decades to master these techniques.",

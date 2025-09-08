@@ -42,14 +42,14 @@ public class AlchemistExperimentQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_ALCHEMIST_EXPERIMENT)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("mad_alchemist", "mad_alchemist"),
+                .objectives(List.of(
+                        new InteractNPCObjective("mad_alchemist", "mad_alchemist", 1),
                         new VisitLocationObjective("alchemy_lab", "alchemy_lab_area"),
                         new CollectItemObjective("rare_reagents", Material.BLAZE_POWDER, 10),
                         new CollectItemObjective("dragon_scales", Material.SHULKER_SHELL, 5),
                         new KillMobObjective("kill_witches", EntityType.WITCH, 8),
                         new CollectItemObjective("philosopher_stone", Material.NETHER_STAR, 1),
-                        new InteractNPCObjective("mad_alchemist_complete", "mad_alchemist")
+                        new InteractNPCObjective("mad_alchemist_complete", "mad_alchemist", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 1100)
@@ -74,7 +74,16 @@ public class AlchemistExperimentQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.alchemist_experiment.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "mad_alchemist" -> LangManager.list(LangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_MAD_ALCHEMIST, who);
+            case "alchemy_lab" -> LangManager.list(LangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_ALCHEMY_LAB, who);
+            case "rare_reagents" -> LangManager.list(LangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_RARE_REAGENTS, who);
+            case "dragon_scales" -> LangManager.list(LangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_DRAGON_SCALES, who);
+            case "kill_witches" -> LangManager.list(LangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_KILL_WITCHES, who);
+            case "philosopher_stone" -> LangManager.list(LangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_PHILOSOPHER_STONE, who);
+            case "mad_alchemist_complete" -> LangManager.list(LangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_MAD_ALCHEMIST_COMPLETE, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
     
     @Override
@@ -82,9 +91,14 @@ public class AlchemistExperimentQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

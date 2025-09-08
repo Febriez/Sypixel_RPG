@@ -42,9 +42,9 @@ public class DragonAwakeningQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_DRAGON_AWAKENING)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         // 전설 조사
-                        new InteractNPCObjective("dragon_sage", "dragon_sage"), // 용의 현자
+                        new InteractNPCObjective("dragon_sage", "dragon_sage", 1), // 용의 현자
                         new CollectItemObjective("ancient_scrolls", Material.WRITTEN_BOOK, 5),
                         new VisitLocationObjective("ancient_library", "dragon_library"),
                         new CollectItemObjective("dragon_lore", Material.ENCHANTED_BOOK, 3),
@@ -83,7 +83,7 @@ public class DragonAwakeningQuest extends Quest {
                         new VisitLocationObjective("inner_lair", "dragon_inner_lair"),
                         
                         // 용과의 만남
-                        new InteractNPCObjective("sleeping_dragon", "ancient_dragon"), // 잠든 고대 용
+                        new InteractNPCObjective("sleeping_dragon", "ancient_dragon", 1), // 잠든 고대 용
                         new CollectItemObjective("dragon_egg", Material.DRAGON_EGG, 1),
                         new DeliverItemObjective("offer_treasures", "sleeping_dragon", Material.DIAMOND_BLOCK, 10),
                         
@@ -91,7 +91,7 @@ public class DragonAwakeningQuest extends Quest {
                         new KillMobObjective("dragon_test", EntityType.ENDER_DRAGON, 1),
                         
                         // 동맹 체결
-                        new InteractNPCObjective("dragon_pact", "ancient_dragon"),
+                        new InteractNPCObjective("dragon_pact", "ancient_dragon", 1),
                         new CollectItemObjective("dragon_heart", Material.NETHER_STAR, 1),
                         new CollectItemObjective("pact_scroll", Material.WRITTEN_BOOK, 1),
                         new DeliverItemObjective("complete_pact", "dragon_sage", Material.WRITTEN_BOOK, 1)
@@ -126,8 +126,42 @@ public class DragonAwakeningQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-        return LangManager.get("quest.main.dragon_awakening.objectives." + id, who);
+        return switch (objective.getId()) {
+            case "dragon_sage" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_SAGE, who);
+            case "ancient_scrolls" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_ANCIENT_SCROLLS, who);
+            case "ancient_library" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_ANCIENT_LIBRARY, who);
+            case "dragon_lore" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_LORE, who);
+            case "mountain_peak" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_MOUNTAIN_PEAK, who);
+            case "clear_path" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_CLEAR_PATH, who);
+            case "mountain_guardians" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_MOUNTAIN_GUARDIANS, who);
+            case "dragon_shrine" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_SHRINE, who);
+            case "dragon_tears" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_TEARS, who);
+            case "ancient_gold" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_ANCIENT_GOLD, who);
+            case "emerald_offering" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_EMERALD_OFFERING, who);
+            case "dragon_breath" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_BREATH, who);
+            case "place_gold" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_PLACE_GOLD, who);
+            case "place_emerald" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_PLACE_EMERALD, who);
+            case "ritual_catalyst" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_RITUAL_CATALYST, who);
+            case "place_obsidian" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_PLACE_OBSIDIAN, who);
+            case "ritual_duration" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_RITUAL_DURATION, who);
+            case "flame_dragons" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_FLAME_DRAGONS, who);
+            case "dragon_priests" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_PRIESTS, who);
+            case "dragon_scales" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_SCALES, who);
+            case "dragon_bones" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_BONES, who);
+            case "dragon_lair_entrance" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_LAIR_ENTRANCE, who);
+            case "lair_guardians" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_LAIR_GUARDIANS, who);
+            case "lair_key" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_LAIR_KEY, who);
+            case "inner_lair" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_INNER_LAIR, who);
+            case "sleeping_dragon" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_SLEEPING_DRAGON, who);
+            case "dragon_egg" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_EGG, who);
+            case "offer_treasures" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_OFFER_TREASURES, who);
+            case "dragon_test" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_TEST, who);
+            case "dragon_pact" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_PACT, who);
+            case "dragon_heart" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_HEART, who);
+            case "pact_scroll" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_PACT_SCROLL, who);
+            case "complete_pact" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_COMPLETE_PACT, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -135,9 +169,14 @@ public class DragonAwakeningQuest extends Quest {
         return 12;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_DRAGON_AWAKENING_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_DRAGON_AWAKENING_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

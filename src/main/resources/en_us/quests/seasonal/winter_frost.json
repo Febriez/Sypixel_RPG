@@ -1,5 +1,31 @@
 {
   "name": "Winter Frost Festival",
+  "info": "Celebrate winter's beauty by creating ice decorations, sculptures, and bringing warmth to the cold season.",
+  "npc_name": "Winter Festival Host",
+  "accept": "I'd be delighted to help with the winter festivities!",
+  "decline": "The cold weather is too much for me right now.",
+  "objectives": [
+    {
+      "id": "gather_unique_snowflakes",
+      "description": "Collect the most beautiful and unique snowflakes"
+    },
+    {
+      "id": "collect_crystal_icicles",
+      "description": "Gather crystal-clear icicles for festival decorations"
+    },
+    {
+      "id": "create_ice_sculptures",
+      "description": "Create masterpiece ice sculptures capturing winter's beauty"
+    },
+    {
+      "id": "prepare_hot_cocoa",
+      "description": "Prepare warm hot cocoa to bring warmth to the cold season"
+    },
+    {
+      "id": "spread_winter_warmth",
+      "description": "Help the festival radiate warmth and community spirit"
+    }
+  ],
   "dialogs": [
     "Winter's icy embrace has arrived! Will you help us celebrate the season of frost?",
     "Each snowflake is unique, just like our community. Please gather the most beautiful ones!",

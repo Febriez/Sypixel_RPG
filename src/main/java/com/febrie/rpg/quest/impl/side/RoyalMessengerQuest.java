@@ -45,14 +45,14 @@ public class RoyalMessengerQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_ROYAL_MESSENGER)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_royal_courier", "royal_courier"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_royal_courier", "royal_courier", 1),
                         new CollectItemObjective("collect_royal_seal", Material.EMERALD, 1),
                         new VisitLocationObjective("visit_northern_outpost", "northern_outpost"),
                         new KillMobObjective("kill_bandits", EntityType.PILLAGER, 15), // Using PILLAGER instead of BANDIT
                         new CollectItemObjective("collect_urgent_message", Material.PAPER, 1),
                         new VisitLocationObjective("visit_royal_castle", "royal_castle"),
-                        new InteractNPCObjective("talk_castle_guard", "castle_guard")
+                        new InteractNPCObjective("talk_castle_guard", "castle_guard", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addExperience(3000)
@@ -77,8 +77,16 @@ public class RoyalMessengerQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.side.royal_messenger.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "talk_royal_courier" -> LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_TALK_ROYAL_COURIER, who);
+            case "collect_royal_seal" -> LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_COLLECT_ROYAL_SEAL, who);
+            case "visit_northern_outpost" -> LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_VISIT_NORTHERN_OUTPOST, who);
+            case "kill_bandits" -> LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_KILL_BANDITS, who);
+            case "collect_urgent_message" -> LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_COLLECT_URGENT_MESSAGE, who);
+            case "visit_royal_castle" -> LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_VISIT_ROYAL_CASTLE, who);
+            case "talk_castle_guard" -> LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_TALK_CASTLE_GUARD, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -86,9 +94,14 @@ public class RoyalMessengerQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_ROYAL_MESSENGER_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

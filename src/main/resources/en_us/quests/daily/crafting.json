@@ -1,6 +1,23 @@
 {
   "name": "Daily Crafting",
   "info": "Practice your crafting skills by creating useful items for the community. Complete today's crafting challenges to improve your abilities and earn rewards.",
+  "objectives": {
+    "blacksmith": "Talk to the blacksmith",
+    "craft_wood_tools": "Craft 3 wooden pickaxes",
+    "craft_stone_tools": "Craft 5 stone swords",
+    "craft_iron_tools": "Craft 2 iron axes",
+    "craft_leather_armor": "Craft 3 leather chestplates",
+    "craft_chainmail": "Craft 1 chainmail helmet",
+    "craft_furnace": "Craft 5 furnaces",
+    "craft_chest": "Craft 10 chests",
+    "craft_torches": "Craft 64 torches",
+    "craft_ladder": "Craft 20 ladders",
+    "craft_bread": "Craft 20 bread",
+    "craft_cookies": "Craft 32 cookies",
+    "deliver_tools": "Deliver 2 iron axes to blacksmith",
+    "deliver_armor": "Deliver 3 leather chestplates to blacksmith",
+    "report_complete": "Report completion to blacksmith"
+  },
   "dialogs": [
     "Ready for today's crafting challenge?",
     "The village always needs more quality goods.",

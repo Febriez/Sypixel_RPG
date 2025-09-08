@@ -126,5 +126,13 @@
   "commands_general": {
     "player_only": "이 명령어는 플레이어만 사용할 수 있습니다.",
     "unknown": "알 수 없는 명령어입니다."
+  },
+  "talent_cannot_learn": "[TRANSLATE: Cannot learn this talent!]",
+  "mailbox": {
+    "delete_confirm_word": "[TRANSLATE: DELETE]"
+  },
+  "error": {
+    "hub_world_not_found": "[TRANSLATE: Hub world not found! Please contact an administrator.]",
+    "friend_request_id_missing": "[TRANSLATE: Friend request ID is missing!]"
   }
 }

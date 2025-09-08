@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * 일일 채집 - 일일 퀘스트
@@ -39,9 +40,9 @@ public class DailyGatheringQuest extends Quest {
      * 퀘스트 빌더 생성 및 설정
      */
     private static QuestBuilder createBuilder() {
-        return new QuestBuilder().id(QuestID.DAILY_GATHERING).objectives(Arrays.asList(
+        return new QuestBuilder().id(QuestID.DAILY_GATHERING).objectives(List.of(
                         // 기본 자원 수집
-                        new InteractNPCObjective("meet_foreman", "gathering_foreman"), // 채집 감독관
+                        new InteractNPCObjective("meet_foreman", "gathering_foreman", 1), // 채집 감독관
                         new CollectItemObjective("gather_wood", Material.OAK_LOG, 32), new CollectItemObjective("gather_stone", Material.COBBLESTONE, 64), new CollectItemObjective("gather_coal", Material.COAL, 16),
 
                         // 광물 채굴
@@ -73,10 +74,24 @@ public class DailyGatheringQuest extends Quest {
         return LangManager.list(LangKey.QUEST_DAILY_GATHERING_INFO, who);
     }
 
-    @Override
+        @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.daily.gathering.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "meet_foreman" -> LangManager.list(LangKey.QUEST_DAILY_GATHERING_OBJECTIVES_MEET_FOREMAN, who);
+            case "gather_wood" -> LangManager.list(LangKey.QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_WOOD, who);
+            case "gather_stone" -> LangManager.list(LangKey.QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_STONE, who);
+            case "gather_coal" -> LangManager.list(LangKey.QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_COAL, who);
+            case "mine_iron" -> LangManager.list(LangKey.QUEST_DAILY_GATHERING_OBJECTIVES_MINE_IRON, who);
+            case "mine_gold" -> LangManager.list(LangKey.QUEST_DAILY_GATHERING_OBJECTIVES_MINE_GOLD, who);
+            case "gather_iron" -> LangManager.list(LangKey.QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_IRON, who);
+            case "harvest_crops" -> LangManager.list(LangKey.QUEST_DAILY_GATHERING_OBJECTIVES_HARVEST_CROPS, who);
+            case "gather_wheat" -> LangManager.list(LangKey.QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_WHEAT, who);
+            case "gather_carrots" -> LangManager.list(LangKey.QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_CARROTS, who);
+            case "gather_flowers" -> LangManager.list(LangKey.QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_FLOWERS, who);
+            case "gather_saplings" -> LangManager.list(LangKey.QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_SAPLINGS, who);
+            case "deliver_resources" -> LangManager.list(LangKey.QUEST_DAILY_GATHERING_OBJECTIVES_DELIVER_RESOURCES, who);
+            default -> new ArrayList<>();
+        };
     }
 
     @Override
@@ -84,9 +99,14 @@ public class DailyGatheringQuest extends Quest {
         return 7;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_DAILY_GATHERING_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_DAILY_GATHERING_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

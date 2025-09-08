@@ -1,6 +1,14 @@
 {
   "name": "Cure for the Children",
   "info": "Help the healer gather ingredients for a cure.",
+  "objectives": {
+    "village_healer": "Talk to the village healer",
+    "herb_garden": "Visit the herb garden",
+    "healing_herbs": "Gather 15 healing herbs",
+    "holy_water": "Collect 5 holy water",
+    "deliver_medicine": "Deliver medicine to patients",
+    "report_healer": "Report to the healer"
+  },
   "dialogs": [
     "A strange illness has struck the village children!",
     "I need rare ingredients to make the cure.",

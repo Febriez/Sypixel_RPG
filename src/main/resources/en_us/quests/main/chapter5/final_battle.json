@@ -1,6 +1,17 @@
 {
   "name": "Final Battle",
   "info": "The moment of ultimate destiny has arrived. Light and darkness clash in the most epic confrontation Lead the combined forces of all realms into the decisive battle that will determine the fate of existence itself.",
+  "objectives": {
+    "chosen_champion": "Speak with the Chosen Champion",
+    "battlefield_gates": "Enter the Battlefield Gates",
+    "kill_withers": "Defeat the Withers",
+    "heart_of_darkness": "Collect Heart of Darkness",
+    "kill_ender_dragon": "Defeat the Ender Dragon",
+    "dragon_essence": "Collect Dragon Essence",
+    "void_nexus": "Enter the Void Nexus",
+    "kill_endermen": "Defeat the Endermen",
+    "ancient_oracle": "Speak with the Ancient Oracle"
+  },
   "dialogs": [
     "This is it, the final battle between light and darkness. Are you ready?",
     "I have prepared my whole life for this moment. Let us end this war!",

@@ -41,16 +41,16 @@ public class NewEraQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_NEW_ERA)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("kingdom_herald", "kingdom_herald"),
+                .objectives(List.of(
+                        new InteractNPCObjective("kingdom_herald", "kingdom_herald", 1),
                         new VisitLocationObjective("new_capital", "new_capital_area"),
                         new CollectItemObjective("foundation_stone", Material.SMOOTH_STONE, 25),
                         new VisitLocationObjective("unity_plaza", "unity_plaza_area"),
                         new CollectItemObjective("peace_treaty", Material.PAPER, 5),
-                        new InteractNPCObjective("peace_ambassador", "peace_ambassador"),
+                        new InteractNPCObjective("peace_ambassador", "peace_ambassador", 1),
                         new CollectItemObjective("prosperity_crystal", Material.EMERALD, 20),
                         new VisitLocationObjective("harmony_gardens", "harmony_gardens_area"),
-                        new InteractNPCObjective("era_chronicler", "era_chronicler")
+                        new InteractNPCObjective("era_chronicler", "era_chronicler", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 15000)
@@ -77,7 +77,18 @@ public class NewEraQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.main.new_era.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "kingdom_herald" -> LangManager.list(LangKey.QUEST_MAIN_NEW_ERA_OBJECTIVES_KINGDOM_HERALD, who);
+            case "new_capital" -> LangManager.list(LangKey.QUEST_MAIN_NEW_ERA_OBJECTIVES_NEW_CAPITAL, who);
+            case "foundation_stone" -> LangManager.list(LangKey.QUEST_MAIN_NEW_ERA_OBJECTIVES_FOUNDATION_STONE, who);
+            case "unity_plaza" -> LangManager.list(LangKey.QUEST_MAIN_NEW_ERA_OBJECTIVES_UNITY_PLAZA, who);
+            case "peace_treaty" -> LangManager.list(LangKey.QUEST_MAIN_NEW_ERA_OBJECTIVES_PEACE_TREATY, who);
+            case "peace_ambassador" -> LangManager.list(LangKey.QUEST_MAIN_NEW_ERA_OBJECTIVES_PEACE_AMBASSADOR, who);
+            case "prosperity_crystal" -> LangManager.list(LangKey.QUEST_MAIN_NEW_ERA_OBJECTIVES_PROSPERITY_CRYSTAL, who);
+            case "harmony_gardens" -> LangManager.list(LangKey.QUEST_MAIN_NEW_ERA_OBJECTIVES_HARMONY_GARDENS, who);
+            case "era_chronicler" -> LangManager.list(LangKey.QUEST_MAIN_NEW_ERA_OBJECTIVES_ERA_CHRONICLER, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
     
     @Override
@@ -85,9 +96,14 @@ public class NewEraQuest extends Quest {
         return 5;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_NEW_ERA_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_NEW_ERA_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

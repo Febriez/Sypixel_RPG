@@ -42,8 +42,8 @@ public class RestorationQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_RESTORATION)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("restoration_overseer", "restoration_overseer"),
+                .objectives(List.of(
+                        new InteractNPCObjective("restoration_overseer", "restoration_overseer", 1),
                         new VisitLocationObjective("scarred_lands", "scarred_lands_area"),
                         new CollectItemObjective("healing_herbs", Material.SWEET_BERRIES, 100),
                         new CollectItemObjective("fertile_soil", Material.DIRT, 200),
@@ -51,7 +51,7 @@ public class RestorationQuest extends Quest {
                         new CollectItemObjective("purification_crystal", Material.PRISMARINE_CRYSTALS, 15),
                         new KillMobObjective("kill_zombies", EntityType.ZOMBIE, 40),
                         new VisitLocationObjective("renewal_grove", "renewal_grove_area"),
-                        new InteractNPCObjective("nature_guardian", "nature_guardian")
+                        new InteractNPCObjective("nature_guardian", "nature_guardian", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 20000)
@@ -78,7 +78,18 @@ public class RestorationQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.main.restoration.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "restoration_overseer" -> LangManager.list(LangKey.QUEST_MAIN_RESTORATION_OBJECTIVES_RESTORATION_OVERSEER, who);
+            case "scarred_lands" -> LangManager.list(LangKey.QUEST_MAIN_RESTORATION_OBJECTIVES_SCARRED_LANDS, who);
+            case "healing_herbs" -> LangManager.list(LangKey.QUEST_MAIN_RESTORATION_OBJECTIVES_HEALING_HERBS, who);
+            case "fertile_soil" -> LangManager.list(LangKey.QUEST_MAIN_RESTORATION_OBJECTIVES_FERTILE_SOIL, who);
+            case "poisoned_springs" -> LangManager.list(LangKey.QUEST_MAIN_RESTORATION_OBJECTIVES_POISONED_SPRINGS, who);
+            case "purification_crystal" -> LangManager.list(LangKey.QUEST_MAIN_RESTORATION_OBJECTIVES_PURIFICATION_CRYSTAL, who);
+            case "kill_zombies" -> LangManager.list(LangKey.QUEST_MAIN_RESTORATION_OBJECTIVES_KILL_ZOMBIES, who);
+            case "renewal_grove" -> LangManager.list(LangKey.QUEST_MAIN_RESTORATION_OBJECTIVES_RENEWAL_GROVE, who);
+            case "nature_guardian" -> LangManager.list(LangKey.QUEST_MAIN_RESTORATION_OBJECTIVES_NATURE_GUARDIAN, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
     
     @Override
@@ -86,9 +97,14 @@ public class RestorationQuest extends Quest {
         return 5;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_RESTORATION_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_RESTORATION_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

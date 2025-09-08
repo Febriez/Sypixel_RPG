@@ -45,14 +45,14 @@ public class InnkeeperTroubleQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_INNKEEPER_TROUBLE)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_worried_innkeeper", "worried_innkeeper"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_worried_innkeeper", "worried_innkeeper", 1),
                         new VisitLocationObjective("visit_inn_basement", "inn_basement"),
                         new KillMobObjective("kill_spiders", EntityType.SPIDER, 12),
                         new CollectItemObjective("collect_inn_supplies", Material.BREAD, 20),
                         new CollectItemObjective("collect_ale_barrels", Material.BARREL, 3),
                         new VisitLocationObjective("visit_storage_room", "storage_room"),
-                        new InteractNPCObjective("return_worried_innkeeper", "worried_innkeeper")
+                        new InteractNPCObjective("return_worried_innkeeper", "worried_innkeeper", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addExperience(1000)
@@ -77,7 +77,16 @@ public class InnkeeperTroubleQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.innkeeper_trouble.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "talk_worried_innkeeper" -> LangManager.list(LangKey.QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_TALK_WORRIED_INNKEEPER, who);
+            case "visit_inn_basement" -> LangManager.list(LangKey.QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_VISIT_INN_BASEMENT, who);
+            case "kill_spiders" -> LangManager.list(LangKey.QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_KILL_SPIDERS, who);
+            case "collect_inn_supplies" -> LangManager.list(LangKey.QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_COLLECT_INN_SUPPLIES, who);
+            case "collect_ale_barrels" -> LangManager.list(LangKey.QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_COLLECT_ALE_BARRELS, who);
+            case "visit_storage_room" -> LangManager.list(LangKey.QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_VISIT_STORAGE_ROOM, who);
+            case "return_worried_innkeeper" -> LangManager.list(LangKey.QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_RETURN_WORRIED_INNKEEPER, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -85,9 +94,14 @@ public class InnkeeperTroubleQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_INNKEEPER_TROUBLE_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_INNKEEPER_TROUBLE_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

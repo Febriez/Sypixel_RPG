@@ -1,6 +1,15 @@
 {
   "name": "Corrupted Lands",
   "info": "The corruption has spread across vast regions, turning fertile lands into twisted wastelands. Venture into these corrupted territories and find a way to cleanse them of the dark influence.",
+  "objectives": {
+    "druid_elder": "Meet with the druid elder",
+    "corrupted_grove": "Visit the corrupted grove",
+    "kill_zombies": "Kill 20 zombies",
+    "kill_skeletons": "Kill 15 skeletons",
+    "corrupted_essence": "Collect 8 corrupted essence",
+    "cleansing_shrine": "Visit the cleansing shrine",
+    "nature_guardian": "Speak with the nature guardian"
+  },
   "dialogs": [
     "The corruption spreads like a plague across our lands.",
     "Ancient forests have become twisted mockeries of their former beauty.",

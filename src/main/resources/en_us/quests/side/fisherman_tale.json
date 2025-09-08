@@ -1,6 +1,13 @@
 {
   "name": "Sea Serpent Hunt",
   "info": "Investigate the fisherman's tale of a sea monster.",
+  "objectives": {
+    "old_fisherman": "Talk to the old fisherman",
+    "fishing_spot": "Go to the fishing spot",
+    "catch_fish": "Catch 20 fish",
+    "legendary_fish": "Catch a legendary fish",
+    "return_fisherman": "Return to the fisherman"
+  },
   "dialogs": [
     "I saw it with my own eyes! A massive sea serpent!",
     "No one believes me, but it destroyed my boat!",

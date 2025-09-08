@@ -42,9 +42,9 @@ public class RealmPortalQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_REALM_PORTAL)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         // 차원 연구
-                        new InteractNPCObjective("dimension_scholar", "dimension_scholar"),
+                        new InteractNPCObjective("dimension_scholar", "dimension_scholar", 1),
                         new CollectItemObjective("ancient_texts", Material.WRITTEN_BOOK, 10),
                         new VisitLocationObjective("observatory", "dimensional_observatory"),
                         new CollectItemObjective("star_charts", Material.MAP, 5),
@@ -57,7 +57,7 @@ public class RealmPortalQuest extends Quest {
                         new CollectItemObjective("end_crystals", Material.END_CRYSTAL, 8),
                         
                         // 차원 키 제작
-                        new InteractNPCObjective("portal_smith", "portal_smith"),
+                        new InteractNPCObjective("portal_smith", "portal_smith", 1),
                         new CollectItemObjective("void_essence", Material.ENDER_EYE, 16),
                         new CollectItemObjective("dimensional_shards", Material.PRISMARINE_SHARD, 64),
                         new DeliverItemObjective("forge_key", "portal_smith", Material.NETHER_STAR, 1),
@@ -75,7 +75,7 @@ public class RealmPortalQuest extends Quest {
                         new SurviveObjective("stabilization", 600), // 10분
                         
                         // 포탈 활성화
-                        new InteractNPCObjective("portal_activator", "dimension_scholar"),
+                        new InteractNPCObjective("portal_activator", "dimension_scholar", 1),
                         new CollectItemObjective("activation_catalyst", Material.DRAGON_BREATH, 5),
                         new PlaceBlockObjective("activate_portal", Material.END_PORTAL_FRAME, 12),
                         new CollectItemObjective("portal_key", Material.END_PORTAL, 1),
@@ -120,8 +120,41 @@ public class RealmPortalQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-        return LangManager.get("quest.main.realm_portal.objectives." + id, who);
+        return switch (objective.getId()) {
+            case "dimension_scholar" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_DIMENSION_SCHOLAR, who);
+            case "ancient_texts" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_ANCIENT_TEXTS, who);
+            case "observatory" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_OBSERVATORY, who);
+            case "star_charts" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_STAR_CHARTS, who);
+            case "obsidian_blocks" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_OBSIDIAN_BLOCKS, who);
+            case "ender_pearls" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_ENDER_PEARLS, who);
+            case "blaze_powder" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_BLAZE_POWDER, who);
+            case "chorus_fruit" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_CHORUS_FRUIT, who);
+            case "end_crystals" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_END_CRYSTALS, who);
+            case "portal_smith" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_PORTAL_SMITH, who);
+            case "void_essence" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_VOID_ESSENCE, who);
+            case "dimensional_shards" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_DIMENSIONAL_SHARDS, who);
+            case "forge_key" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_FORGE_KEY, who);
+            case "portal_site" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_PORTAL_SITE, who);
+            case "place_obsidian_frame" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_PLACE_OBSIDIAN_FRAME, who);
+            case "place_end_rods" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_PLACE_END_RODS, who);
+            case "place_beacons" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_PLACE_BEACONS, who);
+            case "void_creatures" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_VOID_CREATURES, who);
+            case "dimensional_rifts" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_DIMENSIONAL_RIFTS, who);
+            case "stability_cores" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_STABILITY_CORES, who);
+            case "stabilization" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_STABILIZATION, who);
+            case "portal_activator" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_PORTAL_ACTIVATOR, who);
+            case "activation_catalyst" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_ACTIVATION_CATALYST, who);
+            case "activate_portal" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_ACTIVATE_PORTAL, who);
+            case "portal_key" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_PORTAL_KEY, who);
+            case "enter_portal" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_ENTER_PORTAL, who);
+            case "void_dimension" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_VOID_DIMENSION, who);
+            case "void_guardians" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_VOID_GUARDIANS, who);
+            case "dimension_proof" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_DIMENSION_PROOF, who);
+            case "return_portal" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_RETURN_PORTAL, who);
+            case "report_success" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_REPORT_SUCCESS, who);
+            case "realm_navigator" -> LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_OBJECTIVES_REALM_NAVIGATOR, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -129,9 +162,14 @@ public class RealmPortalQuest extends Quest {
         return 4;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_REALM_PORTAL_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_REALM_PORTAL_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

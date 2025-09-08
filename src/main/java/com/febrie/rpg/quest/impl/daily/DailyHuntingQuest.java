@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +43,7 @@ public class DailyHuntingQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.DAILY_HUNTING)
-                .objectives(Arrays.asList(new KillMobObjective("kill_zombies", EntityType.ZOMBIE, 20), new KillMobObjective("kill_skeletons", EntityType.SKELETON, 15), new KillMobObjective("kill_creepers", EntityType.CREEPER, 10)))
+                .objectives(List.of(new KillMobObjective("kill_zombies", EntityType.ZOMBIE, 20), new KillMobObjective("kill_skeletons", EntityType.SKELETON, 15), new KillMobObjective("kill_creepers", EntityType.CREEPER, 10)))
                 .reward(new BasicReward.Builder().addCurrency(CurrencyType.GOLD, 200)
                         .addItem(new ItemStack(Material.ARROW, 64)).addItem(new ItemStack(Material.COOKED_BEEF, 32))
                         .addExperience(150).build()).sequential(false)
@@ -62,13 +63,11 @@ public class DailyHuntingQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-
-        return switch (id) {
+        return switch (objective.getId()) {
             case "kill_zombies" -> LangManager.list(LangKey.QUEST_DAILY_HUNTING_OBJECTIVES_KILL_ZOMBIES, who);
             case "kill_skeletons" -> LangManager.list(LangKey.QUEST_DAILY_HUNTING_OBJECTIVES_KILL_SKELETONS, who);
             case "kill_creepers" -> LangManager.list(LangKey.QUEST_DAILY_HUNTING_OBJECTIVES_KILL_CREEPERS, who);
-            default -> LangManager.get("quest.daily.hunting.objectives." + id, who);
+            default -> new ArrayList<>();
         };
     }
     
@@ -78,8 +77,13 @@ public class DailyHuntingQuest extends Quest {
     }
     
     @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_DAILY_HUNTING_DIALOGS, who);
+    }
+    
+    @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_DAILY_HUNTING_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

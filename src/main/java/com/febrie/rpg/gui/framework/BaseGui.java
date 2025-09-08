@@ -380,7 +380,8 @@ public abstract class BaseGui implements InteractiveGui {
      */
     protected void sendMessage(@NotNull Player player, @NotNull String key, @NotNull String... args) {
         Component[] componentArgs = Arrays.stream(args).map(Component::text).toArray(Component[]::new);
-        player.sendMessage(LangManager.getComponent(key, player.locale(), (Object[]) componentArgs));
+        Component base = LangManager.textInternal(key, player.locale());
+        player.sendMessage(LangManager.replacePlaceholders(base, (Object[]) componentArgs));
     }
 
     // 사운드 재생 메소드들

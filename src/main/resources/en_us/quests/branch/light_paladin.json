@@ -1,6 +1,19 @@
 {
   "name": "Path of the Paladin",
   "info": "Embark on the sacred path to become a holy warrior.",
+  "objectives": {
+    "paladin_master": "Speak with the Paladin Master",
+    "holy_water": "Collect 10 vials of holy water",
+    "purge_undead": "Purge 50 undead creatures",
+    "purge_skeletons": "Purge 50 skeletons",
+    "holy_shrine": "Visit the holy shrine",
+    "meditation": "Meditate for spiritual strength",
+    "holy_sword": "Craft a blessed sword",
+    "build_altar": "Build an altar of light",
+    "defeat_darkness": "Defeat servants of darkness",
+    "light_essence": "Gather 30 light essence",
+    "oath_completion": "Complete your sacred oath"
+  },
   "dialogs": [
     "You seek the path of righteousness and light.",
     "The way of the Paladin is not easy, but it is noble.",

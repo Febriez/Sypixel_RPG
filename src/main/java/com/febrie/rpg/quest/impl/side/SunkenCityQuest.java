@@ -45,8 +45,8 @@ public class SunkenCityQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_SUNKEN_CITY)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("deep_sea_diver", "deep_sea_diver"),
+                .objectives(List.of(
+                        new InteractNPCObjective("deep_sea_diver", "deep_sea_diver", 1),
                         new VisitLocationObjective("underwater_ruins", "underwater_ruins"),
                         new KillMobObjective("kill_guardians", EntityType.GUARDIAN, 8),
                         new CollectItemObjective("sea_crystals", Material.PRISMARINE_CRYSTALS, 12),
@@ -75,8 +75,15 @@ public class SunkenCityQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.side.sunken_city.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "deep_sea_diver" -> LangManager.list(LangKey.QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_DEEP_SEA_DIVER, who);
+            case "underwater_ruins" -> LangManager.list(LangKey.QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_UNDERWATER_RUINS, who);
+            case "kill_guardians" -> LangManager.list(LangKey.QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_KILL_GUARDIANS, who);
+            case "sea_crystals" -> LangManager.list(LangKey.QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_SEA_CRYSTALS, who);
+            case "sunken_palace" -> LangManager.list(LangKey.QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_SUNKEN_PALACE, who);
+            case "atlantean_artifact" -> LangManager.list(LangKey.QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_ATLANTEAN_ARTIFACT, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -84,9 +91,14 @@ public class SunkenCityQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_SUNKEN_CITY_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_SUNKEN_CITY_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

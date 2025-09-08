@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * 일일 탐험 - 일일 퀘스트
@@ -42,9 +43,9 @@ public class DailyExplorationQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.DAILY_EXPLORATION)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         // 탐험 시작
-                        new InteractNPCObjective("explorer_guild", "explorer_guild_master"), // 탐험가 길드장
+                        new InteractNPCObjective("explorer_guild", "explorer_guild_master", 1), // 탐험가 길드장
                         new CollectItemObjective("prepare_supplies", Material.BREAD, 10),
                         new CollectItemObjective("prepare_torches", Material.TORCH, 32),
                         new CollectItemObjective("prepare_tools", Material.IRON_PICKAXE, 1),
@@ -94,7 +95,7 @@ public class DailyExplorationQuest extends Quest {
                         new DeliverItemObjective("deliver_relics", "explorer_guild", Material.GOLD_NUGGET, 15),
                         new DeliverItemObjective("deliver_maps", "explorer_guild", Material.FILLED_MAP, 5),
                         new DeliverItemObjective("deliver_report", "explorer_guild", Material.WRITTEN_BOOK, 1),
-                        new InteractNPCObjective("exploration_complete", "explorer_guild_master")
+                        new InteractNPCObjective("exploration_complete", "explorer_guild_master", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 3000)
@@ -125,10 +126,48 @@ public class DailyExplorationQuest extends Quest {
         return LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_INFO, who);
     }
 
-    @Override
+        @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.daily.exploration.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "explorer_guild" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_EXPLORER_GUILD, who);
+            case "prepare_supplies" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_PREPARE_SUPPLIES, who);
+            case "prepare_torches" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_PREPARE_TORCHES, who);
+            case "prepare_tools" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_PREPARE_TOOLS, who);
+            case "abandoned_mine" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_ABANDONED_MINE, who);
+            case "light_mine" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_LIGHT_MINE, who);
+            case "mine_ores" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_MINE_ORES, who);
+            case "find_relics" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_FIND_RELICS, who);
+            case "mine_creatures" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_MINE_CREATURES, who);
+            case "hidden_waterfall" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_HIDDEN_WATERFALL, who);
+            case "waterfall_treasure" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_WATERFALL_TREASURE, who);
+            case "waterfall_fishing" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_WATERFALL_FISHING, who);
+            case "rare_fish" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_RARE_FISH, who);
+            case "water_guardians" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_WATER_GUARDIANS, who);
+            case "ancient_ruins" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_ANCIENT_RUINS, who);
+            case "clear_rubble" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_CLEAR_RUBBLE, who);
+            case "ancient_pottery" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_ANCIENT_POTTERY, who);
+            case "temple_treasure" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_TEMPLE_TREASURE, who);
+            case "ruin_guardians" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_RUIN_GUARDIANS, who);
+            case "mystic_forest" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_MYSTIC_FOREST, who);
+            case "gather_herbs" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_GATHER_HERBS, who);
+            case "mystic_flowers" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_MYSTIC_FLOWERS, who);
+            case "magic_mushrooms" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_MAGIC_MUSHROOMS, who);
+            case "forest_spirits" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_FOREST_SPIRITS, who);
+            case "lava_cavern" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_LAVA_CAVERN, who);
+            case "build_bridge" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_BUILD_BRIDGE, who);
+            case "obsidian_shards" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_OBSIDIAN_SHARDS, who);
+            case "magma_cream" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_MAGMA_CREAM, who);
+            case "lava_creatures" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_LAVA_CREATURES, who);
+            case "heat_survival" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_HEAT_SURVIVAL, who);
+            case "create_maps" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_CREATE_MAPS, who);
+            case "mark_locations" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_MARK_LOCATIONS, who);
+            case "write_report" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_WRITE_REPORT, who);
+            case "deliver_relics" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_DELIVER_RELICS, who);
+            case "deliver_maps" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_DELIVER_MAPS, who);
+            case "deliver_report" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_DELIVER_REPORT, who);
+            case "exploration_complete" -> LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_OBJECTIVES_EXPLORATION_COMPLETE, who);
+            default -> new ArrayList<>();
+        };
     }
 
     @Override
@@ -136,9 +175,14 @@ public class DailyExplorationQuest extends Quest {
         return 10;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_DAILY_EXPLORATION_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_DAILY_EXPLORATION_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

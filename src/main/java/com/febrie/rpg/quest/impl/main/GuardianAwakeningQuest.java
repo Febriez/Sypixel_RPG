@@ -42,9 +42,9 @@ public class GuardianAwakeningQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_GUARDIAN_AWAKENING)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         // 고대 서적 발견
-                        new InteractNPCObjective("ancient_scholar", "ancient_scholar"), // 고대 학자
+                        new InteractNPCObjective("ancient_scholar", "ancient_scholar", 1), // 고대 학자
                         new VisitLocationObjective("library_archives", "ancient_library_archives"),
                         new CollectItemObjective("ancient_tome", Material.WRITTEN_BOOK, 3),
                         new CollectItemObjective("guardian_runes", Material.ENCHANTED_BOOK, 5),
@@ -69,7 +69,7 @@ public class GuardianAwakeningQuest extends Quest {
                         
                         // 수호자 각성
                         new VisitLocationObjective("inner_sanctum", "guardian_temple_sanctum"),
-                        new InteractNPCObjective("sleeping_guardian", "sleeping_guardian"), // 잠든 수호자
+                        new InteractNPCObjective("sleeping_guardian", "sleeping_guardian", 1), // 잠든 수호자
                         new DeliverItemObjective("offer_essences", "sleeping_guardian", Material.NETHER_STAR, 1),
                         
                         // 수호자의 시험
@@ -77,7 +77,7 @@ public class GuardianAwakeningQuest extends Quest {
                         // 수호자 선택은 NPC 대화로 처리
                         
                         // 수호자의 축복 받기
-                        new InteractNPCObjective("awakened_guardian", "awakened_guardian"),
+                        new InteractNPCObjective("awakened_guardian", "awakened_guardian", 1),
                         new CollectItemObjective("guardian_blessing", Material.BEACON, 1)
                 ))
                 .reward(new BasicReward.Builder()
@@ -108,8 +108,31 @@ public class GuardianAwakeningQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.main.guardian_awakening.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "ancient_scholar" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_ANCIENT_SCHOLAR, who);
+            case "library_archives" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_LIBRARY_ARCHIVES, who);
+            case "ancient_tome" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_ANCIENT_TOME, who);
+            case "guardian_runes" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_GUARDIAN_RUNES, who);
+            case "elemental_cores" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_ELEMENTAL_CORES, who);
+            case "fire_essence" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_FIRE_ESSENCE, who);
+            case "frost_spirits" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_FROST_SPIRITS, who);
+            case "ice_crystals" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_ICE_CRYSTALS, who);
+            case "earth_stones" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_EARTH_STONES, who);
+            case "wind_feathers" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_WIND_FEATHERS, who);
+            case "guardian_temple" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_GUARDIAN_TEMPLE, who);
+            case "place_runes" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_PLACE_RUNES, who);
+            case "activate_altar" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_ACTIVATE_ALTAR, who);
+            case "temple_guardians" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_TEMPLE_GUARDIANS, who);
+            case "elemental_storm" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_ELEMENTAL_STORM, who);
+            case "guardian_keys" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_GUARDIAN_KEYS, who);
+            case "inner_sanctum" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_INNER_SANCTUM, who);
+            case "sleeping_guardian" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_SLEEPING_GUARDIAN, who);
+            case "offer_essences" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_OFFER_ESSENCES, who);
+            case "guardian_avatar" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_GUARDIAN_AVATAR, who);
+            case "awakened_guardian" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_AWAKENED_GUARDIAN, who);
+            case "guardian_blessing" -> LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_GUARDIAN_BLESSING, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -117,9 +140,14 @@ public class GuardianAwakeningQuest extends Quest {
         return 8;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_GUARDIAN_AWAKENING_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

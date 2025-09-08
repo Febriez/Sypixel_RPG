@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,9 +42,9 @@ public class MasterBlacksmithQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.CRAFT_MASTER_BLACKSMITH)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         // 시작
-                        new InteractNPCObjective("blacksmith_master", "master_blacksmith"), // 대장장이 마스터
+                        new InteractNPCObjective("blacksmith_master", "master_blacksmith", 1), // 대장장이 마스터
                         
                         // 재료 수집
                         new BreakBlockObjective("mine_iron", Material.IRON_ORE, 30),
@@ -106,8 +107,29 @@ public class MasterBlacksmithQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.crafting.master_blacksmith.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "blacksmith_master" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_BLACKSMITH_MASTER, who);
+            case "mine_iron" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_MINE_IRON, who);
+            case "mine_gold" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_MINE_GOLD, who);
+            case "mine_diamond" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_MINE_DIAMOND, who);
+            case "gather_coal" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_GATHER_COAL, who);
+            case "smelt_iron" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_SMELT_IRON, who);
+            case "smelt_gold" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_SMELT_GOLD, who);
+            case "gather_diamonds" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_GATHER_DIAMONDS, who);
+            case "setup_anvil" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_SETUP_ANVIL, who);
+            case "setup_furnace" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_SETUP_FURNACE, who);
+            case "craft_iron_tools" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_CRAFT_IRON_TOOLS, who);
+            case "craft_iron_armor" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_CRAFT_IRON_ARMOR, who);
+            case "craft_diamond_sword" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_CRAFT_DIAMOND_SWORD, who);
+            case "craft_diamond_armor" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_CRAFT_DIAMOND_ARMOR, who);
+            case "setup_enchanting" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_SETUP_ENCHANTING, who);
+            case "enchanted_sword" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_ENCHANTED_SWORD, who);
+            case "netherite_scrap" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_SCRAP, who);
+            case "craft_netherite" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_CRAFT_NETHERITE, who);
+            case "masterpiece" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_MASTERPIECE, who);
+            case "deliver_masterpiece" -> LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_DELIVER_MASTERPIECE, who);
+            default -> new ArrayList<>();
+        };
     }
 
     @Override
@@ -115,9 +137,14 @@ public class MasterBlacksmithQuest extends Quest {
         return 7;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

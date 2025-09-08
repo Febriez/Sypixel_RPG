@@ -1,12 +1,20 @@
 {
-  "name": "✦ Path of Darkness",
-  "info": "Walk the path of power and domination. Embrace the power of darkness. ⚠ If you choose this quest, Path of Light cannot be selected! Objectives: • Eliminate 10 villagers • Kill 5 players • Hunt 20 wither skeletons • Craft 10 TNT Rewards: • 1,500 Gold • 50 Ghast Tears • 3 Wither Skeleton Skulls • Netherite Sword • 5 Enchanted Golden Apples • 2,500 Experience",
-  "dialogs": [
-    "Do you seek power? True power lies in darkness.",
-    "Dominate the weak and become the true master of this world.",
-    "Be warned, if you choose this path, everyone will become your enemy."
-  ],
-  "npc_name": "Dark Priest",
-  "accept": "I embrace the darkness and its power.",
-  "decline": "I will not walk this dark path."
+  "name": "Path of Darkness",
+  "description": "Choose the dark path and embrace your inner darkness",
+  "objectives": {
+    "eliminate_villagers": "Eliminate Villagers (10)",
+    "dominate_players": "Defeat Players in PvP (5)",
+    "hunt_wither_skeletons": "Hunt Wither Skeletons (20)",
+    "craft_tnt": "Craft TNT (10)"
+  },
+  "rewards": {
+    "gold": 1500,
+    "ghast_tears": 50,
+    "experience": 2500,
+    "items": [
+      "Wither Skeleton Skull (3)",
+      "Netherite Sword",
+      "Enchanted Golden Apple (5)"
+    ]
+  }
 }

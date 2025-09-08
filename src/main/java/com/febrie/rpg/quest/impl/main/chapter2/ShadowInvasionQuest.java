@@ -42,13 +42,13 @@ public class ShadowInvasionQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_SHADOW_INVASION)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("scout_captain", "scout_captain"),
+                .objectives(List.of(
+                        new InteractNPCObjective("scout_captain", "scout_captain", 1),
                         new VisitLocationObjective("shadow_portal", "shadow_portal_area"),
                         new KillMobObjective("kill_wither_skeletons", EntityType.WITHER_SKELETON, 15),
                         new KillMobObjective("kill_phantoms", EntityType.PHANTOM, 10),
                         new VisitLocationObjective("corrupted_fortress", "corrupted_fortress_area"),
-                        new InteractNPCObjective("resistance_leader", "resistance_leader")
+                        new InteractNPCObjective("resistance_leader", "resistance_leader", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 2500)
@@ -74,8 +74,15 @@ public class ShadowInvasionQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.main.shadow_invasion.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "scout_captain" -> LangManager.list(LangKey.QUEST_MAIN_SHADOW_INVASION_OBJECTIVES_SCOUT_CAPTAIN, who);
+            case "shadow_portal" -> LangManager.list(LangKey.QUEST_MAIN_SHADOW_INVASION_OBJECTIVES_SHADOW_PORTAL, who);
+            case "kill_wither_skeletons" -> LangManager.list(LangKey.QUEST_MAIN_SHADOW_INVASION_OBJECTIVES_KILL_WITHER_SKELETONS, who);
+            case "kill_phantoms" -> LangManager.list(LangKey.QUEST_MAIN_SHADOW_INVASION_OBJECTIVES_KILL_PHANTOMS, who);
+            case "corrupted_fortress" -> LangManager.list(LangKey.QUEST_MAIN_SHADOW_INVASION_OBJECTIVES_CORRUPTED_FORTRESS, who);
+            case "resistance_leader" -> LangManager.list(LangKey.QUEST_MAIN_SHADOW_INVASION_OBJECTIVES_RESISTANCE_LEADER, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
     
     @Override
@@ -83,9 +90,14 @@ public class ShadowInvasionQuest extends Quest {
         return 4;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_SHADOW_INVASION_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_SHADOW_INVASION_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

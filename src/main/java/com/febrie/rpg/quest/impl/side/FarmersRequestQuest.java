@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Side Quest: Farmer's Request
@@ -45,14 +46,14 @@ public class FarmersRequestQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_FARMERS_REQUEST)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_worried_farmer", "worried_farmer"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_worried_farmer", "worried_farmer", 1),
                         new VisitLocationObjective("visit_damaged_farmland", "damaged_farmland"),
                         new KillMobObjective("kill_rabbits", EntityType.RABBIT, 15),
                         new CollectItemObjective("collect_fresh_seeds", Material.WHEAT_SEEDS, 32),
                         new CollectItemObjective("collect_bone_meal", Material.BONE_MEAL, 16),
                         new VisitLocationObjective("visit_irrigation_canal", "irrigation_canal"),
-                        new InteractNPCObjective("return_worried_farmer", "worried_farmer")
+                        new InteractNPCObjective("return_worried_farmer", "worried_farmer", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addExperience(800)
@@ -75,9 +76,18 @@ public class FarmersRequestQuest extends Quest {
         return LangManager.list(LangKey.QUEST_SIDE_FARMERS_REQUEST_INFO, who);
     }
 
-    @Override
+        @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.farmers_request.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "talk_worried_farmer" -> LangManager.list(LangKey.QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_TALK_WORRIED_FARMER, who);
+            case "visit_damaged_farmland" -> LangManager.list(LangKey.QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_VISIT_DAMAGED_FARMLAND, who);
+            case "kill_rabbits" -> LangManager.list(LangKey.QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_KILL_RABBITS, who);
+            case "collect_fresh_seeds" -> LangManager.list(LangKey.QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_COLLECT_FRESH_SEEDS, who);
+            case "collect_bone_meal" -> LangManager.list(LangKey.QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_COLLECT_BONE_MEAL, who);
+            case "visit_irrigation_canal" -> LangManager.list(LangKey.QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_VISIT_IRRIGATION_CANAL, who);
+            case "return_worried_farmer" -> LangManager.list(LangKey.QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_RETURN_WORRIED_FARMER, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -85,9 +95,14 @@ public class FarmersRequestQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_FARMERS_REQUEST_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_FARMERS_REQUEST_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

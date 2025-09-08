@@ -1,6 +1,13 @@
 {
   "name": "Path of Divine Devotion",
   "info": "Strengthen your faith and unlock the sacred powers of divine healing and protection. Serve the divine will and become a beacon of hope for all who walk in darkness. Class Requirements: • Level 25 or higher • Proven faith and compassion Trial Contents: • Test of Faith • Test of Compassion • Test of Divine Connection Class Rewards: • Priest class advancement • Divine healing mastery • Sacred vestments and relics",
+  "objectives": {
+    "high_priest": "Meet the high priest",
+    "prayer_ritual": "Complete prayer ritual",
+    "healing_mastery": "Master healing magic",
+    "divine_blessing": "Receive divine blessing",
+    "priest_ordination": "Complete ordination"
+  },
   "dialogs": [
     "The path of devotion requires unwavering faith in the divine.",
     "Your heart must be pure and your intentions noble.",

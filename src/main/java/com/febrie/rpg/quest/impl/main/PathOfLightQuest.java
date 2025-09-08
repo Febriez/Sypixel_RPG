@@ -44,7 +44,7 @@ public class PathOfLightQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_PATH_OF_LIGHT)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         // 1. 언데드 몬스터 정화
                         new KillMobObjective("purify_undead_zombie", EntityType.ZOMBIE, 50),
                         new KillMobObjective("purify_undead_skeleton", EntityType.SKELETON, 30),
@@ -86,8 +86,14 @@ public class PathOfLightQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.main.path_of_light.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "purify_undead_zombie" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_PURIFY_UNDEAD_ZOMBIE, who);
+            case "purify_undead_skeleton" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_PURIFY_UNDEAD_SKELETON, who);
+            case "purify_undead_phantom" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_PURIFY_UNDEAD_PHANTOM, who);
+            case "craft_golden_apple" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_CRAFT_GOLDEN_APPLE, who);
+            case "help_villagers" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_HELP_VILLAGERS, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -95,9 +101,14 @@ public class PathOfLightQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_PATH_OF_LIGHT_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_PATH_OF_LIGHT_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

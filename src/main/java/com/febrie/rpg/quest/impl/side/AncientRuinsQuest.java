@@ -42,15 +42,15 @@ public class AncientRuinsQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_ANCIENT_RUINS)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("archaeologist", "archaeologist"),
+                .objectives(List.of(
+                        new InteractNPCObjective("archaeologist", "archaeologist", 1),
                         new VisitLocationObjective("ruined_entrance", "ruined_entrance_area"),
                         new KillMobObjective("kill_spiders", EntityType.SPIDER, 20),
                         new CollectItemObjective("ancient_stone", Material.STONE_BRICKS, 15),
                         new VisitLocationObjective("inner_chamber", "inner_chamber_area"),
                         new CollectItemObjective("runic_tablet", Material.STONE, 3),
                         new KillMobObjective("kill_silverfish", EntityType.SILVERFISH, 25),
-                        new InteractNPCObjective("archaeologist_complete", "archaeologist")
+                        new InteractNPCObjective("archaeologist_complete", "archaeologist", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 500)
@@ -75,7 +75,17 @@ public class AncientRuinsQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.ancient_ruins.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "archaeologist" -> LangManager.list(LangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_ARCHAEOLOGIST, who);
+            case "ruined_entrance" -> LangManager.list(LangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_RUINED_ENTRANCE, who);
+            case "kill_spiders" -> LangManager.list(LangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_KILL_SPIDERS, who);
+            case "ancient_stone" -> LangManager.list(LangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_ANCIENT_STONE, who);
+            case "inner_chamber" -> LangManager.list(LangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_INNER_CHAMBER, who);
+            case "runic_tablet" -> LangManager.list(LangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_RUNIC_TABLET, who);
+            case "kill_silverfish" -> LangManager.list(LangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_KILL_SILVERFISH, who);
+            case "archaeologist_complete" -> LangManager.list(LangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_ARCHAEOLOGIST_COMPLETE, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
     
     @Override
@@ -83,9 +93,14 @@ public class AncientRuinsQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_ANCIENT_RUINS_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_ANCIENT_RUINS_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

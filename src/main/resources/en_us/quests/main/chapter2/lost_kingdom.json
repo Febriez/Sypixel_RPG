@@ -1,6 +1,16 @@
 {
   "name": "Lost Kingdom",
   "info": "Deep in the forgotten lands lies a once-great kingdom, now lost to time and overrun by ancient evils. Explore the ruins of this lost civilization and uncover the secrets of its mysterious downfall.",
+  "objectives": {
+    "royal_historian": "Talk to the royal historian",
+    "kingdom_entrance": "Visit the kingdom entrance",
+    "ancient_key": "Collect 3 ancient keys",
+    "throne_room": "Visit the throne room",
+    "kill_husks": "Kill 12 husks",
+    "kill_strays": "Kill 8 strays",
+    "royal_artifact": "Collect 5 royal artifacts",
+    "ghost_king": "Speak with the ghost king"
+  },
   "dialogs": [
     "The Lost Kingdom calls to you, brave hero.",
     "Long ago, this was the greatest kingdom in all the land.",

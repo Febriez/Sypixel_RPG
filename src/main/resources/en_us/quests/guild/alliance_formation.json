@@ -1,5 +1,31 @@
 {
   "name": "Guild Alliance Formation",
+  "info": "Forge powerful alliances with other guilds through diplomatic negotiations and mutual cooperation.",
+  "npc_name": "Guild Diplomat",
+  "accept": "I'll help form valuable alliances for our guild!",
+  "decline": "Diplomacy isn't my strong suit right now.",
+  "objectives": [
+    {
+      "id": "prepare_diplomatic_gifts",
+      "description": "Prepare diplomatic gifts for negotiations"
+    },
+    {
+      "id": "draft_alliance_documents",
+      "description": "Draft formal alliance documents"
+    },
+    {
+      "id": "conduct_negotiations",
+      "description": "Conduct diplomatic negotiations with target guilds"
+    },
+    {
+      "id": "finalize_alliance",
+      "description": "Finalize the alliance agreements"
+    },
+    {
+      "id": "establish_cooperation",
+      "description": "Establish ongoing cooperation and mutual support"
+    }
+  ],
   "dialogs": [
     "In these turbulent times, alliances are crucial for survival and prosperity.",
     "We need to prepare diplomatic gifts and formal documents for negotiations.",

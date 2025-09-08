@@ -43,8 +43,8 @@ public class HealersRequestQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_HEALERS_REQUEST)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_village_healer", "village_healer"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_village_healer", "village_healer", 1),
                         new VisitLocationObjective("visit_herb_garden", "herb_garden"),
                         new CollectItemObjective("collect_medicinal_herbs", Material.SWEET_BERRIES, 25),
                         new CollectItemObjective("collect_spider_eyes", Material.SPIDER_EYE, 8),
@@ -75,7 +75,16 @@ public class HealersRequestQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.healers_request.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "talk_village_healer" -> LangManager.list(LangKey.QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_TALK_VILLAGE_HEALER, who);
+            case "visit_herb_garden" -> LangManager.list(LangKey.QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_VISIT_HERB_GARDEN, who);
+            case "collect_medicinal_herbs" -> LangManager.list(LangKey.QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_COLLECT_MEDICINAL_HERBS, who);
+            case "collect_spider_eyes" -> LangManager.list(LangKey.QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_COLLECT_SPIDER_EYES, who);
+            case "collect_ghast_tears" -> LangManager.list(LangKey.QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_COLLECT_GHAST_TEARS, who);
+            case "visit_sacred_spring" -> LangManager.list(LangKey.QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_VISIT_SACRED_SPRING, who);
+            case "collect_holy_water" -> LangManager.list(LangKey.QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_COLLECT_HOLY_WATER, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -83,9 +92,14 @@ public class HealersRequestQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_HEALERS_REQUEST_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_HEALERS_REQUEST_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

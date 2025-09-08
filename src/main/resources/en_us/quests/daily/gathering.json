@@ -1,6 +1,12 @@
 {
   "name": "Daily Gathering",
   "info": "Gather today's required resources. Collect materials needed for town construction projects. Resets daily at midnight.",
+  "objectives": {
+    "gatherer": "Meet the gatherer",
+    "collect_flowers": "Gather 20 flowers",
+    "collect_mushrooms": "Gather 10 mushrooms",
+    "deliver_materials": "Deliver gathered materials"
+  },
   "dialogs": [
     "The town's construction projects need materials.",
     "Can you help us gather resources today?",

@@ -1,13 +1,21 @@
 {
-  "name": "✦ Path of Light",
-  "info": "Walk the path of justice and goodness. Purify darkness and help people. ⚠ If you choose this quest, Path of Darkness cannot be selected! Objectives: • Purify 50 zombies • Purify 30 skeletons • Purify 10 phantoms • Craft 5 golden apples • Deliver 30 bread to hungry villagers Rewards: • 1,000 Gold • 20 Diamonds • Elytra (Angel Wings) • Totem of Undying • Beacon • 2,000 Experience",
-  "dialogs": [
-    "The world needs heroes who walk in the light.",
-    "Will you help us purify the darkness and protect the innocent?",
-    "I will be a beacon of hope for all.",
-    "May the light guide your path, brave hero."
-  ],
-  "npc_name": "High Priest of Light",
-  "accept": "I will walk the path of light and justice.",
-  "decline": "I'm not ready for this commitment."
+  "name": "Path of Light",
+  "description": "Choose the light path and become a beacon of hope",
+  "objectives": {
+    "purify_undead_zombie": "Purify Undead Zombies (50)",
+    "purify_undead_skeleton": "Purify Undead Skeletons (30)",
+    "purify_undead_phantom": "Purify Undead Phantoms (10)",
+    "craft_golden_apple": "Craft Golden Apples (5)",
+    "help_villagers": "Help Villagers by delivering Bread (30)"
+  },
+  "rewards": {
+    "gold": 1000,
+    "diamonds": 20,
+    "experience": 2000,
+    "items": [
+      "Elytra",
+      "Totem of Undying",
+      "Beacon"
+    ]
+  }
 }

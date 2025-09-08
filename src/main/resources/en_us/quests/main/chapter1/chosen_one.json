@@ -1,0 +1,28 @@
+{
+  "name": "The Chosen One",
+  "info": "Accept your destiny as the prophesied hero.",
+  "objectives": {
+    "enter_trial_cave": "Enter the Trial Cave",
+    "trial_courage": "Trial of Courage - Defeat 3 Iron Golems",
+    "courage_proof": "Collect the Proof of Courage",
+    "solve_puzzle": "Trial of Wisdom - Solve the Redstone Puzzle",
+    "wisdom_proof": "Collect the Proof of Wisdom",
+    "sacrifice_gold": "Trial of Sacrifice - Offer 1000 Gold",
+    "sacrifice_proof": "Collect the Proof of Sacrifice",
+    "final_guardian": "Defeat the Final Guardian",
+    "chosen_emblem": "Collect the Chosen Emblem",
+    "return_elder": "Return to the Ancient Elder"
+  },
+  "dialogs": [
+    "The signs are clear - you ARE the chosen one!",
+    "The mark on your hand proves it beyond doubt.",
+    "Ancient prophecies spoke of your arrival.",
+    "Now you must gather the three sacred artifacts.",
+    "The Sword of Light, Shield of Truth, and Crown of Wisdom.",
+    "Each is hidden in a dangerous realm.",
+    "Are you ready to embrace your destiny?"
+  ],
+  "npc_name": "Oracle of Time",
+  "accept": "I accept my fate!",
+  "decline": "This burden is too great."
+}

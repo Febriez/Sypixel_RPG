@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class ChosenOneQuest extends Quest {
      */
     private static QuestBuilder createBuilder() {
         return new QuestBuilder().id(QuestID.MAIN_CHOSEN_ONE)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         // 시련의 동굴 입장
                         new VisitLocationObjective("enter_trial_cave", "trial_cave_entrance"),
 
@@ -85,8 +86,19 @@ public class ChosenOneQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String id = objective.getId();
-        return LangManager.get("quest.main.chosen_one.objectives." + id, who);
+        return switch (objective.getId()) {
+            case "enter_trial_cave" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_ENTER_TRIAL_CAVE, who);
+            case "trial_courage" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_TRIAL_COURAGE, who);
+            case "courage_proof" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_COURAGE_PROOF, who);
+            case "solve_puzzle" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_SOLVE_PUZZLE, who);
+            case "wisdom_proof" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_WISDOM_PROOF, who);
+            case "sacrifice_gold" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_SACRIFICE_GOLD, who);
+            case "sacrifice_proof" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_SACRIFICE_PROOF, who);
+            case "final_guardian" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_FINAL_GUARDIAN, who);
+            case "chosen_emblem" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_CHOSEN_EMBLEM, who);
+            case "return_elder" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_RETURN_ELDER, who);
+            default -> new ArrayList<>();
+        };
     }
 
     @Override
@@ -94,9 +106,14 @@ public class ChosenOneQuest extends Quest {
         return 6;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_CHOSEN_ONE_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

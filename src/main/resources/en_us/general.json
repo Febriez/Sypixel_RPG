@@ -40,7 +40,7 @@
   "error": {
     "general": "An error occurred. Please contact an administrator.",
     "hub_world_not_found": "Hub world not found! Please contact an administrator.",
-    "friend_request_id_missing": "Friend request ID is missing!"
+    "friend_request_id_missing": "Friend request ID is missing"
   },
   "mailbox": {
     "delete_confirm_word": "DELETE"
@@ -62,5 +62,9 @@
       "kick_input_text": "Type KICK to confirm member removal",
       "kick_input_title": "Confirm Member Kick"
     }
-  }
+  },
+  "action_enable": "Enable",
+  "action_disable": "Disable",
+  "quest_total_count": "Total Quests: {0}",
+  "error_friend_request_id_missing": "Friend request ID is missing"
 }

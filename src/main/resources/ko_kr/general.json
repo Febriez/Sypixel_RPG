@@ -61,5 +61,12 @@
     }
   },
   "enable": "활성화",
-  "disable": "비활성화"
+  "disable": "비활성화",
+  "mailbox": {
+    "delete_confirm_word": "[TRANSLATE: DELETE]"
+  },
+  "action_enable": "[TRANSLATE: Enable]",
+  "action_disable": "[TRANSLATE: Disable]",
+  "quest_total_count": "[TRANSLATE: Total Quests: {0}]",
+  "error_friend_request_id_missing": "[TRANSLATE: Friend request ID is missing]"
 }

@@ -1,6 +1,13 @@
 {
   "name": "Paladin Oath",
   "info": "The sacred oath of the Paladin binds you to protect the innocent and fight evil. Swear your oath before the divine altar and become a true champion of light.",
+  "objectives": {
+    "paladin_commander": "Meet paladin commander",
+    "sacred_oath": "Take sacred oath",
+    "holy_training": "Complete holy training",
+    "divine_power": "Gain divine power",
+    "paladin_ceremony": "Complete ceremony"
+  },
   "dialogs": [
     "The path of the Paladin is one of great responsibility.",
     "You must prove yourself worthy of this sacred calling.",

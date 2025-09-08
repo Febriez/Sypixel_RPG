@@ -1,72 +1,21 @@
 {
-  "plains": {
-    "name": "平原",
-    "description": "広く平らな草原地形"
-  },
-  "forest": {
-    "name": "森林",
-    "description": "様々な木がある森"
-  },
-  "desert": {
-    "name": "砂漠",
-    "description": "砂に覆われた乾燥した地形"
-  },
-  "jungle": {
-    "name": "ジャングル",
-    "description": "密集した熱帯ジャングル"
-  },
-  "taiga": {
-    "name": "タイガ",
-    "description": "針葉樹のある寒い森"
-  },
-  "snowy_plains": {
-    "name": "雪原",
-    "description": "雪に覆われた寒い平原"
-  },
-  "savanna": {
-    "name": "サバンナ",
-    "description": "アカシアの木がある乾燥した平原"
-  },
-  "swamp": {
-    "name": "沼地",
-    "description": "湿って暗い沼地"
-  },
-  "mushroom_fields": {
-    "name": "キノコ島",
-    "description": "巨大なキノコがある特別な地形"
-  },
-  "beach": {
-    "name": "砂浜",
-    "description": "砂に覆われた海岸線"
-  },
-  "flower_forest": {
-    "name": "花の森",
-    "description": "様々な花が咲く美しい森"
-  },
-  "bamboo_jungle": {
-    "name": "竹林",
-    "description": "密集した竹があるジャングル"
-  },
-  "dark_forest": {
-    "name": "暗い森",
-    "description": "光がほとんど入らない密集した森"
-  },
-  "birch_forest": {
-    "name": "白樺の森",
-    "description": "白樺の木で満たされた明るい森"
-  },
-  "badlands": {
-    "name": "メサ",
-    "description": "赤い粘土でできた渓谷地形"
-  },
-  "ocean": {
-    "name": "海洋",
-    "description": "深い青い海"
-  },
-  "cherry_grove": {
-    "name": "桜の森",
-    "description": "美しい桜が咲く森"
-  },
+  "plains": "平原",
+  "forest": "森",
+  "desert": "砂漠",
+  "jungle": "ジャングル",
+  "taiga": "タイガ",
+  "snowy_plains": "雪原",
+  "savanna": "サバンナ",
+  "swamp": "沼地",
+  "mushroom_fields": "キノコ畑",
+  "beach": "ビーチ",
+  "flower_forest": "花の森",
+  "bamboo_jungle": "竹林",
+  "dark_forest": "暗い森",
+  "birch_forest": "白樺の森",
+  "badlands": "荒地",
+  "ocean": "海",
+  "cherry_grove": "桜の森",
   "snowy_taiga": {
     "name": "雪のタイガ",
     "description": "雪に覆われた寒い針葉樹の森"

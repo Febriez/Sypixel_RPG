@@ -44,7 +44,7 @@ public class HeroesJourneyQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_HEROES_JOURNEY)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         // 1. 다양한 몬스터 처치
                         new KillMobObjective("kill_zombies", EntityType.ZOMBIE, 10),
                         new KillMobObjective("kill_skeletons", EntityType.SKELETON, 10),
@@ -85,8 +85,16 @@ public class HeroesJourneyQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.main.heroes_journey.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "kill_zombies" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_KILL_ZOMBIES, who);
+            case "kill_skeletons" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_KILL_SKELETONS, who);
+            case "kill_spiders" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_KILL_SPIDERS, who);
+            case "collect_iron" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_COLLECT_IRON, who);
+            case "collect_gold" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_COLLECT_GOLD, who);
+            case "craft_iron_sword" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_CRAFT_IRON_SWORD, who);
+            case "craft_iron_armor" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_CRAFT_IRON_ARMOR, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -94,9 +102,14 @@ public class HeroesJourneyQuest extends Quest {
         return 4;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_HEROES_JOURNEY_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

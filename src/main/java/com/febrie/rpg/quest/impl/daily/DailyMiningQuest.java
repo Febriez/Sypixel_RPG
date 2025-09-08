@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,7 +42,7 @@ public class DailyMiningQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.DAILY_MINING)
-                .objectives(Arrays.asList(new BreakBlockObjective("mine_stone", Material.STONE, 50), new BreakBlockObjective("mine_coal", Material.COAL_ORE, 20), new BreakBlockObjective("mine_iron", Material.IRON_ORE, 10)))
+                .objectives(List.of(new BreakBlockObjective("mine_stone", Material.STONE, 50), new BreakBlockObjective("mine_coal", Material.COAL_ORE, 20), new BreakBlockObjective("mine_iron", Material.IRON_ORE, 10)))
                 .reward(new BasicReward.Builder().addCurrency(CurrencyType.GOLD, 150)
                         .addItem(new ItemStack(Material.IRON_PICKAXE)).addItem(new ItemStack(Material.TORCH, 32))
                         .addExperience(100).build()).sequential(false).daily(true)  // 일일 퀘스트 설정
@@ -60,8 +61,12 @@ public class DailyMiningQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.daily.mining.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "mine_stone" -> LangManager.list(LangKey.QUEST_DAILY_MINING_OBJECTIVES_MINE_STONE, who);
+            case "mine_coal" -> LangManager.list(LangKey.QUEST_DAILY_MINING_OBJECTIVES_MINE_COAL, who);
+            case "mine_iron" -> LangManager.list(LangKey.QUEST_DAILY_MINING_OBJECTIVES_MINE_IRON, who);
+            default -> new ArrayList<>();
+        };
     }
 
     @Override
@@ -70,8 +75,13 @@ public class DailyMiningQuest extends Quest {
     }
     
     @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_DAILY_MINING_DIALOGS, who);
+    }
+    
+    @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_DAILY_MINING_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

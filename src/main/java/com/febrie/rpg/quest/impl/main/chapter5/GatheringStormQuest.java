@@ -42,15 +42,15 @@ public class GatheringStormQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_GATHERING_STORM)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("storm_warden", "storm_warden"),
+                .objectives(List.of(
+                        new InteractNPCObjective("storm_warden", "storm_warden", 1),
                         new VisitLocationObjective("storm_peaks", "storm_peaks_area"),
                         new CollectItemObjective("storm_crystal", Material.AMETHYST_CLUSTER, 8),
                         new KillMobObjective("kill_phantoms", EntityType.PHANTOM, 25),
                         new CollectItemObjective("lightning_rod", Material.LIGHTNING_ROD, 5),
                         new KillMobObjective("kill_charged_creepers", EntityType.CREEPER, 10),
                         new VisitLocationObjective("thunder_spire", "thunder_spire_area"),
-                        new InteractNPCObjective("storm_keeper", "storm_keeper")
+                        new InteractNPCObjective("storm_keeper", "storm_keeper", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 6000)
@@ -77,7 +77,17 @@ public class GatheringStormQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.main.gathering_storm.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "storm_warden" -> LangManager.list(LangKey.QUEST_MAIN_GATHERING_STORM_OBJECTIVES_STORM_WARDEN, who);
+            case "storm_peaks" -> LangManager.list(LangKey.QUEST_MAIN_GATHERING_STORM_OBJECTIVES_STORM_PEAKS, who);
+            case "storm_crystal" -> LangManager.list(LangKey.QUEST_MAIN_GATHERING_STORM_OBJECTIVES_STORM_CRYSTAL, who);
+            case "kill_phantoms" -> LangManager.list(LangKey.QUEST_MAIN_GATHERING_STORM_OBJECTIVES_KILL_PHANTOMS, who);
+            case "lightning_rod" -> LangManager.list(LangKey.QUEST_MAIN_GATHERING_STORM_OBJECTIVES_LIGHTNING_ROD, who);
+            case "kill_charged_creepers" -> LangManager.list(LangKey.QUEST_MAIN_GATHERING_STORM_OBJECTIVES_KILL_CHARGED_CREEPERS, who);
+            case "thunder_spire" -> LangManager.list(LangKey.QUEST_MAIN_GATHERING_STORM_OBJECTIVES_THUNDER_SPIRE, who);
+            case "storm_keeper" -> LangManager.list(LangKey.QUEST_MAIN_GATHERING_STORM_OBJECTIVES_STORM_KEEPER, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
     
     @Override
@@ -85,9 +95,14 @@ public class GatheringStormQuest extends Quest {
         return 4;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_GATHERING_STORM_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_GATHERING_STORM_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

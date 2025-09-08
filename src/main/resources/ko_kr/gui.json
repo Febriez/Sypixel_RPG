@@ -62,7 +62,8 @@
     "collection_book": "수집북",
     "pets": "애완동물",
     "user_settings": "사용자 설정",
-    "user_settings_desc": "개인 설정을 변경합니다"
+    "user_settings_desc": "개인 설정을 변경합니다",
+    "player_info_name": "[TRANSLATE: Player: {0}]"
   },
   "job_selection": {
     "title": "직업 선택",
@@ -99,9 +100,11 @@
     "cancel_description": "직업 선택을 취소합니다",
     "click_to_cancel": "▶ 클릭하여 취소",
     "info_title": "안내사항",
-    "info_line1": "• 직업은 캐릭터의 성장 방향을 결정합니다",
-    "info_line2": "• 각 직업마다 고유한 스킬과 특성이 있습니다",
-    "info_line3": "• 신중하게 선택해주세요!",
+    "info_lines": [
+      "• 직업은 캐릭터의 성장 방향을 결정합니다",
+      "• 각 직업마다 고유한 스킬과 특성이 있습니다",
+      "• 신중하게 선택해주세요!"
+    ],
     "success": "축하합니다! {1} 직업을 선택하셨습니다!",
     "title_success": "직업 선택 완료!",
     "subtitle_success": "{1} 직업을 선택하셨습니다",
@@ -192,7 +195,8 @@
       "playtime": "플레이시간"
     },
     "my_rank": "내 순위",
-    "my_value": "내 값: {0}"
+    "my_value": "내 값: {0}",
+    "value": "[TRANSLATE: Value: {0}]"
   },
   "quest_list": {
     "title": "퀘스트 목록",
@@ -264,23 +268,33 @@
     "click_to_change": "클릭하여 변경",
     "click_to_settings": "클릭하여 설정",
     "gui_settings_title": "🖥 GUI 설정",
-    "gui_settings_desc1": "• GUI 사운드 볼륨 조절",
-    "gui_settings_desc2": "• GUI 사운드 음소거/해제",
+    "gui_settings_desc": [
+      "• GUI 사운드 볼륨 조절",
+      "• GUI 사운드 음소거/해제"
+    ],
     "ingame_settings_title": "🎮 인게임 설정",
-    "ingame_settings_desc1": "• 퀘스트 대화 속도 조절",
-    "ingame_settings_desc2": "• 자동 길안내 설정",
-    "ingame_settings_desc3": "• 데미지 표시 설정",
+    "ingame_settings_desc": [
+      "• 퀘스트 대화 속도 조절",
+      "• 자동 길안내 설정",
+      "• 데미지 표시 설정"
+    ],
     "social_settings_title": "👥 소셜 설정",
-    "social_settings_desc1": "• 친구 요청 받기 설정",
-    "social_settings_desc2": "• 길드 초대 받기 설정",
-    "social_settings_desc3": "• 귓말 모드 설정",
+    "social_settings_desc": [
+      "• 친구 요청 받기 설정",
+      "• 길드 초대 받기 설정",
+      "• 귓말 모드 설정"
+    ],
     "system_settings_title": "⚙ 시스템 설정",
-    "system_settings_desc1": "• 확인 대화상자 설정",
-    "system_settings_desc2": "• 시스템 관련 설정",
+    "system_settings_desc": [
+      "• 확인 대화상자 설정",
+      "• 시스템 관련 설정"
+    ],
     "notification_settings_title": "🔔 알림 설정",
-    "notification_settings_desc1": "• 귓말 알림 설정",
-    "notification_settings_desc2": "• 초대 알림 설정",
-    "notification_settings_desc3": "• 서버 공지 알림 설정",
+    "notification_settings_desc": [
+      "• 귓말 알림 설정",
+      "• 초대 알림 설정",
+      "• 서버 공지 알림 설정"
+    ],
     "ingame_settings": {
       "title": "인게임 설정",
       "quest_dialog_speed": "💬 퀘스트 대화 속도",
@@ -324,7 +338,8 @@
     "click_to_mute": "클릭하여 음소거",
     "click_to_unmute": "클릭하여 음소거 해제",
     "gui_settings": "🖥 GUI 설정",
-    "gui_settings_desc": "GUI 관련 설정을 변경합니다"
+    "gui_settings_desc": "GUI 관련 설정을 변경합니다",
+    "gui_settings_title": "[TRANSLATE: 🖥 GUI Settings]"
   },
   "shop": {
     "title": "상점",
@@ -422,7 +437,12 @@
     "status": {
       "online": "온라인",
       "offline": "오프라인"
-    }
+    },
+    "next_page_name": "[TRANSLATE: Next Page]",
+    "previous_page_name": "[TRANSLATE: Previous Page]",
+    "page_info_lore": "[TRANSLATE: Page {0} of {1}]",
+    "next_page_lore": "[TRANSLATE: Click to go to the next page]",
+    "previous_page_lore": "[TRANSLATE: Click to go to the previous page]"
   },
   "quest_reward": {
     "title": "퀘스트 보상",
@@ -449,7 +469,10 @@
     "items_lost": "받지 않은 아이템은 사라집니다!",
     "expiry_days": "{0}일",
     "expiry_hours": "{0}시간",
-    "expiry_minutes": "{0}분"
+    "expiry_minutes": "{0}분",
+    "unclaimed_timer": "[TRANSLATE: ⏰ Time remaining: {2} minutes]",
+    "timer_warning": "[TRANSLATE: Unclaimed rewards will be destroyed after 1 hour!]",
+    "timer_info": "[TRANSLATE: Visit the reward NPC within the time limit.]"
   },
   "island": {
     "main": {
@@ -478,7 +501,10 @@
       "warp_moving": "섬으로 이동중...",
       "warp_success": "섬으로 이동했습니다!",
       "info": {
-        "lore": "섬 정보를 확인합니다",
+        "lore": [
+          "섬 정보",
+          "클릭하여 상세 정보 확인"
+        ],
         "members": "{0}명의 멤버"
       },
       "create": {
@@ -546,6 +572,36 @@
         "history": "• 방문 기록 보기",
         "realtime": "• 실시간 방문자 추적",
         "open_menu": "클릭하여 방문자 메뉴 열기"
+      },
+      "member_management": {
+        "title": "[TRANSLATE: Member Management]",
+        "desc1": "[TRANSLATE: Invite or kick]",
+        "desc2": "[TRANSLATE: island members]"
+      },
+      "permission_management": {
+        "title": "[TRANSLATE: Permission Management]",
+        "desc1": "[TRANSLATE: Configure permissions]",
+        "desc2": "[TRANSLATE: for each role]"
+      },
+      "spawn_settings": {
+        "title": "[TRANSLATE: Spawn Settings]",
+        "desc1": "[TRANSLATE: Manage island]",
+        "desc2": "[TRANSLATE: spawn locations]"
+      },
+      "island_settings": {
+        "title": "[TRANSLATE: Island Settings]",
+        "desc1": "[TRANSLATE: Change island name]",
+        "desc2": "[TRANSLATE: Public/Private settings]",
+        "desc3": "[TRANSLATE: Change biome]"
+      },
+      "biome_change": {
+        "title": "[TRANSLATE: Change Biome]",
+        "desc1": "[TRANSLATE: Change the biome]",
+        "desc2": "[TRANSLATE: of your island]"
+      },
+      "warp": {
+        "title": "[TRANSLATE: Warp to Island]",
+        "desc": "[TRANSLATE: Teleport to the island]"
       }
     },
     "creation": {
@@ -765,7 +821,50 @@
       "title": "멤버 관리",
       "permission_not_implemented": "이 권한은 아직 구현되지 않았습니다",
       "current_role": "현재 역할: {0}"
-    }
+    },
+    "main_color_change_hint": "[TRANSLATE: Click to change island theme]",
+    "biome_change_title": "[TRANSLATE: Change Island Biome]",
+    "biome_click_to_change": "[TRANSLATE: Click to change biome]",
+    "biome_current_info": "[TRANSLATE: Current Biome]",
+    "biome_current_info_lore": "[TRANSLATE: Your island biome: {0}]",
+    "biome_selection_title": "[TRANSLATE: Select Biome]",
+    "biome_selection_info_title": "[TRANSLATE: Biome Selection]",
+    "biome_selection_info_lore1": "[TRANSLATE: Choose your island biome]",
+    "biome_selection_info_lore2": "[TRANSLATE: This affects island appearance]",
+    "biome_selection_current_selected": "[TRANSLATE: Currently selected: {0}]",
+    "biome_selection_click_to_select": "[TRANSLATE: Click to select this biome]",
+    "biome_selection_back_lore": "[TRANSLATE: Go back to previous menu]",
+    "biome_simple_title": "[TRANSLATE: Island Biome]",
+    "contribute_gold_info_balance": "[TRANSLATE: Your Balance: {0}]",
+    "contribute_gold_info_contribution": "[TRANSLATE: Your Contribution: {0}]",
+    "contribute_quick_amount": "[TRANSLATE: Quick Amount: {0}]",
+    "contribute_gold_needed": "[TRANSLATE: Gold Needed: {0}]",
+    "contribution_info_island_name": "[TRANSLATE: Island: {0}]",
+    "role_co_owner": "[TRANSLATE: Co-Owner]",
+    "delete_confirm_title": "[TRANSLATE: Delete Island Confirmation]",
+    "delete_confirm_island_info_title": "[TRANSLATE: Island Information]",
+    "delete_confirm_island_info_id": "[TRANSLATE: Island ID: {0}]",
+    "delete_confirm_island_info_members": "[TRANSLATE: Members: {0}]",
+    "delete_confirm_island_info_created": "[TRANSLATE: Created: {0}]",
+    "member_invite_prompt": "[TRANSLATE: Enter player name to invite]",
+    "member_invite_example": "[TRANSLATE: Example: PlayerName]",
+    "member_role_owner": "[TRANSLATE: Owner]",
+    "member_all_permissions": "[TRANSLATE: Has all permissions]",
+    "member_owner_cannot_change": "[TRANSLATE: Owner permissions cannot be changed]",
+    "member_join_date": "[TRANSLATE: Joined: {0}]",
+    "member_most_permissions": "[TRANSLATE: Has most permissions]",
+    "member_normal_permissions": "[TRANSLATE: Has normal permissions]",
+    "member_left_click_role": "[TRANSLATE: Left-click to change role]",
+    "member_right_click_kick": "[TRANSLATE: Right-click to kick]",
+    "member_role_worker": "[TRANSLATE: Worker]",
+    "member_hire_date": "[TRANSLATE: Hired: {0}]",
+    "member_last_activity": "[TRANSLATE: Last Active: {0}]",
+    "member_limited_permissions": "[TRANSLATE: Has limited permissions]",
+    "member_left_click_extend": "[TRANSLATE: Left-click to extend contract]",
+    "member_right_click_fire": "[TRANSLATE: Right-click to fire]",
+    "member_manage_title": "[TRANSLATE: Manage Member]",
+    "member_manage_permission_not_implemented": "[TRANSLATE: Permission management coming soon]",
+    "member_manage_current_role": "[TRANSLATE: Current Role: {0}]"
   },
   "social": {
     "mailbox": {
@@ -979,7 +1078,10 @@
     "title": "소셜 설정"
   },
   "system_settings": {
-    "title": "시스템 설정"
+    "title": "시스템 설정",
+    "status": "[TRANSLATE: Status: {0}]",
+    "click_to_toggle": "[TRANSLATE: Click to toggle]",
+    "confirmation_toggled": "[TRANSLATE: Confirmation dialogs {0}]"
   },
   "error": {
     "title": "오류"
@@ -1234,5 +1336,91 @@
         "title": "오류"
       }
     }
+  },
+  "page_info": "[TRANSLATE: Page {0} of {1}]",
+  "combat_power": {
+    "title": "[TRANSLATE: Combat Power]",
+    "total": "[TRANSLATE: Total Combat Power: {0}]",
+    "breakdown": "[TRANSLATE: Power Breakdown]",
+    "from_level": "[TRANSLATE: From Level: {0}]",
+    "from_stats": "[TRANSLATE: From Stats: {0}]",
+    "level_contribution": "[TRANSLATE: Level Contribution]",
+    "level_detail": "[TRANSLATE: Level {0} = {1} power]",
+    "stat_contribution": "[TRANSLATE: Stat Contribution]",
+    "stat_detail": "[TRANSLATE: {0}: {1} power]"
+  },
+  "all_quests": {
+    "title": "[TRANSLATE: All Quests]"
+  },
+  "common_next_page": "[TRANSLATE: Next Page]",
+  "common_previous_page": "[TRANSLATE: Previous Page]",
+  "common_prev_page": "[TRANSLATE: Previous]",
+  "profile_player_title": "[TRANSLATE: {0}'s Profile]",
+  "profile_level_info": "[TRANSLATE: Level {0}]",
+  "profile_exp_percent": "[TRANSLATE: {0}% to next level]",
+  "profile_no_job": "[TRANSLATE: No Job]",
+  "profile_current_job": "[TRANSLATE: Current Job: {0}]",
+  "profile_job_level": "[TRANSLATE: Job Level: {0}]",
+  "profile_combat_power": "[TRANSLATE: Combat Power: {0}]",
+  "profile_click_to_talents": "[TRANSLATE: Click to view talents]",
+  "profile_join_date": "[TRANSLATE: Joined: {0}]",
+  "profile_last_seen": "[TRANSLATE: Last Seen: {0}]",
+  "profile_click_for_talents": "[TRANSLATE: Click for Talents]",
+  "profile_click_for_stats": "[TRANSLATE: Click for Stats]",
+  "profile_online_status": "[TRANSLATE: Status: {0}]",
+  "profile_health_info": "[TRANSLATE: Health: {0}/{1}]",
+  "profile_food_info": "[TRANSLATE: Food: {0}/20]",
+  "profile_food_level": "[TRANSLATE: Food Level: {0}]",
+  "profile_game_info": "[TRANSLATE: Game Statistics]",
+  "profile_active_quests": "[TRANSLATE: Active Quests: {0}]",
+  "profile_completed_quests": "[TRANSLATE: Completed Quests: {0}]",
+  "profile_mob_kills": "[TRANSLATE: Mob Kills: {0}]",
+  "profile_player_info_name": "[TRANSLATE: Player Information]",
+  "buttons_next_page_name": "[TRANSLATE: Next Page]",
+  "buttons_previous_page_name": "[TRANSLATE: Previous Page]",
+  "buttons_page_info_lore": "[TRANSLATE: Page {0} of {1}]",
+  "buttons_next_page_lore": "[TRANSLATE: Click to go to the next page]",
+  "buttons_previous_page_lore": "[TRANSLATE: Click to go to the previous page]",
+  "leaderboard_current_type": "[TRANSLATE: Leaderboard: {0}]",
+  "leaderboard_total_entries": "[TRANSLATE: Total Entries: {0}]",
+  "leaderboard_my_rank": "[TRANSLATE: Your Rank: #{0}]",
+  "leaderboard_my_value": "[TRANSLATE: Your Score: {0}]",
+  "leaderboard_last_updated": "[TRANSLATE: Last Updated: {0}]",
+  "leaderboard_this_is_you": "[TRANSLATE: §e§l← This is you!]",
+  "island_main_color_change_hint": "[TRANSLATE: Click to change island theme]",
+  "dialog_choice_title": "[TRANSLATE: Dialog Choice]",
+  "dialog_choice_icon": "[TRANSLATE: Choose Your Response]",
+  "dialog_choice_description": "[TRANSLATE: Select how you want to respond]",
+  "dialog_choice_npc": "[TRANSLATE: NPC: {0}]",
+  "dialog_choice_npc_content": "[TRANSLATE: {0}]",
+  "dialog_choice_option": "[TRANSLATE: Option {0}]",
+  "dialog_choice_click_to_select": "[TRANSLATE: Click to select this response]",
+  "mail": {
+    "detail_title": "[TRANSLATE: Mail Details]",
+    "detail_sender": "[TRANSLATE: From: {0}]",
+    "detail_receiver": "[TRANSLATE: To: {0}]",
+    "detail_sent_time": "[TRANSLATE: Sent: {0}]",
+    "detail_status": "[TRANSLATE: Status: {0}]",
+    "detail_no_message": "[TRANSLATE: No message content]",
+    "detail_delete_success": "[TRANSLATE: Mail deleted successfully]",
+    "detail_delete_failed": "[TRANSLATE: Failed to delete mail]",
+    "detail_reply_desc": "[TRANSLATE: Reply to this mail]",
+    "detail_reply_guide": "[TRANSLATE: Type your reply]",
+    "detail_reply_command": "[TRANSLATE: /mail reply {0}]"
+  },
+  "friend": {
+    "requests_request_time": "[TRANSLATE: Sent: {0}]",
+    "requests_message": "[TRANSLATE: Message: {0}]",
+    "requests_accept_desc1": "[TRANSLATE: Accept friend request]",
+    "requests_reject_desc1": "[TRANSLATE: Reject friend request]"
+  },
+  "dialog": {
+    "choice_title": "[TRANSLATE: Dialog Choice]",
+    "choice_icon": "[TRANSLATE: Choose Your Response]",
+    "choice_description": "[TRANSLATE: Select how you want to respond]",
+    "choice_npc": "[TRANSLATE: NPC: {0}]",
+    "choice_npc_content": "[TRANSLATE: {0}]",
+    "choice_option": "[TRANSLATE: Option {0}]",
+    "choice_click_to_select": "[TRANSLATE: Click to select this response]"
   }
 }

@@ -81,7 +81,15 @@
           "lore": [
             "현재 접속 중이 아닙니다."
           ]
-        }
+        },
+        "online_name": "[TRANSLATE: Online]",
+        "online_lore": [
+          "[TRANSLATE: Currently online.]"
+        ],
+        "offline_name": "[TRANSLATE: Offline]",
+        "offline_lore": [
+          "[TRANSLATE: Currently offline.]"
+        ]
       }
     },
     "error": {
@@ -90,7 +98,11 @@
         "lore": [
           "오류가 발생했습니다."
         ]
-      }
+      },
+      "title_name": "[TRANSLATE: Error]",
+      "title_lore": [
+        "[TRANSLATE: An error has occurred.]"
+      ]
     }
   },
   "profile": {
@@ -153,7 +165,28 @@
       "lore": [
         "캐릭터의 능력치 정보입니다."
       ]
-    }
+    },
+    "collection": {
+      "name": "[TRANSLATE: Collection Book]",
+      "lore": [
+        "[TRANSLATE: View your collected items.]",
+        "[TRANSLATE: Complete your collection!]"
+      ]
+    },
+    "pet": {
+      "name": "[TRANSLATE: Pets]",
+      "lore": [
+        "[TRANSLATE: Manage your companion pets.]",
+        "[TRANSLATE: Adventure with your pets!]"
+      ]
+    },
+    "level_info_name": "[TRANSLATE: Level Information]",
+    "game_stats_name": "[TRANSLATE: Game Statistics]",
+    "quest_info_name": "[TRANSLATE: Quest Information]",
+    "quest_info_click_lore": "[TRANSLATE: Click to view quest details]",
+    "collection_book_name": "[TRANSLATE: Collection Book]",
+    "user_settings_name": "[TRANSLATE: User Settings]",
+    "user_settings_lore": "[TRANSLATE: Configure your preferences]"
   },
   "mainmenu": {
     "title": {
@@ -532,6 +565,15 @@
           "",
           "%COLOR_WARNING%▶ 클릭하여 초대"
         ]
+      },
+      "permission": {
+        "name": "[TRANSLATE: %COLOR_INFO%&lPermission Settings]",
+        "lore": [
+          "[TRANSLATE: %COLOR_SECONDARY%Configure individual permissions]",
+          "[TRANSLATE: %COLOR_SECONDARY%for this member]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_ERROR%※ Feature coming soon]"
+        ]
       }
     },
     "member_manage": {
@@ -814,7 +856,262 @@
         "name": "%COLOR_GOLD%&l방문 통계",
         "lore": []
       }
-    }
+    },
+    "member_v2": {
+      "invite_button": {
+        "name": "[TRANSLATE: &a&lInvite Player]",
+        "lore": [
+          "[TRANSLATE: ]",
+          "[TRANSLATE: &7Invite a new player to your island]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: &7Current Members: &e{0}]",
+          "[TRANSLATE: &7Current Workers: &e{1}]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: &eClick to send invite]"
+        ]
+      },
+      "previous_page": {
+        "name": "[TRANSLATE: &f← Previous Page]",
+        "lore": [
+          "[TRANSLATE: ]",
+          "[TRANSLATE: &7Current Page: &e{0}]",
+          "[TRANSLATE: ]"
+        ]
+      },
+      "next_page": {
+        "name": "[TRANSLATE: &fNext Page →]",
+        "lore": [
+          "[TRANSLATE: ]",
+          "[TRANSLATE: &7Current Page: &e{0}]",
+          "[TRANSLATE: ]"
+        ]
+      }
+    },
+    "personal_spawn": {
+      "info": {
+        "name": "[TRANSLATE: &b&lPersonal Spawn Point]",
+        "lore": [
+          "[TRANSLATE: ]",
+          "[TRANSLATE: &7Current Location: &e{0}]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: &7Respawn at your personal]",
+          "[TRANSLATE: &7spawn point when you die]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: &eClick to set current location]"
+        ]
+      },
+      "info_not_set": {
+        "name": "[TRANSLATE: &b&lPersonal Spawn Point]",
+        "lore": [
+          "[TRANSLATE: ]",
+          "[TRANSLATE: &cNo spawn point set]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: &7Set a personal spawn point]",
+          "[TRANSLATE: &7to respawn here when you die]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: &eClick to set current location]"
+        ]
+      }
+    },
+    "settings_v2": {
+      "info": {
+        "name": "[TRANSLATE: %COLOR_GOLD%&lIsland Information]",
+        "lore": []
+      },
+      "name_change": {
+        "name": "[TRANSLATE: %COLOR_WARNING%&lChange Island Name]",
+        "lore": [
+          "[TRANSLATE: %COLOR_SECONDARY%Change your island's name]",
+          "[TRANSLATE: %COLOR_SECONDARY%Maximum 20 characters]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_WARNING%▶ Click to change]"
+        ]
+      },
+      "public": {
+        "name": "[TRANSLATE: %COLOR_SUCCESS%&lPublic Island]",
+        "lore": []
+      },
+      "private": {
+        "name": "[TRANSLATE: %COLOR_ERROR%&lPrivate Island]",
+        "lore": []
+      },
+      "public_toggle": {
+        "lore": [
+          "[TRANSLATE: %COLOR_SECONDARY%Public: All players can visit]",
+          "[TRANSLATE: %COLOR_SECONDARY%Private: Only invited players can visit]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_WARNING%▶ Click to toggle]"
+        ]
+      },
+      "biome_change": {
+        "name": "[TRANSLATE: %COLOR_INFO%&lChange Biome]",
+        "lore": [
+          "[TRANSLATE: %COLOR_SECONDARY%Change your island's biome]",
+          "[TRANSLATE: %COLOR_SECONDARY%Weather and environment will change]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_WARNING%▶ Click to change]"
+        ]
+      },
+      "delete": {
+        "name": "[TRANSLATE: %COLOR_ERROR%&lDelete Island]",
+        "lore": [
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_ERROR%⚠ Warning: This cannot be undone!]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_SECONDARY%Island and all data will be]",
+          "[TRANSLATE: %COLOR_SECONDARY%permanently deleted]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_ERROR%▶ Click to delete]"
+        ]
+      },
+      "save": {
+        "name": "[TRANSLATE: %COLOR_SUCCESS%&lSave Settings]",
+        "lore": [
+          "[TRANSLATE: %COLOR_WARNING%▶ Click to save]"
+        ]
+      },
+      "cancel": {
+        "lore": [
+          "[TRANSLATE: %COLOR_SECONDARY%Return without saving]",
+          "[TRANSLATE: %COLOR_SECONDARY%changes]"
+        ]
+      }
+    },
+    "upgrade_v2": {
+      "size": {
+        "name": "[TRANSLATE: %COLOR_SUCCESS%&lIsland Size Upgrade]",
+        "lore": []
+      },
+      "member": {
+        "name": "[TRANSLATE: %COLOR_INFO%&lMember Limit Upgrade]",
+        "lore": []
+      },
+      "worker": {
+        "name": "[TRANSLATE: %COLOR_WARNING%&lWorker Limit Upgrade]",
+        "lore": []
+      },
+      "info": {
+        "name": "[TRANSLATE: %COLOR_LIGHT_PURPLE%&lUpgrade Guide]",
+        "lore": [
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_SECONDARY%Island upgrades consume contribution points]",
+          "[TRANSLATE: %COLOR_SECONDARY%Cannot downgrade after upgrading]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_WARNING%Islands over 500 size can]",
+          "[TRANSLATE: %COLOR_WARNING%set biomes]"
+        ]
+      }
+    },
+    "spawn_v2": {
+      "current_info": {
+        "name": "[TRANSLATE: %COLOR_INFO%&lCurrent Spawn Settings]",
+        "lore": [
+          "[TRANSLATE: %COLOR_SECONDARY%Default spawn: Where members teleport]",
+          "[TRANSLATE: %COLOR_SECONDARY%Visitor spawn: Where visitors teleport]"
+        ]
+      },
+      "set_main": {
+        "name": "[TRANSLATE: %COLOR_SUCCESS%&lSet Main Spawn]",
+        "lore": [
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_SECONDARY%Set current location as]",
+          "[TRANSLATE: %COLOR_SECONDARY%main spawn point]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_SECONDARY%Members will teleport here]",
+          "[TRANSLATE: %COLOR_SECONDARY%when using /island warp]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_WARNING%▶ Click to set]"
+        ]
+      },
+      "set_visitor": {
+        "name": "[TRANSLATE: %COLOR_LIGHT_PURPLE%&lSet Visitor Spawn]",
+        "lore": [
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_SECONDARY%Set current location as]",
+          "[TRANSLATE: %COLOR_SECONDARY%visitor spawn point]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_SECONDARY%Visitors will teleport here]",
+          "[TRANSLATE: %COLOR_SECONDARY%when entering the island]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_WARNING%▶ Click to set]"
+        ]
+      },
+      "reset": {
+        "name": "[TRANSLATE: %COLOR_ERROR%&lReset Spawns]",
+        "lore": [
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_SECONDARY%Reset all spawn]",
+          "[TRANSLATE: %COLOR_SECONDARY%settings]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_ERROR%Warning: This cannot be undone]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_WARNING%▶ Click to reset]"
+        ]
+      },
+      "protection": {
+        "name": "[TRANSLATE: %COLOR_GOLD%&lSpawn Protection]",
+        "lore": [
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_ERROR%※ Feature coming soon]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_SECONDARY%Set spawn radius to]",
+          "[TRANSLATE: %COLOR_SECONDARY%prevent block breaking/placing]"
+        ]
+      },
+      "personal": {
+        "name": "[TRANSLATE: %COLOR_LIGHT_PURPLE%&lPersonal Spawn Management]",
+        "lore": [
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_SECONDARY%Set and manage your]",
+          "[TRANSLATE: %COLOR_SECONDARY%personal spawn point]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_WARNING%▶ Click to manage]"
+        ]
+      },
+      "message": {
+        "name": "[TRANSLATE: %COLOR_WARNING%&lWelcome Message]",
+        "lore": [
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_ERROR%※ Feature coming soon]",
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_SECONDARY%Set message displayed when]",
+          "[TRANSLATE: %COLOR_SECONDARY%visitors enter the island]"
+        ]
+      },
+      "no_permission": {
+        "name": "[TRANSLATE: %COLOR_ERROR%&lNo Permission]",
+        "lore": [
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_SECONDARY%Only island owner and]",
+          "[TRANSLATE: %COLOR_SECONDARY%co-owners can set spawns]"
+        ]
+      }
+    },
+    "visitor_v2": {
+      "info": {
+        "name": "[TRANSLATE: %COLOR_WHITE%&lVisitor Records]",
+        "lore": [
+          "[TRANSLATE: %COLOR_SECONDARY%View recent visitor list]"
+        ]
+      },
+      "no_visitors": {
+        "name": "[TRANSLATE: %COLOR_ERROR%No Visit Records]",
+        "lore": [
+          "[TRANSLATE: ]",
+          "[TRANSLATE: %COLOR_SECONDARY%No players have]",
+          "[TRANSLATE: %COLOR_SECONDARY%visited the island yet]"
+        ]
+      },
+      "statistics": {
+        "name": "[TRANSLATE: %COLOR_GOLD%&lVisit Statistics]",
+        "lore": []
+      }
+    },
+    "main_upgrade_info_lore": "[TRANSLATE: Upgrade your island]",
+    "main_contribution_info_lore": "[TRANSLATE: View contribution info]",
+    "spawn_current_info_lore": "[TRANSLATE: Current spawn point]",
+    "main_island_settings_lore": "[TRANSLATE: Configure island settings]",
+    "main_biome_change_lore": "[TRANSLATE: Change island biome]"
   },
   "unit": {
     "blocks": "블록",
@@ -1144,6 +1441,7 @@
     },
     "list": {
       "active": {
+        "name": "진행 중인 퀘스트",
         "lore": [
           "",
           "{0}",
@@ -1158,6 +1456,7 @@
         ]
       },
       "completed": {
+        "name": "완료된 퀘스트",
         "lore": [
           "",
           "{0}",
@@ -1241,5 +1540,144 @@
         "이 기능은 곧 추가됩니다!"
       ]
     }
-  }
+  },
+  "profile_v2": {
+    "level_info": {
+      "name": "[TRANSLATE: Level Information]",
+      "lore": [
+        "[TRANSLATE: Current level and experience info]"
+      ]
+    },
+    "game_stats": {
+      "name": "[TRANSLATE: Game Statistics]",
+      "lore": [
+        "[TRANSLATE: Playtime and combat statistics]"
+      ]
+    },
+    "quest_info": {
+      "name": "[TRANSLATE: Quest Information]",
+      "lore": [
+        "[TRANSLATE: Active and completed quests]"
+      ],
+      "click_lore": [
+        "[TRANSLATE: ▶ Click to open quest list]"
+      ]
+    },
+    "pets": {
+      "name": "[TRANSLATE: Pets]",
+      "lore": [
+        "[TRANSLATE: Manage your pets]",
+        "[TRANSLATE: ]",
+        "[TRANSLATE: ▶ Click to open]"
+      ]
+    },
+    "collection_book": {
+      "name": "[TRANSLATE: Collection Book]",
+      "lore": [
+        "[TRANSLATE: View your collection progress]",
+        "[TRANSLATE: ]",
+        "[TRANSLATE: ▶ Click to open]"
+      ]
+    },
+    "user_settings": {
+      "name": "[TRANSLATE: User Settings]",
+      "lore": [
+        "[TRANSLATE: Manage your personal settings]",
+        "[TRANSLATE: ]",
+        "[TRANSLATE: ▶ Click to open]"
+      ]
+    }
+  },
+  "dungeon_button": {
+    "name": "[TRANSLATE: Dungeon]",
+    "lore": [
+      "[TRANSLATE: Challenge dungeons for rewards.]",
+      "[TRANSLATE: ]",
+      "[TRANSLATE: ▶ Click to open]"
+    ]
+  },
+  "job_button": {
+    "name": "[TRANSLATE: Job Selection]",
+    "lore": [
+      "[TRANSLATE: Choose a job to start your adventure.]",
+      "[TRANSLATE: ]",
+      "[TRANSLATE: ⚠ Choose carefully!]",
+      "[TRANSLATE: ▶ Click to open]"
+    ]
+  },
+  "settings_button": {
+    "name": "[TRANSLATE: Global Settings]",
+    "lore": [
+      "[TRANSLATE: Change global game settings.]",
+      "[TRANSLATE: ]",
+      "[TRANSLATE: ▶ Click to open]"
+    ]
+  },
+  "leaderboard": {
+    "loading": {
+      "name": "[TRANSLATE: Loading...]",
+      "lore": [
+        "[TRANSLATE: Please wait...]"
+      ]
+    },
+    "my_rank": {
+      "name": "[TRANSLATE: My Rank: #{0}]"
+    },
+    "no_rank": {
+      "name": "[TRANSLATE: Not Ranked]",
+      "lore1": "[TRANSLATE: Play more to]",
+      "lore2": "[TRANSLATE: get ranked!]"
+    },
+    "my_rank_name": "[TRANSLATE: My Ranking]",
+    "no_rank_name": "[TRANSLATE: Not Ranked]",
+    "no_rank_lore1": "[TRANSLATE: You are not ranked yet]",
+    "no_rank_lore2": "[TRANSLATE: Keep playing to get ranked!]"
+  },
+  "buttons": {
+    "back": {
+      "name": "[TRANSLATE: Back]",
+      "lore": [
+        "[TRANSLATE: Go back]"
+      ]
+    }
+  },
+  "gui_buttons_next_page_name": "[TRANSLATE: Next Page]",
+  "gui_buttons_next_page_lore": "[TRANSLATE: Click to go to next page]",
+  "gui_buttons_previous_page_name": "[TRANSLATE: Previous Page]",
+  "gui_buttons_previous_page_lore": "[TRANSLATE: Click to go to previous page]",
+  "gui_buttons_page_info_name": "[TRANSLATE: Page Info]",
+  "mainmenu_profile_button_name": "[TRANSLATE: Profile]",
+  "mainmenu_profile_button_lore": "[TRANSLATE: View your profile]",
+  "mainmenu_leaderboard_button_name": "[TRANSLATE: Leaderboard]",
+  "mainmenu_leaderboard_button_lore": "[TRANSLATE: View server rankings]",
+  "mainmenu_job_button_name": "[TRANSLATE: Jobs]",
+  "mainmenu_job_button_lore": "[TRANSLATE: Manage your job]",
+  "mainmenu_stats_button_name": "[TRANSLATE: Statistics]",
+  "mainmenu_stats_button_lore": "[TRANSLATE: View your stats]",
+  "mainmenu_hub_button_name": "[TRANSLATE: Hub]",
+  "mainmenu_hub_button_lore": "[TRANSLATE: Return to hub]",
+  "mainmenu_shop_button_name": "[TRANSLATE: Shop]",
+  "mainmenu_shop_button_lore": "[TRANSLATE: Visit the shop]",
+  "mainmenu_dungeon_button_name": "[TRANSLATE: Dungeons]",
+  "mainmenu_dungeon_button_lore": "[TRANSLATE: Enter dungeons]",
+  "mainmenu_wild_button_name": "[TRANSLATE: Wilderness]",
+  "mainmenu_wild_button_lore": "[TRANSLATE: Explore the wild]",
+  "mainmenu_island_button_name": "[TRANSLATE: Island]",
+  "mainmenu_island_button_lore": "[TRANSLATE: Visit your island]",
+  "profile_level_info_name": "[TRANSLATE: Level Information]",
+  "profile_game_stats_name": "[TRANSLATE: Game Statistics]",
+  "profile_quest_info_name": "[TRANSLATE: Quest Progress]",
+  "profile_quest_info_click_lore": "클릭하여 퀘스트 보기",
+  "profile_collection_book_name": "[TRANSLATE: Collection Book]",
+  "profile_user_settings_name": "[TRANSLATE: Settings]",
+  "profile_user_settings_lore": "[TRANSLATE: Configure your settings]",
+  "leaderboard_my_rank_name": "[TRANSLATE: My Ranking]",
+  "leaderboard_no_rank_name": "[TRANSLATE: Unranked]",
+  "leaderboard_no_rank_lore1": "[TRANSLATE: You are not ranked yet]",
+  "leaderboard_no_rank_lore2": "[TRANSLATE: Keep playing to get ranked!]",
+  "island_main_upgrade_info_lore": "[TRANSLATE: Click to upgrade island]",
+  "island_main_contribution_info_lore": "[TRANSLATE: View contributions]",
+  "island_spawn_current_info_lore": "[TRANSLATE: Current spawn point]",
+  "island_main_island_settings_lore": "[TRANSLATE: Configure island settings]",
+  "island_main_biome_change_lore": "[TRANSLATE: Change island biome]"
 }

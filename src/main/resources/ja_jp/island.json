@@ -30,13 +30,17 @@
       "title": "==== Island System ====",
       "no_island": "You don't have an island yet!",
       "features": "Create an island to access the following features:",
-      "feature_1": "• Build freely on your own private island",
-      "feature_2": "• Invite friends to play together",
-      "feature_3": "• Upgrade your island for more space",
-      "feature_4": "• Set island warp points",
+      "features": [
+        "• Build freely on your own private island",
+        "• Invite friends to play together",
+        "• Upgrade your island for more space",
+        "• Set island warp points"
+      ],
       "create_guide": "How to create an island:",
-      "step_1": "1. Click the Island button in the main menu (/menu)",
-      "step_2": "2. Click the Create Island button to create a new island"
+      "steps": [
+        "1. Click the Island button in the main menu (/menu)",
+        "2. Click the Create Island button to create a new island"
+      ]
     }
   },
   "gui": {
@@ -47,11 +51,103 @@
         "title": "Create Island",
         "no_island": "You don't have an island yet!",
         "description": "Create an island to access the following features:",
-        "feature_1": "• Build freely on your own private island",
-        "feature_2": "• Invite friends to play together",
-        "feature_3": "• Upgrade your island for more space",
-        "feature_4": "• Set island warp points",
+        "features": [
+          "• Build freely on your own private island",
+          "• Invite friends to play together",
+          "• Upgrade your island for more space",
+          "• Set island warp points"
+        ],
         "contact_admin": "Contact an admin to create an island!"
+      },
+      "hex_format_error": "[TRANSLATE: Invalid HEX format! Use #RRGGBB]",
+      "hex_format_example": "[TRANSLATE: Example: #FF0000]",
+      "color_changed": "[TRANSLATE: Island color changed to {0}]",
+      "hex_input_title": "[TRANSLATE: Enter HEX Color Code]",
+      "warp_moving": "[TRANSLATE: Warping to island...]",
+      "warp_success": "[TRANSLATE: Successfully warped to island!]",
+      "info": {
+        "lore": [
+          "[TRANSLATE: Island Information]",
+          "[TRANSLATE: Level: {0}]",
+          "[TRANSLATE: Members: {1}]"
+        ],
+        "members": "[TRANSLATE: Members: {0}/{1}]"
+      },
+      "create": {
+        "lore": [
+          "[TRANSLATE: Click to create]",
+          "[TRANSLATE: your own island!]"
+        ]
+      },
+      "spawn": {
+        "name": "[TRANSLATE: Island Spawn]",
+        "lore": [
+          "[TRANSLATE: Teleport to]",
+          "[TRANSLATE: island spawn point]"
+        ]
+      },
+      "visit": {
+        "name": "[TRANSLATE: Visit Islands]"
+      },
+      "members": {
+        "lore": [
+          "[TRANSLATE: Manage island]",
+          "[TRANSLATE: members and permissions]"
+        ]
+      },
+      "settings": {
+        "lore": [
+          "[TRANSLATE: Configure island]",
+          "[TRANSLATE: settings]"
+        ]
+      },
+      "upgrades": {
+        "lore": [
+          "[TRANSLATE: Upgrade your]",
+          "[TRANSLATE: island features]"
+        ]
+      },
+      "permissions": {
+        "lore": [
+          "[TRANSLATE: Manage member]",
+          "[TRANSLATE: permissions]"
+        ]
+      },
+      "biome": {
+        "lore": [
+          "[TRANSLATE: Change island]",
+          "[TRANSLATE: biome]"
+        ]
+      },
+      "contributions": {
+        "lore": [
+          "[TRANSLATE: View island]",
+          "[TRANSLATE: contributions]"
+        ]
+      },
+      "visitors": {
+        "lore": [
+          "[TRANSLATE: Manage visitor]",
+          "[TRANSLATE: settings]"
+        ]
+      },
+      "reset": {
+        "lore": [
+          "[TRANSLATE: Reset your]",
+          "[TRANSLATE: island]"
+        ]
+      },
+      "leave": {
+        "lore": [
+          "[TRANSLATE: Leave this]",
+          "[TRANSLATE: island]"
+        ]
+      },
+      "back": {
+        "name": "[TRANSLATE: Back]"
+      },
+      "close": {
+        "name": "[TRANSLATE: Close]"
       }
     },
     "creation": {
@@ -128,7 +224,10 @@
       "confirm_word": "DELETE",
       "input_error": "Please type 'DELETE' exactly.",
       "input_title": "Type 'DELETE' to confirm",
-      "input_text": "Type here..."
+      "input_text": "Type here...",
+      "success": "[TRANSLATE: Island deleted successfully!]",
+      "warning": "[TRANSLATE: ⚠ Warning: This action cannot be undone!]",
+      "description": "[TRANSLATE: All island data will be permanently deleted.]"
     },
     "settings": {
       "name_error": "Island name must be 1-20 characters.",
@@ -168,7 +267,12 @@
         "contribution": "Your Contribution: {0}G"
       },
       "quick_amount": "Quick Amount: {0}G",
-      "gold_needed": "Gold Needed: {0}G"
+      "gold_needed": "Gold Needed: {0}G",
+      "title": "[TRANSLATE: Island Contribution]",
+      "input_amount": "[TRANSLATE: Contribution Amount]",
+      "input_gold": "[TRANSLATE: Enter gold amount to contribute]",
+      "success": "[TRANSLATE: Successfully contributed {0}G!]",
+      "not_enough_gold": "[TRANSLATE: You don't have enough gold!]"
     },
     "contribution": {
       "title": "Island Contributions",
@@ -186,7 +290,13 @@
       "add": {
         "current": "Current: {0}G"
       }
-    }
+    },
+    "create": {
+      "title": "[TRANSLATE: Create New Island]"
+    },
+    "creation_click_to_select": "[TRANSLATE: Click to select]",
+    "contribute_contribution_input_text": "[TRANSLATE: Enter contribution amount]",
+    "contribute_contribution_input_title": "[TRANSLATE: Contribution Amount]"
   },
   "error": {
     "player_only": "This command can only be used by players."
@@ -207,5 +317,63 @@
     "kick_input_error": "追放と入力して確認してください",
     "kick_input_text": "このメンバーを島から追放するには追放と入力してください",
     "kick_input_title": "メンバー追放確認"
-  }
+  },
+  "gui_creation_click_to_select": "[TRANSLATE: Click to select]",
+  "gui_biome_change_title": "[TRANSLATE: Change Island Biome]",
+  "gui_biome_click_to_change": "[TRANSLATE: Click to change biome]",
+  "gui_biome_current_info": "[TRANSLATE: Current Biome]",
+  "gui_biome_current_info_lore": "[TRANSLATE: Your island's current biome]",
+  "gui_biome_selection_title": "[TRANSLATE: Select Biome]",
+  "gui_biome_selection_info_title": "[TRANSLATE: Biome Selection]",
+  "gui_biome_selection_info_lore": [
+    "[TRANSLATE: Choose your island's biome]",
+    "[TRANSLATE: This will change the appearance]"
+  ],
+  "gui_biome_selection_current_selected": "[TRANSLATE: Currently Selected]",
+  "gui_biome_selection_click_to_select": "[TRANSLATE: Click to select this biome]",
+  "gui_biome_selection_back_lore": "[TRANSLATE: Return to island menu]",
+  "gui_biome_simple_title": "[TRANSLATE: Island Biome]",
+  "gui_contribute_gold_info_balance": "[TRANSLATE: Your Balance: {0}]",
+  "gui_contribute_gold_info_contribution": "[TRANSLATE: Your Contribution: {0}]",
+  "gui_contribute_quick_amount": "[TRANSLATE: Quick Amount: {0}]",
+  "gui_contribute_gold_needed": "[TRANSLATE: Gold Needed: {0}]",
+  "gui_contribution_info_island_name": "[TRANSLATE: Island: {0}]",
+  "gui_delete_confirm_title": "[TRANSLATE: Delete Island]",
+  "gui_delete_confirm_island_info_title": "[TRANSLATE: Island Information]",
+  "gui_delete_confirm_island_info_id": "[TRANSLATE: Island ID: {0}]",
+  "gui_delete_confirm_island_info_members": "[TRANSLATE: Members: {0}]",
+  "gui_delete_confirm_island_info_created": "[TRANSLATE: Created: {0}]",
+  "gui_member_invite_prompt": "[TRANSLATE: Enter player name]",
+  "gui_member_invite_example": "[TRANSLATE: Example: Steve]",
+  "gui_member_role_owner": "[TRANSLATE: Owner]",
+  "gui_member_all_permissions": "[TRANSLATE: All permissions]",
+  "gui_member_owner_cannot_change": "[TRANSLATE: Cannot change owner role]",
+  "gui_member_join_date": "[TRANSLATE: Joined: {0}]",
+  "gui_member_most_permissions": "[TRANSLATE: Most permissions]",
+  "gui_member_normal_permissions": "[TRANSLATE: Normal permissions]",
+  "gui_member_left_click_role": "[TRANSLATE: Left-click to change role]",
+  "gui_member_right_click_kick": "[TRANSLATE: Right-click to kick]",
+  "gui_member_role_worker": "[TRANSLATE: Worker]",
+  "gui_member_hire_date": "[TRANSLATE: Hired: {0}]",
+  "gui_member_last_activity": "[TRANSLATE: Last active: {0}]",
+  "gui_member_limited_permissions": "[TRANSLATE: Limited permissions]",
+  "gui_member_left_click_extend": "[TRANSLATE: Left-click to extend contract]",
+  "gui_member_right_click_fire": "[TRANSLATE: Right-click to fire]",
+  "gui_member_manage_title": "[TRANSLATE: Manage Members]",
+  "gui_member_manage_permission_not_implemented": "[TRANSLATE: Permission system not implemented yet]",
+  "gui_member_manage_current_role": "[TRANSLATE: Current Role: {0}]",
+  "role_co_owner": "[TRANSLATE: Co-Owner]",
+  "roles_sub_owner": "[TRANSLATE: Sub-Owner]",
+  "contribute_amount_too_low": "[TRANSLATE: Amount must be at least 1]",
+  "contribute_invalid_amount": "[TRANSLATE: Invalid amount]",
+  "gui_contribute_contribution_input_text": "[TRANSLATE: Enter contribution amount]",
+  "gui_contribute_contribution_input_title": "[TRANSLATE: Contribute Gold]",
+  "delete_confirm_word": "[TRANSLATE: DELETE]",
+  "delete_input_error": "[TRANSLATE: Type DELETE to confirm]",
+  "delete_input_text": "[TRANSLATE: Type DELETE to confirm deletion]",
+  "delete_input_title": "[TRANSLATE: Confirm Deletion]",
+  "member_kick_confirm_word": "[TRANSLATE: KICK]",
+  "member_kick_input_error": "[TRANSLATE: Type KICK to confirm]",
+  "member_kick_input_text": "[TRANSLATE: Type KICK to confirm]",
+  "member_kick_input_title": "[TRANSLATE: Confirm Kick]"
 }

@@ -12,6 +12,7 @@ import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -34,19 +35,19 @@ public class IslandBiomeSimpleGui extends BaseGui {
     
     // 사용 가능한 바이옴들
     private static final List<BiomeOption> BIOMES = List.of(
-        new BiomeOption("PLAINS", "biome.plains", Material.GRASS_BLOCK),
-        new BiomeOption("FOREST", "biome.forest", Material.OAK_SAPLING),
-        new BiomeOption("DESERT", "biome.desert", Material.SAND),
-        new BiomeOption("SNOWY_PLAINS", "biome.snowy_plains", Material.SNOW_BLOCK),
-        new BiomeOption("JUNGLE", "biome.jungle", Material.JUNGLE_SAPLING),
-        new BiomeOption("SWAMP", "biome.swamp", Material.LILY_PAD),
-        new BiomeOption("OCEAN", "biome.ocean", Material.KELP),
-        new BiomeOption("MUSHROOM_FIELDS", "biome.mushroom_fields", Material.RED_MUSHROOM)
+        new BiomeOption("PLAINS", LangKey.BIOME_PLAINS_NAME, LangKey.BIOME_PLAINS_DESCRIPTION, Material.GRASS_BLOCK),
+        new BiomeOption("FOREST", LangKey.BIOME_FOREST_NAME, LangKey.BIOME_FOREST_DESCRIPTION, Material.OAK_SAPLING),
+        new BiomeOption("DESERT", LangKey.BIOME_DESERT_NAME, LangKey.BIOME_DESERT_DESCRIPTION, Material.SAND),
+        new BiomeOption("SNOWY_PLAINS", LangKey.BIOME_SNOWY_PLAINS_NAME, LangKey.BIOME_SNOWY_PLAINS_DESCRIPTION, Material.SNOW_BLOCK),
+        new BiomeOption("JUNGLE", LangKey.BIOME_JUNGLE_NAME, LangKey.BIOME_JUNGLE_DESCRIPTION, Material.JUNGLE_SAPLING),
+        new BiomeOption("SWAMP", LangKey.BIOME_SWAMP_NAME, LangKey.BIOME_SWAMP_DESCRIPTION, Material.LILY_PAD),
+        new BiomeOption("OCEAN", LangKey.BIOME_OCEAN_NAME, LangKey.BIOME_OCEAN_DESCRIPTION, Material.KELP),
+        new BiomeOption("MUSHROOM_FIELDS", LangKey.BIOME_MUSHROOM_FIELDS_NAME, LangKey.BIOME_MUSHROOM_FIELDS_DESCRIPTION, Material.RED_MUSHROOM)
     );
     
     private IslandBiomeSimpleGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                 @NotNull RPGMain plugin, @NotNull IslandDTO island, @NotNull String currentBiome) {
-        super(viewer, guiManager, 36, LangManager.getComponent("gui.island.biome-simple.title".replace("-", "_"), viewer.locale()));
+        super(viewer, guiManager, 36, LangManager.text(LangKey.GUI_ISLAND_BIOME_SIMPLE_TITLE, viewer.locale()));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.currentBiome = currentBiome;
@@ -89,35 +90,38 @@ public class IslandBiomeSimpleGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.island.biome-simple.title".replace("-", "_"), viewer.locale());
+        return LangManager.text(LangKey.GUI_ISLAND_BIOME_SIMPLE_TITLE, viewer.locale());
     }
     
     private ItemStack createBiomeItem(BiomeOption biome, boolean isSelected) {
-        ItemBuilder builder = ItemBuilder.of(biome.material, getViewerLocale())
-                .displayNameTranslated(biome.biomeKey + ".name")
+        ItemBuilder builder = ItemBuilder.of(biome.material)
+                .displayName(LangManager.text(biome.nameKey, getViewerLocale()))
                 .addLore(Component.empty());
         
         if (isSelected) {
-            builder.addLoreTranslated("gui.island.biome.currently_selected");
+            builder.addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_CURRENTLY_SELECTED, getViewerLocale()));
             builder.addLore(Component.empty());
             builder.glint(true);
         }
         
-        builder.addLoreTranslated(biome.biomeKey + ".description");
+        // Add description as list
+        for (Component line : LangManager.list(biome.descriptionKey, getViewerLocale())) {
+            builder.addLore(line);
+        }
         builder.addLore(Component.empty());
         
         if (!isSelected) {
-            builder.addLoreTranslated("gui.island.biome.click_to_select");
+            builder.addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_CLICK_TO_SELECT, getViewerLocale()));
         }
         
         return builder.hideAllFlags().build();
     }
     
     private ItemStack createBackButton() {
-        return ItemBuilder.of(Material.ARROW, getViewerLocale())
-                .displayNameTranslated("gui.buttons.back.name")
+        return ItemBuilder.of(Material.ARROW)
+                .displayName(LangManager.text(LangKey.GUI_BUTTONS_BACK_NAME, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLoreTranslated("gui.island.biome.back_to_settings")
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_BACK_TO_SETTINGS, getViewerLocale()))
                 .hideAllFlags()
                 .build();
     }
@@ -125,7 +129,7 @@ public class IslandBiomeSimpleGui extends BaseGui {
     private void handleBiomeSelection(Player player, BiomeOption biome) {
         // 이미 선택된 바이옴이면 무시
         if (biome.id.equals(currentBiome)) {
-            sendMessage(player, "gui.island.biome.message.already_selected");
+            player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_BIOME_MESSAGE_ALREADY_SELECTED, player.locale()));
             return;
         }
         
@@ -145,7 +149,7 @@ public class IslandBiomeSimpleGui extends BaseGui {
         // applyBiomeToIsland은 private 메서드이므로 주석 처리
         // 바이옴 설정은 DTO에만 저장
         
-        player.sendMessage(LangManager.getComponent("gui.island.biome.message.changed", player.locale(), Component.translatable(biome.biomeKey + ".name")));
+        player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_BIOME_MESSAGE_CHANGED, player.locale(), LangManager.text(biome.nameKey, player.locale())));
         player.closeInventory();
         
         // 설정 메뉴로 돌아가기
@@ -153,5 +157,5 @@ public class IslandBiomeSimpleGui extends BaseGui {
     }
     
     // 바이옴 옵션 레코드
-    private record BiomeOption(String id, String biomeKey, Material material) {}
+    private record BiomeOption(String id, LangKey nameKey, LangKey descriptionKey, Material material) {}
 }

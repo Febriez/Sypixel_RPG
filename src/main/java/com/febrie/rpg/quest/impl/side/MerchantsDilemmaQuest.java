@@ -45,14 +45,14 @@ public class MerchantsDilemmaQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_MERCHANTS_DILEMMA)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_troubled_merchant", "troubled_merchant"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_troubled_merchant", "troubled_merchant", 1),
                         new VisitLocationObjective("visit_caravan_route", "caravan_route"),
                         new KillMobObjective("kill_pillagers", EntityType.PILLAGER, 12),
                         new CollectItemObjective("collect_stolen_goods", Material.CHEST, 5),
                         new VisitLocationObjective("visit_bandits_hideout", "bandits_hideout"),
                         new CollectItemObjective("collect_trade_contract", Material.PAPER, 3),
-                        new InteractNPCObjective("return_troubled_merchant", "troubled_merchant")
+                        new InteractNPCObjective("return_troubled_merchant", "troubled_merchant", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addExperience(2000)
@@ -77,7 +77,16 @@ public class MerchantsDilemmaQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.merchants_dilemma.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "talk_troubled_merchant" -> LangManager.list(LangKey.QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_TALK_TROUBLED_MERCHANT, who);
+            case "visit_caravan_route" -> LangManager.list(LangKey.QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_VISIT_CARAVAN_ROUTE, who);
+            case "kill_pillagers" -> LangManager.list(LangKey.QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_KILL_PILLAGERS, who);
+            case "collect_stolen_goods" -> LangManager.list(LangKey.QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_COLLECT_STOLEN_GOODS, who);
+            case "visit_bandits_hideout" -> LangManager.list(LangKey.QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_VISIT_BANDITS_HIDEOUT, who);
+            case "collect_trade_contract" -> LangManager.list(LangKey.QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_COLLECT_TRADE_CONTRACT, who);
+            case "return_troubled_merchant" -> LangManager.list(LangKey.QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_RETURN_TROUBLED_MERCHANT, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -85,9 +94,14 @@ public class MerchantsDilemmaQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_MERCHANTS_DILEMMA_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_MERCHANTS_DILEMMA_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

@@ -77,7 +77,7 @@ public class CombatPowerGui extends BaseGui {
 
         // 중앙 장식
         setItem(4, GuiItem.display(
-                ItemBuilder.of(Material.DIAMOND_SWORD, getViewerLocale())
+                ItemBuilder.of(Material.DIAMOND_SWORD)
                         .displayName(LangManager.text(LangKey.GUI_COMBAT_POWER_TOTAL, viewer, String.valueOf(rpgPlayer.getCombatPower())))
                         .flags(ItemFlag.values())
                         .glint(true)
@@ -104,7 +104,7 @@ public class CombatPowerGui extends BaseGui {
         totalCombatPower += levelContribution;
 
         GuiItem levelItem = GuiItem.display(
-                ItemBuilder.of(Material.EXPERIENCE_BOTTLE, getViewerLocale())
+                ItemBuilder.of(Material.EXPERIENCE_BOTTLE)
                         .displayName(LangManager.text(LangKey.GUI_COMBAT_POWER_LEVEL_CONTRIBUTION, viewer))
                         .addLore(LangManager.text(LangKey.GUI_COMBAT_POWER_LEVEL_DETAIL, viewer,
                                 String.valueOf(rpgPlayer.getLevel()),
@@ -138,7 +138,7 @@ public class CombatPowerGui extends BaseGui {
             Component statName = LangManager.text(LangKey.valueOf("STAT_" + info.stat.getId().toUpperCase() + "_NAME"), viewer);
 
             GuiItem statItem = GuiItem.display(
-                    ItemBuilder.of(info.material, getViewerLocale())
+                    ItemBuilder.of(info.material)
                             .displayName(LangManager.text(LangKey.GUI_COMBAT_POWER_STAT_CONTRIBUTION, viewer, statName))
                             .addLore(LangManager.text(LangKey.GUI_COMBAT_POWER_STAT_DETAIL, viewer,
                                     String.valueOf(statValue),
@@ -153,7 +153,7 @@ public class CombatPowerGui extends BaseGui {
 
         // 총합 표시
         GuiItem totalItem = GuiItem.display(
-                ItemBuilder.of(Material.NETHER_STAR, getViewerLocale())
+                ItemBuilder.of(Material.NETHER_STAR)
                         .displayName(LangManager.text(LangKey.GUI_COMBAT_POWER_TOTAL, viewer, String.valueOf(totalCombatPower)))
                         .addLore(Component.empty())
                         .addLore(LangManager.text(LangKey.GUI_COMBAT_POWER_BREAKDOWN, viewer))

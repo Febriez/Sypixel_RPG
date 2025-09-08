@@ -1,4 +1,23 @@
 {
   "name": "Weekly Survival Challenge",
-  "dialogs": []
+  "info": "Test your survival skills in the weekly wilderness challenge.",
+  "objectives": {
+    "enter_wilderness": "Enter the challenge wilderness",
+    "survive_waves": "Survive 10 waves of enemies",
+    "maintain_health": "Maintain above 50% health",
+    "collect_supplies": "Collect survival supplies",
+    "last_seven_days": "Survive for 7 in-game days"
+  },
+  "dialogs": [
+    "Survivor! Ready for this week's ultimate challenge?",
+    "The wilderness arena has been reset with new dangers.",
+    "You'll face waves of increasingly difficult enemies.",
+    "Resources are scarce - you must scavenge to survive.",
+    "The environment itself will try to kill you.",
+    "Only the strongest survive the full seven days.",
+    "Do you have what it takes to be a champion?"
+  ],
+  "npc_name": "Survival Master",
+  "accept": "I'll survive anything!",
+  "decline": "I need more training."
 }

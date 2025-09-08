@@ -1,6 +1,17 @@
 {
   "name": "Restoration",
   "info": "The new era has begun, but the scars of war run deep. The world needs healing and restoration on a grand scale. Use your power and wisdom to rebuild what was lost and create something even greater than before.",
+  "objectives": {
+    "restoration_overseer": "Speak with the Restoration Overseer",
+    "scarred_lands": "Visit the Scarred Lands",
+    "healing_herbs": "Collect Healing Herbs",
+    "fertile_soil": "Collect Fertile Soil",
+    "poisoned_springs": "Visit the Poisoned Springs",
+    "purification_crystal": "Collect Purification Crystals",
+    "kill_zombies": "Defeat the Zombies",
+    "renewal_grove": "Visit the Renewal Grove",
+    "nature_guardian": "Speak with the Nature Guardian"
+  },
   "dialogs": [
     "The world bears many wounds from the great war. Can you help heal them?",
     "I will restore this world to its former glory, and make it even better.",

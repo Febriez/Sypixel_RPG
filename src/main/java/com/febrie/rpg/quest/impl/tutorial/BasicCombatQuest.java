@@ -12,7 +12,6 @@ import com.febrie.rpg.util.LangManager;
 
 import com.febrie.rpg.util.LangKey;
 
-import java.util.List;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -20,7 +19,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 기초 전투 - 튜토리얼 퀘스트 2
@@ -43,7 +44,7 @@ public class BasicCombatQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.TUTORIAL_BASIC_COMBAT)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         new KillMobObjective("kill_zombies", EntityType.ZOMBIE, 5),
                         new KillMobObjective("kill_skeletons", EntityType.SKELETON, 3)
                 ))
@@ -72,8 +73,11 @@ public class BasicCombatQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.tutorial.basic_combat.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "kill_zombies" -> LangManager.list(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_OBJECTIVES_KILL_ZOMBIES, who);
+            case "kill_skeletons" -> LangManager.list(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_OBJECTIVES_KILL_SKELETONS, who);
+            default -> new ArrayList<>();
+        };
     }
 
     @Override
@@ -82,8 +86,13 @@ public class BasicCombatQuest extends Quest {
     }
     
     @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_DIALOGS, who);
+    }
+    
+    @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_TUTORIAL_BASIC_COMBAT_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

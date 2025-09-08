@@ -43,14 +43,14 @@ public class LibrarianMysteryQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_LIBRARIAN_MYSTERY)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_head_librarian", "head_librarian"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_head_librarian", "head_librarian", 1),
                         new VisitLocationObjective("visit_ancient_archives", "ancient_archives"),
                         new CollectItemObjective("collect_missing_tome", Material.ENCHANTED_BOOK, 3),
                         new CollectItemObjective("collect_cipher_key", Material.COMPASS, 1),
                         new VisitLocationObjective("visit_secret_chamber", "secret_chamber"),
                         new CollectItemObjective("collect_forbidden_knowledge", Material.WRITTEN_BOOK, 2),
-                        new InteractNPCObjective("return_head_librarian", "head_librarian")
+                        new InteractNPCObjective("return_head_librarian", "head_librarian", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addExperience(2200)
@@ -75,7 +75,16 @@ public class LibrarianMysteryQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.librarian_mystery.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "talk_head_librarian" -> LangManager.list(LangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_TALK_HEAD_LIBRARIAN, who);
+            case "visit_ancient_archives" -> LangManager.list(LangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_VISIT_ANCIENT_ARCHIVES, who);
+            case "collect_missing_tome" -> LangManager.list(LangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_COLLECT_MISSING_TOME, who);
+            case "collect_cipher_key" -> LangManager.list(LangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_COLLECT_CIPHER_KEY, who);
+            case "visit_secret_chamber" -> LangManager.list(LangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_VISIT_SECRET_CHAMBER, who);
+            case "collect_forbidden_knowledge" -> LangManager.list(LangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_COLLECT_FORBIDDEN_KNOWLEDGE, who);
+            case "return_head_librarian" -> LangManager.list(LangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_RETURN_HEAD_LIBRARIAN, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -83,9 +92,14 @@ public class LibrarianMysteryQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

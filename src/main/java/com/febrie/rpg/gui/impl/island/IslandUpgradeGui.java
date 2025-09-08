@@ -10,6 +10,7 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import net.kyori.adventure.text.Component;
@@ -68,7 +69,7 @@ public class IslandUpgradeGui extends BaseGui {
     
     private IslandUpgradeGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                             @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 45, LangManager.getComponent("gui.island.upgrade.title".replace("-", "_"), viewer.locale()));
+        super(viewer, guiManager, 45, LangManager.text(LangKey.GUI_ISLAND_UPGRADE_TITLE, viewer));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
     }
@@ -120,16 +121,16 @@ public class IslandUpgradeGui extends BaseGui {
         
         // 정보 아이템
         ItemStack infoItem = ItemBuilder.of(Material.BOOK)
-                .displayNameTranslated("items.island.upgrade.info.name")
-                .loreTranslated(viewer.locale(), "items.island.upgrade.info.lore")
+                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_UPGRADE_INFO_NAME, viewer.locale()))
+                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_UPGRADE_INFO_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();
         setItem(31, new GuiItem(infoItem));
         
         // 뒤로가기 버튼
         setItem(40, new GuiItem(ItemBuilder.of(Material.ARROW)
-                .displayName(LangManager.getComponent("items.buttons.back.name", getViewerLocale()))
-                .addLore(LangManager.getComponent("items.buttons.back.lore", getViewerLocale()))
+                .displayName(LangManager.text(LangKey.ITEMS_GUI_BUTTONS_BACK_NAME, getViewerLocale()))
+                .addLore(LangManager.list(LangKey.GUI_BUTTONS_BACK_LORE, getViewerLocale()))
                 .hideAllFlags()
                 .build()).onAnyClick(player -> {
             player.closeInventory();
@@ -144,23 +145,23 @@ public class IslandUpgradeGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.island.upgrade.title".replace("-", "_"), viewer.locale());
+        return LangManager.text(LangKey.GUI_ISLAND_UPGRADE_TITLE, viewer.locale());
     }
     
     private ItemStack createUpgradeItem(Material material, String nameKey, 
                                        int currentLevel, int[] values, long[] costs, String unitKey) {
         ItemBuilder builder = ItemBuilder.of(material)
-                .displayNameTranslated(nameKey)
+                .displayName(LangManager.text(getUpgradeLangKey(nameKey), viewer.locale()))
                 .addLore(Component.empty());
         
         // 현재 레벨
-        Component unit = Component.translatable(unitKey);
-        builder.addLore(LangManager.getComponent("gui.island.upgrade.current-level", getViewerLocale(), 
+        Component unit = LangManager.text(getUnitLangKey(unitKey), viewer.locale());
+        builder.addLore(LangManager.text(LangKey.GUI_ISLAND_UPGRADE_CURRENT_LEVEL, getViewerLocale(), 
                 Component.text(currentLevel), Component.text(values[currentLevel]), unit));
         
         if (currentLevel < values.length - 1) {
             // 다음 레벨 정보
-            builder.addLore(LangManager.getComponent("gui.island.upgrade.next-level", getViewerLocale(),
+            builder.addLore(LangManager.text(LangKey.GUI_ISLAND_UPGRADE_NEXT_LEVEL, getViewerLocale(),
                     Component.text(currentLevel + 1), Component.text(values[currentLevel + 1]), unit));
             
             // 업그레이드 비용
@@ -168,27 +169,27 @@ public class IslandUpgradeGui extends BaseGui {
             long currentContribution = island.membership().contributions().getOrDefault(viewer.getUniqueId().toString(), 0L);
             
             builder.addLore(Component.empty())
-                   .addLore(LangManager.getComponent("gui.island.upgrade.cost", getViewerLocale(), Component.text(String.format("%,d", cost))));
+                   .addLore(LangManager.text(LangKey.GUI_ISLAND_UPGRADE_COST, getViewerLocale(), Component.text(String.format("%,d", cost))));
             
-            builder.addLore(LangManager.getComponent("gui.island.upgrade.current-contribution", getViewerLocale(),
+            builder.addLore(LangManager.text(LangKey.GUI_ISLAND_UPGRADE_CURRENT_CONTRIBUTION, getViewerLocale(),
                     Component.text(String.format("%,d", currentContribution))
                             .color(currentContribution >= cost ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)));
             
             builder.addLore(Component.empty());
             if (currentContribution >= cost) {
-                builder.addLore(LangManager.getComponent("gui.island.upgrade.click-to-upgrade".replace("-", "_"), viewer.locale()).color(UnifiedColorUtil.SUCCESS));
+                builder.addLore(LangManager.text(LangKey.GUI_ISLAND_UPGRADE_CLICK_TO_UPGRADE, viewer.locale()).color(UnifiedColorUtil.SUCCESS));
             } else {
-                builder.addLore(LangManager.getComponent("gui.island.upgrade.insufficient-contribution".replace("-", "_"), viewer.locale()).color(UnifiedColorUtil.ERROR));
+                builder.addLore(LangManager.text(LangKey.GUI_ISLAND_UPGRADE_INSUFFICIENT_CONTRIBUTION, viewer.locale()).color(UnifiedColorUtil.ERROR));
             }
         } else {
             // 최대 레벨
             builder.addLore(Component.empty())
-                   .addLore(LangManager.getComponent("gui.island.upgrade.max-level".replace("-", "_"), viewer.locale()).color(UnifiedColorUtil.GOLD));
+                   .addLore(LangManager.text(LangKey.GUI_ISLAND_UPGRADE_MAX_LEVEL, viewer.locale()).color(UnifiedColorUtil.GOLD));
         }
         
         // 레벨 진행도 표시
         builder.addLore(Component.empty())
-               .addLore(LangManager.getComponent("gui.island.upgrade.progress".replace("-", "_"), viewer.locale()).color(UnifiedColorUtil.SECONDARY))
+               .addLore(LangManager.text(LangKey.GUI_ISLAND_UPGRADE_PROGRESS, viewer.locale()).color(UnifiedColorUtil.SECONDARY))
                .addLore(UnifiedColorUtil.parseComponent(createProgressBar(currentLevel, values.length - 1)));
         
         return builder.hideAllFlags().build();
@@ -347,5 +348,22 @@ public class IslandUpgradeGui extends BaseGui {
                     island.core().size(), island.core().size(),
                     updatedIsland.core().size(), updatedIsland.core().size()));
         });
+    }
+    
+    private LangKey getUpgradeLangKey(String nameKey) {
+        return switch (nameKey) {
+            case "items.island.upgrade.size.name" -> LangKey.ITEMS_ISLAND_UPGRADE_SIZE_NAME;
+            case "items.island.upgrade.member.name" -> LangKey.ITEMS_ISLAND_UPGRADE_MEMBER_NAME;
+            case "items.island.upgrade.worker.name" -> LangKey.ITEMS_ISLAND_UPGRADE_WORKER_NAME;
+            default -> LangKey.GENERAL_UNKNOWN;
+        };
+    }
+    
+    private LangKey getUnitLangKey(String unitKey) {
+        return switch (unitKey) {
+            case "unit.blocks" -> LangKey.UNIT_BLOCKS;
+            case "unit.players" -> LangKey.UNIT_PLAYERS;
+            default -> LangKey.GENERAL_UNKNOWN;
+        };
     }
 }

@@ -1,5 +1,35 @@
 {
   "name": "Path of Shadows",
+  "info": "Unlock a hidden class by following mysterious instructions, completing shadow trials, and choosing your dark path.",
+  "npc_name": "Shadow Master",
+  "accept": "I'm ready to walk the path of shadows.",
+  "decline": "This path seems too dangerous to pursue.",
+  "objectives": [
+    {
+      "id": "follow_mysterious_letter",
+      "description": "Follow the mysterious letter's instructions as the chosen one"
+    },
+    {
+      "id": "perform_midnight_ritual",
+      "description": "Knock three times at the abandoned well at midnight"
+    },
+    {
+      "id": "complete_first_trial",
+      "description": "Learn how to become a true shadow in the first trial"
+    },
+    {
+      "id": "eliminate_corrupt_noble",
+      "description": "Eliminate the corrupt noble and bring his seal as proof"
+    },
+    {
+      "id": "choose_shadow_specialization",
+      "description": "Choose between Shadow Assassin, Dark Mage, or Night Tracker"
+    },
+    {
+      "id": "receive_shadow_mark",
+      "description": "Receive the mark of shadows as your new identity"
+    }
+  ],
   "dialogs": [
     "If you're reading this letter, you are the chosen one...",
     "At midnight, knock three times with a stick in front of the abandoned well.",

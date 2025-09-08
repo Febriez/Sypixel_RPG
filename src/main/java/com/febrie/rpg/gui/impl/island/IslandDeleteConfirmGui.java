@@ -9,6 +9,7 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -21,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import com.febrie.rpg.util.DateFormatUtil;
 
 /**
@@ -37,7 +39,7 @@ public class IslandDeleteConfirmGui extends BaseGui {
     
     private IslandDeleteConfirmGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 27, LangManager.getComponent("gui.island.delete-confirm.title".replace("-", "_"), viewer.locale()));
+        super(viewer, guiManager, 27, LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_TITLE, viewer.locale()));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
     }
@@ -53,8 +55,8 @@ public class IslandDeleteConfirmGui extends BaseGui {
     @Override
     protected void setupLayout() {
         // 배경을 빨간색 유리판으로 채우기
-        ItemStack redPane = ItemBuilder.of(Material.RED_STAINED_GLASS_PANE, getViewerLocale())
-                .displayNameTranslated("gui.island.delete-confirm.warning")
+        ItemStack redPane = ItemBuilder.of(Material.RED_STAINED_GLASS_PANE)
+                .displayName(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_WARNING, getViewerLocale()))
                 .hideTooltip(true)
                 .hideAllFlags()
                 .build();
@@ -79,7 +81,7 @@ public class IslandDeleteConfirmGui extends BaseGui {
                     if (!confirmClicked) {
                         confirmClicked = true;
                         setupLayout();
-                        sendMessage(player, "gui.island.delete-confirm.click-again");
+                        player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_CLICK_AGAIN, player.locale()));
                     } else {
                         handleFinalDeleteConfirmation(player);
                     }
@@ -96,70 +98,70 @@ public class IslandDeleteConfirmGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.island.delete-confirm.title".replace("-", "_"), viewer.locale());
+        return LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_TITLE, viewer.locale());
     }
     
     private ItemStack createIslandInfoItem() {
-        return ItemBuilder.of(Material.GRASS_BLOCK, getViewerLocale())
-                .displayName(LangManager.getComponent("gui.island.delete-confirm.island-info.title", getViewerLocale(), Component.text(island.core().islandName())))
+        return ItemBuilder.of(Material.GRASS_BLOCK)
+                .displayName(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_TITLE, getViewerLocale(), Component.text(island.core().islandName())))
                 .addLore(Component.empty())
-                .addLore(LangManager.getComponent("gui.island.delete-confirm.island-info.id", getViewerLocale(), Component.text(island.core().islandId())))
-                .addLore(LangManager.getComponent("gui.island.delete-confirm.island-info.members", getViewerLocale(), Component.text(String.valueOf(1 + island.membership().members().size()))))
-                .addLore(LangManager.getComponent("gui.island.delete-confirm.island-info.created", getViewerLocale(), Component.text(DateFormatUtil.formatDateOnlyFromMillis(island.core().createdAt()))))
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_ID, getViewerLocale(), Component.text(island.core().islandId())))
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_MEMBERS, getViewerLocale(), Component.text(String.valueOf(1 + island.membership().members().size()))))
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_CREATED, getViewerLocale(), Component.text(DateFormatUtil.formatDateOnlyFromMillis(island.core().createdAt()))))
                 .addLore(Component.empty())
-                .addLoreTranslated("gui.island.delete-confirm.island-info.warning")
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_WARNING, getViewerLocale()))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createCancelButton() {
-        return ItemBuilder.of(Material.EMERALD_BLOCK, getViewerLocale())
-                .displayNameTranslated("gui.island.delete-confirm.cancel.title")
+        return ItemBuilder.of(Material.EMERALD_BLOCK)
+                .displayName(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_CANCEL_TITLE, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLoreTranslated("gui.island.delete-confirm.cancel.lore1")
-                .addLoreTranslated("gui.island.delete-confirm.cancel.lore2")
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_CANCEL_LORE1, getViewerLocale()))
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_CANCEL_LORE2, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLoreTranslated("gui.island.delete-confirm.cancel.click")
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_CANCEL_CLICK, getViewerLocale()))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createConfirmButton() {
         if (!confirmClicked) {
-            return ItemBuilder.of(Material.YELLOW_CONCRETE, getViewerLocale())
-                    .displayNameTranslated("gui.island.delete-confirm.confirm.title")
+            return ItemBuilder.of(Material.YELLOW_CONCRETE)
+                    .displayName(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_CONFIRM_TITLE, getViewerLocale()))
                     .addLore(Component.empty())
-                    .addLoreTranslated("gui.island.delete-confirm.confirm.question")
+                    .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_CONFIRM_QUESTION, getViewerLocale()))
                     .addLore(Component.empty())
-                    .addLoreTranslated("gui.island.delete-confirm.confirm.warning")
+                    .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_CONFIRM_WARNING, getViewerLocale()))
                     .addLore(Component.empty())
-                    .addLoreTranslated("gui.island.delete-confirm.confirm.click")
+                    .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_CONFIRM_CLICK, getViewerLocale()))
                     .hideAllFlags()
                     .build();
         } else {
-            return ItemBuilder.of(Material.RED_CONCRETE, getViewerLocale())
-                    .displayNameTranslated("gui.island.delete-confirm.final-confirm.title")
+            return ItemBuilder.of(Material.RED_CONCRETE)
+                    .displayName(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_FINAL_CONFIRM_TITLE, getViewerLocale()))
                     .addLore(Component.empty())
-                    .addLoreTranslated("gui.island.delete-confirm.final-confirm.warning1")
-                    .addLoreTranslated("gui.island.delete-confirm.final-confirm.warning2")
+                    .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_FINAL_CONFIRM_WARNING1, getViewerLocale()))
+                    .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_FINAL_CONFIRM_WARNING2, getViewerLocale()))
                     .addLore(Component.empty())
-                    .addLoreTranslated("gui.island.delete-confirm.final-confirm.click")
+                    .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_FINAL_CONFIRM_CLICK, getViewerLocale()))
                     .hideAllFlags()
                     .build();
         }
     }
     
     private ItemStack createWarningItem() {
-        return ItemBuilder.of(Material.BARRIER, getViewerLocale())
-                .displayNameTranslated("gui.island.delete-confirm.warning-list.title")
+        return ItemBuilder.of(Material.BARRIER)
+                .displayName(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_TITLE, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLoreTranslated("gui.island.delete-confirm.warning-list.item1")
-                .addLoreTranslated("gui.island.delete-confirm.warning-list.item2")
-                .addLoreTranslated("gui.island.delete-confirm.warning-list.item3")
-                .addLoreTranslated("gui.island.delete-confirm.warning-list.item4")
-                .addLoreTranslated("gui.island.delete-confirm.warning-list.item5")
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_ITEM1, getViewerLocale()))
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_ITEM2, getViewerLocale()))
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_ITEM3, getViewerLocale()))
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_ITEM4, getViewerLocale()))
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_ITEM5, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLoreTranslated("gui.island.delete-confirm.warning-list.final")
+                .addLore(LangManager.text(LangKey.GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_FINAL, getViewerLocale()))
                 .hideAllFlags()
                 .build();
     }
@@ -175,22 +177,22 @@ public class IslandDeleteConfirmGui extends BaseGui {
                     String input = stateSnapshot.getText();
                     
                     // 삭제 확인 단어 체크
-                    Component confirmComponent = LangManager.getComponent("island.delete.confirm-word", player.locale());
+                    Component confirmComponent = LangManager.text(LangKey.ISLAND_DELETE_CONFIRM_WORD, player);
                     String confirmWord = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(confirmComponent);
                     if (!confirmWord.equals(input)) {
-                        player.sendMessage(LangManager.getComponent("island.delete.input-error", player.locale()).color(NamedTextColor.RED));
-                        return Arrays.asList(AnvilGUI.ResponseAction.close());
+                        player.sendMessage(LangManager.text(LangKey.ISLAND_DELETE_INPUT_ERROR, player).color(NamedTextColor.RED));
+                        return List.of(AnvilGUI.ResponseAction.close());
                     }
                     
                     // 섬 삭제 진행
                     performIslandDeletion(player);
                     
-                    return Arrays.asList(AnvilGUI.ResponseAction.close());
+                    return List.of(AnvilGUI.ResponseAction.close());
                 })
                 .text(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                        LangManager.getComponent("island.delete.input-text", player.locale())))
+                        LangManager.text(LangKey.ISLAND_DELETE_INPUT_TEXT, player)))
                 .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                        LangManager.getComponent("island.delete.input-title", player.locale())))
+                        LangManager.text(LangKey.ISLAND_DELETE_INPUT_TITLE, player)))
                 .plugin(plugin)
                 .open(player);
     }

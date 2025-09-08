@@ -1,5 +1,31 @@
 {
   "name": "Breaking the Eternal Curse",
+  "info": "Break the eternal curse that plagues the land, succeeding where countless others have failed.",
+  "npc_name": "Curse Scholar",
+  "accept": "I believe I can succeed where others have failed.",
+  "decline": "This curse seems too powerful for me to break.",
+  "objectives": [
+    {
+      "id": "investigate_curse_plague",
+      "description": "Investigate how the curse spreads across the land"
+    },
+    {
+      "id": "learn_from_failures",
+      "description": "Study why many others have failed to break the curse"
+    },
+    {
+      "id": "resist_curse_backlash",
+      "description": "Withstand the curse's resistance to your efforts"
+    },
+    {
+      "id": "locate_curse_source",
+      "description": "Track down and locate the source of the curse"
+    },
+    {
+      "id": "break_eternal_curse",
+      "description": "Successfully break the eternal curse and free the land"
+    }
+  ],
   "dialogs": [
     "The curse spreads like a plague across the land.",
     "Many have tried to break it, all have failed.",

@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Side Quest: Mysterious Cave
@@ -45,8 +46,8 @@ public class MysteriousCaveQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_MYSTERIOUS_CAVE)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_cave_explorer", "cave_explorer"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_cave_explorer", "cave_explorer", 1),
                         new VisitLocationObjective("visit_dark_cave_entrance", "dark_cave_entrance"),
                         new KillMobObjective("kill_bats", EntityType.BAT, 15),
                         new CollectItemObjective("collect_glowing_moss", Material.GLOW_LICHEN, 10),
@@ -73,9 +74,16 @@ public class MysteriousCaveQuest extends Quest {
         return LangManager.list(LangKey.QUEST_SIDE_MYSTERIOUS_CAVE_INFO, who);
     }
 
-    @Override
+        @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.mysterious_cave.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "cave_explorer" -> LangManager.list(LangKey.QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_CAVE_EXPLORER, who);
+            case "enter_cave" -> LangManager.list(LangKey.QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_ENTER_CAVE, who);
+            case "light_torches" -> LangManager.list(LangKey.QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_LIGHT_TORCHES, who);
+            case "defeat_bats" -> LangManager.list(LangKey.QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_DEFEAT_BATS, who);
+            case "find_crystal" -> LangManager.list(LangKey.QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_FIND_CRYSTAL, who);
+            default -> new ArrayList<>();
+        };
     }
 
     @Override
@@ -83,9 +91,14 @@ public class MysteriousCaveQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_MYSTERIOUS_CAVE_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_MYSTERIOUS_CAVE_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

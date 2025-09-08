@@ -257,9 +257,11 @@
       "password": "🔑 Password: ",
       "password_hover": "Click to copy password",
       "notice_title": "💡 Notice:",
-      "notice_1": "- Click the password to copy to clipboard",
-      "notice_2": "- Login to the website with email and password",
-      "notice_3": "- We recommend changing your password after login",
+      "notices": [
+        "- Click the password to copy to clipboard",
+        "- Login to the website with email and password",
+        "- We recommend changing your password after login"
+      ],
       "website": "🌐 Website: ",
       "website_hover": "Click to open website",
       "divider": "============================="
@@ -267,8 +269,10 @@
     "failure": {
       "title": "==== Site Account Creation Failed ====",
       "help_title": "💡 Help:",
-      "help_1": "- If you already have an account, login on the website",
-      "help_2": "- If the problem persists, contact an administrator",
+      "help": [
+        "- If you already have an account, login on the website",
+        "- If the problem persists, contact an administrator"
+      ],
       "divider": "============================="
     }
   },
@@ -278,13 +282,17 @@
       "title": "==== Island System ====",
       "message": "You don't have an island yet!",
       "benefits_title": "Creating an island gives you access to:",
-      "benefit_1": "• Build freely on your own personal island",
-      "benefit_2": "• Invite friends to play together",
-      "benefit_3": "• Upgrade your island for more space",
-      "benefit_4": "• Set island warp points",
+      "benefits": [
+        "• Build freely on your own personal island",
+        "• Invite friends to play together",
+        "• Upgrade your island for more space",
+        "• Set island warp points"
+      ],
       "how_to_title": "How to create an island:",
-      "how_to_1": "1. Click the Island button in Main Menu (/menu)",
-      "how_to_2": "2. Click Create Island to make a new island",
+      "how_to": [
+        "1. Click the Island button in Main Menu (/menu)",
+        "2. Click Create Island to make a new island"
+      ],
       "divider": "=================="
     }
   }

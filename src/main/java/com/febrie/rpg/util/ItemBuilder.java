@@ -20,19 +20,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.function.Consumer;
 
 /**
  * Fluent interface builder for creating ItemStacks with Adventure API support
- * Pure item builder - no translation logic
+ * Pure item builder - no translation logic, only handles Components
  *
  * @author Febrie, CoffeeTory
  */
 public class ItemBuilder {
     private final ItemStack itemStack;
     private final ItemMeta itemMeta;
-    private Locale locale; // Store locale for translation methods
 
     /**
      * Creates a new ItemBuilder with the specified material
@@ -147,7 +145,7 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder lore(Component... lines) {
-        return lore(Arrays.asList(lines));
+        return lore(List.of(lines));
     }
 
     /**
@@ -183,7 +181,7 @@ public class ItemBuilder {
      * @return This builder
      */
     public ItemBuilder addLore(Component... lines) {
-        return addLore(Arrays.asList(lines));
+        return addLore(List.of(lines));
     }
 
     /**
@@ -212,7 +210,7 @@ public class ItemBuilder {
      * @param lines The text lines to add
      * @return This builder
      */
-    public ItemBuilder addLore(TextColor color, String... lines) {
+    public ItemBuilder addLore(TextColor color, String @NotNull ... lines) {
         for (String line : lines) {
             addLore(Component.text(line).color(color));
         }
@@ -524,143 +522,5 @@ public class ItemBuilder {
         return new ItemBuilder(itemStack);
     }
 
-    /**
-     * Static factory method with locale support
-     * The locale is stored and used for translation methods
-     *
-     * @param material The material
-     * @param locale   The locale for translations
-     * @return A new ItemBuilder
-     */
-    public static ItemBuilder of(Material material, Locale locale) {
-        ItemBuilder builder = new ItemBuilder(material);
-        builder.locale = locale;
-        return builder;
-    }
 
-    /**
-     * Sets the display name using translation key with stored locale
-     *
-     * @param key The translation key
-     * @return This builder
-     *
-     */
-    public ItemBuilder displayNameTranslated(@NotNull LangKey key) {
-        if (locale == null) {
-            throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale) or call displayNameTranslated(key, locale)");
-        }
-        Component translatedName = LangManager.text(key, locale);
-        return displayName(translatedName);
-    }
-    
-    /**
-     * Temporary backward compatibility method for String keys
-     * @deprecated Use LangKey-based methods instead
-     */
-    @Deprecated
-    public ItemBuilder displayNameTranslated(@NotNull String key) {
-        if (locale == null) {
-            throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale) or call displayNameTranslated(key, locale)");
-        }
-        Component translatedName = LangManager.text(key, locale);
-        return displayName(translatedName);
-    }
-
-    /**
-     * Sets the display name using translation key with explicit locale
-     *
-     * @param key    The translation key
-     * @param locale The player's locale
-     * @return This builder
-     */
-    public ItemBuilder displayNameTranslated(@NotNull LangKey key, @NotNull Locale locale) {
-        Component translatedName = LangManager.text(key, locale);
-        return displayName(translatedName);
-    }
-    
-    /**
-     * Temporary backward compatibility method for String keys with locale
-     * @deprecated Use LangKey-based methods instead
-     */
-    @Deprecated
-    public ItemBuilder displayNameTranslated(@NotNull String key, @NotNull Locale locale) {
-        Component translatedName = LangManager.text(key, locale);
-        return displayName(translatedName);
-    }
-
-    /**
-     * Adds a translated lore line using stored locale
-     *
-     * @param key The translation key
-     * @return This builder
-     */
-    public ItemBuilder addLoreTranslated(@NotNull LangKey key) {
-        if (locale == null) {
-            throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale) or call addLoreTranslated(key, locale)");
-        }
-        Component translatedLore = LangManager.text(key, locale);
-        return addLore(translatedLore);
-    }
-    
-    /**
-     * Temporary backward compatibility method for String keys
-     * @deprecated Use LangKey-based methods instead
-     */
-    @Deprecated
-    public ItemBuilder addLoreTranslated(@NotNull String key) {
-        if (locale == null) {
-            throw new IllegalStateException("Locale not set. Use ItemBuilder.of(Material, Locale) or call addLoreTranslated(key, locale)");
-        }
-        Component translatedLore = LangManager.text(key, locale);
-        return addLore(translatedLore);
-    }
-
-    /**
-     * Adds a translated lore line with explicit locale
-     *
-     * @param key    The translation key
-     * @param locale The player's locale
-     * @return This builder
-     */
-    public ItemBuilder addLoreTranslated(@NotNull LangKey key, @NotNull Locale locale) {
-        Component translatedLore = LangManager.text(key, locale);
-        return addLore(translatedLore);
-    }
-    
-    /**
-     * Temporary backward compatibility method for String keys with locale
-     * @deprecated Use LangKey-based methods instead
-     */
-    @Deprecated
-    public ItemBuilder addLoreTranslated(@NotNull String key, @NotNull Locale locale) {
-        Component translatedLore = LangManager.text(key, locale);
-        return addLore(translatedLore);
-    }
-
-
-    /**
-     * Sets multiple translated lore lines with explicit locale
-     *
-     * @param locale The player's locale
-     * @param keys   The translation keys
-     * @return This builder
-     */
-    public ItemBuilder loreTranslated(@NotNull Locale locale, @NotNull LangKey... keys) {
-        for (LangKey key : keys) {
-            Component translatedLore = LangManager.text(key, locale);
-            addLore(translatedLore);
-        }
-        return this;
-    }
-    
-    /**
-     * Temporary backward compatibility method for String key with args
-     * @deprecated Use LangKey-based methods instead
-     */
-    @Deprecated
-    public ItemBuilder loreTranslated(@NotNull Locale locale, @NotNull String key, Object... args) {
-        Component translatedLore = LangManager.text(key, locale, args);
-        return addLore(translatedLore);
-    }
-    
 }

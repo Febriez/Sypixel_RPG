@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Side Quest: Fisherman's Tale
@@ -45,14 +46,14 @@ public class FishermanTaleQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_FISHERMAN_TALE)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_old_fisherman", "old_fisherman"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_old_fisherman", "old_fisherman", 1),
                         new VisitLocationObjective("visit_fishing_dock", "fishing_dock"),
                         new CollectItemObjective("collect_rare_fish", Material.SALMON, 15),
                         new KillMobObjective("kill_drowned", EntityType.DROWNED, 10),
                         new VisitLocationObjective("visit_deep_waters", "deep_waters"),
                         new CollectItemObjective("collect_sea_treasure", Material.PRISMARINE_SHARD, 8),
-                        new InteractNPCObjective("return_old_fisherman", "old_fisherman")
+                        new InteractNPCObjective("return_old_fisherman", "old_fisherman", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addExperience(1800)
@@ -75,9 +76,18 @@ public class FishermanTaleQuest extends Quest {
         return LangManager.list(LangKey.QUEST_SIDE_FISHERMAN_TALE_INFO, who);
     }
 
-    @Override
+        @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.fisherman_tale.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "talk_old_fisherman" -> LangManager.list(LangKey.QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_TALK_OLD_FISHERMAN, who);
+            case "visit_fishing_dock" -> LangManager.list(LangKey.QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_VISIT_FISHING_DOCK, who);
+            case "collect_rare_fish" -> LangManager.list(LangKey.QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_COLLECT_RARE_FISH, who);
+            case "kill_drowned" -> LangManager.list(LangKey.QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_KILL_DROWNED, who);
+            case "visit_deep_waters" -> LangManager.list(LangKey.QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_VISIT_DEEP_WATERS, who);
+            case "collect_sea_treasure" -> LangManager.list(LangKey.QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_COLLECT_SEA_TREASURE, who);
+            case "return_old_fisherman" -> LangManager.list(LangKey.QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_RETURN_OLD_FISHERMAN, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -85,9 +95,14 @@ public class FishermanTaleQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_FISHERMAN_TALE_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_FISHERMAN_TALE_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

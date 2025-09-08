@@ -18,5 +18,399 @@
   "quest_objectives": "=== Quest Objectives ===",
   "quest_rewards": "=== Quest Rewards ===",
   "sequential_note": "※ Must be completed in order.",
-  "unknown_npc": "Unknown NPC"
+  "unknown_npc": "Unknown NPC",
+  "main": {
+    "lost_kingdom": {
+      "name": "Lost Kingdom",
+      "info": "Deep in the forgotten lands lies a once-great kingdom",
+      "dialogs": [
+        "The Lost Kingdom calls to you, brave hero."
+      ],
+      "npc_name": "Ghostly Royal Advisor",
+      "accept": "I will explore the lost kingdom!",
+      "decline": "These ruins are too dangerous."
+    },
+    "shadow_invasion": {
+      "name": "Shadow Invasion",
+      "info": "Dark forces are invading from the shadow realm",
+      "dialogs": [
+        "The shadows grow stronger each day."
+      ],
+      "npc_name": "Shadow Hunter",
+      "accept": "I'll stop the invasion!",
+      "decline": "Too risky for me."
+    },
+    "corrupted_lands": {
+      "name": "Corrupted Lands",
+      "info": "The corruption spreads across the realm",
+      "dialogs": [
+        "The land itself cries out in pain."
+      ],
+      "npc_name": "Nature Guardian",
+      "accept": "I'll cleanse the corruption!",
+      "decline": "I'm not ready."
+    },
+    "ancient_evil": {
+      "name": "Ancient Evil",
+      "info": "An ancient evil has awakened",
+      "dialogs": [
+        "An evil older than time itself stirs."
+      ],
+      "npc_name": "Elder Sage",
+      "accept": "I'll face this evil!",
+      "decline": "This is beyond me."
+    },
+    "heroes_alliance": {
+      "name": "Heroes Alliance",
+      "info": "Unite the greatest heroes of the realm",
+      "dialogs": [
+        "We need the mightiest heroes united."
+      ],
+      "npc_name": "Alliance Messenger",
+      "accept": "I'll gather the heroes!",
+      "decline": "I work alone.",
+      "objectives": {
+        "alliance_messenger": "Meet the alliance messenger",
+        "heroes_stronghold": "Travel to the Heroes' Stronghold",
+        "legendary_warrior": "Recruit the Legendary Warrior",
+        "arcane_mage": "Recruit the Arcane Mage",
+        "shadow_assassin": "Recruit the Shadow Assassin",
+        "alliance_token": "Obtain Alliance Tokens",
+        "kill_ender_dragon": "Defeat the Ender Dragon",
+        "kill_withers": "Defeat 3 Withers",
+        "alliance_hall": "Build the Alliance Hall",
+        "heroes_council": "Form the Heroes' Council"
+      }
+    },
+    "dragon_trials": {
+      "name": "Dragon Trials",
+      "info": "Face the ancient dragon trials",
+      "dialogs": [
+        "The dragons test only the worthy."
+      ],
+      "npc_name": "Dragon Elder",
+      "accept": "I accept the trials!",
+      "decline": "I'm not ready."
+    },
+    "dragon_heart": {
+      "name": "Dragon Heart",
+      "info": "Seek the legendary Dragon Heart",
+      "dialogs": [
+        "The Dragon Heart holds immense power."
+      ],
+      "npc_name": "Dragon Keeper",
+      "accept": "I'll find the heart!",
+      "decline": "Too dangerous."
+    },
+    "dragon_pact": {
+      "name": "Dragon Pact",
+      "info": "Form a pact with the ancient dragons",
+      "dialogs": [
+        "The dragons offer their alliance."
+      ],
+      "npc_name": "Dragon Lord",
+      "accept": "I accept the pact!",
+      "decline": "I don't trust dragons."
+    },
+    "sky_fortress": {
+      "name": "Sky Fortress",
+      "info": "Assault the floating fortress",
+      "dialogs": [
+        "The Sky Fortress threatens all below."
+      ],
+      "npc_name": "Sky Captain",
+      "accept": "I'll storm the fortress!",
+      "decline": "I can't reach that high."
+    },
+    "chaos_storm": {
+      "name": "Chaos Storm",
+      "info": "Stop the storm of chaos",
+      "dialogs": [
+        "Chaos threatens to tear reality apart."
+      ],
+      "npc_name": "Order Keeper",
+      "accept": "I'll stop the storm!",
+      "decline": "This is too chaotic."
+    },
+    "dimensional_rift": {
+      "name": "Dimensional Rift",
+      "info": "Close the rifts between dimensions",
+      "dialogs": [
+        "Rifts are tearing our world apart."
+      ],
+      "npc_name": "Rift Walker",
+      "accept": "I'll seal the rifts!",
+      "decline": "I don't understand dimensions."
+    },
+    "realm_defenders": {
+      "name": "Realm Defenders",
+      "info": "Rally the defenders of the realm",
+      "dialogs": [
+        "Our realm needs its defenders now."
+      ],
+      "npc_name": "Defense Commander",
+      "accept": "I'll lead the defense!",
+      "decline": "I'm not a leader."
+    },
+    "realm_portal": {
+      "name": "Realm Portal",
+      "info": "Control the portal between realms",
+      "dialogs": [
+        "The portal must be secured."
+      ],
+      "npc_name": "Portal Guardian",
+      "accept": "I'll secure the portal!",
+      "decline": "Portals are unstable."
+    },
+    "void_invasion": {
+      "name": "Void Invasion",
+      "info": "Stop the invasion from the void",
+      "dialogs": [
+        "The void consumes everything."
+      ],
+      "npc_name": "Void Hunter",
+      "accept": "I'll stop the void!",
+      "decline": "The void terrifies me."
+    },
+    "final_battle": {
+      "name": "Final Battle",
+      "info": "Face the ultimate enemy",
+      "dialogs": [
+        "This is the final confrontation."
+      ],
+      "npc_name": "War General",
+      "accept": "I'm ready for the end!",
+      "decline": "I need more time."
+    },
+    "gathering_storm": {
+      "name": "Gathering Storm",
+      "info": "Prepare for the coming storm",
+      "dialogs": [
+        "A storm unlike any other approaches."
+      ],
+      "npc_name": "Storm Watcher",
+      "accept": "I'll weather the storm!",
+      "decline": "I should take shelter."
+    },
+    "last_stand": {
+      "name": "Last Stand",
+      "info": "Make your final stand",
+      "dialogs": [
+        "This is our last chance."
+      ],
+      "npc_name": "Last Commander",
+      "accept": "I'll stand to the end!",
+      "decline": "I can't face this."
+    },
+    "new_era": {
+      "name": "New Era",
+      "info": "Begin a new era of peace",
+      "dialogs": [
+        "A new age dawns."
+      ],
+      "npc_name": "Era Herald",
+      "accept": "I'll lead the new era!",
+      "decline": "I belong to the old ways."
+    },
+    "sacrifice_of_heroes": {
+      "name": "Sacrifice of Heroes",
+      "info": "Honor the sacrifice of fallen heroes",
+      "dialogs": [
+        "Heroes gave everything for this moment."
+      ],
+      "npc_name": "Memorial Keeper",
+      "accept": "I'll honor their sacrifice!",
+      "decline": "I can't bear the loss."
+    },
+    "eternal_guardian": {
+      "name": "Eternal Guardian",
+      "info": "Become the eternal guardian",
+      "dialogs": [
+        "The realm needs an eternal protector."
+      ],
+      "npc_name": "Ancient One",
+      "accept": "I'll be the guardian!",
+      "decline": "Eternity is too long."
+    },
+    "legacy_of_heroes": {
+      "name": "Legacy of Heroes",
+      "info": "Preserve the legacy of heroes",
+      "dialogs": [
+        "Heroes must never be forgotten."
+      ],
+      "npc_name": "Lore Keeper",
+      "accept": "I'll preserve the legacy!",
+      "decline": "History will forget us all."
+    },
+    "restoration": {
+      "name": "Restoration",
+      "info": "Restore the world to its former glory",
+      "dialogs": [
+        "The world can be healed."
+      ],
+      "npc_name": "Restoration Sage",
+      "accept": "I'll restore everything!",
+      "decline": "Some things should stay broken."
+    },
+    "guardian_awakening": {
+      "npc_name": "Guardian Spirit",
+      "accept": "I'll awaken the guardian!",
+      "decline": "Let it sleep."
+    },
+    "path_of_darkness": {
+      "dialogs": [
+        "The dark path offers power but at a cost."
+      ]
+    },
+    "path_of_light": {
+      "dialogs": [
+        "The path of light is difficult but righteous."
+      ]
+    },
+    "shadow_cult": {
+      "name": "Shadow Cult",
+      "info": "Infiltrate and destroy the shadow cult",
+      "dialogs": [
+        "The shadow cult grows stronger."
+      ],
+      "npc_name": "Shadow Hunter",
+      "accept": "I'll stop the cult!",
+      "decline": "Too dangerous."
+    },
+    "forbidden_ritual": {
+      "name": "Forbidden Ritual",
+      "info": "Stop the forbidden ritual",
+      "dialogs": [
+        "A dark ritual threatens the realm."
+      ],
+      "npc_name": "Ritual Expert",
+      "accept": "I'll stop the ritual!",
+      "decline": "I don't meddle with dark magic."
+    },
+    "dark_fortress": {
+      "name": "Dark Fortress",
+      "info": "Assault the dark fortress",
+      "dialogs": [
+        "The dark fortress looms ahead."
+      ],
+      "npc_name": "Fortress Scout",
+      "accept": "I'll storm the fortress!",
+      "decline": "I need more allies."
+    }
+  },
+  "total_count": "Total Quests: {0}",
+  "daily": {
+    "crafting": {
+      "objectives": {
+        "craft_master": "Meet the craft master",
+        "gather_materials": "Gather crafting materials",
+        "craft_items": "Craft required items",
+        "deliver_items": "Deliver crafted items"
+      }
+    },
+    "delivery": {
+      "objectives": {
+        "postmaster": "Meet the postmaster",
+        "collect_packages": "Collect packages",
+        "deliver_packages": "Deliver packages",
+        "return_postmaster": "Return to postmaster"
+      }
+    }
+  },
+  "side": {
+    "desert_oasis": {
+      "objectives": {
+        "find_oasis": "Find the oasis location",
+        "clear_sand": "Clear the sand",
+        "water_source": "Find water source",
+        "plant_palms": "Plant palm trees",
+        "oasis_complete": "Complete the oasis"
+      }
+    },
+    "blacksmith_apprentice": {
+      "objectives": {
+        "meet_blacksmith": "Meet the blacksmith",
+        "gather_iron": "Gather iron ore",
+        "forge_sword": "Forge a sword"
+      }
+    },
+    "fisherman_tale": {
+      "objectives": {
+        "meet_fisherman": "Meet the fisherman",
+        "catch_bass": "Catch bass",
+        "catch_salmon": "Catch salmon"
+      }
+    },
+    "farmers_request": {
+      "objectives": {
+        "meet_farmer": "Meet the farmer",
+        "plant_wheat": "Plant wheat seeds"
+      }
+    },
+    "frozen_peaks": {
+      "objectives": {
+        "climb_peaks": "Climb the frozen peaks",
+        "defeat_yeti": "Defeat the yeti",
+        "summit_reached": "Reach the summit"
+      }
+    },
+    "enchanted_forest": {
+      "objectives": {
+        "ancient_trees": "Find ancient trees",
+        "magical_creatures": "Meet magical creatures",
+        "forest_heart": "Find the forest heart",
+        "blessing_received": "Receive forest blessing"
+      }
+    },
+    "goblin_raiders": {
+      "objectives": {
+        "village_chief": "Talk to village chief",
+        "scout_camps": "Scout goblin camps",
+        "defeat_goblins": "Defeat goblins",
+        "retrieve_stolen": "Retrieve stolen goods",
+        "village_safe": "Secure the village"
+      }
+    },
+    "lost_treasure": {
+      "objectives": {
+        "find_map": "Find treasure map",
+        "solve_riddle": "Solve the riddle",
+        "dig_treasure": "Dig up treasure",
+        "claim_reward": "Claim your reward"
+      }
+    },
+    "mysterious_cave": {
+      "objectives": {
+        "enter_cave": "Enter the cave",
+        "light_torches": "Light the torches",
+        "defeat_bats": "Defeat cave bats",
+        "find_crystal": "Find the crystal"
+      }
+    },
+    "wolf_pack_menace": {
+      "objectives": {
+        "hunter": "Meet the hunter",
+        "track_wolves": "Track the wolves",
+        "defeat_alpha": "Defeat alpha wolf",
+        "collect_pelts": "Collect wolf pelts",
+        "return_hunter": "Return to hunter"
+      }
+    },
+    "collect_herbs": {
+      "objectives": {
+        "find_herbs": "Find herbs",
+        "rare_herbs": "Find rare herbs",
+        "deliver_herbs": "Deliver herbs"
+      }
+    },
+    "spider_infestation": {
+      "objectives": {
+        "exterminator": "Meet exterminator",
+        "clear_webs": "Clear spider webs",
+        "kill_spiders": "Kill spiders",
+        "queen_spider": "Defeat spider queen",
+        "area_cleared": "Clear the area"
+      }
+    }
+  }
 }

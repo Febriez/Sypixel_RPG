@@ -1,6 +1,14 @@
 {
   "name": "Echoes in the Dark",
   "info": "Investigate the mysterious sounds from the cave.",
+  "objectives": {
+    "talk_cave_explorer": "Talk to the Cave Explorer",
+    "visit_dark_cave_entrance": "Visit the Dark Cave Entrance",
+    "kill_bats": "Kill Bats (15)",
+    "collect_glowing_moss": "Collect Glowing Moss (10)",
+    "visit_underground_lake": "Visit the Underground Lake",
+    "collect_cave_pearl": "Collect Cave Pearls (2)"
+  },
   "dialogs": [
     "Every night, strange sounds echo from that cave.",
     "Screams, laughter, sometimes beautiful singing...",

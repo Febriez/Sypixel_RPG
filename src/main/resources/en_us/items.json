@@ -176,6 +176,30 @@
         "▶ Click to open"
       ]
     },
+    "job_button": {
+      "name": "Jobs",
+      "lore": [
+        "Select and manage your job.",
+        "",
+        "▶ Click to open"
+      ]
+    },
+    "shop_button": {
+      "name": "Shop",
+      "lore": [
+        "Buy and sell items.",
+        "",
+        "▶ Click to open"
+      ]
+    },
+    "dungeon_button": {
+      "name": "Dungeons",
+      "lore": [
+        "Enter challenging dungeons.",
+        "",
+        "▶ Click to open"
+      ]
+    },
     "wild_button": {
       "name": "Wild",
       "lore": [
@@ -199,40 +223,32 @@
         "",
         "▶ Click to open"
       ]
-    },
-    "shop_button": {
-      "name": "Shop",
-      "lore": [
-        "Buy and sell items.",
-        "",
-        "▶ Click to open"
-      ]
-    },
-    "dungeon_button": {
-      "name": "Dungeon",
-      "lore": [
-        "Challenge dungeons for rewards.",
-        "",
-        "▶ Click to open"
-      ]
-    },
-    "job_button": {
-      "name": "Job Selection",
-      "lore": [
-        "Choose a job to start your adventure.",
-        "",
-        "⚠ Choose carefully!",
-        "▶ Click to open"
-      ]
-    },
-    "settings_button": {
-      "name": "Global Settings",
-      "lore": [
-        "Change global game settings.",
-        "",
-        "▶ Click to open"
-      ]
     }
+  },
+  "dungeon_button": {
+    "name": "Dungeon",
+    "lore": [
+      "Challenge dungeons for rewards.",
+      "",
+      "▶ Click to open"
+    ]
+  },
+  "job_button": {
+    "name": "Job Selection",
+    "lore": [
+      "Choose a job to start your adventure.",
+      "",
+      "⚠ Choose carefully!",
+      "▶ Click to open"
+    ]
+  },
+  "settings_button": {
+    "name": "Global Settings",
+    "lore": [
+      "Change global game settings.",
+      "",
+      "▶ Click to open"
+    ]
   },
   "profile": {
     "job_select": {
@@ -271,7 +287,14 @@
         "",
         "▶ Click to open"
       ]
-    }
+    },
+    "level_info_name": "Level Information",
+    "game_stats_name": "Game Statistics",
+    "quest_info_name": "Quest Information",
+    "quest_info_click_lore": "Click to view quest details",
+    "collection_book_name": "Collection Book",
+    "user_settings_name": "User Settings",
+    "user_settings_lore": "Configure your preferences"
   },
   "rarity": {
     "common": "Common",
@@ -1070,7 +1093,12 @@
         "name": "%COLOR_GOLD%&lVisit Statistics",
         "lore": []
       }
-    }
+    },
+    "main_upgrade_info_lore": "Upgrade your island",
+    "main_contribution_info_lore": "View contribution info",
+    "spawn_current_info_lore": "Current spawn point",
+    "main_island_settings_lore": "Configure island settings",
+    "main_biome_change_lore": "Change island biome"
   },
   "unit": {
     "blocks": "blocks",
@@ -1126,12 +1154,12 @@
       },
       "accept": {
         "name": "✓ Accept",
-        "desc2": "Accept friend request",
+        "desc": ["Accept friend request"],
         "click": "Click to accept"
       },
       "reject": {
         "name": "✗ Reject",
-        "desc2": "Reject friend request",
+        "desc": ["Reject friend request"],
         "click": "Click to reject"
       }
     },
@@ -1152,8 +1180,10 @@
       },
       "delete_read": {
         "name": "🗑️ Delete Read Mails",
-        "lore1": "Delete all read mails",
-        "lore2": "Except mails with attachments",
+        "lore": [
+          "Delete all read mails",
+          "Except mails with attachments"
+        ],
         "click": "Click to delete"
       },
       "no_mails": {
@@ -1178,8 +1208,10 @@
       },
       "delete": {
         "name": "🗑 Delete Mail",
-        "lore1": "Delete this mail",
-        "lore2": "(Attachments will also be deleted)",
+        "lore": [
+          "Delete this mail",
+          "(Attachments will also be deleted)"
+        ],
         "click": "Click to delete"
       },
       "reply": {
@@ -1205,12 +1237,16 @@
       },
       "confirmation": {
         "name": "Confirmation Dialogs",
-        "desc1": "Toggle confirmation dialogs",
-        "desc2": "for important actions",
-        "desc3": "Current: {0}",
+        "desc": [
+          "Toggle confirmation dialogs",
+          "for important actions",
+          "Current: {0}"
+        ],
         "example_title": "Examples:",
-        "example1": "• Job selection",
-        "example2": "• Item deletion"
+        "examples": [
+          "• Job selection",
+          "• Item deletion"
+        ]
       }
     }
   },
@@ -1281,6 +1317,7 @@
     },
     "list": {
       "active": {
+        "name": "Active Quest",
         "lore": [
           "",
           "{0}",
@@ -1295,6 +1332,7 @@
         ]
       },
       "completed": {
+        "name": "Completed Quest",
         "lore": [
           "",
           "{0}",
@@ -1365,9 +1403,17 @@
     },
     "no_rank": {
       "name": "Not Ranked",
-      "lore1": "Play more to",
-      "lore2": "get ranked!"
-    }
+      "lore": [
+        "Play more to",
+        "get ranked!"
+      ]
+    },
+    "my_rank_name": "My Ranking",
+    "no_rank_name": "Not Ranked",
+    "no_rank_lore": [
+      "You are not ranked yet",
+      "Keep playing to get ranked!"
+    ]
   },
   "buttons": {
     "back": {
@@ -1376,5 +1422,46 @@
         "Go back"
       ]
     }
-  }
+  },
+  "gui_buttons_next_page_name": "Next Page",
+  "gui_buttons_next_page_lore": "Click to go to next page",
+  "gui_buttons_previous_page_name": "Previous Page",
+  "gui_buttons_previous_page_lore": "Click to go to previous page",
+  "gui_buttons_page_info_name": "Page Info",
+  "mainmenu_profile_button_name": "Profile",
+  "mainmenu_profile_button_lore": "View your profile",
+  "mainmenu_leaderboard_button_name": "Leaderboard",
+  "mainmenu_leaderboard_button_lore": "View server rankings",
+  "mainmenu_job_button_name": "Jobs",
+  "mainmenu_job_button_lore": "Manage your job",
+  "mainmenu_stats_button_name": "Statistics",
+  "mainmenu_stats_button_lore": "View your stats",
+  "mainmenu_hub_button_name": "Hub",
+  "mainmenu_hub_button_lore": "Return to hub",
+  "mainmenu_shop_button_name": "Shop",
+  "mainmenu_shop_button_lore": "Visit the shop",
+  "mainmenu_dungeon_button_name": "Dungeons",
+  "mainmenu_dungeon_button_lore": "Enter dungeons",
+  "mainmenu_wild_button_name": "Wilderness",
+  "mainmenu_wild_button_lore": "Explore the wild",
+  "mainmenu_island_button_name": "Island",
+  "mainmenu_island_button_lore": "Visit your island",
+  "profile_level_info_name": "Level Information",
+  "profile_game_stats_name": "Game Statistics",
+  "profile_quest_info_name": "Quest Progress",
+  "profile_quest_info_click_lore": "Click to view quests",
+  "profile_collection_book_name": "Collection Book",
+  "profile_user_settings_name": "Settings",
+  "profile_user_settings_lore": "Configure your settings",
+  "leaderboard_my_rank_name": "My Ranking",
+  "leaderboard_no_rank_name": "Unranked",
+  "leaderboard_no_rank_lore": [
+    "You are not ranked yet",
+    "Keep playing to get ranked!"
+  ],
+  "island_main_upgrade_info_lore": "Click to upgrade island",
+  "island_main_contribution_info_lore": "View contributions",
+  "island_spawn_current_info_lore": "Current spawn point",
+  "island_main_island_settings_lore": "Configure island settings",
+  "island_main_biome_change_lore": "Change island biome"
 }

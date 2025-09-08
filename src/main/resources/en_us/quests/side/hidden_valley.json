@@ -1,6 +1,14 @@
 {
   "name": "Valley of Time",
   "info": "Discover the location of the hidden valley.",
+  "objectives": {
+    "valley_scout": "Meet the valley scout",
+    "valley_entrance": "Find the valley entrance",
+    "kill_phantoms": "Defeat 12 phantoms",
+    "valley_flowers": "Collect 20 valley flowers",
+    "valley_shrine": "Discover the valley shrine",
+    "shrine_blessing": "Receive the shrine blessing"
+  },
   "dialogs": [
     "Legends speak of a hidden valley untouched by time.",
     "Where dinosaurs still roam and ancient plants grow.",

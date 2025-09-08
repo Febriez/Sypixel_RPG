@@ -1,6 +1,10 @@
 {
   "name": "First Steps",
   "info": "Learn the basic controls and mechanics of the game.",
+  "objectives": {
+    "visit_hub": "Visit the central hub area",
+    "visit_merchant": "Talk to the merchant"
+  },
   "dialogs": [
     "Welcome, traveler! I see you're new to these lands.",
     "Let me teach you the basics of survival here.",

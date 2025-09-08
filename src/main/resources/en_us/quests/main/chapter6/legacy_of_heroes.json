@@ -1,6 +1,17 @@
 {
   "name": "Legacy of Heroes",
   "info": "The heroes of the great war must not be forgotten. Their stories and sacrifices should inspire future generations. Preserve their legacy and ensure their heroic deeds will be remembered for all eternity.",
+  "objectives": {
+    "legacy_keeper": "Speak with the Legacy Keeper",
+    "heroes_academy": "Visit the Heroes Academy",
+    "wisdom_scroll": "Collect Wisdom Scrolls",
+    "heroic_relic": "Collect Heroic Relics",
+    "monument_site": "Visit the Monument Site",
+    "marble_block": "Collect Marble Blocks",
+    "eternal_flame": "Collect Eternal Flames",
+    "hall_of_legends": "Visit the Hall of Legends",
+    "master_chronicler": "Speak with the Master Chronicler"
+  },
   "dialogs": [
     "The heroes' stories must live on. Will you help preserve their legacy?",
     "Their courage and sacrifice will inspire generations to come.",

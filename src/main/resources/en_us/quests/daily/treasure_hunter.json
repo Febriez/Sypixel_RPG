@@ -1,10 +1,20 @@
 {
   "name": "Daily Treasure Hunter",
   "info": "Seek out hidden treasures and valuable artifacts. Follow ancient maps to discover buried riches. Brave dangerous guardians to claim your rewards. Resets daily at midnight.",
+  "objectives": {
+    "treasure_seeker": "Talk to treasure seeker",
+    "find_map": "Find today's treasure map",
+    "dig_treasure": "Dig up the treasure",
+    "return_treasure": "Return with treasure"
+  },
   "dialogs": [
-    "Ah, a fellow seeker of fortune! I have maps to treasures hidden across the realm.",
-    "I'm ready to brave any danger for hidden treasures.",
-    "Exceptional work! These treasures will make you rich beyond your dreams."
+    "Ah, a fellow seeker of fortune!",
+    "I have maps to treasures hidden across the realm.",
+    "Today's map leads to an ancient burial site.",
+    "The treasure is guarded by magical wards and traps.",
+    "Many have sought this treasure, none have returned.",
+    "Success will bring riches beyond your wildest dreams.",
+    "Are you brave enough to claim today's treasure?"
   ],
   "npc_name": "Treasure Merchant Ferdinand",
   "accept": "I'm ready to brave any danger for hidden treasures.",

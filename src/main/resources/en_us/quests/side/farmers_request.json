@@ -1,6 +1,13 @@
 {
   "name": "Farmer's Plight",
   "info": "Help the farmer protect his crops from pests.",
+  "objectives": {
+    "farmer": "Talk to the farmer",
+    "wheat_field": "Visit the wheat field",
+    "harvest_wheat": "Harvest 50 wheat",
+    "kill_rabbits": "Chase away 10 rabbits",
+    "deliver_wheat": "Deliver the wheat"
+  },
   "dialogs": [
     "My crops! They're being destroyed by giant rats!",
     "I've tried everything, but they keep coming back.",

@@ -1,6 +1,21 @@
 {
   "name": "The First Trial",
   "info": "Your first trial as the chosen hero begins now. Face the challenges that await in the Trial Chambers and prove that you are worthy of your destiny. This trial will test your combat skills and determination.",
+  "objectives": {
+    "meet_trainer": "Meet the Trial Trainer",
+    "gather_potions": "Gather 10 Potions",
+    "craft_shield": "Craft a Shield",
+    "enter_arena": "Enter the Trial Arena",
+    "survive_wave1": "Survive Wave 1 (3 minutes)",
+    "wave1_zombies": "Defeat 20 Zombies",
+    "wave1_skeletons": "Defeat 15 Skeletons",
+    "survive_wave2": "Survive Wave 2 (3 minutes)",
+    "wave2_spiders": "Defeat 15 Spiders",
+    "wave2_creepers": "Defeat 10 Creepers",
+    "boss_fight": "Defeat the Boss Ravager",
+    "trial_medal": "Collect the Trial Medal",
+    "return_medal": "Return to Sage Doran"
+  },
   "dialogs": [
     "Welcome to your first trial, chosen hero.",
     "The Trial Chamber will test every aspect of your abilities.",

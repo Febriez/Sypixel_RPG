@@ -10,6 +10,7 @@ import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -44,7 +45,7 @@ public class QuestDetailGui extends BaseGui {
 
     private QuestDetailGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer, @NotNull Quest quest, @NotNull QuestProgress progress) {
-        super(viewer, guiManager, GUI_SIZE, LangManager.getComponent("gui.quest_detail.title", viewer.locale()));
+        super(viewer, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_QUEST_DETAIL_TITLE, viewer.locale()));
         this.quest = quest;
         this.progress = progress;
     }
@@ -66,7 +67,7 @@ public class QuestDetailGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.quest_detail.title", viewer.locale());
+        return LangManager.text(LangKey.GUI_QUEST_DETAIL_TITLE, viewer.locale());
     }
 
     @Override
@@ -144,7 +145,7 @@ public class QuestDetailGui extends BaseGui {
         
         builder.addLore(Component.empty())
                 // 전체 진행도
-                .addLore(LangManager.getComponent("quest.total_progress", viewer.locale())
+                .addLore(LangManager.text(LangKey.QUEST_TOTAL_PROGRESS, viewer.locale())
                         .append(Component.text(": " + progress.getCompletionPercentage() + "%"))
                         .color(UnifiedColorUtil.EMERALD))
                 .hideAllFlags();
@@ -157,7 +158,7 @@ public class QuestDetailGui extends BaseGui {
      */
     private void setupObjectives() {
         ItemBuilder builder = ItemBuilder.of(Material.MAP)
-                .displayNameTranslated("items.quest.detail.objectives.name")
+                .displayName(LangManager.text(LangKey.ITEMS_QUEST_DETAIL_OBJECTIVES_NAME, viewer.locale()))
                 .addLore(Component.empty());
         
         quest.getObjectives().forEach(objective -> {
@@ -174,7 +175,7 @@ public class QuestDetailGui extends BaseGui {
         });
         
         builder.addLore(Component.empty())
-                .addLore(LangManager.getComponent("quest.overall_progress", viewer.locale())
+                .addLore(LangManager.text(LangKey.QUEST_OVERALL_PROGRESS, viewer.locale())
                         .append(Component.text(": " + progress.getCompletionPercentage() + "%"))
                         .color(UnifiedColorUtil.YELLOW))
                 .hideAllFlags();
@@ -187,7 +188,7 @@ public class QuestDetailGui extends BaseGui {
      */
     private void setupRewards() {
         ItemBuilder builder = ItemBuilder.of(Material.CHEST)
-                .displayNameTranslated("items.quest.detail.rewards.name")
+                .displayName(LangManager.text(LangKey.ITEMS_QUEST_DETAIL_REWARDS_NAME, viewer.locale()))
                 .addLore(Component.empty());
         
         // 보상 정보 추가
@@ -212,7 +213,7 @@ public class QuestDetailGui extends BaseGui {
             Material material = i < greenSlots ? Material.LIME_STAINED_GLASS_PANE : Material.YELLOW_STAINED_GLASS_PANE;
             
             ItemBuilder builder = ItemBuilder.of(material)
-                    .displayNameTranslated("items.quest.detail.progress.name")
+                    .displayName(LangManager.text(LangKey.ITEMS_QUEST_DETAIL_PROGRESS_NAME, viewer.locale()))
                     .addLore(Component.text(completionPercentage + "%", UnifiedColorUtil.GRAY));
             
             setItem(slot, GuiItem.display(builder.build()));

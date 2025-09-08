@@ -1,5 +1,35 @@
 {
   "name": "Temporal Convergence",
+  "info": "Act swiftly to contain a dangerous temporal anomaly before time itself becomes permanently damaged.",
+  "npc_name": "Time Keeper",
+  "accept": "I'm prepared to face the chaos of broken time!",
+  "decline": "The temporal distortions are too dangerous for me.",
+  "objectives": [
+    {
+      "id": "detect_time_tremors",
+      "description": "Sense the fabric of time trembling as something approaches"
+    },
+    {
+      "id": "act_swiftly_on_anomaly",
+      "description": "Act swiftly as the temporal anomaly won't last long"
+    },
+    {
+      "id": "withstand_temporal_distortions",
+      "description": "Resist the growing temporal distortions around you"
+    },
+    {
+      "id": "fight_against_time",
+      "description": "Struggle against time itself as it fights your efforts"
+    },
+    {
+      "id": "complete_convergence",
+      "description": "Hold steady until the temporal convergence is complete"
+    },
+    {
+      "id": "contain_temporal_anomaly",
+      "description": "Successfully contain the temporal anomaly"
+    }
+  ],
   "dialogs": [
     "The fabric of time trembles... something approaches.",
     "This anomaly won't last long. We must act swiftly!",

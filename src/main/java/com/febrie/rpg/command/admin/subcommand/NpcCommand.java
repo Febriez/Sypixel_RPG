@@ -62,7 +62,7 @@ public class NpcCommand extends BaseSubCommand {
                     ItemStack stick = new ItemStack(Material.STICK);
                     ItemMeta meta = stick.getItemMeta();
                     meta.displayName(Component.text("퀘스트 설정 막대기", UnifiedColorUtil.GOLD));
-                    meta.lore(Arrays.asList(
+                    meta.lore(List.of(
                         Component.text("퀘스트: " + questId.name(), UnifiedColorUtil.YELLOW),
                         Component.empty(),
                         Component.text("NPC를 우클릭하면 퀘스트가 설정됩니다.", UnifiedColorUtil.GRAY)
@@ -96,7 +96,7 @@ public class NpcCommand extends BaseSubCommand {
                     ItemStack stick = new ItemStack(Material.BLAZE_ROD);
                     ItemMeta meta = stick.getItemMeta();
                     meta.displayName(Component.text("보상 설정 막대기", UnifiedColorUtil.LIGHT_PURPLE));
-                    meta.lore(Arrays.asList(
+                    meta.lore(List.of(
                         Component.text("퀘스트: " + questId.name(), UnifiedColorUtil.YELLOW),
                         Component.empty(),
                         Component.text("NPC를 우클릭하면 보상 NPC로 설정됩니다.", UnifiedColorUtil.GRAY)
@@ -129,7 +129,7 @@ public class NpcCommand extends BaseSubCommand {
                 ItemStack stick = new ItemStack(Material.END_ROD);
                 ItemMeta meta = stick.getItemMeta();
                 meta.displayName(Component.text("퀘스트 목표 설정 막대기", UnifiedColorUtil.AQUA));
-                meta.lore(Arrays.asList(
+                meta.lore(List.of(
                     Component.text("NPC 코드: " + npcCode, UnifiedColorUtil.YELLOW),
                     Component.empty(),
                     Component.text("NPC를 우클릭하면 퀘스트 목표 NPC로 설정됩니다.", UnifiedColorUtil.GRAY)
@@ -239,12 +239,12 @@ public class NpcCommand extends BaseSubCommand {
     @Override
     public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length == 1) {
-            return Arrays.asList("quest", "reward", "objective").stream()
+            return List.of("quest", "reward", "objective").stream()
                 .filter(cmd -> cmd.startsWith(args[0].toLowerCase()))
                 .collect(Collectors.toList());
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("settrait")) {
-                return Arrays.asList("quest", "shop", "dialog", "guide").stream()
+                return List.of("quest", "shop", "dialog", "guide").stream()
                     .filter(type -> type.startsWith(args[1].toLowerCase()))
                     .collect(Collectors.toList());
             } else if (args[0].equalsIgnoreCase("reward")) {

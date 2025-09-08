@@ -1,6 +1,12 @@
 {
   "name": "Daily Alchemy",
   "info": "Master the art of potion brewing and ingredient gathering. Create valuable potions and collect rare alchemical components. Supply the city with essential healing and magical supplies. Resets daily at midnight.",
+  "objectives": {
+    "alchemist": "Talk to the alchemist",
+    "brew_potions": "Brew 5 potions",
+    "collect_ingredients": "Gather potion ingredients",
+    "deliver_potions": "Deliver potions to customers"
+  },
   "dialogs": [
     "Welcome to my laboratory. The city has great need for potions today.",
     "I have a special formula that requires rare ingredients. Are you up for the challenge?",

@@ -1,6 +1,13 @@
 {
   "name": "Mage Enlightenment",
   "info": "The path of magical enlightenment requires deep understanding of the arcane forces. Study under master mages and unlock the true potential of your magical abilities.",
+  "objectives": {
+    "archmage": "Meet the archmage",
+    "magical_theory": "Study magical theory",
+    "elemental_magic": "Master elemental magic",
+    "arcane_power": "Unlock arcane power",
+    "mage_trial": "Complete mage trial"
+  },
   "dialogs": [
     "The path to magical enlightenment is not easy, young mage.",
     "You must master all schools of elemental magic.",

@@ -1,72 +1,21 @@
 {
-  "plains": {
-    "name": "평원",
-    "description": "넓고 평평한 초원 지형"
-  },
-  "forest": {
-    "name": "숲",
-    "description": "다양한 나무가 있는 숲"
-  },
-  "desert": {
-    "name": "사막",
-    "description": "모래로 뒤덮인 건조한 지형"
-  },
-  "jungle": {
-    "name": "정글",
-    "description": "밀집한 열대 정글"
-  },
-  "taiga": {
-    "name": "타이가",
-    "description": "침엽수가 있는 추운 숲"
-  },
-  "snowy_plains": {
-    "name": "눈 덮인 평원",
-    "description": "눈으로 덮인 추운 평원"
-  },
-  "savanna": {
-    "name": "사바나",
-    "description": "아카시아 나무가 있는 건조한 평원"
-  },
-  "swamp": {
-    "name": "늪",
-    "description": "습하고 어두운 늪지대"
-  },
-  "mushroom_fields": {
-    "name": "버섯 들판",
-    "description": "거대한 버섯이 있는 특별한 지형"
-  },
-  "beach": {
-    "name": "해변",
-    "description": "모래로 덮인 해안선"
-  },
-  "flower_forest": {
-    "name": "꽃 숲",
-    "description": "다양한 꽃이 피는 아름다운 숲"
-  },
-  "bamboo_jungle": {
-    "name": "대나무 정글",
-    "description": "빽빽한 대나무가 있는 정글"
-  },
-  "dark_forest": {
-    "name": "어두운 숲",
-    "description": "빛이 거의 들지 않는 울창한 숲"
-  },
-  "birch_forest": {
-    "name": "자작나무 숲",
-    "description": "자작나무로 가득한 밝은 숲"
-  },
-  "badlands": {
-    "name": "악지",
-    "description": "붉은 점토로 된 협곡 지형"
-  },
-  "ocean": {
-    "name": "바다",
-    "description": "깊고 푸른 바다"
-  },
-  "cherry_grove": {
-    "name": "벚꽃 숲",
-    "description": "아름다운 벚꽃이 피는 숲"
-  },
+  "plains": "평원",
+  "forest": "숲",
+  "desert": "사막",
+  "jungle": "정글",
+  "taiga": "타이가",
+  "snowy_plains": "눈 덮인 평원",
+  "savanna": "사바나",
+  "swamp": "늪",
+  "mushroom_fields": "버섯 들판",
+  "beach": "해변",
+  "flower_forest": "꽃 숲",
+  "bamboo_jungle": "대나무 정글",
+  "dark_forest": "어두운 숲",
+  "birch_forest": "자작나무 숲",
+  "badlands": "악지",
+  "ocean": "바다",
+  "cherry_grove": "벚꽃 숲",
   "snowy_taiga": {
     "name": "눈 덮인 타이가",
     "description": "눈으로 덮인 추운 침엽수 숲"

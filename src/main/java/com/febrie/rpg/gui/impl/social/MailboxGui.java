@@ -9,6 +9,7 @@ import com.febrie.rpg.gui.impl.system.MainMenuGui;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.social.MailManager;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import net.wesjd.anvilgui.AnvilGUI;
@@ -101,9 +102,9 @@ public class MailboxGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 ItemBuilder.of(Material.CHEST)
-                        .displayNameTranslated("items.social.mailbox.title.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_MAILBOX_TITLE_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.mailbox.title.lore")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAILBOX_TITLE_LORE, viewer))
                         .hideAllFlags()
                         .build()
         );
@@ -117,17 +118,17 @@ public class MailboxGui extends BaseGui {
         // 새로고침 버튼
         GuiItem refreshButton = GuiItem.clickable(
                 ItemBuilder.of(Material.CLOCK)
-                        .displayNameTranslated("items.social.mailbox.refresh.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_MAILBOX_REFRESH_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.mailbox.refresh.lore")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAILBOX_REFRESH_LORE, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.mailbox.refresh.click")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAILBOX_REFRESH_CLICK, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
                     mailManager.clearCache(p.getUniqueId());
                     loadMails();
-                    p.sendMessage(LangManager.getComponent("gui.mailbox.refresh-success", p.locale()));
+                    p.sendMessage(LangManager.text(LangKey.GUI_MAILBOX_REFRESH_SUCCESS, p));
                     playClickSound(p);
                 }
         );
@@ -136,18 +137,18 @@ public class MailboxGui extends BaseGui {
         // 우편 보내기 버튼
         GuiItem sendMailButton = GuiItem.clickable(
                 ItemBuilder.of(Material.WRITABLE_BOOK)
-                        .displayNameTranslated("items.social.mailbox.send.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_MAILBOX_SEND_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.mailbox.send.lore")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAILBOX_SEND_LORE, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.mailbox.send.click")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAILBOX_SEND_CLICK, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
                     p.closeInventory();
-                    p.sendMessage(LangManager.getComponent("gui.mailbox.send-mail-guide", p.locale()));
-                    p.sendMessage(LangManager.getComponent("gui.mailbox.send-mail-command", p.locale()));
-                    p.sendMessage(LangManager.getComponent("gui.mailbox.send-mail-example", p.locale()));
+                    p.sendMessage(LangManager.text(LangKey.GUI_MAILBOX_SEND_MAIL_GUIDE, p));
+                    p.sendMessage(LangManager.text(LangKey.GUI_MAILBOX_SEND_MAIL_COMMAND, p));
+                    p.sendMessage(LangManager.text(LangKey.GUI_MAILBOX_SEND_MAIL_EXAMPLE, p));
                     playClickSound(p);
                 }
         );
@@ -156,12 +157,12 @@ public class MailboxGui extends BaseGui {
         // 읽은 우편 삭제 버튼
         GuiItem deleteReadButton = GuiItem.clickable(
                 ItemBuilder.of(Material.LAVA_BUCKET)
-                        .displayNameTranslated("items.social.mailbox.delete-read.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_MAILBOX_DELETE_READ_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.mailbox.delete-read.lore1")
-                        .addLoreTranslated("items.social.mailbox.delete-read.lore2")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAILBOX_DELETE_READ_LORE1, viewer))
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAILBOX_DELETE_READ_LORE2, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.mailbox.delete-read.click")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAILBOX_DELETE_READ_CLICK, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
@@ -197,7 +198,7 @@ public class MailboxGui extends BaseGui {
         // 로딩 표시
         setItem(MAILS_START_SLOT + 12, GuiItem.display(
                 ItemBuilder.of(Material.HOPPER)
-                        .displayNameTranslated("items.loading.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_LOADING_NAME, viewer))
                         .hideAllFlags()
                         .build()
         ));
@@ -224,8 +225,8 @@ public class MailboxGui extends BaseGui {
             // 우편이 없을 때
             setItem(MAILS_START_SLOT + 12, GuiItem.display(
                     ItemBuilder.of(Material.BARRIER)
-                            .displayNameTranslated(showReadMails ? "items.social.mailbox.no-mails.name" : "items.social.mailbox.no-unread-mails.name")
-                            .addLoreTranslated("items.social.mailbox.no-mails.lore")
+                            .displayName(LangManager.text(showReadMails ? LangKey.ITEMS_SOCIAL_MAILBOX_NO_MAILS_NAME : LangKey.ITEMS_SOCIAL_MAILBOX_NO_UNREAD_MAILS_NAME, viewer))
+                            .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAILBOX_NO_MAILS_LORE, viewer))
                             .hideAllFlags()
                             .build()
             ));
@@ -245,19 +246,19 @@ public class MailboxGui extends BaseGui {
                 material = Material.MAP; // 읽은 우편
             }
 
-            Component status = Component.translatable(mail.isUnread() ? "status.new-mail" : "status.read");
+            Component status = LangManager.text(mail.isUnread() ? LangKey.STATUS_NEW_MAIL : LangKey.STATUS_READ, viewer);
 
             GuiItem mailItem = GuiItem.clickable(
                     ItemBuilder.of(material)
                             .displayName(Component.text(mail.subject(), UnifiedColorUtil.PRIMARY)
                                     .decoration(TextDecoration.BOLD, mail.isUnread()))
                             .addLore(Component.empty())
-                            .addLore(LangManager.getComponent("gui.mailbox.sender", viewer.locale(), Component.text(mail.senderName())))
-                            .addLore(LangManager.getComponent("gui.mailbox.status", viewer.locale(), status))
-                            .addLore(LangManager.getComponent("gui.mailbox.time", viewer.locale(), Component.text(java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
+                            .addLore(LangManager.text(LangKey.GUI_MAILBOX_SENDER, viewer, Component.text(mail.senderName())))
+                            .addLore(LangManager.text(LangKey.GUI_MAILBOX_STATUS, viewer, status))
+                            .addLore(LangManager.text(LangKey.GUI_MAILBOX_TIME, viewer, Component.text(java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
                                     DateTimeFormatter.ofPattern("MM-dd HH:mm")))))
                             .addLore(Component.empty())
-                            .addLoreTranslated("items.social.mailbox.mail-item.click")
+                            .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAILBOX_MAIL_ITEM_CLICK, viewer))
                             .hideAllFlags()
                             .build(),
                     p -> {
@@ -292,7 +293,7 @@ public class MailboxGui extends BaseGui {
                         return List.of(AnvilGUI.ResponseAction.run(() -> {}));
                     }
                     String text = stateSnapshot.getText();
-                    Component confirmComponent = LangManager.getComponent("mailbox.delete-confirm-word", player.locale());
+                    Component confirmComponent = LangManager.text(LangKey.MAILBOX_DELETE_CONFIRM_WORD, player);
                     String confirmWord = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(confirmComponent);
                     if (confirmWord.equals(text)) {
                         int deletedCount = 0;
@@ -316,9 +317,9 @@ public class MailboxGui extends BaseGui {
                     }
                 })
                 .text(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                        LangManager.getComponent("gui.mailbox.delete-confirm-text", player.locale())))
+                        LangManager.text(LangKey.GUI_MAILBOX_DELETE_CONFIRM_TEXT, player)))
                 .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                        LangManager.getComponent("gui.mailbox.delete-confirm-title", player.locale())))
+                        LangManager.text(LangKey.GUI_MAILBOX_DELETE_CONFIRM_TITLE, player)))
                 .plugin(guiManager.getPlugin())
                 .open(player);
     }

@@ -1,6 +1,13 @@
 {
   "name": "Path of the Warrior",
   "info": "Pass the trials to become a true warrior. This quest advances you to the Warrior class. Class Requirements: • Level 20 or higher • Combat experience required Trial Contents: • Test of Strength • Test of Courage • Test of Honor Class Rewards: • Warrior class unlock • Warrior-exclusive skills • Warrior armor set",
+  "objectives": {
+    "warrior_general": "Meet warrior general",
+    "combat_mastery": "Master combat skills",
+    "weapon_expertise": "Gain weapon expertise",
+    "tactical_training": "Complete tactical training",
+    "warrior_honor": "Earn warrior honor"
+  },
   "dialogs": [
     "You wish to walk the path of the warrior? It is not an easy path.",
     "First, you need sufficient combat experience. Come back when you reach level 20.",

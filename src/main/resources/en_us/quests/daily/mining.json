@@ -1,6 +1,11 @@
 {
   "name": "Daily Mining",
   "info": "Complete today's mining objectives. Work hard in the mines to gather essential resources. Resets daily at midnight.",
+  "objectives": {
+    "mine_stone": "Mine 50 stone blocks",
+    "mine_coal": "Mine 20 coal ore",
+    "mine_iron": "Mine 10 iron ore"
+  },
   "dialogs": [
     "Another day, another shift in the mines!",
     "We need more resources to keep the town running. Can you help?",

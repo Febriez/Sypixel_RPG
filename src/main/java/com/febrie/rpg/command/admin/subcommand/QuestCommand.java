@@ -206,7 +206,7 @@ public class QuestCommand extends BaseSubCommand {
     @Override
     public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length == 1) {
-            return Arrays.asList("give", "complete", "reset", "list").stream()
+            return List.of("give", "complete", "reset", "list").stream()
                 .filter(cmd -> cmd.startsWith(args[0].toLowerCase()))
                 .collect(Collectors.toList());
         } else if (args.length == 2) {

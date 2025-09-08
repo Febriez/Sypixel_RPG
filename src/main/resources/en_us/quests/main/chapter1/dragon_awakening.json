@@ -1,6 +1,12 @@
 {
   "name": "Dragon Awakening",
   "info": "The ancient dragons, guardians of the realm, have slumbered for centuries. With darkness rising, the time has come to awaken these mighty beings and seek their aid.",
+  "objectives": {
+    "dragon_priest": "Talk to the dragon priest",
+    "dragon_shrine": "Visit the dragon shrine",
+    "awaken_dragon": "Awaken the ancient dragon",
+    "dragon_pact": "Form a pact with the dragon"
+  },
   "dialogs": [
     "The dragons have slept since the last great war, hero.",
     "Only in times of greatest need do they stir from their ancient slumber.",

@@ -1,11 +1,11 @@
 {
-  "default_name": "New Island",
+  "default_name": "Unnamed Island",
   "spawn": {
     "default_name": "Island Center"
   },
   "roles": {
     "owner": "Owner",
-    "sub_owner": "Co-Owner",
+    "sub_owner": "Sub-Owner",
     "member": "Member",
     "worker": "Worker",
     "visitor": "Visitor"
@@ -31,13 +31,17 @@
       "title": "==== Island System ====",
       "no_island": "You don't have an island yet!",
       "features": "Create an island to access the following features:",
-      "feature_1": "• Build freely on your own private island",
-      "feature_2": "• Invite friends to play together",
-      "feature_3": "• Upgrade your island for more space",
-      "feature_4": "• Set island warp points",
+      "features": [
+        "• Build freely on your own private island",
+        "• Invite friends to play together",
+        "• Upgrade your island for more space",
+        "• Set island warp points"
+      ],
       "create_guide": "How to create an island:",
-      "step_1": "1. Click the Island button in the main menu (/menu)",
-      "step_2": "2. Click the Create Island button to create a new island"
+      "steps": [
+        "1. Click the Island button in the main menu (/menu)",
+        "2. Click the Create Island button to create a new island"
+      ]
     }
   },
   "gui": {
@@ -48,10 +52,12 @@
         "title": "Create Island",
         "no_island": "You don't have an island yet!",
         "description": "Create an island to access the following features:",
-        "feature_1": "• Build freely on your own private island",
-        "feature_2": "• Invite friends to play together",
-        "feature_3": "• Upgrade your island for more space",
-        "feature_4": "• Set island warp points",
+        "features": [
+          "• Build freely on your own private island",
+          "• Invite friends to play together",
+          "• Upgrade your island for more space",
+          "• Set island warp points"
+        ],
         "contact_admin": "Contact an admin to create an island!"
       },
       "hex_format_error": "Invalid HEX format! Use #RRGGBB",
@@ -69,8 +75,10 @@
         "members": "Members: {0}/{1}"
       },
       "create": {
-        "lore1": "Click to create",
-        "lore2": "your own island!"
+        "lore": [
+          "Click to create",
+          "your own island!"
+        ]
       },
       "spawn": {
         "name": "Island Spawn",
@@ -286,25 +294,86 @@
       "add": {
         "current": "Current: {0}G"
       }
-    }
+    },
+    "creation_click_to_select": "Click to select",
+    "contribute_contribution_input_text": "Enter contribution amount",
+    "contribute_contribution_input_title": "Contribution Amount"
   },
   "error": {
     "player_only": "This command can only be used by players."
   },
   "contribute": {
-    "amount_too_low": "The contribution amount is too low!",
-    "invalid_amount": "Invalid contribution amount!"
+    "amount_too_low": "Amount too low",
+    "invalid_amount": "Invalid amount"
   },
   "delete": {
     "confirm_word": "DELETE",
-    "input_error": "Please type DELETE to confirm",
-    "input_text": "Type DELETE to permanently delete your island",
-    "input_title": "Delete Island Confirmation"
+    "input_error": "Type DELETE to confirm",
+    "input_text": "Type DELETE to delete island",
+    "input_title": "Confirm Island Deletion"
   },
   "member": {
     "kick_confirm_word": "KICK",
-    "kick_input_error": "Please type KICK to confirm",
-    "kick_input_text": "Type KICK to remove this member from your island",
-    "kick_input_title": "Kick Member Confirmation"
-  }
+    "kick_input_error": "Type KICK to confirm",
+    "kick_input_text": "Type KICK to kick member",
+    "kick_input_title": "Confirm Member Kick"
+  },
+  "gui_creation_click_to_select": "Click to select",
+  "gui_biome_change_title": "Change Island Biome",
+  "gui_biome_click_to_change": "Click to change biome",
+  "gui_biome_current_info": "Current Biome",
+  "gui_biome_current_info_lore": "Your island's current biome",
+  "gui_biome_selection_title": "Select Biome",
+  "gui_biome_selection_info_title": "Biome Selection",
+  "gui_biome_selection_info_lore": [
+    "Choose your island's biome",
+    "This will change the appearance"
+  ],
+  "gui_biome_selection_current_selected": "Currently Selected",
+  "gui_biome_selection_click_to_select": "Click to select this biome",
+  "gui_biome_selection_back_lore": "Return to island menu",
+  "gui_biome_simple_title": "Island Biome",
+  "gui_contribute_gold_info_balance": "Your Balance: {0}",
+  "gui_contribute_gold_info_contribution": "Your Contribution: {0}",
+  "gui_contribute_quick_amount": "Quick Amount: {0}",
+  "gui_contribute_gold_needed": "Gold Needed: {0}",
+  "gui_contribution_info_island_name": "Island: {0}",
+  "gui_delete_confirm_title": "Delete Island",
+  "gui_delete_confirm_island_info_title": "Island Information",
+  "gui_delete_confirm_island_info_id": "Island ID: {0}",
+  "gui_delete_confirm_island_info_members": "Members: {0}",
+  "gui_delete_confirm_island_info_created": "Created: {0}",
+  "gui_member_invite_prompt": "Enter player name",
+  "gui_member_invite_example": "Example: Steve",
+  "gui_member_role_owner": "Owner",
+  "gui_member_all_permissions": "All permissions",
+  "gui_member_owner_cannot_change": "Cannot change owner role",
+  "gui_member_join_date": "Joined: {0}",
+  "gui_member_most_permissions": "Most permissions",
+  "gui_member_normal_permissions": "Normal permissions",
+  "gui_member_left_click_role": "Left-click to change role",
+  "gui_member_right_click_kick": "Right-click to kick",
+  "gui_member_role_worker": "Worker",
+  "gui_member_hire_date": "Hired: {0}",
+  "gui_member_last_activity": "Last active: {0}",
+  "gui_member_limited_permissions": "Limited permissions",
+  "gui_member_left_click_extend": "Left-click to extend contract",
+  "gui_member_right_click_fire": "Right-click to fire",
+  "gui_member_manage_title": "Manage Members",
+  "gui_member_manage_permission_not_implemented": "Permission system not implemented yet",
+  "gui_member_manage_current_role": "Current Role: {0}",
+  "role_co_owner": "Co-Owner",
+  "roles_sub_owner": "Sub-Owner",
+  "contribute_amount_too_low": "Amount must be at least 1",
+  "contribute_invalid_amount": "Invalid amount",
+  "gui_contribute_contribution_input_text": "Enter contribution amount",
+  "gui_contribute_contribution_input_title": "Contribute Gold",
+  "delete_confirm_word": "DELETE",
+  "delete_input_error": "Type DELETE to confirm",
+  "delete_input_text": "Type DELETE to confirm deletion",
+  "delete_input_title": "Confirm Deletion",
+  "member_kick_confirm_word": "KICK",
+  "member_kick_input_error": "Type KICK to confirm",
+  "member_kick_input_text": "Type KICK to confirm",
+  "member_kick_input_title": "Confirm Kick"
 }

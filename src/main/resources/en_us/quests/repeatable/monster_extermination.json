@@ -1,5 +1,16 @@
 {
   "name": "Monster Extermination Mission",
+  "info": "Help protect the village by eliminating dangerous monsters. This mission can be repeated as needed.",
+  "npc_name": "Village Guard Captain",
+  "accept": "Thank you! The village depends on brave adventurers like you.",
+  "decline": "Understandable. These missions are dangerous - return when you're ready.",
+  "objectives": {
+    "kill_hostile_mobs": "Kill 50 zombies",
+    "kill_spiders": "Kill 30 spiders",
+    "kill_endermen": "Kill 10 endermen",
+    "kill_witches": "Kill 15 witches",
+    "kill_boss_monsters": "Kill 5 boss monsters"
+  },
   "dialogs": [
     "Monsters are threatening the village. Will you help with the extermination?",
     "Zombies, skeletons, spiders, creepers... They're all dangerous.",

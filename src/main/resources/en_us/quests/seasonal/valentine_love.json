@@ -1,5 +1,31 @@
 {
   "name": "Valentine's Love Festival",
+  "info": "Spread love throughout the community by organizing romantic activities and gestures for Valentine's Day.",
+  "npc_name": "Cupid's Helper",
+  "accept": "I'd love to help make this Valentine's Day special for everyone!",
+  "decline": "I'm not feeling romantic enough to help right now.",
+  "objectives": [
+    {
+      "id": "gather_red_roses",
+      "description": "Collect red roses for romantic displays"
+    },
+    {
+      "id": "make_handmade_chocolates",
+      "description": "Create perfect handmade chocolates for lovers"
+    },
+    {
+      "id": "write_love_letters",
+      "description": "Write anonymous love letters to spark romance"
+    },
+    {
+      "id": "organize_valentine_dance",
+      "description": "Organize the romantic Valentine's dance under the stars"
+    },
+    {
+      "id": "spread_love_throughout_village",
+      "description": "Help love blossom throughout the entire village"
+    }
+  ],
   "dialogs": [
     "Valentine's Day is here! Will you help us spread love throughout our community?",
     "Red roses are the classic symbol of love. We need lots for our romantic displays!",

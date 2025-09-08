@@ -6,7 +6,8 @@
     "prev_page": "%COLOR_WARNING%← Previous Page",
     "confirm": "%COLOR_SUCCESS%Confirm",
     "cancel": "%COLOR_ERROR%Cancel",
-    "settings": "%COLOR_INFO%Settings"
+    "settings": "%COLOR_INFO%Settings",
+    "previous_page": "[TRANSLATE: ← Previous Page]"
   },
   "mainmenu": {
     "title": "%COLOR_PRIMARY%Main Menu"
@@ -59,7 +60,8 @@
     "pets": "Pets",
     "collection_book": "Collection Book",
     "user_settings": "User Settings",
-    "user_settings_desc": "Manage your personal settings"
+    "user_settings_desc": "Manage your personal settings",
+    "player_info_name": "[TRANSLATE: Player: {0}]"
   },
   "job_selection": {
     "title": "Job Selection",
@@ -96,9 +98,11 @@
     "cancel_description": "Cancel job selection",
     "click_to_cancel": "▶ Click to cancel",
     "info_title": "Information",
-    "info_line1": "• Jobs determine your character's growth direction",
-    "info_line2": "• Each job has unique skills and talents",
-    "info_line3": "• Please choose carefully!",
+    "info_lines": [
+      "• Jobs determine your character's growth direction",
+      "• Each job has unique skills and talents",
+      "• Please choose carefully!"
+    ],
     "success": "Congratulations! You selected the {1} job!",
     "title_success": "Job Selected!",
     "subtitle_success": "You selected the {1} job",
@@ -117,7 +121,8 @@
     "points_available": "Available Points",
     "points_count": "Points Held: {0}",
     "points_info": "Gain stat points when leveling up",
-    "click_to_add": "▶ Click to add points"
+    "click_to_add": "▶ Click to add points",
+    "base_bonus": "[TRANSLATE: Base + Bonus]"
   },
   "talent": {
     "title": "Talents",
@@ -150,7 +155,13 @@
     "page": {
       "main": "Main Talents"
     },
-    "has_sub_page": "Has sub-pages"
+    "has_sub_page": "Has sub-pages",
+    "no_job": "[TRANSLATE: Select a job first!]",
+    "prerequisites": "[TRANSLATE: Prerequisites:]",
+    "prereq_met": "[TRANSLATE: ✓ {0}]",
+    "prereq_not_met": "[TRANSLATE: ✗ {0}]",
+    "can_learn": "[TRANSLATE: ✓ Can learn]",
+    "maxed": "[TRANSLATE: Max level reached]"
   },
   "leaderboard": {
     "title": "Leaderboard",
@@ -175,7 +186,15 @@
     "tab_click": "▶ Click to view",
     "no_rank_data": "No ranking data",
     "play_more": "Play more to compete for rankings!",
-    "value": "Value: {0}"
+    "value": "Value: {0}",
+    "type": {
+      "level": "[TRANSLATE: Level]",
+      "combat_power": "[TRANSLATE: Combat Power]",
+      "gold": "[TRANSLATE: Gold]",
+      "playtime": "[TRANSLATE: Playtime]"
+    },
+    "my_rank": "[TRANSLATE: Your Rank: #{0}]",
+    "my_value": "[TRANSLATE: Your Score: {0}]"
   },
   "quest_list": {
     "title": "Quest List",
@@ -348,7 +367,12 @@
     "settings": {
       "name": "Settings",
       "lore": "Change settings"
-    }
+    },
+    "next_page_name": "[TRANSLATE: Next Page]",
+    "previous_page_name": "[TRANSLATE: Previous Page]",
+    "page_info_lore": "[TRANSLATE: Page {0} of {1}]",
+    "next_page_lore": "[TRANSLATE: Click to go to the next page]",
+    "previous_page_lore": "[TRANSLATE: Click to go to the previous page]"
   },
   "quest_reward": {
     "title": "Quest Rewards",
@@ -357,7 +381,10 @@
     "destroy_desc": "Forfeit all rewards",
     "warning_destroy": "⚠️ This action cannot be undone!",
     "warning_destroy_line": "⚠️ This Action",
-    "warning_destroy_line2": "Cannot Be Undone!",
+    "warning_destroy_lines": [
+      "⚠️ This Action",
+      "Cannot Be Undone!"
+    ],
     "claim_all": "Claim All",
     "claim_all_desc": "Claim all rewards to your inventory",
     "already_claimed": "You have already claimed the rewards",
@@ -413,18 +440,69 @@
         "level": ""
       },
       "contribution": {
-        "desc1": "View contribution rankings",
-        "desc2": "Check member contributions",
+        "desc": [
+          "View contribution rankings",
+          "Check member contributions"
+        ],
         "my": "My Contribution: "
       },
       "visitor": {
-        "desc1": "View and manage visitors",
-        "desc2": "Check visitor logs",
+        "desc": [
+          "View and manage visitors",
+          "Check visitor logs"
+        ],
         "recent": "Recent Visitors: ",
         "current": "Current Visitors: ",
         "history": "• View visit history",
         "realtime": "• Real-time visitor tracking",
         "open_menu": "Click to open visitor menu"
+      },
+      "members": "[TRANSLATE: Members: ]",
+      "info": {
+        "lore": [
+          "島の情報",
+          "クリックして詳細を表示"
+        ]
+      },
+      "member_management": {
+        "title": "[TRANSLATE: Member Management]",
+        "desc": [
+          "[TRANSLATE: Invite or kick]",
+          "[TRANSLATE: island members]"
+        ]
+      },
+      "permission_management": {
+        "title": "[TRANSLATE: Permission Management]",
+        "desc": [
+          "[TRANSLATE: Configure permissions]",
+          "[TRANSLATE: for each role]"
+        ]
+      },
+      "spawn_settings": {
+        "title": "[TRANSLATE: Spawn Settings]",
+        "desc": [
+          "[TRANSLATE: Manage island]",
+          "[TRANSLATE: spawn locations]"
+        ]
+      },
+      "island_settings": {
+        "title": "[TRANSLATE: Island Settings]",
+        "desc": [
+          "[TRANSLATE: Change island name]",
+          "[TRANSLATE: Public/Private settings]",
+          "[TRANSLATE: Change biome]"
+        ]
+      },
+      "biome_change": {
+        "title": "[TRANSLATE: Change Biome]",
+        "desc": [
+          "[TRANSLATE: Change the biome]",
+          "[TRANSLATE: of your island]"
+        ]
+      },
+      "warp": {
+        "title": "[TRANSLATE: Warp to Island]",
+        "desc": "[TRANSLATE: Teleport to the island]"
       }
     },
     "creation": {
@@ -558,7 +636,52 @@
       "title": "Member Management",
       "permission_not_implemented": "This permission is not yet implemented",
       "current_role": "Current Role: {0}"
-    }
+    },
+    "main_color_change_hint": "[TRANSLATE: Click to change island theme]",
+    "biome_change_title": "[TRANSLATE: Change Island Biome]",
+    "biome_click_to_change": "[TRANSLATE: Click to change biome]",
+    "biome_current_info": "[TRANSLATE: Current Biome]",
+    "biome_current_info_lore": "[TRANSLATE: Your island biome: {0}]",
+    "biome_selection_title": "[TRANSLATE: Select Biome]",
+    "biome_selection_info_title": "[TRANSLATE: Biome Selection]",
+    "biome_selection_info_lore": [
+      "[TRANSLATE: Choose your island biome]",
+      "[TRANSLATE: This affects island appearance]"
+    ],
+    "biome_selection_current_selected": "[TRANSLATE: Currently selected: {0}]",
+    "biome_selection_click_to_select": "[TRANSLATE: Click to select this biome]",
+    "biome_selection_back_lore": "[TRANSLATE: Go back to previous menu]",
+    "biome_simple_title": "[TRANSLATE: Island Biome]",
+    "contribute_gold_info_balance": "[TRANSLATE: Your Balance: {0}]",
+    "contribute_gold_info_contribution": "[TRANSLATE: Your Contribution: {0}]",
+    "contribute_quick_amount": "[TRANSLATE: Quick Amount: {0}]",
+    "contribute_gold_needed": "[TRANSLATE: Gold Needed: {0}]",
+    "contribution_info_island_name": "[TRANSLATE: Island: {0}]",
+    "role_co_owner": "[TRANSLATE: Co-Owner]",
+    "delete_confirm_title": "[TRANSLATE: Delete Island Confirmation]",
+    "delete_confirm_island_info_title": "[TRANSLATE: Island Information]",
+    "delete_confirm_island_info_id": "[TRANSLATE: Island ID: {0}]",
+    "delete_confirm_island_info_members": "[TRANSLATE: Members: {0}]",
+    "delete_confirm_island_info_created": "[TRANSLATE: Created: {0}]",
+    "member_invite_prompt": "[TRANSLATE: Enter player name to invite]",
+    "member_invite_example": "[TRANSLATE: Example: PlayerName]",
+    "member_role_owner": "[TRANSLATE: Owner]",
+    "member_all_permissions": "[TRANSLATE: Has all permissions]",
+    "member_owner_cannot_change": "[TRANSLATE: Owner permissions cannot be changed]",
+    "member_join_date": "[TRANSLATE: Joined: {0}]",
+    "member_most_permissions": "[TRANSLATE: Has most permissions]",
+    "member_normal_permissions": "[TRANSLATE: Has normal permissions]",
+    "member_left_click_role": "[TRANSLATE: Left-click to change role]",
+    "member_right_click_kick": "[TRANSLATE: Right-click to kick]",
+    "member_role_worker": "[TRANSLATE: Worker]",
+    "member_hire_date": "[TRANSLATE: Hired: {0}]",
+    "member_last_activity": "[TRANSLATE: Last Active: {0}]",
+    "member_limited_permissions": "[TRANSLATE: Has limited permissions]",
+    "member_left_click_extend": "[TRANSLATE: Left-click to extend contract]",
+    "member_right_click_fire": "[TRANSLATE: Right-click to fire]",
+    "member_manage_title": "[TRANSLATE: Manage Member]",
+    "member_manage_permission_not_implemented": "[TRANSLATE: Permission management coming soon]",
+    "member_manage_current_role": "[TRANSLATE: Current Role: {0}]"
   },
   "social": {
     "mailbox": {
@@ -657,11 +780,15 @@
     "color_changed": "Island name color has been changed!",
     "hex_input_title": "Enter HEX Color Code",
     "member_management_title": "Member Management",
-    "member_management_desc1": "Invite or kick",
-    "member_management_desc2": "island members.",
+    "member_management_desc": [
+      "Invite or kick",
+      "island members."
+    ],
     "permission_management_title": "Permission Management",
-    "permission_management_desc1": "Configure permissions",
-    "permission_management_desc2": "for each role.",
+    "permission_management_desc": [
+      "Configure permissions",
+      "for each role."
+    ],
     "upgrade_title": "Upgrade",
     "upgrade_current_level": "Current Level:",
     "upgrade_size": "Size:",
@@ -669,27 +796,37 @@
     "upgrade_worker": "Workers:",
     "upgrade_level": "Level",
     "contribution_title": "Contribution",
-    "contribution_desc1": "View contribution",
-    "contribution_desc2": "of island members.",
+    "contribution_desc": [
+      "View contribution",
+      "of island members."
+    ],
     "contribution_my": "My Contribution:",
     "spawn_settings_title": "Spawn Settings",
-    "spawn_settings_desc1": "Manage island",
-    "spawn_settings_desc2": "spawn locations.",
+    "spawn_settings_desc": [
+      "Manage island",
+      "spawn locations."
+    ],
     "island_settings_title": "Island Settings",
-    "island_settings_desc1": "Change island name",
-    "island_settings_desc2": "Public/Private settings",
-    "island_settings_desc3": "Change biome",
+    "island_settings_desc": [
+      "Change island name",
+      "Public/Private settings",
+      "Change biome"
+    ],
     "visitor_management_title": "Visitor Management",
-    "visitor_management_desc1": "View visitor",
-    "visitor_management_desc2": "information.",
+    "visitor_management_desc": [
+      "View visitor",
+      "information."
+    ],
     "visitor_management_recent": "Recent Visitors:",
     "visitor_management_current": "Current Visitors:",
     "visitor_management_history": "• Visit History",
     "visitor_management_realtime": "• Current Visitors (Live)",
     "visitor_management_open_menu": "▶ Click to Open Menu",
     "biome_change_title": "Change Biome",
-    "biome_change_desc1": "Change the biome",
-    "biome_change_desc2": "of your island.",
+    "biome_change_desc": [
+      "Change the biome",
+      "of your island."
+    ],
     "warp_title": "Warp to Island",
     "warp_desc": "Teleport to the island.",
     "warp_moving": "Warping to island...",
@@ -782,8 +919,8 @@
     "already_friends": "{0}さんとすでにフレンドです",
     "request_time": "Request Time: {0}",
     "message": "Message: {0}",
-    "accept_desc1": "Click to accept this friend request",
-    "reject_desc1": "Click to reject this friend request"
+    "accept_desc": ["Click to accept this friend request"],
+    "reject_desc": ["Click to reject this friend request"]
   },
   "friend_list": {
     "title": "フレンドリスト",
@@ -923,5 +1060,94 @@
         "title": "エラー"
       }
     }
+  },
+  "page_info": "[TRANSLATE: Page {0} of {1}]",
+  "combat_power": {
+    "title": "[TRANSLATE: Combat Power]",
+    "total": "[TRANSLATE: Total Combat Power: {0}]",
+    "breakdown": "[TRANSLATE: Power Breakdown]",
+    "from_level": "[TRANSLATE: From Level: {0}]",
+    "from_stats": "[TRANSLATE: From Stats: {0}]",
+    "level_contribution": "[TRANSLATE: Level Contribution]",
+    "level_detail": "[TRANSLATE: Level {0} = {1} power]",
+    "stat_contribution": "[TRANSLATE: Stat Contribution]",
+    "stat_detail": "[TRANSLATE: {0}: {1} power]"
+  },
+  "system_settings": {
+    "title": "[TRANSLATE: System Settings]",
+    "status": "[TRANSLATE: Status: {0}]",
+    "click_to_toggle": "[TRANSLATE: Click to toggle]",
+    "confirmation_toggled": "[TRANSLATE: Confirmation dialogs {0}]"
+  },
+  "common_next_page": "[TRANSLATE: Next Page]",
+  "common_previous_page": "[TRANSLATE: Previous Page]",
+  "common_prev_page": "[TRANSLATE: Previous]",
+  "profile_player_title": "[TRANSLATE: {0}'s Profile]",
+  "profile_level_info": "[TRANSLATE: Level {0}]",
+  "profile_exp_percent": "[TRANSLATE: {0}% to next level]",
+  "profile_no_job": "[TRANSLATE: No Job]",
+  "profile_current_job": "[TRANSLATE: Current Job: {0}]",
+  "profile_job_level": "[TRANSLATE: Job Level: {0}]",
+  "profile_combat_power": "[TRANSLATE: Combat Power: {0}]",
+  "profile_click_to_talents": "[TRANSLATE: Click to view talents]",
+  "profile_join_date": "[TRANSLATE: Joined: {0}]",
+  "profile_last_seen": "[TRANSLATE: Last Seen: {0}]",
+  "profile_click_for_talents": "[TRANSLATE: Click for Talents]",
+  "profile_click_for_stats": "[TRANSLATE: Click for Stats]",
+  "profile_online_status": "[TRANSLATE: Status: {0}]",
+  "profile_health_info": "[TRANSLATE: Health: {0}/{1}]",
+  "profile_food_info": "[TRANSLATE: Food: {0}/20]",
+  "profile_food_level": "[TRANSLATE: Food Level: {0}]",
+  "profile_game_info": "[TRANSLATE: Game Statistics]",
+  "profile_active_quests": "[TRANSLATE: Active Quests: {0}]",
+  "profile_completed_quests": "[TRANSLATE: Completed Quests: {0}]",
+  "profile_mob_kills": "[TRANSLATE: Mob Kills: {0}]",
+  "profile_player_info_name": "[TRANSLATE: Player Information]",
+  "buttons_next_page_name": "[TRANSLATE: Next Page]",
+  "buttons_previous_page_name": "[TRANSLATE: Previous Page]",
+  "buttons_page_info_lore": "[TRANSLATE: Page {0} of {1}]",
+  "buttons_next_page_lore": "[TRANSLATE: Click to go to the next page]",
+  "buttons_previous_page_lore": "[TRANSLATE: Click to go to the previous page]",
+  "leaderboard_current_type": "[TRANSLATE: Leaderboard: {0}]",
+  "leaderboard_total_entries": "[TRANSLATE: Total Entries: {0}]",
+  "leaderboard_my_rank": "[TRANSLATE: Your Rank: #{0}]",
+  "leaderboard_my_value": "[TRANSLATE: Your Score: {0}]",
+  "leaderboard_last_updated": "[TRANSLATE: Last Updated: {0}]",
+  "leaderboard_this_is_you": "[TRANSLATE: §e§l← This is you!]",
+  "island_main_color_change_hint": "[TRANSLATE: Click to change island theme]",
+  "dialog_choice_title": "[TRANSLATE: Dialog Choice]",
+  "dialog_choice_icon": "[TRANSLATE: Choose Your Response]",
+  "dialog_choice_description": "[TRANSLATE: Select how you want to respond]",
+  "dialog_choice_npc": "[TRANSLATE: NPC: {0}]",
+  "dialog_choice_npc_content": "[TRANSLATE: {0}]",
+  "dialog_choice_option": "[TRANSLATE: Option {0}]",
+  "dialog_choice_click_to_select": "[TRANSLATE: Click to select this response]",
+  "mail": {
+    "detail_title": "[TRANSLATE: Mail Details]",
+    "detail_sender": "[TRANSLATE: From: {0}]",
+    "detail_receiver": "[TRANSLATE: To: {0}]",
+    "detail_sent_time": "[TRANSLATE: Sent: {0}]",
+    "detail_status": "[TRANSLATE: Status: {0}]",
+    "detail_no_message": "[TRANSLATE: No message content]",
+    "detail_delete_success": "[TRANSLATE: Mail deleted successfully]",
+    "detail_delete_failed": "[TRANSLATE: Failed to delete mail]",
+    "detail_reply_desc": "[TRANSLATE: Reply to this mail]",
+    "detail_reply_guide": "[TRANSLATE: Type your reply]",
+    "detail_reply_command": "[TRANSLATE: /mail reply {0}]"
+  },
+  "friend": {
+    "requests_request_time": "[TRANSLATE: Sent: {0}]",
+    "requests_message": "[TRANSLATE: Message: {0}]",
+    "requests_accept_desc": ["[TRANSLATE: Accept friend request]"],
+    "requests_reject_desc": ["[TRANSLATE: Reject friend request]"]
+  },
+  "dialog": {
+    "choice_title": "[TRANSLATE: Dialog Choice]",
+    "choice_icon": "[TRANSLATE: Choose Your Response]",
+    "choice_description": "[TRANSLATE: Select how you want to respond]",
+    "choice_npc": "[TRANSLATE: NPC: {0}]",
+    "choice_npc_content": "[TRANSLATE: {0}]",
+    "choice_option": "[TRANSLATE: Option {0}]",
+    "choice_click_to_select": "[TRANSLATE: Click to select this response]"
   }
 }

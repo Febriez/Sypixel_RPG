@@ -1,6 +1,15 @@
 {
   "name": "Herbal Medicine",
   "info": "Gather rare medicinal herbs for the village healer.",
+  "objectives": {
+    "talk_village_healer": "Talk to the Village Healer",
+    "herb_meadow": "Visit the Herb Meadow",
+    "healing_herbs": "Collect Healing Herbs (20)",
+    "rare_flowers": "Collect Rare Flowers (10)",
+    "mountain_herbs": "Visit Mountain Herbs Location",
+    "mountain_sage": "Collect Mountain Sage (8)",
+    "return_village_healer": "Return to the Village Healer"
+  },
   "dialogs": [
     "The plague is spreading, and I'm running low on medicine!",
     "I need silverleaf and moonflower from the enchanted grove.",

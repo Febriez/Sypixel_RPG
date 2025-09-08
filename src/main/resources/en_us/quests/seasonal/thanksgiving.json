@@ -1,5 +1,31 @@
 {
   "name": "Thanksgiving Gratitude Feast",
+  "info": "Prepare a grand Thanksgiving feast and help spread gratitude throughout the community.",
+  "npc_name": "Feast Organizer",
+  "accept": "I'm grateful for the chance to help with this wonderful celebration!",
+  "decline": "I can't help with the feast preparations right now.",
+  "objectives": [
+    {
+      "id": "prepare_roasted_turkey",
+      "description": "Prepare a perfectly roasted turkey as the centerpiece"
+    },
+    {
+      "id": "gather_cranberries",
+      "description": "Collect tart berries to add to the traditional feast"
+    },
+    {
+      "id": "write_gratitude_letters",
+      "description": "Write gratitude letters to remember the year's kindness"
+    },
+    {
+      "id": "share_thanksgiving_words",
+      "description": "Share words of thanks to unite everyone in gratitude"
+    },
+    {
+      "id": "celebrate_thanksgiving_feast",
+      "description": "Join the heartwarming Thanksgiving feast celebration"
+    }
+  ],
   "dialogs": [
     "Thanksgiving is upon us! Will you help us prepare a feast worthy of our gratitude?",
     "Nothing brings people together like a perfectly roasted turkey at the center of the table.",

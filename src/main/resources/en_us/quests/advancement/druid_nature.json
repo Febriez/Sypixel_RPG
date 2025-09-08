@@ -1,6 +1,13 @@
 {
   "name": "Harmony with Nature",
   "info": "Connect with the ancient spirits of nature and become one with the natural world. Learn from the wisdom of the forest and master the primal forces of earth and life. Class Requirements: • Level 25 or higher • Deep respect for nature • Harmony with natural forces Trial Contents: • Test of Natural Wisdom • Test of Elemental Harmony • Test of Life Communion Class Rewards: • Druid class advancement • Nature magic mastery • Sacred natural artifacts",
+  "objectives": {
+    "druid_elder": "Meet the druid elder",
+    "nature_bond": "Form nature bond",
+    "animal_forms": "Learn animal forms",
+    "nature_magic": "Master nature magic",
+    "druid_circle": "Join the druid circle"
+  },
   "dialogs": [
     "Nature calls to those who truly listen. Do you hear its voice?",
     "To become one with nature, you must first understand its ancient wisdom.",

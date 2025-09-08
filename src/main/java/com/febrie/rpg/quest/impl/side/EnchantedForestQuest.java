@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Enchanted Forest - Side Quest
@@ -45,8 +46,8 @@ public class EnchantedForestQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_ENCHANTED_FOREST)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_forest_druid", "forest_druid"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_forest_druid", "forest_druid", 1),
                         new VisitLocationObjective("magical_grove", "Magical_Grove"),
                         new KillMobObjective("kill_witches", EntityType.WITCH, 6),
                         new CollectItemObjective("enchanted_saplings", Material.OAK_SAPLING, 8),
@@ -73,9 +74,17 @@ public class EnchantedForestQuest extends Quest {
         return LangManager.list(LangKey.QUEST_SIDE_ENCHANTED_FOREST_INFO, who);
     }
 
-    @Override
+        @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.enchanted_forest.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "talk_forest_druid" -> LangManager.list(LangKey.QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_TALK_FOREST_DRUID, who);
+            case "magical_grove" -> LangManager.list(LangKey.QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_MAGICAL_GROVE, who);
+            case "kill_witches" -> LangManager.list(LangKey.QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_KILL_WITCHES, who);
+            case "enchanted_saplings" -> LangManager.list(LangKey.QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_ENCHANTED_SAPLINGS, who);
+            case "fairy_circle" -> LangManager.list(LangKey.QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_FAIRY_CIRCLE, who);
+            case "fairy_dust" -> LangManager.list(LangKey.QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_FAIRY_DUST, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -83,9 +92,14 @@ public class EnchantedForestQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_ENCHANTED_FOREST_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_ENCHANTED_FOREST_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

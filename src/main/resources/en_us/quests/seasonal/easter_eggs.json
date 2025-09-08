@@ -1,5 +1,31 @@
 {
   "name": "Easter Egg Hunt Adventure",
+  "info": "Create a magical Easter egg hunt by painting eggs, finding hiding spots, and organizing the celebration.",
+  "npc_name": "Easter Bunny Helper",
+  "accept": "I'd be delighted to help with the Easter celebration!",
+  "decline": "I don't have time for Easter preparations right now.",
+  "objectives": [
+    {
+      "id": "paint_colorful_eggs",
+      "description": "Paint vibrant and colorful Easter eggs"
+    },
+    {
+      "id": "create_egg_art",
+      "description": "Create artistic painted eggs that bring joy to finders"
+    },
+    {
+      "id": "find_hiding_spots",
+      "description": "Scout creative hiding spots for the egg hunt"
+    },
+    {
+      "id": "organize_egg_hunt",
+      "description": "Organize and set up the Easter egg hunt"
+    },
+    {
+      "id": "spread_spring_joy",
+      "description": "Help spread spring joy throughout the village celebration"
+    }
+  ],
   "dialogs": [
     "Easter is here! Will you help make this egg hunt the most magical one yet?",
     "We need lots of colorful eggs for our hunt. The more vibrant, the better!",

@@ -1,4 +1,23 @@
 {
   "name": "Weekly Faction War",
-  "dialogs": []
+  "info": "Join your faction in the weekly war for territory control.",
+  "objectives": {
+    "join_faction": "Join a faction for the war",
+    "capture_outposts": "Capture 3 enemy outposts",
+    "defeat_enemies": "Defeat 20 enemy faction members",
+    "defend_base": "Defend your faction base for 10 minutes",
+    "win_war": "Help your faction win the war"
+  },
+  "dialogs": [
+    "Soldier! The weekly faction war is upon us!",
+    "Our enemies grow stronger with each passing week.",
+    "We need every able warrior to fight for our cause.",
+    "Control of the territories means resources and power.",
+    "The faction that wins will control trade routes for the week.",
+    "Our scouts report enemy movements near the border.",
+    "Will you fight for your faction's glory?"
+  ],
+  "npc_name": "Faction Commander",
+  "accept": "For the faction!",
+  "decline": "I prefer neutrality."
 }

@@ -45,8 +45,8 @@ public class CrystalCavernQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_CRYSTAL_CAVERN)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_crystal_miner", "crystal_miner"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_crystal_miner", "crystal_miner", 1),
                         new VisitLocationObjective("cavern_entrance", "Cavern_Entrance"),
                         new KillMobObjective("kill_spiders", EntityType.SPIDER, 18),
                         new CollectItemObjective("raw_crystals", Material.AMETHYST_SHARD, 20),
@@ -75,7 +75,15 @@ public class CrystalCavernQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.crystal_cavern.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "talk_crystal_miner" -> LangManager.list(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_TALK_CRYSTAL_MINER, who);
+            case "cavern_entrance" -> LangManager.list(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_CAVERN_ENTRANCE, who);
+            case "kill_spiders" -> LangManager.list(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_KILL_SPIDERS, who);
+            case "raw_crystals" -> LangManager.list(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_RAW_CRYSTALS, who);
+            case "crystal_chamber" -> LangManager.list(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_CRYSTAL_CHAMBER, who);
+            case "pure_crystal" -> LangManager.list(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_PURE_CRYSTAL, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -83,9 +91,14 @@ public class CrystalCavernQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

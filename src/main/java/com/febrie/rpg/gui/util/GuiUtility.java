@@ -98,7 +98,7 @@ public class GuiUtility {
         SkullMeta meta = (SkullMeta) head.getItemMeta();
 
         meta.setOwningPlayer(player);
-        meta.displayName(Component.translatable("gui.profile.player-info.name", Component.text(player.getName())));
+        meta.displayName(LangManager.text(LangKey.GUI_PROFILE_PLAYER_INFO_NAME, player, Component.text(player.getName())));
 
         head.setItemMeta(meta);
         return head;
@@ -118,13 +118,13 @@ public class GuiUtility {
         int bonus = rpgPlayer.getStats().getBonusStat(stat);
 
         ItemBuilder builder = ItemBuilder.of(stat.getIcon())
-                .displayName(Component.translatable("stat." + stat.getId().toLowerCase() + ".name"))
+                .displayName(Component.text(stat.getId()))
                 .flags(ItemFlag.values());
 
         // ?�명 추�?
         List<Component> lore = new ArrayList<>();
         // Description from translation key
-        lore.add(Component.translatable("stat." + stat.getId().toLowerCase() + ".description"));
+        lore.add(Component.text("Stat: " + stat.getId()));
 
         // ?�재 �??�시
         lore.add(Component.empty());
@@ -162,13 +162,13 @@ public class GuiUtility {
 
         Material material = talent.getIcon();
         ItemBuilder builder = ItemBuilder.of(material)
-                .displayName(Component.translatable("talent." + talent.getId() + ".name"))
+                .displayName(Component.text(talent.getId()))
                 .flags(ItemFlag.values());
 
         // ?�명 추�?
         List<Component> lore = new ArrayList<>();
         // Description from translation key
-        lore.add(Component.translatable("talent." + talent.getId() + ".description"));
+        lore.add(Component.text("Talent: " + talent.getId()));
 
         // ?�재 ?�벨 ?�시
         lore.add(Component.empty());
@@ -203,7 +203,7 @@ public class GuiUtility {
                 int playerLevel = rpgPlayer.getTalents().getTalentLevel(prereqTalent);
                 boolean meets = playerLevel >= requiredLevel;
 
-                Component prereqName = Component.translatable("talent." + prereqTalent.getId() + ".name");
+                Component prereqName = Component.text(prereqTalent.getId());
                 lore.add(Component.text("??")
                         .append(prereqName)
                         .append(Component.text(" Lv." + requiredLevel))
@@ -235,19 +235,19 @@ public class GuiUtility {
                                         @NotNull Material material,
                                         @NotNull Player player, @NotNull RPGPlayerManager playerManager) {
         ItemBuilder builder = ItemBuilder.of(material)
-                .displayName(Component.translatable("job."))
+                .displayName(Component.text(jobKey))
                 .flags(ItemFlag.values());
 
         List<Component> lore = new ArrayList<>();
         // Description from translation key
-        lore.add(Component.translatable("job." + jobKey + ".description"));
+        lore.add(Component.text("Job: " + jobKey));
 
         return GuiItem.clickable(
                 builder.lore(lore).build(),
                 clickPlayer -> {
                     // 직업 ?�택 로직
                     SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK);
-                    clickPlayer.sendMessage(Component.translatable("job.selected"));
+                    clickPlayer.sendMessage(Component.text("Job selected: " + jobKey));
                 }
         );
     }

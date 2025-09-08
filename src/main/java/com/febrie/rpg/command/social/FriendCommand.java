@@ -149,7 +149,7 @@ public class FriendCommand implements CommandExecutor, TabCompleter {
         switch (commandName) {
             case "친구", "friend" -> {
                 if (args.length == 1) {
-                    return Arrays.asList("목록", "list").stream()
+                    return List.of("목록", "list").stream()
                             .filter(s -> s.toLowerCase().startsWith(args[0].toLowerCase()))
                             .collect(Collectors.toList());
                 }
@@ -163,7 +163,7 @@ public class FriendCommand implements CommandExecutor, TabCompleter {
                             .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
                             .collect(Collectors.toList());
                 } else if (args.length == 2) {
-                    return Arrays.asList("안녕하세요!", "친구해요!", "같이 게임해요!");
+                    return List.of("안녕하세요!", "친구해요!", "같이 게임해요!");
                 }
             }
             case "친구삭제", "friendremove" -> {

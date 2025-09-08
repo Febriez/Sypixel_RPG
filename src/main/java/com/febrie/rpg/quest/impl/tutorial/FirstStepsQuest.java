@@ -43,11 +43,11 @@ public class FirstStepsQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.TUTORIAL_FIRST_STEPS)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         // 1. 허브 구역 방문 (WorldGuard 영역 이름: Hub)
                         new VisitLocationObjective("visit_hub", "Hub"),
                         // 2. 마을 상인 NPC 방문 (NPC Code 기반)
-                        new InteractNPCObjective("visit_merchant", "village_merchant")
+                        new InteractNPCObjective("visit_merchant", "village_merchant", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 100)
@@ -88,8 +88,13 @@ public class FirstStepsQuest extends Quest {
     }
     
     @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_TUTORIAL_FIRST_STEPS_DIALOGS, who);
+    }
+    
+    @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_TUTORIAL_FIRST_STEPS_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

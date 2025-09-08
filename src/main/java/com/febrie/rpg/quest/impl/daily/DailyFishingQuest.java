@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.ArrayList;
 
 /**
  * 일일 낚시 - 일일 퀘스트
@@ -72,10 +73,14 @@ public class DailyFishingQuest extends Quest {
         return LangManager.list(LangKey.QUEST_DAILY_FISHING_INFO, who);
     }
 
-    @Override
+        @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.daily.fishing.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "catch_any_fish" -> LangManager.list(LangKey.QUEST_DAILY_FISHING_OBJECTIVES_CATCH_ANY_FISH, who);
+            case "catch_salmon" -> LangManager.list(LangKey.QUEST_DAILY_FISHING_OBJECTIVES_CATCH_SALMON, who);
+            case "catch_pufferfish" -> LangManager.list(LangKey.QUEST_DAILY_FISHING_OBJECTIVES_CATCH_PUFFERFISH, who);
+            default -> new ArrayList<>();
+        };
     }
 
     @Override
@@ -83,9 +88,14 @@ public class DailyFishingQuest extends Quest {
         return 4;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_DAILY_FISHING_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_DAILY_FISHING_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

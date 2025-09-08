@@ -33,9 +33,9 @@ public class AncientProphecyQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_ANCIENT_PROPHECY)
-                .objectives(Arrays.asList(
+                .objectives(List.of(
                         new VisitLocationObjective("visit_elder", "ancient_temple"),
-                        new InteractNPCObjective("talk_elder", "ancient_elder"), // 고대의 장로
+                        new InteractNPCObjective("talk_elder", "ancient_elder", 1), // 고대의 장로
                         new CollectItemObjective("collect_scrolls", Material.PAPER, 5),
                         new DeliverItemObjective("deliver_scrolls", "고대의 장로", Material.PAPER, 5)
                 ))
@@ -65,8 +65,13 @@ public class AncientProphecyQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        String key = "quest.main.ancient_prophecy.objectives." + objective.getId();
-        return LangManager.get(key, who);
+        return switch (objective.getId()) {
+            case "visit_elder" -> LangManager.list(LangKey.QUEST_MAIN_ANCIENT_PROPHECY_OBJECTIVES_VISIT_ELDER, who);
+            case "talk_elder" -> LangManager.list(LangKey.QUEST_MAIN_ANCIENT_PROPHECY_OBJECTIVES_TALK_ELDER, who);
+            case "collect_scrolls" -> LangManager.list(LangKey.QUEST_MAIN_ANCIENT_PROPHECY_OBJECTIVES_COLLECT_SCROLLS, who);
+            case "deliver_scrolls" -> LangManager.list(LangKey.QUEST_MAIN_ANCIENT_PROPHECY_OBJECTIVES_DELIVER_SCROLLS, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -74,9 +79,14 @@ public class AncientProphecyQuest extends Quest {
         return 4;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_ANCIENT_PROPHECY_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_ANCIENT_PROPHECY_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

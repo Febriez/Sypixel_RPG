@@ -1,6 +1,17 @@
 {
   "name": "Last Stand",
   "info": "The forces of darkness have begun their final assault. All the strongholds of light are under siege simultaneously. Hold the line against overwhelming odds and protect the last bastions of hope in this darkest hour.",
+  "objectives": {
+    "alliance_commander": "Speak with the Alliance Commander",
+    "fortress_battlements": "Visit the Fortress Battlements",
+    "siege_weapon": "Obtain Siege Weapons",
+    "kill_pillagers": "Defeat the Pillagers",
+    "blessed_arrows": "Collect Blessed Arrows",
+    "kill_ravagers": "Defeat the Ravagers",
+    "barrier_crystal": "Collect Barrier Crystal",
+    "last_fortress": "Visit the Last Fortress",
+    "war_strategist": "Speak with the War Strategist"
+  },
   "dialogs": [
     "This is our darkest hour. All our strongholds are under attack.",
     "I will not let the light fade. We will hold the line!",

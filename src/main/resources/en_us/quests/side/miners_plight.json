@@ -1,6 +1,14 @@
 {
   "name": "Cave-In Rescue",
   "info": "Rescue the trapped miners from the collapsed mine.",
+  "objectives": {
+    "mine_foreman": "Talk to the mine foreman",
+    "collapsed_tunnel": "Investigate the collapsed tunnel",
+    "clear_debris": "Clear 50 stone blocks",
+    "rescue_miners": "Rescue 3 trapped miners",
+    "mine_support": "Install 10 support beams",
+    "report_foreman": "Report to the foreman"
+  },
   "dialogs": [
     "The mine collapsed! My brothers are trapped inside!",
     "The passages are dangerous and unstable.",

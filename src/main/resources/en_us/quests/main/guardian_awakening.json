@@ -1,12 +1,38 @@
 {
-  "name": "Guardian's Awakening",
-  "dialogs": [
-    "Finally, the time has come. The time spoken of in the ancient prophecy...",
-    "While the guardians slumber, the world is losing its balance.",
-    "It's possible. But to awaken them, we need the essence of four elements.",
-    "Who... disturbs... my slumber...",
-    "Ah... the child of prophecy. But if you seek my power, you must prove yourself.",
-    "I respect your choice. Now you are worthy of the guardian's blessing.",
-    "Use this power wisely. The fate of the world rests in your hands."
-  ]
+  "name": "Guardian Awakening",
+  "description": "Awaken the ancient guardians and gain their power",
+  "objectives": {
+    "ancient_scholar": "Speak with the Ancient Scholar",
+    "library_archives": "Visit the Ancient Library Archives",
+    "ancient_tome": "Collect Ancient Tomes (3)",
+    "guardian_runes": "Collect Guardian Runes (5)",
+    "elemental_cores": "Defeat Elemental Cores (20 Blazes)",
+    "fire_essence": "Collect Fire Essence (30)",
+    "frost_spirits": "Defeat Frost Spirits (20 Strays)",
+    "ice_crystals": "Collect Ice Crystals (20)",
+    "earth_stones": "Mine Earth Stones (5)",
+    "wind_feathers": "Collect Wind Feathers (10)",
+    "guardian_temple": "Find the Guardian Temple",
+    "place_runes": "Place the Guardian Runes (4)",
+    "activate_altar": "Activate the Altar",
+    "temple_guardians": "Defeat Temple Guardians (4)",
+    "elemental_storm": "Survive the Elemental Storm (5 minutes)",
+    "guardian_keys": "Collect Guardian Keys (4)",
+    "inner_sanctum": "Enter the Inner Sanctum",
+    "sleeping_guardian": "Find the Sleeping Guardian",
+    "offer_essences": "Offer the Essences to the Guardian",
+    "guardian_avatar": "Defeat the Guardian Avatar",
+    "awakened_guardian": "Speak with the Awakened Guardian",
+    "guardian_blessing": "Receive the Guardian's Blessing"
+  },
+  "rewards": {
+    "gold": 10000,
+    "diamonds": 75,
+    "experience": 5000,
+    "items": [
+      "Beacon",
+      "Totem of Undying",
+      "Netherite Chestplate"
+    ]
+  }
 }

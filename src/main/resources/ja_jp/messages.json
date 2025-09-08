@@ -126,5 +126,13 @@
   "commands_general": {
     "player_only": "このコマンドはプレイヤーのみ使用できます。",
     "unknown": "不明なコマンドです。"
+  },
+  "talent_cannot_learn": "[TRANSLATE: Cannot learn this talent!]",
+  "mailbox": {
+    "delete_confirm_word": "[TRANSLATE: DELETE]"
+  },
+  "error": {
+    "hub_world_not_found": "[TRANSLATE: Hub world not found! Please contact an administrator.]",
+    "friend_request_id_missing": "[TRANSLATE: Friend request ID is missing!]"
   }
 }

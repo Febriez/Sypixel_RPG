@@ -169,9 +169,9 @@ public class MailCommand implements CommandExecutor, TabCompleter {
                             .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
                             .collect(Collectors.toList());
                 } else if (args.length == 2) {
-                    return Arrays.asList("선물", "안녕하세요", "도움요청", "감사합니다");
+                    return List.of("선물", "안녕하세요", "도움요청", "감사합니다");
                 } else if (args.length == 3) {
-                    return Arrays.asList("안녕하세요!", "선물입니다", "도움이_필요해요", "고마워요!");
+                    return List.of("안녕하세요!", "선물입니다", "도움이_필요해요", "고마워요!");
                 }
             }
         }

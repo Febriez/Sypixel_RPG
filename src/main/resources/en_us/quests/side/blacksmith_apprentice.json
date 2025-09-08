@@ -1,6 +1,15 @@
 {
   "name": "Training the Apprentice",
   "info": "Help train the blacksmith's new apprentice.",
+  "objectives": {
+    "talk_master_blacksmith": "Talk to the Master Blacksmith",
+    "iron_ore": "Collect Iron Ore (20)",
+    "coal": "Collect Coal (15)",
+    "mining_site": "Visit the Mining Site",
+    "kill_skeletons": "Kill Skeletons (10)",
+    "refined_iron": "Collect Refined Iron Ingots (12)",
+    "return_master_blacksmith": "Return to the Master Blacksmith"
+  },
   "dialogs": [
     "My new apprentice needs combat training.",
     "Could you spar with him and teach him real battle?",

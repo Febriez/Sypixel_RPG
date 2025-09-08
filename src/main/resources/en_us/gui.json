@@ -3,12 +3,13 @@
     "back": "%COLOR_SECONDARY%◀ Back",
     "close": "%COLOR_ERROR%Close",
     "next_page": "%COLOR_SUCCESS%Next Page →",
-    "prev_page": "%COLOR_WARNING%← Previous Page",
+    "prev_page": "← Prev Page",
     "confirm": "%COLOR_SUCCESS%Confirm",
     "cancel": "%COLOR_ERROR%Cancel",
-    "settings": "%COLOR_INFO%Settings"
+    "settings": "%COLOR_INFO%Settings",
+    "previous_page": "← Previous Page"
   },
-  "page_info": "Page {0}/{1}",
+  "page_info": "Page {0} of {1}",
   "combat_power": {
     "title": "Combat Power",
     "total": "Total Combat Power: {0}",
@@ -35,9 +36,11 @@
     "cancel_description": "Cancel job selection",
     "click_to_cancel": "▶ Click to cancel",
     "info_title": "Information",
-    "info_line1": "• Jobs determine your character's growth direction",
-    "info_line2": "• Each job has unique skills and talents",
-    "info_line3": "• Please choose carefully!",
+    "info_lines": [
+      "• Jobs determine your character's growth direction",
+      "• Each job has unique skills and talents",
+      "• Please choose carefully!"
+    ],
     "success": "Congratulations! You selected the {1} job!",
     "title_success": "Job Selected!",
     "subtitle_success": "You selected the {1} job",
@@ -83,44 +86,45 @@
     "exp_percent": "({2}%)",
     "job": "Job: {1}",
     "no_job": "No Job",
-    "current_job": "Current Job",
-    "job_level": "Job Level: {1}",
+    "current_job": "Current Job: {0}",
+    "job_level": "Job Level: {0}",
     "combat_power": "Combat Power: {0}",
     "click_to_talents": "Click to view talents",
     "gold": "Gold: {1}",
     "playtime": "Playtime: {0}",
-    "join_date": "Join Date: {0}",
+    "join_date": "Joined: {0}",
     "last_seen": "Last Seen: {0}",
     "stats": "▸ Stats Info",
     "talents": "▸ Talents Info",
-    "online_status": "Current Status: {0}",
+    "online_status": "{0} is {1}",
     "gamemode": "Gamemode: {0}",
     "location": "Location: {0} ({1}, {2}, {3})",
     "health": "Health: {1}/{2}",
-    "health_info": "Health Information",
-    "food_info": "Hunger Information",
-    "food_level": "Hunger: {1}/20",
+    "health_info": "Health: {0}/{1}",
+    "food_info": "Food: {0}",
+    "food_level": "Food Level: {0}",
     "saturation": "Saturation: {0}",
-    "game_info": "Game Information",
+    "game_info": "Game Statistics",
     "world": "World: {0}",
     "hunger": "Hunger: {1}/{2}",
     "flight": "Flight: {1}",
     "currency_info": "▸ Currency Info",
-    "click_for_talents": "▶ Click to manage talents",
-    "click_for_stats": "▶ Click to manage stats",
+    "click_for_talents": "Click for talents",
+    "click_for_stats": "Click for stats",
     "game_stats": "Game Statistics",
     "mob_kills": "Mob Kills: {0}",
     "player_info": {
       "name": "{0}"
     },
     "quest_info": "Quest Info",
-    "active_quests": "Active: {1}",
-    "completed_quests": "Completed: {1}",
+    "active_quests": "Active Quests: {0}",
+    "completed_quests": "Completed Quests: {0}",
     "click_for_quests": "▶ Click to view quest list",
     "pets": "Pets",
     "collection_book": "Collection Book",
     "user_settings": "User Settings",
-    "user_settings_desc": "Manage your personal settings"
+    "user_settings_desc": "Manage your personal settings",
+    "player_info_name": "Player: {0}"
   },
   "stats": {
     "title": "Stat Management",
@@ -190,12 +194,12 @@
     "empty": "No data available yet.",
     "your_rank": "Your Rank: #{0}",
     "not_ranked": "Unranked",
-    "last_updated": "Last updated: {0}",
-    "current_type": "Current Type: {0}",
-    "total_entries": "Total Entries: {1}",
+    "last_updated": "Last Updated: {0}",
+    "current_type": "Leaderboard: {0}",
+    "total_entries": "Total Entries: {0}",
     "rank_info": "Rank: #{0}",
     "value_info": "{0}: {1}",
-    "this_is_you": "▶ This is your rank!",
+    "this_is_you": "← This is you!",
     "tab_selected": "▶ Currently selected",
     "tab_click": "▶ Click to view",
     "type": {
@@ -204,8 +208,8 @@
       "gold": "Gold",
       "playtime": "Playtime"
     },
-    "my_rank": "My Rank",
-    "my_value": "My Value: {0}",
+    "my_rank": "Your Rank: #{0}",
+    "my_value": "Your Score: {0}",
     "no_rank_data": "No ranking data",
     "play_more": "Play more to compete for rankings!",
     "value": "Value: {0}"
@@ -384,7 +388,12 @@
     "settings": {
       "name": "Settings",
       "lore": "Change settings"
-    }
+    },
+    "next_page_name": "Next Page",
+    "previous_page_name": "Previous Page",
+    "page_info_lore": "Page {0} of {1}",
+    "next_page_lore": "Click to go to the next page",
+    "previous_page_lore": "Click to go to the previous page"
   },
   "quest_reward": {
     "title": "Quest Rewards",
@@ -393,7 +402,10 @@
     "destroy_desc": "Forfeit all rewards",
     "warning_destroy": "⚠️ This action cannot be undone!",
     "warning_destroy_line": "⚠️ This Action",
-    "warning_destroy_line2": "Cannot Be Undone!",
+    "warning_destroy_lines": [
+      "⚠️ This Action",
+      "Cannot Be Undone!"
+    ],
     "claim_all": "Claim All",
     "claim_all_desc": "Claim all rewards to your inventory",
     "already_claimed": "You have already claimed the rewards",
@@ -449,13 +461,17 @@
         "level": ""
       },
       "contribution": {
-        "desc1": "View contribution rankings",
-        "desc2": "Check member contributions",
+        "desc": [
+          "View contribution rankings",
+          "Check member contributions"
+        ],
         "my": "My Contribution: "
       },
       "visitor": {
-        "desc1": "View and manage visitors",
-        "desc2": "Check visitor logs",
+        "desc": [
+          "View and manage visitors",
+          "Check visitor logs"
+        ],
         "recent": "Recent Visitors: ",
         "current": "Current Visitors: ",
         "history": "• View visit history",
@@ -463,36 +479,46 @@
         "open_menu": "Click to open visitor menu"
       },
       "info": {
-        "lore": {
-          "1": "Island information",
-          "2": "Click to view details"
-        }
+        "lore": [
+          "Island information",
+          "Click to view details"
+        ]
       },
       "member_management": {
         "title": "Member Management",
-        "desc1": "Invite or kick",
-        "desc2": "island members"
+        "desc": [
+          "Invite or kick",
+          "island members"
+        ]
       },
       "permission_management": {
         "title": "Permission Management",
-        "desc1": "Configure permissions",
-        "desc2": "for each role"
+        "desc": [
+          "Configure permissions",
+          "for each role"
+        ]
       },
       "spawn_settings": {
         "title": "Spawn Settings",
-        "desc1": "Manage island",
-        "desc2": "spawn locations"
+        "desc": [
+          "Manage island",
+          "spawn locations"
+        ]
       },
       "island_settings": {
         "title": "Island Settings",
-        "desc1": "Change island name",
-        "desc2": "Public/Private settings",
-        "desc3": "Change biome"
+        "desc": [
+          "Change island name",
+          "Public/Private settings",
+          "Change biome"
+        ]
       },
       "biome_change": {
         "title": "Change Biome",
-        "desc1": "Change the biome",
-        "desc2": "of your island"
+        "desc": [
+          "Change the biome",
+          "of your island"
+        ]
       },
       "warp": {
         "title": "Warp to Island",
@@ -630,7 +656,52 @@
       "limited_permissions": "Has limited permissions",
       "left_click_extend": "Left-click to extend contract",
       "right_click_fire": "Right-click to fire worker"
-    }
+    },
+    "main_color_change_hint": "Click to change island theme",
+    "biome_change_title": "Change Island Biome",
+    "biome_click_to_change": "Click to change biome",
+    "biome_current_info": "Current Biome",
+    "biome_current_info_lore": "Your island biome: {0}",
+    "biome_selection_title": "Select Biome",
+    "biome_selection_info_title": "Biome Selection",
+    "biome_selection_info_lore": [
+      "Choose your island biome",
+      "This affects island appearance"
+    ],
+    "biome_selection_current_selected": "Currently selected: {0}",
+    "biome_selection_click_to_select": "Click to select this biome",
+    "biome_selection_back_lore": "Go back to previous menu",
+    "biome_simple_title": "Island Biome",
+    "contribute_gold_info_balance": "Your Balance: {0}",
+    "contribute_gold_info_contribution": "Your Contribution: {0}",
+    "contribute_quick_amount": "Quick Amount: {0}",
+    "contribute_gold_needed": "Gold Needed: {0}",
+    "contribution_info_island_name": "Island: {0}",
+    "role_co_owner": "Co-Owner",
+    "delete_confirm_title": "Delete Island Confirmation",
+    "delete_confirm_island_info_title": "Island Information",
+    "delete_confirm_island_info_id": "Island ID: {0}",
+    "delete_confirm_island_info_members": "Members: {0}",
+    "delete_confirm_island_info_created": "Created: {0}",
+    "member_invite_prompt": "Enter player name to invite",
+    "member_invite_example": "Example: PlayerName",
+    "member_role_owner": "Owner",
+    "member_all_permissions": "Has all permissions",
+    "member_owner_cannot_change": "Owner permissions cannot be changed",
+    "member_join_date": "Joined: {0}",
+    "member_most_permissions": "Has most permissions",
+    "member_normal_permissions": "Has normal permissions",
+    "member_left_click_role": "Left-click to change role",
+    "member_right_click_kick": "Right-click to kick",
+    "member_role_worker": "Worker",
+    "member_hire_date": "Hired: {0}",
+    "member_last_activity": "Last Active: {0}",
+    "member_limited_permissions": "Has limited permissions",
+    "member_left_click_extend": "Left-click to extend contract",
+    "member_right_click_fire": "Right-click to fire",
+    "member_manage_title": "Manage Member",
+    "member_manage_permission_not_implemented": "Permission management coming soon",
+    "member_manage_current_role": "Current Role: {0}"
   },
   "social": {
     "mailbox": {
@@ -729,11 +800,15 @@
     "color_changed": "Island name color has been changed!",
     "hex_input_title": "Enter HEX Color Code",
     "member_management_title": "Member Management",
-    "member_management_desc1": "Invite or kick",
-    "member_management_desc2": "island members.",
+    "member_management_desc": [
+      "Invite or kick",
+      "island members."
+    ],
     "permission_management_title": "Permission Management",
-    "permission_management_desc1": "Configure permissions",
-    "permission_management_desc2": "for each role.",
+    "permission_management_desc": [
+      "Configure permissions",
+      "for each role."
+    ],
     "upgrade_title": "Upgrade",
     "upgrade_current_level": "Current Level:",
     "upgrade_size": "Size:",
@@ -741,27 +816,37 @@
     "upgrade_worker": "Workers:",
     "upgrade_level": "Level",
     "contribution_title": "Contribution",
-    "contribution_desc1": "View contribution",
-    "contribution_desc2": "of island members.",
+    "contribution_desc": [
+      "View contribution",
+      "of island members."
+    ],
     "contribution_my": "My Contribution:",
     "spawn_settings_title": "Spawn Settings",
-    "spawn_settings_desc1": "Manage island",
-    "spawn_settings_desc2": "spawn locations.",
+    "spawn_settings_desc": [
+      "Manage island",
+      "spawn locations."
+    ],
     "island_settings_title": "Island Settings",
-    "island_settings_desc1": "Change island name",
-    "island_settings_desc2": "Public/Private settings",
-    "island_settings_desc3": "Change biome",
+    "island_settings_desc": [
+      "Change island name",
+      "Public/Private settings",
+      "Change biome"
+    ],
     "visitor_management_title": "Visitor Management",
-    "visitor_management_desc1": "View visitor",
-    "visitor_management_desc2": "information.",
+    "visitor_management_desc": [
+      "View visitor",
+      "information."
+    ],
     "visitor_management_recent": "Recent Visitors:",
     "visitor_management_current": "Current Visitors:",
     "visitor_management_history": "• Visit History",
     "visitor_management_realtime": "• Current Visitors (Live)",
     "visitor_management_open_menu": "▶ Click to Open Menu",
     "biome_change_title": "Change Biome",
-    "biome_change_desc1": "Change the biome",
-    "biome_change_desc2": "of your island.",
+    "biome_change_desc": [
+      "Change the biome",
+      "of your island."
+    ],
     "warp_title": "Warp to Island",
     "warp_desc": "Teleport to the island.",
     "warp_moving": "Warping to island...",
@@ -803,15 +888,15 @@
     "delete_confirm": "Are you sure you want to delete this mail?",
     "deleted": "Mail deleted",
     "sent_success": "Mail sent successfully!",
-    "refresh_success": "Mailbox refreshed!",
-    "send_mail_guide": "To send mail, use the command below:",
+    "refresh_success": "Mailbox refreshed",
+    "send_mail_guide": "Send a new mail",
     "send_mail_command": "/mail send <player> <message>",
     "send_mail_example": "Example: /mail send Steve Hello!",
     "sender": "Sender: {0}",
     "status": "Status: {0}",
     "time": "Time: {0}",
     "delete_confirm_word": "DELETE",
-    "delete_confirm_text": "Type DELETE to confirm deletion",
+    "delete_confirm_text": "Type DELETE to confirm",
     "delete_confirm_title": "Confirm Mail Deletion"
   },
   "mail_detail": {
@@ -854,17 +939,17 @@
     "already_friends": "You are already friends with {0}",
     "request_time": "Request Time: {0}",
     "message": "Message: {0}",
-    "accept_desc1": "Click to accept this friend request",
-    "reject_desc1": "Click to reject this friend request"
+    "accept_desc": ["Click to accept this friend request"],
+    "reject_desc": ["Click to reject this friend request"]
   },
   "friends": {
     "title": "Friends",
-    "add_command_hint": "To add a friend, use:",
+    "add_command_hint": "Add a friend",
     "add_command_example": "/friend add <player>",
     "refreshed": "Friends list refreshed!",
     "status": "Status: {0}",
     "since": "Friends since: {0}",
-    "whisper_hint": "Click to send a whisper"
+    "whisper_hint": "Send a whisper"
   },
   "friend_list": {
     "title": "Friends List",
@@ -992,5 +1077,76 @@
         "title": "Error"
       }
     }
+  },
+  "common_next_page": "Next Page",
+  "common_previous_page": "Previous Page",
+  "common_prev_page": "Previous",
+  "profile_player_title": "{0}'s Profile",
+  "profile_level_info": "Level {0}",
+  "profile_exp_percent": "{0}% to next level",
+  "profile_no_job": "No Job",
+  "profile_current_job": "Current Job: {0}",
+  "profile_job_level": "Job Level: {0}",
+  "profile_combat_power": "Combat Power: {0}",
+  "profile_click_to_talents": "Click to view talents",
+  "profile_join_date": "Joined: {0}",
+  "profile_last_seen": "Last Seen: {0}",
+  "profile_click_for_talents": "Click for Talents",
+  "profile_click_for_stats": "Click for Stats",
+  "profile_online_status": "Status: {0}",
+  "profile_health_info": "Health: {0}/{1}",
+  "profile_food_info": "Food: {0}/20",
+  "profile_food_level": "Food Level: {0}",
+  "profile_game_info": "Game Statistics",
+  "profile_active_quests": "Active Quests: {0}",
+  "profile_completed_quests": "Completed Quests: {0}",
+  "profile_mob_kills": "Mob Kills: {0}",
+  "profile_player_info_name": "Player Information",
+  "buttons_next_page_name": "Next Page",
+  "buttons_previous_page_name": "Previous Page",
+  "buttons_page_info_lore": "Page {0} of {1}",
+  "buttons_next_page_lore": "Click to go to the next page",
+  "buttons_previous_page_lore": "Click to go to the previous page",
+  "leaderboard_current_type": "Leaderboard: {0}",
+  "leaderboard_total_entries": "Total Entries: {0}",
+  "leaderboard_my_rank": "Your Rank: #{0}",
+  "leaderboard_my_value": "Your Score: {0}",
+  "leaderboard_last_updated": "Last Updated: {0}",
+  "leaderboard_this_is_you": "§e§l← This is you!",
+  "island_main_color_change_hint": "Click to change island theme",
+  "dialog_choice_title": "Dialog Choice",
+  "dialog_choice_icon": "Choose Your Response",
+  "dialog_choice_description": "Select how you want to respond",
+  "dialog_choice_npc": "NPC: {0}",
+  "dialog_choice_npc_content": "{0}",
+  "dialog_choice_option": "Option {0}",
+  "dialog_choice_click_to_select": "Click to select this response",
+  "mail": {
+    "detail_title": "Mail Details",
+    "detail_sender": "From: {0}",
+    "detail_receiver": "To: {0}",
+    "detail_sent_time": "Sent: {0}",
+    "detail_status": "Status: {0}",
+    "detail_no_message": "No message content",
+    "detail_delete_success": "Mail deleted successfully",
+    "detail_delete_failed": "Failed to delete mail",
+    "detail_reply_desc": "Reply to this mail",
+    "detail_reply_guide": "Type your reply",
+    "detail_reply_command": "/mail reply {0}"
+  },
+  "friend": {
+    "requests_request_time": "Sent: {0}",
+    "requests_message": "Message: {0}",
+    "requests_accept_desc": ["Accept friend request"],
+    "requests_reject_desc": ["Reject friend request"]
+  },
+  "dialog": {
+    "choice_title": "Dialog Choice",
+    "choice_icon": "Choose Your Response",
+    "choice_description": "Select how you want to respond",
+    "choice_npc": "NPC: {0}",
+    "choice_npc_content": "{0}",
+    "choice_option": "Option {0}",
+    "choice_click_to_select": "Click to select this response"
   }
 }

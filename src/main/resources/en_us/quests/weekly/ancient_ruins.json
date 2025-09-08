@@ -1,4 +1,23 @@
 {
   "name": "Weekly Ancient Ruins Exploration",
-  "dialogs": []
+  "info": "Explore the newly discovered ancient ruins that appear each week.",
+  "objectives": {
+    "enter_ruins": "Enter the ancient ruins",
+    "solve_puzzles": "Solve 3 ancient puzzles",
+    "defeat_guardian": "Defeat the ruins guardian",
+    "find_artifact": "Find the weekly artifact",
+    "escape_ruins": "Escape before the ruins collapse"
+  },
+  "dialogs": [
+    "Explorer! The ancient ruins have shifted again this week.",
+    "New chambers have been revealed by the magical energies.",
+    "These ruins hold powerful artifacts from a lost civilization.",
+    "But beware - ancient guardians still protect these treasures.",
+    "Many explorers have entered, but few return with artifacts.",
+    "The ruins will seal themselves in seven days.",
+    "Are you brave enough to explore them?"
+  ],
+  "npc_name": "Ruins Scholar",
+  "accept": "I'll explore the ruins!",
+  "decline": "Too risky for me."
 }

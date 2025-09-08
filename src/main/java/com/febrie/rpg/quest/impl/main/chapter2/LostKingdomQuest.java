@@ -42,15 +42,15 @@ public class LostKingdomQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_LOST_KINGDOM)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("royal_historian", "royal_historian"),
+                .objectives(List.of(
+                        new InteractNPCObjective("royal_historian", "royal_historian", 1),
                         new VisitLocationObjective("kingdom_entrance", "kingdom_entrance_area"),
                         new CollectItemObjective("ancient_key", Material.TRIPWIRE_HOOK, 3),
                         new VisitLocationObjective("throne_room", "throne_room_area"),
                         new KillMobObjective("kill_husks", EntityType.HUSK, 12),
                         new KillMobObjective("kill_strays", EntityType.STRAY, 8),
                         new CollectItemObjective("royal_artifact", Material.GOLDEN_APPLE, 5),
-                        new InteractNPCObjective("ghost_king", "ghost_king")
+                        new InteractNPCObjective("ghost_king", "ghost_king", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 3500)
@@ -77,7 +77,17 @@ public class LostKingdomQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.main.lost_kingdom.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "royal_historian" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_ROYAL_HISTORIAN, who);
+            case "kingdom_entrance" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_KINGDOM_ENTRANCE, who);
+            case "ancient_key" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_ANCIENT_KEY, who);
+            case "throne_room" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_THRONE_ROOM, who);
+            case "kill_husks" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_KILL_HUSKS, who);
+            case "kill_strays" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_KILL_STRAYS, who);
+            case "royal_artifact" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_ROYAL_ARTIFACT, who);
+            case "ghost_king" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_GHOST_KING, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
     
     @Override
@@ -85,9 +95,14 @@ public class LostKingdomQuest extends Quest {
         return 4;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_LOST_KINGDOM_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

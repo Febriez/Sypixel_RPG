@@ -1,4 +1,23 @@
 {
   "name": "World Titan Subjugation",
-  "dialogs": []
+  "info": "Unite with all heroes to defeat the weekly world boss titan.",
+  "objectives": {
+    "locate_titan": "Locate the world titan",
+    "rally_heroes": "Rally heroes for the battle",
+    "weaken_titan": "Weaken the titan's defenses",
+    "coordinate_attack": "Coordinate the final assault",
+    "defeat_titan": "Defeat the world titan"
+  },
+  "dialogs": [
+    "Champion! A world titan has awakened this week!",
+    "This colossal threat endangers the entire realm.",
+    "All heroes must unite to stand a chance against it.",
+    "The titan's power grows stronger each day it lives.",
+    "Past attempts have failed due to lack of coordination.",
+    "We need a true leader to organize the assault.",
+    "Will you answer the call to save our world?"
+  ],
+  "npc_name": "Titan Watcher",
+  "accept": "I'll lead the charge!",
+  "decline": "Too dangerous."
 }

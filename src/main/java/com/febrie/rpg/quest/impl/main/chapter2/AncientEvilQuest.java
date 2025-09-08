@@ -42,8 +42,8 @@ public class AncientEvilQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.MAIN_ANCIENT_EVIL)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("ancient_sage", "ancient_sage"),
+                .objectives(List.of(
+                        new InteractNPCObjective("ancient_sage", "ancient_sage", 1),
                         new VisitLocationObjective("forbidden_temple", "forbidden_temple_area"),
                         new KillMobObjective("kill_wither_skeletons", EntityType.WITHER_SKELETON, 20),
                         new KillMobObjective("kill_blazes", EntityType.BLAZE, 15),
@@ -51,7 +51,7 @@ public class AncientEvilQuest extends Quest {
                         new VisitLocationObjective("evil_altar", "evil_altar_area"),
                         new CollectItemObjective("purified_soul", Material.SOUL_LANTERN, 6),
                         new KillMobObjective("kill_ravagers", EntityType.RAVAGER, 5),
-                        new InteractNPCObjective("light_guardian", "light_guardian")
+                        new InteractNPCObjective("light_guardian", "light_guardian", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 4000)
@@ -78,7 +78,18 @@ public class AncientEvilQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.main.ancient_evil.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "ancient_sage" -> LangManager.list(LangKey.QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_ANCIENT_SAGE, who);
+            case "forbidden_temple" -> LangManager.list(LangKey.QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_FORBIDDEN_TEMPLE, who);
+            case "kill_wither_skeletons" -> LangManager.list(LangKey.QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_KILL_WITHER_SKELETONS, who);
+            case "kill_blazes" -> LangManager.list(LangKey.QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_KILL_BLAZES, who);
+            case "dark_crystal" -> LangManager.list(LangKey.QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_DARK_CRYSTAL, who);
+            case "evil_altar" -> LangManager.list(LangKey.QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_EVIL_ALTAR, who);
+            case "purified_soul" -> LangManager.list(LangKey.QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_PURIFIED_SOUL, who);
+            case "kill_ravagers" -> LangManager.list(LangKey.QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_KILL_RAVAGERS, who);
+            case "light_guardian" -> LangManager.list(LangKey.QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_LIGHT_GUARDIAN, who);
+            default -> List.of(Component.text("Objective: " + objective.getId()));
+        };
     }
     
     @Override
@@ -86,9 +97,14 @@ public class AncientEvilQuest extends Quest {
         return 5;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_MAIN_ANCIENT_EVIL_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_MAIN_ANCIENT_EVIL_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

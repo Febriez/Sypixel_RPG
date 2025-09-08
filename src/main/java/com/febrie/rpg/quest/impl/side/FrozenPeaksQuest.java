@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Side Quest: Frozen Peaks
@@ -45,8 +46,8 @@ public class FrozenPeaksQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_FROZEN_PEAKS)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_mountain_climber", "mountain_climber"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_mountain_climber", "mountain_climber", 1),
                         new VisitLocationObjective("visit_ice_cliffs", "ice_cliffs"),
                         new KillMobObjective("kill_polar_bears", EntityType.POLAR_BEAR, 10),
                         new CollectItemObjective("collect_ice_shards", Material.ICE, 25),
@@ -73,9 +74,17 @@ public class FrozenPeaksQuest extends Quest {
         return LangManager.list(LangKey.QUEST_SIDE_FROZEN_PEAKS_INFO, who);
     }
 
-    @Override
+        @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.frozen_peaks.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "talk_mountain_climber" -> LangManager.list(LangKey.QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_TALK_MOUNTAIN_CLIMBER, who);
+            case "visit_ice_cliffs" -> LangManager.list(LangKey.QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_VISIT_ICE_CLIFFS, who);
+            case "kill_polar_bears" -> LangManager.list(LangKey.QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_KILL_POLAR_BEARS, who);
+            case "collect_ice_shards" -> LangManager.list(LangKey.QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_COLLECT_ICE_SHARDS, who);
+            case "visit_frozen_summit" -> LangManager.list(LangKey.QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_VISIT_FROZEN_SUMMIT, who);
+            case "collect_eternal_ice" -> LangManager.list(LangKey.QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_COLLECT_ETERNAL_ICE, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -83,9 +92,14 @@ public class FrozenPeaksQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_FROZEN_PEAKS_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_FROZEN_PEAKS_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

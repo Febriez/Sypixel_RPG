@@ -10,6 +10,7 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.social.FriendManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -50,7 +51,7 @@ public class FriendListGui extends BaseGui {
 
     private FriendListGui(@NotNull GuiManager guiManager,
                         @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, LangManager.getComponent("gui.friends.title", player.locale()));
+        super(player, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_FRIENDS_TITLE, player));
         this.friendManager = FriendManager.getInstance();
     }
 
@@ -71,7 +72,7 @@ public class FriendListGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.getComponent("gui.friends.title", viewer.locale());
+        return LangManager.text(LangKey.GUI_FRIENDS_TITLE, viewer);
     }
 
     @Override
@@ -100,9 +101,9 @@ public class FriendListGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 ItemBuilder.of(Material.PLAYER_HEAD)
-                        .displayNameTranslated("items.social.friends.title.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_FRIENDS_TITLE_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.friends.title.lore")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_FRIENDS_TITLE_LORE, viewer))
                         .hideAllFlags()
                         .build()
         );
@@ -116,11 +117,11 @@ public class FriendListGui extends BaseGui {
         // 친구 요청 버튼
         GuiItem friendRequestsButton = GuiItem.clickable(
                 ItemBuilder.of(Material.WRITABLE_BOOK)
-                        .displayNameTranslated("items.social.friends.requests.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_FRIENDS_REQUESTS_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.friends.requests.lore")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_FRIENDS_REQUESTS_LORE, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.friends.requests.click")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_FRIENDS_REQUESTS_CLICK, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
@@ -134,17 +135,17 @@ public class FriendListGui extends BaseGui {
         // 친구 추가 버튼
         GuiItem addFriendButton = GuiItem.clickable(
                 ItemBuilder.of(Material.EMERALD)
-                        .displayNameTranslated("items.social.friends.add.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_FRIENDS_ADD_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.friends.add.lore")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_FRIENDS_ADD_LORE, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.friends.add.click")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_FRIENDS_ADD_CLICK, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
                     p.closeInventory();
-                    p.sendMessage(LangManager.getComponent("gui.friends.add-command-hint", p.locale()));
-                    p.sendMessage(LangManager.getComponent("gui.friends.add-command-example", p.locale()));
+                    p.sendMessage(LangManager.text(LangKey.GUI_FRIENDS_ADD_COMMAND_HINT, p));
+                    p.sendMessage(LangManager.text(LangKey.GUI_FRIENDS_ADD_COMMAND_EXAMPLE, p));
                     playClickSound(p);
                 }
         );
@@ -153,17 +154,17 @@ public class FriendListGui extends BaseGui {
         // 새로고침 버튼
         GuiItem refreshButton = GuiItem.clickable(
                 ItemBuilder.of(Material.CLOCK)
-                        .displayNameTranslated("items.social.friends.refresh.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_FRIENDS_REFRESH_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.friends.refresh.lore")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_FRIENDS_REFRESH_LORE, viewer))
                         .addLore(Component.empty())
-                        .addLoreTranslated("items.social.friends.refresh.click")
+                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_FRIENDS_REFRESH_CLICK, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
                     friendManager.clearCache(p.getUniqueId());
                     loadFriends();
-                    p.sendMessage(LangManager.getComponent("gui.friends.refreshed", p.locale()));
+                    p.sendMessage(LangManager.text(LangKey.GUI_FRIENDS_REFRESHED, p));
                     playClickSound(p);
                 }
         );
@@ -194,7 +195,7 @@ public class FriendListGui extends BaseGui {
         // 로딩 표시
         setItem(FRIENDS_START_SLOT + 12, GuiItem.display(
                 ItemBuilder.of(Material.HOPPER)
-                        .displayNameTranslated("items.loading.name")
+                        .displayName(LangManager.text(LangKey.ITEMS_LOADING_NAME, viewer))
                         .hideAllFlags()
                         .build()
         ));
@@ -220,8 +221,8 @@ public class FriendListGui extends BaseGui {
             // 친구가 없을 때
             setItem(FRIENDS_START_SLOT + 12, GuiItem.display(
                     ItemBuilder.of(Material.BARRIER)
-                            .displayNameTranslated("items.social.friends.no-friends.name")
-                            .addLoreTranslated("items.social.friends.no-friends.lore")
+                            .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_FRIENDS_NO_FRIENDS_NAME, viewer))
+                            .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_FRIENDS_NO_FRIENDS_LORE, viewer))
                             .hideAllFlags()
                             .build()
             ));
@@ -253,7 +254,7 @@ public class FriendListGui extends BaseGui {
             boolean isOnline = friendManager.isPlayerOnline(friendUuid);
 
             Material material = isOnline ? Material.LIME_DYE : Material.GRAY_DYE;
-            Component statusText = LangManager.getComponent(isOnline ? "status.online" : "status.offline", viewer.locale());
+            Component statusText = Component.text(isOnline ? "Online" : "Offline").color(isOnline ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR);
 
             GuiItem friendItem = GuiItem.clickable(
                     ItemBuilder.of(material)
@@ -261,18 +262,18 @@ public class FriendListGui extends BaseGui {
                                     isOnline ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.GRAY)
                                     .decoration(TextDecoration.BOLD, true))
                             .addLore(Component.empty())
-                            .addLore(LangManager.getComponent("gui.friends.status", viewer.locale(), statusText))
-                            .addLore(LangManager.getComponent("gui.friends.since", viewer.locale(), 
+                            .addLore(LangManager.text(LangKey.GUI_FRIENDS_STATUS, viewer, statusText))
+                            .addLore(LangManager.text(LangKey.GUI_FRIENDS_SINCE, viewer, 
                                     Component.text(new java.util.Date(friendship.createdAt()).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate().toString())))
                             .addLore(Component.empty())
-                            .addLoreTranslated("items.social.friends.friend-item.left-click")
-                            .addLoreTranslated("items.social.friends.friend-item.right-click")
+                            .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_FRIENDS_FRIEND_ITEM_LEFT_CLICK, viewer))
+                            .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_FRIENDS_FRIEND_ITEM_RIGHT_CLICK, viewer))
                             .hideAllFlags()
                             .build(),
                     p -> {
                         // 귓말 보내기 (추후 구현)
                         p.closeInventory();
-                        p.sendMessage(LangManager.getComponent("gui.friends.whisper-hint", p.locale(), Component.text(friendName)));
+                        p.sendMessage(LangManager.text(LangKey.GUI_FRIENDS_WHISPER_HINT, p, Component.text(friendName)));
                         playClickSound(p);
                     }
             );

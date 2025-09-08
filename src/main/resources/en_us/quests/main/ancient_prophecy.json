@@ -1,6 +1,12 @@
 {
   "name": "The Ancient Prophecy",
   "info": "Uncover the truth behind the ancient prophecy.",
+  "objectives": {
+    "visit_elder": "Visit the Ancient Temple",
+    "talk_elder": "Talk to the Ancient Elder",
+    "collect_scrolls": "Collect 5 Ancient Scrolls",
+    "deliver_scrolls": "Deliver scrolls to Ancient Elder"
+  },
   "dialogs": [
     "The prophecy speaks of a chosen one...",
     "One who will save our world from eternal darkness.",

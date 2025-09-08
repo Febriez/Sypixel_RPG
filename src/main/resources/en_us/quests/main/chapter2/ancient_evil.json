@@ -1,6 +1,17 @@
 {
   "name": "Ancient Evil",
   "info": "An ancient evil stirs in the deepest depths of the world, threatening to break free from its eternal prison. Venture into the forbidden depths and confront this primordial force before it can escape.",
+  "objectives": {
+    "ancient_sage": "Consult the ancient sage",
+    "forbidden_temple": "Visit the forbidden temple",
+    "kill_wither_skeletons": "Kill 20 wither skeletons",
+    "kill_blazes": "Kill 15 blazes",
+    "dark_crystal": "Collect 4 dark crystals",
+    "evil_altar": "Visit the evil altar",
+    "purified_soul": "Collect 6 purified souls",
+    "kill_ravagers": "Kill 5 ravagers",
+    "light_guardian": "Speak with the light guardian"
+  },
   "dialogs": [
     "The ancient seals weaken, hero. Something terrible stirs below.",
     "This evil has been imprisoned since the dawn of time itself.",

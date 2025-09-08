@@ -45,8 +45,8 @@ public class VolcanicDepthsQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_VOLCANIC_DEPTHS)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("volcano_researcher", "volcano_researcher"),
+                .objectives(List.of(
+                        new InteractNPCObjective("volcano_researcher", "volcano_researcher", 1),
                         new VisitLocationObjective("volcano_rim", "volcano_rim"),
                         new KillMobObjective("kill_magma_cubes", EntityType.MAGMA_CUBE, 25),
                         new CollectItemObjective("volcanic_glass", Material.OBSIDIAN, 15),
@@ -75,7 +75,15 @@ public class VolcanicDepthsQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.volcanic_depths.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "volcano_researcher" -> LangManager.list(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_VOLCANO_RESEARCHER, who);
+            case "volcano_rim" -> LangManager.list(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_VOLCANO_RIM, who);
+            case "kill_magma_cubes" -> LangManager.list(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_KILL_MAGMA_CUBES, who);
+            case "volcanic_glass" -> LangManager.list(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_VOLCANIC_GLASS, who);
+            case "lava_chamber" -> LangManager.list(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_LAVA_CHAMBER, who);
+            case "fire_essence" -> LangManager.list(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_FIRE_ESSENCE, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -83,9 +91,14 @@ public class VolcanicDepthsQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

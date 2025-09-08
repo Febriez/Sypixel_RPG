@@ -45,14 +45,14 @@ public class MinersPlightQuest extends Quest {
     private static QuestBuilder createBuilder() {
         return new QuestBuilder()
                 .id(QuestID.SIDE_MINERS_PLIGHT)
-                .objectives(Arrays.asList(
-                        new InteractNPCObjective("talk_mine_foreman", "mine_foreman"),
+                .objectives(List.of(
+                        new InteractNPCObjective("talk_mine_foreman", "mine_foreman", 1),
                         new VisitLocationObjective("visit_collapsed_mine", "collapsed_mine"),
                         new CollectItemObjective("collect_support_beams", Material.OAK_LOG, 12),
                         new KillMobObjective("kill_cave_spiders", EntityType.CAVE_SPIDER, 20),
                         new VisitLocationObjective("visit_trapped_miners", "trapped_miners"),
                         new CollectItemObjective("collect_mining_equipment", Material.IRON_PICKAXE, 5),
-                        new InteractNPCObjective("return_mine_foreman", "mine_foreman")
+                        new InteractNPCObjective("return_mine_foreman", "mine_foreman", 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addExperience(3200)
@@ -77,7 +77,16 @@ public class MinersPlightQuest extends Quest {
 
     @Override
     public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
-        return LangManager.get("quest.side.miners_plight.objectives." + objective.getId(), who);
+        return switch (objective.getId()) {
+            case "talk_mine_foreman" -> LangManager.list(LangKey.QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_TALK_MINE_FOREMAN, who);
+            case "visit_collapsed_mine" -> LangManager.list(LangKey.QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_VISIT_COLLAPSED_MINE, who);
+            case "collect_support_beams" -> LangManager.list(LangKey.QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_COLLECT_SUPPORT_BEAMS, who);
+            case "kill_cave_spiders" -> LangManager.list(LangKey.QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_KILL_CAVE_SPIDERS, who);
+            case "visit_trapped_miners" -> LangManager.list(LangKey.QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_VISIT_TRAPPED_MINERS, who);
+            case "collect_mining_equipment" -> LangManager.list(LangKey.QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_COLLECT_MINING_EQUIPMENT, who);
+            case "return_mine_foreman" -> LangManager.list(LangKey.QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_RETURN_MINE_FOREMAN, who);
+            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+        };
     }
 
     @Override
@@ -85,9 +94,14 @@ public class MinersPlightQuest extends Quest {
         return 3;
     }
     
+        @Override
+    public @NotNull List<Component> getDialogs(@NotNull Player who) {
+        return LangManager.list(LangKey.QUEST_SIDE_MINERS_PLIGHT_DIALOGS, who);
+    }
+    
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
-        return getDialogs(LangKey.QUEST_SIDE_MINERS_PLIGHT_DIALOGS, who).get(index);
+        return getDialogs(who).get(index);
     }
     
     @Override

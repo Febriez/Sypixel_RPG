@@ -1,5 +1,31 @@
 {
   "name": "Legendary Boss Slayer",
+  "info": "Hunt down and defeat the realm's most powerful bosses to earn the title of greatest Boss Slayer.",
+  "npc_name": "Boss Hunter Guild Master",
+  "accept": "I'm ready to face the legendary bosses!",
+  "decline": "These bosses are beyond my current capabilities.",
+  "objectives": [
+    {
+      "id": "learn_boss_tactics",
+      "description": "Study boss weaknesses and combat tactics"
+    },
+    {
+      "id": "defeat_first_boss",
+      "description": "Defeat your first legendary boss"
+    },
+    {
+      "id": "defeat_multiple_bosses",
+      "description": "Defeat 5 different legendary bosses"
+    },
+    {
+      "id": "prove_legendary_skill",
+      "description": "Demonstrate mastery against legendary foes"
+    },
+    {
+      "id": "face_ultimate_boss",
+      "description": "Confront and defeat the Ultimate Boss"
+    }
+  ],
   "dialogs": [
     "The realm's greatest threats await. Do you have the courage to face them?",
     "Every boss has a weakness. Learn to find it, and victory will be yours.",
