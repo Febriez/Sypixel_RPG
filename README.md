@@ -7,7 +7,7 @@
 ![Firebase](https://img.shields.io/badge/Firebase-Firestore-yellow.svg)
 ![Status](https://img.shields.io/badge/Status-Active-green.svg)
 
-<h3>⚔️ 방대한 세계관과 30개의 완성된 퀘스트가 당신을 기다립니다 ⚔️</h3>
+<h3>⚔️ 방대한 세계관과 300여개의 완성된 퀘스트가 당신을 기다립니다 ⚔️</h3>
 
 </div>
 
