@@ -1,0 +1,14 @@
+{
+  "player_name": "[KO] Player Name",
+  "player_level": "[KO] Player Level",
+  "player_health": "[KO] Player Health",
+  "player_mana": "[KO] Player Mana",
+  "player_gold": "[KO] Player Gold",
+  "player_job": "Player Job",
+  "player_location": "Player Location",
+  "player_combat_power": "Player Combat Power",
+  "player_guild": "Player Guild",
+  "player_party": "Player Party",
+  "player_rank": "Player Rank",
+  "player_playtime": "Player Playtime"
+}

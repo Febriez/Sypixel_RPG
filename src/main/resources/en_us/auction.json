@@ -1,0 +1,18 @@
+{
+  "listed": "Item Listed",
+  "sold": "Item Sold",
+  "bought": "Item Purchased",
+  "expired": "Auction Expired",
+  "cancelled": "Auction Cancelled",
+  "bid_placed": "Bid Placed",
+  "bid_outbid": "Bid Outbid",
+  "item_sold": "Item Sold",
+  "item_expired": "Item Expired",
+  "item_claimed": "Item Claimed",
+  "not_enough_money": "Not Enough Money",
+  "auction.listed": "Listed",
+  "auction.sold": "Sold",
+  "auction.bought": "Bought",
+  "auction.expired": "Expired",
+  "auction.cancelled": "Cancelled"
+}

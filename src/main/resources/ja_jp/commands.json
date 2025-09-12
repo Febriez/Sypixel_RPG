@@ -106,7 +106,14 @@
     },
     "reload": {
       "reloading": "Reloading configuration...",
-      "success": "Configuration reloaded!"
+      "success": "Configuration reloaded!",
+      "starting": "Starting",
+      "config_complete": "Config Complete",
+      "unknown_type": "Unknown Type",
+      "available_types": "Available Types",
+      "failed": "失敗ed",
+      "lang_complete": "Lang Complete",
+      "error": "Error"
     },
     "viewprofile": {
       "usage": "Usage: /rpgadmin viewprofile <player>",
@@ -139,7 +146,10 @@
       "need_reset": "Job needs to be reset first to change.",
       "success": "Set {0}'s job to {1}.",
       "set": "Your job has been set to {1}!",
-      "failed": "Failed to set job."
+      "failed": "Failed to set job.",
+      "reset": "Reset",
+      "your_changed": "Your Changed",
+      "your_reset": "Your Reset"
     },
     "npc": {
       "citizens_not_found": "Citizens plugin is not installed.",
@@ -182,7 +192,26 @@
         "id": "- ID: {0}",
         "quests": "- Quests: {1}",
         "total": "Total {1} NPCs"
-      }
+      },
+      "settrait": {
+        "quest": {
+          "usage": "Usage",
+          "success": "成功"
+        },
+        "dialog": {
+          "usage": "Usage",
+          "success": "成功"
+        },
+        "shop": {
+          "success": "成功"
+        },
+        "invalid": "Invalid",
+        "usage": "Usage",
+        "guide": {
+          "success": "成功"
+        }
+      },
+      "not_selected": "Not Selected"
     },
     "quest": {
       "usage": "Usage: /rpgadmin quest <give|list|reload> [player] [questID]",
@@ -227,19 +256,30 @@
         "deleting": "Deleting island...",
         "success": "Successfully deleted {0}'s island.",
         "owner_notify": "Your island has been deleted by an administrator.",
-        "failed": "Failed to delete island."
+        "failed": "Failed to delete island.",
+        "usage": "Usage",
+        "confirm": "Confirm"
       },
       "reset": {
         "resetting": "Resetting island...",
         "success": "Successfully reset {0}'s island.",
         "owner_notify": "Your island has been reset by an administrator.",
-        "failed": "Failed to reset island."
+        "failed": "Failed to reset island.",
+        "usage": "Usage",
+        "confirm": "Confirm"
       },
       "tp": {
         "world_not_found": "Island world not found.",
-        "success": "Teleported to {0}'s island."
+        "success": "Teleported to {0}'s island.",
+        "no_spawn": "No Spawn",
+        "usage": "Usage"
       },
-      "unknown_command": "Unknown subcommand."
+      "unknown_command": "Unknown subcommand.",
+      "setowner": {
+        "success": "成功",
+        "usage": "Usage"
+      },
+      "player_no_island": "Player No Island"
     }
   },
   "siteaccount": {
@@ -264,7 +304,10 @@
       ],
       "website": "🌐 Website: ",
       "website_hover": "Click to open website",
-      "divider": "============================="
+      "divider": "=============================",
+      "notice_2": "Notice 2",
+      "notice_1": "Notice 1",
+      "notice_3": "Notice 3"
     },
     "failure": {
       "title": "==== Site Account Creation Failed ====",
@@ -273,7 +316,9 @@
         "- If you already have an account, login on the website",
         "- If the problem persists, contact an administrator"
       ],
-      "divider": "============================="
+      "divider": "=============================",
+      "help_2": "Help 2",
+      "help_1": "Help 1"
     }
   },
   "island": {
@@ -293,7 +338,13 @@
         "1. Click the Island button in Main Menu (/menu)",
         "2. Click Create Island to make a new island"
       ],
-      "divider": "=================="
+      "divider": "==================",
+      "how_to_1": "How To 1",
+      "how_to_2": "How To 2",
+      "benefit_3": "Benefit 3",
+      "benefit_1": "Benefit 1",
+      "benefit_4": "Benefit 4",
+      "benefit_2": "Benefit 2"
     }
   }
 }

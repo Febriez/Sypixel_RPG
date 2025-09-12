@@ -174,5 +174,63 @@
     "beast": "野獣マスタリー",
     "dark": "闇マスタリー",
     "holy": "神聖マスタリー"
-  }
+  },
+  "job": {
+    "skill_max_level": "[JA] Skill Max Level",
+    "not_enough_skill_points": "[JA] Not Enough Skill Points",
+    "archer": {
+      "desc": "説明"
+    },
+    "priest": {
+      "desc": "説明"
+    },
+    "berserker": {
+      "desc": "説明"
+    },
+    "warrior": {
+      "desc": "Desc"
+    },
+    "mage": {
+      "desc": "Desc"
+    },
+    "rogue": {
+      "desc": "Desc"
+    },
+    "paladin": {
+      "desc": "Desc"
+    },
+    "assassin": {
+      "desc": "Desc"
+    },
+    "summoner": {
+      "desc": "Desc"
+    },
+    "necromancer": {
+      "desc": "Desc"
+    },
+    "druid": {
+      "desc": "Desc"
+    },
+    "ranger": {
+      "desc": "Desc"
+    },
+    "warlock": {
+      "desc": "Desc"
+    }
+  },
+  "skill_max_level": "[JA] Skill Max Level",
+  "not_enough_skill_points": "[JA] Not Enough Skill Points",
+  "warrior.desc": "[JA] Description text",
+  "archer.desc": "[JA] Description text",
+  "mage.desc": "[JA] Description text",
+  "rogue.desc": "[JA] Description text",
+  "priest.desc": "[JA] Description text",
+  "paladin.desc": "[JA] Description text",
+  "assassin.desc": "[JA] Description text",
+  "berserker.desc": "[JA] Description text",
+  "summoner.desc": "[JA] Description text",
+  "necromancer.desc": "[JA] Description text",
+  "druid.desc": "[JA] Description text",
+  "ranger.desc": "[JA] Description text",
+  "warlock.desc": "[JA] Description text"
 }

@@ -1,0 +1,13 @@
+{
+  "common": "[JA] Common",
+  "uncommon": "[JA] Uncommon",
+  "rare": "[JA] Rare",
+  "epic": "[JA] Epic",
+  "legendary": "[JA] Legendary",
+  "mythic": "[JA] Mythic",
+  "divine": "[JA] Divine",
+  "special": "[JA] Special",
+  "ancient": "Ancient",
+  "unique": "Unique",
+  "artifact": "Artifact"
+}

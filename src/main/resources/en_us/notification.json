@@ -1,0 +1,51 @@
+{
+  "mode": {
+    "all": {
+      "desc": "Desc"
+    },
+    "friend_only": {
+      "desc": "Desc"
+    },
+    "guild_only": {
+      "desc": "Desc"
+    },
+    "off": {
+      "desc": "Desc"
+    },
+    "unknown": {
+      "desc": "Desc"
+    }
+  },
+  "friend_online": "Friend Online",
+  "friend_offline": "Friend Offline",
+  "guild_message": "Guild Message",
+  "party_message": "Party Message",
+  "system_message": "System Message",
+  "achievement_unlocked": "Achievement Unlocked",
+  "quest_completed": "Quest Completed",
+  "level_up": "Level Up",
+  "mail_received": "Mail Received",
+  "notification.mode.all": "All",
+  "notification.mode.friend-only": "Friend Only",
+  "notification.mode.guild-only": "Guild Only",
+  "notification.mode.off": "Off",
+  "notification.mode.unknown": "Unknown",
+  "notification.mode.friend-only.desc": "Desc",
+  "notification.mode.guild-only.desc": "Desc",
+  "notification.friend_online": "Friend Online",
+  "notification.friend_offline": "Friend Offline",
+  "notification.guild_message": "Guild Message",
+  "notification.party_message": "Party Message",
+  "notification.system_message": "System Message",
+  "notification.achievement_unlocked": "Achievement Unlocked",
+  "notification.quest_completed": "Quest Completed",
+  "notification.level_up": "Level Up",
+  "notification.mail_received": "Mail Received",
+  "mode.all": "All",
+  "mode.friend-only": "Friend Only",
+  "mode.guild-only": "Guild Only",
+  "mode.off": "Off",
+  "mode.unknown": "Unknown",
+  "mode.friend-only.desc": "Description text",
+  "mode.guild-only.desc": "Description text"
+}

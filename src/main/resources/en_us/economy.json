@@ -1,0 +1,14 @@
+{
+  "money_added": "Money Added",
+  "money_removed": "Money Removed",
+  "not_enough_money": "Not Enough Money",
+  "payment_sent": "Payment Sent",
+  "payment_received": "Payment Received",
+  "balance": "Balance: %s",
+  "economy.money_added": "Money Added",
+  "economy.money_removed": "Money Removed",
+  "economy.not_enough_money": "Not Enough Money",
+  "economy.payment_sent": "Payment Sent",
+  "economy.payment_received": "Payment Received",
+  "economy.balance": "Balance"
+}

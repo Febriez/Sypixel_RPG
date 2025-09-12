@@ -174,5 +174,63 @@
     "beast": "야수 마스터리",
     "dark": "어둠 마스터리",
     "holy": "신성 마스터리"
-  }
+  },
+  "job": {
+    "archer": {
+      "desc": "설명"
+    },
+    "assassin": {
+      "desc": "Desc"
+    },
+    "berserker": {
+      "desc": "설명"
+    },
+    "druid": {
+      "desc": "Desc"
+    },
+    "mage": {
+      "desc": "Desc"
+    },
+    "necromancer": {
+      "desc": "Desc"
+    },
+    "not_enough_skill_points": "Not Enough Skill Points",
+    "paladin": {
+      "desc": "Desc"
+    },
+    "priest": {
+      "desc": "설명"
+    },
+    "ranger": {
+      "desc": "Desc"
+    },
+    "rogue": {
+      "desc": "Desc"
+    },
+    "skill_max_level": "Skill Max Level",
+    "summoner": {
+      "desc": "Desc"
+    },
+    "warlock": {
+      "desc": "Desc"
+    },
+    "warrior": {
+      "desc": "Desc"
+    }
+  },
+  "skill_max_level": "[KO] Skill Max Level",
+  "not_enough_skill_points": "[KO] Not Enough Skill Points",
+  "warrior.desc": "[KO] Description text",
+  "archer.desc": "[KO] Description text",
+  "mage.desc": "[KO] Description text",
+  "rogue.desc": "[KO] Description text",
+  "priest.desc": "[KO] Description text",
+  "paladin.desc": "[KO] Description text",
+  "assassin.desc": "[KO] Description text",
+  "berserker.desc": "[KO] Description text",
+  "summoner.desc": "[KO] Description text",
+  "necromancer.desc": "[KO] Description text",
+  "druid.desc": "[KO] Description text",
+  "ranger.desc": "[KO] Description text",
+  "warlock.desc": "[KO] Description text"
 }

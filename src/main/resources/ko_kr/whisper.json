@@ -1,0 +1,18 @@
+{
+  "sent": "[KO] Sent",
+  "received": "[KO] Received",
+  "player_offline": "[KO] Player Offline",
+  "ignored": "[KO] Ignored",
+  "player_not_found": "Player Not Found",
+  "disabled": "Disabled",
+  "mode": {
+    "all": "모두",
+    "friends": "Friends",
+    "guild": "Guild",
+    "off": "끄기"
+  },
+  "mode.all": "[KO] All",
+  "mode.friends": "[KO] Friends",
+  "mode.guild": "[KO] Guild",
+  "mode.off": "[KO] Off"
+}

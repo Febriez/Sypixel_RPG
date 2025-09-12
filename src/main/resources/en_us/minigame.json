@@ -1,0 +1,12 @@
+{
+  "start": "Minigame Started",
+  "end": "Minigame Ended",
+  "win": "You Win!",
+  "lose": "You Lose!",
+  "draw": "Draw!",
+  "minigame.start": "Start",
+  "minigame.end": "End",
+  "minigame.win": "Win",
+  "minigame.lose": "Lose",
+  "minigame.draw": "Draw"
+}

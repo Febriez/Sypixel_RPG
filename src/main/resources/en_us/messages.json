@@ -71,7 +71,7 @@
     }
   },
   "whisper": {
-    "disabled": "Whisper function is currently disabled.",
+    "disabled": "Disabled",
     "no_reply_target": "No target to reply to. You need to send or receive a whisper first.",
     "message_too_long": "Message is too long. Please keep it under 256 characters.",
     "empty_message": "Cannot send an empty message.",
@@ -83,7 +83,18 @@
     "commands": {
       "usage": "Usage: /whisper <player> <message>",
       "example": "Example: /whisper Steve Hello!"
-    }
+    },
+    "ignored": "Ignored",
+    "mode": {
+      "all": "All",
+      "friends": "Friends",
+      "guild": "Guild",
+      "off": "Off"
+    },
+    "player_not_found": "Player Not Found",
+    "player_offline": "Player Offline",
+    "received": "Received",
+    "sent": "Sent"
   },
   "mail": {
     "player_not_found": "Player not found: {0}",

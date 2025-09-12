@@ -1,0 +1,20 @@
+{
+  "request_sent": "[JA] Request Sent",
+  "request_received": "[JA] Request Received",
+  "request_accepted": "[JA] Request Accepted",
+  "request_denied": "[JA] Request Denied",
+  "cancelled": "[JA] Cancelled",
+  "completed": "[JA] Completed",
+  "inventory_full": "[JA] Inventory Full",
+  "item_added": "[JA] Item Added",
+  "item_removed": "[JA] Item Removed",
+  "money_added": "[JA] Money Added",
+  "confirmed": "[JA] Confirmed",
+  "waiting_for_partner": "[JA] Waiting For Partner",
+  "partner_confirmed": "[JA] Partner Confirmed",
+  "too_far_away": "[JA] Too Far Away",
+  "accepted": "Accepted",
+  "unconfirmed": "Unconfirmed",
+  "not_enough_space": "Not Enough Space",
+  "not_enough_money": "お金不足"
+}

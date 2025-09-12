@@ -1,0 +1,14 @@
+{
+  "player_name": "[JA] Player Name",
+  "player_level": "[JA] Player Level",
+  "player_health": "[JA] Player Health",
+  "player_mana": "[JA] Player Mana",
+  "player_gold": "[JA] Player Gold",
+  "player_job": "Player Job",
+  "player_location": "Player Location",
+  "player_combat_power": "Player Combat Power",
+  "player_guild": "Player Guild",
+  "player_party": "Player Party",
+  "player_rank": "Player Rank",
+  "player_playtime": "Player Playtime"
+}

@@ -1,0 +1,15 @@
+{
+  "request_sent": "[JA] Request Sent",
+  "request_received": "[JA] Request Received",
+  "request_accepted": "[JA] Request Accepted",
+  "request_denied": "[JA] Request Denied",
+  "request_cancelled": "[JA] Request Cancelled",
+  "added": "[JA] Added",
+  "removed": "[JA] Removed",
+  "online": "[JA] Online",
+  "offline": "[JA] Offline",
+  "already_friends": "[JA] Already Friends",
+  "not_friends": "[JA] Not Friends",
+  "list_full": "[JA] List Full",
+  "target_list_full": "[JA] Target List Full"
+}

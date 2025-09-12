@@ -1,0 +1,20 @@
+{
+  "request_sent": "[KO] Request Sent",
+  "request_received": "[KO] Request Received",
+  "request_accepted": "[KO] Request Accepted",
+  "request_denied": "[KO] Request Denied",
+  "cancelled": "[KO] Cancelled",
+  "completed": "[KO] Completed",
+  "inventory_full": "[KO] Inventory Full",
+  "item_added": "[KO] Item Added",
+  "item_removed": "[KO] Item Removed",
+  "money_added": "[KO] Money Added",
+  "confirmed": "[KO] Confirmed",
+  "waiting_for_partner": "[KO] Waiting For Partner",
+  "partner_confirmed": "[KO] Partner Confirmed",
+  "too_far_away": "[KO] Too Far Away",
+  "accepted": "Accepted",
+  "unconfirmed": "Unconfirmed",
+  "not_enough_space": "Not Enough Space",
+  "not_enough_money": "돈 부족"
+}

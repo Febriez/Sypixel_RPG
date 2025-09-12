@@ -31,30 +31,15 @@
     "name": "Swamp",
     "description": "Wet swamp biome"
   },
-  "mushroom_fields": {
-    "name": "Mushroom Fields",
-    "description": "Rare mushroom biome"
-  },
+  "mushroom_fields": "Mushroom Fields",
   "beach": {
     "name": "Beach",
     "description": "Sandy beach biome"
   },
-  "flower_forest": {
-    "name": "Flower Forest",
-    "description": "Forest with many flowers"
-  },
-  "bamboo_jungle": {
-    "name": "Bamboo Jungle",
-    "description": "Jungle with bamboo"
-  },
-  "dark_forest": {
-    "name": "Dark Forest",
-    "description": "Dense dark forest"
-  },
-  "birch_forest": {
-    "name": "Birch Forest",
-    "description": "Birch tree forest"
-  },
+  "flower_forest": "Flower Forest",
+  "bamboo_jungle": "Bamboo Jungle",
+  "dark_forest": "Dark Forest",
+  "birch_forest": "Birch Forest",
   "badlands": {
     "name": "Badlands",
     "description": "Red sand desert"
@@ -63,10 +48,7 @@
     "name": "Ocean",
     "description": "Deep ocean biome"
   },
-  "cherry_grove": {
-    "name": "Cherry Grove",
-    "description": "Cherry blossom forest"
-  },
+  "cherry_grove": "Cherry Grove",
   "snowy_taiga": {
     "name": "Snowy Taiga",
     "description": "Cold coniferous forest covered in snow"
@@ -275,10 +257,76 @@
     "name": "End Barrens",
     "description": "Empty end islands"
   },
-  "bamboo_jungle": "Bamboo Jungle",
-  "birch_forest": "Birch Forest",
-  "cherry_grove": "Cherry Grove", 
-  "dark_forest": "Dark Forest",
-  "flower_forest": "Flower Forest",
-  "mushroom_fields": "Mushroom Fields"
+  "biome": {
+    "plains": "Plains",
+    "forest": "Forest",
+    "desert": "Desert",
+    "jungle": "Jungle",
+    "taiga": "Taiga",
+    "snowy_plains": "Snowy Plains",
+    "savanna": "Savanna",
+    "swamp": "Swamp",
+    "mushroom_fields": {
+      "name": "Mushroom Fields",
+      "description": "A strange land covered in giant mushrooms"
+    },
+    "beach": "Beach",
+    "flower_forest": {
+      "name": "Flower Forest",
+      "description": "A colorful forest full of flowers"
+    },
+    "bamboo_jungle": {
+      "name": "Bamboo Jungle",
+      "description": "Dense jungle with towering bamboo"
+    },
+    "dark_forest": {
+      "name": "Dark Forest",
+      "description": "A dark and mysterious forest"
+    },
+    "birch_forest": {
+      "name": "Birch Forest",
+      "description": "Peaceful forest of birch trees"
+    },
+    "badlands": "Badlands",
+    "ocean": "Ocean",
+    "cherry_grove": {
+      "name": "Cherry Grove",
+      "description": "Beautiful grove with cherry blossoms"
+    }
+  },
+  "biome.plains": "Plains",
+  "biome.forest": "Forest",
+  "biome.desert": "Desert",
+  "biome.jungle": "Jungle",
+  "biome.taiga": "Taiga",
+  "biome.snowy_plains": "Snowy Plains",
+  "biome.savanna": "Savanna",
+  "biome.swamp": "Swamp",
+  "biome.mushroom_fields.name": "Name",
+  "biome.mushroom_fields.description": "Description",
+  "biome.beach": "Beach",
+  "biome.flower_forest.name": "Name",
+  "biome.flower_forest.description": "Description",
+  "biome.bamboo_jungle.name": "Name",
+  "biome.bamboo_jungle.description": "Description",
+  "biome.dark_forest.name": "Name",
+  "biome.dark_forest.description": "Description",
+  "biome.birch_forest.name": "Name",
+  "biome.birch_forest.description": "Description",
+  "biome.badlands": "Badlands",
+  "biome.ocean": "Ocean",
+  "biome.cherry_grove.name": "Name",
+  "biome.cherry_grove.description": "Description",
+  "mushroom_fields.name": "Mushroom Fields",
+  "mushroom_fields.description": "Description text",
+  "flower_forest.name": "Flower Forest",
+  "flower_forest.description": "Description text",
+  "bamboo_jungle.name": "Bamboo Jungle",
+  "bamboo_jungle.description": "Description text",
+  "dark_forest.name": "Dark Forest",
+  "dark_forest.description": "Description text",
+  "birch_forest.name": "Birch Forest",
+  "birch_forest.description": "Description text",
+  "cherry_grove.name": "Cherry Grove",
+  "cherry_grove.description": "Description text"
 }

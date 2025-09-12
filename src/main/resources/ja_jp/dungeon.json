@@ -1,0 +1,17 @@
+{
+  "entered": "[JA] Entered",
+  "left": "[JA] Left",
+  "completed": "[JA] Completed",
+  "failed": "[JA] Failed",
+  "boss_spawned": "[JA] Boss Spawned",
+  "boss_defeated": "[JA] Boss Defeated",
+  "wave_started": "[JA] Wave Started",
+  "wave_completed": "[JA] Wave Completed",
+  "time_up": "[JA] Time Up",
+  "party_required": "[JA] Party Required",
+  "level_required": "[JA] Level Required",
+  "cooldown_active": "[JA] Cooldown Active",
+  "treasure_found": "Treasure Found",
+  "key_required": "Key Required",
+  "level_requirement": "Level Requirement"
+}

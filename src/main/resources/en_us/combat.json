@@ -34,5 +34,19 @@
   "in_combat": "In Combat!",
   "out_of_combat": "Out of Combat",
   "pvp_enabled": "PvP Enabled",
-  "pvp_disabled": "PvP Disabled"
+  "pvp_disabled": "PvP Disabled",
+  "combat": {
+    "damage_dealt": "Damage Dealt",
+    "damage_taken": "Damage Taken",
+    "kill": "Enemy Killed",
+    "assist": "Kill Assist"
+  },
+  "combat.damage_dealt": "Damage Dealt",
+  "combat.damage_taken": "Damage Taken",
+  "combat.kill": "Kill",
+  "combat.assist": "Assist",
+  "damage_dealt": "Damage Dealt",
+  "damage_taken": "Damage Taken",
+  "kill": "Kill",
+  "assist": "Assist"
 }

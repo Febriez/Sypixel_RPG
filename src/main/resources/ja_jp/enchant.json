@@ -1,0 +1,8 @@
+{
+  "success": "[JA] Success",
+  "fail": "[JA] Fail",
+  "max_level": "[JA] Max Level",
+  "incompatible": "[JA] Incompatible",
+  "too_expensive": "[JA] Too Expensive",
+  "item_destroyed": "[JA] Item Destroyed"
+}

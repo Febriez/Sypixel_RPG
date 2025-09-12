@@ -1,0 +1,8 @@
+{
+  "success": "[KO] Success",
+  "fail": "[KO] Fail",
+  "max_level": "[KO] Max Level",
+  "incompatible": "[KO] Incompatible",
+  "too_expensive": "[KO] Too Expensive",
+  "item_destroyed": "[KO] Item Destroyed"
+}

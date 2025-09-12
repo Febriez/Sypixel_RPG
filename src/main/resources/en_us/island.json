@@ -5,10 +5,12 @@
   },
   "roles": {
     "owner": "Owner",
-    "sub_owner": "Sub-Owner",
+    "co_owner": "Co-Owner",
     "member": "Member",
     "worker": "Worker",
-    "visitor": "Visitor"
+    "visitor": "Visitor",
+    "moderator": "Moderator",
+    "sub_owner": "Sub Owner"
   },
   "permissions": {
     "build": "Build",
@@ -40,282 +42,273 @@
       "steps": [
         "1. Click the Island button in the main menu (/menu)",
         "2. Click the Create Island button to create a new island"
-      ]
+      ],
+      "step_2": "Step 2",
+      "feature_4": "Feature 4",
+      "feature_3": "Feature 3",
+      "feature_1": "Feature 1",
+      "feature_2": "Feature 2",
+      "step_1": "Step 1"
     }
   },
   "gui": {
-    "main": {
-      "title": "Island Management",
-      "title_with_name": "Island Management - {0}",
-      "create_island": {
-        "title": "Create Island",
-        "no_island": "You don't have an island yet!",
-        "description": "Create an island to access the following features:",
-        "features": [
-          "• Build freely on your own private island",
-          "• Invite friends to play together",
-          "• Upgrade your island for more space",
-          "• Set island warp points"
-        ],
-        "contact_admin": "Contact an admin to create an island!"
+    "contribute": {
+      "contribution": "Your total contribution",
+      "contribution_input_text": "Enter amount to contribute",
+      "contribution_input_title": "Island Contribution",
+      "gold_info": {
+        "balance": "Balance",
+        "contribution": "Contribution"
       },
-      "hex_format_error": "Invalid HEX format! Use #RRGGBB",
-      "hex_format_example": "Example: #FF0000",
-      "color_changed": "Island color changed to {0}",
-      "hex_input_title": "Enter HEX Color Code",
-      "warp_moving": "Warping to island...",
-      "warp_success": "Successfully warped to island!",
-      "info": {
-        "lore": [
-          "Island Information",
-          "Level: {0}",
-          "Members: {1}"
-        ],
-        "members": "Members: {0}/{1}"
-      },
-      "create": {
-        "lore": [
-          "Click to create",
-          "your own island!"
-        ]
-      },
-      "spawn": {
-        "name": "Island Spawn",
-        "lore": [
-          "Teleport to",
-          "island spawn point"
-        ]
-      },
-      "visit": {
-        "name": "Visit Islands"
-      },
-      "members": {
-        "lore": [
-          "Manage island",
-          "members and permissions"
-        ]
-      },
-      "settings": {
-        "lore": [
-          "Configure island",
-          "settings"
-        ]
-      },
-      "upgrades": {
-        "lore": [
-          "Upgrade your",
-          "island features"
-        ]
-      },
-      "permissions": {
-        "lore": [
-          "Manage member",
-          "permissions"
-        ]
-      },
-      "biome": {
-        "lore": [
-          "Change island",
-          "biome"
-        ]
-      },
-      "contributions": {
-        "lore": [
-          "View island",
-          "contributions"
-        ]
-      },
-      "visitors": {
-        "lore": [
-          "Manage visitor",
-          "settings"
-        ]
-      },
-      "reset": {
-        "lore": [
-          "Reset your",
-          "island"
-        ]
-      },
-      "leave": {
-        "lore": [
-          "Leave this",
-          "island"
-        ]
-      },
-      "back": {
-        "name": "Back"
-      },
-      "close": {
-        "name": "Close"
-      }
-    },
-    "create": {
-      "title": "Create New Island"
+      "not_enough_gold": "Not Enough Gold",
+      "input_amount": "Input Amount",
+      "success": "Success",
+      "input_gold": "Input Gold",
+      "title": "Title",
+      "gold_needed": "Gold Needed",
+      "invalid_amount": "Invalid Amount",
+      "amount_too_low": "Amount Too Low",
+      "quick_amount": "Quick Amount"
     },
     "creation": {
-      "title": "Island Creation",
-      "current_name": "Current Name: ",
-      "current_color": "Current Color: ",
-      "current_biome": "Current Biome: ",
-      "click_to_change_name": "Click to change name",
-      "click_to_change": "Click to change",
-      "left_click": "Left Click: ",
-      "right_click": "Right Click: ",
-      "middle_click": "Middle Click: ",
-      "next": "Next",
-      "previous": "Previous",
-      "hex_input": "Enter HEX code",
-      "hex_example": "Example: #FF0000 (Red)",
-      "selected": "✔ Selected",
-      "click_to_select": "Click to select",
-      "click_to_create": "Click to create island!",
-      "selected_settings": "Selected Settings:",
-      "setting_name": "• Name: ",
-      "setting_biome": "• Biome: ",
-      "setting_template": "• Template: ",
-      "create_button_title": "✦ Create Island ✦",
-      "island_name_input_title": "Enter Island Name",
-      "island_name_input_error": "Please enter 1-20 characters",
-      "hex_input_title": "Enter HEX Color Code",
-      "hex_input_error": "Please enter in #RRGGBB format",
-      "default_island_name": "My Island",
-      "creating_island": "Creating island...",
-      "creation_complete_header": "==== Island Creation Complete! ====",
-      "creation_complete_message": " island has been created!",
-      "creation_complete_footer": "====================",
-      "teleporting_soon": "Teleporting to island soon...",
-      "creation_failed": "Island creation failed.",
-      "creation_error": "Error occurred during island creation: ",
+      "click": "Click to create island",
+      "click_to_select": "Click to select this option",
+      "selected": "Currently selected",
       "biomes": {
-        "plains": "Plains",
-        "forest": "Forest",
         "desert": "Desert",
+        "forest": "Forest",
+        "mushroom_fields": "Mushroom Fields",
+        "swamp": "Swamp",
+        "plains": "Plains",
         "snowy_plains": "Snowy Plains",
         "jungle": "Jungle",
-        "swamp": "Swamp",
-        "savanna": "Savanna",
-        "mushroom_fields": "Mushroom Fields"
+        "savanna": "Savanna"
       },
-      "templates": {
-        "basic": "Basic Island",
-        "skyblock": "Skyblock",
-        "large": "Large Island",
-        "water": "Water Island",
-        "basic_desc": "Standard size basic island",
-        "skyblock_desc": "Small floating island in the sky",
-        "large_desc": "Large island with more space",
-        "water_desc": "Island on the water"
-      },
+      "island_name_input_error": "Island Name Input Error",
+      "title": "Title",
       "colors": {
-        "yellow": "Yellow",
-        "green": "Green",
+        "blue": "Blue",
         "cyan": "Cyan",
+        "white": "White",
+        "orange": "Orange",
         "magenta": "Magenta",
         "red": "Red",
-        "orange": "Orange",
-        "blue": "Blue",
-        "white": "White",
-        "custom": "Custom"
-      }
-    },
-    "biome_selection": {
-      "title": "🌍 Select Biome"
-    },
-    "back_button": "◀ Back",
-    "delete": {
-      "confirm_word": "DELETE",
-      "input_error": "Please type 'DELETE' exactly.",
-      "input_title": "Type 'DELETE' to confirm",
-      "input_text": "Type here...",
-      "success": "Island deleted successfully!",
-      "warning": "⚠ Warning: This action cannot be undone!",
-      "description": "All island data will be permanently deleted."
-    },
-    "contribute": {
-      "title": "Island Contribution",
-      "input_amount": "Contribution Amount",
-      "input_gold": "Enter gold amount to contribute",
-      "gold_info": {
-        "balance": "Balance: {0}G",
-        "contribution": "Your Contribution: {0}G"
+        "custom": "Custom",
+        "yellow": "Yellow",
+        "green": "Green"
       },
-      "quick_amount": "Quick Amount: {0}G",
-      "gold_needed": "Gold Needed: {0}G",
-      "success": "Successfully contributed {0}G!",
-      "not_enough_gold": "You don't have enough gold!",
-      "invalid_amount": "Please enter a valid number.",
-      "amount_too_low": "Minimum contribution is 100.",
-      "contribution_input_title": "Enter contribution amount",
-      "contribution_input_text": "Amount..."
+      "current_name": "Current Name",
+      "setting_biome": "Setting Biome",
+      "templates": {
+        "basic_desc": "Basic Desc",
+        "skyblock": "Skyblock",
+        "large": "Large",
+        "skyblock_desc": "Skyblock Desc",
+        "large_desc": "Large Desc",
+        "water_desc": "Water Desc",
+        "basic": "Basic",
+        "water": "Water"
+      },
+      "island_name_input_title": "Island Name Input Title",
+      "hex_input_title": "Hex Input Title",
+      "click_to_change_name": "Click To Change Name",
+      "hex_example": "Hex Example",
+      "selected_settings": "Selected Settings",
+      "creating_island": "Creating Island",
+      "hex_input": "Hex Input",
+      "default_island_name": "Default Island Name",
+      "click_to_change": "Click To Change",
+      "next": "Next",
+      "teleporting_soon": "Teleporting Soon",
+      "creation_failed": "Creation Failed",
+      "right_click": "Right Click",
+      "setting_name": "Setting Name",
+      "current_color": "Current Color",
+      "click_to_create": "Click To Create",
+      "setting_template": "Setting Template",
+      "current_biome": "Current Biome",
+      "previous": "Previous",
+      "creation_complete_header": "Creation Complete Header",
+      "creation_complete_footer": "Creation Complete Footer",
+      "create_button_title": "Create Button Title",
+      "creation_complete_message": "Creation Complete Message",
+      "hex_input_error": "Hex Input Error",
+      "left_click": "Left Click",
+      "creation_error": "Creation Error",
+      "middle_click": "Middle Click"
     },
-    "settings": {
-      "name_error": "Island name must be 1-20 characters.",
-      "name_input_error": "Please enter 1-20 characters"
-    },
-    "member": {
-      "kick_confirm_word": "KICK",
-      "kick_input_error": "Please type 'KICK' exactly.",
-      "kick_input_title": "Type 'KICK' to confirm",
-      "kick_input_text": "Type here...",
-      "invite_prompt": "Enter player name to invite:",
-      "invite_example": "Example: PlayerName",
-      "role_owner": "Owner",
-      "all_permissions": "Has all permissions",
-      "owner_cannot_change": "Owner role cannot be changed",
-      "most_permissions": "Has most management permissions",
-      "normal_permissions": "Has normal member permissions",
-      "left_click_role": "Left-click to change role",
-      "right_click_kick": "Right-click to kick member",
-      "role_worker": "Worker",
-      "hire_date": "Hired: {0}",
-      "last_activity": "Last Activity: {0}",
-      "limited_permissions": "Has limited permissions",
-      "left_click_extend": "Left-click to extend contract",
-      "right_click_fire": "Right-click to fire worker",
-      "manage_title": "Member Management",
-      "manage_permission_not_implemented": "This permission is not yet implemented",
-      "manage_current_role": "Current Role: {0}"
+    "main": {
+      "title": "Island Management",
+      "title_with_name": "Island: {0}",
+      "create": {
+        "island": {
+          "feature": {
+            "1": "Custom island size",
+            "2": "Choose your biome",
+            "3": "Invite friends",
+            "4": "Build together"
+          }
+        },
+        "lore": "Lore",
+        "lore1": "Lore1",
+        "lore2": "Lore2"
+      },
+      "create_island": {
+        "feature_3": "Feature 3",
+        "feature_4": "Feature 4",
+        "features": "Features",
+        "feature_2": "Feature 2",
+        "title": "Title",
+        "contact_admin": "Contact Admin",
+        "feature_1": "Feature 1",
+        "no_island": "No Island",
+        "description": "Description"
+      },
+      "contributions": {
+        "lore": "Lore"
+      },
+      "leave": {
+        "lore": "Lore"
+      },
+      "color_changed": "Color Changed",
+      "permissions": {
+        "lore": "Lore"
+      },
+      "reset": {
+        "lore": "Lore"
+      },
+      "spawn": {
+        "name": "Name",
+        "lore": "Lore"
+      },
+      "settings": {
+        "lore": "Lore"
+      },
+      "hex_input_title": "Hex Input Title",
+      "back": {
+        "name": "Name"
+      },
+      "info": {
+        "members": "Members",
+        "lore": "Lore"
+      },
+      "hex_format_example": "Hex Format Example",
+      "close": {
+        "name": "Name"
+      },
+      "hex_format_error": "Hex Format Error",
+      "members": {
+        "lore": "Lore"
+      },
+      "upgrades": {
+        "lore": "Lore"
+      },
+      "visitors": {
+        "lore": "Lore"
+      },
+      "biome": {
+        "lore": "Lore"
+      },
+      "visit": {
+        "name": "Name"
+      },
+      "warp_moving": "Warp Moving",
+      "warp_success": "Warp Success"
     },
     "contribution": {
-      "title": "Island Contributions",
-      "info": {
-        "island_name": "Island: {0}",
-        "total": "Total Contributions: {0}G",
-        "contributors": "Contributors: {0}"
-      },
       "contributor": {
-        "name": "{0}",
-        "contribution": "Contribution: {0}G",
-        "role": "Role: {0}",
-        "percentage": "Percentage: {0}%"
+        "role": "Role",
+        "contribution": "Contribution",
+        "name": "Name",
+        "percentage": "Percentage"
       },
       "add": {
-        "current": "Current: {0}G"
-      }
+        "current": "Current"
+      },
+      "info": {
+        "total": "Total",
+        "contributors": "Contributors",
+        "island_name": "Island Name"
+      },
+      "title": "Title"
     },
-    "creation_click_to_select": "Click to select",
-    "contribute_contribution_input_text": "Enter contribution amount",
-    "contribute_contribution_input_title": "Contribution Amount"
+    "member": {
+      "all_permissions": "All Permissions",
+      "manage_permission_not_implemented": "Manage Permission Not Implemented",
+      "role_worker": "Role Worker",
+      "right_click_fire": "Right Click Fire",
+      "most_permissions": "Most Permissions",
+      "left_click_extend": "Left Click Extend",
+      "kick_input_title": "Kick Input Title",
+      "last_activity": "Last Activity",
+      "kick_input_error": "Kick Input Error",
+      "role_owner": "Role Owner",
+      "kick_input_text": "Kick Input Text",
+      "normal_permissions": "Normal Permissions",
+      "manage_title": "Manage Title",
+      "invite_example": "Invite Example",
+      "manage_current_role": "Manage Current Role",
+      "limited_permissions": "Limited Permissions",
+      "right_click_kick": "Right Click Kick",
+      "invite_prompt": "Invite Prompt",
+      "owner_cannot_change": "Owner Cannot Change",
+      "kick_confirm_word": "Kick Confirm Word",
+      "hire_date": "Hire Date",
+      "left_click_role": "Left Click Role"
+    },
+    "back_button": "Back Button",
+    "contribute_contribution_input_text": "Contribute Contribution Input Text",
+    "delete": {
+      "input_error": "Input Error",
+      "description": "Description",
+      "input_text": "Input Text",
+      "input_title": "Input Title",
+      "success": "Success",
+      "confirm_word": "Confirm Word",
+      "warning": "Warning"
+    },
+    "contribute_contribution_input_title": "Contribute Contribution Input Title",
+    "biome_selection": {
+      "title": "Title"
+    },
+    "settings": {
+      "name_error": "Name Error",
+      "name_input_error": "Name Input Error"
+    },
+    "creation_click_to_select": "Creation Click To Select",
+    "create": {
+      "title": "Title"
+    }
   },
   "error": {
     "player_only": "This command can only be used by players."
   },
   "contribute": {
-    "amount_too_low": "Amount too low",
-    "invalid_amount": "Invalid amount"
+    "amount": "Contribution amount: {0}",
+    "invalid": "Invalid contribution amount",
+    "amount_too_low": "Amount Too Low",
+    "invalid_amount": "Invalid Amount"
   },
   "delete": {
-    "confirm_word": "DELETE",
-    "input_error": "Type DELETE to confirm",
-    "input_text": "Type DELETE to delete island",
-    "input_title": "Confirm Island Deletion"
+    "confirm": "Confirm Island Deletion",
+    "warning": "This action cannot be undone!",
+    "success": "Island deleted successfully",
+    "cancelled": "Island deletion cancelled",
+    "input_error": "Input Error",
+    "confirm_word": "Confirm Word",
+    "input_title": "Input Title",
+    "input_text": "Input Text"
   },
   "member": {
-    "kick_confirm_word": "KICK",
-    "kick_input_error": "Type KICK to confirm",
-    "kick_input_text": "Type KICK to kick member",
-    "kick_input_title": "Confirm Member Kick"
+    "kick": {
+      "confirm": "Confirm Member Removal",
+      "success": "Member removed from island",
+      "failed": "Failed to remove member"
+    },
+    "kick_confirm_word": "Kick Confirm Word",
+    "kick_input_text": "Kick Input Text",
+    "kick_input_title": "Kick Input Title",
+    "kick_input_error": "Kick Input Error"
   },
   "gui_creation_click_to_select": "Click to select",
   "gui_biome_change_title": "Change Island Biome",
@@ -423,66 +416,11 @@
   "tnt_disabled": "TNT disabled",
   "locked": "Island locked",
   "unlocked": "Island unlocked",
-  "island.default-name": "Player's Island",
-  "island.gui.creation.click-to-select": "Click to select",
-  "island.roles.sub-owner": "Co-Owner",
-  "island.roles.sub.owner": "Co-Owner",
-  "island.contribute.amount-too-low": "Amount too low! Minimum: %d",
-  "island.contribute.invalid-amount": "Invalid amount!",
-  "island.gui.contribute.contribution-input-text": "Enter contribution amount",
-  "island.gui.contribute.contribution-input-title": "Contribution Amount",
-  "island.delete.confirm-word": "DELETE",
-  "island.delete.input-error": "Type DELETE to confirm",
-  "island.delete.input-text": "Type DELETE to confirm deletion",
-  "island.delete.input-title": "Confirm Island Deletion",
-  "island.delete.input.error": "Incorrect! Type DELETE to confirm",
-  "island.delete.success.title": "Island Deleted",
-  "island.delete.success.message": "Your island has been deleted",
-  "island.delete.input.text": "Type DELETE to confirm",
-  "island.delete.input.title": "Delete Island",
-  "island.member.kick-confirm-word": "KICK",
-  "island.member.kick-input-error": "Type KICK to confirm",
-  "island.member.kick-input-text": "Type KICK to remove this member",
-  "island.member.kick-input-title": "Confirm Member Removal",
-  "island.member.kick.confirm.word": "KICK",
-  "island.member.kick.input.error": "Incorrect! Type KICK to confirm",
-  "island.member.kick.input.text": "Type KICK to confirm",
-  "island.member.kick.input.title": "Kick Member",
-  "island.gui.main.create.island.contact.admin": "Contact an admin for help",
-  "island.gui.main.create.island.description": "Start your island adventure!",
-  "island.gui.main.create.island.feature.1": "• Build freely",
-  "island.gui.main.create.island.feature.2": "• Invite friends",
-  "island.gui.main.create.island.feature.3": "• Upgrade and expand",
-  "island.gui.main.create.island.feature.4": "• Custom biomes",
-  "island.gui.main.create.island.no.island": "You don't have an island yet!",
-  "island.gui.main.create.island.title": "Create Your Island",
-  "island.gui.creation.island.name.input.title": "Enter Island Name",
-  "island.settings.name.error": "Invalid name!",
-  "island.settings.name.input.error": "Name must be 3-16 characters",
   "island": {
+    "default_name": "Default Name",
     "gui": {
-      "main": {
-        "create": {
-          "island": {
-            "feature": {
-              "": "Feature",
-              "1": "1",
-              "2": "2",
-              "3": "3",
-              "4": "4"
-            },
-            "contact": {
-              "admin": "Admin"
-            },
-            "description": "Description",
-            "no": {
-              "island": "Island"
-            },
-            "title": "Title"
-          }
-        }
-      },
       "creation": {
+        "click-to-select": "Click To Select",
         "island": {
           "name": {
             "input": {
@@ -490,14 +428,51 @@
             }
           }
         },
-        "click-to-select": "Click To Select"
+        "click_to_select": "Click To Select"
       },
       "contribute": {
-        "contribution-input-text": "Contribution Input Text",
-        "contribution-input-title": "Contribution Input Title"
+        "contribution_input_text": "Contribution Input Text",
+        "contribution_input_title": "Contribution Input Title"
+      },
+      "main": {
+        "create": {
+          "island": {
+            "contact": {
+              "admin": "Admin"
+            },
+            "description": "Description",
+            "feature": {
+              "1": "1",
+              "2": "2",
+              "3": "3",
+              "4": "4",
+              "": ""
+            },
+            "no": {
+              "island": "Island"
+            },
+            "title": "Title"
+          }
+        }
       }
     },
+    "roles": {
+      "sub_owner": "Owner",
+      "sub": {
+        "owner": "Owner"
+      }
+    },
+    "contribute": {
+      "amount_too_low": "Amount too low!",
+      "invalid_amount": "Invalid amount!",
+      "amount": "Amount",
+      "invalid": "Invalid"
+    },
     "delete": {
+      "confirm_word": "Confirm Word",
+      "input_error": "Input Error",
+      "input_text": "Input Text",
+      "input_title": "Input Title",
       "input": {
         "error": "Error",
         "text": "Text",
@@ -507,12 +482,13 @@
         "title": "Title",
         "message": "Message"
       },
-      "confirm-word": "Confirm Word",
-      "input-error": "Input Error",
-      "input-text": "Input Text",
-      "input-title": "Input Title"
+      "confirm": "Confirm"
     },
     "member": {
+      "kick_confirm_word": "Kick Confirm Word",
+      "kick_input_error": "Kick Input Error",
+      "kick_input_text": "Kick Input Text",
+      "kick_input_title": "Kick Input Title",
       "kick": {
         "confirm": {
           "word": "Word"
@@ -522,17 +498,7 @@
           "text": "Text",
           "title": "Title"
         }
-      },
-      "kick-confirm-word": "Kick Confirm Word",
-      "kick-input-error": "Kick Input Error",
-      "kick-input-text": "Kick Input Text",
-      "kick-input-title": "Kick Input Title"
-    },
-    "roles": {
-      "sub": {
-        "owner": "Owner"
-      },
-      "sub-owner": "Sub Owner"
+      }
     },
     "settings": {
       "name": {
@@ -542,80 +508,75 @@
         }
       }
     },
-    "default-name": "Default Name",
-    "contribute": {
-      "amount-too-low": "Amount Too Low",
-      "invalid-amount": "Invalid Amount"
-    }
-  },
-  "gui": {
-    "main": {
-      "create": {
-        "island": {
-          "title": "Create Your Island",
-          "description": "Start your island adventure!",
-          "feature": {
-            "1": "Build freely on your own space",
-            "2": "Invite friends to join you",
-            "3": "Upgrade and expand your island",
-            "4": "Customize with different biomes",
-            "5": "Set up resource production",
-            "6": "Create unique landmarks",
-            "7": "Host events and activities",
-            "8": "Trade with other islands",
-            "9": "Establish a community",
-            "10": "Unlock special features"
-          },
-          "no": {
-            "island": "You don't have an island yet!"
-          },
-          "contact": {
-            "admin": "Contact an admin for help"
-          }
-        }
-      }
-    }
-  },
-  "delete": {
-    "confirm": "Confirm Island Deletion",
-    "warning": "This action cannot be undone!",
-    "success": "Island deleted successfully",
-    "cancelled": "Island deletion cancelled"
-  },
-  "member": {
-    "kick": {
-      "confirm": "Confirm Member Removal",
-      "success": "Member removed from island",
-      "failed": "Failed to remove member"
-    }
-  },
-  "roles": {
-    "owner": "Owner",
-    "co_owner": "Co-Owner",
-    "member": "Member",
-    "worker": "Worker",
-    "visitor": "Visitor",
-    "moderator": "Moderator"
-  },
-  "contribute": {
-    "amount": "Contribution amount: {0}",
-    "invalid": "Invalid contribution amount"
+    "default": "Default"
   },
   "default": "Default Island",
-  "gui": {
-    "contribute": {
-      "contribution": "Your total contribution",
-      "contribution_input_text": "Enter amount to contribute",
-      "contribution_input_title": "Island Contribution"
-    },
-    "creation": {
-      "click": "Click to create island",
-      "click_to_select": "Click to select this option",
-      "selected": "Currently selected"
-    },
-    "main": {
-      "title": "Island Management",
-      "title_with_name": "Island: {0}"
-    }
-  }
+  "gui_biome_selection_info_lore2": "Gui Biome Selection Info Lore2",
+  "gui_biome_selection_info_lore1": "Gui Biome Selection Info Lore1",
+  "island.gui.main.create.island.feature.": "",
+  "island.delete.input.error": "Error",
+  "island.delete.success.title": "Title",
+  "island.delete.success.message": "Message",
+  "island.delete.input.text": "Type 'DELETE' to confirm",
+  "island.delete.input.title": "Title",
+  "island.gui.main.create.island.contact.admin": "Admin",
+  "island.gui.main.create.island.description": "Description",
+  "island.gui.main.create.island.no.island": "Island",
+  "island.gui.main.create.island.title": "Title",
+  "island.member.kick.confirm.word": "KICK",
+  "island.member.kick.input.error": "Error",
+  "island.member.kick.input.text": "Type 'KICK' to confirm",
+  "island.member.kick.input.title": "Title",
+  "island.roles.sub.owner": "Owner",
+  "island.gui.creation.island.name.input.title": "Title",
+  "island.settings.name.error": "Error",
+  "island.settings.name.input.error": "Error",
+  "island.default-name": "Default Name",
+  "island.gui.creation.click-to-select": "Click To Select",
+  "island.roles.sub-owner": "Sub Owner",
+  "island.contribute.amount-too-low": "Amount Too Low",
+  "island.contribute.invalid-amount": "Invalid Amount",
+  "island.gui.contribute.contribution-input-text": "Contribution Input Text",
+  "island.gui.contribute.contribution-input-title": "Contribution Input Title",
+  "island.delete.confirm-word": "DELETE",
+  "island.delete.input-error": "Input Error",
+  "island.delete.input-text": "Input Text",
+  "island.delete.input-title": "Input Title",
+  "island.member.kick-confirm-word": "KICK",
+  "island.member.kick-input-error": "Kick Input Error",
+  "island.member.kick-input-text": "Kick Input Text",
+  "island.member.kick-input-title": "Kick Input Title",
+  "gui.main.create.island.feature.": "",
+  "delete.input.error": "Error",
+  "delete.success.title": "Title",
+  "delete.success.message": "Message",
+  "delete.input.text": "Text",
+  "delete.input.title": "Title",
+  "gui.main.create.island.contact.admin": "Admin",
+  "gui.main.create.island.description": "Description text",
+  "gui.main.create.island.no.island": "Island",
+  "gui.main.create.island.title": "Title",
+  "member.kick.confirm.word": "KICK",
+  "member.kick.input.error": "Error",
+  "member.kick.input.text": "Text",
+  "member.kick.input.title": "Title",
+  "roles.sub.owner": "Owner",
+  "gui.creation.island.name.input.title": "Title",
+  "settings.name.error": "Error",
+  "settings.name.input.error": "Error",
+  "default-name": "Default Name",
+  "gui.creation.click-to-select": "Click To Select",
+  "roles.sub-owner": "Sub Owner",
+  "contribute.amount-too-low": "Amount Too Low",
+  "contribute.invalid-amount": "Invalid Amount",
+  "gui.contribute.contribution-input-text": "Contribution Input Text",
+  "gui.contribute.contribution-input-title": "Contribution Input Title",
+  "delete.confirm-word": "DELETE",
+  "delete.input-error": "Input Error",
+  "delete.input-text": "Input Text",
+  "delete.input-title": "Input Title",
+  "member.kick-confirm-word": "KICK",
+  "member.kick-input-error": "Kick Input Error",
+  "member.kick-input-text": "Kick Input Text",
+  "member.kick-input-title": "Kick Input Title"
 }

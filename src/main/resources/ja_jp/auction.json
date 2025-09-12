@@ -1,0 +1,13 @@
+{
+  "bid_placed": "[JA] Bid Placed",
+  "bid_outbid": "[JA] Bid Outbid",
+  "item_sold": "[JA] Item Sold",
+  "item_expired": "[JA] Item Expired",
+  "item_claimed": "[JA] Item Claimed",
+  "not_enough_money": "[JA] Not Enough Money",
+  "listed": "Listed",
+  "sold": "Sold",
+  "bought": "Bought",
+  "expired": "Expired",
+  "cancelled": "Cancelled"
+}

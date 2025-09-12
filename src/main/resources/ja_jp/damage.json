@@ -1,0 +1,16 @@
+{
+  "physical": "[JA] Physical",
+  "magical": "[JA] Magical",
+  "true": "[JA] True",
+  "critical": "[JA] Critical",
+  "blocked": "[JA] Blocked",
+  "dodged": "[JA] Dodged",
+  "reflected": "[JA] Reflected",
+  "fire": "Fire",
+  "ice": "Ice",
+  "lightning": "Lightning",
+  "poison": "毒",
+  "holy": "Holy",
+  "dark": "Dark",
+  "nature": "Nature"
+}

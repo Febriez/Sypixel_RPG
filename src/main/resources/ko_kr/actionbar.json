@@ -1,0 +1,18 @@
+{
+  "health_low": "[KO] Health Low",
+  "mana_low": "[KO] Mana Low",
+  "exp_gained": "[KO] Exp Gained",
+  "level_up": "[KO] Level Up",
+  "quest_updated": "[KO] Quest Updated",
+  "item_received": "[KO] Item Received",
+  "health": "Health",
+  "mana": "Mana",
+  "stamina": "Stamina",
+  "experience": "Experience",
+  "skill_ready": "Skill Ready",
+  "skill_cooldown": "Skill Cooldown",
+  "combat_enter": "Combat Enter",
+  "combat_leave": "Combat Leave",
+  "buff_applied": "Buff Applied",
+  "debuff_applied": "Debuff Applied"
+}

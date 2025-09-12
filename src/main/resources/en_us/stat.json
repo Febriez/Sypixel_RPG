@@ -1,50 +1,82 @@
 {
-  "strength": {
-    "name": "Strength",
-    "abbreviation": "STR",
-    "description": [
-      "Increases physical attack power.",
-      "Melee weapon damage increases."
-    ]
-  },
-  "intelligence": {
-    "name": "Intelligence",
-    "abbreviation": "INT",
-    "description": [
-      "Increases magical attack power.",
-      "Mana pool increases."
-    ]
-  },
-  "dexterity": {
-    "name": "Dexterity",
-    "abbreviation": "DEX",
-    "description": [
-      "Increases attack speed.",
-      "Evasion rate increases."
-    ]
-  },
-  "vitality": {
-    "name": "Vitality",
-    "abbreviation": "VIT",
-    "description": [
-      "Increases maximum health.",
-      "Defense increases."
-    ]
-  },
-  "wisdom": {
-    "name": "Wisdom",
-    "abbreviation": "WIS",
-    "description": [
-      "Increases mana regeneration.",
-      "Skill cooldowns decrease."
-    ]
-  },
-  "luck": {
-    "name": "Luck",
-    "abbreviation": "LUK",
-    "description": [
-      "Increases item drop rate.",
-      "Critical damage increases."
-    ]
-  }
+  "strength.name": "Strength",
+  "strength.abbreviation": "STR",
+  "strength.description": [
+    "Increases physical attack power.",
+    "Melee weapon damage increases."
+  ],
+  "intelligence.name": "Intelligence",
+  "intelligence.abbreviation": "INT",
+  "intelligence.description": [
+    "Increases magical attack power.",
+    "Mana pool increases."
+  ],
+  "dexterity.name": "Dexterity",
+  "dexterity.abbreviation": "DEX",
+  "dexterity.description": [
+    "Increases attack speed.",
+    "Evasion rate increases."
+  ],
+  "vitality.name": "Vitality",
+  "vitality.abbreviation": "VIT",
+  "vitality.description": [
+    "Increases maximum health.",
+    "Defense increases."
+  ],
+  "wisdom.name": "Wisdom",
+  "wisdom.abbreviation": "WIS",
+  "wisdom.description": [
+    "Increases mana regeneration.",
+    "Skill cooldowns decrease."
+  ],
+  "luck.name": "Luck",
+  "luck.abbreviation": "LUK",
+  "luck.description": [
+    "Increases item drop rate.",
+    "Critical damage increases."
+  ],
+  "stat.strength": "Strength",
+  "stat.defense": "Defense",
+  "stat.intelligence": "Intelligence",
+  "stat.speed": "Speed",
+  "stat.luck": "Luck",
+  "stat.health": "Health",
+  "stat.mana": "Mana",
+  "stat.stamina": "Stamina",
+  "stat.critical": "Critical",
+  "stat.evasion": "Evasion",
+  "stat.accuracy": "Accuracy",
+  "stat.strength.tooltip": "Tooltip",
+  "stat.defense.tooltip": "Tooltip",
+  "stat.intelligence.tooltip": "Tooltip",
+  "stat.speed.tooltip": "Tooltip",
+  "stat.luck.tooltip": "Tooltip",
+  "stat.health.tooltip": "Tooltip",
+  "stat.mana.tooltip": "Tooltip",
+  "stat.stamina.tooltip": "Tooltip",
+  "stat.critical.tooltip": "Tooltip",
+  "stat.evasion.tooltip": "Tooltip",
+  "stat.accuracy.tooltip": "Tooltip",
+  "defense": "Defense",
+  "speed": "Speed",
+  "health": "Health",
+  "mana": "Mana",
+  "stamina": "Stamina",
+  "critical": "Critical",
+  "evasion": "Evasion",
+  "accuracy": "Accuracy",
+  "strength.tooltip": "Strength - Description",
+  "defense.tooltip": "Defense - Description",
+  "intelligence.tooltip": "Intelligence - Description",
+  "speed.tooltip": "Speed - Description",
+  "luck.tooltip": "Luck - Description",
+  "health.tooltip": "Health - Description",
+  "mana.tooltip": "Mana - Description",
+  "stamina.tooltip": "Stamina - Description",
+  "critical.tooltip": "Critical - Description",
+  "evasion.tooltip": "Evasion - Description",
+  "accuracy.tooltip": "Accuracy - Description",
+  "strength": "Strength",
+  "intelligence": "Intelligence",
+  "luck": "Luck"
 }

@@ -1,0 +1,20 @@
+{
+  "cast_success": "Skill Cast",
+  "cast_fail": "Cast Failed",
+  "on_cooldown": "Skill on Cooldown",
+  "no_mana": "Not Enough Mana",
+  "no_target": "No Target",
+  "out_of_range": "Out of Range",
+  "learned": "Learned",
+  "upgraded": "Upgraded",
+  "max_level": "Max Level",
+  "not_enough_points": "Not Enough Points",
+  "requirement_not_met": "Requirement Not Met",
+  "not_enough_mana": "Not Enough Mana",
+  "skill.cast_success": "Cast Success",
+  "skill.cast_fail": "Cast Fail",
+  "skill.on_cooldown": "On Cooldown",
+  "skill.no_mana": "No Mana",
+  "skill.no_target": "No Target",
+  "skill.out_of_range": "Out Of Range"
+}

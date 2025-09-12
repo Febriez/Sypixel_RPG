@@ -1,0 +1,15 @@
+{
+  "request_sent": "[KO] Request Sent",
+  "request_received": "[KO] Request Received",
+  "request_accepted": "[KO] Request Accepted",
+  "request_denied": "[KO] Request Denied",
+  "request_cancelled": "[KO] Request Cancelled",
+  "added": "[KO] Added",
+  "removed": "[KO] Removed",
+  "online": "[KO] Online",
+  "offline": "[KO] Offline",
+  "already_friends": "[KO] Already Friends",
+  "not_friends": "[KO] Not Friends",
+  "list_full": "[KO] List Full",
+  "target_list_full": "[KO] Target List Full"
+}

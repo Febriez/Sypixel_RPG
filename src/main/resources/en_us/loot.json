@@ -1,0 +1,10 @@
+{
+  "common_drop": "Common Drop",
+  "rare_drop": "Rare Drop",
+  "epic_drop": "Epic Drop",
+  "legendary_drop": "Legendary Drop",
+  "loot.common_drop": "Common Drop",
+  "loot.rare_drop": "Rare Drop",
+  "loot.epic_drop": "Epic Drop",
+  "loot.legendary_drop": "Legendary Drop"
+}

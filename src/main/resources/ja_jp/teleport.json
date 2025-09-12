@@ -1,0 +1,15 @@
+{
+  "success": "[JA] Success",
+  "fail": "[JA] Fail",
+  "in_combat": "[JA] In Combat",
+  "cooldown": "[JA] Cooldown",
+  "destination_unsafe": "[JA] Destination Unsafe",
+  "no_permission": "[JA] No Permission",
+  "request_sent": "Request Sent",
+  "request_received": "Request Received",
+  "accepted": "Accepted",
+  "denied": "Denied",
+  "cancelled": "Cancelled",
+  "expired": "Expired",
+  "failed": "Failed"
+}

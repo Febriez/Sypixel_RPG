@@ -1,0 +1,16 @@
+{
+  "physical": "[KO] Physical",
+  "magical": "[KO] Magical",
+  "true": "[KO] True",
+  "critical": "[KO] Critical",
+  "blocked": "[KO] Blocked",
+  "dodged": "[KO] Dodged",
+  "reflected": "[KO] Reflected",
+  "fire": "Fire",
+  "ice": "Ice",
+  "lightning": "Lightning",
+  "poison": "독",
+  "holy": "Holy",
+  "dark": "Dark",
+  "nature": "Nature"
+}

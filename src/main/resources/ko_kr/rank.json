@@ -1,0 +1,12 @@
+{
+  "novice": "[KO] Novice",
+  "apprentice": "[KO] Apprentice",
+  "journeyman": "[KO] Journeyman",
+  "expert": "[KO] Expert",
+  "master": "[KO] Master",
+  "grandmaster": "[KO] Grandmaster",
+  "legendary": "[KO] Legendary",
+  "mythic": "[KO] Mythic",
+  "divine": "[KO] Divine",
+  "eternal": "[KO] Eternal"
+}

@@ -1,0 +1,22 @@
+{
+  "item_purchased": "Item Purchased",
+  "item_sold": "Item Sold",
+  "not_enough_money": "Not Enough Money",
+  "not_enough_items": "Not Enough Items",
+  "inventory_full": "Inventory Full",
+  "item_not_found": "Item Not Found",
+  "closed": "Shop Closed",
+  "discount_applied": "Discount Applied",
+  "purchase_success": "Purchase Success",
+  "sale_success": "Sale Success",
+  "shop_closed": "Shop Closed",
+  "price_changed": "Price Changed",
+  "shop.item_purchased": "Item Purchased",
+  "shop.item_sold": "Item Sold",
+  "shop.not_enough_money": "Not Enough Money",
+  "shop.not_enough_items": "Not Enough Items",
+  "shop.inventory_full": "Inventory Full",
+  "shop.item_not_found": "Item Not Found",
+  "shop.closed": "Closed",
+  "shop.discount_applied": "Discount Applied"
+}

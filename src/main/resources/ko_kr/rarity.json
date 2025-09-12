@@ -1,0 +1,13 @@
+{
+  "common": "[KO] Common",
+  "uncommon": "[KO] Uncommon",
+  "rare": "[KO] Rare",
+  "epic": "[KO] Epic",
+  "legendary": "[KO] Legendary",
+  "mythic": "[KO] Mythic",
+  "divine": "[KO] Divine",
+  "special": "[KO] Special",
+  "ancient": "Ancient",
+  "unique": "Unique",
+  "artifact": "Artifact"
+}

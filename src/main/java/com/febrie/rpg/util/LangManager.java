@@ -342,8 +342,8 @@ public class LangManager {
 
             try (InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
                 JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
-                plugin.getLogger().info("[LangManager] 📄 Loading JSON: " + resourcePath);
-                plugin.getLogger().info("[LangManager]    Prefix: " + prefix);
+                // Extract filename for better logging
+                String fileName = resourcePath.substring(resourcePath.lastIndexOf('/') + 1);
                 
                 int beforeSingle = singleMap.size();
                 int beforeArray = arrayMap.size();
@@ -352,18 +352,9 @@ public class LangManager {
                 int addedArray = arrayMap.size() - beforeArray;
                 
                 if (addedSingle > 0 || addedArray > 0) {
-                    plugin.getLogger().info("[LangManager]    ✅ Loaded: " + addedSingle + " singles, " + addedArray + " arrays");
-                }
-                
-                // Log some sample keys for debugging
-                if (addedSingle > 0) {
-                    int count = 0;
-                    for (String key : singleMap.keySet()) {
-                        if (key.startsWith(prefix) && count < 3) {
-                            plugin.getLogger().info("[LangManager]      Sample key: " + key);
-                            count++;
-                        }
-                    }
+                    plugin.getLogger().info("[LangManager] ✅ " + fileName + ": " + addedSingle + " singles, " + addedArray + " arrays (prefix: " + prefix + ")");
+                } else {
+                    plugin.getLogger().warning("[LangManager] ⚠️ " + fileName + ": No keys loaded! Check JSON structure.");
                 }
             }
         } catch (IOException | JsonSyntaxException e) {
@@ -447,8 +438,10 @@ public class LangManager {
         plugin.getLogger().info("[LangManager] - SystemLangKey: " + com.febrie.rpg.util.lang.SystemLangKey.values().length);
 
         int missingCount = 0;
+        int foundCount = 0;
         List<String> missingKeys = new ArrayList<>();
         Map<String, List<String>> missingByCategory = new HashMap<>();
+        Map<String, Integer> foundByCategory = new HashMap<>();
 
         for (ILangKey key : allKeys) {
             boolean found = false;
@@ -465,35 +458,64 @@ public class LangManager {
                 
                 if (singleMap != null && singleMap.containsKey(keyName)) {
                     found = true;
-                    plugin.getLogger().info("[LangManager] Key found via direct lookup: " + keyName);
                 } else if (arrayMap != null && arrayMap.containsKey(keyName)) {
                     found = true;
-                    plugin.getLogger().info("[LangManager] Array key found via direct lookup: " + keyName);
                 }
             }
             
+            String category = keyName.split("\\.")[0];
             if (!found) {
                 missingKeys.add(keyName);
                 missingCount++;
-                
-                // Categorize missing key
-                String category = keyName.split("\\.")[0];
                 missingByCategory.computeIfAbsent(category, k -> new ArrayList<>()).add(keyName);
+            } else {
+                foundCount++;
+                foundByCategory.merge(category, 1, Integer::sum);
             }
         }
 
+        // Report summary
+        plugin.getLogger().info("[LangManager] ============================================");
+        plugin.getLogger().info("[LangManager] VALIDATION SUMMARY:");
+        plugin.getLogger().info("[LangManager] ✅ Successfully loaded: " + foundCount + "/" + allKeys.size() + " keys");
+        
+        if (foundByCategory.size() > 0) {
+            plugin.getLogger().info("[LangManager] Successfully loaded by category:");
+            for (Map.Entry<String, Integer> entry : foundByCategory.entrySet()) {
+                plugin.getLogger().info("[LangManager]   " + entry.getKey() + ": " + entry.getValue() + " keys loaded");
+            }
+        }
+        
         if (missingCount > 0) {
-            plugin.getLogger().warning("[LangManager] ❌ Found " + missingCount + " missing keys!");
+            plugin.getLogger().warning("[LangManager] ❌ Missing: " + missingCount + "/" + allKeys.size() + " keys");
             plugin.getLogger().warning("[LangManager] Missing keys by category:");
             
             for (Map.Entry<String, List<String>> entry : missingByCategory.entrySet()) {
                 plugin.getLogger().warning("[LangManager]   " + entry.getKey() + ": " + entry.getValue().size() + " missing");
+                // Only show first 5 missing keys per category to avoid spam
+                int shown = 0;
                 for (String key : entry.getValue()) {
-                    plugin.getLogger().warning("[LangManager]   - " + key);
+                    if (shown < 5) {
+                        plugin.getLogger().warning("[LangManager]     - " + key);
+                        shown++;
+                    }
+                }
+                if (entry.getValue().size() > 5) {
+                    plugin.getLogger().warning("[LangManager]     ... and " + (entry.getValue().size() - 5) + " more");
                 }
             }
         } else {
             plugin.getLogger().info("[LangManager] ✅ All translation keys validated successfully!");
+        }
+        
+        // Debug: Show loaded keys in each locale
+        plugin.getLogger().info("[LangManager] ============================================");
+        plugin.getLogger().info("[LangManager] LOADED KEYS PER LOCALE:");
+        for (Map.Entry<Locale, Map<String, Component>> entry : singles.entrySet()) {
+            plugin.getLogger().info("[LangManager]   " + entry.getKey() + ": " + entry.getValue().size() + " single keys");
+        }
+        for (Map.Entry<Locale, Map<String, List<Component>>> entry : arrays.entrySet()) {
+            plugin.getLogger().info("[LangManager]   " + entry.getKey() + ": " + entry.getValue().size() + " array keys");
         }
         
         plugin.getLogger().info("[LangManager] ============================================");

@@ -147,7 +147,7 @@
   "none": "No Job",
   "advancement": {
     "warrior": "Warrior Advancement",
-    "archer": "Archer Advancement", 
+    "archer": "Archer Advancement",
     "mage": "Mage Advancement",
     "rogue": "Rogue Advancement",
     "priest": "Priest Advancement",
@@ -174,5 +174,81 @@
     "beast": "Beast Mastery",
     "dark": "Dark Mastery",
     "holy": "Holy Mastery"
-  }
+  },
+  "job": {
+    "skill_max_level": "Skill at max level!",
+    "not_enough_skill_points": "Not enough skill points!",
+    "archer": {
+      "desc": "Desc"
+    },
+    "priest": {
+      "desc": "Desc"
+    },
+    "berserker": {
+      "desc": "Desc"
+    },
+    "warrior": {
+      "desc": "A powerful melee fighter"
+    },
+    "mage": {
+      "desc": "Wielder of arcane magic"
+    },
+    "rogue": {
+      "desc": "Stealthy assassin"
+    },
+    "paladin": {
+      "desc": "Holy warrior"
+    },
+    "assassin": {
+      "desc": "Silent killer"
+    },
+    "summoner": {
+      "desc": "Master of summons"
+    },
+    "necromancer": {
+      "desc": "Death magic user"
+    },
+    "druid": {
+      "desc": "Nature's guardian"
+    },
+    "ranger": {
+      "desc": "Beast master"
+    },
+    "warlock": {
+      "desc": "Dark magic wielder"
+    }
+  },
+  "job.skill_max_level": "Skill Max Level",
+  "job.not_enough_skill_points": "Not Enough Skill Points",
+  "job.archer": "Archer",
+  "job.priest": "Priest",
+  "job.berserker": "Berserker",
+  "job.warrior.desc": "Desc",
+  "job.archer.desc": "Desc",
+  "job.mage.desc": "Desc",
+  "job.rogue.desc": "Desc",
+  "job.priest.desc": "Desc",
+  "job.paladin.desc": "Desc",
+  "job.assassin.desc": "Desc",
+  "job.berserker.desc": "Desc",
+  "job.summoner.desc": "Desc",
+  "job.necromancer.desc": "Desc",
+  "job.druid.desc": "Desc",
+  "job.ranger.desc": "Desc",
+  "job.warlock.desc": "Desc",
+  "skill_max_level": "Skill Max Level",
+  "not_enough_skill_points": "Not Enough Skill Points",
+  "warrior.desc": "Description text",
+  "archer.desc": "Description text",
+  "mage.desc": "Description text",
+  "rogue.desc": "Description text",
+  "priest.desc": "Description text",
+  "paladin.desc": "Description text",
+  "assassin.desc": "Description text",
+  "berserker.desc": "Description text",
+  "summoner.desc": "Description text",
+  "necromancer.desc": "Description text",
+  "druid.desc": "Description text",
+  "ranger.desc": "Description text",
+  "warlock.desc": "Description text"
 }

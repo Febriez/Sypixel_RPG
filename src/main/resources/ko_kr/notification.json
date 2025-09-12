@@ -1,0 +1,35 @@
+{
+  "mode": {
+    "all": {
+      "desc": "설명"
+    },
+    "friend_only": {
+      "desc": "설명"
+    },
+    "guild_only": {
+      "desc": "설명"
+    },
+    "off": {
+      "desc": "설명"
+    },
+    "unknown": {
+      "desc": "설명"
+    }
+  },
+  "friend_online": "[KO] Friend Online",
+  "friend_offline": "[KO] Friend Offline",
+  "guild_message": "[KO] Guild Message",
+  "party_message": "[KO] Party Message",
+  "system_message": "[KO] System Message",
+  "achievement_unlocked": "[KO] Achievement Unlocked",
+  "quest_completed": "[KO] Quest Completed",
+  "level_up": "[KO] Level Up",
+  "mail_received": "[KO] Mail Received",
+  "mode.all": "[KO] All",
+  "mode.friend-only": "[KO] Friend Only",
+  "mode.guild-only": "[KO] Guild Only",
+  "mode.off": "[KO] Off",
+  "mode.unknown": "[KO] Unknown",
+  "mode.friend-only.desc": "[KO] Description text",
+  "mode.guild-only.desc": "[KO] Description text"
+}

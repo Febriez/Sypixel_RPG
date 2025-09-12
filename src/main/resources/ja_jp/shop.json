@@ -1,0 +1,14 @@
+{
+  "purchase_success": "[JA] Purchase Success",
+  "sale_success": "[JA] Sale Success",
+  "not_enough_money": "[JA] Not Enough Money",
+  "not_enough_items": "[JA] Not Enough Items",
+  "inventory_full": "[JA] Inventory Full",
+  "item_not_found": "[JA] Item Not Found",
+  "shop_closed": "[JA] Shop Closed",
+  "price_changed": "[JA] Price Changed",
+  "item_purchased": "Item Purchased",
+  "item_sold": "Item Sold",
+  "closed": "Closed",
+  "discount_applied": "Discount Applied"
+}

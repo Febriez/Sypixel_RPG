@@ -356,5 +356,67 @@
       "Vitality +2, Wisdom +2 (per level)",
       "Debuff resistance +20%"
     ]
-  }
+  },
+  "talent": {
+    "warrior": {
+      "sword_mastery": "[JA] Sword Mastery",
+      "shield_bash": "[JA] Shield Bash",
+      "berserker_rage": "[JA] Berserker Rage",
+      "defensive_stance": "[JA] Defensive Stance",
+      "whirlwind": "[JA] Whirlwind"
+    },
+    "archer": {
+      "precise_shot": "[JA] Precise Shot",
+      "multi_shot": "[JA] Multi Shot",
+      "explosive_arrow": "[JA] Explosive Arrow",
+      "hunters_mark": "[JA] Hunters Mark",
+      "evasion": "[JA] Evasion"
+    },
+    "mage": {
+      "fireball": "[JA] Fireball",
+      "frost_bolt": "[JA] Frost Bolt",
+      "arcane_missiles": "[JA] Arcane Missiles",
+      "teleport": "[JA] Teleport",
+      "mana_shield": "[JA] Mana Shield"
+    },
+    "rogue": {
+      "stealth": "[JA] Stealth",
+      "backstab": "[JA] Backstab",
+      "poison_blade": "[JA] Poison Blade",
+      "smoke_bomb": "[JA] Smoke Bomb",
+      "shadow_step": "[JA] Shadow Step"
+    },
+    "priest": {
+      "heal": "[JA] Heal",
+      "holy_light": "[JA] Holy Light",
+      "divine_shield": "[JA] Divine Shield",
+      "resurrection": "[JA] Resurrection",
+      "blessing": "[JA] Blessing"
+    }
+  },
+  "warrior.sword_mastery": "[JA] Sword Mastery",
+  "warrior.shield_bash": "[JA] Shield Bash",
+  "warrior.berserker_rage": "[JA] Berserker Rage",
+  "warrior.defensive_stance": "[JA] Defensive Stance",
+  "warrior.whirlwind": "[JA] Whirlwind",
+  "archer.precise_shot": "[JA] Precise Shot",
+  "archer.multi_shot": "[JA] Multi Shot",
+  "archer.explosive_arrow": "[JA] Explosive Arrow",
+  "archer.hunters_mark": "[JA] Hunters Mark",
+  "archer.evasion": "[JA] Evasion",
+  "mage.fireball": "[JA] Fireball",
+  "mage.frost_bolt": "[JA] Frost Bolt",
+  "mage.arcane_missiles": "[JA] Arcane Missiles",
+  "mage.teleport": "[JA] Teleport",
+  "mage.mana_shield": "[JA] Mana Shield",
+  "rogue.stealth": "[JA] Stealth",
+  "rogue.backstab": "[JA] Backstab",
+  "rogue.poison_blade": "[JA] Poison Blade",
+  "rogue.smoke_bomb": "[JA] Smoke Bomb",
+  "rogue.shadow_step": "[JA] Shadow Step",
+  "priest.heal": "[JA] Heal",
+  "priest.holy_light": "[JA] Holy Light",
+  "priest.divine_shield": "[JA] Divine Shield",
+  "priest.resurrection": "[JA] Resurrection",
+  "priest.blessing": "[JA] Blessing"
 }

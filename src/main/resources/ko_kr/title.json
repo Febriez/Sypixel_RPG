@@ -1,0 +1,18 @@
+{
+  "unlocked": "[KO] Unlocked",
+  "equipped": "[KO] Equipped",
+  "unequipped": "[KO] Unequipped",
+  "requirement_not_met": "[KO] Requirement Not Met",
+  "welcome": "Welcome",
+  "level_up": "레벨 업",
+  "quest_complete": "Quest Complete",
+  "achievement_unlocked": "업적 달성",
+  "death": "사망",
+  "respawn": "Respawn",
+  "victory": "Victory",
+  "defeat": "Defeat",
+  "wave_start": "Wave Start",
+  "wave_complete": "Wave Complete",
+  "boss_spawn": "Boss Spawn",
+  "boss_defeated": "Boss Defeated"
+}

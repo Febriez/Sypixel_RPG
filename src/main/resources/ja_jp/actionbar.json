@@ -1,0 +1,18 @@
+{
+  "health_low": "[JA] Health Low",
+  "mana_low": "[JA] Mana Low",
+  "exp_gained": "[JA] Exp Gained",
+  "level_up": "[JA] Level Up",
+  "quest_updated": "[JA] Quest Updated",
+  "item_received": "[JA] Item Received",
+  "health": "Health",
+  "mana": "Mana",
+  "stamina": "Stamina",
+  "experience": "Experience",
+  "skill_ready": "Skill Ready",
+  "skill_cooldown": "Skill Cooldown",
+  "combat_enter": "Combat Enter",
+  "combat_leave": "Combat Leave",
+  "buff_applied": "Buff Applied",
+  "debuff_applied": "Debuff Applied"
+}

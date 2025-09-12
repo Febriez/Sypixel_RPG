@@ -1,0 +1,14 @@
+{
+  "purchase_success": "[KO] Purchase Success",
+  "sale_success": "[KO] Sale Success",
+  "not_enough_money": "[KO] Not Enough Money",
+  "not_enough_items": "[KO] Not Enough Items",
+  "inventory_full": "[KO] Inventory Full",
+  "item_not_found": "[KO] Item Not Found",
+  "shop_closed": "[KO] Shop Closed",
+  "price_changed": "[KO] Price Changed",
+  "item_purchased": "Item Purchased",
+  "item_sold": "Item Sold",
+  "closed": "Closed",
+  "discount_applied": "Discount Applied"
+}

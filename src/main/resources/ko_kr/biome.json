@@ -256,5 +256,54 @@
   "end_barrens": {
     "name": "엔드 불모지",
     "description": "빈 엔드 섬"
-  }
+  },
+  "biome": {
+    "badlands": "Badlands",
+    "bamboo_jungle": {
+      "description": "Description",
+      "name": "Name"
+    },
+    "beach": "Beach",
+    "birch_forest": {
+      "description": "Description",
+      "name": "Name"
+    },
+    "cherry_grove": {
+      "description": "Description",
+      "name": "Name"
+    },
+    "dark_forest": {
+      "description": "Description",
+      "name": "Name"
+    },
+    "desert": "Desert",
+    "flower_forest": {
+      "description": "Description",
+      "name": "Name"
+    },
+    "forest": "Forest",
+    "jungle": "Jungle",
+    "mushroom_fields": {
+      "description": "Description",
+      "name": "Name"
+    },
+    "ocean": "Ocean",
+    "plains": "Plains",
+    "savanna": "Savanna",
+    "snowy_plains": "Snowy Plains",
+    "swamp": "Swamp",
+    "taiga": "Taiga"
+  },
+  "mushroom_fields.name": "[KO] Mushroom Fields",
+  "mushroom_fields.description": "[KO] Description text",
+  "flower_forest.name": "[KO] Flower Forest",
+  "flower_forest.description": "[KO] Description text",
+  "bamboo_jungle.name": "[KO] Bamboo Jungle",
+  "bamboo_jungle.description": "[KO] Description text",
+  "dark_forest.name": "[KO] Dark Forest",
+  "dark_forest.description": "[KO] Description text",
+  "birch_forest.name": "[KO] Birch Forest",
+  "birch_forest.description": "[KO] Description text",
+  "cherry_grove.name": "[KO] Cherry Grove",
+  "cherry_grove.description": "[KO] Description text"
 }

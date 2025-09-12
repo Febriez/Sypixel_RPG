@@ -70,5 +70,33 @@
       "성급함은 실패의 어머니야.",
       "경험만큼 좋은 스승은 없지."
     ]
-  }
+  },
+  "dialog": {
+    "npc": {
+      "farewell": "Farewell",
+      "greeting": "Greeting",
+      "no_quests": "No Quests",
+      "quest_available": "Quest Available",
+      "quest_complete": "Quest Complete",
+      "quest_in_progress": "Quest In Progress",
+      "shop_greeting": "Shop Greeting"
+    },
+    "player": {
+      "accept": "Accept",
+      "decline": "Decline",
+      "goodbye": "Goodbye",
+      "more_info": "More Info"
+    }
+  },
+  "npc.greeting": "[KO] Greeting",
+  "npc.farewell": "[KO] Farewell",
+  "npc.quest_available": "[KO] Quest Available",
+  "npc.quest_in_progress": "[KO] Quest In Progress",
+  "npc.quest_complete": "[KO] Quest Complete",
+  "npc.shop_greeting": "[KO] Shop Greeting",
+  "npc.no_quests": "[KO] No Quests",
+  "player.accept": "[KO] Accept",
+  "player.decline": "[KO] Decline",
+  "player.more_info": "[KO] More Info",
+  "player.goodbye": "[KO] Goodbye"
 }

@@ -70,5 +70,44 @@
       "Patience is the mother of success.",
       "Experience is the best teacher."
     ]
-  }
+  },
+  "dialog": {
+    "npc": {
+      "greeting": "Hello, adventurer!",
+      "farewell": "Farewell!",
+      "quest_available": "I have a quest for you.",
+      "quest_in_progress": "How's the quest going?",
+      "quest_complete": "Well done!",
+      "shop_greeting": "Welcome to my shop!",
+      "no_quests": "I have no quests for you."
+    },
+    "player": {
+      "accept": "Accept",
+      "decline": "Decline",
+      "more_info": "Tell me more",
+      "goodbye": "Goodbye"
+    }
+  },
+  "dialog.npc.greeting": "Greeting",
+  "dialog.npc.farewell": "Farewell",
+  "dialog.npc.quest_available": "Quest Available",
+  "dialog.npc.quest_in_progress": "Quest In Progress",
+  "dialog.npc.quest_complete": "Quest Complete",
+  "dialog.npc.shop_greeting": "Shop Greeting",
+  "dialog.npc.no_quests": "No Quests",
+  "dialog.player.accept": "Accept",
+  "dialog.player.decline": "Decline",
+  "dialog.player.more_info": "More Info",
+  "dialog.player.goodbye": "Goodbye",
+  "npc.greeting": "Greeting",
+  "npc.farewell": "Farewell",
+  "npc.quest_available": "Quest Available",
+  "npc.quest_in_progress": "Quest In Progress",
+  "npc.quest_complete": "Quest Complete",
+  "npc.shop_greeting": "Shop Greeting",
+  "npc.no_quests": "No Quests",
+  "player.accept": "Accept",
+  "player.decline": "Decline",
+  "player.more_info": "More Info",
+  "player.goodbye": "Goodbye"
 }

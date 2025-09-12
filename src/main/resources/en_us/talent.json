@@ -356,5 +356,92 @@
       "Vitality +2, Wisdom +2 (per level)",
       "Debuff resistance +20%"
     ]
-  }
+  },
+  "talent": {
+    "warrior": {
+      "sword_mastery": "Sword Mastery",
+      "shield_bash": "Shield Bash",
+      "berserker_rage": "Berserker Rage",
+      "defensive_stance": "Defensive Stance",
+      "whirlwind": "Whirlwind"
+    },
+    "archer": {
+      "precise_shot": "Precise Shot",
+      "multi_shot": "Multi Shot",
+      "explosive_arrow": "Explosive Arrow",
+      "hunters_mark": "Hunter's Mark",
+      "evasion": "Evasion"
+    },
+    "mage": {
+      "fireball": "Fireball",
+      "frost_bolt": "Frost Bolt",
+      "arcane_missiles": "Arcane Missiles",
+      "teleport": "Teleport",
+      "mana_shield": "Mana Shield"
+    },
+    "rogue": {
+      "stealth": "Stealth",
+      "backstab": "Backstab",
+      "poison_blade": "Poison Blade",
+      "smoke_bomb": "Smoke Bomb",
+      "shadow_step": "Shadow Step"
+    },
+    "priest": {
+      "heal": "Heal",
+      "holy_light": "Holy Light",
+      "divine_shield": "Divine Shield",
+      "resurrection": "Resurrection",
+      "blessing": "Blessing"
+    }
+  },
+  "talent.warrior.sword_mastery": "Sword Mastery",
+  "talent.warrior.shield_bash": "Shield Bash",
+  "talent.warrior.berserker_rage": "Berserker Rage",
+  "talent.warrior.defensive_stance": "Defensive Stance",
+  "talent.warrior.whirlwind": "Whirlwind",
+  "talent.archer.precise_shot": "Precise Shot",
+  "talent.archer.multi_shot": "Multi Shot",
+  "talent.archer.explosive_arrow": "Explosive Arrow",
+  "talent.archer.hunters_mark": "Hunters Mark",
+  "talent.archer.evasion": "Evasion",
+  "talent.mage.fireball": "Fireball",
+  "talent.mage.frost_bolt": "Frost Bolt",
+  "talent.mage.arcane_missiles": "Arcane Missiles",
+  "talent.mage.teleport": "Teleport",
+  "talent.mage.mana_shield": "Mana Shield",
+  "talent.rogue.stealth": "Stealth",
+  "talent.rogue.backstab": "Backstab",
+  "talent.rogue.poison_blade": "Poison Blade",
+  "talent.rogue.smoke_bomb": "Smoke Bomb",
+  "talent.rogue.shadow_step": "Shadow Step",
+  "talent.priest.heal": "Heal",
+  "talent.priest.holy_light": "Holy Light",
+  "talent.priest.divine_shield": "Divine Shield",
+  "talent.priest.resurrection": "Resurrection",
+  "talent.priest.blessing": "Blessing",
+  "warrior.sword_mastery": "Sword Mastery",
+  "warrior.shield_bash": "Shield Bash",
+  "warrior.berserker_rage": "Berserker Rage",
+  "warrior.defensive_stance": "Defensive Stance",
+  "warrior.whirlwind": "Whirlwind",
+  "archer.precise_shot": "Precise Shot",
+  "archer.multi_shot": "Multi Shot",
+  "archer.explosive_arrow": "Explosive Arrow",
+  "archer.hunters_mark": "Hunters Mark",
+  "archer.evasion": "Evasion",
+  "mage.fireball": "Fireball",
+  "mage.frost_bolt": "Frost Bolt",
+  "mage.arcane_missiles": "Arcane Missiles",
+  "mage.teleport": "Teleport",
+  "mage.mana_shield": "Mana Shield",
+  "rogue.stealth": "Stealth",
+  "rogue.backstab": "Backstab",
+  "rogue.poison_blade": "Poison Blade",
+  "rogue.smoke_bomb": "Smoke Bomb",
+  "rogue.shadow_step": "Shadow Step",
+  "priest.heal": "Heal",
+  "priest.holy_light": "Holy Light",
+  "priest.divine_shield": "Divine Shield",
+  "priest.resurrection": "Resurrection",
+  "priest.blessing": "Blessing"
 }

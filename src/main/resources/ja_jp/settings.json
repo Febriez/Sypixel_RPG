@@ -1,0 +1,18 @@
+{
+  "personal": "[JA] Personal",
+  "pvp": "[JA] Pvp",
+  "mob_spawn": "[JA] Mob Spawn",
+  "fire_spread": "[JA] Fire Spread",
+  "tnt": "[JA] Tnt",
+  "explosion": "[JA] Explosion",
+  "animal_spawn": "[JA] Animal Spawn",
+  "monster_spawn": "[JA] Monster Spawn",
+  "item_drop": "[JA] Item Drop",
+  "item_pickup": "[JA] Item Pickup",
+  "chat": "[JA] Chat",
+  "music": "[JA] Music",
+  "sound": "[JA] Sound",
+  "particles": "[JA] Particles",
+  "weather": "[JA] Weather",
+  "time": "[JA] Time"
+}

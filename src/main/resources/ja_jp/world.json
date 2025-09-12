@@ -1,0 +1,22 @@
+{
+  "spawn_set": "[JA] Spawn Set",
+  "spawn_removed": "[JA] Spawn Removed",
+  "weather_changed": "[JA] Weather Changed",
+  "time_changed": "[JA] Time Changed",
+  "difficulty_changed": "[JA] Difficulty Changed",
+  "spawn": "Spawn",
+  "hub": "Hub",
+  "lobby": "Lobby",
+  "arena": "Arena",
+  "dungeon": "Dungeon",
+  "raid": "Raid",
+  "battleground": "Battleground",
+  "wilderness": "Wilderness",
+  "city": "City",
+  "village": "Village",
+  "outpost": "Outpost",
+  "fortress": "Fortress",
+  "castle": "Castle",
+  "temple": "Temple",
+  "ruins": "Ruins"
+}

@@ -7,7 +7,9 @@
     "sub_owner": "Co-Owner",
     "member": "Member",
     "worker": "Worker",
-    "visitor": "Visitor"
+    "visitor": "Visitor",
+    "moderator": "Moderator",
+    "co_owner": "Co Owner"
   },
   "permissions": {
     "build": "Build",
@@ -39,7 +41,13 @@
       "steps": [
         "1. Click the Island button in the main menu (/menu)",
         "2. Click the Create Island button to create a new island"
-      ]
+      ],
+      "step_2": "Step 2",
+      "feature_4": "Feature 4",
+      "feature_3": "Feature 3",
+      "feature_1": "Feature 1",
+      "feature_2": "Feature 2",
+      "step_1": "Step 1"
     }
   },
   "gui": {
@@ -56,7 +64,11 @@
           "• Upgrade your island for more space",
           "• Set island warp points"
         ],
-        "contact_admin": "Contact an admin to create an island!"
+        "contact_admin": "Contact an admin to create an island!",
+        "feature_3": "Feature 3",
+        "feature_4": "Feature 4",
+        "feature_2": "Feature 2",
+        "feature_1": "Feature 1"
       },
       "hex_format_error": "Invalid HEX format! Use #RRGGBB",
       "hex_format_example": "Example: #FF0000",
@@ -76,7 +88,17 @@
         "lore": [
           "Click to create",
           "your own island!"
-        ]
+        ],
+        "island": {
+          "feature": {
+            "1": "カスタム島サイズ",
+            "2": "バイオーム選択",
+            "3": "友達を招待",
+            "4": "一緒に建築"
+          }
+        },
+        "lore1": "Lore1",
+        "lore2": "Lore2"
       },
       "spawn": {
         "name": "Island Spawn",
@@ -213,7 +235,8 @@
         "blue": "Blue",
         "white": "White",
         "custom": "Custom"
-      }
+      },
+      "click": "Click"
     },
     "biome_selection": {
       "title": "🌍 Select Biome"
@@ -271,7 +294,8 @@
       "input_amount": "Contribution Amount",
       "input_gold": "Enter gold amount to contribute",
       "success": "Successfully contributed {0}G!",
-      "not_enough_gold": "You don't have enough gold!"
+      "not_enough_gold": "You don't have enough gold!",
+      "contribution": "Contribution"
     },
     "contribution": {
       "title": "Island Contributions",
@@ -303,19 +327,30 @@
   "default_name": "New Island",
   "contribute": {
     "amount_too_low": "貢献額が少なすぎます！",
-    "invalid_amount": "無効な貢献額です！"
+    "invalid_amount": "無効な貢献額です！",
+    "invalid": "Invalid",
+    "amount": "Amount"
   },
   "delete": {
     "confirm_word": "削除",
     "input_error": "削除と入力して確認してください",
     "input_text": "島を永久に削除するには削除と入力してください",
-    "input_title": "島の削除確認"
+    "input_title": "島の削除確認",
+    "warning": "Warning",
+    "confirm": "Confirm",
+    "success": "成功",
+    "cancelled": "Cancelled"
   },
   "member": {
     "kick_confirm_word": "追放",
     "kick_input_error": "追放と入力して確認してください",
     "kick_input_text": "このメンバーを島から追放するには追放と入力してください",
-    "kick_input_title": "メンバー追放確認"
+    "kick_input_title": "メンバー追放確認",
+    "kick": {
+      "success": "成功",
+      "failed": "失敗ed",
+      "confirm": "Confirm"
+    }
   },
   "gui_creation_click_to_select": "Click to select",
   "gui_biome_change_title": "Change Island Biome",
@@ -374,5 +409,183 @@
   "member_kick_confirm_word": "KICK",
   "member_kick_input_error": "Type KICK to confirm",
   "member_kick_input_text": "Type KICK to confirm",
-  "member_kick_input_title": "Confirm Kick"
+  "member_kick_input_title": "Confirm Kick",
+  "island": {
+    "gui": {
+      "main": {
+        "create": {
+          "island": {
+            "feature": {
+              "1": "[JA] 1",
+              "2": "[JA] 2",
+              "3": "[JA] 3",
+              "4": "[JA] 4",
+              "": ""
+            },
+            "contact": {
+              "admin": "[JA] Admin"
+            },
+            "description": "[JA] Description",
+            "no": {
+              "island": "[JA] Island"
+            },
+            "title": "[JA] Title"
+          }
+        }
+      },
+      "creation": {
+        "island": {
+          "name": {
+            "input": {
+              "title": "[JA] Title"
+            }
+          }
+        },
+        "click_to_select": "[JA] Click To Select",
+        "click-to-select": "Click-To-Select"
+      },
+      "contribute": {
+        "contribution_input_text": "[JA] Contribution Input Text",
+        "contribution_input_title": "[JA] Contribution Input Title"
+      }
+    },
+    "contribute": {
+      "amount_too_low": "[JA] Amount Too Low",
+      "invalid_amount": "[JA] Invalid Amount",
+      "amount": "Amount",
+      "invalid": "Invalid"
+    },
+    "delete": {
+      "input": {
+        "error": "[JA] Error",
+        "text": "[JA] Text",
+        "title": "[JA] Title"
+      },
+      "success": {
+        "title": "[JA] Title",
+        "message": "[JA] Message"
+      },
+      "confirm_word": "[JA] Confirm Word",
+      "input_error": "[JA] Input Error",
+      "input_text": "[JA] Input Text",
+      "input_title": "[JA] Input Title",
+      "confirm": "Confirm"
+    },
+    "member": {
+      "kick": {
+        "confirm": {
+          "word": "[JA] Word"
+        },
+        "input": {
+          "error": "[JA] Error",
+          "text": "[JA] Text",
+          "title": "[JA] Title"
+        }
+      },
+      "kick_confirm_word": "[JA] Kick Confirm Word",
+      "kick_input_error": "[JA] Kick Input Error",
+      "kick_input_text": "[JA] Kick Input Text",
+      "kick_input_title": "[JA] Kick Input Title"
+    },
+    "roles": {
+      "sub_owner": "[JA] Sub Owner",
+      "sub": {
+        "owner": "Owner"
+      }
+    },
+    "settings": {
+      "name": {
+        "error": "[JA] Error",
+        "input": {
+          "error": "[JA] Error"
+        }
+      }
+    },
+    "default_name": "[JA] Default Name",
+    "default": "Default"
+  },
+  "teleport_failed": "Teleport 失敗ed",
+  "promoted": "Promoted",
+  "left": "退出",
+  "kicked": "追放",
+  "pvp_disabled": "Pvp Disabled",
+  "biome_changed": "Biome Changed",
+  "unlocked": "アンロック",
+  "transferred": "Transferred",
+  "unbanned": "Unbanned",
+  "gui_biome_selection_info_lore2": "Gui Biome Selection Info Lore2",
+  "reset_success": "Reset 成功",
+  "already_has_island": "Already Has Island",
+  "upgrade_success": "Upgrade 成功",
+  "fire_spread_disabled": "Fire Spread Disabled",
+  "reset_confirm": "Reset Confirm",
+  "reset_cancelled": "Reset Cancelled",
+  "mob_spawn_disabled": "Mob Spawn Disabled",
+  "locked": "Locked",
+  "settings_updated": "Settings Updated",
+  "demoted": "Demoted",
+  "member_limit_reached": "Member Limit Reached",
+  "fire_spread_enabled": "Fire Spread Enabled",
+  "invite_sent": "Invite 送信済み",
+  "warp_deleted": "Warp 削除済み",
+  "banned": "Banned",
+  "mob_spawn_enabled": "Mob Spawn Enabled",
+  "default": "Default",
+  "no_island": "No Island",
+  "joined": "参加",
+  "not_owner": "Not Owner",
+  "public_enabled": "Public Enabled",
+  "upgrade_failed": "Upgrade 失敗ed",
+  "teleport_success": "Teleport 成功",
+  "not_member": "Not Member",
+  "invite_denied": "Invite Denied",
+  "tnt_disabled": "Tnt Disabled",
+  "pvp_enabled": "Pvp Enabled",
+  "not_enough_money": "Not Enough Money",
+  "home_set": "Home Set",
+  "invite_received": "Invite 受信済み",
+  "public_disabled": "Public Disabled",
+  "warp_created": "Warp 作成",
+  "warp_not_found": "Warp Not Found",
+  "invite_expired": "Invite Expired",
+  "created": "作成",
+  "deleted": "削除済み",
+  "home_not_set": "Home Not Set",
+  "invite_accepted": "Invite Accepted",
+  "permission_updated": "Permission Updated",
+  "tnt_enabled": "Tnt Enabled",
+  "gui_biome_selection_info_lore1": "Gui Biome Selection Info Lore1",
+  "gui.main.create.island.feature.": "[JA] ",
+  "delete.input.error": "[JA] Error",
+  "delete.success.title": "[JA] Title",
+  "delete.success.message": "[JA] Message",
+  "delete.input.text": "[JA] Text",
+  "delete.input.title": "[JA] Title",
+  "gui.main.create.island.contact.admin": "[JA] Admin",
+  "gui.main.create.island.description": "[JA] Description text",
+  "gui.main.create.island.no.island": "[JA] Island",
+  "gui.main.create.island.title": "[JA] Title",
+  "member.kick.confirm.word": "[JA] KICK",
+  "member.kick.input.error": "[JA] Error",
+  "member.kick.input.text": "[JA] Text",
+  "member.kick.input.title": "[JA] Title",
+  "roles.sub.owner": "[JA] Owner",
+  "gui.creation.island.name.input.title": "[JA] Title",
+  "settings.name.error": "[JA] Error",
+  "settings.name.input.error": "[JA] Error",
+  "default-name": "[JA] Default Name",
+  "gui.creation.click-to-select": "[JA] Click To Select",
+  "roles.sub-owner": "[JA] Sub Owner",
+  "contribute.amount-too-low": "[JA] Amount Too Low",
+  "contribute.invalid-amount": "[JA] Invalid Amount",
+  "gui.contribute.contribution-input-text": "[JA] Contribution Input Text",
+  "gui.contribute.contribution-input-title": "[JA] Contribution Input Title",
+  "delete.confirm-word": "[JA] DELETE",
+  "delete.input-error": "[JA] Input Error",
+  "delete.input-text": "[JA] Input Text",
+  "delete.input-title": "[JA] Input Title",
+  "member.kick-confirm-word": "[JA] KICK",
+  "member.kick-input-error": "[JA] Kick Input Error",
+  "member.kick-input-text": "[JA] Kick Input Text",
+  "member.kick-input-title": "[JA] Kick Input Title"
 }

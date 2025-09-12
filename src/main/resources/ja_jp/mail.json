@@ -1,0 +1,11 @@
+{
+  "sent": "[JA] Sent",
+  "received": "[JA] Received",
+  "read": "[JA] Read",
+  "deleted": "[JA] Deleted",
+  "attachment_claimed": "[JA] Attachment Claimed",
+  "box_full": "[JA] Box Full",
+  "not_found": "[JA] Not Found",
+  "no_attachments": "[JA] No Attachments",
+  "inventory_full": "[JA] Inventory Full"
+}

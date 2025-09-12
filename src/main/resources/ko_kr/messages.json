@@ -70,7 +70,7 @@
     }
   },
   "whisper": {
-    "disabled": "귓말 기능이 현재 비활성화되어 있습니다.",
+    "disabled": "Disabled",
     "no_reply_target": "답장할 대상이 없습니다. 먼저 귓말을 주고받아야 합니다.",
     "message_too_long": "메시지가 너무 깁니다. 256자 이내로 입력해주세요.",
     "empty_message": "빈 메시지는 보낼 수 없습니다.",
@@ -82,7 +82,18 @@
     "commands": {
       "usage": "사용법: /귓말 <플레이어명> <메시지>",
       "example": "예시: /귓말 Steve 안녕하세요!"
-    }
+    },
+    "ignored": "Ignored",
+    "mode": {
+      "all": "All",
+      "friends": "Friends",
+      "guild": "Guild",
+      "off": "Off"
+    },
+    "player_not_found": "Player Not Found",
+    "player_offline": "Player Offline",
+    "received": "Received",
+    "sent": "Sent"
   },
   "mail": {
     "player_not_found": "해당 플레이어를 찾을 수 없습니다: {0}",

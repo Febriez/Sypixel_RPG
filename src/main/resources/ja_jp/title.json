@@ -1,0 +1,18 @@
+{
+  "unlocked": "[JA] Unlocked",
+  "equipped": "[JA] Equipped",
+  "unequipped": "[JA] Unequipped",
+  "requirement_not_met": "[JA] Requirement Not Met",
+  "welcome": "Welcome",
+  "level_up": "レベルアップ",
+  "quest_complete": "Quest Complete",
+  "achievement_unlocked": "実績解除",
+  "death": "死亡",
+  "respawn": "Respawn",
+  "victory": "Victory",
+  "defeat": "Defeat",
+  "wave_start": "Wave Start",
+  "wave_complete": "Wave Complete",
+  "boss_spawn": "Boss Spawn",
+  "boss_defeated": "Boss Defeated"
+}

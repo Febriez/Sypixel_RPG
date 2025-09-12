@@ -1,0 +1,18 @@
+{
+  "sent": "[JA] Sent",
+  "received": "[JA] Received",
+  "player_offline": "[JA] Player Offline",
+  "ignored": "[JA] Ignored",
+  "player_not_found": "Player Not Found",
+  "disabled": "Disabled",
+  "mode": {
+    "all": "すべて",
+    "friends": "Friends",
+    "guild": "Guild",
+    "off": "オフ"
+  },
+  "mode.all": "[JA] All",
+  "mode.friends": "[JA] Friends",
+  "mode.guild": "[JA] Guild",
+  "mode.off": "[JA] Off"
+}

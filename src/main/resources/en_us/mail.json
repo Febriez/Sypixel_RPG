@@ -1,0 +1,20 @@
+{
+  "sent": "Mail Sent",
+  "received": "Mail Received",
+  "read": "Mail Read",
+  "deleted": "Mail Deleted",
+  "attachment_claimed": "Attachment Claimed",
+  "box_full": "Mailbox Full",
+  "not_found": "Mail Not Found",
+  "no_attachments": "No Attachments",
+  "inventory_full": "Inventory Full",
+  "mail.sent": "Sent",
+  "mail.received": "Received",
+  "mail.read": "Read",
+  "mail.deleted": "Deleted",
+  "mail.attachment_claimed": "Attachment Claimed",
+  "mail.box_full": "Box Full",
+  "mail.not_found": "Not Found",
+  "mail.no_attachments": "No Attachments",
+  "mail.inventory_full": "Inventory Full"
+}

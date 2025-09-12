@@ -1,0 +1,14 @@
+{
+  "learned": "[KO] Learned",
+  "upgraded": "[KO] Upgraded",
+  "max_level": "[KO] Max Level",
+  "not_enough_points": "[KO] Not Enough Points",
+  "requirement_not_met": "[KO] Requirement Not Met",
+  "on_cooldown": "[KO] On Cooldown",
+  "not_enough_mana": "[KO] Not Enough Mana",
+  "cast_success": "Cast Success",
+  "cast_fail": "Cast Fail",
+  "no_mana": "No Mana",
+  "no_target": "No Target",
+  "out_of_range": "Out Of Range"
+}

@@ -34,5 +34,15 @@
   "in_combat": "戦闘中！",
   "out_of_combat": "戦闘終了",
   "pvp_enabled": "PvP有効",
-  "pvp_disabled": "PvP無効"
+  "pvp_disabled": "PvP無効",
+  "combat": {
+    "damage_dealt": "Damage Dealt",
+    "damage_taken": "Damage Taken",
+    "kill": "キル",
+    "assist": "Assist"
+  },
+  "damage_dealt": "[JA] Damage Dealt",
+  "damage_taken": "[JA] Damage Taken",
+  "kill": "[JA] Kill",
+  "assist": "[JA] Assist"
 }

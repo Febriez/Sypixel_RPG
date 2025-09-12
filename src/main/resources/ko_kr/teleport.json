@@ -1,0 +1,15 @@
+{
+  "success": "[KO] Success",
+  "fail": "[KO] Fail",
+  "in_combat": "[KO] In Combat",
+  "cooldown": "[KO] Cooldown",
+  "destination_unsafe": "[KO] Destination Unsafe",
+  "no_permission": "[KO] No Permission",
+  "request_sent": "Request Sent",
+  "request_received": "Request Received",
+  "accepted": "Accepted",
+  "denied": "Denied",
+  "cancelled": "Cancelled",
+  "expired": "Expired",
+  "failed": "Failed"
+}

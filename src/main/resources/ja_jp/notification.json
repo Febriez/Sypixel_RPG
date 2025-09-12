@@ -1,0 +1,35 @@
+{
+  "mode": {
+    "all": {
+      "desc": "説明"
+    },
+    "friend_only": {
+      "desc": "説明"
+    },
+    "guild_only": {
+      "desc": "説明"
+    },
+    "off": {
+      "desc": "説明"
+    },
+    "unknown": {
+      "desc": "説明"
+    }
+  },
+  "friend_online": "[JA] Friend Online",
+  "friend_offline": "[JA] Friend Offline",
+  "guild_message": "[JA] Guild Message",
+  "party_message": "[JA] Party Message",
+  "system_message": "[JA] System Message",
+  "achievement_unlocked": "[JA] Achievement Unlocked",
+  "quest_completed": "[JA] Quest Completed",
+  "level_up": "[JA] Level Up",
+  "mail_received": "[JA] Mail Received",
+  "mode.all": "[JA] All",
+  "mode.friend-only": "[JA] Friend Only",
+  "mode.guild-only": "[JA] Guild Only",
+  "mode.off": "[JA] Off",
+  "mode.unknown": "[JA] Unknown",
+  "mode.friend-only.desc": "[JA] Description text",
+  "mode.guild-only.desc": "[JA] Description text"
+}

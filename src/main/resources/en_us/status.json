@@ -27,6 +27,12 @@
   "active": "Active",
   "public": "Public",
   "private": "Private",
+  "status": {
+    "new_mail": "New Mail",
+    "read": "Read"
+  },
   "status.new_mail": "New Mail",
-  "status.read": "Read"
+  "status.read": "Read",
+  "new_mail": "New Mail",
+  "read": "Read"
 }

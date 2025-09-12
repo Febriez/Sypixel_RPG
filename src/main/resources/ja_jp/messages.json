@@ -82,7 +82,18 @@
     "commands": {
       "usage": "使用方法: /whisper <プレイヤー> <メッセージ>",
       "example": "例: /whisper Steve こんにちは！"
-    }
+    },
+    "mode": {
+      "friends": "Friends",
+      "off": "Off",
+      "all": "All",
+      "guild": "Guild"
+    },
+    "received": "受信済み",
+    "ignored": "Ignored",
+    "player_offline": "Player オフライン",
+    "sent": "送信済み",
+    "player_not_found": "Player Not Found"
   },
   "mail": {
     "player_not_found": "プレイヤーが見つかりません: {0}",

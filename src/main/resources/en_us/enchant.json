@@ -1,0 +1,12 @@
+{
+  "success": "Enchantment Successful",
+  "fail": "Enchantment Failed",
+  "max_level": "Max Level Reached",
+  "incompatible": "Incompatible Enchantment",
+  "too_expensive": "Too Expensive",
+  "item_destroyed": "Item Destroyed",
+  "enchant.success": "Success",
+  "enchant.fail": "Fail",
+  "enchant.max_level": "Max Level",
+  "enchant.incompatible": "Incompatible"
+}

@@ -1,0 +1,19 @@
+{
+  "created": "[JA] Created",
+  "disbanded": "[JA] Disbanded",
+  "joined": "[JA] Joined",
+  "left": "[JA] Left",
+  "kicked": "[JA] Kicked",
+  "promoted": "[JA] Promoted",
+  "demoted": "[JA] Demoted",
+  "invite_sent": "[JA] Invite Sent",
+  "invite_received": "[JA] Invite Received",
+  "invite_accepted": "[JA] Invite Accepted",
+  "invite_denied": "[JA] Invite Denied",
+  "invite_expired": "[JA] Invite Expired",
+  "full": "[JA] Full",
+  "not_leader": "[JA] Not Leader",
+  "not_member": "[JA] Not Member",
+  "already_in_party": "[JA] Already In Party",
+  "no_party": "No Party"
+}

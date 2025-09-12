@@ -1,0 +1,11 @@
+{
+  "sent": "[KO] Sent",
+  "received": "[KO] Received",
+  "read": "[KO] Read",
+  "deleted": "[KO] Deleted",
+  "attachment_claimed": "[KO] Attachment Claimed",
+  "box_full": "[KO] Box Full",
+  "not_found": "[KO] Not Found",
+  "no_attachments": "[KO] No Attachments",
+  "inventory_full": "[KO] Inventory Full"
+}

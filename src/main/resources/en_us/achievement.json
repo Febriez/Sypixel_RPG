@@ -1,0 +1,12 @@
+{
+  "unlocked": "Achievement Unlocked",
+  "progress": "Progress: %s",
+  "completed": "Achievement Completed",
+  "reward_claimed": "Reward Claimed",
+  "already_claimed": "Already Claimed",
+  "achievement.unlocked": "Unlocked",
+  "achievement.progress": "Progress",
+  "achievement.completed": "Completed",
+  "achievement.reward_claimed": "Reward Claimed",
+  "achievement.already_claimed": "Already Claimed"
+}

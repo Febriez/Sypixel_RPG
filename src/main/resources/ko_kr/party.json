@@ -1,0 +1,19 @@
+{
+  "created": "[KO] Created",
+  "disbanded": "[KO] Disbanded",
+  "joined": "[KO] Joined",
+  "left": "[KO] Left",
+  "kicked": "[KO] Kicked",
+  "promoted": "[KO] Promoted",
+  "demoted": "[KO] Demoted",
+  "invite_sent": "[KO] Invite Sent",
+  "invite_received": "[KO] Invite Received",
+  "invite_accepted": "[KO] Invite Accepted",
+  "invite_denied": "[KO] Invite Denied",
+  "invite_expired": "[KO] Invite Expired",
+  "full": "[KO] Full",
+  "not_leader": "[KO] Not Leader",
+  "not_member": "[KO] Not Member",
+  "already_in_party": "[KO] Already In Party",
+  "no_party": "No Party"
+}

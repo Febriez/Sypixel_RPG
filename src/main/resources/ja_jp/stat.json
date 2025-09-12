@@ -1,50 +1,93 @@
 {
-  "strength": {
-    "name": "Strength",
-    "abbreviation": "STR",
-    "description": [
-      "Increases physical attack power.",
-      "Melee weapon damage increases."
-    ]
+  "strength.name": "Strength",
+  "strength.abbreviation": "STR",
+  "strength.description": [
+    "Increases physical attack power.",
+    "Melee weapon damage increases."
+  ],
+  "intelligence.name": "Intelligence",
+  "intelligence.abbreviation": "INT",
+  "intelligence.description": [
+    "Increases magical attack power.",
+    "Mana pool increases."
+  ],
+  "dexterity.name": "Dexterity",
+  "dexterity.abbreviation": "DEX",
+  "dexterity.description": [
+    "Increases attack speed.",
+    "Evasion rate increases."
+  ],
+  "vitality.name": "Vitality",
+  "vitality.abbreviation": "VIT",
+  "vitality.description": [
+    "Increases maximum health.",
+    "Defense increases."
+  ],
+  "wisdom.name": "Wisdom",
+  "wisdom.abbreviation": "WIS",
+  "wisdom.description": [
+    "Increases mana regeneration.",
+    "Skill cooldowns decrease."
+  ],
+  "luck.name": "Luck",
+  "luck.abbreviation": "LUK",
+  "luck.description": [
+    "Increases item drop rate.",
+    "Critical damage increases."
+  ],
+  "stat.strength": {
+    "tooltip": "ツールチップ"
   },
-  "intelligence": {
-    "name": "Intelligence",
-    "abbreviation": "INT",
-    "description": [
-      "Increases magical attack power.",
-      "Mana pool increases."
-    ]
+  "stat.defense": {
+    "tooltip": "ツールチップ"
   },
-  "dexterity": {
-    "name": "Dexterity",
-    "abbreviation": "DEX",
-    "description": [
-      "Increases attack speed.",
-      "Evasion rate increases."
-    ]
+  "stat.intelligence": {
+    "tooltip": "ツールチップ"
   },
-  "vitality": {
-    "name": "Vitality",
-    "abbreviation": "VIT",
-    "description": [
-      "Increases maximum health.",
-      "Defense increases."
-    ]
+  "stat.speed": {
+    "tooltip": "ツールチップ"
   },
-  "wisdom": {
-    "name": "Wisdom",
-    "abbreviation": "WIS",
-    "description": [
-      "Increases mana regeneration.",
-      "Skill cooldowns decrease."
-    ]
+  "stat.luck": {
+    "tooltip": "ツールチップ"
   },
-  "luck": {
-    "name": "Luck",
-    "abbreviation": "LUK",
-    "description": [
-      "Increases item drop rate.",
-      "Critical damage increases."
-    ]
-  }
+  "stat.health": {
+    "tooltip": "ツールチップ"
+  },
+  "stat.mana": {
+    "tooltip": "ツールチップ"
+  },
+  "stat.stamina": {
+    "tooltip": "ツールチップ"
+  },
+  "stat.critical": {
+    "tooltip": "ツールチップ"
+  },
+  "stat.evasion": {
+    "tooltip": "ツールチップ"
+  },
+  "stat.accuracy": {
+    "tooltip": "ツールチップ"
+  },
+  "defense": "[JA] Defense",
+  "speed": "[JA] Speed",
+  "health": "[JA] Health",
+  "mana": "[JA] Mana",
+  "stamina": "[JA] Stamina",
+  "critical": "[JA] Critical",
+  "evasion": "[JA] Evasion",
+  "accuracy": "[JA] Accuracy",
+  "strength.tooltip": "[JA] Strength - Description",
+  "defense.tooltip": "[JA] Defense - Description",
+  "intelligence.tooltip": "[JA] Intelligence - Description",
+  "speed.tooltip": "[JA] Speed - Description",
+  "luck.tooltip": "[JA] Luck - Description",
+  "health.tooltip": "[JA] Health - Description",
+  "mana.tooltip": "[JA] Mana - Description",
+  "stamina.tooltip": "[JA] Stamina - Description",
+  "critical.tooltip": "[JA] Critical - Description",
+  "evasion.tooltip": "[JA] Evasion - Description",
+  "accuracy.tooltip": "[JA] Accuracy - Description",
+  "strength": "[JA] Strength",
+  "intelligence": "[JA] Intelligence",
+  "luck": "[JA] Luck"
 }

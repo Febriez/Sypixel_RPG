@@ -1,0 +1,18 @@
+{
+  "personal": "[KO] Personal",
+  "pvp": "[KO] Pvp",
+  "mob_spawn": "[KO] Mob Spawn",
+  "fire_spread": "[KO] Fire Spread",
+  "tnt": "[KO] Tnt",
+  "explosion": "[KO] Explosion",
+  "animal_spawn": "[KO] Animal Spawn",
+  "monster_spawn": "[KO] Monster Spawn",
+  "item_drop": "[KO] Item Drop",
+  "item_pickup": "[KO] Item Pickup",
+  "chat": "[KO] Chat",
+  "music": "[KO] Music",
+  "sound": "[KO] Sound",
+  "particles": "[KO] Particles",
+  "weather": "[KO] Weather",
+  "time": "[KO] Time"
+}
