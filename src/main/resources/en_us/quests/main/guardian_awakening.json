@@ -23,7 +23,16 @@
     "offer_essences": "Offer the Essences to the Guardian",
     "guardian_avatar": "Defeat the Guardian Avatar",
     "awakened_guardian": "Speak with the Awakened Guardian",
-    "guardian_blessing": "Receive the Guardian's Blessing"
+    "guardian_blessing": "Receive the Guardian's Blessing",
+    "beacon_collect": "Beacon Collect",
+    "blaze_powder_collect": "Blaze Powder Collect",
+    "enchanted_book_collect": "Enchanted Book Collect",
+    "ender_eye_collect": "Ender Eye Collect",
+    "nether_star_deliver": "Nether Star Deliver",
+    "packed_ice_collect": "Packed Ice Collect",
+    "phantom_membrane_collect": "Phantom Membrane Collect",
+    "tripwire_hook_collect": "Tripwire Hook Collect",
+    "written_book_collect": "Written Book Collect"
   },
   "rewards": {
     "gold": 10000,
@@ -34,5 +43,14 @@
       "Totem of Undying",
       "Netherite Chestplate"
     ]
-  }
+  },
+  "info": "Information about Guardian Awakening",
+  "dialogs": [
+    "Welcome, adventurer!",
+    "I have a task for you.",
+    "Will you help me?"
+  ],
+  "npc_name": "Npc Name",
+  "accept": "Accept Quest",
+  "decline": "Decline Quest"
 }

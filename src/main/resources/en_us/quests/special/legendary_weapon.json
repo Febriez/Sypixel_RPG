@@ -4,28 +4,14 @@
   "npc_name": "Weapon Guardian",
   "accept": "I'm ready to prove my worth for a legendary weapon.",
   "decline": "I don't feel ready for such divine trials yet.",
-  "objectives": [
-    {
-      "id": "prove_hero_worthiness",
-      "description": "Demonstrate you are worthy of wielding divine weapons"
-    },
-    {
-      "id": "complete_character_trials",
-      "description": "Pass trials that test every aspect of your character"
-    },
-    {
-      "id": "impress_divine_spirits",
-      "description": "Show determination that impresses the divine spirits"
-    },
-    {
-      "id": "prove_legendary_worth",
-      "description": "Prove you have the legendary worth to claim the weapon"
-    },
-    {
-      "id": "claim_legendary_weapon",
-      "description": "Successfully claim the legendary weapon as your own"
-    }
-  ],
+  "objectives": {
+    "weapon_master": "Meet with the Legendary Smith",
+    "rare_materials": "Collect 20 netherite ingots as rare materials",
+    "dragon_scales": "Collect 10 dragon breath as dragon scales",
+    "worthy_opponents": "Kill 1 Ender Dragon as worthy opponent",
+    "legendary_weapon": "Craft 1 netherite sword as legendary weapon",
+    "ultimate_enchant": "Apply ultimate enchantments with the Enchanter"
+  },
   "dialogs": [
     "Few heroes are worthy of wielding divine weapons.",
     "The trials ahead will test every aspect of your character.",

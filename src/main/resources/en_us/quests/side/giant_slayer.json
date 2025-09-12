@@ -8,5 +8,16 @@
     "Knowledge is power when facing beings of such immense size.",
     "Incredible! You've slain giants - creatures of legend!",
     "Tales of your giant-slaying prowess will be told for generations."
-  ]
+  ],
+  "objectives": {
+    "talk_giant_researcher": "Talk Giant Researcher",
+    "giant_tracks": "Giant Tracks",
+    "tracking_evidence": "Tracking Evidence",
+    "giant_lore": "Giant Lore",
+    "ancient_battlefield": "Ancient Battlefield",
+    "stone_giants": "Stone Giants",
+    "frost_giants": "Frost Giants",
+    "giant_trophies": "Giant Trophies",
+    "claim_victory": "Claim Victory"
+  }
 }

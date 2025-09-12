@@ -30,7 +30,6 @@
     "island_info": {
       "title": "==== Island System ====",
       "no_island": "You don't have an island yet!",
-      "features": "Create an island to access the following features:",
       "features": [
         "• Build freely on your own private island",
         "• Invite friends to play together",
@@ -375,5 +374,248 @@
   "member_kick_confirm_word": "KICK",
   "member_kick_input_error": "Type KICK to confirm",
   "member_kick_input_text": "Type KICK to confirm",
-  "member_kick_input_title": "Confirm Kick"
+  "member_kick_input_title": "Confirm Kick",
+  "created": "Island created successfully",
+  "deleted": "Island deleted",
+  "joined": "You joined the island",
+  "left": "You left the island",
+  "kicked": "Player kicked from island",
+  "banned": "Player banned from island",
+  "unbanned": "Player unbanned from island",
+  "promoted": "Player promoted",
+  "demoted": "Player demoted",
+  "transferred": "Island ownership transferred",
+  "no_island": "You don't have an island",
+  "already_has_island": "You already have an island",
+  "not_owner": "You are not the island owner",
+  "not_member": "You are not a member of this island",
+  "member_limit_reached": "Island member limit reached",
+  "invite_sent": "Invite sent",
+  "invite_received": "You received an island invite",
+  "invite_accepted": "Invite accepted",
+  "invite_denied": "Invite denied",
+  "invite_expired": "Invite expired",
+  "teleport_success": "Teleported to island",
+  "teleport_failed": "Failed to teleport",
+  "home_set": "Island home set",
+  "home_not_set": "Island home not set",
+  "warp_created": "Warp created",
+  "warp_deleted": "Warp deleted",
+  "warp_not_found": "Warp not found",
+  "biome_changed": "Island biome changed",
+  "settings_updated": "Settings updated",
+  "permission_updated": "Permission updated",
+  "upgrade_success": "Upgrade successful",
+  "upgrade_failed": "Upgrade failed",
+  "not_enough_money": "Not enough money",
+  "reset_confirm": "Type 'CONFIRM' to reset your island",
+  "reset_success": "Island reset successfully",
+  "reset_cancelled": "Island reset cancelled",
+  "public_enabled": "Island is now public",
+  "public_disabled": "Island is now private",
+  "pvp_enabled": "PvP enabled",
+  "pvp_disabled": "PvP disabled",
+  "mob_spawn_enabled": "Mob spawning enabled",
+  "mob_spawn_disabled": "Mob spawning disabled",
+  "fire_spread_enabled": "Fire spread enabled",
+  "fire_spread_disabled": "Fire spread disabled",
+  "tnt_enabled": "TNT enabled",
+  "tnt_disabled": "TNT disabled",
+  "locked": "Island locked",
+  "unlocked": "Island unlocked",
+  "island.default-name": "Player's Island",
+  "island.gui.creation.click-to-select": "Click to select",
+  "island.roles.sub-owner": "Co-Owner",
+  "island.roles.sub.owner": "Co-Owner",
+  "island.contribute.amount-too-low": "Amount too low! Minimum: %d",
+  "island.contribute.invalid-amount": "Invalid amount!",
+  "island.gui.contribute.contribution-input-text": "Enter contribution amount",
+  "island.gui.contribute.contribution-input-title": "Contribution Amount",
+  "island.delete.confirm-word": "DELETE",
+  "island.delete.input-error": "Type DELETE to confirm",
+  "island.delete.input-text": "Type DELETE to confirm deletion",
+  "island.delete.input-title": "Confirm Island Deletion",
+  "island.delete.input.error": "Incorrect! Type DELETE to confirm",
+  "island.delete.success.title": "Island Deleted",
+  "island.delete.success.message": "Your island has been deleted",
+  "island.delete.input.text": "Type DELETE to confirm",
+  "island.delete.input.title": "Delete Island",
+  "island.member.kick-confirm-word": "KICK",
+  "island.member.kick-input-error": "Type KICK to confirm",
+  "island.member.kick-input-text": "Type KICK to remove this member",
+  "island.member.kick-input-title": "Confirm Member Removal",
+  "island.member.kick.confirm.word": "KICK",
+  "island.member.kick.input.error": "Incorrect! Type KICK to confirm",
+  "island.member.kick.input.text": "Type KICK to confirm",
+  "island.member.kick.input.title": "Kick Member",
+  "island.gui.main.create.island.contact.admin": "Contact an admin for help",
+  "island.gui.main.create.island.description": "Start your island adventure!",
+  "island.gui.main.create.island.feature.1": "• Build freely",
+  "island.gui.main.create.island.feature.2": "• Invite friends",
+  "island.gui.main.create.island.feature.3": "• Upgrade and expand",
+  "island.gui.main.create.island.feature.4": "• Custom biomes",
+  "island.gui.main.create.island.no.island": "You don't have an island yet!",
+  "island.gui.main.create.island.title": "Create Your Island",
+  "island.gui.creation.island.name.input.title": "Enter Island Name",
+  "island.settings.name.error": "Invalid name!",
+  "island.settings.name.input.error": "Name must be 3-16 characters",
+  "island": {
+    "gui": {
+      "main": {
+        "create": {
+          "island": {
+            "feature": {
+              "": "Feature",
+              "1": "1",
+              "2": "2",
+              "3": "3",
+              "4": "4"
+            },
+            "contact": {
+              "admin": "Admin"
+            },
+            "description": "Description",
+            "no": {
+              "island": "Island"
+            },
+            "title": "Title"
+          }
+        }
+      },
+      "creation": {
+        "island": {
+          "name": {
+            "input": {
+              "title": "Title"
+            }
+          }
+        },
+        "click-to-select": "Click To Select"
+      },
+      "contribute": {
+        "contribution-input-text": "Contribution Input Text",
+        "contribution-input-title": "Contribution Input Title"
+      }
+    },
+    "delete": {
+      "input": {
+        "error": "Error",
+        "text": "Text",
+        "title": "Title"
+      },
+      "success": {
+        "title": "Title",
+        "message": "Message"
+      },
+      "confirm-word": "Confirm Word",
+      "input-error": "Input Error",
+      "input-text": "Input Text",
+      "input-title": "Input Title"
+    },
+    "member": {
+      "kick": {
+        "confirm": {
+          "word": "Word"
+        },
+        "input": {
+          "error": "Error",
+          "text": "Text",
+          "title": "Title"
+        }
+      },
+      "kick-confirm-word": "Kick Confirm Word",
+      "kick-input-error": "Kick Input Error",
+      "kick-input-text": "Kick Input Text",
+      "kick-input-title": "Kick Input Title"
+    },
+    "roles": {
+      "sub": {
+        "owner": "Owner"
+      },
+      "sub-owner": "Sub Owner"
+    },
+    "settings": {
+      "name": {
+        "error": "Error",
+        "input": {
+          "error": "Error"
+        }
+      }
+    },
+    "default-name": "Default Name",
+    "contribute": {
+      "amount-too-low": "Amount Too Low",
+      "invalid-amount": "Invalid Amount"
+    }
+  },
+  "gui": {
+    "main": {
+      "create": {
+        "island": {
+          "title": "Create Your Island",
+          "description": "Start your island adventure!",
+          "feature": {
+            "1": "Build freely on your own space",
+            "2": "Invite friends to join you",
+            "3": "Upgrade and expand your island",
+            "4": "Customize with different biomes",
+            "5": "Set up resource production",
+            "6": "Create unique landmarks",
+            "7": "Host events and activities",
+            "8": "Trade with other islands",
+            "9": "Establish a community",
+            "10": "Unlock special features"
+          },
+          "no": {
+            "island": "You don't have an island yet!"
+          },
+          "contact": {
+            "admin": "Contact an admin for help"
+          }
+        }
+      }
+    }
+  },
+  "delete": {
+    "confirm": "Confirm Island Deletion",
+    "warning": "This action cannot be undone!",
+    "success": "Island deleted successfully",
+    "cancelled": "Island deletion cancelled"
+  },
+  "member": {
+    "kick": {
+      "confirm": "Confirm Member Removal",
+      "success": "Member removed from island",
+      "failed": "Failed to remove member"
+    }
+  },
+  "roles": {
+    "owner": "Owner",
+    "co_owner": "Co-Owner",
+    "member": "Member",
+    "worker": "Worker",
+    "visitor": "Visitor",
+    "moderator": "Moderator"
+  },
+  "contribute": {
+    "amount": "Contribution amount: {0}",
+    "invalid": "Invalid contribution amount"
+  },
+  "default": "Default Island",
+  "gui": {
+    "contribute": {
+      "contribution": "Your total contribution",
+      "contribution_input_text": "Enter amount to contribute",
+      "contribution_input_title": "Island Contribution"
+    },
+    "creation": {
+      "click": "Click to create island",
+      "click_to_select": "Click to select this option",
+      "selected": "Currently selected"
+    },
+    "main": {
+      "title": "Island Management",
+      "title_with_name": "Island: {0}"
+    }
+  }
 }

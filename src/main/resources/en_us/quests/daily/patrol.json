@@ -5,7 +5,10 @@
     "guard_captain": "Report to guard captain",
     "patrol_walls": "Patrol the city walls",
     "check_gates": "Check all city gates",
-    "report_captain": "Report back to captain"
+    "report_captain": "Report back to captain",
+    "eliminate_threats": "Eliminate Threats",
+    "patrol_north": "Patrol North",
+    "patrol_south": "Patrol South"
   },
   "dialogs": [
     "The city needs constant vigilance to stay safe. Are you ready for today's patrol?",
@@ -21,5 +24,6 @@
   ],
   "npc_name": "Captain Marcus",
   "accept": "I'm ready to serve and protect the citizens.",
-  "decline": "I have other duties to attend to."
+  "decline": "I have other duties to attend to.",
+  "npc.name": "Patrol Master"
 }

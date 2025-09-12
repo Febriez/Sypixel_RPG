@@ -165,7 +165,7 @@ public class ProfileGui extends BaseGui {
             long balance = wallet.getBalance(currency);
 
             // 통화 이름과 금액을 포함한 완전한 Component 생성
-            Component currencyLine = LangManager.text(LangKey.valueOf("CURRENCY_" + currency.getId().toUpperCase() + "_NAME"), viewer)
+            Component currencyLine = LangManager.text(LangKey.fromString("CURRENCY_" + currency.getId().toUpperCase() + "_NAME"), viewer)
                     .color(currency.getColor())  // 통화 이름에 색상 적용
                     .append(Component.text(": ", UnifiedColorUtil.WHITE))  // 콜론은 흰색으로
                     .append(Component.text(String.format("%,d", balance)).color(currency.getColor()));  // 금액도 통화 색상으로
@@ -288,7 +288,7 @@ public class ProfileGui extends BaseGui {
             String jobKey = job.name().toLowerCase();
             ItemBuilder jobBuilder = ItemBuilder.of(job.getMaterial())
                     .displayName(Component.text(job.getIcon() + " ")
-                            .append(LangManager.text(LangKey.valueOf("JOB_" + jobKey.toUpperCase() + "_NAME"), viewer))
+                            .append(LangManager.text(LangKey.fromString("JOB_" + jobKey.toUpperCase() + "_NAME"), viewer))
                             .color(job.getColor())
                             .decoration(TextDecoration.BOLD, true))
                     .addLore(Component.empty())

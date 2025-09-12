@@ -14,6 +14,7 @@ import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.lang.ILangKey;
 import com.febrie.rpg.util.SkullUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
@@ -48,8 +49,8 @@ public class LeaderboardGui extends ScrollableGui {
         private final String id;
         private final Material icon;
         private final TextColor color;
-        private final LangKey displayNameKey;
-        LeaderboardType(String id, Material icon, TextColor color, LangKey displayNameKey) {
+        private final ILangKey displayNameKey;
+        LeaderboardType(String id, Material icon, TextColor color, ILangKey displayNameKey) {
             this.id = id;
             this.icon = icon;
             this.color = color;
@@ -64,7 +65,7 @@ public class LeaderboardGui extends ScrollableGui {
         public TextColor getColor() {
             return color;
         }
-        public LangKey getDisplayNameKey() {
+        public ILangKey getDisplayNameKey() {
             return displayNameKey;
         }
         
@@ -257,8 +258,7 @@ public class LeaderboardGui extends ScrollableGui {
             setItem(MY_RANK_SLOT, GuiItem.display(
                     ItemBuilder.from(SkullUtil.getPlayerHead(viewer.getUniqueId().toString()))
                             .displayName(LangManager.text(LangKey.ITEMS_LEADERBOARD_NO_RANK_NAME, viewer))
-                            .addLore(LangManager.text(LangKey.ITEMS_LEADERBOARD_NO_RANK_LORE1, viewer))
-                            .addLore(LangManager.text(LangKey.ITEMS_LEADERBOARD_NO_RANK_LORE2, viewer))
+                            .addLore(LangManager.list(LangKey.ITEMS_LEADERBOARD_NO_RANK_LORE, viewer))
                             .hideAllFlags()
                             .build()
             ));

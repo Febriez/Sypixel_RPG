@@ -1217,13 +1217,9 @@ public class QuestManager {
                                           @NotNull QuestObjective objective, @NotNull QuestProgress progress,
                                           @NotNull String instanceId) {
         // 완료 알림
-        List<Component> objectiveDescs = quest.getObjectiveDescription(objective, player);
-        Component message = Component.text("✓ ", UnifiedColorUtil.SUCCESS);
-        if (!objectiveDescs.isEmpty()) {
-            for (Component desc : objectiveDescs) {
-                message = message.append(desc.color(UnifiedColorUtil.SUCCESS)).append(Component.space());
-            }
-        }
+        Component objectiveDesc = quest.getObjectiveDescription(objective, player);
+        Component message = Component.text("✓ ", UnifiedColorUtil.SUCCESS)
+                .append(objectiveDesc.color(UnifiedColorUtil.SUCCESS));
         player.sendMessage(message);
         SoundUtil.playSuccessSound(player);
         
@@ -1243,15 +1239,10 @@ public class QuestManager {
                                         @NotNull QuestObjective objective, @NotNull ObjectiveProgress progress) {
         Component progressMsg = Component.translatable("quest.progress");
         
-        List<Component> objectiveDescs = quest.getObjectiveDescription(objective, player);
+        Component objectiveDesc = quest.getObjectiveDescription(objective, player);
         Component message = progressMsg.color(UnifiedColorUtil.INFO)
-            .append(Component.text(": ", UnifiedColorUtil.INFO));
-        
-        if (!objectiveDescs.isEmpty()) {
-            for (Component desc : objectiveDescs) {
-                message = message.append(desc.color(UnifiedColorUtil.YELLOW)).append(Component.space());
-            }
-        }
+            .append(Component.text(": ", UnifiedColorUtil.INFO))
+            .append(objectiveDesc.color(UnifiedColorUtil.YELLOW));
         
         message = message.append(Component.text(objective.getProgressString(progress), UnifiedColorUtil.YELLOW));
         player.sendMessage(message);

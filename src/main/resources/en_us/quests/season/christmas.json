@@ -1,0 +1,9 @@
+{
+  "objectives": {
+    "spirit.chest_deliver": "Chest Deliver",
+    "spirit.shulker_box_craft": "Shulker Box Craft",
+    "spirit.snowball_collect": "Snowball Collect",
+    "spirit.cookie_deliver": "Cookie Deliver",
+    "spirit.spruce_sapling_craft": "Spruce Sapling Craft"
+  }
+}

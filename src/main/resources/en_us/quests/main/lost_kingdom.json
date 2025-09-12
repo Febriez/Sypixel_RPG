@@ -1,0 +1,22 @@
+{
+  "name": "Lost Kingdom",
+  "info": "Information about Lost Kingdom",
+  "dialogs": [
+    "Welcome, adventurer!",
+    "I have a task for you.",
+    "Will you help me?"
+  ],
+  "npc_name": "Npc Name",
+  "accept": "Accept Quest",
+  "decline": "Decline Quest",
+  "objectives": {
+    "ghost_king": "Ghost King",
+    "golden_apple_collect": "Golden Apple Collect",
+    "kill_husks": "Kill Husks",
+    "kill_strays": "Kill Strays",
+    "kingdom_entrance": "Kingdom Entrance",
+    "royal_historian": "Royal Historian",
+    "throne_room": "Throne Room",
+    "tripwire_hook_collect": "Tripwire Hook Collect"
+  }
+}

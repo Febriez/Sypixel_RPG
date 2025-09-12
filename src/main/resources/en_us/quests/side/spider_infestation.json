@@ -8,5 +8,16 @@
     "Destroying those nests should prevent new spiders from multiplying.",
     "The Spider Queen is dead! The infestation is finally over!",
     "My workers can return safely, and business can get back to normal. Thank you!"
-  ]
+  ],
+  "objectives": {
+    "talk_warehouse_foreman": "Talk Warehouse Foreman",
+    "infested_warehouse": "Infested Warehouse",
+    "giant_spiders": "Giant Spiders",
+    "spider_silk": "Spider Silk",
+    "spider_nests": "Spider Nests",
+    "destroy_nests": "Destroy Nests",
+    "queens_chamber": "Queens Chamber",
+    "spider_queen": "Spider Queen",
+    "report_completion": "Report Completion"
+  }
 }

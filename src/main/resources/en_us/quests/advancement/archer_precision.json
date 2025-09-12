@@ -18,5 +18,7 @@
   ],
   "npc_name": "Master Archer",
   "accept": "I will master the art of precision archery!",
-  "decline": "My aim needs more practice first."
+  "decline": "My aim needs more practice first.",
+  "desc": "Complete the Archer Precision quest",
+  "npc.name": "Archer Precision Master"
 }

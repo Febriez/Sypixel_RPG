@@ -19,6 +19,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class SurvivalExpertQuest extends Quest {
                         new SurviveObjective("survive_enemy_waves", 25),
                         new ReachLevelObjective("reach_survival_level", 30), // Reach level 30
                         new KillMobObjective("kill_while_surviving", EntityType.ZOMBIE, 100),
-                        new CollectItemObjective("collect_survival_supplies", Material.BREAD, 64)
+                        new CollectItemObjective("bread_collect", Material.BREAD, 64)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 600)
@@ -64,25 +65,25 @@ public class SurvivalExpertQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_COMBAT_SURVIVAL_EXPERT_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_COMBAT_SURVIVAL_EXPERT_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_COMBAT_SURVIVAL_EXPERT_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_COMBAT_SURVIVAL_EXPERT_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "survive_enemy_waves" -> LangManager.list(LangKey.QUEST_COMBAT_SURVIVAL_EXPERT_OBJECTIVES_SURVIVE_ENEMY_WAVES, who);
-            case "reach_survival_level" -> LangManager.list(LangKey.QUEST_COMBAT_SURVIVAL_EXPERT_OBJECTIVES_REACH_SURVIVAL_LEVEL, who);
-            case "kill_while_surviving" -> LangManager.list(LangKey.QUEST_COMBAT_SURVIVAL_EXPERT_OBJECTIVES_KILL_WHILE_SURVIVING, who);
-            case "collect_survival_supplies" -> LangManager.list(LangKey.QUEST_COMBAT_SURVIVAL_EXPERT_OBJECTIVES_COLLECT_SURVIVAL_SUPPLIES, who);
-            default -> new ArrayList<>();
+            case "survive_enemy_waves" -> LangManager.text(QuestCommonLangKey.QUEST_COMBAT_SURVIVAL_EXPERT_OBJECTIVES_SURVIVE_ENEMY_WAVES, who);
+            case "reach_survival_level" -> LangManager.text(QuestCommonLangKey.QUEST_COMBAT_SURVIVAL_EXPERT_OBJECTIVES_REACH_SURVIVAL_LEVEL, who);
+            case "kill_while_surviving" -> LangManager.text(QuestCommonLangKey.QUEST_COMBAT_SURVIVAL_EXPERT_OBJECTIVES_KILL_WHILE_SURVIVING, who);
+            case "bread_collect" -> LangManager.text(QuestCommonLangKey.QUEST_COMBAT_SURVIVAL_EXPERT_OBJECTIVES_BREAD_COLLECT, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 4;
@@ -90,7 +91,7 @@ public class SurvivalExpertQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_COMBAT_SURVIVAL_EXPERT_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_COMBAT_SURVIVAL_EXPERT_DIALOGS, who);
     }
     
     @Override
@@ -100,16 +101,16 @@ public class SurvivalExpertQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_COMBAT_SURVIVAL_EXPERT_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_COMBAT_SURVIVAL_EXPERT_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_COMBAT_SURVIVAL_EXPERT_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_COMBAT_SURVIVAL_EXPERT_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_COMBAT_SURVIVAL_EXPERT_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_COMBAT_SURVIVAL_EXPERT_DECLINE, who);
     }
 }

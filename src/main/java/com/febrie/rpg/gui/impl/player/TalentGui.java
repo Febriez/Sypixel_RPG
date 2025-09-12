@@ -133,7 +133,7 @@ public class TalentGui extends ScrollableGui {
     private void setupInfoDisplay() {
         Component jobName;
         if (rpgPlayer.hasJob() && rpgPlayer.getJob() != null) {
-            jobName = LangManager.text(LangKey.valueOf("JOB_" + rpgPlayer.getJob().name().toUpperCase() + "_NAME"), viewer);
+            jobName = LangManager.text(LangKey.fromString("JOB_" + rpgPlayer.getJob().name().toUpperCase() + "_NAME"), viewer);
         } else {
             jobName = LangManager.text(LangKey.GUI_TALENT_NO_JOB, viewer);
         }
@@ -182,11 +182,11 @@ public class TalentGui extends ScrollableGui {
         }
 
         ItemBuilder builder = ItemBuilder.of(material)
-                .displayName(LangManager.text(LangKey.valueOf("TALENT_" + talent.getId().toUpperCase() + "_NAME"), viewer))
+                .displayName(LangManager.text(LangKey.fromString("TALENT_" + talent.getId().toUpperCase() + "_NAME"), viewer))
                 .amount(Math.max(1, currentLevel));
 
         // 설명 추가
-        List<Component> description = LangManager.list(LangKey.valueOf("TALENT_" + talent.getId().toUpperCase() + "_DESCRIPTION"), viewer);
+        List<Component> description = LangManager.list(LangKey.fromString("TALENT_" + talent.getId().toUpperCase() + "_DESCRIPTION"), viewer);
         description.forEach(builder::addLore);
 
         // 레벨 정보
@@ -216,7 +216,7 @@ public class TalentGui extends ScrollableGui {
                     int playerLevel = rpgPlayer.getTalents().getTalentLevel(prereq);
                     boolean meets = playerLevel >= requiredLevel;
 
-                    Component prereqName = LangManager.text(LangKey.valueOf("TALENT_" + prereq.getId().toUpperCase() + "_NAME"), viewer);
+                    Component prereqName = LangManager.text(LangKey.fromString("TALENT_" + prereq.getId().toUpperCase() + "_NAME"), viewer);
                     builder.addLore(LangManager.text(meets ? LangKey.GUI_TALENT_PREREQ_MET : LangKey.GUI_TALENT_PREREQ_NOT_MET, viewer,
                             prereqName,
                             String.valueOf(requiredLevel),
@@ -237,7 +237,7 @@ public class TalentGui extends ScrollableGui {
             builder.addLore(LangManager.text(LangKey.GUI_TALENT_STAT_BONUSES, viewer));
 
             statBonuses.forEach((stat, bonus) -> {
-                Component statName = LangManager.text(LangKey.valueOf("STAT_" + stat.getId().toUpperCase() + "_NAME"), viewer);
+                Component statName = LangManager.text(LangKey.fromString("STAT_" + stat.getId().toUpperCase() + "_NAME"), viewer);
                 int totalBonus = bonus * Math.max(1, currentLevel);
                 builder.addLore(LangManager.text(LangKey.GUI_TALENT_STAT_BONUS_LINE, viewer,
                         statName,
@@ -299,7 +299,7 @@ public class TalentGui extends ScrollableGui {
 
         playSuccessSound(player);
         player.sendMessage(LangManager.text(LangKey.MESSAGES_TALENT_LEARNED, player,
-                LangManager.text(LangKey.valueOf("TALENT_" + talent.getId().toUpperCase() + "_NAME"), player),
+                LangManager.text(LangKey.fromString("TALENT_" + talent.getId().toUpperCase() + "_NAME"), player),
                 String.valueOf(rpgPlayer.getTalents().getTalentLevel(talent))));
 
         refresh();

@@ -135,7 +135,7 @@ public class CombatPowerGui extends BaseGui {
             int contribution = statValue * info.multiplier;
             statContribution += contribution;
 
-            Component statName = LangManager.text(LangKey.valueOf("STAT_" + info.stat.getId().toUpperCase() + "_NAME"), viewer);
+            Component statName = LangManager.text(LangKey.fromString("STAT_" + info.stat.getId().toUpperCase() + "_NAME"), viewer);
 
             GuiItem statItem = GuiItem.display(
                     ItemBuilder.of(info.material)

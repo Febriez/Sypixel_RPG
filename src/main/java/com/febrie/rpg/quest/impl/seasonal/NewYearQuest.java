@@ -18,6 +18,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +45,10 @@ public class NewYearQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.SEASON_NEW_YEAR)
                 .objectives(List.of(
-                        new CollectItemObjective("launch_fireworks", Material.FIREWORK_ROCKET, 50),
-                        new CraftItemObjective("craft_celebration_items", Material.CAKE, 10),
-                        new VisitLocationObjective("visit_celebration_area", "celebration_plaza", 1),
-                        new InteractNPCObjective("make_new_year_resolution", "resolution_npc", 1)
+                        new CollectItemObjective("firework_rocket_collect", Material.FIREWORK_ROCKET, 50),
+                        new CraftItemObjective("cake_craft", Material.CAKE, 10),
+                        new VisitLocationObjective("visit_celebration_area", "celebration_plaza"),
+                        new InteractNPCObjective("make_new_year_resolution", "resolution_npc")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 400)
@@ -62,25 +63,25 @@ public class NewYearQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SEASONAL_NEW_YEAR_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SEASONAL_NEW_YEAR_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SEASONAL_NEW_YEAR_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_SEASONAL_NEW_YEAR_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "launch_fireworks" -> LangManager.list(LangKey.QUEST_SEASONAL_NEW_YEAR_OBJECTIVES_LAUNCH_FIREWORKS, who);
-            case "craft_celebration_items" -> LangManager.list(LangKey.QUEST_SEASONAL_NEW_YEAR_OBJECTIVES_CRAFT_CELEBRATION_ITEMS, who);
-            case "visit_celebration_area" -> LangManager.list(LangKey.QUEST_SEASONAL_NEW_YEAR_OBJECTIVES_VISIT_CELEBRATION_AREA, who);
-            case "make_new_year_resolution" -> LangManager.list(LangKey.QUEST_SEASONAL_NEW_YEAR_OBJECTIVES_MAKE_NEW_YEAR_RESOLUTION, who);
-            default -> new ArrayList<>();
+            case "firework_rocket_collect" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_NEW_YEAR_OBJECTIVES_FIREWORK_ROCKET_COLLECT, who);
+            case "cake_craft" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_NEW_YEAR_OBJECTIVES_CAKE_CRAFT, who);
+            case "visit_celebration_area" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_NEW_YEAR_OBJECTIVES_VISIT_CELEBRATION_AREA, who);
+            case "make_new_year_resolution" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_NEW_YEAR_OBJECTIVES_MAKE_NEW_YEAR_RESOLUTION, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 4;
@@ -88,7 +89,7 @@ public class NewYearQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SEASONAL_NEW_YEAR_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_SEASONAL_NEW_YEAR_DIALOGS, who);
     }
     
     @Override
@@ -98,16 +99,16 @@ public class NewYearQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SEASONAL_NEW_YEAR_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SEASONAL_NEW_YEAR_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SEASONAL_NEW_YEAR_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SEASONAL_NEW_YEAR_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SEASONAL_NEW_YEAR_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SEASONAL_NEW_YEAR_DECLINE, who);
     }
 }

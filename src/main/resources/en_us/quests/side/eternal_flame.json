@@ -8,5 +8,15 @@
     "These starlight crystals contain the power of distant suns.",
     "The Eternal Flame burns bright once more! Hope is restored.",
     "Its protective light will shield us from the darkness again."
-  ]
+  ],
+  "objectives": {
+    "talk_flame_keeper": "Talk Flame Keeper",
+    "ancient_brazier": "Ancient Brazier",
+    "phoenix_essence": "Phoenix Essence",
+    "starlight_peak": "Starlight Peak",
+    "starlight_crystals": "Starlight Crystals",
+    "sacred_oil": "Sacred Oil",
+    "flame_altar": "Flame Altar",
+    "rekindle_flame": "Rekindle Flame"
+  }
 }

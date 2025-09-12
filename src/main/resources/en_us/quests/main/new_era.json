@@ -1,0 +1,23 @@
+{
+  "name": "New Era",
+  "info": "Information about New Era",
+  "dialogs": [
+    "Welcome, adventurer!",
+    "I have a task for you.",
+    "Will you help me?"
+  ],
+  "npc_name": "Npc Name",
+  "accept": "Accept Quest",
+  "decline": "Decline Quest",
+  "objectives": {
+    "emerald_collect": "Emerald Collect",
+    "era_chronicler": "Era Chronicler",
+    "harmony_gardens": "Harmony Gardens",
+    "kingdom_herald": "Kingdom Herald",
+    "new_capital": "New Capital",
+    "paper_collect": "Paper Collect",
+    "peace_ambassador": "Peace Ambassador",
+    "smooth_stone_collect": "Smooth Stone Collect",
+    "unity_plaza": "Unity Plaza"
+  }
+}

@@ -14,7 +14,14 @@
     "deliver_building_materials": "Deliver 256 oak planks to construction merchant",
     "establish_trade_routes": "Establish 5 trade routes with caravan leader",
     "collect_rare_items": "Collect 3 nether stars",
-    "expand_business": "Invest 200 emeralds in business expansion"
+    "expand_business": "Invest 200 emeralds in business expansion",
+    "bread_deliver": "Bread Deliver",
+    "diamond_collect": "Diamond Collect",
+    "diamond_deliver": "Diamond Deliver",
+    "emerald_collect": "Emerald Collect",
+    "gold_ingot_collect": "Gold Ingot Collect",
+    "nether_star_collect": "Nether Star Collect",
+    "oak_planks_deliver": "Oak Planks Deliver"
   },
   "dialogs": [
     "Every great fortune begins with a single trade. Do you have what it takes?",
@@ -23,5 +30,6 @@
     "Your trading empire spans continents! Few have achieved such success.",
     "You've become a legend in the merchant world!",
     "Congratulations, Merchant Tycoon! Your empire will be remembered for ages!"
-  ]
+  ],
+  "npc.name": "Merchant Tycoon Master"
 }

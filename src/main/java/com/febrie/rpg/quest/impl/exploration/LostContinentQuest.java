@@ -20,6 +20,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +49,8 @@ public class LostContinentQuest extends Quest {
                 .objectives(List.of(
                         new BreakBlockObjective("break_ocean_blocks", Material.PRISMARINE, 100),
                         new PlaceBlockObjective("build_expedition_camp", Material.OAK_PLANKS, 64),
-                        new VisitLocationObjective("explore_mysterious_lands", "lost_continent", 1),
-                        new CollectItemObjective("collect_exotic_materials", Material.PRISMARINE_CRYSTALS, 20),
+                        new VisitLocationObjective("explore_mysterious_lands", "lost_continent"),
+                        new CollectItemObjective("prismarine_crystals_collect", Material.PRISMARINE_CRYSTALS, 20),
                         new KillMobObjective("defeat_continent_guardians", EntityType.GUARDIAN, 15)
                 ))
                 .reward(new BasicReward.Builder()
@@ -66,26 +67,26 @@ public class LostContinentQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_EXPLORATION_LOST_CONTINENT_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_EXPLORATION_LOST_CONTINENT_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_EXPLORATION_LOST_CONTINENT_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_EXPLORATION_LOST_CONTINENT_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "break_ocean_blocks" -> LangManager.list(LangKey.QUEST_EXPLORATION_LOST_CONTINENT_OBJECTIVES_BREAK_OCEAN_BLOCKS, who);
-            case "build_expedition_camp" -> LangManager.list(LangKey.QUEST_EXPLORATION_LOST_CONTINENT_OBJECTIVES_BUILD_EXPEDITION_CAMP, who);
-            case "explore_mysterious_lands" -> LangManager.list(LangKey.QUEST_EXPLORATION_LOST_CONTINENT_OBJECTIVES_EXPLORE_MYSTERIOUS_LANDS, who);
-            case "collect_exotic_materials" -> LangManager.list(LangKey.QUEST_EXPLORATION_LOST_CONTINENT_OBJECTIVES_COLLECT_EXOTIC_MATERIALS, who);
-            case "defeat_continent_guardians" -> LangManager.list(LangKey.QUEST_EXPLORATION_LOST_CONTINENT_OBJECTIVES_DEFEAT_CONTINENT_GUARDIANS, who);
-            default -> new ArrayList<>();
+            case "break_ocean_blocks" -> LangManager.text(QuestCommonLangKey.QUEST_EXPLORE_LOST_CONTINENT_OBJECTIVES_BREAK_OCEAN_BLOCKS, who);
+            case "build_expedition_camp" -> LangManager.text(QuestCommonLangKey.QUEST_EXPLORE_LOST_CONTINENT_OBJECTIVES_BUILD_EXPEDITION_CAMP, who);
+            case "explore_mysterious_lands" -> LangManager.text(QuestCommonLangKey.QUEST_EXPLORE_LOST_CONTINENT_OBJECTIVES_EXPLORE_MYSTERIOUS_LANDS, who);
+            case "prismarine_crystals_collect" -> LangManager.text(QuestCommonLangKey.QUEST_EXPLORE_LOST_CONTINENT_OBJECTIVES_PRISMARINE_CRYSTALS_COLLECT, who);
+            case "defeat_continent_guardians" -> LangManager.text(QuestCommonLangKey.QUEST_EXPLORE_LOST_CONTINENT_OBJECTIVES_DEFEAT_CONTINENT_GUARDIANS, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 5;
@@ -93,7 +94,7 @@ public class LostContinentQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_EXPLORATION_LOST_CONTINENT_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_EXPLORATION_LOST_CONTINENT_DIALOGS, who);
     }
     
     @Override
@@ -103,16 +104,16 @@ public class LostContinentQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_EXPLORATION_LOST_CONTINENT_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_EXPLORATION_LOST_CONTINENT_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_EXPLORATION_LOST_CONTINENT_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_EXPLORATION_LOST_CONTINENT_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_EXPLORATION_LOST_CONTINENT_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_EXPLORATION_LOST_CONTINENT_DECLINE, who);
     }
 }

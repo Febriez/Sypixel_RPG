@@ -11,6 +11,7 @@ import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.lang.ILangKey;
 import com.febrie.rpg.util.LogUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import net.kyori.adventure.text.Component;
@@ -350,7 +351,7 @@ public class IslandUpgradeGui extends BaseGui {
         });
     }
     
-    private LangKey getUpgradeLangKey(String nameKey) {
+    private ILangKey getUpgradeLangKey(String nameKey) {
         return switch (nameKey) {
             case "items.island.upgrade.size.name" -> LangKey.ITEMS_ISLAND_UPGRADE_SIZE_NAME;
             case "items.island.upgrade.member.name" -> LangKey.ITEMS_ISLAND_UPGRADE_MEMBER_NAME;
@@ -359,7 +360,7 @@ public class IslandUpgradeGui extends BaseGui {
         };
     }
     
-    private LangKey getUnitLangKey(String unitKey) {
+    private ILangKey getUnitLangKey(String unitKey) {
         return switch (unitKey) {
             case "unit.blocks" -> LangKey.UNIT_BLOCKS;
             case "unit.players" -> LangKey.UNIT_PLAYERS;

@@ -4,28 +4,14 @@
   "npc_name": "Boss Hunter Guild Master",
   "accept": "I'm ready to face the legendary bosses!",
   "decline": "These bosses are beyond my current capabilities.",
-  "objectives": [
-    {
-      "id": "learn_boss_tactics",
-      "description": "Study boss weaknesses and combat tactics"
-    },
-    {
-      "id": "defeat_first_boss",
-      "description": "Defeat your first legendary boss"
-    },
-    {
-      "id": "defeat_multiple_bosses",
-      "description": "Defeat 5 different legendary bosses"
-    },
-    {
-      "id": "prove_legendary_skill",
-      "description": "Demonstrate mastery against legendary foes"
-    },
-    {
-      "id": "face_ultimate_boss",
-      "description": "Confront and defeat the Ultimate Boss"
-    }
-  ],
+  "objectives": {
+    "kill_mini_bosses": "Defeat 3 Wither mini-bosses",
+    "kill_wither_skeletons": "Kill 20 Wither Skeletons",
+    "kill_dungeon_bosses": "Defeat 5 Elder Guardian dungeon bosses",
+    "collect_boss_drops": "Collect 3 Nether Stars from boss drops",
+    "kill_world_boss": "Defeat 1 Ender Dragon world boss",
+    "nether_star_collect": "Nether Star Collect"
+  },
   "dialogs": [
     "The realm's greatest threats await. Do you have the courage to face them?",
     "Every boss has a weakness. Learn to find it, and victory will be yours.",
@@ -33,5 +19,6 @@
     "You've proven yourself against legendary foes. Few can match your skill.",
     "The Ultimate Boss threatens all existence. Only you can stop it now.",
     "Champion! Your name will be remembered as the greatest Boss Slayer of all time!"
-  ]
+  ],
+  "npc.name": "Boss Slayer Master"
 }

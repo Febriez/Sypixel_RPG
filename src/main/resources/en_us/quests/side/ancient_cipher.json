@@ -8,5 +8,11 @@
     "We're on the verge of a major discovery!",
     "Incredible! The cipher reveals the location of an ancient treasury!",
     "This knowledge will benefit scholars for generations to come."
-  ]
+  ],
+  "objectives": {
+    "scholar": "Scholar",
+    "cipher_pieces": "Cipher Pieces",
+    "study_ruins": "Study Ruins",
+    "decoded_cipher": "Decoded Cipher"
+  }
 }

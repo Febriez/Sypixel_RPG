@@ -1,0 +1,24 @@
+{
+  "name": "Heroes Alliance",
+  "info": "Information about Heroes Alliance",
+  "dialogs": [
+    "Welcome, adventurer!",
+    "I have a task for you.",
+    "Will you help me?"
+  ],
+  "npc_name": "Npc Name",
+  "accept": "Accept Quest",
+  "decline": "Decline Quest",
+  "objectives": {
+    "alliance_hall": "Alliance Hall",
+    "alliance_messenger": "Alliance Messenger",
+    "arcane_mage": "Arcane Mage",
+    "heroes_council": "Heroes Council",
+    "heroes_stronghold": "Heroes Stronghold",
+    "kill_ender_dragon": "Kill Ender Dragon",
+    "kill_withers": "Kill Withers",
+    "legendary_warrior": "Legendary Warrior",
+    "netherite_ingot_collect": "Netherite Ingot Collect",
+    "shadow_assassin": "Shadow Assassin"
+  }
+}

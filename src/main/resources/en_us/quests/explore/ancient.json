@@ -1,0 +1,9 @@
+{
+  "objectives": {
+    "ruins.break_ancient_blocks": "Break Ancient Blocks",
+    "ruins.brick_collect": "Brick Collect",
+    "ruins.explore_desert_ruins": "Explore Desert Ruins",
+    "ruins.explore_underground_ruins": "Explore Underground Ruins",
+    "ruins.talk_to_archaeologist": "Talk To Archaeologist"
+  }
+}

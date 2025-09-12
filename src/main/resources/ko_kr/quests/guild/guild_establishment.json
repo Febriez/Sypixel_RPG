@@ -1,5 +1,12 @@
 {
   "name": "길드 창설의 길",
+  "objectives": {
+    "collect_foundation_materials": "길드 기초를 건설할 석재 벽돌을 수집하세요",
+    "collect_gold_for_charter": "길드 헌장 비용을 위한 금괴를 수집하세요",
+    "create_guild": "길드 등록관을 방문하여 공식적으로 길드를 창설하세요",
+    "recruit_initial_members": "새로운 길드에 합류할 초기 멤버들을 모집하세요",
+    "build_guild_hall": "석재 벽돌을 배치하여 길드 홀을 건설하세요"
+  },
   "dialogs": [
     "길드를 창설하려고 하시는군요? 준비가 많이 필요합니다.",
     "레벨 25와 등록비 5,000골드가 필요합니다.",

@@ -8,5 +8,16 @@
     "Each artifact retrieved weakens the mirror's hold on reality.",
     "The dark mirror is destroyed! The parallel dimension fades.",
     "Balance is restored between the worlds - well done."
-  ]
+  ],
+  "objectives": {
+    "talk_mirror_guardian": "Talk Mirror Guardian",
+    "shattered_mirror": "Shattered Mirror",
+    "mirror_shards": "Mirror Shards",
+    "mirror_portal": "Mirror Portal",
+    "shadow_doubles": "Shadow Doubles",
+    "stolen_artifacts": "Stolen Artifacts",
+    "dark_reflection": "Dark Reflection",
+    "mirror_master": "Mirror Master",
+    "destroy_mirror": "Destroy Mirror"
+  }
 }

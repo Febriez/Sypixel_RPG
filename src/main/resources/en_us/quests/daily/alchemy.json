@@ -5,7 +5,10 @@
     "alchemist": "Talk to the alchemist",
     "brew_potions": "Brew 5 potions",
     "collect_ingredients": "Gather potion ingredients",
-    "deliver_potions": "Deliver potions to customers"
+    "deliver_potions": "Deliver potions to customers",
+    "nether_wart_collect": "Nether Wart Collect",
+    "potion_craft": "Potion Craft",
+    "potion_deliver": "Potion Deliver"
   },
   "dialogs": [
     "Welcome to my laboratory. The city has great need for potions today.",
@@ -20,5 +23,6 @@
   ],
   "npc_name": "Grand Alchemist Meridian",
   "accept": "I'm ready to learn the alchemical arts and serve the city.",
-  "decline": "I need to prepare my brewing equipment first."
+  "decline": "I need to prepare my brewing equipment first.",
+  "npc.name": "Alchemy Master"
 }

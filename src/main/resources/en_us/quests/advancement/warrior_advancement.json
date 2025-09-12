@@ -6,7 +6,16 @@
     "combat_mastery": "Master combat skills",
     "weapon_expertise": "Gain weapon expertise",
     "tactical_training": "Complete tactical training",
-    "warrior_honor": "Earn warrior honor"
+    "warrior_honor": "Earn warrior honor",
+    "endurance_test": "Complete endurance test",
+    "final_trial": "Pass the final trial",
+    "forge_armor": "Forge warrior armor",
+    "forge_weapon": "Forge warrior weapon",
+    "honor_code": "Learn the warrior's honor code",
+    "master_approval": "Gain master's approval",
+    "strength_trial": "Complete strength trial",
+    "training_dummy": "Destroy training dummies",
+    "warrior_oath": "Take the warrior's oath"
   },
   "dialogs": [
     "You wish to walk the path of the warrior? It is not an easy path.",
@@ -16,5 +25,6 @@
   ],
   "npc_name": "Warrior Master",
   "accept": "I will prove myself worthy as a warrior!",
-  "decline": "I need more training first."
+  "decline": "I need more training first.",
+  "npc.name": "Warrior Advancement Master"
 }

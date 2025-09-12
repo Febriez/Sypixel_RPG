@@ -17,6 +17,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +44,10 @@ public class EquipmentUpgradeQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.REPEATABLE_EQUIPMENT_UPGRADE)
                 .objectives(List.of(
-                        new CollectItemObjective("collect_iron", Material.IRON_INGOT, 32),
-                        new CraftItemObjective("craft_tools", Material.IRON_PICKAXE, 3),
-                        new InteractNPCObjective("repair_items", "blacksmith", 5),
-                        new InteractNPCObjective("enchant_items", "enchanter", 3)
+                        new CollectItemObjective("iron_ingot_collect", Material.IRON_INGOT, 32),
+                        new CraftItemObjective("iron_pickaxe_craft", Material.IRON_PICKAXE, 3),
+                        new InteractNPCObjective("repair_items", "blacksmith"),
+                        new InteractNPCObjective("enchant_items", "enchanter")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 150)
@@ -62,25 +63,25 @@ public class EquipmentUpgradeQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "collect_iron" -> LangManager.list(LangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_OBJECTIVES_COLLECT_IRON, who);
-            case "craft_tools" -> LangManager.list(LangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_OBJECTIVES_CRAFT_TOOLS, who);
-            case "repair_items" -> LangManager.list(LangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_OBJECTIVES_REPAIR_ITEMS, who);
-            case "enchant_items" -> LangManager.list(LangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_OBJECTIVES_ENCHANT_ITEMS, who);
-            default -> new ArrayList<>();
+            case "iron_ingot_collect" -> LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_OBJECTIVES_IRON_INGOT_COLLECT, who);
+            case "iron_pickaxe_craft" -> LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_OBJECTIVES_IRON_PICKAXE_CRAFT, who);
+            case "repair_items" -> LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_OBJECTIVES_REPAIR_ITEMS, who);
+            case "enchant_items" -> LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_OBJECTIVES_ENCHANT_ITEMS, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 3;
@@ -88,7 +89,7 @@ public class EquipmentUpgradeQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_DIALOGS, who);
     }
     
     @Override
@@ -98,16 +99,16 @@ public class EquipmentUpgradeQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_EQUIPMENT_UPGRADE_DECLINE, who);
     }
 }

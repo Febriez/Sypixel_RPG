@@ -18,5 +18,6 @@
   ],
   "npc_name": "Shadow Master",
   "accept": "I will become one with the shadows!",
-  "decline": "I prefer to walk in the light."
+  "decline": "I prefer to walk in the light.",
+  "npc.name": "Rogue Shadows Master"
 }

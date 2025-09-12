@@ -17,7 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.*;
@@ -259,19 +258,10 @@ public abstract class Quest {
 
         int index = 1;
         for (QuestObjective objective : objectives) {
-            List<Component> objectiveTexts = getObjectiveDescription(objective, player);
-            page2 = page2.append(Component.text(index + ". ", UnifiedColorUtil.YELLOW));
-            
-            // Join the objective description components
-            if (!objectiveTexts.isEmpty()) {
-                Component joinedText = objectiveTexts.get(0);
-                for (int i = 1; i < objectiveTexts.size(); i++) {
-                    joinedText = joinedText.append(Component.space()).append(objectiveTexts.get(i));
-                }
-                page2 = page2.append(joinedText.color(UnifiedColorUtil.WHITE));
-            }
-            
-            page2 = page2.append(Component.newline());
+            Component objectiveText = getObjectiveDescription(objective, player);
+            page2 = page2.append(Component.text(index + ". ", UnifiedColorUtil.YELLOW))
+                         .append(objectiveText.color(UnifiedColorUtil.WHITE))
+                         .append(Component.newline());
             index++;
         }
 
@@ -310,7 +300,7 @@ public abstract class Quest {
     /**
      * 목표 설명 가져오기
      */
-    public abstract @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who);
+    public abstract @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who);
 
     /**
      * 카테고리 이름 가져오기

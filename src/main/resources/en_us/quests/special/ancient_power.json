@@ -4,28 +4,12 @@
   "npc_name": "Ancient Guardian",
   "accept": "I'm ready to bind this ancient power to myself.",
   "decline": "These forces are too dangerous for me to handle.",
-  "objectives": [
-    {
-      "id": "prove_strong_spirit",
-      "description": "Demonstrate you have a strong spirit worthy of ancient power"
-    },
-    {
-      "id": "understand_responsibility",
-      "description": "Show understanding that these forces must not be taken lightly"
-    },
-    {
-      "id": "commune_with_energies",
-      "description": "Allow the ancient energies to respond to your presence"
-    },
-    {
-      "id": "demonstrate_wisdom",
-      "description": "Handle the ancient forces with wisdom and care"
-    },
-    {
-      "id": "bind_ancient_power",
-      "description": "Successfully bind the ancient power to flow through you"
-    }
-  ],
+  "objectives": {
+    "collect_ancient_fragments": "Collect 10 ancient fragments (Echo Shards)",
+    "defeat_ancient_guardians": "Defeat 3 ancient guardians (Iron Golems)",
+    "activate_power_altars": "Activate the ancient power altars",
+    "unlock_ancient_power": "Unlock the ancient power from the Ancient Sage"
+  },
   "dialogs": [
     "The ancient powers call to those with strong spirits.",
     "Such forces are not to be taken lightly, hero.",

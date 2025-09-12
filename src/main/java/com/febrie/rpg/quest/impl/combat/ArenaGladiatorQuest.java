@@ -7,17 +7,16 @@ import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.KillPlayerObjective;
-import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.SurviveObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,24 +60,24 @@ public class ArenaGladiatorQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_COMBAT_ARENA_GLADIATOR_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_COMBAT_ARENA_GLADIATOR_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_COMBAT_ARENA_GLADIATOR_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_COMBAT_ARENA_GLADIATOR_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "defeat_players" -> LangManager.list(LangKey.QUEST_COMBAT_ARENA_GLADIATOR_OBJECTIVES_DEFEAT_PLAYERS, who);
-            case "pvp_kills" -> LangManager.list(LangKey.QUEST_COMBAT_ARENA_GLADIATOR_OBJECTIVES_PVP_KILLS, who);
-            case "survive_combat" -> LangManager.list(LangKey.QUEST_COMBAT_ARENA_GLADIATOR_OBJECTIVES_SURVIVE_COMBAT, who);
-            default -> new ArrayList<>();
+            case "defeat_players" -> LangManager.text(QuestCommonLangKey.QUEST_COMBAT_ARENA_GLADIATOR_OBJECTIVES_DEFEAT_PLAYERS, who);
+            case "pvp_kills" -> LangManager.text(QuestCommonLangKey.QUEST_COMBAT_ARENA_GLADIATOR_OBJECTIVES_PVP_KILLS, who);
+            case "survive_combat" -> LangManager.text(QuestCommonLangKey.QUEST_COMBAT_ARENA_GLADIATOR_OBJECTIVES_SURVIVE_COMBAT, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 4;
@@ -86,7 +85,7 @@ public class ArenaGladiatorQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_COMBAT_ARENA_GLADIATOR_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_COMBAT_ARENA_GLADIATOR_DIALOGS, who);
     }
     
     @Override
@@ -96,16 +95,16 @@ public class ArenaGladiatorQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_COMBAT_ARENA_GLADIATOR_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_COMBAT_ARENA_GLADIATOR_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_COMBAT_ARENA_GLADIATOR_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_COMBAT_ARENA_GLADIATOR_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_COMBAT_ARENA_GLADIATOR_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_COMBAT_ARENA_GLADIATOR_DECLINE, who);
     }
 }

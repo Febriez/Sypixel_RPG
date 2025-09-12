@@ -7,7 +7,9 @@
     "confirm": "%COLOR_SUCCESS%Confirm",
     "cancel": "%COLOR_ERROR%Cancel",
     "settings": "%COLOR_INFO%Settings",
-    "previous_page": "← Previous Page"
+    "previous_page": "← Previous Page",
+    "unknown": "Unknown",
+    "page": "Page {0}"
   },
   "page_info": "Page {0} of {1}",
   "combat_power": {
@@ -182,6 +184,7 @@
     "maxed": "Max level reached"
   },
   "leaderboard": {
+    "rank": "Rank #{0}",
     "title": "Leaderboard",
     "subtitle": "Check out the server's strongest players!",
     "level_board": "Level Rankings",
@@ -294,7 +297,9 @@
       "title": "Social Settings",
       "friend_requests": "👤 Accept Friend Requests",
       "guild_invites": "🏰 Accept Guild Invites",
-      "whisper_mode": "💬 Whisper Mode"
+      "whisper_mode": "💬 Whisper Mode",
+      "status": "Status: {0}",
+      "click-to-toggle": "Click to toggle"
     },
     "notification_settings": {
       "title": "Notification Settings",
@@ -701,7 +706,98 @@
     "member_right_click_fire": "Right-click to fire",
     "member_manage_title": "Manage Member",
     "member_manage_permission_not_implemented": "Permission management coming soon",
-    "member_manage_current_role": "Current Role: {0}"
+    "member_manage_current_role": "Current Role: {0}",
+    "main": {
+      "info": {
+        "members": "Members: {0}/{1}",
+        "biome": "Biome: {0}",
+        "level": "Level: {0}",
+        "spawn": "Spawn: {0}",
+        "no-island": "No island found"
+      },
+      "create": {
+        "click-to-create": "Click to create your island"
+      },
+      "members": {
+        "click-to-manage": "Click to manage members"
+      },
+      "upgrades": {
+        "click-to-view": "Click to view upgrades"
+      },
+      "settings": {
+        "click-to-open": "Click to open settings"
+      },
+      "biome": {
+        "click-to-change": "Click to change biome"
+      },
+      "spawn": {
+        "click-to-set": "Click to set spawn point"
+      },
+      "contribute": {
+        "click-to-contribute": "Click to contribute resources"
+      },
+      "warp": {
+        "click-to-warp": "Click to warp to island"
+      },
+      "delete": {
+        "click-to-delete": "Click to delete island"
+      }
+    },
+    "members": {
+      "title": "Island Members",
+      "owner": "Owner",
+      "member": "Member",
+      "visitor": "Visitor",
+      "kick": {
+        "title": "Kick Member",
+        "desc": "Remove this member from the island"
+      },
+      "promote": {
+        "title": "Promote Member",
+        "desc": "Give this member higher permissions"
+      },
+      "demote": {
+        "title": "Demote Member",
+        "desc": "Reduce this member's permissions"
+      }
+    },
+    "settings": {
+      "title": "Island Settings",
+      "pvp": "PvP Enabled",
+      "mob-spawn": "Mob Spawning",
+      "fire-spread": "Fire Spread",
+      "tnt-damage": "TNT Damage",
+      "public-access": "Public Access"
+    },
+    "upgrade": {
+      "title": "Island Upgrades",
+      "current-level": "Current Level: {0}",
+      "next-level": "Next Level: {0}",
+      "max-level": "Max Level Reached",
+      "cost": "Cost: {0}",
+      "benefits": "Benefits:",
+      "click-to-upgrade": "Click to upgrade"
+    },
+    "biome": {
+      "title": "Island Biome",
+      "current": "Current: {0}",
+      "available": "Available Biomes",
+      "locked": "Locked",
+      "click-to-select": "Click to select this biome"
+    },
+    "contribution": {
+      "title": "Island Contribution",
+      "total": "Total: {0}",
+      "your-contribution": "Your Contribution: {0}",
+      "top-contributors": "Top Contributors",
+      "click-to-contribute": "Click to contribute"
+    },
+    "delete": {
+      "title": "Delete Island",
+      "warning": "⚠ Warning: This action cannot be undone!",
+      "confirm": "Confirm Deletion",
+      "cancel": "Cancel"
+    }
   },
   "social": {
     "mailbox": {
@@ -939,8 +1035,12 @@
     "already_friends": "You are already friends with {0}",
     "request_time": "Request Time: {0}",
     "message": "Message: {0}",
-    "accept_desc": ["Click to accept this friend request"],
-    "reject_desc": ["Click to reject this friend request"]
+    "accept_desc": [
+      "Click to accept this friend request"
+    ],
+    "reject_desc": [
+      "Click to reject this friend request"
+    ]
   },
   "friends": {
     "title": "Friends",
@@ -1137,8 +1237,12 @@
   "friend": {
     "requests_request_time": "Sent: {0}",
     "requests_message": "Message: {0}",
-    "requests_accept_desc": ["Accept friend request"],
-    "requests_reject_desc": ["Reject friend request"]
+    "requests_accept_desc": [
+      "Accept friend request"
+    ],
+    "requests_reject_desc": [
+      "Reject friend request"
+    ]
   },
   "dialog": {
     "choice_title": "Dialog Choice",
@@ -1148,5 +1252,1014 @@
     "choice_npc_content": "{0}",
     "choice_option": "Option {0}",
     "choice_click_to_select": "Click to select this response"
+  },
+  "quest_objectives": {
+    "title": "Quest Objectives"
+  },
+  "quest_progress": {
+    "title": "Quest Progress"
+  },
+  "quest_rewards": {
+    "title": "Quest Rewards"
+  },
+  "mailbox.delete_confirm_word": "confirm",
+  "gui.social-settings.status": "Status: %s",
+  "gui.social-settings.click-to-toggle": "Click to toggle",
+  "gui.social-settings.current-mode": "Current mode: %s",
+  "gui.social-settings.friend-requests-toggled": "Friend requests %s",
+  "gui.social-settings.guild-invites-toggled": "Guild invites %s",
+  "gui.social-settings.whisper-mode-changed": "Whisper mode changed to %s",
+  "gui.leaderboard.rank": "Rank #%d",
+  "gui.island.main.create.lore": "Click to create your island",
+  "gui.island.biome_change.description": "Change your island biome",
+  "gui.island.biome_change.success": "Biome changed successfully!",
+  "gui.island.biome_change.fail": "Failed to change biome!",
+  "gui.island.contributions.title": "Island Contributions",
+  "gui.island.contributions.description": "View all contributions",
+  "gui.island.contributions.total": "Total: %d gold",
+  "gui.island.contributions.player": "%s: %d gold",
+  "gui.island.members.title": "Island Members",
+  "gui.island.members.description": "Manage island members",
+  "gui.island.members.owner": "Owner",
+  "gui.island.members.moderator": "Moderator",
+  "gui.island.members.member": "Member",
+  "gui.island.members.visitor": "Visitor",
+  "gui.island.permissions.title": "Island Permissions",
+  "gui.island.permissions.description": "Manage permissions",
+  "gui.island.permissions.build": "Build Blocks",
+  "gui.island.permissions.break": "Break Blocks",
+  "gui.island.permissions.interact": "Interact",
+  "gui.island.permissions.container": "Open Containers",
+  "gui.island.permissions.teleport": "Teleport",
+  "gui.island.permissions.invite": "Invite Members",
+  "gui.island.permissions.kick": "Kick Members",
+  "gui.island.permissions.ban": "Ban Players",
+  "gui.island.permissions.promote": "Promote Members",
+  "gui.island.permissions.demote": "Demote Members",
+  "gui.island.settings.name": "Island Settings",
+  "gui.island.settings.description": "Configure island settings",
+  "gui.island.settings.pvp": "PvP Enabled",
+  "gui.island.settings.mob_spawn": "Mob Spawning",
+  "gui.island.settings.fire_spread": "Fire Spread",
+  "gui.island.settings.tnt": "TNT Damage",
+  "gui.island.settings.public": "Public Island",
+  "gui.island.settings.locked": "Island Locked",
+  "gui.island.upgrades.title": "Island Upgrades",
+  "gui.island.upgrades.description": "Upgrade your island",
+  "gui.island.upgrades.size": "Island Size",
+  "gui.island.upgrades.member_limit": "Member Limit",
+  "gui.island.upgrades.hopper_limit": "Hopper Limit",
+  "gui.island.upgrades.spawner_limit": "Spawner Limit",
+  "gui.island.upgrades.generator": "Generator Level",
+  "gui.island.visit.title": "Visit Island",
+  "gui.island.visit.description": "Visit another island",
+  "gui.island.visit.player_input": "Enter player name",
+  "gui.island.visit.not_found": "Island not found!",
+  "gui.island.visit.locked": "This island is locked!",
+  "gui.island.visit.banned": "You are banned from this island!",
+  "gui.island.visitors.title": "Island Visitors",
+  "gui.island.visitors.description": "View visitor history",
+  "gui.island.visitors.current": "Current visitors: %d",
+  "gui.island.visitors.recent": "Recent visitors",
+  "gui.island.biome_selection.info_title": "Biome Selection",
+  "gui.island.biome_selection.info_lore": "Choose your island biome",
+  "gui.island.contribute.gold_info.title": "Gold Contribution",
+  "gui.island.contribute.gold_info.description": "Current gold: %d",
+  "gui.island.contribute.custom_amount.title": "Custom Amount",
+  "gui.island.contribute.custom_amount.description": "Enter custom amount",
+  "gui.island.contribute.custom_amount.minimum": "Minimum: %d gold",
+  "gui.island.contribute.custom_amount.maximum": "Maximum: %d gold",
+  "gui.island.contribute.custom_amount.click_prompt": "Click to enter amount",
+  "gui.island.contribute.back_description": "Return to main menu",
+  "gui.island.contribute.success": "Successfully contributed %d gold!",
+  "gui.island.contribute.total_contribution": "Total contribution: %d gold",
+  "gui.island.biome.current_biome": "Current Biome: %s",
+  "gui.island.biome.cost": "Cost: %d gold",
+  "gui.island.biome.free": "FREE",
+  "gui.job_confirmation.info_line1": "Are you sure you want to select",
+  "gui.job_confirmation.info_line2": "the %s class?",
+  "gui.job_confirmation.info_line3": "This cannot be changed later!",
+  "gui.dialog_choice.option_1": "Option 1",
+  "gui.dialog_choice.option_2": "Option 2",
+  "gui.dialog_choice.option_3": "Option 3",
+  "gui.dialog_choice.option_4": "Option 4",
+  "gui.dialog_choice.cancel": "Cancel",
+  "gui.mail_detail.claim_all": "Claim All",
+  "gui.mail_detail.claim": "Claim",
+  "gui.mail_detail.claimed": "Claimed",
+  "gui.mail_detail.delete_confirm": "Delete Mail?",
+  "gui.mail_detail.delete_confirm_message": "This action cannot be undone!",
+  "gui.mailbox.refresh_cooldown": "Refresh available in %d seconds",
+  "gui.mailbox.mail_from": "From: %s",
+  "gui.mailbox.mail_date": "Date: %s",
+  "gui.mailbox.has_attachments": "📎 Has attachments",
+  "gui.mailbox.click_to_read": "Click to read",
+  "gui.mailbox.delete_all": "Delete All Read",
+  "gui.mailbox.delete_all_confirm": "Delete all read mail?",
+  "gui.friend_requests.accept_hover": "Click to accept",
+  "gui.friend_requests.deny_hover": "Click to deny",
+  "gui.friend_requests.friend_added": "Friend added!",
+  "gui.friend_requests.cancelled": "Request cancelled",
+  "gui.friend_requests.error": "An error occurred!",
+  "gui.friends.online_count": "Online: %d",
+  "gui.friends.total_count": "Total Friends: %d",
+  "gui.friends.no_friends": "No friends yet!",
+  "gui.friends.click_to_teleport": "Click to teleport",
+  "gui.friends.right_click_to_remove": "Right-click to remove",
+  "gui.friends.remove_confirm": "Remove %s from friends?",
+  "gui.friends.removed": "Friend removed",
+  "gui.friends.teleport_request_sent": "Teleport request sent!",
+  "gui.friends.teleport_failed": "Teleport failed!",
+  "gui.island.biome_selection.back_lore": "Return to previous menu",
+  "gui.island.biome.current_info_lore": "Your current biome information",
+  "gui.island.biome.back_lore": "Go back",
+  "gui.island.contribute.click_to_contribute": "Click to contribute",
+  "gui.island.contribute.click_prompt": "Enter amount to contribute",
+  "gui.island.contribute.insufficient_gold": "Insufficient Gold",
+  "gui.island.contribute.insufficient_gold_message": "You need at least %d gold!",
+  "gui.island.contribution.info_title": "Contribution Info",
+  "gui.island.contribution.info_island_name": "Island: %s",
+  "gui.island.contribution.info_total": "Total: %d gold",
+  "gui.island.contribution.info_contributors": "Contributors: %d",
+  "gui.island.contribution.info_description": "Help grow the island!",
+  "gui.island.contribution.contributor_name": "%s",
+  "gui.island.contribution.contributor_contribution": "Contributed: %d gold",
+  "gui.island.contribution.contributor_role": "Role: %s",
+  "gui.island.contribution.contributor_percentage": "Share: %d%%",
+  "gui.island.contribution.add_title": "Add Contribution",
+  "gui.island.contribution.add_current": "Your gold: %d",
+  "gui.island.contribution.add_description": "Contribute to island funds",
+  "gui.island.contribution.add_click": "Click to contribute",
+  "gui.island.contribution.back_description": "Go back",
+  "gui.island.delete_confirm.cancel.lore": "Cancel deletion",
+  "gui.island.members.add.title": "Invite Member",
+  "gui.island.members.add.subtitle": "Add a new member",
+  "gui.island.members.add.lore": "Click to invite a player",
+  "gui.island.members.add.click": "Click to invite",
+  "gui.island.members.back.lore": "Return to members list",
+  "gui.island.members.info.title": "Member Information",
+  "gui.island.member.all.permissions": "Has all permissions",
+  "gui.island.member.hire.date": "Joined: %s",
+  "gui.island.member.invite.example": "Example: Steve",
+  "gui.island.member.invite.prompt": "Enter player name",
+  "gui.island.member.join.date": "Joined: %s",
+  "gui.island.member.last.activity": "Last seen: %s",
+  "gui.island.member.left.click.extend": "Left-click for more info",
+  "gui.island.member.left.click.role": "Left-click to change role",
+  "gui.island.member.limited.permissions": "Limited permissions",
+  "gui.island.member.manage.current.role": "Current Role: %s",
+  "gui.island.member.manage.permission.not.implemented": "Not yet implemented",
+  "gui.island.member.manage.title.with.name": "Managing: %s",
+  "gui.island.member.most.permissions": "Most permissions",
+  "gui.island.member.normal.permissions": "Normal permissions",
+  "gui.island.member.owner.cannot.change": "Cannot change owner role",
+  "gui.island.member.right.click.fire": "Right-click to remove",
+  "gui.island.member.right.click.kick": "Right-click to kick",
+  "gui.island.member.role.owner": "Owner",
+  "gui.island.member.role.worker": "Worker",
+  "gui.island.permission.click.to.select": "Click to select",
+  "gui.island.permission.current.editing": "Editing: %s",
+  "gui.island.permission.edit.role.permissions": "Edit Role Permissions",
+  "gui.island.permission.permissions.build.desc": "Allow building blocks",
+  "gui.island.permission.permissions.containers.desc": "Access chests and containers",
+  "gui.island.permission.permissions.interact.desc": "Interact with blocks",
+  "gui.island.permission.permissions.invite.desc": "Invite new members",
+  "gui.island.permission.permissions.kick.desc": "Kick members",
+  "gui.island.permission.permissions.spawns.desc": "Manage spawn points",
+  "gui.island.permission.permissions.workers.desc": "Manage workers",
+  "gui.island.permission.select.other.role": "Select another role",
+  "gui.island.permission.select.role.desc": "Choose a role to edit",
+  "gui.island.permission.status": "Status: %s",
+  "gui.island.permission.back.description": "Return to previous menu",
+  "gui.island.permission.back.title": "Back",
+  "gui.island.permission.click.to.toggle": "Click to toggle",
+  "gui.island.permission.close.description": "Close this menu",
+  "gui.island.permission.close.title": "Close",
+  "gui.island.permission.permissions.settings.desc": "Change island settings",
+  "gui.island.permission.save.click": "Click to save",
+  "gui.island.permission.save.description": "Save all changes",
+  "gui.island.permission.save.failed": "Failed to save permissions!",
+  "gui.island.permission.save.success": "Permissions saved!",
+  "gui.island.permission.save.title": "Save Changes",
+  "gui.island.personal.spawn.title": "Personal Spawn Point",
+  "gui.island.settings.current.biome": "Current Biome: %s",
+  "gui.island.settings.current.name": "Island Name: %s",
+  "gui.island.settings.current.status": "Status: %s",
+  "gui.island.settings.has.changes": "Has unsaved changes",
+  "gui.island.settings.id": "Island ID: %s",
+  "gui.island.settings.members": "Members: %d/%d",
+  "gui.island.settings.no.changes": "No changes",
+  "gui.island.settings.owner": "Owner: %s",
+  "gui.island.settings.status": "Status: %s",
+  "gui.island.spawn.default.spawn": "Default Spawn",
+  "gui.island.spawn.location.name": "Location: %s",
+  "gui.island.spawn.title": "Spawn Settings",
+  "gui.island.spawn.visitor.spawn": "Visitor Spawn",
+  "gui.island.spawn.visitor.spawn.not.set": "Not set",
+  "gui.island.upgrade.click.to.upgrade": "Click to upgrade",
+  "gui.island.upgrade.cost": "Cost: %d gold",
+  "gui.island.upgrade.current.contribution": "Your contribution: %d",
+  "gui.island.upgrade.current.level": "Current Level: %d",
+  "gui.island.upgrade.insufficient.contribution": "Insufficient contribution!",
+  "gui.island.upgrade.next.level": "Next Level: %d",
+  "gui.island.upgrade.max.level": "MAX LEVEL",
+  "gui.island.upgrade.progress": "Progress: %d/%d",
+  "gui.island.visitor.action.title": "Visitor Actions",
+  "gui.island.visitor.island.name": "Island: %s",
+  "gui.island.visitor.longest.stay": "Longest stay: %s",
+  "gui.island.visitor.most.frequent": "Most frequent: %s",
+  "gui.island.visitor.public.status": "Public: %s",
+  "gui.island.visitor.stay.duration": "Duration: %s",
+  "gui.island.visitor.title": "Island Visitors",
+  "gui.island.visitor.total.visitors": "Total visitors: %d",
+  "gui.island.visitor.total.visits": "Total visits: %d",
+  "gui.island.visitor.unique.visitors": "Unique visitors: %d",
+  "gui.island.visitor.visit.time": "Visit time: %s",
+  "gui.island.visitor.visitor.number": "Visitor #%d",
+  "gui.quest.dialog.accept.quest": "Accept Quest",
+  "gui.quest.dialog.next.page": "Next Page",
+  "gui.quest.dialog.quest.declined": "Quest declined",
+  "gui.quest.dialog.skip": "Skip",
+  "gui.quest.dialog.title": "Quest Dialog",
+  "gui.quest.list.click.details": "Click for details",
+  "gui.quest.list.completed.label": "COMPLETED",
+  "gui.quest.list.progress": "Progress: %d%%",
+  "gui.quest.list.repeatable": "Repeatable",
+  "gui.quest.list.title": "Quest List",
+  "gui.quest.reward.confirm.title": "Confirm Reward",
+  "gui.gui.settings.current.status": "Current: %s",
+  "gui.gui.settings.current.volume": "Volume: %d%%",
+  "gui.gui.settings.sound.muted": "Muted",
+  "gui.gui.settings.sound.unmuted": "Unmuted",
+  "gui.gui.settings.status": "Status: %s",
+  "gui.gui.settings.title": "GUI Settings",
+  "gui.gui.settings.volume.changed": "Volume changed to %d%%",
+  "gui.ingame.settings.title": "Game Settings",
+  "gui.quest.reward.all.claimed": "All rewards claimed!",
+  "gui.quest.reward.already.claimed": "Already claimed!",
+  "gui.quest.reward.claimed": "Reward claimed!",
+  "gui.quest.reward.click.to.claim": "Click to claim",
+  "gui.quest.reward.close.warning": "Unclaimed rewards will be lost!",
+  "gui.quest.reward.destroyed": "Items destroyed!",
+  "gui.quest.reward.destroyed.desc": "Not enough space",
+  "gui.quest.reward.exp.received": "Received %d EXP!",
+  "gui.quest.reward.inventory.full": "Inventory full!",
+  "gui.quest.reward.money.received": "Received %d gold!",
+  "gui.quest.reward.not.enough.space": "Not enough space!",
+  "gui.quest.reward.timer.info": "Time remaining: %s",
+  "gui.quest.reward.timer.warning": "Claim before time runs out!",
+  "gui.quest.reward.title": "Quest Rewards",
+  "gui.quest.reward.warning.destroy.line": "⚠ Warning: Items will be destroyed",
+  "gui.quest.reward.warning.destroy.line2": "if inventory is full!",
+  "gui.quest.selection.title": "Select a Quest",
+  "gui.quest.status.completed": "Completed",
+  "gui.quest.status.in.progress": "In Progress",
+  "gui.quest.status.new.quest": "New Quest",
+  "gui.quest.status.reward.available": "Reward Available",
+  "gui.friends.add.command.example": "/friend add <player>",
+  "gui.friends.add.command.hint": "Type player name to add",
+  "gui.friends.whisper.hint": "/w %s <message>",
+  "gui.ingame.settings.click.to.toggle": "Click to toggle",
+  "gui.ingame.settings.current.speed": "Speed: %s",
+  "gui.ingame.settings.damage.display.toggled": "Damage display %s",
+  "gui.ingame.settings.dialog.speed.changed": "Dialog speed: %s",
+  "gui.ingame.settings.quest.guide.toggled": "Quest guide %s",
+  "gui.ingame.settings.speed.value": "%s",
+  "gui.ingame.settings.status": "Status: %s",
+  "gui.notification.settings.click.to.toggle": "Click to toggle",
+  "gui.notification.settings.current.mode": "Mode: %s",
+  "gui.notification.settings.invite.changed": "Invite mode: %s",
+  "gui.notification.settings.server.toggled": "Server messages %s",
+  "gui.notification.settings.status": "Status: %s",
+  "gui.notification.settings.title": "Notification Settings",
+  "gui.notification.settings.whisper.toggled": "Whispers %s",
+  "gui.shop.item.buy.price": "Buy: %d gold",
+  "gui.shop.item.click.to.buy": "Click to buy",
+  "gui.shop.item.click.to.sell": "Click to sell",
+  "gui.shop.item.insufficient.gold": "Not enough gold!",
+  "gui.shop.item.sell.price": "Sell: %d gold",
+  "gui.dialog.choice.click.to.select": "Click to select",
+  "gui.dialog.choice.description": "Choose an option",
+  "gui.dialog.choice.icon": "▶",
+  "gui.dialog.choice.npc": "NPC",
+  "gui.dialog.choice.npc.content": "%s",
+  "gui.friend.requests.accept.desc": "Accept this friend request",
+  "gui.friend.requests.message": "Message: %s",
+  "gui.friend.requests.no.message": "No message",
+  "gui.friend.requests.reject.desc": "Reject this friend request",
+  "gui.leaderboard.this.is.you": "← This is you!",
+  "gui.mail.detail.delete.failed": "Failed to delete mail!",
+  "gui.mail.detail.delete.success": "Mail deleted successfully!",
+  "gui.mail.detail.no.message": "No message",
+  "gui.mail.detail.receiver": "To: %s",
+  "gui.mail.detail.reply.command": "/mail send %s",
+  "gui.mail.detail.reply.desc": "Click to reply",
+  "gui.mail.detail.reply.guide": "Type your reply",
+  "gui.mail.detail.sender": "From: %s",
+  "gui.mail.detail.sent.time": "Sent: %s",
+  "gui.mail.detail.status": "Status: %s",
+  "gui.mailbox.delete.confirm.text": "Type \"confirm\" to delete",
+  "gui.mailbox.delete.confirm.title": "Confirm Deletion",
+  "gui.mailbox.send.mail.command": "/mail send <player> <message>",
+  "gui.mailbox.send.mail.example": "Example: /mail send Steve Hello!",
+  "gui.mailbox.send.mail.guide": "Send mail to another player",
+  "mailbox.delete-confirm-word": "confirm",
+  "gui.island.delete.confirm.final.confirm.warning": "⚠ THIS CANNOT BE UNDONE! ⚠",
+  "gui.island.delete.confirm.warning.list.items": "All items will be lost!",
+  "gui.job.confirmation.info.line": "%s",
+  "gui": {
+    "social-settings": {
+      "status": "Social Settings Status",
+      "click-to-toggle": "Social Settings Click to Toggle",
+      "current-mode": "Social Settings Current Mode",
+      "friend-requests-toggled": "Social Settings Friend Requests Toggled",
+      "guild-invites-toggled": "Social Settings Guild Invites Toggled",
+      "whisper-mode-changed": "Social Settings Whisper Mode Changed"
+    },
+    "leaderboard": {
+      "rank": "Leaderboard Rank",
+      "this": {
+        "is": {
+          "you": "Is You"
+        }
+      }
+    },
+    "island": {
+      "main": {
+        "create": {
+          "lore": "Create Lore"
+        }
+      },
+      "biome_change": {
+        "description": "Biome Change Description",
+        "success": "Biome Change Success",
+        "fail": "Biome Change Fail"
+      },
+      "contributions": {
+        "title": "Contributions Title",
+        "description": "Contributions Description",
+        "total": "Contributions Total",
+        "player": "Contributions Player"
+      },
+      "members": {
+        "title": "Members Title",
+        "description": "Members Description",
+        "owner": "Members Owner",
+        "moderator": "Members Moderator",
+        "member": "Members Member",
+        "visitor": "Members Visitor",
+        "add": {
+          "title": "Add Title",
+          "subtitle": "Add Subtitle",
+          "lore": "Add Lore",
+          "click": "Add Click"
+        },
+        "back": {
+          "lore": "Back Lore"
+        },
+        "info": {
+          "title": "Info Title"
+        }
+      },
+      "permissions": {
+        "title": "Permissions Title",
+        "description": "Permissions Description",
+        "build": "Permissions Build",
+        "break": "Permissions Break",
+        "interact": "Permissions Interact",
+        "container": "Permissions Container",
+        "teleport": "Permissions Teleport",
+        "invite": "Permissions Invite",
+        "kick": "Permissions Kick",
+        "ban": "Permissions Ban",
+        "promote": "Permissions Promote",
+        "demote": "Permissions Demote"
+      },
+      "settings": {
+        "name": "Settings Name",
+        "description": "Settings Description",
+        "pvp": "Settings Pvp",
+        "mob_spawn": "Settings Mob Spawn",
+        "fire_spread": "Settings Fire Spread",
+        "tnt": "Settings Tnt",
+        "public": "Settings Public",
+        "locked": "Settings Locked",
+        "current": {
+          "biome": "Current Biome",
+          "name": "Current Name",
+          "status": "Current Status"
+        },
+        "has": {
+          "changes": "Has Changes"
+        },
+        "id": "Settings Id",
+        "members": "Settings Members",
+        "no": {
+          "changes": "No Changes"
+        },
+        "owner": "Settings Owner",
+        "status": "Settings Status"
+      },
+      "upgrades": {
+        "title": "Upgrades Title",
+        "description": "Upgrades Description",
+        "size": "Upgrades Size",
+        "member_limit": "Upgrades Member Limit",
+        "hopper_limit": "Upgrades Hopper Limit",
+        "spawner_limit": "Upgrades Spawner Limit",
+        "generator": "Upgrades Generator"
+      },
+      "visit": {
+        "title": "Visit Title",
+        "description": "Visit Description",
+        "player_input": "Visit Player Input",
+        "not_found": "Visit Not Found",
+        "locked": "Visit Locked",
+        "banned": "Visit Banned"
+      },
+      "visitors": {
+        "title": "Visitors Title",
+        "description": "Visitors Description",
+        "current": "Visitors Current",
+        "recent": "Visitors Recent"
+      },
+      "biome_selection": {
+        "info_title": "Biome Selection Info Title",
+        "info_lore": "Biome Selection Info Lore",
+        "back_lore": "Biome Selection Back Lore"
+      },
+      "contribute": {
+        "gold_info": {
+          "title": "Gold Info Title",
+          "description": "Gold Info Description"
+        },
+        "custom_amount": {
+          "title": "Custom Amount Title",
+          "description": "Custom Amount Description",
+          "minimum": "Custom Amount Minimum",
+          "maximum": "Custom Amount Maximum",
+          "click_prompt": "Custom Amount Click Prompt"
+        },
+        "back_description": "Contribute Back Description",
+        "success": "Contribute Success",
+        "total_contribution": "Contribute Total Contribution",
+        "click_to_contribute": "Contribute Click to Contribute",
+        "click_prompt": "Contribute Click Prompt",
+        "insufficient_gold": "Contribute Insufficient Gold",
+        "insufficient_gold_message": "Contribute Insufficient Gold Message"
+      },
+      "biome": {
+        "current_biome": "Biome Current Biome",
+        "cost": "Biome Cost",
+        "free": "Biome Free",
+        "current_info_lore": "Biome Current Info Lore",
+        "back_lore": "Biome Back Lore"
+      },
+      "contribution": {
+        "info_title": "Contribution Info Title",
+        "info_island_name": "Contribution Info Island Name",
+        "info_total": "Contribution Info Total",
+        "info_contributors": "Contribution Info Contributors",
+        "info_description": "Contribution Info Description",
+        "contributor_name": "Contribution Contributor Name",
+        "contributor_contribution": "Contribution Contributor Contribution",
+        "contributor_role": "Contribution Contributor Role",
+        "contributor_percentage": "Contribution Contributor Percentage",
+        "add_title": "Contribution Add Title",
+        "add_current": "Contribution Add Current",
+        "add_description": "Contribution Add Description",
+        "add_click": "Contribution Add Click",
+        "back_description": "Contribution Back Description"
+      },
+      "delete_confirm": {
+        "cancel": {
+          "lore": "Cancel Lore"
+        }
+      },
+      "member": {
+        "all": {
+          "permissions": "All Permissions"
+        },
+        "hire": {
+          "date": "Hire Date"
+        },
+        "invite": {
+          "example": "Invite Example",
+          "prompt": "Invite Prompt"
+        },
+        "join": {
+          "date": "Join Date"
+        },
+        "last": {
+          "activity": "Last Activity"
+        },
+        "left": {
+          "click": {
+            "extend": "Click Extend",
+            "role": "Click Role"
+          }
+        },
+        "limited": {
+          "permissions": "Limited Permissions"
+        },
+        "manage": {
+          "current": {
+            "role": "Current Role"
+          },
+          "permission": {
+            "not": {
+              "implemented": "Not Implemented"
+            }
+          },
+          "title": {
+            "with": {
+              "name": "With Name"
+            }
+          }
+        },
+        "most": {
+          "permissions": "Most Permissions"
+        },
+        "normal": {
+          "permissions": "Normal Permissions"
+        },
+        "owner": {
+          "cannot": {
+            "change": "Cannot Change"
+          }
+        },
+        "right": {
+          "click": {
+            "fire": "Click Fire",
+            "kick": "Click Kick"
+          }
+        },
+        "role": {
+          "owner": "Role Owner",
+          "worker": "Role Worker"
+        }
+      },
+      "permission": {
+        "click": {
+          "to": {
+            "select": "To Select",
+            "toggle": "To Toggle"
+          }
+        },
+        "current": {
+          "editing": "Current Editing"
+        },
+        "edit": {
+          "role": {
+            "permissions": "Role Permissions"
+          }
+        },
+        "permissions": {
+          "build": {
+            "desc": "Build Desc"
+          },
+          "containers": {
+            "desc": "Containers Desc"
+          },
+          "interact": {
+            "desc": "Interact Desc"
+          },
+          "invite": {
+            "desc": "Invite Desc"
+          },
+          "kick": {
+            "desc": "Kick Desc"
+          },
+          "spawns": {
+            "desc": "Spawns Desc"
+          },
+          "workers": {
+            "desc": "Workers Desc"
+          },
+          "settings": {
+            "desc": "Settings Desc"
+          }
+        },
+        "select": {
+          "other": {
+            "role": "Other Role"
+          },
+          "role": {
+            "desc": "Role Desc"
+          }
+        },
+        "status": "Permission Status",
+        "back": {
+          "description": "Back Description",
+          "title": "Back Title"
+        },
+        "close": {
+          "description": "Close Description",
+          "title": "Close Title"
+        },
+        "save": {
+          "click": "Save Click",
+          "description": "Save Description",
+          "failed": "Save Failed",
+          "success": "Save Success",
+          "title": "Save Title"
+        }
+      },
+      "personal": {
+        "spawn": {
+          "title": "Spawn Title"
+        }
+      },
+      "spawn": {
+        "default": {
+          "spawn": "Default Spawn"
+        },
+        "location": {
+          "name": "Location Name"
+        },
+        "title": "Spawn Title",
+        "visitor": {
+          "spawn": "Visitor Spawn"
+        }
+      },
+      "upgrade": {
+        "click": {
+          "to": {
+            "upgrade": "To Upgrade"
+          }
+        },
+        "cost": "Upgrade Cost",
+        "current": {
+          "contribution": "Current Contribution",
+          "level": "Current Level"
+        },
+        "insufficient": {
+          "contribution": "Insufficient Contribution"
+        },
+        "next": {
+          "level": "Next Level"
+        },
+        "max": {
+          "level": "Max Level"
+        },
+        "progress": "Upgrade Progress"
+      },
+      "visitor": {
+        "action": {
+          "title": "Action Title"
+        },
+        "island": {
+          "name": "Island Name"
+        },
+        "longest": {
+          "stay": "Longest Stay"
+        },
+        "most": {
+          "frequent": "Most Frequent"
+        },
+        "public": {
+          "status": "Public Status"
+        },
+        "stay": {
+          "duration": "Stay Duration"
+        },
+        "title": "Visitor Title",
+        "total": {
+          "visitors": "Total Visitors",
+          "visits": "Total Visits"
+        },
+        "unique": {
+          "visitors": "Unique Visitors"
+        },
+        "visit": {
+          "time": "Visit Time"
+        },
+        "visitor": {
+          "number": "Visitor Number"
+        }
+      },
+      "delete": {
+        "confirm": {
+          "final": {
+            "confirm": {
+              "warning": "Confirm Warning"
+            }
+          },
+          "warning": {
+            "list": {
+              "items": "List Items"
+            }
+          }
+        }
+      }
+    },
+    "job_confirmation": {
+      "info_line1": "Job Confirmation Info Line1",
+      "info_line2": "Job Confirmation Info Line2",
+      "info_line3": "Job Confirmation Info Line3"
+    },
+    "dialog_choice": {
+      "option_1": "Dialog Choice Option 1",
+      "option_2": "Dialog Choice Option 2",
+      "option_3": "Dialog Choice Option 3",
+      "option_4": "Dialog Choice Option 4",
+      "cancel": "Dialog Choice Cancel"
+    },
+    "mail_detail": {
+      "claim_all": "Mail Detail Claim All",
+      "claim": "Mail Detail Claim",
+      "claimed": "Mail Detail Claimed",
+      "delete_confirm": "Mail Detail Delete Confirm",
+      "delete_confirm_message": "Mail Detail Delete Confirm Message"
+    },
+    "mailbox": {
+      "refresh_cooldown": "Mailbox Refresh Cooldown",
+      "mail_from": "Mailbox Mail From",
+      "mail_date": "Mailbox Mail Date",
+      "has_attachments": "Mailbox Has Attachments",
+      "click_to_read": "Mailbox Click to Read",
+      "delete_all": "Mailbox Delete All",
+      "delete_all_confirm": "Mailbox Delete All Confirm",
+      "delete": {
+        "confirm": {
+          "text": "Confirm Text",
+          "title": "Confirm Title"
+        }
+      },
+      "send": {
+        "mail": {
+          "command": "Mail Command",
+          "example": "Mail Example",
+          "guide": "Mail Guide"
+        }
+      }
+    },
+    "friend_requests": {
+      "accept_hover": "Friend Requests Accept Hover",
+      "deny_hover": "Friend Requests Deny Hover",
+      "friend_added": "Friend Requests Friend Added",
+      "cancelled": "Friend Requests Cancelled",
+      "error": "Friend Requests Error"
+    },
+    "friends": {
+      "online_count": "Friends Online Count",
+      "total_count": "Friends Total Count",
+      "no_friends": "Friends No Friends",
+      "click_to_teleport": "Friends Click to Teleport",
+      "right_click_to_remove": "Friends Right Click to Remove",
+      "remove_confirm": "Friends Remove Confirm",
+      "removed": "Friends Removed",
+      "teleport_request_sent": "Friends Teleport Request Sent",
+      "teleport_failed": "Friends Teleport Failed",
+      "add": {
+        "command": {
+          "example": "Command Example",
+          "hint": "Command Hint"
+        }
+      },
+      "whisper": {
+        "hint": "Whisper Hint"
+      }
+    },
+    "quest": {
+      "dialog": {
+        "accept": {
+          "quest": "Accept Quest"
+        },
+        "next": {
+          "page": "Next Page"
+        },
+        "quest": {
+          "declined": "Quest Declined"
+        },
+        "skip": "Dialog Skip",
+        "title": "Dialog Title"
+      },
+      "list": {
+        "click": {
+          "details": "Click Details"
+        },
+        "completed": {
+          "label": "Completed Label"
+        },
+        "progress": "List Progress",
+        "repeatable": "List Repeatable",
+        "title": "List Title"
+      },
+      "reward": {
+        "confirm": {
+          "title": "Confirm Title"
+        },
+        "all": {
+          "claimed": "All Claimed"
+        },
+        "already": {
+          "claimed": "Already Claimed"
+        },
+        "claimed": "Reward Claimed",
+        "click": {
+          "to": {
+            "claim": "To Claim"
+          }
+        },
+        "close": {
+          "warning": "Close Warning"
+        },
+        "destroyed": "Reward Destroyed",
+        "exp": {
+          "received": "Exp Received"
+        },
+        "inventory": {
+          "full": "Inventory Full"
+        },
+        "money": {
+          "received": "Money Received"
+        },
+        "not": {
+          "enough": {
+            "space": "Enough Space"
+          }
+        },
+        "timer": {
+          "info": "Timer Info",
+          "warning": "Timer Warning"
+        },
+        "title": "Reward Title",
+        "warning": {
+          "destroy": {
+            "line": "Destroy Line",
+            "line2": "Destroy Line2"
+          }
+        }
+      },
+      "selection": {
+        "title": "Selection Title"
+      },
+      "status": {
+        "completed": "Status Completed",
+        "in": {
+          "progress": "In Progress"
+        },
+        "new": {
+          "quest": "New Quest"
+        },
+        "reward": {
+          "available": "Reward Available"
+        }
+      }
+    },
+    "gui": {
+      "settings": {
+        "current": {
+          "status": "Current Status",
+          "volume": "Current Volume"
+        },
+        "sound": {
+          "muted": "Sound Muted",
+          "unmuted": "Sound Unmuted"
+        },
+        "status": "Settings Status",
+        "title": "Settings Title",
+        "volume": {
+          "changed": "Volume Changed"
+        }
+      }
+    },
+    "ingame": {
+      "settings": {
+        "title": "Settings Title",
+        "click": {
+          "to": {
+            "toggle": "To Toggle"
+          }
+        },
+        "current": {
+          "speed": "Current Speed"
+        },
+        "damage": {
+          "display": {
+            "toggled": "Display Toggled"
+          }
+        },
+        "dialog": {
+          "speed": {
+            "changed": "Speed Changed"
+          }
+        },
+        "quest": {
+          "guide": {
+            "toggled": "Guide Toggled"
+          }
+        },
+        "speed": {
+          "value": "Speed Value"
+        },
+        "status": "Settings Status"
+      }
+    },
+    "notification": {
+      "settings": {
+        "click": {
+          "to": {
+            "toggle": "To Toggle"
+          }
+        },
+        "current": {
+          "mode": "Current Mode"
+        },
+        "invite": {
+          "changed": "Invite Changed"
+        },
+        "server": {
+          "toggled": "Server Toggled"
+        },
+        "status": "Settings Status",
+        "title": "Settings Title",
+        "whisper": {
+          "toggled": "Whisper Toggled"
+        }
+      }
+    },
+    "shop": {
+      "item": {
+        "buy": {
+          "price": "Buy Price"
+        },
+        "click": {
+          "to": {
+            "buy": "To Buy",
+            "sell": "To Sell"
+          }
+        },
+        "insufficient": {
+          "gold": "Insufficient Gold"
+        },
+        "sell": {
+          "price": "Sell Price"
+        }
+      }
+    },
+    "dialog": {
+      "choice": {
+        "click": {
+          "to": {
+            "select": "To Select"
+          }
+        },
+        "description": "Choice Description",
+        "icon": "Choice Icon",
+        "npc": "Choice Npc"
+      }
+    },
+    "friend": {
+      "requests": {
+        "accept": {
+          "desc": "Accept Desc"
+        },
+        "message": "Requests Message",
+        "no": {
+          "message": "No Message"
+        },
+        "reject": {
+          "desc": "Reject Desc"
+        }
+      }
+    },
+    "mail": {
+      "detail": {
+        "delete": {
+          "failed": "Delete Failed",
+          "success": "Delete Success"
+        },
+        "no": {
+          "message": "No Message"
+        },
+        "receiver": "Detail Receiver",
+        "reply": {
+          "command": "Reply Command",
+          "desc": "Reply Desc",
+          "guide": "Reply Guide"
+        },
+        "sender": "Detail Sender",
+        "sent": {
+          "time": "Sent Time"
+        },
+        "status": "Detail Status"
+      }
+    },
+    "job": {
+      "confirmation": {
+        "info": {
+          "line": "Info Line"
+        }
+      }
+    },
+    "dialog_choice": {
+      "option_": "Dialog Option"
+    },
+    "job_confirmation": {
+      "info_line": "Job confirmation information"
+    },
+    "social": "Social Features"
   }
 }

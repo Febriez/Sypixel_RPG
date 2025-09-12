@@ -18,6 +18,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,10 +48,10 @@ public class FarmingExpertQuest extends Quest {
         objectives.add(new HarvestObjective("harvest_wheat", Material.WHEAT, 100)); // 밀 100개 수확
         objectives.add(new HarvestObjective("harvest_carrots", Material.CARROT, 50)); // 당근 50개 수확
         objectives.add(new HarvestObjective("harvest_potatoes", Material.POTATO, 50)); // 감자 50개 수확
-        objectives.add(new CollectItemObjective("collect_seeds", Material.WHEAT_SEEDS, 200)); // 밀 씨앗 200개 수집
+        objectives.add(new CollectItemObjective("wheat_seeds_collect", Material.WHEAT_SEEDS, 200)); // 밀 씨앗 200개 수집
         objectives.add(new PlaceBlockObjective("plant_farmland", Material.FARMLAND, 50)); // 경작지 50개 조성
-        objectives.add(new CraftItemObjective("craft_bread", Material.BREAD, 64)); // 빵 64개 제작
-        objectives.add(new CollectItemObjective("collect_bone_meal", Material.BONE_MEAL, 32)); // 뼛가루 32개 수집
+        objectives.add(new CraftItemObjective("bread_craft", Material.BREAD, 64)); // 빵 64개 제작
+        objectives.add(new CollectItemObjective("bone_meal_collect", Material.BONE_MEAL, 32)); // 뼛가루 32개 수집
 
         return new QuestBuilder()
                 .id(QuestID.LIFE_FARMING_EXPERT)
@@ -74,25 +75,25 @@ public class FarmingExpertQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_LIFE_FARMING_EXPERT_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_LIFE_FARMING_EXPERT_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_LIFE_FARMING_EXPERT_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_LIFE_FARMING_EXPERT_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "harvest_wheat" -> LangManager.list(LangKey.QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_HARVEST_WHEAT, who);
-            case "harvest_carrots" -> LangManager.list(LangKey.QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_HARVEST_CARROTS, who);
-            case "harvest_potatoes" -> LangManager.list(LangKey.QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_HARVEST_POTATOES, who);
-            case "collect_seeds" -> LangManager.list(LangKey.QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_COLLECT_SEEDS, who);
-            case "plant_farmland" -> LangManager.list(LangKey.QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_PLANT_FARMLAND, who);
-            case "craft_bread" -> LangManager.list(LangKey.QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_CRAFT_BREAD, who);
-            case "collect_bone_meal" -> LangManager.list(LangKey.QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_COLLECT_BONE_MEAL, who);
-            default -> new ArrayList<>();
+            case "harvest_wheat" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_HARVEST_WHEAT, who);
+            case "harvest_carrots" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_HARVEST_CARROTS, who);
+            case "harvest_potatoes" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_HARVEST_POTATOES, who);
+            case "wheat_seeds_collect" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_WHEAT_SEEDS_COLLECT, who);
+            case "plant_farmland" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_PLANT_FARMLAND, who);
+            case "bread_craft" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_BREAD_CRAFT, who);
+            case "bone_meal_collect" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_BONE_MEAL_COLLECT, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -103,7 +104,7 @@ public class FarmingExpertQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_LIFE_FARMING_EXPERT_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_LIFE_FARMING_EXPERT_DIALOGS, who);
     }
     
     @Override
@@ -113,16 +114,16 @@ public class FarmingExpertQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_LIFE_FARMING_EXPERT_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_LIFE_FARMING_EXPERT_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_LIFE_FARMING_EXPERT_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_LIFE_FARMING_EXPERT_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_LIFE_FARMING_EXPERT_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_LIFE_FARMING_EXPERT_DECLINE, who);
     }
 }

@@ -8,5 +8,16 @@
     "That blessed weapon will serve you well in the demon realm.",
     "The portal is sealed! The demon threat is ended!",
     "You've proven yourself a true demon hunter this day."
-  ]
+  ],
+  "objectives": {
+    "talk_demon_hunter_captain": "Talk Demon Hunter Captain",
+    "blessed_silver": "Blessed Silver",
+    "demon_portal": "Demon Portal",
+    "lesser_demons": "Lesser Demons",
+    "demon_essence": "Demon Essence",
+    "blessed_weapon": "Blessed Weapon",
+    "demon_realm": "Demon Realm",
+    "portal_guardian": "Portal Guardian",
+    "seal_portal": "Seal Portal"
+  }
 }

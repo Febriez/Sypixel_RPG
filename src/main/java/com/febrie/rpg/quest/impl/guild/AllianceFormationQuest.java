@@ -18,6 +18,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +45,9 @@ public class AllianceFormationQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.GUILD_ALLIANCE_FORMATION)
                 .objectives(List.of(
-                        new InteractNPCObjective("negotiate_with_guilds", "guild_diplomat", 5),
-                        new CollectItemObjective("collect_treaty_materials", Material.PAPER, 50),
-                        new DeliverItemObjective("form_alliances", "alliance_council", Material.PAPER, 15),
+                        new InteractNPCObjective("negotiate_with_guilds", "guild_diplomat"),
+                        new CollectItemObjective("paper_collect", Material.PAPER, 50),
+                        new DeliverItemObjective("paper_deliver", Material.PAPER, 15, "alliance_council"),
                         new PayCurrencyObjective("complete_joint_quests", CurrencyType.GOLD, 500)
                 ))
                 .reward(new BasicReward.Builder()
@@ -62,25 +63,25 @@ public class AllianceFormationQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_ALLIANCE_FORMATION_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_ALLIANCE_FORMATION_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_GUILD_ALLIANCE_FORMATION_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_GUILD_ALLIANCE_FORMATION_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "negotiate_with_guilds" -> LangManager.list(LangKey.QUEST_GUILD_ALLIANCE_FORMATION_OBJECTIVES_NEGOTIATE_WITH_GUILDS, who);
-            case "collect_treaty_materials" -> LangManager.list(LangKey.QUEST_GUILD_ALLIANCE_FORMATION_OBJECTIVES_COLLECT_TREATY_MATERIALS, who);
-            case "form_alliances" -> LangManager.list(LangKey.QUEST_GUILD_ALLIANCE_FORMATION_OBJECTIVES_FORM_ALLIANCES, who);
-            case "complete_joint_quests" -> LangManager.list(LangKey.QUEST_GUILD_ALLIANCE_FORMATION_OBJECTIVES_COMPLETE_JOINT_QUESTS, who);
-            default -> new ArrayList<>();
+            case "negotiate_with_guilds" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_ALLIANCE_FORMATION_OBJECTIVES_NEGOTIATE_WITH_GUILDS, who);
+            case "paper_collect" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_ALLIANCE_FORMATION_OBJECTIVES_PAPER_COLLECT, who);
+            case "paper_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_ALLIANCE_FORMATION_OBJECTIVES_PAPER_DELIVER, who);
+            case "complete_joint_quests" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_ALLIANCE_FORMATION_OBJECTIVES_COMPLETE_JOINT_QUESTS, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 5;
@@ -88,7 +89,7 @@ public class AllianceFormationQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_GUILD_ALLIANCE_FORMATION_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_GUILD_ALLIANCE_FORMATION_DIALOGS, who);
     }
     
     @Override
@@ -98,16 +99,16 @@ public class AllianceFormationQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_ALLIANCE_FORMATION_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_ALLIANCE_FORMATION_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_ALLIANCE_FORMATION_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_ALLIANCE_FORMATION_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_ALLIANCE_FORMATION_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_ALLIANCE_FORMATION_DECLINE, who);
     }
 }

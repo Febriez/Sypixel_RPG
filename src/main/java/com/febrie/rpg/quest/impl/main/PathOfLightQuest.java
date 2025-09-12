@@ -10,6 +10,7 @@ import com.febrie.rpg.quest.objective.impl.CraftItemObjective;
 import com.febrie.rpg.quest.objective.impl.DeliverItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
@@ -20,8 +21,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
 
 /**
  * 빛의 길 - 선택 퀘스트 (선)
@@ -51,10 +50,10 @@ public class PathOfLightQuest extends Quest {
                         new KillMobObjective("purify_undead_phantom", EntityType.PHANTOM, 10),
 
                         // 2. 성스러운 아이템 제작
-                        new CraftItemObjective("craft_golden_apple", Material.GOLDEN_APPLE, 5),
+                        new CraftItemObjective("golden_apple_craft", Material.GOLDEN_APPLE, 5),
 
                         // 3. 마을 사람들 도와주기 (빵 전달)
-                        new DeliverItemObjective("help_villagers", "굶주린 주민", Material.BREAD, 30)
+                        new DeliverItemObjective("bread_deliver", Material.BREAD, 30, "굶주린 주민")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 1000)
@@ -76,23 +75,23 @@ public class PathOfLightQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_PATH_OF_LIGHT_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_PATH_OF_LIGHT_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "purify_undead_zombie" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_PURIFY_UNDEAD_ZOMBIE, who);
-            case "purify_undead_skeleton" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_PURIFY_UNDEAD_SKELETON, who);
-            case "purify_undead_phantom" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_PURIFY_UNDEAD_PHANTOM, who);
-            case "craft_golden_apple" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_CRAFT_GOLDEN_APPLE, who);
-            case "help_villagers" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_HELP_VILLAGERS, who);
-            default -> List.of(Component.text("Objective: " + objective.getId()));
+            case "purify_undead_zombie" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_PURIFY_UNDEAD_ZOMBIE, who);
+            case "purify_undead_skeleton" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_PURIFY_UNDEAD_SKELETON, who);
+            case "purify_undead_phantom" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_PURIFY_UNDEAD_PHANTOM, who);
+            case "golden_apple_craft" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_GOLDEN_APPLE_CRAFT, who);
+            case "bread_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_BREAD_DELIVER, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -103,7 +102,7 @@ public class PathOfLightQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_PATH_OF_LIGHT_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_DIALOGS, who);
     }
     
     @Override
@@ -113,16 +112,16 @@ public class PathOfLightQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_PATH_OF_LIGHT_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_PATH_OF_LIGHT_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_PATH_OF_LIGHT_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_DECLINE, who);
     }
 }

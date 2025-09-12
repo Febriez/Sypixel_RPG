@@ -4,28 +4,45 @@
   "npc_name": "Winter Festival Host",
   "accept": "I'd be delighted to help with the winter festivities!",
   "decline": "The cold weather is too much for me right now.",
-  "objectives": [
-    {
-      "id": "gather_unique_snowflakes",
-      "description": "Collect the most beautiful and unique snowflakes"
-    },
-    {
-      "id": "collect_crystal_icicles",
-      "description": "Gather crystal-clear icicles for festival decorations"
-    },
-    {
-      "id": "create_ice_sculptures",
-      "description": "Create masterpiece ice sculptures capturing winter's beauty"
-    },
-    {
-      "id": "prepare_hot_cocoa",
-      "description": "Prepare warm hot cocoa to bring warmth to the cold season"
-    },
-    {
-      "id": "spread_winter_warmth",
-      "description": "Help the festival radiate warmth and community spirit"
-    }
-  ],
+  "objectives": {
+    "winter_guardian": "Speak with the frost guardian to begin the festival",
+    "frozen_plaza": "Visit the winter wonderland plaza",
+    "harvest_ice": "Harvest blocks of ice for building",
+    "packed_ice": "Collect dense packed ice for sculptures",
+    "blue_ice": "Gather rare blue ice for special decorations",
+    "snow_blocks": "Collect snow blocks for snowman building",
+    "snowman_small": "Build small snowmen around the plaza",
+    "snowman_large": "Create large impressive snowmen",
+    "snowman_decoration": "Add pumpkin heads to the snowmen",
+    "snowman_arms": "Gather sticks for snowman arms",
+    "ice_sculptures": "Craft beautiful ice sculptures",
+    "ice_art_gallery": "Create an art gallery with blue ice",
+    "ice_castle": "Build a magnificent ice castle",
+    "crystal_lights": "Add sea lantern lighting to displays",
+    "polar_bears": "Interact with arctic bears",
+    "feed_wolves": "Feed the arctic wolves",
+    "tame_foxes": "Tame arctic foxes as companions",
+    "arctic_fish": "Catch fish from the frozen waters",
+    "frozen_lake": "Visit the ice fishing spot",
+    "break_ice_holes": "Break holes in the ice for fishing",
+    "ice_fishing": "Fish through the ice holes for salmon",
+    "winter_treasures": "Find treasures hidden in the ice",
+    "frost_crystals": "Collect magical frost crystals",
+    "brew_frost_potion": "Brew potions with frost magic",
+    "ice_weapons": "Forge ice-enchanted weapons",
+    "frost_enchantment": "Get enchantments from the frost enchanter",
+    "winter_vegetables": "Gather hardy winter vegetables",
+    "hot_soup": "Cook warm mushroom soup",
+    "warm_bread": "Bake fresh bread for warmth",
+    "share_warmth": "Share soup to warm others",
+    "frost_arena": "Enter the glacial battlefield",
+    "ice_elementals": "Defeat ice elemental snow golems",
+    "frost_spiders": "Battle frost spiders in the cold",
+    "winter_boss": "Face the mighty winter boss",
+    "winter_gifts": "Distribute winter gifts to villagers",
+    "celebration_bonfire": "Light celebratory campfires",
+    "winter_blessing": "Receive the frost guardian's blessing"
+  },
   "dialogs": [
     "Winter's icy embrace has arrived! Will you help us celebrate the season of frost?",
     "Each snowflake is unique, just like our community. Please gather the most beautiful ones!",

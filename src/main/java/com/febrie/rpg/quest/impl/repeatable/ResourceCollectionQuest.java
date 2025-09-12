@@ -16,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +45,10 @@ public class ResourceCollectionQuest extends Quest {
                 .objectives(List.of(
                         new BreakBlockObjective("mine_coal", Material.COAL_ORE, 64),
                         new BreakBlockObjective("mine_iron", Material.IRON_ORE, 32),
-                        new CollectItemObjective("collect_wood", Material.OAK_LOG, 128),
-                        new CollectItemObjective("collect_stone", Material.COBBLESTONE, 256),
-                        new CollectItemObjective("catch_fish", Material.SALMON, 20),
-                        new CollectItemObjective("collect_gems", Material.DIAMOND, 5)
+                        new CollectItemObjective("oak_log_collect", Material.OAK_LOG, 128),
+                        new CollectItemObjective("cobblestone_collect", Material.COBBLESTONE, 256),
+                        new CollectItemObjective("salmon_collect", Material.SALMON, 20),
+                        new CollectItemObjective("diamond_collect", Material.DIAMOND, 5)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 250)
@@ -63,27 +64,27 @@ public class ResourceCollectionQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "mine_coal" -> LangManager.list(LangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_OBJECTIVES_MINE_COAL, who);
-            case "mine_iron" -> LangManager.list(LangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_OBJECTIVES_MINE_IRON, who);
-            case "collect_wood" -> LangManager.list(LangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_OBJECTIVES_COLLECT_WOOD, who);
-            case "collect_stone" -> LangManager.list(LangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_OBJECTIVES_COLLECT_STONE, who);
-            case "catch_fish" -> LangManager.list(LangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_OBJECTIVES_CATCH_FISH, who);
-            case "collect_gems" -> LangManager.list(LangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_OBJECTIVES_COLLECT_GEMS, who);
-            default -> new ArrayList<>();
+            case "mine_coal" -> LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_OBJECTIVES_MINE_COAL, who);
+            case "mine_iron" -> LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_OBJECTIVES_MINE_IRON, who);
+            case "oak_log_collect" -> LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_OBJECTIVES_OAK_LOG_COLLECT, who);
+            case "cobblestone_collect" -> LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_OBJECTIVES_COBBLESTONE_COLLECT, who);
+            case "salmon_collect" -> LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_OBJECTIVES_SALMON_COLLECT, who);
+            case "diamond_collect" -> LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_OBJECTIVES_DIAMOND_COLLECT, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 3;
@@ -91,7 +92,7 @@ public class ResourceCollectionQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_DIALOGS, who);
     }
     
     @Override
@@ -101,16 +102,16 @@ public class ResourceCollectionQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_RESOURCE_COLLECTION_DECLINE, who);
     }
 }

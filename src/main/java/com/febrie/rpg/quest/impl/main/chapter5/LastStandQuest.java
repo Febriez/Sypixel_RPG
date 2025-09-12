@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
@@ -18,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,15 +43,15 @@ public class LastStandQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.MAIN_LAST_STAND)
                 .objectives(List.of(
-                        new InteractNPCObjective("alliance_commander", "alliance_commander", 1),
+                        new InteractNPCObjective("alliance_commander", "alliance_commander"),
                         new VisitLocationObjective("fortress_battlements", "fortress_battlements_area"),
-                        new CollectItemObjective("siege_weapon", Material.CROSSBOW, 10),
+                        new CollectItemObjective("crossbow_collect", Material.CROSSBOW, 10),
                         new KillMobObjective("kill_pillagers", EntityType.PILLAGER, 30),
-                        new CollectItemObjective("blessed_arrows", Material.SPECTRAL_ARROW, 100),
+                        new CollectItemObjective("spectral_arrow_collect", Material.SPECTRAL_ARROW, 100),
                         new KillMobObjective("kill_ravagers", EntityType.RAVAGER, 8),
-                        new CollectItemObjective("barrier_crystal", Material.END_CRYSTAL, 5),
+                        new CollectItemObjective("end_crystal_collect", Material.END_CRYSTAL, 5),
                         new VisitLocationObjective("last_fortress", "last_fortress_area"),
-                        new InteractNPCObjective("war_strategist", "war_strategist", 1)
+                        new InteractNPCObjective("war_strategist", "war_strategist")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 7500)
@@ -68,30 +68,30 @@ public class LastStandQuest extends Quest {
     
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_LAST_STAND_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_LAST_STAND_NAME, who);
     }
     
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_LAST_STAND_INFO, who);
     }
     
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "alliance_commander" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_ALLIANCE_COMMANDER, who);
-            case "fortress_battlements" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_FORTRESS_BATTLEMENTS, who);
-            case "siege_weapon" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_SIEGE_WEAPON, who);
-            case "kill_pillagers" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_KILL_PILLAGERS, who);
-            case "blessed_arrows" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_BLESSED_ARROWS, who);
-            case "kill_ravagers" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_KILL_RAVAGERS, who);
-            case "barrier_crystal" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_BARRIER_CRYSTAL, who);
-            case "last_fortress" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_LAST_FORTRESS, who);
-            case "war_strategist" -> LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_WAR_STRATEGIST, who);
-            default -> List.of(Component.text("Objective: " + objective.getId()));
+            case "alliance_commander" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_ALLIANCE_COMMANDER, who);
+            case "fortress_battlements" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_FORTRESS_BATTLEMENTS, who);
+            case "crossbow_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_CROSSBOW_COLLECT, who);
+            case "kill_pillagers" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_KILL_PILLAGERS, who);
+            case "spectral_arrow_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_SPECTRAL_ARROW_COLLECT, who);
+            case "kill_ravagers" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_KILL_RAVAGERS, who);
+            case "end_crystal_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_END_CRYSTAL_COLLECT, who);
+            case "last_fortress" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_LAST_FORTRESS, who);
+            case "war_strategist" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LAST_STAND_OBJECTIVES_WAR_STRATEGIST, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 5;
@@ -99,7 +99,7 @@ public class LastStandQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_LAST_STAND_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_LAST_STAND_DIALOGS, who);
     }
     
     @Override
@@ -109,16 +109,16 @@ public class LastStandQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_LAST_STAND_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_LAST_STAND_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_LAST_STAND_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_LAST_STAND_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_LAST_STAND_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_LAST_STAND_DECLINE, who);
     }
 }

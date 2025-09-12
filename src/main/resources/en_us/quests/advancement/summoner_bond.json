@@ -18,5 +18,6 @@
   ],
   "npc_name": "Spirit Master",
   "accept": "I will forge eternal bonds with mystical beings!",
-  "decline": "I'm not ready for such connections."
+  "decline": "I'm not ready for such connections.",
+  "npc.name": "Summoner Bond Master"
 }

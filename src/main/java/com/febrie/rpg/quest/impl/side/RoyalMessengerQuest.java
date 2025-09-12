@@ -13,6 +13,7 @@ import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.lang.quest.side.RoyalMessengerLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -21,8 +22,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 /**
  * Side Quest: Royal Messenger
@@ -46,13 +47,13 @@ public class RoyalMessengerQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.SIDE_ROYAL_MESSENGER)
                 .objectives(List.of(
-                        new InteractNPCObjective("talk_royal_courier", "royal_courier", 1),
-                        new CollectItemObjective("collect_royal_seal", Material.EMERALD, 1),
+                        new InteractNPCObjective("talk_royal_courier", "royal_courier"),
+                        new CollectItemObjective("emerald_collect", Material.EMERALD, 1),
                         new VisitLocationObjective("visit_northern_outpost", "northern_outpost"),
                         new KillMobObjective("kill_bandits", EntityType.PILLAGER, 15), // Using PILLAGER instead of BANDIT
-                        new CollectItemObjective("collect_urgent_message", Material.PAPER, 1),
+                        new CollectItemObjective("paper_collect", Material.PAPER, 1),
                         new VisitLocationObjective("visit_royal_castle", "royal_castle"),
-                        new InteractNPCObjective("talk_castle_guard", "castle_guard", 1)
+                        new InteractNPCObjective("talk_castle_guard", "castle_guard")
                 ))
                 .reward(new BasicReward.Builder()
                         .addExperience(3000)
@@ -67,25 +68,25 @@ public class RoyalMessengerQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_ROYAL_MESSENGER_NAME, who);
+        return LangManager.text(RoyalMessengerLangKey.QUEST_SIDE_ROYAL_MESSENGER_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_INFO, who);
+        return LangManager.list(RoyalMessengerLangKey.QUEST_SIDE_ROYAL_MESSENGER_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_royal_courier" -> LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_TALK_ROYAL_COURIER, who);
-            case "collect_royal_seal" -> LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_COLLECT_ROYAL_SEAL, who);
-            case "visit_northern_outpost" -> LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_VISIT_NORTHERN_OUTPOST, who);
-            case "kill_bandits" -> LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_KILL_BANDITS, who);
-            case "collect_urgent_message" -> LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_COLLECT_URGENT_MESSAGE, who);
-            case "visit_royal_castle" -> LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_VISIT_ROYAL_CASTLE, who);
-            case "talk_castle_guard" -> LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_TALK_CASTLE_GUARD, who);
-            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+            case "talk_royal_courier" -> LangManager.text(RoyalMessengerLangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_TALK_ROYAL_COURIER, who);
+            case "emerald_collect" -> LangManager.text(RoyalMessengerLangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_EMERALD_COLLECT, who);
+            case "visit_northern_outpost" -> LangManager.text(RoyalMessengerLangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_VISIT_NORTHERN_OUTPOST, who);
+            case "kill_bandits" -> LangManager.text(RoyalMessengerLangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_KILL_BANDITS, who);
+            case "paper_collect" -> LangManager.text(RoyalMessengerLangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_PAPER_COLLECT, who);
+            case "visit_royal_castle" -> LangManager.text(RoyalMessengerLangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_VISIT_ROYAL_CASTLE, who);
+            case "talk_castle_guard" -> LangManager.text(RoyalMessengerLangKey.QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_TALK_CASTLE_GUARD, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -96,7 +97,7 @@ public class RoyalMessengerQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SIDE_ROYAL_MESSENGER_DIALOGS, who);
+        return LangManager.list(RoyalMessengerLangKey.QUEST_SIDE_ROYAL_MESSENGER_DIALOGS, who);
     }
     
     @Override
@@ -106,16 +107,16 @@ public class RoyalMessengerQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_ROYAL_MESSENGER_NPC_NAME, who);
+        return LangManager.text(RoyalMessengerLangKey.QUEST_SIDE_ROYAL_MESSENGER_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_ROYAL_MESSENGER_ACCEPT, who);
+        return LangManager.text(RoyalMessengerLangKey.QUEST_SIDE_ROYAL_MESSENGER_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_ROYAL_MESSENGER_DECLINE, who);
+        return LangManager.text(RoyalMessengerLangKey.QUEST_SIDE_ROYAL_MESSENGER_DECLINE, who);
     }
 }

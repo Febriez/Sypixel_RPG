@@ -8,5 +8,17 @@
     "Each stabilized rift brings us closer to restoring normal time.",
     "The timeline is stable once more! Time flows naturally again.",
     "You've prevented a temporal catastrophe that could have ended everything."
-  ]
+  ],
+  "objectives": {
+    "talk_chrono_mage": "Talk Chrono Mage",
+    "temporal_rift_1": "Temporal Rift 1",
+    "temporal_fragments": "Temporal Fragments",
+    "temporal_rift_2": "Temporal Rift 2",
+    "time_crystals": "Time Crystals",
+    "temporal_rift_3": "Temporal Rift 3",
+    "chronos_essence": "Chronos Essence",
+    "time_nexus": "Time Nexus",
+    "stabilize_timeline": "Stabilize Timeline",
+    "temporal_rift_": "Temporal Rift "
+  }
 }

@@ -16,6 +16,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +31,11 @@ public class MythicBeastQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.SPECIAL_MYTHIC_BEAST)
                 .objectives(List.of(
-                        new InteractNPCObjective("beast_hunter", "legendary_hunter", 1),
+                        new InteractNPCObjective("beast_hunter", "legendary_hunter"),
                         new VisitLocationObjective("mythic_lair", "ancient_beast_den"),
                         new KillMobObjective("mythic_beast", EntityType.WITHER, 1),
-                        new CollectItemObjective("beast_essence", Material.NETHER_STAR, 3),
-                        new TameMythicBeastObjective("tame_companion", "mythic_pet")
+                        new CollectItemObjective("nether_star_collect", Material.NETHER_STAR, 3),
+                        new InteractNPCObjective("tame_companion", "mythic_pet")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 6000)
@@ -49,23 +50,23 @@ public class MythicBeastQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_MYTHIC_BEAST_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_MYTHIC_BEAST_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SPECIAL_MYTHIC_BEAST_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_SPECIAL_MYTHIC_BEAST_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "beast_hunter" -> LangManager.list(LangKey.QUEST_SPECIAL_MYTHIC_BEAST_OBJECTIVES_BEAST_HUNTER, who);
-            case "mythic_lair" -> LangManager.list(LangKey.QUEST_SPECIAL_MYTHIC_BEAST_OBJECTIVES_MYTHIC_LAIR, who);
-            case "mythic_beast" -> LangManager.list(LangKey.QUEST_SPECIAL_MYTHIC_BEAST_OBJECTIVES_MYTHIC_BEAST, who);
-            case "beast_essence" -> LangManager.list(LangKey.QUEST_SPECIAL_MYTHIC_BEAST_OBJECTIVES_BEAST_ESSENCE, who);
-            case "tame_companion" -> LangManager.list(LangKey.QUEST_SPECIAL_MYTHIC_BEAST_OBJECTIVES_TAME_COMPANION, who);
-            default -> new ArrayList<>();
+            case "beast_hunter" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_MYTHIC_BEAST_OBJECTIVES_BEAST_HUNTER, who);
+            case "mythic_lair" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_MYTHIC_BEAST_OBJECTIVES_MYTHIC_LAIR, who);
+            case "mythic_beast" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_MYTHIC_BEAST_OBJECTIVES_MYTHIC_BEAST, who);
+            case "nether_star_collect" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_MYTHIC_BEAST_OBJECTIVES_NETHER_STAR_COLLECT, who);
+            case "tame_companion" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_MYTHIC_BEAST_OBJECTIVES_TAME_COMPANION, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -74,7 +75,7 @@ public class MythicBeastQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SPECIAL_MYTHIC_BEAST_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_SPECIAL_MYTHIC_BEAST_DIALOGS, who);
     }
     
     @Override
@@ -84,16 +85,16 @@ public class MythicBeastQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_MYTHIC_BEAST_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_MYTHIC_BEAST_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_MYTHIC_BEAST_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_MYTHIC_BEAST_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_MYTHIC_BEAST_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_MYTHIC_BEAST_DECLINE, who);
     }
 }

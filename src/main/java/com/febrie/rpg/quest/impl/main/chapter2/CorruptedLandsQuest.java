@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
@@ -18,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,13 +43,13 @@ public class CorruptedLandsQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.MAIN_CORRUPTED_LANDS)
                 .objectives(List.of(
-                        new InteractNPCObjective("druid_elder", "druid_elder", 1),
+                        new InteractNPCObjective("druid_elder", "druid_elder"),
                         new VisitLocationObjective("corrupted_grove", "corrupted_grove_area"),
                         new KillMobObjective("kill_zombies", EntityType.ZOMBIE, 20),
                         new KillMobObjective("kill_skeletons", EntityType.SKELETON, 15),
-                        new CollectItemObjective("corrupted_essence", Material.GHAST_TEAR, 8),
+                        new CollectItemObjective("ghast_tear_collect", Material.GHAST_TEAR, 8),
                         new VisitLocationObjective("cleansing_shrine", "cleansing_shrine_area"),
-                        new InteractNPCObjective("nature_guardian", "nature_guardian", 1)
+                        new InteractNPCObjective("nature_guardian", "nature_guardian")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 3000)
@@ -66,28 +66,28 @@ public class CorruptedLandsQuest extends Quest {
     
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_CORRUPTED_LANDS_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_NAME, who);
     }
     
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_CORRUPTED_LANDS_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_INFO, who);
     }
     
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "druid_elder" -> LangManager.list(LangKey.QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_DRUID_ELDER, who);
-            case "corrupted_grove" -> LangManager.list(LangKey.QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_CORRUPTED_GROVE, who);
-            case "kill_zombies" -> LangManager.list(LangKey.QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_KILL_ZOMBIES, who);
-            case "kill_skeletons" -> LangManager.list(LangKey.QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_KILL_SKELETONS, who);
-            case "corrupted_essence" -> LangManager.list(LangKey.QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_CORRUPTED_ESSENCE, who);
-            case "cleansing_shrine" -> LangManager.list(LangKey.QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_CLEANSING_SHRINE, who);
-            case "nature_guardian" -> LangManager.list(LangKey.QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_NATURE_GUARDIAN, who);
-            default -> List.of(Component.text("Objective: " + objective.getId()));
+            case "druid_elder" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_DRUID_ELDER, who);
+            case "corrupted_grove" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_CORRUPTED_GROVE, who);
+            case "kill_zombies" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_KILL_ZOMBIES, who);
+            case "kill_skeletons" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_KILL_SKELETONS, who);
+            case "ghast_tear_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_GHAST_TEAR_COLLECT, who);
+            case "cleansing_shrine" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_CLEANSING_SHRINE, who);
+            case "nature_guardian" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_NATURE_GUARDIAN, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 4;
@@ -95,7 +95,7 @@ public class CorruptedLandsQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_CORRUPTED_LANDS_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_DIALOGS, who);
     }
     
     @Override
@@ -105,16 +105,16 @@ public class CorruptedLandsQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_CORRUPTED_LANDS_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_CORRUPTED_LANDS_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_CORRUPTED_LANDS_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_DECLINE, who);
     }
 }

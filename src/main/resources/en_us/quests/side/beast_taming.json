@@ -8,5 +8,15 @@
     "The wolves sense your genuine intent - they're responding well.",
     "Remarkable! You've mastered the ancient taming arts!",
     "The wilderness is safer now, thanks to your newfound skills."
-  ]
+  ],
+  "objectives": {
+    "talk_beast_master": "Talk Beast Master",
+    "wild_plains": "Wild Plains",
+    "animal_treats": "Animal Treats",
+    "beast_tracking_tools": "Beast Tracking Tools",
+    "observe_wolves": "Observe Wolves",
+    "pack_territory": "Pack Territory",
+    "trust_tokens": "Trust Tokens",
+    "return_beast_master": "Return Beast Master"
+  }
 }

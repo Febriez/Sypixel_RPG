@@ -19,5 +19,6 @@
   ],
   "npc_name": "Grand Archmage",
   "accept": "I seek magical enlightenment!",
-  "decline": "I need more magical study first."
+  "decline": "I need more magical study first.",
+  "npc.name": "Mage Enlightenment Master"
 }

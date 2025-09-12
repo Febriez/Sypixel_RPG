@@ -15,9 +15,11 @@ import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +46,10 @@ public class AncientPowerQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.SPECIAL_ANCIENT_POWER)
                 .objectives(List.of(
-                        new CollectItemObjective("collect_ancient_fragments", Material.ECHO_SHARD, 10),
-                        new KillMobObjective("defeat_ancient_guardians", "ancient_guardian", 3),
-                        new VisitLocationObjective("activate_power_altars", "ancient_altar", 5),
-                        new InteractNPCObjective("unlock_ancient_power", "ancient_sage", 1)
+                        new CollectItemObjective("collect_echo_shard", Material.ECHO_SHARD, 10),
+                        new KillMobObjective("defeat_ancient_guardians", EntityType.IRON_GOLEM, 3),
+                        new VisitLocationObjective("activate_power_altars", "ancient_altar"),
+                        new InteractNPCObjective("unlock_ancient_power", "ancient_sage")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 2000)
@@ -62,25 +64,25 @@ public class AncientPowerQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_ANCIENT_POWER_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_ANCIENT_POWER_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SPECIAL_ANCIENT_POWER_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_SPECIAL_ANCIENT_POWER_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "collect_ancient_fragments" -> LangManager.list(LangKey.QUEST_SPECIAL_ANCIENT_POWER_OBJECTIVES_COLLECT_ANCIENT_FRAGMENTS, who);
-            case "defeat_ancient_guardians" -> LangManager.list(LangKey.QUEST_SPECIAL_ANCIENT_POWER_OBJECTIVES_DEFEAT_ANCIENT_GUARDIANS, who);
-            case "activate_power_altars" -> LangManager.list(LangKey.QUEST_SPECIAL_ANCIENT_POWER_OBJECTIVES_ACTIVATE_POWER_ALTARS, who);
-            case "unlock_ancient_power" -> LangManager.list(LangKey.QUEST_SPECIAL_ANCIENT_POWER_OBJECTIVES_UNLOCK_ANCIENT_POWER, who);
-            default -> new ArrayList<>();
+            case "collect_echo_shard" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_ANCIENT_POWER_OBJECTIVES_COLLECT_ECHO_SHARD, who);
+            case "defeat_ancient_guardians" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_ANCIENT_POWER_OBJECTIVES_DEFEAT_ANCIENT_GUARDIANS, who);
+            case "activate_power_altars" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_ANCIENT_POWER_OBJECTIVES_ACTIVATE_POWER_ALTARS, who);
+            case "unlock_ancient_power" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_ANCIENT_POWER_OBJECTIVES_UNLOCK_ANCIENT_POWER, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 5;
@@ -88,7 +90,7 @@ public class AncientPowerQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SPECIAL_ANCIENT_POWER_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_SPECIAL_ANCIENT_POWER_DIALOGS, who);
     }
     
     @Override
@@ -98,16 +100,16 @@ public class AncientPowerQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_ANCIENT_POWER_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_ANCIENT_POWER_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_ANCIENT_POWER_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_ANCIENT_POWER_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_ANCIENT_POWER_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_ANCIENT_POWER_DECLINE, who);
     }
 }

@@ -2,12 +2,12 @@
   "name": "Ice Crystal Quest",
   "info": "Climb the frozen peaks to retrieve the ice crystal.",
   "objectives": {
-    "mountain_guide": "Meet the mountain guide",
-    "frozen_trail": "Follow the frozen trail",
-    "kill_strays": "Defeat 20 strays",
-    "ice_crystals": "Collect 15 ice crystals",
-    "summit": "Reach the summit",
-    "frost_heart": "Obtain the frost heart"
+    "talk_mountain_climber": "Talk to the mountain climber",
+    "visit_ice_cliffs": "Visit the ice cliffs",
+    "kill_polar_bears": "Kill 10 polar bears",
+    "collect_ice_shards": "Collect 25 ice shards",
+    "visit_frozen_summit": "Visit the frozen summit",
+    "collect_eternal_ice": "Collect 8 eternal ice"
   },
   "dialogs": [
     "Atop the frozen peaks grows the eternal ice crystal.",

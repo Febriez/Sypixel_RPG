@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -19,7 +20,6 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -47,7 +47,7 @@ public class FirstStepsQuest extends Quest {
                         // 1. 허브 구역 방문 (WorldGuard 영역 이름: Hub)
                         new VisitLocationObjective("visit_hub", "Hub"),
                         // 2. 마을 상인 NPC 방문 (NPC Code 기반)
-                        new InteractNPCObjective("visit_merchant", "village_merchant", 1)
+                        new InteractNPCObjective("visit_merchant", "village_merchant")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 100)
@@ -64,23 +64,22 @@ public class FirstStepsQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_TUTORIAL_FIRST_STEPS_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_TUTORIAL_FIRST_STEPS_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_TUTORIAL_FIRST_STEPS_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "visit_hub" -> LangManager.list(LangKey.QUEST_TUTORIAL_FIRST_STEPS_OBJECTIVES_VISIT_HUB, who);
-            case "visit_merchant" -> LangManager.list(LangKey.QUEST_TUTORIAL_FIRST_STEPS_OBJECTIVES_VISIT_MERCHANT, who);
-            default -> new ArrayList<>();
+            case "visit_hub" -> LangManager.text(QuestCommonLangKey.QUEST_TUTORIAL_FIRST_STEPS_OBJECTIVES_VISIT_HUB, who);
+            case "visit_merchant" -> LangManager.text(QuestCommonLangKey.QUEST_TUTORIAL_FIRST_STEPS_OBJECTIVES_VISIT_MERCHANT, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-
 
     @Override
     public int getDialogCount() {
@@ -89,7 +88,7 @@ public class FirstStepsQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_TUTORIAL_FIRST_STEPS_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_TUTORIAL_FIRST_STEPS_DIALOGS, who);
     }
     
     @Override
@@ -99,16 +98,16 @@ public class FirstStepsQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_TUTORIAL_FIRST_STEPS_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_TUTORIAL_FIRST_STEPS_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_TUTORIAL_FIRST_STEPS_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_TUTORIAL_FIRST_STEPS_DECLINE, who);
     }
 }

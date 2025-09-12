@@ -4,28 +4,12 @@
   "npc_name": "Festival Coordinator",
   "accept": "I'd love to help with the harvest celebration!",
   "decline": "I'm too busy to help with the festival right now.",
-  "objectives": [
-    {
-      "id": "gather_apples",
-      "description": "Help gather apples from the heavy-laden orchards"
-    },
-    {
-      "id": "harvest_pumpkins",
-      "description": "Collect beautiful pumpkins for soups and decorations"
-    },
-    {
-      "id": "decorate_village",
-      "description": "Decorate the village with autumn colors and harvest displays"
-    },
-    {
-      "id": "prepare_feast",
-      "description": "Help prepare the harvest feast for the village"
-    },
-    {
-      "id": "celebrate_harvest",
-      "description": "Join the harvest feast celebration"
-    }
-  ],
+  "objectives": {
+    "wheat_collect": "Harvest wheat from the golden fields",
+    "pumpkin_collect": "Collect orange pumpkins for the festival",
+    "apple_collect": "Gather fresh apples from the orchards",
+    "pumpkin_pie_craft": "Craft delicious pumpkin pies for the feast"
+  },
   "dialogs": [
     "Welcome to the Autumn Harvest Festival! The season's bounty awaits your help.",
     "The apple orchards are heavy with fruit. Please help us gather them all!",

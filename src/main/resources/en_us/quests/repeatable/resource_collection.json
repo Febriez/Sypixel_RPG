@@ -10,11 +10,16 @@
     "collect_wood": "Collect 128 oak logs",
     "collect_stone": "Collect 256 cobblestone",
     "catch_fish": "Catch 20 fish",
-    "collect_gems": "Collect 5 diamonds"
+    "collect_gems": "Collect 5 diamonds",
+    "cobblestone_collect": "Cobblestone Collect",
+    "diamond_collect": "Diamond Collect",
+    "oak_log_collect": "Oak Log Collect",
+    "salmon_collect": "Salmon Collect"
   },
   "dialogs": [
     "We have urgent resource collection contracts available. Are you interested?",
     "The contract specifies exact quantities and quality standards.",
     "Good progress! Keep up the efficient collection work."
-  ]
+  ],
+  "npc.name": "Resource Collection Master"
 }

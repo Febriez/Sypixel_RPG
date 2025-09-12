@@ -1,0 +1,24 @@
+{
+  "objectives": {
+    "blacksmith.blacksmith_master": "Blacksmith Master",
+    "blacksmith.coal_collect": "Coal Collect",
+    "blacksmith.diamond_chestplate_craft": "Diamond Chestplate Craft",
+    "blacksmith.diamond_collect": "Diamond Collect",
+    "blacksmith.diamond_sword_collect": "Diamond Sword Collect",
+    "blacksmith.diamond_sword_craft": "Diamond Sword Craft",
+    "blacksmith.gold_ingot_collect": "Gold Ingot Collect",
+    "blacksmith.iron_chestplate_craft": "Iron Chestplate Craft",
+    "blacksmith.iron_ingot_collect": "Iron Ingot Collect",
+    "blacksmith.iron_pickaxe_craft": "Iron Pickaxe Craft",
+    "blacksmith.mine_diamond": "Mine Diamond",
+    "blacksmith.mine_gold": "Mine Gold",
+    "blacksmith.mine_iron": "Mine Iron",
+    "blacksmith.netherite_ingot_craft": "Netherite Ingot Craft",
+    "blacksmith.netherite_scrap_collect": "Netherite Scrap Collect",
+    "blacksmith.netherite_sword_craft": "Netherite Sword Craft",
+    "blacksmith.netherite_sword_deliver": "Netherite Sword Deliver",
+    "blacksmith.setup_anvil": "Setup Anvil",
+    "blacksmith.setup_enchanting": "Setup Enchanting",
+    "blacksmith.setup_furnace": "Setup Furnace"
+  }
+}

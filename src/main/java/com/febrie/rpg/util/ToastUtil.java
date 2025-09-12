@@ -48,15 +48,8 @@ public class ToastUtil {
         for (QuestObjective objective : objectives) {
             ObjectiveProgress objProgress = progress.getObjectiveProgress(objective.getId());
             if (objProgress != null) {
-                List<Component> objDescComps = quest.getObjectiveDescription(objective, player);
-                String objDesc = "";
-                if (!objDescComps.isEmpty()) {
-                    Component joinedDesc = objDescComps.get(0);
-                    for (int i = 1; i < objDescComps.size(); i++) {
-                        joinedDesc = joinedDesc.append(Component.space()).append(objDescComps.get(i));
-                    }
-                    objDesc = extractPlainText(joinedDesc);
-                }
+                Component objDescComp = quest.getObjectiveDescription(objective, player);
+                String objDesc = extractPlainText(objDescComp);
                 String progressText = objProgress.isCompleted() ? "✓ " + objDesc : String.format("• %s (%d/%d)", objDesc, objProgress.getCurrentValue(), objProgress.getRequiredAmount());
                 progressInfo.add(progressText);
             }
@@ -87,15 +80,8 @@ public class ToastUtil {
         Component questNameComp = quest.getDisplayName(player);
         String questName = extractPlainText(questNameComp);
         
-        List<Component> objectiveDescComps = quest.getObjectiveDescription(objective, player);
-        String objectiveDesc = "";
-        if (!objectiveDescComps.isEmpty()) {
-            Component joinedDesc = objectiveDescComps.get(0);
-            for (int i = 1; i < objectiveDescComps.size(); i++) {
-                joinedDesc = joinedDesc.append(Component.space()).append(objectiveDescComps.get(i));
-            }
-            objectiveDesc = extractPlainText(joinedDesc);
-        }
+        Component objectiveDescComp = quest.getObjectiveDescription(objective, player);
+        String objectiveDesc = extractPlainText(objectiveDescComp);
 
         // Toast 표시 - 제목: 퀘스트 이름, 내용: 목표 완료 메시지
         Component achievedComp = Component.translatable("quest.objective-achieved");

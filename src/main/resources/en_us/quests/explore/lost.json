@@ -1,0 +1,9 @@
+{
+  "objectives": {
+    "continent.break_ocean_blocks": "Break Ocean Blocks",
+    "continent.build_expedition_camp": "Build Expedition Camp",
+    "continent.defeat_continent_guardians": "Defeat Continent Guardians",
+    "continent.explore_mysterious_lands": "Explore Mysterious Lands",
+    "continent.prismarine_crystals_collect": "Prismarine Crystals Collect"
+  }
+}

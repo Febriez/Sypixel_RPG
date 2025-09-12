@@ -4,28 +4,13 @@
   "npc_name": "Master Navigator",
   "accept": "I'll brave the treacherous seas to find the Lost Continent!",
   "decline": "This voyage is too dangerous for me to attempt.",
-  "objectives": [
-    {
-      "id": "prepare_expedition",
-      "description": "Prepare supplies and equipment for the treacherous journey"
-    },
-    {
-      "id": "navigate_mists",
-      "description": "Navigate through the endless mists to find the continent"
-    },
-    {
-      "id": "discover_continent",
-      "description": "Make landfall on the legendary Lost Continent"
-    },
-    {
-      "id": "explore_ruins",
-      "description": "Explore the ancient ruins of the lost civilization"
-    },
-    {
-      "id": "face_guardian",
-      "description": "Confront the ancient guardian protecting the continent's secrets"
-    }
-  ],
+  "objectives": {
+    "break_ocean_blocks": "Break prismarine blocks in the ocean",
+    "build_expedition_camp": "Build an expedition camp with oak planks",
+    "explore_mysterious_lands": "Explore the mysterious lost continent",
+    "prismarine_crystals_collect": "Collect prismarine crystals",
+    "defeat_continent_guardians": "Defeat the continent guardians"
+  },
   "dialogs": [
     "Legends speak of a continent lost to time, hidden beyond the endless mists.",
     "Such a journey requires careful preparation. The seas are treacherous.",

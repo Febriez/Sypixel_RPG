@@ -13,6 +13,7 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.lang.quest.side.VolcanicDepthsLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -21,8 +22,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 /**
  * 화산 깊이 - 사이드 퀘스트
@@ -46,12 +47,12 @@ public class VolcanicDepthsQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.SIDE_VOLCANIC_DEPTHS)
                 .objectives(List.of(
-                        new InteractNPCObjective("volcano_researcher", "volcano_researcher", 1),
+                        new InteractNPCObjective("volcano_researcher", "volcano_researcher"),
                         new VisitLocationObjective("volcano_rim", "volcano_rim"),
                         new KillMobObjective("kill_magma_cubes", EntityType.MAGMA_CUBE, 25),
-                        new CollectItemObjective("volcanic_glass", Material.OBSIDIAN, 15),
+                        new CollectItemObjective("obsidian_collect", Material.OBSIDIAN, 15),
                         new VisitLocationObjective("lava_chamber", "lava_chamber"),
-                        new CollectItemObjective("fire_essence", Material.MAGMA_CREAM, 10)
+                        new CollectItemObjective("magma_cream_collect", Material.MAGMA_CREAM, 10)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 1500)
@@ -65,24 +66,24 @@ public class VolcanicDepthsQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_NAME, who);
+        return LangManager.text(VolcanicDepthsLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_INFO, who);
+        return LangManager.list(VolcanicDepthsLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "volcano_researcher" -> LangManager.list(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_VOLCANO_RESEARCHER, who);
-            case "volcano_rim" -> LangManager.list(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_VOLCANO_RIM, who);
-            case "kill_magma_cubes" -> LangManager.list(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_KILL_MAGMA_CUBES, who);
-            case "volcanic_glass" -> LangManager.list(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_VOLCANIC_GLASS, who);
-            case "lava_chamber" -> LangManager.list(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_LAVA_CHAMBER, who);
-            case "fire_essence" -> LangManager.list(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_FIRE_ESSENCE, who);
-            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+            case "volcano_researcher" -> LangManager.text(VolcanicDepthsLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_VOLCANO_RESEARCHER, who);
+            case "volcano_rim" -> LangManager.text(VolcanicDepthsLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_VOLCANO_RIM, who);
+            case "kill_magma_cubes" -> LangManager.text(VolcanicDepthsLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_KILL_MAGMA_CUBES, who);
+            case "obsidian_collect" -> LangManager.text(VolcanicDepthsLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_OBSIDIAN_COLLECT, who);
+            case "lava_chamber" -> LangManager.text(VolcanicDepthsLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_LAVA_CHAMBER, who);
+            case "magma_cream_collect" -> LangManager.text(VolcanicDepthsLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_MAGMA_CREAM_COLLECT, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -93,7 +94,7 @@ public class VolcanicDepthsQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_DIALOGS, who);
+        return LangManager.list(VolcanicDepthsLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_DIALOGS, who);
     }
     
     @Override
@@ -103,16 +104,16 @@ public class VolcanicDepthsQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_NPC_NAME, who);
+        return LangManager.text(VolcanicDepthsLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_ACCEPT, who);
+        return LangManager.text(VolcanicDepthsLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_VOLCANIC_DEPTHS_DECLINE, who);
+        return LangManager.text(VolcanicDepthsLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_DECLINE, who);
     }
 }

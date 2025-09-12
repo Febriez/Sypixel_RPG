@@ -19,6 +19,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class GuildFortressSiegeQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.GUILD_FORTRESS_SIEGE)
                 .objectives(List.of(
-                        new InteractNPCObjective("participate_in_siege", "siege_commander", 1),
+                        new InteractNPCObjective("participate_in_siege", "siege_commander"),
                         new BreakBlockObjective("destroy_enemy_walls", Material.STONE_BRICK_WALL, 5),
                         new KillPlayerObjective("defeat_enemy_players", 20),
                         new VisitLocationObjective("capture_control_points", "control_point"),
@@ -65,26 +66,26 @@ public class GuildFortressSiegeQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_FORTRESS_SIEGE_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_FORTRESS_SIEGE_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_GUILD_FORTRESS_SIEGE_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_GUILD_FORTRESS_SIEGE_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "participate_in_siege" -> LangManager.list(LangKey.QUEST_GUILD_FORTRESS_SIEGE_OBJECTIVES_PARTICIPATE_IN_SIEGE, who);
-            case "destroy_enemy_walls" -> LangManager.list(LangKey.QUEST_GUILD_FORTRESS_SIEGE_OBJECTIVES_DESTROY_ENEMY_WALLS, who);
-            case "defeat_enemy_players" -> LangManager.list(LangKey.QUEST_GUILD_FORTRESS_SIEGE_OBJECTIVES_DEFEAT_ENEMY_PLAYERS, who);
-            case "capture_control_points" -> LangManager.list(LangKey.QUEST_GUILD_FORTRESS_SIEGE_OBJECTIVES_CAPTURE_CONTROL_POINTS, who);
-            case "defend_fortress" -> LangManager.list(LangKey.QUEST_GUILD_FORTRESS_SIEGE_OBJECTIVES_DEFEND_FORTRESS, who);
-            default -> new ArrayList<>();
+            case "participate_in_siege" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_FORTRESS_SIEGE_OBJECTIVES_PARTICIPATE_IN_SIEGE, who);
+            case "destroy_enemy_walls" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_FORTRESS_SIEGE_OBJECTIVES_DESTROY_ENEMY_WALLS, who);
+            case "defeat_enemy_players" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_FORTRESS_SIEGE_OBJECTIVES_DEFEAT_ENEMY_PLAYERS, who);
+            case "capture_control_points" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_FORTRESS_SIEGE_OBJECTIVES_CAPTURE_CONTROL_POINTS, who);
+            case "defend_fortress" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_FORTRESS_SIEGE_OBJECTIVES_DEFEND_FORTRESS, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 6;
@@ -92,7 +93,7 @@ public class GuildFortressSiegeQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_GUILD_FORTRESS_SIEGE_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_GUILD_FORTRESS_SIEGE_DIALOGS, who);
     }
     
     @Override
@@ -102,16 +103,16 @@ public class GuildFortressSiegeQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_FORTRESS_SIEGE_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_FORTRESS_SIEGE_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_FORTRESS_SIEGE_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_FORTRESS_SIEGE_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_FORTRESS_SIEGE_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_FORTRESS_SIEGE_DECLINE, who);
     }
 }

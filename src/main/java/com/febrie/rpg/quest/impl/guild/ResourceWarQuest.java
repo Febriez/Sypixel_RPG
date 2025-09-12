@@ -8,7 +8,6 @@ import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
-import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.DeliverItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -20,6 +19,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +46,11 @@ public class ResourceWarQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.GUILD_RESOURCE_WAR)
                 .objectives(List.of(
-                        new VisitLocationObjective("control_mining_nodes", "mining_node", 3),
-                        new CollectItemObjective("collect_rare_ores", Material.NETHERITE_INGOT, 20),
+                        new VisitLocationObjective("control_mining_nodes", "mining_node"),
+                        new CollectItemObjective("netherite_ingot_collect", Material.NETHERITE_INGOT, 20),
                         new KillMobObjective("defend_resource_nodes", EntityType.ZOMBIE, 15),
-                        new DeliverItemObjective("contribute_to_guild", Material.GOLD_INGOT, 32, "guild_treasurer"),
-                        new VisitLocationObjective("control_strategic_locations", "strategic_location", 2)
+                        new DeliverItemObjective("gold_ingot_deliver", Material.GOLD_INGOT, 32, "guild_treasurer"),
+                        new VisitLocationObjective("control_strategic_locations", "strategic_location")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 1200)
@@ -66,26 +66,26 @@ public class ResourceWarQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_RESOURCE_WAR_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_RESOURCE_WAR_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_GUILD_RESOURCE_WAR_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_GUILD_RESOURCE_WAR_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "control_mining_nodes" -> LangManager.list(LangKey.QUEST_GUILD_RESOURCE_WAR_OBJECTIVES_CONTROL_MINING_NODES, who);
-            case "collect_rare_ores" -> LangManager.list(LangKey.QUEST_GUILD_RESOURCE_WAR_OBJECTIVES_COLLECT_RARE_ORES, who);
-            case "defend_resource_nodes" -> LangManager.list(LangKey.QUEST_GUILD_RESOURCE_WAR_OBJECTIVES_DEFEND_RESOURCE_NODES, who);
-            case "contribute_to_guild" -> LangManager.list(LangKey.QUEST_GUILD_RESOURCE_WAR_OBJECTIVES_CONTRIBUTE_TO_GUILD, who);
-            case "control_strategic_locations" -> LangManager.list(LangKey.QUEST_GUILD_RESOURCE_WAR_OBJECTIVES_CONTROL_STRATEGIC_LOCATIONS, who);
-            default -> new ArrayList<>();
+            case "control_mining_nodes" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_RESOURCE_WAR_OBJECTIVES_CONTROL_MINING_NODES, who);
+            case "netherite_ingot_collect" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_RESOURCE_WAR_OBJECTIVES_NETHERITE_INGOT_COLLECT, who);
+            case "defend_resource_nodes" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_RESOURCE_WAR_OBJECTIVES_DEFEND_RESOURCE_NODES, who);
+            case "gold_ingot_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_RESOURCE_WAR_OBJECTIVES_GOLD_INGOT_DELIVER, who);
+            case "control_strategic_locations" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_RESOURCE_WAR_OBJECTIVES_CONTROL_STRATEGIC_LOCATIONS, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 5;
@@ -93,7 +93,7 @@ public class ResourceWarQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_GUILD_RESOURCE_WAR_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_GUILD_RESOURCE_WAR_DIALOGS, who);
     }
     
     @Override
@@ -103,16 +103,16 @@ public class ResourceWarQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_RESOURCE_WAR_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_RESOURCE_WAR_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_RESOURCE_WAR_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_RESOURCE_WAR_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_RESOURCE_WAR_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_RESOURCE_WAR_DECLINE, who);
     }
 }

@@ -12,6 +12,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.List;
 import net.kyori.adventure.text.Component;
@@ -20,8 +21,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
 
 /**
  * 영웅의 여정 - 메인 퀘스트 1
@@ -51,12 +50,12 @@ public class HeroesJourneyQuest extends Quest {
                         new KillMobObjective("kill_spiders", EntityType.SPIDER, 5),
 
                         // 2. 자원 수집
-                        new CollectItemObjective("collect_iron", Material.IRON_INGOT, 20),
-                        new CollectItemObjective("collect_gold", Material.GOLD_INGOT, 10),
+                        new CollectItemObjective("iron_ingot_collect", Material.IRON_INGOT, 20),
+                        new CollectItemObjective("gold_ingot_collect", Material.GOLD_INGOT, 10),
 
                         // 3. 장비 제작
-                        new CraftItemObjective("craft_iron_sword", Material.IRON_SWORD, 1),
-                        new CraftItemObjective("craft_iron_armor", Material.IRON_CHESTPLATE, 1)
+                        new CraftItemObjective("iron_sword_craft", Material.IRON_SWORD, 1),
+                        new CraftItemObjective("iron_chestplate_craft", Material.IRON_CHESTPLATE, 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 500)
@@ -75,25 +74,25 @@ public class HeroesJourneyQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "kill_zombies" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_KILL_ZOMBIES, who);
-            case "kill_skeletons" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_KILL_SKELETONS, who);
-            case "kill_spiders" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_KILL_SPIDERS, who);
-            case "collect_iron" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_COLLECT_IRON, who);
-            case "collect_gold" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_COLLECT_GOLD, who);
-            case "craft_iron_sword" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_CRAFT_IRON_SWORD, who);
-            case "craft_iron_armor" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_CRAFT_IRON_ARMOR, who);
-            default -> List.of(Component.text("Objective: " + objective.getId()));
+            case "kill_zombies" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_KILL_ZOMBIES, who);
+            case "kill_skeletons" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_KILL_SKELETONS, who);
+            case "kill_spiders" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_KILL_SPIDERS, who);
+            case "iron_ingot_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_IRON_INGOT_COLLECT, who);
+            case "gold_ingot_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_GOLD_INGOT_COLLECT, who);
+            case "iron_sword_craft" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_IRON_SWORD_CRAFT, who);
+            case "iron_chestplate_craft" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_IRON_CHESTPLATE_CRAFT, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -104,7 +103,7 @@ public class HeroesJourneyQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_HEROES_JOURNEY_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_DIALOGS, who);
     }
     
     @Override
@@ -114,16 +113,16 @@ public class HeroesJourneyQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_HEROES_JOURNEY_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_DECLINE, who);
     }
 }

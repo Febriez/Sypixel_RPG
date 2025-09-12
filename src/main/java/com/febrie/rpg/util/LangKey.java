@@ -1,3302 +1,2425 @@
 package com.febrie.rpg.util;
 
+import com.febrie.rpg.util.lang.*;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
+import com.febrie.rpg.util.lang.quest.tutorial.TutorialQuestLangKey;
+
 /**
- * 모든 언어 키를 중앙에서 관리하는 enum
+ * Main LangKey class that provides backward compatibility
+ * by delegating to category-specific enum classes.
+ * 
+ * This refactoring solves the 64KB method size limitation issue
+ * by splitting the original 3500+ enum entries into multiple smaller enums.
+ * 
+ * 모든 언어 키를 중앙에서 관리하는 클래스
  * 컴파일 타임에 키 검증 및 IDE 자동완성 지원
  */
-public enum LangKey {
-    // =================================
-    // BIOME 관련 키
-    // =================================
-    BIOME_PLAINS("biome.plains"),
-    BIOME_FOREST("biome.forest"),
-    BIOME_DESERT("biome.desert"),
-    BIOME_JUNGLE("biome.jungle"),
-    BIOME_TAIGA("biome.taiga"),
-    BIOME_SNOWY_PLAINS("biome.snowy_plains"),
-    BIOME_SAVANNA("biome.savanna"),
-    BIOME_SWAMP("biome.swamp"),
-    BIOME_MUSHROOM_FIELDS("biome.mushroom_fields"),
-    BIOME_BEACH("biome.beach"),
-    BIOME_FLOWER_FOREST("biome.flower_forest"),
-    BIOME_BAMBOO_JUNGLE("biome.bamboo_jungle"),
-    BIOME_DARK_FOREST("biome.dark_forest"),
-    BIOME_BIRCH_FOREST("biome.birch_forest"),
-    BIOME_BADLANDS("biome.badlands"),
-    BIOME_OCEAN("biome.ocean"),
-    BIOME_CHERRY_GROVE("biome.cherry_grove"),
-
-    // =================================
-    // GUI 관련 키
-    // =================================
-    GUI_COMMON_BACK("gui.common.back"),
-    GUI_COMMON_CLOSE("gui.common.close"),
-    GUI_COMMON_NEXT_PAGE("gui.common.next_page"),
-    GUI_COMMON_PREVIOUS_PAGE("gui.common.previous_page"),
-    GUI_COMMON_PREV_PAGE("gui.common.prev_page"),
-    GUI_COMMON_CONFIRM("gui.common.confirm"),
-    GUI_COMMON_CANCEL("gui.common.cancel"),
-    GUI_COMMON_SETTINGS("gui.common.settings"),
-    GUI_COMMON_UNKNOWN("gui.common.unknown"),
-    GUI_COMMON_PAGE("gui.common.page"),
-    
-    GUI_MAINMENU_TITLE("gui.mainmenu.title"),
-    
-    // Settings GUI
-    GUI_SETTINGS_TITLE("gui.settings.title"),
-    SETTINGS_PERSONAL("settings.personal"),
-    
-    // Profile GUI
-    GUI_PROFILE_TITLE("gui.profile.title"),
-    GUI_PROFILE_PLAYER_TITLE("gui.profile.player_title"),
-    GUI_PROFILE_VIEWING("gui.profile.viewing"),
-    GUI_PROFILE_LEVEL("gui.profile.level"),
-    GUI_PROFILE_LEVEL_INFO("gui.profile.level_info"),
-    GUI_PROFILE_EXPERIENCE("gui.profile.experience"),
-    GUI_PROFILE_EXP("gui.profile.exp"),
-    GUI_PROFILE_EXP_PERCENT("gui.profile.exp_percent"),
-    GUI_PROFILE_JOB("gui.profile.job"),
-    GUI_PROFILE_NO_JOB("gui.profile.no_job"),
-    GUI_PROFILE_CURRENT_JOB("gui.profile.current_job"),
-    GUI_PROFILE_JOB_LEVEL("gui.profile.job_level"),
-    GUI_PROFILE_COMBAT_POWER("gui.profile.combat_power"),
-    GUI_PROFILE_CLICK_TO_TALENTS("gui.profile.click_to_talents"),
-    GUI_PROFILE_GOLD("gui.profile.gold"),
-    GUI_PROFILE_PLAYTIME("gui.profile.playtime"),
-    GUI_PROFILE_JOIN_DATE("gui.profile.join_date"),
-    GUI_PROFILE_LAST_SEEN("gui.profile.last_seen"),
-    GUI_PROFILE_STATS("gui.profile.stats"),
-    GUI_PROFILE_TALENTS("gui.profile.talents"),
-    GUI_PROFILE_CLICK_FOR_TALENTS("gui.profile.click_for_talents"),
-    GUI_PROFILE_CLICK_FOR_STATS("gui.profile.click_for_stats"),
-    GUI_PROFILE_ONLINE_STATUS("gui.profile.online_status"),
-    GUI_PROFILE_GAMEMODE("gui.profile.gamemode"),
-    GUI_PROFILE_LOCATION("gui.profile.location"),
-    GUI_PROFILE_HEALTH("gui.profile.health"),
-    GUI_PROFILE_HEALTH_INFO("gui.profile.health_info"),
-    GUI_PROFILE_FOOD_INFO("gui.profile.food_info"),
-    GUI_PROFILE_FOOD_LEVEL("gui.profile.food_level"),
-    GUI_PROFILE_SATURATION("gui.profile.saturation"),
-    GUI_PROFILE_GAME_INFO("gui.profile.game_info"),
-    GUI_PROFILE_WORLD("gui.profile.world"),
-    GUI_PROFILE_HUNGER("gui.profile.hunger"),
-    GUI_PROFILE_ACTIVE_QUESTS("gui.profile.active_quests"),
-    GUI_PROFILE_COMPLETED_QUESTS("gui.profile.completed_quests"),
-    GUI_PROFILE_MOB_KILLS("gui.profile.mob_kills"),
-    GUI_PROFILE_PLAYER_INFO_NAME("gui.profile.player_info.name"),
-    
-    // Buttons
-    GUI_BUTTONS_CLOSE_NAME("gui.buttons.close.name"),
-    GUI_BUTTONS_BACK_NAME("gui.buttons.back.name"),
-    GUI_BUTTONS_BACK_LORE("gui.buttons.back.lore"),
-    GUI_BUTTONS_REFRESH_NAME("gui.buttons.refresh.name"),
-    GUI_BUTTONS_REFRESH_LORE("gui.buttons.refresh.lore"),
-    GUI_BUTTONS_NEXT_PAGE_NAME("gui.buttons.next_page.name"),
-    GUI_BUTTONS_PREVIOUS_PAGE_NAME("gui.buttons.previous_page.name"),
-    GUI_BUTTONS_PAGE_INFO_LORE("gui.buttons.page_info.lore"),
-    GUI_BUTTONS_CLOSE_LORE("gui.buttons.close.lore"),
-    GUI_BUTTONS_NEXT_PAGE_LORE("gui.buttons.next_page.lore"),
-    GUI_BUTTONS_PREVIOUS_PAGE_LORE("gui.buttons.previous_page.lore"),
-    
-    // Leaderboard GUI
-    GUI_LEADERBOARD_TITLE("gui.leaderboard.title"),
-    GUI_LEADERBOARD_TAB_SELECTED("gui.leaderboard.tab_selected"),
-    GUI_LEADERBOARD_TAB_CLICK("gui.leaderboard.tab_click"),
-    GUI_LEADERBOARD_CURRENT_TYPE("gui.leaderboard.current_type"),
-    GUI_LEADERBOARD_TOTAL_ENTRIES("gui.leaderboard.total_entries"),
-    GUI_LEADERBOARD_TYPE_LEVEL("gui.leaderboard.type.level"),
-    GUI_LEADERBOARD_TYPE_COMBAT_POWER("gui.leaderboard.type.combat_power"),
-    GUI_LEADERBOARD_TYPE_GOLD("gui.leaderboard.type.gold"),
-    GUI_LEADERBOARD_TYPE_PLAYTIME("gui.leaderboard.type.playtime"),
-    GUI_LEADERBOARD_MY_RANK("gui.leaderboard.my_rank"),
-    GUI_LEADERBOARD_MY_VALUE("gui.leaderboard.my_value"),
-    GUI_LEADERBOARD_LAST_UPDATED("gui.leaderboard.last_updated"),
-    
-    // Island GUI
-    GUI_ISLAND_MAIN_TITLE("gui.island.main.title"),
-    ISLAND_GUI_MAIN_TITLE_WITH_NAME("island.gui.main.title_with_name"),
-    ISLAND_GUI_MAIN_TITLE("island.gui.main.title"),
-    GUI_ISLAND_MAIN_COLOR_CHANGE_HINT("gui.island.main.color_change_hint"),
-    GUI_ISLAND_MAIN_HEX_FORMAT_ERROR("gui.island.main.hex_format_error"),
-    GUI_ISLAND_MAIN_HEX_FORMAT_EXAMPLE("gui.island.main.hex_format_example"),
-    GUI_ISLAND_MAIN_COLOR_CHANGED("gui.island.main.color_changed"),
-    GUI_ISLAND_MAIN_HEX_INPUT_TITLE("gui.island.main.hex_input_title"),
-    GUI_ISLAND_MAIN_WARP_MOVING("gui.island.main.warp_moving"),
-    GUI_ISLAND_MAIN_WARP_SUCCESS("gui.island.main.warp_success"),
-    GUI_ISLAND_MAIN_INFO_LORE("gui.island.main.info.lore"),
-    GUI_ISLAND_MAIN_INFO_MEMBERS("gui.island.main.info.members"),
-    GUI_ISLAND_MAIN_CREATE_LORE1("gui.island.main.create.lore1"),
-    GUI_ISLAND_MAIN_CREATE_LORE2("gui.island.main.create.lore2"),
-    GUI_ISLAND_MAIN_SPAWN_NAME("gui.island.main.spawn.name"),
-    GUI_ISLAND_MAIN_SPAWN_LORE("gui.island.main.spawn.lore"),
-    GUI_ISLAND_MAIN_VISIT_NAME("gui.island.main.visit.name"),
-    GUI_ISLAND_MAIN_MEMBERS_LORE("gui.island.main.members.lore"),
-    GUI_ISLAND_MAIN_SETTINGS_LORE("gui.island.main.settings.lore"),
-    GUI_ISLAND_MAIN_UPGRADES_LORE("gui.island.main.upgrades.lore"),
-    GUI_ISLAND_MAIN_PERMISSIONS_LORE("gui.island.main.permissions.lore"),
-    GUI_ISLAND_MAIN_BIOME_LORE("gui.island.main.biome.lore"),
-    GUI_ISLAND_MAIN_CONTRIBUTIONS_LORE("gui.island.main.contributions.lore"),
-    GUI_ISLAND_MAIN_VISITORS_LORE("gui.island.main.visitors.lore"),
-    GUI_ISLAND_MAIN_RESET_LORE("gui.island.main.reset.lore"),
-    GUI_ISLAND_MAIN_LEAVE_LORE("gui.island.main.leave.lore"),
-    GUI_ISLAND_MAIN_BACK_NAME("gui.island.main.back.name"),
-    GUI_ISLAND_MAIN_CLOSE_NAME("gui.island.main.close.name"),
-    GUI_ISLAND_SETTINGS_TITLE("gui.island.settings.title"),
-    GUI_ISLAND_CREATE_TITLE("gui.island.create.title"),
-    
-    // Combat Power GUI
-    GUI_COMBAT_POWER_TITLE("gui.combat_power.title"),
-    GUI_COMBAT_POWER_TOTAL("gui.combat_power.total"),
-    GUI_COMBAT_POWER_BREAKDOWN("gui.combat_power.breakdown"),
-    GUI_COMBAT_POWER_FROM_LEVEL("gui.combat_power.from_level"),
-    GUI_COMBAT_POWER_FROM_STATS("gui.combat_power.from_stats"),
-    GUI_COMBAT_POWER_LEVEL_CONTRIBUTION("gui.combat_power.level_contribution"),
-    GUI_COMBAT_POWER_LEVEL_DETAIL("gui.combat_power.level_detail"),
-    GUI_COMBAT_POWER_STAT_CONTRIBUTION("gui.combat_power.stat_contribution"),
-    GUI_COMBAT_POWER_STAT_DETAIL("gui.combat_power.stat_detail"),
-    
-    // Job Confirmation GUI
-    GUI_JOB_CONFIRMATION_TITLE("gui.job_confirmation.title"),
-    GUI_JOB_CONFIRMATION_TITLE_SUCCESS("gui.job_confirmation.title_success"),
-    GUI_JOB_CONFIRMATION_SUBTITLE_SUCCESS("gui.job_confirmation.subtitle_success"),
-    GUI_JOB_CONFIRMATION_SELECTED_JOB("gui.job_confirmation.selected_job"),
-    GUI_JOB_CONFIRMATION_MAX_LEVEL("gui.job_confirmation.max_level"),
-    GUI_JOB_CONFIRMATION_WARNING("gui.job_confirmation.warning"),
-    GUI_JOB_CONFIRMATION_WARNING_TITLE("gui.job_confirmation.warning_title"),
-    GUI_JOB_CONFIRMATION_WARNING_DESCRIPTION("gui.job_confirmation.warning_description"),
-    GUI_JOB_CONFIRMATION_INFO_TITLE("gui.job_confirmation.info_title"),
-    GUI_JOB_CONFIRMATION_INFO_LINE1("gui.job_confirmation.info_line1"),
-    GUI_JOB_CONFIRMATION_INFO_LINE2("gui.job_confirmation.info_line2"),
-    GUI_JOB_CONFIRMATION_INFO_LINE3("gui.job_confirmation.info_line3"),
-    GUI_JOB_CONFIRMATION_CONFIRM("gui.job_confirmation.confirm"),
-    GUI_JOB_CONFIRMATION_CONFIRM_DESCRIPTION("gui.job_confirmation.confirm_description"),
-    GUI_JOB_CONFIRMATION_CLICK_TO_CONFIRM("gui.job_confirmation.click_to_confirm"),
-    GUI_JOB_CONFIRMATION_CANCEL("gui.job_confirmation.cancel"),
-    GUI_JOB_CONFIRMATION_CANCEL_DESCRIPTION("gui.job_confirmation.cancel_description"),
-    GUI_JOB_CONFIRMATION_CLICK_TO_CANCEL("gui.job_confirmation.click_to_cancel"),
-    GUI_JOB_CONFIRMATION_SUCCESS("gui.job_confirmation.success"),
-    GUI_JOB_CONFIRMATION_ALREADY_HAS_JOB("gui.job_confirmation.already_has_job"),
-    GUI_JOB_CONFIRMATION_CANNOT_CHANGE("gui.job_confirmation.cannot_change"),
-    
-    // Job Selection GUI
-    GUI_JOB_SELECTION_TITLE("gui.job_selection.title"),
-    GUI_JOB_SELECTION_TAB_SELECTED("gui.job_selection.tab_selected"),
-    GUI_JOB_SELECTION_TAB_CLICK("gui.job_selection.tab_click"),
-    GUI_JOB_SELECTION_MAX_LEVEL("gui.job_selection.max_level"),
-    GUI_JOB_SELECTION_CLICK_TO_CHOOSE("gui.job_selection.click_to_choose"),
-    GUI_JOB_SELECTION_WARNING("gui.job_selection.warning"),
-    
-    // Stats GUI
-    GUI_STATS_TITLE("gui.stats.title"),
-    GUI_STATS_POINTS_AVAILABLE("gui.stats.points_available"),
-    GUI_STATS_POINTS_COUNT("gui.stats.points_count"),
-    GUI_STATS_POINTS_INFO("gui.stats.points_info"),
-    GUI_STATS_CURRENT_VALUE("gui.stats.current_value"),
-    GUI_STATS_BASE_BONUS("gui.stats.base_bonus"),
-    GUI_STATS_CLICK_TO_ADD("gui.stats.click_to_add"),
-    
-    // Talent GUI
-    GUI_TALENT_TITLE("gui.talent.title"),
-    GUI_TALENT_NO_JOB("gui.talent.no_job"),
-    GUI_TALENT_JOB("gui.talent.job"),
-    GUI_TALENT_PAGE_INFO("gui.talent.page_info"),
-    GUI_TALENT_CURRENT_PAGE("gui.talent.current_page"),
-    GUI_TALENT_AVAILABLE_POINTS("gui.talent.available_points"),
-    GUI_TALENT_LEVEL_INFO("gui.talent.level_info"),
-    GUI_TALENT_STAT_BONUSES("gui.talent.stat_bonuses"),
-    GUI_TALENT_STAT_BONUS_LINE("gui.talent.stat_bonus_line"),
-    GUI_TALENT_EFFECTS("gui.talent.effects"),
-    GUI_TALENT_PREREQUISITES("gui.talent.prerequisites"),
-    GUI_TALENT_PREREQ_MET("gui.talent.prereq_met"),
-    GUI_TALENT_PREREQ_NOT_MET("gui.talent.prereq_not_met"),
-    GUI_TALENT_CAN_LEARN("gui.talent.can_learn"),
-    GUI_TALENT_CANNOT_LEARN("gui.talent.cannot_learn"),
-    GUI_TALENT_NOT_ENOUGH_POINTS("gui.talent.not_enough_points"),
-    GUI_TALENT_MAXED("gui.talent.maxed"),
-    GUI_TALENT_HAS_SUB_PAGE("gui.talent.has_sub_page"),
-    
-    // System Settings GUI
-    GUI_SYSTEM_SETTINGS_TITLE("gui.system_settings.title"),
-    GUI_SYSTEM_SETTINGS_STATUS("gui.system_settings.status"),
-    GUI_SYSTEM_SETTINGS_CLICK_TO_TOGGLE("gui.system_settings.click_to_toggle"),
-    GUI_SYSTEM_SETTINGS_CONFIRMATION_TOGGLED("gui.system_settings.confirmation_toggled"),
-    
-    // =================================
-    // GENERAL 키
-    // =================================
-    GENERAL_SEPARATOR("general.separator"),
-    GENERAL_COMING_SOON("general.coming_soon"),
-    GENERAL_CANNOT_VIEW_OTHERS_QUESTS("general.cannot_view_others_quests"),
-    GENERAL_CANNOT_VIEW_OTHERS_STATS("general.cannot_view_others_stats"),
-    GENERAL_CANNOT_VIEW_OTHERS_TALENTS("general.cannot_view_others_talents"),
-    GENERAL_CANNOT_SELECT_OTHERS_JOB("general.cannot_select_others_job"),
-    
-    // Status
-    STATUS_ENABLED("status.enabled"),
-    STATUS_DISABLED("status.disabled"),
-    ACTION_ENABLE("general.action.enable"),
-    ACTION_DISABLE("general.action.disable"),
-    
-    // Messages
-    MESSAGES_STAT_INCREASED("messages.stat_increased"),
-    MESSAGES_NOT_ENOUGH_STAT_POINTS("messages.not_enough_stat_points"),
-    MESSAGES_TALENT_LEARNED("messages.talent_learned"),
-    MESSAGES_TALENT_CANNOT_LEARN("messages.talent_cannot_learn"),
-    MESSAGES_NOT_ENOUGH_TALENT_POINTS("messages.not_enough_talent_points"),
-    
-    // =================================
-    // STATUS 키
-    // =================================
-    STATUS_ONLINE("status.online"),
-    STATUS_OFFLINE("status.offline"),
-    STATUS_NEW_MAIL("status.new_mail"),
-    STATUS_READ("status.read"),
-    
-    // =================================
-    // MESSAGES 키
-    // =================================
-    MESSAGES_NO_JOB_FOR_STATS("messages.no_job_for_stats"),
-    
-    // =================================
-    // ITEMS GUI 관련 키
-    // =================================
-    ITEMS_GUI_BUTTONS_CLOSE_NAME("items.gui.buttons.close.name"),
-    ITEMS_GUI_BUTTONS_CLOSE_LORE("items.gui.buttons.close.lore"),
-    ITEMS_GUI_BUTTONS_BACK_NAME("items.gui.buttons.back.name"),
-    ITEMS_GUI_BUTTONS_BACK_LORE("items.gui.buttons.back.lore"),
-    ITEMS_GUI_BUTTONS_REFRESH_NAME("items.gui.buttons.refresh.name"),
-    ITEMS_GUI_BUTTONS_REFRESH_LORE("items.gui.buttons.refresh.lore"),
-    ITEMS_GUI_BUTTONS_NEXT_PAGE_NAME("items.gui.buttons.next_page.name"),
-    ITEMS_GUI_BUTTONS_NEXT_PAGE_LORE("items.gui.buttons.next_page.lore"),
-    ITEMS_GUI_BUTTONS_PREVIOUS_PAGE_NAME("items.gui.buttons.previous_page.name"),
-    ITEMS_GUI_BUTTONS_PREVIOUS_PAGE_LORE("items.gui.buttons.previous_page.lore"),
-    ITEMS_GUI_BUTTONS_CONFIRM_NAME("items.gui.buttons.confirm.name"),
-    ITEMS_GUI_BUTTONS_CONFIRM_LORE("items.gui.buttons.confirm.lore"),
-    ITEMS_GUI_BUTTONS_CANCEL_NAME("items.gui.buttons.cancel.name"),
-    ITEMS_GUI_BUTTONS_CANCEL_LORE("items.gui.buttons.cancel.lore"),
-    ITEMS_GUI_BUTTONS_PAGE_INFO_NAME("items.gui.buttons.page_info.name"),
-    ITEMS_GUI_BUTTONS_TOGGLE_ENABLED("items.gui.buttons.toggle.enabled"),
-    ITEMS_GUI_BUTTONS_TOGGLE_DISABLED("items.gui.buttons.toggle.disabled"),
-    ITEMS_GUI_BUTTONS_STATUS_ONLINE("items.gui.buttons.status.online"),
-    ITEMS_GUI_BUTTONS_STATUS_OFFLINE("items.gui.buttons.status.offline"),
-    ITEMS_GUI_ERROR_TITLE("items.gui.error.title"),
-    
-    // Main Menu Items
-    ITEMS_MAINMENU_TITLE_NAME("items.mainmenu.title.name"),
-    ITEMS_MAINMENU_TITLE_LORE("items.mainmenu.title.lore"),
-    ITEMS_MAINMENU_PROFILE_BUTTON_NAME("items.mainmenu.profile_button.name"),
-    ITEMS_MAINMENU_PROFILE_BUTTON_LORE("items.mainmenu.profile_button.lore"),
-    ITEMS_MAINMENU_LEADERBOARD_BUTTON_NAME("items.mainmenu.leaderboard_button.name"),
-    ITEMS_MAINMENU_LEADERBOARD_BUTTON_LORE("items.mainmenu.leaderboard_button.lore"),
-    ITEMS_MAINMENU_JOB_BUTTON_NAME("items.mainmenu.job_button.name"),
-    ITEMS_MAINMENU_JOB_BUTTON_LORE("items.mainmenu.job_button.lore"),
-    ITEMS_MAINMENU_STATS_BUTTON_NAME("items.mainmenu.stats_button.name"),
-    ITEMS_MAINMENU_STATS_BUTTON_LORE("items.mainmenu.stats_button.lore"),
-    ITEMS_MAINMENU_HUB_BUTTON_NAME("items.mainmenu.hub_button.name"),
-    ITEMS_MAINMENU_HUB_BUTTON_LORE("items.mainmenu.hub_button.lore"),
-    ITEMS_MAINMENU_SHOP_BUTTON_NAME("items.mainmenu.shop_button.name"),
-    ITEMS_MAINMENU_SHOP_BUTTON_LORE("items.mainmenu.shop_button.lore"),
-    ITEMS_MAINMENU_DUNGEON_BUTTON_NAME("items.mainmenu.dungeon_button.name"),
-    ITEMS_MAINMENU_DUNGEON_BUTTON_LORE("items.mainmenu.dungeon_button.lore"),
-    ITEMS_MAINMENU_WILD_BUTTON_NAME("items.mainmenu.wild_button.name"),
-    ITEMS_MAINMENU_WILD_BUTTON_LORE("items.mainmenu.wild_button.lore"),
-    ITEMS_MAINMENU_ISLAND_BUTTON_NAME("items.mainmenu.island_button.name"),
-    ITEMS_MAINMENU_ISLAND_BUTTON_LORE("items.mainmenu.island_button.lore"),
-    
-    // Settings Items
-    ITEMS_SETTINGS_SYSTEM_SETTINGS_TITLE_NAME("items.settings.system_settings.title.name"),
-    ITEMS_SETTINGS_SYSTEM_SETTINGS_TITLE_LORE("items.settings.system_settings.title.lore"),
-    ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_NAME("items.settings.system_settings.confirmation.name"),
-    ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_DESC1("items.settings.system_settings.confirmation.desc1"),
-    ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_DESC2("items.settings.system_settings.confirmation.desc2"),
-    ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_DESC3("items.settings.system_settings.confirmation.desc3"),
-    ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_EXAMPLE_TITLE("items.settings.system_settings.confirmation.example_title"),
-    ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_EXAMPLE1("items.settings.system_settings.confirmation.example1"),
-    ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_EXAMPLE2("items.settings.system_settings.confirmation.example2"),
-    
-    // Main Settings Items
-    ITEMS_SETTINGS_MAIN_TITLE_NAME("items.settings.main.title.name"),
-    ITEMS_SETTINGS_MAIN_TITLE_LORE("items.settings.main.title.lore"),
-    
-    // Settings Category Items  
-    ITEMS_SETTINGS_GUI_NAME("items.settings.gui.name"),
-    ITEMS_SETTINGS_GUI_LORE1("items.settings.gui.lore1"),
-    ITEMS_SETTINGS_GUI_LORE2("items.settings.gui.lore2"),
-    ITEMS_SETTINGS_INGAME_NAME("items.settings.ingame.name"),
-    ITEMS_SETTINGS_INGAME_LORE1("items.settings.ingame.lore1"),
-    ITEMS_SETTINGS_INGAME_LORE2("items.settings.ingame.lore2"),
-    ITEMS_SETTINGS_INGAME_LORE3("items.settings.ingame.lore3"),
-    ITEMS_SETTINGS_SOCIAL_NAME("items.settings.social.name"),
-    ITEMS_SETTINGS_SOCIAL_LORE1("items.settings.social.lore1"),
-    ITEMS_SETTINGS_SOCIAL_LORE2("items.settings.social.lore2"),
-    ITEMS_SETTINGS_SOCIAL_LORE3("items.settings.social.lore3"),
-    ITEMS_SETTINGS_SYSTEM_NAME("items.settings.system.name"),
-    ITEMS_SETTINGS_SYSTEM_LORE1("items.settings.system.lore1"),
-    ITEMS_SETTINGS_SYSTEM_LORE2("items.settings.system.lore2"),
-    ITEMS_SETTINGS_NOTIFICATION_NAME("items.settings.notification.name"),
-    ITEMS_SETTINGS_NOTIFICATION_LORE1("items.settings.notification.lore1"),
-    ITEMS_SETTINGS_NOTIFICATION_LORE2("items.settings.notification.lore2"),
-    ITEMS_SETTINGS_NOTIFICATION_LORE3("items.settings.notification.lore3"),
-    ITEMS_SETTINGS_CLICK("items.settings.click"),
-    
-    // Social Settings Items
-    ITEMS_SETTINGS_SOCIAL_SETTINGS_TITLE_NAME("items.settings.social-settings.title.name"),
-    ITEMS_SETTINGS_SOCIAL_SETTINGS_TITLE_LORE("items.settings.social-settings.title.lore"),
-    ITEMS_SETTINGS_SOCIAL_SETTINGS_FRIEND_REQUESTS_NAME("items.settings.social-settings.friend-requests.name"),
-    ITEMS_SETTINGS_SOCIAL_SETTINGS_FRIEND_REQUESTS_DESC1("items.settings.social-settings.friend-requests.desc1"),
-    ITEMS_SETTINGS_SOCIAL_SETTINGS_FRIEND_REQUESTS_DESC2("items.settings.social-settings.friend-requests.desc2"),
-    ITEMS_SETTINGS_SOCIAL_SETTINGS_GUILD_INVITES_NAME("items.settings.social-settings.guild-invites.name"),
-    ITEMS_SETTINGS_SOCIAL_SETTINGS_GUILD_INVITES_DESC1("items.settings.social-settings.guild-invites.desc1"),
-    ITEMS_SETTINGS_SOCIAL_SETTINGS_GUILD_INVITES_DESC2("items.settings.social-settings.guild-invites.desc2"),
-    ITEMS_SETTINGS_SOCIAL_SETTINGS_GUILD_INVITES_NOTE("items.settings.social-settings.guild-invites.note"),
-    ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_NAME("items.settings.social-settings.whisper.name"),
-    ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_CLICK_HINT("items.settings.social-settings.whisper.click-hint"),
-    ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_MODE_CYCLE("items.settings.social-settings.whisper.mode-cycle"),
-    ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_NOTE("items.settings.social-settings.whisper.note"),
-    
-    // GUI Social Settings Keys  
-    GUI_SOCIAL_SETTINGS_STATUS("gui.social-settings.status"),
-    GUI_SOCIAL_SETTINGS_CLICK_TO_TOGGLE("gui.social-settings.click-to-toggle"),
-    GUI_SOCIAL_SETTINGS_CURRENT_MODE("gui.social-settings.current-mode"),
-    GUI_SOCIAL_SETTINGS_FRIEND_REQUESTS_TOGGLED("gui.social-settings.friend-requests-toggled"),
-    GUI_SOCIAL_SETTINGS_GUILD_INVITES_TOGGLED("gui.social-settings.guild-invites-toggled"),
-    GUI_SOCIAL_SETTINGS_WHISPER_MODE_CHANGED("gui.social-settings.whisper-mode-changed"),
-    
-    
-    // Shop Items
-    ITEMS_SHOP_GOLD_NAME("items.shop.gold.name"),
-    
-    
-    // Social Friends Items
-    ITEMS_SOCIAL_FRIENDS_TITLE_NAME("items.social.friends.title.name"),
-    ITEMS_SOCIAL_FRIENDS_TITLE_LORE("items.social.friends.title.lore"),
-    ITEMS_SOCIAL_FRIENDS_REQUESTS_NAME("items.social.friends.requests.name"),
-    ITEMS_SOCIAL_FRIENDS_REQUESTS_LORE("items.social.friends.requests.lore"),
-    ITEMS_SOCIAL_FRIENDS_REQUESTS_CLICK("items.social.friends.requests.click"),
-    ITEMS_SOCIAL_FRIENDS_ADD_NAME("items.social.friends.add.name"),
-    ITEMS_SOCIAL_FRIENDS_ADD_LORE("items.social.friends.add.lore"),
-    ITEMS_SOCIAL_FRIENDS_ADD_CLICK("items.social.friends.add.click"),
-    ITEMS_SOCIAL_FRIENDS_REFRESH_NAME("items.social.friends.refresh.name"),
-    ITEMS_SOCIAL_FRIENDS_REFRESH_LORE("items.social.friends.refresh.lore"),
-    ITEMS_SOCIAL_FRIENDS_REFRESH_CLICK("items.social.friends.refresh.click"),
-    ITEMS_SOCIAL_FRIENDS_NO_FRIENDS_NAME("items.social.friends.no-friends.name"),
-    ITEMS_SOCIAL_FRIENDS_NO_FRIENDS_LORE("items.social.friends.no-friends.lore"),
-    ITEMS_LOADING_NAME("items.loading.name"),
-    ITEMS_SOCIAL_FRIENDS_FRIEND_ITEM_LEFT_CLICK("items.social.friends.friend-item.left-click"),
-    ITEMS_SOCIAL_FRIENDS_FRIEND_ITEM_RIGHT_CLICK("items.social.friends.friend-item.right-click"),
-    
-    // Social Friend Request Items
-    ITEMS_SOCIAL_FRIEND_REQUESTS_TITLE_NAME("items.social.friend-requests.title.name"),
-    ITEMS_SOCIAL_FRIEND_REQUESTS_TITLE_LORE("items.social.friend-requests.title.lore"),
-    ITEMS_SOCIAL_FRIEND_REQUESTS_NO_REQUESTS_NAME("items.social.friend-requests.no-requests.name"),
-    ITEMS_SOCIAL_FRIEND_REQUESTS_NO_REQUESTS_LORE("items.social.friend-requests.no-requests.lore"),
-    ITEMS_SOCIAL_FRIEND_REQUESTS_REQUEST_INFO_HINT("items.social.friend-requests.request-info.hint"),
-    ITEMS_SOCIAL_FRIEND_REQUESTS_ACCEPT_NAME("items.social.friend-requests.accept.name"),
-    ITEMS_SOCIAL_FRIEND_REQUESTS_ACCEPT_DESC2("items.social.friend-requests.accept.desc2"),
-    ITEMS_SOCIAL_FRIEND_REQUESTS_ACCEPT_CLICK("items.social.friend-requests.accept.click"),
-    ITEMS_SOCIAL_FRIEND_REQUESTS_REJECT_NAME("items.social.friend-requests.reject.name"),
-    ITEMS_SOCIAL_FRIEND_REQUESTS_REJECT_DESC2("items.social.friend-requests.reject.desc2"),
-    ITEMS_SOCIAL_FRIEND_REQUESTS_REJECT_CLICK("items.social.friend-requests.reject.click"),
-    
-    // Social Mail Detail Items
-    ITEMS_SOCIAL_MAIL_DETAIL_MESSAGE_NAME("items.social.mail-detail.message.name"),
-    ITEMS_SOCIAL_MAIL_DETAIL_NO_ATTACHMENTS_NAME("items.social.mail-detail.no-attachments.name"),
-    ITEMS_SOCIAL_MAIL_DETAIL_NO_ATTACHMENTS_LORE("items.social.mail-detail.no-attachments.lore"),
-    ITEMS_SOCIAL_MAIL_DETAIL_DELETE_NAME("items.social.mail-detail.delete.name"),
-    ITEMS_SOCIAL_MAIL_DETAIL_DELETE_LORE1("items.social.mail-detail.delete.lore1"),
-    ITEMS_SOCIAL_MAIL_DETAIL_DELETE_LORE2("items.social.mail-detail.delete.lore2"),
-    ITEMS_SOCIAL_MAIL_DETAIL_DELETE_CLICK("items.social.mail-detail.delete.click"),
-    ITEMS_SOCIAL_MAIL_DETAIL_REPLY_NAME("items.social.mail-detail.reply.name"),
-    ITEMS_SOCIAL_MAIL_DETAIL_REPLY_CLICK("items.social.mail-detail.reply.click"),
-    
-    // Social Mailbox Items
-    ITEMS_SOCIAL_MAILBOX_TITLE_NAME("items.social.mailbox.title.name"),
-    ITEMS_SOCIAL_MAILBOX_TITLE_LORE("items.social.mailbox.title.lore"),
-    ITEMS_SOCIAL_MAILBOX_REFRESH_NAME("items.social.mailbox.refresh.name"),
-    ITEMS_SOCIAL_MAILBOX_REFRESH_LORE("items.social.mailbox.refresh.lore"),
-    ITEMS_SOCIAL_MAILBOX_REFRESH_CLICK("items.social.mailbox.refresh.click"),
-    ITEMS_SOCIAL_MAILBOX_SEND_NAME("items.social.mailbox.send.name"),
-    ITEMS_SOCIAL_MAILBOX_SEND_LORE("items.social.mailbox.send.lore"),
-    ITEMS_SOCIAL_MAILBOX_SEND_CLICK("items.social.mailbox.send.click"),
-    ITEMS_SOCIAL_MAILBOX_DELETE_READ_NAME("items.social.mailbox.delete-read.name"),
-    ITEMS_SOCIAL_MAILBOX_DELETE_READ_LORE1("items.social.mailbox.delete-read.lore1"),
-    ITEMS_SOCIAL_MAILBOX_DELETE_READ_LORE2("items.social.mailbox.delete-read.lore2"),
-    ITEMS_SOCIAL_MAILBOX_DELETE_READ_CLICK("items.social.mailbox.delete-read.click"),
-    ITEMS_SOCIAL_MAILBOX_NO_MAILS_NAME("items.social.mailbox.no-mails.name"),
-    ITEMS_SOCIAL_MAILBOX_NO_UNREAD_MAILS_NAME("items.social.mailbox.no-unread-mails.name"),
-    ITEMS_SOCIAL_MAILBOX_NO_MAILS_LORE("items.social.mailbox.no-mails.lore"),
-    ITEMS_SOCIAL_MAILBOX_MAIL_ITEM_CLICK("items.social.mailbox.mail-item.click"),
-    
-    // Profile Items
-    ITEMS_PROFILE_LEVEL_INFO_NAME("items.profile.level_info.name"),
-    ITEMS_PROFILE_GAME_STATS_NAME("items.profile.game_stats.name"),
-    ITEMS_PROFILE_QUEST_INFO_NAME("items.profile.quest_info.name"),
-    ITEMS_PROFILE_QUEST_INFO_CLICK_LORE("items.profile.quest_info.click_lore"),
-    ITEMS_PROFILE_COLLECTION_BOOK_NAME("items.profile.collection_book.name"),
-    ITEMS_PROFILE_PETS_NAME("items.profile.pets.name"),
-    ITEMS_PROFILE_USER_SETTINGS_NAME("items.profile.user_settings.name"),
-    ITEMS_PROFILE_USER_SETTINGS_LORE("items.profile.user_settings.lore"),
-    
-    // Leaderboard Items
-    ITEMS_LEADERBOARD_LOADING_NAME("items.leaderboard.loading.name"),
-    ITEMS_LEADERBOARD_LOADING_LORE("items.leaderboard.loading.lore"),
-    ITEMS_LEADERBOARD_MY_RANK_NAME("items.leaderboard.my_rank.name"),
-    ITEMS_LEADERBOARD_NO_RANK_NAME("items.leaderboard.no_rank.name"),
-    ITEMS_LEADERBOARD_NO_RANK_LORE1("items.leaderboard.no_rank.lore1"),
-    ITEMS_LEADERBOARD_NO_RANK_LORE2("items.leaderboard.no_rank.lore2"),
-    
-    // Island Items
-    ITEMS_ISLAND_MAIN_INFO_LORE("items.island.main.info.lore"),
-    ITEMS_ISLAND_MEMBER_INVITE_LORE("items.island.member.invite.lore"),
-    ITEMS_ISLAND_MEMBER_PERMISSION_LORE("items.island.member.permission.lore"),
-    ITEMS_ISLAND_MAIN_UPGRADE_INFO_LORE("items.island.main.upgrade_info.lore"),
-    ITEMS_ISLAND_MAIN_CONTRIBUTION_INFO_LORE("items.island.main.contribution_info.lore"),
-    ITEMS_ISLAND_SPAWN_CURRENT_INFO_LORE("items.island.spawn.current_info.lore"),
-    ITEMS_ISLAND_MAIN_ISLAND_SETTINGS_LORE("items.island.main.island_settings.lore"),
-    ITEMS_ISLAND_MAIN_VISITOR_LORE("items.island.main.visitor.lore"),
-    ITEMS_ISLAND_MAIN_BIOME_CHANGE_LORE("items.island.main.biome_change.lore"),
-    ITEMS_ISLAND_MAIN_WARP_LORE("items.island.main.warp.lore"),
-    
-    // =================================
-    // QUEST 관련 키
-    // =================================
-    
-    // Tutorial Quests
-
-    QUEST_TUTORIAL_FIRST_STEPS_NAME("quest.tutorial.first_steps.name"),
-    QUEST_TUTORIAL_FIRST_STEPS_DIALOGS("quest.tutorial.first_steps.dialogs"),
-    QUEST_TUTORIAL_FIRST_STEPS_NPC_NAME("quest.tutorial.first_steps.npc_name"),
-    QUEST_TUTORIAL_FIRST_STEPS_ACCEPT("quest.tutorial.first_steps.accept"),
-    QUEST_TUTORIAL_FIRST_STEPS_DECLINE("quest.tutorial.first_steps.decline"),
-    
-    QUEST_TUTORIAL_BASIC_COMBAT_NAME("quest.tutorial.basic_combat.name"),
-    QUEST_TUTORIAL_BASIC_COMBAT_OBJECTIVES_KILL_ZOMBIES("quest.tutorial.basic_combat.objectives.kill_zombies"),
-    QUEST_TUTORIAL_BASIC_COMBAT_OBJECTIVES_KILL_SKELETONS("quest.tutorial.basic_combat.objectives.kill_skeletons"),
-    QUEST_TUTORIAL_BASIC_COMBAT_DIALOGS("quest.tutorial.basic_combat.dialogs"),
-    QUEST_TUTORIAL_BASIC_COMBAT_NPC_NAME("quest.tutorial.basic_combat.npc_name"),
-    QUEST_TUTORIAL_BASIC_COMBAT_ACCEPT("quest.tutorial.basic_combat.accept"),
-    QUEST_TUTORIAL_BASIC_COMBAT_DECLINE("quest.tutorial.basic_combat.decline"),
-    
-    // Daily Quests
-    QUEST_DAILY_MINING_NAME("quest.daily.mining.name"),
-    QUEST_DAILY_MINING_OBJECTIVES_MINE_STONE("quest.daily.mining.objectives.mine_stone"),
-    QUEST_DAILY_MINING_OBJECTIVES_MINE_COAL("quest.daily.mining.objectives.mine_coal"),
-    QUEST_DAILY_MINING_OBJECTIVES_MINE_IRON("quest.daily.mining.objectives.mine_iron"),
-    QUEST_DAILY_MINING_DIALOGS("quest.daily.mining.dialogs"),
-    QUEST_DAILY_MINING_NPC_NAME("quest.daily.mining.npc_name"),
-    QUEST_DAILY_MINING_ACCEPT("quest.daily.mining.accept"),
-    QUEST_DAILY_MINING_DECLINE("quest.daily.mining.decline"),
-    
-    QUEST_DAILY_HUNTING_NAME("quest.daily.hunting.name"),
-    QUEST_DAILY_HUNTING_OBJECTIVES_KILL_ZOMBIES("quest.daily.hunting.objectives.kill_zombies"),
-    QUEST_DAILY_HUNTING_OBJECTIVES_KILL_SKELETONS("quest.daily.hunting.objectives.kill_skeletons"),
-    QUEST_DAILY_HUNTING_OBJECTIVES_KILL_CREEPERS("quest.daily.hunting.objectives.kill_creepers"),
-    QUEST_DAILY_HUNTING_DIALOGS("quest.daily.hunting.dialogs"),
-    QUEST_DAILY_HUNTING_NPC_NAME("quest.daily.hunting.npc_name"),
-    QUEST_DAILY_HUNTING_ACCEPT("quest.daily.hunting.accept"),
-    QUEST_DAILY_HUNTING_DECLINE("quest.daily.hunting.decline"),
-    
-    QUEST_DAILY_GATHERING_NAME("quest.daily.gathering.name"),
-    QUEST_DAILY_GATHERING_DIALOGS("quest.daily.gathering.dialogs"),
-    QUEST_DAILY_GATHERING_NPC_NAME("quest.daily.gathering.npc_name"),
-    QUEST_DAILY_GATHERING_ACCEPT("quest.daily.gathering.accept"),
-    QUEST_DAILY_GATHERING_DECLINE("quest.daily.gathering.decline"),
-    
-    QUEST_DAILY_FISHING_NAME("quest.daily.fishing.name"),
-    QUEST_DAILY_FISHING_DIALOGS("quest.daily.fishing.dialogs"),
-    QUEST_DAILY_FISHING_NPC_NAME("quest.daily.fishing.npc_name"),
-    QUEST_DAILY_FISHING_ACCEPT("quest.daily.fishing.accept"),
-    QUEST_DAILY_FISHING_DECLINE("quest.daily.fishing.decline"),
-    
-    QUEST_DAILY_EXPLORATION_NAME("quest.daily.exploration.name"),
-    QUEST_DAILY_EXPLORATION_DIALOGS("quest.daily.exploration.dialogs"),
-    QUEST_DAILY_EXPLORATION_NPC_NAME("quest.daily.exploration.npc_name"),
-    QUEST_DAILY_EXPLORATION_ACCEPT("quest.daily.exploration.accept"),
-    QUEST_DAILY_EXPLORATION_DECLINE("quest.daily.exploration.decline"),
-    
-    QUEST_DAILY_DELIVERY_NAME("quest.daily.delivery.name"),
-    QUEST_DAILY_DELIVERY_DIALOGS("quest.daily.delivery.dialogs"),
-    QUEST_DAILY_DELIVERY_NPC_NAME("quest.daily.delivery.npc_name"),
-    QUEST_DAILY_DELIVERY_ACCEPT("quest.daily.delivery.accept"),
-    QUEST_DAILY_DELIVERY_DECLINE("quest.daily.delivery.decline"),
-    
-    QUEST_DAILY_CRAFTING_NAME("quest.daily.crafting.name"),
-    QUEST_DAILY_CRAFTING_DIALOGS("quest.daily.crafting.dialogs"),
-    QUEST_DAILY_CRAFTING_NPC_NAME("quest.daily.crafting.npc_name"),
-    QUEST_DAILY_CRAFTING_ACCEPT("quest.daily.crafting.accept"),
-    QUEST_DAILY_CRAFTING_DECLINE("quest.daily.crafting.decline"),
-    
-    QUEST_DAILY_BOUNTY_HUNTER_NAME("quest.daily.bounty_hunter.name"),
-    QUEST_DAILY_BOUNTY_HUNTER_DIALOGS("quest.daily.bounty_hunter.dialogs"),
-    QUEST_DAILY_BOUNTY_HUNTER_NPC_NAME("quest.daily.bounty_hunter.npc_name"),
-    QUEST_DAILY_BOUNTY_HUNTER_ACCEPT("quest.daily.bounty_hunter.accept"),
-    QUEST_DAILY_BOUNTY_HUNTER_DECLINE("quest.daily.bounty_hunter.decline"),
-    
-    // Side Quests
-    QUEST_SIDE_THIEVES_GUILD_NAME("quest.side.thieves_guild.name"),
-    QUEST_SIDE_THIEVES_GUILD_INFO("quest.side.thieves_guild.info"),
-    QUEST_SIDE_THIEVES_GUILD_DIALOGS("quest.side.thieves_guild.dialogs"),
-    QUEST_SIDE_THIEVES_GUILD_NPC_NAME("quest.side.thieves_guild.npc_name"),
-    QUEST_SIDE_THIEVES_GUILD_ACCEPT("quest.side.thieves_guild.accept"),
-    QUEST_SIDE_THIEVES_GUILD_DECLINE("quest.side.thieves_guild.decline"),
-    
-    QUEST_SIDE_VOLCANIC_DEPTHS_NAME("quest.side.volcanic_depths.name"),
-    QUEST_SIDE_VOLCANIC_DEPTHS_INFO("quest.side.volcanic_depths.info"),
-    QUEST_SIDE_VOLCANIC_DEPTHS_DIALOGS("quest.side.volcanic_depths.dialogs"),
-    QUEST_SIDE_VOLCANIC_DEPTHS_NPC_NAME("quest.side.volcanic_depths.npc_name"),
-    QUEST_SIDE_VOLCANIC_DEPTHS_ACCEPT("quest.side.volcanic_depths.accept"),
-    QUEST_SIDE_VOLCANIC_DEPTHS_DECLINE("quest.side.volcanic_depths.decline"),
-    
-    QUEST_SIDE_ANCIENT_RUINS_NAME("quest.side.ancient_ruins.name"),
-    QUEST_SIDE_ANCIENT_RUINS_INFO("quest.side.ancient_ruins.info"),
-    QUEST_SIDE_ANCIENT_RUINS_DIALOGS("quest.side.ancient_ruins.dialogs"),
-    QUEST_SIDE_ANCIENT_RUINS_NPC_NAME("quest.side.ancient_ruins.npc_name"),
-    QUEST_SIDE_ANCIENT_RUINS_ACCEPT("quest.side.ancient_ruins.accept"),
-    QUEST_SIDE_ANCIENT_RUINS_DECLINE("quest.side.ancient_ruins.decline"),
-    
-    QUEST_SIDE_ALCHEMIST_EXPERIMENT_NAME("quest.side.alchemist_experiment.name"),
-    QUEST_SIDE_ALCHEMIST_EXPERIMENT_INFO("quest.side.alchemist_experiment.info"),
-    QUEST_SIDE_ALCHEMIST_EXPERIMENT_DIALOGS("quest.side.alchemist_experiment.dialogs"),
-    QUEST_SIDE_ALCHEMIST_EXPERIMENT_NPC_NAME("quest.side.alchemist_experiment.npc_name"),
-    QUEST_SIDE_ALCHEMIST_EXPERIMENT_ACCEPT("quest.side.alchemist_experiment.accept"),
-    QUEST_SIDE_ALCHEMIST_EXPERIMENT_DECLINE("quest.side.alchemist_experiment.decline"),
-    
-    // Additional Side Quests that exist in the codebase but are missing from LangManager
-    QUEST_SIDE_ROYAL_MESSENGER_NAME("quest.side.royal_messenger.name"),
-    QUEST_SIDE_ROYAL_MESSENGER_INFO("quest.side.royal_messenger.info"),
-    QUEST_SIDE_ROYAL_MESSENGER_DIALOGS("quest.side.royal_messenger.dialogs"),
-    QUEST_SIDE_ROYAL_MESSENGER_NPC_NAME("quest.side.royal_messenger.npc_name"),
-    QUEST_SIDE_ROYAL_MESSENGER_ACCEPT("quest.side.royal_messenger.accept"),
-    QUEST_SIDE_ROYAL_MESSENGER_DECLINE("quest.side.royal_messenger.decline"),
-    
-    QUEST_SIDE_SUNKEN_CITY_NAME("quest.side.sunken_city.name"),
-    QUEST_SIDE_SUNKEN_CITY_INFO("quest.side.sunken_city.info"),
-    QUEST_SIDE_SUNKEN_CITY_DIALOGS("quest.side.sunken_city.dialogs"),
-    QUEST_SIDE_SUNKEN_CITY_NPC_NAME("quest.side.sunken_city.npc_name"),
-    QUEST_SIDE_SUNKEN_CITY_ACCEPT("quest.side.sunken_city.accept"),
-    QUEST_SIDE_SUNKEN_CITY_DECLINE("quest.side.sunken_city.decline"),
-    
-    QUEST_SIDE_BLACKSMITH_APPRENTICE_NAME("quest.side.blacksmith_apprentice.name"),
-    QUEST_SIDE_BLACKSMITH_APPRENTICE_INFO("quest.side.blacksmith_apprentice.info"),
-    QUEST_SIDE_BLACKSMITH_APPRENTICE_DIALOGS("quest.side.blacksmith_apprentice.dialogs"),
-    QUEST_SIDE_BLACKSMITH_APPRENTICE_NPC_NAME("quest.side.blacksmith_apprentice.npc_name"),
-    QUEST_SIDE_BLACKSMITH_APPRENTICE_ACCEPT("quest.side.blacksmith_apprentice.accept"),
-    QUEST_SIDE_BLACKSMITH_APPRENTICE_DECLINE("quest.side.blacksmith_apprentice.decline"),
-    
-    QUEST_SIDE_COLLECT_HERBS_NAME("quest.side.collect_herbs.name"),
-    QUEST_SIDE_COLLECT_HERBS_INFO("quest.side.collect_herbs.info"),
-    QUEST_SIDE_COLLECT_HERBS_DIALOGS("quest.side.collect_herbs.dialogs"),
-    QUEST_SIDE_COLLECT_HERBS_NPC_NAME("quest.side.collect_herbs.npc_name"),
-    QUEST_SIDE_COLLECT_HERBS_ACCEPT("quest.side.collect_herbs.accept"),
-    QUEST_SIDE_COLLECT_HERBS_DECLINE("quest.side.collect_herbs.decline"),
-    
-    QUEST_SIDE_CRYSTAL_CAVERN_NAME("quest.side.crystal_cavern.name"),
-    QUEST_SIDE_CRYSTAL_CAVERN_INFO("quest.side.crystal_cavern.info"),
-    QUEST_SIDE_CRYSTAL_CAVERN_DIALOGS("quest.side.crystal_cavern.dialogs"),
-    QUEST_SIDE_CRYSTAL_CAVERN_NPC_NAME("quest.side.crystal_cavern.npc_name"),
-    QUEST_SIDE_CRYSTAL_CAVERN_ACCEPT("quest.side.crystal_cavern.accept"),
-    QUEST_SIDE_CRYSTAL_CAVERN_DECLINE("quest.side.crystal_cavern.decline"),
-    
-    QUEST_SIDE_DESERT_OASIS_NAME("quest.side.desert_oasis.name"),
-    QUEST_SIDE_DESERT_OASIS_INFO("quest.side.desert_oasis.info"),
-    QUEST_SIDE_DESERT_OASIS_DIALOGS("quest.side.desert_oasis.dialogs"),
-    QUEST_SIDE_DESERT_OASIS_NPC_NAME("quest.side.desert_oasis.npc_name"),
-    QUEST_SIDE_DESERT_OASIS_ACCEPT("quest.side.desert_oasis.accept"),
-    QUEST_SIDE_DESERT_OASIS_DECLINE("quest.side.desert_oasis.decline"),
-    
-    QUEST_SIDE_ENCHANTED_FOREST_NAME("quest.side.enchanted_forest.name"),
-    QUEST_SIDE_ENCHANTED_FOREST_INFO("quest.side.enchanted_forest.info"),
-    QUEST_SIDE_ENCHANTED_FOREST_DIALOGS("quest.side.enchanted_forest.dialogs"),
-    QUEST_SIDE_ENCHANTED_FOREST_NPC_NAME("quest.side.enchanted_forest.npc_name"),
-    QUEST_SIDE_ENCHANTED_FOREST_ACCEPT("quest.side.enchanted_forest.accept"),
-    QUEST_SIDE_ENCHANTED_FOREST_DECLINE("quest.side.enchanted_forest.decline"),
-    
-    QUEST_SIDE_FARMERS_REQUEST_NAME("quest.side.farmers_request.name"),
-    QUEST_SIDE_FARMERS_REQUEST_INFO("quest.side.farmers_request.info"),
-    QUEST_SIDE_FARMERS_REQUEST_DIALOGS("quest.side.farmers_request.dialogs"),
-    QUEST_SIDE_FARMERS_REQUEST_NPC_NAME("quest.side.farmers_request.npc_name"),
-    QUEST_SIDE_FARMERS_REQUEST_ACCEPT("quest.side.farmers_request.accept"),
-    QUEST_SIDE_FARMERS_REQUEST_DECLINE("quest.side.farmers_request.decline"),
-    
-    QUEST_SIDE_FISHERMAN_TALE_NAME("quest.side.fisherman_tale.name"),
-    QUEST_SIDE_FISHERMAN_TALE_INFO("quest.side.fisherman_tale.info"),
-    QUEST_SIDE_FISHERMAN_TALE_DIALOGS("quest.side.fisherman_tale.dialogs"),
-    QUEST_SIDE_FISHERMAN_TALE_NPC_NAME("quest.side.fisherman_tale.npc_name"),
-    QUEST_SIDE_FISHERMAN_TALE_ACCEPT("quest.side.fisherman_tale.accept"),
-    QUEST_SIDE_FISHERMAN_TALE_DECLINE("quest.side.fisherman_tale.decline"),
-    
-    QUEST_SIDE_FORGOTTEN_TEMPLE_NAME("quest.side.forgotten_temple.name"),
-    QUEST_SIDE_FORGOTTEN_TEMPLE_INFO("quest.side.forgotten_temple.info"),
-    QUEST_SIDE_FORGOTTEN_TEMPLE_DIALOGS("quest.side.forgotten_temple.dialogs"),
-    QUEST_SIDE_FORGOTTEN_TEMPLE_NPC_NAME("quest.side.forgotten_temple.npc_name"),
-    QUEST_SIDE_FORGOTTEN_TEMPLE_ACCEPT("quest.side.forgotten_temple.accept"),
-    QUEST_SIDE_FORGOTTEN_TEMPLE_DECLINE("quest.side.forgotten_temple.decline"),
-    
-    QUEST_SIDE_FROZEN_PEAKS_NAME("quest.side.frozen_peaks.name"),
-    QUEST_SIDE_FROZEN_PEAKS_INFO("quest.side.frozen_peaks.info"),
-    QUEST_SIDE_FROZEN_PEAKS_DIALOGS("quest.side.frozen_peaks.dialogs"),
-    QUEST_SIDE_FROZEN_PEAKS_NPC_NAME("quest.side.frozen_peaks.npc_name"),
-    QUEST_SIDE_FROZEN_PEAKS_ACCEPT("quest.side.frozen_peaks.accept"),
-    QUEST_SIDE_FROZEN_PEAKS_DECLINE("quest.side.frozen_peaks.decline"),
-    
-    QUEST_SIDE_HEALERS_REQUEST_NAME("quest.side.healers_request.name"),
-    QUEST_SIDE_HEALERS_REQUEST_INFO("quest.side.healers_request.info"),
-    QUEST_SIDE_HEALERS_REQUEST_DIALOGS("quest.side.healers_request.dialogs"),
-    QUEST_SIDE_HEALERS_REQUEST_NPC_NAME("quest.side.healers_request.npc_name"),
-    QUEST_SIDE_HEALERS_REQUEST_ACCEPT("quest.side.healers_request.accept"),
-    QUEST_SIDE_HEALERS_REQUEST_DECLINE("quest.side.healers_request.decline"),
-    
-    QUEST_SIDE_HIDDEN_VALLEY_NAME("quest.side.hidden_valley.name"),
-    QUEST_SIDE_HIDDEN_VALLEY_INFO("quest.side.hidden_valley.info"),
-    QUEST_SIDE_HIDDEN_VALLEY_DIALOGS("quest.side.hidden_valley.dialogs"),
-    QUEST_SIDE_HIDDEN_VALLEY_NPC_NAME("quest.side.hidden_valley.npc_name"),
-    QUEST_SIDE_HIDDEN_VALLEY_ACCEPT("quest.side.hidden_valley.accept"),
-    QUEST_SIDE_HIDDEN_VALLEY_DECLINE("quest.side.hidden_valley.decline"),
-    
-    QUEST_SIDE_INNKEEPER_TROUBLE_NAME("quest.side.innkeeper_trouble.name"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_INFO("quest.side.innkeeper_trouble.info"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_DIALOGS("quest.side.innkeeper_trouble.dialogs"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_NPC_NAME("quest.side.innkeeper_trouble.npc_name"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_ACCEPT("quest.side.innkeeper_trouble.accept"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_DECLINE("quest.side.innkeeper_trouble.decline"),
-    
-    QUEST_SIDE_LIBRARIAN_MYSTERY_NAME("quest.side.librarian_mystery.name"),
-    QUEST_SIDE_LIBRARIAN_MYSTERY_INFO("quest.side.librarian_mystery.info"),
-    QUEST_SIDE_LIBRARIAN_MYSTERY_DIALOGS("quest.side.librarian_mystery.dialogs"),
-    QUEST_SIDE_LIBRARIAN_MYSTERY_NPC_NAME("quest.side.librarian_mystery.npc_name"),
-    QUEST_SIDE_LIBRARIAN_MYSTERY_ACCEPT("quest.side.librarian_mystery.accept"),
-    QUEST_SIDE_LIBRARIAN_MYSTERY_DECLINE("quest.side.librarian_mystery.decline"),
-    
-    QUEST_SIDE_LOST_TREASURE_NAME("quest.side.lost_treasure.name"),
-    QUEST_SIDE_LOST_TREASURE_INFO("quest.side.lost_treasure.info"),
-    QUEST_SIDE_LOST_TREASURE_DIALOGS("quest.side.lost_treasure.dialogs"),
-    QUEST_SIDE_LOST_TREASURE_NPC_NAME("quest.side.lost_treasure.npc_name"),
-    QUEST_SIDE_LOST_TREASURE_ACCEPT("quest.side.lost_treasure.accept"),
-    QUEST_SIDE_LOST_TREASURE_DECLINE("quest.side.lost_treasure.decline"),
-    
-    QUEST_SIDE_MERCHANTS_DILEMMA_NAME("quest.side.merchants_dilemma.name"),
-    QUEST_SIDE_MERCHANTS_DILEMMA_INFO("quest.side.merchants_dilemma.info"),
-    QUEST_SIDE_MERCHANTS_DILEMMA_DIALOGS("quest.side.merchants_dilemma.dialogs"),
-    QUEST_SIDE_MERCHANTS_DILEMMA_NPC_NAME("quest.side.merchants_dilemma.npc_name"),
-    QUEST_SIDE_MERCHANTS_DILEMMA_ACCEPT("quest.side.merchants_dilemma.accept"),
-    QUEST_SIDE_MERCHANTS_DILEMMA_DECLINE("quest.side.merchants_dilemma.decline"),
-    
-    QUEST_SIDE_MINERS_PLIGHT_NAME("quest.side.miners_plight.name"),
-    QUEST_SIDE_MINERS_PLIGHT_INFO("quest.side.miners_plight.info"),
-    QUEST_SIDE_MINERS_PLIGHT_DIALOGS("quest.side.miners_plight.dialogs"),
-    QUEST_SIDE_MINERS_PLIGHT_NPC_NAME("quest.side.miners_plight.npc_name"),
-    QUEST_SIDE_MINERS_PLIGHT_ACCEPT("quest.side.miners_plight.accept"),
-    QUEST_SIDE_MINERS_PLIGHT_DECLINE("quest.side.miners_plight.decline"),
-    
-    QUEST_SIDE_MYSTERIOUS_CAVE_NAME("quest.side.mysterious_cave.name"),
-    QUEST_SIDE_MYSTERIOUS_CAVE_INFO("quest.side.mysterious_cave.info"),
-    QUEST_SIDE_MYSTERIOUS_CAVE_DIALOGS("quest.side.mysterious_cave.dialogs"),
-    QUEST_SIDE_MYSTERIOUS_CAVE_NPC_NAME("quest.side.mysterious_cave.npc_name"),
-    QUEST_SIDE_MYSTERIOUS_CAVE_ACCEPT("quest.side.mysterious_cave.accept"),
-    QUEST_SIDE_MYSTERIOUS_CAVE_DECLINE("quest.side.mysterious_cave.decline"),
-    
-    // Branch Quest Keys
-    QUEST_BRANCH_LIGHT_PALADIN_NAME("quest.branch.light_paladin.name"),
-    QUEST_BRANCH_LIGHT_PALADIN_INFO("quest.branch.light_paladin.info"),
-    QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PALADIN_MASTER("quest.branch.light_paladin.objectives.paladin_master"),
-    QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_WATER("quest.branch.light_paladin.objectives.holy_water"),
-    QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PURGE_UNDEAD("quest.branch.light_paladin.objectives.purge_undead"),
-    QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PURGE_SKELETONS("quest.branch.light_paladin.objectives.purge_skeletons"),
-    QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_SHRINE("quest.branch.light_paladin.objectives.holy_shrine"),
-    QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_MEDITATION("quest.branch.light_paladin.objectives.meditation"),
-    QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_SWORD("quest.branch.light_paladin.objectives.holy_sword"),
-    QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_BUILD_ALTAR("quest.branch.light_paladin.objectives.build_altar"),
-    QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_DEFEAT_DARKNESS("quest.branch.light_paladin.objectives.defeat_darkness"),
-    QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_LIGHT_ESSENCE("quest.branch.light_paladin.objectives.light_essence"),
-    QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_OATH_COMPLETION("quest.branch.light_paladin.objectives.oath_completion"),
-    QUEST_BRANCH_LIGHT_PALADIN_DIALOGS("quest.branch.light_paladin.dialogs"),
-    QUEST_BRANCH_LIGHT_PALADIN_NPC_NAME("quest.branch.light_paladin.npc_name"),
-    QUEST_BRANCH_LIGHT_PALADIN_ACCEPT("quest.branch.light_paladin.accept"),
-    QUEST_BRANCH_LIGHT_PALADIN_DECLINE("quest.branch.light_paladin.decline"),
-    
-    // Class Quest Keys
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_NAME("quest.clazz.warrior_advancement.name"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_INFO("quest.clazz.warrior_advancement.info"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_DIALOGS("quest.clazz.warrior_advancement.dialogs"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_NPC_NAME("quest.clazz.warrior_advancement.npc_name"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_ACCEPT("quest.clazz.warrior_advancement.accept"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_DECLINE("quest.clazz.warrior_advancement.decline"),
-    
-    // Crafting Quest Keys
-    QUEST_CRAFTING_MASTER_BLACKSMITH_NAME("quest.crafting.master_blacksmith.name"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_INFO("quest.crafting.master_blacksmith.info"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_DIALOGS("quest.crafting.master_blacksmith.dialogs"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_NPC_NAME("quest.crafting.master_blacksmith.npc_name"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_ACCEPT("quest.crafting.master_blacksmith.accept"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_DECLINE("quest.crafting.master_blacksmith.decline"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_BLACKSMITH_MASTER("quest.crafting.master_blacksmith.objectives.blacksmith_master"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_MINE_IRON("quest.crafting.master_blacksmith.objectives.mine_iron"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_MINE_GOLD("quest.crafting.master_blacksmith.objectives.mine_gold"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_MINE_DIAMOND("quest.crafting.master_blacksmith.objectives.mine_diamond"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_GATHER_COAL("quest.crafting.master_blacksmith.objectives.gather_coal"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_SMELT_IRON("quest.crafting.master_blacksmith.objectives.smelt_iron"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_SMELT_GOLD("quest.crafting.master_blacksmith.objectives.smelt_gold"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_GATHER_DIAMONDS("quest.crafting.master_blacksmith.objectives.gather_diamonds"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_SETUP_ANVIL("quest.crafting.master_blacksmith.objectives.setup_anvil"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_SETUP_FURNACE("quest.crafting.master_blacksmith.objectives.setup_furnace"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_CRAFT_IRON_TOOLS("quest.crafting.master_blacksmith.objectives.craft_iron_tools"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_CRAFT_IRON_ARMOR("quest.crafting.master_blacksmith.objectives.craft_iron_armor"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_CRAFT_DIAMOND_SWORD("quest.crafting.master_blacksmith.objectives.craft_diamond_sword"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_CRAFT_DIAMOND_ARMOR("quest.crafting.master_blacksmith.objectives.craft_diamond_armor"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_SETUP_ENCHANTING("quest.crafting.master_blacksmith.objectives.setup_enchanting"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_ENCHANTED_SWORD("quest.crafting.master_blacksmith.objectives.enchanted_sword"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_SCRAP("quest.crafting.master_blacksmith.objectives.netherite_scrap"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_CRAFT_NETHERITE("quest.crafting.master_blacksmith.objectives.craft_netherite"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_MASTERPIECE("quest.crafting.master_blacksmith.objectives.masterpiece"),
-    QUEST_CRAFTING_MASTER_BLACKSMITH_OBJECTIVES_DELIVER_MASTERPIECE("quest.crafting.master_blacksmith.objectives.deliver_masterpiece"),
-    
-    // Event Quest Keys
-    QUEST_EVENT_HALLOWEEN_NIGHT_NAME("quest.event.halloween_night.name"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_INFO("quest.event.halloween_night.info"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_DIALOGS("quest.event.halloween_night.dialogs"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_NPC_NAME("quest.event.halloween_night.npc_name"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_ACCEPT("quest.event.halloween_night.accept"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_DECLINE("quest.event.halloween_night.decline"),
-    
-    // Main Quest Keys
-    QUEST_MAIN_ANCIENT_PROPHECY_NAME("quest.main.ancient_prophecy.name"),
-    QUEST_MAIN_ANCIENT_PROPHECY_INFO("quest.main.ancient_prophecy.info"),
-    QUEST_MAIN_ANCIENT_PROPHECY_DIALOGS("quest.main.ancient_prophecy.dialogs"),
-    QUEST_MAIN_ANCIENT_PROPHECY_NPC_NAME("quest.main.ancient_prophecy.npc_name"),
-    QUEST_MAIN_ANCIENT_PROPHECY_ACCEPT("quest.main.ancient_prophecy.accept"),
-    QUEST_MAIN_ANCIENT_PROPHECY_DECLINE("quest.main.ancient_prophecy.decline"),
-    QUEST_MAIN_ANCIENT_PROPHECY_OBJECTIVES_VISIT_ELDER("quest.main.ancient_prophecy.objectives.visit_elder"),
-    QUEST_MAIN_ANCIENT_PROPHECY_OBJECTIVES_TALK_ELDER("quest.main.ancient_prophecy.objectives.talk_elder"),
-    QUEST_MAIN_ANCIENT_PROPHECY_OBJECTIVES_COLLECT_SCROLLS("quest.main.ancient_prophecy.objectives.collect_scrolls"),
-    QUEST_MAIN_ANCIENT_PROPHECY_OBJECTIVES_DELIVER_SCROLLS("quest.main.ancient_prophecy.objectives.deliver_scrolls"),
-    
-    // Chapter 1 Main Quests
-    QUEST_MAIN_CHOSEN_ONE_NAME("quest.main.chosen_one.name"),
-    QUEST_MAIN_CHOSEN_ONE_INFO("quest.main.chosen_one.info"),
-    QUEST_MAIN_CHOSEN_ONE_DIALOGS("quest.main.chosen_one.dialogs"),
-    QUEST_MAIN_CHOSEN_ONE_NPC_NAME("quest.main.chosen_one.npc_name"),
-    QUEST_MAIN_CHOSEN_ONE_ACCEPT("quest.main.chosen_one.accept"),
-    QUEST_MAIN_CHOSEN_ONE_DECLINE("quest.main.chosen_one.decline"),
-    QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_ENTER_TRIAL_CAVE("quest.main.chosen_one.objectives.enter_trial_cave"),
-    QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_TRIAL_COURAGE("quest.main.chosen_one.objectives.trial_courage"),
-    QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_COURAGE_PROOF("quest.main.chosen_one.objectives.courage_proof"),
-    QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_SOLVE_PUZZLE("quest.main.chosen_one.objectives.solve_puzzle"),
-    QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_WISDOM_PROOF("quest.main.chosen_one.objectives.wisdom_proof"),
-    QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_SACRIFICE_GOLD("quest.main.chosen_one.objectives.sacrifice_gold"),
-    QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_SACRIFICE_PROOF("quest.main.chosen_one.objectives.sacrifice_proof"),
-    QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_FINAL_GUARDIAN("quest.main.chosen_one.objectives.final_guardian"),
-    QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_CHOSEN_EMBLEM("quest.main.chosen_one.objectives.chosen_emblem"),
-    QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_RETURN_ELDER("quest.main.chosen_one.objectives.return_elder"),
-    
-    QUEST_MAIN_ELEMENTAL_STONES_NAME("quest.main.elemental_stones.name"),
-    QUEST_MAIN_ELEMENTAL_STONES_INFO("quest.main.elemental_stones.info"),
-    QUEST_MAIN_ELEMENTAL_STONES_DIALOGS("quest.main.elemental_stones.dialogs"),
-    QUEST_MAIN_ELEMENTAL_STONES_NPC_NAME("quest.main.elemental_stones.npc_name"),
-    QUEST_MAIN_ELEMENTAL_STONES_ACCEPT("quest.main.elemental_stones.accept"),
-    QUEST_MAIN_ELEMENTAL_STONES_DECLINE("quest.main.elemental_stones.decline"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_MEET_SAGE("quest.main.elemental_stones.objectives.meet_sage"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_FIRE_TEMPLE("quest.main.elemental_stones.objectives.fire_temple"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_FIRE_ELEMENTALS("quest.main.elemental_stones.objectives.fire_elementals"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_MAGMA_CUBES("quest.main.elemental_stones.objectives.magma_cubes"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_FIRE_ESSENCE("quest.main.elemental_stones.objectives.fire_essence"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_FIRE_GUARDIAN("quest.main.elemental_stones.objectives.fire_guardian"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_FIRE_STONE("quest.main.elemental_stones.objectives.fire_stone"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_WATER_TEMPLE("quest.main.elemental_stones.objectives.water_temple"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_WATER_ELEMENTALS("quest.main.elemental_stones.objectives.water_elementals"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_DROWNED("quest.main.elemental_stones.objectives.drowned"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_WATER_ESSENCE("quest.main.elemental_stones.objectives.water_essence"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_WATER_GUARDIAN("quest.main.elemental_stones.objectives.water_guardian"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_WATER_STONE("quest.main.elemental_stones.objectives.water_stone"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_EARTH_TEMPLE("quest.main.elemental_stones.objectives.earth_temple"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_MINE_ORES("quest.main.elemental_stones.objectives.mine_ores"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_EARTH_ELEMENTALS("quest.main.elemental_stones.objectives.earth_elementals"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_EARTH_ESSENCE("quest.main.elemental_stones.objectives.earth_essence"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_EARTH_GUARDIAN("quest.main.elemental_stones.objectives.earth_guardian"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_EARTH_STONE("quest.main.elemental_stones.objectives.earth_stone"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_AIR_TEMPLE("quest.main.elemental_stones.objectives.air_temple"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_AIR_ELEMENTALS("quest.main.elemental_stones.objectives.air_elementals"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_VEXES("quest.main.elemental_stones.objectives.vexes"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_AIR_ESSENCE("quest.main.elemental_stones.objectives.air_essence"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_AIR_GUARDIAN("quest.main.elemental_stones.objectives.air_guardian"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_AIR_STONE("quest.main.elemental_stones.objectives.air_stone"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_ELEMENTAL_CORE("quest.main.elemental_stones.objectives.elemental_core"),
-    QUEST_MAIN_ELEMENTAL_STONES_OBJECTIVES_RETURN_SAGE("quest.main.elemental_stones.objectives.return_sage"),
-    
-    QUEST_MAIN_FIRST_TRIAL_NAME("quest.main.first_trial.name"),
-    QUEST_MAIN_FIRST_TRIAL_INFO("quest.main.first_trial.info"),
-    QUEST_MAIN_FIRST_TRIAL_DIALOGS("quest.main.first_trial.dialogs"),
-    QUEST_MAIN_FIRST_TRIAL_NPC_NAME("quest.main.first_trial.npc_name"),
-    QUEST_MAIN_FIRST_TRIAL_ACCEPT("quest.main.first_trial.accept"),
-    QUEST_MAIN_FIRST_TRIAL_DECLINE("quest.main.first_trial.decline"),
-    QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_MEET_TRAINER("quest.main.first_trial.objectives.meet_trainer"),
-    QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_GATHER_POTIONS("quest.main.first_trial.objectives.gather_potions"),
-    QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_CRAFT_SHIELD("quest.main.first_trial.objectives.craft_shield"),
-    QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_ENTER_ARENA("quest.main.first_trial.objectives.enter_arena"),
-    QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_SURVIVE_WAVE1("quest.main.first_trial.objectives.survive_wave1"),
-    QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE1_ZOMBIES("quest.main.first_trial.objectives.wave1_zombies"),
-    QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE1_SKELETONS("quest.main.first_trial.objectives.wave1_skeletons"),
-    QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_SURVIVE_WAVE2("quest.main.first_trial.objectives.survive_wave2"),
-    QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE2_SPIDERS("quest.main.first_trial.objectives.wave2_spiders"),
-    QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE2_CREEPERS("quest.main.first_trial.objectives.wave2_creepers"),
-    QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_BOSS_FIGHT("quest.main.first_trial.objectives.boss_fight"),
-    QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_TRIAL_MEDAL("quest.main.first_trial.objectives.trial_medal"),
-    QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_RETURN_MEDAL("quest.main.first_trial.objectives.return_medal"),
-    
-    // Chapter 2 Main Quests
-    QUEST_MAIN_LOST_KINGDOM_NAME("quest.main.lost_kingdom.name"),
-    QUEST_MAIN_LOST_KINGDOM_INFO("quest.main.lost_kingdom.info"),
-    QUEST_MAIN_LOST_KINGDOM_DIALOGS("quest.main.lost_kingdom.dialogs"),
-    QUEST_MAIN_LOST_KINGDOM_NPC_NAME("quest.main.lost_kingdom.npc_name"),
-    QUEST_MAIN_LOST_KINGDOM_ACCEPT("quest.main.lost_kingdom.accept"),
-    QUEST_MAIN_LOST_KINGDOM_DECLINE("quest.main.lost_kingdom.decline"),
-    
-    QUEST_MAIN_SHADOW_INVASION_NAME("quest.main.shadow_invasion.name"),
-    QUEST_MAIN_SHADOW_INVASION_INFO("quest.main.shadow_invasion.info"),
-    QUEST_MAIN_SHADOW_INVASION_DIALOGS("quest.main.shadow_invasion.dialogs"),
-    QUEST_MAIN_SHADOW_INVASION_NPC_NAME("quest.main.shadow_invasion.npc_name"),
-    QUEST_MAIN_SHADOW_INVASION_ACCEPT("quest.main.shadow_invasion.accept"),
-    QUEST_MAIN_SHADOW_INVASION_DECLINE("quest.main.shadow_invasion.decline"),
-    
-    QUEST_MAIN_CORRUPTED_LANDS_NAME("quest.main.corrupted_lands.name"),
-    QUEST_MAIN_CORRUPTED_LANDS_INFO("quest.main.corrupted_lands.info"),
-    QUEST_MAIN_CORRUPTED_LANDS_DIALOGS("quest.main.corrupted_lands.dialogs"),
-    QUEST_MAIN_CORRUPTED_LANDS_NPC_NAME("quest.main.corrupted_lands.npc_name"),
-    QUEST_MAIN_CORRUPTED_LANDS_ACCEPT("quest.main.corrupted_lands.accept"),
-    QUEST_MAIN_CORRUPTED_LANDS_DECLINE("quest.main.corrupted_lands.decline"),
-    
-    QUEST_MAIN_ANCIENT_EVIL_NAME("quest.main.ancient_evil.name"),
-    QUEST_MAIN_ANCIENT_EVIL_INFO("quest.main.ancient_evil.info"),
-    QUEST_MAIN_ANCIENT_EVIL_DIALOGS("quest.main.ancient_evil.dialogs"),
-    QUEST_MAIN_ANCIENT_EVIL_NPC_NAME("quest.main.ancient_evil.npc_name"),
-    QUEST_MAIN_ANCIENT_EVIL_ACCEPT("quest.main.ancient_evil.accept"),
-    QUEST_MAIN_ANCIENT_EVIL_DECLINE("quest.main.ancient_evil.decline"),
-    
-    QUEST_MAIN_HEROES_ALLIANCE_NAME("quest.main.heroes_alliance.name"),
-    QUEST_MAIN_HEROES_ALLIANCE_INFO("quest.main.heroes_alliance.info"),
-    QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_ALLIANCE_MESSENGER("quest.main.heroes_alliance.objectives.alliance_messenger"),
-    QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_HEROES_STRONGHOLD("quest.main.heroes_alliance.objectives.heroes_stronghold"),
-    QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_LEGENDARY_WARRIOR("quest.main.heroes_alliance.objectives.legendary_warrior"),
-    QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_ARCANE_MAGE("quest.main.heroes_alliance.objectives.arcane_mage"),
-    QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_SHADOW_ASSASSIN("quest.main.heroes_alliance.objectives.shadow_assassin"),
-    QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_ALLIANCE_TOKEN("quest.main.heroes_alliance.objectives.alliance_token"),
-    QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_KILL_ENDER_DRAGON("quest.main.heroes_alliance.objectives.kill_ender_dragon"),
-    QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_KILL_WITHERS("quest.main.heroes_alliance.objectives.kill_withers"),
-    QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_ALLIANCE_HALL("quest.main.heroes_alliance.objectives.alliance_hall"),
-    QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_HEROES_COUNCIL("quest.main.heroes_alliance.objectives.heroes_council"),
-    QUEST_MAIN_HEROES_ALLIANCE_DIALOGS("quest.main.heroes_alliance.dialogs"),
-    QUEST_MAIN_HEROES_ALLIANCE_NPC_NAME("quest.main.heroes_alliance.npc_name"),
-    QUEST_MAIN_HEROES_ALLIANCE_ACCEPT("quest.main.heroes_alliance.accept"),
-    QUEST_MAIN_HEROES_ALLIANCE_DECLINE("quest.main.heroes_alliance.decline"),
-    
-    // Ancient Evil Quest Objectives
-    QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_ANCIENT_SAGE("quest.main.ancient_evil.objectives.ancient_sage"),
-    QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_FORBIDDEN_TEMPLE("quest.main.ancient_evil.objectives.forbidden_temple"),
-    QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_KILL_WITHER_SKELETONS("quest.main.ancient_evil.objectives.kill_wither_skeletons"),
-    QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_KILL_BLAZES("quest.main.ancient_evil.objectives.kill_blazes"),
-    QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_DARK_CRYSTAL("quest.main.ancient_evil.objectives.dark_crystal"),
-    QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_EVIL_ALTAR("quest.main.ancient_evil.objectives.evil_altar"),
-    QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_PURIFIED_SOUL("quest.main.ancient_evil.objectives.purified_soul"),
-    QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_KILL_RAVAGERS("quest.main.ancient_evil.objectives.kill_ravagers"),
-    QUEST_MAIN_ANCIENT_EVIL_OBJECTIVES_LIGHT_GUARDIAN("quest.main.ancient_evil.objectives.light_guardian"),
-    
-    // Corrupted Lands Quest Objectives
-    QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_DRUID_ELDER("quest.main.corrupted_lands.objectives.druid_elder"),
-    QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_CORRUPTED_GROVE("quest.main.corrupted_lands.objectives.corrupted_grove"),
-    QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_KILL_ZOMBIES("quest.main.corrupted_lands.objectives.kill_zombies"),
-    QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_KILL_SKELETONS("quest.main.corrupted_lands.objectives.kill_skeletons"),
-    QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_CORRUPTED_ESSENCE("quest.main.corrupted_lands.objectives.corrupted_essence"),
-    QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_CLEANSING_SHRINE("quest.main.corrupted_lands.objectives.cleansing_shrine"),
-    QUEST_MAIN_CORRUPTED_LANDS_OBJECTIVES_NATURE_GUARDIAN("quest.main.corrupted_lands.objectives.nature_guardian"),
-    
-    // Lost Kingdom Quest Objectives
-    QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_ROYAL_HISTORIAN("quest.main.lost_kingdom.objectives.royal_historian"),
-    QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_KINGDOM_ENTRANCE("quest.main.lost_kingdom.objectives.kingdom_entrance"),
-    QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_ANCIENT_KEY("quest.main.lost_kingdom.objectives.ancient_key"),
-    QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_THRONE_ROOM("quest.main.lost_kingdom.objectives.throne_room"),
-    QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_KILL_HUSKS("quest.main.lost_kingdom.objectives.kill_husks"),
-    QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_KILL_STRAYS("quest.main.lost_kingdom.objectives.kill_strays"),
-    QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_ROYAL_ARTIFACT("quest.main.lost_kingdom.objectives.royal_artifact"),
-    QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_GHOST_KING("quest.main.lost_kingdom.objectives.ghost_king"),
-    
-    // Shadow Invasion Quest Objectives
-    QUEST_MAIN_SHADOW_INVASION_OBJECTIVES_SCOUT_CAPTAIN("quest.main.shadow_invasion.objectives.scout_captain"),
-    QUEST_MAIN_SHADOW_INVASION_OBJECTIVES_SHADOW_PORTAL("quest.main.shadow_invasion.objectives.shadow_portal"),
-    QUEST_MAIN_SHADOW_INVASION_OBJECTIVES_KILL_WITHER_SKELETONS("quest.main.shadow_invasion.objectives.kill_wither_skeletons"),
-    QUEST_MAIN_SHADOW_INVASION_OBJECTIVES_KILL_PHANTOMS("quest.main.shadow_invasion.objectives.kill_phantoms"),
-    QUEST_MAIN_SHADOW_INVASION_OBJECTIVES_CORRUPTED_FORTRESS("quest.main.shadow_invasion.objectives.corrupted_fortress"),
-    QUEST_MAIN_SHADOW_INVASION_OBJECTIVES_RESISTANCE_LEADER("quest.main.shadow_invasion.objectives.resistance_leader"),
-    
-    // Chapter 3 Main Quests
-    QUEST_MAIN_DRAGON_AWAKENING_NAME("quest.main.dragon_awakening.name"),
-    QUEST_MAIN_DRAGON_AWAKENING_INFO("quest.main.dragon_awakening.info"),
-    QUEST_MAIN_DRAGON_AWAKENING_DIALOGS("quest.main.dragon_awakening.dialogs"),
-    QUEST_MAIN_DRAGON_AWAKENING_NPC_NAME("quest.main.dragon_awakening.npc_name"),
-    QUEST_MAIN_DRAGON_AWAKENING_ACCEPT("quest.main.dragon_awakening.accept"),
-    QUEST_MAIN_DRAGON_AWAKENING_DECLINE("quest.main.dragon_awakening.decline"),
-    
-    QUEST_MAIN_DRAGON_TRIALS_NAME("quest.main.dragon_trials.name"),
-    QUEST_MAIN_DRAGON_TRIALS_INFO("quest.main.dragon_trials.info"),
-    QUEST_MAIN_DRAGON_TRIALS_DIALOGS("quest.main.dragon_trials.dialogs"),
-    QUEST_MAIN_DRAGON_TRIALS_NPC_NAME("quest.main.dragon_trials.npc_name"),
-    QUEST_MAIN_DRAGON_TRIALS_ACCEPT("quest.main.dragon_trials.accept"),
-    QUEST_MAIN_DRAGON_TRIALS_DECLINE("quest.main.dragon_trials.decline"),
-    
-    QUEST_MAIN_DRAGON_HEART_NAME("quest.main.dragon_heart.name"),
-    QUEST_MAIN_DRAGON_HEART_INFO("quest.main.dragon_heart.info"),
-    QUEST_MAIN_DRAGON_HEART_DIALOGS("quest.main.dragon_heart.dialogs"),
-    QUEST_MAIN_DRAGON_HEART_NPC_NAME("quest.main.dragon_heart.npc_name"),
-    QUEST_MAIN_DRAGON_HEART_ACCEPT("quest.main.dragon_heart.accept"),
-    QUEST_MAIN_DRAGON_HEART_DECLINE("quest.main.dragon_heart.decline"),
-    
-    QUEST_MAIN_DRAGON_PACT_NAME("quest.main.dragon_pact.name"),
-    QUEST_MAIN_DRAGON_PACT_INFO("quest.main.dragon_pact.info"),
-    QUEST_MAIN_DRAGON_PACT_DIALOGS("quest.main.dragon_pact.dialogs"),
-    QUEST_MAIN_DRAGON_PACT_NPC_NAME("quest.main.dragon_pact.npc_name"),
-    QUEST_MAIN_DRAGON_PACT_ACCEPT("quest.main.dragon_pact.accept"),
-    QUEST_MAIN_DRAGON_PACT_DECLINE("quest.main.dragon_pact.decline"),
-    
-    QUEST_MAIN_SKY_FORTRESS_NAME("quest.main.sky_fortress.name"),
-    QUEST_MAIN_SKY_FORTRESS_INFO("quest.main.sky_fortress.info"),
-    QUEST_MAIN_SKY_FORTRESS_DIALOGS("quest.main.sky_fortress.dialogs"),
-    QUEST_MAIN_SKY_FORTRESS_NPC_NAME("quest.main.sky_fortress.npc_name"),
-    QUEST_MAIN_SKY_FORTRESS_ACCEPT("quest.main.sky_fortress.accept"),
-    QUEST_MAIN_SKY_FORTRESS_DECLINE("quest.main.sky_fortress.decline"),
-    
-    // Dragon Awakening Quest Objectives
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_SAGE("quest.main.dragon_awakening.objectives.dragon_sage"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_ANCIENT_SCROLLS("quest.main.dragon_awakening.objectives.ancient_scrolls"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_ANCIENT_LIBRARY("quest.main.dragon_awakening.objectives.ancient_library"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_LORE("quest.main.dragon_awakening.objectives.dragon_lore"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_MOUNTAIN_PEAK("quest.main.dragon_awakening.objectives.mountain_peak"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_CLEAR_PATH("quest.main.dragon_awakening.objectives.clear_path"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_MOUNTAIN_GUARDIANS("quest.main.dragon_awakening.objectives.mountain_guardians"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_SHRINE("quest.main.dragon_awakening.objectives.dragon_shrine"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_TEARS("quest.main.dragon_awakening.objectives.dragon_tears"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_ANCIENT_GOLD("quest.main.dragon_awakening.objectives.ancient_gold"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_EMERALD_OFFERING("quest.main.dragon_awakening.objectives.emerald_offering"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_BREATH("quest.main.dragon_awakening.objectives.dragon_breath"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_PLACE_GOLD("quest.main.dragon_awakening.objectives.place_gold"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_PLACE_EMERALD("quest.main.dragon_awakening.objectives.place_emerald"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_RITUAL_CATALYST("quest.main.dragon_awakening.objectives.ritual_catalyst"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_PLACE_OBSIDIAN("quest.main.dragon_awakening.objectives.place_obsidian"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_RITUAL_DURATION("quest.main.dragon_awakening.objectives.ritual_duration"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_FLAME_DRAGONS("quest.main.dragon_awakening.objectives.flame_dragons"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_PRIESTS("quest.main.dragon_awakening.objectives.dragon_priests"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_SCALES("quest.main.dragon_awakening.objectives.dragon_scales"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_BONES("quest.main.dragon_awakening.objectives.dragon_bones"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_LAIR_ENTRANCE("quest.main.dragon_awakening.objectives.dragon_lair_entrance"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_LAIR_GUARDIANS("quest.main.dragon_awakening.objectives.lair_guardians"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_LAIR_KEY("quest.main.dragon_awakening.objectives.lair_key"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_INNER_LAIR("quest.main.dragon_awakening.objectives.inner_lair"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_SLEEPING_DRAGON("quest.main.dragon_awakening.objectives.sleeping_dragon"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_EGG("quest.main.dragon_awakening.objectives.dragon_egg"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_OFFER_TREASURES("quest.main.dragon_awakening.objectives.offer_treasures"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_TEST("quest.main.dragon_awakening.objectives.dragon_test"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_PACT("quest.main.dragon_awakening.objectives.dragon_pact"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_DRAGON_HEART("quest.main.dragon_awakening.objectives.dragon_heart"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_PACT_SCROLL("quest.main.dragon_awakening.objectives.pact_scroll"),
-    QUEST_MAIN_DRAGON_AWAKENING_OBJECTIVES_COMPLETE_PACT("quest.main.dragon_awakening.objectives.complete_pact"),
-    
-    // Dragon Trials Quest Objectives
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_ANCIENT_DRAGON("quest.main.dragon_trials.objectives.ancient_dragon"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_TRIAL_ARENA("quest.main.dragon_trials.objectives.trial_arena"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_STONE_GUARDIANS("quest.main.dragon_trials.objectives.stone_guardians"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_LAVA_ELEMENTALS("quest.main.dragon_trials.objectives.lava_elementals"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_TRIAL_CHAMPION("quest.main.dragon_trials.objectives.trial_champion"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_TRIAL_TOKEN_STRENGTH("quest.main.dragon_trials.objectives.trial_token_strength"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_WISDOM_TEMPLE("quest.main.dragon_trials.objectives.wisdom_temple"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_ANCIENT_BOOKS("quest.main.dragon_trials.objectives.ancient_books"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_WISDOM_KEEPER("quest.main.dragon_trials.objectives.wisdom_keeper"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_PUZZLE_PIECES("quest.main.dragon_trials.objectives.puzzle_pieces"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_SOLVE_PUZZLE("quest.main.dragon_trials.objectives.solve_puzzle"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_TRIAL_TOKEN_WISDOM("quest.main.dragon_trials.objectives.trial_token_wisdom"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_VOID_REALM("quest.main.dragon_trials.objectives.void_realm"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_SURVIVE_VOID("quest.main.dragon_trials.objectives.survive_void"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_VOID_CREATURES("quest.main.dragon_trials.objectives.void_creatures"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_VOID_GUARDS("quest.main.dragon_trials.objectives.void_guards"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_VOID_ESSENCE("quest.main.dragon_trials.objectives.void_essence"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_TRIAL_TOKEN_COURAGE("quest.main.dragon_trials.objectives.trial_token_courage"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_SACRIFICE_GOLD("quest.main.dragon_trials.objectives.sacrifice_gold"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_SACRIFICE_DIAMONDS("quest.main.dragon_trials.objectives.sacrifice_diamonds"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_SACRIFICE_EMERALDS("quest.main.dragon_trials.objectives.sacrifice_emeralds"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_TRIAL_TOKEN_SACRIFICE("quest.main.dragon_trials.objectives.trial_token_sacrifice"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_DRAGON_SANCTUM("quest.main.dragon_trials.objectives.dragon_sanctum"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_PLACE_TOKENS("quest.main.dragon_trials.objectives.place_tokens"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_DRAGON_AVATAR("quest.main.dragon_trials.objectives.dragon_avatar"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_ELDER_DRAGON("quest.main.dragon_trials.objectives.elder_dragon"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_FINAL_TRIAL("quest.main.dragon_trials.objectives.final_trial"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_ANCIENT_DRAGON_FINAL("quest.main.dragon_trials.objectives.ancient_dragon_final"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_DRAGON_BLESSING("quest.main.dragon_trials.objectives.dragon_blessing"),
-    QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_DRAGON_SCALE_ARMOR("quest.main.dragon_trials.objectives.dragon_scale_armor"),
-    
-    // Dragon Pact Quest Objectives
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_ANCIENT_DRAGON("quest.main.dragon_pact.objectives.ancient_dragon"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_DRAGON_BLOOD("quest.main.dragon_pact.objectives.dragon_blood"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_SOUL_CRYSTALS("quest.main.dragon_pact.objectives.soul_crystals"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_ETERNAL_FLAME("quest.main.dragon_pact.objectives.eternal_flame"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_CONTRACT_SCRIBE("quest.main.dragon_pact.objectives.contract_scribe"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_ANCIENT_INK("quest.main.dragon_pact.objectives.ancient_ink"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_MAGIC_PAPER("quest.main.dragon_pact.objectives.magic_paper"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_BINDING_ESSENCE("quest.main.dragon_pact.objectives.binding_essence"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_DELIVER_MATERIALS("quest.main.dragon_pact.objectives.deliver_materials"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_SOUL_ALTAR("quest.main.dragon_pact.objectives.soul_altar"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_PLACE_SOUL_STONES("quest.main.dragon_pact.objectives.place_soul_stones"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_PLACE_SOUL_FIRE("quest.main.dragon_pact.objectives.place_soul_fire"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_SOUL_GUARDIANS("quest.main.dragon_pact.objectives.soul_guardians"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_SOUL_FRAGMENTS("quest.main.dragon_pact.objectives.soul_fragments"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_DRAGON_PRIEST("quest.main.dragon_pact.objectives.dragon_priest"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_BLESSING_TOKENS("quest.main.dragon_pact.objectives.blessing_tokens"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_OFFER_TRIBUTE("quest.main.dragon_pact.objectives.offer_tribute"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_BLESSING_RITUAL("quest.main.dragon_pact.objectives.blessing_ritual"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_ANCIENT_DRAGON_SIGNING("quest.main.dragon_pact.objectives.ancient_dragon_signing"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_DRAGON_SIGIL("quest.main.dragon_pact.objectives.dragon_sigil"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_PLAYER_BLOOD("quest.main.dragon_pact.objectives.player_blood"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_SIGN_CONTRACT("quest.main.dragon_pact.objectives.sign_contract"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_PLACE_CONTRACT_ALTAR("quest.main.dragon_pact.objectives.place_contract_altar"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_BINDING_CHAINS("quest.main.dragon_pact.objectives.binding_chains"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_CONTRACT_WITNESSES("quest.main.dragon_pact.objectives.contract_witnesses"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_WITNESS_SEALS("quest.main.dragon_pact.objectives.witness_seals"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_DRAGON_HEART_CHAMBER("quest.main.dragon_pact.objectives.dragon_heart_chamber"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_DRAGON_ESSENCE("quest.main.dragon_pact.objectives.dragon_essence"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_SOUL_MERGE("quest.main.dragon_pact.objectives.soul_merge"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_MERGED_DRAGON("quest.main.dragon_pact.objectives.merged_dragon"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_PACT_MEDALLION("quest.main.dragon_pact.objectives.pact_medallion"),
-    QUEST_MAIN_DRAGON_PACT_OBJECTIVES_DRAGON_COMPANION("quest.main.dragon_pact.objectives.dragon_companion"),
-    
-    // Sky Fortress Quest Objectives
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_SKY_NAVIGATOR("quest.main.sky_fortress.objectives.sky_navigator"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_FLYING_MOUNT("quest.main.sky_fortress.objectives.flying_mount"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_FIREWORKS("quest.main.sky_fortress.objectives.fireworks"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_CLOUD_PEAKS("quest.main.sky_fortress.objectives.cloud_peaks"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_SKY_MAP("quest.main.sky_fortress.objectives.sky_map"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_WIND_CRYSTALS("quest.main.sky_fortress.objectives.wind_crystals"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_CLOUD_ESSENCE("quest.main.sky_fortress.objectives.cloud_essence"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_SKY_GUARDIANS("quest.main.sky_fortress.objectives.sky_guardians"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_PHANTOM_WINGS("quest.main.sky_fortress.objectives.phantom_wings"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_FORTRESS_SCOUT("quest.main.sky_fortress.objectives.fortress_scout"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_FORTRESS_GATES("quest.main.sky_fortress.objectives.fortress_gates"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_DESTROY_BARRIERS("quest.main.sky_fortress.objectives.destroy_barriers"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_GATE_DEFENDERS("quest.main.sky_fortress.objectives.gate_defenders"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_GATE_KEY("quest.main.sky_fortress.objectives.gate_key"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_PLACE_EXPLOSIVES("quest.main.sky_fortress.objectives.place_explosives"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_WIND_TOWER("quest.main.sky_fortress.objectives.wind_tower"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_WIND_ELEMENTALS("quest.main.sky_fortress.objectives.wind_elementals"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_WIND_ORB("quest.main.sky_fortress.objectives.wind_orb"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_WIND_TRIAL("quest.main.sky_fortress.objectives.wind_trial"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_WIND_KEEPER("quest.main.sky_fortress.objectives.wind_keeper"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_LIGHTNING_TOWER("quest.main.sky_fortress.objectives.lightning_tower"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_STORM_CREATURES("quest.main.sky_fortress.objectives.storm_creatures"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_LIGHTNING_RODS("quest.main.sky_fortress.objectives.lightning_rods"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_PLACE_RODS("quest.main.sky_fortress.objectives.place_rods"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_STORM_ORB("quest.main.sky_fortress.objectives.storm_orb"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_CLOUD_TOWER("quest.main.sky_fortress.objectives.cloud_tower"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_CLOUD_BLOCKS("quest.main.sky_fortress.objectives.cloud_blocks"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_BUILD_CLOUD_BRIDGE("quest.main.sky_fortress.objectives.build_cloud_bridge"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_CLOUD_SENTINELS("quest.main.sky_fortress.objectives.cloud_sentinels"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_CLOUD_ORB("quest.main.sky_fortress.objectives.cloud_orb"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_CENTRAL_SPIRE("quest.main.sky_fortress.objectives.central_spire"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_ACTIVATE_ORBS("quest.main.sky_fortress.objectives.activate_orbs"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_SPIRE_GUARDIANS("quest.main.sky_fortress.objectives.spire_guardians"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_SPIRE_DEFENSE("quest.main.sky_fortress.objectives.spire_defense"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_FORTRESS_COMMANDER("quest.main.sky_fortress.objectives.fortress_commander"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_COMMANDER_GUARDS("quest.main.sky_fortress.objectives.commander_guards"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_SKY_FORTRESS_COMMANDER("quest.main.sky_fortress.objectives.sky_fortress_commander"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_COMMANDER_BADGE("quest.main.sky_fortress.objectives.commander_badge"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_PLACE_BANNER("quest.main.sky_fortress.objectives.place_banner"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_CLAIM_FORTRESS("quest.main.sky_fortress.objectives.claim_fortress"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_FORTRESS_DEED("quest.main.sky_fortress.objectives.fortress_deed"),
-    QUEST_MAIN_SKY_FORTRESS_OBJECTIVES_SKY_CROWN("quest.main.sky_fortress.objectives.sky_crown"),
-    
-    // Dragon Heart Quest Objectives
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ANCIENT_DRAGON("quest.main.dragon_heart.objectives.ancient_dragon"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_PROPHECY_SCROLL("quest.main.dragon_heart.objectives.prophecy_scroll"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ELDER_SAGE("quest.main.dragon_heart.objectives.elder_sage"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_HEART_SHRINE("quest.main.dragon_heart.objectives.heart_shrine"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_LAVA_DEPTHS("quest.main.dragon_heart.objectives.lava_depths"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_LAVA_DRAGONS("quest.main.dragon_heart.objectives.lava_dragons"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_LAVA_CRYSTALS("quest.main.dragon_heart.objectives.lava_crystals"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_FIRE_LORD("quest.main.dragon_heart.objectives.fire_lord"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_FIRE_KEY("quest.main.dragon_heart.objectives.fire_key"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_FROZEN_PEAKS("quest.main.dragon_heart.objectives.frozen_peaks"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ICE_DRAGONS("quest.main.dragon_heart.objectives.ice_dragons"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ICE_CRYSTALS("quest.main.dragon_heart.objectives.ice_crystals"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_FROST_GUARDIAN("quest.main.dragon_heart.objectives.frost_guardian"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ICE_KEY("quest.main.dragon_heart.objectives.ice_key"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_STORM_NEXUS("quest.main.dragon_heart.objectives.storm_nexus"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_STORM_DRAGONS("quest.main.dragon_heart.objectives.storm_dragons"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_STORM_CRYSTALS("quest.main.dragon_heart.objectives.storm_crystals"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_THUNDER_LORD("quest.main.dragon_heart.objectives.thunder_lord"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_STORM_KEY("quest.main.dragon_heart.objectives.storm_key"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_HEART_CHAMBER_ENTRANCE("quest.main.dragon_heart.objectives.heart_chamber_entrance"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_PLACE_FIRE_KEY("quest.main.dragon_heart.objectives.place_fire_key"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_PLACE_ICE_KEY("quest.main.dragon_heart.objectives.place_ice_key"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_PLACE_STORM_KEY("quest.main.dragon_heart.objectives.place_storm_key"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_KEY_RITUAL("quest.main.dragon_heart.objectives.key_ritual"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_GUARDIAN_ARENA("quest.main.dragon_heart.objectives.guardian_arena"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_FIRE_GUARDIAN("quest.main.dragon_heart.objectives.fire_guardian"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ICE_GUARDIAN("quest.main.dragon_heart.objectives.ice_guardian"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_STORM_GUARDIAN("quest.main.dragon_heart.objectives.storm_guardian"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_GUARDIAN_ESSENCE("quest.main.dragon_heart.objectives.guardian_essence"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_DRAGON_EMPEROR("quest.main.dragon_heart.objectives.dragon_emperor"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_DRAGON_EMPEROR_BATTLE("quest.main.dragon_heart.objectives.dragon_emperor_battle"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_EMPEROR_WRATH("quest.main.dragon_heart.objectives.emperor_wrath"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_EMPEROR_CROWN("quest.main.dragon_heart.objectives.emperor_crown"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_HEART_CORE("quest.main.dragon_heart.objectives.heart_core"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_HEART_GUARDIAN("quest.main.dragon_heart.objectives.heart_guardian"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_DRAGON_HEART_FRAGMENT("quest.main.dragon_heart.objectives.dragon_heart_fragment"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ASSEMBLE_HEART("quest.main.dragon_heart.objectives.assemble_heart"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_TRUE_DRAGON_HEART("quest.main.dragon_heart.objectives.true_dragon_heart"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_ANCIENT_DRAGON_FINALE("quest.main.dragon_heart.objectives.ancient_dragon_finale"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_DRAGON_BLESSING_ETERNAL("quest.main.dragon_heart.objectives.dragon_blessing_eternal"),
-    QUEST_MAIN_DRAGON_HEART_OBJECTIVES_DRAGON_LORD_TITLE("quest.main.dragon_heart.objectives.dragon_lord_title"),
-    
-    QUEST_MAIN_SHADOW_CULT_NAME("quest.main.shadow_cult.name"),
-    QUEST_MAIN_SHADOW_CULT_INFO("quest.main.shadow_cult.info"),
-    QUEST_MAIN_SHADOW_CULT_DIALOGS("quest.main.shadow_cult.dialogs"),
-    QUEST_MAIN_SHADOW_CULT_NPC_NAME("quest.main.shadow_cult.npc_name"),
-    QUEST_MAIN_SHADOW_CULT_ACCEPT("quest.main.shadow_cult.accept"),
-    QUEST_MAIN_SHADOW_CULT_DECLINE("quest.main.shadow_cult.decline"),
-    
-    QUEST_MAIN_FORBIDDEN_RITUAL_NAME("quest.main.forbidden_ritual.name"),
-    QUEST_MAIN_FORBIDDEN_RITUAL_INFO("quest.main.forbidden_ritual.info"),
-    QUEST_MAIN_FORBIDDEN_RITUAL_DIALOGS("quest.main.forbidden_ritual.dialogs"),
-    QUEST_MAIN_FORBIDDEN_RITUAL_NPC_NAME("quest.main.forbidden_ritual.npc_name"),
-    QUEST_MAIN_FORBIDDEN_RITUAL_ACCEPT("quest.main.forbidden_ritual.accept"),
-    QUEST_MAIN_FORBIDDEN_RITUAL_DECLINE("quest.main.forbidden_ritual.decline"),
-    
-    QUEST_MAIN_CHAOS_STORM_NAME("quest.main.chaos_storm.name"),
-    QUEST_MAIN_CHAOS_STORM_INFO("quest.main.chaos_storm.info"),
-    QUEST_MAIN_CHAOS_STORM_DIALOGS("quest.main.chaos_storm.dialogs"),
-    QUEST_MAIN_CHAOS_STORM_NPC_NAME("quest.main.chaos_storm.npc_name"),
-    QUEST_MAIN_CHAOS_STORM_ACCEPT("quest.main.chaos_storm.accept"),
-    QUEST_MAIN_CHAOS_STORM_DECLINE("quest.main.chaos_storm.decline"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_STORM_PROPHET("quest.main.chaos_storm.objectives.storm_prophet"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_CHAOS_EPICENTER("quest.main.chaos_storm.objectives.chaos_epicenter"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_CHAOS_FRAGMENTS("quest.main.chaos_storm.objectives.chaos_fragments"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_CHAOS_SPAWNS("quest.main.chaos_storm.objectives.chaos_spawns"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_STORM_TRACKER("quest.main.chaos_storm.objectives.storm_tracker"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_STORM_EYE("quest.main.chaos_storm.objectives.storm_eye"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_SURVIVE_STORM("quest.main.chaos_storm.objectives.survive_storm"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_STORM_ESSENCE("quest.main.chaos_storm.objectives.storm_essence"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_STABILITY_ENGINEER("quest.main.chaos_storm.objectives.stability_engineer"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_STABILIZER_PARTS("quest.main.chaos_storm.objectives.stabilizer_parts"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_POWER_CORES("quest.main.chaos_storm.objectives.power_cores"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_CONTROL_CRYSTALS("quest.main.chaos_storm.objectives.control_crystals"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_BUILD_STABILIZER("quest.main.chaos_storm.objectives.build_stabilizer"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_INNER_STORM("quest.main.chaos_storm.objectives.inner_storm"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_PLACE_STABILIZERS("quest.main.chaos_storm.objectives.place_stabilizers"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_CHAOS_ELEMENTALS("quest.main.chaos_storm.objectives.chaos_elementals"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_CHAOS_GUARDIANS("quest.main.chaos_storm.objectives.chaos_guardians"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_CHAOS_LORD("quest.main.chaos_storm.objectives.chaos_lord"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_CHAOS_LORD_MINIONS("quest.main.chaos_storm.objectives.chaos_lord_minions"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_CHAOS_LORD_BATTLE("quest.main.chaos_storm.objectives.chaos_lord_battle"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_CHAOS_CROWN("quest.main.chaos_storm.objectives.chaos_crown"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_STORM_CORE("quest.main.chaos_storm.objectives.storm_core"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_ACTIVATE_STABILIZERS("quest.main.chaos_storm.objectives.activate_stabilizers"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_STABILIZATION_PROCESS("quest.main.chaos_storm.objectives.stabilization_process"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_STABILITY_CORE("quest.main.chaos_storm.objectives.stability_core"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_STORM_PROPHET_CALM("quest.main.chaos_storm.objectives.storm_prophet_calm"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_STORM_CONTROL_STAFF("quest.main.chaos_storm.objectives.storm_control_staff"),
-    QUEST_MAIN_CHAOS_STORM_OBJECTIVES_DIMENSIONAL_STABILIZER("quest.main.chaos_storm.objectives.dimensional_stabilizer"),
-    
-    QUEST_MAIN_DARK_FORTRESS_NAME("quest.main.dark_fortress.name"),
-    QUEST_MAIN_DARK_FORTRESS_INFO("quest.main.dark_fortress.info"),
-    QUEST_MAIN_DARK_FORTRESS_DIALOGS("quest.main.dark_fortress.dialogs"),
-    QUEST_MAIN_DARK_FORTRESS_NPC_NAME("quest.main.dark_fortress.npc_name"),
-    QUEST_MAIN_DARK_FORTRESS_ACCEPT("quest.main.dark_fortress.accept"),
-    QUEST_MAIN_DARK_FORTRESS_DECLINE("quest.main.dark_fortress.decline"),
-    
-    // Chapter 4 Main Quest
-    QUEST_MAIN_DIMENSIONAL_RIFT_NAME("quest.main.dimensional_rift.name"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_INFO("quest.main.dimensional_rift.info"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_DIALOGS("quest.main.dimensional_rift.dialogs"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_NPC_NAME("quest.main.dimensional_rift.npc_name"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_ACCEPT("quest.main.dimensional_rift.accept"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_DECLINE("quest.main.dimensional_rift.decline"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_RIFT_DETECTOR("quest.main.dimensional_rift.objectives.rift_detector"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_RIFT_LOCATION("quest.main.dimensional_rift.objectives.rift_location"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_RIFT_READINGS("quest.main.dimensional_rift.objectives.rift_readings"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_RIFT_CREATURES("quest.main.dimensional_rift.objectives.rift_creatures"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_ANALYSIS_EQUIPMENT("quest.main.dimensional_rift.objectives.analysis_equipment"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_RIFT_SAMPLES("quest.main.dimensional_rift.objectives.rift_samples"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_RIFT_ANALYST("quest.main.dimensional_rift.objectives.rift_analyst"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_RIFT_EXPOSURE("quest.main.dimensional_rift.objectives.rift_exposure"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_SEALING_CRYSTALS("quest.main.dimensional_rift.objectives.sealing_crystals"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_DIMENSIONAL_ANCHORS("quest.main.dimensional_rift.objectives.dimensional_anchors"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_VOID_ESSENCE("quest.main.dimensional_rift.objectives.void_essence"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_STABILITY_MATRIX("quest.main.dimensional_rift.objectives.stability_matrix"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_SUMMON_DEFENDERS("quest.main.dimensional_rift.objectives.summon_defenders"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_PLACE_BEACONS("quest.main.dimensional_rift.objectives.place_beacons"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_DEFENDER_ARRIVAL("quest.main.dimensional_rift.objectives.defender_arrival"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_COORDINATE_DEFENSE("quest.main.dimensional_rift.objectives.coordinate_defense"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_RIFT_CORE("quest.main.dimensional_rift.objectives.rift_core"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_PLACE_ANCHORS("quest.main.dimensional_rift.objectives.place_anchors"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_RIFT_GUARDIANS("quest.main.dimensional_rift.objectives.rift_guardians"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_ACTIVATE_SEAL_CRYSTALS("quest.main.dimensional_rift.objectives.activate_seal_crystals"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_FIRST_SEAL_ATTEMPT("quest.main.dimensional_rift.objectives.first_seal_attempt"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_VOID_TITANS("quest.main.dimensional_rift.objectives.void_titans"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_CHAOS_ENTITIES("quest.main.dimensional_rift.objectives.chaos_entities"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_TITAN_CORES("quest.main.dimensional_rift.objectives.titan_cores"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_REINFORCE_SEAL("quest.main.dimensional_rift.objectives.reinforce_seal"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_VOID_OVERLORD("quest.main.dimensional_rift.objectives.void_overlord"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_OVERLORD_ARMY("quest.main.dimensional_rift.objectives.overlord_army"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_VOID_OVERLORD_BATTLE("quest.main.dimensional_rift.objectives.void_overlord_battle"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_OVERLORD_CROWN("quest.main.dimensional_rift.objectives.overlord_crown"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_FINAL_SEAL_LOCATION("quest.main.dimensional_rift.objectives.final_seal_location"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_COMPLETE_SEAL_ARRAY("quest.main.dimensional_rift.objectives.complete_seal_array"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_MASTER_SEAL("quest.main.dimensional_rift.objectives.master_seal"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_ACTIVATE_MASTER_SEAL("quest.main.dimensional_rift.objectives.activate_master_seal"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_FINAL_SEALING("quest.main.dimensional_rift.objectives.final_sealing"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_SCIENTIST_VICTORY("quest.main.dimensional_rift.objectives.scientist_victory"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_RIFT_CONTROLLER("quest.main.dimensional_rift.objectives.rift_controller"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_DIMENSIONAL_KEY("quest.main.dimensional_rift.objectives.dimensional_key"),
-    QUEST_MAIN_DIMENSIONAL_RIFT_OBJECTIVES_REALM_PROTECTOR_TITLE("quest.main.dimensional_rift.objectives.realm_protector_title"),
-    
-    // Missing Daily Quest Info keys
-    QUEST_DAILY_BOUNTY_HUNTER_INFO("quest.daily.bounty_hunter.info"),
-    QUEST_DAILY_CRAFTING_INFO("quest.daily.crafting.info"),
-    QUEST_DAILY_DELIVERY_INFO("quest.daily.delivery.info"),
-    QUEST_DAILY_EXPLORATION_INFO("quest.daily.exploration.info"),
-    QUEST_DAILY_FISHING_INFO("quest.daily.fishing.info"),
-    QUEST_DAILY_GATHERING_INFO("quest.daily.gathering.info"),
-    QUEST_DAILY_HUNTING_INFO("quest.daily.hunting.info"),
-    QUEST_DAILY_MINING_INFO("quest.daily.mining.info"),
-    
-    // Missing Tutorial Quest Info keys
-    QUEST_TUTORIAL_FIRST_STEPS_INFO("quest.tutorial.first_steps.info"),
-    QUEST_TUTORIAL_FIRST_STEPS_OBJECTIVES_VISIT_HUB("quest.tutorial.first_steps.objectives.visit_hub"),
-    QUEST_TUTORIAL_FIRST_STEPS_OBJECTIVES_VISIT_MERCHANT("quest.tutorial.first_steps.objectives.visit_merchant"),
-    QUEST_TUTORIAL_BASIC_COMBAT_INFO("quest.tutorial.basic_combat.info"),
-    
-    // Missing Main Quest keys
-    QUEST_MAIN_GUARDIAN_AWAKENING_NAME("quest.main.guardian_awakening.name"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_INFO("quest.main.guardian_awakening.info"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_DIALOGS("quest.main.guardian_awakening.dialogs"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_NPC_NAME("quest.main.guardian_awakening.npc_name"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_ACCEPT("quest.main.guardian_awakening.accept"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_DECLINE("quest.main.guardian_awakening.decline"),
-    
-    // Guardian Awakening Quest Objectives
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_ANCIENT_SCHOLAR("quest.main.guardian_awakening.objectives.ancient_scholar"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_LIBRARY_ARCHIVES("quest.main.guardian_awakening.objectives.library_archives"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_ANCIENT_TOME("quest.main.guardian_awakening.objectives.ancient_tome"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_GUARDIAN_RUNES("quest.main.guardian_awakening.objectives.guardian_runes"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_ELEMENTAL_CORES("quest.main.guardian_awakening.objectives.elemental_cores"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_FIRE_ESSENCE("quest.main.guardian_awakening.objectives.fire_essence"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_FROST_SPIRITS("quest.main.guardian_awakening.objectives.frost_spirits"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_ICE_CRYSTALS("quest.main.guardian_awakening.objectives.ice_crystals"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_EARTH_STONES("quest.main.guardian_awakening.objectives.earth_stones"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_WIND_FEATHERS("quest.main.guardian_awakening.objectives.wind_feathers"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_GUARDIAN_TEMPLE("quest.main.guardian_awakening.objectives.guardian_temple"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_PLACE_RUNES("quest.main.guardian_awakening.objectives.place_runes"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_ACTIVATE_ALTAR("quest.main.guardian_awakening.objectives.activate_altar"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_TEMPLE_GUARDIANS("quest.main.guardian_awakening.objectives.temple_guardians"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_ELEMENTAL_STORM("quest.main.guardian_awakening.objectives.elemental_storm"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_GUARDIAN_KEYS("quest.main.guardian_awakening.objectives.guardian_keys"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_INNER_SANCTUM("quest.main.guardian_awakening.objectives.inner_sanctum"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_SLEEPING_GUARDIAN("quest.main.guardian_awakening.objectives.sleeping_guardian"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_OFFER_ESSENCES("quest.main.guardian_awakening.objectives.offer_essences"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_GUARDIAN_AVATAR("quest.main.guardian_awakening.objectives.guardian_avatar"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_AWAKENED_GUARDIAN("quest.main.guardian_awakening.objectives.awakened_guardian"),
-    QUEST_MAIN_GUARDIAN_AWAKENING_OBJECTIVES_GUARDIAN_BLESSING("quest.main.guardian_awakening.objectives.guardian_blessing"),
-    
-    QUEST_MAIN_HEROES_JOURNEY_NAME("quest.main.heroes_journey.name"),
-    QUEST_MAIN_HEROES_JOURNEY_INFO("quest.main.heroes_journey.info"),
-    QUEST_MAIN_HEROES_JOURNEY_DIALOGS("quest.main.heroes_journey.dialogs"),
-    QUEST_MAIN_HEROES_JOURNEY_NPC_NAME("quest.main.heroes_journey.npc_name"),
-    QUEST_MAIN_HEROES_JOURNEY_ACCEPT("quest.main.heroes_journey.accept"),
-    QUEST_MAIN_HEROES_JOURNEY_DECLINE("quest.main.heroes_journey.decline"),
-    
-    // Heroes Journey Quest Objectives
-    QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_KILL_ZOMBIES("quest.main.heroes_journey.objectives.kill_zombies"),
-    QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_KILL_SKELETONS("quest.main.heroes_journey.objectives.kill_skeletons"),
-    QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_KILL_SPIDERS("quest.main.heroes_journey.objectives.kill_spiders"),
-    QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_COLLECT_IRON("quest.main.heroes_journey.objectives.collect_iron"),
-    QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_COLLECT_GOLD("quest.main.heroes_journey.objectives.collect_gold"),
-    QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_CRAFT_IRON_SWORD("quest.main.heroes_journey.objectives.craft_iron_sword"),
-    QUEST_MAIN_HEROES_JOURNEY_OBJECTIVES_CRAFT_IRON_ARMOR("quest.main.heroes_journey.objectives.craft_iron_armor"),
-    
-    QUEST_MAIN_PATH_OF_DARKNESS_NAME("quest.main.path_of_darkness.name"),
-    QUEST_MAIN_PATH_OF_DARKNESS_INFO("quest.main.path_of_darkness.info"),
-    QUEST_MAIN_PATH_OF_DARKNESS_DIALOGS("quest.main.path_of_darkness.dialogs"),
-    QUEST_MAIN_PATH_OF_DARKNESS_NPC_NAME("quest.main.path_of_darkness.npc_name"),
-    QUEST_MAIN_PATH_OF_DARKNESS_ACCEPT("quest.main.path_of_darkness.accept"),
-    QUEST_MAIN_PATH_OF_DARKNESS_DECLINE("quest.main.path_of_darkness.decline"),
-    
-    // Path of Darkness Quest Objectives
-    QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_ELIMINATE_VILLAGERS("quest.main.path_of_darkness.objectives.eliminate_villagers"),
-    QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_DOMINATE_PLAYERS("quest.main.path_of_darkness.objectives.dominate_players"),
-    QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_HUNT_WITHER_SKELETONS("quest.main.path_of_darkness.objectives.hunt_wither_skeletons"),
-    QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_CRAFT_TNT("quest.main.path_of_darkness.objectives.craft_tnt"),
-    
-    QUEST_MAIN_PATH_OF_LIGHT_NAME("quest.main.path_of_light.name"),
-    QUEST_MAIN_PATH_OF_LIGHT_INFO("quest.main.path_of_light.info"),
-    QUEST_MAIN_PATH_OF_LIGHT_DIALOGS("quest.main.path_of_light.dialogs"),
-    QUEST_MAIN_PATH_OF_LIGHT_NPC_NAME("quest.main.path_of_light.npc_name"),
-    QUEST_MAIN_PATH_OF_LIGHT_ACCEPT("quest.main.path_of_light.accept"),
-    QUEST_MAIN_PATH_OF_LIGHT_DECLINE("quest.main.path_of_light.decline"),
-    
-    // Path of Light Quest Objectives
-    QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_PURIFY_UNDEAD_ZOMBIE("quest.main.path_of_light.objectives.purify_undead_zombie"),
-    QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_PURIFY_UNDEAD_SKELETON("quest.main.path_of_light.objectives.purify_undead_skeleton"),
-    QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_PURIFY_UNDEAD_PHANTOM("quest.main.path_of_light.objectives.purify_undead_phantom"),
-    QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_CRAFT_GOLDEN_APPLE("quest.main.path_of_light.objectives.craft_golden_apple"),
-    QUEST_MAIN_PATH_OF_LIGHT_OBJECTIVES_HELP_VILLAGERS("quest.main.path_of_light.objectives.help_villagers"),
-    
-    // Chapter 4 Missing Keys
-    QUEST_MAIN_REALM_DEFENDERS_NAME("quest.main.realm_defenders.name"),
-    QUEST_MAIN_REALM_DEFENDERS_INFO("quest.main.realm_defenders.info"),
-    QUEST_MAIN_REALM_DEFENDERS_DIALOGS("quest.main.realm_defenders.dialogs"),
-    QUEST_MAIN_REALM_DEFENDERS_NPC_NAME("quest.main.realm_defenders.npc_name"),
-    QUEST_MAIN_REALM_DEFENDERS_ACCEPT("quest.main.realm_defenders.accept"),
-    QUEST_MAIN_REALM_DEFENDERS_DECLINE("quest.main.realm_defenders.decline"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ALLIANCE_EMISSARY("quest.main.realm_defenders.objectives.alliance_emissary"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ALLIANCE_TREATY("quest.main.realm_defenders.objectives.alliance_treaty"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_DEFENDER_COUNCIL("quest.main.realm_defenders.objectives.defender_council"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_FIRE_REALM("quest.main.realm_defenders.objectives.fire_realm"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_FIRE_GUARDIAN("quest.main.realm_defenders.objectives.fire_guardian"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_FIRE_TRIAL("quest.main.realm_defenders.objectives.fire_trial"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_FIRE_ALLIANCE_TOKEN("quest.main.realm_defenders.objectives.fire_alliance_token"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ICE_REALM("quest.main.realm_defenders.objectives.ice_realm"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ICE_GUARDIAN("quest.main.realm_defenders.objectives.ice_guardian"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ICE_TRIAL("quest.main.realm_defenders.objectives.ice_trial"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ICE_ALLIANCE_TOKEN("quest.main.realm_defenders.objectives.ice_alliance_token"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_EARTH_REALM("quest.main.realm_defenders.objectives.earth_realm"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_EARTH_GUARDIAN("quest.main.realm_defenders.objectives.earth_guardian"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_EARTH_TRIAL("quest.main.realm_defenders.objectives.earth_trial"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_EARTH_ALLIANCE_TOKEN("quest.main.realm_defenders.objectives.earth_alliance_token"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_WIND_REALM("quest.main.realm_defenders.objectives.wind_realm"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_WIND_GUARDIAN("quest.main.realm_defenders.objectives.wind_guardian"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_WIND_TRIAL("quest.main.realm_defenders.objectives.wind_trial"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_WIND_ALLIANCE_TOKEN("quest.main.realm_defenders.objectives.wind_alliance_token"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ETHER_REALM("quest.main.realm_defenders.objectives.ether_realm"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ETHER_GUARDIAN("quest.main.realm_defenders.objectives.ether_guardian"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ETHER_TRIAL("quest.main.realm_defenders.objectives.ether_trial"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ETHER_ALLIANCE_TOKEN("quest.main.realm_defenders.objectives.ether_alliance_token"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ALLIANCE_CEREMONY("quest.main.realm_defenders.objectives.alliance_ceremony"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_PLACE_TOKENS("quest.main.realm_defenders.objectives.place_tokens"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ALLIANCE_LEADER("quest.main.realm_defenders.objectives.alliance_leader"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ALLIANCE_RITUAL("quest.main.realm_defenders.objectives.alliance_ritual"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_COMBINED_TRIAL("quest.main.realm_defenders.objectives.combined_trial"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_UNITY_CRYSTAL("quest.main.realm_defenders.objectives.unity_crystal"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_COMPLETE_ALLIANCE("quest.main.realm_defenders.objectives.complete_alliance"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_DEFENDER_BADGE("quest.main.realm_defenders.objectives.defender_badge"),
-    QUEST_MAIN_REALM_DEFENDERS_OBJECTIVES_ALLIANCE_BANNER("quest.main.realm_defenders.objectives.alliance_banner"),
-    
-    QUEST_MAIN_REALM_PORTAL_NAME("quest.main.realm_portal.name"),
-    QUEST_MAIN_REALM_PORTAL_INFO("quest.main.realm_portal.info"),
-    QUEST_MAIN_REALM_PORTAL_DIALOGS("quest.main.realm_portal.dialogs"),
-    QUEST_MAIN_REALM_PORTAL_NPC_NAME("quest.main.realm_portal.npc_name"),
-    QUEST_MAIN_REALM_PORTAL_ACCEPT("quest.main.realm_portal.accept"),
-    QUEST_MAIN_REALM_PORTAL_DECLINE("quest.main.realm_portal.decline"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_DIMENSION_SCHOLAR("quest.main.realm_portal.objectives.dimension_scholar"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_ANCIENT_TEXTS("quest.main.realm_portal.objectives.ancient_texts"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_OBSERVATORY("quest.main.realm_portal.objectives.observatory"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_STAR_CHARTS("quest.main.realm_portal.objectives.star_charts"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_OBSIDIAN_BLOCKS("quest.main.realm_portal.objectives.obsidian_blocks"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_ENDER_PEARLS("quest.main.realm_portal.objectives.ender_pearls"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_BLAZE_POWDER("quest.main.realm_portal.objectives.blaze_powder"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_CHORUS_FRUIT("quest.main.realm_portal.objectives.chorus_fruit"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_END_CRYSTALS("quest.main.realm_portal.objectives.end_crystals"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_PORTAL_SMITH("quest.main.realm_portal.objectives.portal_smith"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_VOID_ESSENCE("quest.main.realm_portal.objectives.void_essence"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_DIMENSIONAL_SHARDS("quest.main.realm_portal.objectives.dimensional_shards"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_FORGE_KEY("quest.main.realm_portal.objectives.forge_key"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_PORTAL_SITE("quest.main.realm_portal.objectives.portal_site"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_PLACE_OBSIDIAN_FRAME("quest.main.realm_portal.objectives.place_obsidian_frame"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_PLACE_END_RODS("quest.main.realm_portal.objectives.place_end_rods"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_PLACE_BEACONS("quest.main.realm_portal.objectives.place_beacons"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_VOID_CREATURES("quest.main.realm_portal.objectives.void_creatures"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_DIMENSIONAL_RIFTS("quest.main.realm_portal.objectives.dimensional_rifts"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_STABILITY_CORES("quest.main.realm_portal.objectives.stability_cores"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_STABILIZATION("quest.main.realm_portal.objectives.stabilization"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_PORTAL_ACTIVATOR("quest.main.realm_portal.objectives.portal_activator"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_ACTIVATION_CATALYST("quest.main.realm_portal.objectives.activation_catalyst"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_ACTIVATE_PORTAL("quest.main.realm_portal.objectives.activate_portal"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_PORTAL_KEY("quest.main.realm_portal.objectives.portal_key"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_ENTER_PORTAL("quest.main.realm_portal.objectives.enter_portal"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_VOID_DIMENSION("quest.main.realm_portal.objectives.void_dimension"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_VOID_GUARDIANS("quest.main.realm_portal.objectives.void_guardians"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_DIMENSION_PROOF("quest.main.realm_portal.objectives.dimension_proof"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_RETURN_PORTAL("quest.main.realm_portal.objectives.return_portal"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_REPORT_SUCCESS("quest.main.realm_portal.objectives.report_success"),
-    QUEST_MAIN_REALM_PORTAL_OBJECTIVES_REALM_NAVIGATOR("quest.main.realm_portal.objectives.realm_navigator"),
-    
-    QUEST_MAIN_VOID_INVASION_NAME("quest.main.void_invasion.name"),
-    QUEST_MAIN_VOID_INVASION_INFO("quest.main.void_invasion.info"),
-    QUEST_MAIN_VOID_INVASION_DIALOGS("quest.main.void_invasion.dialogs"),
-    QUEST_MAIN_VOID_INVASION_NPC_NAME("quest.main.void_invasion.npc_name"),
-    QUEST_MAIN_VOID_INVASION_ACCEPT("quest.main.void_invasion.accept"),
-    QUEST_MAIN_VOID_INVASION_DECLINE("quest.main.void_invasion.decline"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_REALM_GUARDIAN("quest.main.void_invasion.objectives.realm_guardian"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_INVASION_SITE("quest.main.void_invasion.objectives.invasion_site"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_SCOUTS("quest.main.void_invasion.objectives.void_scouts"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_INVASION_INTEL("quest.main.void_invasion.objectives.invasion_intel"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_DEFENSE_COMMANDER("quest.main.void_invasion.objectives.defense_commander"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_DEFENSE_SUPPLIES("quest.main.void_invasion.objectives.defense_supplies"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_BUILD_BARRICADES("quest.main.void_invasion.objectives.build_barricades"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_WEAPONS("quest.main.void_invasion.objectives.void_weapons"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_SOLDIERS("quest.main.void_invasion.objectives.void_soldiers"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_MAGES("quest.main.void_invasion.objectives.void_mages"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_FIRST_WAVE("quest.main.void_invasion.objectives.first_wave"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_CORES("quest.main.void_invasion.objectives.void_cores"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_KNIGHTS("quest.main.void_invasion.objectives.void_knights"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_BEASTS("quest.main.void_invasion.objectives.void_beasts"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_SECOND_WAVE("quest.main.void_invasion.objectives.second_wave"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_ESSENCE("quest.main.void_invasion.objectives.void_essence"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_GENERAL("quest.main.void_invasion.objectives.void_general"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_GENERAL_BATTLE("quest.main.void_invasion.objectives.void_general_battle"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_GENERAL_CROWN("quest.main.void_invasion.objectives.general_crown"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_PORTAL("quest.main.void_invasion.objectives.void_portal"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_SEAL_PORTAL("quest.main.void_invasion.objectives.seal_portal"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_SEALING_STONE("quest.main.void_invasion.objectives.sealing_stone"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_SEALING_RITUAL("quest.main.void_invasion.objectives.sealing_ritual"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_REALM_GUARDIAN_VICTORY("quest.main.void_invasion.objectives.realm_guardian_victory"),
-    QUEST_MAIN_VOID_INVASION_OBJECTIVES_VICTORY_MEDAL("quest.main.void_invasion.objectives.victory_medal"),
-    
-    // Chapter 5 Missing Keys
-    QUEST_MAIN_FINAL_BATTLE_NAME("quest.main.final_battle.name"),
-    QUEST_MAIN_FINAL_BATTLE_INFO("quest.main.final_battle.info"),
-    QUEST_MAIN_FINAL_BATTLE_DIALOGS("quest.main.final_battle.dialogs"),
-    QUEST_MAIN_FINAL_BATTLE_NPC_NAME("quest.main.final_battle.npc_name"),
-    QUEST_MAIN_FINAL_BATTLE_ACCEPT("quest.main.final_battle.accept"),
-    QUEST_MAIN_FINAL_BATTLE_DECLINE("quest.main.final_battle.decline"),
-    
-    QUEST_MAIN_GATHERING_STORM_NAME("quest.main.gathering_storm.name"),
-    QUEST_MAIN_GATHERING_STORM_INFO("quest.main.gathering_storm.info"),
-    QUEST_MAIN_GATHERING_STORM_DIALOGS("quest.main.gathering_storm.dialogs"),
-    QUEST_MAIN_GATHERING_STORM_NPC_NAME("quest.main.gathering_storm.npc_name"),
-    QUEST_MAIN_GATHERING_STORM_ACCEPT("quest.main.gathering_storm.accept"),
-    QUEST_MAIN_GATHERING_STORM_DECLINE("quest.main.gathering_storm.decline"),
-    
-    QUEST_MAIN_LAST_STAND_NAME("quest.main.last_stand.name"),
-    QUEST_MAIN_LAST_STAND_INFO("quest.main.last_stand.info"),
-    QUEST_MAIN_LAST_STAND_DIALOGS("quest.main.last_stand.dialogs"),
-    QUEST_MAIN_LAST_STAND_NPC_NAME("quest.main.last_stand.npc_name"),
-    QUEST_MAIN_LAST_STAND_ACCEPT("quest.main.last_stand.accept"),
-    QUEST_MAIN_LAST_STAND_DECLINE("quest.main.last_stand.decline"),
-    
-    QUEST_MAIN_NEW_ERA_NAME("quest.main.new_era.name"),
-    QUEST_MAIN_NEW_ERA_INFO("quest.main.new_era.info"),
-    QUEST_MAIN_NEW_ERA_DIALOGS("quest.main.new_era.dialogs"),
-    QUEST_MAIN_NEW_ERA_NPC_NAME("quest.main.new_era.npc_name"),
-    QUEST_MAIN_NEW_ERA_ACCEPT("quest.main.new_era.accept"),
-    QUEST_MAIN_NEW_ERA_DECLINE("quest.main.new_era.decline"),
-    
-    QUEST_MAIN_SACRIFICE_OF_HEROES_NAME("quest.main.sacrifice_of_heroes.name"),
-    QUEST_MAIN_SACRIFICE_OF_HEROES_INFO("quest.main.sacrifice_of_heroes.info"),
-    QUEST_MAIN_SACRIFICE_OF_HEROES_DIALOGS("quest.main.sacrifice_of_heroes.dialogs"),
-    QUEST_MAIN_SACRIFICE_OF_HEROES_NPC_NAME("quest.main.sacrifice_of_heroes.npc_name"),
-    QUEST_MAIN_SACRIFICE_OF_HEROES_ACCEPT("quest.main.sacrifice_of_heroes.accept"),
-    QUEST_MAIN_SACRIFICE_OF_HEROES_DECLINE("quest.main.sacrifice_of_heroes.decline"),
-    
-    // Chapter 5 Quest Objectives
-    // Final Battle Quest Objectives
-    QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_CHOSEN_CHAMPION("quest.main.final_battle.objectives.chosen_champion"),
-    QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_BATTLEFIELD_GATES("quest.main.final_battle.objectives.battlefield_gates"),
-    QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_KILL_WITHERS("quest.main.final_battle.objectives.kill_withers"),
-    QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_HEART_OF_DARKNESS("quest.main.final_battle.objectives.heart_of_darkness"),
-    QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_KILL_ENDER_DRAGON("quest.main.final_battle.objectives.kill_ender_dragon"),
-    QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_DRAGON_ESSENCE("quest.main.final_battle.objectives.dragon_essence"),
-    QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_VOID_NEXUS("quest.main.final_battle.objectives.void_nexus"),
-    QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_KILL_ENDERMEN("quest.main.final_battle.objectives.kill_endermen"),
-    QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_ANCIENT_ORACLE("quest.main.final_battle.objectives.ancient_oracle"),
-    
-    // Gathering Storm Quest Objectives
-    QUEST_MAIN_GATHERING_STORM_OBJECTIVES_STORM_WARDEN("quest.main.gathering_storm.objectives.storm_warden"),
-    QUEST_MAIN_GATHERING_STORM_OBJECTIVES_STORM_PEAKS("quest.main.gathering_storm.objectives.storm_peaks"),
-    QUEST_MAIN_GATHERING_STORM_OBJECTIVES_STORM_CRYSTAL("quest.main.gathering_storm.objectives.storm_crystal"),
-    QUEST_MAIN_GATHERING_STORM_OBJECTIVES_KILL_PHANTOMS("quest.main.gathering_storm.objectives.kill_phantoms"),
-    QUEST_MAIN_GATHERING_STORM_OBJECTIVES_LIGHTNING_ROD("quest.main.gathering_storm.objectives.lightning_rod"),
-    QUEST_MAIN_GATHERING_STORM_OBJECTIVES_KILL_CHARGED_CREEPERS("quest.main.gathering_storm.objectives.kill_charged_creepers"),
-    QUEST_MAIN_GATHERING_STORM_OBJECTIVES_THUNDER_SPIRE("quest.main.gathering_storm.objectives.thunder_spire"),
-    QUEST_MAIN_GATHERING_STORM_OBJECTIVES_STORM_KEEPER("quest.main.gathering_storm.objectives.storm_keeper"),
-    
-    // Last Stand Quest Objectives
-    QUEST_MAIN_LAST_STAND_OBJECTIVES_ALLIANCE_COMMANDER("quest.main.last_stand.objectives.alliance_commander"),
-    QUEST_MAIN_LAST_STAND_OBJECTIVES_FORTRESS_BATTLEMENTS("quest.main.last_stand.objectives.fortress_battlements"),
-    QUEST_MAIN_LAST_STAND_OBJECTIVES_SIEGE_WEAPON("quest.main.last_stand.objectives.siege_weapon"),
-    QUEST_MAIN_LAST_STAND_OBJECTIVES_KILL_PILLAGERS("quest.main.last_stand.objectives.kill_pillagers"),
-    QUEST_MAIN_LAST_STAND_OBJECTIVES_BLESSED_ARROWS("quest.main.last_stand.objectives.blessed_arrows"),
-    QUEST_MAIN_LAST_STAND_OBJECTIVES_KILL_RAVAGERS("quest.main.last_stand.objectives.kill_ravagers"),
-    QUEST_MAIN_LAST_STAND_OBJECTIVES_BARRIER_CRYSTAL("quest.main.last_stand.objectives.barrier_crystal"),
-    QUEST_MAIN_LAST_STAND_OBJECTIVES_LAST_FORTRESS("quest.main.last_stand.objectives.last_fortress"),
-    QUEST_MAIN_LAST_STAND_OBJECTIVES_WAR_STRATEGIST("quest.main.last_stand.objectives.war_strategist"),
-    
-    // New Era Quest Objectives
-    QUEST_MAIN_NEW_ERA_OBJECTIVES_KINGDOM_HERALD("quest.main.new_era.objectives.kingdom_herald"),
-    QUEST_MAIN_NEW_ERA_OBJECTIVES_NEW_CAPITAL("quest.main.new_era.objectives.new_capital"),
-    QUEST_MAIN_NEW_ERA_OBJECTIVES_FOUNDATION_STONE("quest.main.new_era.objectives.foundation_stone"),
-    QUEST_MAIN_NEW_ERA_OBJECTIVES_UNITY_PLAZA("quest.main.new_era.objectives.unity_plaza"),
-    QUEST_MAIN_NEW_ERA_OBJECTIVES_PEACE_TREATY("quest.main.new_era.objectives.peace_treaty"),
-    QUEST_MAIN_NEW_ERA_OBJECTIVES_PEACE_AMBASSADOR("quest.main.new_era.objectives.peace_ambassador"),
-    QUEST_MAIN_NEW_ERA_OBJECTIVES_PROSPERITY_CRYSTAL("quest.main.new_era.objectives.prosperity_crystal"),
-    QUEST_MAIN_NEW_ERA_OBJECTIVES_HARMONY_GARDENS("quest.main.new_era.objectives.harmony_gardens"),
-    QUEST_MAIN_NEW_ERA_OBJECTIVES_ERA_CHRONICLER("quest.main.new_era.objectives.era_chronicler"),
-    
-    // Sacrifice of Heroes Quest Objectives
-    QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_MEMORIAL_KEEPER("quest.main.sacrifice_of_heroes.objectives.memorial_keeper"),
-    QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_HEROES_MEMORIAL("quest.main.sacrifice_of_heroes.objectives.heroes_memorial"),
-    QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_HERO_MEDALLION("quest.main.sacrifice_of_heroes.objectives.hero_medallion"),
-    QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_ETERNAL_FLAME_ALTAR("quest.main.sacrifice_of_heroes.objectives.eternal_flame_altar"),
-    QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_ESSENCE_OF_VALOR("quest.main.sacrifice_of_heroes.objectives.essence_of_valor"),
-    QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_KILL_VEXES("quest.main.sacrifice_of_heroes.objectives.kill_vexes"),
-    QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_SPIRIT_CRYSTAL("quest.main.sacrifice_of_heroes.objectives.spirit_crystal"),
-    QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_SANCTUARY_OF_LIGHT("quest.main.sacrifice_of_heroes.objectives.sanctuary_of_light"),
-    QUEST_MAIN_SACRIFICE_OF_HEROES_OBJECTIVES_SPIRIT_GUIDE("quest.main.sacrifice_of_heroes.objectives.spirit_guide"),
-    
-    // Chapter 6 Missing Keys
-    QUEST_MAIN_ETERNAL_GUARDIAN_NAME("quest.main.eternal_guardian.name"),
-    QUEST_MAIN_ETERNAL_GUARDIAN_INFO("quest.main.eternal_guardian.info"),
-    QUEST_MAIN_ETERNAL_GUARDIAN_DIALOGS("quest.main.eternal_guardian.dialogs"),
-    QUEST_MAIN_ETERNAL_GUARDIAN_NPC_NAME("quest.main.eternal_guardian.npc_name"),
-    QUEST_MAIN_ETERNAL_GUARDIAN_ACCEPT("quest.main.eternal_guardian.accept"),
-    QUEST_MAIN_ETERNAL_GUARDIAN_DECLINE("quest.main.eternal_guardian.decline"),
-    
-    // Eternal Guardian Quest Objectives
-    QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_ETERNAL_SAGE("quest.main.eternal_guardian.objectives.eternal_sage"),
-    QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_GUARDIAN_SANCTUM("quest.main.eternal_guardian.objectives.guardian_sanctum"),
-    QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_GUARDIAN_SIGIL("quest.main.eternal_guardian.objectives.guardian_sigil"),
-    QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_ESSENCE_OF_PROTECTION("quest.main.eternal_guardian.objectives.essence_of_protection"),
-    QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_WATCHTOWER_PEAK("quest.main.eternal_guardian.objectives.watchtower_peak"),
-    QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_VIGILANT_CRYSTAL("quest.main.eternal_guardian.objectives.vigilant_crystal"),
-    QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_ETERNAL_OATH("quest.main.eternal_guardian.objectives.eternal_oath"),
-    QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_NEXUS_OF_WORLDS("quest.main.eternal_guardian.objectives.nexus_of_worlds"),
-    QUEST_MAIN_ETERNAL_GUARDIAN_OBJECTIVES_WORLD_SPIRIT("quest.main.eternal_guardian.objectives.world_spirit"),
-    
-    QUEST_MAIN_LEGACY_OF_HEROES_NAME("quest.main.legacy_of_heroes.name"),
-    QUEST_MAIN_LEGACY_OF_HEROES_INFO("quest.main.legacy_of_heroes.info"),
-    QUEST_MAIN_LEGACY_OF_HEROES_DIALOGS("quest.main.legacy_of_heroes.dialogs"),
-    QUEST_MAIN_LEGACY_OF_HEROES_NPC_NAME("quest.main.legacy_of_heroes.npc_name"),
-    QUEST_MAIN_LEGACY_OF_HEROES_ACCEPT("quest.main.legacy_of_heroes.accept"),
-    QUEST_MAIN_LEGACY_OF_HEROES_DECLINE("quest.main.legacy_of_heroes.decline"),
-    
-    // Legacy of Heroes Quest Objectives
-    QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_LEGACY_KEEPER("quest.main.legacy_of_heroes.objectives.legacy_keeper"),
-    QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_HEROES_ACADEMY("quest.main.legacy_of_heroes.objectives.heroes_academy"),
-    QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_WISDOM_SCROLL("quest.main.legacy_of_heroes.objectives.wisdom_scroll"),
-    QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_HEROIC_RELIC("quest.main.legacy_of_heroes.objectives.heroic_relic"),
-    QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_MONUMENT_SITE("quest.main.legacy_of_heroes.objectives.monument_site"),
-    QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_MARBLE_BLOCK("quest.main.legacy_of_heroes.objectives.marble_block"),
-    QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_ETERNAL_FLAME("quest.main.legacy_of_heroes.objectives.eternal_flame"),
-    QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_HALL_OF_LEGENDS("quest.main.legacy_of_heroes.objectives.hall_of_legends"),
-    QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_MASTER_CHRONICLER("quest.main.legacy_of_heroes.objectives.master_chronicler"),
-    
-    QUEST_MAIN_RESTORATION_NAME("quest.main.restoration.name"),
-    QUEST_MAIN_RESTORATION_INFO("quest.main.restoration.info"),
-    QUEST_MAIN_RESTORATION_DIALOGS("quest.main.restoration.dialogs"),
-    QUEST_MAIN_RESTORATION_NPC_NAME("quest.main.restoration.npc_name"),
-    QUEST_MAIN_RESTORATION_ACCEPT("quest.main.restoration.accept"),
-    QUEST_MAIN_RESTORATION_DECLINE("quest.main.restoration.decline"),
-    
-    // Restoration Quest Objectives
-    QUEST_MAIN_RESTORATION_OBJECTIVES_RESTORATION_OVERSEER("quest.main.restoration.objectives.restoration_overseer"),
-    QUEST_MAIN_RESTORATION_OBJECTIVES_SCARRED_LANDS("quest.main.restoration.objectives.scarred_lands"),
-    QUEST_MAIN_RESTORATION_OBJECTIVES_HEALING_HERBS("quest.main.restoration.objectives.healing_herbs"),
-    QUEST_MAIN_RESTORATION_OBJECTIVES_FERTILE_SOIL("quest.main.restoration.objectives.fertile_soil"),
-    QUEST_MAIN_RESTORATION_OBJECTIVES_POISONED_SPRINGS("quest.main.restoration.objectives.poisoned_springs"),
-    QUEST_MAIN_RESTORATION_OBJECTIVES_PURIFICATION_CRYSTAL("quest.main.restoration.objectives.purification_crystal"),
-    QUEST_MAIN_RESTORATION_OBJECTIVES_KILL_ZOMBIES("quest.main.restoration.objectives.kill_zombies"),
-    QUEST_MAIN_RESTORATION_OBJECTIVES_RENEWAL_GROVE("quest.main.restoration.objectives.renewal_grove"),
-    QUEST_MAIN_RESTORATION_OBJECTIVES_NATURE_GUARDIAN("quest.main.restoration.objectives.nature_guardian"),
-    
-    // =================================
-    // GUI DIALOG CHOICE KEYS
-    // =================================
-    GUI_DIALOG_CHOICE_TITLE("gui.dialog_choice.title"),
-    GUI_DIALOG_CHOICE_ICON("gui.dialog_choice.icon"),
-    GUI_DIALOG_CHOICE_DESCRIPTION("gui.dialog_choice.description"),
-    GUI_DIALOG_CHOICE_NPC("gui.dialog_choice.npc"),
-    GUI_DIALOG_CHOICE_NPC_CONTENT("gui.dialog_choice.npc_content"),
-    GUI_DIALOG_CHOICE_OPTION("gui.dialog_choice.option"),
-    GUI_DIALOG_CHOICE_CLICK_TO_SELECT("gui.dialog_choice.click_to_select"),
-    
-    // =================================
-    // GUI LEADERBOARD ADDITIONAL KEYS
-    // =================================
-    GUI_LEADERBOARD_VALUE("gui.leaderboard.value"),
-    GUI_LEADERBOARD_THIS_IS_YOU("gui.leaderboard.this_is_you"),
-    
-    // =================================
-    // GUI MAIL DETAIL KEYS
-    // =================================
-    GUI_MAIL_DETAIL_TITLE("gui.mail_detail.title"),
-    GUI_MAIL_DETAIL_SENDER("gui.mail_detail.sender"),
-    GUI_MAIL_DETAIL_RECEIVER("gui.mail_detail.receiver"),
-    GUI_MAIL_DETAIL_SENT_TIME("gui.mail_detail.sent_time"),
-    GUI_MAIL_DETAIL_STATUS("gui.mail_detail.status"),
-    GUI_MAIL_DETAIL_NO_MESSAGE("gui.mail_detail.no_message"),
-    GUI_MAIL_DETAIL_DELETE_SUCCESS("gui.mail_detail.delete_success"),
-    GUI_MAIL_DETAIL_DELETE_FAILED("gui.mail_detail.delete_failed"),
-    GUI_MAIL_DETAIL_REPLY_DESC("gui.mail_detail.reply_desc"),
-    GUI_MAIL_DETAIL_REPLY_GUIDE("gui.mail_detail.reply_guide"),
-    GUI_MAIL_DETAIL_REPLY_COMMAND("gui.mail_detail.reply_command"),
-    
-    // =================================
-    // GUI MAILBOX KEYS
-    // =================================
-    GUI_MAILBOX_REFRESH_SUCCESS("gui.mailbox.refresh_success"),
-    GUI_MAILBOX_SEND_MAIL_GUIDE("gui.mailbox.send_mail_guide"),
-    GUI_MAILBOX_SEND_MAIL_COMMAND("gui.mailbox.send_mail_command"),
-    GUI_MAILBOX_SEND_MAIL_EXAMPLE("gui.mailbox.send_mail_example"),
-    GUI_MAILBOX_SENDER("gui.mailbox.sender"),
-    GUI_MAILBOX_STATUS("gui.mailbox.status"),
-    GUI_MAILBOX_TIME("gui.mailbox.time"),
-    GUI_MAILBOX_DELETE_CONFIRM_TEXT("gui.mailbox.delete_confirm_text"),
-    GUI_MAILBOX_DELETE_CONFIRM_TITLE("gui.mailbox.delete_confirm_title"),
-    MAILBOX_DELETE_CONFIRM_WORD("mailbox.delete_confirm_word"),
-    
-    // =================================
-    // GUI FRIEND REQUEST KEYS
-    // =================================
-    GUI_FRIEND_REQUESTS_REQUEST_TIME("gui.friend_requests.request_time"),
-    GUI_FRIEND_REQUESTS_MESSAGE("gui.friend_requests.message"),
-    GUI_FRIEND_REQUESTS_NO_MESSAGE("gui.friend_requests.no_message"),
-    GUI_FRIEND_REQUESTS_ACCEPT_DESC1("gui.friend_requests.accept_desc1"),
-    GUI_FRIEND_REQUESTS_REJECT_DESC1("gui.friend_requests.reject_desc1"),
-    
-    // =================================
-    // GUI FRIENDS KEYS
-    // =================================
-    GUI_FRIENDS_TITLE("gui.friends.title"),
-    GUI_FRIENDS_ADD_COMMAND_HINT("gui.friends.add-command-hint"),
-    GUI_FRIENDS_ADD_COMMAND_EXAMPLE("gui.friends.add-command-example"),
-    GUI_FRIENDS_REFRESHED("gui.friends.refreshed"),
-    GUI_FRIENDS_STATUS("gui.friends.status"),
-    GUI_FRIENDS_SINCE("gui.friends.since"),
-    GUI_FRIENDS_WHISPER_HINT("gui.friends.whisper-hint"),
-    
-    // =================================
-    // GUI ALL QUESTS KEYS
-    // =================================
-    GUI_ALL_QUESTS_TITLE("gui.all_quests.title"),
-    
-    // =================================
-    // QUEST FILTER KEYS
-    // =================================
-    QUEST_FILTER("quest.filter"),
-    QUEST_TOTAL_COUNT("quest.total_count"),
-    QUEST_PROGRESS("quest.progress"),
-    
-    // =================================
-    // ERROR KEYS
-    // =================================
-    ERROR_FRIEND_REQUEST_ID_MISSING("general.error.friend_request_id_missing"),
-    ERROR_PLAYER_DATA_NOT_FOUND("error.player_data_not_found"),
-    
-    // =================================
-    // GUI ISLAND KEYS (Additional missing ones)
-    // =================================
-    GUI_ISLAND_BIOME_CHANGE_TITLE("gui.island.biome_change.title"),
-    GUI_ISLAND_BIOME_MESSAGE_NO_PERMISSION("gui.island.biome.message.no_permission"),
-    GUI_ISLAND_BIOME_CURRENT("gui.island.biome.current"),
-    GUI_ISLAND_BIOME_CLICK_TO_CHANGE("gui.island.biome.click_to_change"),
-    GUI_ISLAND_BIOME_MESSAGE_ALREADY_SELECTED("gui.island.biome.message.already_selected"),
-    GUI_ISLAND_BIOME_MESSAGE_WORLD_NOT_FOUND("gui.island.biome.message.world_not_found"),
-    GUI_ISLAND_BIOME_MESSAGE_CHANGING("gui.island.biome.message.changing"),
-    GUI_ISLAND_BIOME_MESSAGE_CHUNK_RELOAD_NOTICE("gui.island.biome.message.chunk_reload_notice"),
-    GUI_ISLAND_BIOME_UNKNOWN("gui.island.biome.unknown"),
-    GUI_ISLAND_BIOME_CURRENT_INFO("gui.island.biome.current_info"),
-    GUI_ISLAND_BIOME_CURRENT_INFO_LORE("gui.island.biome.current_info.lore"),
-    GUI_ISLAND_BIOME_BACK_LORE("gui.island.biome.back.lore"),
-    
-    GUI_ISLAND_BIOME_SELECTION_TITLE("gui.island.biome_selection.title"),
-    GUI_ISLAND_BIOME_SELECTION_INFO_TITLE("gui.island.biome_selection.info.title"),
-    GUI_ISLAND_BIOME_SELECTION_INFO_LORE1("gui.island.biome_selection.info.lore1"),
-    GUI_ISLAND_BIOME_SELECTION_INFO_LORE2("gui.island.biome_selection.info.lore2"),
-    GUI_ISLAND_BIOME_SELECTION_CURRENT_SELECTED("gui.island.biome_selection.current_selected"),
-    GUI_ISLAND_BIOME_SELECTION_CLICK_TO_SELECT("gui.island.biome_selection.click_to_select"),
-    GUI_ISLAND_BIOME_SELECTION_BACK_LORE("gui.island.biome_selection.back.lore"),
-    
-    GUI_ISLAND_BIOME_SIMPLE_TITLE("gui.island.biome_simple.title"),
-    GUI_ISLAND_BIOME_MESSAGE_CHANGED("gui.island.biome.message.changed"),
-    GUI_ISLAND_BIOME_CURRENTLY_SELECTED("gui.island.biome.currently_selected"),
-    GUI_ISLAND_BIOME_CLICK_TO_SELECT("gui.island.biome.click_to_select"),
-    
-    // Island Main GUI Keys
-    ISLAND_GUI_MAIN_CREATE_ISLAND_TITLE("island.gui.main.create_island.title"),
-    ISLAND_GUI_MAIN_CREATE_ISLAND_NO_ISLAND("island.gui.main.create_island.no_island"),
-    ISLAND_GUI_MAIN_CREATE_ISLAND_DESCRIPTION("island.gui.main.create_island.description"),
-    ISLAND_GUI_MAIN_CREATE_ISLAND_FEATURE_1("island.gui.main.create_island.feature_1"),
-    ISLAND_GUI_MAIN_CREATE_ISLAND_FEATURE_2("island.gui.main.create_island.feature_2"),
-    ISLAND_GUI_MAIN_CREATE_ISLAND_FEATURE_3("island.gui.main.create_island.feature_3"),
-    ISLAND_GUI_MAIN_CREATE_ISLAND_FEATURE_4("island.gui.main.create_island.feature_4"),
-    ISLAND_GUI_MAIN_CREATE_ISLAND_CONTACT_ADMIN("island.gui.main.create_island.contact_admin"),
-    
-    // Island Item Names
-    ITEMS_ISLAND_MEMBER_INVITE_NAME("items.island.member.invite.name"),
-    ITEMS_ISLAND_MEMBER_PERMISSION_NAME("items.island.member.permission.name"),
-    ITEMS_ISLAND_MAIN_UPGRADE_INFO_NAME("items.island.main.upgrade_info.name"),
-    ITEMS_ISLAND_MAIN_CONTRIBUTION_INFO_NAME("items.island.main.contribution_info.name"),
-    ITEMS_ISLAND_SPAWN_CURRENT_INFO_NAME("items.island.spawn.current_info.name"),
-    GUI_ISLAND_SPAWN_TITLE("gui.island.spawn.title"),
-    GUI_ISLAND_SPAWN_DEFAULT_SPAWN("gui.island.spawn.default_spawn"),
-    GUI_ISLAND_SPAWN_LOCATION_NAME("gui.island.spawn.location_name"),
-    GUI_ISLAND_SPAWN_VISITOR_SPAWN("gui.island.spawn.visitor_spawn"),
-    GUI_ISLAND_SPAWN_VISITOR_SPAWN_NOT_SET("gui.island.spawn.visitor_spawn_not_set"),
-    ITEMS_ISLAND_SPAWN_SET_MAIN_NAME("items.island.spawn.set_main.name"),
-    ITEMS_ISLAND_SPAWN_SET_MAIN_LORE("items.island.spawn.set_main.lore"),
-    ITEMS_ISLAND_SPAWN_SET_VISITOR_NAME("items.island.spawn.set_visitor.name"),
-    ITEMS_ISLAND_SPAWN_SET_VISITOR_LORE("items.island.spawn.set_visitor.lore"),
-    ITEMS_ISLAND_SPAWN_RESET_NAME("items.island.spawn.reset.name"),
-    ITEMS_ISLAND_SPAWN_RESET_LORE("items.island.spawn.reset.lore"),
-    ITEMS_ISLAND_SPAWN_PROTECTION_NAME("items.island.spawn.protection.name"),
-    ITEMS_ISLAND_SPAWN_PROTECTION_LORE("items.island.spawn.protection.lore"),
-    ITEMS_ISLAND_SPAWN_PERSONAL_NAME("items.island.spawn.personal.name"),
-    ITEMS_ISLAND_SPAWN_PERSONAL_LORE("items.island.spawn.personal.lore"),
-    ITEMS_ISLAND_SPAWN_MESSAGE_NAME("items.island.spawn.message.name"),
-    ITEMS_ISLAND_SPAWN_MESSAGE_LORE("items.island.spawn.message.lore"),
-    ITEMS_ISLAND_SPAWN_NO_PERMISSION_NAME("items.island.spawn.no_permission.name"),
-    ITEMS_ISLAND_SPAWN_NO_PERMISSION_LORE("items.island.spawn.no_permission.lore"),
-    
-    // Island Visitor Keys
-    GUI_ISLAND_VISITOR_TITLE("gui.island.visitor.title"),
-    GUI_ISLAND_VISITOR_LIVE_TITLE("gui.island.visitor.live.title"),
-    GUI_ISLAND_VISITOR_MENU_TITLE("gui.island.visitor.menu.title"),
-    GUI_ISLAND_VISITOR_ACTION_TITLE("gui.island.visitor.action.title"),
-    GUI_ISLAND_VISITOR_ISLAND_NAME("gui.island.visitor.island_name"),
-    GUI_ISLAND_VISITOR_TOTAL_VISITORS("gui.island.visitor.total_visitors"),
-    GUI_ISLAND_VISITOR_PUBLIC_STATUS("gui.island.visitor.public_status"),
-    GUI_ISLAND_VISITOR_VISIT_TIME("gui.island.visitor.visit_time"),
-    GUI_ISLAND_VISITOR_STAY_DURATION("gui.island.visitor.stay_duration"),
-    GUI_ISLAND_VISITOR_VISITOR_NUMBER("gui.island.visitor.visitor_number"),
-    GUI_ISLAND_VISITOR_TOTAL_VISITS("gui.island.visitor.total_visits"),
-    GUI_ISLAND_VISITOR_UNIQUE_VISITORS("gui.island.visitor.unique_visitors"),
-    GUI_ISLAND_VISITOR_MOST_FREQUENT("gui.island.visitor.most_frequent"),
-    GUI_ISLAND_VISITOR_LONGEST_STAY("gui.island.visitor.longest_stay"),
-    ITEMS_ISLAND_VISITOR_INFO_NAME("items.island.visitor.info.name"),
-    ITEMS_ISLAND_VISITOR_INFO_LORE("items.island.visitor.info.lore"),
-    ITEMS_ISLAND_VISITOR_NO_VISITORS_NAME("items.island.visitor.no_visitors.name"),
-    ITEMS_ISLAND_VISITOR_NO_VISITORS_LORE("items.island.visitor.no_visitors.lore"),
-    ITEMS_ISLAND_VISITOR_STATISTICS_NAME("items.island.visitor.statistics.name"),
-    
-    // Island Upgrade Keys
-    GUI_ISLAND_UPGRADE_TITLE("gui.island.upgrade.title"),
-    
-    // Settings GUI Keys
-    ITEMS_SETTINGS_GUI_SETTINGS_TITLE_NAME("items.settings.gui_settings.title.name"),
-    ITEMS_SETTINGS_GUI_SETTINGS_TITLE_LORE("items.settings.gui_settings.title.lore"),
-    ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_DECREASE_NAME("items.settings.gui_settings.volume_decrease.name"),
-    ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_DECREASE_LORE("items.settings.gui_settings.volume_decrease.lore"),
-    ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_INCREASE_NAME("items.settings.gui_settings.volume_increase.name"),
-    ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_INCREASE_LORE("items.settings.gui_settings.volume_increase.lore"),
-    ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_NAME("items.settings.gui_settings.volume.name"),
-    ITEMS_SETTINGS_GUI_SETTINGS_MUTE_NAME("items.settings.gui_settings.mute.name"),
-    ITEMS_SETTINGS_GUI_SETTINGS_MUTE_LORE("items.settings.gui_settings.mute.lore"),
-    ITEMS_SETTINGS_GUI_SETTINGS_UNMUTE_NAME("items.settings.gui_settings.unmute.name"),
-    ITEMS_SETTINGS_GUI_SETTINGS_UNMUTE_LORE("items.settings.gui_settings.unmute.lore"),
-    GUI_GUI_SETTINGS_TITLE("gui.gui_settings.title"),
-    GUI_GUI_SETTINGS_CURRENT_VOLUME("gui.gui_settings.current_volume"),
-    GUI_GUI_SETTINGS_CURRENT_STATUS("gui.gui_settings.current_status"),
-    GUI_GUI_SETTINGS_STATUS("gui.gui_settings.status"),
-    GUI_GUI_SETTINGS_VOLUME_CHANGED("gui.gui_settings.volume_changed"),
-    GUI_GUI_SETTINGS_SOUND_MUTED("gui.gui_settings.sound_muted"),
-    GUI_GUI_SETTINGS_SOUND_UNMUTED("gui.gui_settings.sound_unmuted"),
-    
-    // Ingame Settings Keys
-    ITEMS_SETTINGS_INGAME_SETTINGS_TITLE_NAME("items.settings.ingame_settings.title.name"),
-    ITEMS_SETTINGS_INGAME_SETTINGS_TITLE_LORE("items.settings.ingame_settings.title.lore"),
-    ITEMS_SETTINGS_INGAME_SETTINGS_DAMAGE_DISPLAY_NAME("items.settings.ingame_settings.damage_display.name"),
-    ITEMS_SETTINGS_INGAME_SETTINGS_DAMAGE_DISPLAY_DESC("items.settings.ingame_settings.damage_display.desc"),
-    ITEMS_SETTINGS_INGAME_SETTINGS_QUEST_GUIDE_NAME("items.settings.ingame_settings.quest_guide.name"),
-    ITEMS_SETTINGS_INGAME_SETTINGS_QUEST_GUIDE_DESC("items.settings.ingame_settings.quest_guide.desc"),
-    ITEMS_SETTINGS_INGAME_SETTINGS_DIALOG_SPEED_NAME("items.settings.ingame_settings.dialog_speed.name"),
-    ITEMS_SETTINGS_INGAME_SETTINGS_DIALOG_SPEED_NOTE("items.settings.ingame_settings.dialog_speed.note"),
-    ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_DECREASE_NAME("items.settings.ingame_settings.speed_decrease.name"),
-    ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_DECREASE_LORE("items.settings.ingame_settings.speed_decrease.lore"),
-    ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_INCREASE_NAME("items.settings.ingame_settings.speed_increase.name"),
-    ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_INCREASE_LORE("items.settings.ingame_settings.speed_increase.lore"),
-    GUI_INGAME_SETTINGS_TITLE("gui.ingame_settings.title"),
-    GUI_INGAME_SETTINGS_STATUS("gui.ingame_settings.status"),
-    GUI_INGAME_SETTINGS_CLICK_TO_TOGGLE("gui.ingame_settings.click_to_toggle"),
-    GUI_INGAME_SETTINGS_CURRENT_SPEED("gui.ingame_settings.current_speed"),
-    GUI_INGAME_SETTINGS_SPEED_VALUE("gui.ingame_settings.speed_value"),
-    GUI_INGAME_SETTINGS_DAMAGE_DISPLAY_TOGGLED("gui.ingame_settings.damage_display_toggled"),
-    GUI_INGAME_SETTINGS_QUEST_GUIDE_TOGGLED("gui.ingame_settings.quest_guide_toggled"),
-    GUI_INGAME_SETTINGS_DIALOG_SPEED_CHANGED("gui.ingame_settings.dialog_speed_changed"),
-    
-    // Notification Settings Keys
-    ITEMS_SETTINGS_NOTIFICATION_SETTINGS_TITLE_NAME("items.settings.notification_settings.title.name"),
-    ITEMS_SETTINGS_NOTIFICATION_SETTINGS_TITLE_LORE("items.settings.notification_settings.title.lore"),
-    ITEMS_SETTINGS_NOTIFICATION_SETTINGS_WHISPER_NAME("items.settings.notification_settings.whisper.name"),
-    ITEMS_SETTINGS_NOTIFICATION_SETTINGS_WHISPER_DESC("items.settings.notification_settings.whisper.desc"),
-    ITEMS_SETTINGS_NOTIFICATION_SETTINGS_WHISPER_NOTE("items.settings.notification_settings.whisper.note"),
-    ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_NAME("items.settings.notification_settings.server.name"),
-    ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_DESC("items.settings.notification_settings.server.desc"),
-    ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_EXAMPLE_TITLE("items.settings.notification_settings.server.example_title"),
-    ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_EXAMPLES("items.settings.notification_settings.server.examples"),
-    ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_NAME("items.settings.notification_settings.invite.name"),
-    ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_DESC("items.settings.notification_settings.invite.desc"),
-    ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_MODE_CYCLE("items.settings.notification_settings.invite.mode_cycle"),
-    ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_CLICK_HINT("items.settings.notification_settings.invite.click_hint"),
-    ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_NOTE("items.settings.notification_settings.invite.note"),
-    GUI_NOTIFICATION_SETTINGS_TITLE("gui.notification_settings.title"),
-    GUI_NOTIFICATION_SETTINGS_STATUS("gui.notification_settings.status"),
-    GUI_NOTIFICATION_SETTINGS_CLICK_TO_TOGGLE("gui.notification_settings.click_to_toggle"),
-    GUI_NOTIFICATION_SETTINGS_CURRENT_MODE("gui.notification_settings.current_mode"),
-    GUI_NOTIFICATION_SETTINGS_WHISPER_TOGGLED("gui.notification_settings.whisper_toggled"),
-    GUI_NOTIFICATION_SETTINGS_SERVER_TOGGLED("gui.notification_settings.server_toggled"),
-    GUI_NOTIFICATION_SETTINGS_INVITE_CHANGED("gui.notification_settings.invite_changed"),
-    ITEMS_ISLAND_MAIN_ISLAND_SETTINGS_NAME("items.island.main.island_settings.name"),
-    ITEMS_ISLAND_MAIN_VISITOR_NAME("items.island.main.visitor.name"),
-    ITEMS_ISLAND_MAIN_BIOME_CHANGE_NAME("items.island.main.biome_change.name"),
-    ITEMS_ISLAND_MAIN_WARP_NAME("items.island.main.warp.name"),
-    
-    // Island Creation GUI Keys
-    GUI_ISLAND_CREATION_TITLE("gui.island.creation.title"),
-    ISLAND_DEFAULT_NAME("island.default_name"),
-    ITEMS_ISLAND_CREATION_TITLE_NAME("items.island.creation.title.name"),
-    ITEMS_ISLAND_CREATION_TITLE_LORE("items.island.creation.title.lore"),
-    ITEMS_ISLAND_CREATION_NAME_NAME("items.island.creation.name.name"),
-    ITEMS_ISLAND_CREATION_NAME_LORE("items.island.creation.name.lore"),
-    ITEMS_ISLAND_CREATION_COLOR_NAME("items.island.creation.color.name"),
-    ITEMS_ISLAND_CREATION_COLOR_LORE("items.island.creation.color.lore"),
-    ITEMS_ISLAND_CREATION_BIOME_NAME("items.island.creation.biome.name"),
-    ITEMS_ISLAND_CREATION_BIOME_LORE("items.island.creation.biome.lore"),
-    ISLAND_GUI_CREATION_SELECTED("island.gui.creation.selected"),
-    ISLAND_GUI_CREATION_CLICK_TO_SELECT("island.gui.creation.click_to_select"),
-    ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_NAME("items.island.creation.template.basic.name"),
-    ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_LORE("items.island.creation.template.basic.lore"),
-    ITEMS_ISLAND_CREATION_TEMPLATE_SKYBLOCK_NAME("items.island.creation.template.skyblock.name"),
-    ITEMS_ISLAND_CREATION_TEMPLATE_SKYBLOCK_LORE("items.island.creation.template.skyblock.lore"),
-    ITEMS_ISLAND_CREATION_TEMPLATE_LARGE_NAME("items.island.creation.template.large.name"),
-    ITEMS_ISLAND_CREATION_TEMPLATE_LARGE_LORE("items.island.creation.template.large.lore"),
-    ITEMS_ISLAND_CREATION_TEMPLATE_WATER_NAME("items.island.creation.template.water.name"),
-    ITEMS_ISLAND_CREATION_TEMPLATE_WATER_LORE("items.island.creation.template.water.lore"),
-    ITEMS_ISLAND_CREATION_CREATE_BUTTON_NAME("items.island.creation.create_button.name"),
-    ITEMS_ISLAND_CREATION_CREATE_BUTTON_LORE("items.island.creation.create_button.lore"),
-    
-    // Island Delete Confirm GUI Keys
-    GUI_ISLAND_DELETE_CONFIRM_TITLE("gui.island.delete_confirm.title"),
-    GUI_ISLAND_DELETE_CONFIRM_CLICK_AGAIN("gui.island.delete_confirm.click_again"),
-    GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_TITLE("gui.island.delete_confirm.island_info.title"),
-    GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_ID("gui.island.delete_confirm.island_info.id"),
-    GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_MEMBERS("gui.island.delete_confirm.island_info.members"),
-    GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_CREATED("gui.island.delete_confirm.island_info.created"),
-    GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_WARNING("gui.island.delete_confirm.island_info.warning"),
-    GUI_ISLAND_DELETE_CONFIRM_CANCEL_TITLE("gui.island.delete_confirm.cancel.title"),
-    GUI_ISLAND_DELETE_CONFIRM_CANCEL_LORE1("gui.island.delete_confirm.cancel.lore1"),
-    GUI_ISLAND_DELETE_CONFIRM_CANCEL_LORE2("gui.island.delete_confirm.cancel.lore2"),
-    GUI_ISLAND_DELETE_CONFIRM_CANCEL_CLICK("gui.island.delete_confirm.cancel.click"),
-    GUI_ISLAND_DELETE_CONFIRM_CONFIRM_TITLE("gui.island.delete_confirm.confirm.title"),
-    GUI_ISLAND_DELETE_CONFIRM_CONFIRM_QUESTION("gui.island.delete_confirm.confirm.question"),
-    GUI_ISLAND_DELETE_CONFIRM_CONFIRM_WARNING("gui.island.delete_confirm.confirm.warning"),
-    GUI_ISLAND_DELETE_CONFIRM_CONFIRM_CLICK("gui.island.delete_confirm.confirm.click"),
-    GUI_ISLAND_DELETE_CONFIRM_FINAL_CONFIRM_TITLE("gui.island.delete_confirm.final_confirm.title"),
-    GUI_ISLAND_DELETE_CONFIRM_FINAL_CONFIRM_WARNING1("gui.island.delete_confirm.final_confirm.warning1"),
-    GUI_ISLAND_DELETE_CONFIRM_FINAL_CONFIRM_WARNING2("gui.island.delete_confirm.final_confirm.warning2"),
-    GUI_ISLAND_DELETE_CONFIRM_FINAL_CONFIRM_CLICK("gui.island.delete_confirm.final_confirm.click"),
-    GUI_ISLAND_DELETE_CONFIRM_WARNING("gui.island.delete_confirm.warning"),
-    GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_ITEM5("gui.island.delete_confirm.warning_list.item5"),
-    GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_FINAL("gui.island.delete_confirm.warning_list.final"),
-    ISLAND_DELETE_CONFIRM_WORD("island.delete.confirm_word"),
-    ISLAND_DELETE_INPUT_ERROR("island.delete.input_error"),
-    ISLAND_DELETE_INPUT_TEXT("island.delete.input_text"),
-    ISLAND_DELETE_INPUT_TITLE("island.delete.input_title"),
-    GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_TITLE("gui.island.delete_confirm.warning_list.title"),
-    GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_ITEM1("gui.island.delete_confirm.warning_list.item1"),
-    GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_ITEM2("gui.island.delete_confirm.warning_list.item2"),
-    GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_ITEM3("gui.island.delete_confirm.warning_list.item3"),
-    GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_ITEM4("gui.island.delete_confirm.warning_list.item4"),
-    
-    GUI_ISLAND_BIOME_BACK_TO_SETTINGS("gui.island.biome.back_to_settings"),
-    
-    // Island contribute/contribution keys
-    GUI_ISLAND_CONTRIBUTE_TITLE("gui.island.contribute.title"),
-    GUI_ISLAND_CONTRIBUTE_GOLD_INFO_TITLE("gui.island.contribute.gold_info.title"),
-    GUI_ISLAND_CONTRIBUTE_GOLD_INFO_BALANCE("gui.island.contribute.gold_info.balance"),
-    GUI_ISLAND_CONTRIBUTE_GOLD_INFO_CONTRIBUTION("gui.island.contribute.gold_info.contribution"),
-    GUI_ISLAND_CONTRIBUTE_GOLD_INFO_DESCRIPTION1("gui.island.contribute.gold_info.description1"),
-    GUI_ISLAND_CONTRIBUTE_GOLD_INFO_DESCRIPTION2("gui.island.contribute.gold_info.description2"),
-    GUI_ISLAND_CONTRIBUTE_QUICK_AMOUNT("gui.island.contribute.quick_amount"),
-    GUI_ISLAND_CONTRIBUTE_CLICK_TO_CONTRIBUTE("gui.island.contribute.click_to_contribute"),
-    GUI_ISLAND_CONTRIBUTE_CLICK_PROMPT("gui.island.contribute.click_prompt"),
-    GUI_ISLAND_CONTRIBUTE_INSUFFICIENT_GOLD("gui.island.contribute.insufficient_gold"),
-    GUI_ISLAND_CONTRIBUTE_GOLD_NEEDED("gui.island.contribute.gold_needed"),
-    GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_TITLE("gui.island.contribute.custom_amount.title"),
-    GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_DESCRIPTION1("gui.island.contribute.custom_amount.description1"),
-    GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_DESCRIPTION2("gui.island.contribute.custom_amount.description2"),
-    GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_MINIMUM("gui.island.contribute.custom_amount.minimum"),
-    GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_MAXIMUM("gui.island.contribute.custom_amount.maximum"),
-    GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_CLICK_PROMPT("gui.island.contribute.custom_amount.click_prompt"),
-    GUI_ISLAND_CONTRIBUTE_BACK_DESCRIPTION("gui.island.contribute.back_description"),
-    GUI_ISLAND_CONTRIBUTE_INSUFFICIENT_GOLD_MESSAGE("gui.island.contribute.insufficient_gold_message"),
-    GUI_ISLAND_CONTRIBUTE_SUCCESS("gui.island.contribute.success"),
-    GUI_ISLAND_CONTRIBUTE_TOTAL_CONTRIBUTION("gui.island.contribute.total_contribution"),
-    
-    GUI_ISLAND_CONTRIBUTION_TITLE("gui.island.contribution.title"),
-    GUI_ISLAND_CONTRIBUTION_INFO_ISLAND_NAME("gui.island.contribution.info.island_name"),
-    GUI_ISLAND_CONTRIBUTION_INFO_TOTAL("gui.island.contribution.info.total"),
-    GUI_ISLAND_CONTRIBUTION_INFO_CONTRIBUTORS("gui.island.contribution.info.contributors"),
-    GUI_ISLAND_CONTRIBUTION_INFO_DESCRIPTION1("gui.island.contribution.info.description1"),
-    GUI_ISLAND_CONTRIBUTION_INFO_DESCRIPTION2("gui.island.contribution.info.description2"),
-    GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_NAME("gui.island.contribution.contributor.name"),
-    GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_CONTRIBUTION("gui.island.contribution.contributor.contribution"),
-    GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_ROLE("gui.island.contribution.contributor.role"),
-    GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_PERCENTAGE("gui.island.contribution.contributor.percentage"),
-    GUI_ISLAND_CONTRIBUTION_INFO_TITLE("gui.island.contribution.info.title"),
-    GUI_ISLAND_CONTRIBUTION_ADD_TITLE("gui.island.contribution.add.title"),
-    GUI_ISLAND_CONTRIBUTION_ADD_CURRENT("gui.island.contribution.add.current"),
-    GUI_ISLAND_CONTRIBUTION_ADD_DESCRIPTION1("gui.island.contribution.add.description1"),
-    GUI_ISLAND_CONTRIBUTION_ADD_DESCRIPTION2("gui.island.contribution.add.description2"),
-    GUI_ISLAND_CONTRIBUTION_ADD_CLICK("gui.island.contribution.add.click"),
-    GUI_ISLAND_CONTRIBUTION_BACK_DESCRIPTION("gui.island.contribution.back_description"),
-    
-    // Island Permission GUI Keys
-    GUI_ISLAND_PERMISSION_TITLE("gui.island.permission.title"),
-    GUI_ISLAND_PERMISSION_SELECT_ROLE_DESC("gui.island.permission.select_role_desc"),
-    GUI_ISLAND_PERMISSION_SELECTED("gui.island.permission.selected"),
-    GUI_ISLAND_PERMISSION_CLICK_TO_SELECT("gui.island.permission.click_to_select"),
-    GUI_ISLAND_PERMISSION_CURRENT_EDITING("gui.island.permission.current_editing"),
-    GUI_ISLAND_PERMISSION_SELECT_OTHER_ROLE("gui.island.permission.select_other_role"),
-    GUI_ISLAND_PERMISSION_EDIT_ROLE_PERMISSIONS("gui.island.permission.edit_role_permissions"),
-    GUI_ISLAND_PERMISSION_STATUS("gui.island.permission.status"),
-    GUI_ISLAND_PERMISSION_ENABLED("gui.island.permission.enabled"),
-    GUI_ISLAND_PERMISSION_DISABLED("gui.island.permission.disabled"),
-    GUI_ISLAND_PERMISSION_PERMISSIONS_BUILD_DESC("gui.island.permission.permissions.build_desc"),
-    GUI_ISLAND_PERMISSION_PERMISSIONS_INTERACT_DESC("gui.island.permission.permissions.interact_desc"),
-    GUI_ISLAND_PERMISSION_PERMISSIONS_CONTAINERS_DESC("gui.island.permission.permissions.containers_desc"),
-    GUI_ISLAND_PERMISSION_PERMISSIONS_INVITE_DESC("gui.island.permission.permissions.invite_desc"),
-    GUI_ISLAND_PERMISSION_PERMISSIONS_KICK_DESC("gui.island.permission.permissions.kick_desc"),
-    GUI_ISLAND_PERMISSION_PERMISSIONS_WORKERS_DESC("gui.island.permission.permissions.workers_desc"),
-    GUI_ISLAND_PERMISSION_PERMISSIONS_SPAWNS_DESC("gui.island.permission.permissions.spawns_desc"),
-    GUI_ISLAND_PERMISSION_PERMISSIONS_SETTINGS_DESC("gui.island.permission.permissions.settings_desc"),
-    GUI_ISLAND_PERMISSION_CLICK_TO_TOGGLE("gui.island.permission.click_to_toggle"),
-    GUI_ISLAND_PERMISSION_SAVE_TITLE("gui.island.permission.save.title"),
-    GUI_ISLAND_PERMISSION_SAVE_DESCRIPTION("gui.island.permission.save.description"),
-    GUI_ISLAND_PERMISSION_SAVE_CLICK("gui.island.permission.save.click"),
-    GUI_ISLAND_PERMISSION_BACK_TITLE("gui.island.permission.back.title"),
-    GUI_ISLAND_PERMISSION_BACK_DESCRIPTION("gui.island.permission.back.description"),
-    GUI_ISLAND_PERMISSION_CLOSE_TITLE("gui.island.permission.close.title"),
-    GUI_ISLAND_PERMISSION_CLOSE_DESCRIPTION("gui.island.permission.close.description"),
-    GUI_ISLAND_PERMISSION_SAVE_SUCCESS("gui.island.permission.save_success"),
-    GUI_ISLAND_PERMISSION_SAVE_FAILED("gui.island.permission.save_failed"),
-    
-    // Island role keys
-    GUI_ISLAND_ROLE_OWNER("gui.island.role.owner"),
-    GUI_ISLAND_ROLE_CO_OWNER("gui.island.role.co_owner"),
-    GUI_ISLAND_ROLE_MEMBER("gui.island.role.member"),
-    GUI_ISLAND_ROLE_WORKER("gui.island.role.worker"),
-    GUI_ISLAND_ROLE_CONTRIBUTOR("gui.island.role.contributor"),
-    
-    // Quest GUI Keys
-    GUI_QUEST_DETAIL_TITLE("gui.quest_detail.title"),
-    QUEST_TOTAL_PROGRESS("quest.total_progress"),
-    QUEST_OVERALL_PROGRESS("quest.overall_progress"),
-    ITEMS_QUEST_DETAIL_OBJECTIVES_NAME("items.quest.detail.objectives.name"),
-    ITEMS_QUEST_DETAIL_REWARDS_NAME("items.quest.detail.rewards.name"),
-    ITEMS_QUEST_DETAIL_PROGRESS_NAME("items.quest.detail.progress.name"),
-    GUI_QUEST_DIALOG_TITLE("gui.quest_dialog.title"),
-    GUI_QUEST_DIALOG_NEXT_PAGE("gui.quest_dialog.next_page"),
-    GUI_QUEST_DIALOG_ACCEPT_QUEST("gui.quest_dialog.accept_quest"),
-    GUI_QUEST_DIALOG_SKIP("gui.quest_dialog.skip"),
-    GUI_QUEST_DIALOG_QUEST_DECLINED("gui.quest_dialog.quest_declined"),
-    ITEMS_QUEST_DIALOG_ACCEPT_NAME("items.quest.dialog.accept.name"),
-    ITEMS_QUEST_DIALOG_ACCEPT_LORE("items.quest.dialog.accept.lore"),
-    ITEMS_QUEST_DIALOG_DECLINE_NAME("items.quest.dialog.decline.name"),
-    ITEMS_QUEST_DIALOG_DECLINE_LORE("items.quest.dialog.decline.lore"),
-    ITEMS_QUEST_DIALOG_CLOSE_NAME("items.quest.dialog.close.name"),
-    ITEMS_QUEST_DIALOG_CLOSE_LORE("items.quest.dialog.close.lore"),
-    GUI_QUEST_LIST_TITLE("gui.quest_list.title"),
-    GUI_QUEST_LIST_PROGRESS("gui.quest_list.progress"),
-    GUI_QUEST_LIST_CLICK_DETAILS("gui.quest_list.click_details"),
-    GUI_QUEST_LIST_COMPLETED_LABEL("gui.quest_list.completed_label"),
-    GUI_QUEST_LIST_REPEATABLE("gui.quest_list.repeatable"),
-    ITEMS_QUEST_LIST_VIEW_ALL("items.quest.list.view_all"),
-    ITEMS_QUEST_LIST_ACTIVE_NAME("items.quest.list.active.name"),
-    ITEMS_QUEST_LIST_ACTIVE_LORE("items.quest.list.active.lore"),
-    ITEMS_QUEST_LIST_COMPLETED_NAME("items.quest.list.completed.name"),
-    ITEMS_QUEST_LIST_COMPLETED_LORE("items.quest.list.completed.lore"),
-    GUI_QUEST_REWARD_TITLE("gui.quest_reward.title"),
-    GUI_QUEST_REWARD_WARNING_DESTROY_LINE("gui.quest_reward.warning_destroy_line"),
-    GUI_QUEST_REWARD_WARNING_DESTROY_LINE2("gui.quest_reward.warning_destroy_line2"),
-    GUI_QUEST_REWARD_ALREADY_CLAIMED("gui.quest_reward.already_claimed"),
-    ITEMS_QUEST_REWARD_DESTROY_NAME("items.quest.reward.destroy.name"),
-    ITEMS_QUEST_REWARD_DESTROY_LORE("items.quest.reward.destroy.lore"),
-    ITEMS_QUEST_REWARD_CLAIM_ALL_NAME("items.quest.reward.claim_all.name"),
-    ITEMS_QUEST_REWARD_CLAIM_ALL_LORE("items.quest.reward.claim_all.lore"),
-    ITEMS_QUEST_REWARD_ALREADY_CLAIMED_NAME("items.quest.reward.already-claimed.name"),
-    ITEMS_QUEST_REWARD_ALREADY_CLAIMED_LORE("items.quest.reward.already-claimed.lore"),
-    ITEMS_QUEST_REWARD_CLAIMED_NAME("items.quest.reward.claimed.name"),
-    ITEMS_QUEST_REWARD_NO_ITEMS_NAME("items.quest.reward.no-items.name"),
-    ITEMS_QUEST_REWARD_NO_ITEMS_LORE("items.quest.reward.no-items.lore"),
-    GUI_QUEST_REWARD_CONFIRM_TITLE("gui.quest_reward.confirm.title"),
-    GUI_QUEST_REWARD_DESTROYED("gui.quest_reward.destroyed"),
-    GUI_QUEST_REWARD_DESTROYED_DESC("gui.quest_reward.destroyed_desc"),
-    GUI_QUEST_REWARD_CLICK_TO_CLAIM("gui.quest_reward.click_to_claim"),
-    GUI_QUEST_REWARD_CLAIMED("gui.quest_reward.claimed"),
-    GUI_QUEST_REWARD_ALL_CLAIMED("gui.quest_reward.all_claimed"),
-    GUI_QUEST_REWARD_INVENTORY_FULL("gui.quest_reward.inventory_full"),
-    GUI_QUEST_REWARD_NOT_ENOUGH_SPACE("gui.quest_reward.not_enough_space"),
-    GUI_QUEST_REWARD_EXP_RECEIVED("gui.quest_reward.exp_received"),
-    GUI_QUEST_REWARD_MONEY_RECEIVED("gui.quest_reward.money_received"),
-    GUI_QUEST_REWARD_CLOSE_WARNING("gui.quest_reward.close_warning"),
-    GUI_QUEST_REWARD_TIMER_WARNING("gui.quest_reward.timer_warning"),
-    GUI_QUEST_REWARD_TIMER_INFO("gui.quest_reward.timer_info"),
-    ITEMS_QUEST_REWARD_CONFIRM_WARNING_NAME("items.quest.reward_confirm.warning.name"),
-    ITEMS_QUEST_REWARD_CONFIRM_WARNING_LORE1("items.quest.reward_confirm.warning.lore1"),
-    ITEMS_QUEST_REWARD_CONFIRM_WARNING_LORE2("items.quest.reward_confirm.warning.lore2"),
-    ITEMS_QUEST_REWARD_CONFIRM_WARNING_QUESTION("items.quest.reward_confirm.warning.question"),
-    ITEMS_QUEST_REWARD_CONFIRM_YES_NAME("items.quest.reward_confirm.yes.name"),
-    ITEMS_QUEST_REWARD_CONFIRM_YES_LORE("items.quest.reward_confirm.yes.lore"),
-    ITEMS_QUEST_REWARD_CONFIRM_NO_NAME("items.quest.reward_confirm.no.name"),
-    ITEMS_QUEST_REWARD_CONFIRM_NO_LORE("items.quest.reward_confirm.no.lore"),
-    GUI_QUEST_SELECTION_TITLE("gui.quest_selection.title"),
-    GUI_QUEST_STATUS_COMPLETED("gui.quest.status.completed"),
-    GUI_QUEST_STATUS_REWARD_AVAILABLE("gui.quest.status.reward_available"),
-    GUI_QUEST_STATUS_IN_PROGRESS("gui.quest.status.in_progress"),
-    GUI_QUEST_STATUS_NEW_QUEST("gui.quest.status.new_quest"),
-    ITEMS_QUEST_SELECTION_CLICK_HINT("items.quest.selection.click_hint"),
-    QUEST_IN_PROGRESS("quest.in_progress"),
-    GENERAL_TIME_DAYS("general.time.days"),
-    GENERAL_TIME_HOURS("general.time.hours"),
-    GENERAL_TIME_MINUTES("general.time.minutes"),
-    
-    // Quest Objective Keys - Daily
-    QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_MASTER("quest.daily.crafting.objectives.craft_master"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_GATHER_MATERIALS("quest.daily.crafting.objectives.gather_materials"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_ITEMS("quest.daily.crafting.objectives.craft_items"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_DELIVER_ITEMS("quest.daily.crafting.objectives.deliver_items"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_POSTMASTER("quest.daily.delivery.objectives.postmaster"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_PACKAGES("quest.daily.delivery.objectives.collect_packages"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_PACKAGES("quest.daily.delivery.objectives.deliver_packages"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_RETURN_POSTMASTER("quest.daily.delivery.objectives.return_postmaster"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_BOUNTY_BOARD("quest.daily.bounty_hunter.objectives.bounty_board"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_TRACK_TARGET("quest.daily.bounty_hunter.objectives.track_target"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_ELIMINATE_TARGET("quest.daily.bounty_hunter.objectives.eliminate_target"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_CLAIM_BOUNTY("quest.daily.bounty_hunter.objectives.claim_bounty"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_EXPLORER("quest.daily.exploration.objectives.explorer"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_NEW_AREAS("quest.daily.exploration.objectives.new_areas"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_MAP_REGIONS("quest.daily.exploration.objectives.map_regions"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_REPORT_FINDINGS("quest.daily.exploration.objectives.report_findings"),
-    QUEST_DAILY_FISHING_OBJECTIVES_FISHERMAN("quest.daily.fishing.objectives.fisherman"),
-    QUEST_DAILY_FISHING_OBJECTIVES_CATCH_FISH("quest.daily.fishing.objectives.catch_fish"),
-    QUEST_DAILY_FISHING_OBJECTIVES_RARE_FISH("quest.daily.fishing.objectives.rare_fish"),
-    QUEST_DAILY_FISHING_OBJECTIVES_SELL_FISH("quest.daily.fishing.objectives.sell_fish"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_GATHERER("quest.daily.gathering.objectives.gatherer"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_COLLECT_FLOWERS("quest.daily.gathering.objectives.collect_flowers"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_COLLECT_MUSHROOMS("quest.daily.gathering.objectives.collect_mushrooms"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_DELIVER_MATERIALS("quest.daily.gathering.objectives.deliver_materials"),
-    
-    // Quest Objective Keys - Class
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_CLASS_TRAINER("quest.clazz.warrior_advancement.objectives.class_trainer"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_SKILL_TRAINING("quest.clazz.warrior_advancement.objectives.skill_training"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_CLASS_TRIAL("quest.clazz.warrior_advancement.objectives.class_trial"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_CLASS_WEAPON("quest.clazz.warrior_advancement.objectives.class_weapon"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_CLASS_ADVANCEMENT("quest.clazz.warrior_advancement.objectives.class_advancement"),
-    
-    // Quest Objective Keys - Event
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_EVENT_COORDINATOR("quest.event.halloween_night.objectives.event_coordinator"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_COLLECT_CANDY("quest.event.halloween_night.objectives.collect_candy"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_TRICK_OR_TREAT("quest.event.halloween_night.objectives.trick_or_treat"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_DEFEAT_PUMPKIN_KING("quest.event.halloween_night.objectives.defeat_pumpkin_king"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_HALLOWEEN_REWARD("quest.event.halloween_night.objectives.halloween_reward"),
-    
-    
-    // Missing side quest objective keys
-    QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_MAD_ALCHEMIST("quest.side.alchemist_experiment.objectives.mad_alchemist"),
-    QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_ALCHEMY_LAB("quest.side.alchemist_experiment.objectives.alchemy_lab"),
-    QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_RARE_REAGENTS("quest.side.alchemist_experiment.objectives.rare_reagents"),
-    QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_DRAGON_SCALES("quest.side.alchemist_experiment.objectives.dragon_scales"),
-    QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_KILL_WITCHES("quest.side.alchemist_experiment.objectives.kill_witches"),
-    QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_PHILOSOPHER_STONE("quest.side.alchemist_experiment.objectives.philosopher_stone"),
-    QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_MAD_ALCHEMIST_COMPLETE("quest.side.alchemist_experiment.objectives.mad_alchemist_complete"),
-    
-    QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_ARCHAEOLOGIST("quest.side.ancient_ruins.objectives.archaeologist"),
-    QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_RUINED_ENTRANCE("quest.side.ancient_ruins.objectives.ruined_entrance"),
-    QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_KILL_SPIDERS("quest.side.ancient_ruins.objectives.kill_spiders"),
-    QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_ANCIENT_STONE("quest.side.ancient_ruins.objectives.ancient_stone"),
-    QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_INNER_CHAMBER("quest.side.ancient_ruins.objectives.inner_chamber"),
-    QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_RUNIC_TABLET("quest.side.ancient_ruins.objectives.runic_tablet"),
-    QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_KILL_SILVERFISH("quest.side.ancient_ruins.objectives.kill_silverfish"),
-    QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_ARCHAEOLOGIST_COMPLETE("quest.side.ancient_ruins.objectives.archaeologist_complete"),
-    
-    QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_TALK_MASTER_BLACKSMITH("quest.side.blacksmith_apprentice.objectives.talk_master_blacksmith"),
-    QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_IRON_ORE("quest.side.blacksmith_apprentice.objectives.iron_ore"),
-    QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_COAL("quest.side.blacksmith_apprentice.objectives.coal"),
-    QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_MINING_SITE("quest.side.blacksmith_apprentice.objectives.mining_site"),
-    QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_KILL_SKELETONS("quest.side.blacksmith_apprentice.objectives.kill_skeletons"),
-    QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_REFINED_IRON("quest.side.blacksmith_apprentice.objectives.refined_iron"),
-    QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_RETURN_MASTER_BLACKSMITH("quest.side.blacksmith_apprentice.objectives.return_master_blacksmith"),
-    
-    QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_TALK_VILLAGE_HEALER("quest.side.collect_herbs.objectives.talk_village_healer"),
-    QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_HERB_MEADOW("quest.side.collect_herbs.objectives.herb_meadow"),
-    QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_HEALING_HERBS("quest.side.collect_herbs.objectives.healing_herbs"),
-    QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_RARE_FLOWERS("quest.side.collect_herbs.objectives.rare_flowers"),
-    QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_MOUNTAIN_HERBS("quest.side.collect_herbs.objectives.mountain_herbs"),
-    QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_MOUNTAIN_SAGE("quest.side.collect_herbs.objectives.mountain_sage"),
-    QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_RETURN_VILLAGE_HEALER("quest.side.collect_herbs.objectives.return_village_healer"),
-    
-    QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_TALK_CRYSTAL_MINER("quest.side.crystal_cavern.objectives.talk_crystal_miner"),
-    QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_CAVERN_ENTRANCE("quest.side.crystal_cavern.objectives.cavern_entrance"),
-    QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_KILL_SPIDERS("quest.side.crystal_cavern.objectives.kill_spiders"),
-    QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_RAW_CRYSTALS("quest.side.crystal_cavern.objectives.raw_crystals"),
-    QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_CRYSTAL_CHAMBER("quest.side.crystal_cavern.objectives.crystal_chamber"),
-    QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_PURE_CRYSTAL("quest.side.crystal_cavern.objectives.pure_crystal"),
-    
-    QUEST_SIDE_DESERT_OASIS_OBJECTIVES_TALK_DESERT_NOMAD("quest.side.desert_oasis.objectives.talk_desert_nomad"),
-    QUEST_SIDE_DESERT_OASIS_OBJECTIVES_MIRAGES_EDGE("quest.side.desert_oasis.objectives.mirages_edge"),
-    QUEST_SIDE_DESERT_OASIS_OBJECTIVES_KILL_HUSKS("quest.side.desert_oasis.objectives.kill_husks"),
-    QUEST_SIDE_DESERT_OASIS_OBJECTIVES_DESERT_BLOOMS("quest.side.desert_oasis.objectives.desert_blooms"),
-    QUEST_SIDE_DESERT_OASIS_OBJECTIVES_HIDDEN_OASIS("quest.side.desert_oasis.objectives.hidden_oasis"),
-    QUEST_SIDE_DESERT_OASIS_OBJECTIVES_OASIS_WATER("quest.side.desert_oasis.objectives.oasis_water"),
-    
-    QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_TALK_FOREST_DRUID("quest.side.enchanted_forest.objectives.talk_forest_druid"),
-    QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_MAGICAL_GROVE("quest.side.enchanted_forest.objectives.magical_grove"),
-    QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_KILL_WITCHES("quest.side.enchanted_forest.objectives.kill_witches"),
-    QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_ENCHANTED_SAPLINGS("quest.side.enchanted_forest.objectives.enchanted_saplings"),
-    QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_FAIRY_CIRCLE("quest.side.enchanted_forest.objectives.fairy_circle"),
-    QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_FAIRY_DUST("quest.side.enchanted_forest.objectives.fairy_dust"),
-    
-    QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_TALK_WORRIED_FARMER("quest.side.farmers_request.objectives.talk_worried_farmer"),
-    QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_VISIT_DAMAGED_FARMLAND("quest.side.farmers_request.objectives.visit_damaged_farmland"),
-    QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_KILL_RABBITS("quest.side.farmers_request.objectives.kill_rabbits"),
-    QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_COLLECT_FRESH_SEEDS("quest.side.farmers_request.objectives.collect_fresh_seeds"),
-    QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_COLLECT_BONE_MEAL("quest.side.farmers_request.objectives.collect_bone_meal"),
-    QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_VISIT_IRRIGATION_CANAL("quest.side.farmers_request.objectives.visit_irrigation_canal"),
-    QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_RETURN_WORRIED_FARMER("quest.side.farmers_request.objectives.return_worried_farmer"),
-    
-    QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_TALK_OLD_FISHERMAN("quest.side.fisherman_tale.objectives.talk_old_fisherman"),
-    QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_VISIT_FISHING_DOCK("quest.side.fisherman_tale.objectives.visit_fishing_dock"),
-    QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_COLLECT_RARE_FISH("quest.side.fisherman_tale.objectives.collect_rare_fish"),
-    QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_KILL_DROWNED("quest.side.fisherman_tale.objectives.kill_drowned"),
-    QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_VISIT_DEEP_WATERS("quest.side.fisherman_tale.objectives.visit_deep_waters"),
-    QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_COLLECT_SEA_TREASURE("quest.side.fisherman_tale.objectives.collect_sea_treasure"),
-    QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_RETURN_OLD_FISHERMAN("quest.side.fisherman_tale.objectives.return_old_fisherman"),
-    
-    QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_TALK_TEMPLE_SCHOLAR("quest.side.forgotten_temple.objectives.talk_temple_scholar"),
-    QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_VISIT_TEMPLE_RUINS("quest.side.forgotten_temple.objectives.visit_temple_ruins"),
-    QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_KILL_ZOMBIES("quest.side.forgotten_temple.objectives.kill_zombies"),
-    QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_COLLECT_TEMPLE_KEY("quest.side.forgotten_temple.objectives.collect_temple_key"),
-    QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_VISIT_INNER_SANCTUM("quest.side.forgotten_temple.objectives.visit_inner_sanctum"),
-    QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_COLLECT_SACRED_RELIC("quest.side.forgotten_temple.objectives.collect_sacred_relic"),
-    
-    QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_TALK_MOUNTAIN_CLIMBER("quest.side.frozen_peaks.objectives.talk_mountain_climber"),
-    QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_VISIT_ICE_CLIFFS("quest.side.frozen_peaks.objectives.visit_ice_cliffs"),
-    QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_KILL_POLAR_BEARS("quest.side.frozen_peaks.objectives.kill_polar_bears"),
-    QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_COLLECT_ICE_SHARDS("quest.side.frozen_peaks.objectives.collect_ice_shards"),
-    QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_VISIT_FROZEN_SUMMIT("quest.side.frozen_peaks.objectives.visit_frozen_summit"),
-    QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_COLLECT_ETERNAL_ICE("quest.side.frozen_peaks.objectives.collect_eternal_ice"),
-    
-    QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_TALK_VILLAGE_HEALER("quest.side.healers_request.objectives.talk_village_healer"),
-    QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_VISIT_HERB_GARDEN("quest.side.healers_request.objectives.visit_herb_garden"),
-    QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_COLLECT_MEDICINAL_HERBS("quest.side.healers_request.objectives.collect_medicinal_herbs"),
-    QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_COLLECT_SPIDER_EYES("quest.side.healers_request.objectives.collect_spider_eyes"),
-    QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_COLLECT_GHAST_TEARS("quest.side.healers_request.objectives.collect_ghast_tears"),
-    QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_VISIT_SACRED_SPRING("quest.side.healers_request.objectives.visit_sacred_spring"),
-    QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_COLLECT_HOLY_WATER("quest.side.healers_request.objectives.collect_holy_water"),
-    
-    QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_TALK_VALLEY_SCOUT("quest.side.hidden_valley.objectives.talk_valley_scout"),
-    QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_VISIT_MOUNTAIN_PASS("quest.side.hidden_valley.objectives.visit_mountain_pass"),
-    QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_COLLECT_MOUNTAIN_FLOWER("quest.side.hidden_valley.objectives.collect_mountain_flower"),
-    QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_VISIT_HIDDEN_ENTRANCE("quest.side.hidden_valley.objectives.visit_hidden_entrance"),
-    QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_VALLEY_HERMIT("quest.side.hidden_valley.objectives.valley_hermit"),
-    QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_SECRET_PATH("quest.side.hidden_valley.objectives.secret_path"),
-    QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_KILL_WOLVES("quest.side.hidden_valley.objectives.kill_wolves"),
-    QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_VISIT_VALLEY_HEART("quest.side.hidden_valley.objectives.visit_valley_heart"),
-    QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_COLLECT_VALLEY_CRYSTAL("quest.side.hidden_valley.objectives.collect_valley_crystal"),
-    QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_TALK_VALLEY_GUARDIAN("quest.side.hidden_valley.objectives.talk_valley_guardian"),
-    QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_RARE_MUSHROOMS("quest.side.hidden_valley.objectives.rare_mushrooms"),
-    QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_VALLEY_SANCTUARY("quest.side.hidden_valley.objectives.valley_sanctuary"),
-    QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_ANCIENT_SEEDS("quest.side.hidden_valley.objectives.ancient_seeds"),
-    
-    QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_WORRIED_INNKEEPER("quest.side.innkeeper_trouble.objectives.worried_innkeeper"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_TALK_WORRIED_INNKEEPER("quest.side.innkeeper_trouble.objectives.talk_worried_innkeeper"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_TAVERN_CELLAR("quest.side.innkeeper_trouble.objectives.tavern_cellar"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_VISIT_INN_BASEMENT("quest.side.innkeeper_trouble.objectives.visit_inn_basement"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_KILL_RATS("quest.side.innkeeper_trouble.objectives.kill_rats"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_KILL_SPIDERS("quest.side.innkeeper_trouble.objectives.kill_spiders"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_REPAIR_BARRELS("quest.side.innkeeper_trouble.objectives.repair_barrels"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_COLLECT_INN_SUPPLIES("quest.side.innkeeper_trouble.objectives.collect_inn_supplies"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_COLLECT_ALE_BARRELS("quest.side.innkeeper_trouble.objectives.collect_ale_barrels"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_STORAGE_ROOM("quest.side.innkeeper_trouble.objectives.storage_room"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_VISIT_STORAGE_ROOM("quest.side.innkeeper_trouble.objectives.visit_storage_room"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_QUALITY_ALE("quest.side.innkeeper_trouble.objectives.quality_ale"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_RETURN_INNKEEPER("quest.side.innkeeper_trouble.objectives.return_innkeeper"),
-    QUEST_SIDE_INNKEEPER_TROUBLE_OBJECTIVES_RETURN_WORRIED_INNKEEPER("quest.side.innkeeper_trouble.objectives.return_worried_innkeeper"),
-    
-    QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_TALK_HEAD_LIBRARIAN("quest.side.librarian_mystery.objectives.talk_head_librarian"),
-    QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_VISIT_ANCIENT_ARCHIVES("quest.side.librarian_mystery.objectives.visit_ancient_archives"),
-    QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_COLLECT_MISSING_TOME("quest.side.librarian_mystery.objectives.collect_missing_tome"),
-    QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_COLLECT_CIPHER_KEY("quest.side.librarian_mystery.objectives.collect_cipher_key"),
-    QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_VISIT_SECRET_CHAMBER("quest.side.librarian_mystery.objectives.visit_secret_chamber"),
-    QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_COLLECT_FORBIDDEN_KNOWLEDGE("quest.side.librarian_mystery.objectives.collect_forbidden_knowledge"),
-    QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_RETURN_HEAD_LIBRARIAN("quest.side.librarian_mystery.objectives.return_head_librarian"),
-    
-    QUEST_SIDE_LOST_TREASURE_OBJECTIVES_TALK_OLD_SAILOR("quest.side.lost_treasure.objectives.talk_old_sailor"),
-    QUEST_SIDE_LOST_TREASURE_OBJECTIVES_TREASURE_HUNTER("quest.side.lost_treasure.objectives.treasure_hunter"),
-    QUEST_SIDE_LOST_TREASURE_OBJECTIVES_COLLECT_TREASURE_MAP("quest.side.lost_treasure.objectives.collect_treasure_map"),
-    QUEST_SIDE_LOST_TREASURE_OBJECTIVES_FIND_MAP("quest.side.lost_treasure.objectives.find_map"),
-    QUEST_SIDE_LOST_TREASURE_OBJECTIVES_VISIT_CURSED_COVE("quest.side.lost_treasure.objectives.visit_cursed_cove"),
-    QUEST_SIDE_LOST_TREASURE_OBJECTIVES_SOLVE_RIDDLE("quest.side.lost_treasure.objectives.solve_riddle"),
-    QUEST_SIDE_LOST_TREASURE_OBJECTIVES_KILL_SKELETONS("quest.side.lost_treasure.objectives.kill_skeletons"),
-    QUEST_SIDE_LOST_TREASURE_OBJECTIVES_VISIT_BURIED_TREASURE("quest.side.lost_treasure.objectives.visit_buried_treasure"),
-    QUEST_SIDE_LOST_TREASURE_OBJECTIVES_DIG_TREASURE("quest.side.lost_treasure.objectives.dig_treasure"),
-    QUEST_SIDE_LOST_TREASURE_OBJECTIVES_COLLECT_GOLD_COINS("quest.side.lost_treasure.objectives.collect_gold_coins"),
-    QUEST_SIDE_LOST_TREASURE_OBJECTIVES_COLLECT_ANCIENT_ARTIFACT("quest.side.lost_treasure.objectives.collect_ancient_artifact"),
-    QUEST_SIDE_LOST_TREASURE_OBJECTIVES_RETURN_OLD_SAILOR("quest.side.lost_treasure.objectives.return_old_sailor"),
-    QUEST_SIDE_LOST_TREASURE_OBJECTIVES_CLAIM_REWARD("quest.side.lost_treasure.objectives.claim_reward"),
-    
-    QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_TALK_TROUBLED_MERCHANT("quest.side.merchants_dilemma.objectives.talk_troubled_merchant"),
-    QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_VISIT_CARAVAN_ROUTE("quest.side.merchants_dilemma.objectives.visit_caravan_route"),
-    QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_KILL_PILLAGERS("quest.side.merchants_dilemma.objectives.kill_pillagers"),
-    QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_COLLECT_STOLEN_GOODS("quest.side.merchants_dilemma.objectives.collect_stolen_goods"),
-    QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_VISIT_BANDITS_HIDEOUT("quest.side.merchants_dilemma.objectives.visit_bandits_hideout"),
-    QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_COLLECT_TRADE_CONTRACT("quest.side.merchants_dilemma.objectives.collect_trade_contract"),
-    QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_RETURN_TROUBLED_MERCHANT("quest.side.merchants_dilemma.objectives.return_troubled_merchant"),
-    
-    QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_TALK_MINE_FOREMAN("quest.side.miners_plight.objectives.talk_mine_foreman"),
-    QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_VISIT_COLLAPSED_MINE("quest.side.miners_plight.objectives.visit_collapsed_mine"),
-    QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_COLLECT_SUPPORT_BEAMS("quest.side.miners_plight.objectives.collect_support_beams"),
-    QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_KILL_CAVE_SPIDERS("quest.side.miners_plight.objectives.kill_cave_spiders"),
-    QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_VISIT_TRAPPED_MINERS("quest.side.miners_plight.objectives.visit_trapped_miners"),
-    QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_COLLECT_MINING_EQUIPMENT("quest.side.miners_plight.objectives.collect_mining_equipment"),
-    QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_RETURN_MINE_FOREMAN("quest.side.miners_plight.objectives.return_mine_foreman"),
-    
-    QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_TALK_CAVE_EXPLORER("quest.side.mysterious_cave.objectives.talk_cave_explorer"),
-    QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_CAVE_EXPLORER("quest.side.mysterious_cave.objectives.cave_explorer"),
-    QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_VISIT_DARK_CAVE_ENTRANCE("quest.side.mysterious_cave.objectives.visit_dark_cave_entrance"),
-    QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_ENTER_CAVE("quest.side.mysterious_cave.objectives.enter_cave"),
-    QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_LIGHT_TORCHES("quest.side.mysterious_cave.objectives.light_torches"),
-    QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_KILL_BATS("quest.side.mysterious_cave.objectives.kill_bats"),
-    QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_DEFEAT_BATS("quest.side.mysterious_cave.objectives.defeat_bats"),
-    QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_COLLECT_GLOWING_MOSS("quest.side.mysterious_cave.objectives.collect_glowing_moss"),
-    QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_VISIT_UNDERGROUND_LAKE("quest.side.mysterious_cave.objectives.visit_underground_lake"),
-    QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_COLLECT_CAVE_PEARL("quest.side.mysterious_cave.objectives.collect_cave_pearl"),
-    QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_FIND_CRYSTAL("quest.side.mysterious_cave.objectives.find_crystal"),
-    
-    QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_TALK_ROYAL_COURIER("quest.side.royal_messenger.objectives.talk_royal_courier"),
-    QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_COLLECT_ROYAL_SEAL("quest.side.royal_messenger.objectives.collect_royal_seal"),
-    QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_VISIT_NORTHERN_OUTPOST("quest.side.royal_messenger.objectives.visit_northern_outpost"),
-    QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_KILL_BANDITS("quest.side.royal_messenger.objectives.kill_bandits"),
-    QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_COLLECT_URGENT_MESSAGE("quest.side.royal_messenger.objectives.collect_urgent_message"),
-    QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_VISIT_ROYAL_CASTLE("quest.side.royal_messenger.objectives.visit_royal_castle"),
-    QUEST_SIDE_ROYAL_MESSENGER_OBJECTIVES_TALK_CASTLE_GUARD("quest.side.royal_messenger.objectives.talk_castle_guard"),
-    
-    QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_DEEP_SEA_DIVER("quest.side.sunken_city.objectives.deep_sea_diver"),
-    QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_UNDERWATER_RUINS("quest.side.sunken_city.objectives.underwater_ruins"),
-    QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_KILL_GUARDIANS("quest.side.sunken_city.objectives.kill_guardians"),
-    QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_SEA_CRYSTALS("quest.side.sunken_city.objectives.sea_crystals"),
-    QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_SUNKEN_PALACE("quest.side.sunken_city.objectives.sunken_palace"),
-    QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_ATLANTEAN_ARTIFACT("quest.side.sunken_city.objectives.atlantean_artifact"),
-    
-    QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_GUILD_CONTACT("quest.side.thieves_guild.objectives.guild_contact"),
-    QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_SECRET_ENTRANCE("quest.side.thieves_guild.objectives.secret_entrance"),
-    QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_LOCKPICKS("quest.side.thieves_guild.objectives.lockpicks"),
-    QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_RIVAL_HIDEOUT("quest.side.thieves_guild.objectives.rival_hideout"),
-    QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_KILL_VINDICATORS("quest.side.thieves_guild.objectives.kill_vindicators"),
-    QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_STOLEN_LEDGER("quest.side.thieves_guild.objectives.stolen_ledger"),
-    QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_GUILD_MASTER("quest.side.thieves_guild.objectives.guild_master"),
-    
-    QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_VOLCANO_RESEARCHER("quest.side.volcanic_depths.objectives.volcano_researcher"),
-    QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_VOLCANO_RIM("quest.side.volcanic_depths.objectives.volcano_rim"),
-    QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_KILL_MAGMA_CUBES("quest.side.volcanic_depths.objectives.kill_magma_cubes"),
-    QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_VOLCANIC_GLASS("quest.side.volcanic_depths.objectives.volcanic_glass"),
-    QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_LAVA_CHAMBER("quest.side.volcanic_depths.objectives.lava_chamber"),
-    QUEST_SIDE_VOLCANIC_DEPTHS_OBJECTIVES_FIRE_ESSENCE("quest.side.volcanic_depths.objectives.fire_essence"),
-    
-    // Island member keys
-    GUI_ISLAND_MEMBER_TITLE("gui.island.member.title"),
-    GUI_ISLAND_MEMBER_INVITE_PROMPT("gui.island.member.invite_prompt"),
-    GUI_ISLAND_MEMBER_INVITE_EXAMPLE("gui.island.member.invite_example"),
-    GUI_ISLAND_MEMBER_ROLE("gui.island.member.role"),
-    GUI_ISLAND_MEMBER_ROLE_OWNER("gui.island.member.role_owner"),
-    GUI_ISLAND_MEMBER_ALL_PERMISSIONS("gui.island.member.all_permissions"),
-    GUI_ISLAND_MEMBER_OWNER_CANNOT_CHANGE("gui.island.member.owner_cannot_change"),
-    GUI_ISLAND_MEMBER_JOIN_DATE("gui.island.member.join_date"),
-    GUI_ISLAND_MEMBER_MOST_PERMISSIONS("gui.island.member.most_permissions"),
-    GUI_ISLAND_MEMBER_NORMAL_PERMISSIONS("gui.island.member.normal_permissions"),
-    GUI_ISLAND_MEMBER_LEFT_CLICK_ROLE("gui.island.member.left_click_role"),
-    GUI_ISLAND_MEMBER_RIGHT_CLICK_KICK("gui.island.member.right_click_kick"),
-    GUI_ISLAND_MEMBER_ROLE_WORKER("gui.island.member.role_worker"),
-    GUI_ISLAND_MEMBER_HIRE_DATE("gui.island.member.hire_date"),
-    GUI_ISLAND_MEMBER_LAST_ACTIVITY("gui.island.member.last_activity"),
-    GUI_ISLAND_MEMBER_LIMITED_PERMISSIONS("gui.island.member.limited_permissions"),
-    GUI_ISLAND_MEMBER_LEFT_CLICK_EXTEND("gui.island.member.left_click_extend"),
-    GUI_ISLAND_MEMBER_RIGHT_CLICK_FIRE("gui.island.member.right_click_fire"),
-    ITEMS_ISLAND_MEMBER_INVITE_BUTTON_LORE("items.island.member.invite.button_lore"),
-    ITEMS_ISLAND_MEMBER_PREVIOUS_PAGE_LORE("items.island.member.previous_page.lore"),
-    ITEMS_ISLAND_MEMBER_NEXT_PAGE_LORE("items.island.member.next_page.lore"),
-    GUI_ISLAND_MEMBER_MANAGE_TITLE_WITH_NAME("gui.island.member_manage.title_with_name"),
-    GUI_ISLAND_SETTINGS_ID("gui.island.settings.id"),
-    GUI_ISLAND_SETTINGS_OWNER("gui.island.settings.owner"),
-    GUI_ISLAND_SETTINGS_MEMBERS("gui.island.settings.members"),
-    GUI_ISLAND_SETTINGS_STATUS("gui.island.settings.status"),
-    GUI_ISLAND_SETTINGS_CURRENT_NAME("gui.island.settings.current_name"),
-    GUI_ISLAND_SETTINGS_CURRENT_STATUS("gui.island.settings.current_status"),
-    GUI_ISLAND_SETTINGS_CURRENT_BIOME("gui.island.settings.current_biome"),
-    
-    // Island member manage keys
-    GUI_ISLAND_MEMBER_MANAGE_TITLE("gui.island.member_manage.title"),
-    GUI_ISLAND_MEMBER_MANAGE_PERMISSION_NOT_IMPLEMENTED("gui.island.member_manage.permission_not_implemented"),
-    GUI_ISLAND_MEMBER_MANAGE_CURRENT_ROLE("gui.island.member_manage.current_role"),
-    
-    // Notification settings keys
-    NOTIFICATION_MODE_ALL("notification.mode.all"),
-    NOTIFICATION_MODE_FRIEND_ONLY("notification.mode.friend-only"),
-    NOTIFICATION_MODE_GUILD_ONLY("notification.mode.guild-only"),
-    NOTIFICATION_MODE_OFF("notification.mode.off"),
-    NOTIFICATION_MODE_UNKNOWN("notification.mode.unknown"),
-    NOTIFICATION_MODE_ALL_DESC("notification.mode.all.desc"),
-    NOTIFICATION_MODE_FRIEND_ONLY_DESC("notification.mode.friend-only.desc"),
-    NOTIFICATION_MODE_GUILD_ONLY_DESC("notification.mode.guild-only.desc"),
-    NOTIFICATION_MODE_OFF_DESC("notification.mode.off.desc"),
-    NOTIFICATION_MODE_UNKNOWN_DESC("notification.mode.unknown.desc"),
-    
-    // Common status keys
-    STATUS_MUTED("status.muted"),
-    STATUS_ACTIVE("status.active"),
-    
-    // Island roles
-    ISLAND_ROLES_SUB_OWNER("island.roles.sub_owner"),
-    ISLAND_ROLES_MEMBER("island.roles.member"),
-    ISLAND_ROLES_WORKER("island.roles.worker"),
-    
-    // Island contribute/delete/member actions
-    ISLAND_CONTRIBUTE_AMOUNT_TOO_LOW("island.contribute.amount_too_low"),
-    ISLAND_CONTRIBUTE_INVALID_AMOUNT("island.contribute.invalid_amount"),
-    ISLAND_GUI_CONTRIBUTE_CONTRIBUTION_INPUT_TEXT("island.gui.contribute.contribution_input_text"),
-    ISLAND_GUI_CONTRIBUTE_CONTRIBUTION_INPUT_TITLE("island.gui.contribute.contribution_input_title"),
-    
-    ISLAND_MEMBER_KICK_CONFIRM_WORD("island.member.kick_confirm_word"),
-    ISLAND_MEMBER_KICK_INPUT_ERROR("island.member.kick_input_error"),
-    ISLAND_MEMBER_KICK_INPUT_TEXT("island.member.kick_input_text"),
-    ISLAND_MEMBER_KICK_INPUT_TITLE("island.member.kick_input_title"),
-    
-    // Items buttons additional keys
-    ITEMS_BUTTONS_BACK_NAME("items.buttons.back.name"),
-    ITEMS_BUTTONS_BACK_LORE("items.buttons.back.lore"),
-    ITEMS_BUTTONS_PREVIOUS_PAGE_NAME("items.buttons.previous-page.name"),
-    ITEMS_BUTTONS_PREVIOUS_PAGE_LORE("items.buttons.previous-page.lore"),
-    ITEMS_BUTTONS_NEXT_PAGE_NAME("items.buttons.next-page.name"),
-    ITEMS_BUTTONS_NEXT_PAGE_LORE("items.buttons.next-page.lore"),
-    
-    // =================================
-    // Missing keys for deprecated method migration
-    // =================================
-    GUI_PAGE_INFO("gui.page_info"),
-    GUI_SHOP_TITLE("gui.shop.title"),
-    GUI_SHOP_GOLD_AMOUNT("gui.shop.gold.amount"),
-    GUI_SHOP_ITEM_BUY_PRICE("gui.shop.item.buy_price"),
-    GUI_SHOP_ITEM_SELL_PRICE("gui.shop.item.sell_price"),
-    GUI_SHOP_ITEM_CLICK_TO_BUY("gui.shop.item.click_to_buy"),
-    GUI_SHOP_ITEM_CLICK_TO_SELL("gui.shop.item.click_to_sell"),
-    GUI_SHOP_ITEM_INSUFFICIENT_GOLD("gui.shop.item.insufficient_gold"),
-    
-    // =================================
-    // CURRENCY 관련 키
-    // =================================
-    CURRENCY_GOLD_NAME("currency.gold.name"),
-    CURRENCY_GOLD_DESCRIPTION("currency.gold.description"),
-    CURRENCY_DIAMOND_NAME("currency.diamond.name"),
-    CURRENCY_DIAMOND_DESCRIPTION("currency.diamond.description"),
-    CURRENCY_EMERALD_NAME("currency.emerald.name"),
-    CURRENCY_EMERALD_DESCRIPTION("currency.emerald.description"),
-    CURRENCY_GHAST_TEAR_NAME("currency.ghast_tear.name"),
-    CURRENCY_GHAST_TEAR_DESCRIPTION("currency.ghast_tear.description"),
-    CURRENCY_NETHER_STAR_NAME("currency.nether_star.name"),
-    CURRENCY_NETHER_STAR_DESCRIPTION("currency.nether_star.description"),
-    CURRENCY_EXP_NAME("currency.exp.name"),
-    CURRENCY_EXP_DESCRIPTION("currency.exp.description"),
-    
-    // Biome Names
-    BIOME_PLAINS_NAME("biome.plains.name"),
-    BIOME_FOREST_NAME("biome.forest.name"),
-    BIOME_DESERT_NAME("biome.desert.name"),
-    BIOME_JUNGLE_NAME("biome.jungle.name"),
-    BIOME_TAIGA_NAME("biome.taiga.name"),
-    BIOME_SNOWY_PLAINS_NAME("biome.snowy_plains.name"),
-    BIOME_SAVANNA_NAME("biome.savanna.name"),
-    BIOME_SWAMP_NAME("biome.swamp.name"),
-    BIOME_MUSHROOM_FIELDS_NAME("biome.mushroom_fields.name"),
-    BIOME_BEACH_NAME("biome.beach.name"),
-    BIOME_FLOWER_FOREST_NAME("biome.flower_forest.name"),
-    BIOME_BAMBOO_JUNGLE_NAME("biome.bamboo_jungle.name"),
-    BIOME_DARK_FOREST_NAME("biome.dark_forest.name"),
-    BIOME_BIRCH_FOREST_NAME("biome.birch_forest.name"),
-    BIOME_BADLANDS_NAME("biome.badlands.name"),
-    BIOME_CHERRY_GROVE_NAME("biome.cherry_grove.name"),
-    
-    // Biome Descriptions (as lists)
-    BIOME_PLAINS_DESCRIPTION("biome.plains.description"),
-    BIOME_FOREST_DESCRIPTION("biome.forest.description"),
-    BIOME_DESERT_DESCRIPTION("biome.desert.description"),
-    BIOME_JUNGLE_DESCRIPTION("biome.jungle.description"),
-    BIOME_TAIGA_DESCRIPTION("biome.taiga.description"),
-    BIOME_SNOWY_PLAINS_DESCRIPTION("biome.snowy_plains.description"),
-    BIOME_SAVANNA_DESCRIPTION("biome.savanna.description"),
-    BIOME_SWAMP_DESCRIPTION("biome.swamp.description"),
-    BIOME_MUSHROOM_FIELDS_DESCRIPTION("biome.mushroom_fields.description"),
-    BIOME_BEACH_DESCRIPTION("biome.beach.description"),
-    BIOME_FLOWER_FOREST_DESCRIPTION("biome.flower_forest.description"),
-    BIOME_BAMBOO_JUNGLE_DESCRIPTION("biome.bamboo_jungle.description"),
-    BIOME_DARK_FOREST_DESCRIPTION("biome.dark_forest.description"),
-    BIOME_BIRCH_FOREST_DESCRIPTION("biome.birch_forest.description"),
-    BIOME_BADLANDS_DESCRIPTION("biome.badlands.description"),
-    BIOME_CHERRY_GROVE_DESCRIPTION("biome.cherry_grove.description"),
-    BIOME_OCEAN_NAME("biome.ocean.name"),
-    BIOME_OCEAN_DESCRIPTION("biome.ocean.description"),
-    ITEMS_ISLAND_MEMBER_MANAGE_MEMBER_INFO_NAME("items.island.member_manage.member_info.name"),
-    ITEMS_ISLAND_MEMBER_MANAGE_MEMBER_INFO_LORE("items.island.member_manage.member_info.lore"),
-    ITEMS_ISLAND_MEMBER_MANAGE_PROMOTE_NAME("items.island.member_manage.promote.name"),
-    ITEMS_ISLAND_MEMBER_MANAGE_PROMOTE_LORE("items.island.member_manage.promote.lore"),
-    ITEMS_ISLAND_MEMBER_MANAGE_DEMOTE_NAME("items.island.member_manage.demote.name"),
-    ITEMS_ISLAND_MEMBER_MANAGE_DEMOTE_LORE("items.island.member_manage.demote.lore"),
-    ITEMS_ISLAND_MEMBER_MANAGE_TO_WORKER_NAME("items.island.member_manage.to_worker.name"),
-    ITEMS_ISLAND_MEMBER_MANAGE_TO_WORKER_LORE("items.island.member_manage.to_worker.lore"),
-    ITEMS_ISLAND_MEMBER_MANAGE_TO_MEMBER_NAME("items.island.member_manage.to_member.name"),
-    ITEMS_ISLAND_MEMBER_MANAGE_TO_MEMBER_LORE("items.island.member_manage.to_member.lore"),
-    ITEMS_ISLAND_MEMBER_MANAGE_KICK_NAME("items.island.member_manage.kick.name"),
-    ITEMS_ISLAND_MEMBER_MANAGE_KICK_LORE("items.island.member_manage.kick.lore"),
-    ITEMS_ISLAND_MEMBER_MANAGE_PERMISSION_NAME("items.island.member_manage.permission.name"),
-    ITEMS_ISLAND_MEMBER_MANAGE_PERMISSION_LORE("items.island.member_manage.permission.lore"),
-    ITEMS_ISLAND_MEMBER_MANAGE_NO_PERMISSION_NAME("items.island.member_manage.no_permission.name"),
-    ITEMS_ISLAND_MEMBER_MANAGE_NO_PERMISSION_LORE("items.island.member_manage.no_permission.lore"),
-    
-    // Island Personal Spawn GUI keys
-    GUI_ISLAND_PERSONAL_SPAWN_TITLE("gui.island.personal_spawn.title"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_INFO_NAME("items.island.personal_spawn.info.name"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_INFO_LORE("items.island.personal_spawn.info.lore"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_INFO_NOT_SET_LORE("items.island.personal_spawn.info_not_set.lore"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_SET_NAME("items.island.personal_spawn.set.name"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_SET_LORE1("items.island.personal_spawn.set.lore1"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_SET_LORE2("items.island.personal_spawn.set.lore2"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_SET_CLICK("items.island.personal_spawn.set.click"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_NAME("items.island.personal_spawn.teleport.name"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_LORE1("items.island.personal_spawn.teleport.lore1"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_LORE2("items.island.personal_spawn.teleport.lore2"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_CLICK("items.island.personal_spawn.teleport.click"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_NO_SPAWN("items.island.personal_spawn.teleport.no_spawn"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_NAME("items.island.personal_spawn.remove.name"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_LORE1("items.island.personal_spawn.remove.lore1"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_LORE2("items.island.personal_spawn.remove.lore2"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_CLICK("items.island.personal_spawn.remove.click"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_NAME("items.island.personal_spawn.manage.name"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_LORE1("items.island.personal_spawn.manage.lore1"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_LORE2("items.island.personal_spawn.manage.lore2"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_STATUS("items.island.personal_spawn.manage.status"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_CLICK("items.island.personal_spawn.manage.click"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_NO_PERMISSION_NAME("items.island.personal_spawn.no_permission.name"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_NO_PERMISSION_LORE1("items.island.personal_spawn.no_permission.lore1"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_NO_PERMISSION_LORE2("items.island.personal_spawn.no_permission.lore2"),
-    ITEMS_ISLAND_PERSONAL_SPAWN_BACK_LORE("items.island.personal_spawn.back.lore"),
-    GUI_ISLAND_SETTINGS_HAS_CHANGES("gui.island.settings.has_changes"),
-    GUI_ISLAND_SETTINGS_NO_CHANGES("gui.island.settings.no_changes"),
-    STATUS_PUBLIC("status.public"),
-    STATUS_PRIVATE("status.private"),
-    ITEMS_ISLAND_SETTINGS_INFO_NAME("items.island.settings.info.name"),
-    ITEMS_ISLAND_SETTINGS_NAME_CHANGE_NAME("items.island.settings.name_change.name"),
-    ITEMS_ISLAND_SETTINGS_NAME_CHANGE_LORE("items.island.settings.name_change.lore"),
-    ITEMS_ISLAND_SETTINGS_PUBLIC_NAME("items.island.settings.public.name"),
-    ITEMS_ISLAND_SETTINGS_PRIVATE_NAME("items.island.settings.private.name"),
-    ITEMS_ISLAND_SETTINGS_PUBLIC_TOGGLE_LORE("items.island.settings.public_toggle.lore"),
-    ITEMS_ISLAND_SETTINGS_BIOME_CHANGE_NAME("items.island.settings.biome_change.name"),
-    ITEMS_ISLAND_SETTINGS_BIOME_CHANGE_LORE("items.island.settings.biome_change.lore"),
-    ITEMS_ISLAND_SETTINGS_DELETE_NAME("items.island.settings.delete.name"),
-    ITEMS_ISLAND_SETTINGS_DELETE_LORE("items.island.settings.delete.lore"),
-    ITEMS_ISLAND_SETTINGS_SAVE_NAME("items.island.settings.save.name"),
-    ITEMS_ISLAND_SETTINGS_SAVE_LORE("items.island.settings.save.lore"),
-    ITEMS_BUTTONS_CANCEL_NAME("items.buttons.cancel.name"),
-    ITEMS_ISLAND_SETTINGS_CANCEL_LORE("items.island.settings.cancel.lore"),
-    ISLAND_SETTINGS_NAME_ERROR("island.settings.name_error"),
-    ISLAND_SETTINGS_NAME_INPUT_ERROR("island.settings.name_input_error"),
-    ISLAND_GUI_CREATION_ISLAND_NAME_INPUT_TITLE("island.gui.creation.island_name_input_title"),
-    
-    // Island Upgrade GUI keys
-    GUI_ISLAND_UPGRADE_CURRENT_LEVEL("gui.island.upgrade.current_level"),
-    GUI_ISLAND_UPGRADE_NEXT_LEVEL("gui.island.upgrade.next_level"),
-    GUI_ISLAND_UPGRADE_COST("gui.island.upgrade.cost"),
-    GUI_ISLAND_UPGRADE_CURRENT_CONTRIBUTION("gui.island.upgrade.current_contribution"),
-    GUI_ISLAND_UPGRADE_CLICK_TO_UPGRADE("gui.island.upgrade.click_to_upgrade"),
-    GUI_ISLAND_UPGRADE_INSUFFICIENT_CONTRIBUTION("gui.island.upgrade.insufficient_contribution"),
-    GUI_ISLAND_UPGRADE_MAX_LEVEL("gui.island.upgrade.max_level"),
-    GUI_ISLAND_UPGRADE_PROGRESS("gui.island.upgrade.progress"),
-    ITEMS_ISLAND_UPGRADE_SIZE_NAME("items.island.upgrade.size.name"),
-    ITEMS_ISLAND_UPGRADE_MEMBER_NAME("items.island.upgrade.member.name"),
-    ITEMS_ISLAND_UPGRADE_WORKER_NAME("items.island.upgrade.worker.name"),
-    ITEMS_ISLAND_UPGRADE_INFO_NAME("items.island.upgrade.info.name"),
-    ITEMS_ISLAND_UPGRADE_INFO_LORE("items.island.upgrade.info.lore"),
-    UNIT_BLOCKS("unit.blocks"),
-    UNIT_PLAYERS("unit.players"),
-    GENERAL_UNKNOWN("general.unknown"),
-    QUEST_FILTER_ACTIVE("quest.filter.active"),
-    QUEST_FILTER_COMPLETED("quest.filter.completed"),
-    QUEST_COMPLETED("quest.completed"),
-    QUEST_REWARD_AVAILABLE("quest.reward_available"),
-    QUEST_CLICK_FOR_DETAILS("quest.click_for_details"),
-    QUEST_PREVIOUS_PAGE("quest.previous_page"),
-    QUEST_NEXT_PAGE("quest.next_page"),
-    QUEST_GO_TO_PAGE("quest.go_to_page"),
-
-    // Daily Quest Objectives - Bounty Hunter
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_BOUNTY_OFFICER("quest.daily.bounty_hunter.objectives.bounty_officer"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_CRIMINAL_HIDEOUT("quest.daily.bounty_hunter.objectives.criminal_hideout"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_WANTED_BANDITS("quest.daily.bounty_hunter.objectives.wanted_bandits"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_BANDIT_BADGES("quest.daily.bounty_hunter.objectives.bandit_badges"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_MONSTER_LAIR("quest.daily.bounty_hunter.objectives.monster_lair"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_ALPHA_SPIDER("quest.daily.bounty_hunter.objectives.alpha_spider"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_PACK_LEADER("quest.daily.bounty_hunter.objectives.pack_leader"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_MONSTER_FANGS("quest.daily.bounty_hunter.objectives.monster_fangs"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_WIZARD_TOWER("quest.daily.bounty_hunter.objectives.wizard_tower"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_DARK_WIZARDS("quest.daily.bounty_hunter.objectives.dark_wizards"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_SUMMONED_VEX("quest.daily.bounty_hunter.objectives.summoned_vex"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_WIZARD_STAVES("quest.daily.bounty_hunter.objectives.wizard_staves"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_MAGIC_ESSENCE("quest.daily.bounty_hunter.objectives.magic_essence"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_INFORMANT("quest.daily.bounty_hunter.objectives.informant"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_BUY_INFO("quest.daily.bounty_hunter.objectives.buy_info"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_ELITE_LOCATION("quest.daily.bounty_hunter.objectives.elite_location"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_ELITE_GUARD("quest.daily.bounty_hunter.objectives.elite_guard"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_BOUNTY_BOSS("quest.daily.bounty_hunter.objectives.bounty_boss"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_BOSS_HEAD("quest.daily.bounty_hunter.objectives.boss_head"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_EVIDENCE_DOCUMENTS("quest.daily.bounty_hunter.objectives.evidence_documents"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_STOLEN_GOODS("quest.daily.bounty_hunter.objectives.stolen_goods"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_DELIVER_BADGES("quest.daily.bounty_hunter.objectives.deliver_badges"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_DELIVER_EVIDENCE("quest.daily.bounty_hunter.objectives.deliver_evidence"),
-    QUEST_DAILY_BOUNTY_HUNTER_OBJECTIVES_DELIVER_HEAD("quest.daily.bounty_hunter.objectives.deliver_head"),
-
-    // Daily Quest Objectives - Crafting
-    QUEST_DAILY_CRAFTING_OBJECTIVES_BLACKSMITH("quest.daily.crafting.objectives.blacksmith"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_WOOD_TOOLS("quest.daily.crafting.objectives.craft_wood_tools"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_STONE_TOOLS("quest.daily.crafting.objectives.craft_stone_tools"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_IRON_TOOLS("quest.daily.crafting.objectives.craft_iron_tools"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_LEATHER_ARMOR("quest.daily.crafting.objectives.craft_leather_armor"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_CHAINMAIL("quest.daily.crafting.objectives.craft_chainmail"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_FURNACE("quest.daily.crafting.objectives.craft_furnace"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_CHEST("quest.daily.crafting.objectives.craft_chest"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_TORCHES("quest.daily.crafting.objectives.craft_torches"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_LADDER("quest.daily.crafting.objectives.craft_ladder"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_BREAD("quest.daily.crafting.objectives.craft_bread"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_COOKIES("quest.daily.crafting.objectives.craft_cookies"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_DELIVER_TOOLS("quest.daily.crafting.objectives.deliver_tools"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_DELIVER_ARMOR("quest.daily.crafting.objectives.deliver_armor"),
-    QUEST_DAILY_CRAFTING_OBJECTIVES_REPORT_COMPLETE("quest.daily.crafting.objectives.report_complete"),
-
-    // Daily Quest Objectives - Delivery
-    QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVERY_MASTER("quest.daily.delivery.objectives.delivery_master"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_BREAD("quest.daily.delivery.objectives.collect_bread"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_BAKERY("quest.daily.delivery.objectives.visit_bakery"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_BREAD("quest.daily.delivery.objectives.deliver_bread"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_BAKER_THANKS("quest.daily.delivery.objectives.baker_thanks"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_SPIDER_EYES("quest.daily.delivery.objectives.collect_spider_eyes"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_SUGAR("quest.daily.delivery.objectives.collect_sugar"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_PHARMACY("quest.daily.delivery.objectives.visit_pharmacy"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_POTION_MATERIALS("quest.daily.delivery.objectives.deliver_potion_materials"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_SUGAR("quest.daily.delivery.objectives.deliver_sugar"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_PHARMACIST_THANKS("quest.daily.delivery.objectives.pharmacist_thanks"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_IRON("quest.daily.delivery.objectives.collect_iron"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_COAL("quest.daily.delivery.objectives.collect_coal"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_BLACKSMITH("quest.daily.delivery.objectives.visit_blacksmith"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_IRON("quest.daily.delivery.objectives.deliver_iron"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_COAL("quest.daily.delivery.objectives.deliver_coal"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_BLACKSMITH_THANKS("quest.daily.delivery.objectives.blacksmith_thanks"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_BOOKS("quest.daily.delivery.objectives.collect_books"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_PAPER("quest.daily.delivery.objectives.collect_paper"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_LIBRARY("quest.daily.delivery.objectives.visit_library"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_BOOKS("quest.daily.delivery.objectives.deliver_books"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_PAPER("quest.daily.delivery.objectives.deliver_paper"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_LIBRARIAN_THANKS("quest.daily.delivery.objectives.librarian_thanks"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_WHEAT_SEEDS("quest.daily.delivery.objectives.collect_wheat_seeds"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_BONE_MEAL("quest.daily.delivery.objectives.collect_bone_meal"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_FARM("quest.daily.delivery.objectives.visit_farm"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_SEEDS("quest.daily.delivery.objectives.deliver_seeds"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_FERTILIZER("quest.daily.delivery.objectives.deliver_fertilizer"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_FARMER_THANKS("quest.daily.delivery.objectives.farmer_thanks"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_SWORDS("quest.daily.delivery.objectives.collect_swords"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_SHIELDS("quest.daily.delivery.objectives.collect_shields"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_GUARD_POST("quest.daily.delivery.objectives.visit_guard_post"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_URGENT_DELIVERY("quest.daily.delivery.objectives.urgent_delivery"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_WEAPONS("quest.daily.delivery.objectives.deliver_weapons"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_SHIELDS("quest.daily.delivery.objectives.deliver_shields"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_GUARD_THANKS("quest.daily.delivery.objectives.guard_thanks"),
-    QUEST_DAILY_DELIVERY_OBJECTIVES_REPORT_COMPLETE("quest.daily.delivery.objectives.report_complete"),
-
-    // Daily Quest Objectives - Exploration
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_EXPLORER_GUILD("quest.daily.exploration.objectives.explorer_guild"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_PREPARE_SUPPLIES("quest.daily.exploration.objectives.prepare_supplies"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_PREPARE_TORCHES("quest.daily.exploration.objectives.prepare_torches"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_PREPARE_TOOLS("quest.daily.exploration.objectives.prepare_tools"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_ABANDONED_MINE("quest.daily.exploration.objectives.abandoned_mine"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_LIGHT_MINE("quest.daily.exploration.objectives.light_mine"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_MINE_ORES("quest.daily.exploration.objectives.mine_ores"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_FIND_RELICS("quest.daily.exploration.objectives.find_relics"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_MINE_CREATURES("quest.daily.exploration.objectives.mine_creatures"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_HIDDEN_WATERFALL("quest.daily.exploration.objectives.hidden_waterfall"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_WATERFALL_TREASURE("quest.daily.exploration.objectives.waterfall_treasure"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_WATERFALL_FISHING("quest.daily.exploration.objectives.waterfall_fishing"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_RARE_FISH("quest.daily.exploration.objectives.rare_fish"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_WATER_GUARDIANS("quest.daily.exploration.objectives.water_guardians"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_ANCIENT_RUINS("quest.daily.exploration.objectives.ancient_ruins"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_CLEAR_RUBBLE("quest.daily.exploration.objectives.clear_rubble"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_ANCIENT_POTTERY("quest.daily.exploration.objectives.ancient_pottery"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_TEMPLE_TREASURE("quest.daily.exploration.objectives.temple_treasure"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_RUIN_GUARDIANS("quest.daily.exploration.objectives.ruin_guardians"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_MYSTIC_FOREST("quest.daily.exploration.objectives.mystic_forest"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_GATHER_HERBS("quest.daily.exploration.objectives.gather_herbs"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_MYSTIC_FLOWERS("quest.daily.exploration.objectives.mystic_flowers"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_MAGIC_MUSHROOMS("quest.daily.exploration.objectives.magic_mushrooms"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_FOREST_SPIRITS("quest.daily.exploration.objectives.forest_spirits"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_LAVA_CAVERN("quest.daily.exploration.objectives.lava_cavern"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_BUILD_BRIDGE("quest.daily.exploration.objectives.build_bridge"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_OBSIDIAN_SHARDS("quest.daily.exploration.objectives.obsidian_shards"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_MAGMA_CREAM("quest.daily.exploration.objectives.magma_cream"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_LAVA_CREATURES("quest.daily.exploration.objectives.lava_creatures"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_HEAT_SURVIVAL("quest.daily.exploration.objectives.heat_survival"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_CREATE_MAPS("quest.daily.exploration.objectives.create_maps"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_MARK_LOCATIONS("quest.daily.exploration.objectives.mark_locations"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_WRITE_REPORT("quest.daily.exploration.objectives.write_report"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_DELIVER_RELICS("quest.daily.exploration.objectives.deliver_relics"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_DELIVER_MAPS("quest.daily.exploration.objectives.deliver_maps"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_DELIVER_REPORT("quest.daily.exploration.objectives.deliver_report"),
-    QUEST_DAILY_EXPLORATION_OBJECTIVES_EXPLORATION_COMPLETE("quest.daily.exploration.objectives.exploration_complete"),
-
-    // Daily Quest Objectives - Fishing
-    QUEST_DAILY_FISHING_OBJECTIVES_CATCH_ANY_FISH("quest.daily.fishing.objectives.catch_any_fish"),
-    QUEST_DAILY_FISHING_OBJECTIVES_CATCH_SALMON("quest.daily.fishing.objectives.catch_salmon"),
-    QUEST_DAILY_FISHING_OBJECTIVES_CATCH_PUFFERFISH("quest.daily.fishing.objectives.catch_pufferfish"),
-
-    // Daily Quest Objectives - Gathering
-    QUEST_DAILY_GATHERING_OBJECTIVES_MEET_FOREMAN("quest.daily.gathering.objectives.meet_foreman"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_WOOD("quest.daily.gathering.objectives.gather_wood"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_STONE("quest.daily.gathering.objectives.gather_stone"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_COAL("quest.daily.gathering.objectives.gather_coal"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_MINE_IRON("quest.daily.gathering.objectives.mine_iron"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_MINE_GOLD("quest.daily.gathering.objectives.mine_gold"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_IRON("quest.daily.gathering.objectives.gather_iron"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_HARVEST_CROPS("quest.daily.gathering.objectives.harvest_crops"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_WHEAT("quest.daily.gathering.objectives.gather_wheat"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_CARROTS("quest.daily.gathering.objectives.gather_carrots"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_FLOWERS("quest.daily.gathering.objectives.gather_flowers"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_GATHER_SAPLINGS("quest.daily.gathering.objectives.gather_saplings"),
-    QUEST_DAILY_GATHERING_OBJECTIVES_DELIVER_RESOURCES("quest.daily.gathering.objectives.deliver_resources"),
-
-    // Event Quest Objectives - Halloween Night
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_PUMPKIN_KING("quest.event.halloween_night.objectives.pumpkin_king"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_HAUNTED_VILLAGE("quest.event.halloween_night.objectives.haunted_village"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_HARVEST_PUMPKINS("quest.event.halloween_night.objectives.harvest_pumpkins"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_COLLECT_PUMPKINS("quest.event.halloween_night.objectives.collect_pumpkins"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_CARVE_LANTERNS("quest.event.halloween_night.objectives.carve_lanterns"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_DECORATE_VILLAGE("quest.event.halloween_night.objectives.decorate_village"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_SUGAR_COLLECT("quest.event.halloween_night.objectives.sugar_collect"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_COCOA_BEANS("quest.event.halloween_night.objectives.cocoa_beans"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_HONEY_COLLECT("quest.event.halloween_night.objectives.honey_collect"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_MAKE_COOKIES("quest.event.halloween_night.objectives.make_cookies"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_MAKE_PIES("quest.event.halloween_night.objectives.make_pies"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_GHOST_FOREST("quest.event.halloween_night.objectives.ghost_forest"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_SPOOKY_ZOMBIES("quest.event.halloween_night.objectives.spooky_zombies"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_SKELETON_ARMY("quest.event.halloween_night.objectives.skeleton_army"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_PHANTOM_SPIRITS("quest.event.halloween_night.objectives.phantom_spirits"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_GHOST_ESSENCE("quest.event.halloween_night.objectives.ghost_essence"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_WITCH_MANSION("quest.event.halloween_night.objectives.witch_mansion"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_WITCH_GREETING("quest.event.halloween_night.objectives.witch_greeting"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_WITCH_CATS("quest.event.halloween_night.objectives.witch_cats"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_EVIL_WITCHES("quest.event.halloween_night.objectives.evil_witches"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_WITCH_BREW("quest.event.halloween_night.objectives.witch_brew"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_SPIDER_EYES("quest.event.halloween_night.objectives.spider_eyes"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_GHOST_REALM("quest.event.halloween_night.objectives.ghost_realm"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_GHOST_MAZE("quest.event.halloween_night.objectives.ghost_maze"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_SOUL_FRAGMENTS("quest.event.halloween_night.objectives.soul_fragments"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_VENGEFUL_SPIRITS("quest.event.halloween_night.objectives.vengeful_spirits"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_RITUAL_SITE("quest.event.halloween_night.objectives.ritual_site"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_PLACE_CANDLES("quest.event.halloween_night.objectives.place_candles"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_PLACE_SKULLS("quest.event.halloween_night.objectives.place_skulls"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_RITUAL_OFFERING("quest.event.halloween_night.objectives.ritual_offering"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_SUMMONED_DEMON("quest.event.halloween_night.objectives.summoned_demon"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_CHALLENGE_KING("quest.event.halloween_night.objectives.challenge_king"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_PUMPKIN_MINIONS("quest.event.halloween_night.objectives.pumpkin_minions"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_HEADLESS_HORSEMAN("quest.event.halloween_night.objectives.headless_horseman"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_PUMPKIN_KING_BOSS("quest.event.halloween_night.objectives.pumpkin_king_boss"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_PARTY_TREATS("quest.event.halloween_night.objectives.party_treats"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_DELIVER_TREATS("quest.event.halloween_night.objectives.deliver_treats"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_DELIVER_PIES("quest.event.halloween_night.objectives.deliver_pies"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_HALLOWEEN_PARTY("quest.event.halloween_night.objectives.halloween_party"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_HALLOWEEN_MASK("quest.event.halloween_night.objectives.halloween_mask"),
-    QUEST_EVENT_HALLOWEEN_NIGHT_OBJECTIVES_EVENT_COMPLETE("quest.event.halloween_night.objectives.event_complete"),
-
-    // Clazz Quest Objectives - Warrior Advancement
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_LEVEL("quest.clazz.warrior_advancement.objectives.warrior_level"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_MASTER("quest.clazz.warrior_advancement.objectives.warrior_master"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_COMBAT("quest.clazz.warrior_advancement.objectives.prove_combat"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_PVP("quest.clazz.warrior_advancement.objectives.prove_pvp"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_EMBLEM("quest.clazz.warrior_advancement.objectives.warrior_emblem"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_FORGE_WEAPON("quest.clazz.warrior_advancement.objectives.forge_weapon"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_FORGE_ARMOR("quest.clazz.warrior_advancement.objectives.forge_armor"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_ENDURANCE_TEST("quest.clazz.warrior_advancement.objectives.endurance_test"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_FINAL_TRIAL("quest.clazz.warrior_advancement.objectives.final_trial"),
-    QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_RETURN_EMBLEM("quest.clazz.warrior_advancement.objectives.return_emblem"),
-
-    // ===== SEASONAL QUEST LANG KEYS =====
-    // Summer Solstice Quest
-    QUEST_SEASONAL_SUMMER_SOLSTICE_NAME("quest.seasonal.summer_solstice.name"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_INFO("quest.seasonal.summer_solstice.info"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_DIALOGS("quest.seasonal.summer_solstice.dialogs"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_NPC_NAME("quest.seasonal.summer_solstice.npc_name"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_ACCEPT("quest.seasonal.summer_solstice.accept"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_DECLINE("quest.seasonal.summer_solstice.decline"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_FESTIVAL_COORDINATOR("quest.seasonal.summer_solstice.objectives.festival_coordinator"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_FESTIVAL_GROUNDS("quest.seasonal.summer_solstice.objectives.festival_grounds"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_GATHER_SUNFLOWERS("quest.seasonal.summer_solstice.objectives.gather_sunflowers"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_COLLECT_GOLD_INGOTS("quest.seasonal.summer_solstice.objectives.collect_gold_ingots"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_CRAFT_GOLDEN_APPLE("quest.seasonal.summer_solstice.objectives.craft_golden_apple"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_BUILD_ALTAR("quest.seasonal.summer_solstice.objectives.build_altar"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_GATHER_GUNPOWDER("quest.seasonal.summer_solstice.objectives.gather_gunpowder"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_COLLECT_DYES("quest.seasonal.summer_solstice.objectives.collect_dyes"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_CRAFT_FIREWORKS("quest.seasonal.summer_solstice.objectives.craft_fireworks"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_LAUNCH_FIREWORKS("quest.seasonal.summer_solstice.objectives.launch_fireworks"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_HARVEST_MELONS("quest.seasonal.summer_solstice.objectives.harvest_melons"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_COLLECT_ICE("quest.seasonal.summer_solstice.objectives.collect_ice"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_MAKE_MELON_BLOCKS("quest.seasonal.summer_solstice.objectives.make_melon_blocks"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_BREW_COOLING_POTIONS("quest.seasonal.summer_solstice.objectives.brew_cooling_potions"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_DESERT_TEMPLE("quest.seasonal.summer_solstice.objectives.desert_temple"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_HEAT_ENDURANCE("quest.seasonal.summer_solstice.objectives.heat_endurance"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_DEFEAT_BLAZES("quest.seasonal.summer_solstice.objectives.defeat_blazes"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_SOLAR_ESSENCE("quest.seasonal.summer_solstice.objectives.solar_essence"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_BEACH_CONTEST("quest.seasonal.summer_solstice.objectives.beach_contest"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_SWIMMING_RACE("quest.seasonal.summer_solstice.objectives.swimming_race"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_UNDERWATER_TREASURES("quest.seasonal.summer_solstice.objectives.underwater_treasures"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_GUARDIAN_CHALLENGE("quest.seasonal.summer_solstice.objectives.guardian_challenge"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_SUMMER_FLOWERS("quest.seasonal.summer_solstice.objectives.summer_flowers"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_YELLOW_FLOWERS("quest.seasonal.summer_solstice.objectives.yellow_flowers"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_FLOWER_GARDEN("quest.seasonal.summer_solstice.objectives.flower_garden"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_FLOWER_CROWN_DELIVERY("quest.seasonal.summer_solstice.objectives.flower_crown_delivery"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_SUN_OFFERING("quest.seasonal.summer_solstice.objectives.sun_offering"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_SUN_BLESSING("quest.seasonal.summer_solstice.objectives.sun_blessing"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_SUN_PRIEST("quest.seasonal.summer_solstice.objectives.sun_priest"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_FESTIVAL_TREATS("quest.seasonal.summer_solstice.objectives.festival_treats"),
-    QUEST_SEASONAL_SUMMER_SOLSTICE_OBJECTIVES_FESTIVAL_COMPLETE("quest.seasonal.summer_solstice.objectives.festival_complete"),
-
-    // Thanksgiving Quest
-    QUEST_SEASONAL_THANKSGIVING_NAME("quest.seasonal.thanksgiving.name"),
-    QUEST_SEASONAL_THANKSGIVING_INFO("quest.seasonal.thanksgiving.info"),
-    QUEST_SEASONAL_THANKSGIVING_DIALOGS("quest.seasonal.thanksgiving.dialogs"),
-    QUEST_SEASONAL_THANKSGIVING_NPC_NAME("quest.seasonal.thanksgiving.npc_name"),
-    QUEST_SEASONAL_THANKSGIVING_ACCEPT("quest.seasonal.thanksgiving.accept"),
-    QUEST_SEASONAL_THANKSGIVING_DECLINE("quest.seasonal.thanksgiving.decline"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HARVEST_ELDER("quest.seasonal.thanksgiving.objectives.harvest_elder"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HARVEST_FESTIVAL("quest.seasonal.thanksgiving.objectives.harvest_festival"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HARVEST_WHEAT("quest.seasonal.thanksgiving.objectives.harvest_wheat"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HARVEST_CARROTS("quest.seasonal.thanksgiving.objectives.harvest_carrots"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HARVEST_POTATOES("quest.seasonal.thanksgiving.objectives.harvest_potatoes"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HARVEST_PUMPKINS("quest.seasonal.thanksgiving.objectives.harvest_pumpkins"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_BREED_COWS("quest.seasonal.thanksgiving.objectives.breed_cows"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_BREED_PIGS("quest.seasonal.thanksgiving.objectives.breed_pigs"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_BREED_CHICKENS("quest.seasonal.thanksgiving.objectives.breed_chickens"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_COLLECT_MILK("quest.seasonal.thanksgiving.objectives.collect_milk"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_BAKE_BREAD("quest.seasonal.thanksgiving.objectives.bake_bread"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_MAKE_PUMPKIN_PIE("quest.seasonal.thanksgiving.objectives.make_pumpkin_pie"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_BAKE_COOKIES("quest.seasonal.thanksgiving.objectives.bake_cookies"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_MAKE_CAKE("quest.seasonal.thanksgiving.objectives.make_cake"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_DECORATE_HAY("quest.seasonal.thanksgiving.objectives.decorate_hay"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_PLACE_PUMPKINS("quest.seasonal.thanksgiving.objectives.place_pumpkins"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_AUTUMN_LEAVES("quest.seasonal.thanksgiving.objectives.autumn_leaves"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HARVEST_ALTAR("quest.seasonal.thanksgiving.objectives.harvest_altar"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_TURKEY_HUNT("quest.seasonal.thanksgiving.objectives.turkey_hunt"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_WILD_BOAR("quest.seasonal.thanksgiving.objectives.wild_boar"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_DEER_HUNT("quest.seasonal.thanksgiving.objectives.deer_hunt"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HUNTING_TROPHIES("quest.seasonal.thanksgiving.objectives.hunting_trophies"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_FOOD_DONATION("quest.seasonal.thanksgiving.objectives.food_donation"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_PIE_SHARING("quest.seasonal.thanksgiving.objectives.pie_sharing"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_CHARITY_DONATION("quest.seasonal.thanksgiving.objectives.charity_donation"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_GRATITUDE_CEREMONY("quest.seasonal.thanksgiving.objectives.gratitude_ceremony"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_JOIN_FEAST("quest.seasonal.thanksgiving.objectives.join_feast"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_THANKSGIVING_MEAL("quest.seasonal.thanksgiving.objectives.thanksgiving_meal"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_SHARE_DRINKS("quest.seasonal.thanksgiving.objectives.share_drinks"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_LEFTOVER_FOOD("quest.seasonal.thanksgiving.objectives.leftover_food"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HELP_CLEANUP("quest.seasonal.thanksgiving.objectives.help_cleanup"),
-    QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_FESTIVAL_THANKS("quest.seasonal.thanksgiving.objectives.festival_thanks"),
-
-    // Valentine Love Quest
-    QUEST_SEASONAL_VALENTINE_LOVE_NAME("quest.seasonal.valentine_love.name"),
-    QUEST_SEASONAL_VALENTINE_LOVE_INFO("quest.seasonal.valentine_love.info"),
-    QUEST_SEASONAL_VALENTINE_LOVE_DIALOGS("quest.seasonal.valentine_love.dialogs"),
-    QUEST_SEASONAL_VALENTINE_LOVE_NPC_NAME("quest.seasonal.valentine_love.npc_name"),
-    QUEST_SEASONAL_VALENTINE_LOVE_ACCEPT("quest.seasonal.valentine_love.accept"),
-    QUEST_SEASONAL_VALENTINE_LOVE_DECLINE("quest.seasonal.valentine_love.decline"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_CUPID_MESSENGER("quest.seasonal.valentine_love.objectives.cupid_messenger"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_LOVE_PLAZA("quest.seasonal.valentine_love.objectives.love_plaza"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_RED_ROSES("quest.seasonal.valentine_love.objectives.red_roses"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_PINK_TULIPS("quest.seasonal.valentine_love.objectives.pink_tulips"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_LOVE_PETALS("quest.seasonal.valentine_love.objectives.love_petals"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_FLOWER_BOUQUET("quest.seasonal.valentine_love.objectives.flower_bouquet"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_COCOA_BEANS("quest.seasonal.valentine_love.objectives.cocoa_beans"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_SUGAR_CANE("quest.seasonal.valentine_love.objectives.sugar_cane"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_MILK_BUCKETS("quest.seasonal.valentine_love.objectives.milk_buckets"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_CHOCOLATE_BARS("quest.seasonal.valentine_love.objectives.chocolate_bars"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_HEART_CAKE("quest.seasonal.valentine_love.objectives.heart_cake"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_RED_WOOL("quest.seasonal.valentine_love.objectives.red_wool"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_PINK_WOOL("quest.seasonal.valentine_love.objectives.pink_wool"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_LOVE_BANNERS("quest.seasonal.valentine_love.objectives.love_banners"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_HEART_DECORATIONS("quest.seasonal.valentine_love.objectives.heart_decorations"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_LOVE_LETTERS("quest.seasonal.valentine_love.objectives.love_letters"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_LETTER_DELIVERY_1("quest.seasonal.valentine_love.objectives.letter_delivery_1"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_LETTER_DELIVERY_2("quest.seasonal.valentine_love.objectives.letter_delivery_2"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_POSTMAN_HELPER("quest.seasonal.valentine_love.objectives.postman_helper"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_DANCE_HALL("quest.seasonal.valentine_love.objectives.dance_hall"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_DANCE_PARTNER("quest.seasonal.valentine_love.objectives.dance_partner"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_ROMANTIC_DANCE("quest.seasonal.valentine_love.objectives.romantic_dance"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_PARTY_FIREWORKS("quest.seasonal.valentine_love.objectives.party_fireworks"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_LOVE_HERBS("quest.seasonal.valentine_love.objectives.love_herbs"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_ROMANTIC_MUSHROOMS("quest.seasonal.valentine_love.objectives.romantic_mushrooms"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_BREW_LOVE_POTION("quest.seasonal.valentine_love.objectives.brew_love_potion"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_POTION_DELIVERY("quest.seasonal.valentine_love.objectives.potion_delivery"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_BRIDE_AND_GROOM("quest.seasonal.valentine_love.objectives.bride_and_groom"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_WEDDING_AISLE("quest.seasonal.valentine_love.objectives.wedding_aisle"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_FLOWER_ARCH("quest.seasonal.valentine_love.objectives.flower_arch"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_WEDDING_CAKE("quest.seasonal.valentine_love.objectives.wedding_cake"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_POEM_SCROLLS("quest.seasonal.valentine_love.objectives.poem_scrolls"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_POETRY_READING("quest.seasonal.valentine_love.objectives.poetry_reading"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_POEM_GIFT("quest.seasonal.valentine_love.objectives.poem_gift"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_FRIENDSHIP_TOKENS("quest.seasonal.valentine_love.objectives.friendship_tokens"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_LOVE_BLESSING("quest.seasonal.valentine_love.objectives.love_blessing"),
-    QUEST_SEASONAL_VALENTINE_LOVE_OBJECTIVES_FESTIVAL_END("quest.seasonal.valentine_love.objectives.festival_end"),
-
-    // Winter Frost Quest
-    QUEST_SEASONAL_WINTER_FROST_NAME("quest.seasonal.winter_frost.name"),
-    QUEST_SEASONAL_WINTER_FROST_INFO("quest.seasonal.winter_frost.info"),
-    QUEST_SEASONAL_WINTER_FROST_DIALOGS("quest.seasonal.winter_frost.dialogs"),
-    QUEST_SEASONAL_WINTER_FROST_NPC_NAME("quest.seasonal.winter_frost.npc_name"),
-    QUEST_SEASONAL_WINTER_FROST_ACCEPT("quest.seasonal.winter_frost.accept"),
-    QUEST_SEASONAL_WINTER_FROST_DECLINE("quest.seasonal.winter_frost.decline"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_WINTER_GUARDIAN("quest.seasonal.winter_frost.objectives.winter_guardian"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_FROZEN_PLAZA("quest.seasonal.winter_frost.objectives.frozen_plaza"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_HARVEST_ICE("quest.seasonal.winter_frost.objectives.harvest_ice"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_PACKED_ICE("quest.seasonal.winter_frost.objectives.packed_ice"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_BLUE_ICE("quest.seasonal.winter_frost.objectives.blue_ice"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_SNOW_BLOCKS("quest.seasonal.winter_frost.objectives.snow_blocks"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_SNOWMAN_SMALL("quest.seasonal.winter_frost.objectives.snowman_small"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_SNOWMAN_LARGE("quest.seasonal.winter_frost.objectives.snowman_large"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_SNOWMAN_DECORATION("quest.seasonal.winter_frost.objectives.snowman_decoration"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_SNOWMAN_ARMS("quest.seasonal.winter_frost.objectives.snowman_arms"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_ICE_SCULPTURES("quest.seasonal.winter_frost.objectives.ice_sculptures"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_ICE_ART_GALLERY("quest.seasonal.winter_frost.objectives.ice_art_gallery"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_ICE_CASTLE("quest.seasonal.winter_frost.objectives.ice_castle"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_CRYSTAL_LIGHTS("quest.seasonal.winter_frost.objectives.crystal_lights"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_POLAR_BEARS("quest.seasonal.winter_frost.objectives.polar_bears"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_FEED_WOLVES("quest.seasonal.winter_frost.objectives.feed_wolves"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_TAME_FOXES("quest.seasonal.winter_frost.objectives.tame_foxes"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_ARCTIC_FISH("quest.seasonal.winter_frost.objectives.arctic_fish"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_FROZEN_LAKE("quest.seasonal.winter_frost.objectives.frozen_lake"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_BREAK_ICE_HOLES("quest.seasonal.winter_frost.objectives.break_ice_holes"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_ICE_FISHING("quest.seasonal.winter_frost.objectives.ice_fishing"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_WINTER_TREASURES("quest.seasonal.winter_frost.objectives.winter_treasures"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_FROST_CRYSTALS("quest.seasonal.winter_frost.objectives.frost_crystals"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_BREW_FROST_POTION("quest.seasonal.winter_frost.objectives.brew_frost_potion"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_ICE_WEAPONS("quest.seasonal.winter_frost.objectives.ice_weapons"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_FROST_ENCHANTMENT("quest.seasonal.winter_frost.objectives.frost_enchantment"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_WINTER_VEGETABLES("quest.seasonal.winter_frost.objectives.winter_vegetables"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_HOT_SOUP("quest.seasonal.winter_frost.objectives.hot_soup"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_WARM_BREAD("quest.seasonal.winter_frost.objectives.warm_bread"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_SHARE_WARMTH("quest.seasonal.winter_frost.objectives.share_warmth"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_FROST_ARENA("quest.seasonal.winter_frost.objectives.frost_arena"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_ICE_ELEMENTALS("quest.seasonal.winter_frost.objectives.ice_elementals"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_FROST_SPIDERS("quest.seasonal.winter_frost.objectives.frost_spiders"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_WINTER_BOSS("quest.seasonal.winter_frost.objectives.winter_boss"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_WINTER_GIFTS("quest.seasonal.winter_frost.objectives.winter_gifts"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_CELEBRATION_BONFIRE("quest.seasonal.winter_frost.objectives.celebration_bonfire"),
-    QUEST_SEASONAL_WINTER_FROST_OBJECTIVES_WINTER_BLESSING("quest.seasonal.winter_frost.objectives.winter_blessing"),
-
-    // ===== SPECIAL QUEST LANG KEYS =====
-    // Curse Removal Quest  
-    QUEST_SPECIAL_CURSE_REMOVAL_NAME("quest.special.curse_removal.name"),
-    QUEST_SPECIAL_CURSE_REMOVAL_INFO("quest.special.curse_removal.info"),
-    QUEST_SPECIAL_CURSE_REMOVAL_DIALOGS("quest.special.curse_removal.dialogs"),
-    QUEST_SPECIAL_CURSE_REMOVAL_NPC_NAME("quest.special.curse_removal.npc_name"),
-    QUEST_SPECIAL_CURSE_REMOVAL_ACCEPT("quest.special.curse_removal.accept"),
-    QUEST_SPECIAL_CURSE_REMOVAL_DECLINE("quest.special.curse_removal.decline"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_CURSE_INVESTIGATOR("quest.special.curse_removal.objectives.curse_investigator"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_CURSED_RUINS("quest.special.curse_removal.objectives.cursed_ruins"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_CURSE_EVIDENCE("quest.special.curse_removal.objectives.curse_evidence"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_HOLY_WATER("quest.special.curse_removal.objectives.holy_water"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_PURIFICATION_SALT("quest.special.curse_removal.objectives.purification_salt"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_BLESSED_CANDLES("quest.special.curse_removal.objectives.blessed_candles"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_SACRED_HERBS("quest.special.curse_removal.objectives.sacred_herbs"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_PURIFY_ZOMBIES("quest.special.curse_removal.objectives.purify_zombies"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_PURIFY_SKELETONS("quest.special.curse_removal.objectives.purify_skeletons"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_PURIFY_PHANTOMS("quest.special.curse_removal.objectives.purify_phantoms"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_CORRUPTED_ESSENCE("quest.special.curse_removal.objectives.corrupted_essence"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_CURSED_ITEMS("quest.special.curse_removal.objectives.cursed_items"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_CLEANSE_WEAPONS("quest.special.curse_removal.objectives.cleanse_weapons"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_CLEANSE_ARMOR("quest.special.curse_removal.objectives.cleanse_armor"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_HOLY_SYMBOLS("quest.special.curse_removal.objectives.holy_symbols"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_DARK_ALTAR("quest.special.curse_removal.objectives.dark_altar"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_DESTROY_ALTAR("quest.special.curse_removal.objectives.destroy_altar"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_ALTAR_GUARDIANS("quest.special.curse_removal.objectives.altar_guardians"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_DARK_CRYSTALS("quest.special.curse_removal.objectives.dark_crystals"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_PURIFICATION_CIRCLE("quest.special.curse_removal.objectives.purification_circle"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_RITUAL_CANDLES("quest.special.curse_removal.objectives.ritual_candles"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_HOLY_BLESSING("quest.special.curse_removal.objectives.holy_blessing"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_PURIFICATION_RITUAL("quest.special.curse_removal.objectives.purification_ritual"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_CURSE_SOURCE("quest.special.curse_removal.objectives.curse_source"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_CURSE_MASTER("quest.special.curse_removal.objectives.curse_master"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_CURSE_CORE("quest.special.curse_removal.objectives.curse_core"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_DESTROY_CURSE_CORE("quest.special.curse_removal.objectives.destroy_curse_core"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_PURIFICATION_COMPLETE("quest.special.curse_removal.objectives.purification_complete"),
-    QUEST_SPECIAL_CURSE_REMOVAL_OBJECTIVES_BLESSING_RECEIVED("quest.special.curse_removal.objectives.blessing_received"),
-
-    // Dimension Traveler Quest
-    QUEST_SPECIAL_DIMENSION_TRAVELER_NAME("quest.special.dimension_traveler.name"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_INFO("quest.special.dimension_traveler.info"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_DIALOGS("quest.special.dimension_traveler.dialogs"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_NPC_NAME("quest.special.dimension_traveler.npc_name"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_ACCEPT("quest.special.dimension_traveler.accept"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_DECLINE("quest.special.dimension_traveler.decline"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_DIMENSION_SCHOLAR("quest.special.dimension_traveler.objectives.dimension_scholar"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_DIMENSION_THEORY("quest.special.dimension_traveler.objectives.dimension_theory"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_DIMENSION_LAB("quest.special.dimension_traveler.objectives.dimension_lab"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_NETHER_DIMENSION("quest.special.dimension_traveler.objectives.nether_dimension"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_NETHER_ESSENCE("quest.special.dimension_traveler.objectives.nether_essence"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_NETHER_CREATURES("quest.special.dimension_traveler.objectives.nether_creatures"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_SOUL_FRAGMENTS("quest.special.dimension_traveler.objectives.soul_fragments"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_END_DIMENSION("quest.special.dimension_traveler.objectives.end_dimension"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_ENDER_DRAGON("quest.special.dimension_traveler.objectives.ender_dragon"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_DRAGON_BREATH("quest.special.dimension_traveler.objectives.dragon_breath"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_END_CRYSTALS("quest.special.dimension_traveler.objectives.end_crystals"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_DIMENSION_PORTAL("quest.special.dimension_traveler.objectives.dimension_portal"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_ENDER_PEARLS("quest.special.dimension_traveler.objectives.ender_pearls"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_PORTAL_FRAME("quest.special.dimension_traveler.objectives.portal_frame"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_ACTIVATE_PORTAL("quest.special.dimension_traveler.objectives.activate_portal"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_VOID_DIMENSION("quest.special.dimension_traveler.objectives.void_dimension"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_VOID_SURVIVAL("quest.special.dimension_traveler.objectives.void_survival"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_VOID_CRYSTALS("quest.special.dimension_traveler.objectives.void_crystals"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_VOID_ENTITIES("quest.special.dimension_traveler.objectives.void_entities"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_TIME_DIMENSION("quest.special.dimension_traveler.objectives.time_dimension"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_TIME_FRAGMENTS("quest.special.dimension_traveler.objectives.time_fragments"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_FIX_TIMELINE("quest.special.dimension_traveler.objectives.fix_timeline"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_TEMPORAL_ESSENCE("quest.special.dimension_traveler.objectives.temporal_essence"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_DIMENSION_CATALYST("quest.special.dimension_traveler.objectives.dimension_catalyst"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_FUSION_EXPERIMENT("quest.special.dimension_traveler.objectives.fusion_experiment"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_STABILIZE_RIFT("quest.special.dimension_traveler.objectives.stabilize_rift"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_DIMENSION_THRONE("quest.special.dimension_traveler.objectives.dimension_throne"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_DIMENSION_LORD("quest.special.dimension_traveler.objectives.dimension_lord"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_DIMENSION_CROWN("quest.special.dimension_traveler.objectives.dimension_crown"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_DIMENSION_TRAVEL("quest.special.dimension_traveler.objectives.dimension_travel"),
-    QUEST_SPECIAL_DIMENSION_TRAVELER_OBJECTIVES_MASTER_GRADUATION("quest.special.dimension_traveler.objectives.master_graduation"),
-
-    // Divine Blessing Quest
-    QUEST_SPECIAL_DIVINE_BLESSING_NAME("quest.special.divine_blessing.name"),
-    QUEST_SPECIAL_DIVINE_BLESSING_INFO("quest.special.divine_blessing.info"),
-    QUEST_SPECIAL_DIVINE_BLESSING_DIALOGS("quest.special.divine_blessing.dialogs"),
-    QUEST_SPECIAL_DIVINE_BLESSING_NPC_NAME("quest.special.divine_blessing.npc_name"),
-    QUEST_SPECIAL_DIVINE_BLESSING_ACCEPT("quest.special.divine_blessing.accept"),
-    QUEST_SPECIAL_DIVINE_BLESSING_DECLINE("quest.special.divine_blessing.decline"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DIVINE_MESSENGER("quest.special.divine_blessing.objectives.divine_messenger"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_CELESTIAL_TEMPLE("quest.special.divine_blessing.objectives.celestial_temple"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_HOLY_SCRIPTURES("quest.special.divine_blessing.objectives.holy_scriptures"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_SACRED_PILGRIMAGE("quest.special.divine_blessing.objectives.sacred_pilgrimage"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_TEMPLE_DONATIONS("quest.special.divine_blessing.objectives.temple_donations"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DAILY_PRAYERS("quest.special.divine_blessing.objectives.daily_prayers"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_SPIRITUAL_FASTING("quest.special.divine_blessing.objectives.spiritual_fasting"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_HEAL_WOUNDED("quest.special.divine_blessing.objectives.heal_wounded"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_FEED_POOR("quest.special.divine_blessing.objectives.feed_poor"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_GUARD_VILLAGERS("quest.special.divine_blessing.objectives.guard_villagers"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_CHARITY_WORK("quest.special.divine_blessing.objectives.charity_work"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_VANQUISH_UNDEAD("quest.special.divine_blessing.objectives.vanquish_undead"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DESTROY_DEMONS("quest.special.divine_blessing.objectives.destroy_demons"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_BANISH_SPIRITS("quest.special.divine_blessing.objectives.banish_spirits"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_CLEANSE_CORRUPTION("quest.special.divine_blessing.objectives.cleanse_corruption"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_ANGEL_FEATHERS("quest.special.divine_blessing.objectives.angel_feathers"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_HOLY_WATER("quest.special.divine_blessing.objectives.holy_water"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_BLESSED_GOLD("quest.special.divine_blessing.objectives.blessed_gold"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DIVINE_CHALICE("quest.special.divine_blessing.objectives.divine_chalice"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_HEAVEN_REALM("quest.special.divine_blessing.objectives.heaven_realm"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DIVINE_TRIAL("quest.special.divine_blessing.objectives.divine_trial"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_HEAVENLY_WISDOM("quest.special.divine_blessing.objectives.heavenly_wisdom"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_FINAL_JUDGMENT("quest.special.divine_blessing.objectives.final_judgment"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DIVINE_BLESSING("quest.special.divine_blessing.objectives.divine_blessing"),
-    QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_BLESSING_CEREMONY("quest.special.divine_blessing.objectives.blessing_ceremony"),
-
-    // Hidden Class Quest
-    QUEST_SPECIAL_HIDDEN_CLASS_NAME("quest.special.hidden_class.name"),
-    QUEST_SPECIAL_HIDDEN_CLASS_INFO("quest.special.hidden_class.info"),
-    QUEST_SPECIAL_HIDDEN_CLASS_DIALOGS("quest.special.hidden_class.dialogs"),
-    QUEST_SPECIAL_HIDDEN_CLASS_NPC_NAME("quest.special.hidden_class.npc_name"),
-    QUEST_SPECIAL_HIDDEN_CLASS_ACCEPT("quest.special.hidden_class.accept"),
-    QUEST_SPECIAL_HIDDEN_CLASS_DECLINE("quest.special.hidden_class.decline"),
-    QUEST_SPECIAL_HIDDEN_CLASS_OBJECTIVES_CLASS_MASTER("quest.special.hidden_class.objectives.class_master"),
-    QUEST_SPECIAL_HIDDEN_CLASS_OBJECTIVES_HIDDEN_KNOWLEDGE("quest.special.hidden_class.objectives.hidden_knowledge"),
-    QUEST_SPECIAL_HIDDEN_CLASS_OBJECTIVES_MASTERY_TRIAL("quest.special.hidden_class.objectives.mastery_trial"),
-    QUEST_SPECIAL_HIDDEN_CLASS_OBJECTIVES_HIDDEN_ABILITIES("quest.special.hidden_class.objectives.hidden_abilities"),
-
-    // Legendary Weapon Quest
-    QUEST_SPECIAL_LEGENDARY_WEAPON_NAME("quest.special.legendary_weapon.name"),
-    QUEST_SPECIAL_LEGENDARY_WEAPON_INFO("quest.special.legendary_weapon.info"),
-    QUEST_SPECIAL_LEGENDARY_WEAPON_DIALOGS("quest.special.legendary_weapon.dialogs"),
-    QUEST_SPECIAL_LEGENDARY_WEAPON_NPC_NAME("quest.special.legendary_weapon.npc_name"),
-    QUEST_SPECIAL_LEGENDARY_WEAPON_ACCEPT("quest.special.legendary_weapon.accept"),
-    QUEST_SPECIAL_LEGENDARY_WEAPON_DECLINE("quest.special.legendary_weapon.decline"),
-    QUEST_SPECIAL_LEGENDARY_WEAPON_OBJECTIVES_WEAPON_MASTER("quest.special.legendary_weapon.objectives.weapon_master"),
-    QUEST_SPECIAL_LEGENDARY_WEAPON_OBJECTIVES_RARE_MATERIALS("quest.special.legendary_weapon.objectives.rare_materials"),
-    QUEST_SPECIAL_LEGENDARY_WEAPON_OBJECTIVES_DRAGON_SCALES("quest.special.legendary_weapon.objectives.dragon_scales"),
-    QUEST_SPECIAL_LEGENDARY_WEAPON_OBJECTIVES_WORTHY_OPPONENTS("quest.special.legendary_weapon.objectives.worthy_opponents"),
-    QUEST_SPECIAL_LEGENDARY_WEAPON_OBJECTIVES_LEGENDARY_WEAPON("quest.special.legendary_weapon.objectives.legendary_weapon"),
-    QUEST_SPECIAL_LEGENDARY_WEAPON_OBJECTIVES_ULTIMATE_ENCHANT("quest.special.legendary_weapon.objectives.ultimate_enchant"),
-
-    // Mythic Beast Quest
-    QUEST_SPECIAL_MYTHIC_BEAST_NAME("quest.special.mythic_beast.name"),
-    QUEST_SPECIAL_MYTHIC_BEAST_INFO("quest.special.mythic_beast.info"),
-    QUEST_SPECIAL_MYTHIC_BEAST_DIALOGS("quest.special.mythic_beast.dialogs"),
-    QUEST_SPECIAL_MYTHIC_BEAST_NPC_NAME("quest.special.mythic_beast.npc_name"),
-    QUEST_SPECIAL_MYTHIC_BEAST_ACCEPT("quest.special.mythic_beast.accept"),
-    QUEST_SPECIAL_MYTHIC_BEAST_DECLINE("quest.special.mythic_beast.decline"),
-    QUEST_SPECIAL_MYTHIC_BEAST_OBJECTIVES_BEAST_HUNTER("quest.special.mythic_beast.objectives.beast_hunter"),
-    QUEST_SPECIAL_MYTHIC_BEAST_OBJECTIVES_MYTHIC_LAIR("quest.special.mythic_beast.objectives.mythic_lair"),
-    QUEST_SPECIAL_MYTHIC_BEAST_OBJECTIVES_MYTHIC_BEAST("quest.special.mythic_beast.objectives.mythic_beast"),
-    QUEST_SPECIAL_MYTHIC_BEAST_OBJECTIVES_BEAST_ESSENCE("quest.special.mythic_beast.objectives.beast_essence"),
-    QUEST_SPECIAL_MYTHIC_BEAST_OBJECTIVES_TAME_COMPANION("quest.special.mythic_beast.objectives.tame_companion"),
-
-    // Secret Society Quest
-    QUEST_SPECIAL_SECRET_SOCIETY_NAME("quest.special.secret_society.name"),
-    QUEST_SPECIAL_SECRET_SOCIETY_INFO("quest.special.secret_society.info"),
-    QUEST_SPECIAL_SECRET_SOCIETY_DIALOGS("quest.special.secret_society.dialogs"),
-    QUEST_SPECIAL_SECRET_SOCIETY_NPC_NAME("quest.special.secret_society.npc_name"),
-    QUEST_SPECIAL_SECRET_SOCIETY_ACCEPT("quest.special.secret_society.accept"),
-    QUEST_SPECIAL_SECRET_SOCIETY_DECLINE("quest.special.secret_society.decline"),
-    QUEST_SPECIAL_SECRET_SOCIETY_OBJECTIVES_SECRET_CONTACT("quest.special.secret_society.objectives.secret_contact"),
-    QUEST_SPECIAL_SECRET_SOCIETY_OBJECTIVES_INITIATION_TEST("quest.special.secret_society.objectives.initiation_test"),
-    QUEST_SPECIAL_SECRET_SOCIETY_OBJECTIVES_SECRET_DOCUMENTS("quest.special.secret_society.objectives.secret_documents"),
-    QUEST_SPECIAL_SECRET_SOCIETY_OBJECTIVES_COVERT_OPERATIONS("quest.special.secret_society.objectives.covert_operations"),
-    QUEST_SPECIAL_SECRET_SOCIETY_OBJECTIVES_SOCIETY_MEMBERSHIP("quest.special.secret_society.objectives.society_membership"),
-
-    // Time Limited Quest
-    QUEST_SPECIAL_TIME_LIMITED_NAME("quest.special.time_limited.name"),
-    QUEST_SPECIAL_TIME_LIMITED_INFO("quest.special.time_limited.info"),
-    QUEST_SPECIAL_TIME_LIMITED_DIALOGS("quest.special.time_limited.dialogs"),
-    QUEST_SPECIAL_TIME_LIMITED_NPC_NAME("quest.special.time_limited.npc_name"),
-    QUEST_SPECIAL_TIME_LIMITED_ACCEPT("quest.special.time_limited.accept"),
-    QUEST_SPECIAL_TIME_LIMITED_DECLINE("quest.special.time_limited.decline"),
-    QUEST_SPECIAL_TIME_LIMITED_OBJECTIVES_URGENT_MESSENGER("quest.special.time_limited.objectives.urgent_messenger"),
-    QUEST_SPECIAL_TIME_LIMITED_OBJECTIVES_SPEED_CHALLENGE("quest.special.time_limited.objectives.speed_challenge"),
-    QUEST_SPECIAL_TIME_LIMITED_OBJECTIVES_TIME_CRYSTALS("quest.special.time_limited.objectives.time_crystals"),
-    QUEST_SPECIAL_TIME_LIMITED_OBJECTIVES_TEMPORAL_ENEMIES("quest.special.time_limited.objectives.temporal_enemies"),
-    QUEST_SPECIAL_TIME_LIMITED_OBJECTIVES_URGENT_DELIVERY("quest.special.time_limited.objectives.urgent_delivery"),
-
-    // World Tree Quest
-    QUEST_SPECIAL_WORLD_TREE_NAME("quest.special.world_tree.name"),
-    QUEST_SPECIAL_WORLD_TREE_INFO("quest.special.world_tree.info"),
-    QUEST_SPECIAL_WORLD_TREE_DIALOGS("quest.special.world_tree.dialogs"),
-    QUEST_SPECIAL_WORLD_TREE_NPC_NAME("quest.special.world_tree.npc_name"),
-    QUEST_SPECIAL_WORLD_TREE_ACCEPT("quest.special.world_tree.accept"),
-    QUEST_SPECIAL_WORLD_TREE_DECLINE("quest.special.world_tree.decline"),
-    QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_TREE_GUARDIAN("quest.special.world_tree.objectives.tree_guardian"),
-    QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_WORLD_TREE("quest.special.world_tree.objectives.world_tree"),
-    QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_LIFE_ESSENCE("quest.special.world_tree.objectives.life_essence"),
-    QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_PLANT_SAPLING("quest.special.world_tree.objectives.plant_sapling"),
-    QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_CARE_FOR_TREE("quest.special.world_tree.objectives.care_for_tree"),
-    QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_DEFEND_TREE("quest.special.world_tree.objectives.defend_tree"),
-    QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_TREE_BLESSING("quest.special.world_tree.objectives.tree_blessing"),
-
-    // ===== LIFE QUEST LANG KEYS =====
-    // Master Chef Quest
-    QUEST_LIFE_MASTER_CHEF_NAME("quest.life.master_chef.name"),
-    QUEST_LIFE_MASTER_CHEF_INFO("quest.life.master_chef.info"),
-    QUEST_LIFE_MASTER_CHEF_DIALOGS("quest.life.master_chef.dialogs"),
-    QUEST_LIFE_MASTER_CHEF_NPC_NAME("quest.life.master_chef.npc_name"),
-    QUEST_LIFE_MASTER_CHEF_ACCEPT("quest.life.master_chef.accept"),
-    QUEST_LIFE_MASTER_CHEF_DECLINE("quest.life.master_chef.decline"),
-    QUEST_LIFE_MASTER_CHEF_OBJECTIVES_HEAD_CHEF("quest.life.master_chef.objectives.head_chef"),
-    QUEST_LIFE_MASTER_CHEF_OBJECTIVES_COOKING_BASICS("quest.life.master_chef.objectives.cooking_basics"),
-    QUEST_LIFE_MASTER_CHEF_OBJECTIVES_INGREDIENT_GATHERING("quest.life.master_chef.objectives.ingredient_gathering"),
-    QUEST_LIFE_MASTER_CHEF_OBJECTIVES_RECIPE_COLLECTION("quest.life.master_chef.objectives.recipe_collection"),
-    QUEST_LIFE_MASTER_CHEF_OBJECTIVES_MASTER_RECIPES("quest.life.master_chef.objectives.master_recipes"),
-    QUEST_LIFE_MASTER_CHEF_OBJECTIVES_COOKING_COMPETITION("quest.life.master_chef.objectives.cooking_competition"),
-    QUEST_LIFE_MASTER_CHEF_OBJECTIVES_LEGENDARY_DISH("quest.life.master_chef.objectives.legendary_dish"),
-
-    // Farming Expert Quest
-    QUEST_LIFE_FARMING_EXPERT_NAME("quest.life.farming_expert.name"),
-    QUEST_LIFE_FARMING_EXPERT_INFO("quest.life.farming_expert.info"),
-    QUEST_LIFE_FARMING_EXPERT_DIALOGS("quest.life.farming_expert.dialogs"),
-    QUEST_LIFE_FARMING_EXPERT_NPC_NAME("quest.life.farming_expert.npc_name"),
-    QUEST_LIFE_FARMING_EXPERT_ACCEPT("quest.life.farming_expert.accept"),
-    QUEST_LIFE_FARMING_EXPERT_DECLINE("quest.life.farming_expert.decline"),
-    QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_AGRICULTURAL_MASTER("quest.life.farming_expert.objectives.agricultural_master"),
-    QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_CROP_DIVERSITY("quest.life.farming_expert.objectives.crop_diversity"),
-    QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_HARVEST_MASTERY("quest.life.farming_expert.objectives.harvest_mastery"),
-    QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_ANIMAL_HUSBANDRY("quest.life.farming_expert.objectives.animal_husbandry"),
-    QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_ADVANCED_FARMING("quest.life.farming_expert.objectives.advanced_farming"),
-    QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_FARM_EXPANSION("quest.life.farming_expert.objectives.farm_expansion"),
-    QUEST_LIFE_FARMING_EXPERT_OBJECTIVES_AGRICULTURAL_INNOVATION("quest.life.farming_expert.objectives.agricultural_innovation"),
-
-    // Merchant Tycoon Quest
-    QUEST_LIFE_MERCHANT_TYCOON_NAME("quest.life.merchant_tycoon.name"),
-    QUEST_LIFE_MERCHANT_TYCOON_INFO("quest.life.merchant_tycoon.info"),
-    QUEST_LIFE_MERCHANT_TYCOON_DIALOGS("quest.life.merchant_tycoon.dialogs"),
-    QUEST_LIFE_MERCHANT_TYCOON_NPC_NAME("quest.life.merchant_tycoon.npc_name"),
-    QUEST_LIFE_MERCHANT_TYCOON_ACCEPT("quest.life.merchant_tycoon.accept"),
-    QUEST_LIFE_MERCHANT_TYCOON_DECLINE("quest.life.merchant_tycoon.decline"),
-    QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_MERCHANT_GUILD("quest.life.merchant_tycoon.objectives.merchant_guild"),
-    QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_TRADING_BASICS("quest.life.merchant_tycoon.objectives.trading_basics"),
-    QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_MARKET_EXPANSION("quest.life.merchant_tycoon.objectives.market_expansion"),
-    QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_WEALTH_ACCUMULATION("quest.life.merchant_tycoon.objectives.wealth_accumulation"),
-    QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_TRADE_ROUTES("quest.life.merchant_tycoon.objectives.trade_routes"),
-    QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_BUSINESS_EMPIRE("quest.life.merchant_tycoon.objectives.business_empire"),
-    QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_ECONOMIC_DOMINANCE("quest.life.merchant_tycoon.objectives.economic_dominance"),
-
-    // ===== REPEATABLE QUEST LANG KEYS =====
-    // Equipment Upgrade Quest
-    QUEST_REPEATABLE_EQUIPMENT_UPGRADE_NAME("quest.repeatable.equipment_upgrade.name"),
-    QUEST_REPEATABLE_EQUIPMENT_UPGRADE_INFO("quest.repeatable.equipment_upgrade.info"),
-    QUEST_REPEATABLE_EQUIPMENT_UPGRADE_DIALOGS("quest.repeatable.equipment_upgrade.dialogs"),
-    QUEST_REPEATABLE_EQUIPMENT_UPGRADE_NPC_NAME("quest.repeatable.equipment_upgrade.npc_name"),
-    QUEST_REPEATABLE_EQUIPMENT_UPGRADE_ACCEPT("quest.repeatable.equipment_upgrade.accept"),
-    QUEST_REPEATABLE_EQUIPMENT_UPGRADE_DECLINE("quest.repeatable.equipment_upgrade.decline"),
-    QUEST_REPEATABLE_EQUIPMENT_UPGRADE_OBJECTIVES_EQUIPMENT_SMITH("quest.repeatable.equipment_upgrade.objectives.equipment_smith"),
-    QUEST_REPEATABLE_EQUIPMENT_UPGRADE_OBJECTIVES_UPGRADE_MATERIALS("quest.repeatable.equipment_upgrade.objectives.upgrade_materials"),
-    QUEST_REPEATABLE_EQUIPMENT_UPGRADE_OBJECTIVES_ENHANCEMENT_STONES("quest.repeatable.equipment_upgrade.objectives.enhancement_stones"),
-    QUEST_REPEATABLE_EQUIPMENT_UPGRADE_OBJECTIVES_UPGRADE_PROCESS("quest.repeatable.equipment_upgrade.objectives.upgrade_process"),
-
-    // Monster Extermination Quest
-    QUEST_REPEATABLE_MONSTER_EXTERMINATION_NAME("quest.repeatable.monster_extermination.name"),
-    QUEST_REPEATABLE_MONSTER_EXTERMINATION_INFO("quest.repeatable.monster_extermination.info"),
-    QUEST_REPEATABLE_MONSTER_EXTERMINATION_DIALOGS("quest.repeatable.monster_extermination.dialogs"),
-    QUEST_REPEATABLE_MONSTER_EXTERMINATION_NPC_NAME("quest.repeatable.monster_extermination.npc_name"),
-    QUEST_REPEATABLE_MONSTER_EXTERMINATION_ACCEPT("quest.repeatable.monster_extermination.accept"),
-    QUEST_REPEATABLE_MONSTER_EXTERMINATION_DECLINE("quest.repeatable.monster_extermination.decline"),
-    QUEST_REPEATABLE_MONSTER_EXTERMINATION_OBJECTIVES_EXTERMINATOR("quest.repeatable.monster_extermination.objectives.exterminator"),
-    QUEST_REPEATABLE_MONSTER_EXTERMINATION_OBJECTIVES_TARGET_MONSTERS("quest.repeatable.monster_extermination.objectives.target_monsters"),
-    QUEST_REPEATABLE_MONSTER_EXTERMINATION_OBJECTIVES_ELIMINATION_PROOF("quest.repeatable.monster_extermination.objectives.elimination_proof"),
-
-    // Resource Collection Quest
-    QUEST_REPEATABLE_RESOURCE_COLLECTION_NAME("quest.repeatable.resource_collection.name"),
-    QUEST_REPEATABLE_RESOURCE_COLLECTION_INFO("quest.repeatable.resource_collection.info"),
-    QUEST_REPEATABLE_RESOURCE_COLLECTION_DIALOGS("quest.repeatable.resource_collection.dialogs"),
-    QUEST_REPEATABLE_RESOURCE_COLLECTION_NPC_NAME("quest.repeatable.resource_collection.npc_name"),
-    QUEST_REPEATABLE_RESOURCE_COLLECTION_ACCEPT("quest.repeatable.resource_collection.accept"),
-    QUEST_REPEATABLE_RESOURCE_COLLECTION_DECLINE("quest.repeatable.resource_collection.decline"),
-    QUEST_REPEATABLE_RESOURCE_COLLECTION_OBJECTIVES_RESOURCE_MANAGER("quest.repeatable.resource_collection.objectives.resource_manager"),
-    QUEST_REPEATABLE_RESOURCE_COLLECTION_OBJECTIVES_GATHER_RESOURCES("quest.repeatable.resource_collection.objectives.gather_resources"),
-    QUEST_REPEATABLE_RESOURCE_COLLECTION_OBJECTIVES_DELIVER_RESOURCES("quest.repeatable.resource_collection.objectives.deliver_resources"),
-
-    // ===== COMBAT QUEST LANG KEYS =====
-    // Arena Gladiator Quest
-    QUEST_COMBAT_ARENA_GLADIATOR_NAME("quest.combat.arena_gladiator.name"),
-    QUEST_COMBAT_ARENA_GLADIATOR_INFO("quest.combat.arena_gladiator.info"),
-    QUEST_COMBAT_ARENA_GLADIATOR_DIALOGS("quest.combat.arena_gladiator.dialogs"),
-    QUEST_COMBAT_ARENA_GLADIATOR_NPC_NAME("quest.combat.arena_gladiator.npc_name"),
-    QUEST_COMBAT_ARENA_GLADIATOR_ACCEPT("quest.combat.arena_gladiator.accept"),
-    QUEST_COMBAT_ARENA_GLADIATOR_DECLINE("quest.combat.arena_gladiator.decline"),
-    QUEST_COMBAT_ARENA_GLADIATOR_OBJECTIVES_ARENA_MASTER("quest.combat.arena_gladiator.objectives.arena_master"),
-    QUEST_COMBAT_ARENA_GLADIATOR_OBJECTIVES_COMBAT_TRAINING("quest.combat.arena_gladiator.objectives.combat_training"),
-    QUEST_COMBAT_ARENA_GLADIATOR_OBJECTIVES_GLADIATOR_FIGHTS("quest.combat.arena_gladiator.objectives.gladiator_fights"),
-    QUEST_COMBAT_ARENA_GLADIATOR_OBJECTIVES_CHAMPIONSHIP_TOURNAMENT("quest.combat.arena_gladiator.objectives.championship_tournament"),
-
-    // Boss Slayer Quest
-    QUEST_COMBAT_BOSS_SLAYER_NAME("quest.combat.boss_slayer.name"),
-    QUEST_COMBAT_BOSS_SLAYER_INFO("quest.combat.boss_slayer.info"),
-    QUEST_COMBAT_BOSS_SLAYER_DIALOGS("quest.combat.boss_slayer.dialogs"),
-    QUEST_COMBAT_BOSS_SLAYER_NPC_NAME("quest.combat.boss_slayer.npc_name"),
-    QUEST_COMBAT_BOSS_SLAYER_ACCEPT("quest.combat.boss_slayer.accept"),
-    QUEST_COMBAT_BOSS_SLAYER_DECLINE("quest.combat.boss_slayer.decline"),
-    QUEST_COMBAT_BOSS_SLAYER_OBJECTIVES_MONSTER_HUNTER("quest.combat.boss_slayer.objectives.monster_hunter"),
-    QUEST_COMBAT_BOSS_SLAYER_OBJECTIVES_ELITE_BOSSES("quest.combat.boss_slayer.objectives.elite_bosses"),
-    QUEST_COMBAT_BOSS_SLAYER_OBJECTIVES_LEGENDARY_BOSSES("quest.combat.boss_slayer.objectives.legendary_bosses"),
-    QUEST_COMBAT_BOSS_SLAYER_OBJECTIVES_ULTIMATE_BOSS("quest.combat.boss_slayer.objectives.ultimate_boss"),
-
-    // Survival Expert Quest
-    QUEST_COMBAT_SURVIVAL_EXPERT_NAME("quest.combat.survival_expert.name"),
-    QUEST_COMBAT_SURVIVAL_EXPERT_INFO("quest.combat.survival_expert.info"),
-    QUEST_COMBAT_SURVIVAL_EXPERT_DIALOGS("quest.combat.survival_expert.dialogs"),
-    QUEST_COMBAT_SURVIVAL_EXPERT_NPC_NAME("quest.combat.survival_expert.npc_name"),
-    QUEST_COMBAT_SURVIVAL_EXPERT_ACCEPT("quest.combat.survival_expert.accept"),
-    QUEST_COMBAT_SURVIVAL_EXPERT_DECLINE("quest.combat.survival_expert.decline"),
-    QUEST_COMBAT_SURVIVAL_EXPERT_OBJECTIVES_SURVIVAL_INSTRUCTOR("quest.combat.survival_expert.objectives.survival_instructor"),
-    QUEST_COMBAT_SURVIVAL_EXPERT_OBJECTIVES_WILDERNESS_SURVIVAL("quest.combat.survival_expert.objectives.wilderness_survival"),
-    QUEST_COMBAT_SURVIVAL_EXPERT_OBJECTIVES_EXTREME_CONDITIONS("quest.combat.survival_expert.objectives.extreme_conditions"),
-    QUEST_COMBAT_SURVIVAL_EXPERT_OBJECTIVES_SURVIVAL_MASTERY("quest.combat.survival_expert.objectives.survival_mastery"),
-
-    // ===== EXPLORATION QUEST LANG KEYS =====
-    // Ancient Ruins Quest
-    QUEST_EXPLORATION_ANCIENT_RUINS_NAME("quest.exploration.ancient_ruins.name"),
-    QUEST_EXPLORATION_ANCIENT_RUINS_INFO("quest.exploration.ancient_ruins.info"),
-    QUEST_EXPLORATION_ANCIENT_RUINS_DIALOGS("quest.exploration.ancient_ruins.dialogs"),
-    QUEST_EXPLORATION_ANCIENT_RUINS_NPC_NAME("quest.exploration.ancient_ruins.npc_name"),
-    QUEST_EXPLORATION_ANCIENT_RUINS_ACCEPT("quest.exploration.ancient_ruins.accept"),
-    QUEST_EXPLORATION_ANCIENT_RUINS_DECLINE("quest.exploration.ancient_ruins.decline"),
-    QUEST_EXPLORATION_ANCIENT_RUINS_OBJECTIVES_ARCHAEOLOGIST("quest.exploration.ancient_ruins.objectives.archaeologist"),
-    QUEST_EXPLORATION_ANCIENT_RUINS_OBJECTIVES_RUIN_EXPLORATION("quest.exploration.ancient_ruins.objectives.ruin_exploration"),
-    QUEST_EXPLORATION_ANCIENT_RUINS_OBJECTIVES_ARTIFACT_DISCOVERY("quest.exploration.ancient_ruins.objectives.artifact_discovery"),
-    QUEST_EXPLORATION_ANCIENT_RUINS_OBJECTIVES_ANCIENT_SECRETS("quest.exploration.ancient_ruins.objectives.ancient_secrets"),
-
-    // Lost Continent Quest
-    QUEST_EXPLORATION_LOST_CONTINENT_NAME("quest.exploration.lost_continent.name"),
-    QUEST_EXPLORATION_LOST_CONTINENT_INFO("quest.exploration.lost_continent.info"),
-    QUEST_EXPLORATION_LOST_CONTINENT_DIALOGS("quest.exploration.lost_continent.dialogs"),
-    QUEST_EXPLORATION_LOST_CONTINENT_NPC_NAME("quest.exploration.lost_continent.npc_name"),
-    QUEST_EXPLORATION_LOST_CONTINENT_ACCEPT("quest.exploration.lost_continent.accept"),
-    QUEST_EXPLORATION_LOST_CONTINENT_DECLINE("quest.exploration.lost_continent.decline"),
-    QUEST_EXPLORATION_LOST_CONTINENT_OBJECTIVES_CONTINENT_EXPLORER("quest.exploration.lost_continent.objectives.continent_explorer"),
-    QUEST_EXPLORATION_LOST_CONTINENT_OBJECTIVES_UNCHARTED_LANDS("quest.exploration.lost_continent.objectives.uncharted_lands"),
-    QUEST_EXPLORATION_LOST_CONTINENT_OBJECTIVES_LOST_CIVILIZATIONS("quest.exploration.lost_continent.objectives.lost_civilizations"),
-    QUEST_EXPLORATION_LOST_CONTINENT_OBJECTIVES_CONTINENTAL_DISCOVERY("quest.exploration.lost_continent.objectives.continental_discovery"),
-    QUEST_EXPLORATION_LOST_CONTINENT_OBJECTIVES_BUILD_EXPEDITION_CAMP("quest.exploration.lost_continent.objectives.build_expedition_camp"),
-    QUEST_EXPLORATION_LOST_CONTINENT_OBJECTIVES_EXPLORE_MYSTERIOUS_LANDS("quest.exploration.lost_continent.objectives.explore_mysterious_lands"),
-
-    // Sky Islands Quest
-    QUEST_EXPLORATION_SKY_ISLANDS_NAME("quest.exploration.sky_islands.name"),
-    QUEST_EXPLORATION_SKY_ISLANDS_INFO("quest.exploration.sky_islands.info"),
-    QUEST_EXPLORATION_SKY_ISLANDS_DIALOGS("quest.exploration.sky_islands.dialogs"),
-    QUEST_EXPLORATION_SKY_ISLANDS_NPC_NAME("quest.exploration.sky_islands.npc_name"),
-    QUEST_EXPLORATION_SKY_ISLANDS_ACCEPT("quest.exploration.sky_islands.accept"),
-    QUEST_EXPLORATION_SKY_ISLANDS_DECLINE("quest.exploration.sky_islands.decline"),
-    QUEST_EXPLORATION_SKY_ISLANDS_OBJECTIVES_SKY_NAVIGATOR("quest.exploration.sky_islands.objectives.sky_navigator"),
-    QUEST_EXPLORATION_SKY_ISLANDS_OBJECTIVES_FLOATING_ISLANDS("quest.exploration.sky_islands.objectives.floating_islands"),
-    QUEST_EXPLORATION_SKY_ISLANDS_OBJECTIVES_AERIAL_TREASURES("quest.exploration.sky_islands.objectives.aerial_treasures"),
-    QUEST_EXPLORATION_SKY_ISLANDS_OBJECTIVES_SKY_MASTERY("quest.exploration.sky_islands.objectives.sky_mastery"),
-    QUEST_EXPLORATION_SKY_ISLANDS_OBJECTIVES_BUILD_SKY_BRIDGE("quest.exploration.sky_islands.objectives.build_sky_bridge"),
-
-    // ===== GUILD QUEST LANG KEYS =====
-    // Guild Establishment Quest
-    QUEST_GUILD_ESTABLISHMENT_NAME("quest.guild.establishment.name"),
-    QUEST_GUILD_ESTABLISHMENT_INFO("quest.guild.establishment.info"),
-    QUEST_GUILD_ESTABLISHMENT_DIALOGS("quest.guild.establishment.dialogs"),
-    QUEST_GUILD_ESTABLISHMENT_NPC_NAME("quest.guild.establishment.npc_name"),
-    QUEST_GUILD_ESTABLISHMENT_ACCEPT("quest.guild.establishment.accept"),
-    QUEST_GUILD_ESTABLISHMENT_DECLINE("quest.guild.establishment.decline"),
-    QUEST_GUILD_ESTABLISHMENT_OBJECTIVES_GUILD_FOUNDER("quest.guild.establishment.objectives.guild_founder"),
-    QUEST_GUILD_ESTABLISHMENT_OBJECTIVES_GUILD_CHARTER("quest.guild.establishment.objectives.guild_charter"),
-    QUEST_GUILD_ESTABLISHMENT_OBJECTIVES_MEMBER_RECRUITMENT("quest.guild.establishment.objectives.member_recruitment"),
-    QUEST_GUILD_ESTABLISHMENT_OBJECTIVES_GUILD_HALL("quest.guild.establishment.objectives.guild_hall"),
-    QUEST_GUILD_ESTABLISHMENT_OBJECTIVES_BUILD_GUILD_HALL("quest.guild.establishment.objectives.build_guild_hall"),
-
-    // Guild Fortress Siege Quest
-    QUEST_GUILD_FORTRESS_SIEGE_NAME("quest.guild.fortress_siege.name"),
-    QUEST_GUILD_FORTRESS_SIEGE_INFO("quest.guild.fortress_siege.info"),
-    QUEST_GUILD_FORTRESS_SIEGE_DIALOGS("quest.guild.fortress_siege.dialogs"),
-    QUEST_GUILD_FORTRESS_SIEGE_NPC_NAME("quest.guild.fortress_siege.npc_name"),
-    QUEST_GUILD_FORTRESS_SIEGE_ACCEPT("quest.guild.fortress_siege.accept"),
-    QUEST_GUILD_FORTRESS_SIEGE_DECLINE("quest.guild.fortress_siege.decline"),
-    QUEST_GUILD_FORTRESS_SIEGE_OBJECTIVES_SIEGE_COMMANDER("quest.guild.fortress_siege.objectives.siege_commander"),
-    QUEST_GUILD_FORTRESS_SIEGE_OBJECTIVES_FORTRESS_ASSAULT("quest.guild.fortress_siege.objectives.fortress_assault"),
-    QUEST_GUILD_FORTRESS_SIEGE_OBJECTIVES_SIEGE_VICTORY("quest.guild.fortress_siege.objectives.siege_victory"),
-
-    // Guild Resource War Quest
-    QUEST_GUILD_RESOURCE_WAR_NAME("quest.guild.resource_war.name"),
-    QUEST_GUILD_RESOURCE_WAR_INFO("quest.guild.resource_war.info"),
-    QUEST_GUILD_RESOURCE_WAR_DIALOGS("quest.guild.resource_war.dialogs"),
-    QUEST_GUILD_RESOURCE_WAR_NPC_NAME("quest.guild.resource_war.npc_name"),
-    QUEST_GUILD_RESOURCE_WAR_ACCEPT("quest.guild.resource_war.accept"),
-    QUEST_GUILD_RESOURCE_WAR_DECLINE("quest.guild.resource_war.decline"),
-    QUEST_GUILD_RESOURCE_WAR_OBJECTIVES_WAR_STRATEGIST("quest.guild.resource_war.objectives.war_strategist"),
-    QUEST_GUILD_RESOURCE_WAR_OBJECTIVES_RESOURCE_CONTROL("quest.guild.resource_war.objectives.resource_control"),
-    QUEST_GUILD_RESOURCE_WAR_OBJECTIVES_TERRITORIAL_DOMINANCE("quest.guild.resource_war.objectives.territorial_dominance"),
-
-    // Guild Alliance Formation Quest
-    QUEST_GUILD_ALLIANCE_FORMATION_NAME("quest.guild.alliance_formation.name"),
-    QUEST_GUILD_ALLIANCE_FORMATION_INFO("quest.guild.alliance_formation.info"),
-    QUEST_GUILD_ALLIANCE_FORMATION_DIALOGS("quest.guild.alliance_formation.dialogs"),
-    QUEST_GUILD_ALLIANCE_FORMATION_NPC_NAME("quest.guild.alliance_formation.npc_name"),
-    QUEST_GUILD_ALLIANCE_FORMATION_ACCEPT("quest.guild.alliance_formation.accept"),
-    QUEST_GUILD_ALLIANCE_FORMATION_DECLINE("quest.guild.alliance_formation.decline"),
-    QUEST_GUILD_ALLIANCE_FORMATION_OBJECTIVES_DIPLOMATIC_ENVOY("quest.guild.alliance_formation.objectives.diplomatic_envoy"),
-    QUEST_GUILD_ALLIANCE_FORMATION_OBJECTIVES_GUILD_NEGOTIATIONS("quest.guild.alliance_formation.objectives.guild_negotiations"),
-    QUEST_GUILD_ALLIANCE_FORMATION_OBJECTIVES_ALLIANCE_TREATY("quest.guild.alliance_formation.objectives.alliance_treaty"),
-    QUEST_GUILD_ALLIANCE_FORMATION_OBJECTIVES_UNITED_FRONT("quest.guild.alliance_formation.objectives.united_front");
-    
-    private final String key;
-    
-    LangKey(String key) {
-        this.key = key;
+public class LangKey {
+    
+    /**
+     * Get a language key string from any category
+     * @param key The ILangKey interface implementation from any category enum
+     * @return The key string value
+     */
+    public static String getKey(ILangKey key) {
+        return key.getKey();
     }
     
-    public String getKey() {
-        return key;
+    /**
+     * Get the default value for a language key
+     * @param key The ILangKey interface implementation from any category enum
+     * @return The default value string
+     */
+    public static String getDefaultValue(ILangKey key) {
+        return key.getDefaultValue();
     }
+    
+    /**
+     * Find a language key by its string value
+     * Searches through all category enums
+     * @param keyString The string key to search for
+     * @return The ILangKey implementation or a default implementation if not found
+     */
+    public static ILangKey fromString(String keyString) {
+        return LangKeyHelper.getKey(keyString);
+    }
+    
+    /**
+     * Check if a key exists in any category
+     * @param keyString The string key to check
+     * @return true if the key exists, false otherwise
+     */
+    public static boolean exists(String keyString) {
+        return LangKeyHelper.hasKey(keyString);
+    }
+    
+    // =================================
+    // Static references for backward compatibility
+    // =================================
+    
+    public static final ILangKey BIOME_PLAINS = SystemLangKey.BIOME_PLAINS;
+    public static final ILangKey BIOME_FOREST = SystemLangKey.BIOME_FOREST;
+    public static final ILangKey BIOME_DESERT = SystemLangKey.BIOME_DESERT;
+    public static final ILangKey BIOME_JUNGLE = SystemLangKey.BIOME_JUNGLE;
+    public static final ILangKey BIOME_TAIGA = SystemLangKey.BIOME_TAIGA;
+    public static final ILangKey BIOME_SNOWY_PLAINS = SystemLangKey.BIOME_SNOWY_PLAINS;
+    public static final ILangKey BIOME_SAVANNA = SystemLangKey.BIOME_SAVANNA;
+    public static final ILangKey BIOME_SWAMP = SystemLangKey.BIOME_SWAMP;
+    public static final ILangKey BIOME_MUSHROOM_FIELDS = SystemLangKey.BIOME_MUSHROOM_FIELDS;
+    public static final ILangKey BIOME_BEACH = SystemLangKey.BIOME_BEACH;
+    public static final ILangKey BIOME_FLOWER_FOREST = SystemLangKey.BIOME_FLOWER_FOREST;
+    public static final ILangKey BIOME_BAMBOO_JUNGLE = SystemLangKey.BIOME_BAMBOO_JUNGLE;
+    public static final ILangKey BIOME_DARK_FOREST = SystemLangKey.BIOME_DARK_FOREST;
+    public static final ILangKey BIOME_BIRCH_FOREST = SystemLangKey.BIOME_BIRCH_FOREST;
+    public static final ILangKey BIOME_BADLANDS = SystemLangKey.BIOME_BADLANDS;
+    public static final ILangKey BIOME_OCEAN = SystemLangKey.BIOME_OCEAN;
+    public static final ILangKey BIOME_CHERRY_GROVE = SystemLangKey.BIOME_CHERRY_GROVE;
+    public static final ILangKey GUI_COMMON_BACK = GuiLangKey.GUI_COMMON_BACK;
+    public static final ILangKey GUI_COMMON_CLOSE = GuiLangKey.GUI_COMMON_CLOSE;
+    public static final ILangKey GUI_COMMON_NEXT_PAGE = GuiLangKey.GUI_COMMON_NEXT_PAGE;
+    public static final ILangKey GUI_COMMON_PREVIOUS_PAGE = GuiLangKey.GUI_COMMON_PREVIOUS_PAGE;
+    public static final ILangKey GUI_COMMON_PREV_PAGE = GuiLangKey.GUI_COMMON_PREV_PAGE;
+    public static final ILangKey GUI_COMMON_CONFIRM = GuiLangKey.GUI_COMMON_CONFIRM;
+    public static final ILangKey GUI_COMMON_CANCEL = GuiLangKey.GUI_COMMON_CANCEL;
+    public static final ILangKey GUI_COMMON_SETTINGS = GuiLangKey.GUI_COMMON_SETTINGS;
+    public static final ILangKey GUI_COMMON_UNKNOWN = GuiLangKey.GUI_COMMON_UNKNOWN;
+    public static final ILangKey GUI_COMMON_PAGE = GuiLangKey.GUI_COMMON_PAGE;
+    public static final ILangKey GUI_MAINMENU_TITLE = GuiLangKey.GUI_MAINMENU_TITLE;
+    public static final ILangKey GUI_PROFILE_TITLE = GuiLangKey.GUI_PROFILE_TITLE;
+    public static final ILangKey GUI_PROFILE_PLAYER_TITLE = GuiLangKey.GUI_PROFILE_PLAYER_TITLE;
+    public static final ILangKey GUI_PROFILE_VIEWING = GuiLangKey.GUI_PROFILE_VIEWING;
+    public static final ILangKey GUI_PROFILE_LEVEL = GuiLangKey.GUI_PROFILE_LEVEL;
+    public static final ILangKey GUI_PROFILE_LEVEL_INFO = GuiLangKey.GUI_PROFILE_LEVEL_INFO;
+    public static final ILangKey GUI_PROFILE_EXPERIENCE = GuiLangKey.GUI_PROFILE_EXPERIENCE;
+    public static final ILangKey GUI_PROFILE_EXP = GuiLangKey.GUI_PROFILE_EXP;
+    public static final ILangKey GUI_PROFILE_EXP_PERCENT = GuiLangKey.GUI_PROFILE_EXP_PERCENT;
+    public static final ILangKey GUI_PROFILE_JOB = GuiLangKey.GUI_PROFILE_JOB;
+    public static final ILangKey GUI_PROFILE_NO_JOB = GuiLangKey.GUI_PROFILE_NO_JOB;
+    public static final ILangKey GUI_PROFILE_CURRENT_JOB = GuiLangKey.GUI_PROFILE_CURRENT_JOB;
+    public static final ILangKey GUI_PROFILE_JOB_LEVEL = GuiLangKey.GUI_PROFILE_JOB_LEVEL;
+    public static final ILangKey GUI_PROFILE_COMBAT_POWER = GuiLangKey.GUI_PROFILE_COMBAT_POWER;
+    public static final ILangKey GUI_PROFILE_CLICK_TO_TALENTS = GuiLangKey.GUI_PROFILE_CLICK_TO_TALENTS;
+    public static final ILangKey GUI_PROFILE_GOLD = GuiLangKey.GUI_PROFILE_GOLD;
+    public static final ILangKey GUI_PROFILE_PLAYTIME = GuiLangKey.GUI_PROFILE_PLAYTIME;
+    public static final ILangKey GUI_PROFILE_JOIN_DATE = GuiLangKey.GUI_PROFILE_JOIN_DATE;
+    public static final ILangKey GUI_PROFILE_LAST_SEEN = GuiLangKey.GUI_PROFILE_LAST_SEEN;
+    public static final ILangKey GUI_PROFILE_STATS = GuiLangKey.GUI_PROFILE_STATS;
+    public static final ILangKey GUI_PROFILE_TALENTS = GuiLangKey.GUI_PROFILE_TALENTS;
+    public static final ILangKey GUI_PROFILE_CLICK_FOR_TALENTS = GuiLangKey.GUI_PROFILE_CLICK_FOR_TALENTS;
+    public static final ILangKey GUI_PROFILE_CLICK_FOR_STATS = GuiLangKey.GUI_PROFILE_CLICK_FOR_STATS;
+    public static final ILangKey GUI_PROFILE_ONLINE_STATUS = GuiLangKey.GUI_PROFILE_ONLINE_STATUS;
+    public static final ILangKey GUI_PROFILE_GAMEMODE = GuiLangKey.GUI_PROFILE_GAMEMODE;
+    public static final ILangKey GUI_PROFILE_LOCATION = GuiLangKey.GUI_PROFILE_LOCATION;
+    public static final ILangKey GUI_PROFILE_HEALTH = GuiLangKey.GUI_PROFILE_HEALTH;
+    public static final ILangKey GUI_PROFILE_HEALTH_INFO = GuiLangKey.GUI_PROFILE_HEALTH_INFO;
+    public static final ILangKey GUI_PROFILE_FOOD_INFO = GuiLangKey.GUI_PROFILE_FOOD_INFO;
+    public static final ILangKey GUI_PROFILE_FOOD_LEVEL = GuiLangKey.GUI_PROFILE_FOOD_LEVEL;
+    public static final ILangKey GUI_PROFILE_SATURATION = GuiLangKey.GUI_PROFILE_SATURATION;
+    public static final ILangKey GUI_PROFILE_GAME_INFO = GuiLangKey.GUI_PROFILE_GAME_INFO;
+    public static final ILangKey GUI_PROFILE_WORLD = GuiLangKey.GUI_PROFILE_WORLD;
+    public static final ILangKey GUI_PROFILE_HUNGER = GuiLangKey.GUI_PROFILE_HUNGER;
+    public static final ILangKey GUI_PROFILE_ACTIVE_QUESTS = GuiLangKey.GUI_PROFILE_ACTIVE_QUESTS;
+    public static final ILangKey GUI_PROFILE_COMPLETED_QUESTS = GuiLangKey.GUI_PROFILE_COMPLETED_QUESTS;
+    public static final ILangKey GUI_PROFILE_MOB_KILLS = GuiLangKey.GUI_PROFILE_MOB_KILLS;
+    public static final ILangKey GUI_PROFILE_PLAYER_INFO_NAME = GuiLangKey.GUI_PROFILE_PLAYER_INFO_NAME;
+    public static final ILangKey GUI_BUTTONS_CLOSE_NAME = GuiLangKey.GUI_BUTTONS_CLOSE_NAME;
+    public static final ILangKey GUI_BUTTONS_BACK_NAME = GuiLangKey.GUI_BUTTONS_BACK_NAME;
+    public static final ILangKey GUI_BUTTONS_BACK_LORE = GuiLangKey.GUI_BUTTONS_BACK_LORE;
+    public static final ILangKey GUI_BUTTONS_REFRESH_NAME = GuiLangKey.GUI_BUTTONS_REFRESH_NAME;
+    public static final ILangKey GUI_BUTTONS_REFRESH_LORE = GuiLangKey.GUI_BUTTONS_REFRESH_LORE;
+    public static final ILangKey GUI_BUTTONS_NEXT_PAGE_NAME = GuiLangKey.GUI_BUTTONS_NEXT_PAGE_NAME;
+    public static final ILangKey GUI_BUTTONS_PREVIOUS_PAGE_NAME = GuiLangKey.GUI_BUTTONS_PREVIOUS_PAGE_NAME;
+    public static final ILangKey GUI_BUTTONS_PAGE_INFO_LORE = GuiLangKey.GUI_BUTTONS_PAGE_INFO_LORE;
+    public static final ILangKey GUI_BUTTONS_CLOSE_LORE = GuiLangKey.GUI_BUTTONS_CLOSE_LORE;
+    public static final ILangKey GUI_BUTTONS_NEXT_PAGE_LORE = GuiLangKey.GUI_BUTTONS_NEXT_PAGE_LORE;
+    public static final ILangKey GUI_BUTTONS_PREVIOUS_PAGE_LORE = GuiLangKey.GUI_BUTTONS_PREVIOUS_PAGE_LORE;
+    public static final ILangKey GUI_LEADERBOARD_TITLE = GuiLangKey.GUI_LEADERBOARD_TITLE;
+    public static final ILangKey GUI_LEADERBOARD_TAB_SELECTED = GuiLangKey.GUI_LEADERBOARD_TAB_SELECTED;
+    public static final ILangKey GUI_LEADERBOARD_TAB_CLICK = GuiLangKey.GUI_LEADERBOARD_TAB_CLICK;
+    public static final ILangKey GUI_LEADERBOARD_CURRENT_TYPE = GuiLangKey.GUI_LEADERBOARD_CURRENT_TYPE;
+    public static final ILangKey GUI_LEADERBOARD_TOTAL_ENTRIES = GuiLangKey.GUI_LEADERBOARD_TOTAL_ENTRIES;
+    public static final ILangKey GUI_LEADERBOARD_TYPE_LEVEL = GuiLangKey.GUI_LEADERBOARD_TYPE_LEVEL;
+    public static final ILangKey GUI_LEADERBOARD_TYPE_COMBAT_POWER = GuiLangKey.GUI_LEADERBOARD_TYPE_COMBAT_POWER;
+    public static final ILangKey GUI_LEADERBOARD_TYPE_GOLD = GuiLangKey.GUI_LEADERBOARD_TYPE_GOLD;
+    public static final ILangKey GUI_LEADERBOARD_TYPE_PLAYTIME = GuiLangKey.GUI_LEADERBOARD_TYPE_PLAYTIME;
+    public static final ILangKey GUI_LEADERBOARD_MY_RANK = GuiLangKey.GUI_LEADERBOARD_MY_RANK;
+    public static final ILangKey GUI_LEADERBOARD_MY_VALUE = GuiLangKey.GUI_LEADERBOARD_MY_VALUE;
+    public static final ILangKey GUI_LEADERBOARD_LAST_UPDATED = GuiLangKey.GUI_LEADERBOARD_LAST_UPDATED;
+    public static final ILangKey GUI_ISLAND_MAIN_TITLE = GuiLangKey.GUI_ISLAND_MAIN_TITLE;
+    public static final ILangKey ISLAND_GUI_MAIN_TITLE_WITH_NAME = SystemLangKey.ISLAND_GUI_MAIN_TITLE_WITH_NAME;
+    public static final ILangKey ISLAND_GUI_MAIN_TITLE = SystemLangKey.ISLAND_GUI_MAIN_TITLE;
+    public static final ILangKey GUI_ISLAND_MAIN_COLOR_CHANGE_HINT = GuiLangKey.GUI_ISLAND_MAIN_COLOR_CHANGE_HINT;
+    public static final ILangKey GUI_ISLAND_MAIN_HEX_FORMAT_ERROR = GuiLangKey.GUI_ISLAND_MAIN_HEX_FORMAT_ERROR;
+    public static final ILangKey GUI_ISLAND_MAIN_HEX_FORMAT_EXAMPLE = GuiLangKey.GUI_ISLAND_MAIN_HEX_FORMAT_EXAMPLE;
+    public static final ILangKey GUI_ISLAND_MAIN_COLOR_CHANGED = GuiLangKey.GUI_ISLAND_MAIN_COLOR_CHANGED;
+    public static final ILangKey GUI_ISLAND_MAIN_HEX_INPUT_TITLE = GuiLangKey.GUI_ISLAND_MAIN_HEX_INPUT_TITLE;
+    public static final ILangKey GUI_ISLAND_MAIN_WARP_MOVING = GuiLangKey.GUI_ISLAND_MAIN_WARP_MOVING;
+    public static final ILangKey GUI_ISLAND_MAIN_WARP_SUCCESS = GuiLangKey.GUI_ISLAND_MAIN_WARP_SUCCESS;
+    public static final ILangKey GUI_ISLAND_MAIN_INFO_LORE = GuiLangKey.GUI_ISLAND_MAIN_INFO_LORE;
+    public static final ILangKey GUI_ISLAND_MAIN_INFO_MEMBERS = GuiLangKey.GUI_ISLAND_MAIN_INFO_MEMBERS;
+    public static final ILangKey GUI_ISLAND_MAIN_SPAWN_NAME = GuiLangKey.GUI_ISLAND_MAIN_SPAWN_NAME;
+    public static final ILangKey GUI_ISLAND_MAIN_SPAWN_LORE = GuiLangKey.GUI_ISLAND_MAIN_SPAWN_LORE;
+    public static final ILangKey GUI_ISLAND_MAIN_VISIT_NAME = GuiLangKey.GUI_ISLAND_MAIN_VISIT_NAME;
+    public static final ILangKey GUI_ISLAND_MAIN_MEMBERS_LORE = GuiLangKey.GUI_ISLAND_MAIN_MEMBERS_LORE;
+    public static final ILangKey GUI_ISLAND_MAIN_SETTINGS_LORE = GuiLangKey.GUI_ISLAND_MAIN_SETTINGS_LORE;
+    public static final ILangKey GUI_ISLAND_MAIN_UPGRADES_LORE = GuiLangKey.GUI_ISLAND_MAIN_UPGRADES_LORE;
+    public static final ILangKey GUI_ISLAND_MAIN_PERMISSIONS_LORE = GuiLangKey.GUI_ISLAND_MAIN_PERMISSIONS_LORE;
+    public static final ILangKey GUI_ISLAND_MAIN_BIOME_LORE = GuiLangKey.GUI_ISLAND_MAIN_BIOME_LORE;
+    public static final ILangKey GUI_ISLAND_MAIN_CONTRIBUTIONS_LORE = GuiLangKey.GUI_ISLAND_MAIN_CONTRIBUTIONS_LORE;
+    public static final ILangKey GUI_ISLAND_MAIN_VISITORS_LORE = GuiLangKey.GUI_ISLAND_MAIN_VISITORS_LORE;
+    public static final ILangKey GUI_ISLAND_MAIN_RESET_LORE = GuiLangKey.GUI_ISLAND_MAIN_RESET_LORE;
+    public static final ILangKey GUI_ISLAND_MAIN_LEAVE_LORE = GuiLangKey.GUI_ISLAND_MAIN_LEAVE_LORE;
+    public static final ILangKey GUI_ISLAND_MAIN_BACK_NAME = GuiLangKey.GUI_ISLAND_MAIN_BACK_NAME;
+    public static final ILangKey GUI_ISLAND_MAIN_CLOSE_NAME = GuiLangKey.GUI_ISLAND_MAIN_CLOSE_NAME;
+    public static final ILangKey GUI_ISLAND_SETTINGS_TITLE = GuiLangKey.GUI_ISLAND_SETTINGS_TITLE;
+    public static final ILangKey GUI_ISLAND_CREATE_TITLE = GuiLangKey.GUI_ISLAND_CREATE_TITLE;
+    public static final ILangKey GUI_COMBAT_POWER_TITLE = GuiLangKey.GUI_COMBAT_POWER_TITLE;
+    public static final ILangKey GUI_COMBAT_POWER_TOTAL = GuiLangKey.GUI_COMBAT_POWER_TOTAL;
+    public static final ILangKey GUI_COMBAT_POWER_BREAKDOWN = GuiLangKey.GUI_COMBAT_POWER_BREAKDOWN;
+    public static final ILangKey GUI_COMBAT_POWER_FROM_LEVEL = GuiLangKey.GUI_COMBAT_POWER_FROM_LEVEL;
+    public static final ILangKey GUI_COMBAT_POWER_FROM_STATS = GuiLangKey.GUI_COMBAT_POWER_FROM_STATS;
+    public static final ILangKey GUI_COMBAT_POWER_LEVEL_CONTRIBUTION = GuiLangKey.GUI_COMBAT_POWER_LEVEL_CONTRIBUTION;
+    public static final ILangKey GUI_COMBAT_POWER_LEVEL_DETAIL = GuiLangKey.GUI_COMBAT_POWER_LEVEL_DETAIL;
+    public static final ILangKey GUI_COMBAT_POWER_STAT_CONTRIBUTION = GuiLangKey.GUI_COMBAT_POWER_STAT_CONTRIBUTION;
+    public static final ILangKey GUI_COMBAT_POWER_STAT_DETAIL = GuiLangKey.GUI_COMBAT_POWER_STAT_DETAIL;
+    public static final ILangKey GUI_JOB_CONFIRMATION_TITLE = GuiLangKey.GUI_JOB_CONFIRMATION_TITLE;
+    public static final ILangKey GUI_JOB_CONFIRMATION_TITLE_SUCCESS = GuiLangKey.GUI_JOB_CONFIRMATION_TITLE_SUCCESS;
+    public static final ILangKey GUI_JOB_CONFIRMATION_SUBTITLE_SUCCESS = GuiLangKey.GUI_JOB_CONFIRMATION_SUBTITLE_SUCCESS;
+    public static final ILangKey GUI_JOB_CONFIRMATION_SELECTED_JOB = GuiLangKey.GUI_JOB_CONFIRMATION_SELECTED_JOB;
+    public static final ILangKey GUI_JOB_CONFIRMATION_MAX_LEVEL = GuiLangKey.GUI_JOB_CONFIRMATION_MAX_LEVEL;
+    public static final ILangKey GUI_JOB_CONFIRMATION_WARNING = GuiLangKey.GUI_JOB_CONFIRMATION_WARNING;
+    public static final ILangKey GUI_JOB_CONFIRMATION_WARNING_TITLE = GuiLangKey.GUI_JOB_CONFIRMATION_WARNING_TITLE;
+    public static final ILangKey GUI_JOB_CONFIRMATION_WARNING_DESCRIPTION = GuiLangKey.GUI_JOB_CONFIRMATION_WARNING_DESCRIPTION;
+    public static final ILangKey GUI_JOB_CONFIRMATION_INFO_TITLE = GuiLangKey.GUI_JOB_CONFIRMATION_INFO_TITLE;
+    public static final ILangKey GUI_JOB_CONFIRMATION_CONFIRM = GuiLangKey.GUI_JOB_CONFIRMATION_CONFIRM;
+    public static final ILangKey GUI_JOB_CONFIRMATION_CONFIRM_DESCRIPTION = GuiLangKey.GUI_JOB_CONFIRMATION_CONFIRM_DESCRIPTION;
+    public static final ILangKey GUI_JOB_CONFIRMATION_CLICK_TO_CONFIRM = GuiLangKey.GUI_JOB_CONFIRMATION_CLICK_TO_CONFIRM;
+    public static final ILangKey GUI_JOB_CONFIRMATION_CANCEL = GuiLangKey.GUI_JOB_CONFIRMATION_CANCEL;
+    public static final ILangKey GUI_JOB_CONFIRMATION_CANCEL_DESCRIPTION = GuiLangKey.GUI_JOB_CONFIRMATION_CANCEL_DESCRIPTION;
+    public static final ILangKey GUI_JOB_CONFIRMATION_CLICK_TO_CANCEL = GuiLangKey.GUI_JOB_CONFIRMATION_CLICK_TO_CANCEL;
+    public static final ILangKey GUI_JOB_CONFIRMATION_SUCCESS = GuiLangKey.GUI_JOB_CONFIRMATION_SUCCESS;
+    public static final ILangKey GUI_JOB_CONFIRMATION_ALREADY_HAS_JOB = GuiLangKey.GUI_JOB_CONFIRMATION_ALREADY_HAS_JOB;
+    public static final ILangKey GUI_JOB_CONFIRMATION_CANNOT_CHANGE = GuiLangKey.GUI_JOB_CONFIRMATION_CANNOT_CHANGE;
+    public static final ILangKey GUI_JOB_SELECTION_TITLE = GuiLangKey.GUI_JOB_SELECTION_TITLE;
+    public static final ILangKey GUI_JOB_SELECTION_TAB_SELECTED = GuiLangKey.GUI_JOB_SELECTION_TAB_SELECTED;
+    public static final ILangKey GUI_JOB_SELECTION_TAB_CLICK = GuiLangKey.GUI_JOB_SELECTION_TAB_CLICK;
+    public static final ILangKey GUI_JOB_SELECTION_MAX_LEVEL = GuiLangKey.GUI_JOB_SELECTION_MAX_LEVEL;
+    public static final ILangKey GUI_JOB_SELECTION_CLICK_TO_CHOOSE = GuiLangKey.GUI_JOB_SELECTION_CLICK_TO_CHOOSE;
+    public static final ILangKey GUI_JOB_SELECTION_WARNING = GuiLangKey.GUI_JOB_SELECTION_WARNING;
+    public static final ILangKey GUI_STATS_TITLE = GuiLangKey.GUI_STATS_TITLE;
+    public static final ILangKey GUI_STATS_POINTS_AVAILABLE = GuiLangKey.GUI_STATS_POINTS_AVAILABLE;
+    public static final ILangKey GUI_STATS_POINTS_COUNT = GuiLangKey.GUI_STATS_POINTS_COUNT;
+    public static final ILangKey GUI_STATS_POINTS_INFO = GuiLangKey.GUI_STATS_POINTS_INFO;
+    public static final ILangKey GUI_STATS_CURRENT_VALUE = GuiLangKey.GUI_STATS_CURRENT_VALUE;
+    public static final ILangKey GUI_STATS_BASE_BONUS = GuiLangKey.GUI_STATS_BASE_BONUS;
+    public static final ILangKey GUI_STATS_CLICK_TO_ADD = GuiLangKey.GUI_STATS_CLICK_TO_ADD;
+    public static final ILangKey GUI_TALENT_TITLE = GuiLangKey.GUI_TALENT_TITLE;
+    public static final ILangKey GUI_TALENT_NO_JOB = GuiLangKey.GUI_TALENT_NO_JOB;
+    public static final ILangKey GUI_TALENT_JOB = GuiLangKey.GUI_TALENT_JOB;
+    public static final ILangKey GUI_TALENT_PAGE_INFO = GuiLangKey.GUI_TALENT_PAGE_INFO;
+    public static final ILangKey GUI_TALENT_CURRENT_PAGE = GuiLangKey.GUI_TALENT_CURRENT_PAGE;
+    public static final ILangKey GUI_TALENT_AVAILABLE_POINTS = GuiLangKey.GUI_TALENT_AVAILABLE_POINTS;
+    public static final ILangKey GUI_TALENT_LEVEL_INFO = GuiLangKey.GUI_TALENT_LEVEL_INFO;
+    public static final ILangKey GUI_TALENT_STAT_BONUSES = GuiLangKey.GUI_TALENT_STAT_BONUSES;
+    public static final ILangKey GUI_TALENT_STAT_BONUS_LINE = GuiLangKey.GUI_TALENT_STAT_BONUS_LINE;
+    public static final ILangKey GUI_TALENT_EFFECTS = GuiLangKey.GUI_TALENT_EFFECTS;
+    public static final ILangKey GUI_TALENT_PREREQUISITES = GuiLangKey.GUI_TALENT_PREREQUISITES;
+    public static final ILangKey GUI_TALENT_PREREQ_MET = GuiLangKey.GUI_TALENT_PREREQ_MET;
+    public static final ILangKey GUI_TALENT_PREREQ_NOT_MET = GuiLangKey.GUI_TALENT_PREREQ_NOT_MET;
+    public static final ILangKey GUI_TALENT_CAN_LEARN = GuiLangKey.GUI_TALENT_CAN_LEARN;
+    public static final ILangKey GUI_TALENT_CANNOT_LEARN = GuiLangKey.GUI_TALENT_CANNOT_LEARN;
+    public static final ILangKey GUI_TALENT_NOT_ENOUGH_POINTS = GuiLangKey.GUI_TALENT_NOT_ENOUGH_POINTS;
+    public static final ILangKey GUI_TALENT_MAXED = GuiLangKey.GUI_TALENT_MAXED;
+    public static final ILangKey GUI_TALENT_HAS_SUB_PAGE = GuiLangKey.GUI_TALENT_HAS_SUB_PAGE;
+    public static final ILangKey GUI_SYSTEM_SETTINGS_TITLE = GuiLangKey.GUI_SYSTEM_SETTINGS_TITLE;
+    public static final ILangKey GUI_SYSTEM_SETTINGS_STATUS = GuiLangKey.GUI_SYSTEM_SETTINGS_STATUS;
+    public static final ILangKey GUI_SYSTEM_SETTINGS_CLICK_TO_TOGGLE = GuiLangKey.GUI_SYSTEM_SETTINGS_CLICK_TO_TOGGLE;
+    public static final ILangKey GUI_SYSTEM_SETTINGS_CONFIRMATION_TOGGLED = GuiLangKey.GUI_SYSTEM_SETTINGS_CONFIRMATION_TOGGLED;
+    public static final ILangKey GENERAL_SEPARATOR = GeneralLangKey.GENERAL_SEPARATOR;
+    public static final ILangKey GENERAL_COMING_SOON = GeneralLangKey.GENERAL_COMING_SOON;
+    public static final ILangKey GENERAL_CANNOT_VIEW_OTHERS_QUESTS = GeneralLangKey.GENERAL_CANNOT_VIEW_OTHERS_QUESTS;
+    public static final ILangKey GENERAL_CANNOT_VIEW_OTHERS_STATS = GeneralLangKey.GENERAL_CANNOT_VIEW_OTHERS_STATS;
+    public static final ILangKey GENERAL_CANNOT_VIEW_OTHERS_TALENTS = GeneralLangKey.GENERAL_CANNOT_VIEW_OTHERS_TALENTS;
+    public static final ILangKey GENERAL_CANNOT_SELECT_OTHERS_JOB = GeneralLangKey.GENERAL_CANNOT_SELECT_OTHERS_JOB;
+    public static final ILangKey STATUS_ENABLED = GeneralLangKey.STATUS_ENABLED;
+    public static final ILangKey STATUS_DISABLED = GeneralLangKey.STATUS_DISABLED;
+    public static final ILangKey ACTION_ENABLE = GeneralLangKey.ACTION_ENABLE;
+    public static final ILangKey ACTION_DISABLE = GeneralLangKey.ACTION_DISABLE;
+    public static final ILangKey MESSAGES_STAT_INCREASED = GeneralLangKey.MESSAGES_STAT_INCREASED;
+    public static final ILangKey MESSAGES_NOT_ENOUGH_STAT_POINTS = GeneralLangKey.MESSAGES_NOT_ENOUGH_STAT_POINTS;
+    public static final ILangKey MESSAGES_TALENT_LEARNED = GeneralLangKey.MESSAGES_TALENT_LEARNED;
+    public static final ILangKey MESSAGES_TALENT_CANNOT_LEARN = GeneralLangKey.MESSAGES_TALENT_CANNOT_LEARN;
+    public static final ILangKey MESSAGES_NOT_ENOUGH_TALENT_POINTS = GeneralLangKey.MESSAGES_NOT_ENOUGH_TALENT_POINTS;
+    public static final ILangKey STATUS_ONLINE = GeneralLangKey.STATUS_ONLINE;
+    public static final ILangKey STATUS_OFFLINE = GeneralLangKey.STATUS_OFFLINE;
+    public static final ILangKey MESSAGES_NO_JOB_FOR_STATS = GeneralLangKey.MESSAGES_NO_JOB_FOR_STATS;
+    public static final ILangKey ITEMS_GUI_BUTTONS_CLOSE_NAME = ItemLangKey.ITEMS_GUI_BUTTONS_CLOSE_NAME;
+    public static final ILangKey ITEMS_GUI_BUTTONS_CLOSE_LORE = ItemLangKey.ITEMS_GUI_BUTTONS_CLOSE_LORE;
+    public static final ILangKey ITEMS_GUI_BUTTONS_BACK_NAME = ItemLangKey.ITEMS_GUI_BUTTONS_BACK_NAME;
+    public static final ILangKey ITEMS_GUI_BUTTONS_BACK_LORE = ItemLangKey.ITEMS_GUI_BUTTONS_BACK_LORE;
+    public static final ILangKey ITEMS_GUI_BUTTONS_REFRESH_NAME = ItemLangKey.ITEMS_GUI_BUTTONS_REFRESH_NAME;
+    public static final ILangKey ITEMS_GUI_BUTTONS_REFRESH_LORE = ItemLangKey.ITEMS_GUI_BUTTONS_REFRESH_LORE;
+    public static final ILangKey ITEMS_GUI_BUTTONS_NEXT_PAGE_NAME = ItemLangKey.ITEMS_GUI_BUTTONS_NEXT_PAGE_NAME;
+    public static final ILangKey ITEMS_GUI_BUTTONS_NEXT_PAGE_LORE = ItemLangKey.ITEMS_GUI_BUTTONS_NEXT_PAGE_LORE;
+    public static final ILangKey ITEMS_GUI_BUTTONS_PREVIOUS_PAGE_NAME = ItemLangKey.ITEMS_GUI_BUTTONS_PREVIOUS_PAGE_NAME;
+    public static final ILangKey ITEMS_GUI_BUTTONS_PREVIOUS_PAGE_LORE = ItemLangKey.ITEMS_GUI_BUTTONS_PREVIOUS_PAGE_LORE;
+    public static final ILangKey ITEMS_GUI_BUTTONS_CONFIRM_NAME = ItemLangKey.ITEMS_GUI_BUTTONS_CONFIRM_NAME;
+    public static final ILangKey ITEMS_GUI_BUTTONS_CONFIRM_LORE = ItemLangKey.ITEMS_GUI_BUTTONS_CONFIRM_LORE;
+    public static final ILangKey ITEMS_GUI_BUTTONS_CANCEL_NAME = ItemLangKey.ITEMS_GUI_BUTTONS_CANCEL_NAME;
+    public static final ILangKey ITEMS_GUI_BUTTONS_CANCEL_LORE = ItemLangKey.ITEMS_GUI_BUTTONS_CANCEL_LORE;
+    public static final ILangKey ITEMS_GUI_BUTTONS_PAGE_INFO_NAME = ItemLangKey.ITEMS_GUI_BUTTONS_PAGE_INFO_NAME;
+    public static final ILangKey ITEMS_GUI_BUTTONS_TOGGLE_ENABLED = ItemLangKey.ITEMS_GUI_BUTTONS_TOGGLE_ENABLED;
+    public static final ILangKey ITEMS_GUI_BUTTONS_TOGGLE_DISABLED = ItemLangKey.ITEMS_GUI_BUTTONS_TOGGLE_DISABLED;
+    public static final ILangKey ITEMS_GUI_BUTTONS_STATUS_ONLINE = ItemLangKey.ITEMS_GUI_BUTTONS_STATUS_ONLINE;
+    public static final ILangKey ITEMS_GUI_BUTTONS_STATUS_OFFLINE = ItemLangKey.ITEMS_GUI_BUTTONS_STATUS_OFFLINE;
+    public static final ILangKey ITEMS_GUI_ERROR_TITLE = ItemLangKey.ITEMS_GUI_ERROR_TITLE;
+    public static final ILangKey ITEMS_MAINMENU_TITLE_NAME = ItemLangKey.ITEMS_MAINMENU_TITLE_NAME;
+    public static final ILangKey ITEMS_MAINMENU_TITLE_LORE = ItemLangKey.ITEMS_MAINMENU_TITLE_LORE;
+    public static final ILangKey ITEMS_MAINMENU_PROFILE_BUTTON_NAME = ItemLangKey.ITEMS_MAINMENU_PROFILE_BUTTON_NAME;
+    public static final ILangKey ITEMS_MAINMENU_PROFILE_BUTTON_LORE = ItemLangKey.ITEMS_MAINMENU_PROFILE_BUTTON_LORE;
+    public static final ILangKey ITEMS_MAINMENU_LEADERBOARD_BUTTON_NAME = ItemLangKey.ITEMS_MAINMENU_LEADERBOARD_BUTTON_NAME;
+    public static final ILangKey ITEMS_MAINMENU_LEADERBOARD_BUTTON_LORE = ItemLangKey.ITEMS_MAINMENU_LEADERBOARD_BUTTON_LORE;
+    public static final ILangKey ITEMS_MAINMENU_JOB_BUTTON_NAME = ItemLangKey.ITEMS_MAINMENU_JOB_BUTTON_NAME;
+    public static final ILangKey ITEMS_MAINMENU_JOB_BUTTON_LORE = ItemLangKey.ITEMS_MAINMENU_JOB_BUTTON_LORE;
+    public static final ILangKey ITEMS_MAINMENU_STATS_BUTTON_NAME = ItemLangKey.ITEMS_MAINMENU_STATS_BUTTON_NAME;
+    public static final ILangKey ITEMS_MAINMENU_STATS_BUTTON_LORE = ItemLangKey.ITEMS_MAINMENU_STATS_BUTTON_LORE;
+    public static final ILangKey ITEMS_MAINMENU_HUB_BUTTON_NAME = ItemLangKey.ITEMS_MAINMENU_HUB_BUTTON_NAME;
+    public static final ILangKey ITEMS_MAINMENU_HUB_BUTTON_LORE = ItemLangKey.ITEMS_MAINMENU_HUB_BUTTON_LORE;
+    public static final ILangKey ITEMS_MAINMENU_SHOP_BUTTON_NAME = ItemLangKey.ITEMS_MAINMENU_SHOP_BUTTON_NAME;
+    public static final ILangKey ITEMS_MAINMENU_SHOP_BUTTON_LORE = ItemLangKey.ITEMS_MAINMENU_SHOP_BUTTON_LORE;
+    public static final ILangKey ITEMS_MAINMENU_DUNGEON_BUTTON_NAME = ItemLangKey.ITEMS_MAINMENU_DUNGEON_BUTTON_NAME;
+    public static final ILangKey ITEMS_MAINMENU_DUNGEON_BUTTON_LORE = ItemLangKey.ITEMS_MAINMENU_DUNGEON_BUTTON_LORE;
+    public static final ILangKey ITEMS_MAINMENU_WILD_BUTTON_NAME = ItemLangKey.ITEMS_MAINMENU_WILD_BUTTON_NAME;
+    public static final ILangKey ITEMS_MAINMENU_WILD_BUTTON_LORE = ItemLangKey.ITEMS_MAINMENU_WILD_BUTTON_LORE;
+    public static final ILangKey ITEMS_MAINMENU_ISLAND_BUTTON_NAME = ItemLangKey.ITEMS_MAINMENU_ISLAND_BUTTON_NAME;
+    public static final ILangKey ITEMS_MAINMENU_ISLAND_BUTTON_LORE = ItemLangKey.ITEMS_MAINMENU_ISLAND_BUTTON_LORE;
+    public static final ILangKey ITEMS_SETTINGS_SYSTEM_SETTINGS_TITLE_NAME = ItemLangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_TITLE_NAME;
+    public static final ILangKey ITEMS_SETTINGS_SYSTEM_SETTINGS_TITLE_LORE = ItemLangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_TITLE_LORE;
+    public static final ILangKey ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_NAME = ItemLangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_NAME;
+    public static final ILangKey ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_EXAMPLE_TITLE = ItemLangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_EXAMPLE_TITLE;
+    public static final ILangKey ITEMS_PROFILE_LEVEL_INFO_NAME = ItemLangKey.ITEMS_PROFILE_LEVEL_INFO_NAME;
+    public static final ILangKey ITEMS_PROFILE_GAME_STATS_NAME = ItemLangKey.ITEMS_PROFILE_GAME_STATS_NAME;
+    public static final ILangKey ITEMS_PROFILE_QUEST_INFO_NAME = ItemLangKey.ITEMS_PROFILE_QUEST_INFO_NAME;
+    public static final ILangKey ITEMS_PROFILE_QUEST_INFO_CLICK_LORE = ItemLangKey.ITEMS_PROFILE_QUEST_INFO_CLICK_LORE;
+    public static final ILangKey ITEMS_PROFILE_COLLECTION_BOOK_NAME = ItemLangKey.ITEMS_PROFILE_COLLECTION_BOOK_NAME;
+    public static final ILangKey ITEMS_PROFILE_PETS_NAME = ItemLangKey.ITEMS_PROFILE_PETS_NAME;
+    public static final ILangKey ITEMS_PROFILE_USER_SETTINGS_NAME = ItemLangKey.ITEMS_PROFILE_USER_SETTINGS_NAME;
+    public static final ILangKey ITEMS_PROFILE_USER_SETTINGS_LORE = ItemLangKey.ITEMS_PROFILE_USER_SETTINGS_LORE;
+    public static final ILangKey ITEMS_LEADERBOARD_LOADING_NAME = ItemLangKey.ITEMS_LEADERBOARD_LOADING_NAME;
+    public static final ILangKey ITEMS_LEADERBOARD_LOADING_LORE = ItemLangKey.ITEMS_LEADERBOARD_LOADING_LORE;
+    public static final ILangKey ITEMS_LEADERBOARD_MY_RANK_NAME = ItemLangKey.ITEMS_LEADERBOARD_MY_RANK_NAME;
+    public static final ILangKey ITEMS_LEADERBOARD_NO_RANK_NAME = ItemLangKey.ITEMS_LEADERBOARD_NO_RANK_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_INFO_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_INFO_LORE;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_INVITE_LORE = ItemLangKey.ITEMS_ISLAND_MEMBER_INVITE_LORE;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_PERMISSION_LORE = ItemLangKey.ITEMS_ISLAND_MEMBER_PERMISSION_LORE;
+    public static final ILangKey ITEMS_ISLAND_MAIN_UPGRADE_INFO_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_UPGRADE_INFO_LORE;
+    public static final ILangKey ITEMS_ISLAND_MAIN_CONTRIBUTION_INFO_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_CONTRIBUTION_INFO_LORE;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_CURRENT_INFO_LORE = ItemLangKey.ITEMS_ISLAND_SPAWN_CURRENT_INFO_LORE;
+    public static final ILangKey ITEMS_ISLAND_MAIN_ISLAND_SETTINGS_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_ISLAND_SETTINGS_LORE;
+    public static final ILangKey ITEMS_ISLAND_MAIN_VISITOR_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_VISITOR_LORE;
+    public static final ILangKey ITEMS_ISLAND_MAIN_BIOME_CHANGE_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_BIOME_CHANGE_LORE;
+    public static final ILangKey ITEMS_ISLAND_MAIN_WARP_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_WARP_LORE;
+    public static final ILangKey QUEST_TUTORIAL_FIRST_STEPS_NAME = TutorialQuestLangKey.QUEST_TUTORIAL_FIRST_STEPS_NAME;
+    public static final ILangKey QUEST_TUTORIAL_FIRST_STEPS_DIALOGS = TutorialQuestLangKey.QUEST_TUTORIAL_FIRST_STEPS_DIALOGS;
+    public static final ILangKey QUEST_TUTORIAL_FIRST_STEPS_NPC_NAME = TutorialQuestLangKey.QUEST_TUTORIAL_FIRST_STEPS_NPC_NAME;
+    public static final ILangKey QUEST_TUTORIAL_FIRST_STEPS_ACCEPT = TutorialQuestLangKey.QUEST_TUTORIAL_FIRST_STEPS_ACCEPT;
+    public static final ILangKey QUEST_TUTORIAL_FIRST_STEPS_DECLINE = TutorialQuestLangKey.QUEST_TUTORIAL_FIRST_STEPS_DECLINE;
+    public static final ILangKey QUEST_TUTORIAL_BASIC_COMBAT_NAME = TutorialQuestLangKey.QUEST_TUTORIAL_BASIC_COMBAT_NAME;
+    public static final ILangKey QUEST_TUTORIAL_BASIC_COMBAT_DIALOGS = TutorialQuestLangKey.QUEST_TUTORIAL_BASIC_COMBAT_DIALOGS;
+    public static final ILangKey QUEST_TUTORIAL_BASIC_COMBAT_NPC_NAME = TutorialQuestLangKey.QUEST_TUTORIAL_BASIC_COMBAT_NPC_NAME;
+    public static final ILangKey QUEST_TUTORIAL_BASIC_COMBAT_ACCEPT = TutorialQuestLangKey.QUEST_TUTORIAL_BASIC_COMBAT_ACCEPT;
+    public static final ILangKey QUEST_TUTORIAL_BASIC_COMBAT_DECLINE = TutorialQuestLangKey.QUEST_TUTORIAL_BASIC_COMBAT_DECLINE;
+    public static final ILangKey QUEST_DAILY_MINING_NAME = QuestCommonLangKey.QUEST_DAILY_MINING_NAME;
+    public static final ILangKey QUEST_DAILY_MINING_DIALOGS = QuestCommonLangKey.QUEST_DAILY_MINING_DIALOGS;
+    public static final ILangKey QUEST_DAILY_MINING_NPC_NAME = QuestCommonLangKey.QUEST_DAILY_MINING_NPC_NAME;
+    public static final ILangKey QUEST_DAILY_MINING_ACCEPT = QuestCommonLangKey.QUEST_DAILY_MINING_ACCEPT;
+    public static final ILangKey QUEST_DAILY_MINING_DECLINE = QuestCommonLangKey.QUEST_DAILY_MINING_DECLINE;
+    public static final ILangKey QUEST_DAILY_HUNTING_NAME = QuestCommonLangKey.QUEST_DAILY_HUNTING_NAME;
+    public static final ILangKey QUEST_DAILY_HUNTING_OBJECTIVES_KILL_ZOMBIES = QuestCommonLangKey.QUEST_DAILY_HUNTING_OBJECTIVES_KILL_ZOMBIES;
+    public static final ILangKey QUEST_DAILY_HUNTING_OBJECTIVES_KILL_SKELETONS = QuestCommonLangKey.QUEST_DAILY_HUNTING_OBJECTIVES_KILL_SKELETONS;
+    public static final ILangKey QUEST_DAILY_HUNTING_OBJECTIVES_KILL_CREEPERS = QuestCommonLangKey.QUEST_DAILY_HUNTING_OBJECTIVES_KILL_CREEPERS;
+    public static final ILangKey QUEST_DAILY_HUNTING_DIALOGS = QuestCommonLangKey.QUEST_DAILY_HUNTING_DIALOGS;
+    public static final ILangKey QUEST_DAILY_HUNTING_NPC_NAME = QuestCommonLangKey.QUEST_DAILY_HUNTING_NPC_NAME;
+    public static final ILangKey QUEST_DAILY_HUNTING_ACCEPT = QuestCommonLangKey.QUEST_DAILY_HUNTING_ACCEPT;
+    public static final ILangKey QUEST_DAILY_HUNTING_DECLINE = QuestCommonLangKey.QUEST_DAILY_HUNTING_DECLINE;
+    public static final ILangKey QUEST_DAILY_GATHERING_NAME = QuestCommonLangKey.QUEST_DAILY_GATHERING_NAME;
+    public static final ILangKey QUEST_DAILY_GATHERING_DIALOGS = QuestCommonLangKey.QUEST_DAILY_GATHERING_DIALOGS;
+    public static final ILangKey QUEST_DAILY_GATHERING_NPC_NAME = QuestCommonLangKey.QUEST_DAILY_GATHERING_NPC_NAME;
+    public static final ILangKey QUEST_DAILY_GATHERING_ACCEPT = QuestCommonLangKey.QUEST_DAILY_GATHERING_ACCEPT;
+    public static final ILangKey QUEST_DAILY_GATHERING_DECLINE = QuestCommonLangKey.QUEST_DAILY_GATHERING_DECLINE;
+    public static final ILangKey QUEST_DAILY_FISHING_NAME = QuestCommonLangKey.QUEST_DAILY_FISHING_NAME;
+    public static final ILangKey QUEST_DAILY_FISHING_DIALOGS = QuestCommonLangKey.QUEST_DAILY_FISHING_DIALOGS;
+    public static final ILangKey QUEST_DAILY_FISHING_NPC_NAME = QuestCommonLangKey.QUEST_DAILY_FISHING_NPC_NAME;
+    public static final ILangKey QUEST_DAILY_FISHING_ACCEPT = QuestCommonLangKey.QUEST_DAILY_FISHING_ACCEPT;
+    public static final ILangKey QUEST_DAILY_FISHING_DECLINE = QuestCommonLangKey.QUEST_DAILY_FISHING_DECLINE;
+    public static final ILangKey QUEST_DAILY_EXPLORATION_NAME = QuestCommonLangKey.QUEST_DAILY_EXPLORATION_NAME;
+    public static final ILangKey QUEST_DAILY_EXPLORATION_DIALOGS = QuestCommonLangKey.QUEST_DAILY_EXPLORATION_DIALOGS;
+    public static final ILangKey QUEST_DAILY_EXPLORATION_NPC_NAME = QuestCommonLangKey.QUEST_DAILY_EXPLORATION_NPC_NAME;
+    public static final ILangKey QUEST_DAILY_EXPLORATION_ACCEPT = QuestCommonLangKey.QUEST_DAILY_EXPLORATION_ACCEPT;
+    public static final ILangKey QUEST_DAILY_EXPLORATION_DECLINE = QuestCommonLangKey.QUEST_DAILY_EXPLORATION_DECLINE;
+    public static final ILangKey QUEST_DAILY_DELIVERY_NAME = QuestCommonLangKey.QUEST_DAILY_DELIVERY_NAME;
+    public static final ILangKey QUEST_DAILY_DELIVERY_DIALOGS = QuestCommonLangKey.QUEST_DAILY_DELIVERY_DIALOGS;
+    public static final ILangKey QUEST_DAILY_DELIVERY_NPC_NAME = QuestCommonLangKey.QUEST_DAILY_DELIVERY_NPC_NAME;
+    public static final ILangKey QUEST_DAILY_DELIVERY_ACCEPT = QuestCommonLangKey.QUEST_DAILY_DELIVERY_ACCEPT;
+    public static final ILangKey QUEST_DAILY_DELIVERY_DECLINE = QuestCommonLangKey.QUEST_DAILY_DELIVERY_DECLINE;
+    public static final ILangKey QUEST_DAILY_CRAFTING_NAME = QuestCommonLangKey.QUEST_DAILY_CRAFTING_NAME;
+    public static final ILangKey QUEST_DAILY_CRAFTING_DIALOGS = QuestCommonLangKey.QUEST_DAILY_CRAFTING_DIALOGS;
+    public static final ILangKey QUEST_DAILY_CRAFTING_NPC_NAME = QuestCommonLangKey.QUEST_DAILY_CRAFTING_NPC_NAME;
+    public static final ILangKey QUEST_DAILY_CRAFTING_ACCEPT = QuestCommonLangKey.QUEST_DAILY_CRAFTING_ACCEPT;
+    public static final ILangKey QUEST_DAILY_CRAFTING_DECLINE = QuestCommonLangKey.QUEST_DAILY_CRAFTING_DECLINE;
+    public static final ILangKey QUEST_DAILY_BOUNTY_HUNTER_NAME = QuestCommonLangKey.QUEST_DAILY_BOUNTY_HUNTER_NAME;
+    public static final ILangKey QUEST_DAILY_BOUNTY_HUNTER_DIALOGS = QuestCommonLangKey.QUEST_DAILY_BOUNTY_HUNTER_DIALOGS;
+    public static final ILangKey QUEST_DAILY_BOUNTY_HUNTER_NPC_NAME = QuestCommonLangKey.QUEST_DAILY_BOUNTY_HUNTER_NPC_NAME;
+    public static final ILangKey QUEST_DAILY_BOUNTY_HUNTER_ACCEPT = QuestCommonLangKey.QUEST_DAILY_BOUNTY_HUNTER_ACCEPT;
+    public static final ILangKey QUEST_DAILY_BOUNTY_HUNTER_DECLINE = QuestCommonLangKey.QUEST_DAILY_BOUNTY_HUNTER_DECLINE;
+    public static final ILangKey QUEST_SIDE_THIEVES_GUILD_NAME = QuestCommonLangKey.QUEST_SIDE_THIEVES_GUILD_NAME;
+    public static final ILangKey QUEST_SIDE_THIEVES_GUILD_INFO = QuestCommonLangKey.QUEST_SIDE_THIEVES_GUILD_INFO;
+    public static final ILangKey QUEST_SIDE_THIEVES_GUILD_DIALOGS = QuestCommonLangKey.QUEST_SIDE_THIEVES_GUILD_DIALOGS;
+    public static final ILangKey QUEST_SIDE_THIEVES_GUILD_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_THIEVES_GUILD_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_THIEVES_GUILD_ACCEPT = QuestCommonLangKey.QUEST_SIDE_THIEVES_GUILD_ACCEPT;
+    public static final ILangKey QUEST_SIDE_THIEVES_GUILD_DECLINE = QuestCommonLangKey.QUEST_SIDE_THIEVES_GUILD_DECLINE;
+    public static final ILangKey QUEST_SIDE_VOLCANIC_DEPTHS_NAME = QuestCommonLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_NAME;
+    public static final ILangKey QUEST_SIDE_VOLCANIC_DEPTHS_INFO = QuestCommonLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_INFO;
+    public static final ILangKey QUEST_SIDE_VOLCANIC_DEPTHS_DIALOGS = QuestCommonLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_DIALOGS;
+    public static final ILangKey QUEST_SIDE_VOLCANIC_DEPTHS_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_VOLCANIC_DEPTHS_ACCEPT = QuestCommonLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_ACCEPT;
+    public static final ILangKey QUEST_SIDE_VOLCANIC_DEPTHS_DECLINE = QuestCommonLangKey.QUEST_SIDE_VOLCANIC_DEPTHS_DECLINE;
+    public static final ILangKey QUEST_SIDE_ANCIENT_RUINS_NAME = QuestCommonLangKey.QUEST_SIDE_ANCIENT_RUINS_NAME;
+    public static final ILangKey QUEST_SIDE_ANCIENT_RUINS_INFO = QuestCommonLangKey.QUEST_SIDE_ANCIENT_RUINS_INFO;
+    public static final ILangKey QUEST_SIDE_ANCIENT_RUINS_DIALOGS = QuestCommonLangKey.QUEST_SIDE_ANCIENT_RUINS_DIALOGS;
+    public static final ILangKey QUEST_SIDE_ANCIENT_RUINS_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_ANCIENT_RUINS_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_ANCIENT_RUINS_ACCEPT = QuestCommonLangKey.QUEST_SIDE_ANCIENT_RUINS_ACCEPT;
+    public static final ILangKey QUEST_SIDE_ANCIENT_RUINS_DECLINE = QuestCommonLangKey.QUEST_SIDE_ANCIENT_RUINS_DECLINE;
+    public static final ILangKey QUEST_SIDE_ALCHEMIST_EXPERIMENT_NAME = QuestCommonLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_NAME;
+    public static final ILangKey QUEST_SIDE_ALCHEMIST_EXPERIMENT_INFO = QuestCommonLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_INFO;
+    public static final ILangKey QUEST_SIDE_ALCHEMIST_EXPERIMENT_DIALOGS = QuestCommonLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_DIALOGS;
+    public static final ILangKey QUEST_SIDE_ALCHEMIST_EXPERIMENT_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_ALCHEMIST_EXPERIMENT_ACCEPT = QuestCommonLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_ACCEPT;
+    public static final ILangKey QUEST_SIDE_ALCHEMIST_EXPERIMENT_DECLINE = QuestCommonLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_DECLINE;
+    public static final ILangKey QUEST_SIDE_ROYAL_MESSENGER_NAME = QuestCommonLangKey.QUEST_SIDE_ROYAL_MESSENGER_NAME;
+    public static final ILangKey QUEST_SIDE_ROYAL_MESSENGER_INFO = QuestCommonLangKey.QUEST_SIDE_ROYAL_MESSENGER_INFO;
+    public static final ILangKey QUEST_SIDE_ROYAL_MESSENGER_DIALOGS = QuestCommonLangKey.QUEST_SIDE_ROYAL_MESSENGER_DIALOGS;
+    public static final ILangKey QUEST_SIDE_ROYAL_MESSENGER_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_ROYAL_MESSENGER_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_ROYAL_MESSENGER_ACCEPT = QuestCommonLangKey.QUEST_SIDE_ROYAL_MESSENGER_ACCEPT;
+    public static final ILangKey QUEST_SIDE_ROYAL_MESSENGER_DECLINE = QuestCommonLangKey.QUEST_SIDE_ROYAL_MESSENGER_DECLINE;
+    public static final ILangKey QUEST_SIDE_SUNKEN_CITY_NAME = QuestCommonLangKey.QUEST_SIDE_SUNKEN_CITY_NAME;
+    public static final ILangKey QUEST_SIDE_SUNKEN_CITY_INFO = QuestCommonLangKey.QUEST_SIDE_SUNKEN_CITY_INFO;
+    public static final ILangKey QUEST_SIDE_SUNKEN_CITY_DIALOGS = QuestCommonLangKey.QUEST_SIDE_SUNKEN_CITY_DIALOGS;
+    public static final ILangKey QUEST_SIDE_SUNKEN_CITY_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_SUNKEN_CITY_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_SUNKEN_CITY_ACCEPT = QuestCommonLangKey.QUEST_SIDE_SUNKEN_CITY_ACCEPT;
+    public static final ILangKey QUEST_SIDE_SUNKEN_CITY_DECLINE = QuestCommonLangKey.QUEST_SIDE_SUNKEN_CITY_DECLINE;
+    public static final ILangKey QUEST_SIDE_BLACKSMITH_APPRENTICE_NAME = QuestCommonLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_NAME;
+    public static final ILangKey QUEST_SIDE_BLACKSMITH_APPRENTICE_INFO = QuestCommonLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_INFO;
+    public static final ILangKey QUEST_SIDE_BLACKSMITH_APPRENTICE_DIALOGS = QuestCommonLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_DIALOGS;
+    public static final ILangKey QUEST_SIDE_BLACKSMITH_APPRENTICE_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_BLACKSMITH_APPRENTICE_ACCEPT = QuestCommonLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_ACCEPT;
+    public static final ILangKey QUEST_SIDE_BLACKSMITH_APPRENTICE_DECLINE = QuestCommonLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_DECLINE;
+    public static final ILangKey QUEST_SIDE_COLLECT_HERBS_NAME = QuestCommonLangKey.QUEST_SIDE_COLLECT_HERBS_NAME;
+    public static final ILangKey QUEST_SIDE_COLLECT_HERBS_INFO = QuestCommonLangKey.QUEST_SIDE_COLLECT_HERBS_INFO;
+    public static final ILangKey QUEST_SIDE_COLLECT_HERBS_DIALOGS = QuestCommonLangKey.QUEST_SIDE_COLLECT_HERBS_DIALOGS;
+    public static final ILangKey QUEST_SIDE_COLLECT_HERBS_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_COLLECT_HERBS_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_COLLECT_HERBS_ACCEPT = QuestCommonLangKey.QUEST_SIDE_COLLECT_HERBS_ACCEPT;
+    public static final ILangKey QUEST_SIDE_COLLECT_HERBS_DECLINE = QuestCommonLangKey.QUEST_SIDE_COLLECT_HERBS_DECLINE;
+    public static final ILangKey QUEST_SIDE_CRYSTAL_CAVERN_NAME = QuestCommonLangKey.QUEST_SIDE_CRYSTAL_CAVERN_NAME;
+    public static final ILangKey QUEST_SIDE_CRYSTAL_CAVERN_INFO = QuestCommonLangKey.QUEST_SIDE_CRYSTAL_CAVERN_INFO;
+    public static final ILangKey QUEST_SIDE_CRYSTAL_CAVERN_DIALOGS = QuestCommonLangKey.QUEST_SIDE_CRYSTAL_CAVERN_DIALOGS;
+    public static final ILangKey QUEST_SIDE_CRYSTAL_CAVERN_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_CRYSTAL_CAVERN_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_CRYSTAL_CAVERN_ACCEPT = QuestCommonLangKey.QUEST_SIDE_CRYSTAL_CAVERN_ACCEPT;
+    public static final ILangKey QUEST_SIDE_CRYSTAL_CAVERN_DECLINE = QuestCommonLangKey.QUEST_SIDE_CRYSTAL_CAVERN_DECLINE;
+    public static final ILangKey QUEST_SIDE_DESERT_OASIS_NAME = QuestCommonLangKey.QUEST_SIDE_DESERT_OASIS_NAME;
+    public static final ILangKey QUEST_SIDE_DESERT_OASIS_INFO = QuestCommonLangKey.QUEST_SIDE_DESERT_OASIS_INFO;
+    public static final ILangKey QUEST_SIDE_DESERT_OASIS_DIALOGS = QuestCommonLangKey.QUEST_SIDE_DESERT_OASIS_DIALOGS;
+    public static final ILangKey QUEST_SIDE_DESERT_OASIS_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_DESERT_OASIS_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_DESERT_OASIS_ACCEPT = QuestCommonLangKey.QUEST_SIDE_DESERT_OASIS_ACCEPT;
+    public static final ILangKey QUEST_SIDE_DESERT_OASIS_DECLINE = QuestCommonLangKey.QUEST_SIDE_DESERT_OASIS_DECLINE;
+    public static final ILangKey QUEST_SIDE_ENCHANTED_FOREST_NAME = QuestCommonLangKey.QUEST_SIDE_ENCHANTED_FOREST_NAME;
+    public static final ILangKey QUEST_SIDE_ENCHANTED_FOREST_INFO = QuestCommonLangKey.QUEST_SIDE_ENCHANTED_FOREST_INFO;
+    public static final ILangKey QUEST_SIDE_ENCHANTED_FOREST_DIALOGS = QuestCommonLangKey.QUEST_SIDE_ENCHANTED_FOREST_DIALOGS;
+    public static final ILangKey QUEST_SIDE_ENCHANTED_FOREST_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_ENCHANTED_FOREST_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_ENCHANTED_FOREST_ACCEPT = QuestCommonLangKey.QUEST_SIDE_ENCHANTED_FOREST_ACCEPT;
+    public static final ILangKey QUEST_SIDE_ENCHANTED_FOREST_DECLINE = QuestCommonLangKey.QUEST_SIDE_ENCHANTED_FOREST_DECLINE;
+    public static final ILangKey QUEST_SIDE_FARMERS_REQUEST_NAME = QuestCommonLangKey.QUEST_SIDE_FARMERS_REQUEST_NAME;
+    public static final ILangKey QUEST_SIDE_FARMERS_REQUEST_INFO = QuestCommonLangKey.QUEST_SIDE_FARMERS_REQUEST_INFO;
+    public static final ILangKey QUEST_SIDE_FARMERS_REQUEST_DIALOGS = QuestCommonLangKey.QUEST_SIDE_FARMERS_REQUEST_DIALOGS;
+    public static final ILangKey QUEST_SIDE_FARMERS_REQUEST_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_FARMERS_REQUEST_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_FARMERS_REQUEST_ACCEPT = QuestCommonLangKey.QUEST_SIDE_FARMERS_REQUEST_ACCEPT;
+    public static final ILangKey QUEST_SIDE_FARMERS_REQUEST_DECLINE = QuestCommonLangKey.QUEST_SIDE_FARMERS_REQUEST_DECLINE;
+    public static final ILangKey QUEST_SIDE_FISHERMAN_TALE_NAME = QuestCommonLangKey.QUEST_SIDE_FISHERMAN_TALE_NAME;
+    public static final ILangKey QUEST_SIDE_FISHERMAN_TALE_INFO = QuestCommonLangKey.QUEST_SIDE_FISHERMAN_TALE_INFO;
+    public static final ILangKey QUEST_SIDE_FISHERMAN_TALE_DIALOGS = QuestCommonLangKey.QUEST_SIDE_FISHERMAN_TALE_DIALOGS;
+    public static final ILangKey QUEST_SIDE_FISHERMAN_TALE_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_FISHERMAN_TALE_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_FISHERMAN_TALE_ACCEPT = QuestCommonLangKey.QUEST_SIDE_FISHERMAN_TALE_ACCEPT;
+    public static final ILangKey QUEST_SIDE_FISHERMAN_TALE_DECLINE = QuestCommonLangKey.QUEST_SIDE_FISHERMAN_TALE_DECLINE;
+    public static final ILangKey QUEST_SIDE_FORGOTTEN_TEMPLE_NAME = QuestCommonLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_NAME;
+    public static final ILangKey QUEST_SIDE_FORGOTTEN_TEMPLE_INFO = QuestCommonLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_INFO;
+    public static final ILangKey QUEST_SIDE_FORGOTTEN_TEMPLE_DIALOGS = QuestCommonLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_DIALOGS;
+    public static final ILangKey QUEST_SIDE_FORGOTTEN_TEMPLE_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_FORGOTTEN_TEMPLE_ACCEPT = QuestCommonLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_ACCEPT;
+    public static final ILangKey QUEST_SIDE_FORGOTTEN_TEMPLE_DECLINE = QuestCommonLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_DECLINE;
+    public static final ILangKey QUEST_SIDE_FROZEN_PEAKS_NAME = QuestCommonLangKey.QUEST_SIDE_FROZEN_PEAKS_NAME;
+    public static final ILangKey QUEST_SIDE_FROZEN_PEAKS_INFO = QuestCommonLangKey.QUEST_SIDE_FROZEN_PEAKS_INFO;
+    public static final ILangKey QUEST_SIDE_FROZEN_PEAKS_DIALOGS = QuestCommonLangKey.QUEST_SIDE_FROZEN_PEAKS_DIALOGS;
+    public static final ILangKey QUEST_SIDE_FROZEN_PEAKS_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_FROZEN_PEAKS_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_FROZEN_PEAKS_ACCEPT = QuestCommonLangKey.QUEST_SIDE_FROZEN_PEAKS_ACCEPT;
+    public static final ILangKey QUEST_SIDE_FROZEN_PEAKS_DECLINE = QuestCommonLangKey.QUEST_SIDE_FROZEN_PEAKS_DECLINE;
+    public static final ILangKey QUEST_SIDE_HEALERS_REQUEST_NAME = QuestCommonLangKey.QUEST_SIDE_HEALERS_REQUEST_NAME;
+    public static final ILangKey QUEST_SIDE_HEALERS_REQUEST_INFO = QuestCommonLangKey.QUEST_SIDE_HEALERS_REQUEST_INFO;
+    public static final ILangKey QUEST_SIDE_HEALERS_REQUEST_DIALOGS = QuestCommonLangKey.QUEST_SIDE_HEALERS_REQUEST_DIALOGS;
+    public static final ILangKey QUEST_SIDE_HEALERS_REQUEST_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_HEALERS_REQUEST_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_HEALERS_REQUEST_ACCEPT = QuestCommonLangKey.QUEST_SIDE_HEALERS_REQUEST_ACCEPT;
+    public static final ILangKey QUEST_SIDE_HEALERS_REQUEST_DECLINE = QuestCommonLangKey.QUEST_SIDE_HEALERS_REQUEST_DECLINE;
+    public static final ILangKey QUEST_SIDE_HIDDEN_VALLEY_NAME = QuestCommonLangKey.QUEST_SIDE_HIDDEN_VALLEY_NAME;
+    public static final ILangKey QUEST_SIDE_HIDDEN_VALLEY_INFO = QuestCommonLangKey.QUEST_SIDE_HIDDEN_VALLEY_INFO;
+    public static final ILangKey QUEST_SIDE_HIDDEN_VALLEY_DIALOGS = QuestCommonLangKey.QUEST_SIDE_HIDDEN_VALLEY_DIALOGS;
+    public static final ILangKey QUEST_SIDE_HIDDEN_VALLEY_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_HIDDEN_VALLEY_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_HIDDEN_VALLEY_ACCEPT = QuestCommonLangKey.QUEST_SIDE_HIDDEN_VALLEY_ACCEPT;
+    public static final ILangKey QUEST_SIDE_HIDDEN_VALLEY_DECLINE = QuestCommonLangKey.QUEST_SIDE_HIDDEN_VALLEY_DECLINE;
+    public static final ILangKey QUEST_SIDE_INNKEEPER_TROUBLE_NAME = QuestCommonLangKey.QUEST_SIDE_INNKEEPER_TROUBLE_NAME;
+    public static final ILangKey QUEST_SIDE_INNKEEPER_TROUBLE_INFO = QuestCommonLangKey.QUEST_SIDE_INNKEEPER_TROUBLE_INFO;
+    public static final ILangKey QUEST_SIDE_INNKEEPER_TROUBLE_DIALOGS = QuestCommonLangKey.QUEST_SIDE_INNKEEPER_TROUBLE_DIALOGS;
+    public static final ILangKey QUEST_SIDE_INNKEEPER_TROUBLE_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_INNKEEPER_TROUBLE_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_INNKEEPER_TROUBLE_ACCEPT = QuestCommonLangKey.QUEST_SIDE_INNKEEPER_TROUBLE_ACCEPT;
+    public static final ILangKey QUEST_SIDE_INNKEEPER_TROUBLE_DECLINE = QuestCommonLangKey.QUEST_SIDE_INNKEEPER_TROUBLE_DECLINE;
+    public static final ILangKey QUEST_SIDE_LIBRARIAN_MYSTERY_NAME = QuestCommonLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_NAME;
+    public static final ILangKey QUEST_SIDE_LIBRARIAN_MYSTERY_INFO = QuestCommonLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_INFO;
+    public static final ILangKey QUEST_SIDE_LIBRARIAN_MYSTERY_DIALOGS = QuestCommonLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_DIALOGS;
+    public static final ILangKey QUEST_SIDE_LIBRARIAN_MYSTERY_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_LIBRARIAN_MYSTERY_ACCEPT = QuestCommonLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_ACCEPT;
+    public static final ILangKey QUEST_SIDE_LIBRARIAN_MYSTERY_DECLINE = QuestCommonLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_DECLINE;
+    public static final ILangKey QUEST_SIDE_LOST_TREASURE_NAME = QuestCommonLangKey.QUEST_SIDE_LOST_TREASURE_NAME;
+    public static final ILangKey QUEST_SIDE_LOST_TREASURE_INFO = QuestCommonLangKey.QUEST_SIDE_LOST_TREASURE_INFO;
+    public static final ILangKey QUEST_SIDE_LOST_TREASURE_DIALOGS = QuestCommonLangKey.QUEST_SIDE_LOST_TREASURE_DIALOGS;
+    public static final ILangKey QUEST_SIDE_LOST_TREASURE_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_LOST_TREASURE_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_LOST_TREASURE_ACCEPT = QuestCommonLangKey.QUEST_SIDE_LOST_TREASURE_ACCEPT;
+    public static final ILangKey QUEST_SIDE_LOST_TREASURE_DECLINE = QuestCommonLangKey.QUEST_SIDE_LOST_TREASURE_DECLINE;
+    public static final ILangKey QUEST_SIDE_MERCHANTS_DILEMMA_NAME = QuestCommonLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_NAME;
+    public static final ILangKey QUEST_SIDE_MERCHANTS_DILEMMA_INFO = QuestCommonLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_INFO;
+    public static final ILangKey QUEST_SIDE_MERCHANTS_DILEMMA_DIALOGS = QuestCommonLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_DIALOGS;
+    public static final ILangKey QUEST_SIDE_MERCHANTS_DILEMMA_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_MERCHANTS_DILEMMA_ACCEPT = QuestCommonLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_ACCEPT;
+    public static final ILangKey QUEST_SIDE_MERCHANTS_DILEMMA_DECLINE = QuestCommonLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_DECLINE;
+    public static final ILangKey QUEST_SIDE_MINERS_PLIGHT_NAME = QuestCommonLangKey.QUEST_SIDE_MINERS_PLIGHT_NAME;
+    public static final ILangKey QUEST_SIDE_MINERS_PLIGHT_INFO = QuestCommonLangKey.QUEST_SIDE_MINERS_PLIGHT_INFO;
+    public static final ILangKey QUEST_SIDE_MINERS_PLIGHT_DIALOGS = QuestCommonLangKey.QUEST_SIDE_MINERS_PLIGHT_DIALOGS;
+    public static final ILangKey QUEST_SIDE_MINERS_PLIGHT_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_MINERS_PLIGHT_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_MINERS_PLIGHT_ACCEPT = QuestCommonLangKey.QUEST_SIDE_MINERS_PLIGHT_ACCEPT;
+    public static final ILangKey QUEST_SIDE_MINERS_PLIGHT_DECLINE = QuestCommonLangKey.QUEST_SIDE_MINERS_PLIGHT_DECLINE;
+    public static final ILangKey QUEST_SIDE_MYSTERIOUS_CAVE_NAME = QuestCommonLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_NAME;
+    public static final ILangKey QUEST_SIDE_MYSTERIOUS_CAVE_INFO = QuestCommonLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_INFO;
+    public static final ILangKey QUEST_SIDE_MYSTERIOUS_CAVE_DIALOGS = QuestCommonLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_DIALOGS;
+    public static final ILangKey QUEST_SIDE_MYSTERIOUS_CAVE_NPC_NAME = QuestCommonLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_NPC_NAME;
+    public static final ILangKey QUEST_SIDE_MYSTERIOUS_CAVE_ACCEPT = QuestCommonLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_ACCEPT;
+    public static final ILangKey QUEST_SIDE_MYSTERIOUS_CAVE_DECLINE = QuestCommonLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_DECLINE;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_NAME = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_NAME;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_INFO = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_INFO;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PALADIN_MASTER = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PALADIN_MASTER;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_WATER = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_WATER;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PURGE_UNDEAD = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PURGE_UNDEAD;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PURGE_SKELETONS = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_PURGE_SKELETONS;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_SHRINE = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_SHRINE;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_MEDITATION = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_MEDITATION;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_SWORD = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_HOLY_SWORD;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_BUILD_ALTAR = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_BUILD_ALTAR;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_DEFEAT_DARKNESS = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_DEFEAT_DARKNESS;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_LIGHT_ESSENCE = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_LIGHT_ESSENCE;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_OATH_COMPLETION = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_OBJECTIVES_OATH_COMPLETION;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_DIALOGS = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_DIALOGS;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_NPC_NAME = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_NPC_NAME;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_ACCEPT = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_ACCEPT;
+    public static final ILangKey QUEST_BRANCH_LIGHT_PALADIN_DECLINE = QuestCommonLangKey.QUEST_BRANCH_LIGHT_PALADIN_DECLINE;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_NAME = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_NAME;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_INFO = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_INFO;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_DIALOGS = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_DIALOGS;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_NPC_NAME = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_NPC_NAME;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_ACCEPT = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_ACCEPT;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_DECLINE = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_DECLINE;
+    public static final ILangKey QUEST_CRAFTING_MASTER_BLACKSMITH_NAME = QuestCommonLangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_NAME;
+    public static final ILangKey QUEST_CRAFTING_MASTER_BLACKSMITH_INFO = QuestCommonLangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_INFO;
+    public static final ILangKey QUEST_CRAFTING_MASTER_BLACKSMITH_DIALOGS = QuestCommonLangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_DIALOGS;
+    public static final ILangKey QUEST_CRAFTING_MASTER_BLACKSMITH_NPC_NAME = QuestCommonLangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_NPC_NAME;
+    public static final ILangKey QUEST_CRAFTING_MASTER_BLACKSMITH_ACCEPT = QuestCommonLangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_ACCEPT;
+    public static final ILangKey QUEST_CRAFTING_MASTER_BLACKSMITH_DECLINE = QuestCommonLangKey.QUEST_CRAFTING_MASTER_BLACKSMITH_DECLINE;
+    public static final ILangKey QUEST_EVENT_HALLOWEEN_NIGHT_NAME = QuestCommonLangKey.QUEST_EVENT_HALLOWEEN_NIGHT_NAME;
+    public static final ILangKey QUEST_EVENT_HALLOWEEN_NIGHT_INFO = QuestCommonLangKey.QUEST_EVENT_HALLOWEEN_NIGHT_INFO;
+    public static final ILangKey QUEST_EVENT_HALLOWEEN_NIGHT_DIALOGS = QuestCommonLangKey.QUEST_EVENT_HALLOWEEN_NIGHT_DIALOGS;
+    public static final ILangKey QUEST_EVENT_HALLOWEEN_NIGHT_NPC_NAME = QuestCommonLangKey.QUEST_EVENT_HALLOWEEN_NIGHT_NPC_NAME;
+    public static final ILangKey QUEST_EVENT_HALLOWEEN_NIGHT_ACCEPT = QuestCommonLangKey.QUEST_EVENT_HALLOWEEN_NIGHT_ACCEPT;
+    public static final ILangKey QUEST_EVENT_HALLOWEEN_NIGHT_DECLINE = QuestCommonLangKey.QUEST_EVENT_HALLOWEEN_NIGHT_DECLINE;
+    public static final ILangKey QUEST_MAIN_ANCIENT_PROPHECY_NAME = QuestCommonLangKey.QUEST_MAIN_ANCIENT_PROPHECY_NAME;
+    public static final ILangKey QUEST_MAIN_ANCIENT_PROPHECY_INFO = QuestCommonLangKey.QUEST_MAIN_ANCIENT_PROPHECY_INFO;
+    public static final ILangKey QUEST_MAIN_ANCIENT_PROPHECY_DIALOGS = QuestCommonLangKey.QUEST_MAIN_ANCIENT_PROPHECY_DIALOGS;
+    public static final ILangKey QUEST_MAIN_ANCIENT_PROPHECY_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_ANCIENT_PROPHECY_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_ANCIENT_PROPHECY_ACCEPT = QuestCommonLangKey.QUEST_MAIN_ANCIENT_PROPHECY_ACCEPT;
+    public static final ILangKey QUEST_MAIN_ANCIENT_PROPHECY_DECLINE = QuestCommonLangKey.QUEST_MAIN_ANCIENT_PROPHECY_DECLINE;
+    public static final ILangKey QUEST_MAIN_CHOSEN_ONE_NAME = QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_NAME;
+    public static final ILangKey QUEST_MAIN_CHOSEN_ONE_INFO = QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_INFO;
+    public static final ILangKey QUEST_MAIN_CHOSEN_ONE_DIALOGS = QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_DIALOGS;
+    public static final ILangKey QUEST_MAIN_CHOSEN_ONE_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_CHOSEN_ONE_ACCEPT = QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_ACCEPT;
+    public static final ILangKey QUEST_MAIN_CHOSEN_ONE_DECLINE = QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_DECLINE;
+    public static final ILangKey QUEST_MAIN_ELEMENTAL_STONES_NAME = QuestCommonLangKey.QUEST_MAIN_ELEMENTAL_STONES_NAME;
+    public static final ILangKey QUEST_MAIN_ELEMENTAL_STONES_INFO = QuestCommonLangKey.QUEST_MAIN_ELEMENTAL_STONES_INFO;
+    public static final ILangKey QUEST_MAIN_ELEMENTAL_STONES_DIALOGS = QuestCommonLangKey.QUEST_MAIN_ELEMENTAL_STONES_DIALOGS;
+    public static final ILangKey QUEST_MAIN_ELEMENTAL_STONES_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_ELEMENTAL_STONES_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_ELEMENTAL_STONES_ACCEPT = QuestCommonLangKey.QUEST_MAIN_ELEMENTAL_STONES_ACCEPT;
+    public static final ILangKey QUEST_MAIN_ELEMENTAL_STONES_DECLINE = QuestCommonLangKey.QUEST_MAIN_ELEMENTAL_STONES_DECLINE;
+    public static final ILangKey QUEST_MAIN_FIRST_TRIAL_NAME = QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_NAME;
+    public static final ILangKey QUEST_MAIN_FIRST_TRIAL_INFO = QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_INFO;
+    public static final ILangKey QUEST_MAIN_FIRST_TRIAL_DIALOGS = QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_DIALOGS;
+    public static final ILangKey QUEST_MAIN_FIRST_TRIAL_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_FIRST_TRIAL_ACCEPT = QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_ACCEPT;
+    public static final ILangKey QUEST_MAIN_FIRST_TRIAL_DECLINE = QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_DECLINE;
+    public static final ILangKey QUEST_MAIN_LOST_KINGDOM_NAME = QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_NAME;
+    public static final ILangKey QUEST_MAIN_LOST_KINGDOM_INFO = QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_INFO;
+    public static final ILangKey QUEST_MAIN_LOST_KINGDOM_DIALOGS = QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_DIALOGS;
+    public static final ILangKey QUEST_MAIN_LOST_KINGDOM_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_LOST_KINGDOM_ACCEPT = QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_ACCEPT;
+    public static final ILangKey QUEST_MAIN_LOST_KINGDOM_DECLINE = QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_DECLINE;
+    public static final ILangKey QUEST_MAIN_SHADOW_INVASION_NAME = QuestCommonLangKey.QUEST_MAIN_SHADOW_INVASION_NAME;
+    public static final ILangKey QUEST_MAIN_SHADOW_INVASION_INFO = QuestCommonLangKey.QUEST_MAIN_SHADOW_INVASION_INFO;
+    public static final ILangKey QUEST_MAIN_SHADOW_INVASION_DIALOGS = QuestCommonLangKey.QUEST_MAIN_SHADOW_INVASION_DIALOGS;
+    public static final ILangKey QUEST_MAIN_SHADOW_INVASION_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_SHADOW_INVASION_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_SHADOW_INVASION_ACCEPT = QuestCommonLangKey.QUEST_MAIN_SHADOW_INVASION_ACCEPT;
+    public static final ILangKey QUEST_MAIN_SHADOW_INVASION_DECLINE = QuestCommonLangKey.QUEST_MAIN_SHADOW_INVASION_DECLINE;
+    public static final ILangKey QUEST_MAIN_CORRUPTED_LANDS_NAME = QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_NAME;
+    public static final ILangKey QUEST_MAIN_CORRUPTED_LANDS_INFO = QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_INFO;
+    public static final ILangKey QUEST_MAIN_CORRUPTED_LANDS_DIALOGS = QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_DIALOGS;
+    public static final ILangKey QUEST_MAIN_CORRUPTED_LANDS_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_CORRUPTED_LANDS_ACCEPT = QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_ACCEPT;
+    public static final ILangKey QUEST_MAIN_CORRUPTED_LANDS_DECLINE = QuestCommonLangKey.QUEST_MAIN_CORRUPTED_LANDS_DECLINE;
+    public static final ILangKey QUEST_MAIN_ANCIENT_EVIL_NAME = QuestCommonLangKey.QUEST_MAIN_ANCIENT_EVIL_NAME;
+    public static final ILangKey QUEST_MAIN_ANCIENT_EVIL_INFO = QuestCommonLangKey.QUEST_MAIN_ANCIENT_EVIL_INFO;
+    public static final ILangKey QUEST_MAIN_ANCIENT_EVIL_DIALOGS = QuestCommonLangKey.QUEST_MAIN_ANCIENT_EVIL_DIALOGS;
+    public static final ILangKey QUEST_MAIN_ANCIENT_EVIL_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_ANCIENT_EVIL_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_ANCIENT_EVIL_ACCEPT = QuestCommonLangKey.QUEST_MAIN_ANCIENT_EVIL_ACCEPT;
+    public static final ILangKey QUEST_MAIN_ANCIENT_EVIL_DECLINE = QuestCommonLangKey.QUEST_MAIN_ANCIENT_EVIL_DECLINE;
+    public static final ILangKey QUEST_MAIN_HEROES_ALLIANCE_NAME = QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_NAME;
+    public static final ILangKey QUEST_MAIN_HEROES_ALLIANCE_INFO = QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_INFO;
+    public static final ILangKey QUEST_MAIN_HEROES_ALLIANCE_DIALOGS = QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_DIALOGS;
+    public static final ILangKey QUEST_MAIN_HEROES_ALLIANCE_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_HEROES_ALLIANCE_ACCEPT = QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_ACCEPT;
+    public static final ILangKey QUEST_MAIN_HEROES_ALLIANCE_DECLINE = QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_DECLINE;
+    public static final ILangKey QUEST_MAIN_DRAGON_AWAKENING_NAME = QuestCommonLangKey.QUEST_MAIN_DRAGON_AWAKENING_NAME;
+    public static final ILangKey QUEST_MAIN_DRAGON_AWAKENING_INFO = QuestCommonLangKey.QUEST_MAIN_DRAGON_AWAKENING_INFO;
+    public static final ILangKey QUEST_MAIN_DRAGON_AWAKENING_DIALOGS = QuestCommonLangKey.QUEST_MAIN_DRAGON_AWAKENING_DIALOGS;
+    public static final ILangKey QUEST_MAIN_DRAGON_AWAKENING_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_DRAGON_AWAKENING_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_DRAGON_AWAKENING_ACCEPT = QuestCommonLangKey.QUEST_MAIN_DRAGON_AWAKENING_ACCEPT;
+    public static final ILangKey QUEST_MAIN_DRAGON_AWAKENING_DECLINE = QuestCommonLangKey.QUEST_MAIN_DRAGON_AWAKENING_DECLINE;
+    public static final ILangKey QUEST_MAIN_DRAGON_TRIALS_NAME = QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_NAME;
+    public static final ILangKey QUEST_MAIN_DRAGON_TRIALS_INFO = QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_INFO;
+    public static final ILangKey QUEST_MAIN_DRAGON_TRIALS_DIALOGS = QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_DIALOGS;
+    public static final ILangKey QUEST_MAIN_DRAGON_TRIALS_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_DRAGON_TRIALS_ACCEPT = QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_ACCEPT;
+    public static final ILangKey QUEST_MAIN_DRAGON_TRIALS_DECLINE = QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_DECLINE;
+    public static final ILangKey QUEST_MAIN_DRAGON_HEART_NAME = QuestCommonLangKey.QUEST_MAIN_DRAGON_HEART_NAME;
+    public static final ILangKey QUEST_MAIN_DRAGON_HEART_INFO = QuestCommonLangKey.QUEST_MAIN_DRAGON_HEART_INFO;
+    public static final ILangKey QUEST_MAIN_DRAGON_HEART_DIALOGS = QuestCommonLangKey.QUEST_MAIN_DRAGON_HEART_DIALOGS;
+    public static final ILangKey QUEST_MAIN_DRAGON_HEART_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_DRAGON_HEART_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_DRAGON_HEART_ACCEPT = QuestCommonLangKey.QUEST_MAIN_DRAGON_HEART_ACCEPT;
+    public static final ILangKey QUEST_MAIN_DRAGON_HEART_DECLINE = QuestCommonLangKey.QUEST_MAIN_DRAGON_HEART_DECLINE;
+    public static final ILangKey QUEST_MAIN_DRAGON_PACT_NAME = QuestCommonLangKey.QUEST_MAIN_DRAGON_PACT_NAME;
+    public static final ILangKey QUEST_MAIN_DRAGON_PACT_INFO = QuestCommonLangKey.QUEST_MAIN_DRAGON_PACT_INFO;
+    public static final ILangKey QUEST_MAIN_DRAGON_PACT_DIALOGS = QuestCommonLangKey.QUEST_MAIN_DRAGON_PACT_DIALOGS;
+    public static final ILangKey QUEST_MAIN_DRAGON_PACT_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_DRAGON_PACT_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_DRAGON_PACT_ACCEPT = QuestCommonLangKey.QUEST_MAIN_DRAGON_PACT_ACCEPT;
+    public static final ILangKey QUEST_MAIN_DRAGON_PACT_DECLINE = QuestCommonLangKey.QUEST_MAIN_DRAGON_PACT_DECLINE;
+    public static final ILangKey QUEST_MAIN_SKY_FORTRESS_NAME = QuestCommonLangKey.QUEST_MAIN_SKY_FORTRESS_NAME;
+    public static final ILangKey QUEST_MAIN_SKY_FORTRESS_INFO = QuestCommonLangKey.QUEST_MAIN_SKY_FORTRESS_INFO;
+    public static final ILangKey QUEST_MAIN_SKY_FORTRESS_DIALOGS = QuestCommonLangKey.QUEST_MAIN_SKY_FORTRESS_DIALOGS;
+    public static final ILangKey QUEST_MAIN_SKY_FORTRESS_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_SKY_FORTRESS_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_SKY_FORTRESS_ACCEPT = QuestCommonLangKey.QUEST_MAIN_SKY_FORTRESS_ACCEPT;
+    public static final ILangKey QUEST_MAIN_SKY_FORTRESS_DECLINE = QuestCommonLangKey.QUEST_MAIN_SKY_FORTRESS_DECLINE;
+    public static final ILangKey QUEST_MAIN_SHADOW_CULT_NAME = QuestCommonLangKey.QUEST_MAIN_SHADOW_CULT_NAME;
+    public static final ILangKey QUEST_MAIN_SHADOW_CULT_INFO = QuestCommonLangKey.QUEST_MAIN_SHADOW_CULT_INFO;
+    public static final ILangKey QUEST_MAIN_SHADOW_CULT_DIALOGS = QuestCommonLangKey.QUEST_MAIN_SHADOW_CULT_DIALOGS;
+    public static final ILangKey QUEST_MAIN_SHADOW_CULT_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_SHADOW_CULT_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_SHADOW_CULT_ACCEPT = QuestCommonLangKey.QUEST_MAIN_SHADOW_CULT_ACCEPT;
+    public static final ILangKey QUEST_MAIN_SHADOW_CULT_DECLINE = QuestCommonLangKey.QUEST_MAIN_SHADOW_CULT_DECLINE;
+    public static final ILangKey QUEST_MAIN_FORBIDDEN_RITUAL_NAME = QuestCommonLangKey.QUEST_MAIN_FORBIDDEN_RITUAL_NAME;
+    public static final ILangKey QUEST_MAIN_FORBIDDEN_RITUAL_INFO = QuestCommonLangKey.QUEST_MAIN_FORBIDDEN_RITUAL_INFO;
+    public static final ILangKey QUEST_MAIN_FORBIDDEN_RITUAL_DIALOGS = QuestCommonLangKey.QUEST_MAIN_FORBIDDEN_RITUAL_DIALOGS;
+    public static final ILangKey QUEST_MAIN_FORBIDDEN_RITUAL_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_FORBIDDEN_RITUAL_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_FORBIDDEN_RITUAL_ACCEPT = QuestCommonLangKey.QUEST_MAIN_FORBIDDEN_RITUAL_ACCEPT;
+    public static final ILangKey QUEST_MAIN_FORBIDDEN_RITUAL_DECLINE = QuestCommonLangKey.QUEST_MAIN_FORBIDDEN_RITUAL_DECLINE;
+    public static final ILangKey QUEST_MAIN_CHAOS_STORM_NAME = QuestCommonLangKey.QUEST_MAIN_CHAOS_STORM_NAME;
+    public static final ILangKey QUEST_MAIN_CHAOS_STORM_INFO = QuestCommonLangKey.QUEST_MAIN_CHAOS_STORM_INFO;
+    public static final ILangKey QUEST_MAIN_CHAOS_STORM_DIALOGS = QuestCommonLangKey.QUEST_MAIN_CHAOS_STORM_DIALOGS;
+    public static final ILangKey QUEST_MAIN_CHAOS_STORM_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_CHAOS_STORM_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_CHAOS_STORM_ACCEPT = QuestCommonLangKey.QUEST_MAIN_CHAOS_STORM_ACCEPT;
+    public static final ILangKey QUEST_MAIN_CHAOS_STORM_DECLINE = QuestCommonLangKey.QUEST_MAIN_CHAOS_STORM_DECLINE;
+    public static final ILangKey QUEST_MAIN_DARK_FORTRESS_NAME = QuestCommonLangKey.QUEST_MAIN_DARK_FORTRESS_NAME;
+    public static final ILangKey QUEST_MAIN_DARK_FORTRESS_INFO = QuestCommonLangKey.QUEST_MAIN_DARK_FORTRESS_INFO;
+    public static final ILangKey QUEST_MAIN_DARK_FORTRESS_DIALOGS = QuestCommonLangKey.QUEST_MAIN_DARK_FORTRESS_DIALOGS;
+    public static final ILangKey QUEST_MAIN_DARK_FORTRESS_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_DARK_FORTRESS_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_DARK_FORTRESS_ACCEPT = QuestCommonLangKey.QUEST_MAIN_DARK_FORTRESS_ACCEPT;
+    public static final ILangKey QUEST_MAIN_DARK_FORTRESS_DECLINE = QuestCommonLangKey.QUEST_MAIN_DARK_FORTRESS_DECLINE;
+    public static final ILangKey QUEST_MAIN_DIMENSIONAL_RIFT_NAME = QuestCommonLangKey.QUEST_MAIN_DIMENSIONAL_RIFT_NAME;
+    public static final ILangKey QUEST_MAIN_DIMENSIONAL_RIFT_INFO = QuestCommonLangKey.QUEST_MAIN_DIMENSIONAL_RIFT_INFO;
+    public static final ILangKey QUEST_MAIN_DIMENSIONAL_RIFT_DIALOGS = QuestCommonLangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DIALOGS;
+    public static final ILangKey QUEST_MAIN_DIMENSIONAL_RIFT_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_DIMENSIONAL_RIFT_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_DIMENSIONAL_RIFT_ACCEPT = QuestCommonLangKey.QUEST_MAIN_DIMENSIONAL_RIFT_ACCEPT;
+    public static final ILangKey QUEST_MAIN_DIMENSIONAL_RIFT_DECLINE = QuestCommonLangKey.QUEST_MAIN_DIMENSIONAL_RIFT_DECLINE;
+    public static final ILangKey QUEST_DAILY_BOUNTY_HUNTER_INFO = QuestCommonLangKey.QUEST_DAILY_BOUNTY_HUNTER_INFO;
+    public static final ILangKey QUEST_DAILY_CRAFTING_INFO = QuestCommonLangKey.QUEST_DAILY_CRAFTING_INFO;
+    public static final ILangKey QUEST_DAILY_DELIVERY_INFO = QuestCommonLangKey.QUEST_DAILY_DELIVERY_INFO;
+    public static final ILangKey QUEST_DAILY_EXPLORATION_INFO = QuestCommonLangKey.QUEST_DAILY_EXPLORATION_INFO;
+    public static final ILangKey QUEST_DAILY_FISHING_INFO = QuestCommonLangKey.QUEST_DAILY_FISHING_INFO;
+    public static final ILangKey QUEST_DAILY_GATHERING_INFO = QuestCommonLangKey.QUEST_DAILY_GATHERING_INFO;
+    public static final ILangKey QUEST_DAILY_HUNTING_INFO = QuestCommonLangKey.QUEST_DAILY_HUNTING_INFO;
+    public static final ILangKey QUEST_DAILY_MINING_INFO = QuestCommonLangKey.QUEST_DAILY_MINING_INFO;
+    public static final ILangKey QUEST_TUTORIAL_FIRST_STEPS_INFO = TutorialQuestLangKey.QUEST_TUTORIAL_FIRST_STEPS_INFO;
+    public static final ILangKey QUEST_TUTORIAL_FIRST_STEPS_OBJECTIVES_VISIT_HUB = TutorialQuestLangKey.QUEST_TUTORIAL_FIRST_STEPS_OBJECTIVES_VISIT_HUB;
+    public static final ILangKey QUEST_TUTORIAL_FIRST_STEPS_OBJECTIVES_VISIT_MERCHANT = TutorialQuestLangKey.QUEST_TUTORIAL_FIRST_STEPS_OBJECTIVES_VISIT_MERCHANT;
+    public static final ILangKey QUEST_TUTORIAL_BASIC_COMBAT_INFO = TutorialQuestLangKey.QUEST_TUTORIAL_BASIC_COMBAT_INFO;
+    public static final ILangKey QUEST_MAIN_GUARDIAN_AWAKENING_NAME = QuestCommonLangKey.QUEST_MAIN_GUARDIAN_AWAKENING_NAME;
+    public static final ILangKey QUEST_MAIN_GUARDIAN_AWAKENING_INFO = QuestCommonLangKey.QUEST_MAIN_GUARDIAN_AWAKENING_INFO;
+    public static final ILangKey QUEST_MAIN_GUARDIAN_AWAKENING_DIALOGS = QuestCommonLangKey.QUEST_MAIN_GUARDIAN_AWAKENING_DIALOGS;
+    public static final ILangKey QUEST_MAIN_GUARDIAN_AWAKENING_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_GUARDIAN_AWAKENING_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_GUARDIAN_AWAKENING_ACCEPT = QuestCommonLangKey.QUEST_MAIN_GUARDIAN_AWAKENING_ACCEPT;
+    public static final ILangKey QUEST_MAIN_GUARDIAN_AWAKENING_DECLINE = QuestCommonLangKey.QUEST_MAIN_GUARDIAN_AWAKENING_DECLINE;
+    public static final ILangKey QUEST_MAIN_HEROES_JOURNEY_NAME = QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_NAME;
+    public static final ILangKey QUEST_MAIN_HEROES_JOURNEY_INFO = QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_INFO;
+    public static final ILangKey QUEST_MAIN_HEROES_JOURNEY_DIALOGS = QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_DIALOGS;
+    public static final ILangKey QUEST_MAIN_HEROES_JOURNEY_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_HEROES_JOURNEY_ACCEPT = QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_ACCEPT;
+    public static final ILangKey QUEST_MAIN_HEROES_JOURNEY_DECLINE = QuestCommonLangKey.QUEST_MAIN_HEROES_JOURNEY_DECLINE;
+    public static final ILangKey QUEST_MAIN_PATH_OF_DARKNESS_NAME = QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_NAME;
+    public static final ILangKey QUEST_MAIN_PATH_OF_DARKNESS_INFO = QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_INFO;
+    public static final ILangKey QUEST_MAIN_PATH_OF_DARKNESS_DIALOGS = QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_DIALOGS;
+    public static final ILangKey QUEST_MAIN_PATH_OF_DARKNESS_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_PATH_OF_DARKNESS_ACCEPT = QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_ACCEPT;
+    public static final ILangKey QUEST_MAIN_PATH_OF_DARKNESS_DECLINE = QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_DECLINE;
+    public static final ILangKey QUEST_MAIN_PATH_OF_LIGHT_NAME = QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_NAME;
+    public static final ILangKey QUEST_MAIN_PATH_OF_LIGHT_INFO = QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_INFO;
+    public static final ILangKey QUEST_MAIN_PATH_OF_LIGHT_DIALOGS = QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_DIALOGS;
+    public static final ILangKey QUEST_MAIN_PATH_OF_LIGHT_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_PATH_OF_LIGHT_ACCEPT = QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_ACCEPT;
+    public static final ILangKey QUEST_MAIN_PATH_OF_LIGHT_DECLINE = QuestCommonLangKey.QUEST_MAIN_PATH_OF_LIGHT_DECLINE;
+    public static final ILangKey QUEST_MAIN_REALM_DEFENDERS_NAME = QuestCommonLangKey.QUEST_MAIN_REALM_DEFENDERS_NAME;
+    public static final ILangKey QUEST_MAIN_REALM_DEFENDERS_INFO = QuestCommonLangKey.QUEST_MAIN_REALM_DEFENDERS_INFO;
+    public static final ILangKey QUEST_MAIN_REALM_DEFENDERS_DIALOGS = QuestCommonLangKey.QUEST_MAIN_REALM_DEFENDERS_DIALOGS;
+    public static final ILangKey QUEST_MAIN_REALM_DEFENDERS_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_REALM_DEFENDERS_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_REALM_DEFENDERS_ACCEPT = QuestCommonLangKey.QUEST_MAIN_REALM_DEFENDERS_ACCEPT;
+    public static final ILangKey QUEST_MAIN_REALM_DEFENDERS_DECLINE = QuestCommonLangKey.QUEST_MAIN_REALM_DEFENDERS_DECLINE;
+    public static final ILangKey QUEST_MAIN_REALM_PORTAL_NAME = QuestCommonLangKey.QUEST_MAIN_REALM_PORTAL_NAME;
+    public static final ILangKey QUEST_MAIN_REALM_PORTAL_INFO = QuestCommonLangKey.QUEST_MAIN_REALM_PORTAL_INFO;
+    public static final ILangKey QUEST_MAIN_REALM_PORTAL_DIALOGS = QuestCommonLangKey.QUEST_MAIN_REALM_PORTAL_DIALOGS;
+    public static final ILangKey QUEST_MAIN_REALM_PORTAL_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_REALM_PORTAL_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_REALM_PORTAL_ACCEPT = QuestCommonLangKey.QUEST_MAIN_REALM_PORTAL_ACCEPT;
+    public static final ILangKey QUEST_MAIN_REALM_PORTAL_DECLINE = QuestCommonLangKey.QUEST_MAIN_REALM_PORTAL_DECLINE;
+    public static final ILangKey QUEST_MAIN_VOID_INVASION_NAME = QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_NAME;
+    public static final ILangKey QUEST_MAIN_VOID_INVASION_INFO = QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_INFO;
+    public static final ILangKey QUEST_MAIN_VOID_INVASION_DIALOGS = QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_DIALOGS;
+    public static final ILangKey QUEST_MAIN_VOID_INVASION_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_VOID_INVASION_ACCEPT = QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_ACCEPT;
+    public static final ILangKey QUEST_MAIN_VOID_INVASION_DECLINE = QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_DECLINE;
+    public static final ILangKey QUEST_MAIN_FINAL_BATTLE_NAME = QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_NAME;
+    public static final ILangKey QUEST_MAIN_FINAL_BATTLE_INFO = QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_INFO;
+    public static final ILangKey QUEST_MAIN_FINAL_BATTLE_DIALOGS = QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_DIALOGS;
+    public static final ILangKey QUEST_MAIN_FINAL_BATTLE_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_FINAL_BATTLE_ACCEPT = QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_ACCEPT;
+    public static final ILangKey QUEST_MAIN_FINAL_BATTLE_DECLINE = QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_DECLINE;
+    public static final ILangKey QUEST_MAIN_GATHERING_STORM_NAME = QuestCommonLangKey.QUEST_MAIN_GATHERING_STORM_NAME;
+    public static final ILangKey QUEST_MAIN_GATHERING_STORM_INFO = QuestCommonLangKey.QUEST_MAIN_GATHERING_STORM_INFO;
+    public static final ILangKey QUEST_MAIN_GATHERING_STORM_DIALOGS = QuestCommonLangKey.QUEST_MAIN_GATHERING_STORM_DIALOGS;
+    public static final ILangKey QUEST_MAIN_GATHERING_STORM_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_GATHERING_STORM_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_GATHERING_STORM_ACCEPT = QuestCommonLangKey.QUEST_MAIN_GATHERING_STORM_ACCEPT;
+    public static final ILangKey QUEST_MAIN_GATHERING_STORM_DECLINE = QuestCommonLangKey.QUEST_MAIN_GATHERING_STORM_DECLINE;
+    public static final ILangKey QUEST_MAIN_LAST_STAND_NAME = QuestCommonLangKey.QUEST_MAIN_LAST_STAND_NAME;
+    public static final ILangKey QUEST_MAIN_LAST_STAND_INFO = QuestCommonLangKey.QUEST_MAIN_LAST_STAND_INFO;
+    public static final ILangKey QUEST_MAIN_LAST_STAND_DIALOGS = QuestCommonLangKey.QUEST_MAIN_LAST_STAND_DIALOGS;
+    public static final ILangKey QUEST_MAIN_LAST_STAND_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_LAST_STAND_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_LAST_STAND_ACCEPT = QuestCommonLangKey.QUEST_MAIN_LAST_STAND_ACCEPT;
+    public static final ILangKey QUEST_MAIN_LAST_STAND_DECLINE = QuestCommonLangKey.QUEST_MAIN_LAST_STAND_DECLINE;
+    public static final ILangKey QUEST_MAIN_NEW_ERA_NAME = QuestCommonLangKey.QUEST_MAIN_NEW_ERA_NAME;
+    public static final ILangKey QUEST_MAIN_NEW_ERA_INFO = QuestCommonLangKey.QUEST_MAIN_NEW_ERA_INFO;
+    public static final ILangKey QUEST_MAIN_NEW_ERA_DIALOGS = QuestCommonLangKey.QUEST_MAIN_NEW_ERA_DIALOGS;
+    public static final ILangKey QUEST_MAIN_NEW_ERA_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_NEW_ERA_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_NEW_ERA_ACCEPT = QuestCommonLangKey.QUEST_MAIN_NEW_ERA_ACCEPT;
+    public static final ILangKey QUEST_MAIN_NEW_ERA_DECLINE = QuestCommonLangKey.QUEST_MAIN_NEW_ERA_DECLINE;
+    public static final ILangKey QUEST_MAIN_SACRIFICE_OF_HEROES_NAME = QuestCommonLangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_NAME;
+    public static final ILangKey QUEST_MAIN_SACRIFICE_OF_HEROES_INFO = QuestCommonLangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_INFO;
+    public static final ILangKey QUEST_MAIN_SACRIFICE_OF_HEROES_DIALOGS = QuestCommonLangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_DIALOGS;
+    public static final ILangKey QUEST_MAIN_SACRIFICE_OF_HEROES_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_SACRIFICE_OF_HEROES_ACCEPT = QuestCommonLangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_ACCEPT;
+    public static final ILangKey QUEST_MAIN_SACRIFICE_OF_HEROES_DECLINE = QuestCommonLangKey.QUEST_MAIN_SACRIFICE_OF_HEROES_DECLINE;
+    public static final ILangKey QUEST_MAIN_ETERNAL_GUARDIAN_NAME = QuestCommonLangKey.QUEST_MAIN_ETERNAL_GUARDIAN_NAME;
+    public static final ILangKey QUEST_MAIN_ETERNAL_GUARDIAN_INFO = QuestCommonLangKey.QUEST_MAIN_ETERNAL_GUARDIAN_INFO;
+    public static final ILangKey QUEST_MAIN_ETERNAL_GUARDIAN_DIALOGS = QuestCommonLangKey.QUEST_MAIN_ETERNAL_GUARDIAN_DIALOGS;
+    public static final ILangKey QUEST_MAIN_ETERNAL_GUARDIAN_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_ETERNAL_GUARDIAN_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_ETERNAL_GUARDIAN_ACCEPT = QuestCommonLangKey.QUEST_MAIN_ETERNAL_GUARDIAN_ACCEPT;
+    public static final ILangKey QUEST_MAIN_ETERNAL_GUARDIAN_DECLINE = QuestCommonLangKey.QUEST_MAIN_ETERNAL_GUARDIAN_DECLINE;
+    public static final ILangKey QUEST_MAIN_LEGACY_OF_HEROES_NAME = QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_NAME;
+    public static final ILangKey QUEST_MAIN_LEGACY_OF_HEROES_INFO = QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_INFO;
+    public static final ILangKey QUEST_MAIN_LEGACY_OF_HEROES_DIALOGS = QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_DIALOGS;
+    public static final ILangKey QUEST_MAIN_LEGACY_OF_HEROES_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_LEGACY_OF_HEROES_ACCEPT = QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_ACCEPT;
+    public static final ILangKey QUEST_MAIN_LEGACY_OF_HEROES_DECLINE = QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_DECLINE;
+    public static final ILangKey QUEST_MAIN_RESTORATION_NAME = QuestCommonLangKey.QUEST_MAIN_RESTORATION_NAME;
+    public static final ILangKey QUEST_MAIN_RESTORATION_INFO = QuestCommonLangKey.QUEST_MAIN_RESTORATION_INFO;
+    public static final ILangKey QUEST_MAIN_RESTORATION_DIALOGS = QuestCommonLangKey.QUEST_MAIN_RESTORATION_DIALOGS;
+    public static final ILangKey QUEST_MAIN_RESTORATION_NPC_NAME = QuestCommonLangKey.QUEST_MAIN_RESTORATION_NPC_NAME;
+    public static final ILangKey QUEST_MAIN_RESTORATION_ACCEPT = QuestCommonLangKey.QUEST_MAIN_RESTORATION_ACCEPT;
+    public static final ILangKey QUEST_MAIN_RESTORATION_DECLINE = QuestCommonLangKey.QUEST_MAIN_RESTORATION_DECLINE;
+    public static final ILangKey GUI_DIALOG_CHOICE_TITLE = GuiLangKey.GUI_DIALOG_CHOICE_TITLE;
+    public static final ILangKey GUI_DIALOG_CHOICE_ICON = GuiLangKey.GUI_DIALOG_CHOICE_ICON;
+    public static final ILangKey GUI_DIALOG_CHOICE_DESCRIPTION = GuiLangKey.GUI_DIALOG_CHOICE_DESCRIPTION;
+    public static final ILangKey GUI_DIALOG_CHOICE_NPC = GuiLangKey.GUI_DIALOG_CHOICE_NPC;
+    public static final ILangKey GUI_DIALOG_CHOICE_NPC_CONTENT = GuiLangKey.GUI_DIALOG_CHOICE_NPC_CONTENT;
+    public static final ILangKey GUI_DIALOG_CHOICE_OPTION = GuiLangKey.GUI_DIALOG_CHOICE_OPTION;
+    public static final ILangKey GUI_DIALOG_CHOICE_CLICK_TO_SELECT = GuiLangKey.GUI_DIALOG_CHOICE_CLICK_TO_SELECT;
+    public static final ILangKey GUI_LEADERBOARD_VALUE = GuiLangKey.GUI_LEADERBOARD_VALUE;
+    public static final ILangKey GUI_LEADERBOARD_THIS_IS_YOU = GuiLangKey.GUI_LEADERBOARD_THIS_IS_YOU;
+    public static final ILangKey GUI_MAIL_DETAIL_TITLE = GuiLangKey.GUI_MAIL_DETAIL_TITLE;
+    public static final ILangKey GUI_MAIL_DETAIL_SENDER = GuiLangKey.GUI_MAIL_DETAIL_SENDER;
+    public static final ILangKey GUI_MAIL_DETAIL_RECEIVER = GuiLangKey.GUI_MAIL_DETAIL_RECEIVER;
+    public static final ILangKey GUI_MAIL_DETAIL_SENT_TIME = GuiLangKey.GUI_MAIL_DETAIL_SENT_TIME;
+    public static final ILangKey GUI_MAIL_DETAIL_STATUS = GuiLangKey.GUI_MAIL_DETAIL_STATUS;
+    public static final ILangKey GUI_MAIL_DETAIL_NO_MESSAGE = GuiLangKey.GUI_MAIL_DETAIL_NO_MESSAGE;
+    public static final ILangKey GUI_MAIL_DETAIL_DELETE_SUCCESS = GuiLangKey.GUI_MAIL_DETAIL_DELETE_SUCCESS;
+    public static final ILangKey GUI_MAIL_DETAIL_DELETE_FAILED = GuiLangKey.GUI_MAIL_DETAIL_DELETE_FAILED;
+    public static final ILangKey GUI_MAIL_DETAIL_REPLY_DESC = GuiLangKey.GUI_MAIL_DETAIL_REPLY_DESC;
+    public static final ILangKey GUI_MAIL_DETAIL_REPLY_GUIDE = GuiLangKey.GUI_MAIL_DETAIL_REPLY_GUIDE;
+    public static final ILangKey GUI_MAIL_DETAIL_REPLY_COMMAND = GuiLangKey.GUI_MAIL_DETAIL_REPLY_COMMAND;
+    public static final ILangKey GUI_MAILBOX_REFRESH_SUCCESS = GuiLangKey.GUI_MAILBOX_REFRESH_SUCCESS;
+    public static final ILangKey GUI_MAILBOX_SEND_MAIL_GUIDE = GuiLangKey.GUI_MAILBOX_SEND_MAIL_GUIDE;
+    public static final ILangKey GUI_MAILBOX_SEND_MAIL_COMMAND = GuiLangKey.GUI_MAILBOX_SEND_MAIL_COMMAND;
+    public static final ILangKey GUI_MAILBOX_SEND_MAIL_EXAMPLE = GuiLangKey.GUI_MAILBOX_SEND_MAIL_EXAMPLE;
+    public static final ILangKey GUI_MAILBOX_SENDER = GuiLangKey.GUI_MAILBOX_SENDER;
+    public static final ILangKey GUI_MAILBOX_STATUS = GuiLangKey.GUI_MAILBOX_STATUS;
+    public static final ILangKey GUI_MAILBOX_TIME = GuiLangKey.GUI_MAILBOX_TIME;
+    public static final ILangKey GUI_MAILBOX_DELETE_CONFIRM_WORD = GuiLangKey.GUI_MAILBOX_DELETE_CONFIRM_WORD;
+    public static final ILangKey GUI_MAILBOX_DELETE_CONFIRM_TEXT = GuiLangKey.GUI_MAILBOX_DELETE_CONFIRM_TEXT;
+    public static final ILangKey GUI_MAILBOX_DELETE_CONFIRM_TITLE = GuiLangKey.GUI_MAILBOX_DELETE_CONFIRM_TITLE;
+    public static final ILangKey GUI_FRIEND_REQUESTS_REQUEST_TIME = GuiLangKey.GUI_FRIEND_REQUESTS_REQUEST_TIME;
+    public static final ILangKey GUI_FRIEND_REQUESTS_MESSAGE = GuiLangKey.GUI_FRIEND_REQUESTS_MESSAGE;
+    public static final ILangKey GUI_FRIENDS_TITLE = GuiLangKey.GUI_FRIENDS_TITLE;
+    public static final ILangKey GUI_FRIENDS_ADD_COMMAND_HINT = GuiLangKey.GUI_FRIENDS_ADD_COMMAND_HINT;
+    public static final ILangKey GUI_FRIENDS_ADD_COMMAND_EXAMPLE = GuiLangKey.GUI_FRIENDS_ADD_COMMAND_EXAMPLE;
+    public static final ILangKey GUI_FRIENDS_REFRESHED = GuiLangKey.GUI_FRIENDS_REFRESHED;
+    public static final ILangKey GUI_FRIENDS_STATUS = GuiLangKey.GUI_FRIENDS_STATUS;
+    public static final ILangKey GUI_FRIENDS_SINCE = GuiLangKey.GUI_FRIENDS_SINCE;
+    public static final ILangKey GUI_FRIENDS_WHISPER_HINT = GuiLangKey.GUI_FRIENDS_WHISPER_HINT;
+    public static final ILangKey GUI_ALL_QUESTS_TITLE = GuiLangKey.GUI_ALL_QUESTS_TITLE;
+    public static final ILangKey QUEST_FILTER = QuestCommonLangKey.QUEST_FILTER;
+    public static final ILangKey QUEST_TOTAL_COUNT = QuestCommonLangKey.QUEST_TOTAL_COUNT;
+    public static final ILangKey QUEST_PROGRESS = QuestCommonLangKey.QUEST_PROGRESS;
+    public static final ILangKey ERROR_FRIEND_REQUEST_ID_MISSING = MessageLangKey.ERROR_FRIEND_REQUEST_ID_MISSING;
+    public static final ILangKey GUI_ISLAND_BIOME_CHANGE_TITLE = GuiLangKey.GUI_ISLAND_BIOME_CHANGE_TITLE;
+    public static final ILangKey GUI_ISLAND_BIOME_MESSAGE_NO_PERMISSION = GuiLangKey.GUI_ISLAND_BIOME_MESSAGE_NO_PERMISSION;
+    public static final ILangKey GUI_ISLAND_BIOME_CURRENT = GuiLangKey.GUI_ISLAND_BIOME_CURRENT;
+    public static final ILangKey GUI_ISLAND_BIOME_CLICK_TO_CHANGE = GuiLangKey.GUI_ISLAND_BIOME_CLICK_TO_CHANGE;
+    public static final ILangKey GUI_ISLAND_BIOME_MESSAGE_ALREADY_SELECTED = GuiLangKey.GUI_ISLAND_BIOME_MESSAGE_ALREADY_SELECTED;
+    public static final ILangKey GUI_ISLAND_BIOME_MESSAGE_WORLD_NOT_FOUND = GuiLangKey.GUI_ISLAND_BIOME_MESSAGE_WORLD_NOT_FOUND;
+    public static final ILangKey GUI_ISLAND_BIOME_MESSAGE_CHANGING = GuiLangKey.GUI_ISLAND_BIOME_MESSAGE_CHANGING;
+    public static final ILangKey GUI_ISLAND_BIOME_MESSAGE_CHUNK_RELOAD_NOTICE = GuiLangKey.GUI_ISLAND_BIOME_MESSAGE_CHUNK_RELOAD_NOTICE;
+    public static final ILangKey GUI_ISLAND_BIOME_UNKNOWN = GuiLangKey.GUI_ISLAND_BIOME_UNKNOWN;
+    public static final ILangKey GUI_ISLAND_BIOME_CURRENT_INFO = GuiLangKey.GUI_ISLAND_BIOME_CURRENT_INFO;
+    public static final ILangKey GUI_ISLAND_BIOME_CURRENT_INFO_LORE = GuiLangKey.GUI_ISLAND_BIOME_CURRENT_INFO_LORE;
+    public static final ILangKey GUI_ISLAND_BIOME_BACK_LORE = GuiLangKey.GUI_ISLAND_BIOME_BACK_LORE;
+    public static final ILangKey GUI_ISLAND_BIOME_SELECTION_TITLE = GuiLangKey.GUI_ISLAND_BIOME_SELECTION_TITLE;
+    public static final ILangKey GUI_ISLAND_BIOME_SELECTION_INFO_TITLE = GuiLangKey.GUI_ISLAND_BIOME_SELECTION_INFO_TITLE;
+    public static final ILangKey GUI_ISLAND_BIOME_SELECTION_CURRENT_SELECTED = GuiLangKey.GUI_ISLAND_BIOME_SELECTION_CURRENT_SELECTED;
+    public static final ILangKey GUI_ISLAND_BIOME_SELECTION_CLICK_TO_SELECT = GuiLangKey.GUI_ISLAND_BIOME_SELECTION_CLICK_TO_SELECT;
+    public static final ILangKey GUI_ISLAND_BIOME_SELECTION_BACK_LORE = GuiLangKey.GUI_ISLAND_BIOME_SELECTION_BACK_LORE;
+    public static final ILangKey GUI_ISLAND_BIOME_SIMPLE_TITLE = GuiLangKey.GUI_ISLAND_BIOME_SIMPLE_TITLE;
+    public static final ILangKey GUI_ISLAND_BIOME_MESSAGE_CHANGED = GuiLangKey.GUI_ISLAND_BIOME_MESSAGE_CHANGED;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_TITLE = GuiLangKey.GUI_ISLAND_CONTRIBUTE_TITLE;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_GOLD_INFO_BALANCE = GuiLangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_BALANCE;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_GOLD_INFO_CONTRIBUTION = GuiLangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_CONTRIBUTION;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_QUICK_AMOUNT = GuiLangKey.GUI_ISLAND_CONTRIBUTE_QUICK_AMOUNT;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_GOLD_NEEDED = GuiLangKey.GUI_ISLAND_CONTRIBUTE_GOLD_NEEDED;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTION_TITLE = GuiLangKey.GUI_ISLAND_CONTRIBUTION_TITLE;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTION_INFO_ISLAND_NAME = GuiLangKey.GUI_ISLAND_CONTRIBUTION_INFO_ISLAND_NAME;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTION_INFO_TOTAL = GuiLangKey.GUI_ISLAND_CONTRIBUTION_INFO_TOTAL;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTION_INFO_CONTRIBUTORS = GuiLangKey.GUI_ISLAND_CONTRIBUTION_INFO_CONTRIBUTORS;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_NAME = GuiLangKey.GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_NAME;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_CONTRIBUTION = GuiLangKey.GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_CONTRIBUTION;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_ROLE = GuiLangKey.GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_ROLE;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_PERCENTAGE = GuiLangKey.GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_PERCENTAGE;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTION_ADD_CURRENT = GuiLangKey.GUI_ISLAND_CONTRIBUTION_ADD_CURRENT;
+    public static final ILangKey GUI_ISLAND_ROLE_OWNER = GuiLangKey.GUI_ISLAND_ROLE_OWNER;
+    public static final ILangKey GUI_ISLAND_ROLE_CO_OWNER = GuiLangKey.GUI_ISLAND_ROLE_CO_OWNER;
+    public static final ILangKey GUI_ISLAND_ROLE_MEMBER = GuiLangKey.GUI_ISLAND_ROLE_MEMBER;
+    public static final ILangKey GUI_ISLAND_ROLE_WORKER = GuiLangKey.GUI_ISLAND_ROLE_WORKER;
+    public static final ILangKey GUI_ISLAND_ROLE_CONTRIBUTOR = GuiLangKey.GUI_ISLAND_ROLE_CONTRIBUTOR;
+    public static final ILangKey GUI_ISLAND_CREATION_TITLE = GuiLangKey.GUI_ISLAND_CREATION_TITLE;
+    public static final ILangKey ISLAND_DEFAULT_NAME = SystemLangKey.ISLAND_DEFAULT_NAME;
+    public static final ILangKey ISLAND_GUI_CREATION_SELECTED = SystemLangKey.ISLAND_GUI_CREATION_SELECTED;
+    public static final ILangKey ISLAND_GUI_CREATION_CLICK_TO_SELECT = SystemLangKey.ISLAND_GUI_CREATION_CLICK_TO_SELECT;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_TITLE = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_TITLE;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_TITLE = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_TITLE;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_ID = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_ID;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_MEMBERS = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_MEMBERS;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_CREATED = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_CREATED;
+    public static final ILangKey GUI_ISLAND_MEMBER_INVITE_PROMPT = GuiLangKey.GUI_ISLAND_MEMBER_INVITE_PROMPT;
+    public static final ILangKey GUI_ISLAND_MEMBER_INVITE_EXAMPLE = GuiLangKey.GUI_ISLAND_MEMBER_INVITE_EXAMPLE;
+    public static final ILangKey GUI_ISLAND_MEMBER_ROLE = GuiLangKey.GUI_ISLAND_MEMBER_ROLE;
+    public static final ILangKey GUI_ISLAND_MEMBER_ROLE_OWNER = GuiLangKey.GUI_ISLAND_MEMBER_ROLE_OWNER;
+    public static final ILangKey GUI_ISLAND_MEMBER_ALL_PERMISSIONS = GuiLangKey.GUI_ISLAND_MEMBER_ALL_PERMISSIONS;
+    public static final ILangKey GUI_ISLAND_MEMBER_OWNER_CANNOT_CHANGE = GuiLangKey.GUI_ISLAND_MEMBER_OWNER_CANNOT_CHANGE;
+    public static final ILangKey GUI_ISLAND_MEMBER_JOIN_DATE = GuiLangKey.GUI_ISLAND_MEMBER_JOIN_DATE;
+    public static final ILangKey GUI_ISLAND_MEMBER_MOST_PERMISSIONS = GuiLangKey.GUI_ISLAND_MEMBER_MOST_PERMISSIONS;
+    public static final ILangKey GUI_ISLAND_MEMBER_NORMAL_PERMISSIONS = GuiLangKey.GUI_ISLAND_MEMBER_NORMAL_PERMISSIONS;
+    public static final ILangKey GUI_ISLAND_MEMBER_LEFT_CLICK_ROLE = GuiLangKey.GUI_ISLAND_MEMBER_LEFT_CLICK_ROLE;
+    public static final ILangKey GUI_ISLAND_MEMBER_RIGHT_CLICK_KICK = GuiLangKey.GUI_ISLAND_MEMBER_RIGHT_CLICK_KICK;
+    public static final ILangKey GUI_ISLAND_MEMBER_ROLE_WORKER = GuiLangKey.GUI_ISLAND_MEMBER_ROLE_WORKER;
+    public static final ILangKey GUI_ISLAND_MEMBER_HIRE_DATE = GuiLangKey.GUI_ISLAND_MEMBER_HIRE_DATE;
+    public static final ILangKey GUI_ISLAND_MEMBER_LAST_ACTIVITY = GuiLangKey.GUI_ISLAND_MEMBER_LAST_ACTIVITY;
+    public static final ILangKey GUI_ISLAND_MEMBER_LIMITED_PERMISSIONS = GuiLangKey.GUI_ISLAND_MEMBER_LIMITED_PERMISSIONS;
+    public static final ILangKey GUI_ISLAND_MEMBER_LEFT_CLICK_EXTEND = GuiLangKey.GUI_ISLAND_MEMBER_LEFT_CLICK_EXTEND;
+    public static final ILangKey GUI_ISLAND_MEMBER_RIGHT_CLICK_FIRE = GuiLangKey.GUI_ISLAND_MEMBER_RIGHT_CLICK_FIRE;
+    public static final ILangKey GUI_ISLAND_MEMBER_MANAGE_TITLE = GuiLangKey.GUI_ISLAND_MEMBER_MANAGE_TITLE;
+    public static final ILangKey GUI_ISLAND_MEMBER_MANAGE_PERMISSION_NOT_IMPLEMENTED = GuiLangKey.GUI_ISLAND_MEMBER_MANAGE_PERMISSION_NOT_IMPLEMENTED;
+    public static final ILangKey GUI_ISLAND_MEMBER_MANAGE_CURRENT_ROLE = GuiLangKey.GUI_ISLAND_MEMBER_MANAGE_CURRENT_ROLE;
+    public static final ILangKey GUI_ISLAND_PERMISSION_TITLE = GuiLangKey.GUI_ISLAND_PERMISSION_TITLE;
+    public static final ILangKey ISLAND_ROLES_SUB_OWNER = SystemLangKey.ISLAND_ROLES_SUB_OWNER;
+    public static final ILangKey ISLAND_ROLES_MEMBER = SystemLangKey.ISLAND_ROLES_MEMBER;
+    public static final ILangKey ISLAND_ROLES_WORKER = SystemLangKey.ISLAND_ROLES_WORKER;
+    public static final ILangKey ISLAND_CONTRIBUTE_AMOUNT_TOO_LOW = SystemLangKey.ISLAND_CONTRIBUTE_AMOUNT_TOO_LOW;
+    public static final ILangKey ISLAND_CONTRIBUTE_INVALID_AMOUNT = SystemLangKey.ISLAND_CONTRIBUTE_INVALID_AMOUNT;
+    public static final ILangKey ISLAND_GUI_CONTRIBUTE_CONTRIBUTION_INPUT_TEXT = SystemLangKey.ISLAND_GUI_CONTRIBUTE_CONTRIBUTION_INPUT_TEXT;
+    public static final ILangKey ISLAND_GUI_CONTRIBUTE_CONTRIBUTION_INPUT_TITLE = SystemLangKey.ISLAND_GUI_CONTRIBUTE_CONTRIBUTION_INPUT_TITLE;
+    public static final ILangKey ISLAND_DELETE_CONFIRM_WORD = SystemLangKey.ISLAND_DELETE_CONFIRM_WORD;
+    public static final ILangKey ISLAND_DELETE_INPUT_ERROR = SystemLangKey.ISLAND_DELETE_INPUT_ERROR;
+    public static final ILangKey ISLAND_DELETE_INPUT_TEXT = SystemLangKey.ISLAND_DELETE_INPUT_TEXT;
+    public static final ILangKey ISLAND_DELETE_INPUT_TITLE = SystemLangKey.ISLAND_DELETE_INPUT_TITLE;
+    public static final ILangKey ISLAND_MEMBER_KICK_CONFIRM_WORD = SystemLangKey.ISLAND_MEMBER_KICK_CONFIRM_WORD;
+    public static final ILangKey ISLAND_MEMBER_KICK_INPUT_ERROR = SystemLangKey.ISLAND_MEMBER_KICK_INPUT_ERROR;
+    public static final ILangKey ISLAND_MEMBER_KICK_INPUT_TEXT = SystemLangKey.ISLAND_MEMBER_KICK_INPUT_TEXT;
+    public static final ILangKey ISLAND_MEMBER_KICK_INPUT_TITLE = SystemLangKey.ISLAND_MEMBER_KICK_INPUT_TITLE;
+    public static final ILangKey ITEMS_BUTTONS_BACK_NAME = ItemLangKey.ITEMS_BUTTONS_BACK_NAME;
+    public static final ILangKey ITEMS_BUTTONS_BACK_LORE = ItemLangKey.ITEMS_BUTTONS_BACK_LORE;
+    public static final ILangKey GUI_PAGE_INFO = GuiLangKey.GUI_PAGE_INFO;
+    public static final ILangKey GUI_SHOP_TITLE = GuiLangKey.GUI_SHOP_TITLE;
+    public static final ILangKey GUI_SHOP_GOLD_AMOUNT = GuiLangKey.GUI_SHOP_GOLD_AMOUNT;
+    public static final ILangKey GUI_SHOP_ITEM_BUY_PRICE = GuiLangKey.GUI_SHOP_ITEM_BUY_PRICE;
+    public static final ILangKey GUI_SHOP_ITEM_SELL_PRICE = GuiLangKey.GUI_SHOP_ITEM_SELL_PRICE;
+    public static final ILangKey GUI_SHOP_ITEM_CLICK_TO_BUY = GuiLangKey.GUI_SHOP_ITEM_CLICK_TO_BUY;
+    public static final ILangKey GUI_SHOP_ITEM_CLICK_TO_SELL = GuiLangKey.GUI_SHOP_ITEM_CLICK_TO_SELL;
+    public static final ILangKey GUI_SHOP_ITEM_INSUFFICIENT_GOLD = GuiLangKey.GUI_SHOP_ITEM_INSUFFICIENT_GOLD;
+    public static final ILangKey ACHIEVEMENT_ALREADY_CLAIMED = MessageLangKey.ACHIEVEMENT_ALREADY_CLAIMED;
+    public static final ILangKey ACHIEVEMENT_COMPLETED = MessageLangKey.ACHIEVEMENT_COMPLETED;
+    public static final ILangKey ACHIEVEMENT_PROGRESS = MessageLangKey.ACHIEVEMENT_PROGRESS;
+    public static final ILangKey ACHIEVEMENT_REWARD_CLAIMED = MessageLangKey.ACHIEVEMENT_REWARD_CLAIMED;
+    public static final ILangKey ACHIEVEMENT_UNLOCKED = MessageLangKey.ACHIEVEMENT_UNLOCKED;
+    public static final ILangKey ACTIONBAR_BUFF_APPLIED = SystemLangKey.ACTIONBAR_BUFF_APPLIED;
+    public static final ILangKey ACTIONBAR_COMBAT_ENTER = SystemLangKey.ACTIONBAR_COMBAT_ENTER;
+    public static final ILangKey ACTIONBAR_COMBAT_LEAVE = SystemLangKey.ACTIONBAR_COMBAT_LEAVE;
+    public static final ILangKey ACTIONBAR_DEBUFF_APPLIED = SystemLangKey.ACTIONBAR_DEBUFF_APPLIED;
+    public static final ILangKey ACTIONBAR_EXPERIENCE = SystemLangKey.ACTIONBAR_EXPERIENCE;
+    public static final ILangKey ACTIONBAR_HEALTH = SystemLangKey.ACTIONBAR_HEALTH;
+    public static final ILangKey ACTIONBAR_MANA = SystemLangKey.ACTIONBAR_MANA;
+    public static final ILangKey ACTIONBAR_SKILL_COOLDOWN = SystemLangKey.ACTIONBAR_SKILL_COOLDOWN;
+    public static final ILangKey ACTIONBAR_SKILL_READY = SystemLangKey.ACTIONBAR_SKILL_READY;
+    public static final ILangKey ACTIONBAR_STAMINA = SystemLangKey.ACTIONBAR_STAMINA;
+    public static final ILangKey AUCTION_BOUGHT = SystemLangKey.AUCTION_BOUGHT;
+    public static final ILangKey AUCTION_CANCELLED = SystemLangKey.AUCTION_CANCELLED;
+    public static final ILangKey AUCTION_EXPIRED = SystemLangKey.AUCTION_EXPIRED;
+    public static final ILangKey AUCTION_LISTED = SystemLangKey.AUCTION_LISTED;
+    public static final ILangKey AUCTION_SOLD = SystemLangKey.AUCTION_SOLD;
+    public static final ILangKey BIOME_BADLANDS_DESCRIPTION = SystemLangKey.BIOME_BADLANDS_DESCRIPTION;
+    public static final ILangKey BIOME_BADLANDS_NAME = SystemLangKey.BIOME_BADLANDS_NAME;
+    public static final ILangKey BIOME_BAMBOO_JUNGLE_DESCRIPTION = SystemLangKey.BIOME_BAMBOO_JUNGLE_DESCRIPTION;
+    public static final ILangKey BIOME_BAMBOO_JUNGLE_NAME = SystemLangKey.BIOME_BAMBOO_JUNGLE_NAME;
+    public static final ILangKey BIOME_BEACH_DESCRIPTION = SystemLangKey.BIOME_BEACH_DESCRIPTION;
+    public static final ILangKey BIOME_BEACH_NAME = SystemLangKey.BIOME_BEACH_NAME;
+    public static final ILangKey BIOME_BIRCH_FOREST_DESCRIPTION = SystemLangKey.BIOME_BIRCH_FOREST_DESCRIPTION;
+    public static final ILangKey BIOME_BIRCH_FOREST_NAME = SystemLangKey.BIOME_BIRCH_FOREST_NAME;
+    public static final ILangKey BIOME_CHERRY_GROVE_DESCRIPTION = SystemLangKey.BIOME_CHERRY_GROVE_DESCRIPTION;
+    public static final ILangKey BIOME_CHERRY_GROVE_NAME = SystemLangKey.BIOME_CHERRY_GROVE_NAME;
+    public static final ILangKey BIOME_DARK_FOREST_DESCRIPTION = SystemLangKey.BIOME_DARK_FOREST_DESCRIPTION;
+    public static final ILangKey BIOME_DARK_FOREST_NAME = SystemLangKey.BIOME_DARK_FOREST_NAME;
+    public static final ILangKey BIOME_DESERT_DESCRIPTION = SystemLangKey.BIOME_DESERT_DESCRIPTION;
+    public static final ILangKey BIOME_DESERT_NAME = SystemLangKey.BIOME_DESERT_NAME;
+    public static final ILangKey BIOME_FLOWER_FOREST_DESCRIPTION = SystemLangKey.BIOME_FLOWER_FOREST_DESCRIPTION;
+    public static final ILangKey BIOME_FLOWER_FOREST_NAME = SystemLangKey.BIOME_FLOWER_FOREST_NAME;
+    public static final ILangKey BIOME_FOREST_DESCRIPTION = SystemLangKey.BIOME_FOREST_DESCRIPTION;
+    public static final ILangKey BIOME_FOREST_NAME = SystemLangKey.BIOME_FOREST_NAME;
+    public static final ILangKey BIOME_JUNGLE_DESCRIPTION = SystemLangKey.BIOME_JUNGLE_DESCRIPTION;
+    public static final ILangKey BIOME_JUNGLE_NAME = SystemLangKey.BIOME_JUNGLE_NAME;
+    public static final ILangKey BIOME_MUSHROOM_FIELDS_DESCRIPTION = SystemLangKey.BIOME_MUSHROOM_FIELDS_DESCRIPTION;
+    public static final ILangKey BIOME_MUSHROOM_FIELDS_NAME = SystemLangKey.BIOME_MUSHROOM_FIELDS_NAME;
+    public static final ILangKey BIOME_OCEAN_DESCRIPTION = SystemLangKey.BIOME_OCEAN_DESCRIPTION;
+    public static final ILangKey BIOME_OCEAN_NAME = SystemLangKey.BIOME_OCEAN_NAME;
+    public static final ILangKey BIOME_PLAINS_DESCRIPTION = SystemLangKey.BIOME_PLAINS_DESCRIPTION;
+    public static final ILangKey BIOME_PLAINS_NAME = SystemLangKey.BIOME_PLAINS_NAME;
+    public static final ILangKey BIOME_SAVANNA_DESCRIPTION = SystemLangKey.BIOME_SAVANNA_DESCRIPTION;
+    public static final ILangKey BIOME_SAVANNA_NAME = SystemLangKey.BIOME_SAVANNA_NAME;
+    public static final ILangKey BIOME_SNOWY_PLAINS_DESCRIPTION = SystemLangKey.BIOME_SNOWY_PLAINS_DESCRIPTION;
+    public static final ILangKey BIOME_SNOWY_PLAINS_NAME = SystemLangKey.BIOME_SNOWY_PLAINS_NAME;
+    public static final ILangKey BIOME_SWAMP_DESCRIPTION = SystemLangKey.BIOME_SWAMP_DESCRIPTION;
+    public static final ILangKey BIOME_SWAMP_NAME = SystemLangKey.BIOME_SWAMP_NAME;
+    public static final ILangKey BIOME_TAIGA_DESCRIPTION = SystemLangKey.BIOME_TAIGA_DESCRIPTION;
+    public static final ILangKey BIOME_TAIGA_NAME = SystemLangKey.BIOME_TAIGA_NAME;
+    public static final ILangKey BOSSBAR_BOSS_HEALTH = SystemLangKey.BOSSBAR_BOSS_HEALTH;
+    public static final ILangKey BOSSBAR_DUNGEON_TIMER = SystemLangKey.BOSSBAR_DUNGEON_TIMER;
+    public static final ILangKey BOSSBAR_QUEST_PROGRESS = SystemLangKey.BOSSBAR_QUEST_PROGRESS;
+    public static final ILangKey BOSSBAR_WAVE_PROGRESS = SystemLangKey.BOSSBAR_WAVE_PROGRESS;
+    public static final ILangKey COMBAT_ASSIST = MessageLangKey.COMBAT_ASSIST;
+    public static final ILangKey COMBAT_BLOCK = MessageLangKey.COMBAT_BLOCK;
+    public static final ILangKey COMBAT_BUFF_APPLIED = MessageLangKey.COMBAT_BUFF_APPLIED;
+    public static final ILangKey COMBAT_BUFF_EXPIRED = MessageLangKey.COMBAT_BUFF_EXPIRED;
+    public static final ILangKey COMBAT_COMBO = MessageLangKey.COMBAT_COMBO;
+    public static final ILangKey COMBAT_CRITICAL_HIT = MessageLangKey.COMBAT_CRITICAL_HIT;
+    public static final ILangKey COMBAT_DAMAGE_DEALT = MessageLangKey.COMBAT_DAMAGE_DEALT;
+    public static final ILangKey COMBAT_DAMAGE_TAKEN = MessageLangKey.COMBAT_DAMAGE_TAKEN;
+    public static final ILangKey COMBAT_DEATH = MessageLangKey.COMBAT_DEATH;
+    public static final ILangKey COMBAT_DEBUFF_APPLIED = MessageLangKey.COMBAT_DEBUFF_APPLIED;
+    public static final ILangKey COMBAT_DEBUFF_EXPIRED = MessageLangKey.COMBAT_DEBUFF_EXPIRED;
+    public static final ILangKey COMBAT_DODGE = MessageLangKey.COMBAT_DODGE;
+    public static final ILangKey COMBAT_KILL = MessageLangKey.COMBAT_KILL;
+    public static final ILangKey COMBAT_SKILL_COOLDOWN = MessageLangKey.COMBAT_SKILL_COOLDOWN;
+    public static final ILangKey COMBAT_SKILL_NO_MANA = MessageLangKey.COMBAT_SKILL_NO_MANA;
+    public static final ILangKey COMBAT_SKILL_USED = MessageLangKey.COMBAT_SKILL_USED;
+    public static final ILangKey COMMAND_FAILED = MessageLangKey.COMMAND_FAILED;
+    public static final ILangKey COMMAND_INVALID_ARGS = MessageLangKey.COMMAND_INVALID_ARGS;
+    public static final ILangKey COMMAND_LEVELUP_ERROR = MessageLangKey.COMMAND_LEVELUP_ERROR;
+    public static final ILangKey COMMAND_LEVELUP_SUCCESS = MessageLangKey.COMMAND_LEVELUP_SUCCESS;
+    public static final ILangKey COMMAND_LEVELUP_TARGET_SUCCESS = MessageLangKey.COMMAND_LEVELUP_TARGET_SUCCESS;
+    public static final ILangKey COMMAND_NO_PERMISSION = MessageLangKey.COMMAND_NO_PERMISSION;
+    public static final ILangKey COMMAND_PLAYER_NOT_FOUND = MessageLangKey.COMMAND_PLAYER_NOT_FOUND;
+    public static final ILangKey COMMAND_SUCCESS = MessageLangKey.COMMAND_SUCCESS;
+    public static final ILangKey CRAFT_FAIL = SystemLangKey.CRAFT_FAIL;
+    public static final ILangKey CRAFT_NO_MATERIALS = SystemLangKey.CRAFT_NO_MATERIALS;
+    public static final ILangKey CRAFT_NO_RECIPE = SystemLangKey.CRAFT_NO_RECIPE;
+    public static final ILangKey CRAFT_SUCCESS = SystemLangKey.CRAFT_SUCCESS;
+    public static final ILangKey CURRENCY_COIN_NAME = SystemLangKey.CURRENCY_COIN_NAME;
+    public static final ILangKey CURRENCY_COIN_SYMBOL = SystemLangKey.CURRENCY_COIN_SYMBOL;
+    public static final ILangKey CURRENCY_COPPER_NAME = SystemLangKey.CURRENCY_COPPER_NAME;
+    public static final ILangKey CURRENCY_COPPER_SYMBOL = SystemLangKey.CURRENCY_COPPER_SYMBOL;
+    public static final ILangKey CURRENCY_CREDIT_NAME = SystemLangKey.CURRENCY_CREDIT_NAME;
+    public static final ILangKey CURRENCY_CREDIT_SYMBOL = SystemLangKey.CURRENCY_CREDIT_SYMBOL;
+    public static final ILangKey CURRENCY_GEM_NAME = SystemLangKey.CURRENCY_GEM_NAME;
+    public static final ILangKey CURRENCY_GEM_SYMBOL = SystemLangKey.CURRENCY_GEM_SYMBOL;
+    public static final ILangKey CURRENCY_GOLD_NAME = SystemLangKey.CURRENCY_GOLD_NAME;
+    public static final ILangKey CURRENCY_GOLD_SYMBOL = SystemLangKey.CURRENCY_GOLD_SYMBOL;
+    public static final ILangKey CURRENCY_POINT_NAME = SystemLangKey.CURRENCY_POINT_NAME;
+    public static final ILangKey CURRENCY_POINT_SYMBOL = SystemLangKey.CURRENCY_POINT_SYMBOL;
+    public static final ILangKey CURRENCY_SILVER_NAME = SystemLangKey.CURRENCY_SILVER_NAME;
+    public static final ILangKey CURRENCY_SILVER_SYMBOL = SystemLangKey.CURRENCY_SILVER_SYMBOL;
+    public static final ILangKey CURRENCY_TOKEN_NAME = SystemLangKey.CURRENCY_TOKEN_NAME;
+    public static final ILangKey CURRENCY_TOKEN_SYMBOL = SystemLangKey.CURRENCY_TOKEN_SYMBOL;
+    public static final ILangKey DAMAGE_DARK = SystemLangKey.DAMAGE_DARK;
+    public static final ILangKey DAMAGE_FIRE = SystemLangKey.DAMAGE_FIRE;
+    public static final ILangKey DAMAGE_HOLY = SystemLangKey.DAMAGE_HOLY;
+    public static final ILangKey DAMAGE_ICE = SystemLangKey.DAMAGE_ICE;
+    public static final ILangKey DAMAGE_LIGHTNING = SystemLangKey.DAMAGE_LIGHTNING;
+    public static final ILangKey DAMAGE_MAGICAL = SystemLangKey.DAMAGE_MAGICAL;
+    public static final ILangKey DAMAGE_NATURE = SystemLangKey.DAMAGE_NATURE;
+    public static final ILangKey DAMAGE_PHYSICAL = SystemLangKey.DAMAGE_PHYSICAL;
+    public static final ILangKey DAMAGE_POISON = SystemLangKey.DAMAGE_POISON;
+    public static final ILangKey DAMAGE_TRUE = SystemLangKey.DAMAGE_TRUE;
+    public static final ILangKey DIALOG_NPC_FAREWELL = SystemLangKey.DIALOG_NPC_FAREWELL;
+    public static final ILangKey DIALOG_NPC_GREETING = SystemLangKey.DIALOG_NPC_GREETING;
+    public static final ILangKey DIALOG_NPC_NO_QUESTS = SystemLangKey.DIALOG_NPC_NO_QUESTS;
+    public static final ILangKey DIALOG_NPC_QUEST_AVAILABLE = SystemLangKey.DIALOG_NPC_QUEST_AVAILABLE;
+    public static final ILangKey DIALOG_NPC_QUEST_COMPLETE = SystemLangKey.DIALOG_NPC_QUEST_COMPLETE;
+    public static final ILangKey DIALOG_NPC_QUEST_IN_PROGRESS = SystemLangKey.DIALOG_NPC_QUEST_IN_PROGRESS;
+    public static final ILangKey DIALOG_NPC_SHOP_GREETING = SystemLangKey.DIALOG_NPC_SHOP_GREETING;
+    public static final ILangKey DIALOG_PLAYER_ACCEPT = SystemLangKey.DIALOG_PLAYER_ACCEPT;
+    public static final ILangKey DIALOG_PLAYER_DECLINE = SystemLangKey.DIALOG_PLAYER_DECLINE;
+    public static final ILangKey DIALOG_PLAYER_GOODBYE = SystemLangKey.DIALOG_PLAYER_GOODBYE;
+    public static final ILangKey DIALOG_PLAYER_MORE_INFO = SystemLangKey.DIALOG_PLAYER_MORE_INFO;
+    public static final ILangKey DUNGEON_BOSS_DEFEATED = MessageLangKey.DUNGEON_BOSS_DEFEATED;
+    public static final ILangKey DUNGEON_BOSS_SPAWNED = MessageLangKey.DUNGEON_BOSS_SPAWNED;
+    public static final ILangKey DUNGEON_COMPLETED = MessageLangKey.DUNGEON_COMPLETED;
+    public static final ILangKey DUNGEON_COOLDOWN_ACTIVE = MessageLangKey.DUNGEON_COOLDOWN_ACTIVE;
+    public static final ILangKey DUNGEON_ENTERED = MessageLangKey.DUNGEON_ENTERED;
+    public static final ILangKey DUNGEON_FAILED = MessageLangKey.DUNGEON_FAILED;
+    public static final ILangKey DUNGEON_KEY_REQUIRED = MessageLangKey.DUNGEON_KEY_REQUIRED;
+    public static final ILangKey DUNGEON_LEVEL_REQUIREMENT = MessageLangKey.DUNGEON_LEVEL_REQUIREMENT;
+    public static final ILangKey DUNGEON_PARTY_REQUIRED = MessageLangKey.DUNGEON_PARTY_REQUIRED;
+    public static final ILangKey DUNGEON_TREASURE_FOUND = MessageLangKey.DUNGEON_TREASURE_FOUND;
+    public static final ILangKey DUNGEON_WAVE_COMPLETED = MessageLangKey.DUNGEON_WAVE_COMPLETED;
+    public static final ILangKey ECONOMY_BALANCE = MessageLangKey.ECONOMY_BALANCE;
+    public static final ILangKey ECONOMY_MONEY_ADDED = MessageLangKey.ECONOMY_MONEY_ADDED;
+    public static final ILangKey ECONOMY_MONEY_REMOVED = MessageLangKey.ECONOMY_MONEY_REMOVED;
+    public static final ILangKey ECONOMY_NOT_ENOUGH_MONEY = MessageLangKey.ECONOMY_NOT_ENOUGH_MONEY;
+    public static final ILangKey ECONOMY_PAYMENT_RECEIVED = MessageLangKey.ECONOMY_PAYMENT_RECEIVED;
+    public static final ILangKey ECONOMY_PAYMENT_SENT = MessageLangKey.ECONOMY_PAYMENT_SENT;
+    public static final ILangKey ECTOPLASM = GeneralLangKey.ECTOPLASM;
+    public static final ILangKey EFFECT_ABSORPTION = SystemLangKey.EFFECT_ABSORPTION;
+    public static final ILangKey EFFECT_BLINDNESS = SystemLangKey.EFFECT_BLINDNESS;
+    public static final ILangKey EFFECT_FIRE_RESISTANCE = SystemLangKey.EFFECT_FIRE_RESISTANCE;
+    public static final ILangKey EFFECT_GLOWING = SystemLangKey.EFFECT_GLOWING;
+    public static final ILangKey EFFECT_HASTE = SystemLangKey.EFFECT_HASTE;
+    public static final ILangKey EFFECT_HEALTH_BOOST = SystemLangKey.EFFECT_HEALTH_BOOST;
+    public static final ILangKey EFFECT_HUNGER = SystemLangKey.EFFECT_HUNGER;
+    public static final ILangKey EFFECT_INVISIBILITY = SystemLangKey.EFFECT_INVISIBILITY;
+    public static final ILangKey EFFECT_JUMP_BOOST = SystemLangKey.EFFECT_JUMP_BOOST;
+    public static final ILangKey EFFECT_LEVITATION = SystemLangKey.EFFECT_LEVITATION;
+    public static final ILangKey EFFECT_LUCK = SystemLangKey.EFFECT_LUCK;
+    public static final ILangKey EFFECT_MINING_FATIGUE = SystemLangKey.EFFECT_MINING_FATIGUE;
+    public static final ILangKey EFFECT_NAUSEA = SystemLangKey.EFFECT_NAUSEA;
+    public static final ILangKey EFFECT_NIGHT_VISION = SystemLangKey.EFFECT_NIGHT_VISION;
+    public static final ILangKey EFFECT_POISON = SystemLangKey.EFFECT_POISON;
+    public static final ILangKey EFFECT_REGENERATION = SystemLangKey.EFFECT_REGENERATION;
+    public static final ILangKey EFFECT_RESISTANCE = SystemLangKey.EFFECT_RESISTANCE;
+    public static final ILangKey EFFECT_SATURATION = SystemLangKey.EFFECT_SATURATION;
+    public static final ILangKey EFFECT_SLOWNESS = SystemLangKey.EFFECT_SLOWNESS;
+    public static final ILangKey EFFECT_SPEED = SystemLangKey.EFFECT_SPEED;
+    public static final ILangKey EFFECT_STRENGTH = SystemLangKey.EFFECT_STRENGTH;
+    public static final ILangKey EFFECT_UNLUCK = SystemLangKey.EFFECT_UNLUCK;
+    public static final ILangKey EFFECT_WATER_BREATHING = SystemLangKey.EFFECT_WATER_BREATHING;
+    public static final ILangKey EFFECT_WEAKNESS = SystemLangKey.EFFECT_WEAKNESS;
+    public static final ILangKey EFFECT_WITHER = SystemLangKey.EFFECT_WITHER;
+    public static final ILangKey ENCHANT_FAIL = SystemLangKey.ENCHANT_FAIL;
+    public static final ILangKey ENCHANT_INCOMPATIBLE = SystemLangKey.ENCHANT_INCOMPATIBLE;
+    public static final ILangKey ENCHANT_MAX_LEVEL = SystemLangKey.ENCHANT_MAX_LEVEL;
+    public static final ILangKey ENCHANT_SUCCESS = SystemLangKey.ENCHANT_SUCCESS;
+    public static final ILangKey ERROR_FRIEND_ALREADY_EXISTS = MessageLangKey.ERROR_FRIEND_ALREADY_EXISTS;
+    public static final ILangKey ERROR_FRIEND_REQUEST_NOT_FOUND = MessageLangKey.ERROR_FRIEND_REQUEST_NOT_FOUND;
+    public static final ILangKey ERROR_PLAYER_DATA_NOT_FOUND = GeneralLangKey.ERROR_PLAYER_DATA_NOT_FOUND;
+    public static final ILangKey FRIEND_ADDED = MessageLangKey.FRIEND_ADDED;
+    public static final ILangKey FRIEND_ALREADY_FRIENDS = MessageLangKey.FRIEND_ALREADY_FRIENDS;
+    public static final ILangKey FRIEND_LIST_FULL = MessageLangKey.FRIEND_LIST_FULL;
+    public static final ILangKey FRIEND_NOT_FRIENDS = MessageLangKey.FRIEND_NOT_FRIENDS;
+    public static final ILangKey FRIEND_OFFLINE = MessageLangKey.FRIEND_OFFLINE;
+    public static final ILangKey FRIEND_ONLINE = MessageLangKey.FRIEND_ONLINE;
+    public static final ILangKey FRIEND_REMOVED = MessageLangKey.FRIEND_REMOVED;
+    public static final ILangKey FRIEND_REQUEST_ACCEPTED = MessageLangKey.FRIEND_REQUEST_ACCEPTED;
+    public static final ILangKey FRIEND_REQUEST_CANCELLED = MessageLangKey.FRIEND_REQUEST_CANCELLED;
+    public static final ILangKey FRIEND_REQUEST_DENIED = MessageLangKey.FRIEND_REQUEST_DENIED;
+    public static final ILangKey FRIEND_REQUEST_RECEIVED = MessageLangKey.FRIEND_REQUEST_RECEIVED;
+    public static final ILangKey FRIEND_REQUEST_SENT = MessageLangKey.FRIEND_REQUEST_SENT;
+    public static final ILangKey FRIEND_TARGET_LIST_FULL = MessageLangKey.FRIEND_TARGET_LIST_FULL;
+    public static final ILangKey GENERAL_TIME_DAYS = GeneralLangKey.GENERAL_TIME_DAYS;
+    public static final ILangKey GENERAL_TIME_HOURS = GeneralLangKey.GENERAL_TIME_HOURS;
+    public static final ILangKey GENERAL_TIME_MINUTES = GeneralLangKey.GENERAL_TIME_MINUTES;
+    public static final ILangKey GENERAL_UNKNOWN = GeneralLangKey.GENERAL_UNKNOWN;
+    public static final ILangKey GUILD_ALREADY_IN_GUILD = MessageLangKey.GUILD_ALREADY_IN_GUILD;
+    public static final ILangKey GUILD_BANK_DEPOSIT = MessageLangKey.GUILD_BANK_DEPOSIT;
+    public static final ILangKey GUILD_BANK_INSUFFICIENT_FUNDS = MessageLangKey.GUILD_BANK_INSUFFICIENT_FUNDS;
+    public static final ILangKey GUILD_BANK_WITHDRAW = MessageLangKey.GUILD_BANK_WITHDRAW;
+    public static final ILangKey GUILD_CONTRIBUTION_ADDED = MessageLangKey.GUILD_CONTRIBUTION_ADDED;
+    public static final ILangKey GUILD_CREATED = MessageLangKey.GUILD_CREATED;
+    public static final ILangKey GUILD_DEMOTED = MessageLangKey.GUILD_DEMOTED;
+    public static final ILangKey GUILD_DISBANDED = MessageLangKey.GUILD_DISBANDED;
+    public static final ILangKey GUILD_FULL = MessageLangKey.GUILD_FULL;
+    public static final ILangKey GUILD_INVITE_ACCEPTED = MessageLangKey.GUILD_INVITE_ACCEPTED;
+    public static final ILangKey GUILD_INVITE_DENIED = MessageLangKey.GUILD_INVITE_DENIED;
+    public static final ILangKey GUILD_INVITE_EXPIRED = MessageLangKey.GUILD_INVITE_EXPIRED;
+    public static final ILangKey GUILD_INVITE_RECEIVED = MessageLangKey.GUILD_INVITE_RECEIVED;
+    public static final ILangKey GUILD_INVITE_SENT = MessageLangKey.GUILD_INVITE_SENT;
+    public static final ILangKey GUILD_JOINED = MessageLangKey.GUILD_JOINED;
+    public static final ILangKey GUILD_KICKED = MessageLangKey.GUILD_KICKED;
+    public static final ILangKey GUILD_LEFT = MessageLangKey.GUILD_LEFT;
+    public static final ILangKey GUILD_LEVEL_UP = MessageLangKey.GUILD_LEVEL_UP;
+    public static final ILangKey GUILD_NOT_LEADER = MessageLangKey.GUILD_NOT_LEADER;
+    public static final ILangKey GUILD_NOT_MEMBER = MessageLangKey.GUILD_NOT_MEMBER;
+    public static final ILangKey GUILD_NOT_OFFICER = MessageLangKey.GUILD_NOT_OFFICER;
+    public static final ILangKey GUILD_NO_GUILD = MessageLangKey.GUILD_NO_GUILD;
+    public static final ILangKey GUILD_PROMOTED = MessageLangKey.GUILD_PROMOTED;
+    public static final ILangKey GUILD_WAR_ENDED = MessageLangKey.GUILD_WAR_ENDED;
+    public static final ILangKey GUILD_WAR_LOST = MessageLangKey.GUILD_WAR_LOST;
+    public static final ILangKey GUILD_WAR_STARTED = MessageLangKey.GUILD_WAR_STARTED;
+    public static final ILangKey GUILD_WAR_WON = MessageLangKey.GUILD_WAR_WON;
+    public static final ILangKey GUI_DIALOG_CHOICE_CANCEL = GuiLangKey.GUI_DIALOG_CHOICE_CANCEL;
+    public static final ILangKey GUI_DIALOG_CHOICE_CHOOSE = GuiLangKey.GUI_DIALOG_CHOICE_CHOOSE;
+    public static final ILangKey GUI_FRIENDS_CLICK_TO_TELEPORT = GuiLangKey.GUI_FRIENDS_CLICK_TO_TELEPORT;
+    public static final ILangKey GUI_FRIENDS_NO_FRIENDS = GuiLangKey.GUI_FRIENDS_NO_FRIENDS;
+    public static final ILangKey GUI_FRIENDS_ONLINE_COUNT = GuiLangKey.GUI_FRIENDS_ONLINE_COUNT;
+    public static final ILangKey GUI_FRIENDS_REMOVED = GuiLangKey.GUI_FRIENDS_REMOVED;
+    public static final ILangKey GUI_FRIENDS_REMOVE_CONFIRM = GuiLangKey.GUI_FRIENDS_REMOVE_CONFIRM;
+    public static final ILangKey GUI_FRIENDS_RIGHT_CLICK_TO_REMOVE = GuiLangKey.GUI_FRIENDS_RIGHT_CLICK_TO_REMOVE;
+    public static final ILangKey GUI_FRIENDS_TELEPORT_FAILED = GuiLangKey.GUI_FRIENDS_TELEPORT_FAILED;
+    public static final ILangKey GUI_FRIENDS_TELEPORT_REQUEST_SENT = GuiLangKey.GUI_FRIENDS_TELEPORT_REQUEST_SENT;
+    public static final ILangKey GUI_FRIENDS_TOTAL_COUNT = GuiLangKey.GUI_FRIENDS_TOTAL_COUNT;
+    public static final ILangKey GUI_FRIEND_REQUESTS_ACCEPT_DESC = GuiLangKey.GUI_FRIEND_REQUESTS_ACCEPT_DESC;
+    public static final ILangKey GUI_FRIEND_REQUESTS_ACCEPT_HOVER = GuiLangKey.GUI_FRIEND_REQUESTS_ACCEPT_HOVER;
+    public static final ILangKey GUI_FRIEND_REQUESTS_CANCELLED = GuiLangKey.GUI_FRIEND_REQUESTS_CANCELLED;
+    public static final ILangKey GUI_FRIEND_REQUESTS_DENY_HOVER = GuiLangKey.GUI_FRIEND_REQUESTS_DENY_HOVER;
+    public static final ILangKey GUI_FRIEND_REQUESTS_ERROR = GuiLangKey.GUI_FRIEND_REQUESTS_ERROR;
+    public static final ILangKey GUI_FRIEND_REQUESTS_FRIEND_ADDED = GuiLangKey.GUI_FRIEND_REQUESTS_FRIEND_ADDED;
+    public static final ILangKey GUI_FRIEND_REQUESTS_NO_MESSAGE = GuiLangKey.GUI_FRIEND_REQUESTS_NO_MESSAGE;
+    public static final ILangKey GUI_FRIEND_REQUESTS_REJECT_DESC = GuiLangKey.GUI_FRIEND_REQUESTS_REJECT_DESC;
+    public static final ILangKey GUI_GUI_SETTINGS_CURRENT_STATUS = GuiLangKey.GUI_GUI_SETTINGS_CURRENT_STATUS;
+    public static final ILangKey GUI_GUI_SETTINGS_CURRENT_VOLUME = GuiLangKey.GUI_GUI_SETTINGS_CURRENT_VOLUME;
+    public static final ILangKey GUI_GUI_SETTINGS_SOUND_MUTED = GuiLangKey.GUI_GUI_SETTINGS_SOUND_MUTED;
+    public static final ILangKey GUI_GUI_SETTINGS_SOUND_UNMUTED = GuiLangKey.GUI_GUI_SETTINGS_SOUND_UNMUTED;
+    public static final ILangKey GUI_GUI_SETTINGS_STATUS = GuiLangKey.GUI_GUI_SETTINGS_STATUS;
+    public static final ILangKey GUI_GUI_SETTINGS_TITLE = GuiLangKey.GUI_GUI_SETTINGS_TITLE;
+    public static final ILangKey GUI_GUI_SETTINGS_VOLUME_CHANGED = GuiLangKey.GUI_GUI_SETTINGS_VOLUME_CHANGED;
+    public static final ILangKey GUI_INGAME_SETTINGS_CLICK_TO_TOGGLE = GuiLangKey.GUI_INGAME_SETTINGS_CLICK_TO_TOGGLE;
+    public static final ILangKey GUI_INGAME_SETTINGS_CURRENT_SPEED = GuiLangKey.GUI_INGAME_SETTINGS_CURRENT_SPEED;
+    public static final ILangKey GUI_INGAME_SETTINGS_DAMAGE_DISPLAY_TOGGLED = GuiLangKey.GUI_INGAME_SETTINGS_DAMAGE_DISPLAY_TOGGLED;
+    public static final ILangKey GUI_INGAME_SETTINGS_DIALOG_SPEED_CHANGED = GuiLangKey.GUI_INGAME_SETTINGS_DIALOG_SPEED_CHANGED;
+    public static final ILangKey GUI_INGAME_SETTINGS_QUEST_GUIDE_TOGGLED = GuiLangKey.GUI_INGAME_SETTINGS_QUEST_GUIDE_TOGGLED;
+    public static final ILangKey GUI_INGAME_SETTINGS_SPEED_VALUE = GuiLangKey.GUI_INGAME_SETTINGS_SPEED_VALUE;
+    public static final ILangKey GUI_INGAME_SETTINGS_STATUS = GuiLangKey.GUI_INGAME_SETTINGS_STATUS;
+    public static final ILangKey GUI_INGAME_SETTINGS_TITLE = GuiLangKey.GUI_INGAME_SETTINGS_TITLE;
+    public static final ILangKey GUI_ISLAND_BIOME_BACK_TO_SETTINGS = GuiLangKey.GUI_ISLAND_BIOME_BACK_TO_SETTINGS;
+    public static final ILangKey GUI_ISLAND_BIOME_CHANGE_DESCRIPTION = GuiLangKey.GUI_ISLAND_BIOME_CHANGE_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_BIOME_CHANGE_FAIL = GuiLangKey.GUI_ISLAND_BIOME_CHANGE_FAIL;
+    public static final ILangKey GUI_ISLAND_BIOME_CHANGE_SUCCESS = GuiLangKey.GUI_ISLAND_BIOME_CHANGE_SUCCESS;
+    public static final ILangKey GUI_ISLAND_BIOME_CLICK_TO_SELECT = GuiLangKey.GUI_ISLAND_BIOME_CLICK_TO_SELECT;
+    public static final ILangKey GUI_ISLAND_BIOME_COST = GuiLangKey.GUI_ISLAND_BIOME_COST;
+    public static final ILangKey GUI_ISLAND_BIOME_CURRENTLY_SELECTED = GuiLangKey.GUI_ISLAND_BIOME_CURRENTLY_SELECTED;
+    public static final ILangKey GUI_ISLAND_BIOME_CURRENT_BIOME = GuiLangKey.GUI_ISLAND_BIOME_CURRENT_BIOME;
+    public static final ILangKey GUI_ISLAND_BIOME_FREE = GuiLangKey.GUI_ISLAND_BIOME_FREE;
+    public static final ILangKey GUI_ISLAND_BIOME_SELECTION_INFO_LORE = GuiLangKey.GUI_ISLAND_BIOME_SELECTION_INFO_LORE;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_BACK_DESCRIPTION = GuiLangKey.GUI_ISLAND_CONTRIBUTE_BACK_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_CLICK_PROMPT = GuiLangKey.GUI_ISLAND_CONTRIBUTE_CLICK_PROMPT;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_CLICK_TO_CONTRIBUTE = GuiLangKey.GUI_ISLAND_CONTRIBUTE_CLICK_TO_CONTRIBUTE;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_CLICK_PROMPT = GuiLangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_CLICK_PROMPT;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_DESCRIPTION = GuiLangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_MAXIMUM = GuiLangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_MAXIMUM;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_MINIMUM = GuiLangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_MINIMUM;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_TITLE = GuiLangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_TITLE;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_GOLD_INFO_DESCRIPTION = GuiLangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_GOLD_INFO_TITLE = GuiLangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_TITLE;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_INSUFFICIENT_GOLD = GuiLangKey.GUI_ISLAND_CONTRIBUTE_INSUFFICIENT_GOLD;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_INSUFFICIENT_GOLD_MESSAGE = GuiLangKey.GUI_ISLAND_CONTRIBUTE_INSUFFICIENT_GOLD_MESSAGE;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_SUCCESS = GuiLangKey.GUI_ISLAND_CONTRIBUTE_SUCCESS;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTE_TOTAL_CONTRIBUTION = GuiLangKey.GUI_ISLAND_CONTRIBUTE_TOTAL_CONTRIBUTION;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTIONS_DESCRIPTION = GuiLangKey.GUI_ISLAND_CONTRIBUTIONS_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTIONS_PLAYER = GuiLangKey.GUI_ISLAND_CONTRIBUTIONS_PLAYER;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTIONS_TITLE = GuiLangKey.GUI_ISLAND_CONTRIBUTIONS_TITLE;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTIONS_TOTAL = GuiLangKey.GUI_ISLAND_CONTRIBUTIONS_TOTAL;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTION_ADD_CLICK = GuiLangKey.GUI_ISLAND_CONTRIBUTION_ADD_CLICK;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTION_ADD_DESCRIPTION = GuiLangKey.GUI_ISLAND_CONTRIBUTION_ADD_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTION_ADD_TITLE = GuiLangKey.GUI_ISLAND_CONTRIBUTION_ADD_TITLE;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTION_BACK_DESCRIPTION = GuiLangKey.GUI_ISLAND_CONTRIBUTION_BACK_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTION_INFO_DESCRIPTION = GuiLangKey.GUI_ISLAND_CONTRIBUTION_INFO_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_CONTRIBUTION_INFO_TITLE = GuiLangKey.GUI_ISLAND_CONTRIBUTION_INFO_TITLE;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_CANCEL_CLICK = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_CANCEL_CLICK;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_CANCEL_LORE = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_CANCEL_LORE;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_CANCEL_TITLE = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_CANCEL_TITLE;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_CLICK_AGAIN = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_CLICK_AGAIN;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_CONFIRM_CLICK = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_CONFIRM_CLICK;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_CONFIRM_QUESTION = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_CONFIRM_QUESTION;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_CONFIRM_TITLE = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_CONFIRM_TITLE;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_CONFIRM_WARNING = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_CONFIRM_WARNING;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_FINAL_CONFIRM_CLICK = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_FINAL_CONFIRM_CLICK;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_FINAL_CONFIRM_TITLE = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_FINAL_CONFIRM_TITLE;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_WARNING = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_ISLAND_INFO_WARNING;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_WARNING = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_WARNING;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_FINAL = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_FINAL;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_TITLE = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_TITLE;
+    public static final ILangKey GUI_ISLAND_MAIN_CREATE_LORE = GuiLangKey.GUI_ISLAND_MAIN_CREATE_LORE;
+    public static final ILangKey GUI_ISLAND_MEMBERS_ADD_CLICK = GuiLangKey.GUI_ISLAND_MEMBERS_ADD_CLICK;
+    public static final ILangKey GUI_ISLAND_MEMBERS_ADD_LORE = GuiLangKey.GUI_ISLAND_MEMBERS_ADD_LORE;
+    public static final ILangKey GUI_ISLAND_MEMBERS_ADD_SUBTITLE = GuiLangKey.GUI_ISLAND_MEMBERS_ADD_SUBTITLE;
+    public static final ILangKey GUI_ISLAND_MEMBERS_ADD_TITLE = GuiLangKey.GUI_ISLAND_MEMBERS_ADD_TITLE;
+    public static final ILangKey GUI_ISLAND_MEMBERS_BACK_LORE = GuiLangKey.GUI_ISLAND_MEMBERS_BACK_LORE;
+    public static final ILangKey GUI_ISLAND_MEMBERS_DESCRIPTION = GuiLangKey.GUI_ISLAND_MEMBERS_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_MEMBERS_INFO_TITLE = GuiLangKey.GUI_ISLAND_MEMBERS_INFO_TITLE;
+    public static final ILangKey GUI_ISLAND_MEMBERS_MEMBER = GuiLangKey.GUI_ISLAND_MEMBERS_MEMBER;
+    public static final ILangKey GUI_ISLAND_MEMBERS_MODERATOR = GuiLangKey.GUI_ISLAND_MEMBERS_MODERATOR;
+    public static final ILangKey GUI_ISLAND_MEMBERS_OWNER = GuiLangKey.GUI_ISLAND_MEMBERS_OWNER;
+    public static final ILangKey GUI_ISLAND_MEMBERS_TITLE = GuiLangKey.GUI_ISLAND_MEMBERS_TITLE;
+    public static final ILangKey GUI_ISLAND_MEMBERS_VISITOR = GuiLangKey.GUI_ISLAND_MEMBERS_VISITOR;
+    public static final ILangKey GUI_ISLAND_MEMBER_MANAGE_TITLE_WITH_NAME = GuiLangKey.GUI_ISLAND_MEMBER_MANAGE_TITLE_WITH_NAME;
+    public static final ILangKey GUI_ISLAND_MEMBER_TITLE = GuiLangKey.GUI_ISLAND_MEMBER_TITLE;
+    public static final ILangKey GUI_ISLAND_PERMISSIONS_BAN = GuiLangKey.GUI_ISLAND_PERMISSIONS_BAN;
+    public static final ILangKey GUI_ISLAND_PERMISSIONS_BREAK = GuiLangKey.GUI_ISLAND_PERMISSIONS_BREAK;
+    public static final ILangKey GUI_ISLAND_PERMISSIONS_BUILD = GuiLangKey.GUI_ISLAND_PERMISSIONS_BUILD;
+    public static final ILangKey GUI_ISLAND_PERMISSIONS_CONTAINER = GuiLangKey.GUI_ISLAND_PERMISSIONS_CONTAINER;
+    public static final ILangKey GUI_ISLAND_PERMISSIONS_DEMOTE = GuiLangKey.GUI_ISLAND_PERMISSIONS_DEMOTE;
+    public static final ILangKey GUI_ISLAND_PERMISSIONS_DESCRIPTION = GuiLangKey.GUI_ISLAND_PERMISSIONS_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_PERMISSIONS_INTERACT = GuiLangKey.GUI_ISLAND_PERMISSIONS_INTERACT;
+    public static final ILangKey GUI_ISLAND_PERMISSIONS_INVITE = GuiLangKey.GUI_ISLAND_PERMISSIONS_INVITE;
+    public static final ILangKey GUI_ISLAND_PERMISSIONS_KICK = GuiLangKey.GUI_ISLAND_PERMISSIONS_KICK;
+    public static final ILangKey GUI_ISLAND_PERMISSIONS_PROMOTE = GuiLangKey.GUI_ISLAND_PERMISSIONS_PROMOTE;
+    public static final ILangKey GUI_ISLAND_PERMISSIONS_TELEPORT = GuiLangKey.GUI_ISLAND_PERMISSIONS_TELEPORT;
+    public static final ILangKey GUI_ISLAND_PERMISSIONS_TITLE = GuiLangKey.GUI_ISLAND_PERMISSIONS_TITLE;
+    public static final ILangKey GUI_ISLAND_PERMISSION_BACK_DESCRIPTION = GuiLangKey.GUI_ISLAND_PERMISSION_BACK_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_PERMISSION_BACK_TITLE = GuiLangKey.GUI_ISLAND_PERMISSION_BACK_TITLE;
+    public static final ILangKey GUI_ISLAND_PERMISSION_CLICK_TO_SELECT = GuiLangKey.GUI_ISLAND_PERMISSION_CLICK_TO_SELECT;
+    public static final ILangKey GUI_ISLAND_PERMISSION_CLICK_TO_TOGGLE = GuiLangKey.GUI_ISLAND_PERMISSION_CLICK_TO_TOGGLE;
+    public static final ILangKey GUI_ISLAND_PERMISSION_CLOSE_DESCRIPTION = GuiLangKey.GUI_ISLAND_PERMISSION_CLOSE_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_PERMISSION_CLOSE_TITLE = GuiLangKey.GUI_ISLAND_PERMISSION_CLOSE_TITLE;
+    public static final ILangKey GUI_ISLAND_PERMISSION_CURRENT_EDITING = GuiLangKey.GUI_ISLAND_PERMISSION_CURRENT_EDITING;
+    public static final ILangKey GUI_ISLAND_PERMISSION_DISABLED = GuiLangKey.GUI_ISLAND_PERMISSION_DISABLED;
+    public static final ILangKey GUI_ISLAND_PERMISSION_EDIT_ROLE_PERMISSIONS = GuiLangKey.GUI_ISLAND_PERMISSION_EDIT_ROLE_PERMISSIONS;
+    public static final ILangKey GUI_ISLAND_PERMISSION_ENABLED = GuiLangKey.GUI_ISLAND_PERMISSION_ENABLED;
+    public static final ILangKey GUI_ISLAND_PERMISSION_PERMISSIONS_BUILD_DESC = GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_BUILD_DESC;
+    public static final ILangKey GUI_ISLAND_PERMISSION_PERMISSIONS_CONTAINERS_DESC = GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_CONTAINERS_DESC;
+    public static final ILangKey GUI_ISLAND_PERMISSION_PERMISSIONS_INTERACT_DESC = GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_INTERACT_DESC;
+    public static final ILangKey GUI_ISLAND_PERMISSION_PERMISSIONS_INVITE_DESC = GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_INVITE_DESC;
+    public static final ILangKey GUI_ISLAND_PERMISSION_PERMISSIONS_KICK_DESC = GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_KICK_DESC;
+    public static final ILangKey GUI_ISLAND_PERMISSION_PERMISSIONS_SETTINGS_DESC = GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_SETTINGS_DESC;
+    public static final ILangKey GUI_ISLAND_PERMISSION_PERMISSIONS_SPAWNS_DESC = GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_SPAWNS_DESC;
+    public static final ILangKey GUI_ISLAND_PERMISSION_PERMISSIONS_WORKERS_DESC = GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_WORKERS_DESC;
+    public static final ILangKey GUI_ISLAND_PERMISSION_SAVE_CLICK = GuiLangKey.GUI_ISLAND_PERMISSION_SAVE_CLICK;
+    public static final ILangKey GUI_ISLAND_PERMISSION_SAVE_DESCRIPTION = GuiLangKey.GUI_ISLAND_PERMISSION_SAVE_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_PERMISSION_SAVE_FAILED = GuiLangKey.GUI_ISLAND_PERMISSION_SAVE_FAILED;
+    public static final ILangKey GUI_ISLAND_PERMISSION_SAVE_SUCCESS = GuiLangKey.GUI_ISLAND_PERMISSION_SAVE_SUCCESS;
+    public static final ILangKey GUI_ISLAND_PERMISSION_SAVE_TITLE = GuiLangKey.GUI_ISLAND_PERMISSION_SAVE_TITLE;
+    public static final ILangKey GUI_ISLAND_PERMISSION_SELECTED = GuiLangKey.GUI_ISLAND_PERMISSION_SELECTED;
+    public static final ILangKey GUI_ISLAND_PERMISSION_SELECT_OTHER_ROLE = GuiLangKey.GUI_ISLAND_PERMISSION_SELECT_OTHER_ROLE;
+    public static final ILangKey GUI_ISLAND_PERMISSION_SELECT_ROLE_DESC = GuiLangKey.GUI_ISLAND_PERMISSION_SELECT_ROLE_DESC;
+    public static final ILangKey GUI_ISLAND_PERMISSION_STATUS = GuiLangKey.GUI_ISLAND_PERMISSION_STATUS;
+    public static final ILangKey GUI_ISLAND_PERSONAL_SPAWN_TITLE = GuiLangKey.GUI_ISLAND_PERSONAL_SPAWN_TITLE;
+    public static final ILangKey GUI_ISLAND_SETTINGS_CURRENT_BIOME = GuiLangKey.GUI_ISLAND_SETTINGS_CURRENT_BIOME;
+    public static final ILangKey GUI_ISLAND_SETTINGS_CURRENT_NAME = GuiLangKey.GUI_ISLAND_SETTINGS_CURRENT_NAME;
+    public static final ILangKey GUI_ISLAND_SETTINGS_CURRENT_STATUS = GuiLangKey.GUI_ISLAND_SETTINGS_CURRENT_STATUS;
+    public static final ILangKey GUI_ISLAND_SETTINGS_DESCRIPTION = GuiLangKey.GUI_ISLAND_SETTINGS_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_SETTINGS_FIRE_SPREAD = GuiLangKey.GUI_ISLAND_SETTINGS_FIRE_SPREAD;
+    public static final ILangKey GUI_ISLAND_SETTINGS_HAS_CHANGES = GuiLangKey.GUI_ISLAND_SETTINGS_HAS_CHANGES;
+    public static final ILangKey GUI_ISLAND_SETTINGS_ID = GuiLangKey.GUI_ISLAND_SETTINGS_ID;
+    public static final ILangKey GUI_ISLAND_SETTINGS_LOCKED = GuiLangKey.GUI_ISLAND_SETTINGS_LOCKED;
+    public static final ILangKey GUI_ISLAND_SETTINGS_MEMBERS = GuiLangKey.GUI_ISLAND_SETTINGS_MEMBERS;
+    public static final ILangKey GUI_ISLAND_SETTINGS_MOB_SPAWN = GuiLangKey.GUI_ISLAND_SETTINGS_MOB_SPAWN;
+    public static final ILangKey GUI_ISLAND_SETTINGS_NAME = GuiLangKey.GUI_ISLAND_SETTINGS_NAME;
+    public static final ILangKey GUI_ISLAND_SETTINGS_NO_CHANGES = GuiLangKey.GUI_ISLAND_SETTINGS_NO_CHANGES;
+    public static final ILangKey GUI_ISLAND_SETTINGS_OWNER = GuiLangKey.GUI_ISLAND_SETTINGS_OWNER;
+    public static final ILangKey GUI_ISLAND_SETTINGS_PUBLIC = GuiLangKey.GUI_ISLAND_SETTINGS_PUBLIC;
+    public static final ILangKey GUI_ISLAND_SETTINGS_PVP = GuiLangKey.GUI_ISLAND_SETTINGS_PVP;
+    public static final ILangKey GUI_ISLAND_SETTINGS_STATUS = GuiLangKey.GUI_ISLAND_SETTINGS_STATUS;
+    public static final ILangKey GUI_ISLAND_SETTINGS_TNT = GuiLangKey.GUI_ISLAND_SETTINGS_TNT;
+    public static final ILangKey GUI_ISLAND_SPAWN_DEFAULT_SPAWN = GuiLangKey.GUI_ISLAND_SPAWN_DEFAULT_SPAWN;
+    public static final ILangKey GUI_ISLAND_SPAWN_LOCATION_NAME = GuiLangKey.GUI_ISLAND_SPAWN_LOCATION_NAME;
+    public static final ILangKey GUI_ISLAND_SPAWN_TITLE = GuiLangKey.GUI_ISLAND_SPAWN_TITLE;
+    public static final ILangKey GUI_ISLAND_SPAWN_VISITOR_SPAWN = GuiLangKey.GUI_ISLAND_SPAWN_VISITOR_SPAWN;
+    public static final ILangKey GUI_ISLAND_SPAWN_VISITOR_SPAWN_NOT_SET = GuiLangKey.GUI_ISLAND_SPAWN_VISITOR_SPAWN_NOT_SET;
+    public static final ILangKey GUI_ISLAND_UPGRADES_DESCRIPTION = GuiLangKey.GUI_ISLAND_UPGRADES_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_UPGRADES_GENERATOR = GuiLangKey.GUI_ISLAND_UPGRADES_GENERATOR;
+    public static final ILangKey GUI_ISLAND_UPGRADES_HOPPER_LIMIT = GuiLangKey.GUI_ISLAND_UPGRADES_HOPPER_LIMIT;
+    public static final ILangKey GUI_ISLAND_UPGRADES_MEMBER_LIMIT = GuiLangKey.GUI_ISLAND_UPGRADES_MEMBER_LIMIT;
+    public static final ILangKey GUI_ISLAND_UPGRADES_SIZE = GuiLangKey.GUI_ISLAND_UPGRADES_SIZE;
+    public static final ILangKey GUI_ISLAND_UPGRADES_SPAWNER_LIMIT = GuiLangKey.GUI_ISLAND_UPGRADES_SPAWNER_LIMIT;
+    public static final ILangKey GUI_ISLAND_UPGRADES_TITLE = GuiLangKey.GUI_ISLAND_UPGRADES_TITLE;
+    public static final ILangKey GUI_ISLAND_UPGRADE_CLICK_TO_UPGRADE = GuiLangKey.GUI_ISLAND_UPGRADE_CLICK_TO_UPGRADE;
+    public static final ILangKey GUI_ISLAND_UPGRADE_COST = GuiLangKey.GUI_ISLAND_UPGRADE_COST;
+    public static final ILangKey GUI_ISLAND_UPGRADE_CURRENT_CONTRIBUTION = GuiLangKey.GUI_ISLAND_UPGRADE_CURRENT_CONTRIBUTION;
+    public static final ILangKey GUI_ISLAND_UPGRADE_CURRENT_LEVEL = GuiLangKey.GUI_ISLAND_UPGRADE_CURRENT_LEVEL;
+    public static final ILangKey GUI_ISLAND_UPGRADE_INSUFFICIENT_CONTRIBUTION = GuiLangKey.GUI_ISLAND_UPGRADE_INSUFFICIENT_CONTRIBUTION;
+    public static final ILangKey GUI_ISLAND_UPGRADE_MAX_LEVEL = GuiLangKey.GUI_ISLAND_UPGRADE_MAX_LEVEL;
+    public static final ILangKey GUI_ISLAND_UPGRADE_NEXT_LEVEL = GuiLangKey.GUI_ISLAND_UPGRADE_NEXT_LEVEL;
+    public static final ILangKey GUI_ISLAND_UPGRADE_PROGRESS = GuiLangKey.GUI_ISLAND_UPGRADE_PROGRESS;
+    public static final ILangKey GUI_ISLAND_UPGRADE_TITLE = GuiLangKey.GUI_ISLAND_UPGRADE_TITLE;
+    public static final ILangKey GUI_ISLAND_VISITORS_CURRENT = GuiLangKey.GUI_ISLAND_VISITORS_CURRENT;
+    public static final ILangKey GUI_ISLAND_VISITORS_DESCRIPTION = GuiLangKey.GUI_ISLAND_VISITORS_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_VISITORS_RECENT = GuiLangKey.GUI_ISLAND_VISITORS_RECENT;
+    public static final ILangKey GUI_ISLAND_VISITORS_TITLE = GuiLangKey.GUI_ISLAND_VISITORS_TITLE;
+    public static final ILangKey GUI_ISLAND_VISITOR_ACTION_TITLE = GuiLangKey.GUI_ISLAND_VISITOR_ACTION_TITLE;
+    public static final ILangKey GUI_ISLAND_VISITOR_ISLAND_NAME = GuiLangKey.GUI_ISLAND_VISITOR_ISLAND_NAME;
+    public static final ILangKey GUI_ISLAND_VISITOR_LIVE_TITLE = GuiLangKey.GUI_ISLAND_VISITOR_LIVE_TITLE;
+    public static final ILangKey GUI_ISLAND_VISITOR_LONGEST_STAY = GuiLangKey.GUI_ISLAND_VISITOR_LONGEST_STAY;
+    public static final ILangKey GUI_ISLAND_VISITOR_MENU_TITLE = GuiLangKey.GUI_ISLAND_VISITOR_MENU_TITLE;
+    public static final ILangKey GUI_ISLAND_VISITOR_MOST_FREQUENT = GuiLangKey.GUI_ISLAND_VISITOR_MOST_FREQUENT;
+    public static final ILangKey GUI_ISLAND_VISITOR_PUBLIC_STATUS = GuiLangKey.GUI_ISLAND_VISITOR_PUBLIC_STATUS;
+    public static final ILangKey GUI_ISLAND_VISITOR_STAY_DURATION = GuiLangKey.GUI_ISLAND_VISITOR_STAY_DURATION;
+    public static final ILangKey GUI_ISLAND_VISITOR_TITLE = GuiLangKey.GUI_ISLAND_VISITOR_TITLE;
+    public static final ILangKey GUI_ISLAND_VISITOR_TOTAL_VISITORS = GuiLangKey.GUI_ISLAND_VISITOR_TOTAL_VISITORS;
+    public static final ILangKey GUI_ISLAND_VISITOR_TOTAL_VISITS = GuiLangKey.GUI_ISLAND_VISITOR_TOTAL_VISITS;
+    public static final ILangKey GUI_ISLAND_VISITOR_UNIQUE_VISITORS = GuiLangKey.GUI_ISLAND_VISITOR_UNIQUE_VISITORS;
+    public static final ILangKey GUI_ISLAND_VISITOR_VISITOR_NUMBER = GuiLangKey.GUI_ISLAND_VISITOR_VISITOR_NUMBER;
+    public static final ILangKey GUI_ISLAND_VISITOR_VISIT_TIME = GuiLangKey.GUI_ISLAND_VISITOR_VISIT_TIME;
+    public static final ILangKey GUI_ISLAND_VISIT_BANNED = GuiLangKey.GUI_ISLAND_VISIT_BANNED;
+    public static final ILangKey GUI_ISLAND_VISIT_DESCRIPTION = GuiLangKey.GUI_ISLAND_VISIT_DESCRIPTION;
+    public static final ILangKey GUI_ISLAND_VISIT_LOCKED = GuiLangKey.GUI_ISLAND_VISIT_LOCKED;
+    public static final ILangKey GUI_ISLAND_VISIT_NOT_FOUND = GuiLangKey.GUI_ISLAND_VISIT_NOT_FOUND;
+    public static final ILangKey GUI_ISLAND_VISIT_PLAYER_INPUT = GuiLangKey.GUI_ISLAND_VISIT_PLAYER_INPUT;
+    public static final ILangKey GUI_ISLAND_VISIT_TITLE = GuiLangKey.GUI_ISLAND_VISIT_TITLE;
+    public static final ILangKey GUI_LEADERBOARD_RANK = GuiLangKey.GUI_LEADERBOARD_RANK;
+    public static final ILangKey GUI_MAILBOX_CLICK_TO_READ = GuiLangKey.GUI_MAILBOX_CLICK_TO_READ;
+    public static final ILangKey GUI_MAILBOX_DELETE_ALL = GuiLangKey.GUI_MAILBOX_DELETE_ALL;
+    public static final ILangKey GUI_MAILBOX_DELETE_ALL_CONFIRM = GuiLangKey.GUI_MAILBOX_DELETE_ALL_CONFIRM;
+    public static final ILangKey GUI_MAILBOX_HAS_ATTACHMENTS = GuiLangKey.GUI_MAILBOX_HAS_ATTACHMENTS;
+    public static final ILangKey GUI_MAILBOX_MAIL_DATE = GuiLangKey.GUI_MAILBOX_MAIL_DATE;
+    public static final ILangKey GUI_MAILBOX_MAIL_FROM = GuiLangKey.GUI_MAILBOX_MAIL_FROM;
+    public static final ILangKey GUI_MAILBOX_NO_MAIL = GuiLangKey.GUI_MAILBOX_NO_MAIL;
+    public static final ILangKey GUI_MAILBOX_REFRESH_COOLDOWN = GuiLangKey.GUI_MAILBOX_REFRESH_COOLDOWN;
+    public static final ILangKey GUI_MAILBOX_TITLE = GuiLangKey.GUI_MAILBOX_TITLE;
+    public static final ILangKey GUI_MAIL_DETAIL_ATTACHMENTS = GuiLangKey.GUI_MAIL_DETAIL_ATTACHMENTS;
+    public static final ILangKey GUI_MAIL_DETAIL_CLAIM = GuiLangKey.GUI_MAIL_DETAIL_CLAIM;
+    public static final ILangKey GUI_MAIL_DETAIL_CLAIMED = GuiLangKey.GUI_MAIL_DETAIL_CLAIMED;
+    public static final ILangKey GUI_MAIL_DETAIL_CLAIM_ALL = GuiLangKey.GUI_MAIL_DETAIL_CLAIM_ALL;
+    public static final ILangKey GUI_MAIL_DETAIL_DATE = GuiLangKey.GUI_MAIL_DETAIL_DATE;
+    public static final ILangKey GUI_MAIL_DETAIL_DELETE = GuiLangKey.GUI_MAIL_DETAIL_DELETE;
+    public static final ILangKey GUI_MAIL_DETAIL_DELETE_CONFIRM = GuiLangKey.GUI_MAIL_DETAIL_DELETE_CONFIRM;
+    public static final ILangKey GUI_MAIL_DETAIL_DELETE_CONFIRM_MESSAGE = GuiLangKey.GUI_MAIL_DETAIL_DELETE_CONFIRM_MESSAGE;
+    public static final ILangKey GUI_MAIL_DETAIL_FROM = GuiLangKey.GUI_MAIL_DETAIL_FROM;
+    public static final ILangKey GUI_MAIL_DETAIL_MESSAGE = GuiLangKey.GUI_MAIL_DETAIL_MESSAGE;
+    public static final ILangKey GUI_MAIL_DETAIL_SUBJECT = GuiLangKey.GUI_MAIL_DETAIL_SUBJECT;
+    public static final ILangKey GUI_NOTIFICATION_SETTINGS_CLICK_TO_TOGGLE = GuiLangKey.GUI_NOTIFICATION_SETTINGS_CLICK_TO_TOGGLE;
+    public static final ILangKey GUI_NOTIFICATION_SETTINGS_CURRENT_MODE = GuiLangKey.GUI_NOTIFICATION_SETTINGS_CURRENT_MODE;
+    public static final ILangKey GUI_NOTIFICATION_SETTINGS_INVITE_CHANGED = GuiLangKey.GUI_NOTIFICATION_SETTINGS_INVITE_CHANGED;
+    public static final ILangKey GUI_NOTIFICATION_SETTINGS_SERVER_TOGGLED = GuiLangKey.GUI_NOTIFICATION_SETTINGS_SERVER_TOGGLED;
+    public static final ILangKey GUI_NOTIFICATION_SETTINGS_STATUS = GuiLangKey.GUI_NOTIFICATION_SETTINGS_STATUS;
+    public static final ILangKey GUI_NOTIFICATION_SETTINGS_TITLE = GuiLangKey.GUI_NOTIFICATION_SETTINGS_TITLE;
+    public static final ILangKey GUI_NOTIFICATION_SETTINGS_WHISPER_TOGGLED = GuiLangKey.GUI_NOTIFICATION_SETTINGS_WHISPER_TOGGLED;
+    public static final ILangKey GUI_QUEST_DETAIL_TITLE = QuestCommonLangKey.GUI_QUEST_DETAIL_TITLE;
+    public static final ILangKey GUI_QUEST_DIALOG_ACCEPT_QUEST = GuiLangKey.GUI_QUEST_DIALOG_ACCEPT_QUEST;
+    public static final ILangKey GUI_QUEST_DIALOG_NEXT_PAGE = GuiLangKey.GUI_QUEST_DIALOG_NEXT_PAGE;
+    public static final ILangKey GUI_QUEST_DIALOG_QUEST_DECLINED = GuiLangKey.GUI_QUEST_DIALOG_QUEST_DECLINED;
+    public static final ILangKey GUI_QUEST_DIALOG_SKIP = GuiLangKey.GUI_QUEST_DIALOG_SKIP;
+    public static final ILangKey GUI_QUEST_DIALOG_TITLE = GuiLangKey.GUI_QUEST_DIALOG_TITLE;
+    public static final ILangKey GUI_QUEST_LIST_CLICK_DETAILS = GuiLangKey.GUI_QUEST_LIST_CLICK_DETAILS;
+    public static final ILangKey GUI_QUEST_LIST_COMPLETED_LABEL = GuiLangKey.GUI_QUEST_LIST_COMPLETED_LABEL;
+    public static final ILangKey GUI_QUEST_LIST_PROGRESS = GuiLangKey.GUI_QUEST_LIST_PROGRESS;
+    public static final ILangKey GUI_QUEST_LIST_REPEATABLE = GuiLangKey.GUI_QUEST_LIST_REPEATABLE;
+    public static final ILangKey GUI_QUEST_LIST_TITLE = GuiLangKey.GUI_QUEST_LIST_TITLE;
+    public static final ILangKey GUI_QUEST_OBJECTIVES_TITLE = QuestCommonLangKey.GUI_QUEST_OBJECTIVES_TITLE;
+    public static final ILangKey GUI_QUEST_PROGRESS_TITLE = QuestCommonLangKey.GUI_QUEST_PROGRESS_TITLE;
+    public static final ILangKey GUI_QUEST_REWARDS_TITLE = QuestCommonLangKey.GUI_QUEST_REWARDS_TITLE;
+    public static final ILangKey GUI_QUEST_REWARD_ALL_CLAIMED = GuiLangKey.GUI_QUEST_REWARD_ALL_CLAIMED;
+    public static final ILangKey GUI_QUEST_REWARD_ALREADY_CLAIMED = GuiLangKey.GUI_QUEST_REWARD_ALREADY_CLAIMED;
+    public static final ILangKey GUI_QUEST_REWARD_CLAIMED = GuiLangKey.GUI_QUEST_REWARD_CLAIMED;
+    public static final ILangKey GUI_QUEST_REWARD_CLICK_TO_CLAIM = GuiLangKey.GUI_QUEST_REWARD_CLICK_TO_CLAIM;
+    public static final ILangKey GUI_QUEST_REWARD_CLOSE_WARNING = GuiLangKey.GUI_QUEST_REWARD_CLOSE_WARNING;
+    public static final ILangKey GUI_QUEST_REWARD_CONFIRM_TITLE = GuiLangKey.GUI_QUEST_REWARD_CONFIRM_TITLE;
+    public static final ILangKey GUI_QUEST_REWARD_DESTROYED = GuiLangKey.GUI_QUEST_REWARD_DESTROYED;
+    public static final ILangKey GUI_QUEST_REWARD_DESTROYED_DESC = GuiLangKey.GUI_QUEST_REWARD_DESTROYED_DESC;
+    public static final ILangKey GUI_QUEST_REWARD_EXP_RECEIVED = GuiLangKey.GUI_QUEST_REWARD_EXP_RECEIVED;
+    public static final ILangKey GUI_QUEST_REWARD_INVENTORY_FULL = GuiLangKey.GUI_QUEST_REWARD_INVENTORY_FULL;
+    public static final ILangKey GUI_QUEST_REWARD_MONEY_RECEIVED = GuiLangKey.GUI_QUEST_REWARD_MONEY_RECEIVED;
+    public static final ILangKey GUI_QUEST_REWARD_NOT_ENOUGH_SPACE = GuiLangKey.GUI_QUEST_REWARD_NOT_ENOUGH_SPACE;
+    public static final ILangKey GUI_QUEST_REWARD_TIMER_INFO = GuiLangKey.GUI_QUEST_REWARD_TIMER_INFO;
+    public static final ILangKey GUI_QUEST_REWARD_TIMER_WARNING = GuiLangKey.GUI_QUEST_REWARD_TIMER_WARNING;
+    public static final ILangKey GUI_QUEST_REWARD_TITLE = GuiLangKey.GUI_QUEST_REWARD_TITLE;
+    public static final ILangKey GUI_QUEST_REWARD_WARNING_DESTROY_LINE = GuiLangKey.GUI_QUEST_REWARD_WARNING_DESTROY_LINE;
+    public static final ILangKey GUI_QUEST_REWARD_WARNING_DESTROY_LINE2 = GuiLangKey.GUI_QUEST_REWARD_WARNING_DESTROY_LINE2;
+    public static final ILangKey GUI_QUEST_SELECTION_TITLE = GuiLangKey.GUI_QUEST_SELECTION_TITLE;
+    public static final ILangKey GUI_QUEST_STATUS_COMPLETED = GuiLangKey.GUI_QUEST_STATUS_COMPLETED;
+    public static final ILangKey GUI_QUEST_STATUS_IN_PROGRESS = GuiLangKey.GUI_QUEST_STATUS_IN_PROGRESS;
+    public static final ILangKey GUI_QUEST_STATUS_NEW_QUEST = GuiLangKey.GUI_QUEST_STATUS_NEW_QUEST;
+    public static final ILangKey GUI_QUEST_STATUS_REWARD_AVAILABLE = GuiLangKey.GUI_QUEST_STATUS_REWARD_AVAILABLE;
+    public static final ILangKey GUI_SETTINGS_TITLE = GuiLangKey.GUI_SETTINGS_TITLE;
+    public static final ILangKey GUI_SOCIAL_SETTINGS_CLICK_TO_TOGGLE = GuiLangKey.GUI_SOCIAL_SETTINGS_CLICK_TO_TOGGLE;
+    public static final ILangKey GUI_SOCIAL_SETTINGS_CURRENT_MODE = GuiLangKey.GUI_SOCIAL_SETTINGS_CURRENT_MODE;
+    public static final ILangKey GUI_SOCIAL_SETTINGS_FRIEND_REQUESTS_TOGGLED = GuiLangKey.GUI_SOCIAL_SETTINGS_FRIEND_REQUESTS_TOGGLED;
+    public static final ILangKey GUI_SOCIAL_SETTINGS_GUILD_INVITES_TOGGLED = GuiLangKey.GUI_SOCIAL_SETTINGS_GUILD_INVITES_TOGGLED;
+    public static final ILangKey GUI_SOCIAL_SETTINGS_STATUS = GuiLangKey.GUI_SOCIAL_SETTINGS_STATUS;
+    public static final ILangKey GUI_SOCIAL_SETTINGS_WHISPER_MODE_CHANGED = GuiLangKey.GUI_SOCIAL_SETTINGS_WHISPER_MODE_CHANGED;
+    public static final ILangKey HOLOGRAM_NPC_NAME = SystemLangKey.HOLOGRAM_NPC_NAME;
+    public static final ILangKey HOLOGRAM_NPC_TITLE = SystemLangKey.HOLOGRAM_NPC_TITLE;
+    public static final ILangKey HOLOGRAM_QUEST_MARKER = SystemLangKey.HOLOGRAM_QUEST_MARKER;
+    public static final ILangKey HOLOGRAM_SHOP_MARKER = SystemLangKey.HOLOGRAM_SHOP_MARKER;
+    public static final ILangKey ISLAND_ALREADY_HAS_ISLAND = MessageLangKey.ISLAND_ALREADY_HAS_ISLAND;
+    public static final ILangKey ISLAND_BANNED = MessageLangKey.ISLAND_BANNED;
+    public static final ILangKey ISLAND_BIOME_CHANGED = MessageLangKey.ISLAND_BIOME_CHANGED;
+    public static final ILangKey ISLAND_CREATED = MessageLangKey.ISLAND_CREATED;
+    public static final ILangKey ISLAND_DELETED = MessageLangKey.ISLAND_DELETED;
+    public static final ILangKey ISLAND_DELETE_SUCCESS_MESSAGE = MessageLangKey.ISLAND_DELETE_SUCCESS_MESSAGE;
+    public static final ILangKey ISLAND_DELETE_SUCCESS_TITLE = MessageLangKey.ISLAND_DELETE_SUCCESS_TITLE;
+    public static final ILangKey ISLAND_DEMOTED = MessageLangKey.ISLAND_DEMOTED;
+    public static final ILangKey ISLAND_FIRE_SPREAD_DISABLED = MessageLangKey.ISLAND_FIRE_SPREAD_DISABLED;
+    public static final ILangKey ISLAND_FIRE_SPREAD_ENABLED = MessageLangKey.ISLAND_FIRE_SPREAD_ENABLED;
+    public static final ILangKey ISLAND_GUI_CREATION_ISLAND_NAME_INPUT_TITLE = MessageLangKey.ISLAND_GUI_CREATION_ISLAND_NAME_INPUT_TITLE;
+    public static final ILangKey ISLAND_GUI_MAIN_CREATE_ISLAND_CONTACT_ADMIN = MessageLangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_CONTACT_ADMIN;
+    public static final ILangKey ISLAND_GUI_MAIN_CREATE_ISLAND_DESCRIPTION = MessageLangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_DESCRIPTION;
+    public static final ILangKey ISLAND_GUI_MAIN_CREATE_ISLAND_NO_ISLAND = MessageLangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_NO_ISLAND;
+    public static final ILangKey ISLAND_GUI_MAIN_CREATE_ISLAND_TITLE = MessageLangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_TITLE;
+    public static final ILangKey ISLAND_HOME_NOT_SET = MessageLangKey.ISLAND_HOME_NOT_SET;
+    public static final ILangKey ISLAND_HOME_SET = MessageLangKey.ISLAND_HOME_SET;
+    public static final ILangKey ISLAND_INVITE_ACCEPTED = MessageLangKey.ISLAND_INVITE_ACCEPTED;
+    public static final ILangKey ISLAND_INVITE_DENIED = MessageLangKey.ISLAND_INVITE_DENIED;
+    public static final ILangKey ISLAND_INVITE_EXPIRED = MessageLangKey.ISLAND_INVITE_EXPIRED;
+    public static final ILangKey ISLAND_INVITE_RECEIVED = MessageLangKey.ISLAND_INVITE_RECEIVED;
+    public static final ILangKey ISLAND_INVITE_SENT = MessageLangKey.ISLAND_INVITE_SENT;
+    public static final ILangKey ISLAND_JOINED = MessageLangKey.ISLAND_JOINED;
+    public static final ILangKey ISLAND_KICKED = MessageLangKey.ISLAND_KICKED;
+    public static final ILangKey ISLAND_LEFT = MessageLangKey.ISLAND_LEFT;
+    public static final ILangKey ISLAND_LOCKED = MessageLangKey.ISLAND_LOCKED;
+    public static final ILangKey ISLAND_MEMBER_LIMIT_REACHED = MessageLangKey.ISLAND_MEMBER_LIMIT_REACHED;
+    public static final ILangKey ISLAND_MOB_SPAWN_DISABLED = MessageLangKey.ISLAND_MOB_SPAWN_DISABLED;
+    public static final ILangKey ISLAND_MOB_SPAWN_ENABLED = MessageLangKey.ISLAND_MOB_SPAWN_ENABLED;
+    public static final ILangKey ISLAND_NOT_ENOUGH_MONEY = MessageLangKey.ISLAND_NOT_ENOUGH_MONEY;
+    public static final ILangKey ISLAND_NOT_MEMBER = MessageLangKey.ISLAND_NOT_MEMBER;
+    public static final ILangKey ISLAND_NOT_OWNER = MessageLangKey.ISLAND_NOT_OWNER;
+    public static final ILangKey ISLAND_NO_ISLAND = MessageLangKey.ISLAND_NO_ISLAND;
+    public static final ILangKey ISLAND_PERMISSION_UPDATED = MessageLangKey.ISLAND_PERMISSION_UPDATED;
+    public static final ILangKey ISLAND_PROMOTED = MessageLangKey.ISLAND_PROMOTED;
+    public static final ILangKey ISLAND_PUBLIC_DISABLED = MessageLangKey.ISLAND_PUBLIC_DISABLED;
+    public static final ILangKey ISLAND_PUBLIC_ENABLED = MessageLangKey.ISLAND_PUBLIC_ENABLED;
+    public static final ILangKey ISLAND_PVP_DISABLED = MessageLangKey.ISLAND_PVP_DISABLED;
+    public static final ILangKey ISLAND_PVP_ENABLED = MessageLangKey.ISLAND_PVP_ENABLED;
+    public static final ILangKey ISLAND_RESET_CANCELLED = MessageLangKey.ISLAND_RESET_CANCELLED;
+    public static final ILangKey ISLAND_RESET_CONFIRM = MessageLangKey.ISLAND_RESET_CONFIRM;
+    public static final ILangKey ISLAND_RESET_SUCCESS = MessageLangKey.ISLAND_RESET_SUCCESS;
+    public static final ILangKey ISLAND_SETTINGS_NAME_ERROR = MessageLangKey.ISLAND_SETTINGS_NAME_ERROR;
+    public static final ILangKey ISLAND_SETTINGS_NAME_INPUT_ERROR = MessageLangKey.ISLAND_SETTINGS_NAME_INPUT_ERROR;
+    public static final ILangKey ISLAND_SETTINGS_UPDATED = MessageLangKey.ISLAND_SETTINGS_UPDATED;
+    public static final ILangKey ISLAND_TELEPORT_FAILED = MessageLangKey.ISLAND_TELEPORT_FAILED;
+    public static final ILangKey ISLAND_TELEPORT_SUCCESS = MessageLangKey.ISLAND_TELEPORT_SUCCESS;
+    public static final ILangKey ISLAND_TNT_DISABLED = MessageLangKey.ISLAND_TNT_DISABLED;
+    public static final ILangKey ISLAND_TNT_ENABLED = MessageLangKey.ISLAND_TNT_ENABLED;
+    public static final ILangKey ISLAND_TRANSFERRED = MessageLangKey.ISLAND_TRANSFERRED;
+    public static final ILangKey ISLAND_UNBANNED = MessageLangKey.ISLAND_UNBANNED;
+    public static final ILangKey ISLAND_UNLOCKED = MessageLangKey.ISLAND_UNLOCKED;
+    public static final ILangKey ISLAND_UPGRADE_FAILED = MessageLangKey.ISLAND_UPGRADE_FAILED;
+    public static final ILangKey ISLAND_UPGRADE_SUCCESS = MessageLangKey.ISLAND_UPGRADE_SUCCESS;
+    public static final ILangKey ISLAND_WARP_CREATED = MessageLangKey.ISLAND_WARP_CREATED;
+    public static final ILangKey ISLAND_WARP_DELETED = MessageLangKey.ISLAND_WARP_DELETED;
+    public static final ILangKey ISLAND_WARP_NOT_FOUND = MessageLangKey.ISLAND_WARP_NOT_FOUND;
+    public static final ILangKey ITEMS_BUTTONS_CANCEL_NAME = ItemLangKey.ITEMS_BUTTONS_CANCEL_NAME;
+    public static final ILangKey ITEMS_BUTTONS_NEXT_PAGE_LORE = ItemLangKey.ITEMS_BUTTONS_NEXT_PAGE_LORE;
+    public static final ILangKey ITEMS_BUTTONS_NEXT_PAGE_NAME = ItemLangKey.ITEMS_BUTTONS_NEXT_PAGE_NAME;
+    public static final ILangKey ITEMS_BUTTONS_PREVIOUS_PAGE_LORE = ItemLangKey.ITEMS_BUTTONS_PREVIOUS_PAGE_LORE;
+    public static final ILangKey ITEMS_BUTTONS_PREVIOUS_PAGE_NAME = ItemLangKey.ITEMS_BUTTONS_PREVIOUS_PAGE_NAME;
+    public static final ILangKey ITEMS_COMBAT_POWER_LEVEL_LORE = ItemLangKey.ITEMS_COMBAT_POWER_LEVEL_LORE;
+    public static final ILangKey ITEMS_COMBAT_POWER_LEVEL_NAME = ItemLangKey.ITEMS_COMBAT_POWER_LEVEL_NAME;
+    public static final ILangKey ITEMS_COMBAT_POWER_STATS_LORE = ItemLangKey.ITEMS_COMBAT_POWER_STATS_LORE;
+    public static final ILangKey ITEMS_COMBAT_POWER_STATS_NAME = ItemLangKey.ITEMS_COMBAT_POWER_STATS_NAME;
+    public static final ILangKey ITEMS_COMBAT_POWER_TOTAL_LORE = ItemLangKey.ITEMS_COMBAT_POWER_TOTAL_LORE;
+    public static final ILangKey ITEMS_COMBAT_POWER_TOTAL_NAME = ItemLangKey.ITEMS_COMBAT_POWER_TOTAL_NAME;
+    public static final ILangKey ITEMS_FRIEND_ACCEPT_LORE = ItemLangKey.ITEMS_FRIEND_ACCEPT_LORE;
+    public static final ILangKey ITEMS_FRIEND_ACCEPT_NAME = ItemLangKey.ITEMS_FRIEND_ACCEPT_NAME;
+    public static final ILangKey ITEMS_FRIEND_DENY_LORE = ItemLangKey.ITEMS_FRIEND_DENY_LORE;
+    public static final ILangKey ITEMS_FRIEND_DENY_NAME = ItemLangKey.ITEMS_FRIEND_DENY_NAME;
+    public static final ILangKey ITEMS_FRIEND_OFFLINE_LORE = ItemLangKey.ITEMS_FRIEND_OFFLINE_LORE;
+    public static final ILangKey ITEMS_FRIEND_OFFLINE_NAME = ItemLangKey.ITEMS_FRIEND_OFFLINE_NAME;
+    public static final ILangKey ITEMS_FRIEND_ONLINE_LORE = ItemLangKey.ITEMS_FRIEND_ONLINE_LORE;
+    public static final ILangKey ITEMS_FRIEND_ONLINE_NAME = ItemLangKey.ITEMS_FRIEND_ONLINE_NAME;
+    public static final ILangKey ITEMS_FRIEND_REQUEST_LORE = ItemLangKey.ITEMS_FRIEND_REQUEST_LORE;
+    public static final ILangKey ITEMS_FRIEND_REQUEST_NAME = ItemLangKey.ITEMS_FRIEND_REQUEST_NAME;
+    public static final ILangKey ITEMS_ISLAND_BIOME_NAME = ItemLangKey.ITEMS_ISLAND_BIOME_NAME;
+    public static final ILangKey ITEMS_ISLAND_CONTRIBUTIONS_NAME = ItemLangKey.ITEMS_ISLAND_CONTRIBUTIONS_NAME;
+    public static final ILangKey ITEMS_ISLAND_CREATE_NAME = ItemLangKey.ITEMS_ISLAND_CREATE_NAME;
+    public static final ILangKey ITEMS_ISLAND_CREATION_BIOME_LORE = ItemLangKey.ITEMS_ISLAND_CREATION_BIOME_LORE;
+    public static final ILangKey ITEMS_ISLAND_CREATION_BIOME_NAME = ItemLangKey.ITEMS_ISLAND_CREATION_BIOME_NAME;
+    public static final ILangKey ITEMS_ISLAND_CREATION_COLOR_LORE = ItemLangKey.ITEMS_ISLAND_CREATION_COLOR_LORE;
+    public static final ILangKey ITEMS_ISLAND_CREATION_COLOR_NAME = ItemLangKey.ITEMS_ISLAND_CREATION_COLOR_NAME;
+    public static final ILangKey ITEMS_ISLAND_CREATION_CREATE_BUTTON_LORE = ItemLangKey.ITEMS_ISLAND_CREATION_CREATE_BUTTON_LORE;
+    public static final ILangKey ITEMS_ISLAND_CREATION_CREATE_BUTTON_NAME = ItemLangKey.ITEMS_ISLAND_CREATION_CREATE_BUTTON_NAME;
+    public static final ILangKey ITEMS_ISLAND_CREATION_NAME_LORE = ItemLangKey.ITEMS_ISLAND_CREATION_NAME_LORE;
+    public static final ILangKey ITEMS_ISLAND_CREATION_NAME_NAME = ItemLangKey.ITEMS_ISLAND_CREATION_NAME_NAME;
+    public static final ILangKey ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_LORE = ItemLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_LORE;
+    public static final ILangKey ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_NAME = ItemLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_NAME;
+    public static final ILangKey ITEMS_ISLAND_CREATION_TEMPLATE_LARGE_LORE = ItemLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_LARGE_LORE;
+    public static final ILangKey ITEMS_ISLAND_CREATION_TEMPLATE_LARGE_NAME = ItemLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_LARGE_NAME;
+    public static final ILangKey ITEMS_ISLAND_CREATION_TEMPLATE_SKYBLOCK_LORE = ItemLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_SKYBLOCK_LORE;
+    public static final ILangKey ITEMS_ISLAND_CREATION_TEMPLATE_SKYBLOCK_NAME = ItemLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_SKYBLOCK_NAME;
+    public static final ILangKey ITEMS_ISLAND_CREATION_TEMPLATE_WATER_LORE = ItemLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_WATER_LORE;
+    public static final ILangKey ITEMS_ISLAND_CREATION_TEMPLATE_WATER_NAME = ItemLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_WATER_NAME;
+    public static final ILangKey ITEMS_ISLAND_CREATION_TITLE_LORE = ItemLangKey.ITEMS_ISLAND_CREATION_TITLE_LORE;
+    public static final ILangKey ITEMS_ISLAND_CREATION_TITLE_NAME = ItemLangKey.ITEMS_ISLAND_CREATION_TITLE_NAME;
+    public static final ILangKey ITEMS_ISLAND_INFO_NAME = ItemLangKey.ITEMS_ISLAND_INFO_NAME;
+    public static final ILangKey ITEMS_ISLAND_LEAVE_NAME = ItemLangKey.ITEMS_ISLAND_LEAVE_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_BIOME_ACCESS_DENIED = ItemLangKey.ITEMS_ISLAND_MAIN_BIOME_ACCESS_DENIED;
+    public static final ILangKey ITEMS_ISLAND_MAIN_BIOME_CHANGE_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_BIOME_CHANGE_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_BIOME_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_BIOME_LORE;
+    public static final ILangKey ITEMS_ISLAND_MAIN_BIOME_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_BIOME_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_CONTRIBUTION_INFO_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_CONTRIBUTION_INFO_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_CONTRIBUTION_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_CONTRIBUTION_LORE;
+    public static final ILangKey ITEMS_ISLAND_MAIN_CONTRIBUTION_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_CONTRIBUTION_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_DAILY_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_DAILY_LORE;
+    public static final ILangKey ITEMS_ISLAND_MAIN_DAILY_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_DAILY_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_DELETE_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_DELETE_LORE;
+    public static final ILangKey ITEMS_ISLAND_MAIN_DELETE_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_DELETE_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_HOME_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_HOME_LORE;
+    public static final ILangKey ITEMS_ISLAND_MAIN_HOME_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_HOME_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_INFO_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_INFO_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_ISLAND_SETTINGS_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_ISLAND_SETTINGS_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_LOG_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_LOG_LORE;
+    public static final ILangKey ITEMS_ISLAND_MAIN_LOG_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_LOG_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_MEMBERS_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_MEMBERS_LORE;
+    public static final ILangKey ITEMS_ISLAND_MAIN_MEMBERS_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_MEMBERS_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_SETTINGS_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_SETTINGS_LORE;
+    public static final ILangKey ITEMS_ISLAND_MAIN_SETTINGS_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_SETTINGS_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_UPGRADES_LORE = ItemLangKey.ITEMS_ISLAND_MAIN_UPGRADES_LORE;
+    public static final ILangKey ITEMS_ISLAND_MAIN_UPGRADES_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_UPGRADES_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_UPGRADE_INFO_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_UPGRADE_INFO_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_VISITOR_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_VISITOR_NAME;
+    public static final ILangKey ITEMS_ISLAND_MAIN_WARP_NAME = ItemLangKey.ITEMS_ISLAND_MAIN_WARP_NAME;
+    public static final ILangKey ITEMS_ISLAND_MEMBERS_DEMOTE_SUCCESS = ItemLangKey.ITEMS_ISLAND_MEMBERS_DEMOTE_SUCCESS;
+    public static final ILangKey ITEMS_ISLAND_MEMBERS_INFO_LORE = ItemLangKey.ITEMS_ISLAND_MEMBERS_INFO_LORE;
+    public static final ILangKey ITEMS_ISLAND_MEMBERS_INFO_NAME = ItemLangKey.ITEMS_ISLAND_MEMBERS_INFO_NAME;
+    public static final ILangKey ITEMS_ISLAND_MEMBERS_JOINED = ItemLangKey.ITEMS_ISLAND_MEMBERS_JOINED;
+    public static final ILangKey ITEMS_ISLAND_MEMBERS_KICK_SUCCESS = ItemLangKey.ITEMS_ISLAND_MEMBERS_KICK_SUCCESS;
+    public static final ILangKey ITEMS_ISLAND_MEMBERS_LEFT_CLICK = ItemLangKey.ITEMS_ISLAND_MEMBERS_LEFT_CLICK;
+    public static final ILangKey ITEMS_ISLAND_MEMBERS_NAME = ItemLangKey.ITEMS_ISLAND_MEMBERS_NAME;
+    public static final ILangKey ITEMS_ISLAND_MEMBERS_OFFLINE = ItemLangKey.ITEMS_ISLAND_MEMBERS_OFFLINE;
+    public static final ILangKey ITEMS_ISLAND_MEMBERS_ONLINE = ItemLangKey.ITEMS_ISLAND_MEMBERS_ONLINE;
+    public static final ILangKey ITEMS_ISLAND_MEMBERS_PERMISSION_DENIED = ItemLangKey.ITEMS_ISLAND_MEMBERS_PERMISSION_DENIED;
+    public static final ILangKey ITEMS_ISLAND_MEMBERS_PROMOTE_SUCCESS = ItemLangKey.ITEMS_ISLAND_MEMBERS_PROMOTE_SUCCESS;
+    public static final ILangKey ITEMS_ISLAND_MEMBERS_RIGHT_CLICK = ItemLangKey.ITEMS_ISLAND_MEMBERS_RIGHT_CLICK;
+    public static final ILangKey ITEMS_ISLAND_MEMBERS_ROLE = ItemLangKey.ITEMS_ISLAND_MEMBERS_ROLE;
+    public static final ILangKey ITEMS_ISLAND_MEMBERS_SHIFT_RIGHT_CLICK = ItemLangKey.ITEMS_ISLAND_MEMBERS_SHIFT_RIGHT_CLICK;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_INVITE_BUTTON_LORE = ItemLangKey.ITEMS_ISLAND_MEMBER_INVITE_BUTTON_LORE;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_INVITE_NAME = ItemLangKey.ITEMS_ISLAND_MEMBER_INVITE_NAME;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_ACTION_HEADER = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_ACTION_HEADER;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_ACTION_LINE = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_ACTION_LINE;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_DEMOTE_LORE = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_DEMOTE_LORE;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_DEMOTE_NAME = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_DEMOTE_NAME;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_INFO_CURRENT_ROLE = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_INFO_CURRENT_ROLE;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_INFO_NAME = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_INFO_NAME;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_KICK_LORE = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_KICK_LORE;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_KICK_NAME = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_KICK_NAME;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_MEMBER_INFO_LORE = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_MEMBER_INFO_LORE;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_MEMBER_INFO_NAME = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_MEMBER_INFO_NAME;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_NO_PERMISSION_LORE = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_NO_PERMISSION_LORE;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_NO_PERMISSION_NAME = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_NO_PERMISSION_NAME;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_PERMISSION_LORE = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_PERMISSION_LORE;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_PERMISSION_NAME = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_PERMISSION_NAME;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_PROMOTE_ALREADY_MAX = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_PROMOTE_ALREADY_MAX;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_PROMOTE_LORE = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_PROMOTE_LORE;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_PROMOTE_NAME = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_PROMOTE_NAME;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_TO_MEMBER_LORE = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_TO_MEMBER_LORE;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_TO_MEMBER_NAME = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_TO_MEMBER_NAME;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_TO_WORKER_LORE = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_TO_WORKER_LORE;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_MANAGE_TO_WORKER_NAME = ItemLangKey.ITEMS_ISLAND_MEMBER_MANAGE_TO_WORKER_NAME;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_NEXT_PAGE_LORE = ItemLangKey.ITEMS_ISLAND_MEMBER_NEXT_PAGE_LORE;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_PERMISSION_NAME = ItemLangKey.ITEMS_ISLAND_MEMBER_PERMISSION_NAME;
+    public static final ILangKey ITEMS_ISLAND_MEMBER_PREVIOUS_PAGE_LORE = ItemLangKey.ITEMS_ISLAND_MEMBER_PREVIOUS_PAGE_LORE;
+    public static final ILangKey ITEMS_ISLAND_PERMISSIONS_NAME = ItemLangKey.ITEMS_ISLAND_PERMISSIONS_NAME;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_BACK_LORE = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_BACK_LORE;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_INFO_LORE = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_INFO_LORE;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_INFO_NAME = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_INFO_NAME;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_INFO_NOT_SET_LORE = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_INFO_NOT_SET_LORE;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_CLICK = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_CLICK;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_LORE = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_LORE;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_NAME = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_NAME;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_STATUS = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_STATUS;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_NO_PERMISSION_LORE = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_NO_PERMISSION_LORE;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_NO_PERMISSION_NAME = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_NO_PERMISSION_NAME;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_CLICK = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_CLICK;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_LORE = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_LORE;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_NAME = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_NAME;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_SET_CLICK = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_SET_CLICK;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_SET_LORE = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_SET_LORE;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_SET_NAME = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_SET_NAME;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_CLICK = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_CLICK;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_LORE = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_LORE;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_NAME = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_NAME;
+    public static final ILangKey ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_NO_SPAWN = ItemLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_NO_SPAWN;
+    public static final ILangKey ITEMS_ISLAND_RESET_NAME = ItemLangKey.ITEMS_ISLAND_RESET_NAME;
+    public static final ILangKey ITEMS_ISLAND_SETTINGS_BIOME_CHANGE_LORE = ItemLangKey.ITEMS_ISLAND_SETTINGS_BIOME_CHANGE_LORE;
+    public static final ILangKey ITEMS_ISLAND_SETTINGS_BIOME_CHANGE_NAME = ItemLangKey.ITEMS_ISLAND_SETTINGS_BIOME_CHANGE_NAME;
+    public static final ILangKey ITEMS_ISLAND_SETTINGS_CANCEL_LORE = ItemLangKey.ITEMS_ISLAND_SETTINGS_CANCEL_LORE;
+    public static final ILangKey ITEMS_ISLAND_SETTINGS_DELETE_LORE = ItemLangKey.ITEMS_ISLAND_SETTINGS_DELETE_LORE;
+    public static final ILangKey ITEMS_ISLAND_SETTINGS_DELETE_NAME = ItemLangKey.ITEMS_ISLAND_SETTINGS_DELETE_NAME;
+    public static final ILangKey ITEMS_ISLAND_SETTINGS_INFO_NAME = ItemLangKey.ITEMS_ISLAND_SETTINGS_INFO_NAME;
+    public static final ILangKey ITEMS_ISLAND_SETTINGS_NAME = ItemLangKey.ITEMS_ISLAND_SETTINGS_NAME;
+    public static final ILangKey ITEMS_ISLAND_SETTINGS_NAME_CHANGE_LORE = ItemLangKey.ITEMS_ISLAND_SETTINGS_NAME_CHANGE_LORE;
+    public static final ILangKey ITEMS_ISLAND_SETTINGS_NAME_CHANGE_NAME = ItemLangKey.ITEMS_ISLAND_SETTINGS_NAME_CHANGE_NAME;
+    public static final ILangKey ITEMS_ISLAND_SETTINGS_PRIVATE_NAME = ItemLangKey.ITEMS_ISLAND_SETTINGS_PRIVATE_NAME;
+    public static final ILangKey ITEMS_ISLAND_SETTINGS_PUBLIC_NAME = ItemLangKey.ITEMS_ISLAND_SETTINGS_PUBLIC_NAME;
+    public static final ILangKey ITEMS_ISLAND_SETTINGS_PUBLIC_TOGGLE_LORE = ItemLangKey.ITEMS_ISLAND_SETTINGS_PUBLIC_TOGGLE_LORE;
+    public static final ILangKey ITEMS_ISLAND_SETTINGS_SAVE_LORE = ItemLangKey.ITEMS_ISLAND_SETTINGS_SAVE_LORE;
+    public static final ILangKey ITEMS_ISLAND_SETTINGS_SAVE_NAME = ItemLangKey.ITEMS_ISLAND_SETTINGS_SAVE_NAME;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_CURRENT_INFO_NAME = ItemLangKey.ITEMS_ISLAND_SPAWN_CURRENT_INFO_NAME;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_MESSAGE_LORE = ItemLangKey.ITEMS_ISLAND_SPAWN_MESSAGE_LORE;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_MESSAGE_NAME = ItemLangKey.ITEMS_ISLAND_SPAWN_MESSAGE_NAME;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_NO_PERMISSION_LORE = ItemLangKey.ITEMS_ISLAND_SPAWN_NO_PERMISSION_LORE;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_NO_PERMISSION_NAME = ItemLangKey.ITEMS_ISLAND_SPAWN_NO_PERMISSION_NAME;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_PERSONAL_LORE = ItemLangKey.ITEMS_ISLAND_SPAWN_PERSONAL_LORE;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_PERSONAL_NAME = ItemLangKey.ITEMS_ISLAND_SPAWN_PERSONAL_NAME;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_PROTECTION_LORE = ItemLangKey.ITEMS_ISLAND_SPAWN_PROTECTION_LORE;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_PROTECTION_NAME = ItemLangKey.ITEMS_ISLAND_SPAWN_PROTECTION_NAME;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_RESET_LORE = ItemLangKey.ITEMS_ISLAND_SPAWN_RESET_LORE;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_RESET_NAME = ItemLangKey.ITEMS_ISLAND_SPAWN_RESET_NAME;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_SET_MAIN_LORE = ItemLangKey.ITEMS_ISLAND_SPAWN_SET_MAIN_LORE;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_SET_MAIN_NAME = ItemLangKey.ITEMS_ISLAND_SPAWN_SET_MAIN_NAME;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_SET_VISITOR_LORE = ItemLangKey.ITEMS_ISLAND_SPAWN_SET_VISITOR_LORE;
+    public static final ILangKey ITEMS_ISLAND_SPAWN_SET_VISITOR_NAME = ItemLangKey.ITEMS_ISLAND_SPAWN_SET_VISITOR_NAME;
+    public static final ILangKey ITEMS_ISLAND_UPGRADES_NAME = ItemLangKey.ITEMS_ISLAND_UPGRADES_NAME;
+    public static final ILangKey ITEMS_ISLAND_UPGRADE_INFO_LORE = ItemLangKey.ITEMS_ISLAND_UPGRADE_INFO_LORE;
+    public static final ILangKey ITEMS_ISLAND_UPGRADE_INFO_NAME = ItemLangKey.ITEMS_ISLAND_UPGRADE_INFO_NAME;
+    public static final ILangKey ITEMS_ISLAND_UPGRADE_MEMBER_NAME = ItemLangKey.ITEMS_ISLAND_UPGRADE_MEMBER_NAME;
+    public static final ILangKey ITEMS_ISLAND_UPGRADE_SIZE_NAME = ItemLangKey.ITEMS_ISLAND_UPGRADE_SIZE_NAME;
+    public static final ILangKey ITEMS_ISLAND_UPGRADE_WORKER_NAME = ItemLangKey.ITEMS_ISLAND_UPGRADE_WORKER_NAME;
+    public static final ILangKey ITEMS_ISLAND_VISITORS_NAME = ItemLangKey.ITEMS_ISLAND_VISITORS_NAME;
+    public static final ILangKey ITEMS_ISLAND_VISITOR_INFO_LORE = ItemLangKey.ITEMS_ISLAND_VISITOR_INFO_LORE;
+    public static final ILangKey ITEMS_ISLAND_VISITOR_INFO_NAME = ItemLangKey.ITEMS_ISLAND_VISITOR_INFO_NAME;
+    public static final ILangKey ITEMS_ISLAND_VISITOR_NO_VISITORS_LORE = ItemLangKey.ITEMS_ISLAND_VISITOR_NO_VISITORS_LORE;
+    public static final ILangKey ITEMS_ISLAND_VISITOR_NO_VISITORS_NAME = ItemLangKey.ITEMS_ISLAND_VISITOR_NO_VISITORS_NAME;
+    public static final ILangKey ITEMS_ISLAND_VISITOR_STATISTICS_NAME = ItemLangKey.ITEMS_ISLAND_VISITOR_STATISTICS_NAME;
+    public static final ILangKey ITEMS_JOB_CANCEL_NAME = ItemLangKey.ITEMS_JOB_CANCEL_NAME;
+    public static final ILangKey ITEMS_JOB_CONFIRM_NAME = ItemLangKey.ITEMS_JOB_CONFIRM_NAME;
+    public static final ILangKey ITEMS_JOB_INFO_TITLE_NAME = ItemLangKey.ITEMS_JOB_INFO_TITLE_NAME;
+    public static final ILangKey ITEMS_JOB_WARNING_TITLE_NAME = ItemLangKey.ITEMS_JOB_WARNING_TITLE_NAME;
+    public static final ILangKey ITEMS_LEADERBOARD_NO_RANK_LORE = ItemLangKey.ITEMS_LEADERBOARD_NO_RANK_LORE;
+    public static final ILangKey ITEMS_LEADERBOARD_RANK_LORE = ItemLangKey.ITEMS_LEADERBOARD_RANK_LORE;
+    public static final ILangKey ITEMS_LEADERBOARD_RANK_NAME = ItemLangKey.ITEMS_LEADERBOARD_RANK_NAME;
+    public static final ILangKey ITEMS_LEADERBOARD_TYPE_SELECTOR_LORE = ItemLangKey.ITEMS_LEADERBOARD_TYPE_SELECTOR_LORE;
+    public static final ILangKey ITEMS_LEADERBOARD_TYPE_SELECTOR_NAME = ItemLangKey.ITEMS_LEADERBOARD_TYPE_SELECTOR_NAME;
+    public static final ILangKey ITEMS_LOADING_NAME = ItemLangKey.ITEMS_LOADING_NAME;
+    public static final ILangKey ITEMS_MAIL_ATTACHMENT_LORE = ItemLangKey.ITEMS_MAIL_ATTACHMENT_LORE;
+    public static final ILangKey ITEMS_MAIL_ATTACHMENT_NAME = ItemLangKey.ITEMS_MAIL_ATTACHMENT_NAME;
+    public static final ILangKey ITEMS_MAIL_CLAIMED_LORE = ItemLangKey.ITEMS_MAIL_CLAIMED_LORE;
+    public static final ILangKey ITEMS_MAIL_CLAIMED_NAME = ItemLangKey.ITEMS_MAIL_CLAIMED_NAME;
+    public static final ILangKey ITEMS_MAIL_NEW_LORE = ItemLangKey.ITEMS_MAIL_NEW_LORE;
+    public static final ILangKey ITEMS_MAIL_NEW_NAME = ItemLangKey.ITEMS_MAIL_NEW_NAME;
+    public static final ILangKey ITEMS_MAIL_READ_LORE = ItemLangKey.ITEMS_MAIL_READ_LORE;
+    public static final ILangKey ITEMS_MAIL_READ_NAME = ItemLangKey.ITEMS_MAIL_READ_NAME;
+    public static final ILangKey ITEMS_PLACEHOLDER_COMING_SOON_LORE = ItemLangKey.ITEMS_PLACEHOLDER_COMING_SOON_LORE;
+    public static final ILangKey ITEMS_PLACEHOLDER_COMING_SOON_NAME = ItemLangKey.ITEMS_PLACEHOLDER_COMING_SOON_NAME;
+    public static final ILangKey ITEMS_PLACEHOLDER_EMPTY_LORE = ItemLangKey.ITEMS_PLACEHOLDER_EMPTY_LORE;
+    public static final ILangKey ITEMS_PLACEHOLDER_EMPTY_NAME = ItemLangKey.ITEMS_PLACEHOLDER_EMPTY_NAME;
+    public static final ILangKey ITEMS_PLACEHOLDER_ERROR_LORE = ItemLangKey.ITEMS_PLACEHOLDER_ERROR_LORE;
+    public static final ILangKey ITEMS_PLACEHOLDER_ERROR_NAME = ItemLangKey.ITEMS_PLACEHOLDER_ERROR_NAME;
+    public static final ILangKey ITEMS_PLACEHOLDER_LOADING_LORE = ItemLangKey.ITEMS_PLACEHOLDER_LOADING_LORE;
+    public static final ILangKey ITEMS_PLACEHOLDER_LOADING_NAME = ItemLangKey.ITEMS_PLACEHOLDER_LOADING_NAME;
+    public static final ILangKey ITEMS_PLACEHOLDER_LOCKED_LORE = ItemLangKey.ITEMS_PLACEHOLDER_LOCKED_LORE;
+    public static final ILangKey ITEMS_PLACEHOLDER_LOCKED_NAME = ItemLangKey.ITEMS_PLACEHOLDER_LOCKED_NAME;
+    public static final ILangKey ITEMS_PROFILE_ACHIEVEMENTS_LORE = ItemLangKey.ITEMS_PROFILE_ACHIEVEMENTS_LORE;
+    public static final ILangKey ITEMS_PROFILE_ACHIEVEMENTS_NAME = ItemLangKey.ITEMS_PROFILE_ACHIEVEMENTS_NAME;
+    public static final ILangKey ITEMS_PROFILE_INFO_LORE = ItemLangKey.ITEMS_PROFILE_INFO_LORE;
+    public static final ILangKey ITEMS_PROFILE_INFO_NAME = ItemLangKey.ITEMS_PROFILE_INFO_NAME;
+    public static final ILangKey ITEMS_PROFILE_QUESTS_LORE = ItemLangKey.ITEMS_PROFILE_QUESTS_LORE;
+    public static final ILangKey ITEMS_PROFILE_QUESTS_NAME = ItemLangKey.ITEMS_PROFILE_QUESTS_NAME;
+    public static final ILangKey ITEMS_PROFILE_STATS_LORE = ItemLangKey.ITEMS_PROFILE_STATS_LORE;
+    public static final ILangKey ITEMS_PROFILE_STATS_NAME = ItemLangKey.ITEMS_PROFILE_STATS_NAME;
+    public static final ILangKey ITEMS_PROFILE_TALENTS_LORE = ItemLangKey.ITEMS_PROFILE_TALENTS_LORE;
+    public static final ILangKey ITEMS_PROFILE_TALENTS_NAME = ItemLangKey.ITEMS_PROFILE_TALENTS_NAME;
+    public static final ILangKey ITEMS_QUEST_ACTIVE_LORE = ItemLangKey.ITEMS_QUEST_ACTIVE_LORE;
+    public static final ILangKey ITEMS_QUEST_ACTIVE_NAME = ItemLangKey.ITEMS_QUEST_ACTIVE_NAME;
+    public static final ILangKey ITEMS_QUEST_AVAILABLE_LORE = ItemLangKey.ITEMS_QUEST_AVAILABLE_LORE;
+    public static final ILangKey ITEMS_QUEST_AVAILABLE_NAME = ItemLangKey.ITEMS_QUEST_AVAILABLE_NAME;
+    public static final ILangKey ITEMS_QUEST_COMPLETED_LORE = ItemLangKey.ITEMS_QUEST_COMPLETED_LORE;
+    public static final ILangKey ITEMS_QUEST_COMPLETED_NAME = ItemLangKey.ITEMS_QUEST_COMPLETED_NAME;
+    public static final ILangKey ITEMS_QUEST_DETAIL_OBJECTIVES_NAME = ItemLangKey.ITEMS_QUEST_DETAIL_OBJECTIVES_NAME;
+    public static final ILangKey ITEMS_QUEST_DETAIL_PROGRESS_NAME = ItemLangKey.ITEMS_QUEST_DETAIL_PROGRESS_NAME;
+    public static final ILangKey ITEMS_QUEST_DETAIL_REWARDS_NAME = ItemLangKey.ITEMS_QUEST_DETAIL_REWARDS_NAME;
+    public static final ILangKey ITEMS_QUEST_DIALOG_ACCEPT_LORE = ItemLangKey.ITEMS_QUEST_DIALOG_ACCEPT_LORE;
+    public static final ILangKey ITEMS_QUEST_DIALOG_ACCEPT_NAME = ItemLangKey.ITEMS_QUEST_DIALOG_ACCEPT_NAME;
+    public static final ILangKey ITEMS_QUEST_DIALOG_CLOSE_LORE = ItemLangKey.ITEMS_QUEST_DIALOG_CLOSE_LORE;
+    public static final ILangKey ITEMS_QUEST_DIALOG_CLOSE_NAME = ItemLangKey.ITEMS_QUEST_DIALOG_CLOSE_NAME;
+    public static final ILangKey ITEMS_QUEST_DIALOG_DECLINE_LORE = ItemLangKey.ITEMS_QUEST_DIALOG_DECLINE_LORE;
+    public static final ILangKey ITEMS_QUEST_DIALOG_DECLINE_NAME = ItemLangKey.ITEMS_QUEST_DIALOG_DECLINE_NAME;
+    public static final ILangKey ITEMS_QUEST_FAILED_LORE = ItemLangKey.ITEMS_QUEST_FAILED_LORE;
+    public static final ILangKey ITEMS_QUEST_FAILED_NAME = ItemLangKey.ITEMS_QUEST_FAILED_NAME;
+    public static final ILangKey ITEMS_QUEST_LIST_ACTIVE_LORE = ItemLangKey.ITEMS_QUEST_LIST_ACTIVE_LORE;
+    public static final ILangKey ITEMS_QUEST_LIST_ACTIVE_NAME = ItemLangKey.ITEMS_QUEST_LIST_ACTIVE_NAME;
+    public static final ILangKey ITEMS_QUEST_LIST_COMPLETED_LORE = ItemLangKey.ITEMS_QUEST_LIST_COMPLETED_LORE;
+    public static final ILangKey ITEMS_QUEST_LIST_COMPLETED_NAME = ItemLangKey.ITEMS_QUEST_LIST_COMPLETED_NAME;
+    public static final ILangKey ITEMS_QUEST_LIST_VIEW_ALL = ItemLangKey.ITEMS_QUEST_LIST_VIEW_ALL;
+    public static final ILangKey ITEMS_QUEST_LOCKED_LORE = ItemLangKey.ITEMS_QUEST_LOCKED_LORE;
+    public static final ILangKey ITEMS_QUEST_LOCKED_NAME = ItemLangKey.ITEMS_QUEST_LOCKED_NAME;
+    public static final ILangKey ITEMS_QUEST_REPEATABLE_LORE = ItemLangKey.ITEMS_QUEST_REPEATABLE_LORE;
+    public static final ILangKey ITEMS_QUEST_REPEATABLE_NAME = ItemLangKey.ITEMS_QUEST_REPEATABLE_NAME;
+    public static final ILangKey ITEMS_QUEST_REWARD_ALREADY_CLAIMED_LORE = ItemLangKey.ITEMS_QUEST_REWARD_ALREADY_CLAIMED_LORE;
+    public static final ILangKey ITEMS_QUEST_REWARD_ALREADY_CLAIMED_NAME = ItemLangKey.ITEMS_QUEST_REWARD_ALREADY_CLAIMED_NAME;
+    public static final ILangKey ITEMS_QUEST_REWARD_CLAIMED_NAME = ItemLangKey.ITEMS_QUEST_REWARD_CLAIMED_NAME;
+    public static final ILangKey ITEMS_QUEST_REWARD_CLAIM_ALL_LORE = ItemLangKey.ITEMS_QUEST_REWARD_CLAIM_ALL_LORE;
+    public static final ILangKey ITEMS_QUEST_REWARD_CLAIM_ALL_NAME = ItemLangKey.ITEMS_QUEST_REWARD_CLAIM_ALL_NAME;
+    public static final ILangKey ITEMS_QUEST_REWARD_CONFIRM_NO_LORE = ItemLangKey.ITEMS_QUEST_REWARD_CONFIRM_NO_LORE;
+    public static final ILangKey ITEMS_QUEST_REWARD_CONFIRM_NO_NAME = ItemLangKey.ITEMS_QUEST_REWARD_CONFIRM_NO_NAME;
+    public static final ILangKey ITEMS_QUEST_REWARD_CONFIRM_WARNING_LORE = ItemLangKey.ITEMS_QUEST_REWARD_CONFIRM_WARNING_LORE;
+    public static final ILangKey ITEMS_QUEST_REWARD_CONFIRM_WARNING_NAME = ItemLangKey.ITEMS_QUEST_REWARD_CONFIRM_WARNING_NAME;
+    public static final ILangKey ITEMS_QUEST_REWARD_CONFIRM_WARNING_QUESTION = ItemLangKey.ITEMS_QUEST_REWARD_CONFIRM_WARNING_QUESTION;
+    public static final ILangKey ITEMS_QUEST_REWARD_CONFIRM_YES_LORE = ItemLangKey.ITEMS_QUEST_REWARD_CONFIRM_YES_LORE;
+    public static final ILangKey ITEMS_QUEST_REWARD_CONFIRM_YES_NAME = ItemLangKey.ITEMS_QUEST_REWARD_CONFIRM_YES_NAME;
+    public static final ILangKey ITEMS_QUEST_REWARD_DESTROY_LORE = ItemLangKey.ITEMS_QUEST_REWARD_DESTROY_LORE;
+    public static final ILangKey ITEMS_QUEST_REWARD_DESTROY_NAME = ItemLangKey.ITEMS_QUEST_REWARD_DESTROY_NAME;
+    public static final ILangKey ITEMS_QUEST_REWARD_NO_ITEMS_LORE = ItemLangKey.ITEMS_QUEST_REWARD_NO_ITEMS_LORE;
+    public static final ILangKey ITEMS_QUEST_REWARD_NO_ITEMS_NAME = ItemLangKey.ITEMS_QUEST_REWARD_NO_ITEMS_NAME;
+    public static final ILangKey ITEMS_QUEST_SELECTION_CLICK_HINT = ItemLangKey.ITEMS_QUEST_SELECTION_CLICK_HINT;
+    public static final ILangKey ITEMS_SETTINGS_CLICK = ItemLangKey.ITEMS_SETTINGS_CLICK;
+    public static final ILangKey ITEMS_SETTINGS_GUI_LORE = ItemLangKey.ITEMS_SETTINGS_GUI_LORE;
+    public static final ILangKey ITEMS_SETTINGS_GUI_NAME = ItemLangKey.ITEMS_SETTINGS_GUI_NAME;
+    public static final ILangKey ITEMS_SETTINGS_GUI_SETTINGS_MUTE_LORE = ItemLangKey.ITEMS_SETTINGS_GUI_SETTINGS_MUTE_LORE;
+    public static final ILangKey ITEMS_SETTINGS_GUI_SETTINGS_MUTE_NAME = ItemLangKey.ITEMS_SETTINGS_GUI_SETTINGS_MUTE_NAME;
+    public static final ILangKey ITEMS_SETTINGS_GUI_SETTINGS_TITLE_LORE = ItemLangKey.ITEMS_SETTINGS_GUI_SETTINGS_TITLE_LORE;
+    public static final ILangKey ITEMS_SETTINGS_GUI_SETTINGS_TITLE_NAME = ItemLangKey.ITEMS_SETTINGS_GUI_SETTINGS_TITLE_NAME;
+    public static final ILangKey ITEMS_SETTINGS_GUI_SETTINGS_UNMUTE_LORE = ItemLangKey.ITEMS_SETTINGS_GUI_SETTINGS_UNMUTE_LORE;
+    public static final ILangKey ITEMS_SETTINGS_GUI_SETTINGS_UNMUTE_NAME = ItemLangKey.ITEMS_SETTINGS_GUI_SETTINGS_UNMUTE_NAME;
+    public static final ILangKey ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_DECREASE_LORE = ItemLangKey.ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_DECREASE_LORE;
+    public static final ILangKey ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_DECREASE_NAME = ItemLangKey.ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_DECREASE_NAME;
+    public static final ILangKey ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_INCREASE_LORE = ItemLangKey.ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_INCREASE_LORE;
+    public static final ILangKey ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_INCREASE_NAME = ItemLangKey.ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_INCREASE_NAME;
+    public static final ILangKey ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_NAME = ItemLangKey.ITEMS_SETTINGS_GUI_SETTINGS_VOLUME_NAME;
+    public static final ILangKey ITEMS_SETTINGS_INGAME_LORE = ItemLangKey.ITEMS_SETTINGS_INGAME_LORE;
+    public static final ILangKey ITEMS_SETTINGS_INGAME_NAME = ItemLangKey.ITEMS_SETTINGS_INGAME_NAME;
+    public static final ILangKey ITEMS_SETTINGS_INGAME_SETTINGS_DAMAGE_DISPLAY_DESC = ItemLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_DAMAGE_DISPLAY_DESC;
+    public static final ILangKey ITEMS_SETTINGS_INGAME_SETTINGS_DAMAGE_DISPLAY_NAME = ItemLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_DAMAGE_DISPLAY_NAME;
+    public static final ILangKey ITEMS_SETTINGS_INGAME_SETTINGS_DIALOG_SPEED_NAME = ItemLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_DIALOG_SPEED_NAME;
+    public static final ILangKey ITEMS_SETTINGS_INGAME_SETTINGS_DIALOG_SPEED_NOTE = ItemLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_DIALOG_SPEED_NOTE;
+    public static final ILangKey ITEMS_SETTINGS_INGAME_SETTINGS_QUEST_GUIDE_DESC = ItemLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_QUEST_GUIDE_DESC;
+    public static final ILangKey ITEMS_SETTINGS_INGAME_SETTINGS_QUEST_GUIDE_NAME = ItemLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_QUEST_GUIDE_NAME;
+    public static final ILangKey ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_DECREASE_LORE = ItemLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_DECREASE_LORE;
+    public static final ILangKey ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_DECREASE_NAME = ItemLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_DECREASE_NAME;
+    public static final ILangKey ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_INCREASE_LORE = ItemLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_INCREASE_LORE;
+    public static final ILangKey ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_INCREASE_NAME = ItemLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_INCREASE_NAME;
+    public static final ILangKey ITEMS_SETTINGS_INGAME_SETTINGS_TITLE_LORE = ItemLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_TITLE_LORE;
+    public static final ILangKey ITEMS_SETTINGS_INGAME_SETTINGS_TITLE_NAME = ItemLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_TITLE_NAME;
+    public static final ILangKey ITEMS_SETTINGS_MAIN_TITLE_LORE = ItemLangKey.ITEMS_SETTINGS_MAIN_TITLE_LORE;
+    public static final ILangKey ITEMS_SETTINGS_MAIN_TITLE_NAME = ItemLangKey.ITEMS_SETTINGS_MAIN_TITLE_NAME;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_LORE = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_LORE;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_NAME = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_NAME;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_CLICK_HINT = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_CLICK_HINT;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_DESC = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_DESC;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_MODE_CYCLE = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_MODE_CYCLE;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_NAME = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_NAME;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_NOTE = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_NOTE;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_DESC = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_DESC;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_EXAMPLES = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_EXAMPLES;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_EXAMPLE_TITLE = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_EXAMPLE_TITLE;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_NAME = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_NAME;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_SETTINGS_TITLE_LORE = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_TITLE_LORE;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_SETTINGS_TITLE_NAME = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_TITLE_NAME;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_SETTINGS_WHISPER_DESC = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_WHISPER_DESC;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_SETTINGS_WHISPER_NAME = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_WHISPER_NAME;
+    public static final ILangKey ITEMS_SETTINGS_NOTIFICATION_SETTINGS_WHISPER_NOTE = ItemLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_WHISPER_NOTE;
+    public static final ILangKey ITEMS_SETTINGS_SOCIAL_LORE = ItemLangKey.ITEMS_SETTINGS_SOCIAL_LORE;
+    public static final ILangKey ITEMS_SETTINGS_SOCIAL_NAME = ItemLangKey.ITEMS_SETTINGS_SOCIAL_NAME;
+    public static final ILangKey ITEMS_SETTINGS_SOCIAL_SETTINGS_FRIEND_REQUESTS_DESC = ItemLangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_FRIEND_REQUESTS_DESC;
+    public static final ILangKey ITEMS_SETTINGS_SOCIAL_SETTINGS_FRIEND_REQUESTS_NAME = ItemLangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_FRIEND_REQUESTS_NAME;
+    public static final ILangKey ITEMS_SETTINGS_SOCIAL_SETTINGS_GUILD_INVITES_DESC = ItemLangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_GUILD_INVITES_DESC;
+    public static final ILangKey ITEMS_SETTINGS_SOCIAL_SETTINGS_GUILD_INVITES_NAME = ItemLangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_GUILD_INVITES_NAME;
+    public static final ILangKey ITEMS_SETTINGS_SOCIAL_SETTINGS_GUILD_INVITES_NOTE = ItemLangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_GUILD_INVITES_NOTE;
+    public static final ILangKey ITEMS_SETTINGS_SOCIAL_SETTINGS_TITLE_LORE = ItemLangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_TITLE_LORE;
+    public static final ILangKey ITEMS_SETTINGS_SOCIAL_SETTINGS_TITLE_NAME = ItemLangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_TITLE_NAME;
+    public static final ILangKey ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_CLICK_HINT = ItemLangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_CLICK_HINT;
+    public static final ILangKey ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_MODE_CYCLE = ItemLangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_MODE_CYCLE;
+    public static final ILangKey ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_NAME = ItemLangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_NAME;
+    public static final ILangKey ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_NOTE = ItemLangKey.ITEMS_SETTINGS_SOCIAL_SETTINGS_WHISPER_NOTE;
+    public static final ILangKey ITEMS_SETTINGS_SYSTEM_LORE = ItemLangKey.ITEMS_SETTINGS_SYSTEM_LORE;
+    public static final ILangKey ITEMS_SETTINGS_SYSTEM_NAME = ItemLangKey.ITEMS_SETTINGS_SYSTEM_NAME;
+    public static final ILangKey ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_DESC = ItemLangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_DESC;
+    public static final ILangKey ITEMS_SHOP_GOLD_NAME = ItemLangKey.ITEMS_SHOP_GOLD_NAME;
+    public static final ILangKey ITEMS_SOCIAL_FRIENDS_ADD_CLICK = ItemLangKey.ITEMS_SOCIAL_FRIENDS_ADD_CLICK;
+    public static final ILangKey ITEMS_SOCIAL_FRIENDS_ADD_LORE = ItemLangKey.ITEMS_SOCIAL_FRIENDS_ADD_LORE;
+    public static final ILangKey ITEMS_SOCIAL_FRIENDS_ADD_NAME = ItemLangKey.ITEMS_SOCIAL_FRIENDS_ADD_NAME;
+    public static final ILangKey ITEMS_SOCIAL_FRIENDS_FRIEND_ITEM_LEFT_CLICK = ItemLangKey.ITEMS_SOCIAL_FRIENDS_FRIEND_ITEM_LEFT_CLICK;
+    public static final ILangKey ITEMS_SOCIAL_FRIENDS_FRIEND_ITEM_RIGHT_CLICK = ItemLangKey.ITEMS_SOCIAL_FRIENDS_FRIEND_ITEM_RIGHT_CLICK;
+    public static final ILangKey ITEMS_SOCIAL_FRIENDS_NO_FRIENDS_LORE = ItemLangKey.ITEMS_SOCIAL_FRIENDS_NO_FRIENDS_LORE;
+    public static final ILangKey ITEMS_SOCIAL_FRIENDS_NO_FRIENDS_NAME = ItemLangKey.ITEMS_SOCIAL_FRIENDS_NO_FRIENDS_NAME;
+    public static final ILangKey ITEMS_SOCIAL_FRIENDS_REFRESH_CLICK = ItemLangKey.ITEMS_SOCIAL_FRIENDS_REFRESH_CLICK;
+    public static final ILangKey ITEMS_SOCIAL_FRIENDS_REFRESH_LORE = ItemLangKey.ITEMS_SOCIAL_FRIENDS_REFRESH_LORE;
+    public static final ILangKey ITEMS_SOCIAL_FRIENDS_REFRESH_NAME = ItemLangKey.ITEMS_SOCIAL_FRIENDS_REFRESH_NAME;
+    public static final ILangKey ITEMS_SOCIAL_FRIENDS_REQUESTS_CLICK = ItemLangKey.ITEMS_SOCIAL_FRIENDS_REQUESTS_CLICK;
+    public static final ILangKey ITEMS_SOCIAL_FRIENDS_REQUESTS_LORE = ItemLangKey.ITEMS_SOCIAL_FRIENDS_REQUESTS_LORE;
+    public static final ILangKey ITEMS_SOCIAL_FRIENDS_REQUESTS_NAME = ItemLangKey.ITEMS_SOCIAL_FRIENDS_REQUESTS_NAME;
+    public static final ILangKey ITEMS_SOCIAL_FRIENDS_TITLE_LORE = ItemLangKey.ITEMS_SOCIAL_FRIENDS_TITLE_LORE;
+    public static final ILangKey ITEMS_SOCIAL_FRIENDS_TITLE_NAME = ItemLangKey.ITEMS_SOCIAL_FRIENDS_TITLE_NAME;
+    public static final ILangKey ITEMS_SOCIAL_FRIEND_REQUESTS_ACCEPT_CLICK = ItemLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_ACCEPT_CLICK;
+    public static final ILangKey ITEMS_SOCIAL_FRIEND_REQUESTS_ACCEPT_NAME = ItemLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_ACCEPT_NAME;
+    public static final ILangKey ITEMS_SOCIAL_FRIEND_REQUESTS_NO_REQUESTS_LORE = ItemLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_NO_REQUESTS_LORE;
+    public static final ILangKey ITEMS_SOCIAL_FRIEND_REQUESTS_NO_REQUESTS_NAME = ItemLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_NO_REQUESTS_NAME;
+    public static final ILangKey ITEMS_SOCIAL_FRIEND_REQUESTS_REJECT_CLICK = ItemLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_REJECT_CLICK;
+    public static final ILangKey ITEMS_SOCIAL_FRIEND_REQUESTS_REJECT_NAME = ItemLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_REJECT_NAME;
+    public static final ILangKey ITEMS_SOCIAL_FRIEND_REQUESTS_REQUEST_INFO_HINT = ItemLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_REQUEST_INFO_HINT;
+    public static final ILangKey ITEMS_SOCIAL_FRIEND_REQUESTS_TITLE_LORE = ItemLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_TITLE_LORE;
+    public static final ILangKey ITEMS_SOCIAL_FRIEND_REQUESTS_TITLE_NAME = ItemLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_TITLE_NAME;
+    public static final ILangKey ITEMS_SOCIAL_MAILBOX_DELETE_READ_CLICK = ItemLangKey.ITEMS_SOCIAL_MAILBOX_DELETE_READ_CLICK;
+    public static final ILangKey ITEMS_SOCIAL_MAILBOX_DELETE_READ_LORE = ItemLangKey.ITEMS_SOCIAL_MAILBOX_DELETE_READ_LORE;
+    public static final ILangKey ITEMS_SOCIAL_MAILBOX_DELETE_READ_NAME = ItemLangKey.ITEMS_SOCIAL_MAILBOX_DELETE_READ_NAME;
+    public static final ILangKey ITEMS_SOCIAL_MAILBOX_MAIL_ITEM_CLICK = ItemLangKey.ITEMS_SOCIAL_MAILBOX_MAIL_ITEM_CLICK;
+    public static final ILangKey ITEMS_SOCIAL_MAILBOX_NO_MAILS_LORE = ItemLangKey.ITEMS_SOCIAL_MAILBOX_NO_MAILS_LORE;
+    public static final ILangKey ITEMS_SOCIAL_MAILBOX_NO_MAILS_NAME = ItemLangKey.ITEMS_SOCIAL_MAILBOX_NO_MAILS_NAME;
+    public static final ILangKey ITEMS_SOCIAL_MAILBOX_NO_UNREAD_MAILS_NAME = ItemLangKey.ITEMS_SOCIAL_MAILBOX_NO_UNREAD_MAILS_NAME;
+    public static final ILangKey ITEMS_SOCIAL_MAILBOX_REFRESH_CLICK = ItemLangKey.ITEMS_SOCIAL_MAILBOX_REFRESH_CLICK;
+    public static final ILangKey ITEMS_SOCIAL_MAILBOX_REFRESH_LORE = ItemLangKey.ITEMS_SOCIAL_MAILBOX_REFRESH_LORE;
+    public static final ILangKey ITEMS_SOCIAL_MAILBOX_REFRESH_NAME = ItemLangKey.ITEMS_SOCIAL_MAILBOX_REFRESH_NAME;
+    public static final ILangKey ITEMS_SOCIAL_MAILBOX_SEND_CLICK = ItemLangKey.ITEMS_SOCIAL_MAILBOX_SEND_CLICK;
+    public static final ILangKey ITEMS_SOCIAL_MAILBOX_SEND_LORE = ItemLangKey.ITEMS_SOCIAL_MAILBOX_SEND_LORE;
+    public static final ILangKey ITEMS_SOCIAL_MAILBOX_SEND_NAME = ItemLangKey.ITEMS_SOCIAL_MAILBOX_SEND_NAME;
+    public static final ILangKey ITEMS_SOCIAL_MAILBOX_TITLE_LORE = ItemLangKey.ITEMS_SOCIAL_MAILBOX_TITLE_LORE;
+    public static final ILangKey ITEMS_SOCIAL_MAILBOX_TITLE_NAME = ItemLangKey.ITEMS_SOCIAL_MAILBOX_TITLE_NAME;
+    public static final ILangKey ITEMS_SOCIAL_MAIL_DETAIL_DELETE_CLICK = ItemLangKey.ITEMS_SOCIAL_MAIL_DETAIL_DELETE_CLICK;
+    public static final ILangKey ITEMS_SOCIAL_MAIL_DETAIL_DELETE_LORE = ItemLangKey.ITEMS_SOCIAL_MAIL_DETAIL_DELETE_LORE;
+    public static final ILangKey ITEMS_SOCIAL_MAIL_DETAIL_DELETE_NAME = ItemLangKey.ITEMS_SOCIAL_MAIL_DETAIL_DELETE_NAME;
+    public static final ILangKey ITEMS_SOCIAL_MAIL_DETAIL_MESSAGE_NAME = ItemLangKey.ITEMS_SOCIAL_MAIL_DETAIL_MESSAGE_NAME;
+    public static final ILangKey ITEMS_SOCIAL_MAIL_DETAIL_NO_ATTACHMENTS_LORE = ItemLangKey.ITEMS_SOCIAL_MAIL_DETAIL_NO_ATTACHMENTS_LORE;
+    public static final ILangKey ITEMS_SOCIAL_MAIL_DETAIL_NO_ATTACHMENTS_NAME = ItemLangKey.ITEMS_SOCIAL_MAIL_DETAIL_NO_ATTACHMENTS_NAME;
+    public static final ILangKey ITEMS_SOCIAL_MAIL_DETAIL_REPLY_CLICK = ItemLangKey.ITEMS_SOCIAL_MAIL_DETAIL_REPLY_CLICK;
+    public static final ILangKey ITEMS_SOCIAL_MAIL_DETAIL_REPLY_NAME = ItemLangKey.ITEMS_SOCIAL_MAIL_DETAIL_REPLY_NAME;
+    public static final ILangKey ITEMS_STATS_DEFENSE_LORE = ItemLangKey.ITEMS_STATS_DEFENSE_LORE;
+    public static final ILangKey ITEMS_STATS_DEFENSE_NAME = ItemLangKey.ITEMS_STATS_DEFENSE_NAME;
+    public static final ILangKey ITEMS_STATS_HEALTH_LORE = ItemLangKey.ITEMS_STATS_HEALTH_LORE;
+    public static final ILangKey ITEMS_STATS_HEALTH_NAME = ItemLangKey.ITEMS_STATS_HEALTH_NAME;
+    public static final ILangKey ITEMS_STATS_INTELLIGENCE_LORE = ItemLangKey.ITEMS_STATS_INTELLIGENCE_LORE;
+    public static final ILangKey ITEMS_STATS_INTELLIGENCE_NAME = ItemLangKey.ITEMS_STATS_INTELLIGENCE_NAME;
+    public static final ILangKey ITEMS_STATS_LUCK_LORE = ItemLangKey.ITEMS_STATS_LUCK_LORE;
+    public static final ILangKey ITEMS_STATS_LUCK_NAME = ItemLangKey.ITEMS_STATS_LUCK_NAME;
+    public static final ILangKey ITEMS_STATS_MANA_LORE = ItemLangKey.ITEMS_STATS_MANA_LORE;
+    public static final ILangKey ITEMS_STATS_MANA_NAME = ItemLangKey.ITEMS_STATS_MANA_NAME;
+    public static final ILangKey ITEMS_STATS_SPEED_LORE = ItemLangKey.ITEMS_STATS_SPEED_LORE;
+    public static final ILangKey ITEMS_STATS_SPEED_NAME = ItemLangKey.ITEMS_STATS_SPEED_NAME;
+    public static final ILangKey ITEMS_STATS_STRENGTH_LORE = ItemLangKey.ITEMS_STATS_STRENGTH_LORE;
+    public static final ILangKey ITEMS_STATS_STRENGTH_NAME = ItemLangKey.ITEMS_STATS_STRENGTH_NAME;
+    public static final ILangKey ITEMS_TALENT_AVAILABLE_LORE = ItemLangKey.ITEMS_TALENT_AVAILABLE_LORE;
+    public static final ILangKey ITEMS_TALENT_AVAILABLE_NAME = ItemLangKey.ITEMS_TALENT_AVAILABLE_NAME;
+    public static final ILangKey ITEMS_TALENT_LEARNED_LORE = ItemLangKey.ITEMS_TALENT_LEARNED_LORE;
+    public static final ILangKey ITEMS_TALENT_LEARNED_NAME = ItemLangKey.ITEMS_TALENT_LEARNED_NAME;
+    public static final ILangKey ITEMS_TALENT_LOCKED_LORE = ItemLangKey.ITEMS_TALENT_LOCKED_LORE;
+    public static final ILangKey ITEMS_TALENT_LOCKED_NAME = ItemLangKey.ITEMS_TALENT_LOCKED_NAME;
+    public static final ILangKey ITEMS_TALENT_MAXED_LORE = ItemLangKey.ITEMS_TALENT_MAXED_LORE;
+    public static final ILangKey ITEMS_TALENT_MAXED_NAME = ItemLangKey.ITEMS_TALENT_MAXED_NAME;
+    public static final ILangKey JOB_ALREADY_HAS = MessageLangKey.JOB_ALREADY_HAS;
+    public static final ILangKey JOB_ARCHER = SystemLangKey.JOB_ARCHER;
+    public static final ILangKey JOB_ARCHER_DESC = SystemLangKey.JOB_ARCHER_DESC;
+    public static final ILangKey JOB_ASSASSIN = SystemLangKey.JOB_ASSASSIN;
+    public static final ILangKey JOB_ASSASSIN_DESC = SystemLangKey.JOB_ASSASSIN_DESC;
+    public static final ILangKey JOB_BERSERKER = SystemLangKey.JOB_BERSERKER;
+    public static final ILangKey JOB_BERSERKER_DESC = SystemLangKey.JOB_BERSERKER_DESC;
+    public static final ILangKey JOB_DRUID = SystemLangKey.JOB_DRUID;
+    public static final ILangKey JOB_DRUID_DESC = SystemLangKey.JOB_DRUID_DESC;
+    public static final ILangKey JOB_LEVEL_UP = MessageLangKey.JOB_LEVEL_UP;
+    public static final ILangKey JOB_MAGE = SystemLangKey.JOB_MAGE;
+    public static final ILangKey JOB_MAGE_DESC = SystemLangKey.JOB_MAGE_DESC;
+    public static final ILangKey JOB_MAX_LEVEL = MessageLangKey.JOB_MAX_LEVEL;
+    public static final ILangKey JOB_NECROMANCER = SystemLangKey.JOB_NECROMANCER;
+    public static final ILangKey JOB_NECROMANCER_DESC = SystemLangKey.JOB_NECROMANCER_DESC;
+    public static final ILangKey JOB_NOT_ENOUGH_SKILL_POINTS = MessageLangKey.JOB_NOT_ENOUGH_SKILL_POINTS;
+    public static final ILangKey JOB_PALADIN = SystemLangKey.JOB_PALADIN;
+    public static final ILangKey JOB_PALADIN_DESC = SystemLangKey.JOB_PALADIN_DESC;
+    public static final ILangKey JOB_PRIEST = SystemLangKey.JOB_PRIEST;
+    public static final ILangKey JOB_PRIEST_DESC = SystemLangKey.JOB_PRIEST_DESC;
+    public static final ILangKey JOB_RANGER = SystemLangKey.JOB_RANGER;
+    public static final ILangKey JOB_RANGER_DESC = SystemLangKey.JOB_RANGER_DESC;
+    public static final ILangKey JOB_REQUIREMENT_NOT_MET = MessageLangKey.JOB_REQUIREMENT_NOT_MET;
+    public static final ILangKey JOB_ROGUE = SystemLangKey.JOB_ROGUE;
+    public static final ILangKey JOB_ROGUE_DESC = SystemLangKey.JOB_ROGUE_DESC;
+    public static final ILangKey JOB_SELECTED = MessageLangKey.JOB_SELECTED;
+    public static final ILangKey JOB_SKILL_LEARNED = MessageLangKey.JOB_SKILL_LEARNED;
+    public static final ILangKey JOB_SKILL_MAX_LEVEL = MessageLangKey.JOB_SKILL_MAX_LEVEL;
+    public static final ILangKey JOB_SKILL_UPGRADED = MessageLangKey.JOB_SKILL_UPGRADED;
+    public static final ILangKey JOB_SUMMONER = SystemLangKey.JOB_SUMMONER;
+    public static final ILangKey JOB_SUMMONER_DESC = SystemLangKey.JOB_SUMMONER_DESC;
+    public static final ILangKey JOB_WARLOCK = SystemLangKey.JOB_WARLOCK;
+    public static final ILangKey JOB_WARLOCK_DESC = SystemLangKey.JOB_WARLOCK_DESC;
+    public static final ILangKey JOB_WARRIOR = SystemLangKey.JOB_WARRIOR;
+    public static final ILangKey JOB_WARRIOR_DESC = SystemLangKey.JOB_WARRIOR_DESC;
+    public static final ILangKey LOOT_COMMON_DROP = SystemLangKey.LOOT_COMMON_DROP;
+    public static final ILangKey LOOT_EPIC_DROP = SystemLangKey.LOOT_EPIC_DROP;
+    public static final ILangKey LOOT_LEGENDARY_DROP = SystemLangKey.LOOT_LEGENDARY_DROP;
+    public static final ILangKey LOOT_RARE_DROP = SystemLangKey.LOOT_RARE_DROP;
+    public static final ILangKey MAILBOX_DELETE_CONFIRM_WORD = SystemLangKey.MAILBOX_DELETE_CONFIRM_WORD;
+    public static final ILangKey MAIL_ATTACHMENT_CLAIMED = MessageLangKey.MAIL_ATTACHMENT_CLAIMED;
+    public static final ILangKey MAIL_BOX_FULL = MessageLangKey.MAIL_BOX_FULL;
+    public static final ILangKey MAIL_DELETED = MessageLangKey.MAIL_DELETED;
+    public static final ILangKey MAIL_INVENTORY_FULL = MessageLangKey.MAIL_INVENTORY_FULL;
+    public static final ILangKey MAIL_NOT_FOUND = MessageLangKey.MAIL_NOT_FOUND;
+    public static final ILangKey MAIL_NO_ATTACHMENTS = MessageLangKey.MAIL_NO_ATTACHMENTS;
+    public static final ILangKey MAIL_READ = MessageLangKey.MAIL_READ;
+    public static final ILangKey MAIL_RECEIVED = MessageLangKey.MAIL_RECEIVED;
+    public static final ILangKey MAIL_SENT = MessageLangKey.MAIL_SENT;
+    public static final ILangKey MINIGAME_DRAW = SystemLangKey.MINIGAME_DRAW;
+    public static final ILangKey MINIGAME_END = SystemLangKey.MINIGAME_END;
+    public static final ILangKey MINIGAME_LOSE = SystemLangKey.MINIGAME_LOSE;
+    public static final ILangKey MINIGAME_START = SystemLangKey.MINIGAME_START;
+    public static final ILangKey MINIGAME_WIN = SystemLangKey.MINIGAME_WIN;
+    public static final ILangKey MOUNT_COOLDOWN = SystemLangKey.MOUNT_COOLDOWN;
+    public static final ILangKey MOUNT_DISMISSED = SystemLangKey.MOUNT_DISMISSED;
+    public static final ILangKey MOUNT_IN_COMBAT = SystemLangKey.MOUNT_IN_COMBAT;
+    public static final ILangKey MOUNT_SUMMONED = SystemLangKey.MOUNT_SUMMONED;
+    public static final ILangKey NOTIFICATION_ACHIEVEMENT_UNLOCKED = MessageLangKey.NOTIFICATION_ACHIEVEMENT_UNLOCKED;
+    public static final ILangKey NOTIFICATION_FRIEND_OFFLINE = MessageLangKey.NOTIFICATION_FRIEND_OFFLINE;
+    public static final ILangKey NOTIFICATION_FRIEND_ONLINE = MessageLangKey.NOTIFICATION_FRIEND_ONLINE;
+    public static final ILangKey NOTIFICATION_GUILD_MESSAGE = MessageLangKey.NOTIFICATION_GUILD_MESSAGE;
+    public static final ILangKey NOTIFICATION_LEVEL_UP = MessageLangKey.NOTIFICATION_LEVEL_UP;
+    public static final ILangKey NOTIFICATION_MAIL_RECEIVED = MessageLangKey.NOTIFICATION_MAIL_RECEIVED;
+    public static final ILangKey NOTIFICATION_MODE_ALL = SystemLangKey.NOTIFICATION_MODE_ALL;
+    public static final ILangKey NOTIFICATION_MODE_ALL_DESC = SystemLangKey.NOTIFICATION_MODE_ALL_DESC;
+    public static final ILangKey NOTIFICATION_MODE_FRIEND_ONLY = SystemLangKey.NOTIFICATION_MODE_FRIEND_ONLY;
+    public static final ILangKey NOTIFICATION_MODE_FRIEND_ONLY_DESC = SystemLangKey.NOTIFICATION_MODE_FRIEND_ONLY_DESC;
+    public static final ILangKey NOTIFICATION_MODE_GUILD_ONLY = SystemLangKey.NOTIFICATION_MODE_GUILD_ONLY;
+    public static final ILangKey NOTIFICATION_MODE_GUILD_ONLY_DESC = SystemLangKey.NOTIFICATION_MODE_GUILD_ONLY_DESC;
+    public static final ILangKey NOTIFICATION_MODE_OFF = SystemLangKey.NOTIFICATION_MODE_OFF;
+    public static final ILangKey NOTIFICATION_MODE_OFF_DESC = SystemLangKey.NOTIFICATION_MODE_OFF_DESC;
+    public static final ILangKey NOTIFICATION_MODE_UNKNOWN = SystemLangKey.NOTIFICATION_MODE_UNKNOWN;
+    public static final ILangKey NOTIFICATION_MODE_UNKNOWN_DESC = SystemLangKey.NOTIFICATION_MODE_UNKNOWN_DESC;
+    public static final ILangKey NOTIFICATION_PARTY_MESSAGE = MessageLangKey.NOTIFICATION_PARTY_MESSAGE;
+    public static final ILangKey NOTIFICATION_QUEST_COMPLETED = MessageLangKey.NOTIFICATION_QUEST_COMPLETED;
+    public static final ILangKey NOTIFICATION_SYSTEM_MESSAGE = MessageLangKey.NOTIFICATION_SYSTEM_MESSAGE;
+    public static final ILangKey PARTY_ALREADY_IN_PARTY = MessageLangKey.PARTY_ALREADY_IN_PARTY;
+    public static final ILangKey PARTY_CREATED = MessageLangKey.PARTY_CREATED;
+    public static final ILangKey PARTY_DISBANDED = MessageLangKey.PARTY_DISBANDED;
+    public static final ILangKey PARTY_FULL = MessageLangKey.PARTY_FULL;
+    public static final ILangKey PARTY_INVITE_ACCEPTED = MessageLangKey.PARTY_INVITE_ACCEPTED;
+    public static final ILangKey PARTY_INVITE_DENIED = MessageLangKey.PARTY_INVITE_DENIED;
+    public static final ILangKey PARTY_INVITE_EXPIRED = MessageLangKey.PARTY_INVITE_EXPIRED;
+    public static final ILangKey PARTY_INVITE_RECEIVED = MessageLangKey.PARTY_INVITE_RECEIVED;
+    public static final ILangKey PARTY_INVITE_SENT = MessageLangKey.PARTY_INVITE_SENT;
+    public static final ILangKey PARTY_JOINED = MessageLangKey.PARTY_JOINED;
+    public static final ILangKey PARTY_KICKED = MessageLangKey.PARTY_KICKED;
+    public static final ILangKey PARTY_LEFT = MessageLangKey.PARTY_LEFT;
+    public static final ILangKey PARTY_NOT_LEADER = MessageLangKey.PARTY_NOT_LEADER;
+    public static final ILangKey PARTY_NOT_MEMBER = MessageLangKey.PARTY_NOT_MEMBER;
+    public static final ILangKey PARTY_NO_PARTY = MessageLangKey.PARTY_NO_PARTY;
+    public static final ILangKey PARTY_PROMOTED = MessageLangKey.PARTY_PROMOTED;
+    public static final ILangKey PERMISSION_ADMIN = SystemLangKey.PERMISSION_ADMIN;
+    public static final ILangKey PERMISSION_BAN = SystemLangKey.PERMISSION_BAN;
+    public static final ILangKey PERMISSION_BREAK = SystemLangKey.PERMISSION_BREAK;
+    public static final ILangKey PERMISSION_BUILD = SystemLangKey.PERMISSION_BUILD;
+    public static final ILangKey PERMISSION_CONTAINER = SystemLangKey.PERMISSION_CONTAINER;
+    public static final ILangKey PERMISSION_DEMOTE = SystemLangKey.PERMISSION_DEMOTE;
+    public static final ILangKey PERMISSION_INTERACT = SystemLangKey.PERMISSION_INTERACT;
+    public static final ILangKey PERMISSION_INVITE = SystemLangKey.PERMISSION_INVITE;
+    public static final ILangKey PERMISSION_KICK = SystemLangKey.PERMISSION_KICK;
+    public static final ILangKey PERMISSION_PROMOTE = SystemLangKey.PERMISSION_PROMOTE;
+    public static final ILangKey PERMISSION_SETTINGS = SystemLangKey.PERMISSION_SETTINGS;
+    public static final ILangKey PERMISSION_TELEPORT = SystemLangKey.PERMISSION_TELEPORT;
+    public static final ILangKey PET_DISMISSED = SystemLangKey.PET_DISMISSED;
+    public static final ILangKey PET_EVOLVED = SystemLangKey.PET_EVOLVED;
+    public static final ILangKey PET_LEVEL_UP = SystemLangKey.PET_LEVEL_UP;
+    public static final ILangKey PET_SUMMONED = SystemLangKey.PET_SUMMONED;
+    public static final ILangKey PLACEHOLDER_PLAYER_COMBAT_POWER = SystemLangKey.PLACEHOLDER_PLAYER_COMBAT_POWER;
+    public static final ILangKey PLACEHOLDER_PLAYER_GOLD = SystemLangKey.PLACEHOLDER_PLAYER_GOLD;
+    public static final ILangKey PLACEHOLDER_PLAYER_GUILD = SystemLangKey.PLACEHOLDER_PLAYER_GUILD;
+    public static final ILangKey PLACEHOLDER_PLAYER_HEALTH = SystemLangKey.PLACEHOLDER_PLAYER_HEALTH;
+    public static final ILangKey PLACEHOLDER_PLAYER_JOB = SystemLangKey.PLACEHOLDER_PLAYER_JOB;
+    public static final ILangKey PLACEHOLDER_PLAYER_LEVEL = SystemLangKey.PLACEHOLDER_PLAYER_LEVEL;
+    public static final ILangKey PLACEHOLDER_PLAYER_LOCATION = SystemLangKey.PLACEHOLDER_PLAYER_LOCATION;
+    public static final ILangKey PLACEHOLDER_PLAYER_MANA = SystemLangKey.PLACEHOLDER_PLAYER_MANA;
+    public static final ILangKey PLACEHOLDER_PLAYER_NAME = SystemLangKey.PLACEHOLDER_PLAYER_NAME;
+    public static final ILangKey PLACEHOLDER_PLAYER_PARTY = SystemLangKey.PLACEHOLDER_PLAYER_PARTY;
+    public static final ILangKey PLACEHOLDER_PLAYER_PLAYTIME = SystemLangKey.PLACEHOLDER_PLAYER_PLAYTIME;
+    public static final ILangKey PLACEHOLDER_PLAYER_RANK = SystemLangKey.PLACEHOLDER_PLAYER_RANK;
+    public static final ILangKey QUEST_ABANDONED = QuestCommonLangKey.QUEST_ABANDONED;
+    public static final ILangKey QUEST_ABANDON_SUCCESS = MessageLangKey.QUEST_ABANDON_SUCCESS;
+    public static final ILangKey QUEST_ADVANCEMENT_ARCHER_PRECISION_ACCEPT = QuestCommonLangKey.QUEST_ADVANCEMENT_ARCHER_PRECISION_ACCEPT;
+    public static final ILangKey QUEST_ADVANCEMENT_ARCHER_PRECISION_DECLINE = QuestCommonLangKey.QUEST_ADVANCEMENT_ARCHER_PRECISION_DECLINE;
+    public static final ILangKey QUEST_ADVANCEMENT_ARCHER_PRECISION_DESC = QuestCommonLangKey.QUEST_ADVANCEMENT_ARCHER_PRECISION_DESC;
+    public static final ILangKey QUEST_ADVANCEMENT_ARCHER_PRECISION_DIALOGS = QuestCommonLangKey.QUEST_ADVANCEMENT_ARCHER_PRECISION_DIALOGS;
+    public static final ILangKey QUEST_ADVANCEMENT_ARCHER_PRECISION_INFO = QuestCommonLangKey.QUEST_ADVANCEMENT_ARCHER_PRECISION_INFO;
+    public static final ILangKey QUEST_ADVANCEMENT_ARCHER_PRECISION_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_ARCHER_PRECISION_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_ARCHER_PRECISION_NPC_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_ARCHER_PRECISION_NPC_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_ARCHER_PRECISION_OBJECTIVES_ARCHERY_MASTER = QuestCommonLangKey.QUEST_ADVANCEMENT_ARCHER_PRECISION_OBJECTIVES_ARCHERY_MASTER;
+    public static final ILangKey QUEST_ADVANCEMENT_ARCHER_PRECISION_OBJECTIVES_FINAL_TEST = QuestCommonLangKey.QUEST_ADVANCEMENT_ARCHER_PRECISION_OBJECTIVES_FINAL_TEST;
+    public static final ILangKey QUEST_ADVANCEMENT_ARCHER_PRECISION_OBJECTIVES_LONG_RANGE = QuestCommonLangKey.QUEST_ADVANCEMENT_ARCHER_PRECISION_OBJECTIVES_LONG_RANGE;
+    public static final ILangKey QUEST_ADVANCEMENT_ARCHER_PRECISION_OBJECTIVES_MOVING_TARGETS = QuestCommonLangKey.QUEST_ADVANCEMENT_ARCHER_PRECISION_OBJECTIVES_MOVING_TARGETS;
+    public static final ILangKey QUEST_ADVANCEMENT_ARCHER_PRECISION_OBJECTIVES_PRECISION_TRAINING = QuestCommonLangKey.QUEST_ADVANCEMENT_ARCHER_PRECISION_OBJECTIVES_PRECISION_TRAINING;
+    public static final ILangKey QUEST_ADVANCEMENT_ASSASSIN_SHADOW_DESC = QuestCommonLangKey.QUEST_ADVANCEMENT_ASSASSIN_SHADOW_DESC;
+    public static final ILangKey QUEST_ADVANCEMENT_ASSASSIN_SHADOW_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_ASSASSIN_SHADOW_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_BERSERKER_RAGE_ACCEPT = QuestCommonLangKey.QUEST_ADVANCEMENT_BERSERKER_RAGE_ACCEPT;
+    public static final ILangKey QUEST_ADVANCEMENT_BERSERKER_RAGE_DECLINE = QuestCommonLangKey.QUEST_ADVANCEMENT_BERSERKER_RAGE_DECLINE;
+    public static final ILangKey QUEST_ADVANCEMENT_BERSERKER_RAGE_DESC = QuestCommonLangKey.QUEST_ADVANCEMENT_BERSERKER_RAGE_DESC;
+    public static final ILangKey QUEST_ADVANCEMENT_BERSERKER_RAGE_DIALOGS = QuestCommonLangKey.QUEST_ADVANCEMENT_BERSERKER_RAGE_DIALOGS;
+    public static final ILangKey QUEST_ADVANCEMENT_BERSERKER_RAGE_INFO = QuestCommonLangKey.QUEST_ADVANCEMENT_BERSERKER_RAGE_INFO;
+    public static final ILangKey QUEST_ADVANCEMENT_BERSERKER_RAGE_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_BERSERKER_RAGE_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_BERSERKER_RAGE_NPC_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_BERSERKER_RAGE_NPC_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_BERSERKER_RAGE_OBJECTIVES_BERSERKER_TRAINER = QuestCommonLangKey.QUEST_ADVANCEMENT_BERSERKER_RAGE_OBJECTIVES_BERSERKER_TRAINER;
+    public static final ILangKey QUEST_ADVANCEMENT_BERSERKER_RAGE_OBJECTIVES_BERSERK_TRIAL = QuestCommonLangKey.QUEST_ADVANCEMENT_BERSERKER_RAGE_OBJECTIVES_BERSERK_TRIAL;
+    public static final ILangKey QUEST_ADVANCEMENT_BERSERKER_RAGE_OBJECTIVES_COMBAT_FRENZY = QuestCommonLangKey.QUEST_ADVANCEMENT_BERSERKER_RAGE_OBJECTIVES_COMBAT_FRENZY;
+    public static final ILangKey QUEST_ADVANCEMENT_BERSERKER_RAGE_OBJECTIVES_MASTER_RAGE = QuestCommonLangKey.QUEST_ADVANCEMENT_BERSERKER_RAGE_OBJECTIVES_MASTER_RAGE;
+    public static final ILangKey QUEST_ADVANCEMENT_BERSERKER_RAGE_OBJECTIVES_RAGE_CONTROL = QuestCommonLangKey.QUEST_ADVANCEMENT_BERSERKER_RAGE_OBJECTIVES_RAGE_CONTROL;
+    public static final ILangKey QUEST_ADVANCEMENT_CLERIC_DIVINE_DESC = QuestCommonLangKey.QUEST_ADVANCEMENT_CLERIC_DIVINE_DESC;
+    public static final ILangKey QUEST_ADVANCEMENT_CLERIC_DIVINE_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_CLERIC_DIVINE_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_DRUID_NATURE_ACCEPT = QuestCommonLangKey.QUEST_ADVANCEMENT_DRUID_NATURE_ACCEPT;
+    public static final ILangKey QUEST_ADVANCEMENT_DRUID_NATURE_DECLINE = QuestCommonLangKey.QUEST_ADVANCEMENT_DRUID_NATURE_DECLINE;
+    public static final ILangKey QUEST_ADVANCEMENT_DRUID_NATURE_DESC = QuestCommonLangKey.QUEST_ADVANCEMENT_DRUID_NATURE_DESC;
+    public static final ILangKey QUEST_ADVANCEMENT_DRUID_NATURE_DIALOGS = QuestCommonLangKey.QUEST_ADVANCEMENT_DRUID_NATURE_DIALOGS;
+    public static final ILangKey QUEST_ADVANCEMENT_DRUID_NATURE_INFO = QuestCommonLangKey.QUEST_ADVANCEMENT_DRUID_NATURE_INFO;
+    public static final ILangKey QUEST_ADVANCEMENT_DRUID_NATURE_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_DRUID_NATURE_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_DRUID_NATURE_NPC_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_DRUID_NATURE_NPC_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_DRUID_NATURE_OBJECTIVES_ANIMAL_FORMS = QuestCommonLangKey.QUEST_ADVANCEMENT_DRUID_NATURE_OBJECTIVES_ANIMAL_FORMS;
+    public static final ILangKey QUEST_ADVANCEMENT_DRUID_NATURE_OBJECTIVES_DRUID_CIRCLE = QuestCommonLangKey.QUEST_ADVANCEMENT_DRUID_NATURE_OBJECTIVES_DRUID_CIRCLE;
+    public static final ILangKey QUEST_ADVANCEMENT_DRUID_NATURE_OBJECTIVES_DRUID_ELDER = QuestCommonLangKey.QUEST_ADVANCEMENT_DRUID_NATURE_OBJECTIVES_DRUID_ELDER;
+    public static final ILangKey QUEST_ADVANCEMENT_DRUID_NATURE_OBJECTIVES_NATURE_BOND = QuestCommonLangKey.QUEST_ADVANCEMENT_DRUID_NATURE_OBJECTIVES_NATURE_BOND;
+    public static final ILangKey QUEST_ADVANCEMENT_DRUID_NATURE_OBJECTIVES_NATURE_MAGIC = QuestCommonLangKey.QUEST_ADVANCEMENT_DRUID_NATURE_OBJECTIVES_NATURE_MAGIC;
+    public static final ILangKey QUEST_ADVANCEMENT_MAGE_ARCANE_DESC = QuestCommonLangKey.QUEST_ADVANCEMENT_MAGE_ARCANE_DESC;
+    public static final ILangKey QUEST_ADVANCEMENT_MAGE_ARCANE_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_MAGE_ARCANE_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_ACCEPT = QuestCommonLangKey.QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_ACCEPT;
+    public static final ILangKey QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_DECLINE = QuestCommonLangKey.QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_DECLINE;
+    public static final ILangKey QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_DIALOGS = QuestCommonLangKey.QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_DIALOGS;
+    public static final ILangKey QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_INFO = QuestCommonLangKey.QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_INFO;
+    public static final ILangKey QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_NPC_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_NPC_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_OBJECTIVES_ARCANE_POWER = QuestCommonLangKey.QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_OBJECTIVES_ARCANE_POWER;
+    public static final ILangKey QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_OBJECTIVES_ARCHMAGE = QuestCommonLangKey.QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_OBJECTIVES_ARCHMAGE;
+    public static final ILangKey QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_OBJECTIVES_ELEMENTAL_MAGIC = QuestCommonLangKey.QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_OBJECTIVES_ELEMENTAL_MAGIC;
+    public static final ILangKey QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_OBJECTIVES_MAGE_TRIAL = QuestCommonLangKey.QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_OBJECTIVES_MAGE_TRIAL;
+    public static final ILangKey QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_OBJECTIVES_MAGICAL_THEORY = QuestCommonLangKey.QUEST_ADVANCEMENT_MAGE_ENLIGHTENMENT_OBJECTIVES_MAGICAL_THEORY;
+    public static final ILangKey QUEST_ADVANCEMENT_NECROMANCER_DEATH_DESC = QuestCommonLangKey.QUEST_ADVANCEMENT_NECROMANCER_DEATH_DESC;
+    public static final ILangKey QUEST_ADVANCEMENT_NECROMANCER_DEATH_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_NECROMANCER_DEATH_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_NECROMANCER_PACT_ACCEPT = QuestCommonLangKey.QUEST_ADVANCEMENT_NECROMANCER_PACT_ACCEPT;
+    public static final ILangKey QUEST_ADVANCEMENT_NECROMANCER_PACT_DECLINE = QuestCommonLangKey.QUEST_ADVANCEMENT_NECROMANCER_PACT_DECLINE;
+    public static final ILangKey QUEST_ADVANCEMENT_NECROMANCER_PACT_DIALOGS = QuestCommonLangKey.QUEST_ADVANCEMENT_NECROMANCER_PACT_DIALOGS;
+    public static final ILangKey QUEST_ADVANCEMENT_NECROMANCER_PACT_INFO = QuestCommonLangKey.QUEST_ADVANCEMENT_NECROMANCER_PACT_INFO;
+    public static final ILangKey QUEST_ADVANCEMENT_NECROMANCER_PACT_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_NECROMANCER_PACT_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_NECROMANCER_PACT_NPC_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_NECROMANCER_PACT_NPC_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_NECROMANCER_PACT_OBJECTIVES_DEATH_MAGIC = QuestCommonLangKey.QUEST_ADVANCEMENT_NECROMANCER_PACT_OBJECTIVES_DEATH_MAGIC;
+    public static final ILangKey QUEST_ADVANCEMENT_NECROMANCER_PACT_OBJECTIVES_MASTER_DEATH = QuestCommonLangKey.QUEST_ADVANCEMENT_NECROMANCER_PACT_OBJECTIVES_MASTER_DEATH;
+    public static final ILangKey QUEST_ADVANCEMENT_NECROMANCER_PACT_OBJECTIVES_NECROMANCER_LORD = QuestCommonLangKey.QUEST_ADVANCEMENT_NECROMANCER_PACT_OBJECTIVES_NECROMANCER_LORD;
+    public static final ILangKey QUEST_ADVANCEMENT_NECROMANCER_PACT_OBJECTIVES_RAISE_UNDEAD = QuestCommonLangKey.QUEST_ADVANCEMENT_NECROMANCER_PACT_OBJECTIVES_RAISE_UNDEAD;
+    public static final ILangKey QUEST_ADVANCEMENT_NECROMANCER_PACT_OBJECTIVES_SOUL_PACT = QuestCommonLangKey.QUEST_ADVANCEMENT_NECROMANCER_PACT_OBJECTIVES_SOUL_PACT;
+    public static final ILangKey QUEST_ADVANCEMENT_PALADIN_HOLY_DESC = QuestCommonLangKey.QUEST_ADVANCEMENT_PALADIN_HOLY_DESC;
+    public static final ILangKey QUEST_ADVANCEMENT_PALADIN_HOLY_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_PALADIN_HOLY_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_PALADIN_OATH_ACCEPT = QuestCommonLangKey.QUEST_ADVANCEMENT_PALADIN_OATH_ACCEPT;
+    public static final ILangKey QUEST_ADVANCEMENT_PALADIN_OATH_DECLINE = QuestCommonLangKey.QUEST_ADVANCEMENT_PALADIN_OATH_DECLINE;
+    public static final ILangKey QUEST_ADVANCEMENT_PALADIN_OATH_DIALOGS = QuestCommonLangKey.QUEST_ADVANCEMENT_PALADIN_OATH_DIALOGS;
+    public static final ILangKey QUEST_ADVANCEMENT_PALADIN_OATH_INFO = QuestCommonLangKey.QUEST_ADVANCEMENT_PALADIN_OATH_INFO;
+    public static final ILangKey QUEST_ADVANCEMENT_PALADIN_OATH_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_PALADIN_OATH_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_PALADIN_OATH_NPC_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_PALADIN_OATH_NPC_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_PALADIN_OATH_OBJECTIVES_DIVINE_POWER = QuestCommonLangKey.QUEST_ADVANCEMENT_PALADIN_OATH_OBJECTIVES_DIVINE_POWER;
+    public static final ILangKey QUEST_ADVANCEMENT_PALADIN_OATH_OBJECTIVES_HOLY_TRAINING = QuestCommonLangKey.QUEST_ADVANCEMENT_PALADIN_OATH_OBJECTIVES_HOLY_TRAINING;
+    public static final ILangKey QUEST_ADVANCEMENT_PALADIN_OATH_OBJECTIVES_PALADIN_CEREMONY = QuestCommonLangKey.QUEST_ADVANCEMENT_PALADIN_OATH_OBJECTIVES_PALADIN_CEREMONY;
+    public static final ILangKey QUEST_ADVANCEMENT_PALADIN_OATH_OBJECTIVES_PALADIN_COMMANDER = QuestCommonLangKey.QUEST_ADVANCEMENT_PALADIN_OATH_OBJECTIVES_PALADIN_COMMANDER;
+    public static final ILangKey QUEST_ADVANCEMENT_PALADIN_OATH_OBJECTIVES_SACRED_OATH = QuestCommonLangKey.QUEST_ADVANCEMENT_PALADIN_OATH_OBJECTIVES_SACRED_OATH;
+    public static final ILangKey QUEST_ADVANCEMENT_PRIEST_DEVOTION_ACCEPT = QuestCommonLangKey.QUEST_ADVANCEMENT_PRIEST_DEVOTION_ACCEPT;
+    public static final ILangKey QUEST_ADVANCEMENT_PRIEST_DEVOTION_DECLINE = QuestCommonLangKey.QUEST_ADVANCEMENT_PRIEST_DEVOTION_DECLINE;
+    public static final ILangKey QUEST_ADVANCEMENT_PRIEST_DEVOTION_DIALOGS = QuestCommonLangKey.QUEST_ADVANCEMENT_PRIEST_DEVOTION_DIALOGS;
+    public static final ILangKey QUEST_ADVANCEMENT_PRIEST_DEVOTION_INFO = QuestCommonLangKey.QUEST_ADVANCEMENT_PRIEST_DEVOTION_INFO;
+    public static final ILangKey QUEST_ADVANCEMENT_PRIEST_DEVOTION_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_PRIEST_DEVOTION_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_PRIEST_DEVOTION_NPC_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_PRIEST_DEVOTION_NPC_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_PRIEST_DEVOTION_OBJECTIVES_DIVINE_BLESSING = QuestCommonLangKey.QUEST_ADVANCEMENT_PRIEST_DEVOTION_OBJECTIVES_DIVINE_BLESSING;
+    public static final ILangKey QUEST_ADVANCEMENT_PRIEST_DEVOTION_OBJECTIVES_HEALING_MASTERY = QuestCommonLangKey.QUEST_ADVANCEMENT_PRIEST_DEVOTION_OBJECTIVES_HEALING_MASTERY;
+    public static final ILangKey QUEST_ADVANCEMENT_PRIEST_DEVOTION_OBJECTIVES_HIGH_PRIEST = QuestCommonLangKey.QUEST_ADVANCEMENT_PRIEST_DEVOTION_OBJECTIVES_HIGH_PRIEST;
+    public static final ILangKey QUEST_ADVANCEMENT_PRIEST_DEVOTION_OBJECTIVES_PRAYER_RITUAL = QuestCommonLangKey.QUEST_ADVANCEMENT_PRIEST_DEVOTION_OBJECTIVES_PRAYER_RITUAL;
+    public static final ILangKey QUEST_ADVANCEMENT_PRIEST_DEVOTION_OBJECTIVES_PRIEST_ORDINATION = QuestCommonLangKey.QUEST_ADVANCEMENT_PRIEST_DEVOTION_OBJECTIVES_PRIEST_ORDINATION;
+    public static final ILangKey QUEST_ADVANCEMENT_RANGER_BEAST_DESC = QuestCommonLangKey.QUEST_ADVANCEMENT_RANGER_BEAST_DESC;
+    public static final ILangKey QUEST_ADVANCEMENT_RANGER_BEAST_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_RANGER_BEAST_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_ROGUE_SHADOWS_ACCEPT = QuestCommonLangKey.QUEST_ADVANCEMENT_ROGUE_SHADOWS_ACCEPT;
+    public static final ILangKey QUEST_ADVANCEMENT_ROGUE_SHADOWS_DECLINE = QuestCommonLangKey.QUEST_ADVANCEMENT_ROGUE_SHADOWS_DECLINE;
+    public static final ILangKey QUEST_ADVANCEMENT_ROGUE_SHADOWS_DIALOGS = QuestCommonLangKey.QUEST_ADVANCEMENT_ROGUE_SHADOWS_DIALOGS;
+    public static final ILangKey QUEST_ADVANCEMENT_ROGUE_SHADOWS_INFO = QuestCommonLangKey.QUEST_ADVANCEMENT_ROGUE_SHADOWS_INFO;
+    public static final ILangKey QUEST_ADVANCEMENT_ROGUE_SHADOWS_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_ROGUE_SHADOWS_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_ROGUE_SHADOWS_NPC_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_ROGUE_SHADOWS_NPC_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_ROGUE_SHADOWS_OBJECTIVES_ASSASSINATION_TECHNIQUES = QuestCommonLangKey.QUEST_ADVANCEMENT_ROGUE_SHADOWS_OBJECTIVES_ASSASSINATION_TECHNIQUES;
+    public static final ILangKey QUEST_ADVANCEMENT_ROGUE_SHADOWS_OBJECTIVES_ROGUE_GUILD = QuestCommonLangKey.QUEST_ADVANCEMENT_ROGUE_SHADOWS_OBJECTIVES_ROGUE_GUILD;
+    public static final ILangKey QUEST_ADVANCEMENT_ROGUE_SHADOWS_OBJECTIVES_SHADOW_MASTER = QuestCommonLangKey.QUEST_ADVANCEMENT_ROGUE_SHADOWS_OBJECTIVES_SHADOW_MASTER;
+    public static final ILangKey QUEST_ADVANCEMENT_ROGUE_SHADOWS_OBJECTIVES_SHADOW_WALK = QuestCommonLangKey.QUEST_ADVANCEMENT_ROGUE_SHADOWS_OBJECTIVES_SHADOW_WALK;
+    public static final ILangKey QUEST_ADVANCEMENT_ROGUE_SHADOWS_OBJECTIVES_STEALTH_TRAINING = QuestCommonLangKey.QUEST_ADVANCEMENT_ROGUE_SHADOWS_OBJECTIVES_STEALTH_TRAINING;
+    public static final ILangKey QUEST_ADVANCEMENT_ROGUE_STEALTH_DESC = QuestCommonLangKey.QUEST_ADVANCEMENT_ROGUE_STEALTH_DESC;
+    public static final ILangKey QUEST_ADVANCEMENT_ROGUE_STEALTH_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_ROGUE_STEALTH_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_SUMMONER_BOND_ACCEPT = QuestCommonLangKey.QUEST_ADVANCEMENT_SUMMONER_BOND_ACCEPT;
+    public static final ILangKey QUEST_ADVANCEMENT_SUMMONER_BOND_DECLINE = QuestCommonLangKey.QUEST_ADVANCEMENT_SUMMONER_BOND_DECLINE;
+    public static final ILangKey QUEST_ADVANCEMENT_SUMMONER_BOND_DIALOGS = QuestCommonLangKey.QUEST_ADVANCEMENT_SUMMONER_BOND_DIALOGS;
+    public static final ILangKey QUEST_ADVANCEMENT_SUMMONER_BOND_INFO = QuestCommonLangKey.QUEST_ADVANCEMENT_SUMMONER_BOND_INFO;
+    public static final ILangKey QUEST_ADVANCEMENT_SUMMONER_BOND_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_SUMMONER_BOND_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_SUMMONER_BOND_NPC_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_SUMMONER_BOND_NPC_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_SUMMONER_BOND_OBJECTIVES_BOND_STRENGTH = QuestCommonLangKey.QUEST_ADVANCEMENT_SUMMONER_BOND_OBJECTIVES_BOND_STRENGTH;
+    public static final ILangKey QUEST_ADVANCEMENT_SUMMONER_BOND_OBJECTIVES_ELEMENTAL_SUMMONS = QuestCommonLangKey.QUEST_ADVANCEMENT_SUMMONER_BOND_OBJECTIVES_ELEMENTAL_SUMMONS;
+    public static final ILangKey QUEST_ADVANCEMENT_SUMMONER_BOND_OBJECTIVES_SUMMONER_PACT = QuestCommonLangKey.QUEST_ADVANCEMENT_SUMMONER_BOND_OBJECTIVES_SUMMONER_PACT;
+    public static final ILangKey QUEST_ADVANCEMENT_SUMMONER_BOND_OBJECTIVES_SUMMONER_SAGE = QuestCommonLangKey.QUEST_ADVANCEMENT_SUMMONER_BOND_OBJECTIVES_SUMMONER_SAGE;
+    public static final ILangKey QUEST_ADVANCEMENT_SUMMONER_BOND_OBJECTIVES_SUMMON_FAMILIAR = QuestCommonLangKey.QUEST_ADVANCEMENT_SUMMONER_BOND_OBJECTIVES_SUMMON_FAMILIAR;
+    public static final ILangKey QUEST_ADVANCEMENT_SUMMONER_ELEMENTAL_DESC = QuestCommonLangKey.QUEST_ADVANCEMENT_SUMMONER_ELEMENTAL_DESC;
+    public static final ILangKey QUEST_ADVANCEMENT_SUMMONER_ELEMENTAL_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_SUMMONER_ELEMENTAL_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_WARLOCK_DEMON_DESC = QuestCommonLangKey.QUEST_ADVANCEMENT_WARLOCK_DEMON_DESC;
+    public static final ILangKey QUEST_ADVANCEMENT_WARLOCK_DEMON_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_WARLOCK_DEMON_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_ACCEPT = QuestCommonLangKey.QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_ACCEPT;
+    public static final ILangKey QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_DECLINE = QuestCommonLangKey.QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_DECLINE;
+    public static final ILangKey QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_DIALOGS = QuestCommonLangKey.QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_DIALOGS;
+    public static final ILangKey QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_INFO = QuestCommonLangKey.QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_INFO;
+    public static final ILangKey QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_NPC_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_NPC_NAME;
+    public static final ILangKey QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_OBJECTIVES_COMBAT_MASTERY = QuestCommonLangKey.QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_OBJECTIVES_COMBAT_MASTERY;
+    public static final ILangKey QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_OBJECTIVES_TACTICAL_TRAINING = QuestCommonLangKey.QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_OBJECTIVES_TACTICAL_TRAINING;
+    public static final ILangKey QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_GENERAL = QuestCommonLangKey.QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_GENERAL;
+    public static final ILangKey QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_HONOR = QuestCommonLangKey.QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_HONOR;
+    public static final ILangKey QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_OBJECTIVES_WEAPON_EXPERTISE = QuestCommonLangKey.QUEST_ADVANCEMENT_WARRIOR_ADVANCEMENT_OBJECTIVES_WEAPON_EXPERTISE;
+    public static final ILangKey QUEST_ADVANCEMENT_WARRIOR_MASTER_DESC = QuestCommonLangKey.QUEST_ADVANCEMENT_WARRIOR_MASTER_DESC;
+    public static final ILangKey QUEST_ADVANCEMENT_WARRIOR_MASTER_NAME = QuestCommonLangKey.QUEST_ADVANCEMENT_WARRIOR_MASTER_NAME;
+    public static final ILangKey QUEST_ALREADY_ACTIVE = MessageLangKey.QUEST_ALREADY_ACTIVE;
+    public static final ILangKey QUEST_ALREADY_COMPLETED = QuestCommonLangKey.QUEST_ALREADY_COMPLETED;
+    public static final ILangKey QUEST_CATEGORY_ADVANCEMENT = QuestCommonLangKey.QUEST_CATEGORY_ADVANCEMENT;
+    public static final ILangKey QUEST_CATEGORY_BRANCH = QuestCommonLangKey.QUEST_CATEGORY_BRANCH;
+    public static final ILangKey QUEST_CATEGORY_COMBAT = QuestCommonLangKey.QUEST_CATEGORY_COMBAT;
+    public static final ILangKey QUEST_CATEGORY_CRAFTING = QuestCommonLangKey.QUEST_CATEGORY_CRAFTING;
+    public static final ILangKey QUEST_CATEGORY_DAILY = QuestCommonLangKey.QUEST_CATEGORY_DAILY;
+    public static final ILangKey QUEST_CATEGORY_EVENT = QuestCommonLangKey.QUEST_CATEGORY_EVENT;
+    public static final ILangKey QUEST_CATEGORY_EXPLORATION = QuestCommonLangKey.QUEST_CATEGORY_EXPLORATION;
+    public static final ILangKey QUEST_CATEGORY_GUILD = QuestCommonLangKey.QUEST_CATEGORY_GUILD;
+    public static final ILangKey QUEST_CATEGORY_LIFE = QuestCommonLangKey.QUEST_CATEGORY_LIFE;
+    public static final ILangKey QUEST_CATEGORY_MAIN = QuestCommonLangKey.QUEST_CATEGORY_MAIN;
+    public static final ILangKey QUEST_CATEGORY_REPEATABLE = QuestCommonLangKey.QUEST_CATEGORY_REPEATABLE;
+    public static final ILangKey QUEST_CATEGORY_SEASONAL = QuestCommonLangKey.QUEST_CATEGORY_SEASONAL;
+    public static final ILangKey QUEST_CATEGORY_SIDE = QuestCommonLangKey.QUEST_CATEGORY_SIDE;
+    public static final ILangKey QUEST_CATEGORY_SPECIAL = QuestCommonLangKey.QUEST_CATEGORY_SPECIAL;
+    public static final ILangKey QUEST_CATEGORY_TUTORIAL = QuestCommonLangKey.QUEST_CATEGORY_TUTORIAL;
+    public static final ILangKey QUEST_CATEGORY_WEEKLY = QuestCommonLangKey.QUEST_CATEGORY_WEEKLY;
+    public static final ILangKey QUEST_CLASS_REQUIREMENT = QuestCommonLangKey.QUEST_CLASS_REQUIREMENT;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_ENDURANCE_TEST = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_ENDURANCE_TEST;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_FINAL_TRIAL = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_FINAL_TRIAL;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_FORGE_ARMOR = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_FORGE_ARMOR;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_FORGE_WEAPON = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_FORGE_WEAPON;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_COMBAT = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_COMBAT;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_PVP = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_PVP;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_RETURN_EMBLEM = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_RETURN_EMBLEM;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_EMBLEM = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_EMBLEM;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_LEVEL = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_LEVEL;
+    public static final ILangKey QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_MASTER = QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_MASTER;
+    public static final ILangKey QUEST_CLICK_FOR_DETAILS = QuestCommonLangKey.QUEST_CLICK_FOR_DETAILS;
+    public static final ILangKey QUEST_COMPLETED = QuestCommonLangKey.QUEST_COMPLETED;
+    public static final ILangKey QUEST_COMPLETE_SUCCESS = MessageLangKey.QUEST_COMPLETE_SUCCESS;
+    public static final ILangKey QUEST_COOLDOWN_ACTIVE = MessageLangKey.QUEST_COOLDOWN_ACTIVE;
+    public static final ILangKey QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_BOOK_COLLECT = QuestCommonLangKey.QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_BOOK_COLLECT;
+    public static final ILangKey QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_DIAMOND_CHESTPLATE_CRAFT = QuestCommonLangKey.QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_DIAMOND_CHESTPLATE_CRAFT;
+    public static final ILangKey QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_DIAMOND_PICKAXE_CRAFT = QuestCommonLangKey.QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_DIAMOND_PICKAXE_CRAFT;
+    public static final ILangKey QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_DIAMOND_SWORD_CRAFT = QuestCommonLangKey.QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_DIAMOND_SWORD_CRAFT;
+    public static final ILangKey QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_ENCHANTED_BOOK_COLLECT = QuestCommonLangKey.QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_ENCHANTED_BOOK_COLLECT;
+    public static final ILangKey QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_ENCHANTMENT_MASTER = QuestCommonLangKey.QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_ENCHANTMENT_MASTER;
+    public static final ILangKey QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_EXPERIENCE_BOTTLE_COLLECT = QuestCommonLangKey.QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_EXPERIENCE_BOTTLE_COLLECT;
+    public static final ILangKey QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_GHAST_TEAR_COLLECT = QuestCommonLangKey.QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_GHAST_TEAR_COLLECT;
+    public static final ILangKey QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_LAPIS_LAZULI_COLLECT = QuestCommonLangKey.QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_LAPIS_LAZULI_COLLECT;
+    public static final ILangKey QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_NETHERITE_SWORD_CRAFT = QuestCommonLangKey.QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_NETHERITE_SWORD_CRAFT;
+    public static final ILangKey QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_NETHERITE_SWORD_DELIVER = QuestCommonLangKey.QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_NETHERITE_SWORD_DELIVER;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_BLACKSMITH_MASTER = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_BLACKSMITH_MASTER;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_COAL_COLLECT = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_COAL_COLLECT;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_CHESTPLATE_CRAFT = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_CHESTPLATE_CRAFT;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_COLLECT = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_COLLECT;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_SWORD_COLLECT = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_SWORD_COLLECT;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_SWORD_CRAFT = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_SWORD_CRAFT;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_GOLD_INGOT_COLLECT = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_GOLD_INGOT_COLLECT;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_IRON_CHESTPLATE_CRAFT = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_IRON_CHESTPLATE_CRAFT;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_IRON_INGOT_COLLECT = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_IRON_INGOT_COLLECT;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_IRON_PICKAXE_CRAFT = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_IRON_PICKAXE_CRAFT;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_MINE_DIAMOND = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_MINE_DIAMOND;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_MINE_GOLD = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_MINE_GOLD;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_MINE_IRON = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_MINE_IRON;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_INGOT_CRAFT = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_INGOT_CRAFT;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_SCRAP_COLLECT = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_SCRAP_COLLECT;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_SWORD_CRAFT = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_SWORD_CRAFT;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_SWORD_DELIVER = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_SWORD_DELIVER;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_SETUP_ANVIL = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_SETUP_ANVIL;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_SETUP_ENCHANTING = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_SETUP_ENCHANTING;
+    public static final ILangKey QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_SETUP_FURNACE = QuestCommonLangKey.QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_SETUP_FURNACE;
+    public static final ILangKey QUEST_CRAFT_POTION_BREWING_OBJECTIVES_BLAZE_POWDER_COLLECT = QuestCommonLangKey.QUEST_CRAFT_POTION_BREWING_OBJECTIVES_BLAZE_POWDER_COLLECT;
+    public static final ILangKey QUEST_CRAFT_POTION_BREWING_OBJECTIVES_DRAGON_BREATH_COLLECT = QuestCommonLangKey.QUEST_CRAFT_POTION_BREWING_OBJECTIVES_DRAGON_BREATH_COLLECT;
+    public static final ILangKey QUEST_CRAFT_POTION_BREWING_OBJECTIVES_FERMENTED_SPIDER_EYE_COLLECT = QuestCommonLangKey.QUEST_CRAFT_POTION_BREWING_OBJECTIVES_FERMENTED_SPIDER_EYE_COLLECT;
+    public static final ILangKey QUEST_CRAFT_POTION_BREWING_OBJECTIVES_MASTER_ALCHEMIST = QuestCommonLangKey.QUEST_CRAFT_POTION_BREWING_OBJECTIVES_MASTER_ALCHEMIST;
+    public static final ILangKey QUEST_CRAFT_POTION_BREWING_OBJECTIVES_NETHER_WART_COLLECT = QuestCommonLangKey.QUEST_CRAFT_POTION_BREWING_OBJECTIVES_NETHER_WART_COLLECT;
+    public static final ILangKey QUEST_CRAFT_POTION_BREWING_OBJECTIVES_PHANTOM_MEMBRANE_COLLECT = QuestCommonLangKey.QUEST_CRAFT_POTION_BREWING_OBJECTIVES_PHANTOM_MEMBRANE_COLLECT;
+    public static final ILangKey QUEST_CRAFT_POTION_BREWING_OBJECTIVES_POTION_COLLECT = QuestCommonLangKey.QUEST_CRAFT_POTION_BREWING_OBJECTIVES_POTION_COLLECT;
+    public static final ILangKey QUEST_CRAFT_POTION_BREWING_OBJECTIVES_POTION_CRAFT = QuestCommonLangKey.QUEST_CRAFT_POTION_BREWING_OBJECTIVES_POTION_CRAFT;
+    public static final ILangKey QUEST_CRAFT_POTION_BREWING_OBJECTIVES_POTION_DELIVER = QuestCommonLangKey.QUEST_CRAFT_POTION_BREWING_OBJECTIVES_POTION_DELIVER;
+    public static final ILangKey QUEST_DAILY_LIMIT_REACHED = MessageLangKey.QUEST_DAILY_LIMIT_REACHED;
+    public static final ILangKey QUEST_DETAIL_TITLE = QuestCommonLangKey.QUEST_DETAIL_TITLE;
+    public static final ILangKey QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_BREAK_ANCIENT_BLOCKS = QuestCommonLangKey.QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_BREAK_ANCIENT_BLOCKS;
+    public static final ILangKey QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_BRICK_COLLECT = QuestCommonLangKey.QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_BRICK_COLLECT;
+    public static final ILangKey QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_EXPLORE_DESERT_RUINS = QuestCommonLangKey.QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_EXPLORE_DESERT_RUINS;
+    public static final ILangKey QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_EXPLORE_UNDERGROUND_RUINS = QuestCommonLangKey.QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_EXPLORE_UNDERGROUND_RUINS;
+    public static final ILangKey QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_TALK_TO_ARCHAEOLOGIST = QuestCommonLangKey.QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_TALK_TO_ARCHAEOLOGIST;
+    public static final ILangKey QUEST_EXPLORE_LOST_CONTINENT_OBJECTIVES_BREAK_OCEAN_BLOCKS = QuestCommonLangKey.QUEST_EXPLORE_LOST_CONTINENT_OBJECTIVES_BREAK_OCEAN_BLOCKS;
+    public static final ILangKey QUEST_EXPLORE_LOST_CONTINENT_OBJECTIVES_BUILD_EXPEDITION_CAMP = QuestCommonLangKey.QUEST_EXPLORE_LOST_CONTINENT_OBJECTIVES_BUILD_EXPEDITION_CAMP;
+    public static final ILangKey QUEST_EXPLORE_LOST_CONTINENT_OBJECTIVES_DEFEAT_CONTINENT_GUARDIANS = QuestCommonLangKey.QUEST_EXPLORE_LOST_CONTINENT_OBJECTIVES_DEFEAT_CONTINENT_GUARDIANS;
+    public static final ILangKey QUEST_EXPLORE_LOST_CONTINENT_OBJECTIVES_EXPLORE_MYSTERIOUS_LANDS = QuestCommonLangKey.QUEST_EXPLORE_LOST_CONTINENT_OBJECTIVES_EXPLORE_MYSTERIOUS_LANDS;
+    public static final ILangKey QUEST_EXPLORE_LOST_CONTINENT_OBJECTIVES_PRISMARINE_CRYSTALS_COLLECT = QuestCommonLangKey.QUEST_EXPLORE_LOST_CONTINENT_OBJECTIVES_PRISMARINE_CRYSTALS_COLLECT;
+    public static final ILangKey QUEST_EXPLORE_SKY_ISLANDS_OBJECTIVES_AMETHYST_SHARD_COLLECT = QuestCommonLangKey.QUEST_EXPLORE_SKY_ISLANDS_OBJECTIVES_AMETHYST_SHARD_COLLECT;
+    public static final ILangKey QUEST_EXPLORE_SKY_ISLANDS_OBJECTIVES_BUILD_SKY_BRIDGE = QuestCommonLangKey.QUEST_EXPLORE_SKY_ISLANDS_OBJECTIVES_BUILD_SKY_BRIDGE;
+    public static final ILangKey QUEST_EXPLORE_SKY_ISLANDS_OBJECTIVES_DEFEAT_SKY_GUARDIANS = QuestCommonLangKey.QUEST_EXPLORE_SKY_ISLANDS_OBJECTIVES_DEFEAT_SKY_GUARDIANS;
+    public static final ILangKey QUEST_EXPLORE_SKY_ISLANDS_OBJECTIVES_EXPLORE_FLOATING_ISLANDS = QuestCommonLangKey.QUEST_EXPLORE_SKY_ISLANDS_OBJECTIVES_EXPLORE_FLOATING_ISLANDS;
+    public static final ILangKey QUEST_EXPLORE_SKY_ISLANDS_OBJECTIVES_REACH_SKY_HEIGHT = QuestCommonLangKey.QUEST_EXPLORE_SKY_ISLANDS_OBJECTIVES_REACH_SKY_HEIGHT;
+    public static final ILangKey QUEST_FAILED = QuestCommonLangKey.QUEST_FAILED;
+    public static final ILangKey QUEST_FILTER_ACTIVE = QuestCommonLangKey.QUEST_FILTER_ACTIVE;
+    public static final ILangKey QUEST_FILTER_ALL = QuestCommonLangKey.QUEST_FILTER_ALL;
+    public static final ILangKey QUEST_FILTER_COMPLETED = QuestCommonLangKey.QUEST_FILTER_COMPLETED;
+    public static final ILangKey QUEST_FILTER_MAIN = QuestCommonLangKey.QUEST_FILTER_MAIN;
+    public static final ILangKey QUEST_FILTER_SIDE = QuestCommonLangKey.QUEST_FILTER_SIDE;
+    public static final ILangKey QUEST_GO_TO_PAGE = QuestCommonLangKey.QUEST_GO_TO_PAGE;
+    public static final ILangKey QUEST_IN_PROGRESS = QuestCommonLangKey.QUEST_IN_PROGRESS;
+    public static final ILangKey QUEST_ITEM_REQUIREMENT = QuestCommonLangKey.QUEST_ITEM_REQUIREMENT;
+    public static final ILangKey QUEST_LEVEL_REQUIREMENT = QuestCommonLangKey.QUEST_LEVEL_REQUIREMENT;
+    public static final ILangKey QUEST_NEXT_PAGE = QuestCommonLangKey.QUEST_NEXT_PAGE;
+    public static final ILangKey QUEST_NOT_ACTIVE = MessageLangKey.QUEST_NOT_ACTIVE;
+    public static final ILangKey QUEST_NOT_FOUND = QuestCommonLangKey.QUEST_NOT_FOUND;
+    public static final ILangKey QUEST_NO_PERMISSION = QuestCommonLangKey.QUEST_NO_PERMISSION;
+    public static final ILangKey QUEST_OBJECTIVES_TITLE = QuestCommonLangKey.QUEST_OBJECTIVES_TITLE;
+    public static final ILangKey QUEST_OBJECTIVE_COMPLETE = QuestCommonLangKey.QUEST_OBJECTIVE_COMPLETE;
+    public static final ILangKey QUEST_OBJECTIVE_PROGRESS = MessageLangKey.QUEST_OBJECTIVE_PROGRESS;
+    public static final ILangKey QUEST_OVERALL_PROGRESS = QuestCommonLangKey.QUEST_OVERALL_PROGRESS;
+    public static final ILangKey QUEST_PREREQ_NOT_MET = QuestCommonLangKey.QUEST_PREREQ_NOT_MET;
+    public static final ILangKey QUEST_PREVIOUS_PAGE = QuestCommonLangKey.QUEST_PREVIOUS_PAGE;
+    public static final ILangKey QUEST_PROGRESS_TITLE = QuestCommonLangKey.QUEST_PROGRESS_TITLE;
+    public static final ILangKey QUEST_QUEST_REQUIREMENT = QuestCommonLangKey.QUEST_QUEST_REQUIREMENT;
+    public static final ILangKey QUEST_REQUIREMENTS_NOT_MET = MessageLangKey.QUEST_REQUIREMENTS_NOT_MET;
+    public static final ILangKey QUEST_REWARDS_RECEIVED = QuestCommonLangKey.QUEST_REWARDS_RECEIVED;
+    public static final ILangKey QUEST_REWARDS_TITLE = QuestCommonLangKey.QUEST_REWARDS_TITLE;
+    public static final ILangKey QUEST_REWARD_AVAILABLE = QuestCommonLangKey.QUEST_REWARD_AVAILABLE;
+    public static final ILangKey QUEST_REWARD_CLAIMED = MessageLangKey.QUEST_REWARD_CLAIMED;
+    public static final ILangKey QUEST_REWARD_INVENTORY_FULL = MessageLangKey.QUEST_REWARD_INVENTORY_FULL;
+    public static final ILangKey QUEST_STARTED = QuestCommonLangKey.QUEST_STARTED;
+    public static final ILangKey QUEST_START_SUCCESS = MessageLangKey.QUEST_START_SUCCESS;
+    public static final ILangKey QUEST_TOTAL_PROGRESS = QuestCommonLangKey.QUEST_TOTAL_PROGRESS;
+    public static final ILangKey QUEST_TUTORIAL_FIRST_STEPS_DESC = QuestCommonLangKey.QUEST_TUTORIAL_FIRST_STEPS_DESC;
+    public static final ILangKey QUEST_UNKNOWN_OBJECTIVE = QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE;
+    public static final ILangKey QUEST_WEEKLY_LIMIT_REACHED = MessageLangKey.QUEST_WEEKLY_LIMIT_REACHED;
+    public static final ILangKey RANK_APPRENTICE = SystemLangKey.RANK_APPRENTICE;
+    public static final ILangKey RANK_DIVINE = SystemLangKey.RANK_DIVINE;
+    public static final ILangKey RANK_ETERNAL = SystemLangKey.RANK_ETERNAL;
+    public static final ILangKey RANK_EXPERT = SystemLangKey.RANK_EXPERT;
+    public static final ILangKey RANK_GRANDMASTER = SystemLangKey.RANK_GRANDMASTER;
+    public static final ILangKey RANK_JOURNEYMAN = SystemLangKey.RANK_JOURNEYMAN;
+    public static final ILangKey RANK_LEGENDARY = SystemLangKey.RANK_LEGENDARY;
+    public static final ILangKey RANK_MASTER = SystemLangKey.RANK_MASTER;
+    public static final ILangKey RANK_MYTHIC = SystemLangKey.RANK_MYTHIC;
+    public static final ILangKey RANK_NOVICE = SystemLangKey.RANK_NOVICE;
+    public static final ILangKey RARITY_ANCIENT = SystemLangKey.RARITY_ANCIENT;
+    public static final ILangKey RARITY_ARTIFACT = SystemLangKey.RARITY_ARTIFACT;
+    public static final ILangKey RARITY_COMMON = SystemLangKey.RARITY_COMMON;
+    public static final ILangKey RARITY_DIVINE = SystemLangKey.RARITY_DIVINE;
+    public static final ILangKey RARITY_EPIC = SystemLangKey.RARITY_EPIC;
+    public static final ILangKey RARITY_LEGENDARY = SystemLangKey.RARITY_LEGENDARY;
+    public static final ILangKey RARITY_MYTHIC = SystemLangKey.RARITY_MYTHIC;
+    public static final ILangKey RARITY_RARE = SystemLangKey.RARITY_RARE;
+    public static final ILangKey RARITY_UNCOMMON = SystemLangKey.RARITY_UNCOMMON;
+    public static final ILangKey RARITY_UNIQUE = SystemLangKey.RARITY_UNIQUE;
+    public static final ILangKey SCOREBOARD_COMBAT_POWER = SystemLangKey.SCOREBOARD_COMBAT_POWER;
+    public static final ILangKey SCOREBOARD_DEATHS = SystemLangKey.SCOREBOARD_DEATHS;
+    public static final ILangKey SCOREBOARD_GOLD = SystemLangKey.SCOREBOARD_GOLD;
+    public static final ILangKey SCOREBOARD_GUILD = SystemLangKey.SCOREBOARD_GUILD;
+    public static final ILangKey SCOREBOARD_KDR = SystemLangKey.SCOREBOARD_KDR;
+    public static final ILangKey SCOREBOARD_KILLS = SystemLangKey.SCOREBOARD_KILLS;
+    public static final ILangKey SCOREBOARD_LEVEL = SystemLangKey.SCOREBOARD_LEVEL;
+    public static final ILangKey SCOREBOARD_LOCATION = SystemLangKey.SCOREBOARD_LOCATION;
+    public static final ILangKey SCOREBOARD_ONLINE = SystemLangKey.SCOREBOARD_ONLINE;
+    public static final ILangKey SCOREBOARD_PARTY = SystemLangKey.SCOREBOARD_PARTY;
+    public static final ILangKey SCOREBOARD_PLAYTIME = SystemLangKey.SCOREBOARD_PLAYTIME;
+    public static final ILangKey SCOREBOARD_QUEST = SystemLangKey.SCOREBOARD_QUEST;
+    public static final ILangKey SCOREBOARD_RANK = SystemLangKey.SCOREBOARD_RANK;
+    public static final ILangKey SCOREBOARD_TITLE = SystemLangKey.SCOREBOARD_TITLE;
+    public static final ILangKey SCUTE = GeneralLangKey.SCUTE;
+    public static final ILangKey SETTINGS_ANIMAL_SPAWN = SystemLangKey.SETTINGS_ANIMAL_SPAWN;
+    public static final ILangKey SETTINGS_CHAT = SystemLangKey.SETTINGS_CHAT;
+    public static final ILangKey SETTINGS_EXPLOSION = SystemLangKey.SETTINGS_EXPLOSION;
+    public static final ILangKey SETTINGS_FIRE_SPREAD = SystemLangKey.SETTINGS_FIRE_SPREAD;
+    public static final ILangKey SETTINGS_ITEM_DROP = SystemLangKey.SETTINGS_ITEM_DROP;
+    public static final ILangKey SETTINGS_ITEM_PICKUP = SystemLangKey.SETTINGS_ITEM_PICKUP;
+    public static final ILangKey SETTINGS_MOB_SPAWN = SystemLangKey.SETTINGS_MOB_SPAWN;
+    public static final ILangKey SETTINGS_MONSTER_SPAWN = SystemLangKey.SETTINGS_MONSTER_SPAWN;
+    public static final ILangKey SETTINGS_MUSIC = SystemLangKey.SETTINGS_MUSIC;
+    public static final ILangKey SETTINGS_PARTICLES = SystemLangKey.SETTINGS_PARTICLES;
+    public static final ILangKey SETTINGS_PERSONAL = GeneralLangKey.SETTINGS_PERSONAL;
+    public static final ILangKey SETTINGS_PVP = SystemLangKey.SETTINGS_PVP;
+    public static final ILangKey SETTINGS_SOUND = SystemLangKey.SETTINGS_SOUND;
+    public static final ILangKey SETTINGS_TIME = SystemLangKey.SETTINGS_TIME;
+    public static final ILangKey SETTINGS_TNT = SystemLangKey.SETTINGS_TNT;
+    public static final ILangKey SETTINGS_WEATHER = SystemLangKey.SETTINGS_WEATHER;
+    public static final ILangKey SHOP_CLOSED = MessageLangKey.SHOP_CLOSED;
+    public static final ILangKey SHOP_DISCOUNT_APPLIED = MessageLangKey.SHOP_DISCOUNT_APPLIED;
+    public static final ILangKey SHOP_INVENTORY_FULL = MessageLangKey.SHOP_INVENTORY_FULL;
+    public static final ILangKey SHOP_ITEM_NOT_FOUND = MessageLangKey.SHOP_ITEM_NOT_FOUND;
+    public static final ILangKey SHOP_ITEM_PURCHASED = MessageLangKey.SHOP_ITEM_PURCHASED;
+    public static final ILangKey SHOP_ITEM_SOLD = MessageLangKey.SHOP_ITEM_SOLD;
+    public static final ILangKey SHOP_NOT_ENOUGH_ITEMS = MessageLangKey.SHOP_NOT_ENOUGH_ITEMS;
+    public static final ILangKey SHOP_NOT_ENOUGH_MONEY = MessageLangKey.SHOP_NOT_ENOUGH_MONEY;
+    public static final ILangKey SKILL_CAST_FAIL = SystemLangKey.SKILL_CAST_FAIL;
+    public static final ILangKey SKILL_CAST_SUCCESS = SystemLangKey.SKILL_CAST_SUCCESS;
+    public static final ILangKey SKILL_NO_MANA = SystemLangKey.SKILL_NO_MANA;
+    public static final ILangKey SKILL_NO_TARGET = SystemLangKey.SKILL_NO_TARGET;
+    public static final ILangKey SKILL_ON_COOLDOWN = SystemLangKey.SKILL_ON_COOLDOWN;
+    public static final ILangKey SKILL_OUT_OF_RANGE = SystemLangKey.SKILL_OUT_OF_RANGE;
+    public static final ILangKey STATUS_ACTIVE = SystemLangKey.STATUS_ACTIVE;
+    public static final ILangKey STATUS_FALSE = SystemLangKey.STATUS_FALSE;
+    public static final ILangKey STATUS_MUTED = SystemLangKey.STATUS_MUTED;
+    public static final ILangKey STATUS_NEW_MAIL = GeneralLangKey.STATUS_NEW_MAIL;
+    public static final ILangKey STATUS_PRIVATE = SystemLangKey.STATUS_PRIVATE;
+    public static final ILangKey STATUS_PUBLIC = SystemLangKey.STATUS_PUBLIC;
+    public static final ILangKey STATUS_READ = GeneralLangKey.STATUS_READ;
+    public static final ILangKey STATUS_TRUE = SystemLangKey.STATUS_TRUE;
+    public static final ILangKey STAT_ACCURACY = SystemLangKey.STAT_ACCURACY;
+    public static final ILangKey STAT_ACCURACY_TOOLTIP = SystemLangKey.STAT_ACCURACY_TOOLTIP;
+    public static final ILangKey STAT_CRITICAL = SystemLangKey.STAT_CRITICAL;
+    public static final ILangKey STAT_CRITICAL_TOOLTIP = SystemLangKey.STAT_CRITICAL_TOOLTIP;
+    public static final ILangKey STAT_DEFENSE = SystemLangKey.STAT_DEFENSE;
+    public static final ILangKey STAT_DEFENSE_TOOLTIP = SystemLangKey.STAT_DEFENSE_TOOLTIP;
+    public static final ILangKey STAT_EVASION = SystemLangKey.STAT_EVASION;
+    public static final ILangKey STAT_EVASION_TOOLTIP = SystemLangKey.STAT_EVASION_TOOLTIP;
+    public static final ILangKey STAT_HEALTH = SystemLangKey.STAT_HEALTH;
+    public static final ILangKey STAT_HEALTH_TOOLTIP = SystemLangKey.STAT_HEALTH_TOOLTIP;
+    public static final ILangKey STAT_INTELLIGENCE = SystemLangKey.STAT_INTELLIGENCE;
+    public static final ILangKey STAT_INTELLIGENCE_TOOLTIP = SystemLangKey.STAT_INTELLIGENCE_TOOLTIP;
+    public static final ILangKey STAT_LUCK = SystemLangKey.STAT_LUCK;
+    public static final ILangKey STAT_LUCK_TOOLTIP = SystemLangKey.STAT_LUCK_TOOLTIP;
+    public static final ILangKey STAT_MANA = SystemLangKey.STAT_MANA;
+    public static final ILangKey STAT_MANA_TOOLTIP = SystemLangKey.STAT_MANA_TOOLTIP;
+    public static final ILangKey STAT_SPEED = SystemLangKey.STAT_SPEED;
+    public static final ILangKey STAT_SPEED_TOOLTIP = SystemLangKey.STAT_SPEED_TOOLTIP;
+    public static final ILangKey STAT_STAMINA = SystemLangKey.STAT_STAMINA;
+    public static final ILangKey STAT_STAMINA_TOOLTIP = SystemLangKey.STAT_STAMINA_TOOLTIP;
+    public static final ILangKey STAT_STRENGTH = SystemLangKey.STAT_STRENGTH;
+    public static final ILangKey STAT_STRENGTH_TOOLTIP = SystemLangKey.STAT_STRENGTH_TOOLTIP;
+    public static final ILangKey TALENT_ARCHER_EVASION = SystemLangKey.TALENT_ARCHER_EVASION;
+    public static final ILangKey TALENT_ARCHER_EXPLOSIVE_ARROW = SystemLangKey.TALENT_ARCHER_EXPLOSIVE_ARROW;
+    public static final ILangKey TALENT_ARCHER_HUNTERS_MARK = SystemLangKey.TALENT_ARCHER_HUNTERS_MARK;
+    public static final ILangKey TALENT_ARCHER_MULTI_SHOT = SystemLangKey.TALENT_ARCHER_MULTI_SHOT;
+    public static final ILangKey TALENT_ARCHER_PRECISE_SHOT = SystemLangKey.TALENT_ARCHER_PRECISE_SHOT;
+    public static final ILangKey TALENT_MAGE_ARCANE_MISSILES = SystemLangKey.TALENT_MAGE_ARCANE_MISSILES;
+    public static final ILangKey TALENT_MAGE_FIREBALL = SystemLangKey.TALENT_MAGE_FIREBALL;
+    public static final ILangKey TALENT_MAGE_FROST_BOLT = SystemLangKey.TALENT_MAGE_FROST_BOLT;
+    public static final ILangKey TALENT_MAGE_MANA_SHIELD = SystemLangKey.TALENT_MAGE_MANA_SHIELD;
+    public static final ILangKey TALENT_MAGE_TELEPORT = SystemLangKey.TALENT_MAGE_TELEPORT;
+    public static final ILangKey TALENT_PRIEST_BLESSING = SystemLangKey.TALENT_PRIEST_BLESSING;
+    public static final ILangKey TALENT_PRIEST_DIVINE_SHIELD = SystemLangKey.TALENT_PRIEST_DIVINE_SHIELD;
+    public static final ILangKey TALENT_PRIEST_HEAL = SystemLangKey.TALENT_PRIEST_HEAL;
+    public static final ILangKey TALENT_PRIEST_HOLY_LIGHT = SystemLangKey.TALENT_PRIEST_HOLY_LIGHT;
+    public static final ILangKey TALENT_PRIEST_RESURRECTION = SystemLangKey.TALENT_PRIEST_RESURRECTION;
+    public static final ILangKey TALENT_ROGUE_BACKSTAB = SystemLangKey.TALENT_ROGUE_BACKSTAB;
+    public static final ILangKey TALENT_ROGUE_POISON_BLADE = SystemLangKey.TALENT_ROGUE_POISON_BLADE;
+    public static final ILangKey TALENT_ROGUE_SHADOW_STEP = SystemLangKey.TALENT_ROGUE_SHADOW_STEP;
+    public static final ILangKey TALENT_ROGUE_SMOKE_BOMB = SystemLangKey.TALENT_ROGUE_SMOKE_BOMB;
+    public static final ILangKey TALENT_ROGUE_STEALTH = SystemLangKey.TALENT_ROGUE_STEALTH;
+    public static final ILangKey TALENT_WARRIOR_BERSERKER_RAGE = SystemLangKey.TALENT_WARRIOR_BERSERKER_RAGE;
+    public static final ILangKey TALENT_WARRIOR_DEFENSIVE_STANCE = SystemLangKey.TALENT_WARRIOR_DEFENSIVE_STANCE;
+    public static final ILangKey TALENT_WARRIOR_SHIELD_BASH = SystemLangKey.TALENT_WARRIOR_SHIELD_BASH;
+    public static final ILangKey TALENT_WARRIOR_SWORD_MASTERY = SystemLangKey.TALENT_WARRIOR_SWORD_MASTERY;
+    public static final ILangKey TALENT_WARRIOR_WHIRLWIND = SystemLangKey.TALENT_WARRIOR_WHIRLWIND;
+    public static final ILangKey TELEPORT_ACCEPTED = MessageLangKey.TELEPORT_ACCEPTED;
+    public static final ILangKey TELEPORT_CANCELLED = MessageLangKey.TELEPORT_CANCELLED;
+    public static final ILangKey TELEPORT_COOLDOWN = MessageLangKey.TELEPORT_COOLDOWN;
+    public static final ILangKey TELEPORT_DENIED = MessageLangKey.TELEPORT_DENIED;
+    public static final ILangKey TELEPORT_EXPIRED = MessageLangKey.TELEPORT_EXPIRED;
+    public static final ILangKey TELEPORT_FAILED = MessageLangKey.TELEPORT_FAILED;
+    public static final ILangKey TELEPORT_IN_COMBAT = MessageLangKey.TELEPORT_IN_COMBAT;
+    public static final ILangKey TELEPORT_REQUEST_RECEIVED = MessageLangKey.TELEPORT_REQUEST_RECEIVED;
+    public static final ILangKey TELEPORT_REQUEST_SENT = MessageLangKey.TELEPORT_REQUEST_SENT;
+    public static final ILangKey TELEPORT_SUCCESS = MessageLangKey.TELEPORT_SUCCESS;
+    public static final ILangKey TITLE_ACHIEVEMENT_UNLOCKED = SystemLangKey.TITLE_ACHIEVEMENT_UNLOCKED;
+    public static final ILangKey TITLE_BOSS_DEFEATED = SystemLangKey.TITLE_BOSS_DEFEATED;
+    public static final ILangKey TITLE_BOSS_SPAWN = SystemLangKey.TITLE_BOSS_SPAWN;
+    public static final ILangKey TITLE_DEATH = SystemLangKey.TITLE_DEATH;
+    public static final ILangKey TITLE_DEFEAT = SystemLangKey.TITLE_DEFEAT;
+    public static final ILangKey TITLE_LEVEL_UP = SystemLangKey.TITLE_LEVEL_UP;
+    public static final ILangKey TITLE_QUEST_COMPLETE = SystemLangKey.TITLE_QUEST_COMPLETE;
+    public static final ILangKey TITLE_RESPAWN = SystemLangKey.TITLE_RESPAWN;
+    public static final ILangKey TITLE_VICTORY = SystemLangKey.TITLE_VICTORY;
+    public static final ILangKey TITLE_WAVE_COMPLETE = SystemLangKey.TITLE_WAVE_COMPLETE;
+    public static final ILangKey TITLE_WAVE_START = SystemLangKey.TITLE_WAVE_START;
+    public static final ILangKey TITLE_WELCOME = SystemLangKey.TITLE_WELCOME;
+    public static final ILangKey TRADE_ACCEPTED = MessageLangKey.TRADE_ACCEPTED;
+    public static final ILangKey TRADE_CANCELLED = MessageLangKey.TRADE_CANCELLED;
+    public static final ILangKey TRADE_COMPLETED = MessageLangKey.TRADE_COMPLETED;
+    public static final ILangKey TRADE_CONFIRMED = MessageLangKey.TRADE_CONFIRMED;
+    public static final ILangKey TRADE_ITEM_ADDED = MessageLangKey.TRADE_ITEM_ADDED;
+    public static final ILangKey TRADE_ITEM_REMOVED = MessageLangKey.TRADE_ITEM_REMOVED;
+    public static final ILangKey TRADE_MONEY_ADDED = MessageLangKey.TRADE_MONEY_ADDED;
+    public static final ILangKey TRADE_NOT_ENOUGH_MONEY = MessageLangKey.TRADE_NOT_ENOUGH_MONEY;
+    public static final ILangKey TRADE_NOT_ENOUGH_SPACE = MessageLangKey.TRADE_NOT_ENOUGH_SPACE;
+    public static final ILangKey TRADE_REQUEST_RECEIVED = MessageLangKey.TRADE_REQUEST_RECEIVED;
+    public static final ILangKey TRADE_REQUEST_SENT = MessageLangKey.TRADE_REQUEST_SENT;
+    public static final ILangKey TRADE_UNCONFIRMED = MessageLangKey.TRADE_UNCONFIRMED;
+    public static final ILangKey UNIT_BLOCKS = GeneralLangKey.UNIT_BLOCKS;
+    public static final ILangKey UNIT_PLAYERS = GeneralLangKey.UNIT_PLAYERS;
+    public static final ILangKey WARZONE_CAPTURE = SystemLangKey.WARZONE_CAPTURE;
+    public static final ILangKey WARZONE_DEATH = SystemLangKey.WARZONE_DEATH;
+    public static final ILangKey WARZONE_ENTERED = SystemLangKey.WARZONE_ENTERED;
+    public static final ILangKey WARZONE_KILL = SystemLangKey.WARZONE_KILL;
+    public static final ILangKey WARZONE_LEFT = SystemLangKey.WARZONE_LEFT;
+    public static final ILangKey WHISPER_DISABLED = MessageLangKey.WHISPER_DISABLED;
+    public static final ILangKey WHISPER_IGNORED = MessageLangKey.WHISPER_IGNORED;
+    public static final ILangKey WHISPER_MODE_ALL = MessageLangKey.WHISPER_MODE_ALL;
+    public static final ILangKey WHISPER_MODE_FRIENDS = MessageLangKey.WHISPER_MODE_FRIENDS;
+    public static final ILangKey WHISPER_MODE_GUILD = MessageLangKey.WHISPER_MODE_GUILD;
+    public static final ILangKey WHISPER_MODE_OFF = MessageLangKey.WHISPER_MODE_OFF;
+    public static final ILangKey WHISPER_PLAYER_NOT_FOUND = MessageLangKey.WHISPER_PLAYER_NOT_FOUND;
+    public static final ILangKey WHISPER_PLAYER_OFFLINE = MessageLangKey.WHISPER_PLAYER_OFFLINE;
+    public static final ILangKey WHISPER_RECEIVED = MessageLangKey.WHISPER_RECEIVED;
+    public static final ILangKey WHISPER_SENT = MessageLangKey.WHISPER_SENT;
+    public static final ILangKey WORLD_ARENA = SystemLangKey.WORLD_ARENA;
+    public static final ILangKey WORLD_BATTLEGROUND = SystemLangKey.WORLD_BATTLEGROUND;
+    public static final ILangKey WORLD_CASTLE = SystemLangKey.WORLD_CASTLE;
+    public static final ILangKey WORLD_CITY = SystemLangKey.WORLD_CITY;
+    public static final ILangKey WORLD_DUNGEON = SystemLangKey.WORLD_DUNGEON;
+    public static final ILangKey WORLD_FORTRESS = SystemLangKey.WORLD_FORTRESS;
+    public static final ILangKey WORLD_HUB = SystemLangKey.WORLD_HUB;
+    public static final ILangKey WORLD_LOBBY = SystemLangKey.WORLD_LOBBY;
+    public static final ILangKey WORLD_OUTPOST = SystemLangKey.WORLD_OUTPOST;
+    public static final ILangKey WORLD_RAID = SystemLangKey.WORLD_RAID;
+    public static final ILangKey WORLD_RUINS = SystemLangKey.WORLD_RUINS;
+    public static final ILangKey WORLD_SPAWN = SystemLangKey.WORLD_SPAWN;
+    public static final ILangKey WORLD_TEMPLE = SystemLangKey.WORLD_TEMPLE;
+    public static final ILangKey WORLD_VILLAGE = SystemLangKey.WORLD_VILLAGE;
+    public static final ILangKey WORLD_WILDERNESS = SystemLangKey.WORLD_WILDERNESS;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_FINAL_CONFIRM_WARNING = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_FINAL_CONFIRM_WARNING;
+    public static final ILangKey GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_ITEMS = GuiLangKey.GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_ITEMS;
+    public static final ILangKey GUI_JOB_CONFIRMATION_INFO_LINE = GuiLangKey.GUI_JOB_CONFIRMATION_INFO_LINE;
+    public static final ILangKey ISLAND_GUI_MAIN_CREATE_ISLAND_FEATURE_ = GuiLangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_FEATURE_;
+    public static final ILangKey ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_EXAMPLE = GuiLangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_EXAMPLE;
+    public static final ILangKey QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_DIAMOND_SWORD_DELIVER = QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_DIAMOND_SWORD_DELIVER;
+    public static final ILangKey QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_ENDURANCE_TEST = QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_ENDURANCE_TEST;
+    public static final ILangKey QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_FINAL_TRIAL = QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_FINAL_TRIAL;
+    public static final ILangKey QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_IRON_INGOT_COLLECT = QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_IRON_INGOT_COLLECT;
+    public static final ILangKey QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_COMBAT = QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_COMBAT;
+    public static final ILangKey QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_PVP = QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_PVP;
+    public static final ILangKey QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_LEVEL = QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_LEVEL;
+    public static final ILangKey QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_MASTER = QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_MASTER;
+    public static final ILangKey QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_DIAMOND_CHESTPLATE_CRAFT = QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_DIAMOND_CHESTPLATE_CRAFT;
+    public static final ILangKey QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_DIAMOND_SWORD_CRAFT = QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_DIAMOND_SWORD_CRAFT;
+    public static final ILangKey QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_COCOA_BEANS_COLLECT = QuestCommonLangKey.QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_COCOA_BEANS_COLLECT;
+    public static final ILangKey QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_DECORATE_VILLAGE = QuestCommonLangKey.QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_DECORATE_VILLAGE;
+    public static final ILangKey QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_GHOST_FOREST = QuestCommonLangKey.QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_GHOST_FOREST;
+    public static final ILangKey QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_HARVEST_PUMPKINS = QuestCommonLangKey.QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_HARVEST_PUMPKINS;
+    public static final ILangKey QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_HAUNTED_VILLAGE = QuestCommonLangKey.QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_HAUNTED_VILLAGE;
+    public static final ILangKey QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_HONEY_BOTTLE_COLLECT = QuestCommonLangKey.QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_HONEY_BOTTLE_COLLECT;
+    public static final ILangKey QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_PUMPKIN_COLLECT = QuestCommonLangKey.QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_PUMPKIN_COLLECT;
+    public static final ILangKey QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_PUMPKIN_KING = QuestCommonLangKey.QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_PUMPKIN_KING;
+    public static final ILangKey QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_SUGAR_COLLECT = QuestCommonLangKey.QUEST_SEASON_HALLOWEEN_NIGHT_OBJECTIVES_SUGAR_COLLECT;
 }

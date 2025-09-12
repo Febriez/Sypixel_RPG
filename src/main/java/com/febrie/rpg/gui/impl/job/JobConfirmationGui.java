@@ -83,7 +83,7 @@ public class JobConfirmationGui extends BaseGui {
         // 중앙에 직업 정보 표시
         ItemBuilder builder = ItemBuilder.of(selectedJob.getMaterial())
                 .displayName(Component.text(selectedJob.getIcon() + " ")
-                        .append(LangManager.text(LangKey.valueOf("JOB_" + jobKey.toUpperCase() + "_NAME"), viewer))
+                        .append(LangManager.text(LangKey.fromString("JOB_" + jobKey.toUpperCase() + "_NAME"), viewer))
                         .color(selectedJob.getColor())
                         .decoration(TextDecoration.BOLD, true))
                 .addLore(Component.empty())
@@ -91,7 +91,7 @@ public class JobConfirmationGui extends BaseGui {
                 .addLore(Component.empty());
 
         // 직업 설명
-        List<Component> description = LangManager.list(LangKey.valueOf("JOB_" + jobKey.toUpperCase() + "_DESCRIPTION"), viewer);
+        List<Component> description = LangManager.list(LangKey.fromString("JOB_" + jobKey.toUpperCase() + "_DESCRIPTION"), viewer);
         for (Component line : description) {
             builder.addLore(line);
         }
@@ -158,9 +158,7 @@ public class JobConfirmationGui extends BaseGui {
         GuiItem infoItem = GuiItem.display(
                 ItemBuilder.of(Material.BOOK)
                         .displayName(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_INFO_TITLE, viewer))
-                        .addLore(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_INFO_LINE1, viewer))
-                        .addLore(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_INFO_LINE2, viewer))
-                        .addLore(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_INFO_LINE3, viewer))
+                        .addLore(LangManager.list(LangKey.GUI_JOB_CONFIRMATION_INFO_LINE, getViewerLocale()))
                         .build()
         );
         setItem(22, infoItem);
@@ -171,7 +169,7 @@ public class JobConfirmationGui extends BaseGui {
      */
     private void handleConfirm() {
         if (rpgPlayer.setJob(selectedJob)) {
-            Component jobName = LangManager.text(LangKey.valueOf("JOB_" + selectedJob.name().toUpperCase() + "_NAME"), viewer);
+            Component jobName = LangManager.text(LangKey.fromString("JOB_" + selectedJob.name().toUpperCase() + "_NAME"), viewer);
 
             // 성공 메시지
             viewer.sendMessage(LangManager.text(LangKey.GUI_JOB_CONFIRMATION_SUCCESS, viewer, jobName));

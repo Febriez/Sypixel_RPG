@@ -1,0 +1,13 @@
+{
+  "objectives": {
+    "brewing.blaze_powder_collect": "Blaze Powder Collect",
+    "brewing.dragon_breath_collect": "Dragon Breath Collect",
+    "brewing.fermented_spider_eye_collect": "Fermented Spider Eye Collect",
+    "brewing.master_alchemist": "Master Alchemist",
+    "brewing.nether_wart_collect": "Nether Wart Collect",
+    "brewing.phantom_membrane_collect": "Phantom Membrane Collect",
+    "brewing.potion_collect": "Potion Collect",
+    "brewing.potion_craft": "Potion Craft",
+    "brewing.potion_deliver": "Potion Deliver"
+  }
+}

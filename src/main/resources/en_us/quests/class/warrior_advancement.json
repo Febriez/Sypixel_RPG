@@ -1,0 +1,19 @@
+{
+  "objectives": {
+    "diamond_sword_deliver": "Diamond Sword Deliver",
+    "endurance_test": "Endurance Test",
+    "final_trial": "Final Trial",
+    "iron_ingot_collect": "Iron Ingot Collect",
+    "prove_combat": "Prove Combat",
+    "prove_pvp": "Prove Pvp",
+    "warrior_level": "Warrior Level",
+    "warrior_master": "Warrior Master",
+    "diamond_chestplate_craft": "Diamond Chestplate Craft",
+    "diamond_sword_craft": "Diamond Sword Craft",
+    "combat_mastery": "Combat Mastery",
+    "tactical_training": "Tactical Training",
+    "warrior_general": "Warrior General",
+    "warrior_honor": "Warrior Honor",
+    "weapon_expertise": "Weapon Expertise"
+  }
+}

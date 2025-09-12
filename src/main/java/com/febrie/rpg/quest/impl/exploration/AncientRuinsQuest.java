@@ -18,6 +18,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +45,11 @@ public class AncientRuinsQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.EXPLORE_ANCIENT_RUINS)
                 .objectives(List.of(
-                        new VisitLocationObjective("explore_desert_ruins", "desert_ruins", 1),
+                        new VisitLocationObjective("explore_desert_ruins", "desert_ruins"),
                         new BreakBlockObjective("break_ancient_blocks", Material.SANDSTONE, 50),
-                        new CollectItemObjective("collect_artifacts", Material.POTTERY_SHERD, 12),
-                        new InteractNPCObjective("talk_to_archaeologist", "archaeologist", 1),
-                        new VisitLocationObjective("explore_underground_ruins", "underground_ruins", 2)
+                        new CollectItemObjective("brick_collect", Material.BRICK, 12),
+                        new InteractNPCObjective("talk_to_archaeologist", "archaeologist"),
+                        new VisitLocationObjective("explore_underground_ruins", "underground_ruins")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 400)
@@ -64,26 +65,26 @@ public class AncientRuinsQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_EXPLORATION_ANCIENT_RUINS_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_EXPLORATION_ANCIENT_RUINS_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_EXPLORATION_ANCIENT_RUINS_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_EXPLORATION_ANCIENT_RUINS_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "explore_desert_ruins" -> LangManager.list(LangKey.QUEST_EXPLORATION_ANCIENT_RUINS_OBJECTIVES_EXPLORE_DESERT_RUINS, who);
-            case "break_ancient_blocks" -> LangManager.list(LangKey.QUEST_EXPLORATION_ANCIENT_RUINS_OBJECTIVES_BREAK_ANCIENT_BLOCKS, who);
-            case "collect_artifacts" -> LangManager.list(LangKey.QUEST_EXPLORATION_ANCIENT_RUINS_OBJECTIVES_COLLECT_ARTIFACTS, who);
-            case "talk_to_archaeologist" -> LangManager.list(LangKey.QUEST_EXPLORATION_ANCIENT_RUINS_OBJECTIVES_TALK_TO_ARCHAEOLOGIST, who);
-            case "explore_underground_ruins" -> LangManager.list(LangKey.QUEST_EXPLORATION_ANCIENT_RUINS_OBJECTIVES_EXPLORE_UNDERGROUND_RUINS, who);
-            default -> new ArrayList<>();
+            case "explore_desert_ruins" -> LangManager.text(QuestCommonLangKey.QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_EXPLORE_DESERT_RUINS, who);
+            case "break_ancient_blocks" -> LangManager.text(QuestCommonLangKey.QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_BREAK_ANCIENT_BLOCKS, who);
+            case "brick_collect" -> LangManager.text(QuestCommonLangKey.QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_BRICK_COLLECT, who);
+            case "talk_to_archaeologist" -> LangManager.text(QuestCommonLangKey.QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_TALK_TO_ARCHAEOLOGIST, who);
+            case "explore_underground_ruins" -> LangManager.text(QuestCommonLangKey.QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_EXPLORE_UNDERGROUND_RUINS, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 4;
@@ -91,7 +92,7 @@ public class AncientRuinsQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_EXPLORATION_ANCIENT_RUINS_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_EXPLORATION_ANCIENT_RUINS_DIALOGS, who);
     }
     
     @Override
@@ -101,16 +102,16 @@ public class AncientRuinsQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_EXPLORATION_ANCIENT_RUINS_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_EXPLORATION_ANCIENT_RUINS_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_EXPLORATION_ANCIENT_RUINS_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_EXPLORATION_ANCIENT_RUINS_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_EXPLORATION_ANCIENT_RUINS_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_EXPLORATION_ANCIENT_RUINS_DECLINE, who);
     }
 }

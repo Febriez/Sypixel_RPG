@@ -4,28 +4,37 @@
   "npc_name": "Curse Scholar",
   "accept": "I believe I can succeed where others have failed.",
   "decline": "This curse seems too powerful for me to break.",
-  "objectives": [
-    {
-      "id": "investigate_curse_plague",
-      "description": "Investigate how the curse spreads across the land"
-    },
-    {
-      "id": "learn_from_failures",
-      "description": "Study why many others have failed to break the curse"
-    },
-    {
-      "id": "resist_curse_backlash",
-      "description": "Withstand the curse's resistance to your efforts"
-    },
-    {
-      "id": "locate_curse_source",
-      "description": "Track down and locate the source of the curse"
-    },
-    {
-      "id": "break_eternal_curse",
-      "description": "Successfully break the eternal curse and free the land"
-    }
-  ],
+  "objectives": {
+    "curse_investigator": "Talk to the Dark Scholar to investigate the curse",
+    "cursed_ruins": "Visit the forbidden ruins to understand the curse",
+    "curse_evidence": "Collect 5 written books as curse evidence",
+    "holy_water": "Collect 10 water buckets of holy water",
+    "purification_salt": "Collect 64 sugar as purification salt",
+    "blessed_candles": "Collect 20 blessed candles",
+    "sacred_herbs": "Collect 50 sweet berries as sacred herbs",
+    "purify_zombies": "Purify 30 zombies",
+    "purify_skeletons": "Purify 25 skeletons",
+    "purify_phantoms": "Purify 15 phantoms",
+    "corrupted_essence": "Collect 40 rotten flesh as corrupted essence",
+    "cursed_items": "Collect 8 cursed iron swords",
+    "cleanse_weapons": "Craft 3 diamond swords to cleanse weapons",
+    "cleanse_armor": "Craft 2 diamond chestplates to cleanse armor",
+    "holy_symbols": "Craft 15 gold ingots as holy symbols",
+    "dark_altar": "Visit the curse altar",
+    "destroy_altar": "Break 20 obsidian blocks to destroy the altar",
+    "altar_guardians": "Kill 10 wither skeletons guarding the altar",
+    "dark_crystals": "Collect 25 amethyst shards as dark crystals",
+    "purification_circle": "Place 25 white concrete blocks to create purification circle",
+    "ritual_candles": "Place 13 candles for the ritual",
+    "holy_blessing": "Collect 5 splash potions as holy blessing",
+    "purification_ritual": "Perform purification ritual with the ritual master",
+    "curse_source": "Visit the shadow dimension to find curse source",
+    "curse_master": "Kill 1 evoker as the curse master",
+    "curse_core": "Collect 1 nether star as the curse core",
+    "destroy_curse_core": "Destroy the curse core at its source",
+    "purification_complete": "Complete purification with the holy priest",
+    "blessing_received": "Receive the final blessing"
+  },
   "dialogs": [
     "The curse spreads like a plague across the land.",
     "Many have tried to break it, all have failed.",

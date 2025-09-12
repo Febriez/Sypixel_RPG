@@ -8,6 +8,7 @@ import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.lang.ILangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -104,8 +105,7 @@ public class IslandBiomeSelectionGui extends BaseGui {
             ItemBuilder.of(Material.FILLED_MAP)
                 .displayName(LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_INFO_TITLE, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_INFO_LORE1, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_INFO_LORE2, getViewerLocale()))
+                .addLore(LangManager.list(LangKey.GUI_ISLAND_BIOME_SELECTION_INFO_LORE, getViewerLocale()))
                 .addLore(Component.empty())
                 .hideAllFlags()
                 .build()
@@ -172,6 +172,6 @@ public class IslandBiomeSelectionGui extends BaseGui {
     /**
      * 바이옴 옵션 레코드
      */
-    private record BiomeOption(String id, LangKey nameKey, LangKey descriptionKey, Material icon) {}
+    private record BiomeOption(String id, ILangKey nameKey, ILangKey descriptionKey, Material icon) {}
     
 }

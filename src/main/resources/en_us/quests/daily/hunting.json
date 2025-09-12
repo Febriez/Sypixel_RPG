@@ -4,7 +4,11 @@
   "objectives": {
     "kill_zombies": "Eliminate 20 zombies",
     "kill_skeletons": "Eliminate 15 skeletons",
-    "kill_creepers": "Eliminate 10 creepers"
+    "kill_creepers": "Eliminate 10 creepers",
+    "beef_collect": "Beef Collect",
+    "hunt_animals": "Hunt Animals",
+    "hunt_hostile": "Hunt Hostile",
+    "hunter": "Hunter"
   },
   "dialogs": [
     "The monsters are getting bolder. We need hunters like you.",

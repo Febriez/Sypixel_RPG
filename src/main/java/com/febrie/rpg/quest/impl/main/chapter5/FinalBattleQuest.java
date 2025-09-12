@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
@@ -18,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,15 +43,15 @@ public class FinalBattleQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.MAIN_FINAL_BATTLE)
                 .objectives(List.of(
-                        new InteractNPCObjective("chosen_champion", "chosen_champion", 1),
+                        new InteractNPCObjective("chosen_champion", "chosen_champion"),
                         new VisitLocationObjective("battlefield_gates", "battlefield_gates_area"),
                         new KillMobObjective("kill_withers", EntityType.WITHER, 3),
-                        new CollectItemObjective("heart_of_darkness", Material.WITHER_SKELETON_SKULL, 5),
+                        new CollectItemObjective("wither_skeleton_skull_collect", Material.WITHER_SKELETON_SKULL, 5),
                         new KillMobObjective("kill_ender_dragon", EntityType.ENDER_DRAGON, 1),
-                        new CollectItemObjective("dragon_essence", Material.DRAGON_EGG, 1),
+                        new CollectItemObjective("dragon_egg_collect", Material.DRAGON_EGG, 1),
                         new VisitLocationObjective("void_nexus", "void_nexus_area"),
                         new KillMobObjective("kill_endermen", EntityType.ENDERMAN, 50),
-                        new InteractNPCObjective("ancient_oracle", "ancient_oracle", 1)
+                        new InteractNPCObjective("ancient_oracle", "ancient_oracle")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 10000)
@@ -68,30 +68,30 @@ public class FinalBattleQuest extends Quest {
     
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_FINAL_BATTLE_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_NAME, who);
     }
     
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_INFO, who);
     }
     
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "chosen_champion" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_CHOSEN_CHAMPION, who);
-            case "battlefield_gates" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_BATTLEFIELD_GATES, who);
-            case "kill_withers" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_KILL_WITHERS, who);
-            case "heart_of_darkness" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_HEART_OF_DARKNESS, who);
-            case "kill_ender_dragon" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_KILL_ENDER_DRAGON, who);
-            case "dragon_essence" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_DRAGON_ESSENCE, who);
-            case "void_nexus" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_VOID_NEXUS, who);
-            case "kill_endermen" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_KILL_ENDERMEN, who);
-            case "ancient_oracle" -> LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_ANCIENT_ORACLE, who);
-            default -> List.of(Component.text("Objective: " + objective.getId()));
+            case "chosen_champion" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_CHOSEN_CHAMPION, who);
+            case "battlefield_gates" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_BATTLEFIELD_GATES, who);
+            case "kill_withers" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_KILL_WITHERS, who);
+            case "wither_skeleton_skull_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_WITHER_SKELETON_SKULL_COLLECT, who);
+            case "kill_ender_dragon" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_KILL_ENDER_DRAGON, who);
+            case "dragon_egg_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_DRAGON_EGG_COLLECT, who);
+            case "void_nexus" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_VOID_NEXUS, who);
+            case "kill_endermen" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_KILL_ENDERMEN, who);
+            case "ancient_oracle" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_OBJECTIVES_ANCIENT_ORACLE, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 5;
@@ -99,7 +99,7 @@ public class FinalBattleQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_FINAL_BATTLE_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_DIALOGS, who);
     }
     
     @Override
@@ -109,16 +109,16 @@ public class FinalBattleQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_FINAL_BATTLE_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_FINAL_BATTLE_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_FINAL_BATTLE_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_FINAL_BATTLE_DECLINE, who);
     }
 }

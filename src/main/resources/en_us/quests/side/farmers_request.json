@@ -2,11 +2,13 @@
   "name": "Farmer's Plight",
   "info": "Help the farmer protect his crops from pests.",
   "objectives": {
-    "farmer": "Talk to the farmer",
-    "wheat_field": "Visit the wheat field",
-    "harvest_wheat": "Harvest 50 wheat",
-    "kill_rabbits": "Chase away 10 rabbits",
-    "deliver_wheat": "Deliver the wheat"
+    "talk_worried_farmer": "Talk to the worried farmer",
+    "visit_damaged_farmland": "Visit the damaged farmland",
+    "kill_rabbits": "Kill 15 rabbits",
+    "collect_fresh_seeds": "Collect 32 fresh seeds",
+    "collect_bone_meal": "Collect 16 bone meal",
+    "visit_irrigation_canal": "Visit the irrigation canal",
+    "return_worried_farmer": "Return to the worried farmer"
   },
   "dialogs": [
     "My crops! They're being destroyed by giant rats!",

@@ -1,127 +1,178 @@
 {
   "categories": {
-    "warrior": "Warrior",
-    "mage": "Mage",
-    "archer": "Archer",
+    "warrior": "ウォリアー",
+    "mage": "メイジ",
+    "archer": "アーチャー",
     "warrior_full": {
-      "name": "Warrior",
+      "name": "ウォリアー",
       "description": [
-        "A class group with powerful melee combat abilities.",
-        "Holds the front line with high health and defense."
+        "強力な近接戦闘能力を持つ職業群です。",
+        "高い体力と防御力で前線を守ります。"
       ]
     },
     "mage_full": {
-      "name": "Mage",
+      "name": "メイジ",
       "description": [
-        "A class group that wields mystical magical powers.",
-        "Dominates the battlefield with powerful spells."
+        "神秘的な魔法の力を操る職業群です。",
+        "強力な呪文で戦場を支配します。"
       ]
     },
     "archer_full": {
-      "name": "Archer",
+      "name": "アーチャー",
       "description": [
-        "A class group that delivers precise attacks from range.",
-        "Features fast mobility and high critical rate."
+        "遠距離から正確な攻撃を行う職業群です。",
+        "素早い機動力と高いクリティカル率が特徴です。"
       ]
     }
   },
   "berserker": {
-    "name": "Berserker",
+    "name": "バーサーカー",
     "description": [
-      "A melee dealer with powerful attack power.",
-      "Gets stronger the lower their health is.",
+      "強力な攻撃力を誇る近接ディーラーです。",
+      "体力が低いほど強くなります。",
       "",
-      "▸ Strength-focused stat growth",
-      "▸ Can use berserk skills",
-      "▸ Health-based attack power increase"
+      "▸ 筋力重視のステータス成長",
+      "▸ バーサーク系スキル使用可能",
+      "▸ 体力ベースの攻撃力増加"
     ]
   },
   "bruiser": {
-    "name": "Bruiser",
+    "name": "ブルーザー",
     "description": [
-      "A warrior balanced between offense and defense.",
-      "Can handle various situations.",
+      "攻撃と防御のバランスを保った戦士です。",
+      "様々な状況に対応できます。",
       "",
-      "▸ Balanced stat growth",
-      "▸ Attack/Defense mode switching",
-      "▸ Highly adaptable combat style"
+      "▸ バランスの取れたステータス成長",
+      "▸ 攻撃/防御モード切り替え",
+      "▸ 適応力の高い戦闘スタイル"
     ]
   },
   "tank": {
-    "name": "Tank",
+    "name": "タンク",
     "description": [
-      "A sturdy shield that protects allies.",
-      "Boasts high defense and health.",
+      "仲間を守る頼もしい盾です。",
+      "高い防御力と体力を誇ります。",
       "",
-      "▸ Vitality-focused stat growth",
-      "▸ Taunt and shield skills",
-      "▸ Damage reduction effects"
+      "▸ 体力重視のステータス成長",
+      "▸ 挑発と防御スキル",
+      "▸ ダメージ軽減効果"
     ]
   },
   "priest": {
-    "name": "Priest",
+    "name": "プリースト",
     "description": [
-      "Heals allies with divine power.",
-      "Possesses powerful buffs and healing abilities.",
+      "神聖な力で仲間を癒します。",
+      "強力なバフと回復能力を持ちます。",
       "",
-      "▸ Wisdom-focused stat growth",
-      "▸ Healing and resurrection skills",
-      "▸ Buff/Debuff specialization"
+      "▸ 知恵重視のステータス成長",
+      "▸ 治癒と蘇生スキル",
+      "▸ バフ/デバフ特化"
     ]
   },
   "dark_mage": {
-    "name": "Dark Mage",
+    "name": "ダークメイジ",
     "description": [
-      "A mage who wields the power of darkness.",
-      "Deals powerful area damage.",
+      "闇の力を操る魔法使いです。",
+      "強力な範囲ダメージを与えます。",
       "",
-      "▸ Intelligence-focused stat growth",
-      "▸ Curse and dark magic skills",
-      "▸ Area damage specialization"
+      "▸ 知力重視のステータス成長",
+      "▸ 呪いと黒魔法スキル",
+      "▸ 範囲ダメージ特化"
     ]
   },
   "mercy": {
-    "name": "Mercy",
+    "name": "マーシー",
     "description": [
-      "Protects allies with the power of nature.",
-      "Specializes in healing and protection.",
+      "自然の力で仲間を守ります。",
+      "治癒と保護に特化しています。",
       "",
-      "▸ Wisdom/Vitality balanced growth",
-      "▸ Regeneration and purification skills",
-      "▸ Sustained healing specialization"
+      "▸ 知恵/体力バランス成長",
+      "▸ 再生と浄化スキル",
+      "▸ 持続治癒特化"
     ]
   },
   "archer": {
-    "name": "Archer",
+    "name": "アーチャー",
     "description": [
-      "Delivers precise shots from long range.",
-      "Boasts high mobility and critical rate.",
+      "遠距離から正確な射撃を行います。",
+      "高い機動力とクリティカル率を誇ります。",
       "",
-      "▸ Dexterity-focused stat growth",
-      "▸ Various arrow skills",
-      "▸ Critical hit specialization"
+      "▸ 敏捷重視のステータス成長",
+      "▸ 様々な矢スキル",
+      "▸ クリティカル特化"
     ]
   },
   "sniper": {
-    "name": "Sniper",
+    "name": "スナイパー",
     "description": [
-      "Snipes enemies from extreme range.",
-      "Each shot is extremely powerful.",
+      "極限の射程から敵を狙撃します。",
+      "一発の威力が非常に強力です。",
       "",
-      "▸ Dexterity/Luck balanced growth",
-      "▸ Sniping and piercing skills",
-      "▸ Single target burst damage"
+      "▸ 敏捷/運バランス成長",
+      "▸ 狙撃と貫通スキル",
+      "▸ 単体対象極大ダメージ"
     ]
   },
   "shotgunner": {
-    "name": "Shotgunner",
+    "name": "ショットガンナー",
     "description": [
-      "Fires scatter shots at close range.",
-      "Features area damage and knockback.",
+      "近距離で散弾を発射します。",
+      "範囲ダメージとノックバックが特徴です。",
       "",
-      "▸ Dexterity/Strength balanced growth",
-      "▸ Scatter and explosive skills",
-      "▸ Close-range area damage"
+      "▸ 敏捷/筋力バランス成長",
+      "▸ 散弾と爆発スキル",
+      "▸ 近距離範囲ダメージ"
     ]
+  },
+  "changed": "職業が{0}に変更されました",
+  "already_has": "すでにこの職業を持っています",
+  "level_up": "ジョブレベルアップ！現在レベル{0}",
+  "max_level": "ジョブが最大レベルです",
+  "skill_learned": "新しいスキル習得: {0}",
+  "skill_upgraded": "スキルアップグレード: {0}",
+  "not_enough_points": "スキルポイントが不足しています",
+  "requirement_not_met": "要件を満たしていません",
+  "warrior": "ウォリアー",
+  "mage": "メイジ",
+  "rogue": "ローグ",
+  "assassin": "アサシン",
+  "summoner": "サモナー",
+  "necromancer": "ネクロマンサー",
+  "druid": "ドルイド",
+  "ranger": "レンジャー",
+  "warlock": "ウォーロック",
+  "paladin": "パラディン",
+  "selected": "職業選択: {0}",
+  "select": "職業選択",
+  "none": "職業なし",
+  "advancement": {
+    "warrior": "ウォリアー昇進",
+    "archer": "アーチャー昇進",
+    "mage": "メイジ昇進",
+    "rogue": "ローグ昇進",
+    "priest": "プリースト昇進",
+    "berserker": "バーサーカー昇進",
+    "assassin": "アサシン昇進",
+    "summoner": "サモナー昇進",
+    "necromancer": "ネクロマンサー昇進",
+    "druid": "ドルイド昇進",
+    "ranger": "レンジャー昇進",
+    "warlock": "ウォーロック昇進",
+    "paladin": "パラディン昇進"
+  },
+  "mastery": {
+    "sword": "剣マスタリー",
+    "bow": "弓マスタリー",
+    "magic": "魔法マスタリー",
+    "stealth": "隠密マスタリー",
+    "healing": "治癒マスタリー",
+    "rage": "怒りマスタリー",
+    "shadow": "影マスタリー",
+    "summoning": "召喚マスタリー",
+    "necromancy": "ネクロマンシーマスタリー",
+    "nature": "自然マスタリー",
+    "beast": "野獣マスタリー",
+    "dark": "闇マスタリー",
+    "holy": "神聖マスタリー"
   }
 }

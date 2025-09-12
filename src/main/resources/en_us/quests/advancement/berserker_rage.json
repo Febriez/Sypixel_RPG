@@ -18,5 +18,7 @@
   ],
   "npc_name": "Rage Master",
   "accept": "I am ready to unleash my inner fury!",
-  "decline": "I cannot control such rage yet."
+  "decline": "I cannot control such rage yet.",
+  "desc": "Complete the Berserker Rage quest",
+  "npc.name": "Berserker Rage Master"
 }

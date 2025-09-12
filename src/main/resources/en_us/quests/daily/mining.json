@@ -4,7 +4,11 @@
   "objectives": {
     "mine_stone": "Mine 50 stone blocks",
     "mine_coal": "Mine 20 coal ore",
-    "mine_iron": "Mine 10 iron ore"
+    "mine_iron": "Mine 10 iron ore",
+    "coal_collect": "Coal Collect",
+    "coal_deliver": "Coal Deliver",
+    "iron_ore_collect": "Iron Ore Collect",
+    "miner": "Miner"
   },
   "dialogs": [
     "Another day, another shift in the mines!",

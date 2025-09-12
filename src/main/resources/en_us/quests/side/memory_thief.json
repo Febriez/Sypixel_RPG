@@ -8,5 +8,16 @@
     "These memory crystals contain fragments of stolen experiences.",
     "The Memory Thief has been stopped! Their collection is shattered.",
     "Look! The townspeople are starting to remember again."
-  ]
+  ],
+  "objectives": {
+    "talk_concerned_villager": "Talk Concerned Villager",
+    "interview_victims": "Interview Victims",
+    "memory_shrine": "Memory Shrine",
+    "memory_crystals": "Memory Crystals",
+    "psychic_fragments": "Psychic Fragments",
+    "thiefs_lair": "Thiefs Lair",
+    "memory_thief": "Memory Thief",
+    "stolen_memories": "Stolen Memories",
+    "restore_memories": "Restore Memories"
+  }
 }

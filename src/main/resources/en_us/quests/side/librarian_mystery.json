@@ -2,12 +2,13 @@
   "name": "The Book Thief",
   "info": "Solve the mystery of the missing library books.",
   "objectives": {
-    "librarian": "Talk to the librarian",
-    "library_archives": "Search the archives",
-    "ancient_books": "Find 5 ancient books",
-    "decode_cipher": "Decode the cipher",
-    "secret_room": "Find the secret room",
-    "forbidden_tome": "Retrieve the forbidden tome"
+    "talk_head_librarian": "Talk to the head librarian",
+    "visit_ancient_archives": "Visit the ancient archives",
+    "collect_missing_tome": "Collect 3 missing tomes",
+    "collect_cipher_key": "Collect the cipher key",
+    "visit_secret_chamber": "Visit the secret chamber",
+    "collect_forbidden_knowledge": "Collect 2 forbidden knowledge",
+    "return_head_librarian": "Return to the head librarian"
   },
   "dialogs": [
     "Books are disappearing from the library!",

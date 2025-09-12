@@ -7,7 +7,6 @@ import com.febrie.rpg.quest.QuestID;
 import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
-import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.PlaceBlockObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
@@ -18,6 +17,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,15 +44,15 @@ public class GuildEstablishmentQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.GUILD_ESTABLISHMENT)
                 .objectives(List.of(
-                        new CollectItemObjective("collect_foundation_materials", Material.STONE_BRICKS, 1000),
-                        new CollectItemObjective("collect_gold_for_charter", Material.GOLD_INGOT, 100),
-                        new InteractNPCObjective("create_guild", "guild_registrar", 1),
-                        new InteractNPCObjective("recruit_initial_members", "guild_members", 10),
+                        new CollectItemObjective("stone_bricks_collect", Material.STONE_BRICKS, 1000),
+                        new CollectItemObjective("gold_ingot_collect", Material.GOLD_INGOT, 100),
+                        new InteractNPCObjective("create_guild", "guild_registrar"),
+                        new InteractNPCObjective("recruit_initial_members", "guild_members"),
                         new PlaceBlockObjective("build_guild_hall", Material.STONE_BRICKS, 500)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 2000)
-                        .addItem(new ItemStack(Material.BANNER, 5))
+                        .addItem(new ItemStack(Material.WHITE_BANNER, 5))
                         .addItem(new ItemStack(Material.LECTERN, 3))
                         .addExperience(2000)
                         .build())
@@ -63,26 +63,26 @@ public class GuildEstablishmentQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_ESTABLISHMENT_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_ESTABLISHMENT_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_GUILD_ESTABLISHMENT_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_GUILD_ESTABLISHMENT_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "collect_foundation_materials" -> LangManager.list(LangKey.QUEST_GUILD_ESTABLISHMENT_OBJECTIVES_COLLECT_FOUNDATION_MATERIALS, who);
-            case "collect_gold_for_charter" -> LangManager.list(LangKey.QUEST_GUILD_ESTABLISHMENT_OBJECTIVES_COLLECT_GOLD_FOR_CHARTER, who);
-            case "create_guild" -> LangManager.list(LangKey.QUEST_GUILD_ESTABLISHMENT_OBJECTIVES_CREATE_GUILD, who);
-            case "recruit_initial_members" -> LangManager.list(LangKey.QUEST_GUILD_ESTABLISHMENT_OBJECTIVES_RECRUIT_INITIAL_MEMBERS, who);
-            case "build_guild_hall" -> LangManager.list(LangKey.QUEST_GUILD_ESTABLISHMENT_OBJECTIVES_BUILD_GUILD_HALL, who);
-            default -> new ArrayList<>();
+            case "stone_bricks_collect" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_ESTABLISHMENT_OBJECTIVES_STONE_BRICKS_COLLECT, who);
+            case "gold_ingot_collect" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_ESTABLISHMENT_OBJECTIVES_GOLD_INGOT_COLLECT, who);
+            case "create_guild" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_ESTABLISHMENT_OBJECTIVES_CREATE_GUILD, who);
+            case "recruit_initial_members" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_ESTABLISHMENT_OBJECTIVES_RECRUIT_INITIAL_MEMBERS, who);
+            case "build_guild_hall" -> LangManager.text(QuestCommonLangKey.QUEST_GUILD_ESTABLISHMENT_OBJECTIVES_BUILD_GUILD_HALL, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 4;
@@ -90,7 +90,7 @@ public class GuildEstablishmentQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_GUILD_ESTABLISHMENT_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_GUILD_ESTABLISHMENT_DIALOGS, who);
     }
     
     @Override
@@ -100,16 +100,16 @@ public class GuildEstablishmentQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_ESTABLISHMENT_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_ESTABLISHMENT_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_ESTABLISHMENT_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_ESTABLISHMENT_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_GUILD_ESTABLISHMENT_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_GUILD_ESTABLISHMENT_DECLINE, who);
     }
 }

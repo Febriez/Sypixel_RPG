@@ -1,7 +1,8 @@
 {
   "gold": {
     "name": "골드",
-    "description": "기본 재화입니다."
+    "description": "기본 재화입니다.",
+    "symbol": "G"
   },
   "diamond": {
     "name": "다이아몬드",
@@ -22,5 +23,33 @@
   "exp": {
     "name": "경험치",
     "description": "레벨 업을 위한 경험치입니다."
+  },
+  "silver": {
+    "name": "실버",
+    "symbol": "S"
+  },
+  "copper": {
+    "name": "구리",
+    "symbol": "C"
+  },
+  "gem": {
+    "name": "보석",
+    "symbol": "💎"
+  },
+  "token": {
+    "name": "토큰",
+    "symbol": "T"
+  },
+  "coin": {
+    "name": "동전",
+    "symbol": "🪙"
+  },
+  "point": {
+    "name": "포인트",
+    "symbol": "P"
+  },
+  "credit": {
+    "name": "크레딩",
+    "symbol": "CR"
   }
 }

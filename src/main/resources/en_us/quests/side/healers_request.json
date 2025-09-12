@@ -2,12 +2,13 @@
   "name": "Cure for the Children",
   "info": "Help the healer gather ingredients for a cure.",
   "objectives": {
-    "village_healer": "Talk to the village healer",
-    "herb_garden": "Visit the herb garden",
-    "healing_herbs": "Gather 15 healing herbs",
-    "holy_water": "Collect 5 holy water",
-    "deliver_medicine": "Deliver medicine to patients",
-    "report_healer": "Report to the healer"
+    "talk_village_healer": "Talk to the village healer",
+    "visit_herb_garden": "Visit the herb garden",
+    "collect_medicinal_herbs": "Collect 25 medicinal herbs",
+    "collect_spider_eyes": "Collect 8 spider eyes",
+    "collect_ghast_tears": "Collect 3 ghast tears",
+    "visit_sacred_spring": "Visit the sacred spring",
+    "collect_holy_water": "Collect 5 holy water"
   },
   "dialogs": [
     "A strange illness has struck the village children!",

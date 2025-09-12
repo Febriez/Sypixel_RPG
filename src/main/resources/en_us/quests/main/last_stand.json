@@ -1,0 +1,23 @@
+{
+  "name": "Last Stand",
+  "info": "Information about Last Stand",
+  "dialogs": [
+    "Welcome, adventurer!",
+    "I have a task for you.",
+    "Will you help me?"
+  ],
+  "npc_name": "Npc Name",
+  "accept": "Accept Quest",
+  "decline": "Decline Quest",
+  "objectives": {
+    "alliance_commander": "Alliance Commander",
+    "fortress_battlements": "Fortress Battlements",
+    "crossbow_collect": "Crossbow Collect",
+    "end_crystal_collect": "End Crystal Collect",
+    "kill_pillagers": "Kill Pillagers",
+    "kill_ravagers": "Kill Ravagers",
+    "last_fortress": "Last Fortress",
+    "spectral_arrow_collect": "Spectral Arrow Collect",
+    "war_strategist": "War Strategist"
+  }
+}

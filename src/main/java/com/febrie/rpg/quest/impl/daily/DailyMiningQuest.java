@@ -9,6 +9,7 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.BreakBlockObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
@@ -17,7 +18,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,21 +51,21 @@ public class DailyMiningQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_MINING_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_MINING_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_DAILY_MINING_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_DAILY_MINING_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "mine_stone" -> LangManager.list(LangKey.QUEST_DAILY_MINING_OBJECTIVES_MINE_STONE, who);
-            case "mine_coal" -> LangManager.list(LangKey.QUEST_DAILY_MINING_OBJECTIVES_MINE_COAL, who);
-            case "mine_iron" -> LangManager.list(LangKey.QUEST_DAILY_MINING_OBJECTIVES_MINE_IRON, who);
-            default -> new ArrayList<>();
+            case "mine_stone" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_MINING_OBJECTIVES_MINE_STONE, who);
+            case "mine_coal" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_MINING_OBJECTIVES_MINE_COAL, who);
+            case "mine_iron" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_MINING_OBJECTIVES_MINE_IRON, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -76,7 +76,7 @@ public class DailyMiningQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_DAILY_MINING_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_DAILY_MINING_DIALOGS, who);
     }
     
     @Override
@@ -86,16 +86,16 @@ public class DailyMiningQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_MINING_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_MINING_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_MINING_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_MINING_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_MINING_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_MINING_DECLINE, who);
     }
 }

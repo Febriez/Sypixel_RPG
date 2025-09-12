@@ -16,6 +16,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +31,13 @@ public class WorldTreeQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.SPECIAL_WORLD_TREE)
                 .objectives(List.of(
-                        new InteractNPCObjective("tree_guardian", "ancient_druid", 1),
+                        new InteractNPCObjective("tree_guardian", "ancient_druid"),
                         new VisitLocationObjective("world_tree", "yggdrasil_location"),
-                        new CollectItemObjective("life_essence", Material.GLOW_BERRIES, 50),
-                        new PlantWorldTreeObjective("plant_sapling", "world_tree_seed"),
-                        new NurtureTreeObjective("care_for_tree", "world_tree_growth", 30), // 30일
-                        new ProtectFromEvilObjective("defend_tree", EntityType.WITHER_SKELETON, 100),
-                        new HarvestWorldTreeObjective("tree_blessing", "world_tree_fruit")
+                        new CollectItemObjective("glow_berries_collect", Material.GLOW_BERRIES, 50),
+                        new PlaceBlockObjective("plant_sapling", Material.OAK_SAPLING, 1),
+                        new SurviveObjective("care_for_tree", 2592000), // 30 days in seconds (30 * 24 * 60 * 60)
+                        new KillMobObjective("defend_tree", EntityType.WITHER_SKELETON, 100),
+                        new HarvestObjective("tree_blessing", Material.SWEET_BERRIES, 10)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 8000)
@@ -52,25 +53,25 @@ public class WorldTreeQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_WORLD_TREE_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_WORLD_TREE_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SPECIAL_WORLD_TREE_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_SPECIAL_WORLD_TREE_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "tree_guardian" -> LangManager.list(LangKey.QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_TREE_GUARDIAN, who);
-            case "world_tree" -> LangManager.list(LangKey.QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_WORLD_TREE, who);
-            case "life_essence" -> LangManager.list(LangKey.QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_LIFE_ESSENCE, who);
-            case "plant_sapling" -> LangManager.list(LangKey.QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_PLANT_SAPLING, who);
-            case "care_for_tree" -> LangManager.list(LangKey.QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_CARE_FOR_TREE, who);
-            case "defend_tree" -> LangManager.list(LangKey.QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_DEFEND_TREE, who);
-            case "tree_blessing" -> LangManager.list(LangKey.QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_TREE_BLESSING, who);
-            default -> new ArrayList<>();
+            case "tree_guardian" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_TREE_GUARDIAN, who);
+            case "world_tree" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_WORLD_TREE, who);
+            case "glow_berries_collect" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_GLOW_BERRIES_COLLECT, who);
+            case "plant_sapling" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_PLANT_SAPLING, who);
+            case "care_for_tree" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_CARE_FOR_TREE, who);
+            case "defend_tree" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_DEFEND_TREE, who);
+            case "tree_blessing" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_WORLD_TREE_OBJECTIVES_TREE_BLESSING, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -79,7 +80,7 @@ public class WorldTreeQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SPECIAL_WORLD_TREE_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_SPECIAL_WORLD_TREE_DIALOGS, who);
     }
     
     @Override
@@ -89,16 +90,16 @@ public class WorldTreeQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_WORLD_TREE_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_WORLD_TREE_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_WORLD_TREE_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_WORLD_TREE_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_WORLD_TREE_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_WORLD_TREE_DECLINE, who);
     }
 }

@@ -16,6 +16,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,26 +63,26 @@ public class MonsterExterminationQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "kill_hostile_mobs" -> LangManager.list(LangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_OBJECTIVES_KILL_HOSTILE_MOBS, who);
-            case "kill_spiders" -> LangManager.list(LangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_OBJECTIVES_KILL_SPIDERS, who);
-            case "kill_endermen" -> LangManager.list(LangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_OBJECTIVES_KILL_ENDERMEN, who);
-            case "kill_witches" -> LangManager.list(LangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_OBJECTIVES_KILL_WITCHES, who);
-            case "kill_boss_monsters" -> LangManager.list(LangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_OBJECTIVES_KILL_BOSS_MONSTERS, who);
-            default -> new ArrayList<>();
+            case "kill_hostile_mobs" -> LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_OBJECTIVES_KILL_HOSTILE_MOBS, who);
+            case "kill_spiders" -> LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_OBJECTIVES_KILL_SPIDERS, who);
+            case "kill_endermen" -> LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_OBJECTIVES_KILL_ENDERMEN, who);
+            case "kill_witches" -> LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_OBJECTIVES_KILL_WITCHES, who);
+            case "kill_boss_monsters" -> LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_OBJECTIVES_KILL_BOSS_MONSTERS, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 4;
@@ -89,7 +90,7 @@ public class MonsterExterminationQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_DIALOGS, who);
     }
     
     @Override
@@ -99,16 +100,16 @@ public class MonsterExterminationQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_REPEATABLE_MONSTER_EXTERMINATION_DECLINE, who);
     }
 }

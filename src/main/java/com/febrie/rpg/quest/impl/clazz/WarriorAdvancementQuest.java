@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
@@ -17,7 +18,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -44,15 +44,15 @@ public class WarriorAdvancementQuest extends Quest {
                 .id(QuestID.CLASS_WARRIOR_ADVANCEMENT)
                 .objectives(List.of(
                         new ReachLevelObjective("warrior_level", 30),
-                        new InteractNPCObjective("warrior_master", "warrior_master", 1),
+                        new InteractNPCObjective("warrior_master", "warrior_master"),
                         new KillMobObjective("prove_combat", EntityType.IRON_GOLEM, 20),
                         new KillPlayerObjective("prove_pvp", 10),
-                        new CollectItemObjective("warrior_emblem", Material.IRON_INGOT, 50),
-                        new CraftItemObjective("forge_weapon", Material.DIAMOND_SWORD, 1),
-                        new CraftItemObjective("forge_armor", Material.DIAMOND_CHESTPLATE, 1),
+                        new CollectItemObjective("iron_ingot_collect", Material.IRON_INGOT, 50),
+                        new CraftItemObjective("diamond_sword_craft", Material.DIAMOND_SWORD, 1),
+                        new CraftItemObjective("diamond_chestplate_craft", Material.DIAMOND_CHESTPLATE, 1),
                         new SurviveObjective("endurance_test", 600), // 10 minutes
                         new KillMobObjective("final_trial", EntityType.RAVAGER, 5),
-                        new DeliverItemObjective("return_emblem", "warrior_master", Material.DIAMOND_SWORD, 1)
+                        new DeliverItemObjective("diamond_sword_deliver", Material.DIAMOND_SWORD, 1, "warrior_master")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 10000)
@@ -68,28 +68,28 @@ public class WarriorAdvancementQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_INFO, who);
     }
 
         @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "warrior_level" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_LEVEL, who);
-            case "warrior_master" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_MASTER, who);
-            case "prove_combat" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_COMBAT, who);
-            case "prove_pvp" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_PVP, who);
-            case "warrior_emblem" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_EMBLEM, who);
-            case "forge_weapon" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_FORGE_WEAPON, who);
-            case "forge_armor" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_FORGE_ARMOR, who);
-            case "endurance_test" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_ENDURANCE_TEST, who);
-            case "final_trial" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_FINAL_TRIAL, who);
-            case "return_emblem" -> LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_RETURN_EMBLEM, who);
-            default -> new ArrayList<>();
+            case "warrior_level" -> LangManager.text(QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_LEVEL, who);
+            case "warrior_master" -> LangManager.text(QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_MASTER, who);
+            case "prove_combat" -> LangManager.text(QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_COMBAT, who);
+            case "prove_pvp" -> LangManager.text(QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_PROVE_PVP, who);
+            case "iron_ingot_collect" -> LangManager.text(QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_IRON_INGOT_COLLECT, who);
+            case "diamond_sword_craft" -> LangManager.text(QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_DIAMOND_SWORD_CRAFT, who);
+            case "diamond_chestplate_craft" -> LangManager.text(QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_DIAMOND_CHESTPLATE_CRAFT, who);
+            case "endurance_test" -> LangManager.text(QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_ENDURANCE_TEST, who);
+            case "final_trial" -> LangManager.text(QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_FINAL_TRIAL, who);
+            case "diamond_sword_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_CLASS_WARRIOR_ADVANCEMENT_OBJECTIVES_DIAMOND_SWORD_DELIVER, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -100,7 +100,7 @@ public class WarriorAdvancementQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_DIALOGS, who);
     }
     
     @Override
@@ -110,16 +110,16 @@ public class WarriorAdvancementQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_CLAZZ_WARRIOR_ADVANCEMENT_DECLINE, who);
     }
 }

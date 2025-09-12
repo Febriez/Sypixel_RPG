@@ -4,28 +4,13 @@
   "npc_name": "Sky Captain",
   "accept": "I'm ready to explore the floating islands!",
   "decline": "The heights are too dangerous for me now.",
-  "objectives": [
-    {
-      "id": "prepare_for_sky_travel",
-      "description": "Prepare special equipment for high-altitude travel"
-    },
-    {
-      "id": "reach_sky_islands",
-      "description": "Ascend to the floating islands in the sky"
-    },
-    {
-      "id": "explore_ecosystems",
-      "description": "Study the unique sky island ecosystems"
-    },
-    {
-      "id": "find_wind_temple",
-      "description": "Locate and enter the ancient Wind Temple"
-    },
-    {
-      "id": "master_sky_secrets",
-      "description": "Uncover the secrets of the ancient sky dwellers"
-    }
-  ],
+  "objectives": {
+    "reach_sky_height": "Survive attempts at high altitude",
+    "explore_floating_islands": "Explore the floating sky islands",
+    "amethyst_shard_collect": "Collect amethyst shards from the sky",
+    "defeat_sky_guardians": "Defeat phantom guardians",
+    "build_sky_bridge": "Build a sky bridge with cobblestone"
+  },
   "dialogs": [
     "The sky islands have called to adventurers for centuries, but few have answered.",
     "The journey to the sky requires special preparation. The air is thin up there.",

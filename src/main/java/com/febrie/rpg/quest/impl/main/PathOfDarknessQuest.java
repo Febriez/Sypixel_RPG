@@ -10,6 +10,7 @@ import com.febrie.rpg.quest.objective.impl.CraftItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.KillPlayerObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
@@ -20,7 +21,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -55,7 +55,7 @@ public class PathOfDarknessQuest extends Quest {
                         new KillMobObjective("hunt_wither_skeletons", EntityType.WITHER_SKELETON, 20),
 
                         // 4. 어둠의 아이템 제작
-                        new CraftItemObjective("craft_tnt", Material.TNT, 10)
+                        new CraftItemObjective("tnt_craft", Material.TNT, 10)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 1500)  // 더 많은 골드
@@ -77,22 +77,22 @@ public class PathOfDarknessQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "eliminate_villagers" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_ELIMINATE_VILLAGERS, who);
-            case "dominate_players" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_DOMINATE_PLAYERS, who);
-            case "hunt_wither_skeletons" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_HUNT_WITHER_SKELETONS, who);
-            case "craft_tnt" -> LangManager.list(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_CRAFT_TNT, who);
-            default -> List.of(Component.text("Objective: " + objective.getId()));
+            case "eliminate_villagers" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_ELIMINATE_VILLAGERS, who);
+            case "dominate_players" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_DOMINATE_PLAYERS, who);
+            case "hunt_wither_skeletons" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_HUNT_WITHER_SKELETONS, who);
+            case "tnt_craft" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_OBJECTIVES_TNT_CRAFT, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -103,7 +103,7 @@ public class PathOfDarknessQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_DIALOGS, who);
     }
     
     @Override
@@ -113,16 +113,16 @@ public class PathOfDarknessQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_PATH_OF_DARKNESS_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_PATH_OF_DARKNESS_DECLINE, who);
     }
 }

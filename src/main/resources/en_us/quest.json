@@ -412,5 +412,864 @@
         "area_cleared": "Clear the area"
       }
     }
+  },
+  "start_success": "Quest started!",
+  "complete_success": "Quest completed!",
+  "abandon_success": "Quest abandoned",
+  "already_active": "Quest is already active",
+  "not_active": "Quest is not active",
+  "requirements_not_met": "Requirements not met",
+  "cooldown_active": "Quest is on cooldown",
+  "objective_progress": "Objective progress: {0}/{1}",
+  "reward_claimed": "Reward claimed!",
+  "reward_inventory_full": "Inventory is full",
+  "daily_limit_reached": "Daily quest limit reached",
+  "weekly_limit_reached": "Weekly quest limit reached",
+  "quest.not_found": "Quest not found!",
+  "quest.already_completed": "You have already completed this quest!",
+  "quest.no_permission": "You do not have permission for this quest!",
+  "quest.failed": "Quest failed!",
+  "quest.abandoned": "Quest abandoned",
+  "quest.objective_complete": "Objective completed: %s",
+  "quest.rewards_received": "Quest rewards received!",
+  "quest.prereq_not_met": "Prerequisites not met!",
+  "quest.quest_requirement": "Required quest: %s",
+  "quest.item_requirement": "Required item: %s",
+  "quest.class_requirement": "Required class: %s",
+  "quest.in_progress": "In Progress",
+  "quest.unknown_objective": "Unknown Objective",
+  "quest.clazz.warrior.advancement.objectives.endurance_test": "Complete endurance test",
+  "quest.clazz.warrior.advancement.objectives.final_trial": "Complete final trial",
+  "quest.clazz.warrior.advancement.objectives.forge_armor": "Forge warrior armor",
+  "quest.clazz.warrior.advancement.objectives.forge_weapon": "Forge warrior weapon",
+  "quest.clazz.warrior.advancement.objectives.prove_combat": "Prove combat skills",
+  "quest.clazz.warrior.advancement.objectives.prove_pvp": "Win PvP battles",
+  "quest.clazz.warrior.advancement.objectives.return_emblem": "Return warrior emblem",
+  "quest.clazz.warrior.advancement.objectives.warrior_emblem": "Obtain warrior emblem",
+  "quest.clazz.warrior.advancement.objectives.warrior_level": "Reach warrior level 10",
+  "quest.clazz.warrior.advancement.objectives.warrior_master": "Meet the warrior master",
+  "quest.craft.enchantment.mastery.objectives.book_collect": "Collect enchantment books",
+  "quest.craft.enchantment.mastery.objectives.diamond_chestplate_craft": "Craft diamond chestplate",
+  "quest.craft.enchantment.mastery.objectives.diamond_pickaxe_craft": "Craft diamond pickaxe",
+  "quest.craft.enchantment.mastery.objectives.diamond_sword_craft": "Craft diamond sword",
+  "quest.craft.enchantment.mastery.objectives.enchanted_book_collect": "Collect enchanted books",
+  "quest.craft.enchantment.mastery.objectives.enchantment_master": "Meet the enchantment master",
+  "quest.craft.enchantment.mastery.objectives.experience_bottle_collect": "Collect experience bottles",
+  "quest.craft.enchantment.mastery.objectives.ghast_tear_collect": "Collect ghast tears",
+  "quest.craft.enchantment.mastery.objectives.lapis_lazuli_collect": "Collect lapis lazuli",
+  "quest.craft.enchantment.mastery.objectives.netherite_sword_craft": "Craft netherite sword",
+  "quest.craft.enchantment.mastery.objectives.netherite_sword_deliver": "Deliver netherite sword",
+  "quest.craft.master.blacksmith.objectives.blacksmith_master": "Meet the master blacksmith",
+  "quest.craft.master.blacksmith.objectives.coal_collect": "Collect coal",
+  "quest.craft.master.blacksmith.objectives.diamond_chestplate_craft": "Craft diamond chestplate",
+  "quest.craft.master.blacksmith.objectives.diamond_collect": "Collect diamonds",
+  "quest.craft.master.blacksmith.objectives.diamond_sword_collect": "Collect diamond sword",
+  "quest.craft.master.blacksmith.objectives.diamond_sword_craft": "Craft diamond sword",
+  "quest.craft.master.blacksmith.objectives.gold_ingot_collect": "Collect gold ingots",
+  "quest.craft.master.blacksmith.objectives.iron_chestplate_craft": "Craft iron chestplate",
+  "quest.craft.master.blacksmith.objectives.iron_ingot_collect": "Collect iron ingots",
+  "quest.craft.master.blacksmith.objectives.iron_pickaxe_craft": "Craft iron pickaxe",
+  "quest.craft.master.blacksmith.objectives.mine_diamond": "Mine diamonds",
+  "quest.craft.master.blacksmith.objectives.mine_gold": "Mine gold ore",
+  "quest.craft.master.blacksmith.objectives.mine_iron": "Mine iron ore",
+  "quest.craft.master.blacksmith.objectives.netherite_ingot_craft": "Craft netherite ingot",
+  "quest.craft.master.blacksmith.objectives.netherite_scrap_collect": "Collect netherite scrap",
+  "quest.craft.master.blacksmith.objectives.netherite_sword_craft": "Craft netherite sword",
+  "quest.craft.master.blacksmith.objectives.netherite_sword_deliver": "Deliver netherite sword",
+  "quest.craft.master.blacksmith.objectives.setup_anvil": "Set up an anvil",
+  "quest.craft.master.blacksmith.objectives.setup_enchanting": "Set up enchanting table",
+  "quest.craft.master.blacksmith.objectives.setup_furnace": "Set up a furnace",
+  "quest.craft.potion.brewing.objectives.blaze_powder_collect": "Collect blaze powder",
+  "quest.craft.potion.brewing.objectives.dragon_breath_collect": "Collect dragon breath",
+  "quest.craft.potion.brewing.objectives.fermented_spider_eye_collect": "Collect fermented spider eyes",
+  "quest.craft.potion.brewing.objectives.master_alchemist": "Meet the master alchemist",
+  "quest.craft.potion.brewing.objectives.nether_wart_collect": "Collect nether warts",
+  "quest.craft.potion.brewing.objectives.phantom_membrane_collect": "Collect phantom membranes",
+  "quest.craft.potion.brewing.objectives.potion_collect": "Collect potions",
+  "quest.craft.potion.brewing.objectives.potion_craft": "Brew potions",
+  "quest.craft.potion.brewing.objectives.potion_deliver": "Deliver potions",
+  "quest.explore.ancient.ruins.objectives.break_ancient_blocks": "Break ancient blocks",
+  "quest.explore.ancient.ruins.objectives.brick_collect": "Collect ancient bricks",
+  "quest.explore.ancient.ruins.objectives.explore_desert_ruins": "Explore desert ruins",
+  "quest.explore.ancient.ruins.objectives.explore_underground_ruins": "Explore underground ruins",
+  "quest.explore.ancient.ruins.objectives.talk_to_archaeologist": "Talk to the archaeologist",
+  "quest.explore.lost.continent.objectives.break_ocean_blocks": "Break ocean blocks",
+  "quest.explore.lost.continent.objectives.build_expedition_camp": "Build expedition camp",
+  "quest.explore.lost.continent.objectives.defeat_continent_guardians": "Defeat continent guardians",
+  "quest.explore.lost.continent.objectives.explore_mysterious_lands": "Explore mysterious lands",
+  "quest.explore.lost.continent.objectives.prismarine_crystals_collect": "Collect prismarine crystals",
+  "quest.explore.sky.islands.objectives.amethyst_shard_collect": "Collect amethyst shards",
+  "quest.explore.sky.islands.objectives.build_sky_bridge": "Build a sky bridge",
+  "quest.explore.sky.islands.objectives.defeat_sky_guardians": "Defeat sky guardians",
+  "quest.explore.sky.islands.objectives.explore_floating_islands": "Explore floating islands",
+  "quest.explore.sky.islands.objectives.reach_sky_height": "Reach sky height",
+  "quest.guild.fortress.siege.objectives.capture_control_points": "Capture control points",
+  "quest.guild.fortress.siege.objectives.defeat_enemy_players": "Defeat enemy players",
+  "quest.guild.fortress.siege.objectives.defend_fortress": "Defend the fortress",
+  "quest.guild.fortress.siege.objectives.destroy_enemy_walls": "Destroy enemy walls",
+  "quest.guild.fortress.siege.objectives.participate_in_siege": "Participate in siege",
+  "quest.main.first_trial.objectives.survive_wave2": "Survive wave 2",
+  "quest.season.autumn.harvest.objectives.apple_collect": "Collect apples",
+  "quest.season.autumn.harvest.objectives.pumpkin_collect": "Collect pumpkins",
+  "quest.season.autumn.harvest.objectives.pumpkin_pie_craft": "Craft pumpkin pie",
+  "quest.season.autumn.harvest.objectives.wheat_collect": "Collect wheat",
+  "quest.season.christmas.spirit.objectives.chest_deliver": "Deliver presents",
+  "quest.season.christmas.spirit.objectives.shulker_box_craft": "Craft shulker box",
+  "quest.season.christmas.spirit.objectives.snowball_collect": "Collect snowballs",
+  "quest.season.christmas.spirit.objectives.cookie_deliver": "Deliver cookies",
+  "quest.season.christmas.spirit.objectives.spruce_sapling_craft": "Plant spruce saplings",
+  "quest.season.easter.eggs.objectives.cyan_dye_craft": "Craft cyan dye",
+  "quest.season.easter.eggs.objectives.dandelion_collect": "Collect dandelions",
+  "quest.season.easter.eggs.objectives.egg_collect": "Collect eggs",
+  "quest.season.easter.eggs.objectives.golden_apple_collect": "Collect golden apples",
+  "quest.season.new.year.objectives.cake_craft": "Craft celebration cake",
+  "quest.season.new.year.objectives.firework_rocket_collect": "Collect fireworks",
+  "quest.season.new.year.objectives.make_new_year_resolution": "Make a resolution",
+  "quest.season.new.year.objectives.visit_celebration_area": "Visit celebration area",
+  "quest.season.spring.festival.objectives.leather_helmet_craft": "Craft leather helmet",
+  "quest.season.spring.festival.objectives.plant_seeds": "Plant seeds",
+  "quest.season.spring.festival.objectives.poppy_collect": "Collect poppies",
+  "quest.season.summer.solstice.objectives.beach_contest": "Win beach contest",
+  "quest.season.summer.solstice.objectives.blaze_powder_collect": "Collect blaze powder",
+  "quest.season.summer.solstice.objectives.build_altar": "Build sun altar",
+  "quest.season.summer.solstice.objectives.cake_deliver": "Deliver cakes",
+  "quest.season.summer.solstice.objectives.dandelion_collect": "Collect dandelions",
+  "quest.season.summer.solstice.objectives.defeat_blazes": "Defeat blazes",
+  "quest.season.summer.solstice.objectives.desert_temple": "Find desert temple",
+  "quest.season.summer.solstice.objectives.festival_complete": "Complete festival",
+  "quest.season.summer.solstice.objectives.festival_coordinator": "Meet coordinator",
+  "quest.season.summer.solstice.objectives.festival_grounds": "Visit festival grounds",
+  "quest.season.summer.solstice.objectives.firework_rocket_collect": "Collect fireworks",
+  "quest.season.summer.solstice.objectives.firework_rocket_craft": "Craft fireworks",
+  "quest.season.summer.solstice.objectives.flower_garden": "Create flower garden",
+  "quest.season.summer.solstice.objectives.gold_ingot_collect": "Collect gold ingots",
+  "quest.season.summer.solstice.objectives.golden_apple_collect": "Collect golden apples",
+  "quest.season.summer.solstice.objectives.golden_apple_craft": "Craft golden apples",
+  "quest.season.summer.solstice.objectives.guardian_challenge": "Complete guardian challenge",
+  "quest.season.summer.solstice.objectives.gunpowder_collect": "Collect gunpowder",
+  "quest.season.summer.solstice.objectives.heat_endurance": "Endure the heat",
+  "quest.season.summer.solstice.objectives.ice_collect": "Collect ice",
+  "quest.season.summer.solstice.objectives.melon_craft": "Craft melons",
+  "quest.season.summer.solstice.objectives.melon_slice_collect": "Collect melon slices",
+  "quest.season.summer.solstice.objectives.orange_tulip_collect": "Collect orange tulips",
+  "quest.season.summer.solstice.objectives.poppy_deliver": "Deliver poppies",
+  "quest.season.summer.solstice.objectives.potion_craft": "Craft potions",
+  "quest.season.summer.solstice.objectives.prismarine_shard_collect": "Collect prismarine shards",
+  "quest.season.summer.solstice.objectives.red_dye_collect": "Collect red dye",
+  "quest.season.summer.solstice.objectives.sun_offering": "Make sun offering",
+  "quest.season.summer.solstice.objectives.sun_priest": "Meet sun priest",
+  "quest.season.summer.solstice.objectives.sunflower_collect": "Collect sunflowers",
+  "quest.season.summer.solstice.objectives.swimming_race": "Win swimming race",
+  "quest.season.valentine.love.objectives.bride_and_groom": "Find bride and groom",
+  "quest.season.valentine.love.objectives.cake_craft": "Craft wedding cake",
+  "quest.season.valentine.love.objectives.cake_deliver": "Deliver wedding cake",
+  "quest.season.valentine.love.objectives.cocoa_beans_collect": "Collect cocoa beans",
+  "quest.season.valentine.love.objectives.cookie_craft": "Craft cookies",
+  "quest.season.valentine.love.objectives.cupid_messenger": "Meet Cupid",
+  "quest.season.valentine.love.objectives.dance_hall": "Visit dance hall",
+  "quest.season.valentine.love.objectives.dance_partner": "Find dance partner",
+  "quest.season.valentine.love.objectives.festival_end": "Complete festival",
+  "quest.season.valentine.love.objectives.firework_rocket_collect": "Collect fireworks",
+  "quest.season.valentine.love.objectives.flower_arch": "Build flower arch",
+  "quest.season.valentine.love.objectives.flower_pot_craft": "Craft flower pots",
+  "quest.season.valentine.love.objectives.gold_nugget_collect": "Collect gold nuggets",
+  "quest.season.valentine.love.objectives.heart_decorations": "Create heart decorations",
+  "quest.season.valentine.love.objectives.love_blessing": "Receive love blessing",
+  "quest.season.valentine.love.objectives.love_plaza": "Visit love plaza",
+  "quest.season.valentine.love.objectives.milk_bucket_collect": "Collect milk buckets",
+  "quest.season.valentine.love.objectives.paper_craft": "Craft paper",
+  "quest.season.valentine.love.objectives.paper_deliver": "Deliver love letters",
+  "quest.season.valentine.love.objectives.pink_tulip_collect": "Collect pink tulips",
+  "quest.season.valentine.love.objectives.pink_wool_collect": "Collect pink wool",
+  "quest.season.valentine.love.objectives.poetry_reading": "Attend poetry reading",
+  "quest.season.valentine.love.objectives.postman_helper": "Help the postman",
+  "quest.season.valentine.love.objectives.potion_craft": "Craft love potion",
+  "quest.season.valentine.love.objectives.potion_deliver": "Deliver love potion",
+  "quest.season.valentine.love.objectives.red_banner_craft": "Craft red banner",
+  "quest.season.valentine.love.objectives.red_dye_collect": "Collect red dye",
+  "quest.season.valentine.love.objectives.red_mushroom_collect": "Collect red mushrooms",
+  "quest.season.valentine.love.objectives.red_wool_collect": "Collect red wool",
+  "quest.season.valentine.love.objectives.romantic_dance": "Perform romantic dance",
+  "quest.season.valentine.love.objectives.rose_bush_collect": "Collect rose bushes",
+  "quest.season.valentine.love.objectives.sugar_collect": "Collect sugar",
+  "quest.season.valentine.love.objectives.sweet_berries_collect": "Collect sweet berries",
+  "quest.season.valentine.love.objectives.wedding_aisle": "Walk down the aisle",
+  "quest.season.winter.frost.objectives.blue_ice_collect": "Collect blue ice",
+  "quest.season.winter.frost.objectives.bread_craft": "Craft bread",
+  "quest.season.winter.frost.objectives.break_ice_holes": "Break ice holes",
+  "quest.season.winter.frost.objectives.carrot_collect": "Collect carrots",
+  "quest.season.winter.frost.objectives.celebration_bonfire": "Light bonfire",
+  "quest.season.winter.frost.objectives.cod_collect": "Collect cod",
+  "quest.season.winter.frost.objectives.crystal_lights": "Place crystal lights",
+  "quest.season.winter.frost.objectives.diamond_sword_craft": "Craft diamond sword",
+  "quest.season.winter.frost.objectives.feed_wolves": "Feed wolves",
+  "quest.season.winter.frost.objectives.frost_arena": "Enter frost arena",
+  "quest.season.winter.frost.objectives.frost_enchantment": "Get frost enchantment",
+  "quest.season.winter.frost.objectives.frost_spiders": "Defeat frost spiders",
+  "quest.season.winter.frost.objectives.frozen_lake": "Find frozen lake",
+  "quest.season.winter.frost.objectives.frozen_plaza": "Visit frozen plaza",
+  "quest.season.winter.frost.objectives.ice_art_gallery": "Visit ice gallery",
+  "quest.season.winter.frost.objectives.ice_castle": "Build ice castle",
+  "quest.season.winter.frost.objectives.ice_collect": "Collect ice",
+  "quest.season.winter.frost.objectives.ice_craft": "Craft ice blocks",
+  "quest.season.winter.frost.objectives.ice_elementals": "Defeat ice elementals",
+  "quest.season.winter.frost.objectives.ice_fishing": "Go ice fishing",
+  "quest.season.winter.frost.objectives.mushroom_stew_collect": "Collect mushroom stew",
+  "quest.season.winter.frost.objectives.mushroom_stew_craft": "Craft mushroom stew",
+  "quest.season.winter.frost.objectives.packed_ice_collect": "Collect packed ice",
+  "quest.season.winter.frost.objectives.polar_bears": "Find polar bears",
+  "quest.season.winter.frost.objectives.potion_craft": "Craft frost resistance",
+  "quest.season.winter.frost.objectives.prismarine_shard_collect": "Collect prismarine shards",
+  "quest.season.winter.frost.objectives.quartz_collect": "Collect quartz",
+  "quest.season.winter.frost.objectives.snow_block_collect": "Collect snow blocks",
+  "quest.season.winter.frost.objectives.snow_block_deliver": "Deliver snow blocks",
+  "quest.season.winter.frost.objectives.snowman_decoration": "Decorate snowman",
+  "quest.season.winter.frost.objectives.snowman_large": "Build large snowman",
+  "quest.season.winter.frost.objectives.snowman_small": "Build small snowman",
+  "quest.season.winter.frost.objectives.stick_collect": "Collect sticks",
+  "quest.season.winter.frost.objectives.tame_foxes": "Tame arctic foxes",
+  "quest.season.winter.frost.objectives.winter_blessing": "Receive winter blessing",
+  "quest.season.winter.frost.objectives.winter_boss": "Defeat winter boss",
+  "quest.season.winter.frost.objectives.winter_guardian": "Meet winter guardian",
+  "quest.seasonal.valentine_love.npc.name": "Cupid",
+  "quest.seasonal.winter_frost.npc.name": "Frost Guardian",
+  "quest.special.ancient_power.objectives.collect_echo_shard": "Collect echo shards",
+  "quest.special.ancient_power.npc.name": "Ancient Sage",
+  "quest.special.curse_removal.npc.name": "Curse Breaker",
+  "quest.special.curse_removal.objectives.amethyst_shard_collect": "Collect amethyst shards",
+  "quest.special.curse_removal.objectives.candle_collect": "Collect candles",
+  "quest.special.curse_removal.objectives.diamond_chestplate_craft": "Craft diamond chestplate",
+  "quest.special.curse_removal.objectives.diamond_sword_craft": "Craft diamond sword",
+  "quest.special.curse_removal.objectives.gold_ingot_craft": "Craft gold ingots",
+  "quest.special.curse_removal.objectives.iron_sword_collect": "Collect iron sword",
+  "quest.special.curse_removal.objectives.nether_star_collect": "Collect nether star",
+  "quest.special.curse_removal.objectives.rotten_flesh_collect": "Collect rotten flesh",
+  "quest.special.curse_removal.objectives.splash_potion_collect": "Collect splash potions",
+  "quest.special.curse_removal.objectives.sugar_collect": "Collect sugar",
+  "quest.special.curse_removal.objectives.sweet_berries_collect": "Collect sweet berries",
+  "quest.special.curse_removal.objectives.water_bucket_collect": "Collect water buckets",
+  "quest.special.curse_removal.objectives.written_book_collect": "Collect written books",
+  "quest.special.dimension_traveler.npc.name": "Dimension Walker",
+  "quest.special.dimension_traveler.objectives.amethyst_shard_collect": "Collect amethyst shards",
+  "quest.special.dimension_traveler.objectives.blaze_powder_collect": "Collect blaze powder",
+  "quest.special.dimension_traveler.objectives.clock_collect": "Collect clocks",
+  "quest.special.dimension_traveler.objectives.dragon_breath_collect": "Collect dragon breath",
+  "quest.special.dimension_traveler.objectives.end_crystal_collect": "Collect end crystals",
+  "quest.special.dimension_traveler.objectives.end_portal_frame_craft": "Craft portal frames",
+  "quest.special.dimension_traveler.objectives.ender_pearl_collect": "Collect ender pearls",
+  "quest.special.dimension_traveler.objectives.nether_star_craft": "Craft nether star",
+  "quest.special.dimension_traveler.objectives.netherite_helmet_collect": "Collect netherite helmet",
+  "quest.special.dimension_traveler.objectives.redstone_collect": "Collect redstone",
+  "quest.special.dimension_traveler.objectives.soul_sand_collect": "Collect soul sand",
+  "quest.special.dimension_traveler.objectives.written_book_collect": "Collect written books",
+  "quest.special.divine_blessing.objectives.bread_deliver": "Deliver bread",
+  "quest.special.divine_blessing.objectives.emerald_deliver": "Deliver emeralds",
+  "quest.special.divine_blessing.objectives.enchanted_book_collect": "Collect enchanted books",
+  "quest.special.divine_blessing.npc.name": "High Priest",
+  "quest.special.divine_blessing.objectives.feather_collect": "Collect feathers",
+  "quest.special.divine_blessing.objectives.gold_ingot_collect": "Collect gold ingots",
+  "quest.special.divine_blessing.objectives.golden_apple_craft": "Craft golden apples",
+  "quest.special.divine_blessing.objectives.water_bucket_collect": "Collect water buckets",
+  "quest.special.hidden_class.npc.name": "Mysterious Trainer",
+  "quest.special.hidden_class.objectives.enchanted_book_collect": "Collect enchanted books",
+  "quest.special.legendary_weapon.npc.name": "Legendary Blacksmith",
+  "quest.special.legendary_weapon.objectives.dragon_breath_collect": "Collect dragon breath",
+  "quest.special.legendary_weapon.objectives.netherite_ingot_collect": "Collect netherite ingots",
+  "quest.special.legendary_weapon.objectives.netherite_sword_craft": "Craft netherite sword",
+  "quest.special.mythic_beast.npc.name": "Beast Tamer",
+  "quest.special.mythic_beast.objectives.nether_star_collect": "Collect nether star",
+  "quest.special.secret_society.npc.name": "Shadow Agent",
+  "quest.special.secret_society.objectives.written_book_collect": "Collect written books",
+  "quest.special.time_limited.npc.name": "Time Keeper",
+  "quest.special.time_limited.objectives.amethyst_shard_collect": "Collect amethyst shards",
+  "quest.special.time_limited.objectives.diamond_deliver": "Deliver diamonds",
+  "quest.special.world_tree.npc.name": "Tree Guardian",
+  "quest.special.world_tree.objectives.glow_berries_collect": "Collect glow berries",
+  "quest.weekly.ancient_ruins.npc.name": "Archaeologist",
+  "quest.weekly.ancient_ruins.objectives.nether_star_collect": "Collect nether star",
+  "quest.weekly.elite_hunting.npc.name": "Hunt Master",
+  "quest.weekly.elite_hunting.objectives.ghast_tear_collect": "Collect ghast tears",
+  "quest.weekly.faction_war.npc.name": "War General",
+  "quest.weekly.guild_contribution.npc.name": "Guild Master",
+  "quest.weekly.guild_contribution.objectives.experience_bottle_collect": "Collect experience bottles",
+  "quest.weekly.legendary_craft.npc.name": "Master Crafter",
+  "quest.weekly.legendary_craft.objectives.nether_star_collect": "Collect nether star",
+  "quest.weekly.legendary_craft.objectives.netherite_ingot_collect": "Collect netherite ingots",
+  "quest.weekly.legendary_craft.objectives.netherite_sword_craft": "Craft netherite sword",
+  "quest.weekly.pvp_tournament.npc.name": "Arena Master",
+  "quest.weekly.pvp_tournament.objectives.golden_apple_collect": "Collect golden apples",
+  "quest.weekly.raid_boss.npc.name": "Raid Captain",
+  "quest.weekly.resource_gathering.npc.name": "Resource Manager",
+  "quest.weekly.resource_gathering.objectives.amethyst_shard_collect": "Collect amethyst shards",
+  "quest.weekly.resource_gathering.objectives.chest_deliver": "Deliver chests",
+  "quest.weekly.resource_gathering.objectives.sweet_berries_collect": "Collect sweet berries",
+  "quest.weekly.survival_challenge.npc.name": "Survival Expert",
+  "quest.weekly.survival_challenge.objectives.bread_collect": "Collect bread",
+  "quest.weekly.world_boss.npc.name": "World Guardian",
+  "quest": {
+    "not_found": "Quest Not Found",
+    "already_completed": "Quest Already Completed",
+    "no_permission": "Quest No Permission",
+    "failed": "Quest Failed",
+    "abandoned": "Quest Abandoned",
+    "objective_complete": "Quest Objective Complete",
+    "rewards_received": "Quest Rewards Received",
+    "prereq_not_met": "Quest Prereq Not Met",
+    "quest_requirement": "Quest Quest Requirement",
+    "item_requirement": "Quest Item Requirement",
+    "class_requirement": "Quest Class Requirement",
+    "category": {
+      "main": "Category Main",
+      "side": "Category Side",
+      "daily": "Category Daily",
+      "weekly": "Category Weekly",
+      "event": "Category Event",
+      "guild": "Category Guild",
+      "seasonal": "Category Seasonal",
+      "special": "Category Special",
+      "tutorial": "Category Tutorial",
+      "repeatable": "Category Repeatable",
+      "combat": "Category Combat",
+      "exploration": "Category Exploration",
+      "crafting": "Category Crafting",
+      "life": "Category Life",
+      "advancement": "Category Advancement",
+      "branch": "Category Branch"
+    },
+    "filter": {
+      "all": "Filter All",
+      "main": "Filter Main",
+      "side": "Filter Side",
+      "active": "Filter Active",
+      "completed": "Filter Completed"
+    },
+    "click_for_details": "Quest Click for Details",
+    "go_to_page": "Quest Go to Page",
+    "next": {
+      "page": "Next Page"
+    },
+    "overall": {
+      "progress": "Overall Progress"
+    },
+    "previous": {
+      "page": "Previous Page"
+    },
+    "reward": {
+      "available": "Reward Available"
+    },
+    "total": {
+      "count": "Total Count",
+      "progress": "Total Progress"
+    },
+    "in_progress": "Quest in Progress",
+    "unknown_objective": "Quest Unknown Objective",
+    "clazz": {
+      "warrior": {
+        "advancement": {
+          "objectives": {
+            "endurance_test": "Objectives Endurance Test",
+            "final_trial": "Objectives Final Trial",
+            "forge_armor": "Objectives Forge Armor",
+            "forge_weapon": "Objectives Forge Weapon",
+            "prove_combat": "Objectives Prove Combat",
+            "prove_pvp": "Objectives Prove Pvp",
+            "return_emblem": "Objectives Return Emblem",
+            "warrior_emblem": "Objectives Warrior Emblem",
+            "warrior_level": "Objectives Warrior Level",
+            "warrior_master": "Objectives Warrior Master"
+          }
+        }
+      }
+    },
+    "craft": {
+      "enchantment": {
+        "mastery": {
+          "objectives": {
+            "book_collect": "Objectives Book Collect",
+            "diamond_chestplate_craft": "Objectives Diamond Chestplate Craft",
+            "diamond_pickaxe_craft": "Objectives Diamond Pickaxe Craft",
+            "diamond_sword_craft": "Objectives Diamond Sword Craft",
+            "enchanted_book_collect": "Objectives Enchanted Book Collect",
+            "enchantment_master": "Objectives Enchantment Master",
+            "experience_bottle_collect": "Objectives Experience Bottle Collect",
+            "ghast_tear_collect": "Objectives Ghast Tear Collect",
+            "lapis_lazuli_collect": "Objectives Lapis Lazuli Collect",
+            "netherite_sword_craft": "Objectives Netherite Sword Craft",
+            "netherite_sword_deliver": "Objectives Netherite Sword Deliver"
+          }
+        }
+      },
+      "master": {
+        "blacksmith": {
+          "objectives": {
+            "blacksmith_master": "Objectives Blacksmith Master",
+            "coal_collect": "Objectives Coal Collect",
+            "diamond_chestplate_craft": "Objectives Diamond Chestplate Craft",
+            "diamond_collect": "Objectives Diamond Collect",
+            "diamond_sword_collect": "Objectives Diamond Sword Collect",
+            "diamond_sword_craft": "Objectives Diamond Sword Craft",
+            "gold_ingot_collect": "Objectives Gold Ingot Collect",
+            "iron_chestplate_craft": "Objectives Iron Chestplate Craft",
+            "iron_ingot_collect": "Objectives Iron Ingot Collect",
+            "iron_pickaxe_craft": "Objectives Iron Pickaxe Craft",
+            "mine_diamond": "Objectives Mine Diamond",
+            "mine_gold": "Objectives Mine Gold",
+            "mine_iron": "Objectives Mine Iron",
+            "netherite_ingot_craft": "Objectives Netherite Ingot Craft",
+            "netherite_scrap_collect": "Objectives Netherite Scrap Collect",
+            "netherite_sword_craft": "Objectives Netherite Sword Craft",
+            "netherite_sword_deliver": "Objectives Netherite Sword Deliver",
+            "setup_anvil": "Objectives Setup Anvil",
+            "setup_enchanting": "Objectives Setup Enchanting",
+            "setup_furnace": "Objectives Setup Furnace"
+          }
+        }
+      },
+      "potion": {
+        "brewing": {
+          "objectives": {
+            "blaze_powder_collect": "Objectives Blaze Powder Collect",
+            "dragon_breath_collect": "Objectives Dragon Breath Collect",
+            "fermented_spider_eye_collect": "Objectives Fermented Spider Eye Collect",
+            "master_alchemist": "Objectives Master Alchemist",
+            "nether_wart_collect": "Objectives Nether Wart Collect",
+            "phantom_membrane_collect": "Objectives Phantom Membrane Collect",
+            "potion_collect": "Objectives Potion Collect",
+            "potion_craft": "Objectives Potion Craft",
+            "potion_deliver": "Objectives Potion Deliver"
+          }
+        }
+      }
+    },
+    "explore": {
+      "ancient": {
+        "ruins": {
+          "objectives": {
+            "break_ancient_blocks": "Break Ancient Blocks",
+            "brick_collect": "Brick Collect",
+            "explore_desert_ruins": "Explore Desert Ruins",
+            "explore_underground_ruins": "Explore Underground Ruins",
+            "talk_to_archaeologist": "Talk To Archaeologist"
+          }
+        }
+      },
+      "lost": {
+        "continent": {
+          "objectives": {
+            "break_ocean_blocks": "Break Ocean Blocks",
+            "build_expedition_camp": "Build Expedition Camp",
+            "defeat_continent_guardians": "Defeat Continent Guardians",
+            "explore_mysterious_lands": "Explore Mysterious Lands",
+            "prismarine_crystals_collect": "Prismarine Crystals Collect"
+          }
+        }
+      },
+      "sky": {
+        "islands": {
+          "objectives": {
+            "amethyst_shard_collect": "Amethyst Shard Collect",
+            "build_sky_bridge": "Build Sky Bridge",
+            "defeat_sky_guardians": "Defeat Sky Guardians",
+            "explore_floating_islands": "Explore Floating Islands",
+            "reach_sky_height": "Reach Sky Height"
+          }
+        }
+      }
+    },
+    "guild": {
+      "fortress": {
+        "siege": {
+          "objectives": {
+            "capture_control_points": "Capture Control Points",
+            "defeat_enemy_players": "Defeat Enemy Players",
+            "defend_fortress": "Defend Fortress",
+            "destroy_enemy_walls": "Destroy Enemy Walls",
+            "participate_in_siege": "Participate In Siege"
+          }
+        }
+      }
+    },
+    "main": {
+      "first_trial": {
+        "objectives": {
+          "survive_wave2": "Survive Wave2"
+        }
+      }
+    },
+    "season": {
+      "autumn": {
+        "harvest": {
+          "objectives": {
+            "apple_collect": "Apple Collect",
+            "pumpkin_collect": "Pumpkin Collect",
+            "pumpkin_pie_craft": "Pumpkin Pie Craft",
+            "wheat_collect": "Wheat Collect"
+          }
+        }
+      },
+      "christmas": {
+        "spirit": {
+          "objectives": {
+            "chest_deliver": "Chest Deliver",
+            "shulker_box_craft": "Shulker Box Craft",
+            "snowball_collect": "Snowball Collect",
+            "cookie_deliver": "Cookie Deliver",
+            "spruce_sapling_craft": "Spruce Sapling Craft"
+          }
+        }
+      },
+      "easter": {
+        "eggs": {
+          "objectives": {
+            "cyan_dye_craft": "Cyan Dye Craft",
+            "dandelion_collect": "Dandelion Collect",
+            "egg_collect": "Egg Collect",
+            "golden_apple_collect": "Golden Apple Collect"
+          }
+        }
+      },
+      "new": {
+        "year": {
+          "objectives": {
+            "cake_craft": "Cake Craft",
+            "firework_rocket_collect": "Firework Rocket Collect",
+            "make_new_year_resolution": "Make New Year Resolution",
+            "visit_celebration_area": "Visit Celebration Area"
+          }
+        }
+      },
+      "spring": {
+        "festival": {
+          "objectives": {
+            "leather_helmet_craft": "Leather Helmet Craft",
+            "plant_seeds": "Plant Seeds",
+            "poppy_collect": "Poppy Collect"
+          }
+        }
+      },
+      "summer": {
+        "solstice": {
+          "objectives": {
+            "beach_contest": "Beach Contest",
+            "blaze_powder_collect": "Blaze Powder Collect",
+            "build_altar": "Build Altar",
+            "cake_deliver": "Cake Deliver",
+            "dandelion_collect": "Dandelion Collect",
+            "defeat_blazes": "Defeat Blazes",
+            "desert_temple": "Desert Temple",
+            "festival_complete": "Festival Complete",
+            "festival_coordinator": "Festival Coordinator",
+            "festival_grounds": "Festival Grounds",
+            "firework_rocket_collect": "Firework Rocket Collect",
+            "firework_rocket_craft": "Firework Rocket Craft",
+            "flower_garden": "Flower Garden",
+            "gold_ingot_collect": "Gold Ingot Collect",
+            "golden_apple_collect": "Golden Apple Collect",
+            "golden_apple_craft": "Golden Apple Craft",
+            "guardian_challenge": "Guardian Challenge",
+            "gunpowder_collect": "Gunpowder Collect",
+            "heat_endurance": "Heat Endurance",
+            "ice_collect": "Ice Collect",
+            "melon_craft": "Melon Craft",
+            "melon_slice_collect": "Melon Slice Collect",
+            "orange_tulip_collect": "Orange Tulip Collect",
+            "poppy_deliver": "Poppy Deliver",
+            "potion_craft": "Potion Craft",
+            "prismarine_shard_collect": "Prismarine Shard Collect",
+            "red_dye_collect": "Red Dye Collect",
+            "sun_offering": "Sun Offering",
+            "sun_priest": "Sun Priest",
+            "sunflower_collect": "Sunflower Collect",
+            "swimming_race": "Swimming Race"
+          }
+        }
+      },
+      "valentine": {
+        "love": {
+          "objectives": {
+            "bride_and_groom": "Bride And Groom",
+            "cake_craft": "Cake Craft",
+            "cake_deliver": "Cake Deliver",
+            "cocoa_beans_collect": "Cocoa Beans Collect",
+            "cookie_craft": "Cookie Craft",
+            "cupid_messenger": "Cupid Messenger",
+            "dance_hall": "Dance Hall",
+            "dance_partner": "Dance Partner",
+            "festival_end": "Festival End",
+            "firework_rocket_collect": "Firework Rocket Collect",
+            "flower_arch": "Flower Arch",
+            "flower_pot_craft": "Flower Pot Craft",
+            "gold_nugget_collect": "Gold Nugget Collect",
+            "heart_decorations": "Heart Decorations",
+            "love_blessing": "Love Blessing",
+            "love_plaza": "Love Plaza",
+            "milk_bucket_collect": "Milk Bucket Collect",
+            "paper_craft": "Paper Craft",
+            "paper_deliver": "Paper Deliver",
+            "pink_tulip_collect": "Pink Tulip Collect",
+            "pink_wool_collect": "Pink Wool Collect",
+            "poetry_reading": "Poetry Reading",
+            "postman_helper": "Postman Helper",
+            "potion_craft": "Potion Craft",
+            "potion_deliver": "Potion Deliver",
+            "red_banner_craft": "Red Banner Craft",
+            "red_dye_collect": "Red Dye Collect",
+            "red_mushroom_collect": "Red Mushroom Collect",
+            "red_wool_collect": "Red Wool Collect",
+            "romantic_dance": "Romantic Dance",
+            "rose_bush_collect": "Rose Bush Collect",
+            "sugar_collect": "Sugar Collect",
+            "sweet_berries_collect": "Sweet Berries Collect",
+            "wedding_aisle": "Wedding Aisle"
+          }
+        }
+      },
+      "winter": {
+        "frost": {
+          "objectives": {
+            "blue_ice_collect": "Blue Ice Collect",
+            "bread_craft": "Bread Craft",
+            "break_ice_holes": "Break Ice Holes",
+            "carrot_collect": "Carrot Collect",
+            "celebration_bonfire": "Celebration Bonfire",
+            "cod_collect": "Cod Collect",
+            "crystal_lights": "Crystal Lights",
+            "diamond_sword_craft": "Diamond Sword Craft",
+            "feed_wolves": "Feed Wolves",
+            "frost_arena": "Frost Arena",
+            "frost_enchantment": "Frost Enchantment",
+            "frost_spiders": "Frost Spiders",
+            "frozen_lake": "Frozen Lake",
+            "frozen_plaza": "Frozen Plaza",
+            "ice_art_gallery": "Ice Art Gallery",
+            "ice_castle": "Ice Castle",
+            "ice_collect": "Ice Collect",
+            "ice_craft": "Ice Craft",
+            "ice_elementals": "Ice Elementals",
+            "ice_fishing": "Ice Fishing",
+            "mushroom_stew_collect": "Mushroom Stew Collect",
+            "mushroom_stew_craft": "Mushroom Stew Craft",
+            "packed_ice_collect": "Packed Ice Collect",
+            "polar_bears": "Polar Bears",
+            "potion_craft": "Potion Craft",
+            "prismarine_shard_collect": "Prismarine Shard Collect",
+            "quartz_collect": "Quartz Collect",
+            "snow_block_collect": "Snow Block Collect",
+            "snow_block_deliver": "Snow Block Deliver",
+            "snowman_decoration": "Snowman Decoration",
+            "snowman_large": "Snowman Large",
+            "snowman_small": "Snowman Small",
+            "stick_collect": "Stick Collect",
+            "tame_foxes": "Tame Foxes",
+            "winter_blessing": "Winter Blessing",
+            "winter_boss": "Winter Boss",
+            "winter_guardian": "Winter Guardian"
+          }
+        }
+      }
+    },
+    "seasonal": {
+      "valentine_love": {
+        "npc": {
+          "name": "Npc Master"
+        }
+      },
+      "winter_frost": {
+        "npc": {
+          "name": "Npc Master"
+        }
+      }
+    },
+    "special": {
+      "ancient_power": {
+        "objectives": {
+          "collect_echo_shard": "Collect Echo Shard"
+        },
+        "npc": {
+          "name": "Npc Master"
+        }
+      },
+      "curse_removal": {
+        "npc": {
+          "name": "Npc Master"
+        },
+        "objectives": {
+          "amethyst_shard_collect": "Amethyst Shard Collect",
+          "candle_collect": "Candle Collect",
+          "diamond_chestplate_craft": "Diamond Chestplate Craft",
+          "diamond_sword_craft": "Diamond Sword Craft",
+          "gold_ingot_craft": "Gold Ingot Craft",
+          "iron_sword_collect": "Iron Sword Collect",
+          "nether_star_collect": "Nether Star Collect",
+          "rotten_flesh_collect": "Rotten Flesh Collect",
+          "splash_potion_collect": "Splash Potion Collect",
+          "sugar_collect": "Sugar Collect",
+          "sweet_berries_collect": "Sweet Berries Collect",
+          "water_bucket_collect": "Water Bucket Collect",
+          "written_book_collect": "Written Book Collect"
+        }
+      },
+      "dimension_traveler": {
+        "npc": {
+          "name": "Npc Master"
+        },
+        "objectives": {
+          "amethyst_shard_collect": "Amethyst Shard Collect",
+          "blaze_powder_collect": "Blaze Powder Collect",
+          "clock_collect": "Clock Collect",
+          "dragon_breath_collect": "Dragon Breath Collect",
+          "end_crystal_collect": "End Crystal Collect",
+          "end_portal_frame_craft": "End Portal Frame Craft",
+          "ender_pearl_collect": "Ender Pearl Collect",
+          "nether_star_craft": "Nether Star Craft",
+          "netherite_helmet_collect": "Netherite Helmet Collect",
+          "redstone_collect": "Redstone Collect",
+          "soul_sand_collect": "Soul Sand Collect",
+          "written_book_collect": "Written Book Collect"
+        }
+      },
+      "divine_blessing": {
+        "objectives": {
+          "bread_deliver": "Bread Deliver",
+          "emerald_deliver": "Emerald Deliver",
+          "enchanted_book_collect": "Enchanted Book Collect",
+          "feather_collect": "Feather Collect",
+          "gold_ingot_collect": "Gold Ingot Collect",
+          "golden_apple_craft": "Golden Apple Craft",
+          "water_bucket_collect": "Water Bucket Collect"
+        },
+        "npc": {
+          "name": "Npc Master"
+        }
+      },
+      "hidden_class": {
+        "npc": {
+          "name": "Npc Master"
+        },
+        "objectives": {
+          "enchanted_book_collect": "Enchanted Book Collect"
+        }
+      },
+      "legendary_weapon": {
+        "npc": {
+          "name": "Npc Master"
+        },
+        "objectives": {
+          "dragon_breath_collect": "Dragon Breath Collect",
+          "netherite_ingot_collect": "Netherite Ingot Collect",
+          "netherite_sword_craft": "Netherite Sword Craft"
+        }
+      },
+      "mythic_beast": {
+        "npc": {
+          "name": "Npc Master"
+        },
+        "objectives": {
+          "nether_star_collect": "Nether Star Collect"
+        }
+      },
+      "secret_society": {
+        "npc": {
+          "name": "Npc Master"
+        },
+        "objectives": {
+          "written_book_collect": "Written Book Collect"
+        }
+      },
+      "time_limited": {
+        "npc": {
+          "name": "Npc Master"
+        },
+        "objectives": {
+          "amethyst_shard_collect": "Amethyst Shard Collect",
+          "diamond_deliver": "Diamond Deliver"
+        }
+      },
+      "world_tree": {
+        "npc": {
+          "name": "Npc Master"
+        },
+        "objectives": {
+          "glow_berries_collect": "Glow Berries Collect"
+        }
+      }
+    },
+    "weekly": {
+      "ancient_ruins": {
+        "npc": {
+          "name": "Npc Master"
+        },
+        "objectives": {
+          "nether_star_collect": "Nether Star Collect"
+        }
+      },
+      "elite_hunting": {
+        "npc": {
+          "name": "Npc Master"
+        },
+        "objectives": {
+          "ghast_tear_collect": "Ghast Tear Collect"
+        }
+      },
+      "faction_war": {
+        "npc": {
+          "name": "Npc Master"
+        }
+      },
+      "guild_contribution": {
+        "npc": {
+          "name": "Npc Master"
+        },
+        "objectives": {
+          "experience_bottle_collect": "Experience Bottle Collect"
+        }
+      },
+      "legendary_craft": {
+        "npc": {
+          "name": "Npc Master"
+        },
+        "objectives": {
+          "nether_star_collect": "Nether Star Collect",
+          "netherite_ingot_collect": "Netherite Ingot Collect",
+          "netherite_sword_craft": "Netherite Sword Craft"
+        }
+      },
+      "pvp_tournament": {
+        "npc": {
+          "name": "Npc Master"
+        },
+        "objectives": {
+          "golden_apple_collect": "Golden Apple Collect"
+        }
+      },
+      "raid_boss": {
+        "npc": {
+          "name": "Npc Master"
+        }
+      },
+      "resource_gathering": {
+        "npc": {
+          "name": "Npc Master"
+        },
+        "objectives": {
+          "amethyst_shard_collect": "Amethyst Shard Collect",
+          "chest_deliver": "Chest Deliver",
+          "sweet_berries_collect": "Sweet Berries Collect"
+        }
+      },
+      "survival_challenge": {
+        "npc": {
+          "name": "Npc Master"
+        },
+        "objectives": {
+          "bread_collect": "Bread Collect"
+        }
+      },
+      "world_boss": {
+        "npc": {
+          "name": "Npc Master"
+        }
+      }
+    }
   }
 }

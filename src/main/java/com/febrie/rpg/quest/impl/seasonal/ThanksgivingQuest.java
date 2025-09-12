@@ -16,6 +16,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class ThanksgivingQuest extends Quest {
                 .id(QuestID.SEASON_THANKSGIVING)
                 .objectives(List.of(
                         // 축제 시작
-                        new InteractNPCObjective("harvest_elder", "village_elder", 1),
+                        new InteractNPCObjective("harvest_elder", "village_elder"),
                         new VisitLocationObjective("harvest_festival", "town_square"),
                         
                         // 수확물 수집
@@ -47,16 +48,16 @@ public class ThanksgivingQuest extends Quest {
                         new HarvestObjective("harvest_pumpkins", Material.PUMPKIN, 50),
                         
                         // 동물 사육
-                        new BreedAnimalsObjective("breed_cows", EntityType.COW, 10),
-                        new BreedAnimalsObjective("breed_pigs", EntityType.PIG, 10),
-                        new BreedAnimalsObjective("breed_chickens", EntityType.CHICKEN, 15),
-                        new CollectItemObjective("collect_milk", Material.MILK_BUCKET, 20),
+                        new InteractNPCObjective("breed_cows", "cattle_breeder"),
+                        new InteractNPCObjective("breed_pigs", "pig_breeder"),
+                        new InteractNPCObjective("breed_chickens", "chicken_breeder"),
+                        new CollectItemObjective("milk_bucket_collect", Material.MILK_BUCKET, 20),
                         
                         // 감사제 요리 준비
-                        new CraftItemObjective("bake_bread", Material.BREAD, 64),
-                        new CraftItemObjective("make_pumpkin_pie", Material.PUMPKIN_PIE, 20),
-                        new CraftItemObjective("bake_cookies", Material.COOKIE, 64),
-                        new CraftItemObjective("make_cake", Material.CAKE, 8),
+                        new CraftItemObjective("bread_craft", Material.BREAD, 64),
+                        new CraftItemObjective("pumpkin_pie_craft", Material.PUMPKIN_PIE, 20),
+                        new CraftItemObjective("cookie_craft", Material.COOKIE, 64),
+                        new CraftItemObjective("cake_craft", Material.CAKE, 8),
                         
                         // 마을 장식
                         new PlaceBlockObjective("decorate_hay", Material.HAY_BLOCK, 25),
@@ -68,23 +69,23 @@ public class ThanksgivingQuest extends Quest {
                         new KillMobObjective("turkey_hunt", EntityType.CHICKEN, 30), // 칠면조 대신
                         new KillMobObjective("wild_boar", EntityType.PIG, 20),
                         new KillMobObjective("deer_hunt", EntityType.COW, 15),
-                        new CollectItemObjective("hunting_trophies", Material.LEATHER, 40),
+                        new CollectItemObjective("leather_collect", Material.LEATHER, 40),
                         
                         // 감사 의식
-                        new DeliverItemObjective("food_donation", "villager", Material.BREAD, 32),
-                        new DeliverItemObjective("pie_sharing", "villager", Material.PUMPKIN_PIE, 10),
+                        new DeliverItemObjective("bread_deliver", Material.BREAD, 32, "villager"),
+                        new DeliverItemObjective("pumpkin_pie_deliver", Material.PUMPKIN_PIE, 10, "villager"),
                         new PayCurrencyObjective("charity_donation", CurrencyType.GOLD, 500),
-                        new InteractNPCObjective("gratitude_ceremony", "village_elder", 1),
+                        new InteractNPCObjective("gratitude_ceremony", "village_elder"),
                         
                         // 마을 잔치
-                        new InteractNPCObjective("join_feast", "feast_organizer", 1),
-                        new EatFoodObjective("thanksgiving_meal", Material.COOKED_BEEF, 10),
-                        new CollectItemObjective("share_drinks", Material.MILK_BUCKET, 5),
+                        new InteractNPCObjective("join_feast", "feast_organizer"),
+                        new CollectItemObjective("cooked_beef_collect", Material.COOKED_BEEF, 10),
+                        new CollectItemObjective("milk_bucket_collect", Material.MILK_BUCKET, 5),
                         
                         // 축제 마무리
-                        new CollectItemObjective("leftover_food", Material.COOKED_CHICKEN, 20),
-                        new DeliverItemObjective("help_cleanup", "villager", Material.BROWN_WOOL, 15),
-                        new InteractNPCObjective("festival_thanks", "village_elder", 1)
+                        new CollectItemObjective("cooked_chicken_collect", Material.COOKED_CHICKEN, 20),
+                        new DeliverItemObjective("brown_wool_deliver", Material.BROWN_WOOL, 15, "villager"),
+                        new InteractNPCObjective("festival_thanks", "village_elder")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 1200)
@@ -104,50 +105,49 @@ public class ThanksgivingQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SEASONAL_THANKSGIVING_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SEASONAL_THANKSGIVING_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_SEASONAL_THANKSGIVING_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "harvest_elder" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HARVEST_ELDER, who);
-            case "harvest_festival" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HARVEST_FESTIVAL, who);
-            case "harvest_wheat" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HARVEST_WHEAT, who);
-            case "harvest_carrots" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HARVEST_CARROTS, who);
-            case "harvest_potatoes" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HARVEST_POTATOES, who);
-            case "harvest_pumpkins" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HARVEST_PUMPKINS, who);
-            case "breed_cows" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_BREED_COWS, who);
-            case "breed_pigs" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_BREED_PIGS, who);
-            case "breed_chickens" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_BREED_CHICKENS, who);
-            case "collect_milk" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_COLLECT_MILK, who);
-            case "bake_bread" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_BAKE_BREAD, who);
-            case "make_pumpkin_pie" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_MAKE_PUMPKIN_PIE, who);
-            case "bake_cookies" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_BAKE_COOKIES, who);
-            case "make_cake" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_MAKE_CAKE, who);
-            case "decorate_hay" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_DECORATE_HAY, who);
-            case "place_pumpkins" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_PLACE_PUMPKINS, who);
-            case "autumn_leaves" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_AUTUMN_LEAVES, who);
-            case "harvest_altar" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HARVEST_ALTAR, who);
-            case "turkey_hunt" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_TURKEY_HUNT, who);
-            case "wild_boar" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_WILD_BOAR, who);
-            case "deer_hunt" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_DEER_HUNT, who);
-            case "hunting_trophies" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HUNTING_TROPHIES, who);
-            case "food_donation" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_FOOD_DONATION, who);
-            case "pie_sharing" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_PIE_SHARING, who);
-            case "charity_donation" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_CHARITY_DONATION, who);
-            case "gratitude_ceremony" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_GRATITUDE_CEREMONY, who);
-            case "join_feast" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_JOIN_FEAST, who);
-            case "thanksgiving_meal" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_THANKSGIVING_MEAL, who);
-            case "share_drinks" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_SHARE_DRINKS, who);
-            case "leftover_food" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_LEFTOVER_FOOD, who);
-            case "help_cleanup" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_HELP_CLEANUP, who);
-            case "festival_thanks" -> LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_OBJECTIVES_FESTIVAL_THANKS, who);
-            default -> new ArrayList<>();
+            case "harvest_elder" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_HARVEST_ELDER, who);
+            case "harvest_festival" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_HARVEST_FESTIVAL, who);
+            case "harvest_wheat" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_HARVEST_WHEAT, who);
+            case "harvest_carrots" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_HARVEST_CARROTS, who);
+            case "harvest_potatoes" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_HARVEST_POTATOES, who);
+            case "harvest_pumpkins" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_HARVEST_PUMPKINS, who);
+            case "breed_cows" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_BREED_COWS, who);
+            case "breed_pigs" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_BREED_PIGS, who);
+            case "breed_chickens" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_BREED_CHICKENS, who);
+            case "milk_bucket_collect" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_MILK_BUCKET_COLLECT, who);
+            case "bread_craft" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_BREAD_CRAFT, who);
+            case "pumpkin_pie_craft" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_PUMPKIN_PIE_CRAFT, who);
+            case "cookie_craft" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_COOKIE_CRAFT, who);
+            case "cake_craft" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_CAKE_CRAFT, who);
+            case "decorate_hay" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_DECORATE_HAY, who);
+            case "place_pumpkins" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_PLACE_PUMPKINS, who);
+            case "autumn_leaves" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_AUTUMN_LEAVES, who);
+            case "harvest_altar" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_HARVEST_ALTAR, who);
+            case "turkey_hunt" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_TURKEY_HUNT, who);
+            case "wild_boar" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_WILD_BOAR, who);
+            case "deer_hunt" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_DEER_HUNT, who);
+            case "leather_collect" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_LEATHER_COLLECT, who);
+            case "bread_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_BREAD_DELIVER, who);
+            case "pumpkin_pie_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_PUMPKIN_PIE_DELIVER, who);
+            case "charity_donation" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_CHARITY_DONATION, who);
+            case "gratitude_ceremony" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_GRATITUDE_CEREMONY, who);
+            case "join_feast" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_JOIN_FEAST, who);
+            case "cooked_beef_collect" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_COOKED_BEEF_COLLECT, who);
+            case "cooked_chicken_collect" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_COOKED_CHICKEN_COLLECT, who);
+            case "brown_wool_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_BROWN_WOOL_DELIVER, who);
+            case "festival_thanks" -> LangManager.text(QuestCommonLangKey.QUEST_SEASON_THANKSGIVING_OBJECTIVES_FESTIVAL_THANKS, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -158,7 +158,7 @@ public class ThanksgivingQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SEASONAL_THANKSGIVING_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_SEASONAL_THANKSGIVING_DIALOGS, who);
     }
     
     @Override
@@ -168,16 +168,16 @@ public class ThanksgivingQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SEASONAL_THANKSGIVING_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SEASONAL_THANKSGIVING_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SEASONAL_THANKSGIVING_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SEASONAL_THANKSGIVING_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SEASONAL_THANKSGIVING_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SEASONAL_THANKSGIVING_DECLINE, who);
     }
 }

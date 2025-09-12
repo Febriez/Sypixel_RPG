@@ -1,5 +1,21 @@
 {
   "name": "상업 재벌 제국",
+  "info": "전략적 거래와 사업 확장을 통해 거대한 상업 제국을 건설하세요.",
+  "npc_name": "무역 대가",
+  "accept": "훌륭합니다! 상업적 지배력의 길로 안내해 드리겠습니다.",
+  "decline": "시장은 아무도 기다려주지 않지만, 기회는 다시 찾아올 것입니다.",
+  "objectives": {
+    "collect_emeralds": "에메랄드 100개 수집하기",
+    "collect_diamonds": "다이아몬드 32개 수집하기",
+    "collect_gold_ingots": "금 주괴 64개 수집하기",
+    "invest_gold": "사업 벤처에 골드 5000개 투자하기",
+    "deliver_luxury_goods": "고급 상인에게 다이아몬드 16개 배송하기",
+    "deliver_food_supplies": "식품 상인에게 빵 128개 배송하기",
+    "deliver_building_materials": "건설 상인에게 참나무 널빤지 256개 배송하기",
+    "establish_trade_routes": "대상단장과 함께 무역로 5개 설립하기",
+    "collect_rare_items": "네더 스타 3개 수집하기",
+    "expand_business": "사업 확장에 에메랄드 200개 투자하기"
+  },
   "dialogs": [
     "모든 큰 재산은 하나의 거래에서 시작됩니다. 당신에게 그것이 있나요?",
     "당신의 사업이 성장하고 있습니다! 하지만 확장에는 신중한 계획이 필요합니다.",

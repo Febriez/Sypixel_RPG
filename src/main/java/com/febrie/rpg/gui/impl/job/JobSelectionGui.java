@@ -113,7 +113,7 @@ public class JobSelectionGui extends BaseGui {
 
             GuiItem tabItem = GuiItem.clickable(
                     ItemBuilder.of(isSelected ? Material.ENCHANTED_BOOK : Material.BOOK)
-                            .displayName(LangManager.text(LangKey.valueOf("JOB_CATEGORIES_" + category.name().toUpperCase()), viewer)
+                            .displayName(LangManager.text(LangKey.fromString("JOB_CATEGORIES_" + category.name().toUpperCase()), viewer)
                                     .color(category.getColor())
                                     .decoration(TextDecoration.BOLD, isSelected))
                             .addLore(Component.empty())
@@ -171,14 +171,14 @@ public class JobSelectionGui extends BaseGui {
 
         ItemBuilder builder = ItemBuilder.of(job.getMaterial())
                 .displayName(Component.text(job.getIcon() + " ")
-                        .append(LangManager.text(LangKey.valueOf("JOB_" + jobKey.toUpperCase() + "_NAME"), viewer))
+                        .append(LangManager.text(LangKey.fromString("JOB_" + jobKey.toUpperCase() + "_NAME"), viewer))
                         .decoration(TextDecoration.BOLD, true))
                 .addLore(Component.empty())
                 .addLore(LangManager.text(LangKey.GUI_JOB_SELECTION_MAX_LEVEL, viewer, String.valueOf(job.getMaxLevel())))
                 .addLore(Component.empty());
 
         // 직업 설명 추가
-        List<Component> description = LangManager.list(LangKey.valueOf("JOB_" + jobKey.toUpperCase() + "_DESCRIPTION"), viewer);
+        List<Component> description = LangManager.list(LangKey.fromString("JOB_" + jobKey.toUpperCase() + "_DESCRIPTION"), viewer);
         for (Component line : description) {
             builder.addLore(line);
         }

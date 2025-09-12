@@ -11,6 +11,7 @@ import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.lang.ILangKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -142,8 +143,8 @@ public class IslandBiomeChangeGui extends BaseGui {
         boolean isCurrentBiome = currentBiome == biome;
         
         // Get appropriate LangKey for biome name and description
-        LangKey nameKey = getBiomeNameKey(biome);
-        LangKey descKey = getBiomeDescriptionKey(biome);
+        ILangKey nameKey = getBiomeNameKey(biome);
+        ILangKey descKey = getBiomeDescriptionKey(biome);
 
         ItemBuilder builder = ItemBuilder.of(material)
                 .displayName(LangManager.text(nameKey, getViewerLocale()))
@@ -205,7 +206,7 @@ public class IslandBiomeChangeGui extends BaseGui {
                     plugin.getServer()
                             .getScheduler()
                             .runTask(plugin, () -> {
-                                LangKey nameKey = getBiomeNameKey(biome);
+                                ILangKey nameKey = getBiomeNameKey(biome);
                                 player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_BIOME_MESSAGE_CHANGED, viewer.locale(), LangManager.text(nameKey, viewer.locale())));
                                 player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_BIOME_MESSAGE_CHUNK_RELOAD_NOTICE, viewer.locale()));
 
@@ -235,7 +236,7 @@ public class IslandBiomeChangeGui extends BaseGui {
             int centerX = (int) island.configuration().spawnData().defaultSpawn().x();
             int centerZ = (int) island.configuration().spawnData().defaultSpawn().z();
             Biome biome = islandWorld.getBiome(centerX, 100, centerZ);
-            LangKey nameKey = getBiomeNameKey(biome);
+            ILangKey nameKey = getBiomeNameKey(biome);
             currentBiomeName = LangManager.text(nameKey, viewer.locale());
         }
 
@@ -268,7 +269,7 @@ public class IslandBiomeChangeGui extends BaseGui {
         return "biome." + biome.toString().toLowerCase();
     }
     
-    private @NotNull LangKey getBiomeNameKey(Biome biome) {
+    private @NotNull ILangKey getBiomeNameKey(Biome biome) {
         if (biome == Biome.PLAINS) return LangKey.BIOME_PLAINS_NAME;
         if (biome == Biome.FOREST) return LangKey.BIOME_FOREST_NAME;
         if (biome == Biome.DESERT) return LangKey.BIOME_DESERT_NAME;
@@ -287,7 +288,7 @@ public class IslandBiomeChangeGui extends BaseGui {
         return LangKey.GUI_ISLAND_BIOME_UNKNOWN;
     }
     
-    private @NotNull LangKey getBiomeDescriptionKey(Biome biome) {
+    private @NotNull ILangKey getBiomeDescriptionKey(Biome biome) {
         if (biome == Biome.PLAINS) return LangKey.BIOME_PLAINS_DESCRIPTION;
         if (biome == Biome.FOREST) return LangKey.BIOME_FOREST_DESCRIPTION;
         if (biome == Biome.DESERT) return LangKey.BIOME_DESERT_DESCRIPTION;

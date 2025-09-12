@@ -8,5 +8,15 @@
     "The purification process is working - the darkness is lifting.",
     "The souls are whole again! They can finally find peace.",
     "You've mended the damage to the spiritual realm itself."
-  ]
+  ],
+  "objectives": {
+    "talk_spirit_guide": "Talk Spirit Guide",
+    "spiritual_barrier": "Spiritual Barrier",
+    "soul_fragments": "Soul Fragments",
+    "purification_essence": "Purification Essence",
+    "soul_nexus": "Soul Nexus",
+    "complete_souls": "Complete Souls",
+    "spirit_shrine": "Spirit Shrine",
+    "restore_souls": "Restore Souls"
+  }
 }

@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
@@ -18,8 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,16 +43,16 @@ public class HeroesAllianceQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.MAIN_HEROES_ALLIANCE)
                 .objectives(List.of(
-                        new InteractNPCObjective("alliance_messenger", "alliance_messenger", 1),
+                        new InteractNPCObjective("alliance_messenger", "alliance_messenger"),
                         new VisitLocationObjective("heroes_stronghold", "heroes_stronghold_area"),
-                        new InteractNPCObjective("legendary_warrior", "legendary_warrior", 1),
-                        new InteractNPCObjective("arcane_mage", "arcane_mage", 1),
-                        new InteractNPCObjective("shadow_assassin", "shadow_assassin", 1),
-                        new CollectItemObjective("alliance_token", Material.NETHERITE_INGOT, 10),
+                        new InteractNPCObjective("legendary_warrior", "legendary_warrior"),
+                        new InteractNPCObjective("arcane_mage", "arcane_mage"),
+                        new InteractNPCObjective("shadow_assassin", "shadow_assassin"),
+                        new CollectItemObjective("netherite_ingot_collect", Material.NETHERITE_INGOT, 10),
                         new KillMobObjective("kill_ender_dragon", EntityType.ENDER_DRAGON, 1),
                         new KillMobObjective("kill_withers", EntityType.WITHER, 2),
                         new VisitLocationObjective("alliance_hall", "alliance_hall_area"),
-                        new InteractNPCObjective("heroes_council", "heroes_council", 1)
+                        new InteractNPCObjective("heroes_council", "heroes_council")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 5000)
@@ -71,31 +70,31 @@ public class HeroesAllianceQuest extends Quest {
     
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_HEROES_ALLIANCE_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_NAME, who);
     }
     
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_INFO, who);
     }
     
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "alliance_messenger" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_ALLIANCE_MESSENGER, who);
-            case "heroes_stronghold" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_HEROES_STRONGHOLD, who);
-            case "legendary_warrior" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_LEGENDARY_WARRIOR, who);
-            case "arcane_mage" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_ARCANE_MAGE, who);
-            case "shadow_assassin" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_SHADOW_ASSASSIN, who);
-            case "alliance_token" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_ALLIANCE_TOKEN, who);
-            case "kill_ender_dragon" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_KILL_ENDER_DRAGON, who);
-            case "kill_withers" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_KILL_WITHERS, who);
-            case "alliance_hall" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_ALLIANCE_HALL, who);
-            case "heroes_council" -> LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_HEROES_COUNCIL, who);
-            default -> List.of(Component.text("Objective: " + objective.getId()));
+            case "alliance_messenger" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_ALLIANCE_MESSENGER, who);
+            case "heroes_stronghold" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_HEROES_STRONGHOLD, who);
+            case "legendary_warrior" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_LEGENDARY_WARRIOR, who);
+            case "arcane_mage" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_ARCANE_MAGE, who);
+            case "shadow_assassin" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_SHADOW_ASSASSIN, who);
+            case "netherite_ingot_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_NETHERITE_INGOT_COLLECT, who);
+            case "kill_ender_dragon" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_KILL_ENDER_DRAGON, who);
+            case "kill_withers" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_KILL_WITHERS, who);
+            case "alliance_hall" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_ALLIANCE_HALL, who);
+            case "heroes_council" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_OBJECTIVES_HEROES_COUNCIL, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 6;
@@ -103,7 +102,7 @@ public class HeroesAllianceQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_HEROES_ALLIANCE_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_DIALOGS, who);
     }
     
     @Override
@@ -113,16 +112,16 @@ public class HeroesAllianceQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_HEROES_ALLIANCE_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_HEROES_ALLIANCE_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_HEROES_ALLIANCE_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_HEROES_ALLIANCE_DECLINE, who);
     }
 }

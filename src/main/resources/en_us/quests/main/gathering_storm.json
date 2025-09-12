@@ -1,0 +1,22 @@
+{
+  "name": "Gathering Storm",
+  "info": "Information about Gathering Storm",
+  "dialogs": [
+    "Welcome, adventurer!",
+    "I have a task for you.",
+    "Will you help me?"
+  ],
+  "npc_name": "Npc Name",
+  "accept": "Accept Quest",
+  "decline": "Decline Quest",
+  "objectives": {
+    "amethyst_cluster_collect": "Amethyst Cluster Collect",
+    "kill_charged_creepers": "Kill Charged Creepers",
+    "kill_phantoms": "Kill Phantoms",
+    "lightning_rod_collect": "Lightning Rod Collect",
+    "storm_keeper": "Storm Keeper",
+    "storm_peaks": "Storm Peaks",
+    "storm_warden": "Storm Warden",
+    "thunder_spire": "Thunder Spire"
+  }
+}

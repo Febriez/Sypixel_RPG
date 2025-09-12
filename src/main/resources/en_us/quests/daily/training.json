@@ -5,7 +5,10 @@
     "trainer": "Meet your trainer",
     "combat_practice": "Complete combat practice",
     "skill_training": "Train your skills",
-    "final_test": "Pass the final test"
+    "final_test": "Pass the final test",
+    "endurance_test": "Endurance Test",
+    "iron_ingot_collect": "Iron Ingot Collect",
+    "practice_combat": "Practice Combat"
   },
   "dialogs": [
     "Welcome to the training grounds. Are you ready to push your limits today?",
@@ -22,5 +25,6 @@
   ],
   "npc_name": "Master Trainer Garrett",
   "accept": "I'm ready to train hard and improve my skills.",
-  "decline": "I need to rest before training."
+  "decline": "I need to rest before training.",
+  "npc.name": "Training Master"
 }

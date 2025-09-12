@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
@@ -17,7 +18,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -42,15 +42,15 @@ public class LegacyOfHeroesQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.MAIN_LEGACY_OF_HEROES)
                 .objectives(List.of(
-                        new InteractNPCObjective("legacy_keeper", "legacy_keeper", 1),
+                        new InteractNPCObjective("legacy_keeper", "legacy_keeper"),
                         new VisitLocationObjective("heroes_academy", "heroes_academy_area"),
-                        new CollectItemObjective("wisdom_scroll", Material.MAP, 20),
-                        new CollectItemObjective("heroic_relic", Material.NETHERITE_INGOT, 10),
+                        new CollectItemObjective("map_collect", Material.MAP, 20),
+                        new CollectItemObjective("netherite_ingot_collect", Material.NETHERITE_INGOT, 10),
                         new VisitLocationObjective("monument_site", "monument_site_area"),
-                        new CollectItemObjective("marble_block", Material.QUARTZ_BLOCK, 50),
-                        new CollectItemObjective("eternal_flame", Material.SOUL_TORCH, 12),
+                        new CollectItemObjective("quartz_block_collect", Material.QUARTZ_BLOCK, 50),
+                        new CollectItemObjective("soul_torch_collect", Material.SOUL_TORCH, 12),
                         new VisitLocationObjective("hall_of_legends", "hall_of_legends_area"),
-                        new InteractNPCObjective("master_chronicler", "master_chronicler", 1)
+                        new InteractNPCObjective("master_chronicler", "master_chronicler")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 25000)
@@ -67,30 +67,30 @@ public class LegacyOfHeroesQuest extends Quest {
     
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_LEGACY_OF_HEROES_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_NAME, who);
     }
     
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_LEGACY_OF_HEROES_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_INFO, who);
     }
     
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "legacy_keeper" -> LangManager.list(LangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_LEGACY_KEEPER, who);
-            case "heroes_academy" -> LangManager.list(LangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_HEROES_ACADEMY, who);
-            case "wisdom_scroll" -> LangManager.list(LangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_WISDOM_SCROLL, who);
-            case "heroic_relic" -> LangManager.list(LangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_HEROIC_RELIC, who);
-            case "monument_site" -> LangManager.list(LangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_MONUMENT_SITE, who);
-            case "marble_block" -> LangManager.list(LangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_MARBLE_BLOCK, who);
-            case "eternal_flame" -> LangManager.list(LangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_ETERNAL_FLAME, who);
-            case "hall_of_legends" -> LangManager.list(LangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_HALL_OF_LEGENDS, who);
-            case "master_chronicler" -> LangManager.list(LangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_MASTER_CHRONICLER, who);
-            default -> List.of(Component.text("Objective: " + objective.getId()));
+            case "legacy_keeper" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_LEGACY_KEEPER, who);
+            case "heroes_academy" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_HEROES_ACADEMY, who);
+            case "map_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_MAP_COLLECT, who);
+            case "netherite_ingot_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_NETHERITE_INGOT_COLLECT, who);
+            case "monument_site" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_MONUMENT_SITE, who);
+            case "quartz_block_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_QUARTZ_BLOCK_COLLECT, who);
+            case "soul_torch_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_SOUL_TORCH_COLLECT, who);
+            case "hall_of_legends" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_HALL_OF_LEGENDS, who);
+            case "master_chronicler" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_OBJECTIVES_MASTER_CHRONICLER, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 5;
@@ -98,7 +98,7 @@ public class LegacyOfHeroesQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_LEGACY_OF_HEROES_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_DIALOGS, who);
     }
     
     @Override
@@ -108,16 +108,16 @@ public class LegacyOfHeroesQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_LEGACY_OF_HEROES_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_LEGACY_OF_HEROES_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_LEGACY_OF_HEROES_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_LEGACY_OF_HEROES_DECLINE, who);
     }
 }

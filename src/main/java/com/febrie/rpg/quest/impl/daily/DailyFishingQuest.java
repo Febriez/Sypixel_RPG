@@ -9,6 +9,7 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.FishingObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
@@ -65,21 +66,21 @@ public class DailyFishingQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_FISHING_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_FISHING_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_DAILY_FISHING_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_DAILY_FISHING_INFO, who);
     }
 
         @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "catch_any_fish" -> LangManager.list(LangKey.QUEST_DAILY_FISHING_OBJECTIVES_CATCH_ANY_FISH, who);
-            case "catch_salmon" -> LangManager.list(LangKey.QUEST_DAILY_FISHING_OBJECTIVES_CATCH_SALMON, who);
-            case "catch_pufferfish" -> LangManager.list(LangKey.QUEST_DAILY_FISHING_OBJECTIVES_CATCH_PUFFERFISH, who);
-            default -> new ArrayList<>();
+            case "catch_any_fish" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_FISHING_OBJECTIVES_CATCH_ANY_FISH, who);
+            case "catch_salmon" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_FISHING_OBJECTIVES_CATCH_SALMON, who);
+            case "catch_pufferfish" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_FISHING_OBJECTIVES_CATCH_PUFFERFISH, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -90,7 +91,7 @@ public class DailyFishingQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_DAILY_FISHING_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_DAILY_FISHING_DIALOGS, who);
     }
     
     @Override
@@ -100,16 +101,16 @@ public class DailyFishingQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_FISHING_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_FISHING_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_FISHING_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_FISHING_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_FISHING_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_FISHING_DECLINE, who);
     }
 }

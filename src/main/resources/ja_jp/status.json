@@ -1,24 +1,32 @@
 {
-  "online": "Online",
-  "offline": "Offline",
-  "yes": "Yes",
-  "no": "No",
-  "unknown": "Unknown",
-  "enabled": "Enabled",
-  "disabled": "Disabled",
+  "online": "オンライン",
+  "offline": "オフライン",
+  "yes": "はい",
+  "no": "いいえ",
+  "unknown": "不明",
+  "enabled": "有効",
+  "disabled": "無効",
   "flight": {
-    "yes": "Allowed",
-    "no": "Not allowed",
-    "enabled": "Flight enabled",
-    "disabled": "Flight disabled"
+    "yes": "許可",
+    "no": "不許可",
+    "enabled": "飛行有効",
+    "disabled": "飛行無効"
   },
-  "level": "Level {1}",
-  "job": "Job: {1}",
-  "no_job": "Job: None",
+  "level": "レベル {1}",
+  "job": "職業: {1}",
+  "no_job": "職業: なし",
   "gamemode": {
-    "survival": "Survival",
-    "creative": "Creative",
-    "adventure": "Adventure",
-    "spectator": "Spectator"
-  }
+    "survival": "サバイバル",
+    "creative": "クリエイティブ",
+    "adventure": "アドベンチャー",
+    "spectator": "スペクテイター"
+  },
+  "true": "有効",
+  "false": "無効",
+  "muted": "ミュート",
+  "active": "アクティブ",
+  "public": "公開",
+  "private": "非公開",
+  "status.new_mail": "新着メール",
+  "status.read": "既読"
 }

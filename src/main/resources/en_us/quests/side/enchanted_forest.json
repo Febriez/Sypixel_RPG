@@ -2,12 +2,12 @@
   "name": "Forest Spirits' Anger",
   "info": "Investigate the strange happenings in the enchanted forest.",
   "objectives": {
-    "forest_guardian": "Meet the forest guardian",
-    "enchanted_grove": "Enter the enchanted grove",
-    "kill_wolves": "Defeat 15 wolves",
-    "magic_saplings": "Collect 10 magic saplings",
-    "ancient_tree": "Find the ancient tree",
-    "tree_essence": "Gather tree essence"
+    "talk_forest_druid": "Talk to the forest druid",
+    "magical_grove": "Visit the magical grove",
+    "kill_witches": "Defeat 6 witches",
+    "enchanted_saplings": "Collect 8 enchanted saplings",
+    "fairy_circle": "Visit the fairy circle",
+    "fairy_dust": "Collect 15 fairy dust"
   },
   "dialogs": [
     "The forest spirits are angry!",

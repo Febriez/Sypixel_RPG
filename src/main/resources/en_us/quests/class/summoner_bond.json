@@ -1,0 +1,9 @@
+{
+  "objectives": {
+    "bond_strength": "Bond Strength",
+    "elemental_summons": "Elemental Summons",
+    "summon_familiar": "Summon Familiar",
+    "summoner_pact": "Summoner Pact",
+    "summoner_sage": "Summoner Sage"
+  }
+}

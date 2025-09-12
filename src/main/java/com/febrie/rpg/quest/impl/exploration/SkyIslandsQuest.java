@@ -20,6 +20,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +48,8 @@ public class SkyIslandsQuest extends Quest {
                 .id(QuestID.EXPLORE_SKY_ISLANDS)
                 .objectives(List.of(
                         new SurviveObjective("reach_sky_height", 5), // Survive 5 attempts at high altitude
-                        new VisitLocationObjective("explore_floating_islands", "sky_island", 5),
-                        new CollectItemObjective("collect_sky_crystals", Material.AMETHYST_SHARD, 30),
+                        new VisitLocationObjective("explore_floating_islands", "sky_island"),
+                        new CollectItemObjective("amethyst_shard_collect", Material.AMETHYST_SHARD, 30),
                         new KillMobObjective("defeat_sky_guardians", EntityType.PHANTOM, 25),
                         new PlaceBlockObjective("build_sky_bridge", Material.COBBLESTONE, 50)
                 ))
@@ -66,26 +67,26 @@ public class SkyIslandsQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_EXPLORATION_SKY_ISLANDS_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_EXPLORATION_SKY_ISLANDS_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_EXPLORATION_SKY_ISLANDS_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_EXPLORATION_SKY_ISLANDS_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "reach_sky_height" -> LangManager.list(LangKey.QUEST_EXPLORATION_SKY_ISLANDS_OBJECTIVES_REACH_SKY_HEIGHT, who);
-            case "explore_floating_islands" -> LangManager.list(LangKey.QUEST_EXPLORATION_SKY_ISLANDS_OBJECTIVES_EXPLORE_FLOATING_ISLANDS, who);
-            case "collect_sky_crystals" -> LangManager.list(LangKey.QUEST_EXPLORATION_SKY_ISLANDS_OBJECTIVES_COLLECT_SKY_CRYSTALS, who);
-            case "defeat_sky_guardians" -> LangManager.list(LangKey.QUEST_EXPLORATION_SKY_ISLANDS_OBJECTIVES_DEFEAT_SKY_GUARDIANS, who);
-            case "build_sky_bridge" -> LangManager.list(LangKey.QUEST_EXPLORATION_SKY_ISLANDS_OBJECTIVES_BUILD_SKY_BRIDGE, who);
-            default -> new ArrayList<>();
+            case "reach_sky_height" -> LangManager.text(QuestCommonLangKey.QUEST_EXPLORE_SKY_ISLANDS_OBJECTIVES_REACH_SKY_HEIGHT, who);
+            case "explore_floating_islands" -> LangManager.text(QuestCommonLangKey.QUEST_EXPLORE_SKY_ISLANDS_OBJECTIVES_EXPLORE_FLOATING_ISLANDS, who);
+            case "amethyst_shard_collect" -> LangManager.text(QuestCommonLangKey.QUEST_EXPLORE_SKY_ISLANDS_OBJECTIVES_AMETHYST_SHARD_COLLECT, who);
+            case "defeat_sky_guardians" -> LangManager.text(QuestCommonLangKey.QUEST_EXPLORE_SKY_ISLANDS_OBJECTIVES_DEFEAT_SKY_GUARDIANS, who);
+            case "build_sky_bridge" -> LangManager.text(QuestCommonLangKey.QUEST_EXPLORE_SKY_ISLANDS_OBJECTIVES_BUILD_SKY_BRIDGE, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 4;
@@ -93,7 +94,7 @@ public class SkyIslandsQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_EXPLORATION_SKY_ISLANDS_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_EXPLORATION_SKY_ISLANDS_DIALOGS, who);
     }
     
     @Override
@@ -103,16 +104,16 @@ public class SkyIslandsQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_EXPLORATION_SKY_ISLANDS_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_EXPLORATION_SKY_ISLANDS_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_EXPLORATION_SKY_ISLANDS_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_EXPLORATION_SKY_ISLANDS_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_EXPLORATION_SKY_ISLANDS_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_EXPLORATION_SKY_ISLANDS_DECLINE, who);
     }
 }

@@ -13,6 +13,7 @@ import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.lang.ILangKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -157,5 +158,5 @@ public class IslandBiomeSimpleGui extends BaseGui {
     }
     
     // 바이옴 옵션 레코드
-    private record BiomeOption(String id, LangKey nameKey, LangKey descriptionKey, Material material) {}
+    private record BiomeOption(String id, ILangKey nameKey, ILangKey descriptionKey, Material material) {}
 }

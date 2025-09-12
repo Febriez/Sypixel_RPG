@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
@@ -18,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,34 +44,34 @@ public class DragonTrialsQuest extends Quest {
                 .id(QuestID.MAIN_DRAGON_TRIALS)
                 .objectives(List.of(
                         // 첫 번째 시련: 힘의 시련
-                        new InteractNPCObjective("ancient_dragon", "ancient_dragon", 1),
+                        new InteractNPCObjective("ancient_dragon", "ancient_dragon"),
                         new VisitLocationObjective("trial_arena", "dragon_trial_arena"),
                         new KillMobObjective("stone_guardians", EntityType.IRON_GOLEM, 10),
                         new KillMobObjective("lava_elementals", EntityType.MAGMA_CUBE, 20),
                         new KillMobObjective("trial_champion", EntityType.RAVAGER, 3),
-                        new CollectItemObjective("trial_token_strength", Material.IRON_INGOT, 1),
+                        new CollectItemObjective("iron_ingot_collect", Material.IRON_INGOT, 1),
                         
                         // 두 번째 시련: 지혜의 시련
                         new VisitLocationObjective("wisdom_temple", "dragon_wisdom_temple"),
-                        new CollectItemObjective("ancient_books", Material.WRITTEN_BOOK, 10),
-                        new InteractNPCObjective("wisdom_keeper", "wisdom_keeper", 1),
-                        new CollectItemObjective("puzzle_pieces", Material.PRISMARINE_CRYSTALS, 15),
+                        new CollectItemObjective("written_book_collect", Material.WRITTEN_BOOK, 10),
+                        new InteractNPCObjective("wisdom_keeper", "wisdom_keeper"),
+                        new CollectItemObjective("prismarine_crystals_collect", Material.PRISMARINE_CRYSTALS, 15),
                         new PlaceBlockObjective("solve_puzzle", Material.SEA_LANTERN, 5),
-                        new CollectItemObjective("trial_token_wisdom", Material.LAPIS_LAZULI, 1),
+                        new CollectItemObjective("lapis_lazuli_collect", Material.LAPIS_LAZULI, 1),
                         
                         // 세 번째 시련: 용기의 시련
                         new VisitLocationObjective("void_realm", "dragon_void_realm"),
                         new SurviveObjective("survive_void", 300), // 5분 생존
                         new KillMobObjective("void_creatures", EntityType.ENDERMAN, 30),
                         new KillMobObjective("void_guards", EntityType.ENDERMITE, 50),
-                        new CollectItemObjective("void_essence", Material.ENDER_PEARL, 20),
-                        new CollectItemObjective("trial_token_courage", Material.ENDER_EYE, 1),
+                        new CollectItemObjective("ender_pearl_collect", Material.ENDER_PEARL, 20),
+                        new CollectItemObjective("ender_eye_collect", Material.ENDER_EYE, 1),
                         
                         // 네 번째 시련: 희생의 시련
-                        new DeliverItemObjective("sacrifice_gold", "ancient_dragon", Material.GOLD_BLOCK, 30),
-                        new DeliverItemObjective("sacrifice_diamonds", "ancient_dragon", Material.DIAMOND_BLOCK, 20),
-                        new DeliverItemObjective("sacrifice_emeralds", "ancient_dragon", Material.EMERALD_BLOCK, 10),
-                        new CollectItemObjective("trial_token_sacrifice", Material.NETHERITE_INGOT, 1),
+                        new DeliverItemObjective("gold_block_deliver", Material.GOLD_BLOCK, 30, "ancient_dragon"),
+                        new DeliverItemObjective("diamond_block_deliver", Material.DIAMOND_BLOCK, 20, "ancient_dragon"),
+                        new DeliverItemObjective("emerald_block_deliver", Material.EMERALD_BLOCK, 10, "ancient_dragon"),
+                        new CollectItemObjective("netherite_ingot_collect", Material.NETHERITE_INGOT, 1),
                         
                         // 최종 시련: 용의 도전
                         new VisitLocationObjective("dragon_sanctum", "dragon_sanctum"),
@@ -81,9 +81,9 @@ public class DragonTrialsQuest extends Quest {
                         new SurviveObjective("final_trial", 600), // 10분 생존
                         
                         // 시련 완료
-                        new InteractNPCObjective("ancient_dragon_final", "ancient_dragon", 1),
-                        new CollectItemObjective("dragon_blessing", Material.NETHER_STAR, 1),
-                        new CollectItemObjective("dragon_scale_armor", Material.NETHERITE_CHESTPLATE, 1)
+                        new InteractNPCObjective("ancient_dragon_final", "ancient_dragon"),
+                        new CollectItemObjective("nether_star_collect", Material.NETHER_STAR, 1),
+                        new CollectItemObjective("netherite_chestplate_collect", Material.NETHERITE_CHESTPLATE, 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 25000)
@@ -104,48 +104,48 @@ public class DragonTrialsQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_DRAGON_TRIALS_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "ancient_dragon" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_ANCIENT_DRAGON, who);
-            case "trial_arena" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_TRIAL_ARENA, who);
-            case "stone_guardians" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_STONE_GUARDIANS, who);
-            case "lava_elementals" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_LAVA_ELEMENTALS, who);
-            case "trial_champion" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_TRIAL_CHAMPION, who);
-            case "trial_token_strength" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_TRIAL_TOKEN_STRENGTH, who);
-            case "wisdom_temple" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_WISDOM_TEMPLE, who);
-            case "ancient_books" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_ANCIENT_BOOKS, who);
-            case "wisdom_keeper" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_WISDOM_KEEPER, who);
-            case "puzzle_pieces" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_PUZZLE_PIECES, who);
-            case "solve_puzzle" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_SOLVE_PUZZLE, who);
-            case "trial_token_wisdom" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_TRIAL_TOKEN_WISDOM, who);
-            case "void_realm" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_VOID_REALM, who);
-            case "survive_void" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_SURVIVE_VOID, who);
-            case "void_creatures" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_VOID_CREATURES, who);
-            case "void_guards" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_VOID_GUARDS, who);
-            case "void_essence" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_VOID_ESSENCE, who);
-            case "trial_token_courage" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_TRIAL_TOKEN_COURAGE, who);
-            case "sacrifice_gold" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_SACRIFICE_GOLD, who);
-            case "sacrifice_diamonds" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_SACRIFICE_DIAMONDS, who);
-            case "sacrifice_emeralds" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_SACRIFICE_EMERALDS, who);
-            case "trial_token_sacrifice" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_TRIAL_TOKEN_SACRIFICE, who);
-            case "dragon_sanctum" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_DRAGON_SANCTUM, who);
-            case "place_tokens" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_PLACE_TOKENS, who);
-            case "dragon_avatar" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_DRAGON_AVATAR, who);
-            case "elder_dragon" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_ELDER_DRAGON, who);
-            case "final_trial" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_FINAL_TRIAL, who);
-            case "ancient_dragon_final" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_ANCIENT_DRAGON_FINAL, who);
-            case "dragon_blessing" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_DRAGON_BLESSING, who);
-            case "dragon_scale_armor" -> LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_DRAGON_SCALE_ARMOR, who);
-            default -> List.of(Component.text("Objective: " + objective.getId()));
+            case "ancient_dragon" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_ANCIENT_DRAGON, who);
+            case "trial_arena" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_TRIAL_ARENA, who);
+            case "stone_guardians" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_STONE_GUARDIANS, who);
+            case "lava_elementals" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_LAVA_ELEMENTALS, who);
+            case "trial_champion" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_TRIAL_CHAMPION, who);
+            case "iron_ingot_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_IRON_INGOT_COLLECT, who);
+            case "wisdom_temple" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_WISDOM_TEMPLE, who);
+            case "written_book_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_WRITTEN_BOOK_COLLECT, who);
+            case "wisdom_keeper" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_WISDOM_KEEPER, who);
+            case "prismarine_crystals_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_PRISMARINE_CRYSTALS_COLLECT, who);
+            case "solve_puzzle" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_SOLVE_PUZZLE, who);
+            case "lapis_lazuli_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_LAPIS_LAZULI_COLLECT, who);
+            case "void_realm" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_VOID_REALM, who);
+            case "survive_void" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_SURVIVE_VOID, who);
+            case "void_creatures" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_VOID_CREATURES, who);
+            case "void_guards" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_VOID_GUARDS, who);
+            case "ender_pearl_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_ENDER_PEARL_COLLECT, who);
+            case "ender_eye_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_ENDER_EYE_COLLECT, who);
+            case "gold_block_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_GOLD_BLOCK_DELIVER, who);
+            case "diamond_block_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_DIAMOND_BLOCK_DELIVER, who);
+            case "emerald_block_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_EMERALD_BLOCK_DELIVER, who);
+            case "netherite_ingot_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_NETHERITE_INGOT_COLLECT, who);
+            case "dragon_sanctum" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_DRAGON_SANCTUM, who);
+            case "place_tokens" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_PLACE_TOKENS, who);
+            case "dragon_avatar" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_DRAGON_AVATAR, who);
+            case "elder_dragon" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_ELDER_DRAGON, who);
+            case "final_trial" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_FINAL_TRIAL, who);
+            case "ancient_dragon_final" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_ANCIENT_DRAGON_FINAL, who);
+            case "nether_star_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_NETHER_STAR_COLLECT, who);
+            case "netherite_chestplate_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_OBJECTIVES_NETHERITE_CHESTPLATE_COLLECT, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -156,7 +156,7 @@ public class DragonTrialsQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_DRAGON_TRIALS_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_DIALOGS, who);
     }
     
     @Override
@@ -166,16 +166,16 @@ public class DragonTrialsQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_DRAGON_TRIALS_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_DRAGON_TRIALS_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_DRAGON_TRIALS_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_DRAGON_TRIALS_DECLINE, who);
     }
 }

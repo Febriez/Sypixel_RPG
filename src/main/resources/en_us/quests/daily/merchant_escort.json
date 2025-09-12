@@ -5,7 +5,10 @@
     "merchant": "Meet the merchant",
     "escort_caravan": "Escort the caravan",
     "defend_attacks": "Defend against 3 attacks",
-    "reach_destination": "Reach the destination"
+    "reach_destination": "Reach the destination",
+    "chest_deliver": "Chest Deliver",
+    "escort_route": "Escort Route",
+    "protect_caravan": "Protect Caravan"
   },
   "dialogs": [
     "We have a merchant who needs safe passage to the distant city.",
@@ -18,5 +21,6 @@
   ],
   "npc_name": "Guild Leader Cornelius",
   "accept": "I'll ensure your safe passage. No harm will come to you or your cargo.",
-  "decline": "I'm not available for escort duty right now."
+  "decline": "I'm not available for escort duty right now.",
+  "npc.name": "Merchant Escort Master"
 }

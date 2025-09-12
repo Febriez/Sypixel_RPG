@@ -8,5 +8,16 @@
     "You've found his lair? Be careful - dark magic runs thick there.",
     "It's over! The necromancer has been vanquished!",
     "The dead can finally rest in peace. You've saved us all."
-  ]
+  ],
+  "objectives": {
+    "talk_town_guard": "Talk Town Guard",
+    "cursed_graveyard": "Cursed Graveyard",
+    "undead_creatures": "Undead Creatures",
+    "skeleton_warriors": "Skeleton Warriors",
+    "holy_water": "Holy Water",
+    "necromancer_tower": "Necromancer Tower",
+    "dark_necromancer": "Dark Necromancer",
+    "necromantic_tome": "Necromantic Tome",
+    "purify_graveyard": "Purify Graveyard"
+  }
 }

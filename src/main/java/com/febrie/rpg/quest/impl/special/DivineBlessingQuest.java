@@ -16,6 +16,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,43 +38,43 @@ public class DivineBlessingQuest extends Quest {
                 .id(QuestID.SPECIAL_DIVINE_BLESSING)
                 .objectives(List.of(
                         // 신의 사도와 만남
-                        new InteractNPCObjective("divine_messenger", "heavenly_angel", 1),
+                        new InteractNPCObjective("divine_messenger", "heavenly_angel"),
                         new VisitLocationObjective("celestial_temple", "divine_sanctuary"),
-                        new CollectItemObjective("holy_scriptures", Material.ENCHANTED_BOOK, 5),
+                        new CollectItemObjective("enchanted_book_collect", Material.ENCHANTED_BOOK, 5),
                         
                         // 신성한 시험들
-                        new PerformPilgrimageObjective("sacred_pilgrimage", "holy_sites", 7),
-                        new DonateToShrineObjective("temple_donations", CurrencyType.GOLD, 2000),
-                        new PrayAtAltarObjective("daily_prayers", "divine_altar", 7),
-                        new FastingObjective("spiritual_fasting", 3), // 3일 금식
+                        new VisitLocationObjective("sacred_pilgrimage", "holy_sites"),
+                        new PayCurrencyObjective("temple_donations", CurrencyType.GOLD, 2000),
+                        new InteractNPCObjective("daily_prayers", "divine_altar"),
+                        new SurviveObjective("spiritual_fasting", 259200), // 3 days in seconds
                         
                         // 자비의 행위
-                        new HealPlayersObjective("heal_wounded", 50),
-                        new FeedHungryObjective("feed_poor", Material.BREAD, 100),
-                        new ProtectInnocentObjective("guard_villagers", EntityType.VILLAGER, 20),
-                        new DeliverItemObjective("charity_work", "villager", Material.EMERALD, 25),
+                        new InteractNPCObjective("heal_wounded", "wounded_villager"),
+                        new DeliverItemObjective("bread_deliver", Material.BREAD, 100, "hungry_villager"),
+                        new KillMobObjective("guard_villagers", EntityType.ZOMBIE, 20), // Protect by killing threats
+                        new DeliverItemObjective("emerald_deliver", Material.EMERALD, 25, "villager"),
                         
                         // 악의 정화
                         new KillMobObjective("vanquish_undead", EntityType.ZOMBIE, 100),
                         new KillMobObjective("destroy_demons", EntityType.WITHER_SKELETON, 50),
-                        new ExorciseObjective("banish_spirits", EntityType.PHANTOM, 25),
-                        new PurifyLocationObjective("cleanse_corruption", "tainted_lands"),
+                        new KillMobObjective("banish_spirits", EntityType.PHANTOM, 25),
+                        new VisitLocationObjective("cleanse_corruption", "tainted_lands"),
                         
                         // 신성한 유물 수집
-                        new CollectItemObjective("angel_feathers", Material.FEATHER, 64),
-                        new CollectItemObjective("holy_water", Material.WATER_BUCKET, 20),
-                        new CollectItemObjective("blessed_gold", Material.GOLD_INGOT, 50),
-                        new CraftItemObjective("divine_chalice", Material.GOLDEN_APPLE, 10),
+                        new CollectItemObjective("feather_collect", Material.FEATHER, 64),
+                        new CollectItemObjective("water_bucket_collect", Material.WATER_BUCKET, 20),
+                        new CollectItemObjective("gold_ingot_collect", Material.GOLD_INGOT, 50),
+                        new CraftItemObjective("golden_apple_craft", Material.GOLDEN_APPLE, 10),
                         
                         // 천상의 시험
                         new VisitLocationObjective("heaven_realm", "celestial_kingdom"),
                         new SurviveObjective("divine_trial", 900), // 15분 시험
-                        new AnswerRiddlesObjective("heavenly_wisdom", "divine_questions", 10),
-                        new ProveWorthinessObjective("final_judgment", "divine_court"),
+                        new InteractNPCObjective("heavenly_wisdom", "divine_oracle"),
+                        new SurviveObjective("final_judgment", 600), // 10-minute trial
                         
                         // 신의 축복 수여
-                        new ReceiveBlessingObjective("divine_blessing", "god_blessing"),
-                        new InteractNPCObjective("blessing_ceremony", "supreme_deity", 1)
+                        new InteractNPCObjective("divine_blessing", "god_blessing"),
+                        new InteractNPCObjective("blessing_ceremony", "supreme_deity")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 10000)
@@ -93,43 +94,43 @@ public class DivineBlessingQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "divine_messenger" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DIVINE_MESSENGER, who);
-            case "celestial_temple" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_CELESTIAL_TEMPLE, who);
-            case "holy_scriptures" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_HOLY_SCRIPTURES, who);
-            case "sacred_pilgrimage" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_SACRED_PILGRIMAGE, who);
-            case "temple_donations" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_TEMPLE_DONATIONS, who);
-            case "daily_prayers" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DAILY_PRAYERS, who);
-            case "spiritual_fasting" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_SPIRITUAL_FASTING, who);
-            case "heal_wounded" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_HEAL_WOUNDED, who);
-            case "feed_poor" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_FEED_POOR, who);
-            case "guard_villagers" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_GUARD_VILLAGERS, who);
-            case "charity_work" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_CHARITY_WORK, who);
-            case "vanquish_undead" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_VANQUISH_UNDEAD, who);
-            case "destroy_demons" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DESTROY_DEMONS, who);
-            case "banish_spirits" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_BANISH_SPIRITS, who);
-            case "cleanse_corruption" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_CLEANSE_CORRUPTION, who);
-            case "angel_feathers" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_ANGEL_FEATHERS, who);
-            case "holy_water" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_HOLY_WATER, who);
-            case "blessed_gold" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_BLESSED_GOLD, who);
-            case "divine_chalice" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DIVINE_CHALICE, who);
-            case "heaven_realm" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_HEAVEN_REALM, who);
-            case "divine_trial" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DIVINE_TRIAL, who);
-            case "heavenly_wisdom" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_HEAVENLY_WISDOM, who);
-            case "final_judgment" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_FINAL_JUDGMENT, who);
-            case "divine_blessing" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DIVINE_BLESSING, who);
-            case "blessing_ceremony" -> LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_BLESSING_CEREMONY, who);
-            default -> new ArrayList<>();
+            case "divine_messenger" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DIVINE_MESSENGER, who);
+            case "celestial_temple" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_CELESTIAL_TEMPLE, who);
+            case "enchanted_book_collect" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_ENCHANTED_BOOK_COLLECT, who);
+            case "sacred_pilgrimage" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_SACRED_PILGRIMAGE, who);
+            case "temple_donations" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_TEMPLE_DONATIONS, who);
+            case "daily_prayers" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DAILY_PRAYERS, who);
+            case "spiritual_fasting" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_SPIRITUAL_FASTING, who);
+            case "heal_wounded" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_HEAL_WOUNDED, who);
+            case "bread_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_BREAD_DELIVER, who);
+            case "guard_villagers" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_GUARD_VILLAGERS, who);
+            case "emerald_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_EMERALD_DELIVER, who);
+            case "vanquish_undead" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_VANQUISH_UNDEAD, who);
+            case "destroy_demons" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DESTROY_DEMONS, who);
+            case "banish_spirits" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_BANISH_SPIRITS, who);
+            case "cleanse_corruption" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_CLEANSE_CORRUPTION, who);
+            case "feather_collect" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_FEATHER_COLLECT, who);
+            case "water_bucket_collect" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_WATER_BUCKET_COLLECT, who);
+            case "gold_ingot_collect" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_GOLD_INGOT_COLLECT, who);
+            case "golden_apple_craft" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_GOLDEN_APPLE_CRAFT, who);
+            case "heaven_realm" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_HEAVEN_REALM, who);
+            case "divine_trial" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DIVINE_TRIAL, who);
+            case "heavenly_wisdom" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_HEAVENLY_WISDOM, who);
+            case "final_judgment" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_FINAL_JUDGMENT, who);
+            case "divine_blessing" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_DIVINE_BLESSING, who);
+            case "blessing_ceremony" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_OBJECTIVES_BLESSING_CEREMONY, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -140,7 +141,7 @@ public class DivineBlessingQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_DIALOGS, who);
     }
     
     @Override
@@ -150,16 +151,16 @@ public class DivineBlessingQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_DIVINE_BLESSING_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_DIVINE_BLESSING_DECLINE, who);
     }
 }

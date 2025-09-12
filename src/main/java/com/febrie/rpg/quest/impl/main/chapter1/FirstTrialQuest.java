@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
@@ -18,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,8 +43,8 @@ public class FirstTrialQuest extends Quest {
         return new QuestBuilder().id(QuestID.MAIN_FIRST_TRIAL)
                 .objectives(List.of(
                         // 준비 단계
-                        new InteractNPCObjective("meet_trainer", "trial_trainer", 1), // 시련의 훈련관
-                        new CollectItemObjective("gather_potions", Material.POTION, 10), new CraftItemObjective("craft_shield", Material.SHIELD, 1),
+                        new InteractNPCObjective("meet_trainer", "trial_trainer"), // 시련의 훈련관
+                        new CollectItemObjective("potion_collect", Material.POTION, 10), new CraftItemObjective("shield_craft", Material.SHIELD, 1),
 
                         // 시련의 경기장 입장
                         new VisitLocationObjective("enter_arena", "trial_arena"),
@@ -58,10 +58,10 @@ public class FirstTrialQuest extends Quest {
                         new KillMobObjective("wave2_spiders", EntityType.SPIDER, 15), new KillMobObjective("wave2_creepers", EntityType.CREEPER, 10),
 
                         // 3차 웨이브 - 보스전
-                        new KillMobObjective("boss_fight", EntityType.RAVAGER, 1), new CollectItemObjective("trial_medal", Material.GOLD_INGOT, 1),
+                        new KillMobObjective("boss_fight", EntityType.RAVAGER, 1), new CollectItemObjective("gold_ingot_collect", Material.GOLD_INGOT, 1),
 
                         // 완료
-                        new DeliverItemObjective("return_medal", "현자 도란", Material.GOLD_INGOT, 1)))
+                        new DeliverItemObjective("gold_ingot_deliver", Material.GOLD_INGOT, 1, "현자 도란")))
                 .reward(new BasicReward.Builder().addCurrency(CurrencyType.GOLD, 3000)
                         .addCurrency(CurrencyType.DIAMOND, 30)
                         .addItem(new ItemStack(Material.DIAMOND_CHESTPLATE))
@@ -78,31 +78,31 @@ public class FirstTrialQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_FIRST_TRIAL_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "meet_trainer" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_MEET_TRAINER, who);
-            case "gather_potions" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_GATHER_POTIONS, who);
-            case "craft_shield" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_CRAFT_SHIELD, who);
-            case "enter_arena" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_ENTER_ARENA, who);
-            case "survive_wave1" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_SURVIVE_WAVE1, who);
-            case "wave1_zombies" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE1_ZOMBIES, who);
-            case "wave1_skeletons" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE1_SKELETONS, who);
-            case "survive_wave2" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_SURVIVE_WAVE2, who);
-            case "wave2_spiders" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE2_SPIDERS, who);
-            case "wave2_creepers" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE2_CREEPERS, who);
-            case "boss_fight" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_BOSS_FIGHT, who);
-            case "trial_medal" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_TRIAL_MEDAL, who);
-            case "return_medal" -> LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_RETURN_MEDAL, who);
-            default -> List.of(Component.text("Objective: " + objective.getId()));
+            case "meet_trainer" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_MEET_TRAINER, who);
+            case "potion_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_POTION_COLLECT, who);
+            case "shield_craft" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_SHIELD_CRAFT, who);
+            case "enter_arena" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_ENTER_ARENA, who);
+            case "survive_wave1" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_SURVIVE_WAVE, who);
+            case "wave1_zombies" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE1_ZOMBIES, who);
+            case "wave1_skeletons" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE1_SKELETONS, who);
+            case "survive_wave2" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_SURVIVE_WAVE2, who);
+            case "wave2_spiders" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE2_SPIDERS, who);
+            case "wave2_creepers" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_WAVE2_CREEPERS, who);
+            case "boss_fight" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_BOSS_FIGHT, who);
+            case "gold_ingot_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_GOLD_INGOT_COLLECT, who);
+            case "gold_ingot_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_OBJECTIVES_GOLD_INGOT_DELIVER, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -113,7 +113,7 @@ public class FirstTrialQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_FIRST_TRIAL_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_DIALOGS, who);
     }
     
     @Override
@@ -123,16 +123,16 @@ public class FirstTrialQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_FIRST_TRIAL_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_FIRST_TRIAL_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_FIRST_TRIAL_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_FIRST_TRIAL_DECLINE, who);
     }
 }

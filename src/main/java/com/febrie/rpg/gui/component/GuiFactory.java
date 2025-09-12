@@ -5,8 +5,7 @@ import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 
 import com.febrie.rpg.util.LangKey;
-
-import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.lang.ILangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Material;
@@ -241,7 +240,7 @@ public class GuiFactory {
     public static GuiItem createToggleButton(boolean state, @NotNull LangKey nameKey, @NotNull Consumer<Player> action,
                                              @NotNull Player player) {
         Material material = state ? Material.LIME_DYE : Material.GRAY_DYE;
-        LangKey statusKey = state ? LangKey.ITEMS_GUI_BUTTONS_TOGGLE_ENABLED : LangKey.ITEMS_GUI_BUTTONS_TOGGLE_DISABLED;
+        ILangKey statusKey = state ? LangKey.ITEMS_GUI_BUTTONS_TOGGLE_ENABLED : LangKey.ITEMS_GUI_BUTTONS_TOGGLE_DISABLED;
 
         return GuiItem.clickable(
                 ItemBuilder.of(material)
@@ -275,7 +274,7 @@ public class GuiFactory {
      */
     public static GuiItem createStatusIndicator(@NotNull String status, boolean isOnline, @NotNull Player player) {
         Material material = isOnline ? Material.LIME_DYE : Material.RED_DYE;
-        LangKey statusKey = isOnline ? LangKey.ITEMS_GUI_BUTTONS_STATUS_ONLINE : LangKey.ITEMS_GUI_BUTTONS_STATUS_OFFLINE;
+        ILangKey statusKey = isOnline ? LangKey.ITEMS_GUI_BUTTONS_STATUS_ONLINE : LangKey.ITEMS_GUI_BUTTONS_STATUS_OFFLINE;
 
         return GuiItem.display(
                 ItemBuilder.of(material)

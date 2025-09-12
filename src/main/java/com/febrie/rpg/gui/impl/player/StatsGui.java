@@ -143,7 +143,7 @@ public class StatsGui extends ScrollableGui {
     private void setupPlayerInfo() {
         Component jobName;
         if (rpgPlayer.hasJob() && rpgPlayer.getJob() != null) {
-            jobName = LangManager.text(LangKey.valueOf("JOB_" + rpgPlayer.getJob().name().toUpperCase() + "_NAME"), viewer);
+            jobName = LangManager.text(LangKey.fromString("JOB_" + rpgPlayer.getJob().name().toUpperCase() + "_NAME"), viewer);
         } else {
             jobName = LangManager.text(LangKey.GUI_PROFILE_NO_JOB, viewer);
         }
@@ -181,7 +181,7 @@ public class StatsGui extends ScrollableGui {
             int totalValue = currentValue + bonusValue;
 
             ItemBuilder builder = ItemBuilder.of(stat.getIcon())
-                    .displayName(LangManager.text(LangKey.valueOf("STAT_" + stat.getId().toUpperCase() + "_NAME"), viewer))
+                    .displayName(LangManager.text(LangKey.fromString("STAT_" + stat.getId().toUpperCase() + "_NAME"), viewer))
                     .addLore(Component.empty());
 
             // 현재 스탯
@@ -196,7 +196,7 @@ public class StatsGui extends ScrollableGui {
             builder.addLore(Component.empty());
 
             // 스탯 설명
-            List<Component> description = LangManager.list(LangKey.valueOf("STAT_" + stat.getId().toUpperCase() + "_DESCRIPTION"), viewer);
+            List<Component> description = LangManager.list(LangKey.fromString("STAT_" + stat.getId().toUpperCase() + "_DESCRIPTION"), viewer);
             description.forEach(builder::addLore);
 
             builder.addLore(Component.empty())
@@ -227,7 +227,7 @@ public class StatsGui extends ScrollableGui {
 
         if (rpgPlayer.useStatPoint(stat, pointsToAdd)) {
             player.sendMessage(LangManager.text(LangKey.MESSAGES_STAT_INCREASED, player,
-                    LangManager.text(LangKey.valueOf("STAT_" + stat.getId().toUpperCase() + "_NAME"), player)));
+                    LangManager.text(LangKey.fromString("STAT_" + stat.getId().toUpperCase() + "_NAME"), player)));
             playSuccessSound(player);
             refresh();
         } else {

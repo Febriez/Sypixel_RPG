@@ -12,5 +12,6 @@
   ],
   "npc_name": "Tutorial Guide",
   "accept": "I'm ready to learn!",
-  "decline": "Maybe later..."
+  "decline": "Maybe later...",
+  "desc": "Complete the First Steps quest"
 }

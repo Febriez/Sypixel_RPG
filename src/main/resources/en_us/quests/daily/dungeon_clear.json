@@ -5,7 +5,10 @@
     "dungeon_keeper": "Meet the dungeon keeper",
     "enter_dungeon": "Enter today's dungeon",
     "clear_rooms": "Clear 5 dungeon rooms",
-    "defeat_boss": "Defeat the dungeon boss"
+    "defeat_boss": "Defeat the dungeon boss",
+    "clear_monsters": "Clear Monsters",
+    "dungeon_guide": "Dungeon Guide",
+    "gold_ingot_collect": "Gold Ingot Collect"
   },
   "dialogs": [
     "The Shadowmoor Dungeon grows more dangerous each day.",
@@ -18,5 +21,6 @@
   ],
   "npc_name": "Dungeon Overseer Grimwald",
   "accept": "I'm ready to face whatever lurks in the depths below.",
-  "decline": "I need better gear before entering the dungeon."
+  "decline": "I need better gear before entering the dungeon.",
+  "npc.name": "Dungeon Clear Master"
 }

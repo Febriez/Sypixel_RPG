@@ -18,5 +18,6 @@
   ],
   "npc_name": "High Priest",
   "accept": "I will devote myself to the divine path!",
-  "decline": "My faith needs more strengthening."
+  "decline": "My faith needs more strengthening.",
+  "npc.name": "Priest Devotion Master"
 }

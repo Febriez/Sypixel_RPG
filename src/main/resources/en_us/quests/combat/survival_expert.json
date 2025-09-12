@@ -4,28 +4,13 @@
   "npc_name": "Wilderness Master",
   "accept": "I'm ready to become one with nature!",
   "decline": "The wilderness is too dangerous for me now.",
-  "objectives": [
-    {
-      "id": "learn_survival_basics",
-      "description": "Learn basic survival skills and preparation techniques"
-    },
-    {
-      "id": "build_resilience",
-      "description": "Complete endurance training in harsh conditions"
-    },
-    {
-      "id": "master_wilderness",
-      "description": "Demonstrate intimate knowledge of wilderness survival"
-    },
-    {
-      "id": "survive_ultimate_test",
-      "description": "Survive 30 days in the wilderness with minimal supplies"
-    },
-    {
-      "id": "earn_expert_title",
-      "description": "Achieve the rank of Ultimate Survival Expert"
-    }
-  ],
+  "objectives": {
+    "survive_enemy_waves": "Survive 25 waves of enemy attacks",
+    "reach_survival_level": "Reach level 30 to prove your survival expertise",
+    "kill_while_surviving": "Kill 100 Zombies while in survival mode",
+    "collect_survival_supplies": "Collect 64 Bread for survival supplies",
+    "bread_collect": "Bread Collect"
+  },
   "dialogs": [
     "Nature is both beautiful and deadly. Are you prepared to learn her secrets?",
     "In survival, preparation and knowledge are more valuable than any weapon.",
@@ -33,5 +18,6 @@
     "Few understand the wilderness as intimately as you now do.",
     "The ultimate test awaits. Thirty days with nothing but your skills.",
     "You are now the Ultimate Survival Expert! Nature herself bows to your expertise!"
-  ]
+  ],
+  "npc.name": "Survival Expert Master"
 }

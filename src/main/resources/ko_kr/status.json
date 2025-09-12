@@ -20,5 +20,13 @@
     "creative": "크리에이티브",
     "adventure": "모험",
     "spectator": "관전자"
-  }
+  },
+  "true": "활성화",
+  "false": "비활성화",
+  "muted": "음소거",
+  "active": "활성",
+  "public": "공개",
+  "private": "비공개",
+  "status.new_mail": "새 메일",
+  "status.read": "읽음"
 }

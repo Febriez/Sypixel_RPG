@@ -18,7 +18,7 @@ import java.util.Objects;
  * Citizens NPC와 상호작용시 진행
  * 
  * 사용법:
- * new InteractNPCObjective("talk_merchant", "village_merchant", 1)
+ * new InteractNPCObjective("talk_merchant", "village_merchant")
  * 
  * NPC에 RPGQuestTrait를 부착하고 npcId를 설정하여 사용
  *

@@ -2,11 +2,13 @@
   "name": "Sea Serpent Hunt",
   "info": "Investigate the fisherman's tale of a sea monster.",
   "objectives": {
-    "old_fisherman": "Talk to the old fisherman",
-    "fishing_spot": "Go to the fishing spot",
-    "catch_fish": "Catch 20 fish",
-    "legendary_fish": "Catch a legendary fish",
-    "return_fisherman": "Return to the fisherman"
+    "talk_old_fisherman": "Talk to the old fisherman",
+    "visit_fishing_dock": "Visit the fishing dock",
+    "collect_rare_fish": "Collect 15 rare fish",
+    "kill_drowned": "Kill 10 drowned",
+    "visit_deep_waters": "Visit the deep waters",
+    "collect_sea_treasure": "Collect 8 sea treasure",
+    "return_old_fisherman": "Return to the old fisherman"
   },
   "dialogs": [
     "I saw it with my own eyes! A massive sea serpent!",

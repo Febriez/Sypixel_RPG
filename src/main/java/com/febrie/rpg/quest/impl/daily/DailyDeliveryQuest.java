@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.builder.QuestBuilder;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
@@ -17,7 +18,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -43,57 +43,57 @@ public class DailyDeliveryQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.DAILY_DELIVERY)
                 .objectives(List.of(
-                        new InteractNPCObjective("delivery_master", "delivery_master", 1), // 배달부 마스터
+                        new InteractNPCObjective("delivery_master", "delivery_master"), // 배달부 마스터
 
                         // 첫 번째 배달 - 빵집으로 빵 배달
-                        new CollectItemObjective("collect_bread", Material.BREAD, 10),
+                        new CollectItemObjective("bread_collect", Material.BREAD, 10),
                         new VisitLocationObjective("visit_bakery", "village_bakery"),
-                        new DeliverItemObjective("deliver_bread", "baker", Material.BREAD, 10),
-                        new InteractNPCObjective("baker_thanks", "village_baker", 1),
+                        new DeliverItemObjective("bread_deliver", Material.BREAD, 10, "baker"),
+                        new InteractNPCObjective("baker_thanks", "village_baker"),
 
                         // 두 번째 배달 - 약국으로 포션 재료 배달
-                        new CollectItemObjective("collect_spider_eyes", Material.SPIDER_EYE, 5),
-                        new CollectItemObjective("collect_sugar", Material.SUGAR, 10),
+                        new CollectItemObjective("spider_eye_collect", Material.SPIDER_EYE, 5),
+                        new CollectItemObjective("sugar_collect", Material.SUGAR, 10),
                         new VisitLocationObjective("visit_pharmacy", "village_pharmacy"),
-                        new DeliverItemObjective("deliver_potion_materials", "pharmacist", Material.SPIDER_EYE, 5),
-                        new DeliverItemObjective("deliver_sugar", "pharmacist", Material.SUGAR, 10),
-                        new InteractNPCObjective("pharmacist_thanks", "village_pharmacist", 1),
+                        new DeliverItemObjective("spider_eye_deliver", Material.SPIDER_EYE, 5, "pharmacist"),
+                        new DeliverItemObjective("sugar_deliver", Material.SUGAR, 10, "pharmacist"),
+                        new InteractNPCObjective("pharmacist_thanks", "village_pharmacist"),
 
                         // 세 번째 배달 - 대장간으로 광물 배달
-                        new CollectItemObjective("collect_iron", Material.IRON_INGOT, 20),
-                        new CollectItemObjective("collect_coal", Material.COAL, 30),
+                        new CollectItemObjective("iron_ingot_collect", Material.IRON_INGOT, 20),
+                        new CollectItemObjective("coal_collect", Material.COAL, 30),
                         new VisitLocationObjective("visit_blacksmith", "village_blacksmith"),
-                        new DeliverItemObjective("deliver_iron", "blacksmith", Material.IRON_INGOT, 20),
-                        new DeliverItemObjective("deliver_coal", "blacksmith", Material.COAL, 30),
-                        new InteractNPCObjective("blacksmith_thanks", "village_blacksmith", 1),
+                        new DeliverItemObjective("iron_ingot_deliver", Material.IRON_INGOT, 20, "blacksmith"),
+                        new DeliverItemObjective("coal_deliver", Material.COAL, 30, "blacksmith"),
+                        new InteractNPCObjective("blacksmith_thanks", "village_blacksmith"),
 
                         // 네 번째 배달 - 도서관으로 책 배달
-                        new CollectItemObjective("collect_books", Material.BOOK, 5),
-                        new CollectItemObjective("collect_paper", Material.PAPER, 20),
+                        new CollectItemObjective("book_collect", Material.BOOK, 5),
+                        new CollectItemObjective("paper_collect", Material.PAPER, 20),
                         new VisitLocationObjective("visit_library", "village_library"),
-                        new DeliverItemObjective("deliver_books", "librarian", Material.BOOK, 5),
-                        new DeliverItemObjective("deliver_paper", "librarian", Material.PAPER, 20),
-                        new InteractNPCObjective("librarian_thanks", "village_librarian", 1),
+                        new DeliverItemObjective("book_deliver", Material.BOOK, 5, "librarian"),
+                        new DeliverItemObjective("paper_deliver", Material.PAPER, 20, "librarian"),
+                        new InteractNPCObjective("librarian_thanks", "village_librarian"),
 
                         // 다섯 번째 배달 - 농장으로 씨앗 배달
-                        new CollectItemObjective("collect_wheat_seeds", Material.WHEAT_SEEDS, 32),
-                        new CollectItemObjective("collect_bone_meal", Material.BONE_MEAL, 16),
+                        new CollectItemObjective("wheat_seeds_collect", Material.WHEAT_SEEDS, 32),
+                        new CollectItemObjective("bone_meal_collect", Material.BONE_MEAL, 16),
                         new VisitLocationObjective("visit_farm", "village_farm"),
-                        new DeliverItemObjective("deliver_seeds", "farmer", Material.WHEAT_SEEDS, 32),
-                        new DeliverItemObjective("deliver_fertilizer", "farmer", Material.BONE_MEAL, 16),
-                        new InteractNPCObjective("farmer_thanks", "village_farmer", 1),
+                        new DeliverItemObjective("wheat_seeds_deliver", Material.WHEAT_SEEDS, 32, "farmer"),
+                        new DeliverItemObjective("bone_meal_deliver", Material.BONE_MEAL, 16, "farmer"),
+                        new InteractNPCObjective("farmer_thanks", "village_farmer"),
 
                         // 긴급 배달 - 경비대로 무기 배달
-                        new CollectItemObjective("collect_swords", Material.IRON_SWORD, 3),
-                        new CollectItemObjective("collect_shields", Material.SHIELD, 3),
+                        new CollectItemObjective("iron_sword_collect", Material.IRON_SWORD, 3),
+                        new CollectItemObjective("shield_collect", Material.SHIELD, 3),
                         new VisitLocationObjective("visit_guard_post", "village_guard_post"),
                         new SurviveObjective("urgent_delivery", 300), // 5분 제한
-                        new DeliverItemObjective("deliver_weapons", "guard_captain", Material.IRON_SWORD, 3),
-                        new DeliverItemObjective("deliver_shields", "guard_captain", Material.SHIELD, 3),
-                        new InteractNPCObjective("guard_thanks", "village_guard", 1),
+                        new DeliverItemObjective("iron_sword_deliver", Material.IRON_SWORD, 3, "guard_captain"),
+                        new DeliverItemObjective("shield_deliver", Material.SHIELD, 3, "guard_captain"),
+                        new InteractNPCObjective("guard_thanks", "village_guard"),
 
                         // 배달 완료 보고
-                        new InteractNPCObjective("report_complete", "delivery_master", 1)
+                        new InteractNPCObjective("report_complete", "delivery_master")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 800)
@@ -116,55 +116,55 @@ public class DailyDeliveryQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_DELIVERY_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_DAILY_DELIVERY_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_DAILY_DELIVERY_INFO, who);
     }
 
         @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "delivery_master" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVERY_MASTER, who);
-            case "collect_bread" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_BREAD, who);
-            case "visit_bakery" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_BAKERY, who);
-            case "deliver_bread" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_BREAD, who);
-            case "baker_thanks" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_BAKER_THANKS, who);
-            case "collect_spider_eyes" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_SPIDER_EYES, who);
-            case "collect_sugar" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_SUGAR, who);
-            case "visit_pharmacy" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_PHARMACY, who);
-            case "deliver_potion_materials" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_POTION_MATERIALS, who);
-            case "deliver_sugar" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_SUGAR, who);
-            case "pharmacist_thanks" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_PHARMACIST_THANKS, who);
-            case "collect_iron" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_IRON, who);
-            case "collect_coal" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_COAL, who);
-            case "visit_blacksmith" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_BLACKSMITH, who);
-            case "deliver_iron" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_IRON, who);
-            case "deliver_coal" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_COAL, who);
-            case "blacksmith_thanks" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_BLACKSMITH_THANKS, who);
-            case "collect_books" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_BOOKS, who);
-            case "collect_paper" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_PAPER, who);
-            case "visit_library" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_LIBRARY, who);
-            case "deliver_books" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_BOOKS, who);
-            case "deliver_paper" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_PAPER, who);
-            case "librarian_thanks" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_LIBRARIAN_THANKS, who);
-            case "collect_wheat_seeds" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_WHEAT_SEEDS, who);
-            case "collect_bone_meal" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_BONE_MEAL, who);
-            case "visit_farm" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_FARM, who);
-            case "deliver_seeds" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_SEEDS, who);
-            case "deliver_fertilizer" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_FERTILIZER, who);
-            case "farmer_thanks" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_FARMER_THANKS, who);
-            case "collect_swords" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_SWORDS, who);
-            case "collect_shields" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_COLLECT_SHIELDS, who);
-            case "visit_guard_post" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_GUARD_POST, who);
-            case "urgent_delivery" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_URGENT_DELIVERY, who);
-            case "deliver_weapons" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_WEAPONS, who);
-            case "deliver_shields" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVER_SHIELDS, who);
-            case "guard_thanks" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_GUARD_THANKS, who);
-            case "report_complete" -> LangManager.list(LangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_REPORT_COMPLETE, who);
-            default -> new ArrayList<>();
+            case "delivery_master" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_DELIVERY_MASTER, who);
+            case "bread_collect" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_BREAD_COLLECT, who);
+            case "visit_bakery" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_BAKERY, who);
+            case "bread_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_BREAD_DELIVER, who);
+            case "baker_thanks" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_BAKER_THANKS, who);
+            case "spider_eye_collect" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_SPIDER_EYE_COLLECT, who);
+            case "sugar_collect" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_SUGAR_COLLECT, who);
+            case "visit_pharmacy" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_PHARMACY, who);
+            case "spider_eye_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_SPIDER_EYE_DELIVER, who);
+            case "sugar_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_SUGAR_DELIVER, who);
+            case "pharmacist_thanks" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_PHARMACIST_THANKS, who);
+            case "iron_ingot_collect" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_IRON_INGOT_COLLECT, who);
+            case "coal_collect" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_COAL_COLLECT, who);
+            case "visit_blacksmith" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_BLACKSMITH, who);
+            case "iron_ingot_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_IRON_INGOT_DELIVER, who);
+            case "coal_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_COAL_DELIVER, who);
+            case "blacksmith_thanks" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_BLACKSMITH_THANKS, who);
+            case "book_collect" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_BOOK_COLLECT, who);
+            case "paper_collect" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_PAPER_COLLECT, who);
+            case "visit_library" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_LIBRARY, who);
+            case "book_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_BOOK_DELIVER, who);
+            case "paper_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_PAPER_DELIVER, who);
+            case "librarian_thanks" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_LIBRARIAN_THANKS, who);
+            case "wheat_seeds_collect" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_WHEAT_SEEDS_COLLECT, who);
+            case "bone_meal_collect" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_BONE_MEAL_COLLECT, who);
+            case "visit_farm" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_FARM, who);
+            case "wheat_seeds_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_WHEAT_SEEDS_DELIVER, who);
+            case "bone_meal_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_BONE_MEAL_DELIVER, who);
+            case "farmer_thanks" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_FARMER_THANKS, who);
+            case "iron_sword_collect" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_IRON_SWORD_COLLECT, who);
+            case "shield_collect" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_SHIELD_COLLECT, who);
+            case "visit_guard_post" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_VISIT_GUARD_POST, who);
+            case "urgent_delivery" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_URGENT_DELIVERY, who);
+            case "iron_sword_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_IRON_SWORD_DELIVER, who);
+            case "shield_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_SHIELD_DELIVER, who);
+            case "guard_thanks" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_GUARD_THANKS, who);
+            case "report_complete" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_OBJECTIVES_REPORT_COMPLETE, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -175,7 +175,7 @@ public class DailyDeliveryQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_DAILY_DELIVERY_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_DAILY_DELIVERY_DIALOGS, who);
     }
     
     @Override
@@ -185,16 +185,16 @@ public class DailyDeliveryQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_DELIVERY_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_DELIVERY_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_DELIVERY_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_DELIVERY_DECLINE, who);
     }
 }

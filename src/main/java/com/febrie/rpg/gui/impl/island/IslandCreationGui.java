@@ -10,6 +10,7 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.lang.ILangKey;
 import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -317,8 +318,8 @@ public class IslandCreationGui extends BaseGui {
                     LangManager.text(LangKey.ISLAND_GUI_CREATION_SELECTED, getViewerLocale()).color(UnifiedColorUtil.SUCCESS) :
                     LangManager.text(LangKey.ISLAND_GUI_CREATION_CLICK_TO_SELECT, getViewerLocale()).color(UnifiedColorUtil.YELLOW);
             
-            LangKey templateNameKey = getTemplateNameKey(template);
-            LangKey templateLoreKey = getTemplateLoreKey(template);
+            ILangKey templateNameKey = getTemplateNameKey(template);
+            ILangKey templateLoreKey = getTemplateLoreKey(template);
             GuiItem templateItem = GuiItem.clickable(
                     ItemBuilder.of(getTemplateIcon(template))
                             .displayName(LangManager.text(templateNameKey, getViewerLocale()))
@@ -504,7 +505,7 @@ public class IslandCreationGui extends BaseGui {
     /**
      * 템플릿 이름 LangKey 반환
      */
-    private LangKey getTemplateNameKey(String template) {
+    private ILangKey getTemplateNameKey(String template) {
         return switch (template) {
             case "BASIC" -> LangKey.ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_NAME;
             case "SKYBLOCK" -> LangKey.ITEMS_ISLAND_CREATION_TEMPLATE_SKYBLOCK_NAME;
@@ -517,7 +518,7 @@ public class IslandCreationGui extends BaseGui {
     /**
      * 템플릿 설명 LangKey 반환
      */
-    private LangKey getTemplateLoreKey(String template) {
+    private ILangKey getTemplateLoreKey(String template) {
         return switch (template) {
             case "BASIC" -> LangKey.ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_LORE;
             case "SKYBLOCK" -> LangKey.ITEMS_ISLAND_CREATION_TEMPLATE_SKYBLOCK_LORE;

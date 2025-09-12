@@ -18,6 +18,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,15 +45,15 @@ public class MerchantTycoonQuest extends Quest {
         List<QuestObjective> objectives = new ArrayList<>();
         
         // 상업 관련 목표들
-        objectives.add(new CollectItemObjective("collect_emeralds", Material.EMERALD, 100)); // 에메랄드 100개 수집
-        objectives.add(new CollectItemObjective("collect_diamonds", Material.DIAMOND, 32)); // 다이아몬드 32개 수집
-        objectives.add(new CollectItemObjective("collect_gold_ingots", Material.GOLD_INGOT, 64)); // 금 주괴 64개 수집
+        objectives.add(new CollectItemObjective("emerald_collect", Material.EMERALD, 100)); // 에메랄드 100개 수집
+        objectives.add(new CollectItemObjective("diamond_collect", Material.DIAMOND, 32)); // 다이아몬드 32개 수집
+        objectives.add(new CollectItemObjective("gold_ingot_collect", Material.GOLD_INGOT, 64)); // 금 주괴 64개 수집
         objectives.add(new PayCurrencyObjective("invest_gold", CurrencyType.GOLD, 5000)); // 골드 5000개 투자
-        objectives.add(new DeliverItemObjective("deliver_luxury_goods", Material.DIAMOND, 16, "luxury_merchant")); // 고급 상품 배달
-        objectives.add(new DeliverItemObjective("deliver_food_supplies", Material.BREAD, 128, "food_merchant")); // 식료품 배달
-        objectives.add(new DeliverItemObjective("deliver_building_materials", Material.OAK_PLANKS, 256, "construction_merchant")); // 건축 자재 배달
-        objectives.add(new InteractNPCObjective("establish_trade_routes", "caravan_leader", 5)); // 무역 루트 확립
-        objectives.add(new CollectItemObjective("collect_rare_items", Material.NETHER_STAR, 3)); // 희귀 아이템 수집
+        objectives.add(new DeliverItemObjective("diamond_deliver", Material.DIAMOND, 16, "luxury_merchant")); // 고급 상품 배달
+        objectives.add(new DeliverItemObjective("bread_deliver", Material.BREAD, 128, "food_merchant")); // 식료품 배달
+        objectives.add(new DeliverItemObjective("oak_planks_deliver", Material.OAK_PLANKS, 256, "construction_merchant")); // 건축 자재 배달
+        objectives.add(new InteractNPCObjective("establish_trade_routes", "caravan_leader")); // 무역 루트 확립
+        objectives.add(new CollectItemObjective("nether_star_collect", Material.NETHER_STAR, 3)); // 희귀 아이템 수집
         objectives.add(new PayCurrencyObjective("expand_business", CurrencyType.EMERALD, 200)); // 사업 확장 투자
 
         return new QuestBuilder()
@@ -77,28 +78,28 @@ public class MerchantTycoonQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_LIFE_MERCHANT_TYCOON_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_LIFE_MERCHANT_TYCOON_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "collect_emeralds" -> LangManager.list(LangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_COLLECT_EMERALDS, who);
-            case "collect_diamonds" -> LangManager.list(LangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_COLLECT_DIAMONDS, who);
-            case "collect_gold_ingots" -> LangManager.list(LangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_COLLECT_GOLD_INGOTS, who);
-            case "invest_gold" -> LangManager.list(LangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_INVEST_GOLD, who);
-            case "deliver_luxury_goods" -> LangManager.list(LangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_DELIVER_LUXURY_GOODS, who);
-            case "deliver_food_supplies" -> LangManager.list(LangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_DELIVER_FOOD_SUPPLIES, who);
-            case "deliver_building_materials" -> LangManager.list(LangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_DELIVER_BUILDING_MATERIALS, who);
-            case "establish_trade_routes" -> LangManager.list(LangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_ESTABLISH_TRADE_ROUTES, who);
-            case "collect_rare_items" -> LangManager.list(LangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_COLLECT_RARE_ITEMS, who);
-            case "expand_business" -> LangManager.list(LangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_EXPAND_BUSINESS, who);
-            default -> new ArrayList<>();
+            case "emerald_collect" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_EMERALD_COLLECT, who);
+            case "diamond_collect" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_DIAMOND_COLLECT, who);
+            case "gold_ingot_collect" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_GOLD_INGOT_COLLECT, who);
+            case "invest_gold" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_INVEST_GOLD, who);
+            case "diamond_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_DIAMOND_DELIVER, who);
+            case "bread_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_BREAD_DELIVER, who);
+            case "oak_planks_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_OAK_PLANKS_DELIVER, who);
+            case "establish_trade_routes" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_ESTABLISH_TRADE_ROUTES, who);
+            case "nether_star_collect" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_NETHER_STAR_COLLECT, who);
+            case "expand_business" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_OBJECTIVES_EXPAND_BUSINESS, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -109,7 +110,7 @@ public class MerchantTycoonQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_LIFE_MERCHANT_TYCOON_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_DIALOGS, who);
     }
     
     @Override
@@ -119,16 +120,16 @@ public class MerchantTycoonQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_LIFE_MERCHANT_TYCOON_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_LIFE_MERCHANT_TYCOON_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_LIFE_MERCHANT_TYCOON_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_LIFE_MERCHANT_TYCOON_DECLINE, who);
     }
 }

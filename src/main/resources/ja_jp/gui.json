@@ -1,383 +1,409 @@
 {
   "common": {
-    "back": "%COLOR_SECONDARY%◀ Back",
-    "close": "%COLOR_ERROR%Close",
-    "next_page": "%COLOR_SUCCESS%Next Page →",
-    "prev_page": "%COLOR_WARNING%← Previous Page",
-    "confirm": "%COLOR_SUCCESS%Confirm",
-    "cancel": "%COLOR_ERROR%Cancel",
-    "settings": "%COLOR_INFO%Settings",
-    "previous_page": "[TRANSLATE: ← Previous Page]"
+    "back": "◀ Back",
+    "close": "閉じる",
+    "next_page": "次へ ページ →",
+    "prev_page": "← Prev ページ",
+    "confirm": "確認",
+    "cancel": "キャンセル",
+    "settings": "設定",
+    "previous_page": "← 前へ ページ",
+    "unknown": "不明",
+    "page": "ページ {0}"
   },
-  "mainmenu": {
-    "title": "%COLOR_PRIMARY%Main Menu"
-  },
-  "profile": {
-    "title": "%COLOR_GOLD%{0}'s Profile",
-    "player_title": "%COLOR_#FFD700%{0}'s Profile",
-    "viewing": "%COLOR_GRAY%Viewing %COLOR_AQUA%{0}'s %COLOR_GRAY%profile",
-    "level": "%COLOR_GREEN%Level: %COLOR_WHITE%{1}",
-    "level_info": "Level Information",
-    "experience": "Experience: {1}",
-    "exp": "EXP: {1}/{2}",
-    "exp_percent": "({2}%)",
-    "job": "Job: {1}",
-    "no_job": "No Job",
-    "current_job": "Current Job",
-    "job_level": "Job Level: {1}",
-    "combat_power": "Combat Power: {0}",
-    "click_to_talents": "Click to view talents",
-    "gold": "Gold: {1}",
-    "playtime": "Playtime: {0}",
-    "join_date": "Join Date: {0}",
-    "last_seen": "Last Seen: {0}",
-    "stats": "▸ Stats Info",
-    "talents": "▸ Talents Info",
-    "online_status": "Current Status: {0}",
-    "gamemode": "Gamemode: {0}",
-    "location": "Location: {0} ({1}, {2}, {3})",
-    "health": "Health: {1}/{2}",
-    "health_info": "Health Information",
-    "food_info": "Hunger Information",
-    "food_level": "Hunger: {1}/20",
-    "saturation": "Saturation: {0}",
-    "game_info": "Game Information",
-    "world": "World: {0}",
-    "hunger": "Hunger: {1}/{2}",
-    "flight": "Flight: {1}",
-    "currency_info": "▸ Currency Info",
-    "click_for_talents": "▶ Click to manage talents",
-    "click_for_stats": "▶ Click to manage stats",
-    "game_stats": "Game Statistics",
-    "mob_kills": "Mob Kills: {0}",
-    "player_info": {
-      "name": "{0}"
-    },
-    "quest_info": "Quest Info",
-    "active_quests": "Active: {1}",
-    "completed_quests": "Completed: {1}",
-    "click_for_quests": "▶ Click to view quest list",
-    "pets": "Pets",
-    "collection_book": "Collection Book",
-    "user_settings": "User Settings",
-    "user_settings_desc": "Manage your personal settings",
-    "player_info_name": "[TRANSLATE: Player: {0}]"
-  },
-  "job_selection": {
-    "title": "Job Selection",
-    "choose_wisely": "Choose wisely!",
-    "current_job": "Current Job: {1}",
-    "no_current_job": "You don't have a job yet",
-    "tab_selected": "▶ Currently selected",
-    "tab_click": "▶ Click to view",
-    "confirm_selection": "Do you want to select this job?",
-    "already_selected": "You already have a job!",
-    "job_categories": "Job Categories",
-    "jobs_in_category": "{0} Jobs",
-    "back_to_categories": "Back to Categories",
-    "info": "Info",
-    "click_to_select": "▶ Click to select category",
-    "category_suffix": "Category",
-    "max_level": "Max Level: {1}",
-    "warning": "⚠ Warning: Jobs cannot be changed once selected!",
-    "click_to_choose": "▶ Click to choose this job",
-    "selected": "▶ Selected"
+  "page_info": "ページ {0} of {1}",
+  "combat_power": {
+    "title": "戦闘力",
+    "total": "宛先tal 戦闘力: {0}",
+    "breakdown": "Power Breakdown",
+    "from_level": "差出人 レベル: {0}",
+    "from_stats": "差出人 ステータス: {0}",
+    "level_contribution": "レベル 貢献",
+    "level_detail": "レベル {0} = {1} power",
+    "stat_contribution": "Stat 貢献",
+    "stat_detail": "{0}: {1} power"
   },
   "job_confirmation": {
-    "title": "Confirm Job Selection",
-    "selected_job": "Selected Job:",
-    "max_level": "Max Level: {1}",
+    "title": "確認 職業 Selection",
+    "selected_job": "Selected 職業:",
+    "max_level": "Max レベル: {1}",
     "warning": "⚠ Warning: Choose very carefully!",
     "cannot_change": "⚠ Cannot be changed once selected!",
     "warning_title": "⚠ Notice",
-    "warning_description": "Job selection is permanent!",
-    "confirm": "Confirm",
+    "warning_description": "職業 selection is permanent!",
+    "confirm": "確認",
     "confirm_description": "Select the {1} job",
-    "click_to_confirm": "▶ Click to confirm",
-    "cancel": "Cancel",
-    "cancel_description": "Cancel job selection",
-    "click_to_cancel": "▶ Click to cancel",
-    "info_title": "Information",
+    "click_to_confirm": "▶ クリック",
+    "cancel": "キャンセル",
+    "cancel_description": "キャンセル job selection",
+    "click_to_cancel": "▶ クリック",
+    "info_title": "情報",
     "info_lines": [
-      "• Jobs determine your character's growth direction",
+      "• 職業s determine your character's growth direction",
       "• Each job has unique skills and talents",
       "• Please choose carefully!"
     ],
     "success": "Congratulations! You selected the {1} job!",
-    "title_success": "Job Selected!",
+    "title_success": "職業 Selected!",
     "subtitle_success": "You selected the {1} job",
     "already_has_job": "You already have a job!"
   },
+  "job_selection": {
+    "title": "職業 Selection",
+    "choose_wisely": "Choose wisely!",
+    "current_job": "現在 職業: {1}",
+    "no_current_job": "You don't have a job yet",
+    "tab_selected": "▶ 現在ly selected",
+    "tab_click": "▶ クリックして表示",
+    "confirm_selection": "Do you want to select this job?",
+    "already_selected": "You already have a job!",
+    "job_categories": "職業 Categories",
+    "jobs_in_category": "{0} 職業s",
+    "back_to_categories": "戻る to Categories",
+    "info": "情報",
+    "click_to_select": "▶ クリックして選択",
+    "category_suffix": "Category",
+    "max_level": "Max レベル: {1}",
+    "warning": "⚠ Warning: Jobs cannot be changed once selected!",
+    "click_to_choose": "▶ クリック",
+    "selected": "▶ Selected"
+  },
+  "system_settings": {
+    "title": "システム 設定",
+    "status": "状態: {0}",
+    "click_to_toggle": "クリック to toggle",
+    "confirmation_toggled": "確認ation dialogs {0}"
+  },
+  "mainmenu": {
+    "title": "メインメニュー"
+  },
+  "profile": {
+    "title": "{0}'s プロフィール",
+    "player_title": "{0}'s プロフィール",
+    "viewing": "Viewing {0}'s profile",
+    "level": "レベル: {1}",
+    "level_info": "レベル 情報rmation",
+    "experience": "Experience: {1}",
+    "exp": "EXP: {1}/{2}",
+    "exp_percent": "({2}%)",
+    "job": "職業: {1}",
+    "no_job": "No 職業",
+    "current_job": "現在 職業: {0}",
+    "job_level": "職業 レベル: {0}",
+    "combat_power": "戦闘力: {0}",
+    "click_to_talents": "クリック to view talents",
+    "gold": "ゴールド: {1}",
+    "playtime": "Playtime: {0}",
+    "join_date": "Joined: {0}",
+    "last_seen": "Last Seen: {0}",
+    "stats": "▸ ステータス 情報",
+    "talents": "▸ タレントs 情報",
+    "online_status": "{0} is {1}",
+    "gamemode": "ゲームmode: {0}",
+    "location": "Location: {0} ({1}, {2}, {3})",
+    "health": "Health: {1}/{2}",
+    "health_info": "Health: {0}/{1}",
+    "food_info": "Food: {0}",
+    "food_level": "Food レベル: {0}",
+    "saturation": "Saturation: {0}",
+    "game_info": "ゲーム Statistics",
+    "world": "World: {0}",
+    "hunger": "Hunger: {1}/{2}",
+    "flight": "Flight: {1}",
+    "currency_info": "▸ Currency 情報",
+    "click_for_talents": "クリック for talents",
+    "click_for_stats": "クリック for stats",
+    "game_stats": "ゲーム Statistics",
+    "mob_kills": "Mob Kills: {0}",
+    "player_info": {
+      "name": "{0}"
+    },
+    "quest_info": "クエスト 情報",
+    "active_quests": "進行中 クエストs: {0}",
+    "completed_quests": "完了d クエストs: {0}",
+    "click_for_quests": "▶ クリックして表示",
+    "pets": "Pets",
+    "collection_book": "Collection Book",
+    "user_settings": "User 設定",
+    "user_settings_desc": "管理 your personal settings",
+    "player_info_name": "Player: {0}"
+  },
   "stats": {
-    "title": "Stat Management",
-    "your_stats": "Your Stats",
+    "title": "Stat 管理ment",
+    "your_stats": "Your ステータス",
     "remaining_points": "Remaining Points: {0}",
-    "click_to_increase": "▶ Click to increase stat",
+    "click_to_increase": "▶ クリック",
     "max_stat_reached": "Maximum reached!",
     "stat_increased": "{0} stat increased!",
     "not_enough_points": "Not enough stat points!",
-    "current_value": "Current: {1}",
+    "current_value": "現在: {1}",
     "click_reset": "▶ Right-click to reset (1 free reset)",
-    "points_available": "Available Points",
+    "points_available": "利用可能 Points",
     "points_count": "Points Held: {0}",
     "points_info": "Gain stat points when leveling up",
-    "click_to_add": "▶ Click to add points",
-    "base_bonus": "[TRANSLATE: Base + Bonus]"
+    "click_to_add": "▶ クリック",
+    "base_bonus": "Base + Bonus"
   },
   "talent": {
-    "title": "Talents",
-    "title_with_page": "Talents - {1}",
+    "title": "タレントs",
+    "title_with_page": "タレントs - {1}",
     "remaining_points": "Remaining Points: {0}",
     "learned": "▶ Learned",
-    "available": "▶ Available",
+    "available": "▶ 利用可能",
     "unavailable": "▶ Unavailable",
     "requirements": "Requirements:",
-    "click_learn": "▶ Click to learn",
-    "insufficient_points": "Insufficient points",
+    "click_learn": "▶ クリック",
+    "insufficient_points": "不足 points",
     "prerequisite_not_met": "Prerequisites not met",
     "click_subpage": "▶ Right-click to open sub-page",
     "talent_learned": "Learned {0} talent!",
-    "click_stats": "Go to Stat Management",
+    "click_stats": "Go to Stat 管理ment",
     "pages": {
       "main": "Main",
       "default": "Default"
     },
-    "page_info": "Page Information",
-    "current_page": "Current Page: {1}",
-    "job": "Job: {1}",
-    "available_points": "Available Points: {0}",
-    "level_info": "Level {1}/{2}",
-    "cannot_learn": "Cannot learn",
+    "page_info": "ページ {0}/{1}",
+    "current_page": "現在 ページ: {1}",
+    "job": "職業: {1}",
+    "available_points": "利用可能 Points: {0}",
+    "level_info": "レベル {1}/{2}",
+    "cannot_learn": "✗ Cannot learn",
     "not_enough_points": "Not enough points",
     "stat_bonuses": "Stat Bonuses:",
     "stat_bonus_line": "• {0}: +{1}",
     "effects": "Effects:",
     "page": {
-      "main": "Main Talents"
+      "main": "Main タレントs"
     },
     "has_sub_page": "Has sub-pages",
-    "no_job": "[TRANSLATE: Select a job first!]",
-    "prerequisites": "[TRANSLATE: Prerequisites:]",
-    "prereq_met": "[TRANSLATE: ✓ {0}]",
-    "prereq_not_met": "[TRANSLATE: ✗ {0}]",
-    "can_learn": "[TRANSLATE: ✓ Can learn]",
-    "maxed": "[TRANSLATE: Max level reached]"
+    "no_job": "Select a job first!",
+    "prerequisites": "Prerequisites:",
+    "prereq_met": "✓ {0}",
+    "prereq_not_met": "✗ {0}",
+    "can_learn": "✓ Can learn",
+    "maxed": "Max level reached"
   },
   "leaderboard": {
-    "title": "Leaderboard",
+    "rank": "Rank #{0}",
+    "title": "ランキング",
     "subtitle": "Check out the server's strongest players!",
-    "level_board": "Level Rankings",
-    "job_board": "Job Rankings",
+    "level_board": "レベル Rankings",
+    "job_board": "職業 Rankings",
     "wealth_board": "Wealth Rankings",
-    "combat_board": "Combat Power Rankings",
+    "combat_board": "戦闘力 Rankings",
     "playtime_board": "Playtime Rankings",
-    "loading": "Loading data...",
+    "loading": "読み込み中 data...",
     "loading_description": "Please wait a moment...",
     "empty": "No data available yet.",
     "your_rank": "Your Rank: #{0}",
     "not_ranked": "Unranked",
-    "last_updated": "Last updated: {0}",
-    "current_type": "Current Type: {0}",
-    "total_entries": "Total Entries: {1}",
+    "last_updated": "Last Updated: {0}",
+    "current_type": "ランキング: {0}",
+    "total_entries": "宛先tal Entries: {0}",
     "rank_info": "Rank: #{0}",
     "value_info": "{0}: {1}",
-    "this_is_you": "▶ This is your rank!",
-    "tab_selected": "▶ Currently selected",
-    "tab_click": "▶ Click to view",
+    "this_is_you": "← This is you!",
+    "tab_selected": "▶ 現在ly selected",
+    "tab_click": "▶ クリックして表示",
+    "type": {
+      "level": "レベル",
+      "combat_power": "戦闘力",
+      "gold": "ゴールド",
+      "playtime": "Playtime"
+    },
+    "my_rank": "Your Rank: #{0}",
+    "my_value": "Your Score: {0}",
     "no_rank_data": "No ranking data",
     "play_more": "Play more to compete for rankings!",
-    "value": "Value: {0}",
-    "type": {
-      "level": "[TRANSLATE: Level]",
-      "combat_power": "[TRANSLATE: Combat Power]",
-      "gold": "[TRANSLATE: Gold]",
-      "playtime": "[TRANSLATE: Playtime]"
-    },
-    "my_rank": "[TRANSLATE: Your Rank: #{0}]",
-    "my_value": "[TRANSLATE: Your Score: {0}]"
+    "value": "Value: {0}"
+  },
+  "all_quests": {
+    "title": "全クエスト"
   },
   "quest_list": {
-    "title": "Quest List",
-    "active_quests": "Active Quests",
-    "active_quests_desc": "Currently active quests",
-    "completed_quests": "Completed Quests",
-    "completed_quests_desc": "Completed quest list",
-    "progress": "Progress",
-    "objectives": "Objectives",
-    "click_details": "▶ Click for details",
+    "title": "クエスト List",
+    "active_quests": "進行中 クエストs",
+    "active_quests_desc": "現在ly active quests",
+    "completed_quests": "完了d クエストs",
+    "completed_quests_desc": "完了d quest list",
+    "progress": "進行度",
+    "objectives": "目標",
+    "click_details": "▶ クリック",
     "completed_status": "✓ Completed",
     "completed_label": "✓ Completed",
-    "completed": "Completed",
-    "rewards": "Rewards",
+    "completed": "完了済み",
+    "rewards": "報酬",
     "repeatable": "Repeatable"
   },
   "quest_detail": {
-    "objective_progress": "Objective Progress",
-    "title": "Quest Details"
+    "objective_progress": "目標 進行度",
+    "title": "クエスト Details"
   },
   "quest_accept": {
-    "title": "Accept Quest",
+    "title": "クエスト受諾",
     "category": "Category",
     "difficulty": "Difficulty",
-    "objectives": "Objectives",
-    "rewards": "Rewards",
-    "accept": "Accept",
+    "objectives": "目標",
+    "rewards": "報酬",
+    "accept": "受諾",
     "accept_desc": "Start the quest",
-    "decline": "Decline",
-    "decline_desc": "Decline the quest",
+    "decline": "拒否",
+    "decline_desc": "拒否 the quest",
     "cannot_accept": "Cannot accept",
     "requirements_not_met": "Requirements not met",
     "prerequisites_not_complete": "Prerequisites not complete",
     "exclusive_quest_completed": "Exclusive quest already completed",
     "already_active": "Already active",
     "already_completed": "Already completed",
-    "level_requirement": "Level {1} required"
+    "level_requirement": "レベル {1} required"
   },
   "quest_dialog": {
-    "title": "Quest Dialog",
+    "title": "クエスト ダイアログ",
     "continue": "▶ Continue",
     "skip": "▶ Skip",
-    "complete": "▶ Complete",
-    "accept_quest": "▶ Accept Quest",
-    "decline_quest": "▶ Decline",
-    "next_page": "▶ Next Page",
+    "complete": "▶ 完了",
+    "accept_quest": "▶ 受諾 クエスト",
+    "decline_quest": "▶ 拒否",
+    "next_page": "▶ 次へ ページ",
     "previous_page": "◀ Previous Page",
-    "close": "■ Close",
-    "page_info": "Page {1}/{1}",
+    "close": "■ 閉じる",
+    "page_info": "ページ {1}/{1}",
     "npc_name": "{0}",
-    "rewards_title": "Rewards:",
+    "rewards_title": "報酬s:",
     "requirements_title": "Requirements:",
     "speaking": "{0} is speaking...",
-    "quest_accepted": "Quest accepted!",
-    "quest_declined": "Quest declined."
+    "quest_accepted": "クエスト accepted!",
+    "quest_declined": "クエスト declined."
   },
   "settings": {
-    "title": "Settings",
-    "personal": "⚙ Personal Settings",
-    "gui": "🖥 GUI Settings",
-    "social": "👥 Social Settings",
-    "ingame": "🎮 In-Game Settings",
-    "system": "⚙ System Settings",
-    "notifications": "🔔 Notification Settings",
-    "gameplay": "Gameplay Settings",
-    "privacy": "Privacy Settings",
-    "language": "Language Settings",
-    "current_language": "Current language: {0}",
-    "click_to_change": "Click to change",
+    "title": "設定",
+    "personal": "⚙ Personal 設定",
+    "gui": "🖥 GUI 設定",
+    "social": "👥 ソーシャル 設定",
+    "ingame": "🎮 In-ゲーム 設定",
+    "system": "⚙ システム 設定",
+    "notifications": "🔔 通知 設定",
+    "gameplay": "ゲームplay 設定",
+    "privacy": "Privacy 設定",
+    "language": "Language 設定",
+    "current_language": "現在 language: {0}",
+    "click_to_change": "クリック to change",
     "ingame_settings": {
-      "title": "In-Game Settings",
-      "quest_dialog_speed": "💬 Quest Dialog Speed",
-      "quest_auto_guide": "🧭 Quest Auto Guide"
+      "title": "In-ゲーム 設定",
+      "quest_dialog_speed": "💬 クエスト ダイアログ Speed",
+      "quest_auto_guide": "🧭 クエスト Auto Guide"
     },
     "social_settings": {
-      "title": "Social Settings",
-      "friend_requests": "👤 Accept Friend Requests",
-      "guild_invites": "🏰 Accept Guild Invites",
-      "whisper_mode": "💬 Whisper Mode"
+      "title": "ソーシャル 設定",
+      "friend_requests": "👤 受諾 フレンド Requests",
+      "guild_invites": "🏰 受諾 Guild Invites",
+      "whisper_mode": "💬 ささやき Mode",
+      "status": "状態: {0}",
+      "click-to-toggle": "クリック to toggle"
     },
     "notification_settings": {
-      "title": "Notification Settings",
-      "whisper_notifications": "💬 Whisper Notifications"
+      "title": "通知 設定",
+      "whisper_notifications": "💬 ささやき 通知s"
     },
     "system_settings": {
-      "title": "System Settings",
-      "confirmation_dialogs": "❓ Confirmation Dialogs"
+      "title": "システム 設定",
+      "confirmation_dialogs": "❓ 確認ation ダイアログs"
     }
   },
   "ingame_settings": {
-    "title": "Game Settings"
+    "title": "ゲーム 設定"
   },
   "gui_settings": {
-    "title": "GUI Settings",
-    "volume_changed": "Setting changed: Volume {0}%",
+    "title": "GUI 設定",
+    "volume_changed": "Setting changed: 音量 {0}%",
     "sound_muted": "GUI sounds muted",
     "sound_unmuted": "GUI sounds enabled",
-    "volume_decrease": "- Decrease Volume",
-    "volume_increase": "+ Increase Volume",
-    "click_decrease": "Click to decrease volume by 5",
-    "click_increase": "Click to increase volume by 5",
-    "sound_volume": "🔊 GUI Sound Volume",
-    "current_volume": "Current Volume: {0}%",
-    "status": "Status: {1}",
-    "status_muted": "Muted",
-    "status_active": "Active",
+    "volume_decrease": "- Decrease 音量",
+    "volume_increase": "+ Increase 音量",
+    "click_decrease": "クリック to decrease volume by 5",
+    "click_increase": "クリック to increase volume by 5",
+    "sound_volume": "🔊 GUI サウンド 音量",
+    "current_volume": "現在 音量: {0}%",
+    "status": "状態: {1}",
+    "status_muted": "ミュート中",
+    "status_active": "進行中",
     "mute": "🔇 Mute",
     "unmute": "🔇 Unmute",
-    "current_status": "Current Status: {1}",
-    "click_to_mute": "Click to mute",
-    "click_to_unmute": "Click to unmute",
-    "gui_settings_title": "🖥 GUI設定",
+    "current_status": "現在 状態: {1}",
+    "click_to_mute": "クリック to mute",
+    "click_to_unmute": "クリック to unmute",
+    "gui_settings_title": "🖥 GUI 設定",
     "gui_settings_desc": "Change GUI related settings"
   },
   "shop": {
-    "title": "Shop",
-    "buy_price": "Buy Price: {0}G",
-    "sell_price": "Sell Price: {0}G",
-    "your_gold": "Your Gold: {1}G",
+    "title": "ショップ",
+    "buy_price": "購入 価格: {0}G",
+    "sell_price": "売却 価格: {0}G",
+    "your_gold": "Your ゴールド: {1}G",
     "not_enough_gold": "Not enough gold!",
-    "purchase_success": "Purchase successful!",
-    "sale_success": "Sale successful!",
-    "click_to_buy": "▶ Click to buy",
-    "click_to_sell": "▶ Click to sell",
-    "shift_click_to_buy": "▶ Shift+Click to buy 10",
+    "purchase_success": "購入 successful!",
+    "sale_success": "売却 successful!",
+    "click_to_buy": "▶ クリック",
+    "click_to_sell": "▶ クリック",
+    "shift_click_to_buy": "▶ Shift+クリック to buy 10",
     "out_of_stock": "Out of stock",
     "gold": {
-      "amount": "Gold: {0}"
+      "amount": "ゴールド: {0}"
     },
     "item": {
-      "buy_price": "Buy: {0}G",
-      "sell_price": "Sell: {0}G",
-      "click_to_buy": "Click to purchase",
-      "click_to_sell": "Click to sell",
-      "insufficient_gold": "Insufficient gold!"
+      "buy_price": "購入: {0}G",
+      "sell_price": "売却: {0}G",
+      "click_to_buy": "クリック to purchase",
+      "click_to_sell": "クリック to sell",
+      "insufficient_gold": "不足 gold!"
     }
   },
   "dungeon": {
     "title": "Dungeon",
-    "available": "Available",
+    "available": "利用可能",
     "unavailable": "Unavailable",
     "requirements": "Requirements:",
-    "level_requirement": "• Required Level: {1}",
+    "level_requirement": "• Required レベル: {1}",
     "party_requirement": "• Party Required: {0}",
     "cooldown": "Cooldown: {2}",
-    "rewards": "Rewards:",
-    "click_to_enter": "▶ Click to enter"
+    "rewards": "報酬s:",
+    "click_to_enter": "▶ クリック"
   },
   "buttons": {
     "back": {
-      "name": "Back",
+      "name": "戻る",
       "lore": "▶ Return to previous screen"
     },
     "close": {
-      "name": "Close",
-      "lore": "Close the menu"
+      "name": "閉じる",
+      "lore": "閉じる the menu"
     },
     "refresh": {
       "name": "Refresh",
       "lore": "Refresh information"
     },
     "next_page": {
-      "name": "Next Page",
-      "lore": "Page {1}/{2}"
+      "name": "次のページ",
+      "lore": "ページ {1}/{2}"
     },
     "previous_page": {
-      "name": "Previous Page",
-      "lore": "Page {1}/{2}"
+      "name": "前のページ",
+      "lore": "ページ {1}/{2}"
     },
     "settings": {
-      "name": "Settings",
+      "name": "設定",
       "lore": "Change settings"
     },
-    "next_page_name": "[TRANSLATE: Next Page]",
-    "previous_page_name": "[TRANSLATE: Previous Page]",
-    "page_info_lore": "[TRANSLATE: Page {0} of {1}]",
-    "next_page_lore": "[TRANSLATE: Click to go to the next page]",
-    "previous_page_lore": "[TRANSLATE: Click to go to the previous page]"
+    "next_page_name": "次のページ",
+    "previous_page_name": "前のページ",
+    "page_info_lore": "ページ {0} of {1}",
+    "next_page_lore": "クリック to go to the next page",
+    "previous_page_lore": "クリック to go to the previous page"
   },
   "quest_reward": {
-    "title": "Quest Rewards",
-    "title_with_expiry": "Quest Rewards - Auto Expire: {2}",
-    "destroy_rewards": "Destroy Rewards",
+    "title": "クエスト 報酬s",
+    "title_with_expiry": "クエスト 報酬s - Auto Expire: {2}",
+    "destroy_rewards": "Destroy 報酬s",
     "destroy_desc": "Forfeit all rewards",
     "warning_destroy": "⚠️ This action cannot be undone!",
     "warning_destroy_line": "⚠️ This Action",
@@ -398,125 +424,69 @@
     "money_received": "Gained {1} coins!",
     "close_warning": "⚠️ Warning: You closed without claiming rewards!",
     "items_lost": "Unclaimed items will be lost!",
-    "click_to_claim": "Click to claim",
+    "click_to_claim": "クリック to claim",
     "claimed": "Claimed",
     "unclaimed_timer": "⏰ Time remaining: {2} minutes",
     "timer_warning": "Unclaimed rewards will be destroyed after 1 hour!",
-    "timer_info": "Visit the reward NPC within the time limit.",
+    "timer_info": "訪問 the reward NPC within the time limit.",
     "expiry_days": "{0} days",
     "expiry_hours": "{0} hours",
     "expiry_minutes": "{0} minutes"
   },
   "island": {
     "main": {
-      "title": "Island Management",
-      "owner": "Owner: ",
-      "size": "Size: ",
-      "member_count": "Members: ",
-      "workers": "Workers: ",
-      "created_date": "Created: ",
-      "public_status": "Status: ",
-      "public": "Public",
-      "private": "Private",
-      "my_role": "My Role: ",
-      "role_owner": "Owner",
-      "role_co_owner": "Co-Owner",
-      "role_member": "Member",
-      "role_worker": "Worker",
-      "role_visitor": "Visitor",
-      "color_change_hint": "Click to change island name color",
-      "hex_format_error": "Invalid HEX format! Use #RRGGBB format",
-      "color_changed": "Island color changed successfully!",
-      "hex_input_title": "Enter HEX Color Code",
-      "click_to_open": "Click to open",
-      "people_count": "people",
-      "warp_moving": "Teleporting to island...",
-      "warp_success": "Welcome to your island!",
-      "upgrade": {
-        "current_level": "Current Upgrade Levels:",
-        "size": "• Size: Level ",
-        "member": "• Member Limit: Level ",
-        "worker": "• Worker Limit: Level ",
-        "level": ""
-      },
-      "contribution": {
-        "desc": [
-          "View contribution rankings",
-          "Check member contributions"
-        ],
-        "my": "My Contribution: "
-      },
-      "visitor": {
-        "desc": [
-          "View and manage visitors",
-          "Check visitor logs"
-        ],
-        "recent": "Recent Visitors: ",
-        "current": "Current Visitors: ",
-        "history": "• View visit history",
-        "realtime": "• Real-time visitor tracking",
-        "open_menu": "Click to open visitor menu"
-      },
-      "members": "[TRANSLATE: Members: ]",
       "info": {
-        "lore": [
-          "島の情報",
-          "クリックして詳細を表示"
-        ]
+        "members": "メンバーs: {0}/{1}",
+        "biome": "バイオーム: {0}",
+        "level": "レベル: {0}",
+        "spawn": "スポーン: {0}",
+        "no-island": "No island found"
       },
-      "member_management": {
-        "title": "[TRANSLATE: Member Management]",
-        "desc": [
-          "[TRANSLATE: Invite or kick]",
-          "[TRANSLATE: island members]"
-        ]
+      "create": {
+        "click-to-create": "クリック to create your island"
       },
-      "permission_management": {
-        "title": "[TRANSLATE: Permission Management]",
-        "desc": [
-          "[TRANSLATE: Configure permissions]",
-          "[TRANSLATE: for each role]"
-        ]
+      "members": {
+        "click-to-manage": "クリック to manage members"
       },
-      "spawn_settings": {
-        "title": "[TRANSLATE: Spawn Settings]",
-        "desc": [
-          "[TRANSLATE: Manage island]",
-          "[TRANSLATE: spawn locations]"
-        ]
+      "upgrades": {
+        "click-to-view": "クリック to view upgrades"
       },
-      "island_settings": {
-        "title": "[TRANSLATE: Island Settings]",
-        "desc": [
-          "[TRANSLATE: Change island name]",
-          "[TRANSLATE: Public/Private settings]",
-          "[TRANSLATE: Change biome]"
-        ]
+      "settings": {
+        "click-to-open": "クリック to open settings"
       },
-      "biome_change": {
-        "title": "[TRANSLATE: Change Biome]",
-        "desc": [
-          "[TRANSLATE: Change the biome]",
-          "[TRANSLATE: of your island]"
-        ]
+      "biome": {
+        "click-to-change": "クリック to change biome"
+      },
+      "spawn": {
+        "click-to-set": "クリック to set spawn point"
+      },
+      "contribute": {
+        "click-to-contribute": "クリック to contribute resources"
       },
       "warp": {
-        "title": "[TRANSLATE: Warp to Island]",
-        "desc": "[TRANSLATE: Teleport to the island]"
+        "click-to-warp": "クリック to warp to island"
+      },
+      "delete": {
+        "click-to-delete": "クリック to delete island"
       }
     },
     "creation": {
-      "title": "Create Island"
+      "title": "作成 島"
     },
     "settings": {
-      "title": "Island Settings"
+      "title": "島 設定",
+      "pvp": "PvP 有効",
+      "mob-spawn": "Mob スポーンing",
+      "fire-spread": "Fire Spread",
+      "tnt-damage": "TNT Damage",
+      "public-access": "公開 Access"
     },
     "permission": {
-      "title": "Permission Management",
+      "title": "Permission 管理ment",
       "select_role_desc": "Set permissions for this role.",
       "selected": "Selected",
-      "click_to_select": "Click to select",
-      "current_editing": "Currently editing",
+      "click_to_select": "クリック to select",
+      "current_editing": "現在ly editing",
       "select_other_role": "Select another role from the left",
       "edit_role_permissions": "to edit that role's permissions.",
       "permissions": {
@@ -524,30 +494,36 @@
         "build_desc": "Can place and break blocks.",
         "interact": "Interact",
         "interact_desc": "Can use doors, buttons, etc.",
-        "use": "Use Items",
+        "use": "Use アイテムs",
         "use_desc": "Can use items.",
         "containers": "Open Containers",
         "containers_desc": "Can open chests, furnaces, etc.",
         "pvp": "PVP",
         "pvp_desc": "Can engage in PVP on the island.",
-        "invite": "Invite Members",
+        "invite": "Invite メンバーs",
         "invite_desc": "Can invite new members.",
-        "kick": "Kick Members",
+        "kick": "Kick メンバーs",
         "kick_desc": "Can kick members.",
-        "settings": "Change Settings",
+        "settings": "Change 設定",
         "settings_desc": "Can change island settings."
       },
-      "save": "Save Permission Settings",
-      "save_desc": "Save the changed permission settings.",
-      "enabled": "Enabled",
-      "disabled": "Disabled",
-      "click_to_toggle": "Click to toggle"
+      "save": "保存 Permission 設定",
+      "save_desc": "保存 the changed permission settings.",
+      "enabled": "有効",
+      "disabled": "無効",
+      "click_to_toggle": "クリック to toggle"
     },
     "upgrade": {
-      "title": "Island Upgrade"
+      "title": "島 アップグレードs",
+      "current-level": "現在 レベル: {0}",
+      "next-level": "次へ レベル: {0}",
+      "max-level": "Max レベル Reached",
+      "cost": "Cost: {0}",
+      "benefits": "Benefits:",
+      "click-to-upgrade": "クリック to upgrade"
     },
     "biome_selection": {
-      "title": "Select Biome",
+      "title": "Select バイオーム",
       "forest": "Forest",
       "plains": "Plains",
       "desert": "Desert",
@@ -555,7 +531,7 @@
       "jungle": "Jungle",
       "swamp": "Swamp",
       "ocean": "Ocean",
-      "mushroom": "Mushroom Island",
+      "mushroom": "Mushroom 島",
       "savanna": "Savanna",
       "taiga": "Taiga",
       "mountains": "Mountains",
@@ -563,167 +539,178 @@
     },
     "visitor": {
       "menu": {
-        "title": "Visitor Management"
+        "title": "訪問者 管理ment"
       },
       "live": {
-        "title": "Current Visitors"
+        "title": "現在 訪問者s"
       }
     },
     "biome_change": {
-      "title": "Change Biome"
+      "title": "Change バイオーム"
     },
     "biome": {
-      "message": {
-        "world_not_found": "Island world not found.",
-        "no_permission": "You don't have permission to change the biome.",
-        "changing": "Changing biome...",
-        "changed": "Biome changed to {0}.",
-        "chunk_reload_notice": "The biome will fully update when chunks reload.",
-        "already_selected": "This biome is already selected."
-      }
+      "title": "島 バイオーム",
+      "current": "現在: {0}",
+      "available": "利用可能 バイオームs",
+      "locked": "Locked",
+      "click-to-select": "クリック to select this biome"
     },
     "contribute": {
-      "title": "Island Contribution",
-      "input_amount": "Contribution Amount",
+      "title": "島 貢献",
+      "input_amount": "貢献 Amount",
       "input_gold": "Enter gold to contribute",
       "gold_info": {
         "balance": "Balance: {0}G",
-        "contribution": "Your Contribution: {0}G"
+        "contribution": "Your 貢献: {0}G"
       },
       "quick_amount": "Quick Amount: {0}G",
-      "gold_needed": "Gold Needed: {0}G"
+      "gold_needed": "ゴールド Needed: {0}G"
+    },
+    "contribution": {
+      "title": "島 貢献",
+      "total": "宛先tal: {0}",
+      "your-contribution": "Your 貢献: {0}",
+      "top-contributors": "宛先p Contributors",
+      "click-to-contribute": "クリック to contribute"
+    },
+    "member_manage": {
+      "title": "メンバー 管理ment",
+      "permission_not_implemented": "This permission is not yet implemented",
+      "current_role": "現在 Role: {0}"
     },
     "member": {
-      "title": "Island Members",
+      "title": "島 メンバーs",
       "role": "Role",
       "join_date": "Join Date",
       "has_most_permissions": "Has most permissions",
       "regular_member_permissions": "Regular member permissions",
       "invite_prompt": "Enter player name to invite:",
       "invite_example": "Example: PlayerName",
-      "role_owner": "Owner",
+      "role_owner": "島主",
       "all_permissions": "Has all permissions",
-      "owner_cannot_change": "Owner role cannot be changed",
+      "owner_cannot_change": "島主 role cannot be changed",
       "most_permissions": "Has most management permissions",
       "normal_permissions": "Has normal member permissions",
       "left_click_role": "Left-click to change role",
       "right_click_kick": "Right-click to kick member",
-      "role_worker": "Worker",
+      "role_worker": "作業員",
       "hire_date": "Hired: {0}",
       "last_activity": "Last Activity: {0}",
       "limited_permissions": "Has limited permissions",
       "left_click_extend": "Left-click to extend contract",
       "right_click_fire": "Right-click to fire worker"
     },
-    "contribution": {
-      "title": "Island Contributions",
-      "info": {
-        "island_name": "Island: {0}",
-        "total": "Total Contributions: {0}G",
-        "contributors": "Contributors: {0}"
+    "main_color_change_hint": "クリック to change island theme",
+    "biome_change_title": "Change 島 バイオーム",
+    "biome_click_to_change": "クリック to change biome",
+    "biome_current_info": "現在 バイオーム",
+    "biome_current_info_lore": "Your island biome: {0}",
+    "biome_selection_title": "Select バイオーム",
+    "biome_selection_info_title": "バイオーム Selection",
+    "biome_selection_info_lore": [
+      "Choose your island biome",
+      "This affects island appearance"
+    ],
+    "biome_selection_current_selected": "現在ly selected: {0}",
+    "biome_selection_click_to_select": "クリック to select this biome",
+    "biome_selection_back_lore": "Go back to previous menu",
+    "biome_simple_title": "島 バイオーム",
+    "contribute_gold_info_balance": "Your Balance: {0}",
+    "contribute_gold_info_contribution": "Your 貢献: {0}",
+    "contribute_quick_amount": "Quick Amount: {0}",
+    "contribute_gold_needed": "ゴールド Needed: {0}",
+    "contribution_info_island_name": "島: {0}",
+    "role_co_owner": "副島主",
+    "delete_confirm_title": "削除 島 確認ation",
+    "delete_confirm_island_info_title": "島 情報rmation",
+    "delete_confirm_island_info_id": "島 ID: {0}",
+    "delete_confirm_island_info_members": "メンバーs: {0}",
+    "delete_confirm_island_info_created": "作成d: {0}",
+    "member_invite_prompt": "Enter player name to invite",
+    "member_invite_example": "Example: PlayerName",
+    "member_role_owner": "島主",
+    "member_all_permissions": "Has all permissions",
+    "member_owner_cannot_change": "島主 permissions cannot be changed",
+    "member_join_date": "Joined: {0}",
+    "member_most_permissions": "Has most permissions",
+    "member_normal_permissions": "Has normal permissions",
+    "member_left_click_role": "Left-click to change role",
+    "member_right_click_kick": "Right-click to kick",
+    "member_role_worker": "作業員",
+    "member_hire_date": "Hired: {0}",
+    "member_last_activity": "Last 進行中: {0}",
+    "member_limited_permissions": "Has limited permissions",
+    "member_left_click_extend": "Left-click to extend contract",
+    "member_right_click_fire": "Right-click to fire",
+    "member_manage_title": "管理 メンバー",
+    "member_manage_permission_not_implemented": "Permission management coming soon",
+    "member_manage_current_role": "現在 Role: {0}",
+    "members": {
+      "title": "島 メンバーs",
+      "owner": "島主",
+      "member": "メンバー",
+      "visitor": "訪問者",
+      "kick": {
+        "title": "Kick メンバー",
+        "desc": "Remove this member from the island"
       },
-      "contributor": {
-        "name": "{0}",
-        "contribution": "Contribution: {0}G",
-        "role": "Role: {0}",
-        "percentage": "Percentage: {0}%"
+      "promote": {
+        "title": "Promote メンバー",
+        "desc": "Give this member higher permissions"
       },
-      "add": {
-        "current": "Current: {0}G"
+      "demote": {
+        "title": "Demote メンバー",
+        "desc": "Reduce this member's permissions"
       }
     },
-    "member_manage": {
-      "title": "Member Management",
-      "permission_not_implemented": "This permission is not yet implemented",
-      "current_role": "Current Role: {0}"
-    },
-    "main_color_change_hint": "[TRANSLATE: Click to change island theme]",
-    "biome_change_title": "[TRANSLATE: Change Island Biome]",
-    "biome_click_to_change": "[TRANSLATE: Click to change biome]",
-    "biome_current_info": "[TRANSLATE: Current Biome]",
-    "biome_current_info_lore": "[TRANSLATE: Your island biome: {0}]",
-    "biome_selection_title": "[TRANSLATE: Select Biome]",
-    "biome_selection_info_title": "[TRANSLATE: Biome Selection]",
-    "biome_selection_info_lore": [
-      "[TRANSLATE: Choose your island biome]",
-      "[TRANSLATE: This affects island appearance]"
-    ],
-    "biome_selection_current_selected": "[TRANSLATE: Currently selected: {0}]",
-    "biome_selection_click_to_select": "[TRANSLATE: Click to select this biome]",
-    "biome_selection_back_lore": "[TRANSLATE: Go back to previous menu]",
-    "biome_simple_title": "[TRANSLATE: Island Biome]",
-    "contribute_gold_info_balance": "[TRANSLATE: Your Balance: {0}]",
-    "contribute_gold_info_contribution": "[TRANSLATE: Your Contribution: {0}]",
-    "contribute_quick_amount": "[TRANSLATE: Quick Amount: {0}]",
-    "contribute_gold_needed": "[TRANSLATE: Gold Needed: {0}]",
-    "contribution_info_island_name": "[TRANSLATE: Island: {0}]",
-    "role_co_owner": "[TRANSLATE: Co-Owner]",
-    "delete_confirm_title": "[TRANSLATE: Delete Island Confirmation]",
-    "delete_confirm_island_info_title": "[TRANSLATE: Island Information]",
-    "delete_confirm_island_info_id": "[TRANSLATE: Island ID: {0}]",
-    "delete_confirm_island_info_members": "[TRANSLATE: Members: {0}]",
-    "delete_confirm_island_info_created": "[TRANSLATE: Created: {0}]",
-    "member_invite_prompt": "[TRANSLATE: Enter player name to invite]",
-    "member_invite_example": "[TRANSLATE: Example: PlayerName]",
-    "member_role_owner": "[TRANSLATE: Owner]",
-    "member_all_permissions": "[TRANSLATE: Has all permissions]",
-    "member_owner_cannot_change": "[TRANSLATE: Owner permissions cannot be changed]",
-    "member_join_date": "[TRANSLATE: Joined: {0}]",
-    "member_most_permissions": "[TRANSLATE: Has most permissions]",
-    "member_normal_permissions": "[TRANSLATE: Has normal permissions]",
-    "member_left_click_role": "[TRANSLATE: Left-click to change role]",
-    "member_right_click_kick": "[TRANSLATE: Right-click to kick]",
-    "member_role_worker": "[TRANSLATE: Worker]",
-    "member_hire_date": "[TRANSLATE: Hired: {0}]",
-    "member_last_activity": "[TRANSLATE: Last Active: {0}]",
-    "member_limited_permissions": "[TRANSLATE: Has limited permissions]",
-    "member_left_click_extend": "[TRANSLATE: Left-click to extend contract]",
-    "member_right_click_fire": "[TRANSLATE: Right-click to fire]",
-    "member_manage_title": "[TRANSLATE: Manage Member]",
-    "member_manage_permission_not_implemented": "[TRANSLATE: Permission management coming soon]",
-    "member_manage_current_role": "[TRANSLATE: Current Role: {0}]"
+    "delete": {
+      "title": "削除 島",
+      "warning": "⚠ Warning: This action cannot be undone!",
+      "confirm": "確認 Deletion",
+      "cancel": "キャンセル"
+    }
   },
   "social": {
     "mailbox": {
-      "title": "Mailbox",
-      "title_icon": "📬 Mailbox",
+      "title": "メールボックス",
+      "title_icon": "📬 メールbox",
       "description": "Check your received mail!",
       "refresh": "🔄 Refresh",
       "refresh_desc": "Refresh mail list",
-      "click_refresh": "Click to refresh",
-      "send_mail": "📝 Send Mail",
+      "click_refresh": "クリック to refresh",
+      "send_mail": "📝 Send メール",
       "send_mail_desc": "Send a new mail",
-      "click_to_write": "Click to write",
-      "delete_read": "🗑 Delete Read",
-      "delete_read_desc": "Delete all read mail",
+      "click_to_write": "クリック to write",
+      "delete_read": "🗑 削除 既読",
+      "delete_read_desc": "削除 all read mail",
       "except_attachments": "(Except mail with attachments)",
-      "click_to_delete": "Click to delete",
-      "loading": "Loading...",
+      "click_to_delete": "クリック to delete",
+      "loading": "読み込み中...",
       "no_mail": "No mail",
       "no_mail_desc": "You have no received mail",
-      "refresh_success": "Mail list refreshed.",
-      "send_mail_guide": "Send Mail:",
+      "refresh_success": "メール list refreshed.",
+      "send_mail_guide": "Send メール:",
       "send_mail_command": "Type '/sendmail <player> <title> [message]'.",
       "send_mail_example": "Example: /sendmail Steve Gift Hello!",
-      "delete_success": "Mail deleted",
-      "delete_failed": "Failed to delete mail"
+      "delete_success": "メール deleted",
+      "delete_failed": "失敗 to delete mail"
     },
     "mail_detail": {
-      "title": "Mail Details",
-      "message_icon": "📄 Message",
+      "title": "メール Details",
+      "message_icon": "📄 メッセージ",
       "no_attachments": "No attachments",
-      "delete_mail": "🗑 Delete Mail",
-      "reply": "✉ Reply"
+      "delete_mail": "🗑 削除 メール",
+      "reply": "✉ 返信"
     },
     "friend_list": {
-      "title": "Friend List",
-      "title_icon": "👥 Friend List",
-      "requests": "📨 Friend Requests",
-      "add_friend": "➕ Add Friend"
+      "title": "フレンドリスト",
+      "title_icon": "👥 フレンド List",
+      "requests": "📨 フレンド Requests",
+      "add_friend": "➕ Add フレンド"
     },
     "friend_request": {
-      "title": "Friend Requests",
-      "title_icon": "📨 Friend Requests",
+      "title": "フレンド申請",
+      "title_icon": "📨 フレンド Requests",
       "accept": "✓ Accept",
       "reject": "✗ Reject"
     }
@@ -739,314 +726,315 @@
   },
   "quest": {
     "filter": "Filter:",
-    "previous_page": "Previous Page",
-    "next_page": "Next Page",
-    "rewards": "Rewards"
+    "previous_page": "前のページ",
+    "next_page": "次のページ",
+    "rewards": "報酬"
   },
   "island_creation": {
-    "current_name": "Current Name:",
-    "click_to_change_name": "Click to Change Name",
-    "current_color": "Current Color:",
-    "left_click": "Left Click:",
-    "right_click": "Right Click:",
-    "middle_click": "Middle Click:",
+    "current_name": "現在 Name:",
+    "click_to_change_name": "クリック to Change Name",
+    "current_color": "現在 Color:",
+    "left_click": "Left クリック:",
+    "right_click": "Right クリック:",
+    "middle_click": "Middle クリック:",
     "hex_input": "Enter HEX Code Directly",
     "hex_example": "Example: #FFFFFF (White)",
-    "current_biome": "Current Biome:",
-    "click_to_change": "▶ Click to Change",
+    "current_biome": "現在 バイオーム:",
+    "click_to_change": "▶ クリック",
     "selected": "✔ Selected",
-    "click_to_select": "Click to Select",
-    "click_to_create": "Click to Create Island!",
-    "next": "Next",
-    "previous": "Previous"
+    "click_to_select": "クリック to Select",
+    "click_to_create": "クリック to 作成 島!",
+    "next": "次へ",
+    "previous": "前へ"
   },
   "island_main": {
-    "owner": "Owner:",
+    "owner": "島主:",
     "size": "Size:",
-    "members": "Members:",
-    "workers": "Workers:",
-    "created_date": "Created:",
-    "public_status": "Public Status:",
-    "public": "Public",
-    "private": "Private",
+    "members": "メンバーs:",
+    "workers": "作業員s:",
+    "created_date": "作成d:",
+    "public_status": "公開 状態:",
+    "public": "公開",
+    "private": "非公開",
     "my_role": "My Role:",
-    "role_owner": "Owner",
-    "role_co_owner": "Co-Owner",
-    "role_member": "Member",
-    "role_worker": "Worker",
-    "role_visitor": "Visitor",
-    "color_change_hint": "▶ Middle Click: Change Island Name Color",
+    "role_owner": "島主",
+    "role_co_owner": "副島主",
+    "role_member": "メンバー",
+    "role_worker": "作業員",
+    "role_visitor": "訪問者",
+    "color_change_hint": "▶ Middle クリック: Change 島 Name Color",
     "hex_format_error": "Please enter a valid HEX color code. (e.g. #FF0000)",
-    "color_changed": "Island name color has been changed!",
+    "color_changed": "島 name color has been changed!",
     "hex_input_title": "Enter HEX Color Code",
-    "member_management_title": "Member Management",
+    "member_management_title": "メンバー 管理ment",
     "member_management_desc": [
       "Invite or kick",
       "island members."
     ],
-    "permission_management_title": "Permission Management",
+    "permission_management_title": "Permission 管理ment",
     "permission_management_desc": [
       "Configure permissions",
       "for each role."
     ],
-    "upgrade_title": "Upgrade",
-    "upgrade_current_level": "Current Level:",
+    "upgrade_title": "アップグレード",
+    "upgrade_current_level": "現在 レベル:",
     "upgrade_size": "Size:",
-    "upgrade_member": "Members:",
-    "upgrade_worker": "Workers:",
-    "upgrade_level": "Level",
-    "contribution_title": "Contribution",
+    "upgrade_member": "メンバーs:",
+    "upgrade_worker": "作業員s:",
+    "upgrade_level": "レベル",
+    "contribution_title": "貢献",
     "contribution_desc": [
       "View contribution",
       "of island members."
     ],
-    "contribution_my": "My Contribution:",
-    "spawn_settings_title": "Spawn Settings",
+    "contribution_my": "My 貢献:",
+    "spawn_settings_title": "スポーン 設定",
     "spawn_settings_desc": [
-      "Manage island",
+      "管理 island",
       "spawn locations."
     ],
-    "island_settings_title": "Island Settings",
+    "island_settings_title": "島 設定",
     "island_settings_desc": [
       "Change island name",
-      "Public/Private settings",
+      "公開/非公開 settings",
       "Change biome"
     ],
-    "visitor_management_title": "Visitor Management",
+    "visitor_management_title": "訪問者 管理ment",
     "visitor_management_desc": [
       "View visitor",
       "information."
     ],
-    "visitor_management_recent": "Recent Visitors:",
-    "visitor_management_current": "Current Visitors:",
-    "visitor_management_history": "• Visit History",
-    "visitor_management_realtime": "• Current Visitors (Live)",
-    "visitor_management_open_menu": "▶ Click to Open Menu",
-    "biome_change_title": "Change Biome",
+    "visitor_management_recent": "Recent 訪問者s:",
+    "visitor_management_current": "現在 訪問者s:",
+    "visitor_management_history": "• 訪問 History",
+    "visitor_management_realtime": "• 現在 訪問者s (Live)",
+    "visitor_management_open_menu": "▶ クリック",
+    "biome_change_title": "Change バイオーム",
     "biome_change_desc": [
       "Change the biome",
       "of your island."
     ],
-    "warp_title": "Warp to Island",
+    "warp_title": "ワープ to 島",
     "warp_desc": "Teleport to the island.",
-    "warp_moving": "Warping to island...",
-    "warp_success": "Warped to island!",
-    "click_to_open": "▶ Click to Open",
-    "click_to_warp": "▶ Click to Warp",
+    "warp_moving": "ワープing to island...",
+    "warp_success": "ワープed to island!",
+    "click_to_open": "▶ クリック",
+    "click_to_warp": "▶ クリック",
     "people_count": "people"
   },
   "dialog_choice": {
-    "title": "選択",
-    "choose": "返答を選んでください:",
-    "confirm": "選択確認",
-    "option_selected": "{0}を選択しました",
+    "title": "Select an Option",
+    "choose": "Choose your response:",
+    "confirm": "確認 Selection",
+    "option_selected": "You selected: {0}",
     "icon": "💬",
     "description": "Choose your dialog option",
     "npc": "NPC: {0}",
     "npc_content": "{0}",
     "option": "Option {0}",
-    "click_to_select": "Click to select this option"
+    "click_to_select": "クリック to select this option"
   },
   "mailbox": {
     "title": "メールボックス",
-    "inbox": "受信箱",
-    "sent": "送信済み",
+    "inbox": "Inbox",
+    "sent": "Sent メール",
     "unread": "未読: {0}",
-    "from": "送信者: {0}",
+    "from": "差出人: {0}",
     "to": "宛先: {0}",
     "subject": "件名: {0}",
-    "date": "日付: {0}",
+    "date": "Date: {0}",
     "delete": "削除",
     "reply": "返信",
     "forward": "転送",
-    "mark_read": "既読にする",
-    "mark_unread": "未読にする",
-    "no_mail": "メールがありません",
-    "attachments": "添付: {0}",
-    "collect_attachment": "添付を受け取る",
-    "attachment_collected": "添付を受け取りました！",
-    "delete_confirm": "このメールを削除しますか？",
-    "deleted": "メールを削除しました",
-    "sent_success": "メールを送信しました！",
-    "refresh_success": "Mailbox refreshed!",
-    "send_mail_guide": "To send mail, use the command below:",
+    "mark_read": "Mark as 既読",
+    "mark_unread": "Mark as 未読",
+    "no_mail": "No mail in your inbox",
+    "attachments": "添付ファイル: {0}",
+    "collect_attachment": "Collect Attachment",
+    "attachment_collected": "Attachment collected!",
+    "delete_confirm": "Are you sure you want to delete this mail?",
+    "deleted": "メール deleted",
+    "sent_success": "メール sent successfully!",
+    "refresh_success": "メールbox refreshed",
+    "send_mail_guide": "Send a new mail",
     "send_mail_command": "/mail send <player> <message>",
     "send_mail_example": "Example: /mail send Steve Hello!",
-    "sender": "Sender: {0}",
-    "status": "Status: {0}",
+    "sender": "送信者: {0}",
+    "status": "状態: {0}",
     "time": "Time: {0}",
-    "delete_confirm_word": "削除",
-    "delete_confirm_text": "Type DELETE to confirm deletion",
-    "delete_confirm_title": "Confirm Mail Deletion"
+    "delete_confirm_word": "DELETE",
+    "delete_confirm_text": "Type DELETE to confirm",
+    "delete_confirm_title": "確認 メール Deletion"
   },
   "mail_detail": {
-    "from": "送信者: {0}",
+    "title": "メール Details",
+    "from": "差出人: {0}",
     "to": "宛先: {0}",
-    "date": "日付: {0}",
+    "date": "Date: {0}",
     "subject": "件名: {0}",
     "message": "メッセージ:",
     "attachments": "添付ファイル:",
-    "no_attachments": "添付ファイルなし",
-    "collect_all": "すべての添付を受け取る",
+    "no_attachments": "No attachments",
+    "collect_all": "Collect All 添付ファイル",
     "reply": "返信",
     "forward": "転送",
     "delete": "削除",
-    "back": "受信箱に戻る",
-    "title": "Mail Details",
-    "sender": "Sender: {0}",
-    "receiver": "Receiver: {0}",
+    "back": "戻る to Inbox",
+    "sender": "送信者: {0}",
+    "receiver": "受信者: {0}",
     "sent_time": "Sent: {0}",
-    "status": "Status: {0}",
+    "status": "状態: {0}",
     "no_message": "No message content",
-    "delete_success": "Mail deleted successfully!",
-    "delete_failed": "Failed to delete mail",
-    "reply_desc": "Click to reply to this mail",
+    "delete_success": "メール deleted successfully!",
+    "delete_failed": "失敗 to delete mail",
+    "reply_desc": "クリック to reply to this mail",
     "reply_guide": "Use the command to reply:",
     "reply_command": "/mail reply {0} <message>"
   },
   "friend_requests": {
-    "title": "フレンドリクエスト",
-    "pending": "保留中のリクエスト: {0}",
-    "sent_by": "送信者: {0}",
-    "sent_date": "日付: {0}",
-    "accept": "承認",
+    "title": "フレンド申請",
+    "pending": "Pending Requests: {0}",
+    "sent_by": "Sent by: {0}",
+    "sent_date": "Date: {0}",
+    "accept": "受諾",
     "decline": "拒否",
-    "accept_all": "すべて承認",
-    "decline_all": "すべて拒否",
-    "no_requests": "保留中のフレンドリクエストはありません",
-    "accepted": "フレンドリクエストを承認しました！",
-    "declined": "フレンドリクエストを拒否しました",
-    "already_friends": "{0}さんとすでにフレンドです",
+    "accept_all": "受諾 All",
+    "decline_all": "拒否 All",
+    "no_requests": "No pending friend requests",
+    "accepted": "フレンド request accepted!",
+    "declined": "フレンド request declined",
+    "already_friends": "You are already friends with {0}",
     "request_time": "Request Time: {0}",
-    "message": "Message: {0}",
-    "accept_desc": ["Click to accept this friend request"],
-    "reject_desc": ["Click to reject this friend request"]
-  },
-  "friend_list": {
-    "title": "フレンドリスト",
-    "online": "オンラインのフレンド: {0}",
-    "offline": "オフラインのフレンド: {0}",
-    "total": "フレンド総数: {0}/{1}",
-    "status": "ステータス: {0}",
-    "last_seen": "最終ログイン: {0}",
-    "location": "場所: {0}",
-    "invite_party": "パーティーに招待",
-    "send_message": "メッセージを送る",
-    "teleport": "テレポート",
-    "remove_friend": "フレンドを削除",
-    "profile": "プロフィールを見る",
-    "no_friends": "まだフレンドがいません",
-    "add_friend": "フレンドを追加",
-    "friend_removed": "フレンドを削除しました",
-    "invite_sent": "パーティー招待を送りました！"
-  },
-  "island_settings": {
-    "title": "島の設定",
-    "name": "島の名前:",
-    "name_change": "名前を変更",
-    "name_changed": "島の名前を変更しました！",
-    "privacy": "公開設定:",
-    "public": "公開",
-    "private": "非公開",
-    "toggle_privacy": "公開設定を切り替え",
-    "biome": "バイオーム:",
-    "change_biome": "バイオームを変更",
-    "reset_island": "島をリセット",
-    "reset_warning": "⚠ すべてが削除されます！",
-    "reset_confirm": "リセットするには'CONFIRM'と入力してください",
-    "banned_players": "ブロックされたプレイヤー",
-    "unban": "ブロック解除",
-    "no_banned": "ブロックされたプレイヤーはいません",
-    "settings_saved": "設定を保存しました！"
-  },
-  "island_spawn_settings": {
-    "title": "スポーン設定",
-    "main_spawn": "メインスポーン",
-    "visitor_spawn": "訪問者スポーン",
-    "set_location": "位置を設定",
-    "current_location": "現在の位置: {0}, {1}, {2}",
-    "location_set": "スポーン位置を設定しました！",
-    "reset_spawn": "デフォルトにリセット",
-    "spawn_protection": "スポーン保護半径: {0}",
-    "increase_radius": "半径を増やす",
-    "decrease_radius": "半径を減らす",
-    "lock_spawn": "スポーンをロック",
-    "unlock_spawn": "スポーンのロックを解除",
-    "spawn_locked": "スポーンがロックされました",
-    "spawn_unlocked": "スポーンのロックが解除されました"
-  },
-  "island_personal_spawn": {
-    "title": "個人スポーン",
-    "set_spawn": "個人スポーンを設定",
-    "current_spawn": "現在のスポーン: {0}, {1}, {2}",
-    "spawn_set": "個人スポーンを設定しました！",
-    "teleport_spawn": "スポーンにテレポート",
-    "delete_spawn": "スポーンを削除",
-    "spawn_deleted": "個人スポーンを削除しました",
-    "no_spawn_set": "個人スポーンが設定されていません"
-  },
-  "island_member_manage": {
-    "title": "メンバー管理: {0}",
-    "role": "役割: {0}",
-    "change_role": "役割を変更",
-    "promote": "昇進",
-    "demote": "降格",
-    "kick": "島から追放",
-    "ban": "島からブロック",
-    "transfer_ownership": "所有権を譲渡",
-    "transfer_warning": "⚠ 元に戻せません！",
-    "transfer_confirm": "確認するには'TRANSFER'と入力してください",
-    "promoted": "{0}を昇進させました！",
-    "demoted": "{0}を降格しました！",
-    "kicked": "{0}を追放しました！",
-    "banned": "{0}をブロックしました！",
-    "ownership_transferred": "{0}に所有権を譲渡しました！"
-  },
-  "island_member": {
-    "title": "島のメンバー",
-    "total": "メンバー総数: {0}/{1}",
-    "workers": "ワーカー: {0}/{1}",
-    "online": "オンライン: {0}",
-    "role": "役割: {0}",
-    "joined": "参加日: {0}",
-    "contribution": "貢献度: {0}",
-    "last_online": "最終ログイン: {0}",
-    "manage": "管理",
-    "invite": "プレイヤーを招待",
-    "pending_invites": "保留中の招待: {0}",
-    "no_members": "まだメンバーがいません"
-  },
-  "island_upgrade": {
-    "title": "島のアップグレード",
-    "size_upgrade": "サイズアップグレード",
-    "current_size": "現在のサイズ: {0}x{0}",
-    "next_size": "次のサイズ: {0}x{0}",
-    "member_upgrade": "メンバー上限",
-    "current_members": "現在の上限: {0}",
-    "next_members": "次の上限: {0}",
-    "worker_upgrade": "ワーカー上限",
-    "current_workers": "現在の上限: {0}",
-    "next_workers": "次の上限: {0}",
-    "cost": "コスト: {0}コイン",
-    "requirements": "必要条件:",
-    "level_required": "島レベル{0}が必要",
-    "upgrade": "アップグレード",
-    "max_level": "最大レベルに到達",
-    "not_enough_coins": "コインが不足しています！",
-    "upgrade_success": "アップグレード成功！",
-    "requirements_not_met": "必要条件を満たしていません！"
-  },
-  "all_quests": {
-    "title": "All Quests"
+    "message": "メッセージ: {0}",
+    "accept_desc": [
+      "クリック to accept this friend request"
+    ],
+    "reject_desc": [
+      "クリック to reject this friend request"
+    ]
   },
   "friends": {
-    "title": "Friends",
-    "add_command_hint": "To add a friend, use:",
+    "title": "フレンド",
+    "add_command_hint": "Add a friend",
     "add_command_example": "/friend add <player>",
-    "refreshed": "Friends list refreshed!",
-    "status": "Status: {0}",
-    "since": "Friends since: {0}",
-    "whisper_hint": "Click to send a whisper"
+    "refreshed": "フレンドs list refreshed!",
+    "status": "状態: {0}",
+    "since": "フレンドs since: {0}",
+    "whisper_hint": "Send a whisper"
+  },
+  "friend_list": {
+    "title": "フレンドs List",
+    "online": "オンライン フレンドs: {0}",
+    "offline": "オフライン フレンドs: {0}",
+    "total": "宛先tal フレンドs: {0}/{1}",
+    "status": "状態: {0}",
+    "last_seen": "Last Seen: {0}",
+    "location": "Location: {0}",
+    "invite_party": "Invite to Party",
+    "send_message": "メッセージ送信",
+    "teleport": "Teleport",
+    "remove_friend": "フレンド削除",
+    "profile": "View プロフィール",
+    "no_friends": "You have no friends yet",
+    "add_friend": "フレンド追加",
+    "friend_removed": "フレンド removed",
+    "invite_sent": "Party invite sent!"
+  },
+  "island_settings": {
+    "title": "島 設定",
+    "name": "島 Name:",
+    "name_change": "Change Name",
+    "name_changed": "島 name changed!",
+    "privacy": "Privacy:",
+    "public": "公開",
+    "private": "非公開",
+    "toggle_privacy": "宛先ggle Privacy",
+    "biome": "バイオーム:",
+    "change_biome": "Change バイオーム",
+    "reset_island": "Reset 島",
+    "reset_warning": "⚠ This will delete everything!",
+    "reset_confirm": "Type 'CONFIRM' to reset",
+    "banned_players": "Banned Players",
+    "unban": "Unban",
+    "no_banned": "No banned players",
+    "settings_saved": "設定 saved!"
+  },
+  "island_spawn_settings": {
+    "title": "スポーン 設定",
+    "main_spawn": "Main スポーン",
+    "visitor_spawn": "訪問者 スポーン",
+    "set_location": "Set Location",
+    "current_location": "現在: {0}, {1}, {2}",
+    "location_set": "スポーン location set!",
+    "reset_spawn": "Reset to Default",
+    "spawn_protection": "スポーン Protection Radius: {0}",
+    "increase_radius": "Increase Radius",
+    "decrease_radius": "Decrease Radius",
+    "lock_spawn": "Lock スポーン",
+    "unlock_spawn": "Unlock スポーン",
+    "spawn_locked": "スポーン is locked",
+    "spawn_unlocked": "スポーン is unlocked"
+  },
+  "island_personal_spawn": {
+    "title": "Personal スポーン",
+    "set_spawn": "Set Personal スポーン",
+    "current_spawn": "現在 スポーン: {0}, {1}, {2}",
+    "spawn_set": "Personal spawn set!",
+    "teleport_spawn": "Teleport to スポーン",
+    "delete_spawn": "削除 スポーン",
+    "spawn_deleted": "Personal spawn deleted",
+    "no_spawn_set": "No personal spawn set"
+  },
+  "island_member_manage": {
+    "title": "管理 メンバー: {0}",
+    "role": "Role: {0}",
+    "change_role": "Change Role",
+    "promote": "Promote",
+    "demote": "Demote",
+    "kick": "Kick from 島",
+    "ban": "Ban from 島",
+    "transfer_ownership": "Transfer 島主ship",
+    "transfer_warning": "⚠ This cannot be undone!",
+    "transfer_confirm": "Type 'TRANSFER' to confirm",
+    "promoted": "{0} has been promoted!",
+    "demoted": "{0} has been demoted!",
+    "kicked": "{0} has been kicked!",
+    "banned": "{0} has been banned!",
+    "ownership_transferred": "島主ship transferred to {0}!"
+  },
+  "island_member": {
+    "title": "島 メンバーs",
+    "total": "宛先tal メンバーs: {0}/{1}",
+    "workers": "作業員s: {0}/{1}",
+    "online": "オンライン: {0}",
+    "role": "Role: {0}",
+    "joined": "Joined: {0}",
+    "contribution": "貢献: {0}",
+    "last_online": "Last オンライン: {0}",
+    "manage": "管理",
+    "invite": "Invite Player",
+    "pending_invites": "Pending Invites: {0}",
+    "no_members": "No members yet"
+  },
+  "island_upgrade": {
+    "title": "島 アップグレードs",
+    "size_upgrade": "Size アップグレード",
+    "current_size": "現在 Size: {0}x{0}",
+    "next_size": "次へ Size: {0}x{0}",
+    "member_upgrade": "メンバー Limit",
+    "current_members": "現在 Limit: {0}",
+    "next_members": "次へ Limit: {0}",
+    "worker_upgrade": "作業員 Limit",
+    "current_workers": "現在 Limit: {0}",
+    "next_workers": "次へ Limit: {0}",
+    "cost": "Cost: {0} coins",
+    "requirements": "Requirements:",
+    "level_required": "島 レベル {0} required",
+    "upgrade": "アップグレード",
+    "max_level": "Max レベル Reached",
+    "not_enough_coins": "Not enough coins!",
+    "upgrade_success": "アップグレード successful!",
+    "requirements_not_met": "Requirements not met!"
   },
   "items": {
     "gui": {
@@ -1061,93 +1049,1076 @@
       }
     }
   },
-  "page_info": "[TRANSLATE: Page {0} of {1}]",
-  "combat_power": {
-    "title": "[TRANSLATE: Combat Power]",
-    "total": "[TRANSLATE: Total Combat Power: {0}]",
-    "breakdown": "[TRANSLATE: Power Breakdown]",
-    "from_level": "[TRANSLATE: From Level: {0}]",
-    "from_stats": "[TRANSLATE: From Stats: {0}]",
-    "level_contribution": "[TRANSLATE: Level Contribution]",
-    "level_detail": "[TRANSLATE: Level {0} = {1} power]",
-    "stat_contribution": "[TRANSLATE: Stat Contribution]",
-    "stat_detail": "[TRANSLATE: {0}: {1} power]"
-  },
-  "system_settings": {
-    "title": "[TRANSLATE: System Settings]",
-    "status": "[TRANSLATE: Status: {0}]",
-    "click_to_toggle": "[TRANSLATE: Click to toggle]",
-    "confirmation_toggled": "[TRANSLATE: Confirmation dialogs {0}]"
-  },
-  "common_next_page": "[TRANSLATE: Next Page]",
-  "common_previous_page": "[TRANSLATE: Previous Page]",
-  "common_prev_page": "[TRANSLATE: Previous]",
-  "profile_player_title": "[TRANSLATE: {0}'s Profile]",
-  "profile_level_info": "[TRANSLATE: Level {0}]",
-  "profile_exp_percent": "[TRANSLATE: {0}% to next level]",
-  "profile_no_job": "[TRANSLATE: No Job]",
-  "profile_current_job": "[TRANSLATE: Current Job: {0}]",
-  "profile_job_level": "[TRANSLATE: Job Level: {0}]",
-  "profile_combat_power": "[TRANSLATE: Combat Power: {0}]",
-  "profile_click_to_talents": "[TRANSLATE: Click to view talents]",
-  "profile_join_date": "[TRANSLATE: Joined: {0}]",
-  "profile_last_seen": "[TRANSLATE: Last Seen: {0}]",
-  "profile_click_for_talents": "[TRANSLATE: Click for Talents]",
-  "profile_click_for_stats": "[TRANSLATE: Click for Stats]",
-  "profile_online_status": "[TRANSLATE: Status: {0}]",
-  "profile_health_info": "[TRANSLATE: Health: {0}/{1}]",
-  "profile_food_info": "[TRANSLATE: Food: {0}/20]",
-  "profile_food_level": "[TRANSLATE: Food Level: {0}]",
-  "profile_game_info": "[TRANSLATE: Game Statistics]",
-  "profile_active_quests": "[TRANSLATE: Active Quests: {0}]",
-  "profile_completed_quests": "[TRANSLATE: Completed Quests: {0}]",
-  "profile_mob_kills": "[TRANSLATE: Mob Kills: {0}]",
-  "profile_player_info_name": "[TRANSLATE: Player Information]",
-  "buttons_next_page_name": "[TRANSLATE: Next Page]",
-  "buttons_previous_page_name": "[TRANSLATE: Previous Page]",
-  "buttons_page_info_lore": "[TRANSLATE: Page {0} of {1}]",
-  "buttons_next_page_lore": "[TRANSLATE: Click to go to the next page]",
-  "buttons_previous_page_lore": "[TRANSLATE: Click to go to the previous page]",
-  "leaderboard_current_type": "[TRANSLATE: Leaderboard: {0}]",
-  "leaderboard_total_entries": "[TRANSLATE: Total Entries: {0}]",
-  "leaderboard_my_rank": "[TRANSLATE: Your Rank: #{0}]",
-  "leaderboard_my_value": "[TRANSLATE: Your Score: {0}]",
-  "leaderboard_last_updated": "[TRANSLATE: Last Updated: {0}]",
-  "leaderboard_this_is_you": "[TRANSLATE: §e§l← This is you!]",
-  "island_main_color_change_hint": "[TRANSLATE: Click to change island theme]",
-  "dialog_choice_title": "[TRANSLATE: Dialog Choice]",
-  "dialog_choice_icon": "[TRANSLATE: Choose Your Response]",
-  "dialog_choice_description": "[TRANSLATE: Select how you want to respond]",
-  "dialog_choice_npc": "[TRANSLATE: NPC: {0}]",
-  "dialog_choice_npc_content": "[TRANSLATE: {0}]",
-  "dialog_choice_option": "[TRANSLATE: Option {0}]",
-  "dialog_choice_click_to_select": "[TRANSLATE: Click to select this response]",
+  "common_next_page": "次のページ",
+  "common_previous_page": "前のページ",
+  "common_prev_page": "前へ",
+  "profile_player_title": "{0}'s プロフィール",
+  "profile_level_info": "レベル {0}",
+  "profile_exp_percent": "{0}% to next level",
+  "profile_no_job": "No 職業",
+  "profile_current_job": "現在 職業: {0}",
+  "profile_job_level": "職業 レベル: {0}",
+  "profile_combat_power": "戦闘力: {0}",
+  "profile_click_to_talents": "クリック to view talents",
+  "profile_join_date": "Joined: {0}",
+  "profile_last_seen": "Last Seen: {0}",
+  "profile_click_for_talents": "クリック for タレントs",
+  "profile_click_for_stats": "クリック for ステータス",
+  "profile_online_status": "状態: {0}",
+  "profile_health_info": "Health: {0}/{1}",
+  "profile_food_info": "Food: {0}/20",
+  "profile_food_level": "Food レベル: {0}",
+  "profile_game_info": "ゲーム Statistics",
+  "profile_active_quests": "進行中 クエストs: {0}",
+  "profile_completed_quests": "完了d クエストs: {0}",
+  "profile_mob_kills": "Mob Kills: {0}",
+  "profile_player_info_name": "Player 情報rmation",
+  "buttons_next_page_name": "次のページ",
+  "buttons_previous_page_name": "前のページ",
+  "buttons_page_info_lore": "ページ {0} of {1}",
+  "buttons_next_page_lore": "クリック to go to the next page",
+  "buttons_previous_page_lore": "クリック to go to the previous page",
+  "leaderboard_current_type": "ランキング: {0}",
+  "leaderboard_total_entries": "宛先tal Entries: {0}",
+  "leaderboard_my_rank": "Your Rank: #{0}",
+  "leaderboard_my_value": "Your Score: {0}",
+  "leaderboard_last_updated": "Last Updated: {0}",
+  "leaderboard_this_is_you": "§e§l← This is you!",
+  "island_main_color_change_hint": "クリック to change island theme",
+  "dialog_choice_title": "ダイアログ Choice",
+  "dialog_choice_icon": "Choose Your Response",
+  "dialog_choice_description": "Select how you want to respond",
+  "dialog_choice_npc": "NPC: {0}",
+  "dialog_choice_npc_content": "{0}",
+  "dialog_choice_option": "Option {0}",
+  "dialog_choice_click_to_select": "クリック to select this response",
   "mail": {
-    "detail_title": "[TRANSLATE: Mail Details]",
-    "detail_sender": "[TRANSLATE: From: {0}]",
-    "detail_receiver": "[TRANSLATE: To: {0}]",
-    "detail_sent_time": "[TRANSLATE: Sent: {0}]",
-    "detail_status": "[TRANSLATE: Status: {0}]",
-    "detail_no_message": "[TRANSLATE: No message content]",
-    "detail_delete_success": "[TRANSLATE: Mail deleted successfully]",
-    "detail_delete_failed": "[TRANSLATE: Failed to delete mail]",
-    "detail_reply_desc": "[TRANSLATE: Reply to this mail]",
-    "detail_reply_guide": "[TRANSLATE: Type your reply]",
-    "detail_reply_command": "[TRANSLATE: /mail reply {0}]"
+    "detail_title": "メール Details",
+    "detail_sender": "差出人: {0}",
+    "detail_receiver": "宛先: {0}",
+    "detail_sent_time": "Sent: {0}",
+    "detail_status": "状態: {0}",
+    "detail_no_message": "No message content",
+    "detail_delete_success": "メール deleted successfully",
+    "detail_delete_failed": "失敗 to delete mail",
+    "detail_reply_desc": "返信 to this mail",
+    "detail_reply_guide": "Type your reply",
+    "detail_reply_command": "/mail reply {0}"
   },
   "friend": {
-    "requests_request_time": "[TRANSLATE: Sent: {0}]",
-    "requests_message": "[TRANSLATE: Message: {0}]",
-    "requests_accept_desc": ["[TRANSLATE: Accept friend request]"],
-    "requests_reject_desc": ["[TRANSLATE: Reject friend request]"]
+    "requests_request_time": "Sent: {0}",
+    "requests_message": "メッセージ: {0}",
+    "requests_accept_desc": [
+      "受諾 friend request"
+    ],
+    "requests_reject_desc": [
+      "拒否 friend request"
+    ]
   },
   "dialog": {
-    "choice_title": "[TRANSLATE: Dialog Choice]",
-    "choice_icon": "[TRANSLATE: Choose Your Response]",
-    "choice_description": "[TRANSLATE: Select how you want to respond]",
-    "choice_npc": "[TRANSLATE: NPC: {0}]",
-    "choice_npc_content": "[TRANSLATE: {0}]",
-    "choice_option": "[TRANSLATE: Option {0}]",
-    "choice_click_to_select": "[TRANSLATE: Click to select this response]"
+    "choice_title": "ダイアログ Choice",
+    "choice_icon": "Choose Your Response",
+    "choice_description": "Select how you want to respond",
+    "choice_npc": "NPC: {0}",
+    "choice_npc_content": "{0}",
+    "choice_option": "Option {0}",
+    "choice_click_to_select": "クリック to select this response"
+  },
+  "quest_objectives": {
+    "title": "クエスト 目標s"
+  },
+  "quest_progress": {
+    "title": "クエスト 進行度"
+  },
+  "quest_rewards": {
+    "title": "クエスト 報酬s"
+  },
+  "mailbox.delete_confirm_word": "confirm",
+  "gui.social-settings.status": "状態: %s",
+  "gui.social-settings.click-to-toggle": "クリック to toggle",
+  "gui.social-settings.current-mode": "現在 mode: %s",
+  "gui.social-settings.friend-requests-toggled": "フレンド requests %s",
+  "gui.social-settings.guild-invites-toggled": "Guild invites %s",
+  "gui.social-settings.whisper-mode-changed": "ささやき mode changed to %s",
+  "gui.leaderboard.rank": "Rank #%d",
+  "gui.island.main.create.lore": "クリック to create your island",
+  "gui.island.biome_change.description": "Change your island biome",
+  "gui.island.biome_change.success": "バイオーム changed successfully!",
+  "gui.island.biome_change.fail": "失敗 to change biome!",
+  "gui.island.contributions.title": "島 貢献s",
+  "gui.island.contributions.description": "View all contributions",
+  "gui.island.contributions.total": "宛先tal: %d gold",
+  "gui.island.contributions.player": "%s: %d gold",
+  "gui.island.members.title": "島 メンバーs",
+  "gui.island.members.description": "管理 island members",
+  "gui.island.members.owner": "島主",
+  "gui.island.members.moderator": "Moderator",
+  "gui.island.members.member": "メンバー",
+  "gui.island.members.visitor": "訪問者",
+  "gui.island.permissions.title": "島 権限",
+  "gui.island.permissions.description": "管理 permissions",
+  "gui.island.permissions.build": "Build Blocks",
+  "gui.island.permissions.break": "Break Blocks",
+  "gui.island.permissions.interact": "Interact",
+  "gui.island.permissions.container": "Open Containers",
+  "gui.island.permissions.teleport": "Teleport",
+  "gui.island.permissions.invite": "Invite メンバーs",
+  "gui.island.permissions.kick": "Kick メンバーs",
+  "gui.island.permissions.ban": "Ban Players",
+  "gui.island.permissions.promote": "Promote メンバーs",
+  "gui.island.permissions.demote": "Demote メンバーs",
+  "gui.island.settings.name": "島 設定",
+  "gui.island.settings.description": "Configure island settings",
+  "gui.island.settings.pvp": "PvP 有効",
+  "gui.island.settings.mob_spawn": "Mob スポーンing",
+  "gui.island.settings.fire_spread": "Fire Spread",
+  "gui.island.settings.tnt": "TNT Damage",
+  "gui.island.settings.public": "公開 島",
+  "gui.island.settings.locked": "島 Locked",
+  "gui.island.upgrades.title": "島 アップグレードs",
+  "gui.island.upgrades.description": "アップグレード your island",
+  "gui.island.upgrades.size": "島 Size",
+  "gui.island.upgrades.member_limit": "メンバー Limit",
+  "gui.island.upgrades.hopper_limit": "Hopper Limit",
+  "gui.island.upgrades.spawner_limit": "スポーンer Limit",
+  "gui.island.upgrades.generator": "Generator レベル",
+  "gui.island.visit.title": "訪問 島",
+  "gui.island.visit.description": "訪問 another island",
+  "gui.island.visit.player_input": "Enter player name",
+  "gui.island.visit.not_found": "島 not found!",
+  "gui.island.visit.locked": "This island is locked!",
+  "gui.island.visit.banned": "You are banned from this island!",
+  "gui.island.visitors.title": "島 訪問者s",
+  "gui.island.visitors.description": "View visitor history",
+  "gui.island.visitors.current": "現在 visitors: %d",
+  "gui.island.visitors.recent": "Recent visitors",
+  "gui.island.biome_selection.info_title": "バイオーム Selection",
+  "gui.island.biome_selection.info_lore": "Choose your island biome",
+  "gui.island.contribute.gold_info.title": "ゴールド 貢献",
+  "gui.island.contribute.gold_info.description": "現在 gold: %d",
+  "gui.island.contribute.custom_amount.title": "Custom Amount",
+  "gui.island.contribute.custom_amount.description": "Enter custom amount",
+  "gui.island.contribute.custom_amount.minimum": "Minimum: %d gold",
+  "gui.island.contribute.custom_amount.maximum": "Maximum: %d gold",
+  "gui.island.contribute.custom_amount.click_prompt": "クリック to enter amount",
+  "gui.island.contribute.back_description": "Return to main menu",
+  "gui.island.contribute.success": "成功fully contributed %d gold!",
+  "gui.island.contribute.total_contribution": "宛先tal contribution: %d gold",
+  "gui.island.biome.current_biome": "現在 バイオーム: %s",
+  "gui.island.biome.cost": "Cost: %d gold",
+  "gui.island.biome.free": "FREE",
+  "gui.job_confirmation.info_line1": "Are you sure you want to select",
+  "gui.job_confirmation.info_line2": "the %s class?",
+  "gui.job_confirmation.info_line3": "This cannot be changed later!",
+  "gui.dialog_choice.option_1": "Option 1",
+  "gui.dialog_choice.option_2": "Option 2",
+  "gui.dialog_choice.option_3": "Option 3",
+  "gui.dialog_choice.option_4": "Option 4",
+  "gui.dialog_choice.cancel": "キャンセル",
+  "gui.mail_detail.claim_all": "Claim All",
+  "gui.mail_detail.claim": "Claim",
+  "gui.mail_detail.claimed": "Claimed",
+  "gui.mail_detail.delete_confirm": "削除 メール?",
+  "gui.mail_detail.delete_confirm_message": "This action cannot be undone!",
+  "gui.mailbox.refresh_cooldown": "Refresh available in %d seconds",
+  "gui.mailbox.mail_from": "差出人: %s",
+  "gui.mailbox.mail_date": "Date: %s",
+  "gui.mailbox.has_attachments": "📎 Has attachments",
+  "gui.mailbox.click_to_read": "クリック to read",
+  "gui.mailbox.delete_all": "削除 All 既読",
+  "gui.mailbox.delete_all_confirm": "削除 all read mail?",
+  "gui.friend_requests.accept_hover": "クリック to accept",
+  "gui.friend_requests.deny_hover": "クリック to deny",
+  "gui.friend_requests.friend_added": "フレンド added!",
+  "gui.friend_requests.cancelled": "Request cancelled",
+  "gui.friend_requests.error": "An error occurred!",
+  "gui.friends.online_count": "オンライン: %d",
+  "gui.friends.total_count": "宛先tal フレンドs: %d",
+  "gui.friends.no_friends": "No friends yet!",
+  "gui.friends.click_to_teleport": "クリック to teleport",
+  "gui.friends.right_click_to_remove": "Right-click to remove",
+  "gui.friends.remove_confirm": "Remove %s from friends?",
+  "gui.friends.removed": "フレンド removed",
+  "gui.friends.teleport_request_sent": "Teleport request sent!",
+  "gui.friends.teleport_failed": "Teleport failed!",
+  "gui.island.biome_selection.back_lore": "Return to previous menu",
+  "gui.island.biome.current_info_lore": "Your current biome information",
+  "gui.island.biome.back_lore": "Go back",
+  "gui.island.contribute.click_to_contribute": "クリック to contribute",
+  "gui.island.contribute.click_prompt": "Enter amount to contribute",
+  "gui.island.contribute.insufficient_gold": "不足 ゴールド",
+  "gui.island.contribute.insufficient_gold_message": "You need at least %d gold!",
+  "gui.island.contribution.info_title": "貢献 情報",
+  "gui.island.contribution.info_island_name": "島: %s",
+  "gui.island.contribution.info_total": "宛先tal: %d gold",
+  "gui.island.contribution.info_contributors": "Contributors: %d",
+  "gui.island.contribution.info_description": "Help grow the island!",
+  "gui.island.contribution.contributor_name": "%s",
+  "gui.island.contribution.contributor_contribution": "Contributed: %d gold",
+  "gui.island.contribution.contributor_role": "Role: %s",
+  "gui.island.contribution.contributor_percentage": "Share: %d%%",
+  "gui.island.contribution.add_title": "Add 貢献",
+  "gui.island.contribution.add_current": "Your gold: %d",
+  "gui.island.contribution.add_description": "Contribute to island funds",
+  "gui.island.contribution.add_click": "クリック to contribute",
+  "gui.island.contribution.back_description": "Go back",
+  "gui.island.delete_confirm.cancel.lore": "キャンセル deletion",
+  "gui.island.members.add.title": "Invite メンバー",
+  "gui.island.members.add.subtitle": "Add a new member",
+  "gui.island.members.add.lore": "クリック to invite a player",
+  "gui.island.members.add.click": "クリック to invite",
+  "gui.island.members.back.lore": "Return to members list",
+  "gui.island.members.info.title": "メンバー 情報rmation",
+  "gui.island.member.all.permissions": "Has all permissions",
+  "gui.island.member.hire.date": "Joined: %s",
+  "gui.island.member.invite.example": "Example: Steve",
+  "gui.island.member.invite.prompt": "Enter player name",
+  "gui.island.member.join.date": "Joined: %s",
+  "gui.island.member.last.activity": "Last seen: %s",
+  "gui.island.member.left.click.extend": "Left-click for more info",
+  "gui.island.member.left.click.role": "Left-click to change role",
+  "gui.island.member.limited.permissions": "Limited permissions",
+  "gui.island.member.manage.current.role": "現在 Role: %s",
+  "gui.island.member.manage.permission.not.implemented": "Not yet implemented",
+  "gui.island.member.manage.title.with.name": "Managing: %s",
+  "gui.island.member.most.permissions": "Most permissions",
+  "gui.island.member.normal.permissions": "Normal permissions",
+  "gui.island.member.owner.cannot.change": "Cannot change owner role",
+  "gui.island.member.right.click.fire": "Right-click to remove",
+  "gui.island.member.right.click.kick": "Right-click to kick",
+  "gui.island.member.role.owner": "島主",
+  "gui.island.member.role.worker": "作業員",
+  "gui.island.permission.click.to.select": "クリック to select",
+  "gui.island.permission.current.editing": "編集ing: %s",
+  "gui.island.permission.edit.role.permissions": "編集 Role 権限",
+  "gui.island.permission.permissions.build.desc": "Allow building blocks",
+  "gui.island.permission.permissions.containers.desc": "Access chests and containers",
+  "gui.island.permission.permissions.interact.desc": "Interact with blocks",
+  "gui.island.permission.permissions.invite.desc": "Invite new members",
+  "gui.island.permission.permissions.kick.desc": "Kick members",
+  "gui.island.permission.permissions.spawns.desc": "管理 spawn points",
+  "gui.island.permission.permissions.workers.desc": "管理 workers",
+  "gui.island.permission.select.other.role": "Select another role",
+  "gui.island.permission.select.role.desc": "Choose a role to edit",
+  "gui.island.permission.status": "状態: %s",
+  "gui.island.permission.back.description": "Return to previous menu",
+  "gui.island.permission.back.title": "戻る",
+  "gui.island.permission.click.to.toggle": "クリック to toggle",
+  "gui.island.permission.close.description": "閉じる this menu",
+  "gui.island.permission.close.title": "閉じる",
+  "gui.island.permission.permissions.settings.desc": "Change island settings",
+  "gui.island.permission.save.click": "クリック to save",
+  "gui.island.permission.save.description": "保存 all changes",
+  "gui.island.permission.save.failed": "失敗 to save permissions!",
+  "gui.island.permission.save.success": "権限 saved!",
+  "gui.island.permission.save.title": "保存 Changes",
+  "gui.island.personal.spawn.title": "Personal スポーン Point",
+  "gui.island.settings.current.biome": "現在 バイオーム: %s",
+  "gui.island.settings.current.name": "島 Name: %s",
+  "gui.island.settings.current.status": "状態: %s",
+  "gui.island.settings.has.changes": "Has unsaved changes",
+  "gui.island.settings.id": "島 ID: %s",
+  "gui.island.settings.members": "メンバーs: %d/%d",
+  "gui.island.settings.no.changes": "No changes",
+  "gui.island.settings.owner": "島主: %s",
+  "gui.island.settings.status": "状態: %s",
+  "gui.island.spawn.default.spawn": "Default スポーン",
+  "gui.island.spawn.location.name": "Location: %s",
+  "gui.island.spawn.title": "スポーン 設定",
+  "gui.island.spawn.visitor.spawn": "訪問者 スポーン",
+  "gui.island.spawn.visitor.spawn.not.set": "Not set",
+  "gui.island.upgrade.click.to.upgrade": "クリック to upgrade",
+  "gui.island.upgrade.cost": "Cost: %d gold",
+  "gui.island.upgrade.current.contribution": "Your contribution: %d",
+  "gui.island.upgrade.current.level": "現在 レベル: %d",
+  "gui.island.upgrade.insufficient.contribution": "不足 contribution!",
+  "gui.island.upgrade.next.level": "次へ レベル: %d",
+  "gui.island.upgrade.max.level": "MAX LEVEL",
+  "gui.island.upgrade.progress": "進行度: %d/%d",
+  "gui.island.visitor.action.title": "訪問者 Actions",
+  "gui.island.visitor.island.name": "島: %s",
+  "gui.island.visitor.longest.stay": "Longest stay: %s",
+  "gui.island.visitor.most.frequent": "Most frequent: %s",
+  "gui.island.visitor.public.status": "公開: %s",
+  "gui.island.visitor.stay.duration": "Duration: %s",
+  "gui.island.visitor.title": "島 訪問者s",
+  "gui.island.visitor.total.visitors": "宛先tal visitors: %d",
+  "gui.island.visitor.total.visits": "宛先tal visits: %d",
+  "gui.island.visitor.unique.visitors": "Unique visitors: %d",
+  "gui.island.visitor.visit.time": "訪問 time: %s",
+  "gui.island.visitor.visitor.number": "訪問者 #%d",
+  "gui.quest.dialog.accept.quest": "クエスト受諾",
+  "gui.quest.dialog.next.page": "次のページ",
+  "gui.quest.dialog.quest.declined": "クエスト declined",
+  "gui.quest.dialog.skip": "Skip",
+  "gui.quest.dialog.title": "クエスト ダイアログ",
+  "gui.quest.list.click.details": "クリック for details",
+  "gui.quest.list.completed.label": "COMPLETED",
+  "gui.quest.list.progress": "進行度: %d%%",
+  "gui.quest.list.repeatable": "Repeatable",
+  "gui.quest.list.title": "クエスト List",
+  "gui.quest.reward.confirm.title": "確認 報酬",
+  "gui.gui.settings.current.status": "現在: %s",
+  "gui.gui.settings.current.volume": "音量: %d%%",
+  "gui.gui.settings.sound.muted": "ミュート中",
+  "gui.gui.settings.sound.unmuted": "ミュート解除",
+  "gui.gui.settings.status": "状態: %s",
+  "gui.gui.settings.title": "GUI 設定",
+  "gui.gui.settings.volume.changed": "音量 changed to %d%%",
+  "gui.ingame.settings.title": "ゲーム 設定",
+  "gui.quest.reward.all.claimed": "All rewards claimed!",
+  "gui.quest.reward.already.claimed": "Already claimed!",
+  "gui.quest.reward.claimed": "報酬 claimed!",
+  "gui.quest.reward.click.to.claim": "クリック to claim",
+  "gui.quest.reward.close.warning": "Unclaimed rewards will be lost!",
+  "gui.quest.reward.destroyed": "アイテムs destroyed!",
+  "gui.quest.reward.destroyed.desc": "Not enough space",
+  "gui.quest.reward.exp.received": "Received %d EXP!",
+  "gui.quest.reward.inventory.full": "Inventory full!",
+  "gui.quest.reward.money.received": "Received %d gold!",
+  "gui.quest.reward.not.enough.space": "Not enough space!",
+  "gui.quest.reward.timer.info": "Time remaining: %s",
+  "gui.quest.reward.timer.warning": "Claim before time runs out!",
+  "gui.quest.reward.title": "クエスト 報酬s",
+  "gui.quest.reward.warning.destroy.line": "⚠ Warning: Items will be destroyed",
+  "gui.quest.reward.warning.destroy.line2": "if inventory is full!",
+  "gui.quest.selection.title": "Select a クエスト",
+  "gui.quest.status.completed": "完了済み",
+  "gui.quest.status.in.progress": "In 進行度",
+  "gui.quest.status.new.quest": "New クエスト",
+  "gui.quest.status.reward.available": "報酬 利用可能",
+  "gui.friends.add.command.example": "/friend add <player>",
+  "gui.friends.add.command.hint": "Type player name to add",
+  "gui.friends.whisper.hint": "/w %s <message>",
+  "gui.ingame.settings.click.to.toggle": "クリック to toggle",
+  "gui.ingame.settings.current.speed": "Speed: %s",
+  "gui.ingame.settings.damage.display.toggled": "Damage display %s",
+  "gui.ingame.settings.dialog.speed.changed": "ダイアログ speed: %s",
+  "gui.ingame.settings.quest.guide.toggled": "クエスト guide %s",
+  "gui.ingame.settings.speed.value": "%s",
+  "gui.ingame.settings.status": "状態: %s",
+  "gui.notification.settings.click.to.toggle": "クリック to toggle",
+  "gui.notification.settings.current.mode": "Mode: %s",
+  "gui.notification.settings.invite.changed": "Invite mode: %s",
+  "gui.notification.settings.server.toggled": "Server messages %s",
+  "gui.notification.settings.status": "状態: %s",
+  "gui.notification.settings.title": "通知 設定",
+  "gui.notification.settings.whisper.toggled": "ささやきs %s",
+  "gui.shop.item.buy.price": "購入: %d gold",
+  "gui.shop.item.click.to.buy": "クリック to buy",
+  "gui.shop.item.click.to.sell": "クリック to sell",
+  "gui.shop.item.insufficient.gold": "Not enough gold!",
+  "gui.shop.item.sell.price": "売却: %d gold",
+  "gui.dialog.choice.click.to.select": "クリック to select",
+  "gui.dialog.choice.description": "Choose an option",
+  "gui.dialog.choice.icon": "▶",
+  "gui.dialog.choice.npc": "NPC",
+  "gui.dialog.choice.npc.content": "%s",
+  "gui.friend.requests.accept.desc": "受諾 this friend request",
+  "gui.friend.requests.message": "メッセージ: %s",
+  "gui.friend.requests.no.message": "No message",
+  "gui.friend.requests.reject.desc": "拒否 this friend request",
+  "gui.leaderboard.this.is.you": "← This is you!",
+  "gui.mail.detail.delete.failed": "失敗 to delete mail!",
+  "gui.mail.detail.delete.success": "メール deleted successfully!",
+  "gui.mail.detail.no.message": "No message",
+  "gui.mail.detail.receiver": "宛先: %s",
+  "gui.mail.detail.reply.command": "/mail send %s",
+  "gui.mail.detail.reply.desc": "クリック to reply",
+  "gui.mail.detail.reply.guide": "Type your reply",
+  "gui.mail.detail.sender": "差出人: %s",
+  "gui.mail.detail.sent.time": "Sent: %s",
+  "gui.mail.detail.status": "状態: %s",
+  "gui.mailbox.delete.confirm.text": "Type \"confirm\" to delete",
+  "gui.mailbox.delete.confirm.title": "確認 Deletion",
+  "gui.mailbox.send.mail.command": "/mail send <player> <message>",
+  "gui.mailbox.send.mail.example": "Example: /mail send Steve Hello!",
+  "gui.mailbox.send.mail.guide": "Send mail to another player",
+  "mailbox.delete-confirm-word": "confirm",
+  "gui.island.delete.confirm.final.confirm.warning": "⚠ THIS CANNOT BE UNDONE! ⚠",
+  "gui.island.delete.confirm.warning.list.items": "All items will be lost!",
+  "gui.job.confirmation.info.line": "%s",
+  "gui": {
+    "social-settings": {
+      "status": "ソーシャル 設定 状態",
+      "click-to-toggle": "ソーシャル 設定 クリック to 宛先ggle",
+      "current-mode": "ソーシャル 設定 現在 Mode",
+      "friend-requests-toggled": "ソーシャル 設定 フレンド Requests 宛先ggled",
+      "guild-invites-toggled": "ソーシャル 設定 Guild Invites 宛先ggled",
+      "whisper-mode-changed": "ソーシャル 設定 ささやき Mode Changed"
+    },
+    "leaderboard": {
+      "rank": "ランキング Rank",
+      "this": {
+        "is": {
+          "you": "Is You"
+        }
+      }
+    },
+    "island": {
+      "main": {
+        "create": {
+          "lore": "作成 Lore"
+        }
+      },
+      "biome_change": {
+        "description": "バイオーム Change 説明",
+        "success": "バイオーム Change 成功",
+        "fail": "バイオーム Change Fail"
+      },
+      "contributions": {
+        "title": "貢献s タイトル",
+        "description": "貢献s 説明",
+        "total": "貢献s 宛先tal",
+        "player": "貢献s Player"
+      },
+      "members": {
+        "title": "メンバーs タイトル",
+        "description": "メンバーs 説明",
+        "owner": "メンバーs 島主",
+        "moderator": "メンバーs Moderator",
+        "member": "メンバーs メンバー",
+        "visitor": "メンバーs 訪問者",
+        "add": {
+          "title": "Add タイトル",
+          "subtitle": "Add Subtitle",
+          "lore": "Add Lore",
+          "click": "Add クリック"
+        },
+        "back": {
+          "lore": "戻る Lore"
+        },
+        "info": {
+          "title": "情報 タイトル"
+        }
+      },
+      "permissions": {
+        "title": "権限 タイトル",
+        "description": "権限 説明",
+        "build": "権限 Build",
+        "break": "権限 Break",
+        "interact": "権限 Interact",
+        "container": "権限 Container",
+        "teleport": "権限 Teleport",
+        "invite": "権限 Invite",
+        "kick": "権限 Kick",
+        "ban": "権限 Ban",
+        "promote": "権限 Promote",
+        "demote": "権限 Demote"
+      },
+      "settings": {
+        "name": "設定 Name",
+        "description": "設定 説明",
+        "pvp": "設定 Pvp",
+        "mob_spawn": "設定 Mob スポーン",
+        "fire_spread": "設定 Fire Spread",
+        "tnt": "設定 Tnt",
+        "public": "設定 公開",
+        "locked": "設定 Locked",
+        "current": {
+          "biome": "現在 バイオーム",
+          "name": "現在 Name",
+          "status": "現在 状態"
+        },
+        "has": {
+          "changes": "Has Changes"
+        },
+        "id": "設定 Id",
+        "members": "設定 メンバーs",
+        "no": {
+          "changes": "No Changes"
+        },
+        "owner": "設定 島主",
+        "status": "設定 状態"
+      },
+      "upgrades": {
+        "title": "アップグレードs タイトル",
+        "description": "アップグレードs 説明",
+        "size": "アップグレードs Size",
+        "member_limit": "アップグレードs メンバー Limit",
+        "hopper_limit": "アップグレードs Hopper Limit",
+        "spawner_limit": "アップグレードs スポーンer Limit",
+        "generator": "アップグレードs Generator"
+      },
+      "visit": {
+        "title": "訪問 タイトル",
+        "description": "訪問 説明",
+        "player_input": "訪問 Player Input",
+        "not_found": "訪問 Not Found",
+        "locked": "訪問 Locked",
+        "banned": "訪問 Banned"
+      },
+      "visitors": {
+        "title": "訪問者s タイトル",
+        "description": "訪問者s 説明",
+        "current": "訪問者s 現在",
+        "recent": "訪問者s Recent"
+      },
+      "biome_selection": {
+        "info_title": "バイオーム Selection 情報 タイトル",
+        "info_lore": "バイオーム Selection 情報 Lore",
+        "back_lore": "バイオーム Selection 戻る Lore"
+      },
+      "contribute": {
+        "gold_info": {
+          "title": "ゴールド 情報 タイトル",
+          "description": "ゴールド 情報 説明"
+        },
+        "custom_amount": {
+          "title": "Custom Amount タイトル",
+          "description": "Custom Amount 説明",
+          "minimum": "Custom Amount Minimum",
+          "maximum": "Custom Amount Maximum",
+          "click_prompt": "Custom Amount クリック Prompt"
+        },
+        "back_description": "Contribute 戻る 説明",
+        "success": "Contribute 成功",
+        "total_contribution": "Contribute 宛先tal 貢献",
+        "click_to_contribute": "Contribute クリック to Contribute",
+        "click_prompt": "Contribute クリック Prompt",
+        "insufficient_gold": "Contribute 不足 ゴールド",
+        "insufficient_gold_message": "Contribute 不足 ゴールド メッセージ"
+      },
+      "biome": {
+        "current_biome": "バイオーム 現在 バイオーム",
+        "cost": "バイオーム Cost",
+        "free": "バイオーム Free",
+        "current_info_lore": "バイオーム 現在 情報 Lore",
+        "back_lore": "バイオーム 戻る Lore"
+      },
+      "contribution": {
+        "info_title": "貢献 情報 タイトル",
+        "info_island_name": "貢献 情報 島 Name",
+        "info_total": "貢献 情報 宛先tal",
+        "info_contributors": "貢献 情報 Contributors",
+        "info_description": "貢献 情報 説明",
+        "contributor_name": "貢献 Contributor Name",
+        "contributor_contribution": "貢献 Contributor 貢献",
+        "contributor_role": "貢献 Contributor Role",
+        "contributor_percentage": "貢献 Contributor Percentage",
+        "add_title": "貢献 Add タイトル",
+        "add_current": "貢献 Add 現在",
+        "add_description": "貢献 Add 説明",
+        "add_click": "貢献 Add クリック",
+        "back_description": "貢献 戻る 説明"
+      },
+      "delete_confirm": {
+        "cancel": {
+          "lore": "キャンセル Lore"
+        }
+      },
+      "member": {
+        "all": {
+          "permissions": "All 権限"
+        },
+        "hire": {
+          "date": "Hire Date"
+        },
+        "invite": {
+          "example": "Invite Example",
+          "prompt": "Invite Prompt"
+        },
+        "join": {
+          "date": "Join Date"
+        },
+        "last": {
+          "activity": "Last Activity"
+        },
+        "left": {
+          "click": {
+            "extend": "クリック Extend",
+            "role": "クリック Role"
+          }
+        },
+        "limited": {
+          "permissions": "Limited 権限"
+        },
+        "manage": {
+          "current": {
+            "role": "現在 Role"
+          },
+          "permission": {
+            "not": {
+              "implemented": "Not Implemented"
+            }
+          },
+          "title": {
+            "with": {
+              "name": "With Name"
+            }
+          }
+        },
+        "most": {
+          "permissions": "Most 権限"
+        },
+        "normal": {
+          "permissions": "Normal 権限"
+        },
+        "owner": {
+          "cannot": {
+            "change": "Cannot Change"
+          }
+        },
+        "right": {
+          "click": {
+            "fire": "クリック Fire",
+            "kick": "クリック Kick"
+          }
+        },
+        "role": {
+          "owner": "Role 島主",
+          "worker": "Role 作業員"
+        }
+      },
+      "permission": {
+        "click": {
+          "to": {
+            "select": "宛先 Select",
+            "toggle": "宛先 宛先ggle"
+          }
+        },
+        "current": {
+          "editing": "現在 編集ing"
+        },
+        "edit": {
+          "role": {
+            "permissions": "Role 権限"
+          }
+        },
+        "permissions": {
+          "build": {
+            "desc": "Build Desc"
+          },
+          "containers": {
+            "desc": "Containers Desc"
+          },
+          "interact": {
+            "desc": "Interact Desc"
+          },
+          "invite": {
+            "desc": "Invite Desc"
+          },
+          "kick": {
+            "desc": "Kick Desc"
+          },
+          "spawns": {
+            "desc": "スポーンs Desc"
+          },
+          "workers": {
+            "desc": "作業員s Desc"
+          },
+          "settings": {
+            "desc": "設定 Desc"
+          }
+        },
+        "select": {
+          "other": {
+            "role": "Other Role"
+          },
+          "role": {
+            "desc": "Role Desc"
+          }
+        },
+        "status": "Permission 状態",
+        "back": {
+          "description": "戻る 説明",
+          "title": "戻る タイトル"
+        },
+        "close": {
+          "description": "閉じる 説明",
+          "title": "閉じる タイトル"
+        },
+        "save": {
+          "click": "保存 クリック",
+          "description": "保存 説明",
+          "failed": "保存 失敗",
+          "success": "保存 成功",
+          "title": "保存 タイトル"
+        }
+      },
+      "personal": {
+        "spawn": {
+          "title": "スポーン タイトル"
+        }
+      },
+      "spawn": {
+        "default": {
+          "spawn": "Default スポーン"
+        },
+        "location": {
+          "name": "Location Name"
+        },
+        "title": "スポーン タイトル",
+        "visitor": {
+          "spawn": "訪問者 スポーン"
+        }
+      },
+      "upgrade": {
+        "click": {
+          "to": {
+            "upgrade": "宛先 アップグレード"
+          }
+        },
+        "cost": "アップグレード Cost",
+        "current": {
+          "contribution": "現在 貢献",
+          "level": "現在 レベル"
+        },
+        "insufficient": {
+          "contribution": "不足 貢献"
+        },
+        "next": {
+          "level": "次へ レベル"
+        },
+        "max": {
+          "level": "Max レベル"
+        },
+        "progress": "アップグレード 進行度"
+      },
+      "visitor": {
+        "action": {
+          "title": "Action タイトル"
+        },
+        "island": {
+          "name": "島 Name"
+        },
+        "longest": {
+          "stay": "Longest Stay"
+        },
+        "most": {
+          "frequent": "Most Frequent"
+        },
+        "public": {
+          "status": "公開 状態"
+        },
+        "stay": {
+          "duration": "Stay Duration"
+        },
+        "title": "訪問者 タイトル",
+        "total": {
+          "visitors": "宛先tal 訪問者s",
+          "visits": "宛先tal 訪問s"
+        },
+        "unique": {
+          "visitors": "Unique 訪問者s"
+        },
+        "visit": {
+          "time": "訪問 Time"
+        },
+        "visitor": {
+          "number": "訪問者 Number"
+        }
+      },
+      "delete": {
+        "confirm": {
+          "final": {
+            "confirm": {
+              "warning": "確認 警告"
+            }
+          },
+          "warning": {
+            "list": {
+              "items": "List アイテムs"
+            }
+          }
+        }
+      }
+    },
+    "job_confirmation": {
+      "info_line": "職業 confirmation information"
+    },
+    "dialog_choice": {
+      "option_": "ダイアログ Option"
+    },
+    "mail_detail": {
+      "claim_all": "メール Detail Claim All",
+      "claim": "メール Detail Claim",
+      "claimed": "メール Detail Claimed",
+      "delete_confirm": "メール Detail 削除 確認",
+      "delete_confirm_message": "メール Detail 削除 確認 メッセージ"
+    },
+    "mailbox": {
+      "refresh_cooldown": "メールbox Refresh Cooldown",
+      "mail_from": "メールbox メール 差出人",
+      "mail_date": "メールbox メール Date",
+      "has_attachments": "メールbox Has 添付ファイル",
+      "click_to_read": "メールbox クリック to 既読",
+      "delete_all": "メールbox 削除 All",
+      "delete_all_confirm": "メールbox 削除 All 確認",
+      "delete": {
+        "confirm": {
+          "text": "確認 Text",
+          "title": "確認 タイトル"
+        }
+      },
+      "send": {
+        "mail": {
+          "command": "メール Command",
+          "example": "メール Example",
+          "guide": "メール Guide"
+        }
+      }
+    },
+    "friend_requests": {
+      "accept_hover": "フレンド Requests 受諾 Hover",
+      "deny_hover": "フレンド Requests Deny Hover",
+      "friend_added": "フレンド Requests フレンド Added",
+      "cancelled": "フレンド Requests キャンセルled",
+      "error": "フレンド Requests エラー"
+    },
+    "friends": {
+      "online_count": "フレンドs オンライン Count",
+      "total_count": "フレンドs 宛先tal Count",
+      "no_friends": "フレンドs No フレンドs",
+      "click_to_teleport": "フレンドs クリック to Teleport",
+      "right_click_to_remove": "フレンドs Right クリック to Remove",
+      "remove_confirm": "フレンドs Remove 確認",
+      "removed": "フレンドs Removed",
+      "teleport_request_sent": "フレンドs Teleport Request Sent",
+      "teleport_failed": "フレンドs Teleport 失敗",
+      "add": {
+        "command": {
+          "example": "Command Example",
+          "hint": "Command Hint"
+        }
+      },
+      "whisper": {
+        "hint": "ささやき Hint"
+      }
+    },
+    "quest": {
+      "dialog": {
+        "accept": {
+          "quest": "クエスト受諾"
+        },
+        "next": {
+          "page": "次のページ"
+        },
+        "quest": {
+          "declined": "クエスト 拒否d"
+        },
+        "skip": "ダイアログ Skip",
+        "title": "ダイアログ タイトル"
+      },
+      "list": {
+        "click": {
+          "details": "クリック Details"
+        },
+        "completed": {
+          "label": "完了d Label"
+        },
+        "progress": "List 進行度",
+        "repeatable": "List Repeatable",
+        "title": "List タイトル"
+      },
+      "reward": {
+        "confirm": {
+          "title": "確認 タイトル"
+        },
+        "all": {
+          "claimed": "All Claimed"
+        },
+        "already": {
+          "claimed": "Already Claimed"
+        },
+        "claimed": "報酬 Claimed",
+        "click": {
+          "to": {
+            "claim": "宛先 Claim"
+          }
+        },
+        "close": {
+          "warning": "閉じる 警告"
+        },
+        "destroyed": "報酬 Destroyed",
+        "exp": {
+          "received": "Exp Received"
+        },
+        "inventory": {
+          "full": "Inventory Full"
+        },
+        "money": {
+          "received": "Money Received"
+        },
+        "not": {
+          "enough": {
+            "space": "Enough Space"
+          }
+        },
+        "timer": {
+          "info": "Timer 情報",
+          "warning": "Timer 警告"
+        },
+        "title": "報酬 タイトル",
+        "warning": {
+          "destroy": {
+            "line": "Destroy Line",
+            "line2": "Destroy Line2"
+          }
+        }
+      },
+      "selection": {
+        "title": "Selection タイトル"
+      },
+      "status": {
+        "completed": "状態 完了d",
+        "in": {
+          "progress": "In 進行度"
+        },
+        "new": {
+          "quest": "New クエスト"
+        },
+        "reward": {
+          "available": "報酬 利用可能"
+        }
+      }
+    },
+    "gui": {
+      "settings": {
+        "current": {
+          "status": "現在 状態",
+          "volume": "現在 音量"
+        },
+        "sound": {
+          "muted": "サウンド ミュート中",
+          "unmuted": "サウンド ミュート解除"
+        },
+        "status": "設定 状態",
+        "title": "設定 タイトル",
+        "volume": {
+          "changed": "音量 Changed"
+        }
+      }
+    },
+    "ingame": {
+      "settings": {
+        "title": "設定 タイトル",
+        "click": {
+          "to": {
+            "toggle": "宛先 宛先ggle"
+          }
+        },
+        "current": {
+          "speed": "現在 Speed"
+        },
+        "damage": {
+          "display": {
+            "toggled": "Display 宛先ggled"
+          }
+        },
+        "dialog": {
+          "speed": {
+            "changed": "Speed Changed"
+          }
+        },
+        "quest": {
+          "guide": {
+            "toggled": "Guide 宛先ggled"
+          }
+        },
+        "speed": {
+          "value": "Speed Value"
+        },
+        "status": "設定 状態"
+      }
+    },
+    "notification": {
+      "settings": {
+        "click": {
+          "to": {
+            "toggle": "宛先 宛先ggle"
+          }
+        },
+        "current": {
+          "mode": "現在 Mode"
+        },
+        "invite": {
+          "changed": "Invite Changed"
+        },
+        "server": {
+          "toggled": "Server 宛先ggled"
+        },
+        "status": "設定 状態",
+        "title": "設定 タイトル",
+        "whisper": {
+          "toggled": "ささやき 宛先ggled"
+        }
+      }
+    },
+    "shop": {
+      "item": {
+        "buy": {
+          "price": "購入 価格"
+        },
+        "click": {
+          "to": {
+            "buy": "宛先 購入",
+            "sell": "宛先 売却"
+          }
+        },
+        "insufficient": {
+          "gold": "不足 ゴールド"
+        },
+        "sell": {
+          "price": "売却 価格"
+        }
+      }
+    },
+    "dialog": {
+      "choice": {
+        "click": {
+          "to": {
+            "select": "宛先 Select"
+          }
+        },
+        "description": "Choice 説明",
+        "icon": "Choice Icon",
+        "npc": "Choice Npc"
+      }
+    },
+    "friend": {
+      "requests": {
+        "accept": {
+          "desc": "受諾 Desc"
+        },
+        "message": "Requests メッセージ",
+        "no": {
+          "message": "No メッセージ"
+        },
+        "reject": {
+          "desc": "拒否 Desc"
+        }
+      }
+    },
+    "mail": {
+      "detail": {
+        "delete": {
+          "failed": "削除 失敗",
+          "success": "削除 成功"
+        },
+        "no": {
+          "message": "No メッセージ"
+        },
+        "receiver": "Detail 受信者",
+        "reply": {
+          "command": "返信 Command",
+          "desc": "返信 Desc",
+          "guide": "返信 Guide"
+        },
+        "sender": "Detail 送信者",
+        "sent": {
+          "time": "Sent Time"
+        },
+        "status": "Detail 状態"
+      }
+    },
+    "job": {
+      "confirmation": {
+        "info": {
+          "line": "情報 Line"
+        }
+      }
+    },
+    "social": "ソーシャル Features"
   }
 }

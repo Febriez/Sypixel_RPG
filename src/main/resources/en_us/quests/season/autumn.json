@@ -1,0 +1,8 @@
+{
+  "objectives": {
+    "harvest.apple_collect": "Apple Collect",
+    "harvest.pumpkin_collect": "Pumpkin Collect",
+    "harvest.pumpkin_pie_craft": "Pumpkin Pie Craft",
+    "harvest.wheat_collect": "Wheat Collect"
+  }
+}

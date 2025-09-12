@@ -1,26 +1,55 @@
 {
   "gold": {
-    "name": "Gold",
-    "description": "Basic currency."
+    "name": "ゴールド",
+    "description": "基本的な通貨です。",
+    "symbol": "G"
   },
   "diamond": {
-    "name": "Diamond",
-    "description": "Rare gem currency."
+    "name": "ダイヤモンド",
+    "description": "希少な宝石通貨です。"
   },
   "emerald": {
-    "name": "Emerald",
-    "description": "Trading gem currency."
+    "name": "エメラルド",
+    "description": "取引用宝石通貨です。"
   },
   "ghast_tear": {
-    "name": "Stardust",
-    "description": "Mystical magic currency."
+    "name": "星々の粉",
+    "description": "神秘的な魔法通貨です。"
   },
   "nether_star": {
-    "name": "Star",
-    "description": "Premium special currency."
+    "name": "星",
+    "description": "プレミアム特別通貨です。"
   },
   "exp": {
-    "name": "Experience",
-    "description": "Experience points for leveling up."
+    "name": "経験値",
+    "description": "レベルアップのための経験値です。"
+  },
+  "silver": {
+    "name": "シルバー",
+    "symbol": "S"
+  },
+  "copper": {
+    "name": "銅",
+    "symbol": "C"
+  },
+  "gem": {
+    "name": "宝石",
+    "symbol": "💎"
+  },
+  "token": {
+    "name": "トークン",
+    "symbol": "T"
+  },
+  "coin": {
+    "name": "コイン",
+    "symbol": "🪙"
+  },
+  "point": {
+    "name": "ポイント",
+    "symbol": "P"
+  },
+  "credit": {
+    "name": "クレジット",
+    "symbol": "CR"
   }
 }

@@ -2,12 +2,13 @@
   "name": "Cave-In Rescue",
   "info": "Rescue the trapped miners from the collapsed mine.",
   "objectives": {
-    "mine_foreman": "Talk to the mine foreman",
-    "collapsed_tunnel": "Investigate the collapsed tunnel",
-    "clear_debris": "Clear 50 stone blocks",
-    "rescue_miners": "Rescue 3 trapped miners",
-    "mine_support": "Install 10 support beams",
-    "report_foreman": "Report to the foreman"
+    "talk_mine_foreman": "Talk to the mine foreman",
+    "visit_collapsed_mine": "Visit the collapsed mine",
+    "collect_support_beams": "Collect 12 support beams",
+    "kill_cave_spiders": "Kill 20 cave spiders",
+    "visit_trapped_miners": "Visit the trapped miners",
+    "collect_mining_equipment": "Collect 5 mining equipment",
+    "return_mine_foreman": "Return to the mine foreman"
   },
   "dialogs": [
     "The mine collapsed! My brothers are trapped inside!",

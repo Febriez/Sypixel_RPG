@@ -4,28 +4,13 @@
   "npc_name": "Siege Commander",
   "accept": "Our guild is ready for battle!",
   "decline": "We need more time to prepare for this siege.",
-  "objectives": [
-    {
-      "id": "prepare_siege_equipment",
-      "description": "Prepare siege weapons and equipment for the assault"
-    },
-    {
-      "id": "coordinate_guild_forces",
-      "description": "Coordinate and organize guild members for battle"
-    },
-    {
-      "id": "breach_fortress_walls",
-      "description": "Use siege equipment to breach the fortress walls"
-    },
-    {
-      "id": "secure_fortress_interior",
-      "description": "Fight through the fortress and secure key positions"
-    },
-    {
-      "id": "claim_victory",
-      "description": "Defeat the enemy guild and claim the fortress"
-    }
-  ],
+  "objectives": {
+    "participate_in_siege": "Speak with the siege commander to join the fortress siege",
+    "destroy_enemy_walls": "Break down enemy fortress walls to create entry points",
+    "defeat_enemy_players": "Defeat enemy players defending the fortress",
+    "capture_control_points": "Visit and capture strategic control points",
+    "defend_fortress": "Survive and defend the fortress for 30 minutes"
+  },
   "dialogs": [
     "The enemy approaches our gates, guild member.",
     "This battle will determine our guild's future.",

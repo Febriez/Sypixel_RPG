@@ -1,5 +1,21 @@
 {
   "name": "마스터 셰프의 길",
+  "info": "모든 요리 기술을 마스터하고 최고의 요리를 만들어 유명한 셰프가 되세요.",
+  "npc_name": "마스터 셰프",
+  "accept": "훌륭합니다! 요리 마스터의 비밀을 보여드리겠습니다.",
+  "decline": "부엌은 당신이 배울 준비가 될 때까지 언제나 열려 있습니다.",
+  "objectives": {
+    "craft_bread": "빵 32개 제작하기",
+    "craft_cake": "케이크 5개 제작하기",
+    "craft_pumpkin_pie": "호박 파이 16개 제작하기",
+    "craft_cookies": "쿠키 64개 제작하기",
+    "collect_cooked_beef": "구운 소고기 32개 수집하기",
+    "collect_cooked_pork": "구운 돼지고기 32개 수집하기",
+    "collect_cooked_chicken": "구운 닭고기 32개 수집하기",
+    "collect_cooked_fish": "구운 연어 24개 수집하기",
+    "hunt_cows": "고기를 위해 소 20마리 사냥하기",
+    "collect_milk": "우유 양동이 10개 수집하기"
+  },
   "dialogs": [
     "요리의 세계에 오신 것을 환영합니다! 마스터가 되고 싶으신가요?",
     "먼저 기본적인 요리들을 완벽하게 만들 수 있어야 합니다.",

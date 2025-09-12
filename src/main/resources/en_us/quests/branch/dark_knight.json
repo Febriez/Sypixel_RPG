@@ -7,5 +7,25 @@
     "You have embraced the darkness completely. There is no turning back.",
     "The throne of shadows awaits. Rule with an iron fist.",
     "Rise, Dark Lord! Your reign of shadows begins now!"
-  ]
+  ],
+  "objectives": {
+    "dark_master": "Dark Master",
+    "shadow_essence": "Shadow Essence",
+    "corrupt_souls": "Corrupt Souls",
+    "feast_on_fear": "Feast On Fear",
+    "shadow_altar": "Shadow Altar",
+    "embrace_darkness": "Embrace Darkness",
+    "cursed_blade": "Cursed Blade",
+    "build_throne": "Build Throne",
+    "eliminate_light": "Eliminate Light",
+    "dark_power": "Dark Power",
+    "oath_of_darkness": "Oath Of Darkness",
+    "coal_collect": "Coal Collect",
+    "nether_star_collect": "Nether Star Collect",
+    "netherite_sword_craft": "Netherite Sword Craft"
+  },
+  "accept": "Accept Quest",
+  "decline": "Decline Quest",
+  "info": "Information about Dark Knight",
+  "npc.name": "Dark Knight Master"
 }

@@ -1,21 +1,72 @@
 {
-  "plains": "Plains",
-  "forest": "Forest",
-  "desert": "Desert",
-  "jungle": "Jungle",
-  "taiga": "Taiga",
-  "snowy_plains": "Snowy Plains",
-  "savanna": "Savanna",
-  "swamp": "Swamp",
-  "mushroom_fields": "Mushroom Fields",
-  "beach": "Beach",
-  "flower_forest": "Flower Forest",
-  "bamboo_jungle": "Bamboo Jungle",
-  "dark_forest": "Dark Forest",
-  "birch_forest": "Birch Forest",
-  "badlands": "Badlands",
-  "ocean": "Ocean",
-  "cherry_grove": "Cherry Grove",
+  "plains": {
+    "name": "Plains",
+    "description": "Flat grassland biome"
+  },
+  "forest": {
+    "name": "Forest",
+    "description": "Dense forest biome"
+  },
+  "desert": {
+    "name": "Desert",
+    "description": "Sandy desert biome"
+  },
+  "jungle": {
+    "name": "Jungle",
+    "description": "Tropical jungle biome"
+  },
+  "taiga": {
+    "name": "Taiga",
+    "description": "Cold forest biome"
+  },
+  "snowy_plains": {
+    "name": "Snowy Plains",
+    "description": "Snow-covered plains"
+  },
+  "savanna": {
+    "name": "Savanna",
+    "description": "Dry grassland biome"
+  },
+  "swamp": {
+    "name": "Swamp",
+    "description": "Wet swamp biome"
+  },
+  "mushroom_fields": {
+    "name": "Mushroom Fields",
+    "description": "Rare mushroom biome"
+  },
+  "beach": {
+    "name": "Beach",
+    "description": "Sandy beach biome"
+  },
+  "flower_forest": {
+    "name": "Flower Forest",
+    "description": "Forest with many flowers"
+  },
+  "bamboo_jungle": {
+    "name": "Bamboo Jungle",
+    "description": "Jungle with bamboo"
+  },
+  "dark_forest": {
+    "name": "Dark Forest",
+    "description": "Dense dark forest"
+  },
+  "birch_forest": {
+    "name": "Birch Forest",
+    "description": "Birch tree forest"
+  },
+  "badlands": {
+    "name": "Badlands",
+    "description": "Red sand desert"
+  },
+  "ocean": {
+    "name": "Ocean",
+    "description": "Deep ocean biome"
+  },
+  "cherry_grove": {
+    "name": "Cherry Grove",
+    "description": "Cherry blossom forest"
+  },
   "snowy_taiga": {
     "name": "Snowy Taiga",
     "description": "Cold coniferous forest covered in snow"
@@ -223,5 +274,11 @@
   "end_barrens": {
     "name": "End Barrens",
     "description": "Empty end islands"
-  }
+  },
+  "bamboo_jungle": "Bamboo Jungle",
+  "birch_forest": "Birch Forest",
+  "cherry_grove": "Cherry Grove", 
+  "dark_forest": "Dark Forest",
+  "flower_forest": "Flower Forest",
+  "mushroom_fields": "Mushroom Fields"
 }

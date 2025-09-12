@@ -18,6 +18,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,16 +45,16 @@ public class MasterChefQuest extends Quest {
         List<QuestObjective> objectives = new ArrayList<>();
         
         // 요리 관련 목표들
-        objectives.add(new CraftItemObjective("craft_bread", Material.BREAD, 32)); // 빵 32개 제작
-        objectives.add(new CraftItemObjective("craft_cake", Material.CAKE, 5)); // 케이크 5개 제작
-        objectives.add(new CraftItemObjective("craft_pumpkin_pie", Material.PUMPKIN_PIE, 16)); // 호박 파이 16개 제작
-        objectives.add(new CraftItemObjective("craft_cookies", Material.COOKIE, 64)); // 쿠키 64개 제작
-        objectives.add(new CollectItemObjective("collect_cooked_beef", Material.COOKED_BEEF, 32)); // 구운 쇠고기 32개 수집
-        objectives.add(new CollectItemObjective("collect_cooked_pork", Material.COOKED_PORKCHOP, 32)); // 구운 돼지고기 32개 수집
-        objectives.add(new CollectItemObjective("collect_cooked_chicken", Material.COOKED_CHICKEN, 32)); // 구운 닭고기 32개 수집
-        objectives.add(new CollectItemObjective("collect_cooked_fish", Material.COOKED_SALMON, 24)); // 구운 연어 24개 수집
+        objectives.add(new CraftItemObjective("bread_craft", Material.BREAD, 32)); // 빵 32개 제작
+        objectives.add(new CraftItemObjective("cake_craft", Material.CAKE, 5)); // 케이크 5개 제작
+        objectives.add(new CraftItemObjective("pumpkin_pie_craft", Material.PUMPKIN_PIE, 16)); // 호박 파이 16개 제작
+        objectives.add(new CraftItemObjective("cookie_craft", Material.COOKIE, 64)); // 쿠키 64개 제작
+        objectives.add(new CollectItemObjective("cooked_beef_collect", Material.COOKED_BEEF, 32)); // 구운 쇠고기 32개 수집
+        objectives.add(new CollectItemObjective("cooked_porkchop_collect", Material.COOKED_PORKCHOP, 32)); // 구운 돼지고기 32개 수집
+        objectives.add(new CollectItemObjective("cooked_chicken_collect", Material.COOKED_CHICKEN, 32)); // 구운 닭고기 32개 수집
+        objectives.add(new CollectItemObjective("cooked_salmon_collect", Material.COOKED_SALMON, 24)); // 구운 연어 24개 수집
         objectives.add(new KillMobObjective("hunt_cows", EntityType.COW, 20)); // 소 20마리 사냥 (고기 확보)
-        objectives.add(new CollectItemObjective("collect_milk", Material.MILK_BUCKET, 10)); // 우유 10개 수집
+        objectives.add(new CollectItemObjective("milk_bucket_collect", Material.MILK_BUCKET, 10)); // 우유 10개 수집
 
         return new QuestBuilder()
                 .id(QuestID.LIFE_MASTER_CHEF)
@@ -77,28 +78,28 @@ public class MasterChefQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_LIFE_MASTER_CHEF_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_LIFE_MASTER_CHEF_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "craft_bread" -> LangManager.list(LangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_CRAFT_BREAD, who);
-            case "craft_cake" -> LangManager.list(LangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_CRAFT_CAKE, who);
-            case "craft_pumpkin_pie" -> LangManager.list(LangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_CRAFT_PUMPKIN_PIE, who);
-            case "craft_cookies" -> LangManager.list(LangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_CRAFT_COOKIES, who);
-            case "collect_cooked_beef" -> LangManager.list(LangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_COLLECT_COOKED_BEEF, who);
-            case "collect_cooked_pork" -> LangManager.list(LangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_COLLECT_COOKED_PORK, who);
-            case "collect_cooked_chicken" -> LangManager.list(LangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_COLLECT_COOKED_CHICKEN, who);
-            case "collect_cooked_fish" -> LangManager.list(LangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_COLLECT_COOKED_FISH, who);
-            case "hunt_cows" -> LangManager.list(LangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_HUNT_COWS, who);
-            case "collect_milk" -> LangManager.list(LangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_COLLECT_MILK, who);
-            default -> new ArrayList<>();
+            case "bread_craft" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_BREAD_CRAFT, who);
+            case "cake_craft" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_CAKE_CRAFT, who);
+            case "pumpkin_pie_craft" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_PUMPKIN_PIE_CRAFT, who);
+            case "cookie_craft" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_COOKIE_CRAFT, who);
+            case "cooked_beef_collect" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_COOKED_BEEF_COLLECT, who);
+            case "cooked_porkchop_collect" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_COOKED_PORKCHOP_COLLECT, who);
+            case "cooked_chicken_collect" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_COOKED_CHICKEN_COLLECT, who);
+            case "cooked_salmon_collect" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_COOKED_SALMON_COLLECT, who);
+            case "hunt_cows" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_HUNT_COWS, who);
+            case "milk_bucket_collect" -> LangManager.text(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_OBJECTIVES_MILK_BUCKET_COLLECT, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -109,7 +110,7 @@ public class MasterChefQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_LIFE_MASTER_CHEF_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_DIALOGS, who);
     }
     
     @Override
@@ -119,16 +120,16 @@ public class MasterChefQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_LIFE_MASTER_CHEF_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_LIFE_MASTER_CHEF_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_LIFE_MASTER_CHEF_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_LIFE_MASTER_CHEF_DECLINE, who);
     }
 }

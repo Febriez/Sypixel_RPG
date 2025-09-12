@@ -2,12 +2,13 @@
   "name": "Stolen Goods",
   "info": "Help the merchant recover his stolen goods.",
   "objectives": {
-    "merchant": "Talk to the merchant",
-    "trade_route": "Scout the trade route",
-    "kill_bandits": "Defeat 15 bandits",
-    "stolen_goods": "Recover stolen goods",
-    "escort_caravan": "Escort the caravan",
-    "deliver_goods": "Deliver goods safely"
+    "talk_troubled_merchant": "Talk to the troubled merchant",
+    "visit_caravan_route": "Visit the caravan route",
+    "kill_pillagers": "Kill 12 pillagers",
+    "collect_stolen_goods": "Collect 5 stolen goods",
+    "visit_bandits_hideout": "Visit the bandits hideout",
+    "collect_trade_contract": "Collect 3 trade contracts",
+    "return_troubled_merchant": "Return to the troubled merchant"
   },
   "dialogs": [
     "Bandits robbed my caravan!",

@@ -2,10 +2,12 @@
   "name": "Daily Fishing",
   "info": "Complete today's fishing objectives. Provide fresh fish for the village market. Resets daily at midnight.",
   "objectives": {
-    "fisherman": "Talk to the fisherman",
-    "catch_fish": "Catch 10 fish",
-    "rare_fish": "Catch a rare fish",
-    "sell_fish": "Sell your catch"
+    "catch_any_fish": "Catch any fish (10)",
+    "catch_salmon": "Catch salmon (5)",
+    "catch_pufferfish": "Catch pufferfish (2)",
+    "catch_fish": "Catch Fish",
+    "cod_deliver": "Cod Deliver",
+    "fisherman": "Fisherman"
   },
   "dialogs": [
     "The fishing conditions are perfect today!",

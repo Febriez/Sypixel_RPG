@@ -11,6 +11,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.lang.quest.side.CrystalCavernLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
@@ -21,8 +22,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 /**
  * Crystal Cavern - Side Quest
@@ -46,12 +47,12 @@ public class CrystalCavernQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.SIDE_CRYSTAL_CAVERN)
                 .objectives(List.of(
-                        new InteractNPCObjective("talk_crystal_miner", "crystal_miner", 1),
+                        new InteractNPCObjective("talk_crystal_miner", "crystal_miner"),
                         new VisitLocationObjective("cavern_entrance", "Cavern_Entrance"),
                         new KillMobObjective("kill_spiders", EntityType.SPIDER, 18),
-                        new CollectItemObjective("raw_crystals", Material.AMETHYST_SHARD, 20),
+                        new CollectItemObjective("amethyst_shard_collect", Material.AMETHYST_SHARD, 20),
                         new VisitLocationObjective("crystal_chamber", "Crystal_Chamber"),
-                        new CollectItemObjective("pure_crystal", Material.AMETHYST_CLUSTER, 5)
+                        new CollectItemObjective("amethyst_cluster_collect", Material.AMETHYST_CLUSTER, 5)
                 ))
                 .reward(new BasicReward.Builder()
                         .addExperience(2200)
@@ -65,24 +66,24 @@ public class CrystalCavernQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_NAME, who);
+        return LangManager.text(CrystalCavernLangKey.QUEST_SIDE_CRYSTAL_CAVERN_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_INFO, who);
+        return LangManager.list(CrystalCavernLangKey.QUEST_SIDE_CRYSTAL_CAVERN_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_crystal_miner" -> LangManager.list(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_TALK_CRYSTAL_MINER, who);
-            case "cavern_entrance" -> LangManager.list(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_CAVERN_ENTRANCE, who);
-            case "kill_spiders" -> LangManager.list(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_KILL_SPIDERS, who);
-            case "raw_crystals" -> LangManager.list(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_RAW_CRYSTALS, who);
-            case "crystal_chamber" -> LangManager.list(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_CRYSTAL_CHAMBER, who);
-            case "pure_crystal" -> LangManager.list(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_PURE_CRYSTAL, who);
-            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+            case "talk_crystal_miner" -> LangManager.text(CrystalCavernLangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_TALK_CRYSTAL_MINER, who);
+            case "cavern_entrance" -> LangManager.text(CrystalCavernLangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_CAVERN_ENTRANCE, who);
+            case "kill_spiders" -> LangManager.text(CrystalCavernLangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_KILL_SPIDERS, who);
+            case "amethyst_shard_collect" -> LangManager.text(CrystalCavernLangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_AMETHYST_SHARD_COLLECT, who);
+            case "crystal_chamber" -> LangManager.text(CrystalCavernLangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_CRYSTAL_CHAMBER, who);
+            case "amethyst_cluster_collect" -> LangManager.text(CrystalCavernLangKey.QUEST_SIDE_CRYSTAL_CAVERN_OBJECTIVES_AMETHYST_CLUSTER_COLLECT, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -93,7 +94,7 @@ public class CrystalCavernQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_DIALOGS, who);
+        return LangManager.list(CrystalCavernLangKey.QUEST_SIDE_CRYSTAL_CAVERN_DIALOGS, who);
     }
     
     @Override
@@ -103,16 +104,16 @@ public class CrystalCavernQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_NPC_NAME, who);
+        return LangManager.text(CrystalCavernLangKey.QUEST_SIDE_CRYSTAL_CAVERN_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_ACCEPT, who);
+        return LangManager.text(CrystalCavernLangKey.QUEST_SIDE_CRYSTAL_CAVERN_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_CRYSTAL_CAVERN_DECLINE, who);
+        return LangManager.text(CrystalCavernLangKey.QUEST_SIDE_CRYSTAL_CAVERN_DECLINE, who);
     }
 }

@@ -1,0 +1,16 @@
+{
+  "title": "Sypixel RPG",
+  "level": "Level: {0}",
+  "gold": "Gold: {0}",
+  "online": "Online: {0}",
+  "location": "Location: {0}",
+  "quest": "Quest: {0}",
+  "party": "Party: {0}",
+  "guild": "Guild: {0}",
+  "combat_power": "CP: {0}",
+  "rank": "Rank: {0}",
+  "kills": "Kills: {0}",
+  "deaths": "Deaths: {0}",
+  "kdr": "K/D: {0}",
+  "playtime": "Playtime: {0}"
+}

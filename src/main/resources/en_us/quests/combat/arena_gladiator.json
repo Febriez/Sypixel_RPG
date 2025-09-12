@@ -4,28 +4,11 @@
   "npc_name": "Arena Master",
   "accept": "I'm ready to prove myself in the arena!",
   "decline": "The arena seems too dangerous for me right now.",
-  "objectives": [
-    {
-      "id": "pay_entry_fee",
-      "description": "Pay the arena entry fee of 500 gold"
-    },
-    {
-      "id": "complete_round_1",
-      "description": "Win the one-on-one duel in Round 1"
-    },
-    {
-      "id": "complete_round_2",
-      "description": "Survive the beast round (Round 2)"
-    },
-    {
-      "id": "complete_round_3",
-      "description": "Survive the team battle for 5 minutes (Round 3)"
-    },
-    {
-      "id": "defeat_champion",
-      "description": "Challenge and defeat the arena champion"
-    }
-  ],
+  "objectives": {
+    "defeat_players": "Defeat 10 players in arena combat",
+    "pvp_kills": "Achieve 5 PvP kills in arena battles",
+    "survive_combat": "Survive 15 rounds of continuous combat"
+  },
   "dialogs": [
     "Welcome to the arena! Seeking glory in combat?",
     "Entry fee is 500 gold. You must pass each round to proceed to the next.",
@@ -34,5 +17,6 @@
     "Team survival. Survive for 5 minutes!",
     "The current champion awaits your challenge.",
     "Incredible! You are the new champion!"
-  ]
+  ],
+  "npc.name": "Arena Gladiator Master"
 }

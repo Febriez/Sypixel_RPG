@@ -5,7 +5,10 @@
     "arena_master": "Talk to the arena master",
     "win_matches": "Win 3 arena matches",
     "defeat_champion": "Defeat the current champion",
-    "claim_title": "Claim your title"
+    "claim_title": "Claim your title",
+    "arena_survival": "Arena Survival",
+    "champion_battles": "Champion Battles",
+    "defeat_opponents": "Defeat Opponents"
   },
   "dialogs": [
     "Welcome to the arena, warrior!",
@@ -18,5 +21,6 @@
   ],
   "npc_name": "Gladiator Master Maximus",
   "accept": "I'm ready to prove myself in combat and claim victory.",
-  "decline": "I'm not ready for arena combat yet."
+  "decline": "I'm not ready for arena combat yet.",
+  "npc.name": "Arena Champion Master"
 }

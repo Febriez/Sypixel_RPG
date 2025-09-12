@@ -117,8 +117,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
             ItemBuilder.of(Material.BEACON)
                 .displayName(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_SET_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_SET_LORE1, viewer.locale()))
-                .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_SET_LORE2, viewer.locale()))
+                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_SET_LORE, viewer.locale()))
                 .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_SET_CLICK, viewer.locale()))
                 .hideAllFlags()
                 .build(),
@@ -138,8 +137,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
             ItemBuilder.of(Material.ENDER_PEARL)
                 .displayName(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_LORE1, viewer.locale()))
-                .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_LORE2, viewer.locale()))
+                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_LORE, viewer.locale()))
                 .addLore(hasPersonalSpawn ?
                     LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_CLICK, viewer.locale()).color(UnifiedColorUtil.YELLOW) :
                     LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_NO_SPAWN, viewer.locale()).color(UnifiedColorUtil.RED))
@@ -161,8 +159,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
             ItemBuilder.of(Material.BARRIER)
                 .displayName(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_LORE1, viewer.locale()))
-                .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_LORE2, viewer.locale()))
+                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_LORE, viewer.locale()))
                 .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_CLICK, viewer.locale()))
                 .hideAllFlags()
                 .build(),
@@ -182,8 +179,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
             ItemBuilder.of(Material.COMMAND_BLOCK)
                 .displayName(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_LORE1, viewer.locale()))
-                .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_LORE2, viewer.locale()))
+                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_LORE, viewer.locale()))
                 .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_STATUS, getViewerLocale(), Component.text(spawnsSet + "/" + memberCount)))
                 .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_CLICK, viewer.locale()))
                 .hideAllFlags()
@@ -200,8 +196,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
             ItemBuilder.of(Material.REDSTONE_BLOCK)
                 .displayName(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_NO_PERMISSION_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_NO_PERMISSION_LORE1, viewer.locale()))
-                .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_NO_PERMISSION_LORE2, viewer.locale()))
+                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_NO_PERMISSION_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build()
         );

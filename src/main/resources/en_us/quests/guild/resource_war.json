@@ -4,28 +4,15 @@
   "npc_name": "War Strategist",
   "accept": "It's time to secure those resources for our guild!",
   "decline": "We're not ready for a resource war yet.",
-  "objectives": [
-    {
-      "id": "gather_war_supplies",
-      "description": "Gather supplies and recruit soldiers for the resource war"
-    },
-    {
-      "id": "scout_resource_nodes",
-      "description": "Scout and identify key resource nodes to capture"
-    },
-    {
-      "id": "initiate_assault",
-      "description": "Launch the assault on enemy-controlled resource nodes"
-    },
-    {
-      "id": "capture_mining_nodes",
-      "description": "Capture and secure the valuable mining nodes"
-    },
-    {
-      "id": "defend_positions",
-      "description": "Defend your captured positions against counterattacks"
-    }
-  ],
+  "objectives": {
+    "control_mining_nodes": "Control mining nodes",
+    "collect_rare_ores": "Collect 20 rare ores",
+    "defend_resource_nodes": "Defend resource nodes by killing 15 enemies",
+    "contribute_to_guild": "Contribute 32 gold ingots to guild",
+    "control_strategic_locations": "Control strategic locations",
+    "gold_ingot_deliver": "Gold Ingot Deliver",
+    "netherite_ingot_collect": "Netherite Ingot Collect"
+  },
   "dialogs": [
     "The neighboring guild has been encroaching on our territory. It's time to show them our strength!",
     "We need supplies and soldiers before we can engage in warfare.",
@@ -33,5 +20,6 @@
     "The battle has begun! Secure those mining nodes and defend our positions!",
     "Excellent work! The resource nodes are ours, and our guild's power has grown significantly!",
     "With control of these resources, our guild will prosper for years to come!"
-  ]
+  ],
+  "npc.name": "Resource War Master"
 }

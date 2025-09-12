@@ -1,0 +1,27 @@
+{
+  "name": "First Trial",
+  "info": "Information about First Trial",
+  "dialogs": [
+    "Welcome, adventurer!",
+    "I have a task for you.",
+    "Will you help me?"
+  ],
+  "npc_name": "Npc Name",
+  "accept": "Accept Quest",
+  "decline": "Decline Quest",
+  "objectives": {
+    "boss_fight": "Boss Fight",
+    "enter_arena": "Enter Arena",
+    "gold_ingot_collect": "Gold Ingot Collect",
+    "gold_ingot_deliver": "Gold Ingot Deliver",
+    "meet_trainer": "Meet Trainer",
+    "potion_collect": "Potion Collect",
+    "shield_craft": "Shield Craft",
+    "survive_wave": "Survive Wave",
+    "survive_wave2": "Survive the second wave of enemies",
+    "wave1_skeletons": "Wave1 Skeletons",
+    "wave1_zombies": "Wave1 Zombies",
+    "wave2_creepers": "Wave2 Creepers",
+    "wave2_spiders": "Wave2 Spiders"
+  }
+}

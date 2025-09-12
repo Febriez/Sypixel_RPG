@@ -4,28 +4,14 @@
   "npc_name": "Guild Diplomat",
   "accept": "I'll help form valuable alliances for our guild!",
   "decline": "Diplomacy isn't my strong suit right now.",
-  "objectives": [
-    {
-      "id": "prepare_diplomatic_gifts",
-      "description": "Prepare diplomatic gifts for negotiations"
-    },
-    {
-      "id": "draft_alliance_documents",
-      "description": "Draft formal alliance documents"
-    },
-    {
-      "id": "conduct_negotiations",
-      "description": "Conduct diplomatic negotiations with target guilds"
-    },
-    {
-      "id": "finalize_alliance",
-      "description": "Finalize the alliance agreements"
-    },
-    {
-      "id": "establish_cooperation",
-      "description": "Establish ongoing cooperation and mutual support"
-    }
-  ],
+  "objectives": {
+    "negotiate_with_guilds": "Negotiate with guild diplomats to start alliance talks",
+    "collect_treaty_materials": "Collect paper materials needed for treaty documents",
+    "form_alliances": "Deliver formal alliance papers to the alliance council",
+    "complete_joint_quests": "Complete joint quests with allied guilds to strengthen bonds",
+    "paper_collect": "Paper Collect",
+    "paper_deliver": "Paper Deliver"
+  },
   "dialogs": [
     "In these turbulent times, alliances are crucial for survival and prosperity.",
     "We need to prepare diplomatic gifts and formal documents for negotiations.",
@@ -33,5 +19,6 @@
     "Today marks the beginning of a new era of cooperation between our guilds!",
     "With our alliance formed, we can face any challenge together!",
     "Your diplomatic efforts have secured valuable alliances for our guild!"
-  ]
+  ],
+  "npc.name": "Alliance Formation Master"
 }

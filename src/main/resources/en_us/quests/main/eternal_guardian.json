@@ -1,0 +1,23 @@
+{
+  "name": "Eternal Guardian",
+  "info": "Information about Eternal Guardian",
+  "dialogs": [
+    "Welcome, adventurer!",
+    "I have a task for you.",
+    "Will you help me?"
+  ],
+  "npc_name": "Npc Name",
+  "accept": "Accept Quest",
+  "decline": "Decline Quest",
+  "objectives": {
+    "eternal_sage": "Eternal Sage",
+    "guardian_sanctum": "Guardian Sanctum",
+    "nexus_of_worlds": "Nexus Of Worlds",
+    "observer_collect": "Observer Collect",
+    "shield_collect": "Shield Collect",
+    "turtle_helmet_collect": "Turtle Helmet Collect",
+    "watchtower_peak": "Watchtower Peak",
+    "world_spirit": "World Spirit",
+    "written_book_collect": "Written Book Collect"
+  }
+}

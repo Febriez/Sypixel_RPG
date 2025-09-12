@@ -5,7 +5,10 @@
     "treasure_seeker": "Talk to treasure seeker",
     "find_map": "Find today's treasure map",
     "dig_treasure": "Dig up the treasure",
-    "return_treasure": "Return with treasure"
+    "return_treasure": "Return with treasure",
+    "diamond_collect": "Diamond Collect",
+    "emerald_collect": "Emerald Collect",
+    "search_ruins": "Search Ruins"
   },
   "dialogs": [
     "Ah, a fellow seeker of fortune!",
@@ -18,5 +21,6 @@
   ],
   "npc_name": "Treasure Merchant Ferdinand",
   "accept": "I'm ready to brave any danger for hidden treasures.",
-  "decline": "I don't have the equipment for treasure hunting."
+  "decline": "I don't have the equipment for treasure hunting.",
+  "npc.name": "Treasure Hunter Master"
 }

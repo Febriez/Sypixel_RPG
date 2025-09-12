@@ -13,6 +13,7 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.lang.quest.side.ThievesGuildLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -21,8 +22,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 /**
  * 도적 길드 - 사이드 퀘스트
@@ -46,13 +47,13 @@ public class ThievesGuildQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.SIDE_THIEVES_GUILD)
                 .objectives(List.of(
-                        new InteractNPCObjective("guild_contact", "guild_contact", 1),
+                        new InteractNPCObjective("guild_contact", "guild_contact"),
                         new VisitLocationObjective("secret_entrance", "secret_entrance"),
-                        new CollectItemObjective("lockpicks", Material.TRIPWIRE_HOOK, 5),
+                        new CollectItemObjective("tripwire_hook_collect", Material.TRIPWIRE_HOOK, 5),
                         new VisitLocationObjective("rival_hideout", "rival_hideout"),
                         new KillMobObjective("kill_vindicators", EntityType.VINDICATOR, 8),
-                        new CollectItemObjective("stolen_ledger", Material.BOOK, 1),
-                        new InteractNPCObjective("guild_master", "guild_master", 1)
+                        new CollectItemObjective("book_collect", Material.BOOK, 1),
+                        new InteractNPCObjective("guild_master", "guild_master")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 800)
@@ -67,25 +68,25 @@ public class ThievesGuildQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_THIEVES_GUILD_NAME, who);
+        return LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SIDE_THIEVES_GUILD_INFO, who);
+        return LangManager.list(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "guild_contact" -> LangManager.list(LangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_GUILD_CONTACT, who);
-            case "secret_entrance" -> LangManager.list(LangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_SECRET_ENTRANCE, who);
-            case "lockpicks" -> LangManager.list(LangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_LOCKPICKS, who);
-            case "rival_hideout" -> LangManager.list(LangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_RIVAL_HIDEOUT, who);
-            case "kill_vindicators" -> LangManager.list(LangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_KILL_VINDICATORS, who);
-            case "stolen_ledger" -> LangManager.list(LangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_STOLEN_LEDGER, who);
-            case "guild_master" -> LangManager.list(LangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_GUILD_MASTER, who);
-            default -> List.of(Component.text("Unknown objective: " + objective.getId()));
+            case "guild_contact" -> LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_GUILD_CONTACT, who);
+            case "secret_entrance" -> LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_SECRET_ENTRANCE, who);
+            case "tripwire_hook_collect" -> LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_TRIPWIRE_HOOK_COLLECT, who);
+            case "rival_hideout" -> LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_RIVAL_HIDEOUT, who);
+            case "kill_vindicators" -> LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_KILL_VINDICATORS, who);
+            case "book_collect" -> LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_BOOK_COLLECT, who);
+            case "guild_master" -> LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_GUILD_MASTER, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -96,7 +97,7 @@ public class ThievesGuildQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SIDE_THIEVES_GUILD_DIALOGS, who);
+        return LangManager.list(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_DIALOGS, who);
     }
     
     @Override
@@ -106,16 +107,16 @@ public class ThievesGuildQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_THIEVES_GUILD_NPC_NAME, who);
+        return LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_THIEVES_GUILD_ACCEPT, who);
+        return LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SIDE_THIEVES_GUILD_DECLINE, who);
+        return LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_DECLINE, who);
     }
 }

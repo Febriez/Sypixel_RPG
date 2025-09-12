@@ -15,6 +15,7 @@ import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.lang.ILangKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -249,7 +250,7 @@ public class AllQuestsGui extends BaseGui {
         setItem(49, backButton);
     }
     
-    private LangKey getFilterLangKey(QuestFilter filter) {
+    private ILangKey getFilterLangKey(QuestFilter filter) {
         return switch (filter) {
             case ACTIVE -> LangKey.QUEST_FILTER_ACTIVE;
             case COMPLETED -> LangKey.QUEST_FILTER_COMPLETED;

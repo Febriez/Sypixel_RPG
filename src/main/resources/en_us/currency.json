@@ -1,7 +1,8 @@
 {
   "gold": {
     "name": "Gold",
-    "description": "Basic currency."
+    "description": "Basic currency.",
+    "symbol": "G"
   },
   "diamond": {
     "name": "Diamond",
@@ -22,5 +23,33 @@
   "exp": {
     "name": "Experience",
     "description": "Experience points for leveling up."
+  },
+  "silver": {
+    "name": "Silver",
+    "symbol": "S"
+  },
+  "copper": {
+    "name": "Copper",
+    "symbol": "C"
+  },
+  "gem": {
+    "name": "Gem",
+    "symbol": "💎"
+  },
+  "token": {
+    "name": "Token",
+    "symbol": "T"
+  },
+  "coin": {
+    "name": "Coin",
+    "symbol": "🪙"
+  },
+  "point": {
+    "name": "Point",
+    "symbol": "P"
+  },
+  "credit": {
+    "name": "Credit",
+    "symbol": "CR"
   }
 }

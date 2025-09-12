@@ -7,5 +7,21 @@
     "These are dangerous enchantments. They have destroyed lesser enchanters.",
     "Few reach this level. You have truly mastered the enchantment arts.",
     "You are now a Grand Enchanter! Your magical creations will be legendary!"
-  ]
+  ],
+  "objectives": {
+    "enchantment_master": "Meet the enchantment master",
+    "experience_bottle_collect": "Collect experience bottles",
+    "enchanted_book_collect": "Collect enchanted books",
+    "diamond_sword_craft": "Craft diamond sword",
+    "diamond_chestplate_craft": "Craft diamond chestplate",
+    "lapis_lazuli_collect": "Collect lapis lazuli",
+    "book_collect": "Collect enchanted books",
+    "diamond_pickaxe_craft": "Craft diamond pickaxe",
+    "ghast_tear_collect": "Collect ghast tears",
+    "netherite_sword_craft": "Craft netherite sword",
+    "netherite_sword_deliver": "Deliver netherite sword"
+  },
+  "accept": "Accept Quest",
+  "decline": "Decline Quest",
+  "info": "Information about Enchantment Mastery"
 }

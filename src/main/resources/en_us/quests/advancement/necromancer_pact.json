@@ -18,5 +18,6 @@
   ],
   "npc_name": "Dark Master",
   "accept": "I will embrace the dark arts!",
-  "decline": "This path is too dark for me."
+  "decline": "This path is too dark for me.",
+  "npc.name": "Necromancer Pact Master"
 }

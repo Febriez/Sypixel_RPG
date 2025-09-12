@@ -10,6 +10,7 @@ import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -19,7 +20,6 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -47,19 +47,19 @@ public class ChosenOneQuest extends Quest {
                         new VisitLocationObjective("enter_trial_cave", "trial_cave_entrance"),
 
                         // 첫 번째 시련: 용기
-                        new KillMobObjective("trial_courage", EntityType.IRON_GOLEM, 3), new CollectItemObjective("courage_proof", Material.IRON_BLOCK, 1),
+                        new KillMobObjective("trial_courage", EntityType.IRON_GOLEM, 3), new CollectItemObjective("iron_block_collect", Material.IRON_BLOCK, 1),
 
                         // 두 번째 시련: 지혜
-                        new BreakBlockObjective("solve_puzzle", Material.REDSTONE_LAMP, 5), new CollectItemObjective("wisdom_proof", Material.EMERALD, 1),
+                        new BreakBlockObjective("solve_puzzle", Material.REDSTONE_LAMP, 5), new CollectItemObjective("emerald_collect", Material.EMERALD, 1),
 
                         // 세 번째 시련: 희생
-                        new PayCurrencyObjective("sacrifice_gold", CurrencyType.GOLD, 1000), new CollectItemObjective("sacrifice_proof", Material.DIAMOND, 1),
+                        new PayCurrencyObjective("sacrifice_gold", CurrencyType.GOLD, 1000), new CollectItemObjective("diamond_collect", Material.DIAMOND, 1),
 
                         // 최종 시련
-                        new KillMobObjective("final_guardian", EntityType.WITHER_SKELETON, 1), new CollectItemObjective("chosen_emblem", Material.NETHER_STAR, 1),
+                        new KillMobObjective("final_guardian", EntityType.WITHER_SKELETON, 1), new CollectItemObjective("nether_star_collect", Material.NETHER_STAR, 1),
 
                         // 완료
-                        new DeliverItemObjective("return_elder", "고대의 장로", Material.NETHER_STAR, 1)))
+                        new DeliverItemObjective("nether_star_deliver", Material.NETHER_STAR, 1, "고대의 장로")))
                 .reward(new BasicReward.Builder().addCurrency(CurrencyType.GOLD, 2000)
                         .addCurrency(CurrencyType.DIAMOND, 20)
                         .addItem(new ItemStack(Material.NETHERITE_SWORD))
@@ -76,28 +76,28 @@ public class ChosenOneQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_CHOSEN_ONE_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "enter_trial_cave" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_ENTER_TRIAL_CAVE, who);
-            case "trial_courage" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_TRIAL_COURAGE, who);
-            case "courage_proof" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_COURAGE_PROOF, who);
-            case "solve_puzzle" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_SOLVE_PUZZLE, who);
-            case "wisdom_proof" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_WISDOM_PROOF, who);
-            case "sacrifice_gold" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_SACRIFICE_GOLD, who);
-            case "sacrifice_proof" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_SACRIFICE_PROOF, who);
-            case "final_guardian" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_FINAL_GUARDIAN, who);
-            case "chosen_emblem" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_CHOSEN_EMBLEM, who);
-            case "return_elder" -> LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_RETURN_ELDER, who);
-            default -> new ArrayList<>();
+            case "enter_trial_cave" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_ENTER_TRIAL_CAVE, who);
+            case "trial_courage" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_TRIAL_COURAGE, who);
+            case "iron_block_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_IRON_BLOCK_COLLECT, who);
+            case "solve_puzzle" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_SOLVE_PUZZLE, who);
+            case "emerald_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_EMERALD_COLLECT, who);
+            case "sacrifice_gold" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_SACRIFICE_GOLD, who);
+            case "diamond_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_DIAMOND_COLLECT, who);
+            case "final_guardian" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_FINAL_GUARDIAN, who);
+            case "nether_star_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_NETHER_STAR_COLLECT, who);
+            case "nether_star_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_OBJECTIVES_NETHER_STAR_DELIVER, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -108,7 +108,7 @@ public class ChosenOneQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_CHOSEN_ONE_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_DIALOGS, who);
     }
     
     @Override
@@ -118,16 +118,16 @@ public class ChosenOneQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_CHOSEN_ONE_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_CHOSEN_ONE_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_CHOSEN_ONE_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_CHOSEN_ONE_DECLINE, who);
     }
 }

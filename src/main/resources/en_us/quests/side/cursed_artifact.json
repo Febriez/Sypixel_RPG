@@ -8,5 +8,15 @@
     "You've found it! The artifact pulses with dark energy.",
     "The curse is broken! The artifact's power has been sealed.",
     "Already, the corruption is beginning to fade from the land."
-  ]
+  ],
+  "objectives": {
+    "talk_concerned_scholar": "Talk Concerned Scholar",
+    "corrupted_grove": "Corrupted Grove",
+    "purification_salt": "Purification Salt",
+    "protective_charms": "Protective Charms",
+    "corrupted_creatures": "Corrupted Creatures",
+    "artifact_chamber": "Artifact Chamber",
+    "cursed_artifact": "Cursed Artifact",
+    "seal_artifact": "Seal Artifact"
+  }
 }

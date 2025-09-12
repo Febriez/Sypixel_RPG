@@ -15,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +30,11 @@ public class SecretSocietyQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.SPECIAL_SECRET_SOCIETY)
                 .objectives(List.of(
-                        new FindSecretContactObjective("secret_contact", "shadow_agent"),
-                        new ProveWorthinessObjective("initiation_test", "loyalty_trial"),
-                        new CollectItemObjective("secret_documents", Material.WRITTEN_BOOK, 8),
-                        new CompleteMissionObjective("covert_operations", "stealth_missions", 5),
-                        new JoinSecretSocietyObjective("society_membership", "shadow_guild")
+                        new InteractNPCObjective("secret_contact", "shadow_agent"),
+                        new SurviveObjective("initiation_test", 600), // 10-minute loyalty trial
+                        new CollectItemObjective("written_book_collect", Material.WRITTEN_BOOK, 8),
+                        new VisitLocationObjective("covert_operations", "stealth_missions"),
+                        new InteractNPCObjective("society_membership", "shadow_guild")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 4500)
@@ -48,23 +49,23 @@ public class SecretSocietyQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_SECRET_SOCIETY_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_SECRET_SOCIETY_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SPECIAL_SECRET_SOCIETY_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_SPECIAL_SECRET_SOCIETY_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "secret_contact" -> LangManager.list(LangKey.QUEST_SPECIAL_SECRET_SOCIETY_OBJECTIVES_SECRET_CONTACT, who);
-            case "initiation_test" -> LangManager.list(LangKey.QUEST_SPECIAL_SECRET_SOCIETY_OBJECTIVES_INITIATION_TEST, who);
-            case "secret_documents" -> LangManager.list(LangKey.QUEST_SPECIAL_SECRET_SOCIETY_OBJECTIVES_SECRET_DOCUMENTS, who);
-            case "covert_operations" -> LangManager.list(LangKey.QUEST_SPECIAL_SECRET_SOCIETY_OBJECTIVES_COVERT_OPERATIONS, who);
-            case "society_membership" -> LangManager.list(LangKey.QUEST_SPECIAL_SECRET_SOCIETY_OBJECTIVES_SOCIETY_MEMBERSHIP, who);
-            default -> new ArrayList<>();
+            case "secret_contact" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_SECRET_SOCIETY_OBJECTIVES_SECRET_CONTACT, who);
+            case "initiation_test" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_SECRET_SOCIETY_OBJECTIVES_INITIATION_TEST, who);
+            case "written_book_collect" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_SECRET_SOCIETY_OBJECTIVES_WRITTEN_BOOK_COLLECT, who);
+            case "covert_operations" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_SECRET_SOCIETY_OBJECTIVES_COVERT_OPERATIONS, who);
+            case "society_membership" -> LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_SECRET_SOCIETY_OBJECTIVES_SOCIETY_MEMBERSHIP, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -73,7 +74,7 @@ public class SecretSocietyQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_SPECIAL_SECRET_SOCIETY_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_SPECIAL_SECRET_SOCIETY_DIALOGS, who);
     }
     
     @Override
@@ -83,16 +84,16 @@ public class SecretSocietyQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_SECRET_SOCIETY_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_SECRET_SOCIETY_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_SECRET_SOCIETY_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_SECRET_SOCIETY_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_SPECIAL_SECRET_SOCIETY_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_SPECIAL_SECRET_SOCIETY_DECLINE, who);
     }
 }

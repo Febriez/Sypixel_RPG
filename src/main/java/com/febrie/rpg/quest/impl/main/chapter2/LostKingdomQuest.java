@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
@@ -18,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,14 +43,14 @@ public class LostKingdomQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.MAIN_LOST_KINGDOM)
                 .objectives(List.of(
-                        new InteractNPCObjective("royal_historian", "royal_historian", 1),
+                        new InteractNPCObjective("royal_historian", "royal_historian"),
                         new VisitLocationObjective("kingdom_entrance", "kingdom_entrance_area"),
-                        new CollectItemObjective("ancient_key", Material.TRIPWIRE_HOOK, 3),
+                        new CollectItemObjective("tripwire_hook_collect", Material.TRIPWIRE_HOOK, 3),
                         new VisitLocationObjective("throne_room", "throne_room_area"),
                         new KillMobObjective("kill_husks", EntityType.HUSK, 12),
                         new KillMobObjective("kill_strays", EntityType.STRAY, 8),
-                        new CollectItemObjective("royal_artifact", Material.GOLDEN_APPLE, 5),
-                        new InteractNPCObjective("ghost_king", "ghost_king", 1)
+                        new CollectItemObjective("golden_apple_collect", Material.GOLDEN_APPLE, 5),
+                        new InteractNPCObjective("ghost_king", "ghost_king")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 3500)
@@ -67,29 +67,29 @@ public class LostKingdomQuest extends Quest {
     
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_LOST_KINGDOM_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_NAME, who);
     }
     
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_INFO, who);
     }
     
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "royal_historian" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_ROYAL_HISTORIAN, who);
-            case "kingdom_entrance" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_KINGDOM_ENTRANCE, who);
-            case "ancient_key" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_ANCIENT_KEY, who);
-            case "throne_room" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_THRONE_ROOM, who);
-            case "kill_husks" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_KILL_HUSKS, who);
-            case "kill_strays" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_KILL_STRAYS, who);
-            case "royal_artifact" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_ROYAL_ARTIFACT, who);
-            case "ghost_king" -> LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_GHOST_KING, who);
-            default -> List.of(Component.text("Objective: " + objective.getId()));
+            case "royal_historian" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_ROYAL_HISTORIAN, who);
+            case "kingdom_entrance" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_KINGDOM_ENTRANCE, who);
+            case "tripwire_hook_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_TRIPWIRE_HOOK_COLLECT, who);
+            case "throne_room" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_THRONE_ROOM, who);
+            case "kill_husks" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_KILL_HUSKS, who);
+            case "kill_strays" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_KILL_STRAYS, who);
+            case "golden_apple_collect" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_GOLDEN_APPLE_COLLECT, who);
+            case "ghost_king" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_OBJECTIVES_GHOST_KING, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 4;
@@ -97,7 +97,7 @@ public class LostKingdomQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_LOST_KINGDOM_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_DIALOGS, who);
     }
     
     @Override
@@ -107,16 +107,16 @@ public class LostKingdomQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_LOST_KINGDOM_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_LOST_KINGDOM_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_LOST_KINGDOM_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_LOST_KINGDOM_DECLINE, who);
     }
 }

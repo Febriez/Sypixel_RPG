@@ -11,7 +11,10 @@
     "collect_seeds": "Collect 200 wheat seeds",
     "plant_farmland": "Create 50 farmland blocks",
     "craft_bread": "Craft 64 bread",
-    "collect_bone_meal": "Collect 32 bone meal for fertilizer"
+    "collect_bone_meal": "Collect 32 bone meal for fertilizer",
+    "bone_meal_collect": "Bone Meal Collect",
+    "bread_craft": "Bread Craft",
+    "wheat_seeds_collect": "Wheat Seeds Collect"
   },
   "dialogs": [
     "The land provides for those who understand its needs. Are you ready to learn?",
@@ -20,5 +23,6 @@
     "Few understand the deep connection between farmer and earth as you do.",
     "Your harvest is bountiful! The community celebrates your success!",
     "You are now a Master Farmer! The land itself recognizes your expertise!"
-  ]
+  ],
+  "npc.name": "Farming Expert Master"
 }

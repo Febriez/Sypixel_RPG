@@ -17,6 +17,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class BossSlayerQuest extends Quest {
                         new KillMobObjective("kill_mini_bosses", EntityType.WITHER, 3),
                         new KillMobObjective("kill_wither_skeletons", EntityType.WITHER_SKELETON, 20),
                         new KillMobObjective("kill_dungeon_bosses", EntityType.ELDER_GUARDIAN, 5),
-                        new CollectItemObjective("collect_boss_drops", Material.NETHER_STAR, 3),
+                        new CollectItemObjective("nether_star_collect", Material.NETHER_STAR, 3),
                         new KillMobObjective("kill_world_boss", EntityType.ENDER_DRAGON, 1)
                 ))
                 .reward(new BasicReward.Builder()
@@ -63,26 +64,26 @@ public class BossSlayerQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_COMBAT_BOSS_SLAYER_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_COMBAT_BOSS_SLAYER_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_COMBAT_BOSS_SLAYER_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_COMBAT_BOSS_SLAYER_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "kill_mini_bosses" -> LangManager.list(LangKey.QUEST_COMBAT_BOSS_SLAYER_OBJECTIVES_KILL_MINI_BOSSES, who);
-            case "kill_wither_skeletons" -> LangManager.list(LangKey.QUEST_COMBAT_BOSS_SLAYER_OBJECTIVES_KILL_WITHER_SKELETONS, who);
-            case "kill_dungeon_bosses" -> LangManager.list(LangKey.QUEST_COMBAT_BOSS_SLAYER_OBJECTIVES_KILL_DUNGEON_BOSSES, who);
-            case "collect_boss_drops" -> LangManager.list(LangKey.QUEST_COMBAT_BOSS_SLAYER_OBJECTIVES_COLLECT_BOSS_DROPS, who);
-            case "kill_world_boss" -> LangManager.list(LangKey.QUEST_COMBAT_BOSS_SLAYER_OBJECTIVES_KILL_WORLD_BOSS, who);
-            default -> new ArrayList<>();
+            case "kill_mini_bosses" -> LangManager.text(QuestCommonLangKey.QUEST_COMBAT_BOSS_SLAYER_OBJECTIVES_KILL_MINI_BOSSES, who);
+            case "kill_wither_skeletons" -> LangManager.text(QuestCommonLangKey.QUEST_COMBAT_BOSS_SLAYER_OBJECTIVES_KILL_WITHER_SKELETONS, who);
+            case "kill_dungeon_bosses" -> LangManager.text(QuestCommonLangKey.QUEST_COMBAT_BOSS_SLAYER_OBJECTIVES_KILL_DUNGEON_BOSSES, who);
+            case "nether_star_collect" -> LangManager.text(QuestCommonLangKey.QUEST_COMBAT_BOSS_SLAYER_OBJECTIVES_NETHER_STAR_COLLECT, who);
+            case "kill_world_boss" -> LangManager.text(QuestCommonLangKey.QUEST_COMBAT_BOSS_SLAYER_OBJECTIVES_KILL_WORLD_BOSS, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
-    
+
     @Override
     public int getDialogCount() {
         return 5;
@@ -90,7 +91,7 @@ public class BossSlayerQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_COMBAT_BOSS_SLAYER_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_COMBAT_BOSS_SLAYER_DIALOGS, who);
     }
     
     @Override
@@ -100,16 +101,16 @@ public class BossSlayerQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_COMBAT_BOSS_SLAYER_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_COMBAT_BOSS_SLAYER_NPC_NAME, who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_COMBAT_BOSS_SLAYER_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_COMBAT_BOSS_SLAYER_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_COMBAT_BOSS_SLAYER_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_COMBAT_BOSS_SLAYER_DECLINE, who);
     }
 }

@@ -8,5 +8,16 @@
     "Taking out their scouts was smart - it should disrupt their hunting patterns.",
     "The alpha is dead! The pack will scatter without their leader.",
     "Travelers and merchants can use these roads safely once again. Well done!"
-  ]
+  ],
+  "objectives": {
+    "talk_caravan_leader": "Talk Caravan Leader",
+    "wolf_territory": "Wolf Territory",
+    "tracking_supplies": "Tracking Supplies",
+    "wolf_scouts": "Wolf Scouts",
+    "pack_den": "Pack Den",
+    "pack_members": "Pack Members",
+    "alpha_wolf": "Alpha Wolf",
+    "wolf_pelt": "Wolf Pelt",
+    "report_success": "Report Success"
+  }
 }

@@ -96,8 +96,7 @@ public class IslandContributeGui extends BaseGui {
                 .addLore(Component.empty())
                 .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_BALANCE, getViewerLocale(), Component.text(String.format("%,d", currentGold))))
                 .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_CONTRIBUTION, getViewerLocale(), Component.text(String.format("%,d", myContribution))))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_DESCRIPTION1, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_DESCRIPTION2, getViewerLocale()))
+                .addLore(LangManager.list(LangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_DESCRIPTION, getViewerLocale()))
                 .hideAllFlags()
                 .build();
     }
@@ -130,8 +129,7 @@ public class IslandContributeGui extends BaseGui {
     private ItemStack createCustomAmountItem() {
         return ItemBuilder.of(Material.ANVIL)
                 .displayName(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_TITLE, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_DESCRIPTION1, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_DESCRIPTION2, getViewerLocale()))
+                .addLore(LangManager.list(LangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_DESCRIPTION, getViewerLocale()))
                 .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_MINIMUM, getViewerLocale()))
                 .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_MAXIMUM, getViewerLocale()))
                 .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_CLICK_PROMPT, getViewerLocale()))

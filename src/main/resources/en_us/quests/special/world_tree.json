@@ -4,32 +4,15 @@
   "npc_name": "Guardian of Life",
   "accept": "I'll journey to the heart of creation to save the World Tree.",
   "decline": "This responsibility is too great for me to bear.",
-  "objectives": [
-    {
-      "id": "recognize_life_source_weakness",
-      "description": "Understand that the source of all life is growing weak"
-    },
-    {
-      "id": "prevent_existence_fade",
-      "description": "Act to prevent all existence from fading without the World Tree"
-    },
-    {
-      "id": "journey_to_creation_heart",
-      "description": "Travel to the very heart of creation itself"
-    },
-    {
-      "id": "strengthen_ancient_roots",
-      "description": "Help life force flow stronger through the ancient roots"
-    },
-    {
-      "id": "prove_pure_intentions",
-      "description": "Show pure intentions that the World Tree recognizes"
-    },
-    {
-      "id": "restore_world_tree",
-      "description": "Successfully restore the World Tree to bloom with renewed vitality"
-    }
-  ],
+  "objectives": {
+    "tree_guardian": "Meet with the Ancient Druid",
+    "world_tree": "Visit Yggdrasil location",
+    "life_essence": "Collect 50 glow berries as life essence",
+    "plant_sapling": "Plant 1 oak sapling",
+    "care_for_tree": "Care for the tree for 30 days",
+    "defend_tree": "Defend tree by killing 100 wither skeletons",
+    "tree_blessing": "Harvest 10 sweet berries as tree blessing"
+  },
   "dialogs": [
     "The source of all life grows weak, champion.",
     "Without the World Tree, all existence will fade.",

@@ -77,8 +77,7 @@ public class QuestRewardConfirmGui extends BaseGui {
         ItemBuilder warningBuilder = ItemBuilder.of(Material.BARRIER)
                 .displayName(LangManager.text(LangKey.ITEMS_QUEST_REWARD_CONFIRM_WARNING_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.list(LangKey.ITEMS_QUEST_REWARD_CONFIRM_WARNING_LORE1, viewer.locale()))
-                .addLore(LangManager.list(LangKey.ITEMS_QUEST_REWARD_CONFIRM_WARNING_LORE2, viewer.locale()))
+                .addLore(LangManager.list(LangKey.ITEMS_QUEST_REWARD_CONFIRM_WARNING_LORE, viewer.locale()))
                 .addLore(Component.empty())
                 .addLore(LangManager.list(LangKey.ITEMS_QUEST_REWARD_CONFIRM_WARNING_QUESTION, viewer.locale()))
                 .hideAllFlags();

@@ -8,5 +8,17 @@
     "The guardians were strong, but you're making progress.",
     "The Portal Nexus is destroyed! The invasion has been stopped.",
     "The shadow creatures are retreating back to their realm."
-  ]
+  ],
+  "objectives": {
+    "talk_light_mage": "Talk Light Mage",
+    "shadow_portal_1": "Shadow Portal 1",
+    "shadow_creatures": "Shadow Creatures",
+    "shadow_portal_2": "Shadow Portal 2",
+    "shadow_crystals": "Shadow Crystals",
+    "portal_guardians": "Portal Guardians",
+    "portal_nexus": "Portal Nexus",
+    "shadow_lord": "Shadow Lord",
+    "seal_portals": "Seal Portals",
+    "shadow_portal_": "Shadow Portal "
+  }
 }

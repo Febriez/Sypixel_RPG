@@ -18,5 +18,7 @@
   ],
   "npc_name": "Elder Druid",
   "accept": "I wish to become one with nature!",
-  "decline": "I'm not ready for this spiritual journey."
+  "decline": "I'm not ready for this spiritual journey.",
+  "desc": "Complete the Druid Nature quest",
+  "npc.name": "Druid Nature Master"
 }

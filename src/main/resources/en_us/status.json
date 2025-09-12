@@ -20,5 +20,13 @@
     "creative": "Creative",
     "adventure": "Adventure",
     "spectator": "Spectator"
-  }
+  },
+  "true": "Enabled",
+  "false": "Disabled",
+  "muted": "Muted",
+  "active": "Active",
+  "public": "Public",
+  "private": "Private",
+  "status.new_mail": "New Mail",
+  "status.read": "Read"
 }

@@ -8,5 +8,15 @@
     "The merchants you've rescued are grateful beyond words.",
     "The chieftain is defeated! The goblins are scattering!",
     "Trade routes are safe again thanks to your efforts."
-  ]
+  ],
+  "objectives": {
+    "talk_merchant_leader": "Talk Merchant Leader",
+    "goblin_scouts": "Goblin Scouts",
+    "goblin_camps": "Goblin Camps",
+    "stolen_goods": "Stolen Goods",
+    "rescue_merchants": "Rescue Merchants",
+    "goblin_stronghold": "Goblin Stronghold",
+    "goblin_chieftain": "Goblin Chieftain",
+    "report_success": "Report Success"
+  }
 }

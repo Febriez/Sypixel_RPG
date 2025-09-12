@@ -8,6 +8,7 @@ import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 
 import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.lang.ILangKey;
 import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -36,7 +37,7 @@ public class GuiBuilder {
      * Add a clickable menu button with standard sound
      */
     public GuiBuilder menuButton(int slot, @NotNull Material material, 
-                                 @NotNull LangKey nameKey, @NotNull LangKey loreKey, 
+                                 @NotNull ILangKey nameKey, @NotNull ILangKey loreKey, 
                                  @NotNull Consumer<Player> action) {
         GuiItem button = GuiItem.clickable(
             ItemBuilder.of(material)
@@ -70,7 +71,7 @@ public class GuiBuilder {
      * Add a display-only item
      */
     public GuiBuilder display(int slot, @NotNull Material material,
-                             @NotNull LangKey nameKey, @NotNull LangKey loreKey) {
+                             @NotNull ILangKey nameKey, @NotNull ILangKey loreKey) {
         gui.setItem(slot, GuiItem.display(
             ItemBuilder.of(material)
                 .displayName(LangManager.text(nameKey, viewer.locale()))

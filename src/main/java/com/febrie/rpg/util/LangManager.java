@@ -1,5 +1,6 @@
 package com.febrie.rpg.util;
 
+import com.febrie.rpg.util.lang.ILangKey;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -40,60 +41,131 @@ public class LangManager {
 
     // ===== Public API Methods =====
 
+    // Support for ILangKey interface
     @NotNull
-    public static Component text(@NotNull LangKey key) {
+    public static Component text(@NotNull ILangKey key) {
         return textInternal(key.getKey(), defaultLocale);
     }
 
     @NotNull
-    public static Component text(@NotNull LangKey key, @NotNull Player player) {
+    public static Component text(@NotNull ILangKey key, @NotNull Player player) {
         return textInternal(key.getKey(), player.locale());
+    }
+    
+    // Legacy support for LangKey enum references
+    @NotNull
+    public static Component text(@NotNull LangKey key) {
+        return text((ILangKey) key);
     }
 
     @NotNull
-    public static Component text(@NotNull LangKey key, @NotNull Locale locale) {
+    public static Component text(@NotNull LangKey key, @NotNull Player player) {
+        return text((ILangKey) key, player);
+    }
+
+    // ILangKey versions with locale and args
+    @NotNull
+    public static Component text(@NotNull ILangKey key, @NotNull Locale locale) {
         return textInternal(key.getKey(), locale);
     }
 
     @NotNull
-    public static Component text(@NotNull LangKey key, @NotNull Locale locale, Object... args) {
+    public static Component text(@NotNull ILangKey key, @NotNull Locale locale, Object... args) {
         Component base = textInternal(key.getKey(), locale);
         return replacePlaceholders(base, args);
     }
 
     @NotNull
-    public static Component text(@NotNull LangKey key, @NotNull Player player, Object... args) {
+    public static Component text(@NotNull ILangKey key, @NotNull Player player, Object... args) {
         return text(key, player.locale(), args);
+    }
+    
+    // Legacy LangKey versions
+    @NotNull
+    public static Component text(@NotNull LangKey key, @NotNull Locale locale) {
+        return text((ILangKey) key, locale);
     }
 
     @NotNull
-    public static List<Component> list(@NotNull LangKey key) {
+    public static Component text(@NotNull LangKey key, @NotNull Locale locale, Object... args) {
+        return text((ILangKey) key, locale, args);
+    }
+
+    @NotNull
+    public static Component text(@NotNull LangKey key, @NotNull Player player, Object... args) {
+        return text((ILangKey) key, player, args);
+    }
+
+    // ILangKey versions of list methods
+    @NotNull
+    public static List<Component> list(@NotNull ILangKey key) {
         return listInternal(key.getKey(), defaultLocale);
     }
 
     @NotNull
-    public static List<Component> list(@NotNull LangKey key, @NotNull Player player) {
+    public static List<Component> list(@NotNull ILangKey key, @NotNull Player player) {
         return listInternal(key.getKey(), player.locale());
     }
 
     @NotNull
-    public static List<Component> list(@NotNull LangKey key, @NotNull Locale locale) {
+    public static List<Component> list(@NotNull ILangKey key, @NotNull Locale locale) {
         return listInternal(key.getKey(), locale);
     }
 
     @NotNull
-    public static List<Component> list(@NotNull LangKey key, @NotNull Locale locale, Object... args) {
+    public static List<Component> list(@NotNull ILangKey key, @NotNull Locale locale, Object... args) {
         List<Component> base = listInternal(key.getKey(), locale);
         return base.stream().map(comp -> replacePlaceholders(comp, args)).collect(Collectors.toList());
     }
 
     @NotNull
-    public static List<Component> list(@NotNull LangKey key, @NotNull Player player, Object... args) {
+    public static List<Component> list(@NotNull ILangKey key, @NotNull Player player, Object... args) {
         return list(key, player.locale(), args);
     }
+    
+    // Legacy LangKey versions
+    @NotNull
+    public static List<Component> list(@NotNull LangKey key) {
+        return list((ILangKey) key);
+    }
 
-    public static boolean hasKey(@NotNull LangKey key, @NotNull Locale locale) {
+    @NotNull
+    public static List<Component> list(@NotNull LangKey key, @NotNull Player player) {
+        return list((ILangKey) key, player);
+    }
+
+    @NotNull
+    public static List<Component> list(@NotNull LangKey key, @NotNull Locale locale) {
+        return list((ILangKey) key, locale);
+    }
+
+    @NotNull
+    public static List<Component> list(@NotNull LangKey key, @NotNull Locale locale, Object... args) {
+        return list((ILangKey) key, locale, args);
+    }
+
+    @NotNull
+    public static List<Component> list(@NotNull LangKey key, @NotNull Player player, Object... args) {
+        return list((ILangKey) key, player, args);
+    }
+
+    // ILangKey version of hasKey
+    public static boolean hasKey(@NotNull ILangKey key, @NotNull Locale locale) {
         String keyStr = key.getKey();
+        Map<String, Component> singleMap = singles.get(locale);
+        if (singleMap != null && singleMap.containsKey(keyStr)) return true;
+        Map<String, List<Component>> arrayMap = arrays.get(locale);
+        return arrayMap != null && arrayMap.containsKey(keyStr);
+    }
+    
+    // Legacy LangKey version
+    public static boolean hasKey(@NotNull LangKey key, @NotNull Locale locale) {
+        return hasKey((ILangKey) key, locale);
+    }
+    
+    // Internal method that was getting called
+    private static boolean hasKeyInternal(String keyStr, Locale locale) {
+        String keyString = keyStr;
         Map<String, Component> singleMap = singles.get(locale);
         if (singleMap != null && singleMap.containsKey(keyStr)) return true;
         Map<String, List<Component>> arrayMap = arrays.get(locale);
@@ -166,13 +238,27 @@ public class LangManager {
     // ===== Loading Methods =====
 
     private static void loadAllLanguages() {
+        plugin.getLogger().info("[LangManager] ============================================");
         plugin.getLogger().info("[LangManager] Starting language loading...");
+        plugin.getLogger().info("[LangManager] Debug mode: ENABLED");
+        plugin.getLogger().info("[LangManager] ============================================");
+        
         for (String localeStr : SUPPORTED_LOCALES) {
             Locale locale = parseLocale(localeStr);
-            plugin.getLogger().info("[LangManager] Loading language: " + localeStr);
+            plugin.getLogger().info("[LangManager] Loading language: " + localeStr + " -> Locale: " + locale);
             loadLanguage(localeStr, locale);
         }
+        
+        plugin.getLogger().info("[LangManager] ============================================");
         plugin.getLogger().info("[LangManager] Language loading complete.");
+        plugin.getLogger().info("[LangManager] Total loaded locales: " + singles.size());
+        for (Map.Entry<Locale, Map<String, Component>> entry : singles.entrySet()) {
+            plugin.getLogger().info("[LangManager]   - " + entry.getKey() + ": " + entry.getValue().size() + " single keys");
+        }
+        for (Map.Entry<Locale, Map<String, List<Component>>> entry : arrays.entrySet()) {
+            plugin.getLogger().info("[LangManager]   - " + entry.getKey() + ": " + entry.getValue().size() + " array keys");
+        }
+        plugin.getLogger().info("[LangManager] ============================================");
     }
 
     private static void loadLanguage(@NotNull String localeDir, @NotNull Locale locale) {
@@ -250,23 +336,39 @@ public class LangManager {
     private static void loadJsonResource(@NotNull String resourcePath, @NotNull String prefix, @NotNull Map<String, Component> singleMap, @NotNull Map<String, List<Component>> arrayMap) {
         try (InputStream stream = LangManager.class.getResourceAsStream(resourcePath)) {
             if (stream == null) {
-                plugin.getLogger().warning("[LangManager] Resource not found: " + resourcePath);
+                plugin.getLogger().warning("[LangManager] ❌ Resource not found: " + resourcePath);
                 return;
             }
 
             try (InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
                 JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
-                plugin.getLogger().fine("[LangManager] Loading JSON: " + resourcePath + " with prefix: " + prefix);
+                plugin.getLogger().info("[LangManager] 📄 Loading JSON: " + resourcePath);
+                plugin.getLogger().info("[LangManager]    Prefix: " + prefix);
+                
                 int beforeSingle = singleMap.size();
                 int beforeArray = arrayMap.size();
                 processJsonObject(root, prefix, singleMap, arrayMap);
                 int addedSingle = singleMap.size() - beforeSingle;
                 int addedArray = arrayMap.size() - beforeArray;
-                plugin.getLogger()
-                        .fine("[LangManager] Loaded from " + resourcePath + ": " + addedSingle + " singles, " + addedArray + " arrays");
+                
+                if (addedSingle > 0 || addedArray > 0) {
+                    plugin.getLogger().info("[LangManager]    ✅ Loaded: " + addedSingle + " singles, " + addedArray + " arrays");
+                }
+                
+                // Log some sample keys for debugging
+                if (addedSingle > 0) {
+                    int count = 0;
+                    for (String key : singleMap.keySet()) {
+                        if (key.startsWith(prefix) && count < 3) {
+                            plugin.getLogger().info("[LangManager]      Sample key: " + key);
+                            count++;
+                        }
+                    }
+                }
             }
         } catch (IOException | JsonSyntaxException e) {
-            logError("Failed to load " + resourcePath, e);
+            plugin.getLogger().severe("[LangManager] ❌ Failed to load " + resourcePath + ": " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -324,36 +426,77 @@ public class LangManager {
     private static void validateKeys() {
         if (plugin == null) return;
 
-        plugin.getLogger().info("[LangManager] Validating " + LangKey.values().length + " translation keys...");
+        plugin.getLogger().info("[LangManager] ============================================");
+        plugin.getLogger().info("[LangManager] Starting key validation...");
+        
+        // Get all ILangKey values from all enums
+        List<ILangKey> allKeys = new ArrayList<>();
+        allKeys.addAll(Arrays.asList(com.febrie.rpg.util.lang.GeneralLangKey.values()));
+        allKeys.addAll(Arrays.asList(com.febrie.rpg.util.lang.GuiLangKey.values()));
+        allKeys.addAll(Arrays.asList(com.febrie.rpg.util.lang.quest.QuestCommonLangKey.values()));
+        allKeys.addAll(Arrays.asList(com.febrie.rpg.util.lang.ItemLangKey.values()));
+        allKeys.addAll(Arrays.asList(com.febrie.rpg.util.lang.MessageLangKey.values()));
+        allKeys.addAll(Arrays.asList(com.febrie.rpg.util.lang.SystemLangKey.values()));
+        
+        plugin.getLogger().info("[LangManager] Total keys to validate: " + allKeys.size());
+        plugin.getLogger().info("[LangManager] - GeneralLangKey: " + com.febrie.rpg.util.lang.GeneralLangKey.values().length);
+        plugin.getLogger().info("[LangManager] - GuiLangKey: " + com.febrie.rpg.util.lang.GuiLangKey.values().length);
+        plugin.getLogger().info("[LangManager] - QuestCommonLangKey: " + com.febrie.rpg.util.lang.quest.QuestCommonLangKey.values().length);
+        plugin.getLogger().info("[LangManager] - ItemLangKey: " + com.febrie.rpg.util.lang.ItemLangKey.values().length);
+        plugin.getLogger().info("[LangManager] - MessageLangKey: " + com.febrie.rpg.util.lang.MessageLangKey.values().length);
+        plugin.getLogger().info("[LangManager] - SystemLangKey: " + com.febrie.rpg.util.lang.SystemLangKey.values().length);
 
         int missingCount = 0;
         List<String> missingKeys = new ArrayList<>();
+        Map<String, List<String>> missingByCategory = new HashMap<>();
 
-        for (LangKey key : LangKey.values()) {
+        for (ILangKey key : allKeys) {
             boolean found = false;
-            for (Locale locale : singles.keySet()) {
-                if (hasKey(key, locale)) {
+            String keyName = key.getKey();
+            
+            // Check in default locale (en_us)
+            Locale defaultLoc = parseLocale("en_us");
+            if (hasKey(key, defaultLoc)) {
+                found = true;
+            } else {
+                // Try to check with direct string lookup
+                Map<String, Component> singleMap = singles.get(defaultLoc);
+                Map<String, List<Component>> arrayMap = arrays.get(defaultLoc);
+                
+                if (singleMap != null && singleMap.containsKey(keyName)) {
                     found = true;
-                    break;
+                    plugin.getLogger().info("[LangManager] Key found via direct lookup: " + keyName);
+                } else if (arrayMap != null && arrayMap.containsKey(keyName)) {
+                    found = true;
+                    plugin.getLogger().info("[LangManager] Array key found via direct lookup: " + keyName);
                 }
             }
+            
             if (!found) {
-                String keyName = key.name() + " (" + key.getKey() + ")";
-                logWarning("Missing translation: " + keyName);
                 missingKeys.add(keyName);
                 missingCount++;
+                
+                // Categorize missing key
+                String category = keyName.split("\\.")[0];
+                missingByCategory.computeIfAbsent(category, k -> new ArrayList<>()).add(keyName);
             }
         }
 
         if (missingCount > 0) {
-            plugin.getLogger().warning("[LangManager] Found " + missingCount + " missing keys");
-            plugin.getLogger().warning("[LangManager] Missing keys: ");
-            for (String key : missingKeys) {
-                plugin.getLogger().warning("  - " + key);
+            plugin.getLogger().warning("[LangManager] ❌ Found " + missingCount + " missing keys!");
+            plugin.getLogger().warning("[LangManager] Missing keys by category:");
+            
+            for (Map.Entry<String, List<String>> entry : missingByCategory.entrySet()) {
+                plugin.getLogger().warning("[LangManager]   " + entry.getKey() + ": " + entry.getValue().size() + " missing");
+                for (String key : entry.getValue()) {
+                    plugin.getLogger().warning("[LangManager]   - " + key);
+                }
             }
         } else {
-            plugin.getLogger().info("[LangManager] All translation keys validated successfully!");
+            plugin.getLogger().info("[LangManager] ✅ All translation keys validated successfully!");
         }
+        
+        plugin.getLogger().info("[LangManager] ============================================");
     }
 
 

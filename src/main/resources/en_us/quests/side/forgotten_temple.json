@@ -2,12 +2,12 @@
   "name": "Temple of the Ancients",
   "info": "Explore the forgotten temple in the mountains.",
   "objectives": {
-    "temple_scholar": "Meet the temple scholar",
-    "temple_entrance": "Find the temple entrance",
-    "kill_zombies": "Clear 30 zombies",
-    "ancient_relic": "Find the ancient relic",
-    "temple_altar": "Reach the temple altar",
-    "temple_artifact": "Retrieve the temple artifact"
+    "talk_temple_scholar": "Talk to the temple scholar",
+    "visit_temple_ruins": "Visit the temple ruins",
+    "kill_zombies": "Kill 15 zombies",
+    "collect_temple_key": "Collect the temple key",
+    "visit_inner_sanctum": "Visit the inner sanctum",
+    "collect_sacred_relic": "Collect 2 sacred relics"
   },
   "dialogs": [
     "High in the mountains lies a forgotten temple.",

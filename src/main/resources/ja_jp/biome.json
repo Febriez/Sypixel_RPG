@@ -1,20 +1,53 @@
 {
-  "plains": "平原",
-  "forest": "森",
-  "desert": "砂漠",
-  "jungle": "ジャングル",
-  "taiga": "タイガ",
-  "snowy_plains": "雪原",
-  "savanna": "サバンナ",
-  "swamp": "沼地",
+  "plains": {
+    "name": "平原",
+    "description": "平坦な草原バイオーム"
+  },
+  "forest": {
+    "name": "森",
+    "description": "密集した森バイオーム"
+  },
+  "desert": {
+    "name": "砂漠",
+    "description": "砂の砂漠バイオーム"
+  },
+  "jungle": {
+    "name": "ジャングル",
+    "description": "熱帯ジャングルバイオーム"
+  },
+  "taiga": {
+    "name": "タイガ",
+    "description": "寒い森バイオーム"
+  },
+  "snowy_plains": {
+    "name": "雪原",
+    "description": "雪に覆われた平原"
+  },
+  "savanna": {
+    "name": "サバンナ",
+    "description": "乾燥した草原バイオーム"
+  },
+  "swamp": {
+    "name": "沼地",
+    "description": "湿った沼バイオーム"
+  },
   "mushroom_fields": "キノコ畑",
-  "beach": "ビーチ",
+  "beach": {
+    "name": "ビーチ",
+    "description": "砂のビーチバイオーム"
+  },
   "flower_forest": "花の森",
   "bamboo_jungle": "竹林",
   "dark_forest": "暗い森",
   "birch_forest": "白樺の森",
-  "badlands": "荒地",
-  "ocean": "海",
+  "badlands": {
+    "name": "荒地",
+    "description": "赤い砂の砂漠"
+  },
+  "ocean": {
+    "name": "海",
+    "description": "深い海バイオーム"
+  },
   "cherry_grove": "桜の森",
   "snowy_taiga": {
     "name": "雪のタイガ",

@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
@@ -17,7 +18,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -43,26 +43,26 @@ public class DailyCraftingQuest extends Quest {
         return new QuestBuilder()
                 .id(QuestID.DAILY_CRAFTING)
                 .objectives(List.of(
-                        new InteractNPCObjective("blacksmith", "daily_blacksmith", 1), // 대장장이
+                        new InteractNPCObjective("blacksmith", "daily_blacksmith"), // 대장장이
                         // 기본 도구 제작
-                        new CraftItemObjective("craft_wood_tools", Material.WOODEN_PICKAXE, 3),
-                        new CraftItemObjective("craft_stone_tools", Material.STONE_SWORD, 5),
-                        new CraftItemObjective("craft_iron_tools", Material.IRON_AXE, 2),
+                        new CraftItemObjective("wooden_pickaxe_craft", Material.WOODEN_PICKAXE, 3),
+                        new CraftItemObjective("stone_sword_craft", Material.STONE_SWORD, 5),
+                        new CraftItemObjective("iron_axe_craft", Material.IRON_AXE, 2),
                         // 방어구 제작
-                        new CraftItemObjective("craft_leather_armor", Material.LEATHER_CHESTPLATE, 3),
-                        new CraftItemObjective("craft_chainmail", Material.CHAINMAIL_HELMET, 1),
+                        new CraftItemObjective("leather_chestplate_craft", Material.LEATHER_CHESTPLATE, 3),
+                        new CraftItemObjective("chainmail_helmet_craft", Material.CHAINMAIL_HELMET, 1),
                         // 유용한 아이템 제작
-                        new CraftItemObjective("craft_furnace", Material.FURNACE, 5),
-                        new CraftItemObjective("craft_chest", Material.CHEST, 10),
-                        new CraftItemObjective("craft_torches", Material.TORCH, 64),
-                        new CraftItemObjective("craft_ladder", Material.LADDER, 20),
+                        new CraftItemObjective("furnace_craft", Material.FURNACE, 5),
+                        new CraftItemObjective("chest_craft", Material.CHEST, 10),
+                        new CraftItemObjective("torch_craft", Material.TORCH, 64),
+                        new CraftItemObjective("ladder_craft", Material.LADDER, 20),
                         // 음식 제작
-                        new CraftItemObjective("craft_bread", Material.BREAD, 20),
-                        new CraftItemObjective("craft_cookies", Material.COOKIE, 32),
+                        new CraftItemObjective("bread_craft", Material.BREAD, 20),
+                        new CraftItemObjective("cookie_craft", Material.COOKIE, 32),
                         // 전달
-                        new DeliverItemObjective("deliver_tools", "blacksmith", Material.IRON_AXE, 2),
-                        new DeliverItemObjective("deliver_armor", "blacksmith", Material.LEATHER_CHESTPLATE, 3),
-                        new InteractNPCObjective("report_complete", "daily_blacksmith", 1)
+                        new DeliverItemObjective("iron_axe_deliver", Material.IRON_AXE, 2, "blacksmith"),
+                        new DeliverItemObjective("leather_chestplate_deliver", Material.LEATHER_CHESTPLATE, 3, "blacksmith"),
+                        new InteractNPCObjective("report_complete", "daily_blacksmith")
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 600)
@@ -84,33 +84,33 @@ public class DailyCraftingQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_CRAFTING_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_DAILY_CRAFTING_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_DAILY_CRAFTING_INFO, who);
     }
 
         @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "blacksmith" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_BLACKSMITH, who);
-            case "craft_wood_tools" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_WOOD_TOOLS, who);
-            case "craft_stone_tools" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_STONE_TOOLS, who);
-            case "craft_iron_tools" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_IRON_TOOLS, who);
-            case "craft_leather_armor" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_LEATHER_ARMOR, who);
-            case "craft_chainmail" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_CHAINMAIL, who);
-            case "craft_furnace" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_FURNACE, who);
-            case "craft_chest" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_CHEST, who);
-            case "craft_torches" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_TORCHES, who);
-            case "craft_ladder" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_LADDER, who);
-            case "craft_bread" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_BREAD, who);
-            case "craft_cookies" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CRAFT_COOKIES, who);
-            case "deliver_tools" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_DELIVER_TOOLS, who);
-            case "deliver_armor" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_DELIVER_ARMOR, who);
-            case "report_complete" -> LangManager.list(LangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_REPORT_COMPLETE, who);
-            default -> new ArrayList<>();
+            case "blacksmith" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_BLACKSMITH, who);
+            case "wooden_pickaxe_craft" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_WOODEN_PICKAXE_CRAFT, who);
+            case "stone_sword_craft" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_STONE_SWORD_CRAFT, who);
+            case "iron_axe_craft" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_IRON_AXE_CRAFT, who);
+            case "leather_chestplate_craft" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_LEATHER_CHESTPLATE_CRAFT, who);
+            case "chainmail_helmet_craft" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CHAINMAIL_HELMET_CRAFT, who);
+            case "furnace_craft" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_FURNACE_CRAFT, who);
+            case "chest_craft" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_CHEST_CRAFT, who);
+            case "torch_craft" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_TORCH_CRAFT, who);
+            case "ladder_craft" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_LADDER_CRAFT, who);
+            case "bread_craft" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_BREAD_CRAFT, who);
+            case "cookie_craft" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_COOKIE_CRAFT, who);
+            case "iron_axe_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_IRON_AXE_DELIVER, who);
+            case "leather_chestplate_deliver" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_LEATHER_CHESTPLATE_DELIVER, who);
+            case "report_complete" -> LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_OBJECTIVES_REPORT_COMPLETE, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -121,7 +121,7 @@ public class DailyCraftingQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_DAILY_CRAFTING_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_DAILY_CRAFTING_DIALOGS, who);
     }
     
     @Override
@@ -131,16 +131,16 @@ public class DailyCraftingQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_CRAFTING_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_CRAFTING_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_DAILY_CRAFTING_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_DAILY_CRAFTING_DECLINE, who);
     }
 }

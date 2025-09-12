@@ -8,11 +8,14 @@
     "collect_iron": "Collect 32 iron ingots",
     "craft_tools": "Craft 3 iron pickaxes",
     "repair_items": "Repair 5 damaged items",
-    "enchant_items": "Enchant 3 items"
+    "enchant_items": "Enchant 3 items",
+    "iron_ingot_collect": "Iron Ingot Collect",
+    "iron_pickaxe_craft": "Iron Pickaxe Craft"
   },
   "dialogs": [
     "Many adventurers need their equipment upgraded. Can you help them?",
     "Each upgrade requires specific techniques and materials.",
     "Your upgrade skills are improving with each piece you work on."
-  ]
+  ],
+  "npc.name": "Equipment Upgrade Master"
 }

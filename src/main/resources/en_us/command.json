@@ -1,0 +1,12 @@
+{
+  "levelup": {
+    "success": "You leveled up!",
+    "target_success": "{0} has been leveled up!",
+    "error": "Failed to level up"
+  },
+  "no_permission": "You don't have permission to use this command",
+  "player_not_found": "Player not found",
+  "invalid_args": "Invalid arguments",
+  "success": "Command executed successfully",
+  "failed": "Command failed"
+}

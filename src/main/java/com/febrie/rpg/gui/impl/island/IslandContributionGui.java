@@ -107,8 +107,7 @@ public class IslandContributionGui extends BaseGui {
                 .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_INFO_ISLAND_NAME, getViewerLocale(), Component.text(island.core().islandName())))
                 .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_INFO_TOTAL, getViewerLocale(), Component.text(String.format("%,d", totalContribution))))
                 .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_INFO_CONTRIBUTORS, getViewerLocale(), Component.text(String.valueOf(sortedContributions.size()))))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_INFO_DESCRIPTION1, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_INFO_DESCRIPTION2, getViewerLocale()))
+                .addLore(LangManager.list(LangKey.GUI_ISLAND_CONTRIBUTION_INFO_DESCRIPTION, getViewerLocale()))
                 .hideAllFlags()
                 .build();
     }
@@ -192,8 +191,7 @@ public class IslandContributionGui extends BaseGui {
         return ItemBuilder.of(Material.EMERALD)
                 .displayName(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_ADD_TITLE, getViewerLocale()))
                 .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_ADD_CURRENT, getViewerLocale(), Component.text(String.format("%,d", currentContribution))))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_ADD_DESCRIPTION1, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_ADD_DESCRIPTION2, getViewerLocale()))
+                .addLore(LangManager.list(LangKey.GUI_ISLAND_CONTRIBUTION_ADD_DESCRIPTION, getViewerLocale()))
                 .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_ADD_CLICK, getViewerLocale()))
                 .hideAllFlags()
                 .build();

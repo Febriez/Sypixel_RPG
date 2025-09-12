@@ -19,5 +19,6 @@
   ],
   "npc_name": "High Paladin",
   "accept": "I am ready to swear the sacred oath!",
-  "decline": "I am not yet worthy of this honor."
+  "decline": "I am not yet worthy of this honor.",
+  "npc.name": "Paladin Oath Master"
 }

@@ -1,20 +1,53 @@
 {
-  "plains": "평원",
-  "forest": "숲",
-  "desert": "사막",
-  "jungle": "정글",
-  "taiga": "타이가",
-  "snowy_plains": "눈 덮인 평원",
-  "savanna": "사바나",
-  "swamp": "늪",
+  "plains": {
+    "name": "평원",
+    "description": "평평한 초원 생물군계"
+  },
+  "forest": {
+    "name": "숲",
+    "description": "울창한 숲 생물군계"
+  },
+  "desert": {
+    "name": "사막",
+    "description": "모래 사막 생물군계"
+  },
+  "jungle": {
+    "name": "정글",
+    "description": "열대 정글 생물군계"
+  },
+  "taiga": {
+    "name": "타이가",
+    "description": "추운 숲 생물군계"
+  },
+  "snowy_plains": {
+    "name": "눈 덮인 평원",
+    "description": "눈으로 덮인 평원"
+  },
+  "savanna": {
+    "name": "사바나",
+    "description": "건조한 초원 생물군계"
+  },
+  "swamp": {
+    "name": "늪",
+    "description": "습한 늪 생물군계"
+  },
   "mushroom_fields": "버섯 들판",
-  "beach": "해변",
+  "beach": {
+    "name": "해변",
+    "description": "모래 해변 생물군계"
+  },
   "flower_forest": "꽃 숲",
   "bamboo_jungle": "대나무 정글",
   "dark_forest": "어두운 숲",
   "birch_forest": "자작나무 숲",
-  "badlands": "악지",
-  "ocean": "바다",
+  "badlands": {
+    "name": "악지",
+    "description": "붉은 모래 사막"
+  },
+  "ocean": {
+    "name": "바다",
+    "description": "깊은 바다 생물군계"
+  },
   "cherry_grove": "벚꽃 숲",
   "snowy_taiga": {
     "name": "눈 덮인 타이가",

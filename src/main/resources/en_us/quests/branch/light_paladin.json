@@ -12,7 +12,11 @@
     "build_altar": "Build an altar of light",
     "defeat_darkness": "Defeat servants of darkness",
     "light_essence": "Gather 30 light essence",
-    "oath_completion": "Complete your sacred oath"
+    "oath_completion": "Complete your sacred oath",
+    "glowstone_dust_collect": "Glowstone Dust Collect",
+    "golden_sword_craft": "Golden Sword Craft",
+    "golden_sword_deliver": "Golden Sword Deliver",
+    "potion_collect": "Potion Collect"
   },
   "dialogs": [
     "You seek the path of righteousness and light.",

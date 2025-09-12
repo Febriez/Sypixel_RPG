@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
@@ -18,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,43 +44,43 @@ public class VoidInvasionQuest extends Quest {
                 .id(QuestID.MAIN_VOID_INVASION)
                 .objectives(List.of(
                         // 침공 경고
-                        new InteractNPCObjective("realm_guardian", "realm_guardian", 1),
+                        new InteractNPCObjective("realm_guardian", "realm_guardian"),
                         new VisitLocationObjective("invasion_site", "void_invasion_site"),
                         new KillMobObjective("void_scouts", EntityType.ENDERMAN, 30),
-                        new CollectItemObjective("invasion_intel", Material.WRITTEN_BOOK, 3),
+                        new CollectItemObjective("invasion_reports", Material.WRITTEN_BOOK, 3),
                         
                         // 방어 준비
-                        new InteractNPCObjective("defense_commander", "defense_commander", 1),
-                        new CollectItemObjective("defense_supplies", Material.IRON_BLOCK, 50),
+                        new InteractNPCObjective("defense_commander", "defense_commander"),
+                        new CollectItemObjective("defense_materials", Material.IRON_BLOCK, 50),
                         new PlaceBlockObjective("build_barricades", Material.IRON_BARS, 100),
-                        new CollectItemObjective("void_weapons", Material.NETHERITE_SWORD, 5),
+                        new CollectItemObjective("elite_weapons", Material.NETHERITE_SWORD, 5),
                         
                         // 첫 번째 파도
                         new KillMobObjective("void_soldiers", EntityType.ENDERMAN, 100),
                         new KillMobObjective("void_mages", EntityType.EVOKER, 30),
                         new SurviveObjective("first_wave", 600), // 10분
-                        new CollectItemObjective("void_cores", Material.ENDER_PEARL, 50),
+                        new CollectItemObjective("void_essence", Material.ENDER_PEARL, 50),
                         
                         // 두 번째 파도
                         new KillMobObjective("void_knights", EntityType.IRON_GOLEM, 40),
                         new KillMobObjective("void_beasts", EntityType.RAVAGER, 20),
                         new SurviveObjective("second_wave", 900), // 15분
-                        new CollectItemObjective("void_essence", Material.ENDER_EYE, 30),
+                        new CollectItemObjective("void_cores", Material.ENDER_EYE, 30),
                         
                         // 보스 전투
-                        new InteractNPCObjective("void_general", "void_general", 1),
+                        new InteractNPCObjective("void_general", "void_general"),
                         new KillMobObjective("void_general_battle", EntityType.WITHER, 3),
-                        new CollectItemObjective("general_crown", Material.WITHER_SKELETON_SKULL, 1),
+                        new CollectItemObjective("general_trophy", Material.WITHER_SKELETON_SKULL, 1),
                         
                         // 포탈 봉인
                         new VisitLocationObjective("void_portal", "void_portal_location"),
                         new PlaceBlockObjective("seal_portal", Material.BEDROCK, 20),
-                        new CollectItemObjective("sealing_stone", Material.NETHER_STAR, 3),
+                        new CollectItemObjective("collect_nether_star", Material.NETHER_STAR, 3),
                         new SurviveObjective("sealing_ritual", 300), // 5분
                         
                         // 승리
-                        new InteractNPCObjective("realm_guardian_victory", "realm_guardian", 1),
-                        new CollectItemObjective("victory_medal", Material.GOLDEN_APPLE, 1)
+                        new InteractNPCObjective("realm_guardian_victory", "realm_guardian"),
+                        new CollectItemObjective("collect_golden_apple", Material.GOLDEN_APPLE, 1)
                 ))
                 .reward(new BasicReward.Builder()
                         .addCurrency(CurrencyType.GOLD, 45000)
@@ -101,43 +101,43 @@ public class VoidInvasionQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_VOID_INVASION_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_NAME, who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_INFO, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_INFO, who);
     }
 
     @Override
-    public @NotNull List<Component> getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
+    public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "realm_guardian" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_REALM_GUARDIAN, who);
-            case "invasion_site" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_INVASION_SITE, who);
-            case "void_scouts" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_SCOUTS, who);
-            case "invasion_intel" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_INVASION_INTEL, who);
-            case "defense_commander" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_DEFENSE_COMMANDER, who);
-            case "defense_supplies" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_DEFENSE_SUPPLIES, who);
-            case "build_barricades" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_BUILD_BARRICADES, who);
-            case "void_weapons" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_WEAPONS, who);
-            case "void_soldiers" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_SOLDIERS, who);
-            case "void_mages" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_MAGES, who);
-            case "first_wave" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_FIRST_WAVE, who);
-            case "void_cores" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_CORES, who);
-            case "void_knights" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_KNIGHTS, who);
-            case "void_beasts" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_BEASTS, who);
-            case "second_wave" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_SECOND_WAVE, who);
-            case "void_essence" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_ESSENCE, who);
-            case "void_general" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_GENERAL, who);
-            case "void_general_battle" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_GENERAL_BATTLE, who);
-            case "general_crown" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_GENERAL_CROWN, who);
-            case "void_portal" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_PORTAL, who);
-            case "seal_portal" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_SEAL_PORTAL, who);
-            case "sealing_stone" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_SEALING_STONE, who);
-            case "sealing_ritual" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_SEALING_RITUAL, who);
-            case "realm_guardian_victory" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_REALM_GUARDIAN_VICTORY, who);
-            case "victory_medal" -> LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VICTORY_MEDAL, who);
-            default -> List.of(Component.text("Objective: " + objective.getId()));
+            case "realm_guardian" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_REALM_GUARDIAN, who);
+            case "invasion_site" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_INVASION_SITE, who);
+            case "void_scouts" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_SCOUTS, who);
+            case "invasion_reports" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_INVASION_REPORTS, who);
+            case "defense_commander" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_DEFENSE_COMMANDER, who);
+            case "defense_materials" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_DEFENSE_MATERIALS, who);
+            case "build_barricades" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_BUILD_BARRICADES, who);
+            case "elite_weapons" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_ELITE_WEAPONS, who);
+            case "void_soldiers" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_SOLDIERS, who);
+            case "void_mages" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_MAGES, who);
+            case "first_wave" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_FIRST_WAVE, who);
+            case "void_essence" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_ESSENCE, who);
+            case "void_knights" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_KNIGHTS, who);
+            case "void_beasts" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_BEASTS, who);
+            case "second_wave" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_SECOND_WAVE, who);
+            case "void_cores" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_CORES, who);
+            case "void_general" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_GENERAL, who);
+            case "void_general_battle" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_GENERAL_BATTLE, who);
+            case "general_trophy" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_GENERAL_TROPHY, who);
+            case "void_portal" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_VOID_PORTAL, who);
+            case "seal_portal" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_SEAL_PORTAL, who);
+            case "collect_nether_star" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_COLLECT_NETHER_STAR, who);
+            case "sealing_ritual" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_SEALING_RITUAL, who);
+            case "realm_guardian_victory" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_REALM_GUARDIAN_VICTORY, who);
+            case "collect_golden_apple" -> LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_OBJECTIVES_COLLECT_GOLDEN_APPLE, who);
+            default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
 
@@ -148,7 +148,7 @@ public class VoidInvasionQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LangKey.QUEST_MAIN_VOID_INVASION_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_DIALOGS, who);
     }
     
     @Override
@@ -158,16 +158,16 @@ public class VoidInvasionQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_VOID_INVASION_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_NPC_NAME, who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_VOID_INVASION_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_ACCEPT, who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LangKey.QUEST_MAIN_VOID_INVASION_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.QUEST_MAIN_VOID_INVASION_DECLINE, who);
     }
 }

@@ -442,7 +442,15 @@
     "previous_page_name": "[TRANSLATE: Previous Page]",
     "page_info_lore": "[TRANSLATE: Page {0} of {1}]",
     "next_page_lore": "[TRANSLATE: Click to go to the next page]",
-    "previous_page_lore": "[TRANSLATE: Click to go to the previous page]"
+    "previous_page_lore": "클릭하여 이전 페이지로 이동",
+    "next_page_name": "다음 페이지",
+    "previous_page_name": "이전 페이지",
+    "page_info_lore": "페이지 {0} / {1}",
+    "next_page_lore": "클릭하여 다음 페이지로 이동"
+  },
+  "friend_requests": {
+    "accept_desc": "친구 요청을 수락합니다",
+    "reject_desc": "친구 요청을 거절합니다"
   },
   "quest_reward": {
     "title": "퀘스트 보상",
@@ -1422,5 +1430,29 @@
     "choice_npc_content": "[TRANSLATE: {0}]",
     "choice_option": "[TRANSLATE: Option {0}]",
     "choice_click_to_select": "[TRANSLATE: Click to select this response]"
+  },
+  "quest_objectives": {
+    "title": "퀘스트 목표"
+  },
+  "quest_progress": {
+    "title": "퀘스트 진행도"
+  },
+  "quest_rewards": {
+    "title": "퀘스트 보상"
+  },
+  "page_info": "페이지 {0} / {1}",
+  "combat_power": {
+    "title": "전투력",
+    "total": "총 전투력: {0}",
+    "breakdown": "전투력 세부사항",
+    "from_level": "레벨로부터: {0}",
+    "from_stats": "스탯으로부터: {0}",
+    "level_contribution": "레벨 기여도",
+    "level_detail": "레벨 {0} = {1} 전투력",
+    "stat_contribution": "스탯 기여도",
+    "stat_detail": "{0}: {1} 전투력"
+  },
+  "all_quests": {
+    "title": "모든 퀘스트"
   }
 }
