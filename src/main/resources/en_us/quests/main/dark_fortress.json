@@ -1,7 +1,24 @@
 {
   "name": "Dark Fortress",
-  "info": "Information about Dark Fortress",
-  "npc_name": "Npc Name",
-  "accept": "Accept Quest",
-  "decline": "Decline Quest"
+  "info": "Infiltrate the ancient dark fortress and uncover its sinister secrets.",
+  "npc_name": "Shadow Keeper",
+  "accept": "I'm ready to face the darkness within the fortress.",
+  "decline": "The shadows are too dangerous for me right now.",
+  "objectives": {
+    "fortress_entrance": "Find the hidden entrance to the Dark Fortress",
+    "shadow_guards": "Defeat 15 shadow guards patrolling the fortress",
+    "dark_crystals": "Collect 5 dark crystals from the fortress chambers",
+    "fortress_key": "Obtain the master key from the fortress commander",
+    "inner_sanctum": "Reach the inner sanctum of the fortress",
+    "dark_lord": "Defeat the Dark Lord ruling the fortress"
+  },
+  "dialogs": [
+    "The Dark Fortress holds ancient power... and terrible danger.",
+    "Many brave souls have entered, but few have returned.",
+    "The shadows within test both courage and wisdom.",
+    "You're making progress through the fortress defenses.",
+    "The Dark Lord's power grows stronger as you approach.",
+    "You've conquered the darkness! The fortress is cleansed.",
+    "Your bravery has brought light to the shadowed halls."
+  ]
 }

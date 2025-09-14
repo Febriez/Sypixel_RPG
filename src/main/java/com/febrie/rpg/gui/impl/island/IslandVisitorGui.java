@@ -11,6 +11,7 @@ import com.febrie.rpg.util.UnifiedTimeUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -87,7 +88,7 @@ public class IslandVisitorGui extends BaseGui {
                 .addLore(LangManager.text(LangKey.GUI_ISLAND_VISITOR_ISLAND_NAME, viewer.locale(), island.core().islandName()))
                 .addLore(LangManager.text(LangKey.GUI_ISLAND_VISITOR_TOTAL_VISITORS, viewer.locale(), visitors.size()))
                 .addLore(LangManager.text(LangKey.GUI_ISLAND_VISITOR_PUBLIC_STATUS, viewer.locale(), 
-                        Component.translatable(island.core().isPublic() ? "status.public" : "status.private")))
+                        LangManager.text(island.core().isPublic() ? GeneralLangKey.STATUS_PUBLIC : GeneralLangKey.STATUS_PRIVATE)))
                 .addLore(LangManager.text(LangKey.ITEMS_ISLAND_VISITOR_INFO_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();

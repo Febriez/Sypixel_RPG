@@ -11,6 +11,7 @@ import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.util.TextUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -49,7 +50,7 @@ public class MailDetailGui extends BaseGui {
 
     private MailDetailGui(@NotNull GuiManager guiManager,
                         @NotNull Player player, @NotNull MailDTO mail) {
-        super(player, guiManager, GUI_SIZE, Component.translatable("gui.mail-detail.title"));
+        super(player, guiManager, GUI_SIZE, LangManager.text(GuiLangKey.GUI_MAIL_DETAIL_TITLE));
         this.mail = mail;
         this.mailManager = MailManager.getInstance();
     }

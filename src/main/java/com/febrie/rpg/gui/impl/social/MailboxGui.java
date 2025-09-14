@@ -11,6 +11,7 @@ import com.febrie.rpg.social.MailManager;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import net.wesjd.anvilgui.AnvilGUI;
 import net.kyori.adventure.text.Component;
@@ -52,7 +53,7 @@ public class MailboxGui extends BaseGui {
 
     private MailboxGui(@NotNull GuiManager guiManager,
                      @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, Component.translatable("gui.mailbox.title"));
+        super(player, guiManager, GUI_SIZE, LangManager.text(GuiLangKey.GUI_MAILBOX_TITLE));
         this.mailManager = MailManager.getInstance();
     }
 
@@ -73,7 +74,7 @@ public class MailboxGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("social.mailbox.title");
+        return LangManager.text(GuiLangKey.SOCIAL_MAILBOX_TITLE);
     }
 
     @Override

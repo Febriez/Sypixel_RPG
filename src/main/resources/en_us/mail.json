@@ -16,5 +16,13 @@
   "mail.box_full": "Box Full",
   "mail.not_found": "Not Found",
   "mail.no_attachments": "No Attachments",
-  "mail.inventory_full": "Inventory Full"
+  "mail.inventory_full": "Inventory Full",
+  "player-not-found": "Player not found.",
+  "cannot-send-to-self": "You cannot send mail to yourself.",
+  "attachments-not-supported": "Attachments are not currently supported.",
+  "recipient-mailbox-full": "The recipient's mailbox is full.",
+  "sent-successfully": "Mail sent successfully!",
+  "mailbox-full": "Your mailbox is full!",
+  "no-mail": "You have no mail.",
+  "mail-deleted": "Mail deleted successfully."
 }

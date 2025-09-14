@@ -323,6 +323,7 @@ public enum GuiLangKey implements ILangKey {
     GUI_MAILBOX_DELETE_ALL_CONFIRM("gui.mailbox.delete_all_confirm"),
     
     // Friend Requests GUI
+    GUI_FRIEND_REQUESTS_TITLE("gui.friend-requests.title"),
     GUI_FRIEND_REQUESTS_REQUEST_TIME("gui.friend_requests.request_time"),
     GUI_FRIEND_REQUESTS_ACCEPT_HOVER("gui.friend_requests.accept_hover"),
     GUI_FRIEND_REQUESTS_DENY_HOVER("gui.friend_requests.deny_hover"),
@@ -630,7 +631,30 @@ public enum GuiLangKey implements ILangKey {
     GUI_ISLAND_DELETE_CONFIRM_WARNING_LIST_ITEMS("gui.island.delete.confirm.warning.list.items"),
     GUI_JOB_CONFIRMATION_INFO_LINE("gui.job.confirmation.info.line"),
     ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_EXAMPLE("items.settings.system.settings.confirmation.example"),
-    ISLAND_GUI_MAIN_CREATE_ISLAND_FEATURE_("island.gui.main.create.island.feature.");
+    ISLAND_GUI_MAIN_CREATE_ISLAND_FEATURE_("island.gui.main.create.island.feature."),
+    
+    // Additional GUI keys for compilation fix
+    GUI_SOCIAL_SETTINGS_TITLE("gui.social-settings.title"),
+    GUI_SCROLL_UP("gui.scroll.up"),
+    GUI_SCROLL_CLICK_TO_SCROLL_UP("gui.scroll.click-to-scroll-up"),
+    GUI_SCROLL_AT_TOP("gui.scroll.at-top"),
+    GUI_SCROLL_DOWN("gui.scroll.down"),
+    GUI_SCROLL_CLICK_TO_SCROLL_DOWN("gui.scroll.click-to-scroll-down"),
+    GUI_SCROLL_AT_BOTTOM("gui.scroll.at-bottom"),
+    ISLAND_GUI_VISITOR_MENU_TITLE("island.gui.visitor.menu.title"),
+    ISLAND_GUI_VISITOR_LIVE_TITLE("island.gui.visitor.live.title"),
+    ISLAND_GUI_VISITOR_ACTION_TITLE("island.gui.visitor.action.title"),
+    ISLAND_GUI_CREATION_ISLAND_NAME_INPUT_ERROR("island.gui.creation.island-name-input-error"),
+    ISLAND_GUI_CREATION_HEX_INPUT_ERROR("island.gui.creation.hex-input-error"),
+    ISLAND_GUI_CREATION_HEX_INPUT_TITLE("island.gui.creation.hex-input-title"),
+    ISLAND_GUI_CREATION_CREATING_ISLAND("island.gui.creation.creating-island"),
+    ISLAND_GUI_CREATION_CREATION_COMPLETE_HEADER("island.gui.creation.creation-complete-header"),
+    ISLAND_GUI_CREATION_CREATION_COMPLETE_MESSAGE("island.gui.creation.creation-complete-message"),
+    ISLAND_GUI_CREATION_TELEPORTING_SOON("island.gui.creation.teleporting-soon"),
+    ISLAND_GUI_CREATION_CREATION_COMPLETE_FOOTER("island.gui.creation.creation-complete-footer"),
+    ISLAND_GUI_CREATION_CREATION_FAILED("island.gui.creation.creation-failed"),
+    ISLAND_GUI_CREATION_CREATION_ERROR("island.gui.creation.creation-error"),
+    SOCIAL_MAILBOX_TITLE("social.mailbox.title");
     
     private final String key;
     

@@ -5,6 +5,7 @@ import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementDisplay;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
@@ -58,7 +59,7 @@ public class ToastUtil {
         // 전체 진행률
         int percentage = progress.getCompletionPercentage();
         progressInfo.add("");
-        Component progressComp = Component.translatable("quest.total-progress");
+        Component progressComp = LangManager.text(QuestCommonLangKey.QUEST_TOTAL_PROGRESS);
         String progressText = extractPlainText(progressComp);
         progressInfo.add(String.format("%s: %d%%", progressText, percentage));
 
@@ -84,7 +85,7 @@ public class ToastUtil {
         String objectiveDesc = extractPlainText(objectiveDescComp);
 
         // Toast 표시 - 제목: 퀘스트 이름, 내용: 목표 완료 메시지
-        Component achievedComp = Component.translatable("quest.objective-achieved");
+        Component achievedComp = LangManager.text(QuestCommonLangKey.QUEST_OBJECTIVE_ACHIEVED);
         String achievedText = extractPlainText(achievedComp);
         AdvancementDisplay display = new AdvancementDisplay.Builder(Material.EMERALD, questName).description(objectiveDesc + achievedText)
                 .frame(AdvancementFrameType.TASK).defaultColor(toBungeeColor(NamedTextColor.GREEN)).build();
@@ -101,7 +102,7 @@ public class ToastUtil {
     public static void showQuestCompleteToast(@NotNull Player player, @NotNull Quest quest) {
         Component questNameComp = quest.getDisplayName(player);
         String questName = extractPlainText(questNameComp);
-        Component descComp = Component.translatable("quest.quest-completed-toast");
+        Component descComp = LangManager.text(QuestCommonLangKey.QUEST_COMPLETED_TOAST);
         String description = extractPlainText(descComp);
 
         // Toast 표시

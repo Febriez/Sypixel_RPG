@@ -741,5 +741,6 @@
   "QuestCommonLangKey: 2282": "Questcommonlangkey: 2282",
   "ItemLangKey: 465": "Itemlangkey: 465",
   "MessageLangKey: 272": "Messagelangkey: 272",
-  "SystemLangKey: 392": "Systemlangkey: 392"
+  "SystemLangKey: 392": "Systemlangkey: 392",
+  "no-permission": "You don't have permission to perform this action."
 }

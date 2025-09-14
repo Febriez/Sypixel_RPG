@@ -135,7 +135,20 @@
       "hex_input_error": "Hex Input Error",
       "left_click": "Left Click",
       "creation_error": "Creation Error",
-      "middle_click": "Middle Click"
+      "middle_click": "Middle Click",
+      "island-name-input-error": "Invalid island name! Please enter a valid name.",
+      "hex-input-error": "Invalid hex color! Please enter a valid hex color code.",
+      "island-name-input-text": "Enter your island name",
+      "island-name-input-title": "Island Name",
+      "biome-select-title": "Select Biome",
+      "template-select-title": "Select Template",
+      "color-input-text": "Enter hex color code",
+      "color-input-title": "Name Color",
+      "unknown-template": "Unknown Template",
+      "unknown-biome": "Unknown Biome",
+      "unknown-template-description": "Template information not available",
+      "unknown-biome-description": "Biome information not available",
+      "cancel-creation": "Cancel Creation"
     },
     "main": {
       "title": "Island Management",
@@ -278,6 +291,17 @@
     "creation_click_to_select": "Creation Click To Select",
     "create": {
       "title": "Title"
+    },
+    "visitor": {
+      "menu": {
+        "title": "Visitor Menu"
+      },
+      "live": {
+        "title": "Current Visitors"
+      },
+      "action": {
+        "title": "Visitor Actions"
+      }
     }
   },
   "error": {

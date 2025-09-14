@@ -7,6 +7,8 @@ import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.ToastUtil;
+import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
@@ -29,20 +31,20 @@ public final class QuestUtil {
      * 알림 타입
      */
     public enum NotificationType {
-        QUEST_START("", UnifiedColorUtil.GOLD, UnifiedColorUtil.RARE, "quest.started", SoundUtil::playOpenSound),
+        QUEST_START("", UnifiedColorUtil.GOLD, UnifiedColorUtil.RARE, QuestCommonLangKey.QUEST_STARTED, SoundUtil::playOpenSound),
         OBJECTIVE_COMPLETE("✓ ", UnifiedColorUtil.SUCCESS, null, null, SoundUtil::playSuccessSound),
-        QUEST_COMPLETE("🎉 ", UnifiedColorUtil.GOLD, UnifiedColorUtil.LEGENDARY, "quest.completed", SoundUtil::playCompleteQuestSound),
-        QUEST_CANCEL("❌ ", UnifiedColorUtil.ERROR, UnifiedColorUtil.COMMON, "quest.cancelled", SoundUtil::playCloseSound),
-        REWARD_CLAIMED("💰 ", UnifiedColorUtil.GOLD, UnifiedColorUtil.RARE, "quest.reward-claimed", SoundUtil::playItemPickupSound);
+        QUEST_COMPLETE("🎉 ", UnifiedColorUtil.GOLD, UnifiedColorUtil.LEGENDARY, QuestCommonLangKey.QUEST_COMPLETED, SoundUtil::playCompleteQuestSound),
+        QUEST_CANCEL("❌ ", UnifiedColorUtil.ERROR, UnifiedColorUtil.COMMON, QuestCommonLangKey.QUEST_CANCELLED, SoundUtil::playCloseSound),
+        REWARD_CLAIMED("💰 ", UnifiedColorUtil.GOLD, UnifiedColorUtil.RARE, QuestCommonLangKey.QUEST_REWARD_CLAIMED, SoundUtil::playItemPickupSound);
         
         final String prefix;
         final TextColor prefixColor;
         final TextColor questNameColor;
-        final String messageKey;
+        final QuestCommonLangKey messageKey;
         final SoundPlayer soundPlayer;
         
         NotificationType(String prefix, TextColor prefixColor, TextColor questNameColor, 
-                        String messageKey, SoundPlayer soundPlayer) {
+                        QuestCommonLangKey messageKey, SoundPlayer soundPlayer) {
             this.prefix = prefix;
             this.prefixColor = prefixColor;
             this.questNameColor = questNameColor;
@@ -93,7 +95,7 @@ public final class QuestUtil {
         
         // 추가 메시지 (보상 NPC 방문 안내)
         player.sendMessage(
-            Component.translatable("quest.reward-npc-visit").color(UnifiedColorUtil.INFO)
+            LangManager.text(QuestCommonLangKey.QUEST_REWARD_NPC_VISIT).color(UnifiedColorUtil.INFO)
         );
     }
     
@@ -133,7 +135,7 @@ public final class QuestUtil {
         // 추가 메시지 (messageKey가 있는 경우)
         if (type.messageKey != null) {
             message = message.append(
-                Component.translatable(type.messageKey).color(
+                LangManager.text(type.messageKey).color(
                     type == NotificationType.QUEST_CANCEL ? UnifiedColorUtil.ERROR : UnifiedColorUtil.SUCCESS
                 )
             );

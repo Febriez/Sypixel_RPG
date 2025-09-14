@@ -195,6 +195,14 @@ public enum MessageLangKey implements ILangKey {
     FRIEND_NOT_FRIENDS("friend.not_friends"),
     FRIEND_LIST_FULL("friend.list_full"),
     FRIEND_TARGET_LIST_FULL("friend.target_list_full"),
+    FRIEND_PLAYER_NOT_FOUND("friend.player-not-found"),
+    FRIEND_CANNOT_ADD_SELF("friend.cannot-add-self"),
+    FRIEND_ADDED_SUCCESSFULLY("friend.added-successfully"),
+    FRIEND_REQUEST_ERROR("friend.request-error"),
+    FRIEND_REMOVED_SUCCESSFULLY("friend.removed-successfully"),
+    FRIEND_REMOVED_NOTIFICATION("friend.removed-notification"),
+    FRIEND_REMOVE_ERROR("friend.remove-error"),
+    FRIEND_REQUESTS_NOT_SUPPORTED("friend.requests-not-supported"),
     
     // Mail Messages
     MAIL_SENT("mail.sent"),
@@ -206,6 +214,14 @@ public enum MessageLangKey implements ILangKey {
     MAIL_NOT_FOUND("mail.not_found"),
     MAIL_NO_ATTACHMENTS("mail.no_attachments"),
     MAIL_INVENTORY_FULL("mail.inventory_full"),
+    MAIL_PLAYER_NOT_FOUND("mail.player-not-found"),
+    MAIL_CANNOT_SEND_TO_SELF("mail.cannot-send-to-self"),
+    MAIL_ATTACHMENTS_NOT_SUPPORTED("mail.attachments-not-supported"),
+    MAIL_RECIPIENT_MAILBOX_FULL("mail.recipient-mailbox-full"),
+    MAIL_SENT_SUCCESSFULLY("mail.sent-successfully"),
+    MAIL_NEW_MAIL_NOTIFICATION("mail.new-mail-notification"),
+    MAIL_SEND_ERROR("mail.send-error"),
+    MAIL_NOT_RECIPIENT("mail.not-recipient"),
     
     // Teleport Messages
     TELEPORT_REQUEST_SENT("teleport.request_sent"),
@@ -279,6 +295,7 @@ public enum MessageLangKey implements ILangKey {
     WHISPER_MODE_FRIENDS("whisper.mode.friends"),
     WHISPER_MODE_GUILD("whisper.mode.guild"),
     WHISPER_MODE_OFF("whisper.mode.off"),
+    WHISPER_NO_REPLY_TARGET("whisper.no-reply-target"),
     
     // Island Messages
     ISLAND_CONTRIBUTE_AMOUNT_TOO_LOW("island.contribute.amount_too_low"),

@@ -5,7 +5,9 @@ import com.febrie.rpg.cache.UnifiedCacheManager;
 import com.febrie.rpg.database.service.impl.FriendshipFirestoreService;
 import com.febrie.rpg.dto.social.FriendRequestDTO;
 import com.febrie.rpg.dto.social.FriendshipDTO;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
+import com.febrie.rpg.util.lang.MessageLangKey;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.google.cloud.firestore.Firestore;
 import org.bukkit.Bukkit;
@@ -66,7 +68,7 @@ public class FriendManager {
         // 대상 플레이어 조회
         Player toPlayer = Bukkit.getPlayerExact(toPlayerName);
         if (toPlayer == null) {
-            from.sendMessage(Component.translatable("friend.player-not-found", Component.text(toPlayerName)).color(UnifiedColorUtil.ERROR));
+            from.sendMessage(LangManager.text(MessageLangKey.FRIEND_PLAYER_NOT_FOUND, from, toPlayerName).color(UnifiedColorUtil.ERROR));
             return CompletableFuture.completedFuture(false);
         }
 
@@ -75,14 +77,14 @@ public class FriendManager {
 
         // 자기 자신에게 친구 요청 방지
         if (fromId.equals(toId)) {
-            from.sendMessage(Component.translatable("friend.cannot-add-self").color(UnifiedColorUtil.ERROR));
+            from.sendMessage(LangManager.text(MessageLangKey.FRIEND_CANNOT_ADD_SELF).color(UnifiedColorUtil.ERROR));
             return CompletableFuture.completedFuture(false);
         }
 
         // 이미 친구인지 확인
         return areFriends(fromId, toId).thenCompose(alreadyFriends -> {
             if (alreadyFriends) {
-                from.sendMessage(Component.translatable("friend.already-friends", Component.text(toPlayerName)).color(UnifiedColorUtil.ERROR));
+                from.sendMessage(LangManager.text(MessageLangKey.FRIEND_ALREADY_FRIENDS, from, toPlayerName).color(UnifiedColorUtil.ERROR));
                 return CompletableFuture.completedFuture(false);
             }
 
@@ -96,16 +98,16 @@ public class FriendManager {
                 friendsCache.invalidate(toId);
 
                 // 알림
-                from.sendMessage(Component.translatable("friend.added-successfully", Component.text(toPlayerName)).color(UnifiedColorUtil.SUCCESS));
+                from.sendMessage(LangManager.text(MessageLangKey.FRIEND_ADDED_SUCCESSFULLY, from, toPlayerName).color(UnifiedColorUtil.SUCCESS));
                 if (toPlayer.isOnline()) {
-                    toPlayer.sendMessage(Component.translatable("friend.added-successfully", Component.text(from.getName())).color(UnifiedColorUtil.SUCCESS));
+                    toPlayer.sendMessage(LangManager.text(MessageLangKey.FRIEND_ADDED_SUCCESSFULLY, toPlayer, from.getName()).color(UnifiedColorUtil.SUCCESS));
                 }
 
                 LogUtil.info("친구 관계 생성: " + from.getName() + " <-> " + toPlayerName);
                 return true;
             }).exceptionally(ex -> {
                 LogUtil.warning("친구 요청 실패: " + ex.getMessage());
-                from.sendMessage(Component.translatable("friend.request-error").color(UnifiedColorUtil.ERROR));
+                from.sendMessage(LangManager.text(MessageLangKey.FRIEND_REQUEST_ERROR).color(UnifiedColorUtil.ERROR));
                 return false;
             });
         });
@@ -125,12 +127,12 @@ public class FriendManager {
                 friendsCache.invalidate(friendId);
 
                 // 알림
-                player.sendMessage(Component.translatable("friend.removed-successfully").color(UnifiedColorUtil.YELLOW));
+                player.sendMessage(LangManager.text(MessageLangKey.FRIEND_REMOVED_SUCCESSFULLY).color(UnifiedColorUtil.YELLOW));
                 
                 // 상대방이 온라인이면 알림
                 Player friend = Bukkit.getPlayer(friendId);
                 if (friend != null) {
-                    friend.sendMessage(Component.translatable("friend.removed-notification", Component.text(player.getName())).color(UnifiedColorUtil.YELLOW));
+                    friend.sendMessage(LangManager.text(MessageLangKey.FRIEND_REMOVED_NOTIFICATION, friend, player.getName()).color(UnifiedColorUtil.YELLOW));
                 }
 
                 LogUtil.info("친구 관계 해제: " + player.getName() + " <-> " + friendId);
@@ -138,7 +140,7 @@ public class FriendManager {
             })
             .exceptionally(ex -> {
                 LogUtil.warning("친구 삭제 실패: " + ex.getMessage());
-                player.sendMessage(Component.translatable("friend.remove-error").color(UnifiedColorUtil.ERROR));
+                player.sendMessage(LangManager.text(MessageLangKey.FRIEND_REMOVE_ERROR).color(UnifiedColorUtil.ERROR));
                 return false;
             });
     }
@@ -189,7 +191,7 @@ public class FriendManager {
      */
     @NotNull
     public CompletableFuture<Boolean> acceptFriendRequest(@NotNull Player player, @NotNull String requestId) {
-        player.sendMessage(Component.translatable("friend.requests-not-supported").color(UnifiedColorUtil.ERROR));
+        player.sendMessage(LangManager.text(MessageLangKey.FRIEND_REQUESTS_NOT_SUPPORTED).color(UnifiedColorUtil.ERROR));
         return CompletableFuture.completedFuture(false);
     }
     
@@ -198,7 +200,7 @@ public class FriendManager {
      */
     @NotNull
     public CompletableFuture<Boolean> rejectFriendRequest(@NotNull Player player, @NotNull String requestId) {
-        player.sendMessage(Component.translatable("friend.requests-not-supported").color(UnifiedColorUtil.ERROR));
+        player.sendMessage(LangManager.text(MessageLangKey.FRIEND_REQUESTS_NOT_SUPPORTED).color(UnifiedColorUtil.ERROR));
         return CompletableFuture.completedFuture(false);
     }
     

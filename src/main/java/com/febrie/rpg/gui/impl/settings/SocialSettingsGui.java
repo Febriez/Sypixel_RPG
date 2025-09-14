@@ -12,6 +12,7 @@ import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.lang.GuiLangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -38,7 +39,7 @@ public class SocialSettingsGui extends BaseGui {
 
     private SocialSettingsGui(@NotNull GuiManager guiManager,
                             @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, Component.translatable("gui.social-settings.title"));
+        super(player, guiManager, GUI_SIZE, LangManager.text(GuiLangKey.GUI_SOCIAL_SETTINGS_TITLE));
     }
 
     /**
@@ -56,7 +57,7 @@ public class SocialSettingsGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.social-settings.title");
+        return LangManager.text(GuiLangKey.GUI_SOCIAL_SETTINGS_TITLE);
     }
 
     @Override

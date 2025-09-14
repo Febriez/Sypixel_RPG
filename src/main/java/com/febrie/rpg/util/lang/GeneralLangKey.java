@@ -24,6 +24,8 @@ public enum GeneralLangKey implements ILangKey {
     
     // Error
     ERROR_PLAYER_DATA_NOT_FOUND("error.player_data_not_found"),
+    GENERAL_ERROR("general.error"),
+    GENERAL_NO_PERMISSION("general.no-permission"),
     
     // Settings
     SETTINGS_PERSONAL("settings.personal"),

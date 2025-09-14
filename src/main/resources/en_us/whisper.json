@@ -24,5 +24,6 @@
   "mode.all": "All",
   "mode.friends": "Friends",
   "mode.guild": "Guild",
-  "mode.off": "Off"
+  "mode.off": "Off",
+  "no-reply-target": "No one to reply to."
 }

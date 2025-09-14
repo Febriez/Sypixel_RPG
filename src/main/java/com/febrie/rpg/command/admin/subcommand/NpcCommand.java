@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * NPC 관리 명령어
@@ -237,14 +238,14 @@ public class NpcCommand extends BaseSubCommand {
     }
     
     @Override
-    public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String[] args) {
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, String @NotNull [] args) {
         if (args.length == 1) {
-            return List.of("quest", "reward", "objective").stream()
+            return Stream.of("quest", "reward", "objective")
                 .filter(cmd -> cmd.startsWith(args[0].toLowerCase()))
                 .collect(Collectors.toList());
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("settrait")) {
-                return List.of("quest", "shop", "dialog", "guide").stream()
+                return Stream.of("quest", "shop", "dialog", "guide")
                     .filter(type -> type.startsWith(args[1].toLowerCase()))
                     .collect(Collectors.toList());
             } else if (args[0].equalsIgnoreCase("reward")) {

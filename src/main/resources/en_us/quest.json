@@ -1083,5 +1083,18 @@
   "quest_completed_toast": "Quest Completed Toast",
   "quest.filter": "Filter Quests",
   "quest.season.valentine.love.objectives.potion_deliver": "Deliver Love Potion",
-  "season.valentine.love.objectives.potion_deliver": "Potion Deliver"
+  "season.valentine.love.objectives.potion_deliver": "Potion Deliver",
+  "cancelled": "Quest cancelled.",
+  "reward-claimed": "Quest reward claimed!",
+  "objective-achieved": "Objective achieved!",
+  "quest-completed-toast": "Quest completed!",
+  "category-label": "Category",
+  "quest-objectives": "Quest Objectives",
+  "sequential-note": "Complete objectives in order",
+  "quest-rewards": "Quest Rewards",
+  "dialog": {
+    "accept-default": "I'll do it!",
+    "decline-default": "Not right now."
+  },
+  "reward-npc-visit": "Visit {0}"
 }

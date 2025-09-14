@@ -24,5 +24,13 @@
   "friend.already_friends": "Already Friends",
   "friend.not_friends": "Not Friends",
   "friend.list_full": "List Full",
-  "friend.target_list_full": "Target List Full"
+  "friend.target_list_full": "Target List Full",
+  "player-not-found": "Player not found.",
+  "cannot-add-self": "You cannot add yourself as a friend.",
+  "added-successfully": "Friend added successfully!",
+  "request-error": "Error sending friend request.",
+  "removed-successfully": "Friend removed successfully.",
+  "not-in-list": "This player is not in your friend list.",
+  "accepted-request": "Friend request accepted!",
+  "declined-request": "Friend request declined."
 }

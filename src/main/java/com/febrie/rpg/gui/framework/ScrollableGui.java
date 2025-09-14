@@ -3,6 +3,7 @@ package com.febrie.rpg.gui.framework;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.ItemBuilder;
+import com.febrie.rpg.util.LangManager;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.kyori.adventure.text.Component;
+import com.febrie.rpg.util.lang.GuiLangKey;
 /**
  * Scrollable GUI implementation for large content lists
  * Provides automatic pagination with scroll controls
@@ -149,10 +151,10 @@ public abstract class ScrollableGui extends BaseGui {
 
         return GuiItem.clickable(
                 ItemBuilder.of(material)
-                        .displayName(Component.translatable("gui.scroll.up"))
+                        .displayName(LangManager.text(GuiLangKey.GUI_SCROLL_UP))
                         .addLore(canScrollUp ?
-                                Component.translatable("gui.scroll.click-to-scroll-up") :
-                                Component.translatable("gui.scroll.at-top"))
+                                LangManager.text(GuiLangKey.GUI_SCROLL_CLICK_TO_SCROLL_UP) :
+                                LangManager.text(GuiLangKey.GUI_SCROLL_AT_TOP))
                         .build(),
                 player -> {
                     if (canScrollUp) {
@@ -174,10 +176,10 @@ public abstract class ScrollableGui extends BaseGui {
 
         return GuiItem.clickable(
                 ItemBuilder.of(material)
-                        .displayName(Component.translatable("gui.scroll.down"))
+                        .displayName(LangManager.text(GuiLangKey.GUI_SCROLL_DOWN))
                         .addLore(canScrollDown ?
-                                Component.translatable("gui.scroll.click-to-scroll-down") :
-                                Component.translatable("gui.scroll.at-bottom"))
+                                LangManager.text(GuiLangKey.GUI_SCROLL_CLICK_TO_SCROLL_DOWN) :
+                                LangManager.text(GuiLangKey.GUI_SCROLL_AT_BOTTOM))
                         .build(),
                 player -> {
                     if (canScrollDown) {

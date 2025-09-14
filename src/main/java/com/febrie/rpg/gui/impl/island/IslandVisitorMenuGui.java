@@ -11,6 +11,7 @@ import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.lang.GuiLangKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -44,7 +45,7 @@ public class IslandVisitorMenuGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("island.gui.visitor.menu.title", Component.text(island.core().islandName()));
+        return LangManager.text(GuiLangKey.ISLAND_GUI_VISITOR_MENU_TITLE, viewer, island.core().islandName());
     }
     
     @Override

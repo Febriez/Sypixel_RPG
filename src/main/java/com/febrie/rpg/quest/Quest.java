@@ -8,6 +8,7 @@ import com.febrie.rpg.quest.reward.QuestReward;
 import com.febrie.rpg.quest.reward.RewardDeliveryType;
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -168,7 +169,7 @@ public abstract class Quest {
      */
     public @NotNull List<Component> getGoalDescription(@NotNull Player who) {
         List<Component> goals = new ArrayList<>();
-        goals.add(Component.translatable("quest.goals"));
+        goals.add(LangManager.text(QuestCommonLangKey.QUEST_GOALS));
         
         for (QuestObjective objective : objectives) {
             Component bullet = Component.text("• ", UnifiedColorUtil.WHITE);
@@ -186,7 +187,7 @@ public abstract class Quest {
      */
     public @NotNull List<Component> getRewardDescription(@NotNull Player who) {
         List<Component> rewards = new ArrayList<>();
-        rewards.add(Component.translatable("quest.rewards"));
+        rewards.add(LangManager.text(QuestCommonLangKey.QUEST_REWARDS));
         
         // 보상 정보는 QuestReward의 getDisplayInfo를 사용
         Component rewardInfo = getRewardDisplayInfo(who);
@@ -244,16 +245,16 @@ public abstract class Quest {
         }
 
         page1 = page1.append(Component.newline())
-                .append(Component.translatable("quest.category-label").color(UnifiedColorUtil.YELLOW))
+                .append(LangManager.text(QuestCommonLangKey.QUEST_CATEGORY_LABEL).color(UnifiedColorUtil.YELLOW))
                 .append(getCategoryName(player).color(UnifiedColorUtil.WHITE))
                 .append(Component.newline())
-                .append(Component.translatable("quest.level-requirement").color(UnifiedColorUtil.YELLOW))
+                .append(LangManager.text(QuestCommonLangKey.QUEST_LEVEL_REQUIREMENT).color(UnifiedColorUtil.YELLOW))
                 .append(Component.text(minLevel + (maxLevel > 0 ? "-" + maxLevel : "+"), UnifiedColorUtil.WHITE));
 
         pages.add(page1);
 
         // 두 번째 페이지 - 목표
-        Component page2 = Component.translatable("quest.quest-objectives").color(UnifiedColorUtil.GOLD).decoration(TextDecoration.BOLD, true)
+        Component page2 = LangManager.text(QuestCommonLangKey.QUEST_QUEST_OBJECTIVES).color(UnifiedColorUtil.GOLD).decoration(TextDecoration.BOLD, true)
                 .append(Component.newline()).append(Component.newline());
 
         int index = 1;
@@ -267,13 +268,13 @@ public abstract class Quest {
 
         if (sequential) {
             page2 = page2.append(Component.newline())
-                    .append(Component.translatable("quest.sequential-note").color(UnifiedColorUtil.RED));
+                    .append(LangManager.text(QuestCommonLangKey.QUEST_SEQUENTIAL_NOTE).color(UnifiedColorUtil.RED));
         }
 
         pages.add(page2);
 
         // 세 번째 페이지 - 보상
-        Component page3 = Component.translatable("quest.quest-rewards").color(UnifiedColorUtil.EMERALD).decoration(TextDecoration.BOLD, true)
+        Component page3 = LangManager.text(QuestCommonLangKey.QUEST_QUEST_REWARDS).color(UnifiedColorUtil.EMERALD).decoration(TextDecoration.BOLD, true)
                 .append(Component.newline()).append(Component.newline());
 
         // 보상 정보 표시
@@ -306,7 +307,26 @@ public abstract class Quest {
      * 카테고리 이름 가져오기
      */
     public @NotNull Component getCategoryName(@NotNull Player who) {
-        return Component.translatable("quest.categories." + category.name().toLowerCase());
+        // Map category to appropriate LangKey
+        QuestCommonLangKey categoryKey = switch (category) {
+            case MAIN -> QuestCommonLangKey.QUEST_CATEGORY_MAIN;
+            case SIDE -> QuestCommonLangKey.QUEST_CATEGORY_SIDE;
+            case DAILY -> QuestCommonLangKey.QUEST_CATEGORY_DAILY;
+            case WEEKLY -> QuestCommonLangKey.QUEST_CATEGORY_WEEKLY;
+            case EVENT -> QuestCommonLangKey.QUEST_CATEGORY_EVENT;
+            case GUILD -> QuestCommonLangKey.QUEST_CATEGORY_GUILD;
+            case SEASONAL -> QuestCommonLangKey.QUEST_CATEGORY_SEASONAL;
+            case SPECIAL -> QuestCommonLangKey.QUEST_CATEGORY_SPECIAL;
+            case TUTORIAL -> QuestCommonLangKey.QUEST_CATEGORY_TUTORIAL;
+            case REPEATABLE -> QuestCommonLangKey.QUEST_CATEGORY_REPEATABLE;
+            case COMBAT -> QuestCommonLangKey.QUEST_CATEGORY_COMBAT;
+            case EXPLORATION -> QuestCommonLangKey.QUEST_CATEGORY_EXPLORATION;
+            case CRAFTING -> QuestCommonLangKey.QUEST_CATEGORY_CRAFTING;
+            case LIFE -> QuestCommonLangKey.QUEST_CATEGORY_LIFE;
+            case ADVANCEMENT -> QuestCommonLangKey.QUEST_CATEGORY_ADVANCEMENT;
+            case BRANCH -> QuestCommonLangKey.QUEST_CATEGORY_BRANCH;
+        };
+        return LangManager.text(categoryKey);
     }
 
     
@@ -363,7 +383,7 @@ public abstract class Quest {
      */
     @NotNull
     public Component getAcceptDialog(@NotNull Player player) {
-        return Component.translatable("quest.dialog.accept-default");
+        return LangManager.text(QuestCommonLangKey.QUEST_DIALOG_ACCEPT_DEFAULT);
     }
     
     /**
@@ -373,7 +393,7 @@ public abstract class Quest {
      */
     @NotNull
     public Component getDeclineDialog(@NotNull Player player) {
-        return Component.translatable("quest.dialog.decline-default");
+        return LangManager.text(QuestCommonLangKey.QUEST_DIALOG_DECLINE_DEFAULT);
     }
 
     /**

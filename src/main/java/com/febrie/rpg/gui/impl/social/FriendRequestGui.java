@@ -11,6 +11,7 @@ import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.lang.GuiLangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
@@ -43,7 +44,7 @@ public class FriendRequestGui extends BaseGui {
     private final FriendManager friendManager;
 
     private FriendRequestGui(@NotNull GuiManager guiManager, @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, Component.translatable("gui.friend-requests.title"));
+        super(player, guiManager, GUI_SIZE, LangManager.text(GuiLangKey.GUI_FRIEND_REQUESTS_TITLE));
         this.friendManager = FriendManager.getInstance();
     }
 
@@ -63,7 +64,7 @@ public class FriendRequestGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("gui.friend-requests.title");
+        return LangManager.text(GuiLangKey.GUI_FRIEND_REQUESTS_TITLE);
     }
 
     @Override

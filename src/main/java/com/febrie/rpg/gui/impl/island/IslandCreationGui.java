@@ -11,6 +11,8 @@ import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.lang.ILangKey;
+import com.febrie.rpg.util.lang.GuiLangKey;
+import com.febrie.rpg.util.lang.MessageLangKey;
 import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -185,13 +187,13 @@ public class IslandCreationGui extends BaseGui {
                                 } else {
                                     return List.of(AnvilGUI.ResponseAction.replaceInputText(
                                             PlainTextComponentSerializer.plainText()
-                                                    .serialize(Component.translatable("island.gui.creation.island-name-input-error"))));
+                                                    .serialize(LangManager.text(GuiLangKey.ISLAND_GUI_CREATION_ISLAND_NAME_INPUT_ERROR))));
                                 }
                             })
                             .text(islandName)
                             .itemLeft(new org.bukkit.inventory.ItemStack(Material.NAME_TAG))
                             .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
-                                    .serialize(Component.translatable("island.gui.creation.island-name-input-title")))
+                                    .serialize(LangManager.text(MessageLangKey.ISLAND_GUI_CREATION_ISLAND_NAME_INPUT_TITLE)))
                             .plugin(RPGMain.getInstance())
                             .open(player);
                 }
@@ -262,13 +264,13 @@ public class IslandCreationGui extends BaseGui {
                             } else {
                                 return List.of(AnvilGUI.ResponseAction.replaceInputText(
                                         PlainTextComponentSerializer.plainText()
-                                                .serialize(Component.translatable("island.gui.creation.hex-input-error"))));
+                                                .serialize(LangManager.text(GuiLangKey.ISLAND_GUI_CREATION_HEX_INPUT_ERROR))));
                             }
                         })
                         .text(islandColorHex)
                         .itemLeft(new org.bukkit.inventory.ItemStack(Material.PAPER))
                         .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
-                                .serialize(Component.translatable("island.gui.creation.hex-input-title")))
+                                .serialize(LangManager.text(GuiLangKey.ISLAND_GUI_CREATION_HEX_INPUT_TITLE)))
                         .plugin(RPGMain.getInstance())
                         .open(player);
             }
@@ -370,22 +372,22 @@ public class IslandCreationGui extends BaseGui {
      */
     private void createIsland(@NotNull Player player) {
         player.closeInventory();
-        player.sendMessage(Component.translatable("island.gui.creation.creating-island").color(NamedTextColor.YELLOW));
+        player.sendMessage(LangManager.text(GuiLangKey.ISLAND_GUI_CREATION_CREATING_ISLAND).color(NamedTextColor.YELLOW));
 
         // 비동기로 섬 생성
         islandManager.createIsland(player, islandName, islandColorHex, selectedBiome, selectedTemplate)
                 .thenAccept(success -> {
                     if (success) {
                         player.sendMessage(Component.text(""));
-                        player.sendMessage(Component.translatable("island.gui.creation.creation-complete-header").color(NamedTextColor.GREEN));
+                        player.sendMessage(LangManager.text(GuiLangKey.ISLAND_GUI_CREATION_CREATION_COMPLETE_HEADER).color(NamedTextColor.GREEN));
                         player.sendMessage(Component.text(""));
                         player.sendMessage(Component.text("✦ ", NamedTextColor.GREEN)
                                 .append(Component.text(islandName, UnifiedColorUtil.parseHexColor(islandColorHex))
                                         .decoration(TextDecoration.BOLD, true))
-                                .append(Component.translatable("island.gui.creation.creation-complete-message").color(NamedTextColor.GREEN)));
+                                .append(LangManager.text(GuiLangKey.ISLAND_GUI_CREATION_CREATION_COMPLETE_MESSAGE).color(NamedTextColor.GREEN)));
                         player.sendMessage(Component.text(""));
-                        player.sendMessage(Component.translatable("island.gui.creation.teleporting-soon").color(NamedTextColor.YELLOW));
-                        player.sendMessage(Component.translatable("island.gui.creation.creation-complete-footer").color(NamedTextColor.GREEN));
+                        player.sendMessage(LangManager.text(GuiLangKey.ISLAND_GUI_CREATION_TELEPORTING_SOON).color(NamedTextColor.YELLOW));
+                        player.sendMessage(LangManager.text(GuiLangKey.ISLAND_GUI_CREATION_CREATION_COMPLETE_FOOTER).color(NamedTextColor.GREEN));
 
                         // 섬으로 텔레포트 - 메인 스레드에서 실행
                         org.bukkit.Bukkit.getScheduler().runTaskLater(RPGMain.getInstance(), () -> {
@@ -399,11 +401,11 @@ public class IslandCreationGui extends BaseGui {
                             });
                         }, 20L); // 1초 후 실행
                     } else {
-                        player.sendMessage(Component.translatable("island.gui.creation.creation-failed").color(NamedTextColor.RED));
+                        player.sendMessage(LangManager.text(GuiLangKey.ISLAND_GUI_CREATION_CREATION_FAILED).color(NamedTextColor.RED));
                     }
                 })
                 .exceptionally(ex -> {
-                    player.sendMessage(Component.translatable("island.gui.creation.creation-error").color(NamedTextColor.RED)
+                    player.sendMessage(LangManager.text(GuiLangKey.ISLAND_GUI_CREATION_CREATION_ERROR).color(NamedTextColor.RED)
                             .append(Component.text(ex.getMessage(), NamedTextColor.RED)));
                     return null;
                 });
@@ -446,7 +448,7 @@ public class IslandCreationGui extends BaseGui {
      */
     private String getBiomeName(String biome) {
         return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                Component.translatable("island.gui.creation.biomes." + biome.toLowerCase()));
+                LangManager.text("island.gui.creation.biomes." + biome.toLowerCase()));
     }
 
     /**
@@ -467,7 +469,7 @@ public class IslandCreationGui extends BaseGui {
      */
     private String getTemplateName(String template) {
         return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                Component.translatable("island.gui.creation.templates." + template.toLowerCase() + ".name"));
+                LangManager.text("island.gui.creation.templates." + template.toLowerCase() + ".name"));
     }
 
     /**
@@ -475,7 +477,7 @@ public class IslandCreationGui extends BaseGui {
      */
     private String getTemplateDescription(String template) {
         return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                Component.translatable("island.gui.creation.templates." + template.toLowerCase() + ".desc"));
+                LangManager.text("island.gui.creation.templates." + template.toLowerCase() + ".desc"));
     }
 
     @Override
@@ -499,7 +501,7 @@ public class IslandCreationGui extends BaseGui {
             default -> "custom";
         };
         return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                Component.translatable("island.gui.creation.colors." + colorKey));
+                LangManager.text("island.gui.creation.colors." + colorKey));
     }
     
     /**

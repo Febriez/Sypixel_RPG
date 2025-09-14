@@ -1,7 +1,24 @@
 {
   "name": "Shadow Cult",
-  "info": "Information about Shadow Cult",
-  "npc_name": "Npc Name",
-  "accept": "Accept Quest",
-  "decline": "Decline Quest"
+  "info": "Infiltrate and dismantle the mysterious Shadow Cult terrorizing the region.",
+  "npc_name": "Light Bringer",
+  "accept": "I will expose the Shadow Cult's dark secrets.",
+  "decline": "The Shadow Cult is too dangerous to confront.",
+  "objectives": {
+    "cult_members": "Identify 10 Shadow Cult members in the city",
+    "shadow_marks": "Find 5 shadow marks left by the cult",
+    "cult_documents": "Steal classified cult documents",
+    "shadow_assassins": "Defeat 8 shadow assassins",
+    "cult_meeting": "Infiltrate the secret cult meeting",
+    "shadow_master": "Unmask and defeat the Shadow Master"
+  },
+  "dialogs": [
+    "The Shadow Cult operates in secrecy, spreading fear.",
+    "Their influence grows stronger each passing day.",
+    "You're getting closer to uncovering their plans.",
+    "The cult members grow nervous - they know you're hunting them.",
+    "Their shadow network begins to crumble.",
+    "The Shadow Cult is no more! Light returns to the land.",
+    "Your courage has freed countless souls from their grasp."
+  ]
 }

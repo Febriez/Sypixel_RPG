@@ -13,6 +13,7 @@ import com.febrie.rpg.util.UnifiedTimeUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.lang.GuiLangKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -66,7 +67,7 @@ public class IslandVisitorLiveGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("island.gui.visitor.live.title", Component.text(island.core().islandName()));
+        return LangManager.text(GuiLangKey.ISLAND_GUI_VISITOR_LIVE_TITLE, viewer, island.core().islandName());
     }
     
     @Override

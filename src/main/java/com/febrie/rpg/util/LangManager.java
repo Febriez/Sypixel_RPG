@@ -40,6 +40,38 @@ public class LangManager {
     }
 
     // ===== Public API Methods =====
+    
+    // Legacy support for dynamic string keys (used for dynamic content like biomes, templates, colors)
+    // These methods should only be used when dynamic key generation is necessary
+    @NotNull
+    public static Component text(@NotNull String key) {
+        return textInternal(key, defaultLocale);
+    }
+    
+    @NotNull
+    public static Component text(@NotNull String key, @NotNull Player player) {
+        return textInternal(key, player.locale());
+    }
+    
+    @NotNull
+    public static Component text(@NotNull String key, @NotNull Locale locale) {
+        return textInternal(key, locale);
+    }
+    
+    @NotNull
+    public static List<Component> list(@NotNull String key) {
+        return listInternal(key, defaultLocale);
+    }
+    
+    @NotNull
+    public static List<Component> list(@NotNull String key, @NotNull Player player) {
+        return listInternal(key, player.locale());
+    }
+    
+    @NotNull
+    public static List<Component> list(@NotNull String key, @NotNull Locale locale) {
+        return listInternal(key, locale);
+    }
 
     // Support for ILangKey interface
     @NotNull
@@ -351,9 +383,7 @@ public class LangManager {
                 int addedSingle = singleMap.size() - beforeSingle;
                 int addedArray = arrayMap.size() - beforeArray;
                 
-                if (addedSingle > 0 || addedArray > 0) {
-                    plugin.getLogger().info("[LangManager] ✅ " + fileName + ": " + addedSingle + " singles, " + addedArray + " arrays (prefix: " + prefix + ")");
-                } else {
+                if (addedSingle == 0 && addedArray == 0) {
                     plugin.getLogger().warning("[LangManager] ⚠️ " + fileName + ": No keys loaded! Check JSON structure.");
                 }
             }

@@ -2,6 +2,8 @@ package com.febrie.rpg.social;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.social.WhisperMessageDTO;
+import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.lang.MessageLangKey;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -56,7 +58,7 @@ public class WhisperManager {
     @NotNull
     public CompletableFuture<Boolean> sendWhisper(@NotNull Player from, @NotNull String toPlayerName, @NotNull String message) {
         Bukkit.getScheduler().runTask(plugin, () -> {
-            from.sendMessage(Component.translatable("whisper.disabled").color(UnifiedColorUtil.ERROR));
+            from.sendMessage(LangManager.text(MessageLangKey.WHISPER_DISABLED).color(UnifiedColorUtil.ERROR));
         });
         return CompletableFuture.completedFuture(false);
     }
@@ -70,7 +72,7 @@ public class WhisperManager {
 
         if (lastTarget == null) {
             Bukkit.getScheduler().runTask(plugin, () -> {
-                from.sendMessage(Component.translatable("whisper.no-reply-target").color(UnifiedColorUtil.ERROR));
+                from.sendMessage(LangManager.text(MessageLangKey.WHISPER_NO_REPLY_TARGET).color(UnifiedColorUtil.ERROR));
             });
             return CompletableFuture.completedFuture(false);
         }

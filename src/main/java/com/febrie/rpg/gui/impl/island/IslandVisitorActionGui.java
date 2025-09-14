@@ -10,6 +10,7 @@ import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.UnifiedColorUtil;
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.util.UnifiedTimeUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
@@ -54,7 +55,7 @@ public class IslandVisitorActionGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("island.gui.visitor.action.title", Component.text(visitor.getPlayerName()));
+        return LangManager.text(GuiLangKey.ISLAND_GUI_VISITOR_ACTION_TITLE, viewer, visitor.getPlayerName());
     }
     
     @Override

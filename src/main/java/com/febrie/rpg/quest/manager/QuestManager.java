@@ -18,7 +18,9 @@ import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.quest.service.QuestProgressService;
 import com.febrie.rpg.quest.task.LocationCheckTask;
 import com.febrie.rpg.quest.util.QuestUtil;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -1237,7 +1239,7 @@ public class QuestManager {
      */
     private void notifyObjectiveProgress(@NotNull Player player, @NotNull Quest quest,
                                         @NotNull QuestObjective objective, @NotNull ObjectiveProgress progress) {
-        Component progressMsg = Component.translatable("quest.progress");
+        Component progressMsg = LangManager.text(QuestCommonLangKey.QUEST_PROGRESS);
         
         Component objectiveDesc = quest.getObjectiveDescription(objective, player);
         Component message = progressMsg.color(UnifiedColorUtil.INFO)

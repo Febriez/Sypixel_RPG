@@ -3215,5 +3215,19 @@
   "mailbox.send.mail.guide": "Guide",
   "island.delete.confirm.final.confirm.warning": "Warning",
   "island.delete.confirm.warning.list.items": "Items",
-  "job.confirmation.info.line": "Line"
+  "job.confirmation.info.line": "Line",
+  "friend-requests": {
+    "title": "Friend Requests"
+  },
+  "social-settings": {
+    "title": "Social Settings"
+  },
+  "scroll": {
+    "up": "Scroll Up",
+    "click-to-scroll-up": "Click to scroll up",
+    "at-top": "Already at top",
+    "down": "Scroll Down",
+    "click-to-scroll-down": "Click to scroll down",
+    "at-bottom": "Already at bottom"
+  }
 }

@@ -4,7 +4,9 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.cache.UnifiedCacheManager;
 import com.febrie.rpg.database.service.impl.MailFirestoreService;
 import com.febrie.rpg.dto.social.MailDTO;
+import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.LogUtil;
+import com.febrie.rpg.util.lang.MessageLangKey;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.google.cloud.firestore.Firestore;
 import com.google.gson.Gson;
@@ -83,7 +85,7 @@ public class MailManager {
         // 대상 플레이어 조회
         OfflinePlayer toPlayer = Bukkit.getOfflinePlayer(toPlayerName);
         if (!toPlayer.hasPlayedBefore() && !toPlayer.isOnline()) {
-            from.sendMessage(Component.translatable("mail.player-not-found", Component.text(toPlayerName)).color(UnifiedColorUtil.ERROR));
+            from.sendMessage(LangManager.text(MessageLangKey.MAIL_PLAYER_NOT_FOUND, from, toPlayerName).color(UnifiedColorUtil.ERROR));
             return CompletableFuture.completedFuture(false);
         }
 
@@ -92,20 +94,20 @@ public class MailManager {
 
         // 자기 자신에게 우편 보내기 방지
         if (fromId.equals(toId)) {
-            from.sendMessage(Component.translatable("mail.cannot-send-to-self").color(UnifiedColorUtil.ERROR));
+            from.sendMessage(LangManager.text(MessageLangKey.MAIL_CANNOT_SEND_TO_SELF).color(UnifiedColorUtil.ERROR));
             return CompletableFuture.completedFuture(false);
         }
 
         // 첨부물 기능은 현재 미지원
         if (!attachments.isEmpty()) {
-            from.sendMessage(Component.translatable("mail.attachments-not-supported").color(UnifiedColorUtil.ERROR));
+            from.sendMessage(LangManager.text(MessageLangKey.MAIL_ATTACHMENTS_NOT_SUPPORTED).color(UnifiedColorUtil.ERROR));
             return CompletableFuture.completedFuture(false);
         }
 
         // 받는 사람의 우편함이 가득 찼는지 확인
         return getMailCount(toId).thenCompose(mailCount -> {
             if (mailCount >= MAX_MAIL_PER_PLAYER) {
-                from.sendMessage(Component.translatable("mail.recipient-mailbox-full", Component.text(toPlayerName)).color(UnifiedColorUtil.ERROR));
+                from.sendMessage(LangManager.text(MessageLangKey.MAIL_RECIPIENT_MAILBOX_FULL, from, toPlayerName).color(UnifiedColorUtil.ERROR));
                 return CompletableFuture.completedFuture(false);
             }
 
@@ -126,18 +128,18 @@ public class MailManager {
                 mailCache.invalidate(toId);
 
                 // 알림
-                from.sendMessage(Component.translatable("mail.sent-successfully").color(UnifiedColorUtil.SUCCESS));
+                from.sendMessage(LangManager.text(MessageLangKey.MAIL_SENT_SUCCESSFULLY).color(UnifiedColorUtil.SUCCESS));
                 
                 Player onlineReceiver = Bukkit.getPlayer(toId);
                 if (onlineReceiver != null) {
-                    onlineReceiver.sendMessage(Component.translatable("mail.new-mail-notification").color(UnifiedColorUtil.YELLOW));
+                    onlineReceiver.sendMessage(LangManager.text(MessageLangKey.MAIL_NEW_MAIL_NOTIFICATION).color(UnifiedColorUtil.YELLOW));
                 }
 
                 LogUtil.info("우편 전송: " + from.getName() + " → " + toPlayerName + " [" + subject + "]");
                 return true;
             }).exceptionally(ex -> {
                 LogUtil.warning("우편 전송 실패: " + ex.getMessage());
-                from.sendMessage(Component.translatable("mail.send-error").color(UnifiedColorUtil.ERROR));
+                from.sendMessage(LangManager.text(MessageLangKey.MAIL_SEND_ERROR).color(UnifiedColorUtil.ERROR));
                 return false;
             });
         });
@@ -206,18 +208,18 @@ public class MailManager {
     public CompletableFuture<Boolean> collectAttachments(@NotNull Player player, @NotNull String mailId) {
         return mailService.getMail(mailId).thenCompose(mail -> {
             if (mail == null) {
-                player.sendMessage(Component.translatable("mail.not-found").color(UnifiedColorUtil.ERROR));
+                player.sendMessage(LangManager.text(MessageLangKey.MAIL_NOT_FOUND).color(UnifiedColorUtil.ERROR));
                 return CompletableFuture.completedFuture(false);
             }
 
             // 권한 확인
             if (!mail.receiverUuid().equals(player.getUniqueId())) {
-                player.sendMessage(Component.translatable("mail.not-recipient").color(UnifiedColorUtil.ERROR));
+                player.sendMessage(LangManager.text(MessageLangKey.MAIL_NOT_RECIPIENT).color(UnifiedColorUtil.ERROR));
                 return CompletableFuture.completedFuture(false);
             }
 
             // 현재 첨부물 기능 미지원
-            player.sendMessage(Component.translatable("mail.attachments-not-supported").color(UnifiedColorUtil.ERROR));
+            player.sendMessage(LangManager.text(MessageLangKey.MAIL_ATTACHMENTS_NOT_SUPPORTED).color(UnifiedColorUtil.ERROR));
             return CompletableFuture.completedFuture(false);
         });
     }
