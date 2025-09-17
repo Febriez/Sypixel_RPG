@@ -1,10 +1,16 @@
 {
-  "created": "[KO] Created",
-  "deleted": "[KO] Deleted",
-  "updated": "[KO] Updated",
-  "moved": "[KO] Moved",
   "npc_name": "Npc Name",
   "npc_title": "Npc Title",
   "quest_marker": "Quest Marker",
-  "shop_marker": "Shop Marker"
+  "shop_marker": "Shop Marker",
+  "created": "Created",
+  "deleted": "Deleted",
+  "updated": "Updated",
+  "moved": "Moved",
+  "hologram": {
+    "npc_name": "Npc Name",
+    "npc_title": "Npc Title",
+    "quest_marker": "퀘스트 Marker",
+    "shop_marker": "Shop Marker"
+  }
 }

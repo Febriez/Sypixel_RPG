@@ -1,236 +1,264 @@
 {
-  "categories": {
-    "warrior": "ウォリアー",
-    "mage": "メイジ",
-    "archer": "アーチャー",
-    "warrior_full": {
+  "selected": "%sクラスを選択しました！",
+  "already_has": "すでにこのクラスです！",
+  "level_up": "ジョブレベルが%dに上がりました！",
+  "max_level": "最大ジョブレベルに達しました！",
+  "requirement_not_met": "このジョブの要件を満たしていません！",
+  "skill_learned": "スキルを習得しました: %s",
+  "skill_upgraded": "スキルがアップグレードされました: %s (レベル %d)",
+  "skill_max_level": "このスキルはすでに最大レベルです！",
+  "not_enough_skill_points": "スキルポイントが不足しています！",
+  "job": {
+    "warrior": {
       "name": "ウォリアー",
       "description": [
-        "強力な近接戦闘能力を持つ職業群です。",
-        "高い体力と防御力で前線を守ります。"
+        "近接戦闘に特化した強力な戦士です。",
+        "力と耐久力で戦場を支配します。"
       ]
     },
-    "mage_full": {
+    "mage": {
       "name": "メイジ",
       "description": [
-        "神秘的な魔法の力を操る職業群です。",
-        "強力な呪文で戦場を支配します。"
+        "神秘的な魔法の力を操る魔法使いです。",
+        "元素を操り遠距離から敵を殲滅します。"
       ]
     },
-    "archer_full": {
+    "archer": {
       "name": "アーチャー",
       "description": [
-        "遠距離から正確な攻撃を行う職業群です。",
-        "素早い機動力と高いクリティカル率が特徴です。"
+        "優れた射程を持つ精密な射手です。",
+        "スピードと精度でクリティカルヒットを与えます。"
       ]
+    },
+    "rogue": {
+      "name": "ローグ",
+      "description": [
+        "影から襲いかかるステルスアサシンです。",
+        "素早く壊滅的な攻撃を専門とします。"
+      ]
+    },
+    "berserker": {
+      "name": "バーサーカー",
+      "description": [
+        "強力な攻撃力を誇る近接ディーラーです。",
+        "体力が低いほど強くなります。",
+        "",
+        "▸ 筋力重視のステータス成長",
+        "▸ バーサーク系スキル使用可能",
+        "▸ 体力ベースの攻撃力増加"
+      ]
+    },
+    "bruiser": {
+      "name": "ブルーザー",
+      "description": [
+        "攻撃と防御のバランスを保った戦士です。",
+        "様々な状況に対応できます。",
+        "",
+        "▸ バランスの取れたステータス成長",
+        "▸ 攻撃/防御モード切り替え",
+        "▸ 適応力の高い戦闘スタイル"
+      ]
+    },
+    "tank": {
+      "name": "タンク",
+      "description": [
+        "味方を守る頑丈な盾です。",
+        "高い防御力と体力を誇ります。",
+        "",
+        "▸ 生命力重視のステータス成長",
+        "▸ 挑発とシールドスキル",
+        "▸ ダメージ軽減効果"
+      ]
+    },
+    "priest": {
+      "name": "プリースト",
+      "description": [
+        "神聖な力で味方を癒します。",
+        "強力なバフと回復能力を持ちます。",
+        "",
+        "▸ 知恵重視のステータス成長",
+        "▸ 回復と復活スキル",
+        "▸ バフ/デバフ特化"
+      ]
+    },
+    "dark_mage": {
+      "name": "ダークメイジ",
+      "description": [
+        "闇の力を操る魔法使いです。",
+        "強力な範囲ダメージを与えます。",
+        "",
+        "▸ 知能重視のステータス成長",
+        "▸ 呪いと闇魔法スキル",
+        "▸ 範囲ダメージ特化"
+      ]
+    },
+    "mercy": {
+      "name": "マーシー",
+      "description": [
+        "自然の力で味方を守ります。",
+        "回復と保護を専門とします。",
+        "",
+        "▸ 知恵/生命力バランス成長",
+        "▸ 再生と浄化スキル",
+        "▸ 持続回復特化"
+      ]
+    },
+    "sniper": {
+      "name": "スナイパー",
+      "description": [
+        "極限の距離から敵を狙撃します。",
+        "一撃一撃が極めて強力です。",
+        "",
+        "▸ 敏捷/幸運バランス成長",
+        "▸ 狙撃と貫通スキル",
+        "▸ 単体バーストダメージ"
+      ]
+    },
+    "shotgunner": {
+      "name": "ショットガンナー",
+      "description": [
+        "近距離で散弾を発射します。",
+        "範囲ダメージとノックバックが特徴です。",
+        "",
+        "▸ 敏捷/筋力バランス成長",
+        "▸ 散弾と爆発スキル",
+        "▸ 近距離範囲ダメージ"
+      ]
+    },
+    "assassin": {
+      "name": "アサシン",
+      "description": [
+        "素早くターゲットを排除するサイレントキラーです。",
+        "ステルスとクリティカルストライクの達人です。"
+      ]
+    },
+    "paladin": {
+      "name": "パラディン",
+      "description": [
+        "信仰と武術を組み合わせた聖騎士です。",
+        "神聖な力で敵を討ちながら味方を守ります。"
+      ]
+    },
+    "summoner": {
+      "name": "サマナー",
+      "description": [
+        "戦うクリーチャーを召喚する達人です。",
+        "戦場で複数の存在を操ります。"
+      ]
+    },
+    "necromancer": {
+      "name": "ネクロマンサー",
+      "description": [
+        "死とアンデッドの軍勢の司令官です。",
+        "倒れた敵を蘇らせて自分の意志に従わせます。"
+      ]
+    },
+    "druid": {
+      "name": "ドルイド",
+      "description": [
+        "変身能力を持つ自然の守護者です。",
+        "野生の力を利用します。"
+      ]
+    },
+    "ranger": {
+      "name": "レンジャー",
+      "description": [
+        "ビーストマスターで荒野のエキスパートです。",
+        "動物の仲間と共に戦います。"
+      ]
+    },
+    "warlock": {
+      "name": "ウォーロック",
+      "description": [
+        "禁じられた知識を持つ闇魔法使いです。",
+        "悪魔の力を使って破壊的な効果をもたらします。"
+      ]
+    },
+    "categories": {
+      "warrior": "ウォリアー",
+      "mage": "メイジ",
+      "archer": "アーチャー"
     }
+  },
+  "categories": {
+    "warrior": "戦士",
+    "mage": "魔法使い",
+    "archer": "弓使い"
+  },
+  "warrior": {
+    "name": "戦士",
+    "description": "warriorの説明"
+  },
+  "mage": {
+    "name": "魔法使い",
+    "description": "mageの説明"
+  },
+  "archer": {
+    "name": "弓使い",
+    "description": "archerの説明"
+  },
+  "rogue": {
+    "name": "ローグ",
+    "description": "rogueの説明"
   },
   "berserker": {
     "name": "バーサーカー",
-    "description": [
-      "強力な攻撃力を誇る近接ディーラーです。",
-      "体力が低いほど強くなります。",
-      "",
-      "▸ 筋力重視のステータス成長",
-      "▸ バーサーク系スキル使用可能",
-      "▸ 体力ベースの攻撃力増加"
-    ]
+    "description": "berserkerの説明"
   },
   "bruiser": {
     "name": "ブルーザー",
-    "description": [
-      "攻撃と防御のバランスを保った戦士です。",
-      "様々な状況に対応できます。",
-      "",
-      "▸ バランスの取れたステータス成長",
-      "▸ 攻撃/防御モード切り替え",
-      "▸ 適応力の高い戦闘スタイル"
-    ]
+    "description": "bruiserの説明"
   },
   "tank": {
     "name": "タンク",
-    "description": [
-      "仲間を守る頼もしい盾です。",
-      "高い防御力と体力を誇ります。",
-      "",
-      "▸ 体力重視のステータス成長",
-      "▸ 挑発と防御スキル",
-      "▸ ダメージ軽減効果"
-    ]
+    "description": "tankの説明"
   },
   "priest": {
     "name": "プリースト",
-    "description": [
-      "神聖な力で仲間を癒します。",
-      "強力なバフと回復能力を持ちます。",
-      "",
-      "▸ 知恵重視のステータス成長",
-      "▸ 治癒と蘇生スキル",
-      "▸ バフ/デバフ特化"
-    ]
+    "description": "priestの説明"
   },
   "dark_mage": {
     "name": "ダークメイジ",
-    "description": [
-      "闇の力を操る魔法使いです。",
-      "強力な範囲ダメージを与えます。",
-      "",
-      "▸ 知力重視のステータス成長",
-      "▸ 呪いと黒魔法スキル",
-      "▸ 範囲ダメージ特化"
-    ]
+    "description": "dark_mageの説明"
   },
   "mercy": {
     "name": "マーシー",
-    "description": [
-      "自然の力で仲間を守ります。",
-      "治癒と保護に特化しています。",
-      "",
-      "▸ 知恵/体力バランス成長",
-      "▸ 再生と浄化スキル",
-      "▸ 持続治癒特化"
-    ]
-  },
-  "archer": {
-    "name": "アーチャー",
-    "description": [
-      "遠距離から正確な射撃を行います。",
-      "高い機動力とクリティカル率を誇ります。",
-      "",
-      "▸ 敏捷重視のステータス成長",
-      "▸ 様々な矢スキル",
-      "▸ クリティカル特化"
-    ]
+    "description": "mercyの説明"
   },
   "sniper": {
     "name": "スナイパー",
-    "description": [
-      "極限の射程から敵を狙撃します。",
-      "一発の威力が非常に強力です。",
-      "",
-      "▸ 敏捷/運バランス成長",
-      "▸ 狙撃と貫通スキル",
-      "▸ 単体対象極大ダメージ"
-    ]
+    "description": "sniperの説明"
   },
   "shotgunner": {
     "name": "ショットガンナー",
-    "description": [
-      "近距離で散弾を発射します。",
-      "範囲ダメージとノックバックが特徴です。",
-      "",
-      "▸ 敏捷/筋力バランス成長",
-      "▸ 散弾と爆発スキル",
-      "▸ 近距離範囲ダメージ"
-    ]
+    "description": "shotgunnerの説明"
   },
-  "changed": "職業が{0}に変更されました",
-  "already_has": "すでにこの職業を持っています",
-  "level_up": "ジョブレベルアップ！現在レベル{0}",
-  "max_level": "ジョブが最大レベルです",
-  "skill_learned": "新しいスキル習得: {0}",
-  "skill_upgraded": "スキルアップグレード: {0}",
-  "not_enough_points": "スキルポイントが不足しています",
-  "requirement_not_met": "要件を満たしていません",
-  "warrior": "ウォリアー",
-  "mage": "メイジ",
-  "rogue": "ローグ",
-  "assassin": "アサシン",
-  "summoner": "サモナー",
-  "necromancer": "ネクロマンサー",
-  "druid": "ドルイド",
-  "ranger": "レンジャー",
-  "warlock": "ウォーロック",
-  "paladin": "パラディン",
-  "selected": "職業選択: {0}",
-  "select": "職業選択",
-  "none": "職業なし",
-  "advancement": {
-    "warrior": "ウォリアー昇進",
-    "archer": "アーチャー昇進",
-    "mage": "メイジ昇進",
-    "rogue": "ローグ昇進",
-    "priest": "プリースト昇進",
-    "berserker": "バーサーカー昇進",
-    "assassin": "アサシン昇進",
-    "summoner": "サモナー昇進",
-    "necromancer": "ネクロマンサー昇進",
-    "druid": "ドルイド昇進",
-    "ranger": "レンジャー昇進",
-    "warlock": "ウォーロック昇進",
-    "paladin": "パラディン昇進"
+  "assassin": {
+    "name": "アサシン",
+    "description": "assassinの説明"
   },
-  "mastery": {
-    "sword": "剣マスタリー",
-    "bow": "弓マスタリー",
-    "magic": "魔法マスタリー",
-    "stealth": "隠密マスタリー",
-    "healing": "治癒マスタリー",
-    "rage": "怒りマスタリー",
-    "shadow": "影マスタリー",
-    "summoning": "召喚マスタリー",
-    "necromancy": "ネクロマンシーマスタリー",
-    "nature": "自然マスタリー",
-    "beast": "野獣マスタリー",
-    "dark": "闇マスタリー",
-    "holy": "神聖マスタリー"
+  "paladin": {
+    "name": "パラディン",
+    "description": "paladinの説明"
   },
-  "job": {
-    "skill_max_level": "[JA] Skill Max Level",
-    "not_enough_skill_points": "[JA] Not Enough Skill Points",
-    "archer": {
-      "desc": "説明"
-    },
-    "priest": {
-      "desc": "説明"
-    },
-    "berserker": {
-      "desc": "説明"
-    },
-    "warrior": {
-      "desc": "Desc"
-    },
-    "mage": {
-      "desc": "Desc"
-    },
-    "rogue": {
-      "desc": "Desc"
-    },
-    "paladin": {
-      "desc": "Desc"
-    },
-    "assassin": {
-      "desc": "Desc"
-    },
-    "summoner": {
-      "desc": "Desc"
-    },
-    "necromancer": {
-      "desc": "Desc"
-    },
-    "druid": {
-      "desc": "Desc"
-    },
-    "ranger": {
-      "desc": "Desc"
-    },
-    "warlock": {
-      "desc": "Desc"
-    }
+  "summoner": {
+    "name": "サモナー",
+    "description": "summonerの説明"
   },
-  "skill_max_level": "[JA] Skill Max Level",
-  "not_enough_skill_points": "[JA] Not Enough Skill Points",
-  "warrior.desc": "[JA] Description text",
-  "archer.desc": "[JA] Description text",
-  "mage.desc": "[JA] Description text",
-  "rogue.desc": "[JA] Description text",
-  "priest.desc": "[JA] Description text",
-  "paladin.desc": "[JA] Description text",
-  "assassin.desc": "[JA] Description text",
-  "berserker.desc": "[JA] Description text",
-  "summoner.desc": "[JA] Description text",
-  "necromancer.desc": "[JA] Description text",
-  "druid.desc": "[JA] Description text",
-  "ranger.desc": "[JA] Description text",
-  "warlock.desc": "[JA] Description text"
+  "necromancer": {
+    "name": "ネクロマンサー",
+    "description": "necromancerの説明"
+  },
+  "druid": {
+    "name": "ドルイド",
+    "description": "druidの説明"
+  },
+  "ranger": {
+    "name": "レンジャー",
+    "description": "rangerの説明"
+  },
+  "warlock": {
+    "name": "ウォーロック",
+    "description": "warlockの説明"
+  }
 }

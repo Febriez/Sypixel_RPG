@@ -15,8 +15,6 @@
   "exp_gained": "+{0} Experience",
   "gold_gained": "+{0} Gold",
   "item_received": "Item received: {0}",
-  "quest_completed": "Quest completed: {0}",
-  "quest_failed": "Quest failed: {0}",
   "skill_on_cooldown": "Skill is on cooldown! ({0} seconds)",
   "not_enough_mana": "Not enough mana!",
   "target_not_found": "Target not found!",
@@ -91,13 +89,11 @@
       "guild": "Guild",
       "off": "Off"
     },
-    "player_not_found": "Player Not Found",
     "player_offline": "Player Offline",
     "received": "Received",
     "sent": "Sent"
   },
   "mail": {
-    "player_not_found": "Player not found: {0}",
     "cannot_send_to_self": "You cannot send mail to yourself.",
     "attachments_not_supported": "Attachments are not currently supported.",
     "recipient_mailbox_full": "{0}'s mailbox is full.",
@@ -111,7 +107,6 @@
     "delete_confirm_word": "DELETE"
   },
   "friend": {
-    "player_not_found": "Player not found: {0}",
     "cannot_add_self": "You cannot send a friend request to yourself.",
     "already_friends": "You are already friends with {0}.",
     "added_successfully": "You are now friends with {0}!",
@@ -144,6 +139,8 @@
   },
   "error": {
     "hub_world_not_found": "Hub world not found! Please contact an administrator.",
-    "friend_request_id_missing": "Friend request ID is missing!"
+    "friend_request_id_missing": "Friend request ID is missing!",
+    "friend_request_not_found": "Friend request not found!",
+    "friend_already_exists": "Already friends with this player!"
   }
 }

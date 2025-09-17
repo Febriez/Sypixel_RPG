@@ -11,9 +11,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.lang.quest.side.FishermanTaleLangKey;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -68,24 +66,24 @@ public class FishermanTaleQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(FishermanTaleLangKey.QUEST_SIDE_FISHERMAN_TALE_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.fisherman.tale.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(FishermanTaleLangKey.QUEST_SIDE_FISHERMAN_TALE_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.fisherman.tale.info"), who);
     }
 
         @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_old_fisherman" -> LangManager.text(FishermanTaleLangKey.QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_TALK_OLD_FISHERMAN, who);
-            case "visit_fishing_dock" -> LangManager.text(FishermanTaleLangKey.QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_VISIT_FISHING_DOCK, who);
-            case "salmon_collect" -> LangManager.text(FishermanTaleLangKey.QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_SALMON_COLLECT, who);
-            case "kill_drowned" -> LangManager.text(FishermanTaleLangKey.QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_KILL_DROWNED, who);
-            case "visit_deep_waters" -> LangManager.text(FishermanTaleLangKey.QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_VISIT_DEEP_WATERS, who);
-            case "prismarine_shard_collect" -> LangManager.text(FishermanTaleLangKey.QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_PRISMARINE_SHARD_COLLECT, who);
-            case "return_old_fisherman" -> LangManager.text(FishermanTaleLangKey.QUEST_SIDE_FISHERMAN_TALE_OBJECTIVES_RETURN_OLD_FISHERMAN, who);
+            case "talk_old_fisherman" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.fisherman.tale.objectives.talk.old.fisherman"), who);
+            case "visit_fishing_dock" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.fisherman.tale.objectives.visit.fishing.dock"), who);
+            case "salmon_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.fisherman.tale.objectives.salmon.collect"), who);
+            case "kill_drowned" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.fisherman.tale.objectives.kill.drowned"), who);
+            case "visit_deep_waters" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.fisherman.tale.objectives.visit.deep.waters"), who);
+            case "prismarine_shard_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.fisherman.tale.objectives.prismarine.shard.collect"), who);
+            case "return_old_fisherman" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.fisherman.tale.objectives.return.old.fisherman"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -97,7 +95,7 @@ public class FishermanTaleQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(FishermanTaleLangKey.QUEST_SIDE_FISHERMAN_TALE_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.fisherman.tale.dialogs"), who);
     }
     
     @Override
@@ -107,16 +105,16 @@ public class FishermanTaleQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(FishermanTaleLangKey.QUEST_SIDE_FISHERMAN_TALE_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.fisherman.tale.npc.name"), who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(FishermanTaleLangKey.QUEST_SIDE_FISHERMAN_TALE_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.fisherman.tale.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(FishermanTaleLangKey.QUEST_SIDE_FISHERMAN_TALE_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.fisherman.tale.decline"), who);
     }
 }

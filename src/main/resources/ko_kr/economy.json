@@ -1,8 +1,16 @@
 {
-  "money_added": "[KO] Money Added",
-  "money_removed": "[KO] Money Removed",
-  "not_enough_money": "[KO] Not Enough Money",
-  "payment_sent": "[KO] Payment Sent",
-  "payment_received": "[KO] Payment Received",
-  "balance": "[KO] Balance"
+  "money_added": "Money 추가ed",
+  "money_removed": "Money 제거d",
+  "not_enough_money": "아니오t Enough Money",
+  "payment_sent": "Payment Sent",
+  "payment_received": "Payment Received",
+  "balance": "Balance",
+  "economy": {
+    "money_added": "Money 추가ed",
+    "money_removed": "Money 제거d",
+    "not_enough_money": "아니오t Enough Money",
+    "payment_sent": "Payment Sent",
+    "payment_received": "Payment Received",
+    "balance": "Balance"
+  }
 }

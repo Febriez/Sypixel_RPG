@@ -9,8 +9,6 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.AncientRuinsLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -66,25 +64,25 @@ public class AncientRuinsQuest extends Quest {
     
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(AncientRuinsLangKey.QUEST_SIDE_ANCIENT_RUINS_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.ancient_ruins"), who);
     }
     
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(AncientRuinsLangKey.QUEST_SIDE_ANCIENT_RUINS_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.ancient_ruins"), who);
     }
     
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "archaeologist" -> LangManager.text(AncientRuinsLangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_ARCHAEOLOGIST, who);
-            case "ruined_entrance" -> LangManager.text(AncientRuinsLangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_RUINED_ENTRANCE, who);
-            case "kill_spiders" -> LangManager.text(AncientRuinsLangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_KILL_SPIDERS, who);
-            case "stone_bricks_collect" -> LangManager.text(AncientRuinsLangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_STONE_BRICKS_COLLECT, who);
-            case "inner_chamber" -> LangManager.text(AncientRuinsLangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_INNER_CHAMBER, who);
-            case "stone_collect" -> LangManager.text(AncientRuinsLangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_STONE_COLLECT, who);
-            case "kill_silverfish" -> LangManager.text(AncientRuinsLangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_KILL_SILVERFISH, who);
-            case "archaeologist_complete" -> LangManager.text(AncientRuinsLangKey.QUEST_SIDE_ANCIENT_RUINS_OBJECTIVES_ARCHAEOLOGIST_COMPLETE, who);
+            case "archaeologist" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.ancient_ruins"), who);
+            case "ruined_entrance" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.ancient_ruins"), who);
+            case "kill_spiders" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.ancient_ruins"), who);
+            case "stone_bricks_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.ancient_ruins"), who);
+            case "inner_chamber" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.ancient_ruins"), who);
+            case "stone_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.ancient_ruins"), who);
+            case "kill_silverfish" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.ancient_ruins"), who);
+            case "archaeologist_complete" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.ancient_ruins"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -96,7 +94,7 @@ public class AncientRuinsQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(AncientRuinsLangKey.QUEST_SIDE_ANCIENT_RUINS_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.ancient_ruins"), who);
     }
     
     @Override
@@ -106,16 +104,16 @@ public class AncientRuinsQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(AncientRuinsLangKey.QUEST_SIDE_ANCIENT_RUINS_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.ancient_ruins"), who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(AncientRuinsLangKey.QUEST_SIDE_ANCIENT_RUINS_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.ancient_ruins"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(AncientRuinsLangKey.QUEST_SIDE_ANCIENT_RUINS_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.ancient_ruins"), who);
     }
 }

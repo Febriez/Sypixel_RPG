@@ -1,5 +1,7 @@
 package com.febrie.rpg.util.lang;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
+
 public enum GuiLangKey implements ILangKey {
     // Common GUI
     GUI_COMMON_BACK("gui.common.back"),
@@ -530,6 +532,7 @@ public enum GuiLangKey implements ILangKey {
     GUI_QUEST_LIST_PROGRESS("gui.quest.list.progress"),
     GUI_QUEST_LIST_REPEATABLE("gui.quest.list.repeatable"),
     GUI_QUEST_LIST_TITLE("gui.quest.list.title"),
+    GUI_QUEST_DETAIL_TITLE("gui.quest_detail.title"),
     GUI_QUEST_REWARD_CONFIRM_TITLE("gui.quest.reward.confirm.title"),
 
 
@@ -593,6 +596,7 @@ public enum GuiLangKey implements ILangKey {
     GUI_SHOP_ITEM_INSUFFICIENT_GOLD("gui.shop.item.insufficient.gold"),
     GUI_SHOP_ITEM_SELL_PRICE("gui.shop.item.sell.price"),
     GUI_SHOP_TITLE("gui.shop.title"),
+    GUI_SOCIAL_MAILBOX_TITLE("gui.social.mailbox.title"),
 
     // Added missing entries
     GUI_DIALOG_CHOICE_CLICK_TO_SELECT("gui.dialog.choice.click.to.select"),
@@ -644,18 +648,17 @@ public enum GuiLangKey implements ILangKey {
     ISLAND_GUI_VISITOR_MENU_TITLE("island.gui.visitor.menu.title"),
     ISLAND_GUI_VISITOR_LIVE_TITLE("island.gui.visitor.live.title"),
     ISLAND_GUI_VISITOR_ACTION_TITLE("island.gui.visitor.action.title"),
-    ISLAND_GUI_CREATION_ISLAND_NAME_INPUT_ERROR("island.gui.creation.island-name-input-error"),
-    ISLAND_GUI_CREATION_HEX_INPUT_ERROR("island.gui.creation.hex-input-error"),
-    ISLAND_GUI_CREATION_HEX_INPUT_TITLE("island.gui.creation.hex-input-title"),
-    ISLAND_GUI_CREATION_CREATING_ISLAND("island.gui.creation.creating-island"),
-    ISLAND_GUI_CREATION_CREATION_COMPLETE_HEADER("island.gui.creation.creation-complete-header"),
-    ISLAND_GUI_CREATION_CREATION_COMPLETE_MESSAGE("island.gui.creation.creation-complete-message"),
-    ISLAND_GUI_CREATION_TELEPORTING_SOON("island.gui.creation.teleporting-soon"),
-    ISLAND_GUI_CREATION_CREATION_COMPLETE_FOOTER("island.gui.creation.creation-complete-footer"),
-    ISLAND_GUI_CREATION_CREATION_FAILED("island.gui.creation.creation-failed"),
-    ISLAND_GUI_CREATION_CREATION_ERROR("island.gui.creation.creation-error"),
-    SOCIAL_MAILBOX_TITLE("social.mailbox.title");
-    
+    ISLAND_GUI_CREATION_ISLAND_NAME_INPUT_ERROR("island.gui.creation.island_name_input_error"),
+    ISLAND_GUI_CREATION_HEX_INPUT_ERROR("island.gui.creation.hex_input_error"),
+    ISLAND_GUI_CREATION_HEX_INPUT_TITLE("island.gui.creation.hex_input_title"),
+    ISLAND_GUI_CREATION_CREATING_ISLAND("island.gui.creation.creating_island"),
+    ISLAND_GUI_CREATION_CREATION_COMPLETE_HEADER("island.gui.creation.creation_complete_header"),
+    ISLAND_GUI_CREATION_CREATION_COMPLETE_MESSAGE("island.gui.creation.creation_complete_message"),
+    ISLAND_GUI_CREATION_TELEPORTING_SOON("island.gui.creation.teleporting_soon"),
+    ISLAND_GUI_CREATION_CREATION_COMPLETE_FOOTER("island.gui.creation.creation_complete_footer"),
+    ISLAND_GUI_CREATION_CREATION_FAILED("island.gui.creation.creation_failed"),
+    ISLAND_GUI_CREATION_CREATION_ERROR("island.gui.creation.creation_error");
+
     private final String key;
     
     GuiLangKey(String key) {
@@ -663,7 +666,7 @@ public enum GuiLangKey implements ILangKey {
     }
     
     @Override
-    public String getKey() {
+    public String key() {
         return key;
     }
     

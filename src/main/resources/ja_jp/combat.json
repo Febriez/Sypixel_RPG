@@ -36,13 +36,13 @@
   "pvp_enabled": "PvP有効",
   "pvp_disabled": "PvP無効",
   "combat": {
-    "damage_dealt": "Damage Dealt",
-    "damage_taken": "Damage Taken",
+    "damage_dealt": "与ダメージ",
+    "damage_taken": "被ダメージ",
     "kill": "キル",
-    "assist": "Assist"
+    "assist": "アシスト"
   },
-  "damage_dealt": "[JA] Damage Dealt",
-  "damage_taken": "[JA] Damage Taken",
-  "kill": "[JA] Kill",
-  "assist": "[JA] Assist"
+  "damage_dealt": "与ダメージ",
+  "damage_taken": "被ダメージ",
+  "kill": "キル",
+  "assist": "アシスト"
 }

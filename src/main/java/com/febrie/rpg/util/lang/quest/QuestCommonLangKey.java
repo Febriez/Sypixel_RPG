@@ -12,22 +12,22 @@ public enum QuestCommonLangKey implements ILangKey {
     QUEST_STARTED("quest.started"),
     QUEST_COMPLETED("quest.completed"),
     QUEST_CANCELLED("quest.cancelled"),
-    QUEST_REWARD_CLAIMED("quest.reward-claimed"),
+    QUEST_REWARD_CLAIMED("quest.reward_claimed"),
     QUEST_FAILED("quest.failed"),
     QUEST_ABANDONED("quest.abandoned"),
     QUEST_PROGRESS("quest.progress"),
     QUEST_OBJECTIVE_COMPLETE("quest.objective_complete"),
-    QUEST_OBJECTIVE_ACHIEVED("quest.objective-achieved"),
-    QUEST_COMPLETED_TOAST("quest.quest-completed-toast"),
+    QUEST_OBJECTIVE_ACHIEVED("quest.objective_achieved"),
+    QUEST_COMPLETED_TOAST("quest.quest_completed_toast"),
     QUEST_GOALS("quest.goals"),
     QUEST_REWARDS("quest.rewards"),
-    QUEST_CATEGORY_LABEL("quest.category-label"),
-    QUEST_QUEST_OBJECTIVES("quest.quest-objectives"),
-    QUEST_SEQUENTIAL_NOTE("quest.sequential-note"),
-    QUEST_QUEST_REWARDS("quest.quest-rewards"),
-    QUEST_DIALOG_ACCEPT_DEFAULT("quest.dialog.accept-default"),
-    QUEST_DIALOG_DECLINE_DEFAULT("quest.dialog.decline-default"),
-    QUEST_REWARD_NPC_VISIT("quest.reward-npc-visit"),
+    QUEST_CATEGORY_LABEL("quest.category_label"),
+    QUEST_QUEST_OBJECTIVES("quest.quest_objectives"),
+    QUEST_SEQUENTIAL_NOTE("quest.sequential_note"),
+    QUEST_QUEST_REWARDS("quest.quest_rewards"),
+    QUEST_DIALOG_ACCEPT_DEFAULT("quest.dialog.accept_default"),
+    QUEST_DIALOG_DECLINE_DEFAULT("quest.dialog.decline_default"),
+    QUEST_REWARD_NPC_VISIT("quest.reward_npc_visit"),
     QUEST_REWARDS_RECEIVED("quest.rewards_received"),
     QUEST_PREREQ_NOT_MET("quest.prereq_not_met"),
     QUEST_LEVEL_REQUIREMENT("quest.level_requirement"),
@@ -226,46 +226,46 @@ public enum QuestCommonLangKey implements ILangKey {
     QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_EMBLEM("quest.clazz.warrior.advancement.objectives.warrior_emblem"),
     QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_LEVEL("quest.clazz.warrior.advancement.objectives.warrior_level"),
     QUEST_CLAZZ_WARRIOR_ADVANCEMENT_OBJECTIVES_WARRIOR_MASTER("quest.clazz.warrior.advancement.objectives.warrior_master"),
-    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_BOOK_COLLECT("quest.craft.enchantment.mastery.objectives.book_collect"),
-    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_DIAMOND_CHESTPLATE_CRAFT("quest.craft.enchantment.mastery.objectives.diamond_chestplate_craft"),
-    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_DIAMOND_PICKAXE_CRAFT("quest.craft.enchantment.mastery.objectives.diamond_pickaxe_craft"),
-    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_DIAMOND_SWORD_CRAFT("quest.craft.enchantment.mastery.objectives.diamond_sword_craft"),
-    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_ENCHANTED_BOOK_COLLECT("quest.craft.enchantment.mastery.objectives.enchanted_book_collect"),
-    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_ENCHANTMENT_MASTER("quest.craft.enchantment.mastery.objectives.enchantment_master"),
-    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_EXPERIENCE_BOTTLE_COLLECT("quest.craft.enchantment.mastery.objectives.experience_bottle_collect"),
-    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_GHAST_TEAR_COLLECT("quest.craft.enchantment.mastery.objectives.ghast_tear_collect"),
-    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_LAPIS_LAZULI_COLLECT("quest.craft.enchantment.mastery.objectives.lapis_lazuli_collect"),
-    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_NETHERITE_SWORD_CRAFT("quest.craft.enchantment.mastery.objectives.netherite_sword_craft"),
-    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_NETHERITE_SWORD_DELIVER("quest.craft.enchantment.mastery.objectives.netherite_sword_deliver"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_BLACKSMITH_MASTER("quest.craft.master.blacksmith.objectives.blacksmith_master"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_COAL_COLLECT("quest.craft.master.blacksmith.objectives.coal_collect"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_CHESTPLATE_CRAFT("quest.craft.master.blacksmith.objectives.diamond_chestplate_craft"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_COLLECT("quest.craft.master.blacksmith.objectives.diamond_collect"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_SWORD_COLLECT("quest.craft.master.blacksmith.objectives.diamond_sword_collect"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_SWORD_CRAFT("quest.craft.master.blacksmith.objectives.diamond_sword_craft"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_GOLD_INGOT_COLLECT("quest.craft.master.blacksmith.objectives.gold_ingot_collect"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_IRON_CHESTPLATE_CRAFT("quest.craft.master.blacksmith.objectives.iron_chestplate_craft"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_IRON_INGOT_COLLECT("quest.craft.master.blacksmith.objectives.iron_ingot_collect"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_IRON_PICKAXE_CRAFT("quest.craft.master.blacksmith.objectives.iron_pickaxe_craft"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_MINE_DIAMOND("quest.craft.master.blacksmith.objectives.mine_diamond"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_MINE_GOLD("quest.craft.master.blacksmith.objectives.mine_gold"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_MINE_IRON("quest.craft.master.blacksmith.objectives.mine_iron"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_INGOT_CRAFT("quest.craft.master.blacksmith.objectives.netherite_ingot_craft"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_SCRAP_COLLECT("quest.craft.master.blacksmith.objectives.netherite_scrap_collect"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_SWORD_CRAFT("quest.craft.master.blacksmith.objectives.netherite_sword_craft"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_SWORD_DELIVER("quest.craft.master.blacksmith.objectives.netherite_sword_deliver"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_SETUP_ANVIL("quest.craft.master.blacksmith.objectives.setup_anvil"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_SETUP_ENCHANTING("quest.craft.master.blacksmith.objectives.setup_enchanting"),
-    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_SETUP_FURNACE("quest.craft.master.blacksmith.objectives.setup_furnace"),
-    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_BLAZE_POWDER_COLLECT("quest.craft.potion.brewing.objectives.blaze_powder_collect"),
-    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_DRAGON_BREATH_COLLECT("quest.craft.potion.brewing.objectives.dragon_breath_collect"),
-    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_FERMENTED_SPIDER_EYE_COLLECT("quest.craft.potion.brewing.objectives.fermented_spider_eye_collect"),
-    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_MASTER_ALCHEMIST("quest.craft.potion.brewing.objectives.master_alchemist"),
-    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_NETHER_WART_COLLECT("quest.craft.potion.brewing.objectives.nether_wart_collect"),
-    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_PHANTOM_MEMBRANE_COLLECT("quest.craft.potion.brewing.objectives.phantom_membrane_collect"),
-    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_POTION_COLLECT("quest.craft.potion.brewing.objectives.potion_collect"),
-    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_POTION_CRAFT("quest.craft.potion.brewing.objectives.potion_craft"),
-    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_POTION_DELIVER("quest.craft.potion.brewing.objectives.potion_deliver"),
+    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_BOOK_COLLECT("quest.crafting.enchantment.mastery.objectives.book_collect"),
+    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_DIAMOND_CHESTPLATE_CRAFT("quest.crafting.enchantment.mastery.objectives.diamond_chestplate_craft"),
+    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_DIAMOND_PICKAXE_CRAFT("quest.crafting.enchantment.mastery.objectives.diamond_pickaxe_craft"),
+    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_DIAMOND_SWORD_CRAFT("quest.crafting.enchantment.mastery.objectives.diamond_sword_craft"),
+    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_ENCHANTED_BOOK_COLLECT("quest.crafting.enchantment.mastery.objectives.enchanted_book_collect"),
+    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_ENCHANTMENT_MASTER("quest.crafting.enchantment.mastery.objectives.enchantment_master"),
+    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_EXPERIENCE_BOTTLE_COLLECT("quest.crafting.enchantment.mastery.objectives.experience_bottle_collect"),
+    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_GHAST_TEAR_COLLECT("quest.crafting.enchantment.mastery.objectives.ghast_tear_collect"),
+    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_LAPIS_LAZULI_COLLECT("quest.crafting.enchantment.mastery.objectives.lapis_lazuli_collect"),
+    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_NETHERITE_SWORD_CRAFT("quest.crafting.enchantment.mastery.objectives.netherite_sword_craft"),
+    QUEST_CRAFT_ENCHANTMENT_MASTERY_OBJECTIVES_NETHERITE_SWORD_DELIVER("quest.crafting.enchantment.mastery.objectives.netherite_sword_deliver"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_BLACKSMITH_MASTER("quest.crafting.master.blacksmith.objectives.blacksmith_master"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_COAL_COLLECT("quest.crafting.master.blacksmith.objectives.coal_collect"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_CHESTPLATE_CRAFT("quest.crafting.master.blacksmith.objectives.diamond_chestplate_craft"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_COLLECT("quest.crafting.master.blacksmith.objectives.diamond_collect"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_SWORD_COLLECT("quest.crafting.master.blacksmith.objectives.diamond_sword_collect"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_DIAMOND_SWORD_CRAFT("quest.crafting.master.blacksmith.objectives.diamond_sword_craft"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_GOLD_INGOT_COLLECT("quest.crafting.master.blacksmith.objectives.gold_ingot_collect"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_IRON_CHESTPLATE_CRAFT("quest.crafting.master.blacksmith.objectives.iron_chestplate_craft"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_IRON_INGOT_COLLECT("quest.crafting.master.blacksmith.objectives.iron_ingot_collect"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_IRON_PICKAXE_CRAFT("quest.crafting.master.blacksmith.objectives.iron_pickaxe_craft"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_MINE_DIAMOND("quest.crafting.master.blacksmith.objectives.mine_diamond"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_MINE_GOLD("quest.crafting.master.blacksmith.objectives.mine_gold"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_MINE_IRON("quest.crafting.master.blacksmith.objectives.mine_iron"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_INGOT_CRAFT("quest.crafting.master.blacksmith.objectives.netherite_ingot_craft"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_SCRAP_COLLECT("quest.crafting.master.blacksmith.objectives.netherite_scrap_collect"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_SWORD_CRAFT("quest.crafting.master.blacksmith.objectives.netherite_sword_craft"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_NETHERITE_SWORD_DELIVER("quest.crafting.master.blacksmith.objectives.netherite_sword_deliver"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_SETUP_ANVIL("quest.crafting.master.blacksmith.objectives.setup_anvil"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_SETUP_ENCHANTING("quest.crafting.master.blacksmith.objectives.setup_enchanting"),
+    QUEST_CRAFT_MASTER_BLACKSMITH_OBJECTIVES_SETUP_FURNACE("quest.crafting.master.blacksmith.objectives.setup_furnace"),
+    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_BLAZE_POWDER_COLLECT("quest.crafting.potion.brewing.objectives.blaze_powder_collect"),
+    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_DRAGON_BREATH_COLLECT("quest.crafting.potion.brewing.objectives.dragon_breath_collect"),
+    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_FERMENTED_SPIDER_EYE_COLLECT("quest.crafting.potion.brewing.objectives.fermented_spider_eye_collect"),
+    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_MASTER_ALCHEMIST("quest.crafting.potion.brewing.objectives.master_alchemist"),
+    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_NETHER_WART_COLLECT("quest.crafting.potion.brewing.objectives.nether_wart_collect"),
+    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_PHANTOM_MEMBRANE_COLLECT("quest.crafting.potion.brewing.objectives.phantom_membrane_collect"),
+    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_POTION_COLLECT("quest.crafting.potion.brewing.objectives.potion_collect"),
+    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_POTION_CRAFT("quest.crafting.potion.brewing.objectives.potion_craft"),
+    QUEST_CRAFT_POTION_BREWING_OBJECTIVES_POTION_DELIVER("quest.crafting.potion.brewing.objectives.potion_deliver"),
     QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_BREAK_ANCIENT_BLOCKS("quest.explore.ancient.ruins.objectives.break_ancient_blocks"),
     QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_BRICK_COLLECT("quest.explore.ancient.ruins.objectives.brick_collect"),
     QUEST_EXPLORE_ANCIENT_RUINS_OBJECTIVES_EXPLORE_DESERT_RUINS("quest.explore.ancient.ruins.objectives.explore_desert_ruins"),
@@ -2331,18 +2331,43 @@ public enum QuestCommonLangKey implements ILangKey {
     QUEST_WEEKLY_WORLD_BOSS_NPC_NAME("quest.weekly.world_boss.npc.name");
 
     private final String key;
-    
+
     QuestCommonLangKey(String key) {
         this.key = key;
     }
-    
+
     @Override
-    public String getKey() {
+    public String key() {
         return key;
     }
-    
+
     @Override
     public String getDefaultValue() {
         return key;
+    }
+
+    /**
+     * Creates a dynamic language key from a string
+     */
+    public static ILangKey fromString(String key) {
+        return new DynamicLangKey(key);
+    }
+
+    private static class DynamicLangKey implements ILangKey {
+        private final String key;
+
+        public DynamicLangKey(String key) {
+            this.key = key;
+        }
+
+        @Override
+        public String key() {
+            return key;
+        }
+
+        @Override
+        public String getDefaultValue() {
+            return key;
+        }
     }
 }

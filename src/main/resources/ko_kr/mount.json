@@ -1,6 +1,12 @@
 {
-  "summoned": "[KO] Summoned",
-  "dismissed": "[KO] Dismissed",
-  "in_combat": "[KO] In Combat",
-  "cooldown": "[KO] Cooldown"
+  "summoned": "Summoned",
+  "dismissed": "Dismissed",
+  "in_combat": "In Combat",
+  "cooldown": "Cooldown",
+  "mount": {
+    "summoned": "Summoned",
+    "dismissed": "Dismissed",
+    "in_combat": "In Combat",
+    "cooldown": "Cooldown"
+  }
 }

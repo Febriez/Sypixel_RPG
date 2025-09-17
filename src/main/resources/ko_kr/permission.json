@@ -1,8 +1,4 @@
 {
-  "granted": "[KO] Granted",
-  "denied": "[KO] Denied",
-  "group_added": "[KO] Group Added",
-  "group_removed": "[KO] Group Removed",
   "build": "Build",
   "break": "Break",
   "interact": "Interact",
@@ -14,5 +10,23 @@
   "promote": "Promote",
   "demote": "Demote",
   "settings": "Settings",
-  "admin": "Admin"
+  "admin": "Admin",
+  "granted": "Granted",
+  "denied": "Denied",
+  "group_added": "Group 추가ed",
+  "group_removed": "Group 제거d",
+  "permission": {
+    "build": "Build",
+    "break": "Break",
+    "interact": "Interact",
+    "container": "Container",
+    "teleport": "Teleport",
+    "invite": "초대",
+    "kick": "추방",
+    "ban": "Ban",
+    "promote": "Promote",
+    "demote": "Demote",
+    "settings": "Settings",
+    "admin": "Admin"
+  }
 }

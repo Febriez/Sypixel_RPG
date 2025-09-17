@@ -7,10 +7,6 @@
   "reload_success": "설정이 성공적으로 다시 로드되었습니다!",
   "coming_soon": "곧 출시 예정",
   "general_error": "오류가 발생했습니다. 관리자에게 문의하세요.",
-  "action": {
-    "enable": "활성화",
-    "disable": "비활성화"
-  },
   "click_to_select": "클릭하여 선택",
   "already_selected": "▶ 선택됨",
   "click_to_open": "▶ 클릭하여 열기",
@@ -34,25 +30,20 @@
   "cannot_view_others_talents": "다른 플레이어의 특성은 볼 수 없습니다!",
   "cannot_view_others_quests": "다른 플레이어의 퀘스트를 볼 수 없습니다!",
   "cannot_view_others_combat_power": "다른 플레이어의 전투력 상세정보를 볼 수 없습니다!",
-  "teleport": {
-    "hub_success": "허브로 이동했습니다!",
-    "request_sent": "요청 전송됨",
-    "request_received": "요청 수신됨",
-    "accepted": "수락됨",
-    "denied": "거절됨",
-    "cancelled": "취소됨",
-    "expired": "만료됨",
-    "in_combat": "전투 중",
-    "cooldown": "쿨다운",
-    "success": "성공",
-    "failed": "실패"
-  },
   "error": {
-    "general": "오류가 발생했습니다. 관리자에게 문의하세요.",
-    "hub_world_not_found": "허브 월드를 찾을 수 없습니다! 관리자에게 문의해주세요.",
     "friend_request_id_missing": "친구 요청 ID가 없습니다",
     "friend_request_not_found": "친구 요청을 찾을 수 없습니다",
-    "friend_already_exists": "이미 이 플레이어와 친구입니다"
+    "friend_already_exists": "이미 친구입니다"
+  },
+  "error_details": {
+    "general": "오류가 발생했습니다. 관리자에게 문의하세요.",
+    "hub_world_not_found": "허브 월드를 찾을 수 없습니다! 관리자에게 문의해주세요."
+  },
+  "mailbox": {
+    "delete_confirm_word": "DELETE",
+    "delete_all": "Delete All",
+    "refresh": "Refresh",
+    "delete": "Delete"
   },
   "island": {
     "contribute": {
@@ -72,18 +63,9 @@
       "kick_input_title": "멤버 추방 확인"
     }
   },
-  "enable": "활성화",
-  "disable": "비활성화",
-  "mailbox": {
-    "delete_confirm_word": "DELETE",
-    "delete": "Delete",
-    "delete_all": "Delete All",
-    "refresh": "Refresh"
-  },
   "action_enable": "활성화",
   "action_disable": "비활성화",
   "quest_total_count": "총 퀘스트: {0}개",
-  "error_friend_request_id_missing": "친구 요청 ID가 없습니다",
   "general": {
     "time": {
       "days": "일",
@@ -112,21 +94,21 @@
     "particles": "파티클",
     "weather": "날씨",
     "time": "시간",
-    "gameplay": "Gameplay",
-    "advanced": "Advanced",
-    "audio": "Audio",
-    "system": "System",
-    "debug": "Debug",
-    "accessibility": "Accessibility",
-    "display": "Display",
-    "performance": "Performance",
     "social": "Social",
+    "system": "System",
+    "notification": "Notification",
+    "privacy": "Privacy",
+    "gameplay": "Gameplay",
+    "audio": "Audio",
+    "video": "Video",
+    "language": "Language",
+    "advanced": "Advanced",
     "keybinds": "Keybinds",
     "interface": "Interface",
-    "video": "Video",
-    "privacy": "Privacy",
-    "language": "Language",
-    "notification": "Notification"
+    "accessibility": "Accessibility",
+    "performance": "Performance",
+    "debug": "Debug",
+    "display": "Display"
   },
   "notification": {
     "mode": {
@@ -148,29 +130,9 @@
     "level_up": "레벨 업! 현재 레벨 %d",
     "mail_received": "새로운 메일이 있습니다!"
   },
-  "job": {
-    "selected": "선택됨",
-    "already_has": "이미 보유",
-    "level_up": "레벨 업",
-    "max_level": "최대 레벨",
-    "requirement_not_met": "요구사항 미충족",
-    "skill_learned": "스킬 습득",
-    "skill_upgraded": "스킬 업그레이드",
-    "skill_max_level": "스킬 최대 레벨",
-    "not_enough_skill_points": "스킬 포인트 부족",
-    "warrior": "전사",
-    "archer": "궁수",
-    "mage": "마법사",
-    "rogue": "도적",
-    "priest": "성직자",
-    "paladin": "팔라딘",
-    "assassin": "암살자",
-    "berserker": "광전사",
-    "summoner": "소환사",
-    "necromancer": "네크로맨서",
-    "druid": "드루이드",
-    "ranger": "레인저",
-    "warlock": "워록"
+  "action": {
+    "enable": "활성화",
+    "disable": "비활성화"
   },
   "combat": {
     "damage_dealt": "피해 입힘",
@@ -190,23 +152,47 @@
     "buff_expired": "버프 만료",
     "debuff_expired": "디버프 만료"
   },
-  "party": {
-    "created": "생성됨",
-    "disbanded": "해산됨",
-    "joined": "참가",
-    "left": "탈퇴",
-    "kicked": "추방",
-    "promoted": "승격",
-    "invite_sent": "초대 전송",
-    "invite_received": "초대 수신",
-    "invite_accepted": "초대 수락",
-    "invite_denied": "초대 거절",
-    "invite_expired": "초대 만료",
-    "full": "가득참",
-    "not_leader": "파티장 아님",
-    "not_member": "멤버 아님",
-    "already_in_party": "이미 파티 소속",
-    "no_party": "파티 없음"
+  "mail": {
+    "sent": "메일이 성공적으로 전송되었습니다!",
+    "received": "새로운 메일을 받았습니다!",
+    "read": "메일을 읽음으로 표시했습니다",
+    "deleted": "메일이 삭제되었습니다",
+    "attachment_claimed": "첨부 파일을 수령했습니다!",
+    "box_full": "우편함이 가득 찼습니다!",
+    "not_found": "메일을 찾을 수 없습니다",
+    "no_attachments": "이 메일에는 첨부 파일이 없습니다",
+    "inventory_full": "인벤토리가 가득 찼습니다!"
+  },
+  "achievement": {
+    "unlocked": "업적을 달성했습니다!",
+    "progress": "업적 진행도: {0}/{1}",
+    "completed": "업적을 완료했습니다!",
+    "reward_claimed": "업적 보상을 받았습니다!",
+    "already_claimed": "이미 보상을 받았습니다!"
+  },
+  "craft": {
+    "success": "아이템 제작에 성공했습니다!",
+    "fail": "제작에 실패했습니다!",
+    "no_materials": "재료가 부족합니다!",
+    "no_recipe": "레시피를 찾을 수 없습니다!"
+  },
+  "quest": {
+    "filter": "퀘스트 필터",
+    "season": {
+      "valentine": {
+        "love": {
+          "objectives": {
+            "potion_deliver": "사랑의 물약 배달"
+          }
+        }
+      }
+    }
+  },
+  "bossbar": {
+    "quest_progress": "퀘스트: %s (%d/%d)",
+    "dungeon_timer": "남은 시간: %s",
+    "boss_health": "%s: %d/%d HP",
+    "wave_progress": "웨이브 %d/%d"
   },
   "guild": {
     "created": "생성됨",
@@ -236,6 +222,24 @@
     "war_ended": "전쟁 종료",
     "war_won": "전쟁 승리",
     "war_lost": "전쟁 패배"
+  },
+  "party": {
+    "created": "생성됨",
+    "disbanded": "해산됨",
+    "joined": "참가",
+    "left": "탈퇴",
+    "kicked": "추방",
+    "promoted": "승격",
+    "invite_sent": "초대 전송",
+    "invite_received": "초대 수신",
+    "invite_accepted": "초대 수락",
+    "invite_denied": "초대 거절",
+    "invite_expired": "초대 만료",
+    "full": "가득참",
+    "not_leader": "파티장 아님",
+    "not_member": "멤버 아님",
+    "already_in_party": "이미 파티 소속",
+    "no_party": "파티 없음"
   },
   "trade": {
     "request_sent": "%s에게 거래 요청을 보냈습니다",
@@ -267,16 +271,18 @@
     "list_full": "친구 목록이 가득 찼습니다!",
     "target_list_full": "상대방의 친구 목록이 가득 찼습니다!"
   },
-  "mail": {
-    "sent": "메일이 성공적으로 전송되었습니다!",
-    "received": "새로운 메일을 받았습니다!",
-    "read": "메일을 읽음으로 표시했습니다",
-    "deleted": "메일이 삭제되었습니다",
-    "attachment_claimed": "첨부 파일을 수령했습니다!",
-    "box_full": "우편함이 가득 찼습니다!",
-    "not_found": "메일을 찾을 수 없습니다",
-    "no_attachments": "이 메일에는 첨부 파일이 없습니다",
-    "inventory_full": "인벤토리가 가득 찼습니다!"
+  "teleport": {
+    "request_sent": "요청 전송됨",
+    "request_received": "요청 수신됨",
+    "accepted": "수락됨",
+    "denied": "거절됨",
+    "cancelled": "취소됨",
+    "expired": "만료됨",
+    "in_combat": "전투 중",
+    "cooldown": "쿨다운",
+    "success": "성공",
+    "failed": "실패",
+    "hub_success": "허브로 이동했습니다!"
   },
   "economy": {
     "money_added": "%d 골드를 받았습니다!",
@@ -308,17 +314,10 @@
     "cooldown_active": "던전 쿨다운: %d분",
     "party_required": "입장하려면 파티가 필요합니다!",
     "level_requirement": "레벨 %d가 필요합니다!",
-    "exit": "Exit",
-    "wave_complete": "Wave Complete",
     "enter": "Enter",
-    "wave_start": "Wave Start"
-  },
-  "achievement": {
-    "unlocked": "업적을 달성했습니다!",
-    "progress": "업적 진행도: {0}/{1}",
-    "completed": "업적을 완료했습니다!",
-    "reward_claimed": "업적 보상을 받았습니다!",
-    "already_claimed": "이미 보상을 받았습니다!"
+    "exit": "Exit",
+    "wave_start": "Wave Start",
+    "wave_complete": "Wave Complete"
   },
   "whisper": {
     "sent": "%s에게: %s",
@@ -333,10 +332,10 @@
       "guild": "길드 멤버로부터만 귓속말 수신",
       "off": "귓속말 비활성화"
     },
-    "mode_off": "Mode Off",
     "mode_all": "Mode All",
+    "mode_friends": "Mode Friends",
     "mode_guild": "Mode Guild",
-    "mode_friends": "Mode Friends"
+    "mode_off": "Mode Off"
   },
   "stat": {
     "strength": "힘",
@@ -404,17 +403,17 @@
       "more_info": "더 자세히 알려주세요",
       "goodbye": "안녕히 계세요"
     },
-    "farewell": "Farewell",
-    "yes": "Yes",
-    "accept": "Accept",
     "greeting": "Greeting",
-    "continue": "Continue",
-    "decline": "Decline",
-    "shop_welcome": "Shop Welcome",
-    "no": "No",
+    "farewell": "Farewell",
     "quest_available": "Quest Available",
-    "back": "Back",
-    "quest_complete": "Quest Complete"
+    "quest_complete": "Quest Complete",
+    "shop_welcome": "Shop Welcome",
+    "yes": "Yes",
+    "no": "No",
+    "accept": "Accept",
+    "decline": "Decline",
+    "continue": "Continue",
+    "back": "Back"
   },
   "rank": {
     "novice": "초보자",
@@ -456,18 +455,18 @@
     "castle": "성",
     "temple": "신전",
     "ruins": "유적",
-    "forest": "Forest",
-    "mountain": "Mountain",
-    "pvp_zone": "Pvp Zone",
+    "wild": "Wild",
     "island": "Island",
-    "guild_hall": "Guild Hall",
-    "desert": "Desert",
-    "training_ground": "Training Ground",
-    "cave": "Cave",
-    "event_area": "Event Area",
-    "market": "Market",
     "town": "Town",
-    "wild": "Wild"
+    "market": "Market",
+    "guild_hall": "Guild Hall",
+    "training_ground": "Training Ground",
+    "pvp_zone": "Pvp Zone",
+    "event_area": "Event Area",
+    "cave": "Cave",
+    "forest": "Forest",
+    "desert": "Desert",
+    "mountain": "Mountain"
   },
   "permission": {
     "build": "건설",
@@ -547,10 +546,10 @@
     "combat_leave": "전투 종료",
     "buff_applied": "+ %s",
     "debuff_applied": "- %s",
-    "in_combat": "In Combat",
-    "combat_power": "Combat Power",
     "level": "레벨",
-    "gold": "골드"
+    "gold": "골드",
+    "combat_power": "Combat Power",
+    "in_combat": "In Combat"
   },
   "placeholder": {
     "player_name": "%player_name%",
@@ -579,12 +578,6 @@
       "version": "플러그인 버전을 표시합니다"
     }
   },
-  "bossbar": {
-    "quest_progress": "퀘스트: %s (%d/%d)",
-    "dungeon_timer": "남은 시간: %s",
-    "boss_health": "%s: %d/%d HP",
-    "wave_progress": "웨이브 %d/%d"
-  },
   "hologram": {
     "npc_name": "%s",
     "npc_title": "<%s>",
@@ -604,11 +597,11 @@
     "no_mana": "마나가 부족합니다!",
     "no_target": "대상이 선택되지 않았습니다!",
     "out_of_range": "대상이 사정거리를 벗어났습니다!",
-    "cast": "Cast",
-    "max_level": "Max 레벨",
-    "cooldown": "Cooldown",
+    "learned": "Learned",
     "level_up": "레벨 Up",
-    "learned": "Learned"
+    "max_level": "Max 레벨",
+    "cast": "Cast",
+    "cooldown": "Cooldown"
   },
   "enchant": {
     "success": "인챈트 성공!",
@@ -616,12 +609,6 @@
     "max_level": "최대 인챈트 레벨에 도달했습니다!",
     "incompatible": "호환되지 않는 인챈트입니다!",
     "failed": "실패ed"
-  },
-  "craft": {
-    "success": "아이템 제작에 성공했습니다!",
-    "fail": "제작에 실패했습니다!",
-    "no_materials": "재료가 부족합니다!",
-    "no_recipe": "레시피를 찾을 수 없습니다!"
   },
   "mount": {
     "summoned": "탈것을 소환했습니다!",
@@ -634,13 +621,6 @@
     "dismissed": "펫을 해제했습니다",
     "level_up": "펫이 %d레벨로 성장했습니다!",
     "evolved": "펫이 %s로 진화했습니다!"
-  },
-  "auction": {
-    "listed": "아이템을 %d 골드에 등록했습니다",
-    "sold": "아이템이 %d 골드에 판매되었습니다!",
-    "bought": "%s을(를) %d 골드에 구매했습니다",
-    "expired": "경매가 만료되었습니다",
-    "cancelled": "경매가 취소되었습니다"
   },
   "warzone": {
     "entered": "PvP 구역에 진입했습니다!",
@@ -655,85 +635,34 @@
     "win": "승리했습니다!",
     "lose": "패배했습니다!",
     "draw": "무승부입니다!",
-    "lost": "Lost",
     "started": "Started",
     "ended": "Ended",
-    "won": "Won"
+    "won": "Won",
+    "lost": "Lost"
   },
-  "biome": {
-    "plains": "평원",
-    "forest": "숲",
-    "desert": "사막",
-    "mountains": "산",
-    "swamp": "늪",
-    "jungle": "정글",
-    "taiga": "타이가",
-    "tundra": "툰드라",
-    "savanna": "사바나",
-    "badlands": "악지",
-    "mushroom": "버섯 지대",
-    "ocean": "바다",
-    "river": "강",
-    "beach": "해변",
-    "snowy_plains": "눈 덮인 평원",
-    "ice_spikes": "얼음 가시",
-    "void": "공허",
-    "mushroom_fields": {
-      "name": "버섯 들판",
-      "description": "버섯이 가득한 들판"
-    },
-    "flower_forest": {
-      "name": "꽃 숲",
-      "description": "꽃이 만발한 숲"
-    },
-    "bamboo_jungle": {
-      "name": "대나무 정글",
-      "description": "대나무가 빽빽한 정글"
-    },
-    "dark_forest": {
-      "name": "어두운 숲",
-      "description": "그늘진 어두운 숲"
-    },
-    "birch_forest": {
-      "name": "자작나무 숲",
-      "description": "밝은 자작나무 숲"
-    },
-    "cherry_grove": {
-      "name": "벚꽃 숲",
-      "description": "아름다운 벚꽃이 만발한 숲"
-    }
-  },
-  "currency": {
-    "ectoplasm": "엑토플라즘",
-    "scute": "비늘"
-  },
+  "currency": {},
   "time": {
     "days": "일",
     "hours": "시간",
     "minutes": "분"
   },
-  "quest": {
-    "filter": "퀘스트 필터",
-    "season": {
-      "valentine": {
-        "love": {
-          "objectives": {
-            "potion_deliver": "사랑의 물약 배달"
-          }
-        }
-      }
-    }
-  },
-  "ectoplasm": "엑토플라즘",
-  "scute": "스쿠트",
   "status": {
-    "read": "읽음",
-    "new_mail": "New Mail"
+    "new_mail": "New Mail",
+    "read": "읽음"
   },
-  "ja_JP: 5849 single keys": "[KO] Ja Jp: 5849 Single Keys",
-  "ko_KR: 6187 single keys": "[KO] Ko Kr: 6187 Single Keys",
-  "en_US: 9045 single keys": "[KO] En Us: 9045 Single Keys",
-  "ja_JP: 325 array keys": "[KO] Ja Jp: 325 Array Keys",
-  "ko_KR: 399 array keys": "[KO] Ko Kr: 399 Array Keys",
-  "en_US: 352 array keys": "[KO] En Us: 352 Array Keys"
+  "enable": "활성화",
+  "disable": "비활성화",
+  "ja_JP: 5849 single keys": "Ja Jp: 5849 Single Keys",
+  "ko_KR: 6187 single keys": "Ko Kr: 6187 Single Keys",
+  "en_US: 9045 single keys": "En Us: 9045 Single Keys",
+  "ja_JP: 325 array keys": "Ja Jp: 325 Array Keys",
+  "ko_KR: 399 array keys": "Ko Kr: 399 Array Keys",
+  "en_US: 352 array keys": "En Us: 352 Array Keys",
+  "GeneralLangKey: 47": "Generallangkey: 47",
+  "GuiLangKey: 557": "Guilangkey: 557",
+  "QuestCommonLangKey: 2282": "퀘스트commonlangkey: 2282",
+  "ItemLangKey: 465": "아이템langkey: 465",
+  "MessageLangKey: 272": "Messagelangkey: 272",
+  "SystemLangKey: 392": "Systemlangkey: 392",
+  "no-permission": "You don't have permission to perform this action."
 }

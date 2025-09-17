@@ -30,7 +30,7 @@ public enum InnkeeperTroubleLangKey implements ILangKey {
     }
     
     @Override
-    public String getKey() {
+    public String key() {
         return key;
     }
     

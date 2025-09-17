@@ -8,9 +8,7 @@ import com.febrie.rpg.quest.QuestCategory;
 import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.lang.quest.side.AlchemistExperimentLangKey;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -65,24 +63,24 @@ public class AlchemistExperimentQuest extends Quest {
     
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(AlchemistExperimentLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.alchemist_experiment.name"), who);
     }
-    
+
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(AlchemistExperimentLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.alchemist_experiment.info"), who);
     }
-    
+
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "mad_alchemist" -> LangManager.text(AlchemistExperimentLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_MAD_ALCHEMIST, who);
-            case "alchemy_lab" -> LangManager.text(AlchemistExperimentLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_ALCHEMY_LAB, who);
-            case "collect_blaze_powder" -> LangManager.text(AlchemistExperimentLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_COLLECT_BLAZE_POWDER, who);
-            case "collect_shulker_shell" -> LangManager.text(AlchemistExperimentLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_COLLECT_SHULKER_SHELL, who);
-            case "kill_witches" -> LangManager.text(AlchemistExperimentLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_KILL_WITCHES, who);
-            case "collect_nether_star" -> LangManager.text(AlchemistExperimentLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_COLLECT_NETHER_STAR, who);
-            case "mad_alchemist_complete" -> LangManager.text(AlchemistExperimentLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_OBJECTIVES_MAD_ALCHEMIST_COMPLETE, who);
+            case "mad_alchemist" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.alchemist_experiment.objectives.mad_alchemist"), who);
+            case "alchemy_lab" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.alchemist_experiment.objectives.alchemy_lab"), who);
+            case "collect_blaze_powder" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.alchemist_experiment.objectives.collect_blaze_powder"), who);
+            case "collect_shulker_shell" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.alchemist_experiment.objectives.collect_shulker_shell"), who);
+            case "kill_witches" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.alchemist_experiment.objectives.kill_witches"), who);
+            case "collect_nether_star" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.alchemist_experiment.objectives.collect_nether_star"), who);
+            case "mad_alchemist_complete" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.alchemist_experiment.objectives.mad_alchemist_complete"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -94,26 +92,26 @@ public class AlchemistExperimentQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(AlchemistExperimentLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.alchemist_experiment.dialogs"), who);
     }
-    
+
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
         return getDialogs(who).get(index);
     }
-    
+
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(AlchemistExperimentLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.alchemist_experiment.npc_name"), who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(AlchemistExperimentLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.alchemist_experiment.accept"), who);
     }
-    
+
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(AlchemistExperimentLangKey.QUEST_SIDE_ALCHEMIST_EXPERIMENT_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.alchemist_experiment.decline"), who);
     }
 }

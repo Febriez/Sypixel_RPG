@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.SpiderInfestationLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -71,26 +69,26 @@ public class SpiderInfestationQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(SpiderInfestationLangKey.QUEST_SIDE_SPIDER_INFESTATION_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.spider.infestation.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(SpiderInfestationLangKey.QUEST_SIDE_SPIDER_INFESTATION_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.spider.infestation.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_warehouse_foreman" -> LangManager.text(SpiderInfestationLangKey.QUEST_SIDE_SPIDER_INFESTATION_OBJECTIVES_TALK_WAREHOUSE_FOREMAN, who);
-            case "infested_warehouse" -> LangManager.text(SpiderInfestationLangKey.QUEST_SIDE_SPIDER_INFESTATION_OBJECTIVES_INFESTED_WAREHOUSE, who);
-            case "giant_spiders" -> LangManager.text(SpiderInfestationLangKey.QUEST_SIDE_SPIDER_INFESTATION_OBJECTIVES_GIANT_SPIDERS, who);
-            case "string_collect" -> LangManager.text(SpiderInfestationLangKey.QUEST_SIDE_SPIDER_INFESTATION_OBJECTIVES_STRING_COLLECT, who);
-            case "spider_nests" -> LangManager.text(SpiderInfestationLangKey.QUEST_SIDE_SPIDER_INFESTATION_OBJECTIVES_SPIDER_NESTS, who);
-            case "cobweb_collect" -> LangManager.text(SpiderInfestationLangKey.QUEST_SIDE_SPIDER_INFESTATION_OBJECTIVES_COBWEB_COLLECT, who);
-            case "queens_chamber" -> LangManager.text(SpiderInfestationLangKey.QUEST_SIDE_SPIDER_INFESTATION_OBJECTIVES_QUEENS_CHAMBER, who);
-            case "spider_queen" -> LangManager.text(SpiderInfestationLangKey.QUEST_SIDE_SPIDER_INFESTATION_OBJECTIVES_SPIDER_QUEEN, who);
-            case "report_completion" -> LangManager.text(SpiderInfestationLangKey.QUEST_SIDE_SPIDER_INFESTATION_OBJECTIVES_REPORT_COMPLETION, who);
+            case "talk_warehouse_foreman" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.spider.infestation.objectives.talk.warehouse.foreman"), who);
+            case "infested_warehouse" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.spider.infestation.objectives.infested.warehouse"), who);
+            case "giant_spiders" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.spider.infestation.objectives.giant.spiders"), who);
+            case "string_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.spider.infestation.objectives.string.collect"), who);
+            case "spider_nests" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.spider.infestation.objectives.spider.nests"), who);
+            case "cobweb_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.spider.infestation.objectives.cobweb.collect"), who);
+            case "queens_chamber" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.spider.infestation.objectives.queens.chamber"), who);
+            case "spider_queen" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.spider.infestation.objectives.spider.queen"), who);
+            case "report_completion" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.spider.infestation.objectives.report.completion"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -102,7 +100,7 @@ public class SpiderInfestationQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(SpiderInfestationLangKey.QUEST_SIDE_SPIDER_INFESTATION_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.spider.infestation.dialogs"), who);
     }
     
     @Override
@@ -112,16 +110,16 @@ public class SpiderInfestationQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(SpiderInfestationLangKey.QUEST_SIDE_SPIDER_INFESTATION_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.spider.infestation.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(SpiderInfestationLangKey.QUEST_SIDE_SPIDER_INFESTATION_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.spider.infestation.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(SpiderInfestationLangKey.QUEST_SIDE_SPIDER_INFESTATION_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.spider.infestation.decline"), who);
     }
 }

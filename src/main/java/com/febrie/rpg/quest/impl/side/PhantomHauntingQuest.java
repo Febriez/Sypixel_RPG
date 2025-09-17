@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.PhantomHauntingLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -71,26 +69,26 @@ public class PhantomHauntingQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(PhantomHauntingLangKey.QUEST_SIDE_PHANTOM_HAUNTING_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.phantom.haunting.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(PhantomHauntingLangKey.QUEST_SIDE_PHANTOM_HAUNTING_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.phantom.haunting.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_village_priest" -> LangManager.text(PhantomHauntingLangKey.QUEST_SIDE_PHANTOM_HAUNTING_OBJECTIVES_TALK_VILLAGE_PRIEST, who);
-            case "haunted_mansion" -> LangManager.text(PhantomHauntingLangKey.QUEST_SIDE_PHANTOM_HAUNTING_OBJECTIVES_HAUNTED_MANSION, who);
-            case "ectoplasm_collect" -> LangManager.text(PhantomHauntingLangKey.QUEST_SIDE_PHANTOM_HAUNTING_OBJECTIVES_ECTOPLASM_COLLECT, who);
-            case "soul_torch_collect" -> LangManager.text(PhantomHauntingLangKey.QUEST_SIDE_PHANTOM_HAUNTING_OBJECTIVES_SOUL_TORCH_COLLECT, who);
-            case "family_crypt" -> LangManager.text(PhantomHauntingLangKey.QUEST_SIDE_PHANTOM_HAUNTING_OBJECTIVES_FAMILY_CRYPT, who);
-            case "paper_collect" -> LangManager.text(PhantomHauntingLangKey.QUEST_SIDE_PHANTOM_HAUNTING_OBJECTIVES_PAPER_COLLECT, who);
-            case "restless_spirits" -> LangManager.text(PhantomHauntingLangKey.QUEST_SIDE_PHANTOM_HAUNTING_OBJECTIVES_RESTLESS_SPIRITS, who);
-            case "confront_lord_blackwood" -> LangManager.text(PhantomHauntingLangKey.QUEST_SIDE_PHANTOM_HAUNTING_OBJECTIVES_CONFRONT_LORD_BLACKWOOD, who);
-            case "perform_exorcism" -> LangManager.text(PhantomHauntingLangKey.QUEST_SIDE_PHANTOM_HAUNTING_OBJECTIVES_PERFORM_EXORCISM, who);
+            case "talk_village_priest" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.phantom.haunting.objectives.talk.village.priest"), who);
+            case "haunted_mansion" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.phantom.haunting.objectives.haunted.mansion"), who);
+            case "ectoplasm_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.phantom.haunting.objectives.ectoplasm.collect"), who);
+            case "soul_torch_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.phantom.haunting.objectives.soul.torch.collect"), who);
+            case "family_crypt" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.phantom.haunting.objectives.family.crypt"), who);
+            case "paper_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.phantom.haunting.objectives.paper.collect"), who);
+            case "restless_spirits" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.phantom.haunting.objectives.restless.spirits"), who);
+            case "confront_lord_blackwood" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.phantom.haunting.objectives.confront.lord.blackwood"), who);
+            case "perform_exorcism" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.phantom.haunting.objectives.perform.exorcism"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -102,7 +100,7 @@ public class PhantomHauntingQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(PhantomHauntingLangKey.QUEST_SIDE_PHANTOM_HAUNTING_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.phantom.haunting.dialogs"), who);
     }
     
     @Override
@@ -112,16 +110,16 @@ public class PhantomHauntingQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(PhantomHauntingLangKey.QUEST_SIDE_PHANTOM_HAUNTING_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.phantom.haunting.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(PhantomHauntingLangKey.QUEST_SIDE_PHANTOM_HAUNTING_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.phantom.haunting.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(PhantomHauntingLangKey.QUEST_SIDE_PHANTOM_HAUNTING_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.phantom.haunting.decline"), who);
     }
 }

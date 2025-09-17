@@ -1,6 +1,12 @@
 {
-  "success": "[KO] Success",
-  "fail": "[KO] Fail",
-  "no_materials": "[KO] No Materials",
-  "no_recipe": "[KO] No Recipe"
+  "success": "Success",
+  "fail": "Fail",
+  "no_materials": "No 재료s",
+  "no_recipe": "아니오 Recipe",
+  "craft": {
+    "success": "Success",
+    "fail": "Fail",
+    "no_materials": "No 재료s",
+    "no_recipe": "아니오 Recipe"
+  }
 }

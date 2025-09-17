@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.ThievesGuildLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -68,24 +66,24 @@ public class ThievesGuildQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.thieves.guild.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.thieves.guild.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "guild_contact" -> LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_GUILD_CONTACT, who);
-            case "secret_entrance" -> LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_SECRET_ENTRANCE, who);
-            case "tripwire_hook_collect" -> LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_TRIPWIRE_HOOK_COLLECT, who);
-            case "rival_hideout" -> LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_RIVAL_HIDEOUT, who);
-            case "kill_vindicators" -> LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_KILL_VINDICATORS, who);
-            case "book_collect" -> LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_BOOK_COLLECT, who);
-            case "guild_master" -> LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_OBJECTIVES_GUILD_MASTER, who);
+            case "guild_contact" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.thieves.guild.objectives.guild.contact"), who);
+            case "secret_entrance" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.thieves.guild.objectives.secret.entrance"), who);
+            case "tripwire_hook_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.thieves.guild.objectives.tripwire.hook.collect"), who);
+            case "rival_hideout" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.thieves.guild.objectives.rival.hideout"), who);
+            case "kill_vindicators" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.thieves.guild.objectives.kill.vindicators"), who);
+            case "book_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.thieves.guild.objectives.book.collect"), who);
+            case "guild_master" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.thieves.guild.objectives.guild.master"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -97,7 +95,7 @@ public class ThievesGuildQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.thieves.guild.dialogs"), who);
     }
     
     @Override
@@ -107,16 +105,16 @@ public class ThievesGuildQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.thieves.guild.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.thieves.guild.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(ThievesGuildLangKey.QUEST_SIDE_THIEVES_GUILD_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.thieves.guild.decline"), who);
     }
 }

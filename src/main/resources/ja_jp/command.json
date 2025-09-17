@@ -1,12 +1,185 @@
 {
+  "no_permission": "このコマンドを使用する権限がありません",
+  "player_not_found": "プレイヤーが見つかりません",
+  "invalid_args": "無効な引数です",
+  "success": "コマンドが正常に実行されました",
+  "failed": "コマンドの実行に失敗しました",
   "levelup": {
     "success": "レベルアップしました！",
     "target_success": "{0}をレベルアップさせました！",
     "error": "レベルアップに失敗しました"
   },
-  "no_permission": "このコマンドを使用する権限がありません",
-  "player_not_found": "プレイヤーが見つかりません",
-  "invalid_args": "無効な引数です",
-  "success": "コマンドが正常に実行されました",
-  "failed": "コマンドの実行に失敗しました"
+  "profile": {
+    "usage": "使用方法: /profile",
+    "description": "プロフィールを表示",
+    "success": "プロフィールを開きました！"
+  },
+  "viewprofile": {
+    "usage": "使用方法: /viewprofile <プレイヤー>",
+    "description": "他のプレイヤーのプロフィールを表示",
+    "success": "{0}のプロフィールを開きました！",
+    "disabled": "このコマンドは使用できなくなりました。",
+    "use_admin": "管理者コマンドを使用してください: /rpgadmin viewprofile <プレイヤー>"
+  },
+  "mainmenu": {
+    "usage": "使用方法: /menu",
+    "description": "メインメニューを開く",
+    "success": "メインメニューを開きました！"
+  },
+  "skills": {
+    "usage": "使用方法: /skills",
+    "description": "スキルメニューを開く",
+    "success": "スキルメニューを開きました！"
+  },
+  "stats": {
+    "usage": "使用方法: /stats",
+    "description": "ステータスメニューを開く",
+    "success": "ステータスメニューを開きました！"
+  },
+  "talents": {
+    "usage": "使用方法: /talents",
+    "description": "タレントメニューを開く",
+    "success": "タレントメニューを開きました！"
+  },
+  "leaderboard": {
+    "usage": "使用方法: /leaderboard",
+    "description": "サーバーランキングを確認",
+    "success": "リーダーボードを開きました！"
+  },
+  "party": {
+    "usage": "使用方法: /party <create|invite|leave|kick> [プレイヤー]",
+    "description": "パーティー管理",
+    "created": "パーティーを作成しました",
+    "invite_sent": "{0}にパーティー招待を送りました",
+    "joined": "{0}のパーティーに参加しました",
+    "left": "パーティーを退出しました",
+    "kicked": "{0}をパーティーから追放しました",
+    "disbanded": "パーティーを解散しました",
+    "not_in_party": "パーティーに所属していません",
+    "already_in_party": "すでにパーティーに所属しています"
+  },
+  "guild": {
+    "usage": "使用方法: /guild <create|invite|leave|kick> [名前/プレイヤー]",
+    "description": "ギルド管理",
+    "created": "ギルドを作成しました",
+    "invite_sent": "{0}にギルド招待を送りました",
+    "joined": "{0}ギルドに加入しました",
+    "left": "ギルドを退出しました",
+    "kicked": "{0}をギルドから追放しました",
+    "disbanded": "ギルドを解散しました",
+    "not_in_guild": "ギルドに所属していません",
+    "already_in_guild": "すでにギルドに所属しています"
+  },
+  "trade": {
+    "usage": "使用方法: /trade <プレイヤー>",
+    "description": "取引開始",
+    "request_sent": "{0}に取引リクエストを送りました",
+    "request_received": "{0}から取引リクエストを受けました",
+    "accepted": "取引を承諾しました",
+    "declined": "取引を拒否しました",
+    "cancelled": "取引がキャンセルされました",
+    "completed": "取引が完了しました"
+  },
+  "quest": {
+    "usage": "使用方法: /quest [list|abandon|progress]",
+    "description": "クエスト管理",
+    "list": "クエストリストを開きました",
+    "abandoned": "クエストを放棄しました",
+    "progress": "進行状況: {0}/{1}"
+  },
+  "warp": {
+    "usage": "使用方法: /warp <場所>",
+    "description": "場所へワープ",
+    "success": "{0}へワープしました",
+    "not_found": "ワープ地点が見つかりません",
+    "no_permission": "この場所へワープする権限がありません"
+  },
+  "spawn": {
+    "usage": "使用方法: /spawn",
+    "description": "スポーンへ移動",
+    "success": "スポーンへ移動しました"
+  },
+  "home": {
+    "usage": "使用方法: /home [名前]",
+    "description": "ホームへ移動",
+    "set": "ホーム地点を設定しました",
+    "success": "ホームへ移動しました",
+    "not_set": "ホームが設定されていません"
+  },
+  "tpa": {
+    "usage": "使用方法: /tpa <プレイヤー>",
+    "description": "テレポートリクエスト",
+    "request_sent": "{0}にテレポートリクエストを送りました",
+    "request_received": "{0}からテレポートリクエストを受けました",
+    "accepted": "テレポートリクエストを承諾しました",
+    "denied": "テレポートリクエストを拒否しました"
+  },
+  "balance": {
+    "usage": "使用方法: /balance [プレイヤー]",
+    "description": "残高確認",
+    "self": "残高: {0}",
+    "other": "{0}の残高: {1}"
+  },
+  "pay": {
+    "usage": "使用方法: /pay <プレイヤー> <金額>",
+    "description": "送金",
+    "success": "{0}に{1}を送りました",
+    "received": "{0}から{1}を受け取りました",
+    "insufficient": "残高が不足しています"
+  },
+  "help": {
+    "usage": "使用方法: /help [ページ]",
+    "description": "ヘルプを表示",
+    "header": "=== ヘルプ ({0}/{1}) ===",
+    "command_format": "/{0} - {1}"
+  },
+  "settings": {
+    "usage": "使用方法: /settings",
+    "description": "設定メニューを開く",
+    "opened": "設定メニューを開きました"
+  },
+  "friends": {
+    "usage": "使用方法: /friends [add|remove|list] [プレイヤー]",
+    "description": "フレンド管理",
+    "added": "{0}をフレンドに追加しました",
+    "removed": "{0}をフレンドリストから削除しました",
+    "request_sent": "{0}にフレンドリクエストを送りました",
+    "request_received": "{0}からフレンドリクエストを受けました",
+    "list_empty": "フレンドリストが空です"
+  },
+  "msg": {
+    "usage": "使用方法: /msg <プレイヤー> <メッセージ>",
+    "description": "プライベートメッセージを送信",
+    "sent": "[私 -> {0}] {1}",
+    "received": "[{0} -> 私] {1}",
+    "player_offline": "プレイヤーがオフラインです"
+  },
+  "reply": {
+    "usage": "使用方法: /reply <メッセージ>",
+    "description": "最後のメッセージに返信",
+    "no_recipient": "返信する相手がいません",
+    "sent": "[私 -> {0}] {1}"
+  },
+  "admin": {
+    "reload": {
+      "success": "プラグインをリロードしました",
+      "failed": "リロードに失敗しました: {0}"
+    },
+    "give": {
+      "success": "{0}に{1}を{2}個付与しました",
+      "usage": "使用方法: /rpgadmin give <プレイヤー> <アイテム> [数量]"
+    },
+    "setlevel": {
+      "success": "{0}のレベルを{1}に設定しました",
+      "usage": "使用方法: /rpgadmin setlevel <プレイヤー> <レベル>"
+    },
+    "addexp": {
+      "success": "{0}に{1}経験値を追加しました",
+      "usage": "使用方法: /rpgadmin addexp <プレイヤー> <経験値>"
+    },
+    "reset": {
+      "success": "{0}のデータをリセットしました",
+      "confirm": "本当に{0}のデータをリセットしますか？ /rpgadmin reset {0} confirm"
+    }
+  }
 }

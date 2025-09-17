@@ -15,16 +15,18 @@
   "denied": "Denied",
   "group_added": "Group Added",
   "group_removed": "Group Removed",
-  "permission.build": "Build",
-  "permission.break": "Break",
-  "permission.interact": "Interact",
-  "permission.container": "Container",
-  "permission.teleport": "Teleport",
-  "permission.invite": "Invite",
-  "permission.kick": "Kick",
-  "permission.ban": "Ban",
-  "permission.promote": "Promote",
-  "permission.demote": "Demote",
-  "permission.settings": "Settings",
-  "permission.admin": "Admin"
+  "permission": {
+    "build": "Build",
+    "break": "Break",
+    "interact": "Interact",
+    "container": "Container",
+    "teleport": "Teleport",
+    "invite": "Invite",
+    "kick": "Kick",
+    "ban": "Ban",
+    "promote": "Promote",
+    "demote": "Demote",
+    "settings": "Settings",
+    "admin": "Admin"
+  }
 }

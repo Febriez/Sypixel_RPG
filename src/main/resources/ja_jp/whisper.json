@@ -1,18 +1,29 @@
 {
-  "sent": "[JA] Sent",
-  "received": "[JA] Received",
-  "player_offline": "[JA] Player Offline",
-  "ignored": "[JA] Ignored",
+  "sent": "Sent",
+  "received": "Received",
   "player_not_found": "Player Not Found",
+  "player_offline": "Player オフライン",
   "disabled": "Disabled",
+  "ignored": "Ignored",
   "mode": {
-    "all": "すべて",
-    "friends": "Friends",
-    "guild": "Guild",
-    "off": "オフ"
+    "all": "All",
+    "friends": "フレンドs",
+    "guild": "ギルド",
+    "off": "Off"
   },
-  "mode.all": "[JA] All",
-  "mode.friends": "[JA] Friends",
-  "mode.guild": "[JA] Guild",
-  "mode.off": "[JA] Off"
+  "no-reply-target": "いいえ one to reply to.",
+  "whisper": {
+    "sent": "Sent",
+    "received": "Received",
+    "player_not_found": "プレイヤー Not Found",
+    "player_offline": "Player オフライン",
+    "disabled": "Disabled",
+    "ignored": "Ignored",
+    "mode": {
+      "all": "All",
+      "friends": "フレンドs",
+      "guild": "ギルド",
+      "off": "Off"
+    }
+  }
 }

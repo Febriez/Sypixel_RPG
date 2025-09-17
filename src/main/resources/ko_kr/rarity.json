@@ -1,13 +1,25 @@
 {
-  "common": "[KO] Common",
-  "uncommon": "[KO] Uncommon",
-  "rare": "[KO] Rare",
-  "epic": "[KO] Epic",
-  "legendary": "[KO] Legendary",
-  "mythic": "[KO] Mythic",
-  "divine": "[KO] Divine",
-  "special": "[KO] Special",
+  "common": "Common",
+  "uncommon": "Uncommon",
+  "rare": "레어",
+  "epic": "에픽",
+  "legendary": "전설",
+  "mythic": "Mythic",
   "ancient": "Ancient",
+  "divine": "Divine",
   "unique": "Unique",
-  "artifact": "Artifact"
+  "artifact": "Artifact",
+  "special": "Special",
+  "rarity": {
+    "common": "Common",
+    "uncommon": "Uncommon",
+    "rare": "레어",
+    "epic": "에픽",
+    "legendary": "전설",
+    "mythic": "Mythic",
+    "ancient": "Ancient",
+    "divine": "Divine",
+    "unique": "Unique",
+    "artifact": "Artifact"
+  }
 }

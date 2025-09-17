@@ -11,8 +11,6 @@ import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.TimeParadoxLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -69,26 +67,26 @@ public class TimeParadoxQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(TimeParadoxLangKey.QUEST_SIDE_TIME_PARADOX_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.time.paradox.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(TimeParadoxLangKey.QUEST_SIDE_TIME_PARADOX_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.time.paradox.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_chrono_mage" -> LangManager.text(TimeParadoxLangKey.QUEST_SIDE_TIME_PARADOX_OBJECTIVES_TALK_CHRONO_MAGE, who);
+            case "talk_chrono_mage" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.time.paradox.objectives.talk.chrono.mage"), who);
             case "temporal_rift_1" -> LangManager.text(QuestCommonLangKey.QUEST_SIDE_TIME_PARADOX_OBJECTIVES_TEMPORAL_RIFT_, who);
-            case "clock_collect" -> LangManager.text(TimeParadoxLangKey.QUEST_SIDE_TIME_PARADOX_OBJECTIVES_CLOCK_COLLECT, who);
+            case "clock_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.time.paradox.objectives.clock.collect"), who);
             case "temporal_rift_2" -> LangManager.text(QuestCommonLangKey.QUEST_SIDE_TIME_PARADOX_OBJECTIVES_TEMPORAL_RIFT_2, who);
-            case "amethyst_shard_collect" -> LangManager.text(TimeParadoxLangKey.QUEST_SIDE_TIME_PARADOX_OBJECTIVES_AMETHYST_SHARD_COLLECT, who);
+            case "amethyst_shard_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.time.paradox.objectives.amethyst.shard.collect"), who);
             case "temporal_rift_3" -> LangManager.text(QuestCommonLangKey.QUEST_SIDE_TIME_PARADOX_OBJECTIVES_TEMPORAL_RIFT_3, who);
-            case "experience_bottle_collect" -> LangManager.text(TimeParadoxLangKey.QUEST_SIDE_TIME_PARADOX_OBJECTIVES_EXPERIENCE_BOTTLE_COLLECT, who);
-            case "time_nexus" -> LangManager.text(TimeParadoxLangKey.QUEST_SIDE_TIME_PARADOX_OBJECTIVES_TIME_NEXUS, who);
-            case "stabilize_timeline" -> LangManager.text(TimeParadoxLangKey.QUEST_SIDE_TIME_PARADOX_OBJECTIVES_STABILIZE_TIMELINE, who);
+            case "experience_bottle_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.time.paradox.objectives.experience.bottle.collect"), who);
+            case "time_nexus" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.time.paradox.objectives.time.nexus"), who);
+            case "stabilize_timeline" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.time.paradox.objectives.stabilize.timeline"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -100,7 +98,7 @@ public class TimeParadoxQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(TimeParadoxLangKey.QUEST_SIDE_TIME_PARADOX_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.time.paradox.dialogs"), who);
     }
     
     @Override
@@ -110,16 +108,16 @@ public class TimeParadoxQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(TimeParadoxLangKey.QUEST_SIDE_TIME_PARADOX_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.time.paradox.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(TimeParadoxLangKey.QUEST_SIDE_TIME_PARADOX_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.time.paradox.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(TimeParadoxLangKey.QUEST_SIDE_TIME_PARADOX_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.time.paradox.decline"), who);
     }
 }

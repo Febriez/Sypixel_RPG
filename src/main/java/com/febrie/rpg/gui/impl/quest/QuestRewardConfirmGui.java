@@ -1,5 +1,7 @@
 package com.febrie.rpg.gui.impl.quest;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
@@ -9,7 +11,6 @@ import com.febrie.rpg.quest.manager.QuestManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -35,7 +36,7 @@ public class QuestRewardConfirmGui extends BaseGui {
     
     private QuestRewardConfirmGui(@NotNull GuiManager guiManager,
                                   @NotNull Player viewer, @NotNull Quest quest, @NotNull String instanceId, @NotNull QuestRewardGui previousGui) {
-        super(viewer, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_QUEST_REWARD_CONFIRM_TITLE, viewer.locale()));
+        super(viewer, guiManager, GUI_SIZE, LangManager.text(GuiLangKey.GUI_QUEST_REWARD_CONFIRM_TITLE, viewer.locale()));
         this.quest = quest;
         this.instanceId = instanceId;
         this.questManager = QuestManager.getInstance();
@@ -49,7 +50,7 @@ public class QuestRewardConfirmGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_QUEST_REWARD_CONFIRM_TITLE, viewer.locale()).color(UnifiedColorUtil.ERROR);
+        return LangManager.text(GuiLangKey.GUI_QUEST_REWARD_CONFIRM_TITLE, viewer.locale()).color(UnifiedColorUtil.ERROR);
     }
     
     @Override
@@ -75,11 +76,11 @@ public class QuestRewardConfirmGui extends BaseGui {
     private void setupMessage() {
         // 중앙에 경고 메시지 표시
         ItemBuilder warningBuilder = ItemBuilder.of(Material.BARRIER)
-                .displayName(LangManager.text(LangKey.ITEMS_QUEST_REWARD_CONFIRM_WARNING_NAME, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_QUEST_REWARD_CONFIRM_WARNING_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.list(LangKey.ITEMS_QUEST_REWARD_CONFIRM_WARNING_LORE, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_QUEST_REWARD_CONFIRM_WARNING_LORE, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.list(LangKey.ITEMS_QUEST_REWARD_CONFIRM_WARNING_QUESTION, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_QUEST_REWARD_CONFIRM_WARNING_QUESTION, viewer.locale()))
                 .hideAllFlags();
         
         setItem(13, GuiItem.display(warningBuilder.build()));
@@ -88,8 +89,8 @@ public class QuestRewardConfirmGui extends BaseGui {
     private void setupButtons() {
         // 예 버튼
         ItemBuilder yesBuilder = ItemBuilder.of(Material.RED_WOOL)
-                .displayName(LangManager.text(LangKey.ITEMS_QUEST_REWARD_CONFIRM_YES_NAME, viewer.locale()))
-                .addLore(LangManager.list(LangKey.ITEMS_QUEST_REWARD_CONFIRM_YES_LORE, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_QUEST_REWARD_CONFIRM_YES_NAME, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_QUEST_REWARD_CONFIRM_YES_LORE, viewer.locale()))
                 .hideAllFlags();
         
         GuiItem yesButton = GuiItem.clickable(yesBuilder.build(), p -> {
@@ -98,9 +99,9 @@ public class QuestRewardConfirmGui extends BaseGui {
             
             p.closeInventory();
             p.sendMessage(Component.empty());
-            p.sendMessage(LangManager.text(LangKey.GUI_QUEST_REWARD_DESTROYED, p.locale()).color(UnifiedColorUtil.ERROR)
+            p.sendMessage(LangManager.text(GuiLangKey.GUI_QUEST_REWARD_DESTROYED, p.locale()).color(UnifiedColorUtil.ERROR)
                     .decoration(TextDecoration.BOLD, true));
-            p.sendMessage(LangManager.text(LangKey.GUI_QUEST_REWARD_DESTROYED_DESC, p.locale(), quest.getDisplayName(p))
+            p.sendMessage(LangManager.text(GuiLangKey.GUI_QUEST_REWARD_DESTROYED_DESC, p.locale(), quest.getDisplayName(p))
                     .color(UnifiedColorUtil.WARNING));
             
             SoundUtil.playDeleteSound(p);
@@ -110,8 +111,8 @@ public class QuestRewardConfirmGui extends BaseGui {
         
         // 아니요 버튼
         ItemBuilder noBuilder = ItemBuilder.of(Material.LIME_WOOL)
-                .displayName(LangManager.text(LangKey.ITEMS_QUEST_REWARD_CONFIRM_NO_NAME, viewer.locale()))
-                .addLore(LangManager.list(LangKey.ITEMS_QUEST_REWARD_CONFIRM_NO_LORE, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_QUEST_REWARD_CONFIRM_NO_NAME, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_QUEST_REWARD_CONFIRM_NO_LORE, viewer.locale()))
                 .hideAllFlags();
         
         GuiItem noButton = GuiItem.clickable(noBuilder.build(), p -> {

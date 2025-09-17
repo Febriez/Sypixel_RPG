@@ -6,8 +6,8 @@ import com.febrie.rpg.quest.progress.ObjectiveProgress;
 import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.quest.reward.QuestReward;
 import com.febrie.rpg.quest.reward.RewardDeliveryType;
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
+import com.febrie.rpg.util.lang.ILangKey;
 import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import net.kyori.adventure.text.Component;
@@ -362,7 +362,7 @@ public abstract class Quest {
      * @return 대화 컴포넌트 리스트
      */
     @NotNull
-    protected List<Component> getDialogs(@NotNull LangKey dialogKey, @NotNull Player player) {
+    protected List<Component> getDialogs(@NotNull ILangKey dialogKey, @NotNull Player player) {
         return LangManager.list(dialogKey, player);
     }
     

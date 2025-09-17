@@ -1,5 +1,6 @@
 package com.febrie.rpg.gui.impl.island;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.gui.framework.BaseGui;
@@ -11,7 +12,6 @@ import com.febrie.rpg.island.permission.IslandPermissionHandler;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -40,7 +40,7 @@ public class IslandPermissionGui extends BaseGui {
     
     private IslandPermissionGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                               @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, LangManager.text(LangKey.GUI_ISLAND_PERMISSION_TITLE, viewer.locale()));
+        super(viewer, guiManager, 54, LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_TITLE, viewer.locale()));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
     }
@@ -55,7 +55,7 @@ public class IslandPermissionGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_ISLAND_PERMISSION_TITLE, viewer.locale());
+        return LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_TITLE, viewer.locale());
     }
     
     @Override
@@ -116,11 +116,11 @@ public class IslandPermissionGui extends BaseGui {
                 .displayName(Component.text(IslandPermissionHandler.getRoleDisplayName(viewer.locale().getLanguage(), role),
                         selected ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.SECONDARY))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_SELECT_ROLE_DESC, viewer.locale()).color(UnifiedColorUtil.SECONDARY))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_SELECT_ROLE_DESC, viewer.locale()).color(UnifiedColorUtil.SECONDARY))
                 .addLore(Component.empty())
                 .addLore(selected ? 
-                    LangManager.text(LangKey.GUI_ISLAND_PERMISSION_SELECTED, viewer.locale()).color(UnifiedColorUtil.SUCCESS) :
-                    LangManager.text(LangKey.GUI_ISLAND_PERMISSION_CLICK_TO_SELECT, viewer.locale()).color(UnifiedColorUtil.WARNING))
+                    LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_SELECTED, viewer.locale()).color(UnifiedColorUtil.SUCCESS) :
+                    LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_CLICK_TO_SELECT, viewer.locale()).color(UnifiedColorUtil.WARNING))
                 .glint(selected)
                 .hideAllFlags()
                 .build();
@@ -131,14 +131,14 @@ public class IslandPermissionGui extends BaseGui {
      */
     private ItemStack createSelectedRoleItem() {
         return ItemBuilder.of(Material.PAPER)
-                .displayName(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_CURRENT_EDITING, viewer.locale())
+                .displayName(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_CURRENT_EDITING, viewer.locale())
                     .color(UnifiedColorUtil.WARNING)
                     .append(Component.text(": "))
                     .append(Component.text(IslandPermissionHandler.getRoleDisplayName(viewer.locale().getLanguage(), selectedRole))
                         .color(UnifiedColorUtil.WHITE)))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_SELECT_OTHER_ROLE, viewer.locale()).color(UnifiedColorUtil.SECONDARY))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_EDIT_ROLE_PERMISSIONS, viewer.locale()).color(UnifiedColorUtil.SECONDARY))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_SELECT_OTHER_ROLE, viewer.locale()).color(UnifiedColorUtil.SECONDARY))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_EDIT_ROLE_PERMISSIONS, viewer.locale()).color(UnifiedColorUtil.SECONDARY))
                 .hideAllFlags()
                 .build();
     }
@@ -178,27 +178,27 @@ public class IslandPermissionGui extends BaseGui {
         ItemBuilder builder = ItemBuilder.of(material)
                 .displayName(Component.text(displayName, enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_STATUS, viewer.locale())
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_STATUS, viewer.locale())
                     .append(Component.text(": "))
-                    .append(LangManager.text(enabled ? LangKey.GUI_ISLAND_PERMISSION_ENABLED : LangKey.GUI_ISLAND_PERMISSION_DISABLED, viewer.locale())
+                    .append(LangManager.text(enabled ? GuiLangKey.GUI_ISLAND_PERMISSION_ENABLED : GuiLangKey.GUI_ISLAND_PERMISSION_DISABLED, viewer.locale())
                         .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
                 .addLore(Component.empty())
                 .hideAllFlags();
         
         // 권한 설명 추가
         switch (permission) {
-            case "BUILD" -> builder.addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_BUILD_DESC, viewer.locale()).color(UnifiedColorUtil.fromName("GRAY")));
-            case "USE_ITEMS" -> builder.addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_INTERACT_DESC, viewer.locale()).color(UnifiedColorUtil.fromName("GRAY")));
-            case "OPEN_CONTAINERS" -> builder.addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_CONTAINERS_DESC, viewer.locale()).color(UnifiedColorUtil.fromName("GRAY")));
-            case "INVITE_MEMBERS" -> builder.addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_INVITE_DESC, viewer.locale()).color(UnifiedColorUtil.fromName("GRAY")));
-            case "KICK_MEMBERS" -> builder.addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_KICK_DESC, viewer.locale()).color(UnifiedColorUtil.fromName("GRAY")));
-            case "MANAGE_WORKERS" -> builder.addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_WORKERS_DESC, viewer.locale()).color(UnifiedColorUtil.SECONDARY));
-            case "MODIFY_SPAWNS" -> builder.addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_SPAWNS_DESC, viewer.locale()).color(UnifiedColorUtil.SECONDARY));
-            case "CHANGE_SETTINGS" -> builder.addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_SETTINGS_DESC, viewer.locale()).color(UnifiedColorUtil.fromName("GRAY")));
+            case "BUILD" -> builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_BUILD_DESC, viewer.locale()).color(UnifiedColorUtil.fromName("GRAY")));
+            case "USE_ITEMS" -> builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_INTERACT_DESC, viewer.locale()).color(UnifiedColorUtil.fromName("GRAY")));
+            case "OPEN_CONTAINERS" -> builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_CONTAINERS_DESC, viewer.locale()).color(UnifiedColorUtil.fromName("GRAY")));
+            case "INVITE_MEMBERS" -> builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_INVITE_DESC, viewer.locale()).color(UnifiedColorUtil.fromName("GRAY")));
+            case "KICK_MEMBERS" -> builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_KICK_DESC, viewer.locale()).color(UnifiedColorUtil.fromName("GRAY")));
+            case "MANAGE_WORKERS" -> builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_WORKERS_DESC, viewer.locale()).color(UnifiedColorUtil.SECONDARY));
+            case "MODIFY_SPAWNS" -> builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_SPAWNS_DESC, viewer.locale()).color(UnifiedColorUtil.SECONDARY));
+            case "CHANGE_SETTINGS" -> builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_PERMISSIONS_SETTINGS_DESC, viewer.locale()).color(UnifiedColorUtil.fromName("GRAY")));
         }
         
         builder.addLore(Component.empty())
-               .addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_CLICK_TO_TOGGLE, viewer.locale()).color(UnifiedColorUtil.WARNING));
+               .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_CLICK_TO_TOGGLE, viewer.locale()).color(UnifiedColorUtil.WARNING));
         
         return builder.build();
     }
@@ -208,11 +208,11 @@ public class IslandPermissionGui extends BaseGui {
      */
     private ItemStack createSaveButton() {
         return ItemBuilder.of(Material.EMERALD_BLOCK)
-                .displayName(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_SAVE_TITLE, viewer.locale()))
+                .displayName(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_SAVE_TITLE, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_SAVE_DESCRIPTION, viewer.locale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_SAVE_DESCRIPTION, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_SAVE_CLICK, viewer.locale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_SAVE_CLICK, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
@@ -222,9 +222,9 @@ public class IslandPermissionGui extends BaseGui {
      */
     private ItemStack createBackButton() {
         return ItemBuilder.of(Material.ARROW)
-                .displayName(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_BACK_TITLE, viewer.locale()))
+                .displayName(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_BACK_TITLE, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_BACK_DESCRIPTION, viewer.locale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_BACK_DESCRIPTION, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
@@ -234,9 +234,9 @@ public class IslandPermissionGui extends BaseGui {
      */
     private ItemStack createCloseButton() {
         return ItemBuilder.of(Material.BARRIER)
-                .displayName(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_CLOSE_TITLE, viewer.locale()))
+                .displayName(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_CLOSE_TITLE, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_CLOSE_DESCRIPTION, viewer.locale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_CLOSE_DESCRIPTION, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
@@ -291,10 +291,10 @@ public class IslandPermissionGui extends BaseGui {
     private void savePermissions(@NotNull Player player) {
         islandManager.updateIsland(island).thenAccept(success -> {
             if (success) {
-                player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_SAVE_SUCCESS, player.locale()).color(UnifiedColorUtil.SUCCESS));
+                player.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_SAVE_SUCCESS, player.locale()).color(UnifiedColorUtil.SUCCESS));
                 IslandMainGui.create(plugin.getGuiManager(), viewer).open(viewer);
             } else {
-                player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_PERMISSION_SAVE_FAILED, player.locale()).color(UnifiedColorUtil.ERROR));
+                player.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_PERMISSION_SAVE_FAILED, player.locale()).color(UnifiedColorUtil.ERROR));
             }
         });
     }

@@ -1,4 +1,8 @@
 {
-  "enable": "[KO] Enable",
-  "disable": "[KO] Disable"
+  "enable": "Enable",
+  "disable": "Disable",
+  "action": {
+    "enable": "Enable",
+    "disable": "Disable"
+  }
 }

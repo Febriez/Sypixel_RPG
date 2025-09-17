@@ -11,9 +11,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.lang.quest.side.FarmersRequestLangKey;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -68,24 +66,24 @@ public class FarmersRequestQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(FarmersRequestLangKey.QUEST_SIDE_FARMERS_REQUEST_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.farmers.rename"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(FarmersRequestLangKey.QUEST_SIDE_FARMERS_REQUEST_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.farmers.reinfo"), who);
     }
 
         @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_worried_farmer" -> LangManager.text(FarmersRequestLangKey.QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_TALK_WORRIED_FARMER, who);
-            case "visit_damaged_farmland" -> LangManager.text(FarmersRequestLangKey.QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_VISIT_DAMAGED_FARMLAND, who);
-            case "kill_rabbits" -> LangManager.text(FarmersRequestLangKey.QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_KILL_RABBITS, who);
-            case "wheat_seeds_collect" -> LangManager.text(FarmersRequestLangKey.QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_WHEAT_SEEDS_COLLECT, who);
-            case "bone_meal_collect" -> LangManager.text(FarmersRequestLangKey.QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_BONE_MEAL_COLLECT, who);
-            case "visit_irrigation_canal" -> LangManager.text(FarmersRequestLangKey.QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_VISIT_IRRIGATION_CANAL, who);
-            case "return_worried_farmer" -> LangManager.text(FarmersRequestLangKey.QUEST_SIDE_FARMERS_REQUEST_OBJECTIVES_RETURN_WORRIED_FARMER, who);
+            case "talk_worried_farmer" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.farmers.reobjectives.talk.worried.farmer"), who);
+            case "visit_damaged_farmland" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.farmers.reobjectives.visit.damaged.farmland"), who);
+            case "kill_rabbits" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.farmers.reobjectives.kill.rabbits"), who);
+            case "wheat_seeds_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.farmers.reobjectives.wheat.seeds.collect"), who);
+            case "bone_meal_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.farmers.reobjectives.bone.meal.collect"), who);
+            case "visit_irrigation_canal" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.farmers.reobjectives.visit.irrigation.canal"), who);
+            case "return_worried_farmer" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.farmers.reobjectives.return.worried.farmer"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -97,7 +95,7 @@ public class FarmersRequestQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(FarmersRequestLangKey.QUEST_SIDE_FARMERS_REQUEST_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.farmers.redialogs"), who);
     }
     
     @Override
@@ -107,16 +105,16 @@ public class FarmersRequestQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(FarmersRequestLangKey.QUEST_SIDE_FARMERS_REQUEST_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.farmers.renpc.name"), who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(FarmersRequestLangKey.QUEST_SIDE_FARMERS_REQUEST_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.farmers.reaccept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(FarmersRequestLangKey.QUEST_SIDE_FARMERS_REQUEST_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.farmers.redecline"), who);
     }
 }

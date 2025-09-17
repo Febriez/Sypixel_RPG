@@ -10,14 +10,16 @@
   "unique": "Unique",
   "artifact": "Artifact",
   "special": "Special",
-  "rarity.common": "Common",
-  "rarity.uncommon": "Uncommon",
-  "rarity.rare": "Rare",
-  "rarity.epic": "Epic",
-  "rarity.legendary": "Legendary",
-  "rarity.mythic": "Mythic",
-  "rarity.ancient": "Ancient",
-  "rarity.divine": "Divine",
-  "rarity.unique": "Unique",
-  "rarity.artifact": "Artifact"
+  "rarity": {
+    "common": "Common",
+    "uncommon": "Uncommon",
+    "rare": "Rare",
+    "epic": "Epic",
+    "legendary": "Legendary",
+    "mythic": "Mythic",
+    "ancient": "Ancient",
+    "divine": "Divine",
+    "unique": "Unique",
+    "artifact": "Artifact"
+  }
 }

@@ -1,254 +1,264 @@
 {
+  "selected": "You have selected the %s class!",
+  "already_has": "You already have this class!",
+  "level_up": "Your job level has increased to %d!",
+  "max_level": "You have reached the maximum job level!",
+  "requirement_not_met": "You do not meet the requirements for this job!",
+  "skill_learned": "You have learned the skill: %s",
+  "skill_upgraded": "Skill upgraded: %s (Level %d)",
+  "skill_max_level": "This skill is already at maximum level!",
+  "not_enough_skill_points": "Not enough skill points!",
+  "job": {
+    "warrior": {
+      "name": "Warrior",
+      "description": [
+        "A powerful melee fighter specializing in close combat.",
+        "Uses strength and durability to dominate the battlefield."
+      ]
+    },
+    "mage": {
+      "name": "Mage",
+      "description": [
+        "A wielder of arcane magic and mystical powers.",
+        "Controls the elements to devastate enemies from afar."
+      ]
+    },
+    "archer": {
+      "name": "Archer",
+      "description": [
+        "A precise marksman with excellent range.",
+        "Delivers critical strikes with speed and accuracy."
+      ]
+    },
+    "rogue": {
+      "name": "Rogue",
+      "description": [
+        "A stealthy assassin who strikes from the shadows.",
+        "Specializes in quick, devastating attacks."
+      ]
+    },
+    "berserker": {
+      "name": "Berserker",
+      "description": [
+        "A melee dealer with powerful attack power.",
+        "Gets stronger the lower their health is.",
+        "",
+        "▸ Strength-focused stat growth",
+        "▸ Can use berserk skills",
+        "▸ Health-based attack power increase"
+      ]
+    },
+    "bruiser": {
+      "name": "Bruiser",
+      "description": [
+        "A warrior balanced between offense and defense.",
+        "Can handle various situations.",
+        "",
+        "▸ Balanced stat growth",
+        "▸ Attack/Defense mode switching",
+        "▸ Highly adaptable combat style"
+      ]
+    },
+    "tank": {
+      "name": "Tank",
+      "description": [
+        "A sturdy shield that protects allies.",
+        "Boasts high defense and health.",
+        "",
+        "▸ Vitality-focused stat growth",
+        "▸ Taunt and shield skills",
+        "▸ Damage reduction effects"
+      ]
+    },
+    "priest": {
+      "name": "Priest",
+      "description": [
+        "Heals allies with divine power.",
+        "Possesses powerful buffs and healing abilities.",
+        "",
+        "▸ Wisdom-focused stat growth",
+        "▸ Healing and resurrection skills",
+        "▸ Buff/Debuff specialization"
+      ]
+    },
+    "dark_mage": {
+      "name": "Dark Mage",
+      "description": [
+        "A mage who wields the power of darkness.",
+        "Deals powerful area damage.",
+        "",
+        "▸ Intelligence-focused stat growth",
+        "▸ Curse and dark magic skills",
+        "▸ Area damage specialization"
+      ]
+    },
+    "mercy": {
+      "name": "Mercy",
+      "description": [
+        "Protects allies with the power of nature.",
+        "Specializes in healing and protection.",
+        "",
+        "▸ Wisdom/Vitality balanced growth",
+        "▸ Regeneration and purification skills",
+        "▸ Sustained healing specialization"
+      ]
+    },
+    "sniper": {
+      "name": "Sniper",
+      "description": [
+        "Snipes enemies from extreme range.",
+        "Each shot is extremely powerful.",
+        "",
+        "▸ Dexterity/Luck balanced growth",
+        "▸ Sniping and piercing skills",
+        "▸ Single target burst damage"
+      ]
+    },
+    "shotgunner": {
+      "name": "Shotgunner",
+      "description": [
+        "Fires scatter shots at close range.",
+        "Features area damage and knockback.",
+        "",
+        "▸ Dexterity/Strength balanced growth",
+        "▸ Scatter and explosive skills",
+        "▸ Close-range area damage"
+      ]
+    },
+    "assassin": {
+      "name": "Assassin",
+      "description": [
+        "A silent killer who eliminates targets swiftly.",
+        "Masters of stealth and critical strikes."
+      ]
+    },
+    "paladin": {
+      "name": "Paladin",
+      "description": [
+        "A holy warrior combining faith and martial prowess.",
+        "Protects allies while smiting enemies with divine power."
+      ]
+    },
+    "summoner": {
+      "name": "Summoner",
+      "description": [
+        "Master of summoning creatures to fight.",
+        "Controls multiple entities on the battlefield."
+      ]
+    },
+    "necromancer": {
+      "name": "Necromancer",
+      "description": [
+        "Commander of death and undead forces.",
+        "Raises fallen enemies to serve their will."
+      ]
+    },
+    "druid": {
+      "name": "Druid",
+      "description": [
+        "Guardian of nature with shapeshifting abilities.",
+        "Harnesses the power of the wild."
+      ]
+    },
+    "ranger": {
+      "name": "Ranger",
+      "description": [
+        "Beast master and wilderness expert.",
+        "Fights alongside animal companions."
+      ]
+    },
+    "warlock": {
+      "name": "Warlock",
+      "description": [
+        "Dark magic wielder with forbidden knowledge.",
+        "Channels demonic powers for devastating effects."
+      ]
+    },
+    "categories": {
+      "warrior": "Warrior",
+      "mage": "Mage",
+      "archer": "Archer"
+    }
+  },
   "categories": {
     "warrior": "Warrior",
     "mage": "Mage",
-    "archer": "Archer",
-    "warrior_full": {
-      "name": "Warrior",
-      "description": [
-        "A class group with powerful melee combat abilities.",
-        "Holds the front line with high health and defense."
-      ]
-    },
-    "mage_full": {
-      "name": "Mage",
-      "description": [
-        "A class group that wields mystical magical powers.",
-        "Dominates the battlefield with powerful spells."
-      ]
-    },
-    "archer_full": {
-      "name": "Archer",
-      "description": [
-        "A class group that delivers precise attacks from range.",
-        "Features fast mobility and high critical rate."
-      ]
-    }
+    "archer": "Archer"
   },
-  "berserker": {
-    "name": "Berserker",
-    "description": [
-      "A melee dealer with powerful attack power.",
-      "Gets stronger the lower their health is.",
-      "",
-      "▸ Strength-focused stat growth",
-      "▸ Can use berserk skills",
-      "▸ Health-based attack power increase"
-    ]
+  "warrior": {
+    "name": "Warrior",
+    "description": "A powerful warrior"
   },
-  "bruiser": {
-    "name": "Bruiser",
-    "description": [
-      "A warrior balanced between offense and defense.",
-      "Can handle various situations.",
-      "",
-      "▸ Balanced stat growth",
-      "▸ Attack/Defense mode switching",
-      "▸ Highly adaptable combat style"
-    ]
-  },
-  "tank": {
-    "name": "Tank",
-    "description": [
-      "A sturdy shield that protects allies.",
-      "Boasts high defense and health.",
-      "",
-      "▸ Vitality-focused stat growth",
-      "▸ Taunt and shield skills",
-      "▸ Damage reduction effects"
-    ]
-  },
-  "priest": {
-    "name": "Priest",
-    "description": [
-      "Heals allies with divine power.",
-      "Possesses powerful buffs and healing abilities.",
-      "",
-      "▸ Wisdom-focused stat growth",
-      "▸ Healing and resurrection skills",
-      "▸ Buff/Debuff specialization"
-    ]
-  },
-  "dark_mage": {
-    "name": "Dark Mage",
-    "description": [
-      "A mage who wields the power of darkness.",
-      "Deals powerful area damage.",
-      "",
-      "▸ Intelligence-focused stat growth",
-      "▸ Curse and dark magic skills",
-      "▸ Area damage specialization"
-    ]
-  },
-  "mercy": {
-    "name": "Mercy",
-    "description": [
-      "Protects allies with the power of nature.",
-      "Specializes in healing and protection.",
-      "",
-      "▸ Wisdom/Vitality balanced growth",
-      "▸ Regeneration and purification skills",
-      "▸ Sustained healing specialization"
-    ]
+  "mage": {
+    "name": "Mage",
+    "description": "A powerful mage"
   },
   "archer": {
     "name": "Archer",
-    "description": [
-      "Delivers precise shots from long range.",
-      "Boasts high mobility and critical rate.",
-      "",
-      "▸ Dexterity-focused stat growth",
-      "▸ Various arrow skills",
-      "▸ Critical hit specialization"
-    ]
+    "description": "A powerful archer"
+  },
+  "rogue": {
+    "name": "Rogue",
+    "description": "A powerful rogue"
+  },
+  "berserker": {
+    "name": "Berserker",
+    "description": "A powerful berserker"
+  },
+  "bruiser": {
+    "name": "Bruiser",
+    "description": "A powerful bruiser"
+  },
+  "tank": {
+    "name": "Tank",
+    "description": "A powerful tank"
+  },
+  "priest": {
+    "name": "Priest",
+    "description": "A powerful priest"
+  },
+  "dark_mage": {
+    "name": "Dark Mage",
+    "description": "A powerful dark mage"
+  },
+  "mercy": {
+    "name": "Mercy",
+    "description": "A powerful mercy"
   },
   "sniper": {
     "name": "Sniper",
-    "description": [
-      "Snipes enemies from extreme range.",
-      "Each shot is extremely powerful.",
-      "",
-      "▸ Dexterity/Luck balanced growth",
-      "▸ Sniping and piercing skills",
-      "▸ Single target burst damage"
-    ]
+    "description": "A powerful sniper"
   },
   "shotgunner": {
     "name": "Shotgunner",
-    "description": [
-      "Fires scatter shots at close range.",
-      "Features area damage and knockback.",
-      "",
-      "▸ Dexterity/Strength balanced growth",
-      "▸ Scatter and explosive skills",
-      "▸ Close-range area damage"
-    ]
+    "description": "A powerful shotgunner"
   },
-  "changed": "Job changed to {0}",
-  "already_has": "You already have this job",
-  "level_up": "Job level up! Now level {0}",
-  "max_level": "Job at maximum level",
-  "skill_learned": "Learned new skill: {0}",
-  "skill_upgraded": "Skill upgraded: {0}",
-  "not_enough_points": "Not enough skill points",
-  "requirement_not_met": "Requirements not met",
-  "warrior": "Warrior",
-  "mage": "Mage",
-  "rogue": "Rogue",
-  "assassin": "Assassin",
-  "summoner": "Summoner",
-  "necromancer": "Necromancer",
-  "druid": "Druid",
-  "ranger": "Ranger",
-  "warlock": "Warlock",
-  "paladin": "Paladin",
-  "selected": "Job selected: {0}",
-  "select": "Select Job",
-  "none": "No Job",
-  "advancement": {
-    "warrior": "Warrior Advancement",
-    "archer": "Archer Advancement",
-    "mage": "Mage Advancement",
-    "rogue": "Rogue Advancement",
-    "priest": "Priest Advancement",
-    "berserker": "Berserker Advancement",
-    "assassin": "Assassin Advancement",
-    "summoner": "Summoner Advancement",
-    "necromancer": "Necromancer Advancement",
-    "druid": "Druid Advancement",
-    "ranger": "Ranger Advancement",
-    "warlock": "Warlock Advancement",
-    "paladin": "Paladin Advancement"
+  "assassin": {
+    "name": "Assassin",
+    "description": "A powerful assassin"
   },
-  "mastery": {
-    "sword": "Sword Mastery",
-    "bow": "Bow Mastery",
-    "magic": "Magic Mastery",
-    "stealth": "Stealth Mastery",
-    "healing": "Healing Mastery",
-    "rage": "Rage Mastery",
-    "shadow": "Shadow Mastery",
-    "summoning": "Summoning Mastery",
-    "necromancy": "Necromancy Mastery",
-    "nature": "Nature Mastery",
-    "beast": "Beast Mastery",
-    "dark": "Dark Mastery",
-    "holy": "Holy Mastery"
+  "paladin": {
+    "name": "Paladin",
+    "description": "A powerful paladin"
   },
-  "job": {
-    "skill_max_level": "Skill at max level!",
-    "not_enough_skill_points": "Not enough skill points!",
-    "archer": {
-      "desc": "Desc"
-    },
-    "priest": {
-      "desc": "Desc"
-    },
-    "berserker": {
-      "desc": "Desc"
-    },
-    "warrior": {
-      "desc": "A powerful melee fighter"
-    },
-    "mage": {
-      "desc": "Wielder of arcane magic"
-    },
-    "rogue": {
-      "desc": "Stealthy assassin"
-    },
-    "paladin": {
-      "desc": "Holy warrior"
-    },
-    "assassin": {
-      "desc": "Silent killer"
-    },
-    "summoner": {
-      "desc": "Master of summons"
-    },
-    "necromancer": {
-      "desc": "Death magic user"
-    },
-    "druid": {
-      "desc": "Nature's guardian"
-    },
-    "ranger": {
-      "desc": "Beast master"
-    },
-    "warlock": {
-      "desc": "Dark magic wielder"
-    }
+  "summoner": {
+    "name": "Summoner",
+    "description": "A powerful summoner"
   },
-  "job.skill_max_level": "Skill Max Level",
-  "job.not_enough_skill_points": "Not Enough Skill Points",
-  "job.archer": "Archer",
-  "job.priest": "Priest",
-  "job.berserker": "Berserker",
-  "job.warrior.desc": "Desc",
-  "job.archer.desc": "Desc",
-  "job.mage.desc": "Desc",
-  "job.rogue.desc": "Desc",
-  "job.priest.desc": "Desc",
-  "job.paladin.desc": "Desc",
-  "job.assassin.desc": "Desc",
-  "job.berserker.desc": "Desc",
-  "job.summoner.desc": "Desc",
-  "job.necromancer.desc": "Desc",
-  "job.druid.desc": "Desc",
-  "job.ranger.desc": "Desc",
-  "job.warlock.desc": "Desc",
-  "skill_max_level": "Skill Max Level",
-  "not_enough_skill_points": "Not Enough Skill Points",
-  "warrior.desc": "Description text",
-  "archer.desc": "Description text",
-  "mage.desc": "Description text",
-  "rogue.desc": "Description text",
-  "priest.desc": "Description text",
-  "paladin.desc": "Description text",
-  "assassin.desc": "Description text",
-  "berserker.desc": "Description text",
-  "summoner.desc": "Description text",
-  "necromancer.desc": "Description text",
-  "druid.desc": "Description text",
-  "ranger.desc": "Description text",
-  "warlock.desc": "Description text"
+  "necromancer": {
+    "name": "Necromancer",
+    "description": "A powerful necromancer"
+  },
+  "druid": {
+    "name": "Druid",
+    "description": "A powerful druid"
+  },
+  "ranger": {
+    "name": "Ranger",
+    "description": "A powerful ranger"
+  },
+  "warlock": {
+    "name": "Warlock",
+    "description": "A powerful warlock"
+  }
 }

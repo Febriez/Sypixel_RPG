@@ -10,9 +10,7 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.lang.quest.side.HealersRequestLangKey;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -66,24 +64,24 @@ public class HealersRequestQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(HealersRequestLangKey.QUEST_SIDE_HEALERS_REQUEST_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.healers.rename"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(HealersRequestLangKey.QUEST_SIDE_HEALERS_REQUEST_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.healers.reinfo"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_village_healer" -> LangManager.text(HealersRequestLangKey.QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_TALK_VILLAGE_HEALER, who);
-            case "visit_herb_garden" -> LangManager.text(HealersRequestLangKey.QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_VISIT_HERB_GARDEN, who);
-            case "sweet_berries_collect" -> LangManager.text(HealersRequestLangKey.QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_SWEET_BERRIES_COLLECT, who);
-            case "spider_eye_collect" -> LangManager.text(HealersRequestLangKey.QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_SPIDER_EYE_COLLECT, who);
-            case "ghast_tear_collect" -> LangManager.text(HealersRequestLangKey.QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_GHAST_TEAR_COLLECT, who);
-            case "visit_sacred_spring" -> LangManager.text(HealersRequestLangKey.QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_VISIT_SACRED_SPRING, who);
-            case "potion_collect" -> LangManager.text(HealersRequestLangKey.QUEST_SIDE_HEALERS_REQUEST_OBJECTIVES_POTION_COLLECT, who);
+            case "talk_village_healer" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.healers.reobjectives.talk.village.healer"), who);
+            case "visit_herb_garden" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.healers.reobjectives.visit.herb.garden"), who);
+            case "sweet_berries_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.healers.reobjectives.sweet.berries.collect"), who);
+            case "spider_eye_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.healers.reobjectives.spider.eye.collect"), who);
+            case "ghast_tear_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.healers.reobjectives.ghast.tear.collect"), who);
+            case "visit_sacred_spring" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.healers.reobjectives.visit.sacred.spring"), who);
+            case "potion_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.healers.reobjectives.potion.collect"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -95,7 +93,7 @@ public class HealersRequestQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(HealersRequestLangKey.QUEST_SIDE_HEALERS_REQUEST_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.healers.redialogs"), who);
     }
     
     @Override
@@ -105,16 +103,16 @@ public class HealersRequestQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(HealersRequestLangKey.QUEST_SIDE_HEALERS_REQUEST_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.healers.renpc.name"), who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(HealersRequestLangKey.QUEST_SIDE_HEALERS_REQUEST_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.healers.reaccept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(HealersRequestLangKey.QUEST_SIDE_HEALERS_REQUEST_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.healers.redecline"), who);
     }
 }

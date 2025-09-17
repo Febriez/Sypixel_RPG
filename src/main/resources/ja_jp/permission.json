@@ -1,8 +1,4 @@
 {
-  "granted": "[JA] Granted",
-  "denied": "[JA] Denied",
-  "group_added": "[JA] Group Added",
-  "group_removed": "[JA] Group Removed",
   "build": "Build",
   "break": "Break",
   "interact": "Interact",
@@ -14,5 +10,23 @@
   "promote": "Promote",
   "demote": "Demote",
   "settings": "Settings",
-  "admin": "Admin"
+  "admin": "Admin",
+  "granted": "Granted",
+  "denied": "Denied",
+  "group_added": "Group 追加ed",
+  "group_removed": "Group 削除d",
+  "permission": {
+    "build": "Build",
+    "break": "Break",
+    "interact": "Interact",
+    "container": "Container",
+    "teleport": "Teleport",
+    "invite": "招待",
+    "kick": "除名",
+    "ban": "Ban",
+    "promote": "Promote",
+    "demote": "Demote",
+    "settings": "Settings",
+    "admin": "Admin"
+  }
 }

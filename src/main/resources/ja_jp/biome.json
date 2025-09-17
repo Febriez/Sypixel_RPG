@@ -1,309 +1,254 @@
 {
-  "plains": {
-    "name": "平原",
-    "description": "平坦な草原バイオーム"
-  },
-  "forest": {
-    "name": "森",
-    "description": "密集した森バイオーム"
-  },
-  "desert": {
-    "name": "砂漠",
-    "description": "砂の砂漠バイオーム"
-  },
-  "jungle": {
-    "name": "ジャングル",
-    "description": "熱帯ジャングルバイオーム"
-  },
-  "taiga": {
-    "name": "タイガ",
-    "description": "寒い森バイオーム"
-  },
-  "snowy_plains": {
-    "name": "雪原",
-    "description": "雪に覆われた平原"
-  },
-  "savanna": {
-    "name": "サバンナ",
-    "description": "乾燥した草原バイオーム"
-  },
-  "swamp": {
-    "name": "沼地",
-    "description": "湿った沼バイオーム"
-  },
-  "mushroom_fields": "キノコ畑",
-  "beach": {
-    "name": "ビーチ",
-    "description": "砂のビーチバイオーム"
-  },
-  "flower_forest": "花の森",
-  "bamboo_jungle": "竹林",
-  "dark_forest": "暗い森",
-  "birch_forest": "白樺の森",
   "badlands": {
-    "name": "荒地",
-    "description": "赤い砂の砂漠"
+    "description": "テラコッタのある乾燥地帯",
+    "name": "荒地"
   },
-  "ocean": {
-    "name": "海",
-    "description": "深い海バイオーム"
-  },
-  "cherry_grove": "桜の森",
-  "snowy_taiga": {
-    "name": "雪のタイガ",
-    "description": "雪に覆われた寒い針葉樹の森"
-  },
-  "mountains": {
-    "name": "山岳",
-    "description": "急な崖がある高い山岳地形"
-  },
-  "river": {
-    "name": "川",
-    "description": "地形を横切る流れる水"
-  },
-  "deep_ocean": {
-    "name": "深海",
-    "description": "非常に深い海"
-  },
-  "snowy_beach": {
-    "name": "雪の砂浜",
-    "description": "雪に覆われた寒い砂浜"
-  },
-  "frozen_river": {
-    "name": "凍った川",
-    "description": "氷で覆われた川"
-  },
-  "ice_spikes": {
-    "name": "氷のトゲ",
-    "description": "高い氷のトゲがある凍った平原"
-  },
-  "giant_tree_taiga": {
-    "name": "巨大樹のタイガ",
-    "description": "巨大なトウヒの木があるタイガ"
-  },
-  "jungle_edge": {
-    "name": "ジャングルの端",
-    "description": "ジャングルと他のバイオームの間の移行地域"
-  },
-  "swamp_hills": {
-    "name": "沼地の丘",
-    "description": "丘のある沼地"
-  },
-  "wooded_badlands_plateau": {
-    "name": "森のあるメサ高原",
-    "description": "オークの木があるメサ高原"
-  },
-  "badlands_plateau": {
-    "name": "メサ高原",
-    "description": "平らな頂上のメサ地形"
-  },
-  "frozen_ocean": {
-    "name": "凍った海",
-    "description": "氷で覆われた海面"
-  },
-  "warm_ocean": {
-    "name": "暖かい海",
-    "description": "サンゴ礁のある熱帯の海"
-  },
-  "lukewarm_ocean": {
-    "name": "ぬるい海",
-    "description": "温帯の海"
-  },
-  "cold_ocean": {
-    "name": "冷たい海",
-    "description": "冷たい海"
-  },
-  "the_void": {
-    "name": "奈落",
-    "description": "何もない空の空間"
-  },
-  "sunflower_plains": {
-    "name": "ひまわり平原",
-    "description": "ひまわりで満たされた平原"
-  },
-  "windswept_hills": {
-    "name": "風の吹く丘",
-    "description": "強風によって形成された丘"
-  },
-  "windswept_forest": {
-    "name": "風の吹く森",
-    "description": "風の吹く丘の森"
-  },
-  "windswept_gravelly_hills": {
-    "name": "風の吹く砂利の丘",
-    "description": "風によって形成された砂利の丘"
-  },
-  "windswept_savanna": {
-    "name": "風の吹くサバンナ",
-    "description": "風が吹き抜けるサバンナ地形"
-  },
-  "jungle_hills": {
-    "name": "ジャングルの丘",
-    "description": "丘のあるジャングル地形"
-  },
-  "sparse_jungle": {
-    "name": "疎らなジャングル",
-    "description": "木が少ないジャングル"
-  },
-  "eroded_badlands": {
-    "name": "侵食されたメサ",
-    "description": "ひどく侵食されたメサ地形"
-  },
-  "savanna_plateau": {
-    "name": "サバンナ高原",
-    "description": "平らな頂上のサバンナ地形"
-  },
-  "deep_lukewarm_ocean": {
-    "name": "深いぬるい海",
-    "description": "深い温帯の海"
-  },
-  "deep_cold_ocean": {
-    "name": "深い冷たい海",
-    "description": "深くて冷たい海"
-  },
-  "deep_frozen_ocean": {
-    "name": "深い凍った海",
-    "description": "氷で覆われた深い海"
-  },
-  "grove": {
-    "name": "林",
-    "description": "トウヒの木がある雪の斜面"
-  },
-  "snowy_slopes": {
-    "name": "雪の斜面",
-    "description": "雪に覆われた山の斜面"
-  },
-  "frozen_peaks": {
-    "name": "凍った頂",
-    "description": "氷の山頂"
-  },
-  "jagged_peaks": {
-    "name": "ギザギザの頂",
-    "description": "鋭く岩の多い山頂"
-  },
-  "stony_peaks": {
-    "name": "石の頂",
-    "description": "石で覆われた山頂"
-  },
-  "meadow": {
-    "name": "草地",
-    "description": "花の咲く山岳草原"
-  },
-  "old_growth_birch_forest": {
-    "name": "古い白樺の森",
-    "description": "背の高い木がある古代の白樺の森"
-  },
-  "old_growth_pine_taiga": {
-    "name": "古い松のタイガ",
-    "description": "古代の松の森"
-  },
-  "old_growth_spruce_taiga": {
-    "name": "古いトウヒのタイガ",
-    "description": "古代のトウヒの森"
-  },
-  "mangrove_swamp": {
-    "name": "マングローブの沼地",
-    "description": "マングローブの木がある沼地"
-  },
-  "deep_dark": {
-    "name": "深淵",
-    "description": "暗い地下バイオーム"
-  },
-  "dripstone_caves": {
-    "name": "鍾乳洞",
-    "description": "鍾乳石がある洞窟"
-  },
-  "lush_caves": {
-    "name": "繁茂した洞窟",
-    "description": "植生のある地下洞窟"
-  },
-  "nether_wastes": {
-    "name": "ネザーの荒地",
-    "description": "不毛なネザー地形"
-  },
-  "warped_forest": {
-    "name": "歪んだ森",
-    "description": "青いネザーの森"
-  },
-  "crimson_forest": {
-    "name": "真紅の森",
-    "description": "赤いネザーの森"
-  },
-  "soul_sand_valley": {
-    "name": "ソウルサンドの谷",
-    "description": "ソウルサンドで満たされた谷"
+  "bamboo_jungle": {
+    "description": "竹の茂みがあるジャングル",
+    "name": "竹林"
   },
   "basalt_deltas": {
-    "name": "玄武岩デルタ",
-    "description": "火山性のネザー地形"
+    "description": "火山性のネザーの地形",
+    "name": "玄武岩の三角州"
   },
-  "the_end": {
-    "name": "エンド",
-    "description": "エンド次元のメインアイランド"
+  "beach": {
+    "description": "砂の海岸線",
+    "name": "砂浜"
   },
-  "small_end_islands": {
-    "name": "小さなエンドアイランド",
-    "description": "浮かぶ小さなエンドアイランド"
+  "birch_forest": {
+    "description": "シラカバの木が支配的な森",
+    "name": "シラカバの森"
   },
-  "end_midlands": {
-    "name": "エンドの中間地",
-    "description": "中サイズのエンドアイランド"
+  "cherry_grove": {
+    "description": "美しいピンクの桜の森",
+    "name": "桜の林"
   },
-  "end_highlands": {
-    "name": "エンドの高地",
-    "description": "都市がある大きなエンドアイランド"
+  "cold_ocean": {
+    "description": "冷たい北の水域",
+    "name": "冷たい海"
+  },
+  "crimson_forest": {
+    "description": "赤いネザーの森",
+    "name": "真紅の森"
+  },
+  "dark_forest": {
+    "description": "ダークオークの木がある密集した森",
+    "name": "暗い森"
+  },
+  "deep_cold_ocean": {
+    "description": "深い冷たい海水",
+    "name": "深い冷たい海"
+  },
+  "deep_dark": {
+    "description": "スカルクのある暗い地下",
+    "name": "ディープダーク"
+  },
+  "deep_frozen_ocean": {
+    "description": "氷山のある深い凍った海",
+    "name": "深い凍った海"
+  },
+  "deep_lukewarm_ocean": {
+    "description": "深い温帯の海",
+    "name": "深いぬるい海"
+  },
+  "deep_ocean": {
+    "description": "深い海の海溝",
+    "name": "深海"
+  },
+  "desert": {
+    "description": "サボテンのある砂地",
+    "name": "砂漠"
+  },
+  "dripstone_caves": {
+    "description": "鍾乳石と石筍のある洞窟",
+    "name": "鍾乳洞"
   },
   "end_barrens": {
-    "name": "エンドの荒地",
-    "description": "空のエンドアイランド"
+    "description": "空のエンドの地形",
+    "name": "エンドの荒地"
   },
-  "biome": {
-    "plains": "Plains",
-    "forest": "Forest",
-    "desert": "Desert",
-    "jungle": "Jungle",
-    "taiga": "Taiga",
-    "snowy_plains": "Snowy Plains",
-    "savanna": "Savanna",
-    "swamp": "Swamp",
-    "mushroom_fields": {
-      "name": "Name",
-      "description": "Description"
-    },
-    "beach": "Beach",
-    "flower_forest": {
-      "name": "Name",
-      "description": "Description"
-    },
-    "bamboo_jungle": {
-      "name": "Name",
-      "description": "Description"
-    },
-    "dark_forest": {
-      "name": "Name",
-      "description": "Description"
-    },
-    "birch_forest": {
-      "name": "Name",
-      "description": "Description"
-    },
-    "badlands": "Badlands",
-    "ocean": "Ocean",
-    "cherry_grove": {
-      "name": "Name",
-      "description": "Description"
-    }
+  "end_highlands": {
+    "description": "高いエンドの地形",
+    "name": "エンドの高地"
   },
-  "mushroom_fields.name": "[JA] Mushroom Fields",
-  "mushroom_fields.description": "[JA] Description text",
-  "flower_forest.name": "[JA] Flower Forest",
-  "flower_forest.description": "[JA] Description text",
-  "bamboo_jungle.name": "[JA] Bamboo Jungle",
-  "bamboo_jungle.description": "[JA] Description text",
-  "dark_forest.name": "[JA] Dark Forest",
-  "dark_forest.description": "[JA] Description text",
-  "birch_forest.name": "[JA] Birch Forest",
-  "birch_forest.description": "[JA] Description text",
-  "cherry_grove.name": "[JA] Cherry Grove",
-  "cherry_grove.description": "[JA] Description text"
+  "end_midlands": {
+    "description": "中間のエンド島",
+    "name": "エンドの中間地"
+  },
+  "eroded_badlands": {
+    "description": "高いテラコッタの尖塔がある荒地",
+    "name": "侵食された荒地"
+  },
+  "flower_forest": {
+    "description": "豊富な花がある森",
+    "name": "花の森"
+  },
+  "forest": {
+    "description": "密集した森林地帯",
+    "name": "森林"
+  },
+  "frozen_ocean": {
+    "description": "氷で覆われた海",
+    "name": "凍った海"
+  },
+  "frozen_peaks": {
+    "description": "氷の山頂",
+    "name": "凍った山頂"
+  },
+  "frozen_river": {
+    "description": "氷で覆われた川",
+    "name": "凍った川"
+  },
+  "grove": {
+    "description": "雪の山の森",
+    "name": "林"
+  },
+  "ice_spikes": {
+    "description": "そびえ立つ氷の形成物がある雪原",
+    "name": "氷樹"
+  },
+  "jagged_peaks": {
+    "description": "鋭い岩の山頂",
+    "name": "尖った山頂"
+  },
+  "jungle": {
+    "description": "密集した熱帯林",
+    "name": "ジャングル"
+  },
+  "lukewarm_ocean": {
+    "description": "温帯の海水",
+    "name": "ぬるい海"
+  },
+  "lush_caves": {
+    "description": "植生のある地下のオアシス",
+    "name": "繁茂した洞窟"
+  },
+  "mangrove_swamp": {
+    "description": "泥だらけの地形に密集したマングローブの木",
+    "name": "マングローブの沼地"
+  },
+  "meadow": {
+    "description": "花のある山の草原",
+    "name": "草地"
+  },
+  "mushroom_fields": {
+    "description": "巨大なキノコのある珍しいバイオーム",
+    "name": "キノコ島"
+  },
+  "nether_wastes": {
+    "description": "クラシックなネザーの地形",
+    "name": "ネザーの荒地"
+  },
+  "ocean": {
+    "description": "大きな水域",
+    "name": "海洋"
+  },
+  "old_growth_birch_forest": {
+    "description": "背の高い木がある古代のシラカバの森",
+    "name": "古いシラカバの森"
+  },
+  "old_growth_pine_taiga": {
+    "description": "苔むした岩がある古代の松林",
+    "name": "古い松のタイガ"
+  },
+  "old_growth_spruce_taiga": {
+    "description": "厚い天蓋がある古代のトウヒ林",
+    "name": "古いトウヒのタイガ"
+  },
+  "plains": {
+    "description": "平らな草原地帯",
+    "name": "平原"
+  },
+  "river": {
+    "description": "地形を切り裂く流れる水",
+    "name": "川"
+  },
+  "savanna": {
+    "description": "アカシアの木がある暖かい草原",
+    "name": "サバンナ"
+  },
+  "savanna_plateau": {
+    "description": "高地のサバンナ地形",
+    "name": "サバンナの高原"
+  },
+  "small_end_islands": {
+    "description": "小さな浮遊するエンド島",
+    "name": "小さなエンド島"
+  },
+  "snowy_beach": {
+    "description": "雪に覆われた海岸線",
+    "name": "雪の砂浜"
+  },
+  "snowy_plains": {
+    "description": "雪に覆われた平らな地形",
+    "name": "雪原"
+  },
+  "snowy_slopes": {
+    "description": "雪に覆われた山腹",
+    "name": "雪の斜面"
+  },
+  "snowy_taiga": {
+    "description": "雪に覆われたトウヒ林",
+    "name": "雪のタイガ"
+  },
+  "soul_sand_valley": {
+    "description": "魂と化石の谷",
+    "name": "ソウルサンドの谷"
+  },
+  "sparse_jungle": {
+    "description": "木と下草が少ないジャングル",
+    "name": "まばらなジャングル"
+  },
+  "stony_peaks": {
+    "description": "石の山頂",
+    "name": "石の山頂"
+  },
+  "stony_shore": {
+    "description": "岩の多い海岸線",
+    "name": "石の海岸"
+  },
+  "sunflower_plains": {
+    "description": "背の高いひまわりで満たされた平原",
+    "name": "ひまわり平原"
+  },
+  "swamp": {
+    "description": "浅い水のある湿地",
+    "name": "沼地"
+  },
+  "taiga": {
+    "description": "トウヒの木がある寒い森",
+    "name": "タイガ"
+  },
+  "the_end": {
+    "description": "エンドストーンのある虚無の次元",
+    "name": "ジ・エンド"
+  },
+  "warm_ocean": {
+    "description": "サンゴ礁のある熱帯の海",
+    "name": "暖かい海"
+  },
+  "warped_forest": {
+    "description": "青いネザーの森",
+    "name": "歪んだ森"
+  },
+  "windswept_forest": {
+    "description": "強い風のある丘陵の森",
+    "name": "風の吹きすさぶ森"
+  },
+  "windswept_gravelly_hills": {
+    "description": "砂利で覆われた岩の多い丘",
+    "name": "風の吹きすさぶ砂利の丘"
+  },
+  "windswept_hills": {
+    "description": "露出した石のある急な丘",
+    "name": "風の吹きすさぶ丘"
+  },
+  "windswept_savanna": {
+    "description": "急な崖のある荒れたサバンナ",
+    "name": "風の吹きすさぶサバンナ"
+  },
+  "wooded_badlands": {
+    "description": "上にオークの木がある荒地",
+    "name": "森のある荒地"
+  }
 }

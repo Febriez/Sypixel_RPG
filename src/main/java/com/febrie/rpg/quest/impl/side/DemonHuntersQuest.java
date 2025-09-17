@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.DemonHuntersLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -71,26 +69,26 @@ public class DemonHuntersQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(DemonHuntersLangKey.QUEST_SIDE_DEMON_HUNTERS_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.demon.hunters.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(DemonHuntersLangKey.QUEST_SIDE_DEMON_HUNTERS_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.demon.hunters.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_demon_hunter_captain" -> LangManager.text(DemonHuntersLangKey.QUEST_SIDE_DEMON_HUNTERS_OBJECTIVES_TALK_DEMON_HUNTER_CAPTAIN, who);
-            case "iron_ingot_collect" -> LangManager.text(DemonHuntersLangKey.QUEST_SIDE_DEMON_HUNTERS_OBJECTIVES_IRON_INGOT_COLLECT, who);
-            case "demon_portal" -> LangManager.text(DemonHuntersLangKey.QUEST_SIDE_DEMON_HUNTERS_OBJECTIVES_DEMON_PORTAL, who);
-            case "lesser_demons" -> LangManager.text(DemonHuntersLangKey.QUEST_SIDE_DEMON_HUNTERS_OBJECTIVES_LESSER_DEMONS, who);
-            case "blaze_powder_collect" -> LangManager.text(DemonHuntersLangKey.QUEST_SIDE_DEMON_HUNTERS_OBJECTIVES_BLAZE_POWDER_COLLECT, who);
-            case "diamond_sword_collect" -> LangManager.text(DemonHuntersLangKey.QUEST_SIDE_DEMON_HUNTERS_OBJECTIVES_DIAMOND_SWORD_COLLECT, who);
-            case "demon_realm" -> LangManager.text(DemonHuntersLangKey.QUEST_SIDE_DEMON_HUNTERS_OBJECTIVES_DEMON_REALM, who);
-            case "portal_guardian" -> LangManager.text(DemonHuntersLangKey.QUEST_SIDE_DEMON_HUNTERS_OBJECTIVES_PORTAL_GUARDIAN, who);
-            case "seal_portal" -> LangManager.text(DemonHuntersLangKey.QUEST_SIDE_DEMON_HUNTERS_OBJECTIVES_SEAL_PORTAL, who);
+            case "talk_demon_hunter_captain" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.demon.hunters.objectives.talk.demon.hunter.captain"), who);
+            case "iron_ingot_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.demon.hunters.objectives.iron.ingot.collect"), who);
+            case "demon_portal" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.demon.hunters.objectives.demon.portal"), who);
+            case "lesser_demons" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.demon.hunters.objectives.lesser.demons"), who);
+            case "blaze_powder_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.demon.hunters.objectives.blaze.powder.collect"), who);
+            case "diamond_sword_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.demon.hunters.objectives.diamond.sword.collect"), who);
+            case "demon_realm" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.demon.hunters.objectives.demon.realm"), who);
+            case "portal_guardian" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.demon.hunters.objectives.portal.guardian"), who);
+            case "seal_portal" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.demon.hunters.objectives.seal.portal"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -102,7 +100,7 @@ public class DemonHuntersQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(DemonHuntersLangKey.QUEST_SIDE_DEMON_HUNTERS_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.demon.hunters.dialogs"), who);
     }
     
     @Override
@@ -112,16 +110,16 @@ public class DemonHuntersQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(DemonHuntersLangKey.QUEST_SIDE_DEMON_HUNTERS_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.demon.hunters.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(DemonHuntersLangKey.QUEST_SIDE_DEMON_HUNTERS_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.demon.hunters.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(DemonHuntersLangKey.QUEST_SIDE_DEMON_HUNTERS_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.demon.hunters.decline"), who);
     }
 }

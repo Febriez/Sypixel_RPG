@@ -1,14 +1,28 @@
 {
-  "player_name": "[KO] Player Name",
-  "player_level": "[KO] Player Level",
-  "player_health": "[KO] Player Health",
-  "player_mana": "[KO] Player Mana",
-  "player_gold": "[KO] Player Gold",
+  "player_name": "플레이어 Name",
+  "player_level": "Player 레벨",
   "player_job": "Player Job",
+  "player_gold": "Player 골드",
   "player_location": "Player Location",
+  "player_health": "Player 체력",
+  "player_mana": "Player 마나",
   "player_combat_power": "Player Combat Power",
   "player_guild": "Player Guild",
   "player_party": "Player Party",
   "player_rank": "Player Rank",
-  "player_playtime": "Player Playtime"
+  "player_playtime": "Player Playtime",
+  "placeholder": {
+    "player_name": "플레이어 Name",
+    "player_level": "Player 레벨",
+    "player_job": "플레이어 Job",
+    "player_gold": "Player 골드",
+    "player_location": "플레이어 Location",
+    "player_health": "Player 체력",
+    "player_mana": "Player 마나",
+    "player_combat_power": "플레이어 Combat Power",
+    "player_guild": "Player 길드",
+    "player_party": "플레이어 Party",
+    "player_rank": "플레이어 Rank",
+    "player_playtime": "플레이어 Playtime"
+  }
 }

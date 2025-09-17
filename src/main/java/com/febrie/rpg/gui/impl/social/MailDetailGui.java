@@ -1,4 +1,6 @@
 package com.febrie.rpg.gui.impl.social;
+import com.febrie.rpg.util.lang.GeneralLangKey;
+import com.febrie.rpg.util.lang.SystemLangKey;
 
 import com.febrie.rpg.dto.social.MailDTO;
 import com.febrie.rpg.gui.component.GuiFactory;
@@ -9,7 +11,6 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.social.MailManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.util.TextUtil;
@@ -73,7 +74,7 @@ public class MailDetailGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_MAIL_DETAIL_TITLE, viewer, Component.text(mail.subject()));
+        return LangManager.text(GuiLangKey.GUI_MAIL_DETAIL_TITLE, viewer, Component.text(mail.subject()));
     }
 
     @Override
@@ -107,13 +108,13 @@ public class MailDetailGui extends BaseGui {
                         .displayName(Component.text(mail.subject(), UnifiedColorUtil.PRIMARY)
                                 .decoration(TextDecoration.BOLD, true))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_MAIL_DETAIL_SENDER, viewer, Component.text(mail.senderName())))
-                        .addLore(LangManager.text(LangKey.GUI_MAIL_DETAIL_RECEIVER, viewer, Component.text(mail.receiverName())))
-                        .addLore(LangManager.text(LangKey.GUI_MAIL_DETAIL_SENT_TIME, viewer, Component.text(java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
+                        .addLore(LangManager.text(GuiLangKey.GUI_MAIL_DETAIL_SENDER, viewer, Component.text(mail.senderName())))
+                        .addLore(LangManager.text(GuiLangKey.GUI_MAIL_DETAIL_RECEIVER, viewer, Component.text(mail.receiverName())))
+                        .addLore(LangManager.text(GuiLangKey.GUI_MAIL_DETAIL_SENT_TIME, viewer, Component.text(java.time.Instant.ofEpochMilli(mail.sentAt()).atZone(java.time.ZoneId.systemDefault()).format(
                                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_MAIL_DETAIL_STATUS, viewer, 
-                                LangManager.text(mail.isUnread() ? LangKey.STATUS_NEW_MAIL : LangKey.STATUS_READ, viewer)))
+                        .addLore(LangManager.text(GuiLangKey.GUI_MAIL_DETAIL_STATUS, viewer, 
+                                LangManager.text(mail.isUnread() ? SystemLangKey.STATUS_NEW_MAIL : SystemLangKey.STATUS_READ, viewer)))
                         .hideAllFlags()
                         .build()
         );
@@ -123,20 +124,20 @@ public class MailDetailGui extends BaseGui {
         String message = mail.content();
         if (message == null || message.trim().isEmpty()) {
             message = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                    LangManager.text(LangKey.GUI_MAIL_DETAIL_NO_MESSAGE, viewer));
+                    LangManager.text(GuiLangKey.GUI_MAIL_DETAIL_NO_MESSAGE, viewer));
         }
 
         // 메시지를 여러 줄로 나누기 (25자씩)
         String[] messageLines = TextUtil.wrapTextOrDefault(message, 25, 
                 net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                        LangManager.text(LangKey.GUI_MAIL_DETAIL_NO_MESSAGE, viewer)));
+                        LangManager.text(GuiLangKey.GUI_MAIL_DETAIL_NO_MESSAGE, viewer)));
 
         ItemBuilder messageBuilder = ItemBuilder.of(Material.WRITTEN_BOOK)
-                .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_MESSAGE_NAME, viewer))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_MAIL_DETAIL_MESSAGE_NAME, viewer))
                 .addLore(Component.empty())
                 .addLore(messageLines.length > 0 ? 
                         Component.text(messageLines[0], UnifiedColorUtil.WHITE) :
-                        LangManager.text(LangKey.GUI_MAIL_DETAIL_NO_MESSAGE, viewer));
+                        LangManager.text(GuiLangKey.GUI_MAIL_DETAIL_NO_MESSAGE, viewer));
 
         // 추가 메시지 줄들
         for (int i = 1; i < Math.min(messageLines.length, 8); i++) {
@@ -160,8 +161,8 @@ public class MailDetailGui extends BaseGui {
         // 첨부물이 없는 경우로 표시
         setItem(ATTACHMENT_SLOTS[4], GuiItem.display( // 중앙 슬롯
                 ItemBuilder.of(Material.BARRIER)
-                        .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_NO_ATTACHMENTS_NAME, viewer))
-                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_NO_ATTACHMENTS_LORE, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_MAIL_DETAIL_NO_ATTACHMENTS_NAME, viewer))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_MAIL_DETAIL_NO_ATTACHMENTS_LORE, viewer))
                         .hideAllFlags()
                         .build()
         ));
@@ -185,22 +186,22 @@ public class MailDetailGui extends BaseGui {
         // 삭제 버튼
         GuiItem deleteButton = GuiItem.clickable(
                 ItemBuilder.of(Material.LAVA_BUCKET)
-                        .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_DELETE_NAME, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_MAIL_DETAIL_DELETE_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.list(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_DELETE_LORE, viewer))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_SOCIAL_MAIL_DETAIL_DELETE_LORE, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_DELETE_CLICK, viewer))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_MAIL_DETAIL_DELETE_CLICK, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
                     mailManager.deleteMail(mail.mailId()).thenAccept(success -> {
                         Bukkit.getScheduler().runTask(plugin, () -> {
                             if (success) {
-                                p.sendMessage(LangManager.text(LangKey.GUI_MAIL_DETAIL_DELETE_SUCCESS, p));
+                                p.sendMessage(LangManager.text(GuiLangKey.GUI_MAIL_DETAIL_DELETE_SUCCESS, p));
                                 MailboxGui mailboxGui = MailboxGui.create(guiManager, p);
                                 guiManager.openGui(p, mailboxGui);
                             } else {
-                                p.sendMessage(LangManager.text(LangKey.GUI_MAIL_DETAIL_DELETE_FAILED, p).color(UnifiedColorUtil.ERROR));
+                                p.sendMessage(LangManager.text(GuiLangKey.GUI_MAIL_DETAIL_DELETE_FAILED, p).color(UnifiedColorUtil.ERROR));
                             }
                         });
                     });
@@ -212,17 +213,17 @@ public class MailDetailGui extends BaseGui {
         // 답장 버튼
         GuiItem replyButton = GuiItem.clickable(
                 ItemBuilder.of(Material.FEATHER)
-                        .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_REPLY_NAME, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_MAIL_DETAIL_REPLY_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_MAIL_DETAIL_REPLY_DESC, viewer, Component.text(mail.senderName())))
+                        .addLore(LangManager.text(GuiLangKey.GUI_MAIL_DETAIL_REPLY_DESC, viewer, Component.text(mail.senderName())))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_MAIL_DETAIL_REPLY_CLICK, viewer))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_MAIL_DETAIL_REPLY_CLICK, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
                     p.closeInventory();
-                    p.sendMessage(LangManager.text(LangKey.GUI_MAIL_DETAIL_REPLY_GUIDE, p));
-                    p.sendMessage(LangManager.text(LangKey.GUI_MAIL_DETAIL_REPLY_COMMAND, p, 
+                    p.sendMessage(LangManager.text(GuiLangKey.GUI_MAIL_DETAIL_REPLY_GUIDE, p));
+                    p.sendMessage(LangManager.text(GuiLangKey.GUI_MAIL_DETAIL_REPLY_COMMAND, p, 
                             Component.text(mail.senderName()), Component.text(mail.subject())));
                     playClickSound(p);
                 }

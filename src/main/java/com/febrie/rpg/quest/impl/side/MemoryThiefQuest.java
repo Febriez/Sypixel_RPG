@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.MemoryThiefLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -71,26 +69,26 @@ public class MemoryThiefQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(MemoryThiefLangKey.QUEST_SIDE_MEMORY_THIEF_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.memory.thief.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(MemoryThiefLangKey.QUEST_SIDE_MEMORY_THIEF_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.memory.thief.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_concerned_villager" -> LangManager.text(MemoryThiefLangKey.QUEST_SIDE_MEMORY_THIEF_OBJECTIVES_TALK_CONCERNED_VILLAGER, who);
-            case "interview_victims" -> LangManager.text(MemoryThiefLangKey.QUEST_SIDE_MEMORY_THIEF_OBJECTIVES_INTERVIEW_VICTIMS, who);
-            case "memory_shrine" -> LangManager.text(MemoryThiefLangKey.QUEST_SIDE_MEMORY_THIEF_OBJECTIVES_MEMORY_SHRINE, who);
-            case "prismarine_crystals_collect" -> LangManager.text(MemoryThiefLangKey.QUEST_SIDE_MEMORY_THIEF_OBJECTIVES_PRISMARINE_CRYSTALS_COLLECT, who);
-            case "phantom_membrane_collect" -> LangManager.text(MemoryThiefLangKey.QUEST_SIDE_MEMORY_THIEF_OBJECTIVES_PHANTOM_MEMBRANE_COLLECT, who);
-            case "thiefs_lair" -> LangManager.text(MemoryThiefLangKey.QUEST_SIDE_MEMORY_THIEF_OBJECTIVES_THIEFS_LAIR, who);
-            case "memory_thief" -> LangManager.text(MemoryThiefLangKey.QUEST_SIDE_MEMORY_THIEF_OBJECTIVES_MEMORY_THIEF, who);
-            case "experience_bottle_collect" -> LangManager.text(MemoryThiefLangKey.QUEST_SIDE_MEMORY_THIEF_OBJECTIVES_EXPERIENCE_BOTTLE_COLLECT, who);
-            case "restore_memories" -> LangManager.text(MemoryThiefLangKey.QUEST_SIDE_MEMORY_THIEF_OBJECTIVES_RESTORE_MEMORIES, who);
+            case "talk_concerned_villager" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.memory.thief.objectives.talk.concerned.villager"), who);
+            case "interview_victims" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.memory.thief.objectives.interview.victims"), who);
+            case "memory_shrine" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.memory.thief.objectives.memory.shrine"), who);
+            case "prismarine_crystals_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.memory.thief.objectives.prismarine.crystals.collect"), who);
+            case "phantom_membrane_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.memory.thief.objectives.phantom.membrane.collect"), who);
+            case "thiefs_lair" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.memory.thief.objectives.thiefs.lair"), who);
+            case "memory_thief" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.memory.thief.objectives.memory.thief"), who);
+            case "experience_bottle_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.memory.thief.objectives.experience.bottle.collect"), who);
+            case "restore_memories" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.memory.thief.objectives.restore.memories"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -102,7 +100,7 @@ public class MemoryThiefQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(MemoryThiefLangKey.QUEST_SIDE_MEMORY_THIEF_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.memory.thief.dialogs"), who);
     }
     
     @Override
@@ -112,16 +110,16 @@ public class MemoryThiefQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(MemoryThiefLangKey.QUEST_SIDE_MEMORY_THIEF_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.memory.thief.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(MemoryThiefLangKey.QUEST_SIDE_MEMORY_THIEF_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.memory.thief.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(MemoryThiefLangKey.QUEST_SIDE_MEMORY_THIEF_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.memory.thief.decline"), who);
     }
 }

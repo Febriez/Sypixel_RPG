@@ -1,6 +1,12 @@
 {
-  "quest_progress": "[JA] Quest Progress",
-  "dungeon_timer": "[JA] Dungeon Timer",
-  "boss_health": "[JA] Boss Health",
-  "wave_progress": "[JA] Wave Progress"
+  "quest_progress": "Quest 進捗",
+  "dungeon_timer": "Dungeon Timer",
+  "boss_health": "Boss 体力",
+  "wave_progress": "Wave 進捗",
+  "bossbar": {
+    "quest_progress": "Quest 進捗",
+    "dungeon_timer": "Dungeon Timer",
+    "boss_health": "Boss 体力",
+    "wave_progress": "Wave 進捗"
+  }
 }

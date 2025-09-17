@@ -5,8 +5,10 @@
   "incompatible": "Incompatible Enchantment",
   "too_expensive": "Too Expensive",
   "item_destroyed": "Item Destroyed",
-  "enchant.success": "Success",
-  "enchant.fail": "Fail",
-  "enchant.max_level": "Max Level",
-  "enchant.incompatible": "Incompatible"
+  "enchant": {
+    "success": "Success",
+    "fail": "Fail",
+    "max_level": "Max Level",
+    "incompatible": "Incompatible"
+  }
 }

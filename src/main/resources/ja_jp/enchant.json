@@ -1,8 +1,14 @@
 {
-  "success": "[JA] Success",
-  "fail": "[JA] Fail",
-  "max_level": "[JA] Max Level",
-  "incompatible": "[JA] Incompatible",
-  "too_expensive": "[JA] Too Expensive",
-  "item_destroyed": "[JA] Item Destroyed"
+  "success": "Success",
+  "fail": "Fail",
+  "max_level": "Max レベル",
+  "incompatible": "Incompatible",
+  "too_expensive": "Too Expensive",
+  "item_destroyed": "アイテム Destroyed",
+  "enchant": {
+    "success": "Success",
+    "fail": "Fail",
+    "max_level": "Max レベル",
+    "incompatible": "Incompatible"
+  }
 }

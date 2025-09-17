@@ -1,15 +1,27 @@
 {
-  "success": "[KO] Success",
-  "fail": "[KO] Fail",
-  "in_combat": "[KO] In Combat",
-  "cooldown": "[KO] Cooldown",
-  "destination_unsafe": "[KO] Destination Unsafe",
-  "no_permission": "[KO] No Permission",
   "request_sent": "Request Sent",
   "request_received": "Request Received",
   "accepted": "Accepted",
   "denied": "Denied",
   "cancelled": "Cancelled",
   "expired": "Expired",
-  "failed": "Failed"
+  "in_combat": "In Combat",
+  "cooldown": "Cooldown",
+  "success": "Success",
+  "failed": "Failed",
+  "fail": "Fail",
+  "destination_unsafe": "Destination Unsafe",
+  "no_permission": "아니오 Permission",
+  "teleport": {
+    "request_sent": "요청 Sent",
+    "request_received": "요청 Received",
+    "accepted": "수락ed",
+    "denied": "Denied",
+    "cancelled": "취소led",
+    "expired": "Expired",
+    "in_combat": "In Combat",
+    "cooldown": "Cooldown",
+    "success": "Success",
+    "failed": "Failed"
+  }
 }

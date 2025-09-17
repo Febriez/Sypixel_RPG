@@ -1,5 +1,6 @@
 package com.febrie.rpg.gui.util;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.impl.job.JobSelectionGui;
 import com.febrie.rpg.player.RPGPlayer;
@@ -9,7 +10,6 @@ import com.febrie.rpg.talent.Talent;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -98,7 +98,7 @@ public class GuiUtility {
         SkullMeta meta = (SkullMeta) head.getItemMeta();
 
         meta.setOwningPlayer(player);
-        meta.displayName(LangManager.text(LangKey.GUI_PROFILE_PLAYER_INFO_NAME, player, Component.text(player.getName())));
+        meta.displayName(LangManager.text(GuiLangKey.GUI_PROFILE_PLAYER_INFO_NAME, player, Component.text(player.getName())));
 
         head.setItemMeta(meta);
         return head;
@@ -259,8 +259,8 @@ public class GuiUtility {
     public static GuiItem createBackButton(@NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.ARROW)
-                        .displayName(LangManager.text(LangKey.GUI_BUTTONS_BACK_NAME, player))
-                        .addLore(LangManager.text(LangKey.GUI_BUTTONS_BACK_LORE, player))
+                        .displayName(LangManager.text(GuiLangKey.GUI_BUTTONS_BACK_NAME, player))
+                        .addLore(LangManager.text(GuiLangKey.GUI_BUTTONS_BACK_LORE, player))
                         .build(),
                 clickPlayer -> SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK)
         );
@@ -270,8 +270,8 @@ public class GuiUtility {
     public static GuiItem createRefreshButton(@NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.EMERALD)
-                        .displayName(LangManager.text(LangKey.GUI_BUTTONS_REFRESH_NAME, player))
-                        .addLore(LangManager.text(LangKey.GUI_BUTTONS_REFRESH_LORE, player))
+                        .displayName(LangManager.text(GuiLangKey.GUI_BUTTONS_REFRESH_NAME, player))
+                        .addLore(LangManager.text(GuiLangKey.GUI_BUTTONS_REFRESH_LORE, player))
                         .build(),
                 clickPlayer -> SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK)
         );
@@ -281,8 +281,8 @@ public class GuiUtility {
     public static GuiItem createCloseButton(@NotNull Player player) {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.BARRIER)
-                        .displayName(LangManager.text(LangKey.GUI_BUTTONS_CLOSE_NAME, player))
-                        .addLore(LangManager.list(LangKey.GUI_BUTTONS_CLOSE_LORE, player))
+                        .displayName(LangManager.text(GuiLangKey.GUI_BUTTONS_CLOSE_NAME, player))
+                        .addLore(LangManager.list(GuiLangKey.GUI_BUTTONS_CLOSE_LORE, player))
                         .build(),
                 clickPlayer -> {
                     SoundUtil.playSound(clickPlayer, Sound.UI_BUTTON_CLICK);

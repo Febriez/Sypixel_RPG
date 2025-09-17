@@ -1,7 +1,14 @@
 {
-  "start": "[JA] Start",
-  "end": "[JA] End",
-  "win": "[JA] Win",
-  "lose": "[JA] Lose",
-  "draw": "[JA] Draw"
+  "start": "Start",
+  "end": "End",
+  "win": "Win",
+  "lose": "Lose",
+  "draw": "Draw",
+  "minigame": {
+    "start": "Start",
+    "end": "End",
+    "win": "Win",
+    "lose": "Lose",
+    "draw": "Draw"
+  }
 }

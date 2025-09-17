@@ -1,12 +1,24 @@
 {
-  "novice": "[KO] Novice",
-  "apprentice": "[KO] Apprentice",
-  "journeyman": "[KO] Journeyman",
-  "expert": "[KO] Expert",
-  "master": "[KO] Master",
-  "grandmaster": "[KO] Grandmaster",
-  "legendary": "[KO] Legendary",
-  "mythic": "[KO] Mythic",
-  "divine": "[KO] Divine",
-  "eternal": "[KO] Eternal"
+  "novice": "Novice",
+  "apprentice": "Apprentice",
+  "journeyman": "Journeyman",
+  "expert": "Expert",
+  "master": "Master",
+  "grandmaster": "Grandmaster",
+  "legendary": "전설",
+  "mythic": "Mythic",
+  "divine": "Divine",
+  "eternal": "Eternal",
+  "rank": {
+    "novice": "Novice",
+    "apprentice": "Apprentice",
+    "journeyman": "Journeyman",
+    "expert": "Expert",
+    "master": "Master",
+    "grandmaster": "Grandmaster",
+    "legendary": "전설",
+    "mythic": "Mythic",
+    "divine": "Divine",
+    "eternal": "Eternal"
+  }
 }

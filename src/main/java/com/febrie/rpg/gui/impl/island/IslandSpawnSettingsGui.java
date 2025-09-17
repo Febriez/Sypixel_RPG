@@ -1,5 +1,7 @@
 package com.febrie.rpg.gui.impl.island;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.gui.framework.BaseGui;
@@ -11,7 +13,6 @@ import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,7 +35,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
     
     private IslandSpawnSettingsGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, LangManager.text(LangKey.GUI_ISLAND_SPAWN_TITLE, viewer));
+        super(viewer, guiManager, 54, LangManager.text(GuiLangKey.GUI_ISLAND_SPAWN_TITLE, viewer));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.isOwner = island.core().ownerUuid().equals(viewer.getUniqueId().toString());
@@ -93,7 +94,7 @@ public class IslandSpawnSettingsGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_ISLAND_SPAWN_TITLE, viewer);
+        return LangManager.text(GuiLangKey.GUI_ISLAND_SPAWN_TITLE, viewer);
     }
     
     private ItemStack createCurrentSpawnInfo() {
@@ -103,85 +104,85 @@ public class IslandSpawnSettingsGui extends BaseGui {
         String mainSpawn = String.format("%.1f, %.1f, %.1f", defaultSpawn.x(), defaultSpawn.y(), defaultSpawn.z());
         
         ItemBuilder builder = ItemBuilder.of(Material.BEACON)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_SPAWN_CURRENT_INFO_NAME, viewer))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_SPAWN_CURRENT_INFO_NAME, viewer))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_SPAWN_DEFAULT_SPAWN, getViewerLocale(), Component.text(mainSpawn)))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_SPAWN_LOCATION_NAME, getViewerLocale(), Component.text(defaultSpawn.alias())))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_SPAWN_DEFAULT_SPAWN, getViewerLocale(), Component.text(mainSpawn)))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_SPAWN_LOCATION_NAME, getViewerLocale(), Component.text(defaultSpawn.alias())))
                 .addLore(Component.empty());
         
         if (visitorSpawn != null) {
             String visitorLoc = String.format("%.1f, %.1f, %.1f", visitorSpawn.x(), visitorSpawn.y(), visitorSpawn.z());
-            builder.addLore(LangManager.text(LangKey.GUI_ISLAND_SPAWN_VISITOR_SPAWN, getViewerLocale(), Component.text(visitorLoc)));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_SPAWN_VISITOR_SPAWN, getViewerLocale(), Component.text(visitorLoc)));
         } else {
-            builder.addLore(LangManager.text(LangKey.GUI_ISLAND_SPAWN_VISITOR_SPAWN_NOT_SET, getViewerLocale()));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_SPAWN_VISITOR_SPAWN_NOT_SET, getViewerLocale()));
         }
         
         builder.addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.ITEMS_ISLAND_SPAWN_CURRENT_INFO_LORE, viewer));
+                .addLore(LangManager.text(GeneralLangKey.ITEMS_ISLAND_SPAWN_CURRENT_INFO_LORE, viewer));
         
         return builder.hideAllFlags().build();
     }
     
     private ItemStack createSetMainSpawnItem() {
         return ItemBuilder.of(Material.ENDER_PEARL)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_SPAWN_SET_MAIN_NAME, viewer))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_SPAWN_SET_MAIN_LORE, viewer))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_SPAWN_SET_MAIN_NAME, viewer))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_SPAWN_SET_MAIN_LORE, viewer))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createSetVisitorSpawnItem() {
         return ItemBuilder.of(Material.ENDER_EYE)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_SPAWN_SET_VISITOR_NAME, viewer))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_SPAWN_SET_VISITOR_LORE, viewer))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_SPAWN_SET_VISITOR_NAME, viewer))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_SPAWN_SET_VISITOR_LORE, viewer))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createResetSpawnItem() {
         return ItemBuilder.of(Material.BARRIER)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_SPAWN_RESET_NAME, viewer))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_SPAWN_RESET_LORE, viewer))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_SPAWN_RESET_NAME, viewer))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_SPAWN_RESET_LORE, viewer))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createSpawnProtectionItem() {
         return ItemBuilder.of(Material.SHIELD)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_SPAWN_PROTECTION_NAME, viewer))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_SPAWN_PROTECTION_LORE, viewer))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_SPAWN_PROTECTION_NAME, viewer))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_SPAWN_PROTECTION_LORE, viewer))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createPersonalSpawnItem() {
         return ItemBuilder.of(Material.ENDER_CHEST)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_SPAWN_PERSONAL_NAME, viewer))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_SPAWN_PERSONAL_LORE, viewer))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_SPAWN_PERSONAL_NAME, viewer))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_SPAWN_PERSONAL_LORE, viewer))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createSpawnMessageItem() {
         return ItemBuilder.of(Material.WRITABLE_BOOK)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_SPAWN_MESSAGE_NAME, viewer))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_SPAWN_MESSAGE_LORE, viewer))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_SPAWN_MESSAGE_NAME, viewer))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_SPAWN_MESSAGE_LORE, viewer))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createNoPermissionItem() {
         return ItemBuilder.of(Material.REDSTONE_BLOCK)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_SPAWN_NO_PERMISSION_NAME, viewer))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_SPAWN_NO_PERMISSION_LORE, viewer))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_SPAWN_NO_PERMISSION_NAME, viewer))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_SPAWN_NO_PERMISSION_LORE, viewer))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createBackButton() {
         return ItemBuilder.of(Material.ARROW)
-                .displayName(LangManager.text(LangKey.ITEMS_BUTTONS_BACK_NAME, viewer))
-                .addLore(LangManager.list(LangKey.ITEMS_BUTTONS_BACK_LORE, viewer))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_BUTTONS_BACK_NAME, viewer))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_BUTTONS_BACK_LORE, viewer))
                 .hideAllFlags()
                 .build();
     }

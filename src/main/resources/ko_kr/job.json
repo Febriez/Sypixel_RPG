@@ -1,236 +1,264 @@
 {
+  "selected": "%s 직업을 선택했습니다!",
+  "already_has": "이미 이 직업입니다!",
+  "level_up": "직업 레벨이 %d로 올랐습니다!",
+  "max_level": "최대 직업 레벨에 도달했습니다!",
+  "requirement_not_met": "이 직업의 요구 사항을 충족하지 못합니다!",
+  "skill_learned": "스킬을 배웠습니다: %s",
+  "skill_upgraded": "스킬 업그레이드: %s (레벨 %d)",
+  "skill_max_level": "이 스킬은 이미 최대 레벨입니다!",
+  "not_enough_skill_points": "스킬 포인트가 부족합니다!",
+  "job": {
+    "warrior": {
+      "name": "전사",
+      "description": [
+        "근접 전투에 특화된 강력한 전사입니다.",
+        "힘과 내구력으로 전장을 지배합니다."
+      ]
+    },
+    "mage": {
+      "name": "마법사",
+      "description": [
+        "신비한 마법의 힘을 다루는 마법사입니다.",
+        "원소를 조종하여 멀리서 적을 섬멸합니다."
+      ]
+    },
+    "archer": {
+      "name": "궁수",
+      "description": [
+        "뛰어난 사정거리를 가진 정밀한 사수입니다.",
+        "속도와 정확도로 치명타를 날립니다."
+      ]
+    },
+    "rogue": {
+      "name": "도적",
+      "description": [
+        "그림자에서 습격하는 은신 암살자입니다.",
+        "빠르고 파괴적인 공격을 전문으로 합니다."
+      ]
+    },
+    "berserker": {
+      "name": "버서커",
+      "description": [
+        "강력한 공격력을 자랑하는 근접 딜러입니다.",
+        "체력이 낮을수록 강해집니다.",
+        "",
+        "▸ 힘 중심 스탯 성장",
+        "▸ 광폭화 스킬 사용 가능",
+        "▸ 체력 기반 공격력 증가"
+      ]
+    },
+    "bruiser": {
+      "name": "브루저",
+      "description": [
+        "공격과 방어의 균형을 맞춘 전사입니다.",
+        "다양한 상황에 대처할 수 있습니다.",
+        "",
+        "▸ 균형 잡힌 스탯 성장",
+        "▸ 공격/방어 모드 전환",
+        "▸ 적응력 높은 전투 스타일"
+      ]
+    },
+    "tank": {
+      "name": "탱커",
+      "description": [
+        "아군을 보호하는 든든한 방패입니다.",
+        "높은 방어력과 체력을 자랑합니다.",
+        "",
+        "▸ 생명력 중심 스탯 성장",
+        "▸ 도발과 방패 스킬",
+        "▸ 피해 감소 효과"
+      ]
+    },
+    "priest": {
+      "name": "사제",
+      "description": [
+        "신성한 힘으로 아군을 치유합니다.",
+        "강력한 버프와 치유 능력을 보유합니다.",
+        "",
+        "▸ 지혜 중심 스탯 성장",
+        "▸ 치유와 부활 스킬",
+        "▸ 버프/디버프 특화"
+      ]
+    },
+    "dark_mage": {
+      "name": "흑마법사",
+      "description": [
+        "어둠의 힘을 다루는 마법사입니다.",
+        "강력한 광역 피해를 입힙니다.",
+        "",
+        "▸ 지능 중심 스탯 성장",
+        "▸ 저주와 암흑 마법 스킬",
+        "▸ 광역 피해 특화"
+      ]
+    },
+    "mercy": {
+      "name": "머시",
+      "description": [
+        "자연의 힘으로 아군을 보호합니다.",
+        "치유와 보호를 전문으로 합니다.",
+        "",
+        "▸ 지혜/생명력 균형 성장",
+        "▸ 재생과 정화 스킬",
+        "▸ 지속 치유 특화"
+      ]
+    },
+    "sniper": {
+      "name": "스나이퍼",
+      "description": [
+        "극한의 거리에서 적을 저격합니다.",
+        "한 발 한 발이 극도로 강력합니다.",
+        "",
+        "▸ 민첩/행운 균형 성장",
+        "▸ 저격과 관통 스킬",
+        "▸ 단일 대상 폭발 피해"
+      ]
+    },
+    "shotgunner": {
+      "name": "샷거너",
+      "description": [
+        "근거리에서 산탄을 발사합니다.",
+        "광역 피해와 넉백이 특징입니다.",
+        "",
+        "▸ 민첩/힘 균형 성장",
+        "▸ 산탄과 폭발 스킬",
+        "▸ 근거리 광역 피해"
+      ]
+    },
+    "assassin": {
+      "name": "암살자",
+      "description": [
+        "빠르게 목표를 제거하는 침묵의 살인자입니다.",
+        "은신과 치명타의 달인입니다."
+      ]
+    },
+    "paladin": {
+      "name": "성기사",
+      "description": [
+        "신앙과 무술을 결합한 성스러운 전사입니다.",
+        "신성한 힘으로 적을 무찌르며 아군을 보호합니다."
+      ]
+    },
+    "summoner": {
+      "name": "소환사",
+      "description": [
+        "전투 생물을 소환하는 달인입니다.",
+        "전장에서 여러 개체를 조종합니다."
+      ]
+    },
+    "necromancer": {
+      "name": "네크로맨서",
+      "description": [
+        "죽음과 언데드 군대의 지휘관입니다.",
+        "쓰러진 적을 일으켜 자신의 뜻대로 부립니다."
+      ]
+    },
+    "druid": {
+      "name": "드루이드",
+      "description": [
+        "변신 능력을 가진 자연의 수호자입니다.",
+        "야생의 힘을 활용합니다."
+      ]
+    },
+    "ranger": {
+      "name": "레인저",
+      "description": [
+        "야수 조련사이자 황야의 전문가입니다.",
+        "동물 동료와 함께 싸웁니다."
+      ]
+    },
+    "warlock": {
+      "name": "흑마도사",
+      "description": [
+        "금지된 지식을 가진 암흑 마법 사용자입니다.",
+        "악마의 힘을 끌어내어 파괴적인 효과를 일으킵니다."
+      ]
+    },
+    "categories": {
+      "warrior": "전사",
+      "mage": "마법사",
+      "archer": "궁수"
+    }
+  },
   "categories": {
     "warrior": "전사",
     "mage": "마법사",
-    "archer": "궁수",
-    "warrior_full": {
-      "name": "전사",
-      "description": [
-        "강력한 근접 전투 능력을 보유한 직업군입니다.",
-        "높은 체력과 방어력으로 전선을 지킵니다."
-      ]
-    },
-    "mage_full": {
-      "name": "마법사",
-      "description": [
-        "신비한 마법의 힘을 다루는 직업군입니다.",
-        "강력한 주문으로 전장을 지배합니다."
-      ]
-    },
-    "archer_full": {
-      "name": "궁수",
-      "description": [
-        "원거리에서 정밀한 공격을 가하는 직업군입니다.",
-        "빠른 기동성과 높은 치명타율이 특징입니다."
-      ]
-    }
+    "archer": "궁수"
   },
-  "berserker": {
-    "name": "광전사",
-    "description": [
-      "강력한 공격력을 자랑하는 근접 딜러입니다.",
-      "체력이 낮을수록 더 강해집니다.",
-      "",
-      "▸ 근력 중심 스탯 성장",
-      "▸ 광폭화 스킬 사용 가능",
-      "▸ 체력 기반 공격력 증가"
-    ]
+  "warrior": {
+    "name": "전사",
+    "description": "warrior 설명"
   },
-  "bruiser": {
-    "name": "브루저",
-    "description": [
-      "공격과 방어의 균형을 갖춘 전사입니다.",
-      "다양한 상황에 대처할 수 있습니다.",
-      "",
-      "▸ 균형잡힌 스탯 성장",
-      "▸ 공격/방어 모드 전환",
-      "▸ 적응력 높은 전투 스타일"
-    ]
-  },
-  "tank": {
-    "name": "탱커",
-    "description": [
-      "아군을 보호하는 든든한 방패입니다.",
-      "높은 방어력과 체력을 자랑합니다.",
-      "",
-      "▸ 체력 중심 스탯 성장",
-      "▸ 도발 및 보호막 스킬",
-      "▸ 피해 감소 효과"
-    ]
-  },
-  "priest": {
-    "name": "프리스트",
-    "description": [
-      "신성한 힘으로 아군을 치유합니다.",
-      "강력한 버프와 회복 능력을 보유합니다.",
-      "",
-      "▸ 지혜 중심 스탯 성장",
-      "▸ 치유 및 부활 스킬",
-      "▸ 버프/디버프 특화"
-    ]
-  },
-  "dark_mage": {
-    "name": "암흑 마법사",
-    "description": [
-      "어둠의 힘을 다루는 마법사입니다.",
-      "강력한 광역 피해를 입힙니다.",
-      "",
-      "▸ 지능 중심 스탯 성장",
-      "▸ 저주 및 흑마법 스킬",
-      "▸ 광역 피해 특화"
-    ]
-  },
-  "mercy": {
-    "name": "메르시",
-    "description": [
-      "자연의 힘으로 아군을 보호합니다.",
-      "치유와 보호에 특화되어 있습니다.",
-      "",
-      "▸ 지혜/체력 균형 성장",
-      "▸ 재생 및 정화 스킬",
-      "▸ 지속 치유 특화"
-    ]
+  "mage": {
+    "name": "마법사",
+    "description": "mage 설명"
   },
   "archer": {
     "name": "궁수",
-    "description": [
-      "원거리에서 정확한 사격을 구사합니다.",
-      "높은 기동성과 치명타율을 자랑합니다.",
-      "",
-      "▸ 민첩 중심 스탯 성장",
-      "▸ 다양한 화살 스킬",
-      "▸ 치명타 특화"
-    ]
+    "description": "archer 설명"
+  },
+  "rogue": {
+    "name": "도적",
+    "description": "rogue 설명"
+  },
+  "berserker": {
+    "name": "광전사",
+    "description": "berserker 설명"
+  },
+  "bruiser": {
+    "name": "브루저",
+    "description": "bruiser 설명"
+  },
+  "tank": {
+    "name": "탱크",
+    "description": "tank 설명"
+  },
+  "priest": {
+    "name": "사제",
+    "description": "priest 설명"
+  },
+  "dark_mage": {
+    "name": "흑마법사",
+    "description": "dark_mage 설명"
+  },
+  "mercy": {
+    "name": "자비",
+    "description": "mercy 설명"
   },
   "sniper": {
-    "name": "스나이퍼",
-    "description": [
-      "극한의 사거리에서 적을 저격합니다.",
-      "한 발의 위력이 매우 강력합니다.",
-      "",
-      "▸ 민첩/행운 균형 성장",
-      "▸ 저격 및 관통 스킬",
-      "▸ 단일 대상 극딜"
-    ]
+    "name": "저격수",
+    "description": "sniper 설명"
   },
   "shotgunner": {
     "name": "샷거너",
-    "description": [
-      "근거리에서 산탄을 발사합니다.",
-      "광역 피해와 넉백이 특징입니다.",
-      "",
-      "▸ 민첩/근력 균형 성장",
-      "▸ 산탄 및 폭발 스킬",
-      "▸ 근거리 광역 피해"
-    ]
+    "description": "shotgunner 설명"
   },
-  "changed": "직업이 {0}로 변경되었습니다",
-  "already_has": "이미 이 직업을 가지고 있습니다",
-  "level_up": "직업 레벨 업! 현재 레벨 {0}",
-  "max_level": "직업이 최대 레벨입니다",
-  "skill_learned": "새로운 스킬 습득: {0}",
-  "skill_upgraded": "스킬 업그레이드: {0}",
-  "not_enough_points": "스킬 포인트가 부족합니다",
-  "requirement_not_met": "요구사항을 충족하지 않습니다",
-  "warrior": "전사",
-  "mage": "마법사",
-  "rogue": "로그",
-  "assassin": "암살자",
-  "summoner": "소환사",
-  "necromancer": "네크로맨서",
-  "druid": "드루이드",
-  "ranger": "레인저",
-  "warlock": "워록",
-  "paladin": "팔라딘",
-  "selected": "직업 선택: {0}",
-  "select": "직업 선택",
-  "none": "직업 없음",
-  "advancement": {
-    "warrior": "전사 승급",
-    "archer": "궁수 승급",
-    "mage": "마법사 승급",
-    "rogue": "로그 승급",
-    "priest": "프리스트 승급",
-    "berserker": "광전사 승급",
-    "assassin": "암살자 승급",
-    "summoner": "소환사 승급",
-    "necromancer": "네크로맨서 승급",
-    "druid": "드루이드 승급",
-    "ranger": "레인저 승급",
-    "warlock": "워록 승급",
-    "paladin": "팔라딘 승급"
+  "assassin": {
+    "name": "암살자",
+    "description": "assassin 설명"
   },
-  "mastery": {
-    "sword": "검 마스터리",
-    "bow": "활 마스터리",
-    "magic": "마법 마스터리",
-    "stealth": "은신 마스터리",
-    "healing": "치유 마스터리",
-    "rage": "분노 마스터리",
-    "shadow": "그림자 마스터리",
-    "summoning": "소환 마스터리",
-    "necromancy": "네크로맨시 마스터리",
-    "nature": "자연 마스터리",
-    "beast": "야수 마스터리",
-    "dark": "어둠 마스터리",
-    "holy": "신성 마스터리"
+  "paladin": {
+    "name": "성기사",
+    "description": "paladin 설명"
   },
-  "job": {
-    "archer": {
-      "desc": "설명"
-    },
-    "assassin": {
-      "desc": "Desc"
-    },
-    "berserker": {
-      "desc": "설명"
-    },
-    "druid": {
-      "desc": "Desc"
-    },
-    "mage": {
-      "desc": "Desc"
-    },
-    "necromancer": {
-      "desc": "Desc"
-    },
-    "not_enough_skill_points": "Not Enough Skill Points",
-    "paladin": {
-      "desc": "Desc"
-    },
-    "priest": {
-      "desc": "설명"
-    },
-    "ranger": {
-      "desc": "Desc"
-    },
-    "rogue": {
-      "desc": "Desc"
-    },
-    "skill_max_level": "Skill Max Level",
-    "summoner": {
-      "desc": "Desc"
-    },
-    "warlock": {
-      "desc": "Desc"
-    },
-    "warrior": {
-      "desc": "Desc"
-    }
+  "summoner": {
+    "name": "소환사",
+    "description": "summoner 설명"
   },
-  "skill_max_level": "[KO] Skill Max Level",
-  "not_enough_skill_points": "[KO] Not Enough Skill Points",
-  "warrior.desc": "[KO] Description text",
-  "archer.desc": "[KO] Description text",
-  "mage.desc": "[KO] Description text",
-  "rogue.desc": "[KO] Description text",
-  "priest.desc": "[KO] Description text",
-  "paladin.desc": "[KO] Description text",
-  "assassin.desc": "[KO] Description text",
-  "berserker.desc": "[KO] Description text",
-  "summoner.desc": "[KO] Description text",
-  "necromancer.desc": "[KO] Description text",
-  "druid.desc": "[KO] Description text",
-  "ranger.desc": "[KO] Description text",
-  "warlock.desc": "[KO] Description text"
+  "necromancer": {
+    "name": "네크로맨서",
+    "description": "necromancer 설명"
+  },
+  "druid": {
+    "name": "드루이드",
+    "description": "druid 설명"
+  },
+  "ranger": {
+    "name": "레인저",
+    "description": "ranger 설명"
+  },
+  "warlock": {
+    "name": "흑마법사",
+    "description": "warlock 설명"
+  }
 }

@@ -11,9 +11,7 @@ import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.lang.quest.side.MerchantsDilemmaLangKey;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -68,24 +66,24 @@ public class MerchantsDilemmaQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(MerchantsDilemmaLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.merchants.dilemma.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(MerchantsDilemmaLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.merchants.dilemma.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_troubled_merchant" -> LangManager.text(MerchantsDilemmaLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_TALK_TROUBLED_MERCHANT, who);
-            case "visit_caravan_route" -> LangManager.text(MerchantsDilemmaLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_VISIT_CARAVAN_ROUTE, who);
-            case "kill_pillagers" -> LangManager.text(MerchantsDilemmaLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_KILL_PILLAGERS, who);
-            case "chest_collect" -> LangManager.text(MerchantsDilemmaLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_CHEST_COLLECT, who);
-            case "visit_bandits_hideout" -> LangManager.text(MerchantsDilemmaLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_VISIT_BANDITS_HIDEOUT, who);
-            case "paper_collect" -> LangManager.text(MerchantsDilemmaLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_PAPER_COLLECT, who);
-            case "return_troubled_merchant" -> LangManager.text(MerchantsDilemmaLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_OBJECTIVES_RETURN_TROUBLED_MERCHANT, who);
+            case "talk_troubled_merchant" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.merchants.dilemma.objectives.talk.troubled.merchant"), who);
+            case "visit_caravan_route" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.merchants.dilemma.objectives.visit.caravan.route"), who);
+            case "kill_pillagers" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.merchants.dilemma.objectives.kill.pillagers"), who);
+            case "chest_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.merchants.dilemma.objectives.chest.collect"), who);
+            case "visit_bandits_hideout" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.merchants.dilemma.objectives.visit.bandits.hideout"), who);
+            case "paper_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.merchants.dilemma.objectives.paper.collect"), who);
+            case "return_troubled_merchant" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.merchants.dilemma.objectives.return.troubled.merchant"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -97,7 +95,7 @@ public class MerchantsDilemmaQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(MerchantsDilemmaLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.merchants.dilemma.dialogs"), who);
     }
     
     @Override
@@ -107,16 +105,16 @@ public class MerchantsDilemmaQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(MerchantsDilemmaLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.merchants.dilemma.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(MerchantsDilemmaLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.merchants.dilemma.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(MerchantsDilemmaLangKey.QUEST_SIDE_MERCHANTS_DILEMMA_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.merchants.dilemma.decline"), who);
     }
 }

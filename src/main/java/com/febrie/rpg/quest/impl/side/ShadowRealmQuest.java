@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.ShadowRealmLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -71,26 +69,26 @@ public class ShadowRealmQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(ShadowRealmLangKey.QUEST_SIDE_SHADOW_REALM_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.shadow.realm.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(ShadowRealmLangKey.QUEST_SIDE_SHADOW_REALM_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.shadow.realm.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_light_mage" -> LangManager.text(ShadowRealmLangKey.QUEST_SIDE_SHADOW_REALM_OBJECTIVES_TALK_LIGHT_MAGE, who);
+            case "talk_light_mage" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.shadow.realm.objectives.talk.light.mage"), who);
             case "shadow_portal_1" -> LangManager.text(QuestCommonLangKey.QUEST_SIDE_SHADOW_REALM_OBJECTIVES_SHADOW_PORTAL_, who);
-            case "shadow_creatures" -> LangManager.text(ShadowRealmLangKey.QUEST_SIDE_SHADOW_REALM_OBJECTIVES_SHADOW_CREATURES, who);
+            case "shadow_creatures" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.shadow.realm.objectives.shadow.creatures"), who);
             case "shadow_portal_2" -> LangManager.text(QuestCommonLangKey.QUEST_SIDE_SHADOW_REALM_OBJECTIVES_SHADOW_PORTAL_2, who);
-            case "end_crystal_collect" -> LangManager.text(ShadowRealmLangKey.QUEST_SIDE_SHADOW_REALM_OBJECTIVES_END_CRYSTAL_COLLECT, who);
-            case "portal_guardians" -> LangManager.text(ShadowRealmLangKey.QUEST_SIDE_SHADOW_REALM_OBJECTIVES_PORTAL_GUARDIANS, who);
-            case "portal_nexus" -> LangManager.text(ShadowRealmLangKey.QUEST_SIDE_SHADOW_REALM_OBJECTIVES_PORTAL_NEXUS, who);
-            case "shadow_lord" -> LangManager.text(ShadowRealmLangKey.QUEST_SIDE_SHADOW_REALM_OBJECTIVES_SHADOW_LORD, who);
-            case "seal_portals" -> LangManager.text(ShadowRealmLangKey.QUEST_SIDE_SHADOW_REALM_OBJECTIVES_SEAL_PORTALS, who);
+            case "end_crystal_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.shadow.realm.objectives.end.crystal.collect"), who);
+            case "portal_guardians" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.shadow.realm.objectives.portal.guardians"), who);
+            case "portal_nexus" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.shadow.realm.objectives.portal.nexus"), who);
+            case "shadow_lord" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.shadow.realm.objectives.shadow.lord"), who);
+            case "seal_portals" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.shadow.realm.objectives.seal.portals"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -102,7 +100,7 @@ public class ShadowRealmQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(ShadowRealmLangKey.QUEST_SIDE_SHADOW_REALM_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.shadow.realm.dialogs"), who);
     }
     
     @Override
@@ -112,16 +110,16 @@ public class ShadowRealmQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(ShadowRealmLangKey.QUEST_SIDE_SHADOW_REALM_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.shadow.realm.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(ShadowRealmLangKey.QUEST_SIDE_SHADOW_REALM_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.shadow.realm.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(ShadowRealmLangKey.QUEST_SIDE_SHADOW_REALM_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.shadow.realm.decline"), who);
     }
 }

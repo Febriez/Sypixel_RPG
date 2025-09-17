@@ -11,9 +11,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.lang.quest.side.BlacksmithApprenticeLangKey;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -68,24 +66,24 @@ public class BlacksmithApprenticeQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(BlacksmithApprenticeLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.blacksmith_apprentice.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(BlacksmithApprenticeLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.blacksmith_apprentice.info"), who);
     }
 
         @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_master_blacksmith" -> LangManager.text(BlacksmithApprenticeLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_TALK_MASTER_BLACKSMITH, who);
-            case "iron_ore_collect" -> LangManager.text(BlacksmithApprenticeLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_IRON_ORE_COLLECT, who);
-            case "coal_collect" -> LangManager.text(BlacksmithApprenticeLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_COAL_COLLECT, who);
-            case "mining_site" -> LangManager.text(BlacksmithApprenticeLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_MINING_SITE, who);
-            case "kill_skeletons" -> LangManager.text(BlacksmithApprenticeLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_KILL_SKELETONS, who);
-            case "iron_ingot_collect" -> LangManager.text(BlacksmithApprenticeLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_IRON_INGOT_COLLECT, who);
-            case "return_master_blacksmith" -> LangManager.text(BlacksmithApprenticeLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_OBJECTIVES_RETURN_MASTER_BLACKSMITH, who);
+            case "talk_master_blacksmith" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.blacksmith_apprentice.objectives.talk_master_blacksmith"), who);
+            case "iron_ore_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.blacksmith_apprentice.objectives.iron_ore_collect"), who);
+            case "coal_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.blacksmith_apprentice.objectives.coal_collect"), who);
+            case "mining_site" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.blacksmith_apprentice.objectives.mining_site"), who);
+            case "kill_skeletons" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.blacksmith_apprentice.objectives.kill_skeletons"), who);
+            case "iron_ingot_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.blacksmith_apprentice.objectives.iron_ingot_collect"), who);
+            case "return_master_blacksmith" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.blacksmith_apprentice.objectives.return_master_blacksmith"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -97,26 +95,26 @@ public class BlacksmithApprenticeQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(BlacksmithApprenticeLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.blacksmith_apprentice.dialogs"), who);
     }
-    
+
     @Override
     public @NotNull Component getDialog(int index, @NotNull Player who) {
         return getDialogs(who).get(index);
     }
-    
+
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(BlacksmithApprenticeLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.blacksmith_apprentice.npc_name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(BlacksmithApprenticeLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.blacksmith_apprentice.accept"), who);
     }
-    
+
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(BlacksmithApprenticeLangKey.QUEST_SIDE_BLACKSMITH_APPRENTICE_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.blacksmith_apprentice.decline"), who);
     }
 }

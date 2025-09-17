@@ -11,8 +11,6 @@ import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.AstralProjectionLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -67,24 +65,24 @@ public class AstralProjectionQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(AstralProjectionLangKey.QUEST_SIDE_ASTRAL_PROJECTION_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.astral_projection.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(AstralProjectionLangKey.QUEST_SIDE_ASTRAL_PROJECTION_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.astral_projection.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_brother_seeker" -> LangManager.text(AstralProjectionLangKey.QUEST_SIDE_ASTRAL_PROJECTION_OBJECTIVES_TALK_BROTHER_SEEKER, who);
-            case "amethyst_shard_collect" -> LangManager.text(AstralProjectionLangKey.QUEST_SIDE_ASTRAL_PROJECTION_OBJECTIVES_AMETHYST_SHARD_COLLECT, who);
-            case "astral_gateway" -> LangManager.text(AstralProjectionLangKey.QUEST_SIDE_ASTRAL_PROJECTION_OBJECTIVES_ASTRAL_GATEWAY, who);
-            case "soul_lantern_collect" -> LangManager.text(AstralProjectionLangKey.QUEST_SIDE_ASTRAL_PROJECTION_OBJECTIVES_SOUL_LANTERN_COLLECT, who);
-            case "ethereal_maze" -> LangManager.text(AstralProjectionLangKey.QUEST_SIDE_ASTRAL_PROJECTION_OBJECTIVES_ETHEREAL_MAZE, who);
-            case "experience_bottle_collect" -> LangManager.text(AstralProjectionLangKey.QUEST_SIDE_ASTRAL_PROJECTION_OBJECTIVES_EXPERIENCE_BOTTLE_COLLECT, who);
-            case "rescue_brother_transcendence" -> LangManager.text(AstralProjectionLangKey.QUEST_SIDE_ASTRAL_PROJECTION_OBJECTIVES_RESCUE_BROTHER_TRANSCENDENCE, who);
+            case "talk_brother_seeker" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.astral_projection.name"), who);
+            case "amethyst_shard_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.astral_projection.name"), who);
+            case "astral_gateway" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.astral_projection.name"), who);
+            case "soul_lantern_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.astral_projection.name"), who);
+            case "ethereal_maze" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.astral_projection.name"), who);
+            case "experience_bottle_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.astral_projection.name"), who);
+            case "rescue_brother_transcendence" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.astral_projection.name"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -96,7 +94,7 @@ public class AstralProjectionQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(AstralProjectionLangKey.QUEST_SIDE_ASTRAL_PROJECTION_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.astral_projection.name"), who);
     }
     
     @Override
@@ -106,16 +104,16 @@ public class AstralProjectionQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(AstralProjectionLangKey.QUEST_SIDE_ASTRAL_PROJECTION_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.astral_projection.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(AstralProjectionLangKey.QUEST_SIDE_ASTRAL_PROJECTION_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.astral_projection.name"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(AstralProjectionLangKey.QUEST_SIDE_ASTRAL_PROJECTION_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.astral_projection.name"), who);
     }
 }

@@ -10,6 +10,8 @@ public enum SystemLangKey implements ILangKey {
     STATUS_ACTIVE("status.active"),
     STATUS_PUBLIC("status.public"),
     STATUS_PRIVATE("status.private"),
+    STATUS_NEW_MAIL("status.new_mail"),
+    STATUS_READ("status.read"),
     
     // Action Keys
     ACTION_ENABLE("general.action.enable"),
@@ -40,7 +42,12 @@ public enum SystemLangKey implements ILangKey {
     CURRENCY_POINT_SYMBOL("currency.point.symbol"),
     CURRENCY_CREDIT_NAME("currency.credit.name"),
     CURRENCY_CREDIT_SYMBOL("currency.credit.symbol"),
-    
+    CURRENCY_DIAMOND_NAME("currency.diamond.name"),
+    CURRENCY_EMERALD_NAME("currency.emerald.name"),
+    CURRENCY_GHAST_TEAR_NAME("currency.ghast_tear.name"),
+    CURRENCY_NETHER_STAR_NAME("currency.nether_star.name"),
+    CURRENCY_EXP_NAME("currency.exp.name"),
+
     // Biome Keys
     BIOME_PLAINS("biome.plains"),
     BIOME_PLAINS_NAME("biome.plains.name"),
@@ -95,32 +102,51 @@ public enum SystemLangKey implements ILangKey {
     BIOME_CHERRY_GROVE_DESCRIPTION("biome.cherry_grove.description"),
     
     // Job Keys
-    JOB_WARRIOR("job.warrior"),
-    JOB_ARCHER("job.archer"),
-    JOB_MAGE("job.mage"),
-    JOB_ROGUE("job.rogue"),
-    JOB_PRIEST("job.priest"),
-    JOB_PALADIN("job.paladin"),
-    JOB_ASSASSIN("job.assassin"),
-    JOB_BERSERKER("job.berserker"),
-    JOB_SUMMONER("job.summoner"),
-    JOB_NECROMANCER("job.necromancer"),
-    JOB_DRUID("job.druid"),
-    JOB_RANGER("job.ranger"),
-    JOB_WARLOCK("job.warlock"),
-    JOB_WARRIOR_DESC("job.warrior.desc"),
-    JOB_ARCHER_DESC("job.archer.desc"),
-    JOB_MAGE_DESC("job.mage.desc"),
-    JOB_ROGUE_DESC("job.rogue.desc"),
-    JOB_PRIEST_DESC("job.priest.desc"),
-    JOB_PALADIN_DESC("job.paladin.desc"),
-    JOB_ASSASSIN_DESC("job.assassin.desc"),
-    JOB_BERSERKER_DESC("job.berserker.desc"),
-    JOB_SUMMONER_DESC("job.summoner.desc"),
-    JOB_NECROMANCER_DESC("job.necromancer.desc"),
-    JOB_DRUID_DESC("job.druid.desc"),
-    JOB_RANGER_DESC("job.ranger.desc"),
-    JOB_WARLOCK_DESC("job.warlock.desc"),
+    JOB_CATEGORIES_WARRIOR("job.categories.warrior"),
+    JOB_CATEGORIES_MAGE("job.categories.mage"),
+    JOB_CATEGORIES_ARCHER("job.categories.archer"),
+
+    // Job Names
+    JOB_WARRIOR_NAME("job.warrior.name"),
+    JOB_MAGE_NAME("job.mage.name"),
+    JOB_ARCHER_NAME("job.archer.name"),
+    JOB_ROGUE_NAME("job.rogue.name"),
+    JOB_BERSERKER_NAME("job.berserker.name"),
+    JOB_BRUISER_NAME("job.bruiser.name"),
+    JOB_TANK_NAME("job.tank.name"),
+    JOB_PRIEST_NAME("job.priest.name"),
+    JOB_DARK_MAGE_NAME("job.dark_mage.name"),
+    JOB_MERCY_NAME("job.mercy.name"),
+    JOB_SNIPER_NAME("job.sniper.name"),
+    JOB_SHOTGUNNER_NAME("job.shotgunner.name"),
+    JOB_ASSASSIN_NAME("job.assassin.name"),
+    JOB_PALADIN_NAME("job.paladin.name"),
+    JOB_SUMMONER_NAME("job.summoner.name"),
+    JOB_NECROMANCER_NAME("job.necromancer.name"),
+    JOB_DRUID_NAME("job.druid.name"),
+    JOB_RANGER_NAME("job.ranger.name"),
+    JOB_WARLOCK_NAME("job.warlock.name"),
+
+    // Job Descriptions
+    JOB_WARRIOR_DESCRIPTION("job.warrior.description"),
+    JOB_MAGE_DESCRIPTION("job.mage.description"),
+    JOB_ARCHER_DESCRIPTION("job.archer.description"),
+    JOB_ROGUE_DESCRIPTION("job.rogue.description"),
+    JOB_BERSERKER_DESCRIPTION("job.berserker.description"),
+    JOB_BRUISER_DESCRIPTION("job.bruiser.description"),
+    JOB_TANK_DESCRIPTION("job.tank.description"),
+    JOB_PRIEST_DESCRIPTION("job.priest.description"),
+    JOB_DARK_MAGE_DESCRIPTION("job.dark_mage.description"),
+    JOB_MERCY_DESCRIPTION("job.mercy.description"),
+    JOB_SNIPER_DESCRIPTION("job.sniper.description"),
+    JOB_SHOTGUNNER_DESCRIPTION("job.shotgunner.description"),
+    JOB_ASSASSIN_DESCRIPTION("job.assassin.description"),
+    JOB_PALADIN_DESCRIPTION("job.paladin.description"),
+    JOB_SUMMONER_DESCRIPTION("job.summoner.description"),
+    JOB_NECROMANCER_DESCRIPTION("job.necromancer.description"),
+    JOB_DRUID_DESCRIPTION("job.druid.description"),
+    JOB_RANGER_DESCRIPTION("job.ranger.description"),
+    JOB_WARLOCK_DESCRIPTION("job.warlock.description"),
     
     // Stat Keys
     STAT_STRENGTH("stat.strength"),
@@ -272,6 +298,7 @@ public enum SystemLangKey implements ILangKey {
     SETTINGS_PARTICLES("settings.particles"),
     SETTINGS_WEATHER("settings.weather"),
     SETTINGS_TIME("settings.time"),
+    SETTINGS_PERSONAL("settings.personal"),
     
     // Damage Type Keys
     DAMAGE_PHYSICAL("damage.physical"),
@@ -410,13 +437,7 @@ public enum SystemLangKey implements ILangKey {
     PET_DISMISSED("pet.dismissed"),
     PET_LEVEL_UP("pet.level_up"),
     PET_EVOLVED("pet.evolved"),
-    
-    AUCTION_LISTED("auction.listed"),
-    AUCTION_SOLD("auction.sold"),
-    AUCTION_BOUGHT("auction.bought"),
-    AUCTION_EXPIRED("auction.expired"),
-    AUCTION_CANCELLED("auction.cancelled"),
-    
+
     WARZONE_ENTERED("warzone.entered"),
     WARZONE_LEFT("warzone.left"),
     WARZONE_KILL("warzone.kill"),
@@ -456,7 +477,7 @@ public enum SystemLangKey implements ILangKey {
     }
     
     @Override
-    public String getKey() {
+    public String key() {
         return key;
     }
     

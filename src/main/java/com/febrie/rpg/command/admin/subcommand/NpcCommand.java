@@ -4,7 +4,11 @@ import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.command.admin.subcommand.base.BaseSubCommand;
 import com.febrie.rpg.npc.NPCTraitSetter;
 import com.febrie.rpg.npc.trait.RPGQuestTrait;
+import com.febrie.rpg.quest.Quest;
 import com.febrie.rpg.quest.QuestID;
+import com.febrie.rpg.quest.manager.QuestManager;
+import com.febrie.rpg.quest.objective.QuestObjective;
+import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -17,7 +21,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -248,11 +254,17 @@ public class NpcCommand extends BaseSubCommand {
                 return Stream.of("quest", "shop", "dialog", "guide")
                     .filter(type -> type.startsWith(args[1].toLowerCase()))
                     .collect(Collectors.toList());
-            } else if (args[0].equalsIgnoreCase("reward")) {
+            } else if (args[0].equalsIgnoreCase("quest") || args[0].equalsIgnoreCase("reward")) {
                 return Arrays.stream(QuestID.values())
                     .map(QuestID::name)
                     .map(String::toLowerCase)
                     .filter(id -> id.startsWith(args[1].toLowerCase()))
+                    .collect(Collectors.toList());
+            } else if (args[0].equalsIgnoreCase("objective")) {
+                // Get all unique NPC codes from all quests' InteractNPCObjective
+                return getAllObjectiveNpcCodes().stream()
+                    .filter(code -> code.startsWith(args[1].toLowerCase()))
+                    .sorted()
                     .collect(Collectors.toList());
             }
         } else if (args.length == 3) {
@@ -264,7 +276,46 @@ public class NpcCommand extends BaseSubCommand {
                     .collect(Collectors.toList());
             }
         }
-        
+
         return List.of();
+    }
+
+    /**
+     * Get all unique NPC codes from all quests' objectives
+     * Returns codes in format "QUEST_ID:NPC_CODE"
+     */
+    private Set<String> getAllObjectiveNpcCodes() {
+        Set<String> npcCodes = new HashSet<>();
+
+        // Iterate through all quest IDs
+        for (QuestID questId : QuestID.values()) {
+            Quest quest = QuestManager.getInstance().getQuest(questId);
+            if (quest != null) {
+                // Check each objective in the quest
+                for (QuestObjective objective : quest.getObjectives()) {
+                    if (objective instanceof InteractNPCObjective interactObj) {
+                        String npcId = interactObj.getNpcId();
+                        if (npcId != null && !npcId.isEmpty()) {
+                            // Add both the simple NPC ID and the quest-prefixed version
+                            npcCodes.add(npcId.toLowerCase());
+                            npcCodes.add(questId.name().toLowerCase() + ":" + npcId.toLowerCase());
+                        }
+                    }
+                }
+            }
+        }
+
+        // Also add some common NPC codes that might be used
+        npcCodes.add("quest_giver");
+        npcCodes.add("reward_npc");
+        npcCodes.add("merchant");
+        npcCodes.add("guard");
+        npcCodes.add("villager");
+        npcCodes.add("blacksmith");
+        npcCodes.add("alchemist");
+        npcCodes.add("trainer");
+        npcCodes.add("guide");
+
+        return npcCodes;
     }
 }

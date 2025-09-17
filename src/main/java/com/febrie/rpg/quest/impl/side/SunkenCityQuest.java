@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.SunkenCityLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -66,23 +64,23 @@ public class SunkenCityQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(SunkenCityLangKey.QUEST_SIDE_SUNKEN_CITY_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.sunken.city.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(SunkenCityLangKey.QUEST_SIDE_SUNKEN_CITY_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.sunken.city.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "deep_sea_diver" -> LangManager.text(SunkenCityLangKey.QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_DEEP_SEA_DIVER, who);
-            case "underwater_ruins" -> LangManager.text(SunkenCityLangKey.QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_UNDERWATER_RUINS, who);
-            case "kill_guardians" -> LangManager.text(SunkenCityLangKey.QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_KILL_GUARDIANS, who);
-            case "prismarine_crystals_collect" -> LangManager.text(SunkenCityLangKey.QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_PRISMARINE_CRYSTALS_COLLECT, who);
-            case "sunken_palace" -> LangManager.text(SunkenCityLangKey.QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_SUNKEN_PALACE, who);
-            case "heart_of_the_sea_collect" -> LangManager.text(SunkenCityLangKey.QUEST_SIDE_SUNKEN_CITY_OBJECTIVES_HEART_OF_THE_SEA_COLLECT, who);
+            case "deep_sea_diver" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.sunken.city.objectives.deep.sea.diver"), who);
+            case "underwater_ruins" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.sunken.city.objectives.underwater.ruins"), who);
+            case "kill_guardians" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.sunken.city.objectives.kill.guardians"), who);
+            case "prismarine_crystals_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.sunken.city.objectives.prismarine.crystals.collect"), who);
+            case "sunken_palace" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.sunken.city.objectives.sunken.palace"), who);
+            case "heart_of_the_sea_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.sunken.city.objectives.heart.of.the.sea.collect"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -94,7 +92,7 @@ public class SunkenCityQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(SunkenCityLangKey.QUEST_SIDE_SUNKEN_CITY_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.sunken.city.dialogs"), who);
     }
     
     @Override
@@ -104,16 +102,16 @@ public class SunkenCityQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(SunkenCityLangKey.QUEST_SIDE_SUNKEN_CITY_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.sunken.city.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(SunkenCityLangKey.QUEST_SIDE_SUNKEN_CITY_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.sunken.city.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(SunkenCityLangKey.QUEST_SIDE_SUNKEN_CITY_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.sunken.city.decline"), who);
     }
 }

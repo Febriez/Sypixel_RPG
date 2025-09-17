@@ -1,7 +1,8 @@
 {
   "mode": {
     "all": {
-      "desc": "설명"
+      "desc": "설명",
+      "_value": "모두"
     },
     "friend_only": {
       "desc": "설명"
@@ -10,26 +11,53 @@
       "desc": "설명"
     },
     "off": {
-      "desc": "설명"
+      "desc": "설명",
+      "_value": "끄기"
     },
     "unknown": {
-      "desc": "설명"
+      "desc": "설명",
+      "_value": "알 수 없음"
+    },
+    "friend-only": {
+      "_value": "친구만",
+      "desc": "친구에게만 알림을 받습니다"
+    },
+    "guild-only": {
+      "_value": "길드만",
+      "desc": "길드 멤버에게만 알림을 받습니다"
     }
   },
-  "friend_online": "[KO] Friend Online",
-  "friend_offline": "[KO] Friend Offline",
-  "guild_message": "[KO] Guild Message",
-  "party_message": "[KO] Party Message",
-  "system_message": "[KO] System Message",
-  "achievement_unlocked": "[KO] Achievement Unlocked",
-  "quest_completed": "[KO] Quest Completed",
-  "level_up": "[KO] Level Up",
-  "mail_received": "[KO] Mail Received",
-  "mode.all": "[KO] All",
-  "mode.friend-only": "[KO] Friend Only",
-  "mode.guild-only": "[KO] Guild Only",
-  "mode.off": "[KO] Off",
-  "mode.unknown": "[KO] Unknown",
-  "mode.friend-only.desc": "[KO] Description text",
-  "mode.guild-only.desc": "[KO] Description text"
+  "friend_online": "친구 접속",
+  "friend_offline": "친구 접속 종료",
+  "guild_message": "길드 메시지",
+  "party_message": "파티 메시지",
+  "system_message": "시스템 메시지",
+  "achievement_unlocked": "업적 달성",
+  "quest_completed": "퀘스트 완료",
+  "level_up": "레벨 업",
+  "mail_received": "메일 수신",
+  "notification": {
+    "mode": {
+      "all": "모두",
+      "friend-only": {
+        "_value": "친구만",
+        "desc": "친구에게만 알림을 받습니다"
+      },
+      "guild-only": {
+        "_value": "길드만",
+        "desc": "길드 멤버에게만 알림을 받습니다"
+      },
+      "off": "끄기",
+      "unknown": "알 수 없음"
+    },
+    "friend_online": "친구 접속",
+    "friend_offline": "친구 접속 종료",
+    "guild_message": "길드 메시지",
+    "party_message": "파티 메시지",
+    "system_message": "시스템 메시지",
+    "achievement_unlocked": "업적 달성",
+    "quest_completed": "퀘스트 완료",
+    "level_up": "레벨 업",
+    "mail_received": "메일 수신"
+  }
 }

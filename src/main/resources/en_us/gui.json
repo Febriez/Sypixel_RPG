@@ -46,7 +46,10 @@
     "success": "Congratulations! You selected the {1} job!",
     "title_success": "Job Selected!",
     "subtitle_success": "You selected the {1} job",
-    "already_has_job": "You already have a job!"
+    "already_has_job": "You already have a job!",
+    "info_line1": "Info Line1",
+    "info_line2": "Info Line2",
+    "info_line3": "Info Line3"
   },
   "job_selection": {
     "title": "Job Selection",
@@ -215,7 +218,12 @@
     "my_value": "Your Score: {0}",
     "no_rank_data": "No ranking data",
     "play_more": "Play more to compete for rankings!",
-    "value": "Value: {0}"
+    "value": "Value: {0}",
+    "this": {
+      "is": {
+        "you": "You"
+      }
+    }
   },
   "all_quests": {
     "title": "All Quests"
@@ -367,7 +375,22 @@
       "sell_price": "Sell: {0}G",
       "click_to_buy": "Click to purchase",
       "click_to_sell": "Click to sell",
-      "insufficient_gold": "Insufficient gold!"
+      "insufficient_gold": "Insufficient gold!",
+      "buy": {
+        "price": "Price"
+      },
+      "click": {
+        "to": {
+          "buy": "Buy",
+          "sell": "Sell"
+        }
+      },
+      "insufficient": {
+        "gold": "Gold"
+      },
+      "sell": {
+        "price": "Price"
+      }
     }
   },
   "dungeon": {
@@ -480,7 +503,8 @@
         "click-to-create": "Click to create your island",
         "title": "Title",
         "lore2": "Lore2",
-        "lore1": "Lore1"
+        "lore1": "Lore1",
+        "lore": "Item lore text"
       },
       "members": {
         "click-to-manage": "Click to manage members",
@@ -619,7 +643,29 @@
       "mob-spawn": "Mob Spawning",
       "fire-spread": "Fire Spread",
       "tnt-damage": "TNT Damage",
-      "public-access": "Public Access"
+      "public-access": "Public Access",
+      "name": "Settings",
+      "description": "Description text",
+      "mob_spawn": "Mob Spawn",
+      "fire_spread": "Fire Spread",
+      "tnt": "Tnt",
+      "public": "Public",
+      "locked": "Locked",
+      "current": {
+        "biome": "Biome",
+        "name": "Current",
+        "status": "Status"
+      },
+      "has": {
+        "changes": "Changes"
+      },
+      "id": "Id",
+      "members": "Members",
+      "no": {
+        "changes": "Changes"
+      },
+      "owner": "Owner",
+      "status": "Status"
     },
     "permission": {
       "title": "Permission Management",
@@ -630,28 +676,90 @@
       "select_other_role": "Select another role from the left",
       "edit_role_permissions": "to edit that role's permissions.",
       "permissions": {
-        "build": "Build",
+        "build": {
+          "_value": "Build",
+          "desc": "Description text"
+        },
         "build_desc": "Can place and break blocks.",
-        "interact": "Interact",
+        "interact": {
+          "_value": "Interact",
+          "desc": "Description text"
+        },
         "interact_desc": "Can use doors, buttons, etc.",
         "use": "Use Items",
         "use_desc": "Can use items.",
-        "containers": "Open Containers",
+        "containers": {
+          "_value": "Open Containers",
+          "desc": "Description text"
+        },
         "containers_desc": "Can open chests, furnaces, etc.",
         "pvp": "PVP",
         "pvp_desc": "Can engage in PVP on the island.",
-        "invite": "Invite Members",
+        "invite": {
+          "_value": "Invite Members",
+          "desc": "Description text"
+        },
         "invite_desc": "Can invite new members.",
-        "kick": "Kick Members",
+        "kick": {
+          "_value": "Kick Members",
+          "desc": "Description text"
+        },
         "kick_desc": "Can kick members.",
-        "settings": "Change Settings",
-        "settings_desc": "Can change island settings."
+        "settings": {
+          "_value": "Change Settings",
+          "desc": "Description text"
+        },
+        "settings_desc": "Can change island settings.",
+        "spawns": {
+          "desc": "Description text"
+        },
+        "workers": {
+          "desc": "Description text"
+        }
       },
-      "save": "Save Permission Settings",
+      "save": {
+        "_value": "Save Permission Settings",
+        "click": "Click",
+        "description": "Description text",
+        "failed": "Failed",
+        "success": "Success",
+        "title": "Title"
+      },
       "save_desc": "Save the changed permission settings.",
       "enabled": "Enabled",
       "disabled": "Disabled",
-      "click_to_toggle": "Click to toggle"
+      "click_to_toggle": "Click to toggle",
+      "click": {
+        "to": {
+          "select": "Select",
+          "toggle": "Toggle"
+        }
+      },
+      "current": {
+        "editing": "Editing"
+      },
+      "edit": {
+        "role": {
+          "permissions": "Permissions"
+        }
+      },
+      "select": {
+        "other": {
+          "role": "Role"
+        },
+        "role": {
+          "desc": "Description text"
+        }
+      },
+      "status": "Status",
+      "back": {
+        "description": "Description text",
+        "title": "Title"
+      },
+      "close": {
+        "description": "Description text",
+        "title": "Title"
+      }
     },
     "upgrade": {
       "title": "Island Upgrades",
@@ -660,7 +768,26 @@
       "max-level": "Max Level Reached",
       "cost": "Cost: {0}",
       "benefits": "Benefits:",
-      "click-to-upgrade": "Click to upgrade"
+      "click-to-upgrade": "Click to upgrade",
+      "click": {
+        "to": {
+          "upgrade": "Upgrade"
+        }
+      },
+      "current": {
+        "contribution": "Contribution",
+        "level": "Level"
+      },
+      "insufficient": {
+        "contribution": "Contribution"
+      },
+      "next": {
+        "level": "Level"
+      },
+      "max": {
+        "level": "Level"
+      },
+      "progress": "Progress"
     },
     "biome_selection": {
       "title": "Select Biome",
@@ -685,7 +812,10 @@
         "lore": "Lore"
       },
       "current_selected": "Current Selected",
-      "click_to_select": "Click To Select"
+      "click_to_select": "Click To Select",
+      "info_title": "Info Title",
+      "info_lore": "Info Lore",
+      "back_lore": "Back Lore"
     },
     "visitor": {
       "menu": {
@@ -693,10 +823,45 @@
       },
       "live": {
         "title": "Current Visitors"
+      },
+      "action": {
+        "title": "Title"
+      },
+      "island": {
+        "name": "Island"
+      },
+      "longest": {
+        "stay": "Stay"
+      },
+      "most": {
+        "frequent": "Frequent"
+      },
+      "public": {
+        "status": "Status"
+      },
+      "stay": {
+        "duration": "Duration"
+      },
+      "title": "Title",
+      "total": {
+        "visitors": "Visitors",
+        "visits": "Visits"
+      },
+      "unique": {
+        "visitors": "Visitors"
+      },
+      "visit": {
+        "time": "Time"
+      },
+      "visitor": {
+        "number": "Number"
       }
     },
     "biome_change": {
-      "title": "Change Biome"
+      "title": "Change Biome",
+      "description": "Description text",
+      "success": "Success",
+      "fail": "Fail"
     },
     "biome": {
       "title": "Island Biome",
@@ -720,7 +885,12 @@
       "click_to_select": "Click To Select",
       "currently_selected": "Currently Selected",
       "back_to_settings": "Back To Settings",
-      "current_info": "Current Info"
+      "current_info": "Current Info",
+      "current_biome": "Current Biome",
+      "cost": "Cost",
+      "free": "Free",
+      "current_info_lore": "Current Info Lore",
+      "back_lore": "Back Lore"
     },
     "contribute": {
       "title": "Island Contribution",
@@ -728,10 +898,26 @@
       "input_gold": "Enter gold to contribute",
       "gold_info": {
         "balance": "Balance: {0}G",
-        "contribution": "Your Contribution: {0}G"
+        "contribution": "Your Contribution: {0}G",
+        "title": "Title",
+        "description": "Description text"
       },
       "quick_amount": "Quick Amount: {0}G",
-      "gold_needed": "Gold Needed: {0}G"
+      "gold_needed": "Gold Needed: {0}G",
+      "custom_amount": {
+        "title": "Title",
+        "description": "Description text",
+        "minimum": "Minimum",
+        "maximum": "Maximum",
+        "click_prompt": "Click Prompt"
+      },
+      "back_description": "Back Description",
+      "success": "Success",
+      "total_contribution": "Total Contribution",
+      "click_to_contribute": "Click To Contribute",
+      "click_prompt": "Click Prompt",
+      "insufficient_gold": "Insufficient Gold",
+      "insufficient_gold_message": "Insufficient Gold Message"
     },
     "contribution": {
       "title": "Island Contribution",
@@ -752,7 +938,21 @@
       },
       "add": {
         "current": "Current"
-      }
+      },
+      "info_title": "Info Title",
+      "info_island_name": "Info Island Name",
+      "info_total": "Info Total",
+      "info_contributors": "Info Contributors",
+      "info_description": "Info Description",
+      "contributor_name": "Contributor Name",
+      "contributor_contribution": "Contributor Contribution",
+      "contributor_role": "Contributor Role",
+      "contributor_percentage": "Contributor Percentage",
+      "add_title": "Add Title",
+      "add_current": "Add Current",
+      "add_description": "Add Description",
+      "add_click": "Add Click",
+      "back_description": "Back Description"
     },
     "member_manage": {
       "title": "Member Management",
@@ -761,7 +961,11 @@
     },
     "member": {
       "title": "Island Members",
-      "role": "Role",
+      "role": {
+        "_value": "Role",
+        "owner": "Owner",
+        "worker": "Worker"
+      },
       "join_date": "Join Date",
       "has_most_permissions": "Has most permissions",
       "regular_member_permissions": "Regular member permissions",
@@ -780,7 +984,64 @@
       "limited_permissions": "Has limited permissions",
       "left_click_extend": "Left-click to extend contract",
       "right_click_fire": "Right-click to fire worker",
-      "current_page": "Current Page"
+      "current_page": "Current Page",
+      "all": {
+        "permissions": "Permissions"
+      },
+      "hire": {
+        "date": "Date"
+      },
+      "invite": {
+        "example": "Example",
+        "prompt": "Prompt"
+      },
+      "join": {
+        "date": "Date"
+      },
+      "last": {
+        "activity": "Activity"
+      },
+      "left": {
+        "click": {
+          "extend": "Extend",
+          "role": "Role"
+        }
+      },
+      "limited": {
+        "permissions": "Permissions"
+      },
+      "manage": {
+        "current": {
+          "role": "Role"
+        },
+        "permission": {
+          "not": {
+            "implemented": "Implemented"
+          }
+        },
+        "title": {
+          "with": {
+            "name": "With"
+          }
+        }
+      },
+      "most": {
+        "permissions": "Permissions"
+      },
+      "normal": {
+        "permissions": "Permissions"
+      },
+      "owner": {
+        "cannot": {
+          "change": "Change"
+        }
+      },
+      "right": {
+        "click": {
+          "fire": "Fire",
+          "kick": "Kick"
+        }
+      }
     },
     "main_color_change_hint": "Click to change island theme",
     "biome_change_title": "Change Island Biome",
@@ -843,12 +1104,38 @@
       "demote": {
         "title": "Demote Member",
         "desc": "Reduce this member's permissions"
+      },
+      "description": "Description text",
+      "moderator": "Moderator",
+      "add": {
+        "title": "Title",
+        "subtitle": "Subtitle",
+        "lore": "Item lore text",
+        "click": "Click"
+      },
+      "back": {
+        "lore": "Item lore text"
+      },
+      "info": {
+        "title": "Title"
       }
     },
     "delete": {
       "title": "Delete Island",
       "warning": "⚠ Warning: This action cannot be undone!",
-      "confirm": "Confirm Deletion",
+      "confirm": {
+        "_value": "Confirm Deletion",
+        "final": {
+          "confirm": {
+            "warning": "Warning"
+          }
+        },
+        "warning": {
+          "list": {
+            "items": "Items"
+          }
+        }
+      },
       "cancel": "Cancel"
     },
     "gui": {
@@ -904,7 +1191,8 @@
         "lore1": "Lore1",
         "title": "Title",
         "lore2": "Lore2",
-        "click": "Click"
+        "click": "Click",
+        "lore": "Item lore text"
       },
       "final_confirm": {
         "click": "Click",
@@ -946,6 +1234,71 @@
     "biome_selection_info_lore1": "Biome Selection Info Lore1",
     "biome_simple": {
       "title": "Title"
+    },
+    "contributions": {
+      "title": "Title",
+      "description": "Description text",
+      "total": "Total",
+      "player": "Player"
+    },
+    "permissions": {
+      "title": "Title",
+      "description": "Description text",
+      "build": "Build",
+      "break": "Break",
+      "interact": "Interact",
+      "container": "Container",
+      "teleport": "Teleport",
+      "invite": "Invite",
+      "kick": "Kick",
+      "ban": "Ban",
+      "promote": "Promote",
+      "demote": "Demote"
+    },
+    "upgrades": {
+      "title": "Title",
+      "description": "Description text",
+      "size": "Size",
+      "member_limit": "Member Limit",
+      "hopper_limit": "Hopper Limit",
+      "spawner_limit": "Spawner Limit",
+      "generator": "Generator"
+    },
+    "visit": {
+      "title": "Title",
+      "description": "Description text",
+      "player_input": "Player Input",
+      "not_found": "Not Found",
+      "locked": "Locked",
+      "banned": "Banned"
+    },
+    "visitors": {
+      "title": "Title",
+      "description": "Description text",
+      "current": "Current",
+      "recent": "Recent"
+    },
+    "personal": {
+      "spawn": {
+        "title": "Title"
+      }
+    },
+    "spawn": {
+      "default": {
+        "spawn": "Spawn"
+      },
+      "location": {
+        "name": "Location"
+      },
+      "title": "Title",
+      "visitor": {
+        "spawn": {
+          "_value": "Spawn",
+          "not": {
+            "set": "Set"
+          }
+        }
+      }
     }
   },
   "social": {
@@ -1006,7 +1359,95 @@
     "filter": "Filter:",
     "previous_page": "Previous Page",
     "next_page": "Next Page",
-    "rewards": "Rewards"
+    "rewards": "Rewards",
+    "dialog": {
+      "accept": {
+        "quest": "Quest"
+      },
+      "next": {
+        "page": "Page"
+      },
+      "quest": {
+        "declined": "Declined"
+      },
+      "skip": "Skip",
+      "title": "Title"
+    },
+    "list": {
+      "click": {
+        "details": "Details"
+      },
+      "completed": {
+        "label": "Label"
+      },
+      "progress": "Progress",
+      "repeatable": "Repeatable",
+      "title": "Title"
+    },
+    "reward": {
+      "confirm": {
+        "title": "Title"
+      },
+      "all": {
+        "claimed": "Claimed"
+      },
+      "already": {
+        "claimed": "Claimed"
+      },
+      "claimed": "Claimed",
+      "click": {
+        "to": {
+          "claim": "Claim"
+        }
+      },
+      "close": {
+        "warning": "Warning"
+      },
+      "destroyed": {
+        "_value": "Destroyed",
+        "desc": "Description text"
+      },
+      "exp": {
+        "received": "Received"
+      },
+      "inventory": {
+        "full": "Full"
+      },
+      "money": {
+        "received": "Received"
+      },
+      "not": {
+        "enough": {
+          "space": "Space"
+        }
+      },
+      "timer": {
+        "info": "Info",
+        "warning": "Warning"
+      },
+      "title": "Title",
+      "warning": {
+        "destroy": {
+          "line": "Line",
+          "line2": "Line2"
+        }
+      }
+    },
+    "selection": {
+      "title": "Title"
+    },
+    "status": {
+      "completed": "Completed",
+      "in": {
+        "progress": "Progress"
+      },
+      "new": {
+        "quest": "Quest"
+      },
+      "reward": {
+        "available": "Available"
+      }
+    }
   },
   "island_creation": {
     "current_name": "Current Name:",
@@ -1182,7 +1623,12 @@
     "npc": "NPC: {0}",
     "npc_content": "{0}",
     "option": "Option {0}",
-    "click_to_select": "Click to select this option"
+    "click_to_select": "Click to select this option",
+    "option_1": "Option 1",
+    "option_2": "Option 2",
+    "option_3": "Option 3",
+    "option_4": "Option 4",
+    "cancel": "Cancel"
   },
   "mailbox": {
     "title": "Mailbox",
@@ -1193,7 +1639,13 @@
     "to": "To: {0}",
     "subject": "Subject: {0}",
     "date": "Date: {0}",
-    "delete": "Delete",
+    "delete": {
+      "_value": "Delete",
+      "confirm": {
+        "text": "Text",
+        "title": "Title"
+      }
+    },
     "reply": "Reply",
     "forward": "Forward",
     "mark_read": "Mark as Read",
@@ -1214,7 +1666,21 @@
     "time": "Time: {0}",
     "delete_confirm_word": "confirm",
     "delete_confirm_text": "Type DELETE to confirm",
-    "delete_confirm_title": "Confirm Mail Deletion"
+    "delete_confirm_title": "Confirm Mail Deletion",
+    "refresh_cooldown": "Refresh Cooldown",
+    "mail_from": "Mail From",
+    "mail_date": "Mail Date",
+    "has_attachments": "Has Attachments",
+    "click_to_read": "Click To Read",
+    "delete_all": "Delete All",
+    "delete_all_confirm": "Delete All Confirm",
+    "send": {
+      "mail": {
+        "command": "Command",
+        "example": "Example",
+        "guide": "Guide"
+      }
+    }
   },
   "mail_detail": {
     "title": "Mail Details",
@@ -1239,7 +1705,12 @@
     "delete_failed": "Failed to delete mail",
     "reply_desc": "Click to reply to this mail",
     "reply_guide": "Use the command to reply:",
-    "reply_command": "/mail reply {0} <message>"
+    "reply_command": "/mail reply {0} <message>",
+    "claim_all": "Claim All",
+    "claim": "Claim",
+    "claimed": "Claimed",
+    "delete_confirm": "Delete Confirm",
+    "delete_confirm_message": "Delete Confirm Message"
   },
   "friend_requests": {
     "title": "Friend Requests",
@@ -1263,7 +1734,12 @@
       "Click to reject this friend request"
     ],
     "reject_desc1": "Reject Desc1",
-    "accept_desc1": "Accept Desc1"
+    "accept_desc1": "Accept Desc1",
+    "accept_hover": "Accept Hover",
+    "deny_hover": "Deny Hover",
+    "friend_added": "Friend Added",
+    "cancelled": "Cancelled",
+    "error": "Error"
   },
   "friends": {
     "title": "Friends",
@@ -1272,7 +1748,25 @@
     "refreshed": "Friends list refreshed!",
     "status": "Status: {0}",
     "since": "Friends since: {0}",
-    "whisper_hint": "Send a whisper"
+    "whisper_hint": "Send a whisper",
+    "online_count": "Online Count",
+    "total_count": "Total Count",
+    "no_friends": "No Friends",
+    "click_to_teleport": "Click To Teleport",
+    "right_click_to_remove": "Right Click To Remove",
+    "remove_confirm": "Remove Confirm",
+    "removed": "Removed",
+    "teleport_request_sent": "Teleport Request Sent",
+    "teleport_failed": "Teleport Failed",
+    "add": {
+      "command": {
+        "example": "Example",
+        "hint": "Hint"
+      }
+    },
+    "whisper": {
+      "hint": "Hint"
+    }
   },
   "friend_list": {
     "title": "Friends List",
@@ -1455,7 +1949,27 @@
     "detail_delete_failed": "Failed to delete mail",
     "detail_reply_desc": "Reply to this mail",
     "detail_reply_guide": "Type your reply",
-    "detail_reply_command": "/mail reply {0}"
+    "detail_reply_command": "/mail reply {0}",
+    "detail": {
+      "delete": {
+        "failed": "Failed",
+        "success": "Success"
+      },
+      "no": {
+        "message": "Message"
+      },
+      "receiver": "Receiver",
+      "reply": {
+        "command": "Command",
+        "desc": "Description text",
+        "guide": "Guide"
+      },
+      "sender": "Sender",
+      "sent": {
+        "time": "Time"
+      },
+      "status": "Status"
+    }
   },
   "friend": {
     "requests_request_time": "Sent: {0}",
@@ -1467,7 +1981,19 @@
       "Reject friend request"
     ],
     "requests_reject_desc1": "Requests Reject Desc1",
-    "requests_accept_desc1": "Requests Accept Desc1"
+    "requests_accept_desc1": "Requests Accept Desc1",
+    "requests": {
+      "accept": {
+        "desc": "Description text"
+      },
+      "message": "Message",
+      "no": {
+        "message": "Message"
+      },
+      "reject": {
+        "desc": "Description text"
+      }
+    }
   },
   "dialog": {
     "choice_title": "Dialog Choice",
@@ -1476,7 +2002,20 @@
     "choice_npc": "NPC: {0}",
     "choice_npc_content": "{0}",
     "choice_option": "Option {0}",
-    "choice_click_to_select": "Click to select this response"
+    "choice_click_to_select": "Click to select this response",
+    "choice": {
+      "click": {
+        "to": {
+          "select": "Select"
+        }
+      },
+      "description": "Description text",
+      "icon": "Icon",
+      "npc": {
+        "_value": "Npc",
+        "content": "Content"
+      }
+    }
   },
   "quest_objectives": {
     "title": "Quest Objectives"
@@ -1489,18 +2028,18 @@
   },
   "gui": {
     "social-settings": {
-      "status": "Social Settings Status",
-      "click-to-toggle": "Social Settings Click to Toggle",
-      "current-mode": "Social Settings Current Mode",
-      "friend-requests-toggled": "Social Settings Friend Requests Toggled",
-      "guild-invites-toggled": "Social Settings Guild Invites Toggled",
-      "whisper-mode-changed": "Social Settings Whisper Mode Changed"
+      "status": "Status",
+      "click-to-toggle": "Click To Toggle",
+      "current-mode": "Current Mode",
+      "friend-requests-toggled": "Friend Requests Toggled",
+      "guild-invites-toggled": "Guild Invites Toggled",
+      "whisper-mode-changed": "Whisper Mode Changed"
     },
     "leaderboard": {
       "rank": "Leaderboard Rank",
       "this": {
         "is": {
-          "you": "Is You"
+          "you": "You"
         }
       },
       "title": "Leaderboard",
@@ -1519,7 +2058,7 @@
     "island": {
       "main": {
         "create": {
-          "lore": "Create Lore"
+          "lore": "Lore"
         },
         "title": "Island Menu",
         "color_change_hint": "Click to change color",
@@ -1574,131 +2113,131 @@
         }
       },
       "biome_change": {
-        "description": "Biome Change Description",
-        "success": "Biome Change Success",
-        "fail": "Biome Change Fail"
+        "description": "Description",
+        "success": "Success",
+        "fail": "Fail"
       },
       "contributions": {
-        "title": "Contributions Title",
-        "description": "Contributions Description",
-        "total": "Contributions Total",
-        "player": "Contributions Player"
+        "title": "Title",
+        "description": "Description",
+        "total": "Total",
+        "player": "Player"
       },
       "members": {
         "title": "Members Title",
-        "description": "Members Description",
+        "description": "Description",
         "owner": "Members Owner",
-        "moderator": "Members Moderator",
+        "moderator": "Moderator",
         "member": "Members Member",
         "visitor": "Members Visitor",
         "add": {
-          "title": "Add Title",
-          "subtitle": "Add Subtitle",
-          "lore": "Add Lore",
-          "click": "Add Click"
+          "title": "Title",
+          "subtitle": "Subtitle",
+          "lore": "Lore",
+          "click": "Click"
         },
         "back": {
-          "lore": "Back Lore"
+          "lore": "Lore"
         },
         "info": {
-          "title": "Info Title"
+          "title": "Title"
         }
       },
       "permissions": {
-        "title": "Permissions Title",
-        "description": "Permissions Description",
-        "build": "Permissions Build",
-        "break": "Permissions Break",
-        "interact": "Permissions Interact",
-        "container": "Permissions Container",
-        "teleport": "Permissions Teleport",
-        "invite": "Permissions Invite",
-        "kick": "Permissions Kick",
-        "ban": "Permissions Ban",
-        "promote": "Permissions Promote",
-        "demote": "Permissions Demote"
+        "title": "Title",
+        "description": "Description",
+        "build": "Build",
+        "break": "Break",
+        "interact": "Interact",
+        "container": "Container",
+        "teleport": "Teleport",
+        "invite": "Invite",
+        "kick": "Kick",
+        "ban": "Ban",
+        "promote": "Promote",
+        "demote": "Demote"
       },
       "settings": {
-        "name": "Settings Name",
-        "description": "Settings Description",
+        "name": "Name",
+        "description": "Description",
         "pvp": "Settings Pvp",
-        "mob_spawn": "Settings Mob Spawn",
-        "fire_spread": "Settings Fire Spread",
-        "tnt": "Settings Tnt",
-        "public": "Settings Public",
-        "locked": "Settings Locked",
+        "mob_spawn": "Mob Spawn",
+        "fire_spread": "Fire Spread",
+        "tnt": "Tnt",
+        "public": "Public",
+        "locked": "Locked",
         "current": {
-          "biome": "Current Biome",
-          "name": "Current Name",
-          "status": "Current Status"
+          "biome": "Biome",
+          "name": "Name",
+          "status": "Status"
         },
         "has": {
-          "changes": "Has Changes"
+          "changes": "Changes"
         },
-        "id": "Settings Id",
-        "members": "Settings Members",
+        "id": "Id",
+        "members": "Members",
         "no": {
-          "changes": "No Changes"
+          "changes": "Changes"
         },
-        "owner": "Settings Owner",
-        "status": "Settings Status"
+        "owner": "Owner",
+        "status": "Status"
       },
       "upgrades": {
-        "title": "Upgrades Title",
-        "description": "Upgrades Description",
-        "size": "Upgrades Size",
-        "member_limit": "Upgrades Member Limit",
-        "hopper_limit": "Upgrades Hopper Limit",
-        "spawner_limit": "Upgrades Spawner Limit",
-        "generator": "Upgrades Generator"
+        "title": "Title",
+        "description": "Description",
+        "size": "Size",
+        "member_limit": "Member Limit",
+        "hopper_limit": "Hopper Limit",
+        "spawner_limit": "Spawner Limit",
+        "generator": "Generator"
       },
       "visit": {
-        "title": "Visit Title",
-        "description": "Visit Description",
-        "player_input": "Visit Player Input",
-        "not_found": "Visit Not Found",
-        "locked": "Visit Locked",
-        "banned": "Visit Banned"
+        "title": "Title",
+        "description": "Description",
+        "player_input": "Player Input",
+        "not_found": "Not Found",
+        "locked": "Locked",
+        "banned": "Banned"
       },
       "visitors": {
-        "title": "Visitors Title",
-        "description": "Visitors Description",
-        "current": "Visitors Current",
-        "recent": "Visitors Recent"
+        "title": "Title",
+        "description": "Description",
+        "current": "Current",
+        "recent": "Recent"
       },
       "biome_selection": {
-        "info_title": "Biome Selection Info Title",
-        "info_lore": "Biome Selection Info Lore",
-        "back_lore": "Biome Selection Back Lore",
+        "info_title": "Info Title",
+        "info_lore": "Info Lore",
+        "back_lore": "Back Lore",
         "current_selected": "Currently Selected",
         "click_to_select": "Click to select"
       },
       "contribute": {
         "gold_info": {
-          "title": "Gold Info Title",
-          "description": "Gold Info Description"
+          "title": "Title",
+          "description": "Description"
         },
         "custom_amount": {
-          "title": "Custom Amount Title",
-          "description": "Custom Amount Description",
-          "minimum": "Custom Amount Minimum",
-          "maximum": "Custom Amount Maximum",
-          "click_prompt": "Custom Amount Click Prompt"
+          "title": "Title",
+          "description": "Description",
+          "minimum": "Minimum",
+          "maximum": "Maximum",
+          "click_prompt": "Click Prompt"
         },
-        "back_description": "Contribute Back Description",
-        "success": "Contribute Success",
-        "total_contribution": "Contribute Total Contribution",
-        "click_to_contribute": "Contribute Click to Contribute",
-        "click_prompt": "Contribute Click Prompt",
-        "insufficient_gold": "Contribute Insufficient Gold",
-        "insufficient_gold_message": "Contribute Insufficient Gold Message"
+        "back_description": "Back Description",
+        "success": "Success",
+        "total_contribution": "Total Contribution",
+        "click_to_contribute": "Click To Contribute",
+        "click_prompt": "Click Prompt",
+        "insufficient_gold": "Insufficient Gold",
+        "insufficient_gold_message": "Insufficient Gold Message"
       },
       "biome": {
-        "current_biome": "Biome Current Biome",
-        "cost": "Biome Cost",
-        "free": "Biome Free",
-        "current_info_lore": "Biome Current Info Lore",
-        "back_lore": "Biome Back Lore",
+        "current_biome": "Current Biome",
+        "cost": "Cost",
+        "free": "Free",
+        "current_info_lore": "Current Info Lore",
+        "back_lore": "Back Lore",
         "message": {
           "no_permission": "No permission to change biome",
           "already_selected": "Already selected",
@@ -1715,20 +2254,20 @@
         "currently_selected": "Currently Selected"
       },
       "contribution": {
-        "info_title": "Contribution Info Title",
-        "info_island_name": "Contribution Info Island Name",
-        "info_total": "Contribution Info Total",
-        "info_contributors": "Contribution Info Contributors",
-        "info_description": "Contribution Info Description",
-        "contributor_name": "Contribution Contributor Name",
-        "contributor_contribution": "Contribution Contributor Contribution",
-        "contributor_role": "Contribution Contributor Role",
-        "contributor_percentage": "Contribution Contributor Percentage",
-        "add_title": "Contribution Add Title",
-        "add_current": "Contribution Add Current",
-        "add_description": "Contribution Add Description",
-        "add_click": "Contribution Add Click",
-        "back_description": "Contribution Back Description",
+        "info_title": "Info Title",
+        "info_island_name": "Info Island Name",
+        "info_total": "Info Total",
+        "info_contributors": "Info Contributors",
+        "info_description": "Info Description",
+        "contributor_name": "Contributor Name",
+        "contributor_contribution": "Contributor Contribution",
+        "contributor_role": "Contributor Role",
+        "contributor_percentage": "Contributor Percentage",
+        "add_title": "Add Title",
+        "add_current": "Add Current",
+        "add_description": "Add Description",
+        "add_click": "Add Click",
+        "back_description": "Back Description",
         "title": "Island Bank",
         "balance": "Current Balance",
         "contribute": "Contribute",
@@ -1738,7 +2277,7 @@
       },
       "delete_confirm": {
         "cancel": {
-          "lore": "Cancel Lore",
+          "lore": "Lore",
           "click": "Click",
           "title": "Title"
         },
@@ -1777,175 +2316,176 @@
       },
       "member": {
         "all": {
-          "permissions": "All Permissions"
+          "permissions": "Permissions"
         },
         "hire": {
-          "date": "Hire Date"
+          "date": "Date"
         },
         "invite": {
-          "example": "Invite Example",
-          "prompt": "Invite Prompt"
+          "example": "Example",
+          "prompt": "Prompt"
         },
         "join": {
-          "date": "Join Date"
+          "date": "Date"
         },
         "last": {
-          "activity": "Last Activity"
+          "activity": "Activity"
         },
         "left": {
           "click": {
-            "extend": "Click Extend",
-            "role": "Click Role"
+            "extend": "Extend",
+            "role": "Role"
           }
         },
         "limited": {
-          "permissions": "Limited Permissions"
+          "permissions": "Permissions"
         },
         "manage": {
           "current": {
-            "role": "Current Role"
+            "role": "Role"
           },
           "permission": {
             "not": {
-              "implemented": "Not Implemented"
+              "implemented": "Implemented"
             }
           },
           "title": {
             "with": {
-              "name": "With Name"
+              "name": "Name"
             }
           }
         },
         "most": {
-          "permissions": "Most Permissions"
+          "permissions": "Permissions"
         },
         "normal": {
-          "permissions": "Normal Permissions"
+          "permissions": "Permissions"
         },
         "owner": {
           "cannot": {
-            "change": "Cannot Change"
+            "change": "Change"
           }
         },
         "right": {
           "click": {
-            "fire": "Click Fire",
-            "kick": "Click Kick"
+            "fire": "Fire",
+            "kick": "Kick"
           }
         },
         "role": {
-          "owner": "Role Owner",
-          "worker": "Role Worker"
+          "owner": "Owner",
+          "worker": "Worker"
         }
       },
       "permission": {
         "click": {
           "to": {
-            "select": "To Select",
-            "toggle": "To Toggle"
+            "select": "Select",
+            "toggle": "Toggle"
           }
         },
         "current": {
-          "editing": "Current Editing"
+          "editing": "Editing"
         },
         "edit": {
           "role": {
-            "permissions": "Role Permissions"
+            "permissions": "Permissions"
           }
         },
         "permissions": {
           "build": {
-            "desc": "Build Desc"
+            "desc": "Desc"
           },
           "containers": {
-            "desc": "Containers Desc"
+            "desc": "Desc"
           },
           "interact": {
-            "desc": "Interact Desc"
+            "desc": "Desc"
           },
           "invite": {
-            "desc": "Invite Desc"
+            "desc": "Desc"
           },
           "kick": {
-            "desc": "Kick Desc"
+            "desc": "Desc"
           },
           "spawns": {
-            "desc": "Spawns Desc"
+            "desc": "Desc"
           },
           "workers": {
-            "desc": "Workers Desc"
+            "desc": "Desc"
           },
           "settings": {
-            "desc": "Settings Desc"
+            "desc": "Desc"
           }
         },
         "select": {
           "other": {
-            "role": "Other Role"
+            "role": "Role"
           },
           "role": {
-            "desc": "Role Desc"
+            "desc": "Desc"
           }
         },
-        "status": "Permission Status",
+        "status": "Status",
         "back": {
-          "description": "Back Description",
-          "title": "Back Title"
+          "description": "Description",
+          "title": "Title"
         },
         "close": {
-          "description": "Close Description",
-          "title": "Close Title"
+          "description": "Description",
+          "title": "Title"
         },
         "save": {
-          "click": "Save Click",
-          "description": "Save Description",
-          "failed": "Save Failed",
-          "success": "Save Success",
-          "title": "Save Title"
+          "click": "Click",
+          "description": "Description",
+          "failed": "Failed",
+          "success": "Success",
+          "title": "Title"
         }
       },
       "personal": {
         "spawn": {
-          "title": "Spawn Title"
+          "title": "Title"
         }
       },
       "spawn": {
         "default": {
-          "spawn": "Default Spawn"
+          "spawn": "Spawn"
         },
         "location": {
-          "name": "Location Name"
+          "name": "Name"
         },
-        "title": "Spawn Title",
+        "title": "Title",
         "visitor": {
           "spawn": {
             "not": {
               "set": "Set"
-            }
+            },
+            "_value": "Spawn"
           }
         }
       },
       "upgrade": {
         "click": {
           "to": {
-            "upgrade": "To Upgrade"
+            "upgrade": "Upgrade"
           }
         },
         "cost": "Upgrade Cost",
         "current": {
-          "contribution": "Current Contribution",
-          "level": "Current Level"
+          "contribution": "Contribution",
+          "level": "Level"
         },
         "insufficient": {
-          "contribution": "Insufficient Contribution"
+          "contribution": "Contribution"
         },
         "next": {
-          "level": "Next Level"
+          "level": "Level"
         },
         "max": {
-          "level": "Max Level"
+          "level": "Level"
         },
-        "progress": "Upgrade Progress",
+        "progress": "Progress",
         "title": "Island Upgrades",
         "size": "Expand Size",
         "members": "Member Slots",
@@ -1957,48 +2497,48 @@
       },
       "visitor": {
         "action": {
-          "title": "Action Title"
+          "title": "Title"
         },
         "island": {
-          "name": "Island Name"
+          "name": "Name"
         },
         "longest": {
-          "stay": "Longest Stay"
+          "stay": "Stay"
         },
         "most": {
-          "frequent": "Most Frequent"
+          "frequent": "Frequent"
         },
         "public": {
-          "status": "Public Status"
+          "status": "Status"
         },
         "stay": {
-          "duration": "Stay Duration"
+          "duration": "Duration"
         },
-        "title": "Visitor Title",
+        "title": "Title",
         "total": {
-          "visitors": "Total Visitors",
-          "visits": "Total Visits"
+          "visitors": "Visitors",
+          "visits": "Visits"
         },
         "unique": {
-          "visitors": "Unique Visitors"
+          "visitors": "Visitors"
         },
         "visit": {
-          "time": "Visit Time"
+          "time": "Time"
         },
         "visitor": {
-          "number": "Visitor Number"
+          "number": "Number"
         }
       },
       "delete": {
         "confirm": {
           "final": {
             "confirm": {
-              "warning": "Confirm Warning"
+              "warning": "Warning"
             }
           },
           "warning": {
             "list": {
-              "items": "List Items"
+              "items": "Items"
             }
           }
         }
@@ -2040,9 +2580,9 @@
       }
     },
     "job_confirmation": {
-      "info_line1": "Are you sure you want to select",
-      "info_line2": "the %s class?",
-      "info_line3": "This cannot be changed later!",
+      "info_line1": "Info Line1",
+      "info_line2": "Info Line2",
+      "info_line3": "Info Line3",
       "info_line": "Job confirmation information"
     },
     "dialog_choice": {
@@ -2054,31 +2594,31 @@
       "option_": "Dialog Option"
     },
     "mail_detail": {
-      "claim_all": "Mail Detail Claim All",
-      "claim": "Mail Detail Claim",
-      "claimed": "Mail Detail Claimed",
-      "delete_confirm": "Mail Detail Delete Confirm",
-      "delete_confirm_message": "Mail Detail Delete Confirm Message"
+      "claim_all": "Claim All",
+      "claim": "Claim",
+      "claimed": "Claimed",
+      "delete_confirm": "Delete Confirm",
+      "delete_confirm_message": "Delete Confirm Message"
     },
     "mailbox": {
-      "refresh_cooldown": "Mailbox Refresh Cooldown",
-      "mail_from": "Mailbox Mail From",
-      "mail_date": "Mailbox Mail Date",
-      "has_attachments": "Mailbox Has Attachments",
-      "click_to_read": "Mailbox Click to Read",
-      "delete_all": "Mailbox Delete All",
-      "delete_all_confirm": "Mailbox Delete All Confirm",
+      "refresh_cooldown": "Refresh Cooldown",
+      "mail_from": "Mail From",
+      "mail_date": "Mail Date",
+      "has_attachments": "Has Attachments",
+      "click_to_read": "Click To Read",
+      "delete_all": "Delete All",
+      "delete_all_confirm": "Delete All Confirm",
       "delete": {
         "confirm": {
-          "text": "Confirm Text",
-          "title": "Confirm Title"
+          "text": "Text",
+          "title": "Title"
         }
       },
       "send": {
         "mail": {
-          "command": "Mail Command",
-          "example": "Mail Example",
-          "guide": "Mail Guide"
+          "command": "Command",
+          "example": "Example",
+          "guide": "Guide"
         }
       },
       "mail_type": {
@@ -2090,209 +2630,210 @@
       "page": "Page"
     },
     "friend_requests": {
-      "accept_hover": "Friend Requests Accept Hover",
-      "deny_hover": "Friend Requests Deny Hover",
-      "friend_added": "Friend Requests Friend Added",
-      "cancelled": "Friend Requests Cancelled",
-      "error": "Friend Requests Error"
+      "accept_hover": "Accept Hover",
+      "deny_hover": "Deny Hover",
+      "friend_added": "Friend Added",
+      "cancelled": "Cancelled",
+      "error": "Error"
     },
     "friends": {
-      "online_count": "Friends Online Count",
-      "total_count": "Friends Total Count",
-      "no_friends": "Friends No Friends",
-      "click_to_teleport": "Friends Click to Teleport",
-      "right_click_to_remove": "Friends Right Click to Remove",
-      "remove_confirm": "Friends Remove Confirm",
-      "removed": "Friends Removed",
-      "teleport_request_sent": "Friends Teleport Request Sent",
-      "teleport_failed": "Friends Teleport Failed",
+      "online_count": "Online Count",
+      "total_count": "Total Count",
+      "no_friends": "No Friends",
+      "click_to_teleport": "Click To Teleport",
+      "right_click_to_remove": "Right Click To Remove",
+      "remove_confirm": "Remove Confirm",
+      "removed": "Removed",
+      "teleport_request_sent": "Teleport Request Sent",
+      "teleport_failed": "Teleport Failed",
       "add": {
         "command": {
-          "example": "Command Example",
-          "hint": "Command Hint"
+          "example": "Example",
+          "hint": "Hint"
         }
       },
       "whisper": {
-        "hint": "Whisper Hint"
+        "hint": "Hint"
       }
     },
     "quest": {
       "dialog": {
         "accept": {
-          "quest": "Accept Quest"
+          "quest": "Quest"
         },
         "next": {
-          "page": "Next Page"
+          "page": "Page"
         },
         "quest": {
-          "declined": "Quest Declined"
+          "declined": "Declined"
         },
-        "skip": "Dialog Skip",
-        "title": "Dialog Title"
+        "skip": "Skip",
+        "title": "Title"
       },
       "list": {
         "click": {
-          "details": "Click Details"
+          "details": "Details"
         },
         "completed": {
-          "label": "Completed Label"
+          "label": "Label"
         },
-        "progress": "List Progress",
-        "repeatable": "List Repeatable",
-        "title": "List Title"
+        "progress": "Progress",
+        "repeatable": "Repeatable",
+        "title": "Title"
       },
       "reward": {
         "confirm": {
-          "title": "Confirm Title"
+          "title": "Title"
         },
         "all": {
-          "claimed": "All Claimed"
+          "claimed": "Claimed"
         },
         "already": {
-          "claimed": "Already Claimed"
+          "claimed": "Claimed"
         },
-        "claimed": "Reward Claimed",
+        "claimed": "Claimed",
         "click": {
           "to": {
-            "claim": "To Claim"
+            "claim": "Claim"
           }
         },
         "close": {
-          "warning": "Close Warning"
+          "warning": "Warning"
         },
         "destroyed": {
-          "desc": "Desc"
+          "desc": "Desc",
+          "_value": "Destroyed"
         },
         "exp": {
-          "received": "Exp Received"
+          "received": "Received"
         },
         "inventory": {
-          "full": "Inventory Full"
+          "full": "Full"
         },
         "money": {
-          "received": "Money Received"
+          "received": "Received"
         },
         "not": {
           "enough": {
-            "space": "Enough Space"
+            "space": "Space"
           }
         },
         "timer": {
-          "info": "Timer Info",
-          "warning": "Timer Warning"
+          "info": "Info",
+          "warning": "Warning"
         },
-        "title": "Reward Title",
+        "title": "Title",
         "warning": {
           "destroy": {
-            "line": "Destroy Line",
-            "line2": "Destroy Line2"
+            "line": "Line",
+            "line2": "Line2"
           }
         }
       },
       "selection": {
-        "title": "Selection Title"
+        "title": "Title"
       },
       "status": {
-        "completed": "Status Completed",
+        "completed": "Completed",
         "in": {
-          "progress": "In Progress"
+          "progress": "Progress"
         },
         "new": {
-          "quest": "New Quest"
+          "quest": "Quest"
         },
         "reward": {
-          "available": "Reward Available"
+          "available": "Available"
         }
       }
     },
     "gui": {
       "settings": {
         "current": {
-          "status": "Current Status",
-          "volume": "Current Volume"
+          "status": "Status",
+          "volume": "Volume"
         },
         "sound": {
-          "muted": "Sound Muted",
-          "unmuted": "Sound Unmuted"
+          "muted": "Muted",
+          "unmuted": "Unmuted"
         },
-        "status": "Settings Status",
-        "title": "Settings Title",
+        "status": "Status",
+        "title": "Title",
         "volume": {
-          "changed": "Volume Changed"
+          "changed": "Changed"
         }
       }
     },
     "ingame": {
       "settings": {
-        "title": "Settings Title",
+        "title": "Title",
         "click": {
           "to": {
-            "toggle": "To Toggle"
+            "toggle": "Toggle"
           }
         },
         "current": {
-          "speed": "Current Speed"
+          "speed": "Speed"
         },
         "damage": {
           "display": {
-            "toggled": "Display Toggled"
+            "toggled": "Toggled"
           }
         },
         "dialog": {
           "speed": {
-            "changed": "Speed Changed"
+            "changed": "Changed"
           }
         },
         "quest": {
           "guide": {
-            "toggled": "Guide Toggled"
+            "toggled": "Toggled"
           }
         },
         "speed": {
-          "value": "Speed Value"
+          "value": "Value"
         },
-        "status": "Settings Status"
+        "status": "Status"
       }
     },
     "notification": {
       "settings": {
         "click": {
           "to": {
-            "toggle": "To Toggle"
+            "toggle": "Toggle"
           }
         },
         "current": {
-          "mode": "Current Mode"
+          "mode": "Mode"
         },
         "invite": {
-          "changed": "Invite Changed"
+          "changed": "Changed"
         },
         "server": {
-          "toggled": "Server Toggled"
+          "toggled": "Toggled"
         },
-        "status": "Settings Status",
-        "title": "Settings Title",
+        "status": "Status",
+        "title": "Title",
         "whisper": {
-          "toggled": "Whisper Toggled"
+          "toggled": "Toggled"
         }
       }
     },
     "shop": {
       "item": {
         "buy": {
-          "price": "Buy Price"
+          "price": "Price"
         },
         "click": {
           "to": {
-            "buy": "To Buy",
-            "sell": "To Sell"
+            "buy": "Buy",
+            "sell": "Sell"
           }
         },
         "insufficient": {
-          "gold": "Insufficient Gold"
+          "gold": "Gold"
         },
         "sell": {
-          "price": "Sell Price"
+          "price": "Price"
         }
       }
     },
@@ -2300,56 +2841,57 @@
       "choice": {
         "click": {
           "to": {
-            "select": "To Select"
+            "select": "Select"
           }
         },
-        "description": "Choice Description",
-        "icon": "Choice Icon",
+        "description": "Description",
+        "icon": "Icon",
         "npc": {
-          "content": "Content"
+          "content": "Content",
+          "_value": "Npc"
         }
       }
     },
     "friend": {
       "requests": {
         "accept": {
-          "desc": "Accept Desc"
+          "desc": "Desc"
         },
-        "message": "Requests Message",
+        "message": "Message",
         "no": {
-          "message": "No Message"
+          "message": "Message"
         },
         "reject": {
-          "desc": "Reject Desc"
+          "desc": "Desc"
         }
       }
     },
     "mail": {
       "detail": {
         "delete": {
-          "failed": "Delete Failed",
-          "success": "Delete Success"
+          "failed": "Failed",
+          "success": "Success"
         },
         "no": {
-          "message": "No Message"
+          "message": "Message"
         },
-        "receiver": "Detail Receiver",
+        "receiver": "Receiver",
         "reply": {
-          "command": "Reply Command",
-          "desc": "Reply Desc",
-          "guide": "Reply Guide"
+          "command": "Command",
+          "desc": "Desc",
+          "guide": "Guide"
         },
-        "sender": "Detail Sender",
+        "sender": "Sender",
         "sent": {
-          "time": "Sent Time"
+          "time": "Time"
         },
-        "status": "Detail Status"
+        "status": "Status"
       }
     },
     "job": {
       "confirmation": {
         "info": {
-          "line": "Info Line"
+          "line": "Line"
         }
       }
     },
@@ -2581,6 +3123,21 @@
       "35": "35",
       "0": "0",
       "52": "52"
+    },
+    "settings": {
+      "current": {
+        "status": "Status",
+        "volume": "Volume"
+      },
+      "sound": {
+        "muted": "Muted",
+        "unmuted": "Unmuted"
+      },
+      "status": "Status",
+      "title": "Title",
+      "volume": {
+        "changed": "Changed"
+      }
     }
   },
   "buttons_v2": {
@@ -2624,603 +3181,73 @@
   "notification_settings": {
     "title": "Title"
   },
-  "gui.social-settings.status": "Status",
-  "gui.social-settings.click-to-toggle": "Click To Toggle",
-  "gui.social-settings.current-mode": "Current Mode",
-  "gui.social-settings.friend-requests-toggled": "Friend Requests Toggled",
-  "gui.social-settings.guild-invites-toggled": "Guild Invites Toggled",
-  "gui.social-settings.whisper-mode-changed": "Whisper Mode Changed",
-  "gui.island.main.create.lore": "Lore",
-  "gui.island.biome_change.description": "Description",
-  "gui.island.biome_change.success": "Success",
-  "gui.island.biome_change.fail": "Fail",
-  "gui.island.contributions.title": "Title",
-  "gui.island.contributions.description": "Description",
-  "gui.island.contributions.total": "Total",
-  "gui.island.contributions.player": "Player",
-  "gui.island.members.description": "Description",
-  "gui.island.members.moderator": "Moderator",
-  "gui.island.permissions.title": "Title",
-  "gui.island.permissions.description": "Description",
-  "gui.island.permissions.build": "Build",
-  "gui.island.permissions.break": "Break",
-  "gui.island.permissions.interact": "Interact",
-  "gui.island.permissions.container": "Container",
-  "gui.island.permissions.teleport": "Teleport",
-  "gui.island.permissions.invite": "Invite",
-  "gui.island.permissions.kick": "Kick",
-  "gui.island.permissions.ban": "Ban",
-  "gui.island.permissions.promote": "Promote",
-  "gui.island.permissions.demote": "Demote",
-  "gui.island.settings.name": "Name",
-  "gui.island.settings.description": "Description",
-  "gui.island.settings.mob_spawn": "Mob Spawn",
-  "gui.island.settings.fire_spread": "Fire Spread",
-  "gui.island.settings.tnt": "Tnt",
-  "gui.island.settings.public": "Public",
-  "gui.island.settings.locked": "Locked",
-  "gui.island.upgrades.title": "Title",
-  "gui.island.upgrades.description": "Description",
-  "gui.island.upgrades.size": "Size",
-  "gui.island.upgrades.member_limit": "Member Limit",
-  "gui.island.upgrades.hopper_limit": "Hopper Limit",
-  "gui.island.upgrades.spawner_limit": "Spawner Limit",
-  "gui.island.upgrades.generator": "Generator",
-  "gui.island.visit.title": "Title",
-  "gui.island.visit.description": "Description",
-  "gui.island.visit.player_input": "Player Input",
-  "gui.island.visit.not_found": "Not Found",
-  "gui.island.visit.locked": "Locked",
-  "gui.island.visit.banned": "Banned",
-  "gui.island.visitors.title": "Title",
-  "gui.island.visitors.description": "Description",
-  "gui.island.visitors.current": "Current",
-  "gui.island.visitors.recent": "Recent",
-  "gui.island.biome_selection.info_title": "Info Title",
-  "gui.island.biome_selection.info_lore": "Info Lore",
-  "gui.island.contribute.gold_info.title": "Title",
-  "gui.island.contribute.gold_info.description": "Description",
-  "gui.island.contribute.custom_amount.title": "Title",
-  "gui.island.contribute.custom_amount.description": "Description",
-  "gui.island.contribute.custom_amount.minimum": "Minimum",
-  "gui.island.contribute.custom_amount.maximum": "Maximum",
-  "gui.island.contribute.custom_amount.click_prompt": "Click Prompt",
-  "gui.island.contribute.back_description": "Back Description",
-  "gui.island.contribute.success": "Success",
-  "gui.island.contribute.total_contribution": "Total Contribution",
-  "gui.island.biome.current_biome": "Current Biome",
-  "gui.island.biome.cost": "Cost",
-  "gui.island.biome.free": "Free",
-  "gui.job_confirmation.info_line1": "Info Line1",
-  "gui.job_confirmation.info_line2": "Info Line2",
-  "gui.job_confirmation.info_line3": "Info Line3",
-  "gui.dialog_choice.option_1": "Option 1",
-  "gui.dialog_choice.option_2": "Option 2",
-  "gui.dialog_choice.option_3": "Option 3",
-  "gui.dialog_choice.option_4": "Option 4",
-  "gui.dialog_choice.cancel": "Cancel",
-  "gui.mail_detail.claim_all": "Claim All",
-  "gui.mail_detail.claim": "Claim",
-  "gui.mail_detail.claimed": "Claimed",
-  "gui.mail_detail.delete_confirm": "Delete Confirm",
-  "gui.mail_detail.delete_confirm_message": "Delete Confirm Message",
-  "gui.mailbox.refresh_cooldown": "Refresh Cooldown",
-  "gui.mailbox.mail_from": "Mail From",
-  "gui.mailbox.mail_date": "Mail Date",
-  "gui.mailbox.has_attachments": "Has Attachments",
-  "gui.mailbox.click_to_read": "Click To Read",
-  "gui.mailbox.delete_all": "Delete All",
-  "gui.mailbox.delete_all_confirm": "Delete All Confirm",
-  "gui.friend_requests.accept_hover": "Accept Hover",
-  "gui.friend_requests.deny_hover": "Deny Hover",
-  "gui.friend_requests.friend_added": "Friend Added",
-  "gui.friend_requests.cancelled": "Cancelled",
-  "gui.friend_requests.error": "Error",
-  "gui.friends.online_count": "Online Count",
-  "gui.friends.total_count": "Total Count",
-  "gui.friends.no_friends": "No Friends",
-  "gui.friends.click_to_teleport": "Click To Teleport",
-  "gui.friends.right_click_to_remove": "Right Click To Remove",
-  "gui.friends.remove_confirm": "Remove Confirm",
-  "gui.friends.removed": "Removed",
-  "gui.friends.teleport_request_sent": "Teleport Request Sent",
-  "gui.friends.teleport_failed": "Teleport Failed",
-  "gui.island.biome_selection.back_lore": "Back Lore",
-  "gui.island.biome.current_info_lore": "Current Info Lore",
-  "gui.island.biome.back_lore": "Back Lore",
-  "gui.island.contribute.click_to_contribute": "Click To Contribute",
-  "gui.island.contribute.click_prompt": "Click Prompt",
-  "gui.island.contribute.insufficient_gold": "Insufficient Gold",
-  "gui.island.contribute.insufficient_gold_message": "Insufficient Gold Message",
-  "gui.island.contribution.info_title": "Info Title",
-  "gui.island.contribution.info_island_name": "Info Island Name",
-  "gui.island.contribution.info_total": "Info Total",
-  "gui.island.contribution.info_contributors": "Info Contributors",
-  "gui.island.contribution.info_description": "Info Description",
-  "gui.island.contribution.contributor_name": "Contributor Name",
-  "gui.island.contribution.contributor_contribution": "Contributor Contribution",
-  "gui.island.contribution.contributor_role": "Contributor Role",
-  "gui.island.contribution.contributor_percentage": "Contributor Percentage",
-  "gui.island.contribution.add_title": "Add Title",
-  "gui.island.contribution.add_current": "Add Current",
-  "gui.island.contribution.add_description": "Add Description",
-  "gui.island.contribution.add_click": "Add Click",
-  "gui.island.contribution.back_description": "Back Description",
-  "gui.island.delete_confirm.cancel.lore": "Lore",
-  "gui.island.members.add.title": "Title",
-  "gui.island.members.add.subtitle": "Subtitle",
-  "gui.island.members.add.lore": "Lore",
-  "gui.island.members.add.click": "Click",
-  "gui.island.members.back.lore": "Lore",
-  "gui.island.members.info.title": "Title",
-  "gui.island.member.all.permissions": "Permissions",
-  "gui.island.member.hire.date": "Date",
-  "gui.island.member.invite.example": "Example",
-  "gui.island.member.invite.prompt": "Prompt",
-  "gui.island.member.join.date": "Date",
-  "gui.island.member.last.activity": "Activity",
-  "gui.island.member.left.click.extend": "Extend",
-  "gui.island.member.left.click.role": "Role",
-  "gui.island.member.limited.permissions": "Permissions",
-  "gui.island.member.manage.current.role": "Role",
-  "gui.island.member.manage.permission.not.implemented": "Implemented",
-  "gui.island.member.manage.title.with.name": "Name",
-  "gui.island.member.most.permissions": "Permissions",
-  "gui.island.member.normal.permissions": "Permissions",
-  "gui.island.member.owner.cannot.change": "Change",
-  "gui.island.member.right.click.fire": "Fire",
-  "gui.island.member.right.click.kick": "Kick",
-  "gui.island.member.role.owner": "Owner",
-  "gui.island.member.role.worker": "Worker",
-  "gui.island.permission.click.to.select": "Select",
-  "gui.island.permission.current.editing": "Editing",
-  "gui.island.permission.edit.role.permissions": "Permissions",
-  "gui.island.permission.permissions.build.desc": "Desc",
-  "gui.island.permission.permissions.containers.desc": "Desc",
-  "gui.island.permission.permissions.interact.desc": "Desc",
-  "gui.island.permission.permissions.invite.desc": "Desc",
-  "gui.island.permission.permissions.kick.desc": "Desc",
-  "gui.island.permission.permissions.spawns.desc": "Desc",
-  "gui.island.permission.permissions.workers.desc": "Desc",
-  "gui.island.permission.select.other.role": "Role",
-  "gui.island.permission.select.role.desc": "Desc",
-  "gui.island.permission.status": "Status",
-  "gui.island.permission.back.description": "Description",
-  "gui.island.permission.back.title": "Title",
-  "gui.island.permission.click.to.toggle": "Toggle",
-  "gui.island.permission.close.description": "Description",
-  "gui.island.permission.close.title": "Title",
-  "gui.island.permission.permissions.settings.desc": "Desc",
-  "gui.island.permission.save.click": "Click",
-  "gui.island.permission.save.description": "Description",
-  "gui.island.permission.save.failed": "Failed",
-  "gui.island.permission.save.success": "Success",
-  "gui.island.permission.save.title": "Title",
-  "gui.island.personal.spawn.title": "Title",
-  "gui.island.settings.current.biome": "Biome",
-  "gui.island.settings.current.name": "Name",
-  "gui.island.settings.current.status": "Status",
-  "gui.island.settings.has.changes": "Changes",
-  "gui.island.settings.id": "Id",
-  "gui.island.settings.members": "Members",
-  "gui.island.settings.no.changes": "Changes",
-  "gui.island.settings.owner": "Owner",
-  "gui.island.settings.status": "Status",
-  "gui.island.spawn.default.spawn": "Spawn",
-  "gui.island.spawn.location.name": "Name",
-  "gui.island.spawn.title": "Title",
-  "gui.island.spawn.visitor.spawn": "Spawn",
-  "gui.island.spawn.visitor.spawn.not.set": "Set",
-  "gui.island.upgrade.click.to.upgrade": "Upgrade",
-  "gui.island.upgrade.current.contribution": "Contribution",
-  "gui.island.upgrade.current.level": "Level",
-  "gui.island.upgrade.insufficient.contribution": "Contribution",
-  "gui.island.upgrade.next.level": "Level",
-  "gui.island.upgrade.max.level": "Level",
-  "gui.island.upgrade.progress": "Progress",
-  "gui.island.visitor.action.title": "Title",
-  "gui.island.visitor.island.name": "Name",
-  "gui.island.visitor.longest.stay": "Stay",
-  "gui.island.visitor.most.frequent": "Frequent",
-  "gui.island.visitor.public.status": "Status",
-  "gui.island.visitor.stay.duration": "Duration",
-  "gui.island.visitor.title": "Title",
-  "gui.island.visitor.total.visitors": "Visitors",
-  "gui.island.visitor.total.visits": "Visits",
-  "gui.island.visitor.unique.visitors": "Visitors",
-  "gui.island.visitor.visit.time": "Time",
-  "gui.island.visitor.visitor.number": "Number",
-  "gui.quest.dialog.accept.quest": "Quest",
-  "gui.quest.dialog.next.page": "Page",
-  "gui.quest.dialog.quest.declined": "Declined",
-  "gui.quest.dialog.skip": "Skip",
-  "gui.quest.dialog.title": "Title",
-  "gui.quest.list.click.details": "Details",
-  "gui.quest.list.completed.label": "Label",
-  "gui.quest.list.progress": "Progress",
-  "gui.quest.list.repeatable": "Repeatable",
-  "gui.quest.list.title": "Title",
-  "gui.quest.reward.confirm.title": "Title",
-  "gui.gui.settings.current.status": "Status",
-  "gui.gui.settings.current.volume": "Volume",
-  "gui.gui.settings.sound.muted": "Muted",
-  "gui.gui.settings.sound.unmuted": "Unmuted",
-  "gui.gui.settings.status": "Status",
-  "gui.gui.settings.title": "Title",
-  "gui.gui.settings.volume.changed": "Changed",
-  "gui.ingame.settings.title": "Title",
-  "gui.quest.reward.all.claimed": "Claimed",
-  "gui.quest.reward.already.claimed": "Claimed",
-  "gui.quest.reward.claimed": "Claimed",
-  "gui.quest.reward.click.to.claim": "Claim",
-  "gui.quest.reward.close.warning": "Warning",
-  "gui.quest.reward.destroyed": "Destroyed",
-  "gui.quest.reward.destroyed.desc": "Desc",
-  "gui.quest.reward.exp.received": "Received",
-  "gui.quest.reward.inventory.full": "Full",
-  "gui.quest.reward.money.received": "Received",
-  "gui.quest.reward.not.enough.space": "Space",
-  "gui.quest.reward.timer.info": "Info",
-  "gui.quest.reward.timer.warning": "Warning",
-  "gui.quest.reward.title": "Title",
-  "gui.quest.reward.warning.destroy.line": "Line",
-  "gui.quest.reward.warning.destroy.line2": "Line2",
-  "gui.quest.selection.title": "Title",
-  "gui.quest.status.completed": "Completed",
-  "gui.quest.status.in.progress": "Progress",
-  "gui.quest.status.new.quest": "Quest",
-  "gui.quest.status.reward.available": "Available",
-  "gui.friends.add.command.example": "Example",
-  "gui.friends.add.command.hint": "Hint",
-  "gui.friends.whisper.hint": "Hint",
-  "gui.ingame.settings.click.to.toggle": "Toggle",
-  "gui.ingame.settings.current.speed": "Speed",
-  "gui.ingame.settings.damage.display.toggled": "Toggled",
-  "gui.ingame.settings.dialog.speed.changed": "Changed",
-  "gui.ingame.settings.quest.guide.toggled": "Toggled",
-  "gui.ingame.settings.speed.value": "Value",
-  "gui.ingame.settings.status": "Status",
-  "gui.notification.settings.click.to.toggle": "Toggle",
-  "gui.notification.settings.current.mode": "Mode",
-  "gui.notification.settings.invite.changed": "Changed",
-  "gui.notification.settings.server.toggled": "Toggled",
-  "gui.notification.settings.status": "Status",
-  "gui.notification.settings.title": "Title",
-  "gui.notification.settings.whisper.toggled": "Toggled",
-  "gui.shop.item.buy.price": "Price",
-  "gui.shop.item.click.to.buy": "Buy",
-  "gui.shop.item.click.to.sell": "Sell",
-  "gui.shop.item.insufficient.gold": "Gold",
-  "gui.shop.item.sell.price": "Price",
-  "gui.dialog.choice.click.to.select": "Select",
-  "gui.dialog.choice.description": "Description",
-  "gui.dialog.choice.icon": "Icon",
-  "gui.dialog.choice.npc": "Npc",
-  "gui.dialog.choice.npc.content": "Content",
-  "gui.friend.requests.accept.desc": "Desc",
-  "gui.friend.requests.message": "Message",
-  "gui.friend.requests.no.message": "Message",
-  "gui.friend.requests.reject.desc": "Desc",
-  "gui.leaderboard.this.is.you": "You",
-  "gui.mail.detail.delete.failed": "Failed",
-  "gui.mail.detail.delete.success": "Success",
-  "gui.mail.detail.no.message": "Message",
-  "gui.mail.detail.receiver": "Receiver",
-  "gui.mail.detail.reply.command": "Command",
-  "gui.mail.detail.reply.desc": "Desc",
-  "gui.mail.detail.reply.guide": "Guide",
-  "gui.mail.detail.sender": "Sender",
-  "gui.mail.detail.sent.time": "Time",
-  "gui.mail.detail.status": "Status",
-  "gui.mailbox.delete.confirm.text": "Text",
-  "gui.mailbox.delete.confirm.title": "Title",
-  "gui.mailbox.send.mail.command": "Command",
-  "gui.mailbox.send.mail.example": "Example",
-  "gui.mailbox.send.mail.guide": "Guide",
-  "gui.island.delete.confirm.final.confirm.warning": "Warning",
-  "gui.island.delete.confirm.warning.list.items": "Items",
-  "gui.job.confirmation.info.line": "Line",
-  "social-settings.status": "Status",
-  "social-settings.click-to-toggle": "Click To Toggle",
-  "social-settings.current-mode": "Current Mode",
-  "social-settings.friend-requests-toggled": "Friend Requests Toggled",
-  "social-settings.guild-invites-toggled": "Guild Invites Toggled",
-  "social-settings.whisper-mode-changed": "Whisper Mode Changed",
-  "island.main.create.lore": "Item lore text",
-  "island.biome_change.description": "Description text",
-  "island.biome_change.success": "Success",
-  "island.biome_change.fail": "Fail",
-  "island.contributions.title": "Title",
-  "island.contributions.description": "Description text",
-  "island.contributions.total": "Total",
-  "island.contributions.player": "Player",
-  "island.members.description": "Description text",
-  "island.members.moderator": "Moderator",
-  "island.permissions.title": "Title",
-  "island.permissions.description": "Description text",
-  "island.permissions.build": "Build",
-  "island.permissions.break": "Break",
-  "island.permissions.interact": "Interact",
-  "island.permissions.container": "Container",
-  "island.permissions.teleport": "Teleport",
-  "island.permissions.invite": "Invite",
-  "island.permissions.kick": "Kick",
-  "island.permissions.ban": "Ban",
-  "island.permissions.promote": "Promote",
-  "island.permissions.demote": "Demote",
-  "island.settings.name": "Settings",
-  "island.settings.description": "Description text",
-  "island.settings.mob_spawn": "Mob Spawn",
-  "island.settings.fire_spread": "Fire Spread",
-  "island.settings.tnt": "Tnt",
-  "island.settings.public": "Public",
-  "island.settings.locked": "Locked",
-  "island.upgrades.title": "Title",
-  "island.upgrades.description": "Description text",
-  "island.upgrades.size": "Size",
-  "island.upgrades.member_limit": "Member Limit",
-  "island.upgrades.hopper_limit": "Hopper Limit",
-  "island.upgrades.spawner_limit": "Spawner Limit",
-  "island.upgrades.generator": "Generator",
-  "island.visit.title": "Title",
-  "island.visit.description": "Description text",
-  "island.visit.player_input": "Player Input",
-  "island.visit.not_found": "Not Found",
-  "island.visit.locked": "Locked",
-  "island.visit.banned": "Banned",
-  "island.visitors.title": "Title",
-  "island.visitors.description": "Description text",
-  "island.visitors.current": "Current",
-  "island.visitors.recent": "Recent",
-  "island.biome_selection.info_title": "Info Title",
-  "island.biome_selection.info_lore": "Info Lore",
-  "island.contribute.gold_info.title": "Title",
-  "island.contribute.gold_info.description": "Description text",
-  "island.contribute.custom_amount.title": "Title",
-  "island.contribute.custom_amount.description": "Description text",
-  "island.contribute.custom_amount.minimum": "Minimum",
-  "island.contribute.custom_amount.maximum": "Maximum",
-  "island.contribute.custom_amount.click_prompt": "Click Prompt",
-  "island.contribute.back_description": "Back Description",
-  "island.contribute.success": "Success",
-  "island.contribute.total_contribution": "Total Contribution",
-  "island.biome.current_biome": "Current Biome",
-  "island.biome.cost": "Cost",
-  "island.biome.free": "Free",
-  "job_confirmation.info_line1": "Info Line1",
-  "job_confirmation.info_line2": "Info Line2",
-  "job_confirmation.info_line3": "Info Line3",
-  "dialog_choice.option_1": "Option 1",
-  "dialog_choice.option_2": "Option 2",
-  "dialog_choice.option_3": "Option 3",
-  "dialog_choice.option_4": "Option 4",
-  "dialog_choice.cancel": "Cancel",
-  "mail_detail.claim_all": "Claim All",
-  "mail_detail.claim": "Claim",
-  "mail_detail.claimed": "Claimed",
-  "mail_detail.delete_confirm": "Delete Confirm",
-  "mail_detail.delete_confirm_message": "Delete Confirm Message",
-  "mailbox.refresh_cooldown": "Refresh Cooldown",
-  "mailbox.mail_from": "Mail From",
-  "mailbox.mail_date": "Mail Date",
-  "mailbox.has_attachments": "Has Attachments",
-  "mailbox.click_to_read": "Click To Read",
-  "mailbox.delete_all": "Delete All",
-  "mailbox.delete_all_confirm": "Delete All Confirm",
-  "friend_requests.accept_hover": "Accept Hover",
-  "friend_requests.deny_hover": "Deny Hover",
-  "friend_requests.friend_added": "Friend Added",
-  "friend_requests.cancelled": "Cancelled",
-  "friend_requests.error": "Error",
-  "friends.online_count": "Online Count",
-  "friends.total_count": "Total Count",
-  "friends.no_friends": "No Friends",
-  "friends.click_to_teleport": "Click To Teleport",
-  "friends.right_click_to_remove": "Right Click To Remove",
-  "friends.remove_confirm": "Remove Confirm",
-  "friends.removed": "Removed",
-  "friends.teleport_request_sent": "Teleport Request Sent",
-  "friends.teleport_failed": "Teleport Failed",
-  "island.biome_selection.back_lore": "Back Lore",
-  "island.biome.current_info_lore": "Current Info Lore",
-  "island.biome.back_lore": "Back Lore",
-  "island.contribute.click_to_contribute": "Click To Contribute",
-  "island.contribute.click_prompt": "Click Prompt",
-  "island.contribute.insufficient_gold": "Insufficient Gold",
-  "island.contribute.insufficient_gold_message": "Insufficient Gold Message",
-  "island.contribution.info_title": "Info Title",
-  "island.contribution.info_island_name": "Info Island Name",
-  "island.contribution.info_total": "Info Total",
-  "island.contribution.info_contributors": "Info Contributors",
-  "island.contribution.info_description": "Info Description",
-  "island.contribution.contributor_name": "Contributor Name",
-  "island.contribution.contributor_contribution": "Contributor Contribution",
-  "island.contribution.contributor_role": "Contributor Role",
-  "island.contribution.contributor_percentage": "Contributor Percentage",
-  "island.contribution.add_title": "Add Title",
-  "island.contribution.add_current": "Add Current",
-  "island.contribution.add_description": "Add Description",
-  "island.contribution.add_click": "Add Click",
-  "island.contribution.back_description": "Back Description",
-  "island.delete_confirm.cancel.lore": "Item lore text",
-  "island.members.add.title": "Title",
-  "island.members.add.subtitle": "Subtitle",
-  "island.members.add.lore": "Item lore text",
-  "island.members.add.click": "Click",
-  "island.members.back.lore": "Item lore text",
-  "island.members.info.title": "Title",
-  "island.member.all.permissions": "Permissions",
-  "island.member.hire.date": "Date",
-  "island.member.invite.example": "Example",
-  "island.member.invite.prompt": "Prompt",
-  "island.member.join.date": "Date",
-  "island.member.last.activity": "Activity",
-  "island.member.left.click.extend": "Extend",
-  "island.member.left.click.role": "Role",
-  "island.member.limited.permissions": "Permissions",
-  "island.member.manage.current.role": "Role",
-  "island.member.manage.permission.not.implemented": "Implemented",
-  "island.member.manage.title.with.name": "With",
-  "island.member.most.permissions": "Permissions",
-  "island.member.normal.permissions": "Permissions",
-  "island.member.owner.cannot.change": "Change",
-  "island.member.right.click.fire": "Fire",
-  "island.member.right.click.kick": "Kick",
-  "island.member.role.owner": "Owner",
-  "island.member.role.worker": "Worker",
-  "island.permission.click.to.select": "Select",
-  "island.permission.current.editing": "Editing",
-  "island.permission.edit.role.permissions": "Permissions",
-  "island.permission.permissions.build.desc": "Description text",
-  "island.permission.permissions.containers.desc": "Description text",
-  "island.permission.permissions.interact.desc": "Description text",
-  "island.permission.permissions.invite.desc": "Description text",
-  "island.permission.permissions.kick.desc": "Description text",
-  "island.permission.permissions.spawns.desc": "Description text",
-  "island.permission.permissions.workers.desc": "Description text",
-  "island.permission.select.other.role": "Role",
-  "island.permission.select.role.desc": "Description text",
-  "island.permission.status": "Status",
-  "island.permission.back.description": "Description text",
-  "island.permission.back.title": "Title",
-  "island.permission.click.to.toggle": "Toggle",
-  "island.permission.close.description": "Description text",
-  "island.permission.close.title": "Title",
-  "island.permission.permissions.settings.desc": "Description text",
-  "island.permission.save.click": "Click",
-  "island.permission.save.description": "Description text",
-  "island.permission.save.failed": "Failed",
-  "island.permission.save.success": "Success",
-  "island.permission.save.title": "Title",
-  "island.personal.spawn.title": "Title",
-  "island.settings.current.biome": "Biome",
-  "island.settings.current.name": "Current",
-  "island.settings.current.status": "Status",
-  "island.settings.has.changes": "Changes",
-  "island.settings.id": "Id",
-  "island.settings.members": "Members",
-  "island.settings.no.changes": "Changes",
-  "island.settings.owner": "Owner",
-  "island.settings.status": "Status",
-  "island.spawn.default.spawn": "Spawn",
-  "island.spawn.location.name": "Location",
-  "island.spawn.title": "Title",
-  "island.spawn.visitor.spawn": "Spawn",
-  "island.spawn.visitor.spawn.not.set": "Set",
-  "island.upgrade.click.to.upgrade": "Upgrade",
-  "island.upgrade.current.contribution": "Contribution",
-  "island.upgrade.current.level": "Level",
-  "island.upgrade.insufficient.contribution": "Contribution",
-  "island.upgrade.next.level": "Level",
-  "island.upgrade.max.level": "Level",
-  "island.upgrade.progress": "Progress",
-  "island.visitor.action.title": "Title",
-  "island.visitor.island.name": "Island",
-  "island.visitor.longest.stay": "Stay",
-  "island.visitor.most.frequent": "Frequent",
-  "island.visitor.public.status": "Status",
-  "island.visitor.stay.duration": "Duration",
-  "island.visitor.title": "Title",
-  "island.visitor.total.visitors": "Visitors",
-  "island.visitor.total.visits": "Visits",
-  "island.visitor.unique.visitors": "Visitors",
-  "island.visitor.visit.time": "Time",
-  "island.visitor.visitor.number": "Number",
-  "quest.dialog.accept.quest": "Quest",
-  "quest.dialog.next.page": "Page",
-  "quest.dialog.quest.declined": "Declined",
-  "quest.dialog.skip": "Skip",
-  "quest.dialog.title": "Title",
-  "quest.list.click.details": "Details",
-  "quest.list.completed.label": "Label",
-  "quest.list.progress": "Progress",
-  "quest.list.repeatable": "Repeatable",
-  "quest.list.title": "Title",
-  "quest.reward.confirm.title": "Title",
-  "gui.settings.current.status": "Status",
-  "gui.settings.current.volume": "Volume",
-  "gui.settings.sound.muted": "Muted",
-  "gui.settings.sound.unmuted": "Unmuted",
-  "gui.settings.status": "Status",
-  "gui.settings.title": "Title",
-  "gui.settings.volume.changed": "Changed",
-  "ingame.settings.title": "Title",
-  "quest.reward.all.claimed": "Claimed",
-  "quest.reward.already.claimed": "Claimed",
-  "quest.reward.claimed": "Claimed",
-  "quest.reward.click.to.claim": "Claim",
-  "quest.reward.close.warning": "Warning",
-  "quest.reward.destroyed": "Destroyed",
-  "quest.reward.destroyed.desc": "Description text",
-  "quest.reward.exp.received": "Received",
-  "quest.reward.inventory.full": "Full",
-  "quest.reward.money.received": "Received",
-  "quest.reward.not.enough.space": "Space",
-  "quest.reward.timer.info": "Info",
-  "quest.reward.timer.warning": "Warning",
-  "quest.reward.title": "Title",
-  "quest.reward.warning.destroy.line": "Line",
-  "quest.reward.warning.destroy.line2": "Line2",
-  "quest.selection.title": "Title",
-  "quest.status.completed": "Completed",
-  "quest.status.in.progress": "Progress",
-  "quest.status.new.quest": "Quest",
-  "quest.status.reward.available": "Available",
-  "friends.add.command.example": "Example",
-  "friends.add.command.hint": "Hint",
-  "friends.whisper.hint": "Hint",
-  "ingame.settings.click.to.toggle": "Toggle",
-  "ingame.settings.current.speed": "Speed",
-  "ingame.settings.damage.display.toggled": "Toggled",
-  "ingame.settings.dialog.speed.changed": "Changed",
-  "ingame.settings.quest.guide.toggled": "Toggled",
-  "ingame.settings.speed.value": "Value",
-  "ingame.settings.status": "Status",
-  "notification.settings.click.to.toggle": "Toggle",
-  "notification.settings.current.mode": "Mode",
-  "notification.settings.invite.changed": "Changed",
-  "notification.settings.server.toggled": "Toggled",
-  "notification.settings.status": "Status",
-  "notification.settings.title": "Title",
-  "notification.settings.whisper.toggled": "Toggled",
-  "shop.item.buy.price": "Price",
-  "shop.item.click.to.buy": "Buy",
-  "shop.item.click.to.sell": "Sell",
-  "shop.item.insufficient.gold": "Gold",
-  "shop.item.sell.price": "Price",
-  "dialog.choice.click.to.select": "Select",
-  "dialog.choice.description": "Description text",
-  "dialog.choice.icon": "Icon",
-  "dialog.choice.npc": "Npc",
-  "dialog.choice.npc.content": "Content",
-  "friend.requests.accept.desc": "Description text",
-  "friend.requests.message": "Message",
-  "friend.requests.no.message": "Message",
-  "friend.requests.reject.desc": "Description text",
-  "leaderboard.this.is.you": "You",
-  "mail.detail.delete.failed": "Failed",
-  "mail.detail.delete.success": "Success",
-  "mail.detail.no.message": "Message",
-  "mail.detail.receiver": "Receiver",
-  "mail.detail.reply.command": "Command",
-  "mail.detail.reply.desc": "Description text",
-  "mail.detail.reply.guide": "Guide",
-  "mail.detail.sender": "Sender",
-  "mail.detail.sent.time": "Time",
-  "mail.detail.status": "Status",
-  "mailbox.delete.confirm.text": "Text",
-  "mailbox.delete.confirm.title": "Title",
-  "mailbox.send.mail.command": "Command",
-  "mailbox.send.mail.example": "Example",
-  "mailbox.send.mail.guide": "Guide",
-  "island.delete.confirm.final.confirm.warning": "Warning",
-  "island.delete.confirm.warning.list.items": "Items",
-  "job.confirmation.info.line": "Line",
-  "friend-requests": {
-    "title": "Friend Requests"
-  },
   "social-settings": {
     "title": "Social Settings"
+  },
+  "ingame": {
+    "settings": {
+      "title": "Title",
+      "click": {
+        "to": {
+          "toggle": "Toggle"
+        }
+      },
+      "current": {
+        "speed": "Speed"
+      },
+      "damage": {
+        "display": {
+          "toggled": "Toggled"
+        }
+      },
+      "dialog": {
+        "speed": {
+          "changed": "Changed"
+        }
+      },
+      "quest": {
+        "guide": {
+          "toggled": "Toggled"
+        }
+      },
+      "speed": {
+        "value": "Value"
+      },
+      "status": "Status"
+    }
+  },
+  "notification": {
+    "settings": {
+      "click": {
+        "to": {
+          "toggle": "Toggle"
+        }
+      },
+      "current": {
+        "mode": "Mode"
+      },
+      "invite": {
+        "changed": "Changed"
+      },
+      "server": {
+        "toggled": "Toggled"
+      },
+      "status": "Status",
+      "title": "Title",
+      "whisper": {
+        "toggled": "Toggled"
+      }
+    }
+  },
+  "job": {
+    "confirmation": {
+      "info": {
+        "line": "Line"
+      }
+    }
+  },
+  "friend-requests": {
+    "title": "Friend Requests"
   },
   "scroll": {
     "up": "Scroll Up",

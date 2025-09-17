@@ -1,6 +1,12 @@
 {
-  "summoned": "[KO] Summoned",
-  "dismissed": "[KO] Dismissed",
-  "level_up": "[KO] Level Up",
-  "evolved": "[KO] Evolved"
+  "summoned": "Summoned",
+  "dismissed": "Dismissed",
+  "level_up": "레벨 Up",
+  "evolved": "Evolved",
+  "pet": {
+    "summoned": "Summoned",
+    "dismissed": "Dismissed",
+    "level_up": "레벨 Up",
+    "evolved": "Evolved"
+  }
 }

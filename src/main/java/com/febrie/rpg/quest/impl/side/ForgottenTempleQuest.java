@@ -11,9 +11,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.lang.quest.side.ForgottenTempleLangKey;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -66,23 +64,23 @@ public class ForgottenTempleQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(ForgottenTempleLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.forgotten.temple.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(ForgottenTempleLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.forgotten.temple.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_temple_scholar" -> LangManager.text(ForgottenTempleLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_TALK_TEMPLE_SCHOLAR, who);
-            case "visit_temple_ruins" -> LangManager.text(ForgottenTempleLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_VISIT_TEMPLE_RUINS, who);
-            case "kill_zombies" -> LangManager.text(ForgottenTempleLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_KILL_ZOMBIES, who);
-            case "golden_sword_collect" -> LangManager.text(ForgottenTempleLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_GOLDEN_SWORD_COLLECT, who);
-            case "visit_inner_sanctum" -> LangManager.text(ForgottenTempleLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_VISIT_INNER_SANCTUM, who);
-            case "golden_apple_collect" -> LangManager.text(ForgottenTempleLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_OBJECTIVES_GOLDEN_APPLE_COLLECT, who);
+            case "talk_temple_scholar" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.forgotten.temple.objectives.talk.temple.scholar"), who);
+            case "visit_temple_ruins" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.forgotten.temple.objectives.visit.temple.ruins"), who);
+            case "kill_zombies" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.forgotten.temple.objectives.kill.zombies"), who);
+            case "golden_sword_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.forgotten.temple.objectives.golden.sword.collect"), who);
+            case "visit_inner_sanctum" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.forgotten.temple.objectives.visit.inner.sanctum"), who);
+            case "golden_apple_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.forgotten.temple.objectives.golden.apple.collect"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -94,7 +92,7 @@ public class ForgottenTempleQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(ForgottenTempleLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.forgotten.temple.dialogs"), who);
     }
     
     @Override
@@ -104,16 +102,16 @@ public class ForgottenTempleQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(ForgottenTempleLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.forgotten.temple.npc.name"), who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(ForgottenTempleLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.forgotten.temple.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(ForgottenTempleLangKey.QUEST_SIDE_FORGOTTEN_TEMPLE_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.forgotten.temple.decline"), who);
     }
 }

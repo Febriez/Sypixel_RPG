@@ -1,6 +1,8 @@
 {
   "enable": "Enable",
   "disable": "Disable",
-  "action.enable": "Enable",
-  "action.disable": "Disable"
+  "action": {
+    "enable": "Enable",
+    "disable": "Disable"
+  }
 }

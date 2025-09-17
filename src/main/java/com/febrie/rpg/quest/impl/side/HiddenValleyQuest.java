@@ -11,9 +11,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.lang.quest.side.HiddenValleyLangKey;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -69,25 +67,25 @@ public class HiddenValleyQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(HiddenValleyLangKey.QUEST_SIDE_HIDDEN_VALLEY_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.hidden.valley.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(HiddenValleyLangKey.QUEST_SIDE_HIDDEN_VALLEY_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.hidden.valley.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_valley_scout" -> LangManager.text(HiddenValleyLangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_TALK_VALLEY_SCOUT, who);
-            case "visit_mountain_pass" -> LangManager.text(HiddenValleyLangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_VISIT_MOUNTAIN_PASS, who);
-            case "azure_bluet_collect" -> LangManager.text(HiddenValleyLangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_AZURE_BLUET_COLLECT, who);
-            case "visit_hidden_entrance" -> LangManager.text(HiddenValleyLangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_VISIT_HIDDEN_ENTRANCE, who);
-            case "kill_wolves" -> LangManager.text(HiddenValleyLangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_KILL_WOLVES, who);
-            case "visit_valley_heart" -> LangManager.text(HiddenValleyLangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_VISIT_VALLEY_HEART, who);
-            case "emerald_collect" -> LangManager.text(HiddenValleyLangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_EMERALD_COLLECT, who);
-            case "talk_valley_guardian" -> LangManager.text(HiddenValleyLangKey.QUEST_SIDE_HIDDEN_VALLEY_OBJECTIVES_TALK_VALLEY_GUARDIAN, who);
+            case "talk_valley_scout" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.hidden.valley.objectives.talk.valley.scout"), who);
+            case "visit_mountain_pass" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.hidden.valley.objectives.visit.mountain.pass"), who);
+            case "azure_bluet_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.hidden.valley.objectives.azure.bluet.collect"), who);
+            case "visit_hidden_entrance" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.hidden.valley.objectives.visit.hidden.entrance"), who);
+            case "kill_wolves" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.hidden.valley.objectives.kill.wolves"), who);
+            case "visit_valley_heart" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.hidden.valley.objectives.visit.valley.heart"), who);
+            case "emerald_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.hidden.valley.objectives.emerald.collect"), who);
+            case "talk_valley_guardian" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.hidden.valley.objectives.talk.valley.guardian"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -99,7 +97,7 @@ public class HiddenValleyQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(HiddenValleyLangKey.QUEST_SIDE_HIDDEN_VALLEY_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.hidden.valley.dialogs"), who);
     }
     
     @Override
@@ -109,16 +107,16 @@ public class HiddenValleyQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(HiddenValleyLangKey.QUEST_SIDE_HIDDEN_VALLEY_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.hidden.valley.npc.name"), who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(HiddenValleyLangKey.QUEST_SIDE_HIDDEN_VALLEY_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.hidden.valley.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(HiddenValleyLangKey.QUEST_SIDE_HIDDEN_VALLEY_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.hidden.valley.decline"), who);
     }
 }

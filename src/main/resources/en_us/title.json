@@ -15,16 +15,18 @@
   "equipped": "Equipped",
   "unequipped": "Unequipped",
   "requirement_not_met": "Requirement Not Met",
-  "title.welcome": "Welcome",
-  "title.level_up": "Level Up",
-  "title.quest_complete": "Quest Complete",
-  "title.achievement_unlocked": "Achievement Unlocked",
-  "title.death": "Death",
-  "title.respawn": "Respawn",
-  "title.victory": "Victory",
-  "title.defeat": "Defeat",
-  "title.wave_start": "Wave Start",
-  "title.wave_complete": "Wave Complete",
-  "title.boss_spawn": "Boss Spawn",
-  "title.boss_defeated": "Boss Defeated"
+  "title": {
+    "welcome": "Welcome",
+    "level_up": "Level Up",
+    "quest_complete": "Quest Complete",
+    "achievement_unlocked": "Achievement Unlocked",
+    "death": "Death",
+    "respawn": "Respawn",
+    "victory": "Victory",
+    "defeat": "Defeat",
+    "wave_start": "Wave Start",
+    "wave_complete": "Wave Complete",
+    "boss_spawn": "Boss Spawn",
+    "boss_defeated": "Boss Defeated"
+  }
 }

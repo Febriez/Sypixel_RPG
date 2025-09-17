@@ -1,5 +1,7 @@
 package com.febrie.rpg.gui.impl.player;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
@@ -11,7 +13,6 @@ import com.febrie.rpg.stat.Stat;
 import com.febrie.rpg.util.ItemBuilder;
 
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -34,7 +35,7 @@ public class CombatPowerGui extends BaseGui {
 
     private CombatPowerGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer, @NotNull RPGPlayer rpgPlayer) {
-        super(viewer, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_COMBAT_POWER_TITLE, viewer));
+        super(viewer, guiManager, GUI_SIZE, LangManager.text(GuiLangKey.GUI_COMBAT_POWER_TITLE, viewer));
         this.rpgPlayer = rpgPlayer;
     }
 
@@ -54,7 +55,7 @@ public class CombatPowerGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_COMBAT_POWER_TITLE, viewer);
+        return LangManager.text(GuiLangKey.GUI_COMBAT_POWER_TITLE, viewer);
     }
 
     @Override
@@ -78,7 +79,7 @@ public class CombatPowerGui extends BaseGui {
         // 중앙 장식
         setItem(4, GuiItem.display(
                 ItemBuilder.of(Material.DIAMOND_SWORD)
-                        .displayName(LangManager.text(LangKey.GUI_COMBAT_POWER_TOTAL, viewer, String.valueOf(rpgPlayer.getCombatPower())))
+                        .displayName(LangManager.text(GuiLangKey.GUI_COMBAT_POWER_TOTAL, viewer, String.valueOf(rpgPlayer.getCombatPower())))
                         .flags(ItemFlag.values())
                         .glint(true)
                         .build()
@@ -105,8 +106,8 @@ public class CombatPowerGui extends BaseGui {
 
         GuiItem levelItem = GuiItem.display(
                 ItemBuilder.of(Material.EXPERIENCE_BOTTLE)
-                        .displayName(LangManager.text(LangKey.GUI_COMBAT_POWER_LEVEL_CONTRIBUTION, viewer))
-                        .addLore(LangManager.text(LangKey.GUI_COMBAT_POWER_LEVEL_DETAIL, viewer,
+                        .displayName(LangManager.text(GuiLangKey.GUI_COMBAT_POWER_LEVEL_CONTRIBUTION, viewer))
+                        .addLore(LangManager.text(GuiLangKey.GUI_COMBAT_POWER_LEVEL_DETAIL, viewer,
                                 String.valueOf(rpgPlayer.getLevel()),
                                 String.valueOf(levelContribution)))
                         .build()
@@ -135,12 +136,12 @@ public class CombatPowerGui extends BaseGui {
             int contribution = statValue * info.multiplier;
             statContribution += contribution;
 
-            Component statName = LangManager.text(LangKey.fromString("STAT_" + info.stat.getId().toUpperCase() + "_NAME"), viewer);
+            Component statName = LangManager.text(GeneralLangKey.fromString("STAT_" + info.stat.getId().toUpperCase() + "_NAME"), viewer);
 
             GuiItem statItem = GuiItem.display(
                     ItemBuilder.of(info.material)
-                            .displayName(LangManager.text(LangKey.GUI_COMBAT_POWER_STAT_CONTRIBUTION, viewer, statName))
-                            .addLore(LangManager.text(LangKey.GUI_COMBAT_POWER_STAT_DETAIL, viewer,
+                            .displayName(LangManager.text(GuiLangKey.GUI_COMBAT_POWER_STAT_CONTRIBUTION, viewer, statName))
+                            .addLore(LangManager.text(GuiLangKey.GUI_COMBAT_POWER_STAT_DETAIL, viewer,
                                     String.valueOf(statValue),
                                     String.valueOf(info.multiplier),
                                     String.valueOf(contribution)))
@@ -154,11 +155,11 @@ public class CombatPowerGui extends BaseGui {
         // 총합 표시
         GuiItem totalItem = GuiItem.display(
                 ItemBuilder.of(Material.NETHER_STAR)
-                        .displayName(LangManager.text(LangKey.GUI_COMBAT_POWER_TOTAL, viewer, String.valueOf(totalCombatPower)))
+                        .displayName(LangManager.text(GuiLangKey.GUI_COMBAT_POWER_TOTAL, viewer, String.valueOf(totalCombatPower)))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_COMBAT_POWER_BREAKDOWN, viewer))
-                        .addLore(LangManager.text(LangKey.GUI_COMBAT_POWER_FROM_LEVEL, viewer, String.valueOf(levelContribution)))
-                        .addLore(LangManager.text(LangKey.GUI_COMBAT_POWER_FROM_STATS, viewer, String.valueOf(statContribution)))
+                        .addLore(LangManager.text(GuiLangKey.GUI_COMBAT_POWER_BREAKDOWN, viewer))
+                        .addLore(LangManager.text(GuiLangKey.GUI_COMBAT_POWER_FROM_LEVEL, viewer, String.valueOf(levelContribution)))
+                        .addLore(LangManager.text(GuiLangKey.GUI_COMBAT_POWER_FROM_STATS, viewer, String.valueOf(statContribution)))
                         .glint(true)
                         .build()
         );

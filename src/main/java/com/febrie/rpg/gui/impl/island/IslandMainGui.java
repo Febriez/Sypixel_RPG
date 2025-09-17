@@ -1,5 +1,8 @@
 package com.febrie.rpg.gui.impl.island;
+import com.febrie.rpg.util.lang.IslandLangKey;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.IslandDTO;
 import com.febrie.rpg.dto.island.IslandSettingsDTO;
@@ -14,7 +17,6 @@ import com.febrie.rpg.util.DateFormatUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.LangManager;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
@@ -46,7 +48,7 @@ public class IslandMainGui extends BaseGui {
     private final boolean isWorker;
 
     private IslandMainGui(@NotNull GuiManager guiManager, @NotNull Player player) {
-        super(player, guiManager, 54, LangManager.text(LangKey.GUI_ISLAND_MAIN_TITLE, player));
+        super(player, guiManager, 54, LangManager.text(GuiLangKey.GUI_ISLAND_MAIN_TITLE, player));
         this.islandManager = RPGMain.getInstance().getIslandManager();
 
         // Get player island data
@@ -92,9 +94,9 @@ public class IslandMainGui extends BaseGui {
     @Override
     public @NotNull Component getTitle() {
         if (island != null) {
-            return LangManager.text(LangKey.ISLAND_GUI_MAIN_TITLE_WITH_NAME, viewer, Component.text(island.core().islandName()));
+            return LangManager.text(IslandLangKey.ISLAND_GUI_MAIN_TITLE_WITH_NAME, viewer, Component.text(island.core().islandName()));
         } else {
-            return LangManager.text(LangKey.ISLAND_GUI_MAIN_TITLE, viewer);
+            return LangManager.text(IslandLangKey.ISLAND_GUI_MAIN_TITLE, viewer);
         }
     }
 
@@ -122,14 +124,14 @@ public class IslandMainGui extends BaseGui {
 
         // 중앙 섬 생성 안내
         GuiItem createIslandInfo = GuiItem.display(ItemBuilder.of(Material.GRASS_BLOCK)
-                .displayName(LangManager.text(LangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_TITLE, getViewerLocale()))
+                .displayName(LangManager.text(IslandLangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_TITLE, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_NO_ISLAND, getViewerLocale()))
+                .addLore(LangManager.text(IslandLangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_NO_ISLAND, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_DESCRIPTION, getViewerLocale()))
-                .addLore(LangManager.list(LangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_FEATURE_, getViewerLocale()))
+                .addLore(LangManager.text(IslandLangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_DESCRIPTION, getViewerLocale()))
+                .addLore(LangManager.list(IslandLangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_FEATURE_, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_CONTACT_ADMIN, getViewerLocale()))
+                .addLore(LangManager.text(IslandLangKey.ISLAND_GUI_MAIN_CREATE_ISLAND_CONTACT_ADMIN, getViewerLocale()))
                 .hideAllFlags()
                 .build());
         setItem(22, createIslandInfo);
@@ -256,13 +258,13 @@ public class IslandMainGui extends BaseGui {
         
         ItemBuilder builder = ItemBuilder.of(Material.GRASS_BLOCK)
                 .displayName(Component.text(island.core().islandName(), nameColor))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MAIN_INFO_LORE, viewer))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MAIN_INFO_LORE, viewer))
                 .hideAllFlags();
 
         // ?�장?�나 부?�장??경우 ?�상 변�??�내 추�?
         if (isOwner || isCoOwner) {
             builder.addLore(Component.empty());
-            builder.addLore(LangManager.text(LangKey.GUI_ISLAND_MAIN_COLOR_CHANGE_HINT, viewer).color(UnifiedColorUtil.AQUA));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_MAIN_COLOR_CHANGE_HINT, viewer).color(UnifiedColorUtil.AQUA));
         }
 
         ItemStack itemStack = builder.build();
@@ -286,9 +288,9 @@ public class IslandMainGui extends BaseGui {
             String hexColor = stateSnapshot.getText();
             // HEX code validation
             if (!hexColor.matches("^#[0-9A-Fa-f]{6}$")) {
-                player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_MAIN_HEX_FORMAT_ERROR, player).color(UnifiedColorUtil.ERROR));
+                player.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_MAIN_HEX_FORMAT_ERROR, player).color(UnifiedColorUtil.ERROR));
                 String hexFormatExample = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
-                        .serialize(LangManager.text(LangKey.GUI_ISLAND_MAIN_HEX_FORMAT_EXAMPLE, player));
+                        .serialize(LangManager.text(GuiLangKey.GUI_ISLAND_MAIN_HEX_FORMAT_EXAMPLE, player));
                 return java.util.Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText(hexFormatExample));
             }
 
@@ -299,7 +301,7 @@ public class IslandMainGui extends BaseGui {
             IslandDTO updated = GuiHandlerUtil.updateIslandSettings(island, newSettings);
             islandManager.updateIsland(updated);
 
-            player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_MAIN_COLOR_CHANGED, player).color(UnifiedColorUtil.SUCCESS));
+            player.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_MAIN_COLOR_CHANGED, player).color(UnifiedColorUtil.SUCCESS));
 
             return java.util.Collections.singletonList(AnvilGUI.ResponseAction.close());
                 }).onClose(closePlayer -> {
@@ -308,7 +310,7 @@ public class IslandMainGui extends BaseGui {
                             .open(viewer), 1L);
                 }).text(island.configuration().settings().nameColorHex())
                         .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
-                                .serialize(LangManager.text(LangKey.GUI_ISLAND_MAIN_HEX_INPUT_TITLE, player)))
+                                .serialize(LangManager.text(GuiLangKey.GUI_ISLAND_MAIN_HEX_INPUT_TITLE, player)))
                         .plugin(RPGMain.getInstance())
                 .open(player);
     }
@@ -318,8 +320,8 @@ public class IslandMainGui extends BaseGui {
     private GuiItem createMemberManagementItem() {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.PLAYER_HEAD)
-                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MEMBER_INVITE_NAME, getViewerLocale()))
-                        .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MEMBER_INVITE_LORE, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MEMBER_INVITE_NAME, getViewerLocale()))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MEMBER_INVITE_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -335,8 +337,8 @@ public class IslandMainGui extends BaseGui {
     private GuiItem createPermissionManagementItem() {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.COMMAND_BLOCK)
-                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MEMBER_PERMISSION_NAME, getViewerLocale()))
-                        .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MEMBER_PERMISSION_LORE, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MEMBER_PERMISSION_NAME, getViewerLocale()))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MEMBER_PERMISSION_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -353,8 +355,8 @@ public class IslandMainGui extends BaseGui {
     private GuiItem createUpgradeItem() {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.ANVIL)
-                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MAIN_UPGRADE_INFO_NAME, getViewerLocale()))
-                        .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MAIN_UPGRADE_INFO_LORE, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MAIN_UPGRADE_INFO_NAME, getViewerLocale()))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MAIN_UPGRADE_INFO_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -372,8 +374,8 @@ public class IslandMainGui extends BaseGui {
         
         return GuiItem.clickable(
                 ItemBuilder.of(Material.EMERALD)
-                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MAIN_CONTRIBUTION_INFO_NAME, getViewerLocale()))
-                        .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MAIN_CONTRIBUTION_INFO_LORE, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MAIN_CONTRIBUTION_INFO_NAME, getViewerLocale()))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MAIN_CONTRIBUTION_INFO_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -388,8 +390,8 @@ public class IslandMainGui extends BaseGui {
     private GuiItem createSpawnSettingsItem() {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.ENDER_PEARL)
-                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_SPAWN_CURRENT_INFO_NAME, getViewerLocale()))
-                        .addLore(LangManager.list(LangKey.ITEMS_ISLAND_SPAWN_CURRENT_INFO_LORE, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_SPAWN_CURRENT_INFO_NAME, getViewerLocale()))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_SPAWN_CURRENT_INFO_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -405,8 +407,8 @@ public class IslandMainGui extends BaseGui {
     private GuiItem createIslandSettingsItem() {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.COMPARATOR)
-                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MAIN_ISLAND_SETTINGS_NAME, getViewerLocale()))
-                        .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MAIN_ISLAND_SETTINGS_LORE, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MAIN_ISLAND_SETTINGS_NAME, getViewerLocale()))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MAIN_ISLAND_SETTINGS_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -427,8 +429,8 @@ public class IslandMainGui extends BaseGui {
         
         return GuiItem.clickable(
                 ItemBuilder.of(Material.BOOK)
-                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MAIN_VISITOR_NAME, getViewerLocale()))
-                        .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MAIN_VISITOR_LORE, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MAIN_VISITOR_NAME, getViewerLocale()))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MAIN_VISITOR_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -444,8 +446,8 @@ public class IslandMainGui extends BaseGui {
     private GuiItem createBiomeChangeItem() {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.GRASS_BLOCK)
-                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MAIN_BIOME_CHANGE_NAME, getViewerLocale()))
-                        .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MAIN_BIOME_CHANGE_LORE, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MAIN_BIOME_CHANGE_NAME, getViewerLocale()))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MAIN_BIOME_CHANGE_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {
@@ -464,8 +466,8 @@ public class IslandMainGui extends BaseGui {
     private GuiItem createWarpItem() {
         return GuiItem.clickable(
                 ItemBuilder.of(Material.COMPASS)
-                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MAIN_WARP_NAME, getViewerLocale()))
-                        .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MAIN_WARP_LORE, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MAIN_WARP_NAME, getViewerLocale()))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MAIN_WARP_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 this::handleWarp
@@ -478,7 +480,7 @@ public class IslandMainGui extends BaseGui {
      */
     private void handleWarp(@NotNull Player player) {
         player.closeInventory();
-        player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_MAIN_WARP_MOVING, player).color(UnifiedColorUtil.YELLOW));
+        player.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_MAIN_WARP_MOVING, player).color(UnifiedColorUtil.YELLOW));
 
         // Get spawn location
         var spawn = island.configuration().spawnData().defaultSpawn()
@@ -487,7 +489,7 @@ public class IslandMainGui extends BaseGui {
 
         Bukkit.getScheduler().runTask(RPGMain.getInstance(), () -> {
             player.teleport(spawn);
-            player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_MAIN_WARP_SUCCESS, player).color(UnifiedColorUtil.SUCCESS));
+            player.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_MAIN_WARP_SUCCESS, player).color(UnifiedColorUtil.SUCCESS));
         });
     }
 }

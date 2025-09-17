@@ -1,5 +1,8 @@
 package com.febrie.rpg.gui.impl.settings;
+import com.febrie.rpg.util.lang.GeneralLangKey;
+import com.febrie.rpg.util.lang.SystemLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
@@ -12,7 +15,6 @@ import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -37,7 +39,7 @@ public class SystemSettingsGui extends BaseGui {
 
     private SystemSettingsGui(@NotNull GuiManager guiManager,
                             @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_SYSTEM_SETTINGS_TITLE, player));
+        super(player, guiManager, GUI_SIZE, LangManager.text(GuiLangKey.GUI_SYSTEM_SETTINGS_TITLE, player));
     }
 
     /**
@@ -55,7 +57,7 @@ public class SystemSettingsGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_SYSTEM_SETTINGS_TITLE, viewer);
+        return LangManager.text(GuiLangKey.GUI_SYSTEM_SETTINGS_TITLE, viewer);
     }
 
     @Override
@@ -84,9 +86,9 @@ public class SystemSettingsGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 ItemBuilder.of(Material.REDSTONE_BLOCK)
-                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_TITLE_NAME, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_TITLE_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_TITLE_LORE, viewer))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_TITLE_LORE, viewer))
                         .hideAllFlags()
                         .build()
         );
@@ -125,27 +127,27 @@ public class SystemSettingsGui extends BaseGui {
         
         GuiItem confirmationDialogsToggle = GuiItem.clickable(
                 ItemBuilder.of(enabled ? Material.WRITABLE_BOOK : Material.BOOK)
-                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_NAME, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_SYSTEM_SETTINGS_STATUS, viewer, 
-                                LangManager.text(enabled ? LangKey.STATUS_ENABLED : LangKey.STATUS_DISABLED, viewer)
+                        .addLore(LangManager.text(GuiLangKey.GUI_SYSTEM_SETTINGS_STATUS, viewer, 
+                                LangManager.text(enabled ? GeneralLangKey.STATUS_ENABLED : GeneralLangKey.STATUS_DISABLED, viewer)
                                 .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
                         .addLore(Component.empty())
-                        .addLore(LangManager.list(LangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_DESC, viewer))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_DESC, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_EXAMPLE_TITLE, viewer))
-                        .addLore(LangManager.list(LangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_EXAMPLE, getViewerLocale()))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_EXAMPLE_TITLE, viewer))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_SETTINGS_SYSTEM_SETTINGS_CONFIRMATION_EXAMPLE, getViewerLocale()))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_SYSTEM_SETTINGS_CLICK_TO_TOGGLE, viewer,
-                                LangManager.text(enabled ? LangKey.ACTION_DISABLE : LangKey.ACTION_ENABLE, viewer)))
+                        .addLore(LangManager.text(GuiLangKey.GUI_SYSTEM_SETTINGS_CLICK_TO_TOGGLE, viewer,
+                                LangManager.text(enabled ? GeneralLangKey.ACTION_DISABLE : GeneralLangKey.ACTION_ENABLE, viewer)))
                         .hideAllFlags()
                         .build(),
                 p -> {
                     settings.setConfirmationDialogsEnabled(!enabled);
                     updateConfirmationDialogsToggle(settings);
                     playClickSound(p);
-                    p.sendMessage(LangManager.text(LangKey.GUI_SYSTEM_SETTINGS_CONFIRMATION_TOGGLED, p, 
-                            LangManager.text(enabled ? LangKey.STATUS_DISABLED : LangKey.STATUS_ENABLED, p)));
+                    p.sendMessage(LangManager.text(GuiLangKey.GUI_SYSTEM_SETTINGS_CONFIRMATION_TOGGLED, p, 
+                            LangManager.text(enabled ? GeneralLangKey.STATUS_DISABLED : GeneralLangKey.STATUS_ENABLED, p)));
                 }
         );
         setItem(CONFIRMATION_DIALOGS_SLOT, confirmationDialogsToggle);

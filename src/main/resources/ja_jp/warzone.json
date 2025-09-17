@@ -1,7 +1,14 @@
 {
-  "entered": "[JA] Entered",
-  "left": "[JA] Left",
-  "kill": "[JA] Kill",
-  "death": "[JA] Death",
-  "capture": "[JA] Capture"
+  "entered": "Entered",
+  "left": "Left",
+  "kill": "キル",
+  "death": "Death",
+  "capture": "Capture",
+  "warzone": {
+    "entered": "Entered",
+    "left": "Left",
+    "kill": "キル",
+    "death": "Death",
+    "capture": "Capture"
+  }
 }

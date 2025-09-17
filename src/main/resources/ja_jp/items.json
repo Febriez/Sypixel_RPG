@@ -2,51 +2,67 @@
   "gui": {
     "buttons": {
       "close": {
-        "name": "閉じる",
+        "name": "%ff5555_COLOR%閉じる",
         "lore": [
-          "クリックしてウィンドウを閉じます。"
+          "§7クリックしてウィンドウを閉じます。",
+          "",
+          "%55ff55_COLOR%▶ クリック"
         ]
       },
       "back": {
-        "name": "◀ Back",
+        "name": "%3399ff_COLOR%◀ 戻る",
         "lore": [
-          "クリックして前の画面に戻ります。"
+          "§7クリックして前の画面に戻ります。",
+          "",
+          "%55ff55_COLOR%▶ クリック"
         ]
       },
       "refresh": {
-        "name": "更新",
+        "name": "%ffaa00_COLOR%更新",
         "lore": [
-          "クリックして画面を更新します。"
+          "§7クリックして画面を更新します。",
+          "",
+          "%55ff55_COLOR%▶ クリック"
         ]
       },
       "next_page": {
-        "name": "Next Page →",
+        "name": "%3399ff_COLOR%次のページ →",
         "lore": [
-          "クリックして次のページに進みます。"
+          "§7クリックして次のページに進みます。",
+          "",
+          "%55ff55_COLOR%▶ クリック"
         ]
       },
       "previous_page": {
-        "name": "← Previous Page",
+        "name": "%3399ff_COLOR%← 前のページ",
         "lore": [
-          "クリックして前のページに戻ります。"
+          "§7クリックして前のページに戻ります。",
+          "",
+          "%55ff55_COLOR%▶ クリック"
         ]
       },
       "confirm": {
-        "name": "確認",
+        "name": "%55ff55_COLOR%確認",
         "lore": [
-          "クリックして確認します。"
+          "§7クリックして確認します。",
+          "",
+          "%55ff55_COLOR%▶ クリック"
         ]
       },
       "cancel": {
-        "name": "キャンセル",
+        "name": "%ff5555_COLOR%キャンセル",
         "lore": [
-          "クリックしてキャンセルします。"
+          "§7クリックしてキャンセルします。",
+          "",
+          "%55ff55_COLOR%▶ クリック"
         ]
       },
       "settings": {
-        "name": "設定",
+        "name": "%ffaa00_COLOR%設定",
         "lore": [
-          "クリックして設定を開きます。"
+          "§7クリックして設定を開きます。",
+          "",
+          "%55ff55_COLOR%▶ クリック"
         ]
       },
       "toggle": {
@@ -225,7 +241,7 @@
       ]
     },
     "settings_button": {
-      "lore": "Lore",
+      "lore": "説明",
       "name": "Name"
     }
   },
@@ -257,52 +273,99 @@
   "profile": {
     "pets": {
       "name": "Pets",
-      "lore": "Lore"
+      "lore": "説明"
     },
     "quest_info": {
-      "lore": "Lore",
+      "lore": "説明",
       "click_lore": "Click Lore",
       "name": "Name"
     },
     "level_info": {
       "name": "Name",
-      "lore": "Lore"
+      "lore": "説明"
     },
     "stats_info": {
-      "lore": "Lore",
+      "lore": "説明",
       "name": "Name"
     },
     "pet": {
-      "lore": "Lore",
+      "lore": "説明",
       "name": "Name"
     },
     "user_settings": {
-      "lore": "Lore",
+      "lore": "説明",
       "name": "Name"
     },
     "quest_info_click_lore": "Quest Info Click Lore",
     "user_settings_name": "User Settings Name",
     "job_select": {
-      "lore": "Lore",
+      "lore": "説明",
       "name": "Name"
     },
     "collection": {
       "name": "Name",
-      "lore": "Lore"
+      "lore": "説明",
+      "book": {
+        "name": "[JA] Book"
+      }
     },
     "user_settings_lore": "User Settings Lore",
     "game_stats": {
-      "lore": "Lore",
+      "lore": "説明",
       "name": "Name"
     },
     "collection_book": {
-      "lore": "Lore",
+      "lore": "説明",
       "name": "Name"
     },
     "level_info_name": "レベル Info Name",
     "collection_book_name": "Collection Book Name",
     "quest_info_name": "Quest Info Name",
-    "game_stats_name": "Game Stats Name"
+    "game_stats_name": "Game Stats Name",
+    "info": {
+      "name": "[JA] Info",
+      "lore": "[JA] Item lore text"
+    },
+    "stats": {
+      "name": "[JA] Stats",
+      "lore": "[JA] Item lore text"
+    },
+    "talents": {
+      "name": "[JA] Talents",
+      "lore": "[JA] Item lore text"
+    },
+    "quests": {
+      "name": "[JA] Quests",
+      "lore": "[JA] Item lore text"
+    },
+    "achievements": {
+      "name": "[JA] Achievements",
+      "lore": "[JA] Item lore text"
+    },
+    "game": {
+      "stats": {
+        "name": "[JA] Stats"
+      }
+    },
+    "level": {
+      "info": {
+        "name": "[JA] Info"
+      }
+    },
+    "quest": {
+      "info": {
+        "click": {
+          "lore": "[JA] Item lore text"
+        },
+        "name": "[JA] Info"
+      }
+    },
+    "user": {
+      "settings": {
+        "lore": "[JA] Item lore text",
+        "name": "[JA] Settings"
+      }
+    }
   },
   "rarity": {
     "common": "Common",
@@ -331,12 +394,23 @@
     "main": {
       "contribution": {
         "lore": "View island contributions",
-        "name": "Island Contributions"
+        "name": "Island Contributions",
+        "info": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Info"
+        }
       },
       "info": {
         "line": "Island information line",
         "lore": "View detailed island information",
-        "name": "Island Information"
+        "name": "Island Information",
+        "line1": "[JA] Line1",
+        "line2": "[JA] Line2",
+        "line3": "[JA] Line3",
+        "line4": "[JA] Line4",
+        "line5": "[JA] Line5",
+        "line6": "[JA] Line6",
+        "line7": "[JA] Line7"
       },
       "visitor": {
         "lore": "View island visitors",
@@ -347,88 +421,211 @@
         "name": "Island Warp"
       },
       "biome_change": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "upgrade": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明",
+        "info": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Info"
+        }
       },
       "visitor_info": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "contribution_info": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "member_management": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "spawn_settings": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "island_settings": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "upgrade_info": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "permission_management": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
+      },
+      "biome": {
+        "access_denied": "[JA] Access Denied",
+        "name": "[JA] Biome",
+        "lore": "[JA] Item lore text",
+        "change": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Change"
+        }
+      },
+      "home": {
+        "name": "[JA] Home",
+        "lore": "[JA] Item lore text"
+      },
+      "members": {
+        "name": "[JA] Members",
+        "lore": "[JA] Item lore text"
+      },
+      "settings": {
+        "name": "[JA] Settings",
+        "lore": "[JA] Item lore text"
+      },
+      "upgrades": {
+        "name": "[JA] Upgrades",
+        "lore": "[JA] Item lore text"
+      },
+      "daily": {
+        "name": "[JA] Daily",
+        "lore": "[JA] Item lore text"
+      },
+      "log": {
+        "name": "[JA] Log",
+        "lore": "[JA] Item lore text"
+      },
+      "delete": {
+        "name": "[JA] Delete",
+        "lore": "[JA] Item lore text"
+      },
+      "island": {
+        "settings": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Settings"
+        }
       }
     },
     "member": {
       "invite": {
         "lore": "Invite players to island",
-        "name": "Invite Member"
+        "name": "Invite Member",
+        "button": {
+          "lore": "[JA] Item lore text"
+        }
       },
       "permission": {
         "lore": "Manage member permissions",
         "name": "Permissions"
+      },
+      "manage": {
+        "demote": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Demote"
+        },
+        "kick": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Kick"
+        },
+        "member": {
+          "info": {
+            "lore": "[JA] Item lore text",
+            "name": "[JA] Info"
+          }
+        },
+        "no": {
+          "permission": {
+            "lore": "[JA] Item lore text",
+            "name": "[JA] Permission"
+          }
+        },
+        "permission": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Permission"
+        },
+        "promote": {
+          "lore": "[JA] Item lore text"
+        },
+        "to": {
+          "member": {
+            "lore": "[JA] Item lore text",
+            "name": "[JA] Member"
+          },
+          "worker": {
+            "lore": "[JA] Item lore text",
+            "name": "[JA] Worker"
+          }
+        }
+      },
+      "next": {
+        "page": {
+          "lore": "[JA] Item lore text"
+        }
+      },
+      "previous": {
+        "page": {
+          "lore": "[JA] Item lore text"
+        }
       }
     },
     "member_manage": {
       "promote": {
         "name": "Promote Member",
-        "lore": "Lore"
+        "lore": "説明",
+        "already_max": "[JA] Already Max"
       },
       "no_permission": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "kick": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "demote": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "permission": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "member_info": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "to_worker": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "to_member": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
+      },
+      "info": {
+        "name": "[JA] Info",
+        "current_role": "[JA] Current Role"
+      },
+      "action": {
+        "header": "[JA] Header",
+        "line": "[JA] Line"
       }
     },
     "members": {
-      "name": "Island Members"
+      "name": "Island Members",
+      "info": {
+        "name": "[JA] Info",
+        "lore": "[JA] Item lore text"
+      },
+      "role": "[JA] Role",
+      "joined": "[JA] Joined",
+      "online": "[JA] Online",
+      "offline": "[JA] Offline",
+      "left_click": "[JA] Left Click",
+      "right_click": "[JA] Right Click",
+      "shift_right_click": "[JA] Shift Right Click",
+      "permission_denied": "[JA] Permission Denied",
+      "promote_success": "[JA] Promote Success",
+      "demote_success": "[JA] Demote Success",
+      "kick_success": "[JA] Kick Success"
     },
     "permissions": {
       "name": "Permissions"
@@ -446,30 +643,46 @@
       },
       "info": {
         "name": "Island Info",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "private": {
         "name": "Private Island",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "public": {
         "name": "Public Island",
-        "lore": "Lore"
+        "lore": "説明",
+        "toggle": {
+          "lore": "[JA] Item lore text"
+        }
       },
       "save": {
         "lore": "Save changes",
         "name": "Save Settings"
       },
       "public_toggle": {
-        "lore": "Lore"
+        "lore": "説明"
       },
       "biome_change": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "name_change": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
+      },
+      "name": {
+        "_value": "[JA] Settings",
+        "change": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Change"
+        }
+      },
+      "biome": {
+        "change": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Change"
+        }
       }
     },
     "spawn": {
@@ -490,20 +703,42 @@
         "name": "Reset Spawn"
       },
       "set_main": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "current_info": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "no_permission": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "set_visitor": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
+      },
+      "current": {
+        "info": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Info"
+        }
+      },
+      "no": {
+        "permission": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Permission"
+        }
+      },
+      "set": {
+        "main": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Main"
+        },
+        "visitor": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Visitor"
+        }
       }
     },
     "upgrade": {
@@ -513,15 +748,15 @@
       },
       "member": {
         "name": "Member Upgrade",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "size": {
         "name": "Size Upgrade",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "worker": {
         "name": "Worker Upgrade",
-        "lore": "Lore"
+        "lore": "説明"
       }
     },
     "upgrades": {
@@ -534,11 +769,17 @@
       },
       "statistics": {
         "name": "Visitor Statistics",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "no_visitors": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
+      },
+      "no": {
+        "visitors": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Visitors"
+        }
       }
     },
     "visitors": {
@@ -546,144 +787,144 @@
     },
     "settings_v2": {
       "name_change": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "save": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "biome_change": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "delete": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "private": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "cancel": {
-        "lore": "Lore"
+        "lore": "説明"
       },
       "info": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "public_toggle": {
-        "lore": "Lore"
+        "lore": "説明"
       },
       "public": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       }
     },
     "main_island_settings_lore": "Main Island Settings Lore",
     "creation": {
       "name": {
-        "lore": "Lore",
+        "lore": "説明",
         "title": "Title"
       },
       "template": {
         "water": {
           "name": "Name",
-          "lore": "Lore"
+          "lore": "説明"
         },
         "basic": {
-          "lore": "Lore",
+          "lore": "説明",
           "name": "Name"
         },
         "large": {
           "name": "Name",
-          "lore": "Lore"
+          "lore": "説明"
         },
         "skyblock": {
-          "lore": "Lore",
+          "lore": "説明",
           "name": "Name"
         }
       },
       "title": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "biome": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "create_button": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "color": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       }
     },
     "upgrade_v2": {
       "info": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "member": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "size": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "worker": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       }
     },
     "member_v2": {
       "invite_button": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "next_page": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "previous_page": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       }
     },
     "spawn_v2": {
       "set_main": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "reset": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "set_visitor": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "current_info": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "no_permission": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "personal": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "message": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "protection": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       }
     },
@@ -703,32 +944,78 @@
     },
     "personal_spawn": {
       "info_not_set": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "info": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       }
     },
     "visitor_v2": {
       "info": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "no_visitors": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "statistics": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       }
     },
     "main_contribution_info_lore": "Main Contribution Info Lore",
     "spawn_current_info_lore": "Spawn Current Info Lore",
     "main_upgrade_info_lore": "Main Upgrade Info Lore",
-    "main_biome_change_lore": "Main Biome Change Lore"
+    "main_biome_change_lore": "Main Biome Change Lore",
+    "personal": {
+      "spawn": {
+        "back": {
+          "lore": "[JA] Item lore text"
+        },
+        "info": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Info",
+          "not": {
+            "set": {
+              "lore": "[JA] Item lore text"
+            }
+          }
+        },
+        "manage": {
+          "click": "[JA] Click",
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Manage",
+          "status": "[JA] Status"
+        },
+        "no": {
+          "permission": {
+            "lore": "[JA] Item lore text",
+            "name": "[JA] Permission"
+          }
+        },
+        "remove": {
+          "click": "[JA] Click",
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Remove"
+        },
+        "set": {
+          "click": "[JA] Click",
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Set"
+        },
+        "teleport": {
+          "click": "[JA] Click",
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Teleport",
+          "no": {
+            "spawn": "[JA] Spawn"
+          }
+        }
+      }
+    }
   },
   "unit": {
     "blocks": "blocks",
@@ -744,10 +1031,31 @@
     "friend": {
       "requests": {
         "accept": {
-          "desc": "Accept friend request"
+          "desc": "Accept friend request",
+          "click": "[JA] Click",
+          "desc2": "[JA] Desc2",
+          "name": "[JA] Accept"
         },
         "reject": {
-          "desc": "Reject friend request"
+          "desc": "Reject friend request",
+          "click": "[JA] Click",
+          "desc2": "[JA] Desc2",
+          "name": "[JA] Reject"
+        },
+        "no": {
+          "requests": {
+            "lore": "[JA] Item lore text",
+            "name": "[JA] Requests"
+          }
+        },
+        "title": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Title"
+        },
+        "request": {
+          "info": {
+            "hint": "[JA] Hint"
+          }
         }
       }
     },
@@ -757,32 +1065,48 @@
         "left_click": "退出 Click"
       },
       "add": {
-        "lore": "Lore",
+        "lore": "説明",
         "click": "Click",
         "name": "Name"
       },
       "requests": {
-        "lore": "Lore",
+        "lore": "説明",
         "click": "Click",
         "name": "Name"
       },
       "refresh": {
         "name": "Name",
-        "lore": "Lore",
+        "lore": "説明",
         "click": "Click"
       },
       "title": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "no_friends": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
+      },
+      "friend": {
+        "item": {
+          "left": {
+            "click": "[JA] Click"
+          },
+          "right": {
+            "click": "[JA] Click"
+          }
+        }
+      },
+      "no": {
+        "friends": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Friends"
+        }
       }
     },
     "friend_requests": {
       "no_requests": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "request_info": {
@@ -795,7 +1119,7 @@
       },
       "title": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "reject": {
         "click": "Click",
@@ -816,7 +1140,7 @@
       },
       "no_attachments": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "message": {
         "name": "Name"
@@ -824,21 +1148,21 @@
     },
     "mailbox": {
       "send": {
-        "lore": "Lore",
+        "lore": "説明",
         "click": "Click",
         "name": "Name"
       },
       "no_unread_mails": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "title": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "no_mails": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "delete_read": {
         "name": "Name",
@@ -848,11 +1172,56 @@
       },
       "refresh": {
         "click": "Click",
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "mail_item": {
         "click": "Click"
+      },
+      "delete": {
+        "read": {
+          "click": "[JA] Click",
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Read"
+        }
+      },
+      "mail": {
+        "item": {
+          "click": "[JA] Click"
+        }
+      },
+      "no": {
+        "mails": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Mails"
+        },
+        "unread": {
+          "mails": {
+            "name": "[JA] Mails"
+          }
+        }
+      }
+    },
+    "mail": {
+      "detail": {
+        "delete": {
+          "click": "[JA] Click",
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Delete"
+        },
+        "message": {
+          "name": "[JA] Message"
+        },
+        "no": {
+          "attachments": {
+            "lore": "[JA] Item lore text",
+            "name": "[JA] Attachments"
+          }
+        },
+        "reply": {
+          "click": "[JA] Click",
+          "name": "[JA] Reply"
+        }
       }
     }
   },
@@ -869,14 +1238,73 @@
       "lore": "Configure GUI settings",
       "name": "GUI Settings",
       "lore1": "Lore1",
-      "lore2": "Lore2"
+      "lore2": "Lore2",
+      "settings": {
+        "mute": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Mute"
+        },
+        "title": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Title"
+        },
+        "unmute": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Unmute"
+        },
+        "volume": {
+          "decrease": {
+            "lore": "[JA] Item lore text",
+            "name": "[JA] Decrease"
+          },
+          "increase": {
+            "lore": "[JA] Item lore text",
+            "name": "[JA] Increase"
+          },
+          "name": "[JA] Volume"
+        }
+      }
     },
     "ingame": {
       "lore": "Configure in-game settings",
       "name": "Game Settings",
       "lore1": "Lore1",
       "lore2": "Lore2",
-      "lore3": "Lore3"
+      "lore3": "Lore3",
+      "settings": {
+        "title": {
+          "name": "[JA] Title",
+          "lore": "[JA] Item lore text"
+        },
+        "damage": {
+          "display": {
+            "desc": "[JA] Description text",
+            "name": "[JA] Display"
+          }
+        },
+        "dialog": {
+          "speed": {
+            "name": "[JA] Speed",
+            "note": "[JA] Note"
+          }
+        },
+        "quest": {
+          "guide": {
+            "desc": "[JA] Description text",
+            "name": "[JA] Guide"
+          }
+        },
+        "speed": {
+          "decrease": {
+            "lore": "[JA] Item lore text",
+            "name": "[JA] Decrease"
+          },
+          "increase": {
+            "lore": "[JA] Item lore text",
+            "name": "[JA] Increase"
+          }
+        }
+      }
     },
     "main": {
       "title": {
@@ -889,7 +1317,37 @@
       "name": "Notifications",
       "lore3": "Lore3",
       "lore1": "Lore1",
-      "lore2": "Lore2"
+      "lore2": "Lore2",
+      "settings": {
+        "invite": {
+          "click": {
+            "hint": "[JA] Hint"
+          },
+          "desc": "[JA] Description text",
+          "mode": {
+            "cycle": "[JA] Cycle"
+          },
+          "name": "[JA] Invite",
+          "note": "[JA] Note"
+        },
+        "server": {
+          "desc": "[JA] Description text",
+          "example": {
+            "title": "[JA] Title"
+          },
+          "examples": "[JA] Examples",
+          "name": "[JA] Server"
+        },
+        "title": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Title"
+        },
+        "whisper": {
+          "desc": "[JA] Description text",
+          "name": "[JA] Whisper",
+          "note": "[JA] Note"
+        }
+      }
     },
     "social": {
       "lore": "Configure social settings",
@@ -902,7 +1360,12 @@
       "lore": "Configure system settings",
       "name": "System Settings",
       "lore1": "Lore1",
-      "lore2": "Lore2"
+      "lore2": "Lore2",
+      "settings": {
+        "confirmation": {
+          "example": "[JA] Example"
+        }
+      }
     },
     "system_settings": {
       "confirmation": {
@@ -942,13 +1405,34 @@
       },
       "title": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "whisper": {
         "desc2": "説明2",
         "note": "Note",
         "name": "Name",
         "desc1": "説明1"
+      }
+    },
+    "social-settings": {
+      "title": {
+        "name": "[JA] Title",
+        "lore": "[JA] Item lore text"
+      },
+      "friend-requests": {
+        "name": "[JA] Friend-Requests",
+        "desc": "[JA] Description text"
+      },
+      "guild-invites": {
+        "name": "[JA] Guild-Invites",
+        "desc": "[JA] Description text",
+        "note": "[JA] Note"
+      },
+      "whisper": {
+        "name": "[JA] Whisper",
+        "click-hint": "[JA] Click Hint",
+        "mode-cycle": "[JA] Mode Cycle",
+        "note": "[JA] Note"
       }
     }
   },
@@ -965,23 +1449,26 @@
     "detail": {
       "objectives": {
         "name": "Quest Objectives",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "rewards": {
         "name": "Quest Rewards",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "complete_button": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "info": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "abandon_button": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
+      },
+      "progress": {
+        "name": "[JA] Progress"
       }
     },
     "list": {
@@ -994,30 +1481,116 @@
         "name": "Completed Quests"
       },
       "available": {
-        "lore": "Lore"
+        "lore": "説明"
+      },
+      "view": {
+        "all": "[JA] All"
       }
     },
     "dialog": {
       "skip_button": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "text": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
+      },
+      "accept": {
+        "lore": "[JA] Item lore text",
+        "name": "[JA] Accept"
+      },
+      "close": {
+        "lore": "[JA] Item lore text",
+        "name": "[JA] Close"
+      },
+      "decline": {
+        "lore": "[JA] Item lore text",
+        "name": "[JA] Decline"
       }
     },
     "list_v2": {
       "active": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "completed": {
-        "lore": "Lore",
+        "lore": "説明",
         "name": "Name"
       },
       "view_all": {
-        "lore": "Lore"
+        "lore": "説明"
+      }
+    },
+    "active": {
+      "name": "[JA] Active",
+      "lore": "[JA] Item lore text"
+    },
+    "available": {
+      "name": "[JA] Available",
+      "lore": "[JA] Item lore text"
+    },
+    "completed": {
+      "name": "[JA] Completed",
+      "lore": "[JA] Item lore text"
+    },
+    "locked": {
+      "name": "[JA] Locked",
+      "lore": "[JA] Item lore text"
+    },
+    "failed": {
+      "name": "[JA] Failed",
+      "lore": "[JA] Item lore text"
+    },
+    "repeatable": {
+      "name": "[JA] Repeatable",
+      "lore": "[JA] Item lore text"
+    },
+    "reward": {
+      "already": {
+        "claimed": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Claimed"
+        }
+      },
+      "claim": {
+        "all": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] All"
+        }
+      },
+      "claimed": {
+        "name": "[JA] Claimed"
+      },
+      "confirm": {
+        "no": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] No"
+        },
+        "warning": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Warning",
+          "question": "[JA] Question"
+        },
+        "yes": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Yes"
+        }
+      },
+      "destroy": {
+        "lore": "[JA] Item lore text",
+        "name": "[JA] Destroy"
+      },
+      "no": {
+        "items": {
+          "lore": "[JA] Item lore text",
+          "name": "[JA] Items"
+        }
+      }
+    },
+    "selection": {
+      "click": {
+        "hint": "[JA] Hint"
       }
     }
   },
@@ -1055,7 +1628,26 @@
       "Keep playing to get ranked!"
     ],
     "no_rank_lore1": "No Rank Lore1",
-    "no_rank_lore2": "No Rank Lore2"
+    "no_rank_lore2": "No Rank Lore2",
+    "rank": {
+      "name": "[JA] Rank",
+      "lore": "[JA] Item lore text"
+    },
+    "type_selector": {
+      "name": "[JA] Type Selector",
+      "lore": "[JA] Item lore text"
+    },
+    "my": {
+      "rank": {
+        "name": "[JA] Rank"
+      }
+    },
+    "no": {
+      "rank": {
+        "lore": "[JA] Item lore text",
+        "name": "[JA] Rank"
+      }
+    }
   },
   "buttons": {
     "back": {
@@ -1187,76 +1779,74 @@
       "lore": "Maximum mana points"
     }
   },
-  "ectoplasm": "Ectoplasm",
-  "scute": "Scute",
   "items": {
     "settings": {
       "system": {
         "settings": {
           "confirmation": {
-            "example": "Confirmation Example"
+            "example": "[TRANSLATE] Example"
           }
         }
       },
       "gui": {
         "settings": {
           "mute": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           },
           "title": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           },
           "unmute": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           },
           "volume": {
             "decrease": {
-              "lore": "Lore",
-              "name": "Name"
+              "lore": "[TRANSLATE] Lore",
+              "name": "[TRANSLATE] Name"
             },
             "increase": {
-              "lore": "Lore",
-              "name": "Name"
+              "lore": "[TRANSLATE] Lore",
+              "name": "[TRANSLATE] Name"
             },
-            "name": "Name"
+            "name": "[TRANSLATE] Name"
           }
         }
       },
       "ingame": {
         "settings": {
           "title": {
-            "name": "Name",
-            "lore": "Lore"
+            "name": "[TRANSLATE] Name",
+            "lore": "[TRANSLATE] Lore"
           },
           "damage": {
             "display": {
-              "desc": "Desc",
-              "name": "Name"
+              "desc": "[TRANSLATE] Desc",
+              "name": "[TRANSLATE] Name"
             }
           },
           "dialog": {
             "speed": {
-              "name": "Name",
-              "note": "Note"
+              "name": "[TRANSLATE] Name",
+              "note": "[TRANSLATE] Note"
             }
           },
           "quest": {
             "guide": {
-              "desc": "Desc",
-              "name": "Name"
+              "desc": "[TRANSLATE] Desc",
+              "name": "[TRANSLATE] Name"
             }
           },
           "speed": {
             "decrease": {
-              "lore": "Lore",
-              "name": "Name"
+              "lore": "[TRANSLATE] Lore",
+              "name": "[TRANSLATE] Name"
             },
             "increase": {
-              "lore": "Lore",
-              "name": "Name"
+              "lore": "[TRANSLATE] Lore",
+              "name": "[TRANSLATE] Name"
             }
           }
         }
@@ -1265,31 +1855,31 @@
         "settings": {
           "invite": {
             "click": {
-              "hint": "Hint"
+              "hint": "[TRANSLATE] Hint"
             },
-            "desc": "Desc",
+            "desc": "[TRANSLATE] Desc",
             "mode": {
-              "cycle": "Cycle"
+              "cycle": "[TRANSLATE] Cycle"
             },
-            "name": "Name",
-            "note": "Note"
+            "name": "[TRANSLATE] Name",
+            "note": "[TRANSLATE] Note"
           },
           "server": {
-            "desc": "Desc",
+            "desc": "[TRANSLATE] Desc",
             "example": {
-              "title": "Title"
+              "title": "[TRANSLATE] Title"
             },
-            "examples": "Examples",
-            "name": "Name"
+            "examples": "[TRANSLATE] Examples",
+            "name": "[TRANSLATE] Name"
           },
           "title": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           },
           "whisper": {
-            "desc": "Desc",
-            "name": "Name",
-            "note": "Note"
+            "desc": "[TRANSLATE] Desc",
+            "name": "[TRANSLATE] Name",
+            "note": "[TRANSLATE] Note"
           }
         }
       },
@@ -1299,6 +1889,52 @@
           "example2": "[JA] Example2"
         }
       },
+      "social-settings": {
+        "title": {
+          "name": "[TRANSLATE] Name",
+          "lore": "[TRANSLATE] Lore"
+        },
+        "friend-requests": {
+          "name": "[TRANSLATE] Name",
+          "desc": "[TRANSLATE] Desc"
+        },
+        "guild-invites": {
+          "name": "[TRANSLATE] Name",
+          "desc": "[TRANSLATE] Desc",
+          "note": "[TRANSLATE] Note"
+        },
+        "whisper": {
+          "name": "[TRANSLATE] Name",
+          "click-hint": "[TRANSLATE] Click Hint",
+          "mode-cycle": "[TRANSLATE] Mode Cycle",
+          "note": "[TRANSLATE] Note"
+        }
+      },
+      "general": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "display": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "audio": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "controls": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "privacy": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "notifications": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "social": "Social",
       "social_settings": {
         "title": {
           "name": "[JA] Name",
@@ -1319,577 +1955,531 @@
           "mode_cycle": "[JA] Mode Cycle",
           "note": "[JA] Note"
         }
-      },
-      "social-settings": {
-        "whisper": {
-          "note": "Note",
-          "click-hint": "Click-Hint",
-          "name": "Name",
-          "mode-cycle": "Mode-Cycle"
-        },
-        "friend-requests": {
-          "name": "Name",
-          "desc": "説明"
-        },
-        "guild-invites": {
-          "name": "Name",
-          "desc": "説明",
-          "note": "Note"
-        },
-        "title": {
-          "name": "Name",
-          "lore": "Lore"
-        }
-      },
-      "audio": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "display": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "notifications": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "general": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "privacy": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "controls": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "social": "Social"
+      }
     },
     "talent": {
       "learned": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "available": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "locked": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "maxed": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       }
     },
     "combat_power": {
       "total": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "level": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "stats": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       }
     },
     "leaderboard": {
       "rank": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "type_selector": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "my": {
         "rank": {
-          "name": "Name"
+          "name": "[TRANSLATE] Name"
         }
       },
       "no": {
         "rank": {
-          "lore": "Lore",
-          "name": "Name"
+          "lore": "[TRANSLATE] Lore",
+          "name": "[TRANSLATE] Name"
         }
       }
     },
     "mail": {
       "new": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "read": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "attachment": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "claimed": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       }
     },
     "friend": {
       "online": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "offline": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "request": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "accept": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "deny": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       }
     },
     "quest": {
       "active": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "available": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "completed": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "locked": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "failed": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "repeatable": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "detail": {
         "progress": {
-          "name": "Name"
+          "name": "[TRANSLATE] Name"
         }
       },
       "dialog": {
         "accept": {
-          "lore": "Lore",
-          "name": "Name"
+          "lore": "[TRANSLATE] Lore",
+          "name": "[TRANSLATE] Name"
         },
         "close": {
-          "lore": "Lore",
-          "name": "Name"
+          "lore": "[TRANSLATE] Lore",
+          "name": "[TRANSLATE] Name"
         },
         "decline": {
-          "lore": "Lore",
-          "name": "Name"
+          "lore": "[TRANSLATE] Lore",
+          "name": "[TRANSLATE] Name"
         }
       },
       "list": {
         "view": {
-          "all": "All"
+          "all": "[TRANSLATE] All"
         }
       },
       "reward": {
         "already": {
           "claimed": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           }
         },
         "claim": {
           "all": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           }
         },
         "claimed": {
-          "name": "Name"
+          "name": "[TRANSLATE] Name"
         },
         "confirm": {
           "no": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           },
           "warning": {
-            "lore": "Lore",
-            "name": "Name",
-            "question": "Question"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name",
+            "question": "[TRANSLATE] Question"
           },
           "yes": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           }
         },
         "destroy": {
-          "lore": "Lore",
-          "name": "Name"
+          "lore": "[TRANSLATE] Lore",
+          "name": "[TRANSLATE] Name"
         },
         "no": {
           "items": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           }
         }
       },
       "selection": {
         "click": {
-          "hint": "Hint"
+          "hint": "[TRANSLATE] Hint"
         }
-      },
-      "event": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "daily": {
-        "lore": "Lore",
-        "name": "Name"
       },
       "main": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       },
       "side": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
+      },
+      "daily": {
+        "name": "Name",
+        "lore": "説明"
       },
       "weekly": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
+      },
+      "event": {
+        "name": "Name",
+        "lore": "説明"
       },
       "in_progress": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "説明"
       }
     },
     "profile": {
       "info": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "stats": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "talents": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "quests": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "achievements": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "collection": {
         "book": {
-          "name": "Name"
+          "name": "[TRANSLATE] Name"
         }
       },
       "game": {
         "stats": {
-          "name": "Name"
+          "name": "[TRANSLATE] Name"
         }
       },
       "level": {
         "info": {
-          "name": "Name"
+          "name": "[TRANSLATE] Name"
         }
       },
       "quest": {
         "info": {
           "click": {
-            "lore": "Lore"
+            "lore": "[TRANSLATE] Lore"
           },
-          "name": "Name"
+          "name": "[TRANSLATE] Name"
         }
       },
       "user": {
         "settings": {
-          "lore": "Lore",
-          "name": "Name"
+          "lore": "[TRANSLATE] Lore",
+          "name": "[TRANSLATE] Name"
         }
       }
     },
     "island_creation": {
       "title": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "name": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "color": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "biome": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "create_button": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "template_basic": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "template_skyblock": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "template_large": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       },
       "template_water": {
-        "name": "Name",
-        "lore": "Lore"
+        "name": "[TRANSLATE] Name",
+        "lore": "[TRANSLATE] Lore"
       }
     },
     "island": {
       "main": {
         "info": {
-          "line1": "Line1",
-          "line2": "Line2",
-          "line3": "Line3",
-          "line4": "Line4",
-          "line5": "Line5",
-          "line6": "Line6",
-          "line7": "Line7"
+          "line1": "[TRANSLATE] Line1",
+          "line2": "[TRANSLATE] Line2",
+          "line3": "[TRANSLATE] Line3",
+          "line4": "[TRANSLATE] Line4",
+          "line5": "[TRANSLATE] Line5",
+          "line6": "[TRANSLATE] Line6",
+          "line7": "[TRANSLATE] Line7"
         },
         "biome": {
-          "access_denied": "Access Denied",
-          "name": "Name",
-          "lore": "Lore",
+          "access_denied": "[TRANSLATE] Access Denied",
+          "name": "[TRANSLATE] Name",
+          "lore": "[TRANSLATE] Lore",
           "change": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           }
         },
         "home": {
-          "name": "Name",
-          "lore": "Lore"
+          "name": "[TRANSLATE] Name",
+          "lore": "[TRANSLATE] Lore"
         },
         "members": {
-          "name": "Name",
-          "lore": "Lore"
+          "name": "[TRANSLATE] Name",
+          "lore": "[TRANSLATE] Lore"
         },
         "settings": {
-          "name": "Name",
-          "lore": "Lore"
+          "name": "[TRANSLATE] Name",
+          "lore": "[TRANSLATE] Lore"
         },
         "upgrades": {
-          "name": "Name",
-          "lore": "Lore"
+          "name": "[TRANSLATE] Name",
+          "lore": "[TRANSLATE] Lore"
         },
         "daily": {
-          "name": "Name",
-          "lore": "Lore"
+          "name": "[TRANSLATE] Name",
+          "lore": "[TRANSLATE] Lore"
         },
         "log": {
-          "name": "Name",
-          "lore": "Lore"
+          "name": "[TRANSLATE] Name",
+          "lore": "[TRANSLATE] Lore"
         },
         "delete": {
-          "name": "Name",
-          "lore": "Lore"
+          "name": "[TRANSLATE] Name",
+          "lore": "[TRANSLATE] Lore"
         },
         "contribution": {
           "info": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           }
         },
         "island": {
           "settings": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           }
         },
         "upgrade": {
           "info": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           }
         }
       },
       "members": {
         "info": {
-          "name": "Name",
-          "lore": "Lore"
+          "name": "[TRANSLATE] Name",
+          "lore": "[TRANSLATE] Lore"
         },
-        "role": "Role",
-        "joined": "Joined",
-        "online": "オンライン",
-        "offline": "オフライン",
-        "left_click": "Left Click",
-        "right_click": "Right Click",
-        "shift_right_click": "Shift Right Click",
-        "permission_denied": "Permission Denied",
-        "promote_success": "Promote Success",
-        "demote_success": "Demote Success",
-        "kick_success": "Kick Success"
+        "role": "[TRANSLATE] Role",
+        "joined": "[TRANSLATE] Joined",
+        "online": "[TRANSLATE] Online",
+        "offline": "[TRANSLATE] Offline",
+        "left_click": "[TRANSLATE] Left Click",
+        "right_click": "[TRANSLATE] Right Click",
+        "shift_right_click": "[TRANSLATE] Shift Right Click",
+        "permission_denied": "[TRANSLATE] Permission Denied",
+        "promote_success": "[TRANSLATE] Promote Success",
+        "demote_success": "[TRANSLATE] Demote Success",
+        "kick_success": "[TRANSLATE] Kick Success"
       },
       "member_manage": {
         "info": {
-          "name": "Name",
-          "current_role": "Current Role"
+          "name": "[TRANSLATE] Name",
+          "current_role": "[TRANSLATE] Current Role"
         },
         "promote": {
-          "already_max": "Already Max"
+          "already_max": "[TRANSLATE] Already Max"
         },
         "action": {
-          "header": "Header",
-          "line": "Line"
+          "header": "[TRANSLATE] Header",
+          "line": "[TRANSLATE] Line"
         }
       },
       "member": {
         "invite": {
           "button": {
-            "lore": "Lore"
+            "lore": "[TRANSLATE] Lore"
           }
         },
         "manage": {
           "demote": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           },
           "kick": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           },
           "member": {
             "info": {
-              "lore": "Lore",
-              "name": "Name"
+              "lore": "[TRANSLATE] Lore",
+              "name": "[TRANSLATE] Name"
             }
           },
           "no": {
             "permission": {
-              "lore": "Lore",
-              "name": "Name"
+              "lore": "[TRANSLATE] Lore",
+              "name": "[TRANSLATE] Name"
             }
           },
           "permission": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           },
           "promote": {
-            "lore": "Lore",
+            "lore": "[TRANSLATE] Lore",
             "name": "Promote"
           },
           "to": {
             "member": {
-              "lore": "Lore",
-              "name": "Name"
+              "lore": "[TRANSLATE] Lore",
+              "name": "[TRANSLATE] Name"
             },
             "worker": {
-              "lore": "Lore",
-              "name": "Name"
+              "lore": "[TRANSLATE] Lore",
+              "name": "[TRANSLATE] Name"
             }
           }
         },
         "next": {
           "page": {
-            "lore": "Lore"
+            "lore": "[TRANSLATE] Lore"
           }
         },
         "previous": {
           "page": {
-            "lore": "Lore"
+            "lore": "[TRANSLATE] Lore"
           }
         }
       },
       "spawn": {
         "current": {
           "info": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           }
         },
         "no": {
           "permission": {
-            "lore": "No permission",
-            "name": "Locked"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           }
         },
         "set": {
           "main": {
-            "lore": "Set main spawn",
-            "name": "Main Spawn"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           },
           "visitor": {
-            "lore": "Set visitor spawn",
-            "name": "Visitor Spawn"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           }
         }
       },
       "personal": {
         "spawn": {
           "back": {
-            "lore": "Lore"
+            "lore": "[TRANSLATE] Lore"
           },
           "info": {
-            "lore": "Lore",
-            "name": "Name",
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name",
             "not": {
               "set": {
-                "lore": "Lore"
+                "lore": "[TRANSLATE] Lore"
               }
             }
           },
           "manage": {
-            "click": "Click",
-            "lore": "Lore",
-            "name": "Name",
-            "status": "Status"
+            "click": "[TRANSLATE] Click",
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name",
+            "status": "[TRANSLATE] Status"
           },
           "no": {
             "permission": {
-              "lore": "Lore",
-              "name": "Name"
+              "lore": "[TRANSLATE] Lore",
+              "name": "[TRANSLATE] Name"
             }
           },
           "remove": {
-            "click": "Click",
-            "lore": "Lore",
-            "name": "Name"
+            "click": "[TRANSLATE] Click",
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           },
           "set": {
-            "click": "Click",
-            "lore": "Lore",
-            "name": "Name"
+            "click": "[TRANSLATE] Click",
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           },
           "teleport": {
-            "click": "Click",
-            "lore": "Lore",
-            "name": "Name",
+            "click": "[TRANSLATE] Click",
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name",
             "no": {
-              "spawn": "Spawn"
+              "spawn": "[TRANSLATE] Spawn"
             }
           }
         }
@@ -1897,19 +2487,20 @@
       "settings": {
         "biome": {
           "change": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           }
         },
         "name": {
           "change": {
-            "lore": "Lore",
-            "name": "Name"
-          }
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
+          },
+          "_value": "[TRANSLATE] Name"
         },
         "public": {
           "toggle": {
-            "lore": "Lore",
+            "lore": "[TRANSLATE] Lore",
             "name": "Public Access"
           }
         }
@@ -1917,15 +2508,15 @@
       "visitor": {
         "no": {
           "visitors": {
-            "lore": "No visitors yet",
-            "name": "No Visitors"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           }
         }
       }
     },
     "shop": {
       "gold": {
-        "name": "Name"
+        "name": "[TRANSLATE] Name"
       }
     },
     "social": {
@@ -1933,27 +2524,27 @@
         "requests": {
           "no": {
             "requests": {
-              "lore": "Lore",
-              "name": "Name"
+              "lore": "[TRANSLATE] Lore",
+              "name": "[TRANSLATE] Name"
             }
           },
           "title": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           },
           "accept": {
-            "click": "Click",
-            "desc2": "Desc2",
-            "name": "Name"
+            "click": "[TRANSLATE] Click",
+            "desc2": "[TRANSLATE] Desc2",
+            "name": "[TRANSLATE] Name"
           },
           "reject": {
-            "click": "Click",
-            "desc2": "Desc2",
-            "name": "Name"
+            "click": "[TRANSLATE] Click",
+            "desc2": "[TRANSLATE] Desc2",
+            "name": "[TRANSLATE] Name"
           },
           "request": {
             "info": {
-              "hint": "Hint"
+              "hint": "[TRANSLATE] Hint"
             }
           }
         }
@@ -1962,99 +2553,267 @@
         "friend": {
           "item": {
             "left": {
-              "click": "Click"
+              "click": "[TRANSLATE] Click"
             },
             "right": {
-              "click": "Click"
+              "click": "[TRANSLATE] Click"
             }
           }
         },
         "no": {
           "friends": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           }
         },
         "add": {
           "click": "Click",
-          "lore": "Lore",
+          "lore": "説明",
           "name": "Name"
         },
         "refresh": {
           "click": "Click",
-          "lore": "Lore",
+          "lore": "説明",
           "name": "Name"
         },
         "requests": {
           "click": "Click",
-          "lore": "Lore",
+          "lore": "説明",
           "name": "Name"
         },
         "title": {
-          "lore": "Lore",
+          "lore": "説明",
           "name": "Name"
         }
       },
       "mail": {
         "detail": {
           "delete": {
-            "click": "Click",
-            "lore": "Lore",
-            "name": "Name"
+            "click": "[TRANSLATE] Click",
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           },
           "message": {
-            "name": "Name"
+            "name": "[TRANSLATE] Name"
           },
           "no": {
             "attachments": {
-              "lore": "Lore",
-              "name": "Name"
+              "lore": "[TRANSLATE] Lore",
+              "name": "[TRANSLATE] Name"
             }
           },
           "reply": {
-            "click": "Click",
-            "name": "Name"
+            "click": "[TRANSLATE] Click",
+            "name": "[TRANSLATE] Name"
           }
         }
       },
       "mailbox": {
         "delete": {
           "read": {
-            "click": "Click",
-            "lore": "Lore",
-            "name": "Name"
+            "click": "[TRANSLATE] Click",
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           }
         },
         "mail": {
           "item": {
-            "click": "Click"
+            "click": "[TRANSLATE] Click"
           }
         },
         "no": {
           "mails": {
-            "lore": "Lore",
-            "name": "Name"
+            "lore": "[TRANSLATE] Lore",
+            "name": "[TRANSLATE] Name"
           },
           "unread": {
             "mails": {
-              "name": "Name"
+              "name": "[TRANSLATE] Name"
             }
           }
         },
         "refresh": {
           "click": "Click",
-          "lore": "Lore",
+          "lore": "説明",
           "name": "Name"
         },
         "send": {
           "click": "Click",
-          "lore": "Lore",
+          "lore": "説明",
           "name": "Name"
         },
         "title": {
-          "lore": "Lore",
+          "lore": "説明",
           "name": "Name"
         }
+      }
+    },
+    "guild": {
+      "info": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "members": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "bank": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "settings": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "ranks": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "permissions": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "war": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "alliance": {
+        "name": "Name",
+        "lore": "説明"
+      }
+    },
+    "party": {
+      "info": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "members": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "settings": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "invite": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "leave": {
+        "name": "Name",
+        "lore": "説明"
+      }
+    },
+    "stats": {
+      "strength": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "defense": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "speed": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "intelligence": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "luck": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "critical_chance": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "critical_damage": {
+        "name": "Name",
+        "lore": "説明"
+      }
+    },
+    "job": {
+      "warrior": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "archer": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "mage": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "rogue": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "priest": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "paladin": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "necromancer": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "druid": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "summoner": {
+        "name": "Name",
+        "lore": "説明"
+      }
+    },
+    "skill": {
+      "active": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "passive": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "ultimate": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "cooldown": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "ready": {
+        "name": "Name",
+        "lore": "説明"
+      }
+    },
+    "achievement": {
+      "locked": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "unlocked": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "progress": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "completed": {
+        "name": "Name",
+        "lore": "説明"
+      },
+      "claimed": {
+        "name": "Name",
+        "lore": "説明"
       }
     },
     "placeholder": {
@@ -2158,210 +2917,102 @@
       "56": "56",
       "42": "42",
       "69": "69"
-    },
-    "stats": {
-      "luck": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "critical_damage": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "strength": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "speed": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "critical_chance": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "intelligence": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "defense": {
-        "name": "Name",
-        "lore": "Lore"
-      }
-    },
-    "guild": {
-      "ranks": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "war": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "permissions": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "members": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "info": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "bank": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "settings": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "alliance": {
-        "name": "Name",
-        "lore": "Lore"
-      }
-    },
-    "job": {
-      "warrior": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "mage": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "rogue": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "priest": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "paladin": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "druid": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "necromancer": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "archer": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "summoner": {
-        "name": "Name",
-        "lore": "Lore"
-      }
-    },
-    "achievement": {
-      "unlocked": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "claimed": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "locked": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "progress": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "completed": {
-        "lore": "Lore",
-        "name": "Name"
-      }
-    },
-    "party": {
-      "info": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "settings": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "invite": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "leave": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "members": {
-        "lore": "Lore",
-        "name": "Name"
-      }
-    },
-    "skill": {
-      "ready": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "passive": {
-        "name": "Name",
-        "lore": "Lore"
-      },
-      "ultimate": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "cooldown": {
-        "lore": "Lore",
-        "name": "Name"
-      },
-      "active": {
-        "lore": "Lore",
-        "name": "Name"
-      }
     }
   },
   "talent": {
     "learned": {
-      "*": "All learned talents"
+      "*": "All learned talents",
+      "name": "[JA] Learned",
+      "lore": "[JA] Item lore text"
     },
     "available": {
-      "*": "All available talents"
+      "*": "All available talents",
+      "name": "[JA] Available",
+      "lore": "[JA] Item lore text"
+    },
+    "locked": {
+      "name": "[JA] Locked",
+      "lore": "[JA] Item lore text"
+    },
+    "maxed": {
+      "name": "[JA] Maxed",
+      "lore": "[JA] Item lore text"
     }
   },
   "combat_power": {
-    "*": "All combat power items"
+    "*": "All combat power items",
+    "total": {
+      "name": "[JA] Total",
+      "lore": "[JA] Item lore text"
+    },
+    "level": {
+      "name": "[JA] Level",
+      "lore": "[JA] Item lore text"
+    },
+    "stats": {
+      "name": "[JA] Stats",
+      "lore": "[JA] Item lore text"
+    }
   },
   "mail": {
-    "*": "All mail items"
+    "*": "All mail items",
+    "new": {
+      "name": "[JA] New",
+      "lore": "[JA] Item lore text"
+    },
+    "read": {
+      "name": "[JA] Read",
+      "lore": "[JA] Item lore text"
+    },
+    "attachment": {
+      "name": "[JA] Attachment",
+      "lore": "[JA] Item lore text"
+    },
+    "claimed": {
+      "name": "[JA] Claimed",
+      "lore": "[JA] Item lore text"
+    }
   },
   "friend": {
-    "*": "All friend items"
+    "*": "All friend items",
+    "online": {
+      "name": "[JA] Online",
+      "lore": "[JA] Item lore text"
+    },
+    "offline": {
+      "name": "[JA] Offline",
+      "lore": "[JA] Item lore text"
+    },
+    "request": {
+      "name": "[JA] Request",
+      "lore": "[JA] Item lore text"
+    },
+    "accept": {
+      "name": "[JA] Accept",
+      "lore": "[JA] Item lore text"
+    },
+    "deny": {
+      "name": "[JA] Deny",
+      "lore": "[JA] Item lore text"
+    }
   },
   "general": {
     "coming_soon": {
-      "lore": "Lore"
+      "lore": "説明"
     }
   },
   "member": {
     "previous_page": {
-      "lore": "Lore",
+      "lore": "説明",
       "name": "Name"
     },
     "next_page": {
       "name": "Name",
-      "lore": "Lore"
+      "lore": "説明"
     },
     "invite_button": {
       "name": "Name",
-      "lore": "Lore"
+      "lore": "説明"
     }
   },
   "leaderboard_no_rank_lore1": "Leaderboard No Rank Lore1",
@@ -2369,306 +3020,54 @@
   "personal_spawn": {
     "info": {
       "name": "Name",
-      "lore": "Lore"
+      "lore": "説明"
     },
     "info_not_set": {
-      "lore": "Lore",
+      "lore": "説明",
       "name": "Name"
     }
   },
-  "settings.system.settings.confirmation.example": "[JA] Example",
-  "settings.social-settings.title.name": "[JA] Title",
-  "settings.social-settings.title.lore": "[JA] Item lore text",
-  "settings.social-settings.friend-requests.name": "[JA] Friend-Requests",
-  "settings.social-settings.friend-requests.desc": "[JA] Description text",
-  "settings.social-settings.guild-invites.name": "[JA] Guild-Invites",
-  "settings.social-settings.guild-invites.desc": "[JA] Description text",
-  "settings.social-settings.guild-invites.note": "[JA] Note",
-  "settings.social-settings.whisper.name": "[JA] Whisper",
-  "settings.social-settings.whisper.click-hint": "[JA] Click Hint",
-  "settings.social-settings.whisper.mode-cycle": "[JA] Mode Cycle",
-  "settings.social-settings.whisper.note": "[JA] Note",
-  "island.settings.name": "[JA] Settings",
-  "talent.learned.name": "[JA] Learned",
-  "talent.learned.lore": "[JA] Item lore text",
-  "talent.available.name": "[JA] Available",
-  "talent.available.lore": "[JA] Item lore text",
-  "talent.locked.name": "[JA] Locked",
-  "talent.locked.lore": "[JA] Item lore text",
-  "talent.maxed.name": "[JA] Maxed",
-  "talent.maxed.lore": "[JA] Item lore text",
-  "combat_power.total.name": "[JA] Total",
-  "combat_power.total.lore": "[JA] Item lore text",
-  "combat_power.level.name": "[JA] Level",
-  "combat_power.level.lore": "[JA] Item lore text",
-  "combat_power.stats.name": "[JA] Stats",
-  "combat_power.stats.lore": "[JA] Item lore text",
-  "leaderboard.rank.name": "[JA] Rank",
-  "leaderboard.rank.lore": "[JA] Item lore text",
-  "leaderboard.type_selector.name": "[JA] Type Selector",
-  "leaderboard.type_selector.lore": "[JA] Item lore text",
-  "mail.new.name": "[JA] New",
-  "mail.new.lore": "[JA] Item lore text",
-  "mail.read.name": "[JA] Read",
-  "mail.read.lore": "[JA] Item lore text",
-  "mail.attachment.name": "[JA] Attachment",
-  "mail.attachment.lore": "[JA] Item lore text",
-  "mail.claimed.name": "[JA] Claimed",
-  "mail.claimed.lore": "[JA] Item lore text",
-  "friend.online.name": "[JA] Online",
-  "friend.online.lore": "[JA] Item lore text",
-  "friend.offline.name": "[JA] Offline",
-  "friend.offline.lore": "[JA] Item lore text",
-  "friend.request.name": "[JA] Request",
-  "friend.request.lore": "[JA] Item lore text",
-  "friend.accept.name": "[JA] Accept",
-  "friend.accept.lore": "[JA] Item lore text",
-  "friend.deny.name": "[JA] Deny",
-  "friend.deny.lore": "[JA] Item lore text",
-  "quest.active.name": "[JA] Active",
-  "quest.active.lore": "[JA] Item lore text",
-  "quest.available.name": "[JA] Available",
-  "quest.available.lore": "[JA] Item lore text",
-  "quest.completed.name": "[JA] Completed",
-  "quest.completed.lore": "[JA] Item lore text",
-  "quest.locked.name": "[JA] Locked",
-  "quest.locked.lore": "[JA] Item lore text",
-  "quest.failed.name": "[JA] Failed",
-  "quest.failed.lore": "[JA] Item lore text",
-  "quest.repeatable.name": "[JA] Repeatable",
-  "quest.repeatable.lore": "[JA] Item lore text",
-  "profile.info.name": "[JA] Info",
-  "profile.info.lore": "[JA] Item lore text",
-  "profile.stats.name": "[JA] Stats",
-  "profile.stats.lore": "[JA] Item lore text",
-  "profile.talents.name": "[JA] Talents",
-  "profile.talents.lore": "[JA] Item lore text",
-  "profile.quests.name": "[JA] Quests",
-  "profile.quests.lore": "[JA] Item lore text",
-  "profile.achievements.name": "[JA] Achievements",
-  "profile.achievements.lore": "[JA] Item lore text",
-  "island_creation.title.name": "[JA] Title",
-  "island_creation.title.lore": "[JA] Item lore text",
-  "island_creation.name.name": "[JA] Name",
-  "island_creation.name.lore": "[JA] Item lore text",
-  "island_creation.color.name": "[JA] Color",
-  "island_creation.color.lore": "[JA] Item lore text",
-  "island_creation.biome.name": "[JA] Biome",
-  "island_creation.biome.lore": "[JA] Item lore text",
-  "island_creation.create_button.name": "[JA] Create Button",
-  "island_creation.create_button.lore": "[JA] Item lore text",
-  "island_creation.template_basic.name": "[JA] Template Basic",
-  "island_creation.template_skyblock.name": "[JA] Template Skyblock",
-  "island_creation.template_large.name": "[JA] Template Large",
-  "island_creation.template_water.name": "[JA] Template Water",
-  "island_creation.template_water.lore": "[JA] Item lore text",
-  "island_creation.template_basic.lore": "[JA] Item lore text",
-  "island_creation.template_skyblock.lore": "[JA] Item lore text",
-  "island_creation.template_large.lore": "[JA] Item lore text",
-  "island.main.info.line1": "[JA] Line1",
-  "island.main.info.line2": "[JA] Line2",
-  "island.main.info.line3": "[JA] Line3",
-  "island.main.info.line4": "[JA] Line4",
-  "island.main.info.line5": "[JA] Line5",
-  "island.main.info.line6": "[JA] Line6",
-  "island.main.info.line7": "[JA] Line7",
-  "island.main.biome.access_denied": "[JA] Access Denied",
-  "island.main.home.name": "[JA] Home",
-  "island.main.home.lore": "[JA] Item lore text",
-  "island.main.biome.name": "[JA] Biome",
-  "island.main.biome.lore": "[JA] Item lore text",
-  "island.main.members.name": "[JA] Members",
-  "island.main.members.lore": "[JA] Item lore text",
-  "island.main.settings.name": "[JA] Settings",
-  "island.main.settings.lore": "[JA] Item lore text",
-  "island.main.upgrades.name": "[JA] Upgrades",
-  "island.main.upgrades.lore": "[JA] Item lore text",
-  "island.main.daily.name": "[JA] Daily",
-  "island.main.daily.lore": "[JA] Item lore text",
-  "island.main.log.name": "[JA] Log",
-  "island.main.log.lore": "[JA] Item lore text",
-  "island.main.delete.name": "[JA] Delete",
-  "island.main.delete.lore": "[JA] Item lore text",
-  "island.members.info.name": "[JA] Info",
-  "island.members.info.lore": "[JA] Item lore text",
-  "island.members.role": "[JA] Role",
-  "island.members.joined": "[JA] Joined",
-  "island.members.online": "[JA] Online",
-  "island.members.offline": "[JA] Offline",
-  "island.members.left_click": "[JA] Left Click",
-  "island.members.right_click": "[JA] Right Click",
-  "island.members.shift_right_click": "[JA] Shift Right Click",
-  "island.members.permission_denied": "[JA] Permission Denied",
-  "island.members.promote_success": "[JA] Promote Success",
-  "island.members.demote_success": "[JA] Demote Success",
-  "island.members.kick_success": "[JA] Kick Success",
-  "island.member_manage.info.name": "[JA] Info",
-  "island.member_manage.info.current_role": "[JA] Current Role",
-  "island.member_manage.promote.already_max": "[JA] Already Max",
-  "island.member_manage.action.header": "[JA] Header",
-  "island.member_manage.action.line": "[JA] Line",
-  "island.main.biome.change.lore": "[JA] Item lore text",
-  "island.main.biome.change.name": "[JA] Change",
-  "island.main.contribution.info.lore": "[JA] Item lore text",
-  "island.main.contribution.info.name": "[JA] Info",
-  "island.main.island.settings.lore": "[JA] Item lore text",
-  "island.main.island.settings.name": "[JA] Settings",
-  "island.main.upgrade.info.lore": "[JA] Item lore text",
-  "island.main.upgrade.info.name": "[JA] Info",
-  "island.member.invite.button.lore": "[JA] Item lore text",
-  "island.member.manage.demote.lore": "[JA] Item lore text",
-  "island.member.manage.demote.name": "[JA] Demote",
-  "island.member.manage.kick.lore": "[JA] Item lore text",
-  "island.member.manage.kick.name": "[JA] Kick",
-  "island.member.manage.member.info.lore": "[JA] Item lore text",
-  "island.member.manage.member.info.name": "[JA] Info",
-  "island.member.manage.no.permission.lore": "[JA] Item lore text",
-  "island.member.manage.no.permission.name": "[JA] Permission",
-  "island.member.manage.permission.lore": "[JA] Item lore text",
-  "island.member.manage.permission.name": "[JA] Permission",
-  "island.member.manage.promote.lore": "[JA] Item lore text",
-  "island.member.manage.to.member.lore": "[JA] Item lore text",
-  "island.member.manage.to.member.name": "[JA] Member",
-  "island.member.manage.to.worker.lore": "[JA] Item lore text",
-  "island.member.manage.to.worker.name": "[JA] Worker",
-  "island.member.next.page.lore": "[JA] Item lore text",
-  "island.member.previous.page.lore": "[JA] Item lore text",
-  "island.spawn.current.info.lore": "[JA] Item lore text",
-  "island.spawn.current.info.name": "[JA] Info",
-  "island.personal.spawn.back.lore": "[JA] Item lore text",
-  "island.personal.spawn.info.lore": "[JA] Item lore text",
-  "island.personal.spawn.info.name": "[JA] Info",
-  "island.personal.spawn.info.not.set.lore": "[JA] Item lore text",
-  "island.personal.spawn.manage.click": "[JA] Click",
-  "island.personal.spawn.manage.lore": "[JA] Item lore text",
-  "island.personal.spawn.manage.name": "[JA] Manage",
-  "island.personal.spawn.manage.status": "[JA] Status",
-  "island.personal.spawn.no.permission.lore": "[JA] Item lore text",
-  "island.personal.spawn.no.permission.name": "[JA] Permission",
-  "island.personal.spawn.remove.click": "[JA] Click",
-  "island.personal.spawn.remove.lore": "[JA] Item lore text",
-  "island.personal.spawn.remove.name": "[JA] Remove",
-  "island.personal.spawn.set.click": "[JA] Click",
-  "island.personal.spawn.set.lore": "[JA] Item lore text",
-  "island.personal.spawn.set.name": "[JA] Set",
-  "island.personal.spawn.teleport.click": "[JA] Click",
-  "island.personal.spawn.teleport.lore": "[JA] Item lore text",
-  "island.personal.spawn.teleport.name": "[JA] Teleport",
-  "island.personal.spawn.teleport.no.spawn": "[JA] Spawn",
-  "island.settings.biome.change.lore": "[JA] Item lore text",
-  "island.settings.biome.change.name": "[JA] Change",
-  "island.settings.name.change.lore": "[JA] Item lore text",
-  "island.settings.name.change.name": "[JA] Change",
-  "island.settings.public.toggle.lore": "[JA] Item lore text",
-  "island.spawn.no.permission.lore": "[JA] Item lore text",
-  "island.spawn.no.permission.name": "[JA] Permission",
-  "island.spawn.set.main.lore": "[JA] Item lore text",
-  "island.spawn.set.main.name": "[JA] Main",
-  "island.spawn.set.visitor.lore": "[JA] Item lore text",
-  "island.spawn.set.visitor.name": "[JA] Visitor",
-  "island.visitor.no.visitors.lore": "[JA] Item lore text",
-  "island.visitor.no.visitors.name": "[JA] Visitors",
-  "profile.collection.book.name": "[JA] Book",
-  "profile.game.stats.name": "[JA] Stats",
-  "profile.level.info.name": "[JA] Info",
-  "profile.quest.info.click.lore": "[JA] Item lore text",
-  "profile.quest.info.name": "[JA] Info",
-  "profile.user.settings.lore": "[JA] Item lore text",
-  "profile.user.settings.name": "[JA] Settings",
-  "quest.detail.progress.name": "[JA] Progress",
-  "quest.dialog.accept.lore": "[JA] Item lore text",
-  "quest.dialog.accept.name": "[JA] Accept",
-  "quest.dialog.close.lore": "[JA] Item lore text",
-  "quest.dialog.close.name": "[JA] Close",
-  "quest.dialog.decline.lore": "[JA] Item lore text",
-  "quest.dialog.decline.name": "[JA] Decline",
-  "quest.list.view.all": "[JA] All",
-  "quest.reward.already.claimed.lore": "[JA] Item lore text",
-  "quest.reward.already.claimed.name": "[JA] Claimed",
-  "quest.reward.claim.all.lore": "[JA] Item lore text",
-  "quest.reward.claim.all.name": "[JA] All",
-  "quest.reward.claimed.name": "[JA] Claimed",
-  "quest.reward.confirm.no.lore": "[JA] Item lore text",
-  "quest.reward.confirm.no.name": "[JA] No",
-  "quest.reward.confirm.warning.lore": "[JA] Item lore text",
-  "quest.reward.confirm.warning.name": "[JA] Warning",
-  "quest.reward.confirm.warning.question": "[JA] Question",
-  "quest.reward.confirm.yes.lore": "[JA] Item lore text",
-  "quest.reward.confirm.yes.name": "[JA] Yes",
-  "quest.reward.destroy.lore": "[JA] Item lore text",
-  "quest.reward.destroy.name": "[JA] Destroy",
-  "quest.reward.no.items.lore": "[JA] Item lore text",
-  "quest.reward.no.items.name": "[JA] Items",
-  "quest.selection.click.hint": "[JA] Hint",
-  "settings.gui.settings.mute.lore": "[JA] Item lore text",
-  "settings.gui.settings.mute.name": "[JA] Mute",
-  "settings.gui.settings.title.lore": "[JA] Item lore text",
-  "settings.gui.settings.title.name": "[JA] Title",
-  "settings.gui.settings.unmute.lore": "[JA] Item lore text",
-  "settings.gui.settings.unmute.name": "[JA] Unmute",
-  "settings.gui.settings.volume.decrease.lore": "[JA] Item lore text",
-  "settings.gui.settings.volume.decrease.name": "[JA] Decrease",
-  "settings.gui.settings.volume.increase.lore": "[JA] Item lore text",
-  "settings.gui.settings.volume.increase.name": "[JA] Increase",
-  "settings.gui.settings.volume.name": "[JA] Volume",
-  "settings.ingame.settings.title.name": "[JA] Title",
-  "settings.ingame.settings.damage.display.desc": "[JA] Description text",
-  "settings.ingame.settings.damage.display.name": "[JA] Display",
-  "settings.ingame.settings.dialog.speed.name": "[JA] Speed",
-  "settings.ingame.settings.dialog.speed.note": "[JA] Note",
-  "settings.ingame.settings.quest.guide.desc": "[JA] Description text",
-  "settings.ingame.settings.quest.guide.name": "[JA] Guide",
-  "settings.ingame.settings.speed.decrease.lore": "[JA] Item lore text",
-  "settings.ingame.settings.speed.decrease.name": "[JA] Decrease",
-  "settings.ingame.settings.speed.increase.lore": "[JA] Item lore text",
-  "settings.ingame.settings.speed.increase.name": "[JA] Increase",
-  "settings.ingame.settings.title.lore": "[JA] Item lore text",
-  "settings.notification.settings.invite.click.hint": "[JA] Hint",
-  "settings.notification.settings.invite.desc": "[JA] Description text",
-  "settings.notification.settings.invite.mode.cycle": "[JA] Cycle",
-  "settings.notification.settings.invite.name": "[JA] Invite",
-  "settings.notification.settings.invite.note": "[JA] Note",
-  "settings.notification.settings.server.desc": "[JA] Description text",
-  "settings.notification.settings.server.example.title": "[JA] Title",
-  "settings.notification.settings.server.examples": "[JA] Examples",
-  "settings.notification.settings.server.name": "[JA] Server",
-  "settings.notification.settings.title.lore": "[JA] Item lore text",
-  "settings.notification.settings.title.name": "[JA] Title",
-  "settings.notification.settings.whisper.desc": "[JA] Description text",
-  "settings.notification.settings.whisper.name": "[JA] Whisper",
-  "settings.notification.settings.whisper.note": "[JA] Note",
-  "shop.gold.name": "[JA] Gold",
-  "social.friend.requests.no.requests.lore": "[JA] Item lore text",
-  "social.friend.requests.no.requests.name": "[JA] Requests",
-  "social.friend.requests.title.lore": "[JA] Item lore text",
-  "social.friend.requests.title.name": "[JA] Title",
-  "social.friends.friend.item.left.click": "[JA] Click",
-  "social.friends.friend.item.right.click": "[JA] Click",
-  "social.friends.no.friends.lore": "[JA] Item lore text",
-  "social.friends.no.friends.name": "[JA] Friends",
-  "leaderboard.my.rank.name": "[JA] Rank",
-  "leaderboard.no.rank.lore": "[JA] Item lore text",
-  "leaderboard.no.rank.name": "[JA] Rank",
-  "social.friend.requests.accept.click": "[JA] Click",
-  "social.friend.requests.accept.desc2": "[JA] Desc2",
-  "social.friend.requests.accept.name": "[JA] Accept",
-  "social.friend.requests.reject.click": "[JA] Click",
-  "social.friend.requests.reject.desc2": "[JA] Desc2",
-  "social.friend.requests.reject.name": "[JA] Reject",
-  "social.friend.requests.request.info.hint": "[JA] Hint",
-  "social.mail.detail.delete.click": "[JA] Click",
-  "social.mail.detail.delete.lore": "[JA] Item lore text",
-  "social.mail.detail.delete.name": "[JA] Delete",
-  "social.mail.detail.message.name": "[JA] Message",
-  "social.mail.detail.no.attachments.lore": "[JA] Item lore text",
-  "social.mail.detail.no.attachments.name": "[JA] Attachments",
-  "social.mail.detail.reply.click": "[JA] Click",
-  "social.mail.detail.reply.name": "[JA] Reply",
-  "social.mailbox.delete.read.click": "[JA] Click",
-  "social.mailbox.delete.read.lore": "[JA] Item lore text",
-  "social.mailbox.delete.read.name": "[JA] Read",
-  "social.mailbox.mail.item.click": "[JA] Click",
-  "social.mailbox.no.mails.lore": "[JA] Item lore text",
-  "social.mailbox.no.mails.name": "[JA] Mails",
-  "social.mailbox.no.unread.mails.name": "[JA] Mails"
+  "island_creation": {
+    "title": {
+      "name": "[JA] Title",
+      "lore": "[JA] Item lore text"
+    },
+    "name": {
+      "name": "[JA] Name",
+      "lore": "[JA] Item lore text"
+    },
+    "color": {
+      "name": "[JA] Color",
+      "lore": "[JA] Item lore text"
+    },
+    "biome": {
+      "name": "[JA] Biome",
+      "lore": "[JA] Item lore text"
+    },
+    "create_button": {
+      "name": "[JA] Create Button",
+      "lore": "[JA] Item lore text"
+    },
+    "template_basic": {
+      "name": "[JA] Template Basic",
+      "lore": "[JA] Item lore text"
+    },
+    "template_skyblock": {
+      "name": "[JA] Template Skyblock",
+      "lore": "[JA] Item lore text"
+    },
+    "template_large": {
+      "name": "[JA] Template Large",
+      "lore": "[JA] Item lore text"
+    },
+    "template_water": {
+      "name": "[JA] Template Water",
+      "lore": "[JA] Item lore text"
+    }
+  },
+  "shop": {
+    "gold": {
+      "name": "[JA] Gold"
+    }
+  }
 }

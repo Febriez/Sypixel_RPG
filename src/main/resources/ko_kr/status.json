@@ -28,9 +28,9 @@
   "public": "공개",
   "private": "비공개",
   "status": {
-    "new_mail": "새 메일",
-    "read": "읽음"
+    "new_mail": "New Mail",
+    "read": "Read"
   },
-  "new_mail": "[KO] New Mail",
-  "read": "[KO] Read"
+  "new_mail": "New Mail",
+  "read": "Read"
 }

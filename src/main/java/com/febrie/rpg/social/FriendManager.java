@@ -1,4 +1,5 @@
 package com.febrie.rpg.social;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.cache.UnifiedCacheManager;

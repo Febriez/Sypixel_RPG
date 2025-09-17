@@ -1,9 +1,4 @@
 {
-  "spawn_set": "[KO] Spawn Set",
-  "spawn_removed": "[KO] Spawn Removed",
-  "weather_changed": "[KO] Weather Changed",
-  "time_changed": "[KO] Time Changed",
-  "difficulty_changed": "[KO] Difficulty Changed",
   "spawn": "Spawn",
   "hub": "Hub",
   "lobby": "Lobby",
@@ -18,5 +13,27 @@
   "fortress": "Fortress",
   "castle": "Castle",
   "temple": "Temple",
-  "ruins": "Ruins"
+  "ruins": "Ruins",
+  "spawn_set": "Spawn Set",
+  "spawn_removed": "Spawn 제거d",
+  "weather_changed": "Weather Changed",
+  "time_changed": "Time Changed",
+  "difficulty_changed": "Difficulty Changed",
+  "world": {
+    "spawn": "Spawn",
+    "hub": "Hub",
+    "lobby": "Lobby",
+    "arena": "Arena",
+    "dungeon": "Dungeon",
+    "raid": "Raid",
+    "battleground": "Battleground",
+    "wilderness": "Wilderness",
+    "city": "City",
+    "village": "Village",
+    "outpost": "Outpost",
+    "fortress": "Fortress",
+    "castle": "시전le",
+    "temple": "Temple",
+    "ruins": "Ruins"
+  }
 }

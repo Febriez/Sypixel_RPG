@@ -36,13 +36,13 @@
   "pvp_enabled": "PvP 활성화",
   "pvp_disabled": "PvP 비활성화",
   "combat": {
-    "assist": "Assist",
-    "damage_dealt": "Damage Dealt",
-    "damage_taken": "Damage Taken",
-    "kill": "Kill"
+    "damage_dealt": "가한 피해",
+    "damage_taken": "받은 피해",
+    "kill": "킬",
+    "assist": "어시스트"
   },
-  "damage_dealt": "[KO] Damage Dealt",
-  "damage_taken": "[KO] Damage Taken",
-  "kill": "[KO] Kill",
-  "assist": "[KO] Assist"
+  "damage_dealt": "가한 피해",
+  "damage_taken": "받은 피해",
+  "kill": "킬",
+  "assist": "어시스트"
 }

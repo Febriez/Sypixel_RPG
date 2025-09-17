@@ -9,7 +9,6 @@ import com.febrie.rpg.quest.objective.QuestObjective;
 import com.febrie.rpg.quest.objective.impl.*;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 
 import net.kyori.adventure.text.Component;

@@ -10,9 +10,7 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.lang.quest.side.LibrarianMysteryLangKey;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -66,24 +64,24 @@ public class LibrarianMysteryQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(LibrarianMysteryLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.librarian.mystery.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(LibrarianMysteryLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.librarian.mystery.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_head_librarian" -> LangManager.text(LibrarianMysteryLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_TALK_HEAD_LIBRARIAN, who);
-            case "visit_ancient_archives" -> LangManager.text(LibrarianMysteryLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_VISIT_ANCIENT_ARCHIVES, who);
-            case "enchanted_book_collect" -> LangManager.text(LibrarianMysteryLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_ENCHANTED_BOOK_COLLECT, who);
-            case "compass_collect" -> LangManager.text(LibrarianMysteryLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_COMPASS_COLLECT, who);
-            case "visit_secret_chamber" -> LangManager.text(LibrarianMysteryLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_VISIT_SECRET_CHAMBER, who);
-            case "written_book_collect" -> LangManager.text(LibrarianMysteryLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_WRITTEN_BOOK_COLLECT, who);
-            case "return_head_librarian" -> LangManager.text(LibrarianMysteryLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_OBJECTIVES_RETURN_HEAD_LIBRARIAN, who);
+            case "talk_head_librarian" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.librarian.mystery.objectives.talk.head.librarian"), who);
+            case "visit_ancient_archives" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.librarian.mystery.objectives.visit.ancient.archives"), who);
+            case "enchanted_book_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.librarian.mystery.objectives.enchanted.book.collect"), who);
+            case "compass_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.librarian.mystery.objectives.compass.collect"), who);
+            case "visit_secret_chamber" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.librarian.mystery.objectives.visit.secret.chamber"), who);
+            case "written_book_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.librarian.mystery.objectives.written.book.collect"), who);
+            case "return_head_librarian" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.librarian.mystery.objectives.return.head.librarian"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -95,7 +93,7 @@ public class LibrarianMysteryQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(LibrarianMysteryLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.librarian.mystery.dialogs"), who);
     }
     
     @Override
@@ -105,16 +103,16 @@ public class LibrarianMysteryQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(LibrarianMysteryLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.librarian.mystery.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(LibrarianMysteryLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.librarian.mystery.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(LibrarianMysteryLangKey.QUEST_SIDE_LIBRARIAN_MYSTERY_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.librarian.mystery.decline"), who);
     }
 }

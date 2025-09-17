@@ -8,15 +8,17 @@
   "not_found": "Mail Not Found",
   "no_attachments": "No Attachments",
   "inventory_full": "Inventory Full",
-  "mail.sent": "Sent",
-  "mail.received": "Received",
-  "mail.read": "Read",
-  "mail.deleted": "Deleted",
-  "mail.attachment_claimed": "Attachment Claimed",
-  "mail.box_full": "Box Full",
-  "mail.not_found": "Not Found",
-  "mail.no_attachments": "No Attachments",
-  "mail.inventory_full": "Inventory Full",
+  "mail": {
+    "sent": "Sent",
+    "received": "Received",
+    "read": "Read",
+    "deleted": "Deleted",
+    "attachment_claimed": "Attachment Claimed",
+    "box_full": "Box Full",
+    "not_found": "Not Found",
+    "no_attachments": "No Attachments",
+    "inventory_full": "Inventory Full"
+  },
   "player-not-found": "Player not found.",
   "cannot-send-to-self": "You cannot send mail to yourself.",
   "attachments-not-supported": "Attachments are not currently supported.",
@@ -24,5 +26,8 @@
   "sent-successfully": "Mail sent successfully!",
   "mailbox-full": "Your mailbox is full!",
   "no-mail": "You have no mail.",
-  "mail-deleted": "Mail deleted successfully."
+  "mail-deleted": "Mail deleted successfully.",
+  "new-mail-notification": "You have new mail!",
+  "send-error": "Failed to send mail.",
+  "not-recipient": "You are not the recipient of this mail."
 }

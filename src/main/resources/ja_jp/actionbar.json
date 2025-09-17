@@ -1,10 +1,4 @@
 {
-  "health_low": "[JA] Health Low",
-  "mana_low": "[JA] Mana Low",
-  "exp_gained": "[JA] Exp Gained",
-  "level_up": "[JA] Level Up",
-  "quest_updated": "[JA] Quest Updated",
-  "item_received": "[JA] Item Received",
   "health": "Health",
   "mana": "Mana",
   "stamina": "Stamina",
@@ -14,5 +8,23 @@
   "combat_enter": "Combat Enter",
   "combat_leave": "Combat Leave",
   "buff_applied": "Buff Applied",
-  "debuff_applied": "Debuff Applied"
+  "debuff_applied": "Debuff Applied",
+  "health_low": "体力 Low",
+  "mana_low": "マナ Low",
+  "exp_gained": "Exp Gained",
+  "level_up": "レベル Up",
+  "quest_updated": "クエスト Updated",
+  "item_received": "アイテム Received",
+  "actionbar": {
+    "health": "体力",
+    "mana": "マナ",
+    "stamina": "スタミナ",
+    "experience": "経験値",
+    "skill_ready": "Skill Ready",
+    "skill_cooldown": "Skill Cooldown",
+    "combat_enter": "Combat Enter",
+    "combat_leave": "Combat 脱退",
+    "buff_applied": "バフ Applied",
+    "debuff_applied": "Debuff Applied"
+  }
 }

@@ -1,4 +1,5 @@
 package com.febrie.rpg.gui.impl.social;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 
 import com.febrie.rpg.dto.social.FriendRequestDTO;
 import com.febrie.rpg.gui.component.GuiFactory;
@@ -9,7 +10,6 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.social.FriendManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import com.febrie.rpg.util.lang.GuiLangKey;
 import net.kyori.adventure.text.Component;
@@ -92,9 +92,9 @@ public class FriendRequestGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 ItemBuilder.of(Material.WRITABLE_BOOK)
-                        .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_TITLE_NAME, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_TITLE_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_TITLE_LORE, viewer))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_TITLE_LORE, viewer))
                         .hideAllFlags()
                         .build()
         );
@@ -113,7 +113,7 @@ public class FriendRequestGui extends BaseGui {
         // 로딩 표시
         setItem(22, GuiItem.display(
                 ItemBuilder.of(Material.HOPPER)
-                        .displayName(LangManager.text(LangKey.ITEMS_LOADING_NAME, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_LOADING_NAME, viewer))
                         .hideAllFlags()
                         .build()
         ));
@@ -139,8 +139,8 @@ public class FriendRequestGui extends BaseGui {
             // 요청이 없을 때
             setItem(22, GuiItem.display(
                     ItemBuilder.of(Material.BARRIER)
-                            .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_NO_REQUESTS_NAME, viewer))
-                            .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_NO_REQUESTS_LORE, viewer))
+                            .displayName(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_NO_REQUESTS_NAME, viewer))
+                            .addLore(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_NO_REQUESTS_LORE, viewer))
                             .hideAllFlags()
                             .build()
             ));
@@ -163,13 +163,13 @@ public class FriendRequestGui extends BaseGui {
                     ItemBuilder.of(Material.PLAYER_HEAD)
                             .displayName(Component.text(request.fromPlayerName(), UnifiedColorUtil.PRIMARY).decoration(TextDecoration.BOLD, true))
                             .addLore(Component.empty())
-                            .addLore(LangManager.text(LangKey.GUI_FRIEND_REQUESTS_REQUEST_TIME, viewer, Component.text(request.requestTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))))
+                            .addLore(LangManager.text(GuiLangKey.GUI_FRIEND_REQUESTS_REQUEST_TIME, viewer, Component.text(request.requestTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))))
                             .addLore(Component.empty())
                             .addLore(request.message() != null ? 
-                                    LangManager.text(LangKey.GUI_FRIEND_REQUESTS_MESSAGE, viewer, Component.text(request.message())) : 
-                                    LangManager.text(LangKey.GUI_FRIEND_REQUESTS_NO_MESSAGE, viewer))
+                                    LangManager.text(GuiLangKey.GUI_FRIEND_REQUESTS_MESSAGE, viewer, Component.text(request.message())) : 
+                                    LangManager.text(GuiLangKey.GUI_FRIEND_REQUESTS_NO_MESSAGE, viewer))
                             .addLore(Component.empty())
-                            .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_REQUEST_INFO_HINT, viewer))
+                            .addLore(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_REQUEST_INFO_HINT, viewer))
                             .hideAllFlags()
                             .build()
             );
@@ -178,15 +178,15 @@ public class FriendRequestGui extends BaseGui {
             // 수락 버튼
             GuiItem acceptButton = GuiItem.clickable(
                     ItemBuilder.of(Material.LIME_DYE)
-                            .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_ACCEPT_NAME, viewer))
+                            .displayName(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_ACCEPT_NAME, viewer))
                             .addLore(Component.empty())
-                            .addLore(LangManager.list(LangKey.GUI_FRIEND_REQUESTS_ACCEPT_DESC, viewer, Component.text(request.fromPlayerName())))
+                            .addLore(LangManager.list(GuiLangKey.GUI_FRIEND_REQUESTS_ACCEPT_DESC, viewer, Component.text(request.fromPlayerName())))
                             .addLore(Component.empty())
-                            .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_ACCEPT_CLICK, viewer))
+                            .addLore(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_ACCEPT_CLICK, viewer))
                             .hideAllFlags()
                             .build(), p -> {
                 if (request.id() == null) {
-                    p.sendMessage(LangManager.text(LangKey.ERROR_FRIEND_REQUEST_ID_MISSING, p).color(UnifiedColorUtil.ERROR));
+                    p.sendMessage(LangManager.text(GeneralLangKey.ERROR_FRIEND_REQUEST_ID_MISSING, p).color(UnifiedColorUtil.ERROR));
                     return;
                 }
                 friendManager.acceptFriendRequest(p, request.id()).thenAccept(success -> {
@@ -202,15 +202,15 @@ public class FriendRequestGui extends BaseGui {
             // 거절 버튼
             GuiItem rejectButton = GuiItem.clickable(
                     ItemBuilder.of(Material.RED_DYE)
-                            .displayName(LangManager.text(LangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_REJECT_NAME, viewer))
+                            .displayName(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_REJECT_NAME, viewer))
                             .addLore(Component.empty())
-                            .addLore(LangManager.list(LangKey.GUI_FRIEND_REQUESTS_REJECT_DESC, viewer, Component.text(request.fromPlayerName())))
+                            .addLore(LangManager.list(GuiLangKey.GUI_FRIEND_REQUESTS_REJECT_DESC, viewer, Component.text(request.fromPlayerName())))
                             .addLore(Component.empty())
-                            .addLore(LangManager.text(LangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_REJECT_CLICK, viewer))
+                            .addLore(LangManager.text(GeneralLangKey.ITEMS_SOCIAL_FRIEND_REQUESTS_REJECT_CLICK, viewer))
                             .hideAllFlags()
                             .build(), p -> {
                 if (request.id() == null) {
-                    p.sendMessage(LangManager.text(LangKey.ERROR_FRIEND_REQUEST_ID_MISSING, p).color(UnifiedColorUtil.ERROR));
+                    p.sendMessage(LangManager.text(GeneralLangKey.ERROR_FRIEND_REQUEST_ID_MISSING, p).color(UnifiedColorUtil.ERROR));
                     return;
                 }
                 friendManager.rejectFriendRequest(p, request.id()).thenAccept(success -> {

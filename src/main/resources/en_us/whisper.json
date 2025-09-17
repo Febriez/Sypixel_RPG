@@ -6,24 +6,24 @@
   "disabled": "Whispers Disabled",
   "ignored": "You are ignored",
   "mode": {
-    "all": "All Whispers",
-    "friends": "Friends Only",
-    "guild": "Guild Only",
-    "off": "Whispers Off"
+    "all": "All",
+    "friends": "Friends",
+    "guild": "Guild",
+    "off": "Off"
   },
-  "whisper.sent": "Sent",
-  "whisper.received": "Received",
-  "whisper.player_not_found": "Player Not Found",
-  "whisper.player_offline": "Player Offline",
-  "whisper.disabled": "Disabled",
-  "whisper.ignored": "Ignored",
-  "whisper.mode.all": "All",
-  "whisper.mode.friends": "Friends",
-  "whisper.mode.guild": "Guild",
-  "whisper.mode.off": "Off",
-  "mode.all": "All",
-  "mode.friends": "Friends",
-  "mode.guild": "Guild",
-  "mode.off": "Off",
+  "whisper": {
+    "sent": "Sent",
+    "received": "Received",
+    "player_not_found": "Player Not Found",
+    "player_offline": "Player Offline",
+    "disabled": "Disabled",
+    "ignored": "Ignored",
+    "mode": {
+      "all": "All",
+      "friends": "Friends",
+      "guild": "Guild",
+      "off": "Off"
+    }
+  },
   "no-reply-target": "No one to reply to."
 }

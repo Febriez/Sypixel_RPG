@@ -1,5 +1,7 @@
 package com.febrie.rpg.gui.impl.quest;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
@@ -14,7 +16,6 @@ import com.febrie.rpg.dto.quest.CompletedQuestDTO;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.lang.ILangKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -59,7 +60,7 @@ public class AllQuestsGui extends BaseGui {
     private AllQuestsGui(@NotNull GuiManager guiManager,
                         @NotNull Player player,
                         @NotNull QuestFilter filter) {
-        super(player, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_ALL_QUESTS_TITLE, player.locale()));
+        super(player, guiManager, GUI_SIZE, LangManager.text(GuiLangKey.GUI_ALL_QUESTS_TITLE, player.locale()));
         this.questManager = guiManager.getPlugin().getQuestManager();
         this.filter = filter;
         
@@ -119,8 +120,8 @@ public class AllQuestsGui extends BaseGui {
         // 필터 정보
         GuiItem filterInfo = GuiItem.of(
                 ItemBuilder.of(Material.HOPPER)
-                        .displayName(LangManager.text(LangKey.QUEST_FILTER, viewer.locale()).append(LangManager.text(getFilterLangKey(filter), viewer.locale())))
-                        .addLore(LangManager.text(LangKey.QUEST_TOTAL_COUNT, viewer.locale(), Component.text(String.valueOf(quests.size()))))
+                        .displayName(LangManager.text(QuestCommonLangKey.QUEST_FILTER, viewer.locale()).append(LangManager.text(getFilterLangKey(filter), viewer.locale())))
+                        .addLore(LangManager.text(QuestCommonLangKey.QUEST_TOTAL_COUNT, viewer.locale(), Component.text(String.valueOf(quests.size()))))
                         .build());
         setItem(4, filterInfo);
     }
@@ -173,25 +174,25 @@ public class AllQuestsGui extends BaseGui {
         
         // 진행 상황
         if (progress != null && progress.isCompleted()) {
-            builder.addLore(LangManager.text(LangKey.QUEST_COMPLETED, viewer.locale()));
+            builder.addLore(LangManager.text(QuestCommonLangKey.QUEST_COMPLETED, viewer.locale()));
             // 완료된 퀘스트 확인
             java.util.Map<String, CompletedQuestDTO> completedQuests = questManager.getCompletedQuests(viewer.getUniqueId());
             boolean hasReward = completedQuests.values().stream()
                     .anyMatch(data -> data.questId().equals(quest.getId().name()));
             if (hasReward) {
-                builder.addLore(LangManager.text(LangKey.QUEST_REWARD_AVAILABLE, viewer.locale()));
+                builder.addLore(LangManager.text(QuestCommonLangKey.QUEST_REWARD_AVAILABLE, viewer.locale()));
             }
         } else if (progress != null) {
             int completed = (int) progress.getObjectives().values().stream()
                     .filter(ObjectiveProgress::isCompleted)
                     .count();
             int total = quest.getObjectives().size();
-            Component progressText = LangManager.text(LangKey.QUEST_PROGRESS, viewer.locale());
+            Component progressText = LangManager.text(QuestCommonLangKey.QUEST_PROGRESS, viewer.locale());
             builder.addLore(progressText.append(Component.text(": " + completed + "/" + total)).color(UnifiedColorUtil.YELLOW));
         }
         
         builder.addLore(Component.empty());
-        builder.addLore(LangManager.text(LangKey.QUEST_CLICK_FOR_DETAILS, viewer.locale()));
+        builder.addLore(LangManager.text(QuestCommonLangKey.QUEST_CLICK_FOR_DETAILS, viewer.locale()));
         
         return GuiItem.clickable(
                 builder.build(),
@@ -209,8 +210,8 @@ public class AllQuestsGui extends BaseGui {
         if (currentPage > 1) {
             GuiItem prevButton = GuiItem.clickable(
                     ItemBuilder.of(Material.ARROW)
-                            .displayName(LangManager.text(LangKey.QUEST_PREVIOUS_PAGE, viewer.locale()))
-                            .addLore(LangManager.text(LangKey.QUEST_GO_TO_PAGE, viewer.locale(), Component.text(String.valueOf(currentPage - 1))))
+                            .displayName(LangManager.text(QuestCommonLangKey.QUEST_PREVIOUS_PAGE, viewer.locale()))
+                            .addLore(LangManager.text(QuestCommonLangKey.QUEST_GO_TO_PAGE, viewer.locale(), Component.text(String.valueOf(currentPage - 1))))
                             .build(),
                     p -> {
                         currentPage--;
@@ -225,8 +226,8 @@ public class AllQuestsGui extends BaseGui {
         if (currentPage < maxPage) {
             GuiItem nextButton = GuiItem.clickable(
                     ItemBuilder.of(Material.ARROW)
-                            .displayName(LangManager.text(LangKey.QUEST_NEXT_PAGE, viewer.locale()))
-                            .addLore(LangManager.text(LangKey.QUEST_GO_TO_PAGE, viewer.locale(), Component.text(String.valueOf(currentPage + 1))))
+                            .displayName(LangManager.text(QuestCommonLangKey.QUEST_NEXT_PAGE, viewer.locale()))
+                            .addLore(LangManager.text(QuestCommonLangKey.QUEST_GO_TO_PAGE, viewer.locale(), Component.text(String.valueOf(currentPage + 1))))
                             .build(),
                     p -> {
                         currentPage++;
@@ -240,7 +241,7 @@ public class AllQuestsGui extends BaseGui {
         // 뒤로가기
         GuiItem backButton = GuiItem.clickable(
                 ItemBuilder.of(Material.ARROW)
-                        .displayName(LangManager.text(LangKey.GUI_COMMON_BACK, viewer.locale()))
+                        .displayName(LangManager.text(GuiLangKey.GUI_COMMON_BACK, viewer.locale()))
                         .build(),
                 p -> {
                     guiManager.openGui(p, getBackTarget());
@@ -252,8 +253,8 @@ public class AllQuestsGui extends BaseGui {
     
     private ILangKey getFilterLangKey(QuestFilter filter) {
         return switch (filter) {
-            case ACTIVE -> LangKey.QUEST_FILTER_ACTIVE;
-            case COMPLETED -> LangKey.QUEST_FILTER_COMPLETED;
+            case ACTIVE -> QuestCommonLangKey.QUEST_FILTER_ACTIVE;
+            case COMPLETED -> QuestCommonLangKey.QUEST_FILTER_COMPLETED;
         };
     }
 }

@@ -1,14 +1,28 @@
 {
-  "player_name": "[JA] Player Name",
-  "player_level": "[JA] Player Level",
-  "player_health": "[JA] Player Health",
-  "player_mana": "[JA] Player Mana",
-  "player_gold": "[JA] Player Gold",
+  "player_name": "プレイヤー Name",
+  "player_level": "Player レベル",
   "player_job": "Player Job",
+  "player_gold": "Player ゴールド",
   "player_location": "Player Location",
+  "player_health": "Player 体力",
+  "player_mana": "Player マナ",
   "player_combat_power": "Player Combat Power",
   "player_guild": "Player Guild",
   "player_party": "Player Party",
   "player_rank": "Player Rank",
-  "player_playtime": "Player Playtime"
+  "player_playtime": "Player Playtime",
+  "placeholder": {
+    "player_name": "プレイヤー Name",
+    "player_level": "Player レベル",
+    "player_job": "プレイヤー Job",
+    "player_gold": "Player ゴールド",
+    "player_location": "プレイヤー Location",
+    "player_health": "Player 体力",
+    "player_mana": "Player マナ",
+    "player_combat_power": "プレイヤー Combat Power",
+    "player_guild": "Player ギルド",
+    "player_party": "プレイヤー Party",
+    "player_rank": "プレイヤー Rank",
+    "player_playtime": "プレイヤー Playtime"
+  }
 }

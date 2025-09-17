@@ -11,9 +11,7 @@ import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.lang.quest.side.MinersPlightLangKey;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -68,24 +66,24 @@ public class MinersPlightQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(MinersPlightLangKey.QUEST_SIDE_MINERS_PLIGHT_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.miners.plight.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(MinersPlightLangKey.QUEST_SIDE_MINERS_PLIGHT_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.miners.plight.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_mine_foreman" -> LangManager.text(MinersPlightLangKey.QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_TALK_MINE_FOREMAN, who);
-            case "visit_collapsed_mine" -> LangManager.text(MinersPlightLangKey.QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_VISIT_COLLAPSED_MINE, who);
-            case "oak_log_collect" -> LangManager.text(MinersPlightLangKey.QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_OAK_LOG_COLLECT, who);
-            case "kill_cave_spiders" -> LangManager.text(MinersPlightLangKey.QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_KILL_CAVE_SPIDERS, who);
-            case "visit_trapped_miners" -> LangManager.text(MinersPlightLangKey.QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_VISIT_TRAPPED_MINERS, who);
-            case "iron_pickaxe_collect" -> LangManager.text(MinersPlightLangKey.QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_IRON_PICKAXE_COLLECT, who);
-            case "return_mine_foreman" -> LangManager.text(MinersPlightLangKey.QUEST_SIDE_MINERS_PLIGHT_OBJECTIVES_RETURN_MINE_FOREMAN, who);
+            case "talk_mine_foreman" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.miners.plight.objectives.talk.mine.foreman"), who);
+            case "visit_collapsed_mine" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.miners.plight.objectives.visit.collapsed.mine"), who);
+            case "oak_log_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.miners.plight.objectives.oak.log.collect"), who);
+            case "kill_cave_spiders" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.miners.plight.objectives.kill.cave.spiders"), who);
+            case "visit_trapped_miners" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.miners.plight.objectives.visit.trapped.miners"), who);
+            case "iron_pickaxe_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.miners.plight.objectives.iron.pickaxe.collect"), who);
+            case "return_mine_foreman" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.miners.plight.objectives.return.mine.foreman"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -97,7 +95,7 @@ public class MinersPlightQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(MinersPlightLangKey.QUEST_SIDE_MINERS_PLIGHT_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.miners.plight.dialogs"), who);
     }
     
     @Override
@@ -107,16 +105,16 @@ public class MinersPlightQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(MinersPlightLangKey.QUEST_SIDE_MINERS_PLIGHT_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.miners.plight.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(MinersPlightLangKey.QUEST_SIDE_MINERS_PLIGHT_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.miners.plight.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(MinersPlightLangKey.QUEST_SIDE_MINERS_PLIGHT_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.miners.plight.decline"), who);
     }
 }

@@ -2,51 +2,67 @@
   "gui": {
     "buttons": {
       "close": {
-        "name": "Close",
+        "name": "%ff5555_COLOR%Close",
         "lore": [
-          "Click to close this window."
+          "§7Click to close this window.",
+          "",
+          "%55ff55_COLOR%▶ Click"
         ]
       },
       "back": {
-        "name": "◀ Back",
+        "name": "%3399ff_COLOR%◀ Back",
         "lore": [
-          "Click to go back to the previous screen."
+          "§7Click to go back to the previous screen.",
+          "",
+          "%55ff55_COLOR%▶ Click"
         ]
       },
       "refresh": {
-        "name": "Refresh",
+        "name": "%ffaa00_COLOR%Refresh",
         "lore": [
-          "Click to refresh the screen."
+          "§7Click to refresh the screen.",
+          "",
+          "%55ff55_COLOR%▶ Click"
         ]
       },
       "next_page": {
-        "name": "Next Page →",
+        "name": "%3399ff_COLOR%Next Page →",
         "lore": [
-          "Click to go to the next page."
+          "§7Click to go to the next page.",
+          "",
+          "%55ff55_COLOR%▶ Click"
         ]
       },
       "previous_page": {
-        "name": "← Previous Page",
+        "name": "%3399ff_COLOR%← Previous Page",
         "lore": [
-          "Click to go to the previous page."
+          "§7Click to go to the previous page.",
+          "",
+          "%55ff55_COLOR%▶ Click"
         ]
       },
       "confirm": {
-        "name": "Confirm",
+        "name": "%55ff55_COLOR%Confirm",
         "lore": [
-          "Click to confirm."
+          "§7Click to confirm.",
+          "",
+          "%55ff55_COLOR%▶ Click"
         ]
       },
       "cancel": {
-        "name": "Cancel",
+        "name": "%ff5555_COLOR%Cancel",
         "lore": [
-          "Click to cancel."
+          "§7Click to cancel.",
+          "",
+          "%55ff55_COLOR%▶ Click"
         ]
       },
       "settings": {
-        "name": "Settings",
+        "name": "%ffaa00_COLOR%Settings",
         "lore": [
-          "Click to open settings."
+          "§7Click to open settings.",
+          "",
+          "%55ff55_COLOR%▶ Click"
         ]
       },
       "toggle": {
@@ -288,7 +304,10 @@
     },
     "collection": {
       "name": "Name",
-      "lore": "Lore"
+      "lore": "Lore",
+      "book": {
+        "name": "Book"
+      }
     },
     "user_settings_lore": "User Settings Lore",
     "game_stats": {
@@ -302,7 +321,51 @@
     "level_info_name": "Level Info Name",
     "collection_book_name": "Collection Book Name",
     "quest_info_name": "Quest Info Name",
-    "game_stats_name": "Game Stats Name"
+    "game_stats_name": "Game Stats Name",
+    "info": {
+      "name": "Info",
+      "lore": "Item lore text"
+    },
+    "stats": {
+      "name": "Stats",
+      "lore": "Item lore text"
+    },
+    "talents": {
+      "name": "Talents",
+      "lore": "Item lore text"
+    },
+    "quests": {
+      "name": "Quests",
+      "lore": "Item lore text"
+    },
+    "achievements": {
+      "name": "Achievements",
+      "lore": "Item lore text"
+    },
+    "game": {
+      "stats": {
+        "name": "Stats"
+      }
+    },
+    "level": {
+      "info": {
+        "name": "Info"
+      }
+    },
+    "quest": {
+      "info": {
+        "click": {
+          "lore": "Item lore text"
+        },
+        "name": "Info"
+      }
+    },
+    "user": {
+      "settings": {
+        "lore": "Item lore text",
+        "name": "Settings"
+      }
+    }
   },
   "rarity": {
     "common": "Common",
@@ -331,12 +394,23 @@
     "main": {
       "contribution": {
         "lore": "View island contributions",
-        "name": "Island Contributions"
+        "name": "Island Contributions",
+        "info": {
+          "lore": "Item lore text",
+          "name": "Info"
+        }
       },
       "info": {
         "line": "Island information line",
         "lore": "View detailed island information",
-        "name": "Island Information"
+        "name": "Island Information",
+        "line1": "Line1",
+        "line2": "Line2",
+        "line3": "Line3",
+        "line4": "Line4",
+        "line5": "Line5",
+        "line6": "Line6",
+        "line7": "Line7"
       },
       "visitor": {
         "lore": "View island visitors",
@@ -352,7 +426,11 @@
       },
       "upgrade": {
         "name": "Name",
-        "lore": "Lore"
+        "lore": "Lore",
+        "info": {
+          "lore": "Item lore text",
+          "name": "Info"
+        }
       },
       "visitor_info": {
         "name": "Name",
@@ -381,22 +459,118 @@
       "permission_management": {
         "lore": "Lore",
         "name": "Name"
+      },
+      "biome": {
+        "access_denied": "Access Denied",
+        "name": "Biome",
+        "lore": "Item lore text",
+        "change": {
+          "lore": "Item lore text",
+          "name": "Change"
+        }
+      },
+      "home": {
+        "name": "Home",
+        "lore": "Item lore text"
+      },
+      "members": {
+        "name": "Members",
+        "lore": "Item lore text"
+      },
+      "settings": {
+        "name": "Settings",
+        "lore": "Item lore text"
+      },
+      "upgrades": {
+        "name": "Upgrades",
+        "lore": "Item lore text"
+      },
+      "daily": {
+        "name": "Daily",
+        "lore": "Item lore text"
+      },
+      "log": {
+        "name": "Log",
+        "lore": "Item lore text"
+      },
+      "delete": {
+        "name": "Delete",
+        "lore": "Item lore text"
+      },
+      "island": {
+        "settings": {
+          "lore": "Item lore text",
+          "name": "Settings"
+        }
       }
     },
     "member": {
       "invite": {
         "lore": "Invite players to island",
-        "name": "Invite Member"
+        "name": "Invite Member",
+        "button": {
+          "lore": "Item lore text"
+        }
       },
       "permission": {
         "lore": "Manage member permissions",
         "name": "Permissions"
+      },
+      "manage": {
+        "demote": {
+          "lore": "Item lore text",
+          "name": "Demote"
+        },
+        "kick": {
+          "lore": "Item lore text",
+          "name": "Kick"
+        },
+        "member": {
+          "info": {
+            "lore": "Item lore text",
+            "name": "Info"
+          }
+        },
+        "no": {
+          "permission": {
+            "lore": "Item lore text",
+            "name": "Permission"
+          }
+        },
+        "permission": {
+          "lore": "Item lore text",
+          "name": "Permission"
+        },
+        "promote": {
+          "lore": "Item lore text"
+        },
+        "to": {
+          "member": {
+            "lore": "Item lore text",
+            "name": "Member"
+          },
+          "worker": {
+            "lore": "Item lore text",
+            "name": "Worker"
+          }
+        }
+      },
+      "next": {
+        "page": {
+          "lore": "Item lore text"
+        }
+      },
+      "previous": {
+        "page": {
+          "lore": "Item lore text"
+        }
       }
     },
     "member_manage": {
       "promote": {
         "name": "Promote Member",
-        "lore": "Lore"
+        "lore": "Lore",
+        "already_max": "Already Max"
       },
       "no_permission": {
         "lore": "Lore",
@@ -425,10 +599,33 @@
       "to_member": {
         "lore": "Lore",
         "name": "Name"
+      },
+      "info": {
+        "name": "Info",
+        "current_role": "Current Role"
+      },
+      "action": {
+        "header": "Header",
+        "line": "Line"
       }
     },
     "members": {
-      "name": "Island Members"
+      "name": "Island Members",
+      "info": {
+        "name": "Info",
+        "lore": "Item lore text"
+      },
+      "role": "Role",
+      "joined": "Joined",
+      "online": "Online",
+      "offline": "Offline",
+      "left_click": "Left Click",
+      "right_click": "Right Click",
+      "shift_right_click": "Shift Right Click",
+      "permission_denied": "Permission Denied",
+      "promote_success": "Promote Success",
+      "demote_success": "Demote Success",
+      "kick_success": "Kick Success"
     },
     "permissions": {
       "name": "Permissions"
@@ -454,7 +651,10 @@
       },
       "public": {
         "name": "Public Island",
-        "lore": "Lore"
+        "lore": "Lore",
+        "toggle": {
+          "lore": "Item lore text"
+        }
       },
       "save": {
         "lore": "Save changes",
@@ -470,6 +670,19 @@
       "name_change": {
         "name": "Name",
         "lore": "Lore"
+      },
+      "name": {
+        "_value": "Settings",
+        "change": {
+          "lore": "Item lore text",
+          "name": "Change"
+        }
+      },
+      "biome": {
+        "change": {
+          "lore": "Item lore text",
+          "name": "Change"
+        }
       }
     },
     "spawn": {
@@ -504,6 +717,28 @@
       "set_visitor": {
         "lore": "Lore",
         "name": "Name"
+      },
+      "current": {
+        "info": {
+          "lore": "Item lore text",
+          "name": "Info"
+        }
+      },
+      "no": {
+        "permission": {
+          "lore": "Item lore text",
+          "name": "Permission"
+        }
+      },
+      "set": {
+        "main": {
+          "lore": "Item lore text",
+          "name": "Main"
+        },
+        "visitor": {
+          "lore": "Item lore text",
+          "name": "Visitor"
+        }
       }
     },
     "upgrade": {
@@ -539,6 +774,12 @@
       "no_visitors": {
         "name": "Name",
         "lore": "Lore"
+      },
+      "no": {
+        "visitors": {
+          "lore": "Item lore text",
+          "name": "Visitors"
+        }
       }
     },
     "visitors": {
@@ -728,7 +969,53 @@
     "main_contribution_info_lore": "Main Contribution Info Lore",
     "spawn_current_info_lore": "Spawn Current Info Lore",
     "main_upgrade_info_lore": "Main Upgrade Info Lore",
-    "main_biome_change_lore": "Main Biome Change Lore"
+    "main_biome_change_lore": "Main Biome Change Lore",
+    "personal": {
+      "spawn": {
+        "back": {
+          "lore": "Item lore text"
+        },
+        "info": {
+          "lore": "Item lore text",
+          "name": "Info",
+          "not": {
+            "set": {
+              "lore": "Item lore text"
+            }
+          }
+        },
+        "manage": {
+          "click": "Click",
+          "lore": "Item lore text",
+          "name": "Manage",
+          "status": "Status"
+        },
+        "no": {
+          "permission": {
+            "lore": "Item lore text",
+            "name": "Permission"
+          }
+        },
+        "remove": {
+          "click": "Click",
+          "lore": "Item lore text",
+          "name": "Remove"
+        },
+        "set": {
+          "click": "Click",
+          "lore": "Item lore text",
+          "name": "Set"
+        },
+        "teleport": {
+          "click": "Click",
+          "lore": "Item lore text",
+          "name": "Teleport",
+          "no": {
+            "spawn": "Spawn"
+          }
+        }
+      }
+    }
   },
   "unit": {
     "blocks": "blocks",
@@ -744,10 +1031,31 @@
     "friend": {
       "requests": {
         "accept": {
-          "desc": "Accept friend request"
+          "desc": "Accept friend request",
+          "click": "Click",
+          "desc2": "Desc2",
+          "name": "Accept"
         },
         "reject": {
-          "desc": "Reject friend request"
+          "desc": "Reject friend request",
+          "click": "Click",
+          "desc2": "Desc2",
+          "name": "Reject"
+        },
+        "no": {
+          "requests": {
+            "lore": "Item lore text",
+            "name": "Requests"
+          }
+        },
+        "title": {
+          "lore": "Item lore text",
+          "name": "Title"
+        },
+        "request": {
+          "info": {
+            "hint": "Hint"
+          }
         }
       }
     },
@@ -778,6 +1086,22 @@
       "no_friends": {
         "lore": "Lore",
         "name": "Name"
+      },
+      "friend": {
+        "item": {
+          "left": {
+            "click": "Click"
+          },
+          "right": {
+            "click": "Click"
+          }
+        }
+      },
+      "no": {
+        "friends": {
+          "lore": "Item lore text",
+          "name": "Friends"
+        }
       }
     },
     "friend_requests": {
@@ -853,6 +1177,51 @@
       },
       "mail_item": {
         "click": "Click"
+      },
+      "delete": {
+        "read": {
+          "click": "Click",
+          "lore": "Item lore text",
+          "name": "Read"
+        }
+      },
+      "mail": {
+        "item": {
+          "click": "Click"
+        }
+      },
+      "no": {
+        "mails": {
+          "lore": "Item lore text",
+          "name": "Mails"
+        },
+        "unread": {
+          "mails": {
+            "name": "Mails"
+          }
+        }
+      }
+    },
+    "mail": {
+      "detail": {
+        "delete": {
+          "click": "Click",
+          "lore": "Item lore text",
+          "name": "Delete"
+        },
+        "message": {
+          "name": "Message"
+        },
+        "no": {
+          "attachments": {
+            "lore": "Item lore text",
+            "name": "Attachments"
+          }
+        },
+        "reply": {
+          "click": "Click",
+          "name": "Reply"
+        }
       }
     }
   },
@@ -869,14 +1238,73 @@
       "lore": "Configure GUI settings",
       "name": "GUI Settings",
       "lore1": "Lore1",
-      "lore2": "Lore2"
+      "lore2": "Lore2",
+      "settings": {
+        "mute": {
+          "lore": "Item lore text",
+          "name": "Mute"
+        },
+        "title": {
+          "lore": "Item lore text",
+          "name": "Title"
+        },
+        "unmute": {
+          "lore": "Item lore text",
+          "name": "Unmute"
+        },
+        "volume": {
+          "decrease": {
+            "lore": "Item lore text",
+            "name": "Decrease"
+          },
+          "increase": {
+            "lore": "Item lore text",
+            "name": "Increase"
+          },
+          "name": "Volume"
+        }
+      }
     },
     "ingame": {
       "lore": "Configure in-game settings",
       "name": "Game Settings",
       "lore1": "Lore1",
       "lore2": "Lore2",
-      "lore3": "Lore3"
+      "lore3": "Lore3",
+      "settings": {
+        "title": {
+          "name": "Title",
+          "lore": "Item lore text"
+        },
+        "damage": {
+          "display": {
+            "desc": "Description text",
+            "name": "Display"
+          }
+        },
+        "dialog": {
+          "speed": {
+            "name": "Speed",
+            "note": "Note"
+          }
+        },
+        "quest": {
+          "guide": {
+            "desc": "Description text",
+            "name": "Guide"
+          }
+        },
+        "speed": {
+          "decrease": {
+            "lore": "Item lore text",
+            "name": "Decrease"
+          },
+          "increase": {
+            "lore": "Item lore text",
+            "name": "Increase"
+          }
+        }
+      }
     },
     "main": {
       "title": {
@@ -889,7 +1317,37 @@
       "name": "Notifications",
       "lore3": "Lore3",
       "lore1": "Lore1",
-      "lore2": "Lore2"
+      "lore2": "Lore2",
+      "settings": {
+        "invite": {
+          "click": {
+            "hint": "Hint"
+          },
+          "desc": "Description text",
+          "mode": {
+            "cycle": "Cycle"
+          },
+          "name": "Invite",
+          "note": "Note"
+        },
+        "server": {
+          "desc": "Description text",
+          "example": {
+            "title": "Title"
+          },
+          "examples": "Examples",
+          "name": "Server"
+        },
+        "title": {
+          "lore": "Item lore text",
+          "name": "Title"
+        },
+        "whisper": {
+          "desc": "Description text",
+          "name": "Whisper",
+          "note": "Note"
+        }
+      }
     },
     "social": {
       "lore": "Configure social settings",
@@ -902,7 +1360,12 @@
       "lore": "Configure system settings",
       "name": "System Settings",
       "lore1": "Lore1",
-      "lore2": "Lore2"
+      "lore2": "Lore2",
+      "settings": {
+        "confirmation": {
+          "example": "Example"
+        }
+      }
     },
     "system_settings": {
       "confirmation": {
@@ -950,6 +1413,27 @@
         "name": "Name",
         "desc1": "Desc1"
       }
+    },
+    "social-settings": {
+      "title": {
+        "name": "Title",
+        "lore": "Item lore text"
+      },
+      "friend-requests": {
+        "name": "Friend-Requests",
+        "desc": "Description text"
+      },
+      "guild-invites": {
+        "name": "Guild-Invites",
+        "desc": "Description text",
+        "note": "Note"
+      },
+      "whisper": {
+        "name": "Whisper",
+        "click-hint": "Click Hint",
+        "mode-cycle": "Mode Cycle",
+        "note": "Note"
+      }
     }
   },
   "notification": {
@@ -982,6 +1466,9 @@
       "abandon_button": {
         "lore": "Lore",
         "name": "Name"
+      },
+      "progress": {
+        "name": "Progress"
       }
     },
     "list": {
@@ -995,6 +1482,9 @@
       },
       "available": {
         "lore": "Lore"
+      },
+      "view": {
+        "all": "All"
       }
     },
     "dialog": {
@@ -1005,6 +1495,18 @@
       "text": {
         "lore": "Lore",
         "name": "Name"
+      },
+      "accept": {
+        "lore": "Item lore text",
+        "name": "Accept"
+      },
+      "close": {
+        "lore": "Item lore text",
+        "name": "Close"
+      },
+      "decline": {
+        "lore": "Item lore text",
+        "name": "Decline"
       }
     },
     "list_v2": {
@@ -1018,6 +1520,77 @@
       },
       "view_all": {
         "lore": "Lore"
+      }
+    },
+    "active": {
+      "name": "Active",
+      "lore": "Item lore text"
+    },
+    "available": {
+      "name": "Available",
+      "lore": "Item lore text"
+    },
+    "completed": {
+      "name": "Completed",
+      "lore": "Item lore text"
+    },
+    "locked": {
+      "name": "Locked",
+      "lore": "Item lore text"
+    },
+    "failed": {
+      "name": "Failed",
+      "lore": "Item lore text"
+    },
+    "repeatable": {
+      "name": "Repeatable",
+      "lore": "Item lore text"
+    },
+    "reward": {
+      "already": {
+        "claimed": {
+          "lore": "Item lore text",
+          "name": "Claimed"
+        }
+      },
+      "claim": {
+        "all": {
+          "lore": "Item lore text",
+          "name": "All"
+        }
+      },
+      "claimed": {
+        "name": "Claimed"
+      },
+      "confirm": {
+        "no": {
+          "lore": "Item lore text",
+          "name": "No"
+        },
+        "warning": {
+          "lore": "Item lore text",
+          "name": "Warning",
+          "question": "Question"
+        },
+        "yes": {
+          "lore": "Item lore text",
+          "name": "Yes"
+        }
+      },
+      "destroy": {
+        "lore": "Item lore text",
+        "name": "Destroy"
+      },
+      "no": {
+        "items": {
+          "lore": "Item lore text",
+          "name": "Items"
+        }
+      }
+    },
+    "selection": {
+      "click": {
+        "hint": "Hint"
       }
     }
   },
@@ -1055,7 +1628,26 @@
       "Keep playing to get ranked!"
     ],
     "no_rank_lore1": "No Rank Lore1",
-    "no_rank_lore2": "No Rank Lore2"
+    "no_rank_lore2": "No Rank Lore2",
+    "rank": {
+      "name": "Rank",
+      "lore": "Item lore text"
+    },
+    "type_selector": {
+      "name": "Type Selector",
+      "lore": "Item lore text"
+    },
+    "my": {
+      "rank": {
+        "name": "Rank"
+      }
+    },
+    "no": {
+      "rank": {
+        "lore": "Item lore text",
+        "name": "Rank"
+      }
+    }
   },
   "buttons": {
     "back": {
@@ -1187,14 +1779,12 @@
       "lore": "Maximum mana points"
     }
   },
-  "ectoplasm": "Ectoplasm",
-  "scute": "Scute",
   "items": {
     "settings": {
       "system": {
         "settings": {
           "confirmation": {
-            "example": "Confirmation Example"
+            "example": "Example"
           }
         }
       },
@@ -1301,23 +1891,23 @@
       },
       "social-settings": {
         "title": {
-          "name": "Social Settings",
-          "lore": "Configure social options"
+          "name": "Name",
+          "lore": "Lore"
         },
         "friend-requests": {
-          "name": "Friend Requests",
-          "desc": "Toggle friend requests"
+          "name": "Name",
+          "desc": "Desc"
         },
         "guild-invites": {
-          "name": "Guild Invites",
-          "desc": "Toggle guild invites",
-          "note": "Guild officers can still invite"
+          "name": "Name",
+          "desc": "Desc",
+          "note": "Note"
         },
         "whisper": {
-          "name": "Whisper Mode",
-          "click-hint": "Click to change",
-          "mode-cycle": "Cycles through modes",
-          "note": "Controls who can whisper you"
+          "name": "Name",
+          "click-hint": "Click Hint",
+          "mode-cycle": "Mode Cycle",
+          "note": "Note"
         }
       },
       "general": {
@@ -1833,18 +2423,18 @@
         },
         "no": {
           "permission": {
-            "lore": "No permission",
-            "name": "Locked"
+            "lore": "Lore",
+            "name": "Name"
           }
         },
         "set": {
           "main": {
-            "lore": "Set main spawn",
-            "name": "Main Spawn"
+            "lore": "Lore",
+            "name": "Name"
           },
           "visitor": {
-            "lore": "Set visitor spawn",
-            "name": "Visitor Spawn"
+            "lore": "Lore",
+            "name": "Name"
           }
         }
       },
@@ -1905,7 +2495,8 @@
           "change": {
             "lore": "Lore",
             "name": "Name"
-          }
+          },
+          "_value": "Name"
         },
         "public": {
           "toggle": {
@@ -1917,8 +2508,8 @@
       "visitor": {
         "no": {
           "visitors": {
-            "lore": "No visitors yet",
-            "name": "No Visitors"
+            "lore": "Lore",
+            "name": "Name"
           }
         }
       }
@@ -2330,20 +2921,80 @@
   },
   "talent": {
     "learned": {
-      "*": "All learned talents"
+      "*": "All learned talents",
+      "name": "Learned",
+      "lore": "Item lore text"
     },
     "available": {
-      "*": "All available talents"
+      "*": "All available talents",
+      "name": "Available",
+      "lore": "Item lore text"
+    },
+    "locked": {
+      "name": "Locked",
+      "lore": "Item lore text"
+    },
+    "maxed": {
+      "name": "Maxed",
+      "lore": "Item lore text"
     }
   },
   "combat_power": {
-    "*": "All combat power items"
+    "*": "All combat power items",
+    "total": {
+      "name": "Total",
+      "lore": "Item lore text"
+    },
+    "level": {
+      "name": "Level",
+      "lore": "Item lore text"
+    },
+    "stats": {
+      "name": "Stats",
+      "lore": "Item lore text"
+    }
   },
   "mail": {
-    "*": "All mail items"
+    "*": "All mail items",
+    "new": {
+      "name": "New",
+      "lore": "Item lore text"
+    },
+    "read": {
+      "name": "Read",
+      "lore": "Item lore text"
+    },
+    "attachment": {
+      "name": "Attachment",
+      "lore": "Item lore text"
+    },
+    "claimed": {
+      "name": "Claimed",
+      "lore": "Item lore text"
+    }
   },
   "friend": {
-    "*": "All friend items"
+    "*": "All friend items",
+    "online": {
+      "name": "Online",
+      "lore": "Item lore text"
+    },
+    "offline": {
+      "name": "Offline",
+      "lore": "Item lore text"
+    },
+    "request": {
+      "name": "Request",
+      "lore": "Item lore text"
+    },
+    "accept": {
+      "name": "Accept",
+      "lore": "Item lore text"
+    },
+    "deny": {
+      "name": "Deny",
+      "lore": "Item lore text"
+    }
   },
   "general": {
     "coming_soon": {
@@ -2376,594 +3027,47 @@
       "name": "Name"
     }
   },
-  "items.settings.system.settings.confirmation.example": "Example",
-  "items.settings.social-settings.title.name": "Name",
-  "items.settings.social-settings.title.lore": "Lore",
-  "items.settings.social-settings.friend-requests.name": "Name",
-  "items.settings.social-settings.friend-requests.desc": "Desc",
-  "items.settings.social-settings.guild-invites.name": "Name",
-  "items.settings.social-settings.guild-invites.desc": "Desc",
-  "items.settings.social-settings.guild-invites.note": "Note",
-  "items.settings.social-settings.whisper.name": "Name",
-  "items.settings.social-settings.whisper.click-hint": "Click Hint",
-  "items.settings.social-settings.whisper.mode-cycle": "Mode Cycle",
-  "items.settings.social-settings.whisper.note": "Note",
-  "items.island.settings.name": "Name",
-  "items.talent.learned.name": "Name",
-  "items.talent.learned.lore": "Lore",
-  "items.talent.available.name": "Name",
-  "items.talent.available.lore": "Lore",
-  "items.talent.locked.name": "Name",
-  "items.talent.locked.lore": "Lore",
-  "items.talent.maxed.name": "Name",
-  "items.talent.maxed.lore": "Lore",
-  "items.combat_power.total.name": "Name",
-  "items.combat_power.total.lore": "Lore",
-  "items.combat_power.level.name": "Name",
-  "items.combat_power.level.lore": "Lore",
-  "items.combat_power.stats.name": "Name",
-  "items.combat_power.stats.lore": "Lore",
-  "items.leaderboard.rank.name": "Name",
-  "items.leaderboard.rank.lore": "Lore",
-  "items.leaderboard.type_selector.name": "Name",
-  "items.leaderboard.type_selector.lore": "Lore",
-  "items.mail.new.name": "Name",
-  "items.mail.new.lore": "Lore",
-  "items.mail.read.name": "Name",
-  "items.mail.read.lore": "Lore",
-  "items.mail.attachment.name": "Name",
-  "items.mail.attachment.lore": "Lore",
-  "items.mail.claimed.name": "Name",
-  "items.mail.claimed.lore": "Lore",
-  "items.friend.online.name": "Name",
-  "items.friend.online.lore": "Lore",
-  "items.friend.offline.name": "Name",
-  "items.friend.offline.lore": "Lore",
-  "items.friend.request.name": "Name",
-  "items.friend.request.lore": "Lore",
-  "items.friend.accept.name": "Name",
-  "items.friend.accept.lore": "Lore",
-  "items.friend.deny.name": "Name",
-  "items.friend.deny.lore": "Lore",
-  "items.quest.active.name": "Name",
-  "items.quest.active.lore": "Lore",
-  "items.quest.available.name": "Name",
-  "items.quest.available.lore": "Lore",
-  "items.quest.completed.name": "Name",
-  "items.quest.completed.lore": "Lore",
-  "items.quest.locked.name": "Name",
-  "items.quest.locked.lore": "Lore",
-  "items.quest.failed.name": "Name",
-  "items.quest.failed.lore": "Lore",
-  "items.quest.repeatable.name": "Name",
-  "items.quest.repeatable.lore": "Lore",
-  "items.profile.info.name": "Name",
-  "items.profile.info.lore": "Lore",
-  "items.profile.stats.name": "Name",
-  "items.profile.stats.lore": "Lore",
-  "items.profile.talents.name": "Name",
-  "items.profile.talents.lore": "Lore",
-  "items.profile.quests.name": "Name",
-  "items.profile.quests.lore": "Lore",
-  "items.profile.achievements.name": "Name",
-  "items.profile.achievements.lore": "Lore",
-  "items.island_creation.title.name": "Name",
-  "items.island_creation.title.lore": "Lore",
-  "items.island_creation.name.name": "Name",
-  "items.island_creation.name.lore": "Lore",
-  "items.island_creation.color.name": "Name",
-  "items.island_creation.color.lore": "Lore",
-  "items.island_creation.biome.name": "Name",
-  "items.island_creation.biome.lore": "Lore",
-  "items.island_creation.create_button.name": "Name",
-  "items.island_creation.create_button.lore": "Lore",
-  "items.island_creation.template_basic.name": "Name",
-  "items.island_creation.template_skyblock.name": "Name",
-  "items.island_creation.template_large.name": "Name",
-  "items.island_creation.template_water.name": "Name",
-  "items.island_creation.template_water.lore": "Lore",
-  "items.island_creation.template_basic.lore": "Lore",
-  "items.island_creation.template_skyblock.lore": "Lore",
-  "items.island_creation.template_large.lore": "Lore",
-  "items.island.main.info.line1": "Line1",
-  "items.island.main.info.line2": "Line2",
-  "items.island.main.info.line3": "Line3",
-  "items.island.main.info.line4": "Line4",
-  "items.island.main.info.line5": "Line5",
-  "items.island.main.info.line6": "Line6",
-  "items.island.main.info.line7": "Line7",
-  "items.island.main.biome.access_denied": "Access Denied",
-  "items.island.main.home.name": "Name",
-  "items.island.main.home.lore": "Lore",
-  "items.island.main.biome.name": "Name",
-  "items.island.main.biome.lore": "Lore",
-  "items.island.main.members.name": "Name",
-  "items.island.main.members.lore": "Lore",
-  "items.island.main.settings.name": "Name",
-  "items.island.main.settings.lore": "Lore",
-  "items.island.main.upgrades.name": "Name",
-  "items.island.main.upgrades.lore": "Lore",
-  "items.island.main.daily.name": "Name",
-  "items.island.main.daily.lore": "Lore",
-  "items.island.main.log.name": "Name",
-  "items.island.main.log.lore": "Lore",
-  "items.island.main.delete.name": "Name",
-  "items.island.main.delete.lore": "Lore",
-  "items.island.members.info.name": "Name",
-  "items.island.members.info.lore": "Lore",
-  "items.island.members.role": "Role",
-  "items.island.members.joined": "Joined",
-  "items.island.members.online": "Online",
-  "items.island.members.offline": "Offline",
-  "items.island.members.left_click": "Left Click",
-  "items.island.members.right_click": "Right Click",
-  "items.island.members.shift_right_click": "Shift Right Click",
-  "items.island.members.permission_denied": "Permission Denied",
-  "items.island.members.promote_success": "Promote Success",
-  "items.island.members.demote_success": "Demote Success",
-  "items.island.members.kick_success": "Kick Success",
-  "items.island.member_manage.info.name": "Name",
-  "items.island.member_manage.info.current_role": "Current Role",
-  "items.island.member_manage.promote.already_max": "Already Max",
-  "items.island.member_manage.action.header": "Header",
-  "items.island.member_manage.action.line": "Line",
-  "items.island.main.biome.change.lore": "Lore",
-  "items.island.main.biome.change.name": "Name",
-  "items.island.main.contribution.info.lore": "Lore",
-  "items.island.main.contribution.info.name": "Name",
-  "items.island.main.island.settings.lore": "Lore",
-  "items.island.main.island.settings.name": "Name",
-  "items.island.main.upgrade.info.lore": "Lore",
-  "items.island.main.upgrade.info.name": "Name",
-  "items.island.member.invite.button.lore": "Lore",
-  "items.island.member.manage.demote.lore": "Lore",
-  "items.island.member.manage.demote.name": "Name",
-  "items.island.member.manage.kick.lore": "Lore",
-  "items.island.member.manage.kick.name": "Name",
-  "items.island.member.manage.member.info.lore": "Lore",
-  "items.island.member.manage.member.info.name": "Name",
-  "items.island.member.manage.no.permission.lore": "Lore",
-  "items.island.member.manage.no.permission.name": "Name",
-  "items.island.member.manage.permission.lore": "Lore",
-  "items.island.member.manage.permission.name": "Name",
-  "items.island.member.manage.promote.lore": "Lore",
-  "items.island.member.manage.to.member.lore": "Lore",
-  "items.island.member.manage.to.member.name": "Name",
-  "items.island.member.manage.to.worker.lore": "Lore",
-  "items.island.member.manage.to.worker.name": "Name",
-  "items.island.member.next.page.lore": "Lore",
-  "items.island.member.previous.page.lore": "Lore",
-  "items.island.spawn.current.info.lore": "Lore",
-  "items.island.spawn.current.info.name": "Name",
-  "items.island.personal.spawn.back.lore": "Lore",
-  "items.island.personal.spawn.info.lore": "Lore",
-  "items.island.personal.spawn.info.name": "Name",
-  "items.island.personal.spawn.info.not.set.lore": "Lore",
-  "items.island.personal.spawn.manage.click": "Click",
-  "items.island.personal.spawn.manage.lore": "Lore",
-  "items.island.personal.spawn.manage.name": "Name",
-  "items.island.personal.spawn.manage.status": "Status",
-  "items.island.personal.spawn.no.permission.lore": "Lore",
-  "items.island.personal.spawn.no.permission.name": "Name",
-  "items.island.personal.spawn.remove.click": "Click",
-  "items.island.personal.spawn.remove.lore": "Lore",
-  "items.island.personal.spawn.remove.name": "Name",
-  "items.island.personal.spawn.set.click": "Click",
-  "items.island.personal.spawn.set.lore": "Lore",
-  "items.island.personal.spawn.set.name": "Name",
-  "items.island.personal.spawn.teleport.click": "Click",
-  "items.island.personal.spawn.teleport.lore": "Lore",
-  "items.island.personal.spawn.teleport.name": "Name",
-  "items.island.personal.spawn.teleport.no.spawn": "Spawn",
-  "items.island.settings.biome.change.lore": "Lore",
-  "items.island.settings.biome.change.name": "Name",
-  "items.island.settings.name.change.lore": "Lore",
-  "items.island.settings.name.change.name": "Name",
-  "items.island.settings.public.toggle.lore": "Lore",
-  "items.island.spawn.no.permission.lore": "Lore",
-  "items.island.spawn.no.permission.name": "Name",
-  "items.island.spawn.set.main.lore": "Lore",
-  "items.island.spawn.set.main.name": "Name",
-  "items.island.spawn.set.visitor.lore": "Lore",
-  "items.island.spawn.set.visitor.name": "Name",
-  "items.island.visitor.no.visitors.lore": "Lore",
-  "items.island.visitor.no.visitors.name": "Name",
-  "items.profile.collection.book.name": "Name",
-  "items.profile.game.stats.name": "Name",
-  "items.profile.level.info.name": "Name",
-  "items.profile.quest.info.click.lore": "Lore",
-  "items.profile.quest.info.name": "Name",
-  "items.profile.user.settings.lore": "Lore",
-  "items.profile.user.settings.name": "Name",
-  "items.quest.detail.progress.name": "Name",
-  "items.quest.dialog.accept.lore": "Lore",
-  "items.quest.dialog.accept.name": "Name",
-  "items.quest.dialog.close.lore": "Lore",
-  "items.quest.dialog.close.name": "Name",
-  "items.quest.dialog.decline.lore": "Lore",
-  "items.quest.dialog.decline.name": "Name",
-  "items.quest.list.view.all": "All",
-  "items.quest.reward.already.claimed.lore": "Lore",
-  "items.quest.reward.already.claimed.name": "Name",
-  "items.quest.reward.claim.all.lore": "Lore",
-  "items.quest.reward.claim.all.name": "Name",
-  "items.quest.reward.claimed.name": "Name",
-  "items.quest.reward.confirm.no.lore": "Lore",
-  "items.quest.reward.confirm.no.name": "Name",
-  "items.quest.reward.confirm.warning.lore": "Lore",
-  "items.quest.reward.confirm.warning.name": "Name",
-  "items.quest.reward.confirm.warning.question": "Question",
-  "items.quest.reward.confirm.yes.lore": "Lore",
-  "items.quest.reward.confirm.yes.name": "Name",
-  "items.quest.reward.destroy.lore": "Lore",
-  "items.quest.reward.destroy.name": "Name",
-  "items.quest.reward.no.items.lore": "Lore",
-  "items.quest.reward.no.items.name": "Name",
-  "items.quest.selection.click.hint": "Hint",
-  "items.settings.gui.settings.mute.lore": "Lore",
-  "items.settings.gui.settings.mute.name": "Name",
-  "items.settings.gui.settings.title.lore": "Lore",
-  "items.settings.gui.settings.title.name": "Name",
-  "items.settings.gui.settings.unmute.lore": "Lore",
-  "items.settings.gui.settings.unmute.name": "Name",
-  "items.settings.gui.settings.volume.decrease.lore": "Lore",
-  "items.settings.gui.settings.volume.decrease.name": "Name",
-  "items.settings.gui.settings.volume.increase.lore": "Lore",
-  "items.settings.gui.settings.volume.increase.name": "Name",
-  "items.settings.gui.settings.volume.name": "Name",
-  "items.settings.ingame.settings.title.name": "Name",
-  "items.settings.ingame.settings.damage.display.desc": "Desc",
-  "items.settings.ingame.settings.damage.display.name": "Name",
-  "items.settings.ingame.settings.dialog.speed.name": "Name",
-  "items.settings.ingame.settings.dialog.speed.note": "Note",
-  "items.settings.ingame.settings.quest.guide.desc": "Desc",
-  "items.settings.ingame.settings.quest.guide.name": "Name",
-  "items.settings.ingame.settings.speed.decrease.lore": "Lore",
-  "items.settings.ingame.settings.speed.decrease.name": "Name",
-  "items.settings.ingame.settings.speed.increase.lore": "Lore",
-  "items.settings.ingame.settings.speed.increase.name": "Name",
-  "items.settings.ingame.settings.title.lore": "Lore",
-  "items.settings.notification.settings.invite.click.hint": "Hint",
-  "items.settings.notification.settings.invite.desc": "Desc",
-  "items.settings.notification.settings.invite.mode.cycle": "Cycle",
-  "items.settings.notification.settings.invite.name": "Name",
-  "items.settings.notification.settings.invite.note": "Note",
-  "items.settings.notification.settings.server.desc": "Desc",
-  "items.settings.notification.settings.server.example.title": "Title",
-  "items.settings.notification.settings.server.examples": "Examples",
-  "items.settings.notification.settings.server.name": "Name",
-  "items.settings.notification.settings.title.lore": "Lore",
-  "items.settings.notification.settings.title.name": "Name",
-  "items.settings.notification.settings.whisper.desc": "Desc",
-  "items.settings.notification.settings.whisper.name": "Name",
-  "items.settings.notification.settings.whisper.note": "Note",
-  "items.shop.gold.name": "Name",
-  "items.social.friend.requests.no.requests.lore": "Lore",
-  "items.social.friend.requests.no.requests.name": "Name",
-  "items.social.friend.requests.title.lore": "Lore",
-  "items.social.friend.requests.title.name": "Name",
-  "items.social.friends.friend.item.left.click": "Click",
-  "items.social.friends.friend.item.right.click": "Click",
-  "items.social.friends.no.friends.lore": "Lore",
-  "items.social.friends.no.friends.name": "Name",
-  "items.leaderboard.my.rank.name": "Name",
-  "items.leaderboard.no.rank.lore": "Lore",
-  "items.leaderboard.no.rank.name": "Name",
-  "items.social.friend.requests.accept.click": "Click",
-  "items.social.friend.requests.accept.desc2": "Desc2",
-  "items.social.friend.requests.accept.name": "Name",
-  "items.social.friend.requests.reject.click": "Click",
-  "items.social.friend.requests.reject.desc2": "Desc2",
-  "items.social.friend.requests.reject.name": "Name",
-  "items.social.friend.requests.request.info.hint": "Hint",
-  "items.social.mail.detail.delete.click": "Click",
-  "items.social.mail.detail.delete.lore": "Lore",
-  "items.social.mail.detail.delete.name": "Name",
-  "items.social.mail.detail.message.name": "Name",
-  "items.social.mail.detail.no.attachments.lore": "Lore",
-  "items.social.mail.detail.no.attachments.name": "Name",
-  "items.social.mail.detail.reply.click": "Click",
-  "items.social.mail.detail.reply.name": "Name",
-  "items.social.mailbox.delete.read.click": "Click",
-  "items.social.mailbox.delete.read.lore": "Lore",
-  "items.social.mailbox.delete.read.name": "Name",
-  "items.social.mailbox.mail.item.click": "Click",
-  "items.social.mailbox.no.mails.lore": "Lore",
-  "items.social.mailbox.no.mails.name": "Name",
-  "items.social.mailbox.no.unread.mails.name": "Name",
-  "settings.system.settings.confirmation.example": "Example",
-  "settings.social-settings.title.name": "Title",
-  "settings.social-settings.title.lore": "Item lore text",
-  "settings.social-settings.friend-requests.name": "Friend-Requests",
-  "settings.social-settings.friend-requests.desc": "Description text",
-  "settings.social-settings.guild-invites.name": "Guild-Invites",
-  "settings.social-settings.guild-invites.desc": "Description text",
-  "settings.social-settings.guild-invites.note": "Note",
-  "settings.social-settings.whisper.name": "Whisper",
-  "settings.social-settings.whisper.click-hint": "Click Hint",
-  "settings.social-settings.whisper.mode-cycle": "Mode Cycle",
-  "settings.social-settings.whisper.note": "Note",
-  "island.settings.name": "Settings",
-  "talent.learned.name": "Learned",
-  "talent.learned.lore": "Item lore text",
-  "talent.available.name": "Available",
-  "talent.available.lore": "Item lore text",
-  "talent.locked.name": "Locked",
-  "talent.locked.lore": "Item lore text",
-  "talent.maxed.name": "Maxed",
-  "talent.maxed.lore": "Item lore text",
-  "combat_power.total.name": "Total",
-  "combat_power.total.lore": "Item lore text",
-  "combat_power.level.name": "Level",
-  "combat_power.level.lore": "Item lore text",
-  "combat_power.stats.name": "Stats",
-  "combat_power.stats.lore": "Item lore text",
-  "leaderboard.rank.name": "Rank",
-  "leaderboard.rank.lore": "Item lore text",
-  "leaderboard.type_selector.name": "Type Selector",
-  "leaderboard.type_selector.lore": "Item lore text",
-  "mail.new.name": "New",
-  "mail.new.lore": "Item lore text",
-  "mail.read.name": "Read",
-  "mail.read.lore": "Item lore text",
-  "mail.attachment.name": "Attachment",
-  "mail.attachment.lore": "Item lore text",
-  "mail.claimed.name": "Claimed",
-  "mail.claimed.lore": "Item lore text",
-  "friend.online.name": "Online",
-  "friend.online.lore": "Item lore text",
-  "friend.offline.name": "Offline",
-  "friend.offline.lore": "Item lore text",
-  "friend.request.name": "Request",
-  "friend.request.lore": "Item lore text",
-  "friend.accept.name": "Accept",
-  "friend.accept.lore": "Item lore text",
-  "friend.deny.name": "Deny",
-  "friend.deny.lore": "Item lore text",
-  "quest.active.name": "Active",
-  "quest.active.lore": "Item lore text",
-  "quest.available.name": "Available",
-  "quest.available.lore": "Item lore text",
-  "quest.completed.name": "Completed",
-  "quest.completed.lore": "Item lore text",
-  "quest.locked.name": "Locked",
-  "quest.locked.lore": "Item lore text",
-  "quest.failed.name": "Failed",
-  "quest.failed.lore": "Item lore text",
-  "quest.repeatable.name": "Repeatable",
-  "quest.repeatable.lore": "Item lore text",
-  "profile.info.name": "Info",
-  "profile.info.lore": "Item lore text",
-  "profile.stats.name": "Stats",
-  "profile.stats.lore": "Item lore text",
-  "profile.talents.name": "Talents",
-  "profile.talents.lore": "Item lore text",
-  "profile.quests.name": "Quests",
-  "profile.quests.lore": "Item lore text",
-  "profile.achievements.name": "Achievements",
-  "profile.achievements.lore": "Item lore text",
-  "island_creation.title.name": "Title",
-  "island_creation.title.lore": "Item lore text",
-  "island_creation.name.name": "Name",
-  "island_creation.name.lore": "Item lore text",
-  "island_creation.color.name": "Color",
-  "island_creation.color.lore": "Item lore text",
-  "island_creation.biome.name": "Biome",
-  "island_creation.biome.lore": "Item lore text",
-  "island_creation.create_button.name": "Create Button",
-  "island_creation.create_button.lore": "Item lore text",
-  "island_creation.template_basic.name": "Template Basic",
-  "island_creation.template_skyblock.name": "Template Skyblock",
-  "island_creation.template_large.name": "Template Large",
-  "island_creation.template_water.name": "Template Water",
-  "island_creation.template_water.lore": "Item lore text",
-  "island_creation.template_basic.lore": "Item lore text",
-  "island_creation.template_skyblock.lore": "Item lore text",
-  "island_creation.template_large.lore": "Item lore text",
-  "island.main.info.line1": "Line1",
-  "island.main.info.line2": "Line2",
-  "island.main.info.line3": "Line3",
-  "island.main.info.line4": "Line4",
-  "island.main.info.line5": "Line5",
-  "island.main.info.line6": "Line6",
-  "island.main.info.line7": "Line7",
-  "island.main.biome.access_denied": "Access Denied",
-  "island.main.home.name": "Home",
-  "island.main.home.lore": "Item lore text",
-  "island.main.biome.name": "Biome",
-  "island.main.biome.lore": "Item lore text",
-  "island.main.members.name": "Members",
-  "island.main.members.lore": "Item lore text",
-  "island.main.settings.name": "Settings",
-  "island.main.settings.lore": "Item lore text",
-  "island.main.upgrades.name": "Upgrades",
-  "island.main.upgrades.lore": "Item lore text",
-  "island.main.daily.name": "Daily",
-  "island.main.daily.lore": "Item lore text",
-  "island.main.log.name": "Log",
-  "island.main.log.lore": "Item lore text",
-  "island.main.delete.name": "Delete",
-  "island.main.delete.lore": "Item lore text",
-  "island.members.info.name": "Info",
-  "island.members.info.lore": "Item lore text",
-  "island.members.role": "Role",
-  "island.members.joined": "Joined",
-  "island.members.online": "Online",
-  "island.members.offline": "Offline",
-  "island.members.left_click": "Left Click",
-  "island.members.right_click": "Right Click",
-  "island.members.shift_right_click": "Shift Right Click",
-  "island.members.permission_denied": "Permission Denied",
-  "island.members.promote_success": "Promote Success",
-  "island.members.demote_success": "Demote Success",
-  "island.members.kick_success": "Kick Success",
-  "island.member_manage.info.name": "Info",
-  "island.member_manage.info.current_role": "Current Role",
-  "island.member_manage.promote.already_max": "Already Max",
-  "island.member_manage.action.header": "Header",
-  "island.member_manage.action.line": "Line",
-  "island.main.biome.change.lore": "Item lore text",
-  "island.main.biome.change.name": "Change",
-  "island.main.contribution.info.lore": "Item lore text",
-  "island.main.contribution.info.name": "Info",
-  "island.main.island.settings.lore": "Item lore text",
-  "island.main.island.settings.name": "Settings",
-  "island.main.upgrade.info.lore": "Item lore text",
-  "island.main.upgrade.info.name": "Info",
-  "island.member.invite.button.lore": "Item lore text",
-  "island.member.manage.demote.lore": "Item lore text",
-  "island.member.manage.demote.name": "Demote",
-  "island.member.manage.kick.lore": "Item lore text",
-  "island.member.manage.kick.name": "Kick",
-  "island.member.manage.member.info.lore": "Item lore text",
-  "island.member.manage.member.info.name": "Info",
-  "island.member.manage.no.permission.lore": "Item lore text",
-  "island.member.manage.no.permission.name": "Permission",
-  "island.member.manage.permission.lore": "Item lore text",
-  "island.member.manage.permission.name": "Permission",
-  "island.member.manage.promote.lore": "Item lore text",
-  "island.member.manage.to.member.lore": "Item lore text",
-  "island.member.manage.to.member.name": "Member",
-  "island.member.manage.to.worker.lore": "Item lore text",
-  "island.member.manage.to.worker.name": "Worker",
-  "island.member.next.page.lore": "Item lore text",
-  "island.member.previous.page.lore": "Item lore text",
-  "island.spawn.current.info.lore": "Item lore text",
-  "island.spawn.current.info.name": "Info",
-  "island.personal.spawn.back.lore": "Item lore text",
-  "island.personal.spawn.info.lore": "Item lore text",
-  "island.personal.spawn.info.name": "Info",
-  "island.personal.spawn.info.not.set.lore": "Item lore text",
-  "island.personal.spawn.manage.click": "Click",
-  "island.personal.spawn.manage.lore": "Item lore text",
-  "island.personal.spawn.manage.name": "Manage",
-  "island.personal.spawn.manage.status": "Status",
-  "island.personal.spawn.no.permission.lore": "Item lore text",
-  "island.personal.spawn.no.permission.name": "Permission",
-  "island.personal.spawn.remove.click": "Click",
-  "island.personal.spawn.remove.lore": "Item lore text",
-  "island.personal.spawn.remove.name": "Remove",
-  "island.personal.spawn.set.click": "Click",
-  "island.personal.spawn.set.lore": "Item lore text",
-  "island.personal.spawn.set.name": "Set",
-  "island.personal.spawn.teleport.click": "Click",
-  "island.personal.spawn.teleport.lore": "Item lore text",
-  "island.personal.spawn.teleport.name": "Teleport",
-  "island.personal.spawn.teleport.no.spawn": "Spawn",
-  "island.settings.biome.change.lore": "Item lore text",
-  "island.settings.biome.change.name": "Change",
-  "island.settings.name.change.lore": "Item lore text",
-  "island.settings.name.change.name": "Change",
-  "island.settings.public.toggle.lore": "Item lore text",
-  "island.spawn.no.permission.lore": "Item lore text",
-  "island.spawn.no.permission.name": "Permission",
-  "island.spawn.set.main.lore": "Item lore text",
-  "island.spawn.set.main.name": "Main",
-  "island.spawn.set.visitor.lore": "Item lore text",
-  "island.spawn.set.visitor.name": "Visitor",
-  "island.visitor.no.visitors.lore": "Item lore text",
-  "island.visitor.no.visitors.name": "Visitors",
-  "profile.collection.book.name": "Book",
-  "profile.game.stats.name": "Stats",
-  "profile.level.info.name": "Info",
-  "profile.quest.info.click.lore": "Item lore text",
-  "profile.quest.info.name": "Info",
-  "profile.user.settings.lore": "Item lore text",
-  "profile.user.settings.name": "Settings",
-  "quest.detail.progress.name": "Progress",
-  "quest.dialog.accept.lore": "Item lore text",
-  "quest.dialog.accept.name": "Accept",
-  "quest.dialog.close.lore": "Item lore text",
-  "quest.dialog.close.name": "Close",
-  "quest.dialog.decline.lore": "Item lore text",
-  "quest.dialog.decline.name": "Decline",
-  "quest.list.view.all": "All",
-  "quest.reward.already.claimed.lore": "Item lore text",
-  "quest.reward.already.claimed.name": "Claimed",
-  "quest.reward.claim.all.lore": "Item lore text",
-  "quest.reward.claim.all.name": "All",
-  "quest.reward.claimed.name": "Claimed",
-  "quest.reward.confirm.no.lore": "Item lore text",
-  "quest.reward.confirm.no.name": "No",
-  "quest.reward.confirm.warning.lore": "Item lore text",
-  "quest.reward.confirm.warning.name": "Warning",
-  "quest.reward.confirm.warning.question": "Question",
-  "quest.reward.confirm.yes.lore": "Item lore text",
-  "quest.reward.confirm.yes.name": "Yes",
-  "quest.reward.destroy.lore": "Item lore text",
-  "quest.reward.destroy.name": "Destroy",
-  "quest.reward.no.items.lore": "Item lore text",
-  "quest.reward.no.items.name": "Items",
-  "quest.selection.click.hint": "Hint",
-  "settings.gui.settings.mute.lore": "Item lore text",
-  "settings.gui.settings.mute.name": "Mute",
-  "settings.gui.settings.title.lore": "Item lore text",
-  "settings.gui.settings.title.name": "Title",
-  "settings.gui.settings.unmute.lore": "Item lore text",
-  "settings.gui.settings.unmute.name": "Unmute",
-  "settings.gui.settings.volume.decrease.lore": "Item lore text",
-  "settings.gui.settings.volume.decrease.name": "Decrease",
-  "settings.gui.settings.volume.increase.lore": "Item lore text",
-  "settings.gui.settings.volume.increase.name": "Increase",
-  "settings.gui.settings.volume.name": "Volume",
-  "settings.ingame.settings.title.name": "Title",
-  "settings.ingame.settings.damage.display.desc": "Description text",
-  "settings.ingame.settings.damage.display.name": "Display",
-  "settings.ingame.settings.dialog.speed.name": "Speed",
-  "settings.ingame.settings.dialog.speed.note": "Note",
-  "settings.ingame.settings.quest.guide.desc": "Description text",
-  "settings.ingame.settings.quest.guide.name": "Guide",
-  "settings.ingame.settings.speed.decrease.lore": "Item lore text",
-  "settings.ingame.settings.speed.decrease.name": "Decrease",
-  "settings.ingame.settings.speed.increase.lore": "Item lore text",
-  "settings.ingame.settings.speed.increase.name": "Increase",
-  "settings.ingame.settings.title.lore": "Item lore text",
-  "settings.notification.settings.invite.click.hint": "Hint",
-  "settings.notification.settings.invite.desc": "Description text",
-  "settings.notification.settings.invite.mode.cycle": "Cycle",
-  "settings.notification.settings.invite.name": "Invite",
-  "settings.notification.settings.invite.note": "Note",
-  "settings.notification.settings.server.desc": "Description text",
-  "settings.notification.settings.server.example.title": "Title",
-  "settings.notification.settings.server.examples": "Examples",
-  "settings.notification.settings.server.name": "Server",
-  "settings.notification.settings.title.lore": "Item lore text",
-  "settings.notification.settings.title.name": "Title",
-  "settings.notification.settings.whisper.desc": "Description text",
-  "settings.notification.settings.whisper.name": "Whisper",
-  "settings.notification.settings.whisper.note": "Note",
-  "shop.gold.name": "Gold",
-  "social.friend.requests.no.requests.lore": "Item lore text",
-  "social.friend.requests.no.requests.name": "Requests",
-  "social.friend.requests.title.lore": "Item lore text",
-  "social.friend.requests.title.name": "Title",
-  "social.friends.friend.item.left.click": "Click",
-  "social.friends.friend.item.right.click": "Click",
-  "social.friends.no.friends.lore": "Item lore text",
-  "social.friends.no.friends.name": "Friends",
-  "leaderboard.my.rank.name": "Rank",
-  "leaderboard.no.rank.lore": "Item lore text",
-  "leaderboard.no.rank.name": "Rank",
-  "social.friend.requests.accept.click": "Click",
-  "social.friend.requests.accept.desc2": "Desc2",
-  "social.friend.requests.accept.name": "Accept",
-  "social.friend.requests.reject.click": "Click",
-  "social.friend.requests.reject.desc2": "Desc2",
-  "social.friend.requests.reject.name": "Reject",
-  "social.friend.requests.request.info.hint": "Hint",
-  "social.mail.detail.delete.click": "Click",
-  "social.mail.detail.delete.lore": "Item lore text",
-  "social.mail.detail.delete.name": "Delete",
-  "social.mail.detail.message.name": "Message",
-  "social.mail.detail.no.attachments.lore": "Item lore text",
-  "social.mail.detail.no.attachments.name": "Attachments",
-  "social.mail.detail.reply.click": "Click",
-  "social.mail.detail.reply.name": "Reply",
-  "social.mailbox.delete.read.click": "Click",
-  "social.mailbox.delete.read.lore": "Item lore text",
-  "social.mailbox.delete.read.name": "Read",
-  "social.mailbox.mail.item.click": "Click",
-  "social.mailbox.no.mails.lore": "Item lore text",
-  "social.mailbox.no.mails.name": "Mails",
-  "social.mailbox.no.unread.mails.name": "Mails"
+  "island_creation": {
+    "title": {
+      "name": "Title",
+      "lore": "Item lore text"
+    },
+    "name": {
+      "name": "Name",
+      "lore": "Item lore text"
+    },
+    "color": {
+      "name": "Color",
+      "lore": "Item lore text"
+    },
+    "biome": {
+      "name": "Biome",
+      "lore": "Item lore text"
+    },
+    "create_button": {
+      "name": "Create Button",
+      "lore": "Item lore text"
+    },
+    "template_basic": {
+      "name": "Template Basic",
+      "lore": "Item lore text"
+    },
+    "template_skyblock": {
+      "name": "Template Skyblock",
+      "lore": "Item lore text"
+    },
+    "template_large": {
+      "name": "Template Large",
+      "lore": "Item lore text"
+    },
+    "template_water": {
+      "name": "Template Water",
+      "lore": "Item lore text"
+    }
+  },
+  "shop": {
+    "gold": {
+      "name": "Gold"
+    }
+  }
 }

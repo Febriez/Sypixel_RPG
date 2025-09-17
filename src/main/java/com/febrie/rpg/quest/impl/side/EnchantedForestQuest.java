@@ -11,9 +11,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.lang.quest.side.EnchantedForestLangKey;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -66,23 +64,23 @@ public class EnchantedForestQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(EnchantedForestLangKey.QUEST_SIDE_ENCHANTED_FOREST_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.enchanted.forest.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(EnchantedForestLangKey.QUEST_SIDE_ENCHANTED_FOREST_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.enchanted.forest.info"), who);
     }
 
         @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_forest_druid" -> LangManager.text(EnchantedForestLangKey.QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_TALK_FOREST_DRUID, who);
-            case "magical_grove" -> LangManager.text(EnchantedForestLangKey.QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_MAGICAL_GROVE, who);
-            case "kill_witches" -> LangManager.text(EnchantedForestLangKey.QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_KILL_WITCHES, who);
-            case "oak_sapling_collect" -> LangManager.text(EnchantedForestLangKey.QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_OAK_SAPLING_COLLECT, who);
-            case "fairy_circle" -> LangManager.text(EnchantedForestLangKey.QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_FAIRY_CIRCLE, who);
-            case "glowstone_dust_collect" -> LangManager.text(EnchantedForestLangKey.QUEST_SIDE_ENCHANTED_FOREST_OBJECTIVES_GLOWSTONE_DUST_COLLECT, who);
+            case "talk_forest_druid" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.enchanted.forest.objectives.talk.forest.druid"), who);
+            case "magical_grove" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.enchanted.forest.objectives.magical.grove"), who);
+            case "kill_witches" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.enchanted.forest.objectives.kill.witches"), who);
+            case "oak_sapling_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.enchanted.forest.objectives.oak.sapling.collect"), who);
+            case "fairy_circle" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.enchanted.forest.objectives.fairy.circle"), who);
+            case "glowstone_dust_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.enchanted.forest.objectives.glowstone.dust.collect"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -94,7 +92,7 @@ public class EnchantedForestQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(EnchantedForestLangKey.QUEST_SIDE_ENCHANTED_FOREST_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.enchanted.forest.dialogs"), who);
     }
     
     @Override
@@ -104,16 +102,16 @@ public class EnchantedForestQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(EnchantedForestLangKey.QUEST_SIDE_ENCHANTED_FOREST_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.enchanted.forest.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(EnchantedForestLangKey.QUEST_SIDE_ENCHANTED_FOREST_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.enchanted.forest.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(EnchantedForestLangKey.QUEST_SIDE_ENCHANTED_FOREST_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.enchanted.forest.decline"), who);
     }
 }

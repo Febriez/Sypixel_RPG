@@ -1,13 +1,25 @@
 {
-  "common": "[JA] Common",
-  "uncommon": "[JA] Uncommon",
-  "rare": "[JA] Rare",
-  "epic": "[JA] Epic",
-  "legendary": "[JA] Legendary",
-  "mythic": "[JA] Mythic",
-  "divine": "[JA] Divine",
-  "special": "[JA] Special",
+  "common": "Common",
+  "uncommon": "Uncommon",
+  "rare": "レア",
+  "epic": "エピック",
+  "legendary": "レジェンダリー",
+  "mythic": "Mythic",
   "ancient": "Ancient",
+  "divine": "Divine",
   "unique": "Unique",
-  "artifact": "Artifact"
+  "artifact": "Artifact",
+  "special": "Special",
+  "rarity": {
+    "common": "Common",
+    "uncommon": "Uncommon",
+    "rare": "レア",
+    "epic": "エピック",
+    "legendary": "レジェンダリー",
+    "mythic": "Mythic",
+    "ancient": "Ancient",
+    "divine": "Divine",
+    "unique": "Unique",
+    "artifact": "Artifact"
+  }
 }

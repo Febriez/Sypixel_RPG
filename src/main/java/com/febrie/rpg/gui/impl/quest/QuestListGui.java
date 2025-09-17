@@ -1,5 +1,7 @@
 package com.febrie.rpg.gui.impl.quest;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
@@ -13,7 +15,6 @@ import com.febrie.rpg.quest.progress.QuestProgress;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -48,7 +49,7 @@ public class QuestListGui extends BaseGui {
 
     private QuestListGui(@NotNull GuiManager guiManager,
                         @NotNull Player viewer) {
-        super(viewer, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_QUEST_LIST_TITLE, viewer.locale()));
+        super(viewer, guiManager, GUI_SIZE, LangManager.text(GuiLangKey.GUI_QUEST_LIST_TITLE, viewer.locale()));
         this.questManager = QuestManager.getInstance();
     }
 
@@ -67,7 +68,7 @@ public class QuestListGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_QUEST_LIST_TITLE, viewer.locale());
+        return LangManager.text(GuiLangKey.GUI_QUEST_LIST_TITLE, viewer.locale());
     }
 
     @Override
@@ -110,7 +111,7 @@ public class QuestListGui extends BaseGui {
         // 12개 이상이면 우클릭 안내 추가
         if (questCount > MAX_DISPLAY_QUESTS) {
             builder.addLore(Component.empty());
-            builder.addLore(LangManager.list(LangKey.ITEMS_QUEST_LIST_VIEW_ALL, viewer.locale()));
+            builder.addLore(LangManager.list(GeneralLangKey.ITEMS_QUEST_LIST_VIEW_ALL, viewer.locale()));
         }
 
         // GUI 아이템 표준 설정 적용
@@ -137,8 +138,8 @@ public class QuestListGui extends BaseGui {
         // 진행 중인 퀘스트 라벨
         Locale locale = viewer.locale();
         ItemBuilder activeBuilder = ItemBuilder.of(Material.ENCHANTED_BOOK)
-                .displayName(LangManager.text(LangKey.ITEMS_QUEST_LIST_ACTIVE_NAME, viewer.locale()))
-                .addLore(LangManager.list(LangKey.ITEMS_QUEST_LIST_ACTIVE_LORE, viewer.locale()));
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_QUEST_LIST_ACTIVE_NAME, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_QUEST_LIST_ACTIVE_LORE, viewer.locale()));
 
         GuiItem activeLabel = createLabelItem(activeBuilder, activeQuests.size(), () -> {
             // 모든 진행 중 퀘스트 보기 GUI 열기
@@ -148,8 +149,8 @@ public class QuestListGui extends BaseGui {
 
         // 완료된 퀘스트 라벨
         ItemBuilder completedBuilder = ItemBuilder.of(Material.BOOK)
-                .displayName(LangManager.text(LangKey.ITEMS_QUEST_LIST_COMPLETED_NAME, viewer.locale()))
-                .addLore(LangManager.list(LangKey.ITEMS_QUEST_LIST_COMPLETED_LORE, viewer.locale()));
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_QUEST_LIST_COMPLETED_NAME, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_QUEST_LIST_COMPLETED_LORE, viewer.locale()));
 
         GuiItem completedLabel = createLabelItem(completedBuilder, completedQuests.size(), () -> {
             // 모든 완료된 퀘스트 보기 GUI 열기
@@ -241,11 +242,11 @@ public class QuestListGui extends BaseGui {
         
         builder.addLore(Component.empty())
                 // 진행도 표시
-                .addLore(LangManager.text(LangKey.GUI_QUEST_LIST_PROGRESS, viewer.locale())
+                .addLore(LangManager.text(GuiLangKey.GUI_QUEST_LIST_PROGRESS, viewer.locale())
                         .append(Component.text(" " + progress.getCompletionPercentage() + "%", UnifiedColorUtil.EMERALD)))
                 // 클릭 안내
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_QUEST_LIST_CLICK_DETAILS, viewer.locale()).color(UnifiedColorUtil.GRAY));
+                .addLore(LangManager.text(GuiLangKey.GUI_QUEST_LIST_CLICK_DETAILS, viewer.locale()).color(UnifiedColorUtil.GRAY));
 
         return GuiItem.clickable(builder.build(), p -> {
             // 퀘스트 상세 정보 GUI 열기
@@ -272,14 +273,14 @@ public class QuestListGui extends BaseGui {
         
         builder.addLore(Component.empty())
                 // 완료 표시
-                .addLore(LangManager.text(LangKey.GUI_QUEST_LIST_COMPLETED_LABEL, viewer.locale())
+                .addLore(LangManager.text(GuiLangKey.GUI_QUEST_LIST_COMPLETED_LABEL, viewer.locale())
                         .color(UnifiedColorUtil.SUCCESS)
                         .decoration(TextDecoration.BOLD, true));
 
         // 반복 가능 여부
         if (quest.isRepeatable()) {
             builder.addLore(Component.empty())
-                    .addLore(LangManager.text(LangKey.GUI_QUEST_LIST_REPEATABLE, viewer.locale()).color(UnifiedColorUtil.AQUA));
+                    .addLore(LangManager.text(GuiLangKey.GUI_QUEST_LIST_REPEATABLE, viewer.locale()).color(UnifiedColorUtil.AQUA));
         }
 
         builder.hideAllFlags();

@@ -1,5 +1,9 @@
 package com.febrie.rpg.gui.impl.settings;
+import com.febrie.rpg.util.lang.SystemLangKey;
+import com.febrie.rpg.util.lang.GeneralLangKey;
+import com.febrie.rpg.util.lang.MessageLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
@@ -11,7 +15,6 @@ import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -38,7 +41,7 @@ public class NotificationSettingsGui extends BaseGui {
 
     private NotificationSettingsGui(@NotNull GuiManager guiManager,
                                   @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_NOTIFICATION_SETTINGS_TITLE, player));
+        super(player, guiManager, GUI_SIZE, LangManager.text(GuiLangKey.GUI_NOTIFICATION_SETTINGS_TITLE, player));
     }
 
     /**
@@ -56,7 +59,7 @@ public class NotificationSettingsGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_NOTIFICATION_SETTINGS_TITLE, viewer);
+        return LangManager.text(GuiLangKey.GUI_NOTIFICATION_SETTINGS_TITLE, viewer);
     }
 
     @Override
@@ -85,9 +88,9 @@ public class NotificationSettingsGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 ItemBuilder.of(Material.BELL)
-                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_TITLE_NAME, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_TITLE_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_TITLE_LORE, viewer))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_TITLE_LORE, viewer))
                         .hideAllFlags()
                         .build()
         );
@@ -142,26 +145,26 @@ public class NotificationSettingsGui extends BaseGui {
         
         GuiItem whisperNotificationsToggle = GuiItem.clickable(
                 ItemBuilder.of(enabled ? Material.LIME_CONCRETE : Material.RED_CONCRETE)
-                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_WHISPER_NAME, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_WHISPER_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_NOTIFICATION_SETTINGS_STATUS, viewer,
-                                (enabled ? LangManager.text(LangKey.STATUS_ENABLED, viewer) : LangManager.text(LangKey.STATUS_DISABLED, viewer))
+                        .addLore(LangManager.text(GuiLangKey.GUI_NOTIFICATION_SETTINGS_STATUS, viewer,
+                                (enabled ? LangManager.text(GeneralLangKey.STATUS_ENABLED, viewer) : LangManager.text(GeneralLangKey.STATUS_DISABLED, viewer))
                                 .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
                         .addLore(Component.empty())
-                        .addLore(LangManager.list(LangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_WHISPER_DESC, viewer))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_WHISPER_DESC, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_WHISPER_NOTE, viewer))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_WHISPER_NOTE, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_NOTIFICATION_SETTINGS_CLICK_TO_TOGGLE, viewer,
-                                (enabled ? LangManager.text(LangKey.ACTION_DISABLE, viewer) : LangManager.text(LangKey.ACTION_ENABLE, viewer))))
+                        .addLore(LangManager.text(GuiLangKey.GUI_NOTIFICATION_SETTINGS_CLICK_TO_TOGGLE, viewer,
+                                (enabled ? LangManager.text(GeneralLangKey.ACTION_DISABLE, viewer) : LangManager.text(GeneralLangKey.ACTION_ENABLE, viewer))))
                         .hideAllFlags()
                         .build(),
                 p -> {
                     settings.setWhisperNotificationsEnabled(!enabled);
                     updateWhisperNotificationsToggle(settings);
                     playClickSound(p);
-                    p.sendMessage(LangManager.text(LangKey.GUI_NOTIFICATION_SETTINGS_WHISPER_TOGGLED, p,
-                            (enabled ? LangManager.text(LangKey.STATUS_DISABLED, p) : LangManager.text(LangKey.STATUS_ENABLED, p))));
+                    p.sendMessage(LangManager.text(GuiLangKey.GUI_NOTIFICATION_SETTINGS_WHISPER_TOGGLED, p,
+                            (enabled ? LangManager.text(GeneralLangKey.STATUS_DISABLED, p) : LangManager.text(GeneralLangKey.STATUS_ENABLED, p))));
                 }
         );
         setItem(WHISPER_NOTIFICATIONS_SLOT, whisperNotificationsToggle);
@@ -182,34 +185,34 @@ public class NotificationSettingsGui extends BaseGui {
         };
 
         Component modeDisplay = switch (mode) {
-            case "ALL" -> LangManager.text(LangKey.NOTIFICATION_MODE_ALL, viewer);
-            case "FRIEND_ONLY" -> LangManager.text(LangKey.NOTIFICATION_MODE_FRIEND_ONLY, viewer);
-            case "GUILD_ONLY" -> LangManager.text(LangKey.NOTIFICATION_MODE_GUILD_ONLY, viewer);
-            case "OFF" -> LangManager.text(LangKey.NOTIFICATION_MODE_OFF, viewer);
-            default -> LangManager.text(LangKey.NOTIFICATION_MODE_UNKNOWN, viewer);
+            case "ALL" -> LangManager.text(GeneralLangKey.NOTIFICATION_MODE_ALL, viewer);
+            case "FRIEND_ONLY" -> LangManager.text(GeneralLangKey.NOTIFICATION_MODE_FRIEND_ONLY, viewer);
+            case "GUILD_ONLY" -> LangManager.text(GeneralLangKey.NOTIFICATION_MODE_GUILD_ONLY, viewer);
+            case "OFF" -> LangManager.text(GeneralLangKey.NOTIFICATION_MODE_OFF, viewer);
+            default -> LangManager.text(GeneralLangKey.NOTIFICATION_MODE_UNKNOWN, viewer);
         };
 
         Component modeDescription = switch (mode) {
-            case "ALL" -> LangManager.text(LangKey.NOTIFICATION_MODE_ALL_DESC, viewer);
-            case "FRIEND_ONLY" -> LangManager.text(LangKey.NOTIFICATION_MODE_FRIEND_ONLY_DESC, viewer);
-            case "GUILD_ONLY" -> LangManager.text(LangKey.NOTIFICATION_MODE_GUILD_ONLY_DESC, viewer);
-            case "OFF" -> LangManager.text(LangKey.NOTIFICATION_MODE_OFF_DESC, viewer);
-            default -> LangManager.text(LangKey.NOTIFICATION_MODE_UNKNOWN_DESC, viewer);
+            case "ALL" -> LangManager.text(GeneralLangKey.NOTIFICATION_MODE_ALL_DESC, viewer);
+            case "FRIEND_ONLY" -> LangManager.text(GeneralLangKey.NOTIFICATION_MODE_FRIEND_ONLY_DESC, viewer);
+            case "GUILD_ONLY" -> LangManager.text(GeneralLangKey.NOTIFICATION_MODE_GUILD_ONLY_DESC, viewer);
+            case "OFF" -> LangManager.text(GeneralLangKey.NOTIFICATION_MODE_OFF_DESC, viewer);
+            default -> LangManager.text(GeneralLangKey.NOTIFICATION_MODE_UNKNOWN_DESC, viewer);
         };
         
         GuiItem inviteNotificationsToggle = GuiItem.clickable(
                 ItemBuilder.of(material)
-                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_NAME, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_NOTIFICATION_SETTINGS_CURRENT_MODE, viewer, modeDisplay))
+                        .addLore(LangManager.text(GuiLangKey.GUI_NOTIFICATION_SETTINGS_CURRENT_MODE, viewer, modeDisplay))
                         .addLore(modeDescription.color(UnifiedColorUtil.GRAY))
                         .addLore(Component.empty())
-                        .addLore(LangManager.list(LangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_DESC, viewer))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_DESC, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_CLICK_HINT, viewer))
-                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_MODE_CYCLE, viewer))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_CLICK_HINT, viewer))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_MODE_CYCLE, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_NOTE, viewer))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_INVITE_NOTE, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
@@ -226,14 +229,14 @@ public class NotificationSettingsGui extends BaseGui {
                     playClickSound(p);
                     
                     Component newModeDisplay = switch (nextMode) {
-                        case "ALL" -> LangManager.text(LangKey.NOTIFICATION_MODE_ALL, p);
-                        case "FRIEND_ONLY" -> LangManager.text(LangKey.NOTIFICATION_MODE_FRIEND_ONLY, p);
-                        case "GUILD_ONLY" -> LangManager.text(LangKey.NOTIFICATION_MODE_GUILD_ONLY, p);
-                        case "OFF" -> LangManager.text(LangKey.NOTIFICATION_MODE_OFF, p);
-                        default -> LangManager.text(LangKey.NOTIFICATION_MODE_UNKNOWN, p);
+                        case "ALL" -> LangManager.text(GeneralLangKey.NOTIFICATION_MODE_ALL, p);
+                        case "FRIEND_ONLY" -> LangManager.text(GeneralLangKey.NOTIFICATION_MODE_FRIEND_ONLY, p);
+                        case "GUILD_ONLY" -> LangManager.text(GeneralLangKey.NOTIFICATION_MODE_GUILD_ONLY, p);
+                        case "OFF" -> LangManager.text(GeneralLangKey.NOTIFICATION_MODE_OFF, p);
+                        default -> LangManager.text(GeneralLangKey.NOTIFICATION_MODE_UNKNOWN, p);
                     };
                     
-                    p.sendMessage(LangManager.text(LangKey.GUI_NOTIFICATION_SETTINGS_INVITE_CHANGED, p, newModeDisplay));
+                    p.sendMessage(LangManager.text(GuiLangKey.GUI_NOTIFICATION_SETTINGS_INVITE_CHANGED, p, newModeDisplay));
                 }
         );
         setItem(INVITE_NOTIFICATIONS_SLOT, inviteNotificationsToggle);
@@ -247,27 +250,27 @@ public class NotificationSettingsGui extends BaseGui {
         
         GuiItem serverAnnouncementsToggle = GuiItem.clickable(
                 ItemBuilder.of(enabled ? Material.BEACON : Material.GLASS)
-                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_NAME, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_NOTIFICATION_SETTINGS_STATUS, viewer,
-                                (enabled ? LangManager.text(LangKey.STATUS_ENABLED, viewer) : LangManager.text(LangKey.STATUS_DISABLED, viewer))
+                        .addLore(LangManager.text(GuiLangKey.GUI_NOTIFICATION_SETTINGS_STATUS, viewer,
+                                (enabled ? LangManager.text(GeneralLangKey.STATUS_ENABLED, viewer) : LangManager.text(GeneralLangKey.STATUS_DISABLED, viewer))
                                 .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
                         .addLore(Component.empty())
-                        .addLore(LangManager.list(LangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_DESC, viewer))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_DESC, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_EXAMPLE_TITLE, viewer))
-                        .addLore(LangManager.list(LangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_EXAMPLES, viewer))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_EXAMPLE_TITLE, viewer))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_SETTINGS_NOTIFICATION_SETTINGS_SERVER_EXAMPLES, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_NOTIFICATION_SETTINGS_CLICK_TO_TOGGLE, viewer,
-                                (enabled ? LangManager.text(LangKey.ACTION_DISABLE, viewer) : LangManager.text(LangKey.ACTION_ENABLE, viewer))))
+                        .addLore(LangManager.text(GuiLangKey.GUI_NOTIFICATION_SETTINGS_CLICK_TO_TOGGLE, viewer,
+                                (enabled ? LangManager.text(GeneralLangKey.ACTION_DISABLE, viewer) : LangManager.text(GeneralLangKey.ACTION_ENABLE, viewer))))
                         .hideAllFlags()
                         .build(),
                 p -> {
                     settings.setServerAnnouncementsEnabled(!enabled);
                     updateServerAnnouncementsToggle(settings);
                     playClickSound(p);
-                    p.sendMessage(LangManager.text(LangKey.GUI_NOTIFICATION_SETTINGS_SERVER_TOGGLED, p,
-                            (enabled ? LangManager.text(LangKey.STATUS_DISABLED, p) : LangManager.text(LangKey.STATUS_ENABLED, p))));
+                    p.sendMessage(LangManager.text(GuiLangKey.GUI_NOTIFICATION_SETTINGS_SERVER_TOGGLED, p,
+                            (enabled ? LangManager.text(GeneralLangKey.STATUS_DISABLED, p) : LangManager.text(GeneralLangKey.STATUS_ENABLED, p))));
                 }
         );
         setItem(SERVER_ANNOUNCEMENTS_SLOT, serverAnnouncementsToggle);

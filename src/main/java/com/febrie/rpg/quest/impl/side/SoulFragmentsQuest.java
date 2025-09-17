@@ -11,8 +11,6 @@ import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.SoulFragmentsLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -68,25 +66,25 @@ public class SoulFragmentsQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(SoulFragmentsLangKey.QUEST_SIDE_SOUL_FRAGMENTS_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.soul.fragments.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(SoulFragmentsLangKey.QUEST_SIDE_SOUL_FRAGMENTS_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.soul.fragments.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_spirit_guide" -> LangManager.text(SoulFragmentsLangKey.QUEST_SIDE_SOUL_FRAGMENTS_OBJECTIVES_TALK_SPIRIT_GUIDE, who);
-            case "spiritual_barrier" -> LangManager.text(SoulFragmentsLangKey.QUEST_SIDE_SOUL_FRAGMENTS_OBJECTIVES_SPIRITUAL_BARRIER, who);
-            case "ghast_tear_collect" -> LangManager.text(SoulFragmentsLangKey.QUEST_SIDE_SOUL_FRAGMENTS_OBJECTIVES_GHAST_TEAR_COLLECT, who);
-            case "glowstone_dust_collect" -> LangManager.text(SoulFragmentsLangKey.QUEST_SIDE_SOUL_FRAGMENTS_OBJECTIVES_GLOWSTONE_DUST_COLLECT, who);
-            case "soul_nexus" -> LangManager.text(SoulFragmentsLangKey.QUEST_SIDE_SOUL_FRAGMENTS_OBJECTIVES_SOUL_NEXUS, who);
-            case "soul_torch_collect" -> LangManager.text(SoulFragmentsLangKey.QUEST_SIDE_SOUL_FRAGMENTS_OBJECTIVES_SOUL_TORCH_COLLECT, who);
-            case "spirit_shrine" -> LangManager.text(SoulFragmentsLangKey.QUEST_SIDE_SOUL_FRAGMENTS_OBJECTIVES_SPIRIT_SHRINE, who);
-            case "restore_souls" -> LangManager.text(SoulFragmentsLangKey.QUEST_SIDE_SOUL_FRAGMENTS_OBJECTIVES_RESTORE_SOULS, who);
+            case "talk_spirit_guide" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.soul.fragments.objectives.talk.spirit.guide"), who);
+            case "spiritual_barrier" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.soul.fragments.objectives.spiritual.barrier"), who);
+            case "ghast_tear_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.soul.fragments.objectives.ghast.tear.collect"), who);
+            case "glowstone_dust_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.soul.fragments.objectives.glowstone.dust.collect"), who);
+            case "soul_nexus" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.soul.fragments.objectives.soul.nexus"), who);
+            case "soul_torch_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.soul.fragments.objectives.soul.torch.collect"), who);
+            case "spirit_shrine" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.soul.fragments.objectives.spirit.shrine"), who);
+            case "restore_souls" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.soul.fragments.objectives.restore.souls"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -98,7 +96,7 @@ public class SoulFragmentsQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(SoulFragmentsLangKey.QUEST_SIDE_SOUL_FRAGMENTS_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.soul.fragments.dialogs"), who);
     }
     
     @Override
@@ -108,16 +106,16 @@ public class SoulFragmentsQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(SoulFragmentsLangKey.QUEST_SIDE_SOUL_FRAGMENTS_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.soul.fragments.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(SoulFragmentsLangKey.QUEST_SIDE_SOUL_FRAGMENTS_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.soul.fragments.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(SoulFragmentsLangKey.QUEST_SIDE_SOUL_FRAGMENTS_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.soul.fragments.decline"), who);
     }
 }

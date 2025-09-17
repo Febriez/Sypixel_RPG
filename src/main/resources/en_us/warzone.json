@@ -4,9 +4,11 @@
   "kill": "Warzone Kill",
   "death": "Warzone Death",
   "capture": "Zone Captured",
-  "warzone.entered": "Entered",
-  "warzone.left": "Left",
-  "warzone.kill": "Kill",
-  "warzone.death": "Death",
-  "warzone.capture": "Capture"
+  "warzone": {
+    "entered": "Entered",
+    "left": "Left",
+    "kill": "Kill",
+    "death": "Death",
+    "capture": "Capture"
+  }
 }

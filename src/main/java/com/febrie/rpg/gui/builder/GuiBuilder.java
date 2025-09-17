@@ -7,7 +7,6 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.lang.ILangKey;
 import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;

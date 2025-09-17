@@ -9,14 +9,16 @@
   "mythic": "Mythic",
   "divine": "Divine",
   "eternal": "Eternal",
-  "rank.novice": "Novice",
-  "rank.apprentice": "Apprentice",
-  "rank.journeyman": "Journeyman",
-  "rank.expert": "Expert",
-  "rank.master": "Master",
-  "rank.grandmaster": "Grandmaster",
-  "rank.legendary": "Legendary",
-  "rank.mythic": "Mythic",
-  "rank.divine": "Divine",
-  "rank.eternal": "Eternal"
+  "rank": {
+    "novice": "Novice",
+    "apprentice": "Apprentice",
+    "journeyman": "Journeyman",
+    "expert": "Expert",
+    "master": "Master",
+    "grandmaster": "Grandmaster",
+    "legendary": "Legendary",
+    "mythic": "Mythic",
+    "divine": "Divine",
+    "eternal": "Eternal"
+  }
 }

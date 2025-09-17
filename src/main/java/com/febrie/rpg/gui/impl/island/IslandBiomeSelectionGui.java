@@ -1,5 +1,8 @@
 package com.febrie.rpg.gui.impl.island;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
+import com.febrie.rpg.util.lang.SystemLangKey;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
@@ -7,7 +10,6 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.lang.ILangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -37,18 +39,18 @@ public class IslandBiomeSelectionGui extends BaseGui {
     
     // 사용 가능한 바이옴들
     private static final List<BiomeOption> AVAILABLE_BIOMES = List.of(
-        new BiomeOption("PLAINS", LangKey.BIOME_PLAINS_NAME, LangKey.BIOME_PLAINS_DESCRIPTION, Material.GRASS_BLOCK),
-        new BiomeOption("FOREST", LangKey.BIOME_FOREST_NAME, LangKey.BIOME_FOREST_DESCRIPTION, Material.OAK_SAPLING),
-        new BiomeOption("DESERT", LangKey.BIOME_DESERT_NAME, LangKey.BIOME_DESERT_DESCRIPTION, Material.SAND),
-        new BiomeOption("SNOWY_PLAINS", LangKey.BIOME_SNOWY_PLAINS_NAME, LangKey.BIOME_SNOWY_PLAINS_DESCRIPTION, Material.SNOW_BLOCK),
-        new BiomeOption("JUNGLE", LangKey.BIOME_JUNGLE_NAME, LangKey.BIOME_JUNGLE_DESCRIPTION, Material.JUNGLE_SAPLING),
-        new BiomeOption("SWAMP", LangKey.BIOME_SWAMP_NAME, LangKey.BIOME_SWAMP_DESCRIPTION, Material.LILY_PAD),
-        new BiomeOption("SAVANNA", LangKey.BIOME_SAVANNA_NAME, LangKey.BIOME_SAVANNA_DESCRIPTION, Material.ACACIA_SAPLING),
-        new BiomeOption("MUSHROOM_FIELDS", LangKey.BIOME_MUSHROOM_FIELDS_NAME, LangKey.BIOME_MUSHROOM_FIELDS_DESCRIPTION, Material.RED_MUSHROOM),
-        new BiomeOption("TAIGA", LangKey.BIOME_TAIGA_NAME, LangKey.BIOME_TAIGA_DESCRIPTION, Material.SPRUCE_SAPLING),
-        new BiomeOption("BEACH", LangKey.BIOME_BEACH_NAME, LangKey.BIOME_BEACH_DESCRIPTION, Material.SAND),
-        new BiomeOption("CHERRY_GROVE", LangKey.BIOME_CHERRY_GROVE_NAME, LangKey.BIOME_CHERRY_GROVE_DESCRIPTION, Material.CHERRY_SAPLING),
-        new BiomeOption("BAMBOO_JUNGLE", LangKey.BIOME_BAMBOO_JUNGLE_NAME, LangKey.BIOME_BAMBOO_JUNGLE_DESCRIPTION, Material.BAMBOO)
+        new BiomeOption("PLAINS", GeneralLangKey.BIOME_PLAINS_NAME, GeneralLangKey.BIOME_PLAINS_DESCRIPTION, Material.GRASS_BLOCK),
+        new BiomeOption("FOREST", GeneralLangKey.BIOME_FOREST_NAME, GeneralLangKey.BIOME_FOREST_DESCRIPTION, Material.OAK_SAPLING),
+        new BiomeOption("DESERT", GeneralLangKey.BIOME_DESERT_NAME, GeneralLangKey.BIOME_DESERT_DESCRIPTION, Material.SAND),
+        new BiomeOption("SNOWY_PLAINS", GeneralLangKey.BIOME_SNOWY_PLAINS_NAME, GeneralLangKey.BIOME_SNOWY_PLAINS_DESCRIPTION, Material.SNOW_BLOCK),
+        new BiomeOption("JUNGLE", GeneralLangKey.BIOME_JUNGLE_NAME, GeneralLangKey.BIOME_JUNGLE_DESCRIPTION, Material.JUNGLE_SAPLING),
+        new BiomeOption("SWAMP", GeneralLangKey.BIOME_SWAMP_NAME, GeneralLangKey.BIOME_SWAMP_DESCRIPTION, Material.LILY_PAD),
+        new BiomeOption("SAVANNA", GeneralLangKey.BIOME_SAVANNA_NAME, GeneralLangKey.BIOME_SAVANNA_DESCRIPTION, Material.ACACIA_SAPLING),
+        new BiomeOption("MUSHROOM_FIELDS", GeneralLangKey.BIOME_MUSHROOM_FIELDS_NAME, GeneralLangKey.BIOME_MUSHROOM_FIELDS_DESCRIPTION, Material.RED_MUSHROOM),
+        new BiomeOption("TAIGA", GeneralLangKey.BIOME_TAIGA_NAME, GeneralLangKey.BIOME_TAIGA_DESCRIPTION, Material.SPRUCE_SAPLING),
+        new BiomeOption("BEACH", GeneralLangKey.BIOME_BEACH_NAME, GeneralLangKey.BIOME_BEACH_DESCRIPTION, Material.SAND),
+        new BiomeOption("CHERRY_GROVE", GeneralLangKey.BIOME_CHERRY_GROVE_NAME, GeneralLangKey.BIOME_CHERRY_GROVE_DESCRIPTION, Material.CHERRY_SAPLING),
+        new BiomeOption("BAMBOO_JUNGLE", GeneralLangKey.BIOME_BAMBOO_JUNGLE_NAME, GeneralLangKey.BIOME_BAMBOO_JUNGLE_DESCRIPTION, Material.BAMBOO)
     );
     
     private final Consumer<String> onBiomeSelected;
@@ -60,7 +62,7 @@ public class IslandBiomeSelectionGui extends BaseGui {
                                    @NotNull String currentBiome,
                                    @NotNull Consumer<String> onBiomeSelected,
                                    @NotNull GuiFramework backDestination) {
-        super(player, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_TITLE, player.locale()));
+        super(player, guiManager, GUI_SIZE, LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_SELECTION_TITLE, player.locale()));
         this.currentBiome = currentBiome;
         this.onBiomeSelected = onBiomeSelected;
         this.backDestination = backDestination;
@@ -79,7 +81,7 @@ public class IslandBiomeSelectionGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_TITLE, viewer.locale());
+        return LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_SELECTION_TITLE, viewer.locale());
     }
     
     @Override
@@ -103,9 +105,9 @@ public class IslandBiomeSelectionGui extends BaseGui {
         // 제목 아이템
         GuiItem titleItem = GuiItem.display(
             ItemBuilder.of(Material.FILLED_MAP)
-                .displayName(LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_INFO_TITLE, getViewerLocale()))
+                .displayName(LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_SELECTION_INFO_TITLE, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.list(LangKey.GUI_ISLAND_BIOME_SELECTION_INFO_LORE, getViewerLocale()))
+                .addLore(LangManager.list(GuiLangKey.GUI_ISLAND_BIOME_SELECTION_INFO_LORE, getViewerLocale()))
                 .addLore(Component.empty())
                 .hideAllFlags()
                 .build()
@@ -132,10 +134,10 @@ public class IslandBiomeSelectionGui extends BaseGui {
             builder.addLore(Component.empty());
             
             if (isSelected) {
-                builder.addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_CURRENT_SELECTED, getViewerLocale()));
+                builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_SELECTION_CURRENT_SELECTED, getViewerLocale()));
                 builder.glint(true);
             } else {
-                builder.addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_CLICK_TO_SELECT, getViewerLocale()));
+                builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_SELECTION_CLICK_TO_SELECT, getViewerLocale()));
             }
             
             builder.addLore(Component.empty());
@@ -157,8 +159,8 @@ public class IslandBiomeSelectionGui extends BaseGui {
     private void setupBackButton() {
         GuiItem backButton = GuiItem.clickable(
             ItemBuilder.of(Material.ARROW)
-                .displayName(LangManager.text(LangKey.GUI_BUTTONS_BACK_NAME, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_SELECTION_BACK_LORE, getViewerLocale()))
+                .displayName(LangManager.text(GuiLangKey.GUI_BUTTONS_BACK_NAME, getViewerLocale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_SELECTION_BACK_LORE, getViewerLocale()))
                 .hideAllFlags()
                 .build(),
             player -> {

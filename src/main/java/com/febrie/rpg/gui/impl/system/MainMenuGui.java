@@ -1,5 +1,7 @@
 package com.febrie.rpg.gui.impl.system;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.builder.GuiBuilder;
 import com.febrie.rpg.gui.component.GuiFactory;
@@ -18,8 +20,6 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
 
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -50,7 +50,7 @@ public class MainMenuGui extends BaseGui {
     private static final int TITLE_SLOT = 4;
 
     private MainMenuGui(@NotNull GuiManager guiManager, @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_MAINMENU_TITLE, player));
+        super(player, guiManager, GUI_SIZE, LangManager.text(GuiLangKey.GUI_MAINMENU_TITLE, player));
     }
     
     /**
@@ -95,8 +95,8 @@ public class MainMenuGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 ItemBuilder.of(Material.NETHER_STAR)
-                        .displayName(LangManager.text(LangKey.ITEMS_MAINMENU_TITLE_NAME, viewer))
-                        .addLore(LangManager.list(LangKey.ITEMS_MAINMENU_TITLE_LORE, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_MAINMENU_TITLE_NAME, viewer))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_MAINMENU_TITLE_LORE, viewer))
                         .hideAllFlags()
                         .build()
         );
@@ -112,8 +112,8 @@ public class MainMenuGui extends BaseGui {
         // ?�로??버튼 (?�단)
         builder.menuButton(PROFILE_SLOT, 
             ItemBuilder.of(Material.PLAYER_HEAD)
-                .displayName(LangManager.text(LangKey.ITEMS_MAINMENU_PROFILE_BUTTON_NAME, viewer))
-                .addLore(LangManager.list(LangKey.ITEMS_MAINMENU_PROFILE_BUTTON_LORE, viewer))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_MAINMENU_PROFILE_BUTTON_NAME, viewer))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_MAINMENU_PROFILE_BUTTON_LORE, viewer))
                 .hideAllFlags()
                 .build(),
             player -> {
@@ -123,8 +123,8 @@ public class MainMenuGui extends BaseGui {
             
         // ?�브 버튼 (?�더??�?
         builder.menuButton(HUB_SLOT, Material.NETHER_STAR,
-            LangKey.ITEMS_MAINMENU_HUB_BUTTON_NAME,
-            LangKey.ITEMS_MAINMENU_HUB_BUTTON_LORE,
+            GeneralLangKey.ITEMS_MAINMENU_HUB_BUTTON_NAME,
+            GeneralLangKey.ITEMS_MAINMENU_HUB_BUTTON_LORE,
             player -> {
                 World hubWorld = Bukkit.getWorld("Hub");
                 if (hubWorld != null) {
@@ -139,20 +139,20 @@ public class MainMenuGui extends BaseGui {
             
         // ?�점 버튼 (준비중)
         builder.menuButton(SHOP_SLOT, Material.EMERALD,
-            LangKey.ITEMS_MAINMENU_SHOP_BUTTON_NAME,
-            LangKey.ITEMS_MAINMENU_SHOP_BUTTON_LORE,
+            GeneralLangKey.ITEMS_MAINMENU_SHOP_BUTTON_NAME,
+            GeneralLangKey.ITEMS_MAINMENU_SHOP_BUTTON_LORE,
             player -> sendMessage(player, "general.coming-soon"));
             
         // ?�전 버튼 (준비중)
         builder.menuButton(DUNGEON_SLOT, Material.END_PORTAL_FRAME,
-            LangKey.ITEMS_MAINMENU_DUNGEON_BUTTON_NAME,
-            LangKey.ITEMS_MAINMENU_DUNGEON_BUTTON_LORE,
+            GeneralLangKey.ITEMS_MAINMENU_DUNGEON_BUTTON_NAME,
+            GeneralLangKey.ITEMS_MAINMENU_DUNGEON_BUTTON_LORE,
             player -> sendMessage(player, "general.coming-soon"));
             
         // ?�생 버튼 (준비중)
         builder.menuButton(WILD_SLOT, Material.IRON_SWORD,
-            LangKey.ITEMS_MAINMENU_WILD_BUTTON_NAME,
-            LangKey.ITEMS_MAINMENU_WILD_BUTTON_LORE,
+            GeneralLangKey.ITEMS_MAINMENU_WILD_BUTTON_NAME,
+            GeneralLangKey.ITEMS_MAINMENU_WILD_BUTTON_LORE,
             player -> sendMessage(player, "general.coming-soon"));
             
         // 리더보드 버튼
@@ -160,8 +160,8 @@ public class MainMenuGui extends BaseGui {
             
         // ??버튼 (?�디 블럭)
         builder.menuButton(ISLAND_SLOT, Material.GRASS_BLOCK,
-            LangKey.ITEMS_MAINMENU_ISLAND_BUTTON_NAME,
-            LangKey.ITEMS_MAINMENU_ISLAND_BUTTON_LORE,
+            GeneralLangKey.ITEMS_MAINMENU_ISLAND_BUTTON_NAME,
+            GeneralLangKey.ITEMS_MAINMENU_ISLAND_BUTTON_LORE,
             player -> {
                 IslandManager islandManager = RPGMain.getPlugin().getIslandManager();
                 PlayerIslandDataDTO playerIslandData = islandManager.getPlayerIslandDataFromCache(player.getUniqueId().toString());
@@ -186,8 +186,8 @@ public class MainMenuGui extends BaseGui {
     private void setupLeaderboardButton() {
         GuiItem leaderboardButton = GuiItem.clickable(
                 ItemBuilder.of(Material.GOLDEN_APPLE)
-                        .displayName(LangManager.text(LangKey.ITEMS_MAINMENU_LEADERBOARD_BUTTON_NAME, viewer))
-                        .addLore(LangManager.list(LangKey.ITEMS_MAINMENU_LEADERBOARD_BUTTON_LORE, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_MAINMENU_LEADERBOARD_BUTTON_NAME, viewer))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_MAINMENU_LEADERBOARD_BUTTON_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 player -> {

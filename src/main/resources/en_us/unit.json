@@ -1,6 +1,8 @@
 {
   "blocks": "blocks",
   "players": "players",
-  "unit.blocks": "blocks",
-  "unit.players": "players"
+  "unit": {
+    "blocks": "blocks",
+    "players": "players"
+  }
 }

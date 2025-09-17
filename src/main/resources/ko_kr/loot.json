@@ -1,6 +1,12 @@
 {
-  "common_drop": "[KO] Common Drop",
-  "rare_drop": "[KO] Rare Drop",
-  "epic_drop": "[KO] Epic Drop",
-  "legendary_drop": "[KO] Legendary Drop"
+  "common_drop": "Common Drop",
+  "rare_drop": "레어 Drop",
+  "epic_drop": "에픽 Drop",
+  "legendary_drop": "전설 Drop",
+  "loot": {
+    "common_drop": "Common Drop",
+    "rare_drop": "레어 Drop",
+    "epic_drop": "에픽 Drop",
+    "legendary_drop": "전설 Drop"
+  }
 }

@@ -31,11 +31,14 @@
   "cannot_view_others_quests": "You cannot view other players' quests!",
   "cannot_view_others_combat_power": "You cannot view other players' combat power details!",
   "error": {
-    "general": "An error occurred. Please contact an administrator.",
-    "hub_world_not_found": "Hub world not found! Please contact an administrator.",
+    "_value": "An error occurred",
     "friend_request_id_missing": "Friend request ID is missing",
     "friend_request_not_found": "Friend request not found",
     "friend_already_exists": "Already friends with this player"
+  },
+  "error_details": {
+    "general": "An error occurred. Please contact an administrator.",
+    "hub_world_not_found": "Hub world not found! Please contact an administrator."
   },
   "mailbox": {
     "delete_confirm_word": "DELETE",
@@ -64,7 +67,6 @@
   "action_enable": "Enable",
   "action_disable": "Disable",
   "quest_total_count": "Total Quests: {0}",
-  "error_friend_request_id_missing": "Friend request ID is missing",
   "general": {
     "time": {
       "days": "days",
@@ -132,30 +134,6 @@
   "action": {
     "enable": "Enable",
     "disable": "Disable"
-  },
-  "job": {
-    "selected": "You have selected the %s class!",
-    "already_has": "You already have this class!",
-    "level_up": "Your job level has increased to %d!",
-    "max_level": "You have reached the maximum job level!",
-    "requirement_not_met": "You do not meet the requirements for this job!",
-    "skill_learned": "You have learned the skill: %s",
-    "skill_upgraded": "Skill upgraded: %s (Level %d)",
-    "skill_max_level": "This skill is already at maximum level!",
-    "not_enough_skill_points": "Not enough skill points!",
-    "warrior": "Warrior",
-    "archer": "Archer",
-    "mage": "Mage",
-    "rogue": "Rogue",
-    "priest": "Priest",
-    "paladin": "Paladin",
-    "assassin": "Assassin",
-    "berserker": "Berserker",
-    "summoner": "Summoner",
-    "necromancer": "Necromancer",
-    "druid": "Druid",
-    "ranger": "Ranger",
-    "warlock": "Warlock"
   },
   "combat": {
     "damage_dealt": "You dealt {0} damage!",
@@ -645,13 +623,6 @@
     "level_up": "Pet Level Up",
     "evolved": "Pet Evolved"
   },
-  "auction": {
-    "listed": "Item listed for {0} gold",
-    "sold": "Item sold for {0} gold!",
-    "bought": "Bought {0} for {1} gold",
-    "expired": "Auction expired",
-    "cancelled": "Auction cancelled"
-  },
   "warzone": {
     "entered": "Entered Warzone",
     "left": "Left Warzone",
@@ -670,60 +641,12 @@
     "won": "You won!",
     "lost": "You lost!"
   },
-  "currency": {
-    "ectoplasm": "Ectoplasm",
-    "scute": "Scute"
-  },
+  "currency": {},
   "time": {
     "days": "days",
     "hours": "hours",
     "minutes": "minutes"
   },
-  "biome": {
-    "plains": "Plains",
-    "forest": "Forest",
-    "desert": "Desert",
-    "jungle": "Jungle",
-    "taiga": "Taiga",
-    "snowy_plains": "Snowy Plains",
-    "savanna": "Savanna",
-    "swamp": "Swamp",
-    "mushroom_fields": {
-      "name": "Mushroom Fields",
-      "description": "A rare biome filled with giant mushrooms"
-    },
-    "beach": "Beach",
-    "flower_forest": {
-      "name": "Flower Forest",
-      "description": "A colorful forest filled with flowers"
-    },
-    "bamboo_jungle": {
-      "name": "Bamboo Jungle",
-      "description": "A dense jungle with towering bamboo"
-    },
-    "dark_forest": {
-      "name": "Dark Forest",
-      "description": "A shadowy forest with thick canopy"
-    },
-    "birch_forest": {
-      "name": "Birch Forest",
-      "description": "A bright forest of birch trees"
-    },
-    "badlands": "Badlands",
-    "ocean": "Ocean",
-    "cherry_grove": {
-      "name": "Cherry Grove",
-      "description": "Beautiful grove with cherry blossoms"
-    },
-    "ice_spikes": "Ice Spikes",
-    "river": "River",
-    "tundra": "Tundra",
-    "mushroom": "Mushroom",
-    "mountains": "Mountains",
-    "void": "Void"
-  },
-  "ectoplasm": "Ectoplasm",
-  "scute": "Scute",
   "status": {
     "new_mail": "New Mail",
     "read": "Read"

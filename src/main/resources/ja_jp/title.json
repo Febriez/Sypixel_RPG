@@ -1,8 +1,4 @@
 {
-  "unlocked": "[JA] Unlocked",
-  "equipped": "[JA] Equipped",
-  "unequipped": "[JA] Unequipped",
-  "requirement_not_met": "[JA] Requirement Not Met",
   "welcome": "Welcome",
   "level_up": "レベルアップ",
   "quest_complete": "Quest Complete",
@@ -14,5 +10,23 @@
   "wave_start": "Wave Start",
   "wave_complete": "Wave Complete",
   "boss_spawn": "Boss Spawn",
-  "boss_defeated": "Boss Defeated"
+  "boss_defeated": "Boss Defeated",
+  "unlocked": "解除済み",
+  "equipped": "装備ped",
+  "unequipped": "Unequipped",
+  "requirement_not_met": "Requirement いいえt Met",
+  "title": {
+    "welcome": "Welcome",
+    "level_up": "レベル Up",
+    "quest_complete": "クエスト Complete",
+    "achievement_unlocked": "Achievement 解除済み",
+    "death": "Death",
+    "respawn": "Respawn",
+    "victory": "Victory",
+    "defeat": "Defeat",
+    "wave_start": "Wave Start",
+    "wave_complete": "Wave 完了",
+    "boss_spawn": "Boss Spawn",
+    "boss_defeated": "Boss Defeated"
+  }
 }

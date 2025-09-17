@@ -1,7 +1,8 @@
 {
   "mode": {
     "all": {
-      "desc": "説明"
+      "desc": "説明",
+      "_value": "[JA] All"
     },
     "friend_only": {
       "desc": "説明"
@@ -10,10 +11,20 @@
       "desc": "説明"
     },
     "off": {
-      "desc": "説明"
+      "desc": "説明",
+      "_value": "[JA] Off"
     },
     "unknown": {
-      "desc": "説明"
+      "desc": "説明",
+      "_value": "[JA] Unknown"
+    },
+    "friend-only": {
+      "_value": "[JA] Friend Only",
+      "desc": "[JA] Description text"
+    },
+    "guild-only": {
+      "_value": "[JA] Guild Only",
+      "desc": "[JA] Description text"
     }
   },
   "friend_online": "[JA] Friend Online",
@@ -25,11 +36,28 @@
   "quest_completed": "[JA] Quest Completed",
   "level_up": "[JA] Level Up",
   "mail_received": "[JA] Mail Received",
-  "mode.all": "[JA] All",
-  "mode.friend-only": "[JA] Friend Only",
-  "mode.guild-only": "[JA] Guild Only",
-  "mode.off": "[JA] Off",
-  "mode.unknown": "[JA] Unknown",
-  "mode.friend-only.desc": "[JA] Description text",
-  "mode.guild-only.desc": "[JA] Description text"
+  "notification": {
+    "mode": {
+      "all": "[TRANSLATE] All",
+      "friend-only": {
+        "_value": "[TRANSLATE] Friend Only",
+        "desc": "[TRANSLATE] Desc"
+      },
+      "guild-only": {
+        "_value": "[TRANSLATE] Guild Only",
+        "desc": "[TRANSLATE] Desc"
+      },
+      "off": "[TRANSLATE] Off",
+      "unknown": "[TRANSLATE] Unknown"
+    },
+    "friend_online": "[TRANSLATE] Friend Online",
+    "friend_offline": "[TRANSLATE] Friend Offline",
+    "guild_message": "[TRANSLATE] Guild Message",
+    "party_message": "[TRANSLATE] Party Message",
+    "system_message": "[TRANSLATE] System Message",
+    "achievement_unlocked": "[TRANSLATE] Achievement Unlocked",
+    "quest_completed": "[TRANSLATE] Quest Completed",
+    "level_up": "[TRANSLATE] Level Up",
+    "mail_received": "[TRANSLATE] Mail Received"
+  }
 }

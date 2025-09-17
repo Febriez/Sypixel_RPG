@@ -11,9 +11,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.lang.quest.side.FrozenPeaksLangKey;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -66,23 +64,23 @@ public class FrozenPeaksQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(FrozenPeaksLangKey.QUEST_SIDE_FROZEN_PEAKS_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.frozen.peaks.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(FrozenPeaksLangKey.QUEST_SIDE_FROZEN_PEAKS_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.frozen.peaks.info"), who);
     }
 
         @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_mountain_climber" -> LangManager.text(FrozenPeaksLangKey.QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_TALK_MOUNTAIN_CLIMBER, who);
-            case "visit_ice_cliffs" -> LangManager.text(FrozenPeaksLangKey.QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_VISIT_ICE_CLIFFS, who);
-            case "kill_polar_bears" -> LangManager.text(FrozenPeaksLangKey.QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_KILL_POLAR_BEARS, who);
-            case "ice_collect" -> LangManager.text(FrozenPeaksLangKey.QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_ICE_COLLECT, who);
-            case "visit_frozen_summit" -> LangManager.text(FrozenPeaksLangKey.QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_VISIT_FROZEN_SUMMIT, who);
-            case "packed_ice_collect" -> LangManager.text(FrozenPeaksLangKey.QUEST_SIDE_FROZEN_PEAKS_OBJECTIVES_PACKED_ICE_COLLECT, who);
+            case "talk_mountain_climber" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.frozen.peaks.objectives.talk.mountain.climber"), who);
+            case "visit_ice_cliffs" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.frozen.peaks.objectives.visit.ice.cliffs"), who);
+            case "kill_polar_bears" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.frozen.peaks.objectives.kill.polar.bears"), who);
+            case "ice_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.frozen.peaks.objectives.ice.collect"), who);
+            case "visit_frozen_summit" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.frozen.peaks.objectives.visit.frozen.summit"), who);
+            case "packed_ice_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.frozen.peaks.objectives.packed.ice.collect"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -94,7 +92,7 @@ public class FrozenPeaksQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(FrozenPeaksLangKey.QUEST_SIDE_FROZEN_PEAKS_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.frozen.peaks.dialogs"), who);
     }
     
     @Override
@@ -104,16 +102,16 @@ public class FrozenPeaksQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(FrozenPeaksLangKey.QUEST_SIDE_FROZEN_PEAKS_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.frozen.peaks.npc.name"), who);
     }
     
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(FrozenPeaksLangKey.QUEST_SIDE_FROZEN_PEAKS_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.frozen.peaks.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(FrozenPeaksLangKey.QUEST_SIDE_FROZEN_PEAKS_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.frozen.peaks.decline"), who);
     }
 }

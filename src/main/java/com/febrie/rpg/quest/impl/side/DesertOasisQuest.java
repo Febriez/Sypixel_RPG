@@ -11,9 +11,7 @@ import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.lang.quest.side.DesertOasisLangKey;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -66,23 +64,23 @@ public class DesertOasisQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(DesertOasisLangKey.QUEST_SIDE_DESERT_OASIS_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.desert.oasis.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(DesertOasisLangKey.QUEST_SIDE_DESERT_OASIS_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.desert.oasis.info"), who);
     }
 
         @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_desert_nomad" -> LangManager.text(DesertOasisLangKey.QUEST_SIDE_DESERT_OASIS_OBJECTIVES_TALK_DESERT_NOMAD, who);
-            case "mirages_edge" -> LangManager.text(DesertOasisLangKey.QUEST_SIDE_DESERT_OASIS_OBJECTIVES_MIRAGES_EDGE, who);
-            case "kill_husks" -> LangManager.text(DesertOasisLangKey.QUEST_SIDE_DESERT_OASIS_OBJECTIVES_KILL_HUSKS, who);
-            case "cactus_collect" -> LangManager.text(DesertOasisLangKey.QUEST_SIDE_DESERT_OASIS_OBJECTIVES_CACTUS_COLLECT, who);
-            case "hidden_oasis" -> LangManager.text(DesertOasisLangKey.QUEST_SIDE_DESERT_OASIS_OBJECTIVES_HIDDEN_OASIS, who);
-            case "water_bucket_collect" -> LangManager.text(DesertOasisLangKey.QUEST_SIDE_DESERT_OASIS_OBJECTIVES_WATER_BUCKET_COLLECT, who);
+            case "talk_desert_nomad" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.desert.oasis.objectives.talk.desert.nomad"), who);
+            case "mirages_edge" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.desert.oasis.objectives.mirages.edge"), who);
+            case "kill_husks" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.desert.oasis.objectives.kill.husks"), who);
+            case "cactus_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.desert.oasis.objectives.cactus.collect"), who);
+            case "hidden_oasis" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.desert.oasis.objectives.hidden.oasis"), who);
+            case "water_bucket_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.desert.oasis.objectives.water.bucket.collect"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -94,7 +92,7 @@ public class DesertOasisQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(DesertOasisLangKey.QUEST_SIDE_DESERT_OASIS_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.desert.oasis.dialogs"), who);
     }
     
     @Override
@@ -104,16 +102,16 @@ public class DesertOasisQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(DesertOasisLangKey.QUEST_SIDE_DESERT_OASIS_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.desert.oasis.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(DesertOasisLangKey.QUEST_SIDE_DESERT_OASIS_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.desert.oasis.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(DesertOasisLangKey.QUEST_SIDE_DESERT_OASIS_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.desert.oasis.decline"), who);
     }
 }

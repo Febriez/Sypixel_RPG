@@ -1,5 +1,8 @@
 package com.febrie.rpg.gui.impl.island;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
+import com.febrie.rpg.util.lang.SystemLangKey;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.gui.component.GuiItem;
@@ -10,7 +13,6 @@ import com.febrie.rpg.util.SoundUtil;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.lang.ILangKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -35,7 +37,7 @@ public class IslandBiomeChangeGui extends BaseGui {
     private final IslandDTO island;
 
     private IslandBiomeChangeGui(@NotNull Player viewer, @NotNull GuiManager guiManager, @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, LangManager.text(LangKey.GUI_ISLAND_BIOME_CHANGE_TITLE, viewer.locale()));
+        super(viewer, guiManager, 54, LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_CHANGE_TITLE, viewer.locale()));
         this.island = island;
         // plugin is already available from BaseGui
     }
@@ -54,7 +56,7 @@ public class IslandBiomeChangeGui extends BaseGui {
                                 .toString()) && m.isCoOwner());
 
         if (!canChangeBiome) {
-            viewer.sendMessage(LangManager.text(LangKey.GUI_ISLAND_BIOME_MESSAGE_NO_PERMISSION, viewer.locale()));
+            viewer.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_MESSAGE_NO_PERMISSION, viewer.locale()));
             return null;
         }
 
@@ -82,7 +84,7 @@ public class IslandBiomeChangeGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_ISLAND_BIOME_CHANGE_TITLE, viewer.locale());
+        return LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_CHANGE_TITLE, viewer.locale());
     }
 
     private void setupBiomeOptions() {
@@ -157,16 +159,16 @@ public class IslandBiomeChangeGui extends BaseGui {
         builder.addLore(Component.empty());
         
         if (isCurrentBiome) {
-            builder.addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_CURRENT, getViewerLocale()));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_CURRENT, getViewerLocale()));
         } else {
-            builder.addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_CLICK_TO_CHANGE, getViewerLocale()));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_CLICK_TO_CHANGE, getViewerLocale()));
         }
         
         return new GuiItem(builder.hideAllFlags().build()).onAnyClick(player -> {
             if (!isCurrentBiome) {
                 changeBiome(player, biome, biomeKey);
             } else {
-                player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_BIOME_MESSAGE_ALREADY_SELECTED, viewer.locale()));
+                player.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_MESSAGE_ALREADY_SELECTED, viewer.locale()));
             }
             SoundUtil.playClickSound(player);
         });
@@ -176,11 +178,11 @@ public class IslandBiomeChangeGui extends BaseGui {
         World islandWorld = plugin.getServer()
                 .getWorld("Island");
         if (islandWorld == null) {
-            player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_BIOME_MESSAGE_WORLD_NOT_FOUND, viewer.locale()));
+            player.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_MESSAGE_WORLD_NOT_FOUND, viewer.locale()));
             return;
         }
 
-        player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_BIOME_MESSAGE_CHANGING, viewer.locale()));
+        player.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_MESSAGE_CHANGING, viewer.locale()));
 
         // 비동기로 바이옴 변경 처리
         plugin.getServer()
@@ -207,8 +209,8 @@ public class IslandBiomeChangeGui extends BaseGui {
                             .getScheduler()
                             .runTask(plugin, () -> {
                                 ILangKey nameKey = getBiomeNameKey(biome);
-                                player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_BIOME_MESSAGE_CHANGED, viewer.locale(), LangManager.text(nameKey, viewer.locale())));
-                                player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_BIOME_MESSAGE_CHUNK_RELOAD_NOTICE, viewer.locale()));
+                                player.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_MESSAGE_CHANGED, viewer.locale(), LangManager.text(nameKey, viewer.locale())));
+                                player.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_MESSAGE_CHUNK_RELOAD_NOTICE, viewer.locale()));
 
                                 // 플레이어가 섬에 있다면 청크 리로드
                                 if (player.getWorld()
@@ -229,7 +231,7 @@ public class IslandBiomeChangeGui extends BaseGui {
     private @NotNull GuiItem createCurrentBiomeInfo() {
         World islandWorld = plugin.getServer()
                 .getWorld("Island");
-        Component currentBiomeName = LangManager.text(LangKey.GUI_ISLAND_BIOME_UNKNOWN, viewer.locale());
+        Component currentBiomeName = LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_UNKNOWN, viewer.locale());
 
         if (islandWorld != null) {
             // 섬의 중앙 좌표에서 바이옴 가져오기
@@ -241,11 +243,11 @@ public class IslandBiomeChangeGui extends BaseGui {
         }
 
         return new GuiItem(ItemBuilder.of(Material.COMPASS)
-                .displayName(LangManager.text(LangKey.GUI_ISLAND_BIOME_CURRENT_INFO, getViewerLocale()))
+                .displayName(LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_CURRENT_INFO, getViewerLocale()))
                 .addLore(Component.empty())
                 .addLore(currentBiomeName)
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_CURRENT_INFO_LORE, getViewerLocale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_CURRENT_INFO_LORE, getViewerLocale()))
                 .hideAllFlags()
                 .build());
     }
@@ -270,48 +272,48 @@ public class IslandBiomeChangeGui extends BaseGui {
     }
     
     private @NotNull ILangKey getBiomeNameKey(Biome biome) {
-        if (biome == Biome.PLAINS) return LangKey.BIOME_PLAINS_NAME;
-        if (biome == Biome.FOREST) return LangKey.BIOME_FOREST_NAME;
-        if (biome == Biome.DESERT) return LangKey.BIOME_DESERT_NAME;
-        if (biome == Biome.JUNGLE) return LangKey.BIOME_JUNGLE_NAME;
-        if (biome == Biome.TAIGA) return LangKey.BIOME_TAIGA_NAME;
-        if (biome == Biome.SNOWY_PLAINS) return LangKey.BIOME_SNOWY_PLAINS_NAME;
-        if (biome == Biome.SAVANNA) return LangKey.BIOME_SAVANNA_NAME;
-        if (biome == Biome.SWAMP) return LangKey.BIOME_SWAMP_NAME;
-        if (biome == Biome.MUSHROOM_FIELDS) return LangKey.BIOME_MUSHROOM_FIELDS_NAME;
-        if (biome == Biome.BEACH) return LangKey.BIOME_BEACH_NAME;
-        if (biome == Biome.FLOWER_FOREST) return LangKey.BIOME_FLOWER_FOREST_NAME;
-        if (biome == Biome.BAMBOO_JUNGLE) return LangKey.BIOME_BAMBOO_JUNGLE_NAME;
-        if (biome == Biome.DARK_FOREST) return LangKey.BIOME_DARK_FOREST_NAME;
-        if (biome == Biome.BIRCH_FOREST) return LangKey.BIOME_BIRCH_FOREST_NAME;
-        if (biome == Biome.BADLANDS) return LangKey.BIOME_BADLANDS_NAME;
-        return LangKey.GUI_ISLAND_BIOME_UNKNOWN;
+        if (biome == Biome.PLAINS) return GeneralLangKey.BIOME_PLAINS_NAME;
+        if (biome == Biome.FOREST) return GeneralLangKey.BIOME_FOREST_NAME;
+        if (biome == Biome.DESERT) return GeneralLangKey.BIOME_DESERT_NAME;
+        if (biome == Biome.JUNGLE) return GeneralLangKey.BIOME_JUNGLE_NAME;
+        if (biome == Biome.TAIGA) return GeneralLangKey.BIOME_TAIGA_NAME;
+        if (biome == Biome.SNOWY_PLAINS) return GeneralLangKey.BIOME_SNOWY_PLAINS_NAME;
+        if (biome == Biome.SAVANNA) return GeneralLangKey.BIOME_SAVANNA_NAME;
+        if (biome == Biome.SWAMP) return GeneralLangKey.BIOME_SWAMP_NAME;
+        if (biome == Biome.MUSHROOM_FIELDS) return GeneralLangKey.BIOME_MUSHROOM_FIELDS_NAME;
+        if (biome == Biome.BEACH) return GeneralLangKey.BIOME_BEACH_NAME;
+        if (biome == Biome.FLOWER_FOREST) return GeneralLangKey.BIOME_FLOWER_FOREST_NAME;
+        if (biome == Biome.BAMBOO_JUNGLE) return GeneralLangKey.BIOME_BAMBOO_JUNGLE_NAME;
+        if (biome == Biome.DARK_FOREST) return GeneralLangKey.BIOME_DARK_FOREST_NAME;
+        if (biome == Biome.BIRCH_FOREST) return GeneralLangKey.BIOME_BIRCH_FOREST_NAME;
+        if (biome == Biome.BADLANDS) return GeneralLangKey.BIOME_BADLANDS_NAME;
+        return GuiLangKey.GUI_ISLAND_BIOME_UNKNOWN;
     }
     
     private @NotNull ILangKey getBiomeDescriptionKey(Biome biome) {
-        if (biome == Biome.PLAINS) return LangKey.BIOME_PLAINS_DESCRIPTION;
-        if (biome == Biome.FOREST) return LangKey.BIOME_FOREST_DESCRIPTION;
-        if (biome == Biome.DESERT) return LangKey.BIOME_DESERT_DESCRIPTION;
-        if (biome == Biome.JUNGLE) return LangKey.BIOME_JUNGLE_DESCRIPTION;
-        if (biome == Biome.TAIGA) return LangKey.BIOME_TAIGA_DESCRIPTION;
-        if (biome == Biome.SNOWY_PLAINS) return LangKey.BIOME_SNOWY_PLAINS_DESCRIPTION;
-        if (biome == Biome.SAVANNA) return LangKey.BIOME_SAVANNA_DESCRIPTION;
-        if (biome == Biome.SWAMP) return LangKey.BIOME_SWAMP_DESCRIPTION;
-        if (biome == Biome.MUSHROOM_FIELDS) return LangKey.BIOME_MUSHROOM_FIELDS_DESCRIPTION;
-        if (biome == Biome.BEACH) return LangKey.BIOME_BEACH_DESCRIPTION;
-        if (biome == Biome.FLOWER_FOREST) return LangKey.BIOME_FLOWER_FOREST_DESCRIPTION;
-        if (biome == Biome.BAMBOO_JUNGLE) return LangKey.BIOME_BAMBOO_JUNGLE_DESCRIPTION;
-        if (biome == Biome.DARK_FOREST) return LangKey.BIOME_DARK_FOREST_DESCRIPTION;
-        if (biome == Biome.BIRCH_FOREST) return LangKey.BIOME_BIRCH_FOREST_DESCRIPTION;
-        if (biome == Biome.BADLANDS) return LangKey.BIOME_BADLANDS_DESCRIPTION;
-        return LangKey.BIOME_PLAINS_DESCRIPTION; // Default fallback
+        if (biome == Biome.PLAINS) return GeneralLangKey.BIOME_PLAINS_DESCRIPTION;
+        if (biome == Biome.FOREST) return GeneralLangKey.BIOME_FOREST_DESCRIPTION;
+        if (biome == Biome.DESERT) return GeneralLangKey.BIOME_DESERT_DESCRIPTION;
+        if (biome == Biome.JUNGLE) return GeneralLangKey.BIOME_JUNGLE_DESCRIPTION;
+        if (biome == Biome.TAIGA) return GeneralLangKey.BIOME_TAIGA_DESCRIPTION;
+        if (biome == Biome.SNOWY_PLAINS) return GeneralLangKey.BIOME_SNOWY_PLAINS_DESCRIPTION;
+        if (biome == Biome.SAVANNA) return GeneralLangKey.BIOME_SAVANNA_DESCRIPTION;
+        if (biome == Biome.SWAMP) return GeneralLangKey.BIOME_SWAMP_DESCRIPTION;
+        if (biome == Biome.MUSHROOM_FIELDS) return GeneralLangKey.BIOME_MUSHROOM_FIELDS_DESCRIPTION;
+        if (biome == Biome.BEACH) return GeneralLangKey.BIOME_BEACH_DESCRIPTION;
+        if (biome == Biome.FLOWER_FOREST) return GeneralLangKey.BIOME_FLOWER_FOREST_DESCRIPTION;
+        if (biome == Biome.BAMBOO_JUNGLE) return GeneralLangKey.BIOME_BAMBOO_JUNGLE_DESCRIPTION;
+        if (biome == Biome.DARK_FOREST) return GeneralLangKey.BIOME_DARK_FOREST_DESCRIPTION;
+        if (biome == Biome.BIRCH_FOREST) return GeneralLangKey.BIOME_BIRCH_FOREST_DESCRIPTION;
+        if (biome == Biome.BADLANDS) return GeneralLangKey.BIOME_BADLANDS_DESCRIPTION;
+        return GeneralLangKey.BIOME_PLAINS_DESCRIPTION; // Default fallback
     }
 
 
     private GuiItem createBackButton() {
         return new GuiItem(ItemBuilder.of(Material.ARROW)
-                .displayName(LangManager.text(LangKey.GUI_BUTTONS_BACK_NAME, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_BIOME_BACK_LORE, getViewerLocale()))
+                .displayName(LangManager.text(GuiLangKey.GUI_BUTTONS_BACK_NAME, getViewerLocale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_BIOME_BACK_LORE, getViewerLocale()))
                 .hideAllFlags()
                 .build()).onAnyClick(player -> {
             player.closeInventory();

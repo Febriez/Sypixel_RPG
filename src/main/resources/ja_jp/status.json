@@ -28,9 +28,9 @@
   "public": "公開",
   "private": "非公開",
   "status": {
-    "new_mail": "新着メール",
-    "read": "既読"
+    "new_mail": "New Mail",
+    "read": "Read"
   },
-  "new_mail": "[JA] New Mail",
-  "read": "[JA] Read"
+  "new_mail": "New Mail",
+  "read": "Read"
 }

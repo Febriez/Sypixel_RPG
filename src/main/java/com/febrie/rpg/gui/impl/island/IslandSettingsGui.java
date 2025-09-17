@@ -1,5 +1,9 @@
 package com.febrie.rpg.gui.impl.island;
+import com.febrie.rpg.util.lang.IslandLangKey;
+import com.febrie.rpg.util.lang.GeneralLangKey;
+import com.febrie.rpg.util.lang.SystemLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.dto.island.IslandSettingsDTO;
@@ -12,7 +16,6 @@ import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.wesjd.anvilgui.AnvilGUI;
@@ -43,7 +46,7 @@ public class IslandSettingsGui extends BaseGui {
     
     private IslandSettingsGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                              @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, LangManager.text(LangKey.GUI_ISLAND_SETTINGS_TITLE, viewer.locale()));
+        super(viewer, guiManager, 54, LangManager.text(GuiLangKey.GUI_ISLAND_SETTINGS_TITLE, viewer.locale()));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.isOwner = island.core().ownerUuid().equals(viewer.getUniqueId().toString());
@@ -94,61 +97,61 @@ public class IslandSettingsGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_ISLAND_SETTINGS_TITLE, viewer.locale());
+        return LangManager.text(GuiLangKey.GUI_ISLAND_SETTINGS_TITLE, viewer.locale());
     }
     
     private ItemStack createIslandInfoItem() {
         return ItemBuilder.of(Material.GRASS_BLOCK)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_SETTINGS_INFO_NAME, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_SETTINGS_INFO_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_SETTINGS_ID, getViewerLocale(), Component.text(island.core().islandId())))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_SETTINGS_OWNER, getViewerLocale(), Component.text(island.core().ownerName())))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_SETTINGS_MEMBERS, getViewerLocale(), Component.text((1 + island.membership().members().size()))))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_SETTINGS_STATUS, getViewerLocale(), 
-                        LangManager.text(island.core().isPublic() ? LangKey.STATUS_PUBLIC : LangKey.STATUS_PRIVATE, viewer.locale())))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_SETTINGS_ID, getViewerLocale(), Component.text(island.core().islandId())))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_SETTINGS_OWNER, getViewerLocale(), Component.text(island.core().ownerName())))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_SETTINGS_MEMBERS, getViewerLocale(), Component.text((1 + island.membership().members().size()))))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_SETTINGS_STATUS, getViewerLocale(), 
+                        LangManager.text(island.core().isPublic() ? SystemLangKey.STATUS_PUBLIC : SystemLangKey.STATUS_PRIVATE, viewer.locale())))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createNameChangeItem() {
         return ItemBuilder.of(Material.NAME_TAG)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_SETTINGS_NAME_CHANGE_NAME, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_SETTINGS_NAME_CHANGE_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_SETTINGS_CURRENT_NAME, getViewerLocale(), Component.text(tempIslandName)))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_SETTINGS_CURRENT_NAME, getViewerLocale(), Component.text(tempIslandName)))
                 .addLore(Component.empty())
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_SETTINGS_NAME_CHANGE_LORE, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_SETTINGS_NAME_CHANGE_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createPublicToggleItem() {
         return ItemBuilder.of(tempIsPublic ? Material.LIME_DYE : Material.GRAY_DYE)
-                .displayName(LangManager.text(tempIsPublic ? LangKey.ITEMS_ISLAND_SETTINGS_PUBLIC_NAME : LangKey.ITEMS_ISLAND_SETTINGS_PRIVATE_NAME, viewer.locale()))
+                .displayName(LangManager.text(tempIsPublic ? GeneralLangKey.ITEMS_ISLAND_SETTINGS_PUBLIC_NAME : GeneralLangKey.ITEMS_ISLAND_SETTINGS_PRIVATE_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_SETTINGS_CURRENT_STATUS, getViewerLocale(), 
-                        LangManager.text(tempIsPublic ? LangKey.STATUS_PUBLIC : LangKey.STATUS_PRIVATE, viewer.locale())))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_SETTINGS_CURRENT_STATUS, getViewerLocale(), 
+                        LangManager.text(tempIsPublic ? SystemLangKey.STATUS_PUBLIC : SystemLangKey.STATUS_PRIVATE, viewer.locale())))
                 .addLore(Component.empty())
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_SETTINGS_PUBLIC_TOGGLE_LORE, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_SETTINGS_PUBLIC_TOGGLE_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createBiomeChangeItem() {
         return ItemBuilder.of(Material.OAK_SAPLING)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_SETTINGS_BIOME_CHANGE_NAME, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_SETTINGS_BIOME_CHANGE_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_SETTINGS_CURRENT_BIOME, getViewerLocale(), 
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_SETTINGS_CURRENT_BIOME, getViewerLocale(), 
                         Component.text(getBiomeDisplayName(tempBiome))))
                 .addLore(Component.empty())
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_SETTINGS_BIOME_CHANGE_LORE, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_SETTINGS_BIOME_CHANGE_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createDeleteIslandItem() {
         return ItemBuilder.of(Material.BARRIER)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_SETTINGS_DELETE_NAME, viewer.locale()))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_SETTINGS_DELETE_LORE, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_SETTINGS_DELETE_NAME, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_SETTINGS_DELETE_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
@@ -159,19 +162,19 @@ public class IslandSettingsGui extends BaseGui {
                            !tempBiome.equals(island.configuration().settings().biome());
         
         return ItemBuilder.of(Material.EMERALD_BLOCK)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_SETTINGS_SAVE_NAME, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_SETTINGS_SAVE_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(hasChanges ? LangKey.GUI_ISLAND_SETTINGS_HAS_CHANGES : LangKey.GUI_ISLAND_SETTINGS_NO_CHANGES, viewer.locale()))
+                .addLore(LangManager.text(hasChanges ? GuiLangKey.GUI_ISLAND_SETTINGS_HAS_CHANGES : GuiLangKey.GUI_ISLAND_SETTINGS_NO_CHANGES, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_SETTINGS_SAVE_LORE, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_SETTINGS_SAVE_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createCancelButton() {
         return ItemBuilder.of(Material.REDSTONE_BLOCK)
-                .displayName(LangManager.text(LangKey.ITEMS_BUTTONS_CANCEL_NAME, viewer.locale()))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_SETTINGS_CANCEL_LORE, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_BUTTONS_CANCEL_NAME, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_SETTINGS_CANCEL_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
@@ -187,9 +190,9 @@ public class IslandSettingsGui extends BaseGui {
                     String text = stateSnapshot.getText();
                     // 유효성 검사
                     if (text.isEmpty() || text.length() > 20) {
-                        player.sendMessage(LangManager.text(LangKey.ISLAND_SETTINGS_NAME_ERROR, player.locale()).color(NamedTextColor.RED));
+                        player.sendMessage(LangManager.text(IslandLangKey.ISLAND_SETTINGS_NAME_ERROR, player.locale()).color(NamedTextColor.RED));
                         String errorText = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                                LangManager.text(LangKey.ISLAND_SETTINGS_NAME_INPUT_ERROR, player.locale()));
+                                LangManager.text(IslandLangKey.ISLAND_SETTINGS_NAME_INPUT_ERROR, player.locale()));
                         return java.util.Collections.singletonList(AnvilGUI.ResponseAction.replaceInputText(errorText));
                     }
                     
@@ -207,7 +210,7 @@ public class IslandSettingsGui extends BaseGui {
                 })
                 .text(tempIslandName)
                 .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                        LangManager.text(LangKey.ISLAND_GUI_CREATION_ISLAND_NAME_INPUT_TITLE, player.locale())))
+                        LangManager.text(IslandLangKey.ISLAND_GUI_CREATION_ISLAND_NAME_INPUT_TITLE, player.locale())))
                 .plugin(plugin)
                 .open(player);
     }

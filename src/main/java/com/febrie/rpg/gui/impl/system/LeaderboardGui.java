@@ -1,5 +1,7 @@
 package com.febrie.rpg.gui.impl.system;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.system.LeaderboardEntryDTO;
 import com.febrie.rpg.economy.CurrencyType;
@@ -13,7 +15,6 @@ import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.lang.ILangKey;
 import com.febrie.rpg.util.SkullUtil;
 import net.kyori.adventure.text.Component;
@@ -42,10 +43,10 @@ public class LeaderboardGui extends ScrollableGui {
     private static final int GUI_SIZE = 54; // 6줄
     // 리더보드 타입
     public enum LeaderboardType {
-        LEVEL("level", Material.EXPERIENCE_BOTTLE, UnifiedColorUtil.EXPERIENCE, LangKey.GUI_LEADERBOARD_TYPE_LEVEL),
-        COMBAT_POWER("combat_power", Material.DIAMOND_SWORD, UnifiedColorUtil.LEGENDARY, LangKey.GUI_LEADERBOARD_TYPE_COMBAT_POWER),
-        GOLD("gold", Material.GOLD_INGOT, UnifiedColorUtil.GOLD, LangKey.GUI_LEADERBOARD_TYPE_GOLD),
-        TOTAL_PLAYTIME("total_playtime", Material.CLOCK, UnifiedColorUtil.AQUA, LangKey.GUI_LEADERBOARD_TYPE_PLAYTIME);
+        LEVEL("level", Material.EXPERIENCE_BOTTLE, UnifiedColorUtil.EXPERIENCE, GuiLangKey.GUI_LEADERBOARD_TYPE_LEVEL),
+        COMBAT_POWER("combat_power", Material.DIAMOND_SWORD, UnifiedColorUtil.LEGENDARY, GuiLangKey.GUI_LEADERBOARD_TYPE_COMBAT_POWER),
+        GOLD("gold", Material.GOLD_INGOT, UnifiedColorUtil.GOLD, GuiLangKey.GUI_LEADERBOARD_TYPE_GOLD),
+        TOTAL_PLAYTIME("total_playtime", Material.CLOCK, UnifiedColorUtil.AQUA, GuiLangKey.GUI_LEADERBOARD_TYPE_PLAYTIME);
         private final String id;
         private final Material icon;
         private final TextColor color;
@@ -96,7 +97,7 @@ public class LeaderboardGui extends ScrollableGui {
     private LeaderboardGui(@NotNull GuiManager guiManager,
                           @NotNull Player viewer, @NotNull LeaderboardType type) {
         super(viewer, guiManager, GUI_SIZE, 
-                LangManager.text(LangKey.GUI_LEADERBOARD_TITLE, viewer, type.getDisplayName()));
+                LangManager.text(GuiLangKey.GUI_LEADERBOARD_TITLE, viewer, type.getDisplayName()));
         this.currentType = type;
     }
     
@@ -130,7 +131,7 @@ public class LeaderboardGui extends ScrollableGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_LEADERBOARD_TITLE, viewer, currentType.getDisplayName());
+        return LangManager.text(GuiLangKey.GUI_LEADERBOARD_TITLE, viewer, currentType.getDisplayName());
     }
     
     @Override
@@ -201,8 +202,8 @@ public class LeaderboardGui extends ScrollableGui {
                                     .decoration(TextDecoration.BOLD, true))
                             .addLore(Component.empty())
                             .addLore(isSelected ?
-                                    LangManager.text(LangKey.GUI_LEADERBOARD_TAB_SELECTED, viewer) :
-                                    LangManager.text(LangKey.GUI_LEADERBOARD_TAB_CLICK, viewer))
+                                    LangManager.text(GuiLangKey.GUI_LEADERBOARD_TAB_SELECTED, viewer) :
+                                    LangManager.text(GuiLangKey.GUI_LEADERBOARD_TAB_CLICK, viewer))
                             .glint(isSelected)
                             .flags(ItemFlag.values())
                             .build(),
@@ -219,17 +220,17 @@ public class LeaderboardGui extends ScrollableGui {
         if (isLoading) {
             setItem(LOADING_SLOT, GuiItem.display(
                     ItemBuilder.of(Material.CLOCK)
-                            .displayName(LangManager.text(LangKey.ITEMS_LEADERBOARD_LOADING_NAME, viewer))
-                            .addLore(LangManager.text(LangKey.ITEMS_LEADERBOARD_LOADING_LORE, viewer))
+                            .displayName(LangManager.text(GeneralLangKey.ITEMS_LEADERBOARD_LOADING_NAME, viewer))
+                            .addLore(LangManager.text(GeneralLangKey.ITEMS_LEADERBOARD_LOADING_LORE, viewer))
                             .hideAllFlags()
                             .build()
             ));
         } else {
             setItem(LOADING_SLOT, GuiItem.display(
                     ItemBuilder.of(Material.NETHER_STAR)
-                            .displayName(LangManager.text(LangKey.GUI_LEADERBOARD_TITLE, viewer, currentType.getDisplayName()))
-                            .addLore(LangManager.text(LangKey.GUI_LEADERBOARD_CURRENT_TYPE, viewer, currentType.getDisplayName()))
-                            .addLore(LangManager.text(LangKey.GUI_LEADERBOARD_TOTAL_ENTRIES, viewer, String.valueOf(currentLeaderboard.size())))
+                            .displayName(LangManager.text(GuiLangKey.GUI_LEADERBOARD_TITLE, viewer, currentType.getDisplayName()))
+                            .addLore(LangManager.text(GuiLangKey.GUI_LEADERBOARD_CURRENT_TYPE, viewer, currentType.getDisplayName()))
+                            .addLore(LangManager.text(GuiLangKey.GUI_LEADERBOARD_TOTAL_ENTRIES, viewer, String.valueOf(currentLeaderboard.size())))
                             .hideAllFlags()
                             .glint(true)
                             .build()
@@ -246,19 +247,19 @@ public class LeaderboardGui extends ScrollableGui {
         if (myRankEntry != null && myRankEntry.rank() > 0) {
             setItem(MY_RANK_SLOT, GuiItem.display(
                     ItemBuilder.from(SkullUtil.getPlayerHead(viewer.getUniqueId().toString()))
-                            .displayName(LangManager.text(LangKey.ITEMS_LEADERBOARD_MY_RANK_NAME, viewer))
-                            .addLore(LangManager.text(LangKey.GUI_LEADERBOARD_MY_RANK, viewer, String.valueOf(myRankEntry.rank())))
-                            .addLore(LangManager.text(LangKey.GUI_LEADERBOARD_MY_VALUE, viewer, formatValue(myRankEntry.value())))
+                            .displayName(LangManager.text(GeneralLangKey.ITEMS_LEADERBOARD_MY_RANK_NAME, viewer))
+                            .addLore(LangManager.text(GuiLangKey.GUI_LEADERBOARD_MY_RANK, viewer, String.valueOf(myRankEntry.rank())))
+                            .addLore(LangManager.text(GuiLangKey.GUI_LEADERBOARD_MY_VALUE, viewer, formatValue(myRankEntry.value())))
                             .hideAllFlags()
-                            .addLore(LangManager.text(LangKey.GUI_LEADERBOARD_LAST_UPDATED, viewer, formatTime(myRankEntry.lastUpdated())))
+                            .addLore(LangManager.text(GuiLangKey.GUI_LEADERBOARD_LAST_UPDATED, viewer, formatTime(myRankEntry.lastUpdated())))
                             .glint(true)
                             .build()
             ));
         } else {
             setItem(MY_RANK_SLOT, GuiItem.display(
                     ItemBuilder.from(SkullUtil.getPlayerHead(viewer.getUniqueId().toString()))
-                            .displayName(LangManager.text(LangKey.ITEMS_LEADERBOARD_NO_RANK_NAME, viewer))
-                            .addLore(LangManager.list(LangKey.ITEMS_LEADERBOARD_NO_RANK_LORE, viewer))
+                            .displayName(LangManager.text(GeneralLangKey.ITEMS_LEADERBOARD_NO_RANK_NAME, viewer))
+                            .addLore(LangManager.list(GeneralLangKey.ITEMS_LEADERBOARD_NO_RANK_LORE, viewer))
                             .hideAllFlags()
                             .build()
             ));
@@ -350,11 +351,11 @@ public class LeaderboardGui extends ScrollableGui {
         builder.displayName(Component.text(entry.rank() + ". " + entry.playerName(), color)
                         .decoration(TextDecoration.BOLD, entry.rank() <= 3))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_LEADERBOARD_VALUE, viewer, formatValue(entry.value())))
-                .addLore(LangManager.text(LangKey.GUI_LEADERBOARD_LAST_UPDATED, viewer, formatTime(entry.lastUpdated())));
+                .addLore(LangManager.text(GuiLangKey.GUI_LEADERBOARD_VALUE, viewer, formatValue(entry.value())))
+                .addLore(LangManager.text(GuiLangKey.GUI_LEADERBOARD_LAST_UPDATED, viewer, formatTime(entry.lastUpdated())));
         if (isMyself) {
             builder.addLore(Component.empty())
-                    .addLore(LangManager.text(LangKey.GUI_LEADERBOARD_THIS_IS_YOU, viewer))
+                    .addLore(LangManager.text(GuiLangKey.GUI_LEADERBOARD_THIS_IS_YOU, viewer))
                     .glint(true);
         }
         

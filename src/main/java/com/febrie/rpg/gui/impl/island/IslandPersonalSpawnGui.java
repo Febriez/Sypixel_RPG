@@ -1,5 +1,7 @@
 package com.febrie.rpg.gui.impl.island;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.gui.framework.BaseGui;
@@ -11,7 +13,6 @@ import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.SoundUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
@@ -39,7 +40,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
     private final boolean isMember;
     private IslandPersonalSpawnGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 54, LangManager.text(LangKey.GUI_ISLAND_PERSONAL_SPAWN_TITLE, viewer.locale()));
+        super(viewer, guiManager, 54, LangManager.text(GuiLangKey.GUI_ISLAND_PERSONAL_SPAWN_TITLE, viewer.locale()));
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         
@@ -86,7 +87,7 @@ public class IslandPersonalSpawnGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_ISLAND_PERSONAL_SPAWN_TITLE, viewer.locale());
+        return LangManager.text(GuiLangKey.GUI_ISLAND_PERSONAL_SPAWN_TITLE, viewer.locale());
     }
     
     private GuiItem createCurrentPersonalSpawnInfo() {
@@ -99,14 +100,14 @@ public class IslandPersonalSpawnGui extends BaseGui {
             personalSpawn = spawnData.memberSpawns().get(playerUuid);
         }
         ItemBuilder builder = ItemBuilder.of(Material.ENDER_EYE)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_INFO_NAME, viewer.locale()));
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_INFO_NAME, viewer.locale()));
         
         if (personalSpawn != null) {
             String location = String.format("%.1f, %.1f, %.1f", 
                 personalSpawn.x(), personalSpawn.y(), personalSpawn.z());
-            builder.addLore(LangManager.list(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_INFO_LORE, viewer.locale(), location));
+            builder.addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_INFO_LORE, viewer.locale(), location));
         } else {
-            builder.addLore(LangManager.list(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_INFO_NOT_SET_LORE, viewer.locale()));
+            builder.addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_INFO_NOT_SET_LORE, viewer.locale()));
         }
         
         return new GuiItem(builder.build());
@@ -115,10 +116,10 @@ public class IslandPersonalSpawnGui extends BaseGui {
     private GuiItem createSetPersonalSpawnItem() {
         return GuiItem.clickable(
             ItemBuilder.of(Material.BEACON)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_SET_NAME, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_SET_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_SET_LORE, viewer.locale()))
-                .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_SET_CLICK, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_SET_LORE, viewer.locale()))
+                .addLore(LangManager.text(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_SET_CLICK, viewer.locale()))
                 .hideAllFlags()
                 .build(),
             player -> {
@@ -135,12 +136,12 @@ public class IslandPersonalSpawnGui extends BaseGui {
             spawnData.memberSpawns().containsKey(playerUuid);
         return GuiItem.clickable(
             ItemBuilder.of(Material.ENDER_PEARL)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_NAME, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_LORE, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_LORE, viewer.locale()))
                 .addLore(hasPersonalSpawn ?
-                    LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_CLICK, viewer.locale()).color(UnifiedColorUtil.YELLOW) :
-                    LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_NO_SPAWN, viewer.locale()).color(UnifiedColorUtil.RED))
+                    LangManager.text(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_CLICK, viewer.locale()).color(UnifiedColorUtil.YELLOW) :
+                    LangManager.text(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_TELEPORT_NO_SPAWN, viewer.locale()).color(UnifiedColorUtil.RED))
                 .hideAllFlags()
                 .build(),
             player -> {
@@ -157,10 +158,10 @@ public class IslandPersonalSpawnGui extends BaseGui {
     private GuiItem createRemovePersonalSpawnItem() {
         return GuiItem.clickable(
             ItemBuilder.of(Material.BARRIER)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_NAME, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_LORE, viewer.locale()))
-                .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_CLICK, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_LORE, viewer.locale()))
+                .addLore(LangManager.text(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_REMOVE_CLICK, viewer.locale()))
                 .hideAllFlags()
                 .build(),
             player -> {
@@ -177,11 +178,11 @@ public class IslandPersonalSpawnGui extends BaseGui {
                 .count();
         return GuiItem.clickable(
             ItemBuilder.of(Material.COMMAND_BLOCK)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_NAME, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_LORE, viewer.locale()))
-                .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_STATUS, getViewerLocale(), Component.text(spawnsSet + "/" + memberCount)))
-                .addLore(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_CLICK, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_LORE, viewer.locale()))
+                .addLore(LangManager.text(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_STATUS, getViewerLocale(), Component.text(spawnsSet + "/" + memberCount)))
+                .addLore(LangManager.text(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_MANAGE_CLICK, viewer.locale()))
                 .hideAllFlags()
                 .build(),
             player -> {
@@ -194,9 +195,9 @@ public class IslandPersonalSpawnGui extends BaseGui {
     private GuiItem createNoPermissionItem() {
         return new GuiItem(
             ItemBuilder.of(Material.REDSTONE_BLOCK)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_NO_PERMISSION_NAME, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_NO_PERMISSION_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_NO_PERMISSION_LORE, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_NO_PERMISSION_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build()
         );
@@ -205,8 +206,8 @@ public class IslandPersonalSpawnGui extends BaseGui {
     private GuiItem createBackButton() {
         return GuiItem.clickable(
             ItemBuilder.of(Material.ARROW)
-                .displayName(LangManager.text(LangKey.GUI_COMMON_BACK, viewer.locale()))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_PERSONAL_SPAWN_BACK_LORE, viewer.locale()))
+                .displayName(LangManager.text(GuiLangKey.GUI_COMMON_BACK, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_PERSONAL_SPAWN_BACK_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build(),
             player -> {

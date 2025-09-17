@@ -1,6 +1,12 @@
 {
-  "quest_progress": "[KO] Quest Progress",
-  "dungeon_timer": "[KO] Dungeon Timer",
-  "boss_health": "[KO] Boss Health",
-  "wave_progress": "[KO] Wave Progress"
+  "quest_progress": "Quest 진행도",
+  "dungeon_timer": "Dungeon Timer",
+  "boss_health": "Boss 체력",
+  "wave_progress": "Wave 진행도",
+  "bossbar": {
+    "quest_progress": "Quest 진행도",
+    "dungeon_timer": "Dungeon Timer",
+    "boss_health": "Boss 체력",
+    "wave_progress": "Wave 진행도"
+  }
 }

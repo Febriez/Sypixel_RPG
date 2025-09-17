@@ -3,13 +3,79 @@
     "back": "◀ 돌아가기",
     "close": "닫기",
     "next_page": "다음 페이지 →",
-    "previous_page": "이전 페이지",
     "prev_page": "← 이전 페이지",
     "confirm": "확인",
     "cancel": "취소",
     "settings": "설정",
+    "previous_page": "이전 페이지",
     "unknown": "알 수 없음",
     "page": "페이지 {0}/{1}"
+  },
+  "page_info": "페이지 {0} / {1}",
+  "combat_power": {
+    "title": "전투력",
+    "total": "총 전투력: {0}",
+    "breakdown": "전투력 세부사항",
+    "from_level": "레벨로부터: {0}",
+    "from_stats": "스탯으로부터: {0}",
+    "level_contribution": "레벨 기여도",
+    "level_detail": "레벨 {0} = {1} 전투력",
+    "stat_contribution": "스탯 기여도",
+    "stat_detail": "{0}: {1} 전투력"
+  },
+  "job_confirmation": {
+    "title": "직업 선택 확인",
+    "selected_job": "선택한 직업:",
+    "max_level": "최대 레벨: {0}",
+    "warning": "⚠ 경고: 정말로 신중하게 선택하세요!",
+    "cannot_change": "⚠ 한 번 선택하면 변경할 수 없습니다!",
+    "warning_title": "⚠ 주의사항",
+    "warning_description": "직업은 영구적인 선택입니다!",
+    "confirm": "확인",
+    "confirm_description": "{0} 직업을 선택합니다",
+    "click_to_confirm": "▶ 클릭하여 확인",
+    "cancel": "취소",
+    "cancel_description": "직업 선택을 취소합니다",
+    "click_to_cancel": "▶ 클릭하여 취소",
+    "info_title": "안내사항",
+    "info_lines": [
+      "• 직업은 캐릭터의 성장 방향을 결정합니다",
+      "• 각 직업마다 고유한 스킬과 특성이 있습니다",
+      "• 신중하게 선택해주세요!"
+    ],
+    "success": "축하합니다! {1} 직업을 선택하셨습니다!",
+    "title_success": "직업 선택 완료!",
+    "subtitle_success": "{1} 직업을 선택하셨습니다",
+    "already_has_job": "이미 직업이 있습니다!",
+    "info_line1": "정보 라인 1",
+    "info_line2": "정보 라인 2",
+    "info_line3": "정보 라인 3"
+  },
+  "job_selection": {
+    "title": "직업 선택",
+    "choose_wisely": "신중하게 선택하세요!",
+    "current_job": "현재 직업: {0}",
+    "no_current_job": "아직 직업이 없습니다",
+    "tab_selected": "▶ 현재 선택됨",
+    "tab_click": "▶ 클릭하여 보기",
+    "confirm_selection": "이 직업을 선택하시겠습니까?",
+    "already_selected": "이미 직업을 선택했습니다!",
+    "job_categories": "직업 카테고리",
+    "jobs_in_category": "{0} 직업군",
+    "back_to_categories": "카테고리로 돌아가기",
+    "info": "정보",
+    "click_to_select": "▶ 클릭하여 카테고리 선택",
+    "category_suffix": "카테고리",
+    "max_level": "최대 레벨: {0}",
+    "warning": "⚠ 주의: 직업은 한 번 선택하면 변경할 수 없습니다!",
+    "click_to_choose": "▶ 클릭하여 이 직업 선택",
+    "selected": "▶ 선택됨"
+  },
+  "system_settings": {
+    "title": "시스템 설정",
+    "status": "상태: {0}",
+    "click_to_toggle": "클릭하여 전환",
+    "confirmation_toggled": "확인 대화상자 {0}"
   },
   "mainmenu": {
     "title": "%COLOR_PRIMARY%메인 메뉴"
@@ -35,8 +101,6 @@
     "last_seen": "마지막 접속: {0}",
     "stats": "▸ 스탯 정보",
     "talents": "▸ 특성",
-    "click_for_talents": "▶ 클릭하여 특성 페이지로 이동",
-    "click_for_stats": "▶ 클릭하여 스탯 페이지로 이동",
     "online_status": "현재 상태: {0}",
     "gamemode": "게임모드: {0}",
     "location": "위치: {0} ({1}, {2}, {3})",
@@ -50,6 +114,8 @@
     "hunger": "배고픔: {0}/{1}",
     "flight": "비행: {0}",
     "currency_info": "▸ 재화 정보",
+    "click_for_talents": "▶ 클릭하여 특성 페이지로 이동",
+    "click_for_stats": "▶ 클릭하여 스탯 페이지로 이동",
     "game_stats": "게임 통계",
     "mob_kills": "몹 처치 수: {0}",
     "player_info": {
@@ -59,95 +125,11 @@
     "active_quests": "진행 중: {0}개",
     "completed_quests": "완료: {0}개",
     "click_for_quests": "▶ 클릭하여 퀘스트 목록 보기",
-    "collection_book": "수집북",
     "pets": "애완동물",
+    "collection_book": "수집북",
     "user_settings": "사용자 설정",
     "user_settings_desc": "개인 설정을 변경합니다",
-    "player_info_name": "[TRANSLATE: Player: {0}]"
-  },
-  "job_selection": {
-    "title": "직업 선택",
-    "choose_wisely": "신중하게 선택하세요!",
-    "current_job": "현재 직업: {0}",
-    "no_current_job": "아직 직업이 없습니다",
-    "tab_selected": "▶ 현재 선택됨",
-    "tab_click": "▶ 클릭하여 보기",
-    "confirm_selection": "이 직업을 선택하시겠습니까?",
-    "already_selected": "이미 직업을 선택했습니다!",
-    "job_categories": "직업 카테고리",
-    "jobs_in_category": "{0} 직업군",
-    "back_to_categories": "카테고리로 돌아가기",
-    "info": "정보",
-    "click_to_select": "▶ 클릭하여 카테고리 선택",
-    "category_suffix": "카테고리",
-    "max_level": "최대 레벨: {0}",
-    "warning": "⚠ 주의: 직업은 한 번 선택하면 변경할 수 없습니다!",
-    "click_to_choose": "▶ 클릭하여 이 직업 선택",
-    "selected": "▶ 선택됨"
-  },
-  "job_confirmation": {
-    "title": "직업 선택 확인",
-    "selected_job": "선택한 직업:",
-    "max_level": "최대 레벨: {0}",
-    "warning": "⚠ 경고: 정말로 신중하게 선택하세요!",
-    "cannot_change": "⚠ 한 번 선택하면 변경할 수 없습니다!",
-    "warning_title": "⚠ 주의사항",
-    "warning_description": "직업은 영구적인 선택입니다!",
-    "confirm": "확인",
-    "confirm_description": "{0} 직업을 선택합니다",
-    "click_to_confirm": "▶ 클릭하여 확인",
-    "cancel": "취소",
-    "cancel_description": "직업 선택을 취소합니다",
-    "click_to_cancel": "▶ 클릭하여 취소",
-    "info_title": "안내사항",
-    "info_lines": [
-      "• 직업은 캐릭터의 성장 방향을 결정합니다",
-      "• 각 직업마다 고유한 스킬과 특성이 있습니다",
-      "• 신중하게 선택해주세요!"
-    ],
-    "success": "축하합니다! {1} 직업을 선택하셨습니다!",
-    "title_success": "직업 선택 완료!",
-    "subtitle_success": "{1} 직업을 선택하셨습니다",
-    "already_has_job": "이미 직업이 있습니다!"
-  },
-  "talent": {
-    "title": "특성",
-    "title_with_page": "특성 - {1}",
-    "remaining_points": "남은 포인트: {0}",
-    "learned": "▶ 습득 완료",
-    "available": "▶ 습득 가능",
-    "unavailable": "▶ 습득 불가",
-    "requirements": "요구사항:",
-    "click_learn": "▶ 클릭하여 배우기",
-    "insufficient_points": "포인트가 부족합니다",
-    "prerequisite_not_met": "선행 조건을 만족하지 않습니다",
-    "click_subpage": "▶ 우클릭으로 하위 페이지 열기",
-    "talent_learned": "{0} 특성을 배웠습니다!",
-    "click_stats": "스탯 관리로 이동",
-    "page_info": "페이지 정보",
-    "current_page": "현재 페이지: {0}",
-    "job": "직업: {1}",
-    "available_points": "사용 가능 포인트: {0}",
-    "level_info": "레벨 {0}/{1}",
-    "cannot_learn": "학습 불가",
-    "not_enough_points": "포인트 부족",
-    "stat_bonuses": "스탯 보너스",
-    "stat_bonus_line": "• {0}: +{1}",
-    "effects": "효과:",
-    "pages": {
-      "main": "메인",
-      "default": "기본"
-    },
-    "page": {
-      "main": "메인 특성"
-    },
-    "has_sub_page": "하위 페이지 있음",
-    "no_job": "직업 없음",
-    "prerequisites": "선행 조건",
-    "prereq_met": "✓ 충족됨",
-    "prereq_not_met": "✗ 충족되지 않음",
-    "can_learn": "학습 가능",
-    "maxed": "최대 레벨"
+    "player_info_name": "플레이어: {0}"
   },
   "stats": {
     "title": "스탯 관리",
@@ -165,7 +147,47 @@
     "click_to_add": "▶ 클릭하여 추가",
     "base_bonus": "기본 보너스: {0}"
   },
+  "talent": {
+    "title": "특성",
+    "title_with_page": "특성 - {1}",
+    "remaining_points": "남은 포인트: {0}",
+    "learned": "▶ 습득 완료",
+    "available": "▶ 습득 가능",
+    "unavailable": "▶ 습득 불가",
+    "requirements": "요구사항:",
+    "click_learn": "▶ 클릭하여 배우기",
+    "insufficient_points": "포인트가 부족합니다",
+    "prerequisite_not_met": "선행 조건을 만족하지 않습니다",
+    "click_subpage": "▶ 우클릭으로 하위 페이지 열기",
+    "talent_learned": "{0} 특성을 배웠습니다!",
+    "click_stats": "스탯 관리로 이동",
+    "pages": {
+      "main": "메인",
+      "default": "기본"
+    },
+    "page_info": "페이지 정보",
+    "current_page": "현재 페이지: {0}",
+    "job": "직업: {1}",
+    "available_points": "사용 가능 포인트: {0}",
+    "level_info": "레벨 {0}/{1}",
+    "cannot_learn": "학습 불가",
+    "not_enough_points": "포인트 부족",
+    "stat_bonuses": "스탯 보너스",
+    "stat_bonus_line": "• {0}: +{1}",
+    "effects": "효과:",
+    "page": {
+      "main": "메인 특성"
+    },
+    "has_sub_page": "하위 페이지 있음",
+    "no_job": "직업 없음",
+    "prerequisites": "선행 조건",
+    "prereq_met": "✓ 충족됨",
+    "prereq_not_met": "✗ 충족되지 않음",
+    "can_learn": "학습 가능",
+    "maxed": "최대 레벨"
+  },
   "leaderboard": {
+    "rank": "Rank",
     "title": "리더보드",
     "subtitle": "서버 최강자들을 확인하세요!",
     "level_board": "레벨 순위",
@@ -186,8 +208,6 @@
     "this_is_you": "▶ 나의 순위입니다!",
     "tab_selected": "▶ 현재 선택됨",
     "tab_click": "▶ 클릭하여 보기",
-    "no_rank_data": "순위 데이터가 없습니다",
-    "play_more": "더 플레이하여 순위에 도전하세요!",
     "type": {
       "level": "레벨",
       "combat_power": "전투력",
@@ -196,8 +216,17 @@
     },
     "my_rank": "내 순위",
     "my_value": "내 값: {0}",
-    "value": "[TRANSLATE: Value: {0}]",
-    "rank": "Rank"
+    "no_rank_data": "순위 데이터가 없습니다",
+    "play_more": "더 플레이하여 순위에 도전하세요!",
+    "value": "값: {0}",
+    "this": {
+      "is": {
+        "you": "당신"
+      }
+    }
+  },
+  "all_quests": {
+    "title": "모든 퀘스트"
   },
   "quest_list": {
     "title": "퀘스트 목록",
@@ -215,8 +244,8 @@
     "repeatable": "반복 가능"
   },
   "quest_detail": {
-    "title": "퀘스트 상세 정보",
-    "objective_progress": "목표별 진행도"
+    "objective_progress": "목표별 진행도",
+    "title": "퀘스트 상세 정보"
   },
   "quest_accept": {
     "title": "퀘스트 수락",
@@ -247,9 +276,9 @@
     "previous_page": "◀ 이전 페이지",
     "close": "■ 닫기",
     "page_info": "페이지 {1}/{1}",
+    "npc_name": "{0}",
     "rewards_title": "보상:",
     "requirements_title": "요구사항:",
-    "npc_name": "{0}",
     "speaking": "{0}가 말합니다...",
     "quest_accepted": "퀘스트를 수락했습니다!",
     "quest_declined": "퀘스트를 거절했습니다."
@@ -267,35 +296,6 @@
     "language": "언어 설정",
     "current_language": "현재 언어: {0}",
     "click_to_change": "클릭하여 변경",
-    "click_to_settings": "클릭하여 설정",
-    "gui_settings_title": "🖥 GUI 설정",
-    "gui_settings_desc": [
-      "• GUI 사운드 볼륨 조절",
-      "• GUI 사운드 음소거/해제"
-    ],
-    "ingame_settings_title": "🎮 인게임 설정",
-    "ingame_settings_desc": [
-      "• 퀘스트 대화 속도 조절",
-      "• 자동 길안내 설정",
-      "• 데미지 표시 설정"
-    ],
-    "social_settings_title": "👥 소셜 설정",
-    "social_settings_desc": [
-      "• 친구 요청 받기 설정",
-      "• 길드 초대 받기 설정",
-      "• 귓말 모드 설정"
-    ],
-    "system_settings_title": "⚙ 시스템 설정",
-    "system_settings_desc": [
-      "• 확인 대화상자 설정",
-      "• 시스템 관련 설정"
-    ],
-    "notification_settings_title": "🔔 알림 설정",
-    "notification_settings_desc": [
-      "• 귓말 알림 설정",
-      "• 초대 알림 설정",
-      "• 서버 공지 알림 설정"
-    ],
     "ingame_settings": {
       "title": "인게임 설정",
       "quest_dialog_speed": "💬 퀘스트 대화 속도",
@@ -316,7 +316,36 @@
     "system_settings": {
       "title": "시스템 설정",
       "confirmation_dialogs": "❓ 확인 대화상자"
-    }
+    },
+    "system_settings_desc": [
+      "• 확인 대화상자 설정",
+      "• 시스템 관련 설정"
+    ],
+    "gui_settings_title": "🖥 GUI 설정",
+    "social_settings_desc": [
+      "• 친구 요청 받기 설정",
+      "• 길드 초대 받기 설정",
+      "• 귓말 모드 설정"
+    ],
+    "notification_settings_title": "🔔 알림 설정",
+    "notification_settings_desc": [
+      "• 귓말 알림 설정",
+      "• 초대 알림 설정",
+      "• 서버 공지 알림 설정"
+    ],
+    "gui_settings_desc": [
+      "• GUI 사운드 볼륨 조절",
+      "• GUI 사운드 음소거/해제"
+    ],
+    "social_settings_title": "👥 소셜 설정",
+    "ingame_settings_desc": [
+      "• 퀘스트 대화 속도 조절",
+      "• 자동 길안내 설정",
+      "• 데미지 표시 설정"
+    ],
+    "system_settings_title": "⚙ 시스템 설정",
+    "ingame_settings_title": "🎮 인게임 설정",
+    "click_to_settings": "클릭하여 설정"
   },
   "ingame_settings": {
     "title": "게임 설정"
@@ -340,9 +369,9 @@
     "current_status": "현재 상태: {1}",
     "click_to_mute": "클릭하여 음소거",
     "click_to_unmute": "클릭하여 음소거 해제",
-    "gui_settings": "🖥 GUI 설정",
+    "gui_settings_title": "🖥 GUI 설정",
     "gui_settings_desc": "GUI 관련 설정을 변경합니다",
-    "gui_settings_title": "[TRANSLATE: 🖥 GUI Settings]"
+    "gui_settings": "🖥 GUI 설정"
   },
   "shop": {
     "title": "상점",
@@ -364,7 +393,22 @@
       "sell_price": "판매: {0}G",
       "click_to_buy": "클릭하여 구매",
       "click_to_sell": "클릭하여 판매",
-      "insufficient_gold": "골드 부족!"
+      "insufficient_gold": "골드 부족!",
+      "buy": {
+        "price": "가격"
+      },
+      "click": {
+        "to": {
+          "buy": "구매",
+          "sell": "판매"
+        }
+      },
+      "insufficient": {
+        "gold": "골드"
+      },
+      "sell": {
+        "price": "가격"
+      }
     }
   },
   "dungeon": {
@@ -415,57 +459,37 @@
         "설정을 변경합니다"
       ]
     },
-    "confirm": {
-      "name": "확인",
-      "lore": [
-        "클릭하여 확인"
-      ]
-    },
-    "cancel": {
-      "name": "취소",
-      "lore": [
-        "클릭하여 취소"
-      ]
-    },
-    "toggle": {
-      "enabled": "활성화됨",
-      "disabled": "비활성화됨"
-    },
+    "next_page_name": "다음 페이지",
+    "previous_page_name": "이전 페이지",
+    "page_info_lore": "페이지 {0} / {1}",
+    "next_page_lore": "클릭하여 다음 페이지로 이동",
+    "previous_page_lore": "클릭하여 이전 페이지로 이동",
     "page_info": {
       "name": "페이지 정보",
       "lore": [
         "페이지 {0}/{1}"
       ]
     },
+    "cancel": {
+      "lore": [
+        "클릭하여 취소"
+      ],
+      "name": "취소"
+    },
+    "toggle": {
+      "enabled": "활성화됨",
+      "disabled": "비활성화됨"
+    },
+    "confirm": {
+      "lore": [
+        "클릭하여 확인"
+      ],
+      "name": "확인"
+    },
     "status": {
       "online": "온라인",
       "offline": "오프라인"
-    },
-    "next_page_name": "다음 페이지",
-    "previous_page_name": "이전 페이지",
-    "page_info_lore": "페이지 {0} / {1}",
-    "next_page_lore": "클릭하여 다음 페이지로 이동",
-    "previous_page_lore": "클릭하여 이전 페이지로 이동"
-  },
-  "friend_requests": {
-    "title": "친구 요청",
-    "pending": "대기 중인 요청: {0}",
-    "sent_by": "보낸 사람: {0}",
-    "sent_date": "날짜: {0}",
-    "accept": "수락",
-    "decline": "거절",
-    "accept_all": "모두 수락",
-    "decline_all": "모두 거절",
-    "no_requests": "대기 중인 친구 요청이 없습니다",
-    "accepted": "친구 요청을 수락했습니다!",
-    "declined": "친구 요청을 거절했습니다",
-    "already_friends": "{0}님과 이미 친구입니다",
-    "request_time": "요청 시간: {0}",
-    "message": "메시지: {0}",
-    "accept_desc1": "클릭하여 이 친구 요청 수락",
-    "reject_desc1": "클릭하여 이 친구 요청 거절",
-    "reject_desc": "Reject 설명",
-    "accept_desc": "Accept 설명"
+    }
   },
   "quest_reward": {
     "title": "퀘스트 보상",
@@ -474,12 +498,10 @@
     "destroy_desc": "모든 보상을 포기합니다",
     "warning_destroy": "⚠️ 이 작업은 되돌릴 수 없습니다!",
     "warning_destroy_line": "⚠️ 이 작업은",
-    "warning_destroy_line2": "되돌릴 수 없습니다!",
+    "warning_destroy_lines": "Warning Destroy Lines",
     "claim_all": "모두 받기",
     "claim_all_desc": "모든 보상을 인벤토리로 가져옵니다",
     "already_claimed": "이미 보상을 수령했습니다",
-    "click_to_claim": "클릭하여 수령",
-    "claimed": "수령 완료",
     "inventory_full": "인벤토리가 가득 찼습니다",
     "not_enough_space": "인벤토리 공간이 부족합니다",
     "confirm_destroy": "정말로 모든 보상을 파괴하시겠습니까?",
@@ -490,197 +512,196 @@
     "money_received": "코인 {1} 획듍!",
     "close_warning": "⚠️ 경고: 보상을 받지 않고 창을 닫았습니다!",
     "items_lost": "받지 않은 아이템은 사라집니다!",
+    "click_to_claim": "클릭하여 수령",
+    "claimed": "수령 완료",
+    "unclaimed_timer": "⏰ 남은 시간: {2}분",
+    "timer_warning": "수령하지 않은 보상은 1시간 후 사라집니다!",
+    "timer_info": "시간 제한 내에 보상 NPC를 방문하세요.",
     "expiry_days": "{0}일",
     "expiry_hours": "{0}시간",
     "expiry_minutes": "{0}분",
-    "unclaimed_timer": "[TRANSLATE: ⏰ Time remaining: {2} minutes]",
-    "timer_warning": "[TRANSLATE: Unclaimed rewards will be destroyed after 1 hour!]",
-    "timer_info": "[TRANSLATE: Visit the reward NPC within the time limit.]",
-    "warning_destroy_lines": "Warning Destroy Lines"
+    "warning_destroy_line2": "되돌릴 수 없습니다!"
   },
   "island": {
     "main": {
-      "title": "섬 관리",
-      "owner": "섬장: ",
-      "size": "크기: ",
-      "member_count": "멤버: ",
-      "workers": "알바: ",
-      "created_date": "생성일: ",
-      "public_status": "상태: ",
-      "public": "공개",
-      "private": "비공개",
-      "my_role": "나의 역할: ",
-      "role_owner": "섬장",
-      "role_co_owner": "부섬장",
-      "role_member": "멤버",
-      "role_worker": "알바",
-      "role_visitor": "방문자",
-      "color_change_hint": "클릭하여 섬 이름 색상 변경",
-      "hex_format_error": "잘못된 HEX 형식입니다! #RRGGBB 형식으로 입력하세요",
-      "hex_format_example": "#RRGGBB 형식 예시",
-      "color_changed": "색상이 변경되었습니다",
-      "hex_input_title": "HEX 색상 코드 입력",
-      "click_to_open": "클릭하여 열기",
-      "people_count": "명",
-      "warp_moving": "섬으로 이동중...",
-      "warp_success": "섬으로 이동했습니다!",
       "info": {
-        "lore": [
-          "섬 정보",
-          "클릭하여 상세 정보 확인"
-        ],
         "members": "{0}명의 멤버",
         "biome": "Biome",
         "level": "레벨",
         "spawn": "Spawn",
-        "no-island": "No-Island"
+        "no-island": "No-Island",
+        "lore": [
+          "섬 정보",
+          "클릭하여 상세 정보 확인"
+        ]
       },
       "create": {
+        "click-to-create": "Click-To-Create",
         "title": "섬 생성",
-        "lore1": "새로운 섬을 만듭니다",
         "lore2": "자신만의 공간을 가지세요",
-        "click-to-create": "Click-To-Create"
-      },
-      "spawn": {
-        "name": "스폰 설정",
-        "lore": "섬 스폰 위치를 설정합니다",
-        "click-to-set": "Click-To-Set"
-      },
-      "visit": {
-        "name": "섬 방문"
+        "lore1": "새로운 섬을 만듭니다",
+        "lore": "아이템 설명"
       },
       "members": {
-        "lore": "멤버를 관리합니다",
-        "click-to-manage": "Click-To-마나ge"
-      },
-      "settings": {
-        "lore": "섬 설정을 변경합니다",
-        "click-to-open": "Click-To-Open"
+        "click-to-manage": "Click-To-마나ge",
+        "lore": "멤버를 관리합니다"
       },
       "upgrades": {
-        "lore": "섬을 업그레이드합니다",
-        "click-to-view": "Click-To-View"
+        "click-to-view": "Click-To-View",
+        "lore": "섬을 업그레이드합니다"
       },
-      "permissions": {
-        "lore": "권한을 설정합니다"
+      "settings": {
+        "click-to-open": "Click-To-Open",
+        "lore": "섬 설정을 변경합니다"
       },
       "biome": {
-        "lore": "바이옴을 변경합니다",
-        "click-to-change": "Click-To-Change"
+        "click-to-change": "Click-To-Change",
+        "lore": "바이옴을 변경합니다"
       },
-      "contributions": {
-        "lore": "기여도를 확인합니다"
+      "spawn": {
+        "click-to-set": "Click-To-Set",
+        "lore": "섬 스폰 위치를 설정합니다",
+        "name": "스폰 설정"
       },
-      "visitors": {
-        "lore": "방문자를 관리합니다"
+      "contribute": {
+        "click-to-contribute": "Click-To-Contribute"
       },
-      "reset": {
-        "lore": "섬을 초기화합니다"
+      "warp": {
+        "click-to-warp": "Click-To-Warp",
+        "desc": "섬으로 텔레포트",
+        "title": "섬으로 이동"
       },
-      "leave": {
-        "lore": "섬을 떠납니다"
+      "delete": {
+        "click-to-delete": "Click-To-Delete"
       },
-      "back": {
-        "name": "뒤로가기"
+      "my_role": "나의 역할: ",
+      "member_management": {
+        "title": "멤버 관리",
+        "desc1": "초대 또는 추방",
+        "desc2": "섬 멤버"
       },
-      "close": {
-        "name": "닫기"
+      "spawn_settings": {
+        "title": "스폰 설정",
+        "desc1": "섬 관리",
+        "desc2": "스폰 위치"
       },
-      "upgrade": {
-        "current_level": "현재 업그레이드 레벨:",
-        "size": "• 크기: 레벨 ",
-        "member": "• 멤버 제한: 레벨 ",
-        "worker": "• 알바 제한: 레벨 ",
-        "level": ""
+      "permission_management": {
+        "title": "권한 관리",
+        "desc1": "권한 설정",
+        "desc2": "각 역할별"
+      },
+      "color_changed": "색상이 변경되었습니다",
+      "island_settings": {
+        "desc1": "섬 이름 변경",
+        "title": "섬 설정",
+        "desc3": "바이옴 변경",
+        "desc2": "공개/비공개 설정"
+      },
+      "visitor": {
+        "current": "현재 방문자: ",
+        "realtime": "• 실시간 방문자 추적",
+        "recent": "최근 방문자: ",
+        "open_menu": "클릭하여 방문자 메뉴 열기",
+        "desc2": "방문 기록 확인",
+        "desc1": "방문자 확인 및 관리",
+        "history": "• 방문 기록 보기"
       },
       "contribution": {
         "desc1": "기여도 순위 확인",
         "desc2": "멤버 기여도 확인",
         "my": "나의 기여도: "
       },
-      "visitor": {
-        "desc1": "방문자 확인 및 관리",
-        "desc2": "방문 기록 확인",
-        "recent": "최근 방문자: ",
-        "current": "현재 방문자: ",
-        "history": "• 방문 기록 보기",
-        "realtime": "• 실시간 방문자 추적",
-        "open_menu": "클릭하여 방문자 메뉴 열기"
-      },
-      "member_management": {
-        "title": "[TRANSLATE: Member Management]",
-        "desc1": "[TRANSLATE: Invite or kick]",
-        "desc2": "[TRANSLATE: island members]"
-      },
-      "permission_management": {
-        "title": "[TRANSLATE: Permission Management]",
-        "desc1": "[TRANSLATE: Configure permissions]",
-        "desc2": "[TRANSLATE: for each role]"
-      },
-      "spawn_settings": {
-        "title": "[TRANSLATE: Spawn Settings]",
-        "desc1": "[TRANSLATE: Manage island]",
-        "desc2": "[TRANSLATE: spawn locations]"
-      },
-      "island_settings": {
-        "title": "[TRANSLATE: Island Settings]",
-        "desc1": "[TRANSLATE: Change island name]",
-        "desc2": "[TRANSLATE: Public/Private settings]",
-        "desc3": "[TRANSLATE: Change biome]"
-      },
       "biome_change": {
+        "desc2": "[TRANSLATE: of your island]",
         "title": "[TRANSLATE: Change Biome]",
-        "desc1": "[TRANSLATE: Change the biome]",
-        "desc2": "[TRANSLATE: of your island]"
+        "desc1": "[TRANSLATE: Change the biome]"
       },
-      "warp": {
-        "title": "[TRANSLATE: Warp to Island]",
-        "desc": "[TRANSLATE: Teleport to the island]",
-        "click-to-warp": "Click-To-Warp"
+      "created_date": "생성일: ",
+      "upgrade": {
+        "current_level": "현재 업그레이드 레벨:",
+        "member": "• 멤버 제한: 레벨 ",
+        "size": "• 크기: 레벨 ",
+        "level": "",
+        "worker": "• 알바 제한: 레벨 "
       },
-      "delete": {
-        "click-to-delete": "Click-To-Delete"
+      "click_to_open": "클릭하여 열기",
+      "member_count": "멤버: ",
+      "public": "공개",
+      "hex_input_title": "HEX 색상 코드 입력",
+      "role_worker": "알바",
+      "back": {
+        "name": "뒤로가기"
       },
-      "contribute": {
-        "click-to-contribute": "Click-To-Contribute"
-      }
+      "role_visitor": "방문자",
+      "reset": {
+        "lore": "섬을 초기화합니다"
+      },
+      "role_co_owner": "부섬장",
+      "visitors": {
+        "lore": "방문자를 관리합니다"
+      },
+      "visit": {
+        "name": "섬 방문"
+      },
+      "color_change_hint": "클릭하여 섬 이름 색상 변경",
+      "public_status": "상태: ",
+      "title": "섬 관리",
+      "contributions": {
+        "lore": "기여도를 확인합니다"
+      },
+      "warp_moving": "섬으로 이동중...",
+      "people_count": "명",
+      "role_member": "멤버",
+      "workers": "알바: ",
+      "hex_format_error": "잘못된 HEX 형식입니다! #RRGGBB 형식으로 입력하세요",
+      "owner": "섬장: ",
+      "hex_format_example": "#RRGGBB 형식 예시",
+      "close": {
+        "name": "닫기"
+      },
+      "size": "크기: ",
+      "permissions": {
+        "lore": "권한을 설정합니다"
+      },
+      "leave": {
+        "lore": "섬을 떠납니다"
+      },
+      "warp_success": "섬으로 이동했습니다!",
+      "private": "비공개",
+      "role_owner": "섬장"
     },
     "creation": {
       "title": "섬 생성"
     },
-    "create": {
-      "title": "섬 생성"
-    },
-    "member": {
-      "title": "섬 멤버 - {0}",
-      "current_page": "현재 페이지: ",
-      "role": "Role",
-      "join_date": "Join Date",
-      "has_most_permissions": "Has most permissions",
-      "regular_member_permissions": "Regular member permissions",
-      "invite_prompt": "Enter player name to invite:",
-      "invite_example": "Example: PlayerName",
-      "role_owner": "Owner",
-      "all_permissions": "Has all permissions",
-      "owner_cannot_change": "Owner role cannot be changed",
-      "most_permissions": "Has most management permissions",
-      "normal_permissions": "Has normal member permissions",
-      "left_click_role": "Left-click to change role",
-      "right_click_kick": "Right-click to kick member",
-      "role_worker": "Worker",
-      "hire_date": "Hired: {0}",
-      "last_activity": "Last Activity: {0}",
-      "limited_permissions": "Has limited permissions",
-      "left_click_extend": "Left-click to extend contract",
-      "right_click_fire": "우클릭하여 해고"
-    },
     "settings": {
       "title": "섬 설정",
+      "pvp": "Pvp",
       "mob-spawn": "Mob-Spawn",
       "fire-spread": "Fire-Spread",
       "tnt-damage": "Tnt-데미지",
       "public-access": "Public-Access",
-      "pvp": "Pvp"
+      "name": "설정",
+      "description": "설명 텍스트",
+      "mob_spawn": "몹 스폰",
+      "fire_spread": "불 번짐",
+      "tnt": "TNT",
+      "public": "공개",
+      "locked": "잠김",
+      "current": {
+        "biome": "바이옴",
+        "name": "현재",
+        "status": "상태"
+      },
+      "has": {
+        "changes": "변경사항"
+      },
+      "id": "ID",
+      "members": "멤버",
+      "no": {
+        "changes": "변경사항"
+      },
+      "owner": "소유자",
+      "status": "상태"
     },
     "permission": {
       "title": "권한 관리",
@@ -691,37 +712,118 @@
       "select_other_role": "좌측에서 다른 역할을 선택하여",
       "edit_role_permissions": "해당 역할의 권한을 편집할 수 있습니다.",
       "permissions": {
-        "build": "블록 설치",
+        "build": {
+          "_value": "블록 설치",
+          "desc": "설명 텍스트"
+        },
         "build_desc": "블록을 설치하고 파괴할 수 있습니다.",
-        "interact": "상호작용",
+        "interact": {
+          "_value": "상호작용",
+          "desc": "설명 텍스트"
+        },
         "interact_desc": "문, 버튼 등을 사용할 수 있습니다.",
         "use": "아이템 사용",
         "use_desc": "아이템을 사용할 수 있습니다.",
-        "containers": "상자 열기",
+        "containers": {
+          "_value": "상자 열기",
+          "desc": "설명 텍스트"
+        },
         "containers_desc": "상자, 화로 등을 열 수 있습니다.",
         "pvp": "PVP",
         "pvp_desc": "섬 내에서 PVP를 할 수 있습니다.",
-        "invite": "멤버 초대",
+        "invite": {
+          "_value": "멤버 초대",
+          "desc": "설명 텍스트"
+        },
         "invite_desc": "새로운 멤버를 초대할 수 있습니다.",
-        "kick": "멤버 추방",
+        "kick": {
+          "_value": "멤버 추방",
+          "desc": "설명 텍스트"
+        },
         "kick_desc": "멤버를 추방할 수 있습니다.",
-        "settings": "설정 변경",
-        "settings_desc": "섬 설정을 변경할 수 있습니다."
+        "settings": {
+          "_value": "설정 변경",
+          "desc": "설명 텍스트"
+        },
+        "settings_desc": "섬 설정을 변경할 수 있습니다.",
+        "spawns": {
+          "desc": "설명 텍스트"
+        },
+        "workers": {
+          "desc": "설명 텍스트"
+        }
       },
-      "save": "권한 설정 저장",
+      "save": {
+        "_value": "권한 설정 저장",
+        "click": "클릭",
+        "description": "설명 텍스트",
+        "failed": "실패",
+        "success": "성공",
+        "title": "제목"
+      },
       "save_desc": "변경한 권한 설정을 저장합니다.",
       "enabled": "활성화",
       "disabled": "비활성화",
-      "click_to_toggle": "클릭하여 토글"
+      "click_to_toggle": "클릭하여 토글",
+      "click": {
+        "to": {
+          "select": "선택",
+          "toggle": "전환"
+        }
+      },
+      "current": {
+        "editing": "편집 중"
+      },
+      "edit": {
+        "role": {
+          "permissions": "권한"
+        }
+      },
+      "select": {
+        "other": {
+          "role": "역할"
+        },
+        "role": {
+          "desc": "설명 텍스트"
+        }
+      },
+      "status": "상태",
+      "back": {
+        "description": "설명 텍스트",
+        "title": "제목"
+      },
+      "close": {
+        "description": "설명 텍스트",
+        "title": "제목"
+      }
     },
     "upgrade": {
       "title": "섬 업그레이드",
+      "current-level": "Current-레벨",
+      "next-level": "Next-레벨",
       "max-level": "Max-레벨",
       "cost": "Cost",
       "benefits": "Benefits",
-      "next-level": "Next-레벨",
       "click-to-upgrade": "Click-To-Upgrade",
-      "current-level": "Current-레벨"
+      "click": {
+        "to": {
+          "upgrade": "업그레이드"
+        }
+      },
+      "current": {
+        "contribution": "기여도",
+        "level": "레벨"
+      },
+      "insufficient": {
+        "contribution": "기여도"
+      },
+      "next": {
+        "level": "레벨"
+      },
+      "max": {
+        "level": "레벨"
+      },
+      "progress": "진행도"
     },
     "biome_selection": {
       "title": "바이옴 선택",
@@ -739,16 +841,19 @@
       "badlands": "악지",
       "info": {
         "title": "🌍 바이옴 선택",
-        "lore1": "섬의 바이옴을 선택하세요",
-        "lore2": "바이옴에 따라 지형과 몹이 달라집니다"
+        "lore2": "바이옴에 따라 지형과 몹이 달라집니다",
+        "lore1": "섬의 바이옴을 선택하세요"
       },
-      "current_selected": "✔ 현재 선택됨",
-      "click_to_select": "▶ 클릭하여 선택",
       "back": {
         "lore": [
           "섬 생성 메뉴로 돌아갑니다"
         ]
-      }
+      },
+      "current_selected": "✔ 현재 선택됨",
+      "click_to_select": "▶ 클릭하여 선택",
+      "info_title": "정보 제목",
+      "info_lore": "정보 설명",
+      "back_lore": "뒤로 가기 설명"
     },
     "visitor": {
       "menu": {
@@ -756,34 +861,74 @@
       },
       "live": {
         "title": "현재 방문자"
+      },
+      "action": {
+        "title": "제목"
+      },
+      "island": {
+        "name": "섬"
+      },
+      "longest": {
+        "stay": "체류"
+      },
+      "most": {
+        "frequent": "빈번한"
+      },
+      "public": {
+        "status": "상태"
+      },
+      "stay": {
+        "duration": "기간"
+      },
+      "title": "제목",
+      "total": {
+        "visitors": "방문자",
+        "visits": "방문 횟수"
+      },
+      "unique": {
+        "visitors": "방문자"
+      },
+      "visit": {
+        "time": "시간"
+      },
+      "visitor": {
+        "number": "번호"
       }
     },
     "biome_change": {
-      "title": "바이옴 변경"
+      "title": "바이옴 변경",
+      "description": "설명 텍스트",
+      "success": "성공",
+      "fail": "실패"
     },
     "biome": {
-      "message": {
-        "world_not_found": "섬 월드를 찾을 수 없습니다.",
-        "no_permission": "바이옴을 변경할 권한이 없습니다.",
-        "changing": "바이옴을 변경하는 중...",
-        "changed": "바이옴이 {0}(으)로 변경되었습니다.",
-        "chunk_reload_notice": "청크가 리로드되면 바이옴이 완전히 업데이트됩니다.",
-        "already_selected": "이미 선택된 바이옴입니다."
-      },
+      "title": "Title",
       "current": "✔ 현재 바이옴",
-      "click_to_change": "▶ 클릭하여 변경",
-      "current_info": "🌍 현재 바이옴: {0}",
+      "available": "Available",
+      "locked": "Locked",
+      "click-to-select": "Click-To-Select",
       "back": {
         "lore": "바이옴 선택 메뉴로 돌아갑니다"
       },
-      "currently_selected": "✔ 현재 선택됨",
-      "click_to_select": "▶ 클릭하여 선택",
-      "back_to_settings": "섬 설정으로 돌아갑니다",
+      "click_to_change": "▶ 클릭하여 변경",
       "unknown": "알 수 없음",
-      "click-to-select": "Click-To-Select",
-      "title": "Title",
-      "available": "Available",
-      "locked": "Locked"
+      "message": {
+        "changed": "바이옴이 {0}(으)로 변경되었습니다.",
+        "no_permission": "바이옴을 변경할 권한이 없습니다.",
+        "chunk_reload_notice": "청크가 리로드되면 바이옴이 완전히 업데이트됩니다.",
+        "changing": "바이옴을 변경하는 중...",
+        "world_not_found": "섬 월드를 찾을 수 없습니다.",
+        "already_selected": "이미 선택된 바이옴입니다."
+      },
+      "click_to_select": "▶ 클릭하여 선택",
+      "currently_selected": "✔ 현재 선택됨",
+      "back_to_settings": "섬 설정으로 돌아갑니다",
+      "current_info": "🌍 현재 바이옴: {0}",
+      "current_biome": "현재 바이옴",
+      "cost": "비용",
+      "free": "무료",
+      "current_info_lore": "현재 정보 설명",
+      "back_lore": "뒤로 가기 설명"
     },
     "contribute": {
       "title": "섬 기여",
@@ -791,141 +936,243 @@
       "input_gold": "기여할 골드 입력",
       "gold_info": {
         "balance": "Balance: {0}G",
-        "contribution": "Your Contribution: {0}G"
+        "contribution": "Your Contribution: {0}G",
+        "title": "제목",
+        "description": "설명"
       },
       "quick_amount": "Quick Amount: {0}G",
-      "gold_needed": "Gold Needed: {0}G"
-    },
-    "member_management": {
-      "title": "섬 멤버 관리",
-      "role": "역할",
-      "join_date": "가입일",
-      "has_most_permissions": "대부분의 권한 보유",
-      "regular_member_permissions": "일반 섬원 권한"
-    },
-    "role": {
-      "owner": "섬주",
-      "co_owner": "부섬주",
-      "member": "멤버",
-      "worker": "알바생",
-      "contributor": "기여자"
-    },
-    "biome_simple": {
-      "title": "바이옴 선택"
-    },
-    "delete_confirm": {
-      "title": "⚠ 섬 삭제 확인 ⚠",
-      "warning": "⚠ 주의 ⚠",
-      "click_again": "정말로 삭제하시려면 다시 한 번 클릭하세요!",
-      "island_info": {
-        "title": "삭제할 섬: {0}",
-        "id": "섬 ID: {0}",
-        "members": "멤버 수: {0}명",
-        "created": "생성일: {0}",
-        "warning": "이 섬의 모든 데이터가 삭제됩니다!"
+      "gold_needed": "Gold Needed: {0}G",
+      "custom_amount": {
+        "title": "제목",
+        "description": "설명 텍스트",
+        "minimum": "최소",
+        "maximum": "최대",
+        "click_prompt": "클릭 안내"
       },
-      "cancel": {
-        "title": "취소",
-        "lore1": "섬 삭제를 취소하고",
-        "lore2": "설정 메뉴로 돌아갑니다",
-        "click": "▶ 클릭하여 취소"
-      },
-      "confirm": {
-        "title": "삭제 확인",
-        "question": "섬을 정말로 삭제하시겠습니까?",
-        "warning": "⚠ 이 작업은 되돌릴 수 없습니다!",
-        "click": "▶ 클릭하여 계속"
-      },
-      "final_confirm": {
-        "title": "최종 삭제 확인",
-        "warning1": "⚠ 마지막 경고!",
-        "warning2": "모든 섬 데이터가 영구 삭제됩니다!",
-        "click": "▶ 클릭하여 영구 삭제"
-      },
-      "warning_list": {
-        "title": "삭제 시 사라지는 것들",
-        "item1": "• 섬의 모든 블록과 건축물",
-        "item2": "• 섬 업그레이드 및 설정",
-        "item3": "• 모든 멤버의 섬 권한",
-        "item4": "• 섬 기여도 및 통계",
-        "item5": "• 섬 스폰 위치",
-        "final": "이 모든 것이 영구적으로 삭제됩니다!"
-      },
-      "deleting": "섬을 삭제하는 중...",
-      "member_teleported": "섬이 삭제되어 스폰으로 이동되었습니다.",
-      "error": "섬 삭제 중 오류가 발생했습니다: {0}",
-      "success": "섬이 성공적으로 삭제되었습니다.",
-      "failed": "섬 삭제에 실패했습니다."
+      "back_description": "뒤로 가기 설명",
+      "success": "성공",
+      "total_contribution": "총 기여도",
+      "click_to_contribute": "클릭하여 기여",
+      "click_prompt": "클릭 안내",
+      "insufficient_gold": "골드 부족",
+      "insufficient_gold_message": "골드가 부족합니다"
     },
     "contribution": {
       "title": "섬 기여도",
+      "total": "Total",
+      "your-contribution": "Your-Contribution",
+      "top-contributors": "Top-Contributors",
+      "click-to-contribute": "Click-To-Contribute",
       "info": {
         "island_name": "Island: {0}",
-        "total": "총 기여도: {0}G",
-        "contributors": "기여자: {0}"
+        "contributors": "기여자: {0}",
+        "total": "총 기여도: {0}G"
       },
       "contributor": {
-        "name": "{0}",
-        "contribution": "Contribution: {0}G",
+        "percentage": "Percentage: {0}%",
         "role": "Role: {0}",
-        "percentage": "Percentage: {0}%"
+        "name": "{0}",
+        "contribution": "Contribution: {0}G"
       },
       "add": {
         "current": "Current: {0}G"
       },
-      "your-contribution": "Your-Contribution",
-      "click-to-contribute": "Click-To-Contribute",
-      "top-contributors": "Top-Contributors",
-      "total": "Total"
+      "info_title": "정보 제목",
+      "info_island_name": "섬 이름",
+      "info_total": "총 정보",
+      "info_contributors": "기여자 정보",
+      "info_description": "정보 설명",
+      "contributor_name": "기여자 이름",
+      "contributor_contribution": "기여자 기여도",
+      "contributor_role": "기여자 역할",
+      "contributor_percentage": "기여 비율",
+      "add_title": "추가 제목",
+      "add_current": "현재 추가",
+      "add_description": "추가 설명",
+      "add_click": "추가 클릭",
+      "back_description": "뒤로 가기 설명"
     },
     "member_manage": {
       "title": "멤버 관리",
       "permission_not_implemented": "이 권한은 아직 구현되지 않았습니다",
       "current_role": "현재 역할: {0}"
     },
-    "main_color_change_hint": "[TRANSLATE: Click to change island theme]",
-    "biome_change_title": "[TRANSLATE: Change Island Biome]",
-    "biome_click_to_change": "[TRANSLATE: Click to change biome]",
-    "biome_current_info": "[TRANSLATE: Current Biome]",
-    "biome_current_info_lore": "[TRANSLATE: Your island biome: {0}]",
-    "biome_selection_title": "[TRANSLATE: Select Biome]",
-    "biome_selection_info_title": "[TRANSLATE: Biome Selection]",
-    "biome_selection_info_lore1": "[TRANSLATE: Choose your island biome]",
-    "biome_selection_info_lore2": "[TRANSLATE: This affects island appearance]",
-    "biome_selection_current_selected": "[TRANSLATE: Currently selected: {0}]",
-    "biome_selection_click_to_select": "[TRANSLATE: Click to select this biome]",
-    "biome_selection_back_lore": "[TRANSLATE: Go back to previous menu]",
-    "biome_simple_title": "[TRANSLATE: Island Biome]",
-    "contribute_gold_info_balance": "[TRANSLATE: Your Balance: {0}]",
-    "contribute_gold_info_contribution": "[TRANSLATE: Your Contribution: {0}]",
-    "contribute_quick_amount": "[TRANSLATE: Quick Amount: {0}]",
-    "contribute_gold_needed": "[TRANSLATE: Gold Needed: {0}]",
-    "contribution_info_island_name": "[TRANSLATE: Island: {0}]",
-    "role_co_owner": "[TRANSLATE: Co-Owner]",
-    "delete_confirm_title": "[TRANSLATE: Delete Island Confirmation]",
-    "delete_confirm_island_info_title": "[TRANSLATE: Island Information]",
-    "delete_confirm_island_info_id": "[TRANSLATE: Island ID: {0}]",
-    "delete_confirm_island_info_members": "[TRANSLATE: Members: {0}]",
-    "delete_confirm_island_info_created": "[TRANSLATE: Created: {0}]",
-    "member_invite_prompt": "[TRANSLATE: Enter player name to invite]",
-    "member_invite_example": "[TRANSLATE: Example: PlayerName]",
-    "member_role_owner": "[TRANSLATE: Owner]",
-    "member_all_permissions": "[TRANSLATE: Has all permissions]",
-    "member_owner_cannot_change": "[TRANSLATE: Owner permissions cannot be changed]",
-    "member_join_date": "[TRANSLATE: Joined: {0}]",
-    "member_most_permissions": "[TRANSLATE: Has most permissions]",
-    "member_normal_permissions": "[TRANSLATE: Has normal permissions]",
-    "member_left_click_role": "[TRANSLATE: Left-click to change role]",
-    "member_right_click_kick": "[TRANSLATE: Right-click to kick]",
-    "member_role_worker": "[TRANSLATE: Worker]",
-    "member_hire_date": "[TRANSLATE: Hired: {0}]",
-    "member_last_activity": "[TRANSLATE: Last Active: {0}]",
-    "member_limited_permissions": "[TRANSLATE: Has limited permissions]",
-    "member_left_click_extend": "[TRANSLATE: Left-click to extend contract]",
-    "member_right_click_fire": "[TRANSLATE: Right-click to fire]",
-    "member_manage_title": "[TRANSLATE: Manage Member]",
-    "member_manage_permission_not_implemented": "[TRANSLATE: Permission management coming soon]",
-    "member_manage_current_role": "[TRANSLATE: Current Role: {0}]",
+    "member": {
+      "title": "섬 멤버 - {0}",
+      "role": {
+        "_value": "Role",
+        "owner": "소유자",
+        "worker": "작업자"
+      },
+      "join_date": "Join Date",
+      "has_most_permissions": "Has most permissions",
+      "regular_member_permissions": "Regular member permissions",
+      "invite_prompt": "Enter player name to invite:",
+      "invite_example": "Example: PlayerName",
+      "role_owner": "Owner",
+      "all_permissions": "Has all permissions",
+      "owner_cannot_change": "Owner role cannot be changed",
+      "most_permissions": "Has most management permissions",
+      "normal_permissions": "Has normal member permissions",
+      "left_click_role": "Left-click to change role",
+      "right_click_kick": "Right-click to kick member",
+      "role_worker": "Worker",
+      "hire_date": "Hired: {0}",
+      "last_activity": "Last Activity: {0}",
+      "limited_permissions": "Has limited permissions",
+      "left_click_extend": "Left-click to extend contract",
+      "right_click_fire": "우클릭하여 해고",
+      "current_page": "현재 페이지: ",
+      "all": {
+        "permissions": "권한"
+      },
+      "hire": {
+        "date": "날짜"
+      },
+      "invite": {
+        "example": "예시",
+        "prompt": "안내"
+      },
+      "join": {
+        "date": "날짜"
+      },
+      "last": {
+        "activity": "활동"
+      },
+      "left": {
+        "click": {
+          "extend": "연장",
+          "role": "역할"
+        }
+      },
+      "limited": {
+        "permissions": "권한"
+      },
+      "manage": {
+        "current": {
+          "role": "역할"
+        },
+        "permission": {
+          "not": {
+            "implemented": "구현됨"
+          }
+        },
+        "title": {
+          "with": {
+            "name": "함께"
+          }
+        }
+      },
+      "most": {
+        "permissions": "권한"
+      },
+      "normal": {
+        "permissions": "권한"
+      },
+      "owner": {
+        "cannot": {
+          "change": "변경"
+        }
+      },
+      "right": {
+        "click": {
+          "fire": "해고",
+          "kick": "추방"
+        }
+      }
+    },
+    "main_color_change_hint": "클릭하여 섬 테마 변경",
+    "biome_change_title": "섬 바이옴 변경",
+    "biome_click_to_change": "클릭하여 바이옴 변경",
+    "biome_current_info": "현재 바이옴",
+    "biome_current_info_lore": "당신의 섬 바이옴: {0}",
+    "biome_selection_title": "바이옴 선택",
+    "biome_selection_info_title": "바이옴 선택",
+    "biome_selection_info_lore": "Biome Selection Info Lore",
+    "biome_selection_current_selected": "현재 선택됨: {0}",
+    "biome_selection_click_to_select": "클릭하여 이 바이옴 선택",
+    "biome_selection_back_lore": "이전 메뉴로 돌아가기",
+    "biome_simple_title": "섬 바이옴",
+    "contribute_gold_info_balance": "당신의 잔고: {0}",
+    "contribute_gold_info_contribution": "당신의 기여도: {0}",
+    "contribute_quick_amount": "빠른 금액: {0}",
+    "contribute_gold_needed": "필요한 골드: {0}",
+    "contribution_info_island_name": "섬: {0}",
+    "role_co_owner": "공동 소유자",
+    "delete_confirm_title": "섬 삭제 확인",
+    "delete_confirm_island_info_title": "섬 정보",
+    "delete_confirm_island_info_id": "섬 ID: {0}",
+    "delete_confirm_island_info_members": "멤버: {0}",
+    "delete_confirm_island_info_created": "생성됨: {0}",
+    "member_invite_prompt": "초대할 플레이어 이름 입력",
+    "member_invite_example": "예시: PlayerName",
+    "member_role_owner": "소유자",
+    "member_all_permissions": "모든 권한을 가짐",
+    "member_owner_cannot_change": "소유자 권한은 변경할 수 없음",
+    "member_join_date": "가입일: {0}",
+    "member_most_permissions": "대부분의 권한을 가짐",
+    "member_normal_permissions": "일반 권한을 가짐",
+    "member_left_click_role": "왼쪽 클릭으로 역할 변경",
+    "member_right_click_kick": "오른쪽 클릭으로 추방",
+    "member_role_worker": "일꾼",
+    "member_hire_date": "고용일: {0}",
+    "member_last_activity": "마지막 활동: {0}",
+    "member_limited_permissions": "제한된 권한을 가짐",
+    "member_left_click_extend": "왼쪽 클릭으로 계약 연장",
+    "member_right_click_fire": "오른쪽 클릭으로 해고",
+    "member_manage_title": "멤버 관리",
+    "member_manage_permission_not_implemented": "권한 관리는 공 추가될 예정",
+    "member_manage_current_role": "현재 역할: {0}",
+    "members": {
+      "title": "Title",
+      "owner": "Owner",
+      "member": "Member",
+      "visitor": "Visitor",
+      "kick": {
+        "title": "Title",
+        "desc": "설명"
+      },
+      "promote": {
+        "title": "Title",
+        "desc": "설명"
+      },
+      "demote": {
+        "title": "Title",
+        "desc": "설명"
+      },
+      "description": "설명 텍스트",
+      "moderator": "관리자",
+      "add": {
+        "title": "제목",
+        "subtitle": "부제",
+        "lore": "아이템 설명",
+        "click": "클릭"
+      },
+      "back": {
+        "lore": "아이템 설명"
+      },
+      "info": {
+        "title": "제목"
+      }
+    },
+    "delete": {
+      "title": "Title",
+      "warning": "Warning",
+      "confirm": {
+        "_value": "Confirm",
+        "final": {
+          "confirm": {
+            "warning": "경고"
+          }
+        },
+        "warning": {
+          "list": {
+            "items": "아이템"
+          }
+        }
+      },
+      "cancel": "Cancel"
+    },
     "gui": {
       "contribute": {
         "contribution": "Contribution"
@@ -956,31 +1203,138 @@
         }
       }
     },
-    "members": {
-      "kick": {
-        "title": "Title",
-        "desc": "설명"
+    "delete_confirm": {
+      "island_info": {
+        "created": "생성일: {0}",
+        "title": "삭제할 섬: {0}",
+        "warning": "이 섬의 모든 데이터가 삭제됩니다!",
+        "members": "멤버 수: {0}명",
+        "id": "섬 ID: {0}"
       },
-      "demote": {
-        "desc": "설명",
-        "title": "Title"
+      "failed": "섬 삭제에 실패했습니다.",
+      "warning_list": {
+        "title": "삭제 시 사라지는 것들",
+        "item2": "• 섬 업그레이드 및 설정",
+        "final": "이 모든 것이 영구적으로 삭제됩니다!",
+        "item3": "• 모든 멤버의 섬 권한",
+        "item5": "• 섬 스폰 위치",
+        "item4": "• 섬 기여도 및 통계",
+        "item1": "• 섬의 모든 블록과 건축물"
       },
-      "promote": {
-        "title": "Title",
-        "desc": "설명"
+      "member_teleported": "섬이 삭제되어 스폰으로 이동되었습니다.",
+      "cancel": {
+        "lore1": "섬 삭제를 취소하고",
+        "title": "취소",
+        "lore2": "설정 메뉴로 돌아갑니다",
+        "click": "▶ 클릭하여 취소",
+        "lore": "아이템 설명"
       },
-      "owner": "Owner",
-      "member": "Member",
-      "title": "Title",
-      "visitor": "Visitor"
+      "final_confirm": {
+        "click": "▶ 클릭하여 영구 삭제",
+        "warning2": "모든 섬 데이터가 영구 삭제됩니다!",
+        "warning1": "⚠ 마지막 경고!",
+        "title": "최종 삭제 확인"
+      },
+      "confirm": {
+        "warning": "⚠ 이 작업은 되돌릴 수 없습니다!",
+        "question": "섬을 정말로 삭제하시겠습니까?",
+        "title": "삭제 확인",
+        "click": "▶ 클릭하여 계속"
+      },
+      "title": "⚠ 섬 삭제 확인 ⚠",
+      "deleting": "섬을 삭제하는 중...",
+      "warning": "⚠ 주의 ⚠",
+      "error": "섬 삭제 중 오류가 발생했습니다: {0}",
+      "success": "섬이 성공적으로 삭제되었습니다.",
+      "click_again": "정말로 삭제하시려면 다시 한 번 클릭하세요!"
     },
-    "delete": {
-      "confirm": "Confirm",
-      "title": "Title",
-      "warning": "Warning",
-      "cancel": "Cancel"
+    "role": {
+      "co_owner": "부섬주",
+      "owner": "섬주",
+      "contributor": "기여자",
+      "worker": "알바생",
+      "member": "멤버"
     },
-    "biome_selection_info_lore": "Biome Selection Info Lore"
+    "member_management": {
+      "role": "역할",
+      "has_most_permissions": "대부분의 권한 보유",
+      "regular_member_permissions": "일반 섬원 권한",
+      "join_date": "가입일",
+      "title": "섬 멤버 관리"
+    },
+    "biome_selection_info_lore2": "[TRANSLATE: This affects island appearance]",
+    "create": {
+      "title": "섬 생성"
+    },
+    "biome_selection_info_lore1": "[TRANSLATE: Choose your island biome]",
+    "biome_simple": {
+      "title": "바이옴 선택"
+    },
+    "contributions": {
+      "title": "제목",
+      "description": "설명 텍스트",
+      "total": "총",
+      "player": "플레이어"
+    },
+    "permissions": {
+      "title": "제목",
+      "description": "설명 텍스트",
+      "build": "건설",
+      "break": "파괴",
+      "interact": "상호작용",
+      "container": "컨테이너",
+      "teleport": "텔레포트",
+      "invite": "초대",
+      "kick": "추방",
+      "ban": "차단",
+      "promote": "승진",
+      "demote": "강등"
+    },
+    "upgrades": {
+      "title": "제목",
+      "description": "설명 텍스트",
+      "size": "크기",
+      "member_limit": "멤버 제한",
+      "hopper_limit": "호퍼 제한",
+      "spawner_limit": "스폰너 제한",
+      "generator": "생성기"
+    },
+    "visit": {
+      "title": "제목",
+      "description": "설명 텍스트",
+      "player_input": "플레이어 입력",
+      "not_found": "찾을 수 없음",
+      "locked": "잠김",
+      "banned": "차단됨"
+    },
+    "visitors": {
+      "title": "제목",
+      "description": "설명 텍스트",
+      "current": "현재",
+      "recent": "최근"
+    },
+    "personal": {
+      "spawn": {
+        "title": "제목"
+      }
+    },
+    "spawn": {
+      "default": {
+        "spawn": "스폰"
+      },
+      "location": {
+        "name": "위치"
+      },
+      "title": "제목",
+      "visitor": {
+        "spawn": {
+          "_value": "스폰",
+          "not": {
+            "set": "설정"
+          }
+        }
+      }
+    }
   },
   "social": {
     "mailbox": {
@@ -1040,7 +1394,95 @@
     "filter": "필터:",
     "previous_page": "이전 페이지",
     "next_page": "다음 페이지",
-    "rewards": "보상"
+    "rewards": "보상",
+    "dialog": {
+      "accept": {
+        "quest": "퀘스트"
+      },
+      "next": {
+        "page": "페이지"
+      },
+      "quest": {
+        "declined": "거절됨"
+      },
+      "skip": "건너뛰기",
+      "title": "제목"
+    },
+    "list": {
+      "click": {
+        "details": "상세 정보"
+      },
+      "completed": {
+        "label": "라벨"
+      },
+      "progress": "진행도",
+      "repeatable": "반복 가능",
+      "title": "제목"
+    },
+    "reward": {
+      "confirm": {
+        "title": "제목"
+      },
+      "all": {
+        "claimed": "수령됨"
+      },
+      "already": {
+        "claimed": "수령됨"
+      },
+      "claimed": "수령됨",
+      "click": {
+        "to": {
+          "claim": "수령"
+        }
+      },
+      "close": {
+        "warning": "경고"
+      },
+      "destroyed": {
+        "_value": "파괴됨",
+        "desc": "설명"
+      },
+      "exp": {
+        "received": "수령함"
+      },
+      "inventory": {
+        "full": "가득참"
+      },
+      "money": {
+        "received": "수령함"
+      },
+      "not": {
+        "enough": {
+          "space": "공간"
+        }
+      },
+      "timer": {
+        "info": "정보",
+        "warning": "경고"
+      },
+      "title": "제목",
+      "warning": {
+        "destroy": {
+          "line": "줄",
+          "line2": "줄 2"
+        }
+      }
+    },
+    "selection": {
+      "title": "제목"
+    },
+    "status": {
+      "completed": "완료됨",
+      "in": {
+        "progress": "진행도"
+      },
+      "new": {
+        "quest": "퀘스트"
+      },
+      "reward": {
+        "available": "사용 가능"
+      }
+    }
   },
   "island_creation": {
     "current_name": "현재 이름:",
@@ -1079,11 +1521,9 @@
     "color_changed": "섬 이름 색상이 변경되었습니다!",
     "hex_input_title": "HEX 색상 코드 입력",
     "member_management_title": "멤버 관리",
-    "member_management_desc1": "섬원을 초대하거나",
-    "member_management_desc2": "추방할 수 있습니다.",
+    "member_management_desc": "Member 마나gement 설명",
     "permission_management_title": "권한 관리",
-    "permission_management_desc1": "각 역할의 권한을",
-    "permission_management_desc2": "설정할 수 있습니다.",
+    "permission_management_desc": "Permission 마나gement 설명",
     "upgrade_title": "업그레이드",
     "upgrade_current_level": "현재 레벨:",
     "upgrade_size": "크기:",
@@ -1091,27 +1531,21 @@
     "upgrade_worker": "알바:",
     "upgrade_level": "레벨",
     "contribution_title": "기여도",
-    "contribution_desc1": "섬원들의 기여도를",
-    "contribution_desc2": "확인할 수 있습니다.",
+    "contribution_desc": "Contribution 설명",
     "contribution_my": "내 기여도:",
     "spawn_settings_title": "스폰 설정",
-    "spawn_settings_desc1": "섬의 스폰 위치를",
-    "spawn_settings_desc2": "관리할 수 있습니다.",
+    "spawn_settings_desc": "Spawn Settings 설명",
     "island_settings_title": "섬 설정",
-    "island_settings_desc1": "섬 이름 변경",
-    "island_settings_desc2": "공개/비공개 설정",
-    "island_settings_desc3": "바이옴 변경",
+    "island_settings_desc": "Island Settings 설명",
     "visitor_management_title": "방문자 관리",
-    "visitor_management_desc1": "방문자 관련 정보를",
-    "visitor_management_desc2": "확인할 수 있습니다.",
+    "visitor_management_desc": "Visitor 마나gement 설명",
     "visitor_management_recent": "최근 방문자:",
     "visitor_management_current": "현재 방문자:",
     "visitor_management_history": "• 방문 히스토리",
     "visitor_management_realtime": "• 현재 방문자 (실시간)",
     "visitor_management_open_menu": "▶ 클릭하여 메뉴 열기",
     "biome_change_title": "바이옴 변경",
-    "biome_change_desc1": "섬의 바이옴을",
-    "biome_change_desc2": "변경할 수 있습니다.",
+    "biome_change_desc": "Biome Change 설명",
     "warp_title": "섬으로 이동",
     "warp_desc": "섬으로 순간이동합니다.",
     "warp_moving": "섬으로 이동 중...",
@@ -1120,122 +1554,77 @@
     "click_to_warp": "▶ 클릭하여 이동",
     "people_count": "명",
     "contribute": {
-      "title": "섬 기여하기",
-      "gold_info": {
-        "title": "내 골드 정보",
-        "balance": "보유 골드: {1} G",
-        "contribution": "내 총 기여도: {1} G",
-        "description1": "섬에 골드를 기여하면",
-        "description2": "섬 업그레이드에 사용됩니다"
-      },
-      "quick_amount": "{1} G 기여",
-      "click_to_contribute": "클릭하여 기여합니다",
-      "click_prompt": "▶ 클릭하여 기여",
-      "insufficient_gold": "골드가 부족합니다",
-      "gold_needed": "필요: {1} G 더 필요",
       "custom_amount": {
-        "title": "사용자 지정 금액",
+        "minimum": "최소: 100 G",
         "description1": "원하는 금액을 직접",
         "description2": "입력할 수 있습니다",
-        "minimum": "최소: 100 G",
-        "maximum": "최대: 보유 골드",
-        "click_prompt": "▶ 클릭하여 입력"
+        "click_prompt": "▶ 클릭하여 입력",
+        "title": "사용자 지정 금액",
+        "maximum": "최대: 보유 골드"
       },
-      "back_description": "기여도 목록으로 돌아갑니다",
-      "anvil": {
-        "placeholder": "기여할 금액",
-        "title": "기여할 골드 입력"
-      },
-      "minimum_amount_error": "최소 100 골드 이상 기여해야 합니다.",
       "invalid_number": "올바른 숫자를 입력해주세요.",
-      "insufficient_gold_message": "골드가 부족합니다! (보유: {1} G)",
+      "minimum_amount_error": "최소 100 골드 이상 기여해야 합니다.",
       "success": "{1} 골드를 섬에 기여했습니다!",
-      "total_contribution": "총 기여도: {1} G"
-    },
-    "contribution": {
-      "title": "기여도 순위",
-      "info": {
-        "title": "섬 기여도 정보",
-        "island_name": "섬 이름: {0}",
-        "total": "총 기여도: {1}",
-        "contributors": "기여자 수: {1}명",
-        "description1": "기여도는 섬 업그레이드에",
-        "description2": "사용됩니다"
+      "gold_needed": "필요: {1} G 더 필요",
+      "anvil": {
+        "title": "기여할 골드 입력",
+        "placeholder": "기여할 금액"
       },
+      "insufficient_gold": "골드가 부족합니다",
+      "back_description": "기여도 목록으로 돌아갑니다",
+      "insufficient_gold_message": "골드가 부족합니다! (보유: {1} G)",
+      "click_prompt": "▶ 클릭하여 기여",
+      "total_contribution": "총 기여도: {1} G",
+      "quick_amount": "{1} G 기여",
+      "gold_info": {
+        "balance": "보유 골드: {1} G",
+        "title": "내 골드 정보",
+        "contribution": "내 총 기여도: {1} G",
+        "description2": "섬 업그레이드에 사용됩니다",
+        "description1": "섬에 골드를 기여하면"
+      },
+      "click_to_contribute": "클릭하여 기여합니다",
+      "title": "섬 기여하기"
+    },
+    "spawn_settings_desc2": "관리할 수 있습니다.",
+    "contribution": {
       "contributor": {
         "contribution": "기여도: {1}",
-        "role": "역할: {0}",
-        "percentage": "전체 기여도의 {2}%%"
+        "percentage": "전체 기여도의 {2}%%",
+        "role": "역할: {0}"
+      },
+      "info": {
+        "description2": "사용됩니다",
+        "total": "총 기여도: {1}",
+        "description1": "기여도는 섬 업그레이드에",
+        "island_name": "섬 이름: {0}",
+        "contributors": "기여자 수: {1}명",
+        "title": "섬 기여도 정보"
       },
       "add": {
-        "title": "기여도 추가",
-        "current": "현재 내 기여도: {1}",
+        "click": "▶ 클릭하여 기여하기",
         "description1": "아이템이나 재화를 기여하여",
+        "title": "기여도 추가",
         "description2": "섬 발전에 도움을 줄 수 있습니다",
-        "click": "▶ 클릭하여 기여하기"
+        "current": "현재 내 기여도: {1}"
       },
-      "back_description": "메인 메뉴로 돌아갑니다"
+      "back_description": "메인 메뉴로 돌아갑니다",
+      "title": "기여도 순위"
     },
-    "spawn_settings_desc": "Spawn Settings 설명",
-    "contribution_desc": "Contribution 설명",
-    "visitor_management_desc": "Visitor 마나gement 설명",
-    "biome_change_desc": "Biome Change 설명",
-    "island_settings_desc": "Island Settings 설명",
-    "permission_management_desc": "Permission 마나gement 설명",
-    "member_management_desc": "Member 마나gement 설명"
-  },
-  "gui_settings_v2": {
-    "title": "GUI 설정",
-    "volume": "볼륨: {0}%",
-    "volume_changed": "볼륨이 {0}%로 변경되었습니다",
-    "sound_enabled": "소리 활성화",
-    "sound_disabled": "소리 비활성화"
-  },
-  "ingame_settings_v2": {
-    "title": "게임 내 설정"
-  },
-  "notification_settings": {
-    "title": "알림 설정"
-  },
-  "social_settings": {
-    "title": "소셜 설정"
-  },
-  "system_settings": {
-    "title": "시스템 설정",
-    "status": "[TRANSLATE: Status: {0}]",
-    "click_to_toggle": "[TRANSLATE: Click to toggle]",
-    "confirmation_toggled": "[TRANSLATE: Confirmation dialogs {0}]"
-  },
-  "error": {
-    "title": "오류"
-  },
-  "buttons_v2": {
-    "toggle": {
-      "enabled": "활성화",
-      "disabled": "비활성화"
-    },
-    "confirm": {
-      "name": "확인",
-      "lore": [
-        "선택을 확인합니다"
-      ]
-    },
-    "cancel": {
-      "name": "취소",
-      "lore": [
-        "작업을 취소합니다"
-      ]
-    },
-    "page_info": {
-      "name": "페이지 정보",
-      "lore": [
-        "현재 페이지: {0}/{1}"
-      ]
-    },
-    "status": {
-      "online": "온라인",
-      "offline": "오프라인"
-    }
+    "island_settings_desc3": "바이옴 변경",
+    "spawn_settings_desc1": "섬의 스폰 위치를",
+    "visitor_management_desc1": "방문자 관련 정보를",
+    "permission_management_desc1": "각 역할의 권한을",
+    "member_management_desc2": "추방할 수 있습니다.",
+    "island_settings_desc1": "섬 이름 변경",
+    "biome_change_desc2": "변경할 수 있습니다.",
+    "visitor_management_desc2": "확인할 수 있습니다.",
+    "contribution_desc1": "섬원들의 기여도를",
+    "biome_change_desc1": "섬의 바이옴을",
+    "contribution_desc2": "확인할 수 있습니다.",
+    "member_management_desc1": "섬원을 초대하거나",
+    "permission_management_desc2": "설정할 수 있습니다.",
+    "island_settings_desc2": "공개/비공개 설정"
   },
   "dialog_choice": {
     "title": "선택하기",
@@ -1247,7 +1636,12 @@
     "npc": "NPC: {0}",
     "npc_content": "{0}",
     "option": "옵션 {0}",
-    "click_to_select": "클릭하여 이 옵션 선택"
+    "click_to_select": "클릭하여 이 옵션 선택",
+    "option_1": "옵션 1",
+    "option_2": "옵션 2",
+    "option_3": "옵션 3",
+    "option_4": "옵션 4",
+    "cancel": "취소"
   },
   "mailbox": {
     "title": "우편함",
@@ -1258,7 +1652,13 @@
     "to": "받는이: {0}",
     "subject": "제목: {0}",
     "date": "날짜: {0}",
-    "delete": "삭제",
+    "delete": {
+      "_value": "삭제",
+      "confirm": {
+        "text": "텍스트",
+        "title": "제목"
+      }
+    },
     "reply": "답장",
     "forward": "전달",
     "mark_read": "읽음 표시",
@@ -1279,7 +1679,21 @@
     "time": "시간: {0}",
     "delete_confirm_word": "삭제",
     "delete_confirm_text": "삭제하려면 '삭제'를 입력하세요",
-    "delete_confirm_title": "우편 삭제 확인"
+    "delete_confirm_title": "우편 삭제 확인",
+    "refresh_cooldown": "새로고침 대기시간",
+    "mail_from": "보낸 사람",
+    "mail_date": "메일 날짜",
+    "has_attachments": "첨부 파일 있음",
+    "click_to_read": "클릭하여 읽기",
+    "delete_all": "모두 삭제",
+    "delete_all_confirm": "모두 삭제 확인",
+    "send": {
+      "mail": {
+        "command": "명령어",
+        "example": "예시",
+        "guide": "가이드"
+      }
+    }
   },
   "mail_detail": {
     "title": "우편 상세",
@@ -1304,7 +1718,37 @@
     "delete_failed": "우편 삭제에 실패했습니다",
     "reply_desc": "클릭하여 이 우편에 답장",
     "reply_guide": "답장하려면 다음 명령어를 사용하세요:",
-    "reply_command": "/mail reply {0} <메시지>"
+    "reply_command": "/mail reply {0} <메시지>",
+    "claim_all": "모두 수령",
+    "claim": "수령",
+    "claimed": "수령됨",
+    "delete_confirm": "삭제 확인",
+    "delete_confirm_message": "삭제하시겠습니까?"
+  },
+  "friend_requests": {
+    "title": "친구 요청",
+    "pending": "대기 중인 요청: {0}",
+    "sent_by": "보낸 사람: {0}",
+    "sent_date": "날짜: {0}",
+    "accept": "수락",
+    "decline": "거절",
+    "accept_all": "모두 수락",
+    "decline_all": "모두 거절",
+    "no_requests": "대기 중인 친구 요청이 없습니다",
+    "accepted": "친구 요청을 수락했습니다!",
+    "declined": "친구 요청을 거절했습니다",
+    "already_friends": "{0}님과 이미 친구입니다",
+    "request_time": "요청 시간: {0}",
+    "message": "메시지: {0}",
+    "accept_desc": "Accept 설명",
+    "reject_desc": "Reject 설명",
+    "reject_desc1": "클릭하여 이 친구 요청 거절",
+    "accept_desc1": "클릭하여 이 친구 요청 수락",
+    "accept_hover": "수락하기",
+    "deny_hover": "거절하기",
+    "friend_added": "친구 추가됨",
+    "cancelled": "취소됨",
+    "error": "오류"
   },
   "friends": {
     "title": "친구",
@@ -1313,7 +1757,25 @@
     "refreshed": "친구 목록을 새로고침했습니다!",
     "status": "상태: {0}",
     "since": "친구가 된 날짜: {0}",
-    "whisper_hint": "클릭하여 귓속말 보내기"
+    "whisper_hint": "클릭하여 귓속말 보내기",
+    "online_count": "온라인 수",
+    "total_count": "총 인원",
+    "no_friends": "친구 없음",
+    "click_to_teleport": "클릭하여 텔레포트",
+    "right_click_to_remove": "우클릭하여 제거",
+    "remove_confirm": "제거 확인",
+    "removed": "제거됨",
+    "teleport_request_sent": "텔레포트 요청 전송",
+    "teleport_failed": "텔레포트 실패",
+    "add": {
+      "command": {
+        "example": "예시",
+        "hint": "힌트"
+      }
+    },
+    "whisper": {
+      "hint": "힌트"
+    }
   },
   "friend_list": {
     "title": "친구 목록",
@@ -1442,84 +1904,101 @@
       }
     }
   },
-  "page_info": "페이지 {0} / {1}",
-  "combat_power": {
-    "title": "전투력",
-    "total": "총 전투력: {0}",
-    "breakdown": "전투력 세부사항",
-    "from_level": "레벨로부터: {0}",
-    "from_stats": "스탯으로부터: {0}",
-    "level_contribution": "레벨 기여도",
-    "level_detail": "레벨 {0} = {1} 전투력",
-    "stat_contribution": "스탯 기여도",
-    "stat_detail": "{0}: {1} 전투력"
-  },
-  "all_quests": {
-    "title": "모든 퀘스트"
-  },
-  "common_next_page": "[TRANSLATE: Next Page]",
-  "common_previous_page": "[TRANSLATE: Previous Page]",
-  "common_prev_page": "[TRANSLATE: Previous]",
-  "profile_player_title": "[TRANSLATE: {0}'s Profile]",
-  "profile_level_info": "[TRANSLATE: Level {0}]",
-  "profile_exp_percent": "[TRANSLATE: {0}% to next level]",
-  "profile_no_job": "[TRANSLATE: No Job]",
-  "profile_current_job": "[TRANSLATE: Current Job: {0}]",
-  "profile_job_level": "[TRANSLATE: Job Level: {0}]",
-  "profile_combat_power": "[TRANSLATE: Combat Power: {0}]",
-  "profile_click_to_talents": "[TRANSLATE: Click to view talents]",
-  "profile_join_date": "[TRANSLATE: Joined: {0}]",
-  "profile_last_seen": "[TRANSLATE: Last Seen: {0}]",
-  "profile_click_for_talents": "[TRANSLATE: Click for Talents]",
-  "profile_click_for_stats": "[TRANSLATE: Click for Stats]",
-  "profile_online_status": "[TRANSLATE: Status: {0}]",
-  "profile_health_info": "[TRANSLATE: Health: {0}/{1}]",
-  "profile_food_info": "[TRANSLATE: Food: {0}/20]",
-  "profile_food_level": "[TRANSLATE: Food Level: {0}]",
-  "profile_game_info": "[TRANSLATE: Game Statistics]",
-  "profile_active_quests": "[TRANSLATE: Active Quests: {0}]",
-  "profile_completed_quests": "[TRANSLATE: Completed Quests: {0}]",
-  "profile_mob_kills": "[TRANSLATE: Mob Kills: {0}]",
-  "profile_player_info_name": "[TRANSLATE: Player Information]",
-  "buttons_next_page_name": "[TRANSLATE: Next Page]",
-  "buttons_previous_page_name": "[TRANSLATE: Previous Page]",
-  "buttons_page_info_lore": "[TRANSLATE: Page {0} of {1}]",
-  "buttons_next_page_lore": "[TRANSLATE: Click to go to the next page]",
-  "buttons_previous_page_lore": "[TRANSLATE: Click to go to the previous page]",
-  "leaderboard_current_type": "[TRANSLATE: Leaderboard: {0}]",
-  "leaderboard_total_entries": "[TRANSLATE: Total Entries: {0}]",
-  "leaderboard_my_rank": "[TRANSLATE: Your Rank: #{0}]",
-  "leaderboard_my_value": "[TRANSLATE: Your Score: {0}]",
-  "leaderboard_last_updated": "[TRANSLATE: Last Updated: {0}]",
-  "leaderboard_this_is_you": "[TRANSLATE: §e§l← This is you!]",
-  "island_main_color_change_hint": "[TRANSLATE: Click to change island theme]",
-  "dialog_choice_title": "[TRANSLATE: Dialog Choice]",
-  "dialog_choice_icon": "[TRANSLATE: Choose Your Response]",
-  "dialog_choice_description": "[TRANSLATE: Select how you want to respond]",
-  "dialog_choice_npc": "[TRANSLATE: NPC: {0}]",
-  "dialog_choice_npc_content": "[TRANSLATE: {0}]",
-  "dialog_choice_option": "[TRANSLATE: Option {0}]",
-  "dialog_choice_click_to_select": "[TRANSLATE: Click to select this response]",
+  "common_next_page": "다음 페이지",
+  "common_previous_page": "이전 페이지",
+  "common_prev_page": "이전",
+  "profile_player_title": "{0}님의 프로필",
+  "profile_level_info": "레벨 {0}",
+  "profile_exp_percent": "다음 레벨까지 {0}%",
+  "profile_no_job": "직업 없음",
+  "profile_current_job": "현재 직업: {0}",
+  "profile_job_level": "직업 레벨: {0}",
+  "profile_combat_power": "전투력: {0}",
+  "profile_click_to_talents": "클릭하여 탤런트 보기",
+  "profile_join_date": "가입일: {0}",
+  "profile_last_seen": "마지막 접속: {0}",
+  "profile_click_for_talents": "클릭하여 탤런트 보기",
+  "profile_click_for_stats": "클릭하여 스탯 보기",
+  "profile_online_status": "상태: {0}",
+  "profile_health_info": "체력: {0}/{1}",
+  "profile_food_info": "허기: {0}/20",
+  "profile_food_level": "허기 레벨: {0}",
+  "profile_game_info": "게임 통계",
+  "profile_active_quests": "활성 퀘스트: {0}",
+  "profile_completed_quests": "완료한 퀘스트: {0}",
+  "profile_mob_kills": "몬스터 처치: {0}",
+  "profile_player_info_name": "플레이어 정보",
+  "buttons_next_page_name": "다음 페이지",
+  "buttons_previous_page_name": "이전 페이지",
+  "buttons_page_info_lore": "페이지 {0} / {1}",
+  "buttons_next_page_lore": "클릭하여 다음 페이지로 이동",
+  "buttons_previous_page_lore": "클릭하여 이전 페이지로 이동",
+  "leaderboard_current_type": "리더보드: {0}",
+  "leaderboard_total_entries": "전체 항목: {0}",
+  "leaderboard_my_rank": "당신의 순위: #{0}",
+  "leaderboard_my_value": "당신의 점수: {0}",
+  "leaderboard_last_updated": "마지막 업데이트: {0}",
+  "leaderboard_this_is_you": "§e§l← 당신입니다!",
+  "island_main_color_change_hint": "클릭하여 섬 테마 변경",
+  "dialog_choice_title": "대화 선택",
+  "dialog_choice_icon": "답변 선택하기",
+  "dialog_choice_description": "어떻게 대답할지 선택하세요",
+  "dialog_choice_npc": "NPC: {0}",
+  "dialog_choice_npc_content": "{0}",
+  "dialog_choice_option": "선택지 {0}",
+  "dialog_choice_click_to_select": "클릭하여 이 답변 선택",
   "mail": {
-    "detail_title": "[TRANSLATE: Mail Details]",
-    "detail_sender": "[TRANSLATE: From: {0}]",
-    "detail_receiver": "[TRANSLATE: To: {0}]",
-    "detail_sent_time": "[TRANSLATE: Sent: {0}]",
-    "detail_status": "[TRANSLATE: Status: {0}]",
-    "detail_no_message": "[TRANSLATE: No message content]",
-    "detail_delete_success": "[TRANSLATE: Mail deleted successfully]",
-    "detail_delete_failed": "[TRANSLATE: Failed to delete mail]",
-    "detail_reply_desc": "[TRANSLATE: Reply to this mail]",
-    "detail_reply_guide": "[TRANSLATE: Type your reply]",
-    "detail_reply_command": "[TRANSLATE: /mail reply {0}]"
+    "detail_title": "메일 상세 정보",
+    "detail_sender": "보낸 사람: {0}",
+    "detail_receiver": "받는 사람: {0}",
+    "detail_sent_time": "보낸 시간: {0}",
+    "detail_status": "상태: {0}",
+    "detail_no_message": "메시지 내용 없음",
+    "detail_delete_success": "메일이 성공적으로 삭제되었습니다",
+    "detail_delete_failed": "메일 삭제에 실패했습니다",
+    "detail_reply_desc": "이 메일에 답장하기",
+    "detail_reply_guide": "답장을 입력하세요",
+    "detail_reply_command": "/mail reply {0}",
+    "detail": {
+      "delete": {
+        "failed": "실패",
+        "success": "성공"
+      },
+      "no": {
+        "message": "메시지"
+      },
+      "receiver": "수신자",
+      "reply": {
+        "command": "명령어",
+        "desc": "설명",
+        "guide": "가이드"
+      },
+      "sender": "발신자",
+      "sent": {
+        "time": "시간"
+      },
+      "status": "상태"
+    }
   },
   "friend": {
     "requests_request_time": "[TRANSLATE: Sent: {0}]",
     "requests_message": "[TRANSLATE: Message: {0}]",
-    "requests_accept_desc1": "[TRANSLATE: Accept friend request]",
-    "requests_reject_desc1": "[TRANSLATE: Reject friend request]",
     "requests_accept_desc": "Requests Accept 설명",
-    "requests_reject_desc": "Requests Reject 설명"
+    "requests_reject_desc": "Requests Reject 설명",
+    "requests_reject_desc1": "[TRANSLATE: Reject friend request]",
+    "requests_accept_desc1": "[TRANSLATE: Accept friend request]",
+    "requests": {
+      "accept": {
+        "desc": "설명"
+      },
+      "message": "메시지",
+      "no": {
+        "message": "메시지"
+      },
+      "reject": {
+        "desc": "설명"
+      }
+    }
   },
   "dialog": {
     "choice_title": "[TRANSLATE: Dialog Choice]",
@@ -1528,7 +2007,20 @@
     "choice_npc": "[TRANSLATE: NPC: {0}]",
     "choice_npc_content": "[TRANSLATE: {0}]",
     "choice_option": "[TRANSLATE: Option {0}]",
-    "choice_click_to_select": "[TRANSLATE: Click to select this response]"
+    "choice_click_to_select": "[TRANSLATE: Click to select this response]",
+    "choice": {
+      "click": {
+        "to": {
+          "select": "선택"
+        }
+      },
+      "description": "설명 텍스트",
+      "icon": "아이콘",
+      "npc": {
+        "_value": "NPC",
+        "content": "내용"
+      }
+    }
   },
   "quest_objectives": {
     "title": "퀘스트 목표"
@@ -1541,20 +2033,38 @@
   },
   "gui": {
     "social-settings": {
-      "status": "상태",
-      "click-to-toggle": "클릭하여 전환",
-      "current-mode": "현재 모드",
-      "friend-requests-toggled": "친구 요청 전환됨",
-      "guild-invites-toggled": "길드 초대 전환됨",
-      "whisper-mode-changed": "귓속말 모드 변경됨"
+      "status": "[TRANSLATE] Status",
+      "click-to-toggle": "[TRANSLATE] Click To Toggle",
+      "current-mode": "[TRANSLATE] Current Mode",
+      "friend-requests-toggled": "[TRANSLATE] Friend Requests Toggled",
+      "guild-invites-toggled": "[TRANSLATE] Guild Invites Toggled",
+      "whisper-mode-changed": "[TRANSLATE] Whisper Mode Changed"
     },
-    "buttons": {
-      "page_info": {
-        "lore": "페이지 정보"
+    "leaderboard": {
+      "rank": "Rank",
+      "this": {
+        "is": {
+          "you": "[TRANSLATE] You"
+        }
+      },
+      "title": "Title",
+      "global": "Global",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "your_rank": "Your Rank",
+      "not_ranked": "Not Ranked",
+      "category": {
+        "level": "레벨",
+        "combat": "Combat",
+        "wealth": "Wealth",
+        "playtime": "Playtime"
       }
     },
     "island": {
       "main": {
+        "create": {
+          "lore": "[TRANSLATE] Lore"
+        },
         "title": "섬 메뉴",
         "color_change_hint": "클릭하여 색상 변경",
         "hex_format_error": "잘못된 hex 형식",
@@ -1565,9 +2075,6 @@
         "warp_success": "워프 성공",
         "info": {
           "lore": "섬 정보"
-        },
-        "create": {
-          "lore": "새 섬 생성"
         },
         "spawn": {
           "name": "섬 스폰",
@@ -1610,130 +2117,132 @@
           "name": "닫기"
         }
       },
-      "create": {
-        "title": "섬 생성"
-      },
       "biome_change": {
-        "description": "섬 바이옴 변경",
-        "success": "바이옴 변경 성공",
-        "fail": "바이옴 변경 실패"
+        "description": "[TRANSLATE] Description",
+        "success": "[TRANSLATE] Success",
+        "fail": "[TRANSLATE] Fail"
       },
       "contributions": {
-        "title": "섬 기여도",
-        "description": "멤버 기여도 보기",
-        "total": "총 기여도",
-        "player": "플레이어 기여도"
+        "title": "[TRANSLATE] Title",
+        "description": "[TRANSLATE] Description",
+        "total": "[TRANSLATE] Total",
+        "player": "[TRANSLATE] Player"
       },
       "members": {
-        "description": "섬 멤버 관리",
-        "moderator": "모더레이터",
-        "add": {
-          "click": "Click 버튼",
-          "lore": "Lore 설명",
-          "subtitle": "Subtitle 제목",
-          "title": "Title 제목"
-        },
-        "back": {
-          "lore": "Lore 설명"
-        },
-        "info": {
-          "title": "Title 제목"
-        },
         "title": "Title",
+        "description": "[TRANSLATE] Description",
+        "owner": "Owner",
+        "moderator": "[TRANSLATE] Moderator",
         "member": "Member",
         "visitor": "Visitor",
-        "owner": "Owner"
+        "add": {
+          "title": "[TRANSLATE] Title",
+          "subtitle": "[TRANSLATE] Subtitle",
+          "lore": "[TRANSLATE] Lore",
+          "click": "[TRANSLATE] Click"
+        },
+        "back": {
+          "lore": "[TRANSLATE] Lore"
+        },
+        "info": {
+          "title": "[TRANSLATE] Title"
+        }
       },
       "permissions": {
-        "title": "섬 권한",
-        "description": "섬 권한 관리",
-        "build": "건설 권한",
-        "break": "파괴 권한",
-        "interact": "상호작용 권한",
-        "container": "컨테이너 권한",
-        "teleport": "텔레포트 권한",
-        "invite": "초대 권한",
-        "kick": "추방 권한",
-        "ban": "차단 권한",
-        "promote": "승진 권한",
-        "demote": "강등 권한"
+        "title": "[TRANSLATE] Title",
+        "description": "[TRANSLATE] Description",
+        "build": "[TRANSLATE] Build",
+        "break": "[TRANSLATE] Break",
+        "interact": "[TRANSLATE] Interact",
+        "container": "[TRANSLATE] Container",
+        "teleport": "[TRANSLATE] Teleport",
+        "invite": "[TRANSLATE] Invite",
+        "kick": "[TRANSLATE] Kick",
+        "ban": "[TRANSLATE] Ban",
+        "promote": "[TRANSLATE] Promote",
+        "demote": "[TRANSLATE] Demote"
       },
       "settings": {
-        "name": "섬 설정",
-        "description": "섬 설정 구성",
-        "mob_spawn": "몹 스폰",
-        "fire_spread": "불 번짐",
-        "tnt": "TNT",
-        "public": "공개 섬",
-        "locked": "잠긴 섬",
+        "name": "[TRANSLATE] Name",
+        "description": "[TRANSLATE] Description",
+        "pvp": "Pvp",
+        "mob_spawn": "[TRANSLATE] Mob Spawn",
+        "fire_spread": "[TRANSLATE] Fire Spread",
+        "tnt": "[TRANSLATE] Tnt",
+        "public": "[TRANSLATE] Public",
+        "locked": "[TRANSLATE] Locked",
         "current": {
-          "biome": "Biome 설정",
-          "name": "Name 이름",
-          "status": "Status 상태"
+          "biome": "[TRANSLATE] Biome",
+          "name": "[TRANSLATE] Name",
+          "status": "[TRANSLATE] Status"
         },
         "has": {
-          "changes": "Changes 설정"
+          "changes": "[TRANSLATE] Changes"
         },
-        "id": "Id 설정",
-        "members": "Members 설정",
+        "id": "[TRANSLATE] Id",
+        "members": "[TRANSLATE] Members",
         "no": {
-          "changes": "Changes 설정"
+          "changes": "[TRANSLATE] Changes"
         },
-        "owner": "Owner 설정",
-        "status": "Status 상태",
-        "pvp": "Pvp"
+        "owner": "[TRANSLATE] Owner",
+        "status": "[TRANSLATE] Status"
       },
       "upgrades": {
-        "title": "섬 업그레이드",
-        "description": "섬 업그레이드",
-        "size": "섬 크기",
-        "member_limit": "멤버 제한",
-        "hopper_limit": "호퍼 제한",
-        "spawner_limit": "스포너 제한",
-        "generator": "생성기 업그레이드"
+        "title": "[TRANSLATE] Title",
+        "description": "[TRANSLATE] Description",
+        "size": "[TRANSLATE] Size",
+        "member_limit": "[TRANSLATE] Member Limit",
+        "hopper_limit": "[TRANSLATE] Hopper Limit",
+        "spawner_limit": "[TRANSLATE] Spawner Limit",
+        "generator": "[TRANSLATE] Generator"
       },
       "visit": {
-        "title": "섬 방문",
-        "description": "다른 섬 방문",
-        "player_input": "플레이어 이름 입력",
-        "not_found": "섬을 찾을 수 없음",
-        "locked": "섬이 잠김",
-        "banned": "차단됨"
+        "title": "[TRANSLATE] Title",
+        "description": "[TRANSLATE] Description",
+        "player_input": "[TRANSLATE] Player Input",
+        "not_found": "[TRANSLATE] Not Found",
+        "locked": "[TRANSLATE] Locked",
+        "banned": "[TRANSLATE] Banned"
       },
       "visitors": {
-        "title": "섬 방문자",
-        "description": "섬 방문자 보기",
-        "current": "현재 방문자",
-        "recent": "최근 방문자"
+        "title": "[TRANSLATE] Title",
+        "description": "[TRANSLATE] Description",
+        "current": "[TRANSLATE] Current",
+        "recent": "[TRANSLATE] Recent"
       },
       "biome_selection": {
-        "info_title": "바이옴 선택",
-        "info_lore": "바이옴 선택",
+        "info_title": "[TRANSLATE] Info Title",
+        "info_lore": "[TRANSLATE] Info Lore",
+        "back_lore": "[TRANSLATE] Back Lore",
         "current_selected": "현재 선택됨",
-        "click_to_select": "클릭하여 선택",
-        "back_lore": "Back Lore 설명"
+        "click_to_select": "클릭하여 선택"
       },
       "contribute": {
         "gold_info": {
-          "title": "골드 기여",
-          "description": "골드 기여"
+          "title": "[TRANSLATE] Title",
+          "description": "[TRANSLATE] Description"
         },
         "custom_amount": {
-          "title": "사용자 지정 금액",
-          "description": "금액 입력",
-          "minimum": "최소: 100",
-          "maximum": "최대: 1000000",
-          "click_prompt": "클릭하여 입력"
+          "title": "[TRANSLATE] Title",
+          "description": "[TRANSLATE] Description",
+          "minimum": "[TRANSLATE] Minimum",
+          "maximum": "[TRANSLATE] Maximum",
+          "click_prompt": "[TRANSLATE] Click Prompt"
         },
-        "back_description": "메뉴로 돌아가기",
-        "success": "기여 성공",
-        "total_contribution": "총 기여도",
-        "click_prompt": "Click Prompt 버튼",
-        "click_to_contribute": "Click To Contribute 버튼",
-        "insufficient_gold": "Insufficient Gold",
-        "insufficient_gold_message": "Insufficient Gold Message 메시지"
+        "back_description": "[TRANSLATE] Back Description",
+        "success": "[TRANSLATE] Success",
+        "total_contribution": "[TRANSLATE] Total Contribution",
+        "click_to_contribute": "[TRANSLATE] Click To Contribute",
+        "click_prompt": "[TRANSLATE] Click Prompt",
+        "insufficient_gold": "[TRANSLATE] Insufficient Gold",
+        "insufficient_gold_message": "[TRANSLATE] Insufficient Gold Message"
       },
       "biome": {
+        "current_biome": "[TRANSLATE] Current Biome",
+        "cost": "[TRANSLATE] Cost",
+        "free": "[TRANSLATE] Free",
+        "current_info_lore": "[TRANSLATE] Current Info Lore",
+        "back_lore": "[TRANSLATE] Back Lore",
         "message": {
           "no_permission": "바이옴 변경 권한 없음",
           "already_selected": "이미 선택됨",
@@ -1745,73 +2254,48 @@
         "click_to_change": "클릭하여 바이옴 변경",
         "unknown": "알 수 없는 바이옴",
         "current_info": "현재 바이옴 정보",
-        "current_biome": "현재 바이옴",
-        "cost": "비용",
-        "free": "무료",
-        "back_lore": "Back Lore 설명",
         "back_to_settings": "Back To Settings 설정",
         "click_to_select": "Click To Select 버튼",
-        "current_info_lore": "Current Info Lore 설명",
         "currently_selected": "Currently Selected"
       },
-      "biome_simple": {
-        "title": "Title 제목",
-        "taiga": "Taiga",
-        "forest": "Forest",
-        "desert": "Desert",
-        "plains": "Plains",
-        "jungle": "Jungle",
-        "current": "Current"
-      },
       "contribution": {
-        "add_click": "Add Click 버튼",
-        "add_current": "Add Current",
-        "add_description": "Add Description 설명",
-        "add_title": "Add Title 제목",
-        "back_description": "Back Description 설명",
-        "contributor_contribution": "Contributor Contribution",
-        "contributor_name": "Contributor Name 이름",
-        "contributor_percentage": "Contributor Percentage",
-        "contributor_role": "Contributor Role",
-        "info_contributors": "Info Contributors",
-        "info_description": "Info Description 설명",
-        "info_island_name": "Info Island Name 이름",
-        "info_title": "Info Title 제목",
-        "info_total": "Info Total",
-        "history": "History",
-        "top_contributors": "Top Contributors",
+        "info_title": "[TRANSLATE] Info Title",
+        "info_island_name": "[TRANSLATE] Info Island Name",
+        "info_total": "[TRANSLATE] Info Total",
+        "info_contributors": "[TRANSLATE] Info Contributors",
+        "info_description": "[TRANSLATE] Info Description",
+        "contributor_name": "[TRANSLATE] Contributor Name",
+        "contributor_contribution": "[TRANSLATE] Contributor Contribution",
+        "contributor_role": "[TRANSLATE] Contributor Role",
+        "contributor_percentage": "[TRANSLATE] Contributor Percentage",
+        "add_title": "[TRANSLATE] Add Title",
+        "add_current": "[TRANSLATE] Add Current",
+        "add_description": "[TRANSLATE] Add Description",
+        "add_click": "[TRANSLATE] Add Click",
+        "back_description": "[TRANSLATE] Back Description",
         "title": "Title",
         "balance": "Balance",
         "contribute": "Contribute",
-        "withdraw": "Withdraw"
-      },
-      "delete": {
-        "confirm": {
-          "final": {
-            "confirm": {
-              "warning": "Warning"
-            }
-          },
-          "warning": {
-            "list": {
-              "items": "Items"
-            }
-          }
-        }
+        "withdraw": "Withdraw",
+        "history": "History",
+        "top_contributors": "Top Contributors"
       },
       "delete_confirm": {
         "cancel": {
+          "lore": "[TRANSLATE] Lore",
           "click": "Click 버튼",
-          "lore": "Lore 설명",
           "title": "Title 제목"
         },
-        "click_again": "Click Again 버튼",
+        "title": "Title 제목",
+        "warning": "Warning",
         "confirm": {
-          "click": "Click 버튼",
+          "warning": "Warning",
           "question": "Question",
-          "title": "Title 제목",
-          "warning": "Warning"
+          "click": "Click 버튼",
+          "title": "Title 제목"
         },
+        "type_confirm": "Type Confirm",
+        "click_again": "Click Again 버튼",
         "final_confirm": {
           "click": "Click 버튼",
           "title": "Title 제목",
@@ -1825,8 +2309,6 @@
           "title": "Title 제목",
           "warning": "Warning"
         },
-        "title": "Title 제목",
-        "warning": "Warning",
         "warning_list": {
           "final": "Final",
           "item1": "Item1",
@@ -1835,142 +2317,264 @@
           "item4": "Item4",
           "item5": "Item5",
           "title": "Title 제목"
-        },
-        "type_confirm": "Type Confirm"
+        }
       },
       "member": {
         "all": {
-          "permissions": "Permissions"
+          "permissions": "[TRANSLATE] Permissions"
         },
         "hire": {
-          "date": "Date"
+          "date": "[TRANSLATE] Date"
         },
         "invite": {
-          "example": "Example",
-          "prompt": "Prompt"
+          "example": "[TRANSLATE] Example",
+          "prompt": "[TRANSLATE] Prompt"
         },
         "join": {
-          "date": "Date"
+          "date": "[TRANSLATE] Date"
         },
         "last": {
-          "activity": "Activity"
+          "activity": "[TRANSLATE] Activity"
         },
         "left": {
           "click": {
-            "extend": "Extend 버튼",
-            "role": "Role 버튼"
+            "extend": "[TRANSLATE] Extend",
+            "role": "[TRANSLATE] Role"
           }
         },
         "limited": {
-          "permissions": "Permissions"
+          "permissions": "[TRANSLATE] Permissions"
         },
         "manage": {
           "current": {
-            "role": "Role"
+            "role": "[TRANSLATE] Role"
           },
           "permission": {
             "not": {
-              "implemented": "Implemented"
+              "implemented": "[TRANSLATE] Implemented"
             }
           },
           "title": {
             "with": {
-              "name": "Name 제목"
+              "name": "[TRANSLATE] Name"
             }
           }
         },
         "most": {
-          "permissions": "Permissions"
+          "permissions": "[TRANSLATE] Permissions"
         },
         "normal": {
-          "permissions": "Permissions"
+          "permissions": "[TRANSLATE] Permissions"
         },
         "owner": {
           "cannot": {
-            "change": "Change"
+            "change": "[TRANSLATE] Change"
           }
         },
         "right": {
           "click": {
-            "fire": "Fire 버튼",
-            "kick": "Kick 버튼"
+            "fire": "[TRANSLATE] Fire",
+            "kick": "[TRANSLATE] Kick"
           }
         },
         "role": {
-          "owner": "Owner",
-          "worker": "Worker"
+          "owner": "[TRANSLATE] Owner",
+          "worker": "[TRANSLATE] Worker"
         }
       },
       "permission": {
-        "back": {
-          "description": "Description 설명",
-          "title": "Title 제목"
-        },
         "click": {
           "to": {
-            "select": "Select 버튼",
-            "toggle": "Toggle 버튼"
+            "select": "[TRANSLATE] Select",
+            "toggle": "[TRANSLATE] Toggle"
           }
         },
-        "close": {
-          "description": "Description 설명",
-          "title": "Title 제목"
-        },
         "current": {
-          "editing": "Editing"
+          "editing": "[TRANSLATE] Editing"
         },
         "edit": {
           "role": {
-            "permissions": "Permissions"
+            "permissions": "[TRANSLATE] Permissions"
           }
         },
         "permissions": {
           "build": {
-            "desc": "Desc 설명"
+            "desc": "[TRANSLATE] Desc"
           },
           "containers": {
-            "desc": "Desc 설명"
+            "desc": "[TRANSLATE] Desc"
           },
           "interact": {
-            "desc": "Desc 설명"
+            "desc": "[TRANSLATE] Desc"
           },
           "invite": {
-            "desc": "Desc 설명"
+            "desc": "[TRANSLATE] Desc"
           },
           "kick": {
-            "desc": "Desc 설명"
-          },
-          "settings": {
-            "desc": "Desc 설명"
+            "desc": "[TRANSLATE] Desc"
           },
           "spawns": {
-            "desc": "Desc 설명"
+            "desc": "[TRANSLATE] Desc"
           },
           "workers": {
-            "desc": "Desc 설명"
+            "desc": "[TRANSLATE] Desc"
+          },
+          "settings": {
+            "desc": "[TRANSLATE] Desc"
           }
-        },
-        "save": {
-          "click": "Click 버튼",
-          "description": "Description 설명",
-          "failed": "Failed",
-          "success": "Success",
-          "title": "Title 제목"
         },
         "select": {
           "other": {
-            "role": "Role"
+            "role": "[TRANSLATE] Role"
           },
           "role": {
-            "desc": "Desc 설명"
+            "desc": "[TRANSLATE] Desc"
           }
         },
-        "status": "Status 상태"
+        "status": "[TRANSLATE] Status",
+        "back": {
+          "description": "[TRANSLATE] Description",
+          "title": "[TRANSLATE] Title"
+        },
+        "close": {
+          "description": "[TRANSLATE] Description",
+          "title": "[TRANSLATE] Title"
+        },
+        "save": {
+          "click": "[TRANSLATE] Click",
+          "description": "[TRANSLATE] Description",
+          "failed": "[TRANSLATE] Failed",
+          "success": "[TRANSLATE] Success",
+          "title": "[TRANSLATE] Title"
+        }
       },
       "personal": {
         "spawn": {
-          "title": "Title 제목"
+          "title": "[TRANSLATE] Title"
         }
+      },
+      "spawn": {
+        "default": {
+          "spawn": "[TRANSLATE] Spawn"
+        },
+        "location": {
+          "name": "[TRANSLATE] Name"
+        },
+        "title": "[TRANSLATE] Title",
+        "visitor": {
+          "spawn": {
+            "not": {
+              "set": "[TRANSLATE] Set"
+            },
+            "_value": "[TRANSLATE] Spawn"
+          }
+        }
+      },
+      "upgrade": {
+        "click": {
+          "to": {
+            "upgrade": "[TRANSLATE] Upgrade"
+          }
+        },
+        "cost": "Cost",
+        "current": {
+          "contribution": "[TRANSLATE] Contribution",
+          "level": "[TRANSLATE] Level"
+        },
+        "insufficient": {
+          "contribution": "[TRANSLATE] Contribution"
+        },
+        "next": {
+          "level": "[TRANSLATE] Level"
+        },
+        "max": {
+          "level": "[TRANSLATE] Level"
+        },
+        "progress": "[TRANSLATE] Progress",
+        "title": "Title",
+        "size": "Size",
+        "members": "Members",
+        "hoppers": "Hoppers",
+        "spawners": "Spawners",
+        "current_level": "Current 레벨",
+        "next_level": "Next 레벨",
+        "requirements": "Requirements"
+      },
+      "visitor": {
+        "action": {
+          "title": "[TRANSLATE] Title"
+        },
+        "island": {
+          "name": "[TRANSLATE] Name"
+        },
+        "longest": {
+          "stay": "[TRANSLATE] Stay"
+        },
+        "most": {
+          "frequent": "[TRANSLATE] Frequent"
+        },
+        "public": {
+          "status": "[TRANSLATE] Status"
+        },
+        "stay": {
+          "duration": "[TRANSLATE] Duration"
+        },
+        "title": "[TRANSLATE] Title",
+        "total": {
+          "visitors": "[TRANSLATE] Visitors",
+          "visits": "[TRANSLATE] Visits"
+        },
+        "unique": {
+          "visitors": "[TRANSLATE] Visitors"
+        },
+        "visit": {
+          "time": "[TRANSLATE] Time"
+        },
+        "visitor": {
+          "number": "[TRANSLATE] Number"
+        }
+      },
+      "delete": {
+        "confirm": {
+          "final": {
+            "confirm": {
+              "warning": "[TRANSLATE] Warning"
+            }
+          },
+          "warning": {
+            "list": {
+              "items": "[TRANSLATE] Items"
+            }
+          }
+        }
+      },
+      "create": {
+        "title": "섬 생성"
+      },
+      "personal_spawn": {
+        "title": "Title",
+        "set": "Set",
+        "teleport": "Teleport",
+        "reset": "Reset",
+        "current": "Current"
+      },
+      "biome_simple": {
+        "title": "Title 제목",
+        "plains": "Plains",
+        "forest": "Forest",
+        "desert": "Desert",
+        "jungle": "Jungle",
+        "taiga": "Taiga",
+        "current": "Current"
+      },
+      "creation": {
+        "title": "Title",
+        "name": "Name",
+        "biome": "Biome",
+        "theme": "Theme",
+        "create": "Create",
+        "cancel": "Cancel",
+        "requirements": "Requirements"
       },
       "role": {
         "co_owner": "Co Owner",
@@ -1978,253 +2582,263 @@
         "member": "Member",
         "owner": "Owner",
         "worker": "Worker"
-      },
-      "spawn": {
-        "default": {
-          "spawn": "Spawn"
-        },
-        "location": {
-          "name": "Name 이름"
-        },
-        "title": "Title 제목",
-        "visitor": {
-          "spawn": {
-            "not": {
-              "set": "Set"
-            }
-          }
-        }
-      },
-      "upgrade": {
-        "click": {
-          "to": {
-            "upgrade": "Upgrade 버튼"
-          }
-        },
-        "current": {
-          "contribution": "Contribution",
-          "level": "Level"
-        },
-        "insufficient": {
-          "contribution": "Contribution"
-        },
-        "max": {
-          "level": "Level"
-        },
-        "next": {
-          "level": "Level"
-        },
-        "progress": "Progress",
-        "current_level": "Current 레벨",
-        "requirements": "Requirements",
-        "members": "Members",
-        "next_level": "Next 레벨",
-        "size": "Size",
-        "cost": "Cost",
-        "title": "Title",
-        "spawners": "Spawners",
-        "hoppers": "Hoppers"
-      },
-      "visitor": {
-        "action": {
-          "title": "Title 제목"
-        },
-        "island": {
-          "name": "Name 이름"
-        },
-        "longest": {
-          "stay": "Stay"
-        },
-        "most": {
-          "frequent": "Frequent"
-        },
-        "public": {
-          "status": "Status 상태"
-        },
-        "stay": {
-          "duration": "Duration"
-        },
-        "title": "Title 제목",
-        "total": {
-          "visitors": "Visitors",
-          "visits": "Visits"
-        },
-        "unique": {
-          "visitors": "Visitors"
-        },
-        "visit": {
-          "time": "Time"
-        },
-        "visitor": {
-          "number": "Number"
-        }
-      },
-      "personal_spawn": {
-        "set": "Set",
-        "reset": "Reset",
-        "current": "Current",
-        "title": "Title",
-        "teleport": "Teleport"
-      },
-      "creation": {
-        "title": "Title",
-        "cancel": "Cancel",
-        "name": "Name",
-        "create": "Create",
-        "theme": "Theme",
-        "biome": "Biome",
-        "requirements": "Requirements"
       }
     },
-    "placeholder": {
-      "0": "플레이스홀더 0",
-      "1": "플레이스홀더 1",
-      "2": "플레이스홀더 2",
-      "3": "플레이스홀더 3",
-      "4": "플레이스홀더 4",
-      "5": "플레이스홀더 5",
-      "6": "플레이스홀더 6",
-      "7": "플레이스홀더 7",
-      "8": "플레이스홀더 8",
-      "9": "플레이스홀더 9",
-      "10": "플레이스홀더 10",
-      "11": "플레이스홀더 11",
-      "12": "플레이스홀더 12",
-      "13": "플레이스홀더 13",
-      "14": "플레이스홀더 14",
-      "15": "플레이스홀더 15",
-      "16": "플레이스홀더 16",
-      "17": "플레이스홀더 17",
-      "18": "플레이스홀더 18",
-      "19": "플레이스홀더 19",
-      "20": "플레이스홀더 20",
-      "21": "플레이스홀더 21",
-      "22": "플레이스홀더 22",
-      "23": "플레이스홀더 23",
-      "24": "플레이스홀더 24",
-      "25": "플레이스홀더 25",
-      "26": "플레이스홀더 26",
-      "27": "플레이스홀더 27",
-      "28": "플레이스홀더 28",
-      "29": "플레이스홀더 29",
-      "30": "플레이스홀더 30",
-      "31": "플레이스홀더 31",
-      "32": "플레이스홀더 32",
-      "33": "플레이스홀더 33",
-      "34": "플레이스홀더 34",
-      "35": "플레이스홀더 35",
-      "36": "플레이스홀더 36",
-      "37": "플레이스홀더 37",
-      "38": "플레이스홀더 38",
-      "39": "플레이스홀더 39",
-      "40": "플레이스홀더 40",
-      "41": "플레이스홀더 41",
-      "42": "플레이스홀더 42",
-      "43": "플레이스홀더 43",
-      "44": "플레이스홀더 44",
-      "45": "플레이스홀더 45",
-      "46": "플레이스홀더 46",
-      "47": "플레이스홀더 47",
-      "48": "플레이스홀더 48",
-      "49": "플레이스홀더 49",
-      "50": "플레이스홀더 50",
-      "51": "플레이스홀더 51",
-      "52": "플레이스홀더 52",
-      "53": "플레이스홀더 53",
-      "54": "플레이스홀더 54",
-      "55": "플레이스홀더 55",
-      "56": "플레이스홀더 56",
-      "57": "플레이스홀더 57",
-      "58": "플레이스홀더 58",
-      "59": "플레이스홀더 59",
-      "60": "플레이스홀더 60",
-      "61": "플레이스홀더 61",
-      "62": "플레이스홀더 62",
-      "63": "플레이스홀더 63",
-      "64": "플레이스홀더 64",
-      "65": "플레이스홀더 65",
-      "66": "플레이스홀더 66",
-      "67": "플레이스홀더 67",
-      "68": "플레이스홀더 68",
-      "69": "플레이스홀더 69",
-      "70": "플레이스홀더 70",
-      "71": "플레이스홀더 71",
-      "72": "플레이스홀더 72",
-      "73": "플레이스홀더 73",
-      "74": "플레이스홀더 74",
-      "75": "플레이스홀더 75",
-      "76": "플레이스홀더 76",
-      "77": "플레이스홀더 77",
-      "78": "플레이스홀더 78",
-      "79": "플레이스홀더 79",
-      "80": "플레이스홀더 80",
-      "81": "플레이스홀더 81",
-      "82": "플레이스홀더 82",
-      "83": "플레이스홀더 83",
-      "84": "플레이스홀더 84",
-      "85": "플레이스홀더 85",
-      "86": "플레이스홀더 86",
-      "87": "플레이스홀더 87",
-      "88": "플레이스홀더 88",
-      "89": "플레이스홀더 89",
-      "90": "플레이스홀더 90",
-      "91": "플레이스홀더 91",
-      "92": "플레이스홀더 92",
-      "93": "플레이스홀더 93",
-      "94": "플레이스홀더 94",
-      "95": "플레이스홀더 95",
-      "96": "플레이스홀더 96",
-      "97": "플레이스홀더 97",
-      "98": "플레이스홀더 98",
-      "99": "플레이스홀더 99"
-    },
     "job_confirmation": {
-      "info_line1": "신중하게 선택하세요",
-      "info_line2": "변경할 수 없습니다",
-      "info_line3": "확실합니까?",
+      "info_line1": "[TRANSLATE] Info Line1",
+      "info_line2": "[TRANSLATE] Info Line2",
+      "info_line3": "[TRANSLATE] Info Line3",
       "info_line": "Info Line"
     },
     "dialog_choice": {
-      "option_1": "옵션 1",
-      "option_2": "옵션 2",
-      "option_3": "옵션 3",
-      "option_4": "옵션 4",
-      "cancel": "취소",
+      "option_1": "[TRANSLATE] Option 1",
+      "option_2": "[TRANSLATE] Option 2",
+      "option_3": "[TRANSLATE] Option 3",
+      "option_4": "[TRANSLATE] Option 4",
+      "cancel": "[TRANSLATE] Cancel",
       "option_": "Option "
     },
     "mail_detail": {
-      "claim_all": "모두 수령",
-      "claim": "수령",
-      "claimed": "수령됨",
-      "delete_confirm": "삭제 확인",
-      "delete_confirm_message": "정말 삭제하시겠습니까?"
+      "claim_all": "[TRANSLATE] Claim All",
+      "claim": "[TRANSLATE] Claim",
+      "claimed": "[TRANSLATE] Claimed",
+      "delete_confirm": "[TRANSLATE] Delete Confirm",
+      "delete_confirm_message": "[TRANSLATE] Delete Confirm Message"
     },
     "mailbox": {
-      "refresh_cooldown": "새로고침 쿨다운",
-      "mail_from": "보낸 사람",
-      "mail_date": "날짜",
-      "has_attachments": "첨부파일 있음",
-      "click_to_read": "클릭하여 읽기",
+      "refresh_cooldown": "[TRANSLATE] Refresh Cooldown",
+      "mail_from": "[TRANSLATE] Mail From",
+      "mail_date": "[TRANSLATE] Mail Date",
+      "has_attachments": "[TRANSLATE] Has Attachments",
+      "click_to_read": "[TRANSLATE] Click To Read",
+      "delete_all": "[TRANSLATE] Delete All",
+      "delete_all_confirm": "[TRANSLATE] Delete All Confirm",
+      "delete": {
+        "confirm": {
+          "text": "[TRANSLATE] Text",
+          "title": "[TRANSLATE] Title"
+        }
+      },
+      "send": {
+        "mail": {
+          "command": "[TRANSLATE] Command",
+          "example": "[TRANSLATE] Example",
+          "guide": "[TRANSLATE] Guide"
+        }
+      },
       "mail_type": {
         "system": "시스템 메일",
         "player": "플레이어 메일",
         "reward": "보상 메일"
       },
       "empty": "메일 없음",
-      "page": "페이지",
-      "delete": {
-        "confirm": {
-          "text": "Text",
-          "title": "Title 제목"
+      "page": "페이지"
+    },
+    "friend_requests": {
+      "accept_hover": "[TRANSLATE] Accept Hover",
+      "deny_hover": "[TRANSLATE] Deny Hover",
+      "friend_added": "[TRANSLATE] Friend Added",
+      "cancelled": "[TRANSLATE] Cancelled",
+      "error": "[TRANSLATE] Error"
+    },
+    "friends": {
+      "online_count": "[TRANSLATE] Online Count",
+      "total_count": "[TRANSLATE] Total Count",
+      "no_friends": "[TRANSLATE] No Friends",
+      "click_to_teleport": "[TRANSLATE] Click To Teleport",
+      "right_click_to_remove": "[TRANSLATE] Right Click To Remove",
+      "remove_confirm": "[TRANSLATE] Remove Confirm",
+      "removed": "[TRANSLATE] Removed",
+      "teleport_request_sent": "[TRANSLATE] Teleport Request Sent",
+      "teleport_failed": "[TRANSLATE] Teleport Failed",
+      "add": {
+        "command": {
+          "example": "[TRANSLATE] Example",
+          "hint": "[TRANSLATE] Hint"
         }
       },
-      "delete_all": "Delete All",
-      "delete_all_confirm": "Delete All Confirm",
-      "send": {
-        "mail": {
-          "command": "Command",
-          "example": "Example",
-          "guide": "Guide"
+      "whisper": {
+        "hint": "[TRANSLATE] Hint"
+      }
+    },
+    "quest": {
+      "dialog": {
+        "accept": {
+          "quest": "[TRANSLATE] Quest"
+        },
+        "next": {
+          "page": "[TRANSLATE] Page"
+        },
+        "quest": {
+          "declined": "[TRANSLATE] Declined"
+        },
+        "skip": "[TRANSLATE] Skip",
+        "title": "[TRANSLATE] Title"
+      },
+      "list": {
+        "click": {
+          "details": "[TRANSLATE] Details"
+        },
+        "completed": {
+          "label": "[TRANSLATE] Label"
+        },
+        "progress": "[TRANSLATE] Progress",
+        "repeatable": "[TRANSLATE] Repeatable",
+        "title": "[TRANSLATE] Title"
+      },
+      "reward": {
+        "confirm": {
+          "title": "[TRANSLATE] Title"
+        },
+        "all": {
+          "claimed": "[TRANSLATE] Claimed"
+        },
+        "already": {
+          "claimed": "[TRANSLATE] Claimed"
+        },
+        "claimed": "[TRANSLATE] Claimed",
+        "click": {
+          "to": {
+            "claim": "[TRANSLATE] Claim"
+          }
+        },
+        "close": {
+          "warning": "[TRANSLATE] Warning"
+        },
+        "destroyed": {
+          "desc": "[TRANSLATE] Desc",
+          "_value": "[TRANSLATE] Destroyed"
+        },
+        "exp": {
+          "received": "[TRANSLATE] Received"
+        },
+        "inventory": {
+          "full": "[TRANSLATE] Full"
+        },
+        "money": {
+          "received": "[TRANSLATE] Received"
+        },
+        "not": {
+          "enough": {
+            "space": "[TRANSLATE] Space"
+          }
+        },
+        "timer": {
+          "info": "[TRANSLATE] Info",
+          "warning": "[TRANSLATE] Warning"
+        },
+        "title": "[TRANSLATE] Title",
+        "warning": {
+          "destroy": {
+            "line": "[TRANSLATE] Line",
+            "line2": "[TRANSLATE] Line2"
+          }
+        }
+      },
+      "selection": {
+        "title": "[TRANSLATE] Title"
+      },
+      "status": {
+        "completed": "[TRANSLATE] Completed",
+        "in": {
+          "progress": "[TRANSLATE] Progress"
+        },
+        "new": {
+          "quest": "[TRANSLATE] Quest"
+        },
+        "reward": {
+          "available": "[TRANSLATE] Available"
+        }
+      }
+    },
+    "gui": {
+      "settings": {
+        "current": {
+          "status": "[TRANSLATE] Status",
+          "volume": "[TRANSLATE] Volume"
+        },
+        "sound": {
+          "muted": "[TRANSLATE] Muted",
+          "unmuted": "[TRANSLATE] Unmuted"
+        },
+        "status": "[TRANSLATE] Status",
+        "title": "[TRANSLATE] Title",
+        "volume": {
+          "changed": "[TRANSLATE] Changed"
+        }
+      }
+    },
+    "ingame": {
+      "settings": {
+        "title": "[TRANSLATE] Title",
+        "click": {
+          "to": {
+            "toggle": "[TRANSLATE] Toggle"
+          }
+        },
+        "current": {
+          "speed": "[TRANSLATE] Speed"
+        },
+        "damage": {
+          "display": {
+            "toggled": "[TRANSLATE] Toggled"
+          }
+        },
+        "dialog": {
+          "speed": {
+            "changed": "[TRANSLATE] Changed"
+          }
+        },
+        "quest": {
+          "guide": {
+            "toggled": "[TRANSLATE] Toggled"
+          }
+        },
+        "speed": {
+          "value": "[TRANSLATE] Value"
+        },
+        "status": "[TRANSLATE] Status"
+      }
+    },
+    "notification": {
+      "settings": {
+        "click": {
+          "to": {
+            "toggle": "[TRANSLATE] Toggle"
+          }
+        },
+        "current": {
+          "mode": "[TRANSLATE] Mode"
+        },
+        "invite": {
+          "changed": "[TRANSLATE] Changed"
+        },
+        "server": {
+          "toggled": "[TRANSLATE] Toggled"
+        },
+        "status": "[TRANSLATE] Status",
+        "title": "[TRANSLATE] Title",
+        "whisper": {
+          "toggled": "[TRANSLATE] Toggled"
+        }
+      }
+    },
+    "shop": {
+      "item": {
+        "buy": {
+          "price": "[TRANSLATE] Price"
+        },
+        "click": {
+          "to": {
+            "buy": "[TRANSLATE] Buy",
+            "sell": "[TRANSLATE] Sell"
+          }
+        },
+        "insufficient": {
+          "gold": "[TRANSLATE] Gold"
+        },
+        "sell": {
+          "price": "[TRANSLATE] Price"
         }
       }
     },
@@ -2232,703 +2846,426 @@
       "choice": {
         "click": {
           "to": {
-            "select": "Select 버튼"
+            "select": "[TRANSLATE] Select"
           }
         },
-        "description": "Description 설명",
-        "icon": "Icon",
+        "description": "[TRANSLATE] Description",
+        "icon": "[TRANSLATE] Icon",
         "npc": {
-          "content": "Content"
+          "content": "[TRANSLATE] Content",
+          "_value": "[TRANSLATE] Npc"
         }
       }
     },
     "friend": {
       "requests": {
         "accept": {
-          "desc": "Desc 설명"
+          "desc": "[TRANSLATE] Desc"
         },
-        "message": "Message 메시지",
+        "message": "[TRANSLATE] Message",
         "no": {
-          "message": "Message 메시지"
+          "message": "[TRANSLATE] Message"
         },
         "reject": {
-          "desc": "Desc 설명"
+          "desc": "[TRANSLATE] Desc"
         }
       }
     },
-    "friend_requests": {
-      "accept_hover": "Accept Hover",
-      "cancelled": "Cancelled",
-      "deny_hover": "Deny Hover",
-      "error": "Error",
-      "friend_added": "Friend Added"
-    },
-    "friends": {
-      "add": {
-        "command": {
-          "example": "Example",
-          "hint": "Hint"
-        }
-      },
-      "click_to_teleport": "Click To Teleport 버튼",
-      "no_friends": "No Friends",
-      "online_count": "Online Count",
-      "remove_confirm": "Remove Confirm",
-      "removed": "Removed",
-      "right_click_to_remove": "Right Click To Remove 버튼",
-      "teleport_failed": "Teleport Failed",
-      "teleport_request_sent": "Teleport Request Sent",
-      "total_count": "Total Count",
-      "whisper": {
-        "hint": "Hint"
-      }
-    },
-    "gui": {
-      "settings": {
-        "current": {
-          "status": "Status 상태",
-          "volume": "Volume 설정"
+    "mail": {
+      "detail": {
+        "delete": {
+          "failed": "[TRANSLATE] Failed",
+          "success": "[TRANSLATE] Success"
         },
-        "sound": {
-          "muted": "Muted 설정",
-          "unmuted": "Unmuted 설정"
+        "no": {
+          "message": "[TRANSLATE] Message"
         },
-        "status": "Status 상태",
-        "title": "Title 제목",
-        "volume": {
-          "changed": "Changed 설정"
-        }
-      }
-    },
-    "ingame": {
-      "settings": {
-        "click": {
-          "to": {
-            "toggle": "Toggle 버튼"
-          }
+        "receiver": "[TRANSLATE] Receiver",
+        "reply": {
+          "command": "[TRANSLATE] Command",
+          "desc": "[TRANSLATE] Desc",
+          "guide": "[TRANSLATE] Guide"
         },
-        "current": {
-          "speed": "Speed 설정"
+        "sender": "[TRANSLATE] Sender",
+        "sent": {
+          "time": "[TRANSLATE] Time"
         },
-        "damage": {
-          "display": {
-            "toggled": "Toggled 설정"
-          }
-        },
-        "dialog": {
-          "speed": {
-            "changed": "Changed 설정"
-          }
-        },
-        "quest": {
-          "guide": {
-            "toggled": "Toggled 설정"
-          }
-        },
-        "speed": {
-          "value": "Value 설정"
-        },
-        "status": "Status 상태",
-        "title": "Title 제목"
+        "status": "[TRANSLATE] Status"
       }
     },
     "job": {
       "confirmation": {
         "info": {
-          "line": "Line"
-        }
-      }
-    },
-    "leaderboard": {
-      "this": {
-        "is": {
-          "you": "You"
-        }
-      },
-      "weekly": "Weekly",
-      "not_ranked": "Not Ranked",
-      "category": {
-        "combat": "Combat",
-        "wealth": "Wealth",
-        "playtime": "Playtime",
-        "level": "레벨"
-      },
-      "title": "Title",
-      "rank": "Rank",
-      "monthly": "Monthly",
-      "global": "Global",
-      "your_rank": "Your Rank"
-    },
-    "mail": {
-      "detail": {
-        "delete": {
-          "failed": "Failed",
-          "success": "Success"
-        },
-        "no": {
-          "message": "Message 메시지"
-        },
-        "receiver": "Receiver",
-        "reply": {
-          "command": "Command",
-          "desc": "Desc 설명",
-          "guide": "Guide"
-        },
-        "sender": "Sender",
-        "sent": {
-          "time": "Time"
-        },
-        "status": "Status 상태"
-      }
-    },
-    "notification": {
-      "settings": {
-        "click": {
-          "to": {
-            "toggle": "Toggle 버튼"
-          }
-        },
-        "current": {
-          "mode": "Mode 설정"
-        },
-        "invite": {
-          "changed": "Changed 설정"
-        },
-        "server": {
-          "toggled": "Toggled 설정"
-        },
-        "status": "Status 상태",
-        "title": "Title 제목",
-        "whisper": {
-          "toggled": "Toggled 설정"
-        }
-      }
-    },
-    "quest": {
-      "dialog": {
-        "accept": {
-          "quest": "Quest"
-        },
-        "next": {
-          "page": "Page"
-        },
-        "quest": {
-          "declined": "Declined"
-        },
-        "skip": "Skip",
-        "title": "Title 제목"
-      },
-      "list": {
-        "click": {
-          "details": "Details 버튼"
-        },
-        "completed": {
-          "label": "Label"
-        },
-        "progress": "Progress",
-        "repeatable": "Repeatable",
-        "title": "Title 제목"
-      },
-      "reward": {
-        "all": {
-          "claimed": "Claimed"
-        },
-        "already": {
-          "claimed": "Claimed"
-        },
-        "claimed": "Claimed",
-        "click": {
-          "to": {
-            "claim": "Claim 버튼"
-          }
-        },
-        "close": {
-          "warning": "Warning"
-        },
-        "confirm": {
-          "title": "Title 제목"
-        },
-        "destroyed": {
-          "desc": "설명"
-        },
-        "exp": {
-          "received": "Received"
-        },
-        "inventory": {
-          "full": "Full"
-        },
-        "money": {
-          "received": "Received"
-        },
-        "not": {
-          "enough": {
-            "space": "Space"
-          }
-        },
-        "timer": {
-          "info": "Info",
-          "warning": "Warning"
-        },
-        "title": "Title 제목",
-        "warning": {
-          "destroy": {
-            "line": "Line",
-            "line2": "Line2"
-          }
-        }
-      },
-      "selection": {
-        "title": "Title 제목"
-      },
-      "status": {
-        "completed": "Completed 상태",
-        "in": {
-          "progress": "Progress 상태"
-        },
-        "new": {
-          "quest": "Quest 상태"
-        },
-        "reward": {
-          "available": "Available 상태"
-        }
-      }
-    },
-    "shop": {
-      "item": {
-        "buy": {
-          "price": "Price"
-        },
-        "click": {
-          "to": {
-            "buy": "Buy 버튼",
-            "sell": "Sell 버튼"
-          }
-        },
-        "insufficient": {
-          "gold": "Gold"
-        },
-        "sell": {
-          "price": "Price"
+          "line": "[TRANSLATE] Line"
         }
       }
     },
     "social": "Social",
-    "social_settings": {
-      "status": "[KO] Status",
-      "click_to_toggle": "[KO] Click To Toggle",
-      "current_mode": "[KO] Current Mode",
-      "friend_requests_toggled": "[KO] Friend Requests Toggled",
-      "guild_invites_toggled": "[KO] Guild Invites Toggled",
-      "whisper_mode_changed": "[KO] Whisper Mode Changed",
-      "whispers": "Whispers",
-      "party_invites": "Party Invites",
-      "guild_invites": "Guild Invites",
-      "title": "Title",
-      "visibility": "Visibility",
-      "friend_requests": "Friend Requests"
-    },
-    "player_settings": {
-      "controls": "Controls",
-      "privacy": "Privacy",
-      "sound": "Sound",
-      "display": "Display",
-      "title": "Title",
-      "notifications": "Notifications"
-    },
-    "talent": {
-      "points_spent": "Points Spent",
-      "current_level": "Current 레벨",
-      "reset_confirm": "Reset Confirm",
-      "reset_cost": "Reset Cost",
-      "reset": "Reset",
-      "title": "Title",
-      "max_level": "Max 레벨",
-      "requirements": "Requirements",
-      "points_available": "Points Available"
-    },
-    "system_settings": {
-      "title": "Title",
-      "performance": "Performance",
-      "resource_pack": "Resource Pack",
-      "debug": "Debug",
-      "language": "Language",
-      "graphics": "Graphics"
+    "buttons": {
+      "page_info": {
+        "lore": "페이지 정보"
+      }
     },
     "all_quests": {
-      "requirements_not_met": "Requirements Not Met",
-      "filter": {
-        "completed": "완료",
-        "in_progress": "In 진행률",
-        "all": "All",
-        "available": "Available"
-      },
-      "sort": {
-        "level": "레벨",
-        "reward": "Reward",
-        "name": "Name"
-      },
+      "title": "Title",
       "category": {
-        "daily": "Daily",
-        "side": "Side",
         "main": "Main",
+        "side": "Side",
+        "daily": "Daily",
         "event": "Event"
       },
-      "title": "Title",
-      "click_to_view": "Click To View"
-    },
-    "friend_request": {
-      "pending": "Pending",
-      "title": "Title",
-      "sent": "전송됨",
-      "accept": "Accept",
-      "cancel": "Cancel",
-      "no_requests": "No Requests",
-      "deny": "Deny"
-    },
-    "stats": {
-      "critical_damage": "Critical 데미지",
-      "title": "Title",
-      "speed": "속도",
-      "luck": "Luck",
-      "defense": "방어력",
-      "critical_chance": "Critical Chance",
-      "health": "체력",
-      "attack_speed": "Attack 속도",
-      "damage": "데미지"
-    },
-    "job_selection": {
-      "description": "설명",
-      "mage": "Mage",
-      "locked": "Locked",
-      "archer": "Archer",
-      "priest": "Priest",
-      "rogue": "Rogue",
-      "requirements": "Requirements",
-      "warrior": "Warrior",
-      "title": "Title"
-    },
-    "profile": {
-      "title": "Title",
-      "playtime": "Playtime",
-      "stats": "Stats",
-      "joined": "참가",
-      "experience": "Experience",
-      "collections": "Collections",
-      "skills": "Skills",
-      "level": "레벨",
-      "achievements": "Achievements"
-    },
-    "combat_power": {
-      "total": "Total",
-      "equipment": "Equipment",
-      "buffs": "Buffs",
-      "talents": "Talents",
-      "calculation": "Calculation",
-      "base": "Base",
-      "title": "Title"
+      "filter": {
+        "available": "Available",
+        "in_progress": "In 진행률",
+        "completed": "완료",
+        "all": "All"
+      },
+      "sort": {
+        "name": "Name",
+        "level": "레벨",
+        "reward": "Reward"
+      },
+      "click_to_view": "Click To View",
+      "requirements_not_met": "Requirements Not Met"
     },
     "quest_reward_confirm": {
       "title": "Title",
-      "reward_info": "Reward Info",
-      "click_to_claim": "Click To Claim",
+      "confirm": "Confirm",
       "cancel": "Cancel",
-      "confirm": "Confirm"
+      "reward_info": "Reward Info",
+      "click_to_claim": "Click To Claim"
+    },
+    "friend_request": {
+      "title": "Title",
+      "pending": "Pending",
+      "sent": "전송됨",
+      "accept": "Accept",
+      "deny": "Deny",
+      "cancel": "Cancel",
+      "no_requests": "No Requests"
+    },
+    "profile": {
+      "title": "Title",
+      "stats": "Stats",
+      "achievements": "Achievements",
+      "collections": "Collections",
+      "skills": "Skills",
+      "level": "레벨",
+      "experience": "Experience",
+      "playtime": "Playtime",
+      "joined": "참가"
+    },
+    "stats": {
+      "title": "Title",
+      "health": "체력",
+      "damage": "데미지",
+      "defense": "방어력",
+      "speed": "속도",
+      "luck": "Luck",
+      "critical_chance": "Critical Chance",
+      "critical_damage": "Critical 데미지",
+      "attack_speed": "Attack 속도"
+    },
+    "talent": {
+      "title": "Title",
+      "points_available": "Points Available",
+      "points_spent": "Points Spent",
+      "reset": "Reset",
+      "reset_confirm": "Reset Confirm",
+      "reset_cost": "Reset Cost",
+      "requirements": "Requirements",
+      "max_level": "Max 레벨",
+      "current_level": "Current 레벨"
+    },
+    "combat_power": {
+      "title": "Title",
+      "total": "Total",
+      "base": "Base",
+      "equipment": "Equipment",
+      "talents": "Talents",
+      "buffs": "Buffs",
+      "calculation": "Calculation"
+    },
+    "player_settings": {
+      "title": "Title",
+      "privacy": "Privacy",
+      "notifications": "Notifications",
+      "display": "Display",
+      "sound": "Sound",
+      "controls": "Controls"
+    },
+    "system_settings": {
+      "title": "Title",
+      "graphics": "Graphics",
+      "performance": "Performance",
+      "language": "Language",
+      "resource_pack": "Resource Pack",
+      "debug": "Debug"
+    },
+    "social_settings": {
+      "title": "Title",
+      "friend_requests": "Friend Requests",
+      "party_invites": "Party Invites",
+      "guild_invites": "Guild Invites",
+      "whispers": "Whispers",
+      "visibility": "Visibility",
+      "status": "상태",
+      "click_to_toggle": "클릭하여 전환",
+      "current_mode": "현재 모드",
+      "friend_requests_toggled": "친구 요청 전환됨",
+      "guild_invites_toggled": "길드 초대 전환됨",
+      "whisper_mode_changed": "귀속말 모드 변경됨"
+    },
+    "job_selection": {
+      "title": "Title",
+      "warrior": "Warrior",
+      "archer": "Archer",
+      "mage": "Mage",
+      "rogue": "Rogue",
+      "priest": "Priest",
+      "locked": "Locked",
+      "requirements": "Requirements",
+      "description": "설명"
+    },
+    "placeholder": {
+      "24": "플레이스홀더 24",
+      "69": "플레이스홀더 69",
+      "82": "플레이스홀더 82",
+      "99": "플레이스홀더 99",
+      "3": "플레이스홀더 3",
+      "23": "플레이스홀더 23",
+      "34": "플레이스홀더 34",
+      "33": "플레이스홀더 33",
+      "28": "플레이스홀더 28",
+      "74": "플레이스홀더 74",
+      "22": "플레이스홀더 22",
+      "15": "플레이스홀더 15",
+      "73": "플레이스홀더 73",
+      "68": "플레이스홀더 68",
+      "57": "플레이스홀더 57",
+      "20": "플레이스홀더 20",
+      "70": "플레이스홀더 70",
+      "80": "플레이스홀더 80",
+      "55": "플레이스홀더 55",
+      "11": "플레이스홀더 11",
+      "88": "플레이스홀더 88",
+      "97": "플레이스홀더 97",
+      "77": "플레이스홀더 77",
+      "30": "플레이스홀더 30",
+      "45": "플레이스홀더 45",
+      "9": "플레이스홀더 9",
+      "27": "플레이스홀더 27",
+      "76": "플레이스홀더 76",
+      "60": "플레이스홀더 60",
+      "56": "플레이스홀더 56",
+      "32": "플레이스홀더 32",
+      "8": "플레이스홀더 8",
+      "84": "플레이스홀더 84",
+      "95": "플레이스홀더 95",
+      "16": "플레이스홀더 16",
+      "19": "플레이스홀더 19",
+      "18": "플레이스홀더 18",
+      "94": "플레이스홀더 94",
+      "40": "플레이스홀더 40",
+      "1": "플레이스홀더 1",
+      "78": "플레이스홀더 78",
+      "67": "플레이스홀더 67",
+      "61": "플레이스홀더 61",
+      "86": "플레이스홀더 86",
+      "5": "플레이스홀더 5",
+      "93": "플레이스홀더 93",
+      "10": "플레이스홀더 10",
+      "87": "플레이스홀더 87",
+      "43": "플레이스홀더 43",
+      "42": "플레이스홀더 42",
+      "71": "플레이스홀더 71",
+      "54": "플레이스홀더 54",
+      "58": "플레이스홀더 58",
+      "85": "플레이스홀더 85",
+      "44": "플레이스홀더 44",
+      "48": "플레이스홀더 48",
+      "90": "플레이스홀더 90",
+      "91": "플레이스홀더 91",
+      "6": "플레이스홀더 6",
+      "14": "플레이스홀더 14",
+      "46": "플레이스홀더 46",
+      "7": "플레이스홀더 7",
+      "96": "플레이스홀더 96",
+      "79": "플레이스홀더 79",
+      "37": "플레이스홀더 37",
+      "64": "플레이스홀더 64",
+      "38": "플레이스홀더 38",
+      "98": "플레이스홀더 98",
+      "50": "플레이스홀더 50",
+      "59": "플레이스홀더 59",
+      "39": "플레이스홀더 39",
+      "26": "플레이스홀더 26",
+      "62": "플레이스홀더 62",
+      "89": "플레이스홀더 89",
+      "65": "플레이스홀더 65",
+      "12": "플레이스홀더 12",
+      "51": "플레이스홀더 51",
+      "29": "플레이스홀더 29",
+      "75": "플레이스홀더 75",
+      "41": "플레이스홀더 41",
+      "21": "플레이스홀더 21",
+      "25": "플레이스홀더 25",
+      "31": "플레이스홀더 31",
+      "17": "플레이스홀더 17",
+      "92": "플레이스홀더 92",
+      "81": "플레이스홀더 81",
+      "83": "플레이스홀더 83",
+      "49": "플레이스홀더 49",
+      "47": "플레이스홀더 47",
+      "72": "플레이스홀더 72",
+      "36": "플레이스홀더 36",
+      "63": "플레이스홀더 63",
+      "13": "플레이스홀더 13",
+      "53": "플레이스홀더 53",
+      "4": "플레이스홀더 4",
+      "2": "플레이스홀더 2",
+      "66": "플레이스홀더 66",
+      "35": "플레이스홀더 35",
+      "0": "플레이스홀더 0",
+      "52": "플레이스홀더 52"
+    },
+    "settings": {
+      "current": {
+        "status": "상태",
+        "volume": "볼륨"
+      },
+      "sound": {
+        "muted": "음소거",
+        "unmuted": "음소거 해제"
+      },
+      "status": "상태",
+      "title": "제목",
+      "volume": {
+        "changed": "변경됨"
+      }
     }
   },
-  "social-settings.status": "[KO] Status",
-  "social-settings.click-to-toggle": "[KO] Click To Toggle",
-  "social-settings.current-mode": "[KO] Current Mode",
-  "social-settings.friend-requests-toggled": "[KO] Friend Requests Toggled",
-  "social-settings.guild-invites-toggled": "[KO] Guild Invites Toggled",
-  "social-settings.whisper-mode-changed": "[KO] Whisper Mode Changed",
-  "island.main.create.lore": "[KO] Item lore text",
-  "island.biome_change.description": "[KO] Description text",
-  "island.biome_change.success": "[KO] Success",
-  "island.biome_change.fail": "[KO] Fail",
-  "island.contributions.title": "[KO] Title",
-  "island.contributions.description": "[KO] Description text",
-  "island.contributions.total": "[KO] Total",
-  "island.contributions.player": "[KO] Player",
-  "island.members.description": "[KO] Description text",
-  "island.members.moderator": "[KO] Moderator",
-  "island.permissions.title": "[KO] Title",
-  "island.permissions.description": "[KO] Description text",
-  "island.permissions.build": "[KO] Build",
-  "island.permissions.break": "[KO] Break",
-  "island.permissions.interact": "[KO] Interact",
-  "island.permissions.container": "[KO] Container",
-  "island.permissions.teleport": "[KO] Teleport",
-  "island.permissions.invite": "[KO] Invite",
-  "island.permissions.kick": "[KO] Kick",
-  "island.permissions.ban": "[KO] Ban",
-  "island.permissions.promote": "[KO] Promote",
-  "island.permissions.demote": "[KO] Demote",
-  "island.settings.name": "[KO] Settings",
-  "island.settings.description": "[KO] Description text",
-  "island.settings.mob_spawn": "[KO] Mob Spawn",
-  "island.settings.fire_spread": "[KO] Fire Spread",
-  "island.settings.tnt": "[KO] Tnt",
-  "island.settings.public": "[KO] Public",
-  "island.settings.locked": "[KO] Locked",
-  "island.upgrades.title": "[KO] Title",
-  "island.upgrades.description": "[KO] Description text",
-  "island.upgrades.size": "[KO] Size",
-  "island.upgrades.member_limit": "[KO] Member Limit",
-  "island.upgrades.hopper_limit": "[KO] Hopper Limit",
-  "island.upgrades.spawner_limit": "[KO] Spawner Limit",
-  "island.upgrades.generator": "[KO] Generator",
-  "island.visit.title": "[KO] Title",
-  "island.visit.description": "[KO] Description text",
-  "island.visit.player_input": "[KO] Player Input",
-  "island.visit.not_found": "[KO] Not Found",
-  "island.visit.locked": "[KO] Locked",
-  "island.visit.banned": "[KO] Banned",
-  "island.visitors.title": "[KO] Title",
-  "island.visitors.description": "[KO] Description text",
-  "island.visitors.current": "[KO] Current",
-  "island.visitors.recent": "[KO] Recent",
-  "island.biome_selection.info_title": "[KO] Info Title",
-  "island.biome_selection.info_lore": "[KO] Info Lore",
-  "island.contribute.gold_info.title": "[KO] Title",
-  "island.contribute.gold_info.description": "[KO] Description text",
-  "island.contribute.custom_amount.title": "[KO] Title",
-  "island.contribute.custom_amount.description": "[KO] Description text",
-  "island.contribute.custom_amount.minimum": "[KO] Minimum",
-  "island.contribute.custom_amount.maximum": "[KO] Maximum",
-  "island.contribute.custom_amount.click_prompt": "[KO] Click Prompt",
-  "island.contribute.back_description": "[KO] Back Description",
-  "island.contribute.success": "[KO] Success",
-  "island.contribute.total_contribution": "[KO] Total Contribution",
-  "island.biome.current_biome": "[KO] Current Biome",
-  "island.biome.cost": "[KO] Cost",
-  "island.biome.free": "[KO] Free",
-  "job_confirmation.info_line1": "[KO] Info Line1",
-  "job_confirmation.info_line2": "[KO] Info Line2",
-  "job_confirmation.info_line3": "[KO] Info Line3",
-  "dialog_choice.option_1": "[KO] Option 1",
-  "dialog_choice.option_2": "[KO] Option 2",
-  "dialog_choice.option_3": "[KO] Option 3",
-  "dialog_choice.option_4": "[KO] Option 4",
-  "dialog_choice.cancel": "[KO] Cancel",
-  "mail_detail.claim_all": "[KO] Claim All",
-  "mail_detail.claim": "[KO] Claim",
-  "mail_detail.claimed": "[KO] Claimed",
-  "mail_detail.delete_confirm": "[KO] Delete Confirm",
-  "mail_detail.delete_confirm_message": "[KO] Delete Confirm Message",
-  "mailbox.refresh_cooldown": "[KO] Refresh Cooldown",
-  "mailbox.mail_from": "[KO] Mail From",
-  "mailbox.mail_date": "[KO] Mail Date",
-  "mailbox.has_attachments": "[KO] Has Attachments",
-  "mailbox.click_to_read": "[KO] Click To Read",
-  "mailbox.delete_all": "[KO] Delete All",
-  "mailbox.delete_all_confirm": "[KO] Delete All Confirm",
-  "friend_requests.accept_hover": "[KO] Accept Hover",
-  "friend_requests.deny_hover": "[KO] Deny Hover",
-  "friend_requests.friend_added": "[KO] Friend Added",
-  "friend_requests.cancelled": "[KO] Cancelled",
-  "friend_requests.error": "[KO] Error",
-  "friends.online_count": "[KO] Online Count",
-  "friends.total_count": "[KO] Total Count",
-  "friends.no_friends": "[KO] No Friends",
-  "friends.click_to_teleport": "[KO] Click To Teleport",
-  "friends.right_click_to_remove": "[KO] Right Click To Remove",
-  "friends.remove_confirm": "[KO] Remove Confirm",
-  "friends.removed": "[KO] Removed",
-  "friends.teleport_request_sent": "[KO] Teleport Request Sent",
-  "friends.teleport_failed": "[KO] Teleport Failed",
-  "island.biome_selection.back_lore": "[KO] Back Lore",
-  "island.biome.current_info_lore": "[KO] Current Info Lore",
-  "island.biome.back_lore": "[KO] Back Lore",
-  "island.contribute.click_to_contribute": "[KO] Click To Contribute",
-  "island.contribute.click_prompt": "[KO] Click Prompt",
-  "island.contribute.insufficient_gold": "[KO] Insufficient Gold",
-  "island.contribute.insufficient_gold_message": "[KO] Insufficient Gold Message",
-  "island.contribution.info_title": "[KO] Info Title",
-  "island.contribution.info_island_name": "[KO] Info Island Name",
-  "island.contribution.info_total": "[KO] Info Total",
-  "island.contribution.info_contributors": "[KO] Info Contributors",
-  "island.contribution.info_description": "[KO] Info Description",
-  "island.contribution.contributor_name": "[KO] Contributor Name",
-  "island.contribution.contributor_contribution": "[KO] Contributor Contribution",
-  "island.contribution.contributor_role": "[KO] Contributor Role",
-  "island.contribution.contributor_percentage": "[KO] Contributor Percentage",
-  "island.contribution.add_title": "[KO] Add Title",
-  "island.contribution.add_current": "[KO] Add Current",
-  "island.contribution.add_description": "[KO] Add Description",
-  "island.contribution.add_click": "[KO] Add Click",
-  "island.contribution.back_description": "[KO] Back Description",
-  "island.delete_confirm.cancel.lore": "[KO] Item lore text",
-  "island.members.add.title": "[KO] Title",
-  "island.members.add.subtitle": "[KO] Subtitle",
-  "island.members.add.lore": "[KO] Item lore text",
-  "island.members.add.click": "[KO] Click",
-  "island.members.back.lore": "[KO] Item lore text",
-  "island.members.info.title": "[KO] Title",
-  "island.member.all.permissions": "[KO] Permissions",
-  "island.member.hire.date": "[KO] Date",
-  "island.member.invite.example": "[KO] Example",
-  "island.member.invite.prompt": "[KO] Prompt",
-  "island.member.join.date": "[KO] Date",
-  "island.member.last.activity": "[KO] Activity",
-  "island.member.left.click.extend": "[KO] Extend",
-  "island.member.left.click.role": "[KO] Role",
-  "island.member.limited.permissions": "[KO] Permissions",
-  "island.member.manage.current.role": "[KO] Role",
-  "island.member.manage.permission.not.implemented": "[KO] Implemented",
-  "island.member.manage.title.with.name": "[KO] With",
-  "island.member.most.permissions": "[KO] Permissions",
-  "island.member.normal.permissions": "[KO] Permissions",
-  "island.member.owner.cannot.change": "[KO] Change",
-  "island.member.right.click.fire": "[KO] Fire",
-  "island.member.right.click.kick": "[KO] Kick",
-  "island.member.role.owner": "[KO] Owner",
-  "island.member.role.worker": "[KO] Worker",
-  "island.permission.click.to.select": "[KO] Select",
-  "island.permission.current.editing": "[KO] Editing",
-  "island.permission.edit.role.permissions": "[KO] Permissions",
-  "island.permission.permissions.build.desc": "[KO] Description text",
-  "island.permission.permissions.containers.desc": "[KO] Description text",
-  "island.permission.permissions.interact.desc": "[KO] Description text",
-  "island.permission.permissions.invite.desc": "[KO] Description text",
-  "island.permission.permissions.kick.desc": "[KO] Description text",
-  "island.permission.permissions.spawns.desc": "[KO] Description text",
-  "island.permission.permissions.workers.desc": "[KO] Description text",
-  "island.permission.select.other.role": "[KO] Role",
-  "island.permission.select.role.desc": "[KO] Description text",
-  "island.permission.status": "[KO] Status",
-  "island.permission.back.description": "[KO] Description text",
-  "island.permission.back.title": "[KO] Title",
-  "island.permission.click.to.toggle": "[KO] Toggle",
-  "island.permission.close.description": "[KO] Description text",
-  "island.permission.close.title": "[KO] Title",
-  "island.permission.permissions.settings.desc": "[KO] Description text",
-  "island.permission.save.click": "[KO] Click",
-  "island.permission.save.description": "[KO] Description text",
-  "island.permission.save.failed": "[KO] Failed",
-  "island.permission.save.success": "[KO] Success",
-  "island.permission.save.title": "[KO] Title",
-  "island.personal.spawn.title": "[KO] Title",
-  "island.settings.current.biome": "[KO] Biome",
-  "island.settings.current.name": "[KO] Current",
-  "island.settings.current.status": "[KO] Status",
-  "island.settings.has.changes": "[KO] Changes",
-  "island.settings.id": "[KO] Id",
-  "island.settings.members": "[KO] Members",
-  "island.settings.no.changes": "[KO] Changes",
-  "island.settings.owner": "[KO] Owner",
-  "island.settings.status": "[KO] Status",
-  "island.spawn.default.spawn": "[KO] Spawn",
-  "island.spawn.location.name": "[KO] Location",
-  "island.spawn.title": "[KO] Title",
-  "island.spawn.visitor.spawn": "[KO] Spawn",
-  "island.spawn.visitor.spawn.not.set": "[KO] Set",
-  "island.upgrade.click.to.upgrade": "[KO] Upgrade",
-  "island.upgrade.current.contribution": "[KO] Contribution",
-  "island.upgrade.current.level": "[KO] Level",
-  "island.upgrade.insufficient.contribution": "[KO] Contribution",
-  "island.upgrade.next.level": "[KO] Level",
-  "island.upgrade.max.level": "[KO] Level",
-  "island.upgrade.progress": "[KO] Progress",
-  "island.visitor.action.title": "[KO] Title",
-  "island.visitor.island.name": "[KO] Island",
-  "island.visitor.longest.stay": "[KO] Stay",
-  "island.visitor.most.frequent": "[KO] Frequent",
-  "island.visitor.public.status": "[KO] Status",
-  "island.visitor.stay.duration": "[KO] Duration",
-  "island.visitor.title": "[KO] Title",
-  "island.visitor.total.visitors": "[KO] Visitors",
-  "island.visitor.total.visits": "[KO] Visits",
-  "island.visitor.unique.visitors": "[KO] Visitors",
-  "island.visitor.visit.time": "[KO] Time",
-  "island.visitor.visitor.number": "[KO] Number",
-  "quest.dialog.accept.quest": "[KO] Quest",
-  "quest.dialog.next.page": "[KO] Page",
-  "quest.dialog.quest.declined": "[KO] Declined",
-  "quest.dialog.skip": "[KO] Skip",
-  "quest.dialog.title": "[KO] Title",
-  "quest.list.click.details": "[KO] Details",
-  "quest.list.completed.label": "[KO] Label",
-  "quest.list.progress": "[KO] Progress",
-  "quest.list.repeatable": "[KO] Repeatable",
-  "quest.list.title": "[KO] Title",
-  "quest.reward.confirm.title": "[KO] Title",
-  "gui.settings.current.status": "[KO] Status",
-  "gui.settings.current.volume": "[KO] Volume",
-  "gui.settings.sound.muted": "[KO] Muted",
-  "gui.settings.sound.unmuted": "[KO] Unmuted",
-  "gui.settings.status": "[KO] Status",
-  "gui.settings.title": "[KO] Title",
-  "gui.settings.volume.changed": "[KO] Changed",
-  "ingame.settings.title": "[KO] Title",
-  "quest.reward.all.claimed": "[KO] Claimed",
-  "quest.reward.already.claimed": "[KO] Claimed",
-  "quest.reward.claimed": "[KO] Claimed",
-  "quest.reward.click.to.claim": "[KO] Claim",
-  "quest.reward.close.warning": "[KO] Warning",
-  "quest.reward.destroyed": "[KO] Destroyed",
-  "quest.reward.destroyed.desc": "[KO] Description text",
-  "quest.reward.exp.received": "[KO] Received",
-  "quest.reward.inventory.full": "[KO] Full",
-  "quest.reward.money.received": "[KO] Received",
-  "quest.reward.not.enough.space": "[KO] Space",
-  "quest.reward.timer.info": "[KO] Info",
-  "quest.reward.timer.warning": "[KO] Warning",
-  "quest.reward.title": "[KO] Title",
-  "quest.reward.warning.destroy.line": "[KO] Line",
-  "quest.reward.warning.destroy.line2": "[KO] Line2",
-  "quest.selection.title": "[KO] Title",
-  "quest.status.completed": "[KO] Completed",
-  "quest.status.in.progress": "[KO] Progress",
-  "quest.status.new.quest": "[KO] Quest",
-  "quest.status.reward.available": "[KO] Available",
-  "friends.add.command.example": "[KO] Example",
-  "friends.add.command.hint": "[KO] Hint",
-  "friends.whisper.hint": "[KO] Hint",
-  "ingame.settings.click.to.toggle": "[KO] Toggle",
-  "ingame.settings.current.speed": "[KO] Speed",
-  "ingame.settings.damage.display.toggled": "[KO] Toggled",
-  "ingame.settings.dialog.speed.changed": "[KO] Changed",
-  "ingame.settings.quest.guide.toggled": "[KO] Toggled",
-  "ingame.settings.speed.value": "[KO] Value",
-  "ingame.settings.status": "[KO] Status",
-  "notification.settings.click.to.toggle": "[KO] Toggle",
-  "notification.settings.current.mode": "[KO] Mode",
-  "notification.settings.invite.changed": "[KO] Changed",
-  "notification.settings.server.toggled": "[KO] Toggled",
-  "notification.settings.status": "[KO] Status",
-  "notification.settings.title": "[KO] Title",
-  "notification.settings.whisper.toggled": "[KO] Toggled",
-  "shop.item.buy.price": "[KO] Price",
-  "shop.item.click.to.buy": "[KO] Buy",
-  "shop.item.click.to.sell": "[KO] Sell",
-  "shop.item.insufficient.gold": "[KO] Gold",
-  "shop.item.sell.price": "[KO] Price",
-  "dialog.choice.click.to.select": "[KO] Select",
-  "dialog.choice.description": "[KO] Description text",
-  "dialog.choice.icon": "[KO] Icon",
-  "dialog.choice.npc": "[KO] Npc",
-  "dialog.choice.npc.content": "[KO] Content",
-  "friend.requests.accept.desc": "[KO] Description text",
-  "friend.requests.message": "[KO] Message",
-  "friend.requests.no.message": "[KO] Message",
-  "friend.requests.reject.desc": "[KO] Description text",
-  "leaderboard.this.is.you": "[KO] You",
-  "mail.detail.delete.failed": "[KO] Failed",
-  "mail.detail.delete.success": "[KO] Success",
-  "mail.detail.no.message": "[KO] Message",
-  "mail.detail.receiver": "[KO] Receiver",
-  "mail.detail.reply.command": "[KO] Command",
-  "mail.detail.reply.desc": "[KO] Description text",
-  "mail.detail.reply.guide": "[KO] Guide",
-  "mail.detail.sender": "[KO] Sender",
-  "mail.detail.sent.time": "[KO] Time",
-  "mail.detail.status": "[KO] Status",
-  "mailbox.delete.confirm.text": "[KO] Text",
-  "mailbox.delete.confirm.title": "[KO] Title",
-  "mailbox.send.mail.command": "[KO] Command",
-  "mailbox.send.mail.example": "[KO] Example",
-  "mailbox.send.mail.guide": "[KO] Guide",
-  "island.delete.confirm.final.confirm.warning": "[KO] Warning",
-  "island.delete.confirm.warning.list.items": "[KO] Items",
-  "job.confirmation.info.line": "[KO] Line"
+  "buttons_v2": {
+    "cancel": {
+      "name": "취소",
+      "lore": [
+        "작업을 취소합니다"
+      ]
+    },
+    "page_info": {
+      "name": "페이지 정보",
+      "lore": [
+        "현재 페이지: {0}/{1}"
+      ]
+    },
+    "confirm": {
+      "lore": [
+        "선택을 확인합니다"
+      ],
+      "name": "확인"
+    },
+    "status": {
+      "online": "온라인",
+      "offline": "오프라인"
+    },
+    "toggle": {
+      "enabled": "활성화",
+      "disabled": "비활성화"
+    }
+  },
+  "ingame_settings_v2": {
+    "title": "게임 내 설정"
+  },
+  "gui_settings_v2": {
+    "volume_changed": "볼륨이 {0}%로 변경되었습니다",
+    "volume": "볼륨: {0}%",
+    "sound_enabled": "소리 활성화",
+    "sound_disabled": "소리 비활성화",
+    "title": "GUI 설정"
+  },
+  "social_settings": {
+    "title": "소셜 설정"
+  },
+  "error": {
+    "title": "오류"
+  },
+  "notification_settings": {
+    "title": "알림 설정"
+  },
+  "social-settings": {
+    "title": "[TRANSLATE] Social Settings"
+  },
+  "ingame": {
+    "settings": {
+      "title": "제목",
+      "click": {
+        "to": {
+          "toggle": "전환"
+        }
+      },
+      "current": {
+        "speed": "속도"
+      },
+      "damage": {
+        "display": {
+          "toggled": "전환됨"
+        }
+      },
+      "dialog": {
+        "speed": {
+          "changed": "변경됨"
+        }
+      },
+      "quest": {
+        "guide": {
+          "toggled": "전환됨"
+        }
+      },
+      "speed": {
+        "value": "값"
+      },
+      "status": "상태"
+    }
+  },
+  "notification": {
+    "settings": {
+      "click": {
+        "to": {
+          "toggle": "전환"
+        }
+      },
+      "current": {
+        "mode": "모드"
+      },
+      "invite": {
+        "changed": "변경됨"
+      },
+      "server": {
+        "toggled": "전환됨"
+      },
+      "status": "상태",
+      "title": "제목",
+      "whisper": {
+        "toggled": "전환됨"
+      }
+    }
+  },
+  "job": {
+    "confirmation": {
+      "info": {
+        "line": "줄"
+      }
+    }
+  },
+  "friend-requests": {
+    "title": "[TRANSLATE] Friend Requests"
+  },
+  "scroll": {
+    "up": "[TRANSLATE] Scroll Up",
+    "click-to-scroll-up": "[TRANSLATE] Click to scroll up",
+    "at-top": "[TRANSLATE] Already at top",
+    "down": "[TRANSLATE] Scroll Down",
+    "click-to-scroll-down": "[TRANSLATE] Click to scroll down",
+    "at-bottom": "[TRANSLATE] Already at bottom"
+  }
 }

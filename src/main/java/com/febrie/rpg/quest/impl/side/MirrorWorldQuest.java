@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.MirrorWorldLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -71,26 +69,26 @@ public class MirrorWorldQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(MirrorWorldLangKey.QUEST_SIDE_MIRROR_WORLD_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.mirror.world.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(MirrorWorldLangKey.QUEST_SIDE_MIRROR_WORLD_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.mirror.world.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_mirror_guardian" -> LangManager.text(MirrorWorldLangKey.QUEST_SIDE_MIRROR_WORLD_OBJECTIVES_TALK_MIRROR_GUARDIAN, who);
-            case "shattered_mirror" -> LangManager.text(MirrorWorldLangKey.QUEST_SIDE_MIRROR_WORLD_OBJECTIVES_SHATTERED_MIRROR, who);
-            case "glass_collect" -> LangManager.text(MirrorWorldLangKey.QUEST_SIDE_MIRROR_WORLD_OBJECTIVES_GLASS_COLLECT, who);
-            case "mirror_portal" -> LangManager.text(MirrorWorldLangKey.QUEST_SIDE_MIRROR_WORLD_OBJECTIVES_MIRROR_PORTAL, who);
-            case "shadow_doubles" -> LangManager.text(MirrorWorldLangKey.QUEST_SIDE_MIRROR_WORLD_OBJECTIVES_SHADOW_DOUBLES, who);
-            case "emerald_block_collect" -> LangManager.text(MirrorWorldLangKey.QUEST_SIDE_MIRROR_WORLD_OBJECTIVES_EMERALD_BLOCK_COLLECT, who);
-            case "dark_reflection" -> LangManager.text(MirrorWorldLangKey.QUEST_SIDE_MIRROR_WORLD_OBJECTIVES_DARK_REFLECTION, who);
-            case "mirror_master" -> LangManager.text(MirrorWorldLangKey.QUEST_SIDE_MIRROR_WORLD_OBJECTIVES_MIRROR_MASTER, who);
-            case "destroy_mirror" -> LangManager.text(MirrorWorldLangKey.QUEST_SIDE_MIRROR_WORLD_OBJECTIVES_DESTROY_MIRROR, who);
+            case "talk_mirror_guardian" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.mirror.world.objectives.talk.mirror.guardian"), who);
+            case "shattered_mirror" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.mirror.world.objectives.shattered.mirror"), who);
+            case "glass_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.mirror.world.objectives.glass.collect"), who);
+            case "mirror_portal" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.mirror.world.objectives.mirror.portal"), who);
+            case "shadow_doubles" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.mirror.world.objectives.shadow.doubles"), who);
+            case "emerald_block_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.mirror.world.objectives.emerald.block.collect"), who);
+            case "dark_reflection" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.mirror.world.objectives.dark.reflection"), who);
+            case "mirror_master" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.mirror.world.objectives.mirror.master"), who);
+            case "destroy_mirror" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.mirror.world.objectives.destroy.mirror"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -102,7 +100,7 @@ public class MirrorWorldQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(MirrorWorldLangKey.QUEST_SIDE_MIRROR_WORLD_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.mirror.world.dialogs"), who);
     }
     
     @Override
@@ -112,16 +110,16 @@ public class MirrorWorldQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(MirrorWorldLangKey.QUEST_SIDE_MIRROR_WORLD_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.mirror.world.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(MirrorWorldLangKey.QUEST_SIDE_MIRROR_WORLD_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.mirror.world.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(MirrorWorldLangKey.QUEST_SIDE_MIRROR_WORLD_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.mirror.world.decline"), who);
     }
 }

@@ -1,5 +1,6 @@
 package com.febrie.rpg.gui.impl.island;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.dto.island.IslandMemberDTO;
@@ -10,7 +11,6 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -40,7 +40,7 @@ public class IslandContributionGui extends BaseGui {
     private static final int ITEMS_PER_PAGE = 28; // 7x4 grid
     private IslandContributionGui(@NotNull GuiManager guiManager, @NotNull Player viewer, 
                                   @NotNull IslandDTO island, int page) {
-        super(viewer, guiManager, 54, LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_TITLE, viewer.locale()));
+        super(viewer, guiManager, 54, LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTION_TITLE, viewer.locale()));
         this.island = island;
         
         // 기여도를 내림차순으로 정렬
@@ -66,7 +66,7 @@ public class IslandContributionGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_TITLE, viewer.locale());
+        return LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTION_TITLE, viewer.locale());
     }
     
     @Override
@@ -102,12 +102,12 @@ public class IslandContributionGui extends BaseGui {
                 .mapToLong(Long::longValue)
                 .sum();
         return ItemBuilder.of(Material.EMERALD_BLOCK)
-                .displayName(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_INFO_TITLE, getViewerLocale()))
+                .displayName(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTION_INFO_TITLE, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_INFO_ISLAND_NAME, getViewerLocale(), Component.text(island.core().islandName())))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_INFO_TOTAL, getViewerLocale(), Component.text(String.format("%,d", totalContribution))))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_INFO_CONTRIBUTORS, getViewerLocale(), Component.text(String.valueOf(sortedContributions.size()))))
-                .addLore(LangManager.list(LangKey.GUI_ISLAND_CONTRIBUTION_INFO_DESCRIPTION, getViewerLocale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTION_INFO_ISLAND_NAME, getViewerLocale(), Component.text(island.core().islandName())))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTION_INFO_TOTAL, getViewerLocale(), Component.text(String.format("%,d", totalContribution))))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTION_INFO_CONTRIBUTORS, getViewerLocale(), Component.text(String.valueOf(sortedContributions.size()))))
+                .addLore(LangManager.list(GuiLangKey.GUI_ISLAND_CONTRIBUTION_INFO_DESCRIPTION, getViewerLocale()))
                 .hideAllFlags()
                 .build();
     }
@@ -145,11 +145,11 @@ public class IslandContributionGui extends BaseGui {
         // 역할 확인
         Component role = getPlayerRoleComponent(playerUuid);
         ItemStack item = ItemBuilder.of(Material.PLAYER_HEAD)
-                .displayName(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_NAME, getViewerLocale(), 
+                .displayName(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_NAME, getViewerLocale(), 
                         Component.text("#" + rank), Component.text(playerName)))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_CONTRIBUTION, getViewerLocale(), Component.text(String.format("%,d", contribution))))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_ROLE, getViewerLocale(), role))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_PERCENTAGE, getViewerLocale(), Component.text(String.format("%.1f", getContributionPercentage(contribution)))))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_CONTRIBUTION, getViewerLocale(), Component.text(String.format("%,d", contribution))))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_ROLE, getViewerLocale(), role))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTION_CONTRIBUTOR_PERCENTAGE, getViewerLocale(), Component.text(String.format("%.1f", getContributionPercentage(contribution)))))
                 .hideAllFlags()
                 .build();
         
@@ -163,18 +163,18 @@ public class IslandContributionGui extends BaseGui {
     
     private Component getPlayerRoleComponent(String playerUuid) {
         if (island.core().ownerUuid().equals(playerUuid)) {
-            return LangManager.text(LangKey.GUI_ISLAND_ROLE_OWNER, viewer.locale());
+            return LangManager.text(GuiLangKey.GUI_ISLAND_ROLE_OWNER, viewer.locale());
         }
         for (IslandMemberDTO member : island.membership().members()) {
             if (member.uuid().equals(playerUuid)) {
-                return member.isCoOwner() ? LangManager.text(LangKey.GUI_ISLAND_ROLE_CO_OWNER, viewer.locale()) : LangManager.text(LangKey.GUI_ISLAND_ROLE_MEMBER, viewer.locale());
+                return member.isCoOwner() ? LangManager.text(GuiLangKey.GUI_ISLAND_ROLE_CO_OWNER, viewer.locale()) : LangManager.text(GuiLangKey.GUI_ISLAND_ROLE_MEMBER, viewer.locale());
             }
         }
         // 알바생 확인
         if (island.membership().workers().stream().anyMatch(w -> w.uuid().equals(playerUuid))) {
-            return LangManager.text(LangKey.GUI_ISLAND_ROLE_WORKER, viewer.locale());
+            return LangManager.text(GuiLangKey.GUI_ISLAND_ROLE_WORKER, viewer.locale());
         }
-        return LangManager.text(LangKey.GUI_ISLAND_ROLE_CONTRIBUTOR, viewer.locale());
+        return LangManager.text(GuiLangKey.GUI_ISLAND_ROLE_CONTRIBUTOR, viewer.locale());
     }
     
     private double getContributionPercentage(long contribution) {
@@ -189,34 +189,34 @@ public class IslandContributionGui extends BaseGui {
         String playerUuid = viewer.getUniqueId().toString();
         long currentContribution = island.membership().contributions().getOrDefault(playerUuid, 0L);
         return ItemBuilder.of(Material.EMERALD)
-                .displayName(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_ADD_TITLE, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_ADD_CURRENT, getViewerLocale(), Component.text(String.format("%,d", currentContribution))))
-                .addLore(LangManager.list(LangKey.GUI_ISLAND_CONTRIBUTION_ADD_DESCRIPTION, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_ADD_CLICK, getViewerLocale()))
+                .displayName(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTION_ADD_TITLE, getViewerLocale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTION_ADD_CURRENT, getViewerLocale(), Component.text(String.format("%,d", currentContribution))))
+                .addLore(LangManager.list(GuiLangKey.GUI_ISLAND_CONTRIBUTION_ADD_DESCRIPTION, getViewerLocale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTION_ADD_CLICK, getViewerLocale()))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createPreviousPageItem() {
         return ItemBuilder.of(Material.ARROW)
-                .displayName(LangManager.text(LangKey.GUI_COMMON_PREVIOUS_PAGE, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_COMMON_PAGE, getViewerLocale(), Component.text(String.valueOf(page - 1)), Component.text(String.valueOf(maxPage))))
+                .displayName(LangManager.text(GuiLangKey.GUI_COMMON_PREVIOUS_PAGE, getViewerLocale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_COMMON_PAGE, getViewerLocale(), Component.text(String.valueOf(page - 1)), Component.text(String.valueOf(maxPage))))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createNextPageItem() {
         return ItemBuilder.of(Material.ARROW)
-                .displayName(LangManager.text(LangKey.GUI_COMMON_NEXT_PAGE, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_COMMON_PAGE, getViewerLocale(), Component.text(String.valueOf(page + 1)), Component.text(String.valueOf(maxPage))))
+                .displayName(LangManager.text(GuiLangKey.GUI_COMMON_NEXT_PAGE, getViewerLocale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_COMMON_PAGE, getViewerLocale(), Component.text(String.valueOf(page + 1)), Component.text(String.valueOf(maxPage))))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createBackButton() {
         return ItemBuilder.of(Material.ARROW)
-                .displayName(LangManager.text(LangKey.GUI_BUTTONS_BACK_NAME, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTION_BACK_DESCRIPTION, getViewerLocale()))
+                .displayName(LangManager.text(GuiLangKey.GUI_BUTTONS_BACK_NAME, getViewerLocale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTION_BACK_DESCRIPTION, getViewerLocale()))
                 .hideAllFlags()
                 .build();
     }

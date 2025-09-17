@@ -1,7 +1,14 @@
 {
-  "unlocked": "[JA] Unlocked",
-  "progress": "[JA] Progress",
-  "completed": "[JA] Completed",
-  "reward_claimed": "[JA] Reward Claimed",
-  "already_claimed": "[JA] Already Claimed"
+  "unlocked": "解除済み",
+  "progress": "進捗",
+  "completed": "完了",
+  "reward_claimed": "報酬受取済み",
+  "already_claimed": "既に受取済み",
+  "achievement": {
+    "unlocked": "解除済み",
+    "progress": "進捗",
+    "completed": "完了",
+    "reward_claimed": "報酬受取済み",
+    "already_claimed": "既に受取済み"
+  }
 }

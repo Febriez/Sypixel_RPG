@@ -1,6 +1,12 @@
 {
-  "success": "[JA] Success",
-  "fail": "[JA] Fail",
-  "no_materials": "[JA] No Materials",
-  "no_recipe": "[JA] No Recipe"
+  "success": "Success",
+  "fail": "Fail",
+  "no_materials": "No 素材s",
+  "no_recipe": "いいえ Recipe",
+  "craft": {
+    "success": "Success",
+    "fail": "Fail",
+    "no_materials": "No 素材s",
+    "no_recipe": "いいえ Recipe"
+  }
 }

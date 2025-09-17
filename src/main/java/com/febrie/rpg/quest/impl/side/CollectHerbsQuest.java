@@ -10,9 +10,7 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.lang.quest.side.CollectHerbsLangKey;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -66,24 +64,24 @@ public class CollectHerbsQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(CollectHerbsLangKey.QUEST_SIDE_COLLECT_HERBS_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.collect.herbs.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(CollectHerbsLangKey.QUEST_SIDE_COLLECT_HERBS_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.collect.herbs.info"), who);
     }
 
         @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_village_healer" -> LangManager.text(CollectHerbsLangKey.QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_TALK_VILLAGE_HEALER, who);
-            case "herb_meadow" -> LangManager.text(CollectHerbsLangKey.QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_HERB_MEADOW, who);
-            case "sweet_berries_collect" -> LangManager.text(CollectHerbsLangKey.QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_SWEET_BERRIES_COLLECT, who);
-            case "poppy_collect" -> LangManager.text(CollectHerbsLangKey.QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_POPPY_COLLECT, who);
-            case "mountain_herbs" -> LangManager.text(CollectHerbsLangKey.QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_MOUNTAIN_HERBS, who);
-            case "fern_collect" -> LangManager.text(CollectHerbsLangKey.QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_FERN_COLLECT, who);
-            case "return_village_healer" -> LangManager.text(CollectHerbsLangKey.QUEST_SIDE_COLLECT_HERBS_OBJECTIVES_RETURN_VILLAGE_HEALER, who);
+            case "talk_village_healer" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.collect.herbs.objectives.talk.village.healer"), who);
+            case "herb_meadow" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.collect.herbs.objectives.herb.meadow"), who);
+            case "sweet_berries_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.collect.herbs.objectives.sweet.berries.collect"), who);
+            case "poppy_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.collect.herbs.objectives.poppy.collect"), who);
+            case "mountain_herbs" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.collect.herbs.objectives.mountain.herbs"), who);
+            case "fern_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.collect.herbs.objectives.fern.collect"), who);
+            case "return_village_healer" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.collect.herbs.objectives.return.village.healer"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -95,7 +93,7 @@ public class CollectHerbsQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(CollectHerbsLangKey.QUEST_SIDE_COLLECT_HERBS_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.collect.herbs.dialogs"), who);
     }
     
     @Override
@@ -105,16 +103,16 @@ public class CollectHerbsQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(CollectHerbsLangKey.QUEST_SIDE_COLLECT_HERBS_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.collect.herbs.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(CollectHerbsLangKey.QUEST_SIDE_COLLECT_HERBS_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.collect.herbs.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(CollectHerbsLangKey.QUEST_SIDE_COLLECT_HERBS_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.collect.herbs.decline"), who);
     }
 }

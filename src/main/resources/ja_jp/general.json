@@ -30,29 +30,20 @@
   "cannot_view_others_talents": "他のプレイヤーの特性は見れません！",
   "cannot_view_others_quests": "他のプレイヤーのクエストは見れません！",
   "cannot_view_others_combat_power": "他のプレイヤーの戦闘力詳細は見れません！",
-  "teleport": {
-    "hub_success": "ハブにテレポートしました！",
-    "request_sent": "テレポートリクエストが送信されました",
-    "request_received": "テレポートリクエストが受信されました",
-    "accepted": "受諾されました",
-    "denied": "拒否されました",
-    "cancelled": "キャンセルされました",
-    "expired": "期限切れしました",
-    "in_combat": "戦闘中",
-    "cooldown": "クールダウン",
-    "success": "成功",
-    "failed": "失敗"
-  },
-  "action": {
-    "enable": "有効化",
-    "disable": "無効化"
-  },
   "error": {
-    "general": "エラーが発生しました。管理者にお問い合わせください。",
-    "hub_world_not_found": "ハブワールドが見つかりません！管理者にお問い合わせください。",
-    "friend_request_id_missing": "フレンドリクエストIDがありません",
+    "friend_request_id_missing": "フレンドリクエストIDが見つかりません",
     "friend_request_not_found": "フレンドリクエストが見つかりません",
-    "friend_already_exists": "すでにこのプレイヤーとフレンドです"
+    "friend_already_exists": "すでにフレンドです"
+  },
+  "error_details": {
+    "general": "エラーが発生しました。管理者にお問い合わせください。",
+    "hub_world_not_found": "ハブワールドが見つかりません！管理者にお問い合わせください。"
+  },
+  "mailbox": {
+    "delete_confirm_word": "削除",
+    "delete_all": "Delete All",
+    "refresh": "Refresh",
+    "delete": "Delete"
   },
   "island": {
     "contribute": {
@@ -72,18 +63,9 @@
       "kick_input_title": "メンバー追放の確認"
     }
   },
-  "enable": "有効化",
-  "disable": "無効化",
-  "mailbox": {
-    "delete_confirm_word": "削除",
-    "delete_all": "Delete All",
-    "delete": "Delete",
-    "refresh": "Refresh"
-  },
   "action_enable": "有効化",
   "action_disable": "無効化",
   "quest_total_count": "総クエスト数: {0}",
-  "error_friend_request_id_missing": "フレンドリクエストIDがありません",
   "general": {
     "time": {
       "days": "日",
@@ -97,36 +79,36 @@
   },
   "settings": {
     "personal": "個人設定",
-    "gameplay": "Gameplay",
-    "advanced": "Advanced",
-    "sound": "Sound",
-    "audio": "Audio",
-    "system": "System",
-    "animal_spawn": "Animal Spawn",
-    "debug": "Debug",
-    "item_pickup": "Item Pickup",
-    "accessibility": "Accessibility",
-    "mob_spawn": "Mob Spawn",
-    "display": "Display",
-    "fire_spread": "Fire Spread",
-    "performance": "Performance",
-    "monster_spawn": "Monster Spawn",
-    "music": "Music",
-    "social": "Social",
-    "keybinds": "Keybinds",
     "pvp": "Pvp",
+    "mob_spawn": "Mob Spawn",
+    "fire_spread": "Fire Spread",
+    "tnt": "Tnt",
+    "explosion": "Explosion",
+    "animal_spawn": "Animal Spawn",
+    "monster_spawn": "Monster Spawn",
+    "item_drop": "Item Drop",
+    "item_pickup": "Item Pickup",
+    "chat": "Chat",
+    "music": "Music",
+    "sound": "Sound",
+    "particles": "Particles",
     "weather": "Weather",
     "time": "Time",
-    "particles": "Particles",
-    "explosion": "Explosion",
-    "interface": "Interface",
-    "video": "Video",
-    "item_drop": "Item Drop",
+    "social": "Social",
+    "system": "System",
+    "notification": "Notification",
     "privacy": "Privacy",
-    "chat": "Chat",
+    "gameplay": "Gameplay",
+    "audio": "Audio",
+    "video": "Video",
     "language": "Language",
-    "tnt": "Tnt",
-    "notification": "Notification"
+    "advanced": "Advanced",
+    "keybinds": "Keybinds",
+    "interface": "Interface",
+    "accessibility": "Accessibility",
+    "performance": "Performance",
+    "debug": "Debug",
+    "display": "Display"
   },
   "notification": {
     "mode": {
@@ -138,39 +120,19 @@
       "friend": "フレンドのみ",
       "guild": "ギルドのみ"
     },
-    "mail_received": "Mail 受信済み",
-    "party_message": "Party Message",
     "friend_online": "Friend オンライン",
-    "achievement_unlocked": "Achievement アンロック",
-    "guild_message": "Guild Message",
-    "level_up": "レベル Up",
-    "system_message": "System Message",
     "friend_offline": "Friend オフライン",
-    "quest_completed": "Quest 完了"
+    "guild_message": "Guild Message",
+    "party_message": "Party Message",
+    "system_message": "System Message",
+    "achievement_unlocked": "Achievement アンロック",
+    "quest_completed": "Quest 完了",
+    "level_up": "レベル Up",
+    "mail_received": "Mail 受信済み"
   },
-  "job": {
-    "selected": "選択済み",
-    "already_has": "既に所有",
-    "level_up": "レベルアップ",
-    "max_level": "最大レベル",
-    "requirement_not_met": "要件未満足",
-    "skill_learned": "スキル習得",
-    "skill_upgraded": "スキルアップグレード",
-    "skill_max_level": "スキル最大レベル",
-    "not_enough_skill_points": "スキルポイント不足",
-    "warrior": "ウォリアー",
-    "archer": "アーチャー",
-    "mage": "メイジ",
-    "rogue": "ローグ",
-    "priest": "プリースト",
-    "paladin": "パラディン",
-    "assassin": "アサシン",
-    "berserker": "バーサーカー",
-    "summoner": "サモナー",
-    "necromancer": "ネクロマンサー",
-    "druid": "ドルイド",
-    "ranger": "レンジャー",
-    "warlock": "ウォーロック"
+  "action": {
+    "enable": "有効化",
+    "disable": "無効化"
   },
   "combat": {
     "damage_dealt": "%dダメージを与えました！",
@@ -190,23 +152,47 @@
     "buff_expired": "バフ終了: %s",
     "debuff_expired": "デバフ終了: %s"
   },
-  "party": {
-    "created": "パーティが作成されました！",
-    "disbanded": "パーティが解散されました！",
-    "joined": "パーティに参加しました！",
-    "left": "パーティを離脱しました！",
-    "kicked": "パーティから追放されました！",
-    "promoted": "パーティリーダーになりました！",
-    "invite_sent": "%sにパーティ招待を送しました",
-    "invite_received": "%sさんがパーティに招待しました！",
-    "invite_accepted": "%sさんがパーティに参加しました！",
-    "invite_denied": "%sさんがパーティ招待を断りました",
-    "invite_expired": "パーティ招待が期限切れしました",
-    "full": "パーティが満員です！",
-    "not_leader": "パーティリーダーではありません！",
-    "not_member": "このパーティのメンバーではありません！",
-    "already_in_party": "すでにパーティに所属しています！",
-    "no_party": "パーティに所属していません！"
+  "mail": {
+    "sent": "メールが正常に送信されました！",
+    "received": "新しいメールを受信しました！",
+    "read": "メールを既読にしました",
+    "deleted": "メールが削除されました",
+    "attachment_claimed": "添付ファイルを受け取りました！",
+    "box_full": "メールボックスがいっぱいです！",
+    "not_found": "メールが見つかりません",
+    "no_attachments": "このメールには添付ファイルがありません",
+    "inventory_full": "インベントリがいっぱいです！"
+  },
+  "achievement": {
+    "unlocked": "アチーブメントを解除しました！",
+    "progress": "アチーブメント進捗: {0}/{1}",
+    "completed": "アチーブメントを達成しました！",
+    "reward_claimed": "アチーブメント報酬を受け取りました！",
+    "already_claimed": "すでにこの報酬を受け取っています！"
+  },
+  "craft": {
+    "success": "アイテムの作成に成功しました！",
+    "fail": "クラフトに失敗しました！",
+    "no_materials": "素材が不足しています！",
+    "no_recipe": "レシピが見つかりません！"
+  },
+  "quest": {
+    "filter": "Filter",
+    "season": {
+      "valentine": {
+        "love": {
+          "objectives": {
+            "potion_deliver": "Potion Deliver"
+          }
+        }
+      }
+    }
+  },
+  "bossbar": {
+    "quest_progress": "Quest 進行状況",
+    "dungeon_timer": "Dungeon Timer",
+    "boss_health": "Boss 体力",
+    "wave_progress": "Wave 進行状況"
   },
   "guild": {
     "created": "ギルド作成: %s",
@@ -237,503 +223,446 @@
     "war_won": "ギルド戦争に勝利しました！",
     "war_lost": "ギルド戦争に敗北しました"
   },
-  "biome": {
-    "plains": "平原",
-    "forest": "森林",
-    "desert": "砂漠",
-    "mountains": "山岳",
-    "swamp": "沼地",
-    "jungle": "ジャングル",
-    "taiga": "タイガ",
-    "tundra": "ツンドラ",
-    "savanna": "サバンナ",
-    "badlands": "荒地",
-    "mushroom": "キノコ地帯",
-    "ocean": "海洋",
-    "river": "川",
-    "beach": "海岸",
-    "snowy_plains": "雪原",
-    "ice_spikes": "氷のトゲ",
-    "void": "空虚",
-    "birch_forest": {
-      "name": "Name",
-      "description": "説明"
+  "party": {
+    "created": "パーティが作成されました！",
+    "disbanded": "パーティが解散されました！",
+    "joined": "パーティに参加しました！",
+    "left": "パーティを離脱しました！",
+    "kicked": "パーティから追放されました！",
+    "promoted": "パーティリーダーになりました！",
+    "invite_sent": "%sにパーティ招待を送しました",
+    "invite_received": "%sさんがパーティに招待しました！",
+    "invite_accepted": "%sさんがパーティに参加しました！",
+    "invite_denied": "%sさんがパーティ招待を断りました",
+    "invite_expired": "パーティ招待が期限切れしました",
+    "full": "パーティが満員です！",
+    "not_leader": "パーティリーダーではありません！",
+    "not_member": "このパーティのメンバーではありません！",
+    "already_in_party": "すでにパーティに所属しています！",
+    "no_party": "パーティに所属していません！"
+  },
+  "trade": {
+    "request_sent": "Request 送信済み",
+    "request_received": "Request 受信済み",
+    "accepted": "Accepted",
+    "cancelled": "Cancelled",
+    "completed": "完了",
+    "item_added": "Item Added",
+    "item_removed": "Item Removed",
+    "money_added": "Money Added",
+    "confirmed": "Confirmed",
+    "unconfirmed": "Unconfirmed",
+    "not_enough_space": "Not Enough Space",
+    "not_enough_money": "Not Enough Money",
+    "declined": "Declined"
+  },
+  "friend": {
+    "request_sent": "Request 送信済み",
+    "request_received": "Request 受信済み",
+    "request_accepted": "Request Accepted",
+    "request_denied": "Request Denied",
+    "request_cancelled": "Request Cancelled",
+    "added": "Added",
+    "removed": "Removed",
+    "online": "オンライン",
+    "offline": "オフライン",
+    "already_friends": "Already Friends",
+    "not_friends": "Not Friends",
+    "list_full": "List Full",
+    "target_list_full": "Target List Full"
+  },
+  "teleport": {
+    "request_sent": "テレポートリクエストが送信されました",
+    "request_received": "テレポートリクエストが受信されました",
+    "accepted": "受諾されました",
+    "denied": "拒否されました",
+    "cancelled": "キャンセルされました",
+    "expired": "期限切れしました",
+    "in_combat": "戦闘中",
+    "cooldown": "クールダウン",
+    "success": "成功",
+    "failed": "失敗",
+    "hub_success": "ハブにテレポートしました！"
+  },
+  "economy": {
+    "money_added": "Money Added",
+    "money_removed": "Money Removed",
+    "not_enough_money": "Not Enough Money",
+    "payment_sent": "Payment 送信済み",
+    "payment_received": "Payment 受信済み",
+    "balance": "Balance"
+  },
+  "shop": {
+    "item_purchased": "Item Purchased",
+    "item_sold": "Item Sold",
+    "not_enough_money": "Not Enough Money",
+    "not_enough_items": "Not Enough Items",
+    "inventory_full": "Inventory Full",
+    "item_not_found": "Item Not Found",
+    "closed": "Closed",
+    "discount_applied": "Discount Applied"
+  },
+  "dungeon": {
+    "entered": "Entered",
+    "completed": "完了",
+    "failed": "失敗ed",
+    "boss_spawned": "Boss Spawned",
+    "boss_defeated": "Boss Defeated",
+    "wave_completed": "Wave 完了",
+    "treasure_found": "Treasure Found",
+    "key_required": "Key Required",
+    "cooldown_active": "Cooldown Active",
+    "party_required": "Party Required",
+    "level_requirement": "レベル Requirement",
+    "enter": "Enter",
+    "exit": "Exit",
+    "wave_start": "Wave Start",
+    "wave_complete": "Wave Complete"
+  },
+  "whisper": {
+    "sent": "送信済み",
+    "received": "受信済み",
+    "player_not_found": "Player Not Found",
+    "player_offline": "Player オフライン",
+    "disabled": "Disabled",
+    "ignored": "Ignored",
+    "mode": {
+      "all": "All",
+      "friends": "Friends",
+      "guild": "Guild",
+      "off": "Off"
     },
-    "bamboo_jungle": {
-      "description": "説明",
-      "name": "Name"
+    "mode_all": "Mode All",
+    "mode_friends": "Mode Friends",
+    "mode_guild": "Mode Guild",
+    "mode_off": "Mode Off"
+  },
+  "stat": {
+    "strength": "力",
+    "defense": "防御力",
+    "intelligence": "知力",
+    "speed": "速度",
+    "luck": "Luck",
+    "health": "体力",
+    "mana": "マナ",
+    "stamina": "Stamina",
+    "critical": "Critical",
+    "evasion": "Evasion",
+    "accuracy": "Accuracy"
+  },
+  "talent": {
+    "warrior": {
+      "sword_mastery": "Sword Mastery",
+      "shield_bash": "Shield Bash",
+      "berserker_rage": "Berserker Rage",
+      "defensive_stance": "Defensive Stance",
+      "whirlwind": "Whirlwind"
     },
-    "mushroom_fields": {
-      "description": "説明",
-      "name": "Name"
+    "archer": {
+      "precise_shot": "Precise Shot",
+      "multi_shot": "Multi Shot",
+      "explosive_arrow": "Explosive Arrow",
+      "hunters_mark": "Hunters Mark",
+      "evasion": "Evasion"
     },
-    "flower_forest": {
-      "description": "説明",
-      "name": "Name"
+    "mage": {
+      "fireball": "Fireball",
+      "frost_bolt": "Frost Bolt",
+      "arcane_missiles": "Arcane Missiles",
+      "teleport": "Teleport",
+      "mana_shield": "マナ Shield"
     },
-    "cherry_grove": {
-      "name": "Name",
-      "description": "説明"
+    "rogue": {
+      "stealth": "Stealth",
+      "backstab": "Backstab",
+      "poison_blade": "Poison Blade",
+      "smoke_bomb": "Smoke Bomb",
+      "shadow_step": "Shadow Step"
     },
-    "dark_forest": {
-      "description": "説明",
-      "name": "Name"
+    "priest": {
+      "heal": "Heal",
+      "holy_light": "Holy Light",
+      "divine_shield": "Divine Shield",
+      "resurrection": "Resurrection",
+      "blessing": "Blessing"
     }
   },
-  "currency": {
-    "ectoplasm": "エクトプラズム",
-    "scute": "鰱甲"
+  "dialog": {
+    "npc": {
+      "greeting": "Greeting",
+      "farewell": "Farewell",
+      "quest_available": "Quest Available",
+      "quest_in_progress": "Quest In 進行状況",
+      "quest_complete": "Quest Complete",
+      "shop_greeting": "Shop Greeting",
+      "no_quests": "No Quests"
+    },
+    "player": {
+      "accept": "Accept",
+      "decline": "Decline",
+      "more_info": "More Info",
+      "goodbye": "Goodbye"
+    },
+    "greeting": "Greeting",
+    "farewell": "Farewell",
+    "quest_available": "Quest Available",
+    "quest_complete": "Quest Complete",
+    "shop_welcome": "Shop Welcome",
+    "yes": "Yes",
+    "no": "No",
+    "accept": "Accept",
+    "decline": "Decline",
+    "continue": "Continue",
+    "back": "Back"
   },
+  "rank": {
+    "novice": "Novice",
+    "apprentice": "Apprentice",
+    "journeyman": "Journeyman",
+    "expert": "Expert",
+    "master": "Master",
+    "grandmaster": "Grandmaster",
+    "legendary": "Legendary",
+    "mythic": "Mythic",
+    "divine": "Divine",
+    "eternal": "Eternal"
+  },
+  "rarity": {
+    "common": "Common",
+    "uncommon": "Uncommon",
+    "rare": "Rare",
+    "epic": "Epic",
+    "legendary": "Legendary",
+    "mythic": "Mythic",
+    "ancient": "Ancient",
+    "divine": "Divine",
+    "unique": "Unique",
+    "artifact": "Artifact"
+  },
+  "world": {
+    "spawn": "Spawn",
+    "hub": "Hub",
+    "lobby": "Lobby",
+    "arena": "Arena",
+    "dungeon": "Dungeon",
+    "raid": "Raid",
+    "battleground": "Battleground",
+    "wilderness": "Wilderness",
+    "city": "City",
+    "village": "Village",
+    "outpost": "Outpost",
+    "fortress": "Fortress",
+    "castle": "Castle",
+    "temple": "Temple",
+    "ruins": "Ruins",
+    "wild": "Wild",
+    "island": "Island",
+    "town": "Town",
+    "market": "Market",
+    "guild_hall": "Guild Hall",
+    "training_ground": "Training Ground",
+    "pvp_zone": "Pvp Zone",
+    "event_area": "Event Area",
+    "cave": "Cave",
+    "forest": "Forest",
+    "desert": "Desert",
+    "mountain": "Mountain"
+  },
+  "permission": {
+    "build": "Build",
+    "break": "Break",
+    "interact": "Interact",
+    "container": "Container",
+    "teleport": "Teleport",
+    "invite": "Invite",
+    "kick": "Kick",
+    "ban": "Ban",
+    "promote": "Promote",
+    "demote": "Demote",
+    "settings": "Settings",
+    "admin": "Admin"
+  },
+  "damage": {
+    "physical": "Physical",
+    "magical": "Magical",
+    "true": "True",
+    "fire": "Fire",
+    "ice": "Ice",
+    "lightning": "Lightning",
+    "poison": "Poison",
+    "holy": "Holy",
+    "dark": "Dark",
+    "nature": "Nature"
+  },
+  "effect": {
+    "strength": "力",
+    "weakness": "Weakness",
+    "speed": "速度",
+    "slowness": "Slowness",
+    "haste": "Haste",
+    "mining_fatigue": "Mining Fatigue",
+    "jump_boost": "Jump Boost",
+    "nausea": "Nausea",
+    "regeneration": "Regeneration",
+    "resistance": "Resistance",
+    "fire_resistance": "Fire Resistance",
+    "water_breathing": "Water Breathing",
+    "invisibility": "Invisibility",
+    "blindness": "Blindness",
+    "night_vision": "Night Vision",
+    "hunger": "Hunger",
+    "poison": "Poison",
+    "wither": "Wither",
+    "health_boost": "体力 Boost",
+    "absorption": "Absorption",
+    "saturation": "Saturation",
+    "glowing": "Glowing",
+    "levitation": "Levitation",
+    "luck": "Luck",
+    "unluck": "Unluck"
+  },
+  "title": {
+    "welcome": "Welcome",
+    "level_up": "レベル Up",
+    "quest_complete": "Quest Complete",
+    "achievement_unlocked": "Achievement アンロック",
+    "death": "Death",
+    "respawn": "Respawn",
+    "victory": "Victory",
+    "defeat": "Defeat",
+    "wave_start": "Wave Start",
+    "wave_complete": "Wave Complete",
+    "boss_spawn": "Boss Spawn",
+    "boss_defeated": "Boss Defeated"
+  },
+  "actionbar": {
+    "health": "体力",
+    "mana": "マナ",
+    "stamina": "Stamina",
+    "experience": "Experience",
+    "skill_ready": "Skill 既読y",
+    "skill_cooldown": "Skill Cooldown",
+    "combat_enter": "Combat Enter",
+    "combat_leave": "Combat Leave",
+    "buff_applied": "Buff Applied",
+    "debuff_applied": "Debuff Applied",
+    "level": "レベル",
+    "gold": "ゴールド",
+    "combat_power": "Combat Power",
+    "in_combat": "In Combat"
+  },
+  "placeholder": {
+    "player_name": "Player Name",
+    "player_level": "Player レベル",
+    "player_job": "Player Job",
+    "player_gold": "Player ゴールド",
+    "player_location": "Player Location",
+    "player_health": "Player 体力",
+    "player_mana": "Player マナ",
+    "player_combat_power": "Player Combat Power",
+    "player_guild": "Player Guild",
+    "player_party": "Player Party",
+    "player_rank": "Player Rank",
+    "player_playtime": "Player Playtime",
+    "server_name": "Server Name"
+  },
+  "claude": {
+    "chat": {
+      "prefix": "Prefix",
+      "suffix": "Suffix"
+    },
+    "command": {
+      "help": "Help",
+      "info": "Info",
+      "reload": "Reload",
+      "version": "Version"
+    }
+  },
+  "hologram": {
+    "npc_name": "Npc Name",
+    "npc_title": "Npc Title",
+    "quest_marker": "Quest Marker",
+    "shop_marker": "Shop Marker"
+  },
+  "loot": {
+    "common_drop": "Common Drop",
+    "rare_drop": "Rare Drop",
+    "epic_drop": "Epic Drop",
+    "legendary_drop": "Legendary Drop"
+  },
+  "skill": {
+    "cast_success": "Cast 成功",
+    "cast_fail": "Cast 失敗",
+    "on_cooldown": "On Cooldown",
+    "no_mana": "No マナ",
+    "no_target": "No Target",
+    "out_of_range": "Out Of Range",
+    "learned": "Learned",
+    "level_up": "レベル Up",
+    "max_level": "Max レベル",
+    "cast": "Cast",
+    "cooldown": "Cooldown"
+  },
+  "enchant": {
+    "success": "成功",
+    "fail": "失敗",
+    "max_level": "Max レベル",
+    "incompatible": "Incompatible",
+    "failed": "失敗ed"
+  },
+  "mount": {
+    "summoned": "Summoned",
+    "dismissed": "Dismissed",
+    "in_combat": "In Combat",
+    "cooldown": "Cooldown"
+  },
+  "pet": {
+    "summoned": "Summoned",
+    "dismissed": "Dismissed",
+    "level_up": "レベル Up",
+    "evolved": "Evolved"
+  },
+  "warzone": {
+    "entered": "Entered",
+    "left": "退出",
+    "kill": "Kill",
+    "death": "Death",
+    "capture": "Capture"
+  },
+  "minigame": {
+    "start": "Start",
+    "end": "End",
+    "win": "Win",
+    "lose": "Lose",
+    "draw": "Draw",
+    "started": "Started",
+    "ended": "Ended",
+    "won": "Won",
+    "lost": "Lost"
+  },
+  "currency": {},
   "time": {
     "days": "日",
     "hours": "時間",
     "minutes": "分"
   },
-  "achievement": {
-    "unlocked": "アチーブメントを解除しました！",
-    "progress": "アチーブメント進捗: {0}/{1}",
-    "completed": "アチーブメントを達成しました！",
-    "reward_claimed": "アチーブメント報酬を受け取りました！",
-    "already_claimed": "すでにこの報酬を受け取っています！"
-  },
-  "craft": {
-    "success": "アイテムの作成に成功しました！",
-    "fail": "クラフトに失敗しました！",
-    "no_materials": "素材が不足しています！",
-    "no_recipe": "レシピが見つかりません！"
-  },
-  "mail": {
-    "sent": "メールが正常に送信されました！",
-    "received": "新しいメールを受信しました！",
-    "read": "メールを既読にしました",
-    "deleted": "メールが削除されました",
-    "attachment_claimed": "添付ファイルを受け取りました！",
-    "box_full": "メールボックスがいっぱいです！",
-    "not_found": "メールが見つかりません",
-    "no_attachments": "このメールには添付ファイルがありません",
-    "inventory_full": "インベントリがいっぱいです！"
-  },
-  "ectoplasm": "[JA] Ectoplasm",
-  "scute": "Scute",
-  "permission": {
-    "build": "Build",
-    "kick": "Kick",
-    "interact": "Interact",
-    "admin": "Admin",
-    "promote": "Promote",
-    "ban": "Ban",
-    "demote": "Demote",
-    "settings": "Settings",
-    "break": "Break",
-    "invite": "Invite",
-    "teleport": "Teleport",
-    "container": "Container"
-  },
-  "placeholder": {
-    "player_guild": "Player Guild",
-    "player_rank": "Player Rank",
-    "player_playtime": "Player Playtime",
-    "server_name": "Server Name",
-    "player_job": "Player Job",
-    "player_party": "Player Party",
-    "player_level": "Player レベル",
-    "player_location": "Player Location",
-    "player_gold": "Player ゴールド",
-    "player_mana": "Player マナ",
-    "player_name": "Player Name",
-    "player_health": "Player 体力",
-    "player_combat_power": "Player Combat Power"
-  },
-  "bossbar": {
-    "dungeon_timer": "Dungeon Timer",
-    "wave_progress": "Wave 進行状況",
-    "boss_health": "Boss 体力",
-    "quest_progress": "Quest 進行状況"
-  },
-  "damage": {
-    "magical": "Magical",
-    "holy": "Holy",
-    "lightning": "Lightning",
-    "fire": "Fire",
-    "ice": "Ice",
-    "true": "True",
-    "poison": "Poison",
-    "nature": "Nature",
-    "physical": "Physical",
-    "dark": "Dark"
-  },
-  "actionbar": {
-    "skill_cooldown": "Skill Cooldown",
-    "buff_applied": "Buff Applied",
-    "combat_leave": "Combat Leave",
-    "health": "体力",
-    "combat_enter": "Combat Enter",
-    "skill_ready": "Skill 既読y",
-    "in_combat": "In Combat",
-    "experience": "Experience",
-    "combat_power": "Combat Power",
-    "stamina": "Stamina",
-    "debuff_applied": "Debuff Applied",
-    "mana": "マナ",
-    "level": "レベル",
-    "gold": "ゴールド"
-  },
-  "world": {
-    "forest": "Forest",
-    "castle": "Castle",
-    "mountain": "Mountain",
-    "pvp_zone": "Pvp Zone",
-    "island": "Island",
-    "guild_hall": "Guild Hall",
-    "desert": "Desert",
-    "outpost": "Outpost",
-    "training_ground": "Training Ground",
-    "village": "Village",
-    "cave": "Cave",
-    "wilderness": "Wilderness",
-    "event_area": "Event Area",
-    "spawn": "Spawn",
-    "ruins": "Ruins",
-    "raid": "Raid",
-    "lobby": "Lobby",
-    "market": "Market",
-    "town": "Town",
-    "hub": "Hub",
-    "city": "City",
-    "fortress": "Fortress",
-    "arena": "Arena",
-    "temple": "Temple",
-    "battleground": "Battleground",
-    "wild": "Wild",
-    "dungeon": "Dungeon"
-  },
-  "skill": {
-    "out_of_range": "Out Of Range",
-    "no_mana": "No マナ",
-    "cast_success": "Cast 成功",
-    "cast": "Cast",
-    "cast_fail": "Cast 失敗",
-    "on_cooldown": "On Cooldown",
-    "max_level": "Max レベル",
-    "cooldown": "Cooldown",
-    "level_up": "レベル Up",
-    "no_target": "No Target",
-    "learned": "Learned"
-  },
-  "dialog": {
-    "farewell": "Farewell",
-    "yes": "Yes",
-    "player": {
-      "goodbye": "Goodbye",
-      "decline": "Decline",
-      "accept": "Accept",
-      "more_info": "More Info"
-    },
-    "npc": {
-      "shop_greeting": "Shop Greeting",
-      "quest_in_progress": "Quest In 進行状況",
-      "no_quests": "No Quests",
-      "greeting": "Greeting",
-      "quest_available": "Quest Available",
-      "farewell": "Farewell",
-      "quest_complete": "Quest Complete"
-    },
-    "accept": "Accept",
-    "greeting": "Greeting",
-    "continue": "Continue",
-    "decline": "Decline",
-    "shop_welcome": "Shop Welcome",
-    "no": "No",
-    "quest_available": "Quest Available",
-    "back": "Back",
-    "quest_complete": "Quest Complete"
-  },
-  "claude": {
-    "command": {
-      "reload": "Reload",
-      "version": "Version",
-      "info": "Info",
-      "help": "Help"
-    },
-    "chat": {
-      "suffix": "Suffix",
-      "prefix": "Prefix"
-    }
-  },
-  "stat": {
-    "speed": "速度",
-    "health": "体力",
-    "accuracy": "Accuracy",
-    "stamina": "Stamina",
-    "defense": "防御力",
-    "critical": "Critical",
-    "luck": "Luck",
-    "intelligence": "知力",
-    "strength": "力",
-    "mana": "マナ",
-    "evasion": "Evasion"
-  },
-  "warzone": {
-    "kill": "Kill",
-    "capture": "Capture",
-    "death": "Death",
-    "entered": "Entered",
-    "left": "退出"
-  },
-  "talent": {
-    "mage": {
-      "arcane_missiles": "Arcane Missiles",
-      "mana_shield": "マナ Shield",
-      "fireball": "Fireball",
-      "teleport": "Teleport",
-      "frost_bolt": "Frost Bolt"
-    },
-    "archer": {
-      "explosive_arrow": "Explosive Arrow",
-      "evasion": "Evasion",
-      "multi_shot": "Multi Shot",
-      "precise_shot": "Precise Shot",
-      "hunters_mark": "Hunters Mark"
-    },
-    "priest": {
-      "heal": "Heal",
-      "blessing": "Blessing",
-      "resurrection": "Resurrection",
-      "divine_shield": "Divine Shield",
-      "holy_light": "Holy Light"
-    },
-    "warrior": {
-      "shield_bash": "Shield Bash",
-      "berserker_rage": "Berserker Rage",
-      "whirlwind": "Whirlwind",
-      "sword_mastery": "Sword Mastery",
-      "defensive_stance": "Defensive Stance"
-    },
-    "rogue": {
-      "smoke_bomb": "Smoke Bomb",
-      "poison_blade": "Poison Blade",
-      "backstab": "Backstab",
-      "stealth": "Stealth",
-      "shadow_step": "Shadow Step"
-    }
-  },
-  "friend": {
-    "list_full": "List Full",
-    "request_received": "Request 受信済み",
-    "request_accepted": "Request Accepted",
-    "target_list_full": "Target List Full",
-    "online": "オンライン",
-    "not_friends": "Not Friends",
-    "request_sent": "Request 送信済み",
-    "already_friends": "Already Friends",
-    "request_denied": "Request Denied",
-    "removed": "Removed",
-    "added": "Added",
-    "offline": "オフライン",
-    "request_cancelled": "Request Cancelled"
-  },
-  "minigame": {
-    "win": "Win",
-    "lost": "Lost",
-    "draw": "Draw",
-    "started": "Started",
-    "end": "End",
-    "start": "Start",
-    "lose": "Lose",
-    "ended": "Ended",
-    "won": "Won"
-  },
-  "auction": {
-    "sold": "Sold",
-    "expired": "Expired",
-    "bought": "Bought",
-    "listed": "Listed",
-    "cancelled": "Cancelled"
-  },
-  "economy": {
-    "balance": "Balance",
-    "payment_sent": "Payment 送信済み",
-    "not_enough_money": "Not Enough Money",
-    "money_added": "Money Added",
-    "money_removed": "Money Removed",
-    "payment_received": "Payment 受信済み"
-  },
-  "title": {
-    "victory": "Victory",
-    "boss_defeated": "Boss Defeated",
-    "wave_complete": "Wave Complete",
-    "defeat": "Defeat",
-    "death": "Death",
-    "respawn": "Respawn",
-    "achievement_unlocked": "Achievement アンロック",
-    "level_up": "レベル Up",
-    "boss_spawn": "Boss Spawn",
-    "wave_start": "Wave Start",
-    "quest_complete": "Quest Complete",
-    "welcome": "Welcome"
-  },
-  "trade": {
-    "item_removed": "Item Removed",
-    "accepted": "Accepted",
-    "declined": "Declined",
-    "request_received": "Request 受信済み",
-    "not_enough_money": "Not Enough Money",
-    "completed": "完了",
-    "not_enough_space": "Not Enough Space",
-    "request_sent": "Request 送信済み",
-    "cancelled": "Cancelled",
-    "money_added": "Money Added",
-    "item_added": "Item Added",
-    "unconfirmed": "Unconfirmed",
-    "confirmed": "Confirmed"
-  },
-  "dungeon": {
-    "cooldown_active": "Cooldown Active",
-    "boss_spawned": "Boss Spawned",
-    "exit": "Exit",
-    "party_required": "Party Required",
-    "completed": "完了",
-    "treasure_found": "Treasure Found",
-    "key_required": "Key Required",
-    "wave_complete": "Wave Complete",
-    "enter": "Enter",
-    "failed": "失敗ed",
-    "wave_completed": "Wave 完了",
-    "wave_start": "Wave Start",
-    "boss_defeated": "Boss Defeated",
-    "level_requirement": "レベル Requirement",
-    "entered": "Entered"
-  },
-  "effect": {
-    "invisibility": "Invisibility",
-    "slowness": "Slowness",
-    "saturation": "Saturation",
-    "jump_boost": "Jump Boost",
-    "blindness": "Blindness",
-    "hunger": "Hunger",
-    "fire_resistance": "Fire Resistance",
-    "resistance": "Resistance",
-    "nausea": "Nausea",
-    "weakness": "Weakness",
-    "luck": "Luck",
-    "speed": "速度",
-    "haste": "Haste",
-    "wither": "Wither",
-    "poison": "Poison",
-    "mining_fatigue": "Mining Fatigue",
-    "levitation": "Levitation",
-    "unluck": "Unluck",
-    "regeneration": "Regeneration",
-    "strength": "力",
-    "glowing": "Glowing",
-    "health_boost": "体力 Boost",
-    "water_breathing": "Water Breathing",
-    "absorption": "Absorption",
-    "night_vision": "Night Vision"
-  },
-  "quest": {
-    "season": {
-      "valentine": {
-        "love": {
-          "objectives": {
-            "potion_deliver": "Potion Deliver"
-          }
-        }
-      }
-    },
-    "filter": "Filter"
-  },
-  "pet": {
-    "level_up": "レベル Up",
-    "dismissed": "Dismissed",
-    "evolved": "Evolved",
-    "summoned": "Summoned"
-  },
-  "mount": {
-    "in_combat": "In Combat",
-    "summoned": "Summoned",
-    "dismissed": "Dismissed",
-    "cooldown": "Cooldown"
-  },
-  "rank": {
-    "novice": "Novice",
-    "eternal": "Eternal",
-    "mythic": "Mythic",
-    "grandmaster": "Grandmaster",
-    "master": "Master",
-    "expert": "Expert",
-    "journeyman": "Journeyman",
-    "apprentice": "Apprentice",
-    "divine": "Divine",
-    "legendary": "Legendary"
-  },
-  "shop": {
-    "inventory_full": "Inventory Full",
-    "item_purchased": "Item Purchased",
-    "not_enough_money": "Not Enough Money",
-    "item_not_found": "Item Not Found",
-    "discount_applied": "Discount Applied",
-    "item_sold": "Item Sold",
-    "closed": "Closed",
-    "not_enough_items": "Not Enough Items"
-  },
-  "rarity": {
-    "epic": "Epic",
-    "divine": "Divine",
-    "rare": "Rare",
-    "uncommon": "Uncommon",
-    "legendary": "Legendary",
-    "unique": "Unique",
-    "mythic": "Mythic",
-    "common": "Common",
-    "artifact": "Artifact",
-    "ancient": "Ancient"
-  },
-  "whisper": {
-    "mode_off": "Mode Off",
-    "mode": {
-      "all": "All",
-      "guild": "Guild",
-      "friends": "Friends",
-      "off": "Off"
-    },
-    "player_offline": "Player オフライン",
-    "mode_all": "Mode All",
-    "received": "受信済み",
-    "ignored": "Ignored",
-    "mode_guild": "Mode Guild",
-    "mode_friends": "Mode Friends",
-    "disabled": "Disabled",
-    "player_not_found": "Player Not Found",
-    "sent": "送信済み"
-  },
-  "hologram": {
-    "shop_marker": "Shop Marker",
-    "quest_marker": "Quest Marker",
-    "npc_title": "Npc Title",
-    "npc_name": "Npc Name"
-  },
-  "loot": {
-    "common_drop": "Common Drop",
-    "legendary_drop": "Legendary Drop",
-    "epic_drop": "Epic Drop",
-    "rare_drop": "Rare Drop"
-  },
-  "enchant": {
-    "failed": "失敗ed",
-    "max_level": "Max レベル",
-    "fail": "失敗",
-    "success": "成功",
-    "incompatible": "Incompatible"
-  },
   "status": {
-    "read": "既読",
-    "new_mail": "New Mail"
+    "new_mail": "New Mail",
+    "read": "既読"
   },
-  "ja_JP: 5849 single keys": "[JA] Ja Jp: 5849 Single Keys",
-  "ko_KR: 6187 single keys": "[JA] Ko Kr: 6187 Single Keys",
-  "en_US: 9045 single keys": "[JA] En Us: 9045 Single Keys",
-  "ja_JP: 325 array keys": "[JA] Ja Jp: 325 Array Keys",
-  "ko_KR: 399 array keys": "[JA] Ko Kr: 399 Array Keys",
-  "en_US: 352 array keys": "[JA] En Us: 352 Array Keys"
+  "enable": "有効化",
+  "disable": "無効化",
+  "ja_JP: 5849 single keys": "Ja Jp: 5849 Single Keys",
+  "ko_KR: 6187 single keys": "Ko Kr: 6187 Single Keys",
+  "en_US: 9045 single keys": "En Us: 9045 Single Keys",
+  "ja_JP: 325 array keys": "Ja Jp: 325 Array Keys",
+  "ko_KR: 399 array keys": "Ko Kr: 399 Array Keys",
+  "en_US: 352 array keys": "En Us: 352 Array Keys",
+  "GeneralLangKey: 47": "Generallangkey: 47",
+  "GuiLangKey: 557": "Guilangkey: 557",
+  "QuestCommonLangKey: 2282": "クエストcommonlangkey: 2282",
+  "ItemLangKey: 465": "アイテムlangkey: 465",
+  "MessageLangKey: 272": "Messagelangkey: 272",
+  "SystemLangKey: 392": "Systemlangkey: 392",
+  "no-permission": "You don't have permission to perform this action."
 }

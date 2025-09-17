@@ -1,7 +1,14 @@
 {
-  "unlocked": "[KO] Unlocked",
-  "progress": "[KO] Progress",
-  "completed": "[KO] Completed",
-  "reward_claimed": "[KO] Reward Claimed",
-  "already_claimed": "[KO] Already Claimed"
+  "unlocked": "잠금 해제됨",
+  "progress": "진행도",
+  "completed": "완료됨",
+  "reward_claimed": "보상 수령됨",
+  "already_claimed": "이미 수령함",
+  "achievement": {
+    "unlocked": "잠금 해제됨",
+    "progress": "진행도",
+    "completed": "완료됨",
+    "reward_claimed": "보상 수령됨",
+    "already_claimed": "이미 수령함"
+  }
 }

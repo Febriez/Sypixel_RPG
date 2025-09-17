@@ -1,6 +1,12 @@
 {
-  "summoned": "[JA] Summoned",
-  "dismissed": "[JA] Dismissed",
-  "level_up": "[JA] Level Up",
-  "evolved": "[JA] Evolved"
+  "summoned": "Summoned",
+  "dismissed": "Dismissed",
+  "level_up": "レベル Up",
+  "evolved": "Evolved",
+  "pet": {
+    "summoned": "Summoned",
+    "dismissed": "Dismissed",
+    "level_up": "レベル Up",
+    "evolved": "Evolved"
+  }
 }

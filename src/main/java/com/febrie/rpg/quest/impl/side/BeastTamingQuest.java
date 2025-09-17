@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.BeastTamingLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -70,25 +68,25 @@ public class BeastTamingQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(BeastTamingLangKey.QUEST_SIDE_BEAST_TAMING_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.beast_taming.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(BeastTamingLangKey.QUEST_SIDE_BEAST_TAMING_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.beast_taming.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_beast_master" -> LangManager.text(BeastTamingLangKey.QUEST_SIDE_BEAST_TAMING_OBJECTIVES_TALK_BEAST_MASTER, who);
-            case "wild_plains" -> LangManager.text(BeastTamingLangKey.QUEST_SIDE_BEAST_TAMING_OBJECTIVES_WILD_PLAINS, who);
-            case "wheat_collect" -> LangManager.text(BeastTamingLangKey.QUEST_SIDE_BEAST_TAMING_OBJECTIVES_WHEAT_COLLECT, who);
-            case "compass_collect" -> LangManager.text(BeastTamingLangKey.QUEST_SIDE_BEAST_TAMING_OBJECTIVES_COMPASS_COLLECT, who);
-            case "observe_wolves" -> LangManager.text(BeastTamingLangKey.QUEST_SIDE_BEAST_TAMING_OBJECTIVES_OBSERVE_WOLVES, who);
-            case "pack_territory" -> LangManager.text(BeastTamingLangKey.QUEST_SIDE_BEAST_TAMING_OBJECTIVES_PACK_TERRITORY, who);
-            case "bone_collect" -> LangManager.text(BeastTamingLangKey.QUEST_SIDE_BEAST_TAMING_OBJECTIVES_BONE_COLLECT, who);
-            case "return_beast_master" -> LangManager.text(BeastTamingLangKey.QUEST_SIDE_BEAST_TAMING_OBJECTIVES_RETURN_BEAST_MASTER, who);
+            case "talk_beast_master" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.beast_taming.objectives.talk_beast_master"), who);
+            case "wild_plains" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.beast_taming.objectives.wild_plains"), who);
+            case "wheat_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.beast_taming.objectives.wheat_collect"), who);
+            case "compass_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.beast_taming.objectives.compass_collect"), who);
+            case "observe_wolves" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.beast_taming.objectives.observe_wolves"), who);
+            case "pack_territory" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.beast_taming.objectives.pack_territory"), who);
+            case "bone_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.beast_taming.objectives.bone_collect"), who);
+            case "return_beast_master" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.beast_taming.objectives.return_beast_master"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -100,7 +98,7 @@ public class BeastTamingQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(BeastTamingLangKey.QUEST_SIDE_BEAST_TAMING_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.beast_taming.dialogs"), who);
     }
     
     @Override
@@ -110,16 +108,16 @@ public class BeastTamingQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(BeastTamingLangKey.QUEST_SIDE_BEAST_TAMING_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.beast_taming.npc_name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(BeastTamingLangKey.QUEST_SIDE_BEAST_TAMING_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.beast_taming.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(BeastTamingLangKey.QUEST_SIDE_BEAST_TAMING_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.beast_taming.decline"), who);
     }
 }

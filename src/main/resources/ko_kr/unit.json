@@ -1,4 +1,8 @@
 {
-  "blocks": "[KO] Blocks",
-  "players": "[KO] Players"
+  "blocks": "Blocks",
+  "players": "플레이어s",
+  "unit": {
+    "blocks": "blocks",
+    "players": "players"
+  }
 }

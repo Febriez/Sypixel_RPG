@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.UndeadUprisingLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -71,26 +69,26 @@ public class UndeadUprisingQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(UndeadUprisingLangKey.QUEST_SIDE_UNDEAD_UPRISING_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.undead.uprising.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(UndeadUprisingLangKey.QUEST_SIDE_UNDEAD_UPRISING_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.undead.uprising.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_town_guard" -> LangManager.text(UndeadUprisingLangKey.QUEST_SIDE_UNDEAD_UPRISING_OBJECTIVES_TALK_TOWN_GUARD, who);
-            case "cursed_graveyard" -> LangManager.text(UndeadUprisingLangKey.QUEST_SIDE_UNDEAD_UPRISING_OBJECTIVES_CURSED_GRAVEYARD, who);
-            case "undead_creatures" -> LangManager.text(UndeadUprisingLangKey.QUEST_SIDE_UNDEAD_UPRISING_OBJECTIVES_UNDEAD_CREATURES, who);
-            case "skeleton_warriors" -> LangManager.text(UndeadUprisingLangKey.QUEST_SIDE_UNDEAD_UPRISING_OBJECTIVES_SKELETON_WARRIORS, who);
-            case "potion_collect" -> LangManager.text(UndeadUprisingLangKey.QUEST_SIDE_UNDEAD_UPRISING_OBJECTIVES_POTION_COLLECT, who);
-            case "necromancer_tower" -> LangManager.text(UndeadUprisingLangKey.QUEST_SIDE_UNDEAD_UPRISING_OBJECTIVES_NECROMANCER_TOWER, who);
-            case "dark_necromancer" -> LangManager.text(UndeadUprisingLangKey.QUEST_SIDE_UNDEAD_UPRISING_OBJECTIVES_DARK_NECROMANCER, who);
-            case "enchanted_book_collect" -> LangManager.text(UndeadUprisingLangKey.QUEST_SIDE_UNDEAD_UPRISING_OBJECTIVES_ENCHANTED_BOOK_COLLECT, who);
-            case "purify_graveyard" -> LangManager.text(UndeadUprisingLangKey.QUEST_SIDE_UNDEAD_UPRISING_OBJECTIVES_PURIFY_GRAVEYARD, who);
+            case "talk_town_guard" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.undead.uprising.objectives.talk.town.guard"), who);
+            case "cursed_graveyard" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.undead.uprising.objectives.cursed.graveyard"), who);
+            case "undead_creatures" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.undead.uprising.objectives.undead.creatures"), who);
+            case "skeleton_warriors" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.undead.uprising.objectives.skeleton.warriors"), who);
+            case "potion_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.undead.uprising.objectives.potion.collect"), who);
+            case "necromancer_tower" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.undead.uprising.objectives.necromancer.tower"), who);
+            case "dark_necromancer" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.undead.uprising.objectives.dark.necromancer"), who);
+            case "enchanted_book_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.undead.uprising.objectives.enchanted.book.collect"), who);
+            case "purify_graveyard" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.undead.uprising.objectives.purify.graveyard"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -102,7 +100,7 @@ public class UndeadUprisingQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(UndeadUprisingLangKey.QUEST_SIDE_UNDEAD_UPRISING_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.undead.uprising.dialogs"), who);
     }
     
     @Override
@@ -112,16 +110,16 @@ public class UndeadUprisingQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(UndeadUprisingLangKey.QUEST_SIDE_UNDEAD_UPRISING_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.undead.uprising.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(UndeadUprisingLangKey.QUEST_SIDE_UNDEAD_UPRISING_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.undead.uprising.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(UndeadUprisingLangKey.QUEST_SIDE_UNDEAD_UPRISING_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.undead.uprising.decline"), who);
     }
 }

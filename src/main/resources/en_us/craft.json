@@ -3,8 +3,10 @@
   "fail": "Crafting Failed",
   "no_materials": "Insufficient Materials",
   "no_recipe": "Recipe Not Found",
-  "craft.success": "Success",
-  "craft.fail": "Fail",
-  "craft.no_materials": "No Materials",
-  "craft.no_recipe": "No Recipe"
+  "craft": {
+    "success": "Success",
+    "fail": "Fail",
+    "no_materials": "No Materials",
+    "no_recipe": "No Recipe"
+  }
 }

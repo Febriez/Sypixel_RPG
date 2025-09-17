@@ -7,8 +7,10 @@
   "deleted": "Deleted",
   "updated": "Updated",
   "moved": "Moved",
-  "hologram.npc_name": "Npc Name",
-  "hologram.npc_title": "Npc Title",
-  "hologram.quest_marker": "Quest Marker",
-  "hologram.shop_marker": "Shop Marker"
+  "hologram": {
+    "npc_name": "Npc Name",
+    "npc_title": "Npc Title",
+    "quest_marker": "Quest Marker",
+    "shop_marker": "Shop Marker"
+  }
 }

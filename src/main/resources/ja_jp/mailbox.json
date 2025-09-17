@@ -1,4 +1,8 @@
 {
-  "delete_confirm_word": "[JA] Delete Confirm Word",
-  "delete-confirm-word": "[JA] DELETE"
+  "delete_confirm_word": "Delete 確認 Word",
+  "delete-confirm-word": "DELETE",
+  "mailbox": {
+    "delete_confirm_word": "DELETE",
+    "delete-confirm-word": "DELETE"
+  }
 }

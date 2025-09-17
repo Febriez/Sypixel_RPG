@@ -11,9 +11,7 @@ import com.febrie.rpg.quest.objective.impl.InteractNPCObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
-import com.febrie.rpg.util.lang.quest.side.MysteriousCaveLangKey;
 
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -67,23 +65,23 @@ public class MysteriousCaveQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(MysteriousCaveLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.mysterious.cave.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(MysteriousCaveLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.mysterious.cave.info"), who);
     }
 
         @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_cave_explorer" -> LangManager.text(MysteriousCaveLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_TALK_CAVE_EXPLORER, who);
-            case "visit_dark_cave_entrance" -> LangManager.text(MysteriousCaveLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_VISIT_DARK_CAVE_ENTRANCE, who);
-            case "kill_bats" -> LangManager.text(MysteriousCaveLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_KILL_BATS, who);
-            case "glow_lichen_collect" -> LangManager.text(MysteriousCaveLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_GLOW_LICHEN_COLLECT, who);
-            case "visit_underground_lake" -> LangManager.text(MysteriousCaveLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_VISIT_UNDERGROUND_LAKE, who);
-            case "ender_pearl_collect" -> LangManager.text(MysteriousCaveLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_OBJECTIVES_ENDER_PEARL_COLLECT, who);
+            case "talk_cave_explorer" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.mysterious.cave.objectives.talk.cave.explorer"), who);
+            case "visit_dark_cave_entrance" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.mysterious.cave.objectives.visit.dark.cave.entrance"), who);
+            case "kill_bats" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.mysterious.cave.objectives.kill.bats"), who);
+            case "glow_lichen_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.mysterious.cave.objectives.glow.lichen.collect"), who);
+            case "visit_underground_lake" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.mysterious.cave.objectives.visit.underground.lake"), who);
+            case "ender_pearl_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.mysterious.cave.objectives.ender.pearl.collect"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -95,7 +93,7 @@ public class MysteriousCaveQuest extends Quest {
     
         @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(MysteriousCaveLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.mysterious.cave.dialogs"), who);
     }
     
     @Override
@@ -105,16 +103,16 @@ public class MysteriousCaveQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(MysteriousCaveLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.mysterious.cave.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(MysteriousCaveLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.mysterious.cave.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(MysteriousCaveLangKey.QUEST_SIDE_MYSTERIOUS_CAVE_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.mysterious.cave.decline"), who);
     }
 }

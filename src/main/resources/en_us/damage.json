@@ -13,14 +13,16 @@
   "blocked": "Blocked",
   "dodged": "Dodged",
   "reflected": "Reflected",
-  "damage.physical": "Physical",
-  "damage.magical": "Magical",
-  "damage.true": "True",
-  "damage.fire": "Fire",
-  "damage.ice": "Ice",
-  "damage.lightning": "Lightning",
-  "damage.poison": "Poison",
-  "damage.holy": "Holy",
-  "damage.dark": "Dark",
-  "damage.nature": "Nature"
+  "damage": {
+    "physical": "Physical",
+    "magical": "Magical",
+    "true": "True",
+    "fire": "Fire",
+    "ice": "Ice",
+    "lightning": "Lightning",
+    "poison": "Poison",
+    "holy": "Holy",
+    "dark": "Dark",
+    "nature": "Nature"
+  }
 }

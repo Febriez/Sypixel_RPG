@@ -1,4 +1,8 @@
 {
-  "blocks": "[JA] Blocks",
-  "players": "[JA] Players"
+  "blocks": "Blocks",
+  "players": "プレイヤーs",
+  "unit": {
+    "blocks": "blocks",
+    "players": "players"
+  }
 }

@@ -1,12 +1,185 @@
 {
+  "no_permission": "이 명령어를 사용할 권한이 없습니다",
+  "player_not_found": "플레이어를 찾을 수 없습니다",
+  "invalid_args": "잘못된 인수입니다",
+  "success": "명령어가 성공적으로 실행되었습니다",
+  "failed": "명령어 실행에 실패하였습니다",
   "levelup": {
     "success": "레벨업을 하였습니다!",
     "target_success": "{0}의 레벨을 올렸습니다!",
     "error": "레벨업에 실패하였습니다"
   },
-  "no_permission": "이 명령어를 사용할 권한이 없습니다",
-  "player_not_found": "플레이어를 찾을 수 없습니다",
-  "invalid_args": "잘못된 인수입니다",
-  "success": "명령어가 성공적으로 실행되었습니다",
-  "failed": "명령어 실행에 실패하였습니다"
+  "profile": {
+    "usage": "사용법: /profile",
+    "description": "프로필 보기",
+    "success": "프로필을 열었습니다!"
+  },
+  "viewprofile": {
+    "usage": "사용법: /viewprofile <플레이어>",
+    "description": "다른 플레이어의 프로필 보기",
+    "success": "{0}의 프로필을 열었습니다!",
+    "disabled": "이 명령어는 더 이상 사용할 수 없습니다.",
+    "use_admin": "관리자 명령어를 사용하세요: /rpgadmin viewprofile <플레이어>"
+  },
+  "mainmenu": {
+    "usage": "사용법: /menu",
+    "description": "메인 메뉴 열기",
+    "success": "메인 메뉴를 열었습니다!"
+  },
+  "skills": {
+    "usage": "사용법: /skills",
+    "description": "스킬 메뉴 열기",
+    "success": "스킬 메뉴를 열었습니다!"
+  },
+  "stats": {
+    "usage": "사용법: /stats",
+    "description": "스탯 메뉴 열기",
+    "success": "스탯 메뉴를 열었습니다!"
+  },
+  "talents": {
+    "usage": "사용법: /talents",
+    "description": "재능 메뉴 열기",
+    "success": "재능 메뉴를 열었습니다!"
+  },
+  "leaderboard": {
+    "usage": "사용법: /leaderboard",
+    "description": "서버 랭킹 확인",
+    "success": "리더보드를 열었습니다!"
+  },
+  "party": {
+    "usage": "사용법: /party <create|invite|leave|kick> [플레이어]",
+    "description": "파티 관리",
+    "created": "파티를 생성했습니다",
+    "invite_sent": "{0}에게 파티 초대를 보냈습니다",
+    "joined": "{0}의 파티에 참가했습니다",
+    "left": "파티를 떠났습니다",
+    "kicked": "{0}를 파티에서 추방했습니다",
+    "disbanded": "파티를 해산했습니다",
+    "not_in_party": "파티에 속해있지 않습니다",
+    "already_in_party": "이미 파티에 속해있습니다"
+  },
+  "guild": {
+    "usage": "사용법: /guild <create|invite|leave|kick> [이름/플레이어]",
+    "description": "길드 관리",
+    "created": "길드를 생성했습니다",
+    "invite_sent": "{0}에게 길드 초대를 보냈습니다",
+    "joined": "{0} 길드에 가입했습니다",
+    "left": "길드를 떠났습니다",
+    "kicked": "{0}를 길드에서 추방했습니다",
+    "disbanded": "길드를 해산했습니다",
+    "not_in_guild": "길드에 속해있지 않습니다",
+    "already_in_guild": "이미 길드에 속해있습니다"
+  },
+  "trade": {
+    "usage": "사용법: /trade <플레이어>",
+    "description": "거래 시작",
+    "request_sent": "{0}에게 거래 요청을 보냈습니다",
+    "request_received": "{0}에게서 거래 요청을 받았습니다",
+    "accepted": "거래를 수락했습니다",
+    "declined": "거래를 거절했습니다",
+    "cancelled": "거래가 취소되었습니다",
+    "completed": "거래가 완료되었습니다"
+  },
+  "quest": {
+    "usage": "사용법: /quest [list|abandon|progress]",
+    "description": "퀘스트 관리",
+    "list": "퀘스트 목록을 열었습니다",
+    "abandoned": "퀘스트를 포기했습니다",
+    "progress": "진행 상황: {0}/{1}"
+  },
+  "warp": {
+    "usage": "사용법: /warp <위치>",
+    "description": "위치로 워프",
+    "success": "{0}(으)로 워프했습니다",
+    "not_found": "워프 지점을 찾을 수 없습니다",
+    "no_permission": "이 위치로 워프할 권한이 없습니다"
+  },
+  "spawn": {
+    "usage": "사용법: /spawn",
+    "description": "스폰으로 이동",
+    "success": "스폰으로 이동했습니다"
+  },
+  "home": {
+    "usage": "사용법: /home [이름]",
+    "description": "집으로 이동",
+    "set": "집 위치를 설정했습니다",
+    "success": "집으로 이동했습니다",
+    "not_set": "집이 설정되지 않았습니다"
+  },
+  "tpa": {
+    "usage": "사용법: /tpa <플레이어>",
+    "description": "텔레포트 요청",
+    "request_sent": "{0}에게 텔레포트 요청을 보냈습니다",
+    "request_received": "{0}에게서 텔레포트 요청을 받았습니다",
+    "accepted": "텔레포트 요청을 수락했습니다",
+    "denied": "텔레포트 요청을 거절했습니다"
+  },
+  "balance": {
+    "usage": "사용법: /balance [플레이어]",
+    "description": "잔액 확인",
+    "self": "잔액: {0}",
+    "other": "{0}의 잔액: {1}"
+  },
+  "pay": {
+    "usage": "사용법: /pay <플레이어> <금액>",
+    "description": "돈 보내기",
+    "success": "{0}에게 {1}를 보냈습니다",
+    "received": "{0}로부터 {1}를 받았습니다",
+    "insufficient": "잔액이 부족합니다"
+  },
+  "help": {
+    "usage": "사용법: /help [페이지]",
+    "description": "도움말 보기",
+    "header": "=== 도움말 ({0}/{1}) ===",
+    "command_format": "/{0} - {1}"
+  },
+  "settings": {
+    "usage": "사용법: /settings",
+    "description": "설정 메뉴 열기",
+    "opened": "설정 메뉴를 열었습니다"
+  },
+  "friends": {
+    "usage": "사용법: /friends [add|remove|list] [플레이어]",
+    "description": "친구 관리",
+    "added": "{0}를 친구로 추가했습니다",
+    "removed": "{0}를 친구 목록에서 제거했습니다",
+    "request_sent": "{0}에게 친구 요청을 보냈습니다",
+    "request_received": "{0}로부터 친구 요청을 받았습니다",
+    "list_empty": "친구 목록이 비어있습니다"
+  },
+  "msg": {
+    "usage": "사용법: /msg <플레이어> <메시지>",
+    "description": "개인 메시지 보내기",
+    "sent": "[나 -> {0}] {1}",
+    "received": "[{0} -> 나] {1}",
+    "player_offline": "플레이어가 오프라인입니다"
+  },
+  "reply": {
+    "usage": "사용법: /reply <메시지>",
+    "description": "마지막 메시지에 답장",
+    "no_recipient": "답장할 대상이 없습니다",
+    "sent": "[나 -> {0}] {1}"
+  },
+  "admin": {
+    "reload": {
+      "success": "플러그인을 다시 불러왔습니다",
+      "failed": "다시 불러오기 실패: {0}"
+    },
+    "give": {
+      "success": "{0}에게 {1}을(를) {2}개 지급했습니다",
+      "usage": "사용법: /rpgadmin give <플레이어> <아이템> [수량]"
+    },
+    "setlevel": {
+      "success": "{0}의 레벨을 {1}로 설정했습니다",
+      "usage": "사용법: /rpgadmin setlevel <플레이어> <레벨>"
+    },
+    "addexp": {
+      "success": "{0}에게 {1} 경험치를 추가했습니다",
+      "usage": "사용법: /rpgadmin addexp <플레이어> <경험치>"
+    },
+    "reset": {
+      "success": "{0}의 데이터를 초기화했습니다",
+      "confirm": "정말 {0}의 데이터를 초기화하시겠습니까? /rpgadmin reset {0} confirm"
+    }
+  }
 }

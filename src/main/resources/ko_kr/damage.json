@@ -1,16 +1,28 @@
 {
-  "physical": "[KO] Physical",
-  "magical": "[KO] Magical",
-  "true": "[KO] True",
-  "critical": "[KO] Critical",
-  "blocked": "[KO] Blocked",
-  "dodged": "[KO] Dodged",
-  "reflected": "[KO] Reflected",
+  "physical": "물리",
+  "magical": "마법",
+  "true": "고정",
   "fire": "Fire",
   "ice": "Ice",
   "lightning": "Lightning",
   "poison": "독",
   "holy": "Holy",
   "dark": "Dark",
-  "nature": "Nature"
+  "nature": "Nature",
+  "critical": "치명타",
+  "blocked": "막음",
+  "dodged": "회피",
+  "reflected": "반사",
+  "damage": {
+    "physical": "물리",
+    "magical": "마법",
+    "true": "고정",
+    "fire": "화염",
+    "ice": "얼음",
+    "lightning": "번개",
+    "poison": "독",
+    "holy": "신성",
+    "dark": "어둠",
+    "nature": "자연"
+  }
 }

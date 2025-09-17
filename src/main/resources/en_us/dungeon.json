@@ -14,15 +14,17 @@
   "wave_started": "Wave Started",
   "time_up": "Time Up",
   "level_required": "Level Required",
-  "dungeon.entered": "Entered",
-  "dungeon.completed": "Completed",
-  "dungeon.failed": "Failed",
-  "dungeon.boss_spawned": "Boss Spawned",
-  "dungeon.boss_defeated": "Boss Defeated",
-  "dungeon.wave_completed": "Wave Completed",
-  "dungeon.treasure_found": "Treasure Found",
-  "dungeon.key_required": "Key Required",
-  "dungeon.cooldown_active": "Cooldown Active",
-  "dungeon.party_required": "Party Required",
-  "dungeon.level_requirement": "Level Requirement"
+  "dungeon": {
+    "entered": "Entered",
+    "completed": "Completed",
+    "failed": "Failed",
+    "boss_spawned": "Boss Spawned",
+    "boss_defeated": "Boss Defeated",
+    "wave_completed": "Wave Completed",
+    "treasure_found": "Treasure Found",
+    "key_required": "Key Required",
+    "cooldown_active": "Cooldown Active",
+    "party_required": "Party Required",
+    "level_requirement": "Level Requirement"
+  }
 }

@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.DreamWalkerLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -71,26 +69,26 @@ public class DreamWalkerQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(DreamWalkerLangKey.QUEST_SIDE_DREAM_WALKER_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.dream.walker.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(DreamWalkerLangKey.QUEST_SIDE_DREAM_WALKER_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.dream.walker.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_dream_keeper" -> LangManager.text(DreamWalkerLangKey.QUEST_SIDE_DREAM_WALKER_OBJECTIVES_TALK_DREAM_KEEPER, who);
-            case "sleeping_village" -> LangManager.text(DreamWalkerLangKey.QUEST_SIDE_DREAM_WALKER_OBJECTIVES_SLEEPING_VILLAGE, who);
-            case "string_collect" -> LangManager.text(DreamWalkerLangKey.QUEST_SIDE_DREAM_WALKER_OBJECTIVES_STRING_COLLECT, who);
-            case "sweet_berries_collect" -> LangManager.text(DreamWalkerLangKey.QUEST_SIDE_DREAM_WALKER_OBJECTIVES_SWEET_BERRIES_COLLECT, who);
-            case "dream_realm" -> LangManager.text(DreamWalkerLangKey.QUEST_SIDE_DREAM_WALKER_OBJECTIVES_DREAM_REALM, who);
-            case "soul_torch_collect" -> LangManager.text(DreamWalkerLangKey.QUEST_SIDE_DREAM_WALKER_OBJECTIVES_SOUL_TORCH_COLLECT, who);
-            case "phantom_membrane_collect" -> LangManager.text(DreamWalkerLangKey.QUEST_SIDE_DREAM_WALKER_OBJECTIVES_PHANTOM_MEMBRANE_COLLECT, who);
-            case "nightmare_lord" -> LangManager.text(DreamWalkerLangKey.QUEST_SIDE_DREAM_WALKER_OBJECTIVES_NIGHTMARE_LORD, who);
-            case "awaken_villagers" -> LangManager.text(DreamWalkerLangKey.QUEST_SIDE_DREAM_WALKER_OBJECTIVES_AWAKEN_VILLAGERS, who);
+            case "talk_dream_keeper" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.dream.walker.objectives.talk.dream.keeper"), who);
+            case "sleeping_village" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.dream.walker.objectives.sleeping.village"), who);
+            case "string_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.dream.walker.objectives.string.collect"), who);
+            case "sweet_berries_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.dream.walker.objectives.sweet.berries.collect"), who);
+            case "dream_realm" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.dream.walker.objectives.dream.realm"), who);
+            case "soul_torch_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.dream.walker.objectives.soul.torch.collect"), who);
+            case "phantom_membrane_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.dream.walker.objectives.phantom.membrane.collect"), who);
+            case "nightmare_lord" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.dream.walker.objectives.nightmare.lord"), who);
+            case "awaken_villagers" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.dream.walker.objectives.awaken.villagers"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -102,7 +100,7 @@ public class DreamWalkerQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(DreamWalkerLangKey.QUEST_SIDE_DREAM_WALKER_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.dream.walker.dialogs"), who);
     }
     
     @Override
@@ -112,16 +110,16 @@ public class DreamWalkerQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(DreamWalkerLangKey.QUEST_SIDE_DREAM_WALKER_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.dream.walker.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(DreamWalkerLangKey.QUEST_SIDE_DREAM_WALKER_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.dream.walker.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(DreamWalkerLangKey.QUEST_SIDE_DREAM_WALKER_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.dream.walker.decline"), who);
     }
 }

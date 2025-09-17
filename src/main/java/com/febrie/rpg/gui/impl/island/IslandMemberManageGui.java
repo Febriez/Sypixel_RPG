@@ -1,5 +1,8 @@
 package com.febrie.rpg.gui.impl.island;
+import com.febrie.rpg.util.lang.IslandLangKey;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.dto.island.IslandMemberDTO;
@@ -12,7 +15,6 @@ import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -50,7 +52,7 @@ public class IslandMemberManageGui extends BaseGui {
     private final boolean targetIsWorker;
     private IslandMemberManageGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                   @NotNull RPGMain plugin, @NotNull IslandDTO island, @NotNull String targetUuid) {
-        super(viewer, guiManager, 45, LangManager.text(LangKey.GUI_ISLAND_MEMBER_MANAGE_TITLE, viewer.locale())); // 5줄 GUI
+        super(viewer, guiManager, 45, LangManager.text(GuiLangKey.GUI_ISLAND_MEMBER_MANAGE_TITLE, viewer.locale())); // 5줄 GUI
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.targetUuid = targetUuid;
@@ -69,8 +71,8 @@ public class IslandMemberManageGui extends BaseGui {
         if (member.isPresent()) {
             this.targetIsCoOwner = member.get().isCoOwner();
             this.targetIsWorker = false;
-            Component subOwnerComponent = LangManager.text(LangKey.ISLAND_ROLES_SUB_OWNER, viewer.locale());
-            Component memberComponent = LangManager.text(LangKey.ISLAND_ROLES_MEMBER, viewer.locale());
+            Component subOwnerComponent = LangManager.text(IslandLangKey.ISLAND_ROLES_SUB_OWNER, viewer.locale());
+            Component memberComponent = LangManager.text(IslandLangKey.ISLAND_ROLES_MEMBER, viewer.locale());
             Component roleComponent = targetIsCoOwner ? subOwnerComponent : memberComponent;
             this.currentRole = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(roleComponent);
         } else {
@@ -81,7 +83,7 @@ public class IslandMemberManageGui extends BaseGui {
             
             this.targetIsCoOwner = false;
             this.targetIsWorker = worker.isPresent();
-            Component workerComponent = LangManager.text(LangKey.ISLAND_ROLES_WORKER, viewer.locale());
+            Component workerComponent = LangManager.text(IslandLangKey.ISLAND_ROLES_WORKER, viewer.locale());
             this.currentRole = targetIsWorker ? net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(workerComponent) : "Unknown";
         }
     }
@@ -117,7 +119,7 @@ public class IslandMemberManageGui extends BaseGui {
             setItem(24, new GuiItem(createKickItem()).onAnyClick(this::handleKick));
             // 권한 설정
             setItem(30, new GuiItem(createPermissionItem()).onAnyClick(player -> 
-                player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_MEMBER_MANAGE_PERMISSION_NOT_IMPLEMENTED, viewer.locale()).color(NamedTextColor.RED))));
+                player.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_MEMBER_MANAGE_PERMISSION_NOT_IMPLEMENTED, viewer.locale()).color(NamedTextColor.RED))));
         } else {
             // 권한 없음 안내
             setItem(22, new GuiItem(createNoPermissionItem()));
@@ -136,81 +138,81 @@ public class IslandMemberManageGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_ISLAND_MEMBER_MANAGE_TITLE_WITH_NAME, viewer.locale(), Component.text(targetName));
+        return LangManager.text(GuiLangKey.GUI_ISLAND_MEMBER_MANAGE_TITLE_WITH_NAME, viewer.locale(), Component.text(targetName));
     }
     
     private ItemStack createMemberInfoItem() {
         return ItemBuilder.of(Material.PLAYER_HEAD)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_MEMBER_INFO_NAME, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_MEMBER_INFO_NAME, viewer.locale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_MEMBER_MANAGE_CURRENT_ROLE, viewer.locale()).color(NamedTextColor.GRAY)
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_MEMBER_MANAGE_CURRENT_ROLE, viewer.locale()).color(NamedTextColor.GRAY)
                         .append(Component.text(currentRole, NamedTextColor.WHITE)))
                 .addLore(Component.text("UUID: ", NamedTextColor.GRAY)
                         .append(Component.text(targetUuid.substring(0, 8) + "...", NamedTextColor.WHITE)))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_MEMBER_INFO_LORE, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_MEMBER_INFO_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createPromoteItem() {
         return ItemBuilder.of(Material.GOLDEN_HELMET)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_PROMOTE_NAME, viewer.locale()))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_PROMOTE_LORE, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_PROMOTE_NAME, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_PROMOTE_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createDemoteItem() {
         return ItemBuilder.of(Material.IRON_HELMET)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_DEMOTE_NAME, viewer.locale()))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_DEMOTE_LORE, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_DEMOTE_NAME, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_DEMOTE_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createToWorkerItem() {
         return ItemBuilder.of(Material.LEATHER_HELMET)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_TO_WORKER_NAME, viewer.locale()))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_TO_WORKER_LORE, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_TO_WORKER_NAME, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_TO_WORKER_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createToMemberItem() {
         return ItemBuilder.of(Material.DIAMOND_HELMET)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_TO_MEMBER_NAME, viewer.locale()))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_TO_MEMBER_LORE, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_TO_MEMBER_NAME, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_TO_MEMBER_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createKickItem() {
         return ItemBuilder.of(Material.BARRIER)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_KICK_NAME, viewer.locale()))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_KICK_LORE, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_KICK_NAME, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_KICK_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
     private ItemStack createPermissionItem() {
         return ItemBuilder.of(Material.COMMAND_BLOCK)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_PERMISSION_NAME, viewer.locale()))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_PERMISSION_LORE, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_PERMISSION_NAME, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_PERMISSION_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createNoPermissionItem() {
         return ItemBuilder.of(Material.REDSTONE_BLOCK)
-                .displayName(LangManager.text(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_NO_PERMISSION_NAME, viewer.locale()))
-                .addLore(LangManager.list(LangKey.ITEMS_ISLAND_MEMBER_MANAGE_NO_PERMISSION_LORE, viewer.locale()))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_NO_PERMISSION_NAME, viewer.locale()))
+                .addLore(LangManager.list(GeneralLangKey.ITEMS_ISLAND_MEMBER_MANAGE_NO_PERMISSION_LORE, viewer.locale()))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createBackButton() {
         return ItemBuilder.of(Material.ARROW)
-                .displayName(LangManager.text(LangKey.ITEMS_GUI_BUTTONS_BACK_NAME, getViewerLocale()))
-                .addLore(LangManager.list(LangKey.GUI_BUTTONS_BACK_LORE, getViewerLocale()))
+                .displayName(LangManager.text(GuiLangKey.GUI_BUTTONS_BACK_NAME, getViewerLocale()))
+                .addLore(LangManager.list(GuiLangKey.GUI_BUTTONS_BACK_LORE, getViewerLocale()))
                 .hideAllFlags()
                 .build();
     }
@@ -304,10 +306,10 @@ public class IslandMemberManageGui extends BaseGui {
                     }
                     
                     String input = stateSnapshot.getText();
-                    Component confirmComponent = LangManager.text(LangKey.ISLAND_MEMBER_KICK_CONFIRM_WORD, player.locale());
+                    Component confirmComponent = LangManager.text(IslandLangKey.ISLAND_MEMBER_KICK_CONFIRM_WORD, player.locale());
                     String confirmWord = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(confirmComponent);
                     if (!confirmWord.equals(input)) {
-                        player.sendMessage(LangManager.text(LangKey.ISLAND_MEMBER_KICK_INPUT_ERROR, player.locale()).color(NamedTextColor.RED));
+                        player.sendMessage(LangManager.text(IslandLangKey.ISLAND_MEMBER_KICK_INPUT_ERROR, player.locale()).color(NamedTextColor.RED));
                         return List.of(AnvilGUI.ResponseAction.close());
                     }
                     // 추방 실행
@@ -315,9 +317,9 @@ public class IslandMemberManageGui extends BaseGui {
                     return List.of(AnvilGUI.ResponseAction.close());
                 })
                 .text(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                        LangManager.text(LangKey.ISLAND_MEMBER_KICK_INPUT_TEXT, player.locale())))
+                        LangManager.text(IslandLangKey.ISLAND_MEMBER_KICK_INPUT_TEXT, player.locale())))
                 .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                        LangManager.text(LangKey.ISLAND_MEMBER_KICK_INPUT_TITLE, player.locale())))
+                        LangManager.text(IslandLangKey.ISLAND_MEMBER_KICK_INPUT_TITLE, player.locale())))
                 .plugin(plugin)
                 .open(player);
     }

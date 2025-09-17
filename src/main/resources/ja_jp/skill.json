@@ -1,14 +1,22 @@
 {
-  "learned": "[JA] Learned",
-  "upgraded": "[JA] Upgraded",
-  "max_level": "[JA] Max Level",
-  "not_enough_points": "[JA] Not Enough Points",
-  "requirement_not_met": "[JA] Requirement Not Met",
-  "on_cooldown": "[JA] On Cooldown",
-  "not_enough_mana": "[JA] Not Enough Mana",
   "cast_success": "Cast Success",
   "cast_fail": "Cast Fail",
+  "on_cooldown": "On Cooldown",
   "no_mana": "No Mana",
   "no_target": "No Target",
-  "out_of_range": "Out Of Range"
+  "out_of_range": "Out Of Range",
+  "learned": "Learned",
+  "upgraded": "強化d",
+  "max_level": "Max レベル",
+  "not_enough_points": "いいえt Enough Points",
+  "requirement_not_met": "Requirement いいえt Met",
+  "not_enough_mana": "Not Enough マナ",
+  "skill": {
+    "cast_success": "詠唱 Success",
+    "cast_fail": "詠唱 Fail",
+    "on_cooldown": "On Cooldown",
+    "no_mana": "No マナ",
+    "no_target": "いいえ Target",
+    "out_of_range": "Out Of Range"
+  }
 }

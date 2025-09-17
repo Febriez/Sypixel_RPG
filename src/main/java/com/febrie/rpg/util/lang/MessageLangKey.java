@@ -222,6 +222,7 @@ public enum MessageLangKey implements ILangKey {
     MAIL_NEW_MAIL_NOTIFICATION("mail.new-mail-notification"),
     MAIL_SEND_ERROR("mail.send-error"),
     MAIL_NOT_RECIPIENT("mail.not-recipient"),
+    MAILBOX_DELETE_CONFIRM_WORD("mailbox.delete_confirm_word"),
     
     // Teleport Messages
     TELEPORT_REQUEST_SENT("teleport.request_sent"),
@@ -345,7 +346,7 @@ public enum MessageLangKey implements ILangKey {
     }
     
     @Override
-    public String getKey() {
+    public String key() {
         return key;
     }
     

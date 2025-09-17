@@ -1,309 +1,254 @@
 {
-  "plains": {
-    "name": "평원",
-    "description": "평평한 초원 생물군계"
-  },
-  "forest": {
-    "name": "숲",
-    "description": "울창한 숲 생물군계"
-  },
-  "desert": {
-    "name": "사막",
-    "description": "모래 사막 생물군계"
-  },
-  "jungle": {
-    "name": "정글",
-    "description": "열대 정글 생물군계"
-  },
-  "taiga": {
-    "name": "타이가",
-    "description": "추운 숲 생물군계"
-  },
-  "snowy_plains": {
-    "name": "눈 덮인 평원",
-    "description": "눈으로 덮인 평원"
-  },
-  "savanna": {
-    "name": "사바나",
-    "description": "건조한 초원 생물군계"
-  },
-  "swamp": {
-    "name": "늪",
-    "description": "습한 늪 생물군계"
-  },
-  "mushroom_fields": "버섯 들판",
-  "beach": {
-    "name": "해변",
-    "description": "모래 해변 생물군계"
-  },
-  "flower_forest": "꽃 숲",
-  "bamboo_jungle": "대나무 정글",
-  "dark_forest": "어두운 숲",
-  "birch_forest": "자작나무 숲",
   "badlands": {
-    "name": "악지",
-    "description": "붉은 모래 사막"
+    "description": "테라코타가 있는 건조한 지형",
+    "name": "악지"
   },
-  "ocean": {
-    "name": "바다",
-    "description": "깊은 바다 생물군계"
-  },
-  "cherry_grove": "벚꽃 숲",
-  "snowy_taiga": {
-    "name": "눈 덮인 타이가",
-    "description": "눈으로 덮인 추운 침엽수 숲"
-  },
-  "mountains": {
-    "name": "산",
-    "description": "가파른 절벽이 있는 높은 산악 지형"
-  },
-  "river": {
-    "name": "강",
-    "description": "지형을 가로지르는 흐르는 물"
-  },
-  "deep_ocean": {
-    "name": "깊은 바다",
-    "description": "매우 깊은 바다"
-  },
-  "snowy_beach": {
-    "name": "눈 덮인 해변",
-    "description": "눈으로 덮인 추운 해변"
-  },
-  "frozen_river": {
-    "name": "얼어붙은 강",
-    "description": "얼음으로 덮인 강"
-  },
-  "ice_spikes": {
-    "name": "얼음 가시",
-    "description": "높은 얼음 가시가 있는 얼어붙은 평원"
-  },
-  "giant_tree_taiga": {
-    "name": "거대 나무 타이가",
-    "description": "거대한 가문비나무가 있는 타이가"
-  },
-  "jungle_edge": {
-    "name": "정글 가장자리",
-    "description": "정글과 다른 생물군계 사이의 전환 지역"
-  },
-  "swamp_hills": {
-    "name": "늪 언덕",
-    "description": "언덕이 있는 늪지대"
-  },
-  "wooded_badlands_plateau": {
-    "name": "숲이 우거진 악지 고원",
-    "description": "참나무가 있는 악지 고원"
-  },
-  "badlands_plateau": {
-    "name": "악지 고원",
-    "description": "평평한 꼭대기의 악지 지형"
-  },
-  "frozen_ocean": {
-    "name": "얼어붙은 바다",
-    "description": "얼음으로 덮인 바다 표면"
-  },
-  "warm_ocean": {
-    "name": "따뜻한 바다",
-    "description": "산호초가 있는 열대 바다"
-  },
-  "lukewarm_ocean": {
-    "name": "미지근한 바다",
-    "description": "온대 바다"
-  },
-  "cold_ocean": {
-    "name": "차가운 바다",
-    "description": "차가운 바다"
-  },
-  "the_void": {
-    "name": "공허",
-    "description": "아무것도 없는 빈 공간"
-  },
-  "sunflower_plains": {
-    "name": "해바라기 평원",
-    "description": "해바라기로 가득한 평원"
-  },
-  "windswept_hills": {
-    "name": "바람 부는 언덕",
-    "description": "강한 바람에 형성된 언덕"
-  },
-  "windswept_forest": {
-    "name": "바람 부는 숲",
-    "description": "바람이 부는 언덕의 숲"
-  },
-  "windswept_gravelly_hills": {
-    "name": "바람 부는 자갈 언덕",
-    "description": "바람에 형성된 자갈 언덕"
-  },
-  "windswept_savanna": {
-    "name": "바람 부는 사바나",
-    "description": "바람이 휩쓴 사바나 지형"
-  },
-  "jungle_hills": {
-    "name": "정글 언덕",
-    "description": "언덕이 있는 정글 지형"
-  },
-  "sparse_jungle": {
-    "name": "희박한 정글",
-    "description": "나무가 적은 정글"
-  },
-  "eroded_badlands": {
-    "name": "침식된 악지",
-    "description": "심하게 침식된 악지 지형"
-  },
-  "savanna_plateau": {
-    "name": "사바나 고원",
-    "description": "평평한 꼭대기의 사바나 지형"
-  },
-  "deep_lukewarm_ocean": {
-    "name": "깊고 미지근한 바다",
-    "description": "깊은 온대 바다"
-  },
-  "deep_cold_ocean": {
-    "name": "깊고 차가운 바다",
-    "description": "깊고 차가운 바다"
-  },
-  "deep_frozen_ocean": {
-    "name": "깊고 얼어붙은 바다",
-    "description": "얼음으로 덮인 깊은 바다"
-  },
-  "grove": {
-    "name": "숲",
-    "description": "가문비나무가 있는 눈 덮인 경사지"
-  },
-  "snowy_slopes": {
-    "name": "눈 덮인 경사지",
-    "description": "눈으로 덮인 산 경사지"
-  },
-  "frozen_peaks": {
-    "name": "얼어붙은 봉우리",
-    "description": "얼음 산봉우리"
-  },
-  "jagged_peaks": {
-    "name": "들쭉날쭉한 봉우리",
-    "description": "날카롭고 바위가 많은 산봉우리"
-  },
-  "stony_peaks": {
-    "name": "돌 봉우리",
-    "description": "돌로 덮인 산봉우리"
-  },
-  "meadow": {
-    "name": "초원",
-    "description": "꽃이 피는 산악 초원"
-  },
-  "old_growth_birch_forest": {
-    "name": "원시 자작나무 숲",
-    "description": "키 큰 나무가 있는 고대 자작나무 숲"
-  },
-  "old_growth_pine_taiga": {
-    "name": "원시 소나무 타이가",
-    "description": "고대 소나무 숲"
-  },
-  "old_growth_spruce_taiga": {
-    "name": "원시 가문비나무 타이가",
-    "description": "고대 가문비나무 숲"
-  },
-  "mangrove_swamp": {
-    "name": "맹그로브 늪",
-    "description": "맹그로브 나무가 있는 늪"
-  },
-  "deep_dark": {
-    "name": "깊은 어둠",
-    "description": "어두운 지하 생물군계"
-  },
-  "dripstone_caves": {
-    "name": "종유석 동굴",
-    "description": "종유석이 있는 동굴"
-  },
-  "lush_caves": {
-    "name": "무성한 동굴",
-    "description": "식물이 있는 지하 동굴"
-  },
-  "nether_wastes": {
-    "name": "네더 황무지",
-    "description": "황량한 네더 지형"
-  },
-  "warped_forest": {
-    "name": "뒤틀린 숲",
-    "description": "파란색 네더 숲"
-  },
-  "crimson_forest": {
-    "name": "진홍빛 숲",
-    "description": "빨간색 네더 숲"
-  },
-  "soul_sand_valley": {
-    "name": "영혼 모래 계곡",
-    "description": "영혼 모래로 가득한 계곡"
+  "bamboo_jungle": {
+    "description": "대나무 숲이 있는 정글",
+    "name": "대나무 정글"
   },
   "basalt_deltas": {
-    "name": "현무암 삼각주",
-    "description": "화산 네더 지형"
+    "description": "화산성 네더 지형",
+    "name": "현무암 삼각주"
   },
-  "the_end": {
-    "name": "엔드",
-    "description": "엔드 차원 메인 섬"
+  "beach": {
+    "description": "모래 해안선",
+    "name": "해변"
   },
-  "small_end_islands": {
-    "name": "작은 엔드 섬",
-    "description": "떠다니는 작은 엔드 섬"
+  "birch_forest": {
+    "description": "자작나무가 우세한 숲",
+    "name": "자작나무 숲"
   },
-  "end_midlands": {
-    "name": "엔드 중간지대",
-    "description": "중간 크기의 엔드 섬"
+  "cherry_grove": {
+    "description": "아름다운 분홍색 벚꽃 숲",
+    "name": "벚꽃 숲"
   },
-  "end_highlands": {
-    "name": "엔드 고지대",
-    "description": "도시가 있는 큰 엔드 섬"
+  "cold_ocean": {
+    "description": "차가운 북부 해역",
+    "name": "차가운 바다"
+  },
+  "crimson_forest": {
+    "description": "빨간 네더 숲",
+    "name": "진홍빛 숲"
+  },
+  "dark_forest": {
+    "description": "검은 참나무가 있는 빽빽한 숲",
+    "name": "어두운 숲"
+  },
+  "deep_cold_ocean": {
+    "description": "깊고 차가운 바닷물",
+    "name": "깊은 차가운 바다"
+  },
+  "deep_dark": {
+    "description": "스컬크가 있는 어두운 지하",
+    "name": "깊은 어둠"
+  },
+  "deep_frozen_ocean": {
+    "description": "빙산이 있는 깊은 얼어붙은 바다",
+    "name": "깊은 얼어붙은 바다"
+  },
+  "deep_lukewarm_ocean": {
+    "description": "깊은 온대 바다",
+    "name": "깊은 미지근한 바다"
+  },
+  "deep_ocean": {
+    "description": "깊은 바다 해구",
+    "name": "깊은 바다"
+  },
+  "desert": {
+    "description": "선인장이 있는 모래 지형",
+    "name": "사막"
+  },
+  "dripstone_caves": {
+    "description": "종유석과 석순이 있는 동굴",
+    "name": "종유석 동굴"
   },
   "end_barrens": {
-    "name": "엔드 불모지",
-    "description": "빈 엔드 섬"
+    "description": "빈 엔드 지형",
+    "name": "엔드 불모지"
   },
-  "biome": {
-    "badlands": "Badlands",
-    "bamboo_jungle": {
-      "description": "Description",
-      "name": "Name"
-    },
-    "beach": "Beach",
-    "birch_forest": {
-      "description": "Description",
-      "name": "Name"
-    },
-    "cherry_grove": {
-      "description": "Description",
-      "name": "Name"
-    },
-    "dark_forest": {
-      "description": "Description",
-      "name": "Name"
-    },
-    "desert": "Desert",
-    "flower_forest": {
-      "description": "Description",
-      "name": "Name"
-    },
-    "forest": "Forest",
-    "jungle": "Jungle",
-    "mushroom_fields": {
-      "description": "Description",
-      "name": "Name"
-    },
-    "ocean": "Ocean",
-    "plains": "Plains",
-    "savanna": "Savanna",
-    "snowy_plains": "Snowy Plains",
-    "swamp": "Swamp",
-    "taiga": "Taiga"
+  "end_highlands": {
+    "description": "높은 엔드 지형",
+    "name": "엔드 고원"
   },
-  "mushroom_fields.name": "[KO] Mushroom Fields",
-  "mushroom_fields.description": "[KO] Description text",
-  "flower_forest.name": "[KO] Flower Forest",
-  "flower_forest.description": "[KO] Description text",
-  "bamboo_jungle.name": "[KO] Bamboo Jungle",
-  "bamboo_jungle.description": "[KO] Description text",
-  "dark_forest.name": "[KO] Dark Forest",
-  "dark_forest.description": "[KO] Description text",
-  "birch_forest.name": "[KO] Birch Forest",
-  "birch_forest.description": "[KO] Description text",
-  "cherry_grove.name": "[KO] Cherry Grove",
-  "cherry_grove.description": "[KO] Description text"
+  "end_midlands": {
+    "description": "중간 엔드 섬",
+    "name": "엔드 중간 지대"
+  },
+  "eroded_badlands": {
+    "description": "높은 테라코타 첨탑이 있는 악지",
+    "name": "침식된 악지"
+  },
+  "flower_forest": {
+    "description": "풍부한 꽃이 있는 숲",
+    "name": "꽃의 숲"
+  },
+  "forest": {
+    "description": "빽빽한 삼림 지역",
+    "name": "숲"
+  },
+  "frozen_ocean": {
+    "description": "얼음으로 덮인 바다",
+    "name": "얼어붙은 바다"
+  },
+  "frozen_peaks": {
+    "description": "얼음 산봉우리",
+    "name": "얼어붙은 봉우리"
+  },
+  "frozen_river": {
+    "description": "얼음으로 덮인 강",
+    "name": "얼어붙은 강"
+  },
+  "grove": {
+    "description": "눈 덮인 산의 숲",
+    "name": "숲"
+  },
+  "ice_spikes": {
+    "description": "우뚝 솟은 얼음 형성물이 있는 눈 평원",
+    "name": "얼음 가시"
+  },
+  "jagged_peaks": {
+    "description": "날카로운 바위 산봉우리",
+    "name": "들쭉날쭉한 봉우리"
+  },
+  "jungle": {
+    "description": "빽빽한 열대 우림",
+    "name": "정글"
+  },
+  "lukewarm_ocean": {
+    "description": "온대 바닷물",
+    "name": "미지근한 바다"
+  },
+  "lush_caves": {
+    "description": "식물이 있는 지하 오아시스",
+    "name": "무성한 동굴"
+  },
+  "mangrove_swamp": {
+    "description": "진흙 지형에 빽빽한 맹그로브 나무",
+    "name": "맹그로브 늪"
+  },
+  "meadow": {
+    "description": "꽃이 있는 산 초원",
+    "name": "초원"
+  },
+  "mushroom_fields": {
+    "description": "거대한 버섯이 있는 희귀한 바이옴",
+    "name": "버섯 들판"
+  },
+  "nether_wastes": {
+    "description": "클래식한 네더 지형",
+    "name": "네더 황무지"
+  },
+  "ocean": {
+    "description": "큰 수역",
+    "name": "바다"
+  },
+  "old_growth_birch_forest": {
+    "description": "키 큰 나무가 있는 고대 자작나무 숲",
+    "name": "오래된 자작나무 숲"
+  },
+  "old_growth_pine_taiga": {
+    "description": "이끼 낀 바위가 있는 고대 소나무 숲",
+    "name": "오래된 소나무 타이가"
+  },
+  "old_growth_spruce_taiga": {
+    "description": "두꺼운 캐노피가 있는 고대 가문비나무 숲",
+    "name": "오래된 가문비나무 타이가"
+  },
+  "plains": {
+    "description": "평평한 초원 지형",
+    "name": "평원"
+  },
+  "river": {
+    "description": "지형을 가르는 흐르는 물",
+    "name": "강"
+  },
+  "savanna": {
+    "description": "아카시아 나무가 있는 따뜻한 초원",
+    "name": "사바나"
+  },
+  "savanna_plateau": {
+    "description": "높은 사바나 지형",
+    "name": "사바나 고원"
+  },
+  "small_end_islands": {
+    "description": "작은 떠다니는 엔드 섬",
+    "name": "작은 엔드 섬"
+  },
+  "snowy_beach": {
+    "description": "눈으로 덮인 해안선",
+    "name": "눈 덮인 해변"
+  },
+  "snowy_plains": {
+    "description": "눈으로 덮인 평평한 지형",
+    "name": "눈 덮인 평원"
+  },
+  "snowy_slopes": {
+    "description": "눈으로 덮인 산비탈",
+    "name": "눈 덮인 경사면"
+  },
+  "snowy_taiga": {
+    "description": "눈으로 덮인 가문비나무 숲",
+    "name": "눈 덮인 타이가"
+  },
+  "soul_sand_valley": {
+    "description": "영혼과 화석의 계곡",
+    "name": "영혼 모래 계곡"
+  },
+  "sparse_jungle": {
+    "description": "나무와 덤불이 적은 정글",
+    "name": "듬성듬성한 정글"
+  },
+  "stony_peaks": {
+    "description": "돌 산봉우리",
+    "name": "돌 봉우리"
+  },
+  "stony_shore": {
+    "description": "바위가 많은 해안선",
+    "name": "돌 해안"
+  },
+  "sunflower_plains": {
+    "description": "키 큰 해바라기로 가득한 평원",
+    "name": "해바라기 평원"
+  },
+  "swamp": {
+    "description": "얕은 물이 있는 습지",
+    "name": "늪"
+  },
+  "taiga": {
+    "description": "가문비나무가 있는 추운 숲",
+    "name": "타이가"
+  },
+  "the_end": {
+    "description": "엔드 스톤이 있는 공허 차원",
+    "name": "엔드"
+  },
+  "warm_ocean": {
+    "description": "산호초가 있는 열대 바다",
+    "name": "따뜻한 바다"
+  },
+  "warped_forest": {
+    "description": "파란 네더 숲",
+    "name": "뒤틀린 숲"
+  },
+  "windswept_forest": {
+    "description": "강한 바람이 부는 언덕 숲",
+    "name": "바람이 휩쓴 숲"
+  },
+  "windswept_gravelly_hills": {
+    "description": "자갈로 덮인 바위 언덕",
+    "name": "바람이 휩쓴 자갈 언덕"
+  },
+  "windswept_hills": {
+    "description": "노출된 돌이 있는 가파른 언덕",
+    "name": "바람이 휩쓴 언덕"
+  },
+  "windswept_savanna": {
+    "description": "가파른 절벽이 있는 거친 사바나",
+    "name": "바람이 휩쓴 사바나"
+  },
+  "wooded_badlands": {
+    "description": "위에 참나무가 있는 악지",
+    "name": "숲이 우거진 악지"
+  }
 }

@@ -75,28 +75,32 @@
     "npc": {
       "greeting": "Greeting",
       "farewell": "Farewell",
-      "quest_available": "Quest Available",
-      "quest_in_progress": "Quest In Progress",
-      "quest_complete": "Quest Complete",
+      "quest_available": "クエスト Available",
+      "quest_in_progress": "Quest In 進捗",
+      "quest_complete": "クエスト Complete",
       "shop_greeting": "Shop Greeting",
-      "no_quests": "No Quests"
+      "no_quests": "No クエストs"
     },
     "player": {
-      "accept": "Accept",
-      "decline": "Decline",
+      "accept": "承認",
+      "decline": "拒否",
       "more_info": "More Info",
       "goodbye": "Goodbye"
     }
   },
-  "npc.greeting": "[JA] Greeting",
-  "npc.farewell": "[JA] Farewell",
-  "npc.quest_available": "[JA] Quest Available",
-  "npc.quest_in_progress": "[JA] Quest In Progress",
-  "npc.quest_complete": "[JA] Quest Complete",
-  "npc.shop_greeting": "[JA] Shop Greeting",
-  "npc.no_quests": "[JA] No Quests",
-  "player.accept": "[JA] Accept",
-  "player.decline": "[JA] Decline",
-  "player.more_info": "[JA] More Info",
-  "player.goodbye": "[JA] Goodbye"
+  "npc": {
+    "greeting": "Greeting",
+    "farewell": "Farewell",
+    "quest_available": "クエスト Available",
+    "quest_in_progress": "Quest In 進捗",
+    "quest_complete": "クエスト Complete",
+    "shop_greeting": "Shop Greeting",
+    "no_quests": "No クエストs"
+  },
+  "player": {
+    "accept": "承認",
+    "decline": "拒否",
+    "more_info": "More Info",
+    "goodbye": "Goodbye"
+  }
 }

@@ -1,14 +1,24 @@
 {
-  "purchase_success": "[KO] Purchase Success",
-  "sale_success": "[KO] Sale Success",
-  "not_enough_money": "[KO] Not Enough Money",
-  "not_enough_items": "[KO] Not Enough Items",
-  "inventory_full": "[KO] Inventory Full",
-  "item_not_found": "[KO] Item Not Found",
-  "shop_closed": "[KO] Shop Closed",
-  "price_changed": "[KO] Price Changed",
   "item_purchased": "Item Purchased",
   "item_sold": "Item Sold",
+  "not_enough_money": "아니오t Enough Money",
+  "not_enough_items": "Not Enough 아이템s",
+  "inventory_full": "Inventory Full",
+  "item_not_found": "아이템 Not Found",
   "closed": "Closed",
-  "discount_applied": "Discount Applied"
+  "discount_applied": "Discount Applied",
+  "purchase_success": "Purchase Success",
+  "sale_success": "Sale Success",
+  "shop_closed": "Shop 닫기d",
+  "price_changed": "Price Changed",
+  "shop": {
+    "item_purchased": "아이템 Purchased",
+    "item_sold": "아이템 Sold",
+    "not_enough_money": "아니오t Enough Money",
+    "not_enough_items": "Not Enough 아이템s",
+    "inventory_full": "Inventory Full",
+    "item_not_found": "아이템 Not Found",
+    "closed": "닫기d",
+    "discount_applied": "Discount Applied"
+  }
 }

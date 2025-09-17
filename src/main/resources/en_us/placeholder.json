@@ -11,16 +11,18 @@
   "player_party": "Party",
   "player_rank": "Rank",
   "player_playtime": "Playtime",
-  "placeholder.player_name": "Player Name",
-  "placeholder.player_level": "Player Level",
-  "placeholder.player_job": "Player Job",
-  "placeholder.player_gold": "Player Gold",
-  "placeholder.player_location": "Player Location",
-  "placeholder.player_health": "Player Health",
-  "placeholder.player_mana": "Player Mana",
-  "placeholder.player_combat_power": "Player Combat Power",
-  "placeholder.player_guild": "Player Guild",
-  "placeholder.player_party": "Player Party",
-  "placeholder.player_rank": "Player Rank",
-  "placeholder.player_playtime": "Player Playtime"
+  "placeholder": {
+    "player_name": "Player Name",
+    "player_level": "Player Level",
+    "player_job": "Player Job",
+    "player_gold": "Player Gold",
+    "player_location": "Player Location",
+    "player_health": "Player Health",
+    "player_mana": "Player Mana",
+    "player_combat_power": "Player Combat Power",
+    "player_guild": "Player Guild",
+    "player_party": "Player Party",
+    "player_rank": "Player Rank",
+    "player_playtime": "Player Playtime"
+  }
 }

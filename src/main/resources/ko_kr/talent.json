@@ -359,64 +359,74 @@
   },
   "talent": {
     "warrior": {
-      "sword_mastery": "[KO] Sword Mastery",
-      "shield_bash": "[KO] Shield Bash",
-      "berserker_rage": "[KO] Berserker Rage",
-      "defensive_stance": "[KO] Defensive Stance",
-      "whirlwind": "[KO] Whirlwind"
+      "sword_mastery": "Sword Mastery",
+      "shield_bash": "Shield Bash",
+      "berserker_rage": "Berserker Rage",
+      "defensive_stance": "Defensive Stance",
+      "whirlwind": "Whirlwind"
     },
     "archer": {
-      "precise_shot": "[KO] Precise Shot",
-      "multi_shot": "[KO] Multi Shot",
-      "explosive_arrow": "[KO] Explosive Arrow",
-      "hunters_mark": "[KO] Hunters Mark",
-      "evasion": "[KO] Evasion"
+      "precise_shot": "Precise Shot",
+      "multi_shot": "Multi Shot",
+      "explosive_arrow": "Explosive Arrow",
+      "hunters_mark": "Hunters Mark",
+      "evasion": "Evasion"
     },
     "mage": {
-      "fireball": "[KO] Fireball",
-      "frost_bolt": "[KO] Frost Bolt",
-      "arcane_missiles": "[KO] Arcane Missiles",
-      "teleport": "[KO] Teleport",
-      "mana_shield": "[KO] Mana Shield"
+      "fireball": "화염ball",
+      "frost_bolt": "Frost Bolt",
+      "arcane_missiles": "Arcane Missiles",
+      "teleport": "Teleport",
+      "mana_shield": "마나 Shield"
     },
     "rogue": {
-      "stealth": "[KO] Stealth",
-      "backstab": "[KO] Backstab",
-      "poison_blade": "[KO] Poison Blade",
-      "smoke_bomb": "[KO] Smoke Bomb",
-      "shadow_step": "[KO] Shadow Step"
+      "stealth": "Stealth",
+      "backstab": "Backstab",
+      "poison_blade": "독 Blade",
+      "smoke_bomb": "Smoke Bomb",
+      "shadow_step": "Shadow Step"
     },
     "priest": {
-      "heal": "[KO] Heal",
-      "holy_light": "[KO] Holy Light",
-      "divine_shield": "[KO] Divine Shield",
-      "resurrection": "[KO] Resurrection",
-      "blessing": "[KO] Blessing"
+      "heal": "Heal",
+      "holy_light": "신성 Light",
+      "divine_shield": "Divine Shield",
+      "resurrection": "Resurrection",
+      "blessing": "Blessing"
     }
   },
-  "warrior.sword_mastery": "[KO] Sword Mastery",
-  "warrior.shield_bash": "[KO] Shield Bash",
-  "warrior.berserker_rage": "[KO] Berserker Rage",
-  "warrior.defensive_stance": "[KO] Defensive Stance",
-  "warrior.whirlwind": "[KO] Whirlwind",
-  "archer.precise_shot": "[KO] Precise Shot",
-  "archer.multi_shot": "[KO] Multi Shot",
-  "archer.explosive_arrow": "[KO] Explosive Arrow",
-  "archer.hunters_mark": "[KO] Hunters Mark",
-  "archer.evasion": "[KO] Evasion",
-  "mage.fireball": "[KO] Fireball",
-  "mage.frost_bolt": "[KO] Frost Bolt",
-  "mage.arcane_missiles": "[KO] Arcane Missiles",
-  "mage.teleport": "[KO] Teleport",
-  "mage.mana_shield": "[KO] Mana Shield",
-  "rogue.stealth": "[KO] Stealth",
-  "rogue.backstab": "[KO] Backstab",
-  "rogue.poison_blade": "[KO] Poison Blade",
-  "rogue.smoke_bomb": "[KO] Smoke Bomb",
-  "rogue.shadow_step": "[KO] Shadow Step",
-  "priest.heal": "[KO] Heal",
-  "priest.holy_light": "[KO] Holy Light",
-  "priest.divine_shield": "[KO] Divine Shield",
-  "priest.resurrection": "[KO] Resurrection",
-  "priest.blessing": "[KO] Blessing"
+  "warrior": {
+    "sword_mastery": "Sword Mastery",
+    "shield_bash": "Shield Bash",
+    "berserker_rage": "Berserker Rage",
+    "defensive_stance": "Defensive Stance",
+    "whirlwind": "Whirlwind"
+  },
+  "archer": {
+    "precise_shot": "Precise Shot",
+    "multi_shot": "Multi Shot",
+    "explosive_arrow": "Explosive Arrow",
+    "hunters_mark": "Hunters Mark",
+    "evasion": "Evasion"
+  },
+  "mage": {
+    "fireball": "화염ball",
+    "frost_bolt": "Frost Bolt",
+    "arcane_missiles": "Arcane Missiles",
+    "teleport": "Teleport",
+    "mana_shield": "마나 Shield"
+  },
+  "rogue": {
+    "stealth": "Stealth",
+    "backstab": "Backstab",
+    "poison_blade": "독 Blade",
+    "smoke_bomb": "Smoke Bomb",
+    "shadow_step": "Shadow Step"
+  },
+  "priest": {
+    "heal": "Heal",
+    "holy_light": "신성 Light",
+    "divine_shield": "Divine Shield",
+    "resurrection": "Resurrection",
+    "blessing": "Blessing"
+  }
 }

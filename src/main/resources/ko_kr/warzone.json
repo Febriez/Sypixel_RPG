@@ -1,7 +1,14 @@
 {
-  "entered": "[KO] Entered",
-  "left": "[KO] Left",
-  "kill": "[KO] Kill",
-  "death": "[KO] Death",
-  "capture": "[KO] Capture"
+  "entered": "Entered",
+  "left": "Left",
+  "kill": "킬",
+  "death": "Death",
+  "capture": "Capture",
+  "warzone": {
+    "entered": "Entered",
+    "left": "Left",
+    "kill": "킬",
+    "death": "Death",
+    "capture": "Capture"
+  }
 }

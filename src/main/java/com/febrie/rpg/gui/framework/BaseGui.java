@@ -1,5 +1,6 @@
 package com.febrie.rpg.gui.framework;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
@@ -380,7 +381,7 @@ public abstract class BaseGui implements InteractiveGui {
      */
     protected void sendMessage(@NotNull Player player, @NotNull String key, @NotNull String... args) {
         Component[] componentArgs = Arrays.stream(args).map(Component::text).toArray(Component[]::new);
-        Component base = LangManager.textInternal(key, player.locale());
+        Component base = LangManager.text(GuiLangKey.GUI_COMMON_UNKNOWN, player.locale());
         player.sendMessage(LangManager.replacePlaceholders(base, (Object[]) componentArgs));
     }
 

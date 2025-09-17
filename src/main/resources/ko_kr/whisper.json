@@ -1,18 +1,29 @@
 {
-  "sent": "[KO] Sent",
-  "received": "[KO] Received",
-  "player_offline": "[KO] Player Offline",
-  "ignored": "[KO] Ignored",
+  "sent": "Sent",
+  "received": "Received",
   "player_not_found": "Player Not Found",
+  "player_offline": "Player 오프라인",
   "disabled": "Disabled",
+  "ignored": "Ignored",
   "mode": {
-    "all": "모두",
-    "friends": "Friends",
-    "guild": "Guild",
-    "off": "끄기"
+    "all": "All",
+    "friends": "친구s",
+    "guild": "길드",
+    "off": "Off"
   },
-  "mode.all": "[KO] All",
-  "mode.friends": "[KO] Friends",
-  "mode.guild": "[KO] Guild",
-  "mode.off": "[KO] Off"
+  "no-reply-target": "아니오 one to reply to.",
+  "whisper": {
+    "sent": "Sent",
+    "received": "Received",
+    "player_not_found": "플레이어 Not Found",
+    "player_offline": "Player 오프라인",
+    "disabled": "Disabled",
+    "ignored": "Ignored",
+    "mode": {
+      "all": "All",
+      "friends": "친구s",
+      "guild": "길드",
+      "off": "Off"
+    }
+  }
 }

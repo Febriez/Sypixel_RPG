@@ -1,12 +1,24 @@
 {
-  "novice": "[JA] Novice",
-  "apprentice": "[JA] Apprentice",
-  "journeyman": "[JA] Journeyman",
-  "expert": "[JA] Expert",
-  "master": "[JA] Master",
-  "grandmaster": "[JA] Grandmaster",
-  "legendary": "[JA] Legendary",
-  "mythic": "[JA] Mythic",
-  "divine": "[JA] Divine",
-  "eternal": "[JA] Eternal"
+  "novice": "Novice",
+  "apprentice": "Apprentice",
+  "journeyman": "Journeyman",
+  "expert": "Expert",
+  "master": "Master",
+  "grandmaster": "Grandmaster",
+  "legendary": "レジェンダリー",
+  "mythic": "Mythic",
+  "divine": "Divine",
+  "eternal": "Eternal",
+  "rank": {
+    "novice": "Novice",
+    "apprentice": "Apprentice",
+    "journeyman": "Journeyman",
+    "expert": "Expert",
+    "master": "Master",
+    "grandmaster": "Grandmaster",
+    "legendary": "レジェンダリー",
+    "mythic": "Mythic",
+    "divine": "Divine",
+    "eternal": "Eternal"
+  }
 }

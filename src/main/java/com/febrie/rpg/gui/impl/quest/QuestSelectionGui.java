@@ -1,5 +1,8 @@
 package com.febrie.rpg.gui.impl.quest;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
+import com.febrie.rpg.util.lang.quest.QuestCommonLangKey;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
 import com.febrie.rpg.gui.framework.GuiFramework;
@@ -10,7 +13,6 @@ import com.febrie.rpg.dto.quest.ActiveQuestDTO;
 import com.febrie.rpg.dto.quest.CompletedQuestDTO;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -34,7 +36,7 @@ public class QuestSelectionGui extends BaseGui {
     private QuestSelectionGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                              @NotNull List<Quest> quests, @NotNull String npcName) {
         super(viewer, guiManager, Math.min(54, ((quests.size() - 1) / 9 + 1) * 9 + 18), 
-                LangManager.text(LangKey.GUI_QUEST_SELECTION_TITLE, viewer, Component.text(npcName)));
+                LangManager.text(GuiLangKey.GUI_QUEST_SELECTION_TITLE, viewer, Component.text(npcName)));
         this.questManager = guiManager.getPlugin().getQuestManager();
         this.quests = quests;
         this.npcName = npcName;
@@ -50,7 +52,7 @@ public class QuestSelectionGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_QUEST_SELECTION_TITLE, viewer, npcName);
+        return LangManager.text(GuiLangKey.GUI_QUEST_SELECTION_TITLE, viewer, npcName);
     }
     
     @Override
@@ -101,16 +103,16 @@ public class QuestSelectionGui extends BaseGui {
         
         // 상태 표시
         if (hasReward) {
-            builder.addLore(LangManager.text(LangKey.GUI_QUEST_STATUS_COMPLETED, viewer.locale()));
-            builder.addLore(LangManager.text(LangKey.GUI_QUEST_STATUS_REWARD_AVAILABLE, viewer.locale()));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_QUEST_STATUS_COMPLETED, viewer.locale()));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_QUEST_STATUS_REWARD_AVAILABLE, viewer.locale()));
         } else if (isActive) {
-            builder.addLore(LangManager.text(LangKey.GUI_QUEST_STATUS_IN_PROGRESS, viewer.locale()));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_QUEST_STATUS_IN_PROGRESS, viewer.locale()));
         } else {
-            builder.addLore(LangManager.text(LangKey.GUI_QUEST_STATUS_NEW_QUEST, viewer.locale()));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_QUEST_STATUS_NEW_QUEST, viewer.locale()));
         }
         
         builder.addLore(Component.empty());
-        builder.addLore(LangManager.text(LangKey.ITEMS_QUEST_SELECTION_CLICK_HINT, viewer.locale()));
+        builder.addLore(LangManager.text(GeneralLangKey.ITEMS_QUEST_SELECTION_CLICK_HINT, viewer.locale()));
         builder.hideAllFlags();
         
         return GuiItem.clickable(builder.build(), player -> {
@@ -141,7 +143,7 @@ public class QuestSelectionGui extends BaseGui {
             QuestRewardGui.create(guiManager, viewer, quest, instanceId).open(viewer);
         } else if (activeEntry.isPresent()) {
             // 진행 상황 표시
-            player.sendMessage(LangManager.text(LangKey.QUEST_IN_PROGRESS, viewer, quest.getDisplayName(viewer)));
+            player.sendMessage(LangManager.text(QuestCommonLangKey.QUEST_IN_PROGRESS, viewer, quest.getDisplayName(viewer)));
         } else {
             // 새 퀘스트 시작
             questManager.startQuest(viewer, quest.getId());

@@ -1,16 +1,28 @@
 {
-  "physical": "[JA] Physical",
-  "magical": "[JA] Magical",
-  "true": "[JA] True",
-  "critical": "[JA] Critical",
-  "blocked": "[JA] Blocked",
-  "dodged": "[JA] Dodged",
-  "reflected": "[JA] Reflected",
+  "physical": "物理",
+  "magical": "魔法",
+  "true": "真実",
   "fire": "Fire",
   "ice": "Ice",
   "lightning": "Lightning",
   "poison": "毒",
   "holy": "Holy",
   "dark": "Dark",
-  "nature": "Nature"
+  "nature": "Nature",
+  "critical": "クリティカル",
+  "blocked": "ブロック",
+  "dodged": "回避",
+  "reflected": "反射",
+  "damage": {
+    "physical": "物理",
+    "magical": "魔法",
+    "true": "真実",
+    "fire": "火",
+    "ice": "氷",
+    "lightning": "雷",
+    "poison": "毒",
+    "holy": "聖",
+    "dark": "闇",
+    "nature": "自然"
+  }
 }

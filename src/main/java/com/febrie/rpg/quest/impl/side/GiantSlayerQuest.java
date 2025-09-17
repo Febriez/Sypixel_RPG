@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.GiantSlayerLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -71,26 +69,26 @@ public class GiantSlayerQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(GiantSlayerLangKey.QUEST_SIDE_GIANT_SLAYER_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.giant.slayer.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(GiantSlayerLangKey.QUEST_SIDE_GIANT_SLAYER_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.giant.slayer.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_giant_researcher" -> LangManager.text(GiantSlayerLangKey.QUEST_SIDE_GIANT_SLAYER_OBJECTIVES_TALK_GIANT_RESEARCHER, who);
-            case "giant_tracks" -> LangManager.text(GiantSlayerLangKey.QUEST_SIDE_GIANT_SLAYER_OBJECTIVES_GIANT_TRACKS, who);
-            case "clay_ball_collect" -> LangManager.text(GiantSlayerLangKey.QUEST_SIDE_GIANT_SLAYER_OBJECTIVES_CLAY_BALL_COLLECT, who);
-            case "written_book_collect" -> LangManager.text(GiantSlayerLangKey.QUEST_SIDE_GIANT_SLAYER_OBJECTIVES_WRITTEN_BOOK_COLLECT, who);
-            case "ancient_battlefield" -> LangManager.text(GiantSlayerLangKey.QUEST_SIDE_GIANT_SLAYER_OBJECTIVES_ANCIENT_BATTLEFIELD, who);
-            case "stone_giants" -> LangManager.text(GiantSlayerLangKey.QUEST_SIDE_GIANT_SLAYER_OBJECTIVES_STONE_GIANTS, who);
-            case "frost_giants" -> LangManager.text(GiantSlayerLangKey.QUEST_SIDE_GIANT_SLAYER_OBJECTIVES_FROST_GIANTS, who);
-            case "totem_of_undying_collect" -> LangManager.text(GiantSlayerLangKey.QUEST_SIDE_GIANT_SLAYER_OBJECTIVES_TOTEM_OF_UNDYING_COLLECT, who);
-            case "claim_victory" -> LangManager.text(GiantSlayerLangKey.QUEST_SIDE_GIANT_SLAYER_OBJECTIVES_CLAIM_VICTORY, who);
+            case "talk_giant_researcher" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.giant.slayer.objectives.talk.giant.researcher"), who);
+            case "giant_tracks" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.giant.slayer.objectives.giant.tracks"), who);
+            case "clay_ball_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.giant.slayer.objectives.clay.ball.collect"), who);
+            case "written_book_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.giant.slayer.objectives.written.book.collect"), who);
+            case "ancient_battlefield" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.giant.slayer.objectives.ancient.battlefield"), who);
+            case "stone_giants" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.giant.slayer.objectives.stone.giants"), who);
+            case "frost_giants" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.giant.slayer.objectives.frost.giants"), who);
+            case "totem_of_undying_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.giant.slayer.objectives.totem.of.undying.collect"), who);
+            case "claim_victory" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.giant.slayer.objectives.claim.victory"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -102,7 +100,7 @@ public class GiantSlayerQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(GiantSlayerLangKey.QUEST_SIDE_GIANT_SLAYER_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.giant.slayer.dialogs"), who);
     }
     
     @Override
@@ -112,16 +110,16 @@ public class GiantSlayerQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(GiantSlayerLangKey.QUEST_SIDE_GIANT_SLAYER_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.giant.slayer.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(GiantSlayerLangKey.QUEST_SIDE_GIANT_SLAYER_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.giant.slayer.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(GiantSlayerLangKey.QUEST_SIDE_GIANT_SLAYER_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.giant.slayer.decline"), who);
     }
 }

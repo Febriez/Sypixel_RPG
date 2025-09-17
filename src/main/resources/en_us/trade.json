@@ -17,16 +17,18 @@
   "waiting_for_partner": "Waiting For Partner",
   "partner_confirmed": "Partner Confirmed",
   "too_far_away": "Too Far Away",
-  "trade.request_sent": "Request Sent",
-  "trade.request_received": "Request Received",
-  "trade.accepted": "Accepted",
-  "trade.cancelled": "Cancelled",
-  "trade.completed": "Completed",
-  "trade.item_added": "Item Added",
-  "trade.item_removed": "Item Removed",
-  "trade.money_added": "Money Added",
-  "trade.confirmed": "Confirmed",
-  "trade.unconfirmed": "Unconfirmed",
-  "trade.not_enough_space": "Not Enough Space",
-  "trade.not_enough_money": "Not Enough Money"
+  "trade": {
+    "request_sent": "Request Sent",
+    "request_received": "Request Received",
+    "accepted": "Accepted",
+    "cancelled": "Cancelled",
+    "completed": "Completed",
+    "item_added": "Item Added",
+    "item_removed": "Item Removed",
+    "money_added": "Money Added",
+    "confirmed": "Confirmed",
+    "unconfirmed": "Unconfirmed",
+    "not_enough_space": "Not Enough Space",
+    "not_enough_money": "Not Enough Money"
+  }
 }

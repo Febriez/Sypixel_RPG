@@ -1,10 +1,4 @@
 {
-  "health_low": "[KO] Health Low",
-  "mana_low": "[KO] Mana Low",
-  "exp_gained": "[KO] Exp Gained",
-  "level_up": "[KO] Level Up",
-  "quest_updated": "[KO] Quest Updated",
-  "item_received": "[KO] Item Received",
   "health": "Health",
   "mana": "Mana",
   "stamina": "Stamina",
@@ -14,5 +8,23 @@
   "combat_enter": "Combat Enter",
   "combat_leave": "Combat Leave",
   "buff_applied": "Buff Applied",
-  "debuff_applied": "Debuff Applied"
+  "debuff_applied": "Debuff Applied",
+  "health_low": "체력 Low",
+  "mana_low": "마나 Low",
+  "exp_gained": "Exp Gained",
+  "level_up": "레벨 Up",
+  "quest_updated": "퀘스트 Updated",
+  "item_received": "아이템 Received",
+  "actionbar": {
+    "health": "체력",
+    "mana": "마나",
+    "stamina": "스태미나",
+    "experience": "경험치",
+    "skill_ready": "Skill Ready",
+    "skill_cooldown": "Skill Cooldown",
+    "combat_enter": "Combat Enter",
+    "combat_leave": "Combat 탈퇴",
+    "buff_applied": "버프 Applied",
+    "debuff_applied": "Debuff Applied"
+  }
 }

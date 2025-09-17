@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.CursedArtifactLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -70,25 +68,25 @@ public class CursedArtifactQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(CursedArtifactLangKey.QUEST_SIDE_CURSED_ARTIFACT_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.cursed.artifact.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(CursedArtifactLangKey.QUEST_SIDE_CURSED_ARTIFACT_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.cursed.artifact.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_concerned_scholar" -> LangManager.text(CursedArtifactLangKey.QUEST_SIDE_CURSED_ARTIFACT_OBJECTIVES_TALK_CONCERNED_SCHOLAR, who);
-            case "corrupted_grove" -> LangManager.text(CursedArtifactLangKey.QUEST_SIDE_CURSED_ARTIFACT_OBJECTIVES_CORRUPTED_GROVE, who);
-            case "sugar_collect" -> LangManager.text(CursedArtifactLangKey.QUEST_SIDE_CURSED_ARTIFACT_OBJECTIVES_SUGAR_COLLECT, who);
-            case "golden_apple_collect" -> LangManager.text(CursedArtifactLangKey.QUEST_SIDE_CURSED_ARTIFACT_OBJECTIVES_GOLDEN_APPLE_COLLECT, who);
-            case "corrupted_creatures" -> LangManager.text(CursedArtifactLangKey.QUEST_SIDE_CURSED_ARTIFACT_OBJECTIVES_CORRUPTED_CREATURES, who);
-            case "artifact_chamber" -> LangManager.text(CursedArtifactLangKey.QUEST_SIDE_CURSED_ARTIFACT_OBJECTIVES_ARTIFACT_CHAMBER, who);
-            case "nether_star_collect" -> LangManager.text(CursedArtifactLangKey.QUEST_SIDE_CURSED_ARTIFACT_OBJECTIVES_NETHER_STAR_COLLECT, who);
-            case "seal_artifact" -> LangManager.text(CursedArtifactLangKey.QUEST_SIDE_CURSED_ARTIFACT_OBJECTIVES_SEAL_ARTIFACT, who);
+            case "talk_concerned_scholar" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.cursed.artifact.objectives.talk.concerned.scholar"), who);
+            case "corrupted_grove" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.cursed.artifact.objectives.corrupted.grove"), who);
+            case "sugar_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.cursed.artifact.objectives.sugar.collect"), who);
+            case "golden_apple_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.cursed.artifact.objectives.golden.apple.collect"), who);
+            case "corrupted_creatures" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.cursed.artifact.objectives.corrupted.creatures"), who);
+            case "artifact_chamber" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.cursed.artifact.objectives.artifact.chamber"), who);
+            case "nether_star_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.cursed.artifact.objectives.nether.star.collect"), who);
+            case "seal_artifact" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.cursed.artifact.objectives.seal.artifact"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -100,7 +98,7 @@ public class CursedArtifactQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(CursedArtifactLangKey.QUEST_SIDE_CURSED_ARTIFACT_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.cursed.artifact.dialogs"), who);
     }
     
     @Override
@@ -110,16 +108,16 @@ public class CursedArtifactQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(CursedArtifactLangKey.QUEST_SIDE_CURSED_ARTIFACT_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.cursed.artifact.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(CursedArtifactLangKey.QUEST_SIDE_CURSED_ARTIFACT_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.cursed.artifact.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(CursedArtifactLangKey.QUEST_SIDE_CURSED_ARTIFACT_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.cursed.artifact.decline"), who);
     }
 }

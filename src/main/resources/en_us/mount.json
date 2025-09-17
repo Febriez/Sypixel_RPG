@@ -3,8 +3,10 @@
   "dismissed": "Mount Dismissed",
   "in_combat": "Cannot mount in combat",
   "cooldown": "Mount on cooldown",
-  "mount.summoned": "Summoned",
-  "mount.dismissed": "Dismissed",
-  "mount.in_combat": "In Combat",
-  "mount.cooldown": "Cooldown"
+  "mount": {
+    "summoned": "Summoned",
+    "dismissed": "Dismissed",
+    "in_combat": "In Combat",
+    "cooldown": "Cooldown"
+  }
 }

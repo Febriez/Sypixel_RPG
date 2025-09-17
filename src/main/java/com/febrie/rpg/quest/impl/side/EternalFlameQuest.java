@@ -11,8 +11,6 @@ import com.febrie.rpg.quest.objective.impl.VisitLocationObjective;
 import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.EternalFlameLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -68,25 +66,25 @@ public class EternalFlameQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(EternalFlameLangKey.QUEST_SIDE_ETERNAL_FLAME_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.eternal.flame.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(EternalFlameLangKey.QUEST_SIDE_ETERNAL_FLAME_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.eternal.flame.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_flame_keeper" -> LangManager.text(EternalFlameLangKey.QUEST_SIDE_ETERNAL_FLAME_OBJECTIVES_TALK_FLAME_KEEPER, who);
-            case "ancient_brazier" -> LangManager.text(EternalFlameLangKey.QUEST_SIDE_ETERNAL_FLAME_OBJECTIVES_ANCIENT_BRAZIER, who);
-            case "fire_charge_collect" -> LangManager.text(EternalFlameLangKey.QUEST_SIDE_ETERNAL_FLAME_OBJECTIVES_FIRE_CHARGE_COLLECT, who);
-            case "starlight_peak" -> LangManager.text(EternalFlameLangKey.QUEST_SIDE_ETERNAL_FLAME_OBJECTIVES_STARLIGHT_PEAK, who);
-            case "glowstone_dust_collect" -> LangManager.text(EternalFlameLangKey.QUEST_SIDE_ETERNAL_FLAME_OBJECTIVES_GLOWSTONE_DUST_COLLECT, who);
-            case "honey_bottle_collect" -> LangManager.text(EternalFlameLangKey.QUEST_SIDE_ETERNAL_FLAME_OBJECTIVES_HONEY_BOTTLE_COLLECT, who);
-            case "flame_altar" -> LangManager.text(EternalFlameLangKey.QUEST_SIDE_ETERNAL_FLAME_OBJECTIVES_FLAME_ALTAR, who);
-            case "rekindle_flame" -> LangManager.text(EternalFlameLangKey.QUEST_SIDE_ETERNAL_FLAME_OBJECTIVES_REKINDLE_FLAME, who);
+            case "talk_flame_keeper" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.eternal.flame.objectives.talk.flame.keeper"), who);
+            case "ancient_brazier" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.eternal.flame.objectives.ancient.brazier"), who);
+            case "fire_charge_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.eternal.flame.objectives.fire.charge.collect"), who);
+            case "starlight_peak" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.eternal.flame.objectives.starlight.peak"), who);
+            case "glowstone_dust_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.eternal.flame.objectives.glowstone.dust.collect"), who);
+            case "honey_bottle_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.eternal.flame.objectives.honey.bottle.collect"), who);
+            case "flame_altar" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.eternal.flame.objectives.flame.altar"), who);
+            case "rekindle_flame" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.eternal.flame.objectives.rekindle.flame"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -98,7 +96,7 @@ public class EternalFlameQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(EternalFlameLangKey.QUEST_SIDE_ETERNAL_FLAME_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.eternal.flame.dialogs"), who);
     }
     
     @Override
@@ -108,16 +106,16 @@ public class EternalFlameQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(EternalFlameLangKey.QUEST_SIDE_ETERNAL_FLAME_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.eternal.flame.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(EternalFlameLangKey.QUEST_SIDE_ETERNAL_FLAME_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.eternal.flame.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(EternalFlameLangKey.QUEST_SIDE_ETERNAL_FLAME_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.eternal.flame.decline"), who);
     }
 }

@@ -1,14 +1,22 @@
 {
-  "learned": "[KO] Learned",
-  "upgraded": "[KO] Upgraded",
-  "max_level": "[KO] Max Level",
-  "not_enough_points": "[KO] Not Enough Points",
-  "requirement_not_met": "[KO] Requirement Not Met",
-  "on_cooldown": "[KO] On Cooldown",
-  "not_enough_mana": "[KO] Not Enough Mana",
   "cast_success": "Cast Success",
   "cast_fail": "Cast Fail",
+  "on_cooldown": "On Cooldown",
   "no_mana": "No Mana",
   "no_target": "No Target",
-  "out_of_range": "Out Of Range"
+  "out_of_range": "Out Of Range",
+  "learned": "Learned",
+  "upgraded": "강화d",
+  "max_level": "Max 레벨",
+  "not_enough_points": "아니오t Enough Points",
+  "requirement_not_met": "Requirement 아니오t Met",
+  "not_enough_mana": "Not Enough 마나",
+  "skill": {
+    "cast_success": "시전 Success",
+    "cast_fail": "시전 Fail",
+    "on_cooldown": "On Cooldown",
+    "no_mana": "No 마나",
+    "no_target": "아니오 Target",
+    "out_of_range": "Out Of Range"
+  }
 }

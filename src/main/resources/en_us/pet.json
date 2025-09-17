@@ -3,8 +3,10 @@
   "dismissed": "Pet Dismissed",
   "level_up": "Pet Level Up",
   "evolved": "Pet Evolved",
-  "pet.summoned": "Summoned",
-  "pet.dismissed": "Dismissed",
-  "pet.level_up": "Level Up",
-  "pet.evolved": "Evolved"
+  "pet": {
+    "summoned": "Summoned",
+    "dismissed": "Dismissed",
+    "level_up": "Level Up",
+    "evolved": "Evolved"
+  }
 }

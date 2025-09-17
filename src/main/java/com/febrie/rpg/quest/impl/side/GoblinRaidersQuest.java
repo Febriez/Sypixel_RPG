@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.GoblinRaidersLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -70,25 +68,25 @@ public class GoblinRaidersQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(GoblinRaidersLangKey.QUEST_SIDE_GOBLIN_RAIDERS_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.goblin.raiders.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(GoblinRaidersLangKey.QUEST_SIDE_GOBLIN_RAIDERS_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.goblin.raiders.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_merchant_leader" -> LangManager.text(GoblinRaidersLangKey.QUEST_SIDE_GOBLIN_RAIDERS_OBJECTIVES_TALK_MERCHANT_LEADER, who);
-            case "goblin_scouts" -> LangManager.text(GoblinRaidersLangKey.QUEST_SIDE_GOBLIN_RAIDERS_OBJECTIVES_GOBLIN_SCOUTS, who);
-            case "goblin_camps" -> LangManager.text(GoblinRaidersLangKey.QUEST_SIDE_GOBLIN_RAIDERS_OBJECTIVES_GOBLIN_CAMPS, who);
-            case "gold_ingot_collect" -> LangManager.text(GoblinRaidersLangKey.QUEST_SIDE_GOBLIN_RAIDERS_OBJECTIVES_GOLD_INGOT_COLLECT, who);
-            case "rescue_merchants" -> LangManager.text(GoblinRaidersLangKey.QUEST_SIDE_GOBLIN_RAIDERS_OBJECTIVES_RESCUE_MERCHANTS, who);
-            case "goblin_stronghold" -> LangManager.text(GoblinRaidersLangKey.QUEST_SIDE_GOBLIN_RAIDERS_OBJECTIVES_GOBLIN_STRONGHOLD, who);
-            case "goblin_chieftain" -> LangManager.text(GoblinRaidersLangKey.QUEST_SIDE_GOBLIN_RAIDERS_OBJECTIVES_GOBLIN_CHIEFTAIN, who);
-            case "report_success" -> LangManager.text(GoblinRaidersLangKey.QUEST_SIDE_GOBLIN_RAIDERS_OBJECTIVES_REPORT_SUCCESS, who);
+            case "talk_merchant_leader" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.goblin.raiders.objectives.talk.merchant.leader"), who);
+            case "goblin_scouts" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.goblin.raiders.objectives.goblin.scouts"), who);
+            case "goblin_camps" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.goblin.raiders.objectives.goblin.camps"), who);
+            case "gold_ingot_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.goblin.raiders.objectives.gold.ingot.collect"), who);
+            case "rescue_merchants" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.goblin.raiders.objectives.rescue.merchants"), who);
+            case "goblin_stronghold" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.goblin.raiders.objectives.goblin.stronghold"), who);
+            case "goblin_chieftain" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.goblin.raiders.objectives.goblin.chieftain"), who);
+            case "report_success" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.goblin.raiders.objectives.report.success"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -100,7 +98,7 @@ public class GoblinRaidersQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(GoblinRaidersLangKey.QUEST_SIDE_GOBLIN_RAIDERS_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.goblin.raiders.dialogs"), who);
     }
     
     @Override
@@ -110,16 +108,16 @@ public class GoblinRaidersQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(GoblinRaidersLangKey.QUEST_SIDE_GOBLIN_RAIDERS_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.goblin.raiders.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(GoblinRaidersLangKey.QUEST_SIDE_GOBLIN_RAIDERS_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.goblin.raiders.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(GoblinRaidersLangKey.QUEST_SIDE_GOBLIN_RAIDERS_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.goblin.raiders.decline"), who);
     }
 }

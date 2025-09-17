@@ -1,6 +1,12 @@
 {
-  "common_drop": "[JA] Common Drop",
-  "rare_drop": "[JA] Rare Drop",
-  "epic_drop": "[JA] Epic Drop",
-  "legendary_drop": "[JA] Legendary Drop"
+  "common_drop": "Common Drop",
+  "rare_drop": "レア Drop",
+  "epic_drop": "エピック Drop",
+  "legendary_drop": "レジェンダリー Drop",
+  "loot": {
+    "common_drop": "Common Drop",
+    "rare_drop": "レア Drop",
+    "epic_drop": "エピック Drop",
+    "legendary_drop": "レジェンダリー Drop"
+  }
 }

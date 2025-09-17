@@ -1,4 +1,5 @@
 package com.febrie.rpg.gui.impl.island;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiItem;
@@ -9,9 +10,9 @@ import com.febrie.rpg.gui.manager.GuiManager;
 import com.febrie.rpg.island.manager.IslandManager;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.lang.ILangKey;
 import com.febrie.rpg.util.lang.GuiLangKey;
+import com.febrie.rpg.util.lang.IslandLangKey;
 import com.febrie.rpg.util.lang.MessageLangKey;
 import com.febrie.rpg.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
@@ -90,9 +91,9 @@ public class IslandCreationGui extends BaseGui {
     private final IslandManager islandManager;
 
     private IslandCreationGui(@NotNull GuiManager guiManager, @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_ISLAND_CREATION_TITLE, player.locale()));
+        super(player, guiManager, GUI_SIZE, LangManager.text(GuiLangKey.GUI_ISLAND_CREATION_TITLE, player.locale()));
         this.islandManager = RPGMain.getInstance().getIslandManager();
-        Component defaultNameComponent = LangManager.text(LangKey.ISLAND_DEFAULT_NAME, player.locale());
+        Component defaultNameComponent = LangManager.text(IslandLangKey.ISLAND_DEFAULT_NAME, player.locale());
         this.islandName = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(defaultNameComponent);
     }
 
@@ -105,7 +106,7 @@ public class IslandCreationGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_ISLAND_CREATION_TITLE, viewer.locale());
+        return LangManager.text(GuiLangKey.GUI_ISLAND_CREATION_TITLE, viewer.locale());
     }
 
     @Override
@@ -130,8 +131,8 @@ public class IslandCreationGui extends BaseGui {
         // 제목 아이템
         GuiItem titleItem = GuiItem.display(
                 ItemBuilder.of(Material.GRASS_BLOCK)
-                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_CREATION_TITLE_NAME, getViewerLocale()))
-                        .addLore(LangManager.text(LangKey.ITEMS_ISLAND_CREATION_TITLE_LORE, getViewerLocale()))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_CREATION_TITLE_NAME, getViewerLocale()))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_ISLAND_CREATION_TITLE_LORE, getViewerLocale()))
                         .hideAllFlags()
                         .build()
         );
@@ -161,8 +162,8 @@ public class IslandCreationGui extends BaseGui {
     private void updateNameItem() {
         GuiItem nameItem = GuiItem.clickable(
                 ItemBuilder.of(Material.NAME_TAG)
-                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_CREATION_NAME_NAME, getViewerLocale()))
-                        .addLore(LangManager.text(LangKey.ITEMS_ISLAND_CREATION_NAME_LORE, viewer.locale(), 
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_CREATION_NAME_NAME, getViewerLocale()))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_ISLAND_CREATION_NAME_LORE, viewer.locale(), 
                                 Component.text(UnifiedColorUtil.parseHexColor(islandColorHex) + islandName)))
                         .hideAllFlags()
                         .build(),
@@ -217,8 +218,8 @@ public class IslandCreationGui extends BaseGui {
 
         GuiItem colorItem = new GuiItem(
                 ItemBuilder.of(woolType)
-                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_CREATION_COLOR_NAME, getViewerLocale()))
-                        .addLore(LangManager.text(LangKey.ITEMS_ISLAND_CREATION_COLOR_LORE, viewer.locale(),
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_CREATION_COLOR_NAME, getViewerLocale()))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_ISLAND_CREATION_COLOR_LORE, viewer.locale(),
                                 Component.text(UnifiedColorUtil.parseHexColor(islandColorHex) + "███"),
                                 Component.text(getColorName(islandColorHex)),
                                 Component.text(islandColorHex),
@@ -286,8 +287,8 @@ public class IslandCreationGui extends BaseGui {
         
         GuiItem biomeItem = GuiItem.clickable(
                 ItemBuilder.of(biomeIcon)
-                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_CREATION_BIOME_NAME, getViewerLocale()))
-                        .addLore(LangManager.text(LangKey.ITEMS_ISLAND_CREATION_BIOME_LORE, viewer.locale(), 
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_CREATION_BIOME_NAME, getViewerLocale()))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_ISLAND_CREATION_BIOME_LORE, viewer.locale(), 
                                 Component.text(getBiomeName(selectedBiome))))
                         .hideAllFlags()
                         .build(),
@@ -317,8 +318,8 @@ public class IslandCreationGui extends BaseGui {
             boolean selected = template.equals(selectedTemplate);
 
             Component statusText = selected ? 
-                    LangManager.text(LangKey.ISLAND_GUI_CREATION_SELECTED, getViewerLocale()).color(UnifiedColorUtil.SUCCESS) :
-                    LangManager.text(LangKey.ISLAND_GUI_CREATION_CLICK_TO_SELECT, getViewerLocale()).color(UnifiedColorUtil.YELLOW);
+                    LangManager.text(IslandLangKey.ISLAND_GUI_CREATION_SELECTED, getViewerLocale()).color(UnifiedColorUtil.SUCCESS) :
+                    LangManager.text(IslandLangKey.ISLAND_GUI_CREATION_CLICK_TO_SELECT, getViewerLocale()).color(UnifiedColorUtil.YELLOW);
             
             ILangKey templateNameKey = getTemplateNameKey(template);
             ILangKey templateLoreKey = getTemplateLoreKey(template);
@@ -354,8 +355,8 @@ public class IslandCreationGui extends BaseGui {
         // 섬 생성 처리
         GuiItem createButton = GuiItem.clickable(
                 ItemBuilder.of(Material.LIME_CONCRETE)
-                        .displayName(LangManager.text(LangKey.ITEMS_ISLAND_CREATION_CREATE_BUTTON_NAME, getViewerLocale()))
-                        .addLore(LangManager.text(LangKey.ITEMS_ISLAND_CREATION_CREATE_BUTTON_LORE, viewer.locale(),
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_ISLAND_CREATION_CREATE_BUTTON_NAME, getViewerLocale()))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_ISLAND_CREATION_CREATE_BUTTON_LORE, viewer.locale(),
                                 Component.text(UnifiedColorUtil.parseHexColor(islandColorHex) + islandName),
                                 Component.text(getBiomeName(selectedBiome)),
                                 Component.text(getTemplateName(selectedTemplate))))
@@ -448,7 +449,7 @@ public class IslandCreationGui extends BaseGui {
      */
     private String getBiomeName(String biome) {
         return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                LangManager.text("island.gui.creation.biomes." + biome.toLowerCase()));
+                LangManager.text(IslandLangKey.getBiomeKey(biome)));
     }
 
     /**
@@ -469,7 +470,7 @@ public class IslandCreationGui extends BaseGui {
      */
     private String getTemplateName(String template) {
         return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                LangManager.text("island.gui.creation.templates." + template.toLowerCase() + ".name"));
+                LangManager.text(IslandLangKey.getTemplateNameKey(template)));
     }
 
     /**
@@ -477,7 +478,7 @@ public class IslandCreationGui extends BaseGui {
      */
     private String getTemplateDescription(String template) {
         return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                LangManager.text("island.gui.creation.templates." + template.toLowerCase() + ".desc"));
+                LangManager.text(IslandLangKey.getTemplateDescKey(template)));
     }
 
     @Override
@@ -501,7 +502,7 @@ public class IslandCreationGui extends BaseGui {
             default -> "custom";
         };
         return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                LangManager.text("island.gui.creation.colors." + colorKey));
+                LangManager.text(IslandLangKey.getColorKey(colorKey)));
     }
     
     /**
@@ -509,11 +510,11 @@ public class IslandCreationGui extends BaseGui {
      */
     private ILangKey getTemplateNameKey(String template) {
         return switch (template) {
-            case "BASIC" -> LangKey.ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_NAME;
-            case "SKYBLOCK" -> LangKey.ITEMS_ISLAND_CREATION_TEMPLATE_SKYBLOCK_NAME;
-            case "LARGE" -> LangKey.ITEMS_ISLAND_CREATION_TEMPLATE_LARGE_NAME;
-            case "WATER" -> LangKey.ITEMS_ISLAND_CREATION_TEMPLATE_WATER_NAME;
-            default -> LangKey.ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_NAME;
+            case "BASIC" -> GeneralLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_NAME;
+            case "SKYBLOCK" -> GeneralLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_SKYBLOCK_NAME;
+            case "LARGE" -> GeneralLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_LARGE_NAME;
+            case "WATER" -> GeneralLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_WATER_NAME;
+            default -> GeneralLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_NAME;
         };
     }
     
@@ -522,11 +523,11 @@ public class IslandCreationGui extends BaseGui {
      */
     private ILangKey getTemplateLoreKey(String template) {
         return switch (template) {
-            case "BASIC" -> LangKey.ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_LORE;
-            case "SKYBLOCK" -> LangKey.ITEMS_ISLAND_CREATION_TEMPLATE_SKYBLOCK_LORE;
-            case "LARGE" -> LangKey.ITEMS_ISLAND_CREATION_TEMPLATE_LARGE_LORE;
-            case "WATER" -> LangKey.ITEMS_ISLAND_CREATION_TEMPLATE_WATER_LORE;
-            default -> LangKey.ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_LORE;
+            case "BASIC" -> GeneralLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_LORE;
+            case "SKYBLOCK" -> GeneralLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_SKYBLOCK_LORE;
+            case "LARGE" -> GeneralLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_LARGE_LORE;
+            case "WATER" -> GeneralLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_WATER_LORE;
+            default -> GeneralLangKey.ITEMS_ISLAND_CREATION_TEMPLATE_BASIC_LORE;
         };
     }
     

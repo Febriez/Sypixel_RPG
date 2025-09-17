@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.ElementalChaosLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -73,28 +71,28 @@ public class ElementalChaosQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.elemental.chaos.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.elemental.chaos.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_elemental_sage" -> LangManager.text(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_OBJECTIVES_TALK_ELEMENTAL_SAGE, who);
-            case "fire_rift" -> LangManager.text(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_OBJECTIVES_FIRE_RIFT, who);
-            case "blaze_rod_collect" -> LangManager.text(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_OBJECTIVES_BLAZE_ROD_COLLECT, who);
-            case "water_rift" -> LangManager.text(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_OBJECTIVES_WATER_RIFT, who);
-            case "prismarine_shard_collect" -> LangManager.text(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_OBJECTIVES_PRISMARINE_SHARD_COLLECT, who);
-            case "earth_rift" -> LangManager.text(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_OBJECTIVES_EARTH_RIFT, who);
-            case "emerald_collect" -> LangManager.text(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_OBJECTIVES_EMERALD_COLLECT, who);
-            case "air_rift" -> LangManager.text(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_OBJECTIVES_AIR_RIFT, who);
-            case "feather_collect" -> LangManager.text(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_OBJECTIVES_FEATHER_COLLECT, who);
-            case "elemental_guardians" -> LangManager.text(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_OBJECTIVES_ELEMENTAL_GUARDIANS, who);
-            case "restore_balance" -> LangManager.text(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_OBJECTIVES_RESTORE_BALANCE, who);
+            case "talk_elemental_sage" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.elemental.chaos.objectives.talk.elemental.sage"), who);
+            case "fire_rift" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.elemental.chaos.objectives.fire.rift"), who);
+            case "blaze_rod_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.elemental.chaos.objectives.blaze.rod.collect"), who);
+            case "water_rift" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.elemental.chaos.objectives.water.rift"), who);
+            case "prismarine_shard_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.elemental.chaos.objectives.prismarine.shard.collect"), who);
+            case "earth_rift" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.elemental.chaos.objectives.earth.rift"), who);
+            case "emerald_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.elemental.chaos.objectives.emerald.collect"), who);
+            case "air_rift" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.elemental.chaos.objectives.air.rift"), who);
+            case "feather_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.elemental.chaos.objectives.feather.collect"), who);
+            case "elemental_guardians" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.elemental.chaos.objectives.elemental.guardians"), who);
+            case "restore_balance" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.elemental.chaos.objectives.restore.balance"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -106,7 +104,7 @@ public class ElementalChaosQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.elemental.chaos.dialogs"), who);
     }
     
     @Override
@@ -116,16 +114,16 @@ public class ElementalChaosQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.elemental.chaos.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.elemental.chaos.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(ElementalChaosLangKey.QUEST_SIDE_ELEMENTAL_CHAOS_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.elemental.chaos.decline"), who);
     }
 }

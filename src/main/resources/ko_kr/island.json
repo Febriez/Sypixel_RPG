@@ -5,12 +5,16 @@
   },
   "roles": {
     "owner": "섬장",
-    "sub_owner": "부섬장",
+    "co_owner": "Co Owner",
     "member": "섬원",
     "worker": "알바",
     "visitor": "방문자",
     "moderator": "Moderator",
-    "co_owner": "Co Owner"
+    "sub_owner": "부섬장",
+    "sub": {
+      "owner": "소유자"
+    },
+    "sub-owner": "부 소유자"
   },
   "permissions": {
     "build": "건설",
@@ -33,114 +37,165 @@
       "title": "==== 섬 시스템 ====",
       "no_island": "아직 섬이 없습니다!",
       "features": "섬을 생성하면 다음과 같은 기능을 사용할 수 있습니다:",
+      "create_guide": "섬 생성 방법:",
+      "steps": "Steps",
+      "step_2": "2. 섬 생성 버튼을 눌러 새로운 섬 생성",
+      "feature_4": "• 섬 워프 포인트 설정",
+      "feature_3": "• 섬 업그레이드로 더 넓은 공간 확보",
       "feature_1": "• 자신만의 개인 섬에서 자유로운 건축",
       "feature_2": "• 친구들을 초대하여 함께 플레이",
-      "feature_3": "• 섬 업그레이드로 더 넓은 공간 확보",
-      "feature_4": "• 섬 워프 포인트 설정",
-      "create_guide": "섬 생성 방법:",
-      "step_1": "1. 메인 메뉴(/메뉴)에서 섬 버튼 클릭",
-      "step_2": "2. 섬 생성 버튼을 눌러 새로운 섬 생성",
-      "steps": "Steps"
+      "step_1": "1. 메인 메뉴(/메뉴)에서 섬 버튼 클릭"
     }
   },
   "gui": {
+    "contribute": {
+      "contribution": "Contribution",
+      "contribution_input_text": "금액...",
+      "contribution_input_title": "기여도 입력",
+      "gold_info": {
+        "balance": "잔액: {0}G",
+        "contribution": "내 기여도: {0}G"
+      },
+      "not_enough_gold": "You don't have enough gold!",
+      "input_amount": "Contribution Amount",
+      "success": "Successfully contributed {0}G!",
+      "input_gold": "Enter gold amount to contribute",
+      "title": "Island Contribution",
+      "gold_needed": "필요 골드: {0}G",
+      "invalid_amount": "잘못된 금액입니다",
+      "amount_too_low": "금액이 너무 적습니다",
+      "quick_amount": "빠른 금액: {0}G",
+      "contribution-input-text": "기여할 금액을 입력하세요",
+      "contribution-input-title": "기여도 입력"
+    },
+    "creation": {
+      "click": "Click",
+      "click_to_select": "클릭하여 선택",
+      "selected": "✔ 선택됨",
+      "biomes": {
+        "desert": "사막",
+        "forest": "숲",
+        "mushroom_fields": "버섯 들판",
+        "swamp": "늪",
+        "plains": "평원",
+        "snowy_plains": "설원",
+        "jungle": "정글",
+        "savanna": "사바나"
+      },
+      "island_name_input_error": "1-20자 사이로 입력하세요",
+      "title": "섬 생성",
+      "colors": {
+        "blue": "파란색",
+        "cyan": "하늘색",
+        "white": "흰색",
+        "orange": "주황색",
+        "magenta": "보라색",
+        "red": "빨간색",
+        "custom": "사용자 정의",
+        "yellow": "노란색",
+        "green": "초록색"
+      },
+      "current_name": "현재 이름: ",
+      "setting_biome": "• 바이옴: ",
+      "templates": {
+        "basic_desc": "표준 크기의 기본 섬",
+        "skyblock": "스카이블럭",
+        "large": "대형 섬",
+        "skyblock_desc": "하늘에 떠있는 작은 섬",
+        "large_desc": "넓은 공간의 대형 섬",
+        "water_desc": "바다 위의 수상 섬",
+        "basic": "기본 섬",
+        "water": "수상 섬"
+      },
+      "island_name_input_title": "섬 이름 입력",
+      "hex_input_title": "HEX 색상 코드 입력",
+      "click_to_change_name": "클릭하여 이름 변경",
+      "hex_example": "예시: #FF0000 (빨간색)",
+      "selected_settings": "선택된 설정:",
+      "creating_island": "섬을 생성하는 중...",
+      "hex_input": "HEX 코드 입력",
+      "default_island_name": "나의 섬",
+      "click_to_change": "클릭하여 변경",
+      "next": "다음",
+      "teleporting_soon": "잠시 후 섬으로 이동합니다...",
+      "creation_failed": "섬 생성에 실패했습니다.",
+      "right_click": "우클릭: ",
+      "setting_name": "• 이름: ",
+      "current_color": "현재 색상: ",
+      "click_to_create": "클릭하여 섬 생성!",
+      "setting_template": "• 템플릿: ",
+      "current_biome": "현재 바이옴: ",
+      "previous": "이전",
+      "creation_complete_header": "==== 섬 생성 완료! ====",
+      "creation_complete_footer": "====================",
+      "create_button_title": "✦ 섬 생성하기 ✦",
+      "creation_complete_message": " 섬이 생성되었습니다!",
+      "hex_input_error": "#RRGGBB 형식으로 입력하세요",
+      "left_click": "좌클릭: ",
+      "creation_error": "섬 생성 중 오류가 발생했습니다: ",
+      "middle_click": "휠클릭: ",
+      "island-name-input-error": "[TRANSLATE] Invalid island name! Please enter a valid name.",
+      "hex-input-error": "[TRANSLATE] Invalid hex color! Please enter a valid hex color code.",
+      "island-name-input-text": "[TRANSLATE] Enter your island name",
+      "island-name-input-title": "[TRANSLATE] Island Name",
+      "biome-select-title": "[TRANSLATE] Select Biome",
+      "template-select-title": "[TRANSLATE] Select Template",
+      "color-input-text": "[TRANSLATE] Enter hex color code",
+      "color-input-title": "[TRANSLATE] Name Color",
+      "unknown-template": "[TRANSLATE] Unknown Template",
+      "unknown-biome": "[TRANSLATE] Unknown Biome",
+      "unknown-template-description": "[TRANSLATE] Template information not available",
+      "unknown-biome-description": "[TRANSLATE] Biome information not available",
+      "cancel-creation": "[TRANSLATE] Cancel Creation",
+      "island": {
+        "name": {
+          "input": {
+            "title": "제목"
+          }
+        }
+      },
+      "click-to-select": "클릭하여 선택"
+    },
     "main": {
       "title": "섬 관리",
       "title_with_name": "섬 관리 - {0}",
-      "create_island": {
-        "title": "섬 생성하기",
-        "no_island": "아직 섬이 없습니다!",
-        "description": "섬을 생성하면 다음과 같은 기능을 사용할 수 있습니다:",
-        "feature_1": "• 자신만의 개인 섬에서 자유로운 건축",
-        "feature_2": "• 친구들을 초대하여 함께 플레이",
-        "feature_3": "• 섬 업그레이드로 더 넓은 공간 확보",
-        "feature_4": "• 섬 워프 포인트 설정",
-        "contact_admin": "섬 생성은 관리자에게 문의하세요!",
-        "features": "Features"
-      },
-      "hex_format_error": "Invalid HEX format! Use #RRGGBB",
-      "hex_format_example": "Example: #FF0000",
-      "color_changed": "Island color changed to {0}",
-      "hex_input_title": "Enter HEX Color Code",
-      "warp_moving": "Warping to island...",
-      "warp_success": "Successfully warped to island!",
-      "info": {
-        "lore": [
-          "섬 정보",
-          "Level: {0}",
-          "Members: {1}"
-        ],
-        "members": "Members: {0}/{1}"
-      },
       "create": {
-        "lore1": "Click to create",
-        "lore2": "your own island!",
         "island": {
           "feature": {
             "1": "커스텀 섬 크기",
             "2": "바이옴 선택",
             "3": "친구 초대",
-            "4": "함께 건설"
-          }
+            "4": "함께 건설",
+            "": ""
+          },
+          "contact": {
+            "admin": "관리자"
+          },
+          "description": "설명 텍스트",
+          "no": {
+            "island": "섬"
+          },
+          "title": "제목"
         },
-        "lore": "Lore"
+        "lore": "설명",
+        "lore1": "Click to create",
+        "lore2": "your own island!"
       },
-      "spawn": {
-        "name": "Island Spawn",
-        "lore": [
-          "Teleport to",
-          "island spawn point"
-        ]
-      },
-      "visit": {
-        "name": "Visit Islands"
-      },
-      "members": {
-        "lore": [
-          "Manage island",
-          "members and permissions"
-        ]
-      },
-      "settings": {
-        "lore": [
-          "Configure island",
-          "settings"
-        ]
-      },
-      "upgrades": {
-        "lore": [
-          "Upgrade your",
-          "island features"
-        ]
-      },
-      "permissions": {
-        "lore": [
-          "Manage member",
-          "permissions"
-        ]
-      },
-      "biome": {
-        "lore": [
-          "Change island",
-          "biome"
-        ]
+      "create_island": {
+        "feature_3": "• 섬 업그레이드로 더 넓은 공간 확보",
+        "feature_4": "• 섬 워프 포인트 설정",
+        "features": "Features",
+        "feature_2": "• 친구들을 초대하여 함께 플레이",
+        "title": "섬 생성하기",
+        "contact_admin": "섬 생성은 관리자에게 문의하세요!",
+        "feature_1": "• 자신만의 개인 섬에서 자유로운 건축",
+        "no_island": "아직 섬이 없습니다!",
+        "description": "섬을 생성하면 다음과 같은 기능을 사용할 수 있습니다:"
       },
       "contributions": {
         "lore": [
           "View island",
           "contributions"
-        ]
-      },
-      "visitors": {
-        "lore": [
-          "Manage visitor",
-          "settings"
-        ]
-      },
-      "reset": {
-        "lore": [
-          "Reset your",
-          "island"
         ]
       },
       "leave": {
@@ -149,192 +204,211 @@
           "island"
         ]
       },
+      "color_changed": "Island color changed to {0}",
+      "permissions": {
+        "lore": [
+          "Manage member",
+          "permissions"
+        ]
+      },
+      "reset": {
+        "lore": [
+          "Reset your",
+          "island"
+        ]
+      },
+      "spawn": {
+        "name": "Island Spawn",
+        "lore": [
+          "Teleport to",
+          "island spawn point"
+        ]
+      },
+      "settings": {
+        "lore": [
+          "Configure island",
+          "settings"
+        ]
+      },
+      "hex_input_title": "Enter HEX Color Code",
       "back": {
         "name": "Back"
       },
+      "info": {
+        "members": "Members: {0}/{1}",
+        "lore": [
+          "섬 정보",
+          "Level: {0}",
+          "Members: {1}"
+        ]
+      },
+      "hex_format_example": "Example: #FF0000",
       "close": {
         "name": "Close"
-      }
+      },
+      "hex_format_error": "Invalid HEX format! Use #RRGGBB",
+      "members": {
+        "lore": [
+          "Manage island",
+          "members and permissions"
+        ]
+      },
+      "upgrades": {
+        "lore": [
+          "Upgrade your",
+          "island features"
+        ]
+      },
+      "visitors": {
+        "lore": [
+          "Manage visitor",
+          "settings"
+        ]
+      },
+      "biome": {
+        "lore": [
+          "Change island",
+          "biome"
+        ]
+      },
+      "visit": {
+        "name": "Visit Islands"
+      },
+      "warp_moving": "Warping to island...",
+      "warp_success": "Successfully warped to island!"
     },
-    "creation": {
-      "title": "섬 생성",
-      "current_name": "현재 이름: ",
-      "current_color": "현재 색상: ",
-      "current_biome": "현재 바이옴: ",
-      "click_to_change_name": "클릭하여 이름 변경",
-      "click_to_change": "클릭하여 변경",
-      "left_click": "좌클릭: ",
-      "right_click": "우클릭: ",
-      "middle_click": "휠클릭: ",
-      "next": "다음",
-      "previous": "이전",
-      "hex_input": "HEX 코드 입력",
-      "hex_example": "예시: #FF0000 (빨간색)",
-      "selected": "✔ 선택됨",
-      "click_to_select": "클릭하여 선택",
-      "click_to_create": "클릭하여 섬 생성!",
-      "selected_settings": "선택된 설정:",
-      "setting_name": "• 이름: ",
-      "setting_biome": "• 바이옴: ",
-      "setting_template": "• 템플릿: ",
-      "create_button_title": "✦ 섬 생성하기 ✦",
-      "island_name_input_title": "섬 이름 입력",
-      "island_name_input_error": "1-20자 사이로 입력하세요",
-      "hex_input_title": "HEX 색상 코드 입력",
-      "hex_input_error": "#RRGGBB 형식으로 입력하세요",
-      "default_island_name": "나의 섬",
-      "creating_island": "섬을 생성하는 중...",
-      "creation_complete_header": "==== 섬 생성 완료! ====",
-      "creation_complete_message": " 섬이 생성되었습니다!",
-      "creation_complete_footer": "====================",
-      "teleporting_soon": "잠시 후 섬으로 이동합니다...",
-      "creation_failed": "섬 생성에 실패했습니다.",
-      "creation_error": "섬 생성 중 오류가 발생했습니다: ",
-      "biomes": {
-        "plains": "평원",
-        "forest": "숲",
-        "desert": "사막",
-        "snowy_plains": "설원",
-        "jungle": "정글",
-        "swamp": "늪",
-        "savanna": "사바나",
-        "mushroom_fields": "버섯 들판"
+    "contribution": {
+      "contributor": {
+        "role": "역할: {0}",
+        "contribution": "기여도: {0}G",
+        "name": "{0}",
+        "percentage": "비율: {0}%"
       },
-      "templates": {
-        "basic": "기본 섬",
-        "skyblock": "스카이블럭",
-        "large": "대형 섬",
-        "water": "수상 섬",
-        "basic_desc": "표준 크기의 기본 섬",
-        "skyblock_desc": "하늘에 떠있는 작은 섬",
-        "large_desc": "넓은 공간의 대형 섬",
-        "water_desc": "바다 위의 수상 섬"
+      "add": {
+        "current": "현재: {0}G"
       },
-      "colors": {
-        "yellow": "노란색",
-        "green": "초록색",
-        "cyan": "하늘색",
-        "magenta": "보라색",
-        "red": "빨간색",
-        "orange": "주황색",
-        "blue": "파란색",
-        "white": "흰색",
-        "custom": "사용자 정의"
+      "info": {
+        "total": "총 기여도: {0}G",
+        "contributors": "기여자: {0}명",
+        "island_name": "섬: {0}"
       },
-      "click": "Click"
+      "title": "섬 기여도"
     },
-    "biome_selection": {
-      "title": "🌍 바이옴 선택"
+    "member": {
+      "all_permissions": "Has all permissions",
+      "manage_permission_not_implemented": "This permission is not yet implemented",
+      "role_worker": "Worker",
+      "right_click_fire": "Right-click to fire worker",
+      "most_permissions": "Has most management permissions",
+      "left_click_extend": "Left-click to extend contract",
+      "kick_input_title": "멤버 추방 확인",
+      "last_activity": "Last Activity: {0}",
+      "kick_input_error": "입력 오류",
+      "role_owner": "Owner",
+      "kick_input_text": "추방하려면 '추방'을 입력하세요",
+      "normal_permissions": "Has normal member permissions",
+      "manage_title": "멤버 관리",
+      "invite_example": "Example: PlayerName",
+      "manage_current_role": "Current Role: {0}",
+      "limited_permissions": "Has limited permissions",
+      "right_click_kick": "Right-click to kick member",
+      "invite_prompt": "Enter player name to invite:",
+      "owner_cannot_change": "Owner role cannot be changed",
+      "kick_confirm_word": "추방",
+      "hire_date": "Hired: {0}",
+      "left_click_role": "Left-click to change role"
     },
     "back_button": "◀ 돌아가기",
+    "contribute_contribution_input_text": "Enter contribution amount",
     "delete": {
-      "confirm_word": "삭제",
       "input_error": "입력 오류",
-      "input_title": "섬 삭제 확인",
+      "description": "All island data will be permanently deleted.",
       "input_text": "삭제하려면 '삭제'를 입력하세요",
+      "input_title": "섬 삭제 확인",
       "success": "Island deleted successfully!",
-      "warning": "⚠ Warning: This action cannot be undone!",
-      "description": "All island data will be permanently deleted."
+      "confirm_word": "삭제",
+      "warning": "⚠ Warning: This action cannot be undone!"
+    },
+    "contribute_contribution_input_title": "Contribution Amount",
+    "biome_selection": {
+      "title": "🌍 바이옴 선택"
     },
     "settings": {
       "name_error": "섬 이름은 1~20자여야 합니다.",
       "name_input_error": "1~20자 사이로 입력하세요"
     },
-    "member": {
-      "kick_confirm_word": "추방",
-      "kick_input_error": "입력 오류",
-      "kick_input_title": "멤버 추방 확인",
-      "kick_input_text": "추방하려면 '추방'을 입력하세요",
-      "invite_prompt": "Enter player name to invite:",
-      "invite_example": "Example: PlayerName",
-      "role_owner": "Owner",
-      "all_permissions": "Has all permissions",
-      "owner_cannot_change": "Owner role cannot be changed",
-      "most_permissions": "Has most management permissions",
-      "normal_permissions": "Has normal member permissions",
-      "left_click_role": "Left-click to change role",
-      "right_click_kick": "Right-click to kick member",
-      "role_worker": "Worker",
-      "hire_date": "Hired: {0}",
-      "last_activity": "Last Activity: {0}",
-      "limited_permissions": "Has limited permissions",
-      "left_click_extend": "Left-click to extend contract",
-      "right_click_fire": "Right-click to fire worker",
-      "manage_title": "멤버 관리",
-      "manage_permission_not_implemented": "This permission is not yet implemented",
-      "manage_current_role": "Current Role: {0}"
-    },
-    "contribute": {
-      "amount_too_low": "금액이 너무 적습니다",
-      "invalid_amount": "잘못된 금액입니다",
-      "contribution_input_title": "기여도 입력",
-      "contribution_input_text": "금액...",
-      "gold_info": {
-        "balance": "잔액: {0}G",
-        "contribution": "내 기여도: {0}G"
-      },
-      "quick_amount": "빠른 금액: {0}G",
-      "gold_needed": "필요 골드: {0}G",
-      "title": "Island Contribution",
-      "input_amount": "Contribution Amount",
-      "input_gold": "Enter gold amount to contribute",
-      "success": "Successfully contributed {0}G!",
-      "not_enough_gold": "You don't have enough gold!",
-      "contribution": "Contribution"
-    },
-    "contribution": {
-      "title": "섬 기여도",
-      "info": {
-        "island_name": "섬: {0}",
-        "total": "총 기여도: {0}G",
-        "contributors": "기여자: {0}명"
-      },
-      "contributor": {
-        "name": "{0}",
-        "contribution": "기여도: {0}G",
-        "role": "역할: {0}",
-        "percentage": "비율: {0}%"
-      },
-      "add": {
-        "current": "현재: {0}G"
-      }
-    },
+    "creation_click_to_select": "Click to select",
     "create": {
       "title": "Create New Island"
     },
-    "creation_click_to_select": "Click to select",
-    "contribute_contribution_input_text": "Enter contribution amount",
-    "contribute_contribution_input_title": "Contribution Amount"
+    "visitor": {
+      "menu": {
+        "title": "[TRANSLATE] Visitor Menu"
+      },
+      "live": {
+        "title": "[TRANSLATE] Current Visitors"
+      },
+      "action": {
+        "title": "[TRANSLATE] Visitor Actions"
+      }
+    }
   },
   "error": {
     "player_only": "이 명령어는 플레이어만 사용할 수 있습니다."
   },
   "contribute": {
+    "amount": "Amount",
+    "invalid": "Invalid",
     "amount_too_low": "기여 금액이 너무 적습니다!",
     "invalid_amount": "잘못된 기여 금액입니다!",
-    "invalid": "Invalid",
-    "amount": "Amount"
+    "amount-too-low": "금액이 너무 적습니다",
+    "invalid-amount": "잘못된 금액"
   },
   "delete": {
-    "confirm_word": "삭제",
-    "input_error": "삭제를 입력하여 확인해주세요",
-    "input_text": "섬을 영구적으로 삭제하려면 삭제를 입력하세요",
-    "input_title": "섬 삭제 확인",
-    "warning": "Warning",
     "confirm": "Confirm",
-    "success": "성공",
-    "cancelled": "Cancelled"
+    "warning": "Warning",
+    "success": {
+      "_value": "성공",
+      "title": "제목",
+      "message": "메시지"
+    },
+    "cancelled": "Cancelled",
+    "input_error": "삭제를 입력하여 확인해주세요",
+    "confirm_word": "삭제",
+    "input_title": "섬 삭제 확인",
+    "input_text": "섬을 영구적으로 삭제하려면 삭제를 입력하세요",
+    "input": {
+      "error": "오류",
+      "text": "텍스트",
+      "title": "제목"
+    },
+    "confirm-word": "삭제",
+    "input-error": "입력 오류",
+    "input-text": "입력 텍스트",
+    "input-title": "입력 제목"
   },
   "member": {
-    "kick_confirm_word": "추방",
-    "kick_input_error": "추방을 입력하여 확인해주세요",
-    "kick_input_text": "이 멤버를 섬에서 추방하려면 추방을 입력하세요",
-    "kick_input_title": "멤버 추방 확인",
     "kick": {
+      "confirm": {
+        "_value": "Confirm",
+        "word": "추방"
+      },
       "success": "성공",
       "failed": "실패ed",
-      "confirm": "Confirm"
-    }
+      "input": {
+        "error": "오류",
+        "text": "텍스트",
+        "title": "제목"
+      }
+    },
+    "kick_confirm_word": "추방",
+    "kick_input_text": "이 멤버를 섬에서 추방하려면 추방을 입력하세요",
+    "kick_input_title": "멤버 추방 확인",
+    "kick_input_error": "추방을 입력하여 확인해주세요",
+    "kick-confirm-word": "추방",
+    "kick-input-error": "추방 입력 오류",
+    "kick-input-text": "추방하려면 '추방'을 입력하세요",
+    "kick-input-title": "추방 확인"
   },
   "gui_creation_click_to_select": "Click to select",
   "gui_biome_change_title": "Change Island Biome",
@@ -343,8 +417,7 @@
   "gui_biome_current_info_lore": "Your island's current biome",
   "gui_biome_selection_title": "Select Biome",
   "gui_biome_selection_info_title": "바이옴 선택",
-  "gui_biome_selection_info_lore1": "Choose your island's biome",
-  "gui_biome_selection_info_lore2": "This will change the appearance",
+  "gui_biome_selection_info_lore": "Gui Biome Selection Info Lore",
   "gui_biome_selection_current_selected": "Currently Selected",
   "gui_biome_selection_click_to_select": "Click to select this biome",
   "gui_biome_selection_back_lore": "Return to island menu",
@@ -392,181 +465,172 @@
   "member_kick_input_error": "Type KICK to confirm",
   "member_kick_input_text": "Type KICK to confirm",
   "member_kick_input_title": "Confirm Kick",
+  "created": "생성됨",
+  "deleted": "삭제됨",
+  "joined": "참가",
+  "left": "나감",
+  "kicked": "추방됨",
+  "banned": "Banned",
+  "unbanned": "Unbanned",
+  "promoted": "Promoted",
+  "demoted": "Demoted",
+  "transferred": "Transferred",
+  "no_island": "No Island",
+  "already_has_island": "Already Has Island",
+  "not_owner": "Not Owner",
+  "not_member": "Not Member",
+  "member_limit_reached": "Member Limit Reached",
+  "invite_sent": "Invite 전송됨",
+  "invite_received": "Invite 수신됨",
+  "invite_accepted": "Invite Accepted",
+  "invite_denied": "Invite Denied",
+  "invite_expired": "Invite Expired",
+  "teleport_success": "Teleport 성공",
+  "teleport_failed": "Teleport 실패ed",
+  "home_set": "Home Set",
+  "home_not_set": "Home Not Set",
+  "warp_created": "Warp 생성됨",
+  "warp_deleted": "Warp 삭제됨",
+  "warp_not_found": "Warp Not Found",
+  "biome_changed": "Biome Changed",
+  "settings_updated": "Settings Updated",
+  "permission_updated": "Permission Updated",
+  "upgrade_success": "Upgrade 성공",
+  "upgrade_failed": "Upgrade 실패ed",
+  "not_enough_money": "Not Enough Money",
+  "reset_confirm": "Reset Confirm",
+  "reset_success": "Reset 성공",
+  "reset_cancelled": "Reset Cancelled",
+  "public_enabled": "Public Enabled",
+  "public_disabled": "Public Disabled",
+  "pvp_enabled": "Pvp Enabled",
+  "pvp_disabled": "Pvp Disabled",
+  "mob_spawn_enabled": "Mob Spawn Enabled",
+  "mob_spawn_disabled": "Mob Spawn Disabled",
+  "fire_spread_enabled": "Fire Spread Enabled",
+  "fire_spread_disabled": "Fire Spread Disabled",
+  "tnt_enabled": "Tnt Enabled",
+  "tnt_disabled": "Tnt Disabled",
+  "locked": "Locked",
+  "unlocked": "잠금 해제",
   "island": {
+    "default_name": "이름 없는 섬",
     "gui": {
-      "main": {
-        "create": {
-          "island": {
-            "feature": {
-              "3": "3",
-              "4": "4",
-              "2": "2",
-              "1": "1",
-              "": ""
-            },
-            "contact": {
-              "admin": "관리자에게 문의하세요"
-            },
-            "description": "새로운 섬 생성",
-            "no": {
-              "island": "섬을 찾을 수 없음"
-            },
-            "title": "섬 생성"
-          }
-        }
-      },
       "creation": {
+        "click-to-select": "[TRANSLATE] Click To Select",
         "island": {
           "name": {
             "input": {
-              "title": "섬 이름 입력"
+              "title": "[TRANSLATE] Title"
             }
           }
         },
-        "click-to-select": "클릭하여 선택",
-        "click_to_select": "[KO] Click To Select"
+        "click_to_select": "클릭하여 선택"
       },
       "contribute": {
         "contribution_input_text": "기여 금액 입력",
-        "contribution_input_title": "섬에 기여"
+        "contribution_input_title": "섬에 기여",
+        "contribution-input-text": "[TRANSLATE] Contribution Input Text",
+        "contribution-input-title": "[TRANSLATE] Contribution Input Title"
+      },
+      "main": {
+        "create": {
+          "island": {
+            "contact": {
+              "admin": "[TRANSLATE] Admin"
+            },
+            "description": "[TRANSLATE] Description",
+            "feature": {
+              "1": "1",
+              "2": "2",
+              "3": "3",
+              "4": "4",
+              "": "[TRANSLATE] "
+            },
+            "no": {
+              "island": "[TRANSLATE] Island"
+            },
+            "title": "[TRANSLATE] Title"
+          }
+        }
       }
+    },
+    "roles": {
+      "sub_owner": "부 소유자",
+      "sub": {
+        "owner": "[TRANSLATE] Owner"
+      },
+      "sub-owner": "[TRANSLATE] Sub Owner"
     },
     "contribute": {
       "amount_too_low": "금액이 너무 적음",
       "invalid_amount": "잘못된 금액",
       "amount": "Amount 섬",
-      "invalid": "Invalid 섬"
+      "invalid": "Invalid 섬",
+      "amount-too-low": "[TRANSLATE] Amount Too Low",
+      "invalid-amount": "[TRANSLATE] Invalid Amount"
     },
     "delete": {
-      "input": {
-        "error": "입력 오류! DELETE를 입력하세요",
-        "text": "'DELETE'를 입력하여 확인",
-        "title": "섬 삭제 확인"
-      },
-      "success": {
-        "title": "섬 삭제됨",
-        "message": "섬이 삭제되었습니다"
-      },
       "confirm_word": "DELETE",
       "input_error": "입력 오류",
       "input_text": "DELETE를 입력하여 확인",
       "input_title": "삭제 확인",
-      "confirm": "Confirm 섬"
+      "input": {
+        "error": "[TRANSLATE] Error",
+        "text": "[TRANSLATE] Type 'DELETE' to confirm",
+        "title": "[TRANSLATE] Title"
+      },
+      "success": {
+        "title": "[TRANSLATE] Title",
+        "message": "[TRANSLATE] Message"
+      },
+      "confirm": "Confirm 섬",
+      "confirm-word": "[TRANSLATE] DELETE",
+      "input-error": "[TRANSLATE] Input Error",
+      "input-text": "[TRANSLATE] Input Text",
+      "input-title": "[TRANSLATE] Input Title"
     },
     "member": {
-      "kick": {
-        "confirm": {
-          "word": "KICK"
-        },
-        "input": {
-          "error": "입력 오류! KICK을 입력하세요",
-          "text": "'KICK'을 입력하여 확인",
-          "title": "멤버 추방 확인"
-        }
-      },
       "kick_confirm_word": "KICK",
       "kick_input_error": "입력 오류",
       "kick_input_text": "KICK을 입력하여 확인",
-      "kick_input_title": "추방 확인"
-    },
-    "roles": {
-      "sub_owner": "부 소유자",
-      "sub": {
-        "owner": "Owner"
-      }
+      "kick_input_title": "추방 확인",
+      "kick": {
+        "confirm": {
+          "word": "[TRANSLATE] KICK"
+        },
+        "input": {
+          "error": "[TRANSLATE] Error",
+          "text": "[TRANSLATE] Type 'KICK' to confirm",
+          "title": "[TRANSLATE] Title"
+        }
+      },
+      "kick-confirm-word": "[TRANSLATE] KICK",
+      "kick-input-error": "[TRANSLATE] Kick Input Error",
+      "kick-input-text": "[TRANSLATE] Kick Input Text",
+      "kick-input-title": "[TRANSLATE] Kick Input Title"
     },
     "settings": {
       "name": {
-        "error": "잘못된 섬 이름",
+        "error": "[TRANSLATE] Error",
         "input": {
-          "error": "이름 입력 오류"
+          "error": "[TRANSLATE] Error"
         }
       }
     },
-    "default_name": "이름 없는 섬",
-    "default": "Default 섬"
+    "default": "Default 섬",
+    "default-name": "[TRANSLATE] Default Name"
   },
-  "teleport_failed": "Teleport 실패ed",
-  "promoted": "Promoted",
-  "left": "나감",
-  "kicked": "추방됨",
-  "pvp_disabled": "Pvp Disabled",
-  "biome_changed": "Biome Changed",
-  "unlocked": "잠금 해제",
-  "transferred": "Transferred",
-  "unbanned": "Unbanned",
-  "reset_success": "Reset 성공",
-  "already_has_island": "Already Has Island",
-  "upgrade_success": "Upgrade 성공",
-  "fire_spread_disabled": "Fire Spread Disabled",
-  "reset_confirm": "Reset Confirm",
-  "reset_cancelled": "Reset Cancelled",
-  "mob_spawn_disabled": "Mob Spawn Disabled",
-  "locked": "Locked",
-  "settings_updated": "Settings Updated",
-  "demoted": "Demoted",
-  "member_limit_reached": "Member Limit Reached",
-  "fire_spread_enabled": "Fire Spread Enabled",
-  "invite_sent": "Invite 전송됨",
-  "warp_deleted": "Warp 삭제됨",
-  "banned": "Banned",
-  "mob_spawn_enabled": "Mob Spawn Enabled",
   "default": "Default",
-  "no_island": "No Island",
-  "joined": "참가",
-  "not_owner": "Not Owner",
-  "public_enabled": "Public Enabled",
-  "upgrade_failed": "Upgrade 실패ed",
-  "teleport_success": "Teleport 성공",
-  "not_member": "Not Member",
-  "invite_denied": "Invite Denied",
-  "tnt_disabled": "Tnt Disabled",
-  "pvp_enabled": "Pvp Enabled",
-  "not_enough_money": "Not Enough Money",
-  "home_set": "Home Set",
-  "invite_received": "Invite 수신됨",
-  "public_disabled": "Public Disabled",
-  "warp_created": "Warp 생성됨",
-  "warp_not_found": "Warp Not Found",
-  "invite_expired": "Invite Expired",
-  "created": "생성됨",
-  "deleted": "삭제됨",
-  "home_not_set": "Home Not Set",
-  "invite_accepted": "Invite Accepted",
-  "permission_updated": "Permission Updated",
-  "gui_biome_selection_info_lore": "Gui Biome Selection Info Lore",
-  "tnt_enabled": "Tnt Enabled",
-  "gui.main.create.island.feature.": "[KO] ",
-  "delete.input.error": "[KO] Error",
-  "delete.success.title": "[KO] Title",
-  "delete.success.message": "[KO] Message",
-  "delete.input.text": "[KO] Text",
-  "delete.input.title": "[KO] Title",
-  "gui.main.create.island.contact.admin": "[KO] Admin",
-  "gui.main.create.island.description": "[KO] Description text",
-  "gui.main.create.island.no.island": "[KO] Island",
-  "gui.main.create.island.title": "[KO] Title",
-  "member.kick.confirm.word": "[KO] KICK",
-  "member.kick.input.error": "[KO] Error",
-  "member.kick.input.text": "[KO] Text",
-  "member.kick.input.title": "[KO] Title",
-  "roles.sub.owner": "[KO] Owner",
-  "gui.creation.island.name.input.title": "[KO] Title",
-  "settings.name.error": "[KO] Error",
-  "settings.name.input.error": "[KO] Error",
-  "default-name": "[KO] Default Name",
-  "gui.creation.click-to-select": "[KO] Click To Select",
-  "roles.sub-owner": "[KO] Sub Owner",
-  "contribute.amount-too-low": "[KO] Amount Too Low",
-  "contribute.invalid-amount": "[KO] Invalid Amount",
-  "gui.contribute.contribution-input-text": "[KO] Contribution Input Text",
-  "gui.contribute.contribution-input-title": "[KO] Contribution Input Title",
-  "delete.confirm-word": "[KO] DELETE",
-  "delete.input-error": "[KO] Input Error",
-  "delete.input-text": "[KO] Input Text",
-  "delete.input-title": "[KO] Input Title",
-  "member.kick-confirm-word": "[KO] KICK",
-  "member.kick-input-error": "[KO] Kick Input Error",
-  "member.kick-input-text": "[KO] Kick Input Text",
-  "member.kick-input-title": "[KO] Kick Input Title"
+  "gui_biome_selection_info_lore2": "This will change the appearance",
+  "gui_biome_selection_info_lore1": "Choose your island's biome",
+  "settings": {
+    "name": {
+      "error": "오류",
+      "input": {
+        "error": "오류"
+      }
+    }
+  },
+  "default-name": "기본 이름"
 }

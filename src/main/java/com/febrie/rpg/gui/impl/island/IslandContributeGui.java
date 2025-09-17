@@ -1,5 +1,7 @@
 package com.febrie.rpg.gui.impl.island;
-
+import com.febrie.rpg.util.lang.IslandLangKey;
+import com.febrie.rpg.util.lang.GeneralLangKey;
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.dto.island.*;
 import com.febrie.rpg.gui.framework.BaseGui;
@@ -12,7 +14,6 @@ import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.GuiHandlerUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -41,7 +42,7 @@ public class IslandContributeGui extends BaseGui {
     private static final int[] QUICK_AMOUNTS = {1000, 5000, 10000, 50000, 100000, 500000};
     private IslandContributeGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                                @NotNull RPGMain plugin, @NotNull IslandDTO island) {
-        super(viewer, guiManager, 36, LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_TITLE, viewer.locale())); // 4줄 GUI
+        super(viewer, guiManager, 36, LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_TITLE, viewer.locale())); // 4줄 GUI
         this.islandManager = plugin.getIslandManager();
         this.island = island;
         this.rpgPlayer = plugin.getRPGPlayerManager().getPlayer(viewer);
@@ -85,18 +86,18 @@ public class IslandContributeGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_TITLE, viewer.locale());
+        return LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_TITLE, viewer.locale());
     }
     
     private ItemStack createGoldInfoItem() {
         long currentGold = rpgPlayer != null ? rpgPlayer.getWallet().getBalance(CurrencyType.GOLD) : 0;
         long myContribution = island.membership().contributions().getOrDefault(viewer.getUniqueId().toString(), 0L);
         return ItemBuilder.of(Material.GOLD_INGOT)
-                .displayName(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_TITLE, getViewerLocale()))
+                .displayName(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_TITLE, getViewerLocale()))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_BALANCE, getViewerLocale(), Component.text(String.format("%,d", currentGold))))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_CONTRIBUTION, getViewerLocale(), Component.text(String.format("%,d", myContribution))))
-                .addLore(LangManager.list(LangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_DESCRIPTION, getViewerLocale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_BALANCE, getViewerLocale(), Component.text(String.format("%,d", currentGold))))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_CONTRIBUTION, getViewerLocale(), Component.text(String.format("%,d", myContribution))))
+                .addLore(LangManager.list(GuiLangKey.GUI_ISLAND_CONTRIBUTE_GOLD_INFO_DESCRIPTION, getViewerLocale()))
                 .hideAllFlags()
                 .build();
     }
@@ -114,33 +115,33 @@ public class IslandContributeGui extends BaseGui {
             default -> Material.GOLD_NUGGET;
         };
         ItemBuilder builder = ItemBuilder.of(material)
-                .displayName(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_QUICK_AMOUNT, getViewerLocale(), Component.text(String.format("%,d", amount))));
+                .displayName(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_QUICK_AMOUNT, getViewerLocale(), Component.text(String.format("%,d", amount))));
         builder.addLore(Component.empty());
         if (canAfford) {
-            builder.addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_CLICK_TO_CONTRIBUTE, getViewerLocale()));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_CLICK_TO_CONTRIBUTE, getViewerLocale()));
             builder.addLore(Component.empty());
-            builder.addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_CLICK_PROMPT, getViewerLocale()));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_CLICK_PROMPT, getViewerLocale()));
         } else {
-            builder.addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_INSUFFICIENT_GOLD, getViewerLocale()));
-            builder.addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_GOLD_NEEDED, getViewerLocale(), Component.text(String.format("%,d", amount - currentGold))));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_INSUFFICIENT_GOLD, getViewerLocale()));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_GOLD_NEEDED, getViewerLocale(), Component.text(String.format("%,d", amount - currentGold))));
         }
         return builder.hideAllFlags().build();
     }
     private ItemStack createCustomAmountItem() {
         return ItemBuilder.of(Material.ANVIL)
-                .displayName(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_TITLE, getViewerLocale()))
-                .addLore(LangManager.list(LangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_DESCRIPTION, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_MINIMUM, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_MAXIMUM, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_CLICK_PROMPT, getViewerLocale()))
+                .displayName(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_TITLE, getViewerLocale()))
+                .addLore(LangManager.list(GuiLangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_DESCRIPTION, getViewerLocale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_MINIMUM, getViewerLocale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_MAXIMUM, getViewerLocale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_CUSTOM_AMOUNT_CLICK_PROMPT, getViewerLocale()))
                 .hideAllFlags()
                 .build();
     }
     
     private ItemStack createBackButton() {
         return ItemBuilder.of(Material.ARROW)
-                .displayName(LangManager.text(LangKey.GUI_BUTTONS_BACK_NAME, getViewerLocale()))
-                .addLore(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_BACK_DESCRIPTION, getViewerLocale()))
+                .displayName(LangManager.text(GuiLangKey.GUI_BUTTONS_BACK_NAME, getViewerLocale()))
+                .addLore(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_BACK_DESCRIPTION, getViewerLocale()))
                 .hideAllFlags()
                 .build();
     }
@@ -157,7 +158,7 @@ public class IslandContributeGui extends BaseGui {
                         int amount = Integer.parseInt(input);
                         
                         if (amount < 100) {
-                            player.sendMessage(LangManager.text(LangKey.ISLAND_CONTRIBUTE_AMOUNT_TOO_LOW, player.locale()).color(NamedTextColor.RED));
+                            player.sendMessage(LangManager.text(IslandLangKey.ISLAND_CONTRIBUTE_AMOUNT_TOO_LOW, player.locale()).color(NamedTextColor.RED));
                             return List.of(AnvilGUI.ResponseAction.close());
                         }
                         // GUI 닫고 기여 처리
@@ -165,28 +166,28 @@ public class IslandContributeGui extends BaseGui {
                             contributeGold(player, amount);
                         });
                     } catch (NumberFormatException e) {
-                        player.sendMessage(LangManager.text(LangKey.ISLAND_CONTRIBUTE_INVALID_AMOUNT, player.locale()).color(NamedTextColor.RED));
+                        player.sendMessage(LangManager.text(IslandLangKey.ISLAND_CONTRIBUTE_INVALID_AMOUNT, player.locale()).color(NamedTextColor.RED));
                     }
                     return List.of(AnvilGUI.ResponseAction.close());
                 })
                 .text(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                        LangManager.text(LangKey.ISLAND_GUI_CONTRIBUTE_CONTRIBUTION_INPUT_TEXT, player.locale())))
+                        LangManager.text(IslandLangKey.ISLAND_GUI_CONTRIBUTE_CONTRIBUTION_INPUT_TEXT, player.locale())))
                 .itemLeft(new ItemStack(Material.GOLD_INGOT))
                 .title(net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(
-                        LangManager.text(LangKey.ISLAND_GUI_CONTRIBUTE_CONTRIBUTION_INPUT_TITLE, player.locale())))
+                        LangManager.text(IslandLangKey.ISLAND_GUI_CONTRIBUTE_CONTRIBUTION_INPUT_TITLE, player.locale())))
                 .plugin(plugin)
                 .open(player);
     }
     
     private void contributeGold(Player player, int amount) {
         if (rpgPlayer == null) {
-            player.sendMessage(LangManager.text(LangKey.ERROR_PLAYER_DATA_NOT_FOUND, player.locale()));
+            player.sendMessage(LangManager.text(GeneralLangKey.ERROR_PLAYER_DATA_NOT_FOUND, player.locale()));
             return;
         }
         
         long currentGold = rpgPlayer.getWallet().getBalance(CurrencyType.GOLD);
         if (currentGold < amount) {
-            player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_INSUFFICIENT_GOLD_MESSAGE, player.locale(), Component.text(String.format("%,d", currentGold))));
+            player.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_INSUFFICIENT_GOLD_MESSAGE, player.locale(), Component.text(String.format("%,d", currentGold))));
             return;
         }
         
@@ -209,8 +210,8 @@ public class IslandContributeGui extends BaseGui {
         
         IslandDTO updated = new IslandDTO(updatedCore, updatedMembership, island.social(), island.configuration());
         islandManager.updateIsland(updated);
-        player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_SUCCESS, player.locale(), Component.text(String.format("%,d", amount))));
-        player.sendMessage(LangManager.text(LangKey.GUI_ISLAND_CONTRIBUTE_TOTAL_CONTRIBUTION, player.locale(), Component.text(String.format("%,d", currentContribution + amount))));
+        player.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_SUCCESS, player.locale(), Component.text(String.format("%,d", amount))));
+        player.sendMessage(LangManager.text(GuiLangKey.GUI_ISLAND_CONTRIBUTE_TOTAL_CONTRIBUTION, player.locale(), Component.text(String.format("%,d", currentContribution + amount))));
         // GUI 새로고침
         player.closeInventory();
         IslandContributionGui.create(plugin.getGuiManager(), viewer, updated, 1).open(viewer);

@@ -1,5 +1,7 @@
 package com.febrie.rpg.gui.impl.shop;
+import com.febrie.rpg.util.lang.GeneralLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.economy.CurrencyType;
 import com.febrie.rpg.gui.component.GuiItem;
 import com.febrie.rpg.gui.framework.BaseGui;
@@ -9,7 +11,6 @@ import com.febrie.rpg.npc.trait.RPGShopTrait;
 import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.player.RPGPlayerManager;
 import com.febrie.rpg.util.ItemBuilder;
-import com.febrie.rpg.util.LangKey;
 import com.febrie.rpg.util.LangManager;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Material;
@@ -35,7 +36,7 @@ public class NPCShopGui extends BaseGui {
     
     private NPCShopGui(@NotNull Player viewer, @NotNull GuiManager guiManager,
                       @NotNull RPGShopTrait shopTrait, @NotNull String shopName) {
-        super(viewer, guiManager, 54, LangManager.text(LangKey.GUI_SHOP_TITLE, viewer, Component.text(shopName)));
+        super(viewer, guiManager, 54, LangManager.text(GuiLangKey.GUI_SHOP_TITLE, viewer, Component.text(shopName)));
         this.playerManager = guiManager.getPlugin().getRPGPlayerManager();
         this.rpgPlayer = playerManager.getPlayer(viewer);
         this.shopTrait = shopTrait;
@@ -52,7 +53,7 @@ public class NPCShopGui extends BaseGui {
     
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_SHOP_TITLE, viewer, Component.text(shopName));
+        return LangManager.text(GuiLangKey.GUI_SHOP_TITLE, viewer, Component.text(shopName));
     }
     
     @Override
@@ -87,9 +88,9 @@ public class NPCShopGui extends BaseGui {
         long gold = rpgPlayer != null ? rpgPlayer.getWallet().getBalance(CurrencyType.GOLD) : 0;
         
         return GuiItem.display(ItemBuilder.of(Material.GOLD_INGOT)
-                .displayName(LangManager.text(LangKey.ITEMS_SHOP_GOLD_NAME, viewer))
+                .displayName(LangManager.text(GeneralLangKey.ITEMS_SHOP_GOLD_NAME, viewer))
                 .addLore(Component.empty())
-                .addLore(LangManager.text(LangKey.GUI_SHOP_GOLD_AMOUNT, viewer, Component.text(String.format("%,d", gold))))
+                .addLore(LangManager.text(GuiLangKey.GUI_SHOP_GOLD_AMOUNT, viewer, Component.text(String.format("%,d", gold))))
                 .hideAllFlags()
                 .build());
     }
@@ -106,23 +107,23 @@ public class NPCShopGui extends BaseGui {
         }
         
         builder.addLore(Component.empty());
-        builder.addLore(LangManager.text(LangKey.GUI_SHOP_ITEM_BUY_PRICE, viewer, Component.text(String.format("%,d", shopItem.getBuyPrice()))));
+        builder.addLore(LangManager.text(GuiLangKey.GUI_SHOP_ITEM_BUY_PRICE, viewer, Component.text(String.format("%,d", shopItem.getBuyPrice()))));
         
         if (shopItem.isSellable()) {
-            builder.addLore(LangManager.text(LangKey.GUI_SHOP_ITEM_SELL_PRICE, viewer, Component.text(String.format("%,d", shopItem.getSellPrice()))));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_SHOP_ITEM_SELL_PRICE, viewer, Component.text(String.format("%,d", shopItem.getSellPrice()))));
         }
         
         builder.addLore(Component.empty());
         
         long playerGold = rpgPlayer != null ? rpgPlayer.getWallet().getBalance(CurrencyType.GOLD) : 0;
         if (playerGold >= shopItem.getBuyPrice()) {
-            builder.addLore(LangManager.text(LangKey.GUI_SHOP_ITEM_CLICK_TO_BUY, viewer));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_SHOP_ITEM_CLICK_TO_BUY, viewer));
         } else {
-            builder.addLore(LangManager.text(LangKey.GUI_SHOP_ITEM_INSUFFICIENT_GOLD, viewer));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_SHOP_ITEM_INSUFFICIENT_GOLD, viewer));
         }
         
         if (shopItem.isSellable() && hasItem(baseItem)) {
-            builder.addLore(LangManager.text(LangKey.GUI_SHOP_ITEM_CLICK_TO_SELL, viewer));
+            builder.addLore(LangManager.text(GuiLangKey.GUI_SHOP_ITEM_CLICK_TO_SELL, viewer));
         }
         
         return GuiItem.clickable(builder.build(), player -> {

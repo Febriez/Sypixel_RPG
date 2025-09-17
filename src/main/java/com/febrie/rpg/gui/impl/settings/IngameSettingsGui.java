@@ -1,5 +1,8 @@
 package com.febrie.rpg.gui.impl.settings;
+import com.febrie.rpg.util.lang.GeneralLangKey;
+import com.febrie.rpg.util.lang.SystemLangKey;
 
+import com.febrie.rpg.util.lang.GuiLangKey;
 import com.febrie.rpg.RPGMain;
 import com.febrie.rpg.gui.component.GuiFactory;
 import com.febrie.rpg.gui.component.GuiItem;
@@ -11,7 +14,6 @@ import com.febrie.rpg.player.RPGPlayer;
 import com.febrie.rpg.util.UnifiedColorUtil;
 import com.febrie.rpg.util.ItemBuilder;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
@@ -41,7 +43,7 @@ public class IngameSettingsGui extends BaseGui {
 
     private IngameSettingsGui(@NotNull GuiManager guiManager,
                             @NotNull Player player) {
-        super(player, guiManager, GUI_SIZE, LangManager.text(LangKey.GUI_INGAME_SETTINGS_TITLE, player));
+        super(player, guiManager, GUI_SIZE, LangManager.text(GuiLangKey.GUI_INGAME_SETTINGS_TITLE, player));
     }
 
     /**
@@ -59,7 +61,7 @@ public class IngameSettingsGui extends BaseGui {
 
     @Override
     public @NotNull Component getTitle() {
-        return LangManager.text(LangKey.GUI_INGAME_SETTINGS_TITLE, viewer);
+        return LangManager.text(GuiLangKey.GUI_INGAME_SETTINGS_TITLE, viewer);
     }
 
     @Override
@@ -88,9 +90,9 @@ public class IngameSettingsGui extends BaseGui {
     private void setupTitleItem() {
         GuiItem titleItem = GuiItem.display(
                 ItemBuilder.of(Material.GRASS_BLOCK)
-                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_INGAME_SETTINGS_TITLE_NAME, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_TITLE_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_INGAME_SETTINGS_TITLE_LORE, viewer))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_TITLE_LORE, viewer))
                         .hideAllFlags()
                         .build()
         );
@@ -123,15 +125,15 @@ public class IngameSettingsGui extends BaseGui {
         // 속도 감소 버튼
         GuiItem speedDecreaseButton = GuiItem.clickable(
                 ItemBuilder.of(Material.RED_CONCRETE)
-                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_DECREASE_NAME, viewer))
-                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_DECREASE_LORE, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_DECREASE_NAME, viewer))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_DECREASE_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
                     int newSpeed = settings.adjustDialogSpeed(false);
                     updateDialogSpeedDisplay(settings);
                     playClickSound(p);
-                    p.sendMessage(LangManager.text(LangKey.GUI_INGAME_SETTINGS_DIALOG_SPEED_CHANGED, p, Component.text(settings.getDialogSpeedDisplayName())));
+                    p.sendMessage(LangManager.text(GuiLangKey.GUI_INGAME_SETTINGS_DIALOG_SPEED_CHANGED, p, Component.text(settings.getDialogSpeedDisplayName())));
                 }
         );
         setItem(DIALOG_SPEED_DECREASE_SLOT, speedDecreaseButton);
@@ -142,15 +144,15 @@ public class IngameSettingsGui extends BaseGui {
         // 속도 증가 버튼
         GuiItem speedIncreaseButton = GuiItem.clickable(
                 ItemBuilder.of(Material.GREEN_CONCRETE)
-                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_INCREASE_NAME, viewer))
-                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_INCREASE_LORE, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_INCREASE_NAME, viewer))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_SPEED_INCREASE_LORE, viewer))
                         .hideAllFlags()
                         .build(),
                 p -> {
                     int newSpeed = settings.adjustDialogSpeed(true);
                     updateDialogSpeedDisplay(settings);
                     playClickSound(p);
-                    p.sendMessage(LangManager.text(LangKey.GUI_INGAME_SETTINGS_DIALOG_SPEED_CHANGED, p, Component.text(settings.getDialogSpeedDisplayName())));
+                    p.sendMessage(LangManager.text(GuiLangKey.GUI_INGAME_SETTINGS_DIALOG_SPEED_CHANGED, p, Component.text(settings.getDialogSpeedDisplayName())));
                 }
         );
         setItem(DIALOG_SPEED_INCREASE_SLOT, speedIncreaseButton);
@@ -189,13 +191,13 @@ public class IngameSettingsGui extends BaseGui {
         
         GuiItem dialogSpeedDisplay = GuiItem.display(
                 ItemBuilder.of(material)
-                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_INGAME_SETTINGS_DIALOG_SPEED_NAME, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_DIALOG_SPEED_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_INGAME_SETTINGS_CURRENT_SPEED, viewer, Component.text(displayName)))
+                        .addLore(LangManager.text(GuiLangKey.GUI_INGAME_SETTINGS_CURRENT_SPEED, viewer, Component.text(displayName)))
                         .addLore(Component.text(speedBar, UnifiedColorUtil.GOLD))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_INGAME_SETTINGS_SPEED_VALUE, viewer, Component.text(String.valueOf(speed))))
-                        .addLore(LangManager.text(LangKey.ITEMS_SETTINGS_INGAME_SETTINGS_DIALOG_SPEED_NOTE, viewer))
+                        .addLore(LangManager.text(GuiLangKey.GUI_INGAME_SETTINGS_SPEED_VALUE, viewer, Component.text(String.valueOf(speed))))
+                        .addLore(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_DIALOG_SPEED_NOTE, viewer))
                         .hideAllFlags()
                         .build()
         );
@@ -210,24 +212,24 @@ public class IngameSettingsGui extends BaseGui {
         
         GuiItem questGuideToggle = GuiItem.clickable(
                 ItemBuilder.of(enabled ? Material.COMPASS : Material.CLOCK)
-                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_INGAME_SETTINGS_QUEST_GUIDE_NAME, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_QUEST_GUIDE_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_INGAME_SETTINGS_STATUS, viewer,
-                                (enabled ? LangManager.text(LangKey.STATUS_ENABLED, viewer) : LangManager.text(LangKey.STATUS_DISABLED, viewer))
+                        .addLore(LangManager.text(GuiLangKey.GUI_INGAME_SETTINGS_STATUS, viewer,
+                                (enabled ? LangManager.text(GeneralLangKey.STATUS_ENABLED, viewer) : LangManager.text(GeneralLangKey.STATUS_DISABLED, viewer))
                                 .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
                         .addLore(Component.empty())
-                        .addLore(LangManager.list(LangKey.ITEMS_SETTINGS_INGAME_SETTINGS_QUEST_GUIDE_DESC, viewer))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_QUEST_GUIDE_DESC, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_INGAME_SETTINGS_CLICK_TO_TOGGLE, viewer,
-                                (enabled ? LangManager.text(LangKey.ACTION_DISABLE, viewer) : LangManager.text(LangKey.ACTION_ENABLE, viewer))))
+                        .addLore(LangManager.text(GuiLangKey.GUI_INGAME_SETTINGS_CLICK_TO_TOGGLE, viewer,
+                                (enabled ? LangManager.text(GeneralLangKey.ACTION_DISABLE, viewer) : LangManager.text(GeneralLangKey.ACTION_ENABLE, viewer))))
                         .hideAllFlags()
                         .build(),
                 p -> {
                     settings.setQuestAutoGuideEnabled(!enabled);
                     updateQuestGuideToggle(settings);
                     playClickSound(p);
-                    p.sendMessage(LangManager.text(LangKey.GUI_INGAME_SETTINGS_QUEST_GUIDE_TOGGLED, p,
-                            (settings.isQuestAutoGuideEnabled() ? LangManager.text(LangKey.STATUS_ENABLED, p) : LangManager.text(LangKey.STATUS_DISABLED, p))));
+                    p.sendMessage(LangManager.text(GuiLangKey.GUI_INGAME_SETTINGS_QUEST_GUIDE_TOGGLED, p,
+                            (settings.isQuestAutoGuideEnabled() ? LangManager.text(GeneralLangKey.STATUS_ENABLED, p) : LangManager.text(GeneralLangKey.STATUS_DISABLED, p))));
                 }
         );
         setItem(QUEST_GUIDE_SLOT, questGuideToggle);
@@ -241,24 +243,24 @@ public class IngameSettingsGui extends BaseGui {
         
         GuiItem damageDisplayToggle = GuiItem.clickable(
                 ItemBuilder.of(enabled ? Material.DIAMOND_SWORD : Material.WOODEN_SWORD)
-                        .displayName(LangManager.text(LangKey.ITEMS_SETTINGS_INGAME_SETTINGS_DAMAGE_DISPLAY_NAME, viewer))
+                        .displayName(LangManager.text(GeneralLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_DAMAGE_DISPLAY_NAME, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_INGAME_SETTINGS_STATUS, viewer,
-                                (enabled ? LangManager.text(LangKey.STATUS_ENABLED, viewer) : LangManager.text(LangKey.STATUS_DISABLED, viewer))
+                        .addLore(LangManager.text(GuiLangKey.GUI_INGAME_SETTINGS_STATUS, viewer,
+                                (enabled ? LangManager.text(GeneralLangKey.STATUS_ENABLED, viewer) : LangManager.text(GeneralLangKey.STATUS_DISABLED, viewer))
                                 .color(enabled ? UnifiedColorUtil.SUCCESS : UnifiedColorUtil.ERROR)))
                         .addLore(Component.empty())
-                        .addLore(LangManager.list(LangKey.ITEMS_SETTINGS_INGAME_SETTINGS_DAMAGE_DISPLAY_DESC, viewer))
+                        .addLore(LangManager.list(GeneralLangKey.ITEMS_SETTINGS_INGAME_SETTINGS_DAMAGE_DISPLAY_DESC, viewer))
                         .addLore(Component.empty())
-                        .addLore(LangManager.text(LangKey.GUI_INGAME_SETTINGS_CLICK_TO_TOGGLE, viewer,
-                                (enabled ? LangManager.text(LangKey.ACTION_DISABLE, viewer) : LangManager.text(LangKey.ACTION_ENABLE, viewer))))
+                        .addLore(LangManager.text(GuiLangKey.GUI_INGAME_SETTINGS_CLICK_TO_TOGGLE, viewer,
+                                (enabled ? LangManager.text(GeneralLangKey.ACTION_DISABLE, viewer) : LangManager.text(GeneralLangKey.ACTION_ENABLE, viewer))))
                         .hideAllFlags()
                         .build(),
                 p -> {
                     settings.setDamageDisplayEnabled(!enabled);
                     updateDamageDisplayToggle(settings);
                     playClickSound(p);
-                    p.sendMessage(LangManager.text(LangKey.GUI_INGAME_SETTINGS_DAMAGE_DISPLAY_TOGGLED, p,
-                            (settings.isDamageDisplayEnabled() ? LangManager.text(LangKey.STATUS_ENABLED, p) : LangManager.text(LangKey.STATUS_DISABLED, p))));
+                    p.sendMessage(LangManager.text(GuiLangKey.GUI_INGAME_SETTINGS_DAMAGE_DISPLAY_TOGGLED, p,
+                            (settings.isDamageDisplayEnabled() ? LangManager.text(GeneralLangKey.STATUS_ENABLED, p) : LangManager.text(GeneralLangKey.STATUS_DISABLED, p))));
                 }
         );
         setItem(DAMAGE_DISPLAY_SLOT, damageDisplayToggle);

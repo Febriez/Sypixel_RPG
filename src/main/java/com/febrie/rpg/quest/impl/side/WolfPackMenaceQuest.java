@@ -12,8 +12,6 @@ import com.febrie.rpg.quest.objective.impl.CollectItemObjective;
 import com.febrie.rpg.quest.objective.impl.KillMobObjective;
 import com.febrie.rpg.quest.reward.impl.BasicReward;
 import com.febrie.rpg.util.LangManager;
-import com.febrie.rpg.util.LangKey;
-import com.febrie.rpg.util.lang.quest.side.WolfPackMenaceLangKey;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -71,26 +69,26 @@ public class WolfPackMenaceQuest extends Quest {
 
     @Override
     public @NotNull Component getDisplayName(@NotNull Player who) {
-        return LangManager.text(WolfPackMenaceLangKey.QUEST_SIDE_WOLF_PACK_MENACE_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.wolf.pack.menace.name"), who);
     }
 
     @Override
     public @NotNull List<Component> getDisplayInfo(@NotNull Player who) {
-        return LangManager.list(WolfPackMenaceLangKey.QUEST_SIDE_WOLF_PACK_MENACE_INFO, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.wolf.pack.menace.info"), who);
     }
 
     @Override
     public @NotNull Component getObjectiveDescription(@NotNull QuestObjective objective, @NotNull Player who) {
         return switch (objective.getId()) {
-            case "talk_caravan_leader" -> LangManager.text(WolfPackMenaceLangKey.QUEST_SIDE_WOLF_PACK_MENACE_OBJECTIVES_TALK_CARAVAN_LEADER, who);
-            case "wolf_territory" -> LangManager.text(WolfPackMenaceLangKey.QUEST_SIDE_WOLF_PACK_MENACE_OBJECTIVES_WOLF_TERRITORY, who);
-            case "compass_collect" -> LangManager.text(WolfPackMenaceLangKey.QUEST_SIDE_WOLF_PACK_MENACE_OBJECTIVES_COMPASS_COLLECT, who);
-            case "wolf_scouts" -> LangManager.text(WolfPackMenaceLangKey.QUEST_SIDE_WOLF_PACK_MENACE_OBJECTIVES_WOLF_SCOUTS, who);
-            case "pack_den" -> LangManager.text(WolfPackMenaceLangKey.QUEST_SIDE_WOLF_PACK_MENACE_OBJECTIVES_PACK_DEN, who);
-            case "pack_members" -> LangManager.text(WolfPackMenaceLangKey.QUEST_SIDE_WOLF_PACK_MENACE_OBJECTIVES_PACK_MEMBERS, who);
-            case "alpha_wolf" -> LangManager.text(WolfPackMenaceLangKey.QUEST_SIDE_WOLF_PACK_MENACE_OBJECTIVES_ALPHA_WOLF, who);
-            case "leather_collect" -> LangManager.text(WolfPackMenaceLangKey.QUEST_SIDE_WOLF_PACK_MENACE_OBJECTIVES_LEATHER_COLLECT, who);
-            case "report_success" -> LangManager.text(WolfPackMenaceLangKey.QUEST_SIDE_WOLF_PACK_MENACE_OBJECTIVES_REPORT_SUCCESS, who);
+            case "talk_caravan_leader" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.wolf.pack.menace.objectives.talk.caravan.leader"), who);
+            case "wolf_territory" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.wolf.pack.menace.objectives.wolf.territory"), who);
+            case "compass_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.wolf.pack.menace.objectives.compass.collect"), who);
+            case "wolf_scouts" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.wolf.pack.menace.objectives.wolf.scouts"), who);
+            case "pack_den" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.wolf.pack.menace.objectives.pack.den"), who);
+            case "pack_members" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.wolf.pack.menace.objectives.pack.members"), who);
+            case "alpha_wolf" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.wolf.pack.menace.objectives.alpha.wolf"), who);
+            case "leather_collect" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.wolf.pack.menace.objectives.leather.collect"), who);
+            case "report_success" -> LangManager.text(QuestCommonLangKey.fromString("quest.side.wolf.pack.menace.objectives.report.success"), who);
             default -> LangManager.text(QuestCommonLangKey.QUEST_UNKNOWN_OBJECTIVE, who, objective.getId());
         };
     }
@@ -102,7 +100,7 @@ public class WolfPackMenaceQuest extends Quest {
     
     @Override
     public @NotNull List<Component> getDialogs(@NotNull Player who) {
-        return LangManager.list(WolfPackMenaceLangKey.QUEST_SIDE_WOLF_PACK_MENACE_DIALOGS, who);
+        return LangManager.list(QuestCommonLangKey.fromString("quest.side.wolf.pack.menace.dialogs"), who);
     }
     
     @Override
@@ -112,16 +110,16 @@ public class WolfPackMenaceQuest extends Quest {
     
     @Override
     public @NotNull Component getNPCName(@NotNull Player who) {
-        return LangManager.text(WolfPackMenaceLangKey.QUEST_SIDE_WOLF_PACK_MENACE_NPC_NAME, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.wolf.pack.menace.npc.name"), who);
     }
 
     @Override
     public @NotNull Component getAcceptDialog(@NotNull Player who) {
-        return LangManager.text(WolfPackMenaceLangKey.QUEST_SIDE_WOLF_PACK_MENACE_ACCEPT, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.wolf.pack.menace.accept"), who);
     }
     
     @Override
     public @NotNull Component getDeclineDialog(@NotNull Player who) {
-        return LangManager.text(WolfPackMenaceLangKey.QUEST_SIDE_WOLF_PACK_MENACE_DECLINE, who);
+        return LangManager.text(QuestCommonLangKey.fromString("quest.side.wolf.pack.menace.decline"), who);
     }
 }

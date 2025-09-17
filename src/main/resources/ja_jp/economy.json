@@ -1,8 +1,16 @@
 {
-  "money_added": "[JA] Money Added",
-  "money_removed": "[JA] Money Removed",
-  "not_enough_money": "[JA] Not Enough Money",
-  "payment_sent": "[JA] Payment Sent",
-  "payment_received": "[JA] Payment Received",
-  "balance": "[JA] Balance"
+  "money_added": "Money 追加ed",
+  "money_removed": "Money 削除d",
+  "not_enough_money": "いいえt Enough Money",
+  "payment_sent": "Payment Sent",
+  "payment_received": "Payment Received",
+  "balance": "Balance",
+  "economy": {
+    "money_added": "Money 追加ed",
+    "money_removed": "Money 削除d",
+    "not_enough_money": "いいえt Enough Money",
+    "payment_sent": "Payment Sent",
+    "payment_received": "Payment Received",
+    "balance": "Balance"
+  }
 }
